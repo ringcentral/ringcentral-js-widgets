@@ -53,11 +53,11 @@
 
       circle {
         opacity: 1;
-        stroke: $disabled-background-color;
+        stroke: $smoke;
       }
 
       path {
-        fill: $disabled-background-color;
+        fill: $smoke;
       }
     }
   }
@@ -80,8 +80,8 @@
 
       circle {
         opacity: 1;
-        fill: $disabled-background-color;
-        stroke: $disabled-background-color;
+        fill: $smoke;
+        stroke: $smoke;
       }
     }
   }

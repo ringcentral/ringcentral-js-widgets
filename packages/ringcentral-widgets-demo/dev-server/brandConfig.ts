@@ -16,10 +16,10 @@ export const brandConfig = createBrandConfig({
     },
   },
   rcvTeleconference: 'https://v.ringcentral.com/teleconference/',
-  spartanProtocol: 'rcmobile://',
-  allowJupiterUniversalLink: true,
   meetingUriReg: {
     rcm: undefined,
     rcv: undefined,
   },
+  spartanProtocol: 'rcmobile://',
+  allowJupiterUniversalLink: true,
 });

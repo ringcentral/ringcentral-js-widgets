@@ -8,7 +8,7 @@ import Demo from './Demo';
 // eslint-disable-next-line
 import demoCode from '!raw-loader!./Demo';
 // eslint-disable-next-line
-import { SearchInput as componentCode } from '!raw-loader!@ringcentral-integration/widgets/components/SearchInput';
+import componentCode from '!raw-loader!@ringcentral-integration/widgets/components/SearchInput/SearchInput.tsx';
 
 const SearchInputPage = () => {
   const info = parse(componentCode);

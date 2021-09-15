@@ -41,6 +41,7 @@ export default class ActionMenu extends Component {
       withAnimation,
       selectedMatchContactType,
       showChooseEntityModal,
+      shouldHideEntityButton,
     } = this.props;
     return (
       <div ref={reference}>
@@ -68,6 +69,7 @@ export default class ActionMenu extends Component {
             phoneNumber={phoneNumber}
             disableLinks={disableLinks}
             disableCallButton={disableCallButton}
+            shouldHideEntityButton={shouldHideEntityButton}
             disableClickToDial={disableClickToDial}
             addLogTitle={addLogTitle}
             editLogTitle={editLogTitle}
@@ -132,6 +134,7 @@ ActionMenu.propTypes = {
   withAnimation: PropTypes.bool,
   selectedMatchContactType: PropTypes.string,
   showChooseEntityModal: PropTypes.bool,
+  shouldHideEntityButton: PropTypes.bool,
 };
 ActionMenu.defaultProps = {
   extended: undefined,
@@ -171,4 +174,5 @@ ActionMenu.defaultProps = {
   withAnimation: true,
   selectedMatchContactType: '',
   showChooseEntityModal: true,
+  shouldHideEntityButton: false,
 };

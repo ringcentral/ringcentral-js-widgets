@@ -7,6 +7,9 @@ import Markdown from '../Markdown';
 import styles from './styles.scss';
 
 function generatePropType(type) {
+  if (!type) {
+    return 'unknown';
+  }
   let values;
   switch (type.name) {
     case 'func':
@@ -35,7 +38,7 @@ function generateDescription(required, description, type) {
   if (parsed.tags.some((tag) => tag.title === 'ignore')) return null;
   let signature = '';
 
-  if (type.name === 'func' && parsed.tags.length > 0) {
+  if (type && type.name === 'func' && parsed.tags.length > 0) {
     // Remove new lines from tag descriptions to avoid markdown errors.
     parsed.tags.forEach((tag) => {
       if (tag.description) {
@@ -71,9 +74,14 @@ function generateDescription(required, description, type) {
   return `${jsDocText}${signature}`;
 }
 
-function PropTypeDescription(props) {
-  const { componentInfo, header } = props;
-  if (!componentInfo.props) {
+const PropTypeDescription = (props) => {
+  const { componentInfo: info, header } = props;
+  let componentInfo = info;
+  if (Array.isArray(componentInfo)) {
+    componentInfo = componentInfo[0];
+  }
+  console.log(componentInfo);
+  if (!componentInfo || !componentInfo.props) {
     return null;
   }
   let requiredProps = 0;
@@ -86,7 +94,7 @@ function PropTypeDescription(props) {
     const prop = componentInfo.props[key];
     const description = generateDescription(
       prop.required,
-      prop.description,
+      prop.description || '',
       prop.type,
     );
 
@@ -125,15 +133,19 @@ function PropTypeDescription(props) {
       <div className={styles.footnote}>{requiredPropFootnote}</div>
     </div>
   );
-}
+};
 
 PropTypeDescription.propTypes = {
-  componentInfo: PropTypes.object.isRequired,
-  header: PropTypes.string.isRequired,
+  componentInfo: PropTypes.oneOfType([
+    PropTypes.object,
+    PropTypes.arrayOf(PropTypes.object),
+  ]),
+  header: PropTypes.string,
 };
 
 PropTypeDescription.defaultProps = {
   header: '### Properties',
+  componentInfo: {},
 };
 
 export default PropTypeDescription;

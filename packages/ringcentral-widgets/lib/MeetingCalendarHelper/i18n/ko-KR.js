@@ -9,8 +9,8 @@ export default {
   rcvInviteMeetingContentCountryDial: "\n\n스마트폰에서 오디오로만 참가하려면 다음에서 한 번 탭하세요.\n    {smartphones}\n\n또는 전화 걸기:\n    {dialNumber}\n    액세스 코드 / 모임 ID: {pinNumber} ",
   rcvTeleconference: "\n\n사용 가능한 국제 번호: {teleconference} ",
   rcvSipHeader: "\n\nSIP로 참가:",
-  rcvSipContentWithPwd: "\n    {meetingId}.{meetingPasswordPSTN}@rcv.com\n    SIP 비밀번호: {meetingPasswordPSTN}",
-  rcvSipContentNoPwd: "\n    {meetingId}@rcv.com",
+  rcvSipContentWithPwd: "\n    {meetingId}.{meetingPasswordPSTN}@sip.rcv.com\n    SIP 비밀번호: {meetingPasswordPSTN}",
+  rcvSipContentNoPwd: "\n    {meetingId}@sip.rcv.com",
   doNotModify: "===== 이 텍스트를 수정하지 마세요. =====",
   password: "\n\n비밀번호",
   passwordPstn: "\n\n전화 접속 비밀번호:",
@@ -27,8 +27,8 @@ export default {
 // @key: @#@"rcvInviteMeetingContentCountryDial"@#@ @source: @#@"\n\nOne tap to join audio only from a smartphone:\n    {smartphones}\n\nOr dial:\n    {dialNumber}\n    Access Code / Meeting ID: {pinNumber} "@#@
 // @key: @#@"rcvTeleconference"@#@ @source: @#@"\n\nInternational numbers available: {teleconference} "@#@
 // @key: @#@"rcvSipHeader"@#@ @source: @#@"\n\nJoin by SIP:"@#@
-// @key: @#@"rcvSipContentWithPwd"@#@ @source: @#@"\n    {meetingId}.{meetingPasswordPSTN}@rcv.com\n    SIP password: {meetingPasswordPSTN}\n"@#@
-// @key: @#@"rcvSipContentNoPwd"@#@ @source: @#@"\n    {meetingId}@rcv.com\n"@#@
+// @key: @#@"rcvSipContentWithPwd"@#@ @source: @#@"\n    {meetingId}.{meetingPasswordPSTN}@sip.rcv.com\n    SIP password: {meetingPasswordPSTN}\n"@#@
+// @key: @#@"rcvSipContentNoPwd"@#@ @source: @#@"\n    {meetingId}@sip.rcv.com\n"@#@
 // @key: @#@"doNotModify"@#@ @source: @#@"===== Do not modify this text ====="@#@
 // @key: @#@"password"@#@ @source: @#@"\n\nPassword"@#@
 // @key: @#@"passwordPstn"@#@ @source: @#@"\n\nDial-in password:"@#@

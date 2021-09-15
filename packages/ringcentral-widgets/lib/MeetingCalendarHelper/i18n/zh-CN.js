@@ -9,8 +9,8 @@ export default {
   rcvInviteMeetingContentCountryDial: "\n\n在智能手机上一键加入纯音频会议：\n    {smartphones}\n\n或拨打：\n    {dialNumber}\n    访问码/会议 ID：{pinNumber} ",
   rcvTeleconference: "\n\n可用的国际号码： {teleconference} ",
   rcvSipHeader: "\n\n通过会话启动协议加入：",
-  rcvSipContentWithPwd: "\n    {meetingId}.{meetingPasswordPSTN}@rcv.com\n    会话启动协议密码：{meetingPasswordPSTN}",
-  rcvSipContentNoPwd: "\n    {meetingId}@rcv.com",
+  rcvSipContentWithPwd: "\n    {meetingId}.{meetingPasswordPSTN}@sip.rcv.com\n    会话启动协议密码：{meetingPasswordPSTN}",
+  rcvSipContentNoPwd: "\n    {meetingId}@sip.rcv.com",
   doNotModify: "===== 请勿修改此文本 =====",
   password: "\n\n密码",
   passwordPstn: "\n\n拨入密码:",
@@ -27,8 +27,8 @@ export default {
 // @key: @#@"rcvInviteMeetingContentCountryDial"@#@ @source: @#@"\n\nOne tap to join audio only from a smartphone:\n    {smartphones}\n\nOr dial:\n    {dialNumber}\n    Access Code / Meeting ID: {pinNumber} "@#@
 // @key: @#@"rcvTeleconference"@#@ @source: @#@"\n\nInternational numbers available: {teleconference} "@#@
 // @key: @#@"rcvSipHeader"@#@ @source: @#@"\n\nJoin by SIP:"@#@
-// @key: @#@"rcvSipContentWithPwd"@#@ @source: @#@"\n    {meetingId}.{meetingPasswordPSTN}@rcv.com\n    SIP password: {meetingPasswordPSTN}\n"@#@
-// @key: @#@"rcvSipContentNoPwd"@#@ @source: @#@"\n    {meetingId}@rcv.com\n"@#@
+// @key: @#@"rcvSipContentWithPwd"@#@ @source: @#@"\n    {meetingId}.{meetingPasswordPSTN}@sip.rcv.com\n    SIP password: {meetingPasswordPSTN}\n"@#@
+// @key: @#@"rcvSipContentNoPwd"@#@ @source: @#@"\n    {meetingId}@sip.rcv.com\n"@#@
 // @key: @#@"doNotModify"@#@ @source: @#@"===== Do not modify this text ====="@#@
 // @key: @#@"password"@#@ @source: @#@"\n\nPassword"@#@
 // @key: @#@"passwordPstn"@#@ @source: @#@"\n\nDial-in password:"@#@

@@ -21,7 +21,7 @@ yarn jest
 Run the following command to start `jest.retryTimes(3)` by default on CI:
 
 ```sh
-cross-env NODE_ENV=ci yarn jest
+NODE_ENV=ci yarn jest
 ```
 
 ## Run test with CLI

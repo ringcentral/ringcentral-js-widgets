@@ -104,8 +104,7 @@ export default class VideoUI extends RcUIModule {
           Object.keys(
             DISABLE_E2EE_WHEN_RELATED_OPTION_MATCH,
           ) as DisableE2eeWhenRelatedOptionMatch[],
-        ) ||
-        configDisabled);
+        ));
 
     const authUserTypeValue = isOnlyCoworkersJoin
       ? AUTH_USER_TYPE.SIGNED_IN_CO_WORKERS
@@ -132,12 +131,12 @@ export default class VideoUI extends RcUIModule {
         this._rcVideo.isInitializing || this._rcVideo.isScheduling,
       brandName: this._brand.name,
       configDisabled,
-      disabled: isAllOptionDisabledp,
+      disabled: isAllOptionDisabled,
       hasSettingsChanged: this._rcVideo.hasSettingsChanged,
       joinBeforeHostLabel: isDelegator
         ? JBH_LABEL.JOIN_AFTER_HOST
         : JBH_LABEL.JOIN_AFTER_ME,
-      isPersonalMeetingDisabled: (showE2EE && meeting.e2ee) || configDisabled,
+      isPersonalMeetingDisabled: showE2EE && meeting.e2ee,
       isRequirePasswordDisabled:
         isE2eeRelatedOptionsDisabled ||
         configDisabled ||

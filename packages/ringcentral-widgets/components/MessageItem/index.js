@@ -113,7 +113,7 @@ export default class MessageItem extends Component {
     this._mounted = false;
   }
 
-  preventEventPropogation = (e) => {
+  preventEventPropagating = (e) => {
     if (e.target !== e.currentTarget) {
       e.stopPropagation();
     }
@@ -375,16 +375,17 @@ export default class MessageItem extends Component {
     }
     if (messageIsFax(conversation)) {
       const pageCount = parseInt(conversation.faxPageCount, 10);
+      const nameKey = pageCount === 1 ? 'page' : 'pages';
       if (conversation.direction === messageDirection.inbound) {
         return `${i18n.getString(
           'faxReceived',
           currentLocale,
-        )}(${pageCount} ${i18n.getString('pages', currentLocale)})`;
+        )}(${pageCount} ${i18n.getString(nameKey, currentLocale)})`;
       }
       return `${i18n.getString(
         'faxSent',
         currentLocale,
-      )}(${pageCount} ${i18n.getString('pages', currentLocale)})`;
+      )}(${pageCount} ${i18n.getString(nameKey, currentLocale)})`;
     }
     return '';
   }
@@ -596,90 +597,82 @@ export default class MessageItem extends Component {
           </div>
           {extraButton}
         </div>
-        {shouldHideNumber && !player ? null : (
-          <SlideMenu
-            extended={this.state.extended}
-            onToggle={this.toggleExtended}
-            extendIconClassName={styles.extendIcon}
-            className={styles.slideMenu}
-            minHeight={0}
-            maxHeight={slideMenuHeight}
+        <SlideMenu
+          extended={this.state.extended}
+          onToggle={this.toggleExtended}
+          extendIconClassName={styles.extendIcon}
+          className={styles.slideMenu}
+          minHeight={0}
+          maxHeight={slideMenuHeight}
+        >
+          <div
+            className={styles.playContainer}
+            onClick={this.preventEventPropagating}
           >
-            <div
-              className={styles.playContainer}
-              onClick={this.preventEventPropogation}
-            >
-              {player}
-            </div>
-            {shouldHideNumber ? null : (
-              <ActionMenuList
-                className={styles.actionMenuList}
-                type={type}
-                currentLocale={currentLocale}
-                onLog={
-                  isVoicemail || isFax || renderExtraButton
-                    ? undefined
-                    : onLogConversation && this.logConversation
-                }
-                onViewEntity={onViewContact && this.viewSelectedContact}
-                onCreateEntity={onCreateContact && this.createSelectedContact}
-                createEntityTypes={createEntityTypes}
-                hasEntity={
-                  correspondents.length === 1 &&
-                  !!correspondentMatches.length &&
-                  (this.getSelectedContact()?.type ?? '') !==
-                    extensionTypes.ivrMenu
-                }
-                onClickToDial={
-                  !isFax ? onClickToDial && this.clickToDial : undefined
-                }
-                onClickToSms={
-                  isVoicemail ? onClickToSms && this.onClickToSms : undefined
-                }
-                disableClickToSms={disableClickToSms}
-                phoneNumber={phoneNumber}
-                disableLinks={shouldHideNumber || disableLinks}
-                disableCallButton={disableCallButton}
-                disableClickToDial={disableClickToDial}
-                isLogging={isLogging || this.state.isLogging}
-                isLogged={conversationMatches.length > 0}
-                isCreating={this.state.isCreating}
-                addLogTitle={i18n.getString('addLog', currentLocale)}
-                editLogTitle={i18n.getString('editLog', currentLocale)}
-                callTitle={i18n.getString('call', currentLocale)}
-                textTitle={i18n.getString('text', currentLocale)}
-                createEntityTitle={i18n.getString('addEntity', currentLocale)}
-                viewEntityTitle={i18n.getString('viewDetails', currentLocale)}
-                stopPropagation={false}
-                onDelete={
-                  isVoicemail || isFax ? this.onDeleteMessage : undefined
-                }
-                deleteTitle={i18n.getString('delete', currentLocale)}
-                marked={unreadCounts > 0}
-                onMark={
-                  isVoicemail ||
-                  (isFax && direction === messageDirection.inbound)
-                    ? this.onMarkMessage
-                    : undefined
-                }
-                onUnmark={
-                  isVoicemail ||
-                  (isFax && direction === messageDirection.inbound)
-                    ? this.onUnmarkMessage
-                    : undefined
-                }
-                onPreview={isFax ? this.onPreviewFax : undefined}
-                markTitle={i18n.getString('mark', currentLocale)}
-                unmarkTitle={i18n.getString('unmark', currentLocale)}
-                faxAttachment={faxAttachment}
-                previewTitle={i18n.getString('preview', currentLocale)}
-                downloadTitle={i18n.getString('download', currentLocale)}
-                onFaxDownload={onFaxDownload}
-                showChooseEntityModal={showChooseEntityModal}
-              />
-            )}
-          </SlideMenu>
-        )}
+            {player}
+          </div>
+          <ActionMenuList
+            shouldHideEntityButton={shouldHideNumber}
+            className={styles.actionMenuList}
+            type={type}
+            currentLocale={currentLocale}
+            onLog={
+              isVoicemail || isFax || renderExtraButton
+                ? undefined
+                : onLogConversation && this.logConversation
+            }
+            onViewEntity={onViewContact && this.viewSelectedContact}
+            onCreateEntity={onCreateContact && this.createSelectedContact}
+            createEntityTypes={createEntityTypes}
+            hasEntity={
+              correspondents.length === 1 &&
+              !!correspondentMatches.length &&
+              (this.getSelectedContact()?.type ?? '') !== extensionTypes.ivrMenu
+            }
+            onClickToDial={
+              !isFax ? onClickToDial && this.clickToDial : undefined
+            }
+            onClickToSms={
+              isVoicemail ? onClickToSms && this.onClickToSms : undefined
+            }
+            disableClickToSms={disableClickToSms}
+            phoneNumber={phoneNumber}
+            disableLinks={disableLinks}
+            disableCallButton={disableCallButton}
+            disableClickToDial={disableClickToDial}
+            isLogging={isLogging || this.state.isLogging}
+            isLogged={conversationMatches.length > 0}
+            isCreating={this.state.isCreating}
+            addLogTitle={i18n.getString('addLog', currentLocale)}
+            editLogTitle={i18n.getString('editLog', currentLocale)}
+            callTitle={i18n.getString('call', currentLocale)}
+            textTitle={i18n.getString('text', currentLocale)}
+            createEntityTitle={i18n.getString('addEntity', currentLocale)}
+            viewEntityTitle={i18n.getString('viewDetails', currentLocale)}
+            stopPropagation={false}
+            onDelete={isVoicemail || isFax ? this.onDeleteMessage : undefined}
+            deleteTitle={i18n.getString('delete', currentLocale)}
+            marked={unreadCounts > 0}
+            onMark={
+              isVoicemail || (isFax && direction === messageDirection.inbound)
+                ? this.onMarkMessage
+                : undefined
+            }
+            onUnmark={
+              isVoicemail || (isFax && direction === messageDirection.inbound)
+                ? this.onUnmarkMessage
+                : undefined
+            }
+            onPreview={isFax ? this.onPreviewFax : undefined}
+            markTitle={i18n.getString('mark', currentLocale)}
+            unmarkTitle={i18n.getString('unmark', currentLocale)}
+            faxAttachment={faxAttachment}
+            previewTitle={i18n.getString('preview', currentLocale)}
+            downloadTitle={i18n.getString('download', currentLocale)}
+            onFaxDownload={onFaxDownload}
+            showChooseEntityModal={showChooseEntityModal}
+          />
+        </SlideMenu>
       </div>
     );
   }

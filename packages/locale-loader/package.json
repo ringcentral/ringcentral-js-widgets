@@ -67,6 +67,6 @@
     ]
   },
   "ci": {
-    "ringcentral-js-widgets": "**"
+    "locale-loader": "**"
   }
 }

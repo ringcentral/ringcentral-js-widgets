@@ -7,7 +7,7 @@ import { ExtensionFeatures } from '../ExtensionFeatures';
 import { NumberValidate } from '../NumberValidateV2';
 import { RegionSettings } from '../RegionSettingsV2';
 import { Ringout } from '../RingoutV2';
-import { Softphone } from '../SoftphoneV2';
+import { Softphone } from '../Softphone';
 import { Storage } from '../StorageV2';
 import { Webphone } from '../WebphoneV2';
 

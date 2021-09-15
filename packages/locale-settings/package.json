@@ -6,6 +6,6 @@
   "license": "MIT",
   "private": true,
   "ci": {
-    "ringcentral-js-widgets": "**"
+    "ringcentral-widgets-test": "**"
   }
 }

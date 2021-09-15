@@ -325,7 +325,6 @@ class ConversationPanel extends Component {
           <MessageInput
             value={this.props.messageText}
             onChange={this.props.updateMessageText}
-            disabled={shouldHideNumber}
             sendButtonDisabled={this.props.sendButtonDisabled}
             currentLocale={this.props.currentLocale}
             onSend={this.onSend}

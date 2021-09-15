@@ -9,7 +9,7 @@ import {
   examples,
 } from '@ringcentral-integration/test-utils';
 
-import { Softphone, softphoneStatus } from '../../modules/SoftphoneV2';
+import { Softphone, softphoneStatus } from '../../modules/Softphone';
 import { mockModuleGenerator } from '../lib/mockModule';
 
 const getMockModule = () =>

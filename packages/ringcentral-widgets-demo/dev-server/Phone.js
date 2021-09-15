@@ -63,8 +63,10 @@ import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionS
 import ringoutStatus from '@ringcentral-integration/commons/modules/Ringout/ringoutStatus';
 import { Ringout } from '@ringcentral-integration/commons/modules/RingoutV2';
 import { SleepDetector } from '@ringcentral-integration/commons/modules/SleepDetectorV2';
-import softphoneStatus from '@ringcentral-integration/commons/modules/Softphone/softphoneStatus';
-import { Softphone } from '@ringcentral-integration/commons/modules/SoftphoneV2';
+import {
+  Softphone,
+  softphoneStatus,
+} from '@ringcentral-integration/commons/modules/Softphone';
 import { Storage } from '@ringcentral-integration/commons/modules/StorageV2';
 import { Subscription } from '@ringcentral-integration/commons/modules/SubscriptionV2';
 import { TabManager } from '@ringcentral-integration/commons/modules/TabManager';

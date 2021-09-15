@@ -1,6 +1,7 @@
-import { transform } from 'babel-core';
+import { transform } from '@babel/core';
 import formatLocale from '@ringcentral-integration/i18n/lib/formatLocale';
 import fs from 'fs-extra';
+import path from 'path';
 import generateLoaderContent from '.';
 
 const files = ['en_us.js', 'FR-FR.JS', 'aa-AAAA-ZZ.JS'];
@@ -12,7 +13,9 @@ describe('generateLoaderContent', () => {
   });
   describe('generated content', () => {
     afterAll(async () => {
-      await fs.remove('./testData/generateLoaderContent/loader.js');
+      await fs.remove(
+        path.resolve(__dirname, './testData/generateLoaderContent/loader.js'),
+      );
     });
     const content = generateLoaderContent({ files });
     files.forEach((file) => {
@@ -29,12 +32,16 @@ describe('generateLoaderContent', () => {
         expect(content.indexOf(`case '${lang}':`) > -1).toBe(true);
       });
     });
-    test('should be valid js file content', async () => {
+    test('should be valid js file content', () => {
       expect(() => {
         transform(content, { filename: 'en-GB.js' });
       }).not.toThrow();
-      await fs.mkdirp('./testData/generateLoaderContent');
-      await fs.writeFile('./testData/generateLoaderContent/loader.js', content);
+      const folder = path.resolve(
+        __dirname,
+        '../../testData/generateLoaderContent',
+      );
+      fs.mkdirpSync(folder);
+      fs.writeFileSync(path.resolve(folder, 'loader.js'), content);
       /* eslint-disable-next-line */
       const loader = require('../../testData/generateLoaderContent/loader');
       expect(typeof loader.default).toBe('function');

@@ -86,6 +86,13 @@ export class ContactDetailsUI extends RcUIModuleV2<Deps> {
       sourceName: contactType,
       contactId,
     });
+
+    // hide hidden phone numbers when cdc is enabled
+    if (this._deps.appFeatures.isCDCEnabled && contact.phoneNumbers.length) {
+      contact.phoneNumbers = contact.phoneNumbers.filter(
+        (phone) => !phone.hidden,
+      );
+    }
     // ignore result when it is reset during loading
     if (this.currentContactReadyState !== contactReadyStates.loading) {
       return;

@@ -53,6 +53,6 @@
     ]
   },
   "ci": {
-    "ringcentral-js-widgets": "**"
+    "phone-number": "**"
   }
 }

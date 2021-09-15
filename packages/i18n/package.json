@@ -50,6 +50,6 @@
     ]
   },
   "ci": {
-    "ringcentral-js-widgets": "**"
+    "i18n": "**"
   }
 }

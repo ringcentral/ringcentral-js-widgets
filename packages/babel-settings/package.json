@@ -34,6 +34,6 @@
     "babel-jest": "^27.0.1"
   },
   "ci": {
-    "ringcentral-js-widgets": "**"
+    "ringcentral-widgets-test": "**"
   }
 }
