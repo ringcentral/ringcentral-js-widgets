@@ -379,8 +379,7 @@ var OAuth = (_dec = (0, _di.Module)({
       this._redirectCheckTimeout = setTimeout(function () {
         _this4._redirectCheckTimeout = null;
 
-        if (!_this4._loginWindow || _this4._loginWindow.closed || // for electron, the .window is always undefined
-        !_this4._isInElectron && !_this4._loginWindow.window) {
+        if (!_this4._loginWindow || _this4._loginWindow.closed || !_this4._isInElectron && !_this4._loginWindow.window) {
           _this4._loginWindow = null;
           return;
         }

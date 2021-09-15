@@ -458,7 +458,6 @@ var ConversationPanel = /*#__PURE__*/function (_Component) {
       }, _i18n["default"].getString('dncAlert', this.props.currentLocale)) : /*#__PURE__*/_react["default"].createElement(_MessageInput["default"], {
         value: this.props.messageText,
         onChange: this.props.updateMessageText,
-        disabled: shouldHideNumber,
         sendButtonDisabled: this.props.sendButtonDisabled,
         currentLocale: this.props.currentLocale,
         onSend: this.onSend,

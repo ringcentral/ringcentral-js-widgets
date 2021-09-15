@@ -158,7 +158,7 @@ var VideoUI = (_dec = (0, _di.Module)({
       var isE2eeRelatedOptionsDisabled = showE2EE && e2ee;
       var isE2EEDisabled = showE2EE && (this._appFeatures.ready && !this._appFeatures.hasVideoE2EE || settingLock.e2ee || (0, _ramda.any)(function (key) {
         return settingLock[key] && meeting[key] === _RcVideoV.DISABLE_E2EE_WHEN_RELATED_OPTION_MATCH[key];
-      })(Object.keys(_RcVideoV.DISABLE_E2EE_WHEN_RELATED_OPTION_MATCH)) || configDisabled);
+      })(Object.keys(_RcVideoV.DISABLE_E2EE_WHEN_RELATED_OPTION_MATCH)));
       var authUserTypeValue = isOnlyCoworkersJoin ? _RcVideoV.AUTH_USER_TYPE.SIGNED_IN_CO_WORKERS : _RcVideoV.AUTH_USER_TYPE.SIGNED_IN_USERS;
       return {
         datePickerSize: datePickerSize,
@@ -179,10 +179,10 @@ var VideoUI = (_dec = (0, _di.Module)({
         showSpinnerInConfigPanel: this._rcVideo.isInitializing || this._rcVideo.isScheduling,
         brandName: this._brand.name,
         configDisabled: configDisabled,
-        disabled: isAllOptionDisabledp,
+        disabled: isAllOptionDisabled,
         hasSettingsChanged: this._rcVideo.hasSettingsChanged,
         joinBeforeHostLabel: isDelegator ? _RcVideoV.JBH_LABEL.JOIN_AFTER_HOST : _RcVideoV.JBH_LABEL.JOIN_AFTER_ME,
-        isPersonalMeetingDisabled: showE2EE && meeting.e2ee || configDisabled,
+        isPersonalMeetingDisabled: showE2EE && meeting.e2ee,
         isRequirePasswordDisabled: isE2eeRelatedOptionsDisabled || configDisabled || showRcvAdminLock && ((_meeting$settingLock = meeting.settingLock) === null || _meeting$settingLock === void 0 ? void 0 : _meeting$settingLock.isMeetingSecret),
         isJoinBeforeHostDisabled: isE2eeRelatedOptionsDisabled || configDisabled || showRcvAdminLock && ((_meeting$settingLock2 = meeting.settingLock) === null || _meeting$settingLock2 === void 0 ? void 0 : _meeting$settingLock2.allowJoinBeforeHost) || enableWaitingRoom && meeting.waitingRoomMode === _RcVideoV.RCV_WAITING_ROOM_MODE.all,
         isWaitingRoomDisabled: isE2eeRelatedOptionsDisabled || configDisabled || showRcvAdminLock && ((_meeting$settingLock3 = meeting.settingLock) === null || _meeting$settingLock3 === void 0 ? void 0 : _meeting$settingLock3.waitingRoomMode),

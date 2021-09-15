@@ -94,13 +94,12 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
  * 2. Simplify recipient/recipients property
  */
 function isSplitterKey(e) {
-  if (e.key === ',' || e.key === ';' || e.key === 'Enter' || e.key === 'Unidentified' && ( // for Safari (FF cannot rely on keyCode...)
-  e.keyCode === 186 || // semicolon
+  if (e.key === ',' || e.key === ';' || e.key === 'Enter' || e.key === 'Unidentified' && (e.keyCode === 186 || // semicolon
   e.keyCode === 188 || // comma
   e.keyCode === 13) // enter
   ) {
-      return true;
-    }
+    return true;
+  }
 
   return false;
 }

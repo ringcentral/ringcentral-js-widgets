@@ -279,13 +279,12 @@ var RecipientsInput = /*#__PURE__*/function (_Component) {
     };
 
     _this.isSplitter = function (ev) {
-      if (ev.key === ',' || ev.key === ';' || ev.key === 'Enter' || ev.key === 'Unidentified' && ( // for Safari (FF cannot rely on keyCode...)
-      ev.keyCode === 186 || // semicolon
+      if (ev.key === ',' || ev.key === ';' || ev.key === 'Enter' || ev.key === 'Unidentified' && (ev.keyCode === 186 || // semicolon
       ev.keyCode === 188 || // comma
       ev.keyCode === 13) // enter
       ) {
-          return true;
-        }
+        return true;
+      }
 
       return false;
     }; // using React SyntheticEvent to deal with cross browser issue

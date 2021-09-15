@@ -20,12 +20,12 @@
   input {
     font-size: 15px;
     padding: 0;
-    color: $primary-neutral-color;
+    color: $night;
 
     &::placeholder {
       font-size: 13px;
       font-weight: 300;
-      color: $disabled-background-color;
+      color: $smoke;
     }
   }
 }
@@ -35,7 +35,7 @@
   left: 0;
   display: inline-block;
   width: 45px;
-  color: $primary-neutral-color;
+  color: $night;
   font-size: 15px;
 }
 .delete {

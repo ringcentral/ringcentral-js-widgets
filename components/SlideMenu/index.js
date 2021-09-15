@@ -35,8 +35,6 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
-
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -65,37 +63,21 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
-function ToggleButton(_ref) {
-  var onClick = _ref.onClick;
-  return /*#__PURE__*/_react["default"].createElement("div", {
-    className: _styles["default"].toggleButton,
-    onClick: onClick
-  }, /*#__PURE__*/_react["default"].createElement("div", {
-    className: _styles["default"].toggleButtonInner
-  }), /*#__PURE__*/_react["default"].createElement("div", {
-    className: _styles["default"].toggleButtonIcon
-  }, /*#__PURE__*/_react["default"].createElement("span", {
-    className: (0, _classnames["default"])(_DynamicsFont["default"].arrow)
-  })));
-}
-
-ToggleButton.propTypes = {
-  onClick: _propTypes["default"].func
-};
-ToggleButton.defaultProps = {
-  onClick: undefined
-};
-
-function ExtendIcon(_ref2) {
-  var onClick = _ref2.onClick,
-      extendIconClassName = _ref2.extendIconClassName;
+var ExtendIcon = function ExtendIcon(_ref) {
+  var onClick = _ref.onClick,
+      extendIconClassName = _ref.extendIconClassName;
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].extendIcon,
     onClick: onClick
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].extendInner, extendIconClassName)
   }));
-}
+};
+
+ExtendIcon.propTypes = {
+  onClick: _propTypes["default"].func.isRequired,
+  extendIconClassName: _propTypes["default"].string.isRequired
+};
 
 var SlideMenu = /*#__PURE__*/function (_Component) {
   _inherits(SlideMenu, _Component);
@@ -118,8 +100,10 @@ var SlideMenu = /*#__PURE__*/function (_Component) {
         };
       });
 
-      if (_this.props.onToggle) {
-        _this.props.onToggle(e);
+      var onToggle = _this.props.onToggle;
+
+      if (onToggle) {
+        onToggle(e);
       }
     };
 
@@ -130,9 +114,11 @@ var SlideMenu = /*#__PURE__*/function (_Component) {
   }
 
   _createClass(SlideMenu, [{
-    key: "componentWillReceiveProps",
-    value: function componentWillReceiveProps(nextProps) {
-      if (nextProps.extended !== this.props.extended) {
+    key: "UNSAFE_componentWillReceiveProps",
+    value: function UNSAFE_componentWillReceiveProps(nextProps) {
+      var extended = this.props.extended;
+
+      if (nextProps.extended !== extended) {
         this.setState({
           extended: nextProps.extended
         });
@@ -156,8 +142,11 @@ var SlideMenu = /*#__PURE__*/function (_Component) {
           minHeight = _this$props.minHeight,
           maxHeight = _this$props.maxHeight,
           children = _this$props.children,
-          withAnimation = _this$props.withAnimation;
-      var extended = this.props.extended || this.state.extended;
+          withAnimation = _this$props.withAnimation,
+          extendIconClassName = _this$props.extendIconClassName,
+          propsExtended = _this$props.extended;
+      var stateExtended = this.state.extended;
+      var extended = propsExtended || stateExtended;
       var wrapperStyles = {
         height: extended ? maxHeight : minHeight
       };
@@ -169,7 +158,7 @@ var SlideMenu = /*#__PURE__*/function (_Component) {
       }, /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].content
       }, children)), /*#__PURE__*/_react["default"].createElement(ExtendIcon, {
-        extendIconClassName: extended ? (0, _classnames["default"])(_styles["default"].extended, this.props.extendIconClassName) : null,
+        extendIconClassName: extended ? (0, _classnames["default"])(_styles["default"].extended, extendIconClassName) : null,
         onClick: this.onToggle
       }));
     }

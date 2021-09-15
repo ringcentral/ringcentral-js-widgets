@@ -67,7 +67,7 @@ var FILTER_THRESHOLD = 500;
 exports.FILTER_THRESHOLD = FILTER_THRESHOLD;
 var CallsListUI = (_dec = (0, _di.Module)({
   name: 'CallsListUI',
-  deps: ['Brand', 'CallMonitor', 'Locale', 'RegionSettings', 'CallHistory', 'ConnectivityMonitor', 'RateLimiter', 'DateTimeFormat', 'Call', 'ExtensionInfo', 'ContactMatcher', 'ContactSearch', 'RouterInteraction', 'ContactDetailsUI', 'AppFeatures', {
+  deps: ['Brand', 'CallMonitor', 'Locale', 'RegionSettings', 'CallHistory', 'ConnectivityMonitor', 'RateLimiter', 'DateTimeFormat', 'Call', 'ExtensionInfo', 'ContactMatcher', 'ContactSearch', 'RouterInteraction', 'AppFeatures', {
     dep: 'DialerUI',
     optional: true
   }, {
@@ -84,6 +84,9 @@ var CallsListUI = (_dec = (0, _di.Module)({
     optional: true
   }, {
     dep: 'CallsListUIOptions',
+    optional: true
+  }, {
+    dep: 'ContactDetailsUI',
     optional: true
   }]
 }), _dec(_class = /*#__PURE__*/function (_RcUIModuleV) {

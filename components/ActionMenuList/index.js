@@ -366,7 +366,7 @@ var ActionMenuList = /*#__PURE__*/function (_Component) {
       _this.onCloseDeleteModal();
     };
 
-    _this.preventEventPropogation = function (e) {
+    _this.preventEventPropagating = function (e) {
       if (e.target !== e.currentTarget) {
         e.stopPropagation();
       }
@@ -490,7 +490,8 @@ var ActionMenuList = /*#__PURE__*/function (_Component) {
           externalHasEntity = _this$props3.externalHasEntity,
           disableClickToSms = _this$props3.disableClickToSms,
           selectedMatchContactType = _this$props3.selectedMatchContactType,
-          showChooseEntityModal = _this$props3.showChooseEntityModal;
+          showChooseEntityModal = _this$props3.showChooseEntityModal,
+          shouldHideEntityButton = _this$props3.shouldHideEntityButton;
       var _this$state = this.state,
           deleteModalVisible = _this$state.deleteModalVisible,
           disableDelete = _this$state.disableDelete;
@@ -507,7 +508,9 @@ var ActionMenuList = /*#__PURE__*/function (_Component) {
       var isIvrContact = selectedMatchContactType === _extensionTypes.extensionTypes.ivrMenu;
       var entityButton;
 
-      if (externalViewEntity) {
+      if (shouldHideEntityButton) {
+        entityButton = null;
+      } else if (externalViewEntity) {
         if (externalHasEntity) {
           entityButton = /*#__PURE__*/_react["default"].createElement(_EntityButton["default"], {
             className: _styles["default"].button,
@@ -616,7 +619,7 @@ var ActionMenuList = /*#__PURE__*/function (_Component) {
       }))) : null;
       return /*#__PURE__*/_react["default"].createElement("div", {
         className: (0, _classnames["default"])(_styles["default"].root, className),
-        onClick: this.preventEventPropogation
+        onClick: this.preventEventPropagating
       }, clickToDialButton, clickToSmsButton, previewButton, downloadButton, entityButton, logButton, markButton, deleteButton, entityModal, confirmDeleteModal);
     }
   }]);
@@ -666,7 +669,8 @@ ActionMenuList.propTypes = {
   disableClickToSms: _propTypes["default"].bool,
   onFaxDownload: _propTypes["default"].func,
   selectedMatchContactType: _propTypes["default"].string,
-  showChooseEntityModal: _propTypes["default"].bool
+  showChooseEntityModal: _propTypes["default"].bool,
+  shouldHideEntityButton: _propTypes["default"].bool
 };
 ActionMenuList.defaultProps = {
   className: undefined,
@@ -706,6 +710,7 @@ ActionMenuList.defaultProps = {
   disableClickToSms: false,
   onFaxDownload: undefined,
   selectedMatchContactType: '',
-  showChooseEntityModal: true
+  showChooseEntityModal: true,
+  shouldHideEntityButton: false
 };
 //# sourceMappingURL=index.js.map

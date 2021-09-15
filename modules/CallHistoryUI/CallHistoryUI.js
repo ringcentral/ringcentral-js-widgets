@@ -142,7 +142,8 @@ var CallHistoryUI = (_dec = (0, _di.Module)({
         loggingMap: callLogger && callLogger.loggingMap,
         showSpinner: !(callHistory.ready && locale.ready && regionSettings.ready && dateTimeFormat.ready && connectivityMonitor.ready && appFeatures.ready && (!call || call.ready) && (!composeText || composeText.ready) && (!callLogger || callLogger.ready)),
         autoLog: !!(callLogger && callLogger.autoLog),
-        useNewList: useNewList
+        useNewList: useNewList,
+        enableCDC: appFeatures.isCDCEnabled
       };
     }
   }, {

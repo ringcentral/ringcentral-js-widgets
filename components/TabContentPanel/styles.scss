@@ -12,7 +12,7 @@ $tabBar-height: 35px;
 .content {
   @include full-size;
   box-sizing: border-box;
-  border-color: $border-color;
+  border-color: $gray;
   border-width: 0;
   border-bottom-width: 1px;
   border-style: solid;

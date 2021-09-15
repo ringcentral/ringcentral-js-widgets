@@ -1,0 +1,1 @@
+{"version":3,"sources":["lib/commonStyles/styles/reset.ts"],"names":["resetStyle","css"],"mappings":";;;;;;;;;;;;;;;AAAA;;;;;;;;;;;;;;AAEO,IAAMA,UAAU,OAAGC,SAAH,oBAAhB","sourcesContent":["import { css } from '@ringcentral/juno';\n\nexport const resetStyle = css`\n  margin: 0;\n  padding: 0;\n  border: 0;\n  font: inherit;\n  line-height: 1;\n`;\n"],"file":"reset.js"}

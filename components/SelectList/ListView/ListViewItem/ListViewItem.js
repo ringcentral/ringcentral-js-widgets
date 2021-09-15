@@ -107,10 +107,12 @@ var ListViewItem = function ListViewItem(_ref) {
     "data-sign": "match".concat(index),
     selected: isSelected
   }, startAdornment && startAdornment(type), multiple && /*#__PURE__*/_react["default"].createElement(_juno.RcCheckbox, {
-    checked: isSelected
+    checked: isSelected,
+    "data-sign": isSelected ? 'selected' : 'unselected'
   }), /*#__PURE__*/_react["default"].createElement(_juno.RcListItemText, {
     primary: getFilterResult(option),
-    secondary: secondaryRenderFunction(option)
+    secondary: secondaryRenderFunction(option),
+    "data-sign": "matchedItemText"
   })));
 };
 

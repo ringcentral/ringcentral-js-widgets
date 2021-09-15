@@ -521,7 +521,7 @@ var CallLogSection = (_dec = (0, _di.Module)({
             switch (_context9.prev = _context9.next) {
               case 0:
                 if (!(identify && (!this.callsMapping[identify] || !this.callsMapping[identify].isSaving))) {
-                  _context9.next = 19;
+                  _context9.next = 18;
                   break;
                 }
 
@@ -546,27 +546,27 @@ var CallLogSection = (_dec = (0, _di.Module)({
                 throw new Error('Result is empty');
 
               case 9:
-                _context9.next = 11;
-                return this._handleSuccess.apply(this, [identify].concat(args));
+                this._handleSuccess(identify, _objectSpread(_objectSpread({}, args), {}, {
+                  result: result
+                }));
 
-              case 11:
                 return _context9.abrupt("return", result);
 
-              case 14:
-                _context9.prev = 14;
+              case 13:
+                _context9.prev = 13;
                 _context9.t0 = _context9["catch"](3);
-                _context9.next = 18;
+                _context9.next = 17;
                 return this._handleError.apply(this, [identify].concat(args));
 
-              case 18:
+              case 17:
                 console.warn(_context9.t0);
 
-              case 19:
+              case 18:
               case "end":
                 return _context9.stop();
             }
           }
-        }, _callee9, this, [[3, 14]]);
+        }, _callee9, this, [[3, 13]]);
       }));
 
       function saveCallLog(_x9) {
@@ -854,11 +854,9 @@ var CallLogSection = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context18.prev = _context18.next) {
               case 0:
-                _context18.next = 2;
-                return this._deps.callLogTasks.fetchAndUpdateTask(call);
-
-              case 2:
                 this.showLogSection(call.sessionId);
+                _context18.next = 3;
+                return this._deps.callLogTasks.fetchAndUpdateTask(call);
 
               case 3:
               case "end":
@@ -882,11 +880,9 @@ var CallLogSection = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context19.prev = _context19.next) {
               case 0:
-                _context19.next = 2;
-                return this._deps.callLogTasks.fetchAndUpdateTask(call);
-
-              case 2:
                 this.handleLogSection(call.sessionId);
+                _context19.next = 3;
+                return this._deps.callLogTasks.fetchAndUpdateTask(call);
 
               case 3:
               case "end":

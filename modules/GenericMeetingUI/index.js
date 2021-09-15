@@ -162,7 +162,7 @@ var GenericMeetingUI = (_dec = (0, _di.Module)({
       var isE2eeRelatedOptionsDisabled = showE2EE && e2ee;
       var isE2EEDisabled = showE2EE && (this._appFeatures.ready && !this._appFeatures.hasVideoE2EE || settingLock.e2ee || (0, _ramda.any)(function (key) {
         return settingLock[key] && meeting[key] === _RcVideoV.DISABLE_E2EE_WHEN_RELATED_OPTION_MATCH[key];
-      })(Object.keys(_RcVideoV.DISABLE_E2EE_WHEN_RELATED_OPTION_MATCH)) || configDisabled);
+      })(Object.keys(_RcVideoV.DISABLE_E2EE_WHEN_RELATED_OPTION_MATCH)));
       var authUserTypeValue = isOnlyCoworkersJoin ? _RcVideoV.AUTH_USER_TYPE.SIGNED_IN_CO_WORKERS : _RcVideoV.AUTH_USER_TYPE.SIGNED_IN_USERS;
       /** for rcv part * */
 
@@ -207,7 +207,7 @@ var GenericMeetingUI = (_dec = (0, _di.Module)({
         hasSettingsChanged: this._genericMeeting.hasSettingsChanged,
         defaultSetting: this._genericMeeting.defaultSetting,
         defaultTopic: this._genericMeeting.ready ? this._genericMeeting.defaultTopic : '',
-        isPersonalMeetingDisabled: showE2EE && meeting.e2ee || configDisabled,
+        isPersonalMeetingDisabled: showE2EE && meeting.e2ee,
 
         /* RCV JBH */
         joinBeforeHostLabel: isDelegator ? _RcVideoV.JBH_LABEL.JOIN_AFTER_HOST : _RcVideoV.JBH_LABEL.JOIN_AFTER_ME,

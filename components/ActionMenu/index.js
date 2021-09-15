@@ -112,7 +112,8 @@ var ActionMenu = /*#__PURE__*/function (_Component) {
           disableClickToSms = _this$props.disableClickToSms,
           withAnimation = _this$props.withAnimation,
           selectedMatchContactType = _this$props.selectedMatchContactType,
-          showChooseEntityModal = _this$props.showChooseEntityModal;
+          showChooseEntityModal = _this$props.showChooseEntityModal,
+          shouldHideEntityButton = _this$props.shouldHideEntityButton;
       return /*#__PURE__*/_react["default"].createElement("div", {
         ref: reference
       }, /*#__PURE__*/_react["default"].createElement(_SlideMenu["default"], {
@@ -138,6 +139,7 @@ var ActionMenu = /*#__PURE__*/function (_Component) {
         phoneNumber: phoneNumber,
         disableLinks: disableLinks,
         disableCallButton: disableCallButton,
+        shouldHideEntityButton: shouldHideEntityButton,
         disableClickToDial: disableClickToDial,
         addLogTitle: addLogTitle,
         editLogTitle: editLogTitle,
@@ -202,7 +204,8 @@ ActionMenu.propTypes = {
   disableClickToSms: _propTypes["default"].bool,
   withAnimation: _propTypes["default"].bool,
   selectedMatchContactType: _propTypes["default"].string,
-  showChooseEntityModal: _propTypes["default"].bool
+  showChooseEntityModal: _propTypes["default"].bool,
+  shouldHideEntityButton: _propTypes["default"].bool
 };
 ActionMenu.defaultProps = {
   extended: undefined,
@@ -241,6 +244,7 @@ ActionMenu.defaultProps = {
   disableClickToSms: false,
   withAnimation: true,
   selectedMatchContactType: '',
-  showChooseEntityModal: true
+  showChooseEntityModal: true,
+  shouldHideEntityButton: false
 };
 //# sourceMappingURL=index.js.map

@@ -8,8 +8,6 @@ require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
 
-require("core-js/modules/es6.array.filter");
-
 require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.promise");
@@ -44,6 +42,8 @@ require("core-js/modules/es6.regexp.to-string");
 require("core-js/modules/es6.date.to-string");
 
 require("core-js/modules/es6.object.to-string");
+
+require("core-js/modules/es6.array.filter");
 
 require("regenerator-runtime/runtime");
 
@@ -194,14 +194,22 @@ var ContactDetailsUI = (_dec = (0, _di.Module)({
               case 6:
                 contact = _context2.sent;
 
+                // hide hidden phone numbers when cdc is enabled
+                if (this._deps.appFeatures.isCDCEnabled && contact.phoneNumbers.length) {
+                  contact.phoneNumbers = contact.phoneNumbers.filter(function (phone) {
+                    return !phone.hidden;
+                  });
+                } // ignore result when it is reset during loading
+
+
                 if (!(this.currentContactReadyState !== _contactReadyStates.contactReadyStates.loading)) {
-                  _context2.next = 9;
+                  _context2.next = 10;
                   break;
                 }
 
                 return _context2.abrupt("return");
 
-              case 9:
+              case 10:
                 this._setCurrentContact(_contactReadyStates.contactReadyStates.loaded, contact);
 
                 if (contact) {
@@ -210,7 +218,7 @@ var ContactDetailsUI = (_dec = (0, _di.Module)({
                   this._deps.contacts.getPresence(contact, false);
                 }
 
-              case 11:
+              case 12:
               case "end":
                 return _context2.stop();
             }

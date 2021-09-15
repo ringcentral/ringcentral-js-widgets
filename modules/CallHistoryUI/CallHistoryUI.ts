@@ -96,6 +96,7 @@ export class CallHistoryUI extends RcUIModuleV2<Deps> {
       ),
       autoLog: !!(callLogger && callLogger.autoLog),
       useNewList,
+      enableCDC: appFeatures.isCDCEnabled,
     };
   }
 

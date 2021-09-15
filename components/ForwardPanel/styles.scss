@@ -41,11 +41,11 @@ $input-height: 43px;
 
   circle {
     opacity: 1;
-    stroke: $disabled-background-color;
+    stroke: $smoke;
   }
 
   path {
-    fill: $disabled-background-color;
+    fill: $smoke;
   }
 }
 
@@ -70,7 +70,7 @@ $input-margin-bottom: 12px;
     background-color: transparent;
     border: none;
     font-size: 15px;
-    color: $lightblack;
+    color: $night;
   }
   .input::-ms-clear {
     display: none;

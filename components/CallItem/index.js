@@ -77,6 +77,8 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _checkShouldHidePhoneNumber = require("../../lib/checkShouldHidePhoneNumber");
 
+var _checkShouldHideContactUser = require("../../lib/checkShouldHideContactUser");
+
 var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
 
 var _FaxInbound = _interopRequireDefault(require("../../assets/images/FaxInbound.svg"));
@@ -608,6 +610,7 @@ var CallItem = /*#__PURE__*/function (_Component) {
       var phoneNumber = this.getPhoneNumber();
       var contactMatches = this.getContactMatches();
       var shouldHideNumber = enableCDC && (0, _checkShouldHidePhoneNumber.checkShouldHidePhoneNumber)(phoneNumber, contactMatches);
+      var isContactMatchesHidden = enableCDC && (0, _checkShouldHideContactUser.checkShouldHideContactUser)(contactMatches);
       var fallbackContactName = this.getFallbackContactName();
       var ringing = (0, _callLogHelpers.isRinging)(this.props.call);
       var missed = (0, _callLogHelpers.isInbound)(this.props.call) && (0, _callLogHelpers.isMissed)(this.props.call);
@@ -617,7 +620,7 @@ var CallItem = /*#__PURE__*/function (_Component) {
         areaCode: areaCode
       });
       var isExtension = !parsedInfo.hasPlus && parsedInfo.number && parsedInfo.number.length <= 6;
-      var disableClickToSms = shouldHideNumber || !(onClickToSms && (isExtension ? internalSmsPermission : outboundSmsPermission));
+      var disableClickToSms = !(onClickToSms && (isExtension ? internalSmsPermission : outboundSmsPermission));
       var durationEl = null;
 
       if (typeof duration === 'undefined') {
@@ -694,7 +697,7 @@ var CallItem = /*#__PURE__*/function (_Component) {
         isMultipleSiteEnabled: isMultipleSiteEnabled
       }), /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].details
-      }, durationEl, " | ".concat(dateEl).concat(statusEl))), extraButton), shouldHideNumber ? null : /*#__PURE__*/_react["default"].createElement(_ActionMenu["default"], {
+      }, durationEl, " | ".concat(dateEl).concat(statusEl))), extraButton), /*#__PURE__*/_react["default"].createElement(_ActionMenu["default"], {
         extended: menuExtended,
         onToggle: this.toggleExtended,
         currentLocale: currentLocale,
@@ -712,7 +715,8 @@ var CallItem = /*#__PURE__*/function (_Component) {
           });
         } : undefined,
         phoneNumber: phoneNumber,
-        disableLinks: shouldHideNumber || disableLinks,
+        disableLinks: disableLinks,
+        shouldHideEntityButton: isContactMatchesHidden,
         disableCallButton: disableCallButton,
         disableClickToDial: disableClickToDial,
         isLogging: isLogging || this.state.isLogging,

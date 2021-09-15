@@ -156,7 +156,8 @@ var CallsPanel = /*#__PURE__*/function (_React$PureComponent) {
           phoneSourceNameRenderer = _this$props.phoneSourceNameRenderer,
           useNewList = _this$props.useNewList,
           currentSiteCode = _this$props.currentSiteCode,
-          isMultipleSiteEnabled = _this$props.isMultipleSiteEnabled;
+          isMultipleSiteEnabled = _this$props.isMultipleSiteEnabled,
+          enableCDC = _this$props.enableCDC;
       var _this$state = this.state,
           contentWidth = _this$state.contentWidth,
           contentHeight = _this$state.contentHeight;
@@ -194,7 +195,8 @@ var CallsPanel = /*#__PURE__*/function (_React$PureComponent) {
         phoneSourceNameRenderer: phoneSourceNameRenderer,
         width: contentWidth,
         height: contentHeight,
-        useNewList: useNewList
+        useNewList: useNewList,
+        enableCDC: enableCDC
       }) : /*#__PURE__*/_react["default"].createElement(_CallList["default"], {
         currentSiteCode: currentSiteCode,
         isMultipleSiteEnabled: isMultipleSiteEnabled,
@@ -276,7 +278,8 @@ CallsPanel.propTypes = {
   sourceIcons: _propTypes["default"].object,
   phoneTypeRenderer: _propTypes["default"].func,
   phoneSourceNameRenderer: _propTypes["default"].func,
-  useNewList: _propTypes["default"].bool
+  useNewList: _propTypes["default"].bool,
+  enableCDC: _propTypes["default"].bool
 };
 CallsPanel.defaultProps = {
   currentSiteCode: '',
@@ -305,6 +308,7 @@ CallsPanel.defaultProps = {
   sourceIcons: undefined,
   phoneTypeRenderer: undefined,
   phoneSourceNameRenderer: undefined,
-  useNewList: false
+  useNewList: false,
+  enableCDC: false
 };
 //# sourceMappingURL=index.js.map

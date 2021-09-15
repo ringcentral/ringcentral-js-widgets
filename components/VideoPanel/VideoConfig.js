@@ -347,7 +347,7 @@ var VideoConfig = function VideoConfig(props) {
     }, (0, _MeetingCalendarHelper.formatMeetingId)(personalMeetingId, '-')))
   }, /*#__PURE__*/_react["default"].createElement(_juno.RcCheckbox, {
     "data-sign": "usePersonalMeetingId",
-    disabled: disabled || showE2EE && meeting.e2ee,
+    disabled: isPersonalMeetingDisabled || disabled,
     size: checkboxSize,
     checked: meeting.usePersonalMeetingId,
     onChange: function onChange(ev, checked) {
@@ -416,7 +416,7 @@ var VideoConfig = function VideoConfig(props) {
   }, /*#__PURE__*/_react["default"].createElement(_juno.RcCheckbox, {
     "data-sign": "e2ee",
     checked: meeting.e2ee,
-    disabled: isE2EEDisabled,
+    disabled: isE2EEDisabled || disabled,
     size: checkboxSize,
     onChange: function onChange(ev, value) {
       e2eeInteractFunc(value);

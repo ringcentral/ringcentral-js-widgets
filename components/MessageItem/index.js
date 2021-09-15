@@ -204,7 +204,7 @@ var MessageItem = /*#__PURE__*/function (_Component) {
 
     _this = _super.call(this, props);
 
-    _this.preventEventPropogation = function (e) {
+    _this.preventEventPropagating = function (e) {
       if (e.target !== e.currentTarget) {
         e.stopPropagation();
       }
@@ -589,12 +589,13 @@ var MessageItem = /*#__PURE__*/function (_Component) {
 
       if ((0, _messageHelper.messageIsFax)(conversation)) {
         var pageCount = parseInt(conversation.faxPageCount, 10);
+        var nameKey = pageCount === 1 ? 'page' : 'pages';
 
         if (conversation.direction === _messageDirection["default"].inbound) {
-          return "".concat(_i18n["default"].getString('faxReceived', currentLocale), "(").concat(pageCount, " ").concat(_i18n["default"].getString('pages', currentLocale), ")");
+          return "".concat(_i18n["default"].getString('faxReceived', currentLocale), "(").concat(pageCount, " ").concat(_i18n["default"].getString(nameKey, currentLocale), ")");
         }
 
-        return "".concat(_i18n["default"].getString('faxSent', currentLocale), "(").concat(pageCount, " ").concat(_i18n["default"].getString('pages', currentLocale), ")");
+        return "".concat(_i18n["default"].getString('faxSent', currentLocale), "(").concat(pageCount, " ").concat(_i18n["default"].getString(nameKey, currentLocale), ")");
       }
 
       return '';
@@ -763,7 +764,7 @@ var MessageItem = /*#__PURE__*/function (_Component) {
       }, "|"), /*#__PURE__*/_react["default"].createElement("div", {
         "data-sign": "msgCreateTime",
         className: _styles["default"].creationTime
-      }, this.dateTimeFormatter(creationTime)))), extraButton), shouldHideNumber && !player ? null : /*#__PURE__*/_react["default"].createElement(_SlideMenu["default"], {
+      }, this.dateTimeFormatter(creationTime)))), extraButton), /*#__PURE__*/_react["default"].createElement(_SlideMenu["default"], {
         extended: this.state.extended,
         onToggle: this.toggleExtended,
         extendIconClassName: _styles["default"].extendIcon,
@@ -772,8 +773,9 @@ var MessageItem = /*#__PURE__*/function (_Component) {
         maxHeight: slideMenuHeight
       }, /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].playContainer,
-        onClick: this.preventEventPropogation
-      }, player), shouldHideNumber ? null : /*#__PURE__*/_react["default"].createElement(_ActionMenuList["default"], {
+        onClick: this.preventEventPropagating
+      }, player), /*#__PURE__*/_react["default"].createElement(_ActionMenuList["default"], {
+        shouldHideEntityButton: shouldHideNumber,
         className: _styles["default"].actionMenuList,
         type: type,
         currentLocale: currentLocale,
@@ -786,7 +788,7 @@ var MessageItem = /*#__PURE__*/function (_Component) {
         onClickToSms: isVoicemail ? onClickToSms && this.onClickToSms : undefined,
         disableClickToSms: disableClickToSms,
         phoneNumber: phoneNumber,
-        disableLinks: shouldHideNumber || disableLinks,
+        disableLinks: disableLinks,
         disableCallButton: disableCallButton,
         disableClickToDial: disableClickToDial,
         isLogging: isLogging || this.state.isLogging,

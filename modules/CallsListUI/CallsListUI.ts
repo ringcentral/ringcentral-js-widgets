@@ -32,7 +32,6 @@ export const FILTER_THRESHOLD: number = 500;
     'ContactMatcher',
     'ContactSearch',
     'RouterInteraction',
-    'ContactDetailsUI',
     'AppFeatures',
     { dep: 'DialerUI', optional: true },
     { dep: 'DialerUI', optional: true },
@@ -40,10 +39,11 @@ export const FILTER_THRESHOLD: number = 500;
     { dep: 'Webphone', optional: true },
     { dep: 'ComposeText', optional: true },
     { dep: 'CallsListUIOptions', optional: true },
+    { dep: 'ContactDetailsUI', optional: true },
   ],
 })
-export class CallsListUI extends RcUIModuleV2<Deps> {
-  constructor(deps: Deps) {
+export class CallsListUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
+  constructor(deps: T) {
     super({ deps });
   }
 

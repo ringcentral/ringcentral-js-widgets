@@ -98,6 +98,6 @@
     "ringcentral-client": "^1.0.0-beta.2"
   },
   "ci": {
-    "ringcentral-js-widgets": "**"
+    "ringcentral-widgets-test": "**"
   }
 }

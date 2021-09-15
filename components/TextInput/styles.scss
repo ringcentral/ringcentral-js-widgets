@@ -18,7 +18,7 @@
   padding: 0px 10px;
   box-sizing: border-box;
   @include field-value-font;
-  color: $lightblack;
+  color: $night;
 }
 .input::-ms-clear {
   display: none;
