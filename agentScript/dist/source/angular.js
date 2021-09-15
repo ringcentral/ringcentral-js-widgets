@@ -13189,8 +13189,7 @@ ctrl.$modelValue=allValid?modelValue:undefined;writeToModelIfNeeded();}});functi
 // 4. view should be changed back to 'a'
 $scope.$watch(function ngModelWatch(){var modelValue=ngModelGet($scope);// if scope model value and ngModel value are out of sync
 // TODO(perf): why not move this to the action fn?
-if(modelValue!==ctrl.$modelValue&&(// checks for NaN is needed to allow setting the model to NaN when there's an asyncValidator
-ctrl.$modelValue===ctrl.$modelValue||modelValue===modelValue)){ctrl.$modelValue=ctrl.$$rawModelValue=modelValue;parserValid=undefined;var formatters=ctrl.$formatters,idx=formatters.length;var viewValue=modelValue;while(idx--){viewValue=formatters[idx](viewValue);}if(ctrl.$viewValue!==viewValue){ctrl.$viewValue=ctrl.$$lastCommittedViewValue=viewValue;ctrl.$render();ctrl.$$runValidators(modelValue,viewValue,noop);}}return modelValue;});}];/**
+if(modelValue!==ctrl.$modelValue&&(ctrl.$modelValue===ctrl.$modelValue||modelValue===modelValue)){ctrl.$modelValue=ctrl.$$rawModelValue=modelValue;parserValid=undefined;var formatters=ctrl.$formatters,idx=formatters.length;var viewValue=modelValue;while(idx--){viewValue=formatters[idx](viewValue);}if(ctrl.$viewValue!==viewValue){ctrl.$viewValue=ctrl.$$lastCommittedViewValue=viewValue;ctrl.$render();ctrl.$$runValidators(modelValue,viewValue,noop);}}return modelValue;});}];/**
  * @ngdoc directive
  * @name ngModel
  *
