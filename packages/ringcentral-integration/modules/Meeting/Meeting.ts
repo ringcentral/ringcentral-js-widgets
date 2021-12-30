@@ -1,20 +1,21 @@
-import { computed } from '@ringcentral-integration/core';
-import { DEFAULT_LOCALE } from '@ringcentral-integration/i18n';
 import moment from 'moment';
 import { find, isEmpty, pick } from 'ramda';
 import Client from 'ringcentral-client';
+
+import { computed } from '@ringcentral-integration/core';
+import { DEFAULT_LOCALE } from '@ringcentral-integration/i18n';
 
 import {
   comparePreferences,
   generateRandomPassword,
   getDefaultMeetingSettings,
+  getDefaultTopic,
   getInitializedStartTime,
   getMobileDialingNumberTpl,
   getPhoneDialingNumberTpl,
   MeetingType,
   prunePreferencesObject,
   UTC_TIMEZONE_ID,
-  getDefaultTopic,
 } from '../../helpers/meetingHelper';
 import background from '../../lib/background';
 import { Module } from '../../lib/di';
@@ -184,7 +185,7 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
       type: this.actionTypes.init,
     });
 
-    await Promise.all([this._initMeetingSettings(), this._initScheduleFor()]);
+    await Promise.all([this._initMeetingSettings(), this.initScheduleFor()]);
 
     this.store.dispatch({
       type: this.actionTypes.initSuccess,
@@ -259,7 +260,7 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
     }
   }
 
-  async _initScheduleFor() {
+  async initScheduleFor() {
     if (!this._enableScheduleOnBehalf) {
       return;
     }
@@ -676,7 +677,7 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
       return null;
     }
     // only rc brand is supported for now
-    if (this._brand.code !== 'rc') {
+    if (!this._brand.brandConfig.allowMeetingInvitation) {
       return null;
     }
     try {
@@ -860,11 +861,9 @@ export class Meeting extends RcModule<Record<string, any>, MeetingActionTypes> {
         this._alert.warning(error);
       }
     } else if (errors && errors.response) {
-      const {
-        message,
-        errorCode,
-        permissionName,
-      } = await errors.response.clone().json();
+      const { message, errorCode, permissionName } = await errors.response
+        .clone()
+        .json();
       if (errorCode === 'InsufficientPermissions' && permissionName) {
         this._alert.danger({
           message: meetingStatus.insufficientPermissions,

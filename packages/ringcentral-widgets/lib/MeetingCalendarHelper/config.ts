@@ -7,7 +7,8 @@
  *  Atos:	xmnup-rxe-1-v-atos.lab.nordigy.ru(test env); video-atos.ringcentral.com (prod env)
  */
 
-const MEETING_URI_REGEXP_EMAIL = /w?(\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)$/;
+const MEETING_URI_REGEXP_EMAIL =
+  /w?(\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*)$/;
 
 // gsuite is using export at bottom
 export { MEETING_URI_REGEXP_EMAIL };

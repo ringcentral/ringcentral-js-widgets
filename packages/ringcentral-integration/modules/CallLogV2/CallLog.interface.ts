@@ -3,13 +3,14 @@ import {
   UserCallLogRecord,
   UserCallLogResponse,
 } from '@rc-ex/core/definitions';
+
+import { AppFeatures } from '../AppFeatures';
 import { Auth } from '../AuthV2';
-import { ExtensionPhoneNumber } from '../ExtensionPhoneNumberV2';
 import { ExtensionInfo } from '../ExtensionInfoV2';
+import { ExtensionPhoneNumber } from '../ExtensionPhoneNumberV2';
+import { Storage } from '../StorageV2';
 import { Subscription } from '../SubscriptionV2';
 import { TabManager } from '../TabManager';
-import { Storage } from '../StorageV2';
-import { AppFeatures } from '../AppFeatures';
 
 export interface CallLogOptions {
   /**
@@ -44,11 +45,14 @@ export interface CallLogOptions {
    * limit List, default false.
    */
   isLimitList?: boolean;
-  //  = LIST_RECORD_COUNT,
   /**
-   * list record count pre page, default 250.
+   * list record count per page, default 250.
    */
   listRecordCount?: number;
+  /**
+   * full sync record count, default 250.
+   */
+  recordCount?: number;
   /**
    * disable handling the deleted call log.
    */

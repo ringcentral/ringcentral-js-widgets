@@ -21,8 +21,9 @@ import { ExtensionInfo } from '@ringcentral-integration/commons/modules/Extensio
 import { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import { MessageStore } from '@ringcentral-integration/commons/modules/MessageStoreV2';
 import { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiterV2';
-import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettingsV2';
+import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
 import { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
+
 import { ContactDetailsUI } from '../ContactDetailsUI';
 import { RouterInteraction } from '../RouterInteraction';
 

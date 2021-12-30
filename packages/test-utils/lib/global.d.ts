@@ -8,3 +8,7 @@ declare module NodeJS {
 }
 
 declare const JSX: any;
+
+interface Window {
+  analytics: any;
+}

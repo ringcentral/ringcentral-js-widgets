@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
+
 import { RcDatePicker, RcTypography } from '@ringcentral/juno';
 
-import { setUTCTime, getDateFromUTCDay } from '../../../lib/timeFormatHelper';
+import { getDateFromUTCDay, setUTCTime } from '../../../lib/timeFormatHelper';
 import InputSelect from '../../InputSelect';
 import { CallLogFieldsProps, FieldMetadata } from '../CallLogFields.interface';
 import {
@@ -11,8 +12,8 @@ import {
 } from './FieldItem.interface';
 import { FullSelectField } from './FullSelectField';
 import { LogFieldsInput } from './LogFieldsInput';
-import { SelectField } from './SelectField';
 import { RadioField } from './RadioField';
+import { SelectField } from './SelectField';
 import styles from './styles.scss';
 
 const DEFAULT_FINDER = {
@@ -55,6 +56,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
         onChange: fieldOnChange,
         onlyShowInMultipleMatches,
         showOtherSection,
+        showFoundFromServer,
       },
       onSave,
       onSelectViewVisible,
@@ -65,7 +67,6 @@ export class FieldItem extends Component<FieldItemProps, {}> {
       startAdornmentRender,
       referenceFieldOptions,
       currentLocale,
-      showFoundFromServer,
       disabled,
     } = this.props;
     const { task, currentLogCall: { phoneNumber } = {} } = currentLog;
@@ -250,7 +251,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
         onChange={async (value) => {
           const timeStamp = value ? setUTCTime(value) : value;
           await this.onInputSelectChange(fieldValue)(timeStamp);
-          await onSave;
+          await onSave();
         }}
         formatString="MM/DD/YYYY"
       />

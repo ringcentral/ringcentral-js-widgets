@@ -1,9 +1,10 @@
-import { v4 as uuidV4 } from 'uuid';
 import moment from 'moment';
 import { PartyStatusCode } from 'ringcentral-call-control/lib/Session';
+import { v4 as uuidV4 } from 'uuid';
+
 import callDirections from '../../enums/callDirections';
-import telephonySessionMessage from './data/telephonySessions.json';
 import extensionBody from './data/extensionInfo.json';
+import telephonySessionMessage from './data/telephonySessions.json';
 
 /**
  * Telephony session message boy //https://developers.ringcentral.com/api-reference/Extension-Telephony-Sessions-Event
@@ -23,6 +24,11 @@ type CallDirectionsKeys = keyof typeof callDirections;
 
 type CallDirections = typeof callDirections[CallDirectionsKeys];
 type PartyStatusCodeKeys = keyof typeof PartyStatusCode;
+type recordingsProps = {
+  id?: string;
+  active?: boolean;
+};
+
 export type Party = {
   extensionId: string;
   id: string;
@@ -47,6 +53,7 @@ export type Party = {
       srvLvlExt: string;
     };
   };
+  recordings: recordingsProps[];
   missedCall: boolean;
   standAlone: boolean;
   muted: boolean;
@@ -66,6 +73,7 @@ export type Body = {
   parties: Party[];
   origin: Origin;
   extensionId: string;
+  recordings: recordingsProps[];
 };
 
 let sequence = 10;
@@ -83,12 +91,22 @@ export interface TelephonySessionInterface {
   body: Body;
 }
 
+export interface NumberData {
+  phoneNumber: string;
+  name: string;
+  extensionId: string;
+}
+
 interface InitParams {
   telephonySessionId?: string;
   phoneNumber?: string;
   direction?: CallDirections;
   sessionId?: string;
   status?: PartyStatusCode;
+  fromNumberData?: NumberData;
+  toNumberData?: NumberData;
+  startTime?: string;
+  isRecording?: boolean;
 }
 
 export const telephonySessionBuildersCache: TelephonySessionBuilder[] = [];
@@ -101,8 +119,12 @@ class TelephonySessionBuilder {
   private _sessionId: string;
   private _partyStatus: PartyStatusCode;
   private _partyId: string;
+  private _fromNumberData: NumberData;
+  private _toNumberData: NumberData;
+  private _startTime: string;
+  private _isRecording: boolean;
 
-  constructor(initParams?: InitParams) {
+  constructor(initParams: InitParams = {}) {
     this._init(initParams);
   }
 
@@ -112,6 +134,10 @@ class TelephonySessionBuilder {
     direction = DEFAULT_DIRECTION,
     sessionId,
     status = PartyStatusCode.proceeding,
+    fromNumberData,
+    toNumberData,
+    startTime,
+    isRecording,
   }: InitParams) {
     this._telephonySessionId = telephonySessionId;
     this._sessionId = sessionId || telephonySessionId;
@@ -119,6 +145,10 @@ class TelephonySessionBuilder {
     this._direction = direction;
     this._partyId = `${telephonySessionId}-1`;
     this._partyStatus = status;
+    this._fromNumberData = fromNumberData;
+    this._toNumberData = toNumberData;
+    this._startTime = startTime;
+    this._isRecording = isRecording;
   }
 
   direction(direction: CallDirections) {
@@ -194,6 +224,15 @@ class TelephonySessionBuilder {
     };
   }
 
+  get recordings(): recordingsProps[] {
+    return [
+      {
+        id: DEFAULT_EXTENSION_ID,
+        active: this._isRecording,
+      },
+    ];
+  }
+
   get data(): TelephonySessionInterface {
     return {
       ...telephonySessionMessage,
@@ -206,7 +245,7 @@ class TelephonySessionBuilder {
         sessionId: this._sessionId,
         telephonySessionId: this._telephonySessionId,
         serverId: '10.62.25.111.TAM',
-        eventTime: Date(),
+        eventTime: this._startTime || Date(),
         accountId: '400144452008',
         extensionId: DEFAULT_EXTENSION_ID,
         parties: [
@@ -214,8 +253,8 @@ class TelephonySessionBuilder {
             extensionId: DEFAULT_EXTENSION_ID,
             id: this._partyId,
             direction: this._direction,
-            to: this.numberData,
-            from: this.numberData,
+            to: this._toNumberData || this.numberData,
+            from: this._fromNumberData || this.numberData,
             status: {
               code: this._partyStatus,
               mobilePickupData: {
@@ -226,11 +265,13 @@ class TelephonySessionBuilder {
                 srvLvlExt: '390',
               },
             },
+            recordings: this.recordings,
             missedCall: false,
             standAlone: false,
             muted: false,
           },
         ],
+        recordings: this.recordings,
         origin: {
           type: 'Call',
         },
@@ -240,6 +281,6 @@ class TelephonySessionBuilder {
 }
 
 function createTelephonySession(initParams?: InitParams) {
-  return new TelephonySessionBuilder(initParams || {});
+  return new TelephonySessionBuilder(initParams);
 }
-export { TelephonySessionBuilder, createTelephonySession, PartyStatusCode };
+export { createTelephonySession, PartyStatusCode, TelephonySessionBuilder };

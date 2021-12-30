@@ -142,7 +142,10 @@ module.exports = {
     'react/react-in-jsx-scope': 'off',
     'react/function-component-definition': [
       1,
-      { namedComponents: 'arrow-function' },
+      {
+        namedComponents: 'arrow-function',
+        unnamedComponents: 'arrow-function',
+      },
     ],
   },
   overrides: [

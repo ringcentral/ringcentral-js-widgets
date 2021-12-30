@@ -1,3 +1,5 @@
+import formatMessage from 'format-message';
+
 import {
   action,
   computed,
@@ -9,7 +11,7 @@ import I18n, {
   PSEUDO_LOCALE,
 } from '@ringcentral-integration/i18n';
 import formatLocale from '@ringcentral-integration/i18n/lib/formatLocale';
-import formatMessage from 'format-message';
+
 import detectBrowserLocale from '../../lib/detectBrowserLocale';
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
@@ -54,7 +56,7 @@ export class Locale extends RcModuleV2<Deps> {
     return this._deps.localeOptions?.pollingInterval ?? 2000;
   }
 
-  @computed((that: Locale) => [that.defaultLocale])
+  @computed(({ defaultLocale }: Locale) => [defaultLocale])
   get supportedLocales() {
     return (
       this._deps.localeOptions?.supportedLocales ??

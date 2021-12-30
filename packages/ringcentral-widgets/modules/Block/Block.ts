@@ -1,11 +1,12 @@
+import * as uuid from 'uuid';
+
+import { Module } from '@ringcentral-integration/commons/lib/di';
 import {
   action,
   computed,
   RcModuleV2,
   state,
 } from '@ringcentral-integration/core';
-import { Module } from '@ringcentral-integration/commons/lib/di';
-import * as uuid from 'uuid';
 
 import { BlockItem, DepsModules, IBlock } from './Block.interface';
 

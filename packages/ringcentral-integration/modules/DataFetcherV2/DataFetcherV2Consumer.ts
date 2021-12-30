@@ -1,6 +1,8 @@
-import { RcModuleV2, watchEffect } from '@ringcentral-integration/core';
-import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 import { EventEmitter } from 'events';
+
+import { RcModuleV2, watch } from '@ringcentral-integration/core';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
+
 import { DataFetcherV2ConsumerBaseDeps } from './DataFetcherV2Consumer.interface';
 import { DataSource } from './DataSource';
 import { sourceStatus } from './sourceStatus';
@@ -9,7 +11,7 @@ export const baseEvents = ObjectMap.fromKeys(['dataReady']);
 
 export abstract class DataFetcherV2Consumer<
   D extends DataFetcherV2ConsumerBaseDeps,
-  T
+  T,
 > extends RcModuleV2<D> {
   protected _source: DataSource<T>;
   protected _emitter = new EventEmitter();
@@ -23,13 +25,16 @@ export abstract class DataFetcherV2Consumer<
   }
 
   onInitOnce() {
-    watchEffect(
+    watch(
       this,
       () => [this.ready, this.data],
       ([ready, data]) => {
         if (ready && data) {
           this._emitter.emit(this.events.dataReady);
         }
+      },
+      {
+        multiple: true,
       },
     );
   }

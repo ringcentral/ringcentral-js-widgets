@@ -1,5 +1,6 @@
-import { RcSnackbarContentProps } from '@ringcentral/juno';
 import React, { DOMAttributes, FunctionComponent } from 'react';
+
+import { RcSnackbarContentProps } from '@ringcentral/juno';
 
 export interface NotificationMessage {
   id: string;

@@ -1,3 +1,4 @@
+import { Module } from '@ringcentral-integration/commons/lib/di';
 import {
   action,
   computed,
@@ -5,7 +6,6 @@ import {
   state,
   storage,
 } from '@ringcentral-integration/core';
-import { Module } from '@ringcentral-integration/commons/lib/di';
 
 import { requeueEvents } from '../../enums';
 import { EvCallData } from '../../interfaces/EvData.interface';
@@ -97,7 +97,7 @@ class EvRequeueCall extends RcModuleV2<Deps> implements RequeueCall {
     let loadingId: string;
     try {
       this.setStatus({ requeuing: true });
-      loadingId = this._deps.alert.info({
+      loadingId = await this._deps.alert.info({
         message: requeueEvents.START,
         loading: true,
       });

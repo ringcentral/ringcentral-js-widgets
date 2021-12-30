@@ -1,3 +1,7 @@
+import { keys } from 'ramda';
+import { Unsubscribe } from 'redux';
+
+import { Module } from '@ringcentral-integration/commons/lib/di';
 import {
   action,
   computed,
@@ -6,28 +10,25 @@ import {
   storage,
   watch,
 } from '@ringcentral-integration/core';
-import { keys } from 'ramda';
-import { Unsubscribe } from 'redux';
-import { Module } from '@ringcentral-integration/commons/lib/di';
 import { CallLogPanelProps } from '@ringcentral-integration/widgets/components/CallLogPanel';
 
 import {
   dialoutStatuses,
   EvTransferType,
   logTypes,
-  MessageTypes,
   messageTypes,
+  MessageTypes,
   tabManagerEvents,
   transferTypes,
 } from '../../enums';
 import {
-  CallLogMethods,
   callLogMethods,
+  CallLogMethods,
   EvActivityCallUIFunctions,
   EvActivityCallUIProps,
   EvCurrentLog,
-  SaveStatus,
   saveStatus,
+  SaveStatus,
 } from '../../interfaces/EvActivityCallUI.interface';
 import {
   EvAgentScriptData,
@@ -71,7 +72,8 @@ type FormState = {
 })
 class EvActivityCallUI<T = {}>
   extends RcUIModuleV2<Deps & T>
-  implements ActivityCallUI {
+  implements ActivityCallUI
+{
   public isFirstTimeHandled = false;
 
   /** Is the call pick up directly */
@@ -291,9 +293,8 @@ class EvActivityCallUI<T = {}>
       required,
     } = this;
 
-    const callDisposition = this._deps.evCallDisposition.callsMapping[
-      this.callId
-    ];
+    const callDisposition =
+      this._deps.evCallDisposition.callsMapping[this.callId];
 
     if (!currentCall) {
       return undefined;
@@ -587,9 +588,8 @@ class EvActivityCallUI<T = {}>
   };
 
   goToRequeueCallPage() {
-    const { gateGroupId, gateId } = this._deps.evCallMonitor.callsMapping[
-      this.callId
-    ].gate;
+    const { gateGroupId, gateId } =
+      this._deps.evCallMonitor.callsMapping[this.callId].gate;
     this._deps.evRequeueCall.setStatus({
       selectedQueueGroupId: gateGroupId,
       selectedGateId: gateId,

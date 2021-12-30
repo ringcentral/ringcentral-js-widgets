@@ -1,4 +1,5 @@
 import { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
+
 import { extensionTypes } from '../../enums/extensionTypes';
 import {
   DataFetcherV2ConsumerBaseDeps,

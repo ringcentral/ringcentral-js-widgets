@@ -1,12 +1,14 @@
 import { UserCallLogResponse } from '@rc-ex/core/definitions';
-import { state, action, RcModuleV2 } from '@ringcentral-integration/core';
-import background from '../../lib/background';
-import { Module } from '../../lib/di';
-import { callStatus } from './callStatus';
-import getDateFrom from '../../lib/getDateFrom';
-import concurrentExecute from '../../lib/concurrentExecute';
+import { action, RcModuleV2, state } from '@ringcentral-integration/core';
+
 import { phoneTypes } from '../../enums/phoneTypes';
+import { Entity } from '../../interfaces/Entity.interface';
+import background from '../../lib/background';
+import concurrentExecute from '../../lib/concurrentExecute';
+import { Module } from '../../lib/di';
+import getDateFrom from '../../lib/getDateFrom';
 import { HistoryCall } from '../CallHistoryV2';
+import { callStatus } from './callStatus';
 import {
   CleanUpCallsOptions,
   Deps,
@@ -14,7 +16,6 @@ import {
   GetCallsOptions,
   LoadSuccessOptions,
 } from './RecentCalls.interface';
-import { Entity } from '../../interfaces/Entity.interface';
 import {
   dedup,
   filterPhoneNumber,

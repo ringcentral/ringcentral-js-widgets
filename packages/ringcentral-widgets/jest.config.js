@@ -1,12 +1,12 @@
+const merge = require('@ringcentral-integration/test-utils/lib/merge');
+const baseConfig = require('@ringcentral-integration/test-utils/config/jest.config');
+
 module.exports = {
-  testEnvironment: 'jsdom',
-  transform: {
-    'loadLocale\\.(j|t)s$': '<rootDir>/test/__mocks__/loadLocale.ts',
-    '^.+\\.(j|t)sx?$':
-      '@ringcentral-integration/babel-settings/lib/jestTransform.js',
-  },
-  moduleNameMapper: {
-    '\\.svg$': '<rootDir>/test/__mocks__/svgMock.ts',
-    '\\.(css|scss|less)$': 'identity-obj-proxy',
-  },
+  ...merge(baseConfig, {
+    setupFilesAfterEnv: [
+      '@ringcentral-integration/test-utils/config/jest.testingLibraryConfig.ts',
+    ],
+    // add additional jest config
+  }),
+  roots: ['<rootDir>'],
 };

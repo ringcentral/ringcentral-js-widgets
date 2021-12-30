@@ -9,6 +9,7 @@ export const callingSettingsMessages = ObjectMap.prefixKeys(
     'webphonePermissionRemoved',
     'emergencyCallingNotAvailable',
     'saveSuccessWithJupiter',
+    'disableEmergencyInJapan',
   ],
   'callingSettingsMessages',
 );

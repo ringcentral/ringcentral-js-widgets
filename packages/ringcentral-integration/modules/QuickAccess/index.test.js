@@ -1,8 +1,9 @@
-import sinon from 'sinon';
 import { createStore } from 'redux';
-import QuickAccess from './index';
-import getQuickAccessReducer from './getQuickAccessReducer';
+import sinon from 'sinon';
+
 import actionTypes from './actionTypes';
+import getQuickAccessReducer from './getQuickAccessReducer';
+import QuickAccess from './index';
 
 describe('QuickAccess Unit Test', () => {
   let quickAccess;

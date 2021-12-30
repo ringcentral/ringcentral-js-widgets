@@ -1,9 +1,11 @@
+import React, { FunctionComponent, useEffect, useState } from 'react';
+
+import classNames from 'classnames';
+
 import { RcAccordion } from '@ringcentral/juno/components/Accordion';
 import { RcAccordionDetails } from '@ringcentral/juno/components/Accordion/AccordionDetails';
 import { RcAccordionSummary } from '@ringcentral/juno/components/Accordion/AccordionSummary';
 import { ArrowDown2 } from '@ringcentral/juno/icon';
-import classNames from 'classnames';
-import React, { FunctionComponent, useEffect, useState } from 'react';
 
 import {
   EvActivityCallUIFunctions,

@@ -3,26 +3,26 @@
   "retryCount" : 3,
   "retryInterval" : 3,
   "discoveryApi" : {
-    "defaultExternalUri" : "https://api-rcapps-xmnup.secure.lab.nordigy.ru/.well-known/entry-points/external"
+    "defaultExternalUri" : "http://whatever/.well-known/entry-points/external"
   },
   "authApi" : {
-    "authorizationUri" : "https://api-rcapps-xmnup.secure.lab.nordigy.ru/restapi/oauth/authorize",
-    "oidcDiscoveryUri" : "https://api-rcapps-xmnup.secure.lab.nordigy.ru/.well-known/openid-configuration",
-    "defaultTokenUri" : "https://api-rcapps-xmnup.secure.lab.nordigy.ru/restapi/oauth/token"
+    "authorizationUri" : "http://whatever/restapi/oauth/authorize",
+    "oidcDiscoveryUri" : "http://whatever/.well-known/openid-configuration",
+    "defaultTokenUri" : "http://whatever/restapi/oauth/token"
   },
   "coreApi" : {
-    "baseUri" : "https://api-rcapps-xmnup.secure.lab.nordigy.ru"
+    "baseUri" : "http://whatever"
   },
   "rcm" : {
-    "baseWebUri" : "https://rcm.rcdev.ringcentral.com",
-    "sdkDomain" : "rcdev.dev.meetzoom.us"
+    "baseWebUri" : "http://whatever",
+    "sdkDomain" : "whatever"
   },
   "rcv" : {
-    "baseWebUri" : "https://xmnup-rxe-1-v.lab.nordigy.ru",
-    "baseApiUri" : "https://xmnup-rxe-1-api.lab.nordigy.ru",
+    "baseWebUri" : "hhttp://whatever",
+    "baseApiUri" : "http://whatever",
     "pubnubOrigin" : "ringcentral.pubnubapi.com"
   },
   "edc" : {
-    "baseUri" : "https://edcs.devtest.ringcentral.com"
+    "baseUri" : "http://whatever"
   }
 }

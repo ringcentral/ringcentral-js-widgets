@@ -1,104 +1,51 @@
-/* eslint-disable react/destructuring-assignment */
-import React, {
-  FunctionComponent,
-  useState,
-  useRef,
-  ChangeEvent,
-  useEffect,
-} from 'react';
-import classnames from 'classnames';
-import formatMessage from 'format-message';
-
-import callingOptions from '@ringcentral-integration/commons/modules/CallingSettings/callingOptions';
-import TooltipBase from 'rc-tooltip';
 import 'rc-tooltip/assets/bootstrap_white.css';
 
-import InfoIcon from '../../assets/images/Info.svg';
+import React, {
+  ChangeEvent,
+  FunctionComponent,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 
-import styles from './styles.scss';
-import i18n from './i18n';
+import { RcIcon } from '@ringcentral/juno';
+import classnames from 'classnames';
+import formatMessage from 'format-message';
+import { InfoBorder as infoSvg } from '@ringcentral/juno/icon';
+/* eslint-disable react/destructuring-assignment */
+import callingOptions from '@ringcentral-integration/commons/modules/CallingSettings/callingOptions';
+import { Tooltip } from '../Rcui/Tooltip';
 
-import { SpinnerOverlay } from '../SpinnerOverlay';
 import BackHeader from '../BackHeader';
-import Panel from '../Panel';
-import Switch from '../Switch';
+import { DropdownSelect } from '../DropdownSelect';
 import IconField from '../IconField';
 import InputField from '../InputField';
-import TextInput from '../TextInput';
-import DropdownSelect from '../DropdownSelect';
-import SaveButton from '../SaveButton';
+import Panel from '../Panel';
 import { RingTone } from '../Ringtone';
+import SaveButton from '../SaveButton';
+import { SpinnerOverlay } from '../SpinnerOverlay';
+import Switch from '../Switch';
+import TextInput from '../TextInput';
 import {
   CallingSettingsPanelProps,
   CallingSettingsProps,
-  GetCallingOptionProps,
-  GetOptionNameProps,
-  TooltipProps,
   CallWithProps,
+  GetCallingOptionNameProps,
 } from './CallingSettingsPenal.interface';
-
-const TooltipBaseComp =
-  typeof TooltipBase === 'function' ? TooltipBase : TooltipBase.default;
-
-export function getJupiterAppName({
-  brandCode,
-  brandName,
-  shortBrandName,
-  fullBrandName,
-  jupiterAppName,
-}: GetOptionNameProps): string {
-  if (jupiterAppName) return jupiterAppName;
-  switch (brandCode) {
-    case 'att':
-      return fullBrandName;
-    case 'telus':
-      return `${shortBrandName} App`;
-    default:
-      return `${brandName} App`;
-  }
-}
-
-export function getSoftphoneAppName({
-  brandCode,
-  brandName,
-  shortBrandName,
-  fullBrandName,
-}: GetOptionNameProps): string {
-  switch (brandCode) {
-    case 'att':
-      return `${fullBrandName} Phone`;
-    case 'telus':
-      return `${shortBrandName} Phone`;
-    default:
-      return `${brandName} Phone`;
-  }
-}
+import i18n from './i18n';
+import styles from './styles.scss';
 
 export function getCallingOptionName({
   callingOption,
-  brandCode,
-  brandName,
-  shortBrandName,
-  fullBrandName,
   currentLocale,
   jupiterAppName,
-}: GetCallingOptionProps) {
+  softphoneAppName,
+}: GetCallingOptionNameProps) {
   if (callingOption === callingOptions.softphone) {
-    return getSoftphoneAppName({
-      brandCode,
-      brandName,
-      shortBrandName,
-      fullBrandName,
-    });
+    return softphoneAppName;
   }
   if (callingOption === callingOptions.jupiter) {
-    return getJupiterAppName({
-      brandCode,
-      brandName,
-      shortBrandName,
-      fullBrandName,
-      jupiterAppName,
-    });
+    return jupiterAppName;
   }
   if (callingOption === callingOptions.ringout) {
     // Not to translate
@@ -107,16 +54,26 @@ export function getCallingOptionName({
   return i18n.getString(callingOption, currentLocale);
 }
 
-const Tooltip: FunctionComponent<TooltipProps> = ({
-  brandCode,
-  brandName,
+const CallWithSettings: FunctionComponent<CallWithProps> = ({
   callWith,
+  callWithOptions,
   currentLocale,
-  tooltipContainerRef,
-  shortBrandName,
-  fullBrandName,
+  disabled,
+  onCallWithChange,
   jupiterAppName,
+  softphoneAppName,
 }) => {
+  const tooltipContainerRef = useRef(null);
+
+  const optionRenderer = (option: string) => {
+    const optionName = getCallingOptionName({
+      callingOption: option,
+      currentLocale,
+      jupiterAppName,
+      softphoneAppName,
+    });
+    return optionName;
+  };
   const keys = [`${callWith}Tooltip`];
   if (
     callWith !== callingOptions.browser &&
@@ -127,84 +84,31 @@ const Tooltip: FunctionComponent<TooltipProps> = ({
   }
   const optionName = getCallingOptionName({
     callingOption: callWith,
-    brandCode,
-    brandName,
     currentLocale,
-    shortBrandName,
-    fullBrandName,
     jupiterAppName,
+    softphoneAppName,
   });
-  const overlay = (
-    <div>
-      {keys.map((key) => (
-        <div key={key}>
-          {formatMessage(i18n.getString(key, currentLocale), {
-            brand: optionName,
-          })}
-        </div>
-      ))}
-    </div>
-  );
-  return (
-    <TooltipBaseComp
-      placement="bottom"
-      trigger="click"
-      overlay={overlay}
-      align={{
-        offset: [0, 47],
-      }}
-      arrowContent={<div className="rc-tooltip-arrow-inner" />}
-      getTooltipContainer={() => tooltipContainerRef.current}
-    >
-      <InfoIcon width={14} height={14} className={styles.infoIcon} />
-    </TooltipBaseComp>
-  );
-};
-
-const CallWithSettings: FunctionComponent<CallWithProps> = ({
-  brandCode,
-  brandName,
-  shortBrandName,
-  fullBrandName,
-  callWith,
-  callWithOptions,
-  currentLocale,
-  disabled,
-  onCallWithChange,
-  jupiterAppName,
-}) => {
-  const tooltipContainerRef = useRef(null);
-
-  const optionRenderer = (option: string) => {
-    const optionName = getCallingOptionName({
-      callingOption: option,
-      brandCode,
-      brandName,
-      currentLocale,
-      shortBrandName,
-      fullBrandName,
-      jupiterAppName,
-    });
-    return optionName;
-  };
 
   return (
     <InputField
       label={
-        <span>
+        <span data-sign="callSettingInfo">
           {i18n.getString('makeCallsWith', currentLocale)}
           <Tooltip
-            {...{
-              brandCode,
-              brandName,
-              callWith,
-              currentLocale,
-              tooltipContainerRef,
-              shortBrandName,
-              fullBrandName,
-              jupiterAppName,
-            }}
-          />
+            title={keys.map((key) => (
+              <div key={key}>
+                {formatMessage(i18n.getString(key, currentLocale), {
+                  brand: optionName,
+                })}
+              </div>
+            ))}
+          >
+            <RcIcon
+              size="small"
+              symbol={infoSvg}
+              className={styles.tooltipIcon}
+            />
+          </Tooltip>
         </span>
       }
     >
@@ -217,6 +121,7 @@ const CallWithSettings: FunctionComponent<CallWithProps> = ({
         dropdownAlign="left"
         renderFunction={optionRenderer}
         renderValue={optionRenderer}
+        valueFunction={(option) => option}
         disabled={disabled}
         titleEnabled
       />
@@ -312,8 +217,6 @@ const RingoutSettings: FunctionComponent<RingoutSettingsProps> = ({
 };
 
 const CallingSettings: FunctionComponent<CallingSettingsProps> = ({
-  brandCode,
-  brandName,
   availableNumbersWithLabel,
   callWith,
   callWithOptions,
@@ -333,21 +236,18 @@ const CallingSettings: FunctionComponent<CallingSettingsProps> = ({
   defaultIncomingAudioFile,
   defaultOutgoingAudio,
   defaultOutgoingAudioFile,
-  shortBrandName,
-  fullBrandName,
   jupiterAppName,
+  softphoneAppName,
 }) => {
   const [callWithState, setCallWithState] = useState(callWith);
   const [ringoutPromptState, setRingoutPromptState] = useState(ringoutPrompt);
   const [myLocationState, setMyLocationState] = useState(myLocation);
   const [incomingAudioState, setIncomingAudioState] = useState(incomingAudio);
-  const [incomingAudioFileState, setIncomingAudioFileState] = useState(
-    incomingAudioFile,
-  );
+  const [incomingAudioFileState, setIncomingAudioFileState] =
+    useState(incomingAudioFile);
   const [outgoingAudioState, setOutgoingAudioState] = useState(outgoingAudio);
-  const [outgoingAudioFileState, setOutgoingAudioFileState] = useState(
-    outgoingAudioFile,
-  );
+  const [outgoingAudioFileState, setOutgoingAudioFileState] =
+    useState(outgoingAudioFile);
 
   useEffect(() => {
     setCallWithState(callWith);
@@ -370,15 +270,12 @@ const CallingSettings: FunctionComponent<CallingSettingsProps> = ({
     <>
       <CallWithSettings
         {...{
-          brandCode,
-          brandName,
           callWith: callWithState,
           jupiterAppName,
+          softphoneAppName,
           callWithOptions,
           currentLocale,
           disabled,
-          shortBrandName,
-          fullBrandName,
           onCallWithChange: (newCallWith: string) => {
             setCallWithState(newCallWith);
             if (newCallWith === callWith) {
@@ -470,29 +367,30 @@ const CallingSettings: FunctionComponent<CallingSettingsProps> = ({
   );
 };
 
-export const CallingSettingsPanel: FunctionComponent<CallingSettingsPanelProps> = ({
-  className,
-  onBackButtonClick,
-  currentLocale,
-  showSpinner = false,
-  ...props
-}) => {
-  const content = showSpinner ? (
-    <SpinnerOverlay />
-  ) : (
-    <>
-      <CallingSettings {...{ ...props, currentLocale }} />
-    </>
-  );
-  return (
-    <div
-      data-sign="callingSettings"
-      className={classnames(styles.root, className)}
-    >
-      <BackHeader onBackClick={onBackButtonClick}>
-        {i18n.getString('title', currentLocale)}
-      </BackHeader>
-      <Panel className={styles.content}>{content}</Panel>
-    </div>
-  );
-};
+export const CallingSettingsPanel: FunctionComponent<CallingSettingsPanelProps> =
+  ({
+    className,
+    onBackButtonClick,
+    currentLocale,
+    showSpinner = false,
+    ...props
+  }) => {
+    const content = showSpinner ? (
+      <SpinnerOverlay />
+    ) : (
+      <>
+        <CallingSettings {...{ ...props, currentLocale }} />
+      </>
+    );
+    return (
+      <div
+        data-sign="callingSettings"
+        className={classnames(styles.root, className)}
+      >
+        <BackHeader onBackClick={onBackButtonClick}>
+          {i18n.getString('title', currentLocale)}
+        </BackHeader>
+        <Panel className={styles.content}>{content}</Panel>
+      </div>
+    );
+  };

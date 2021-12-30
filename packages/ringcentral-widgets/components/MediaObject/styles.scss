@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 @import '../../lib/commonStyles/layout.scss';
 .media {
   // Proper spacing between instances of .media
@@ -55,11 +57,11 @@
 }
 
 .mediaRight {
-  padding-left: $container-padding-left/2;
+  padding-left: math.div($container-padding-left, 2);
 }
 
 .mediaLeft {
-  padding-right: $container-padding-right/2;
+  padding-right: math.div($container-padding-right, 2);
 }
 
 .mediaLeft,

@@ -4,7 +4,7 @@ import { render } from '@testing-library/react';
 
 type ReRender = (ui: React.ReactElement) => void;
 type Render = typeof render;
-type ReturnTypeOfRender = ReturnType<Render>;
+export type ReturnTypeOfRender = ReturnType<Render>;
 
 /**
  * Render React component with `@testing-library/react`.

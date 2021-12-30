@@ -1,11 +1,14 @@
 import React from 'react';
-import { StepFunction } from 'crius-test';
-import { RcThemeProvider } from '@ringcentral/juno';
+
 import { mount } from 'enzyme';
-import { TransferCallPanel, TransferCallPanelProps } from './TransferCallPanel';
+
+import { StepFunction } from '@ringcentral-integration/test-utils';
+import { RcThemeProvider } from '@ringcentral/juno';
+
 import { transferTypes } from '../../enums/transferTypes';
-import i18n from './i18n';
 import { EvTransferOption } from '../../interfaces';
+import i18n from './i18n';
+import { TransferCallPanel, TransferCallPanelProps } from './TransferCallPanel';
 
 const currentLocale = 'en-US';
 const defaultTransferOptions: EvTransferOption[] = [

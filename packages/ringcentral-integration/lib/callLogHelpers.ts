@@ -1,17 +1,20 @@
-import { find, isEmpty, reduce } from 'ramda';
 import moment from 'moment';
-import {
-  isValidNumber,
-  isSameLocalNumber,
-} from '@ringcentral-integration/phone-number';
+import { find, isEmpty, reduce } from 'ramda';
+
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
+import {
+  isSameLocalNumber,
+  isValidNumber,
+} from '@ringcentral-integration/phone-number';
+
 import callActions from '../enums/callActions';
 import callDirections from '../enums/callDirections';
 import callResults, { CallResultsKey } from '../enums/callResults';
 import telephonyStatuses from '../enums/telephonyStatus';
 import terminationTypes from '../enums/terminationTypes';
-import { ActiveCall } from '../interfaces/Presence.model';
 import { Call } from '../interfaces/Call.interface';
+import { ActiveCall } from '../interfaces/Presence.model';
+
 // import i18n from './i18n';
 
 /* call direction helpers */
@@ -35,14 +38,17 @@ const callResultsToMissedMap = ObjectMap.fromObject(
   reduce<string, Record<string, boolean>>(
     (result, key) => {
       const value = callResults[key as CallResultsKey];
-      result[value] = !!find((item) => item === value, [
-        callResults.missed,
-        callResults.hangUp,
-        // callResults.HangUp,
-        callResults.busy,
-        callResults.voicemail,
-        callResults.rejected,
-      ]);
+      result[value] = !!find(
+        (item) => item === value,
+        [
+          callResults.missed,
+          callResults.hangUp,
+          // callResults.HangUp,
+          callResults.busy,
+          callResults.voicemail,
+          callResults.rejected,
+        ],
+      );
       return result;
     },
     {},

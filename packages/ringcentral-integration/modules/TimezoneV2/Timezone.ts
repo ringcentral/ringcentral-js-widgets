@@ -1,14 +1,15 @@
 import {
-  GetTimezoneListResponse as ITimezoneList,
   GetTimezoneInfoResponse as ITimezone,
+  GetTimezoneListResponse as ITimezoneList,
 } from '@rc-ex/core/definitions';
 import {
   action,
+  computed,
   RcModuleV2,
   state,
   storage,
-  computed,
 } from '@ringcentral-integration/core';
+
 import { Module } from '../../lib/di';
 import proxify from '../../lib/proxy/proxify';
 import { Deps } from './Timezone.interface';
@@ -57,9 +58,10 @@ export class Timezone extends RcModuleV2<Deps> {
 
   @proxify
   protected async _initTimezones() {
-    const {
-      records = [],
-    }: ITimezoneList = await this._deps.client.dictionary().timezone().list();
+    const { records = [] }: ITimezoneList = await this._deps.client
+      .dictionary()
+      .timezone()
+      .list();
     this.updateTimezones(records);
   }
 

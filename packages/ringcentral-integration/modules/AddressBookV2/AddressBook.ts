@@ -1,5 +1,7 @@
-import { computed } from '@ringcentral-integration/core';
 import { forEach, map } from 'ramda';
+
+import { computed } from '@ringcentral-integration/core';
+
 import { availabilityTypes } from '../../enums/availabilityTypes';
 import { phoneSources } from '../../enums/phoneSources';
 import { ContactModel, ContactSource } from '../../interfaces/Contact.model';
@@ -34,7 +36,8 @@ export const DEFAULT_CONTACTS_PER_PAGE = 250;
 })
 export class AddressBook
   extends DataFetcherV2Consumer<Deps, AddressBookData>
-  implements ContactSource {
+  implements ContactSource
+{
   constructor(deps: Deps) {
     super({
       deps,

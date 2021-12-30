@@ -1,10 +1,10 @@
-import {
-  RcModuleV2,
-  storage,
-  action,
-  state,
-} from '@ringcentral-integration/core';
 import { Module } from '@ringcentral-integration/commons/lib/di';
+import {
+  action,
+  RcModuleV2,
+  state,
+  storage,
+} from '@ringcentral-integration/core';
 
 import { tabManagerEvents } from '../../enums';
 import {
@@ -29,7 +29,8 @@ import { ActiveCallControl, Deps } from './EvActiveCallControl.interface';
 })
 class EvActiveCallControl
   extends RcModuleV2<Deps>
-  implements ActiveCallControl {
+  implements ActiveCallControl
+{
   get tabManagerEnabled() {
     return this._deps.tabManager?.enable;
   }

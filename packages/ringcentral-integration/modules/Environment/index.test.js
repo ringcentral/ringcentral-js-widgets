@@ -1,9 +1,10 @@
 import { expect } from 'chai';
-import sinon from 'sinon';
 import { createStore } from 'redux';
-import Environment from './index';
-import getEnvironmentReducer from './getEnvironmentReducer';
+import sinon from 'sinon';
+
 import actionTypes from './actionTypes';
+import getEnvironmentReducer from './getEnvironmentReducer';
+import Environment from './index';
 
 describe('Environment Unit Test', () => {
   let environment;

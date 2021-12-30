@@ -1,4 +1,5 @@
-import { RcModuleV2, watchEffect } from '@ringcentral-integration/core';
+import { RcModuleV2, watch } from '@ringcentral-integration/core';
+
 import { permissionsMessages } from '../../enums/permissionsMessages';
 import { Module } from '../../lib/di';
 import { loginStatus } from '../AuthV2/loginStatus';
@@ -34,7 +35,7 @@ export class TierChecker extends RcModuleV2<Deps> {
   }
 
   onInitOnce() {
-    watchEffect(
+    watch(
       this,
       () => [
         this.ready,
@@ -50,6 +51,9 @@ export class TierChecker extends RcModuleV2<Deps> {
             ttl: 0,
           });
         }
+      },
+      {
+        multiple: true,
       },
     );
   }

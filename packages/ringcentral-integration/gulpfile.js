@@ -1,13 +1,14 @@
-import gulp from 'gulp';
-import mocha from 'gulp-mocha';
-import istanbul from 'gulp-istanbul';
 import babelIstanbul from 'babel-istanbul';
-import yargs from 'yargs';
-import path from 'path';
-import fs from 'fs-extra';
-import babel from 'gulp-babel';
-import sourcemaps from 'gulp-sourcemaps';
 import cp from 'child_process';
+import fs from 'fs-extra';
+import gulp from 'gulp';
+import babel from 'gulp-babel';
+import istanbul from 'gulp-istanbul';
+import mocha from 'gulp-mocha';
+import sourcemaps from 'gulp-sourcemaps';
+import path from 'path';
+import yargs from 'yargs';
+
 import transformLoader from '@ringcentral-integration/locale-loader/lib/transformLoader';
 import localeSettings from '@ringcentral-integration/locale-settings';
 
@@ -75,7 +76,7 @@ function runTest() {
     .src(getTestSources())
     .pipe(
       mocha({
-        require: ['integration-test/setup.js'],
+        require: ['integration-test/setup.ts'],
         timeout: TIMEOUT,
         compilers: 'js:@ringcentral-integration/babel-settings/lib/register',
       }),
@@ -88,7 +89,7 @@ export const test = gulp.series(preCoverage, runTest);
 export function quickTest() {
   return gulp.src(getTestSources()).pipe(
     mocha({
-      require: ['integration-test/setup.js'],
+      require: ['integration-test/setup.ts'],
       timeout: TIMEOUT,
       compilers: 'js:@ringcentral-integration/babel-settings/lib/register',
     }),

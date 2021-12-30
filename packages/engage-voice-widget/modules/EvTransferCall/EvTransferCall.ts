@@ -1,3 +1,7 @@
+import { alpha3ToAlpha2 } from 'i18n-iso-countries';
+
+import { Module } from '@ringcentral-integration/commons/lib/di';
+import callErrors from '@ringcentral-integration/commons/modules/Call/callErrors';
 import {
   action,
   computed,
@@ -6,15 +10,12 @@ import {
   storage,
 } from '@ringcentral-integration/core';
 import { format, formatTypes } from '@ringcentral-integration/phone-number';
-import { alpha3ToAlpha2 } from 'i18n-iso-countries';
-import { Module } from '@ringcentral-integration/commons/lib/di';
-import callErrors from '@ringcentral-integration/commons/modules/Call/callErrors';
 
 import {
-  DirectTransferNotificationTypes,
   directTransferNotificationTypes,
-  DirectTransferStatues,
+  DirectTransferNotificationTypes,
   directTransferStatues,
+  DirectTransferStatues,
   directTransferTypes,
   EvTransferType,
   messageTypes,
@@ -293,9 +294,8 @@ class EvTransferCall extends RcModuleV2<Deps> implements TransferCall {
     this._deps.evSubscription.subscribe(
       EvCallbackTypes.DIRECT_AGENT_TRANSFER,
       (data) => {
-        const internalTransferCallback = this._internalTransferCallbacks[
-          data.type
-        ];
+        const internalTransferCallback =
+          this._internalTransferCallbacks[data.type];
         if (
           data.status === directTransferStatues.ACCEPTED &&
           data.type === directTransferTypes.WARM
@@ -307,10 +307,12 @@ class EvTransferCall extends RcModuleV2<Deps> implements TransferCall {
           return;
         }
         if (
-          ([
-            directTransferStatues.REJECTED,
-            directTransferStatues.SUCCEEDED,
-          ] as DirectTransferStatues[]).includes(data.status) &&
+          (
+            [
+              directTransferStatues.REJECTED,
+              directTransferStatues.SUCCEEDED,
+            ] as DirectTransferStatues[]
+          ).includes(data.status) &&
           data.type === directTransferTypes.WARM
         ) {
           this.setCancelableTransfer(false);
@@ -347,8 +349,8 @@ class EvTransferCall extends RcModuleV2<Deps> implements TransferCall {
       },
     );
 
-    this.onTransferStart(() => {
-      this._transferNotificationId = this._deps.alert.info({
+    this.onTransferStart(async () => {
+      this._transferNotificationId = await this._deps.alert.info({
         message: transferEvents.START,
         loading: true,
         backdrop: true,
@@ -568,9 +570,8 @@ class EvTransferCall extends RcModuleV2<Deps> implements TransferCall {
         data: `Abnormal Transfer: this.transferPhoneBookSelected -> ${this.transferPhoneBookSelectedIndex}`,
       });
     }
-    const transferPhoneBookSelected = this.transferPhoneBook[
-      this.transferPhoneBookSelectedIndex
-    ];
+    const transferPhoneBookSelected =
+      this.transferPhoneBook[this.transferPhoneBookSelectedIndex];
     checkCountryCode(transferPhoneBookSelected.destination);
     const toNumber = parseNumber(transferPhoneBookSelected.destination);
     return { toNumber, countryId: transferPhoneBookSelected.countryId };
@@ -600,20 +601,23 @@ class EvTransferCall extends RcModuleV2<Deps> implements TransferCall {
       }
       await this._eventEmitter.asyncEmit(transferEvents.SUCCESS);
     } catch (e) {
-      switch (e.type) {
-        case messageTypes.NO_SUPPORT_COUNTRY:
-          return this._deps.alert.danger({
-            message: messageTypes.NO_SUPPORT_COUNTRY,
-            ttl: 0,
-          });
-        case messageTypes.INVALID_NUMBER:
-          return this._deps.alert.danger({
-            message: callErrors.noToNumber,
-          });
-        default:
-          await this._eventEmitter.asyncEmit(transferEvents.ERROR, e);
-          throw e;
+      if (e instanceof EvTypeError) {
+        switch (e.type) {
+          case messageTypes.NO_SUPPORT_COUNTRY:
+            return this._deps.alert.danger({
+              message: messageTypes.NO_SUPPORT_COUNTRY,
+              ttl: 0,
+            });
+          case messageTypes.INVALID_NUMBER:
+            return this._deps.alert.danger({
+              message: callErrors.noToNumber,
+            });
+          default:
+            break;
+        }
       }
+      await this._eventEmitter.asyncEmit(transferEvents.ERROR, e);
+      throw e;
     } finally {
       this.setTransferStatus(transferStatuses.idle);
       await this._eventEmitter.asyncEmit(transferEvents.END);
@@ -721,7 +725,7 @@ class EvTransferCall extends RcModuleV2<Deps> implements TransferCall {
       onConfirm: () => {
         this.sendVoicemailToAgent();
       },
-      size: 'xsmall',
+      childrenSize: 'small',
     });
   }
 
@@ -762,7 +766,7 @@ class EvTransferCall extends RcModuleV2<Deps> implements TransferCall {
       onCancel: () => {
         this.rejectTransferCall();
       },
-      size: 'xsmall',
+      childrenSize: 'small',
     });
   }
 }

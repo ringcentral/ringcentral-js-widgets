@@ -1,6 +1,7 @@
-import { RcModuleV2 } from '@ringcentral-integration/core';
 import { EventEmitter } from 'events';
+
 import { Module } from '@ringcentral-integration/commons/lib/di';
+import { RcModuleV2 } from '@ringcentral-integration/core';
 
 import {
   EvClientCallBackValueType,
@@ -30,7 +31,7 @@ class EvSubscription extends RcModuleV2<Deps> implements Subscription {
 
   subscribe<
     T extends EvClientCallBackValueType,
-    K extends EvClientCallMapping[T]
+    K extends EvClientCallMapping[T],
   >(event: T, listener: (data?: K) => any) {
     if (!this._deps.evClient.getEventCallback(event)) {
       this._deps.evClient.on(event, (...args: any[]) => {

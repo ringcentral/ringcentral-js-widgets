@@ -29,4 +29,4 @@ function parseNumber({
   };
 }
 
-export { parseNumber, parseNumber as default };
+export { parseNumber as default, parseNumber };

@@ -5,4 +5,4 @@ const CallsListPage = connectModule((phone) => phone.callsListUI)(
   CallsListPanel,
 );
 
-export { CallsListPage, CallsListPage as default };
+export { CallsListPage as default, CallsListPage };

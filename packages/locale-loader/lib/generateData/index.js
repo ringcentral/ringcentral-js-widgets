@@ -30,7 +30,7 @@ export function generateJsonData({
   localeData,
   sourceFolder,
   sourceLocale,
-  supportedLocales,
+  translationLocales,
 }) {
   return reduce(
     (result, folderPath) => {
@@ -59,7 +59,7 @@ export function generateJsonData({
               sourceFile.data,
             );
           }
-        }, supportedLocales);
+        }, translationLocales);
       }
       return result;
     },
@@ -69,7 +69,7 @@ export function generateJsonData({
         return acc;
       },
       {},
-      supportedLocales,
+      translationLocales,
     ),
     Object.keys(localeData),
   );
@@ -78,14 +78,14 @@ export function generateJsonData({
 export function generateXlfData({
   localeData,
   sourceLocale,
-  supportedLocales,
+  translationLocales,
   sourceFolder,
   exportType,
   fillEmptyWithSource,
 }) {
   const isFull = exportType.toLowerCase() === 'full';
   const onlyTranslated = exportType.toLowerCase() === 'translated';
-  const allLocales = supportedLocales.filter(
+  const allLocales = translationLocales.filter(
     (locale) => locale !== sourceLocale,
   );
 
@@ -184,7 +184,7 @@ export function generateXlfData({
               result[locale].xliff.file.push(unit);
             }
           }
-        }, supportedLocales);
+        }, translationLocales);
       }
       return result;
     },

@@ -1,12 +1,12 @@
+import callDirections from '../../enums/callDirections';
+import { camelize } from '../../lib/di/utils/utils';
 import { recordStatus } from './recordStatus';
 import { sessionStatus } from './sessionStatus';
-import { camelize } from '../../lib/di/utils/utils';
-import callDirections from '../../enums/callDirections';
 import {
+  NormalizedSession,
+  PartyData,
   WebphoneSession,
   WebphoneSessionRequestHeaders,
-  PartyData,
-  NormalizedSession,
 } from './Webphone.interface';
 
 let environment: Window & typeof globalThis;

@@ -1,9 +1,10 @@
 import { expect } from 'chai';
-import sinon from 'sinon';
 import { createStore } from 'redux';
-import CallHistory from './index';
-import getCallHistoryReducer from './getCallHistoryReducer';
+import sinon from 'sinon';
+
 import actionTypes from './actionTypes';
+import getCallHistoryReducer from './getCallHistoryReducer';
+import CallHistory from './index';
 
 describe('CallHistory Unit Test', () => {
   let callHistory;

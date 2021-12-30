@@ -16,7 +16,7 @@
   "private": false,
   "dependencies": {
     "libphonenumber-js": "^1.7.29",
-    "ramda": "^0.27.0"
+    "ramda": "^0.27.1"
   },
   "peerDependencies": {},
   "devDependencies": {
@@ -33,7 +33,7 @@
     "gulp": "gulp --require @ringcentral-integration/babel-settings/lib/register.js",
     "build": "yarn gulp build",
     "release": "yarn gulp release",
-    "test": "jest",
+    "test": "yarn run-test --ci",
     "watch": "jest --watch"
   },
   "jest": {

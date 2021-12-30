@@ -1,3 +1,6 @@
+import { EventEmitter } from 'events';
+import { filter, find, is, map, values } from 'ramda';
+
 import {
   action,
   computed,
@@ -5,10 +8,10 @@ import {
   state,
   track,
 } from '@ringcentral-integration/core';
-import { EventEmitter } from 'events';
-import { filter, find, is, map, values } from 'ramda';
+
 import callDirections from '../../enums/callDirections';
 import calleeTypes from '../../enums/calleeTypes';
+import { permissionsMessages } from '../../enums/permissionsMessages';
 import {
   NormalizedSession,
   WebphoneSession,
@@ -17,7 +20,6 @@ import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
 import { trackEvents } from '../Analytics';
 import callingModes from '../CallingSettings/callingModes';
-import { permissionsMessages } from '../../enums/permissionsMessages';
 import sessionStatusEnum from '../Webphone/sessionStatus';
 import { isConferenceSession, isRecording } from '../Webphone/webphoneHelper';
 import {
@@ -520,7 +522,9 @@ export class ConferenceCall extends RcModuleV2<Deps> {
 
     return ascendSortParties(conferenceData.conference.parties)
       .reduce((accum, party, idx) => {
-        if (party.status.code.toLowerCase() !== partyStatusCode.disconnected) {
+        if (
+          party?.status?.code.toLowerCase() !== partyStatusCode.disconnected
+        ) {
           // 0 position is the host
           accum.push({ idx, party });
         }
@@ -539,7 +543,7 @@ export class ConferenceCall extends RcModuleV2<Deps> {
       return null;
     }
     return filter(
-      (p) => p.status.code.toLowerCase() !== partyStatusCode.disconnected,
+      (p) => p?.status?.code?.toLowerCase() !== partyStatusCode.disconnected,
       conferenceData.conference.parties,
     );
   }
@@ -602,7 +606,7 @@ export class ConferenceCall extends RcModuleV2<Deps> {
     return timeout;
   }
 
-  onMergeSuccess(func: (...args: any[]) => void, isOnce: boolean) {
+  onMergeSuccess(func: (...args: any[]) => void, isOnce?: boolean) {
     if (isOnce) {
       this._eventEmitter.once(mergeEvents.mergeSucceeded, func);
       return;
@@ -953,9 +957,8 @@ export class ConferenceCall extends RcModuleV2<Deps> {
       sessionStatus = fromSession.callStatus;
       matchedContact = fromSession.contactMatch;
       if (!matchedContact && this._deps.contactMatcher) {
-        const nameMatches = this._deps.contactMatcher.dataMapping[
-          sessionNumber
-        ];
+        const nameMatches =
+          this._deps.contactMatcher.dataMapping[sessionNumber];
         if (nameMatches && nameMatches.length) {
           matchedContact = nameMatches[0];
         }

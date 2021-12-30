@@ -1,13 +1,15 @@
 import {
   action,
   computed,
+  globalStorage,
   RcModuleV2,
   state,
-  storage,
   watch,
 } from '@ringcentral-integration/core';
+import type { RcTheme } from '@ringcentral/juno';
 
 import { Module } from '../../lib/di';
+import { CssModuleVariable } from '../Brand/BrandConfig.interface';
 import { defaultCssVariable } from './defaultCssVariable';
 import { Deps } from './Theme.interface';
 
@@ -23,7 +25,7 @@ export class Theme extends RcModuleV2<Deps> {
     });
   }
 
-  @storage
+  @globalStorage
   @state
   themeType: string = '';
 
@@ -33,20 +35,30 @@ export class Theme extends RcModuleV2<Deps> {
   }
 
   onInitOnce() {
-    // only watch config defaultTheme when first time init app.
-    if (this.themeType === '') {
-      watch(
-        this,
-        () => this._deps.brand.brandConfig.theme?.defaultTheme,
-        (newValue) => {
-          this.setThemeType(newValue);
-        },
-      );
+    const defaultThemeType = this._deps.brand.brandConfig.theme?.defaultTheme;
+    if (defaultThemeType) {
+      this.setThemeType(defaultThemeType);
     }
+
+    watch(
+      this,
+      () => this._deps.brand.brandConfig.theme,
+      (newValue) => {
+        const newDefaultThemeType = newValue?.defaultTheme;
+
+        if (newDefaultThemeType && newDefaultThemeType !== this.themeType) {
+          this.setThemeType(newValue.defaultTheme);
+        }
+      },
+    );
   }
 
   get theme() {
-    return this._deps.brand.brandConfig.theme?.themeMap?.[this.themeType];
+    const curr = this._deps.brand.brandConfig.theme?.themeMap?.[
+      this.themeType
+    ] as any;
+
+    return curr as RcTheme;
   }
 
   @computed((that: Theme) => [that._deps.brand.brandConfig.theme?.variable])
@@ -54,6 +66,6 @@ export class Theme extends RcModuleV2<Deps> {
     return {
       ...defaultCssVariable,
       ...this._deps.brand.brandConfig.theme?.variable,
-    };
+    } as CssModuleVariable;
   }
 }

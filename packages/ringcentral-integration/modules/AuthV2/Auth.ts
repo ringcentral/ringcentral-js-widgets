@@ -1,3 +1,5 @@
+import url from 'url';
+
 import { GetExtensionInfoResponse } from '@rc-ex/core/definitions';
 import {
   action,
@@ -5,7 +7,7 @@ import {
   state,
   track,
 } from '@ringcentral-integration/core';
-import url from 'url';
+
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
 import validateIsOffline from '../../lib/validateIsOffline';

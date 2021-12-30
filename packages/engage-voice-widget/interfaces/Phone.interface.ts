@@ -1,5 +1,5 @@
-import { RcModulePhoneType } from '@ringcentral-integration/core';
 import { BasePhone } from '@ringcentral-integration/commons/interfaces/BasePhone.interface';
+import { RcModulePhoneType } from '@ringcentral-integration/core';
 import LoginUI from '@ringcentral-integration/widgets/modules/LoginUI';
 
 import { EvClient } from '../lib/EvClient';
@@ -12,6 +12,7 @@ import { EvAgentSessionUI } from '../modules/EvAgentSessionUI';
 import { EvAuth } from '../modules/EvAuth';
 import { EvCall } from '../modules/EvCall';
 import { EvCallMonitor } from '../modules/EvCallMonitor';
+import { EvChooseAccountUI } from '../modules/EvChooseAccountUI';
 import { EvDialerUI } from '../modules/EvDialerUI';
 import { EvIntegratedSoftphone } from '../modules/EvIntegratedSoftphone';
 import { EvManualDialSettingsUI } from '../modules/EvManualDialSettingsUI';
@@ -20,12 +21,11 @@ import { EvRequeueCall } from '../modules/EvRequeueCall';
 import { EvSettings } from '../modules/EvSettings';
 import { EvSettingsUI } from '../modules/EvSettingsUI';
 import { EvSubscription } from '../modules/EvSubscription';
+import { EvTabManager } from '../modules/EvTabManager';
 import { EvTransferCall } from '../modules/EvTransferCall';
 import { EvTransferCallUI } from '../modules/EvTransferCallUI';
 import { EvWorkingState } from '../modules/EvWorkingState';
-import { EvTabManager } from '../modules/EvTabManager';
 import { MainViewUI } from '../modules/MainViewUI';
-import { EvChooseAccountUI } from '../modules/EvChooseAccountUI';
 
 // TODO: separated UI and normal module that should just pick getUIProps, getUIFunctions in test environment.
 export type EvPhoneUI = {

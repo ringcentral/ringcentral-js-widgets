@@ -1,7 +1,9 @@
-import { action, computed, state, track } from '@ringcentral-integration/core';
-import { ObjectMapKey } from '@ringcentral-integration/core/lib/ObjectMap';
 import { filter, find } from 'ramda';
 import { InviteOptions } from 'ringcentral-web-phone/lib/userAgent';
+
+import { action, computed, state, track } from '@ringcentral-integration/core';
+import { ObjectMapKey } from '@ringcentral-integration/core/lib/ObjectMap';
+
 import callDirections from '../../enums/callDirections';
 import { extendedControlStatus } from '../../enums/extendedControlStatus';
 import {
@@ -11,7 +13,7 @@ import {
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
 import sleep from '../../lib/sleep';
-import validateNumbers from '../../lib/validateNumbers';
+import { validateNumbers } from '../../lib/validateNumbers';
 import { trackEvents } from '../Analytics';
 import { callErrors } from '../CallV2/callErrors';
 import { EVENTS } from './events';
@@ -396,11 +398,12 @@ export class Webphone extends WebphoneBase {
       let validatedResult;
       let validPhoneNumber;
       if (!this._permissionCheck) {
-        validatedResult = validateNumbers(
-          [forwardNumber],
-          this._deps.regionSettings,
-          this._deps.brand.id,
-        );
+        validatedResult = validateNumbers({
+          allowRegionSettings: this._deps.brand.brandConfig.allowRegionSettings,
+          areaCode: this._deps.regionSettings.areaCode,
+          countryCode: this._deps.regionSettings.countryCode,
+          phoneNumbers: [forwardNumber],
+        });
         validPhoneNumber = validatedResult[0];
       } else {
         validatedResult = await this._deps.numberValidate.validateNumbers([
@@ -638,11 +641,12 @@ export class Webphone extends WebphoneBase {
       let numberResult;
       let validPhoneNumber;
       if (!this._permissionCheck) {
-        numberResult = validateNumbers(
-          [transferNumber],
-          this._deps.regionSettings,
-          this._deps.brand.id,
-        );
+        numberResult = validateNumbers({
+          allowRegionSettings: this._deps.brand.brandConfig.allowRegionSettings,
+          areaCode: this._deps.regionSettings.areaCode,
+          countryCode: this._deps.regionSettings.countryCode,
+          phoneNumbers: [transferNumber],
+        });
         validPhoneNumber = numberResult && numberResult[0];
       } else {
         numberResult = await this._deps.numberValidate.validateNumbers([
@@ -688,11 +692,12 @@ export class Webphone extends WebphoneBase {
     try {
       session.__rc_isOnTransfer = true;
       this._updateSessions();
-      const numberResult = validateNumbers(
-        [transferNumber],
-        this._deps.regionSettings,
-        this._deps.brand.id,
-      );
+      const numberResult = validateNumbers({
+        allowRegionSettings: this._deps.brand.brandConfig.allowRegionSettings,
+        areaCode: this._deps.regionSettings.areaCode,
+        countryCode: this._deps.regionSettings.countryCode,
+        phoneNumbers: [transferNumber],
+      });
       const validPhoneNumber = numberResult && numberResult[0];
       const fromNumber =
         session.__rc_direction === callDirections.outbound
@@ -914,8 +919,8 @@ export class Webphone extends WebphoneBase {
     transferSessionId?: string;
   }) {
     const inviteOptions = {
-      sessionDescriptionHandlerOptions: this.acceptOptions
-        .sessionDescriptionHandlerOptions,
+      sessionDescriptionHandlerOptions:
+        this.acceptOptions.sessionDescriptionHandlerOptions,
       fromNumber,
       homeCountryId,
     };
@@ -945,8 +950,8 @@ export class Webphone extends WebphoneBase {
     const fromNumber =
       direction === callDirections.outbound ? from.phoneNumber : to.phoneNumber;
     const inviteOptions = {
-      sessionDescriptionHandlerOptions: this.acceptOptions
-        .sessionDescriptionHandlerOptions,
+      sessionDescriptionHandlerOptions:
+        this.acceptOptions.sessionDescriptionHandlerOptions,
       fromNumber,
       homeCountryId,
       extraHeaders,
@@ -1099,9 +1104,8 @@ export class Webphone extends WebphoneBase {
       return;
     }
     if (session.__rc_transferSessionId) {
-      const transferSession = this.originalSessions[
-        session.__rc_transferSessionId
-      ];
+      const transferSession =
+        this.originalSessions[session.__rc_transferSessionId];
       if (transferSession) {
         transferSession.__rc_isOnTransfer = false;
       }

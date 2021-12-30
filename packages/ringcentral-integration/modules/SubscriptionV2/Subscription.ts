@@ -1,3 +1,5 @@
+import { concat, equals, map, uniq } from 'ramda';
+
 import {
   action,
   RcModuleV2,
@@ -8,14 +10,13 @@ import { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
 import { ApiError } from '@ringcentral/sdk';
 import Subscriptions from '@ringcentral/subscriptions';
 import { SubscriptionData } from '@ringcentral/subscriptions/src/subscription/Subscription';
-import { concat, equals, map, uniq } from 'ramda';
 
 import { subscriptionFilters } from '../../enums/subscriptionFilters';
 import {
   debounce,
+  DebouncedFunction,
   promisedDebounce,
   PromisedDebounceFunction,
-  DebouncedFunction,
 } from '../../lib/debounce-throttle';
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
@@ -38,9 +39,8 @@ const SUBSCRIPTION_LOCK_KEY = 'subscription-creating-lock';
   ],
 })
 export class Subscription extends RcModuleV2<Deps> {
-  protected _subscription: ReturnType<
-    Subscriptions['createSubscription']
-  > = null;
+  protected _subscription: ReturnType<Subscriptions['createSubscription']> =
+    null;
 
   protected _retryTimeoutId: NodeJS.Timeout = null;
 

@@ -1,9 +1,10 @@
 import { GetAccountInfoResponse } from '@rc-ex/core/definitions';
 import { computed, track } from '@ringcentral-integration/core';
+
+import { permissionsMessages } from '../../enums/permissionsMessages';
 import { Module } from '../../lib/di';
 import { loginStatus } from '../AuthV2';
 import { DataFetcherV2Consumer, DataSource } from '../DataFetcherV2';
-import { permissionsMessages } from '../../enums/permissionsMessages';
 import { Deps } from './AccountInfo.interfaces';
 
 @Module({

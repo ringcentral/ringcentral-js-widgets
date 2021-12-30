@@ -1,14 +1,14 @@
-import React, { useState, memo, FunctionComponent } from 'react';
+import React, { FunctionComponent, memo, useState } from 'react';
+
 import {
-  RcIconButton,
   RcIcon,
+  RcIconButton,
   RcMenu,
   RcMenuItem,
   RcSubMenu,
 } from '@ringcentral/juno';
-import { CallLogMenuItem } from '../CallHistoryPanel.interface';
 
-import styles from './styles.scss';
+import { CallLogMenuItem } from '../CallHistoryPanel.interface';
 
 export const MenuButton: FunctionComponent<CallLogMenuItem> = memo(
   ({ icon, label, disabled, subMenu, dataSign }) => {

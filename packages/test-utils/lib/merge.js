@@ -1,7 +1,7 @@
-module.exports = function(objA, objB) {
+module.exports = function (objA, objB) {
   Object.entries(objB).forEach(([key, value]) => {
     if (Array.isArray(value)) {
-      objA[key] = [...(objA[key] || []), ...value];
+      objA[key] = [...value, ...(objA[key] || [])];
     } else if (typeof value === 'object') {
       objA[key] = { ...(objA[key] || {}), ...value };
     } else {

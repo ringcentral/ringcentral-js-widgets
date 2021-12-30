@@ -1,14 +1,15 @@
 import {
   action,
-  watch,
+  globalStorage,
   RcModuleV2,
   state,
-  globalStorage,
+  watch,
 } from '@ringcentral-integration/core';
 import { ApiError } from '@ringcentral/sdk';
+
 import { Module } from '../../lib/di';
-import { errorMessages } from './errorMessages';
 import { proxify } from '../../lib/proxy/proxify';
+import { errorMessages } from './errorMessages';
 import { Deps } from './RateLimiter.interface';
 
 const DEFAULT_THROTTLE_DURATION = 61 * 1000;

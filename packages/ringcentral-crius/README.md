@@ -8,9 +8,9 @@ Add `@ringcentral-integration/crius` to the development dependencies in the spec
 
 ## CLI
 
-- `NODE_ENV=ci`
+- `yarn run-test --ci`
 
-If `NODE_ENV` is `ci`, it will retry three times when get an error.
+If using `--ci`, it will retry three times when get an error.
 
 - `TEST_TYPE=ut` or `TEST_TYPE=it`
 

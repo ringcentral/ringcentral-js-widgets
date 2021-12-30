@@ -1,6 +1,9 @@
 import React from 'react';
-import { RcThemeProvider } from '@ringcentral/juno';
+
 import { mount } from 'enzyme';
+
+import { RcThemeProvider } from '@ringcentral/juno';
+
 import i18n from '../../modules/EvManualDialSettingsUI/i18n';
 import {
   ManualDialSettingsPanel,

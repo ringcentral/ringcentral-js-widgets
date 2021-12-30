@@ -1,4 +1,5 @@
 import * as uuid from 'uuid';
+
 import Client from '@ringcentral/sdk/lib/http/Client';
 import Platform from '@ringcentral/sdk/lib/platform/Platform';
 

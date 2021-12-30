@@ -44,4 +44,6 @@ export default {
   when: 'When',
   recurringDescribe:
     'Please remember to check recurrence or repeat in your calendar invitation to your attendees.',
+  ieSupportAlert:
+    "Please note that {appName} won't work with Internet Explorer 11 after Feb 16, 2022. We recommend switching to Microsoft Edge or updating to Outlook 2016 or above.",
 };

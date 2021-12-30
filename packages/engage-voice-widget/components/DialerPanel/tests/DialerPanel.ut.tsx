@@ -1,4 +1,4 @@
-import { StepFunction } from 'crius-test';
+import { StepFunction } from '@ringcentral-integration/test-utils';
 
 import { Dialer } from '../Dialer';
 import { createDialerPanel } from './createDialerPanel';

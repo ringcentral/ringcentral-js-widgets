@@ -11,21 +11,29 @@ const {
   argv: { file },
 } = yargs.string('file');
 
-export function devServer() {
-  const compiler = webpack(devServerConfig);
-  const server = new WebpackDevServer(compiler, {
-    contentBase: path.resolve('dev-server'),
-    publicPath: '/',
-    hot: true,
-    inline: true,
-    // noInfo: true,
+export async function devServer() {
+  const compiler = webpack({
+    ...devServerConfig,
     stats: {
       warnings: false,
       chunks: false,
       colors: true,
     },
   });
-  server.listen(port);
+  const server = new WebpackDevServer(
+    {
+      static: {
+        directory: path.resolve('dev-server'),
+      },
+      hot: true,
+      devMiddleware: {
+        publicPath: '/',
+      },
+      port,
+    },
+    compiler,
+  );
+  await server.start();
   console.log(`server listening to ${port}...`);
 }
 

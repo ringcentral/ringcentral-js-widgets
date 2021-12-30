@@ -1,18 +1,19 @@
 import { ComponentType, ReactElement } from 'react';
-import { Webphone } from '@ringcentral-integration/commons/modules/WebphoneV2';
-import { Locale } from '@ringcentral-integration/commons/modules/Locale';
-import { ContactSearch } from '@ringcentral-integration/commons/modules/ContactSearchV2';
-import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettingsV2';
-import { ForwardingNumber } from '@ringcentral-integration/commons/modules/ForwardingNumberV2';
-import { Brand } from '@ringcentral-integration/commons/modules/Brand';
-import { ExtensionInfo } from '@ringcentral-integration/commons/modules/ExtensionInfoV2';
-import { ConferenceCall } from '@ringcentral-integration/commons/modules/ConferenceCallV2';
-import { ContactMatcher } from '@ringcentral-integration/commons/modules/ContactMatcherV2';
+
+import { ForwardingNumberInfo } from '@rc-ex/core/definitions';
 import { IContact } from '@ringcentral-integration/commons/interfaces/Contact.model';
 import { Entity } from '@ringcentral-integration/commons/interfaces/Entity.interface';
 import { NormalizedSession } from '@ringcentral-integration/commons/interfaces/Webphone.interface';
-import { ForwardingNumberInfo } from '@rc-ex/core/definitions';
 import { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures';
+import { Brand } from '@ringcentral-integration/commons/modules/Brand';
+import { ConferenceCall } from '@ringcentral-integration/commons/modules/ConferenceCallV2';
+import { ContactMatcher } from '@ringcentral-integration/commons/modules/ContactMatcherV2';
+import { ContactSearch } from '@ringcentral-integration/commons/modules/ContactSearchV2';
+import { ExtensionInfo } from '@ringcentral-integration/commons/modules/ExtensionInfoV2';
+import { ForwardingNumber } from '@ringcentral-integration/commons/modules/ForwardingNumberV2';
+import { Locale } from '@ringcentral-integration/commons/modules/Locale';
+import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
+import { Webphone } from '@ringcentral-integration/commons/modules/WebphoneV2';
 
 export interface IncomingCallUIOptions {
   //

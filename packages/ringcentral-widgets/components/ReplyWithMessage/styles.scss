@@ -103,13 +103,6 @@
   display: block;
   @include secondary-font;
   font-size: 12px;
-  span {
-    margin-right: 10px;
-    cursor: pointer;
-  }
-  .timeUnitSelected {
-    color: $primary-color;
-  }
 }
 
 .timeValue {

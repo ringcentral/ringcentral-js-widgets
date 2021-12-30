@@ -1,9 +1,11 @@
 import { GetMessageInfoResponse } from '@rc-ex/core/definitions';
+
 import {
   Message,
   MessageStoreModel,
 } from '../../interfaces/MessageStore.model';
-import Alert from '../Alert';
+import { Alert } from '../AlertV2';
+import { AppFeatures } from '../AppFeatures';
 import { Auth } from '../AuthV2';
 import { AvailabilityMonitor } from '../AvailabilityMonitorV2';
 import { ConnectivityMonitor } from '../ConnectivityMonitorV2';
@@ -11,7 +13,6 @@ import {
   DataFetcherV2ConsumerBaseDeps,
   DataSourceBaseProps,
 } from '../DataFetcherV2';
-import { AppFeatures } from '../AppFeatures';
 import { Subscription } from '../SubscriptionV2';
 import { TabManager } from '../TabManager';
 

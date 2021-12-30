@@ -1,9 +1,10 @@
-import { RcIconButton, RcText } from '@ringcentral/juno';
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import sleep from '@ringcentral-integration/commons/lib/sleep';
 
-import i18n from '../i18n';
+import sleep from '@ringcentral-integration/commons/lib/sleep';
+import { RcIconButton, RcText } from '@ringcentral/juno';
+
 import { CallButtonsProps } from '../../SmallCallControl';
+import i18n from '../i18n';
 
 type CountDownProps = {
   data: number;

@@ -1,5 +1,5 @@
-import { forEachObjIndexed } from 'ramda';
 import { Transport } from 'data-transport';
+import { forEachObjIndexed } from 'ramda';
 
 export * from 'data-transport';
 
@@ -65,10 +65,12 @@ const bindListeners = (instance: object, transport: Transport<any, any>) => {
     (func, name) => {
       transport.listen(name, func.bind(instance));
     },
-    (instance as {
-      listeners?: Record<string, (...args: any) => any>;
-    }).listeners ?? {},
+    (
+      instance as {
+        listeners?: Record<string, (...args: any) => any>;
+      }
+    ).listeners ?? {},
   );
 };
 
-export { listen, bindListeners };
+export { bindListeners, listen };

@@ -1,5 +1,6 @@
-import { action, RcModuleV2, state } from '@ringcentral-integration/core';
 import { EventEmitter } from 'events';
+
+import { action, RcModuleV2, state } from '@ringcentral-integration/core';
 
 import { RcVideoAPI, RcVMeetingModel } from '../../interfaces/Rcv.model';
 import background from '../../lib/background';
@@ -42,10 +43,10 @@ export class GenericMeeting<T = {}> extends RcModuleV2<Deps & T> {
   }
 
   @state
-  updatingStatus: string = null;
+  updatingStatus = genericMeetingStatus.idle;
 
   @action
-  setUpdatingStatus(status: string) {
+  setMeetingUpdatingStatus(status: string) {
     this.updatingStatus = status;
   }
 
@@ -65,24 +66,28 @@ export class GenericMeeting<T = {}> extends RcModuleV2<Deps & T> {
   }
 
   @proxify
+  async turnOnE2ee() {
+    if (this.isRCM) {
+      return;
+    }
+    await (this._meetingModule as RcVideo).turnOnE2ee();
+  }
+
+  @proxify
   async updateScheduleFor(userExtensionId: string | number) {
     if (!this._meetingModule.updateScheduleFor) {
       return;
     }
-
-    this.setUpdatingStatus(genericMeetingStatus.updating);
-
+    this.setUpdatingStatus();
     if (this.isRCM) {
       await (this._meetingModule as Meeting).updateScheduleFor(userExtensionId);
     } else if (this.isRCV) {
-      await (this._meetingModule as RcVideo).updateScheduleFor(
-        userExtensionId as string,
-      );
+      await (this._meetingModule as RcVideo).updateScheduleFor(userExtensionId);
     } else {
       console.error('Unknown meeting provider, please check module runtime');
       return;
     }
-    this.setUpdatingStatus(genericMeetingStatus.updated);
+    this.setIdleStatus();
   }
 
   @proxify
@@ -100,7 +105,7 @@ export class GenericMeeting<T = {}> extends RcModuleV2<Deps & T> {
 
   @proxify
   async schedule(
-    meeting: ScheduleModel,
+    meeting?: ScheduleModel,
     config?: { isAlertSuccess?: boolean },
     opener?: Window,
   ) {
@@ -208,7 +213,7 @@ export class GenericMeeting<T = {}> extends RcModuleV2<Deps & T> {
 
   updateHasSettingsChanged(isChanged: boolean) {
     if (this.isRCM) {
-      // rcm doedn't support update disabled status yet
+      // rcm doesn't support update disabled status yet
       return;
     }
     return (
@@ -242,6 +247,18 @@ export class GenericMeeting<T = {}> extends RcModuleV2<Deps & T> {
         !this._deps.videoConfiguration.provider ||
         (this._meetingModule && !this._meetingModule.ready))
     );
+  }
+
+  setUpdatingStatus() {
+    this.setMeetingUpdatingStatus(genericMeetingStatus.updating);
+  }
+
+  setIdleStatus() {
+    this.setMeetingUpdatingStatus(genericMeetingStatus.idle);
+  }
+
+  setUpdatedStatus() {
+    this.setMeetingUpdatingStatus(genericMeetingStatus.updated);
   }
 
   get meetingProviderType() {

@@ -1,4 +1,5 @@
 import { RcModuleV2 } from '@ringcentral-integration/core';
+
 import { Module } from '../../lib/di';
 import getIntlDateTimeFormatter, {
   DateTimeFormatter,

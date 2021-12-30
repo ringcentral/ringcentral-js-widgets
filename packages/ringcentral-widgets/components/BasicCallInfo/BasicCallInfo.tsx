@@ -1,13 +1,17 @@
-import { RcIconButton } from '@ringcentral/juno';
-import chevronLeftSvg from '@ringcentral/juno/icon/ChevronLeft';
-import chevronRight from '@ringcentral/juno/icon/ChevronRight';
-import classNames from 'classnames';
 import React, {
   FunctionComponent,
   MutableRefObject,
   useEffect,
   useState,
 } from 'react';
+
+import classNames from 'classnames';
+
+import { RcIconButton, px } from '@ringcentral/juno';
+import {
+  ChevronLeft as chevronLeftSvg,
+  ChevronRight as chevronRight,
+} from '@ringcentral/juno/icon';
 
 import { AnimationPanel } from '../AnimationPanel';
 import { ShinyBar, ShinyBarProps } from '../LogBasicInfoV2/ShinyBar';
@@ -25,6 +29,9 @@ export type BasicCallInfoProps = {
   onCopySuccess?: (name: string) => void;
 } & Pick<ShinyBarProps, 'status'> &
   Pick<BasicCallInfoMainProps, 'isInbound' | 'subject' | 'followInfos'>;
+
+export const KeyPadHeight = 32;
+export const SubmitButtonHeight = 60;
 
 export const BasicCallInfo: FunctionComponent<BasicCallInfoProps> = ({
   subject,
@@ -44,9 +51,17 @@ export const BasicCallInfo: FunctionComponent<BasicCallInfoProps> = ({
 
   useEffect(() => {
     if (callControlRef?.current) {
-      setPanelHeight(`calc(100% - ${callControlRef.current.clientHeight}px)`);
+      setPanelHeight(
+        `calc(100% - ${px(
+          callControlRef.current.clientHeight + KeyPadHeight,
+        )})`,
+      );
     }
-  }, [callControlRef, status]);
+
+    if (status === 'callEnd') {
+      setPanelHeight(`calc(100% - ${px(SubmitButtonHeight)})`);
+    }
+  }, [status, callControlRef]);
 
   // when ringing state change, close that info view
   useEffect(() => {

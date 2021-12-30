@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+
 import Subscribable from '.';
 
 describe('Subscribable', () => {

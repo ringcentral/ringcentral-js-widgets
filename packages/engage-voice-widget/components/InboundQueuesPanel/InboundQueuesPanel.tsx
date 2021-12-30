@@ -1,6 +1,8 @@
-import { RcButton, RcCheckbox, RcListItem } from '@ringcentral/juno';
-import formatMessage from 'format-message';
 import React, { FunctionComponent, useState } from 'react';
+
+import formatMessage from 'format-message';
+
+import { RcButton, RcCheckbox, RcListItem } from '@ringcentral/juno';
 
 import {
   AvailableQueue,
@@ -41,9 +43,8 @@ const InboundQueuesPanel: FunctionComponent<InboundQueuesPanelProps> = ({
   allCheckBoxOnChange,
   goBack,
 }) => {
-  const [inboundQueuesState, setInboundQueuesState] = useState(
-    inboundQueueSource,
-  );
+  const [inboundQueuesState, setInboundQueuesState] =
+    useState(inboundQueueSource);
 
   const assignedInboundQueues = getAssignedInboundQueues(inboundQueuesState);
   const assignedInboundQueuesNumber = assignedInboundQueues.length;

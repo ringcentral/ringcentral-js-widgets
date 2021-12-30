@@ -1,5 +1,7 @@
 import { WebPhoneSession as WebphoneSessionBase } from 'ringcentral-web-phone/lib/session';
+
 import { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
+
 import { extendedControlStatus } from '../enums/extendedControlStatus';
 import { Entity } from './Entity.interface';
 

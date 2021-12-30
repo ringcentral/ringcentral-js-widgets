@@ -1,8 +1,9 @@
 import 'react-widgets/dist/css/react-widgets.css';
 
+import React, { FunctionComponent } from 'react';
+
 import classnames from 'classnames';
 import Moment from 'moment';
-import React, { FunctionComponent } from 'react';
 import DateTimePicker from 'react-widgets/lib/DateTimePicker';
 
 import DateIcon from '../../assets/images/Date.svg';
@@ -298,9 +299,7 @@ const MeetingDate: FunctionComponent<MeetingDateProps> = ({
               />
               {useTimePicker && (
                 <div className={styles.colon}>
-                  {Moment(meeting.schedule.startTime)
-                    .locale('en')
-                    .format('A')}
+                  {Moment(meeting.schedule.startTime).locale('en').format('A')}
                 </div>
               )}
             </div>

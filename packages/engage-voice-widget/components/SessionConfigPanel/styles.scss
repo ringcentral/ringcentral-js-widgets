@@ -12,10 +12,6 @@
     padding: 20px 0;
   }
 
-  .goBackBg {
-    background: rc-palette('neutral', 'b03');
-  }
-
   .hideGoBack {
     visibility: hidden;
   }
@@ -48,17 +44,5 @@
   button.configureButton {
     margin-top: 14px;
     width: calc(100% - 32px);
-  }
-
-  .backText {
-    color: rc-palette('interactive', 'f01');
-  }
-
-  .accountName {
-    color: rc-palette('neutral', 'f06');
-  }
-
-  .agentType {
-    color: rc-palette('neutral', 'f04');
   }
 }

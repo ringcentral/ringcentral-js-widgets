@@ -1,5 +1,6 @@
-import { AddressBookSync } from '@rc-ex/core/definitions';
 import { forEach } from 'ramda';
+
+import { AddressBookSync } from '@rc-ex/core/definitions';
 
 import { syncTypes } from '../../enums/syncTypes';
 import { SyncParameters } from './AddressBook.interface';

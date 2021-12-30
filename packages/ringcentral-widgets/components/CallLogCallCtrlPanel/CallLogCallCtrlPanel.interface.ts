@@ -1,8 +1,8 @@
+import { ForwardingNumberInfo } from '@rc-ex/core/definitions';
 import {
   ActiveCallControl,
   ActiveSession,
 } from '@ringcentral-integration/commons/modules/ActiveCallControlV2';
-import { ForwardingNumberInfo } from '@rc-ex/core/definitions';
 
 export interface CallLogCallCtrlPanelProps {
   currentLocale?: string;

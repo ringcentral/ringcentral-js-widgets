@@ -1,14 +1,17 @@
 import React from 'react';
+
+import { mount } from 'enzyme';
+
 import { RcThemeProvider } from '@ringcentral/juno';
 import { RcAccordion } from '@ringcentral/juno/components/Accordion';
 import { RcAccordionSummary } from '@ringcentral/juno/components/Accordion/AccordionSummary';
-import { mount } from 'enzyme';
+
+import { EvCallData, EvCurrentLog, EvIvrData } from '../../interfaces';
+import i18n from '../SmallCallControl/i18n';
 import {
   ActivityCallLogPanel,
   ActivityCallLogPanelProps,
 } from './ActivityCallLogPanel';
-import i18n from '../SmallCallControl/i18n';
-import { EvCallData, EvCurrentLog, EvIvrData } from '../../interfaces';
 
 let wrapper;
 const currentLocale = 'en-US';

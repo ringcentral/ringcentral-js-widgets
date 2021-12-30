@@ -1,15 +1,16 @@
+import { action, RcModuleV2, state } from '@ringcentral-integration/core';
 import {
   autorun,
-  title,
-  Scenario,
   Given,
-  When,
-  Then,
+  Scenario,
   Step,
+  Then,
+  title,
+  When,
 } from '@ringcentral-integration/test-utils';
-import { RcModuleV2, state, action } from '@ringcentral-integration/core';
-import { Module, ModuleFactory } from '../../lib/di';
+
 import { createApp } from '../../lib/createApp';
+import { Module, ModuleFactory } from '../../lib/di';
 import sleep from '../../lib/sleep';
 
 @autorun(test)

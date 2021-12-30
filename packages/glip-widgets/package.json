@@ -51,7 +51,7 @@
     "classnames": "^2.2.5",
     "immutable": "^3.7.4",
     "prop-types": "^15.7.2",
-    "ramda": "^0.27.0",
+    "ramda": "^0.27.1",
     "rc-editor-mention": "^1.1.13",
     "react-emojione": "^5.0.0",
     "react-markdown": "^3.1.4",

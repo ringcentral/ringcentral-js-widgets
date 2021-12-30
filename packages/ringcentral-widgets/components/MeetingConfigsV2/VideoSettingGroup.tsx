@@ -1,9 +1,11 @@
-import React from 'react';
-import { RcIconButton, RcFormGroup } from '@ringcentral/juno';
+import React, { FunctionComponent } from 'react';
+
+import { RcFormGroup } from '@ringcentral/juno';
 import { RcAccordion } from '@ringcentral/juno/components/Accordion';
 import { RcAccordionDetails } from '@ringcentral/juno/components/Accordion/AccordionDetails';
 import { RcAccordionSummary } from '@ringcentral/juno/components/Accordion/AccordionSummary';
-import arrowDownSvg from '@ringcentral/juno/icon/ArrowDown2';
+import { ArrowDown2 as arrowDownSvg } from '@ringcentral/juno/icon';
+
 import styles from './styles.scss';
 
 interface VideoSettingGroupProps {
@@ -13,7 +15,7 @@ interface VideoSettingGroupProps {
   defaultExpanded?: boolean;
 }
 
-export const VideoSettingGroup: React.FunctionComponent<VideoSettingGroupProps> = ({
+export const VideoSettingGroup: FunctionComponent<VideoSettingGroupProps> = ({
   dataSign,
   summary,
   expandable,

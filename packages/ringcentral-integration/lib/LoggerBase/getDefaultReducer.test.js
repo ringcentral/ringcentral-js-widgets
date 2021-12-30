@@ -1,8 +1,8 @@
 import { expect } from 'chai';
 
+import getModuleStatusReducer from '../getModuleStatusReducer';
 import actionTypes from './baseActionTypes';
 import getDefaultReducer, { getLoggingListReducer } from './getDefaultReducer';
-import getModuleStatusReducer from '../getModuleStatusReducer';
 
 describe('getLoggingListReducer', () => {
   it('should be a function', () => {

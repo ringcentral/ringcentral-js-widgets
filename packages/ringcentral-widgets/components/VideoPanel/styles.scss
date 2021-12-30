@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 @import '../../lib/commonStyles/colors';
 @import '../../lib/commonStyles/buttons';
 @import '../../lib/commonStyles/fonts';
@@ -48,7 +50,7 @@ $hour-minute-space: 12px;
 .hourDuration,
 .datePicker {
   display: inline-flex;
-  width: calc(50% - #{$hour-minute-space / 2});
+  width: calc(50% - #{math.div($hour-minute-space, 2)});
 
   div[class*='selectMenu'] {
     @extend .normalFontSize;
@@ -57,7 +59,7 @@ $hour-minute-space: 12px;
 .minuteDuration,
 .timePicker {
   display: inline-flex;
-  width: calc(50% - #{$hour-minute-space / 2});
+  width: calc(50% - #{math.div($hour-minute-space, 2)});
   margin-left: $hour-minute-space;
 
   div[class*='selectMenu'] {
@@ -193,15 +195,16 @@ $win-scroll-bar-width: 17px;
 }
 
 .lockButton {
-  color: rc-palette('neutral', 'f04');
   padding-top: 2px;
 }
-
+.normalSize {
+  font-size: 14px !important;
+}
 .pmiAlertContainer {
   margin: 4px $content-padding 8px;
   padding: 8px !important;
   & > div[class*='RcAlert-message'] {
-    font-size: 14px !important;
+    @extend .normalSize;
   }
 }
 
@@ -219,4 +222,25 @@ $win-scroll-bar-width: 17px;
   & > span {
     margin-left: 4px;
   }
+}
+
+.allowCursor {
+  pointer-events: all !important;
+}
+
+.preLine {
+  white-space: pre-line;
+}
+
+.underline {
+  text-decoration: underline !important;
+}
+
+.pmiChangeConfirmContainer {
+  margin: 4px $content-padding 8px;
+  padding: 8px 0 !important;
+}
+
+.noUnderLine {
+  text-decoration: none !important;
 }

@@ -1,15 +1,14 @@
 import { expect } from 'chai';
+
+import { phoneSources } from '../../enums/phoneSources';
+import { phoneTypes } from '../../enums/phoneTypes';
+import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
+import actionTypes from './actionTypes';
+import contactSearchStatus from './contactSearchStatus';
 import getContactSearchReducer, {
   getContactSearchStatusReducer,
   getSearchingReducer,
 } from './getContactSearchReducer';
-
-import { phoneTypes } from '../../enums/phoneTypes';
-import { phoneSources } from '../../enums/phoneSources';
-import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
-
-import actionTypes from './actionTypes';
-import contactSearchStatus from './contactSearchStatus';
 
 describe('ContactSearch :: getContactSearchStatusReducer', () => {
   it('getContactSearchStatusReducer should be a function', () => {

@@ -1,4 +1,7 @@
 import { expect } from 'chai';
+
+import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
+import actionTypes from './actionTypes';
 import {
   getCallingSettingsReducer,
   getCallWithReducer,
@@ -6,8 +9,6 @@ import {
   getRingoutPromptReducer,
   getTimestampReducer,
 } from './getCallingSettingsReducer';
-import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
-import actionTypes from './actionTypes';
 
 describe('getCallWithReducer', () => {
   it('should be a function', () => {

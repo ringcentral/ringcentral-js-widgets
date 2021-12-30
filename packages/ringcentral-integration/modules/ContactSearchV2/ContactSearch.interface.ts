@@ -51,7 +51,9 @@ export interface SearchStringOptions {
 
 export interface SearchSource {
   sourceName: string;
-  searchFn: (searchStringOptions: SearchStringOptions) => null | Entities;
+  searchFn: (
+    searchStringOptions: SearchStringOptions,
+  ) => Promise<null | Entities>;
   readyCheckFn: () => boolean;
   formatFn: (entities: Entities) => Entities;
 }

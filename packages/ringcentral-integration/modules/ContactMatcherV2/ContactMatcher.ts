@@ -1,13 +1,13 @@
+import { Entity } from '../../interfaces/Entity.interface';
+import { DataMatcher } from '../../lib/DataMatcherV2';
 import { Module } from '../../lib/di';
-import { DataMatcher, DataMatcherOptions } from '../../lib/DataMatcherV2';
 import { proxify } from '../../lib/proxy/proxify';
 import {
-  HasMatchNumberOptions,
+  Deps,
   ForceMatchBatchNumbersOptions,
   ForceMatchNumberOptions,
-  Deps,
+  HasMatchNumberOptions,
 } from './ContactMatcher.interface';
-import { Entity } from '../../interfaces/Entity.interface';
 
 @Module({
   name: 'ContactMatcher',

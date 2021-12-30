@@ -1,5 +1,5 @@
-import { computed, RcUIModuleV2 } from '@ringcentral-integration/core';
 import { Module } from '@ringcentral-integration/commons/lib/di';
+import { computed, RcUIModuleV2 } from '@ringcentral-integration/core';
 
 import { QueueLabelProps } from '../../components/ManualDialSettingsPanel/QueueLabel';
 import {
@@ -24,7 +24,8 @@ import i18n from './i18n';
 })
 class EvManualDialSettingsUI
   extends RcUIModuleV2<Deps>
-  implements ManualDialSettingsUI {
+  implements ManualDialSettingsUI
+{
   private _renderProps: EvManualDialSettingsRenderProps;
 
   constructor(deps: Deps) {

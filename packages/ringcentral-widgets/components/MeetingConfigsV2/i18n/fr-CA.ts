@@ -4,14 +4,14 @@ export default {
   time: "Heure",
   hours: "{howMany} h",
   minutes: "{howMany} min",
-  today: "Aujourd'hui",
+  today: "Aujourd’hui",
   duration: "Durée",
   topic: "Titre de la réunion",
   voIPOnly: "Son par Internet seulement",
   telephonyOnly: "Téléphone seulement",
   both: "Son du téléphone et par Internet",
   thirdParty: "Son d’un tiers",
-  meetingId: "ID de meeting",
+  meetingId: "Code de réunion",
   password: "Mot de passe",
   video: "Vidéo",
   audio: "Son",
@@ -20,16 +20,16 @@ export default {
   meetingOptions: "Options de réunion",
   meetingSettings: "Paramètres de la réunion",
   rcMeetingSettings: "Paramètres de la vidéoconférence",
-  audioOptions: "Options de son",
+  audioOptions: "Options du son",
   recurringMeeting: "Réunion récurrente",
   recurringNote: "Remarque : Activez cette option lorsque vous choisissiez « Récurrence »",
-  joinBeforeHost: "Autoriser les participants à se joindre à la réunion avant l'animateur",
+  joinBeforeHost: "Autoriser les participants à se joindre à la réunion avant l’animateur",
   turnOffCamera: "Désactiver la caméra des participants",
-  turnOffHostCamera: "Désactiver la caméra de l'hôte lorsqu'il se joint à la réunion",
+  turnOffHostCamera: "Désactiver la caméra de l’animateur lorsqu’il se joint à la réunion",
   requirePassword: "Exiger un mot de passe",
   enterPassword: "Saisissez le mot de passe",
   setPassword: "Définir le mot de passe *",
-  passwordEmptyError: "Mot de passe de réunion requis",
+  passwordEmptyError: "Mot de passe de la réunion requis",
   rcmPasswordInvalidError: "Votre mot de passe doit contenir de 1 à 10 caractères, être composé de chiffres et ne peut pas comporter de symboles autres que @, * ou -",
   rcmPasswordHintText: "Votre mot de passe devrait contenir de 1 à 10 caractères, être composé de chiffres et ne peut pas comporter de symboles autres que @, * ou -",
   usePersonalMeetingId: "Utiliser le code de réunion personnel",
@@ -38,7 +38,8 @@ export default {
   pmiSettingChangeAlert: "Si vous modifiez les paramètres et planifiez ce meeting, tous les meetings avec le même PMI utiliseront ces paramètres.",
   lockedTooltip: "Ces paramètres sont gérés par votre administrateur",
   when: "Quand",
-  recurringDescribe: "N'oubliez pas de vérifier la périodicité ou la répétition dans l'invitation envoyée à vos participants."
+  recurringDescribe: "N’oubliez pas de vérifier la périodicité ou la répétition dans l’invitation envoyée à vos participants.",
+  ieSupportAlert: "Veuillez noter que {appName} ne fonctionnera pas dans Internet Explorer 11 après le 16 février 2022. Nous recommandons de passer à Microsoft Edge ou à Office 2016 ou à une version ultérieure."
 };
 
 // @key: @#@"date"@#@ @source: @#@"Date"@#@
@@ -80,3 +81,4 @@ export default {
 // @key: @#@"lockedTooltip"@#@ @source: @#@"This setting is managed by your company admin"@#@
 // @key: @#@"when"@#@ @source: @#@"When"@#@
 // @key: @#@"recurringDescribe"@#@ @source: @#@"Please remember to check recurrence or repeat in your calendar invitation to your attendees."@#@
+// @key: @#@"ieSupportAlert"@#@ @source: @#@"Please note that {appName} won't work with Internet Explorer 11 after Feb 16, 2022. We recommend switching to Microsoft Edge or updating to Outlook 2016 or above."@#@

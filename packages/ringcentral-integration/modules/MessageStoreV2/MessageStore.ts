@@ -1,6 +1,8 @@
+import { EventEmitter } from 'events';
+
 import { GetMessageInfoResponse } from '@rc-ex/core/definitions';
 import { computed, track, watch } from '@ringcentral-integration/core';
-import { EventEmitter } from 'events';
+
 import { subscriptionFilters } from '../../enums/subscriptionFilters';
 import {
   Message,
@@ -59,8 +61,8 @@ const UPDATE_MESSAGE_ONCE_COUNT = 20; // Number of messages to be updated in one
     { dep: 'MessageStoreOptions', optional: true },
   ],
 })
-export class MessageStore extends DataFetcherV2Consumer<
-  Deps,
+export class MessageStore<T extends Deps = Deps> extends DataFetcherV2Consumer<
+  T,
   MessageStoreModel
 > {
   protected _conversationsLoadLength =
@@ -83,7 +85,7 @@ export class MessageStore extends DataFetcherV2Consumer<
 
   protected _handledRecord: GetMessageInfoResponse[] = null;
 
-  constructor(deps: Deps) {
+  constructor(deps: T) {
     super({
       deps,
     });
@@ -292,10 +294,7 @@ export class MessageStore extends DataFetcherV2Consumer<
       dateTo,
       syncToken,
     });
-    const {
-      records,
-      syncInfo,
-    }: MessageSyncList = await this._deps.client
+    const { records, syncInfo = {} }: MessageSyncList = await this._deps.client
       .account()
       .extension()
       .messageSync()

@@ -1,8 +1,9 @@
-import React, { MouseEvent, FunctionComponent } from 'react';
-import classnames from 'classnames';
-import RemoveIcon from '../../assets/images/RemoveIcon.svg';
-import DeleteCircleIcon from '../../assets/images/DeleteCircle.svg';
+import React, { FunctionComponent, MouseEvent } from 'react';
 
+import classnames from 'classnames';
+
+import DeleteCircleIcon from '../../assets/images/DeleteCircle.svg';
+import RemoveIcon from '../../assets/images/RemoveIcon.svg';
 import styles from './styles.scss';
 
 export interface RemoveButtonProps {

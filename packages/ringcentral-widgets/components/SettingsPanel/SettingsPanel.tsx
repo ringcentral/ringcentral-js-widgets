@@ -1,138 +1,98 @@
-import React, { FunctionComponent, ReactNode } from 'react';
+import React, { FunctionComponent } from 'react';
 
-import Eula from '../Eula';
+import { BasePanel } from './BasePanel';
+import { ClickToDial } from './ClickToDial';
+import { LinkLineItem } from './LinkLineItem';
+import { Locale } from './Locale';
+import { PresenceSetting } from './PresenceSetting';
+import { SettingsPanelProps } from './SettingsPanel.interface';
+import { SwitchLineItem } from './SwitchLineItem';
 
-import { ClickToDial, ClickToDialProps } from './SettingItems/ClickToDial';
-import { FooterProps } from './SettingItems/Footer';
-import { HeaderProps } from './SettingItems/Header';
-import { LinkLineItem } from './SettingItems/LinkLineItem';
-import { Locale, LocaleProps } from './SettingItems/Locale';
-import {
-  PresenceSetting,
-  PresenceSettingProps,
-} from './SettingItems/PresenceSetting';
-import { SwitchLineItem } from './SettingItems/SwitchLineItem';
-import BasePanel, { BasePanelProps } from './BasePanel';
+const Empty = (): null => null;
 
-import {
-  ReportProps,
-  CallingProps,
-  AudioProps,
-  RegionProps,
-  EulaRenderer,
-  AutoLogCallProps,
-  AutoLogNotesProps,
-  LogSMSContentProps,
-  AutoLogSMSProps,
-  FeedbackProps,
-  QuickAccessLinkProps,
-  UserGuideProps,
-  ShareIdeaProps,
-} from './SettingsPanel.interface';
-
-export interface SettingsPanelProps
-  extends HeaderProps,
-    FooterProps,
-    BasePanelProps,
-    LocaleProps,
-    ReportProps,
-    CallingProps,
-    AudioProps,
-    RegionProps,
-    AutoLogCallProps,
-    AutoLogNotesProps,
-    LogSMSContentProps,
-    AutoLogSMSProps,
-    ClickToDialProps,
-    FeedbackProps,
-    QuickAccessLinkProps,
-    UserGuideProps,
-    PresenceSettingProps,
-    ShareIdeaProps,
-    EulaRenderer {
-  children?: ReactNode;
-  currentLocale: string;
-  additional?: ReactNode;
-}
-
-const SettingsPanel: FunctionComponent<SettingsPanelProps> = ({
+export const SettingsPanel: FunctionComponent<SettingsPanelProps> = ({
+  additional,
+  autoLogEnabled = false,
+  autoLogNotesEnabled = false,
+  autoLogSMSEnabled = false,
+  autoLogSMSTitle,
+  autoLogTitle,
   children,
   className,
-  onLogoutButtonClick,
-  loginNumber,
-  version,
+  clickToDialEnabled = false,
+  clickToDialPermissions = false,
+  clickToDialTitle,
   currentLocale,
-  brandId,
-  EulaRenderer,
-  onCallingSettingsLinkClick,
-  onRegionSettingsLinkClick,
-  onAudioSettingsLinkClick,
-  onFeedbackSettingsLinkClick,
-  onQuickAccessLinkClick,
-  onUserGuideClick,
-  onShareIdeaClick,
-  showCalling,
-  showAutoLog,
-  showAutoLogNotes,
-  showAudio,
-  showReport,
-  autoLogEnabled,
-  autoLogNotesEnabled,
-  logSMSContentEnabled,
-  disableAutoLogEnabled,
-  disableAutoLogNotesEnabled,
-  onAutoLogChange,
-  onAutoLogNotesChange,
-  showAutoLogSMS,
-  showLogSMSContent,
-  autoLogSMSEnabled,
-  onAutoLogSMSChange,
-  onLogSMSContentChange,
-  showClickToDial,
-  clickToDialEnabled,
-  clickToDialPermissions,
-  onClickToDialChange,
-  onReportLinkClick,
-  showRegion,
-  showHeader,
-  outboundSMS,
-  showSpinner,
+  disableAutoLogEnabled = false,
+  disableAutoLogNotesEnabled = false,
   dndStatus,
-  userStatus,
-  setAvailable,
-  setBusy,
-  setDoNotDisturb,
-  setInvisible,
-  toggleAcceptCallQueueCalls,
+  eulaLabel,
+  eulaLink,
   isCallQueueMember,
-  showPresenceSettings,
-  openPresenceSettings,
-  showFeedback,
-  showQuickAccess,
-  showUserGuide,
-  showShareIdea,
-  additional,
-  supportedLocales,
+  loginNumber,
+  logSMSContentEnabled = true,
+  logSMSContentTitle,
+  onAudioSettingsLinkClick,
+  onAutoLogChange = Empty,
+  onAutoLogNotesChange = Empty,
+  onAutoLogSMSChange,
+  onCallingSettingsLinkClick,
+  onClickToDialChange,
+  onEulaLinkClick,
+  onFeedbackSettingsLinkClick,
+  onLogoutButtonClick,
+  onLogSMSContentChange = Empty,
+  onQuickAccessLinkClick = Empty,
+  onRegionSettingsLinkClick,
+  onReportLinkClick = Empty,
+  onShareIdeaClick,
+  onUserGuideClick,
+  openPresenceSettings = false,
+  outboundSMS = false,
   savedLocale,
   saveLocale,
-  clickToDialTitle,
+  setAvailable = Empty,
+  setBusy = Empty,
+  setDoNotDisturb = Empty,
+  setInvisible = Empty,
+  showAudio = false,
+  showAutoLog = false,
+  showAutoLogNotes = false,
+  showAutoLogSMS = false,
+  showCalling = false,
+  showClickToDial = false,
+  showFeedback = true,
+  showHeader = false,
+  showLogSMSContent = false,
+  showPresenceSettings = true,
+  showQuickAccess = false,
+  showRegion = false,
+  showReport = false,
+  showShareIdea = false,
+  showSpinner = false,
+  showUserGuide = false,
+  isEnablePendo = false,
+  supportedLocales,
+  toggleAcceptCallQueueCalls = Empty,
+  userStatus,
+  version,
   versionContainer,
-  autoLogTitle,
-  autoLogSMSTitle,
-  logSMSContentTitle,
 }) => {
   return (
     <BasePanel
-      currentLocale={currentLocale}
-      className={className}
-      showSpinner={showSpinner}
-      showHeader={showHeader}
-      brandId={brandId}
-      loginNumber={loginNumber}
-      onLogoutButtonClick={onLogoutButtonClick}
-      EulaRenderer={EulaRenderer}
-      version={version}
-      versionContainer={versionContainer}
+      {...{
+        currentLocale,
+        className,
+        showSpinner,
+        showHeader,
+        eulaLabel,
+        eulaLink,
+        onEulaLinkClick,
+        loginNumber,
+        onLogoutButtonClick,
+        version,
+        versionContainer,
+      }}
     >
       <LinkLineItem
         name="report"
@@ -227,7 +187,8 @@ const SettingsPanel: FunctionComponent<SettingsPanelProps> = ({
       {additional}
       <LinkLineItem
         name="feedback"
-        pendoSignName="Feedback"
+        dataSign="Feedback"
+        pendoSignName={isEnablePendo ? 'Feedback' : ''}
         show={showFeedback}
         currentLocale={currentLocale}
         onClick={onFeedbackSettingsLinkClick}
@@ -253,50 +214,3 @@ const SettingsPanel: FunctionComponent<SettingsPanelProps> = ({
     </BasePanel>
   );
 };
-
-export const baseDefaultProps = {
-  className: null,
-  EulaRenderer: Eula,
-  children: null,
-  showClickToDial: false,
-  clickToDialEnabled: false,
-  clickToDialPermissions: false,
-  showCalling: false,
-  showAudio: false,
-  showAutoLog: false,
-  showAutoLogNotes: false,
-  showRegion: false,
-  showUserGuide: false,
-  showReport: false,
-  autoLogEnabled: false,
-  autoLogNotesEnabled: false,
-  logSMSContentEnabled: true,
-  disableAutoLogEnabled: false,
-  disableAutoLogNotesEnabled: false,
-  showAutoLogSMS: false,
-  showLogSMSContent: false,
-  autoLogSMSEnabled: false,
-  showHeader: false,
-  outboundSMS: false,
-  showSpinner: false,
-  openPresenceSettings: false,
-  showPresenceSettings: true,
-  showFeedback: true,
-  showShareIdea: false,
-  showQuickAccess: false,
-  clickToDialTitle: null,
-  onReportLinkClick: () => null,
-  onQuickAccessLinkClick: () => null,
-  onAutoLogChange: () => null,
-  onAutoLogNotesChange: () => null,
-  onLogSMSContentChange: () => null,
-  setAvailable: () => null,
-  setBusy: () => null,
-  setDoNotDisturb: () => null,
-  setInvisible: () => null,
-  toggleAcceptCallQueueCalls: () => null,
-};
-
-SettingsPanel.defaultProps = baseDefaultProps;
-
-export default SettingsPanel;

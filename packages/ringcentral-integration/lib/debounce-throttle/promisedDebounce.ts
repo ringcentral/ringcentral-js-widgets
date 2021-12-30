@@ -1,7 +1,7 @@
 import { debounce, DebouncedFunction, DebounceOptions } from './debounce';
 
 export interface PromisedDebounceFunction<
-  F extends (this: any, ...args: any) => any
+  F extends (this: any, ...args: any) => any,
 > {
   (this: any, ...args: Parameters<F>): Promise<ReturnType<F>>;
   cancel: DebouncedFunction<F>['cancel'];
@@ -27,14 +27,14 @@ export function promisedDebounce<F extends (...args: any) => any>({
 
     try {
       result = fn.apply(this, args);
-      setImmediate(() => {
+      setTimeout(() => {
         lastResolve(result);
-      });
+      }, 0);
       return result;
     } catch (error) {
-      setImmediate(() => {
+      setTimeout(() => {
         lastReject(error);
-      });
+      }, 0);
       throw error;
     }
   }
@@ -65,7 +65,7 @@ export function promisedDebounce<F extends (...args: any) => any>({
       promise = null;
       resolve = null;
       reject = null;
-      setImmediate(() => lastReject(new Error('cancelled')));
+      setTimeout(() => lastReject(new Error('cancelled')), 0);
     }
     return result;
   }

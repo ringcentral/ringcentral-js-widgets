@@ -1,18 +1,19 @@
 import React, { FunctionComponent } from 'react';
+
 import { ContactModel } from '@ringcentral-integration/commons/interfaces/Contact.model';
+
 import { CompanyInfo } from './components/CompanyInfo';
 import { Emails } from './components/Emails';
-import { Profile } from './components/Profile';
-
-import styles from './styles.scss';
 import { PhoneSection } from './components/PhoneSection';
+import { Profile } from './components/Profile';
 import {
-  onClickMailTo,
-  clickToSMS,
   clickToDial,
+  clickToSMS,
   formatNumber,
+  onClickMailTo,
   sourceNodeRenderer,
 } from './ContactDetails.interface';
+import styles from './styles.scss';
 
 interface ContactDetailsProps
   extends onClickMailTo,

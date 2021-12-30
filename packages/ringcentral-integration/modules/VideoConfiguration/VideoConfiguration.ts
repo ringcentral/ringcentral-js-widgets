@@ -1,10 +1,12 @@
+import { contains } from 'ramda';
+import { Unsubscribe } from 'redux';
+
 import {
   ExtensionInfoEvent,
   UserVideoConfiguration,
 } from '@rc-ex/core/definitions';
 import { watch } from '@ringcentral-integration/core';
-import { contains } from 'ramda';
-import { Unsubscribe } from 'redux';
+
 import { subscriptionFilters } from '../../enums/subscriptionFilters';
 import { subscriptionHints } from '../../enums/subscriptionHints';
 import { debounce, DebouncedFunction } from '../../lib/debounce-throttle';

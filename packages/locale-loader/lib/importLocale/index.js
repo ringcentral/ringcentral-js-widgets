@@ -256,6 +256,7 @@ export default async function importLocale({
   localizationFolder = defaultConfig.localizationFolder,
   sourceLocale = defaultConfig.sourceLocale,
   supportedLocales,
+  translationLocales = supportedLocales,
   interactive = defaultConfig.interactive,
   silent = defaultConfig.silent,
   json = false,
@@ -267,18 +268,18 @@ export default async function importLocale({
   const localeData = compileLocaleData({
     sourceFolder,
     sourceLocale,
-    supportedLocales,
+    translationLocales,
   });
   const translations = json
     ? readJsonData({
         localizationFolder,
-        supportedLocales,
+        translationLocales,
         sourceLocale,
         rawData,
       })
     : readXlfData({
         localizationFolder,
-        supportedLocales,
+        translationLocales,
       });
   const mergedData = await mergeTranslationData({
     localeData,

@@ -1,16 +1,15 @@
+import React, { FunctionComponent } from 'react';
+
 import {
   RcDialDelete,
   RcDialer,
-  RcDialerPadSounds,
-  RcDialPad,
   RcDialTextField,
   RcDialTextFieldProps,
   RcIconButton,
 } from '@ringcentral/juno';
 import { Deletenumber } from '@ringcentral/juno/icon';
-import React, { FunctionComponent } from 'react';
 
-import { DialerWrapper, DialPadWrapper, TextFieldWrapper } from './styles';
+import { DialerWrapper, TextFieldWrapper } from './styles';
 
 export type DialerProps = {
   value: string;
@@ -54,13 +53,6 @@ export const Dialer: FunctionComponent<DialerProps> = ({
             }}
           />
         </TextFieldWrapper>
-        <DialPadWrapper>
-          <RcDialPad
-            data-sign="DialPad"
-            sounds={RcDialerPadSounds}
-            getDialPadButtonProps={(v) => ({ 'data-dial-button': `${v}` })}
-          />
-        </DialPadWrapper>
         {children}
       </DialerWrapper>
     </RcDialer>

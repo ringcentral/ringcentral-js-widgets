@@ -1,12 +1,12 @@
 import {
   autorun,
-  title,
-  Scenario,
-  Given,
-  When,
-  Then,
-  Step,
   examples,
+  Given,
+  Scenario,
+  Step,
+  Then,
+  title,
+  When,
 } from '@ringcentral-integration/test-utils';
 
 import { Call, callStatus, Recipient } from '../../modules/CallV2';

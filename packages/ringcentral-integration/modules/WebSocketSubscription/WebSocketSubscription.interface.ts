@@ -1,5 +1,5 @@
-import { Storage } from '../StorageV2';
 import { RingCentralExtensions } from '../RingCentralExtensions';
+import { Storage } from '../StorageV2';
 
 export interface WebSocketSubscriptionOptions {
   refreshDelay?: number;

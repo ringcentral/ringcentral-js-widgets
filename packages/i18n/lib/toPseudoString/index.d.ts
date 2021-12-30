@@ -68,7 +68,7 @@ export default function toPseudoString({
   padRatio,
   padChar,
 }: {
-  str: any;
-  padRatio: any;
-  padChar: any;
+  str: string;
+  padRatio?: number;
+  padChar?: string;
 }): string;

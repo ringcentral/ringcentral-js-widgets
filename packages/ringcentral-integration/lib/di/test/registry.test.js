@@ -1,6 +1,7 @@
 import chai, { expect } from 'chai';
 import dirtyChai from 'dirty-chai';
 import sinon from 'sinon';
+
 import Registry from '../registry/registry';
 
 chai.use(dirtyChai);

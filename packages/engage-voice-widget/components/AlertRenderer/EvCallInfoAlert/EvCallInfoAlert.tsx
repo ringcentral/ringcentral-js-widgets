@@ -1,7 +1,7 @@
 import { contains } from 'ramda';
 
-import i18n from './i18n';
 import { messageTypes } from '../../../enums/messageTypes';
+import i18n from './i18n';
 
 interface EvCallInfoAlertProps {
   message: {

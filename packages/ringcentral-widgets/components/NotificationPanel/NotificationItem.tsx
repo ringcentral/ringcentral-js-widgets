@@ -1,19 +1,22 @@
+import React, { FunctionComponent, memo, useMemo } from 'react';
+
+import classNames from 'classnames';
+
 import {
   combineProps,
   RcSnackbarAction,
   RcSnackbarContent,
   RcSnackbarContentType,
 } from '@ringcentral/juno';
-import closeSvg from '@ringcentral/juno/icon/Close';
-import classNames from 'classnames';
-import React, { FunctionComponent, memo, useMemo } from 'react';
+import { Close as closeSvg } from '@ringcentral/juno/icon';
+
 import {
   NotificationItemProps,
   NotificationMessage,
 } from './NotificationPanel.interface';
 import styles from './styles.scss';
 
-function getLevelType(level: NotificationMessage['level']) {
+export function getLevelType(level: NotificationMessage['level']) {
   let type: RcSnackbarContentType;
   switch (level) {
     case 'warning':

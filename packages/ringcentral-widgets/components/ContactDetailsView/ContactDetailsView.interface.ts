@@ -1,9 +1,10 @@
 import { ContactModel } from '@ringcentral-integration/commons/interfaces/Contact.model';
+
 import {
-  formatNumber,
-  onClickMailTo,
   clickToDial,
   clickToSMS,
+  formatNumber,
+  onClickMailTo,
   sourceNodeRenderer,
 } from '../ContactDetails/ContactDetails.interface';
 

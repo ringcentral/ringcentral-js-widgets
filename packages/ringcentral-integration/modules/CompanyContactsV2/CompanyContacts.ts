@@ -1,3 +1,6 @@
+import { filter, find, forEach, map, reduce, reject } from 'ramda';
+import { Unsubscribe } from 'redux';
+
 import { ContactResource } from '@rc-ex/core/definitions';
 import {
   action,
@@ -7,8 +10,6 @@ import {
   watch,
 } from '@ringcentral-integration/core';
 import { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
-import { filter, find, forEach, map, reduce, reject } from 'ramda';
-import { Unsubscribe } from 'redux';
 
 import { extensionStatusTypes } from '../../enums/extensionStatusTypes';
 import { extensionTypes } from '../../enums/extensionTypes';

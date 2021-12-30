@@ -1,12 +1,11 @@
 import {
   autorun,
-  title,
-  Scenario,
-  Given,
-  Then,
-  And,
-  Step,
   examples,
+  Given,
+  Scenario,
+  Step,
+  Then,
+  title,
 } from '@ringcentral-integration/test-utils';
 
 import { Presence } from '../../modules/PresenceV2';

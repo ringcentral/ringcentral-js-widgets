@@ -1,8 +1,10 @@
 import { pathOr } from 'ramda';
+
 import { ApiError } from '@ringcentral/sdk';
-import { highAvailabilityAPI } from './highAvailabilityAPI';
-import { availability } from './availabilityStatus';
+
 import { ErrorMessages } from './AvailabilityMonitor.interface';
+import { availability } from './availabilityStatus';
+import { highAvailabilityAPI } from './highAvailabilityAPI';
 
 export const TMP_HA_ERROR_CODE = 'MaintenanceMode';
 export const HA_ERROR_CODE = 'CMN-211';

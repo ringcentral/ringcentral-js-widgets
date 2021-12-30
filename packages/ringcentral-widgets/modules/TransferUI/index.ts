@@ -1,5 +1,6 @@
 import Module from '@ringcentral-integration/commons/lib/di/decorators/module';
 import formatNumber from '@ringcentral-integration/commons/lib/formatNumber';
+
 import RcUIModule from '../../lib/RcUIModule';
 
 @Module({

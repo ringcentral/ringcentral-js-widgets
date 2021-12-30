@@ -39,10 +39,6 @@ $back-margin-left-classic: 6px;
     width: 100%;
     height: 100%;
     overflow: hidden;
-    span {
-      @include rc-typography('body2');
-      color: rc-palette('neutral', 'f06');
-    }
   }
   // 32px is back icon's width
   .emptyRightIcon {

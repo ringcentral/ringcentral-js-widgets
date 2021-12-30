@@ -1,3 +1,4 @@
+import { Module } from '@ringcentral-integration/commons/lib/di';
 import {
   action,
   computed,
@@ -6,14 +7,13 @@ import {
   storage,
   watch,
 } from '@ringcentral-integration/core';
-import { Module } from '@ringcentral-integration/commons/lib/di';
 
+import { saveStatus } from '../../interfaces/EvActivityCallUI.interface';
 import {
   EvDialerUIFunctions,
   EvDialerUIProps,
 } from '../../interfaces/EvDialerUI.interface';
 import { Deps, DialerUI } from './EvDialerUI.interface';
-import { saveStatus } from '../../interfaces/EvActivityCallUI.interface';
 
 @Module({
   name: 'EvDialerUI',

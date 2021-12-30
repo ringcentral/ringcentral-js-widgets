@@ -1,3 +1,4 @@
+@use 'sass:math';
 @import '../../../scss/variables.scss';
 
 $green: #5fb95c;
@@ -8,7 +9,7 @@ $dot-width: 8px;
   height: $dot-width;
   width: $dot-width;
   min-width: $dot-width; // for adjacent dom over hidden
-  border-radius: $dot-width / 2;
+  border-radius: math.div($dot-width, 2);
   margin-right: 9px;
 }
 

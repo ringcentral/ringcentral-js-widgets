@@ -1,9 +1,10 @@
 import { expect } from 'chai';
+
+import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
+import actionTypes from './actionTypes';
 import getQuickAccessrReducer, {
   getupdatePageReducer,
 } from './getQuickAccessReducer';
-import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
-import actionTypes from './actionTypes';
 
 describe('getupdatePageReducer', () => {
   it('should be a function', () => {

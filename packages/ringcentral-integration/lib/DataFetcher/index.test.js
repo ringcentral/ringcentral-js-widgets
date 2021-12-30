@@ -1,9 +1,10 @@
 import { expect } from 'chai';
-import sinon from 'sinon';
 import { createStore } from 'redux';
-import DataFetcher from './index';
-import { getDataFetcherReducer } from './getDataFetcherReducer';
+import sinon from 'sinon';
+
 import actionTypes from './baseActionTypes';
+import { getDataFetcherReducer } from './getDataFetcherReducer';
+import DataFetcher from './index';
 
 describe('DataFetcher Unit Test', () => {
   let dataFetcher;

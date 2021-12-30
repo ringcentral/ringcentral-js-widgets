@@ -1,7 +1,7 @@
+import ensureExist from '../ensureExist';
 import RcModule from '../RcModule';
 import baseActionTypes from './baseActionTypes';
 import getProxyServerReducer from './getProxyServerReducer';
-import ensureExist from '../ensureExist';
 
 const defaultVerifyModuleFunc = (module) => module instanceof RcModule;
 

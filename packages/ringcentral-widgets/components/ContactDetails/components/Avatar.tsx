@@ -1,7 +1,9 @@
 import React, { FunctionComponent, ReactNode } from 'react';
+
 import classnames from 'classnames';
-import PlaceholderImage from '../../PlaceholderImage';
+
 import DefaultAvatar from '../../../assets/images/DefaultAvatar.svg';
+import PlaceholderImage from '../../PlaceholderImage';
 import styles from '../styles.scss';
 
 export interface AvatarProps {

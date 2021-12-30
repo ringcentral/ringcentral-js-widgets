@@ -1,10 +1,11 @@
 import { expect } from 'chai';
+
+import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
 import actionTypes from './actionTypes';
 import getConnectivityMonitorReducer, {
   getConnectivityReducer,
   getNetworkLossReducer,
 } from './getConnectivityMonitorReducer';
-import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
 
 describe('getConnectivityReducer', () => {
   it('should be a function', () => {

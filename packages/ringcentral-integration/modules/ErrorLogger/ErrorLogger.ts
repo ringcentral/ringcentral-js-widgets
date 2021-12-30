@@ -1,4 +1,5 @@
 import * as Sentry from '@sentry/browser';
+
 import { Module } from '../../lib/di';
 import RcModule from '../../lib/RcModule';
 

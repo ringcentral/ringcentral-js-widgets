@@ -1,3 +1,4 @@
+import { RcThemeProvider } from '@ringcentral/juno';
 import React from 'react';
 import { Route } from 'react-router-dom';
 
@@ -21,10 +22,10 @@ import ButtonPage from './Components/Button';
 import CallAlertPage from './Components/CallAlert';
 import CallAvatarPage from './Components/CallAvatar';
 import CallCtrlPanelPage from './Components/CallCtrlPanel';
-import CallItemPage from './Components/CallItem';
-import CallListPage from './Components/CallList';
 import CallingSettingsAlertPage from './Components/CallingSettingsAlert';
 import CallingSettingsPanelPage from './Components/CallingSettingsPanel';
+import CallItemPage from './Components/CallItem';
+import CallListPage from './Components/CallList';
 import CallsListPanelPage from './Components/CallsListPanel';
 import CallsPanelPage from './Components/CallsPanel';
 import CheckBoxPage from './Components/CheckBox';
@@ -34,6 +35,7 @@ import ConferenceAlertPage from './Components/ConferenceAlert';
 import ConferenceCommandsPage from './Components/ConferenceCommands';
 import ConferencePanelPage from './Components/ConferencePanel';
 import ConnectivityAlertPage from './Components/ConnectivityAlert';
+import ConnectivityBadgePage from './Components/ConnectivityBadge';
 import ContactDetailsPage from './Components/ContactDetails';
 import ContactDisplayPage from './Components/ContactDisplay';
 import ContactDropdownListPage from './Components/ContactDropdownList';
@@ -47,9 +49,9 @@ import ConversationsPanelPage from './Components/ConversationsPanel';
 import CopyToClipboardPage from './Components/CopyToClipboard';
 import DatePickerPage from './Components/DatePicker';
 import DialButtonPage from './Components/DialButton';
+import DialerPanelPage from './Components/DialerPanel';
 import DialPadPage from './Components/DialPad';
 import DialTextInputPage from './Components/DialTextInput';
-import DialerPanelPage from './Components/DialerPanel';
 import DraggablePage from './Components/Draggable';
 import DropdownNavigationItemPage from './Components/DropdownNavigationItem';
 import DropdownNavigationViewPage from './Components/DropdownNavigationView';
@@ -78,9 +80,9 @@ import LocalePickerPage from './Components/LocalePicker';
 import LogBasicInfoPage from './Components/LogBasicInfo';
 import LogButtonPage from './Components/LogButton';
 import LogIconPage from './Components/LogIcon';
+import LoginPanelPage from './Components/LoginPanel';
 import LogNotificationPage from './Components/LogNotification';
 import LogSectionPage from './Components/LogSection';
-import LoginPanelPage from './Components/LoginPanel';
 import MeetingAlertPage from './Components/MeetingAlert';
 import MeetingPanelPage from './Components/MeetingPanel';
 import MeetingScheduleButtonPage from './Components/MeetingScheduleButton';
@@ -95,6 +97,7 @@ import ModalPage from './Components/Modal';
 import MultiCallAnswerButtonPage from './Components/MultiCallAnswerButton';
 import NavigationBarPage from './Components/NavigationBar';
 import PanelPage from './Components/Panel';
+import PermissionsAlertPage from './Components/PermissionsAlert';
 import PresenceItemPage from './Components/PresenceItem';
 import PresenceSettingSectionPage from './Components/PresenceSettingSection';
 import PresenceStatusIconPage from './Components/PresenceStatusIcon';
@@ -110,7 +113,6 @@ import RegionSettingsAlertPage from './Components/RegionSettingsAlert';
 import RegionSettingsPanelPage from './Components/RegionSettingsPanel';
 import RemoveButtonPage from './Components/RemoveButton';
 import ReplyWithMessagePage from './Components/ReplyWithMessage';
-import PermissionsAlertPage from './Components/PermissionsAlert';
 import SaveButtonPage from './Components/SaveButton';
 import SearchInputPage from './Components/SearchInput';
 import SelectPage from './Components/Select';
@@ -128,10 +130,9 @@ import TransferPanelPage from './Components/TransferPanel';
 import UserGuidePage from './Components/UserGuide';
 import VoicemailPlayerPage from './Components/VoicemailPlayer';
 import WebphoneAlertPage from './Components/WebphoneAlert';
-import ConnectivityBadgePage from './Components/ConnectivityBadge';
 
 const Routes = () => (
-  <div>
+  <RcThemeProvider>
     <Route path="/components/ActionMenu" component={ActionMenuPage} />
     <Route
       path="/components/ActiveCallActionMenu"
@@ -380,7 +381,7 @@ const Routes = () => (
       path="/components/ConnectivityBadge"
       component={ConnectivityBadgePage}
     />
-  </div>
+  </RcThemeProvider>
 );
 
 export default Routes;

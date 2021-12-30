@@ -1,15 +1,19 @@
-import { RcIcon, RcIconProps } from '@ringcentral/juno';
-import phoneSvg from '@ringcentral/juno/icon/Phone';
-import phoneBorderSvg from '@ringcentral/juno/icon/PhoneBorder';
-import TimeSvg from '@ringcentral/juno/icon/Time';
-import TimeBorderSvg from '@ringcentral/juno/icon/TimeBorder';
-import settingsSvg from '@ringcentral/juno/icon/Settings';
-import settingsBorderSvg from '@ringcentral/juno/icon/SettingsBorder';
-import classNames from 'classnames';
 import React, { FunctionComponent, useMemo } from 'react';
+
+import classNames from 'classnames';
+
 import { TabPropTypes } from '@ringcentral-integration/widgets/components/NavigationBar';
 import { Tooltip } from '@ringcentral-integration/widgets/components/Rcui/Tooltip';
 import TabNavigationView from '@ringcentral-integration/widgets/components/TabNavigationView';
+import { RcIcon, RcIconProps } from '@ringcentral/juno';
+import {
+  Phone as phoneSvg,
+  PhoneBorder as phoneBorderSvg,
+  Settings as settingsSvg,
+  SettingsBorder as settingsBorderSvg,
+  Time as TimeSvg,
+  TimeBorder as TimeBorderSvg,
+} from '@ringcentral/juno/icon';
 
 import offHookSvgConnecting from '../../assets/icons/icon-pvc-connecting.svg';
 import offHookSvgDisabled from '../../assets/icons/icon-pvc-disabled.svg';

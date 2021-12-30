@@ -35,7 +35,8 @@ export const TRANSPORTER_TYPES = {
   EVENT_EMITTER: 'eventEmitter',
 } as const;
 
-export type TransporterTypes = typeof TRANSPORTER_TYPES[keyof typeof TRANSPORTER_TYPES];
+export type TransporterTypes =
+  typeof TRANSPORTER_TYPES[keyof typeof TRANSPORTER_TYPES];
 
 export interface MessageTransportProps {
   transporterDirection?: TransporterDirection;

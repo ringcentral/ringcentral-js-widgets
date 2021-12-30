@@ -1,12 +1,14 @@
 import chai, { expect } from 'chai';
 import chaiAsPromised from 'chai-as-promised';
-import sinon from 'sinon';
 import { createStore } from 'redux';
+import sinon from 'sinon';
+
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
-import DataMatcher from './index';
-import { baseActionTypes } from './baseActionTypes';
+
 import moduleStatuses from '../../enums/moduleStatuses';
 import sleep from '../sleep';
+import { baseActionTypes } from './baseActionTypes';
+import DataMatcher from './index';
 
 chai.use(chaiAsPromised);
 
@@ -843,16 +845,7 @@ describe('DataMatcher', () => {
       });
       expect(instance._matchQueues.has('bar')).to.equal(true);
       expect(instance._matchQueues.get('bar').queries).to.deep.equal([
-        5,
-        6,
-        7,
-        8,
-        9,
-        10,
-        11,
-        12,
-        13,
-        14,
+        5, 6, 7, 8, 9, 10, 11, 12, 13, 14,
       ]);
       await sleep(30);
       expect(instance._matchQueues.has('bar')).to.equal(false);

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 
 import InboundCall from '../../../assets/images/InboundCall.svg';
 import OutboundCall from '../../../assets/images/OutboundCall.svg';
@@ -9,7 +9,7 @@ interface CallIconProps {
   isInbound: boolean;
 }
 
-export const CallIcon: React.FunctionComponent<CallIconProps> = ({
+export const CallIcon: FunctionComponent<CallIconProps> = ({
   title,
   isInbound,
 }) => {

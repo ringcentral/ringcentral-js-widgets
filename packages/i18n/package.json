@@ -28,7 +28,7 @@
     "jest": "^27.0.1"
   },
   "scripts": {
-    "test": "jest",
+    "test": "yarn run-test --ci",
     "gulp": "gulp --require @ringcentral-integration/babel-settings/lib/register.js",
     "build": "yarn gulp build",
     "release": "yarn gulp release"

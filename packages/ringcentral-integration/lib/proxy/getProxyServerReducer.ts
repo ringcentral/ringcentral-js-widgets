@@ -1,4 +1,5 @@
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
+
 import { baseActionTypes } from './baseActionTypes';
 import { dropStates } from './handleProxyAction';
 

@@ -1,3 +1,7 @@
+import React, { FunctionComponent } from 'react';
+
+import { map } from 'ramda';
+
 import {
   combineProps,
   palette2,
@@ -6,8 +10,6 @@ import {
   RcPopupBoxProps,
   styled,
 } from '@ringcentral/juno';
-import { map } from 'ramda';
-import React, { FunctionComponent } from 'react';
 
 import { ModalV2Props } from './interface';
 
@@ -31,9 +33,16 @@ export const ModalV2: FunctionComponent<ModalV2Props & { phone: any }> = ({
           modalProps,
         ) as RcPopupBoxProps;
 
+        if ((modalProps as any).size) {
+          // throw error directly
+          throw new Error(
+            '[ModalV2] that size props are be deprecated, please use maxWidth',
+          );
+        }
+
         return (
           <PopupBox open={open} key={key} {...rest}>
-            <>{children}</>
+            {children}
           </PopupBox>
         );
       }, modals)}

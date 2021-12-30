@@ -1,8 +1,8 @@
+import { AppFeatures } from '../AppFeatures';
 import {
   DataFetcherV2ConsumerBaseDeps,
   DataSourceBaseProps,
 } from '../DataFetcherV2';
-import { AppFeatures } from '../AppFeatures';
 import { Subscription } from '../SubscriptionV2';
 import { TabManager } from '../TabManager';
 

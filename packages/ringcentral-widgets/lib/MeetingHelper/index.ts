@@ -1,5 +1,6 @@
 import formatMessage from 'format-message';
 import { reduce } from 'ramda';
+
 import i18n from '../../components/MeetingConfigsV2/i18n';
 
 export const MINUTE_SCALE: number = 4;

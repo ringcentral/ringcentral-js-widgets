@@ -1,17 +1,18 @@
+import { Reducer } from 'redux';
+
 import { usmAction } from '@ringcentral-integration/core';
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 import {
-  autorun,
-  title,
-  Scenario,
-  Given,
-  When,
-  Then,
   And,
+  autorun,
+  Scenario,
   Step,
+  Then,
+  title,
+  When,
 } from '@ringcentral-integration/test-utils';
-import { Reducer } from 'redux';
-import { getDataReducer, actionTypesBase } from '../../lib/StorageBaseV2';
+
+import { actionTypesBase, getDataReducer } from '../../lib/StorageBaseV2';
 
 @autorun(test)
 @title('DataReducer::basic')

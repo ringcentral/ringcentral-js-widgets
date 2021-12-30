@@ -1,12 +1,13 @@
 import { expect } from 'chai';
-import sinon from 'sinon';
-import { createStore } from 'redux';
 import { EventEmitter } from 'events';
+import { createStore } from 'redux';
+import sinon from 'sinon';
+
+import getMessageSenderReducer from './getMessageSenderReducer';
 import MessageSender, {
   MessageMaxLength,
   MultipartMessageMaxLength,
 } from './index';
-import getMessageSenderReducer from './getMessageSenderReducer';
 import actionTypes from './messageSenderActionTypes';
 import messageSenderMessages from './messageSenderMessages';
 

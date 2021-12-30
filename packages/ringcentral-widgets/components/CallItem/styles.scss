@@ -81,9 +81,9 @@
 }
 
 .missed {
-  color: $missed;
+  color: $missed !important;
   button {
-    color: $missed;
+    color: $missed !important;
   }
 }
 

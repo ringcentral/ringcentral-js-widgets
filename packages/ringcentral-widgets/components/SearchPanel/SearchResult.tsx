@@ -1,5 +1,6 @@
-import { RcList } from '@ringcentral/juno';
 import React, { FunctionComponent } from 'react';
+
+import { RcList } from '@ringcentral/juno';
 
 import i18n from './i18n';
 

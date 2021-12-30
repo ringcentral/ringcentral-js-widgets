@@ -1,4 +1,3 @@
-import { watch } from '@ringcentral-integration/core';
 import { Module } from '../../lib/di';
 import { IStorage, StorageBase } from '../../lib/StorageBaseV2';
 import { Deps } from './GlobalStorage.interface';

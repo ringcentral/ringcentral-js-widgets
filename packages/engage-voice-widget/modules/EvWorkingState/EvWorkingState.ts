@@ -1,3 +1,4 @@
+import { Module } from '@ringcentral-integration/commons/lib/di';
 import {
   action,
   computed,
@@ -5,12 +6,11 @@ import {
   state,
   storage,
 } from '@ringcentral-integration/core';
-import { Module } from '@ringcentral-integration/commons/lib/di';
 
 import {
   agentStateTypes,
-  DefaultAgentStateTexts,
   defaultAgentStateTexts,
+  DefaultAgentStateTexts,
   messageTypes,
   tabManagerEvents,
 } from '../../enums';

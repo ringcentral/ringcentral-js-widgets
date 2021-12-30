@@ -18,7 +18,8 @@ export const computed = (depsCallback: (instance: any) => any[]) => (
     }
   }
   const depsCallbackSelector = createSelectorWithArray(
-    (that: Service) => [that[storeKey].getState()],
+    // This check will be skipped if the store has not been created yet.
+    (that: Service) => [that[storeKey]?.getState() ?? {}],
     // eslint-disable-next-line func-names
     function (this: Service) {
       return depsCallback(this);

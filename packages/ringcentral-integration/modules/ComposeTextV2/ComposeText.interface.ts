@@ -1,9 +1,9 @@
 import { Alert } from '../AlertV2';
+import { AppFeatures } from '../AppFeatures';
 import { Auth } from '../AuthV2';
 import { ContactSearch } from '../ContactSearchV2';
-import { AppFeatures } from '../AppFeatures';
 import { MessageSender } from '../MessageSenderV2';
-import { NumberValidate } from '../NumberValidateV2';
+import { NumberValidate } from '../NumberValidate';
 import { Storage } from '../StorageV2';
 
 interface RouterInteraction {

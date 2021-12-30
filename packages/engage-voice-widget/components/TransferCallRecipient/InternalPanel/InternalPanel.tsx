@@ -1,12 +1,13 @@
-import classNames from 'classnames';
 import React, { FunctionComponent, useEffect } from 'react';
+
+import classNames from 'classnames';
 
 import {
   EvTransferCallUIFunctions,
   EvTransferCallUIProps,
 } from '../../../interfaces';
 import { getInternalTransferName } from '../../../modules/EvTransferCallUI';
-import { SelectList, ListItem } from '../../SelectList';
+import { ListItem, SelectList } from '../../SelectList';
 import transferCallI18n from '../i18n';
 import transferCallStyles from '../styles.scss';
 import i18n from './i18n';

@@ -1,6 +1,6 @@
 import {
-  SyncInfoMessages,
   GetMessageInfoResponse,
+  SyncInfoMessages,
 } from '@rc-ex/core/definitions';
 
 export interface ConversationItem {
@@ -16,7 +16,21 @@ export type Message = Pick<
     keyof GetMessageInfoResponse,
     'creationTime' | 'conversationId' | 'lastModifiedTime'
   >
-> & { conversationId: string; creationTime: number; lastModifiedTime: number };
+> & {
+  conversationId: string;
+  creationTime: number;
+  lastModifiedTime: number;
+  conversationMatches?: any[];
+  correspondentMatches?: any[];
+  lastMatchedCorrespondentEntity?: any;
+  correspondents?: any[];
+  unreadCounts?: number;
+  faxPageCount?: number;
+  mmsAttachments?: any[];
+  voicemailAttachment?: any;
+  faxAttachment?: any;
+  isLogging?: boolean;
+};
 
 export type Messages = Message[];
 

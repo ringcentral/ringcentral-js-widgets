@@ -1,9 +1,8 @@
-import Alert from '@ringcentral-integration/commons/modules/Alert';
+import { Alert } from '@ringcentral-integration/commons/modules/AlertV2';
 import ConnectivityMonitor from '@ringcentral-integration/commons/modules/ConnectivityMonitor';
 import { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import RateLimiter from '@ringcentral-integration/commons/modules/RateLimiter';
 import RouterInteraction from '@ringcentral-integration/widgets/modules/RouterInteraction';
-import { EvTabManager } from '../EvTabManager';
 
 import { EvEnvironment } from '../../interfaces/Environment.interface';
 import { EvActiveCallControl } from '../EvActiveCallControl';
@@ -15,9 +14,10 @@ import { EvCallDisposition } from '../EvCallDisposition';
 import { EvCallMonitor } from '../EvCallMonitor';
 import { EvIntegratedSoftphone } from '../EvIntegratedSoftphone';
 import { EvRequeueCall } from '../EvRequeueCall';
+import { EvStorage } from '../EvStorage';
+import { EvTabManager } from '../EvTabManager';
 import { EvTransferCall } from '../EvTransferCall';
 import { EvWorkingState } from '../EvWorkingState';
-import { EvStorage } from '../EvStorage';
 
 export interface State {
   saveStatus: string;

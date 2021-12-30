@@ -1,12 +1,13 @@
 import {
   autorun,
-  title,
-  Scenario,
   Given,
-  When,
-  Then,
+  Scenario,
   Step,
+  Then,
+  title,
+  When,
 } from '@ringcentral-integration/test-utils';
+
 import { CallLog, CallLogData } from '../../modules/CallLogV2';
 import { mockModuleGenerator } from '../lib/mockModule';
 

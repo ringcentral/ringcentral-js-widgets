@@ -1,4 +1,5 @@
-import { ReactNode, MutableRefObject } from 'react';
+import { MutableRefObject, ReactNode } from 'react';
+
 import { RingtoneBaseProps } from '../Ringtone/Ringtone.interface';
 
 export interface SaveFunctionProps {
@@ -12,11 +13,9 @@ export interface SaveFunctionProps {
   outgoingAudioFile?: string;
 }
 
-export interface CallingSettingsProps extends RingtoneBaseProps {
-  brandCode: string;
-  brandName: string;
-  shortBrandName: string;
-  fullBrandName: string;
+export interface CallingSettingsProps
+  extends RingtoneBaseProps,
+    GetOptionNameProps {
   availableNumbersWithLabel: { label: string; value: string }[];
   callWith: string;
   callWithOptions: string[];
@@ -27,7 +26,6 @@ export interface CallingSettingsProps extends RingtoneBaseProps {
   myLocation: string;
   ringoutPrompt: boolean;
   onSave: (options: SaveFunctionProps) => void;
-  jupiterAppName?: string;
 }
 export interface CallingSettingsPanelProps extends CallingSettingsProps {
   showSpinner?: boolean;
@@ -37,15 +35,12 @@ export interface CallingSettingsPanelProps extends CallingSettingsProps {
 }
 
 export interface GetOptionNameProps {
-  brandCode: string;
-  brandName: string;
-  shortBrandName: string;
-  fullBrandName: string;
   currentLocale?: string;
-  jupiterAppName?: string;
+  jupiterAppName: string;
+  softphoneAppName: string;
 }
 
-export interface GetCallingOptionProps extends GetOptionNameProps {
+export interface GetCallingOptionNameProps extends GetOptionNameProps {
   callingOption: string;
 }
 

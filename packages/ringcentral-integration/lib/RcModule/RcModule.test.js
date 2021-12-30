@@ -1,7 +1,9 @@
 import { expect } from 'chai';
-import { createStore, combineReducers } from 'redux';
-import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
+import { combineReducers, createStore } from 'redux';
 import * as uuid from 'uuid';
+
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
+
 import RcModule from '.';
 
 describe('RcModule', () => {

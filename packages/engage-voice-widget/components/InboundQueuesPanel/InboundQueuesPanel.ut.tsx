@@ -1,7 +1,10 @@
 import React from 'react';
-import { StepFunction } from 'crius-test';
-import { RcThemeProvider } from '@ringcentral/juno';
+
 import { mount } from 'enzyme';
+
+import { StepFunction } from '@ringcentral-integration/test-utils';
+import { RcThemeProvider } from '@ringcentral/juno';
+
 import { InboundQueuesPanel } from './index';
 
 function renderFunction(option) {

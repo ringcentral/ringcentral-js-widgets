@@ -1,16 +1,17 @@
+import React, { Component } from 'react';
+
 /**
  * Call log enhancement
  */
 import classnames from 'classnames';
-import React, { Component } from 'react';
 
 import { environment } from '../../lib';
 import BackHeader from '../BackHeaderV2';
 import LogBasicInfo from '../LogBasicInfoV2';
 import NotificationSection from '../NotificationSection';
 import NotificationSectionV2 from '../NotificationSectionV2';
-import WebRTCNotificationSection from '../WebRTCNotificationSection';
 import { SpinnerOverlay } from '../SpinnerOverlay';
+import WebRTCNotificationSection from '../WebRTCNotificationSection';
 import { CallLogPanelProps } from './CallLogPanel.interface';
 import i18n from './i18n';
 import styles from './styles.scss';

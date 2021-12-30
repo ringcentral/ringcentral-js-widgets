@@ -21,6 +21,7 @@ export default function exportLocale({
   localizationFolder = defaultConfig.localizationFolder,
   sourceLocale = defaultConfig.sourceLocale,
   supportedLocales,
+  translationLocales = supportedLocales,
   exportType = 'diff',
   fillEmptyWithSource = true,
   json = false,
@@ -32,20 +33,20 @@ export default function exportLocale({
   const localeData = compileLocaleData({
     sourceFolder,
     sourceLocale,
-    supportedLocales,
+    translationLocales,
   });
   const data = json
     ? generateJsonData({
         localeData,
         sourceFolder,
         sourceLocale,
-        supportedLocales,
+        translationLocales,
       })
     : generateXlfData({
         localeData,
         sourceFolder,
         sourceLocale,
-        supportedLocales,
+        translationLocales,
         exportType,
         fillEmptyWithSource,
       });

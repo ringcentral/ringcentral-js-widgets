@@ -1,10 +1,11 @@
 import { expect } from 'chai';
+
 import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
+import ringoutActionTypes from './actionTypes';
 import getRingoutReducer, {
   getRingoutStatusReducer,
 } from './getRingoutReducer';
 import ringoutStatus from './ringoutStatus';
-import ringoutActionTypes from './actionTypes';
 
 describe('Ringout', () => {
   describe('getRingoutStatusReducer', () => {

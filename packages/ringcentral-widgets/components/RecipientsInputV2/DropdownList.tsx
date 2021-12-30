@@ -1,12 +1,13 @@
-import React, { useRef, forwardRef, useImperativeHandle } from 'react';
+import React, { forwardRef, useImperativeHandle, useRef } from 'react';
+
 import classnames from 'classnames';
-import styles from './styles.scss';
 
 import { RecipientOption } from './RecipientOption';
 import {
   DropdownListHandles,
   DropdownListProps,
 } from './RecipientsInputV2.interface';
+import styles from './styles.scss';
 
 export const DropdownList = forwardRef<DropdownListHandles, DropdownListProps>(
   (
@@ -56,7 +57,11 @@ export const DropdownList = forwardRef<DropdownListHandles, DropdownListProps>(
       return null;
     }
     return (
-      <ul className={classnames(styles.dropdownList, className)} ref={listEl}>
+      <ul
+        className={classnames(styles.dropdownList, className)}
+        ref={listEl}
+        data-sign="dropdownList"
+      >
         {recipientOptions.map((item, index) => (
           <RecipientOption
             currentLocale={currentLocale}

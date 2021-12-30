@@ -1,7 +1,8 @@
 import React, { FunctionComponent } from 'react';
-import classnames from 'classnames';
-import { CallLogMenu } from '../CallHistoryPanel.interface';
 
+import classnames from 'classnames';
+
+import { CallLogMenu } from '../CallHistoryPanel.interface';
 import { ActionButton } from './ActionButton';
 import { MenuButton } from './MenuButton';
 import styles from './styles.scss';
@@ -19,7 +20,10 @@ export const CallHistoryActions: FunctionComponent<CallHistoryActionProps> = ({
   const displayedButtons = actionMenu.slice(0, 3);
 
   return (
-    <div className={classnames([styles.actions, !isWide && styles.classic])}>
+    <div
+      className={classnames([styles.actions, !isWide && styles.classic])}
+      data-sign="callHistoryActions"
+    >
       {displayedButtons.map(
         ({ icon, label, disabled, dataSign, action, subMenu }, index) => {
           if (action) {

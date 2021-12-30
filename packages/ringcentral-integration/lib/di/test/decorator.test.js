@@ -1,6 +1,7 @@
 import chai, { expect } from 'chai';
 import dirtyChai from 'dirty-chai';
-import { Injector, Module, Library, ModuleFactory } from '../';
+
+import { Injector, Library, Module, ModuleFactory } from '..';
 import Registry from '../registry/registry';
 
 chai.use(dirtyChai);

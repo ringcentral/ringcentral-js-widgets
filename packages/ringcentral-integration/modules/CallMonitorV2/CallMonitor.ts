@@ -1,3 +1,4 @@
+import { EventEmitter } from 'events';
 import {
   difference,
   filter,
@@ -8,57 +9,55 @@ import {
   reduce,
   sort,
 } from 'ramda';
-import { EventEmitter } from 'events';
+
 import {
+  action,
+  computed,
   RcModuleV2,
   state,
   storage,
-  action,
-  computed,
-  watch,
   track,
+  watch,
 } from '@ringcentral-integration/core';
-import { trackEvents } from '../Analytics';
-import { Module } from '../../lib/di';
-import normalizeNumber from '../../lib/normalizeNumber';
-import {
-  matchWephoneSessionWithAcitveCall,
-  isCurrentDeviceEndCall,
-  mapTelephonyStatus,
-  normalizeTelephonySession,
-} from './callMonitorHelper';
 
-import {
-  isRinging,
-  isInbound,
-  hasRingingCalls,
-  sortByStartTime,
-  isRingingInboundCall,
-  isOnHold as isRingOutOnHold,
-} from '../../lib/callLogHelpers';
-import {
-  isRing,
-  isOnHold,
-  isConferenceSession,
-  sortByLastActiveTimeDesc,
-  normalizeSession as normalizeWebphoneSession,
-} from '../WebphoneV2/webphoneHelper';
-import {
-  isRinging as isProceeding,
-  isHolding,
-  isForwardedToVoiceMail,
-  isOnSetupStage,
-} from '../ActiveCallControlV2/helpers';
-import { callEvents } from './callEvents';
-import { Deps, CallEventCallback } from './CallMonitor.interface';
 import {
   Call,
   NormalizedCall,
   NormalizedCalls,
 } from '../../interfaces/Call.interface';
-import { NormalizedSession } from '../../interfaces/Webphone.interface';
-import { ToNumberMatched } from '../CallV2';
 import { ActiveCall } from '../../interfaces/Presence.model';
+import { NormalizedSession } from '../../interfaces/Webphone.interface';
+import {
+  hasRingingCalls,
+  isInbound,
+  isOnHold as isRingOutOnHold,
+  isRinging,
+  isRingingInboundCall,
+  sortByStartTime,
+} from '../../lib/callLogHelpers';
+import { Module } from '../../lib/di';
+import normalizeNumber from '../../lib/normalizeNumber';
+import {
+  isForwardedToVoiceMail,
+  isHolding,
+  isOnSetupStage,
+  isRinging as isProceeding,
+} from '../ActiveCallControlV2/helpers';
+import { trackEvents } from '../Analytics';
+import { ToNumberMatched } from '../CallV2';
+import {
+  isConferenceSession,
+  isOnHold,
+  isRing,
+  sortByLastActiveTimeDesc,
+} from '../WebphoneV2/webphoneHelper';
+import { callEvents } from './callEvents';
+import { CallEventCallback, Deps } from './CallMonitor.interface';
+import {
+  isCurrentDeviceEndCall,
+  mapTelephonyStatus,
+  matchWephoneSessionWithAcitveCall,
+} from './callMonitorHelper';
 
 @Module({
   name: 'CallMonitor',
@@ -455,8 +454,8 @@ export class CallMonitor extends RcModuleV2<Deps> {
     // TODO match cached calls when there are conference merging calls, refer to `normalizedCallsFromPresence` function
     if (!this._deps.activeCallControl?.sessions) return [];
     const combinedCalls = [...this._deps.activeCallControl?.sessions]; // clone
-    const currentDeviceCallsMap = this._deps.activeCallControl
-      .currentDeviceCallsMap;
+    const currentDeviceCallsMap =
+      this._deps.activeCallControl.currentDeviceCallsMap;
     // mapping and sort
     this._normalizedCalls = sort(
       (l, r) => sortByLastActiveTimeDesc(l.webphoneSession, r.webphoneSession),
@@ -500,7 +499,7 @@ export class CallMonitor extends RcModuleV2<Deps> {
         const toName = to?.name;
         const fromName = from?.name;
         const partyId = party?.id;
-        const telephonyStatus = mapTelephonyStatus(party?.status.code);
+        const telephonyStatus = mapTelephonyStatus(party?.status?.code);
 
         // TODO: add sipData here
         // const sipData = {};
@@ -686,9 +685,9 @@ export class CallMonitor extends RcModuleV2<Deps> {
     return output;
   }
 
-  @computed((that: CallMonitor) => [that._deps.presence.calls])
+  @computed((that: CallMonitor) => [that.normalizedCalls])
   get sessionIds() {
-    return map((callItem) => callItem.sessionId, this._deps.presence.calls);
+    return map((callItem) => callItem.sessionId, this.normalizedCalls);
   }
 
   @computed((that: CallMonitor) => [that.otherDeviceCalls])

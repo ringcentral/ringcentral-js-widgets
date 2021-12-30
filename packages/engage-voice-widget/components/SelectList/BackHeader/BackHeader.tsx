@@ -1,4 +1,5 @@
 import React, { FunctionComponent } from 'react';
+
 import BasicBackHeader, {
   BackHeaderProps,
 } from '@ringcentral-integration/widgets/components/BackHeaderV2';

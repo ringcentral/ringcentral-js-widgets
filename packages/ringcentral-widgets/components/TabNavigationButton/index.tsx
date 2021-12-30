@@ -1,12 +1,17 @@
-import classnames from 'classnames';
 import React, { DOMAttributes, FunctionComponent, ReactNode } from 'react';
+
+import classnames from 'classnames';
 
 import { Tooltip } from '../Rcui/Tooltip';
 import styles from './styles.scss';
 
+export type NavigationButtonIcon =
+  | ReactNode
+  | (({ currentPath }: { currentPath: string }) => ReactNode);
+
 export interface NavigationButtonProps {
-  icon: ReactNode;
-  activeIcon: ReactNode;
+  icon: NavigationButtonIcon;
+  activeIcon: NavigationButtonIcon;
   active?: boolean;
   label: string;
   noticeCounts?: number;
@@ -18,6 +23,8 @@ export interface NavigationButtonProps {
   inActiveClassName: string;
   className?: string;
   id?: string;
+  tooltipForceHide?: boolean;
+  dataSign?: string;
 }
 
 const NavigationButton: FunctionComponent<NavigationButtonProps> = ({
@@ -34,6 +41,8 @@ const NavigationButton: FunctionComponent<NavigationButtonProps> = ({
   activeClassName,
   inActiveClassName,
   id,
+  tooltipForceHide,
+  dataSign,
 }) => {
   let notice = null;
   if (noticeCounts && noticeCounts > 0) {
@@ -54,8 +63,8 @@ const NavigationButton: FunctionComponent<NavigationButtonProps> = ({
       }}
       id={id}
     >
-      <Tooltip title={label}>
-        <div className={styles.iconHolder} data-sign={label}>
+      <Tooltip title={label} tooltipForceHide={tooltipForceHide}>
+        <div className={styles.iconHolder} data-sign={dataSign ?? label}>
           <div
             className={classnames(
               styles.icon,

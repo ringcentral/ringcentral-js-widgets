@@ -1,7 +1,8 @@
-import classnames from 'classnames';
-import React, { Component, ClipboardEvent } from 'react';
+import React, { ClipboardEvent, Component } from 'react';
 
-import ContactDropdownList from '../ContactDropdownList';
+import classnames from 'classnames';
+
+import { ContactDropdownList } from '../ContactDropdownList';
 import { RemoveButton } from '../RemoveButton';
 import { focusCampo } from './focusCampo';
 import i18n from './i18n';
@@ -150,13 +151,17 @@ class RecipientsInput extends Component<
       }
       if (this.isSplitter(ev)) {
         ev.preventDefault();
-        if (this.state.value.length === 0) {
-          return;
-        }
+        const trimmedValue = this.state.value.trim();
+
         const relatedContactList =
           this.state.value.length >= 3 ? this.props.searchContactList : [];
         const currentSelected =
           relatedContactList[this.state.selectedContactIndex];
+
+        if (trimmedValue.length === 0 && !currentSelected) {
+          return;
+        }
+
         if (currentSelected && ev.key === 'Enter') {
           this.props.addToRecipients({
             name: currentSelected.name,
@@ -164,8 +169,8 @@ class RecipientsInput extends Component<
           });
         } else {
           this.props.addToRecipients({
-            name: this.state.value.replace(',', ''),
-            phoneNumber: this.state.value.replace(',', ''),
+            name: trimmedValue.replace(',', ''),
+            phoneNumber: trimmedValue.replace(',', ''),
           });
         }
         this.setState({ value: '' });
@@ -228,8 +233,7 @@ class RecipientsInput extends Component<
     if (
       isNotEditing &&
       nextProps.value !== undefined &&
-      nextProps.value !== this.props.value &&
-      nextProps.value !== this.state.value
+      nextProps.value !== this.props.value
     ) {
       this.setState({ value: nextProps.value }, () => {
         if (this.inputRef) {
@@ -305,12 +309,8 @@ class RecipientsInput extends Component<
       useRCUI,
     } = this.props;
 
-    const {
-      value,
-      isFocusOnInput,
-      scrollDirection,
-      selectedContactIndex,
-    } = this.state;
+    const { value, isFocusOnInput, scrollDirection, selectedContactIndex } =
+      this.state;
     // TODO a temporary fix for rendering slower search result.
     const relatedContactList =
       value.length >= 3 ? searchContactList.slice(0, 50) : [];

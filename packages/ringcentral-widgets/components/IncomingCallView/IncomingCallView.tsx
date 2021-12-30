@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
+
 import PropTypes from 'prop-types';
+
 import callDirections from '@ringcentral-integration/commons/enums/callDirections';
+
 import IncomingCallPanel from '../IncomingCallPanel';
 import i18n from './i18n';
 

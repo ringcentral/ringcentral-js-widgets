@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
 import DropdownNavigationItem from '../DropdownNavigationItem';
-import styles from './styles.scss';
 import { TabPropTypes } from '../NavigationBar';
+import styles from './styles.scss';
 
 type DropdownNavigationViewProps = {
   tabs: TabPropTypes[];
@@ -10,9 +10,7 @@ type DropdownNavigationViewProps = {
   currentPath: string;
   currentVirtualPath?: string;
 };
-export default class DropdownNavigationView extends Component<
-  DropdownNavigationViewProps
-> {
+export default class DropdownNavigationView extends Component<DropdownNavigationViewProps> {
   childNavigationElement: HTMLElement;
 
   constructor(props) {

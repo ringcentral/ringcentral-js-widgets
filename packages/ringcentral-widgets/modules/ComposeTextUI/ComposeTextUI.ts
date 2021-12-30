@@ -5,11 +5,9 @@ import {
   UIFunctions,
   UIProps,
 } from '@ringcentral-integration/core';
-import {
-  ComposeTextPanelProps,
-  ComposeTextUIComponentProps,
-  Deps,
-} from './ComposeTextUI.interface';
+
+import { ComposeTextPanelProps } from '../../components/ComposeTextPanel';
+import { ComposeTextUIComponentProps, Deps } from './ComposeTextUI.interface';
 
 /**
  * TODO: check type correctness after migrating to @rx-ex for client
@@ -56,7 +54,7 @@ export class ComposeTextUI extends RcUIModuleV2<Deps> {
       composeText.messageText.length === 0 &&
       (!composeText.attachments || composeText.attachments.length === 0);
     return {
-      brand: brand.fullName,
+      brand: brand.name,
       currentLocale: locale.currentLocale,
       sendButtonDisabled:
         !(composeText.ready && messageSender.idle) ||
@@ -130,32 +128,6 @@ export class ComposeTextUI extends RcUIModuleV2<Deps> {
         } catch (err) {
           console.log(err);
         }
-        composeText.send(text, attachments).then(
-          (responses) => {
-            if (!responses || responses.length === 0) {
-              return null;
-            }
-            messageStore.pushMessages(responses);
-            if (responses.length === 1) {
-              const conversationId =
-                responses[0] &&
-                responses[0].conversation &&
-                responses[0].conversation.id;
-              if (!conversationId) {
-                return null;
-              }
-              routerInteraction.push(`/conversations/${conversationId}`);
-            } else {
-              routerInteraction.push('/messages');
-            }
-            conversations.relateCorrespondentEntity(responses);
-            composeText.clean();
-            return null;
-          },
-          (err) => {
-            console.log(err);
-          },
-        );
       },
       formatPhone: formatContactPhone,
       formatContactPhone,

@@ -1,10 +1,11 @@
 import { expect } from 'chai';
+
+import actionTypes from './actionTypes';
 import {
   getContactsReducer,
   getMessagesReducer,
   getMessageStatusReducer,
 } from './getRecentMessagesReducer';
-import actionTypes from './actionTypes';
 import messageStatus from './messageStatus';
 
 describe('RecentMessages :: getContactsReducer', () => {
@@ -38,7 +39,7 @@ describe('RecentMessages :: getContactsReducer', () => {
           },
         ),
       ).to.deep.equal({
-        '171': {
+        171: {
           id: '171',
         },
       });
@@ -65,8 +66,8 @@ describe('RecentMessages :: getContactsReducer', () => {
 
     it('contact should be removed when reset and not on a call', () => {
       const state = {
-        '171': { id: '171' },
-        '181': { id: '181' },
+        171: { id: '171' },
+        181: { id: '181' },
       };
       expect(
         reducer(state, {
@@ -74,14 +75,14 @@ describe('RecentMessages :: getContactsReducer', () => {
           contact: { id: '171' },
         }),
       ).to.deep.equal({
-        '181': { id: '181' },
+        181: { id: '181' },
       });
     });
 
     it('contact should be removed when reset and on a call', () => {
       const state = {
         '171-191': { id: '171' },
-        '181': { id: '181' },
+        181: { id: '181' },
       };
       expect(
         reducer(state, {
@@ -90,13 +91,13 @@ describe('RecentMessages :: getContactsReducer', () => {
           sessionId: '191',
         }),
       ).to.deep.equal({
-        '181': { id: '181' },
+        181: { id: '181' },
       });
     });
 
     it('should return original state when contact is undefined', () => {
       const state = {
-        '171': { id: '171' },
+        171: { id: '171' },
       };
       expect(
         reducer(state, {
@@ -141,7 +142,7 @@ describe('RecentMessages :: getMessagesReducer', () => {
           },
         ),
       ).to.deep.equal({
-        '171': messages,
+        171: messages,
       });
     });
 
@@ -166,7 +167,7 @@ describe('RecentMessages :: getMessagesReducer', () => {
 
     it('messages should be removed when reset', () => {
       const state = {
-        '171': [],
+        171: [],
       };
       expect(
         reducer(state, {

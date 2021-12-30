@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+
 import actionTypes from './actionTypes';
 import {
   getDataReducer,

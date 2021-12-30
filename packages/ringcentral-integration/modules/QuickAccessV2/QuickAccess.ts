@@ -1,11 +1,12 @@
 import {
   action,
-  watch,
   RcModuleV2,
   state,
+  watch,
 } from '@ringcentral-integration/core';
-import proxify from '../../lib/proxy/proxify';
+
 import { Module } from '../../lib/di';
+import proxify from '../../lib/proxy/proxify';
 import { Deps } from './QuickAccess.interface';
 
 @Module({

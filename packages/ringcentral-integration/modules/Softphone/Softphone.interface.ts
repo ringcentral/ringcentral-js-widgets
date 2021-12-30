@@ -1,7 +1,5 @@
 import { Brand } from '../Brand';
 import { ContactMatcher } from '../ContactMatcherV2';
-import { AccountInfo } from '../AccountInfoV2';
-import { DynamicConfig } from '../DynamicConfig';
 
 export interface CallUriInfo {
   command: string;
@@ -28,16 +26,10 @@ export interface SoftphoneOptions {
    *
    */
   callHandler?: (context: CallHandlerContext) => any;
-  /**
-   * Use brand config for Softphone
-   */
-  useBrandedJupiter?: boolean;
 }
 
 export interface Deps {
-  brand?: Brand;
+  brand: Brand;
   contactMatcher?: ContactMatcher;
-  accountInfo?: AccountInfo;
-  dynamicConfig?: DynamicConfig;
   softphoneOptions?: SoftphoneOptions;
 }

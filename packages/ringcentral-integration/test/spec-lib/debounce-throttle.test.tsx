@@ -8,6 +8,7 @@ import {
   title,
   When,
 } from '@ringcentral-integration/test-utils';
+
 import {
   debounce,
   DEFAULT_THRESHOLD,

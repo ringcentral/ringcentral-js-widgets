@@ -1,5 +1,7 @@
 import React, { FunctionComponent } from 'react';
+
 import { connect } from 'react-redux';
+
 import Environment from '@ringcentral-integration/widgets/components/Environment';
 import withPhone from '@ringcentral-integration/widgets/lib/withPhone';
 
@@ -32,8 +34,8 @@ const AppViewPanel: FunctionComponent<AppViewProps> = ({
     const currentPath = phone.routerInteraction.currentPath;
     switch (currentPath) {
       case '/sessionUpdate':
-        couldNotAccess = !phone.evAuth.agent.agentConfig.agentPermissions
-          .allowLoginUpdates;
+        couldNotAccess =
+          !phone.evAuth.agent.agentConfig.agentPermissions.allowLoginUpdates;
         break;
       default:
         break;

@@ -1,6 +1,8 @@
-import { RcButton, RcButtonSize } from '@ringcentral/juno';
-import classNames from 'classnames';
 import React, { FunctionComponent, useEffect } from 'react';
+
+import classNames from 'classnames';
+
+import { RcButton, RcButtonSize } from '@ringcentral/juno';
 
 import i18n from './i18n';
 import styles from './styles.scss';

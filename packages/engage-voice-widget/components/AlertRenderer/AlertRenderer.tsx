@@ -3,12 +3,12 @@ import React from 'react';
 import EvAuthAlert from './EvAuthAlert';
 import EvCallAlert from './EvCallAlert';
 import EvCallDispositionAlert from './EvCallDispositionAlert';
+import EvCallInfoAlert from './EvCallInfoAlert';
 import EvIntegratedSoftphoneAlert from './EvIntegratedSoftphoneAlert';
 import EvRequeueCallAlert from './EvRequeueCallAlert';
 import EvSessionConfigAlert from './EvSessionConfigAlert';
 import EvTransferCallAlert from './EvTransferCallAlert';
 import EvWorkingStateAlert from './EvWorkingStateAlert';
-import EvCallInfoAlert from './EvCallInfoAlert';
 
 export function getAlertRenderer() {
   return (message) => {

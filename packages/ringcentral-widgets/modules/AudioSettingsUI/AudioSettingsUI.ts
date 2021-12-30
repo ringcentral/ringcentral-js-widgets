@@ -1,11 +1,12 @@
+import { Module } from '@ringcentral-integration/commons/lib/di';
+import callingOptions from '@ringcentral-integration/commons/modules/CallingSettings/callingOptions';
 import {
   RcUIModuleV2,
   UIFunctions,
   UIProps,
 } from '@ringcentral-integration/core';
-import { Module } from '@ringcentral-integration/commons/lib/di';
-import callingOptions from '@ringcentral-integration/commons/modules/CallingSettings/callingOptions';
-import { Deps, AudioSettingsPanelProps } from './AudioSettingsUI.interface';
+
+import { AudioSettingsPanelProps, Deps } from './AudioSettingsUI.interface';
 
 @Module({
   name: 'AudioSettingsUI',
@@ -41,8 +42,8 @@ class AudioSettingsUI extends RcUIModuleV2<Deps> {
       supportDevices: this._deps.audioSettings.supportDevices,
       userMedia: this._deps.audioSettings.userMedia,
       isWebRTC: this._deps.callingSettings.callWith === callingOptions.browser,
-      outputDeviceDisabled: !this._deps.audioSettings.availableOutputDevices
-        .length,
+      outputDeviceDisabled:
+        !this._deps.audioSettings.availableOutputDevices.length,
       inputDeviceDisabled: !!(
         !this._deps.audioSettings.availableInputDevices.length ||
         (this._deps.webphone && this._deps.webphone.sessions.length > 0) ||

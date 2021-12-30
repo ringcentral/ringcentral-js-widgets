@@ -4,10 +4,12 @@ import React, {
   useEffect,
   useRef,
 } from 'react';
+
 import CallLogFields, {
   CallLogFieldsProps,
 } from '@ringcentral-integration/widgets/components/CallLogFields';
 import { CallLogPanelProps } from '@ringcentral-integration/widgets/components/CallLogPanel';
+
 import styles from './styles.scss';
 
 type EditLogSectionProps = {

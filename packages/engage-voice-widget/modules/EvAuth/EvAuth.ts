@@ -1,17 +1,17 @@
+import { EventEmitter } from 'events';
+import { Unsubscribe } from 'redux';
+
+import { Module } from '@ringcentral-integration/commons/lib/di';
+import sleep from '@ringcentral-integration/commons/lib/sleep';
 import {
   action,
   computed,
+  globalStorage,
   RcModuleV2,
   state,
   track,
-  globalStorage,
-  watch,
 } from '@ringcentral-integration/core';
 import format from '@ringcentral-integration/phone-number/lib/format';
-import { EventEmitter } from 'events';
-import { Unsubscribe } from 'redux';
-import { Module } from '@ringcentral-integration/commons/lib/di';
-import sleep from '@ringcentral-integration/commons/lib/sleep';
 
 import { loginStatus, messageTypes, tabManagerEvents } from '../../enums';
 import { EvAgentConfig, EvAgentData } from '../../lib/EvClient';
@@ -21,9 +21,9 @@ import { sortByName } from '../../lib/sortByName';
 import { trackEvents } from '../../lib/trackEvents';
 import {
   Auth,
+  AuthenticateWithTokenType,
   Deps,
   State,
-  AuthenticateWithTokenType,
 } from './EvAuth.interface';
 import i18n from './i18n';
 
@@ -365,10 +365,11 @@ class EvAuth extends RcModuleV2<Deps> implements Auth {
     try {
       this._deps.evClient.initSDK();
 
-      const authenticateResponse = await this._deps.evClient.getAndHandleAuthenticateResponse(
-        rcAccessToken,
-        tokenType,
-      );
+      const authenticateResponse =
+        await this._deps.evClient.getAndHandleAuthenticateResponse(
+          rcAccessToken,
+          tokenType,
+        );
       const agent = { ...this.agent, authenticateResponse };
       // if (shouldEmitAuthSuccess && !this._authenticateResponseWatcher) {
       //   this._authenticateResponseWatcher = watch(

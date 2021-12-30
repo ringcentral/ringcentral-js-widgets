@@ -1,7 +1,9 @@
 import React, { FunctionComponent } from 'react';
+
 import classNames from 'classnames';
-import styles from './styles.scss';
+
 import i18n from './i18n';
+import styles from './styles.scss';
 import { WeekdaysSelectProps } from './WeekdaysSelect.interface';
 
 const WeekdaysSelect: FunctionComponent<WeekdaysSelectProps> = ({

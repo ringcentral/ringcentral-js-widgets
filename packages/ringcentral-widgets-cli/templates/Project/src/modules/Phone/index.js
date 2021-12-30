@@ -5,7 +5,7 @@ import { ModuleFactory } from '@ringcentral-integration/commons/lib/di';
 import RcModule from '@ringcentral-integration/commons/lib/RcModule';
 import { LocalForageStorage } from '@ringcentral-integration/commons/lib/LocalForageStorage';
 
-import Alert from '@ringcentral-integration/commons/modules/Alert';
+import { Alert } from '@ringcentral-integration/commons/modules/AlertV2';
 import { AlertUI } from '@ringcentral-integration/widgets/modules/AlertUI';
 import AccountInfo from '@ringcentral-integration/commons/modules/AccountInfo';
 import { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures';
@@ -21,11 +21,11 @@ import ExtensionInfo from '@ringcentral-integration/commons/modules/ExtensionInf
 import GlobalStorage from '@ringcentral-integration/commons/modules/GlobalStorage';
 import { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import RateLimiter from '@ringcentral-integration/commons/modules/RateLimiter';
-import RegionSettings from '@ringcentral-integration/commons/modules/RegionSettings';
+import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
 import Storage from '@ringcentral-integration/commons/modules/Storage';
 import { SleepDetector } from '@ringcentral-integration/commons/modules/SleepDetectorV2';
 import Subscription from '@ringcentral-integration/commons/modules/Subscription';
-import ConnectivityBadgeUI from '@ringcentral-integration/widgets/modules/ConnectivityBadgeUI';
+import { ConnectivityBadgeUI } from '@ringcentral-integration/widgets/modules/ConnectivityBadgeUI';
 import { ConnectivityManager } from '@ringcentral-integration/widgets/modules/ConnectivityManager';
 import LoginUI from '@ringcentral-integration/widgets/modules/LoginUI';
 import OAuth from '@ringcentral-integration/widgets/modules/OAuth';

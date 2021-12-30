@@ -1,16 +1,16 @@
 import { Alert } from '../AlertV2';
+import { AppFeatures } from '../AppFeatures';
 import { Brand } from '../Brand';
 import { CallerId } from '../CallerIdV2';
 import { ExtensionDevice } from '../ExtensionDeviceV2';
-import { AppFeatures } from '../AppFeatures';
+import { ExtensionFeatures } from '../ExtensionFeatures';
 import { ExtensionInfo } from '../ExtensionInfoV2';
 import { ExtensionPhoneNumber } from '../ExtensionPhoneNumberV2';
 import { ForwardingNumber } from '../ForwardingNumberV2';
+import { Softphone } from '../Softphone';
 import { Storage } from '../StorageV2';
 import { TabManager } from '../TabManager';
 import { Webphone } from '../WebphoneV2';
-import { Softphone } from '../Softphone';
-import { ExtensionFeatures } from '../ExtensionFeatures';
 
 export interface Deps {
   alert: Alert;

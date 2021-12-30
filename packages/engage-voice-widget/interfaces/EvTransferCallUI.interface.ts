@@ -61,7 +61,7 @@ export interface EvTransferCallUIFunctions {
   changeRecipientCountryId(countryId: string): void;
   searchAgent(option: EvDirectAgentListItem, text: string): boolean;
   searchPhoneBook(option: EvTransferViewPhoneBookItem, text: string): boolean;
-  transferCall(): void;
+  transferCall(): Promise<void>;
   setCancelTemplate(templates: React.ReactNode): void;
   cancelTransfer(): void;
   cancelTransferPage(): void;

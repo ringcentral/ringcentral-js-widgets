@@ -1,12 +1,11 @@
 import { expect } from 'chai';
-import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
 
+import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
+import actionTypes from './actionTypes';
 import getReducer, {
   getGlipPersonsStatusReducer,
   getGlipPersonStoreReducer,
 } from './getReducer';
-
-import actionTypes from './actionTypes';
 import status from './status';
 
 describe('GlipPersons :: getGlipPersonsStatusReducer', () => {

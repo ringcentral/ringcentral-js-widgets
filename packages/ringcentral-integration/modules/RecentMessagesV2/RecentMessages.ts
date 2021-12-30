@@ -1,17 +1,21 @@
+import { GetMessageList } from '@rc-ex/core/definitions';
 import {
-  state,
   action,
   computed,
-  watch,
   RcModuleV2,
+  state,
+  watch,
 } from '@ringcentral-integration/core';
-import { GetMessageList } from '@rc-ex/core/definitions';
-import { proxify } from '../../lib/proxy/proxify';
-import { Module } from '../../lib/di';
-import { MessageStatus } from './messageStatus';
-import getDateFrom from '../../lib/getDateFrom';
+
+import { Entity } from '../../interfaces/Entity.interface';
+import { Message, Messages } from '../../interfaces/MessageStore.model';
 import concurrentExecute from '../../lib/concurrentExecute';
+import { Module } from '../../lib/di';
+import getDateFrom from '../../lib/getDateFrom';
 import { sortByDate } from '../../lib/messageHelper';
+import { proxify } from '../../lib/proxy/proxify';
+import { MessageStoreConversations } from '../MessageStoreV2';
+import { MessageStatus } from './messageStatus';
 import {
   CleanUpMessagesOptions,
   Deps,
@@ -21,9 +25,6 @@ import {
   LoadSuccessOptions,
   RecentMessage,
 } from './RecentMessages.interface';
-import { MessageStoreConversations } from '../MessageStoreV2';
-import { Message, Messages } from '../../interfaces/MessageStore.model';
-import { Entity } from '../../interfaces/Entity.interface';
 import {
   dedup,
   filterPhoneNumber,
@@ -167,15 +168,13 @@ export class RecentMessages extends RcModuleV2<Deps> {
     length = 5,
   ) {
     const dateFrom = getDateFrom(daySpan);
-    let recentMessages: (
-      | Message
-      | RecentMessage
-    )[] = this._getLocalRecentMessages(
-      currentContact,
-      conversations,
-      dateFrom,
-      length,
-    );
+    let recentMessages: (Message | RecentMessage)[] =
+      this._getLocalRecentMessages(
+        currentContact,
+        conversations,
+        dateFrom,
+        length,
+      );
 
     // If we could not find enough recent messages,
     // we need to search for messages on server.

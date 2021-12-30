@@ -4,7 +4,7 @@ import { reduce } from 'ramda';
 
 export function readJsonData({
   localizationFolder,
-  supportedLocales,
+  translationLocales,
   sourceLocale,
   rawData,
 }) {
@@ -20,7 +20,7 @@ export function readJsonData({
         return acc;
       },
       {},
-      supportedLocales,
+      translationLocales,
     );
   }
 
@@ -56,6 +56,6 @@ export function readJsonData({
       return result;
     },
     {},
-    supportedLocales,
+    translationLocales,
   );
 }

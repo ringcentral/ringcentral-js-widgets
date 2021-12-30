@@ -1,7 +1,7 @@
 import { expect } from 'chai';
-import { getCallMatchedReducer } from './getCallMonitorReducer';
 
 import callMonitorActionTypes from './actionTypes';
+import { getCallMatchedReducer } from './getCallMonitorReducer';
 
 describe('CallMonitor :: getCallMatchedReducer', () => {
   it('should be a function', () => {

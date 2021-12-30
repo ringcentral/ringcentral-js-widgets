@@ -1,8 +1,8 @@
 import {
-  PresenceInfoResponse,
-  PersonalContactResource,
   ContactResource,
+  PersonalContactResource,
   PhoneNumberResource,
+  PresenceInfoResponse,
 } from '@rc-ex/core/definitions';
 
 export interface ContactGroup {

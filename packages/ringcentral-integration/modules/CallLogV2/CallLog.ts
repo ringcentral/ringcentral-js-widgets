@@ -7,6 +7,7 @@ import {
   storage,
   watch,
 } from '@ringcentral-integration/core';
+
 import { callActions } from '../../enums/callActions';
 import { callResults } from '../../enums/callResults';
 import { subscriptionFilters } from '../../enums/subscriptionFilters';
@@ -25,7 +26,6 @@ import { proxify } from '../../lib/proxy/proxify';
 import sleep from '../../lib/sleep';
 import {
   CallLogData,
-  CallLogList,
   CallLogRecords,
   CallLogSyncData,
   Deps,
@@ -193,6 +193,10 @@ export class CallLog extends RcModuleV2<Deps> {
     return this._deps.callLogOptions?.listRecordCount ?? LIST_RECORD_COUNT;
   }
 
+  protected get _recordCount() {
+    return this._deps.callLogOptions?.recordCount ?? RECORD_COUNT;
+  }
+
   protected get _enableDeleted() {
     return this._deps.callLogOptions?.enableDeleted ?? false;
   }
@@ -309,38 +313,40 @@ export class CallLog extends RcModuleV2<Deps> {
             call.result !== callResults.faxReceipt,
         ),
       ),
-    ).map((call) => {
-      // [RCINT-7364] Call presence is incorrect when make ringout call from a DL number.
-      // When user use DL number set ringout and the outBound from number must not a oneself company/extension number
-      // Call log sync will response tow legs.
-      // But user use company plus extension number, call log sync will response only one leg.
-      // And the results about `to` and `from` in platform APIs call log sync response is opposite.
-      // This is a temporary solution.
-      const isOutBoundCompanyNumber =
-        call.from &&
-        call.from.phoneNumber &&
-        this.mainCompanyNumbers.indexOf(call.from.phoneNumber) > -1;
-      const isOutBoundFromSelfExtNumber =
-        call.from &&
-        call.from.extensionNumber &&
-        call.from.extensionNumber ===
-          this._deps.extensionInfo.info.extensionNumber;
-      if (
-        isOutbound(call) &&
-        (call.action === callActions.ringOutWeb ||
-          call.action === callActions.ringOutPC ||
-          call.action === callActions.ringOutMobile) &&
-        !isOutBoundCompanyNumber &&
-        !isOutBoundFromSelfExtNumber
-      ) {
-        return {
-          ...call,
-          from: call.to,
-          to: call.from,
-        };
-      }
-      return call;
-    });
+    )
+      .map((call) => {
+        // [RCINT-7364] Call presence is incorrect when make ringout call from a DL number.
+        // When user use DL number set ringout and the outBound from number must not a oneself company/extension number
+        // Call log sync will response tow legs.
+        // But user use company plus extension number, call log sync will response only one leg.
+        // And the results about `to` and `from` in platform APIs call log sync response is opposite.
+        // This is a temporary solution.
+        const isOutBoundCompanyNumber =
+          call.from &&
+          call.from.phoneNumber &&
+          this.mainCompanyNumbers.indexOf(call.from.phoneNumber) > -1;
+        const isOutBoundFromSelfExtNumber =
+          call.from &&
+          call.from.extensionNumber &&
+          call.from.extensionNumber ===
+            this._deps.extensionInfo.info.extensionNumber;
+        if (
+          isOutbound(call) &&
+          (call.action === callActions.ringOutWeb ||
+            call.action === callActions.ringOutPC ||
+            call.action === callActions.ringOutMobile) &&
+          !isOutBoundCompanyNumber &&
+          !isOutBoundFromSelfExtNumber
+        ) {
+          return {
+            ...call,
+            from: call.to,
+            to: call.from,
+          };
+        }
+        return call;
+      })
+      .sort(sortByStartTime);
     if (this._isLimitList) {
       return calls.slice(0, this._listRecordCount);
     }
@@ -438,14 +444,14 @@ export class CallLog extends RcModuleV2<Deps> {
         .extension()
         .callLogSync()
         .list({
-          recordCount: RECORD_COUNT,
+          recordCount: this._recordCount,
           syncType: syncTypes.fSync,
           dateFrom,
         });
       if (ownerId !== this._deps.auth.ownerId) throw Error('request aborted');
       let supplementRecords: CallLogRecords;
       const { records, timestamp, syncToken } = processData(data);
-      if (records.length >= RECORD_COUNT) {
+      if (records.length >= this._recordCount) {
         // reach the max record count
         supplementRecords = await this._fetch({
           dateFrom,

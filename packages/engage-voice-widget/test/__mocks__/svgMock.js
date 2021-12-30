@@ -1,4 +1,4 @@
 // mock a React component which renders nothing
-module.exports = function() {
+module.exports = function () {
   return null;
 };

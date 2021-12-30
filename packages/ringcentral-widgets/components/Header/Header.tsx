@@ -1,10 +1,12 @@
 import React, { FunctionComponent, ReactNode } from 'react';
-import classnames from 'classnames';
-import { reduce, addIndex } from 'ramda';
-import styles from './styles.scss';
-import { Button, ButtonProps } from '../Button';
 
-interface ButtonDefinition extends ButtonProps {
+import classnames from 'classnames';
+import { addIndex, reduce } from 'ramda';
+
+import { Button, ButtonProps } from '../Button';
+import styles from './styles.scss';
+
+export interface ButtonDefinition extends ButtonProps {
   placement: 'left' | 'right';
   hidden?: boolean;
   label: ReactNode;

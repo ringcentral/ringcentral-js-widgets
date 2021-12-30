@@ -1,8 +1,9 @@
 import * as uuid from 'uuid';
-import RcModule from '../RcModule';
-import getProxyClientReducer from './getProxyClientReducer';
-import baseActionTypes from './baseActionTypes';
+
 import ensureExist from '../ensureExist';
+import RcModule from '../RcModule';
+import baseActionTypes from './baseActionTypes';
+import getProxyClientReducer from './getProxyClientReducer';
 import { pushStates } from './handleProxyAction';
 
 const defaultVerifyModuleFunc = (module) => module instanceof RcModule;

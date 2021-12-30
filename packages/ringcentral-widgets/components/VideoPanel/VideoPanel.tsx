@@ -1,15 +1,17 @@
-import React, { useRef } from 'react';
-import {
-  RcDatePickerSize,
-  RcTimePickerSize,
-  RcCheckboxProps,
-} from '@ringcentral/juno';
+import React, { FunctionComponent, useRef } from 'react';
+
 import { RcVMeetingModel } from '@ringcentral-integration/commons/interfaces/Rcv.model';
 import sleep from '@ringcentral-integration/commons/lib/sleep';
 import {
-  RcvDelegator,
   AUTH_USER,
+  RcvDelegator,
+  RcvItemType,
 } from '@ringcentral-integration/commons/modules/RcVideoV2';
+import {
+  RcCheckboxProps,
+  RcDatePickerSize,
+  RcTimePickerSize,
+} from '@ringcentral/juno';
 
 import isSafari from '../../lib/isSafari';
 import { Topic, TopicRef } from '../InnerTopic';
@@ -17,7 +19,7 @@ import styles from './styles.scss';
 import { VideoConfig } from './VideoConfig';
 
 /** @deprecated */
-export const VideoPanel: React.FunctionComponent<VideoPanelProps> = ({
+export const VideoPanel: FunctionComponent<VideoPanelProps> = ({
   scheduleButton: ScheduleButton,
   datePickerSize,
   timePickerSize,
@@ -38,7 +40,9 @@ export const VideoPanel: React.FunctionComponent<VideoPanelProps> = ({
   showDuration,
   brandName,
   showRcvAdminLock,
-  showPmiAlert,
+  showPmiConfirm,
+  isPmiChangeConfirmed,
+  onPmiChangeClick,
   showWaitingRoom,
   showE2EE,
   isE2EEDisabled,
@@ -49,15 +53,19 @@ export const VideoPanel: React.FunctionComponent<VideoPanelProps> = ({
   configDisabled,
   labelPlacement,
   switchUsePersonalMeetingId,
-  updateHasSettingsChanged,
+  trackSettingChanges,
   e2eeInteractFunc,
   updateScheduleFor,
   delegators,
   joinBeforeHostLabel,
   authUserTypeValue,
   isJoinBeforeHostDisabled,
+  isMuteAudioDisabled,
+  isTurnOffCameraDisabled,
+  isAllowScreenSharingDisabled,
   isAuthenticatedCanJoinDisabled,
   isAuthUserTypeDisabled,
+  isWaitingRoomTypeDisabled,
   isSignedInUsersDisabled,
   isSignedInCoWorkersDisabled,
   isWaitingRoomNotCoworkerDisabled,
@@ -82,7 +90,7 @@ export const VideoPanel: React.FunctionComponent<VideoPanelProps> = ({
         showDuration={showDuration}
         brandName={brandName}
         showRcvAdminLock={showRcvAdminLock}
-        showPmiAlert={showPmiAlert}
+        showPmiConfirm={showPmiConfirm}
         showWaitingRoom={showWaitingRoom}
         showE2EE={showE2EE}
         isE2EEDisabled={isE2EEDisabled}
@@ -90,12 +98,14 @@ export const VideoPanel: React.FunctionComponent<VideoPanelProps> = ({
         enableJoinAfterMeCopy={enableJoinAfterMeCopy}
         personalMeetingId={personalMeetingId}
         switchUsePersonalMeetingId={switchUsePersonalMeetingId}
-        updateHasSettingsChanged={updateHasSettingsChanged}
+        trackSettingChanges={trackSettingChanges}
         disabled={configDisabled}
         isPersonalMeetingDisabled={isPersonalMeetingDisabled}
+        isPmiChangeConfirmed={isPmiChangeConfirmed}
         labelPlacement={labelPlacement}
         e2eeInteractFunc={e2eeInteractFunc}
         updateScheduleFor={updateScheduleFor}
+        onPmiChangeClick={onPmiChangeClick}
         datePickerSize={datePickerSize}
         timePickerSize={timePickerSize}
         checkboxSize={checkboxSize}
@@ -103,6 +113,7 @@ export const VideoPanel: React.FunctionComponent<VideoPanelProps> = ({
         isWaitingRoomGuestDisabled={isWaitingRoomGuestDisabled}
         isWaitingRoomAllDisabled={isWaitingRoomAllDisabled}
         isAuthUserTypeDisabled={isAuthUserTypeDisabled}
+        isWaitingRoomTypeDisabled={isWaitingRoomTypeDisabled}
         isSignedInUsersDisabled={isSignedInUsersDisabled}
         isSignedInCoWorkersDisabled={isSignedInCoWorkersDisabled}
         showScheduleOnBehalf={showScheduleOnBehalf}
@@ -111,6 +122,9 @@ export const VideoPanel: React.FunctionComponent<VideoPanelProps> = ({
         joinBeforeHostLabel={joinBeforeHostLabel}
         authUserTypeValue={authUserTypeValue}
         isJoinBeforeHostDisabled={isJoinBeforeHostDisabled}
+        isMuteAudioDisabled={isMuteAudioDisabled}
+        isTurnOffCameraDisabled={isTurnOffCameraDisabled}
+        isAllowScreenSharingDisabled={isAllowScreenSharingDisabled}
         isAuthenticatedCanJoinDisabled={isAuthenticatedCanJoinDisabled}
         isWaitingRoomDisabled={isWaitingRoomDisabled}
         isRequirePasswordDisabled={isRequirePasswordDisabled}
@@ -171,7 +185,7 @@ interface VideoPanelProps {
   showWhen?: boolean;
   showDuration?: boolean;
   showRcvAdminLock?: boolean;
-  showPmiAlert?: boolean;
+  showPmiConfirm?: boolean;
   showWaitingRoom?: boolean;
   showE2EE?: boolean;
   isE2EEDisabled?: boolean;
@@ -188,6 +202,9 @@ interface VideoPanelProps {
   joinBeforeHostLabel: string;
   authUserTypeValue: AUTH_USER;
   isJoinBeforeHostDisabled: boolean;
+  isMuteAudioDisabled: boolean;
+  isTurnOffCameraDisabled: boolean;
+  isAllowScreenSharingDisabled: boolean;
   isAuthenticatedCanJoinDisabled: boolean;
   isWaitingRoomDisabled: boolean;
   isRequirePasswordDisabled: boolean;
@@ -199,8 +216,9 @@ interface VideoPanelProps {
   isSignedInCoWorkersDisabled: boolean;
   showScheduleOnBehalf: boolean;
   showSpinnerInConfigPanel: boolean;
+  isPmiChangeConfirmed: boolean;
   switchUsePersonalMeetingId: (usePersonalMeetingId: boolean) => any;
-  updateHasSettingsChanged: (isChanged: boolean) => void;
+  trackSettingChanges?: (itemName: RcvItemType) => void;
   e2eeInteractFunc: (e2eeValue: boolean) => void;
   schedule: (meeting: RcVMeetingModel, opener: Window) => any;
   updateMeetingSettings: (meeting: Partial<RcVMeetingModel>) => void;

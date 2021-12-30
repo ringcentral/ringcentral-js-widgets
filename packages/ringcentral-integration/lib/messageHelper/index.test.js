@@ -1,5 +1,6 @@
 import { expect } from 'chai';
-import * as messageHelper from './';
+
+import * as messageHelper from '.';
 
 const { sortByDate } = messageHelper;
 

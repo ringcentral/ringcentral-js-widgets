@@ -1,5 +1,6 @@
+import React, { FunctionComponent } from 'react';
+
 import classnames from 'classnames';
-import React from 'react';
 
 import { SelectedRecipientItem } from './SelectedRecipientItem';
 import styles from './styles.scss';
@@ -17,7 +18,7 @@ type SelectedRecipientsProps = {
   multiple: boolean;
   className?: string;
 };
-export const SelectedRecipients: React.SFC<SelectedRecipientsProps> = ({
+export const SelectedRecipients: FunctionComponent<SelectedRecipientsProps> = ({
   recipient,
   recipients,
   multiple,

@@ -1,4 +1,5 @@
 import { GetMessageInfoResponse } from '@rc-ex/core/definitions';
+
 import { Entity } from '../../interfaces/Entity.interface';
 import { Message } from '../../interfaces/MessageStore.model';
 import { MessageStore } from '../MessageStoreV2';

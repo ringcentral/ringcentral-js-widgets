@@ -5,6 +5,7 @@ import {
   UserCallLogRecord,
 } from '@rc-ex/core/definitions';
 import { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
+
 import { dndStatus } from '../enums/dndStatus';
 import { presenceStatus } from '../enums/presenceStatus.enum';
 

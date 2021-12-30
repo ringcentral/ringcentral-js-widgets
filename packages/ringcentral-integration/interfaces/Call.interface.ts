@@ -1,7 +1,7 @@
+import { CallResultsValue } from '../enums/callResults';
 import { Entity } from './Entity.interface';
 import { ActiveCall } from './Presence.model';
 import { NormalizedSession } from './Webphone.interface';
-import { CallResultsValue } from '../enums/callResults';
 
 export interface CallerInfo {
   phoneNumber?: string;

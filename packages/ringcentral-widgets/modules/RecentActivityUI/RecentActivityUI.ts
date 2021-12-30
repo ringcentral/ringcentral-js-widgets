@@ -1,15 +1,16 @@
-import {
-  RcUIModuleV2,
-  UIFunctions,
-  UIProps,
-  track,
-} from '@ringcentral-integration/core';
 import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 import { Module } from '@ringcentral-integration/commons/lib/di';
-import { trackEvents } from '@ringcentral-integration/commons/modules/Analytics';
 import { proxify } from '@ringcentral-integration/commons/lib/proxy/proxify';
-import i18n from './i18n';
+import { trackEvents } from '@ringcentral-integration/commons/modules/Analytics';
+import {
+  RcUIModuleV2,
+  track,
+  UIFunctions,
+  UIProps,
+} from '@ringcentral-integration/core';
+
 import { getTabs, GetTabsOptions, trackTabsMap } from './getTabs';
+import i18n from './i18n';
 import {
   Deps,
   RecentActivityContainerProps,

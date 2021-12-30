@@ -1,11 +1,11 @@
 export default {
-  mute: "Act. disc.",
-  unmute: "Désac. disc.",
-  hangup: "Raccrocher",
-  reject: "Rejeter",
-  hold: "Mettre\nen attente",
-  onHold: "En attente",
-  transfer: "Transfert"
+  mute: 'Act. disc.',
+  unmute: 'Désac. disc.',
+  hangup: 'Raccrocher',
+  reject: 'Rejeter',
+  hold: 'Mettre\nen attente',
+  onHold: 'En attente',
+  transfer: 'Transfert',
 };
 
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@

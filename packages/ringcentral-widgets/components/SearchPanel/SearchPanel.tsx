@@ -1,7 +1,9 @@
+import React, { FunctionComponent, useContext, useState } from 'react';
+
+import classNames from 'classnames';
+
 import { RcIcon, RcTextField } from '@ringcentral/juno';
 import { Search } from '@ringcentral/juno/icon';
-import classNames from 'classnames';
-import React, { FunctionComponent, useContext, useState } from 'react';
 
 import { SelectListContext } from '../../contexts';
 import i18n from './i18n';

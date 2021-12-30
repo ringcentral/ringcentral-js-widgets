@@ -1,5 +1,6 @@
 import chai, { expect } from 'chai';
 import dirtyChai from 'dirty-chai';
+
 import Container from '../container';
 
 chai.use(dirtyChai);

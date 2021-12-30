@@ -1,5 +1,5 @@
 export default {
-  dialer: "Clavier",
+  dialer: "Pavé numérique",
   allCalls: "Tous les appels"
 };
 

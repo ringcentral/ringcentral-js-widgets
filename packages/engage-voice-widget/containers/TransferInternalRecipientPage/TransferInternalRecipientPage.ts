@@ -5,6 +5,7 @@ export interface TransferInternalRecipientProps {
   id: string;
 }
 
-export const TransferInternalRecipientPage = connectModule<
-  TransferInternalRecipientProps
->((phone) => phone.evTransferCallUI)(InternalPanel);
+export const TransferInternalRecipientPage =
+  connectModule<TransferInternalRecipientProps>(
+    (phone) => phone.evTransferCallUI,
+  )(InternalPanel);

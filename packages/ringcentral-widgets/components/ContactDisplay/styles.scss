@@ -11,10 +11,6 @@
 //   line-height: 40px;
 // }
 
-.currentName {
-  @include text-ellipsis;
-}
-
 .select {
   border: 0px;
   .button {

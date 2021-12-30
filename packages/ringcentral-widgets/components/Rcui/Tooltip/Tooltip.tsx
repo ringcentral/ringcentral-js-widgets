@@ -1,5 +1,6 @@
-import { RcTooltip, RcTooltipProps } from '@ringcentral/juno';
 import React, { FunctionComponent } from 'react';
+
+import { RcTooltip, RcTooltipProps } from '@ringcentral/juno';
 
 import styles from './styles.scss';
 

@@ -8,7 +8,7 @@ import Demo from './Demo';
 // eslint-disable-next-line
 import demoCode from '!raw-loader!./Demo';
 // eslint-disable-next-line
-import componentCode from '!raw-loader!@ringcentral-integration/widgets/components/MessageItem';
+import componentCode from '!raw-loader!@ringcentral-integration/widgets/components/MessageItem/index.tsx';
 
 const MessageItemPage = () => {
   const info = parse(componentCode);

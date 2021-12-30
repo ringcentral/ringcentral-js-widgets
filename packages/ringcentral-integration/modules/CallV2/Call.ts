@@ -6,9 +6,10 @@ import {
   track,
 } from '@ringcentral-integration/core';
 import extractControls from '@ringcentral-integration/phone-number/lib/extractControls';
+
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
-import validateNumbers from '../../lib/validateNumbers';
+import { validateNumbers } from '../../lib/validateNumbers';
 import { trackEvents } from '../Analytics';
 import callingModes from '../CallingSettings/callingModes';
 import { ringoutErrors } from '../Ringout/ringoutErrors';
@@ -342,11 +343,12 @@ export class Call extends RcModuleV2<Deps> {
 
     if (waitingValidateNumbers.length) {
       const numbers = waitingValidateNumbers.map((x) => x.number);
-      const validatedResult = validateNumbers(
-        numbers,
-        this._deps.regionSettings,
-        this._deps.brand.id,
-      );
+      const validatedResult = validateNumbers({
+        allowRegionSettings: this._deps.brand.brandConfig.allowRegionSettings,
+        areaCode: this._deps.regionSettings.areaCode,
+        countryCode: this._deps.regionSettings.countryCode,
+        phoneNumbers: numbers,
+      });
       const toNumberIndex = waitingValidateNumbers.findIndex(
         (x) => x.type === TO_NUMBER,
       );

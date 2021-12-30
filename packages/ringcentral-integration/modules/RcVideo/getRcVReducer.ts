@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux';
-import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
 
+import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
 import { RcVideoActionTypes } from './actionTypes';
 import { RcvDelegator } from './interface';
 import { videoStatus } from './videoStatus';

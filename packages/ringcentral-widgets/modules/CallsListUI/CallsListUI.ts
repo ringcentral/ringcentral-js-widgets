@@ -1,8 +1,9 @@
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import formatNumber from '@ringcentral-integration/commons/lib/formatNumber';
+import { ToNumber } from '@ringcentral-integration/commons/modules/ComposeTextV2';
 import { FormatDateTimeOptions } from '@ringcentral-integration/commons/modules/DateTimeFormatV2';
 import { RcUIModuleV2 } from '@ringcentral-integration/core';
-import { ToNumber } from '@ringcentral-integration/commons/modules/ComposeTextV2';
+
 import { RouteParams } from '../ContactDetailsUI';
 import {
   CallsListUIFunctions,
@@ -13,8 +14,6 @@ import {
   UIFunctionsOptions,
   UIPropsOptions,
 } from './CallsListUI.interface';
-
-export const FILTER_THRESHOLD: number = 500;
 
 @Module({
   name: 'CallsListUI',
@@ -78,7 +77,7 @@ export class CallsListUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
       countryCode: regionSettings.countryCode,
       outboundSmsPermission: appFeatures.hasOutboundSMSPermission,
       internalSmsPermission: appFeatures.hasInternalSMSPermission,
-      brand: brand.fullName,
+      brand: brand.name,
       showContactDisplayPlaceholder,
       autoLog: !!(callLogger && callLogger.autoLog),
       enableContactFallback,

@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+
 import removeUri from './removeUri';
 
 describe('removeUri', () => {

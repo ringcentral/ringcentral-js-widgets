@@ -1,6 +1,9 @@
 import React from 'react';
-import { RcThemeProvider } from '@ringcentral/juno';
+
 import { mount } from 'enzyme';
+
+import { RcThemeProvider } from '@ringcentral/juno';
+
 import { PickList, PickListProps } from './PickList';
 
 let wrapper;

@@ -1,6 +1,7 @@
 import React, { DOMAttributes, FunctionComponent } from 'react';
 
 import classNames from 'classnames';
+
 import { CallIcon } from '../CallIcon';
 import { CallSubject } from '../CallSubject';
 import { FollowInfo } from '../FollowInfo';

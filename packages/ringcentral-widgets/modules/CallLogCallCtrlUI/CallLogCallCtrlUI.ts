@@ -2,9 +2,10 @@ import { Module } from '@ringcentral-integration/commons/lib/di';
 import callingModes from '@ringcentral-integration/commons/modules/CallingSettings/callingModes';
 import {
   RcUIModuleV2,
-  UIProps,
   UIFunctions,
+  UIProps,
 } from '@ringcentral-integration/core';
+
 import {
   CallLogCallCtrlContainerProps,
   CallLogCallCtrlPanelProps,
@@ -21,6 +22,7 @@ import {
     'CallingSettings',
     'ForwardingNumber',
     'CallMonitor',
+    'ExtensionFeatures',
   ],
 })
 class CallLogCallCtrlUI extends RcUIModuleV2<Deps> {
@@ -40,13 +42,12 @@ class CallLogCallCtrlUI extends RcUIModuleV2<Deps> {
   }: CallLogCallCtrlContainerProps): UIProps<CallLogCallCtrlPanelProps> {
     const isWebphone =
       this._deps.callingSettings.callingMode === callingModes.webphone;
-    const currentSession = this._deps.activeCallControl.getActiveSession(
-      telephonySessionId,
-    );
+    const currentSession =
+      this._deps.activeCallControl.getActiveSession(telephonySessionId);
     // we can get real callee call status from telephony session
-    const realOutboundCallStatus: string = this._deps.activeCallControl?.getRcCallSession(
-      telephonySessionId,
-    )?.otherParties[0]?.status.code;
+    const realOutboundCallStatus: string =
+      this._deps.activeCallControl?.getSession(telephonySessionId)
+        ?.otherParties[0]?.status?.code;
     const { activeOnHoldCalls, activeCurrentCalls } = this._deps.callMonitor;
     const otherActiveCalls =
       currentSession &&

@@ -1,7 +1,7 @@
-import { normalizeStartTime } from '../../lib/callLogHelpers';
-import removeUri from '../../lib/removeUri';
 import { callActions } from '../../enums/callActions';
+import { normalizeStartTime } from '../../lib/callLogHelpers';
 import getDateFrom from '../../lib/getDateFrom';
+import removeUri from '../../lib/removeUri';
 import {
   CallLogList,
   CallLogRecord,

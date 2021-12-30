@@ -1,22 +1,13 @@
-import {
-  styled,
-  spacing,
-  RcAlert,
-  RcCheckbox,
-  RcDatePicker,
-  RcDatePickerProps,
-  RcIcon,
-  RcLink,
-  RcMenuItem,
-  RcSelect,
-  RcTextField,
-  RcTimePicker,
-  RcTimePickerProps,
-  RcCheckboxProps,
-  RcTypography,
-} from '@ringcentral/juno';
+import React, {
+  FunctionComponent,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
+import formatMessage from 'format-message';
 import classnames from 'classnames';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+
 import {
   generateRandomPassword,
   updateFullTime,
@@ -29,18 +20,38 @@ import {
 } from '@ringcentral-integration/commons/modules/Meeting';
 import {
   MeetingDelegator,
+  RCM_ITEM_NAME,
+  RcmItemType,
   RcMMeetingModel,
 } from '@ringcentral-integration/commons/modules/MeetingV2';
-import lockSvg from '@ringcentral/juno/icon/LockBorder';
+import {
+  RcAlert,
+  RcCheckbox,
+  RcCheckboxProps,
+  RcDatePicker,
+  RcDatePickerProps,
+  RcIcon,
+  RcLink,
+  RcMenuItem,
+  RcSelect,
+  RcTextField,
+  RcTimePicker,
+  RcTimePickerProps,
+  RcTypography,
+  spacing,
+  styled,
+} from '@ringcentral/juno';
+import { LockBorder as lockSvg } from '@ringcentral/juno/icon';
 
 import { formatMeetingId } from '../../lib/MeetingCalendarHelper';
 import {
-  getMinutesList,
   getHoursList,
+  getMinutesList,
   HOUR_SCALE,
   MINUTE_SCALE,
 } from '../../lib/MeetingHelper';
 import { SpinnerOverlay } from '../SpinnerOverlay';
+import { MeetingAlert } from '../MeetingAlert';
 import { ExtendedTooltip as MeetingOptionLocked } from './ExtendedTooltip';
 import i18n from './i18n';
 import styles from './styles.scss';
@@ -69,12 +80,15 @@ export interface MeetingConfigsProps {
   useTimePicker?: boolean;
   delegators: MeetingDelegator[];
   updateScheduleFor: (userExtensionId: string) => any;
+  trackSettingChanges?: (itemName: RcmItemType) => void;
   enableServiceWebSettings?: boolean;
   datePickerSize?: RcDatePickerProps['size'];
   timePickerSize?: RcTimePickerProps['size'];
   checkboxSize?: RcCheckboxProps['size'];
   recurringMeetingPosition?: 'middle' | 'bottom';
   defaultTopic: string;
+  showIeSupportAlert?: boolean;
+  appName?: string;
 }
 
 function getHelperTextForPasswordField(
@@ -112,7 +126,7 @@ function getCheckboxCommProps(
   };
 }
 
-const MeetingOptionLabel: React.FunctionComponent<{
+const MeetingOptionLabel: FunctionComponent<{
   children: React.ReactNode;
   isLocked?: boolean;
   currentLocale?: string;
@@ -151,6 +165,7 @@ const MeetingOptionLabel: React.FunctionComponent<{
             <RcIcon
               size="small"
               className={styles.lockButton}
+              color="neutral.f04"
               symbol={lockSvg}
             />
           </MeetingOptionLocked>
@@ -166,7 +181,7 @@ const PanelRoot = styled.div`
   }
 `;
 
-export const MeetingConfigs: React.FunctionComponent<MeetingConfigsProps> = ({
+export const MeetingConfigs: FunctionComponent<MeetingConfigsProps> = ({
   updateMeetingSettings,
   disabled,
   personalMeetingId,
@@ -186,6 +201,7 @@ export const MeetingConfigs: React.FunctionComponent<MeetingConfigsProps> = ({
   showScheduleOnBehalf,
   delegators,
   updateScheduleFor,
+  trackSettingChanges,
   labelPlacement,
   datePickerSize,
   timePickerSize,
@@ -194,6 +210,8 @@ export const MeetingConfigs: React.FunctionComponent<MeetingConfigsProps> = ({
   enableServiceWebSettings,
   recurringMeetingPosition,
   defaultTopic,
+  showIeSupportAlert,
+  appName,
 }) => {
   useEffect(() => {
     if (init) {
@@ -207,6 +225,10 @@ export const MeetingConfigs: React.FunctionComponent<MeetingConfigsProps> = ({
       ...meeting,
       ...options,
     });
+  };
+
+  const trackItemChanges = (itemName: RcmItemType) => {
+    trackSettingChanges && trackSettingChanges(itemName);
   };
 
   const configRef = useRef<HTMLDivElement>();
@@ -304,7 +326,7 @@ export const MeetingConfigs: React.FunctionComponent<MeetingConfigsProps> = ({
                   gutterBottom
                   label={i18n.getString('date', currentLocale)}
                   data-sign="date"
-                  date={startTime}
+                  value={startTime}
                   clearBtn={false}
                   formatString="MM/DD/YYYY"
                   size={datePickerSize}
@@ -329,6 +351,7 @@ export const MeetingConfigs: React.FunctionComponent<MeetingConfigsProps> = ({
                   label={i18n.getString('time', currentLocale)}
                   isTwelveHourSystem
                   data-sign="startTime"
+                  dateMode
                   value={startTime}
                   onChange={(value) => {
                     update({
@@ -462,6 +485,7 @@ export const MeetingConfigs: React.FunctionComponent<MeetingConfigsProps> = ({
                   data-sign="scheduleFor"
                   onChange={(e) => {
                     updateScheduleFor(e.target.value as string);
+                    trackItemChanges(RCM_ITEM_NAME.scheduleFor);
                   }}
                   value={meeting.host.id}
                 >
@@ -563,6 +587,7 @@ export const MeetingConfigs: React.FunctionComponent<MeetingConfigsProps> = ({
                   _requireMeetingPassword: !meeting._requireMeetingPassword,
                   password,
                 });
+                trackItemChanges(RCM_ITEM_NAME._requireMeetingPassword);
               }}
               label={
                 <MeetingOptionLabel
@@ -612,6 +637,7 @@ export const MeetingConfigs: React.FunctionComponent<MeetingConfigsProps> = ({
                   }}
                   onBlur={() => {
                     setPasswordFocus(false);
+                    trackItemChanges(RCM_ITEM_NAME.password);
                   }}
                 />
               </div>
@@ -792,6 +818,7 @@ export const MeetingConfigs: React.FunctionComponent<MeetingConfigsProps> = ({
                 update({
                   allowJoinBeforeHost: !meeting.allowJoinBeforeHost,
                 });
+                trackItemChanges(RCM_ITEM_NAME.allowJoinBeforeHost);
               }}
               label={
                 <MeetingOptionLabel
@@ -839,6 +866,19 @@ export const MeetingConfigs: React.FunctionComponent<MeetingConfigsProps> = ({
               </>
             ) : null}
           </VideoSettingGroup>
+          {showIeSupportAlert && (
+            <VideoSettingGroup dataSign="ieAlert" expandable={false}>
+              <MeetingAlert
+                severity="warning"
+                content={formatMessage(
+                  i18n.getString('ieSupportAlert', currentLocale),
+                  {
+                    appName,
+                  },
+                )}
+              />
+            </VideoSettingGroup>
+          )}
         </div>
       </div>
     </PanelRoot>

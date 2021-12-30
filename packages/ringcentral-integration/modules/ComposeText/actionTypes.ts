@@ -1,0 +1,20 @@
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
+
+import { moduleActionTypes } from '../../enums/moduleActionTypes';
+
+export const actionTypes = ObjectMap.prefixKeys(
+  [
+    ...ObjectMap.keys(moduleActionTypes),
+    'clean',
+    'updateSenderNumber',
+    'updateTypingToNumber',
+    'cleanTypingToNumber',
+    'addToNumber',
+    'removeToNumber',
+    'updateMessageText',
+    'toNumberMatched',
+  ],
+  'composeText',
+);
+
+export default actionTypes;

@@ -1,6 +1,9 @@
+import { ReactNode } from 'react';
+
 import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 import calleeTypes from '@ringcentral-integration/commons/enums/calleeTypes';
 import { NormalizedSession } from '@ringcentral-integration/commons/interfaces/Webphone.interface';
+import { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures/AppFeatures';
 import { Brand } from '@ringcentral-integration/commons/modules/Brand';
 import { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettingsV2';
 import { CallMonitor } from '@ringcentral-integration/commons/modules/CallMonitorV2';
@@ -10,10 +13,9 @@ import { ContactSearch } from '@ringcentral-integration/commons/modules/ContactS
 import { ExtensionInfo } from '@ringcentral-integration/commons/modules/ExtensionInfoV2';
 import { ForwardingNumber } from '@ringcentral-integration/commons/modules/ForwardingNumberV2';
 import { Locale } from '@ringcentral-integration/commons/modules/Locale';
-import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettingsV2';
+import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
 import { Webphone } from '@ringcentral-integration/commons/modules/WebphoneV2';
-import { ReactNode } from 'react';
-import { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures/AppFeatures';
+
 import { ConnectivityManager } from '../ConnectivityManager';
 import { RouterInteraction } from '../RouterInteraction';
 

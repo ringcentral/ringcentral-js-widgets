@@ -1,16 +1,14 @@
 import {
   autorun,
+  examples,
   Given,
   Step,
   title,
   When,
-  examples,
 } from '@ringcentral-integration/test-utils';
 
-import { Subscription } from '../../modules/SubscriptionV2';
 import { subscriptionStatus as subscriptionStatuses } from '../../modules/Subscription/subscriptionStatus';
-import { ThrottleBasic } from '../spec-lib/debounce-throttle.test';
-import sleep from '../../lib/sleep';
+import { Subscription } from '../../modules/SubscriptionV2';
 
 class MockStorage {
   registerReducer() {}

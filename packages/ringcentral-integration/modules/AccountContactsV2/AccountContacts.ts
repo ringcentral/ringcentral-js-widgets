@@ -1,3 +1,5 @@
+import { filter, forEach, join, keys, map, reduce } from 'ramda';
+
 import { PresenceInfoResponse, ValidationError } from '@rc-ex/core/definitions';
 import {
   action,
@@ -5,7 +7,7 @@ import {
   RcModuleV2,
   state,
 } from '@ringcentral-integration/core';
-import { filter, forEach, join, keys, map, reduce } from 'ramda';
+
 import { phoneSources } from '../../enums/phoneSources';
 import { phoneTypes } from '../../enums/phoneTypes';
 import { ContactSource, IContact } from '../../interfaces/Contact.model';
@@ -299,12 +301,8 @@ export class AccountContacts extends RcModuleV2<Deps> implements ContactSource {
         ctx.resolve(null);
         return;
       }
-      const {
-        dndStatus,
-        presenceStatus,
-        telephonyStatus,
-        userStatus,
-      } = response;
+      const { dndStatus, presenceStatus, telephonyStatus, userStatus } =
+        response;
       const presenceId = ctx.contact.id;
       presenceMap[presenceId] = {
         dndStatus,

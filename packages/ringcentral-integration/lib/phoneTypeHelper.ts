@@ -1,6 +1,8 @@
-import { sort, reduce, filter, addIndex } from 'ramda';
+import { addIndex, filter, reduce, sort } from 'ramda';
+
 import { PhoneNumberResource } from '@rc-ex/core/definitions';
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
+
 import { phoneTypes } from '../enums/phoneTypes';
 import { PhoneNumberModel } from '../interfaces/PhoneNumber.model';
 
@@ -39,10 +41,9 @@ export const sortByPhoneTypes = sort<PhoneNumberModel>(
   (a, b) => phoneTypeOrderMap[a.phoneType] - phoneTypeOrderMap[b.phoneType],
 );
 
-const supportedUsageTypePhoneTypeMap: Partial<Record<
-  PhoneNumberResource['usageType'],
-  string
->> = {
+const supportedUsageTypePhoneTypeMap: Partial<
+  Record<PhoneNumberResource['usageType'], string>
+> = {
   ContactNumber: phoneTypes.contact,
   MobileNumber: phoneTypes.mobile,
   DirectNumber: phoneTypes.direct,

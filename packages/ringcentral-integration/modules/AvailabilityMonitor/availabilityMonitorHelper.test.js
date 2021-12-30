@@ -1,9 +1,10 @@
 import { expect } from 'chai';
+
 import {
   extractUrl,
-  isHAError,
   generateRandomNumber,
   isHAEnabledAPI,
+  isHAError,
 } from './availabilityMonitorHelper';
 
 describe('availabilityMonitorHelper', () => {

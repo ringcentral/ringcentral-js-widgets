@@ -1,5 +1,5 @@
-import { connectModule } from '../../lib/phoneContext';
 import { ConferenceParticipantContainer } from '../../components/ConferenceParticipantContainer';
+import { connectModule } from '../../lib/phoneContext';
 
 const ConferenceParticipantPage = connectModule(
   (phone) => phone.conferenceParticipantUI,

@@ -6,12 +6,11 @@ import {
 import { messageTypes } from '../../enums/messageTypes';
 import { Message } from '../../interfaces/MessageStore.model';
 import removeUri from '../removeUri';
-
 import {
   Correspondent,
-  VoicemailAttachment,
   FaxAttachment,
   SortEntity,
+  VoicemailAttachment,
 } from './messageHelper.interface';
 
 export function filterNumbers(

@@ -1,6 +1,6 @@
 import { Alert } from '../AlertV2';
-import { Auth } from '../AuthV2';
 import { AppFeatures } from '../AppFeatures';
+import { Auth } from '../AuthV2';
 import { Storage } from '../StorageV2';
 
 export interface AudioSettingsData {

@@ -1,4 +1,5 @@
 import url from 'url';
+
 import moduleStatuses from '../../enums/moduleStatuses';
 import { Module } from '../../lib/di';
 import ensureExist from '../../lib/ensureExist';

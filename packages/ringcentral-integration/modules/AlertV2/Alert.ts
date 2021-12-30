@@ -1,20 +1,22 @@
 import * as uuid from 'uuid';
+
 import {
   action,
+  globalStorage,
   RcModuleV2,
   state,
-  globalStorage,
 } from '@ringcentral-integration/core';
+
 import { Module } from '../../lib/di';
-import proxify from '../../lib/proxy/proxify';
-import { alertLevels, AlertLevelType } from './alertLevels';
+import { proxify } from '../../lib/proxy/proxify';
 import {
-  AlertLevel,
   AlertItem,
-  Options,
-  Deps,
+  AlertLevel,
   AllowDuplicates,
+  Deps,
+  Options,
 } from './Alert.interface';
+import { alertLevels, AlertLevelType } from './alertLevels';
 
 @Module({
   name: 'Alert',
@@ -78,7 +80,7 @@ export class Alert extends RcModuleV2<Deps> {
    * Add alert message to the state.
    */
   @proxify
-  alert({
+  async alert({
     message,
     payload,
     level = alertLevels.info as AlertLevelType,

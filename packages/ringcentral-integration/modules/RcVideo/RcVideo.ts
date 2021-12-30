@@ -1,60 +1,61 @@
-import { computed } from '@ringcentral-integration/core';
+import { filter, find } from 'ramda';
 import Client from 'ringcentral-client';
-import { filter, find, omit } from 'ramda';
+
+import { computed } from '@ringcentral-integration/core';
 import { DEFAULT_LOCALE } from '@ringcentral-integration/i18n';
-import RcModule from '../../lib/RcModule';
-import { Module } from '../../lib/di';
-import background from '../../lib/background';
-import { proxify } from '../../lib/proxy/proxify';
-import { selector } from '../../lib/selector';
-import meetingStatus from '../Meeting/meetingStatus';
-import { MeetingErrors } from '../Meeting';
+
 import { getInitializedStartTime } from '../../helpers/meetingHelper';
-
-import { ASSISTED_USERS_MYSELF, RcvWaitingRoomModeProps } from './constants';
-import actionTypes, { RcVideoActionTypes } from './actionTypes';
-import { videoStatus } from './videoStatus';
-import getRcVReducer, {
-  getDefaultVideoSettingReducer,
-  getPersonalMeetingReducer,
-} from './getRcVReducer';
-
 import {
-  getDefaultVideoSettings,
-  validatePasswordSettings,
-  generateRandomPassword,
-  getTopic,
-  pruneMeetingObject,
-  RcVideoTypes,
-  transformPreferences,
-  reversePreferences,
-  comparePreferences,
-  transformSettingLocks,
-  getLockedPreferences,
-  RCV_PREFERENCES_IDS,
-  RCV_WAITING_ROOM_API_KEYS,
-  RCV_E2EE_API_KEYS,
-  patchWaitingRoomRelated,
-} from './videoHelper';
-import {
-  RcVideoAPI,
-  RcVMeetingModel,
-  RcVSettingLocks,
-  RcVPreferencesGET,
-  RcVSettingLocksGET,
-  RcVPreferences,
   RcVDialInNumberGET,
-  RcVPreferencesAPIResult,
-  RcVPreferenceDataItem,
   RcVDialInNumberObj,
-  RcvInvitationRequest,
+  RcVideoAPI,
   RcvInvitationInfo,
+  RcvInvitationRequest,
+  RcVMeetingModel,
+  RcVPreferenceDataItem,
+  RcVPreferences,
+  RcVPreferencesAPIResult,
+  RcVPreferencesGET,
+  RcVSettingLocks,
+  RcVSettingLocksGET,
 } from '../../interfaces/Rcv.model';
-import { RcvDelegator } from './interface';
+import background from '../../lib/background';
+import { Module } from '../../lib/di';
+import { proxify } from '../../lib/proxy/proxify';
+import RcModule from '../../lib/RcModule';
+import { selector } from '../../lib/selector';
+import { MeetingErrors } from '../Meeting';
+import meetingStatus from '../Meeting/meetingStatus';
 import {
   formatMainPhoneNumber,
   formatPremiumNumbers,
 } from '../RcVideoV2/videoHelper';
+import actionTypes, { RcVideoActionTypes } from './actionTypes';
+import { ASSISTED_USERS_MYSELF, RcvWaitingRoomModeProps } from './constants';
+import getRcVReducer, {
+  getDefaultVideoSettingReducer,
+  getPersonalMeetingReducer,
+} from './getRcVReducer';
+import { RcvDelegator } from './interface';
+import {
+  comparePreferences,
+  generateRandomPassword,
+  getDefaultVideoSettings,
+  getLockedPreferences,
+  getTopic,
+  patchWaitingRoomRelated,
+  pruneMeetingObject,
+  RCV_E2EE_API_KEYS,
+  RCV_E2EE_DEFAULT_SECURITY_OPTIONS,
+  RCV_PREFERENCES_IDS,
+  RCV_WAITING_ROOM_API_KEYS,
+  RcVideoTypes,
+  reversePreferences,
+  transformPreferences,
+  transformSettingLocks,
+  validatePasswordSettings,
+} from './videoHelper';
+import { videoStatus } from './videoStatus';
 
 @Module({
   deps: [
@@ -66,7 +67,6 @@ import {
     'ExtensionInfo',
     'MeetingProvider',
     'Locale',
-    { dep: 'DynamicConfig', optional: true },
     { dep: 'AvailabilityMonitor', optional: true },
     { dep: 'RcVideoOptions', optional: true },
   ],
@@ -95,7 +95,6 @@ export class RcVideo extends RcModule<Record<string, any>, RcVideoActionTypes> {
   private _enableHostCountryDialinNumbers: boolean;
   private _accountInfo: any;
   private _locale: any;
-  private _dynamicConfig: any;
   private _createMeetingPromise: any = null;
 
   constructor({
@@ -109,7 +108,6 @@ export class RcVideo extends RcModule<Record<string, any>, RcVideoActionTypes> {
     meetingProvider,
     accountInfo,
     locale,
-    dynamicConfig,
     enableE2EE = false,
     showSaveAsDefault = false,
     isInstantMeeting = false,
@@ -133,7 +131,6 @@ export class RcVideo extends RcModule<Record<string, any>, RcVideoActionTypes> {
     this._storage = storage;
     this._accountInfo = accountInfo;
     this._locale = locale;
-    this._dynamicConfig = dynamicConfig;
     this._reducer = getRcVReducer(this.actionTypes, reducers);
     this._showSaveAsDefault = showSaveAsDefault;
     this._isInstantMeeting = isInstantMeeting;
@@ -181,7 +178,6 @@ export class RcVideo extends RcModule<Record<string, any>, RcVideoActionTypes> {
       this._storage.ready &&
       this._meetingProvider.ready &&
       this._meetingProvider.isRCV &&
-      (!this._dynamicConfig || this._dynamicConfig.ready) &&
       (!this._availabilityMonitor || this._availabilityMonitor.ready)
     );
   }
@@ -194,7 +190,6 @@ export class RcVideo extends RcModule<Record<string, any>, RcVideoActionTypes> {
         !this._storage.ready ||
         !this._meetingProvider.ready ||
         !this._meetingProvider.isRCV ||
-        (this._dynamicConfig && !this._dynamicConfig.ready) ||
         (this._availabilityMonitor && !this._availabilityMonitor.ready))
     );
   }
@@ -282,7 +277,7 @@ export class RcVideo extends RcModule<Record<string, any>, RcVideoActionTypes> {
     if (this._enablePersonalMeeting) {
       await this._initPersonalMeeting(this.accountId, extensionId);
     }
-    await this._initPreferences(this.accountId, extensionId);
+    await this._initPreferences();
 
     this._initMeetingSettings(false);
     this.store.dispatch({
@@ -290,14 +285,11 @@ export class RcVideo extends RcModule<Record<string, any>, RcVideoActionTypes> {
     });
   }
 
-  private async _initPreferences(
-    accountId = this.accountId,
-    extensionId = this.extensionId,
-  ) {
+  private async _initPreferences() {
     try {
       const { preferences, settingLocks } = await this._getPreferences(
-        accountId,
-        extensionId,
+        this.accountId,
+        this.extensionId,
       );
       // TODO [SFB] Remove the next line after rcv implement ui to manage password_instant
       preferences.password_instant = false;
@@ -669,7 +661,7 @@ export class RcVideo extends RcModule<Record<string, any>, RcVideoActionTypes> {
 
   @proxify
   async getMeeting(
-    meetingId: String,
+    meetingId: string,
     accountId = this.accountId,
     extensionId = this.extensionId,
   ) {
@@ -791,7 +783,19 @@ export class RcVideo extends RcModule<Record<string, any>, RcVideoActionTypes> {
   }
 
   @proxify
-  updateMeetingSettings(
+  async turnOnE2ee() {
+    this.updateMeetingSettings({
+      e2ee: true,
+      ...RCV_E2EE_DEFAULT_SECURITY_OPTIONS,
+      // if jbh is locked, do not change its value
+      allowJoinBeforeHost: this.meeting.settingLock.allowJoinBeforeHost
+        ? this.meeting.allowJoinBeforeHost
+        : RCV_E2EE_DEFAULT_SECURITY_OPTIONS.allowJoinBeforeHost,
+    });
+  }
+
+  @proxify
+  async updateMeetingSettings(
     meeting: Partial<RcVMeetingModel>,
     patch: boolean = true,
   ) {
@@ -839,10 +843,9 @@ export class RcVideo extends RcModule<Record<string, any>, RcVideoActionTypes> {
         this._alert.warning(error);
       }
     } else if (errors && errors.response) {
-      const {
-        errorCode,
-        permissionName,
-      } = await errors.response.clone().json();
+      const { errorCode, permissionName } = await errors.response
+        .clone()
+        .json();
       if (errorCode === 'InsufficientPermissions' && permissionName) {
         this._alert.danger({
           message: meetingStatus.insufficientPermissions,
@@ -898,10 +901,6 @@ export class RcVideo extends RcModule<Record<string, any>, RcVideoActionTypes> {
 
   get shortName(): string {
     return this._brand.shortName;
-  }
-
-  get fullName(): string {
-    return this._brand.fullName;
   }
 
   get brandCode(): string {
@@ -1025,26 +1024,20 @@ export class RcVideo extends RcModule<Record<string, any>, RcVideoActionTypes> {
     },
     () => this.brandName,
     () => this.shortName,
-    () => this.fullName,
-    () => this.brandCode,
     () => this.currentUser,
-    () => this.currentLocale,
+    () => this._brand.brandConfig.rcvMeetingTopic,
     (
       extensionName: string,
       brandName: string,
       shortName: string,
-      fullName: string,
-      brandCode: string,
       currentUser: RcvDelegator,
-      currentLocale: string,
+      rcvMeetingTopic: string,
     ) => {
       const topic = getTopic({
         extensionName,
         brandName,
         shortName,
-        fullName,
-        brandCode,
-        currentLocale,
+        rcvMeetingTopic,
       });
       return getDefaultVideoSettings({
         topic,
@@ -1117,14 +1110,12 @@ export class RcVideo extends RcModule<Record<string, any>, RcVideoActionTypes> {
     return this.state.delegator || this.loginUser;
   }
 
-  @computed(
-    ({ currentUser, extensionName, brandName, currentLocale }: RcVideo) => [
-      currentUser,
-      extensionName,
-      brandName,
-      currentLocale,
-    ],
-  )
+  @computed(({ currentUser, extensionName, brandName, _brand }: RcVideo) => [
+    currentUser,
+    extensionName,
+    brandName,
+    _brand.brandConfig.rcvMeetingTopic,
+  ])
   get defaultTopic(): string {
     let extensionName = this.extensionName;
     if (this.currentUser?.extensionId !== `${this.extensionId}`) {
@@ -1133,14 +1124,8 @@ export class RcVideo extends RcModule<Record<string, any>, RcVideoActionTypes> {
     return getTopic({
       extensionName,
       brandName: this.brandName,
-      fullName: this.fullName,
       shortName: this.shortName,
-      brandCode: this.brandCode,
-      currentLocale: this.currentLocale,
+      rcvMeetingTopic: this._brand.brandConfig.rcvMeetingTopic,
     });
-  }
-
-  get uriRegExp() {
-    return this._dynamicConfig?.rcvUriRegExp;
   }
 }

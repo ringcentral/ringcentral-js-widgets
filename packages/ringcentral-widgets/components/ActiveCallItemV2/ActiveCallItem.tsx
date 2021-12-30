@@ -1,6 +1,8 @@
+import React, { Component, FunctionComponent } from 'react';
+
 import classnames from 'classnames';
 import formatMessage from 'format-message';
-import React, { Component, FunctionComponent } from 'react';
+
 import { telephonySessionStatus } from '@ringcentral-integration/commons/enums/telephonySessionStatus';
 import {
   isInbound,
@@ -275,194 +277,195 @@ const WebphoneButtons: FunctionComponent<WebphoneButtonsProps> = ({
   );
 };
 
-const ActiveCallControlButtons: FunctionComponent<ActiveCallControlButtonsProps> = ({
-  session = undefined,
-  showRingoutCallControl,
-  showSwitchCall,
-  showTransferCall,
-  showHoldOnOtherDevice,
-  currentLocale,
-  disableLinks = false,
-  telephonySessionId,
-  ringoutHangup,
-  ringoutReject,
-  ringoutTransfer = undefined,
-  ringing,
-  inbound,
-  onClickSwitchBtn = undefined,
-  webphoneResume = undefined,
-  webphoneHold = undefined,
-  isConnecting = false,
-  clickSwitchTrack = () => {},
-}) => {
-  if (!showRingoutCallControl && !showSwitchCall) return null;
-  let switchCallButton;
-  if (showSwitchCall) {
-    const disabled = disableLinks || ringing;
-    switchCallButton = (
-      <span
-        title={i18n.getString('switchCall', currentLocale)}
-        className={classnames(styles.ringoutButton, styles.cursorPointer)}
-        data-sign="switchCall"
-      >
-        <SwitchIcon
-          className={classnames({
-            [styles.switchButton]: true,
-            [styles.disabled]: disabled,
-          })}
-          onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-            e.stopPropagation();
-            if (!disabled) {
-              clickSwitchTrack();
-              onClickSwitchBtn();
-            }
-          }}
-        />
-      </span>
-    );
-  }
+const ActiveCallControlButtons: FunctionComponent<ActiveCallControlButtonsProps> =
+  ({
+    session = undefined,
+    showRingoutCallControl,
+    showSwitchCall,
+    showTransferCall,
+    showHoldOnOtherDevice,
+    currentLocale,
+    disableLinks = false,
+    telephonySessionId,
+    ringoutHangup,
+    ringoutReject,
+    ringoutTransfer = undefined,
+    ringing,
+    inbound,
+    onClickSwitchBtn = undefined,
+    webphoneResume = undefined,
+    webphoneHold = undefined,
+    isConnecting = false,
+    clickSwitchTrack = () => {},
+  }) => {
+    if (!showRingoutCallControl && !showSwitchCall) return null;
+    let switchCallButton;
+    if (showSwitchCall) {
+      const disabled = disableLinks || ringing;
+      switchCallButton = (
+        <span
+          title={i18n.getString('switchCall', currentLocale)}
+          className={classnames(styles.ringoutButton, styles.cursorPointer)}
+          data-sign="switchCall"
+        >
+          <SwitchIcon
+            className={classnames({
+              [styles.switchButton]: true,
+              [styles.disabled]: disabled,
+            })}
+            onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+              e.stopPropagation();
+              if (!disabled) {
+                clickSwitchTrack();
+                onClickSwitchBtn();
+              }
+            }}
+          />
+        </span>
+      );
+    }
 
-  if (!showRingoutCallControl) {
-    return <div className={styles.ringoutButtons}>{switchCallButton}</div>;
-  }
+    if (!showRingoutCallControl) {
+      return <div className={styles.ringoutButtons}>{switchCallButton}</div>;
+    }
 
-  let endBtn;
-  let holdBtn;
+    let endBtn;
+    let holdBtn;
 
-  const inComingCall = inbound && ringing;
-  if (inComingCall) {
-    const rejectTitle = i18n.getString('reject', currentLocale);
-    endBtn = (
-      <span
-        title={rejectTitle}
-        className={styles.ringoutButton}
-        data-sign="hangup"
-      >
-        <CircleButton
-          disabled={disableLinks}
-          className={classnames({
-            [styles.endButton]: true,
-            [styles.disabled]: disableLinks,
-          })}
-          onClick={(e) => {
-            e.stopPropagation();
-            ringoutReject(telephonySessionId);
-          }}
-          icon={EndIcon}
-          showBorder={false}
-        />
-      </span>
-    );
-  } else {
-    endBtn = (
-      <span
-        title={i18n.getString('hangup', currentLocale)}
-        className={styles.ringoutButton}
-        data-sign="hangup"
-      >
-        <CircleButton
-          disabled={disableLinks}
-          className={classnames({
-            [styles.endButton]: true,
-            [styles.disabled]: disableLinks,
-          })}
-          onClick={(e) => {
-            e.stopPropagation();
-            ringoutHangup(telephonySessionId);
-          }}
-          icon={EndIcon}
-          showBorder={false}
-        />
-      </span>
-    );
+    const inComingCall = inbound && ringing;
+    if (inComingCall) {
+      const rejectTitle = i18n.getString('reject', currentLocale);
+      endBtn = (
+        <span
+          title={rejectTitle}
+          className={styles.ringoutButton}
+          data-sign="hangup"
+        >
+          <CircleButton
+            disabled={disableLinks}
+            className={classnames({
+              [styles.endButton]: true,
+              [styles.disabled]: disableLinks,
+            })}
+            onClick={(e) => {
+              e.stopPropagation();
+              ringoutReject(telephonySessionId);
+            }}
+            icon={EndIcon}
+            showBorder={false}
+          />
+        </span>
+      );
+    } else {
+      endBtn = (
+        <span
+          title={i18n.getString('hangup', currentLocale)}
+          className={styles.ringoutButton}
+          data-sign="hangup"
+        >
+          <CircleButton
+            disabled={disableLinks}
+            className={classnames({
+              [styles.endButton]: true,
+              [styles.disabled]: disableLinks,
+            })}
+            onClick={(e) => {
+              e.stopPropagation();
+              ringoutHangup(telephonySessionId);
+            }}
+            icon={EndIcon}
+            showBorder={false}
+          />
+        </span>
+      );
 
-    const disabled = disableLinks || isConnecting || ringing;
-    if (session) {
-      if (isTelephonySessionOnHold(session)) {
-        holdBtn = (
-          <span
-            title={i18n.getString('unhold', currentLocale)}
-            className={styles.webphoneButton}
-            data-sign="unhold"
-          >
-            <CircleButton
-              className={classnames(styles.holdButton, styles.active, {
-                [styles.disabled]: disabled,
-              })}
-              onClick={(e) => {
-                e.stopPropagation();
-                webphoneResume('', telephonySessionId);
-              }}
-              iconWidth={260}
-              iconX={120}
-              icon={HoldIcon}
-              disabled={disabled}
-              showBorder
-            />
-          </span>
-        );
-      } else {
-        holdBtn = (
-          <span
-            title={i18n.getString('hold', currentLocale)}
-            className={classnames(styles.webphoneButton)}
-            data-sign="hold"
-          >
-            <CircleButton
-              className={classnames(styles.holdButton, {
-                [styles.disabled]: disabled,
-              })}
-              onClick={(e) => {
-                e.stopPropagation();
-                webphoneHold('', telephonySessionId);
-              }}
-              iconWidth={260}
-              iconX={120}
-              icon={HoldIcon}
-              disabled={disabled}
-              showBorder
-            />
-          </span>
-        );
+      const disabled = disableLinks || isConnecting || ringing;
+      if (session) {
+        if (isTelephonySessionOnHold(session)) {
+          holdBtn = (
+            <span
+              title={i18n.getString('unhold', currentLocale)}
+              className={styles.webphoneButton}
+              data-sign="unhold"
+            >
+              <CircleButton
+                className={classnames(styles.holdButton, styles.active, {
+                  [styles.disabled]: disabled,
+                })}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  webphoneResume('', telephonySessionId);
+                }}
+                iconWidth={260}
+                iconX={120}
+                icon={HoldIcon}
+                disabled={disabled}
+                showBorder
+              />
+            </span>
+          );
+        } else {
+          holdBtn = (
+            <span
+              title={i18n.getString('hold', currentLocale)}
+              className={classnames(styles.webphoneButton)}
+              data-sign="hold"
+            >
+              <CircleButton
+                className={classnames(styles.holdButton, {
+                  [styles.disabled]: disabled,
+                })}
+                onClick={(e) => {
+                  e.stopPropagation();
+                  webphoneHold('', telephonySessionId);
+                }}
+                iconWidth={260}
+                iconX={120}
+                icon={HoldIcon}
+                disabled={disabled}
+                showBorder
+              />
+            </span>
+          );
+        }
       }
     }
-  }
 
-  let transferBtn;
-  if (ringoutTransfer && !inComingCall) {
-    const transferTitle = i18n.getString('transfer', currentLocale);
+    let transferBtn;
+    if (ringoutTransfer && !inComingCall) {
+      const transferTitle = i18n.getString('transfer', currentLocale);
 
-    transferBtn = (
-      <span
-        title={transferTitle}
-        className={styles.ringoutButton}
-        data-sign="transfer"
-      >
-        <CircleButton
-          disabled={disableLinks}
-          className={classnames({
-            [styles.transferButton]: true,
-            [styles.disabled]: disableLinks,
-          })}
-          onClick={(e) => {
-            e.stopPropagation();
-            ringoutTransfer(telephonySessionId);
-          }}
-          icon={TransferIcon}
-        />
-      </span>
+      transferBtn = (
+        <span
+          title={transferTitle}
+          className={styles.ringoutButton}
+          data-sign="transfer"
+        >
+          <CircleButton
+            disabled={disableLinks}
+            className={classnames({
+              [styles.transferButton]: true,
+              [styles.disabled]: disableLinks,
+            })}
+            onClick={(e) => {
+              e.stopPropagation();
+              ringoutTransfer(telephonySessionId);
+            }}
+            icon={TransferIcon}
+          />
+        </span>
+      );
+    }
+
+    return (
+      <div className={styles.ringoutButtons}>
+        {showHoldOnOtherDevice && holdBtn}
+        {showTransferCall && transferBtn}
+        {switchCallButton}
+        {endBtn}
+      </div>
     );
-  }
-
-  return (
-    <div className={styles.ringoutButtons}>
-      {showHoldOnOtherDevice && holdBtn}
-      {showTransferCall && transferBtn}
-      {switchCallButton}
-      {endBtn}
-    </div>
-  );
-};
+  };
 
 /**
  * TODO: Gradually replace <ActiveCallItem/> with this component
@@ -695,7 +698,7 @@ export class ActiveCallItem extends Component<
     // !refactor
     // TODO: Consider refactoring modalConfirm out of UI components!!!!!!!!!!!!!!
     this.modalId = modalConfirm({
-      size: isWide ? 'small' : 'xsmall',
+      childrenSize: isWide ? 'medium' : 'small',
       title: i18n.getString('callSwitch', currentLocale),
       className: styles.switchDialog,
       contentProps: {
@@ -787,7 +790,7 @@ export class ActiveCallItem extends Component<
     const cursorPointer = hasCallControl && !!onClick;
     // real outbound call status
     const isConnecting =
-      telephonySession?.otherParties[0]?.status.code ===
+      telephonySession?.otherParties[0]?.status?.code ===
       telephonySessionStatus.proceeding;
     return (
       <div data-sign="callItem" className={styles.callItemContainer}>

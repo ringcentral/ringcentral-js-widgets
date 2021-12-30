@@ -5,10 +5,10 @@ import React, { CSSProperties } from 'react';
 
 import {
   Node,
-  StickyVirtualizedListProps,
-  StickyVirtualizedListState,
   scrollReasons,
   ScrollReasons,
+  StickyVirtualizedListProps,
+  StickyVirtualizedListState,
 } from './StickyVirtualizedList.interface';
 
 export class StickyVirtualizedList extends React.PureComponent<

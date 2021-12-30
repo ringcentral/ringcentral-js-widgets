@@ -1,4 +1,5 @@
 import { Module } from '@ringcentral-integration/commons/lib/di';
+
 import RcUIModule from '../../lib/RcUIModule';
 
 @Module({

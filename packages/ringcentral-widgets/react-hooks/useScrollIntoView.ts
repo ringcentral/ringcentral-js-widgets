@@ -1,4 +1,5 @@
-import { useRef, useEffect, useContext } from 'react';
+import { useContext, useEffect, useRef } from 'react';
+
 import { SelectListContext } from '../contexts';
 
 /**

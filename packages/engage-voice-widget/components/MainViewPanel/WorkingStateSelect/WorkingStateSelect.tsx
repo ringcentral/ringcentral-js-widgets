@@ -1,6 +1,7 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 
 import classNames from 'classnames';
+
 import {
   EvMainViewUIFunctions,
   EvMainViewUIProps,

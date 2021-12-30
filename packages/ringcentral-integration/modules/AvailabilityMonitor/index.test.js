@@ -1,11 +1,10 @@
 import chai, { expect } from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import dirtyChai from 'dirty-chai';
-import sinon from 'sinon';
 import { createStore } from 'redux';
+import sinon from 'sinon';
 
-import AvailabilityMonitor, { STATUS_END_POINT } from './';
-import { PRESENCE_REG_EXP } from './availabilityMonitorHelper';
+import AvailabilityMonitor, { STATUS_END_POINT } from '.';
 import actionTypes from './actionTypes';
 import getAvailabilityMonitorReducer from './availabilityMonitorReducer';
 
@@ -98,7 +97,8 @@ describe('AvailabilityMonitor unit test', () => {
               },
             };
             sinon.stub(availabilityMonitor, 'ready').value(ready);
-            availabilityMonitor._lastEnvironmentCounter = lastEnvironmentCounter;
+            availabilityMonitor._lastEnvironmentCounter =
+              lastEnvironmentCounter;
             expect(availabilityMonitor._shouldRebindHandlers()).to.equal(
               result,
             );

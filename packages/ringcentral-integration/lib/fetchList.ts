@@ -53,9 +53,11 @@ type Options<P> = { perPage?: string; parallel?: boolean } & P;
 
 export default async function fetchList<T, P>(
   fn: Fn<T>,
-  { perPage = 'MAX', parallel = true, ...params }: Options<P> = {} as Options<
-    P
-  >,
+  {
+    perPage = 'MAX',
+    parallel = true,
+    ...params
+  }: Options<P> = {} as Options<P>,
 ) {
   return parallel
     ? parallelFetch(fn, perPage, params)

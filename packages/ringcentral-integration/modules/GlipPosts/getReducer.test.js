@@ -1,16 +1,15 @@
 import { expect } from 'chai';
-import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
 
+import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
+import actionTypes from './actionTypes';
 import getReducer, {
-  getGlipPostsStatusReducer,
   getGlipPostsCreateStatusReducer,
-  getGlipPostsStoreReducer,
+  getGlipPostsFetchTimeReducer,
   getGlipPostsInputsReducer,
   getGlipPostsPageInfoReducer,
-  getGlipPostsFetchTimeReducer,
+  getGlipPostsStatusReducer,
+  getGlipPostsStoreReducer,
 } from './getReducer';
-
-import actionTypes from './actionTypes';
 import status from './status';
 
 describe('GlipPosts :: getGlipPostsStatusReducer', () => {
@@ -261,9 +260,8 @@ describe('GlipPosts :: getReducer', () => {
     const statusReducer = getModuleStatusReducer(actionTypes);
     const glipPostsStatusReducer = getGlipPostsStatusReducer(actionTypes);
     const glipPostsStoreReducer = getGlipPostsStoreReducer(actionTypes);
-    const glipPostsCreateStatusReducer = getGlipPostsCreateStatusReducer(
-      actionTypes,
-    );
+    const glipPostsCreateStatusReducer =
+      getGlipPostsCreateStatusReducer(actionTypes);
     const glipPostsInputsReducer = getGlipPostsInputsReducer(actionTypes);
     const glipPostsPageInfoReducer = getGlipPostsPageInfoReducer(actionTypes);
     const glipPostsFetchTimeReducer = getGlipPostsFetchTimeReducer(actionTypes);

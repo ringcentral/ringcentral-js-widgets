@@ -1,6 +1,7 @@
-import { RcIconButton } from '@ringcentral/juno';
-import activeCallSvg from '@ringcentral/juno/icon/ActiveCall';
 import React, { FunctionComponent } from 'react';
+
+import { RcIconButton } from '@ringcentral/juno';
+import { ActiveCall } from '@ringcentral/juno/icon';
 
 import { CallButtonsProps } from '../../SmallCallControl';
 import i18n from '../i18n';
@@ -22,7 +23,7 @@ export const ActiveCallButton: FunctionComponent<ActiveCallButtonProps> = ({
     <RcIconButton
       data-sign={dataSign}
       color="interactive.b02"
-      symbol={activeCallSvg}
+      symbol={ActiveCall}
       size={size}
       disabled={disableActive}
       onClick={onActive}

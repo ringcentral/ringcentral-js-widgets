@@ -1,17 +1,19 @@
 import React, { FunctionComponent } from 'react';
+
 import classnames from 'classnames';
+
 import CloseDialpadIcon from '../../../assets/images/CloseDialpad.svg';
+import { audios } from '../../DialButton/audios';
 import DialPad from '../../DialPad';
-import audios from '../../DialButton/audios';
-import styles from './styles.scss';
 import { CallLogDialpadProps, DtmfValue } from './CallLogDialpad.interface';
+import styles from './styles.scss';
 
 const cleanRegex = /[^\d*#]/g;
 const filter = (value) => value.replace(cleanRegex, '');
 
 const MAX_PASTE_LENGTH = 15;
 
-const CallLogDialpad: React.FunctionComponent<CallLogDialpadProps> = ({
+const CallLogDialpad: FunctionComponent<CallLogDialpadProps> = ({
   onChange,
   onClose,
   className,

@@ -1,12 +1,11 @@
 import { expect } from 'chai';
+
+import getModuleStatusReducer from '../getModuleStatusReducer';
+import actionTypes from './actionTypesBase';
 import getStorageReducer, {
-  getStatusReducer,
   getDataReducer,
   getStorageKeyReducer,
 } from './getStorageReducer';
-import getModuleStatusReducer from '../getModuleStatusReducer';
-
-import actionTypes from './actionTypesBase';
 
 describe('getStorageKeyReducer', () => {
   it('should be a function', () => {

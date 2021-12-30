@@ -1,7 +1,7 @@
 import { expect } from 'chai';
-import getCacheReducer, { getSenderNumberReducer } from './getCacheReducer';
 
 import composeTextActionTypes from './actionTypes';
+import getCacheReducer, { getSenderNumberReducer } from './getCacheReducer';
 
 describe('ComposeText :: Cache :: getSenderNumberReducer', () => {
   it('should be a function', () => {

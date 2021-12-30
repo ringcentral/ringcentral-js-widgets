@@ -38,7 +38,8 @@ export default {
   pmiSettingChangeAlert: "Se você alterar as configurações e agendar esta reunião, todas as reuniões com ID da reunião pessoal usarão essas mesmas configurações mais recentes.",
   lockedTooltip: "Configuração gerenciada pelo administrador da empresa.",
   when: "Quando",
-  recurringDescribe: "Lembre-se de verificar a recorrência ou repetir no convite de calendário para os participantes."
+  recurringDescribe: "Lembre-se de verificar a recorrência ou repetir no convite de calendário para os participantes.",
+  ieSupportAlert: "Observação: a partir do dia 16 de fevereiro de 2022, o {appName} não funcionará mais com o Internet Explorer 11. Recomendamos alternar para o Microsoft Edge ou atualizar para o Outlook 2016 ou superior."
 };
 
 // @key: @#@"date"@#@ @source: @#@"Date"@#@
@@ -80,3 +81,4 @@ export default {
 // @key: @#@"lockedTooltip"@#@ @source: @#@"This setting is managed by your company admin"@#@
 // @key: @#@"when"@#@ @source: @#@"When"@#@
 // @key: @#@"recurringDescribe"@#@ @source: @#@"Please remember to check recurrence or repeat in your calendar invitation to your attendees."@#@
+// @key: @#@"ieSupportAlert"@#@ @source: @#@"Please note that {appName} won't work with Internet Explorer 11 after Feb 16, 2022. We recommend switching to Microsoft Edge or updating to Outlook 2016 or above."@#@

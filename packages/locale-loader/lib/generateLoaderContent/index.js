@@ -21,33 +21,6 @@ function returnLoadLocaleCode(chunk, locale, basename) {
   return code;
 }
 
-export function handleSpecialLocale(chunk, files) {
-  const codeMaps = new Map([
-    [
-      files.find((file) => /^es-419/.test(file)),
-      {
-        condition: `locale.indexOf('es') === 0 && locale !== 'es-ES'`,
-        loadFileBasename: 'es-419',
-      },
-    ],
-  ]);
-
-  let code = '';
-  for (const [
-    needHandleLocale,
-    { condition, loadFileBasename: basename },
-  ] of codeMaps.entries()) {
-    const locale = basename;
-    if (needHandleLocale) {
-      code += `
-       if (${condition}) {
-         ${returnLoadLocaleCode(chunk, locale, basename)}
-       }
-      `;
-    }
-  }
-  return code;
-}
 /**
  * @typedef GLCOptions
  * @property {String[]} files
@@ -103,10 +76,9 @@ export default function generateLoaderContent(
 
   return dedent`export default function loadLocale(locale) {
       return new Promise((resolve) => {
-        ${handleSpecialLocale(chunk, files)}
         switch (locale) {${cases.join('')}
           default:
-            return resolve({});
+            return resolve(null);
         }
       });
     }\n`;

@@ -1,21 +1,21 @@
 import {
-  autorun,
-  title,
-  Scenario,
-  Given,
-  When,
-  Then,
   And,
-  Step,
+  autorun,
   examples,
+  Given,
+  Scenario,
+  Step,
+  Then,
+  title,
+  When,
 } from '@ringcentral-integration/test-utils';
 
 import {
   DataFetcherV2,
   DataSource,
-  DEFAULT_TTL,
   DEFAULT_RETRY,
   DEFAULT_RETRY_INTERVALS,
+  DEFAULT_TTL,
 } from '../../modules/DataFetcherV2';
 
 @autorun(test)

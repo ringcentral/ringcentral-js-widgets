@@ -1,13 +1,14 @@
+import { SessionData } from 'ringcentral-call-control/lib/Session';
+
 import {
   autorun,
-  title,
-  Scenario,
   Given,
-  When,
-  Then,
+  Scenario,
   Step,
+  Then,
+  title,
+  When,
 } from '@ringcentral-integration/test-utils';
-import { SessionData } from 'ringcentral-call-control/lib/Session';
 
 import { ActiveCallControl } from '../../modules/ActiveCallControlV2';
 import { mockModuleGenerator } from '../lib/mockModule';
@@ -203,6 +204,419 @@ export class ActiveCallControlActiveSessionId extends Step {
           desc="The mockModule 'activeSessionId' should be the expected values"
           action={(_: any, context: any) => {
             expect(context.mockModule.data.activeSessionId).toEqual(null);
+          }}
+        />
+      </Scenario>
+    );
+  }
+}
+
+@autorun(test)
+@title('ActiveCallControl Module "transferCall" action')
+export class ActiveCallControlTransferCall extends Step {
+  run() {
+    return (
+      <Scenario desc="verify transfer call number">
+        <When
+          desc="Execute 'transfer' method with mock module"
+          action={(_: any, context: any) => {
+            context.mock = mockModuleGenerator({
+              _deps: {
+                regionSettings: {
+                  areaCode: '',
+                  countryCode: 'US',
+                },
+                brand: {
+                  brandConfig: { allowRegionSettings: true },
+                },
+                availabilityMonitor: {
+                  checkIfHAError: () => false,
+                },
+                numberValidate: {
+                  validateNumbers: jest.fn(),
+                },
+                alert: {
+                  warning: jest.fn(),
+                },
+              },
+              _permissionCheck: false,
+              _rcCall: { sessions: [] },
+              clearCallControlBusyTimestamp: () => null,
+              setCallControlBusyTimestamp: () => null,
+            });
+            ActiveCallControl.prototype.transfer.call(
+              context.mock,
+              '101',
+              'testSessionId',
+            );
+          }}
+        />
+        <Then
+          desc="numberValidate validateNumbers should not be called"
+          action={(_: any, context: any) => {
+            expect(
+              context.mock._deps.numberValidate.validateNumbers,
+            ).not.toBeCalled();
+          }}
+        />
+        <When
+          desc="Execute 'transfer' method with mock module _permissionCheck false"
+          action={async (_: any, context: any) => {
+            context.mock = mockModuleGenerator({
+              _deps: {
+                regionSettings: {
+                  areaCode: '',
+                  countryCode: 'US',
+                },
+                brand: {
+                  brandConfig: { allowRegionSettings: true },
+                },
+                availabilityMonitor: {
+                  checkIfHAError: () => false,
+                },
+                numberValidate: {
+                  validateNumbers: jest.fn().mockReturnValue({
+                    result: true,
+                    errors: [],
+                    numbers: [
+                      {
+                        e164: '101',
+                      },
+                    ],
+                  }),
+                },
+                alert: {
+                  warning: jest.fn(),
+                },
+              },
+              _permissionCheck: true,
+              _rcCall: { sessions: [] },
+              clearCallControlBusyTimestamp: () => null,
+              setCallControlBusyTimestamp: () => null,
+            });
+            await ActiveCallControl.prototype.transfer.call(
+              context.mock,
+              '101',
+              'testSessionId',
+            );
+          }}
+        />
+        <Then
+          desc="numberValidate validateNumbers should be called"
+          action={(_: any, context: any) => {
+            expect(
+              context.mock._deps.numberValidate.validateNumbers,
+            ).toBeCalledWith(['101']);
+          }}
+        />
+        <When
+          desc="Execute 'transfer' method with mock module _permissionCheck false and error"
+          action={async (_: any, context: any) => {
+            context.mock = mockModuleGenerator({
+              _deps: {
+                regionSettings: {
+                  areaCode: '',
+                  countryCode: 'US',
+                },
+                brand: {
+                  brandConfig: { allowRegionSettings: true },
+                },
+                availabilityMonitor: {
+                  checkIfHAError: () => false,
+                },
+                numberValidate: {
+                  validateNumbers: jest.fn().mockReturnValue({
+                    result: false,
+                    errors: [{ type: 'test', phoneNumber: '101' }],
+                    numbers: [],
+                  }),
+                },
+                alert: {
+                  warning: jest.fn(),
+                },
+              },
+              _permissionCheck: true,
+              _rcCall: { sessions: [] },
+              clearCallControlBusyTimestamp: () => null,
+              setCallControlBusyTimestamp: () => null,
+            });
+            await ActiveCallControl.prototype.transfer.call(
+              context.mock,
+              '101',
+              'testSessionId',
+            );
+          }}
+        />
+        <Then
+          desc="numberValidate validateNumbers should be called"
+          action={(_: any, context: any) => {
+            expect(
+              context.mock._deps.numberValidate.validateNumbers,
+            ).toBeCalledWith(['101']);
+            expect(context.mock._deps.alert.warning).toBeCalledWith({
+              message: undefined,
+              payload: { phoneNumber: '101' },
+            });
+          }}
+        />
+      </Scenario>
+    );
+  }
+}
+
+@autorun(test)
+@title('ActiveCallControl Module Hold Session action')
+export class ActiveCallControlHoldSession extends Step {
+  run() {
+    return (
+      <Scenario desc="ActiveCallControl Module Hold Session action">
+        <When
+          desc="Execute 'hold' method with mockModule"
+          action={(_: any, context: any) => {
+            context.mockModule = mockModuleGenerator({
+              _rcCall: {
+                sessions: [
+                  {
+                    direction: 'Outbound',
+                    id: 'testId',
+                    otherParties: [],
+                    hold: jest.fn(),
+                  },
+                ],
+              },
+              clearCallControlBusyTimestamp: () => null,
+              setCallControlBusyTimestamp: () => null,
+            });
+            ActiveCallControl.prototype.hold.call(context.mockModule, 'testId');
+          }}
+        />
+        <Then
+          desc="The sessions should be hold"
+          action={(_: any, context: any) => {
+            expect(context.mockModule._rcCall.sessions[0].hold).toBeCalled();
+          }}
+        />
+      </Scenario>
+    );
+  }
+}
+
+@autorun(test)
+@title('ActiveCallControl Module Forward Session action')
+export class ActiveCallControlForwardSession extends Step {
+  run() {
+    return (
+      <Scenario desc="ActiveCallControl Module Forward Session action">
+        <When
+          desc="Execute 'forward' method with mockModule _permissionCheck false"
+          action={(_: any, context: any) => {
+            context.mockModule = mockModuleGenerator({
+              _deps: {
+                regionSettings: {
+                  areaCode: '',
+                  countryCode: 'US',
+                },
+                brand: {
+                  brandConfig: { allowRegionSettings: true },
+                },
+                numberValidate: {
+                  validateNumbers: jest.fn().mockReturnValue({
+                    result: false,
+                    errors: [{ type: 'test', phoneNumber: '101' }],
+                    numbers: [],
+                  }),
+                },
+                alert: {
+                  warning: jest.fn(),
+                },
+              },
+              _permissionCheck: false,
+              _rcCall: {
+                sessions: [
+                  {
+                    direction: 'Outbound',
+                    id: 'testId',
+                    otherParties: [],
+                    hold: jest.fn(),
+                  },
+                ],
+              },
+              acceptOptions: {},
+              clearCallControlBusyTimestamp: () => null,
+              setCallControlBusyTimestamp: () => null,
+            });
+            ActiveCallControl.prototype.forward.call(
+              context.mockModule,
+              '101',
+              'testId',
+            );
+          }}
+        />
+        <Then
+          desc="numberValidate validateNumbers should not be called"
+          action={(_: any, context: any) => {
+            expect(
+              context.mockModule._deps.numberValidate.validateNumbers,
+            ).not.toBeCalled();
+          }}
+        />
+        <When
+          desc="Execute 'forward' method with mockModule _permissionCheck true"
+          action={(_: any, context: any) => {
+            context.mockModule = mockModuleGenerator({
+              _deps: {
+                regionSettings: {
+                  areaCode: '',
+                  countryCode: 'US',
+                },
+                brand: {
+                  brandConfig: { allowRegionSettings: true },
+                },
+                numberValidate: {
+                  validateNumbers: jest.fn().mockReturnValue({
+                    result: false,
+                    errors: [{ type: 'test', phoneNumber: '101' }],
+                    numbers: [],
+                  }),
+                },
+                alert: {
+                  warning: jest.fn(),
+                },
+              },
+              _permissionCheck: true,
+              _rcCall: {
+                sessions: [
+                  {
+                    direction: 'Outbound',
+                    id: 'testId',
+                    otherParties: [],
+                    hold: jest.fn(),
+                  },
+                ],
+              },
+              acceptOptions: {},
+              clearCallControlBusyTimestamp: () => null,
+              setCallControlBusyTimestamp: () => null,
+            });
+            ActiveCallControl.prototype.forward.call(
+              context.mockModule,
+              '101',
+              'testId',
+            );
+          }}
+        />
+        <Then
+          desc="numberValidate validateNumbers should be called"
+          action={(_: any, context: any) => {
+            expect(
+              context.mockModule._deps.numberValidate.validateNumbers,
+            ).toBeCalledWith(['101']);
+          }}
+        />
+      </Scenario>
+    );
+  }
+}
+
+@autorun(test)
+@title('ActiveCallControl Module Hold Other Calls action')
+export class ActiveCallControlHoldOtherCallsSession extends Step {
+  run() {
+    return (
+      <Scenario desc="ActiveCallControl Module Hold Other Calls action">
+        <When
+          desc="Execute '_holdOtherCalls' method with mockModule"
+          action={(_: any, context: any) => {
+            context.mockModule = mockModuleGenerator({
+              _rcCall: {
+                sessions: [
+                  {
+                    direction: 'Outbound',
+                    telephonySessionId: 'testId',
+                    status: 'Answered',
+                    webphoneSession: {
+                      hold: jest.fn(),
+                    },
+                    otherParties: [],
+                  },
+                  {
+                    direction: 'Outbound',
+                    telephonySessionId: 'testHoldId',
+                    status: 'Answered',
+                    webphoneSession: {
+                      hold: jest.fn(),
+                    },
+                    otherParties: [],
+                  },
+                ],
+              },
+              clearCallControlBusyTimestamp: () => null,
+              setCallControlBusyTimestamp: () => null,
+            });
+            ActiveCallControl.prototype._holdOtherCalls.call(
+              context.mockModule,
+              'testId',
+            );
+          }}
+        />
+        <Then
+          desc="The other call should be hold"
+          action={(_: any, context: any) => {
+            const otherCall = context.mockModule._rcCall.sessions.find((s) => {
+              return s.telephonySessionId === 'testHoldId';
+            });
+            expect(otherCall.webphoneSession.hold).toBeCalled();
+          }}
+        />
+      </Scenario>
+    );
+  }
+}
+
+@autorun(test)
+@title('ActiveCallControl Module answerAndEnd action')
+export class ActiveCallControlAnswerAndEndSession extends Step {
+  run() {
+    return (
+      <Scenario desc="ActiveCallControl Module answerAndEnd action">
+        <When
+          desc="Execute 'answerAndEnd' method with mockModule"
+          action={(_: any, context: any) => {
+            context.mockModule = mockModuleGenerator({
+              _rcCall: {
+                sessions: [
+                  {
+                    direction: 'Outbound',
+                    id: 'testId',
+                    status: 'Answered',
+                    webphoneSession: {},
+                    hangup: jest.fn(),
+                  },
+                  {
+                    direction: 'Outbound',
+                    id: 'testOtherId',
+                    status: 'Proceeding',
+                    webphoneSession: {},
+                    hangup: jest.fn(),
+                  },
+                ],
+              },
+              clearCallControlBusyTimestamp: () => null,
+              setCallControlBusyTimestamp: () => null,
+            });
+            ActiveCallControl.prototype.answerAndEnd.call(
+              context.mockModule,
+              'testId',
+            );
+          }}
+        />
+        <Then
+          desc="The other call should be hangup"
+          action={(_: any, context: any) => {
+            const otherCall = context.mockModule._rcCall.sessions.find((s) => {
+              return s.id === 'testOtherId';
+            });
+            expect(otherCall.hangup).toBeCalled();
           }}
         />
       </Scenario>

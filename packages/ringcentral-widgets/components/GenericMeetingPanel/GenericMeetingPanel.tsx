@@ -1,15 +1,15 @@
 import React, { useRef } from 'react';
+
+import { RcVMeetingModel } from '@ringcentral-integration/commons/interfaces/Rcv.model';
 import sleep from '@ringcentral-integration/commons/lib/sleep';
 import { RcMMeetingModel } from '@ringcentral-integration/commons/modules/MeetingV2';
-import { RcVMeetingModel } from '@ringcentral-integration/commons/interfaces/Rcv.model';
-import { SpinnerOverlay } from '../SpinnerOverlay';
-import MeetingConfigs from '../MeetingConfigs';
+
 import isSafari from '../../lib/isSafari';
-
-import { VideoConfig } from '../VideoPanel/VideoConfig';
 import { Topic, TopicRef } from '../InnerTopic';
+import MeetingConfigs from '../MeetingConfigs';
 import { MeetingConfigs as MeetingConfigsV2 } from '../MeetingConfigsV2';
-
+import { SpinnerOverlay } from '../SpinnerOverlay';
+import { VideoConfig } from '../VideoPanel/VideoConfig';
 import { GenericMeetingPanelProps } from './interface';
 import styles from './styles.scss';
 
@@ -56,20 +56,26 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
     schedule,
     showSpinner,
     showRcvAdminLock,
-    showPmiAlert,
+    showPmiConfirm,
     enablePersonalMeeting,
+    isPmiChangeConfirmed,
+    onPmiChangeClick,
     showWaitingRoom,
     showE2EE,
     isE2EEDisabled,
     personalMeetingId,
     switchUsePersonalMeetingId,
     updateHasSettingsChanged,
+    trackSettingChanges,
     e2eeInteractFunc,
     showScheduleOnBehalf,
     delegators,
     joinBeforeHostLabel,
     authUserTypeValue,
     isJoinBeforeHostDisabled,
+    isMuteAudioDisabled,
+    isTurnOffCameraDisabled,
+    isAllowScreenSharingDisabled,
     isAuthenticatedCanJoinDisabled,
     isRequirePasswordDisabled,
     isWaitingRoomDisabled,
@@ -77,6 +83,7 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
     isWaitingRoomGuestDisabled,
     isWaitingRoomAllDisabled,
     isAuthUserTypeDisabled,
+    isWaitingRoomTypeDisabled,
     isSignedInUsersDisabled,
     isSignedInCoWorkersDisabled,
     updateScheduleFor,
@@ -86,6 +93,8 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
     recurringMeetingPosition,
     defaultTopic,
     isPersonalMeetingDisabled,
+    showIeSupportAlert,
+    appName,
   } = props;
 
   if (showSpinner) {
@@ -136,11 +145,14 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
           showScheduleOnBehalf={showScheduleOnBehalf}
           delegators={delegators}
           updateScheduleFor={updateScheduleFor}
+          trackSettingChanges={trackSettingChanges}
           enableServiceWebSettings={enableServiceWebSettings}
           recurringMeetingPosition={recurringMeetingPosition}
           datePickerSize={datePickerSize}
           timePickerSize={timePickerSize}
           checkboxSize={checkboxSize}
+          showIeSupportAlert={showIeSupportAlert}
+          appName={appName}
         >
           {showTopic && (
             <Topic
@@ -173,7 +185,7 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
           timePickerSize={timePickerSize}
           checkboxSize={checkboxSize}
           showRcvAdminLock={showRcvAdminLock}
-          showPmiAlert={showPmiAlert}
+          showPmiConfirm={showPmiConfirm}
           showWaitingRoom={showWaitingRoom}
           showE2EE={showE2EE}
           isE2EEDisabled={isE2EEDisabled}
@@ -181,21 +193,30 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
           isWaitingRoomGuestDisabled={isWaitingRoomGuestDisabled}
           isWaitingRoomAllDisabled={isWaitingRoomAllDisabled}
           isAuthUserTypeDisabled={isAuthUserTypeDisabled}
+          isWaitingRoomTypeDisabled={isWaitingRoomTypeDisabled}
           isSignedInUsersDisabled={isSignedInUsersDisabled}
           isSignedInCoWorkersDisabled={isSignedInCoWorkersDisabled}
           enablePersonalMeeting={enablePersonalMeeting}
+          isPmiChangeConfirmed={isPmiChangeConfirmed}
           personalMeetingId={personalMeetingId}
           switchUsePersonalMeetingId={switchUsePersonalMeetingId}
           updateHasSettingsChanged={updateHasSettingsChanged}
+          trackSettingChanges={trackSettingChanges}
+          onPmiChangeClick={onPmiChangeClick}
           showScheduleOnBehalf={showScheduleOnBehalf}
           showSpinnerInConfigPanel={showSpinnerInConfigPanel}
           delegators={delegators}
           joinBeforeHostLabel={joinBeforeHostLabel}
           authUserTypeValue={authUserTypeValue}
           isJoinBeforeHostDisabled={isJoinBeforeHostDisabled}
+          isMuteAudioDisabled={isMuteAudioDisabled}
+          isTurnOffCameraDisabled={isTurnOffCameraDisabled}
+          isAllowScreenSharingDisabled={isAllowScreenSharingDisabled}
           isAuthenticatedCanJoinDisabled={isAuthenticatedCanJoinDisabled}
           isWaitingRoomDisabled={isWaitingRoomDisabled}
           isRequirePasswordDisabled={isRequirePasswordDisabled}
+          showIeSupportAlert={showIeSupportAlert}
+          appName={appName}
         >
           {showTopic && (
             <Topic
@@ -260,7 +281,7 @@ GenericMeetingPanel.defaultProps = {
   onOK: undefined,
   scheduleButton: undefined,
   showRcvAdminLock: false,
-  showPmiAlert: false,
+  showPmiConfirm: false,
   showWaitingRoom: false,
   showE2EE: false,
   isE2EEDisabled: false,
@@ -268,9 +289,11 @@ GenericMeetingPanel.defaultProps = {
   isWaitingRoomGuestDisabled: false,
   isWaitingRoomAllDisabled: false,
   isAuthUserTypeDisabled: false,
+  isWaitingRoomTypeDisabled: false,
   isSignedInUsersDisabled: false,
   isSignedInCoWorkersDisabled: false,
   enablePersonalMeeting: false,
+  isPmiChangeConfirmed: false,
   showSaveAsDefault: true,
   disableSaveAsDefault: false,
   showCustom: false,

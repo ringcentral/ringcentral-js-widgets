@@ -1,12 +1,11 @@
 import {
   autorun,
-  title,
-  Scenario,
   Given,
-  When,
-  Then,
+  Scenario,
   Step,
-  examples,
+  Then,
+  title,
+  When,
 } from '@ringcentral-integration/test-utils';
 
 import { Call } from '../../interfaces/Call.interface';

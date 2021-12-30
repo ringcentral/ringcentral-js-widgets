@@ -1,31 +1,32 @@
 import {
-  state,
-  action,
-  watch,
-  computed,
-  RcUIModuleV2,
-} from '@ringcentral-integration/core';
+  ContactPresence,
+  IContact,
+} from '@ringcentral-integration/commons/interfaces/Contact.model';
+import {
+  AllContactSourceName,
+  groupByFirstLetterOfName,
+  sortContactItemsByName,
+  uniqueContactItems,
+} from '@ringcentral-integration/commons/lib/contactHelper';
+import { debounce } from '@ringcentral-integration/commons/lib/debounce-throttle';
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import proxify from '@ringcentral-integration/commons/lib/proxy/proxify';
-import { debounce } from '@ringcentral-integration/commons/lib/debounce-throttle';
 import {
-  uniqueContactItems,
-  sortContactItemsByName,
-  groupByFirstLetterOfName,
-  AllContactSourceName,
-} from '@ringcentral-integration/commons/lib/contactHelper';
-import {
-  IContact,
-  ContactPresence,
-} from '@ringcentral-integration/commons/interfaces/Contact.model';
+  action,
+  computed,
+  RcUIModuleV2,
+  state,
+  watch,
+} from '@ringcentral-integration/core';
+
 import { RouteParams } from '../ContactDetailsUI';
 import {
+  ContactSourceLastStatus,
   Deps,
   FilterCriteria,
-  StampedFilterCriteria,
-  ContactSourceLastStatus,
-  GetUIProps,
   GetUIFunctions,
+  GetUIProps,
+  StampedFilterCriteria,
 } from './ContactListUI.interface';
 
 export const FILTER_THRESHOLD: number = 500;

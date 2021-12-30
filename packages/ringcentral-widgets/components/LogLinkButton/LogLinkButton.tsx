@@ -1,6 +1,7 @@
+import React, { FunctionComponent } from 'react';
+
 import classNames from 'classnames';
 import formatMessage from 'format-message';
-import React from 'react';
 
 import Loglink from './assets/loglink.svg';
 import i18n from './i18n';
@@ -12,7 +13,7 @@ export interface LogLinkButtonProps {
   disabled: boolean;
 }
 
-const LogLinkButton: React.FunctionComponent<LogLinkButtonProps> = ({
+const LogLinkButton: FunctionComponent<LogLinkButtonProps> = ({
   crmName,
   onClick,
   disabled,

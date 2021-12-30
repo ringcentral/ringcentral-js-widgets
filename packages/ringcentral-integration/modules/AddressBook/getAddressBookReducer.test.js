@@ -1,12 +1,12 @@
 import { expect } from 'chai';
+
 import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
+import actionTypes from './actionTypes';
 import getAddressBookReducer, {
-  getSyncStatusReducer,
   getContactListReducer,
+  getSyncStatusReducer,
   getSyncTokenReducer,
 } from './getAddressBookReducer';
-
-import actionTypes from './actionTypes';
 import syncStatus from './syncStatus';
 
 describe('getSyncStatusReducer', () => {
@@ -88,8 +88,7 @@ describe('getContactListReducer', () => {
       ];
       const records = [
         {
-          uri:
-            'https.../account/1529881004/extension/1529881004/address-book/contact/2355305004',
+          uri: 'https.../account/1529881004/extension/1529881004/address-book/contact/2355305004',
           availability: 'Alive',
           id: 2355305004,
           firstName: 'Sandy"',
@@ -128,8 +127,7 @@ describe('getContactListReducer', () => {
       ];
       const records = [
         {
-          uri:
-            'https.../account/1529881004/extension/1529881004/address-book/contact/2355305004',
+          uri: 'https.../account/1529881004/extension/1529881004/address-book/contact/2355305004',
           availability: 'Alive',
           id: 2355305004,
           firstName: 'Sandy"',
@@ -162,8 +160,7 @@ describe('getContactListReducer', () => {
       ];
       const records = [
         {
-          uri:
-            'https.../account/1529881004/extension/1529881004/address-book/contact/2355305004',
+          uri: 'https.../account/1529881004/extension/1529881004/address-book/contact/2355305004',
           availability: 'Deleted',
           id: 2355305004,
           firstName: 'Sandy"',

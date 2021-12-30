@@ -1,6 +1,7 @@
 import { combineReducers } from 'redux';
-import { genericMeetingStatus } from './genericMeetingStatus';
+
 import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
+import { genericMeetingStatus } from './genericMeetingStatus';
 
 export function getMeetingUpdatingStatusReducer(types) {
   return (state = false, { type }) => {

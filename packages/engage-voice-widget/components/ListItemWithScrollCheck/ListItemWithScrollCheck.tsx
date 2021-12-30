@@ -1,6 +1,9 @@
-import React, { FunctionComponent, useRef, useEffect } from 'react';
-import { RcListItem } from '@ringcentral/juno';
+import React, { FunctionComponent, useEffect, useRef } from 'react';
+
 import classNames from 'classnames';
+
+import { RcListItem } from '@ringcentral/juno';
+
 import styles from './styles.scss';
 
 export interface ListItemWithScrollCheckProps {
@@ -10,37 +13,31 @@ export interface ListItemWithScrollCheckProps {
   className?: string;
 }
 
-export const ListItemWithScrollCheck: FunctionComponent<ListItemWithScrollCheckProps> = ({
-  selected,
-  onClick,
-  children,
-  scrollCheck,
-  className,
-  ...rest
-}) => {
-  const selectElm = useRef();
+export const ListItemWithScrollCheck: FunctionComponent<ListItemWithScrollCheckProps> =
+  ({ selected, onClick, children, scrollCheck, className, ...rest }) => {
+    const selectElm = useRef();
 
-  useEffect(() => {
-    if (selected && scrollCheck) {
-      scrollCheck(selectElm.current);
-    }
-  });
+    useEffect(() => {
+      if (selected && scrollCheck) {
+        scrollCheck(selectElm.current);
+      }
+    });
 
-  return (
-    <RcListItem
-      {...rest}
-      innerRef={selectElm}
-      button
-      selected={selected}
-      classes={{
-        root: classNames(styles.listItem, className),
-      }}
-      onClick={(e) => {
-        e.preventDefault();
-        onClick();
-      }}
-    >
-      {children}
-    </RcListItem>
-  );
-};
+    return (
+      <RcListItem
+        {...rest}
+        innerRef={selectElm}
+        button
+        selected={selected}
+        classes={{
+          root: classNames(styles.listItem, className),
+        }}
+        onClick={(e) => {
+          e.preventDefault();
+          onClick();
+        }}
+      >
+        {children}
+      </RcListItem>
+    );
+  };

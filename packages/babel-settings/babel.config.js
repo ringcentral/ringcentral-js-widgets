@@ -31,11 +31,25 @@ function normalizePresetEnvOptions({
   };
 }
 
+function checkGulp(caller) {
+  return !!(caller && caller.name === 'babel-gulp');
+}
+
 module.exports = function baseBabelConfig(
   api,
-  { presetEnvOptions, sourceType = 'module' } = {},
+  { presetEnvOptions = {}, sourceType = 'module' } = {},
 ) {
-  api.cache(true);
+  const isGulp = api.caller(checkGulp);
+  const newPlugins = [...plugins];
+  if (isGulp) {
+    // use `babel-plugin-direct-import` to import juno directly at widget lib release
+    newPlugins.push([
+      'babel-plugin-direct-import',
+      {
+        modules: ['@ringcentral/juno', '@ringcentral/juno/icon'],
+      },
+    ]);
+  }
   return {
     presets: [
       ['@babel/preset-env', normalizePresetEnvOptions(presetEnvOptions)],
@@ -48,7 +62,7 @@ module.exports = function baseBabelConfig(
         },
       ],
     ],
-    plugins,
+    plugins: newPlugins,
     sourceType,
   };
 };

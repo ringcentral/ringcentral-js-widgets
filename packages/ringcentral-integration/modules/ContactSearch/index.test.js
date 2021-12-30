@@ -1,11 +1,12 @@
 import { expect } from 'chai';
-import sinon from 'sinon';
 import { createStore } from 'redux';
-import ContactSearch from './index';
-import getContactSearchReducer from './getContactSearchReducer';
-import getCacheReducer from './getCacheReducer';
-import actionTypes from './actionTypes';
+import sinon from 'sinon';
+
 import loginStatus from '../Auth/loginStatus';
+import actionTypes from './actionTypes';
+import getCacheReducer from './getCacheReducer';
+import getContactSearchReducer from './getContactSearchReducer';
+import ContactSearch from './index';
 
 describe('ContactSearch Unit Test', () => {
   let contactSearch;

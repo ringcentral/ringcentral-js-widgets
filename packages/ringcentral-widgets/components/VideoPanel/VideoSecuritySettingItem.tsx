@@ -1,6 +1,8 @@
-import React, { FC, ReactNode } from 'react';
-import { RcFormControlLabel, RcTooltip, RcIcon } from '@ringcentral/juno';
+import React, { FunctionComponent, ReactNode } from 'react';
+
+import { RcFormControlLabel, RcIcon, RcTooltip } from '@ringcentral/juno';
 import { LockBorder } from '@ringcentral/juno/icon';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 
@@ -21,7 +23,12 @@ function generateLockIcon(
       data-sign="lockButtonTooltip"
       title={i18n.getString('lockTooltip', currentLocale)}
     >
-      <RcIcon size="small" className={styles.lockButton} symbol={LockBorder} />
+      <RcIcon
+        size="small"
+        color="neutral.f04"
+        className={styles.lockButton}
+        symbol={LockBorder}
+      />
     </RcTooltip>
   ) : null;
 }
@@ -38,48 +45,49 @@ interface VideoSecuritySettingItemProps {
   classes?: {};
 }
 
-export const VideoSecuritySettingItem: FC<VideoSecuritySettingItemProps> = ({
-  dataSign,
-  label,
-  isLock = false,
-  isDisabled = false,
-  currentLocale,
-  children,
-  hasScrollBar = false,
-  labelPlacement,
-}) => {
-  return (
-    <RcFormControlLabel
-      data-sign={dataSign}
-      disabled={isLock || isDisabled}
-      control={
-        <span
-          className={
+export const VideoSecuritySettingItem: FunctionComponent<VideoSecuritySettingItemProps> =
+  ({
+    dataSign,
+    label,
+    isLock = false,
+    isDisabled = false,
+    currentLocale,
+    children,
+    hasScrollBar = false,
+    labelPlacement,
+  }) => {
+    return (
+      <RcFormControlLabel
+        data-sign={dataSign}
+        disabled={isLock || isDisabled}
+        control={
+          <span
+            className={
+              labelPlacement === 'start'
+                ? styles.iconCombine
+                : styles.checkboxSeparate
+            }
+          >
+            {labelPlacement === 'start' &&
+              generateLockIcon(isLock, currentLocale, hasScrollBar)}
+            {children}
+          </span>
+        }
+        label={
+          <>
+            {label}
+            {labelPlacement !== 'start' &&
+              generateLockIcon(isLock, currentLocale, hasScrollBar)}
+          </>
+        }
+        labelPlacement={labelPlacement}
+        classes={{
+          root:
             labelPlacement === 'start'
-              ? styles.iconCombine
-              : styles.checkboxSeparate
-          }
-        >
-          {labelPlacement === 'start' &&
-            generateLockIcon(isLock, currentLocale, hasScrollBar)}
-          {children}
-        </span>
-      }
-      label={
-        <>
-          {label}
-          {labelPlacement !== 'start' &&
-            generateLockIcon(isLock, currentLocale, hasScrollBar)}
-        </>
-      }
-      labelPlacement={labelPlacement}
-      classes={{
-        root:
-          labelPlacement === 'start'
-            ? styles.labelPlacementStartRoot
-            : styles.labelPlacementEndRoot,
-        label: styles.labelText,
-      }}
-    />
-  );
-};
+              ? styles.labelPlacementStartRoot
+              : styles.labelPlacementEndRoot,
+          label: styles.labelText,
+        }}
+      />
+    );
+  };

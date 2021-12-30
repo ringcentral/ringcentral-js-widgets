@@ -1,10 +1,12 @@
 import 'isomorphic-fetch';
-import { RcModuleV2, state, action } from '@ringcentral-integration/core';
+
+import { action, RcModuleV2, state } from '@ringcentral-integration/core';
 import { ApiError } from '@ringcentral/sdk';
+
 import { Module } from '../../lib/di';
-import { errorMessages as rateLimiterErrorMessage } from '../RateLimiterV2';
-import availabilityErrorMessages from '../AvailabilityMonitor/errorMessages';
 import proxify from '../../lib/proxy/proxify';
+import availabilityErrorMessages from '../AvailabilityMonitor/errorMessages';
+import { errorMessages as rateLimiterErrorMessage } from '../RateLimiterV2';
 import { Deps } from './ConnectivityMonitor.interface';
 
 export const DEFAULT_TIME_TO_RETRY = 5 * 1000;

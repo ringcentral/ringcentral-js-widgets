@@ -1,10 +1,12 @@
 import 'react-widgets/dist/css/react-widgets.css';
 
-import Moment from 'moment';
 import React, { Component } from 'react';
+
+import Moment from 'moment';
 import momentLocalizer from 'react-widgets-moment';
-import { RcMMeetingModel } from '@ringcentral-integration/commons/modules/MeetingV2';
+
 import { isRecurringMeeting } from '@ringcentral-integration/commons/modules/Meeting';
+import { RcMMeetingModel } from '@ringcentral-integration/commons/modules/MeetingV2';
 
 import i18n from './i18n';
 import { MeetingDate } from './MeetingDate';

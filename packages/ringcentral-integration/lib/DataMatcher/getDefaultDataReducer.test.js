@@ -1,6 +1,7 @@
 import { expect } from 'chai';
-import getDefaultDataReducer from './getDefaultDataReducer';
+
 import actionTypes from './baseActionTypes';
+import getDefaultDataReducer from './getDefaultDataReducer';
 
 describe('getDefaultDataReducer', () => {
   it('should be a function', () => {

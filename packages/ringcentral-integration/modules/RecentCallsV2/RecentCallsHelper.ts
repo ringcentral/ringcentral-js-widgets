@@ -2,17 +2,16 @@ import {
   UserCallLogRecord,
   UserCallLogResponse,
 } from '@rc-ex/core/definitions';
+
 import { HistoryCall } from '../CallHistoryV2';
 
-export const filterPhoneNumber = (call: HistoryCall) => ({
-  phoneNumber,
-}: {
-  phoneNumber: string;
-}) =>
-  phoneNumber === call.from.phoneNumber ||
-  phoneNumber === call.to.phoneNumber ||
-  phoneNumber === call.from.extensionNumber ||
-  phoneNumber === call.to.extensionNumber;
+export const filterPhoneNumber =
+  (call: HistoryCall) =>
+  ({ phoneNumber }: { phoneNumber: string }) =>
+    phoneNumber === call.from.phoneNumber ||
+    phoneNumber === call.to.phoneNumber ||
+    phoneNumber === call.from.extensionNumber ||
+    phoneNumber === call.to.extensionNumber;
 
 export const flattenToRecords = (items: UserCallLogResponse[]) =>
   items.reduce(

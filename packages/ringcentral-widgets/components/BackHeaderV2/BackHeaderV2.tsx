@@ -1,7 +1,14 @@
-import { RcIconButton, RcIconButtonProps } from '@ringcentral/juno';
-import chevronLeftSvg from '@ringcentral/juno/icon/ChevronLeft';
-import classnames from 'classnames';
 import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
+
+import classnames from 'classnames';
+
+import {
+  RcIconButton,
+  RcIconButtonProps,
+  RcTypography,
+  styled,
+} from '@ringcentral/juno';
+import { ChevronLeft as chevronLeftSvg } from '@ringcentral/juno/icon';
 
 import { TOOLTIP_LONG_DELAY_TIME } from '../../lib/toolTipDelayTime';
 import { Tooltip } from '../Rcui/Tooltip';
@@ -18,6 +25,10 @@ export interface BackHeaderProps {
   currentLocale?: string;
   isWide?: boolean;
 }
+
+const Title = styled(RcTypography)<{ $maxWidth: number }>`
+  max-width: ${({ $maxWidth }) => $maxWidth}px;
+`;
 
 const BackHeader: FunctionComponent<BackHeaderProps> = ({
   onBackClick,
@@ -59,9 +70,14 @@ const BackHeader: FunctionComponent<BackHeaderProps> = ({
       <div className={styles.title}>
         {title ? (
           <Tooltip title={title} enterDelay={TOOLTIP_LONG_DELAY_TIME}>
-            <span style={{ maxWidth: isClassic ? maxWidth : null }}>
+            <Title
+              color="neutral.f06"
+              variant="body2"
+              component="span"
+              $maxWidth={isClassic ? maxWidth : null}
+            >
               {title}
-            </span>
+            </Title>
           </Tooltip>
         ) : null}
       </div>

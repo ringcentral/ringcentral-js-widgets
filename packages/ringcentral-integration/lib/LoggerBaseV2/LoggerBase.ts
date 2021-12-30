@@ -1,17 +1,17 @@
 import {
-  state,
   action,
   computed,
   RcModuleV2,
+  state,
 } from '@ringcentral-integration/core';
+
 import { proxify } from '../proxy/proxify';
-import { defaultIdentityFunction, convertListToMap } from './loggerBaseHelper';
 import { Deps, LogOptions, Options } from './LoggerBase.interface';
+import { convertListToMap, defaultIdentityFunction } from './loggerBaseHelper';
 
 export abstract class LoggerBase<T extends Deps = Deps> extends RcModuleV2<T> {
-  protected _identityFunction: (
-    ...args: any
-  ) => string = defaultIdentityFunction;
+  protected _identityFunction: (...args: any) => string =
+    defaultIdentityFunction;
 
   abstract _logFunction: <P, S>(options: LogOptions<P, S>) => Promise<void>;
 

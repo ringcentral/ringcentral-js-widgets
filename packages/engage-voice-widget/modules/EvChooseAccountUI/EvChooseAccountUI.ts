@@ -1,11 +1,11 @@
-import { RcUIModuleV2 } from '@ringcentral-integration/core';
 import { Module } from '@ringcentral-integration/commons/lib/di';
+import { RcUIModuleV2 } from '@ringcentral-integration/core';
 
-import { Deps, ChooseAccountUI } from './EvChooseAccountUI.interface';
 import {
   EvChooseAccountUIFunctions,
   EvChooseAccountUIProps,
 } from '../../interfaces/EvChooseAccountUI.interface';
+import { ChooseAccountUI, Deps } from './EvChooseAccountUI.interface';
 
 @Module({
   name: 'ChooseAccountUI',

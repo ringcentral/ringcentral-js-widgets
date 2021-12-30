@@ -10,11 +10,11 @@ export function findLocaleFiles(folderPath) {
   return filter(isLocaleFile, fs.readdirSync(folderPath));
 }
 
-export function compileData({ folderPath, sourceLocale, supportedLocales }) {
+export function compileData({ folderPath, sourceLocale, translationLocales }) {
   return reduce(
     (data, file) => {
       const locale = formatLocale(file.replace(/\.(js|ts|json)$/i, ''));
-      if (locale === sourceLocale || supportedLocales.indexOf(locale) > -1) {
+      if (locale === sourceLocale || translationLocales.indexOf(locale) > -1) {
         const rawContent = fs.readFileSync(
           path.resolve(folderPath, file),
           'utf8',
@@ -39,7 +39,7 @@ export function compileData({ folderPath, sourceLocale, supportedLocales }) {
 export default function compileLocaleData({
   sourceFolder,
   sourceLocale,
-  supportedLocales,
+  translationLocales,
 }) {
   return reduce(
     (data, file) => {
@@ -47,7 +47,7 @@ export default function compileLocaleData({
       data[folderPath] = compileData({
         folderPath,
         sourceLocale,
-        supportedLocales,
+        translationLocales,
       });
       return data;
     },
