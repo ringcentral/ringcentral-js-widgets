@@ -29,7 +29,7 @@ import { ConnectivityBadgeUI } from '@ringcentral-integration/widgets/modules/Co
 import { ConnectivityManager } from '@ringcentral-integration/widgets/modules/ConnectivityManager';
 import LoginUI from '@ringcentral-integration/widgets/modules/LoginUI';
 import OAuth from '@ringcentral-integration/widgets/modules/OAuth';
-import RegionSettingsUI from '@ringcentral-integration/widgets/modules/RegionSettingsUI';
+import { RegionSettingsUI } from '@ringcentral-integration/widgets/modules/RegionSettingsUI';
 import RouterInteraction from '@ringcentral-integration/widgets/modules/RouterInteraction';
 import { SettingsUI } from '@ringcentral-integration/widgets/modules/SettingsUI';
 

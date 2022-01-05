@@ -8,7 +8,7 @@ export default {
   [callingSettingsMessages.webphonePermissionRemoved]: "您的權限已變更，而您無法使用瀏覽器進行通話。如需詳細資訊，請聯絡您的帳戶管理員。",
   [callingSettingsMessages.emergencyCallingNotAvailable]: "不支援撥打緊急或特殊服務號碼。在發生緊急狀況時，請使用您的傳統有線線路或無線電話撥打緊急電話。",
   [callingSettingsMessages.saveSuccessWithJupiter]: "設定儲存成功。請確定您在電腦上已安裝 {brand}。",
-  [callingSettingsMessages.disableEmergencyInJapan]: "緊急服務在日本無法使用。"
+  [callingSettingsMessages.disableEmergencyInJapan]: "日本無法使用緊急服務。"
 };
 
 // @key: @#@"[callingSettingsMessages.saveSuccess]"@#@ @source: @#@"Settings saved successfully."@#@

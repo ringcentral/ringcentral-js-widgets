@@ -5,7 +5,7 @@ export default {
   hours: "{howMany}時間",
   minutes: "{howMany}分",
   today: "今日",
-  duration: "所要時間",
+  duration: "期間",
   topic: "会議のタイトル",
   voIPOnly: "インターネット音声のみ",
   telephonyOnly: "電話のみ",

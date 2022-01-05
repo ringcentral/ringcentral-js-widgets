@@ -1,15 +1,16 @@
-import { mount } from '@ringcentral-integration/test-utils/lib/render';
 import { createStore } from 'redux';
+
 import * as mock from '@ringcentral-integration/commons/integration-test/mock';
-import SimulateWindowObject from '@ringcentral-integration/commons/integration-test/utils/SimulateWindowObject';
 import ClientHistoryRequest from '@ringcentral-integration/commons/integration-test/utils/ClientHistoryRequest';
+import SimulateWindowObject from '@ringcentral-integration/commons/integration-test/utils/SimulateWindowObject';
 import { waitUntilEqual } from '@ringcentral-integration/commons/integration-test/utils/WaitUtil';
-import { createPhone } from '@ringcentral-integration/widgets-demo/dev-server/Phone';
-import App from '@ringcentral-integration/widgets-demo/dev-server/containers/App';
+import { mount } from '@ringcentral-integration/test-utils/lib/render';
 import { brandConfig } from '@ringcentral-integration/widgets-demo/dev-server/brandConfig';
-import version from '@ringcentral-integration/widgets-demo/dev-server/version';
-import prefix from '@ringcentral-integration/widgets-demo/dev-server/prefix';
+import App from '@ringcentral-integration/widgets-demo/dev-server/containers/App';
 import RcIcon from '@ringcentral-integration/widgets-demo/dev-server/Icon.svg';
+import { createPhone } from '@ringcentral-integration/widgets-demo/dev-server/Phone';
+import prefix from '@ringcentral-integration/widgets-demo/dev-server/prefix';
+import version from '@ringcentral-integration/widgets-demo/dev-server/version';
 
 jest.setTimeout(30 * 1000);
 
@@ -38,6 +39,7 @@ export const getInstance = async ({
     cachePrefix: `sdkPrefix-${Date.now()}`, // storage with different prefix in different case
   });
   const phone = createPhone({
+    ...brandConfig,
     apiConfig,
     brandConfig,
     prefix: `${prefix}-${Date.now()}`, // storage with different prefix in different case

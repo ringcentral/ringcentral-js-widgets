@@ -8,7 +8,7 @@ export default {
   [callingSettingsMessages.webphonePermissionRemoved]: "Uw machtigingen zijn gewijzigd en u kunt niet bellen met de browser. Neem voor meer informatie contact op met uw accountbeheerder.",
   [callingSettingsMessages.emergencyCallingNotAvailable]: "Het bellen van noodnummers of speciale servicenummers wordt niet ondersteund. Gebruik in geval van nood uw oude vaste of draadloze telefoon om een alarmnummer te bellen.",
   [callingSettingsMessages.saveSuccessWithJupiter]: "Instellingen opgeslagen. Zorg ervoor dat u {brand} op uw computer hebt geïnstalleerd.",
-  [callingSettingsMessages.disableEmergencyInJapan]: "Noodhulpdiensten zijn niet beschikbaar in Japan."
+  [callingSettingsMessages.disableEmergencyInJapan]: "Nooddiensten is niet beschikbaar in Japan."
 };
 
 // @key: @#@"[callingSettingsMessages.saveSuccess]"@#@ @source: @#@"Settings saved successfully."@#@

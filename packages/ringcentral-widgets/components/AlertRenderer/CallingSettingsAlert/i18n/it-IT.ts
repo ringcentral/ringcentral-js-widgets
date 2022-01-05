@@ -8,7 +8,7 @@ export default {
   [callingSettingsMessages.webphonePermissionRemoved]: "Le tue autorizzazioni sono state modificate e non consentono di effettuare chiamate con il browser. Per maggiori dettagli contatta l'amministratore del tuo account.",
   [callingSettingsMessages.emergencyCallingNotAvailable]: "Le chiamate a servizi di emergenza o speciali non sono supportate. In caso di emergenza, usa la linea fissa convenzionale o un telefono wireless per chiamare un servizio di emergenza.",
   [callingSettingsMessages.saveSuccessWithJupiter]: "Impostazioni salvate correttamente. Assicurati che {brand} sia installato nel computer.",
-  [callingSettingsMessages.disableEmergencyInJapan]: "Il servizio di emergenza non è disponibile in Giappone."
+  [callingSettingsMessages.disableEmergencyInJapan]: "Servizio di emergenza non disponibile in Giappone."
 };
 
 // @key: @#@"[callingSettingsMessages.saveSuccess]"@#@ @source: @#@"Settings saved successfully."@#@

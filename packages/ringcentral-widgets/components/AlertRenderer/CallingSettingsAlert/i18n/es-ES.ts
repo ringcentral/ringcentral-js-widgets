@@ -8,7 +8,7 @@ export default {
   [callingSettingsMessages.webphonePermissionRemoved]: "Sus permisos han cambiado y ya no puede hacer llamadas con el navegador. Póngase en contacto con el administrador de su cuenta para obtener información detallada.",
   [callingSettingsMessages.emergencyCallingNotAvailable]: "No es posible llamar a emergencias o a números de servicios especiales. Ante una emergencia, use la línea fija o el teléfono móvil para llamar a un número de emergencias.",
   [callingSettingsMessages.saveSuccessWithJupiter]: "La configuración se guardó correctamente. Asegúrese de que tiene {brand} instalado en su equipo.",
-  [callingSettingsMessages.disableEmergencyInJapan]: "El servicio de emergencia no está disponible en Japón."
+  [callingSettingsMessages.disableEmergencyInJapan]: "Servicio de emergencias no está disponible en Japón."
 };
 
 // @key: @#@"[callingSettingsMessages.saveSuccess]"@#@ @source: @#@"Settings saved successfully."@#@

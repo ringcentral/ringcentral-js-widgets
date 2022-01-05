@@ -67,6 +67,7 @@
   "devDependencies": {
     "@types/jest": "^26.0.23",
     "@testing-library/react": "^11.2.6",
+    "@testing-library/user-event": "^13.1.9",
     "jest": "^27.0.1",
     "react-test-renderer": "^17.0.2"
   },

@@ -15,8 +15,8 @@ import dndStatus from '@ringcentral-integration/commons/modules/Presence/dndStat
 import { QuickAccess } from '@ringcentral-integration/commons/modules/QuickAccessV2';
 import { UserGuide } from '@ringcentral-integration/commons/modules/UserGuideV2';
 import Webphone from '@ringcentral-integration/commons/modules/Webphone';
-import presenceItemI18n from '@ringcentral-integration/widgets/lib/getPresenceStatusName/i18n';
 
+import presenceItemI18n from '../getPresenceStatusName/i18n';
 import headerI18n from '../../components/CallMonitorBar/i18n';
 import { CallLogSection } from '../../modules/CallLogSectionV2';
 import { RouterInteraction } from '../../modules/RouterInteraction';

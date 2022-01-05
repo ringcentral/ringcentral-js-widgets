@@ -5,7 +5,7 @@ export default {
   hours: "{howMany} 小時",
   minutes: "{howMany} 分",
   today: "今日",
-  duration: "長度",
+  duration: "時長",
   topic: "會議標題",
   voIPOnly: "僅限網路音訊",
   telephonyOnly: "僅限電話",

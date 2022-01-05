@@ -11,7 +11,7 @@ export default {
   [phoneTypes.fax]: "传真",
   [phoneTypes.company]: "公司",
   [phoneTypes.other]: "其他",
-  emailLabel: "电子邮件",
+  emailLabel: "电子邮件地址",
   call: "呼叫",
   text: "短信",
   [presenceStatus.available]: "在线",

@@ -8,7 +8,7 @@ export default {
   [callingSettingsMessages.webphonePermissionRemoved]: "アクセス許可が変更されたため、ブラウザーを使用した通話はできません。詳細については、アカウント管理者にお問い合わせください。",
   [callingSettingsMessages.emergencyCallingNotAvailable]: "緊急サービスまたは特別なサービスの番号へのダイヤルはサポートされていません。緊急時は、従来の有線電話または携帯電話を使用して、緊急電話番号に電話してください。",
   [callingSettingsMessages.saveSuccessWithJupiter]: "設定が正常に保存されました。お使いのコンピューターに{brand}がインストールされていることを確認してください。",
-  [callingSettingsMessages.disableEmergencyInJapan]: "日本では緊急サービスをご利用いただけません。"
+  [callingSettingsMessages.disableEmergencyInJapan]: "緊急サービスは日本では利用できません。"
 };
 
 // @key: @#@"[callingSettingsMessages.saveSuccess]"@#@ @source: @#@"Settings saved successfully."@#@

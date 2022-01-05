@@ -247,8 +247,8 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
   }
 
   async _init() {
-    await Promise.all([this._initMeeting(), this.initScheduleFor()]);
     this.updateDelegator(this.loginUser);
+    await Promise.all([this._initMeeting(), this.initScheduleFor()]);
   }
 
   /**

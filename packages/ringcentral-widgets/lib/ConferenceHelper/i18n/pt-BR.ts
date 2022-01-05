@@ -12,10 +12,10 @@ export default {
   inviteWithText: "Convidar com texto",
   joinAsHost: "Iniciar conferência",
   internationalNumber: "Números de discagem internacional:",
-  inviteText_att: "Participe da conferência de {brandName}.\n\nNúmero de discagem: {formattedDialInNumber} \n{additionalNumbersSection} \nAcesso do participante: {participantCode} \n\nPrecisa de um número de discagem internacional? Acesse {dialInNumbersLink} \n\nEsta chamada em conferência é possibilitada pelo {brandName} Conferencing.",
-  inviteText_bt: "Participe da conferência {brandName}.\n\nNúmero de discagem: {formattedDialInNumber} \n{additionalNumbersSection} \nAcesso do participante: {participantCode} \n\nNúmeros de discagem adicionais {dialInNumbersLink}",
-  inviteText_rc: "Participe da conferência de {brandName}.\n\nNúmero de discagem: {formattedDialInNumber} \n{additionalNumbersSection} \nAcesso do participante: {participantCode} \n\nPrecisa de um número de discagem internacional? Acesse {dialInNumbersLink} \n\nEsta chamada em conferência é possibilitada pelo {brandName} Conferencing.",
-  inviteText_telus: "Participe da conferência {brandName}.\n\nNúmero de discagem: {formattedDialInNumber} \n{additionalNumbersSection} \nAcesso do participante: {participantCode} \n\nNúmeros de discagem adicionais {dialInNumbersLink}"
+  inviteText_att: "Participe da conferência do {brandName}.\n\nNúmero de discagem: {formattedDialInNumber} \n{additionalNumbersSection} \nAcesso do participante: {participantCode} \n\nPrecisa de um número de discagem internacional? Acesse {dialInNumbersLink} \n\nEsta chamada em conferência é possibilitada pelo {brandName} Conferencing.",
+  inviteText_bt: "Participe da conferência do {brandName}.\n\nNúmero de discagem: {formattedDialInNumber} \n{additionalNumbersSection} \nAcesso do participante: {participantCode} \n\nNúmeros de discagem adicionais {dialInNumbersLink}",
+  inviteText_rc: "Participe da conferência do {brandName}.\n\nNúmero de discagem: {formattedDialInNumber} \n{additionalNumbersSection} \nAcesso do participante: {participantCode} \n\nPrecisa de um número de discagem internacional? Acesse {dialInNumbersLink} \n\nEsta chamada em conferência é possibilitada pelo {brandName} Conferencing.",
+  inviteText_telus: "Participe da conferência do {brandName}.\n\nNúmero de discagem: {formattedDialInNumber} \n{additionalNumbersSection} \nAcesso do participante: {participantCode} \n\nNúmeros de discagem adicionais {dialInNumbersLink}"
 };
 
 // @key: @#@"newConference"@#@ @source: @#@"New Conference"@#@

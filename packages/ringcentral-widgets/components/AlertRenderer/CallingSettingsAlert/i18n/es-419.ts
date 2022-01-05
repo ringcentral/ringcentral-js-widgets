@@ -7,7 +7,7 @@ export default {
   link: "Configuración > Llamadas",
   [callingSettingsMessages.webphonePermissionRemoved]: "Se cambiaron sus permisos y no puede realizar llamadas con el explorador. Para obtener más información, póngase en contacto con el administrador de su cuenta.",
   [callingSettingsMessages.emergencyCallingNotAvailable]: "No es posible llamar a números de emergencia o de servicios especiales. En caso de emergencia, utilice su teléfono fijo tradicional o inalámbrico para llamar a un número de emergencia.",
-  [callingSettingsMessages.saveSuccessWithJupiter]: "La configuración se guardó correctamente. Asegúrese de que tiene {brand} instalado en su computadora.",
+  [callingSettingsMessages.saveSuccessWithJupiter]: "La configuración se guardó correctamente. Asegúrese de que tiene {brand} instalado en su equipo.",
   [callingSettingsMessages.disableEmergencyInJapan]: "El servicio de emergencia no está disponible en Japón."
 };
 

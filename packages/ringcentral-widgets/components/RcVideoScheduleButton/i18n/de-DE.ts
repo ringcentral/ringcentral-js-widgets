@@ -1,5 +1,5 @@
 export default {
-  schedule: "Besprechung planen",
+  schedule: "Meeting planen",
   prompt: "Bitte autorisieren Sie RingCentral für den Zugriff auf Ihre Kontoinformationen.",
   saveAsDefault: "Als Standard speichern"
 };

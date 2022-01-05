@@ -170,15 +170,15 @@ function getType(isGlobal: boolean) {
 @title('RcModuleV2 storage reducer compatibility')
 class StateCombineStorageReducers extends Step {
   @examples(`
-    | isGlobal | enableCache | hasStorage|
-    | false    | false       | false     |
-    | false    | true        | false     |
-    | false    | false       | true      |
-    | false    | true        | true      |
-    | true     | false       | false     |
-    | true     | true        | false     |
-    | true     | false       | true      |
-    | true     | true        | true      |
+    | isGlobal | enableCache | hasStorage |
+    | false    | false       | false      |
+    | false    | true        | false      |
+    | false    | false       | true       |
+    | false    | true        | true       |
+    | true     | false       | false      |
+    | true     | true        | false      |
+    | true     | false       | true       |
+    | true     | true        | true       |
   `)
   run() {
     return (
@@ -205,9 +205,10 @@ class StateCombineStorageReducers extends Step {
               [`enable${isGlobal ? 'Global' : ''}Cache`]: enableCache,
               storageKey: 'fooStorageKey',
             });
-            context.enableStorage = !!context.fooInstance[
-              isGlobal ? globalStorageStateKey : storageStateKey
-            ].length;
+            context.enableStorage =
+              !!context.fooInstance[
+                isGlobal ? globalStorageStateKey : storageStateKey
+              ].length;
             expect(context.enableStorage).toBe(enableCache && hasStorage);
           }}
         />
@@ -229,9 +230,10 @@ class StateCombineStorageReducers extends Step {
               expect(state[`${type}Counter`]).toBeUndefined();
               expect(context[`${type}Instance`]._key).toBeDefined();
               expect(context[`${type}Instance`]._reducer).toBeDefined();
-              const storageState = context[
-                `${type}Instance`
-              ]._reducer(undefined, { type: 'INIT' });
+              const storageState = context[`${type}Instance`]._reducer(
+                undefined,
+                { type: 'INIT' },
+              );
               expect(storageState).toBeDefined();
             } else {
               expect(state[`${type}Counter`]).toBeDefined();
@@ -256,13 +258,60 @@ class StateCombineStorageReducers extends Step {
               expect(state[`${type}Counter`]).toBeUndefined();
               expect(context[`${type}Instance`]._key).toBeDefined();
               expect(context[`${type}Instance`]._reducer).toBeDefined();
-              const storageState = context[
-                `${type}Instance`
-              ]._reducer(undefined, { type: 'INIT' });
+              const storageState = context[`${type}Instance`]._reducer(
+                undefined,
+                { type: 'INIT' },
+              );
               expect(storageState).toBeDefined();
             } else {
               expect(state[`${type}Counter`]).toBeDefined();
             }
+          }}
+        />
+      </Scenario>
+    );
+  }
+}
+
+@autorun(test)
+@title('RcModuleV2 storage unexpected usage check')
+class StorageUnexpectedUsageCheck extends Step {
+  run() {
+    let createModule: () => void;
+    return (
+      <Scenario desc="RcModuleV2 storage unexpected usage check">
+        <When
+          desc="create Foo without @state"
+          action={() => {
+            createModule = () => {
+              class Foo extends RcModuleV2 {
+                @storage
+                storageCounter = 0;
+              }
+            };
+          }}
+        />
+        <Then
+          desc="It should throw check error"
+          action={() => {
+            expect(createModule).toThrowError();
+          }}
+        />
+        <When
+          desc="create Bar without @state"
+          action={() => {
+            createModule = () => {
+              class Bar extends RcModuleV2 {
+                @globalStorage
+                globalStorageCounter = 0;
+              }
+            };
+          }}
+        />
+        <Then
+          desc="It should throw check error"
+          action={() => {
+            expect(createModule).toThrowError();
           }}
         />
       </Scenario>

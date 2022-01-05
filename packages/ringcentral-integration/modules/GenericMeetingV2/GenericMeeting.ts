@@ -74,6 +74,14 @@ export class GenericMeeting<T = {}> extends RcModuleV2<Deps & T> {
   }
 
   @proxify
+  async deleteMeeting(meetingId: string) {
+    if (this.isRCV) {
+      return;
+    }
+    await (this._meetingModule as Meeting).deleteMeeting(meetingId);
+  }
+
+  @proxify
   async updateScheduleFor(userExtensionId: string | number) {
     if (!this._meetingModule.updateScheduleFor) {
       return;

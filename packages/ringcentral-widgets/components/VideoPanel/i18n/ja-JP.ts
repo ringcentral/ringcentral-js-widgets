@@ -3,7 +3,7 @@ export default {
   topic: "会議タイトル",
   date: "日付",
   startTime: "時間",
-  duration: "通話時間",
+  duration: "期間",
   scheduleFor: "次のユーザーに代わってスケジュール：",
   meetingSettings: "会議設定",
   [ASSISTED_USERS_MYSELF]: "自分",

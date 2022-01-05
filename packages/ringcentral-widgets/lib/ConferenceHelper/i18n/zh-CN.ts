@@ -12,10 +12,10 @@ export default {
   inviteWithText: "通过短信邀请",
   joinAsHost: "启动电话会议",
   internationalNumber: "国际拨入号码：",
-  inviteText_att: "请加入 {brandName} 电话会议。\n\n拨入号码：{formattedDialInNumber} \n{additionalNumbersSection} \n参与者访问码：{participantCode} \n\n需要国际拨入电话号码？请访问 {dialInNumbersLink} \n\n此电话会议由 {brandName} Conferencing 提供。",
-  inviteText_bt: "请加入 {brandName} 电话会议。\n\n拨入号码：{formattedDialInNumber} \n{additionalNumbersSection} \n参与者访问码：{participantCode} \n\n附加拨入号码：{dialInNumbersLink}",
-  inviteText_rc: "请加入 {brandName} 电话会议。\n\n拨入号码：{formattedDialInNumber} \n{additionalNumbersSection} \n参与者访问码：{participantCode} \n\n需要国际拨入电话号码？请访问 {dialInNumbersLink} \n\n此电话会议由 {brandName} Conferencing 提供。",
-  inviteText_telus: "请加入 {brandName} 电话会议。\n\n拨入号码：{formattedDialInNumber} \n{additionalNumbersSection} \n参与者访问码：{participantCode} \n\n附加拨入号码：{dialInNumbersLink}"
+  inviteText_att: "请加入 {brandName} 会议。\n\n拨入号码：{formattedDialInNumber} \n{additionalNumbersSection} \n参与者访问码：{participantCode} \n\n需要国际拨入电话号码？请访问 {dialInNumbersLink} \n\n此电话会议由 {brandName} Conferencing 提供。",
+  inviteText_bt: "请加入 {brandName} 会议。\n\n拨入号码：{formattedDialInNumber} \n{additionalNumbersSection} \n参与者访问码：{participantCode} \n\n附加拨入号码：{dialInNumbersLink}",
+  inviteText_rc: "请加入 {brandName} 会议。\n\n拨入号码：{formattedDialInNumber} \n{additionalNumbersSection} \n参与者访问码：{participantCode} \n\n需要国际拨入电话号码？请访问 {dialInNumbersLink} \n\n此电话会议由 {brandName} Conferencing 提供。",
+  inviteText_telus: "请加入 {brandName} 会议。\n\n拨入号码：{formattedDialInNumber} \n{additionalNumbersSection} \n参与者访问码：{participantCode} \n\n附加拨入号码：{dialInNumbersLink}"
 };
 
 // @key: @#@"newConference"@#@ @source: @#@"New Conference"@#@

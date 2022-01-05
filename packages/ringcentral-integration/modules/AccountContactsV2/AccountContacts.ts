@@ -464,6 +464,15 @@ export class AccountContacts extends RcModuleV2<Deps> implements ContactSource {
     return this._deps.companyContacts.filteredContacts;
   }
 
+  @computed((that: AccountContacts) => [that.contacts])
+  get rcCompanyMapping() {
+    const rcCompanyMapping: any = {};
+    this.contacts.forEach((item: any) => {
+      rcCompanyMapping[item.id] = item;
+    });
+    return rcCompanyMapping;
+  }
+
   // interface of ContactSource
   get sourceReady() {
     return this.ready;

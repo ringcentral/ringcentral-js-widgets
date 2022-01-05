@@ -1,7 +1,7 @@
 import callingOptions from '@ringcentral-integration/commons/modules/CallingSettings/callingOptions';
 export default {
   title: "Chamadas",
-  [callingOptions.softphone]: "{brand} for Desktop",
+  [callingOptions.softphone]: "{brand} para Desktop",
   [callingOptions.browser]: "Navegador",
   [callingOptions.jupiter]: "{brand}",
   makeCallsWith: "Fazer minhas chamadas com",

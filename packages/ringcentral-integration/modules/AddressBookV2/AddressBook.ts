@@ -215,6 +215,15 @@ export class AddressBook
     return this.data?.records ?? [];
   }
 
+  @computed((that: AddressBook) => [that.contacts])
+  get rcPersonalMapping() {
+    const rcPersonalMapping: any = {};
+    this.contacts.forEach((item: any) => {
+      rcPersonalMapping[item.id] = item;
+    });
+    return rcPersonalMapping;
+  }
+
   // interface of ContactSource
   get sourceReady() {
     return this.ready;

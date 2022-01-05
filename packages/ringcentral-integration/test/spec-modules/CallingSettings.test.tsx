@@ -24,6 +24,7 @@ const getMockModule = () =>
       timestamp: null as number,
       fromNumber: null as string,
     },
+    setAcknowledgeJPMessage: CallingSettings.prototype.setAcknowledgeJPMessage,
   });
 
 @autorun(test)
@@ -128,9 +129,9 @@ export class FromNumberState extends Step {
 @title('Show call with Jupiter default to ON')
 export class CallWithJupiterDefaultOn extends Step {
   @examples(`
-  | showCallWithJupiter |
-  | true |
-  | false|
+    | showCallWithJupiter |
+    | true                |
+    | false               |
   `)
   run() {
     return (
@@ -169,9 +170,9 @@ export class CallWithJupiterDefaultOn extends Step {
 @title('Emergency call available default to OFF')
 export class EmergencyCallAvailable extends Step {
   @examples(`
-  | emergencyCallAvailable |
-  | true |
-  | false|
+    | emergencyCallAvailable |
+    | true                   |
+    | false                  |
   `)
   run() {
     return (
@@ -249,6 +250,8 @@ export class JapanEmergencyNotification extends Step {
                   warning: mockFn,
                 },
               },
+              setAcknowledgeJPMessage:
+                CallingSettings.prototype.setAcknowledgeJPMessage,
             });
             context.mockFn = mockFn;
             context.mockModule = mockModule;

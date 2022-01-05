@@ -1,14 +1,19 @@
 import { waitForRenderReady } from '@ringcentral-integration/test-utils/lib/test-utils';
 import { screen, fireEvent } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { StepFunction } from '../../../lib/step';
 
 export const InputToField: StepFunction<{
   input: string;
-}> = async ({ input }) => {
+  needEnter?: boolean;
+}> = async ({ input, needEnter = false }) => {
   jest.useFakeTimers();
   const inputField = screen.getByTestId('recipientsInput');
-  inputField.focus();
-  fireEvent.change(inputField, { target: { value: input } });
+  userEvent.click(inputField);
+  if (needEnter) {
+    input = `${input}{enter}`;
+  }
+  userEvent.type(inputField, input);
   await waitForRenderReady();
   jest.runOnlyPendingTimers();
   jest.useRealTimers();

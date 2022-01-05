@@ -6,10 +6,10 @@ export default {
   noConferencePermission: "对不起，您没有使用 {brandName} 电话会议的权限。请联系贵公司的管理员以继续。",
   conferenceTitle: "{displayName}的电话会议",
   internationalNumber: "国际拨入号码：",
-  inviteText_att: "请加入 {brandName} 电话会议。\n\n拨入号码：{formattedDialInNumber} \n{additionalNumbersSection} \n参与者访问码：{participantCode} \n\n需要国际拨入电话号码？请访问 {dialInNumbersLink} \n\n此电话会议由 {brandName} Conferencing 提供。",
-  inviteText_bt: "请加入 {brandName} 电话会议。\n\n拨入号码：{formattedDialInNumber} \n{additionalNumbersSection} \n参与者访问码：{participantCode} \n\n附加拨入号码：{dialInNumbersLink} ",
-  inviteText_rc: "请加入 {brandName} 电话会议。\n\n拨入号码：{formattedDialInNumber} \n{additionalNumbersSection} \n参与者访问码：{participantCode} \n\n需要国际拨入电话号码？请访问 {dialInNumbersLink} \n\n此电话会议由 {brandName} Conferencing 提供。",
-  inviteText_telus: "请加入 {brandName} 电话会议。\n\n拨入号码：{formattedDialInNumber} \n{additionalNumbersSection} \n参与者访问码：{participantCode} \n\n附加拨入号码：{dialInNumbersLink} ",
+  inviteText_att: "请加入 {brandName} 会议。\n\n拨入号码：{formattedDialInNumber} \n{additionalNumbersSection} \n参与者访问码：{participantCode} \n\n需要国际拨入电话号码？请访问 {dialInNumbersLink} \n\n此电话会议由 {brandName} Conferencing 提供。",
+  inviteText_bt: "请加入 {brandName} 会议。\n\n拨入号码：{formattedDialInNumber} \n{additionalNumbersSection} \n参与者访问码：{participantCode} \n\n附加拨入号码：{dialInNumbersLink} ",
+  inviteText_rc: "请加入 {brandName} 会议。\n\n拨入号码：{formattedDialInNumber} \n{additionalNumbersSection} \n参与者访问码：{participantCode} \n\n需要国际拨入电话号码？请访问 {dialInNumbersLink} \n\n此电话会议由 {brandName} Conferencing 提供。",
+  inviteText_telus: "请加入 {brandName} 会议。\n\n拨入号码：{formattedDialInNumber} \n{additionalNumbersSection} \n参与者访问码：{participantCode} \n\n附加拨入号码：{dialInNumbersLink} ",
   conferenceCall: "{brandName} 语音通话",
   videoCall: "{brandName} 视频通话",
   addConferencingDetails: "添加电话会议详细信息",
@@ -28,7 +28,7 @@ export default {
   meetingSettingsTitle: "{brand} 会议 - 设置",
   recurringMeeting: "定期会议",
   meetingOptions: "会议选项",
-  schedule: "计划",
+  schedule: "安排",
   settingsBtn: "设置"
 };
 

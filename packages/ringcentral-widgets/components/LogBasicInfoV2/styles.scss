@@ -81,6 +81,17 @@ p {
     @include text-ellipsis;
   }
 
+  .SFrecordLink {
+    cursor: pointer;
+    color: #066FAC;
+  }
+
+  .logNameAndMore {
+    font-size: 12px;
+    margin-left: 4px;
+    color: #757575;
+  }
+
   .time {
     display: flex;
     flex-direction: column;

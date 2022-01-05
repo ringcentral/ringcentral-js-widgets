@@ -100,6 +100,7 @@ class CallingSettings extends RcModuleV2<Deps> {
 
   // For Japan Emergency Service notification
   @storage
+  @state
   acknowledgeJPMessage = false;
 
   @storage
@@ -152,9 +153,14 @@ class CallingSettings extends RcModuleV2<Deps> {
   }
 
   @action
+  setAcknowledgeJPMessage(value: boolean) {
+    this.acknowledgeJPMessage = value;
+  }
+
+  @action
   resetSuccess() {
     this.data.fromNumber = null;
-    this.acknowledgeJPMessage = false;
+    this.setAcknowledgeJPMessage(false);
   }
 
   async onStateChange() {
@@ -291,7 +297,7 @@ class CallingSettings extends RcModuleV2<Deps> {
         message: callingSettingsMessages.disableEmergencyInJapan,
         ttl: 0,
       });
-      this.acknowledgeJPMessage = true;
+      this.setAcknowledgeJPMessage(true);
     }
   }
 

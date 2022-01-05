@@ -1,7 +1,7 @@
 import callingOptions from '@ringcentral-integration/commons/modules/CallingSettings/callingOptions';
 export default {
   title: "A chamar",
-  [callingOptions.softphone]: "{brand} for Desktop",
+  [callingOptions.softphone]: "{brand} para Desktop",
   [callingOptions.browser]: "Browser",
   [callingOptions.jupiter]: "{brand}",
   makeCallsWith: "Efetuar as minhas chamadas com",

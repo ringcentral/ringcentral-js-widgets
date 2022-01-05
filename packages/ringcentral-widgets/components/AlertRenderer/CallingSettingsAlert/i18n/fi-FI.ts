@@ -8,7 +8,7 @@ export default {
   [callingSettingsMessages.webphonePermissionRemoved]: "Käyttölupiasi on muutettu, etkä voi soittaa puheluita selaimen kautta. Kysy lisätietoja tilisi järjestelmänvalvojalta.",
   [callingSettingsMessages.emergencyCallingNotAvailable]: "Puheluiden soittamista hätä-/erikoispalvelunumeroihin ei tueta. Soita hätätilanteessa hätänumeroon lankapuhelimellasi tai langattomalla puhelimellasi.",
   [callingSettingsMessages.saveSuccessWithJupiter]: "Asetukset tallennettu. Varmista, että olet asentanut sovelluksen {brand} tietokoneellesi.",
-  [callingSettingsMessages.disableEmergencyInJapan]: "Hätäpalvelu ei ole käytettävissä Japanissa."
+  [callingSettingsMessages.disableEmergencyInJapan]: "Hätäpalvelu ei ole saatavilla Japanissa."
 };
 
 // @key: @#@"[callingSettingsMessages.saveSuccess]"@#@ @source: @#@"Settings saved successfully."@#@

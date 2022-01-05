@@ -28,7 +28,7 @@ import { LoginPage } from '@ringcentral-integration/widgets/containers/LoginPage
 import GenericMeetingPage from '@ringcentral-integration/widgets/containers/GenericMeetingPage';
 import { ModalContainer } from '@ringcentral-integration/widgets/containers/ModalContainer';
 import { RecentActivityContainer } from '@ringcentral-integration/widgets/containers/RecentActivityContainer';
-import RegionSettingsPage from '@ringcentral-integration/widgets/containers/RegionSettingsPage';
+import { RegionSettingsPage } from '@ringcentral-integration/widgets/containers/RegionSettingsPage';
 import SettingsPage from '@ringcentral-integration/widgets/containers/SettingsPage';
 import { SimpleCallControlPage } from '@ringcentral-integration/widgets/containers/SimpleCallControlPage';
 import TransferPage from '@ringcentral-integration/widgets/containers/TransferPage';

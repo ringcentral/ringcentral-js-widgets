@@ -8,7 +8,7 @@ export default {
   [callingSettingsMessages.webphonePermissionRemoved]: "Vos permissions ont été modifiées et vous ne pouvez pas passer d’appel avec un navigateur. Pour plus de détails, veuillez contacter votre administrateur de compte.",
   [callingSettingsMessages.emergencyCallingNotAvailable]: "Numéro d’urgence ou service spécial non pris en charge. En cas d’urgence, veuillez utiliser un téléphone fixe ou mobile traditionnel pour contacter les services compétents.",
   [callingSettingsMessages.saveSuccessWithJupiter]: "Les paramètres ont été sauvegardés. Veuillez vous assurer que {brand} est installé sur votre machine.",
-  [callingSettingsMessages.disableEmergencyInJapan]: "Le service d’urgence n’est pas disponible au Japon."
+  [callingSettingsMessages.disableEmergencyInJapan]: "Le service d'urgence n'est pas disponible au Japon."
 };
 
 // @key: @#@"[callingSettingsMessages.saveSuccess]"@#@ @source: @#@"Settings saved successfully."@#@

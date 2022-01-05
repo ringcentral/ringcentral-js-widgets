@@ -56,6 +56,7 @@ export type UpdatingStatus = {
 export const AUDIO_OPTIONS = {
   ComputerAudio: 'ComputerAudio',
   Phone: 'Phone',
+  ThirdParty: 'ThirdParty',
 } as const;
 
 export interface RcmInvitationInfo {

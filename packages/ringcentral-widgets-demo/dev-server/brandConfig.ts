@@ -10,7 +10,7 @@ export const brandConfig = createBrandConfig({
   callWithJupiter: {
     link: 'https://app.ringcentral.com/',
     protocol: 'rcapp://',
-    name: 'RingCentral',
+    name: 'RingCentral App',
   },
   callWithSoftphone: {
     protocol: 'rcmobile://',

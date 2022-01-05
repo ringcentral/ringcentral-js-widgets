@@ -3,7 +3,7 @@ export default {
   topic: "會議標題",
   date: "日期",
   startTime: "時間",
-  duration: "持續時間",
+  duration: "時長",
   scheduleFor: "代表以下對象排程",
   meetingSettings: "會議設定",
   [ASSISTED_USERS_MYSELF]: "我本人",

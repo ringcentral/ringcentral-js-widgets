@@ -1,5 +1,5 @@
 export default {
-  schedule: "Planifier une réunion",
+  schedule: "Programmer une réunion",
   prompt: "Veuillez autoriser RingCentral à accéder à vos informations de compte Google.",
   saveAsDefault: "Enregistrer par défaut"
 };

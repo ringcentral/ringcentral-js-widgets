@@ -4,7 +4,7 @@ export default {
   editLog: "編輯記錄",
   viewDetails: "檢視詳細資訊",
   addEntity: "建立",
-  call: "通話",
+  call: "通話  ",
   text: "簡訊",
   conversation: "對話",
   groupConversation: "群組對話",

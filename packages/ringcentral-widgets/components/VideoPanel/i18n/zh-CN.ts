@@ -3,7 +3,7 @@ export default {
   topic: "会议标题",
   date: "日期",
   startTime: "时间",
-  duration: "持续时间",
+  duration: "时长",
   scheduleFor: "代表以下人员安排时间：",
   meetingSettings: "会议设置",
   [ASSISTED_USERS_MYSELF]: "自己",

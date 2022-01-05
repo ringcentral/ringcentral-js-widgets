@@ -28,7 +28,7 @@ export default {
   meetingSettingsTitle: "{brand} Meetings - Impostazioni",
   recurringMeeting: "Riunione ricorrente",
   meetingOptions: "Opzioni riunione",
-  schedule: "Pianifica",
+  schedule: "Programma",
   settingsBtn: "Impostazioni"
 };
 

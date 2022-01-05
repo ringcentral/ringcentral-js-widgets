@@ -1,5 +1,5 @@
 export default {
-  cancel: "Abbrechen",
+  cancel: "Abbr.",
   close: "Schließen",
   ok: "OK"
 };

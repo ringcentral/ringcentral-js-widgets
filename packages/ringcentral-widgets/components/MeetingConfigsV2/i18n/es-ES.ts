@@ -19,7 +19,7 @@ export default {
   [ASSISTED_USERS_MYSELF]: "Mi nombre",
   meetingOptions: "Opciones de reunión",
   meetingSettings: "Configuración de la reunión",
-  rcMeetingSettings: "Configuración de reuniones por vídeo",
+  rcMeetingSettings: "Configuración de Video Meeting",
   audioOptions: "Opciones de audio",
   recurringMeeting: "Reunión recurrente",
   recurringNote: "Nota: Habilite esta opción al elegir la recurrencia.",

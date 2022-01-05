@@ -12,10 +12,10 @@ export default {
   inviteWithText: "透過簡訊訊息邀請",
   joinAsHost: "啟動電話會議",
   internationalNumber: "國際電話撥入號碼：",
-  inviteText_att: "請加入 {brandName} 電話會議。\n\n撥入號碼：{formattedDialInNumber} \n{additionalNumbersSection} \n參與者存取碼：{participantCode}需要國際撥入電話號碼嗎？ \n\n請前往 {dialInNumbersLink} \n\n此電話會議由 {brandName} Conferencing 提供。",
-  inviteText_bt: "請加入 {brandName} 電話會議。\n\n撥入號碼：{formattedDialInNumber} \n{additionalNumbersSection} \n參與者存取碼：{participantCode} \n\n其他撥入號碼 {dialInNumbersLink}",
-  inviteText_rc: "請加入 {brandName} 電話會議。\n\n撥入號碼：{formattedDialInNumber} \n{additionalNumbersSection} \n參與者存取碼：{participantCode}需要國際撥入電話號碼嗎？ \n\n請前往 {dialInNumbersLink} \n\n此電話會議由 {brandName} Conferencing 提供。",
-  inviteText_telus: "請加入 {brandName} 電話會議。\n\n撥入號碼：{formattedDialInNumber} \n{additionalNumbersSection} \n參與者存取碼：{participantCode} \n\n其他撥入號碼 {dialInNumbersLink}"
+  inviteText_att: "請加入 {brandName} 會議。\n\n撥入號碼：{formattedDialInNumber} \n{additionalNumbersSection} \n參與者存取碼：{participantCode}需要國際撥入電話號碼嗎？ \n\n請前往 {dialInNumbersLink} \n\n此電話會議由 {brandName} Conferencing 提供。",
+  inviteText_bt: "請加入 {brandName} 會議。\n\n撥入號碼：{formattedDialInNumber} \n{additionalNumbersSection} \n參與者存取碼：{participantCode} \n\n其他撥入號碼 {dialInNumbersLink}",
+  inviteText_rc: "請加入 {brandName} 會議。\n\n撥入號碼：{formattedDialInNumber} \n{additionalNumbersSection} \n參與者存取碼：{participantCode}需要國際撥入電話號碼嗎？ \n\n請前往 {dialInNumbersLink} \n\n此電話會議由 {brandName} Conferencing 提供。",
+  inviteText_telus: "請加入 {brandName} 會議。\n\n撥入號碼：{formattedDialInNumber} \n{additionalNumbersSection} \n參與者存取碼：{participantCode} \n\n其他撥入號碼 {dialInNumbersLink}"
 };
 
 // @key: @#@"newConference"@#@ @source: @#@"New Conference"@#@

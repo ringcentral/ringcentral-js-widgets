@@ -1,7 +1,7 @@
 export default {
   topic: "主旨",
   when: "時間",
-  duration: "持續時間",
+  duration: "時長",
   recurringMeeting: "定期會議",
   recurringDescribe: "請記得確認傳送給列席者的行事曆邀請中的定期或重複會議。",
   video: "視訊",

@@ -581,7 +581,7 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
   }
 
   @proxify
-  async _initPersonalMeeting(extensionId?: string) {
+  async _initPersonalMeeting(extensionId?: string, count = 0) {
     if (!this.enablePersonalMeeting) {
       return;
     }
@@ -595,10 +595,12 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
     } catch (e) {
       console.error('fetch personal meeting error:', e);
       this.resetPersonalMeeting();
-      console.warn('retry after 10s');
-      this._fetchPersonMeetingTimeout = setTimeout(() => {
-        this._initPersonalMeeting(extensionId);
-      }, 10000);
+      if (count < 5) {
+        console.warn('retry after 10s');
+        this._fetchPersonMeetingTimeout = setTimeout(() => {
+          this._initPersonalMeeting(extensionId, count + 1);
+        }, 10000);
+      }
     }
   }
 
@@ -801,6 +803,17 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
     } finally {
       delete (this.updateMeeting as any)._promise;
       this.removeUpdatingStatus(meetingId);
+    }
+  }
+
+  @proxify
+  async deleteMeeting(meetingId: string) {
+    try {
+      await this._deps.client.account().extension().meeting(meetingId).delete();
+      return true;
+    } catch (errors) {
+      await this._errorHandle(errors);
+      return false;
     }
   }
 

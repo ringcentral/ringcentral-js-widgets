@@ -12,7 +12,7 @@ export default {
   [phoneTypes.company]: "公司",
   [phoneTypes.other]: "其他",
   emailLabel: "電子郵件",
-  call: "通話",
+  call: "通話  ",
   text: "簡訊",
   [presenceStatus.available]: "線上",
   [presenceStatus.offline]: "隱藏",
