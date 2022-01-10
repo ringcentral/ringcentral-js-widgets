@@ -21,7 +21,7 @@
     "test:updateSnapshot": "jest --updateSnapshot",
     "test:debug": "node --inspect node_modules/.bin/jest --runInBand"
   },
-  "testPaths": ["legacyTest.config.js", "."],
+  "testPaths": ["."],
   "dependencies": {
     "@rc-ex/core": "^0.10.5",
     "@ringcentral-integration/commons": "*",
