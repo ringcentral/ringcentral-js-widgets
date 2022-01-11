@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -21,16 +21,10 @@ require("core-js/modules/es6.weak-map");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-Object.defineProperty(exports, "isValidNumber", {
+Object.defineProperty(exports, "detect", {
   enumerable: true,
   get: function get() {
-    return _libphonenumberJs.isValidNumber;
-  }
-});
-Object.defineProperty(exports, "parseIncompletePhoneNumber", {
-  enumerable: true,
-  get: function get() {
-    return _libphonenumberJs.parseIncompletePhoneNumber;
+    return _detect["default"];
   }
 });
 Object.defineProperty(exports, "format", {
@@ -45,18 +39,6 @@ Object.defineProperty(exports, "formatTypes", {
     return _format.formatTypes;
   }
 });
-Object.defineProperty(exports, "detect", {
-  enumerable: true,
-  get: function get() {
-    return _detect["default"];
-  }
-});
-Object.defineProperty(exports, "parse", {
-  enumerable: true,
-  get: function get() {
-    return _parse["default"];
-  }
-});
 Object.defineProperty(exports, "isE164", {
   enumerable: true,
   get: function get() {
@@ -67,6 +49,24 @@ Object.defineProperty(exports, "isSameLocalNumber", {
   enumerable: true,
   get: function get() {
     return _isSameLocalNumber["default"];
+  }
+});
+Object.defineProperty(exports, "isValidNumber", {
+  enumerable: true,
+  get: function get() {
+    return _libphonenumberJs.isValidNumber;
+  }
+});
+Object.defineProperty(exports, "parse", {
+  enumerable: true,
+  get: function get() {
+    return _parse["default"];
+  }
+});
+Object.defineProperty(exports, "parseIncompletePhoneNumber", {
+  enumerable: true,
+  get: function get() {
+    return _libphonenumberJs.parseIncompletePhoneNumber;
   }
 });
 
