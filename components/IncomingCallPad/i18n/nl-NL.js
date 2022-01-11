@@ -7,8 +7,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  forward: "Doorschakelen",
-  reply: "Antwoorden",
+  forward: "Doorverbinden",
+  reply: "Beantwoorden",
   ignore: "Negeren",
   toVoicemail: "Naar voicemail",
   answer: "Beantwoorden",

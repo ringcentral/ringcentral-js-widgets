@@ -10,7 +10,7 @@ var _default = {
   feedbackHeader: "Envoyer un commentaire",
   back: "Retour",
   revert: "Rétablir",
-  instruction: "Nous accordons beaucoup d'importance à vos commentaires. N'hésitez pas à nous contacter si vous rencontrez des problèmes avec l'application, si vous souhaitez obtenir une fonctionnalité ou pour signaler un bogue.",
+  instruction: "Nous accordons beaucoup d’importance à vos commentaires. N’hésitez pas à nous contacter si vous rencontrez des problèmes avec l’application, si vous souhaitez obtenir une fonctionnalité ou pour signaler un bogue.",
   fillForm: "Veuillez remplir le formulaire ci-dessous et cliquer ",
   useMailBox: " ou utilisez votre boîte mail et envoyez une demande à ",
   email: "Votre adresse e-mail",

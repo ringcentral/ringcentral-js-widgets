@@ -1,5 +1,6 @@
+import React, { FunctionComponent } from 'react';
+
 import classnames from 'classnames';
-import React from 'react';
 
 import { CallStatus } from '../../CallLogPanel/CallLog.interface';
 import styles from './ShinyBar.scss';
@@ -10,7 +11,7 @@ export type ShinyBarProps = {
   className?: string;
 };
 
-export const ShinyBar: React.FunctionComponent<ShinyBarProps> = ({
+export const ShinyBar: FunctionComponent<ShinyBarProps> = ({
   isRinging,
   className,
   status = 'callEnd',

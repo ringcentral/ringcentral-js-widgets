@@ -22,7 +22,7 @@ var _default = {
   addLog: "Registo",
   text: "Texto",
   call: "Ligar",
-  missedCall: "Perdida",
+  missedCall: "Não atendida",
   inboundCall: "Recebidas",
   outboundCall: "Efetuadas"
 }; // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@

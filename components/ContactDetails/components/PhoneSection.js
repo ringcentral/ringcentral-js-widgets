@@ -27,9 +27,9 @@ var _phoneTypeHelper = require("@ringcentral-integration/commons/lib/phoneTypeHe
 
 var _DynamicsFont = _interopRequireDefault(require("../../../assets/DynamicsFont/DynamicsFont.scss"));
 
-var _styles = _interopRequireDefault(require("../styles.scss"));
-
 var _i18n = _interopRequireDefault(require("../i18n"));
+
+var _styles = _interopRequireDefault(require("../styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 

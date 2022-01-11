@@ -7,11 +7,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
+var _react = _interopRequireDefault(require("react"));
+
 var _classnames = _interopRequireDefault(require("classnames"));
 
 var _formatMessage = _interopRequireDefault(require("format-message"));
-
-var _react = _interopRequireDefault(require("react"));
 
 var _loglink = _interopRequireDefault(require("./assets/loglink.svg"));
 

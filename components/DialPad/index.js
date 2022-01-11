@@ -5,13 +5,11 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = DialPad;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.array.map");
 
 var _react = _interopRequireDefault(require("react"));
-
-var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
@@ -69,7 +67,7 @@ var keyConfig = [[{
   text: ''
 }]];
 
-function DialPad(_ref) {
+var DialPad = function DialPad(_ref) {
   var className = _ref.className,
       hideSpecial = _ref.hideSpecial,
       onButtonPress = _ref.onButtonPress,
@@ -106,18 +104,8 @@ function DialPad(_ref) {
       });
     }));
   }));
-}
-
-DialPad.propTypes = {
-  className: _propTypes["default"].string,
-  hideSpecial: _propTypes["default"].bool,
-  onButtonPress: _propTypes["default"].func,
-  onButtonOutput: _propTypes["default"].func,
-  alternativeTimeout: _propTypes["default"].number,
-  dialButtonVolume: _propTypes["default"].number,
-  dialButtonMuted: _propTypes["default"].bool,
-  dataSign: _propTypes["default"].string
 };
+
 DialPad.defaultProps = {
   className: undefined,
   hideSpecial: false,
@@ -128,4 +116,6 @@ DialPad.defaultProps = {
   dialButtonMuted: false,
   dataSign: undefined
 };
+var _default = DialPad;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

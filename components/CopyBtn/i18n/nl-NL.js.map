@@ -1,1 +1,1 @@
-{"version":3,"sources":["components/CopyBtn/i18n/nl-NL.js"],"names":["copy"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,IAAI,EAAE;AADO,C,EAIf","sourcesContent":["export default {\n  copy: \"Kopiëren\"\n};\n\n// @key: @#@\"copy\"@#@ @source: @#@\"Copy\"@#@\n"],"file":"nl-NL.js"}
+{"version":3,"sources":["components/CopyBtn/i18n/nl-NL.ts"],"names":["copy"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,IAAI,EAAE;AADO,C,EAIf","sourcesContent":["export default {\n  copy: \"Kopiëren\"\n};\n\n// @key: @#@\"copy\"@#@ @source: @#@\"Copy\"@#@\n"],"file":"nl-NL.js"}

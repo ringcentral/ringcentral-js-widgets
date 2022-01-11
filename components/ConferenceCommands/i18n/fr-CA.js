@@ -8,22 +8,22 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 var _default = {
   title: "Commandes de téléconférence",
-  starSharp2Title: "Nombre d'appelants",
-  starSharp2Body: "Effectuer le suivi du nombre de participants à l'appel",
+  starSharp2Title: "Nombre d’appelants",
+  starSharp2Body: "Effectuer le suivi du nombre de participants à l’appel",
   starSharp3Title: "Quitter la conférence",
-  starSharp3Body: "Permet à l'animateur de raccrocher et de mettre fin à l'appel",
+  starSharp3Body: "Permet à l’animateur de raccrocher et de mettre fin à l’appel",
   starSharp4Title: "Menu",
-  starSharp4Body: "Permet d'écouter la liste de commandes du téléphone à clavier",
-  starSharp5Title: "Définir les modes d'écoute",
-  starSharp5Body: "Faire la commande une fois pour : Activer le mode discrétion sur la ligne des appelants. Ces derniers peuvent le désactiver en appuyant sur les touches *, # et 6\nFaire la commande deux fois pour : Activer le mode discrétion sur la ligne des appelants afin d'écouter uniquement. Aucune option de désactivation du mode discrétion\nFaire la commande trois fois pour : Désactiver le mode discrétion sur la ligne des appelants, leur ligne est donc rouverte.",
-  starSharp6Title: "Act. mode disc. sur la ligne de l'animateur",
-  starSharp6Body: "Appuyez une fois pour activer le mode DISCRÉTION\nAppuyez une autre fois pour désactiver le mode DISCRÉTION",
+  starSharp4Body: "Permet d’écouter la liste de commandes du téléphone à clavier",
+  starSharp5Title: "Définir les modes d’écoute",
+  starSharp5Body: "Appuyez une fois pour : Désactiver le micro des appelants; les appelants peuvent le réactiver en appuyant sur  *, #, 6\nAppuyez deux fois pour : Désactiver le micro des appelants; écoute seulement. Aucune option pour réactiver le micro\nAppuyez trois fois pour : Réactiver le micro des appelants; la ligne est de nouveau ouverte.",
+  starSharp6Title: "Act. mode disc. sur la ligne de l’animateur",
+  starSharp6Body: "Appuyez une fois pour DÉSACTIVER le micro\nAppuyez de nouveau pour RÉACTIVER le micro",
   starSharp7Title: "Sécuriser la conférence",
-  starSharp7Body: "Faire la commande une fois pour BLOQUER l'accès à la conférence\nFaire la commande de nouveau pour OUVRIR la conférence",
+  starSharp7Body: "Appuyez une fois pour BLOQUER tous les appelants\nAppuyez de nouveau pour OUVRIR l’appel",
   starSharp8Title: "Entendre un son lorsque des participants entrent dans la téléconférence ou en sortent",
-  starSharp8Body: "Faire la commande une fois pour : DÉSACTIVER le son\nFaire la commande deux fois pour : ACTIVER le son d'entrée et DÉSACTIVER le son de sortie\nFaire la commande trois fois pour : DÉSACTIVER le son d'entrée et ACTIVER le son de sortie\nFaire la commande quatre fois pour : ACTIVER le son",
+  starSharp8Body: "Appuyez une fois pour : DÉSACTIVER le son\nAppuyez deux fois pour : ACTIVER le son d’entrée et DÉSACTIVER le son de sortie\nAppuyez trois fois pour : DÉSACTIVER le son d’entrée et ACTIVER le son de sortie\nAppuyez quatre fois pour : ACTIVER le son",
   star9Title: "Enregistrer la conférence",
-  star9Body: "Faire la commande une fois pour DÉMARRER l'enregistrement\nFaire la commande de nouveau pour ARRÊTER l'enregistrement"
+  star9Body: "Appuyez une fois pour DÉMARRER l’enregistrement\nAppuyez de nouveau pour ARRÊTER l’enregistrement"
 }; // @key: @#@"title"@#@ @source: @#@"Conference Commands"@#@
 // @key: @#@"starSharp2Title"@#@ @source: @#@"Caller Count"@#@
 // @key: @#@"starSharp2Body"@#@ @source: @#@"Keep track of how many people are on the call"@#@

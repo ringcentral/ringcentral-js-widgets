@@ -12,7 +12,7 @@ var _default = {
   outgoingRingtone: "Sonnerie d’appel sortant",
   play: "Lire",
   stop: "Arrêter",
-  upload: "Charger",
+  upload: "Importer",
   reset: "Réinitialiser",
   save: "Enregistrer"
 }; // @key: @#@"ringtones"@#@ @source: @#@"Ringtones"@#@

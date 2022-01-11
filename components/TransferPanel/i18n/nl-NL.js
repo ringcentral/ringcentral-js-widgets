@@ -7,11 +7,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  to: "Aan:",
-  transferTo: "Overdragen naar",
-  blindTransfer: "Doorv.",
+  to: "Naar:",
+  transferTo: "Doorschakelen naar",
+  blindTransfer: "Doorschakelen",
   warmTransfer: "Eerst vragen",
-  enterNameOrNumber: "Voer nummer in"
+  enterNameOrNumber: "Nummer invoeren"
 }; // @key: @#@"to"@#@ @source: @#@"To:"@#@
 // @key: @#@"transferTo"@#@ @source: @#@"Transfer to"@#@
 // @key: @#@"blindTransfer"@#@ @source: @#@"Transfer"@#@

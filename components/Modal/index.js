@@ -9,7 +9,7 @@ require("core-js/modules/es6.symbol");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = Modal;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.array.index-of");
 
@@ -23,8 +23,6 @@ require("core-js/modules/es6.object.keys");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
 var _createModal = _interopRequireDefault(require("../../lib/createModal"));
 
 var _Dialog = _interopRequireDefault(require("../Dialog"));
@@ -37,9 +35,9 @@ function _objectWithoutProperties(source, excluded) { if (source == null) return
 
 function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
-var ModalDialog = (0, _createModal["default"])(_Dialog["default"]); // remap onCancel to onClose for backward compatibility
+var ModalDialog = (0, _createModal["default"])(_Dialog["default"]);
 
-function Modal(_ref) {
+var Modal = function Modal(_ref) {
   var onCancel = _ref.onCancel,
       props = _objectWithoutProperties(_ref, ["onCancel"]);
 
@@ -47,12 +45,11 @@ function Modal(_ref) {
     onCancel: onCancel,
     onClose: onCancel
   }));
-}
-
-Modal.propTypes = {
-  onCancel: _propTypes["default"].func
 };
+
 Modal.defaultProps = {
   onCancel: undefined
 };
+var _default = Modal;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

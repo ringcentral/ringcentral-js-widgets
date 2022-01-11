@@ -1,1 +1,1 @@
-{"version":3,"sources":["components/MessagesLogIcon/i18n/en-US.js"],"names":["log"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,GAAG,EAAE;AADQ,C","sourcesContent":["export default {\n  log: 'Log',\n};\n"],"file":"en-US.js"}
+{"version":3,"sources":["components/MessagesLogIcon/i18n/en-US.ts"],"names":["log"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,GAAG,EAAE;AADQ,C","sourcesContent":["export default {\n  log: 'Log',\n};\n"],"file":"en-US.js"}

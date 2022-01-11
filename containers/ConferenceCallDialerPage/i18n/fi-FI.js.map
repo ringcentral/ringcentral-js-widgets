@@ -1,0 +1,1 @@
+{"version":3,"sources":["containers/ConferenceCallDialerPage/i18n/fi-FI.ts"],"names":["activeCall"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,UAAU,EAAE;AADC,C,EAIf","sourcesContent":["export default {\n  activeCall: \"Käynnissä oleva puhelu\"\n};\n\n// @key: @#@\"activeCall\"@#@ @source: @#@\"Active Call\"@#@\n"],"file":"fi-FI.js"}

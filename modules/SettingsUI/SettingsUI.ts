@@ -1,16 +1,14 @@
+import { Module } from '@ringcentral-integration/commons/lib/di';
+import formatNumber from '@ringcentral-integration/commons/lib/formatNumber';
+import loginStatus from '@ringcentral-integration/commons/modules/Auth/loginStatus';
 import {
   RcUIModuleV2,
   UIFunctions,
   UIProps,
 } from '@ringcentral-integration/core';
-import { Module } from '@ringcentral-integration/commons/lib/di';
-import formatNumber from '@ringcentral-integration/commons/lib/formatNumber';
-import loginStatus from '@ringcentral-integration/commons/modules/Auth/loginStatus';
-import {
-  Deps,
-  SettingsContainerProps,
-  SettingsPanelProps,
-} from './SettingUI.interface';
+
+import { SettingsPanelProps } from '../../components/SettingsPanel/SettingsPanel.interface';
+import { Deps, SettingsContainerProps } from './SettingUI.interface';
 
 const DEFAULT_REGION_SETTINGS_URL = '/settings/region';
 const DEFAULT_CALLING_SETTINGS_URL = '/settings/calling';
@@ -60,12 +58,24 @@ const DEFAULT_FEEDBACK_SETTINGS_URL = '/settings/feedback';
   ],
 })
 export class SettingsUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
-  constructor(deps: T) {
-    super({ deps });
+  constructor({
+    storageKey,
+    enableCache,
+    deps,
+    ...options
+  }: {
+    storageKey?: string;
+    enableCache?: boolean;
+    deps?: T;
+  }) {
+    super({
+      deps: deps || (options as T),
+      storageKey,
+      enableCache,
+    });
   }
 
   getUIProps({
-    showRegion = true,
     showCalling = true,
     showAudio = true,
     showFeedback = true,
@@ -133,13 +143,11 @@ export class SettingsUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
       showAudio: showAudio && appFeatures.isCallingEnabled,
       showRegion:
         loggedIn &&
-        brand.brandConfig.allowRegionSetting &&
-        regionSettings.showRegionSetting &&
-        appFeatures.isCallingEnabled &&
-        showRegion,
+        regionSettings.showRegionSettings &&
+        appFeatures.isCallingEnabled,
       currentLocale: locale.currentLocale,
-      brandId: brand.id,
-      ringoutEnabled: appFeatures.isRingOutEnabled,
+      eulaLabel: brand.brandConfig.eulaLabel,
+      eulaLink: brand.brandConfig.eulaLink,
       outboundSMS:
         !!appFeatures.hasOutboundSMSPermission ||
         !!appFeatures.hasInternalSMSPermission,
@@ -196,14 +204,14 @@ export class SettingsUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
       onQuickAccessLinkClick() {
         quickAccess.enter();
       },
-      setAvailable: (...args) => presence?.setAvailable(...args),
-      setBusy: (...args) => presence?.setBusy(...args),
-      setDoNotDisturb: (...args) => presence?.setDoNotDisturb(...args),
-      setInvisible: (...args) => presence?.setInvisible(...args),
-      toggleAcceptCallQueueCalls: (...args) =>
-        presence?.toggleAcceptCallQueueCalls(...args),
+      setAvailable: () => presence?.setAvailable(),
+      setBusy: () => presence?.setBusy(),
+      setDoNotDisturb: () => presence?.setDoNotDisturb(),
+      setInvisible: () => presence?.setInvisible(),
+      toggleAcceptCallQueueCalls: () => presence?.toggleAcceptCallQueueCalls(),
       saveLocale:
-        localeSettings && ((locale) => localeSettings.saveLocale(locale)),
+        localeSettings &&
+        ((locale: string) => localeSettings.saveLocale(locale)),
     };
   }
 }

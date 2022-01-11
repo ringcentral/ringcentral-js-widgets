@@ -1,8 +1,6 @@
-import {
-  combineProps,
-  RcCircularProgress,
-} from '@ringcentral/juno';
 import React, { FunctionComponent } from 'react';
+
+import { combineProps, RcCircularProgress } from '@ringcentral/juno';
 
 import { BlockItem } from '../../modules/Block';
 import { SpinnerOverlay, SpinnerOverlayProps } from '../SpinnerOverlay';

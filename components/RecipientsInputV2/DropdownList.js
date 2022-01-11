@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -31,9 +31,9 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _styles = _interopRequireDefault(require("./styles.scss"));
-
 var _RecipientOption = require("./RecipientOption");
+
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -82,7 +82,8 @@ var DropdownList = /*#__PURE__*/(0, _react.forwardRef)(function (_ref, ref) {
 
   return /*#__PURE__*/_react["default"].createElement("ul", {
     className: (0, _classnames["default"])(_styles["default"].dropdownList, className),
-    ref: listEl
+    ref: listEl,
+    "data-sign": "dropdownList"
   }, recipientOptions.map(function (item, index) {
     return /*#__PURE__*/_react["default"].createElement(_RecipientOption.RecipientOption, {
       currentLocale: currentLocale,

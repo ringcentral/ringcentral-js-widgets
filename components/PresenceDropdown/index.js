@@ -1,49 +1,57 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
-require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.symbol");
+require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
-require("core-js/modules/es6.object.to-string");
+require("core-js/modules/es6.weak-map");
 
 require("core-js/modules/es6.string.iterator");
 
-require("core-js/modules/es6.weak-map");
+require("core-js/modules/es6.array.from");
 
-require("core-js/modules/es6.object.define-property");
+require("core-js/modules/es6.function.name");
 
-require("core-js/modules/es6.object.create");
+require("core-js/modules/es6.regexp.to-string");
 
-require("core-js/modules/es6.reflect.construct");
+require("core-js/modules/es6.date.to-string");
+
+require("core-js/modules/es6.object.to-string");
+
+require("core-js/modules/es7.symbol.async-iterator");
+
+require("core-js/modules/es6.symbol");
+
+require("core-js/modules/es6.array.is-array");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = void 0;
+exports.PresenceDropdown = void 0;
 
-require("core-js/modules/es6.object.set-prototype-of");
+require("core-js/modules/es6.object.define-properties");
+
+require("core-js/modules/es6.object.freeze");
+
+require("core-js/modules/es6.array.slice");
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _presenceStatus = require("@ringcentral-integration/commons/enums/presenceStatus.enum");
+var _Menu = require("@ringcentral/juno/es6/components/Menu/Menu/Menu.js");
 
-var _dndStatus = _interopRequireDefault(require("@ringcentral-integration/commons/modules/Presence/dndStatus"));
+var _Presence = require("@ringcentral/juno/es6/components/Presence/Presence.js");
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
+var _spacing = require("@ringcentral/juno/es6/foundation/styles/spacing.js");
 
-var _classnames = _interopRequireDefault(require("classnames"));
+var _styledComponents = _interopRequireDefault(require("@ringcentral/juno/es6/foundation/styled-components.js"));
 
-var _Line = _interopRequireDefault(require("../Line"));
+var _getPresenceStatusName = require("../../lib/getPresenceStatusName");
 
-var _PresenceItem = _interopRequireDefault(require("../PresenceItem"));
-
-var _style = _interopRequireDefault(require("./style.scss"));
+var _usePresenceItems2 = require("./usePresenceItems");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -51,134 +59,111 @@ function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "functio
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["\n  position: absolute;\n  height: 100%;\n  display: flex;\n  align-items: center;\n  padding-left: ", ";\n  z-index: 2;\n  cursor: pointer;\n"]);
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+  _templateObject = function _templateObject() {
+    return data;
+  };
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+  return data;
+}
 
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
-var PresenceDropdown = /*#__PURE__*/function (_Component) {
-  _inherits(PresenceDropdown, _Component);
+var Wrapper = _styledComponents["default"].div(_templateObject(), (0, _spacing.spacing)(5));
 
-  var _super = _createSuper(PresenceDropdown);
+var PresenceDropdown = function PresenceDropdown(_ref) {
+  var userStatus = _ref.userStatus,
+      dndStatus = _ref.dndStatus,
+      currentLocale = _ref.currentLocale,
+      setAvailable = _ref.setAvailable,
+      setBusy = _ref.setBusy,
+      setDoNotDisturb = _ref.setDoNotDisturb,
+      setInvisible = _ref.setInvisible,
+      isReady = _ref.isReady,
+      className = _ref.className;
 
-  function PresenceDropdown(props) {
-    var _this;
+  var _useState = (0, _react.useState)(null),
+      _useState2 = _slicedToArray(_useState, 2),
+      anchorEl = _useState2[0],
+      setAnchorEl = _useState2[1];
 
-    _classCallCheck(this, PresenceDropdown);
+  var handleClick = function handleClick(event) {
+    if (!isReady) return;
+    setAnchorEl(event.currentTarget);
+  };
 
-    _this = _super.call(this, props);
-    _this.state = {
-      showSelects: false
-    }; // TODO: Consider for the bubble event of click to set status.
-    // (maybe discuss in coding dojo)
+  var handleClose = function handleClose() {
+    return setAnchorEl(null);
+  };
 
-    _this.toggleShow = function () {
-      var isReady = _this.props.isReady;
+  var _usePresenceItems = (0, _usePresenceItems2.usePresenceItems)({
+    currentLocale: currentLocale,
+    userStatus: userStatus,
+    dndStatus: dndStatus,
+    onChange: function onChange(type) {
+      switch (type) {
+        case 'available':
+          setAvailable();
+          break;
 
-      if (isReady) {
-        _this.setState(function (preState) {
-          return {
-            showSelects: !preState.showSelects
-          };
-        });
+        case 'busy':
+          setBusy();
+          break;
+
+        case 'DND':
+          setDoNotDisturb();
+          break;
+
+        case 'offline':
+          setInvisible();
+          break;
+
+        default:
+          break;
       }
-    };
 
-    return _this;
+      handleClose();
+    }
+  }),
+      presenceElements = _usePresenceItems.elements,
+      selectedItem = _usePresenceItems.selectedItem;
+
+  var type = selectedItem === null || selectedItem === void 0 ? void 0 : selectedItem.type;
+
+  if (!type) {
+    return null;
   }
 
-  _createClass(PresenceDropdown, [{
-    key: "render",
-    value: function render() {
-      var _this$props = this.props,
-          userStatus = _this$props.userStatus,
-          dndStatus = _this$props.dndStatus,
-          currentLocale = _this$props.currentLocale,
-          setAvailable = _this$props.setAvailable,
-          setBusy = _this$props.setBusy,
-          setDoNotDisturb = _this$props.setDoNotDisturb,
-          setInvisible = _this$props.setInvisible,
-          className = _this$props.className;
-      var showSelects = this.state.showSelects;
-      var showDropdown = (0, _classnames["default"])(_style["default"].root, showSelects ? _style["default"].showSelects : null);
-      var showBackground = (0, _classnames["default"])(_style["default"].bk, showSelects ? _style["default"].showSelects : null);
-      return /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("div", {
-        className: (0, _classnames["default"])(_style["default"].presence, _style["default"][userStatus], _style["default"][dndStatus], className),
-        onClick: this.toggleShow
-      }, /*#__PURE__*/_react["default"].createElement("div", {
-        className: _style["default"].presenceBar
-      }), /*#__PURE__*/_react["default"].createElement("div", {
-        className: showDropdown
-      }, /*#__PURE__*/_react["default"].createElement(_Line["default"], {
-        className: _style["default"].presenceList
-      }, /*#__PURE__*/_react["default"].createElement(_PresenceItem["default"], {
-        className: _style["default"].presenceItem,
-        userStatus: _presenceStatus.presenceStatus.available,
-        dndStatus: _dndStatus["default"].takeAllCalls,
-        currentLocale: currentLocale,
-        onClick: setAvailable,
-        selected: userStatus === _presenceStatus.presenceStatus.available && dndStatus !== _dndStatus["default"].doNotAcceptAnyCalls
-      }), /*#__PURE__*/_react["default"].createElement(_PresenceItem["default"], {
-        className: _style["default"].presenceItem,
-        userStatus: _presenceStatus.presenceStatus.busy,
-        dndStatus: _dndStatus["default"].takeAllCalls,
-        currentLocale: currentLocale,
-        onClick: setBusy,
-        selected: userStatus === _presenceStatus.presenceStatus.busy && dndStatus !== _dndStatus["default"].doNotAcceptAnyCalls
-      }), /*#__PURE__*/_react["default"].createElement(_PresenceItem["default"], {
-        className: _style["default"].presenceItem,
-        userStatus: _presenceStatus.presenceStatus.busy,
-        dndStatus: _dndStatus["default"].doNotAcceptAnyCalls,
-        currentLocale: currentLocale,
-        onClick: setDoNotDisturb,
-        selected: dndStatus === _dndStatus["default"].doNotAcceptAnyCalls
-      }), /*#__PURE__*/_react["default"].createElement(_PresenceItem["default"], {
-        className: _style["default"].presenceItem,
-        userStatus: _presenceStatus.presenceStatus.offline,
-        dndStatus: _dndStatus["default"].takeAllCalls,
-        currentLocale: currentLocale,
-        onClick: setInvisible,
-        selected: userStatus === _presenceStatus.presenceStatus.offline && dndStatus !== _dndStatus["default"].doNotAcceptAnyCalls
-      })))), /*#__PURE__*/_react["default"].createElement("div", {
-        className: showBackground,
-        onClick: this.toggleShow
-      }));
-    }
-  }]);
-
-  return PresenceDropdown;
-}(_react.Component);
-
-exports["default"] = PresenceDropdown;
-PresenceDropdown.propTypes = {
-  currentLocale: _propTypes["default"].string.isRequired,
-  dndStatus: _propTypes["default"].string,
-  userStatus: _propTypes["default"].string,
-  setAvailable: _propTypes["default"].func.isRequired,
-  setBusy: _propTypes["default"].func.isRequired,
-  setDoNotDisturb: _propTypes["default"].func.isRequired,
-  setInvisible: _propTypes["default"].func.isRequired,
-  isReady: _propTypes["default"].bool.isRequired,
-  className: _propTypes["default"].string
+  var title = (0, _getPresenceStatusName.getPresenceStatusName)(userStatus, dndStatus, currentLocale);
+  return /*#__PURE__*/_react["default"].createElement(Wrapper, null, /*#__PURE__*/_react["default"].createElement(_Presence.RcPresence, {
+    role: "button",
+    "aria-label": "presence state",
+    size: "large",
+    type: type,
+    title: title,
+    onClick: handleClick,
+    className: className
+  }), /*#__PURE__*/_react["default"].createElement(_Menu.RcMenu, {
+    open: Boolean(anchorEl),
+    anchorEl: anchorEl,
+    onClose: handleClose,
+    "aria-label": "choice a presence state"
+  }, presenceElements));
 };
-PresenceDropdown.defaultProps = {
-  dndStatus: null,
-  userStatus: null,
-  className: null
-};
+
+exports.PresenceDropdown = PresenceDropdown;
 //# sourceMappingURL=index.js.map

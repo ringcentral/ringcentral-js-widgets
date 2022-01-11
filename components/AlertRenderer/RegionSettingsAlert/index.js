@@ -5,25 +5,23 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = RegionSettingsAlert;
+exports["default"] = exports.RegionSettingsAlert = void 0;
 
 require("core-js/modules/es6.string.link");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
-var _regionSettingsMessages = _interopRequireDefault(require("@ringcentral-integration/commons/modules/RegionSettings/regionSettingsMessages"));
+var _regionSettingsMessages = require("@ringcentral-integration/commons/modules/RegionSettings/regionSettingsMessages");
 
 var _FormattedMessage = _interopRequireDefault(require("../../FormattedMessage"));
 
-var _styles = _interopRequireDefault(require("./styles.scss"));
-
 var _i18n = _interopRequireDefault(require("./i18n"));
+
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function RegionSettingsAlert(_ref) {
+var RegionSettingsAlert = function RegionSettingsAlert(_ref) {
   var _ref$message = _ref.message,
       id = _ref$message.id,
       message = _ref$message.message,
@@ -32,7 +30,7 @@ function RegionSettingsAlert(_ref) {
   var msg;
 
   switch (message) {
-    case _regionSettingsMessages["default"].dialingPlansChanged:
+    case _regionSettingsMessages.regionSettingsMessages.dialingPlansChanged:
       {
         var regionSettings = _i18n["default"].getString('regionSettings', currentLocale);
 
@@ -60,21 +58,18 @@ function RegionSettingsAlert(_ref) {
   }
 
   return /*#__PURE__*/_react["default"].createElement("div", null, msg);
-}
-
-RegionSettingsAlert.propTypes = {
-  message: _propTypes["default"].shape({
-    message: _propTypes["default"].string.isRequired
-  }).isRequired,
-  currentLocale: _propTypes["default"].string.isRequired,
-  onRegionSettingsLinkClick: _propTypes["default"].func
 };
+
+exports.RegionSettingsAlert = RegionSettingsAlert;
 RegionSettingsAlert.defaultProps = {
   onRegionSettingsLinkClick: undefined
 };
 
 RegionSettingsAlert.handleMessage = function (_ref2) {
   var message = _ref2.message;
-  return message === _regionSettingsMessages["default"].saveSuccess || message === _regionSettingsMessages["default"].dialingPlansChanged || message === _regionSettingsMessages["default"].areaCodeInvalid;
+  return message === _regionSettingsMessages.regionSettingsMessages.saveSuccess || message === _regionSettingsMessages.regionSettingsMessages.dialingPlansChanged || message === _regionSettingsMessages.regionSettingsMessages.areaCodeInvalid;
 };
+
+var _default = RegionSettingsAlert;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

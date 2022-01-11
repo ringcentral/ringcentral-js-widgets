@@ -1,59 +1,79 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
-require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.symbol");
+require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
-require("core-js/modules/es6.object.to-string");
+require("core-js/modules/es6.weak-map");
 
 require("core-js/modules/es6.string.iterator");
 
-require("core-js/modules/es6.weak-map");
+require("core-js/modules/es6.array.from");
 
-require("core-js/modules/es6.object.define-property");
+require("core-js/modules/es6.function.name");
 
-require("core-js/modules/es6.object.create");
+require("core-js/modules/es6.regexp.to-string");
 
-require("core-js/modules/es6.reflect.construct");
+require("core-js/modules/es6.date.to-string");
+
+require("core-js/modules/es6.object.to-string");
+
+require("core-js/modules/es7.symbol.async-iterator");
+
+require("core-js/modules/es6.symbol");
+
+require("core-js/modules/es6.array.is-array");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = void 0;
+exports.PresenceSettingSection = void 0;
 
-require("core-js/modules/es6.object.set-prototype-of");
+require("core-js/modules/es6.object.define-properties");
+
+require("core-js/modules/es6.object.freeze");
+
+require("core-js/modules/es6.array.slice");
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
 var _classnames = _interopRequireDefault(require("classnames"));
-
-var _presenceStatus = require("@ringcentral-integration/commons/enums/presenceStatus.enum");
 
 var _dndStatus = _interopRequireDefault(require("@ringcentral-integration/commons/modules/Presence/dndStatus"));
 
-var _IconLine = _interopRequireDefault(require("../IconLine"));
+var _flexCenter = require("@ringcentral/juno/es6/foundation/styles/flexCenter.js");
 
-var _Line = _interopRequireDefault(require("../Line"));
+var _newPalette = require("@ringcentral/juno/es6/foundation/styles/newPalette.js");
 
-var _Switch = _interopRequireDefault(require("../Switch"));
+var _Box = require("@ringcentral/juno/es6/components/Box/Box.js");
 
-var _PresenceStatusIcon = _interopRequireDefault(require("../PresenceStatusIcon"));
+var _List = require("@ringcentral/juno/es6/components/List/List/List.js");
 
-var _PresenceItem = _interopRequireWildcard(require("../PresenceItem"));
+var _ListItem = require("@ringcentral/juno/es6/components/List/ListItem/ListItem.js");
+
+var _Presence = require("@ringcentral/juno/es6/components/Presence/Presence.js");
+
+var _spacing = require("@ringcentral/juno/es6/foundation/styles/spacing.js");
+
+var _styledComponents = _interopRequireDefault(require("@ringcentral/juno/es6/foundation/styled-components.js"));
 
 var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
 
-var _styles = _interopRequireDefault(require("./styles.scss"));
+var _getPresenceStatusName = require("../../lib/getPresenceStatusName");
+
+var _IconLine = _interopRequireDefault(require("../IconLine"));
+
+var _usePresenceItems2 = require("../PresenceDropdown/usePresenceItems");
+
+var _Switch = _interopRequireDefault(require("../Switch"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
+
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -61,140 +81,143 @@ function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "functio
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _templateObject2() {
+  var data = _taggedTemplateLiteral(["\n  ", ";\n  color: ", ";\n\n  ", " {\n    margin-right: ", ";\n  }\n"]);
 
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+  _templateObject2 = function _templateObject2() {
+    return data;
+  };
 
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+  return data;
+}
 
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["\n  background-color: ", ";\n\n  ", " {\n    padding-left: ", ";\n  }\n"]);
 
-var PresenceSettingSection = /*#__PURE__*/function (_Component) {
-  _inherits(PresenceSettingSection, _Component);
+  _templateObject = function _templateObject() {
+    return data;
+  };
 
-  var _super = _createSuper(PresenceSettingSection);
+  return data;
+}
 
-  function PresenceSettingSection(props) {
-    var _this;
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
-    _classCallCheck(this, PresenceSettingSection);
+var StyledList = (0, _styledComponents["default"])(_List.RcList)(_templateObject(), (0, _newPalette.palette2)('neutral', 'elevation'), _ListItem.RcListItem, (0, _spacing.spacing)(5)); // TODO: when full page refactor, remove this
 
-    _this = _super.call(this, props);
-    _this.state = {
-      showSelects: props.showPresenceSettings
-    };
+var StyledPresenceWrap = _styledComponents["default"].div(_templateObject2(), _flexCenter.flexCenterStyle, (0, _newPalette.palette2)('neutral', 'f05'), _Presence.RcPresence, (0, _spacing.spacing)(2));
 
-    _this.toggleShow = function () {
-      _this.setState(function (preState) {
-        return {
-          showSelects: !preState.showSelects
-        };
-      });
-    };
+var PresenceSettingSection = function PresenceSettingSection(_ref) {
+  var _ref$showPresenceSett = _ref.showPresenceSettings,
+      showPresenceSettings = _ref$showPresenceSett === void 0 ? false : _ref$showPresenceSett,
+      toggleAcceptCallQueueCalls = _ref.toggleAcceptCallQueueCalls,
+      isCallQueueMember = _ref.isCallQueueMember,
+      dndStatusProp = _ref.dndStatus,
+      userStatus = _ref.userStatus,
+      currentLocale = _ref.currentLocale,
+      setAvailable = _ref.setAvailable,
+      setBusy = _ref.setBusy,
+      setDoNotDisturb = _ref.setDoNotDisturb,
+      setInvisible = _ref.setInvisible;
 
-    _this.onCallQueueChange = function () {
-      if (_this.state.dndStatus === _dndStatus["default"].doNotAcceptAnyCalls) {
-        return;
+  var _useState = (0, _react.useState)(showPresenceSettings),
+      _useState2 = _slicedToArray(_useState, 2),
+      showSelects = _useState2[0],
+      setShowSelects = _useState2[1];
+
+  var toggleShow = function toggleShow() {
+    setShowSelects(function (prev) {
+      return !prev;
+    });
+  };
+
+  var onCallQueueChange = function onCallQueueChange() {
+    toggleAcceptCallQueueCalls();
+  };
+
+  var sectionClass = (0, _classnames["default"])(_styles["default"].section, showSelects ? _styles["default"].showDropdown : null);
+  var acceptQueueCalls = isCallQueueMember ? /*#__PURE__*/_react["default"].createElement(_IconLine["default"], {
+    dataSign: "acceptQueueSwitch",
+    icon: /*#__PURE__*/_react["default"].createElement(_Switch["default"], {
+      disable: dndStatusProp === _dndStatus["default"].doNotAcceptAnyCalls,
+      checked: dndStatusProp === _dndStatus["default"].takeAllCalls,
+      onChange: onCallQueueChange
+    })
+  }, _i18n["default"].getString('acceptQueueCalls', currentLocale)) : null;
+  var currentStatus = (0, _getPresenceStatusName.getPresenceStatusName)(userStatus, dndStatusProp, currentLocale);
+
+  var _usePresenceItems = (0, _usePresenceItems2.usePresenceItems)({
+    currentLocale: currentLocale,
+    userStatus: userStatus,
+    dndStatus: dndStatusProp,
+    onChange: function onChange(type) {
+      switch (type) {
+        case 'available':
+          setAvailable();
+          break;
+
+        case 'busy':
+          setBusy();
+          break;
+
+        case 'DND':
+          setDoNotDisturb();
+          break;
+
+        case 'offline':
+          setInvisible();
+          break;
+
+        default:
+          break;
       }
-
-      _this.setState(function (preState) {
-        return {
-          dndStatus: preState.dndStatus === _dndStatus["default"].takeAllCalls ? _dndStatus["default"].doNotAcceptDepartmentCalls : _dndStatus["default"].takeAllCalls
-        };
-      });
-
-      _this.props.toggleAcceptCallQueueCalls();
-    };
-
-    return _this;
-  }
-
-  _createClass(PresenceSettingSection, [{
-    key: "render",
-    value: function render() {
-      var sectionClass = (0, _classnames["default"])(_styles["default"].section, this.state.showSelects ? _styles["default"].showDropdown : null);
-      var acceptQueueCalls = this.props.isCallQueueMember ? /*#__PURE__*/_react["default"].createElement(_IconLine["default"], {
-        icon: /*#__PURE__*/_react["default"].createElement(_Switch["default"], {
-          checked: this.props.dndStatus === _dndStatus["default"].takeAllCalls,
-          onChange: this.onCallQueueChange
-        })
-      }, _i18n["default"].getString('acceptQueueCalls', this.props.currentLocale)) : null;
-      var currentStatus = (0, _PresenceItem.getPresenceStatusName)(this.props.userStatus, this.props.dndStatus, this.props.currentLocale);
-      return /*#__PURE__*/_react["default"].createElement("section", {
-        className: sectionClass
-      }, /*#__PURE__*/_react["default"].createElement(_IconLine["default"], {
-        icon: /*#__PURE__*/_react["default"].createElement("span", {
-          className: _styles["default"].dropdownIcon
-        }, /*#__PURE__*/_react["default"].createElement("i", {
-          className: _DynamicsFont["default"].arrow
-        })),
-        onClick: this.toggleShow,
-        className: _styles["default"].iconLine
-      }, /*#__PURE__*/_react["default"].createElement("div", {
-        className: _styles["default"].title,
-        "data-sign": "status"
-      }, _i18n["default"].getString('status', this.props.currentLocale)), /*#__PURE__*/_react["default"].createElement("div", {
-        className: _styles["default"].subTitle
-      }, /*#__PURE__*/_react["default"].createElement(_PresenceStatusIcon["default"], {
-        className: _styles["default"].statusIcon,
-        userStatus: this.props.userStatus,
-        dndStatus: this.props.dndStatus
-      }), /*#__PURE__*/_react["default"].createElement("span", null, currentStatus))), /*#__PURE__*/_react["default"].createElement(_Line["default"], {
-        className: _styles["default"].presenceList
-      }, /*#__PURE__*/_react["default"].createElement(_PresenceItem["default"], {
-        userStatus: _presenceStatus.presenceStatus.available,
-        dndStatus: _dndStatus["default"].takeAllCalls,
-        currentLocale: this.props.currentLocale,
-        onClick: this.props.setAvailable,
-        selected: this.props.userStatus === _presenceStatus.presenceStatus.available && this.props.dndStatus !== _dndStatus["default"].doNotAcceptAnyCalls
-      }), /*#__PURE__*/_react["default"].createElement(_PresenceItem["default"], {
-        userStatus: _presenceStatus.presenceStatus.busy,
-        dndStatus: _dndStatus["default"].takeAllCalls,
-        currentLocale: this.props.currentLocale,
-        onClick: this.props.setBusy,
-        selected: this.props.userStatus === _presenceStatus.presenceStatus.busy && this.props.dndStatus !== _dndStatus["default"].doNotAcceptAnyCalls
-      }), /*#__PURE__*/_react["default"].createElement(_PresenceItem["default"], {
-        userStatus: _presenceStatus.presenceStatus.busy,
-        dndStatus: _dndStatus["default"].doNotAcceptAnyCalls,
-        currentLocale: this.props.currentLocale,
-        onClick: this.props.setDoNotDisturb,
-        selected: this.props.dndStatus === _dndStatus["default"].doNotAcceptAnyCalls
-      }), /*#__PURE__*/_react["default"].createElement(_PresenceItem["default"], {
-        userStatus: _presenceStatus.presenceStatus.offline,
-        dndStatus: _dndStatus["default"].takeAllCalls,
-        currentLocale: this.props.currentLocale,
-        onClick: this.props.setInvisible,
-        selected: this.props.userStatus === _presenceStatus.presenceStatus.offline && this.props.dndStatus !== _dndStatus["default"].doNotAcceptAnyCalls
-      })), acceptQueueCalls);
     }
-  }]);
+  }),
+      presenceElements = _usePresenceItems.elements,
+      selectedItem = _usePresenceItems.selectedItem;
 
-  return PresenceSettingSection;
-}(_react.Component);
+  return /*#__PURE__*/_react["default"].createElement("section", {
+    className: sectionClass
+  }, /*#__PURE__*/_react["default"].createElement(_IconLine["default"], {
+    dataSign: "statusToggleShow",
+    icon: /*#__PURE__*/_react["default"].createElement("span", {
+      className: _styles["default"].dropdownIcon
+    }, /*#__PURE__*/_react["default"].createElement("i", {
+      className: _DynamicsFont["default"].arrow
+    })),
+    onClick: toggleShow,
+    className: _styles["default"].iconLine
+  }, /*#__PURE__*/_react["default"].createElement(StyledPresenceWrap, null, /*#__PURE__*/_react["default"].createElement("div", {
+    "data-sign": "status"
+  }, _i18n["default"].getString('status', currentLocale)), /*#__PURE__*/_react["default"].createElement(_Box.RcBox, {
+    flex: "1 1 auto"
+  }), /*#__PURE__*/_react["default"].createElement(_Presence.RcPresence, {
+    size: "medium",
+    type: selectedItem === null || selectedItem === void 0 ? void 0 : selectedItem.type
+  }), /*#__PURE__*/_react["default"].createElement("span", null, currentStatus))), /*#__PURE__*/_react["default"].createElement(StyledList, {
+    className: _styles["default"].presenceList
+  }, presenceElements), acceptQueueCalls);
+}; // export default class PresenceSettingSection extends Component<
+//   PresenceSettingSectionProps,
+//   PresenceSettingSectionState
+// > {
+//   constructor(props) {
+//     super(props);
+//   }
+// }
 
-exports["default"] = PresenceSettingSection;
-PresenceSettingSection.propTypes = {
-  currentLocale: _propTypes["default"].string.isRequired,
-  dndStatus: _propTypes["default"].string.isRequired,
-  userStatus: _propTypes["default"].string.isRequired,
-  isCallQueueMember: _propTypes["default"].bool.isRequired,
-  setAvailable: _propTypes["default"].func.isRequired,
-  setBusy: _propTypes["default"].func.isRequired,
-  setDoNotDisturb: _propTypes["default"].func.isRequired,
-  setInvisible: _propTypes["default"].func.isRequired,
-  toggleAcceptCallQueueCalls: _propTypes["default"].func.isRequired,
-  showPresenceSettings: _propTypes["default"].bool.isRequired
-};
+
+exports.PresenceSettingSection = PresenceSettingSection;
 //# sourceMappingURL=index.js.map

@@ -19,7 +19,7 @@ export default {
   [ASSISTED_USERS_MYSELF]: "Myself",
   meetingOptions: "Meeting options",
   meetingSettings: "Meeting settings",
-  rcMeetingSettings: "Video meeting settings",
+  rcMeetingSettings: "Video Meeting settings",
   audioOptions: "Audio options",
   recurringMeeting: "Recurring meeting",
   recurringNote: "Note: Enable this one when choosing \"Recurrence\"",
@@ -30,15 +30,16 @@ export default {
   enterPassword: "Enter Password",
   setPassword: "Set password *",
   passwordEmptyError: "Meeting password required",
-  rcmPasswordInvalidError: "Your password must be 1-10 characters, numbers long and cannot have symbols except @, * or -",
-  rcmPasswordHintText: "Your password should be 1-10 characters, numbers long and cannot have symbols except @, * or -",
+  rcmPasswordInvalidError: "Your password must be 1–10 characters long, including letters and numbers, and cannot have symbols except for @, * or -",
+  rcmPasswordHintText: "Your password should be 1–10 characters long, including letters and numbers, and cannot have symbols except for @, * or -",
   usePersonalMeetingId: "Use Personal Meeting ID",
   pmiChangeConfirm: "If you want to make changes for your Personal Meeting, ",
   changePmiSettings: "change PMI settings",
   pmiSettingChangeAlert: "If you change the settings and schedule this meeting, all of meetings with Personal Meeting ID will use the same latest settings.",
   lockedTooltip: "This setting is managed by your company admin",
   when: "When",
-  recurringDescribe: "Please remember to check for recurrences or repeats in your calendar invitations to your attendees."
+  recurringDescribe: "Please remember to check for recurrences or repeats in your calendar invitations to your attendees.",
+  ieSupportAlert: "Please note that {appName} won’t work with Internet Explorer 11 after 16th Feb 2022. We recommend switching to Microsoft Edge or updating to Outlook 2016 or above."
 };
 
 // @key: @#@"date"@#@ @source: @#@"Date"@#@
@@ -80,3 +81,4 @@ export default {
 // @key: @#@"lockedTooltip"@#@ @source: @#@"This setting is managed by your company admin"@#@
 // @key: @#@"when"@#@ @source: @#@"When"@#@
 // @key: @#@"recurringDescribe"@#@ @source: @#@"Please remember to check recurrence or repeat in your calendar invitation to your attendees."@#@
+// @key: @#@"ieSupportAlert"@#@ @source: @#@"Please note that {appName} won't work with Internet Explorer 11 after Feb 16, 2022. We recommend switching to Microsoft Edge or updating to Outlook 2016 or above."@#@

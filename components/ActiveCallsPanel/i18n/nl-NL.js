@@ -13,9 +13,9 @@ var _default = {
   onHoldCall: "Oproep staat in de wacht",
   otherDeviceCall: "Actieve oproepen op mijn andere apparaten",
   confirmation: "Bevestiging",
-  confirmMergeToConference: "Aan conferencecall toevoegen?",
+  confirmMergeToConference: "Aan conference call toevoegen?",
   mergeToConference: "Samenvoegen",
-  conferenceCall: "Conferencecall"
+  conferenceCall: "Conference call"
 }; // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@
 // @key: @#@"currentCall"@#@ @source: @#@"Current Call"@#@
 // @key: @#@"ringCall"@#@ @source: @#@"Ringing Call"@#@

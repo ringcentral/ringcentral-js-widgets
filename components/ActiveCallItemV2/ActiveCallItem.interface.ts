@@ -2,7 +2,8 @@ import {
   Session,
   WebPhoneSession,
 } from '@ringcentral-integration/commons/modules/ActiveCallControlV2';
-import { ConfirmModalOptions } from '../../modules/ModalUIV2/ModalUI.interface';
+
+import { ConfirmModalOptions } from '../../modules/ModalUI/ModalUI.interface';
 
 export interface ModalContentProps {
   currentLocale: string;

@@ -1,10 +1,19 @@
 import React, { FunctionComponent } from 'react';
-import classnames from 'classnames';
-import { callDirection } from '@ringcentral-integration/commons/enums/callDirections';
-import { CallLog, CallLogMenu } from '../CallHistoryPanel.interface';
 
-import { CallIcon } from '../CallIcon';
+import classnames from 'classnames';
+
+import { callDirection } from '@ringcentral-integration/commons/enums/callDirections';
+import {
+  palette2,
+  RcText,
+  RcTypography,
+  spacing,
+  styled,
+} from '@ringcentral/juno';
+
 import { CallHistoryActions } from '../CallHistoryActions';
+import { CallLog, CallLogMenu } from '../CallHistoryPanel.interface';
+import { CallIcon } from '../CallIcon';
 import styles from './styles.scss';
 
 export type CallHistoryItemProps = {
@@ -12,6 +21,16 @@ export type CallHistoryItemProps = {
   actionMenu?: CallLogMenu;
   isWide?: boolean;
 };
+
+const Item = styled.div<{ isWide: boolean }>`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 64px;
+  box-sizing: border-box;
+  padding: ${({ isWide }) => (isWide ? spacing(3, 4) : spacing(3))};
+  border-bottom: 1px solid ${palette2('neutral', 'l02')};
+`;
 
 export const CallHistoryItem: FunctionComponent<CallHistoryItemProps> = ({
   call,
@@ -22,25 +41,32 @@ export const CallHistoryItem: FunctionComponent<CallHistoryItemProps> = ({
     call.direction === callDirection.outbound ? call.toName : call.fromName;
 
   return (
-    <div className={classnames([styles.item, !isWide && styles.classic])}>
+    <Item isWide={isWide} data-sign="callHistoryItem">
       <div className={classnames([styles.left, !isWide && styles.classic])}>
         <CallIcon {...call} />
         <div className={classnames([styles.info, !isWide && styles.classic])}>
-          <span
+          <RcText
+            variant="body1"
+            noWrap
+            color="neutral.f06"
             data-sign="matchedName"
             className={styles.name}
             title={displayName}
           >
             {displayName}
-          </span>
-          <span data-sign="callTime" className={styles.time}>
+          </RcText>
+          <RcTypography
+            variant="caption1"
+            color="neutral.f04"
+            data-sign="callTime"
+          >
             {call.callTime}
-          </span>
+          </RcTypography>
         </div>
       </div>
       <div className={styles.right}>
         <CallHistoryActions actionMenu={actionMenu} isWide={isWide} />
       </div>
-    </div>
+    </Item>
   );
 };

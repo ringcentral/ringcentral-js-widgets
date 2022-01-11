@@ -5,15 +5,15 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.CompanyInfo = exports.CompanyInfoItem = void 0;
+exports.CompanyInfoItem = exports.CompanyInfo = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _styles = _interopRequireDefault(require("../styles.scss"));
-
 var _i18n = _interopRequireDefault(require("../i18n"));
+
+var _styles = _interopRequireDefault(require("../styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 

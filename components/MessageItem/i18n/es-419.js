@@ -25,7 +25,7 @@ var _default = (_addLog$editLog$viewD = {
   conversation: "Conversación",
   groupConversation: "Conversación grupal",
   voiceMessage: "Mensaje de voz"
-}, _defineProperty(_addLog$editLog$viewD, _messageTypes["default"].voiceMail, "Mensaje de buzón de voz"), _defineProperty(_addLog$editLog$viewD, _messageTypes["default"].fax, "Fax"), _defineProperty(_addLog$editLog$viewD, "mark", "Marcar como no leído"), _defineProperty(_addLog$editLog$viewD, "unmark", "Marcar como leído"), _defineProperty(_addLog$editLog$viewD, "delete", "Eliminar"), _defineProperty(_addLog$editLog$viewD, "faxSent", "Fax enviado"), _defineProperty(_addLog$editLog$viewD, "faxReceived", "Fax recibido"), _defineProperty(_addLog$editLog$viewD, "pages", "páginas"), _defineProperty(_addLog$editLog$viewD, "preview", "Ver"), _defineProperty(_addLog$editLog$viewD, "download", "Descargar"), _defineProperty(_addLog$editLog$viewD, "imageAttachment", "Adjunto: {count} imagen"), _defineProperty(_addLog$editLog$viewD, "fileAttachment", "Adjunto: {count} archivo"), _addLog$editLog$viewD); // @key: @#@"addLog"@#@ @source: @#@"Log"@#@
+}, _defineProperty(_addLog$editLog$viewD, _messageTypes["default"].voiceMail, "Mensaje de buzón de voz"), _defineProperty(_addLog$editLog$viewD, _messageTypes["default"].fax, "Fax"), _defineProperty(_addLog$editLog$viewD, "mark", "Marcar como no leído"), _defineProperty(_addLog$editLog$viewD, "unmark", "Marcar como leído"), _defineProperty(_addLog$editLog$viewD, "delete", "Eliminar"), _defineProperty(_addLog$editLog$viewD, "faxSent", "Fax enviado"), _defineProperty(_addLog$editLog$viewD, "faxReceived", "Fax recibido"), _defineProperty(_addLog$editLog$viewD, "pages", "páginas"), _defineProperty(_addLog$editLog$viewD, "page", "página"), _defineProperty(_addLog$editLog$viewD, "preview", "Ver"), _defineProperty(_addLog$editLog$viewD, "download", "Descargar"), _defineProperty(_addLog$editLog$viewD, "imageAttachment", "Adjunto: {count} imagen"), _defineProperty(_addLog$editLog$viewD, "fileAttachment", "Adjunto: {count} archivo"), _addLog$editLog$viewD); // @key: @#@"addLog"@#@ @source: @#@"Log"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
 // @key: @#@"viewDetails"@#@ @source: @#@"View Details"@#@
 // @key: @#@"addEntity"@#@ @source: @#@"Create New"@#@
@@ -42,6 +42,7 @@ var _default = (_addLog$editLog$viewD = {
 // @key: @#@"faxSent"@#@ @source: @#@"Fax sent"@#@
 // @key: @#@"faxReceived"@#@ @source: @#@"Fax received"@#@
 // @key: @#@"pages"@#@ @source: @#@"pages"@#@
+// @key: @#@"page"@#@ @source: @#@"page"@#@
 // @key: @#@"preview"@#@ @source: @#@"View"@#@
 // @key: @#@"download"@#@ @source: @#@"Download"@#@
 // @key: @#@"imageAttachment"@#@ @source: @#@"Attachment: {count} image"@#@

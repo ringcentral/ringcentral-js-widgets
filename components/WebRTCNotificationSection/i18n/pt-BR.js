@@ -10,7 +10,7 @@ var _default = {
   forward: "Encaminhar",
   ignore: "Ignorar",
   toVoicemail: "P/ caixa postal",
-  answer: "Responder",
+  answer: "Atender",
   endAndAnswer: "Term. e resp.",
   holdAndAnswer: "Esp. e resp.",
   custom: "Personalizar"

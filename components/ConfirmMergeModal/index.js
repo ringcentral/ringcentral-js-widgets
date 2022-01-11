@@ -5,29 +5,27 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = ConfirmMergeModal;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.array.map");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
+var _MergeIntoConferenceIcon = _interopRequireDefault(require("../../assets/images/MergeIntoConferenceIcon.svg"));
+
+var _CallAvatar = _interopRequireDefault(require("../CallAvatar"));
+
+var _CircleButton = _interopRequireDefault(require("../CircleButton"));
+
+var _Modal = _interopRequireDefault(require("../Modal"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
-var _Modal = _interopRequireDefault(require("../Modal"));
-
-var _CircleButton = _interopRequireDefault(require("../CircleButton"));
-
-var _CallAvatar = _interopRequireDefault(require("../CallAvatar"));
-
-var _MergeIntoConferenceIcon = _interopRequireDefault(require("../../assets/images/MergeIntoConferenceIcon.svg"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function ConfirmMergeModal(_ref) {
+var ConfirmMergeModal = function ConfirmMergeModal(_ref) {
   var currentLocale = _ref.currentLocale,
       show = _ref.show,
       onMerge = _ref.onMerge,
@@ -73,18 +71,13 @@ function ConfirmMergeModal(_ref) {
     icon: _MergeIntoConferenceIcon["default"],
     showBorder: false
   }))));
-}
-
-ConfirmMergeModal.propTypes = {
-  currentLocale: _propTypes["default"].string.isRequired,
-  show: _propTypes["default"].bool.isRequired,
-  onMerge: _propTypes["default"].func,
-  onCancel: _propTypes["default"].func,
-  partyProfiles: _propTypes["default"].arrayOf(_propTypes["default"].object)
 };
+
 ConfirmMergeModal.defaultProps = {
   onMerge: function onMerge() {},
   onCancel: function onCancel() {},
   partyProfiles: []
 };
+var _default = ConfirmMergeModal;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

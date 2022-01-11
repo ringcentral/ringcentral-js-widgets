@@ -9,18 +9,13 @@ exports["default"] = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
 var _classnames = _interopRequireDefault(require("classnames"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-/**
- * Circle Button with SVG
- */
-function CircleButton(props) {
+var CircleButton = function CircleButton(props) {
   var icon;
 
   if (props.icon) {
@@ -65,27 +60,8 @@ function CircleButton(props) {
     cy: "250",
     r: "245"
   }) : null));
-}
-
-CircleButton.propTypes = {
-  icon: _propTypes["default"].func,
-  className: _propTypes["default"].string,
-  dataSign: _propTypes["default"].string,
-  showBorder: _propTypes["default"].bool,
-  iconClassName: _propTypes["default"].string,
-  onClick: _propTypes["default"].func,
-  width: _propTypes["default"].string,
-  height: _propTypes["default"].string,
-  x: _propTypes["default"].number,
-  y: _propTypes["default"].number,
-  disabled: _propTypes["default"].bool,
-  iconWidth: _propTypes["default"].number,
-  iconHeight: _propTypes["default"].number,
-  iconX: _propTypes["default"].number,
-  iconY: _propTypes["default"].number,
-  title: _propTypes["default"].string,
-  showRipple: _propTypes["default"].bool
 };
+
 CircleButton.defaultProps = {
   icon: undefined,
   className: undefined,

@@ -139,4 +139,4 @@ export interface NavigateToEntities {
 
 export type CallStatus = 'onHold' | 'active' | 'callEnd';
 
-export type CallLogTitle = 'createCallLog' | 'updateCallLog';
+export type CallLogTitle = 'createCallLog' | 'updateCallLog' | 'createLog';

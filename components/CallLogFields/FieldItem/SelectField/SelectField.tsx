@@ -1,5 +1,6 @@
-import { RcMenuItem, RcSelect, RcSelectProps } from '@ringcentral/juno';
 import React, { FunctionComponent } from 'react';
+
+import { RcMenuItem, RcSelect, RcSelectProps } from '@ringcentral/juno';
 
 export type SelectFieldProps = {
   options: {

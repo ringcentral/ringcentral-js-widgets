@@ -14,7 +14,7 @@ var _default = {
   onHoldCall: "Oproep staat in de wacht",
   historyCalls: "Eerdere oproepen",
   otherDeviceCall: "Actieve oproepen op mijn andere apparaten",
-  searchPlaceholder: "Aan het zoeken..."
+  searchPlaceholder: "Zoeken..."
 }; // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@
 // @key: @#@"noCalls"@#@ @source: @#@"No results found."@#@
 // @key: @#@"currentCall"@#@ @source: @#@"Current Call"@#@

@@ -1,7 +1,7 @@
 import callingOptions from '@ringcentral-integration/commons/modules/CallingSettings/callingOptions';
 export default {
   title: "撥號",
-  [callingOptions.softphone]: "電腦版 {brand}",
+  [callingOptions.softphone]: "{brand} for Desktop",
   [callingOptions.browser]: "瀏覽器",
   [callingOptions.jupiter]: "{brand}",
   makeCallsWith: "我的通話進行時使用",

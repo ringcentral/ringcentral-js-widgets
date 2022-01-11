@@ -1,1 +1,1 @@
-{"version":3,"sources":["components/InnerTopic/i18n/ja-JP.js"],"names":["topic"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,KAAK,EAAE;AADM,C,EAIf","sourcesContent":["export default {\n  topic: \"会議タイトル\"\n};\n\n// @key: @#@\"topic\"@#@ @source: @#@\"Meeting title\"@#@\n"],"file":"ja-JP.js"}
+{"version":3,"sources":["components/InnerTopic/i18n/ja-JP.ts"],"names":["topic"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,KAAK,EAAE;AADM,C,EAIf","sourcesContent":["export default {\n  topic: \"会議タイトル\"\n};\n\n// @key: @#@\"topic\"@#@ @source: @#@\"Meeting title\"@#@\n"],"file":"ja-JP.js"}

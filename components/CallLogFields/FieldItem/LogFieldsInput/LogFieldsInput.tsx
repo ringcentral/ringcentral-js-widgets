@@ -1,6 +1,8 @@
-import { RcTextField, RcTextFieldProps } from '@ringcentral/juno';
-import classnames from 'classnames';
 import React, { Component } from 'react';
+
+import classnames from 'classnames';
+
+import { RcTextField, RcTextFieldProps } from '@ringcentral/juno';
 
 import { bindDebounce } from '../../../../lib/bindDebounce';
 import { bindNextPropsUpdate } from '../../../../lib/bindNextPropsUpdate';
@@ -25,6 +27,7 @@ export class LogFieldsInput extends Component<
     value: undefined,
     multiline: false,
   };
+  inputRef = React.createRef();
 
   checkPropsUpdate = bindNextPropsUpdate(this);
   debounce = bindDebounce(this, 500);
@@ -39,7 +42,8 @@ export class LogFieldsInput extends Component<
 
   // eslint-disable-next-line react/no-deprecated
   componentWillReceiveProps(nextProps) {
-    this.checkPropsUpdate(nextProps, 'value');
+    const isFocus = document.activeElement === this.inputRef.current;
+    this.checkPropsUpdate(nextProps, 'value', isFocus);
   }
 
   updateValue(
@@ -58,6 +62,7 @@ export class LogFieldsInput extends Component<
       <div className={classnames(styleRequired, styles.commonStyle)}>
         <RcTextField
           {...rest}
+          inputRef={this.inputRef}
           type={type}
           required={required}
           error={error}

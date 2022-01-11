@@ -13,17 +13,19 @@ require("core-js/modules/es6.array.map");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _juno = require("@ringcentral/juno");
-
 var _classnames = _interopRequireDefault(require("classnames"));
+
+var _List = require("@ringcentral/juno/es6/components/List/List/List.js");
+
+var _ListItem = require("@ringcentral/juno/es6/components/List/ListItem/ListItem.js");
+
+var _CopyButton = _interopRequireDefault(require("../../CopyButton/CopyButton"));
+
+var _CopyToClipboard = _interopRequireDefault(require("../../CopyToClipboard"));
 
 var _CallInfo = require("../CallInfo");
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
-
-var _CopyToClipboard = _interopRequireDefault(require("../../CopyToClipboard"));
-
-var _CopyButton = _interopRequireDefault(require("../../CopyButton/CopyButton"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -36,12 +38,12 @@ var CallInfoList = function CallInfoList(_ref) {
   return /*#__PURE__*/_react["default"].createElement("div", {
     "data-sign": "infoList",
     className: className
-  }, /*#__PURE__*/_react["default"].createElement(_juno.RcList, null, callInfos.map(function (_ref2, i) {
+  }, /*#__PURE__*/_react["default"].createElement(_List.RcList, null, callInfos.map(function (_ref2, i) {
     var attr = _ref2.attr,
         name = _ref2.name,
         content = _ref2.content,
         enableCopy = _ref2.enableCopy;
-    return /*#__PURE__*/_react["default"].createElement(_juno.RcListItem, {
+    return /*#__PURE__*/_react["default"].createElement(_ListItem.RcListItem, {
       key: i,
       className: (0, _classnames["default"])(_styles["default"].listItem),
       button: false

@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -16,9 +16,9 @@ require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.weak-map");
 
-require("core-js/modules/es6.object.define-property");
-
 require("core-js/modules/es6.object.create");
+
+require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.reflect.construct");
 
@@ -31,27 +31,25 @@ require("core-js/modules/es6.object.set-prototype-of");
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _icon = require("@ringcentral/juno/icon");
+var _Askfirst = _interopRequireDefault(require("@ringcentral/juno/es6/icon/Askfirst.js"));
 
-var _DialPad = _interopRequireDefault(require("../DialPad"));
+var _Transfer = _interopRequireDefault(require("../../assets/images/Transfer.svg"));
 
-var _RecipientsInput = _interopRequireDefault(require("../RecipientsInput"));
+var _ActiveCallButton = _interopRequireDefault(require("../ActiveCallButton"));
 
 var _BackHeader = _interopRequireDefault(require("../BackHeader"));
 
 var _CircleButton = _interopRequireDefault(require("../CircleButton"));
 
-var _ActiveCallButton = _interopRequireDefault(require("../ActiveCallButton"));
+var _DialPad = _interopRequireDefault(require("../DialPad"));
 
-var _Transfer = _interopRequireDefault(require("../../assets/images/Transfer.svg"));
-
-var _styles = _interopRequireDefault(require("./styles.scss"));
+var _RecipientsInput = _interopRequireDefault(require("../RecipientsInput"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
+
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -63,15 +61,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } Object.defineProperty(subClass, "prototype", { value: Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }), writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
@@ -188,7 +186,8 @@ var TransferPanel = /*#__PURE__*/function (_PureComponent) {
           recipientsContactInfoRenderer = _this$props.recipientsContactInfoRenderer,
           recipientsContactPhoneRenderer = _this$props.recipientsContactPhoneRenderer,
           autoFocus = _this$props.autoFocus,
-          enableWarmTransfer = _this$props.enableWarmTransfer;
+          enableWarmTransfer = _this$props.enableWarmTransfer,
+          children = _this$props.children;
 
       if (!session) {
         return null;
@@ -215,7 +214,7 @@ var TransferPanel = /*#__PURE__*/function (_PureComponent) {
           dataSign: "warnTransferBtn",
           className: isOnTransfer ? _styles["default"].disabled : undefined,
           onClick: this.onWarmTransfer,
-          icon: _icon.Askfirst,
+          icon: _Askfirst["default"],
           disabled: isOnTransfer || controlBusy,
           title: _i18n["default"].getString('warmTransfer', currentLocale)
         }));
@@ -234,7 +233,8 @@ var TransferPanel = /*#__PURE__*/function (_PureComponent) {
       return /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].root
       }, /*#__PURE__*/_react["default"].createElement(_BackHeader["default"], {
-        onBackClick: onBack
+        onBackClick: onBack,
+        className: _styles["default"].backHeader
       }, _i18n["default"].getString('transferTo', currentLocale)), /*#__PURE__*/_react["default"].createElement(_RecipientsInput["default"], {
         className: _styles["default"].dialInput,
         value: this.state.toNumber,
@@ -262,33 +262,13 @@ var TransferPanel = /*#__PURE__*/function (_PureComponent) {
         onButtonOutput: this.onButtonOutput
       }), /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].buttonRow
-      }, warmTransferButton, transferButton)));
+      }, warmTransferButton, transferButton)), children);
     }
   }]);
 
   return TransferPanel;
 }(_react.PureComponent);
 
-exports["default"] = TransferPanel;
-TransferPanel.propTypes = {
-  setActiveSessionId: _propTypes["default"].func,
-  onTransfer: _propTypes["default"].func.isRequired,
-  currentLocale: _propTypes["default"].string.isRequired,
-  onBack: _propTypes["default"].func.isRequired,
-  onCallEnd: _propTypes["default"].func.isRequired,
-  searchContactList: _propTypes["default"].array,
-  searchContact: _propTypes["default"].func.isRequired,
-  formatPhone: _propTypes["default"].func.isRequired,
-  phoneTypeRenderer: _propTypes["default"].func,
-  phoneSourceNameRenderer: _propTypes["default"].func,
-  recipientsContactInfoRenderer: _propTypes["default"].func,
-  recipientsContactPhoneRenderer: _propTypes["default"].func,
-  autoFocus: _propTypes["default"].bool,
-  sessionId: _propTypes["default"].string.isRequired,
-  session: _propTypes["default"].object,
-  controlBusy: _propTypes["default"].bool,
-  enableWarmTransfer: _propTypes["default"].bool
-};
 TransferPanel.defaultProps = {
   setActiveSessionId: null,
   phoneTypeRenderer: undefined,
@@ -299,6 +279,9 @@ TransferPanel.defaultProps = {
   session: null,
   searchContactList: [],
   controlBusy: false,
-  enableWarmTransfer: false
+  enableWarmTransfer: false,
+  children: null
 };
+var _default = TransferPanel;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

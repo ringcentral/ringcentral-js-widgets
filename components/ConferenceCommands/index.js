@@ -17,9 +17,9 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _BackHeader = _interopRequireDefault(require("../BackHeader"));
 
-var _styles = _interopRequireDefault(require("./styles.scss"));
-
 var _i18n = _interopRequireDefault(require("./i18n"));
+
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 

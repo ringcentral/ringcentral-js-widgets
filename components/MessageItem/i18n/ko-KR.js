@@ -25,7 +25,7 @@ var _default = (_addLog$editLog$viewD = {
   conversation: "대화",
   groupConversation: "그룹 대화",
   voiceMessage: "음성 메시지"
-}, _defineProperty(_addLog$editLog$viewD, _messageTypes["default"].voiceMail, "음성 사서함"), _defineProperty(_addLog$editLog$viewD, _messageTypes["default"].fax, "팩스"), _defineProperty(_addLog$editLog$viewD, "mark", "읽지 않은 상태로 표시"), _defineProperty(_addLog$editLog$viewD, "unmark", "읽은 상태로 표시"), _defineProperty(_addLog$editLog$viewD, "delete", "삭제"), _defineProperty(_addLog$editLog$viewD, "faxSent", "팩스 전송됨"), _defineProperty(_addLog$editLog$viewD, "faxReceived", "팩스 수신됨"), _defineProperty(_addLog$editLog$viewD, "pages", "페이지"), _defineProperty(_addLog$editLog$viewD, "preview", "보기"), _defineProperty(_addLog$editLog$viewD, "download", "다운로드"), _defineProperty(_addLog$editLog$viewD, "imageAttachment", "첨부 파일: {count}개 이미지"), _defineProperty(_addLog$editLog$viewD, "fileAttachment", "첨부 파일: {count}개의 파일"), _addLog$editLog$viewD); // @key: @#@"addLog"@#@ @source: @#@"Log"@#@
+}, _defineProperty(_addLog$editLog$viewD, _messageTypes["default"].voiceMail, "음성 사서함"), _defineProperty(_addLog$editLog$viewD, _messageTypes["default"].fax, "팩스"), _defineProperty(_addLog$editLog$viewD, "mark", "읽지 않은 상태로 표시"), _defineProperty(_addLog$editLog$viewD, "unmark", "읽은 상태로 표시"), _defineProperty(_addLog$editLog$viewD, "delete", "삭제"), _defineProperty(_addLog$editLog$viewD, "faxSent", "팩스 전송됨"), _defineProperty(_addLog$editLog$viewD, "faxReceived", "팩스 수신됨"), _defineProperty(_addLog$editLog$viewD, "pages", "페이지"), _defineProperty(_addLog$editLog$viewD, "page", "페이지"), _defineProperty(_addLog$editLog$viewD, "preview", "보기"), _defineProperty(_addLog$editLog$viewD, "download", "다운로드"), _defineProperty(_addLog$editLog$viewD, "imageAttachment", "첨부 파일: {count}개 이미지"), _defineProperty(_addLog$editLog$viewD, "fileAttachment", "첨부 파일: {count}개의 파일"), _addLog$editLog$viewD); // @key: @#@"addLog"@#@ @source: @#@"Log"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
 // @key: @#@"viewDetails"@#@ @source: @#@"View Details"@#@
 // @key: @#@"addEntity"@#@ @source: @#@"Create New"@#@
@@ -42,6 +42,7 @@ var _default = (_addLog$editLog$viewD = {
 // @key: @#@"faxSent"@#@ @source: @#@"Fax sent"@#@
 // @key: @#@"faxReceived"@#@ @source: @#@"Fax received"@#@
 // @key: @#@"pages"@#@ @source: @#@"pages"@#@
+// @key: @#@"page"@#@ @source: @#@"page"@#@
 // @key: @#@"preview"@#@ @source: @#@"View"@#@
 // @key: @#@"download"@#@ @source: @#@"Download"@#@
 // @key: @#@"imageAttachment"@#@ @source: @#@"Attachment: {count} image"@#@

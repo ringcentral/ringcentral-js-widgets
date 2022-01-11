@@ -9,8 +9,6 @@ exports["default"] = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
 var _classnames = _interopRequireDefault(require("classnames"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
@@ -37,14 +35,6 @@ var Switch = function Switch(props) {
   }));
 };
 
-Switch.propTypes = {
-  checked: _propTypes["default"].bool,
-  disable: _propTypes["default"].bool,
-  title: _propTypes["default"].string,
-  onChange: _propTypes["default"].func,
-  dataSign: _propTypes["default"].string,
-  className: _propTypes["default"].string
-};
 Switch.defaultProps = {
   checked: false,
   disable: false,

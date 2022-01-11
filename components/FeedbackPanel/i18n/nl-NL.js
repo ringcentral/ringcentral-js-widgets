@@ -11,7 +11,7 @@ var _default = {
   back: "Terug",
   revert: "Terugdraaien",
   instruction: "Uw feedback is waardevol voor ons. Als u problemen hebt met het gebruik van de app, een functie wilt aanvragen of een bug wilt melden, helpen we u graag verder.",
-  fillForm: "Vul het onderstaand formulier in en klik op ",
+  fillForm: "Vul het onderstaande formulier in en klik op ",
   useMailBox: " of gebruik uw mailbox en stuur uw verzoek naar ",
   email: "Uw e-mailadres",
   reply: "(zodat we u kunnen beantwoorden)",

@@ -8,10 +8,10 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 var _default = {
   logging: "Logging...",
-  logCall: "Log call",
-  editLog: "Edit log",
+  logCall: "Log Call",
+  editLog: "Edit Log",
   select: "Select a matching record",
-  OnHold: "On hold",
+  OnHold: "On Hold",
   Ringing: "Ringing",
   CallConnected: "Call connected",
   unknownUser: "Unknown user",

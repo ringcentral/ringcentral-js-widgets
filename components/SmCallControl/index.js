@@ -5,33 +5,31 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = SmCallControl;
+exports["default"] = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
 var _classnames = _interopRequireDefault(require("classnames"));
-
-var _telephonyStatus = _interopRequireDefault(require("@ringcentral-integration/commons/enums/telephonyStatus"));
 
 var _callDirections = _interopRequireDefault(require("@ringcentral-integration/commons/enums/callDirections"));
 
-var _CircleButton = _interopRequireDefault(require("../CircleButton"));
+var _telephonyStatus = _interopRequireDefault(require("@ringcentral-integration/commons/enums/telephonyStatus"));
+
+var _End = _interopRequireDefault(require("../../assets/images/End.svg"));
 
 var _Mute = _interopRequireDefault(require("../../assets/images/Mute.svg"));
 
 var _Unmute = _interopRequireDefault(require("../../assets/images/Unmute.svg"));
 
-var _End = _interopRequireDefault(require("../../assets/images/End.svg"));
-
-var _styles = _interopRequireDefault(require("./styles.scss"));
+var _CircleButton = _interopRequireDefault(require("../CircleButton"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
+var _styles = _interopRequireDefault(require("./styles.scss"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function SmCallControl(props) {
+var SmCallControl = function SmCallControl(props) {
   var onMute = props.onMute,
       onUnmute = props.onUnmute,
       onHangup = props.onHangup,
@@ -70,18 +68,8 @@ function SmCallControl(props) {
     onClick: endAction,
     className: (0, _classnames["default"])(_styles["default"].hangup, _styles["default"].button)
   })));
-}
-
-SmCallControl.propTypes = {
-  onMute: _propTypes["default"].func,
-  onUnmute: _propTypes["default"].func,
-  onHangup: _propTypes["default"].func,
-  onReject: _propTypes["default"].func,
-  isOnMute: _propTypes["default"].bool,
-  callStatus: _propTypes["default"].string,
-  currentLocale: _propTypes["default"].string,
-  callDirection: _propTypes["default"].string.isRequired
 };
+
 SmCallControl.defaultProps = {
   onMute: function onMute() {},
   onUnmute: function onUnmute() {},
@@ -91,4 +79,6 @@ SmCallControl.defaultProps = {
   callStatus: 'CallConnected',
   currentLocale: 'en-US'
 };
+var _default = SmCallControl;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

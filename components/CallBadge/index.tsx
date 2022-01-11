@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+
 import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 import sessionStatus from '@ringcentral-integration/commons/modules/Webphone/sessionStatus';
-import { CallBadgeProps, CallBadgeState } from './types';
+
 import ActiveCallBadge from '../ActiveCallBadge';
 import i18n from './i18n';
+import { CallBadgeProps, CallBadgeState } from './types';
 
 export default class CallBadge extends Component<
   CallBadgeProps,

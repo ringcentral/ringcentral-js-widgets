@@ -5,25 +5,23 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = EntityButton;
+exports["default"] = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
 var _classnames = _interopRequireDefault(require("classnames"));
-
-var _Spinner = _interopRequireDefault(require("../Spinner"));
-
-var _Button = require("../Button");
-
-var _styles = _interopRequireDefault(require("./styles.scss"));
 
 var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
 
+var _Button = require("../Button");
+
+var _Spinner = _interopRequireDefault(require("../Spinner"));
+
+var _styles = _interopRequireDefault(require("./styles.scss"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function EntityButton(_ref) {
+var EntityButton = function EntityButton(_ref) {
   var className = _ref.className,
       onViewEntity = _ref.onViewEntity,
       onCreateEntity = _ref.onCreateEntity,
@@ -50,18 +48,8 @@ function EntityButton(_ref) {
     className: icon,
     title: title
   }), spinner);
-}
-
-EntityButton.propTypes = {
-  className: _propTypes["default"].string,
-  onViewEntity: _propTypes["default"].func,
-  onCreateEntity: _propTypes["default"].func,
-  hasEntity: _propTypes["default"].bool,
-  isCreating: _propTypes["default"].bool,
-  disableLinks: _propTypes["default"].bool,
-  viewEntityTitle: _propTypes["default"].string,
-  createEntityTitle: _propTypes["default"].string
 };
+
 EntityButton.defaultProps = {
   className: undefined,
   onViewEntity: undefined,
@@ -72,4 +60,6 @@ EntityButton.defaultProps = {
   viewEntityTitle: undefined,
   createEntityTitle: undefined
 };
+var _default = EntityButton;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

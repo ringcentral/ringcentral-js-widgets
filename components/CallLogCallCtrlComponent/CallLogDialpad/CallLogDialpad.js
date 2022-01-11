@@ -39,9 +39,9 @@ var _classnames4 = _interopRequireDefault(require("classnames"));
 
 var _CloseDialpad = _interopRequireDefault(require("../../../assets/images/CloseDialpad.svg"));
 
-var _DialPad = _interopRequireDefault(require("../../DialPad"));
+var _audios = require("../../DialButton/audios");
 
-var _audios = _interopRequireDefault(require("../../DialButton/audios"));
+var _DialPad = _interopRequireDefault(require("../../DialPad"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
@@ -57,7 +57,7 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-function _iterableToArrayLimit(arr, i) { var _i = arr && (typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]); if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
@@ -96,12 +96,12 @@ var CallLogDialpad = function CallLogDialpad(_ref) {
   }, []);
 
   var playAudio = function playAudio(value) {
-    if (audioRef.current && audioRef.current.canPlayType('audio/ogg') !== '' && _audios["default"][value]) {
+    if (audioRef.current && audioRef.current.canPlayType('audio/ogg') !== '' && _audios.audios[value]) {
       if (!audioRef.current.paused) {
         audioRef.current.pause();
       }
 
-      audioRef.current.src = _audios["default"][value];
+      audioRef.current.src = _audios.audios[value];
       audioRef.current.currentTime = 0;
       audioRef.current.play();
     }

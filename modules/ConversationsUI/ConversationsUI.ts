@@ -4,6 +4,7 @@ import {
   UIFunctions,
   UIProps,
 } from '@ringcentral-integration/core';
+
 import {
   ConversationsContainerProps,
   ConversationsPanelProps,
@@ -67,7 +68,7 @@ export class ConversationsUI<T> extends RcUIModuleV2<Deps & T> {
       showTitle,
       enableContactFallback,
       showGroupNumberName,
-      brand: brand.fullName,
+      brand: brand.name,
       currentLocale: locale.currentLocale,
       currentSiteCode: extensionInfo?.site?.code ?? '',
       isMultipleSiteEnabled: extensionInfo?.isMultipleSiteEnabled ?? false,

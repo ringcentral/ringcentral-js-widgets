@@ -1,1 +1,0 @@
-{"version":3,"sources":["modules/ModalUIV2/i18n/en-US.ts"],"names":["cancel","close","ok"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,MAAM,EAAE,QADK;AAEbC,EAAAA,KAAK,EAAE,OAFM;AAGbC,EAAAA,EAAE,EAAE;AAHS,C","sourcesContent":["export default {\n  cancel: 'Cancel',\n  close: 'Close',\n  ok: 'OK',\n};\n"],"file":"en-US.js"}

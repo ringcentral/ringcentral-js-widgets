@@ -9,11 +9,11 @@ exports["default"] = void 0;
 var _default = {
   createLog: "Créer un journal",
   creating: "Création",
-  save: "Enreg.",
+  save: "Enregistrer",
   saving: "Enregistrement",
   saved: "Enregistré",
   creatingFailed: "La création a échoué.",
-  savingFailed: "L'enregistrement a échoué."
+  savingFailed: "L’enregistrement a échoué."
 }; // @key: @#@"createLog"@#@ @source: @#@"Create Log"@#@
 // @key: @#@"creating"@#@ @source: @#@"Creating"@#@
 // @key: @#@"save"@#@ @source: @#@"Save"@#@

@@ -12,7 +12,7 @@ var _default = {
   lead: "Piste",
   opportunity: "Occasion",
   "case": "Dossier",
-  chooseEntity: "Choisir type d'entité",
+  chooseEntity: "Choisir type d’entité",
   create: "Créer"
 }; // @key: @#@"account"@#@ @source: @#@"Account"@#@
 // @key: @#@"contact"@#@ @source: @#@"Contact"@#@

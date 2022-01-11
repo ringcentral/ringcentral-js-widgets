@@ -18,10 +18,10 @@ var _default = {
   add: "Ajouter",
   transfer: "Transférer",
   flip: "Renvoi",
-  more: "Actions d'appel",
+  more: "Actions d’appel",
   mergeToConference: "Fusionner",
   end: "Fin",
-  completeTransfer: "Exécuter le\ntransfert"
+  completeTransfer: "Exécuter\nle transfert"
 }; // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
 // @key: @#@"keypad"@#@ @source: @#@"Keypad"@#@

@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -22,9 +22,9 @@ require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
-require("core-js/modules/es6.object.define-property");
-
 require("core-js/modules/es6.object.create");
+
+require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.reflect.construct");
 
@@ -43,53 +43,51 @@ require("core-js/modules/es6.function.bind");
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
 var _classnames = _interopRequireDefault(require("classnames"));
-
-var _recordStatus = require("@ringcentral-integration/commons/modules/Webphone/recordStatus");
 
 var _is_type = require("@ringcentral-integration/commons/lib/di/utils/is_type");
 
-var _CircleButton = _interopRequireDefault(require("../CircleButton"));
+var _recordStatus = require("@ringcentral-integration/commons/modules/Webphone/recordStatus");
 
-var _Tooltip = _interopRequireDefault(require("../Tooltip"));
-
-var _ActiveCallButton = _interopRequireDefault(require("../ActiveCallButton"));
-
-var _Mute = _interopRequireDefault(require("../../assets/images/Mute.svg"));
-
-var _Unmute = _interopRequireDefault(require("../../assets/images/Unmute.svg"));
+var _Combine = _interopRequireDefault(require("../../assets/images/Combine.svg"));
 
 var _Dialpad = _interopRequireDefault(require("../../assets/images/Dialpad.svg"));
 
+var _End = _interopRequireDefault(require("../../assets/images/End.svg"));
+
+var _Flip = _interopRequireDefault(require("../../assets/images/Flip.svg"));
+
 var _Hold = _interopRequireDefault(require("../../assets/images/Hold.svg"));
+
+var _MergeIntoConferenceIcon = _interopRequireDefault(require("../../assets/images/MergeIntoConferenceIcon.svg"));
+
+var _MoreIcon = _interopRequireDefault(require("../../assets/images/MoreIcon.svg"));
+
+var _Mute = _interopRequireDefault(require("../../assets/images/Mute.svg"));
 
 var _Park = _interopRequireDefault(require("../../assets/images/Park.svg"));
 
 var _Record = _interopRequireDefault(require("../../assets/images/Record.svg"));
 
-var _MoreIcon = _interopRequireDefault(require("../../assets/images/MoreIcon.svg"));
-
 var _Transfer = _interopRequireDefault(require("../../assets/images/Transfer.svg"));
 
-var _Flip = _interopRequireDefault(require("../../assets/images/Flip.svg"));
-
-var _End = _interopRequireDefault(require("../../assets/images/End.svg"));
-
-var _Combine = _interopRequireDefault(require("../../assets/images/Combine.svg"));
-
-var _MergeIntoConferenceIcon = _interopRequireDefault(require("../../assets/images/MergeIntoConferenceIcon.svg"));
+var _Unmute = _interopRequireDefault(require("../../assets/images/Unmute.svg"));
 
 var _callCtrlLayouts = _interopRequireDefault(require("../../enums/callCtrlLayouts"));
 
-var _utils = require("./utils");
+var _ActiveCallButton = _interopRequireDefault(require("../ActiveCallButton"));
+
+var _CircleButton = _interopRequireDefault(require("../CircleButton"));
+
+var _Tooltip = _interopRequireDefault(require("../Tooltip"));
+
+var _i18n = _interopRequireDefault(require("./i18n"));
 
 var _MoreActionItem = _interopRequireDefault(require("./MoreActionItem"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
-var _i18n = _interopRequireDefault(require("./i18n"));
+var _utils = require("./utils");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -107,15 +105,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } Object.defineProperty(subClass, "prototype", { value: Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }), writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
@@ -458,39 +456,6 @@ var ActiveCallPad = /*#__PURE__*/function (_Component) {
   return ActiveCallPad;
 }(_react.Component);
 
-ActiveCallPad.propTypes = {
-  currentLocale: _propTypes["default"].string.isRequired,
-  className: _propTypes["default"].string,
-  isOnMute: _propTypes["default"].bool,
-  isOnHold: _propTypes["default"].bool,
-  recordStatus: _propTypes["default"].string.isRequired,
-  onMute: _propTypes["default"].func.isRequired,
-  onUnmute: _propTypes["default"].func.isRequired,
-  onHold: _propTypes["default"].func.isRequired,
-  onUnhold: _propTypes["default"].func.isRequired,
-  onRecord: _propTypes["default"].func.isRequired,
-  onStopRecord: _propTypes["default"].func.isRequired,
-  onHangup: _propTypes["default"].func.isRequired,
-  onPark: _propTypes["default"].func.isRequired,
-  onShowKeyPad: _propTypes["default"].func.isRequired,
-  onAdd: _propTypes["default"].func,
-  onMerge: _propTypes["default"].func,
-  onFlip: _propTypes["default"].func.isRequired,
-  onTransfer: _propTypes["default"].func.isRequired,
-  disableFlip: _propTypes["default"].bool,
-  showPark: _propTypes["default"].bool,
-  layout: _propTypes["default"].string,
-  addDisabled: _propTypes["default"].bool,
-  mergeDisabled: _propTypes["default"].bool,
-  conferenceCallEquipped: _propTypes["default"].bool,
-  hasConferenceCall: _propTypes["default"].bool,
-  expandMore: _propTypes["default"].bool,
-  actions: _propTypes["default"].array,
-  isOnTransfer: _propTypes["default"].bool,
-  isOnWaitingTransfer: _propTypes["default"].bool,
-  onCompleteTransfer: _propTypes["default"].func.isRequired,
-  controlBusy: _propTypes["default"].bool
-};
 ActiveCallPad.defaultProps = {
   className: null,
   isOnMute: false,

@@ -15,15 +15,15 @@ var _default = {
   starSharp4Title: "Menu",
   starSharp4Body: "Ouça a lista de comandos de marcação multifrequência",
   starSharp5Title: "Definir modos de escuta",
-  starSharp5Body: "Premir 1x: Desativar som de autores da chamada - Os autores da chamada podem ativar o som com  *, #, 6\nPremir 2x: Desativar som de autores da chamada - Apenas ouvir. Sem opção para ativar som\nPremir 3x: Ativar som de autores da chamada - Abre a linha novamente",
+  starSharp5Body: "Premir 1x: Desativar som de autores da chamada — Os autores da chamada podem ativar o som com  *, #, 6\nPremir 2x: Desativar som de autores da chamada — Apenas ouvir. Sem opção para ativar som\nPremir 3x: Ativar som de autores da chamada — Abre a linha novamente",
   starSharp6Title: "Desativar som da linha do anfitrião",
   starSharp6Body: "Premir uma vez para DESATIVAR SOM\nPremir novamente para ATIVAR SOM",
   starSharp7Title: "Proteger a chamada",
   starSharp7Body: "Premir uma vez para BLOQUEAR todos os autores de chamadas\nPremir novamente para ABRIR a chamada",
   starSharp8Title: "Ouvir som quando as pessoas entram ou saem da chamada",
-  starSharp8Body: "Premir 1x: Desligar som\nPremir 2x: Tom de entrada LIGADO Tom de saída DESLIGADO\nPremir 3x: Tom de entrada DESLIGADO Tom de saída DESLIGADO\nPremir 4x: LIGA o som",
+  starSharp8Body: "Premir 1x: DESLIGA o som\nPremir 2x: Tom de entrada LIGADO Tom de saída DESLIGADO\nPremir 3x: Tom de entrada DESLIGADO Tom de saída LIGADO\n\nPremir 4x: LIGA o som",
   star9Title: "Grave a sua conferência",
-  star9Body: "Premir uma vez para INICIAR a gravação\n Premir novamente para PARAR a gravação"
+  star9Body: "Premir uma vez para INICIAR a gravação\nPremir novamente para PARAR a gravação"
 }; // @key: @#@"title"@#@ @source: @#@"Conference Commands"@#@
 // @key: @#@"starSharp2Title"@#@ @source: @#@"Caller Count"@#@
 // @key: @#@"starSharp2Body"@#@ @source: @#@"Keep track of how many people are on the call"@#@

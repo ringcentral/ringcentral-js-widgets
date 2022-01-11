@@ -15,15 +15,15 @@ var _classnames = _interopRequireDefault(require("classnames"));
 
 var _extensionStatusTypes = require("@ringcentral-integration/commons/enums/extensionStatusTypes");
 
-var _Avatar = require("./Avatar");
-
-var _styles = _interopRequireDefault(require("../styles.scss"));
-
-var _i18n = _interopRequireDefault(require("../i18n"));
+var _getPresenceStatusName = require("../../../lib/getPresenceStatusName");
 
 var _PresenceStatusIcon = _interopRequireDefault(require("../../PresenceStatusIcon"));
 
-var _getPresenceStatusName = require("../../../lib/getPresenceStatusName");
+var _i18n = _interopRequireDefault(require("../i18n"));
+
+var _styles = _interopRequireDefault(require("../styles.scss"));
+
+var _Avatar = require("./Avatar");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 

@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -28,6 +28,8 @@ require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
+require("core-js/modules/es6.object.to-string");
+
 require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.for-each");
@@ -37,41 +39,33 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.ContactDetailsUI = void 0;
 
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.date.to-string");
-
-require("core-js/modules/es6.object.to-string");
-
 require("core-js/modules/es6.array.filter");
 
 require("regenerator-runtime/runtime");
 
-var _core = require("@ringcentral-integration/core");
-
-var _di = require("@ringcentral-integration/commons/lib/di");
+var _phoneTypes = require("@ringcentral-integration/commons/enums/phoneTypes");
 
 var _background = _interopRequireDefault(require("@ringcentral-integration/commons/lib/background"));
 
+var _di = require("@ringcentral-integration/commons/lib/di");
+
 var _proxify = _interopRequireDefault(require("@ringcentral-integration/commons/lib/proxy/proxify"));
 
-var _phoneNumber = require("@ringcentral-integration/phone-number");
-
-var _phoneTypes = require("@ringcentral-integration/commons/enums/phoneTypes");
-
-var _formatNumber2 = require("@ringcentral-integration/commons/lib/formatNumber");
-
-var _trackEvents = require("./trackEvents");
+var _core = require("@ringcentral-integration/core");
 
 var _contactReadyStates = require("./contactReadyStates");
+
+var _helper = require("./helper");
+
+var _trackEvents = require("./trackEvents");
 
 var _dec, _dec2, _dec3, _class, _class2, _descriptor, _descriptor2;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -85,15 +79,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } Object.defineProperty(subClass, "prototype", { value: Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }), writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
@@ -364,49 +358,16 @@ var ContactDetailsUI = (_dec = (0, _di.Module)({
 
       var params = _ref3.params;
       return {
+        formatNumber: function formatNumber(phoneNumber) {
+          var _this2$_deps$extensio;
+
+          return (0, _helper.formatContactPhoneNumber)(phoneNumber, _this2._deps.regionSettings.countryCode, _this2._deps.extensionInfo.isMultipleSiteEnabled, (_this2$_deps$extensio = _this2._deps.extensionInfo.site) === null || _this2$_deps$extensio === void 0 ? void 0 : _this2$_deps$extensio.code);
+        },
         onVisitPage: function onVisitPage() {
           _this2.initCurrentContact(params);
         },
         onLeavingPage: function onLeavingPage() {
           _this2.resetCurrentContact();
-        },
-        formatNumber: function formatNumber() {
-          var _this2$_deps$extensio;
-
-          var phoneNumber = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
-
-          if (!phoneNumber) {
-            return phoneNumber;
-          } // if the cleaned phone number is not a E164 format
-          // we will show it directly, doesn't format it.
-
-
-          var cleanedNumber = (0, _phoneNumber.parseIncompletePhoneNumber)(phoneNumber.toString());
-          var isE164Number = (0, _phoneNumber.isE164)(cleanedNumber);
-
-          if (isE164Number) {
-            var formattedNumber = (0, _formatNumber2.formatNumber)({
-              phoneNumber: phoneNumber,
-              countryCode: _this2._deps.regionSettings.countryCode
-            });
-            return formattedNumber;
-          } // if multi-site is enabled then we will try to remove site code with same site
-
-
-          if (_this2._deps.extensionInfo.isMultipleSiteEnabled && ((_this2$_deps$extensio = _this2._deps.extensionInfo.site) === null || _this2$_deps$extensio === void 0 ? void 0 : _this2$_deps$extensio.code)) {
-            var _this2$_deps$extensio2;
-
-            var _formattedNumber = (0, _formatNumber2.formatNumber)({
-              phoneNumber: phoneNumber,
-              countryCode: _this2._deps.regionSettings.countryCode,
-              siteCode: (_this2$_deps$extensio2 = _this2._deps.extensionInfo.site) === null || _this2$_deps$extensio2 === void 0 ? void 0 : _this2$_deps$extensio2.code,
-              isMultipleSiteEnabled: _this2._deps.extensionInfo.isMultipleSiteEnabled
-            });
-
-            return _formattedNumber;
-          }
-
-          return phoneNumber;
         },
         canTextButtonShow: function canTextButtonShow(phoneType) {
           var outboundSmsPermission = _this2._deps.appFeatures.hasOutboundSMSPermission;

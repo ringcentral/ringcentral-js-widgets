@@ -5,24 +5,22 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = Select;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.array.map");
 
-var _react = _interopRequireDefault(require("react"));
+require("../../assets/DynamicsFont/DynamicsFont.scss");
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
+var _react = _interopRequireDefault(require("react"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
-require("../../assets/DynamicsFont/DynamicsFont.scss");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 // import font face
-function Select(_ref) {
+var Select = function Select(_ref) {
   var className = _ref.className,
       value = _ref.value,
       onChange = _ref.onChange,
@@ -51,18 +49,8 @@ function Select(_ref) {
       }, renderFunction(option, idx))
     );
   })));
-}
-
-Select.propTypes = {
-  className: _propTypes["default"].string,
-  value: _propTypes["default"].string,
-  onChange: _propTypes["default"].func,
-  disabled: _propTypes["default"].bool,
-  options: _propTypes["default"].arrayOf(_propTypes["default"].any).isRequired,
-  paddingLeft: _propTypes["default"].number,
-  valueFunction: _propTypes["default"].func,
-  renderFunction: _propTypes["default"].func
 };
+
 Select.defaultProps = {
   className: undefined,
   value: undefined,
@@ -76,4 +64,6 @@ Select.defaultProps = {
     return option;
   }
 };
+var _default = Select;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

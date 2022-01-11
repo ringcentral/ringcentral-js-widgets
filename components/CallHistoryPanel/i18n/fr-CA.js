@@ -7,9 +7,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  today: "Aujourd'hui",
+  today: "Aujourd’hui",
   yesterday: "Hier",
-  empty: "Aucun enregistrement de l'appel"
+  empty: "Aucun enregistrement de l’appel"
 }; // @key: @#@"today"@#@ @source: @#@"Today"@#@
 // @key: @#@"yesterday"@#@ @source: @#@"Yesterday"@#@
 // @key: @#@"empty"@#@ @source: @#@"No call records"@#@

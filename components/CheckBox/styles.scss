@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 @import '../../lib/commonStyles/colors.scss';
 @import '../../lib/commonStyles/full-size.scss';
 @import '../../lib/commonStyles/fonts.scss';
@@ -21,7 +23,7 @@ $baseSize: $circle + 2px;
     height: $circle;
     width: $circle;
     border: 1px solid $silver;
-    border-radius: $baseSize/2;
+    border-radius: math.div($baseSize, 2);
     position: absolute;
     content: '';
   }
@@ -45,11 +47,11 @@ $baseSize: $circle + 2px;
   }
   &:after {
     position: absolute;
-    left: $baseSize/4;
-    top: $baseSize/4;
-    height: $baseSize/2;
-    width: $baseSize/2;
-    border-radius: $baseSize/4;
+    left: math.div($baseSize, 4);
+    top: math.div($baseSize, 4);
+    height: math.div($baseSize, 2);
+    width: math.div($baseSize, 2);
+    border-radius: math.div($baseSize, 4);
     background-color: $primary-color;
     content: '';
   }

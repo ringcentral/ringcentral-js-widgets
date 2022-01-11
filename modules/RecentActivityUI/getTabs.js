@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getTabs = exports.trackTabsMap = void 0;
+exports.trackTabsMap = exports.getTabs = void 0;
 
 require("core-js/modules/es6.array.filter");
 
@@ -15,13 +15,13 @@ var _Analytics = require("@ringcentral-integration/commons/modules/Analytics");
 
 var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
 
-var _RecentActivityMessages = _interopRequireDefault(require("../../components/RecentActivityMessages"));
-
-var _RecentActivityCalls = _interopRequireDefault(require("../../components/RecentActivityCalls"));
+var _Fax = _interopRequireDefault(require("../../assets/images/Fax.svg"));
 
 var _VoicemailIcon = _interopRequireDefault(require("../../assets/images/VoicemailIcon.svg"));
 
-var _Fax = _interopRequireDefault(require("../../assets/images/Fax.svg"));
+var _RecentActivityCalls = _interopRequireDefault(require("../../components/RecentActivityCalls"));
+
+var _RecentActivityMessages = _interopRequireDefault(require("../../components/RecentActivityMessages"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 

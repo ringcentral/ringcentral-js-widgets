@@ -9,7 +9,7 @@ exports["default"] = void 0;
 var _default = {
   noActiveCalls: "Sem chamadas ativas",
   currentCall: "Chamada atual",
-  ringCall: "A chamar",
+  ringCall: "Chamada a tocar",
   onHoldCall: "Chamada em espera",
   otherDeviceCall: "Chamadas em curso nos outros dispositivos",
   confirmation: "Confirmação",

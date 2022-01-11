@@ -1,9 +1,10 @@
-import { RcUIModuleV2 } from '@ringcentral-integration/core';
 import { Module } from '@ringcentral-integration/commons/lib/di';
+import { RcUIModuleV2 } from '@ringcentral-integration/core';
+
 import {
   Deps,
-  ForwardUIProps,
   ForwardUIFunctions,
+  ForwardUIProps,
 } from './ForwardUI.interface';
 
 @Module({

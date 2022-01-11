@@ -7,9 +7,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.CallsOnholdPage = void 0;
 
-var _phoneContext = require("../../lib/phoneContext");
-
 var _CallsOnholdPanel = _interopRequireDefault(require("../../components/CallsOnholdPanel"));
+
+var _phoneContext = require("../../lib/phoneContext");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 

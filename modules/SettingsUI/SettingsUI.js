@@ -1,18 +1,26 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
+require("core-js/modules/es6.promise");
+
 require("core-js/modules/es6.symbol");
 
-require("core-js/modules/es6.promise");
+require("core-js/modules/es6.array.index-of");
+
+require("core-js/modules/web.dom.iterable");
+
+require("core-js/modules/es6.array.iterator");
 
 require("core-js/modules/es6.object.to-string");
 
-require("core-js/modules/es6.object.define-property");
+require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.object.create");
+
+require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.reflect.construct");
 
@@ -27,13 +35,13 @@ require("regenerator-runtime/runtime");
 
 require("core-js/modules/es6.function.name");
 
-var _core = require("@ringcentral-integration/core");
-
 var _di = require("@ringcentral-integration/commons/lib/di");
 
 var _formatNumber = _interopRequireDefault(require("@ringcentral-integration/commons/lib/formatNumber"));
 
 var _loginStatus = _interopRequireDefault(require("@ringcentral-integration/commons/modules/Auth/loginStatus"));
+
+var _core = require("@ringcentral-integration/core");
 
 var _dec, _class;
 
@@ -43,19 +51,23 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } Object.defineProperty(subClass, "prototype", { value: Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }), writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
@@ -96,34 +108,39 @@ var SettingsUI = (_dec = (0, _di.Module)({
 
   var _super = _createSuper(SettingsUI);
 
-  function SettingsUI(deps) {
+  function SettingsUI(_ref) {
+    var storageKey = _ref.storageKey,
+        enableCache = _ref.enableCache,
+        deps = _ref.deps,
+        options = _objectWithoutProperties(_ref, ["storageKey", "enableCache", "deps"]);
+
     _classCallCheck(this, SettingsUI);
 
     return _super.call(this, {
-      deps: deps
+      deps: deps || options,
+      storageKey: storageKey,
+      enableCache: enableCache
     });
   }
 
   _createClass(SettingsUI, [{
     key: "getUIProps",
-    value: function getUIProps(_ref) {
+    value: function getUIProps(_ref2) {
       var _extensionFeatures$fe, _extensionFeatures$fe2;
 
-      var _ref$showRegion = _ref.showRegion,
-          showRegion = _ref$showRegion === void 0 ? true : _ref$showRegion,
-          _ref$showCalling = _ref.showCalling,
-          showCalling = _ref$showCalling === void 0 ? true : _ref$showCalling,
-          _ref$showAudio = _ref.showAudio,
-          showAudio = _ref$showAudio === void 0 ? true : _ref$showAudio,
-          _ref$showFeedback = _ref.showFeedback,
-          showFeedback = _ref$showFeedback === void 0 ? true : _ref$showFeedback,
-          _ref$showUserGuide = _ref.showUserGuide,
-          showUserGuide = _ref$showUserGuide === void 0 ? true : _ref$showUserGuide,
-          _ref$showPresenceSett = _ref.showPresenceSettings,
-          showPresenceSettings = _ref$showPresenceSett === void 0 ? true : _ref$showPresenceSett,
-          _ref$showQuickAccess = _ref.showQuickAccess,
-          showQuickAccess = _ref$showQuickAccess === void 0 ? false : _ref$showQuickAccess,
-          params = _ref.params;
+      var _ref2$showCalling = _ref2.showCalling,
+          showCalling = _ref2$showCalling === void 0 ? true : _ref2$showCalling,
+          _ref2$showAudio = _ref2.showAudio,
+          showAudio = _ref2$showAudio === void 0 ? true : _ref2$showAudio,
+          _ref2$showFeedback = _ref2.showFeedback,
+          showFeedback = _ref2$showFeedback === void 0 ? true : _ref2$showFeedback,
+          _ref2$showUserGuide = _ref2.showUserGuide,
+          showUserGuide = _ref2$showUserGuide === void 0 ? true : _ref2$showUserGuide,
+          _ref2$showPresenceSet = _ref2.showPresenceSettings,
+          showPresenceSettings = _ref2$showPresenceSet === void 0 ? true : _ref2$showPresenceSet,
+          _ref2$showQuickAccess = _ref2.showQuickAccess,
+          showQuickAccess = _ref2$showQuickAccess === void 0 ? false : _ref2$showQuickAccess,
+          params = _ref2.params;
       var _this$_deps = this._deps,
           accountInfo = _this$_deps.accountInfo,
           auth = _this$_deps.auth,
@@ -160,10 +177,10 @@ var SettingsUI = (_dec = (0, _di.Module)({
         showSpinner: !(accountInfo.ready && auth.ready && loggedIn && extensionInfo.ready && locale.ready && regionSettings.ready && (!callingSettings || callingSettings.ready) && appFeatures.ready && (!presence || presence.ready) && (!localeSettings || localeSettings.ready)),
         showCalling: showCalling && callingSettings && appFeatures.isCallingEnabled,
         showAudio: showAudio && appFeatures.isCallingEnabled,
-        showRegion: loggedIn && brand.brandConfig.allowRegionSetting && regionSettings.showRegionSetting && appFeatures.isCallingEnabled && showRegion,
+        showRegion: loggedIn && regionSettings.showRegionSettings && appFeatures.isCallingEnabled,
         currentLocale: locale.currentLocale,
-        brandId: brand.id,
-        ringoutEnabled: appFeatures.isRingOutEnabled,
+        eulaLabel: brand.brandConfig.eulaLabel,
+        eulaLink: brand.brandConfig.eulaLink,
         outboundSMS: !!appFeatures.hasOutboundSMSPermission || !!appFeatures.hasInternalSMSPermission,
         isCallQueueMember: extensionInfo.isCallQueueMember,
         dndStatus: presence === null || presence === void 0 ? void 0 : presence.dndStatus,
@@ -177,15 +194,15 @@ var SettingsUI = (_dec = (0, _di.Module)({
     }
   }, {
     key: "getUIFunctions",
-    value: function getUIFunctions(_ref2) {
-      var _ref2$regionSettingsU = _ref2.regionSettingsUrl,
-          regionSettingsUrl = _ref2$regionSettingsU === void 0 ? DEFAULT_REGION_SETTINGS_URL : _ref2$regionSettingsU,
-          _ref2$callingSettings = _ref2.callingSettingsUrl,
-          callingSettingsUrl = _ref2$callingSettings === void 0 ? DEFAULT_CALLING_SETTINGS_URL : _ref2$callingSettings,
-          _ref2$audioSettingsUr = _ref2.audioSettingsUrl,
-          audioSettingsUrl = _ref2$audioSettingsUr === void 0 ? DEFAULT_AUDIO_SETTINGS_URL : _ref2$audioSettingsUr,
-          _ref2$feedbackSetting = _ref2.feedbackSettingsUrl,
-          feedbackSettingsUrl = _ref2$feedbackSetting === void 0 ? DEFAULT_FEEDBACK_SETTINGS_URL : _ref2$feedbackSetting;
+    value: function getUIFunctions(_ref3) {
+      var _ref3$regionSettingsU = _ref3.regionSettingsUrl,
+          regionSettingsUrl = _ref3$regionSettingsU === void 0 ? DEFAULT_REGION_SETTINGS_URL : _ref3$regionSettingsU,
+          _ref3$callingSettings = _ref3.callingSettingsUrl,
+          callingSettingsUrl = _ref3$callingSettings === void 0 ? DEFAULT_CALLING_SETTINGS_URL : _ref3$callingSettings,
+          _ref3$audioSettingsUr = _ref3.audioSettingsUrl,
+          audioSettingsUrl = _ref3$audioSettingsUr === void 0 ? DEFAULT_AUDIO_SETTINGS_URL : _ref3$audioSettingsUr,
+          _ref3$feedbackSetting = _ref3.feedbackSettingsUrl,
+          feedbackSettingsUrl = _ref3$feedbackSetting === void 0 ? DEFAULT_FEEDBACK_SETTINGS_URL : _ref3$feedbackSetting;
       var _this$_deps2 = this._deps,
           auth = _this$_deps2.auth,
           presence = _this$_deps2.presence,
@@ -230,39 +247,19 @@ var SettingsUI = (_dec = (0, _di.Module)({
           quickAccess.enter();
         },
         setAvailable: function setAvailable() {
-          for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-            args[_key] = arguments[_key];
-          }
-
-          return presence === null || presence === void 0 ? void 0 : presence.setAvailable.apply(presence, args);
+          return presence === null || presence === void 0 ? void 0 : presence.setAvailable();
         },
         setBusy: function setBusy() {
-          for (var _len2 = arguments.length, args = new Array(_len2), _key2 = 0; _key2 < _len2; _key2++) {
-            args[_key2] = arguments[_key2];
-          }
-
-          return presence === null || presence === void 0 ? void 0 : presence.setBusy.apply(presence, args);
+          return presence === null || presence === void 0 ? void 0 : presence.setBusy();
         },
         setDoNotDisturb: function setDoNotDisturb() {
-          for (var _len3 = arguments.length, args = new Array(_len3), _key3 = 0; _key3 < _len3; _key3++) {
-            args[_key3] = arguments[_key3];
-          }
-
-          return presence === null || presence === void 0 ? void 0 : presence.setDoNotDisturb.apply(presence, args);
+          return presence === null || presence === void 0 ? void 0 : presence.setDoNotDisturb();
         },
         setInvisible: function setInvisible() {
-          for (var _len4 = arguments.length, args = new Array(_len4), _key4 = 0; _key4 < _len4; _key4++) {
-            args[_key4] = arguments[_key4];
-          }
-
-          return presence === null || presence === void 0 ? void 0 : presence.setInvisible.apply(presence, args);
+          return presence === null || presence === void 0 ? void 0 : presence.setInvisible();
         },
         toggleAcceptCallQueueCalls: function toggleAcceptCallQueueCalls() {
-          for (var _len5 = arguments.length, args = new Array(_len5), _key5 = 0; _key5 < _len5; _key5++) {
-            args[_key5] = arguments[_key5];
-          }
-
-          return presence === null || presence === void 0 ? void 0 : presence.toggleAcceptCallQueueCalls.apply(presence, args);
+          return presence === null || presence === void 0 ? void 0 : presence.toggleAcceptCallQueueCalls();
         },
         saveLocale: localeSettings && function (locale) {
           return localeSettings.saveLocale(locale);

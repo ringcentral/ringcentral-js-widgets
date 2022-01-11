@@ -1,10 +1,12 @@
 import formatMessage from 'format-message';
+
 import { RcVDialInNumberObj } from '@ringcentral-integration/commons/interfaces/Rcv.model';
 
 import { formatMeetingId } from './formatMeetingId';
 import i18n from './i18n';
 import {
   CommonBrand,
+  DialInSectionParams,
   FormatToHtmlOptions,
   ParcelledLink,
   RcmMainParams,
@@ -27,7 +29,6 @@ function formatSmartphones(
       showMeetingPasswordPSTN ? `,,${meetingPasswordPSTN}#` : ''
     }`;
   }
-
   return dialInNumber
     .map((obj) => {
       const passwordField = showMeetingPasswordPSTN
@@ -90,7 +91,8 @@ function replaceTextLinksToAnchors(input: string): string {
    */
   // https://stackoverflow.com/questions/19060460/url-replace-with-anchor-not-replacing-existing-anchors
 
-  const pattern: RegExp = /(?:(?:ht|f)tps?:\/\/|www)[^<>\]]+(?!\s*<\/a>)(?!"[^>]*>)(?=[\s!,?\]<]|$)/gim;
+  const pattern: RegExp =
+    /(?:(?:ht|f)tps?:\/\/|www)[^<>\]]+(?!\s*<\/a>)(?!"[^>]*>)(?=[\s!,?\]<]|$)/gim;
 
   return input.replace(pattern, ($0: string): string => {
     return `<a target="_blank" href="${$0}">${$0}</a>`;
@@ -186,7 +188,7 @@ function getBaseRcmTpl(
       i18n.getString('inviteMeetingContent', currentLocale),
       {
         accountName,
-        brandName: i18n.getString(brand.name),
+        brandName: brand.name,
         joinUri,
         passwordTpl,
         mobileDialingNumberTpl,
@@ -226,6 +228,69 @@ function getRcmHtmlEventTpl(
   });
 }
 
+/* Outcome example:
+One tap to join audio only from a smartphone:
+  +16504191505,,977988816#,,3893596796# United States (San Mateo, CA)
+
+Or dial:
+    +1 (650) 4191505 United States (San Mateo, CA)
+    Access Code / Meeting ID: 977988816
+
+Dial-in password: 3893596796
+ */
+function formatDialInSection({
+  dialInNumber,
+  isMeetingSecret,
+  meetingPasswordPSTN,
+  shortId,
+  currentLocale,
+}: DialInSectionParams) {
+  /* TODO: after get the translation, remove rcvInviteMeetingContentDial
+   * rcvInviteMeetingContentCountryDial is the correct one
+   */
+  const dialingString = i18n.getString(
+    typeof dialInNumber === 'string'
+      ? 'rcvInviteMeetingContentDial'
+      : 'rcvInviteMeetingContentCountryDial',
+    currentLocale,
+  );
+  const showMeetingPasswordPSTN = !!(isMeetingSecret && meetingPasswordPSTN);
+  const dialingInfo = formatMessage(dialingString, {
+    smartphones: formatSmartphones(
+      dialInNumber,
+      shortId,
+      showMeetingPasswordPSTN,
+      meetingPasswordPSTN,
+    ),
+    dialNumber: formatDialInNumber(dialInNumber),
+    pinNumber: formatMeetingId(shortId),
+  });
+  const pstnPasswordTpl = !showMeetingPasswordPSTN
+    ? ''
+    : getRcvPstnPasswordTpl(meetingPasswordPSTN, currentLocale);
+  return `${dialingInfo}${pstnPasswordTpl}`;
+}
+
+// RCINT-22191 hotfix
+// The feature need us to extract just the dial-in and teleconference section
+// Although the logic is OK for common usage, the requirement is specific
+// There is no any evidence that the other projects will need this
+// Therefore, this is reserved for the calendar-update-tool project
+function getRcvDialInInfo({
+  rcvTeleconference,
+  ...args
+}: DialInSectionParams & { rcvTeleconference: string }) {
+  const hasDialInNumber = args?.dialInNumber?.length > 0;
+  const dialInSection = hasDialInNumber ? formatDialInSection(args) : '';
+  const teleconferenceInfo = formatMessage(
+    i18n.getString('rcvTeleconference', args.currentLocale),
+    {
+      teleconference: rcvTeleconference,
+    },
+  );
+  return `${dialInSection}${teleconferenceInfo}`;
+}
+
 function getBaseRcvTpl(
   { meeting, extensionInfo, dialInNumber, invitationInfo }: RcvMainParams,
   brand: CommonBrand,
@@ -234,12 +299,10 @@ function getBaseRcvTpl(
   enableE2EE = false,
 ): TplResult {
   const joinUri = meeting.joinUri;
-  const isATT = brand.code === 'att';
   const teleconference = brand.rcvTeleconference;
-
-  if (invitationInfo?.body) {
+  if (invitationInfo) {
     return {
-      formattedMsg: invitationInfo.body,
+      formattedMsg: invitationInfo,
       links: {
         joinUri,
         teleconference,
@@ -248,13 +311,8 @@ function getBaseRcvTpl(
   }
 
   const accountName = extensionInfo.name;
-  const {
-    meetingPassword,
-    meetingPasswordPSTN,
-    isMeetingSecret,
-    e2ee,
-  } = meeting;
-  let productName;
+  const { meetingPassword, meetingPasswordPSTN, isMeetingSecret, e2ee } =
+    meeting;
   const meetingContent: Array<string> = [];
   const showMeetingPasswordPSTN = !!(isMeetingSecret && meetingPasswordPSTN);
 
@@ -265,13 +323,13 @@ function getBaseRcvTpl(
     return {
       formattedMsg: formatMessage(meetingContent.join(''), {
         accountName,
-        brandName: i18n.getString(brand.name),
-        rcvProductName: i18n.getString(brand.rcvProductName),
+        brandName: brand.name,
+        rcvProductName: brand.brandConfig.rcvProductName,
         joinUri,
         e2EESupportLinkText: formatMessage(
           i18n.getString('e2EESupportLinkText', currentLocale),
           {
-            brandName: i18n.getString(brand.name),
+            brandName: brand.name,
           },
         ),
         rcvE2EESupportUrl: brand.rcvE2EESupportUrl,
@@ -283,21 +341,7 @@ function getBaseRcvTpl(
     };
   }
 
-  if (brand.code === 'rc') {
-    productName = 'RingCentral Video';
-    meetingContent.push(
-      i18n.getString('rcvRCBrandInviteMeetingContent', currentLocale),
-    );
-  } else if (brand.code === 'telus') {
-    meetingContent.push(
-      i18n.getString('rcvTelusInviteMeetingContent', currentLocale),
-    );
-  } else {
-    productName = brand.name;
-    meetingContent.push(
-      i18n.getString('rcvInviteMeetingContent', currentLocale),
-    );
-  }
+  meetingContent.push(brand.brandConfig.rcvInviteMeetingContent as string);
 
   if (dialInNumber && dialInNumber.length > 0) {
     /* TODO: after get the translation, remove rcvInviteMeetingContentDial
@@ -334,14 +378,13 @@ function getBaseRcvTpl(
 
   const formattedMsg = formatMessage(meetingContent.join(''), {
     accountName,
-    brandName: isATT ? `AT&T ${brand.name}` : i18n.getString(brand.name),
+    brandName: brand.brandConfig.rcvBrandName ?? brand.name,
     joinUri,
     passwordTpl,
     meetingPasswordPSTN,
     meetingId: shortId,
     pinNumber: formatMeetingId(shortId),
     teleconference,
-    productName,
     dialNumber: formatDialInNumber(dialInNumber),
     smartphones: formatSmartphones(
       dialInNumber,
@@ -349,6 +392,7 @@ function getBaseRcvTpl(
       showMeetingPasswordPSTN,
       meetingPasswordPSTN,
     ),
+    rcvProductName: brand.brandConfig.rcvProductName,
   });
 
   return {
@@ -400,7 +444,7 @@ function getRcvHtmlEventTpl(
       text: formatMessage(
         i18n.getString('e2EESupportLinkText', currentLocale),
         {
-          brandName: i18n.getString(brand.name),
+          brandName: brand.name,
         },
       ),
     },
@@ -409,7 +453,7 @@ function getRcvHtmlEventTpl(
   return formatTextToHtml(tplResult.formattedMsg, {
     uselessSentences: [
       `${formatMessage(i18n.getString('e2EESupportLinkText', currentLocale), {
-        brandName: i18n.getString(brand.name),
+        brandName: brand.name,
       })}<br>`,
     ],
     links,
@@ -427,9 +471,10 @@ function getMeetingId(
       const matches = regs[i].exec(meetingUri);
       if (matches && matches.length > 0) {
         const match0 = matches[0];
-        const link = (match0.indexOf('?') > -1
-          ? matches[0].substring(0, matches[0].indexOf('?'))
-          : match0
+        const link = (
+          match0.indexOf('?') > -1
+            ? matches[0].substring(0, matches[0].indexOf('?'))
+            : match0
         ).split('/');
 
         const id = link[link.length - 1];
@@ -467,17 +512,19 @@ function meetingLinkContains(
 }
 
 export {
+  getBaseRcvTpl,
   formatMeetingId,
-  stripMeetingLinks,
-  meetingLinkContains,
-  replaceTextLinksToAnchors,
-  htmlNewLine,
-  htmlIndentation,
-  htmlTabIndentation,
   formatTextToHtml,
+  getMeetingId,
   getRcmEventTpl,
   getRcmHtmlEventTpl,
+  getRcvDialInInfo,
   getRcvEventTpl,
   getRcvHtmlEventTpl,
-  getMeetingId,
+  htmlIndentation,
+  htmlNewLine,
+  htmlTabIndentation,
+  meetingLinkContains,
+  replaceTextLinksToAnchors,
+  stripMeetingLinks,
 };

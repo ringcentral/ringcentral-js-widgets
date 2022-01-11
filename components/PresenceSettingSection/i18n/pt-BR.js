@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  status: "Status:",
+  status: "Status",
   acceptQueueCalls: "Aceitar chamadas em fila"
 }; // @key: @#@"status"@#@ @source: @#@"Status"@#@
 // @key: @#@"acceptQueueCalls"@#@ @source: @#@"Accept call queue calls"@#@

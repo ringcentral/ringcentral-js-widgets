@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = ActiveCallButton;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.regexp.replace");
 
@@ -15,8 +15,6 @@ require("core-js/modules/es6.array.map");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
 var _classnames = _interopRequireDefault(require("classnames"));
 
 var _CircleButton = _interopRequireDefault(require("../CircleButton"));
@@ -25,7 +23,7 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function ActiveCallButton(props) {
+var ActiveCallButton = function ActiveCallButton(props) {
   var className = (0, _classnames["default"])(_styles["default"].btnSvg, props.className);
   var buttonClassName = (0, _classnames["default"])(_styles["default"].button, props.buttonClassName, props.active ? _styles["default"].buttonActive : null, props.disabled ? _styles["default"].buttonDisabled : null);
   var text = props.title && props.title.split('\n').map(function (line, index) {
@@ -67,28 +65,8 @@ function ActiveCallButton(props) {
     y: "500",
     textAnchor: "middle"
   }, text));
-}
-
-ActiveCallButton.propTypes = {
-  className: _propTypes["default"].string,
-  buttonClassName: _propTypes["default"].string,
-  onClick: _propTypes["default"].func,
-  disabled: _propTypes["default"].bool,
-  active: _propTypes["default"].bool,
-  title: _propTypes["default"].string.isRequired,
-  icon: _propTypes["default"].func,
-  showBorder: _propTypes["default"].bool,
-  width: _propTypes["default"].string,
-  height: _propTypes["default"].string,
-  x: _propTypes["default"].number,
-  y: _propTypes["default"].number,
-  iconWidth: _propTypes["default"].number,
-  iconHeight: _propTypes["default"].number,
-  iconX: _propTypes["default"].number,
-  iconY: _propTypes["default"].number,
-  showRipple: _propTypes["default"].bool,
-  dataSign: _propTypes["default"].string
 };
+
 ActiveCallButton.defaultProps = {
   className: undefined,
   buttonClassName: undefined,
@@ -107,4 +85,6 @@ ActiveCallButton.defaultProps = {
   iconY: undefined,
   showRipple: false
 };
+var _default = ActiveCallButton;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

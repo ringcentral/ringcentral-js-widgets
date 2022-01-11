@@ -5,11 +5,9 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = MessageStoreAlert;
+exports["default"] = void 0;
 
 var _react = _interopRequireDefault(require("react"));
-
-var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _errors = _interopRequireDefault(require("@ringcentral-integration/commons/modules/MessageStore/errors"));
 
@@ -19,7 +17,7 @@ var _i18n = _interopRequireDefault(require("./i18n"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function MessageStoreAlert(props) {
+var MessageStoreAlert = function MessageStoreAlert(props) {
   var message = props.message.message;
 
   var view = /*#__PURE__*/_react["default"].createElement("span", null, _i18n["default"].getString(message, props.currentLocale)); // Handle call record error
@@ -32,17 +30,13 @@ function MessageStoreAlert(props) {
   }
 
   return view;
-}
-
-MessageStoreAlert.propTypes = {
-  currentLocale: _propTypes["default"].string.isRequired,
-  message: _propTypes["default"].shape({
-    message: _propTypes["default"].string.isRequired
-  }).isRequired
 };
 
 MessageStoreAlert.handleMessage = function (_ref) {
   var message = _ref.message;
   return message === _errors["default"].deleteFailed;
 };
+
+var _default = MessageStoreAlert;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

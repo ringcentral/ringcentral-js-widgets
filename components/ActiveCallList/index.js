@@ -13,8 +13,6 @@ require("core-js/modules/es6.array.is-array");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
 var _classnames = _interopRequireDefault(require("classnames"));
 
 var _ActiveCallItem = _interopRequireDefault(require("../ActiveCallItem"));
@@ -173,66 +171,6 @@ var ActiveCallList = function ActiveCallList(_ref) {
   }));
 };
 
-ActiveCallList.propTypes = {
-  currentLocale: _propTypes["default"].string.isRequired,
-  className: _propTypes["default"].string,
-  title: _propTypes["default"].string.isRequired,
-  calls: _propTypes["default"].array.isRequired,
-  areaCode: _propTypes["default"].string.isRequired,
-  countryCode: _propTypes["default"].string.isRequired,
-  brand: _propTypes["default"].string,
-  showContactDisplayPlaceholder: _propTypes["default"].bool,
-  formatPhone: _propTypes["default"].func.isRequired,
-  onClickToSms: _propTypes["default"].func,
-  onCreateContact: _propTypes["default"].func,
-  onViewContact: _propTypes["default"].func,
-  outboundSmsPermission: _propTypes["default"].bool,
-  internalSmsPermission: _propTypes["default"].bool,
-  isLoggedContact: _propTypes["default"].func,
-  onLogCall: _propTypes["default"].func,
-  loggingMap: _propTypes["default"].object,
-  webphoneAnswer: _propTypes["default"].func,
-  webphoneReject: _propTypes["default"].func,
-  webphoneHangup: _propTypes["default"].func,
-  webphoneResume: _propTypes["default"].func,
-  webphoneToVoicemail: _propTypes["default"].func,
-  webphoneSwitchCall: _propTypes["default"].func,
-  webphoneIgnore: _propTypes["default"].func,
-  modalConfirm: _propTypes["default"].func,
-  modalClose: _propTypes["default"].func,
-  enableContactFallback: _propTypes["default"].bool,
-  autoLog: _propTypes["default"].bool,
-  sourceIcons: _propTypes["default"].object,
-  phoneTypeRenderer: _propTypes["default"].func,
-  phoneSourceNameRenderer: _propTypes["default"].func,
-  isSessionAConferenceCall: _propTypes["default"].func,
-  useV2: _propTypes["default"].bool,
-  onCallItemClick: _propTypes["default"].func,
-  showAvatar: _propTypes["default"].bool,
-  getAvatarUrl: _propTypes["default"].func,
-  conferenceCallParties: _propTypes["default"].arrayOf(_propTypes["default"].object),
-  webphoneHold: _propTypes["default"].func,
-  showCallDetail: _propTypes["default"].bool,
-  updateSessionMatchedContact: _propTypes["default"].func,
-  renderExtraButton: _propTypes["default"].func,
-  renderContactName: _propTypes["default"].func,
-  ringoutHangup: _propTypes["default"].func,
-  ringoutTransfer: _propTypes["default"].func,
-  ringoutReject: _propTypes["default"].func,
-  disableLinks: _propTypes["default"].bool,
-  showRingoutCallControl: _propTypes["default"].bool,
-  showMultipleMatch: _propTypes["default"].bool,
-  showSwitchCall: _propTypes["default"].bool,
-  showTransferCall: _propTypes["default"].bool,
-  showHoldOnOtherDevice: _propTypes["default"].bool,
-  isOnHold: _propTypes["default"].func,
-  showIgnoreBtn: _propTypes["default"].bool,
-  showHoldAnswerBtn: _propTypes["default"].bool,
-  useCallDetailV2: _propTypes["default"].bool,
-  newCallIcon: _propTypes["default"].bool,
-  clickSwitchTrack: _propTypes["default"].func,
-  isWide: _propTypes["default"].bool
-};
 ActiveCallList.defaultProps = {
   isWide: true,
   className: undefined,

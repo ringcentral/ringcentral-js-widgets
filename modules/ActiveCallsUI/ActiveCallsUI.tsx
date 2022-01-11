@@ -1,3 +1,5 @@
+import React from 'react';
+
 import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 import { isRingingInboundCall } from '@ringcentral-integration/commons/lib/callLogHelpers';
 import { Module } from '@ringcentral-integration/commons/lib/di';
@@ -12,7 +14,7 @@ import {
   UIFunctions,
   UIProps,
 } from '@ringcentral-integration/core';
-import React from 'react';
+
 import { ModalContent } from '../../components/ActiveCallItemV2';
 import {
   ActiveCallsContainerProps,
@@ -80,7 +82,7 @@ export class ActiveCallsUI<T = {}> extends RcUIModuleV2<Deps & T> {
       outboundSmsPermission: this._deps.appFeatures.hasOutboundSMSPermission,
       internalSmsPermission: this._deps.appFeatures.hasInternalSMSPermission,
       showSpinner: !!this._deps.conferenceCall?.isMerging,
-      brand: this._deps.brand.fullName,
+      brand: this._deps.brand.name,
       showContactDisplayPlaceholder,
       showRingoutCallControl,
       showTransferCall,
@@ -259,12 +261,11 @@ export class ActiveCallsUI<T = {}> extends RcUIModuleV2<Deps & T> {
         : undefined,
       onCreateContact: onCreateContact
         ? async ({ phoneNumber, name, entityType }) => {
-            const hasMatchNumber = await this._deps.contactMatcher.hasMatchNumber(
-              {
+            const hasMatchNumber =
+              await this._deps.contactMatcher.hasMatchNumber({
                 phoneNumber,
                 ignoreCache: true,
-              },
-            );
+              });
             if (!hasMatchNumber) {
               await onCreateContact({ phoneNumber, name, entityType });
               await this._deps.contactMatcher.forceMatchNumber({ phoneNumber });

@@ -1,5 +1,6 @@
-import classnames from 'classnames';
 import React, { FunctionComponent } from 'react';
+
+import classnames from 'classnames';
 
 import MeetingSection from '../MeetingSection';
 import Switch from '../Switch';

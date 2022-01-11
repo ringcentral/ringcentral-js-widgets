@@ -1,11 +1,11 @@
+import React, { FunctionComponent } from 'react';
+
 import {
+  RcFormControlLabel,
   RcRadio,
   RcRadioGroup,
-  RcFormControlLabel,
   RcRadioGroupProps,
-  RcTypography,
 } from '@ringcentral/juno';
-import React, { FunctionComponent } from 'react';
 
 export type RadioFieldProps = {
   options: {

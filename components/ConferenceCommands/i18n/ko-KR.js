@@ -15,7 +15,7 @@ var _default = {
   starSharp4Title: "메뉴",
   starSharp4Body: "터치톤 명령 목록 듣기",
   starSharp5Title: "청취 모드 설정",
-  starSharp5Body: "1회 누르기: 발신자 음소거 - 발신자는  *, #, 6을 눌러 음소거 해제 가능\n2회 누르기: 발신자 음소거 - 청취만 가능. 음소거 해제 옵션 없음\n3회 누르기: 발신자 음소거 해제 - 회선 다시 공개",
+  starSharp5Body: "1회 누르기: 발신자 음소거 - 발신자는  *, #, 6\n을 눌러 음소거 해제 가능\n2회 누르기: 발신자 음소거 - 청취만 가능. 음소거 해제 옵션 없음\n3회 누르기: 발신자 음소거 해제 - 회선 다시 공개",
   starSharp6Title: "호스트 회선 음소거",
   starSharp6Body: "한 번 누르면 음소거\n다시 누르면 음소거 해제",
   starSharp7Title: "통화 보호",

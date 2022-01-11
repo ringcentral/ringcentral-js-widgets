@@ -5,8 +5,8 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getLastSessionIdReducer = getLastSessionIdReducer;
 exports["default"] = getReducer;
+exports.getLastSessionIdReducer = getLastSessionIdReducer;
 
 var _getReducer = _interopRequireDefault(require("../DialerUI/getReducer"));
 

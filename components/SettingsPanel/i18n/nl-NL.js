@@ -12,22 +12,22 @@ var _default = {
   logout: "Afmelden",
   version: "Versie",
   settings: "Instellingen",
-  clickToDial: "Klik om te bellen",
+  clickToDial: "Click-to-dial",
   autoCreateLog: "Automatisch een oproeplijst maken",
   autoCreateSMSLog: "Automatisch een sms-lijst maken",
   autoLogCalls: "Automatisch oproepen loggen",
   autoLogNotes: "Automatisch notities loggen",
   autoLogSMS: "Automatisch sms-berichten loggen",
-  clickToSMS: "Klik om te sms'en",
+  clickToSMS: "Click-to-SMS",
   logSMSContent: "Sms-inhoud loggen",
-  clickToDialSMS: "Klik om te bellen/sms'en",
+  clickToDialSMS: "Click To Dial/SMS",
   audio: "Audio",
   language: "Taal",
   feedback: "Feedback",
   userGuide: "Nieuw",
   quickAccess: "Instelling snelle toegang",
   report: "Analyserapport",
-  shareIdea: "Deel idee"
+  shareIdea: "Een idee delen"
 }; // @key: @#@"region"@#@ @source: @#@"Region"@#@
 // @key: @#@"calling"@#@ @source: @#@"Calling"@#@
 // @key: @#@"logout"@#@ @source: @#@"Logout"@#@

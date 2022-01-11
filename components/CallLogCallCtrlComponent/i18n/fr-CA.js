@@ -7,24 +7,24 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  mute: "Act. disc.",
-  unmute: "Désac. disc.",
+  mute: "Désactiver le micro",
+  unmute: "Activer le micro",
   hangup: "Raccrocher",
   reject: "Rejeter",
   hold: "Mettre\nen attente",
   onHold: "En attente",
-  transfer: "Transfert",
+  transfer: "Transférer",
   more: "Plus",
-  stopRecord: "Arrêter l'enregistrement",
+  stopRecord: "Arrêter l’enregistrement",
   record: "Enregistrer",
   showKeypad: "Pavé numérique",
   hideKeypad: "Masquer le pavé numérique",
-  unHold: "Arrêter la mise en attente",
+  unHold: "Reprendre l’appel",
   forward: "Renvoyer",
   ignore: "Ignorer",
-  voicemail: "Messagerie",
+  voicemail: "Messagerie vocale",
   custom: "Personnalisé",
-  answerAndEnd: "Répondre et raccrocher",
+  answerAndEnd: "Répondre et\nraccrocher",
   answerAndHold: "Répondre et mettre en attente",
   answer: "Répondre"
 }; // @key: @#@"mute"@#@ @source: @#@"Mute"@#@

@@ -1,1 +1,1 @@
-{"version":3,"sources":["modules/CallLogUI/i18n/es-419.js"],"names":["unknown"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,OAAO,EAAE;AADI,C,EAIf","sourcesContent":["export default {\n  unknown: \"Desconocido\"\n};\n\n// @key: @#@\"unknown\"@#@ @source: @#@\"Unknown\"@#@\n"],"file":"es-419.js"}
+{"version":3,"sources":["modules/CallLogUI/i18n/es-419.ts"],"names":["unknown"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,OAAO,EAAE;AADI,C,EAIf","sourcesContent":["export default {\n  unknown: \"Desconocido\"\n};\n\n// @key: @#@\"unknown\"@#@ @source: @#@\"Unknown\"@#@\n"],"file":"es-419.js"}

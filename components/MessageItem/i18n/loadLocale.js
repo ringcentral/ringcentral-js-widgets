@@ -7,29 +7,29 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = loadLocale;
 
-require("core-js/modules/es6.array.index-of");
-
 require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.object.to-string");
 
 function loadLocale(locale) {
   return new Promise(function (resolve) {
-    if (locale.indexOf('es') === 0 && locale !== 'es-ES') {
-      if (typeof require.ensure === 'function') {
-        return require.ensure(['./es-419'], function (require) {
-          var data = require('./es-419');
-
-          return resolve(data.__esModule === true ? data["default"] : data);
-        }, 'es-419');
-      } else {
-        var data = require('./es-419');
-
-        return resolve(data.__esModule === true ? data["default"] : data);
-      }
-    }
-
     switch (locale) {
+      case 'fi':
+      case 'fi-FI':
+        {
+          if (typeof require.ensure === 'function') {
+            return require.ensure(['./fi-FI'], function (require) {
+              var data = require('./fi-FI');
+
+              return resolve(data.__esModule === true ? data["default"] : data);
+            }, 'fi-FI');
+          } else {
+            var data = require('./fi-FI');
+
+            return resolve(data.__esModule === true ? data["default"] : data);
+          }
+        }
+
       case 'en':
       case 'en-US':
         {
@@ -140,21 +140,6 @@ function loadLocale(locale) {
         }
 
       case 'es':
-      case 'es-ES':
-        {
-          if (typeof require.ensure === 'function') {
-            return require.ensure(['./es-ES'], function (require) {
-              var data = require('./es-ES');
-
-              return resolve(data.__esModule === true ? data["default"] : data);
-            }, 'es-ES');
-          } else {
-            var _data8 = require('./es-ES');
-
-            return resolve(_data8.__esModule === true ? _data8["default"] : _data8);
-          }
-        }
-
       case 'es-419':
         {
           if (typeof require.ensure === 'function') {
@@ -164,7 +149,22 @@ function loadLocale(locale) {
               return resolve(data.__esModule === true ? data["default"] : data);
             }, 'es-419');
           } else {
-            var _data9 = require('./es-419');
+            var _data8 = require('./es-419');
+
+            return resolve(_data8.__esModule === true ? _data8["default"] : _data8);
+          }
+        }
+
+      case 'es-ES':
+        {
+          if (typeof require.ensure === 'function') {
+            return require.ensure(['./es-ES'], function (require) {
+              var data = require('./es-ES');
+
+              return resolve(data.__esModule === true ? data["default"] : data);
+            }, 'es-ES');
+          } else {
+            var _data9 = require('./es-ES');
 
             return resolve(_data9.__esModule === true ? _data9["default"] : _data9);
           }
@@ -296,7 +296,7 @@ function loadLocale(locale) {
         }
 
       default:
-        return resolve({});
+        return resolve(null);
     }
   });
 }

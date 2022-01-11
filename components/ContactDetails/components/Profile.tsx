@@ -1,14 +1,17 @@
 import React, { FunctionComponent } from 'react';
+
 import classnames from 'classnames';
-import { ContactModel } from '@ringcentral-integration/commons/interfaces/Contact.model';
+
 import { extensionStatusTypes } from '@ringcentral-integration/commons/enums/extensionStatusTypes';
+import { ContactModel } from '@ringcentral-integration/commons/interfaces/Contact.model';
 import { PresenceModel } from '@ringcentral-integration/commons/interfaces/Presence.model';
-import { Avatar } from './Avatar';
-import styles from '../styles.scss';
-import i18n from '../i18n';
-import PresenceStatusIcon from '../../PresenceStatusIcon';
+
 import { getPresenceStatusName } from '../../../lib/getPresenceStatusName';
+import PresenceStatusIcon from '../../PresenceStatusIcon';
 import { sourceNodeRenderer } from '../ContactDetails.interface';
+import i18n from '../i18n';
+import styles from '../styles.scss';
+import { Avatar } from './Avatar';
 
 interface StatusProps {
   inactive: boolean;

@@ -9,19 +9,17 @@ require("core-js/modules/es6.object.define-property");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
 var _classnames2 = _interopRequireDefault(require("classnames"));
 
 var _callDirections = _interopRequireDefault(require("@ringcentral-integration/commons/enums/callDirections"));
 
-var _OutcallBorder = _interopRequireDefault(require("@ringcentral/juno/icon/OutcallBorder"));
+var _IncallBorder = _interopRequireDefault(require("@ringcentral/juno/es6/icon/IncallBorder.js"));
 
-var _IncallBorder = _interopRequireDefault(require("@ringcentral/juno/icon/IncallBorder"));
-
-var _CallAvatar = _interopRequireDefault(require("../CallAvatar"));
+var _OutcallBorder = _interopRequireDefault(require("@ringcentral/juno/es6/icon/OutcallBorder.js"));
 
 var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
+
+var _CallAvatar = _interopRequireDefault(require("../CallAvatar"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
@@ -34,7 +32,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 var callIconMap = (_callIconMap = {}, _defineProperty(_callIconMap, _callDirections["default"].inbound, _DynamicsFont["default"].inbound), _defineProperty(_callIconMap, _callDirections["default"].outbound, _DynamicsFont["default"].outbound), _callIconMap);
 var newCallIconMap = (_newCallIconMap = {}, _defineProperty(_newCallIconMap, _callDirections["default"].inbound, _IncallBorder["default"]), _defineProperty(_newCallIconMap, _callDirections["default"].outbound, _OutcallBorder["default"]), _newCallIconMap);
 
-function CallIcon(_ref) {
+var CallIcon = function CallIcon(_ref) {
   var direction = _ref.direction,
       ringing = _ref.ringing,
       inboundTitle = _ref.inboundTitle,
@@ -77,18 +75,8 @@ function CallIcon(_ref) {
   }
 
   return symbol;
-}
-
-CallIcon.propTypes = {
-  direction: _propTypes["default"].string.isRequired,
-  ringing: _propTypes["default"].bool,
-  isOnConferenceCall: _propTypes["default"].bool,
-  inboundTitle: _propTypes["default"].string,
-  outboundTitle: _propTypes["default"].string,
-  showAvatar: _propTypes["default"].bool,
-  avatarUrl: _propTypes["default"].string,
-  newCallIcon: _propTypes["default"].bool
 };
+
 CallIcon.defaultProps = {
   ringing: false,
   isOnConferenceCall: false,

@@ -7,9 +7,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.CallLogCallCtrlContainer = void 0;
 
-var _phoneContext = require("../../lib/phoneContext");
-
 var _CallLogCallCtrlPanel = require("../../components/CallLogCallCtrlPanel");
+
+var _phoneContext = require("../../lib/phoneContext");
 
 var CallLogCallCtrlContainer = (0, _phoneContext.connectModule)(function (phone) {
   return phone.callLogCallCtrlUI;

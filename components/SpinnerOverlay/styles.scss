@@ -9,12 +9,6 @@
   z-index: 99;
 }
 
-.mask {
-  @include full-size;
-  background: rc-palette('neutral', 'b01');
-  opacity: rc-opacity('48');
-}
-
 // fix animation freeze a bit under high load
 div[class*='MuiCircularProgress-indeterminate'] {
   animation: circular-rotate 1.4s linear infinite;

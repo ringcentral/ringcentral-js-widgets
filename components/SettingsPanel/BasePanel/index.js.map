@@ -1,1 +1,0 @@
-{"version":3,"sources":["components/SettingsPanel/BasePanel/index.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAAA;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA","sourcesContent":["export * from './BasePanel';\nexport { default } from './BasePanel';\n"],"file":"index.js"}

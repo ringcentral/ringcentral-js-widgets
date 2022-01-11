@@ -1,1 +1,1 @@
-{"version":3,"sources":["components/CopyBtn/i18n/zh-CN.js"],"names":["copy"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,IAAI,EAAE;AADO,C,EAIf","sourcesContent":["export default {\n  copy: \"复制\"\n};\n\n// @key: @#@\"copy\"@#@ @source: @#@\"Copy\"@#@\n"],"file":"zh-CN.js"}
+{"version":3,"sources":["components/CopyBtn/i18n/zh-CN.ts"],"names":["copy"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,IAAI,EAAE;AADO,C,EAIf","sourcesContent":["export default {\n  copy: \"复制\"\n};\n\n// @key: @#@\"copy\"@#@ @source: @#@\"Copy\"@#@\n"],"file":"zh-CN.js"}

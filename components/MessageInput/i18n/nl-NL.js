@@ -9,8 +9,8 @@ exports["default"] = void 0;
 var _default = {
   from: "Van",
   to: "Aan",
-  enterNameOrNumber: "Voer nummer of naam in",
-  typeMessage: "Bericht typen",
+  enterNameOrNumber: "Nummer of naam invoeren...",
+  typeMessage: "Bericht typen...",
   send: "Verzenden"
 }; // @key: @#@"from"@#@ @source: @#@"From"@#@
 // @key: @#@"to"@#@ @source: @#@"To"@#@

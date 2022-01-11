@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  flipHeader: "Renvoyer l'appel vers...",
+  flipHeader: "Renvoyer l’appel vers...",
   flip: "Renvoi",
   complete: "Terminer le renvoi"
 }; // @key: @#@"flipHeader"@#@ @source: @#@"Flip Call to..."@#@

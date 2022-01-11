@@ -23,7 +23,7 @@ var _default = {
   text: "Texto",
   call: "Ligar",
   addContact: "Adicionar contacto",
-  missedCall: "Perdida",
+  missedCall: "Não atendida",
   inboundCall: "Recebidas",
   outboundCall: "Efetuadas",
   from: "De",

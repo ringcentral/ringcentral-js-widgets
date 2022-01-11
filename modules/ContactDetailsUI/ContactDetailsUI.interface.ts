@@ -6,7 +6,8 @@ import { Contacts } from '@ringcentral-integration/commons/modules/ContactsV2';
 import { ExtensionInfo } from '@ringcentral-integration/commons/modules/ExtensionInfoV2';
 import { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiterV2';
-import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettingsV2';
+import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
+
 import { ConnectivityManager } from '../ConnectivityManager';
 import DialerUI from '../DialerUI';
 import { RouterInteraction } from '../RouterInteraction';

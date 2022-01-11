@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -18,9 +18,9 @@ require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.object.to-string");
 
-require("core-js/modules/es6.object.define-property");
-
 require("core-js/modules/es6.object.create");
+
+require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.reflect.construct");
 
@@ -39,19 +39,17 @@ require("core-js/modules/es6.function.bind");
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
-var _sleep = _interopRequireDefault(require("@ringcentral-integration/commons/lib/sleep"));
+var _callDirections = _interopRequireDefault(require("@ringcentral-integration/commons/enums/callDirections"));
 
 var _calleeTypes = _interopRequireDefault(require("@ringcentral-integration/commons/enums/calleeTypes"));
 
-var _callDirections = _interopRequireDefault(require("@ringcentral-integration/commons/enums/callDirections"));
+var _sleep = _interopRequireDefault(require("@ringcentral-integration/commons/lib/sleep"));
 
 var _sessionStatus = _interopRequireDefault(require("@ringcentral-integration/commons/modules/Webphone/sessionStatus"));
 
-var _callCtrlLayouts = _interopRequireDefault(require("../../enums/callCtrlLayouts"));
-
 var _CallCtrlPanel = _interopRequireDefault(require("../../components/CallCtrlPanel"));
+
+var _callCtrlLayouts = _interopRequireDefault(require("../../enums/callCtrlLayouts"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
@@ -69,15 +67,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } Object.defineProperty(subClass, "prototype", { value: Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }), writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
@@ -483,70 +481,6 @@ var CallCtrlContainer = /*#__PURE__*/function (_Component) {
   return CallCtrlContainer;
 }(_react.Component);
 
-CallCtrlContainer.propTypes = {
-  session: _propTypes["default"].shape({
-    id: _propTypes["default"].string,
-    direction: _propTypes["default"].string,
-    startTime: _propTypes["default"].number,
-    isOnMute: _propTypes["default"].bool,
-    isOnHold: _propTypes["default"].bool,
-    isOnFlip: _propTypes["default"].bool,
-    recordStatus: _propTypes["default"].string,
-    to: _propTypes["default"].string,
-    from: _propTypes["default"].string,
-    contactMatch: _propTypes["default"].object,
-    warmTransferSessionId: _propTypes["default"].string,
-    callStatus: _propTypes["default"].string,
-    isOnTransfer: _propTypes["default"].bool,
-    callQueueName: _propTypes["default"].string
-  }).isRequired,
-  currentLocale: _propTypes["default"].string.isRequired,
-  onMute: _propTypes["default"].func.isRequired,
-  onUnmute: _propTypes["default"].func.isRequired,
-  onHold: _propTypes["default"].func.isRequired,
-  onUnhold: _propTypes["default"].func.isRequired,
-  onRecord: _propTypes["default"].func.isRequired,
-  onStopRecord: _propTypes["default"].func.isRequired,
-  onHangup: _propTypes["default"].func.isRequired,
-  sendDTMF: _propTypes["default"].func.isRequired,
-  formatPhone: _propTypes["default"].func.isRequired,
-  onAdd: _propTypes["default"].func,
-  onMerge: _propTypes["default"].func,
-  onBeforeMerge: _propTypes["default"].func,
-  onFlip: _propTypes["default"].func.isRequired,
-  onPark: _propTypes["default"].func.isRequired,
-  onTransfer: _propTypes["default"].func.isRequired,
-  children: _propTypes["default"].node,
-  nameMatches: _propTypes["default"].array.isRequired,
-  areaCode: _propTypes["default"].string.isRequired,
-  countryCode: _propTypes["default"].string.isRequired,
-  getAvatarUrl: _propTypes["default"].func.isRequired,
-  updateSessionMatchedContact: _propTypes["default"].func.isRequired,
-  showBackButton: _propTypes["default"].bool,
-  backButtonLabel: _propTypes["default"].string,
-  onBackButtonClick: _propTypes["default"].func,
-  brand: _propTypes["default"].string.isRequired,
-  showContactDisplayPlaceholder: _propTypes["default"].bool.isRequired,
-  sourceIcons: _propTypes["default"].object,
-  phoneTypeRenderer: _propTypes["default"].func,
-  phoneSourceNameRenderer: _propTypes["default"].func,
-  showSpinner: _propTypes["default"].bool,
-  conferenceCallParties: _propTypes["default"].array,
-  conferenceCallEquipped: _propTypes["default"].bool,
-  hasConferenceCall: _propTypes["default"].bool,
-  lastCallInfo: _propTypes["default"].object,
-  gotoParticipantsCtrl: _propTypes["default"].func,
-  getInitialLayout: _propTypes["default"].func,
-  closeMergingPair: _propTypes["default"].func,
-  afterHideMergeConfirm: _propTypes["default"].func,
-  afterConfirmMerge: _propTypes["default"].func,
-  afterOnMerge: _propTypes["default"].func,
-  disableFlip: _propTypes["default"].bool,
-  showCallQueueName: _propTypes["default"].bool,
-  onCompleteTransfer: _propTypes["default"].func,
-  phoneNumber: _propTypes["default"].string.isRequired,
-  showPark: _propTypes["default"].bool
-};
 CallCtrlContainer.defaultProps = {
   children: undefined,
   showBackButton: false,
@@ -586,6 +520,7 @@ CallCtrlContainer.defaultProps = {
   onCompleteTransfer: function onCompleteTransfer() {
     return null;
   },
+  phoneNumber: null,
   showPark: false
 };
 var _default = CallCtrlContainer;

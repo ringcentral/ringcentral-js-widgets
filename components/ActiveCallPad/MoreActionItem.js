@@ -5,11 +5,9 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = MoreActionItem;
+exports["default"] = void 0;
 
 var _react = _interopRequireDefault(require("react"));
-
-var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
@@ -17,7 +15,7 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function MoreActionItem(_ref) {
+var MoreActionItem = function MoreActionItem(_ref) {
   var title = _ref.title,
       Icon = _ref.icon,
       disabled = _ref.disabled,
@@ -33,16 +31,11 @@ function MoreActionItem(_ref) {
   }, /*#__PURE__*/_react["default"].createElement(Icon, null)), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].buttonName
   }, title));
-}
-
-MoreActionItem.propTypes = {
-  title: _propTypes["default"].string.isRequired,
-  icon: _propTypes["default"].func.isRequired,
-  disabled: _propTypes["default"].bool.isRequired,
-  onClick: _propTypes["default"].func.isRequired,
-  dataSign: _propTypes["default"].string
 };
+
 MoreActionItem.defaultProps = {
   dataSign: ''
 };
+var _default = MoreActionItem;
+exports["default"] = _default;
 //# sourceMappingURL=MoreActionItem.js.map

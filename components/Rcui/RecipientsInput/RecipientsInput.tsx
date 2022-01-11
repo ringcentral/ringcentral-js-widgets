@@ -1,3 +1,7 @@
+import React, { forwardRef, useEffect, useRef, useState } from 'react';
+
+import classNames from 'classnames';
+
 import {
   combineProps,
   RcBaseProps,
@@ -9,8 +13,6 @@ import {
   useForkRef,
 } from '@ringcentral/juno';
 import { Deletenumber } from '@ringcentral/juno/icon';
-import classNames from 'classnames';
-import React, { forwardRef, useEffect, useRef, useState } from 'react';
 
 import i18n from './i18n';
 import styles from './styles.scss';

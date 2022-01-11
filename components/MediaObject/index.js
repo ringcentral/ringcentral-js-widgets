@@ -11,8 +11,6 @@ require("core-js/modules/es6.array.slice");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
 var _classnames2 = _interopRequireDefault(require("classnames"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
@@ -29,7 +27,7 @@ function getMeidaCls(str) {
   return _styles["default"]["media".concat(capitalize(str))];
 }
 
-function MediaObject(_ref) {
+var MediaObject = function MediaObject(_ref) {
   var _classnames;
 
   var containerCls = _ref.containerCls,
@@ -63,23 +61,8 @@ function MediaObject(_ref) {
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].mediaObject
   }, mediaRight)) : null);
-}
-
-MediaObject.propTypes = {
-  containerCls: _propTypes["default"].string,
-  mediaLeft: _propTypes["default"].element,
-  mediaBody: _propTypes["default"].oneOfType([_propTypes["default"].element, _propTypes["default"].string]),
-  mediaRight: _propTypes["default"].element,
-  mediaHeading: _propTypes["default"].string,
-  leftCls: _propTypes["default"].string,
-  bodyCls: _propTypes["default"].string,
-  rightCls: _propTypes["default"].string,
-  headingCls: _propTypes["default"].string,
-  leftAlignment: _propTypes["default"].oneOf(['top', 'middle', 'bottom']),
-  bodyAlignment: _propTypes["default"].oneOf(['top', 'middle', 'bottom']),
-  rightAlignment: _propTypes["default"].oneOf(['top', 'middle', 'bottom']),
-  flexible: _propTypes["default"].bool
 };
+
 MediaObject.defaultProps = {
   containerCls: null,
   mediaLeft: null,

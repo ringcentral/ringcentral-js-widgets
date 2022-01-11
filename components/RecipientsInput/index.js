@@ -18,13 +18,13 @@ Object.defineProperty(exports, "__esModule", {
 var _exportNames = {
   i18n: true
 };
+exports["default"] = void 0;
 Object.defineProperty(exports, "i18n", {
   enumerable: true,
   get: function get() {
     return _i18n["default"];
   }
 });
-exports["default"] = void 0;
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 

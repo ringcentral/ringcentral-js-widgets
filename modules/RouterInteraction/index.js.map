@@ -1,1 +1,1 @@
-{"version":3,"sources":["modules/RouterInteraction/index.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;AAAA","sourcesContent":["import RouterInteraction from './RouterInteraction';\n\nexport { RouterInteraction, RouterInteraction as default };\n"],"file":"index.js"}
+{"version":3,"sources":["modules/RouterInteraction/index.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;AAAA","sourcesContent":["import RouterInteraction from './RouterInteraction';\n\nexport { RouterInteraction as default, RouterInteraction };\n"],"file":"index.js"}

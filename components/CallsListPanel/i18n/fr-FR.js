@@ -13,7 +13,7 @@ var _default = {
   ringCall: "Sonnerie en cours",
   onHoldCall: "Appel en attente",
   historyCalls: "Appels émis dans le passé<",
-  otherDeviceCall: "Appels en cours sur mes autres appareils",
+  otherDeviceCall: "Appels en cours sur mes autres terminaux",
   searchPlaceholder: "Recherche..."
 }; // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@
 // @key: @#@"noCalls"@#@ @source: @#@"No results found."@#@

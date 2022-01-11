@@ -12,7 +12,7 @@ var _default = {
   wednesday: "M",
   thursday: "G",
   friday: "V",
-  saturday: "D",
+  saturday: "S",
   sunday: "D"
 }; // @key: @#@"monday"@#@ @source: @#@"M"@#@
 // @key: @#@"tuesday"@#@ @source: @#@"T"@#@

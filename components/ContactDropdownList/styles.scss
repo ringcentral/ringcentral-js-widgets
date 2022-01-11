@@ -31,19 +31,6 @@
       text-decoration: none;
     }
   }
-
-  li.active {
-    color: $primary-color;
-
-    .name {
-      color: $primary-color;
-    }
-  }
-}
-
-.contactItem {
-  color: #797979;
-  font-size: 13px;
 }
 
 .name {
@@ -55,7 +42,7 @@
   @include text-ellipsis;
 }
 
-.spliter {
+.splitter {
   padding: 0 5px;
 }
 
@@ -79,12 +66,12 @@
 
 .doNotCall {
   display: inline-block;
-  color: rc-palette('neutral', 'f04');
-  padding: 6px;
   border-radius: 50%;
   vertical-align: middle;
   font-size: 0;
-  margin: -3px 0 -2px;
+  margin: -2px 0 0 5px;
+  height: 12px;
+  width: 12px;
   &:hover {
     background-color: rgba(101, 108, 128, 0.08);
   }

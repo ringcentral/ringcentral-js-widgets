@@ -5,23 +5,21 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = ConfirmRemoveModal;
+exports["default"] = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
 var _calleeTypes = _interopRequireDefault(require("@ringcentral-integration/commons/enums/calleeTypes"));
+
+var _Modal = _interopRequireDefault(require("../Modal"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
-var _Modal = _interopRequireDefault(require("../Modal"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function ConfirmRemoveModal(_ref) {
+var ConfirmRemoveModal = function ConfirmRemoveModal(_ref) {
   var currentLocale = _ref.currentLocale,
       show = _ref.show,
       onRemove = _ref.onRemove,
@@ -53,18 +51,13 @@ function ConfirmRemoveModal(_ref) {
     contentClassName: _styles["default"].contentText,
     textConfirm: _i18n["default"].getString('remove', currentLocale)
   }, /*#__PURE__*/_react["default"].createElement("p", null, _i18n["default"].getString('confirmStr1', currentLocale), /*#__PURE__*/_react["default"].createElement("span", null, " ".concat(displayText, " ")), _i18n["default"].getString('confirmStr2', currentLocale)));
-}
-
-ConfirmRemoveModal.propTypes = {
-  currentLocale: _propTypes["default"].string.isRequired,
-  show: _propTypes["default"].bool.isRequired,
-  onCancel: _propTypes["default"].func,
-  onRemove: _propTypes["default"].func,
-  detail: _propTypes["default"].object
 };
+
 ConfirmRemoveModal.defaultProps = {
   onRemove: function onRemove() {},
   onCancel: function onCancel() {},
   detail: null
 };
+var _default = ConfirmRemoveModal;
+exports["default"] = _default;
 //# sourceMappingURL=ConfirmRemoveModal.js.map

@@ -1,81 +1,44 @@
 "use strict";
 
+require("core-js/modules/web.dom.iterable");
+
+require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
+
+require("core-js/modules/es6.object.keys");
+
+require("core-js/modules/es6.array.for-each");
+
 require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = void 0;
 
-var _react = _interopRequireDefault(require("react"));
+var _Eula = require("./Eula");
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
+Object.keys(_Eula).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _Eula[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _Eula[key];
+    }
+  });
+});
 
-var _i18n = _interopRequireDefault(require("./i18n"));
+var _Eula2 = require("./Eula.interface");
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-var Eula = function Eula(props) {
-  var currentLocale = props.currentLocale,
-      className = props.className,
-      onLinkClicked = props.onLinkClicked,
-      brandId = props.brandId,
-      useEulaAbbreviation = props.useEulaAbbreviation,
-      dataSign = props.dataSign;
-  var labelId = useEulaAbbreviation ? 'eulaAbbr' : 'eula';
-  var link;
-  var isFr = currentLocale.substr(0, 2).toLowerCase() === 'fr';
-
-  switch (brandId) {
-    case '3420':
-      // att
-      labelId = 'serviceTerms';
-      link = 'http://www.att.com/officeathandpolicy';
-      break;
-
-    case '7710':
-      // bt
-      labelId = 'termsOfService';
-      link = 'https://www.bt.com/products/static/terms/terms-of-use.html';
-      break;
-
-    case '7310':
-      // telus
-      labelId = 'serviceTerms';
-      link = isFr ? 'http://telus.com/BusinessConnect/fr/ServiceTerms' : 'http://telus.com/BusinessConnect/ServiceTerms';
-      break;
-
-    default:
-      link = 'https://www.ringcentral.com/legal/eulatos.html';
-      break;
-  }
-
-  return /*#__PURE__*/_react["default"].createElement("a", {
-    className: className,
-    href: link,
-    rel: "noopener noreferrer",
-    target: "_blank",
-    onClick: onLinkClicked ? function (e) {
-      return props.onLinkClicked(e, link);
-    } : null,
-    "data-sign": dataSign
-  }, _i18n["default"].getString(labelId));
-};
-
-Eula.propTypes = {
-  dataSign: _propTypes["default"].string,
-  brandId: _propTypes["default"].string.isRequired,
-  currentLocale: _propTypes["default"].string.isRequired,
-  className: _propTypes["default"].string,
-  onLinkClicked: _propTypes["default"].func,
-  useEulaAbbreviation: _propTypes["default"].bool
-};
-Eula.defaultProps = {
-  dataSign: null,
-  className: '',
-  onLinkClicked: function onLinkClicked() {},
-  useEulaAbbreviation: false
-};
-var _default = Eula;
-exports["default"] = _default;
+Object.keys(_Eula2).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _Eula2[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _Eula2[key];
+    }
+  });
+});
 //# sourceMappingURL=index.js.map

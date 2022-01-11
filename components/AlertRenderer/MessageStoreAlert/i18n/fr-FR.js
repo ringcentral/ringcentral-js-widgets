@@ -13,7 +13,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-var _default = _defineProperty({}, _errors["default"].deleteFailed, "La messagerie vocale n'a pas pu être effacée en raison d'une erreur interne du serveur."); // @key: @#@"[messageStoreErrors.deleteFailed]"@#@ @source: @#@"Cannot delete the voicemail due to internal server error."@#@
+var _default = _defineProperty({}, _errors["default"].deleteFailed, "La messagerie vocale n’a pas pu être effacée en raison d’une erreur interne du serveur."); // @key: @#@"[messageStoreErrors.deleteFailed]"@#@ @source: @#@"Cannot delete the voicemail due to internal server error."@#@
 
 
 exports["default"] = _default;

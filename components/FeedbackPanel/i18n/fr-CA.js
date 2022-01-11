@@ -7,10 +7,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  feedbackHeader: "Soumettre le commentaire",
+  feedbackHeader: "Envoyer le commentaire",
   back: "Retour",
   revert: "Rétablir",
-  instruction: "Vos commentaires sont très importants pour nous. Si vous rencontrez des difficultés pendant votre utilisation de l'application, si vous souhaitez faire la demande d'une fonctionnalité ou signaler un bogue, nous sommes toujours heureux de vous aider.",
+  instruction: "Vos commentaires sont très importants pour nous. Si vous rencontrez des difficultés pendant votre utilisation de l’application, si vous souhaitez faire la demande d’une fonctionnalité ou signaler un bogue, nous sommes toujours heureux de vous aider.",
   fillForm: "Veuillez remplir le formulaire ci-dessous et cliquer sur ",
   useMailBox: " ou veuillez utiliser votre messagerie pour envoyer votre requête à ",
   email: "Adresse de courriel",
@@ -24,7 +24,7 @@ var _default = {
   subject: "Objet",
   subjectPlaceHolder: "Veuillez nous indiquer comment nous pouvons vous aider",
   description: "Description détaillée",
-  descriptionPlaceHolder: "Veuillez écrire le plus d'informations possible",
+  descriptionPlaceHolder: "Veuillez écrire le plus d’informations possible",
   send: "Envoyer les commentaires"
 }; // @key: @#@"feedbackHeader"@#@ @source: @#@"Submit Feedback"@#@
 // @key: @#@"back"@#@ @source: @#@"Back"@#@

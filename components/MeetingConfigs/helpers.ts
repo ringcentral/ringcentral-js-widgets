@@ -34,4 +34,4 @@ function getHoursList(HOUR_SCALE) {
   );
 }
 
-export { getMinutesList, getHoursList };
+export { getHoursList, getMinutesList };

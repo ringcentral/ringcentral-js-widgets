@@ -9,10 +9,12 @@ exports["default"] = void 0;
 var _default = {
   unknown: "Unbekannt",
   multipleMatches: "Mehrfache Übereinstimmungen",
-  anonymous: "Anonym"
+  anonymous: "Anonym",
+  none: "Keine"
 }; // @key: @#@"unknown"@#@ @source: @#@"Unknown"@#@
 // @key: @#@"multipleMatches"@#@ @source: @#@"Multiple matches"@#@
 // @key: @#@"anonymous"@#@ @source: @#@"Anonymous"@#@
+// @key: @#@"none"@#@ @source: @#@"None"@#@
 
 exports["default"] = _default;
 //# sourceMappingURL=de-DE.js.map

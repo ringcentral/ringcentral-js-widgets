@@ -9,7 +9,7 @@ exports["default"] = void 0;
 var _default = {
   newConference: "新しい会議",
   dialInNumber: "ダイヤルイン番号",
-  hostAccess: "ホストのアクセス",
+  hostAccess: "ホストアクセス",
   participantsAccess: "参加者のアクセス",
   addinalDialInNumbers: "追加のダイヤルイン番号",
   selectNumbers: "番号の選択",
@@ -20,10 +20,6 @@ var _default = {
   inviteWithText: "テキストで招待",
   joinAsHost: "会議を起動",
   internationalNumber: "国際ダイヤルイン番号：",
-  inviteText_att: "{brandName}電話会議に参加してください。\n\nダイヤルイン番号：{formattedDialInNumber} \n{additionalNumbersSection} \n参加者アクセス：{participantCode} \n\n国際ダイヤルイン番号が必要な場合は、{dialInNumbersLinks}にアクセスしてください。\n\nこの電話会議は{brandName} Conferencingによって提供されます。",
-  inviteText_bt: "{brandName}電話会議に参加してください。\n\nダイヤルイン番号：{formattedDialInNumber} \n{additionalNumbersSection} \n参加者アクセス：{participantCode} \n\n追加のダイヤルイン番号{dialInNumbersLinks}",
-  inviteText_rc: "{brandName}電話会議に参加してください。\n\nダイヤルイン番号：{formattedDialInNumber} \n{additionalNumbersSection} \n参加者アクセス：{participantCode} \n\n国際ダイヤルイン番号が必要な場合は、{dialInNumbersLinks}にアクセスしてください。\n\nこの電話会議は{brandName} Conferencingによって提供されます。",
-  inviteText_telus: "{brandName}電話会議に参加してください。\n\nダイヤルイン番号：{formattedDialInNumber} \n{additionalNumbersSection} \n参加者アクセス：{participantCode} \n\n追加のダイヤルイン番号{dialInNumbersLinks}",
   saveAsDefault: "既定として保存"
 }; // @key: @#@"newConference"@#@ @source: @#@"New Conference"@#@
 // @key: @#@"dialInNumber"@#@ @source: @#@"Dial-in Number"@#@
@@ -38,10 +34,6 @@ var _default = {
 // @key: @#@"inviteWithText"@#@ @source: @#@"Invite with Text"@#@
 // @key: @#@"joinAsHost"@#@ @source: @#@"Launch Conference"@#@
 // @key: @#@"internationalNumber"@#@ @source: @#@"International Dial-in Numbers:"@#@
-// @key: @#@"inviteText_att"@#@ @source: @#@"Please join the {brandName} conference.\n\nDial-In Number: {formattedDialInNumber} \n{additionalNumbersSection} \nParticipant Access: {participantCode} \n\nNeed an international dial-in phone number? Please visit {dialInNumbersLinks} \n\nThis conference call is brought to you by {brandName} Conferencing."@#@
-// @key: @#@"inviteText_bt"@#@ @source: @#@"Please join the {brandName} conference.\n\nDial-In Number: {formattedDialInNumber} \n{additionalNumbersSection} \nParticipant Access: {participantCode} \n\nAdditional dial-in numbers {dialInNumbersLinks}"@#@
-// @key: @#@"inviteText_rc"@#@ @source: @#@"Please join the {brandName} conference.\n\nDial-In Number: {formattedDialInNumber} \n{additionalNumbersSection} \nParticipant Access: {participantCode} \n\nNeed an international dial-in phone number? Please visit {dialInNumbersLinks} \n\nThis conference call is brought to you by {brandName} Conferencing."@#@
-// @key: @#@"inviteText_telus"@#@ @source: @#@"Please join the {brandName} conference.\n\nDial-In Number: {formattedDialInNumber} \n{additionalNumbersSection} \nParticipant Access: {participantCode} \n\nAdditional dial-in numbers {dialInNumbersLinks}"@#@
 // @key: @#@"saveAsDefault"@#@ @source: @#@"Save as default"@#@
 
 exports["default"] = _default;

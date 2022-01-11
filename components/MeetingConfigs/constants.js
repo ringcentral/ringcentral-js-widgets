@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.NO_NUMBER_REGEX = exports.PASSWORD_REGEX = exports.MAX_TOPIC_LENGTH = exports.HOUR_SCALE = exports.MINUTE_SCALE = void 0;
+exports.PASSWORD_REGEX = exports.NO_NUMBER_REGEX = exports.MINUTE_SCALE = exports.MAX_TOPIC_LENGTH = exports.HOUR_SCALE = void 0;
 var MINUTE_SCALE = 4;
 exports.MINUTE_SCALE = MINUTE_SCALE;
 var HOUR_SCALE = 13;

@@ -19,9 +19,9 @@ require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
-var _classnames = _interopRequireDefault(require("classnames"));
-
 var _react = _interopRequireDefault(require("react"));
+
+var _classnames = _interopRequireDefault(require("classnames"));
 
 var _Message = _interopRequireDefault(require("../Message"));
 

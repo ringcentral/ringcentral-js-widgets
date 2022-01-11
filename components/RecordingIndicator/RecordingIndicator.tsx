@@ -1,12 +1,15 @@
-import classnames from 'classnames';
 import React, {
-  FunctionComponent,
-  useState,
-  useEffect,
-  useContext,
   createContext,
+  FunctionComponent,
+  useContext,
+  useEffect,
+  useState,
 } from 'react';
+
+import classnames from 'classnames';
+
 import { RcIcon } from '@ringcentral/juno';
+
 import RecordIconActive from '../../assets/images/RecordOn.svg';
 import styles from './styles.scss';
 
@@ -17,6 +20,7 @@ type SyncRenderContextValue = {
 
 type RecordingIndicatorProps = {
   customClass?: string;
+  dataSign?: string;
 };
 
 const SyncRenderContext = createContext<SyncRenderContextValue>({
@@ -40,6 +44,7 @@ export const RecordingIndicatorProvider: FunctionComponent = ({ children }) => {
 
 export const RecordingIndicator: FunctionComponent<RecordingIndicatorProps> = ({
   customClass = '',
+  dataSign,
 }) => {
   const { count, setCount } = useContext(SyncRenderContext);
   const [show, setShow] = useState(true);
@@ -60,6 +65,7 @@ export const RecordingIndicator: FunctionComponent<RecordingIndicatorProps> = ({
 
   return show ? (
     <RcIcon
+      data-sign={dataSign}
       size="small"
       symbol={RecordIconActive}
       className={classnames(

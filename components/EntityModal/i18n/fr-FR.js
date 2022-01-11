@@ -9,10 +9,10 @@ exports["default"] = void 0;
 var _default = {
   account: "Compte",
   contact: "Contact",
-  lead: "Piste",
+  lead: "Favori",
   opportunity: "Occasion",
   "case": "Billet",
-  chooseEntity: "Sélectionnez un type d'entité",
+  chooseEntity: "Sélectionnez un type d’entité",
   create: "Créer"
 }; // @key: @#@"account"@#@ @source: @#@"Account"@#@
 // @key: @#@"contact"@#@ @source: @#@"Contact"@#@

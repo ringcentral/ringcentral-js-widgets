@@ -1,8 +1,10 @@
-import { RcModuleOptions, RcUIModuleV2 } from '@ringcentral-integration/core';
 import React from 'react';
+
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import formatNumber from '@ringcentral-integration/commons/lib/formatNumber';
 import { callingOptions } from '@ringcentral-integration/commons/modules/CallingSettingsV2/callingOptions';
+import { RcModuleOptions, RcUIModuleV2 } from '@ringcentral-integration/core';
+
 import { CallLogCallCtrlContainer } from '../../containers/CallLogCallCtrlContainer';
 import {
   CallLogUIFunctions,
@@ -46,7 +48,8 @@ const CallLogCallControlRenderer = (
 })
 export abstract class CallLogUIBase<T extends Deps = Deps>
   extends RcUIModuleV2<Deps & T>
-  implements CallLogUIInterface {
+  implements CallLogUIInterface
+{
   constructor({ deps, ...options }: RcModuleOptions<Deps & T>) {
     super({
       deps,

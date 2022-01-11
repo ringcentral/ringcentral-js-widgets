@@ -7,9 +7,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.ConferenceParticipantPage = void 0;
 
-var _phoneContext = require("../../lib/phoneContext");
-
 var _ConferenceParticipantContainer = require("../../components/ConferenceParticipantContainer");
+
+var _phoneContext = require("../../lib/phoneContext");
 
 var ConferenceParticipantPage = (0, _phoneContext.connectModule)(function (phone) {
   return phone.conferenceParticipantUI;

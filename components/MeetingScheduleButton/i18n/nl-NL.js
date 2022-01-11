@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  schedule: "Meeting inplannen",
+  schedule: "Meeting plannen",
   prompt: "Geef RingCentral toestemming voor toegang tot uw accountgegevens.",
   saveAsDefault: "Opslaan als standaard",
   launchMeeting: "Meeting openen"

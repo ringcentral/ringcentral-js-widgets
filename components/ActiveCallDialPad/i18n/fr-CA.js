@@ -9,7 +9,7 @@ exports["default"] = void 0;
 var _default = {
   hide: "Masquer",
   end: "Terminer",
-  keypad: "Clavier"
+  keypad: "Pavé numérique"
 }; // @key: @#@"hide"@#@ @source: @#@"Hide"@#@
 // @key: @#@"end"@#@ @source: @#@"End"@#@
 // @key: @#@"keypad"@#@ @source: @#@"Keypad"@#@

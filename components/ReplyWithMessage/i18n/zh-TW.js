@@ -13,7 +13,7 @@ var _default = {
   customMessage: "自訂訊息",
   callMeBackIn: "請在以下時間回電",
   willCallYouBackIn: "將於以下時間回電",
-  min: "分鐘",
+  min: "分",
   hours: "小時",
   days: "天"
 }; // @key: @#@"cancel"@#@ @source: @#@"Cancel"@#@
@@ -22,7 +22,7 @@ var _default = {
 // @key: @#@"customMessage"@#@ @source: @#@"Custom Message"@#@
 // @key: @#@"callMeBackIn"@#@ @source: @#@"Call me back in"@#@
 // @key: @#@"willCallYouBackIn"@#@ @source: @#@"Will call you back in"@#@
-// @key: @#@"min"@#@ @source: @#@"min."@#@
+// @key: @#@"min"@#@ @source: @#@"min"@#@
 // @key: @#@"hours"@#@ @source: @#@"hours"@#@
 // @key: @#@"days"@#@ @source: @#@"days"@#@
 

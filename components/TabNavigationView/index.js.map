@@ -1,1 +1,1 @@
-{"version":3,"sources":["components/TabNavigationView/index.ts"],"names":["TabNavigationView"],"mappings":";;;;;;;;;AAAA;;;;eAEeA,6B","sourcesContent":["import TabNavigationView from './TabNavigationView';\n\nexport default TabNavigationView;"],"file":"index.js"}
+{"version":3,"sources":["components/TabNavigationView/index.ts"],"names":["TabNavigationView"],"mappings":";;;;;;;;;AAAA;;;;eAEeA,6B","sourcesContent":["import TabNavigationView from './TabNavigationView';\n\nexport default TabNavigationView;\n"],"file":"index.js"}

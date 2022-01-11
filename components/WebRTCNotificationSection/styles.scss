@@ -34,6 +34,7 @@
   line-height: 32px;
   margin-top: 28px;
   color: #0c0c0c;
+  padding: 0 16px;
 }
 
 .number {
@@ -46,13 +47,13 @@
   margin-top: 24px;
 }
 
-.buttonsGroup{
+.buttonsGroup {
   display: flex;
   align-items: flex-start;
   justify-content: center;
 }
 
-.buttonsGroup+.buttonsGroup {
+.buttonsGroup + .buttonsGroup {
   margin-top: 36px;
 
   .callButton {
@@ -63,7 +64,7 @@
     width: 50px;
     margin: 0 10px;
 
-    &+.callButton {
+    & + .callButton {
       margin: 0 10px;
     }
   }
@@ -208,7 +209,7 @@
     margin-top: 33px;
   }
 
-  .buttonsGroup+.buttonsGroup {
+  .buttonsGroup + .buttonsGroup {
     margin-top: 32px;
 
     .callButton {

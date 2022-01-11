@@ -7,8 +7,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.CallIcon = void 0;
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
 var _react = _interopRequireDefault(require("react"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
@@ -27,10 +25,6 @@ var CallIcon = function CallIcon(_ref) {
 };
 
 exports.CallIcon = CallIcon;
-CallIcon.propTypes = {
-  title: _propTypes["default"].string,
-  iconClassName: _propTypes["default"].string.isRequired
-};
 CallIcon.defaultProps = {
   title: ''
 };

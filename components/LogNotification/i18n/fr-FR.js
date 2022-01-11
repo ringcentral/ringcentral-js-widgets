@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  confirmationInfo: "Vos modifications non sauvegardées de l'appel précédent seront perdues, voulez-vous vraiment travailler sur le nouvel appel ?",
+  confirmationInfo: "Vos modifications non sauvegardées de l’appel précédent seront perdues, voulez-vous vraiment travailler sur le nouvel appel ?",
   log: "Journal",
   save: "Enreg. et trav. sur le nouv. appel",
   discard: "Ann. et trav. sur le nouv. Appel",

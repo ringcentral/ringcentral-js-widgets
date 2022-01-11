@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -16,9 +16,9 @@ require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.weak-map");
 
-require("core-js/modules/es6.object.define-property");
-
 require("core-js/modules/es6.object.create");
+
+require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.reflect.construct");
 
@@ -29,37 +29,35 @@ exports["default"] = void 0;
 
 require("core-js/modules/es6.object.set-prototype-of");
 
-var _react = _interopRequireWildcard(require("react"));
+require("rc-tooltip/assets/bootstrap_white.css");
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
+var _react = _interopRequireWildcard(require("react"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
 var _rcTooltip = _interopRequireDefault(require("rc-tooltip"));
 
-require("rc-tooltip/assets/bootstrap_white.css");
-
-var _ForwardForm = _interopRequireDefault(require("../ForwardForm"));
-
-var _ReplyWithMessage = _interopRequireDefault(require("../ReplyWithMessage"));
-
-var _ActiveCallButton = _interopRequireDefault(require("../ActiveCallButton"));
-
-var _MultiCallAnswerButton = _interopRequireDefault(require("../MultiCallAnswerButton"));
-
-var _MessageFill = _interopRequireDefault(require("../../assets/images/MessageFill.svg"));
+var _Answer = _interopRequireDefault(require("../../assets/images/Answer.svg"));
 
 var _Forward = _interopRequireDefault(require("../../assets/images/Forward.svg"));
 
 var _Ignore = _interopRequireDefault(require("../../assets/images/Ignore.svg"));
 
+var _MessageFill = _interopRequireDefault(require("../../assets/images/MessageFill.svg"));
+
 var _Voicemail = _interopRequireDefault(require("../../assets/images/Voicemail.svg"));
 
-var _Answer = _interopRequireDefault(require("../../assets/images/Answer.svg"));
+var _ActiveCallButton = _interopRequireDefault(require("../ActiveCallButton"));
 
-var _styles = _interopRequireDefault(require("./styles.scss"));
+var _ForwardForm = _interopRequireDefault(require("../ForwardForm"));
+
+var _MultiCallAnswerButton = _interopRequireDefault(require("../MultiCallAnswerButton"));
+
+var _ReplyWithMessage = _interopRequireDefault(require("../ReplyWithMessage"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
+
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -71,15 +69,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } Object.defineProperty(subClass, "prototype", { value: Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }), writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
@@ -347,26 +345,6 @@ var IncomingCallPad = /*#__PURE__*/function (_Component) {
   return IncomingCallPad;
 }(_react.Component);
 
-exports["default"] = IncomingCallPad;
-IncomingCallPad.propTypes = {
-  answer: _propTypes["default"].func.isRequired,
-  reject: _propTypes["default"].func.isRequired,
-  toVoiceMail: _propTypes["default"].func.isRequired,
-  currentLocale: _propTypes["default"].string.isRequired,
-  forwardingNumbers: _propTypes["default"].array.isRequired,
-  formatPhone: _propTypes["default"].func,
-  onForward: _propTypes["default"].func.isRequired,
-  replyWithMessage: _propTypes["default"].func.isRequired,
-  className: _propTypes["default"].string,
-  answerAndEnd: _propTypes["default"].func,
-  answerAndHold: _propTypes["default"].func,
-  hasOtherActiveCall: _propTypes["default"].bool,
-  sessionId: _propTypes["default"].string.isRequired,
-  searchContactList: _propTypes["default"].array.isRequired,
-  searchContact: _propTypes["default"].func.isRequired,
-  phoneTypeRenderer: _propTypes["default"].func,
-  phoneSourceNameRenderer: _propTypes["default"].func
-};
 IncomingCallPad.defaultProps = {
   formatPhone: function formatPhone(phone) {
     return phone;
@@ -382,4 +360,6 @@ IncomingCallPad.defaultProps = {
   phoneTypeRenderer: undefined,
   phoneSourceNameRenderer: undefined
 };
+var _default = IncomingCallPad;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

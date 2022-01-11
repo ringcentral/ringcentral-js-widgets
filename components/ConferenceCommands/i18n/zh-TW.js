@@ -15,7 +15,7 @@ var _default = {
   starSharp4Title: "功能表",
   starSharp4Body: "收聽按鍵音指令清單",
   starSharp5Title: "設定聆聽模式",
-  starSharp5Body: "按 1 次：靜音電者 - 來電者可以按 *、#、6 來取消靜音\n按 2 次：靜音來電者 - 僅聆聽。沒有取消靜音選項\n按 3 次：取消來電者靜音 - 再次開啟線路",
+  starSharp5Body: "按 1 次：靜音來電者 - 來電者可以按 *、#、6 來取消靜音\n按 2 次：靜音來電者 - 僅聆聽。沒有取消靜音選項\n按 3 次：取消來電者靜音 - 再次開啟線路",
   starSharp6Title: "靜音主持人線路",
   starSharp6Body: "按一次以「靜音」\n再按一次以「取消靜音」",
   starSharp7Title: "保證通話",

@@ -1,6 +1,8 @@
-import { RcDatePickerProps } from '@ringcentral/juno';
-import { ReactElementLike } from 'prop-types';
 import { MutableRefObject, ReactNode } from 'react';
+
+import { ReactElementLike } from 'prop-types';
+
+import { RcDatePickerProps } from '@ringcentral/juno';
 
 import { CallLog, Task } from '../CallLogPanel';
 
@@ -14,7 +16,11 @@ export type CallLogFieldsProps = {
   subjectDropdownsTracker?: (...args: any[]) => any;
   startAdornmentRender?: (...args: any[]) => any;
   referenceFieldOptions: { [key: string]: FieldOption };
-  contactSearch: () => Promise<Array<any>>;
+  contactSearch: ({
+    searchString,
+  }: {
+    searchString: string;
+  }) => Promise<Array<any>> | void;
   showFoundFromServer: boolean;
   editSectionScrollBy?: (top: number) => void;
   fieldSize: RcDatePickerProps['size'];

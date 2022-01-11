@@ -15,7 +15,7 @@ var _default = {
   starSharp4Title: "Menü",
   starSharp4Body: "Hören Sie sich die Liste der Tonwahlbefehle an",
   starSharp5Title: "Hörmodi einstellen",
-  starSharp5Body: "Einmal drücken: Anrufer stummschalten – Anrufer können mit *, #, 6 die Stummschaltung aufheben\nZweimal drücken: Anrufer stummschalten – nur Zuhören möglich, keine Option zum Aufheben der Stummschaltung\nDreimal drücken: Stummschaltung aufheben – öffnet die Leitung wieder",
+  starSharp5Body: "Einmal drücken: Anrufer stummschalten – Anrufer können mit  *, #, 6 die Stummschaltung aufheben\nZweimal drücken: Anrufer stummschalten – nur Zuhören möglich, keine Option zum Aufheben der Stummschaltung \nDreimal drücken: Stummschaltung aufheben – öffnet die Leitung wieder",
   starSharp6Title: "Host-Leitung stummschalten",
   starSharp6Body: "Einmal drücken zum STUMMSCH.\nErneut drücken zum STUMMSCH. AUFH.",
   starSharp7Title: "Anruf sichern",

@@ -1,0 +1,1 @@
+{"version":3,"sources":["containers/HeaderView/utils/HeaderViewUtils.ts"],"names":["headerViewHeight"],"mappings":";;;;;;;;AAAO,IAAMA,gBAAgB,GAAG,EAAzB","sourcesContent":["export const headerViewHeight = 36;\n"],"file":"HeaderViewUtils.js"}

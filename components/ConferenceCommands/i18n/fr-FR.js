@@ -8,22 +8,22 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 var _default = {
   title: "Commandes de la conférence",
-  starSharp2Title: "Nombre d'appelants",
-  starSharp2Body: "Permet de suivre le nombre de participants à l'appel",
+  starSharp2Title: "Nombre d’appelants",
+  starSharp2Body: "Permet de suivre le nombre de participants à l’appel",
   starSharp3Title: "Quitter la conférence",
-  starSharp3Body: "Permet à l'hôte de raccrocher et de mettre fin à l'appel",
+  starSharp3Body: "Permet à l’hôte de raccrocher et de mettre fin à l’appel",
   starSharp4Title: "Menu",
-  starSharp4Body: "Permet d'écouter la liste des commandes au clavier",
-  starSharp5Title: "Définir les modes d'écoute",
-  starSharp5Body: "1 pression : appelants en mode muet. Les appelants peuvent basculer en mode normal avec *, #, 6\n2 pressions : appelants en mode muet. Écoute seulement. Aucune option de basculement en mode normal\n3 pressions : appelants en mode normal. Permet de rouvrir la ligne",
+  starSharp4Body: "Permet d’écouter la liste des commandes au clavier",
+  starSharp5Title: "Définir les modes d’écoute",
+  starSharp5Body: "1 pression : appelants en mode muet. Les appelants peuvent basculer en mode normal avec  *, #, 6\n2 pressions : appelants en mode muet. Écoute seulement. Aucune option de basculement en mode normal\n3 pressions : appelants en mode normal. Permet de rouvrir la ligne",
   starSharp6Title: "Ligne hôte en mode muet",
-  starSharp6Body: "Appuyer une fois pour activer le mode MUET\nAppuyer une fois pour désactiver le mode MUET",
-  starSharp7Title: "Sécuriser l'appel",
-  starSharp7Body: "Appuyez une fois pour BLOQUER tous les appelants\nAppuyez une deuxième fois pour LANCER l'appel",
+  starSharp6Body: "Appuyez une fois pour activer le mode MUET\nAppuyez une fois pour désactiver le mode MUET",
+  starSharp7Title: "Sécuriser l’appel",
+  starSharp7Body: "Appuyez une fois pour BLOQUER tous les appelants\nAppuyez une deuxième fois pour LANCER l’appel",
   starSharp8Title: "Émettre un son lorsque des personnes rejoignent ou quittent un appel",
-  starSharp8Body: "1 pression : le son est DÉSACTIVÉ\n2 pressions : la tonalité de participation est ACTIVÉE, la tonalité de sortie est DÉSACTIVÉE\n3 pressions : la tonalité de participation est DÉSACTIVÉE, la tonalité de sortie est ACTIVÉE\n4 pressions : le son est ACTIVÉ",
+  starSharp8Body: "1 pression : le son est DÉSACTIVÉ\n2 pressions : la tonalité de participation est ACTIVÉE, la tonalité de sortie est DÉSACTIVÉE\n3 pressions : la tonalité de participation est DÉSACTIVÉE, la tonalité de sortie est ACTIVÉE\n4 pressions : le son est ACTIVÉ",
   star9Title: "Enregistrer une conférence",
-  star9Body: "Appuyez une fois pour COMMENCER l'enregistrement\nAppuyez une deuxième fois pour ARRÊTER l'enregistrement"
+  star9Body: "Appuyez une fois pour COMMENCER l’enregistrement\nAppuyez une deuxième fois pour ARRÊTER l’enregistrement"
 }; // @key: @#@"title"@#@ @source: @#@"Conference Commands"@#@
 // @key: @#@"starSharp2Title"@#@ @source: @#@"Caller Count"@#@
 // @key: @#@"starSharp2Body"@#@ @source: @#@"Keep track of how many people are on the call"@#@

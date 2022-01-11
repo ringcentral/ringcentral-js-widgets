@@ -14,8 +14,8 @@ var _default = {
   incomingCalls: "수신 통화 {numberOf}통",
   callOnHold: "대기 중인 통화 {numberOf}통",
   callsOnHold: "대기 중인 통화 {numberOf}통",
-  otherDeviceCall: "다른 디바이스에서 {numberOf}통의 전화 ",
-  otherDeviceCalls: "다른 디바이스에서 {numberOf}통의 전화 "
+  otherDeviceCall: "다른 디바이스에서 {numberOf}통의 전화",
+  otherDeviceCalls: "다른 디바이스에서 {numberOf}통의 전화"
 }; // @key: @#@"currentCall"@#@ @source: @#@"Current Call"@#@
 // @key: @#@"viewCalls"@#@ @source: @#@"View Calls"@#@
 // @key: @#@"view"@#@ @source: @#@"View"@#@

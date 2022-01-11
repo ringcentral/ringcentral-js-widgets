@@ -5,100 +5,142 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = exports.baseDefaultProps = void 0;
+exports.SettingsPanel = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _Eula = _interopRequireDefault(require("../Eula"));
+var _BasePanel = require("./BasePanel");
 
-var _ClickToDial = require("./SettingItems/ClickToDial");
+var _ClickToDial = require("./ClickToDial");
 
-var _LinkLineItem = require("./SettingItems/LinkLineItem");
+var _LinkLineItem = require("./LinkLineItem");
 
-var _Locale = require("./SettingItems/Locale");
+var _Locale = require("./Locale");
 
-var _PresenceSetting = require("./SettingItems/PresenceSetting");
+var _PresenceSetting = require("./PresenceSetting");
 
-var _SwitchLineItem = require("./SettingItems/SwitchLineItem");
-
-var _BasePanel = _interopRequireDefault(require("./BasePanel"));
+var _SwitchLineItem = require("./SwitchLineItem");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
+var Empty = function Empty() {
+  return null;
+};
+
 var SettingsPanel = function SettingsPanel(_ref) {
-  var children = _ref.children,
+  var additional = _ref.additional,
+      _ref$autoLogEnabled = _ref.autoLogEnabled,
+      autoLogEnabled = _ref$autoLogEnabled === void 0 ? false : _ref$autoLogEnabled,
+      _ref$autoLogNotesEnab = _ref.autoLogNotesEnabled,
+      autoLogNotesEnabled = _ref$autoLogNotesEnab === void 0 ? false : _ref$autoLogNotesEnab,
+      _ref$autoLogSMSEnable = _ref.autoLogSMSEnabled,
+      autoLogSMSEnabled = _ref$autoLogSMSEnable === void 0 ? false : _ref$autoLogSMSEnable,
+      autoLogSMSTitle = _ref.autoLogSMSTitle,
+      autoLogTitle = _ref.autoLogTitle,
+      children = _ref.children,
       className = _ref.className,
-      onLogoutButtonClick = _ref.onLogoutButtonClick,
-      loginNumber = _ref.loginNumber,
-      version = _ref.version,
+      _ref$clickToDialEnabl = _ref.clickToDialEnabled,
+      clickToDialEnabled = _ref$clickToDialEnabl === void 0 ? false : _ref$clickToDialEnabl,
+      _ref$clickToDialPermi = _ref.clickToDialPermissions,
+      clickToDialPermissions = _ref$clickToDialPermi === void 0 ? false : _ref$clickToDialPermi,
+      clickToDialTitle = _ref.clickToDialTitle,
       currentLocale = _ref.currentLocale,
-      brandId = _ref.brandId,
-      EulaRenderer = _ref.EulaRenderer,
-      onCallingSettingsLinkClick = _ref.onCallingSettingsLinkClick,
-      onRegionSettingsLinkClick = _ref.onRegionSettingsLinkClick,
-      onAudioSettingsLinkClick = _ref.onAudioSettingsLinkClick,
-      onFeedbackSettingsLinkClick = _ref.onFeedbackSettingsLinkClick,
-      onQuickAccessLinkClick = _ref.onQuickAccessLinkClick,
-      onUserGuideClick = _ref.onUserGuideClick,
-      onShareIdeaClick = _ref.onShareIdeaClick,
-      showCalling = _ref.showCalling,
-      showAutoLog = _ref.showAutoLog,
-      showAutoLogNotes = _ref.showAutoLogNotes,
-      showAudio = _ref.showAudio,
-      showReport = _ref.showReport,
-      autoLogEnabled = _ref.autoLogEnabled,
-      autoLogNotesEnabled = _ref.autoLogNotesEnabled,
-      logSMSContentEnabled = _ref.logSMSContentEnabled,
-      disableAutoLogEnabled = _ref.disableAutoLogEnabled,
-      disableAutoLogNotesEnabled = _ref.disableAutoLogNotesEnabled,
-      onAutoLogChange = _ref.onAutoLogChange,
-      onAutoLogNotesChange = _ref.onAutoLogNotesChange,
-      showAutoLogSMS = _ref.showAutoLogSMS,
-      showLogSMSContent = _ref.showLogSMSContent,
-      autoLogSMSEnabled = _ref.autoLogSMSEnabled,
-      onAutoLogSMSChange = _ref.onAutoLogSMSChange,
-      onLogSMSContentChange = _ref.onLogSMSContentChange,
-      showClickToDial = _ref.showClickToDial,
-      clickToDialEnabled = _ref.clickToDialEnabled,
-      clickToDialPermissions = _ref.clickToDialPermissions,
-      onClickToDialChange = _ref.onClickToDialChange,
-      onReportLinkClick = _ref.onReportLinkClick,
-      showRegion = _ref.showRegion,
-      showHeader = _ref.showHeader,
-      outboundSMS = _ref.outboundSMS,
-      showSpinner = _ref.showSpinner,
+      _ref$disableAutoLogEn = _ref.disableAutoLogEnabled,
+      disableAutoLogEnabled = _ref$disableAutoLogEn === void 0 ? false : _ref$disableAutoLogEn,
+      _ref$disableAutoLogNo = _ref.disableAutoLogNotesEnabled,
+      disableAutoLogNotesEnabled = _ref$disableAutoLogNo === void 0 ? false : _ref$disableAutoLogNo,
       dndStatus = _ref.dndStatus,
-      userStatus = _ref.userStatus,
-      setAvailable = _ref.setAvailable,
-      setBusy = _ref.setBusy,
-      setDoNotDisturb = _ref.setDoNotDisturb,
-      setInvisible = _ref.setInvisible,
-      toggleAcceptCallQueueCalls = _ref.toggleAcceptCallQueueCalls,
+      eulaLabel = _ref.eulaLabel,
+      eulaLink = _ref.eulaLink,
       isCallQueueMember = _ref.isCallQueueMember,
-      showPresenceSettings = _ref.showPresenceSettings,
-      openPresenceSettings = _ref.openPresenceSettings,
-      showFeedback = _ref.showFeedback,
-      showQuickAccess = _ref.showQuickAccess,
-      showUserGuide = _ref.showUserGuide,
-      showShareIdea = _ref.showShareIdea,
-      additional = _ref.additional,
-      supportedLocales = _ref.supportedLocales,
+      loginNumber = _ref.loginNumber,
+      _ref$logSMSContentEna = _ref.logSMSContentEnabled,
+      logSMSContentEnabled = _ref$logSMSContentEna === void 0 ? true : _ref$logSMSContentEna,
+      logSMSContentTitle = _ref.logSMSContentTitle,
+      onAudioSettingsLinkClick = _ref.onAudioSettingsLinkClick,
+      _ref$onAutoLogChange = _ref.onAutoLogChange,
+      onAutoLogChange = _ref$onAutoLogChange === void 0 ? Empty : _ref$onAutoLogChange,
+      _ref$onAutoLogNotesCh = _ref.onAutoLogNotesChange,
+      onAutoLogNotesChange = _ref$onAutoLogNotesCh === void 0 ? Empty : _ref$onAutoLogNotesCh,
+      onAutoLogSMSChange = _ref.onAutoLogSMSChange,
+      onCallingSettingsLinkClick = _ref.onCallingSettingsLinkClick,
+      onClickToDialChange = _ref.onClickToDialChange,
+      onEulaLinkClick = _ref.onEulaLinkClick,
+      onFeedbackSettingsLinkClick = _ref.onFeedbackSettingsLinkClick,
+      onLogoutButtonClick = _ref.onLogoutButtonClick,
+      _ref$onLogSMSContentC = _ref.onLogSMSContentChange,
+      onLogSMSContentChange = _ref$onLogSMSContentC === void 0 ? Empty : _ref$onLogSMSContentC,
+      _ref$onQuickAccessLin = _ref.onQuickAccessLinkClick,
+      onQuickAccessLinkClick = _ref$onQuickAccessLin === void 0 ? Empty : _ref$onQuickAccessLin,
+      onRegionSettingsLinkClick = _ref.onRegionSettingsLinkClick,
+      _ref$onReportLinkClic = _ref.onReportLinkClick,
+      onReportLinkClick = _ref$onReportLinkClic === void 0 ? Empty : _ref$onReportLinkClic,
+      onShareIdeaClick = _ref.onShareIdeaClick,
+      onUserGuideClick = _ref.onUserGuideClick,
+      _ref$openPresenceSett = _ref.openPresenceSettings,
+      openPresenceSettings = _ref$openPresenceSett === void 0 ? false : _ref$openPresenceSett,
+      _ref$outboundSMS = _ref.outboundSMS,
+      outboundSMS = _ref$outboundSMS === void 0 ? false : _ref$outboundSMS,
       savedLocale = _ref.savedLocale,
       saveLocale = _ref.saveLocale,
-      clickToDialTitle = _ref.clickToDialTitle,
-      versionContainer = _ref.versionContainer,
-      autoLogTitle = _ref.autoLogTitle,
-      autoLogSMSTitle = _ref.autoLogSMSTitle,
-      logSMSContentTitle = _ref.logSMSContentTitle;
-  return /*#__PURE__*/_react["default"].createElement(_BasePanel["default"], {
+      _ref$setAvailable = _ref.setAvailable,
+      setAvailable = _ref$setAvailable === void 0 ? Empty : _ref$setAvailable,
+      _ref$setBusy = _ref.setBusy,
+      setBusy = _ref$setBusy === void 0 ? Empty : _ref$setBusy,
+      _ref$setDoNotDisturb = _ref.setDoNotDisturb,
+      setDoNotDisturb = _ref$setDoNotDisturb === void 0 ? Empty : _ref$setDoNotDisturb,
+      _ref$setInvisible = _ref.setInvisible,
+      setInvisible = _ref$setInvisible === void 0 ? Empty : _ref$setInvisible,
+      _ref$showAudio = _ref.showAudio,
+      showAudio = _ref$showAudio === void 0 ? false : _ref$showAudio,
+      _ref$showAutoLog = _ref.showAutoLog,
+      showAutoLog = _ref$showAutoLog === void 0 ? false : _ref$showAutoLog,
+      _ref$showAutoLogNotes = _ref.showAutoLogNotes,
+      showAutoLogNotes = _ref$showAutoLogNotes === void 0 ? false : _ref$showAutoLogNotes,
+      _ref$showAutoLogSMS = _ref.showAutoLogSMS,
+      showAutoLogSMS = _ref$showAutoLogSMS === void 0 ? false : _ref$showAutoLogSMS,
+      _ref$showCalling = _ref.showCalling,
+      showCalling = _ref$showCalling === void 0 ? false : _ref$showCalling,
+      _ref$showClickToDial = _ref.showClickToDial,
+      showClickToDial = _ref$showClickToDial === void 0 ? false : _ref$showClickToDial,
+      _ref$showFeedback = _ref.showFeedback,
+      showFeedback = _ref$showFeedback === void 0 ? true : _ref$showFeedback,
+      _ref$showHeader = _ref.showHeader,
+      showHeader = _ref$showHeader === void 0 ? false : _ref$showHeader,
+      _ref$showLogSMSConten = _ref.showLogSMSContent,
+      showLogSMSContent = _ref$showLogSMSConten === void 0 ? false : _ref$showLogSMSConten,
+      _ref$showPresenceSett = _ref.showPresenceSettings,
+      showPresenceSettings = _ref$showPresenceSett === void 0 ? true : _ref$showPresenceSett,
+      _ref$showQuickAccess = _ref.showQuickAccess,
+      showQuickAccess = _ref$showQuickAccess === void 0 ? false : _ref$showQuickAccess,
+      _ref$showRegion = _ref.showRegion,
+      showRegion = _ref$showRegion === void 0 ? false : _ref$showRegion,
+      _ref$showReport = _ref.showReport,
+      showReport = _ref$showReport === void 0 ? false : _ref$showReport,
+      _ref$showShareIdea = _ref.showShareIdea,
+      showShareIdea = _ref$showShareIdea === void 0 ? false : _ref$showShareIdea,
+      _ref$showSpinner = _ref.showSpinner,
+      showSpinner = _ref$showSpinner === void 0 ? false : _ref$showSpinner,
+      _ref$showUserGuide = _ref.showUserGuide,
+      showUserGuide = _ref$showUserGuide === void 0 ? false : _ref$showUserGuide,
+      _ref$isEnablePendo = _ref.isEnablePendo,
+      isEnablePendo = _ref$isEnablePendo === void 0 ? false : _ref$isEnablePendo,
+      supportedLocales = _ref.supportedLocales,
+      _ref$toggleAcceptCall = _ref.toggleAcceptCallQueueCalls,
+      toggleAcceptCallQueueCalls = _ref$toggleAcceptCall === void 0 ? Empty : _ref$toggleAcceptCall,
+      userStatus = _ref.userStatus,
+      version = _ref.version,
+      versionContainer = _ref.versionContainer;
+  return /*#__PURE__*/_react["default"].createElement(_BasePanel.BasePanel, {
     currentLocale: currentLocale,
     className: className,
     showSpinner: showSpinner,
     showHeader: showHeader,
-    brandId: brandId,
+    eulaLabel: eulaLabel,
+    eulaLink: eulaLink,
+    onEulaLinkClick: onEulaLinkClick,
     loginNumber: loginNumber,
     onLogoutButtonClick: onLogoutButtonClick,
-    EulaRenderer: EulaRenderer,
     version: version,
     versionContainer: versionContainer
   }, /*#__PURE__*/_react["default"].createElement(_LinkLineItem.LinkLineItem, {
@@ -181,7 +223,8 @@ var SettingsPanel = function SettingsPanel(_ref) {
     clickToDialTitle: clickToDialTitle
   }), additional, /*#__PURE__*/_react["default"].createElement(_LinkLineItem.LinkLineItem, {
     name: "feedback",
-    pendoSignName: "Feedback",
+    dataSign: "Feedback",
+    pendoSignName: isEnablePendo ? 'Feedback' : '',
     show: showFeedback,
     currentLocale: currentLocale,
     onClick: onFeedbackSettingsLinkClick
@@ -203,70 +246,5 @@ var SettingsPanel = function SettingsPanel(_ref) {
   }));
 };
 
-var baseDefaultProps = {
-  className: null,
-  EulaRenderer: _Eula["default"],
-  children: null,
-  showClickToDial: false,
-  clickToDialEnabled: false,
-  clickToDialPermissions: false,
-  showCalling: false,
-  showAudio: false,
-  showAutoLog: false,
-  showAutoLogNotes: false,
-  showRegion: false,
-  showUserGuide: false,
-  showReport: false,
-  autoLogEnabled: false,
-  autoLogNotesEnabled: false,
-  logSMSContentEnabled: true,
-  disableAutoLogEnabled: false,
-  disableAutoLogNotesEnabled: false,
-  showAutoLogSMS: false,
-  showLogSMSContent: false,
-  autoLogSMSEnabled: false,
-  showHeader: false,
-  outboundSMS: false,
-  showSpinner: false,
-  openPresenceSettings: false,
-  showPresenceSettings: true,
-  showFeedback: true,
-  showShareIdea: false,
-  showQuickAccess: false,
-  clickToDialTitle: null,
-  onReportLinkClick: function onReportLinkClick() {
-    return null;
-  },
-  onQuickAccessLinkClick: function onQuickAccessLinkClick() {
-    return null;
-  },
-  onAutoLogChange: function onAutoLogChange() {
-    return null;
-  },
-  onAutoLogNotesChange: function onAutoLogNotesChange() {
-    return null;
-  },
-  onLogSMSContentChange: function onLogSMSContentChange() {
-    return null;
-  },
-  setAvailable: function setAvailable() {
-    return null;
-  },
-  setBusy: function setBusy() {
-    return null;
-  },
-  setDoNotDisturb: function setDoNotDisturb() {
-    return null;
-  },
-  setInvisible: function setInvisible() {
-    return null;
-  },
-  toggleAcceptCallQueueCalls: function toggleAcceptCallQueueCalls() {
-    return null;
-  }
-};
-exports.baseDefaultProps = baseDefaultProps;
-SettingsPanel.defaultProps = baseDefaultProps;
-var _default = SettingsPanel;
-exports["default"] = _default;
+exports.SettingsPanel = SettingsPanel;
 //# sourceMappingURL=SettingsPanel.js.map

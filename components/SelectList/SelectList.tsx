@@ -1,4 +1,3 @@
-import formatMessage from 'format-message';
 import React, {
   ComponentProps,
   FunctionComponent,
@@ -6,15 +5,16 @@ import React, {
   useState,
 } from 'react';
 
+import formatMessage from 'format-message';
+
 import { SelectListBasic, SelectListBasicProps } from '../SelectListBasic';
 import i18n from './i18n';
 import { ListView, ListViewProps } from './ListView';
 import styles from './styles.scss';
 import { WithScrollCheck } from './WithScrollCheck';
 
-const SelectListBasicWithScrollCheck: FunctionComponent<SelectListBasicProps> = WithScrollCheck(
-  SelectListBasic,
-);
+const SelectListBasicWithScrollCheck: FunctionComponent<SelectListBasicProps> =
+  WithScrollCheck(SelectListBasic);
 
 export { SelectListBasicWithScrollCheck };
 

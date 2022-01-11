@@ -16,5 +16,5 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 var ConversationPage = (0, _phoneContext.connectModule)(function (phone) {
   return phone.conversationUI;
 })(_ConversationPanel["default"]);
-exports["default"] = exports.ConversationPage = ConversationPage;
+exports.ConversationPage = exports["default"] = ConversationPage;
 //# sourceMappingURL=index.js.map

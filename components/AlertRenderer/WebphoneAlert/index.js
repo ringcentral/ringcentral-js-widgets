@@ -5,15 +5,13 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = WebphoneAlert;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.array.filter");
 
 require("core-js/modules/es6.function.name");
 
 var _react = _interopRequireDefault(require("react"));
-
-var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _webphoneErrors = _interopRequireDefault(require("@ringcentral-integration/commons/modules/Webphone/webphoneErrors"));
 
@@ -25,9 +23,9 @@ var _i18n = _interopRequireDefault(require("./i18n"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var webphoneMessageList = [_webphoneErrors["default"].connectFailed, _webphoneErrors["default"].toVoiceMailError, _webphoneErrors["default"].connected, _webphoneErrors["default"].muteError, _webphoneErrors["default"].holdError, _webphoneErrors["default"].flipError, _webphoneErrors["default"].recordError, _webphoneErrors["default"].recordDisabled, _webphoneErrors["default"].transferError, _webphoneErrors["default"].noOutboundCallWithoutDL, _webphoneErrors["default"].checkDLError, _webphoneErrors["default"].browserNotSupported, _webphoneErrors["default"].sipProvisionError, _webphoneErrors["default"].webphoneCountOverLimit, _webphoneErrors["default"].webphoneForbidden, _webphoneErrors["default"].requestTimeout, _webphoneErrors["default"].serverTimeout, _webphoneErrors["default"].internalServerError, _webphoneErrors["default"].unknownError, _webphoneErrors["default"].provisionUpdate, _webphoneErrors["default"].serverConnecting, _webphoneMessages["default"].parked];
+var webphoneMessageList = [_webphoneErrors["default"].connectFailed, _webphoneErrors["default"].toVoiceMailError, _webphoneErrors["default"].connected, _webphoneErrors["default"].muteError, _webphoneErrors["default"].holdError, _webphoneErrors["default"].flipError, _webphoneErrors["default"].recordError, _webphoneErrors["default"].pauseRecordError, _webphoneErrors["default"].recordDisabled, _webphoneErrors["default"].transferError, _webphoneErrors["default"].noOutboundCallWithoutDL, _webphoneErrors["default"].checkDLError, _webphoneErrors["default"].browserNotSupported, _webphoneErrors["default"].sipProvisionError, _webphoneErrors["default"].webphoneCountOverLimit, _webphoneErrors["default"].webphoneForbidden, _webphoneErrors["default"].requestTimeout, _webphoneErrors["default"].serverTimeout, _webphoneErrors["default"].internalServerError, _webphoneErrors["default"].unknownError, _webphoneErrors["default"].provisionUpdate, _webphoneErrors["default"].serverConnecting, _webphoneMessages["default"].parked];
 
-function WebphoneAlert(props) {
+var WebphoneAlert = function WebphoneAlert(props) {
   var message = props.message.message;
 
   var view = /*#__PURE__*/_react["default"].createElement("span", null, _i18n["default"].getString(message, props.currentLocale)); // Handle call record error
@@ -101,14 +99,6 @@ function WebphoneAlert(props) {
   }
 
   return view;
-}
-
-WebphoneAlert.propTypes = {
-  currentLocale: _propTypes["default"].string.isRequired,
-  brand: _propTypes["default"].object.isRequired,
-  message: _propTypes["default"].shape({
-    message: _propTypes["default"].string.isRequired
-  }).isRequired
 };
 
 WebphoneAlert.handleMessage = function (_ref) {
@@ -117,4 +107,7 @@ WebphoneAlert.handleMessage = function (_ref) {
     return err === message;
   }).length > 0;
 };
+
+var _default = WebphoneAlert;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

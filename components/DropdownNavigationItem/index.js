@@ -5,11 +5,9 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = DropdownNavigationItem;
+exports["default"] = void 0;
 
 var _react = _interopRequireDefault(require("react"));
-
-var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
@@ -17,7 +15,7 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function DropdownNavigationItem(_ref) {
+var DropdownNavigationItem = function DropdownNavigationItem(_ref) {
   var icon = _ref.icon,
       activeIcon = _ref.activeIcon,
       active = _ref.active,
@@ -26,7 +24,8 @@ function DropdownNavigationItem(_ref) {
       title = _ref.title,
       noticeCounts = _ref.noticeCounts,
       onClick = _ref.onClick,
-      keepStyle = _ref.keepStyle;
+      keepStyle = _ref.keepStyle,
+      dataSign = _ref.dataSign;
   var notice = null;
 
   if (noticeCounts && noticeCounts > 0) {
@@ -44,6 +43,7 @@ function DropdownNavigationItem(_ref) {
   var styleClass = !keepStyle ? _styles["default"].iconStyles : null;
   return /*#__PURE__*/_react["default"].createElement("div", {
     title: title || label,
+    "data-sign": dataSign,
     onClick: onClick,
     className: (0, _classnames["default"])(_styles["default"].root, active && _styles["default"].active, isReverseFillIcon && _styles["default"].reverseFillIcon)
   }, /*#__PURE__*/_react["default"].createElement("div", {
@@ -51,19 +51,8 @@ function DropdownNavigationItem(_ref) {
   }, active ? activeIcon : icon), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].labelHolder
   }, label), notice);
-}
-
-DropdownNavigationItem.propTypes = {
-  icon: _propTypes["default"].node.isRequired,
-  activeIcon: _propTypes["default"].node.isRequired,
-  active: _propTypes["default"].bool,
-  isReverseFillIcon: _propTypes["default"].bool,
-  label: _propTypes["default"].string,
-  title: _propTypes["default"].string,
-  noticeCounts: _propTypes["default"].number,
-  onClick: _propTypes["default"].func,
-  keepStyle: _propTypes["default"].bool
 };
+
 DropdownNavigationItem.defaultProps = {
   active: false,
   isReverseFillIcon: false,
@@ -73,4 +62,6 @@ DropdownNavigationItem.defaultProps = {
   onClick: undefined,
   keepStyle: false
 };
+var _default = DropdownNavigationItem;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

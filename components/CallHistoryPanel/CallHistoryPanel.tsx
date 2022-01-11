@@ -1,19 +1,21 @@
-import moment from 'moment';
-import { AutoSizer } from 'react-virtualized';
 import React, {
   FunctionComponent,
-  useMemo,
   useCallback,
-  useRef,
   useEffect,
+  useMemo,
+  useRef,
 } from 'react';
 
+import moment from 'moment';
+
+import { palette2, styled, typography } from '@ringcentral/juno';
+
 import { CallHistoryItem } from './CallHistoryItem';
+import { CallLog, CallLogMenu, CallsTree } from './CallHistoryPanel.interface';
+import i18n from './i18n';
 import { StickyVirtualizedList } from './StickyVirtualizedList';
 import { RowRendererProps } from './StickyVirtualizedList/StickyVirtualizedList.interface';
-import { CallLog, CallLogMenu, CallsTree } from './CallHistoryPanel.interface';
 import styles from './styles.scss';
-import i18n from './i18n';
 
 export type CallHistoryPanelProps = {
   calls: CallLog[];
@@ -24,7 +26,7 @@ export type CallHistoryPanelProps = {
   changeListScrollTop?: (scrollTop: number) => void;
 };
 
-const DATE_ITEM_HEIGHT = 32; // ./styles.scss .date
+const DATE_ITEM_HEIGHT = 32;
 const CALL_ITEM_HEIGHT = 64; // ./CallHistoryItem/styles.scss .item
 
 const ROOT_NODE = {
@@ -52,6 +54,33 @@ function formatCallTime(timestamp: number) {
   return moment(timestamp).format('h:mm A');
 }
 
+const DateText = styled.div`
+  ${typography('caption1')};
+
+  color: ${palette2('neutral', 'f06')};
+  text-align: center;
+  display: block;
+  height: ${DATE_ITEM_HEIGHT}px;
+  line-height: ${DATE_ITEM_HEIGHT}px;
+  background: ${palette2('neutral', 'b01')};
+  box-sizing: border-box;
+  border-bottom: 1px solid ${palette2('neutral', 'l02')};
+  position: sticky;
+  top: 0;
+  z-index: 2 !important;
+`;
+
+const StyledCallHistoryPanel = styled.div`
+  display: flex;
+  flex-direction: column;
+  border-top: 1px solid ${palette2('neutral', 'l02')};
+  background-color: ${palette2('neutral', 'b01')};
+  height: 100%;
+  box-sizing: border-box;
+  overflow: hidden;
+  position: relative;
+`;
+
 export const CallHistoryPanel: FunctionComponent<CallHistoryPanelProps> = ({
   calls,
   currentLocale,
@@ -64,6 +93,7 @@ export const CallHistoryPanel: FunctionComponent<CallHistoryPanelProps> = ({
 
   useEffect(() => {
     listRef.current?.setScrollTop(listScrollTop);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const tree = useMemo(() => {
@@ -138,14 +168,9 @@ export const CallHistoryPanel: FunctionComponent<CallHistoryPanelProps> = ({
       const node = tree[id];
       if (node.children) {
         return (
-          <div
-            data-sign={node.name}
-            className={styles.date}
-            style={style}
-            key={node.name}
-          >
+          <DateText data-sign="dateText" style={style} key={node.name}>
             {i18n.getString(node.name, currentLocale)}
-          </div>
+          </DateText>
         );
       }
       return (
@@ -158,11 +183,11 @@ export const CallHistoryPanel: FunctionComponent<CallHistoryPanelProps> = ({
         </div>
       );
     },
-    [tree, currentLocale],
+    [tree, getActionMenu, isWide, currentLocale],
   );
 
   return (
-    <div className={styles.callHistoryPanel}>
+    <StyledCallHistoryPanel>
       {tree.root.children.length ? (
         <StickyVirtualizedList
           overscanRowCount={20}
@@ -182,7 +207,7 @@ export const CallHistoryPanel: FunctionComponent<CallHistoryPanelProps> = ({
           {i18n.getString('empty', currentLocale)}
         </div>
       )}
-    </div>
+    </StyledCallHistoryPanel>
   );
 };
 

@@ -11,7 +11,9 @@ var _react = _interopRequireDefault(require("react"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
+var _OvalLoading = _interopRequireDefault(require("../../assets/images/OvalLoading.svg"));
+
+var _RetryIcon = _interopRequireDefault(require("../../assets/images/RetryIcon.svg"));
 
 var _ConnectivityManager = require("../../modules/ConnectivityManager");
 
@@ -22,10 +24,6 @@ var _Draggable = _interopRequireDefault(require("../Draggable"));
 var _i18n = _interopRequireDefault(require("./i18n"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
-
-var _RetryIcon = _interopRequireDefault(require("../../assets/images/RetryIcon.svg"));
-
-var _OvalLoading = _interopRequireDefault(require("../../assets/images/OvalLoading.svg"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -65,14 +63,6 @@ var ConnectivityBadge = function ConnectivityBadge(_ref) {
   }, view);
 };
 
-ConnectivityBadge.propTypes = {
-  className: _propTypes["default"].string,
-  currentLocale: _propTypes["default"].string.isRequired,
-  mode: _propTypes["default"].string,
-  webphoneConnecting: _propTypes["default"].bool,
-  onClick: _propTypes["default"].func,
-  hasLimitedStatusError: _propTypes["default"].bool
-};
 ConnectivityBadge.defaultProps = {
   className: null,
   onClick: function onClick() {},

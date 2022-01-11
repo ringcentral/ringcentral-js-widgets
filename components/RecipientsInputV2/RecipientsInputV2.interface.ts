@@ -1,4 +1,4 @@
-import { FunctionComponent, ReactNode, MouseEvent } from 'react';
+import { FunctionComponent, MouseEvent, ReactNode } from 'react';
 
 export interface Recipient {
   name: string;

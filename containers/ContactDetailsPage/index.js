@@ -7,9 +7,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
-var _phoneContext = require("../../lib/phoneContext");
-
 var _ContactDetailsView = require("../../components/ContactDetailsView");
+
+var _phoneContext = require("../../lib/phoneContext");
 
 var _default = (0, _phoneContext.connectModule)(function (phone) {
   return phone.contactDetailsUI;

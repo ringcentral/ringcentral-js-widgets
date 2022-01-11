@@ -10,6 +10,13 @@ $input-height: 43px;
   background: $snow;
 }
 
+.backHeader {
+  height: 44px;
+  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, 0.15);
+  font-size: 14px;
+  font-weight: 500;
+}
+
 .dialInput {
   height: $input-height;
   border: 0px;

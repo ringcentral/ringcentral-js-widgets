@@ -8,7 +8,7 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 var _default = {
   to: "À",
-  enterNameOrNumber: "Entrer nom ou numéro"
+  enterNameOrNumber: "Entrer le nom ou le numéro"
 }; // @key: @#@"to"@#@ @source: @#@"To"@#@
 // @key: @#@"enterNameOrNumber"@#@ @source: @#@"Enter Name or Number"@#@
 

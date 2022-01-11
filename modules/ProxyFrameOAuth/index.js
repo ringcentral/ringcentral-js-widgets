@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -53,23 +53,23 @@ require("core-js/modules/es6.array.index-of");
 
 require("regenerator-runtime/runtime");
 
-var _background = _interopRequireDefault(require("@ringcentral-integration/commons/lib/background"));
+var _url = _interopRequireDefault(require("url"));
 
-var _proxify = _interopRequireDefault(require("@ringcentral-integration/commons/lib/proxy/proxify"));
+var uuid = _interopRequireWildcard(require("uuid"));
+
+var _background = _interopRequireDefault(require("@ringcentral-integration/commons/lib/background"));
 
 var _di = require("@ringcentral-integration/commons/lib/di");
 
 var _ensureExist = _interopRequireDefault(require("@ringcentral-integration/commons/lib/ensureExist"));
 
-var _url = _interopRequireDefault(require("url"));
-
-var uuid = _interopRequireWildcard(require("uuid"));
-
-var _actionTypes = _interopRequireDefault(require("./actionTypes"));
-
-var _getProxyFrameOAuthReducer = _interopRequireDefault(require("./getProxyFrameOAuthReducer"));
+var _proxify = _interopRequireDefault(require("@ringcentral-integration/commons/lib/proxy/proxify"));
 
 var _OAuthBase2 = _interopRequireDefault(require("../../lib/OAuthBase"));
+
+var _actionTypes = require("./actionTypes");
+
+var _getProxyFrameOAuthReducer = _interopRequireDefault(require("./getProxyFrameOAuthReducer"));
 
 var _dec, _class, _class2;
 
@@ -83,9 +83,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -97,19 +97,19 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
-function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
+function _get() { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(arguments.length < 3 ? target : receiver); } return desc.value; }; } return _get.apply(this, arguments); }
 
 function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } Object.defineProperty(subClass, "prototype", { value: Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }), writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
@@ -122,7 +122,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 var DEFAULT_PROXY_RETRY = 5000;
 var ProxyFrameOAuth = (_dec = (0, _di.Module)({
   name: 'OAuth',
-  deps: ['RouterInteraction', {
+  deps: ['Client', 'RouterInteraction', {
     dep: 'OAuthOptions',
     optional: true
   }]
@@ -142,8 +142,9 @@ var ProxyFrameOAuth = (_dec = (0, _di.Module)({
         proxyUri = _ref$proxyUri === void 0 ? './proxy.html' : _ref$proxyUri,
         _ref$defaultProxyRetr = _ref.defaultProxyRetry,
         defaultProxyRetry = _ref$defaultProxyRetr === void 0 ? DEFAULT_PROXY_RETRY : _ref$defaultProxyRetr,
+        client = _ref.client,
         routerInteraction = _ref.routerInteraction,
-        options = _objectWithoutProperties(_ref, ["loginPath", "redirectUri", "proxyUri", "defaultProxyRetry", "routerInteraction"]);
+        options = _objectWithoutProperties(_ref, ["loginPath", "redirectUri", "proxyUri", "defaultProxyRetry", "client", "routerInteraction"]);
 
     _classCallCheck(this, ProxyFrameOAuth);
 
@@ -209,6 +210,7 @@ var ProxyFrameOAuth = (_dec = (0, _di.Module)({
 
     _this._uuid = uuid.v4();
     _this._proxyUri = (0, _ensureExist["default"])(proxyUri, 'proxyUri');
+    _this._client = (0, _ensureExist["default"])(client, 'client');
     _this._routerInteraction = (0, _ensureExist["default"])(routerInteraction, 'routerInteraction');
     _this._defaultProxyRetry = defaultProxyRetry;
     _this._loginPath = loginPath;
@@ -367,13 +369,44 @@ var ProxyFrameOAuth = (_dec = (0, _di.Module)({
     }()
   }, {
     key: "openOAuthPage",
-    value: function openOAuthPage() {
-      if (this.oAuthReady) {
-        this._proxyFrame.contentWindow.postMessage({
-          oAuthUri: this.oAuthUri
-        }, '*');
+    value: function () {
+      var _openOAuthPage = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                if (!this.oAuthReady) {
+                  _context5.next = 5;
+                  break;
+                }
+
+                if (!this._client.service.platform().discovery()) {
+                  _context5.next = 4;
+                  break;
+                }
+
+                _context5.next = 4;
+                return this._client.service.platform().loginUrlWithDiscovery();
+
+              case 4:
+                this._proxyFrame.contentWindow.postMessage({
+                  oAuthUri: this.oAuthUri
+                }, '*');
+
+              case 5:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5, this);
+      }));
+
+      function openOAuthPage() {
+        return _openOAuthPage.apply(this, arguments);
       }
-    }
+
+      return openOAuthPage;
+    }()
   }, {
     key: "_createImplicitRefreshIframe",
     value: function _createImplicitRefreshIframe() {
@@ -382,11 +415,11 @@ var ProxyFrameOAuth = (_dec = (0, _di.Module)({
       this._clearImplicitRefreshIframe();
 
       this._implicitRefreshFrame = document.createElement('iframe');
-      this._implicitRefreshFrame.src = this.implictRefreshOAuthUri;
+      this._implicitRefreshFrame.src = this.implicitRefreshOAuthUri;
       this._implicitRefreshFrame.style.display = 'none';
       document.body.appendChild(this._implicitRefreshFrame); // eslint-disable-next-line
 
-      this._implictitRefreshCallBack = function (_ref4) {
+      this._implicitRefreshCallBack = function (_ref4) {
         var origin = _ref4.origin,
             data = _ref4.data;
         var refreshCallbackUri = data.refreshCallbackUri;
@@ -398,7 +431,7 @@ var ProxyFrameOAuth = (_dec = (0, _di.Module)({
         }
       };
 
-      window.addEventListener('message', this._implictitRefreshCallBack);
+      window.addEventListener('message', this._implicitRefreshCallBack);
     }
   }, {
     key: "_clearImplicitRefreshIframe",
@@ -406,7 +439,7 @@ var ProxyFrameOAuth = (_dec = (0, _di.Module)({
       if (this._implicitRefreshFrame) {
         document.body.removeChild(this._implicitRefreshFrame);
         this._implicitRefreshFrame = null;
-        window.removeEventListener('message', this._implictitRefreshCallBack);
+        window.removeEventListener('message', this._implicitRefreshCallBack);
         this._callbackHandler = null;
       }
     } // create a time out to refresh implicit flow token
@@ -463,7 +496,7 @@ var ProxyFrameOAuth = (_dec = (0, _di.Module)({
   }, {
     key: "_actionTypes",
     get: function get() {
-      return _actionTypes["default"];
+      return _actionTypes.actionTypes;
     }
   }, {
     key: "proxyUri",

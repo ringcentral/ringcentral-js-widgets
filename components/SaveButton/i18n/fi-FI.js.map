@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/SaveButton/i18n/fi-FI.ts"],"names":["save"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,IAAI,EAAE;AADO,C,EAIf","sourcesContent":["export default {\n  save: \"Tallenna\"\n};\n\n// @key: @#@\"save\"@#@ @source: @#@\"Save\"@#@\n"],"file":"fi-FI.js"}

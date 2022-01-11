@@ -1,1 +1,1 @@
-{"version":3,"sources":["components/MessagesLogIcon/i18n/pt-PT.js"],"names":["log"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,GAAG,EAAE;AADQ,C,EAIf","sourcesContent":["export default {\n  log: \"Registo\"\n};\n\n// @key: @#@\"log\"@#@ @source: @#@\"Log\"@#@\n"],"file":"pt-PT.js"}
+{"version":3,"sources":["components/MessagesLogIcon/i18n/pt-PT.ts"],"names":["log"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,GAAG,EAAE;AADQ,C,EAIf","sourcesContent":["export default {\n  log: \"Registo\"\n};\n\n// @key: @#@\"log\"@#@ @source: @#@\"Log\"@#@\n"],"file":"pt-PT.js"}

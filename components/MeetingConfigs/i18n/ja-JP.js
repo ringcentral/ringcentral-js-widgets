@@ -9,7 +9,7 @@ exports["default"] = void 0;
 var _default = {
   topic: "トピック",
   when: "日時",
-  duration: "通話時間",
+  duration: "期間",
   recurringMeeting: "定期的な会議",
   recurringDescribe: "カレンダーの出席依頼で、参加者に定期的または繰り返し確認することを忘れないようにしてください。",
   video: "ビデオ",

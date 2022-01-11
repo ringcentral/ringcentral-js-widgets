@@ -5,21 +5,21 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = IncomingCallPanel;
+exports["default"] = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _IncomingCallPad = _interopRequireDefault(require("../IncomingCallPad"));
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _ContactDisplay = _interopRequireDefault(require("../ContactDisplay"));
+var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
 
 var _CallAvatar = _interopRequireDefault(require("../CallAvatar"));
 
-var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
+var _ContactDisplay = _interopRequireDefault(require("../ContactDisplay"));
+
+var _IncomingCallPad = _interopRequireDefault(require("../IncomingCallPad"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
@@ -194,4 +194,6 @@ IncomingCallPanel.defaultProps = {
   phoneSourceNameRenderer: undefined,
   callQueueName: null
 };
+var _default = IncomingCallPanel;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

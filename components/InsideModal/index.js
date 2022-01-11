@@ -5,11 +5,9 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = InsideModal;
+exports["default"] = void 0;
 
 var _react = _interopRequireDefault(require("react"));
-
-var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
@@ -19,7 +17,7 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function InsideModal(_ref) {
+var InsideModal = function InsideModal(_ref) {
   var show = _ref.show,
       onClose = _ref.onClose,
       children = _ref.children,
@@ -44,21 +42,8 @@ function InsideModal(_ref) {
     clickOutToClose: clickOutToClose,
     onCancel: onClose
   }, children);
-}
-
-InsideModal.propTypes = {
-  show: _propTypes["default"].bool,
-  onClose: _propTypes["default"].func,
-  children: _propTypes["default"].node,
-  title: _propTypes["default"].string,
-  showTitle: _propTypes["default"].bool,
-  showCloseBtn: _propTypes["default"].bool,
-  clickOutToClose: _propTypes["default"].bool,
-  containerStyles: _propTypes["default"].string,
-  maskStyle: _propTypes["default"].string,
-  modalStyles: _propTypes["default"].string,
-  contentStyle: _propTypes["default"].string
 };
+
 InsideModal.defaultProps = {
   title: '',
   showTitle: true,
@@ -72,4 +57,6 @@ InsideModal.defaultProps = {
   modalStyles: undefined,
   contentStyle: undefined
 };
+var _default = InsideModal;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

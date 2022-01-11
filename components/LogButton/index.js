@@ -5,25 +5,23 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = LogButton;
+exports["default"] = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _Spinner = _interopRequireDefault(require("../Spinner"));
+var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
 
 var _Button = require("../Button");
 
-var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
+var _Spinner = _interopRequireDefault(require("../Spinner"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function LogButton(_ref) {
+var LogButton = function LogButton(_ref) {
   var className = _ref.className,
       onLog = _ref.onLog,
       isLogged = _ref.isLogged,
@@ -43,17 +41,8 @@ function LogButton(_ref) {
     className: isLogged ? _DynamicsFont["default"].edit : _DynamicsFont["default"].callLog,
     title: isLogged ? editTitle : addTitle
   }), spinner);
-}
-
-LogButton.propTypes = {
-  className: _propTypes["default"].string,
-  onLog: _propTypes["default"].func,
-  isLogged: _propTypes["default"].bool,
-  disableLinks: _propTypes["default"].bool,
-  isLogging: _propTypes["default"].bool,
-  addTitle: _propTypes["default"].string,
-  editTitle: _propTypes["default"].string
 };
+
 LogButton.defaultProps = {
   className: undefined,
   onLog: undefined,
@@ -63,4 +52,6 @@ LogButton.defaultProps = {
   addTitle: undefined,
   editTitle: undefined
 };
+var _default = LogButton;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

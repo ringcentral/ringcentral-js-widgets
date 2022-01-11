@@ -7,10 +7,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  forward: "Renvoi",
+  forward: "Renvoyer",
   ignore: "Ignorer",
-  toVoicemail: "Vers la msg vocale",
-  answer: "Réponse",
+  toVoicemail: "Messagerie vocale",
+  answer: "Répondre",
   endAndAnswer: "Terminer et répondre",
   holdAndAnswer: "Mettre en attente et répondre",
   custom: "Personnalisé"

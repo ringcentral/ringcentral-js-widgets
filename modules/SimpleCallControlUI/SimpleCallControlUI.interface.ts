@@ -1,7 +1,8 @@
 import { ActiveCallControl } from '@ringcentral-integration/commons/modules/ActiveCallControlV2';
-import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettingsV2';
-import { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import { Brand } from '@ringcentral-integration/commons/modules/Brand';
+import { Locale } from '@ringcentral-integration/commons/modules/Locale';
+import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
+
 import { RouterInteraction } from '../RouterInteraction';
 
 export interface Deps {

@@ -11,9 +11,9 @@ var _react = _interopRequireDefault(require("react"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _styles = _interopRequireDefault(require("./styles.scss"));
-
 var _Search = _interopRequireDefault(require("../../assets/images/Search.svg"));
+
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 

@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -16,9 +16,9 @@ require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.weak-map");
 
-require("core-js/modules/es6.object.define-property");
-
 require("core-js/modules/es6.object.create");
+
+require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.reflect.construct");
 
@@ -31,23 +31,21 @@ require("core-js/modules/es6.object.set-prototype-of");
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
 var _classnames = _interopRequireDefault(require("classnames"));
-
-var _SpinnerOverlay = require("../SpinnerOverlay");
 
 var _ActiveCallList = _interopRequireDefault(require("../ActiveCallList"));
 
-var _styles = _interopRequireDefault(require("./styles.scss"));
-
-var _i18n = _interopRequireDefault(require("./i18n"));
-
 var _InsideModal = _interopRequireDefault(require("../InsideModal"));
+
+var _LogNotification = _interopRequireDefault(require("../LogNotification"));
 
 var _LogSection = _interopRequireDefault(require("../LogSection"));
 
-var _LogNotification = _interopRequireDefault(require("../LogNotification"));
+var _SpinnerOverlay = require("../SpinnerOverlay");
+
+var _i18n = _interopRequireDefault(require("./i18n"));
+
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -59,15 +57,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } Object.defineProperty(subClass, "prototype", { value: Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }), writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
@@ -133,9 +131,7 @@ var ActiveCallsPanel = /*#__PURE__*/function (_Component) {
         show: currentLog.showLog,
         onClose: onCloseLogSection,
         clickOutToClose: false,
-        maskStyle: _styles["default"].maskStyle // containerStyles={sectionContainerStyles}
-        // modalStyles={sectionModalStyles}
-
+        maskStyle: _styles["default"].maskStyle
       }, /*#__PURE__*/_react["default"].createElement(_LogSection["default"], {
         currentLocale: currentLocale,
         currentLog: currentLog,
@@ -340,92 +336,6 @@ var ActiveCallsPanel = /*#__PURE__*/function (_Component) {
   return ActiveCallsPanel;
 }(_react.Component);
 
-exports["default"] = ActiveCallsPanel;
-ActiveCallsPanel.propTypes = {
-  currentLocale: _propTypes["default"].string.isRequired,
-  className: _propTypes["default"].string,
-  activeRingCalls: _propTypes["default"].array.isRequired,
-  activeOnHoldCalls: _propTypes["default"].array.isRequired,
-  activeCurrentCalls: _propTypes["default"].array.isRequired,
-  otherDeviceCalls: _propTypes["default"].array.isRequired,
-  areaCode: _propTypes["default"].string.isRequired,
-  countryCode: _propTypes["default"].string.isRequired,
-  brand: _propTypes["default"].string,
-  showContactDisplayPlaceholder: _propTypes["default"].bool,
-  formatPhone: _propTypes["default"].func.isRequired,
-  onClickToSms: _propTypes["default"].func,
-  onCreateContact: _propTypes["default"].func,
-  outboundSmsPermission: _propTypes["default"].bool,
-  internalSmsPermission: _propTypes["default"].bool,
-  isLoggedContact: _propTypes["default"].func,
-  onLogCall: _propTypes["default"].func,
-  webphoneAnswer: _propTypes["default"].func,
-  webphoneReject: _propTypes["default"].func,
-  webphoneHangup: _propTypes["default"].func,
-  webphoneResume: _propTypes["default"].func,
-  webphoneToVoicemail: _propTypes["default"].func,
-  webphoneSwitchCall: _propTypes["default"].func,
-  webphoneIgnore: _propTypes["default"].func,
-  modalConfirm: _propTypes["default"].func,
-  modalClose: _propTypes["default"].func,
-  autoLog: _propTypes["default"].bool,
-  onViewContact: _propTypes["default"].func,
-  enableContactFallback: _propTypes["default"].bool,
-  loggingMap: _propTypes["default"].object,
-  onCallsEmpty: _propTypes["default"].func,
-  sourceIcons: _propTypes["default"].object,
-  phoneTypeRenderer: _propTypes["default"].func,
-  phoneSourceNameRenderer: _propTypes["default"].func,
-  isWebRTC: _propTypes["default"].bool.isRequired,
-  showSpinner: _propTypes["default"].bool,
-  isSessionAConferenceCall: _propTypes["default"].func,
-  onCallItemClick: _propTypes["default"].func,
-  getAvatarUrl: _propTypes["default"].func,
-  conferenceCallParties: _propTypes["default"].arrayOf(_propTypes["default"].object),
-  webphoneHold: _propTypes["default"].func,
-  useV2: _propTypes["default"].bool,
-  updateSessionMatchedContact: _propTypes["default"].func,
-  isOnHold: _propTypes["default"].func.isRequired,
-  // CallLog related
-  currentLog: _propTypes["default"].object,
-  renderEditLogSection: _propTypes["default"].func,
-  renderSaveLogButton: _propTypes["default"].func,
-  renderExtraButton: _propTypes["default"].func,
-  onSaveCallLog: _propTypes["default"].func,
-  onUpdateCallLog: _propTypes["default"].func,
-  onCloseLogSection: _propTypes["default"].func,
-  // - Notification
-  logNotification: _propTypes["default"].object,
-  onCloseNotification: _propTypes["default"].func,
-  onDiscardNotification: _propTypes["default"].func,
-  onSaveNotification: _propTypes["default"].func,
-  onExpandNotification: _propTypes["default"].func,
-  showNotiLogButton: _propTypes["default"].bool,
-  notificationContainerStyles: _propTypes["default"].string,
-  // Contact
-  showAvatar: _propTypes["default"].bool,
-  renderContactName: _propTypes["default"].func,
-  showOtherDevice: _propTypes["default"].bool,
-  ringoutHangup: _propTypes["default"].func,
-  ringoutTransfer: _propTypes["default"].func,
-  ringoutReject: _propTypes["default"].func,
-  disableLinks: _propTypes["default"].bool,
-  showRingoutCallControl: _propTypes["default"].bool,
-  showMultipleMatch: _propTypes["default"].bool,
-  showSwitchCall: _propTypes["default"].bool,
-  showTransferCall: _propTypes["default"].bool,
-  showHoldOnOtherDevice: _propTypes["default"].bool,
-  onLogBasicInfoClick: _propTypes["default"].func,
-  renderSmallCallContrl: _propTypes["default"].func,
-  // customization
-  showCallDetail: _propTypes["default"].bool,
-  showIgnoreBtn: _propTypes["default"].bool,
-  showHoldAnswerBtn: _propTypes["default"].bool,
-  useCallDetailV2: _propTypes["default"].bool,
-  newCallIcon: _propTypes["default"].bool,
-  clickSwitchTrack: _propTypes["default"].func,
-  isWide: _propTypes["default"].bool
-};
 ActiveCallsPanel.defaultProps = {
   isWide: true,
   className: undefined,
@@ -507,4 +417,6 @@ ActiveCallsPanel.defaultProps = {
   newCallIcon: false,
   clickSwitchTrack: function clickSwitchTrack() {}
 };
+var _default = ActiveCallsPanel;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

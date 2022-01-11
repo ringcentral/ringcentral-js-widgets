@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 require("core-js/modules/web.dom.iterable");
 
@@ -37,13 +37,17 @@ require("core-js/modules/es6.array.is-array");
 
 require("core-js/modules/es6.array.map");
 
-var _juno = require("@ringcentral/juno");
-
-var _Ignore = _interopRequireDefault(require("@ringcentral/juno/icon/Ignore"));
+var _react = _interopRequireWildcard(require("react"));
 
 var _classnames2 = _interopRequireDefault(require("classnames"));
 
-var _react = _interopRequireWildcard(require("react"));
+var _MenuItem = require("@ringcentral/juno/es6/components/Menu/MenuItem/MenuItem.js");
+
+var _MenuList = require("@ringcentral/juno/es6/components/Menu/MenuList/MenuList.js");
+
+var _Popover = require("@ringcentral/juno/es6/components/Popover/Popover.js");
+
+var _Ignore = _interopRequireDefault(require("@ringcentral/juno/es6/icon/Ignore.js"));
 
 var _DynamicsFont = _interopRequireDefault(require("../../../assets/DynamicsFont/DynamicsFont.scss"));
 
@@ -57,11 +61,11 @@ var _i18n = _interopRequireDefault(require("../i18n"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
@@ -81,7 +85,7 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-function _iterableToArrayLimit(arr, i) { var _i = arr && (typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]); if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
@@ -140,7 +144,7 @@ var MoreActionWithForward = function MoreActionWithForward(props) {
     icon: _MoreIcon["default"],
     onClick: handleClick,
     className: (0, _classnames2["default"])(_styles["default"].button, _defineProperty({}, _styles["default"].buttonDisabled, disabled))
-  })), /*#__PURE__*/_react["default"].createElement(_juno.RcPopover, {
+  })), /*#__PURE__*/_react["default"].createElement(_Popover.RcPopover, {
     open: !!anchorEl,
     onClose: handleClose,
     anchorEl: anchorEl,
@@ -152,7 +156,9 @@ var MoreActionWithForward = function MoreActionWithForward(props) {
       vertical: 'bottom',
       horizontal: 'right'
     }
-  }, /*#__PURE__*/_react["default"].createElement(_juno.RcMenuList, null, /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
+  }, /*#__PURE__*/_react["default"].createElement(_MenuList.RcMenuList, {
+    "data-sign": "moreList"
+  }, /*#__PURE__*/_react["default"].createElement(_MenuItem.RcMenuItem, {
     onClick: handleForwardListClick,
     className: _styles["default"].menuItem,
     "data-sign": "forward"
@@ -165,7 +171,7 @@ var MoreActionWithForward = function MoreActionWithForward(props) {
   }, /*#__PURE__*/_react["default"].createElement("i", {
     "data-sign": "backButton",
     className: _DynamicsFont["default"].arrow
-  }))), /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
+  }))), /*#__PURE__*/_react["default"].createElement(_MenuItem.RcMenuItem, {
     className: _styles["default"].menuItem,
     onClick: ignore,
     "data-sign": "ignore"
@@ -173,7 +179,7 @@ var MoreActionWithForward = function MoreActionWithForward(props) {
     className: (0, _classnames2["default"])(_styles["default"].itemIconLeft, _styles["default"].ignoreIcon)
   }, /*#__PURE__*/_react["default"].createElement(_Ignore["default"], null)), /*#__PURE__*/_react["default"].createElement("span", {
     className: _styles["default"].itemText
-  }, "Ignore")))), /*#__PURE__*/_react["default"].createElement(_juno.RcPopover, {
+  }, "Ignore")))), /*#__PURE__*/_react["default"].createElement(_Popover.RcPopover, {
     open: !!forwardListEl,
     onClose: handleForwardListClose,
     anchorEl: forwardListEl,
@@ -185,7 +191,7 @@ var MoreActionWithForward = function MoreActionWithForward(props) {
       vertical: 'bottom',
       horizontal: 'right'
     }
-  }, /*#__PURE__*/_react["default"].createElement(_juno.RcMenuList, {
+  }, /*#__PURE__*/_react["default"].createElement(_MenuList.RcMenuList, {
     classes: {
       root: _styles["default"].forwardMenuList
     }
@@ -193,7 +199,7 @@ var MoreActionWithForward = function MoreActionWithForward(props) {
     phoneNumber: 'custom',
     label: _i18n["default"].getString('custom', currentLocale)
   }]).map(function (item) {
-    return /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
+    return /*#__PURE__*/_react["default"].createElement(_MenuItem.RcMenuItem, {
       onClick: onForward,
       key: item.phoneNumber,
       "data-value": item.phoneNumber,

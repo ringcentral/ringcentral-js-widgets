@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
+
+import classnames from 'classnames';
 
 import { RcList, RcListItem } from '@ringcentral/juno';
-import classnames from 'classnames';
+
+import copyButton from '../../CopyButton/CopyButton';
+import CopyToClipboard from '../../CopyToClipboard';
 import { CallInfo, CallInfoProps } from '../CallInfo';
 import styles from './styles.scss';
-import CopyToClipboard from '../../CopyToClipboard';
-import copyButton from '../../CopyButton/CopyButton';
 
 export interface CallInfoListProps {
   callInfos?: Array<CallInfoProps>;
@@ -14,7 +16,7 @@ export interface CallInfoListProps {
   currentLocale?: string;
 }
 
-export const CallInfoList: React.FunctionComponent<CallInfoListProps> = ({
+export const CallInfoList: FunctionComponent<CallInfoListProps> = ({
   callInfos,
   className,
   onCopySuccess,

@@ -16,15 +16,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 
-var _Mapping = require("./Mapping");
+var _mapping = require("./mapping");
 
-Object.keys(_Mapping).forEach(function (key) {
+Object.keys(_mapping).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
-  if (key in exports && exports[key] === _Mapping[key]) return;
+  if (key in exports && exports[key] === _mapping[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
     get: function get() {
-      return _Mapping[key];
+      return _mapping[key];
     }
   });
 });

@@ -8,11 +8,11 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 var _default = {
   monday: "S",
-  tuesday: "Q",
+  tuesday: "T",
   wednesday: "Q",
   thursday: "Q",
   friday: "S",
-  saturday: "D",
+  saturday: "S",
   sunday: "D"
 }; // @key: @#@"monday"@#@ @source: @#@"M"@#@
 // @key: @#@"tuesday"@#@ @source: @#@"T"@#@

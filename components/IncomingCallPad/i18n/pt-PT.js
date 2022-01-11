@@ -10,7 +10,7 @@ var _default = {
   forward: "Reencam.",
   reply: "Responder",
   ignore: "Ignorar",
-  toVoicemail: "Para o correio de voz",
+  toVoicemail: "P/ correio voz",
   answer: "Atender",
   answerAndEnd: "Atender e terminar",
   answerAndHold: "Atender e em espera"

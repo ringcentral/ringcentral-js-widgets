@@ -13,9 +13,9 @@ var _react = _interopRequireDefault(require("react"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _PlaceholderImage = _interopRequireDefault(require("../../PlaceholderImage"));
-
 var _DefaultAvatar = _interopRequireDefault(require("../../../assets/images/DefaultAvatar.svg"));
+
+var _PlaceholderImage = _interopRequireDefault(require("../../PlaceholderImage"));
 
 var _styles = _interopRequireDefault(require("../styles.scss"));
 

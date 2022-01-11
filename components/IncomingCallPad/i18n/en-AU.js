@@ -12,8 +12,8 @@ var _default = {
   ignore: "Ignore",
   toVoicemail: "To voicemail",
   answer: "Answer",
-  answerAndEnd: "Answer & end",
-  answerAndHold: "Answer & hold"
+  answerAndEnd: "Answer & End",
+  answerAndHold: "Answer & Hold"
 }; // @key: @#@"forward"@#@ @source: @#@"Forward"@#@
 // @key: @#@"reply"@#@ @source: @#@"Reply"@#@
 // @key: @#@"ignore"@#@ @source: @#@"Ignore"@#@

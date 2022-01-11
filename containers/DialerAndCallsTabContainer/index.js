@@ -7,9 +7,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.DialerAndCallsTabContainer = void 0;
 
-var _phoneContext = require("../../lib/phoneContext");
-
 var _TabContentView = require("../../components/TabContentView");
+
+var _phoneContext = require("../../lib/phoneContext");
 
 var DialerAndCallsTabContainer = (0, _phoneContext.connectModule)(function (phone) {
   return phone.dialerAndCallsTabUI;

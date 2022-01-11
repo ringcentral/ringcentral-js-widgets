@@ -1,9 +1,7 @@
-import { RcmInvitationInfo } from '@ringcentral-integration/commons/modules/Meeting';
 import { MeetingTypeV } from '@ringcentral-integration/commons/helpers/meetingHelper.interface';
-import {
-  RcvInvitationInfo,
-  RcVDialInNumberObj,
-} from '@ringcentral-integration/commons/interfaces/Rcv.model';
+import { RcVDialInNumberObj } from '@ringcentral-integration/commons/interfaces/Rcv.model';
+import { BrandConfig } from '@ringcentral-integration/commons/modules/Brand/BrandConfig.interface';
+import { RcmInvitationInfo } from '@ringcentral-integration/commons/modules/Meeting';
 
 interface RcmMeeting {
   id: string;
@@ -49,10 +47,8 @@ export interface CommonBrand {
   name: string;
   rcvProductName?: string;
   rcvE2EESupportUrl?: string;
-  brandConfig: {
-    teleconference: string;
-  };
-  rcvTeleconference: string;
+  brandConfig: BrandConfig;
+  rcvTeleconference?: string;
 }
 
 export interface RcmMainParams {
@@ -70,7 +66,15 @@ export interface RcvMainParams {
   /**
    * provide this as the alternative invitation result, e.g. from rcv api
    */
-  invitationInfo?: RcvInvitationInfo;
+  invitationInfo?: string;
+}
+
+export interface DialInSectionParams {
+  dialInNumber: string | RcVDialInNumberObj[];
+  isMeetingSecret: boolean;
+  meetingPasswordPSTN: string;
+  shortId: string;
+  currentLocale: string;
 }
 
 export interface TplResult {

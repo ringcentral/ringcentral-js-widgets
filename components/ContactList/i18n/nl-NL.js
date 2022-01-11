@@ -7,8 +7,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  onSearching: "Laden ...",
-  noContacts: "Geen opnames gevonden."
+  onSearching: "Laden...",
+  noContacts: "Geen opnamen gevonden."
 }; // @key: @#@"onSearching"@#@ @source: @#@"Loading..."@#@
 // @key: @#@"noContacts"@#@ @source: @#@"No records found."@#@
 

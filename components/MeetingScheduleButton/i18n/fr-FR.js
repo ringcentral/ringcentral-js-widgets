@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  schedule: "Planifier une réunion",
+  schedule: "Programmer une réunion",
   prompt: "Veuillez autoriser RingCentral à accéder à vos informations de compte Google.",
   saveAsDefault: "Enregistrer par défaut",
   launchMeeting: "Lancer la réunion"

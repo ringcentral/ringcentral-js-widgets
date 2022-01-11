@@ -9,16 +9,16 @@ exports["default"] = void 0;
 var _default = {
   logging: "Wordt gelogd...",
   logCall: "Oproep loggen",
-  editLog: "Log bewerken",
+  editLog: "Lijst bewerken",
   select: "Record selecteren",
-  OnHold: "In wacht",
+  OnHold: "In de wacht",
   Ringing: "Gaat over",
   CallConnected: "Oproep verbonden",
   unknownUser: "Onbekende gebruiker",
   unknownNumber: "Anoniem",
   unavailable: "Niet beschikbaar",
   viewDetails: "Details weergeven",
-  conferenceCall: "Conferencecall"
+  conferenceCall: "Conference call"
 }; // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
 // @key: @#@"logCall"@#@ @source: @#@"Log Call"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@

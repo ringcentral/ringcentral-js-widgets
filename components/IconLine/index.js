@@ -5,19 +5,17 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = IconLine;
+exports["default"] = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
+var _IconField = _interopRequireDefault(require("../IconField"));
 
 var _Line = _interopRequireDefault(require("../Line"));
 
-var _IconField = _interopRequireDefault(require("../IconField"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function IconLine(props) {
+var IconLine = function IconLine(props) {
   return /*#__PURE__*/_react["default"].createElement(_Line["default"], {
     className: props.className,
     onClick: props.onClick,
@@ -28,19 +26,12 @@ function IconLine(props) {
     icon: props.icon,
     title: props.title
   }, props.children));
-}
-
-IconLine.propTypes = {
-  dataSign: _propTypes["default"].string,
-  children: _propTypes["default"].node,
-  icon: _propTypes["default"].node,
-  className: _propTypes["default"].string,
-  onClick: _propTypes["default"].func,
-  noBorder: _propTypes["default"].bool,
-  title: _propTypes["default"].string
 };
+
 IconLine.defaultProps = {
   dataSign: null,
   title: null
 };
+var _default = IconLine;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

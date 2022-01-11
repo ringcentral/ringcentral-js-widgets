@@ -13,9 +13,9 @@ Object.defineProperty(exports, "CallCtrlContainer", {
 });
 exports["default"] = void 0;
 
-var _CallCtrlContainer = _interopRequireDefault(require("./CallCtrlContainer"));
-
 var _phoneContext = require("../../lib/phoneContext");
+
+var _CallCtrlContainer = _interopRequireDefault(require("./CallCtrlContainer"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 

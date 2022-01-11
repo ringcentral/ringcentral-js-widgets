@@ -1,1 +1,1 @@
-{"version":3,"sources":["components/ConversationPanel/i18n/en-US.js"],"names":["dncAlert"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,QAAQ,EAAE;AADG,C","sourcesContent":["export default {\n  dncAlert: 'This contact is on a Do Not Call list.',\n};\n"],"file":"en-US.js"}
+{"version":3,"sources":["components/ConversationPanel/i18n/en-US.ts"],"names":["dncAlert"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,QAAQ,EAAE;AADG,C","sourcesContent":["export default {\n  dncAlert: 'This contact is on a Do Not Call list.',\n};\n"],"file":"en-US.js"}

@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  loginButton: "Sign in",
+  loginButton: "Sign In",
   signupButton: "New user? Sign up",
   version: "Version"
 }; // @key: @#@"loginButton"@#@ @source: @#@"Sign In"@#@

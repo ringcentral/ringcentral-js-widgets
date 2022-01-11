@@ -1,9 +1,11 @@
 import React, { FunctionComponent, ReactNode } from 'react';
+
 import classnames from 'classnames';
-import { map, addIndex } from 'ramda';
-import styles from '../styles.scss';
-import i18n from '../i18n';
+import { addIndex, map } from 'ramda';
+
 import { onClickMailTo } from '../ContactDetails.interface';
+import i18n from '../i18n';
+import styles from '../styles.scss';
 
 export interface EmailsProps extends onClickMailTo {
   currentLocale: string;

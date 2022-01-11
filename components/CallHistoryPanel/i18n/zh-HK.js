@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  today: "今天",
+  today: "今日",
   yesterday: "昨天",
   empty: "無通話紀錄"
 }; // @key: @#@"today"@#@ @source: @#@"Today"@#@

@@ -13,9 +13,9 @@ Object.defineProperty(exports, "CallLogPanel", {
 });
 exports["default"] = void 0;
 
-var _phoneContext = require("../../lib/phoneContext");
-
 var _CallLogPanel = _interopRequireDefault(require("../../components/CallLogPanel"));
+
+var _phoneContext = require("../../lib/phoneContext");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 

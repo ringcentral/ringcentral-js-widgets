@@ -8,13 +8,13 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 var _default = {
   currentCall: "Huidige oproep",
-  viewCalls: "Oproep bekijken",
+  viewCalls: "Oproep weergeven",
   view: "Weergeven",
   incomingCall: "{numberOf} inkomende oproep",
   incomingCalls: "{numberOf} inkomende oproepen",
   callOnHold: "{numberOf} oproep in de wacht",
-  callsOnHold: "{numberOf} oproepen staan in de wacht",
-  otherDeviceCall: "{numberOf} andere oproep",
+  callsOnHold: "{numberOf} oproepen in de wacht",
+  otherDeviceCall: "{numberOf} oproep op andere apparaten",
   otherDeviceCalls: "{numberOf} oproepen op andere apparaten"
 }; // @key: @#@"currentCall"@#@ @source: @#@"Current Call"@#@
 // @key: @#@"viewCalls"@#@ @source: @#@"View Calls"@#@

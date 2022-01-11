@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.ThemeContainer = void 0;
+exports.ThemeContainer = exports.GlobalStyle = void 0;
 
 require("core-js/modules/es6.object.define-properties");
 
@@ -13,16 +13,20 @@ require("core-js/modules/es6.object.freeze");
 
 require("core-js/modules/es6.array.slice");
 
-var _juno = require("@ringcentral/juno");
-
 var _react = _interopRequireDefault(require("react"));
 
+var _styledComponents = require("@ringcentral/juno/es6/foundation/styled-components.js");
+
+var _ThemeProvider = require("@ringcentral/juno/es6/foundation/theme/ThemeProvider.js");
+
 var _phoneContext = require("../../lib/phoneContext");
+
+var _utils = require("./utils");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _templateObject2() {
-  var data = _taggedTemplateLiteral(["", ""]);
+  var data = _taggedTemplateLiteral(["\n  :root {\n    ", ";\n  }\n"]);
 
   _templateObject2 = function _templateObject2() {
     return data;
@@ -32,7 +36,7 @@ function _templateObject2() {
 }
 
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n    :root {\n      --rc-blue: ", ";\n      --bigRed: ", ";\n      --darkRed: ", ";\n      --tomato: ", ";\n      --orange: ", ";\n      --leaf: ", ";\n      --dark: ", ";\n      --night: ", ";\n      --ash: ", ";\n      --coin: ", ";\n      --smoke: ", ";\n      --silver: ", ";\n      --egg: ", ";\n      --snow: ", ";\n      --rc-orange: ", ";\n      --darkergray: ", ";\n      --darkgray: ", ";\n      --gray: ", ";\n      --bggray: ", ";\n      --lightergray: ", ";\n      --lightgray: ", ";\n      --grey-light: ", ";\n      --missed: ", ";\n      --active: ", ";\n      --primary-color: ", ";\n      --primary-color-highlight: ", ";\n      --primary-color-highlight-solid: ", ";\n      --line-panel-background-color: ", ";\n      --call-btn-color: ", ";\n      --extension-background-color: ", ";\n      --sms-bubble-background-color: ", ";\n      --brand-font-color: ", ";\n      --brand-font-color-highlight: ", ";\n      --jupiter-background-color: ", ";\n      ", "\n      --c2d-arrow-color: ", ";\n      --add-meeting-btn-color: ", ";\n      --add-meeting-btn-text-color: ", ";\n      --header-logo-width: ", ";\n      --header-logo-height: ", ";\n    }\n  "]);
+  var data = _taggedTemplateLiteral(["\n  :root {\n    ", ";\n  }\n"]);
 
   _templateObject = function _templateObject() {
     return data;
@@ -43,21 +47,25 @@ function _templateObject() {
 
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
-var GlobalVariablesCss = function GlobalVariablesCss(_ref) {
-  var variable = _ref.variable;
-  return (0, _juno.css)(_templateObject(), variable.rcBlue, variable.bigRed, variable.darkRed, variable.tomato, variable.orange, variable.leaf, variable.dark, variable.night, variable.ash, variable.coin, variable.smoke, variable.silver, variable.egg, variable.snow, variable.rcOrange, variable.darkergray, variable.darkgray, variable.gray, variable.bggray, variable.lightergray, variable.lightgray, variable.greyLight, variable.missed, variable.active, variable.primaryColor, variable.primaryColorHighlight, variable.primaryColorHighlightSolid, variable.linePanelBackgroundColor, variable.callBtnColor, variable.extensionBackgroundColor, variable.smsBubbleBackgroundColor, variable.brandFontColor, variable.brandFontColorHighlight, variable.jupiterBackgroundColor, ''
-  /** project related overwrite */
-  , variable.c2dArrowColor, variable.addMeetingBtnColor, variable.addMeetingBtnTextColor, variable.headerLogoWidth, variable.headerLogoHeight);
-};
+var GlobalVariablesStyles = (0, _styledComponents.createGlobalStyle)(_templateObject(), function (_ref) {
+  var variable = _ref.variable,
+      theme = _ref.theme;
+  return (0, _utils.getThemeVariableString)(variable, theme);
+});
+var GlobalStyle = (0, _styledComponents.createGlobalStyle)(_templateObject2(), function (_ref2) {
+  var style = _ref2.style;
+  return style;
+});
+exports.GlobalStyle = GlobalStyle;
 
-var GlobalVariablesStyles = (0, _juno.createGlobalStyle)(_templateObject2(), GlobalVariablesCss);
-
-var ThemeProvider = function ThemeProvider(_ref2) {
-  var children = _ref2.children,
-      theme = _ref2.theme,
-      variable = _ref2.variable;
-  return /*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, {
-    theme: theme
+var ThemeProvider = function ThemeProvider(_ref3) {
+  var children = _ref3.children,
+      theme = _ref3.theme,
+      variable = _ref3.variable,
+      prefixGlobalClass = _ref3.prefixGlobalClass;
+  return /*#__PURE__*/_react["default"].createElement(_ThemeProvider.RcThemeProvider, {
+    theme: theme,
+    prefixGlobalClass: prefixGlobalClass
   }, /*#__PURE__*/_react["default"].createElement(GlobalVariablesStyles, {
     variable: variable
   }), children);

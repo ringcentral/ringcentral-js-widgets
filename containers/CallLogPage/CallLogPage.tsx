@@ -1,7 +1,8 @@
 import React from 'react';
-import { connectModule } from '../../lib/phoneContext';
+
 import CallLogPanel from '../../components/CallLogPanel';
+import { connectModule } from '../../lib/phoneContext';
 
 const CallLogPage = connectModule((phone) => phone.CallLogUI)(CallLogPanel);
 
-export { CallLogPanel, CallLogPage as default };
+export { CallLogPage as default, CallLogPanel };

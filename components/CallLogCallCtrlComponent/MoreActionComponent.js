@@ -15,11 +15,17 @@ var _react = _interopRequireDefault(require("react"));
 
 var _classnames3 = _interopRequireDefault(require("classnames"));
 
-var _juno = require("@ringcentral/juno");
+var _Icon = require("@ringcentral/juno/es6/components/Icon/Icon.js");
 
-var _styles = _interopRequireDefault(require("./styles.scss"));
+var _MenuItem = require("@ringcentral/juno/es6/components/Menu/MenuItem/MenuItem.js");
+
+var _MenuList = require("@ringcentral/juno/es6/components/Menu/MenuList/MenuList.js");
+
+var _Popover = require("@ringcentral/juno/es6/components/Popover/Popover.js");
 
 var _CircleButton = _interopRequireDefault(require("../CircleButton"));
+
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -49,7 +55,7 @@ var MoreActionComponent = function MoreActionComponent(_ref) {
     onClick: handleClick,
     className: (0, _classnames3["default"])(rootButtonProps.className, _styles["default"].button, _defineProperty({}, _styles["default"].buttonDisabled, disabled)),
     disabled: false
-  })), /*#__PURE__*/_react["default"].createElement(_juno.RcPopover, {
+  })), /*#__PURE__*/_react["default"].createElement(_Popover.RcPopover, {
     anchorOrigin: {
       vertical: 'top',
       horizontal: 'center'
@@ -66,7 +72,7 @@ var MoreActionComponent = function MoreActionComponent(_ref) {
     classes: popoverClasses
   }, /*#__PURE__*/_react["default"].createElement("div", {
     "data-sign": "".concat(dataSign, "List")
-  }, /*#__PURE__*/_react["default"].createElement(_juno.RcMenuList, null, actionsList.map(function (_ref2) {
+  }, /*#__PURE__*/_react["default"].createElement(_MenuList.RcMenuList, null, actionsList.map(function (_ref2) {
     var icon = _ref2.icon,
         text = _ref2.text,
         subText = _ref2.subText,
@@ -74,7 +80,7 @@ var MoreActionComponent = function MoreActionComponent(_ref) {
         disabled = _ref2.disabled,
         iconClassName = _ref2.iconClassName,
         key = _ref2.key;
-    return /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
+    return /*#__PURE__*/_react["default"].createElement(_MenuItem.RcMenuItem, {
       key: key,
       onClick: onClick,
       maxWidth: 170,
@@ -83,7 +89,7 @@ var MoreActionComponent = function MoreActionComponent(_ref) {
     }, /*#__PURE__*/_react["default"].createElement("div", {
       className: (0, _classnames3["default"])(_styles["default"].moreActionItem, _defineProperty({}, _styles["default"].withSubText, withSubText)),
       "data-sign": key
-    }, icon && /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
+    }, icon && /*#__PURE__*/_react["default"].createElement(_Icon.RcIcon, {
       size: "small",
       symbol: icon,
       className: iconClassName

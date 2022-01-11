@@ -25,7 +25,7 @@ var _default = {
   language: "Langue",
   feedback: "Commentaires",
   userGuide: "Nouveautés",
-  quickAccess: "Paramètre d'accès rapide",
+  quickAccess: "Paramètre d’accès rapide",
   report: "Rapport analytique",
   shareIdea: "Partager une idée"
 }; // @key: @#@"region"@#@ @source: @#@"Region"@#@

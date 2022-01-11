@@ -1,1 +1,1 @@
-{"version":3,"sources":["components/ForwardPanel/i18n/ja-JP.js"],"names":["forward"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,OAAO,EAAE;AADI,C,EAIf","sourcesContent":["export default {\n  forward: \"転送\"\n};\n\n// @key: @#@\"forward\"@#@ @source: @#@\"Forward\"@#@\n"],"file":"ja-JP.js"}
+{"version":3,"sources":["components/ForwardPanel/i18n/ja-JP.ts"],"names":["forward"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,OAAO,EAAE;AADI,C,EAIf","sourcesContent":["export default {\n  forward: \"転送\"\n};\n\n// @key: @#@\"forward\"@#@ @source: @#@\"Forward\"@#@\n"],"file":"ja-JP.js"}

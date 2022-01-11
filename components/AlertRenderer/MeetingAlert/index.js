@@ -5,11 +5,9 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = MeetingAlert;
+exports["default"] = void 0;
 
 var _react = _interopRequireDefault(require("react"));
-
-var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _meetingStatus = _interopRequireDefault(require("@ringcentral-integration/commons/modules/Meeting/meetingStatus"));
 
@@ -19,7 +17,7 @@ var _i18n = _interopRequireDefault(require("./i18n"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function MeetingAlert(_ref) {
+var MeetingAlert = function MeetingAlert(_ref) {
   var _ref$message = _ref.message,
       message = _ref$message.message,
       payload = _ref$message.payload,
@@ -46,18 +44,8 @@ function MeetingAlert(_ref) {
   return /*#__PURE__*/_react["default"].createElement("span", {
     "data-sign": "meeting-alert"
   }, msg);
-}
-
-MeetingAlert.propTypes = {
-  currentLocale: _propTypes["default"].string.isRequired,
-  message: _propTypes["default"].shape({
-    message: _propTypes["default"].string.isRequired,
-    payload: _propTypes["default"].shape({
-      permissionName: _propTypes["default"].string
-    })
-  }).isRequired,
-  application: _propTypes["default"].string
 };
+
 MeetingAlert.defaultProps = {
   application: undefined
 };
@@ -66,4 +54,7 @@ MeetingAlert.handleMessage = function (_ref2) {
   var message = _ref2.message;
   return message === _meetingStatus["default"].emptyTopic || message === _meetingStatus["default"].noPassword || message === _meetingStatus["default"].insufficientPermissions || message === _meetingStatus["default"].scheduledSuccess || message === _meetingStatus["default"].updatedSuccess || message === _meetingStatus["default"].meetingIsDeleted || message === _meetingStatus["default"].internalError;
 };
+
+var _default = MeetingAlert;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

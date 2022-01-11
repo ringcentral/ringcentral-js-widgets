@@ -1,81 +1,31 @@
 "use strict";
 
+require("core-js/modules/web.dom.iterable");
+
+require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
+
+require("core-js/modules/es6.object.keys");
+
+require("core-js/modules/es6.array.for-each");
+
 require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = LoginPanel;
 
-var _react = _interopRequireDefault(require("react"));
+var _LoginPanel = require("./LoginPanel");
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
-var _classnames = _interopRequireDefault(require("classnames"));
-
-var _styles = _interopRequireDefault(require("./styles.scss"));
-
-var _i18n = _interopRequireDefault(require("./i18n"));
-
-var _SpinnerOverlay = require("../SpinnerOverlay");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function LoginPanel(_ref) {
-  var className = _ref.className,
-      onLoginButtonClick = _ref.onLoginButtonClick,
-      currentLocale = _ref.currentLocale,
-      disabled = _ref.disabled,
-      version = _ref.version,
-      showSpinner = _ref.showSpinner,
-      customSpinner = _ref.customSpinner,
-      children = _ref.children,
-      showSignUp = _ref.showSignUp,
-      onSignUpButtonClick = _ref.onSignUpButtonClick,
-      customStyles = _ref.customStyles;
-  var spinner = showSpinner ? /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, customSpinner ? {
-    custom: customSpinner
-  } : {}) : null;
-  var versionDisplay = version ? /*#__PURE__*/_react["default"].createElement("div", {
-    className: _styles["default"].versionContainer
-  }, _i18n["default"].getString('version', currentLocale), " ", version) : null;
-  return /*#__PURE__*/_react["default"].createElement("div", {
-    className: (0, _classnames["default"])(_styles["default"].root, className)
-  }, /*#__PURE__*/_react["default"].createElement("button", {
-    type: "button",
-    "data-sign": "loginButton",
-    className: (0, _classnames["default"])(_styles["default"].loginButton, customStyles),
-    onClick: onLoginButtonClick,
-    disabled: disabled
-  }, _i18n["default"].getString('loginButton', currentLocale)), showSignUp && /*#__PURE__*/_react["default"].createElement("button", {
-    type: "button",
-    className: _styles["default"].signUpButton,
-    onClick: onSignUpButtonClick
-  }, _i18n["default"].getString('signupButton', currentLocale)), versionDisplay, spinner, children);
-}
-
-LoginPanel.propTypes = {
-  className: _propTypes["default"].string,
-  currentLocale: _propTypes["default"].string.isRequired,
-  onLoginButtonClick: _propTypes["default"].func.isRequired,
-  disabled: _propTypes["default"].bool,
-  version: _propTypes["default"].string,
-  showSpinner: _propTypes["default"].bool,
-  customSpinner: _propTypes["default"].func,
-  children: _propTypes["default"].node,
-  showSignUp: _propTypes["default"].bool,
-  onSignUpButtonClick: _propTypes["default"].func,
-  customStyles: _propTypes["default"].string
-};
-LoginPanel.defaultProps = {
-  className: null,
-  disabled: false,
-  version: undefined,
-  showSpinner: false,
-  customSpinner: undefined,
-  children: undefined,
-  showSignUp: false,
-  onSignUpButtonClick: function onSignUpButtonClick() {},
-  customStyles: undefined
-};
+Object.keys(_LoginPanel).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _LoginPanel[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _LoginPanel[key];
+    }
+  });
+});
 //# sourceMappingURL=index.js.map

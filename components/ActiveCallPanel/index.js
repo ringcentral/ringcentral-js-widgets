@@ -11,27 +11,25 @@ require("core-js/modules/es6.function.name");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
 var _is_type = require("@ringcentral-integration/commons/lib/di/utils/is_type");
 
-var _CallInfo = _interopRequireDefault(require("./CallInfo"));
+var _callCtrlLayouts = _interopRequireDefault(require("../../enums/callCtrlLayouts"));
 
-var _MergeInfo = _interopRequireDefault(require("./MergeInfo"));
-
-var _ConferenceInfo = _interopRequireDefault(require("./ConferenceInfo"));
+var _ActiveCallPad = _interopRequireDefault(require("../ActiveCallPad"));
 
 var _BackButton = _interopRequireDefault(require("../BackButton"));
 
 var _BackHeader = _interopRequireDefault(require("../BackHeader"));
 
-var _Panel = _interopRequireDefault(require("../Panel"));
-
 var _DurationCounter = _interopRequireDefault(require("../DurationCounter"));
 
-var _ActiveCallPad = _interopRequireDefault(require("../ActiveCallPad"));
+var _Panel = _interopRequireDefault(require("../Panel"));
 
-var _callCtrlLayouts = _interopRequireDefault(require("../../enums/callCtrlLayouts"));
+var _CallInfo = _interopRequireDefault(require("./CallInfo"));
+
+var _ConferenceInfo = _interopRequireDefault(require("./ConferenceInfo"));
+
+var _MergeInfo = _interopRequireDefault(require("./MergeInfo"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
@@ -198,62 +196,6 @@ var ActiveCallPanel = function ActiveCallPanel(_ref) {
   }), children));
 };
 
-ActiveCallPanel.propTypes = {
-  phoneNumber: _propTypes["default"].string,
-  nameMatches: _propTypes["default"].arrayOf(_propTypes["default"].object).isRequired,
-  fallBackName: _propTypes["default"].string.isRequired,
-  currentLocale: _propTypes["default"].string.isRequired,
-  startTime: _propTypes["default"].number,
-  startTimeOffset: _propTypes["default"].number,
-  isOnMute: _propTypes["default"].bool,
-  isOnHold: _propTypes["default"].bool,
-  recordStatus: _propTypes["default"].string.isRequired,
-  onMute: _propTypes["default"].func.isRequired,
-  onUnmute: _propTypes["default"].func.isRequired,
-  onHold: _propTypes["default"].func.isRequired,
-  onUnhold: _propTypes["default"].func.isRequired,
-  onRecord: _propTypes["default"].func.isRequired,
-  onStopRecord: _propTypes["default"].func.isRequired,
-  onAdd: _propTypes["default"].func,
-  onMerge: _propTypes["default"].func,
-  onHangup: _propTypes["default"].func.isRequired,
-  showBackButton: _propTypes["default"].bool,
-  backButtonLabel: _propTypes["default"].string,
-  onBackButtonClick: _propTypes["default"].func,
-  onShowKeyPad: _propTypes["default"].func.isRequired,
-  formatPhone: _propTypes["default"].func.isRequired,
-  children: _propTypes["default"].node,
-  areaCode: _propTypes["default"].string.isRequired,
-  countryCode: _propTypes["default"].string.isRequired,
-  selectedMatcherIndex: _propTypes["default"].number.isRequired,
-  onSelectMatcherName: _propTypes["default"].func.isRequired,
-  avatarUrl: _propTypes["default"].string,
-  brand: _propTypes["default"].string,
-  showContactDisplayPlaceholder: _propTypes["default"].bool,
-  onFlip: _propTypes["default"].func,
-  disableFlip: _propTypes["default"].bool,
-  onPark: _propTypes["default"].func,
-  showPark: _propTypes["default"].bool,
-  gotoParticipantsCtrl: _propTypes["default"].func,
-  sourceIcons: _propTypes["default"].object,
-  phoneTypeRenderer: _propTypes["default"].func,
-  phoneSourceNameRenderer: _propTypes["default"].func,
-  layout: _propTypes["default"].string.isRequired,
-  direction: _propTypes["default"].string,
-  addDisabled: _propTypes["default"].bool,
-  mergeDisabled: _propTypes["default"].bool,
-  conferenceCallParties: _propTypes["default"].array,
-  conferenceCallEquipped: _propTypes["default"].bool,
-  hasConferenceCall: _propTypes["default"].bool,
-  lastCallInfo: _propTypes["default"].object,
-  getAvatarUrl: _propTypes["default"].func,
-  actions: _propTypes["default"].array,
-  controlBusy: _propTypes["default"].bool,
-  callQueueName: _propTypes["default"].string,
-  isOnWaitingTransfer: _propTypes["default"].bool,
-  onCompleteTransfer: _propTypes["default"].func,
-  isOnTransfer: _propTypes["default"].bool
-};
 ActiveCallPanel.defaultProps = {
   startTime: null,
   startTimeOffset: 0,

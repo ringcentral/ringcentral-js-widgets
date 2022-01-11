@@ -13,11 +13,11 @@ require("core-js/modules/es6.array.map");
 
 var _react = _interopRequireDefault(require("react"));
 
+var _toolTipDelayTime = require("../../../lib/toolTipDelayTime");
+
 var _Tooltip = require("../../Rcui/Tooltip");
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
-
-var _toolTipDelayTime = require("../../../lib/toolTipDelayTime");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 

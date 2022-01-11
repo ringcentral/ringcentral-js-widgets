@@ -1,5 +1,6 @@
+import React, { FunctionComponent, ReactNode } from 'react';
+
 import classnames from 'classnames';
-import React, { ReactNode } from 'react';
 
 import DropdownNavigationView from '../DropdownNavigationView';
 import NavigationBar, { NavigationBarProps } from '../NavigationBar';
@@ -7,12 +8,12 @@ import { SpinnerOverlay } from '../SpinnerOverlay';
 import TabNavigationButton from '../TabNavigationButton';
 import styles from './styles.scss';
 
-interface TabNavigationViewProps {
+export interface TabNavigationViewProps {
   children?: ReactNode;
   className?: string;
   currentPath: string;
   currentVirtualPath?: string;
-  goTo: (...args: any[]) => any;
+  goTo: NavigationBarProps['goTo'];
   navigationPosition?: 'top' | 'bottom' | 'left';
   brandIcon?: ReactNode;
   tabWidth?: string;
@@ -22,9 +23,10 @@ interface TabNavigationViewProps {
   navBarClassName?: string;
   tabNavigationViewClassName?: string;
   onLoading?: boolean;
+  tooltipForceHide?: boolean;
 }
 
-const TabNavigationView: React.FunctionComponent<TabNavigationViewProps> = ({
+const TabNavigationView: FunctionComponent<TabNavigationViewProps> = ({
   navigationPosition,
   navBarClassName,
   onLoading,
@@ -38,6 +40,7 @@ const TabNavigationView: React.FunctionComponent<TabNavigationViewProps> = ({
   currentPath,
   currentVirtualPath,
   tabNavigationViewClassName,
+  tooltipForceHide,
   children,
 }) => {
   if (onLoading) {
@@ -48,6 +51,7 @@ const TabNavigationView: React.FunctionComponent<TabNavigationViewProps> = ({
   const navBar = (
     <NavigationBar
       button={TabNavigationButton}
+      tooltipForceHide={tooltipForceHide}
       childNavigationView={DropdownNavigationView}
       tabs={tabs}
       goTo={goTo}

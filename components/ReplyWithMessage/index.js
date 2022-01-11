@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -16,34 +16,46 @@ require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.weak-map");
 
-require("core-js/modules/es6.object.define-property");
-
 require("core-js/modules/es6.object.create");
 
+require("core-js/modules/es6.object.define-property");
+
 require("core-js/modules/es6.reflect.construct");
+
+require("core-js/modules/es6.object.set-prototype-of");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 
-require("core-js/modules/es6.object.set-prototype-of");
+require("core-js/modules/es6.object.define-properties");
+
+require("core-js/modules/es6.object.freeze");
+
+require("core-js/modules/es6.array.slice");
 
 require("core-js/modules/es6.regexp.replace");
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
 var _classnames = _interopRequireDefault(require("classnames"));
 
 var _isBlank = _interopRequireDefault(require("@ringcentral-integration/commons/lib/isBlank"));
 
+var _MenuItem = require("@ringcentral/juno/es6/components/Menu/MenuItem/MenuItem.js");
+
+var _MenuList = require("@ringcentral/juno/es6/components/Menu/MenuList/MenuList.js");
+
+var _styledComponents = _interopRequireDefault(require("@ringcentral/juno/es6/foundation/styled-components.js"));
+
 var _Button = require("../Button");
+
+var _i18n = _interopRequireDefault(require("./i18n"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
-var _i18n = _interopRequireDefault(require("./i18n"));
+var _TimeInput = require("./TimeInput");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -55,15 +67,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } Object.defineProperty(subClass, "prototype", { value: Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }), writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
@@ -71,54 +83,26 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["\n  flex-wrap: wrap;\n"]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
 var CALL_YOU = 0;
 var CALL_ME = 1;
 var ON_MY_WAY = 2;
 var CUSTOM_MESSAGE = 3;
-var MINS = 0;
-var HOURS = 1;
-var DAYS = 2;
 var cleanRegex = /[^\d]/g;
-
-function TimeInput(props) {
-  return /*#__PURE__*/_react["default"].createElement("div", {
-    className: _styles["default"].timeInput
-  }, /*#__PURE__*/_react["default"].createElement("span", {
-    className: _styles["default"].timeValue
-  }, /*#__PURE__*/_react["default"].createElement("input", {
-    maxLength: 2,
-    value: props.timeValue,
-    onChange: props.onTimeValueChange,
-    ref: props.inputRef
-  })), /*#__PURE__*/_react["default"].createElement("span", {
-    onClick: function onClick() {
-      return props.onSelectTimeUnit(MINS);
-    },
-    className: props.timeUnit === MINS ? _styles["default"].timeUnitSelected : null
-  }, _i18n["default"].getString('min', props.currentLocale)), /*#__PURE__*/_react["default"].createElement("span", {
-    className: props.timeUnit === HOURS ? _styles["default"].timeUnitSelected : null,
-    onClick: function onClick() {
-      return props.onSelectTimeUnit(HOURS);
-    }
-  }, _i18n["default"].getString('hours', props.currentLocale)), /*#__PURE__*/_react["default"].createElement("span", {
-    className: props.timeUnit === DAYS ? _styles["default"].timeUnitSelected : null,
-    onClick: function onClick() {
-      return props.onSelectTimeUnit(DAYS);
-    }
-  }, _i18n["default"].getString('days', props.currentLocale)));
-}
-
-TimeInput.propTypes = {
-  currentLocale: _propTypes["default"].string.isRequired,
-  timeValue: _propTypes["default"].string,
-  timeUnit: _propTypes["default"].number,
-  inputRef: _propTypes["default"].func.isRequired,
-  onTimeValueChange: _propTypes["default"].func.isRequired,
-  onSelectTimeUnit: _propTypes["default"].func.isRequired
-};
-TimeInput.defaultProps = {
-  timeValue: '',
-  timeUnit: MINS
+var StyledMenuItem = (0, _styledComponents["default"])(_MenuItem.RcMenuItem)(_templateObject());
+StyledMenuItem.defaultProps = {
+  disableRipple: true
 };
 
 var ReplyWithMessage = /*#__PURE__*/function (_Component) {
@@ -132,14 +116,9 @@ var ReplyWithMessage = /*#__PURE__*/function (_Component) {
     _classCallCheck(this, ReplyWithMessage);
 
     _this = _super.call(this, props);
-    _this.state = {
-      type: ON_MY_WAY,
-      customValue: '',
-      callYouTimeValue: '',
-      callYouTimeUnit: MINS,
-      callMeTimeValue: '',
-      callMeTimeUnit: MINS
-    };
+    _this.callYouInputRef = void 0;
+    _this.callMeInputRef = void 0;
+    _this.customValueInput = void 0;
 
     _this.onSelectType = function (index) {
       _this.setState({
@@ -199,6 +178,14 @@ var ReplyWithMessage = /*#__PURE__*/function (_Component) {
       _this.callMeInputRef = input;
     };
 
+    _this.state = {
+      type: ON_MY_WAY,
+      customValue: '',
+      callYouTimeValue: '',
+      callYouTimeUnit: _TimeInput.MINS,
+      callMeTimeValue: '',
+      callMeTimeUnit: _TimeInput.MINS
+    };
     return _this;
   }
 
@@ -247,9 +234,9 @@ var ReplyWithMessage = /*#__PURE__*/function (_Component) {
       var disableButton = (0, _isBlank["default"])(this._getValue().replyText) || disabled;
       return /*#__PURE__*/_react["default"].createElement("div", {
         className: (0, _classnames["default"])(_styles["default"].root, className)
-      }, /*#__PURE__*/_react["default"].createElement("div", {
+      }, /*#__PURE__*/_react["default"].createElement(_MenuList.RcMenuList, {
         className: _styles["default"].messages
-      }, /*#__PURE__*/_react["default"].createElement("div", {
+      }, /*#__PURE__*/_react["default"].createElement(StyledMenuItem, {
         onClick: function onClick() {
           _this2.onSelectType(CALL_YOU);
 
@@ -263,14 +250,14 @@ var ReplyWithMessage = /*#__PURE__*/function (_Component) {
         className: _styles["default"].label
       }, _i18n["default"].getString('willCallYouBackIn', currentLocale), "..."), /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].inputField
-      }, /*#__PURE__*/_react["default"].createElement(TimeInput, {
+      }, /*#__PURE__*/_react["default"].createElement(_TimeInput.TimeInput, {
         currentLocale: currentLocale,
         timeValue: this.state.callYouTimeValue,
         timeUnit: this.state.callYouTimeUnit,
         onTimeValueChange: this.onCallYouTimeValueChange,
         onSelectTimeUnit: this.onCallYouTimeUnitChange,
         inputRef: this.onCallYouInputRef
-      }))), /*#__PURE__*/_react["default"].createElement("div", {
+      }))), /*#__PURE__*/_react["default"].createElement(StyledMenuItem, {
         onClick: function onClick() {
           _this2.onSelectType(CALL_ME);
 
@@ -284,14 +271,14 @@ var ReplyWithMessage = /*#__PURE__*/function (_Component) {
         className: _styles["default"].label
       }, _i18n["default"].getString('callMeBackIn', currentLocale), "..."), /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].inputField
-      }, /*#__PURE__*/_react["default"].createElement(TimeInput, {
+      }, /*#__PURE__*/_react["default"].createElement(_TimeInput.TimeInput, {
         currentLocale: currentLocale,
         timeValue: this.state.callMeTimeValue,
         timeUnit: this.state.callMeTimeUnit,
         onTimeValueChange: this.onCallMeTimeValueChange,
         onSelectTimeUnit: this.onCallMeTimeUnitChange,
         inputRef: this.onCallMeInputRef
-      }))), /*#__PURE__*/_react["default"].createElement("div", {
+      }))), /*#__PURE__*/_react["default"].createElement(StyledMenuItem, {
         onClick: function onClick() {
           return _this2.onSelectType(ON_MY_WAY);
         },
@@ -299,7 +286,7 @@ var ReplyWithMessage = /*#__PURE__*/function (_Component) {
         "data-sign": "onMyWay"
       }, /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].label
-      }, _i18n["default"].getString('onMyWay', currentLocale))), /*#__PURE__*/_react["default"].createElement("div", {
+      }, _i18n["default"].getString('onMyWay', currentLocale))), /*#__PURE__*/_react["default"].createElement(StyledMenuItem, {
         onClick: function onClick() {
           _this2.onSelectType(CUSTOM_MESSAGE);
 
@@ -340,17 +327,10 @@ var ReplyWithMessage = /*#__PURE__*/function (_Component) {
   return ReplyWithMessage;
 }(_react.Component);
 
-exports["default"] = ReplyWithMessage;
-ReplyWithMessage.propTypes = {
-  className: _propTypes["default"].string,
-  onCancel: _propTypes["default"].func.isRequired,
-  onReply: _propTypes["default"].func.isRequired,
-  currentLocale: _propTypes["default"].string.isRequired,
-  onChange: _propTypes["default"].func,
-  disabled: _propTypes["default"].bool.isRequired
-};
 ReplyWithMessage.defaultProps = {
   className: null,
   onChange: undefined
 };
+var _default = ReplyWithMessage;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

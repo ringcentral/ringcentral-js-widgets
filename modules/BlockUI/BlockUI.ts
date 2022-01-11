@@ -1,5 +1,5 @@
-import { computed, RcUIModuleV2 } from '@ringcentral-integration/core';
 import { Module } from '@ringcentral-integration/commons/lib/di';
+import { computed, RcUIModuleV2 } from '@ringcentral-integration/core';
 
 import { BlockItem } from '../Block';
 import { Deps, GetBlockUIProps } from './BlockUI.interface';

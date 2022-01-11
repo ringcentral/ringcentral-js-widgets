@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -18,30 +18,30 @@ require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.object.to-string");
 
-require("core-js/modules/es6.object.define-property");
-
 require("core-js/modules/es6.object.create");
+
+require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.reflect.construct");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = exports.PreviewButton = exports.MarkButton = exports.DeleteButton = exports.ClickToSmsButton = exports.ClickToDialButton = exports.ConfirmDeleteModal = void 0;
+exports["default"] = exports.PreviewButton = exports.MarkButton = exports.DeleteButton = exports.ConfirmDeleteModal = exports.ClickToSmsButton = exports.ClickToDialButton = void 0;
 
 require("core-js/modules/es6.object.set-prototype-of");
 
 require("regenerator-runtime/runtime");
 
+var _react = _interopRequireWildcard(require("react"));
+
 var _classnames = _interopRequireDefault(require("classnames"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _react = _interopRequireWildcard(require("react"));
+var _extensionTypes = require("@ringcentral-integration/commons/enums/extensionTypes");
 
 var _messageTypes = _interopRequireDefault(require("@ringcentral-integration/commons/enums/messageTypes"));
-
-var _extensionTypes = require("@ringcentral-integration/commons/enums/extensionTypes");
 
 var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
 
@@ -69,11 +69,11 @@ var _i18n = _interopRequireDefault(require("./i18n"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -83,15 +83,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } Object.defineProperty(subClass, "prototype", { value: Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }), writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
@@ -396,6 +396,78 @@ var ActionMenuList = /*#__PURE__*/function (_Component) {
       }
     };
 
+    _this.getEntityButton = function () {
+      var _this$props2 = _this.props,
+          hasEntity = _this$props2.hasEntity,
+          phoneNumber = _this$props2.phoneNumber,
+          disableLinks = _this$props2.disableLinks,
+          onViewEntity = _this$props2.onViewEntity,
+          onCreateEntity = _this$props2.onCreateEntity,
+          createEntityTitle = _this$props2.createEntityTitle,
+          viewEntityTitle = _this$props2.viewEntityTitle,
+          externalViewEntity = _this$props2.externalViewEntity,
+          externalHasEntity = _this$props2.externalHasEntity,
+          showChooseEntityModal = _this$props2.showChooseEntityModal,
+          shouldHideEntityButton = _this$props2.shouldHideEntityButton,
+          selectedMatchContactType = _this$props2.selectedMatchContactType;
+
+      if (shouldHideEntityButton) {
+        return null;
+      }
+
+      if (externalViewEntity) {
+        if (externalHasEntity) {
+          return /*#__PURE__*/_react["default"].createElement(_EntityButton["default"], {
+            className: _styles["default"].button,
+            onViewEntity: externalViewEntity,
+            hasEntity: externalHasEntity,
+            disableLinks: disableLinks,
+            viewEntityTitle: viewEntityTitle
+          });
+        }
+
+        if (phoneNumber && onCreateEntity) {
+          return /*#__PURE__*/_react["default"].createElement(_EntityButton["default"], {
+            className: _styles["default"].button,
+            onCreateEntity: showChooseEntityModal ? _this.openEntityModal : function () {
+              return onCreateEntity();
+            },
+            hasEntity: externalHasEntity,
+            disableLinks: disableLinks,
+            createEntityTitle: createEntityTitle
+          });
+        }
+
+        return null;
+      }
+
+      var isIvrContact = selectedMatchContactType === _extensionTypes.extensionTypes.ivrMenu;
+
+      if (hasEntity && onViewEntity && !isIvrContact) {
+        return /*#__PURE__*/_react["default"].createElement(_EntityButton["default"], {
+          className: _styles["default"].button,
+          onViewEntity: onViewEntity,
+          hasEntity: hasEntity,
+          disableLinks: disableLinks,
+          viewEntityTitle: viewEntityTitle
+        });
+      }
+
+      if (!hasEntity && phoneNumber && onCreateEntity) {
+        return /*#__PURE__*/_react["default"].createElement(_EntityButton["default"], {
+          className: _styles["default"].button,
+          onCreateEntity: showChooseEntityModal ? _this.openEntityModal : function () {
+            return onCreateEntity();
+          },
+          hasEntity: hasEntity,
+          disableLinks: disableLinks,
+          createEntityTitle: createEntityTitle
+        });
+      }
+
+      return null;
+    };
+
     _this.state = {
       entityModalVisible: false,
       deleteModalVisible: false,
@@ -403,7 +475,7 @@ var ActionMenuList = /*#__PURE__*/function (_Component) {
       marking: false
     };
     _this.onMark = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-      var _this$props2, marked, onUnmark, onMark, onClick;
+      var _this$props3, marked, onUnmark, onMark, onClick;
 
       return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
@@ -421,7 +493,7 @@ var ActionMenuList = /*#__PURE__*/function (_Component) {
                 marking: true
               });
 
-              _this$props2 = _this.props, marked = _this$props2.marked, onUnmark = _this$props2.onUnmark, onMark = _this$props2.onMark;
+              _this$props3 = _this.props, marked = _this$props3.marked, onUnmark = _this$props3.onUnmark, onMark = _this$props3.onMark;
               onClick = marked ? onUnmark : onMark;
               _context.prev = 5;
               _context.next = 8;
@@ -453,48 +525,40 @@ var ActionMenuList = /*#__PURE__*/function (_Component) {
   _createClass(ActionMenuList, [{
     key: "render",
     value: function render() {
-      var _this$props3 = this.props,
-          className = _this$props3.className,
-          type = _this$props3.type,
-          currentLocale = _this$props3.currentLocale,
-          onLog = _this$props3.onLog,
-          isLogged = _this$props3.isLogged,
-          isLogging = _this$props3.isLogging,
-          onViewEntity = _this$props3.onViewEntity,
-          onCreateEntity = _this$props3.onCreateEntity,
-          createEntityTypes = _this$props3.createEntityTypes,
-          hasEntity = _this$props3.hasEntity,
-          onClickToDial = _this$props3.onClickToDial,
-          onClickToSms = _this$props3.onClickToSms,
-          phoneNumber = _this$props3.phoneNumber,
-          disableLinks = _this$props3.disableLinks,
-          disableCallButton = _this$props3.disableCallButton,
-          disableClickToDial = _this$props3.disableClickToDial,
-          addLogTitle = _this$props3.addLogTitle,
-          editLogTitle = _this$props3.editLogTitle,
-          callTitle = _this$props3.callTitle,
-          textTitle = _this$props3.textTitle,
-          createEntityTitle = _this$props3.createEntityTitle,
-          viewEntityTitle = _this$props3.viewEntityTitle,
-          onDelete = _this$props3.onDelete,
-          deleteTitle = _this$props3.deleteTitle,
-          onMark = _this$props3.onMark,
-          marked = _this$props3.marked,
-          markTitle = _this$props3.markTitle,
-          unmarkTitle = _this$props3.unmarkTitle,
-          previewTitle = _this$props3.previewTitle,
-          downloadTitle = _this$props3.downloadTitle,
-          onPreview = _this$props3.onPreview,
-          faxAttachment = _this$props3.faxAttachment,
-          externalViewEntity = _this$props3.externalViewEntity,
-          externalHasEntity = _this$props3.externalHasEntity,
-          disableClickToSms = _this$props3.disableClickToSms,
-          selectedMatchContactType = _this$props3.selectedMatchContactType,
-          showChooseEntityModal = _this$props3.showChooseEntityModal,
-          shouldHideEntityButton = _this$props3.shouldHideEntityButton;
+      var _this$props4 = this.props,
+          className = _this$props4.className,
+          type = _this$props4.type,
+          currentLocale = _this$props4.currentLocale,
+          onLog = _this$props4.onLog,
+          isLogged = _this$props4.isLogged,
+          isLogging = _this$props4.isLogging,
+          createEntityTypes = _this$props4.createEntityTypes,
+          hasEntity = _this$props4.hasEntity,
+          onClickToDial = _this$props4.onClickToDial,
+          onClickToSms = _this$props4.onClickToSms,
+          phoneNumber = _this$props4.phoneNumber,
+          disableLinks = _this$props4.disableLinks,
+          disableCallButton = _this$props4.disableCallButton,
+          disableClickToDial = _this$props4.disableClickToDial,
+          addLogTitle = _this$props4.addLogTitle,
+          editLogTitle = _this$props4.editLogTitle,
+          callTitle = _this$props4.callTitle,
+          textTitle = _this$props4.textTitle,
+          onDelete = _this$props4.onDelete,
+          deleteTitle = _this$props4.deleteTitle,
+          onMark = _this$props4.onMark,
+          marked = _this$props4.marked,
+          markTitle = _this$props4.markTitle,
+          unmarkTitle = _this$props4.unmarkTitle,
+          previewTitle = _this$props4.previewTitle,
+          downloadTitle = _this$props4.downloadTitle,
+          onPreview = _this$props4.onPreview,
+          faxAttachment = _this$props4.faxAttachment,
+          disableClickToSms = _this$props4.disableClickToSms;
       var _this$state = this.state,
           deleteModalVisible = _this$state.deleteModalVisible,
-          disableDelete = _this$state.disableDelete;
+          disableDelete = _this$state.disableDelete,
+          entityModalVisible = _this$state.entityModalVisible;
       var logButton = onLog ? /*#__PURE__*/_react["default"].createElement(_LogButton["default"], {
         className: _styles["default"].button,
         onLog: onLog,
@@ -505,59 +569,11 @@ var ActionMenuList = /*#__PURE__*/function (_Component) {
         addTitle: addLogTitle,
         editTitle: editLogTitle
       }) : null;
-      var isIvrContact = selectedMatchContactType === _extensionTypes.extensionTypes.ivrMenu;
-      var entityButton;
-
-      if (shouldHideEntityButton) {
-        entityButton = null;
-      } else if (externalViewEntity) {
-        if (externalHasEntity) {
-          entityButton = /*#__PURE__*/_react["default"].createElement(_EntityButton["default"], {
-            className: _styles["default"].button,
-            onViewEntity: externalViewEntity,
-            hasEntity: externalHasEntity,
-            disableLinks: disableLinks,
-            viewEntityTitle: viewEntityTitle
-          });
-        } else if (phoneNumber && onCreateEntity) {
-          entityButton = /*#__PURE__*/_react["default"].createElement(_EntityButton["default"], {
-            className: _styles["default"].button,
-            onCreateEntity: showChooseEntityModal ? this.openEntityModal : function () {
-              return onCreateEntity();
-            },
-            hasEntity: externalHasEntity,
-            disableLinks: disableLinks,
-            createEntityTitle: createEntityTitle
-          });
-        } else {
-          entityButton = null;
-        }
-      } else if (hasEntity && onViewEntity && !isIvrContact) {
-        entityButton = /*#__PURE__*/_react["default"].createElement(_EntityButton["default"], {
-          className: _styles["default"].button,
-          onViewEntity: onViewEntity,
-          hasEntity: hasEntity,
-          disableLinks: disableLinks,
-          viewEntityTitle: viewEntityTitle
-        });
-      } else if (!hasEntity && phoneNumber && onCreateEntity) {
-        entityButton = /*#__PURE__*/_react["default"].createElement(_EntityButton["default"], {
-          className: _styles["default"].button,
-          onCreateEntity: showChooseEntityModal ? this.openEntityModal : function () {
-            return onCreateEntity();
-          },
-          hasEntity: hasEntity,
-          disableLinks: disableLinks,
-          createEntityTitle: createEntityTitle
-        });
-      } else {
-        entityButton = null;
-      }
-
+      var entityButton = this.getEntityButton();
       var entityModal = !hasEntity && phoneNumber ? /*#__PURE__*/_react["default"].createElement(_EntityModal["default"], {
         currentLocale: currentLocale,
         entities: createEntityTypes,
-        show: this.state.entityModalVisible,
+        show: entityModalVisible,
         onCreate: this.onCreateEnityModal,
         onCancel: this.onCancelEntityModal
       }) : null;
@@ -627,7 +643,6 @@ var ActionMenuList = /*#__PURE__*/function (_Component) {
   return ActionMenuList;
 }(_react.Component);
 
-exports["default"] = ActionMenuList;
 ActionMenuList.propTypes = {
   className: _propTypes["default"].string,
   type: _propTypes["default"].string,
@@ -713,4 +728,6 @@ ActionMenuList.defaultProps = {
   showChooseEntityModal: true,
   shouldHideEntityButton: false
 };
+var _default = ActionMenuList;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 require("core-js/modules/es6.object.define-property");
 
@@ -39,7 +39,15 @@ require("core-js/modules/es6.array.map");
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _juno = require("@ringcentral/juno");
+var _Icon = require("@ringcentral/juno/es6/components/Icon/Icon.js");
+
+var _IconButton = require("@ringcentral/juno/es6/components/Buttons/IconButton/IconButton.js");
+
+var _Menu = require("@ringcentral/juno/es6/components/Menu/Menu/Menu.js");
+
+var _MenuItem = require("@ringcentral/juno/es6/components/Menu/MenuItem/MenuItem.js");
+
+var _SubMenu = require("@ringcentral/juno/es6/components/Menu/SubMenu/SubMenu.js");
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
@@ -53,7 +61,7 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-function _iterableToArrayLimit(arr, i) { var _i = arr && (typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]); if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
@@ -85,13 +93,13 @@ var MenuButton = /*#__PURE__*/(0, _react.memo)(function (_ref) {
         subMenu = _ref2.subMenu,
         dataSign = _ref2.dataSign;
 
-    var menuIcon = icon && /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
+    var menuIcon = icon && /*#__PURE__*/_react["default"].createElement(_Icon.RcIcon, {
       symbol: icon,
       size: "small"
     });
 
     if (action) {
-      return /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
+      return /*#__PURE__*/_react["default"].createElement(_MenuItem.RcMenuItem, {
         onClick: action,
         icon: menuIcon,
         key: label,
@@ -101,7 +109,7 @@ var MenuButton = /*#__PURE__*/(0, _react.memo)(function (_ref) {
     }
 
     if (subMenu) {
-      return /*#__PURE__*/_react["default"].createElement(_juno.RcSubMenu, {
+      return /*#__PURE__*/_react["default"].createElement(_SubMenu.RcSubMenu, {
         title: label,
         icon: menuIcon,
         key: label,
@@ -111,14 +119,14 @@ var MenuButton = /*#__PURE__*/(0, _react.memo)(function (_ref) {
     }
   };
 
-  return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {
+  return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_IconButton.RcIconButton, {
     onClick: handleClick,
     symbol: icon,
     size: "medium",
     variant: "plain",
     disabled: disabled,
     "data-sign": dataSign
-  }), /*#__PURE__*/_react["default"].createElement(_juno.RcMenu, {
+  }), /*#__PURE__*/_react["default"].createElement(_Menu.RcMenu, {
     anchorEl: anchorEl,
     keepMounted: true,
     autoClose: true,

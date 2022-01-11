@@ -9,9 +9,9 @@ exports["default"] = void 0;
 
 require("core-js/modules/es6.array.map");
 
-var _classnames = _interopRequireDefault(require("classnames"));
-
 var _react = _interopRequireDefault(require("react"));
+
+var _classnames = _interopRequireDefault(require("classnames"));
 
 var _Message = _interopRequireDefault(require("../Message"));
 

@@ -40,11 +40,8 @@ var pickEleByProps = function pickEleByProps() {
 
 exports.pickEleByProps = pickEleByProps;
 
-var pickFallBackInfo = function pickFallBackInfo() {
-  var call = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
-  var contactName = arguments.length > 1 ? arguments[1] : undefined;
-  var currentLocale = arguments.length > 2 ? arguments[2] : undefined;
-  var direction = call.direction;
+var pickFallBackInfo = function pickFallBackInfo(call, contactName, currentLocale) {
+  var direction = call === null || call === void 0 ? void 0 : call.direction;
   var fallBackName = contactName;
   var fallBackNumber = '';
 

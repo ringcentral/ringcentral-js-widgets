@@ -5,21 +5,19 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = Search;
+exports["default"] = void 0;
 
 var _react = _interopRequireDefault(require("react"));
-
-var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
 var _messageTypes = _interopRequireDefault(require("@ringcentral-integration/commons/enums/messageTypes"));
 
-var _SearchInput = require("../../../SearchInput");
-
 var _NewComposeText = _interopRequireDefault(require("../../../../assets/images/NewComposeText.svg"));
 
 var _NewComposeTextHover = _interopRequireDefault(require("../../../../assets/images/NewComposeTextHover.svg"));
+
+var _SearchInput = require("../../../SearchInput");
 
 var _i18n = _interopRequireDefault(require("../../i18n"));
 
@@ -27,7 +25,7 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function Search(_ref) {
+var Search = function Search(_ref) {
   var composeTextPermission = _ref.composeTextPermission,
       typeFilter = _ref.typeFilter,
       onSearchInputChange = _ref.onSearchInputChange,
@@ -63,18 +61,8 @@ function Search(_ref) {
     width: 20,
     height: 21
   })), renderSearchTip && renderSearchTip());
-}
-
-Search.propTypes = {
-  composeTextPermission: _propTypes["default"].bool,
-  typeFilter: _propTypes["default"].string,
-  onSearchInputChange: _propTypes["default"].func,
-  searchInput: _propTypes["default"].string,
-  currentLocale: _propTypes["default"].string.isRequired,
-  disableLinks: _propTypes["default"].bool,
-  goToComposeText: _propTypes["default"].func.isRequired,
-  renderSearchTip: _propTypes["default"].func
 };
+
 Search.defaultProps = {
   composeTextPermission: true,
   typeFilter: _messageTypes["default"].all,
@@ -83,4 +71,6 @@ Search.defaultProps = {
   disableLinks: false,
   renderSearchTip: undefined
 };
+var _default = Search;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

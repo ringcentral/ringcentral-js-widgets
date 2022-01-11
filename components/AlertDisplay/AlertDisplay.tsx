@@ -1,5 +1,7 @@
-import classnames from 'classnames';
 import React, { FunctionComponent } from 'react';
+
+import classnames from 'classnames';
+
 import { AlertLevelType } from '@ringcentral-integration/commons/modules/Alert/alertLevels';
 
 import Message from '../Message';

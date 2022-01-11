@@ -1,6 +1,9 @@
+import GetMessageInfoResponse from 'ringcentral-client/build/definitions/GetMessageInfoResponse';
+
 import { Entity } from '@ringcentral-integration/commons/interfaces/Entity.interface';
 import { Message } from '@ringcentral-integration/commons/interfaces/MessageStore.model';
 import { Correspondent } from '@ringcentral-integration/commons/lib/messageHelper';
+import { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures/AppFeatures';
 import { Brand } from '@ringcentral-integration/commons/modules/Brand';
 import { ConnectivityMonitor } from '@ringcentral-integration/commons/modules/ConnectivityMonitorV2';
 import { ContactMatcher } from '@ringcentral-integration/commons/modules/ContactMatcherV2';
@@ -17,9 +20,8 @@ import { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import { Attachment } from '@ringcentral-integration/commons/modules/MessageSenderV2';
 import { MessageStore } from '@ringcentral-integration/commons/modules/MessageStoreV2';
 import { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiterV2';
-import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettingsV2';
-import GetMessageInfoResponse from 'ringcentral-client/build/definitions/GetMessageInfoResponse';
-import { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures/AppFeatures';
+import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
+
 import { RouterInteraction } from '../RouterInteraction';
 
 export interface ConversationUIOptions {

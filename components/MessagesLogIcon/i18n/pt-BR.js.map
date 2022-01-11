@@ -1,1 +1,1 @@
-{"version":3,"sources":["components/MessagesLogIcon/i18n/pt-BR.js"],"names":["log"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,GAAG,EAAE;AADQ,C,EAIf","sourcesContent":["export default {\n  log: \"Log\"\n};\n\n// @key: @#@\"log\"@#@ @source: @#@\"Log\"@#@\n"],"file":"pt-BR.js"}
+{"version":3,"sources":["components/MessagesLogIcon/i18n/pt-BR.ts"],"names":["log"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,GAAG,EAAE;AADQ,C,EAIf","sourcesContent":["export default {\n  log: \"Log\"\n};\n\n// @key: @#@\"log\"@#@ @source: @#@\"Log\"@#@\n"],"file":"pt-BR.js"}

@@ -7,9 +7,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  unmute: "Désac. disc.",
-  mute: "Act. disc.",
-  keypad: "Clavier",
+  unmute: "Activer le micro",
+  mute: "Désactiver le micro",
+  keypad: "Pavé numérique",
   hold: "Mettre\nen attente",
   onHold: "En attente",
   park: "Mise\nen garde",
@@ -18,7 +18,7 @@ var _default = {
   add: "Ajouter",
   transfer: "Transférer",
   flip: "Renvoi\ninstantané",
-  more: "Actions d'appel",
+  more: "Actions d’appel",
   mergeToConference: "Fusionner",
   end: "Terminer",
   completeTransfer: "Exécuter\nle transfert"

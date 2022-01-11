@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 require("core-js/modules/es6.object.define-property");
 
@@ -41,23 +41,31 @@ require("core-js/modules/es6.date.to-string");
 
 require("core-js/modules/es6.object.to-string");
 
-var _juno = require("@ringcentral/juno");
-
-var _icon = require("@ringcentral/juno/icon");
+var _react = _interopRequireWildcard(require("react"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _react = _interopRequireWildcard(require("react"));
+var _combineProps = require("@ringcentral/juno/es6/foundation/utils/combineProps.js");
+
+var _IconButton = require("@ringcentral/juno/es6/components/Buttons/IconButton/IconButton.js");
+
+var _TextField = require("@ringcentral/juno/es6/components/Forms/TextField/TextField.js");
+
+var _useEventCallback = require("@ringcentral/juno/es6/foundation/hooks/useEventCallback/useEventCallback.js");
+
+var _useForkRef = require("@ringcentral/juno/es6/foundation/hooks/useForkRef/useForkRef.js");
+
+var _Deletenumber = _interopRequireDefault(require("@ringcentral/juno/es6/icon/Deletenumber.js"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
@@ -69,7 +77,7 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-function _iterableToArrayLimit(arr, i) { var _i = arr && (typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]); if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
@@ -92,7 +100,7 @@ var RecipientsInput = /*#__PURE__*/(0, _react.forwardRef)(function (_ref, ref) {
       rest = _objectWithoutProperties(_ref, ["placeholder", "value", "currentLocale", "onChange", "onDelete", "onClear", "className", "deleteIconProps"]);
 
   var innerRef = (0, _react.useRef)();
-  var inputRef = (0, _juno.useForkRef)(ref, innerRef);
+  var inputRef = (0, _useForkRef.useForkRef)(ref, innerRef);
 
   var _useState = (0, _react.useState)(null),
       _useState2 = _slicedToArray(_useState, 2),
@@ -105,14 +113,14 @@ var RecipientsInput = /*#__PURE__*/(0, _react.forwardRef)(function (_ref, ref) {
       setTimer = _useState4[1];
 
   var haveDeleteButton = !!value;
-  var handleMouseDown = (0, _juno.useEventCallback)(function () {
+  var handleMouseDown = (0, _useEventCallback.useEventCallback)(function () {
     setMouseDownTime(+new Date());
     setTimer(setTimeout(function () {
       onClear();
       setTimer(null);
     }, throttledTime));
   });
-  var handleMouseUp = (0, _juno.useEventCallback)(function () {
+  var handleMouseUp = (0, _useEventCallback.useEventCallback)(function () {
     var curTime = +new Date();
 
     if (mouseDownTime && curTime - mouseDownTime >= throttledTime) {
@@ -127,7 +135,7 @@ var RecipientsInput = /*#__PURE__*/(0, _react.forwardRef)(function (_ref, ref) {
   }, [value]);
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(className, _styles["default"].inputRoot)
-  }, /*#__PURE__*/_react["default"].createElement(_juno.RcTextField, _extends({
+  }, /*#__PURE__*/_react["default"].createElement(_TextField.RcTextField, _extends({
     placeholder: placeholder || _i18n["default"].getString('dialPlaceholder', currentLocale),
     value: value,
     inputProps: {
@@ -159,12 +167,12 @@ var RecipientsInput = /*#__PURE__*/(0, _react.forwardRef)(function (_ref, ref) {
         root: _styles["default"].root,
         input: _styles["default"].input
       },
-      endAdornment: haveDeleteButton && /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, _extends({
+      endAdornment: haveDeleteButton && /*#__PURE__*/_react["default"].createElement(_IconButton.RcIconButton, _extends({
         color: "neutral.f03",
-        symbol: _icon.Deletenumber,
+        symbol: _Deletenumber["default"],
         "data-sign": "deleteButton",
         title: "delete"
-      }, (0, _juno.combineProps)({
+      }, (0, _combineProps.combineProps)({
         onMouseUp: handleMouseUp,
         onMouseDown: handleMouseDown
       }, deleteIconProps), {

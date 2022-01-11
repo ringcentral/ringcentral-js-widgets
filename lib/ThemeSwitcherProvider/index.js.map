@@ -1,1 +1,0 @@
-{"version":3,"sources":["lib/ThemeSwitcherProvider/index.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;AAAA;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;;AACA;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA","sourcesContent":["export * from './ThemeSwitcherProvider';\nexport * from './ThemeSwitcher';\n"],"file":"index.js"}

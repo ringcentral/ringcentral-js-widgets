@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 require("core-js/modules/es6.weak-map");
 
@@ -45,10 +45,8 @@ require("core-js/modules/es6.array.is-array");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getJupiterAppName = getJupiterAppName;
-exports.getSoftphoneAppName = getSoftphoneAppName;
-exports.getCallingOptionName = getCallingOptionName;
 exports.CallingSettingsPanel = void 0;
+exports.getCallingOptionName = getCallingOptionName;
 
 require("core-js/modules/es6.array.find");
 
@@ -58,43 +56,45 @@ require("core-js/modules/es6.string.includes");
 
 require("core-js/modules/es6.array.map");
 
+require("rc-tooltip/assets/bootstrap_white.css");
+
 var _react = _interopRequireWildcard(require("react"));
+
+var _Icon = require("@ringcentral/juno/es6/components/Icon/Icon.js");
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
 var _formatMessage = _interopRequireDefault(require("format-message"));
 
+var _InfoBorder = _interopRequireDefault(require("@ringcentral/juno/es6/icon/InfoBorder.js"));
+
 var _callingOptions = _interopRequireDefault(require("@ringcentral-integration/commons/modules/CallingSettings/callingOptions"));
 
-var _rcTooltip = _interopRequireDefault(require("rc-tooltip"));
-
-require("rc-tooltip/assets/bootstrap_white.css");
-
-var _Info = _interopRequireDefault(require("../../assets/images/Info.svg"));
-
-var _styles = _interopRequireDefault(require("./styles.scss"));
-
-var _i18n = _interopRequireDefault(require("./i18n"));
-
-var _SpinnerOverlay = require("../SpinnerOverlay");
+var _Tooltip = require("../Rcui/Tooltip");
 
 var _BackHeader = _interopRequireDefault(require("../BackHeader"));
 
-var _Panel = _interopRequireDefault(require("../Panel"));
-
-var _Switch = _interopRequireDefault(require("../Switch"));
+var _DropdownSelect = require("../DropdownSelect");
 
 var _IconField = _interopRequireDefault(require("../IconField"));
 
 var _InputField = _interopRequireDefault(require("../InputField"));
 
-var _TextInput = _interopRequireDefault(require("../TextInput"));
+var _Panel = _interopRequireDefault(require("../Panel"));
 
-var _DropdownSelect = _interopRequireDefault(require("../DropdownSelect"));
+var _Ringtone = require("../Ringtone");
 
 var _SaveButton = _interopRequireDefault(require("../SaveButton"));
 
-var _Ringtone = require("../Ringtone");
+var _SpinnerOverlay = require("../SpinnerOverlay");
+
+var _Switch = _interopRequireDefault(require("../Switch"));
+
+var _TextInput = _interopRequireDefault(require("../TextInput"));
+
+var _i18n = _interopRequireDefault(require("./i18n"));
+
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -102,9 +102,9 @@ function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "functio
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -120,76 +120,22 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-function _iterableToArrayLimit(arr, i) { var _i = arr && (typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]); if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-var TooltipBaseComp = typeof _rcTooltip["default"] === 'function' ? _rcTooltip["default"] : _rcTooltip["default"]["default"];
-
-function getJupiterAppName(_ref) {
-  var brandCode = _ref.brandCode,
-      brandName = _ref.brandName,
-      shortBrandName = _ref.shortBrandName,
-      fullBrandName = _ref.fullBrandName,
-      jupiterAppName = _ref.jupiterAppName;
-  if (jupiterAppName) return jupiterAppName;
-
-  switch (brandCode) {
-    case 'att':
-      return fullBrandName;
-
-    case 'telus':
-      return "".concat(shortBrandName, " App");
-
-    default:
-      return "".concat(brandName, " App");
-  }
-}
-
-function getSoftphoneAppName(_ref2) {
-  var brandCode = _ref2.brandCode,
-      brandName = _ref2.brandName,
-      shortBrandName = _ref2.shortBrandName,
-      fullBrandName = _ref2.fullBrandName;
-
-  switch (brandCode) {
-    case 'att':
-      return "".concat(fullBrandName, " Phone");
-
-    case 'telus':
-      return "".concat(shortBrandName, " Phone");
-
-    default:
-      return "".concat(brandName, " Phone");
-  }
-}
-
-function getCallingOptionName(_ref3) {
-  var callingOption = _ref3.callingOption,
-      brandCode = _ref3.brandCode,
-      brandName = _ref3.brandName,
-      shortBrandName = _ref3.shortBrandName,
-      fullBrandName = _ref3.fullBrandName,
-      currentLocale = _ref3.currentLocale,
-      jupiterAppName = _ref3.jupiterAppName;
+function getCallingOptionName(_ref) {
+  var callingOption = _ref.callingOption,
+      currentLocale = _ref.currentLocale,
+      jupiterAppName = _ref.jupiterAppName,
+      softphoneAppName = _ref.softphoneAppName;
 
   if (callingOption === _callingOptions["default"].softphone) {
-    return getSoftphoneAppName({
-      brandCode: brandCode,
-      brandName: brandName,
-      shortBrandName: shortBrandName,
-      fullBrandName: fullBrandName
-    });
+    return softphoneAppName;
   }
 
   if (callingOption === _callingOptions["default"].jupiter) {
-    return getJupiterAppName({
-      brandCode: brandCode,
-      brandName: brandName,
-      shortBrandName: shortBrandName,
-      fullBrandName: fullBrandName,
-      jupiterAppName: jupiterAppName
-    });
+    return jupiterAppName;
   }
 
   if (callingOption === _callingOptions["default"].ringout) {
@@ -200,15 +146,26 @@ function getCallingOptionName(_ref3) {
   return _i18n["default"].getString(callingOption, currentLocale);
 }
 
-var Tooltip = function Tooltip(_ref4) {
-  var brandCode = _ref4.brandCode,
-      brandName = _ref4.brandName,
-      callWith = _ref4.callWith,
-      currentLocale = _ref4.currentLocale,
-      tooltipContainerRef = _ref4.tooltipContainerRef,
-      shortBrandName = _ref4.shortBrandName,
-      fullBrandName = _ref4.fullBrandName,
-      jupiterAppName = _ref4.jupiterAppName;
+var CallWithSettings = function CallWithSettings(_ref2) {
+  var callWith = _ref2.callWith,
+      callWithOptions = _ref2.callWithOptions,
+      currentLocale = _ref2.currentLocale,
+      disabled = _ref2.disabled,
+      onCallWithChange = _ref2.onCallWithChange,
+      jupiterAppName = _ref2.jupiterAppName,
+      softphoneAppName = _ref2.softphoneAppName;
+  var tooltipContainerRef = (0, _react.useRef)(null);
+
+  var optionRenderer = function optionRenderer(option) {
+    var optionName = getCallingOptionName({
+      callingOption: option,
+      currentLocale: currentLocale,
+      jupiterAppName: jupiterAppName,
+      softphoneAppName: softphoneAppName
+    });
+    return optionName;
+  };
+
   var keys = ["".concat(callWith, "Tooltip")];
 
   if (callWith !== _callingOptions["default"].browser && callWith !== _callingOptions["default"].softphone && callWith !== _callingOptions["default"].jupiter) {
@@ -217,80 +174,27 @@ var Tooltip = function Tooltip(_ref4) {
 
   var optionName = getCallingOptionName({
     callingOption: callWith,
-    brandCode: brandCode,
-    brandName: brandName,
     currentLocale: currentLocale,
-    shortBrandName: shortBrandName,
-    fullBrandName: fullBrandName,
-    jupiterAppName: jupiterAppName
+    jupiterAppName: jupiterAppName,
+    softphoneAppName: softphoneAppName
   });
-
-  var overlay = /*#__PURE__*/_react["default"].createElement("div", null, keys.map(function (key) {
-    return /*#__PURE__*/_react["default"].createElement("div", {
-      key: key
-    }, (0, _formatMessage["default"])(_i18n["default"].getString(key, currentLocale), {
-      brand: optionName
-    }));
-  }));
-
-  return /*#__PURE__*/_react["default"].createElement(TooltipBaseComp, {
-    placement: "bottom",
-    trigger: "click",
-    overlay: overlay,
-    align: {
-      offset: [0, 47]
-    },
-    arrowContent: /*#__PURE__*/_react["default"].createElement("div", {
-      className: "rc-tooltip-arrow-inner"
-    }),
-    getTooltipContainer: function getTooltipContainer() {
-      return tooltipContainerRef.current;
-    }
-  }, /*#__PURE__*/_react["default"].createElement(_Info["default"], {
-    width: 14,
-    height: 14,
-    className: _styles["default"].infoIcon
-  }));
-};
-
-var CallWithSettings = function CallWithSettings(_ref5) {
-  var brandCode = _ref5.brandCode,
-      brandName = _ref5.brandName,
-      shortBrandName = _ref5.shortBrandName,
-      fullBrandName = _ref5.fullBrandName,
-      callWith = _ref5.callWith,
-      callWithOptions = _ref5.callWithOptions,
-      currentLocale = _ref5.currentLocale,
-      disabled = _ref5.disabled,
-      onCallWithChange = _ref5.onCallWithChange,
-      jupiterAppName = _ref5.jupiterAppName;
-  var tooltipContainerRef = (0, _react.useRef)(null);
-
-  var optionRenderer = function optionRenderer(option) {
-    var optionName = getCallingOptionName({
-      callingOption: option,
-      brandCode: brandCode,
-      brandName: brandName,
-      currentLocale: currentLocale,
-      shortBrandName: shortBrandName,
-      fullBrandName: fullBrandName,
-      jupiterAppName: jupiterAppName
-    });
-    return optionName;
-  };
-
   return /*#__PURE__*/_react["default"].createElement(_InputField["default"], {
-    label: /*#__PURE__*/_react["default"].createElement("span", null, _i18n["default"].getString('makeCallsWith', currentLocale), /*#__PURE__*/_react["default"].createElement(Tooltip, {
-      brandCode: brandCode,
-      brandName: brandName,
-      callWith: callWith,
-      currentLocale: currentLocale,
-      tooltipContainerRef: tooltipContainerRef,
-      shortBrandName: shortBrandName,
-      fullBrandName: fullBrandName,
-      jupiterAppName: jupiterAppName
-    }))
-  }, /*#__PURE__*/_react["default"].createElement(_DropdownSelect["default"], {
+    label: /*#__PURE__*/_react["default"].createElement("span", {
+      "data-sign": "callSettingInfo"
+    }, _i18n["default"].getString('makeCallsWith', currentLocale), /*#__PURE__*/_react["default"].createElement(_Tooltip.Tooltip, {
+      title: keys.map(function (key) {
+        return /*#__PURE__*/_react["default"].createElement("div", {
+          key: key
+        }, (0, _formatMessage["default"])(_i18n["default"].getString(key, currentLocale), {
+          brand: optionName
+        }));
+      })
+    }, /*#__PURE__*/_react["default"].createElement(_Icon.RcIcon, {
+      size: "small",
+      symbol: _InfoBorder["default"],
+      className: _styles["default"].tooltipIcon
+    })))
+  }, /*#__PURE__*/_react["default"].createElement(_DropdownSelect.DropdownSelect, {
     dataSign: "callingSetting",
     className: _styles["default"].select,
     value: callWith,
@@ -299,6 +203,9 @@ var CallWithSettings = function CallWithSettings(_ref5) {
     dropdownAlign: "left",
     renderFunction: optionRenderer,
     renderValue: optionRenderer,
+    valueFunction: function valueFunction(option) {
+      return option;
+    },
     disabled: disabled,
     titleEnabled: true
   }), /*#__PURE__*/_react["default"].createElement("div", {
@@ -308,17 +215,17 @@ var CallWithSettings = function CallWithSettings(_ref5) {
 }; // TODO properly type available numbers
 
 
-var RingoutSettings = function RingoutSettings(_ref6) {
-  var currentLocale = _ref6.currentLocale,
-      callWith = _ref6.callWith,
-      availableNumbersWithLabel = _ref6.availableNumbersWithLabel,
-      locationSearchable = _ref6.locationSearchable,
-      myLocation = _ref6.myLocation,
-      onMyLocationChange = _ref6.onMyLocationChange,
-      onMyLocationTextChange = _ref6.onMyLocationTextChange,
-      disabled = _ref6.disabled,
-      ringoutPrompt = _ref6.ringoutPrompt,
-      onRingoutPromptChange = _ref6.onRingoutPromptChange;
+var RingoutSettings = function RingoutSettings(_ref3) {
+  var currentLocale = _ref3.currentLocale,
+      callWith = _ref3.callWith,
+      availableNumbersWithLabel = _ref3.availableNumbersWithLabel,
+      locationSearchable = _ref3.locationSearchable,
+      myLocation = _ref3.myLocation,
+      onMyLocationChange = _ref3.onMyLocationChange,
+      onMyLocationTextChange = _ref3.onMyLocationTextChange,
+      disabled = _ref3.disabled,
+      ringoutPrompt = _ref3.ringoutPrompt,
+      onRingoutPromptChange = _ref3.onRingoutPromptChange;
 
   if (callWith !== _callingOptions["default"].softphone && callWith !== _callingOptions["default"].browser && callWith !== _callingOptions["default"].jupiter) {
     return /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("div", {
@@ -326,7 +233,7 @@ var RingoutSettings = function RingoutSettings(_ref6) {
     }, _i18n["default"].getString('ringoutHint', currentLocale)), /*#__PURE__*/_react["default"].createElement(_InputField["default"], {
       dataSign: "myLocation",
       label: _i18n["default"].getString('myLocationLabel', currentLocale)
-    }, availableNumbersWithLabel ? /*#__PURE__*/_react["default"].createElement(_DropdownSelect["default"], {
+    }, availableNumbersWithLabel ? /*#__PURE__*/_react["default"].createElement(_DropdownSelect.DropdownSelect, {
       className: (0, _classnames["default"])(_styles["default"].select, _styles["default"].locationSelect),
       value: myLocation,
       onChange: onMyLocationChange,
@@ -358,35 +265,32 @@ var RingoutSettings = function RingoutSettings(_ref6) {
   return null;
 };
 
-var CallingSettings = function CallingSettings(_ref7) {
-  var brandCode = _ref7.brandCode,
-      brandName = _ref7.brandName,
-      availableNumbersWithLabel = _ref7.availableNumbersWithLabel,
-      callWith = _ref7.callWith,
-      callWithOptions = _ref7.callWithOptions,
-      currentLocale = _ref7.currentLocale,
-      _ref7$defaultRingoutP = _ref7.defaultRingoutPrompt,
-      defaultRingoutPrompt = _ref7$defaultRingoutP === void 0 ? true : _ref7$defaultRingoutP,
-      _ref7$disabled = _ref7.disabled,
-      disabled = _ref7$disabled === void 0 ? false : _ref7$disabled,
-      _ref7$locationSearcha = _ref7.locationSearchable,
-      locationSearchable = _ref7$locationSearcha === void 0 ? false : _ref7$locationSearcha,
-      myLocation = _ref7.myLocation,
-      onSave = _ref7.onSave,
-      ringoutPrompt = _ref7.ringoutPrompt,
-      _ref7$showRingToneSet = _ref7.showRingToneSettings,
-      showRingToneSettings = _ref7$showRingToneSet === void 0 ? false : _ref7$showRingToneSet,
-      incomingAudio = _ref7.incomingAudio,
-      incomingAudioFile = _ref7.incomingAudioFile,
-      outgoingAudio = _ref7.outgoingAudio,
-      outgoingAudioFile = _ref7.outgoingAudioFile,
-      defaultIncomingAudio = _ref7.defaultIncomingAudio,
-      defaultIncomingAudioFile = _ref7.defaultIncomingAudioFile,
-      defaultOutgoingAudio = _ref7.defaultOutgoingAudio,
-      defaultOutgoingAudioFile = _ref7.defaultOutgoingAudioFile,
-      shortBrandName = _ref7.shortBrandName,
-      fullBrandName = _ref7.fullBrandName,
-      jupiterAppName = _ref7.jupiterAppName;
+var CallingSettings = function CallingSettings(_ref4) {
+  var availableNumbersWithLabel = _ref4.availableNumbersWithLabel,
+      callWith = _ref4.callWith,
+      callWithOptions = _ref4.callWithOptions,
+      currentLocale = _ref4.currentLocale,
+      _ref4$defaultRingoutP = _ref4.defaultRingoutPrompt,
+      defaultRingoutPrompt = _ref4$defaultRingoutP === void 0 ? true : _ref4$defaultRingoutP,
+      _ref4$disabled = _ref4.disabled,
+      disabled = _ref4$disabled === void 0 ? false : _ref4$disabled,
+      _ref4$locationSearcha = _ref4.locationSearchable,
+      locationSearchable = _ref4$locationSearcha === void 0 ? false : _ref4$locationSearcha,
+      myLocation = _ref4.myLocation,
+      onSave = _ref4.onSave,
+      ringoutPrompt = _ref4.ringoutPrompt,
+      _ref4$showRingToneSet = _ref4.showRingToneSettings,
+      showRingToneSettings = _ref4$showRingToneSet === void 0 ? false : _ref4$showRingToneSet,
+      incomingAudio = _ref4.incomingAudio,
+      incomingAudioFile = _ref4.incomingAudioFile,
+      outgoingAudio = _ref4.outgoingAudio,
+      outgoingAudioFile = _ref4.outgoingAudioFile,
+      defaultIncomingAudio = _ref4.defaultIncomingAudio,
+      defaultIncomingAudioFile = _ref4.defaultIncomingAudioFile,
+      defaultOutgoingAudio = _ref4.defaultOutgoingAudio,
+      defaultOutgoingAudioFile = _ref4.defaultOutgoingAudioFile,
+      jupiterAppName = _ref4.jupiterAppName,
+      softphoneAppName = _ref4.softphoneAppName;
 
   var _useState = (0, _react.useState)(callWith),
       _useState2 = _slicedToArray(_useState, 2),
@@ -433,15 +337,12 @@ var CallingSettings = function CallingSettings(_ref7) {
     setOutgoingAudioFileState(outgoingAudioFile);
   }, [callWith, myLocation, ringoutPrompt, incomingAudio, incomingAudioFile, outgoingAudio, outgoingAudioFile]);
   return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(CallWithSettings, {
-    brandCode: brandCode,
-    brandName: brandName,
     callWith: callWithState,
     jupiterAppName: jupiterAppName,
+    softphoneAppName: softphoneAppName,
     callWithOptions: callWithOptions,
     currentLocale: currentLocale,
     disabled: disabled,
-    shortBrandName: shortBrandName,
-    fullBrandName: fullBrandName,
     onCallWithChange: function onCallWithChange(newCallWith) {
       setCallWithState(newCallWith);
 
@@ -462,8 +363,8 @@ var CallingSettings = function CallingSettings(_ref7) {
     locationSearchable: locationSearchable,
     myLocation: myLocationState,
     onMyLocationChange: setMyLocationState,
-    onMyLocationTextChange: function onMyLocationTextChange(_ref8) {
-      var value = _ref8.target.value;
+    onMyLocationTextChange: function onMyLocationTextChange(_ref5) {
+      var value = _ref5.target.value;
       setMyLocationState(value);
     },
     ringoutPrompt: ringoutPromptState,
@@ -480,9 +381,9 @@ var CallingSettings = function CallingSettings(_ref7) {
     defaultIncomingAudioFile: defaultIncomingAudioFile,
     defaultOutgoingAudio: defaultOutgoingAudio,
     defaultOutgoingAudioFile: defaultOutgoingAudioFile,
-    setIncomingAudio: function setIncomingAudio(_ref9) {
-      var fileName = _ref9.fileName,
-          dataUrl = _ref9.dataUrl;
+    setIncomingAudio: function setIncomingAudio(_ref6) {
+      var fileName = _ref6.fileName,
+          dataUrl = _ref6.dataUrl;
       setIncomingAudioState(dataUrl);
       setIncomingAudioFileState(fileName);
     },
@@ -490,9 +391,9 @@ var CallingSettings = function CallingSettings(_ref7) {
       setIncomingAudioState(defaultIncomingAudio);
       setIncomingAudioFileState(defaultIncomingAudioFile);
     },
-    setOutgoingAudio: function setOutgoingAudio(_ref10) {
-      var fileName = _ref10.fileName,
-          dataUrl = _ref10.dataUrl;
+    setOutgoingAudio: function setOutgoingAudio(_ref7) {
+      var fileName = _ref7.fileName,
+          dataUrl = _ref7.dataUrl;
       setOutgoingAudioState(dataUrl);
       setOutgoingAudioFileState(fileName);
     },
@@ -520,13 +421,13 @@ var CallingSettings = function CallingSettings(_ref7) {
   }));
 };
 
-var CallingSettingsPanel = function CallingSettingsPanel(_ref11) {
-  var className = _ref11.className,
-      onBackButtonClick = _ref11.onBackButtonClick,
-      currentLocale = _ref11.currentLocale,
-      _ref11$showSpinner = _ref11.showSpinner,
-      showSpinner = _ref11$showSpinner === void 0 ? false : _ref11$showSpinner,
-      props = _objectWithoutProperties(_ref11, ["className", "onBackButtonClick", "currentLocale", "showSpinner"]);
+var CallingSettingsPanel = function CallingSettingsPanel(_ref8) {
+  var className = _ref8.className,
+      onBackButtonClick = _ref8.onBackButtonClick,
+      currentLocale = _ref8.currentLocale,
+      _ref8$showSpinner = _ref8.showSpinner,
+      showSpinner = _ref8$showSpinner === void 0 ? false : _ref8$showSpinner,
+      props = _objectWithoutProperties(_ref8, ["className", "onBackButtonClick", "currentLocale", "showSpinner"]);
 
   var content = showSpinner ? /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, null) : /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(CallingSettings, _objectSpread(_objectSpread({}, props), {}, {
     currentLocale: currentLocale

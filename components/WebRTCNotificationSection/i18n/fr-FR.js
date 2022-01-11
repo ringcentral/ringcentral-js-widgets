@@ -9,7 +9,7 @@ exports["default"] = void 0;
 var _default = {
   forward: "Transférer",
   ignore: "Ignorer",
-  toVoicemail: "Vers messag.",
+  toVoicemail: "Vers messag. vocale",
   answer: "Répondre",
   endAndAnswer: "Fin et rép.",
   holdAndAnswer: "Attente et rép.",

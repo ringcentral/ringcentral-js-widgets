@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.AlertRenderer = AlertRenderer;
+exports.AlertRenderer = void 0;
 
 require("core-js/modules/es6.object.assign");
 
@@ -21,7 +21,7 @@ var _CallAlert = _interopRequireDefault(require("./CallAlert"));
 
 var _CallControlAlert = _interopRequireDefault(require("./CallControlAlert"));
 
-var _CallingSettingsAlert = _interopRequireDefault(require("./CallingSettingsAlert"));
+var _CallingSettingsAlert = require("./CallingSettingsAlert");
 
 var _CallLogAlert = _interopRequireDefault(require("./CallLogAlert"));
 
@@ -37,11 +37,11 @@ var _MessageSenderAlert = _interopRequireDefault(require("./MessageSenderAlert")
 
 var _MessageStoreAlert = _interopRequireDefault(require("./MessageStoreAlert"));
 
+var _PermissionsAlert = require("./PermissionsAlert");
+
 var _RateExceededAlert = _interopRequireDefault(require("./RateExceededAlert"));
 
-var _RegionSettingsAlert = _interopRequireDefault(require("./RegionSettingsAlert"));
-
-var _PermissionsAlert = _interopRequireDefault(require("./PermissionsAlert"));
+var _RegionSettingsAlert = require("./RegionSettingsAlert");
 
 var _WebphoneAlert = _interopRequireDefault(require("./WebphoneAlert"));
 
@@ -49,21 +49,32 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
-function AlertRenderer(alert, brand, rateLimiter,
-/** router interaction when need push `regionSettingsUrl` or `callingSettingsUrl` */
-routerInteraction) {
-  var regionSettingsUrl = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : '/settings/region';
-  var callingSettingsUrl = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : '/settings/calling';
+var AlertRenderer = function AlertRenderer(_ref) {
+  var alert = _ref.alert,
+      brand = _ref.brand,
+      rateLimiter = _ref.rateLimiter,
+      softphone = _ref.softphone,
+      routerInteraction = _ref.routerInteraction,
+      callLogSection = _ref.callLogSection,
+      _ref$regionSettingsUr = _ref.regionSettingsUrl,
+      regionSettingsUrl = _ref$regionSettingsUr === void 0 ? '/settings/region' : _ref$regionSettingsUr,
+      _ref$callingSettingsU = _ref.callingSettingsUrl,
+      callingSettingsUrl = _ref$callingSettingsU === void 0 ? '/settings/calling' : _ref$callingSettingsU;
 
+  // TODO: refactor this like modalUI.registerRenderer.
   var onRegionSettingsLinkClick = function onRegionSettingsLinkClick() {
-    var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-        _ref$alertId = _ref.alertId,
-        alertId = _ref$alertId === void 0 ? 'default' : _ref$alertId;
+    var _ref2 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+        _ref2$alertId = _ref2.alertId,
+        alertId = _ref2$alertId === void 0 ? 'default' : _ref2$alertId;
 
     routerInteraction.push(regionSettingsUrl);
 
     if (alertId) {
       alert.dismiss(alertId);
+    }
+
+    if (callLogSection) {
+      callLogSection.closeLogSection();
     }
   };
 
@@ -85,21 +96,22 @@ routerInteraction) {
       };
     }
 
-    if (_CallingSettingsAlert["default"].handleMessage(message)) {
+    if (_CallingSettingsAlert.CallingSettingsAlert.handleMessage(message)) {
       return function (props) {
-        return /*#__PURE__*/_react["default"].createElement(_CallingSettingsAlert["default"], _extends({}, props, {
-          brandCode: brand.code,
+        var _brand$brandConfig$ca;
+
+        return /*#__PURE__*/_react["default"].createElement(_CallingSettingsAlert.CallingSettingsAlert, _extends({}, props, {
           brandName: brand.name,
-          shortBrandName: brand.shortName,
-          fullBrandName: brand.fullName,
+          softphoneAppName: (_brand$brandConfig$ca = brand.brandConfig.callWithSoftphone) === null || _brand$brandConfig$ca === void 0 ? void 0 : _brand$brandConfig$ca.name,
+          jupiterAppName: softphone === null || softphone === void 0 ? void 0 : softphone.jupiterAppName,
           onCallingSettingsLinkClick: onCallingSettingsLinkClick
         }));
       };
     }
 
-    if (_RegionSettingsAlert["default"].handleMessage(message)) {
+    if (_RegionSettingsAlert.RegionSettingsAlert.handleMessage(message)) {
       return function (props) {
-        return /*#__PURE__*/_react["default"].createElement(_RegionSettingsAlert["default"], _extends({}, props, {
+        return /*#__PURE__*/_react["default"].createElement(_RegionSettingsAlert.RegionSettingsAlert, _extends({}, props, {
           onRegionSettingsLinkClick: onRegionSettingsLinkClick
         }));
       };
@@ -108,7 +120,7 @@ routerInteraction) {
     if (_MessageSenderAlert["default"].handleMessage(message)) {
       return function (props) {
         return /*#__PURE__*/_react["default"].createElement(_MessageSenderAlert["default"], _extends({}, props, {
-          brand: brand.fullName,
+          brand: brand.name,
           onAreaCodeLink: onRegionSettingsLinkClick
         }));
       };
@@ -147,10 +159,10 @@ routerInteraction) {
       };
     }
 
-    if (_PermissionsAlert["default"].handleMessage(message)) {
+    if (_PermissionsAlert.PermissionsAlert.handleMessage(message)) {
       return function (props) {
-        return /*#__PURE__*/_react["default"].createElement(_PermissionsAlert["default"], _extends({}, props, {
-          brand: brand.fullName,
+        return /*#__PURE__*/_react["default"].createElement(_PermissionsAlert.PermissionsAlert, _extends({}, props, {
+          brand: brand.name,
           application: brand.appName
         }));
       };
@@ -186,5 +198,7 @@ routerInteraction) {
 
     return undefined;
   };
-}
+};
+
+exports.AlertRenderer = AlertRenderer;
 //# sourceMappingURL=AlertRenderer.js.map

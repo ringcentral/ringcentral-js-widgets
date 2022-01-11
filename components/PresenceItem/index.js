@@ -1,60 +1,84 @@
 "use strict";
 
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+
+require("core-js/modules/es7.symbol.async-iterator");
+
+require("core-js/modules/es6.symbol");
+
 require("core-js/modules/es6.object.define-property");
+
+require("core-js/modules/web.dom.iterable");
+
+require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
+
+require("core-js/modules/es6.string.iterator");
+
+require("core-js/modules/es6.weak-map");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getPresenceStatusName = getPresenceStatusName;
-exports["default"] = PresenceItem;
+exports.PresenceItem = void 0;
 
-var _react = _interopRequireDefault(require("react"));
+require("core-js/modules/es6.object.define-properties");
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
+require("core-js/modules/es6.object.freeze");
 
-var _classnames = _interopRequireDefault(require("classnames"));
+require("core-js/modules/es6.array.slice");
 
-var _dndStatus = _interopRequireDefault(require("@ringcentral-integration/commons/modules/Presence/dndStatus"));
+var _react = _interopRequireWildcard(require("react"));
 
-var _PresenceStatusIcon = _interopRequireDefault(require("../PresenceStatusIcon"));
+var _ListItem = require("@ringcentral/juno/es6/components/List/ListItem/ListItem.js");
 
-var _styles = _interopRequireDefault(require("./styles.scss"));
+var _Presence = require("@ringcentral/juno/es6/components/Presence/Presence.js");
 
-var _i18n = _interopRequireDefault(require("./i18n"));
+var _spacing = require("@ringcentral/juno/es6/foundation/styles/spacing.js");
+
+var _styledComponents = _interopRequireDefault(require("@ringcentral/juno/es6/foundation/styled-components.js"));
+
+var _getPresenceStatusName = require("../../lib/getPresenceStatusName");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function getPresenceStatusName(currentUserStatus, currentDndStatus, currentLocale) {
-  if (currentDndStatus === _dndStatus["default"].doNotAcceptAnyCalls) {
-    return _i18n["default"].getString(currentDndStatus, currentLocale);
-  }
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
-  return _i18n["default"].getString(currentUserStatus, currentLocale);
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["\n  padding-left: ", ";\n  padding-right: ", ";\n  font-size: 13px;\n\n  ", " {\n    margin-right: ", ";\n  }\n"]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
 }
 
-function PresenceItem(props) {
-  var className = (0, _classnames["default"])(_styles["default"].root, props.selected ? _styles["default"].selected : null, props.className);
-  var name = getPresenceStatusName(props.userStatus, props.dndStatus, props.currentLocale);
-  return /*#__PURE__*/_react["default"].createElement("a", {
-    className: className,
-    onClick: props.onClick
-  }, /*#__PURE__*/_react["default"].createElement(_PresenceStatusIcon["default"], {
-    className: _styles["default"].statusIcon,
-    userStatus: props.userStatus,
-    dndStatus: props.dndStatus
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+var StyledListItem = (0, _styledComponents["default"])(_ListItem.RcListItem)(_templateObject(), (0, _spacing.spacing)(2), (0, _spacing.spacing)(2), _Presence.RcPresence, (0, _spacing.spacing)(1.5));
+var PresenceItem = /*#__PURE__*/(0, _react.forwardRef)(function (_ref, ref) {
+  var selected = _ref.selected,
+      classNameProp = _ref.className,
+      userStatus = _ref.userStatus,
+      dndStatus = _ref.dndStatus,
+      onClick = _ref.onClick,
+      type = _ref.type,
+      currentLocale = _ref.currentLocale;
+  var name = (0, _getPresenceStatusName.getPresenceStatusName)(userStatus, dndStatus, currentLocale);
+  return /*#__PURE__*/_react["default"].createElement(StyledListItem, {
+    ref: ref,
+    selected: selected,
+    disableGutters: true,
+    className: classNameProp,
+    onClick: onClick
+  }, /*#__PURE__*/_react["default"].createElement(_Presence.RcPresence, {
+    size: "medium",
+    type: type
   }), /*#__PURE__*/_react["default"].createElement("span", null, name));
-}
-
-PresenceItem.propTypes = {
-  className: _propTypes["default"].string,
-  onClick: _propTypes["default"].func.isRequired,
-  userStatus: _propTypes["default"].string.isRequired,
-  dndStatus: _propTypes["default"].string,
-  selected: _propTypes["default"].bool.isRequired,
-  currentLocale: _propTypes["default"].string.isRequired
-};
-PresenceItem.defaultProps = {
-  dndStatus: null,
-  className: null
-};
+});
+exports.PresenceItem = PresenceItem;
 //# sourceMappingURL=index.js.map

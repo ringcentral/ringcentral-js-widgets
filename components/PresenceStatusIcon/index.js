@@ -9,15 +9,13 @@ exports["default"] = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
 var _classnames = _interopRequireDefault(require("classnames"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function PresenceStatusIcon(_ref) {
+var PresenceStatusIcon = function PresenceStatusIcon(_ref) {
   var userStatus = _ref.userStatus,
       dndStatus = _ref.dndStatus,
       presenceStatus = _ref.presenceStatus,
@@ -27,14 +25,8 @@ function PresenceStatusIcon(_ref) {
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].presenceBar
   }));
-}
-
-PresenceStatusIcon.propTypes = {
-  className: _propTypes["default"].string,
-  dndStatus: _propTypes["default"].string,
-  userStatus: _propTypes["default"].string,
-  presenceStatus: _propTypes["default"].string
 };
+
 PresenceStatusIcon.defaultProps = {
   className: null,
   dndStatus: null,

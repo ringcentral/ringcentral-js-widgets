@@ -1,3 +1,4 @@
+import { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures';
 import { Brand } from '@ringcentral-integration/commons/modules/Brand';
 import { CallHistory } from '@ringcentral-integration/commons/modules/CallHistoryV2';
 import { CallLogger } from '@ringcentral-integration/commons/modules/CallLoggerV2';
@@ -7,11 +8,11 @@ import { ConnectivityMonitor } from '@ringcentral-integration/commons/modules/Co
 import { ContactMatcher } from '@ringcentral-integration/commons/modules/ContactMatcherV2';
 import { ContactSearch } from '@ringcentral-integration/commons/modules/ContactSearchV2';
 import { DateTimeFormat } from '@ringcentral-integration/commons/modules/DateTimeFormatV2';
-import { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures';
 import { ExtensionInfo } from '@ringcentral-integration/commons/modules/ExtensionInfoV2';
 import { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiterV2';
-import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettingsV2';
+import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
+
 import {
   OnCreateContactOptions,
   OnLogCallOptions,

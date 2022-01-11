@@ -4,7 +4,7 @@ export default {
   time: "Heure",
   hours: "{howMany} h",
   minutes: "{howMany} min",
-  today: "Aujourd'hui",
+  today: "Aujourd’hui",
   duration: "Durée",
   topic: "Titre de la réunion",
   voIPOnly: "Audio sur Internet uniquement",
@@ -23,22 +23,23 @@ export default {
   audioOptions: "Options audio",
   recurringMeeting: "Réunion récurrente",
   recurringNote: "Remarque : activez celle-ci lorsque vous sélectionnez « Récurrence ».",
-  joinBeforeHost: "Autoriser les participants à se connecter avant l'hôte",
+  joinBeforeHost: "Autoriser les participants à se connecter avant l’hôte",
   turnOffCamera: "Désactiver la caméra pour les participants",
-  turnOffHostCamera: "Désactiver la caméra pour l'hôte lorsque vous rejoignez une réunion",
+  turnOffHostCamera: "Désactiver la caméra pour l’hôte lorsque vous rejoignez une réunion",
   requirePassword: "Exiger un mot de passe",
   enterPassword: "Entrer le mot de passe",
   setPassword: "Définir un mot de passe *",
   passwordEmptyError: "Mot de passe de la réunion requis",
   rcmPasswordInvalidError: "Votre mot de passe doit être composé de 1 à 10 lettres et chiffres et ne peut pas comporter de symboles autres que @, * ou -",
   rcmPasswordHintText: "Votre mot de passe doit être composé de 1 à 10 lettres et chiffres et ne peut pas comporter de symboles autres que @, * ou -",
-  usePersonalMeetingId: "Utiliser l'identifiant personnel de réunion",
+  usePersonalMeetingId: "Utiliser l’ID de réunion personnel",
   pmiChangeConfirm: "Si vous souhaitez apporter des modifications à votre réunion personnelle, ",
   changePmiSettings: "modifiez les paramètres PMI",
   pmiSettingChangeAlert: "Si vous modifiez les paramètres et programmez la réunion, toutes les réunions avec ID personnel de réunion utiliseront ces mêmes paramètres.",
-  lockedTooltip: "Ce paramètre est géré par l'administrateur de votre entreprise",
+  lockedTooltip: "Ce paramètre est géré par l’administrateur de votre entreprise",
   when: "Date",
-  recurringDescribe: "N'oubliez pas de vérifier la récurrence ou de renouveler votre invitation aux participants."
+  recurringDescribe: "N’oubliez pas de vérifier la récurrence ou de renouveler votre invitation aux participants.",
+  ieSupportAlert: "Veuillez noter que {appName} ne fonctionnera plus avec Internet Explorer 11 après le 16 février 2022. Nous vous recommandons d’utiliser Microsoft Edge ou de passer à Outlook 2016 ou version ultérieure."
 };
 
 // @key: @#@"date"@#@ @source: @#@"Date"@#@
@@ -80,3 +81,4 @@ export default {
 // @key: @#@"lockedTooltip"@#@ @source: @#@"This setting is managed by your company admin"@#@
 // @key: @#@"when"@#@ @source: @#@"When"@#@
 // @key: @#@"recurringDescribe"@#@ @source: @#@"Please remember to check recurrence or repeat in your calendar invitation to your attendees."@#@
+// @key: @#@"ieSupportAlert"@#@ @source: @#@"Please note that {appName} won't work with Internet Explorer 11 after Feb 16, 2022. We recommend switching to Microsoft Edge or updating to Outlook 2016 or above."@#@

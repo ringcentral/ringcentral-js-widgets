@@ -9,7 +9,7 @@ exports["default"] = void 0;
 var _default = {
   topic: "主题",
   when: "时间",
-  duration: "持续时间",
+  duration: "时长",
   recurringMeeting: "定期会议",
   recurringDescribe: "请记得检查通过日历向参与者发送的邀请中是否存在重复。",
   video: "视频",

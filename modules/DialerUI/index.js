@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 require("core-js/modules/es6.array.is-array");
 
@@ -55,21 +55,27 @@ exports["default"] = void 0;
 
 require("core-js/modules/es6.array.slice");
 
+require("core-js/modules/es6.regexp.split");
+
 require("core-js/modules/es6.string.trim");
+
+require("core-js/modules/es6.date.now");
 
 require("regenerator-runtime/runtime");
 
 var _di = require("@ringcentral-integration/commons/lib/di");
 
+var _formatNumber = _interopRequireDefault(require("@ringcentral-integration/commons/lib/formatNumber"));
+
+var _normalizeNumber = _interopRequireDefault(require("@ringcentral-integration/commons/lib/normalizeNumber"));
+
 var _proxify = _interopRequireDefault(require("@ringcentral-integration/commons/lib/proxy/proxify"));
+
+var _selector = require("@ringcentral-integration/commons/lib/selector");
 
 var _callErrors = _interopRequireDefault(require("@ringcentral-integration/commons/modules/Call/callErrors"));
 
 var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
-
-var _formatNumber = _interopRequireDefault(require("@ringcentral-integration/commons/lib/formatNumber"));
-
-var _selector = require("@ringcentral-integration/commons/lib/selector");
 
 var _RcUIModule2 = _interopRequireDefault(require("../../lib/RcUIModule"));
 
@@ -91,9 +97,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -105,15 +111,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } Object.defineProperty(subClass, "prototype", { value: Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }), writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
@@ -125,6 +131,7 @@ function _initializerWarningHelper(descriptor, context) { throw new Error('Decor
 
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
 
+var TIMEOUT = 60 * 1000;
 var DialerUI = (_dec = (0, _di.Module)({
   name: 'DialerUI',
   deps: ['CallingSettings', {
@@ -185,6 +192,7 @@ var DialerUI = (_dec = (0, _di.Module)({
     _this._reducer = (0, _getReducer["default"])(_this.actionTypes);
     _this._useV2 = useV2;
     _this._callHooks = [];
+    _this._latestCallTime = 0;
     return _this;
   }
 
@@ -396,82 +404,83 @@ var DialerUI = (_dec = (0, _di.Module)({
                 _ref3$phoneNumber = _ref3.phoneNumber, phoneNumber = _ref3$phoneNumber === void 0 ? '' : _ref3$phoneNumber, _ref3$recipient = _ref3.recipient, recipient = _ref3$recipient === void 0 ? null : _ref3$recipient, _ref3$fromNumber = _ref3.fromNumber, fromNumber = _ref3$fromNumber === void 0 ? null : _ref3$fromNumber;
 
                 if (!(phoneNumber || recipient)) {
-                  _context6.next = 24;
+                  _context6.next = 25;
                   break;
                 }
 
+                this._latestCallTime = Date.now();
                 this.store.dispatch({
                   type: this.actionTypes.call,
                   phoneNumber: phoneNumber,
                   recipient: recipient
                 });
-                _context6.next = 5;
+                _context6.next = 6;
                 return this.triggerHook({
                   phoneNumber: phoneNumber,
                   recipient: recipient,
                   fromNumber: fromNumber
                 });
 
-              case 5:
+              case 6:
                 if (!this.callVerify) {
-                  _context6.next = 11;
+                  _context6.next = 12;
                   break;
                 }
 
-                _context6.next = 8;
+                _context6.next = 9;
                 return this.callVerify({
                   phoneNumber: phoneNumber,
                   recipient: recipient
                 });
 
-              case 8:
+              case 9:
                 _context6.t0 = _context6.sent;
-                _context6.next = 12;
+                _context6.next = 13;
                 break;
 
-              case 11:
+              case 12:
                 _context6.t0 = true;
 
-              case 12:
+              case 13:
                 continueCall = _context6.t0;
 
                 if (continueCall) {
-                  _context6.next = 15;
+                  _context6.next = 16;
                   break;
                 }
 
                 return _context6.abrupt("return");
 
-              case 15:
-                _context6.prev = 15;
-                _context6.next = 18;
+              case 16:
+                _context6.prev = 16;
+                _context6.next = 19;
                 return this._call.call({
                   phoneNumber: this.toNumberField,
                   recipient: this.recipient,
                   fromNumber: fromNumber
                 });
 
-              case 18:
+              case 19:
                 this.store.dispatch({
                   type: this.actionTypes.callSuccess
                 });
-                _context6.next = 24;
+                _context6.next = 25;
                 break;
 
-              case 21:
-                _context6.prev = 21;
-                _context6.t1 = _context6["catch"](15);
+              case 22:
+                _context6.prev = 22;
+                _context6.t1 = _context6["catch"](16);
                 this.store.dispatch({
                   type: this.actionTypes.callError,
                   error: _context6.t1
                 });
 
-              case 24:
+              case 25:
               case "end":
                 return _context6.stop();
             }
           }
-        }, _callee6, this, [[15, 21]]);
+        }, _callee6, this, [[16, 22]]);
       }));
 
       function call(_x4) {
@@ -551,10 +560,48 @@ var DialerUI = (_dec = (0, _di.Module)({
         this._conferenceCall.closeMergingPair();
       }
     }
+    /**
+     * TODO: refactor with a better way to check if a call is placed by current device
+     * @param {
+     * } phoneNumber
+     * @returns boolean
+     *
+     * Check if a call is placed by current device, including call with browser, jupiter and ringcentral phone,
+     * and timeout 60s is for when call with ringcentral phone or jupiter we can't make sure the call is placed immediately
+     * so just in case other device make a call with same phone number when call from current device fail then we
+     * should not count it as current device call
+     */
+
+  }, {
+    key: "isCallFromCurrentDevice",
+    value: function isCallFromCurrentDevice(phoneNumber) {
+      var _this$_call$lastRecip;
+
+      var latestNumber = (0, _normalizeNumber["default"])({
+        phoneNumber: this._call.lastPhoneNumber || ((_this$_call$lastRecip = this._call.lastRecipient) === null || _this$_call$lastRecip === void 0 ? void 0 : _this$_call$lastRecip.phoneNumber),
+        countryCode: this._regionSettings.countryCode,
+        areaCode: this._regionSettings.areaCode
+      }); // if call out with extension number then only match main company number
+
+      latestNumber = latestNumber && latestNumber.split('*')[0];
+
+      if (latestNumber === phoneNumber && Date.now() - this._latestCallTime <= TIMEOUT) {
+        this._latestCallTime = 0;
+        return true;
+      }
+
+      return false;
+    }
   }, {
     key: "getUIProps",
     value: function getUIProps() {
+      var _ref5 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+          withTabs = _ref5.withTabs,
+          dialButtonsClassName = _ref5.dialButtonsClassName;
+
       return {
+        withTabs: withTabs,
+        dialButtonsClassName: dialButtonsClassName,
         currentLocale: this._locale.currentLocale,
         callingMode: this._callingSettings.callingMode,
         isWebphoneMode: this._callingSettings.isWebphoneMode,
@@ -579,7 +626,17 @@ var DialerUI = (_dec = (0, _di.Module)({
     value: function getUIFunctions() {
       var _this2 = this;
 
+      var _ref6 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+          phoneTypeRenderer = _ref6.phoneTypeRenderer,
+          phoneSourceNameRenderer = _ref6.phoneSourceNameRenderer,
+          recipientsContactInfoRenderer = _ref6.recipientsContactInfoRenderer,
+          recipientsContactPhoneRenderer = _ref6.recipientsContactPhoneRenderer;
+
       return {
+        phoneTypeRenderer: phoneTypeRenderer,
+        phoneSourceNameRenderer: phoneSourceNameRenderer,
+        recipientsContactInfoRenderer: recipientsContactInfoRenderer,
+        recipientsContactPhoneRenderer: recipientsContactPhoneRenderer,
         onToNumberChange: function onToNumberChange() {
           return _this2.setToNumberField.apply(_this2, arguments);
         },

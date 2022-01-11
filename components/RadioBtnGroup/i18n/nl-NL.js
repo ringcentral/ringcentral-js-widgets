@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  Home: "Thuis",
+  Home: "Privé",
   Mobile: "Mobiel",
   Work: "Werk"
 }; // @key: @#@"Home"@#@ @source: @#@"Home"@#@

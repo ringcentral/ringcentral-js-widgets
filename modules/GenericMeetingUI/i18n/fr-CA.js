@@ -1,0 +1,20 @@
+"use strict";
+
+require("core-js/modules/es6.object.define-property");
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+var _default = {
+  pmiChangeCancel: "Annuler",
+  pmiChangeConfirmed: "Changer",
+  pmiChangeConfirmTitle: "Changer les paramètres de la réunion personnelle?",
+  pmiChangeConfirmContext: "Le changement de ces paramètres aura une incidence sur toutes les réunions qui utilisent votre code ou votre nom de réunion personnelle, y compris celles qui sont déjà planifiées."
+}; // @key: @#@"pmiChangeCancel"@#@ @source: @#@"Cancel"@#@
+// @key: @#@"pmiChangeConfirmed"@#@ @source: @#@"Change"@#@
+// @key: @#@"pmiChangeConfirmTitle"@#@ @source: @#@"Change personal meeting settings?"@#@
+// @key: @#@"pmiChangeConfirmContext"@#@ @source: @#@"Changing these settings will affect all meetings that use your personal meeting ID or name, including those you've already scheduled"@#@
+
+exports["default"] = _default;
+//# sourceMappingURL=fr-CA.js.map

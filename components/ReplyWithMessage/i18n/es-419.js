@@ -13,7 +13,7 @@ var _default = {
   customMessage: "Mensaje personalizado",
   callMeBackIn: "Llámeme de nuevo en",
   willCallYouBackIn: "Le regresaré la llamada en",
-  min: "minutos",
+  min: "min",
   hours: "horas",
   days: "días"
 }; // @key: @#@"cancel"@#@ @source: @#@"Cancel"@#@
@@ -22,7 +22,7 @@ var _default = {
 // @key: @#@"customMessage"@#@ @source: @#@"Custom Message"@#@
 // @key: @#@"callMeBackIn"@#@ @source: @#@"Call me back in"@#@
 // @key: @#@"willCallYouBackIn"@#@ @source: @#@"Will call you back in"@#@
-// @key: @#@"min"@#@ @source: @#@"min."@#@
+// @key: @#@"min"@#@ @source: @#@"min"@#@
 // @key: @#@"hours"@#@ @source: @#@"hours"@#@
 // @key: @#@"days"@#@ @source: @#@"days"@#@
 

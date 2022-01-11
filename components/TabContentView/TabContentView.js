@@ -11,9 +11,9 @@ require("core-js/modules/es6.object.assign");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _TabContentPanel = _interopRequireDefault(require("../TabContentPanel"));
-
 var _SpinnerOverlay = require("../SpinnerOverlay");
+
+var _TabContentPanel = _interopRequireDefault(require("../TabContentPanel"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 

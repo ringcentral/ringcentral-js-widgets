@@ -1,1 +1,1 @@
-{"version":3,"sources":["components/SaveButton/i18n/zh-HK.js"],"names":["save"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,IAAI,EAAE;AADO,C,EAIf","sourcesContent":["export default {\n  save: \"儲存\"\n};\n\n// @key: @#@\"save\"@#@ @source: @#@\"Save\"@#@\n"],"file":"zh-HK.js"}
+{"version":3,"sources":["components/SaveButton/i18n/zh-HK.ts"],"names":["save"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,IAAI,EAAE;AADO,C,EAIf","sourcesContent":["export default {\n  save: \"儲存\"\n};\n\n// @key: @#@\"save\"@#@ @source: @#@\"Save\"@#@\n"],"file":"zh-HK.js"}

@@ -10,11 +10,11 @@ var _default = {
   DirectNumber: "Direct",
   MainCompanyNumber: "Principal",
   CompanyNumber: "Entreprise",
-  CompanyFaxNumber: "Télécopieur",
+  CompanyFaxNumber: "Fax",
   Blocked: "Bloqué",
   AdditionalCompanyNumber: "Entreprise",
   ForwardedCompanyNumber: "Transféré",
-  from: "De "
+  from: "De"
 }; // @key: @#@"DirectNumber"@#@ @source: @#@"Direct"@#@
 // @key: @#@"MainCompanyNumber"@#@ @source: @#@"Main"@#@
 // @key: @#@"CompanyNumber"@#@ @source: @#@"Company"@#@

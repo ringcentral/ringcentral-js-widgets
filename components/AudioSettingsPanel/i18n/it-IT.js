@@ -19,7 +19,7 @@ var _default = {
   checkMicPermission: "Controlla autorizzazione",
   micNoPermissionMessage: "L'app non è autorizzata a usare il microfono",
   noLabel: "Dispositivo sconosciuto",
-  notSetSinkIdTip: "Le attuali autorizzazioni del browser non sono impostate per consentire l&apos;accesso ai dispositivi di output audio. {clickHereLink} per la configurazione.",
+  notSetSinkIdTip: "Le attuali autorizzazioni del browser non sono impostate per consentire l'accesso ai dispositivi di input audio. {clickHereLink} per la configurazione.",
   noLabelTip: "Le attuali autorizzazioni del browser non sono impostate per consentire l'accesso ai dispositivi di input audio.",
   clickHere: "Fai clic qui",
   defaultOutputDevice: "Dispositivo di output predefinito"

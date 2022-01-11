@@ -5,8 +5,8 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getProxyRetryCountReducer = getProxyRetryCountReducer;
 exports["default"] = getAuthReducer;
+exports.getProxyRetryCountReducer = getProxyRetryCountReducer;
 
 var _redux = require("redux");
 

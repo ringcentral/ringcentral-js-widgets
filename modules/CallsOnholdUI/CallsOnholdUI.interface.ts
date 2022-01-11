@@ -1,4 +1,5 @@
 import { Call } from '@ringcentral-integration/commons/interfaces/Call.interface';
+
 import {
   ActiveCallsContainerProps,
   ActiveCallsPanelProps,

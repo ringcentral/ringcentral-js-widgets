@@ -5,21 +5,21 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = Dialog;
+exports["default"] = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _styles = _interopRequireDefault(require("./styles.scss"));
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _i18n = _interopRequireDefault(require("./i18n"));
+var _CloseIcon = _interopRequireDefault(require("../../assets/images/CloseIcon.svg"));
 
 var _Button = require("../Button");
 
-var _CloseIcon = _interopRequireDefault(require("../../assets/images/CloseIcon.svg"));
+var _i18n = _interopRequireDefault(require("./i18n"));
+
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -129,4 +129,6 @@ Dialog.defaultProps = {
   contentClassName: undefined,
   footerClassName: undefined
 };
+var _default = Dialog;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

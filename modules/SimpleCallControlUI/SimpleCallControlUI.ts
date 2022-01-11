@@ -1,18 +1,19 @@
-import {
-  RcUIModuleV2,
-  UIProps,
-  UIFunctions,
-} from '@ringcentral-integration/core';
-import { Module } from '@ringcentral-integration/commons/lib/di';
 import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 import { Entity } from '@ringcentral-integration/commons/interfaces/Entity.interface';
+import { Module } from '@ringcentral-integration/commons/lib/di';
 import {
-  SimpleCallControlContainerProps,
-  Deps,
-} from './SimpleCallControlUI.interface';
-import { pickFallBackInfo } from '../../components/SimpleCallControlPanel/utils';
-import i18n from '../../components/SimpleCallControlPanel/i18n';
+  RcUIModuleV2,
+  UIFunctions,
+  UIProps,
+} from '@ringcentral-integration/core';
+
 import { SimpleCallControlPanelProps } from '../../components/SimpleCallControlPanel';
+import i18n from '../../components/SimpleCallControlPanel/i18n';
+import { pickFallBackInfo } from '../../components/SimpleCallControlPanel/utils';
+import {
+  Deps,
+  SimpleCallControlContainerProps,
+} from './SimpleCallControlUI.interface';
 
 @Module({
   name: 'SimpleCallControlUI',
@@ -55,17 +56,15 @@ export class SimpleCallControlUI extends RcUIModuleV2<Deps> {
     }
     let fallBackName = i18n.getString('Unknown', locale.currentLocale);
     if (renderContactName) {
-      const {
-        fallBackName: fallBackNameFromThirdParty,
-        fallBackNumber,
-      } = pickFallBackInfo(
-        activeSession,
-        renderContactName({
-          sessionId: activeSession && activeSession.sessionId,
-          telephonySessionId: sessionId,
-        }),
-        locale.currentLocale,
-      );
+      const { fallBackName: fallBackNameFromThirdParty, fallBackNumber } =
+        pickFallBackInfo(
+          activeSession,
+          renderContactName({
+            sessionId: activeSession && activeSession.sessionId,
+            telephonySessionId: sessionId,
+          }),
+          locale.currentLocale,
+        );
       phoneNumber = fallBackNumber;
       fallBackName = fallBackNameFromThirdParty;
     }
@@ -78,16 +77,14 @@ export class SimpleCallControlUI extends RcUIModuleV2<Deps> {
       nameMatches,
       phoneNumber,
       fallBackName,
-      brandName: brand.fullName,
+      brandName: brand.name,
       controlBusy: activeCallControl.busy,
     };
   }
 
   getUIFunctions({
     params: { sessionId },
-  }: SimpleCallControlContainerProps): UIFunctions<
-    SimpleCallControlPanelProps
-  > {
+  }: SimpleCallControlContainerProps): UIFunctions<SimpleCallControlPanelProps> {
     return {
       onBackButtonClick: () => {
         this._deps.routerInteraction.goBack();

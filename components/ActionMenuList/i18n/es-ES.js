@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  sureToDeleteVoiceMail: "¿Está seguro de que desea eliminar este mensaje de voz?",
+  sureToDeleteVoiceMail: "¿Seguro que desea eliminar este mensaje de voz?",
   sureToDeleteFax: "¿Está seguro de que desea eliminar este fax?",
   doNotAskAgain: "No volver a preguntar"
 }; // @key: @#@"sureToDeleteVoiceMail"@#@ @source: @#@"Are you sure you want to delete this voicemail?"@#@

@@ -8,8 +8,8 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 var _default = {
   Home: "Domicile",
-  Mobile: "Appareil mobile",
-  Work: "Bureau"
+  Mobile: "Cellulaire",
+  Work: "Travail"
 }; // @key: @#@"Home"@#@ @source: @#@"Home"@#@
 // @key: @#@"Mobile"@#@ @source: @#@"Mobile"@#@
 // @key: @#@"Work"@#@ @source: @#@"Work"@#@

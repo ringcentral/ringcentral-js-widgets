@@ -9,7 +9,7 @@ exports["default"] = void 0;
 var _default = {
   to: "À :",
   transferTo: "Transférer à",
-  blindTransfer: "Transfert",
+  blindTransfer: "Transférer",
   warmTransfer: "Demander en premier",
   enterNameOrNumber: "Entrer le numéro"
 }; // @key: @#@"to"@#@ @source: @#@"To:"@#@

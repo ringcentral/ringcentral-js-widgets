@@ -1,0 +1,11 @@
+.wrapper {
+  margin: 0 20px;
+
+  div[class*='RcAlert-message'] {
+    font-size: 14px !important;
+  }
+}
+
+.alert {
+  padding: 8px !important;
+}

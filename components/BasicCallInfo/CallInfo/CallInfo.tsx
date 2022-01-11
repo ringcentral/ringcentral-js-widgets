@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 
-import styles from './styles.scss';
-import { Tooltip } from '../../Rcui/Tooltip';
 import { TOOLTIP_LONG_DELAY_TIME } from '../../../lib/toolTipDelayTime';
+import { Tooltip } from '../../Rcui/Tooltip';
+import styles from './styles.scss';
 
 export interface CallInfoProps {
   attr?: string;
@@ -10,7 +10,7 @@ export interface CallInfoProps {
   content: string;
   enableCopy?: boolean;
 }
-export const CallInfo: React.FunctionComponent<CallInfoProps> = ({
+export const CallInfo: FunctionComponent<CallInfoProps> = ({
   name,
   content,
 }) => {

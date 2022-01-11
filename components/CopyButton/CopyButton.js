@@ -9,15 +9,15 @@ exports["default"] = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _Copy = _interopRequireDefault(require("@ringcentral/juno/icon/Copy"));
+var _IconButton = require("@ringcentral/juno/es6/components/Buttons/IconButton/IconButton.js");
 
-var _juno = require("@ringcentral/juno");
+var _Copy = _interopRequireDefault(require("@ringcentral/juno/es6/icon/Copy.js"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var CopyButton = function CopyButton(_ref) {
   var executeCopy = _ref.executeCopy;
-  return /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {
+  return /*#__PURE__*/_react["default"].createElement(_IconButton.RcIconButton, {
     onClick: executeCopy,
     symbol: _Copy["default"],
     size: "small"

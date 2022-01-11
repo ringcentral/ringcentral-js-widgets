@@ -1,8 +1,9 @@
-import { RcUIModuleV2 } from '@ringcentral-integration/core';
 import { Entity } from '@ringcentral-integration/commons/interfaces/Entity.interface';
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import { ToNumber } from '@ringcentral-integration/commons/modules/ComposeTextV2';
 import { DateTimeFormat } from '@ringcentral-integration/commons/modules/DateTimeFormatV2';
+import { RcUIModuleV2 } from '@ringcentral-integration/core';
+
 import { OnCreateContactOptions } from '../CallsListUI/CallsListUI.interface';
 import { CallHistoryUIComponentProps, Deps } from './CallHistoryUI.interface';
 import i18n from './i18n';
@@ -62,7 +63,7 @@ export class CallHistoryUI extends RcUIModuleV2<Deps> {
     } = this._deps;
     return {
       enableContactFallback,
-      brand: brand.fullName,
+      brand: brand.name,
       title: i18n.getString('title', locale.currentLocale),
       currentLocale: locale.currentLocale,
       calls: callHistory.latestCalls,

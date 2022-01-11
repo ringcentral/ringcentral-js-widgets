@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 require("core-js/modules/es6.promise");
 
@@ -69,11 +69,11 @@ var _ramda = require("ramda");
 
 var _di = require("@ringcentral-integration/commons/lib/di");
 
-var _core = require("@ringcentral-integration/core");
-
 var _proxify = require("@ringcentral-integration/commons/lib/proxy/proxify");
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8, _descriptor9;
+var _core = require("@ringcentral-integration/core");
+
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8, _descriptor9;
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -91,9 +91,9 @@ function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToAr
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -103,19 +103,19 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
-function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
+function _get() { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(arguments.length < 3 ? target : receiver); } return desc.value; }; } return _get.apply(this, arguments); }
 
 function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } Object.defineProperty(subClass, "prototype", { value: Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }), writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
@@ -128,7 +128,7 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
 
 var CallLogSection = (_dec = (0, _di.Module)({
-  deps: ['Storage', 'CallLogTasks', 'CallHistory', 'CallMonitor', {
+  deps: ['Storage', 'CallHistory', 'CallMonitor', {
     dep: 'CallLogSectionOptions',
     optional: true
   }]
@@ -137,15 +137,11 @@ var CallLogSection = (_dec = (0, _di.Module)({
 }), _dec3 = (0, _core.computed)(function (that) {
   return [that.callsMappingState, that.callsSavingStatus];
 }), _dec4 = (0, _core.computed)(function (that) {
-  return [that.currentIdentify, that._deps.callLogTasks.logInfoMapping];
-}), _dec5 = (0, _core.computed)(function (that) {
   return [that.currentIdentify, that.callsMappingState];
-}), _dec6 = (0, _core.computed)(function (that) {
-  return [that.currentNotificationIdentify, that._deps.callLogTasks.logInfoMapping];
-}), _dec7 = (0, _core.computed)(function (that) {
+}), _dec5 = (0, _core.computed)(function (that) {
   return [that.currentIdentify, that._deps.callHistory.calls, that._deps.callMonitor.calls];
-}), _dec8 = (0, _core.computed)(function (that) {
-  return [that.currentNotificationIdentify, that._deps.callHistory.calls, that._deps.callMonitor.calls];
+}), _dec6 = (0, _core.computed)(function (that) {
+  return [that.currentNotificationIdentify, that._deps.callMonitor.calls];
 }), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModuleV) {
   _inherits(CallLogSection, _RcModuleV);
 
@@ -209,7 +205,7 @@ var CallLogSection = (_dec = (0, _di.Module)({
     value: function update(identify, newValue, callsSavingStatus) {
       this.callsSavingStatus[identify] = callsSavingStatus;
       var originalState = this.callsMappingState[identify];
-      this.callsMappingState = _objectSpread(_objectSpread({}, this.callsMappingState), {}, _defineProperty({}, identify, _objectSpread(_objectSpread({}, originalState), newValue)));
+      this.callsMappingState[identify] = _objectSpread(_objectSpread({}, originalState), newValue);
       this.identifyList = Array.from(new Set([].concat(_toConsumableArray(this.identifyList), [identify])));
     }
   }, {
@@ -847,58 +843,6 @@ var CallLogSection = (_dec = (0, _di.Module)({
       return expandLogNotification;
     }()
   }, {
-    key: "viewTask",
-    value: function () {
-      var _viewTask = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee18(call) {
-        return regeneratorRuntime.wrap(function _callee18$(_context18) {
-          while (1) {
-            switch (_context18.prev = _context18.next) {
-              case 0:
-                this.showLogSection(call.sessionId);
-                _context18.next = 3;
-                return this._deps.callLogTasks.fetchAndUpdateTask(call);
-
-              case 3:
-              case "end":
-                return _context18.stop();
-            }
-          }
-        }, _callee18, this);
-      }));
-
-      function viewTask(_x11) {
-        return _viewTask.apply(this, arguments);
-      }
-
-      return viewTask;
-    }()
-  }, {
-    key: "onNewCall",
-    value: function () {
-      var _onNewCall = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee19(call) {
-        return regeneratorRuntime.wrap(function _callee19$(_context19) {
-          while (1) {
-            switch (_context19.prev = _context19.next) {
-              case 0:
-                this.handleLogSection(call.sessionId);
-                _context19.next = 3;
-                return this._deps.callLogTasks.fetchAndUpdateTask(call);
-
-              case 3:
-              case "end":
-                return _context19.stop();
-            }
-          }
-        }, _callee19, this);
-      }));
-
-      function onNewCall(_x12) {
-        return _onNewCall.apply(this, arguments);
-      }
-
-      return onNewCall;
-    }()
-  }, {
     key: "calls",
     get: function get() {
       var _this2 = this;
@@ -919,26 +863,16 @@ var CallLogSection = (_dec = (0, _di.Module)({
       (0, _ramda.useWith)(_ramda.pick, [_ramda.keys, _ramda.identity])]);
     }
   }, {
-    key: "currentLogCall",
-    get: function get() {
-      return this._deps.callLogTasks.logInfoMapping[this.currentIdentify] || {};
-    }
-  }, {
     key: "currentCallLogStatus",
     get: function get() {
       return this.callsMappingState[this.currentIdentify] || {};
-    }
-  }, {
-    key: "currentLogNotificationCall",
-    get: function get() {
-      return this._deps.callLogTasks.logInfoMapping[this.currentNotificationIdentify] || {};
     }
   }, {
     key: "currentCall",
     get: function get() {
       var _this3 = this;
 
-      return [].concat(_toConsumableArray(this._deps.callHistory.calls), _toConsumableArray(this._deps.callMonitor.calls)).find(function (call) {
+      return [].concat(_toConsumableArray(this._deps.callMonitor.calls), _toConsumableArray(this._deps.callHistory.calls)).find(function (call) {
         return call.sessionId === _this3.currentIdentify;
       }) || {};
     }
@@ -947,7 +881,7 @@ var CallLogSection = (_dec = (0, _di.Module)({
     get: function get() {
       var _this4 = this;
 
-      return [].concat(_toConsumableArray(this._deps.callHistory.calls), _toConsumableArray(this._deps.callMonitor.calls)).find(function (call) {
+      return this._deps.callMonitor.calls.find(function (call) {
         return call.sessionId === _this4.currentNotificationIdentify;
       }) || {};
     }
@@ -975,6 +909,11 @@ var CallLogSection = (_dec = (0, _di.Module)({
     key: "notificationIsExpand",
     get: function get() {
       return this._notSyncOpenState ? this.stateNotificationIsExpand : this.storageNotificationIsExpand;
+    }
+  }, {
+    key: "currentCallSavingStatus",
+    get: function get() {
+      return this.callsSavingStatus[this.currentIdentify];
     }
   }]);
 
@@ -1042,6 +981,6 @@ var CallLogSection = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return false;
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "update", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "update"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "saveSuccess", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "saveSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "saving", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "saving"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "saveError", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "saveError"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_handleSuccess", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_handleSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_handleError", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_handleError"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "showLogSection", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "showLogSection"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setLogSectionIdentify", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setLogSectionIdentify"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setLogNotificationIdentify", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setLogNotificationIdentify"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "showLogNotification", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "showLogNotification"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateCallLog", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "updateCallLog"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "saveCallLog", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "saveCallLog"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "handleLogSection", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "handleLogSection"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "closeLogSection", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "closeLogSection"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "discardAndHandleNotification", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "discardAndHandleNotification"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "saveAndHandleNotification", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "saveAndHandleNotification"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "closeLogNotification", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "closeLogNotification"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setNotificationIsExpand", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setNotificationIsExpand"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "shrinkNotification", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "shrinkNotification"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "expandNotification", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "expandNotification"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "expandLogNotification", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "expandLogNotification"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "viewTask", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "viewTask"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "onNewCall", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "onNewCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "calls", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "calls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "callsMapping", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "callsMapping"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "currentLogCall", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "currentLogCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "currentCallLogStatus", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "currentCallLogStatus"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "currentLogNotificationCall", [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, "currentLogNotificationCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "currentCall", [_dec7], Object.getOwnPropertyDescriptor(_class2.prototype, "currentCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "currentNotificationCall", [_dec8], Object.getOwnPropertyDescriptor(_class2.prototype, "currentNotificationCall"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "update", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "update"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "saveSuccess", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "saveSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "saving", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "saving"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "saveError", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "saveError"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_handleSuccess", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_handleSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_handleError", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_handleError"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "showLogSection", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "showLogSection"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setLogSectionIdentify", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setLogSectionIdentify"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setLogNotificationIdentify", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setLogNotificationIdentify"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "showLogNotification", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "showLogNotification"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateCallLog", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "updateCallLog"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "saveCallLog", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "saveCallLog"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "handleLogSection", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "handleLogSection"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "closeLogSection", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "closeLogSection"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "discardAndHandleNotification", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "discardAndHandleNotification"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "saveAndHandleNotification", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "saveAndHandleNotification"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "closeLogNotification", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "closeLogNotification"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setNotificationIsExpand", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setNotificationIsExpand"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "shrinkNotification", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "shrinkNotification"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "expandNotification", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "expandNotification"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "expandLogNotification", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "expandLogNotification"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "calls", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "calls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "callsMapping", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "callsMapping"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "currentCallLogStatus", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "currentCallLogStatus"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "currentCall", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "currentCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "currentNotificationCall", [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, "currentNotificationCall"), _class2.prototype)), _class2)) || _class);
 exports.CallLogSection = CallLogSection;
 //# sourceMappingURL=CallLogSection.js.map

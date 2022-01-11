@@ -1,29 +1,47 @@
 "use strict";
 
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+
 require("core-js/modules/es6.object.define-property");
 
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.date.to-string");
-
-require("core-js/modules/es6.object.to-string");
-
-require("core-js/modules/es6.array.slice");
+require("core-js/modules/es6.weak-map");
 
 require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.array.from");
 
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
+
 require("core-js/modules/es7.symbol.async-iterator");
+
+require("core-js/modules/es6.array.is-array");
+
+require("core-js/modules/es6.object.assign");
 
 require("core-js/modules/es6.symbol");
 
-require("core-js/modules/es6.array.is-array");
+require("core-js/modules/es6.array.index-of");
+
+require("core-js/modules/web.dom.iterable");
+
+require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
+
+require("core-js/modules/es6.object.keys");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+
+require("core-js/modules/es6.object.define-properties");
+
+require("core-js/modules/es6.object.freeze");
+
+require("core-js/modules/es6.array.slice");
 
 require("core-js/modules/es6.function.name");
 
@@ -31,126 +49,141 @@ require("core-js/modules/es6.array.find");
 
 require("core-js/modules/es6.array.map");
 
-var _react = _interopRequireDefault(require("react"));
-
-var _propTypes = _interopRequireDefault(require("prop-types"));
+var _react = _interopRequireWildcard(require("react"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
 var _formatNumber = _interopRequireDefault(require("@ringcentral-integration/commons/lib/formatNumber"));
 
-var _phoneSources = require("@ringcentral-integration/commons/enums/phoneSources");
+var _ellipsis = require("@ringcentral/juno/es6/foundation/styles/ellipsis.js");
 
-var _formatMessage = _interopRequireDefault(require("format-message"));
+var _flexWidth = require("@ringcentral/juno/es6/foundation/styles/flexWidth.js");
 
-var _DropdownSelect = _interopRequireDefault(require("../DropdownSelect"));
+var _newPalette = require("@ringcentral/juno/es6/foundation/styles/newPalette.js");
+
+var _radius = require("@ringcentral/juno/es6/foundation/styles/radius.js");
+
+var _Button = require("@ringcentral/juno/es6/components/Buttons/Button/Button.js");
+
+var _Icon = require("@ringcentral/juno/es6/components/Icon/Icon.js");
+
+var _Menu = require("@ringcentral/juno/es6/components/Menu/Menu/Menu.js");
+
+var _MenuItem = require("@ringcentral/juno/es6/components/Menu/MenuItem/MenuItem.js");
+
+var _spacing = require("@ringcentral/juno/es6/foundation/styles/spacing.js");
+
+var _styledComponents = _interopRequireDefault(require("@ringcentral/juno/es6/foundation/styled-components.js"));
+
+var _ArrowDown = _interopRequireDefault(require("@ringcentral/juno/es6/icon/ArrowDown2.js"));
+
+var _ArrowUp = _interopRequireDefault(require("@ringcentral/juno/es6/icon/ArrowUp2.js"));
+
+var _ContactDisplayItem = require("./ContactDisplayItem");
+
+var _displayFormatter = require("./displayFormatter");
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
-var _phoneSourceNames = _interopRequireDefault(require("../../lib/phoneSourceNames"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
+
+function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
 function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
 
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-var displayFormatter = function displayFormatter(_ref) {
-  var entityName = _ref.entityName,
-      entityType = _ref.entityType,
-      phoneNumber = _ref.phoneNumber,
-      currentLocale = _ref.currentLocale,
-      brand = _ref.brand,
-      phoneSourceNameRenderer = _ref.phoneSourceNameRenderer;
-  var typeName;
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
-  if (entityType) {
-    typeName = phoneSourceNameRenderer ? phoneSourceNameRenderer(entityType) : (0, _formatMessage["default"])(_phoneSourceNames["default"].getString(entityType, currentLocale), {
-      brand: brand
-    });
-  }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-  if (phoneNumber && entityName && entityType) {
-    return "".concat(entityName, " | ").concat(typeName, " ").concat(phoneNumber);
-  }
+function _templateObject4() {
+  var data = _taggedTemplateLiteral(["\n  ", " {\n    max-width: 230px;\n\n    span {\n      white-space: nowrap;\n      overflow: hidden;\n      text-overflow: ellipsis;\n    }\n  }\n"]);
 
-  if (entityName && entityType) {
-    return "".concat(entityName, " | ").concat(typeName);
-  }
+  _templateObject4 = function _templateObject4() {
+    return data;
+  };
 
-  if (entityName) {
-    return entityName;
-  }
+  return data;
+}
 
-  if (phoneNumber) {
-    return "".concat(phoneNumber);
-  }
+function _templateObject3() {
+  var data = _taggedTemplateLiteral(["\n  font-size: 14px;\n  color: ", ";\n  ", ";\n  line-height: 1.3;\n"]);
 
-  return '';
+  _templateObject3 = function _templateObject3() {
+    return data;
+  };
+
+  return data;
+}
+
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
+function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
+
+function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+
+function _templateObject2() {
+  var data = _taggedTemplateLiteral(["\n  && {\n    padding: 0;\n    font-size: 14px;\n    font-weight: normal;\n    max-width: 100%;\n  }\n"]);
+
+  _templateObject2 = function _templateObject2() {
+    return data;
+  };
+
+  return data;
+}
+
+function _templateObject() {
+  var data = _taggedTemplateLiteral(["\n  display: inline-block;\n  height: 8px;\n  ", "\n  background-color: ", ";\n  border-radius: ", ";\n  margin-right: ", ";\n"]);
+
+  _templateObject = function _templateObject() {
+    return data;
+  };
+
+  return data;
+}
+
+function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+
+var UnReadDot = _styledComponents["default"].div(_templateObject(), (0, _flexWidth.flexWidth)('8px'), (0, _newPalette.palette2)('interactive', 'f01'), (0, _radius.radius)('round'), (0, _spacing.spacing)(1.5));
+
+var MenuButton = (0, _styledComponents["default"])(_Button.RcButton)(_templateObject2());
+
+var _Title = function _Title(_ref) {
+  var children = _ref.children,
+      unread = _ref.unread,
+      missed = _ref.missed,
+      rest = _objectWithoutProperties(_ref, ["children", "unread", "missed"]);
+
+  return /*#__PURE__*/_react["default"].createElement("div", _extends({}, rest, {
+    "data-sign": "currentName"
+  }), children);
 };
 
-var ContactDisplayItem = function ContactDisplayItem(_ref2) {
-  var entityName = _ref2.entityName,
-      entityType = _ref2.entityType,
-      phoneNumber = _ref2.phoneNumber,
-      sourceIcons = _ref2.sourceIcons;
-  var SourceIcon = null;
-
-  if (entityType) {
-    if (entityType === _phoneSources.phoneSources.rcContact) {
-      SourceIcon = sourceIcons.brandIcon;
-    } else {
-      SourceIcon = sourceIcons[entityType];
-    }
-  }
-
-  if (phoneNumber && entityName !== undefined && SourceIcon) {
-    return /*#__PURE__*/_react["default"].createElement("span", null, /*#__PURE__*/_react["default"].createElement(SourceIcon, {
-      className: _styles["default"].typeIcon,
-      width: 10,
-      height: 10
-    }), /*#__PURE__*/_react["default"].createElement("span", {
-      className: _styles["default"].typeName
-    }, entityName));
-  }
-
-  if (entityName !== undefined && SourceIcon) {
-    return /*#__PURE__*/_react["default"].createElement("span", null, /*#__PURE__*/_react["default"].createElement(SourceIcon, {
-      className: _styles["default"].typeIcon,
-      width: 10,
-      height: 10
-    }), /*#__PURE__*/_react["default"].createElement("span", {
-      className: _styles["default"].typeName
-    }, entityName));
-  }
-
-  if (entityName !== undefined) {
-    return /*#__PURE__*/_react["default"].createElement("span", null, entityName);
-  }
-
-  if (phoneNumber) {
-    return /*#__PURE__*/_react["default"].createElement("span", null, phoneNumber);
-  }
-
-  return null;
-};
-
-ContactDisplayItem.propTypes = {
-  entityName: _propTypes["default"].string.isRequired,
-  entityType: _propTypes["default"].string.isRequired,
-  phoneNumber: _propTypes["default"].string.isRequired,
-  sourceIcons: _propTypes["default"].object.isRequired
-};
+var Title = (0, _styledComponents["default"])(_Title)(_templateObject3(), function (_ref2) {
+  var unread = _ref2.unread,
+      missed = _ref2.missed;
+  return (// eslint-disable-next-line no-nested-ternary
+    missed ? (0, _newPalette.palette2)('danger', 'f02') : unread ? (0, _newPalette.palette2)('interactive', 'f01') : (0, _newPalette.palette2)('neutral', 'f06')
+  );
+}, _ellipsis.ellipsis);
+var StyledMenu = (0, _styledComponents["default"])(_Menu.RcMenu)(_templateObject4(), _MenuItem.RcMenuItem);
 
 var ContactDisplay = function ContactDisplay(_ref3) {
   var reference = _ref3.reference,
@@ -178,16 +211,16 @@ var ContactDisplay = function ContactDisplay(_ref3) {
       stopPropagation = _ref3.stopPropagation,
       _ref3$sourceIcons = _ref3.sourceIcons,
       sourceIcons = _ref3$sourceIcons === void 0 ? {} : _ref3$sourceIcons,
-      phoneTypeRenderer = _ref3.phoneTypeRenderer,
       phoneSourceNameRenderer = _ref3.phoneSourceNameRenderer,
       showGroupNumberName = _ref3.showGroupNumberName,
       contactName = _ref3.contactName,
       isOnConferenceCall = _ref3.isOnConferenceCall,
       iconClassName = _ref3.iconClassName,
       dropdownRenderFunction = _ref3.dropdownRenderFunction,
-      dropdownClassName = _ref3.dropdownClassName;
-  var contentEl;
-  phoneNumber = (0, _formatNumber["default"])({
+      dropdownClassName = _ref3.dropdownClassName,
+      unread = _ref3.unread,
+      missed = _ref3.missed;
+  var phoneNumberAfterFormat = (0, _formatNumber["default"])({
     phoneNumber: phoneNumber,
     countryCode: countryCode,
     areaCode: areaCode,
@@ -195,194 +228,231 @@ var ContactDisplay = function ContactDisplay(_ref3) {
     isMultipleSiteEnabled: isMultipleSiteEnabled
   });
 
-  if (isOnConferenceCall) {
-    var confStr = _i18n["default"].getString('conferenceCall', currentLocale);
+  var unreadDot = unread && /*#__PURE__*/_react["default"].createElement(UnReadDot, {
+    "data-sign": "unread",
+    "aria-label": "unread"
+  });
 
-    contentEl = /*#__PURE__*/_react["default"].createElement("div", {
-      title: confStr,
-      "data-sign": "currentName",
-      className: _styles["default"].currentName
-    }, confStr);
-  } else if (contactName) {
-    contentEl = /*#__PURE__*/_react["default"].createElement("div", {
-      title: contactName,
-      "data-sign": "currentName",
-      className: _styles["default"].currentName
-    }, contactName);
-  } else if (groupNumbers && showGroupNumberName) {
-    var groupNames = groupNumbers.map(function (groupNumber) {
-      var groupContact = contactMatches.find(function (match) {
-        return match.extensionNumber === groupNumber;
-      });
-      return groupContact && groupContact.name || groupNumber;
-    });
-    var display = groupNames.join(', ');
-    contentEl = /*#__PURE__*/_react["default"].createElement("div", {
-      title: display,
-      "data-sign": "currentName",
-      className: _styles["default"].currentName
-    }, display);
-  } else if (groupNumbers) {
-    var _display = groupNumbers.join(', ');
+  var _useState = (0, _react.useState)(null),
+      _useState2 = _slicedToArray(_useState, 2),
+      anchorEl = _useState2[0],
+      setAnchorEl = _useState2[1];
 
-    contentEl = /*#__PURE__*/_react["default"].createElement("div", {
-      title: _display,
-      "data-sign": "currentName",
-      className: _styles["default"].currentName
-    }, _display);
-  } else if (contactMatches.length === 0) {
-    var _display2 = enableContactFallback && fallBackName || phoneNumber || _i18n["default"].getString('unknownNumber', currentLocale);
+  var handleClick = function handleClick(event) {
+    event.preventDefault();
+    event.stopPropagation();
+    setAnchorEl(event.currentTarget);
+  };
 
-    var title = enableContactFallback && fallBackName || phoneNumber || '';
-    contentEl = /*#__PURE__*/_react["default"].createElement("div", {
-      title: title,
-      "data-sign": "currentName",
-      className: _styles["default"].currentName
-    }, _display2);
-  } else if (contactMatches.length === 1) {
-    var _display3 = contactMatches[0].name;
+  var handleClose = function handleClose() {
+    return setAnchorEl(null);
+  };
 
-    var _title = displayFormatter({
-      entityName: _display3,
-      entityType: contactMatches[0].entityType,
-      phoneNumber: phoneNumber,
-      brand: brand,
-      currentLocale: currentLocale,
-      phoneTypeRenderer: phoneTypeRenderer,
-      phoneSourceNameRenderer: phoneSourceNameRenderer
-    });
+  var contentEl = function () {
+    if (isOnConferenceCall) {
+      var confStr = _i18n["default"].getString('conferenceCall', currentLocale);
 
-    contentEl = /*#__PURE__*/_react["default"].createElement("div", {
-      title: _title,
-      "data-sign": "currentName",
-      className: _styles["default"].currentName
-    }, _display3);
-  } else if (contactMatches.length > 1) {
-    var options = _toConsumableArray(contactMatches);
-
-    var selectPlaceholder;
-    var _selected = selected;
-
-    if (showPlaceholder) {
-      selectPlaceholder = placeholder || _i18n["default"].getString('select', currentLocale);
-    } else {
-      _selected = _selected < 0 ? 0 : _selected;
+      return /*#__PURE__*/_react["default"].createElement(Title, {
+        title: confStr,
+        unread: unread,
+        missed: missed
+      }, unreadDot, confStr);
     }
 
-    contentEl = /*#__PURE__*/_react["default"].createElement(_DropdownSelect["default"], {
-      reference: reference,
-      className: (0, _classnames["default"])(_styles["default"].select, selectClassName),
-      selectedClassName: (0, _classnames["default"])(_styles["default"].selectedValue, selectedClassName),
-      buttonStyle: _styles["default"].button,
-      iconClassName: (0, _classnames["default"])(_styles["default"].icon, iconClassName),
-      value: _selected,
-      onChange: onSelectContact,
-      disabled: disabled || isLogging,
-      options: options,
-      placeholder: selectPlaceholder,
-      dropdownClassName: dropdownClassName,
-      renderFunction: dropdownRenderFunction || function (entity) {
-        return ContactDisplayItem({
+    if (contactName) {
+      return /*#__PURE__*/_react["default"].createElement(Title, {
+        title: contactName,
+        unread: unread,
+        missed: missed
+      }, unreadDot, contactName);
+    }
+
+    if (groupNumbers && showGroupNumberName) {
+      var groupNames = groupNumbers.map(function (groupNumber) {
+        var groupContact = contactMatches.find(function (match) {
+          return match.extensionNumber === groupNumber;
+        });
+        return groupContact && groupContact.name || groupNumber;
+      });
+      var display = groupNames.join(', ');
+      return /*#__PURE__*/_react["default"].createElement(Title, {
+        title: display,
+        unread: unread,
+        missed: missed
+      }, unreadDot, display);
+    }
+
+    if (groupNumbers) {
+      var _display = groupNumbers.join(', ');
+
+      return /*#__PURE__*/_react["default"].createElement(Title, {
+        title: _display,
+        unread: unread,
+        missed: missed
+      }, unreadDot, _display);
+    }
+
+    if (contactMatches.length === 0) {
+      var _display2 = enableContactFallback && fallBackName || phoneNumberAfterFormat || _i18n["default"].getString('unknownNumber', currentLocale);
+
+      var title = enableContactFallback && fallBackName || phoneNumberAfterFormat || '';
+      return /*#__PURE__*/_react["default"].createElement(Title, {
+        title: title,
+        unread: unread,
+        missed: missed
+      }, unreadDot, _display2);
+    }
+
+    if (contactMatches.length === 1) {
+      var _display3 = contactMatches[0].name;
+
+      var _title = (0, _displayFormatter.displayFormatter)({
+        entityName: _display3,
+        entityType: contactMatches[0].entityType,
+        phoneNumber: phoneNumberAfterFormat,
+        brand: brand,
+        currentLocale: currentLocale,
+        phoneSourceNameRenderer: phoneSourceNameRenderer
+      });
+
+      return /*#__PURE__*/_react["default"].createElement(Title, {
+        title: _title,
+        unread: unread,
+        missed: missed
+      }, unreadDot, _display3);
+    }
+
+    if (contactMatches.length > 1) {
+      var entities = _toConsumableArray(contactMatches);
+
+      var currPlaceholder;
+      var _selected = selected;
+
+      if (showPlaceholder) {
+        currPlaceholder = placeholder || _i18n["default"].getString('select', currentLocale);
+      } else {
+        _selected = _selected < 0 ? 0 : _selected;
+      }
+
+      var curr = entities[_selected];
+      var value = (0, _displayFormatter.displayFormatter)({
+        entityName: curr === null || curr === void 0 ? void 0 : curr.name,
+        entityType: showType && curr.entityType,
+        brand: brand,
+        currentLocale: currentLocale,
+        phoneSourceNameRenderer: phoneSourceNameRenderer
+      });
+
+      var _title2 = curr ? (0, _displayFormatter.displayFormatter)({
+        entityName: curr.name,
+        entityType: curr.entityType,
+        phoneNumber: phoneNumberAfterFormat,
+        brand: brand,
+        currentLocale: currentLocale,
+        phoneSourceNameRenderer: phoneSourceNameRenderer
+      }) : phoneNumberAfterFormat;
+
+      var open = Boolean(anchorEl);
+      var items = currPlaceholder ? [{}].concat(_toConsumableArray(entities)) : entities;
+      return /*#__PURE__*/_react["default"].createElement(Title, {
+        unread: unread,
+        missed: missed
+      }, /*#__PURE__*/_react["default"].createElement(MenuButton, {
+        variant: "plain",
+        "data-sign": "menuButton",
+        color: unread ? 'interactive.f01' : 'neutral.f06',
+        onClick: handleClick,
+        disabled: disabled || isLogging,
+        title: _title2,
+        endIcon: /*#__PURE__*/_react["default"].createElement(_Icon.RcIcon, {
+          symbol: open ? _ArrowUp["default"] : _ArrowDown["default"],
+          size: "small",
+          color: "neutral.f04"
+        })
+      }, unreadDot, /*#__PURE__*/_react["default"].createElement(Title, {
+        unread: unread,
+        missed: missed
+      }, selected > -1 ? value : currPlaceholder)), /*#__PURE__*/_react["default"].createElement(StyledMenu, {
+        open: open,
+        anchorEl: anchorEl,
+        onClose: function onClose(e, reason) {
+          // stop event propagation to prevent click event on item
+          if (reason === 'backdropClick') {
+            e.stopPropagation();
+          }
+
+          handleClose();
+        },
+        "aria-label": "choice a presence state"
+      }, items.map(function (entity, i) {
+        var title = entity ? (0, _displayFormatter.displayFormatter)({
           entityName: entity.name,
           entityType: entity.entityType,
+          phoneNumber: phoneNumberAfterFormat,
           brand: brand,
           currentLocale: currentLocale,
-          sourceIcons: sourceIcons
-        });
-      },
-      renderValue: function renderValue(value) {
-        return displayFormatter({
-          entityName: options[value].name,
-          entityType: showType && options[value].entityType,
-          brand: brand,
-          currentLocale: currentLocale,
-          phoneTypeRenderer: phoneTypeRenderer,
           phoneSourceNameRenderer: phoneSourceNameRenderer
-        });
-      },
-      renderTitle: function renderTitle(entity) {
-        return entity ? displayFormatter({
+        }) : phoneNumberAfterFormat;
+        var itemValue = (0, _displayFormatter.displayFormatter)({
           entityName: entity.name,
-          entityType: entity.entityType,
-          phoneNumber: phoneNumber,
+          entityType: showType && entity.entityType,
           brand: brand,
           currentLocale: currentLocale,
-          phoneTypeRenderer: phoneTypeRenderer,
           phoneSourceNameRenderer: phoneSourceNameRenderer
-        }) : phoneNumber;
-      },
-      dropdownAlign: "left",
-      titleEnabled: true,
-      noPadding: true,
-      stopPropagation: stopPropagation
-    });
-  }
+        });
+        var isPlaceholder = showPlaceholder && i === 0;
+
+        var child = function () {
+          if (isPlaceholder) {
+            return currPlaceholder;
+          }
+
+          return dropdownRenderFunction ? dropdownRenderFunction(entity) : /*#__PURE__*/_react["default"].createElement(_ContactDisplayItem.ContactDisplayItem, {
+            entityName: entity.name,
+            entityType: entity.entityType,
+            sourceIcons: sourceIcons
+          });
+        }();
+
+        return /*#__PURE__*/_react["default"].createElement(_MenuItem.RcMenuItem, {
+          title: title,
+          value: itemValue,
+          key: i,
+          selected: value === itemValue,
+          onClick: function onClick(e) {
+            e.preventDefault();
+            e.stopPropagation();
+
+            if (isPlaceholder) {// TODO: should check that feature in salesforce
+              // do nothing
+            } else {
+              onSelectContact(entity, i);
+            }
+
+            handleClose();
+          }
+        }, child);
+      })));
+    }
+  }();
 
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].root, className)
   }, contentEl);
 };
 
-ContactDisplay.propTypes = {
-  isOnConferenceCall: _propTypes["default"].bool,
-  reference: _propTypes["default"].func,
-  className: _propTypes["default"].string,
-  contactMatches: _propTypes["default"].arrayOf(_propTypes["default"].any).isRequired,
-  selected: _propTypes["default"].number.isRequired,
-  onSelectContact: _propTypes["default"].func,
-  disabled: _propTypes["default"].bool,
-  isLogging: _propTypes["default"].bool.isRequired,
-  fallBackName: _propTypes["default"].string,
-  enableContactFallback: _propTypes["default"].bool,
-  areaCode: _propTypes["default"].string.isRequired,
-  countryCode: _propTypes["default"].string.isRequired,
-  phoneNumber: _propTypes["default"].string,
-  currentLocale: _propTypes["default"].string.isRequired,
-  currentSiteCode: _propTypes["default"].string,
-  isMultipleSiteEnabled: _propTypes["default"].bool,
-  groupNumbers: _propTypes["default"].arrayOf(_propTypes["default"].string),
-  showType: _propTypes["default"].bool,
-  selectClassName: _propTypes["default"].string,
-  selectedClassName: _propTypes["default"].string,
-  showPlaceholder: _propTypes["default"].bool,
-  placeholder: _propTypes["default"].string,
-  brand: _propTypes["default"].string,
-  stopPropagation: _propTypes["default"].bool,
-  sourceIcons: _propTypes["default"].object,
-  phoneTypeRenderer: _propTypes["default"].func,
-  phoneSourceNameRenderer: _propTypes["default"].func,
-  showGroupNumberName: _propTypes["default"].bool,
-  contactName: _propTypes["default"].any,
-  iconClassName: _propTypes["default"].string,
-  dropdownRenderFunction: _propTypes["default"].func,
-  dropdownClassName: _propTypes["default"].string
-};
 ContactDisplay.defaultProps = {
   currentSiteCode: '',
   isMultipleSiteEnabled: false,
   isOnConferenceCall: false,
-  reference: undefined,
-  className: undefined,
-  onSelectContact: undefined,
   disabled: false,
   fallBackName: '',
-  phoneNumber: undefined,
-  groupNumbers: undefined,
-  enableContactFallback: undefined,
   showType: true,
-  selectClassName: undefined,
-  selectedClassName: undefined,
   showPlaceholder: true,
   placeholder: '',
-  brand: undefined,
   stopPropagation: true,
-  sourceIcons: undefined,
-  phoneTypeRenderer: undefined,
-  phoneSourceNameRenderer: undefined,
   showGroupNumberName: false,
-  contactName: undefined,
   iconClassName: null,
-  dropdownRenderFunction: undefined,
   dropdownClassName: null
 };
 var _default = ContactDisplay;

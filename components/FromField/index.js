@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 require("core-js/modules/es6.object.define-property");
 
@@ -37,15 +37,15 @@ exports["default"] = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
 var _classnames = _interopRequireDefault(require("classnames"));
+
+var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _DropdownSelect = _interopRequireDefault(require("../DropdownSelect"));
 
-var _styles = _interopRequireDefault(require("./styles.scss"));
-
 var _i18n = _interopRequireDefault(require("./i18n"));
+
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -75,7 +75,9 @@ var PhoneNumber = function PhoneNumber(_ref) {
   }, _i18n["default"].getString(usageType, currentLocale)) : null;
   return /*#__PURE__*/_react["default"].createElement("span", {
     className: _styles["default"].phoneNumber
-  }, usageTypeDom, /*#__PURE__*/_react["default"].createElement("span", null, formatPhone(phoneNumber)));
+  }, usageTypeDom, /*#__PURE__*/_react["default"].createElement("span", {
+    "data-sign": "phoneNumber"
+  }, formatPhone(phoneNumber)));
 };
 
 PhoneNumber.propTypes = {

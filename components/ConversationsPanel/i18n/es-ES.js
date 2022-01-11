@@ -21,7 +21,7 @@ var _default = (_title$search$compose = {
   composeText: "Redactar mensaje",
   noMessages: "Sin mensajes",
   noSearchResults: "No se han encontrado registros que coincidan"
-}, _defineProperty(_title$search$compose, _messageTypes["default"].all, "Todo"), _defineProperty(_title$search$compose, _messageTypes["default"].voiceMail, "Voz"), _defineProperty(_title$search$compose, _messageTypes["default"].text, "Texto"), _defineProperty(_title$search$compose, _messageTypes["default"].fax, "Fax"), _title$search$compose); // @key: @#@"title"@#@ @source: @#@"Messages"@#@
+}, _defineProperty(_title$search$compose, _messageTypes["default"].all, "Todo"), _defineProperty(_title$search$compose, _messageTypes["default"].voiceMail, "Voz"), _defineProperty(_title$search$compose, _messageTypes["default"].text, "Mensaje"), _defineProperty(_title$search$compose, _messageTypes["default"].fax, "Fax"), _title$search$compose); // @key: @#@"title"@#@ @source: @#@"Messages"@#@
 // @key: @#@"search"@#@ @source: @#@"Search..."@#@
 // @key: @#@"composeText"@#@ @source: @#@"Compose Text"@#@
 // @key: @#@"noMessages"@#@ @source: @#@"No Messages"@#@

@@ -8,7 +8,7 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 var _default = {
   title: "Audio",
-  dialButtonVolume: "Volume kiestoets",
+  dialButtonVolume: "Kiestoetsvolume",
   ringtoneVolume: "Beltoonvolume",
   callVolume: "Oproepvolume",
   muteCalls: "Oproepen dempen",
@@ -16,11 +16,11 @@ var _default = {
   inputDevice: "Input-apparaat",
   micPermission: "Machtiging microfoon",
   noDevice: "Geen apparaat",
-  checkMicPermission: "Controleer machtiging",
+  checkMicPermission: "Machtigingen controleren",
   micNoPermissionMessage: "De app is niet gemachtigd om microfoon te gebruiken",
   noLabel: "Onbekend apparaat",
-  notSetSinkIdTip: "Uw huidige browserrechten zijn niet ingesteld om ons toegang te geven tot uw audio-output-apparaten. {clickHereLink} om te zien hoe u dit kunt instellen.",
-  noLabelTip: "Uw huidige browserrechten zijn niet ingesteld om ons toegang te geven tot uw audio-input-apparaten.",
+  notSetSinkIdTip: "Uw huidige browsermachtigingen zijn niet ingesteld om ons toegang te geven tot uw audio-output-apparaten. {clickHereLink} om te zien hoe u dit kunt instellen.",
+  noLabelTip: "Uw huidige browsermachtigingen zijn niet ingesteld om ons toegang te geven tot uw audio-input-apparaten.",
   clickHere: "Klik hier",
   defaultOutputDevice: "Standaard output-apparaat"
 }; // @key: @#@"title"@#@ @source: @#@"Audio"@#@

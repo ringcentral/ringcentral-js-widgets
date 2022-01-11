@@ -1,1 +1,1 @@
-{"version":3,"sources":["components/LogBasicInfoV2/index.js"],"names":["LogBasicInfo"],"mappings":";;;;;;;;;AAAA;;;;eAEeA,wB","sourcesContent":["import LogBasicInfo from './LogBasicInfo';\n\nexport default LogBasicInfo;\n"],"file":"index.js"}
+{"version":3,"sources":["components/LogBasicInfoV2/index.ts"],"names":["LogBasicInfo"],"mappings":";;;;;;;;;AAAA;;;;eAEeA,wB","sourcesContent":["import LogBasicInfo from './LogBasicInfo';\n\nexport default LogBasicInfo;\n"],"file":"index.js"}

@@ -8,7 +8,7 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 var _default = {
   loginButton: "登录",
-  signupButton: "新用户？请注册",
+  signupButton: "新用户？注册",
   version: "版本"
 }; // @key: @#@"loginButton"@#@ @source: @#@"Sign In"@#@
 // @key: @#@"signupButton"@#@ @source: @#@"New user? Sign Up"@#@

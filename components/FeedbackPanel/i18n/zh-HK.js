@@ -8,11 +8,11 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 var _default = {
   feedbackHeader: "提交意見回饋",
-  back: "上一步",
+  back: "返回",
   revert: "回復",
   instruction: "您的意見回饋對我們相當重要。若您在使用應用程式時有問題、想要求某項功能或是回報程式錯誤，我們非常樂意提供協助。",
-  fillForm: "請填寫以下表格並按一下",
-  useMailBox: "或直接使用您的信箱，將要求寄至",
+  fillForm: "請填寫以下表格並按一下 ",
+  useMailBox: " 或直接使用您的信箱，將要求寄至 ",
   email: "您的電子郵件地址",
   reply: "（以便我們聯絡您）",
   emailPlaceHolder: "ronald.app@ringcentral.com",

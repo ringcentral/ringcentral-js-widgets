@@ -15,7 +15,7 @@ var _default = {
   starSharp4Title: "Menu",
   starSharp4Body: "Consente di ascoltare l'elenco dei comandi di composizione a toni",
   starSharp5Title: "Imposta modalità di ascolto",
-  starSharp5Body: "1 pressione: Disattiva audio chiamanti - I chiamanti possono riattivare l'audio con *, #, 6\n2 pressioni: Disattiva audio chiamanti - Solo ascolto. Nessuna opzione di riattivazione audio\n3 pressioni: Riattiva audio chiamanti - Riapre la linea",
+  starSharp5Body: "1 pressione: Disattiva audio chiamanti - I chiamanti possono riattivare l'audio con  *, #, 6\n2 pressioni: Disattiva audio chiamanti - Solo ascolto. Nessuna opzione di riattivazione audio\n3 pressioni: Riattiva audio chiamanti - Riapre la linea",
   starSharp6Title: "Disattiva audio linea moderatore",
   starSharp6Body: "Premi una volta per DISATTIVARE L'AUDIO\nPremi nuovamente per RIATTIVARE L'AUDIO",
   starSharp7Title: "Proteggi chiamata",

@@ -1,12 +1,14 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
+
 import { RcTooltip, RcTooltipProps } from '@ringcentral/juno';
+
 import styles from './styles.scss';
 
 interface ExtendedTooltipProps {
   hasScrollBar: boolean;
 }
 
-export const ExtendedTooltip: React.FunctionComponent<
+export const ExtendedTooltip: FunctionComponent<
   ExtendedTooltipProps & RcTooltipProps
 > = ({ hasScrollBar, children, ...res }) => {
   const isMac = navigator.platform.includes('Mac');

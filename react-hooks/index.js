@@ -54,4 +54,17 @@ Object.keys(_useScrollIntoView).forEach(function (key) {
     }
   });
 });
+
+var _useInterval = require("./useInterval");
+
+Object.keys(_useInterval).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _useInterval[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _useInterval[key];
+    }
+  });
+});
 //# sourceMappingURL=index.js.map

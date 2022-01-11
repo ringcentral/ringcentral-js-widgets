@@ -1,6 +1,8 @@
 import React, { FunctionComponent, useCallback } from 'react';
-import { RcIconButton, styled, spacing } from '@ringcentral/juno';
-import CopyIcon from '@ringcentral/juno/icon/Copy';
+
+import { RcIconButton, spacing, styled } from '@ringcentral/juno';
+import { Copy as CopyIcon } from '@ringcentral/juno/icon';
+
 import CopyToClipboard from '../CopyToClipboard';
 import i18n from './i18n';
 import { ICopyBtnProps, InnerBtnProps } from './interface';

@@ -5,21 +5,19 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = CallInfo;
+exports["default"] = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
+var _CallAvatar = _interopRequireDefault(require("../CallAvatar"));
 
 var _ContactDisplay = _interopRequireDefault(require("../ContactDisplay"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
-var _CallAvatar = _interopRequireDefault(require("../CallAvatar"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function CallInfo(props) {
+var CallInfo = function CallInfo(props) {
   var avatar;
 
   if (props.avatarUrl) {
@@ -64,26 +62,8 @@ function CallInfo(props) {
     className: _styles["default"].userPhoneNumber,
     "data-sign": "userPhoneNumber"
   }, props.formatPhone(props.phoneNumber)));
-}
-
-CallInfo.propTypes = {
-  phoneNumber: _propTypes["default"].string,
-  formatPhone: _propTypes["default"].func.isRequired,
-  nameMatches: _propTypes["default"].array.isRequired,
-  fallBackName: _propTypes["default"].string.isRequired,
-  areaCode: _propTypes["default"].string.isRequired,
-  countryCode: _propTypes["default"].string.isRequired,
-  currentLocale: _propTypes["default"].string.isRequired,
-  selectedMatcherIndex: _propTypes["default"].number.isRequired,
-  onSelectMatcherName: _propTypes["default"].func.isRequired,
-  avatarUrl: _propTypes["default"].string,
-  brand: _propTypes["default"].string,
-  showContactDisplayPlaceholder: _propTypes["default"].bool,
-  sourceIcons: _propTypes["default"].object,
-  phoneTypeRenderer: _propTypes["default"].func,
-  phoneSourceNameRenderer: _propTypes["default"].func,
-  callQueueName: _propTypes["default"].string
 };
+
 CallInfo.defaultProps = {
   phoneNumber: null,
   avatarUrl: null,
@@ -94,4 +74,6 @@ CallInfo.defaultProps = {
   phoneSourceNameRenderer: undefined,
   callQueueName: null
 };
+var _default = CallInfo;
+exports["default"] = _default;
 //# sourceMappingURL=CallInfo.js.map

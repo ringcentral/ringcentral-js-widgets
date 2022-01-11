@@ -11,21 +11,19 @@ require("core-js/modules/es6.array.map");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
+var _Combine = _interopRequireDefault(require("../../assets/images/Combine.svg"));
 
 var _ActiveCallItemV = require("../ActiveCallItemV2");
-
-var _CircleButton = _interopRequireDefault(require("../CircleButton"));
 
 var _BackButton = _interopRequireDefault(require("../BackButton"));
 
 var _BackHeader = _interopRequireDefault(require("../BackHeader"));
 
-var _styles = _interopRequireDefault(require("./styles.scss"));
+var _CircleButton = _interopRequireDefault(require("../CircleButton"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-var _Combine = _interopRequireDefault(require("../../assets/images/Combine.svg"));
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -108,29 +106,6 @@ var CallsOnholdContainer = function CallsOnholdContainer(_ref) {
   })))));
 };
 
-CallsOnholdContainer.propTypes = {
-  currentLocale: _propTypes["default"].string.isRequired,
-  onMerge: _propTypes["default"].func,
-  calls: _propTypes["default"].array.isRequired,
-  areaCode: _propTypes["default"].string.isRequired,
-  countryCode: _propTypes["default"].string.isRequired,
-  brand: _propTypes["default"].string,
-  showContactDisplayPlaceholder: _propTypes["default"].bool,
-  webphoneAnswer: _propTypes["default"].func,
-  webphoneReject: _propTypes["default"].func,
-  webphoneHangup: _propTypes["default"].func,
-  webphoneResume: _propTypes["default"].func,
-  webphoneToVoicemail: _propTypes["default"].func,
-  enableContactFallback: _propTypes["default"].bool,
-  autoLog: _propTypes["default"].bool,
-  sourceIcons: _propTypes["default"].object,
-  phoneTypeRenderer: _propTypes["default"].func,
-  phoneSourceNameRenderer: _propTypes["default"].func,
-  onBackButtonClick: _propTypes["default"].func,
-  disableMerge: _propTypes["default"].bool,
-  onAdd: _propTypes["default"].func,
-  getAvatarUrl: _propTypes["default"].func
-};
 CallsOnholdContainer.defaultProps = {
   brand: 'RingCentral',
   showContactDisplayPlaceholder: true,

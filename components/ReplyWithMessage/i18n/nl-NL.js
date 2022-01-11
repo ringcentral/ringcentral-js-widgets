@@ -8,7 +8,7 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 var _default = {
   cancel: "Annuleren",
-  reply: "Antwoorden",
+  reply: "Beantwoorden",
   onMyWay: "Onderweg",
   customMessage: "Aangepast bericht",
   callMeBackIn: "Bel me terug over",
@@ -22,7 +22,7 @@ var _default = {
 // @key: @#@"customMessage"@#@ @source: @#@"Custom Message"@#@
 // @key: @#@"callMeBackIn"@#@ @source: @#@"Call me back in"@#@
 // @key: @#@"willCallYouBackIn"@#@ @source: @#@"Will call you back in"@#@
-// @key: @#@"min"@#@ @source: @#@"min."@#@
+// @key: @#@"min"@#@ @source: @#@"min"@#@
 // @key: @#@"hours"@#@ @source: @#@"hours"@#@
 // @key: @#@"days"@#@ @source: @#@"days"@#@
 

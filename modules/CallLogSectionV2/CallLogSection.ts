@@ -8,7 +8,10 @@ import {
   pick,
   useWith,
 } from 'ramda';
+
 import { Module } from '@ringcentral-integration/commons/lib/di';
+import { proxify } from '@ringcentral-integration/commons/lib/proxy/proxify';
+import { HistoryCall } from '@ringcentral-integration/commons/modules/CallHistoryV2';
 import {
   action,
   computed,
@@ -16,12 +19,12 @@ import {
   state,
   storage,
 } from '@ringcentral-integration/core';
-import { proxify } from '@ringcentral-integration/commons/lib/proxy/proxify';
-import { Call } from '@ringcentral-integration/commons/interfaces/Call.interface';
+
 import { Mapping } from '../../typings';
 import {
   AddLogHandlerFunctions,
   CallLogSectionCallStatus,
+  CallLogStatus,
   CallsMappingType,
   Deps,
 } from './CallLogSection.interface';
@@ -29,7 +32,6 @@ import {
 @Module({
   deps: [
     'Storage',
-    'CallLogTasks',
     'CallHistory',
     'CallMonitor',
     {
@@ -53,8 +55,8 @@ export class CallLogSection<T extends Deps = Deps> extends RcModuleV2<T> {
       storageKey: 'callLogSection',
       enableCache: true,
     });
-    this._notSyncOpenState = !!this._deps.callLogSectionOptions
-      ?.notSyncOpenState;
+    this._notSyncOpenState =
+      !!this._deps.callLogSectionOptions?.notSyncOpenState;
   }
 
   // TODO: merge these states in callLogTasks.loggingmapping
@@ -106,12 +108,9 @@ export class CallLogSection<T extends Deps = Deps> extends RcModuleV2<T> {
   ) {
     this.callsSavingStatus[identify] = callsSavingStatus;
     const originalState = this.callsMappingState[identify];
-    this.callsMappingState = {
-      ...this.callsMappingState,
-      [identify]: {
-        ...originalState,
-        ...newValue,
-      },
+    this.callsMappingState[identify] = {
+      ...originalState,
+      ...newValue,
     };
     this.identifyList = Array.from(new Set([...this.identifyList, identify]));
   }
@@ -346,18 +345,6 @@ export class CallLogSection<T extends Deps = Deps> extends RcModuleV2<T> {
     await this.expandNotification();
   }
 
-  @proxify
-  async viewTask(call: Call) {
-    this.showLogSection(call.sessionId);
-    await this._deps.callLogTasks.fetchAndUpdateTask(call);
-  }
-
-  @proxify
-  async onNewCall(call: Call) {
-    this.handleLogSection(call.sessionId);
-    await this._deps.callLogTasks.fetchAndUpdateTask(call);
-  }
-
   @computed((that: CallLogSection) => [
     that.identifyList,
     that.callsMappingState,
@@ -386,29 +373,11 @@ export class CallLogSection<T extends Deps = Deps> extends RcModuleV2<T> {
 
   @computed((that: CallLogSection) => [
     that.currentIdentify,
-    that._deps.callLogTasks.logInfoMapping,
-  ])
-  get currentLogCall() {
-    return this._deps.callLogTasks.logInfoMapping[this.currentIdentify] || {};
-  }
-
-  @computed((that: CallLogSection) => [
-    that.currentIdentify,
     that.callsMappingState,
   ])
   get currentCallLogStatus() {
-    return this.callsMappingState[this.currentIdentify] || ({} as any);
-  }
-
-  @computed((that: CallLogSection) => [
-    that.currentNotificationIdentify,
-    that._deps.callLogTasks.logInfoMapping,
-  ])
-  get currentLogNotificationCall() {
     return (
-      this._deps.callLogTasks.logInfoMapping[
-        this.currentNotificationIdentify
-      ] || {}
+      this.callsMappingState[this.currentIdentify] || ({} as CallLogStatus)
     );
   }
 
@@ -417,9 +386,9 @@ export class CallLogSection<T extends Deps = Deps> extends RcModuleV2<T> {
     that._deps.callHistory.calls,
     that._deps.callMonitor.calls,
   ])
-  get currentCall() {
+  get currentCall(): HistoryCall {
     return (
-      [...this._deps.callHistory.calls, ...this._deps.callMonitor.calls].find(
+      [...this._deps.callMonitor.calls, ...this._deps.callHistory.calls].find(
         (call) => call.sessionId === this.currentIdentify,
       ) || {}
     );
@@ -427,12 +396,11 @@ export class CallLogSection<T extends Deps = Deps> extends RcModuleV2<T> {
 
   @computed((that: CallLogSection) => [
     that.currentNotificationIdentify,
-    that._deps.callHistory.calls,
     that._deps.callMonitor.calls,
   ])
   get currentNotificationCall() {
     return (
-      [...this._deps.callHistory.calls, ...this._deps.callMonitor.calls].find(
+      this._deps.callMonitor.calls.find(
         (call) => call.sessionId === this.currentNotificationIdentify,
       ) || {}
     );
@@ -462,5 +430,9 @@ export class CallLogSection<T extends Deps = Deps> extends RcModuleV2<T> {
     return this._notSyncOpenState
       ? this.stateNotificationIsExpand
       : this.storageNotificationIsExpand;
+  }
+
+  get currentCallSavingStatus() {
+    return this.callsSavingStatus[this.currentIdentify];
   }
 }

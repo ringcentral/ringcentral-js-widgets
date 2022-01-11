@@ -15,7 +15,7 @@ var _default = {
   starSharp4Title: "Menu",
   starSharp4Body: "Listen to the list of touch-tone commands",
   starSharp5Title: "Set listening modes",
-  starSharp5Body: "Press once: Mute callers – callers can unmute with *, #, 6\nPress twice: Mute callers – listen only. No unmuting option\nPress three times: Unmute callers – opens the line again",
+  starSharp5Body: "Press once: Mute callers – callers can unmute with  *, #, 6\nPress twice: Mute callers – listen only. No unmuting option\nPress three times: Unmute callers – opens the line again",
   starSharp6Title: "Mute host line",
   starSharp6Body: "Press once to MUTE\nPress again to UNMUTE",
   starSharp7Title: "Secure the call",

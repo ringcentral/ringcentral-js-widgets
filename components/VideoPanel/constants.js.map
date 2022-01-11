@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/VideoPanel/constants.ts"],"names":["RCV_SCHEDULE_ON_BEHALF_GUIDANCE_LINK"],"mappings":";;;;;;;;AAAO,IAAMA,oCAAoC,GAC/C,qHADK","sourcesContent":["export const RCV_SCHEDULE_ON_BEHALF_GUIDANCE_LINK =\n  'https://support.ringcentral.com/app/video/desktop-web/setting-delegate-schedule-meeting-on-your-behalf-outlook.html';\n"],"file":"constants.js"}

@@ -1,1 +1,1 @@
-{"version":3,"sources":["components/LogSection/i18n/fr-FR.js"],"names":["saveLog"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,OAAO,EAAE;AADI,C,EAIf","sourcesContent":["export default {\n  saveLog: \"Enregistrer\"\n};\n\n// @key: @#@\"saveLog\"@#@ @source: @#@\"Save\"@#@\n"],"file":"fr-FR.js"}
+{"version":3,"sources":["components/LogSection/i18n/fr-FR.ts"],"names":["saveLog"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,OAAO,EAAE;AADI,C,EAIf","sourcesContent":["export default {\n  saveLog: \"Enregistrer\"\n};\n\n// @key: @#@\"saveLog\"@#@ @source: @#@\"Save\"@#@\n"],"file":"fr-FR.js"}

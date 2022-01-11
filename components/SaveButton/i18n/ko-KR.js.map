@@ -1,1 +1,1 @@
-{"version":3,"sources":["components/SaveButton/i18n/ko-KR.js"],"names":["save"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,IAAI,EAAE;AADO,C,EAIf","sourcesContent":["export default {\n  save: \"저장\"\n};\n\n// @key: @#@\"save\"@#@ @source: @#@\"Save\"@#@\n"],"file":"ko-KR.js"}
+{"version":3,"sources":["components/SaveButton/i18n/ko-KR.ts"],"names":["save"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,IAAI,EAAE;AADO,C,EAIf","sourcesContent":["export default {\n  save: \"저장\"\n};\n\n// @key: @#@\"save\"@#@ @source: @#@\"Save\"@#@\n"],"file":"ko-KR.js"}

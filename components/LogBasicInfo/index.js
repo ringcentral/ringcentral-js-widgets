@@ -3,17 +3,17 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = LogBasicInfo;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.object.define-property");
 
-var _ramda = require("ramda");
-
 var _react = _interopRequireDefault(require("react"));
+
+var _classnames = _interopRequireDefault(require("classnames"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _classnames = _interopRequireDefault(require("classnames"));
+var _ramda = require("ramda");
 
 var _callDirections = _interopRequireDefault(require("@ringcentral-integration/commons/enums/callDirections"));
 
@@ -141,4 +141,6 @@ LogBasicInfo.defaultProps = {
   onClick: function onClick() {},
   dataSign: undefined
 };
+var _default = LogBasicInfo;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

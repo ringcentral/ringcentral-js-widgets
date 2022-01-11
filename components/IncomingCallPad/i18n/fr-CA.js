@@ -7,13 +7,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  forward: "Renvoi",
+  forward: "Renvoyer",
   reply: "Répondre",
   ignore: "Ignorer",
-  toVoicemail: "Vers la msg vocale",
-  answer: "Réponse",
-  answerAndEnd: "Répondre et\nterminer",
-  answerAndHold: "Rép. et mise en att."
+  toVoicemail: "Messagerie vocale",
+  answer: "Répondre",
+  answerAndEnd: "Répondre et\nraccrocher",
+  answerAndHold: "Répondre et mettre en attente"
 }; // @key: @#@"forward"@#@ @source: @#@"Forward"@#@
 // @key: @#@"reply"@#@ @source: @#@"Reply"@#@
 // @key: @#@"ignore"@#@ @source: @#@"Ignore"@#@

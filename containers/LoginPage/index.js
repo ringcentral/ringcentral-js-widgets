@@ -1,21 +1,31 @@
 "use strict";
 
+require("core-js/modules/web.dom.iterable");
+
+require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.object.to-string");
+
+require("core-js/modules/es6.object.keys");
+
+require("core-js/modules/es6.array.for-each");
+
 require("core-js/modules/es6.object.define-property");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = void 0;
 
-var _phoneContext = require("../../lib/phoneContext");
+var _LoginPage = require("./LoginPage");
 
-var _LoginPanel = _interopRequireDefault(require("../../components/LoginPanel"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-var _default = (0, _phoneContext.connectModule)(function (phone) {
-  return phone.loginUI;
-})(_LoginPanel["default"]);
-
-exports["default"] = _default;
+Object.keys(_LoginPage).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _LoginPage[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _LoginPage[key];
+    }
+  });
+});
 //# sourceMappingURL=index.js.map

@@ -9,18 +9,18 @@ exports["default"] = void 0;
 var _default = {
   unmute: "Dempen uit",
   mute: "Dempen",
-  keypad: "Toetsenbord",
-  hold: "Wacht",
-  onHold: "In wacht",
+  keypad: "Keypad",
+  hold: "In de wacht",
+  onHold: "In de wacht",
   park: "Parkeren",
   stopRecord: "Stoppen",
   record: "Opnemen",
   add: "Toevoegen",
-  transfer: "Doorv.",
+  transfer: "Doorschakelen",
   flip: "Omkeren",
   more: "Oproepacties",
   mergeToConference: "Samenvoegen",
-  end: "Einde",
+  end: "Beëindigen",
   completeTransfer: "Doorschakelen\nvoltooien"
 }; // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@

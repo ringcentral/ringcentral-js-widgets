@@ -12,7 +12,7 @@ var _default = {
   unknown: "Inconnu",
   disconnected: "Déconnecté",
   loading: "Chargement...",
-  loadingTimeout: "Délai d'expiration du chargement."
+  loadingTimeout: "Délai d’expiration du chargement."
 }; // @key: @#@"conferenceCall"@#@ @source: @#@"Conference Call"@#@
 // @key: @#@"onHold"@#@ @source: @#@"On Hold"@#@
 // @key: @#@"unknown"@#@ @source: @#@"Unknown"@#@

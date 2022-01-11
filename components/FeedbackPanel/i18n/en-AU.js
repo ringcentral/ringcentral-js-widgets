@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  feedbackHeader: "Submit feedback",
+  feedbackHeader: "Submit Feedback",
   back: "Back",
   revert: "Revert",
   instruction: "Your feedback is valuable to us. If you have problems using the app, want to request a feature or report a bug, we're more than happy to help.",

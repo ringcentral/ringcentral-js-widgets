@@ -1,14 +1,12 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.weak-map");
-
-require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.object.define-properties");
 
@@ -22,13 +20,15 @@ require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
-require("core-js/modules/es6.object.to-string");
-
 require("core-js/modules/es6.object.keys");
 
-require("core-js/modules/es6.object.define-property");
+require("core-js/modules/es6.promise");
+
+require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.create");
+
+require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.reflect.construct");
 
@@ -43,15 +43,19 @@ require("core-js/modules/es6.array.index-of");
 
 require("core-js/modules/es6.array.filter");
 
-require("regenerator-runtime/runtime");
-
 require("core-js/modules/es6.function.name");
 
 require("core-js/modules/es6.array.map");
 
 require("core-js/modules/es6.array.find-index");
 
-require("core-js/modules/es6.function.bind");
+require("regenerator-runtime/runtime");
+
+var _react = _interopRequireWildcard(require("react"));
+
+var _classnames = _interopRequireDefault(require("classnames"));
+
+var _formatMessage = _interopRequireDefault(require("format-message"));
 
 var _extensionTypes = require("@ringcentral-integration/commons/enums/extensionTypes");
 
@@ -63,23 +67,7 @@ var _messageHelper = require("@ringcentral-integration/commons/lib/messageHelper
 
 var _parseNumber = _interopRequireDefault(require("@ringcentral-integration/commons/lib/parseNumber"));
 
-var _classnames = _interopRequireDefault(require("classnames"));
-
-var _formatMessage = _interopRequireDefault(require("format-message"));
-
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
-var _react = _interopRequireWildcard(require("react"));
-
-var _ComposeText = _interopRequireDefault(require("../../assets/images/ComposeText.svg"));
-
-var _FaxInbound = _interopRequireDefault(require("../../assets/images/FaxInbound.svg"));
-
-var _FaxOutbound = _interopRequireDefault(require("../../assets/images/FaxOutbound.svg"));
-
-var _GroupConversation = _interopRequireDefault(require("../../assets/images/GroupConversation.svg"));
-
-var _VoicemailIcon = _interopRequireDefault(require("../../assets/images/VoicemailIcon.svg"));
+var _checkShouldHideContactUser = require("../../lib/checkShouldHideContactUser");
 
 var _checkShouldHidePhoneNumber = require("../../lib/checkShouldHidePhoneNumber");
 
@@ -93,104 +81,47 @@ var _SlideMenu = _interopRequireDefault(require("../SlideMenu"));
 
 var _VoicemailPlayer = _interopRequireDefault(require("../VoicemailPlayer"));
 
+var _ConversationIcon = require("./ConversationIcon");
+
 var _i18n = _interopRequireDefault(require("./i18n"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } Object.defineProperty(subClass, "prototype", { value: Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }), writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-var ConversationIcon = function ConversationIcon(_ref) {
-  var group = _ref.group,
-      type = _ref.type,
-      currentLocale = _ref.currentLocale,
-      direction = _ref.direction;
-  var title;
-  var icon;
-
-  switch (type) {
-    case _messageTypes["default"].voiceMail:
-      title = _i18n["default"].getString(_messageTypes["default"].voiceMail, currentLocale);
-      icon = /*#__PURE__*/_react["default"].createElement(_VoicemailIcon["default"], {
-        width: 23,
-        className: _styles["default"].icon
-      });
-      break;
-
-    case _messageTypes["default"].fax:
-      title = _i18n["default"].getString(_messageTypes["default"].fax, currentLocale);
-      icon = direction === _messageDirection["default"].inbound ? /*#__PURE__*/_react["default"].createElement(_FaxInbound["default"], {
-        width: 21,
-        className: _styles["default"].icon
-      }) : /*#__PURE__*/_react["default"].createElement(_FaxOutbound["default"], {
-        width: 21,
-        className: _styles["default"].icon
-      });
-      break;
-
-    default:
-      title = group ? _i18n["default"].getString('groupConversation', currentLocale) : _i18n["default"].getString('conversation', currentLocale);
-      icon = group ? /*#__PURE__*/_react["default"].createElement(_GroupConversation["default"], {
-        width: 19,
-        className: _styles["default"].icon
-      }) : /*#__PURE__*/_react["default"].createElement(_ComposeText["default"], {
-        width: 18,
-        className: _styles["default"].icon
-      });
-  }
-
-  return /*#__PURE__*/_react["default"].createElement("div", {
-    className: _styles["default"].conversationIcon
-  }, /*#__PURE__*/_react["default"].createElement("span", {
-    title: title
-  }, icon));
-};
-
-ConversationIcon.propTypes = {
-  group: _propTypes["default"].bool,
-  type: _propTypes["default"].string,
-  currentLocale: _propTypes["default"].string,
-  direction: _propTypes["default"].string
-};
-ConversationIcon.defaultProps = {
-  group: false,
-  type: undefined,
-  currentLocale: undefined,
-  direction: undefined
-};
 
 var MessageItem = /*#__PURE__*/function (_Component) {
   _inherits(MessageItem, _Component);
@@ -203,6 +134,17 @@ var MessageItem = /*#__PURE__*/function (_Component) {
     _classCallCheck(this, MessageItem);
 
     _this = _super.call(this, props);
+    _this._userSelection = false;
+    _this.contactDisplay = void 0;
+    _this._mounted = false;
+
+    _this.toggleExtended = function () {
+      _this.setState(function (preState) {
+        return {
+          extended: !preState.extended
+        };
+      });
+    };
 
     _this.preventEventPropagating = function (e) {
       if (e.target !== e.currentTarget) {
@@ -257,8 +199,98 @@ var MessageItem = /*#__PURE__*/function (_Component) {
       }
     };
 
-    _this.createSelectedContact = _this.createSelectedContact.bind(_assertThisInitialized(_this));
-    _this.logConversation = _this.logConversation.bind(_assertThisInitialized(_this));
+    _this.createSelectedContact = /*#__PURE__*/function () {
+      var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(entityType) {
+        var phoneNumber;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                if (!(typeof _this.props.onCreateContact === 'function' && _this._mounted && !_this.state.isCreating)) {
+                  _context.next = 6;
+                  break;
+                }
+
+                _this.setState({
+                  isCreating: true
+                }); // console.log('start to create: isCreating...', this.state.isCreating);
+
+
+                phoneNumber = _this.getPhoneNumber();
+                _context.next = 5;
+                return _this.props.onCreateContact({
+                  phoneNumber: phoneNumber,
+                  name: _this.props.enableContactFallback ? _this.getFallbackContactName() : '',
+                  entityType: entityType
+                });
+
+              case 5:
+                if (_this._mounted) {
+                  _this.setState({
+                    isCreating: false
+                  }); // console.log('created: isCreating...', this.state.isCreating);
+
+                }
+
+              case 6:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }));
+
+      return function (_x) {
+        return _ref.apply(this, arguments);
+      };
+    }();
+
+    _this.logConversation = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+      var _ref3,
+          _ref3$redirect,
+          redirect,
+          selected,
+          _ref3$prefill,
+          prefill,
+          _args2 = arguments;
+
+      return regeneratorRuntime.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              _ref3 = _args2.length > 0 && _args2[0] !== undefined ? _args2[0] : {}, _ref3$redirect = _ref3.redirect, redirect = _ref3$redirect === void 0 ? true : _ref3$redirect, selected = _ref3.selected, _ref3$prefill = _ref3.prefill, prefill = _ref3$prefill === void 0 ? true : _ref3$prefill;
+
+              if (!(typeof _this.props.onLogConversation === 'function' && _this._mounted && !_this.state.isLogging)) {
+                _context2.next = 6;
+                break;
+              }
+
+              _this.setState({
+                isLogging: true
+              });
+
+              _context2.next = 5;
+              return _this.props.onLogConversation({
+                correspondentEntity: _this.getSelectedContact(selected),
+                conversationId: _this.props.conversation.conversationId,
+                redirect: redirect,
+                prefill: prefill
+              });
+
+            case 5:
+              if (_this._mounted) {
+                _this.setState({
+                  isLogging: false
+                });
+              }
+
+            case 6:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
+    }));
 
     _this.clickToDial = function () {
       if (_this.props.onClickToDial) {
@@ -366,16 +398,6 @@ var MessageItem = /*#__PURE__*/function (_Component) {
       isCreating: false,
       extended: false
     };
-
-    _this.toggleExtended = function () {
-      _this.setState(function (preState) {
-        return {
-          extended: !preState.extended
-        };
-      });
-    };
-
-    _this._userSelection = false;
     /* [RCINT-4301] onSelection would trigger some state changes that would push new
      * properties before the state has been changed. Which would reset the selected value.
      */
@@ -454,108 +476,6 @@ var MessageItem = /*#__PURE__*/function (_Component) {
       return correspondents.length === 1 && correspondents[0].name || undefined;
     }
   }, {
-    key: "createSelectedContact",
-    value: function () {
-      var _createSelectedContact = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(entityType) {
-        var phoneNumber;
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                if (!(typeof this.props.onCreateContact === 'function' && this._mounted && !this.state.isCreating)) {
-                  _context.next = 6;
-                  break;
-                }
-
-                this.setState({
-                  isCreating: true
-                }); // console.log('start to create: isCreating...', this.state.isCreating);
-
-                phoneNumber = this.getPhoneNumber();
-                _context.next = 5;
-                return this.props.onCreateContact({
-                  phoneNumber: phoneNumber,
-                  name: this.props.enableContactFallback ? this.getFallbackContactName() : '',
-                  entityType: entityType
-                });
-
-              case 5:
-                if (this._mounted) {
-                  this.setState({
-                    isCreating: false
-                  }); // console.log('created: isCreating...', this.state.isCreating);
-                }
-
-              case 6:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      function createSelectedContact(_x) {
-        return _createSelectedContact.apply(this, arguments);
-      }
-
-      return createSelectedContact;
-    }()
-  }, {
-    key: "logConversation",
-    value: function () {
-      var _logConversation = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-        var _ref2,
-            _ref2$redirect,
-            redirect,
-            selected,
-            _ref2$prefill,
-            prefill,
-            _args2 = arguments;
-
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
-          while (1) {
-            switch (_context2.prev = _context2.next) {
-              case 0:
-                _ref2 = _args2.length > 0 && _args2[0] !== undefined ? _args2[0] : {}, _ref2$redirect = _ref2.redirect, redirect = _ref2$redirect === void 0 ? true : _ref2$redirect, selected = _ref2.selected, _ref2$prefill = _ref2.prefill, prefill = _ref2$prefill === void 0 ? true : _ref2$prefill;
-
-                if (!(typeof this.props.onLogConversation === 'function' && this._mounted && !this.state.isLogging)) {
-                  _context2.next = 6;
-                  break;
-                }
-
-                this.setState({
-                  isLogging: true
-                });
-                _context2.next = 5;
-                return this.props.onLogConversation({
-                  correspondentEntity: this.getSelectedContact(selected),
-                  conversationId: this.props.conversation.conversationId,
-                  redirect: redirect,
-                  prefill: prefill
-                });
-
-              case 5:
-                if (this._mounted) {
-                  this.setState({
-                    isLogging: false
-                  });
-                }
-
-              case 6:
-              case "end":
-                return _context2.stop();
-            }
-          }
-        }, _callee2, this);
-      }));
-
-      function logConversation() {
-        return _logConversation.apply(this, arguments);
-      }
-
-      return logConversation;
-    }()
-  }, {
     key: "getDetail",
     value: function getDetail() {
       var _this$props3 = this.props,
@@ -588,7 +508,7 @@ var MessageItem = /*#__PURE__*/function (_Component) {
       }
 
       if ((0, _messageHelper.messageIsFax)(conversation)) {
-        var pageCount = parseInt(conversation.faxPageCount, 10);
+        var pageCount = +conversation.faxPageCount;
         var nameKey = pageCount === 1 ? 'page' : 'pages';
 
         if (conversation.direction === _messageDirection["default"].inbound) {
@@ -682,6 +602,7 @@ var MessageItem = /*#__PURE__*/function (_Component) {
        */
 
       var shouldHideNumber = enableCDC && (0, _checkShouldHidePhoneNumber.checkShouldHidePhoneNumber)(phoneNumber, correspondentMatches);
+      var isContactMatchesHidden = enableCDC && (0, _checkShouldHideContactUser.checkShouldHideContactUser)(correspondentMatches);
       var fallbackName = this.getFallbackContactName();
       var detail = this.getDetail();
       var disableClickToSms = this.getDisableClickToSms();
@@ -714,7 +635,7 @@ var MessageItem = /*#__PURE__*/function (_Component) {
         "data-sign": "unread",
         className: (0, _classnames["default"])(_styles["default"].wrapper, unreadCounts && _styles["default"].unread),
         onClick: this.onClickWrapper
-      }, /*#__PURE__*/_react["default"].createElement(ConversationIcon, {
+      }, /*#__PURE__*/_react["default"].createElement(_ConversationIcon.ConversationIcon, {
         group: correspondents.length > 1,
         type: type,
         currentLocale: currentLocale,
@@ -726,6 +647,7 @@ var MessageItem = /*#__PURE__*/function (_Component) {
           _this2.contactDisplay = ref;
         },
         className: (0, _classnames["default"])(_styles["default"].contactDisplay, unreadCounts && _styles["default"].unread),
+        unread: !!unreadCounts,
         selectedClassName: _styles["default"].selectedValue,
         selectClassName: _styles["default"].dropdownSelect,
         brand: brand,
@@ -775,7 +697,7 @@ var MessageItem = /*#__PURE__*/function (_Component) {
         className: _styles["default"].playContainer,
         onClick: this.preventEventPropagating
       }, player), /*#__PURE__*/_react["default"].createElement(_ActionMenuList["default"], {
-        shouldHideEntityButton: shouldHideNumber,
+        shouldHideEntityButton: isContactMatchesHidden,
         className: _styles["default"].actionMenuList,
         type: type,
         currentLocale: currentLocale,
@@ -821,113 +743,24 @@ var MessageItem = /*#__PURE__*/function (_Component) {
   return MessageItem;
 }(_react.Component);
 
-exports["default"] = MessageItem;
-MessageItem.propTypes = {
-  conversation: _propTypes["default"].shape({
-    conversationId: _propTypes["default"].string.isRequired,
-    isLogging: _propTypes["default"].bool,
-    creationTime: _propTypes["default"].number,
-    direction: _propTypes["default"].string,
-    faxPageCount: _propTypes["default"].number,
-    voicemailAttachment: _propTypes["default"].shape({
-      duration: _propTypes["default"].number,
-      uri: _propTypes["default"].string
-    }),
-    faxAttachment: _propTypes["default"].shape({
-      uri: _propTypes["default"].string
-    }),
-    correspondents: _propTypes["default"].arrayOf(_propTypes["default"].shape({
-      name: _propTypes["default"].string,
-      phoneNumber: _propTypes["default"].string,
-      extensionNumber: _propTypes["default"].string
-    })),
-    correspondentMatches: _propTypes["default"].arrayOf(_propTypes["default"].shape({
-      name: _propTypes["default"].string,
-      entityType: _propTypes["default"].string
-    })),
-    conversationMatches: _propTypes["default"].arrayOf(_propTypes["default"].shape({
-      id: _propTypes["default"].string
-    })),
-    unreadCounts: _propTypes["default"].number.isRequired,
-    type: _propTypes["default"].string.isRequired,
-    uri: _propTypes["default"].string,
-    mmsAttachments: _propTypes["default"].any,
-    subject: _propTypes["default"].string
-  }).isRequired,
-  areaCode: _propTypes["default"].string.isRequired,
-  brand: _propTypes["default"].string.isRequired,
-  countryCode: _propTypes["default"].string.isRequired,
-  currentLocale: _propTypes["default"].string.isRequired,
-  currentSiteCode: _propTypes["default"].string,
-  isMultipleSiteEnabled: _propTypes["default"].bool,
-  onLogConversation: _propTypes["default"].func,
-  onViewContact: _propTypes["default"].func,
-  onCreateContact: _propTypes["default"].func,
-  createEntityTypes: _propTypes["default"].array,
-  onClickToDial: _propTypes["default"].func,
-  onClickToSms: _propTypes["default"].func,
-  disableLinks: _propTypes["default"].bool,
-  disableCallButton: _propTypes["default"].bool,
-  disableClickToDial: _propTypes["default"].bool,
-  dateTimeFormatter: _propTypes["default"].func.isRequired,
-  showConversationDetail: _propTypes["default"].func.isRequired,
-  readMessage: _propTypes["default"].func.isRequired,
-  markMessage: _propTypes["default"].func.isRequired,
-  unmarkMessage: _propTypes["default"].func.isRequired,
-  autoLog: _propTypes["default"].bool,
-  enableContactFallback: _propTypes["default"].bool,
-  showContactDisplayPlaceholder: _propTypes["default"].bool,
-  contactPlaceholder: _propTypes["default"].string,
-  sourceIcons: _propTypes["default"].object,
-  phoneTypeRenderer: _propTypes["default"].func,
-  phoneSourceNameRenderer: _propTypes["default"].func,
-  showGroupNumberName: _propTypes["default"].bool,
-  deleteMessage: _propTypes["default"].func,
-  previewFaxMessages: _propTypes["default"].func,
-  renderExtraButton: _propTypes["default"].func,
-  internalSmsPermission: _propTypes["default"].bool,
-  outboundSmsPermission: _propTypes["default"].bool,
-  updateTypeFilter: _propTypes["default"].func,
-  onFaxDownload: _propTypes["default"].func,
-  showChooseEntityModal: _propTypes["default"].bool,
-  shouldLogSelectRecord: _propTypes["default"].bool,
-  onSelectContact: _propTypes["default"].func,
-  renderContactList: _propTypes["default"].func,
-  dropdownClassName: _propTypes["default"].string,
-  enableCDC: _propTypes["default"].bool
-};
 MessageItem.defaultProps = {
   currentSiteCode: '',
   isMultipleSiteEnabled: false,
-  onLogConversation: undefined,
-  onClickToDial: undefined,
-  onViewContact: undefined,
-  onCreateContact: undefined,
-  createEntityTypes: undefined,
   disableClickToDial: false,
-  onClickToSms: undefined,
   disableLinks: false,
   disableCallButton: false,
   autoLog: false,
-  enableContactFallback: undefined,
   showContactDisplayPlaceholder: true,
   contactPlaceholder: '',
-  sourceIcons: undefined,
-  phoneTypeRenderer: undefined,
-  phoneSourceNameRenderer: undefined,
   showGroupNumberName: false,
   deleteMessage: function deleteMessage() {},
-  previewFaxMessages: undefined,
-  renderExtraButton: undefined,
   internalSmsPermission: true,
   outboundSmsPermission: true,
-  updateTypeFilter: undefined,
-  onFaxDownload: undefined,
   showChooseEntityModal: true,
   shouldLogSelectRecord: false,
-  onSelectContact: undefined,
-  renderContactList: undefined,
   dropdownClassName: null,
   enableCDC: false
 };
+var _default = MessageItem;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

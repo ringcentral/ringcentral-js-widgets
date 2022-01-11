@@ -1,5 +1,6 @@
-import classNames from 'classnames';
 import React, { Component } from 'react';
+
+import classNames from 'classnames';
 
 import { bindDebounce } from '../../lib/bindDebounce';
 import { Task } from '../CallLogPanel';

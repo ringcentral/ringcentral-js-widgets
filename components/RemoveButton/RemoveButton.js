@@ -11,9 +11,9 @@ var _react = _interopRequireDefault(require("react"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _RemoveIcon = _interopRequireDefault(require("../../assets/images/RemoveIcon.svg"));
-
 var _DeleteCircle = _interopRequireDefault(require("../../assets/images/DeleteCircle.svg"));
+
+var _RemoveIcon = _interopRequireDefault(require("../../assets/images/RemoveIcon.svg"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 

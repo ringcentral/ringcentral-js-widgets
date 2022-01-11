@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  forward: "Renvoi",
+  forward: "Renvoyer",
   cancel: "Annuler",
   customNumber: "No personnalisé"
 }; // @key: @#@"forward"@#@ @source: @#@"Forward"@#@

@@ -1,8 +1,8 @@
 import React, { FunctionComponent } from 'react';
-import styles from './styles.scss';
 
 import phoneSourceNames from '../../lib/phoneSourceNames';
 import { RecipientInfoProps } from './RecipientsInputV2.interface';
+import styles from './styles.scss';
 
 export const RecipientInfo: FunctionComponent<RecipientInfoProps> = ({
   currentLocale,

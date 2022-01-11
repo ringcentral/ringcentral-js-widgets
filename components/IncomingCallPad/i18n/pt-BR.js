@@ -11,7 +11,7 @@ var _default = {
   reply: "Responder",
   ignore: "Ignorar",
   toVoicemail: "P/ caixa postal",
-  answer: "Responder",
+  answer: "Atender",
   answerAndEnd: "Atender e enc.",
   answerAndHold: "Atender e em espera"
 }; // @key: @#@"forward"@#@ @source: @#@"Forward"@#@

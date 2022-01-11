@@ -9,27 +9,21 @@ exports["default"] = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
+var _End = _interopRequireDefault(require("../../assets/images/End.svg"));
+
+var _CallAvatar = _interopRequireDefault(require("../CallAvatar"));
+
+var _CircleButton = _interopRequireDefault(require("../CircleButton"));
+
+var _MediaObject = _interopRequireDefault(require("../MediaObject"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
-var _CallAvatar = _interopRequireDefault(require("../CallAvatar"));
-
-var _MediaObject = _interopRequireDefault(require("../MediaObject"));
-
-var _CircleButton = _interopRequireDefault(require("../CircleButton"));
-
-var _End = _interopRequireDefault(require("../../assets/images/End.svg"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-/**
- * TODO: extract the common stucture from `CallItem` & `ActiveCallItem` and this one, since they
- * are just `Media Objects`.
- */
-function ParticipantItem(_ref) {
+var ParticipantItem = function ParticipantItem(_ref) {
   var detail = _ref.detail,
       avatarUrl = _ref.avatarUrl,
       onRemove = _ref.onRemove,
@@ -62,14 +56,8 @@ function ParticipantItem(_ref) {
       showBorder: false
     }))
   });
-}
-
-ParticipantItem.propTypes = {
-  detail: _propTypes["default"].string.isRequired,
-  avatarUrl: _propTypes["default"].string,
-  onRemove: _propTypes["default"].func,
-  currentLocale: _propTypes["default"].string.isRequired
 };
+
 ParticipantItem.defaultProps = {
   avatarUrl: null,
   onRemove: function onRemove(i) {

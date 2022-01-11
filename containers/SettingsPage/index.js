@@ -7,15 +7,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
+var _SettingsPanel = require("../../components/SettingsPanel");
+
 var _phoneContext = require("../../lib/phoneContext");
-
-var _SettingsPanel = _interopRequireDefault(require("../../components/SettingsPanel"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 var _default = (0, _phoneContext.connectModule)(function (phone) {
   return phone.settingsUI;
-})(_SettingsPanel["default"]);
+})(_SettingsPanel.SettingsPanel);
 
 exports["default"] = _default;
 //# sourceMappingURL=index.js.map

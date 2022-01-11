@@ -1,13 +1,14 @@
 import 'react-widgets/dist/css/react-widgets.css';
 
-import React from 'react';
-import sleep from '@ringcentral-integration/commons/lib/sleep';
-import isSafari from '../../lib/isSafari';
+import React, { FunctionComponent } from 'react';
 
+import sleep from '@ringcentral-integration/commons/lib/sleep';
+
+import isSafari from '../../lib/isSafari';
 import MeetingConfig from '../MeetingConfigs';
 import styles from './styles.scss';
 
-const MeetingPanel: React.FunctionComponent<MeetingProps> = (props) => {
+const MeetingPanel: FunctionComponent<MeetingProps> = (props) => {
   const {
     update,
     meeting,
@@ -102,7 +103,7 @@ interface MeetingProps {
   init: () => any;
   meeting: any;
   currentLocale: string;
-  scheduleButton?: React.FunctionComponent<ScheduleButtonProps>;
+  scheduleButton?: FunctionComponent<ScheduleButtonProps>;
   recipientsSection: React.ReactNode;
   disabled?: boolean;
   hidden?: boolean;

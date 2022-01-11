@@ -12,9 +12,9 @@ var _default = {
   confirmStr2: "wilt verwijderen uit deze oproep?",
   remove: "Verwijderen",
   cancel: "Annuleren",
-  participants: "deelnemers",
-  participant: "deelnemer",
-  conferenceCall: "Conferencecall",
+  participants: "Deelnemers",
+  participant: "Deelnemer",
+  conferenceCall: "Conference call",
   unknownNumber: "Anoniem"
 }; // @key: @#@"removeParticipant"@#@ @source: @#@"Remove Participant"@#@
 // @key: @#@"confirmStr1"@#@ @source: @#@"Are you sure you want to remove"@#@

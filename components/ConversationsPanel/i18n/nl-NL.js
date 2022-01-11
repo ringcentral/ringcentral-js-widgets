@@ -17,11 +17,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 var _default = (_title$search$compose = {
   title: "Berichten",
-  search: "Aan het zoeken...",
+  search: "Zoeken...",
   composeText: "Tekst opstellen",
   noMessages: "Geen berichten",
-  noSearchResults: "Geen overeenkomende opnames gevonden"
-}, _defineProperty(_title$search$compose, _messageTypes["default"].all, "Alles"), _defineProperty(_title$search$compose, _messageTypes["default"].voiceMail, "Spraak"), _defineProperty(_title$search$compose, _messageTypes["default"].text, "Tekstbericht"), _defineProperty(_title$search$compose, _messageTypes["default"].fax, "Fax"), _title$search$compose); // @key: @#@"title"@#@ @source: @#@"Messages"@#@
+  noSearchResults: "Geen overeenkomende opnamen gevonden"
+}, _defineProperty(_title$search$compose, _messageTypes["default"].all, "Alles"), _defineProperty(_title$search$compose, _messageTypes["default"].voiceMail, "Voice"), _defineProperty(_title$search$compose, _messageTypes["default"].text, "Tekstbericht"), _defineProperty(_title$search$compose, _messageTypes["default"].fax, "Fax"), _title$search$compose); // @key: @#@"title"@#@ @source: @#@"Messages"@#@
 // @key: @#@"search"@#@ @source: @#@"Search..."@#@
 // @key: @#@"composeText"@#@ @source: @#@"Compose Text"@#@
 // @key: @#@"noMessages"@#@ @source: @#@"No Messages"@#@

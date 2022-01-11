@@ -7,9 +7,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
-var _phoneContext = require("../../lib/phoneContext");
-
 var _GenericMeetingPanel = require("../../components/GenericMeetingPanel");
+
+var _phoneContext = require("../../lib/phoneContext");
 
 var GenericMeetingPage = (0, _phoneContext.connectModule)(function (phone) {
   return phone.genericMeetingUI;

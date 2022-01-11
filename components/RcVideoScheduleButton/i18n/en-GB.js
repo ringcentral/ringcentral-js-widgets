@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  schedule: "Schedule meeting",
+  schedule: "Schedule Meeting",
   prompt: "Please authorise RingCentral to access your account information.",
   saveAsDefault: "Save as default"
 }; // @key: @#@"schedule"@#@ @source: @#@"Schedule Meeting"@#@

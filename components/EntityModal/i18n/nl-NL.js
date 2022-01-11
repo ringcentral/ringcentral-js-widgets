@@ -12,7 +12,7 @@ var _default = {
   lead: "Lead",
   opportunity: "Kans",
   "case": "Geval",
-  chooseEntity: "Selecteer entiteit",
+  chooseEntity: "Selecteer entiteitstype",
   create: "Maken"
 }; // @key: @#@"account"@#@ @source: @#@"Account"@#@
 // @key: @#@"contact"@#@ @source: @#@"Contact"@#@

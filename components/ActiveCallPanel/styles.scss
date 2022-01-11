@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 @import '../../lib/commonStyles/full-size';
 @import '../../lib/commonStyles/colors.scss';
 @import '../../lib/commonStyles/fonts.scss';
@@ -7,17 +9,20 @@ $userInfoHeight: 134px;
 $conferenceAvatarSizeInt: 51;
 $conferenceAvatarSize: 51px;
 $avaterMerginLeftSizeInt: -20;
-$avaterMerginLeftSize: $avaterMerginLeftSizeInt+unquote($px);
-$timeCounterMarginTop:10px;
+$avaterMerginLeftSize: $avaterMerginLeftSizeInt + unquote($px);
+$timeCounterMarginTop: 10px;
 $timeCounterHeight: 14px;
 $calleeAvatarSize: 30px;
 $calleeAvatarActiveSize: 45px;
-$calleeAvatarMarginL: ($calleeAvatarActiveSize - $calleeAvatarSize)/2;
+$calleeAvatarMarginL: math.div(
+  ($calleeAvatarActiveSize - $calleeAvatarSize),
+  2
+);
 
 $fontSizeInt: 15;
-$fontSize: $fontSizeInt+unquote($px);
-$borderWidth:1px;
-$pagePaddingWidth:48px;
+$fontSize: $fontSizeInt + unquote($px);
+$borderWidth: 1px;
+$pagePaddingWidth: 48px;
 
 .root {
   @include full-size;
@@ -140,7 +145,7 @@ $pagePaddingWidth:48px;
       display: inline-block;
       width: $conferenceAvatarSize;
       height: $conferenceAvatarSize;
-      line-height: $conferenceAvatarSize - $borderWidth*2;
+      line-height: $conferenceAvatarSize - $borderWidth * 2;
       border-radius: 100%;
       vertical-align: middle;
       padding: 0;
@@ -162,7 +167,7 @@ $pagePaddingWidth:48px;
       border: $borderWidth solid $snow;
     }
 
-    .avatar+.avatar {
+    .avatar + .avatar {
       margin-left: $avaterMerginLeftSize;
     }
   }
@@ -280,7 +285,7 @@ $pagePaddingWidth:48px;
     padding: 0 17px 0 20px;
 
     &:after {
-      content: " ";
+      content: ' ';
       display: block;
       height: 0;
       clear: both;
@@ -288,7 +293,7 @@ $pagePaddingWidth:48px;
     }
   }
 
-  >div {
+  > div {
     margin-top: 20px;
   }
 }

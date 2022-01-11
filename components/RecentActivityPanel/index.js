@@ -1,42 +1,36 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 
-require("core-js/modules/es6.function.bind");
+require("core-js/modules/es6.object.define-property");
 
 var _react = _interopRequireDefault(require("react"));
 
+var _classnames2 = _interopRequireDefault(require("classnames"));
+
 var _propTypes = _interopRequireDefault(require("prop-types"));
-
-var _classnames = _interopRequireDefault(require("classnames"));
-
-var _bind = _interopRequireDefault(require("classnames/bind"));
-
-var _Header = require("../Header");
-
-var _styles = _interopRequireDefault(require("./styles.scss"));
-
-var _expandable = _interopRequireDefault(require("./expandable"));
 
 var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
 
+var _Header = require("../Header");
+
 var _RecentActivityView = _interopRequireDefault(require("../RecentActivityView"));
+
+var _expandable = _interopRequireDefault(require("./expandable"));
+
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-var cx = _bind["default"].bind(_styles["default"]);
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var ToggleIcon = function ToggleIcon(_ref) {
   var expanded = _ref.expanded;
   return /*#__PURE__*/_react["default"].createElement("i", {
-    className: (0, _classnames["default"])(_DynamicsFont["default"].arrow, cx('arrowIcon', {
-      foldArrowIcon: !expanded
-    }))
+    className: (0, _classnames2["default"])(_DynamicsFont["default"].arrow, (0, _classnames2["default"])(_styles["default"].arrowIcon, _defineProperty({}, _styles["default"].foldArrowIcon, !expanded)))
   });
 };
 
@@ -47,7 +41,7 @@ ToggleIcon.propTypes = {
  * RecentActivityPanel component provides a animated slide-out panel.
  */
 
-function RecentActivityPanel(props) {
+var RecentActivityPanel = function RecentActivityPanel(props) {
   var title = props.title,
       expanded = props.expanded,
       onPanelToggle = props.onPanelToggle;
@@ -63,7 +57,7 @@ function RecentActivityPanel(props) {
     return null;
   }
 
-  var containerClass = (0, _classnames["default"])(_styles["default"].container, props.className);
+  var containerClass = (0, _classnames2["default"])(_styles["default"].container, props.className);
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: containerClass
   }, /*#__PURE__*/_react["default"].createElement(_Header.Header, {
@@ -71,7 +65,7 @@ function RecentActivityPanel(props) {
     className: _styles["default"].header,
     onClick: onPanelToggle
   }, title), /*#__PURE__*/_react["default"].createElement(_RecentActivityView["default"], props));
-}
+};
 
 RecentActivityPanel.propTypes = {
   title: _propTypes["default"].string.isRequired,

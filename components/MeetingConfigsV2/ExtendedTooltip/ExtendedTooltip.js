@@ -27,7 +27,7 @@ require("core-js/modules/es6.string.includes");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _juno = require("@ringcentral/juno");
+var _Tooltip = require("@ringcentral/juno/es6/components/Tooltip/Tooltip.js");
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
@@ -45,7 +45,7 @@ var ExtendedTooltip = function ExtendedTooltip(_ref) {
       res = _objectWithoutProperties(_ref, ["hasScrollBar", "children"]);
 
   var isMac = navigator.platform.includes('Mac');
-  return /*#__PURE__*/_react["default"].createElement(_juno.RcTooltip, _extends({
+  return /*#__PURE__*/_react["default"].createElement(_Tooltip.RcTooltip, _extends({
     classes: {
       popper: isMac || !hasScrollBar ? _styles["default"].popper : _styles["default"].popperOfWin,
       tooltip: _styles["default"].tooltip

@@ -1,20 +1,23 @@
 import React, { FunctionComponent } from 'react';
+
 import classnames from 'classnames';
-import { map, reduce, keys } from 'ramda';
+import { keys, map, reduce } from 'ramda';
+
 import { PhoneType } from '@ringcentral-integration/commons/enums/phoneTypes';
-import {
-  sortByPhoneTypes,
-  filterByPhoneTypes,
-} from '@ringcentral-integration/commons/lib/phoneTypeHelper';
 import { ContactModel } from '@ringcentral-integration/commons/interfaces/Contact.model';
-import dynamicsFont from '../../../assets/DynamicsFont/DynamicsFont.scss';
-import styles from '../styles.scss';
-import i18n from '../i18n';
 import {
-  clickToSMS,
+  filterByPhoneTypes,
+  sortByPhoneTypes,
+} from '@ringcentral-integration/commons/lib/phoneTypeHelper';
+
+import dynamicsFont from '../../../assets/DynamicsFont/DynamicsFont.scss';
+import {
   clickToDial,
+  clickToSMS,
   formatNumber,
 } from '../ContactDetails.interface';
+import i18n from '../i18n';
+import styles from '../styles.scss';
 
 /**
  * TODO

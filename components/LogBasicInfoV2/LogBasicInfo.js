@@ -3,15 +3,15 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = LogBasicInfo;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.object.define-property");
 
+var _react = _interopRequireDefault(require("react"));
+
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
-var _react = _interopRequireDefault(require("react"));
+var _ramda = require("ramda");
 
 var _callDirections = _interopRequireDefault(require("@ringcentral-integration/commons/enums/callDirections"));
 
@@ -19,25 +19,25 @@ var _callResults = _interopRequireDefault(require("@ringcentral-integration/comm
 
 var _telephonyStatus = _interopRequireDefault(require("@ringcentral-integration/commons/enums/telephonyStatus"));
 
-var _recordStatus = _interopRequireDefault(require("@ringcentral-integration/commons/modules/Webphone/recordStatus"));
-
 var _callLogHelpers = require("@ringcentral-integration/commons/lib/callLogHelpers");
 
+var _recordStatus = _interopRequireDefault(require("@ringcentral-integration/commons/modules/Webphone/recordStatus"));
+
 var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
+
+var _formatDuration = _interopRequireDefault(require("../../lib/formatDuration"));
 
 var _DurationCounter = _interopRequireDefault(require("../DurationCounter"));
 
 var _RecordingIndicator = require("../RecordingIndicator");
 
-var _formatDuration = _interopRequireDefault(require("../../lib/formatDuration"));
+var _CallIcon = require("./CallIcon");
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
-var _styles = _interopRequireDefault(require("./styles.scss"));
-
-var _CallIcon = require("./CallIcon");
-
 var _ShinyBar = require("./ShinyBar");
+
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
 var _callIconMap;
 
@@ -61,10 +61,14 @@ function getInfoStatus(status) {
   }
 }
 
-function LogBasicInfo(props) {
+var LogBasicInfo = /*#__PURE__*/_react["default"].memo(function (props) {
   var _props$currentLog = props.currentLog,
       call = _props$currentLog.call,
       logName = _props$currentLog.logName,
+      logNameAndMoreDisplay = _props$currentLog.logNameAndMoreDisplay,
+      isShowEntity = _props$currentLog.isShowEntity,
+      basicURL = _props$currentLog.basicURL,
+      task = _props$currentLog.task,
       formatPhone = props.formatPhone,
       currentLocale = props.currentLocale,
       dataSign = props.dataSign,
@@ -112,7 +116,7 @@ function LogBasicInfo(props) {
   var isRecording = recordStatus === _recordStatus["default"].recording;
   return /*#__PURE__*/_react["default"].createElement("div", {
     "data-sign": "logSection",
-    className: (0, _classnames["default"])(_styles["default"].root, !isWide && _styles["default"].classic, _styles["default"][infoStatus], className)
+    className: (0, _classnames["default"])(_styles["default"].root, !isWide && _styles["default"].classic, _styles["default"][infoStatus], className, _styles["default"].logBasicInfo)
   }, /*#__PURE__*/_react["default"].createElement(_ShinyBar.ShinyBar, {
     className: _styles["default"].top,
     isRinging: isRinging,
@@ -124,12 +128,24 @@ function LogBasicInfo(props) {
     title: missed ? _i18n["default"].getString(_callResults["default"].missed, currentLocale) : _i18n["default"].getString(direction, currentLocale),
     iconClassName: (0, _classnames["default"])(_styles["default"].icon, callIconMap[missed ? _callResults["default"].missed : direction])
   }), showRecordingIndicator && isRecording && /*#__PURE__*/_react["default"].createElement(_RecordingIndicator.RecordingIndicator, {
-    customClass: _styles["default"].recordingIndicator
+    customClass: _styles["default"].recordingIndicator,
+    dataSign: "recordingIndicator"
   }), /*#__PURE__*/_react["default"].createElement("ul", {
     className: _styles["default"].callDisplay
   }, /*#__PURE__*/_react["default"].createElement("li", {
     className: _styles["default"].info
-  }, /*#__PURE__*/_react["default"].createElement("p", {
+  }, isShowEntity && ((task === null || task === void 0 ? void 0 : task.whatid) || (task === null || task === void 0 ? void 0 : task.whoid) || logNameAndMoreDisplay) ? /*#__PURE__*/_react["default"].createElement("p", {
+    className: _styles["default"].logName,
+    title: "".concat(logNameAndMoreDisplay ? "".concat(logName, "\xA0$").concat(logNameAndMoreDisplay) : logName),
+    "data-sign": "logName"
+  }, /*#__PURE__*/_react["default"].createElement("a", {
+    className: _styles["default"].SFrecordLink,
+    onClick: function onClick() {
+      return window.open("".concat(basicURL, "/").concat(task.whatid || task.whoid), '_blank');
+    }
+  }, logNameAndMoreDisplay ? /*#__PURE__*/_react["default"].createElement("span", null, logName, /*#__PURE__*/_react["default"].createElement("span", {
+    className: _styles["default"].logNameAndMore
+  }, logNameAndMoreDisplay)) : logName)) : /*#__PURE__*/_react["default"].createElement("p", {
     className: _styles["default"].logName,
     title: logName,
     "data-sign": "logName"
@@ -149,20 +165,18 @@ function LogBasicInfo(props) {
     utcTimestamp: startTime,
     locale: currentLocale
   }))))));
-}
+}, function (prevProps, nextProps) {
+  var _nextProps$currentLog, _prevProps$currentLog, _nextProps$currentLog2;
 
-LogBasicInfo.propTypes = {
-  currentLocale: _propTypes["default"].string,
-  formatPhone: _propTypes["default"].func,
-  currentLog: _propTypes["default"].object,
-  dataSign: _propTypes["default"].string,
-  disableLinks: _propTypes["default"].bool,
-  dateTimeFormatter: _propTypes["default"].func.isRequired,
-  isWide: _propTypes["default"].bool,
-  className: _propTypes["default"].string,
-  recordStatus: _propTypes["default"].string,
-  showRecordingIndicator: _propTypes["default"].bool
-};
+  // current call will be {} temporally when the call is ended
+  // will not update log info component at that time
+  if (((_nextProps$currentLog = nextProps.currentLog) === null || _nextProps$currentLog === void 0 ? void 0 : _nextProps$currentLog.call) !== ((_prevProps$currentLog = prevProps.currentLog) === null || _prevProps$currentLog === void 0 ? void 0 : _prevProps$currentLog.call) && (0, _ramda.isEmpty)((_nextProps$currentLog2 = nextProps.currentLog) === null || _nextProps$currentLog2 === void 0 ? void 0 : _nextProps$currentLog2.call)) {
+    return true;
+  }
+
+  return false;
+});
+
 LogBasicInfo.defaultProps = {
   formatPhone: function formatPhone(value) {
     return value;
@@ -176,4 +190,6 @@ LogBasicInfo.defaultProps = {
   recordStatus: '',
   showRecordingIndicator: false
 };
+var _default = LogBasicInfo;
+exports["default"] = _default;
 //# sourceMappingURL=LogBasicInfo.js.map

@@ -9,21 +9,17 @@ exports["default"] = void 0;
 var _default = {
   newConference: "Nova conferência",
   dialInNumber: "Número de acesso",
-  hostAccess: "Acesso do anfitrião",
+  hostAccess: "Acesso de anfitrião",
   participantsAccess: "Acesso dos participantes",
   addinalDialInNumbers: "Números de acesso adicionais",
   selectNumbers: "Selecionar números",
-  enableJoinBeforeHost: "Ativar adesão antes do anfitrião",
+  enableJoinBeforeHost: "Ativar entrada antes do anfitrião",
   conferenceCommands: "Comandos de conferência",
   conferenceOptions: "Opções da conferência",
-  inviteWithGCalendar: "Convidar com o Google Calendar",
+  inviteWithGCalendar: "Convidar com o Calendário Google",
   inviteWithText: "Convidar com mensagem de texto",
   joinAsHost: "Iniciar conferência",
   internationalNumber: "Números de acesso internacionais:",
-  inviteText_att: "Entre na conferência do {brandName}.\n\nNúmero de acesso: {formattedDialInNumber} \n{additionalNumbersSection} \nAcesso do participante: {participantCode} \n\nNecessita um número de telefone de acesso internacional? Visite {dialInNumbersLinks} \n\nEsta chamada de conferência é oferecida por {brandName} Conferencing.",
-  inviteText_bt: "Participe na conferência do {brandName}.\n\nNúmero de acesso: {formattedDialInNumber} \n{additionalNumbersSection} \nAcesso do participante: {participantCode} \n\nNúmero de acesso adicionais {dialInNumbersLinks}",
-  inviteText_rc: "Participe na conferência do {brandName}.\n\nNúmero de acesso: {formattedDialInNumber} \n{additionalNumbersSection} \nAcesso do participante: {participantCode} \n\nNecessita um número de telefone de acesso internacional? Visite {dialInNumbersLinks} \n\nEsta chamada de conferência é oferecida por {brandName} Conferencing.",
-  inviteText_telus: "Participe na conferência do {brandName}.\n\nNúmero de acesso: {formattedDialInNumber} \n{additionalNumbersSection} \nAcesso do participante: {participantCode} \n\nNúmeros de acesso adicionais {dialInNumbersLinks}",
   saveAsDefault: "Guardar como predefinição"
 }; // @key: @#@"newConference"@#@ @source: @#@"New Conference"@#@
 // @key: @#@"dialInNumber"@#@ @source: @#@"Dial-in Number"@#@
@@ -38,10 +34,6 @@ var _default = {
 // @key: @#@"inviteWithText"@#@ @source: @#@"Invite with Text"@#@
 // @key: @#@"joinAsHost"@#@ @source: @#@"Launch Conference"@#@
 // @key: @#@"internationalNumber"@#@ @source: @#@"International Dial-in Numbers:"@#@
-// @key: @#@"inviteText_att"@#@ @source: @#@"Please join the {brandName} conference.\n\nDial-In Number: {formattedDialInNumber} \n{additionalNumbersSection} \nParticipant Access: {participantCode} \n\nNeed an international dial-in phone number? Please visit {dialInNumbersLinks} \n\nThis conference call is brought to you by {brandName} Conferencing."@#@
-// @key: @#@"inviteText_bt"@#@ @source: @#@"Please join the {brandName} conference.\n\nDial-In Number: {formattedDialInNumber} \n{additionalNumbersSection} \nParticipant Access: {participantCode} \n\nAdditional dial-in numbers {dialInNumbersLinks}"@#@
-// @key: @#@"inviteText_rc"@#@ @source: @#@"Please join the {brandName} conference.\n\nDial-In Number: {formattedDialInNumber} \n{additionalNumbersSection} \nParticipant Access: {participantCode} \n\nNeed an international dial-in phone number? Please visit {dialInNumbersLinks} \n\nThis conference call is brought to you by {brandName} Conferencing."@#@
-// @key: @#@"inviteText_telus"@#@ @source: @#@"Please join the {brandName} conference.\n\nDial-In Number: {formattedDialInNumber} \n{additionalNumbersSection} \nParticipant Access: {participantCode} \n\nAdditional dial-in numbers {dialInNumbersLinks}"@#@
 // @key: @#@"saveAsDefault"@#@ @source: @#@"Save as default"@#@
 
 exports["default"] = _default;

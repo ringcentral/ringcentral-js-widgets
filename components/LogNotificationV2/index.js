@@ -3,21 +3,25 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = LogNotification;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.object.define-property");
 
-var _juno = require("@ringcentral/juno");
+var _react = _interopRequireDefault(require("react"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _react = _interopRequireDefault(require("react"));
-
 var _callDirections = _interopRequireDefault(require("@ringcentral-integration/commons/enums/callDirections"));
 
 var _telephonyStatus = _interopRequireDefault(require("@ringcentral-integration/commons/enums/telephonyStatus"));
+
+var _MenuItem = require("@ringcentral/juno/es6/components/Menu/MenuItem/MenuItem.js");
+
+var _MenuList = require("@ringcentral/juno/es6/components/Menu/MenuList/MenuList.js");
+
+var _Popover = require("@ringcentral/juno/es6/components/Popover/Popover.js");
 
 var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
 
@@ -104,7 +108,7 @@ function LogNotification(_ref2) {
         return onExpand();
       },
       className: (0, _classnames["default"])(_styles["default"].logBtn, _styles["default"].actionItem)
-    }, !isExpand ? /*#__PURE__*/_react["default"].createElement(_LogUnclick["default"], null) : /*#__PURE__*/_react["default"].createElement(_LogClick["default"], null))), /*#__PURE__*/_react["default"].createElement(_juno.RcPopover, {
+    }, !isExpand ? /*#__PURE__*/_react["default"].createElement(_LogUnclick["default"], null) : /*#__PURE__*/_react["default"].createElement(_LogClick["default"], null))), /*#__PURE__*/_react["default"].createElement(_Popover.RcPopover, {
       open: !!anchorEl.current && isExpand,
       anchorEl: anchorEl.current,
       onClose: function onClose() {
@@ -121,12 +125,12 @@ function LogNotification(_ref2) {
       closeAfterTransition: true,
       container: viewport,
       className: _styles["default"].modalAnimation
-    }, /*#__PURE__*/_react["default"].createElement(_juno.RcMenuList, null, /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
+    }, /*#__PURE__*/_react["default"].createElement(_MenuList.RcMenuList, null, /*#__PURE__*/_react["default"].createElement(_MenuItem.RcMenuItem, {
       onClick: function onClick() {
         return onSave();
       },
       className: _styles["default"].menuItem
-    }, _i18n2["default"].getString('save', currentLocale)), /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
+    }, _i18n2["default"].getString('save', currentLocale)), /*#__PURE__*/_react["default"].createElement(_MenuItem.RcMenuItem, {
       onClick: function onClick() {
         return onDiscard();
       },
@@ -193,4 +197,6 @@ LogNotification.defaultProps = {
   showEndButton: false,
   shrinkNotification: undefined
 };
+var _default = LogNotification;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

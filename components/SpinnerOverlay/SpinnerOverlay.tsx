@@ -1,6 +1,15 @@
-import classNames from 'classnames';
 import React, { ComponentType, FunctionComponent, memo } from 'react';
-import { RcCircularProgress, styled } from '@ringcentral/juno';
+
+import classNames from 'classnames';
+
+import {
+  opacity,
+  palette2,
+  RcCircularProgress,
+  styled,
+} from '@ringcentral/juno';
+
+import { fullSizeStyle } from '../../lib/commonStyles';
 import styles from './styles.scss';
 
 export interface SpinnerOverlayProps {
@@ -30,21 +39,28 @@ const StyledContainer = styled.div<{ top?: string }>`
   }
 `;
 
-export const SpinnerOverlay: FunctionComponent<SpinnerOverlayProps> = memo<
-  SpinnerOverlayProps
->(({ className, custom: SpinnerComponent, classes, top = '40%' }) => {
-  return (
-    <div
-      data-sign="spinnerOverlay"
-      className={classNames(styles.root, className, classes.root)}
-    >
-      <div className={classNames(styles.mask, classes.mask)} />
-      <StyledContainer className={classes.container} top={top}>
-        <SpinnerComponent />
-      </StyledContainer>
-    </div>
+const Mask = styled.div`
+  background: ${palette2('neutral', 'b01')};
+  opacity: ${opacity('48')};
+  ${fullSizeStyle};
+`;
+
+export const SpinnerOverlay: FunctionComponent<SpinnerOverlayProps> =
+  memo<SpinnerOverlayProps>(
+    ({ className, custom: SpinnerComponent, classes, top = '40%' }) => {
+      return (
+        <div
+          data-sign="spinnerOverlay"
+          className={classNames(styles.root, className, classes.root)}
+        >
+          <Mask className={classes.mask} />
+          <StyledContainer className={classes.container} top={top}>
+            <SpinnerComponent />
+          </StyledContainer>
+        </div>
+      );
+    },
   );
-});
 
 export default SpinnerOverlay;
 

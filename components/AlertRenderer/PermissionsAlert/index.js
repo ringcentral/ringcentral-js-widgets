@@ -9,8 +9,6 @@ exports["default"] = exports.PermissionsAlert = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
 var _permissionsMessages = require("@ringcentral-integration/commons/enums/permissionsMessages");
 
 var _FormattedMessage = _interopRequireDefault(require("../../FormattedMessage"));
@@ -46,14 +44,6 @@ var PermissionsAlert = function PermissionsAlert(_ref) {
 };
 
 exports.PermissionsAlert = PermissionsAlert;
-PermissionsAlert.propTypes = {
-  message: _propTypes["default"].shape({
-    message: _propTypes["default"].string.isRequired
-  }).isRequired,
-  brand: _propTypes["default"].string.isRequired,
-  application: _propTypes["default"].string,
-  currentLocale: _propTypes["default"].string.isRequired
-};
 PermissionsAlert.defaultProps = {
   application: undefined
 };

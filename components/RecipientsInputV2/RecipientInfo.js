@@ -11,9 +11,9 @@ require("core-js/modules/es6.function.name");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _styles = _interopRequireDefault(require("./styles.scss"));
-
 var _phoneSourceNames = _interopRequireDefault(require("../../lib/phoneSourceNames"));
+
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 

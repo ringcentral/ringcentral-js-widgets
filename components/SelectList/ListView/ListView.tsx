@@ -1,5 +1,6 @@
-import { RcList } from '@ringcentral/juno';
 import React, { FunctionComponent, ReactElement } from 'react';
+
+import { RcList } from '@ringcentral/juno';
 
 import { ListViewItem, ListViewItemProps } from './ListViewItem';
 

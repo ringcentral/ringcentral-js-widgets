@@ -1,5 +1,7 @@
 import React, { FunctionComponent } from 'react';
+
 import { RcIconButton } from '@ringcentral/juno';
+
 import { CallLogActionButton } from '../CallHistoryPanel.interface';
 
 export const ActionButton: FunctionComponent<CallLogActionButton> = ({

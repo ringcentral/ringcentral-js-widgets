@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -43,17 +43,17 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _sleep = _interopRequireDefault(require("@ringcentral-integration/commons/lib/sleep"));
 
-var _SpinnerOverlay = require("../SpinnerOverlay");
-
-var _MeetingConfigs = _interopRequireDefault(require("../MeetingConfigs"));
-
 var _isSafari = _interopRequireDefault(require("../../lib/isSafari"));
-
-var _VideoConfig = require("../VideoPanel/VideoConfig");
 
 var _InnerTopic = require("../InnerTopic");
 
+var _MeetingConfigs = _interopRequireDefault(require("../MeetingConfigs"));
+
 var _MeetingConfigsV = require("../MeetingConfigsV2");
+
+var _SpinnerOverlay = require("../SpinnerOverlay");
+
+var _VideoConfig = require("../VideoPanel/VideoConfig");
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
@@ -67,9 +67,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -114,20 +114,26 @@ var GenericMeetingPanel = function GenericMeetingPanel(props) {
       schedule = props.schedule,
       showSpinner = props.showSpinner,
       showRcvAdminLock = props.showRcvAdminLock,
-      showPmiAlert = props.showPmiAlert,
+      showPmiConfirm = props.showPmiConfirm,
       enablePersonalMeeting = props.enablePersonalMeeting,
+      isPmiChangeConfirmed = props.isPmiChangeConfirmed,
+      onPmiChangeClick = props.onPmiChangeClick,
       showWaitingRoom = props.showWaitingRoom,
       showE2EE = props.showE2EE,
       isE2EEDisabled = props.isE2EEDisabled,
       personalMeetingId = props.personalMeetingId,
       switchUsePersonalMeetingId = props.switchUsePersonalMeetingId,
       updateHasSettingsChanged = props.updateHasSettingsChanged,
+      trackSettingChanges = props.trackSettingChanges,
       e2eeInteractFunc = props.e2eeInteractFunc,
       showScheduleOnBehalf = props.showScheduleOnBehalf,
       delegators = props.delegators,
       joinBeforeHostLabel = props.joinBeforeHostLabel,
       authUserTypeValue = props.authUserTypeValue,
       isJoinBeforeHostDisabled = props.isJoinBeforeHostDisabled,
+      isMuteAudioDisabled = props.isMuteAudioDisabled,
+      isTurnOffCameraDisabled = props.isTurnOffCameraDisabled,
+      isAllowScreenSharingDisabled = props.isAllowScreenSharingDisabled,
       isAuthenticatedCanJoinDisabled = props.isAuthenticatedCanJoinDisabled,
       isRequirePasswordDisabled = props.isRequirePasswordDisabled,
       isWaitingRoomDisabled = props.isWaitingRoomDisabled,
@@ -135,6 +141,7 @@ var GenericMeetingPanel = function GenericMeetingPanel(props) {
       isWaitingRoomGuestDisabled = props.isWaitingRoomGuestDisabled,
       isWaitingRoomAllDisabled = props.isWaitingRoomAllDisabled,
       isAuthUserTypeDisabled = props.isAuthUserTypeDisabled,
+      isWaitingRoomTypeDisabled = props.isWaitingRoomTypeDisabled,
       isSignedInUsersDisabled = props.isSignedInUsersDisabled,
       isSignedInCoWorkersDisabled = props.isSignedInCoWorkersDisabled,
       updateScheduleFor = props.updateScheduleFor,
@@ -143,7 +150,9 @@ var GenericMeetingPanel = function GenericMeetingPanel(props) {
       enableServiceWebSettings = props.enableServiceWebSettings,
       recurringMeetingPosition = props.recurringMeetingPosition,
       defaultTopic = props.defaultTopic,
-      isPersonalMeetingDisabled = props.isPersonalMeetingDisabled;
+      isPersonalMeetingDisabled = props.isPersonalMeetingDisabled,
+      showIeSupportAlert = props.showIeSupportAlert,
+      appName = props.appName;
 
   if (showSpinner) {
     return /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, null);
@@ -190,11 +199,14 @@ var GenericMeetingPanel = function GenericMeetingPanel(props) {
     showScheduleOnBehalf: showScheduleOnBehalf,
     delegators: delegators,
     updateScheduleFor: updateScheduleFor,
+    trackSettingChanges: trackSettingChanges,
     enableServiceWebSettings: enableServiceWebSettings,
     recurringMeetingPosition: recurringMeetingPosition,
     datePickerSize: datePickerSize,
     timePickerSize: timePickerSize,
-    checkboxSize: checkboxSize
+    checkboxSize: checkboxSize,
+    showIeSupportAlert: showIeSupportAlert,
+    appName: appName
   }, showTopic && /*#__PURE__*/_react["default"].createElement(_InnerTopic.Topic, {
     name: meeting.topic,
     updateMeetingTopic: function updateMeetingTopic(topic) {
@@ -222,7 +234,7 @@ var GenericMeetingPanel = function GenericMeetingPanel(props) {
     timePickerSize: timePickerSize,
     checkboxSize: checkboxSize,
     showRcvAdminLock: showRcvAdminLock,
-    showPmiAlert: showPmiAlert,
+    showPmiConfirm: showPmiConfirm,
     showWaitingRoom: showWaitingRoom,
     showE2EE: showE2EE,
     isE2EEDisabled: isE2EEDisabled,
@@ -230,21 +242,30 @@ var GenericMeetingPanel = function GenericMeetingPanel(props) {
     isWaitingRoomGuestDisabled: isWaitingRoomGuestDisabled,
     isWaitingRoomAllDisabled: isWaitingRoomAllDisabled,
     isAuthUserTypeDisabled: isAuthUserTypeDisabled,
+    isWaitingRoomTypeDisabled: isWaitingRoomTypeDisabled,
     isSignedInUsersDisabled: isSignedInUsersDisabled,
     isSignedInCoWorkersDisabled: isSignedInCoWorkersDisabled,
     enablePersonalMeeting: enablePersonalMeeting,
+    isPmiChangeConfirmed: isPmiChangeConfirmed,
     personalMeetingId: personalMeetingId,
     switchUsePersonalMeetingId: switchUsePersonalMeetingId,
     updateHasSettingsChanged: updateHasSettingsChanged,
+    trackSettingChanges: trackSettingChanges,
+    onPmiChangeClick: onPmiChangeClick,
     showScheduleOnBehalf: showScheduleOnBehalf,
     showSpinnerInConfigPanel: showSpinnerInConfigPanel,
     delegators: delegators,
     joinBeforeHostLabel: joinBeforeHostLabel,
     authUserTypeValue: authUserTypeValue,
     isJoinBeforeHostDisabled: isJoinBeforeHostDisabled,
+    isMuteAudioDisabled: isMuteAudioDisabled,
+    isTurnOffCameraDisabled: isTurnOffCameraDisabled,
+    isAllowScreenSharingDisabled: isAllowScreenSharingDisabled,
     isAuthenticatedCanJoinDisabled: isAuthenticatedCanJoinDisabled,
     isWaitingRoomDisabled: isWaitingRoomDisabled,
-    isRequirePasswordDisabled: isRequirePasswordDisabled
+    isRequirePasswordDisabled: isRequirePasswordDisabled,
+    showIeSupportAlert: showIeSupportAlert,
+    appName: appName
   }, showTopic && /*#__PURE__*/_react["default"].createElement(_InnerTopic.Topic, {
     name: meeting.name,
     updateMeetingTopic: function updateMeetingTopic(name) {
@@ -317,7 +338,7 @@ GenericMeetingPanel.defaultProps = {
   onOK: undefined,
   scheduleButton: undefined,
   showRcvAdminLock: false,
-  showPmiAlert: false,
+  showPmiConfirm: false,
   showWaitingRoom: false,
   showE2EE: false,
   isE2EEDisabled: false,
@@ -325,9 +346,11 @@ GenericMeetingPanel.defaultProps = {
   isWaitingRoomGuestDisabled: false,
   isWaitingRoomAllDisabled: false,
   isAuthUserTypeDisabled: false,
+  isWaitingRoomTypeDisabled: false,
   isSignedInUsersDisabled: false,
   isSignedInCoWorkersDisabled: false,
   enablePersonalMeeting: false,
+  isPmiChangeConfirmed: false,
   showSaveAsDefault: true,
   disableSaveAsDefault: false,
   showCustom: false,

@@ -23,9 +23,9 @@ require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.array.map");
 
-var _juno = require("@ringcentral/juno");
-
 var _react = _interopRequireDefault(require("react"));
+
+var _List = require("@ringcentral/juno/es6/components/List/List/List.js");
 
 var _ListViewItem = require("./ListViewItem");
 
@@ -48,7 +48,7 @@ var ListView = function ListView(_ref) {
     return nonShow;
   }
 
-  return /*#__PURE__*/_react["default"].createElement(_juno.RcList, null, options.map(function (option, i) {
+  return /*#__PURE__*/_react["default"].createElement(_List.RcList, null, options.map(function (option, i) {
     return /*#__PURE__*/_react["default"].createElement(_ListViewItem.ListViewItem, _extends({
       key: i,
       index: i,

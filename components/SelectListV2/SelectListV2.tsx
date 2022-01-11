@@ -1,5 +1,6 @@
-import classNames from 'classnames';
 import React, { FunctionComponent, useRef } from 'react';
+
+import classNames from 'classnames';
 
 import { SelectListContext } from '../../contexts';
 import BackHeader, { BackHeaderProps } from '../BackHeaderV2';

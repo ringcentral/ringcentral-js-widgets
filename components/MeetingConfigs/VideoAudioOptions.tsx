@@ -1,7 +1,8 @@
 import 'react-widgets/dist/css/react-widgets.css';
 
-import classnames from 'classnames';
 import React, { FunctionComponent } from 'react';
+
+import classnames from 'classnames';
 
 import CheckBox from '../CheckBox';
 import DropdownSelect from '../DropdownSelect';
@@ -114,7 +115,6 @@ const AudioOptionsDropdown: FunctionComponent<AudioOptionsDropdownProps> = ({
   <DropdownSelect
     disabled={disabled}
     className={classnames(styles.dropdownSelect)}
-    iconClassNßame={styles.dropdownIcon}
     value={meeting.audioOptions.join('_')}
     onChange={({ key }) => {
       const audioOptions = key.split('_');
@@ -174,4 +174,4 @@ const AudioOptions: FunctionComponent<AudioOptionsProps> = ({
   );
 };
 
-export { Video, AudioOptionsCheckbox, AudioOptions, AudioOptionsDropdown };
+export { AudioOptions, AudioOptionsCheckbox, AudioOptionsDropdown, Video };

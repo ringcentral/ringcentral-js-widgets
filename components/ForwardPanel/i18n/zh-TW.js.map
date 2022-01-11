@@ -1,1 +1,1 @@
-{"version":3,"sources":["components/ForwardPanel/i18n/zh-TW.js"],"names":["forward"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,OAAO,EAAE;AADI,C,EAIf","sourcesContent":["export default {\n  forward: \"轉接\"\n};\n\n// @key: @#@\"forward\"@#@ @source: @#@\"Forward\"@#@\n"],"file":"zh-TW.js"}
+{"version":3,"sources":["components/ForwardPanel/i18n/zh-TW.ts"],"names":["forward"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,OAAO,EAAE;AADI,C,EAIf","sourcesContent":["export default {\n  forward: \"轉接\"\n};\n\n// @key: @#@\"forward\"@#@ @source: @#@\"Forward\"@#@\n"],"file":"zh-TW.js"}

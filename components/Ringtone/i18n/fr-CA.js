@@ -10,7 +10,7 @@ var _default = {
   ringtones: "Sonneries",
   incomingRingtone: "Sonnerie pour les appels entrants",
   outgoingRingtone: "Sonnerie pour les appels sortants",
-  play: "Lecture",
+  play: "Lire",
   stop: "Arrêter",
   upload: "Téléverser",
   reset: "Réinitialiser",

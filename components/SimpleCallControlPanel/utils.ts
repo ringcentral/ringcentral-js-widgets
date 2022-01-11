@@ -1,4 +1,5 @@
 import callDirection from '@ringcentral-integration/commons/enums/callDirections';
+
 import i18n from './i18n';
 
 export const pickEleByProps = (props = {}, list = []) => {
@@ -10,8 +11,8 @@ export const pickEleByProps = (props = {}, list = []) => {
   return result;
 };
 
-export const pickFallBackInfo = (call = {}, contactName, currentLocale) => {
-  const { direction } = call;
+export const pickFallBackInfo = (call, contactName, currentLocale) => {
+  const direction = call?.direction;
   let fallBackName = contactName;
   let fallBackNumber = '';
 

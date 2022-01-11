@@ -38,7 +38,8 @@ export default {
   pmiSettingChangeAlert: "您更改设置并安排会议时间后，使用个人会议 ID 的所有会议都会改为使用最新设置。",
   lockedTooltip: "此设置由公司管理员管理",
   when: "时间",
-  recurringDescribe: "请记得检查通过日历向参与者发送的邀请中是否存在重复。"
+  recurringDescribe: "请记得检查通过日历向参与者发送的邀请中是否存在重复。",
+  ieSupportAlert: "请注意，2022 年 2 月 16 日之后，{appName} 将无法再在 Internet Explorer 11 中使用。我们建议您改用 Microsoft Edge，或者更新到 Outlook 2016 或更高版本。"
 };
 
 // @key: @#@"date"@#@ @source: @#@"Date"@#@
@@ -80,3 +81,4 @@ export default {
 // @key: @#@"lockedTooltip"@#@ @source: @#@"This setting is managed by your company admin"@#@
 // @key: @#@"when"@#@ @source: @#@"When"@#@
 // @key: @#@"recurringDescribe"@#@ @source: @#@"Please remember to check recurrence or repeat in your calendar invitation to your attendees."@#@
+// @key: @#@"ieSupportAlert"@#@ @source: @#@"Please note that {appName} won't work with Internet Explorer 11 after Feb 16, 2022. We recommend switching to Microsoft Edge or updating to Outlook 2016 or above."@#@

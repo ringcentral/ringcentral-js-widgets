@@ -7,9 +7,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.RecentActivityContainer = void 0;
 
-var _phoneContext = require("../../lib/phoneContext");
-
 var _RecentActivityPanel = _interopRequireDefault(require("../../components/RecentActivityPanel"));
+
+var _phoneContext = require("../../lib/phoneContext");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 

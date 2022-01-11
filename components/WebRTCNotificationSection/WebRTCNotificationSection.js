@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 require("core-js/modules/web.dom.iterable");
 
@@ -41,15 +41,23 @@ require("core-js/modules/es6.array.slice");
 
 require("core-js/modules/es6.array.map");
 
-var _callDirections = _interopRequireDefault(require("@ringcentral-integration/commons/enums/callDirections"));
-
-var _juno = require("@ringcentral/juno");
-
-var _icon = require("@ringcentral/juno/icon");
+var _react = _interopRequireWildcard(require("react"));
 
 var _classnames2 = _interopRequireDefault(require("classnames"));
 
-var _react = _interopRequireWildcard(require("react"));
+var _callDirections = _interopRequireDefault(require("@ringcentral-integration/commons/enums/callDirections"));
+
+var _MenuItem = require("@ringcentral/juno/es6/components/Menu/MenuItem/MenuItem.js");
+
+var _MenuList = require("@ringcentral/juno/es6/components/Menu/MenuList/MenuList.js");
+
+var _Popover = require("@ringcentral/juno/es6/components/Popover/Popover.js");
+
+var _styledComponents = _interopRequireDefault(require("@ringcentral/juno/es6/foundation/styled-components.js"));
+
+var _Ignore = _interopRequireDefault(require("@ringcentral/juno/es6/icon/Ignore.js"));
+
+var _Voicemail = _interopRequireDefault(require("@ringcentral/juno/es6/icon/Voicemail.js"));
 
 var _Answer = _interopRequireDefault(require("../../assets/images/Answer.svg"));
 
@@ -65,11 +73,11 @@ var _i18n = _interopRequireDefault(require("./i18n"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -81,7 +89,7 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-function _iterableToArrayLimit(arr, i) { var _i = arr && (typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]); if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
@@ -97,7 +105,7 @@ function _templateObject() {
 
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
-var ForwardActiveList = _juno.styled.div(_templateObject());
+var ForwardActiveList = _styledComponents["default"].div(_templateObject());
 
 var WebRTCNotificationSection = function WebRTCNotificationSection(_ref) {
   var call = _ref.call,
@@ -164,7 +172,7 @@ var WebRTCNotificationSection = function WebRTCNotificationSection(_ref) {
       className: _styles["default"].callButton
     }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
       dataSign: "ignore",
-      icon: _icon.Ignore,
+      icon: _Ignore["default"],
       iconWidth: 250,
       iconHeight: 250,
       iconX: 125,
@@ -190,7 +198,7 @@ var WebRTCNotificationSection = function WebRTCNotificationSection(_ref) {
       className: (0, _classnames2["default"])(_styles["default"].callButton, _styles["default"].voicemail)
     }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
       dataSign: "toVoiceMail",
-      icon: _icon.Voicemail,
+      icon: _Voicemail["default"],
       className: (0, _classnames2["default"])(_styles["default"].button, _styles["default"].hangup),
       showBorder: false,
       iconWidth: 250,
@@ -239,7 +247,7 @@ var WebRTCNotificationSection = function WebRTCNotificationSection(_ref) {
       className: _styles["default"].callButton
     }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
       dataSign: "toVoiceMail",
-      icon: _icon.Voicemail,
+      icon: _Voicemail["default"],
       className: (0, _classnames2["default"])(_styles["default"].button, _styles["default"].hangup),
       showBorder: false,
       iconWidth: 250,
@@ -299,7 +307,7 @@ var WebRTCNotificationSection = function WebRTCNotificationSection(_ref) {
       subText: null,
       onClick: forward
     });
-    return /*#__PURE__*/_react["default"].createElement(_juno.RcPopover, {
+    return /*#__PURE__*/_react["default"].createElement(_Popover.RcPopover, {
       anchorOrigin: {
         vertical: 'center',
         horizontal: isWide ? 'left' : 'center'
@@ -319,12 +327,12 @@ var WebRTCNotificationSection = function WebRTCNotificationSection(_ref) {
       }
     }, /*#__PURE__*/_react["default"].createElement(ForwardActiveList, {
       "data-sign": "forwardActiveList"
-    }, /*#__PURE__*/_react["default"].createElement(_juno.RcMenuList, null, forwardList.map(function (_ref2) {
+    }, /*#__PURE__*/_react["default"].createElement(_MenuList.RcMenuList, null, forwardList.map(function (_ref2) {
       var text = _ref2.text,
           subText = _ref2.subText,
           onClick = _ref2.onClick,
           key = _ref2.key;
-      return /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
+      return /*#__PURE__*/_react["default"].createElement(_MenuItem.RcMenuItem, {
         key: key,
         onClick: onClick,
         "data-value": key

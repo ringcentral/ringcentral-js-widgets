@@ -7,9 +7,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.IncomingCallContainer = void 0;
 
-var _phoneContext = require("../../lib/phoneContext");
-
 var _IncomingCallView = require("../../components/IncomingCallView");
+
+var _phoneContext = require("../../lib/phoneContext");
 
 var IncomingCallContainer = (0, _phoneContext.connectModule)(function (phone) {
   return phone.incomingCallUI;

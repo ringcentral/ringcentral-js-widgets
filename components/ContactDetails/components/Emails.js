@@ -15,9 +15,9 @@ var _classnames = _interopRequireDefault(require("classnames"));
 
 var _ramda = require("ramda");
 
-var _styles = _interopRequireDefault(require("../styles.scss"));
-
 var _i18n = _interopRequireDefault(require("../i18n"));
+
+var _styles = _interopRequireDefault(require("../styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 

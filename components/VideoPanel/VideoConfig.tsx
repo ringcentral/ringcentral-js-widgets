@@ -1,21 +1,13 @@
-import {
-  styled,
-  spacing,
-  RcAlert,
-  RcCheckbox,
-  RcDatePicker,
-  RcDatePickerProps,
-  RcMenuItem,
-  RcSelect,
-  RcTextField,
-  RcTimePicker,
-  RcTimePickerProps,
-  RcCheckboxProps,
-  RcIcon,
-} from '@ringcentral/juno';
-import { Info } from '@ringcentral/juno/icon';
+import React, {
+  FunctionComponent,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
+import formatMessage from 'format-message';
 import classnames from 'classnames';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
+
 import {
   updateFullTime,
   updateFullYear,
@@ -23,26 +15,47 @@ import {
 import { RcVMeetingModel } from '@ringcentral-integration/commons/interfaces/Rcv.model';
 import {
   ASSISTED_USERS_MYSELF,
-  RCV_WAITING_ROOM_MODE,
-  RcvDelegator,
-  RcvWaitingRoomModeProps,
   AUTH_USER,
   AUTH_USER_TYPE,
+  RCV_ITEM_NAME,
+  RCV_WAITING_ROOM_MODE,
+  RcvDelegator,
+  RcvItemType,
+  RcvWaitingRoomModeProps,
 } from '@ringcentral-integration/commons/modules/RcVideoV2';
+import {
+  RcCheckbox,
+  RcCheckboxProps,
+  RcDatePicker,
+  RcDatePickerProps,
+  RcIcon,
+  RcMenuItem,
+  RcSelect,
+  RcTextField,
+  RcTimePicker,
+  RcLink,
+  RcText,
+  RcTimePickerProps,
+  spacing,
+  styled,
+} from '@ringcentral/juno';
+import { InfoBorder } from '@ringcentral/juno/icon';
 
-import { ExtendedTooltip } from '../MeetingConfigsV2/ExtendedTooltip';
 import { formatMeetingId } from '../../lib/MeetingCalendarHelper';
 import {
-  getMinutesList,
   getHoursList,
+  getMinutesList,
   HOUR_SCALE,
   MINUTE_SCALE,
 } from '../../lib/MeetingHelper';
+import { ExtendedTooltip } from '../MeetingConfigsV2/ExtendedTooltip';
 import { SpinnerOverlay } from '../SpinnerOverlay';
+import { MeetingAlert } from '../MeetingAlert';
 import i18n from './i18n';
 import { SettingGroup } from './SettingGroup';
 import styles from './styles.scss';
 import { VideoSecuritySettingItem } from './VideoSecuritySettingItem';
+import { RCV_SCHEDULE_ON_BEHALF_GUIDANCE_LINK } from './constants';
 
 function getHelperTextForPasswordField(
   meeting: RcVMeetingModel,
@@ -76,19 +89,24 @@ interface VideoConfigProps {
   showWhen?: boolean;
   showDuration?: boolean;
   showRcvAdminLock?: boolean;
-  showPmiAlert?: boolean;
+  showPmiConfirm?: boolean;
   showWaitingRoom?: boolean;
   showE2EE?: boolean;
   isE2EEDisabled?: boolean;
 
   enablePersonalMeeting?: boolean;
+  isPmiChangeConfirmed?: boolean;
   isPersonalMeetingDisabled: boolean;
   personalMeetingId: string;
+  showIeSupportAlert?: boolean;
+  appName?: string;
   switchUsePersonalMeetingId: (usePersonalMeetingId: boolean) => any;
+  trackSettingChanges?: (itemName: RcvItemType) => void;
   updateHasSettingsChanged: (isChanged: boolean) => void;
   updateScheduleFor: (userExtensionId: string) => any;
   init: () => any;
   e2eeInteractFunc: (e2eeValue: boolean) => void;
+  onPmiChangeClick: () => void;
   datePickerSize?: RcDatePickerProps['size'];
   timePickerSize?: RcTimePickerProps['size'];
   checkboxSize?: RcCheckboxProps['size'];
@@ -97,6 +115,9 @@ interface VideoConfigProps {
   joinBeforeHostLabel: string;
   authUserTypeValue: AUTH_USER;
   isJoinBeforeHostDisabled: boolean;
+  isMuteAudioDisabled: boolean;
+  isTurnOffCameraDisabled: boolean;
+  isAllowScreenSharingDisabled: boolean;
   isAuthenticatedCanJoinDisabled: boolean;
   isWaitingRoomDisabled: boolean;
   isRequirePasswordDisabled: boolean;
@@ -104,6 +125,7 @@ interface VideoConfigProps {
   isWaitingRoomGuestDisabled: boolean;
   isWaitingRoomAllDisabled: boolean;
   isAuthUserTypeDisabled: boolean;
+  isWaitingRoomTypeDisabled: boolean;
   isSignedInUsersDisabled: boolean;
   isSignedInCoWorkersDisabled: boolean;
 }
@@ -114,9 +136,7 @@ const PanelRoot = styled.div`
   }
 `;
 
-export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
-  props,
-) => {
+export const VideoConfig: FunctionComponent<VideoConfigProps> = (props) => {
   const {
     disabled,
     currentLocale,
@@ -128,16 +148,18 @@ export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
     showWhen,
     showDuration,
     showRcvAdminLock,
-    showPmiAlert,
+    showPmiConfirm,
     showWaitingRoom,
     showE2EE,
     isE2EEDisabled,
     enablePersonalMeeting,
+    isPmiChangeConfirmed,
     isPersonalMeetingDisabled,
     personalMeetingId,
     switchUsePersonalMeetingId,
-    updateHasSettingsChanged,
+    trackSettingChanges,
     e2eeInteractFunc,
+    onPmiChangeClick,
     datePickerSize,
     timePickerSize,
     checkboxSize,
@@ -149,8 +171,12 @@ export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
     joinBeforeHostLabel,
     authUserTypeValue,
     isJoinBeforeHostDisabled,
+    isMuteAudioDisabled,
+    isTurnOffCameraDisabled,
+    isAllowScreenSharingDisabled,
     isAuthenticatedCanJoinDisabled,
     isAuthUserTypeDisabled,
+    isWaitingRoomTypeDisabled,
     isSignedInUsersDisabled,
     isSignedInCoWorkersDisabled,
     isWaitingRoomDisabled,
@@ -158,6 +184,8 @@ export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
     isWaitingRoomNotCoworkerDisabled,
     isWaitingRoomGuestDisabled,
     isWaitingRoomAllDisabled,
+    showIeSupportAlert,
+    appName,
   } = props;
 
   const settingsGroupExpandable = false;
@@ -170,12 +198,12 @@ export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
     }
   }, []);
 
-  const update = (options: any) => {
-    updateHasSettingsChanged(true);
-    return updateMeetingSettings({
+  const update = (options: any, itemName?: RcvItemType) => {
+    updateMeetingSettings({
       ...meeting,
       ...options,
     });
+    trackSettingChanges && itemName && trackSettingChanges(itemName);
   };
 
   /* Password validate interaction */
@@ -217,7 +245,7 @@ export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
                 gutterBottom
                 label={i18n.getString('date', currentLocale)}
                 data-sign="date"
-                date={startTime}
+                value={startTime}
                 clearBtn={false}
                 formatString="MM/DD/YYYY"
                 size={datePickerSize}
@@ -239,6 +267,7 @@ export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
                 label={i18n.getString('startTime', currentLocale)}
                 isTwelveHourSystem
                 data-sign="startTime"
+                dateMode
                 value={startTime}
                 onChange={(value) => {
                   update({
@@ -315,7 +344,60 @@ export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
           <SettingGroup
             dataSign="scheduleOnBehalfPanel"
             expandable={settingsGroupExpandable}
-            summary={i18n.getString('scheduleFor', currentLocale)}
+            summary={
+              <>
+                <span className={styles.flexVertical}>
+                  {i18n.getString('scheduleFor', currentLocale)}
+                  <ExtendedTooltip
+                    interactive
+                    placement="bottom"
+                    hasScrollBar={hasScrollBar}
+                    data-sign="scheduleForTooltip"
+                    title={
+                      <div
+                        onClick={(e) => {
+                          e.stopPropagation();
+                        }}
+                      >
+                        <div
+                          data-sign="scheduleForGuidance"
+                          className={styles.preLine}
+                        >
+                          {i18n.getString('scheduleForGuidance', currentLocale)}
+                        </div>
+                        <br />
+                        <div>
+                          <RcLink
+                            variant="inherit"
+                            data-sign="scheduleForGuidanceLink"
+                            className={styles.underline}
+                            target="_blank"
+                            color="neutral.b01"
+                            href={RCV_SCHEDULE_ON_BEHALF_GUIDANCE_LINK}
+                          >
+                            {i18n.getString(
+                              'scheduleForGuidanceMore',
+                              currentLocale,
+                            )}
+                          </RcLink>
+                        </div>
+                      </div>
+                    }
+                  >
+                    <RcIcon
+                      size="small"
+                      color="neutral.f04"
+                      symbol={InfoBorder}
+                      data-sign="scheduleForGuidanceIcon"
+                      className={styles.allowCursor}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                      }}
+                    />
+                  </ExtendedTooltip>
+                </span>
+              </>
+            }
           >
             <div className={styles.boxSelectWrapper}>
               <RcSelect
@@ -326,6 +408,7 @@ export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
                 disabled={disabled}
                 onChange={(e) => {
                   updateScheduleFor(e.target.value as string);
+                  trackSettingChanges(RCV_ITEM_NAME.scheduleFor);
                 }}
                 value={meeting.extensionId}
               >
@@ -380,18 +463,23 @@ export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
                   checked={meeting.usePersonalMeetingId}
                   onChange={(ev, checked) => {
                     switchUsePersonalMeetingId(checked);
-                    updateHasSettingsChanged(true);
                   }}
                 />
               </VideoSecuritySettingItem>
-              {meeting.usePersonalMeetingId && showPmiAlert ? (
-                <RcAlert
-                  severity="info"
-                  className={styles.pmiAlertContainer}
-                  data-sign="pmiAlert"
-                >
-                  {i18n.getString('pmiSettingAlert', currentLocale)}
-                </RcAlert>
+              {meeting.usePersonalMeetingId &&
+              showPmiConfirm &&
+              !isPmiChangeConfirmed ? (
+                <div className={styles.pmiChangeConfirmContainer}>
+                  <RcLink
+                    onClick={onPmiChangeClick}
+                    data-sign="pmiConfirm"
+                    className={styles.noUnderLine}
+                  >
+                    <RcText weight="bold" className={styles.normalSize}>
+                      {i18n.getString('changePmiSettings', currentLocale)}
+                    </RcText>
+                  </RcLink>
+                </div>
               ) : null}
             </>
           )}
@@ -404,13 +492,16 @@ export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
           >
             <RcCheckbox
               data-sign="muteAudio"
-              disabled={disabled}
+              disabled={isMuteAudioDisabled}
               size={checkboxSize}
               checked={meeting.muteAudio}
               onChange={() => {
-                update({
-                  muteAudio: !meeting.muteAudio,
-                });
+                update(
+                  {
+                    muteAudio: !meeting.muteAudio,
+                  },
+                  RCV_ITEM_NAME.muteAudio,
+                );
               }}
             />
           </VideoSecuritySettingItem>
@@ -423,13 +514,16 @@ export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
           >
             <RcCheckbox
               data-sign="turnOffCamera"
-              disabled={disabled}
+              disabled={isTurnOffCameraDisabled}
               size={checkboxSize}
               checked={meeting.muteVideo}
               onChange={() => {
-                update({
-                  muteVideo: !meeting.muteVideo,
-                });
+                update(
+                  {
+                    muteVideo: !meeting.muteVideo,
+                  },
+                  RCV_ITEM_NAME.muteVideo,
+                );
               }}
             />
           </VideoSecuritySettingItem>
@@ -445,7 +539,7 @@ export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
               dataSign="e2eeWrapper"
               hasScrollBar={hasScrollBar}
               isDisabled={isE2EEDisabled}
-              isLock={showRcvAdminLock && meeting.settingLock.e2ee}
+              isLock={showRcvAdminLock && meeting.settingLock?.e2ee}
               currentLocale={currentLocale}
               label={
                 <>
@@ -457,7 +551,11 @@ export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
                       title={i18n.getString('e2eeTooltip', currentLocale)}
                       data-sign="e2eeTooltip"
                     >
-                      <RcIcon size="small" color="neutral.f04" symbol={Info} />
+                      <RcIcon
+                        size="small"
+                        color="neutral.f04"
+                        symbol={InfoBorder}
+                      />
                     </ExtendedTooltip>
                   </span>
                 </>
@@ -470,6 +568,7 @@ export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
                 size={checkboxSize}
                 onChange={(ev, value) => {
                   e2eeInteractFunc(value);
+                  trackSettingChanges(RCV_ITEM_NAME.e2ee);
                 }}
               />
             </VideoSecuritySettingItem>
@@ -478,7 +577,7 @@ export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
             labelPlacement={labelPlacement}
             dataSign="requirePasswordWrapper"
             hasScrollBar={hasScrollBar}
-            isLock={showRcvAdminLock && meeting.settingLock.isMeetingSecret}
+            isLock={showRcvAdminLock && meeting.settingLock?.isMeetingSecret}
             currentLocale={currentLocale}
             label={i18n.getString('requirePassword', currentLocale)}
           >
@@ -489,9 +588,12 @@ export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
               size={checkboxSize}
               onChange={() => {
                 const next = !meeting.isMeetingSecret;
-                update({
-                  isMeetingSecret: next,
-                });
+                update(
+                  {
+                    isMeetingSecret: next,
+                  },
+                  RCV_ITEM_NAME.isMeetingSecret,
+                );
               }}
             />
           </VideoSecuritySettingItem>
@@ -533,6 +635,7 @@ export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
                 }}
                 onBlur={() => {
                   setPasswordFocus(false);
+                  trackSettingChanges(RCV_ITEM_NAME.meetingPassword);
                 }}
               />
             </div>
@@ -541,7 +644,9 @@ export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
             labelPlacement={labelPlacement}
             dataSign="allowJoinBeforeHostWrapper"
             hasScrollBar={hasScrollBar}
-            isLock={showRcvAdminLock && meeting.settingLock.allowJoinBeforeHost}
+            isLock={
+              showRcvAdminLock && meeting.settingLock?.allowJoinBeforeHost
+            }
             currentLocale={currentLocale}
             label={i18n.getString(joinBeforeHostLabel, currentLocale)}
           >
@@ -551,9 +656,12 @@ export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
               disabled={isJoinBeforeHostDisabled}
               size={checkboxSize}
               onChange={() => {
-                update({
-                  allowJoinBeforeHost: !meeting.allowJoinBeforeHost,
-                });
+                update(
+                  {
+                    allowJoinBeforeHost: !meeting.allowJoinBeforeHost,
+                  },
+                  RCV_ITEM_NAME.allowJoinBeforeHost,
+                );
               }}
             />
           </VideoSecuritySettingItem>
@@ -563,7 +671,9 @@ export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
                 labelPlacement={labelPlacement}
                 dataSign="isWaitingRoomWrapper"
                 hasScrollBar={hasScrollBar}
-                isLock={showRcvAdminLock && meeting.settingLock.waitingRoomMode}
+                isLock={
+                  showRcvAdminLock && meeting.settingLock?.waitingRoomMode
+                }
                 currentLocale={currentLocale}
                 label={i18n.getString(
                   meeting.waitingRoomMode ? 'waitingRoom' : 'enableWaitingRoom',
@@ -576,11 +686,14 @@ export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
                   disabled={isWaitingRoomDisabled}
                   size={checkboxSize}
                   onChange={(ev, checked) => {
-                    update({
-                      waitingRoomMode: checked
-                        ? RCV_WAITING_ROOM_MODE.notcoworker
-                        : RCV_WAITING_ROOM_MODE.off,
-                    });
+                    update(
+                      {
+                        waitingRoomMode: checked
+                          ? RCV_WAITING_ROOM_MODE.notcoworker
+                          : RCV_WAITING_ROOM_MODE.off,
+                      },
+                      RCV_ITEM_NAME.waitingRoomMode,
+                    );
                   }}
                 />
               </VideoSecuritySettingItem>
@@ -596,15 +709,15 @@ export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
                     data-test-automation-id="waitingRoom"
                     className={styles.boxSelect}
                     fullWidth
-                    disabled={
-                      disabled ||
-                      (showRcvAdminLock && meeting.settingLock.waitingRoomMode)
-                    }
+                    disabled={isWaitingRoomTypeDisabled}
                     onChange={(e) => {
-                      update({
-                        waitingRoomMode: e.target
-                          .value as RcvWaitingRoomModeProps,
-                      });
+                      update(
+                        {
+                          waitingRoomMode: e.target
+                            .value as RcvWaitingRoomModeProps,
+                        },
+                        RCV_ITEM_NAME.waitingRoomType,
+                      );
                     }}
                     value={meeting.waitingRoomMode}
                   >
@@ -641,7 +754,7 @@ export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
             labelPlacement={labelPlacement}
             dataSign="isOnlyAuthUserJoinWrapper"
             hasScrollBar={hasScrollBar}
-            isLock={showRcvAdminLock && meeting.settingLock.isOnlyAuthUserJoin}
+            isLock={showRcvAdminLock && meeting.settingLock?.isOnlyAuthUserJoin}
             currentLocale={currentLocale}
             label={i18n.getString('onlyAuthUserJoin', currentLocale)}
           >
@@ -651,12 +764,15 @@ export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
               disabled={isAuthenticatedCanJoinDisabled}
               size={checkboxSize}
               onChange={(ev, checked) => {
-                update({
-                  isOnlyAuthUserJoin: checked,
-                  isOnlyCoworkersJoin: checked
-                    ? meeting.isOnlyCoworkersJoin
-                    : false,
-                });
+                update(
+                  {
+                    isOnlyAuthUserJoin: checked,
+                    isOnlyCoworkersJoin: checked
+                      ? meeting.isOnlyCoworkersJoin
+                      : false,
+                  },
+                  RCV_ITEM_NAME.isOnlyAuthUserJoin,
+                );
               }}
             />
           </VideoSecuritySettingItem>
@@ -674,10 +790,13 @@ export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
                 className={styles.boxSelect}
                 fullWidth
                 onChange={(e) => {
-                  update({
-                    isOnlyCoworkersJoin:
-                      e.target.value === AUTH_USER_TYPE.SIGNED_IN_CO_WORKERS,
-                  });
+                  update(
+                    {
+                      isOnlyCoworkersJoin:
+                        e.target.value === AUTH_USER_TYPE.SIGNED_IN_CO_WORKERS,
+                    },
+                    RCV_ITEM_NAME.isOnlyCoworkersJoin,
+                  );
                 }}
                 value={authUserTypeValue}
               >
@@ -701,26 +820,39 @@ export const VideoConfig: React.FunctionComponent<VideoConfigProps> = (
             labelPlacement={labelPlacement}
             dataSign="limitScreenSharingWrapper"
             hasScrollBar={hasScrollBar}
-            isLock={showRcvAdminLock && meeting.settingLock.allowScreenSharing}
+            isLock={showRcvAdminLock && meeting.settingLock?.allowScreenSharing}
             currentLocale={currentLocale}
             label={i18n.getString('limitScreenSharing', currentLocale)}
           >
             <RcCheckbox
               data-sign="limitScreenSharing"
               checked={!meeting.allowScreenSharing}
-              disabled={
-                disabled ||
-                (showRcvAdminLock && meeting.settingLock.allowScreenSharing)
-              }
+              disabled={isAllowScreenSharingDisabled}
               size={checkboxSize}
               onChange={() => {
-                update({
-                  allowScreenSharing: !meeting.allowScreenSharing,
-                });
+                update(
+                  {
+                    allowScreenSharing: !meeting.allowScreenSharing,
+                  },
+                  RCV_ITEM_NAME.allowScreenSharing,
+                );
               }}
             />
           </VideoSecuritySettingItem>
         </SettingGroup>
+        {showIeSupportAlert && (
+          <SettingGroup dataSign="iePanel" expandable={false}>
+            <MeetingAlert
+              severity="warning"
+              content={formatMessage(
+                i18n.getString('ieSupportAlert', currentLocale),
+                {
+                  appName,
+                },
+              )}
+            />
+          </SettingGroup>
+        )}
       </div>
     </PanelRoot>
   );
@@ -731,8 +863,9 @@ VideoConfig.defaultProps = {
   showWhen: true,
   showDuration: true,
   showRcvAdminLock: false,
-  showPmiAlert: false,
   enablePersonalMeeting: false,
+  isPmiChangeConfirmed: false,
+  showPmiConfirm: false,
   showWaitingRoom: false,
   showE2EE: false,
   isE2EEDisabled: false,

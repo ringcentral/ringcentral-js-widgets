@@ -13,7 +13,7 @@ var _default = {
   saving: "Enregistrement",
   saved: "Enregistré",
   creatingFailed: "Échec de la création.",
-  savingFailed: "Échec de l'enregistrement."
+  savingFailed: "Échec de l’enregistrement."
 }; // @key: @#@"createLog"@#@ @source: @#@"Create Log"@#@
 // @key: @#@"creating"@#@ @source: @#@"Creating"@#@
 // @key: @#@"save"@#@ @source: @#@"Save"@#@

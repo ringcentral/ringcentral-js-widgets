@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 require("core-js/modules/es6.object.define-property");
 
@@ -41,15 +41,19 @@ require("core-js/modules/es6.regexp.search");
 
 require("core-js/modules/es6.array.filter");
 
-var _juno = require("@ringcentral/juno");
-
-var _icon = require("@ringcentral/juno/icon");
+var _react = _interopRequireWildcard(require("react"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
 var _formatMessage = _interopRequireDefault(require("format-message"));
 
-var _react = _interopRequireWildcard(require("react"));
+var _Icon = require("@ringcentral/juno/es6/components/Icon/Icon.js");
+
+var _TextField = require("@ringcentral/juno/es6/components/Forms/TextField/TextField.js");
+
+var _Search = _interopRequireDefault(require("@ringcentral/juno/es6/icon/Search.js"));
+
+var _toolTipDelayTime = require("../../lib/toolTipDelayTime");
 
 var _AnimationPanel = require("../AnimationPanel");
 
@@ -61,13 +65,11 @@ var _i18n = _interopRequireDefault(require("./i18n"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
-var _toolTipDelayTime = require("../../lib/toolTipDelayTime");
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
@@ -77,7 +79,7 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-function _iterableToArrayLimit(arr, i) { var _i = arr && (typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]); if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
@@ -144,6 +146,9 @@ var SelectListBasic = function SelectListBasic(_ref) {
   var matchAssociatedOptions = hasSearch ? associatedOptions.filter(function (option) {
     return searchOption(option, filter);
   }) : associatedOptions;
+  var filteredFoundFromServerOptions = hasSearch ? foundFromServerEntities.filter(function (option) {
+    return searchOption(option, filter);
+  }) : foundFromServerEntities;
   var hasResult = matchOptions.length + matchOtherOptions.length + matchAssociatedOptions.length > 0 || options.length + otherOptions.length + associatedOptions.length === 0;
 
   var backHeaderOnclick = function backHeaderOnclick() {
@@ -189,15 +194,15 @@ var SelectListBasic = function SelectListBasic(_ref) {
     className: (0, _classnames["default"])(_styles["default"].search, classes.searchInput)
   }, !filter && /*#__PURE__*/_react["default"].createElement("span", {
     className: (0, _classnames["default"])(_styles["default"].placeholder, classes.placeholder)
-  }, placeholder), /*#__PURE__*/_react["default"].createElement(_juno.RcTextField, {
+  }, placeholder), /*#__PURE__*/_react["default"].createElement(_TextField.RcTextField, {
     variant: "outline",
     size: "small",
     value: filter,
     fullWidth: true,
     radius: "round",
     InputProps: {
-      startAdornment: /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
-        symbol: _icon.Search,
+      startAdornment: /*#__PURE__*/_react["default"].createElement(_Icon.RcIcon, {
+        symbol: _Search["default"],
         color: "neutral.f04",
         size: "small"
       })
@@ -250,10 +255,11 @@ var SelectListBasic = function SelectListBasic(_ref) {
   }, associatedTitle, " (", matchAssociatedOptions.length, ")"), matchAssociatedOptions.length > 0 && renderListView(matchAssociatedOptions, 'other', filter, function (elm, type) {
     return scrollCheck(scrollElmRef, matchElmRef, elm, type);
   })), showFoundFromServer && /*#__PURE__*/_react["default"].createElement("div", {
-    className: _styles["default"].text
+    className: _styles["default"].text,
+    "data-sign": "foundFromServer"
   }, foundFromServerTitle && /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].title
-  }, foundFromServerTitle, " (", foundFromServerEntities.length, ")"), foundFromServerEntities && foundFromServerEntities.length > 0 ? renderListView(foundFromServerEntities, 'custom', filter, function (elm, type) {
+  }, foundFromServerTitle, " (", filteredFoundFromServerOptions.length, ")"), filteredFoundFromServerOptions && filteredFoundFromServerOptions.length > 0 ? renderListView(filteredFoundFromServerOptions, 'custom', filter, function (elm, type) {
     return scrollCheck(scrollElmRef, matchElmRef, elm, type);
   }) : showLoading)) : /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].search, _styles["default"].text, classes.noResult)

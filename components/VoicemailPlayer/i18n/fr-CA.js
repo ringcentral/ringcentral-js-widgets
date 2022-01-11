@@ -8,8 +8,8 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 var _default = {
   download: "Télécharger",
-  play: "Écouter",
-  pause: "Mettre en pause"
+  play: "Lire",
+  pause: "Suspendre"
 }; // @key: @#@"download"@#@ @source: @#@"Download"@#@
 // @key: @#@"play"@#@ @source: @#@"Play"@#@
 // @key: @#@"pause"@#@ @source: @#@"Pause"@#@

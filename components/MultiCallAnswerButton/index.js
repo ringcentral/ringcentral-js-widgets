@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = MultiCallAnswerButton;
+exports["default"] = void 0;
 
 require("core-js/modules/es6.regexp.replace");
 
@@ -15,15 +15,13 @@ require("core-js/modules/es6.array.map");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _propTypes = _interopRequireDefault(require("prop-types"));
-
 var _classnames = _interopRequireDefault(require("classnames"));
 
 var _Answer = _interopRequireDefault(require("../../assets/images/Answer.svg"));
 
-var _Hold = _interopRequireDefault(require("../../assets/images/Hold.svg"));
-
 var _End = _interopRequireDefault(require("../../assets/images/End.svg"));
+
+var _Hold = _interopRequireDefault(require("../../assets/images/Hold.svg"));
 
 var _CircleButton = _interopRequireDefault(require("../CircleButton"));
 
@@ -31,7 +29,7 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function MultiCallAnswerButton(props) {
+var MultiCallAnswerButton = function MultiCallAnswerButton(props) {
   var Icon = props.isEndOtherCall ? _End["default"] : _Hold["default"];
   var iconClassName = (0, _classnames["default"])(_styles["default"].button, props.isEndOtherCall ? _styles["default"].endButton : '');
   var text = props.title.split('\n').map(function (line, index) {
@@ -73,18 +71,8 @@ function MultiCallAnswerButton(props) {
     y: "500",
     textAnchor: "middle"
   }, text));
-}
-
-MultiCallAnswerButton.propTypes = {
-  title: _propTypes["default"].string.isRequired,
-  className: _propTypes["default"].string,
-  onClick: _propTypes["default"].func.isRequired,
-  isEndOtherCall: _propTypes["default"].bool,
-  width: _propTypes["default"].string,
-  height: _propTypes["default"].string,
-  x: _propTypes["default"].number,
-  y: _propTypes["default"].number
 };
+
 MultiCallAnswerButton.defaultProps = {
   className: null,
   isEndOtherCall: true,
@@ -93,4 +81,6 @@ MultiCallAnswerButton.defaultProps = {
   x: 0,
   y: 0
 };
+var _default = MultiCallAnswerButton;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

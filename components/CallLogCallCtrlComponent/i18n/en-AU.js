@@ -12,7 +12,7 @@ var _default = {
   hangup: "Hang up",
   reject: "Reject",
   hold: "Hold",
-  onHold: "On hold",
+  onHold: "On Hold",
   transfer: "Transfer",
   more: "More",
   stopRecord: "Stop Recording",

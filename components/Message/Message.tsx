@@ -1,5 +1,6 @@
-import classnames from 'classnames';
 import React, { FunctionComponent } from 'react';
+
+import classnames from 'classnames';
 
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import styles from './styles.scss';
@@ -18,7 +19,7 @@ const Message: FunctionComponent<MessageProps> = ({
     <div className={styles.alertHolder}>
       <div data-sign="alert" className={classnames(styles[level])}>
         {message}
-        <div className={styles.dismiss} onClick={onDismiss}>
+        <div className={styles.dismiss} onClick={onDismiss} data-sign="dismiss">
           <i className={dynamicsFont.close} />
         </div>
       </div>

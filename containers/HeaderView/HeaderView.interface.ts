@@ -1,12 +1,12 @@
-import { BasicCall } from '@ringcentral-integration/commons/interfaces/Call.interface';
+import { Call } from '@ringcentral-integration/commons/interfaces/Call.interface';
 
 export interface HeaderViewProps {
   userStatus?: string;
   dndStatus?: string;
   standAlone?: boolean;
-  ringingCalls?: BasicCall[];
-  currentCalls?: BasicCall[];
-  onHoldCalls?: BasicCall[];
+  ringingCalls?: Call[];
+  currentCalls?: Call[];
+  onHoldCalls?: Call[];
   currentPath: string;
   activeSessionId?: string;
   incomingCallPageMinimized?: boolean;
@@ -18,9 +18,10 @@ export interface HeaderViewProps {
   setBusy: () => void;
   setDoNotDisturb: () => void;
   setInvisible: () => void;
+  logo?: (...args: any[]) => JSX.Element;
 }
 
-export interface Props extends HeaderViewProps {
-  logo: any;
-  children?: any;
+export interface HeaderContainerProps {
+  standAlone?: boolean;
+  logo?: (...args: any[]) => JSX.Element;
 }

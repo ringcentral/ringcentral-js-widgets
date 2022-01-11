@@ -13,7 +13,7 @@ var _default = {
   customMessage: 'Custom Message',
   callMeBackIn: 'Call me back in',
   willCallYouBackIn: 'Will call you back in',
-  min: 'min.',
+  min: 'min',
   hours: 'hours',
   days: 'days'
 };

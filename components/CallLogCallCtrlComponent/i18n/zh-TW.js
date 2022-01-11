@@ -21,7 +21,7 @@ var _default = {
   hideKeypad: "隱藏撥號盤",
   unHold: "取消通話保留",
   forward: "轉接",
-  ignore: "略過",
+  ignore: "忽略",
   voicemail: "轉語音訊息",
   custom: "自訂",
   answerAndEnd: "回答並結束",

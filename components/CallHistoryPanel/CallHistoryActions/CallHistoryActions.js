@@ -31,7 +31,8 @@ var CallHistoryActions = function CallHistoryActions(_ref) {
   // only show first 3 buttons
   var displayedButtons = actionMenu.slice(0, 3);
   return /*#__PURE__*/_react["default"].createElement("div", {
-    className: (0, _classnames["default"])([_styles["default"].actions, !isWide && _styles["default"].classic])
+    className: (0, _classnames["default"])([_styles["default"].actions, !isWide && _styles["default"].classic]),
+    "data-sign": "callHistoryActions"
   }, displayedButtons.map(function (_ref2, index) {
     var icon = _ref2.icon,
         label = _ref2.label,

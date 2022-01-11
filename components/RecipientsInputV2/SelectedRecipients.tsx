@@ -1,7 +1,9 @@
 import React, { FunctionComponent, MouseEvent } from 'react';
+
 import classnames from 'classnames';
-import styles from './styles.scss';
+
 import { RemoveButton } from '../RemoveButton';
+import styles from './styles.scss';
 
 export interface RecipientProps {
   phoneNumber: string;

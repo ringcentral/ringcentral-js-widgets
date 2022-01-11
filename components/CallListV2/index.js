@@ -1,14 +1,14 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.symbol");
 
-require("core-js/modules/es6.object.define-property");
-
 require("core-js/modules/es6.object.create");
+
+require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.reflect.construct");
 
@@ -20,8 +20,6 @@ exports["default"] = void 0;
 require("core-js/modules/es6.object.set-prototype-of");
 
 var _react = _interopRequireDefault(require("react"));
-
-var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _reactVirtualized = require("react-virtualized");
 
@@ -35,15 +33,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } Object.defineProperty(subClass, "prototype", { value: Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }), writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
@@ -74,7 +72,9 @@ var CallListV2 = /*#__PURE__*/function (_React$PureComponent) {
     };
 
     _this._onSizeChanged = function (index) {
-      if (_this.state.extendedIndex === index) {
+      var extendedIndex = _this.state.extendedIndex;
+
+      if (extendedIndex === index) {
         _this._setExtendedIndex(null);
       } else {
         _this._setExtendedIndex(index);
@@ -85,57 +85,63 @@ var CallListV2 = /*#__PURE__*/function (_React$PureComponent) {
       var index = _ref.index;
       // If we don't add extra height for the last item
       // the toggle button will be cut off
-      var margin = index === _this.props.calls.length - 1 ? 15 : 0;
-      var rowHeight = index === _this.state.extendedIndex ? _this.props.extendedRowHeight : _this.props.rowHeight;
-      return rowHeight + margin;
+      var _this$props = _this.props,
+          calls = _this$props.calls,
+          extendedRowHeight = _this$props.extendedRowHeight,
+          rowHeight = _this$props.rowHeight;
+      var extendedIndex = _this.state.extendedIndex;
+      var margin = index === calls.length - 1 ? 15 : 0;
+      var height = index === extendedIndex ? extendedRowHeight : rowHeight;
+      return height + margin;
     };
 
     _this._rowRender = function (_ref2) {
       var index = _ref2.index,
           key = _ref2.key,
           style = _ref2.style;
-      var _this$props = _this.props,
-          className = _this$props.className,
-          brand = _this$props.brand,
-          currentLocale = _this$props.currentLocale,
-          calls = _this$props.calls,
-          areaCode = _this$props.areaCode,
-          countryCode = _this$props.countryCode,
-          onViewContact = _this$props.onViewContact,
-          onCreateContact = _this$props.onCreateContact,
-          createEntityTypes = _this$props.createEntityTypes,
-          onLogCall = _this$props.onLogCall,
-          onClickToDial = _this$props.onClickToDial,
-          onClickToSms = _this$props.onClickToSms,
-          isLoggedContact = _this$props.isLoggedContact,
-          disableLinks = _this$props.disableLinks,
-          disableCallButton = _this$props.disableCallButton,
-          disableClickToDial = _this$props.disableClickToDial,
-          outboundSmsPermission = _this$props.outboundSmsPermission,
-          internalSmsPermission = _this$props.internalSmsPermission,
-          active = _this$props.active,
-          dateTimeFormatter = _this$props.dateTimeFormatter,
-          loggingMap = _this$props.loggingMap,
-          webphoneAnswer = _this$props.webphoneAnswer,
-          webphoneReject = _this$props.webphoneReject,
-          webphoneHangup = _this$props.webphoneHangup,
-          webphoneResume = _this$props.webphoneResume,
-          enableContactFallback = _this$props.enableContactFallback,
-          autoLog = _this$props.autoLog,
-          showContactDisplayPlaceholder = _this$props.showContactDisplayPlaceholder,
-          sourceIcons = _this$props.sourceIcons,
-          phoneTypeRenderer = _this$props.phoneTypeRenderer,
-          phoneSourceNameRenderer = _this$props.phoneSourceNameRenderer,
-          renderContactName = _this$props.renderContactName,
-          renderExtraButton = _this$props.renderExtraButton,
-          contactDisplayStyle = _this$props.contactDisplayStyle,
-          externalViewEntity = _this$props.externalViewEntity,
-          externalHasEntity = _this$props.externalHasEntity,
-          readTextPermission = _this$props.readTextPermission,
-          currentSiteCode = _this$props.currentSiteCode,
-          isMultipleSiteEnabled = _this$props.isMultipleSiteEnabled,
-          showChooseEntityModal = _this$props.showChooseEntityModal,
-          enableCDC = _this$props.enableCDC;
+      var _this$props2 = _this.props,
+          className = _this$props2.className,
+          brand = _this$props2.brand,
+          currentLocale = _this$props2.currentLocale,
+          calls = _this$props2.calls,
+          areaCode = _this$props2.areaCode,
+          countryCode = _this$props2.countryCode,
+          onViewContact = _this$props2.onViewContact,
+          onCreateContact = _this$props2.onCreateContact,
+          createEntityTypes = _this$props2.createEntityTypes,
+          onLogCall = _this$props2.onLogCall,
+          onClickToDial = _this$props2.onClickToDial,
+          onClickToSms = _this$props2.onClickToSms,
+          isLoggedContact = _this$props2.isLoggedContact,
+          disableLinks = _this$props2.disableLinks,
+          disableCallButton = _this$props2.disableCallButton,
+          disableClickToDial = _this$props2.disableClickToDial,
+          outboundSmsPermission = _this$props2.outboundSmsPermission,
+          internalSmsPermission = _this$props2.internalSmsPermission,
+          active = _this$props2.active,
+          dateTimeFormatter = _this$props2.dateTimeFormatter,
+          loggingMap = _this$props2.loggingMap,
+          webphoneAnswer = _this$props2.webphoneAnswer,
+          webphoneReject = _this$props2.webphoneReject,
+          webphoneHangup = _this$props2.webphoneHangup,
+          webphoneResume = _this$props2.webphoneResume,
+          enableContactFallback = _this$props2.enableContactFallback,
+          autoLog = _this$props2.autoLog,
+          showContactDisplayPlaceholder = _this$props2.showContactDisplayPlaceholder,
+          sourceIcons = _this$props2.sourceIcons,
+          phoneTypeRenderer = _this$props2.phoneTypeRenderer,
+          phoneSourceNameRenderer = _this$props2.phoneSourceNameRenderer,
+          renderContactName = _this$props2.renderContactName,
+          renderExtraButton = _this$props2.renderExtraButton,
+          contactDisplayStyle = _this$props2.contactDisplayStyle,
+          externalViewEntity = _this$props2.externalViewEntity,
+          externalHasEntity = _this$props2.externalHasEntity,
+          readTextPermission = _this$props2.readTextPermission,
+          currentSiteCode = _this$props2.currentSiteCode,
+          isMultipleSiteEnabled = _this$props2.isMultipleSiteEnabled,
+          showChooseEntityModal = _this$props2.showChooseEntityModal,
+          enableCDC = _this$props2.enableCDC;
+      var extendedIndex = _this.state.extendedIndex;
       var content;
 
       if (index >= calls.length) {
@@ -150,7 +156,7 @@ var CallListV2 = /*#__PURE__*/function (_React$PureComponent) {
         content = /*#__PURE__*/_react["default"].createElement(_CallItem["default"], {
           key: call.id,
           renderIndex: index,
-          extended: _this.state.extendedIndex === index,
+          extended: extendedIndex === index,
           style: style,
           call: call,
           currentLocale: currentLocale,
@@ -205,9 +211,9 @@ var CallListV2 = /*#__PURE__*/function (_React$PureComponent) {
     };
 
     _this.noRowsRender = function () {
-      var _this$props2 = _this.props,
-          currentLocale = _this$props2.currentLocale,
-          active = _this$props2.active;
+      var _this$props3 = _this.props,
+          currentLocale = _this$props3.currentLocale,
+          active = _this$props3.active;
       return /*#__PURE__*/_react["default"].createElement(_NoCalls["default"], {
         currentLocale: currentLocale,
         active: active
@@ -225,19 +231,20 @@ var CallListV2 = /*#__PURE__*/function (_React$PureComponent) {
     key: "UNSAFE_componentWillReceiveProps",
     value: function UNSAFE_componentWillReceiveProps(nextProps) {
       var extendedIndex = this.state.extendedIndex;
+      var calls = this.props.calls;
 
-      if (extendedIndex !== null && this.props.calls[extendedIndex] !== nextProps.calls[extendedIndex]) {
+      if (extendedIndex !== null && calls[extendedIndex] !== nextProps.calls[extendedIndex]) {
         this._setExtendedIndex(null);
       }
     }
   }, {
     key: "render",
     value: function render() {
-      var _this$props3 = this.props,
-          width = _this$props3.width,
-          height = _this$props3.height,
-          calls = _this$props3.calls,
-          className = _this$props3.className;
+      var _this$props4 = this.props,
+          width = _this$props4.width,
+          height = _this$props4.height,
+          calls = _this$props4.calls,
+          className = _this$props4.className;
       return /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement(_reactVirtualized.List, {
         style: {
           outline: 'none',
@@ -262,54 +269,6 @@ var CallListV2 = /*#__PURE__*/function (_React$PureComponent) {
   return CallListV2;
 }(_react["default"].PureComponent);
 
-exports["default"] = CallListV2;
-CallListV2.propTypes = {
-  currentSiteCode: _propTypes["default"].string,
-  isMultipleSiteEnabled: _propTypes["default"].bool,
-  className: _propTypes["default"].string,
-  width: _propTypes["default"].number.isRequired,
-  height: _propTypes["default"].number.isRequired,
-  brand: _propTypes["default"].string.isRequired,
-  currentLocale: _propTypes["default"].string.isRequired,
-  calls: _propTypes["default"].arrayOf(_CallItem["default"].propTypes.call).isRequired,
-  active: _propTypes["default"].bool,
-  areaCode: _propTypes["default"].string.isRequired,
-  countryCode: _propTypes["default"].string.isRequired,
-  onViewContact: _propTypes["default"].func,
-  onCreateContact: _propTypes["default"].func,
-  createEntityTypes: _propTypes["default"].array,
-  onLogCall: _propTypes["default"].func,
-  onClickToDial: _propTypes["default"].func,
-  onClickToSms: _propTypes["default"].func,
-  isLoggedContact: _propTypes["default"].func,
-  loggingMap: _propTypes["default"].object,
-  disableLinks: _propTypes["default"].bool,
-  disableCallButton: _propTypes["default"].bool,
-  disableClickToDial: _propTypes["default"].bool,
-  outboundSmsPermission: _propTypes["default"].bool,
-  internalSmsPermission: _propTypes["default"].bool,
-  dateTimeFormatter: _propTypes["default"].func.isRequired,
-  webphoneAnswer: _propTypes["default"].func,
-  webphoneReject: _propTypes["default"].func,
-  webphoneHangup: _propTypes["default"].func,
-  webphoneResume: _propTypes["default"].func,
-  enableContactFallback: _propTypes["default"].bool,
-  autoLog: _propTypes["default"].bool,
-  showContactDisplayPlaceholder: _propTypes["default"].bool,
-  sourceIcons: _propTypes["default"].object,
-  phoneTypeRenderer: _propTypes["default"].func,
-  phoneSourceNameRenderer: _propTypes["default"].func,
-  renderContactName: _propTypes["default"].func,
-  renderExtraButton: _propTypes["default"].func,
-  contactDisplayStyle: _propTypes["default"].string,
-  externalViewEntity: _propTypes["default"].func,
-  externalHasEntity: _propTypes["default"].func,
-  readTextPermission: _propTypes["default"].bool,
-  rowHeight: _propTypes["default"].number,
-  extendedRowHeight: _propTypes["default"].number,
-  showChooseEntityModal: _propTypes["default"].bool,
-  enableCDC: _propTypes["default"].bool
-};
 CallListV2.defaultProps = {
   currentSiteCode: '',
   isMultipleSiteEnabled: false,
@@ -349,4 +308,6 @@ CallListV2.defaultProps = {
   showChooseEntityModal: true,
   enableCDC: false
 };
+var _default = CallListV2;
+exports["default"] = _default;
 //# sourceMappingURL=index.js.map

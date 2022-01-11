@@ -7,8 +7,8 @@ require("core-js/modules/es6.array.reduce");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getMinutesList = getMinutesList;
 exports.getHoursList = getHoursList;
+exports.getMinutesList = getMinutesList;
 
 require("core-js/modules/es6.array.slice");
 

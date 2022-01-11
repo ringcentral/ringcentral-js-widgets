@@ -1,1 +1,1 @@
-{"version":3,"sources":["components/SaveButton/i18n/en-US.js"],"names":["save"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,IAAI,EAAE;AADO,C","sourcesContent":["export default {\n  save: 'Save',\n};\n"],"file":"en-US.js"}
+{"version":3,"sources":["components/SaveButton/i18n/en-US.ts"],"names":["save"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,IAAI,EAAE;AADO,C","sourcesContent":["export default {\n  save: 'Save',\n};\n"],"file":"en-US.js"}

@@ -11,7 +11,7 @@ var _default = {
   currentCall: "Appel actuel",
   ringCall: "Sonnerie en cours",
   onHoldCall: "Appel en attente",
-  otherDeviceCall: "Appels en cours sur mes autres appareils",
+  otherDeviceCall: "Appels en cours sur mes autres terminaux",
   confirmation: "Confirmation",
   confirmMergeToConference: "Ajouter à la conférence téléphonique ?",
   mergeToConference: "Fusionner",

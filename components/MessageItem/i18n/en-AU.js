@@ -17,7 +17,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 var _default = (_addLog$editLog$viewD = {
   addLog: "Log",
-  editLog: "Edit log",
+  editLog: "Edit Log",
   viewDetails: "View details",
   addEntity: "Create new",
   call: "Call",
@@ -25,7 +25,7 @@ var _default = (_addLog$editLog$viewD = {
   conversation: "Conversation",
   groupConversation: "Group conversation",
   voiceMessage: "Voice message"
-}, _defineProperty(_addLog$editLog$viewD, _messageTypes["default"].voiceMail, "Voicemail"), _defineProperty(_addLog$editLog$viewD, _messageTypes["default"].fax, "Fax"), _defineProperty(_addLog$editLog$viewD, "mark", "Mark as unread"), _defineProperty(_addLog$editLog$viewD, "unmark", "Mark as read"), _defineProperty(_addLog$editLog$viewD, "delete", "Delete"), _defineProperty(_addLog$editLog$viewD, "faxSent", "Fax sent"), _defineProperty(_addLog$editLog$viewD, "faxReceived", "Fax received"), _defineProperty(_addLog$editLog$viewD, "pages", "pages"), _defineProperty(_addLog$editLog$viewD, "preview", "View"), _defineProperty(_addLog$editLog$viewD, "download", "Download"), _defineProperty(_addLog$editLog$viewD, "imageAttachment", "Attachment: {count} image"), _defineProperty(_addLog$editLog$viewD, "fileAttachment", "Attachment: {count} file"), _addLog$editLog$viewD); // @key: @#@"addLog"@#@ @source: @#@"Log"@#@
+}, _defineProperty(_addLog$editLog$viewD, _messageTypes["default"].voiceMail, "Voicemail"), _defineProperty(_addLog$editLog$viewD, _messageTypes["default"].fax, "Fax"), _defineProperty(_addLog$editLog$viewD, "mark", "Mark as unread"), _defineProperty(_addLog$editLog$viewD, "unmark", "Mark as read"), _defineProperty(_addLog$editLog$viewD, "delete", "Delete"), _defineProperty(_addLog$editLog$viewD, "faxSent", "Fax sent"), _defineProperty(_addLog$editLog$viewD, "faxReceived", "Fax received"), _defineProperty(_addLog$editLog$viewD, "pages", "pages"), _defineProperty(_addLog$editLog$viewD, "page", "page"), _defineProperty(_addLog$editLog$viewD, "preview", "View"), _defineProperty(_addLog$editLog$viewD, "download", "Download"), _defineProperty(_addLog$editLog$viewD, "imageAttachment", "Attachment: {count} image"), _defineProperty(_addLog$editLog$viewD, "fileAttachment", "Attachment: {count} file"), _addLog$editLog$viewD); // @key: @#@"addLog"@#@ @source: @#@"Log"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
 // @key: @#@"viewDetails"@#@ @source: @#@"View Details"@#@
 // @key: @#@"addEntity"@#@ @source: @#@"Create New"@#@
@@ -42,6 +42,7 @@ var _default = (_addLog$editLog$viewD = {
 // @key: @#@"faxSent"@#@ @source: @#@"Fax sent"@#@
 // @key: @#@"faxReceived"@#@ @source: @#@"Fax received"@#@
 // @key: @#@"pages"@#@ @source: @#@"pages"@#@
+// @key: @#@"page"@#@ @source: @#@"page"@#@
 // @key: @#@"preview"@#@ @source: @#@"View"@#@
 // @key: @#@"download"@#@ @source: @#@"Download"@#@
 // @key: @#@"imageAttachment"@#@ @source: @#@"Attachment: {count} image"@#@

@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/InnerTopic/i18n/fi-FI.ts"],"names":["topic"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,KAAK,EAAE;AADM,C,EAIf","sourcesContent":["export default {\n  topic: \"Tapaamisen otsikko\"\n};\n\n// @key: @#@\"topic\"@#@ @source: @#@\"Meeting title\"@#@\n"],"file":"fi-FI.js"}

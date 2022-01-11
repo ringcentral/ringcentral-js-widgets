@@ -1,7 +1,9 @@
 import React, { FunctionComponent, useState } from 'react';
+
 import classnames from 'classnames';
-import styles from './styles.scss';
+
 import { useIsMounted } from '../../react-hooks/useIsMounted';
+import styles from './styles.scss';
 
 export interface ButtonProps {
   className?: string;

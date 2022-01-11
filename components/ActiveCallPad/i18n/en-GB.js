@@ -9,7 +9,7 @@ exports["default"] = void 0;
 var _default = {
   unmute: "Unmute",
   mute: "Mute",
-  keypad: "Dialpad",
+  keypad: "Keypad",
   hold: "Hold",
   onHold: "On Hold",
   park: "Park",

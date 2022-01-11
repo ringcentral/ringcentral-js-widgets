@@ -7,9 +7,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
-var _classnames = _interopRequireDefault(require("classnames"));
-
 var _react = _interopRequireDefault(require("react"));
+
+var _classnames = _interopRequireDefault(require("classnames"));
 
 var _DropdownNavigationView = _interopRequireDefault(require("../DropdownNavigationView"));
 
@@ -37,6 +37,7 @@ var TabNavigationView = function TabNavigationView(_ref) {
       currentPath = _ref.currentPath,
       currentVirtualPath = _ref.currentVirtualPath,
       tabNavigationViewClassName = _ref.tabNavigationViewClassName,
+      tooltipForceHide = _ref.tooltipForceHide,
       children = _ref.children;
 
   if (onLoading) {
@@ -47,6 +48,7 @@ var TabNavigationView = function TabNavigationView(_ref) {
 
   var navBar = /*#__PURE__*/_react["default"].createElement(_NavigationBar["default"], {
     button: _TabNavigationButton["default"],
+    tooltipForceHide: tooltipForceHide,
     childNavigationView: _DropdownNavigationView["default"],
     tabs: tabs,
     goTo: goTo,

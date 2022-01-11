@@ -13,11 +13,11 @@ var _CompanyInfo = require("./components/CompanyInfo");
 
 var _Emails = require("./components/Emails");
 
+var _PhoneSection = require("./components/PhoneSection");
+
 var _Profile = require("./components/Profile");
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
-
-var _PhoneSection = require("./components/PhoneSection");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 

@@ -1,7 +1,8 @@
-import { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettingsV2';
 import { Brand } from '@ringcentral-integration/commons/modules/Brand';
+import { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettingsV2';
 import { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import { Webphone } from '@ringcentral-integration/commons/modules/WebphoneV2';
+
 import { RouterInteraction } from '../RouterInteraction';
 
 export interface CallingSettingsUIOptions {

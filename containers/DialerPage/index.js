@@ -7,9 +7,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 
-var _phoneContext = require("../../lib/phoneContext");
-
 var _DialerPanel = _interopRequireDefault(require("../../components/DialerPanel"));
+
+var _phoneContext = require("../../lib/phoneContext");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
