@@ -10,13 +10,8 @@ const outputPath = path.resolve(__dirname, 'src/www');
 const config = {
   mode: 'development',
   entry: './src/app/index.js',
-  node: {
-    fs: 'empty',
-  },
   devServer: {
-    contentBase: 'src/www',
-    hot: true,
-    inline: true,
+    static: 'src/www',
     port: 8300,
   },
   devtool: 'eval',
@@ -32,9 +27,21 @@ const config = {
         NODE_ENV: JSON.stringify('development'),
       },
     }),
+    new webpack.ProvidePlugin({
+      Buffer: ['buffer', 'Buffer'],
+    }),
+    new webpack.ProvidePlugin({
+      process: 'process/browser',
+    }),
   ],
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
+    fallback: {
+      fs: false,
+      path: require.resolve('path-browserify'),
+      buffer: require.resolve('buffer'),
+      stream: require.resolve('stream-browserify'),
+    },
   },
   module: {
     rules: [
@@ -65,8 +72,7 @@ const config = {
       },
       {
         test: /\.woff|\.woff2|.eot|\.ttf/,
-        use:
-          'url-loader?limit=15000&publicPath=./&name=fonts/[name]_[hash].[ext]',
+        use: 'url-loader?limit=15000&publicPath=./&name=fonts/[name]_[hash].[ext]',
       },
       {
         test: /\.svg/,
@@ -91,8 +97,7 @@ const config = {
       {
         test: /\.png|\.jpg|\.gif|fonts(\/|\\).*\.svg/,
         exclude: /assets(\/|\\)images(\/|\\).+\.svg/,
-        use:
-          'url-loader?limit=20000&publicPath=./&name=images/[name]_[hash].[ext]',
+        use: 'url-loader?limit=20000&publicPath=./&name=images/[name]_[hash].[ext]',
       },
       {
         test: /\.sass|\.scss/,
