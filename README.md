@@ -17,6 +17,7 @@ This is the foundation package for RingCentral integration products, it is based
     - [Tracking APIs](#tracking-apis)
     - [State Subscription APIs](#state-subscription-apis)
     - [createApp]((#createapp))
+    - [Debugging](#debugging)
 
 ## Usage
 
@@ -394,10 +395,9 @@ class Counter extends RcModuleV2<Deps> {
 }
 ```
 
-- `watchEffect`
+You can pass the option `{ multiple: true }`, which will support watching multiple values.
 
-It is used to watch multiple states, where the callback with the second parameter returns an array of dependency collection.
-
+For example,
 
 ```ts
 class Counter extends RcModuleV2<Deps> {
@@ -405,12 +405,15 @@ class Counter extends RcModuleV2<Deps> {
     super({
       deps,
     });
-    const dispose = watchEffect(
+    const dispose = watch(
       this,
       () => [this.a, this.b],
       (newValue, oldValue) => {
         // do something
       },
+      {
+        multiple: true,
+      }
     );
   }
 
@@ -432,6 +435,7 @@ class Counter extends RcModuleV2<Deps> {
 }
 ```
 
+> `watch` option supports passing in `isEqual` function for custom equal.
 
 - `subscribe`
 
@@ -635,4 +639,12 @@ class Counter extends RcModuleV2<Deps> {
 const main = createApp(Counter);
 ```
 
+### Debugging
 
+- `_depsCheck()`
+
+It is used to check the readiness of dependent modules in depth, and it will return modules whose dependency modules are all ready but not ready themselves.
+
+- `_changeState(callback)`
+
+It can be used to temporarily modify any module state, and its argument should be a callback function that modifies the state.
