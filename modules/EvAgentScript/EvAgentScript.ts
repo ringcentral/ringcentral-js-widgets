@@ -1,3 +1,9 @@
+import { EventEmitter } from 'events';
+import { clone, reduce } from 'ramda';
+
+import { debounce } from '@ringcentral-integration/commons/lib/debounce-throttle';
+import { Module } from '@ringcentral-integration/commons/lib/di';
+import { SingleTabBroadcastChannel } from '@ringcentral-integration/commons/lib/SingleTabBroadcastChannel';
 import {
   action,
   RcModuleV2,
@@ -5,11 +11,7 @@ import {
   storage,
   watch,
 } from '@ringcentral-integration/core';
-import { EventEmitter } from 'events';
-import { clone, reduce } from 'ramda';
-import { debounce } from '@ringcentral-integration/commons/lib/debounce-throttle';
-import { Module } from '@ringcentral-integration/commons/lib/di';
-import { SingleTabBroadcastChannel } from '@ringcentral-integration/commons/lib/SingleTabBroadcastChannel';
+
 import {
   agentScriptEvents,
   EV_AGENT_SCRIPT_BROADCAST_KEY,
@@ -45,7 +47,8 @@ import {
 })
 class EvAgentScript<T = {}>
   extends RcModuleV2<Deps & T>
-  implements AgentScript {
+  implements AgentScript
+{
   private _channel: SingleTabBroadcastChannel;
 
   protected _eventEmitter = new EventEmitter();
@@ -259,12 +262,13 @@ class EvAgentScript<T = {}>
    * @param call - the corresponding chat or call object
    */
   saveScriptResult(call: EvCallData) {
-    const scriptResult = this.callScriptResultMapping[
-      this._deps.evClient.encodeUii({
-        uii: call.uii,
-        sessionId: call.session.sessionId,
-      })
-    ];
+    const scriptResult =
+      this.callScriptResultMapping[
+        this._deps.evClient.encodeUii({
+          uii: call.uii,
+          sessionId: call.session.sessionId,
+        })
+      ];
 
     if (scriptResult) {
       const result = this._formatScriptResult(scriptResult);

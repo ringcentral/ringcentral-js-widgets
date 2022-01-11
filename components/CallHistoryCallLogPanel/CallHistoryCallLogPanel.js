@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -33,19 +33,21 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _juno = require("@ringcentral/juno");
-
 var _BasicCallInfo = require("@ringcentral-integration/widgets/components/BasicCallInfo");
 
 var _CallLogPanel = _interopRequireDefault(require("@ringcentral-integration/widgets/components/CallLogPanel"));
+
+var _Button = require("@ringcentral/juno/es6/components/Buttons/Button/Button.js");
 
 var _EvActivityCallUI = require("../../interfaces/EvActivityCallUI.interface");
 
 var _IvrInfo = require("../ActivityCallLogPanel/IvrInfo");
 
+var _styles = _interopRequireDefault(require("../ActivityCallLogPanel/styles.scss"));
+
 var _utils = require("../ActivityCallLogPanel/utils");
 
-var _styles = _interopRequireDefault(require("../ActivityCallLogPanel/styles.scss"));
+var _ActivityCallLogWrapper = require("../ActivityCallLogPanel/ActivityCallLogWrapper");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -139,9 +141,7 @@ var CallHistoryCallLogPanel = function CallHistoryCallLogPanel(_ref) {
         ivrAlertData: ivrAlertData
       }));
     }
-  }), /*#__PURE__*/_react["default"].createElement("div", {
-    className: (0, _classnames["default"])(_styles["default"].submitButton)
-  }, /*#__PURE__*/_react["default"].createElement(_juno.RcButton, {
+  }), /*#__PURE__*/_react["default"].createElement(_ActivityCallLogWrapper.SubmitButtonWrapper, null, /*#__PURE__*/_react["default"].createElement(_Button.RcButton, {
     "data-sign": method,
     size: "large",
     fullWidth: true,

@@ -7,9 +7,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.EvLoginHeader = void 0;
 
-var _classnames = _interopRequireDefault(require("classnames"));
-
 var _react = _interopRequireDefault(require("react"));
+
+var _classnames = _interopRequireDefault(require("classnames"));
 
 var _engageVoiceLogo = _interopRequireDefault(require("../../assets/icons/engageVoiceLogo.svg"));
 

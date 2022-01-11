@@ -1,7 +1,7 @@
 export default {
-  loginButton: "サインイン",
-  signupButton: "新規ユーザ登録",
-  version: "バージョン"
+  loginButton: 'サインイン',
+  signupButton: '新規ユーザ登録',
+  version: 'バージョン',
 };
 
 // @key: @#@"loginButton"@#@ @source: @#@"Sign In"@#@

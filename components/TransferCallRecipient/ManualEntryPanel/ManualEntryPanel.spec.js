@@ -12,7 +12,7 @@ var _react = _interopRequireDefault(require("react"));
 
 var _enzyme = require("enzyme");
 
-var _juno = require("@ringcentral/juno");
+var _ThemeProvider = require("@ringcentral/juno/es6/foundation/theme/ThemeProvider.js");
 
 var _ManualEntryPanel = require("./ManualEntryPanel");
 
@@ -60,7 +60,7 @@ function setup(_ref) {
       transferRecipientNumber = _ref$transferRecipien2 === void 0 ? '6508653454' : _ref$transferRecipien2,
       _ref$allowManualInter = _ref.allowManualInternationalTransfer,
       allowManualInternationalTransfer = _ref$allowManualInter === void 0 ? false : _ref$allowManualInter;
-  return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_ManualEntryPanel.ManualEntryPanel, {
+  return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_ThemeProvider.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_ManualEntryPanel.ManualEntryPanel, {
     currentLocale: currentLocale,
     goBack: goBack,
     transferRecipientCountryId: transferRecipientCountryId,

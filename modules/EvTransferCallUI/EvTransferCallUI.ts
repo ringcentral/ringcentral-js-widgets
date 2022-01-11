@@ -1,5 +1,5 @@
-import { computed, RcUIModuleV2 } from '@ringcentral-integration/core';
 import { Module } from '@ringcentral-integration/commons/lib/di';
+import { computed, RcUIModuleV2 } from '@ringcentral-integration/core';
 
 import { EvTransferType, transferTypes } from '../../enums/transferTypes';
 import {
@@ -73,9 +73,8 @@ class EvTransferCallUI extends RcUIModuleV2<Deps> implements TransferCallUI {
     const queueGroupId =
       this.routerQueueGroupId || this._deps.evRequeueCall.selectedQueueGroupId;
 
-    const {
-      availableRequeueQueues,
-    } = this._deps.evAuth.agent.agentConfig.inboundSettings;
+    const { availableRequeueQueues } =
+      this._deps.evAuth.agent.agentConfig.inboundSettings;
     if (
       queueGroupId &&
       availableRequeueQueues &&
@@ -468,11 +467,11 @@ class EvTransferCallUI extends RcUIModuleV2<Deps> implements TransferCallUI {
       currentLocale: this._deps.locale.currentLocale,
       transferOptions: this.transferOptions,
       transferring: this.evTransferCall.transferring,
-      transferRecipientCountryId: this.evTransferCall
-        .transferRecipientCountryId,
+      transferRecipientCountryId:
+        this.evTransferCall.transferRecipientCountryId,
       transferRecipientNumber: this.evTransferCall.transferRecipientNumber,
-      transferPhoneBookSelectedIndex: this.evTransferCall
-        .transferPhoneBookSelectedIndex,
+      transferPhoneBookSelectedIndex:
+        this.evTransferCall.transferPhoneBookSelectedIndex,
       transferAgentId: this.evTransferCall.transferAgentId,
       isStayOnCall: this.stayOnCall,
       selectedTransferType: this.evTransferCall.transferType,
@@ -480,8 +479,8 @@ class EvTransferCallUI extends RcUIModuleV2<Deps> implements TransferCallUI {
       transferPhoneBook: this.evTransferCall.transferPhoneBook,
       transferAgentListUpdateTTL: 3000,
       transferCountryOptions: this._deps.evAuth.availableCountries,
-      allowManualInternationalTransfer: this.evTransferCall
-        .allowManualInternationalTransfer,
+      allowManualInternationalTransfer:
+        this.evTransferCall.allowManualInternationalTransfer,
       textFields: this.textFields,
       transferCallDisabled: this.transferCallDisabled,
       isWide: this._deps.environment.isWide,

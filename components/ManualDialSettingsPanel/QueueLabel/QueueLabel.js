@@ -11,7 +11,7 @@ require("core-js/modules/es6.string.sub");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _juno = require("@ringcentral/juno");
+var _Text = require("@ringcentral/juno/es6/components/Text/Text.js");
 
 var _i18n = _interopRequireDefault(require("../i18n"));
 
@@ -25,7 +25,7 @@ var QueueLabel = function QueueLabel(_ref) {
       currentLocale = _ref.currentLocale;
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].item
-  }, /*#__PURE__*/_react["default"].createElement(_juno.RcText, {
+  }, /*#__PURE__*/_react["default"].createElement(_Text.RcText, {
     variant: "inherit",
     component: "p",
     title: gateName,

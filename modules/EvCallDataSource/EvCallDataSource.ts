@@ -1,12 +1,13 @@
+import { EventEmitter } from 'events';
 import moment from 'moment';
+
+import { Module } from '@ringcentral-integration/commons/lib/di';
 import {
   action,
   RcModuleV2,
   state,
   storage,
 } from '@ringcentral-integration/core';
-import { EventEmitter } from 'events';
-import { Module } from '@ringcentral-integration/commons/lib/di';
 import { Mapping } from '@ringcentral-integration/widgets/typings';
 
 import { callStatus } from '../../enums';

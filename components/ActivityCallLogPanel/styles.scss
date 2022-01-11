@@ -38,17 +38,4 @@ $classic-content-width: 144px;
     left: 48px !important;
   }
 }
-.submitButton {
-  height: 60px;
-  display: flex;
-  align-items: center;
-  padding: 0 $lightning-page-space;
-  box-shadow: 0 -2px 5px 0 rgba(0, 0, 0, 0.15);
-}
 
-.agentScriptIcon{
-  position: absolute;
-  right: 16px;
-  top: 50px;
-  z-index: 2;
-}

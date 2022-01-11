@@ -7,11 +7,17 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.Dialer = void 0;
 
-var _juno = require("@ringcentral/juno");
-
-var _icon = require("@ringcentral/juno/icon");
-
 var _react = _interopRequireDefault(require("react"));
+
+var _DialDelete = require("@ringcentral/juno/es6/components/Dialer/DialDelete/DialDelete.js");
+
+var _Dialer = require("@ringcentral/juno/es6/components/Dialer/Dialer.js");
+
+var _DialTextField = require("@ringcentral/juno/es6/components/Dialer/DialTextField/DialTextField.js");
+
+var _IconButton = require("@ringcentral/juno/es6/components/Buttons/IconButton/IconButton.js");
+
+var _Deletenumber = _interopRequireDefault(require("@ringcentral/juno/es6/icon/Deletenumber.js"));
 
 var _styles = require("./styles");
 
@@ -23,9 +29,9 @@ var Dialer = function Dialer(_ref) {
       children = _ref.children,
       placeholder = _ref.placeholder;
   var isHaveValue = value.length > 0;
-  return /*#__PURE__*/_react["default"].createElement(_juno.RcDialer, null, /*#__PURE__*/_react["default"].createElement(_styles.DialerWrapper, null, /*#__PURE__*/_react["default"].createElement(_styles.TextFieldWrapper, {
+  return /*#__PURE__*/_react["default"].createElement(_Dialer.RcDialer, null, /*#__PURE__*/_react["default"].createElement(_styles.DialerWrapper, null, /*#__PURE__*/_react["default"].createElement(_styles.TextFieldWrapper, {
     isHaveValue: isHaveValue
-  }, /*#__PURE__*/_react["default"].createElement(_juno.RcDialTextField, {
+  }, /*#__PURE__*/_react["default"].createElement(_DialTextField.RcDialTextField, {
     "data-sign": "numberField",
     value: value,
     textVariant: "subheading1",
@@ -35,22 +41,14 @@ var Dialer = function Dialer(_ref) {
     onlyAllowKeypadValue: true,
     onChange: setValue,
     InputProps: {
-      endAdornment: value.length > 0 && /*#__PURE__*/_react["default"].createElement(_juno.RcDialDelete, null, /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {
-        symbol: _icon.Deletenumber,
+      endAdornment: value.length > 0 && /*#__PURE__*/_react["default"].createElement(_DialDelete.RcDialDelete, null, /*#__PURE__*/_react["default"].createElement(_IconButton.RcIconButton, {
+        symbol: _Deletenumber["default"],
         "data-sign": "deleteButton",
         color: "neutral.f03",
         title: "delete",
         variant: "plain",
         size: "large"
       }))
-    }
-  })), /*#__PURE__*/_react["default"].createElement(_styles.DialPadWrapper, null, /*#__PURE__*/_react["default"].createElement(_juno.RcDialPad, {
-    "data-sign": "DialPad",
-    sounds: _juno.RcDialerPadSounds,
-    getDialPadButtonProps: function getDialPadButtonProps(v) {
-      return {
-        'data-dial-button': "".concat(v)
-      };
     }
   })), children));
 };

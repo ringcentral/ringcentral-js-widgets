@@ -7,9 +7,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.PhoneBookPanel = void 0;
 
-var _classnames = _interopRequireDefault(require("classnames"));
-
 var _react = _interopRequireDefault(require("react"));
+
+var _classnames = _interopRequireDefault(require("classnames"));
 
 var _Tooltip = require("@ringcentral-integration/widgets/components/Rcui/Tooltip");
 

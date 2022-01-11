@@ -1,9 +1,10 @@
+import { EventEmitter } from 'events';
+
+import { Module } from '@ringcentral-integration/commons/lib/di';
+import { raceTimeout } from '@ringcentral-integration/commons/lib/raceTimeout';
 import { action, RcModuleV2, state } from '@ringcentral-integration/core';
 // eslint-disable-next-line import/no-unresolved
 import AgentLibrary from '@SDK';
-import { EventEmitter } from 'events';
-import { Module } from '@ringcentral-integration/commons/lib/di';
-import { raceTimeout } from '@ringcentral-integration/commons/lib/raceTimeout';
 
 import { AGENT_TYPES, messageTypes } from '../../enums';
 import { _encodeSymbol } from '../constant';
@@ -37,17 +38,17 @@ import {
   EvTokenType,
   EvWarmTransferCallResponse,
   EvWarmTransferIntlCallResponse,
+  PauseRecord,
+  PauseRecordResponse,
   RawEvAuthenticateAgentWithRcAccessTokenRes,
   RecordResponse,
-  PauseRecordResponse,
-  PauseRecord,
 } from './interfaces';
 
 type ListenerType = typeof EvCallbackTypes['OPEN_SOCKET' | 'CLOSE_SOCKET'];
 
 type Listener<
   T extends keyof EvClientCallMapping,
-  U extends EvClientCallMapping = EvClientCallMapping
+  U extends EvClientCallMapping = EvClientCallMapping,
 > = (res: U[T]) => void;
 
 export type EvClientTransferParams = {
@@ -101,10 +102,8 @@ class EvClient extends RcModuleV2<Deps> {
   constructor(deps: Deps) {
     super({ deps });
     this._options = this._deps.evClientOptions.options;
-    const {
-      closeResponse,
-      openResponse,
-    } = this._deps.evClientOptions.callbacks;
+    const { closeResponse, openResponse } =
+      this._deps.evClientOptions.callbacks;
     this._onOpen = (res) => {
       this.setAppStatus(evStatus.CONNECTED);
       openResponse(res);

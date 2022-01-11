@@ -11,17 +11,21 @@ require("core-js/modules/es6.array.map");
 
 require("core-js/modules/es6.function.name");
 
-var _juno = require("@ringcentral/juno");
-
-var _icon = require("@ringcentral/juno/icon");
+var _react = _interopRequireDefault(require("react"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
-
-var _react = _interopRequireDefault(require("react"));
 
 var _Tooltip = require("@ringcentral-integration/widgets/components/Rcui/Tooltip");
 
 var _toolTipDelayTime = require("@ringcentral-integration/widgets/lib/toolTipDelayTime");
+
+var _Button = require("@ringcentral/juno/es6/components/Buttons/Button/Button.js");
+
+var _IconButton = require("@ringcentral/juno/es6/components/Buttons/IconButton/IconButton.js");
+
+var _Typography = require("@ringcentral/juno/es6/components/Typography/Typography.js");
+
+var _Edit = _interopRequireDefault(require("@ringcentral/juno/es6/icon/Edit.js"));
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
@@ -63,13 +67,13 @@ var SettingsPanel = function SettingsPanel(_ref) {
     className: _styles["default"].infoTitle
   }, /*#__PURE__*/_react["default"].createElement("span", null, _i18n["default"].getString('sessionInfo', currentLocale)), showEditSessionIcon && /*#__PURE__*/_react["default"].createElement("span", {
     className: (0, _classnames["default"])((_classNames = {}, _defineProperty(_classNames, _styles["default"].pointerWrap, disableEditSessionButton), _defineProperty(_classNames, _styles["default"].alignRight, true), _classNames))
-  }, /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {
+  }, /*#__PURE__*/_react["default"].createElement(_IconButton.RcIconButton, {
     "data-sign": "editSession",
     title: _i18n["default"].getString('edit', currentLocale),
     disabled: disableEditSessionButton,
     onClick: goToSessionUpdatePage,
     size: "small",
-    symbol: _icon.Edit
+    symbol: _Edit["default"]
   }))), /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].infoWrap)
   }, sessionInfo.map(function (_ref2) {
@@ -78,10 +82,10 @@ var SettingsPanel = function SettingsPanel(_ref) {
     return /*#__PURE__*/_react["default"].createElement("div", {
       className: _styles["default"].infoItem,
       key: value
-    }, /*#__PURE__*/_react["default"].createElement(_juno.RcTypography, {
+    }, /*#__PURE__*/_react["default"].createElement(_Typography.RcTypography, {
       variant: "caption1",
       className: _styles["default"].label
-    }, label), /*#__PURE__*/_react["default"].createElement(_juno.RcTypography, {
+    }, label), /*#__PURE__*/_react["default"].createElement(_Typography.RcTypography, {
       variant: "body1",
       className: _styles["default"].value
     }, value));
@@ -89,7 +93,7 @@ var SettingsPanel = function SettingsPanel(_ref) {
     className: (0, _classnames["default"])(_styles["default"].version, _styles["default"].item)
   }, _i18n["default"].getString('version', currentLocale), /*#__PURE__*/_react["default"].createElement("span", null, version)))), /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].logout)
-  }, /*#__PURE__*/_react["default"].createElement(_juno.RcButton, {
+  }, /*#__PURE__*/_react["default"].createElement(_Button.RcButton, {
     "data-sign": "logout",
     variant: "outlined",
     fullWidth: true,

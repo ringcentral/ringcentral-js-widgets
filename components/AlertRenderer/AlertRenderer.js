@@ -15,6 +15,8 @@ var _EvCallAlert = _interopRequireDefault(require("./EvCallAlert"));
 
 var _EvCallDispositionAlert = _interopRequireDefault(require("./EvCallDispositionAlert"));
 
+var _EvCallInfoAlert = _interopRequireDefault(require("./EvCallInfoAlert"));
+
 var _EvIntegratedSoftphoneAlert = _interopRequireDefault(require("./EvIntegratedSoftphoneAlert"));
 
 var _EvRequeueCallAlert = _interopRequireDefault(require("./EvRequeueCallAlert"));
@@ -24,8 +26,6 @@ var _EvSessionConfigAlert = _interopRequireDefault(require("./EvSessionConfigAle
 var _EvTransferCallAlert = _interopRequireDefault(require("./EvTransferCallAlert"));
 
 var _EvWorkingStateAlert = _interopRequireDefault(require("./EvWorkingStateAlert"));
-
-var _EvCallInfoAlert = _interopRequireDefault(require("./EvCallInfoAlert"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 

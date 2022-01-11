@@ -31,7 +31,7 @@ function loadLocale(locale) {
         }
 
       default:
-        return resolve({});
+        return resolve(null);
     }
   });
 }

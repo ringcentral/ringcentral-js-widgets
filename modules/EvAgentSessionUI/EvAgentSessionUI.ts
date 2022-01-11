@@ -1,3 +1,4 @@
+import { Module } from '@ringcentral-integration/commons/lib/di';
 import {
   action,
   computed,
@@ -5,12 +6,11 @@ import {
   state,
   storage,
 } from '@ringcentral-integration/core';
-import { Module } from '@ringcentral-integration/commons/lib/di';
 
 import {
   dropDownOptions,
-  LoginTypes,
   loginTypes,
+  LoginTypes,
   tabManagerEvents,
 } from '../../enums';
 import {
@@ -135,7 +135,7 @@ class EvAgentSessionUI extends RcUIModuleV2<Deps> implements SessionConfigUI {
       content: i18n.getString('saveEditionModalContent', currentLocale),
       confirmButtonText: i18n.getString('save', currentLocale),
       cancelButtonText: i18n.getString('cancel', currentLocale),
-      size: 'xsmall',
+      childrenSize: 'small',
       onConfirm: () => {
         this.onSaveUpdate();
       },
@@ -285,17 +285,10 @@ class EvAgentSessionUI extends RcUIModuleV2<Deps> implements SessionConfigUI {
       isExternalPhone,
       // takingCall,
     } = this._deps.evAgentSession;
-    const {
-      allowAutoAnswer,
-      allowLoginControl,
-      allowInbound,
-    } = this._deps.evAuth.agentPermissions;
-    const {
-      selectedSkillProfileId,
-      loginType,
-      extensionNumber,
-      autoAnswer,
-    } = this._deps.evAgentSession.formGroup;
+    const { allowAutoAnswer, allowLoginControl, allowInbound } =
+      this._deps.evAuth.agentPermissions;
+    const { selectedSkillProfileId, loginType, extensionNumber, autoAnswer } =
+      this._deps.evAgentSession.formGroup;
     return {
       selectedSkillProfileId,
       loginType,

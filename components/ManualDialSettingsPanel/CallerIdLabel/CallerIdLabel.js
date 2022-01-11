@@ -11,7 +11,7 @@ require("core-js/modules/es6.string.sub");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _juno = require("@ringcentral/juno");
+var _Text = require("@ringcentral/juno/es6/components/Text/Text.js");
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
@@ -22,7 +22,7 @@ var CallerIdLabel = function CallerIdLabel(_ref) {
       number = _ref.number;
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].item
-  }, /*#__PURE__*/_react["default"].createElement(_juno.RcText, {
+  }, /*#__PURE__*/_react["default"].createElement(_Text.RcText, {
     className: _styles["default"].title,
     variant: "inherit",
     component: "p",

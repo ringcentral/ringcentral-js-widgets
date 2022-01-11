@@ -23,7 +23,7 @@ require("core-js/modules/es6.object.keys");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.UTCheckAgentListRender = exports.UTCheckAgentListRenderCases = exports.UTCheckTransferAgentSelect = exports.UTCheckTransferAgentSelectCases = exports.UTCheckInternalPanelRender = exports.UTAgentListSearch = exports.UTAgentListSearchCases = exports.UTAgentListDisplayAndHighlight = exports.UTAgentListAutoSync = exports.UTAgentListCheckBackButton = void 0;
+exports.UTCheckTransferAgentSelectCases = exports.UTCheckTransferAgentSelect = exports.UTCheckInternalPanelRender = exports.UTCheckAgentListRenderCases = exports.UTCheckAgentListRender = exports.UTAgentListSearchCases = exports.UTAgentListSearch = exports.UTAgentListDisplayAndHighlight = exports.UTAgentListCheckBackButton = exports.UTAgentListAutoSync = void 0;
 
 require("core-js/modules/es6.object.define-property");
 
@@ -45,11 +45,11 @@ require("core-js/modules/es6.string.includes");
 
 require("core-js/modules/es6.regexp.replace");
 
-var _juno = require("@ringcentral/juno");
+var _react = _interopRequireDefault(require("react"));
 
 var _enzyme = require("enzyme");
 
-var _react = _interopRequireDefault(require("react"));
+var _ThemeProvider = require("@ringcentral/juno/es6/foundation/theme/ThemeProvider.js");
 
 var _InternalPanel = require("./InternalPanel");
 
@@ -59,9 +59,9 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -129,7 +129,7 @@ function setup(_ref) {
       searchAgent = _ref$searchAgent === void 0 ? defaultSearchAgent : _ref$searchAgent,
       _ref$transferAgentLis2 = _ref.transferAgentList,
       transferAgentList = _ref$transferAgentLis2 === void 0 ? defaultTransferAgentList : _ref$transferAgentLis2;
-  return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_InternalPanel.InternalPanel, {
+  return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_ThemeProvider.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_InternalPanel.InternalPanel, {
     currentLocale: currentLocale,
     goBack: goBack,
     transferAgentList: transferAgentList,

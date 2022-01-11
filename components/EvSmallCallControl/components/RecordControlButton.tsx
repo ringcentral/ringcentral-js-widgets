@@ -1,9 +1,11 @@
 import React, { FunctionComponent } from 'react';
-import StopRecordSvg from '@ringcentral/juno/icon/StopRecord';
+
 import { RcIconButton } from '@ringcentral/juno';
+import { StopRecord } from '@ringcentral/juno/icon';
+
 import RecordControlSvg from '../../../assets/icons/icon-record.svg';
-import i18n from '../i18n';
 import { CallButtonsProps } from '../../SmallCallControl';
+import i18n from '../i18n';
 
 export type RecordControlButtonProps = CallButtonsProps & {
   isRecording?: boolean;
@@ -13,43 +15,44 @@ export type RecordControlButtonProps = CallButtonsProps & {
   disablePauseRecord?: boolean;
 };
 
-export const RecordControlButton: FunctionComponent<RecordControlButtonProps> = ({
-  currentLocale,
-  isRecording,
-  onRecord,
-  onStopRecord,
-  disablePauseRecord,
-  size,
-  className,
-  onPauseRecord,
-}) => {
-  return isRecording ? (
-    <RcIconButton
-      data-sign={disablePauseRecord ? 'StopRecording' : 'PauseRecording'}
-      color="danger.f02"
-      symbol={StopRecordSvg}
-      variant="round"
-      title={i18n.getString(
-        disablePauseRecord ? 'stopRecording' : 'pauseRecording',
-        currentLocale,
-      )}
-      onClick={disablePauseRecord ? onStopRecord : onPauseRecord}
-      size={size}
-      className={className}
-      shouldPersistBg
-    />
-  ) : (
-    <RcIconButton
-      data-sign="StartRecording"
-      symbol={RecordControlSvg}
-      variant="round"
-      title={i18n.getString('startRecording', currentLocale)}
-      onClick={onRecord}
-      size={size}
-      className={className}
-    />
-  );
-};
+export const RecordControlButton: FunctionComponent<RecordControlButtonProps> =
+  ({
+    currentLocale,
+    isRecording,
+    onRecord,
+    onStopRecord,
+    disablePauseRecord,
+    size,
+    className,
+    onPauseRecord,
+  }) => {
+    return isRecording ? (
+      <RcIconButton
+        data-sign={disablePauseRecord ? 'StopRecording' : 'PauseRecording'}
+        color="danger.f02"
+        symbol={StopRecord}
+        variant="round"
+        title={i18n.getString(
+          disablePauseRecord ? 'stopRecording' : 'pauseRecording',
+          currentLocale,
+        )}
+        onClick={disablePauseRecord ? onStopRecord : onPauseRecord}
+        size={size}
+        className={className}
+        shouldPersistBg
+      />
+    ) : (
+      <RcIconButton
+        data-sign="StartRecording"
+        symbol={RecordControlSvg}
+        variant="round"
+        title={i18n.getString('startRecording', currentLocale)}
+        onClick={onRecord}
+        size={size}
+        className={className}
+      />
+    );
+  };
 
 RecordControlButton.defaultProps = {
   currentLocale: 'en-US',

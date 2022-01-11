@@ -7,9 +7,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.ChooseAccountPage = void 0;
 
-var _connectModule = require("../../lib/connectModule");
-
 var _ChooseAccountPanel = require("../../components/ChooseAccountPanel");
+
+var _connectModule = require("../../lib/connectModule");
 
 var ChooseAccountPage = (0, _connectModule.connectModule)(function (phone) {
   return phone.evChooseAccountUI;

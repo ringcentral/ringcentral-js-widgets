@@ -1,11 +1,11 @@
 export default {
-  mute: "Disatt. Audio",
-  unmute: "Riattiva audio",
-  hangup: "Riaggancia",
-  reject: "Rifiuta",
-  hold: "Attesa",
-  onHold: "In attesa",
-  transfer: "Trasferisci"
+  mute: 'Disatt. Audio',
+  unmute: 'Riattiva audio',
+  hangup: 'Riaggancia',
+  reject: 'Rifiuta',
+  hold: 'Attesa',
+  onHold: 'In attesa',
+  transfer: 'Trasferisci',
 };
 
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@

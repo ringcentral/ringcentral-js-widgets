@@ -9,11 +9,11 @@ exports.HangUpButton = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _juno = require("@ringcentral/juno");
-
-var _icon = require("@ringcentral/juno/icon");
-
 var _classnames = _interopRequireDefault(require("classnames"));
+
+var _IconButton = require("@ringcentral/juno/es6/components/Buttons/IconButton/IconButton.js");
+
+var _HandUp = _interopRequireDefault(require("@ringcentral/juno/es6/icon/HandUp.js"));
 
 var _help = require("../help");
 
@@ -38,8 +38,8 @@ var HangUpButton = function HangUpButton(_ref) {
   }),
       endTitle = _getCircleIconButtonT.endTitle;
 
-  return /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {
-    symbol: _icon.HandUp,
+  return /*#__PURE__*/_react["default"].createElement(_IconButton.RcIconButton, {
+    symbol: _HandUp["default"],
     variant: "contained",
     "data-icon": "hand-up",
     title: _i18n["default"].getString(endTitle, currentLocale),

@@ -13,7 +13,9 @@ require("core-js/modules/es6.object.freeze");
 
 require("core-js/modules/es6.array.slice");
 
-var _juno = require("@ringcentral/juno");
+var _styledComponents = require("@ringcentral/juno/es6/foundation/styled-components.js");
+
+var _spacing = require("@ringcentral/juno/es6/foundation/styles/spacing.js");
 
 function _templateObject2() {
   var data = _taggedTemplateLiteral(["\n        padding-left: ", ";\n        padding-right: ", ";\n\n        [sf-classic] & {\n          padding-left: ", ";\n          padding-right: ", ";\n        }\n      "]);
@@ -37,12 +39,12 @@ function _templateObject() {
 
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
-var lightningPageSpace = (0, _juno.spacing)(4);
-var classicPageSpace = (0, _juno.spacing)(3);
+var lightningPageSpace = (0, _spacing.spacing)(4);
+var classicPageSpace = (0, _spacing.spacing)(3);
 
 var pageSpace = function pageSpace() {
   var type = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 'margin';
-  return type === 'margin' ? (0, _juno.css)(_templateObject(), lightningPageSpace, lightningPageSpace, classicPageSpace, classicPageSpace) : (0, _juno.css)(_templateObject2(), lightningPageSpace, lightningPageSpace, classicPageSpace, classicPageSpace);
+  return type === 'margin' ? (0, _styledComponents.css)(_templateObject(), lightningPageSpace, lightningPageSpace, classicPageSpace, classicPageSpace) : (0, _styledComponents.css)(_templateObject2(), lightningPageSpace, lightningPageSpace, classicPageSpace, classicPageSpace);
 };
 
 exports.pageSpace = pageSpace;

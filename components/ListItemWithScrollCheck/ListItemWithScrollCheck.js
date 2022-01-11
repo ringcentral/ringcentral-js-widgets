@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -31,9 +31,9 @@ require("core-js/modules/es6.object.keys");
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _juno = require("@ringcentral/juno");
-
 var _classnames = _interopRequireDefault(require("classnames"));
+
+var _ListItem = require("@ringcentral/juno/es6/components/List/ListItem/ListItem.js");
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
@@ -63,7 +63,7 @@ var ListItemWithScrollCheck = function ListItemWithScrollCheck(_ref) {
       scrollCheck(selectElm.current);
     }
   });
-  return /*#__PURE__*/_react["default"].createElement(_juno.RcListItem, _extends({}, rest, {
+  return /*#__PURE__*/_react["default"].createElement(_ListItem.RcListItem, _extends({}, rest, {
     innerRef: selectElm,
     button: true,
     selected: selected,

@@ -1,15 +1,16 @@
+import { EventEmitter } from 'events';
+import formatMessage from 'format-message';
+
+import { Module } from '@ringcentral-integration/commons/lib/di';
+import { raceTimeout } from '@ringcentral-integration/commons/lib/raceTimeout';
+import sleep from '@ringcentral-integration/commons/lib/sleep';
 import {
   action,
   RcModuleV2,
   state,
   storage,
 } from '@ringcentral-integration/core';
-import { EventEmitter } from 'events';
-import formatMessage from 'format-message';
-import { Module } from '@ringcentral-integration/commons/lib/di';
-import { raceTimeout } from '@ringcentral-integration/commons/lib/raceTimeout';
-import sleep from '@ringcentral-integration/commons/lib/sleep';
-import { CustomRenderer } from '@ringcentral-integration/widgets/modules/ModalUIV2/ModalUI.interface';
+import { CustomRenderer } from '@ringcentral-integration/widgets/modules/ModalUI/ModalUI.interface';
 
 import {
   dialoutStatuses,
@@ -63,7 +64,8 @@ const ModalContentRenderer: CustomRenderer = ({
 })
 class EvIntegratedSoftphone
   extends RcModuleV2<Deps>
-  implements IntegratedSoftphone {
+  implements IntegratedSoftphone
+{
   autoAnswerCheckFn: () => boolean;
 
   private _isFirefox: boolean;
@@ -437,11 +439,8 @@ class EvIntegratedSoftphone
 
         const { displayName } = ringingCall.data.request.from;
         const queueName = this._deps.evClient.currentCall?.queue?.name;
-        const {
-          dialoutStatus,
-          isOffhooking,
-          isManualOffhook,
-        } = this._deps.presence;
+        const { dialoutStatus, isOffhooking, isManualOffhook } =
+          this._deps.presence;
         // exclude outbound and offhook
         const isInbound =
           dialoutStatus !== 'dialing' &&
@@ -542,7 +541,7 @@ class EvIntegratedSoftphone
       title: 'Registration failed',
       content: 'Will reload your pages and tabs for you',
       confirmButtonText: 'Ok',
-      size: 'xsmall',
+      childrenSize: 'small',
       onConfirm: () => {
         this._sendTabManager(tabManagerEvents.SIP_REGISTRATION_FAILED_RELOAD);
         this._reloadApp();
@@ -563,10 +562,10 @@ class EvIntegratedSoftphone
     this.resetController();
   }
 
-  private _showWebRTCConnectingMask() {
+  private async _showWebRTCConnectingMask() {
     this._closeWebRTCConnectingMask();
     this.setConnectingAlertId(
-      this._deps.alert.info({
+      await this._deps.alert.info({
         message: this._isCloseWhenCallConnected
           ? tabManagerEvents.SIP_RECONNECTING_WHEN_CALL_CONNECTED
           : tabManagerEvents.SIP_CONNECTING,
@@ -584,9 +583,9 @@ class EvIntegratedSoftphone
     }
   }
 
-  private _showAskAudioPermissionMask() {
+  private async _showAskAudioPermissionMask() {
     this._closeAskAudioPermissionMask();
-    this._audioPermissionAlertId = this._deps.alert.info({
+    this._audioPermissionAlertId = await this._deps.alert.info({
       message: tabManagerEvents.ASK_AUDIO_PERMISSION,
       loading: true,
       backdrop: true,
@@ -650,7 +649,7 @@ class EvIntegratedSoftphone
         this._sendTabManager(tabManagerEvents.SIP_RINGING_MODAL, false);
         this.rejectCall();
       },
-      size: 'xsmall',
+      childrenSize: 'small',
     });
   }
 

@@ -1,11 +1,11 @@
 export default {
-  mute: "Stummsch.",
-  unmute: "Stumm Ende",
-  hangup: "Auflegen",
-  reject: "Ablehnen",
-  hold: "Halten",
-  onHold: "Gehalten",
-  transfer: "Weiterleitung"
+  mute: 'Stummsch.',
+  unmute: 'Stumm Ende',
+  hangup: 'Auflegen',
+  reject: 'Ablehnen',
+  hold: 'Halten',
+  onHold: 'Gehalten',
+  transfer: 'Weiterleitung',
 };
 
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@

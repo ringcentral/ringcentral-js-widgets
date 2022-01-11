@@ -7,13 +7,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  mute: "Stummsch.",
-  unmute: "Stumm Ende",
-  hangup: "Auflegen",
-  reject: "Ablehnen",
-  hold: "Halten",
-  onHold: "Gehalten",
-  transfer: "Weiterleitung"
+  mute: 'Stummsch.',
+  unmute: 'Stumm Ende',
+  hangup: 'Auflegen',
+  reject: 'Ablehnen',
+  hold: 'Halten',
+  onHold: 'Gehalten',
+  transfer: 'Weiterleitung'
 }; // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
 // @key: @#@"hangup"@#@ @source: @#@"Hang up"@#@

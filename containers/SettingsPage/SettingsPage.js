@@ -7,9 +7,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.SettingsPage = void 0;
 
-var _connectModule = require("../../lib/connectModule");
-
 var _SettingsPanel = require("../../components/SettingsPanel");
+
+var _connectModule = require("../../lib/connectModule");
 
 var SettingsPage = (0, _connectModule.connectModule)(function (phone) {
   return phone.evSettingsUI;

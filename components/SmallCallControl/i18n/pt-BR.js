@@ -7,13 +7,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  mute: "Mudo",
-  unmute: "Ativar som",
-  hangup: "Desligar",
-  reject: "Rejeitar",
-  hold: "Aguardar",
-  onHold: "Em espera",
-  transfer: "Transferir"
+  mute: 'Mudo',
+  unmute: 'Ativar som',
+  hangup: 'Desligar',
+  reject: 'Rejeitar',
+  hold: 'Aguardar',
+  onHold: 'Em espera',
+  transfer: 'Transferir'
 }; // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
 // @key: @#@"hangup"@#@ @source: @#@"Hang up"@#@

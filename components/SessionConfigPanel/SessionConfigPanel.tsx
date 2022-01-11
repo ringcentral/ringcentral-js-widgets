@@ -1,17 +1,23 @@
-import { RcButton, RcIconButton, RcTypography } from '@ringcentral/juno';
 import React, { FunctionComponent } from 'react';
-import arrowLeftSvg from '@ringcentral/juno/icon/ArrowLeft2';
-import classNames from 'classnames';
+
+import {
+  palette2,
+  RcButton,
+  RcIconButton,
+  RcTypography,
+  styled,
+} from '@ringcentral/juno';
+import { ArrowLeft2 as arrowLeftSvg } from '@ringcentral/juno/icon';
 
 import {
   EvAgentSessionUIFunctions,
   EvAgentSessionUIProps,
 } from '../../interfaces/EvAgentSessionUI.interface';
-import { EvLoginHeader } from '../EvLoginHeader';
 import {
   BasicSessionPanel,
   BasicSessionPanelProps,
 } from '../BasicSessionPanel';
+import { EvLoginHeader } from '../EvLoginHeader';
 import i18n from './i18n';
 import styles from './styles.scss';
 
@@ -24,6 +30,12 @@ export type SessionConfigPanelProps = BasicSessionPanelProps &
     | 'selectedAgent'
     | 'showReChooseAccount'
   >;
+
+const StyledGoBackBack = styled.div<{ show: boolean }>`
+  background: ${palette2('neutral', 'b03')};
+
+  visibility: ${({ show }) => !show && 'hidden'};
+`;
 
 export const SessionConfigPanel: FunctionComponent<SessionConfigPanelProps> = ({
   currentLocale,
@@ -40,12 +52,7 @@ export const SessionConfigPanel: FunctionComponent<SessionConfigPanelProps> = ({
         wrapperStyle={styles.wrapperStyle}
         svgStyle={styles.svgStyle}
       />
-      <div
-        className={classNames(
-          styles.goBackBg,
-          !showReChooseAccount && styles.hideGoBack,
-        )}
-      >
+      <StyledGoBackBack show={showReChooseAccount}>
         <div onClick={onAccountReChoose} className={styles.goBack}>
           <RcIconButton
             className={styles.back}
@@ -55,18 +62,18 @@ export const SessionConfigPanel: FunctionComponent<SessionConfigPanelProps> = ({
             color="interactive.b02"
             data-sign="reChooseAccountButton"
           />
-          <RcTypography variant="body1" className={styles.backText}>
+          <RcTypography variant="body1" color="interactive.f01">
             {i18n.getString('switchAccount', currentLocale)}
           </RcTypography>
         </div>
-      </div>
+      </StyledGoBackBack>
       <div data-sign="accountInfo" className={styles.accountInfo}>
-        <RcTypography variant="body1" className={styles.accountName}>
+        <RcTypography color="neutral.f06" variant="body1">
           {selectedAgent?.accountName}
         </RcTypography>
         <RcTypography
           variant="caption1"
-          className={styles.agentType}
+          color="neutral.f04"
           data-sign="agentType"
         >
           {i18n.getString(selectedAgent?.agentType, currentLocale)}

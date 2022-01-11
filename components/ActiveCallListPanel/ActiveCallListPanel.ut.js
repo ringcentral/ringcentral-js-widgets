@@ -9,17 +9,17 @@ require("core-js/modules/es6.object.to-string");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.UTUnMuteRender = exports.UTMuteRender = exports.UTHangUpRender = exports.UTUnholdRender = exports.UTHoldRender = exports.UTNoCall = exports.UTGoBackPage = exports.wrapperUnmount = void 0;
+exports.wrapperUnmount = exports.UTUnholdRender = exports.UTUnMuteRender = exports.UTNoCall = exports.UTMuteRender = exports.UTHoldRender = exports.UTHangUpRender = exports.UTGoBackPage = void 0;
 
 require("regenerator-runtime/runtime");
 
 require("core-js/modules/es6.array.find");
 
-var _juno = require("@ringcentral/juno");
+var _react = _interopRequireDefault(require("react"));
 
 var _enzyme = require("enzyme");
 
-var _react = _interopRequireDefault(require("react"));
+var _ThemeProvider = require("@ringcentral/juno/es6/foundation/theme/ThemeProvider.js");
 
 var _i18n = _interopRequireDefault(require("../SmallCallControl/i18n"));
 
@@ -75,7 +75,7 @@ function setup() {
       _ref$isInbound = _ref.isInbound,
       isInbound = _ref$isInbound === void 0 ? false : _ref$isInbound;
 
-  return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_ActiveCallListPanel.ActiveCallListPanel, {
+  return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_ThemeProvider.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_ActiveCallListPanel.ActiveCallListPanel, {
     currentLocale: currentLocale,
     goBack: goBack,
     callList: callList,

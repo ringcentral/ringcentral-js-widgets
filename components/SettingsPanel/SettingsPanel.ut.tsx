@@ -1,7 +1,9 @@
 import React from 'react';
-import { RcThemeProvider } from '@ringcentral/juno';
+
 import { mount } from 'enzyme';
-import { StepFunction } from 'crius-test';
+
+import { StepFunction } from '@ringcentral-integration/test-utils';
+import { RcThemeProvider } from '@ringcentral/juno';
 
 import { SettingsPanel, SettingsPanelProps } from '.';
 

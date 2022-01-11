@@ -14,17 +14,17 @@ require("regenerator-runtime/runtime");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _juno = require("@ringcentral/juno");
+var _enzyme = require("enzyme");
+
+var _ThemeProvider = require("@ringcentral/juno/es6/foundation/theme/ThemeProvider.js");
 
 var _Accordion = require("@ringcentral/juno/components/Accordion");
 
 var _AccordionSummary = require("@ringcentral/juno/components/Accordion/AccordionSummary");
 
-var _enzyme = require("enzyme");
+var _i18n = _interopRequireDefault(require("../SmallCallControl/i18n"));
 
 var _ActivityCallLogPanel = require("./ActivityCallLogPanel");
-
-var _i18n = _interopRequireDefault(require("../SmallCallControl/i18n"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -139,7 +139,7 @@ function setup() {
       ivrAlertData = _ref$ivrAlertData === void 0 ? defaultIVRAlertData : _ref$ivrAlertData,
       _ref$showSmallCallCon = _ref.showSmallCallControl,
       showSmallCallControl = _ref$showSmallCallCon === void 0 ? true : _ref$showSmallCallCon;
-  return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_ActivityCallLogPanel.ActivityCallLogPanel, {
+  return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_ThemeProvider.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_ActivityCallLogPanel.ActivityCallLogPanel, {
     isInbound: true,
     currentLocale: currentLocale,
     currentEvCall: currentEvCall,

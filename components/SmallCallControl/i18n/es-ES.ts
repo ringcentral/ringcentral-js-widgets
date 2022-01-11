@@ -1,11 +1,11 @@
 export default {
-  mute: "Silenciar",
-  unmute: "Reactivar",
-  hangup: "Colgar",
-  reject: "Rechazar",
-  hold: "Retener",
-  onHold: "En espera",
-  transfer: "Transferir"
+  mute: 'Silenciar',
+  unmute: 'Reactivar',
+  hangup: 'Colgar',
+  reject: 'Rechazar',
+  hold: 'Retener',
+  onHold: 'En espera',
+  transfer: 'Transferir',
 };
 
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@

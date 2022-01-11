@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -53,15 +53,15 @@ require("regenerator-runtime/runtime");
 
 require("core-js/modules/es6.array.find");
 
-var _core = require("@ringcentral-integration/core");
-
-var _phoneNumber = require("@ringcentral-integration/phone-number");
-
 var _i18nIsoCountries = require("i18n-iso-countries");
 
 var _di = require("@ringcentral-integration/commons/lib/di");
 
 var _callErrors = _interopRequireDefault(require("@ringcentral-integration/commons/modules/Call/callErrors"));
+
+var _core = require("@ringcentral-integration/core");
+
+var _phoneNumber = require("@ringcentral-integration/phone-number");
 
 var _enums = require("../../enums");
 
@@ -81,9 +81,9 @@ var _dec, _dec2, _dec3, _dec4, _class, _class2, _descriptor, _descriptor2, _desc
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -97,15 +97,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } Object.defineProperty(subClass, "prototype", { value: Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }), writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
@@ -325,20 +325,35 @@ var EvTransferCall = (_dec = (0, _di.Module)({
         }
       });
 
-      this.onTransferStart(function () {
-        _this3._transferNotificationId = _this3._deps.alert.info({
-          message: _enums.transferEvents.START,
-          loading: true,
-          backdrop: true,
-          ttl: 0
-        });
+      this.onTransferStart( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return _this3._deps.alert.info({
+                  message: _enums.transferEvents.START,
+                  loading: true,
+                  backdrop: true,
+                  ttl: 0
+                });
 
-        if (!_this3.isInternalTransfer) {
-          _this3.setCancelableTransfer(true);
+              case 2:
+                _this3._transferNotificationId = _context2.sent;
 
-          _this3.showNotificationLoadingCancel();
-        }
-      });
+                if (!_this3.isInternalTransfer) {
+                  _this3.setCancelableTransfer(true);
+
+                  _this3.showNotificationLoadingCancel();
+                }
+
+              case 4:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      })));
       this.onTransferSuccess(function () {
         _this3.closeLoadingNotification();
 
@@ -436,46 +451,46 @@ var EvTransferCall = (_dec = (0, _di.Module)({
   }, {
     key: "fetchAgentList",
     value: function () {
-      var _fetchAgentList = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+      var _fetchAgentList = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
         var data, result;
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
-                _context2.prev = 0;
-                _context2.next = 3;
+                _context3.prev = 0;
+                _context3.next = 3;
                 return this.evClient.fetchDirectAgentList();
 
               case 3:
-                result = _context2.sent;
+                result = _context3.sent;
 
                 if (result) {
                   data = result.agents;
                 }
 
-                _context2.next = 10;
+                _context3.next = 10;
                 break;
 
               case 7:
-                _context2.prev = 7;
-                _context2.t0 = _context2["catch"](0);
-                console.error(_context2.t0);
+                _context3.prev = 7;
+                _context3.t0 = _context3["catch"](0);
+                console.error(_context3.t0);
 
               case 10:
-                _context2.prev = 10;
+                _context3.prev = 10;
 
                 if (Array.isArray(data)) {
                   this.changeAgentList(data);
                 }
 
-                return _context2.finish(10);
+                return _context3.finish(10);
 
               case 13:
               case "end":
-                return _context2.stop();
+                return _context3.stop();
             }
           }
-        }, _callee2, this, [[0, 7, 10, 13]]);
+        }, _callee3, this, [[0, 7, 10, 13]]);
       }));
 
       function fetchAgentList() {
@@ -531,23 +546,23 @@ var EvTransferCall = (_dec = (0, _di.Module)({
   }, {
     key: "cancelTransfer",
     value: function () {
-      var _cancelTransfer = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+      var _cancelTransfer = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
-                _context3.prev = 0;
-                _context3.next = 3;
+                _context4.prev = 0;
+                _context4.next = 3;
                 return this.cancelInternalTransfer();
 
               case 3:
-                _context3.next = 9;
+                _context4.next = 9;
                 break;
 
               case 5:
-                _context3.prev = 5;
-                _context3.t0 = _context3["catch"](0);
-                console.error(_context3.t0);
+                _context4.prev = 5;
+                _context4.t0 = _context4["catch"](0);
+                console.error(_context4.t0);
                 throw new Error("'cancelInternalTransfer' failed.");
 
               case 9:
@@ -555,10 +570,10 @@ var EvTransferCall = (_dec = (0, _di.Module)({
 
               case 10:
               case "end":
-                return _context3.stop();
+                return _context4.stop();
             }
           }
-        }, _callee3, this, [[0, 5]]);
+        }, _callee4, this, [[0, 5]]);
       }));
 
       function cancelTransfer() {
@@ -570,26 +585,26 @@ var EvTransferCall = (_dec = (0, _di.Module)({
   }, {
     key: "cancelInternalTransfer",
     value: function () {
-      var _cancelInternalTransfer = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+      var _cancelInternalTransfer = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
         var _this6 = this;
 
-        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
                 if (!this.transferring) {
-                  _context4.next = 8;
+                  _context5.next = 8;
                   break;
                 }
 
                 if (!this.isInternalTransfer) {
-                  _context4.next = 7;
+                  _context5.next = 7;
                   break;
                 }
 
                 this._deps.evClient.cancelDirectAgentTransfer(this.transferAgentId);
 
-                _context4.next = 5;
+                _context5.next = 5;
                 return new Promise(function (resolve, reject) {
                   _this6._internalTransferCallbacks.CANCEL = function (data) {
                     if (_this6.stayOnCall) {
@@ -607,7 +622,7 @@ var EvTransferCall = (_dec = (0, _di.Module)({
                 });
 
               case 5:
-                _context4.next = 8;
+                _context5.next = 8;
                 break;
 
               case 7:
@@ -619,10 +634,10 @@ var EvTransferCall = (_dec = (0, _di.Module)({
 
               case 8:
               case "end":
-                return _context4.stop();
+                return _context5.stop();
             }
           }
-        }, _callee4, this);
+        }, _callee5, this);
       }));
 
       function cancelInternalTransfer() {
@@ -699,40 +714,40 @@ var EvTransferCall = (_dec = (0, _di.Module)({
   }, {
     key: "transfer",
     value: function () {
-      var _transfer = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
-        var _ref3, toNumber, countryId;
+      var _transfer = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
+        var _ref4, toNumber, countryId;
 
-        return regeneratorRuntime.wrap(function _callee5$(_context5) {
+        return regeneratorRuntime.wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
-                _context5.prev = 0;
-                _ref3 = this.parseNumber() || {}, toNumber = _ref3.toNumber, countryId = _ref3.countryId;
-                _context5.next = 4;
+                _context6.prev = 0;
+                _ref4 = this.parseNumber() || {}, toNumber = _ref4.toNumber, countryId = _ref4.countryId;
+                _context6.next = 4;
                 return this._eventEmitter.asyncEmit(_enums.transferEvents.START);
 
               case 4:
                 this.setTransferStatus(_enums.transferStatuses.loading);
-                _context5.t0 = this.transferType;
-                _context5.next = _context5.t0 === _enums.transferTypes.internal ? 8 : _context5.t0 === _enums.transferTypes.phoneBook ? 11 : _context5.t0 === _enums.transferTypes.manualEntry ? 11 : 14;
+                _context6.t0 = this.transferType;
+                _context6.next = _context6.t0 === _enums.transferTypes.internal ? 8 : _context6.t0 === _enums.transferTypes.phoneBook ? 11 : _context6.t0 === _enums.transferTypes.manualEntry ? 11 : 14;
                 break;
 
               case 8:
-                _context5.next = 10;
+                _context6.next = 10;
                 return this.internalTransferCall();
 
               case 10:
-                return _context5.abrupt("break", 15);
+                return _context6.abrupt("break", 15);
 
               case 11:
-                _context5.next = 13;
+                _context6.next = 13;
                 return this.transferCall({
                   dialDest: toNumber,
                   countryId: countryId
                 });
 
               case 13:
-                return _context5.abrupt("break", 15);
+                return _context6.abrupt("break", 15);
 
               case 14:
                 throw new _EvTypeError.EvTypeError({
@@ -741,53 +756,62 @@ var EvTransferCall = (_dec = (0, _di.Module)({
                 });
 
               case 15:
-                _context5.next = 17;
+                _context6.next = 17;
                 return this._eventEmitter.asyncEmit(_enums.transferEvents.SUCCESS);
 
               case 17:
-                _context5.next = 29;
+                _context6.next = 31;
                 break;
 
               case 19:
-                _context5.prev = 19;
-                _context5.t1 = _context5["catch"](0);
-                _context5.t2 = _context5.t1.type;
-                _context5.next = _context5.t2 === _enums.messageTypes.NO_SUPPORT_COUNTRY ? 24 : _context5.t2 === _enums.messageTypes.INVALID_NUMBER ? 25 : 26;
+                _context6.prev = 19;
+                _context6.t1 = _context6["catch"](0);
+
+                if (!(_context6.t1 instanceof _EvTypeError.EvTypeError)) {
+                  _context6.next = 28;
+                  break;
+                }
+
+                _context6.t2 = _context6.t1.type;
+                _context6.next = _context6.t2 === _enums.messageTypes.NO_SUPPORT_COUNTRY ? 25 : _context6.t2 === _enums.messageTypes.INVALID_NUMBER ? 26 : 27;
                 break;
 
-              case 24:
-                return _context5.abrupt("return", this._deps.alert.danger({
+              case 25:
+                return _context6.abrupt("return", this._deps.alert.danger({
                   message: _enums.messageTypes.NO_SUPPORT_COUNTRY,
                   ttl: 0
                 }));
 
-              case 25:
-                return _context5.abrupt("return", this._deps.alert.danger({
+              case 26:
+                return _context6.abrupt("return", this._deps.alert.danger({
                   message: _callErrors["default"].noToNumber
                 }));
 
-              case 26:
-                _context5.next = 28;
-                return this._eventEmitter.asyncEmit(_enums.transferEvents.ERROR, _context5.t1);
+              case 27:
+                return _context6.abrupt("break", 28);
 
               case 28:
-                throw _context5.t1;
+                _context6.next = 30;
+                return this._eventEmitter.asyncEmit(_enums.transferEvents.ERROR, _context6.t1);
 
-              case 29:
-                _context5.prev = 29;
+              case 30:
+                throw _context6.t1;
+
+              case 31:
+                _context6.prev = 31;
                 this.setTransferStatus(_enums.transferStatuses.idle);
-                _context5.next = 33;
+                _context6.next = 35;
                 return this._eventEmitter.asyncEmit(_enums.transferEvents.END);
 
-              case 33:
-                return _context5.finish(29);
+              case 35:
+                return _context6.finish(31);
 
-              case 34:
+              case 36:
               case "end":
-                return _context5.stop();
+                return _context6.stop();
             }
           }
-        }, _callee5, this, [[0, 19, 29, 34]]);
+        }, _callee6, this, [[0, 19, 31, 36]]);
       }));
 
       function transfer() {
@@ -799,15 +823,15 @@ var EvTransferCall = (_dec = (0, _di.Module)({
   }, {
     key: "internalTransferCall",
     value: function () {
-      var _internalTransferCall = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
+      var _internalTransferCall = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
         var _this7 = this;
 
-        return regeneratorRuntime.wrap(function _callee6$(_context6) {
+        return regeneratorRuntime.wrap(function _callee7$(_context7) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context7.prev = _context7.next) {
               case 0:
                 if (this.transferAgentId) {
-                  _context6.next = 2;
+                  _context7.next = 2;
                   break;
                 }
 
@@ -817,28 +841,28 @@ var EvTransferCall = (_dec = (0, _di.Module)({
                 });
 
               case 2:
-                _context6.prev = 2;
-                _context6.next = 5;
+                _context7.prev = 2;
+                _context7.next = 5;
                 return this.fetchAgentList();
 
               case 5:
-                _context6.next = 11;
+                _context7.next = 11;
                 break;
 
               case 7:
-                _context6.prev = 7;
-                _context6.t0 = _context6["catch"](2);
+                _context7.prev = 7;
+                _context7.t0 = _context7["catch"](2);
                 console.warn("fetch agent list error");
-                console.error(_context6.t0);
+                console.error(_context7.t0);
 
               case 11:
                 if (!this.stayOnCall) {
-                  _context6.next = 17;
+                  _context7.next = 17;
                   break;
                 }
 
                 this.evClient.warmDirectAgentTransfer(this.transferAgentId);
-                _context6.next = 15;
+                _context7.next = 15;
                 return new Promise(function (resolve, reject) {
                   _this7._internalTransferCallbacks.WARM = function (data) {
                     if (data.status === _enums.directTransferStatues.SUCCEEDED && data.type === _enums.directTransferTypes.WARM) {
@@ -850,12 +874,12 @@ var EvTransferCall = (_dec = (0, _di.Module)({
                 });
 
               case 15:
-                _context6.next = 20;
+                _context7.next = 20;
                 break;
 
               case 17:
                 this.evClient.coldDirectAgentTransfer(this.transferAgentId);
-                _context6.next = 20;
+                _context7.next = 20;
                 return new Promise(function (resolve, reject) {
                   _this7._internalTransferCallbacks.COLD = function (data) {
                     if (data.status === _enums.directTransferStatues.ACCEPTED) {
@@ -868,10 +892,10 @@ var EvTransferCall = (_dec = (0, _di.Module)({
 
               case 20:
               case "end":
-                return _context6.stop();
+                return _context7.stop();
             }
           }
-        }, _callee6, this, [[2, 7]]);
+        }, _callee7, this, [[2, 7]]);
       }));
 
       function internalTransferCall() {
@@ -883,33 +907,33 @@ var EvTransferCall = (_dec = (0, _di.Module)({
   }, {
     key: "transferCall",
     value: function () {
-      var _transferCall = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(transferArgs) {
-        return regeneratorRuntime.wrap(function _callee7$(_context7) {
+      var _transferCall = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8(transferArgs) {
+        return regeneratorRuntime.wrap(function _callee8$(_context8) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context8.prev = _context8.next) {
               case 0:
                 if (!this.stayOnCall) {
-                  _context7.next = 5;
+                  _context8.next = 5;
                   break;
                 }
 
-                _context7.next = 3;
+                _context8.next = 3;
                 return this.warmTransferCall(transferArgs);
 
               case 3:
-                _context7.next = 7;
+                _context8.next = 7;
                 break;
 
               case 5:
-                _context7.next = 7;
+                _context8.next = 7;
                 return this.coldTransferCall(transferArgs);
 
               case 7:
               case "end":
-                return _context7.stop();
+                return _context8.stop();
             }
           }
-        }, _callee7, this);
+        }, _callee8, this);
       }));
 
       function transferCall(_x) {
@@ -921,55 +945,55 @@ var EvTransferCall = (_dec = (0, _di.Module)({
   }, {
     key: "warmTransferCall",
     value: function () {
-      var _warmTransferCall = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8(_ref4) {
+      var _warmTransferCall = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9(_ref5) {
         var dialDest, countryId;
-        return regeneratorRuntime.wrap(function _callee8$(_context8) {
+        return regeneratorRuntime.wrap(function _callee9$(_context9) {
           while (1) {
-            switch (_context8.prev = _context8.next) {
+            switch (_context9.prev = _context9.next) {
               case 0:
-                dialDest = _ref4.dialDest, countryId = _ref4.countryId;
+                dialDest = _ref5.dialDest, countryId = _ref5.countryId;
 
                 if (!(countryId !== 'USA' && countryId !== 'CAN')) {
-                  _context8.next = 11;
+                  _context9.next = 11;
                   break;
                 }
 
                 if (!this.allowManualInternationalTransfer) {
-                  _context8.next = 8;
+                  _context9.next = 8;
                   break;
                 }
 
                 this._transferDest = dialDest;
-                _context8.next = 6;
+                _context9.next = 6;
                 return this.evClient.warmTransferIntlCall({
                   dialDest: dialDest,
                   countryId: countryId
                 });
 
               case 6:
-                _context8.next = 9;
+                _context9.next = 9;
                 break;
 
               case 8:
                 throw new Error("Unexpected Error: ban transferring international call");
 
               case 9:
-                _context8.next = 14;
+                _context9.next = 14;
                 break;
 
               case 11:
                 this._transferDest = dialDest;
-                _context8.next = 14;
+                _context9.next = 14;
                 return this.evClient.warmTransferCall({
                   dialDest: dialDest
                 });
 
               case 14:
               case "end":
-                return _context8.stop();
+                return _context9.stop();
             }
           }
-        }, _callee8, this);
+        }, _callee9, this);
       }));
 
       function warmTransferCall(_x2) {
@@ -981,50 +1005,50 @@ var EvTransferCall = (_dec = (0, _di.Module)({
   }, {
     key: "coldTransferCall",
     value: function () {
-      var _coldTransferCall = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9(_ref5) {
+      var _coldTransferCall = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10(_ref6) {
         var dialDest, countryId;
-        return regeneratorRuntime.wrap(function _callee9$(_context9) {
+        return regeneratorRuntime.wrap(function _callee10$(_context10) {
           while (1) {
-            switch (_context9.prev = _context9.next) {
+            switch (_context10.prev = _context10.next) {
               case 0:
-                dialDest = _ref5.dialDest, countryId = _ref5.countryId;
+                dialDest = _ref6.dialDest, countryId = _ref6.countryId;
 
                 if (!(countryId !== 'USA' && countryId !== 'CAN')) {
-                  _context9.next = 9;
+                  _context10.next = 9;
                   break;
                 }
 
                 if (!this.allowManualInternationalTransfer) {
-                  _context9.next = 7;
+                  _context10.next = 7;
                   break;
                 }
 
-                _context9.next = 5;
+                _context10.next = 5;
                 return this.evClient.coldTransferIntlCall({
                   dialDest: dialDest,
                   countryId: countryId
                 });
 
               case 5:
-                _context9.next = 7;
+                _context10.next = 7;
                 break;
 
               case 7:
-                _context9.next = 11;
+                _context10.next = 11;
                 break;
 
               case 9:
-                _context9.next = 11;
+                _context10.next = 11;
                 return this.evClient.coldTransferCall({
                   dialDest: dialDest
                 });
 
               case 11:
               case "end":
-                return _context9.stop();
+                return _context10.stop();
             }
           }
-        }, _callee9, this);
+        }, _callee10, this);
       }));
 
       function coldTransferCall(_x3) {
@@ -1053,7 +1077,7 @@ var EvTransferCall = (_dec = (0, _di.Module)({
         onConfirm: function onConfirm() {
           _this8.sendVoicemailToAgent();
         },
-        size: 'xsmall'
+        childrenSize: 'small'
       });
     }
   }, {
@@ -1095,7 +1119,7 @@ var EvTransferCall = (_dec = (0, _di.Module)({
         onCancel: function onCancel() {
           _this9.rejectTransferCall();
         },
-        size: 'xsmall'
+        childrenSize: 'small'
       });
     }
   }, {

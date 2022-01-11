@@ -1,9 +1,9 @@
-import Alert from '@ringcentral-integration/commons/modules/Alert';
+import { Alert } from '@ringcentral-integration/commons/modules/AlertV2';
 import { Auth } from '@ringcentral-integration/commons/modules/AuthV2';
 import { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import { Beforeunload } from '@ringcentral-integration/widgets/modules/Beforeunload';
 import { Block } from '@ringcentral-integration/widgets/modules/Block';
-import { ModalUI } from '@ringcentral-integration/widgets/modules/ModalUIV2';
+import { ModalUI } from '@ringcentral-integration/widgets/modules/ModalUI';
 import RouterInteraction from '@ringcentral-integration/widgets/modules/RouterInteraction';
 
 import { EvClient } from '../../lib/EvClient';

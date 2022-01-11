@@ -7,13 +7,13 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  mute: "Mute",
-  unmute: "Unmute",
-  hangup: "Hang up",
-  reject: "Reject",
-  hold: "Hold",
-  onHold: "On Hold",
-  transfer: "Transfer"
+  mute: 'Mute',
+  unmute: 'Unmute',
+  hangup: 'Hang up',
+  reject: 'Reject',
+  hold: 'Hold',
+  onHold: 'On Hold',
+  transfer: 'Transfer'
 }; // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
 // @key: @#@"hangup"@#@ @source: @#@"Hang up"@#@

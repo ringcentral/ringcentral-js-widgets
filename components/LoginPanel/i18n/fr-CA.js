@@ -7,9 +7,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  loginButton: "Connexion",
-  signupButton: "Nouvel utilisateur? Inscrivez-vous",
-  version: "Version"
+  loginButton: 'Connexion',
+  signupButton: 'Nouvel utilisateur? Inscrivez-vous',
+  version: 'Version'
 }; // @key: @#@"loginButton"@#@ @source: @#@"Sign In"@#@
 // @key: @#@"signupButton"@#@ @source: @#@"New user? Sign Up"@#@
 // @key: @#@"version"@#@ @source: @#@"Version"@#@

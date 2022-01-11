@@ -1,5 +1,7 @@
 import React, { FunctionComponent } from 'react';
+
 import { RcText } from '@ringcentral/juno';
+
 import i18n from '../i18n';
 import styles from './styles.scss';
 

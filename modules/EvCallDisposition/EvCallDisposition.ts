@@ -1,10 +1,10 @@
+import { Module } from '@ringcentral-integration/commons/lib/di';
 import {
   action,
   RcModuleV2,
   state,
   storage,
 } from '@ringcentral-integration/core';
-import { Module } from '@ringcentral-integration/commons/lib/di';
 
 import {
   CallDisposition,

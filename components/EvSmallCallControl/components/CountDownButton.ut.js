@@ -9,9 +9,9 @@ exports.WaitCountDownOver = exports.CheckCountDownTimer = exports.CheckCountDown
 
 require("core-js/modules/es6.date.now");
 
-var _juno = require("@ringcentral/juno");
-
 var _react = _interopRequireDefault(require("react"));
+
+var _ThemeProvider = require("@ringcentral/juno/es6/foundation/theme/ThemeProvider.js");
 
 var _react2 = require("@testing-library/react");
 
@@ -32,7 +32,7 @@ function setup(_ref) {
       timeStamp = _ref$timeStamp === void 0 ? Date.now() : _ref$timeStamp,
       _ref$dataSign = _ref.dataSign,
       dataSign = _ref$dataSign === void 0 ? 'CountDown' : _ref$dataSign;
-  return (0, _react2.render)( /*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_.CountDownButton, {
+  return (0, _react2.render)( /*#__PURE__*/_react["default"].createElement(_ThemeProvider.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_.CountDownButton, {
     currentLocale: currentLocale,
     onRestartTimer: onRestartTimer,
     onResumeRecord: onResumeRecord,
@@ -56,7 +56,7 @@ exports.CheckCountDownButtonTooltip = CheckCountDownButtonTooltip;
 var CheckCountDownShows = function CheckCountDownShows(_ref2) {
   var secondsToPause = _ref2.secondsToPause;
 
-  var _render = (0, _react2.render)( /*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_.CountDown, {
+  var _render = (0, _react2.render)( /*#__PURE__*/_react["default"].createElement(_ThemeProvider.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_.CountDown, {
     data: secondsToPause
   }))),
       container = _render.container;

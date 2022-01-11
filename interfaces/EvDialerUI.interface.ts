@@ -1,10 +1,10 @@
-import { RcFabIconButtonProps } from '@ringcentral/juno';
+import { RcBaseSize } from '@ringcentral/juno';
 
 import { DialoutStatusesType } from '../enums';
 
 export type EvDialerUIProps = {
   toNumber: string;
-  size: RcFabIconButtonProps['size'];
+  size: RcBaseSize<'small' | 'medium' | 'large'>;
   dialoutStatus: DialoutStatusesType;
   /** DialPad call button disabled state */
   dialButtonDisabled: boolean;

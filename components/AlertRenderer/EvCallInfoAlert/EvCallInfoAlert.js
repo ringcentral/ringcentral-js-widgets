@@ -9,9 +9,9 @@ exports["default"] = EvCallInfoAlert;
 
 var _ramda = require("ramda");
 
-var _i18n = _interopRequireDefault(require("./i18n"));
-
 var _messageTypes = require("../../../enums/messageTypes");
+
+var _i18n = _interopRequireDefault(require("./i18n"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 

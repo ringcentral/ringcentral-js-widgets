@@ -12,13 +12,13 @@ require("regenerator-runtime/runtime");
 
 require("core-js/modules/es6.date.now");
 
-var _juno = require("@ringcentral/juno");
+var _react = _interopRequireDefault(require("react"));
 
 var _enzyme = require("enzyme");
 
-var _react = _interopRequireDefault(require("react"));
-
 var _testUtils = require("react-dom/test-utils");
+
+var _ThemeProvider = require("@ringcentral/juno/es6/foundation/theme/ThemeProvider.js");
 
 var _WorkingStateSelect = require("./WorkingStateSelect");
 
@@ -104,7 +104,7 @@ function setup() {
       _ref$disabled = _ref.disabled,
       disabled = _ref$disabled === void 0 ? false : _ref$disabled;
 
-  return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_WorkingStateSelect.WorkingStateSelect, {
+  return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_ThemeProvider.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_WorkingStateSelect.WorkingStateSelect, {
     agentStates: agentStates,
     getStateColor: getStateColor,
     handleWithIntervalTime: handleWithIntervalTime,

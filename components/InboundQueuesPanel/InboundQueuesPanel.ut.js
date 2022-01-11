@@ -25,7 +25,7 @@ require("core-js/modules/es6.array.is-array");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.CheckInboundQueuesPanel = exports.inboundQueuesPanelCases = void 0;
+exports.inboundQueuesPanelCases = exports.CheckInboundQueuesPanel = void 0;
 
 require("core-js/modules/es6.array.find");
 
@@ -41,9 +41,9 @@ require("core-js/modules/es6.string.includes");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _juno = require("@ringcentral/juno");
-
 var _enzyme = require("enzyme");
+
+var _ThemeProvider = require("@ringcentral/juno/es6/foundation/theme/ThemeProvider.js");
 
 var _index = require("./index");
 
@@ -113,7 +113,7 @@ function allCheckBoxOnChange(severalAssign, inboundQueuesState, setInboundQueues
 var goBack = function goBack() {};
 
 function setup(inboundQueues) {
-  var wrapper = (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_index.InboundQueuesPanel, {
+  var wrapper = (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_ThemeProvider.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_index.InboundQueuesPanel, {
     renderFunction: renderFunction,
     searchOption: searchOption,
     currentLocale: currentLocale,

@@ -1,9 +1,8 @@
-import { EvTabManager } from '../EvTabManager';
-
 import { EvAgentScriptResult, EvClient } from '../../lib/EvClient';
 import { EvAuth } from '../EvAuth';
 import { EvCall } from '../EvCall';
 import { EvCallMonitor } from '../EvCallMonitor';
+import { EvTabManager } from '../EvTabManager';
 
 export interface EvCallScriptResultMapping {
   [callId: string]: EvAgentScriptResult;

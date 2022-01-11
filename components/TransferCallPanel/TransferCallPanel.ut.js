@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.UTWhenCallTransfering = exports.UTTransferCallButtonDisabled = exports.UTSetStayOnCall = exports.UTSetStayOnCallCases = exports.UTUserClickCallRecipient = exports.UTUserClickCallRecipientCases = exports.UTCheckBackButton = exports.UTCheckTransferCallRender = exports.UTCheckTransferCallRenderCases = void 0;
+exports.UTWhenCallTransfering = exports.UTUserClickCallRecipientCases = exports.UTUserClickCallRecipient = exports.UTTransferCallButtonDisabled = exports.UTSetStayOnCallCases = exports.UTSetStayOnCall = exports.UTCheckTransferCallRenderCases = exports.UTCheckTransferCallRender = exports.UTCheckBackButton = void 0;
 
 require("core-js/modules/es6.array.for-each");
 
@@ -13,15 +13,15 @@ require("core-js/modules/es6.array.find");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _juno = require("@ringcentral/juno");
-
 var _enzyme = require("enzyme");
 
-var _TransferCallPanel = require("./TransferCallPanel");
+var _ThemeProvider = require("@ringcentral/juno/es6/foundation/theme/ThemeProvider.js");
 
 var _transferTypes = require("../../enums/transferTypes");
 
 var _i18n = _interopRequireDefault(require("./i18n"));
+
+var _TransferCallPanel = require("./TransferCallPanel");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -95,7 +95,7 @@ function setup(_ref) {
       cancelTransfer = _ref$cancelTransfer === void 0 ? function () {} : _ref$cancelTransfer,
       _ref$cancelTransferPa = _ref.cancelTransferPage,
       cancelTransferPage = _ref$cancelTransferPa === void 0 ? function () {} : _ref$cancelTransferPa;
-  return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_TransferCallPanel.TransferCallPanel, {
+  return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_ThemeProvider.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_TransferCallPanel.TransferCallPanel, {
     currentLocale: currentLocale,
     goBack: goBack,
     clickCallRecipient: clickCallRecipient,

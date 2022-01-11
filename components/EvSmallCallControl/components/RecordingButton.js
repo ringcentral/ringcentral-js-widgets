@@ -7,15 +7,15 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.RecordingButton = void 0;
 
-var _juno = require("@ringcentral/juno");
-
 var _react = _interopRequireDefault(require("react"));
+
+var _IconButton = require("@ringcentral/juno/es6/components/Buttons/IconButton/IconButton.js");
 
 var _iconRecording = _interopRequireDefault(require("../../../assets/icons/icon-recording.svg"));
 
-var _styles = _interopRequireDefault(require("./styles.scss"));
-
 var _i18n = _interopRequireDefault(require("../i18n"));
+
+var _styles = _interopRequireDefault(require("./styles.scss"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -23,7 +23,7 @@ var RecordingButton = function RecordingButton(_ref) {
   var currentLocale = _ref.currentLocale,
       disabled = _ref.disabled,
       size = _ref.size;
-  return /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {
+  return /*#__PURE__*/_react["default"].createElement(_IconButton.RcIconButton, {
     "data-sign": "Recording",
     color: "danger.f02",
     symbol: _iconRecording["default"],

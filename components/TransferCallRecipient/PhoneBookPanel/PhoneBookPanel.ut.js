@@ -9,7 +9,7 @@ require("core-js/modules/es6.object.to-string");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.UTCheckPhoneBookPanelRender = exports.UTPhoneBookListSearch = exports.UTPhoneBookListSearchNoResultCases = exports.UTPhoneBookListSearchCases = exports.UTPhoneBookContactCanBeClicked = exports.UTPhoneBookContactListDisplayAndHighlight = exports.UTPhoneBookCheckBackButton = void 0;
+exports.UTPhoneBookListSearchNoResultCases = exports.UTPhoneBookListSearchCases = exports.UTPhoneBookListSearch = exports.UTPhoneBookContactListDisplayAndHighlight = exports.UTPhoneBookContactCanBeClicked = exports.UTPhoneBookCheckBackButton = exports.UTCheckPhoneBookPanelRender = void 0;
 
 require("regenerator-runtime/runtime");
 
@@ -25,13 +25,13 @@ require("core-js/modules/es6.string.includes");
 
 require("core-js/modules/es6.function.name");
 
-var _phoneNumber = require("@ringcentral-integration/phone-number");
-
-var _juno = require("@ringcentral/juno");
+var _react = _interopRequireDefault(require("react"));
 
 var _enzyme = require("enzyme");
 
-var _react = _interopRequireDefault(require("react"));
+var _phoneNumber = require("@ringcentral-integration/phone-number");
+
+var _ThemeProvider = require("@ringcentral/juno/es6/foundation/theme/ThemeProvider.js");
 
 var _PhoneBookPanel = require("./PhoneBookPanel");
 
@@ -104,7 +104,7 @@ function setup(_ref) {
       changeTransferPhoneBookSelected = _ref$changeTransferPh === void 0 ? function () {} : _ref$changeTransferPh,
       _ref$transferPhoneBoo2 = _ref.transferPhoneBook,
       transferPhoneBook = _ref$transferPhoneBoo2 === void 0 ? defaultTransferPhoneBook : _ref$transferPhoneBoo2;
-  return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_PhoneBookPanel.PhoneBookPanel, {
+  return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_ThemeProvider.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_PhoneBookPanel.PhoneBookPanel, {
     currentLocale: currentLocale,
     goBack: goBack,
     transferPhoneBook: transferPhoneBook,

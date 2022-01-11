@@ -1,4 +1,5 @@
 import { palette2, RcDialTextField, spacing, styled } from '@ringcentral/juno';
+
 import { pageSpace } from '../../../../scss';
 
 export const DialerWrapper = styled.div`
@@ -6,6 +7,7 @@ export const DialerWrapper = styled.div`
   flex-direction: column;
   align-items: center;
   flex: 1 1 auto;
+  margin-top: 100px;
 `;
 
 export const TextFieldWrapper = styled.div<{ isHaveValue?: boolean }>`
@@ -13,7 +15,7 @@ export const TextFieldWrapper = styled.div<{ isHaveValue?: boolean }>`
   align-items: center;
   width: 100%;
   margin-top: 6px;
-  margin-bottom: 7px;
+  margin-bottom: 25px;
 
   ${RcDialTextField} {
     padding-left: ${({ isHaveValue }) => isHaveValue && spacing(9)};
@@ -23,24 +25,11 @@ export const TextFieldWrapper = styled.div<{ isHaveValue?: boolean }>`
     input {
       margin: 7px 0 !important;
       text-align: center;
+      font-size: 17px;
 
       [sf-classic] & {
         margin: 5px 0 !important;
       }
     }
-  }
-`;
-
-export const DialPadWrapper = styled.div`
-  width: 75%;
-  margin: 10px auto 6px;
-
-  [sf-classic] & {
-    width: 90%;
-  }
-
-  button > span {
-    width: 100%;
-    height: 100%;
   }
 `;

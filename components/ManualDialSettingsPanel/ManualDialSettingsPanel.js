@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -25,9 +25,11 @@ exports.ManualDialSettingsPanel = void 0;
 
 require("core-js/modules/es6.array.map");
 
-var _juno = require("@ringcentral/juno");
-
 var _react = _interopRequireWildcard(require("react"));
+
+var _Button = require("@ringcentral/juno/es6/components/Buttons/Button/Button.js");
+
+var _TextField = require("@ringcentral/juno/es6/components/Forms/TextField/TextField.js");
 
 var _i18n = _interopRequireDefault(require("../../modules/EvManualDialSettingsUI/i18n"));
 
@@ -35,11 +37,11 @@ var _ListItemWithScrollCheck = require("../ListItemWithScrollCheck");
 
 var _SearchSelectField = require("../SearchSelectField");
 
+var _SelectList = require("../SelectList");
+
 var _i18n2 = _interopRequireDefault(require("./i18n"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
-
-var _SelectList = require("../SelectList");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -104,7 +106,7 @@ var ManualDialSettingsPanel = function ManualDialSettingsPanel(_ref) {
     }
 
     if (input) {
-      return /*#__PURE__*/_react["default"].createElement(_juno.RcTextField, {
+      return /*#__PURE__*/_react["default"].createElement(_TextField.RcTextField, {
         key: key,
         label: input.label,
         inputProps: {
@@ -134,7 +136,7 @@ var ManualDialSettingsPanel = function ManualDialSettingsPanel(_ref) {
     return null;
   })), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].footer
-  }, /*#__PURE__*/_react["default"].createElement(_juno.RcButton, {
+  }, /*#__PURE__*/_react["default"].createElement(_Button.RcButton, {
     "data-sign": "saveButton",
     size: "medium",
     fullWidth: true,

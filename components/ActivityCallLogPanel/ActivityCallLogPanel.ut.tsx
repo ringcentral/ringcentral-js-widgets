@@ -1,7 +1,7 @@
-import { StepFunction } from 'crius-test';
+import { StepFunction } from '@ringcentral-integration/test-utils';
 
 import { ActivityCallLogPage } from '../../containers/ActivityCallLogPage';
-import { moduleUIPageMount, getCurrentRouteId } from '../../test/utils';
+import { getCurrentRouteId, moduleUIPageMount } from '../../test/utils';
 
 export const UTActivityCallLogPanel: StepFunction<any, any> = async (
   props,

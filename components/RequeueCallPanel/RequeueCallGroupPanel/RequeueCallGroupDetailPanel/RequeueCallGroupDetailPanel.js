@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 require("core-js/modules/es6.object.define-property");
 
@@ -35,13 +35,13 @@ exports.RequeueCallGroupDetailPanel = void 0;
 
 require("core-js/modules/es6.array.is-array");
 
-var _juno = require("@ringcentral/juno");
-
 var _react = _interopRequireWildcard(require("react"));
 
 var _Tooltip = require("@ringcentral-integration/widgets/components/Rcui/Tooltip");
 
 var _toolTipDelayTime = require("@ringcentral-integration/widgets/lib/toolTipDelayTime");
+
+var _Button = require("@ringcentral/juno/es6/components/Buttons/Button/Button.js");
 
 var _SelectList = require("../../../SelectList");
 
@@ -63,7 +63,7 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-function _iterableToArrayLimit(arr, i) { var _i = arr && (typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]); if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
@@ -107,7 +107,7 @@ var RequeueCallGroupDetailPanel = function RequeueCallGroupDetailPanel(_ref) {
     }
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].checkContainer
-  }, /*#__PURE__*/_react["default"].createElement(_juno.RcButton, {
+  }, /*#__PURE__*/_react["default"].createElement(_Button.RcButton, {
     title: selectText,
     disabled: !queueId,
     onClick: function onClick() {

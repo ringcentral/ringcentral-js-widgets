@@ -1,8 +1,8 @@
 import {
+  AgentTypesType,
   DirectTransferNotificationTypes,
   DirectTransferStatues,
   DirectTransferTypes,
-  AgentTypesType,
   OriginAgentTypesType,
 } from '../../../enums';
 

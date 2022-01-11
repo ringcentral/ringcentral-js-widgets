@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 require("core-js/modules/es6.object.define-property");
 
@@ -35,13 +35,15 @@ exports.BasicSessionPanel = void 0;
 
 require("core-js/modules/es6.array.is-array");
 
-var _juno = require("@ringcentral/juno");
-
 var _react = _interopRequireWildcard(require("react"));
 
 var _AnimationPanel = require("@ringcentral-integration/widgets/components/AnimationPanel");
 
 var _CustomArrowButton = require("@ringcentral-integration/widgets/components/Rcui/CustomArrowButton");
+
+var _Switch = require("@ringcentral/juno/es6/components/Forms/Switch/Switch.js");
+
+var _TextField = require("@ringcentral/juno/es6/components/Forms/TextField/TextField.js");
 
 var _InboundQueuesPanel = require("../InboundQueuesPanel");
 
@@ -65,7 +67,7 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-function _iterableToArrayLimit(arr, i) { var _i = arr && (typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]); if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
@@ -118,7 +120,7 @@ var BasicSessionPanel = function BasicSessionPanel(_ref) {
     }
   })), /*#__PURE__*/_react["default"].createElement("div", {
     className: classes.root
-  }, showInboundQueues && /*#__PURE__*/_react["default"].createElement(_juno.RcTextField, {
+  }, showInboundQueues && /*#__PURE__*/_react["default"].createElement(_TextField.RcTextField, {
     label: _i18n["default"].getString('inboundQueues', currentLocale),
     gutterBottom: true,
     title: inboundQueuesFieldText,
@@ -152,7 +154,7 @@ var BasicSessionPanel = function BasicSessionPanel(_ref) {
     label: _i18n["default"].getString('voiceConnection', currentLocale),
     value: loginType,
     onChange: setLoginType
-  }), isExtensionNumber && /*#__PURE__*/_react["default"].createElement(_juno.RcTextField, {
+  }), isExtensionNumber && /*#__PURE__*/_react["default"].createElement(_TextField.RcTextField, {
     gutterBottom: true,
     label: _i18n["default"].getString('extensionNumber', currentLocale),
     fullWidth: true,
@@ -170,7 +172,7 @@ var BasicSessionPanel = function BasicSessionPanel(_ref) {
       var value = _ref2.target.value;
       setExtensionNumber(value);
     }
-  }), showAutoAnswer && /*#__PURE__*/_react["default"].createElement(_juno.RcSwitch, {
+  }), showAutoAnswer && /*#__PURE__*/_react["default"].createElement(_Switch.RcSwitch, {
     "data-sign": "autoAnswer",
     className: _styles["default"].switchRoot,
     formControlLabelProps: {

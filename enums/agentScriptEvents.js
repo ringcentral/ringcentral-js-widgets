@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.agentScriptEvents = exports.EV_AGENT_SCRIPT_BROADCAST_KEY = exports.EV_AGENT_SCRIPT_PAGE_KEY = exports.EV_APP_PAGE_KEY = void 0;
+exports.agentScriptEvents = exports.EV_APP_PAGE_KEY = exports.EV_AGENT_SCRIPT_PAGE_KEY = exports.EV_AGENT_SCRIPT_BROADCAST_KEY = void 0;
 
 var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
 

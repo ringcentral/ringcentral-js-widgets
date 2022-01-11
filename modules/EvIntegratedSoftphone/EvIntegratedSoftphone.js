@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -41,8 +41,6 @@ require("regenerator-runtime/runtime");
 
 require("core-js/modules/es6.array.index-of");
 
-var _core = require("@ringcentral-integration/core");
-
 var _events = require("events");
 
 var _formatMessage = _interopRequireDefault(require("format-message"));
@@ -52,6 +50,8 @@ var _di = require("@ringcentral-integration/commons/lib/di");
 var _raceTimeout = require("@ringcentral-integration/commons/lib/raceTimeout");
 
 var _sleep = _interopRequireDefault(require("@ringcentral-integration/commons/lib/sleep"));
+
+var _core = require("@ringcentral-integration/core");
 
 var _enums = require("../../enums");
 
@@ -79,15 +79,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } Object.defineProperty(subClass, "prototype", { value: Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }), writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
@@ -805,7 +805,7 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
         title: 'Registration failed',
         content: 'Will reload your pages and tabs for you',
         confirmButtonText: 'Ok',
-        size: 'xsmall',
+        childrenSize: 'small',
         onConfirm: function onConfirm() {
           _this4._sendTabManager(_enums.tabManagerEvents.SIP_REGISTRATION_FAILED_RELOAD);
 
@@ -831,14 +831,40 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
     }
   }, {
     key: "_showWebRTCConnectingMask",
-    value: function _showWebRTCConnectingMask() {
-      this._closeWebRTCConnectingMask();
+    value: function () {
+      var _showWebRTCConnectingMask2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
+        return regeneratorRuntime.wrap(function _callee7$(_context7) {
+          while (1) {
+            switch (_context7.prev = _context7.next) {
+              case 0:
+                this._closeWebRTCConnectingMask();
 
-      this.setConnectingAlertId(this._deps.alert.info({
-        message: this._isCloseWhenCallConnected ? _enums.tabManagerEvents.SIP_RECONNECTING_WHEN_CALL_CONNECTED : _enums.tabManagerEvents.SIP_CONNECTING,
-        loading: true
+                _context7.t0 = this;
+                _context7.next = 4;
+                return this._deps.alert.info({
+                  message: this._isCloseWhenCallConnected ? _enums.tabManagerEvents.SIP_RECONNECTING_WHEN_CALL_CONNECTED : _enums.tabManagerEvents.SIP_CONNECTING,
+                  loading: true
+                });
+
+              case 4:
+                _context7.t1 = _context7.sent;
+
+                _context7.t0.setConnectingAlertId.call(_context7.t0, _context7.t1);
+
+              case 6:
+              case "end":
+                return _context7.stop();
+            }
+          }
+        }, _callee7, this);
       }));
-    }
+
+      function _showWebRTCConnectingMask() {
+        return _showWebRTCConnectingMask2.apply(this, arguments);
+      }
+
+      return _showWebRTCConnectingMask;
+    }()
   }, {
     key: "_closeWebRTCConnectingMask",
     value: function _closeWebRTCConnectingMask() {
@@ -852,15 +878,38 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
     }
   }, {
     key: "_showAskAudioPermissionMask",
-    value: function _showAskAudioPermissionMask() {
-      this._closeAskAudioPermissionMask();
+    value: function () {
+      var _showAskAudioPermissionMask2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
+        return regeneratorRuntime.wrap(function _callee8$(_context8) {
+          while (1) {
+            switch (_context8.prev = _context8.next) {
+              case 0:
+                this._closeAskAudioPermissionMask();
 
-      this._audioPermissionAlertId = this._deps.alert.info({
-        message: _enums.tabManagerEvents.ASK_AUDIO_PERMISSION,
-        loading: true,
-        backdrop: true
-      });
-    }
+                _context8.next = 3;
+                return this._deps.alert.info({
+                  message: _enums.tabManagerEvents.ASK_AUDIO_PERMISSION,
+                  loading: true,
+                  backdrop: true
+                });
+
+              case 3:
+                this._audioPermissionAlertId = _context8.sent;
+
+              case 4:
+              case "end":
+                return _context8.stop();
+            }
+          }
+        }, _callee8, this);
+      }));
+
+      function _showAskAudioPermissionMask() {
+        return _showAskAudioPermissionMask2.apply(this, arguments);
+      }
+
+      return _showAskAudioPermissionMask;
+    }()
   }, {
     key: "_closeAskAudioPermissionMask",
     value: function _closeAskAudioPermissionMask() {
@@ -907,22 +956,22 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
         confirmButtonText: _i18n["default"].getString('inviteModalAnswer', currentLocale),
         cancelButtonText: _i18n["default"].getString('inviteModalReject', currentLocale),
         onConfirm: function () {
-          var _onConfirm = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
-            return regeneratorRuntime.wrap(function _callee7$(_context7) {
+          var _onConfirm = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9() {
+            return regeneratorRuntime.wrap(function _callee9$(_context9) {
               while (1) {
-                switch (_context7.prev = _context7.next) {
+                switch (_context9.prev = _context9.next) {
                   case 0:
                     _this5._sendTabManager(_enums.tabManagerEvents.SIP_RINGING_MODAL, true);
 
-                    _context7.next = 3;
+                    _context9.next = 3;
                     return _this5.answerCall();
 
                   case 3:
                   case "end":
-                    return _context7.stop();
+                    return _context9.stop();
                 }
               }
-            }, _callee7);
+            }, _callee9);
           }));
 
           function onConfirm() {
@@ -936,33 +985,33 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
 
           _this5.rejectCall();
         },
-        size: 'xsmall'
+        childrenSize: 'small'
       });
     }
   }, {
     key: "answerCall",
     value: function () {
-      var _answerCall = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
-        return regeneratorRuntime.wrap(function _callee8$(_context8) {
+      var _answerCall = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10() {
+        return regeneratorRuntime.wrap(function _callee10$(_context10) {
           while (1) {
-            switch (_context8.prev = _context8.next) {
+            switch (_context10.prev = _context10.next) {
               case 0:
                 this._resetRingingModal();
 
                 if (!(!this.tabManagerEnabled || this.tabManagerEnabled && this._deps.tabManager.isMainTab)) {
-                  _context8.next = 4;
+                  _context10.next = 4;
                   break;
                 }
 
-                _context8.next = 4;
+                _context10.next = 4;
                 return this._sipAnswer();
 
               case 4:
               case "end":
-                return _context8.stop();
+                return _context10.stop();
             }
           }
-        }, _callee8, this);
+        }, _callee10, this);
       }));
 
       function answerCall() {
@@ -1038,13 +1087,13 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
   }, {
     key: "_registerSoftphone",
     value: function () {
-      var _registerSoftphone2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9() {
-        return regeneratorRuntime.wrap(function _callee9$(_context9) {
+      var _registerSoftphone2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11() {
+        return regeneratorRuntime.wrap(function _callee11$(_context11) {
           while (1) {
-            switch (_context9.prev = _context9.next) {
+            switch (_context11.prev = _context11.next) {
               case 0:
                 if (this.sipRegistering) {
-                  _context9.next = 15;
+                  _context11.next = 15;
                   break;
                 }
 
@@ -1057,37 +1106,37 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
                 console.log('isReconnected, isForceLogin, _isCloseWhenCallConnected~', this._deps.evAgentSession.isReconnected, this._deps.evAgentSession.isForceLogin, this._isCloseWhenCallConnected); // When that is force login is also need delay to reconnect server
 
                 if (!(this._deps.evAgentSession.isReconnected || this._deps.evAgentSession.isForceLogin)) {
-                  _context9.next = 12;
+                  _context11.next = 12;
                   break;
                 }
 
-                _context9.next = 8;
+                _context11.next = 8;
                 return (0, _sleep["default"])(this._isCloseWhenCallConnected ? RECONNECT_DEBOUNCE_TIME_WHEN_CONNECTED : RECONNECT_DEBOUNCE_TIME);
 
               case 8:
-                _context9.next = 10;
+                _context11.next = 10;
                 return this._connectedWebRTC();
 
               case 10:
-                _context9.next = 14;
+                _context11.next = 14;
                 break;
 
               case 12:
-                _context9.next = 14;
+                _context11.next = 14;
                 return this._connectedWebRTC();
 
               case 14:
-                return _context9.abrupt("return");
+                return _context11.abrupt("return");
 
               case 15:
                 throw new Error('Sip is registering');
 
               case 16:
               case "end":
-                return _context9.stop();
+                return _context11.stop();
             }
           }
-        }, _callee9, this);
+        }, _callee11, this);
       }));
 
       function _registerSoftphone() {
@@ -1099,18 +1148,18 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
   }, {
     key: "_connectedWebRTC",
     value: function () {
-      var _connectedWebRTC2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10() {
-        return regeneratorRuntime.wrap(function _callee10$(_context10) {
+      var _connectedWebRTC2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12() {
+        return regeneratorRuntime.wrap(function _callee12$(_context12) {
           while (1) {
-            switch (_context10.prev = _context10.next) {
+            switch (_context12.prev = _context12.next) {
               case 0:
-                _context10.prev = 0;
+                _context12.prev = 0;
 
                 this._deps.evClient.sipInit();
 
                 this._deps.evClient.sipRegister();
 
-                _context10.next = 5;
+                _context12.next = 5;
                 return this.onceRegistered();
 
               case 5:
@@ -1118,20 +1167,20 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
 
                 this._closeWebRTCConnectingMask();
 
-                _context10.next = 12;
+                _context12.next = 12;
                 break;
 
               case 9:
-                _context10.prev = 9;
-                _context10.t0 = _context10["catch"](0);
-                console.error(_context10.t0);
+                _context12.prev = 9;
+                _context12.t0 = _context12["catch"](0);
+                console.error(_context12.t0);
 
               case 12:
               case "end":
-                return _context10.stop();
+                return _context12.stop();
             }
           }
-        }, _callee10, this, [[0, 9]]);
+        }, _callee12, this, [[0, 9]]);
       }));
 
       function _connectedWebRTC() {
@@ -1150,19 +1199,19 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
   }, {
     key: "_sipAnswer",
     value: function () {
-      var _sipAnswer2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11() {
+      var _sipAnswer2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee13() {
         var _this7 = this;
 
-        return regeneratorRuntime.wrap(function _callee11$(_context11) {
+        return regeneratorRuntime.wrap(function _callee13$(_context13) {
           while (1) {
-            switch (_context11.prev = _context11.next) {
+            switch (_context13.prev = _context13.next) {
               case 0:
                 if (!this._isFirefox) {
-                  _context11.next = 3;
+                  _context13.next = 3;
                   break;
                 }
 
-                _context11.next = 3;
+                _context13.next = 3;
                 return (0, _raceTimeout.raceTimeout)(navigator.mediaDevices.getUserMedia({
                   audio: true
                 }), {
@@ -1182,10 +1231,10 @@ var EvIntegratedSoftphone = (_dec = (0, _di.Module)({
 
               case 4:
               case "end":
-                return _context11.stop();
+                return _context13.stop();
             }
           }
-        }, _callee11, this);
+        }, _callee13, this);
       }));
 
       function _sipAnswer() {

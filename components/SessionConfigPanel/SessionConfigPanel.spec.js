@@ -10,9 +10,9 @@ require("core-js/modules/es6.array.find");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _juno = require("@ringcentral/juno");
-
 var _enzyme = require("enzyme");
+
+var _ThemeProvider = require("@ringcentral/juno/es6/foundation/theme/ThemeProvider.js");
 
 var _SessionConfigPanel = require("./SessionConfigPanel");
 
@@ -136,7 +136,7 @@ function setup(_ref) {
       selectedAgent = _ref$selectedAgent === void 0 ? defaultSelectedAgent : _ref$selectedAgent,
       _ref$showReChooseAcco = _ref.showReChooseAccount,
       showReChooseAccount = _ref$showReChooseAcco === void 0 ? true : _ref$showReChooseAcco;
-  return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_SessionConfigPanel.SessionConfigPanel, {
+  return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_ThemeProvider.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_SessionConfigPanel.SessionConfigPanel, {
     onAccountReChoose: onAccountReChoose,
     selectedAgent: selectedAgent,
     currentLocale: currentLocale,

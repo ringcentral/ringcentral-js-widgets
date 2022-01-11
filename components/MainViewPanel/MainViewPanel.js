@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -25,27 +25,27 @@ exports.MainViewPanel = void 0;
 
 require("core-js/modules/es6.object.assign");
 
-var _juno = require("@ringcentral/juno");
-
-var _Phone = _interopRequireDefault(require("@ringcentral/juno/icon/Phone"));
-
-var _PhoneBorder = _interopRequireDefault(require("@ringcentral/juno/icon/PhoneBorder"));
-
-var _Time = _interopRequireDefault(require("@ringcentral/juno/icon/Time"));
-
-var _TimeBorder = _interopRequireDefault(require("@ringcentral/juno/icon/TimeBorder"));
-
-var _Settings = _interopRequireDefault(require("@ringcentral/juno/icon/Settings"));
-
-var _SettingsBorder = _interopRequireDefault(require("@ringcentral/juno/icon/SettingsBorder"));
+var _react = _interopRequireWildcard(require("react"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
-
-var _react = _interopRequireWildcard(require("react"));
 
 var _Tooltip = require("@ringcentral-integration/widgets/components/Rcui/Tooltip");
 
 var _TabNavigationView = _interopRequireDefault(require("@ringcentral-integration/widgets/components/TabNavigationView"));
+
+var _Icon = require("@ringcentral/juno/es6/components/Icon/Icon.js");
+
+var _Phone = _interopRequireDefault(require("@ringcentral/juno/es6/icon/Phone.js"));
+
+var _PhoneBorder = _interopRequireDefault(require("@ringcentral/juno/es6/icon/PhoneBorder.js"));
+
+var _Settings = _interopRequireDefault(require("@ringcentral/juno/es6/icon/Settings.js"));
+
+var _SettingsBorder = _interopRequireDefault(require("@ringcentral/juno/es6/icon/SettingsBorder.js"));
+
+var _Time = _interopRequireDefault(require("@ringcentral/juno/es6/icon/Time.js"));
+
+var _TimeBorder = _interopRequireDefault(require("@ringcentral/juno/es6/icon/TimeBorder.js"));
 
 var _iconPvcConnecting = _interopRequireDefault(require("../../assets/icons/icon-pvc-connecting.svg"));
 
@@ -63,16 +63,16 @@ var _styles = _interopRequireDefault(require("./styles.scss"));
 
 var _WorkingStateSelect = require("./WorkingStateSelect");
 
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 var CustomIcon = function CustomIcon(props) {
-  return /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, _extends({
+  return /*#__PURE__*/_react["default"].createElement(_Icon.RcIcon, _extends({
     className: _styles["default"].icon
   }, props));
 };
@@ -188,7 +188,7 @@ var MainViewPanel = function MainViewPanel(_ref) {
 
     return /*#__PURE__*/_react["default"].createElement(_Tooltip.Tooltip, {
       title: title
-    }, /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
+    }, /*#__PURE__*/_react["default"].createElement(_Icon.RcIcon, {
       className: className,
       symbol: symbol
     }));

@@ -9,9 +9,9 @@ exports["default"] = EvRequeueCallAlert;
 
 var _ramda = require("ramda");
 
-var _i18n = _interopRequireDefault(require("./i18n"));
-
 var _enums = require("../../../enums");
+
+var _i18n = _interopRequireDefault(require("./i18n"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 

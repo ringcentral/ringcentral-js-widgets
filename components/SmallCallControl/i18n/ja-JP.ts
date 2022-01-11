@@ -1,11 +1,11 @@
 export default {
-  mute: "ミュート",
-  unmute: "ミュート解除",
-  hangup: "通話終了",
-  reject: "拒否",
-  hold: "保留",
-  onHold: "保留中",
-  transfer: "転送"
+  mute: 'ミュート',
+  unmute: 'ミュート解除',
+  hangup: '通話終了',
+  reject: '拒否',
+  hold: '保留',
+  onHold: '保留中',
+  transfer: '転送',
 };
 
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
