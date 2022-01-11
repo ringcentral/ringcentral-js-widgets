@@ -5,8 +5,8 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getTimestampReducer = getTimestampReducer;
 exports["default"] = getRateLimiterReducer;
+exports.getTimestampReducer = getTimestampReducer;
 
 var _redux = require("redux");
 

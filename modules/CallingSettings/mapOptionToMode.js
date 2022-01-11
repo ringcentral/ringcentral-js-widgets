@@ -7,9 +7,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = mapOptionToMode;
 
-var _callingOptions = _interopRequireDefault(require("./callingOptions"));
-
 var _callingModes = _interopRequireDefault(require("./callingModes"));
+
+var _callingOptions = _interopRequireDefault(require("./callingOptions"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 

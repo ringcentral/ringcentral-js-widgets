@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -21,18 +21,6 @@ require("core-js/modules/es6.weak-map");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getMobileDialingNumberTpl = getMobileDialingNumberTpl;
-exports.getPhoneDialingNumberTpl = getPhoneDialingNumberTpl;
-exports.getMeetingSettings = getMeetingSettings;
-exports.getDefaultMeetingSettings = getDefaultMeetingSettings;
-exports.getInitializedStartTime = getInitializedStartTime;
-exports.prunePreferencesObject = prunePreferencesObject;
-exports.comparePreferences = comparePreferences;
-exports.isRecurringMeeting = isRecurringMeeting;
-exports.generateRandomPassword = generateRandomPassword;
-exports.updateFullYear = updateFullYear;
-exports.updateFullTime = updateFullTime;
-exports.getDefaultTopic = getDefaultTopic;
 Object.defineProperty(exports, "MeetingType", {
   enumerable: true,
   get: function get() {
@@ -40,24 +28,36 @@ Object.defineProperty(exports, "MeetingType", {
   }
 });
 exports.UTC_TIMEZONE_ID = void 0;
+exports.comparePreferences = comparePreferences;
+exports.generateRandomPassword = generateRandomPassword;
+exports.getDefaultMeetingSettings = getDefaultMeetingSettings;
+exports.getDefaultTopic = getDefaultTopic;
+exports.getInitializedStartTime = getInitializedStartTime;
+exports.getMeetingSettings = getMeetingSettings;
+exports.getMobileDialingNumberTpl = getMobileDialingNumberTpl;
+exports.getPhoneDialingNumberTpl = getPhoneDialingNumberTpl;
+exports.isRecurringMeeting = isRecurringMeeting;
+exports.prunePreferencesObject = prunePreferencesObject;
+exports.updateFullTime = updateFullTime;
+exports.updateFullYear = updateFullYear;
 
 require("core-js/modules/es6.array.map");
 
-var _format = _interopRequireWildcard(require("@ringcentral-integration/phone-number/lib/format"));
+var _formatMessage = _interopRequireDefault(require("format-message"));
 
 var _ramda = require("ramda");
 
-var _formatMessage = _interopRequireDefault(require("format-message"));
-
-var _meetingHelper = require("./meetingHelper.interface");
+var _format = _interopRequireWildcard(require("@ringcentral-integration/phone-number/lib/format"));
 
 var _i18n = _interopRequireDefault(require("../modules/MeetingV2/i18n"));
 
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+var _meetingHelper = require("./meetingHelper.interface");
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function getMobileDialingNumberTpl(dialInNumbers, meetingId) {
   return dialInNumbers.map(function (_ref) {

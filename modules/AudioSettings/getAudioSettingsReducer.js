@@ -5,8 +5,8 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getUserMediaReducer = getUserMediaReducer;
 exports["default"] = getCallingSettingsReducer;
+exports.getUserMediaReducer = getUserMediaReducer;
 
 var _redux = require("redux");
 

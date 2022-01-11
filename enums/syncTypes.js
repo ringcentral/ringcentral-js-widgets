@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = exports.syncTypes = void 0;
+exports.syncTypes = exports["default"] = void 0;
 
 var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
 

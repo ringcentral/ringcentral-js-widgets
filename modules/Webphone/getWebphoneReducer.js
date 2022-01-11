@@ -23,23 +23,23 @@ require("core-js/modules/es6.array.is-array");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getVideoElementPreparedReducer = getVideoElementPreparedReducer;
-exports.getConnectionStatusReducer = getConnectionStatusReducer;
-exports.getWebphoneDeviceReducer = getWebphoneDeviceReducer;
-exports.getErrorCodeReducer = getErrorCodeReducer;
-exports.getStatusCodeReducer = getStatusCodeReducer;
-exports.getConnectRetryCountsReducer = getConnectRetryCountsReducer;
-exports.getActiveSessionIdReducer = getActiveSessionIdReducer;
-exports.getRingSessionIdReducer = getRingSessionIdReducer;
-exports.getLastEndedSessionsReducer = getLastEndedSessionsReducer;
-exports.getSessionsReducer = getSessionsReducer;
-exports.getIncomingAudioFileReducer = getIncomingAudioFileReducer;
-exports.getIncomingAudioDataUrlReducer = getIncomingAudioDataUrlReducer;
-exports.getOutgoingAudioFileReducer = getOutgoingAudioFileReducer;
-exports.getOutgoingAudioDataUrlReducer = getOutgoingAudioDataUrlReducer;
-exports.getWebphoneStorageReducer = getWebphoneStorageReducer;
-exports["default"] = getWebphoneReducer;
 exports.DEFAULT_AUDIO = void 0;
+exports["default"] = getWebphoneReducer;
+exports.getActiveSessionIdReducer = getActiveSessionIdReducer;
+exports.getConnectRetryCountsReducer = getConnectRetryCountsReducer;
+exports.getConnectionStatusReducer = getConnectionStatusReducer;
+exports.getErrorCodeReducer = getErrorCodeReducer;
+exports.getIncomingAudioDataUrlReducer = getIncomingAudioDataUrlReducer;
+exports.getIncomingAudioFileReducer = getIncomingAudioFileReducer;
+exports.getLastEndedSessionsReducer = getLastEndedSessionsReducer;
+exports.getOutgoingAudioDataUrlReducer = getOutgoingAudioDataUrlReducer;
+exports.getOutgoingAudioFileReducer = getOutgoingAudioFileReducer;
+exports.getRingSessionIdReducer = getRingSessionIdReducer;
+exports.getSessionsReducer = getSessionsReducer;
+exports.getStatusCodeReducer = getStatusCodeReducer;
+exports.getVideoElementPreparedReducer = getVideoElementPreparedReducer;
+exports.getWebphoneDeviceReducer = getWebphoneDeviceReducer;
+exports.getWebphoneStorageReducer = getWebphoneStorageReducer;
 
 require("core-js/modules/es6.array.find");
 

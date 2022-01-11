@@ -5,9 +5,9 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.matchWephoneSessionWithAcitveCall = matchWephoneSessionWithAcitveCall;
 exports.isCurrentDeviceEndCall = isCurrentDeviceEndCall;
 exports.mapTelephonyStatus = mapTelephonyStatus;
+exports.matchWephoneSessionWithAcitveCall = matchWephoneSessionWithAcitveCall;
 
 require("core-js/modules/es6.array.sort");
 

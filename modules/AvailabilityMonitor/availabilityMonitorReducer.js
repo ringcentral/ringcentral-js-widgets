@@ -5,10 +5,10 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports["default"] = AvailabilityMonitorReducer;
 exports.hasLimitedStatusErrorReducer = hasLimitedStatusErrorReducer;
 exports.isLimitedModeReducer = isLimitedModeReducer;
 exports.isVoIPOnlyModeReducer = isVoIPOnlyModeReducer;
-exports["default"] = AvailabilityMonitorReducer;
 
 var _redux = require("redux");
 

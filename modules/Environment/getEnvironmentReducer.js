@@ -5,11 +5,11 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getChangeCounterReducer = getChangeCounterReducer;
-exports.getServerReducer = getServerReducer;
-exports.getRecordingHostReducer = getRecordingHostReducer;
-exports.getEnabledReducer = getEnabledReducer;
 exports["default"] = getEnvironmentReducer;
+exports.getChangeCounterReducer = getChangeCounterReducer;
+exports.getEnabledReducer = getEnabledReducer;
+exports.getRecordingHostReducer = getRecordingHostReducer;
+exports.getServerReducer = getServerReducer;
 
 var _redux = require("redux");
 

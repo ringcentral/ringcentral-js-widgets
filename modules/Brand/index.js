@@ -42,6 +42,19 @@ Object.keys(_Brand2).forEach(function (key) {
   });
 });
 
+var _BrandConfig = require("./BrandConfig.interface");
+
+Object.keys(_BrandConfig).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _BrandConfig[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _BrandConfig[key];
+    }
+  });
+});
+
 var _createBrandConfig = require("./createBrandConfig");
 
 Object.keys(_createBrandConfig).forEach(function (key) {

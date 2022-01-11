@@ -13,9 +13,9 @@ exports["default"] = void 0;
 
 require("regenerator-runtime/runtime");
 
-var _HelpUtil = require("../utils/HelpUtil");
-
 var _callErrors = _interopRequireDefault(require("../../modules/Call/callErrors"));
+
+var _HelpUtil = require("../utils/HelpUtil");
 
 var _WaitUtil = require("../utils/WaitUtil");
 
@@ -134,10 +134,9 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                       case 8:
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].noToNumber)).to.not.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].noAreaCode)).to.equal(undefined);
-                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].specialNumber)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].notAnExtension)).to.equal(undefined);
 
-                      case 12:
+                      case 11:
                       case "end":
                         return _context4.stop();
                     }
@@ -167,10 +166,9 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                       case 8:
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].noToNumber)).to.not.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].noAreaCode)).to.equal(undefined);
-                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].specialNumber)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].notAnExtension)).to.equal(undefined);
 
-                      case 12:
+                      case 11:
                       case "end":
                         return _context5.stop();
                     }
@@ -200,10 +198,9 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                       case 8:
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].noToNumber)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].noAreaCode)).to.equal(undefined);
-                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].specialNumber)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].notAnExtension)).to.equal(undefined);
 
-                      case 12:
+                      case 11:
                       case "end":
                         return _context6.stop();
                     }
@@ -268,11 +265,10 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
 
                       case 9:
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].noAreaCode)).to.equal(undefined);
-                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].specialNumber)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].notAnExtension)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].noToNumber)).to.equal(undefined);
 
-                      case 13:
+                      case 12:
                       case "end":
                         return _context8.stop();
                     }
@@ -305,11 +301,10 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
 
                       case 9:
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].noAreaCode)).to.equal(undefined);
-                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].specialNumber)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].notAnExtension)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].noToNumber)).to.equal(undefined);
 
-                      case 13:
+                      case 12:
                       case "end":
                         return _context9.stop();
                     }
@@ -342,11 +337,10 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
 
                       case 9:
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].noAreaCode)).to.equal(undefined);
-                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].specialNumber)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].notAnExtension)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].noToNumber)).to.equal(undefined);
 
-                      case 13:
+                      case 12:
                       case "end":
                         return _context10.stop();
                     }
@@ -379,11 +373,10 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
 
                       case 9:
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].noAreaCode)).to.equal(undefined);
-                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].specialNumber)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].notAnExtension)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].noToNumber)).to.equal(undefined);
 
-                      case 13:
+                      case 12:
                       case "end":
                         return _context11.stop();
                     }
@@ -416,11 +409,10 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
 
                       case 9:
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].noAreaCode)).to.equal(undefined);
-                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].specialNumber)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].notAnExtension)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].noToNumber)).to.equal(undefined);
 
-                      case 13:
+                      case 12:
                       case "end":
                         return _context12.stop();
                     }
@@ -453,11 +445,10 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
 
                       case 9:
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].noAreaCode)).to.equal(undefined);
-                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].specialNumber)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].notAnExtension)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].noToNumber)).to.equal(undefined);
 
-                      case 13:
+                      case 12:
                       case "end":
                         return _context13.stop();
                     }
@@ -522,11 +513,10 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
 
                       case 9:
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].noAreaCode)).to.not.equal(undefined);
-                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].specialNumber)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].notAnExtension)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].noToNumber)).to.equal(undefined);
 
-                      case 13:
+                      case 12:
                       case "end":
                         return _context15.stop();
                     }
@@ -559,11 +549,10 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
 
                       case 9:
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].noAreaCode)).to.not.equal(undefined);
-                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].specialNumber)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].notAnExtension)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].noToNumber)).to.equal(undefined);
 
-                      case 13:
+                      case 12:
                       case "end":
                         return _context16.stop();
                     }
@@ -598,10 +587,9 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         expect(Call.__toNumber).to.equal('+16506545672');
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].noToNumber)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].noAreaCode)).to.equal(undefined);
-                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].specialNumber)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].notAnExtension)).to.equal(undefined);
 
-                      case 14:
+                      case 13:
                       case "end":
                         return _context17.stop();
                     }
@@ -636,10 +624,9 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         expect(Call.__toNumber).to.equal('+12506545672');
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].noToNumber)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].noAreaCode)).to.equal(undefined);
-                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].specialNumber)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].notAnExtension)).to.equal(undefined);
 
-                      case 14:
+                      case 13:
                       case "end":
                         return _context18.stop();
                     }
@@ -674,10 +661,9 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         expect(Call.__toNumber).to.equal('+446545672');
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].noToNumber)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].noAreaCode)).to.equal(undefined);
-                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].specialNumber)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].notAnExtension)).to.equal(undefined);
 
-                      case 14:
+                      case 13:
                       case "end":
                         return _context19.stop();
                     }
@@ -712,10 +698,9 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         expect(Call.__toNumber).to.equal('+16571234567');
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].noToNumber)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].noAreaCode)).to.equal(undefined);
-                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].specialNumber)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].notAnExtension)).to.equal(undefined);
 
-                      case 14:
+                      case 13:
                       case "end":
                         return _context20.stop();
                     }
@@ -749,11 +734,10 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                       case 9:
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].noToNumber)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].noAreaCode)).to.equal(undefined);
-                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].specialNumber)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].notAnExtension)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].noInternational)).to.not.equal(undefined);
 
-                      case 14:
+                      case 13:
                       case "end":
                         return _context21.stop();
                     }
@@ -788,10 +772,9 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         expect(Call.__toNumber).to.equal('+14031234567');
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].noToNumber)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].noAreaCode)).to.equal(undefined);
-                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].specialNumber)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].notAnExtension)).to.equal(undefined);
 
-                      case 14:
+                      case 13:
                       case "end":
                         return _context22.stop();
                     }
@@ -825,11 +808,10 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                       case 9:
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].noToNumber)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].noAreaCode)).to.equal(undefined);
-                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].specialNumber)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].notAnExtension)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].noInternational)).to.not.equal(undefined);
 
-                      case 14:
+                      case 13:
                       case "end":
                         return _context23.stop();
                     }
@@ -864,10 +846,9 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         expect(Call.__toNumber).to.equal('+441234567890');
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].noToNumber)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].noAreaCode)).to.equal(undefined);
-                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].specialNumber)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].notAnExtension)).to.equal(undefined);
 
-                      case 14:
+                      case 13:
                       case "end":
                         return _context24.stop();
                     }
@@ -901,10 +882,9 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                       case 9:
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].noToNumber)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].noAreaCode)).to.equal(undefined);
-                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].specialNumber)).to.not.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].notAnExtension)).to.equal(undefined);
 
-                      case 13:
+                      case 12:
                       case "end":
                         return _context25.stop();
                     }
@@ -938,10 +918,9 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                       case 9:
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].noToNumber)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].noAreaCode)).to.equal(undefined);
-                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].specialNumber)).to.not.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].notAnExtension)).to.equal(undefined);
 
-                      case 13:
+                      case 12:
                       case "end":
                         return _context26.stop();
                     }
@@ -973,9 +952,6 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         console.error(_context27.t0);
 
                       case 9:
-                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].specialNumber)).to.equal(undefined);
-
-                      case 10:
                       case "end":
                         return _context27.stop();
                     }
@@ -1007,9 +983,6 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                         console.error(_context28.t0);
 
                       case 9:
-                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].specialNumber)).to.equal(undefined);
-
-                      case 10:
                       case "end":
                         return _context28.stop();
                     }
@@ -1043,10 +1016,9 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                       case 9:
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].noToNumber)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].noAreaCode)).to.equal(undefined);
-                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].specialNumber)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].notAnExtension)).to.equal(undefined);
 
-                      case 13:
+                      case 12:
                       case "end":
                         return _context29.stop();
                     }
@@ -1080,10 +1052,9 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                       case 9:
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].noToNumber)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].noAreaCode)).to.equal(undefined);
-                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].specialNumber)).to.not.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].notAnExtension)).to.equal(undefined);
 
-                      case 13:
+                      case 12:
                       case "end":
                         return _context30.stop();
                     }
@@ -1117,10 +1088,9 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                       case 9:
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].noToNumber)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].noAreaCode)).to.equal(undefined);
-                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].specialNumber)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].notAnExtension)).to.equal(undefined);
 
-                      case 13:
+                      case 12:
                       case "end":
                         return _context31.stop();
                     }
@@ -1154,10 +1124,9 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                       case 9:
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].noToNumber)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].noAreaCode)).to.equal(undefined);
-                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].specialNumber)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].notAnExtension)).to.not.equal(undefined);
 
-                      case 13:
+                      case 12:
                       case "end":
                         return _context32.stop();
                     }
@@ -1191,10 +1160,9 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                       case 9:
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].noToNumber)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].noAreaCode)).to.equal(undefined);
-                        expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].specialNumber)).to.equal(undefined);
                         expect((0, _HelpUtil.containsErrorMessage)(Alert.state.messages, _callErrors["default"].notAnExtension)).to.not.equal(undefined);
 
-                      case 13:
+                      case 12:
                       case "end":
                         return _context33.stop();
                     }

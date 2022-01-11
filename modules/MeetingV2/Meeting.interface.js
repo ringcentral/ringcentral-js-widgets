@@ -8,7 +8,8 @@ Object.defineProperty(exports, "__esModule", {
 exports.AUDIO_OPTIONS = void 0;
 var AUDIO_OPTIONS = {
   ComputerAudio: 'ComputerAudio',
-  Phone: 'Phone'
+  Phone: 'Phone',
+  ThirdParty: 'ThirdParty'
 };
 exports.AUDIO_OPTIONS = AUDIO_OPTIONS;
 //# sourceMappingURL=Meeting.interface.js.map

@@ -23,7 +23,7 @@ require("core-js/modules/es6.array.is-array");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = exports.messageSenderActionTypes = void 0;
+exports.messageSenderActionTypes = exports["default"] = void 0;
 
 require("core-js/modules/web.dom.iterable");
 

@@ -23,30 +23,30 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.isHangUp = isHangUp;
-exports.isRejectCode = isRejectCode;
-exports.isOnRecording = isOnRecording;
-exports.getSessionsParty = getSessionsParty;
-exports.normalizeSession = normalizeSession;
 exports.conflictError = conflictError;
+exports.getSessionsParty = getSessionsParty;
+exports.isHangUp = isHangUp;
+exports.isOnRecording = isOnRecording;
+exports.isRejectCode = isRejectCode;
+exports.normalizeSession = normalizeSession;
 
 require("core-js/modules/es6.function.name");
 
 require("core-js/modules/es6.array.find");
 
-var _recordStatus = _interopRequireDefault(require("../Webphone/recordStatus"));
-
-var _callResults = _interopRequireDefault(require("../../enums/callResults"));
+var _activeCallControlStatus = _interopRequireDefault(require("../../enums/activeCallControlStatus"));
 
 var _callDirections = _interopRequireDefault(require("../../enums/callDirections"));
 
-var _activeCallControlStatus = _interopRequireDefault(require("../../enums/activeCallControlStatus"));
+var _callResults = _interopRequireDefault(require("../../enums/callResults"));
+
+var _recordStatus = _interopRequireDefault(require("../Webphone/recordStatus"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -107,7 +107,7 @@ function normalizeSession(_ref2) {
     isOnMute: muted,
     isForwarded: false,
     isOnFlip: false,
-    isOnHold: status.code === _activeCallControlStatus["default"].hold,
+    isOnHold: (status === null || status === void 0 ? void 0 : status.code) === _activeCallControlStatus["default"].hold,
     isOnTransfer: false,
     isReplied: false,
     isToVoicemail: false,
@@ -117,7 +117,7 @@ function normalizeSession(_ref2) {
     removed: false,
     isReject: isRejectCode({
       direction: direction,
-      code: status.code
+      code: status === null || status === void 0 ? void 0 : status.code
     })
   };
   return _objectSpread({}, formatValue);

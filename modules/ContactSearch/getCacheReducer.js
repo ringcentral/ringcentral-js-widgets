@@ -5,8 +5,8 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getContactSearchReducer = getContactSearchReducer;
 exports["default"] = getCacheReducer;
+exports.getContactSearchReducer = getContactSearchReducer;
 
 require("core-js/modules/es6.date.now");
 

@@ -5,10 +5,10 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports["default"] = getAuthReducer;
+exports.getFreshLoginReducer = getFreshLoginReducer;
 exports.getLoginStatusReducer = getLoginStatusReducer;
 exports.getTokenReducer = getTokenReducer;
-exports.getFreshLoginReducer = getFreshLoginReducer;
-exports["default"] = getAuthReducer;
 
 var _redux = require("redux");
 

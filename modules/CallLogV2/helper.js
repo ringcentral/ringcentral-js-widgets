@@ -5,9 +5,9 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.processData = processData;
 exports.getISODateFrom = getISODateFrom;
 exports.getISODateTo = getISODateTo;
+exports.processData = processData;
 exports.processRecords = processRecords;
 
 require("core-js/modules/es6.array.for-each");
@@ -16,13 +16,13 @@ require("core-js/modules/es6.date.to-iso-string");
 
 require("core-js/modules/es6.date.now");
 
-var _callLogHelpers = require("../../lib/callLogHelpers");
-
-var _removeUri = _interopRequireDefault(require("../../lib/removeUri"));
-
 var _callActions = require("../../enums/callActions");
 
+var _callLogHelpers = require("../../lib/callLogHelpers");
+
 var _getDateFrom = _interopRequireDefault(require("../../lib/getDateFrom"));
+
+var _removeUri = _interopRequireDefault(require("../../lib/removeUri"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 

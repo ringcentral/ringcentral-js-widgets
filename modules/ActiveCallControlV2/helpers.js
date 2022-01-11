@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -23,36 +23,36 @@ require("core-js/modules/es6.array.find");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.isHangUp = isHangUp;
-exports.isRejectCode = isRejectCode;
-exports.isOnRecording = isOnRecording;
-exports.normalizeSession = normalizeSession;
 exports.conflictError = conflictError;
-exports.isRinging = isRinging;
-exports.isHolding = isHolding;
-exports.isRecording = isRecording;
-exports.isForwardedToVoiceMail = isForwardedToVoiceMail;
-exports.isOnSetupStage = isOnSetupStage;
-exports.isAtMainNumberPromptToneStage = isAtMainNumberPromptToneStage;
-exports.getInboundSwitchedParty = getInboundSwitchedParty;
 exports.filterDisconnectedCalls = filterDisconnectedCalls;
+exports.getInboundSwitchedParty = getInboundSwitchedParty;
+exports.isAtMainNumberPromptToneStage = isAtMainNumberPromptToneStage;
+exports.isForwardedToVoiceMail = isForwardedToVoiceMail;
+exports.isHangUp = isHangUp;
+exports.isHolding = isHolding;
+exports.isOnRecording = isOnRecording;
+exports.isOnSetupStage = isOnSetupStage;
+exports.isRecording = isRecording;
+exports.isRejectCode = isRejectCode;
+exports.isRinging = isRinging;
+exports.normalizeSession = normalizeSession;
 exports.normalizeTelephonySession = normalizeTelephonySession;
 
 require("core-js/modules/es6.function.name");
 
-var _Session = require("ringcentral-call-control/lib/Session");
-
 var _ramda = require("ramda");
 
-var _recordStatus = require("../Webphone/recordStatus");
-
-var _callResults = _interopRequireDefault(require("../../enums/callResults"));
-
-var _callDirections = _interopRequireWildcard(require("../../enums/callDirections"));
+var _Session = require("ringcentral-call-control/lib/Session");
 
 var _activeCallControlStatus = _interopRequireDefault(require("../../enums/activeCallControlStatus"));
 
+var _callDirections = _interopRequireWildcard(require("../../enums/callDirections"));
+
+var _callResults = _interopRequireDefault(require("../../enums/callResults"));
+
 var _callMonitorHelper = require("../CallMonitor/callMonitorHelper");
+
+var _recordStatus = require("../Webphone/recordStatus");
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
@@ -176,7 +176,9 @@ function isAtMainNumberPromptToneStage(session) {
 function getInboundSwitchedParty(parties) {
   if (!parties.length) return false;
   var result = (0, _ramda.find)(function (party) {
-    return party.direction === _callDirections["default"].inbound && party.status.code === _Session.PartyStatusCode.disconnected && party.status.reason === 'CallSwitch';
+    var _party$status, _party$status2;
+
+    return party.direction === _callDirections["default"].inbound && ((_party$status = party.status) === null || _party$status === void 0 ? void 0 : _party$status.code) === _Session.PartyStatusCode.disconnected && ((_party$status2 = party.status) === null || _party$status2 === void 0 ? void 0 : _party$status2.reason) === 'CallSwitch';
   }, parties);
   return result;
 }

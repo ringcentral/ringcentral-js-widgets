@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 require("core-js/modules/es6.weak-map");
 
@@ -67,8 +67,6 @@ require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.map");
 
-var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
-
 var _events = require("events");
 
 var _ramda = require("ramda");
@@ -78,6 +76,8 @@ var _ringcentralWebPhone = _interopRequireDefault(require("ringcentral-web-phone
 var _incoming = _interopRequireDefault(require("ringcentral-web-phone/audio/incoming.ogg"));
 
 var _outgoing = _interopRequireDefault(require("ringcentral-web-phone/audio/outgoing.ogg"));
+
+var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
 
 var _callDirections = _interopRequireDefault(require("../../enums/callDirections"));
 
@@ -93,11 +93,11 @@ var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
 
 var _selector = require("../../lib/selector");
 
+var _SipInstanceManager = require("../../lib/SipInstanceManager");
+
 var _sleep = _interopRequireDefault(require("../../lib/sleep"));
 
-var _validateNumbers = _interopRequireDefault(require("../../lib/validateNumbers"));
-
-var _SipInstanceManager = require("../../lib/SipInstanceManager");
+var _validateNumbers = require("../../lib/validateNumbers");
 
 var _callErrors = _interopRequireDefault(require("../Call/callErrors"));
 
@@ -141,7 +141,7 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-function _iterableToArrayLimit(arr, i) { var _i = arr && (typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]); if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
@@ -151,9 +151,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -165,15 +165,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } Object.defineProperty(subClass, "prototype", { value: Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }), writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
@@ -685,10 +685,7 @@ var Webphone = (_dec = (0, _di.Module)({
 
                   if (this._webphone.userAgent.transport.__clearSwitchBackTimer) {
                     this._webphone.userAgent.transport.__clearSwitchBackTimer();
-                  } // clean audio instances at web phone sdk
-
-
-                  this._webphone.userAgent.audioHelper.loadAudio({});
+                  }
                 } catch (e) {
                   console.error(e); // ignore clean listener error
                 }
@@ -761,7 +758,9 @@ var Webphone = (_dec = (0, _di.Module)({
                   },
                   enableQos: (0, _webphoneHelper.isChrome)(),
                   enableMidLinesInSDP: (0, _webphoneHelper.isEnableMidLinesInSDP)(),
-                  instanceId: this._sipInstanceId
+                  instanceId: this._sipInstanceId,
+                  // reuse sip instance id to avoid 603 issue at reconnection
+                  autoStop: false
                 }, this._webphoneSDKOptions));
                 this.loadAudio();
 
@@ -2097,7 +2096,12 @@ var Webphone = (_dec = (0, _di.Module)({
                   break;
                 }
 
-                validatedResult = (0, _validateNumbers["default"])([forwardNumber], this._regionSettings, this._brand.id);
+                validatedResult = (0, _validateNumbers.validateNumbers)({
+                  allowRegionSettings: this._brand.brandConfig.allowRegionSettings,
+                  areaCode: this._regionSettings.areaCode,
+                  countryCode: this._regionSettings.countryCode,
+                  phoneNumbers: [forwardNumber]
+                });
                 validPhoneNumber = validatedResult[0];
                 _context20.next = 16;
                 break;
@@ -2720,7 +2724,12 @@ var Webphone = (_dec = (0, _di.Module)({
                   break;
                 }
 
-                numberResult = (0, _validateNumbers["default"])([transferNumber], this._regionSettings, this._brand.id);
+                numberResult = (0, _validateNumbers.validateNumbers)({
+                  allowRegionSettings: this._brand.brandConfig.allowRegionSettings,
+                  areaCode: this._regionSettings.areaCode,
+                  countryCode: this._regionSettings.countryCode,
+                  phoneNumbers: [transferNumber]
+                });
                 validPhoneNumber = numberResult && numberResult[0];
                 _context30.next = 20;
                 break;
@@ -2818,7 +2827,12 @@ var Webphone = (_dec = (0, _di.Module)({
 
                 this._updateSessions();
 
-                numberResult = (0, _validateNumbers["default"])([transferNumber], this._regionSettings, this._brand.id);
+                numberResult = (0, _validateNumbers.validateNumbers)({
+                  allowRegionSettings: this._brand.brandConfig.allowRegionSettings,
+                  areaCode: this._regionSettings.areaCode,
+                  countryCode: this._regionSettings.countryCode,
+                  phoneNumbers: [transferNumber]
+                });
                 validPhoneNumber = numberResult && numberResult[0];
                 fromNumber = session.__rc_direction === _callDirections["default"].outbound ? session.request.from.uri.user : session.request.to.uri.user;
                 _context31.next = 11;

@@ -5,10 +5,10 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.waitUntilNotNull = waitUntilNotNull;
-exports.waitUntilEqual = waitUntilEqual;
-exports.waitUntilObjectSizeGreaterThan = waitUntilObjectSizeGreaterThan;
 exports.waitInSeconds = waitInSeconds;
+exports.waitUntilEqual = waitUntilEqual;
+exports.waitUntilNotNull = waitUntilNotNull;
+exports.waitUntilObjectSizeGreaterThan = waitUntilObjectSizeGreaterThan;
 
 require("core-js/modules/es6.promise");
 

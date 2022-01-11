@@ -5,9 +5,9 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getProfileImagesReducer = getProfileImagesReducer;
-exports.getContactPresencesReducer = getContactPresencesReducer;
 exports["default"] = getContactsReducer;
+exports.getContactPresencesReducer = getContactPresencesReducer;
+exports.getProfileImagesReducer = getProfileImagesReducer;
 
 require("core-js/modules/es6.date.now");
 

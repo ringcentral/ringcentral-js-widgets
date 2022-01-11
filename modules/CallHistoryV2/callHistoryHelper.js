@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.addNumbersFromCall = exports.pickFullPhoneNumber = exports.pickPhoneOrExtensionNumber = exports.addIfNotExist = void 0;
+exports.pickPhoneOrExtensionNumber = exports.pickFullPhoneNumber = exports.addNumbersFromCall = exports.addIfNotExist = void 0;
 var RC_EXTENSION_DELIMITER = '*';
 
 var addIfNotExist = function addIfNotExist(number, output, numberMap) {

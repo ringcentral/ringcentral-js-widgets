@@ -3,7 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.JBH_LABEL = exports.RCV_E2EE_API_KEYS = exports.RCV_PASSWORD_REGEX = exports.DISABLE_E2EE_WHEN_RELATED_OPTION_MATCH = exports.RCV_WAITING_ROOM_MODE_REVERSE = exports.RCV_WAITING_ROOM_API_KEYS = exports.RCV_WAITING_ROOM_MODE = exports.ASSISTED_USERS_MYSELF = exports.AUTH_USER_TYPE = void 0;
+exports.RCV_WAITING_ROOM_MODE_REVERSE = exports.RCV_WAITING_ROOM_MODE = exports.RCV_WAITING_ROOM_API_KEYS = exports.RCV_PASSWORD_REGEX = exports.RCV_ITEM_NAME = exports.RCV_E2EE_API_KEYS = exports.JBH_LABEL = exports.DISABLE_E2EE_WHEN_RELATED_OPTION_MATCH = exports.AUTH_USER_TYPE = exports.ASSISTED_USERS_MYSELF = void 0;
 
 require("core-js/modules/es6.object.define-property");
 
@@ -33,7 +33,6 @@ var RCV_WAITING_ROOM_MODE = {
 };
 exports.RCV_WAITING_ROOM_MODE = RCV_WAITING_ROOM_MODE;
 var DISABLE_E2EE_WHEN_RELATED_OPTION_MATCH = (_DISABLE_E2EE_WHEN_RE = {
-  allowJoinBeforeHost: true,
   isMeetingSecret: false
 }, _defineProperty(_DISABLE_E2EE_WHEN_RE, RCV_WAITING_ROOM_API_KEYS, RCV_WAITING_ROOM_MODE.off), _defineProperty(_DISABLE_E2EE_WHEN_RE, "isOnlyAuthUserJoin", false), _DISABLE_E2EE_WHEN_RE);
 exports.DISABLE_E2EE_WHEN_RELATED_OPTION_MATCH = DISABLE_E2EE_WHEN_RELATED_OPTION_MATCH;
@@ -48,4 +47,19 @@ var RCV_PASSWORD_REGEX = /^[A-Za-z0-9]{1,10}$/;
 exports.RCV_PASSWORD_REGEX = RCV_PASSWORD_REGEX;
 var RCV_E2EE_API_KEYS = 'e2ee';
 exports.RCV_E2EE_API_KEYS = RCV_E2EE_API_KEYS;
+var RCV_ITEM_NAME = {
+  scheduleFor: 'scheduleFor',
+  isMeetingSecret: 'isMeetingSecret',
+  meetingPassword: 'meetingPassword',
+  allowJoinBeforeHost: 'allowJoinBeforeHost',
+  waitingRoomMode: 'waitingRoomMode',
+  waitingRoomType: 'waitingRoomType',
+  e2ee: 'e2ee',
+  isOnlyAuthUserJoin: 'isOnlyAuthUserJoin',
+  isOnlyCoworkersJoin: 'isOnlyCoworkersJoin',
+  muteVideo: 'muteVideo',
+  muteAudio: 'muteAudio',
+  allowScreenSharing: 'allowScreenSharing'
+};
+exports.RCV_ITEM_NAME = RCV_ITEM_NAME;
 //# sourceMappingURL=constants.js.map

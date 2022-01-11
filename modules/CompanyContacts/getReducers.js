@@ -26,9 +26,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getDataReducer = getDataReducer;
+exports.getExtensionTypeFiltersReducer = getExtensionTypeFiltersReducer;
 exports.getShowDisabledReducer = getShowDisabledReducer;
 exports.getShowNotActivatedReducer = getShowNotActivatedReducer;
-exports.getExtensionTypeFiltersReducer = getExtensionTypeFiltersReducer;
 exports.getTimestampReducer = getTimestampReducer;
 
 var _ramda = require("ramda");

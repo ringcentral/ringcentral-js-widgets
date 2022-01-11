@@ -1,1 +1,0 @@
-{"version":3,"sources":["modules/Alert/index.ts"],"names":["Alert"],"mappings":";;;;;;;;;AAAA;;;;eAEeA,iB","sourcesContent":["import Alert from './Alert';\n\nexport default Alert;\n"],"file":"index.js"}

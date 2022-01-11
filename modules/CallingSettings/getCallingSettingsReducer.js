@@ -6,13 +6,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getCallWithReducer = getCallWithReducer;
-exports.getRingoutPromptReducer = getRingoutPromptReducer;
-exports.getMyLocationReducer = getMyLocationReducer;
-exports.getIsCustomLocationReducer = getIsCustomLocationReducer;
-exports.getTimestampReducer = getTimestampReducer;
-exports.getFromNumberReducer = getFromNumberReducer;
 exports.getCallingSettingsReducer = getCallingSettingsReducer;
 exports.getCallingSettingsStorageReducer = getCallingSettingsStorageReducer;
+exports.getFromNumberReducer = getFromNumberReducer;
+exports.getIsCustomLocationReducer = getIsCustomLocationReducer;
+exports.getMyLocationReducer = getMyLocationReducer;
+exports.getRingoutPromptReducer = getRingoutPromptReducer;
+exports.getTimestampReducer = getTimestampReducer;
 
 var _redux = require("redux");
 

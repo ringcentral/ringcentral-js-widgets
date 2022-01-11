@@ -5,9 +5,9 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports["default"] = getConnectivityMonitorReducer;
 exports.getConnectivityReducer = getConnectivityReducer;
 exports.getNetworkLossReducer = getNetworkLossReducer;
-exports["default"] = getConnectivityMonitorReducer;
 
 var _redux = require("redux");
 

@@ -5,11 +5,11 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getGuidesReducer = getGuidesReducer;
-exports.getFirstLoginReducer = getFirstLoginReducer;
-exports.getCarouselState = getCarouselState;
-exports.getPreLoadImageStatus = getPreLoadImageStatus;
 exports["default"] = getUserGuideReducer;
+exports.getCarouselState = getCarouselState;
+exports.getFirstLoginReducer = getFirstLoginReducer;
+exports.getGuidesReducer = getGuidesReducer;
+exports.getPreLoadImageStatus = getPreLoadImageStatus;
 
 var _redux = require("redux");
 

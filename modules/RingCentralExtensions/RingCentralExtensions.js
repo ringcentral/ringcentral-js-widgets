@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -47,6 +47,8 @@ exports.RingCentralExtensions = void 0;
 
 require("regenerator-runtime/runtime");
 
+var _isomorphicWs = _interopRequireDefault(require("isomorphic-ws"));
+
 var _core = _interopRequireDefault(require("@rc-ex/core"));
 
 var _debug = _interopRequireDefault(require("@rc-ex/debug"));
@@ -57,11 +59,9 @@ var _ws = _interopRequireWildcard(require("@rc-ex/ws"));
 
 var _core2 = require("@ringcentral-integration/core");
 
-var _isomorphicWs = _interopRequireDefault(require("isomorphic-ws"));
+var _di = require("../../lib/di");
 
 var _proxify = require("../../lib/proxy/proxify");
-
-var _di = require("../../lib/di");
 
 var _webSocketReadyStates = require("./webSocketReadyStates");
 
@@ -73,9 +73,9 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -89,15 +89,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } Object.defineProperty(subClass, "prototype", { value: Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }), writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
@@ -154,7 +154,10 @@ var RingCentralExtensions = (_dec = (0, _di.Module)({
     key: "_setupInfra",
     value: function () {
       var _setupInfra2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        var _this$_deps$ringCentr2, _wsOptions$wscToken, _this$cachedWsc;
+        var _this$_deps$ringCentr2,
+            _wsOptions$wscToken,
+            _this$cachedWsc,
+            _this2 = this;
 
         var _this$_deps$ringCentr, debugExtension, rcSdkExtension, wsOptions;
 
@@ -187,27 +190,32 @@ var RingCentralExtensions = (_dec = (0, _di.Module)({
                 this._webSocketExtension = new _ws["default"](_objectSpread(_objectSpread({}, wsOptions), {}, {
                   wscToken: (_wsOptions$wscToken = wsOptions === null || wsOptions === void 0 ? void 0 : wsOptions.wscToken) !== null && _wsOptions$wscToken !== void 0 ? _wsOptions$wscToken : (_this$cachedWsc = this.cachedWsc) === null || _this$cachedWsc === void 0 ? void 0 : _this$cachedWsc.token
                 }));
-                _context.prev = 10;
-                _context.next = 13;
+
+                this._webSocketExtension.eventEmitter.addListener(_ws.Events.newWsc, function (wsc) {
+                  _this2._cacheWsc(wsc);
+                });
+
+                _context.prev = 11;
+                _context.next = 14;
                 return this._core.installExtension(this._webSocketExtension);
 
-              case 13:
-                _context.next = 18;
+              case 14:
+                _context.next = 19;
                 break;
 
-              case 15:
-                _context.prev = 15;
-                _context.t0 = _context["catch"](10);
+              case 16:
+                _context.prev = 16;
+                _context.t0 = _context["catch"](11);
                 // It tries to establish connection on install.
                 // Catch the connection issue and ignore.
                 console.error('[RingCentralExtensions] Establish websocket failed', _context.t0);
 
-              case 18:
+              case 19:
               case "end":
                 return _context.stop();
             }
           }
-        }, _callee, this, [[10, 15]]);
+        }, _callee, this, [[11, 16]]);
       }));
 
       function _setupInfra() {
@@ -220,7 +228,7 @@ var RingCentralExtensions = (_dec = (0, _di.Module)({
     key: "onInitOnce",
     value: function () {
       var _onInitOnce = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
-        var _this2 = this,
+        var _this3 = this,
             _this$_deps$sleepDete;
 
         return regeneratorRuntime.wrap(function _callee4$(_context4) {
@@ -250,7 +258,7 @@ var RingCentralExtensions = (_dec = (0, _di.Module)({
 
                           case 3:
                             // expose events
-                            _this2._exposeConnectionEvents();
+                            _this3._exposeConnectionEvents();
 
                           case 4:
                           case "end":
@@ -265,17 +273,13 @@ var RingCentralExtensions = (_dec = (0, _di.Module)({
                   };
                 }());
 
-                this._webSocketExtension.eventEmitter.addListener(_ws.Events.newWsc, function (wsc) {
-                  _this2._cacheWsc(wsc);
-                });
-
                 if (this._webSocketExtension.options.autoRecover) {
                   this._webSocketExtension.eventEmitter.addListener(_ws.Events.autoRecoverSuccess, function () {
-                    _this2._exposeConnectionEvents();
+                    _this3._exposeConnectionEvents();
                   });
 
                   this._webSocketExtension.eventEmitter.addListener(_ws.Events.autoRecoverFailed, function () {
-                    _this2._exposeConnectionEvents();
+                    _this3._exposeConnectionEvents();
                   });
                 } // register SleepDetector
 
@@ -285,13 +289,13 @@ var RingCentralExtensions = (_dec = (0, _di.Module)({
                     while (1) {
                       switch (_context3.prev = _context3.next) {
                         case 0:
-                          if (!_this2.ready) {
+                          if (!_this3.ready) {
                             _context3.next = 3;
                             break;
                           }
 
                           _context3.next = 3;
-                          return _this2.recoverWebSocketConnection();
+                          return _this3.recoverWebSocketConnection();
 
                         case 3:
                         case "end":
@@ -302,14 +306,14 @@ var RingCentralExtensions = (_dec = (0, _di.Module)({
                 }))); // hook auth events
 
                 this._deps.auth.addAfterLoggedInHandler(function () {
-                  _this2.recoverWebSocketConnection();
+                  _this3.recoverWebSocketConnection();
                 });
 
                 this._deps.auth.addBeforeLogoutHandler(function () {
-                  _this2.revokeWebSocketConnection();
+                  _this3.revokeWebSocketConnection();
                 });
 
-              case 9:
+              case 8:
               case "end":
                 return _context4.stop();
             }
@@ -336,22 +340,13 @@ var RingCentralExtensions = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context5.prev = _context5.next) {
               case 0:
-                if (!(this.webSocketReadyState === _webSocketReadyStates.webSocketReadyStates.connecting)) {
-                  _context5.next = 3;
-                  break;
-                }
-
-                console.log('[RingCentralExtensions] > recoverWebSocketConnection > already connecting');
-                return _context5.abrupt("return");
-
-              case 3:
-                _context5.next = 5;
+                _context5.next = 2;
                 return this._webSocketExtension.recover();
 
-              case 5:
+              case 2:
                 this._exposeConnectionEvents();
 
-              case 6:
+              case 3:
               case "end":
                 return _context5.stop();
             }

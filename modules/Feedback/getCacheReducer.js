@@ -5,11 +5,11 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getEmailReducer = getEmailReducer;
-exports.getTopicReducer = getTopicReducer;
-exports.getSubjectReducer = getSubjectReducer;
-exports.getDescriptionReducer = getDescriptionReducer;
 exports["default"] = getCacheReducer;
+exports.getDescriptionReducer = getDescriptionReducer;
+exports.getEmailReducer = getEmailReducer;
+exports.getSubjectReducer = getSubjectReducer;
+exports.getTopicReducer = getTopicReducer;
 
 var _redux = require("redux");
 

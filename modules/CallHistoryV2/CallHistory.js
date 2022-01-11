@@ -1,20 +1,20 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.date.to-string");
+require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.array.from");
 
+require("core-js/modules/es6.regexp.to-string");
+
+require("core-js/modules/es6.date.to-string");
+
 require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.array.is-array");
-
-require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.object.define-properties");
 
@@ -75,21 +75,21 @@ var _ramda = require("ramda");
 
 var _core = require("@ringcentral-integration/core");
 
-var _di = require("../../lib/di");
-
 var _callLogHelpers = require("../../lib/callLogHelpers");
+
+var _debounce = _interopRequireDefault(require("../../lib/debounce"));
+
+var _di = require("../../lib/di");
 
 var _normalizeNumber = require("../../lib/normalizeNumber");
 
 var _proxify = require("../../lib/proxy/proxify");
 
-var _debounce = _interopRequireDefault(require("../../lib/debounce"));
-
-var _callHistoryHelper = require("./callHistoryHelper");
-
 var _Analytics = require("../Analytics");
 
 var _CallingSettingsV = require("../CallingSettingsV2");
+
+var _callHistoryHelper = require("./callHistoryHelper");
 
 var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4;
 
@@ -99,21 +99,29 @@ function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableTo
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
 
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
 function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
 
 function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -123,15 +131,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } Object.defineProperty(subClass, "prototype", { value: Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }), writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
@@ -280,6 +288,11 @@ var CallHistory = (_dec = (0, _di.Module)({
       });
     }
   }, {
+    key: "cleanEndedCalls",
+    value: function cleanEndedCalls() {
+      this.endedCalls = [];
+    }
+  }, {
     key: "removeAllEndedCalls",
     value: function removeAllEndedCalls() {
       this.endedCalls = [];
@@ -339,11 +352,16 @@ var CallHistory = (_dec = (0, _di.Module)({
           _this3._addEndedCalls(endedCalls);
         }
       });
-      (0, _core.watch)(this, function () {
-        return _this3._deps.callLog.calls;
-      }, function () {
-        var currentCalls = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
-        if (!_this3.ready) return;
+      (0, _core.watch)(this, // use watch multiple, because this.ready is async, can't become true in time, so need watch this.ready, too
+      function () {
+        return [_this3._deps.callLog.calls, _this3.ready];
+      }, function (_ref2) {
+        var _ref3 = _slicedToArray(_ref2, 2),
+            _ref3$ = _ref3[0],
+            currentCalls = _ref3$ === void 0 ? [] : _ref3$,
+            ready = _ref3[1];
+
+        if (!ready) return;
         var ids = {};
         currentCalls.forEach(function (call) {
           ids[call.telephonySessionId] = true;
@@ -356,12 +374,15 @@ var CallHistory = (_dec = (0, _di.Module)({
         if (shouldRemovedCalls.length) {
           _this3.removeEndedCalls(shouldRemovedCalls);
         }
+      }, {
+        multiple: true
       });
     }
   }, {
     key: "onReset",
     value: function onReset() {
       this.setSearchInput('');
+      this.cleanEndedCalls();
     }
   }, {
     key: "_addEndedCalls",
@@ -730,7 +751,7 @@ var CallHistory = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return [];
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "filterSuccess", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "filterSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setSearchInput", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setSearchInput"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setEndedCalls", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setEndedCalls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "removeEndedCalls", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "removeEndedCalls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "removeAllEndedCalls", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "removeAllEndedCalls"), _class2.prototype), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, "markedList", [_core.storage, _core.state], {
+}), _applyDecoratedDescriptor(_class2.prototype, "filterSuccess", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "filterSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setSearchInput", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setSearchInput"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setEndedCalls", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setEndedCalls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "removeEndedCalls", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "removeEndedCalls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "cleanEndedCalls", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "cleanEndedCalls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "removeAllEndedCalls", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "removeAllEndedCalls"), _class2.prototype), _descriptor4 = _applyDecoratedDescriptor(_class2.prototype, "markedList", [_core.storage, _core.state], {
   configurable: true,
   enumerable: true,
   writable: true,

@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.DEFAULT_LOCK_SETTINGS = exports.COMMON_SETTINGS = exports.SAVED_DEFAULT_MEETING_SETTINGS = exports.LAST_MEETING_SETTINGS = exports.PMIRequirePassword = exports.ASSISTED_USERS_MYSELF = exports.RCM_PASSWORD_REGEX = void 0;
+exports.SAVED_DEFAULT_MEETING_SETTINGS = exports.RCM_PASSWORD_REGEX = exports.RCM_ITEM_NAME = exports.PMIRequirePassword = exports.LAST_MEETING_SETTINGS = exports.DEFAULT_LOCK_SETTINGS = exports.COMMON_SETTINGS = exports.ASSISTED_USERS_MYSELF = void 0;
 var RCM_PASSWORD_REGEX = /^[\w@*-]{0,10}$/;
 exports.RCM_PASSWORD_REGEX = RCM_PASSWORD_REGEX;
 var ASSISTED_USERS_MYSELF = 'ASSISTED_USERS_MYSELF';
@@ -35,4 +35,11 @@ var DEFAULT_LOCK_SETTINGS = {
   }
 };
 exports.DEFAULT_LOCK_SETTINGS = DEFAULT_LOCK_SETTINGS;
+var RCM_ITEM_NAME = {
+  scheduleFor: 'scheduleFor',
+  password: 'password',
+  allowJoinBeforeHost: 'allowJoinBeforeHost',
+  _requireMeetingPassword: '_requireMeetingPassword'
+};
+exports.RCM_ITEM_NAME = RCM_ITEM_NAME;
 //# sourceMappingURL=constants.js.map

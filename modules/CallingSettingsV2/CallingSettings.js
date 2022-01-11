@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -41,11 +41,11 @@ require("core-js/modules/es6.array.map");
 
 require("core-js/modules/es6.function.name");
 
-require("core-js/modules/es6.array.find");
-
 require("core-js/modules/es6.array.for-each");
 
 require("core-js/modules/es6.array.index-of");
+
+require("core-js/modules/es6.array.find");
 
 require("core-js/modules/es6.date.now");
 
@@ -67,7 +67,7 @@ var _deprecatedCallingOptions = require("./deprecatedCallingOptions");
 
 var _mapOptionToMode = require("./mapOptionToMode");
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _class, _class2, _descriptor;
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _class, _class2, _descriptor, _descriptor2;
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -79,15 +79,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } Object.defineProperty(subClass, "prototype", { value: Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }), writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
@@ -165,7 +165,9 @@ var CallingSettings = (_dec = (0, _di.Module)({
     _this._emergencyCallAvailable = void 0;
     _this._availableNumbers = void 0;
 
-    _initializerDefineProperty(_this, "data", _descriptor, _assertThisInitialized(_this));
+    _initializerDefineProperty(_this, "acknowledgeJPMessage", _descriptor, _assertThisInitialized(_this));
+
+    _initializerDefineProperty(_this, "data", _descriptor2, _assertThisInitialized(_this));
 
     _this._onFirstLogin = (_this$_deps$callingSe = _this._deps.callingSettingsOptions) === null || _this$_deps$callingSe === void 0 ? void 0 : _this$_deps$callingSe.onFirstLogin;
     _this.initRingoutPrompt = (_this$_deps$callingSe2 = _this._deps.callingSettingsOptions) === null || _this$_deps$callingSe2 === void 0 ? void 0 : _this$_deps$callingSe2.defaultRingoutPrompt;
@@ -234,9 +236,15 @@ var CallingSettings = (_dec = (0, _di.Module)({
       return updateFromNumber;
     }()
   }, {
+    key: "setAcknowledgeJPMessage",
+    value: function setAcknowledgeJPMessage(value) {
+      this.acknowledgeJPMessage = value;
+    }
+  }, {
     key: "resetSuccess",
     value: function resetSuccess() {
       this.data.fromNumber = null;
+      this.setAcknowledgeJPMessage(false);
     }
   }, {
     key: "onStateChange",
@@ -274,6 +282,32 @@ var CallingSettings = (_dec = (0, _di.Module)({
       return onStateChange;
     }()
   }, {
+    key: "onInitSuccess",
+    value: function () {
+      var _onInitSuccess = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                if (this.isWebphoneMode) {
+                  this._verifyJPEmergency();
+                }
+
+              case 1:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this);
+      }));
+
+      function onInitSuccess() {
+        return _onInitSuccess.apply(this, arguments);
+      }
+
+      return onInitSuccess;
+    }()
+  }, {
     key: "_shouldValidate",
     value: function _shouldValidate() {
       return this.ready && (this._ringoutEnabled !== this._deps.appFeatures.isRingOutEnabled || this._webphoneEnabled !== this._deps.appFeatures.isWebPhoneEnabled || this._myPhoneNumbers !== this.myPhoneNumbers || this._otherPhoneNumbers !== this.otherPhoneNumbers || this._blockedIdDisabled !== this.isBlockedIdDisabled);
@@ -281,20 +315,20 @@ var CallingSettings = (_dec = (0, _di.Module)({
   }, {
     key: "onInit",
     value: function () {
-      var _onInit = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+      var _onInit = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
-                _context3.next = 2;
+                _context4.next = 2;
                 return this._init();
 
               case 2:
               case "end":
-                return _context3.stop();
+                return _context4.stop();
             }
           }
-        }, _callee3, this);
+        }, _callee4, this);
       }));
 
       function onInit() {
@@ -331,17 +365,17 @@ var CallingSettings = (_dec = (0, _di.Module)({
   }, {
     key: "_init",
     value: function () {
-      var _init2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
-        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+      var _init2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
                 if (this._deps.appFeatures.isCallingEnabled) {
-                  _context4.next = 2;
+                  _context5.next = 2;
                   break;
                 }
 
-                return _context4.abrupt("return");
+                return _context5.abrupt("return");
 
               case 2:
                 this._myPhoneNumbers = this.myPhoneNumbers;
@@ -360,19 +394,19 @@ var CallingSettings = (_dec = (0, _di.Module)({
                   });
                 }
 
-                _context4.next = 12;
+                _context5.next = 12;
                 return this._validateSettings();
 
               case 12:
-                _context4.next = 14;
+                _context5.next = 14;
                 return this._initFromNumber();
 
               case 14:
               case "end":
-                return _context4.stop();
+                return _context5.stop();
             }
           }
-        }, _callee4, this);
+        }, _callee5, this);
       }));
 
       function _init() {
@@ -384,10 +418,10 @@ var CallingSettings = (_dec = (0, _di.Module)({
   }, {
     key: "_warningEmergencyCallingNotAvailable",
     value: function () {
-      var _warningEmergencyCallingNotAvailable2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
-        return regeneratorRuntime.wrap(function _callee5$(_context5) {
+      var _warningEmergencyCallingNotAvailable2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
+        return regeneratorRuntime.wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
                 if (this.callWith === _callingOptions.callingOptions.browser) {
                   this._deps.alert.info({
@@ -398,10 +432,10 @@ var CallingSettings = (_dec = (0, _di.Module)({
 
               case 1:
               case "end":
-                return _context5.stop();
+                return _context6.stop();
             }
           }
-        }, _callee5, this);
+        }, _callee6, this);
       }));
 
       function _warningEmergencyCallingNotAvailable() {
@@ -413,22 +447,22 @@ var CallingSettings = (_dec = (0, _di.Module)({
   }, {
     key: "_validateSettings",
     value: function () {
-      var _validateSettings2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
-        return regeneratorRuntime.wrap(function _callee6$(_context6) {
+      var _validateSettings2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
+        return regeneratorRuntime.wrap(function _callee7$(_context7) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context7.prev = _context7.next) {
               case 0:
                 if (!this._hasWebphonePermissionRemoved()) {
-                  _context6.next = 7;
+                  _context7.next = 7;
                   break;
                 }
 
                 if (!this._deps.appFeatures.isSoftphoneEnabled) {
-                  _context6.next = 4;
+                  _context7.next = 4;
                   break;
                 }
 
-                _context6.next = 4;
+                _context7.next = 4;
                 return this._setSoftPhoneToCallWith();
 
               case 4:
@@ -437,21 +471,21 @@ var CallingSettings = (_dec = (0, _di.Module)({
                   ttl: 0
                 });
 
-                _context6.next = 15;
+                _context7.next = 15;
                 break;
 
               case 7:
                 if (!this._hasPermissionChanged()) {
-                  _context6.next = 14;
+                  _context7.next = 14;
                   break;
                 }
 
                 if (!this._deps.appFeatures.isSoftphoneEnabled) {
-                  _context6.next = 11;
+                  _context7.next = 11;
                   break;
                 }
 
-                _context6.next = 11;
+                _context7.next = 11;
                 return this._setSoftPhoneToCallWith();
 
               case 11:
@@ -460,7 +494,7 @@ var CallingSettings = (_dec = (0, _di.Module)({
                   ttl: 0
                 });
 
-                _context6.next = 15;
+                _context7.next = 15;
                 break;
 
               case 14:
@@ -484,10 +518,10 @@ var CallingSettings = (_dec = (0, _di.Module)({
 
               case 16:
               case "end":
-                return _context6.stop();
+                return _context7.stop();
             }
           }
-        }, _callee6, this);
+        }, _callee7, this);
       }));
 
       function _validateSettings() {
@@ -497,12 +531,58 @@ var CallingSettings = (_dec = (0, _di.Module)({
       return _validateSettings;
     }()
   }, {
+    key: "_verifyJPEmergency",
+    value: function () {
+      var _verifyJPEmergency2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
+        var hasJapanNumber;
+        return regeneratorRuntime.wrap(function _callee8$(_context8) {
+          while (1) {
+            switch (_context8.prev = _context8.next) {
+              case 0:
+                if (!this.acknowledgeJPMessage) {
+                  _context8.next = 2;
+                  break;
+                }
+
+                return _context8.abrupt("return");
+
+              case 2:
+                hasJapanNumber = !!this.fromNumbers.find(function (record) {
+                  var _record$country;
+
+                  return (record === null || record === void 0 ? void 0 : (_record$country = record.country) === null || _record$country === void 0 ? void 0 : _record$country.id) === '112';
+                });
+
+                if (hasJapanNumber) {
+                  this._deps.alert.warning({
+                    message: _callingSettingsMessages.callingSettingsMessages.disableEmergencyInJapan,
+                    ttl: 0
+                  });
+
+                  this.setAcknowledgeJPMessage(true);
+                }
+
+              case 4:
+              case "end":
+                return _context8.stop();
+            }
+          }
+        }, _callee8, this);
+      }));
+
+      function _verifyJPEmergency() {
+        return _verifyJPEmergency2.apply(this, arguments);
+      }
+
+      return _verifyJPEmergency;
+    }()
+  }, {
     key: "_setSoftPhoneToCallWith",
     value: function () {
-      var _setSoftPhoneToCallWith2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
-        return regeneratorRuntime.wrap(function _callee7$(_context7) {
+      var _setSoftPhoneToCallWith2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9() {
+        return regeneratorRuntime.wrap(function _callee9$(_context9) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context9.prev = _context9.next) {
               case 0:
                 this.setDataAction({
                   callWith: _callingOptions.callingOptions.softphone,
@@ -511,10 +591,10 @@ var CallingSettings = (_dec = (0, _di.Module)({
 
               case 1:
               case "end":
-                return _context7.stop();
+                return _context9.stop();
             }
           }
-        }, _callee7, this);
+        }, _callee9, this);
       }));
 
       function _setSoftPhoneToCallWith() {
@@ -585,17 +665,17 @@ var CallingSettings = (_dec = (0, _di.Module)({
   }, {
     key: "_initFromNumber",
     value: function () {
-      var _initFromNumber2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
+      var _initFromNumber2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10() {
         var fromNumber, _this$_deps$callerId, defaultCallerId, _this$_deps$callerId2, _this$_deps$callerId3, defaultPhoneNumber, defaultEntry;
 
-        return regeneratorRuntime.wrap(function _callee8$(_context8) {
+        return regeneratorRuntime.wrap(function _callee10$(_context10) {
           while (1) {
-            switch (_context8.prev = _context8.next) {
+            switch (_context10.prev = _context10.next) {
               case 0:
                 fromNumber = this.fromNumber;
 
                 if (!(!fromNumber || fromNumber === BLOCKED_ID_VALUE && this.isBlockedIdDisabled)) {
-                  _context8.next = 6;
+                  _context10.next = 6;
                   break;
                 }
 
@@ -618,15 +698,15 @@ var CallingSettings = (_dec = (0, _di.Module)({
                   }
                 }
 
-                _context8.next = 6;
+                _context10.next = 6;
                 return this.updateFromNumber(defaultCallerId);
 
               case 6:
               case "end":
-                return _context8.stop();
+                return _context10.stop();
             }
           }
-        }, _callee8, this);
+        }, _callee10, this);
       }));
 
       function _initFromNumber() {
@@ -638,11 +718,11 @@ var CallingSettings = (_dec = (0, _di.Module)({
   }, {
     key: "setData",
     value: function () {
-      var _setData = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9(_ref2, withPrompt) {
+      var _setData = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11(_ref2, withPrompt) {
         var callWith, myLocation, ringoutPrompt, isCustomLocation;
-        return regeneratorRuntime.wrap(function _callee9$(_context9) {
+        return regeneratorRuntime.wrap(function _callee11$(_context11) {
           while (1) {
-            switch (_context9.prev = _context9.next) {
+            switch (_context11.prev = _context11.next) {
               case 0:
                 callWith = _ref2.callWith, myLocation = _ref2.myLocation, ringoutPrompt = _ref2.ringoutPrompt, isCustomLocation = _ref2.isCustomLocation;
                 // TODO validate myLocation
@@ -674,12 +754,16 @@ var CallingSettings = (_dec = (0, _di.Module)({
                   }
                 }
 
-              case 3:
+                if (this.isWebphoneMode) {
+                  this._verifyJPEmergency();
+                }
+
+              case 4:
               case "end":
-                return _context9.stop();
+                return _context11.stop();
             }
           }
-        }, _callee9, this);
+        }, _callee11, this);
       }));
 
       function setData(_x2, _x3) {
@@ -717,7 +801,8 @@ var CallingSettings = (_dec = (0, _di.Module)({
     key: "isCustomLocation",
     get: function get() {
       return this.data.isCustomLocation;
-    }
+    } // For Japan Emergency Service notification
+
   }, {
     key: "myPhoneNumbers",
     get: function get() {
@@ -878,7 +963,14 @@ var CallingSettings = (_dec = (0, _di.Module)({
   }]);
 
   return CallingSettings;
-}(_core.RcModuleV2), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "data", [_core.storage, _core.state], {
+}(_core.RcModuleV2), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "acknowledgeJPMessage", [_core.storage, _core.state], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    return false;
+  }
+}), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "data", [_core.storage, _core.state], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -892,6 +984,6 @@ var CallingSettings = (_dec = (0, _di.Module)({
       isCustomLocation: false
     };
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "setDataAction", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setDataAction"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_updateFromNumber", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_updateFromNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateFromNumber", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "updateFromNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resetSuccess", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "resetSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_warningEmergencyCallingNotAvailable", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_warningEmergencyCallingNotAvailable"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_validateSettings", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_validateSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setSoftPhoneToCallWith", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_setSoftPhoneToCallWith"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_initFromNumber", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_initFromNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setData", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "setData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "myPhoneNumbers", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "myPhoneNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "otherPhoneNumbers", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "otherPhoneNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "callWithOptions", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "callWithOptions"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "fromNumbers", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "fromNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "availableNumbers", [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, "availableNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "availableNumbersWithLabel", [_dec7], Object.getOwnPropertyDescriptor(_class2.prototype, "availableNumbersWithLabel"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "setDataAction", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setDataAction"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_updateFromNumber", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_updateFromNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateFromNumber", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "updateFromNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setAcknowledgeJPMessage", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setAcknowledgeJPMessage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resetSuccess", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "resetSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_warningEmergencyCallingNotAvailable", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_warningEmergencyCallingNotAvailable"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_validateSettings", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_validateSettings"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_verifyJPEmergency", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_verifyJPEmergency"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setSoftPhoneToCallWith", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_setSoftPhoneToCallWith"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_initFromNumber", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_initFromNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setData", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "setData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "myPhoneNumbers", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "myPhoneNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "otherPhoneNumbers", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "otherPhoneNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "callWithOptions", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "callWithOptions"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "fromNumbers", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "fromNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "availableNumbers", [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, "availableNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "availableNumbersWithLabel", [_dec7], Object.getOwnPropertyDescriptor(_class2.prototype, "availableNumbersWithLabel"), _class2.prototype)), _class2)) || _class);
 exports.CallingSettings = CallingSettings;
 //# sourceMappingURL=CallingSettings.js.map

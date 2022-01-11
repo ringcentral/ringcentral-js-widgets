@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 require("core-js/modules/es6.weak-map");
 
@@ -67,39 +67,39 @@ require("core-js/modules/es6.number.constructor");
 
 require("regenerator-runtime/runtime");
 
-var _core = require("@ringcentral-integration/core");
-
 var _ramda = require("ramda");
+
+var _core = require("@ringcentral-integration/core");
 
 var _i18n = require("@ringcentral-integration/i18n");
 
-var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
-
-var _di = require("../../lib/di");
+var _meetingHelper = require("../../helpers/meetingHelper");
 
 var _background = _interopRequireDefault(require("../../lib/background"));
 
+var _di = require("../../lib/di");
+
 var _proxify = require("../../lib/proxy/proxify");
+
+var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
 
 var _selector = require("../../lib/selector");
 
-var _meetingStatus = _interopRequireDefault(require("../Meeting/meetingStatus"));
-
 var _Meeting = require("../Meeting");
 
-var _meetingHelper = require("../../helpers/meetingHelper");
+var _meetingStatus = _interopRequireDefault(require("../Meeting/meetingStatus"));
 
-var _constants = require("./constants");
+var _videoHelper = require("../RcVideoV2/videoHelper");
 
 var _actionTypes = _interopRequireDefault(require("./actionTypes"));
 
-var _videoStatus = require("./videoStatus");
+var _constants = require("./constants");
 
 var _getRcVReducer = _interopRequireWildcard(require("./getRcVReducer"));
 
-var _videoHelper = require("./videoHelper");
+var _videoHelper2 = require("./videoHelper");
 
-var _videoHelper2 = require("../RcVideoV2/videoHelper");
+var _videoStatus = require("./videoStatus");
 
 var _dec, _dec2, _dec3, _dec4, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5;
 
@@ -127,7 +127,7 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-function _iterableToArrayLimit(arr, i) { var _i = arr && (typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]); if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
@@ -137,9 +137,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -151,15 +151,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } Object.defineProperty(subClass, "prototype", { value: Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }), writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
@@ -173,9 +173,6 @@ function _applyDecoratedDescriptor(target, property, decorators, descriptor, con
 
 var RcVideo = (_dec = (0, _di.Module)({
   deps: ['Alert', 'Client', 'Brand', 'Storage', 'AccountInfo', 'ExtensionInfo', 'MeetingProvider', 'Locale', {
-    dep: 'DynamicConfig',
-    optional: true
-  }, {
     dep: 'AvailabilityMonitor',
     optional: true
   }, {
@@ -194,8 +191,8 @@ var RcVideo = (_dec = (0, _di.Module)({
   var currentUser = _ref3.currentUser,
       extensionName = _ref3.extensionName,
       brandName = _ref3.brandName,
-      currentLocale = _ref3.currentLocale;
-  return [currentUser, extensionName, brandName, currentLocale];
+      _brand = _ref3._brand;
+  return [currentUser, extensionName, brandName, _brand.brandConfig.rcvMeetingTopic];
 }), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModule) {
   _inherits(RcVideo, _RcModule);
 
@@ -215,7 +212,6 @@ var RcVideo = (_dec = (0, _di.Module)({
         meetingProvider = _ref4.meetingProvider,
         accountInfo = _ref4.accountInfo,
         locale = _ref4.locale,
-        dynamicConfig = _ref4.dynamicConfig,
         _ref4$enableE2EE = _ref4.enableE2EE,
         enableE2EE = _ref4$enableE2EE === void 0 ? false : _ref4$enableE2EE,
         _ref4$showSaveAsDefau = _ref4.showSaveAsDefault,
@@ -234,7 +230,7 @@ var RcVideo = (_dec = (0, _di.Module)({
         enableInvitationApi = _ref4$enableInvitatio === void 0 ? false : _ref4$enableInvitatio,
         _ref4$enableHostCount = _ref4.enableHostCountryDialinNumbers,
         enableHostCountryDialinNumbers = _ref4$enableHostCount === void 0 ? false : _ref4$enableHostCount,
-        options = _objectWithoutProperties(_ref4, ["alert", "client", "extensionInfo", "brand", "storage", "reducers", "availabilityMonitor", "meetingProvider", "accountInfo", "locale", "dynamicConfig", "enableE2EE", "showSaveAsDefault", "isInstantMeeting", "enablePersonalMeeting", "enableReloadAfterSchedule", "enableScheduleOnBehalf", "enableWaitingRoom", "enableInvitationApi", "enableHostCountryDialinNumbers"]);
+        options = _objectWithoutProperties(_ref4, ["alert", "client", "extensionInfo", "brand", "storage", "reducers", "availabilityMonitor", "meetingProvider", "accountInfo", "locale", "enableE2EE", "showSaveAsDefault", "isInstantMeeting", "enablePersonalMeeting", "enableReloadAfterSchedule", "enableScheduleOnBehalf", "enableWaitingRoom", "enableInvitationApi", "enableHostCountryDialinNumbers"]);
 
     _classCallCheck(this, RcVideo);
 
@@ -262,7 +258,6 @@ var RcVideo = (_dec = (0, _di.Module)({
     _this._enableHostCountryDialinNumbers = void 0;
     _this._accountInfo = void 0;
     _this._locale = void 0;
-    _this._dynamicConfig = void 0;
     _this._createMeetingPromise = null;
 
     _initializerDefineProperty(_this, "transformedPreferences", _descriptor, _assertThisInitialized(_this));
@@ -283,7 +278,6 @@ var RcVideo = (_dec = (0, _di.Module)({
     _this._storage = storage;
     _this._accountInfo = accountInfo;
     _this._locale = locale;
-    _this._dynamicConfig = dynamicConfig;
     _this._reducer = (0, _getRcVReducer["default"])(_this.actionTypes, reducers);
     _this._showSaveAsDefault = showSaveAsDefault;
     _this._isInstantMeeting = isInstantMeeting;
@@ -366,12 +360,12 @@ var RcVideo = (_dec = (0, _di.Module)({
   }, {
     key: "_shouldInit",
     value: function _shouldInit() {
-      return this.pending && this._accountInfo.ready && this._extensionInfo.ready && this._storage.ready && this._meetingProvider.ready && this._meetingProvider.isRCV && (!this._dynamicConfig || this._dynamicConfig.ready) && (!this._availabilityMonitor || this._availabilityMonitor.ready);
+      return this.pending && this._accountInfo.ready && this._extensionInfo.ready && this._storage.ready && this._meetingProvider.ready && this._meetingProvider.isRCV && (!this._availabilityMonitor || this._availabilityMonitor.ready);
     }
   }, {
     key: "_shouldReset",
     value: function _shouldReset() {
-      return this.ready && (!this._accountInfo.ready || !this._extensionInfo.ready || !this._storage.ready || !this._meetingProvider.ready || !this._meetingProvider.isRCV || this._dynamicConfig && !this._dynamicConfig.ready || this._availabilityMonitor && !this._availabilityMonitor.ready);
+      return this.ready && (!this._accountInfo.ready || !this._extensionInfo.ready || !this._storage.ready || !this._meetingProvider.ready || !this._meetingProvider.isRCV || this._availabilityMonitor && !this._availabilityMonitor.ready);
     }
   }, {
     key: "_reset",
@@ -609,7 +603,7 @@ var RcVideo = (_dec = (0, _di.Module)({
 
               case 5:
                 _context8.next = 7;
-                return this._initPreferences(this.accountId, extensionId);
+                return this._initPreferences();
 
               case 7:
                 this._initMeetingSettings(false);
@@ -636,24 +630,17 @@ var RcVideo = (_dec = (0, _di.Module)({
     key: "_initPreferences",
     value: function () {
       var _initPreferences2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9() {
-        var accountId,
-            extensionId,
-            _yield$this$_getPrefe,
-            preferences,
-            settingLocks,
-            _args9 = arguments;
+        var _yield$this$_getPrefe, preferences, settingLocks;
 
         return regeneratorRuntime.wrap(function _callee9$(_context9) {
           while (1) {
             switch (_context9.prev = _context9.next) {
               case 0:
-                accountId = _args9.length > 0 && _args9[0] !== undefined ? _args9[0] : this.accountId;
-                extensionId = _args9.length > 1 && _args9[1] !== undefined ? _args9[1] : this.extensionId;
-                _context9.prev = 2;
-                _context9.next = 5;
-                return this._getPreferences(accountId, extensionId);
+                _context9.prev = 0;
+                _context9.next = 3;
+                return this._getPreferences(this.accountId, this.extensionId);
 
-              case 5:
+              case 3:
                 _yield$this$_getPrefe = _context9.sent;
                 preferences = _yield$this$_getPrefe.preferences;
                 settingLocks = _yield$this$_getPrefe.settingLocks;
@@ -667,20 +654,20 @@ var RcVideo = (_dec = (0, _di.Module)({
                   type: this.actionTypes.updateMeetingSettingLocks,
                   settingLocks: settingLocks
                 });
-                _context9.next = 16;
+                _context9.next = 14;
                 break;
 
-              case 13:
-                _context9.prev = 13;
-                _context9.t0 = _context9["catch"](2);
+              case 11:
+                _context9.prev = 11;
+                _context9.t0 = _context9["catch"](0);
                 console.log('preference error:', _context9.t0); // this._errorHandle(errors);
 
-              case 16:
+              case 14:
               case "end":
                 return _context9.stop();
             }
           }
-        }, _callee9, this, [[2, 13]]);
+        }, _callee9, this, [[0, 11]]);
       }));
 
       function _initPreferences() {
@@ -841,12 +828,12 @@ var RcVideo = (_dec = (0, _di.Module)({
   }, {
     key: "validatePasswordSettings",
     value: function validatePasswordSettings(password, isSecret) {
-      return (0, _videoHelper.validatePasswordSettings)(password, isSecret);
+      return (0, _videoHelper2.validatePasswordSettings)(password, isSecret);
     }
   }, {
     key: "generateRandomPassword",
     value: function generateRandomPassword() {
-      return (0, _videoHelper.generateRandomPassword)(10);
+      return (0, _videoHelper2.generateRandomPassword)(10);
     }
   }, {
     key: "createMeetingDirectly",
@@ -880,12 +867,12 @@ var RcVideo = (_dec = (0, _di.Module)({
                   this.saveAsDefaultSetting(meeting);
                 }
 
-                meetingDetail = (0, _videoHelper.pruneMeetingObject)(meeting, [{
+                meetingDetail = (0, _videoHelper2.pruneMeetingObject)(meeting, [{
                   condition: this.enableWaitingRoom,
-                  key: _videoHelper.RCV_WAITING_ROOM_API_KEYS
+                  key: _videoHelper2.RCV_WAITING_ROOM_API_KEYS
                 }, {
                   condition: this.enableE2EE && !meeting.usePersonalMeetingId,
-                  key: _videoHelper.RCV_E2EE_API_KEYS
+                  key: _videoHelper2.RCV_E2EE_API_KEYS
                 }]);
                 _context12.next = 7;
                 return this._client.service.platform().post('/rcvideo/v1/bridges', meetingDetail);
@@ -949,10 +936,10 @@ var RcVideo = (_dec = (0, _di.Module)({
                   meetingId: newMeeting.id,
                   meetingUrl: newMeeting.joinUri,
                   participantCode: newMeeting.participantCode,
-                  mainPhoneNumber: (0, _videoHelper2.formatMainPhoneNumber)(dialInNumber),
+                  mainPhoneNumber: (0, _videoHelper.formatMainPhoneNumber)(dialInNumber),
                   password: newMeeting.meetingPassword,
                   dialInPassword: newMeeting.meetingPasswordPSTN,
-                  premiumNumbers: (0, _videoHelper2.formatPremiumNumbers)(dialInNumber)
+                  premiumNumbers: (0, _videoHelper.formatPremiumNumbers)(dialInNumber)
                 });
 
               case 29:
@@ -1052,7 +1039,7 @@ var RcVideo = (_dec = (0, _di.Module)({
                 isAlertSuccess = _args14.length > 1 && _args14[1] !== undefined ? _args14[1] : true;
                 return _context14.abrupt("return", this.createMeeting(_objectSpread(_objectSpread({}, meeting), {}, {
                   expiresIn: null,
-                  type: _videoHelper.RcVideoTypes.meeting
+                  type: _videoHelper2.RcVideoTypes.meeting
                 }), {
                   isAlertSuccess: isAlertSuccess
                 }));
@@ -1215,7 +1202,7 @@ var RcVideo = (_dec = (0, _di.Module)({
                 extensionId = _args17.length > 1 && _args17[1] !== undefined ? _args17[1] : this.extensionId;
                 _context17.next = 4;
                 return this._client.service.platform().get("/rcvideo/v1/account/".concat(accountId, "/extension/").concat(extensionId, "/preferences"), {
-                  id: _videoHelper.RCV_PREFERENCES_IDS
+                  id: _videoHelper2.RCV_PREFERENCES_IDS
                 });
 
               case 4:
@@ -1344,7 +1331,7 @@ var RcVideo = (_dec = (0, _di.Module)({
             switch (_context20.prev = _context20.next) {
               case 0:
                 isOverwrite = _args20.length > 1 && _args20[1] !== undefined ? _args20[1] : false;
-                preferencesPayload = (0, _videoHelper.reversePreferences)(preferences, this._isInstantMeeting);
+                preferencesPayload = (0, _videoHelper2.reversePreferences)(preferences, this._isInstantMeeting);
                 dirtyPreferences = Object.entries(preferencesPayload).filter(function (kvPairs) {
                   var _ref9 = kvPairs,
                       _ref10 = _slicedToArray(_ref9, 2),
@@ -1470,12 +1457,12 @@ var RcVideo = (_dec = (0, _di.Module)({
                   this.saveAsDefaultSetting(meeting);
                 }
 
-                meetingDetail = (0, _videoHelper.pruneMeetingObject)(meeting, [{
+                meetingDetail = (0, _videoHelper2.pruneMeetingObject)(meeting, [{
                   condition: this.enableWaitingRoom,
-                  key: _videoHelper.RCV_WAITING_ROOM_API_KEYS
+                  key: _videoHelper2.RCV_WAITING_ROOM_API_KEYS
                 }, {
                   condition: this.enableE2EE && !meeting.usePersonalMeetingId,
-                  key: _videoHelper.RCV_E2EE_API_KEYS
+                  key: _videoHelper2.RCV_E2EE_API_KEYS
                 }]);
                 _context22.next = 7;
                 return this._client.service.platform().send({
@@ -1508,10 +1495,10 @@ var RcVideo = (_dec = (0, _di.Module)({
                   meetingId: newMeeting.id,
                   meetingUrl: newMeeting.joinUri,
                   participantCode: newMeeting.participantCode,
-                  mainPhoneNumber: (0, _videoHelper2.formatMainPhoneNumber)(dialInNumber),
+                  mainPhoneNumber: (0, _videoHelper.formatMainPhoneNumber)(dialInNumber),
                   password: newMeeting.meetingPassword,
                   dialInPassword: newMeeting.meetingPasswordPSTN,
-                  premiumNumbers: (0, _videoHelper2.formatPremiumNumbers)(dialInNumber)
+                  premiumNumbers: (0, _videoHelper.formatPremiumNumbers)(dialInNumber)
                 });
 
               case 19:
@@ -1594,47 +1581,98 @@ var RcVideo = (_dec = (0, _di.Module)({
       });
     }
   }, {
-    key: "updateMeetingSettings",
-    value: function updateMeetingSettings(meeting) {
-      var _processedMeeting$mee, _this$meeting, _processedMeeting$isM, _this$meeting2;
+    key: "turnOnE2ee",
+    value: function () {
+      var _turnOnE2ee = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee23() {
+        return regeneratorRuntime.wrap(function _callee23$(_context23) {
+          while (1) {
+            switch (_context23.prev = _context23.next) {
+              case 0:
+                this.updateMeetingSettings(_objectSpread(_objectSpread({
+                  e2ee: true
+                }, _videoHelper2.RCV_E2EE_DEFAULT_SECURITY_OPTIONS), {}, {
+                  // if jbh is locked, do not change its value
+                  allowJoinBeforeHost: this.meeting.settingLock.allowJoinBeforeHost ? this.meeting.allowJoinBeforeHost : _videoHelper2.RCV_E2EE_DEFAULT_SECURITY_OPTIONS.allowJoinBeforeHost
+                }));
 
-      var patch = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
-      var processedMeeting = meeting;
+              case 1:
+              case "end":
+                return _context23.stop();
+            }
+          }
+        }, _callee23, this);
+      }));
 
-      if (this.enableWaitingRoom) {
-        processedMeeting = _objectSpread(_objectSpread({}, processedMeeting), (0, _videoHelper.patchWaitingRoomRelated)(_objectSpread(_objectSpread({}, this.meeting), processedMeeting), this.transformedPreferences, true));
+      function turnOnE2ee() {
+        return _turnOnE2ee.apply(this, arguments);
       }
 
-      this.store.dispatch({
-        type: this.actionTypes.updateMeetingSettings,
-        meeting: _objectSpread(_objectSpread({}, processedMeeting), {}, {
-          isMeetingPasswordValid: this.validatePasswordSettings((_processedMeeting$mee = processedMeeting.meetingPassword) !== null && _processedMeeting$mee !== void 0 ? _processedMeeting$mee : (_this$meeting = this.meeting) === null || _this$meeting === void 0 ? void 0 : _this$meeting.meetingPassword, (_processedMeeting$isM = processedMeeting.isMeetingSecret) !== null && _processedMeeting$isM !== void 0 ? _processedMeeting$isM : (_this$meeting2 = this.meeting) === null || _this$meeting2 === void 0 ? void 0 : _this$meeting2.isMeetingSecret)
-        }),
-        patch: patch
-      });
+      return turnOnE2ee;
+    }()
+  }, {
+    key: "updateMeetingSettings",
+    value: function () {
+      var _updateMeetingSettings = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee24(meeting) {
+        var _processedMeeting$mee, _this$meeting, _processedMeeting$isM, _this$meeting2;
 
-      this._comparePreferences();
-    }
+        var patch,
+            processedMeeting,
+            _args24 = arguments;
+        return regeneratorRuntime.wrap(function _callee24$(_context24) {
+          while (1) {
+            switch (_context24.prev = _context24.next) {
+              case 0:
+                patch = _args24.length > 1 && _args24[1] !== undefined ? _args24[1] : true;
+                processedMeeting = meeting;
+
+                if (this.enableWaitingRoom) {
+                  processedMeeting = _objectSpread(_objectSpread({}, processedMeeting), (0, _videoHelper2.patchWaitingRoomRelated)(_objectSpread(_objectSpread({}, this.meeting), processedMeeting), this.transformedPreferences, true));
+                }
+
+                this.store.dispatch({
+                  type: this.actionTypes.updateMeetingSettings,
+                  meeting: _objectSpread(_objectSpread({}, processedMeeting), {}, {
+                    isMeetingPasswordValid: this.validatePasswordSettings((_processedMeeting$mee = processedMeeting.meetingPassword) !== null && _processedMeeting$mee !== void 0 ? _processedMeeting$mee : (_this$meeting = this.meeting) === null || _this$meeting === void 0 ? void 0 : _this$meeting.meetingPassword, (_processedMeeting$isM = processedMeeting.isMeetingSecret) !== null && _processedMeeting$isM !== void 0 ? _processedMeeting$isM : (_this$meeting2 = this.meeting) === null || _this$meeting2 === void 0 ? void 0 : _this$meeting2.isMeetingSecret)
+                  }),
+                  patch: patch
+                });
+
+                this._comparePreferences();
+
+              case 5:
+              case "end":
+                return _context24.stop();
+            }
+          }
+        }, _callee24, this);
+      }));
+
+      function updateMeetingSettings(_x14) {
+        return _updateMeetingSettings.apply(this, arguments);
+      }
+
+      return updateMeetingSettings;
+    }()
   }, {
     key: "_comparePreferences",
     value: function _comparePreferences() {
       this.store.dispatch({
         type: this.actionTypes.saveMeetingPreferencesState,
-        isPreferencesChanged: (0, _videoHelper.comparePreferences)(this.transformedPreferences, this.meeting)
+        isPreferencesChanged: (0, _videoHelper2.comparePreferences)(this.transformedPreferences, this.meeting)
       });
     }
   }, {
     key: "_errorHandle",
     value: function () {
-      var _errorHandle2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee23(errors) {
+      var _errorHandle2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee25(errors) {
         var _iterator, _step, error, _yield$errors$respons, errorCode, permissionName;
 
-        return regeneratorRuntime.wrap(function _callee23$(_context23) {
+        return regeneratorRuntime.wrap(function _callee25$(_context25) {
           while (1) {
-            switch (_context23.prev = _context23.next) {
+            switch (_context25.prev = _context25.next) {
               case 0:
                 if (!(errors instanceof _Meeting.MeetingErrors)) {
-                  _context23.next = 5;
+                  _context25.next = 5;
                   break;
                 }
 
@@ -1652,25 +1690,25 @@ var RcVideo = (_dec = (0, _di.Module)({
                   _iterator.f();
                 }
 
-                _context23.next = 26;
+                _context25.next = 26;
                 break;
 
               case 5:
                 if (!(errors && errors.response)) {
-                  _context23.next = 24;
+                  _context25.next = 24;
                   break;
                 }
 
-                _context23.next = 8;
+                _context25.next = 8;
                 return errors.response.clone().json();
 
               case 8:
-                _yield$errors$respons = _context23.sent;
+                _yield$errors$respons = _context25.sent;
                 errorCode = _yield$errors$respons.errorCode;
                 permissionName = _yield$errors$respons.permissionName;
 
                 if (!(errorCode === 'InsufficientPermissions' && permissionName)) {
-                  _context23.next = 15;
+                  _context25.next = 15;
                   break;
                 }
 
@@ -1681,26 +1719,26 @@ var RcVideo = (_dec = (0, _di.Module)({
                   }
                 });
 
-                _context23.next = 22;
+                _context25.next = 22;
                 break;
 
               case 15:
-                _context23.t0 = !this._availabilityMonitor;
+                _context25.t0 = !this._availabilityMonitor;
 
-                if (_context23.t0) {
-                  _context23.next = 20;
+                if (_context25.t0) {
+                  _context25.next = 20;
                   break;
                 }
 
-                _context23.next = 19;
+                _context25.next = 19;
                 return this._availabilityMonitor.checkIfHAError(errors);
 
               case 19:
-                _context23.t0 = !_context23.sent;
+                _context25.t0 = !_context25.sent;
 
               case 20:
-                if (!_context23.t0) {
-                  _context23.next = 22;
+                if (!_context25.t0) {
+                  _context25.next = 22;
                   break;
                 }
 
@@ -1709,7 +1747,7 @@ var RcVideo = (_dec = (0, _di.Module)({
                 });
 
               case 22:
-                _context23.next = 26;
+                _context25.next = 26;
                 break;
 
               case 24:
@@ -1721,13 +1759,13 @@ var RcVideo = (_dec = (0, _di.Module)({
 
               case 26:
               case "end":
-                return _context23.stop();
+                return _context25.stop();
             }
           }
-        }, _callee23, this);
+        }, _callee25, this);
       }));
 
-      function _errorHandle(_x14) {
+      function _errorHandle(_x15) {
         return _errorHandle2.apply(this, arguments);
       }
 
@@ -1777,11 +1815,6 @@ var RcVideo = (_dec = (0, _di.Module)({
     key: "shortName",
     get: function get() {
       return this._brand.shortName;
-    }
-  }, {
-    key: "fullName",
-    get: function get() {
-      return this._brand.fullName;
     }
   }, {
     key: "brandCode",
@@ -1892,26 +1925,17 @@ var RcVideo = (_dec = (0, _di.Module)({
         extensionName = (_this$currentUser2 = this.currentUser) === null || _this$currentUser2 === void 0 ? void 0 : _this$currentUser2.name;
       }
 
-      return (0, _videoHelper.getTopic)({
+      return (0, _videoHelper2.getTopic)({
         extensionName: extensionName,
         brandName: this.brandName,
-        fullName: this.fullName,
         shortName: this.shortName,
-        brandCode: this.brandCode,
-        currentLocale: this.currentLocale
+        rcvMeetingTopic: this._brand.brandConfig.rcvMeetingTopic
       });
-    }
-  }, {
-    key: "uriRegExp",
-    get: function get() {
-      var _this$_dynamicConfig;
-
-      return (_this$_dynamicConfig = this._dynamicConfig) === null || _this$_dynamicConfig === void 0 ? void 0 : _this$_dynamicConfig.rcvUriRegExp;
     }
   }]);
 
   return RcVideo;
-}(_RcModule2["default"]), (_applyDecoratedDescriptor(_class2.prototype, "_init", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_init"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_onInit", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_onInit"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "init", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "init"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "reload", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "reload"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "switchUsePersonalMeetingId", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "switchUsePersonalMeetingId"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateDelegator", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "updateDelegator"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateScheduleFor", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "updateScheduleFor"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "createMeetingDirectly", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "createMeetingDirectly"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "createMeeting", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "createMeeting"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getMeetingInvitation", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "getMeetingInvitation"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_getDialinNumbers", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_getDialinNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getExtensionInfo", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "getExtensionInfo"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getMeeting", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "getMeeting"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateMeeting", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "updateMeeting"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateMeetingSettings", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "updateMeetingSettings"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "transformedPreferences", [_selector.selector], {
+}(_RcModule2["default"]), (_applyDecoratedDescriptor(_class2.prototype, "_init", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_init"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_onInit", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_onInit"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "init", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "init"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "reload", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "reload"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "switchUsePersonalMeetingId", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "switchUsePersonalMeetingId"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateDelegator", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "updateDelegator"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateScheduleFor", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "updateScheduleFor"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "createMeetingDirectly", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "createMeetingDirectly"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "createMeeting", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "createMeeting"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getMeetingInvitation", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "getMeetingInvitation"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_getDialinNumbers", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_getDialinNumbers"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getExtensionInfo", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "getExtensionInfo"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getMeeting", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "getMeeting"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateMeeting", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "updateMeeting"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "turnOnE2ee", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "turnOnE2ee"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateMeetingSettings", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "updateMeetingSettings"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "transformedPreferences", [_selector.selector], {
   configurable: true,
   enumerable: true,
   writable: true,
@@ -1923,7 +1947,7 @@ var RcVideo = (_dec = (0, _di.Module)({
     }, function () {
       return _this7.preferences;
     }, function (isInstantMeeting, preferences) {
-      return (0, _videoHelper.transformPreferences)(preferences, isInstantMeeting);
+      return (0, _videoHelper2.transformPreferences)(preferences, isInstantMeeting);
     }];
   }
 }), _descriptor2 = _applyDecoratedDescriptor(_class2.prototype, "transformedSettingLocks", [_selector.selector], {
@@ -1938,7 +1962,7 @@ var RcVideo = (_dec = (0, _di.Module)({
     }, function () {
       return _this8.settingLocks;
     }, function (isInstantMeeting, settingLocks) {
-      return (0, _videoHelper.transformSettingLocks)(settingLocks, isInstantMeeting);
+      return (0, _videoHelper2.transformSettingLocks)(settingLocks, isInstantMeeting);
     }];
   }
 }), _descriptor3 = _applyDecoratedDescriptor(_class2.prototype, "personalVideoSetting", [_selector.selector], {
@@ -1961,8 +1985,8 @@ var RcVideo = (_dec = (0, _di.Module)({
         return null;
       }
 
-      var processedSettings = _objectSpread(_objectSpread(_objectSpread(_objectSpread({}, initialSetting), personalMeeting), (0, _videoHelper.getLockedPreferences)(transformedSettingLocks, transformedPreferences)), {}, {
-        meetingPassword: personalMeeting.meetingPassword || (0, _videoHelper.generateRandomPassword)(10),
+      var processedSettings = _objectSpread(_objectSpread(_objectSpread(_objectSpread({}, initialSetting), personalMeeting), (0, _videoHelper2.getLockedPreferences)(transformedSettingLocks, transformedPreferences)), {}, {
+        meetingPassword: personalMeeting.meetingPassword || (0, _videoHelper2.generateRandomPassword)(10),
         startTime: new Date((0, _meetingHelper.getInitializedStartTime)()),
         isMeetingPasswordValid: true,
         // assume personal meeting password is valid
@@ -1972,7 +1996,7 @@ var RcVideo = (_dec = (0, _di.Module)({
       });
 
       if (_this9.enableWaitingRoom) {
-        return _objectSpread(_objectSpread({}, processedSettings), (0, _videoHelper.patchWaitingRoomRelated)(processedSettings, transformedPreferences));
+        return _objectSpread(_objectSpread({}, processedSettings), (0, _videoHelper2.patchWaitingRoomRelated)(processedSettings, transformedPreferences));
       }
 
       return processedSettings;
@@ -1996,7 +2020,7 @@ var RcVideo = (_dec = (0, _di.Module)({
       return _this10.transformedSettingLocks;
     }, function (initialSetting, savedSetting, transformedPreferences, transformedSettingLocks) {
       return _objectSpread(_objectSpread(_objectSpread(_objectSpread({}, initialSetting), savedSetting), transformedPreferences), {}, {
-        meetingPassword: (0, _videoHelper.generateRandomPassword)(10),
+        meetingPassword: (0, _videoHelper2.generateRandomPassword)(10),
         startTime: new Date((0, _meetingHelper.getInitializedStartTime)()),
         isMeetingPasswordValid: true,
         // generated random password is valid
@@ -2030,23 +2054,17 @@ var RcVideo = (_dec = (0, _di.Module)({
     }, function () {
       return _this11.shortName;
     }, function () {
-      return _this11.fullName;
-    }, function () {
-      return _this11.brandCode;
-    }, function () {
       return _this11.currentUser;
     }, function () {
-      return _this11.currentLocale;
-    }, function (extensionName, brandName, shortName, fullName, brandCode, currentUser, currentLocale) {
-      var topic = (0, _videoHelper.getTopic)({
+      return _this11._brand.brandConfig.rcvMeetingTopic;
+    }, function (extensionName, brandName, shortName, currentUser, rcvMeetingTopic) {
+      var topic = (0, _videoHelper2.getTopic)({
         extensionName: extensionName,
         brandName: brandName,
         shortName: shortName,
-        fullName: fullName,
-        brandCode: brandCode,
-        currentLocale: currentLocale
+        rcvMeetingTopic: rcvMeetingTopic
       });
-      return (0, _videoHelper.getDefaultVideoSettings)({
+      return (0, _videoHelper2.getDefaultVideoSettings)({
         topic: topic,
         accountId: currentUser.accountId,
         extensionId: currentUser.extensionId

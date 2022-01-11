@@ -5,8 +5,8 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getLogId = getLogId;
 exports.conversationLogIdentityFunction = conversationLogIdentityFunction;
+exports.getLogId = getLogId;
 
 function getLogId(_ref) {
   var conversationId = _ref.conversationId,

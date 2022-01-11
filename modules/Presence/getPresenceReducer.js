@@ -27,32 +27,32 @@ require("core-js/modules/es6.array.reduce");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getDndStatusReducer = getDndStatusReducer;
-exports.getMeetingStatusReducer = getMeetingStatusReducer;
-exports.getLastNotDisturbDndStatusReducer = getLastNotDisturbDndStatusReducer;
-exports.getPresenceStatusReducer = getPresenceStatusReducer;
-exports.getUserStatusReducer = getUserStatusReducer;
 exports.getActiveCallsReducer = getActiveCallsReducer;
-exports.getTelephonyStatusReducer = getTelephonyStatusReducer;
-exports.getSequenceReducer = getSequenceReducer;
 exports.getDataReducer = getDataReducer;
+exports.getDndStatusReducer = getDndStatusReducer;
+exports.getLastNotDisturbDndStatusReducer = getLastNotDisturbDndStatusReducer;
+exports.getMeetingStatusReducer = getMeetingStatusReducer;
+exports.getPresenceStatusReducer = getPresenceStatusReducer;
+exports.getSequenceReducer = getSequenceReducer;
+exports.getTelephonyStatusReducer = getTelephonyStatusReducer;
+exports.getUserStatusReducer = getUserStatusReducer;
 exports.removeIntermediateCall = void 0;
 
 require("core-js/modules/es6.array.find");
 
-var _redux = require("redux");
-
 var _ramda = require("ramda");
 
-var _dndStatus = _interopRequireDefault(require("./dndStatus"));
+var _redux = require("redux");
 
 var _callLogHelpers = require("../../lib/callLogHelpers");
 
+var _dndStatus = _interopRequireDefault(require("./dndStatus"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 

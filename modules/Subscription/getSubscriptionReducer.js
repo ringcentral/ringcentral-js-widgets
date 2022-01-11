@@ -5,11 +5,11 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getCachedSubscriptionReducer = getCachedSubscriptionReducer;
-exports.getSubscriptionStatusReducer = getSubscriptionStatusReducer;
-exports.getMessageReducer = getMessageReducer;
-exports.getFiltersReducer = getFiltersReducer;
 exports["default"] = getSubscriptionReducer;
+exports.getCachedSubscriptionReducer = getCachedSubscriptionReducer;
+exports.getFiltersReducer = getFiltersReducer;
+exports.getMessageReducer = getMessageReducer;
+exports.getSubscriptionStatusReducer = getSubscriptionStatusReducer;
 
 require("core-js/modules/es6.array.for-each");
 

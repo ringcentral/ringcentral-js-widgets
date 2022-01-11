@@ -5,12 +5,12 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports["default"] = getComposeTextReducer;
+exports.getMessageText = getMessageText;
 exports.getSenderNumber = getSenderNumber;
-exports.getTypingToNumber = getTypingToNumber;
 exports.getToNumberEntityReducer = getToNumberEntityReducer;
 exports.getToNumbers = getToNumbers;
-exports.getMessageText = getMessageText;
-exports["default"] = getComposeTextReducer;
+exports.getTypingToNumber = getTypingToNumber;
 
 require("core-js/modules/es6.array.filter");
 

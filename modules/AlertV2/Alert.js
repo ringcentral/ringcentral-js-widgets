@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -43,9 +43,9 @@ exports.Alert = void 0;
 
 require("core-js/modules/es6.array.index-of");
 
-require("regenerator-runtime/runtime");
-
 require("core-js/modules/es6.object.assign");
+
+require("regenerator-runtime/runtime");
 
 require("core-js/modules/es6.array.for-each");
 
@@ -63,13 +63,11 @@ var _core = require("@ringcentral-integration/core");
 
 var _di = require("../../lib/di");
 
-var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
+var _proxify = require("../../lib/proxy/proxify");
 
 var _alertLevels = require("./alertLevels");
 
 var _dec, _class, _class2, _descriptor;
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
@@ -85,9 +83,9 @@ function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) r
 
 function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -95,15 +93,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } Object.defineProperty(subClass, "prototype", { value: Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }), writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
@@ -201,49 +199,55 @@ var Alert = (_dec = (0, _di.Module)({
     /**
      * Add alert message to the state.
      */
-    value: function alert(_ref4) {
-      var _this$_deps$alertOpti2;
+    value: function () {
+      var _alert2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(_ref4) {
+        var _this$_deps$alertOpti2;
 
-      var message = _ref4.message,
-          payload = _ref4.payload,
-          _ref4$level = _ref4.level,
-          level = _ref4$level === void 0 ? _alertLevels.alertLevels.info : _ref4$level,
-          _ref4$ttl = _ref4.ttl,
-          ttl = _ref4$ttl === void 0 ? this._deps.alertOptions.ttl : _ref4$ttl,
-          _ref4$allowDuplicates = _ref4.allowDuplicates,
-          allowDuplicates = _ref4$allowDuplicates === void 0 ? true : _ref4$allowDuplicates,
-          _ref4$loading = _ref4.loading,
-          loading = _ref4$loading === void 0 ? false : _ref4$loading,
-          _ref4$backdrop = _ref4.backdrop,
-          backdrop = _ref4$backdrop === void 0 ? false : _ref4$backdrop,
-          classes = _ref4.classes,
-          onBackdropClick = _ref4.onBackdropClick,
-          _ref4$action = _ref4.action,
-          action = _ref4$action === void 0 ? (_this$_deps$alertOpti2 = this._deps.alertOptions) === null || _this$_deps$alertOpti2 === void 0 ? void 0 : _this$_deps$alertOpti2.action : _ref4$action;
-      var id = uuid.v4();
+        var message, payload, _ref4$level, level, _ref4$ttl, ttl, _ref4$allowDuplicates, allowDuplicates, _ref4$loading, loading, _ref4$backdrop, backdrop, classes, onBackdropClick, _ref4$action, action, id;
 
-      this._alert({
-        message: message,
-        payload: payload,
-        level: level,
-        // when loading the ttl will be zero, make this never dismiss
-        ttl: loading ? 0 : ttl,
-        allowDuplicates: allowDuplicates,
-        backdrop: backdrop,
-        classes: classes,
-        onBackdropClick: onBackdropClick,
-        id: id,
-        timestamp: Date.now(),
-        loading: loading,
-        action: action
-      });
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                message = _ref4.message, payload = _ref4.payload, _ref4$level = _ref4.level, level = _ref4$level === void 0 ? _alertLevels.alertLevels.info : _ref4$level, _ref4$ttl = _ref4.ttl, ttl = _ref4$ttl === void 0 ? this._deps.alertOptions.ttl : _ref4$ttl, _ref4$allowDuplicates = _ref4.allowDuplicates, allowDuplicates = _ref4$allowDuplicates === void 0 ? true : _ref4$allowDuplicates, _ref4$loading = _ref4.loading, loading = _ref4$loading === void 0 ? false : _ref4$loading, _ref4$backdrop = _ref4.backdrop, backdrop = _ref4$backdrop === void 0 ? false : _ref4$backdrop, classes = _ref4.classes, onBackdropClick = _ref4.onBackdropClick, _ref4$action = _ref4.action, action = _ref4$action === void 0 ? (_this$_deps$alertOpti2 = this._deps.alertOptions) === null || _this$_deps$alertOpti2 === void 0 ? void 0 : _this$_deps$alertOpti2.action : _ref4$action;
+                id = uuid.v4();
 
-      if (ttl > 0) {
-        setTimeout(this._autoDismiss, ttl + 10);
+                this._alert({
+                  message: message,
+                  payload: payload,
+                  level: level,
+                  // when loading the ttl will be zero, make this never dismiss
+                  ttl: loading ? 0 : ttl,
+                  allowDuplicates: allowDuplicates,
+                  backdrop: backdrop,
+                  classes: classes,
+                  onBackdropClick: onBackdropClick,
+                  id: id,
+                  timestamp: Date.now(),
+                  loading: loading,
+                  action: action
+                });
+
+                if (ttl > 0) {
+                  setTimeout(this._autoDismiss, ttl + 10);
+                }
+
+                return _context.abrupt("return", id);
+
+              case 5:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function alert(_x) {
+        return _alert2.apply(this, arguments);
       }
 
-      return id;
-    }
+      return alert;
+    }()
     /**
      * Add alert message of alertLevel "danger" to the state.
      */
@@ -310,22 +314,22 @@ var Alert = (_dec = (0, _di.Module)({
   }, {
     key: "dismiss",
     value: function () {
-      var _dismiss2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(ids) {
-        return regeneratorRuntime.wrap(function _callee$(_context) {
+      var _dismiss2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(ids) {
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
-            switch (_context.prev = _context.next) {
+            switch (_context2.prev = _context2.next) {
               case 0:
                 this._dismiss(ids);
 
               case 1:
               case "end":
-                return _context.stop();
+                return _context2.stop();
             }
           }
-        }, _callee, this);
+        }, _callee2, this);
       }));
 
-      function dismiss(_x) {
+      function dismiss(_x2) {
         return _dismiss2.apply(this, arguments);
       }
 
@@ -338,19 +342,19 @@ var Alert = (_dec = (0, _di.Module)({
   }, {
     key: "dismissAll",
     value: function () {
-      var _dismissAll2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+      var _dismissAll2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
                 this._dismissAll();
 
               case 1:
               case "end":
-                return _context2.stop();
+                return _context3.stop();
             }
           }
-        }, _callee2, this);
+        }, _callee3, this);
       }));
 
       function dismissAll() {
@@ -403,6 +407,6 @@ var Alert = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return [];
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "_alert", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_alert"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "alert", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "alert"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "update", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "update"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "dismiss", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "dismiss"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "dismissAll", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "dismissAll"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "dismissAllExpectSpecified", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "dismissAllExpectSpecified"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_dismiss", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_dismiss"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_dismissAll", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_dismissAll"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "_alert", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_alert"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "alert", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "alert"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "update", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "update"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "dismiss", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "dismiss"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "dismissAll", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "dismissAll"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "dismissAllExpectSpecified", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "dismissAllExpectSpecified"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_dismiss", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_dismiss"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_dismissAll", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_dismissAll"), _class2.prototype)), _class2)) || _class);
 exports.Alert = Alert;
 //# sourceMappingURL=Alert.js.map

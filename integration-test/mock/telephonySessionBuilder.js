@@ -21,14 +21,16 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.createTelephonySession = createTelephonySession;
+exports.DEFAULT_PHONE_NUMBER = void 0;
 Object.defineProperty(exports, "PartyStatusCode", {
   enumerable: true,
   get: function get() {
     return _Session.PartyStatusCode;
   }
 });
-exports.TelephonySessionBuilder = exports.telephonySessionBuildersCache = exports.DEFAULT_PHONE_NUMBER = void 0;
+exports.TelephonySessionBuilder = void 0;
+exports.createTelephonySession = createTelephonySession;
+exports.telephonySessionBuildersCache = void 0;
 
 require("core-js/modules/es6.regexp.to-string");
 
@@ -36,23 +38,23 @@ require("core-js/modules/es6.date.to-string");
 
 require("core-js/modules/es6.object.to-string");
 
-var _uuid = require("uuid");
-
 var _moment = _interopRequireDefault(require("moment"));
 
 var _Session = require("ringcentral-call-control/lib/Session");
 
-var _callDirections = _interopRequireDefault(require("../../enums/callDirections"));
+var _uuid = require("uuid");
 
-var _telephonySessions = _interopRequireDefault(require("./data/telephonySessions.json"));
+var _callDirections = _interopRequireDefault(require("../../enums/callDirections"));
 
 var _extensionInfo = _interopRequireDefault(require("./data/extensionInfo.json"));
 
+var _telephonySessions = _interopRequireDefault(require("./data/telephonySessions.json"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -60,7 +62,7 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
 var sequence = 10;
 var DEFAULT_DIRECTION = _callDirections["default"].outbound;
@@ -73,7 +75,9 @@ var telephonySessionBuildersCache = [];
 exports.telephonySessionBuildersCache = telephonySessionBuildersCache;
 
 var TelephonySessionBuilder = /*#__PURE__*/function () {
-  function TelephonySessionBuilder(initParams) {
+  function TelephonySessionBuilder() {
+    var initParams = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+
     _classCallCheck(this, TelephonySessionBuilder);
 
     this._data = void 0;
@@ -83,6 +87,10 @@ var TelephonySessionBuilder = /*#__PURE__*/function () {
     this._sessionId = void 0;
     this._partyStatus = void 0;
     this._partyId = void 0;
+    this._fromNumberData = void 0;
+    this._toNumberData = void 0;
+    this._startTime = void 0;
+    this._isRecording = void 0;
 
     this._init(initParams);
   }
@@ -98,13 +106,21 @@ var TelephonySessionBuilder = /*#__PURE__*/function () {
           direction = _ref$direction === void 0 ? DEFAULT_DIRECTION : _ref$direction,
           sessionId = _ref.sessionId,
           _ref$status = _ref.status,
-          status = _ref$status === void 0 ? _Session.PartyStatusCode.proceeding : _ref$status;
+          status = _ref$status === void 0 ? _Session.PartyStatusCode.proceeding : _ref$status,
+          fromNumberData = _ref.fromNumberData,
+          toNumberData = _ref.toNumberData,
+          startTime = _ref.startTime,
+          isRecording = _ref.isRecording;
       this._telephonySessionId = telephonySessionId;
       this._sessionId = sessionId || telephonySessionId;
       this._phoneNumber = phoneNumber;
       this._direction = direction;
       this._partyId = "".concat(telephonySessionId, "-1");
       this._partyStatus = status;
+      this._fromNumberData = fromNumberData;
+      this._toNumberData = toNumberData;
+      this._startTime = startTime;
+      this._isRecording = isRecording;
     }
   }, {
     key: "direction",
@@ -195,6 +211,14 @@ var TelephonySessionBuilder = /*#__PURE__*/function () {
       };
     }
   }, {
+    key: "recordings",
+    get: function get() {
+      return [{
+        id: DEFAULT_EXTENSION_ID,
+        active: this._isRecording
+      }];
+    }
+  }, {
     key: "data",
     get: function get() {
       return _objectSpread(_objectSpread({}, _telephonySessions["default"]), {}, {
@@ -206,15 +230,15 @@ var TelephonySessionBuilder = /*#__PURE__*/function () {
           sessionId: this._sessionId,
           telephonySessionId: this._telephonySessionId,
           serverId: '10.62.25.111.TAM',
-          eventTime: Date(),
+          eventTime: this._startTime || Date(),
           accountId: '400144452008',
           extensionId: DEFAULT_EXTENSION_ID,
           parties: [{
             extensionId: DEFAULT_EXTENSION_ID,
             id: this._partyId,
             direction: this._direction,
-            to: this.numberData,
-            from: this.numberData,
+            to: this._toNumberData || this.numberData,
+            from: this._fromNumberData || this.numberData,
             status: {
               code: this._partyStatus,
               mobilePickupData: {
@@ -225,10 +249,12 @@ var TelephonySessionBuilder = /*#__PURE__*/function () {
                 srvLvlExt: '390'
               }
             },
+            recordings: this.recordings,
             missedCall: false,
             standAlone: false,
             muted: false
           }],
+          recordings: this.recordings,
           origin: {
             type: 'Call'
           }
@@ -243,6 +269,6 @@ var TelephonySessionBuilder = /*#__PURE__*/function () {
 exports.TelephonySessionBuilder = TelephonySessionBuilder;
 
 function createTelephonySession(initParams) {
-  return new TelephonySessionBuilder(initParams || {});
+  return new TelephonySessionBuilder(initParams);
 }
 //# sourceMappingURL=telephonySessionBuilder.js.map

@@ -18,38 +18,42 @@ require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
 
-require("core-js/modules/es6.array.filter");
-
 require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.symbol");
 
-require("core-js/modules/es6.array.map");
+require("core-js/modules/es6.array.filter");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports.RcVideoTypes = exports.RCV_PREFERENCES_KEYS = exports.RCV_PREFERENCES_IDS = exports.RCV_E2EE_RELATED_KEYS = exports.RCV_E2EE_DEFAULT_SECURITY_OPTIONS = void 0;
 exports.assignObject = assignObject;
-exports.getDefaultChars = getDefaultChars;
-exports.validateRandomPassword = validateRandomPassword;
-exports.generateRandomPassword = generateRandomPassword;
-exports.validatePasswordSettings = validatePasswordSettings;
-exports.getVideoSettings = getVideoSettings;
-exports.getDefaultVideoSettings = getDefaultVideoSettings;
-exports.getTopic = getTopic;
-exports.pruneMeetingObject = pruneMeetingObject;
-exports.transformPreferences = transformPreferences;
-exports.reversePreferences = reversePreferences;
-exports.prunePreferencesObject = prunePreferencesObject;
 exports.comparePreferences = comparePreferences;
-exports.transformSettingLocks = transformSettingLocks;
-exports.getLockedPreferences = getLockedPreferences;
-exports.patchWaitingRoomRelated = patchWaitingRoomRelated;
 exports.formatMainPhoneNumber = formatMainPhoneNumber;
 exports.formatPremiumNumbers = formatPremiumNumbers;
-exports.RCV_E2EE_DEFAULT_SECURITY_OPTIONS = exports.meetingProviderTypes = exports.RcVideoTypes = exports.RCV_E2EE_RELATED_KEYS = exports.RCV_PREFERENCES_KEYS = exports.RCV_PREFERENCES_IDS = void 0;
+exports.formatRcvInvitationRequestData = void 0;
+exports.generateRandomPassword = generateRandomPassword;
+exports.getDefaultChars = getDefaultChars;
+exports.getDefaultVideoSettings = getDefaultVideoSettings;
+exports.getLockedPreferences = getLockedPreferences;
+exports.getTopic = getTopic;
+exports.getVideoSettings = getVideoSettings;
+exports.meetingProviderTypes = void 0;
+exports.patchWaitingRoomRelated = patchWaitingRoomRelated;
+exports.pruneMeetingObject = pruneMeetingObject;
+exports.prunePreferencesObject = prunePreferencesObject;
+exports.reversePreferences = reversePreferences;
+exports.transformPreferences = transformPreferences;
+exports.transformSettingLocks = transformSettingLocks;
+exports.validatePasswordSettings = validatePasswordSettings;
+exports.validateRandomPassword = validateRandomPassword;
 
 require("core-js/modules/es6.array.index-of");
+
+require("core-js/modules/es6.regexp.split");
+
+require("core-js/modules/es6.array.map");
 
 require("core-js/modules/es7.array.includes");
 
@@ -69,11 +73,9 @@ require("core-js/modules/es6.array.for-each");
 
 require("core-js/modules/es6.function.name");
 
-var _ramda = require("ramda");
-
 var _formatMessage = _interopRequireDefault(require("format-message"));
 
-var _i18n = _interopRequireDefault(require("./i18n"));
+var _ramda = require("ramda");
 
 var _constants = require("./constants");
 
@@ -87,13 +89,13 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-function _iterableToArrayLimit(arr, i) { var _i = arr && (typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]); if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -249,32 +251,12 @@ function getTopic(_ref2) {
   var extensionName = _ref2.extensionName,
       brandName = _ref2.brandName,
       shortName = _ref2.shortName,
-      fullName = _ref2.fullName,
-      brandCode = _ref2.brandCode,
-      currentLocale = _ref2.currentLocale;
-
-  switch (brandCode) {
-    case 'telus':
-      return (0, _formatMessage["default"])(_i18n["default"].getString('TelusVideoMeeting', currentLocale), {
-        extensionName: extensionName
-      });
-
-    case 'att':
-      return (0, _formatMessage["default"])(_i18n["default"].getString('videoMeetingWithBrand', currentLocale), {
-        extensionName: extensionName,
-        brandName: fullName
-      });
-
-    case 'bt':
-      brandName = shortName;
-    // eslint-disable-next-line
-
-    default:
-      return (0, _formatMessage["default"])(_i18n["default"].getString('videoMeeting', currentLocale), {
-        extensionName: extensionName,
-        brandName: brandName
-      });
-  }
+      rcvMeetingTopic = _ref2.rcvMeetingTopic;
+  return (0, _formatMessage["default"])(rcvMeetingTopic, {
+    extensionName: extensionName,
+    shortName: shortName,
+    brandName: brandName
+  });
 }
 /**
  * Remove client side properties before sending to RCV API
@@ -449,6 +431,60 @@ function formatPremiumNumbers(dialInNumber) {
     var locationField = (obj === null || obj === void 0 ? void 0 : (_obj$country = obj.country) === null || _obj$country === void 0 ? void 0 : _obj$country.name) && obj.location ? "".concat(obj.country.name, " (").concat(obj.location, ")") : (obj === null || obj === void 0 ? void 0 : (_obj$country2 = obj.country) === null || _obj$country2 === void 0 ? void 0 : _obj$country2.name) || '';
     return "".concat(obj.phoneNumber, " ").concat(locationField);
   }, dialInNumber);
-} // TODO: will remove this when google app script could support export seperately
+}
+
+var formatRcvInvitationRequestData = function formatRcvInvitationRequestData(params) {
+  var _params$joinUri;
+
+  // format number
+  var numbers = params.dialInNumbers.map(function (item) {
+    return {
+      number: item.phoneNumber,
+      unformattedNumber: item.phoneNumber,
+      country: item.country.name,
+      "default": item["default"],
+      location: item.location
+    };
+  });
+  var joinUriInfo = ((_params$joinUri = params.joinUri) === null || _params$joinUri === void 0 ? void 0 : _params$joinUri.split("/join/")) || []; // format request data
+
+  var parameters = {
+    numbers: numbers,
+    meetingName: "---",
+    hostName: params.hostName,
+    meetingId: params.shortId,
+    isSIPAvailable: params.isSIPAvailable,
+    participantCode: params.shortId,
+    brandName: params.brandName,
+    entryPoint: joinUriInfo[0],
+    $Brand_Id: params.brandId,
+    $Extension_FormattingLocaleCode: params.currentLocale,
+    $Extension_LanguageLocaleCode: params.currentLocale,
+    isE2eeEnabled: !!params.e2ee,
+    password: params.isMeetingSecret ? params.meetingPassword : undefined,
+    dialInPassword: params.isMeetingSecret ? params.meetingPasswordPSTN : undefined,
+    maskedPassword: params.isMeetingSecret ? params.meetingPasswordMasked : undefined
+  };
+  return {
+    notificationId: 'meetingInvite',
+    plainTextPreferred: true,
+    isolatedMode: true,
+    parameters: (0, _ramda.pipe)(_ramda.toPairs, (0, _ramda.map)(function (_ref5) {
+      var _ref6 = _slicedToArray(_ref5, 2),
+          parameterName = _ref6[0],
+          parameterValue = _ref6[1];
+
+      return {
+        parameterName: parameterName,
+        parameterValue: parameterValue
+      };
+    }), (0, _ramda.filter)(function (item) {
+      return item.parameterValue !== undefined;
+    }))(parameters)
+  };
+}; // TODO: will remove this when google app script could support export seperately
 // export together because google app script not fully support export
+
+
+exports.formatRcvInvitationRequestData = formatRcvInvitationRequestData;
 //# sourceMappingURL=videoHelper.js.map

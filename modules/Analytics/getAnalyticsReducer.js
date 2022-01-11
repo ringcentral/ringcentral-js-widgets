@@ -25,8 +25,8 @@ require("core-js/modules/es6.array.is-array");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getLastActions = getLastActions;
 exports["default"] = getAnalyticsReducer;
+exports.getLastActions = getLastActions;
 
 var _redux = require("redux");
 

@@ -7,12 +7,12 @@ require("core-js/modules/es6.array.find");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getHasAutoPromptedReducer = getHasAutoPromptedReducer;
 exports["default"] = getStorageReducer;
-
-var _redux = require("redux");
+exports.getHasAutoPromptedReducer = getHasAutoPromptedReducer;
 
 var _ramda = require("ramda");
+
+var _redux = require("redux");
 
 function getOutputDeviceIdReducer(types) {
   return function () {

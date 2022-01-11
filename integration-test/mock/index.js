@@ -41,79 +41,81 @@ require("core-js/modules/es6.object.keys");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.createSDK = createSDK;
-exports.mockApi = mockApi;
-exports.wstoken = wstoken;
-exports.authentication = authentication;
-exports.logout = logout;
-exports.tokenRefresh = tokenRefresh;
-exports.presence = presence;
-exports.presenceUpdate = presenceUpdate;
-exports.dialingPlan = dialingPlan;
-exports.extensionInfo = extensionInfo;
-exports.conferenceCallBringIn = conferenceCallBringIn;
-exports.removeFromConference = removeFromConference;
-exports.extensionList = extensionList;
-exports.companyContactList = companyContactList;
 exports.accountInfo = accountInfo;
+exports.accountPhoneNumber = accountPhoneNumber;
+exports.activeCalls = activeCalls;
+exports.addressBook = addressBook;
 exports.apiInfo = apiInfo;
-exports.messageSync = messageSync;
-exports.messageList = messageList;
-exports.updateMessageStatus = updateMessageStatus;
+exports.assistedUsers = assistedUsers;
+exports.authentication = authentication;
 exports.authzProfile = authzProfile;
 exports.blockedNumber = blockedNumber;
-exports.forwardingNumber = forwardingNumber;
-exports.phoneNumber = phoneNumber;
-exports.accountPhoneNumber = accountPhoneNumber;
-exports.subscription = subscription;
-exports.numberParser = numberParser;
-exports.sms = sms;
-exports.addressBook = addressBook;
 exports.callLog = callLog;
-exports.userSettings = userSettings;
-exports.lockedSettings = lockedSettings;
-exports.assistedUsers = assistedUsers;
+exports.callerId = callerId;
+exports.companyContactList = companyContactList;
+exports.conferenceCall = conferenceCall;
+exports.conferenceCallBringIn = conferenceCallBringIn;
+exports.conferencing = conferencing;
+exports.createSDK = createSDK;
 exports.delegators = delegators;
 exports.device = device;
-exports.conferencing = conferencing;
-exports.numberParse = numberParse;
-exports.conferenceCall = conferenceCall;
-exports.updateConferenceCall = updateConferenceCall;
-exports.terminateConferenceCall = terminateConferenceCall;
-exports.activeCalls = activeCalls;
-exports.sipProvision = sipProvision;
+exports.dialInNumbers = dialInNumbers;
+exports.dialingPlan = dialingPlan;
+exports.discoveryExternal = discoveryExternal;
+exports.discoveryInitial = discoveryInitial;
+exports.extensionInfo = extensionInfo;
+exports.extensionList = extensionList;
+exports.features = features;
 exports.fetchDL = fetchDL;
 exports.fetchDLWithNoRecord = fetchDLWithNoRecord;
-exports.restore = restore;
-exports.reset = reset;
-exports.mockForbidden = mockForbidden;
-exports.mockLimited = mockLimited;
-exports.mockClient = mockClient;
-exports.ringOut = ringOut;
-exports.ringOutUpdate = ringOutUpdate;
-exports.meeting = meeting;
-exports.meetingInvitation = meetingInvitation;
-exports.meetingInfo = meetingInfo;
-exports.videoPreference = videoPreference;
-exports.videoPersonalSettings = videoPersonalSettings;
+exports.forwardingNumber = forwardingNumber;
+exports.generateCode = generateCode;
 exports.getRcvMeetingInfo = getRcvMeetingInfo;
-exports.patchRcvMeeting = patchRcvMeeting;
-exports.postRcvBridges = postRcvBridges;
-exports.serviceInfo = serviceInfo;
+exports.lastOptions = lastOptions;
+exports.lockedSettings = lockedSettings;
+exports.logout = logout;
+exports.meeting = meeting;
+exports.meetingInfo = meetingInfo;
+exports.meetingInvitation = meetingInvitation;
 exports.meetingProvider = meetingProvider;
 exports.meetingProviderRcm = meetingProviderRcm;
 exports.meetingProviderRcv = meetingProviderRcv;
-exports.recentActivity = recentActivity;
-exports.videoConfiguration = videoConfiguration;
-exports.callerId = callerId;
-exports.features = features;
-exports.timezone = timezone;
-exports.dialInNumbers = dialInNumbers;
-exports.discoveryInitial = discoveryInitial;
-exports.discoveryExternal = discoveryExternal;
-exports.generateCode = generateCode;
+exports.messageList = messageList;
+exports.messageSync = messageSync;
+exports.mockApi = mockApi;
+exports.mockClient = mockClient;
 exports.mockForLogin = mockForLogin;
-exports.mockServer = exports.mockWsServer = void 0;
+exports.mockForbidden = mockForbidden;
+exports.mockLimited = mockLimited;
+exports.mockWsServer = exports.mockServer = void 0;
+exports.numberParse = numberParse;
+exports.numberParser = numberParser;
+exports.patchRcvMeeting = patchRcvMeeting;
+exports.phoneNumber = phoneNumber;
+exports.postRcvBridges = postRcvBridges;
+exports.presence = presence;
+exports.presenceUpdate = presenceUpdate;
+exports.rcvInvitation = rcvInvitation;
+exports.recentActivity = recentActivity;
+exports.removeFromConference = removeFromConference;
+exports.reset = reset;
+exports.restore = restore;
+exports.ringOut = ringOut;
+exports.ringOutUpdate = ringOutUpdate;
+exports.serviceInfo = serviceInfo;
+exports.sipProvision = sipProvision;
+exports.sms = sms;
+exports.subscription = subscription;
+exports.terminateConferenceCall = terminateConferenceCall;
+exports.timezone = timezone;
+exports.tokenRefresh = tokenRefresh;
+exports.updateConferenceCall = updateConferenceCall;
+exports.updateMessageStatus = updateMessageStatus;
+exports.userSettings = userSettings;
+exports.videoConfiguration = videoConfiguration;
+exports.videoPersonalSettings = videoPersonalSettings;
+exports.videoPreference = videoPreference;
+exports.wstoken = wstoken;
 
 require("core-js/modules/es6.object.define-property");
 
@@ -127,13 +129,13 @@ require("regenerator-runtime/runtime");
 
 require("core-js/modules/es6.function.bind");
 
-var _sdk = require("@ringcentral/sdk");
+var _fetchMock = _interopRequireDefault(require("fetch-mock"));
 
 var _isomorphicWs = _interopRequireDefault(require("isomorphic-ws"));
 
 var _jestWebsocketMock = _interopRequireDefault(require("jest-websocket-mock"));
 
-var _fetchMock = _interopRequireDefault(require("fetch-mock"));
+var _sdk = require("@ringcentral/sdk");
 
 var _videoHelper = require("../../modules/RcVideo/videoHelper");
 
@@ -147,6 +149,8 @@ var _addressBook = _interopRequireDefault(require("./data/addressBook.json"));
 
 var _apiInfo = _interopRequireDefault(require("./data/apiInfo.json"));
 
+var _assistedUsers = _interopRequireDefault(require("./data/assistedUsers.json"));
+
 var _authzProfile = _interopRequireDefault(require("./data/authzProfile.json"));
 
 var _blockedNumber = _interopRequireDefault(require("./data/blockedNumber.json"));
@@ -154,6 +158,8 @@ var _blockedNumber = _interopRequireDefault(require("./data/blockedNumber.json")
 var _callerId = _interopRequireDefault(require("./data/callerId.json"));
 
 var _callLog = _interopRequireDefault(require("./data/callLog.json"));
+
+var _callLogList = _interopRequireDefault(require("./data/callLogList.json"));
 
 var _conferenceCall = _interopRequireDefault(require("./data/conferenceCall.json"));
 
@@ -165,11 +171,19 @@ var _device = _interopRequireDefault(require("./data/device.json"));
 
 var _dialingPlan = _interopRequireDefault(require("./data/dialingPlan.json"));
 
+var _dialInNumbers = _interopRequireDefault(require("./data/dialInNumbers.json"));
+
+var _discoveryExternal = _interopRequireDefault(require("./data/discoveryExternal.json"));
+
+var _discoveryInitial = _interopRequireDefault(require("./data/discoveryInitial.json"));
+
 var _extension = _interopRequireDefault(require("./data/extension.json"));
 
 var _extensionInfo = _interopRequireDefault(require("./data/extensionInfo.json"));
 
 var _extensions = _interopRequireDefault(require("./data/extensions.json"));
+
+var _features = _interopRequireDefault(require("./data/features.json"));
 
 var _fetchDL = _interopRequireDefault(require("./data/fetchDL.json"));
 
@@ -177,13 +191,15 @@ var _fetchDLWithNoRecord = _interopRequireDefault(require("./data/fetchDLWithNoR
 
 var _forwardingNumber = _interopRequireDefault(require("./data/forwardingNumber.json"));
 
+var _generateCode = _interopRequireDefault(require("./data/generateCode.json"));
+
 var _lockedSettings = _interopRequireDefault(require("./data/lockedSettings.json"));
 
 var _meeting = _interopRequireDefault(require("./data/meeting.json"));
 
 var _meetingInvitation = _interopRequireDefault(require("./data/meetingInvitation.json"));
 
-var _assistedUsers = _interopRequireDefault(require("./data/assistedUsers.json"));
+var _rcvInvitation = require("./data/rcvInvitation");
 
 var _meetingProviderRcm = _interopRequireDefault(require("./data/meetingProviderRcm.json"));
 
@@ -201,7 +217,11 @@ var _numberParser = _interopRequireDefault(require("./data/numberParser.json"));
 
 var _phoneNumber = _interopRequireDefault(require("./data/phoneNumber.json"));
 
+var _postRcvBridges = _interopRequireDefault(require("./data/postRcvBridges.json"));
+
 var _presence = _interopRequireDefault(require("./data/presence.json"));
+
+var _rcvMeetingSettings = _interopRequireDefault(require("./data/rcvMeetingSettings.json"));
 
 var _ringOut = _interopRequireDefault(require("./data/ringOut.json"));
 
@@ -215,37 +235,23 @@ var _subscription = _interopRequireDefault(require("./data/subscription.json"));
 
 var _timezone = _interopRequireDefault(require("./data/timezone.json"));
 
-var _dialInNumbers = _interopRequireDefault(require("./data/dialInNumbers.json"));
-
-var _postRcvBridges = _interopRequireDefault(require("./data/postRcvBridges.json"));
-
 var _updateConference = _interopRequireDefault(require("./data/updateConference.json"));
 
 var _userSettings = _interopRequireDefault(require("./data/userSettings.json"));
 
 var _videoConfiguration = _interopRequireDefault(require("./data/videoConfiguration.json"));
 
-var _videoPreference = _interopRequireDefault(require("./data/videoPreference.json"));
-
-var _features = _interopRequireDefault(require("./data/features.json"));
-
 var _videoPersonalSettings = _interopRequireDefault(require("./data/videoPersonalSettings.json"));
 
-var _rcvMeetingSettings = _interopRequireDefault(require("./data/rcvMeetingSettings.json"));
-
-var _wstoken = _interopRequireDefault(require("./data/ws/wstoken.json"));
-
-var _heartbeatResponse = _interopRequireDefault(require("./data/ws/heartbeatResponse.json"));
+var _videoPreference = _interopRequireDefault(require("./data/videoPreference.json"));
 
 var _connectionDetails = _interopRequireDefault(require("./data/ws/connectionDetails.json"));
 
+var _heartbeatResponse = _interopRequireDefault(require("./data/ws/heartbeatResponse.json"));
+
 var _subscriptionResponse = _interopRequireDefault(require("./data/ws/subscriptionResponse.json"));
 
-var _discoveryInitial = _interopRequireDefault(require("./data/discoveryInitial.json"));
-
-var _discoveryExternal = _interopRequireDefault(require("./data/discoveryExternal.json"));
-
-var _generateCode = _interopRequireDefault(require("./data/generateCode.json"));
+var _wstoken = _interopRequireDefault(require("./data/ws/wstoken.json"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -265,13 +271,13 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-function _iterableToArrayLimit(arr, i) { var _i = arr && (typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]); if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -301,6 +307,11 @@ function createSDK() {
   }, options);
 
   return new _sdk.SDK(opts);
+} // give you access to the parameters last passed in to fetch
+
+
+function lastOptions() {
+  return _fetchMock["default"].lastOptions();
 }
 
 function mockApi(_ref) {
@@ -769,9 +780,10 @@ function callLog() {
 
 function userSettings() {
   var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var extensionId = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : '~';
   mockApi({
     method: 'GET',
-    url: "".concat(mockServer, "/restapi/v1.0/account/~/extension/~/meeting/user-settings"),
+    url: "".concat(mockServer, "/restapi/v1.0/account/~/extension/").concat(extensionId, "/meeting/user-settings"),
     body: _objectSpread(_objectSpread({}, _userSettings["default"]), mockResponse)
   });
 }
@@ -984,11 +996,17 @@ function meeting() {
 }
 
 function meetingInvitation() {
-  var meetingId = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
-  var mockResponse = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-  var extraParams = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {
+  var _ref5 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+      status = _ref5.status,
+      _ref5$meetingId = _ref5.meetingId,
+      meetingId = _ref5$meetingId === void 0 ? null : _ref5$meetingId,
+      _ref5$mockResponse = _ref5.mockResponse,
+      mockResponse = _ref5$mockResponse === void 0 ? {} : _ref5$mockResponse,
+      _ref5$extraParams = _ref5.extraParams,
+      extraParams = _ref5$extraParams === void 0 ? {
     language: 'en-US'
-  };
+  } : _ref5$extraParams;
+
   var id = meetingId || _meeting["default"].id;
   var query = ''; // eslint-disable-next-line guard-for-in
 
@@ -997,9 +1015,20 @@ function meetingInvitation() {
   }
 
   mockApi({
+    status: status,
     method: 'GET',
     url: "".concat(mockServer, "/restapi/v1.0/account/~/extension/~/meeting/").concat(id, "/invitation?").concat(query),
     body: _objectSpread(_objectSpread({}, _meetingInvitation["default"]), mockResponse),
+    isOnce: false
+  });
+}
+
+function rcvInvitation() {
+  var mockInvitation = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _rcvInvitation.RCV_INVITATION_BODY;
+  mockApi({
+    method: 'POST',
+    url: "".concat(mockServer, "/restapi/v1.0/uns/render-document"),
+    body: new Blob([_rcvInvitation.RCV_INVITATION_START, mockInvitation, _rcvInvitation.RCV_INVITATION_END]),
     isOnce: false
   });
 }
@@ -1043,11 +1072,12 @@ function videoPersonalSettings() {
 function getRcvMeetingInfo(shortId) {
   var extensionId = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : _extensionInfo["default"].id;
   var mockResponse = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
+  var isOnce = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
   mockApi({
     method: 'GET',
     url: "".concat(mockServer, "/rcvideo/v1/bridges?shortId=").concat(shortId, "&accountId=").concat(_accountInfo["default"].id, "&extensionId=").concat(extensionId),
     body: _objectSpread(_objectSpread({}, _rcvMeetingSettings["default"]), mockResponse),
-    isOnce: false
+    isOnce: isOnce
   });
 }
 
@@ -1107,7 +1137,7 @@ function recentActivity() {
   mockApi({
     method: 'GET',
     url: new RegExp("".concat(mockServer, "/restapi/v1.0/account/~/extension/~/call-log")),
-    body: _objectSpread(_objectSpread({}, _callLog["default"]), mockResponse),
+    body: _objectSpread(_objectSpread({}, _callLogList["default"]), mockResponse),
     isOnce: isOnce
   });
 }
@@ -1166,8 +1196,9 @@ function dialInNumbers() {
 function discoveryInitial() {
   var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   mockApi({
-    path: "/.well-known/entry-points/initial",
-    body: _objectSpread(_objectSpread({}, _discoveryInitial["default"]), mockResponse)
+    url: "begin:".concat(mockServer, "/.well-known/entry-points/initial"),
+    body: _objectSpread(_objectSpread({}, _discoveryInitial["default"]), mockResponse),
+    isOnce: false
   });
 }
 
@@ -1175,7 +1206,8 @@ function discoveryExternal() {
   var mockResponse = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   mockApi({
     path: "/.well-known/entry-points/external",
-    body: _objectSpread(_objectSpread({}, _discoveryExternal["default"]), mockResponse)
+    body: _objectSpread(_objectSpread({}, _discoveryExternal["default"]), mockResponse),
+    isOnce: false
   });
 }
 
@@ -1184,43 +1216,48 @@ function generateCode() {
   mockApi({
     method: 'POST',
     url: "".concat(mockServer, "/restapi/v1.0/interop/generate-code"),
-    body: _objectSpread(_objectSpread({}, _generateCode["default"]), mockResponse)
+    body: _objectSpread(_objectSpread({}, _generateCode["default"]), mockResponse),
+    isOnce: false
   });
 }
 
 function mockForLogin() {
-  var _ref5 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+  var _ref6 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
 
-  var _ref5$mockAuthzProfil = _ref5.mockAuthzProfile,
-      mockAuthzProfile = _ref5$mockAuthzProfil === void 0 ? true : _ref5$mockAuthzProfil,
-      _ref5$mockMeetingInvi = _ref5.mockMeetingInvitation,
-      mockMeetingInvitation = _ref5$mockMeetingInvi === void 0 ? true : _ref5$mockMeetingInvi,
-      _ref5$mockExtensionIn = _ref5.mockExtensionInfo,
-      mockExtensionInfo = _ref5$mockExtensionIn === void 0 ? true : _ref5$mockExtensionIn,
-      _ref5$mockForwardingN = _ref5.mockForwardingNumber,
-      mockForwardingNumber = _ref5$mockForwardingN === void 0 ? true : _ref5$mockForwardingN,
-      _ref5$mockMessageSync = _ref5.mockMessageSync,
-      mockMessageSync = _ref5$mockMessageSync === void 0 ? true : _ref5$mockMessageSync,
-      _ref5$mockConferencin = _ref5.mockConferencing,
-      mockConferencing = _ref5$mockConferencin === void 0 ? true : _ref5$mockConferencin,
-      _ref5$mockActiveCalls = _ref5.mockActiveCalls,
-      mockActiveCalls = _ref5$mockActiveCalls === void 0 ? true : _ref5$mockActiveCalls,
-      _ref5$mockUpdateConfe = _ref5.mockUpdateConference,
-      mockUpdateConference = _ref5$mockUpdateConfe === void 0 ? true : _ref5$mockUpdateConfe,
-      _ref5$mockNumberParse = _ref5.mockNumberParser,
-      mockNumberParser = _ref5$mockNumberParse === void 0 ? true : _ref5$mockNumberParse,
-      _ref5$mockRecentActiv = _ref5.mockRecentActivity,
-      mockRecentActivity = _ref5$mockRecentActiv === void 0 ? true : _ref5$mockRecentActiv,
-      _ref5$mockMessageSync2 = _ref5.mockMessageSyncOnce,
-      mockMessageSyncOnce = _ref5$mockMessageSync2 === void 0 ? false : _ref5$mockMessageSync2,
-      _ref5$mockVideoConfig = _ref5.mockVideoConfiguration,
-      mockVideoConfiguration = _ref5$mockVideoConfig === void 0 ? true : _ref5$mockVideoConfig,
-      _ref5$mockUserSetting = _ref5.mockUserSetting,
-      mockUserSetting = _ref5$mockUserSetting === void 0 ? true : _ref5$mockUserSetting,
-      _ref5$mockGenerateCod = _ref5.mockGenerateCode,
-      mockGenerateCode = _ref5$mockGenerateCod === void 0 ? false : _ref5$mockGenerateCod,
-      params = _objectWithoutProperties(_ref5, ["mockAuthzProfile", "mockMeetingInvitation", "mockExtensionInfo", "mockForwardingNumber", "mockMessageSync", "mockConferencing", "mockActiveCalls", "mockUpdateConference", "mockNumberParser", "mockRecentActivity", "mockMessageSyncOnce", "mockVideoConfiguration", "mockUserSetting", "mockGenerateCode"]);
+  var _ref6$mockTimezone = _ref6.mockTimezone,
+      mockTimezone = _ref6$mockTimezone === void 0 ? false : _ref6$mockTimezone,
+      _ref6$mockAuthzProfil = _ref6.mockAuthzProfile,
+      mockAuthzProfile = _ref6$mockAuthzProfil === void 0 ? true : _ref6$mockAuthzProfil,
+      _ref6$mockMeetingInvi = _ref6.mockMeetingInvitation,
+      mockMeetingInvitation = _ref6$mockMeetingInvi === void 0 ? true : _ref6$mockMeetingInvi,
+      _ref6$mockExtensionIn = _ref6.mockExtensionInfo,
+      mockExtensionInfo = _ref6$mockExtensionIn === void 0 ? true : _ref6$mockExtensionIn,
+      _ref6$mockForwardingN = _ref6.mockForwardingNumber,
+      mockForwardingNumber = _ref6$mockForwardingN === void 0 ? true : _ref6$mockForwardingN,
+      _ref6$mockMessageSync = _ref6.mockMessageSync,
+      mockMessageSync = _ref6$mockMessageSync === void 0 ? true : _ref6$mockMessageSync,
+      _ref6$mockConferencin = _ref6.mockConferencing,
+      mockConferencing = _ref6$mockConferencin === void 0 ? true : _ref6$mockConferencin,
+      _ref6$mockActiveCalls = _ref6.mockActiveCalls,
+      mockActiveCalls = _ref6$mockActiveCalls === void 0 ? true : _ref6$mockActiveCalls,
+      _ref6$mockUpdateConfe = _ref6.mockUpdateConference,
+      mockUpdateConference = _ref6$mockUpdateConfe === void 0 ? true : _ref6$mockUpdateConfe,
+      _ref6$mockNumberParse = _ref6.mockNumberParser,
+      mockNumberParser = _ref6$mockNumberParse === void 0 ? true : _ref6$mockNumberParse,
+      _ref6$mockRecentActiv = _ref6.mockRecentActivity,
+      mockRecentActivity = _ref6$mockRecentActiv === void 0 ? true : _ref6$mockRecentActiv,
+      _ref6$mockMessageSync2 = _ref6.mockMessageSyncOnce,
+      mockMessageSyncOnce = _ref6$mockMessageSync2 === void 0 ? false : _ref6$mockMessageSync2,
+      _ref6$mockVideoConfig = _ref6.mockVideoConfiguration,
+      mockVideoConfiguration = _ref6$mockVideoConfig === void 0 ? true : _ref6$mockVideoConfig,
+      _ref6$mockUserSetting = _ref6.mockUserSetting,
+      mockUserSetting = _ref6$mockUserSetting === void 0 ? true : _ref6$mockUserSetting,
+      _ref6$mockGenerateCod = _ref6.mockGenerateCode,
+      mockGenerateCode = _ref6$mockGenerateCod === void 0 ? false : _ref6$mockGenerateCod,
+      params = _objectWithoutProperties(_ref6, ["mockTimezone", "mockAuthzProfile", "mockMeetingInvitation", "mockExtensionInfo", "mockForwardingNumber", "mockMessageSync", "mockConferencing", "mockActiveCalls", "mockUpdateConference", "mockNumberParser", "mockRecentActivity", "mockMessageSyncOnce", "mockVideoConfiguration", "mockUserSetting", "mockGenerateCode"]);
 
+  discoveryInitial();
+  discoveryExternal();
   wstoken();
   authentication();
   logout();
@@ -1230,6 +1267,10 @@ function mockForLogin() {
 
   if (mockExtensionInfo) {
     extensionInfo(params.extensionInfoData);
+  }
+
+  if (mockTimezone) {
+    timezone();
   }
 
   accountInfo(params.accountInfoData);

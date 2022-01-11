@@ -5,8 +5,8 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getMessageSenderStatusReducer = getMessageSenderStatusReducer;
 exports["default"] = getMessageSenderReducer;
+exports.getMessageSenderStatusReducer = getMessageSenderStatusReducer;
 
 var _redux = require("redux");
 

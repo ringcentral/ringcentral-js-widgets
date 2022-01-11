@@ -23,21 +23,21 @@ require("core-js/modules/es6.array.is-array");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.isChrome = isChrome;
-exports.isFirefox = isFirefox;
-exports.isEnableMidLinesInSDP = isEnableMidLinesInSDP;
-exports.isWebSocketSupport = isWebSocketSupport;
-exports.isWebRTCSupport = isWebRTCSupport;
-exports.isBrowserSupport = isBrowserSupport;
 exports.extractHeadersData = extractHeadersData;
 exports.getCallQueueName = getCallQueueName;
-exports.normalizeSession = normalizeSession;
-exports.isRing = isRing;
+exports.isBrowserSupport = isBrowserSupport;
+exports.isChrome = isChrome;
+exports.isConferenceSession = isConferenceSession;
+exports.isEnableMidLinesInSDP = isEnableMidLinesInSDP;
+exports.isFirefox = isFirefox;
 exports.isOnHold = isOnHold;
+exports.isRecording = isRecording;
+exports.isRing = isRing;
+exports.isWebRTCSupport = isWebRTCSupport;
+exports.isWebSocketSupport = isWebSocketSupport;
+exports.normalizeSession = normalizeSession;
 exports.sortByCreationTimeDesc = sortByCreationTimeDesc;
 exports.sortByLastActiveTimeDesc = sortByLastActiveTimeDesc;
-exports.isConferenceSession = isConferenceSession;
-exports.isRecording = isRecording;
 
 require("core-js/modules/es6.string.ends-with");
 
@@ -59,13 +59,13 @@ require("core-js/modules/es6.array.index-of");
 
 require("core-js/modules/es6.regexp.match");
 
-var _recordStatus = require("./recordStatus");
-
-var _sessionStatus = require("./sessionStatus");
+var _callDirections = _interopRequireDefault(require("../../enums/callDirections"));
 
 var _utils = require("../../lib/di/utils/utils");
 
-var _callDirections = _interopRequireDefault(require("../../enums/callDirections"));
+var _recordStatus = require("./recordStatus");
+
+var _sessionStatus = require("./sessionStatus");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -77,7 +77,7 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-function _iterableToArrayLimit(arr, i) { var _i = arr && (typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]); if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
+function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
 
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 

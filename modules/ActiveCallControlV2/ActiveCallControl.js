@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -75,8 +75,6 @@ require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.map");
 
-var _core = require("@ringcentral-integration/core");
-
 var _ramda = require("ramda");
 
 var _ringcentralCall = require("ringcentral-call");
@@ -87,6 +85,8 @@ var _Session2 = require("ringcentral-call/lib/Session");
 
 var _uuid = require("uuid");
 
+var _core = require("@ringcentral-integration/core");
+
 var _callDirections = require("../../enums/callDirections");
 
 var _subscriptionFilters = _interopRequireDefault(require("../../enums/subscriptionFilters"));
@@ -95,7 +95,7 @@ var _di = require("../../lib/di");
 
 var _proxify = require("../../lib/proxy/proxify");
 
-var _validateNumbers = _interopRequireDefault(require("../../lib/validateNumbers"));
+var _validateNumbers = require("../../lib/validateNumbers");
 
 var _callControlError = _interopRequireDefault(require("../ActiveCallControl/callControlError"));
 
@@ -121,9 +121,9 @@ function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o =
 
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -137,19 +137,19 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
-function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
+function _get() { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(arguments.length < 3 ? target : receiver); } return desc.value; }; } return _get.apply(this, arguments); }
 
 function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } Object.defineProperty(subClass, "prototype", { value: Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }), writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
@@ -1434,8 +1434,12 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
                 _context15.prev = 9;
                 _context15.t0 = _context15["catch"](0);
                 console.log('stop record error:', _context15.t0);
+
+                this._deps.alert.danger({
+                  message: _webphoneErrors.webphoneErrors.pauseRecordError
+                });
+
                 this.clearCallControlBusyTimestamp();
-                throw _context15.t0;
 
               case 14:
               case "end":
@@ -1648,7 +1652,7 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
     key: "hold",
     value: function () {
       var _hold = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee19(telephonySessionId) {
-        var _otherParties$, _otherParties$2, session, webphoneSession, _session$otherParties, otherParties, _this$_deps$availabil6;
+        var _otherParties$, _otherParties$$status, _otherParties$2, _otherParties$2$statu, session, webphoneSession, _session$otherParties, otherParties, _this$_deps$availabil6;
 
         return regeneratorRuntime.wrap(function _callee19$(_context19) {
           while (1) {
@@ -1663,7 +1667,7 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
 
                 if (!( // when call is connecting or in voicemail then call control's Hold API will not work
                 // so use webphone hold here
-                session.direction === _callDirections.callDirection.outbound && (((_otherParties$ = otherParties[0]) === null || _otherParties$ === void 0 ? void 0 : _otherParties$.status.code) === _Session.PartyStatusCode.proceeding || ((_otherParties$2 = otherParties[0]) === null || _otherParties$2 === void 0 ? void 0 : _otherParties$2.status.code) === _Session.PartyStatusCode.voicemail) || (0, _helpers.isAtMainNumberPromptToneStage)(session))) {
+                session.direction === _callDirections.callDirection.outbound && (((_otherParties$ = otherParties[0]) === null || _otherParties$ === void 0 ? void 0 : (_otherParties$$status = _otherParties$.status) === null || _otherParties$$status === void 0 ? void 0 : _otherParties$$status.code) === _Session.PartyStatusCode.proceeding || ((_otherParties$2 = otherParties[0]) === null || _otherParties$2 === void 0 ? void 0 : (_otherParties$2$statu = _otherParties$2.status) === null || _otherParties$2$statu === void 0 ? void 0 : _otherParties$2$statu.code) === _Session.PartyStatusCode.voicemail) || (0, _helpers.isAtMainNumberPromptToneStage)(session))) {
                   _context19.next = 9;
                   break;
                 }
@@ -1850,25 +1854,43 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
       var _transfer = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee22(transferNumber, telephonySessionId) {
         var _this9 = this;
 
-        var session, validatedResult, validPhoneNumber, phoneNumber, _this$_deps$availabil8;
+        var _this$_deps, regionSettings, brand, session, validatedResult, validPhoneNumber, phoneNumber, _this$_deps$availabil8;
 
         return regeneratorRuntime.wrap(function _callee22$(_context22) {
           while (1) {
             switch (_context22.prev = _context22.next) {
               case 0:
                 _context22.prev = 0;
+                _this$_deps = this._deps, regionSettings = _this$_deps.regionSettings, brand = _this$_deps.brand;
                 this.setCallControlBusyTimestamp();
                 session = this._rcCall.sessions.find(function (s) {
                   return s.id === telephonySessionId;
                 });
-                _context22.next = 5;
+
+                if (this._permissionCheck) {
+                  _context22.next = 9;
+                  break;
+                }
+
+                validatedResult = (0, _validateNumbers.validateNumbers)({
+                  allowRegionSettings: brand.brandConfig.allowRegionSettings,
+                  areaCode: regionSettings.areaCode,
+                  countryCode: regionSettings.countryCode,
+                  phoneNumbers: [transferNumber]
+                });
+                validPhoneNumber = validatedResult[0];
+                _context22.next = 16;
+                break;
+
+              case 9:
+                _context22.next = 11;
                 return this._deps.numberValidate.validateNumbers([transferNumber]);
 
-              case 5:
+              case 11:
                 validatedResult = _context22.sent;
 
                 if (validatedResult.result) {
-                  _context22.next = 9;
+                  _context22.next = 15;
                   break;
                 }
 
@@ -1911,9 +1933,11 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
                 }());
                 return _context22.abrupt("return");
 
-              case 9:
+              case 15:
                 // TODO: fix `validatedResult` type in `numberValidate` module.
                 validPhoneNumber = validatedResult.numbers[0] && validatedResult.numbers[0].e164;
+
+              case 16:
                 phoneNumber = validPhoneNumber;
 
                 if (validPhoneNumber.indexOf('+') === -1) {
@@ -1922,18 +1946,18 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
 
                 session.transfer(phoneNumber);
                 this.clearCallControlBusyTimestamp();
-                _context22.next = 23;
+                _context22.next = 29;
                 break;
 
-              case 16:
-                _context22.prev = 16;
+              case 22:
+                _context22.prev = 22;
                 _context22.t0 = _context22["catch"](0);
-                _context22.next = 20;
+                _context22.next = 26;
                 return (_this$_deps$availabil8 = this._deps.availabilityMonitor) === null || _this$_deps$availabil8 === void 0 ? void 0 : _this$_deps$availabil8.checkIfHAError(_context22.t0);
 
-              case 20:
+              case 26:
                 if (_context22.sent) {
-                  _context22.next = 22;
+                  _context22.next = 28;
                   break;
                 }
 
@@ -1941,15 +1965,15 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
                   message: _callControlError["default"].generalError
                 });
 
-              case 22:
+              case 28:
                 this.clearCallControlBusyTimestamp();
 
-              case 23:
+              case 29:
               case "end":
                 return _context22.stop();
             }
           }
-        }, _callee22, this, [[0, 16]]);
+        }, _callee22, this, [[0, 22]]);
       }));
 
       function transfer(_x14, _x15) {
@@ -2010,13 +2034,13 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
       var _forward = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee24(forwardNumber, telephonySessionId) {
         var _this10 = this;
 
-        var _this$_deps, regionSettings, brand, session, validatedResult, validPhoneNumber;
+        var _this$_deps2, regionSettings, brand, session, validatedResult, validPhoneNumber;
 
         return regeneratorRuntime.wrap(function _callee24$(_context24) {
           while (1) {
             switch (_context24.prev = _context24.next) {
               case 0:
-                _this$_deps = this._deps, regionSettings = _this$_deps.regionSettings, brand = _this$_deps.brand;
+                _this$_deps2 = this._deps, regionSettings = _this$_deps2.regionSettings, brand = _this$_deps2.brand;
                 session = this._rcCall.sessions.find(function (s) {
                   return s.id === telephonySessionId;
                 });
@@ -2036,7 +2060,12 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
                   break;
                 }
 
-                validatedResult = (0, _validateNumbers["default"])([forwardNumber], regionSettings, brand.id);
+                validatedResult = (0, _validateNumbers.validateNumbers)({
+                  allowRegionSettings: brand.brandConfig.allowRegionSettings,
+                  areaCode: regionSettings.areaCode,
+                  countryCode: regionSettings.countryCode,
+                  phoneNumbers: [forwardNumber]
+                });
                 validPhoneNumber = validatedResult[0];
                 _context24.next = 17;
                 break;
@@ -2260,7 +2289,7 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
               case 3:
                 holdOtherSessions = otherSessions.map( /*#__PURE__*/function () {
                   var _ref10 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee26(session) {
-                    var webphoneSession, _session$otherParties2, otherParties, _otherParties$3, _otherParties$4;
+                    var webphoneSession, _session$otherParties2, otherParties, _otherParties$3, _otherParties$3$statu, _otherParties$4, _otherParties$4$statu;
 
                     return regeneratorRuntime.wrap(function _callee26$(_context26) {
                       while (1) {
@@ -2271,7 +2300,7 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
 
                             if (!( // when call is connecting or in voicemail then call control's Hold API will not work
                             // so use webphone hold here
-                            session.direction === _callDirections.callDirection.outbound && (((_otherParties$3 = otherParties[0]) === null || _otherParties$3 === void 0 ? void 0 : _otherParties$3.status.code) === _Session.PartyStatusCode.proceeding || ((_otherParties$4 = otherParties[0]) === null || _otherParties$4 === void 0 ? void 0 : _otherParties$4.status.code) === _Session.PartyStatusCode.voicemail) || (0, _helpers.isAtMainNumberPromptToneStage)(session))) {
+                            session.direction === _callDirections.callDirection.outbound && (((_otherParties$3 = otherParties[0]) === null || _otherParties$3 === void 0 ? void 0 : (_otherParties$3$statu = _otherParties$3.status) === null || _otherParties$3$statu === void 0 ? void 0 : _otherParties$3$statu.code) === _Session.PartyStatusCode.proceeding || ((_otherParties$4 = otherParties[0]) === null || _otherParties$4 === void 0 ? void 0 : (_otherParties$4$statu = _otherParties$4.status) === null || _otherParties$4$statu === void 0 ? void 0 : _otherParties$4$statu.code) === _Session.PartyStatusCode.voicemail) || (0, _helpers.isAtMainNumberPromptToneStage)(session))) {
                               _context26.next = 7;
                               break;
                             }
@@ -2511,7 +2540,7 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
     key: "answerAndEnd",
     value: function () {
       var _answerAndEnd = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee32(telephonySessionId) {
-        var _this$_deps$webphone5, _this$_deps$webphone6, session, currentActiveCall, deviceId, webphoneSession;
+        var _this$_deps$webphone5, _this$_deps$webphone6, session, currentActiveCalls, _iterator2, _step2, s, deviceId, webphoneSession;
 
         return regeneratorRuntime.wrap(function _callee32$(_context32) {
           while (1) {
@@ -2531,26 +2560,53 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
                 session = this._rcCall.sessions.find(function (s) {
                   return s.id === telephonySessionId;
                 });
-                currentActiveCall = this._rcCall.sessions.find(function (s) {
-                  return s.id !== telephonySessionId && s.webphoneSession && s.status === _Session.PartyStatusCode.answered;
+                currentActiveCalls = this._rcCall.sessions.filter(function (s) {
+                  return s.id !== telephonySessionId && s.webphoneSession && (s.status === _Session.PartyStatusCode.answered || s.direction === _callDirections.callDirection.outbound && s.status === _Session.PartyStatusCode.proceeding);
                 });
+                _iterator2 = _createForOfIteratorHelper(currentActiveCalls);
+                _context32.prev = 7;
 
-                if (!currentActiveCall) {
-                  _context32.next = 9;
+                _iterator2.s();
+
+              case 9:
+                if ((_step2 = _iterator2.n()).done) {
+                  _context32.next = 15;
                   break;
                 }
 
-                _context32.next = 9;
-                return currentActiveCall.hangup();
+                s = _step2.value;
+                _context32.next = 13;
+                return s.hangup();
 
-              case 9:
+              case 13:
+                _context32.next = 9;
+                break;
+
+              case 15:
+                _context32.next = 20;
+                break;
+
+              case 17:
+                _context32.prev = 17;
+                _context32.t0 = _context32["catch"](7);
+
+                _iterator2.e(_context32.t0);
+
+              case 20:
+                _context32.prev = 20;
+
+                _iterator2.f();
+
+                return _context32.finish(20);
+
+              case 23:
                 deviceId = (_this$_deps$webphone5 = this._deps.webphone) === null || _this$_deps$webphone5 === void 0 ? void 0 : (_this$_deps$webphone6 = _this$_deps$webphone5.device) === null || _this$_deps$webphone6 === void 0 ? void 0 : _this$_deps$webphone6.id;
-                _context32.next = 12;
+                _context32.next = 26;
                 return session.answer({
                   deviceId: deviceId
                 });
 
-              case 12:
+              case 26:
                 this._trackWebRTCCallAnswer();
 
                 webphoneSession = session.webphoneSession;
@@ -2560,21 +2616,21 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
                 }
 
                 this.clearCallControlBusyTimestamp();
-                _context32.next = 22;
+                _context32.next = 36;
                 break;
 
-              case 18:
-                _context32.prev = 18;
-                _context32.t0 = _context32["catch"](0);
+              case 32:
+                _context32.prev = 32;
+                _context32.t1 = _context32["catch"](0);
                 console.log('answer and end fail.');
-                console.error(_context32.t0);
+                console.error(_context32.t1);
 
-              case 22:
+              case 36:
               case "end":
                 return _context32.stop();
             }
           }
-        }, _callee32, this, [[0, 18]]);
+        }, _callee32, this, [[0, 32], [7, 17, 20, 23]]);
       }));
 
       function answerAndEnd(_x29) {
@@ -2715,10 +2771,10 @@ var ActiveCallControl = (_dec = (0, _di.Module)({
       return this.activeSessions[telephonySessionId];
     }
   }, {
-    key: "getRcCallSession",
-    value: function getRcCallSession(telephoneSessionId) {
-      return this.rcCallSessions.find(function (session) {
-        return session.telephonySessionId === telephoneSessionId;
+    key: "getSession",
+    value: function getSession(telephonySessionId) {
+      return this.sessions.find(function (session) {
+        return session.telephonySessionId === telephonySessionId;
       });
     }
   }, {

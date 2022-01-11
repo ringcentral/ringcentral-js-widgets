@@ -1,1 +1,1 @@
-{"version":3,"sources":["lib/Analytics/index.js"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;AAAA;;AACA","sourcesContent":["export { default as Segment } from './segment';\nexport { Pendo } from './pendo';\n"],"file":"index.js"}
+{"version":3,"sources":["lib/Analytics/index.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;;;AAAA;;AACA","sourcesContent":["export { default as Segment } from './segment';\nexport { Pendo } from './pendo';\n"],"file":"index.js"}

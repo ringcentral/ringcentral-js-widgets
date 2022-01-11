@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -29,13 +29,17 @@ require("core-js/modules/es6.array.filter");
 
 require("regenerator-runtime/runtime");
 
+var mock = _interopRequireWildcard(require("../mock"));
+
+var _authzProfile = _interopRequireDefault(require("../mock/data/authzProfile"));
+
 var _HelpUtil = require("../utils/HelpUtil");
 
 var _WaitUtil = require("../utils/WaitUtil");
 
-var mock = _interopRequireWildcard(require("../mock"));
-
 var _this = void 0;
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
@@ -44,8 +48,6 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-var authzProfileBody = require('../mock/data/authzProfile');
 
 var _default = function _default(auth, client, forwardingNumber, account) {
   describe('ForwardingNumber:', function () {
@@ -172,7 +174,7 @@ var _default = function _default(auth, client, forwardingNumber, account) {
                   mockAuthzProfile: false
                 });
                 mock.authzProfile({
-                  permissions: authzProfileBody.permissions.filter(function (p) {
+                  permissions: _authzProfile["default"].permissions.filter(function (p) {
                     return p.permission.id !== 'ReadUserForwardingFlipNumbers';
                   })
                 });

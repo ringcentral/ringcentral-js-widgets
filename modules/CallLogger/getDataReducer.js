@@ -23,10 +23,10 @@ require("core-js/modules/es6.array.is-array");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getLogOnRingingReducer = getLogOnRingingReducer;
-exports.getAutoLogReducer = getAutoLogReducer;
-exports.getTransferredCallsReducer = getTransferredCallsReducer;
 exports["default"] = getDataReducer;
+exports.getAutoLogReducer = getAutoLogReducer;
+exports.getLogOnRingingReducer = getLogOnRingingReducer;
+exports.getTransferredCallsReducer = getTransferredCallsReducer;
 
 require("core-js/modules/es6.array.slice");
 

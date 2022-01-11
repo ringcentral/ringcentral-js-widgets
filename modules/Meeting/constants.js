@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.DEFAULT_LOCK_SETTINGS = exports.COMMON_SETTINGS = exports.PMIRequirePassword = exports.ASSISTED_USERS_MYSELF = exports.RCM_PASSWORD_REGEX = void 0;
+exports.RCM_PASSWORD_REGEX = exports.PMIRequirePassword = exports.DEFAULT_LOCK_SETTINGS = exports.COMMON_SETTINGS = exports.ASSISTED_USERS_MYSELF = void 0;
 var RCM_PASSWORD_REGEX = /^[\w@*-]{0,10}$/;
 exports.RCM_PASSWORD_REGEX = RCM_PASSWORD_REGEX;
 var ASSISTED_USERS_MYSELF = 'ASSISTED_USERS_MYSELF';

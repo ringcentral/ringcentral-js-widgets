@@ -13,7 +13,7 @@ exports["default"] = void 0;
 
 require("regenerator-runtime/runtime");
 
-var _errorMessages = _interopRequireDefault(require("../..//modules/RateLimiter/errorMessages"));
+var _errorMessages = _interopRequireDefault(require("../../modules/RateLimiter/errorMessages"));
 
 var _HelpUtil = require("../utils/HelpUtil");
 

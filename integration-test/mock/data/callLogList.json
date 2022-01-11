@@ -1,0 +1,63 @@
+{
+  "uri": "https://platform.ringcentral.com/restapi/v1.0/account/401494647008/extension/401494647008/call-log?view=Simple&showBlocked=true&dateFrom=2017-09-03T12:34:00.000Z&page=1&perPage=2",
+  "records": [
+    {
+      "uri": "https://platform.ringcentral.com/restapi/v1.0/account/401494647008/extension/401494647008/call-log/IWvNToLkbo-7zUA?view=Simple",
+      "id": "IWvNToLkbo-7zUA",
+      "sessionId": "404036325008",
+      "telephonySessionId": "z-9a03590172ea4d39a7cf7d5b6dba6a3b",
+      "startTime": "2017-09-04T12:31:50.441Z",
+      "duration": 5,
+      "type": "Voice",
+      "direction": "Outbound",
+      "action": "RingOut Web",
+      "result": "Call connected",
+      "to": {
+        "phoneNumber": "+16505556678"
+      },
+      "from": {
+        "phoneNumber": "+18552001907",
+        "name": "John Smith"
+      }
+    },
+    {
+      "uri": "https://platform.ringcentral.com/restapi/v1.0/account/401494647008/extension/401494647008/call-log/8vsAH84JRCeg-DLA?view=Simple",
+      "id": "8vsAH84JRCeg-DLA",
+      "sessionId": "40293491700800",
+      "telephonySessionId": "s-9a03590172ea4d39a7cf7d5b6dba6a3b",
+      "startTime": "2017-09-04T12:03:24.842Z",
+      "duration": 32,
+      "type": "Fax",
+      "direction": "Outbound",
+      "action": "Outgoing Fax",
+      "result": "Sent",
+      "to": {
+        "phoneNumber": "+16504445566",
+        "location": "Palo Alto, CA"
+      },
+      "from": {
+        "phoneNumber": "+18552001907",
+        "name": "John Smith"
+      },
+      "message": {
+        "uri": "https://platform.ringcentral.com/restapi/v1.0/account/401494647008/extension/401494647008/message-store/401678422008",
+        "id": "401678422008",
+        "type": "Fax"
+      }
+    }
+  ],
+  "paging": {
+    "page": 1,
+    "perPage": 2,
+    "pageStart": 0,
+    "pageEnd": 1
+  },
+  "navigation": {
+    "nextPage": {
+      "uri": "https://platform.ringcentral.com/restapi/v1.0/account/401494647008/extension/401494647008/call-log?view=Simple&showBlocked=true&dateFrom=2017-09-03T12:34:00.000Z&page=2&perPage=2"
+    },
+    "firstPage": {
+      "uri": "https://platform.ringcentral.com/restapi/v1.0/account/401494647008/extension/401494647008/call-log?view=Simple&showBlocked=true&dateFrom=2017-09-03T12:34:00.000Z&page=1&perPage=2"
+    }
+  }
+}

@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.mergeEvents = exports.partyStatusCode = exports.conferenceCallStatus = exports.conferenceRole = exports.MAXIMUM_CAPACITY = exports.DEFAULT_TTL = exports.DEFAULT_TIMEOUT = void 0;
+exports.partyStatusCode = exports.mergeEvents = exports.conferenceRole = exports.conferenceCallStatus = exports.MAXIMUM_CAPACITY = exports.DEFAULT_TTL = exports.DEFAULT_TIMEOUT = void 0;
 
 require("core-js/modules/es6.array.map");
 

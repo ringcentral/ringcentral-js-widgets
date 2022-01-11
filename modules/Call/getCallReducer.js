@@ -25,11 +25,11 @@ require("core-js/modules/es6.array.is-array");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+exports["default"] = getCallReducer;
 exports.getCallStatusReducer = getCallStatusReducer;
-exports.getToNumberEntitiesReducer = getToNumberEntitiesReducer;
 exports.getLastPhoneNumberReducer = getLastPhoneNumberReducer;
 exports.getLastRecipientReducer = getLastRecipientReducer;
-exports["default"] = getCallReducer;
+exports.getToNumberEntitiesReducer = getToNumberEntitiesReducer;
 
 var _redux = require("redux");
 

@@ -5,9 +5,9 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = RCBrandConfig;
 exports.ATTBrandConfig = ATTBrandConfig;
 exports.TelusBrandConfig = TelusBrandConfig;
+exports["default"] = RCBrandConfig;
 
 function RCBrandConfig() {
   return {

@@ -21,17 +21,17 @@ require("core-js/modules/es6.object.keys");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getRcVideoInfoReducer = getRcVideoInfoReducer;
-exports.getRcVideoStatusReducer = getRcVideoStatusReducer;
+exports["default"] = void 0;
 exports.getDefaultVideoSettingReducer = getDefaultVideoSettingReducer;
-exports.getPersonalMeetingReducer = getPersonalMeetingReducer;
-exports.getRcVideoSettingLocksReducer = getRcVideoSettingLocksReducer;
-exports.getRcVideoPreferencesReducer = getRcVideoPreferencesReducer;
-exports.getRcVideoPreferencesStateReducer = getRcVideoPreferencesStateReducer;
 exports.getDelegatorListReducer = getDelegatorListReducer;
 exports.getDelegatorReducer = getDelegatorReducer;
 exports.getHasSettingChangedReducer = getHasSettingChangedReducer;
-exports["default"] = void 0;
+exports.getPersonalMeetingReducer = getPersonalMeetingReducer;
+exports.getRcVideoInfoReducer = getRcVideoInfoReducer;
+exports.getRcVideoPreferencesReducer = getRcVideoPreferencesReducer;
+exports.getRcVideoPreferencesStateReducer = getRcVideoPreferencesStateReducer;
+exports.getRcVideoSettingLocksReducer = getRcVideoSettingLocksReducer;
+exports.getRcVideoStatusReducer = getRcVideoStatusReducer;
 
 require("core-js/modules/es6.object.define-property");
 
@@ -43,9 +43,9 @@ var _videoStatus = require("./videoStatus");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 

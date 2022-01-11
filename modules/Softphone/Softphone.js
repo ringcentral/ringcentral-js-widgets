@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 require("core-js/modules/es7.symbol.async-iterator");
 
@@ -41,9 +41,9 @@ require("core-js/modules/es6.string.link");
 
 require("regenerator-runtime/runtime");
 
-var _core = require("@ringcentral-integration/core");
-
 var _bowser = _interopRequireDefault(require("bowser"));
+
+var _core = require("@ringcentral-integration/core");
 
 var _di = require("../../lib/di");
 
@@ -55,7 +55,7 @@ var _callingModes = _interopRequireDefault(require("../CallingSettings/callingMo
 
 var _softphoneStatus = require("./softphoneStatus");
 
-var _dec, _dec2, _dec3, _class, _class2, _descriptor, _descriptor2;
+var _dec, _class, _class2, _descriptor, _descriptor2;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -69,15 +69,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } Object.defineProperty(subClass, "prototype", { value: Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }), writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
@@ -99,29 +99,16 @@ var Softphone = (_dec = (0, _di.Module)({
     dep: 'ContactMatcher',
     optional: true
   }, {
-    dep: 'AccountInfo',
-    optional: true
-  }, {
-    dep: 'DynamicConfig',
-    optional: true
-  }, {
     dep: 'SoftphoneOptions',
     optional: true
   }]
-}), _dec2 = (0, _core.computed)(function (that) {
-  var _that$_deps$accountIn, _that$_deps$dynamicCo;
-
-  return [that._deps.brand.brandConfig, (_that$_deps$accountIn = that._deps.accountInfo) === null || _that$_deps$accountIn === void 0 ? void 0 : _that$_deps$accountIn.serviceInfo, (_that$_deps$dynamicCo = that._deps.dynamicConfig) === null || _that$_deps$dynamicCo === void 0 ? void 0 : _that$_deps$dynamicCo.data];
-}), _dec3 = (0, _core.computed)(function (_ref) {
-  var callWithJupiterConfig = _ref.callWithJupiterConfig;
-  return [callWithJupiterConfig];
 }), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModuleV) {
   _inherits(Softphone, _RcModuleV);
 
   var _super = _createSuper(Softphone);
 
   function Softphone(deps) {
-    var _this$_deps$softphone, _this$_deps$softphone2, _this$_deps$softphone3, _this$_deps$softphone4, _this$_deps$softphone5;
+    var _this$_deps$softphone, _this$_deps$softphone2, _this$_deps$softphone3;
 
     var _this;
 
@@ -132,7 +119,6 @@ var Softphone = (_dec = (0, _di.Module)({
     });
     _this._callHandler = void 0;
     _this._extensionMode = void 0;
-    _this._useBrandedJupiter = void 0;
 
     _initializerDefineProperty(_this, "connectingPhoneNumber", _descriptor, _assertThisInitialized(_this));
 
@@ -141,8 +127,7 @@ var Softphone = (_dec = (0, _di.Module)({
     _this._ignoreModuleReadiness(deps.contactMatcher);
 
     _this._extensionMode = (_this$_deps$softphone = (_this$_deps$softphone2 = _this._deps.softphoneOptions) === null || _this$_deps$softphone2 === void 0 ? void 0 : _this$_deps$softphone2.extensionMode) !== null && _this$_deps$softphone !== void 0 ? _this$_deps$softphone : false;
-    _this._useBrandedJupiter = (_this$_deps$softphone3 = (_this$_deps$softphone4 = _this._deps.softphoneOptions) === null || _this$_deps$softphone4 === void 0 ? void 0 : _this$_deps$softphone4.useBrandedJupiter) !== null && _this$_deps$softphone3 !== void 0 ? _this$_deps$softphone3 : false;
-    _this._callHandler = (_this$_deps$softphone5 = _this._deps.softphoneOptions) === null || _this$_deps$softphone5 === void 0 ? void 0 : _this$_deps$softphone5.callHandler;
+    _this._callHandler = (_this$_deps$softphone3 = _this._deps.softphoneOptions) === null || _this$_deps$softphone3 === void 0 ? void 0 : _this$_deps$softphone3.callHandler;
     return _this;
   }
 
@@ -293,60 +278,38 @@ var Softphone = (_dec = (0, _di.Module)({
   }, {
     key: "spartanProtocol",
     get: function get() {
-      return this.brandConfig.spartanProtocol;
-    }
-  }, {
-    key: "callWithJupiterConfig",
-    get: function get() {
-      var _this$_deps$accountIn, _this$_deps$accountIn2;
-
-      var brandId = (_this$_deps$accountIn = this._deps.accountInfo) === null || _this$_deps$accountIn === void 0 ? void 0 : (_this$_deps$accountIn2 = _this$_deps$accountIn.serviceInfo.brand) === null || _this$_deps$accountIn2 === void 0 ? void 0 : _this$_deps$accountIn2.id;
-
-      if (this._useBrandedJupiter && brandId) {
-        var _this$_deps$dynamicCo, _this$_deps$dynamicCo2;
-
-        var brandConfigs = (_this$_deps$dynamicCo = (_this$_deps$dynamicCo2 = this._deps.dynamicConfig) === null || _this$_deps$dynamicCo2 === void 0 ? void 0 : _this$_deps$dynamicCo2.data.callWithJupiter) !== null && _this$_deps$dynamicCo !== void 0 ? _this$_deps$dynamicCo : this.brandConfig.callWithJupiter;
-
-        if (brandConfigs) {
-          var _brandConfigs$brandId;
-
-          return (_brandConfigs$brandId = brandConfigs[brandId]) !== null && _brandConfigs$brandId !== void 0 ? _brandConfigs$brandId : brandConfigs["default"];
-        }
-      }
-
-      return this.brandConfig.callWithJupiter["default"];
-    }
-  }, {
-    key: "brandConfig",
-    get: function get() {
-      return this._deps.brand.brandConfig;
+      return this._deps.brand.brandConfig.callWithSoftphone.protocol;
     } // currently we only have RingCentral App(rc brand)'s & AT&T universal link
 
   }, {
     key: "jupiterUniversalLink",
     get: function get() {
-      return this.callWithJupiterConfig.link;
+      var _this$_deps$brand$bra;
+
+      return (_this$_deps$brand$bra = this._deps.brand.brandConfig.callWithJupiter) === null || _this$_deps$brand$bra === void 0 ? void 0 : _this$_deps$brand$bra.link;
     }
   }, {
     key: "jupiterAppName",
     get: function get() {
-      var _this$callWithJupiter, _this$callWithJupiter2;
+      var _this$_deps$brand$bra2;
 
-      return (_this$callWithJupiter = (_this$callWithJupiter2 = this.callWithJupiterConfig) === null || _this$callWithJupiter2 === void 0 ? void 0 : _this$callWithJupiter2.name) !== null && _this$callWithJupiter !== void 0 ? _this$callWithJupiter : null;
+      return (_this$_deps$brand$bra2 = this._deps.brand.brandConfig.callWithJupiter) === null || _this$_deps$brand$bra2 === void 0 ? void 0 : _this$_deps$brand$bra2.name;
     } // currently we don't have Bt brand uri scheme
 
   }, {
     key: "jupiterProtocol",
     get: function get() {
-      return this.callWithJupiterConfig.protocol;
+      var _this$_deps$brand$bra3;
+
+      return (_this$_deps$brand$bra3 = this._deps.brand.brandConfig.callWithJupiter) === null || _this$_deps$brand$bra3 === void 0 ? void 0 : _this$_deps$brand$bra3.protocol;
     }
   }, {
     key: "useJupiterUniversalLink",
     get: function get() {
-      var _this$_deps$softphone6, _this$_deps$softphone7;
+      var _this$_deps$softphone4, _this$_deps$softphone5;
 
       // rc brand use scheme, partner brand use universal link
-      return (_this$_deps$softphone6 = (_this$_deps$softphone7 = this._deps.softphoneOptions) === null || _this$_deps$softphone7 === void 0 ? void 0 : _this$_deps$softphone7.useJupiterUniversalLink) !== null && _this$_deps$softphone6 !== void 0 ? _this$_deps$softphone6 : this.brandConfig.allowJupiterUniversalLink;
+      return (_this$_deps$softphone4 = (_this$_deps$softphone5 = this._deps.softphoneOptions) === null || _this$_deps$softphone5 === void 0 ? void 0 : _this$_deps$softphone5.useJupiterUniversalLink) !== null && _this$_deps$softphone4 !== void 0 ? _this$_deps$softphone4 : this._deps.brand.brandConfig.allowJupiterUniversalLink;
     }
   }]);
 
@@ -365,6 +328,6 @@ var Softphone = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return _softphoneStatus.softphoneStatus.idle;
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "startToConnect", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "startToConnect"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "connectComplete", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "connectComplete"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "callWithJupiterConfig", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "callWithJupiterConfig"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "jupiterAppName", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "jupiterAppName"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "makeCall", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "makeCall"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "startToConnect", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "startToConnect"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "connectComplete", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "connectComplete"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "makeCall", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "makeCall"), _class2.prototype)), _class2)) || _class);
 exports.Softphone = Softphone;
 //# sourceMappingURL=Softphone.js.map

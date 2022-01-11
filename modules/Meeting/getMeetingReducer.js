@@ -39,32 +39,32 @@ require("core-js/modules/es6.array.filter");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getMeetingInfoReducer = getMeetingInfoReducer;
-exports.getMeetingSchedulingStatusReducer = getMeetingSchedulingStatusReducer;
-exports.getMeetingUpdatingStatusReducer = getMeetingUpdatingStatusReducer;
-exports.getMeetingStorageReducer = getMeetingStorageReducer;
+exports["default"] = void 0;
 exports.getDefaultMeetingSettingReducer = getDefaultMeetingSettingReducer;
+exports.getDelegatorsReducer = getDelegatorsReducer;
+exports.getLockedSettingsReducer = getLockedSettingsReducer;
+exports.getMeetingInfoReducer = getMeetingInfoReducer;
 exports.getMeetingPreferencesReducer = getMeetingPreferencesReducer;
 exports.getMeetingPreferencesStateReducer = getMeetingPreferencesStateReducer;
-exports.getUserSettingsReducer = getUserSettingsReducer;
-exports.getLockedSettingsReducer = getLockedSettingsReducer;
+exports.getMeetingSchedulingStatusReducer = getMeetingSchedulingStatusReducer;
+exports.getMeetingStorageReducer = getMeetingStorageReducer;
+exports.getMeetingUpdatingStatusReducer = getMeetingUpdatingStatusReducer;
 exports.getPersonalMeetingReducer = getPersonalMeetingReducer;
-exports.getDelegatorsReducer = getDelegatorsReducer;
-exports["default"] = void 0;
-
-var _redux = require("redux");
+exports.getUserSettingsReducer = getUserSettingsReducer;
 
 var _ramda = require("ramda");
 
-var _scheduleStatus = _interopRequireDefault(require("./scheduleStatus"));
+var _redux = require("redux");
 
 var _getModuleStatusReducer = _interopRequireDefault(require("../../lib/getModuleStatusReducer"));
 
+var _scheduleStatus = _interopRequireDefault(require("./scheduleStatus"));
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 

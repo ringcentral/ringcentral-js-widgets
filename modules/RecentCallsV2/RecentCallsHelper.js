@@ -5,7 +5,7 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.dedup = exports.sortByTime = exports.flattenToRecords = exports.filterPhoneNumber = void 0;
+exports.sortByTime = exports.flattenToRecords = exports.filterPhoneNumber = exports.dedup = void 0;
 
 require("core-js/modules/es6.array.reduce");
 

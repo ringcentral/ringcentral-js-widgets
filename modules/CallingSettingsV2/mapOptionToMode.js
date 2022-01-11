@@ -7,9 +7,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.mapOptionToMode = mapOptionToMode;
 
-var _callingOptions = require("./callingOptions");
-
 var _callingModes = require("./callingModes");
+
+var _callingOptions = require("./callingOptions");
 
 function mapOptionToMode(callWith) {
   switch (callWith) {

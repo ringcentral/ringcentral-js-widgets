@@ -5,9 +5,9 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getTimezonesReducer = getTimezonesReducer;
-exports.getCacheExpiredAtReducer = getCacheExpiredAtReducer;
 exports["default"] = getReducer;
+exports.getCacheExpiredAtReducer = getCacheExpiredAtReducer;
+exports.getTimezonesReducer = getTimezonesReducer;
 
 var _redux = require("redux");
 

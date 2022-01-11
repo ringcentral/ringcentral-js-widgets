@@ -20,11 +20,20 @@ require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.array.slice");
 
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports["default"] = void 0;
+
 require("core-js/modules/es6.object.define-property");
 
 require("core-js/modules/es6.array.for-each");
 
 require("core-js/modules/es6.date.to-iso-string");
+
+var _subscription = _interopRequireDefault(require("./data/subscription.json"));
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
 
@@ -36,12 +45,9 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
 var RealPubnub = jest.requireActual('pubnub');
-
-var subscriptionBody = require('./data/subscription.json');
-
 var pubnubCache = [];
 
 var MockedPubNub = /*#__PURE__*/function () {
@@ -134,7 +140,7 @@ var MockedPubNub = /*#__PURE__*/function () {
           activeCalls: activeCallsBody,
           totalActiveCalls: activeCallsBody.length
         }
-      }), subscriptionBody.deliveryMode.encryptionKey, {
+      }), _subscription["default"].deliveryMode.encryptionKey, {
         encryptKey: false,
         keyEncoding: 'base64',
         keyLength: 128,
@@ -189,5 +195,6 @@ MockedPubNub.getLastPubnub = function getLastPubnub() {
   return pubnubCache[pubnubCache.length - 1];
 };
 
-module.exports = MockedPubNub;
+var _default = MockedPubNub;
+exports["default"] = _default;
 //# sourceMappingURL=pubnub.js.map

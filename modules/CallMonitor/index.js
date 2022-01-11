@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
 require("core-js/modules/es6.weak-map");
 
@@ -71,31 +71,31 @@ require("regenerator-runtime/runtime");
 
 var _ramda = require("ramda");
 
-var _di = require("../../lib/di");
-
-var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
-
 var _moduleStatuses = _interopRequireDefault(require("../../enums/moduleStatuses"));
 
-var _actionTypes = _interopRequireDefault(require("./actionTypes"));
+var _callLogHelpers = require("../../lib/callLogHelpers");
 
-var _getCallMonitorReducer = _interopRequireWildcard(require("./getCallMonitorReducer"));
+var _di = require("../../lib/di");
 
 var _ensureExist = _interopRequireDefault(require("../../lib/ensureExist"));
 
 var _normalizeNumber = _interopRequireDefault(require("../../lib/normalizeNumber"));
 
-var _callMonitorHelper = require("./callMonitorHelper");
-
-var _callMonitorHelper2 = require("../CallMonitorV2/callMonitorHelper");
+var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
 
 var _selector = require("../../lib/selector");
 
-var _callLogHelpers = require("../../lib/callLogHelpers");
+var _helpers = require("../ActiveCallControlV2/helpers");
+
+var _callMonitorHelper = require("../CallMonitorV2/callMonitorHelper");
 
 var _webphoneHelper = require("../Webphone/webphoneHelper");
 
-var _helpers = require("../ActiveCallControlV2/helpers");
+var _actionTypes = _interopRequireDefault(require("./actionTypes"));
+
+var _callMonitorHelper2 = require("./callMonitorHelper");
+
+var _getCallMonitorReducer = _interopRequireWildcard(require("./getCallMonitorReducer"));
 
 var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8, _descriptor9, _descriptor10, _descriptor11, _descriptor12, _descriptor13, _descriptor14, _descriptor15, _descriptor16;
 
@@ -123,9 +123,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) { symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); } keys.push.apply(keys, symbols); } return keys; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -137,15 +137,15 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } Object.defineProperty(subClass, "prototype", { value: Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }), writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
 
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
@@ -747,7 +747,7 @@ _dec = (0, _di.Module)({
           phoneNumber: callItem.to && callItem.to.phoneNumber,
           countryCode: countryCode
         });
-        var webphoneSession = (0, _callMonitorHelper.matchWephoneSessionWithAcitveCall)(theSessions, callItem);
+        var webphoneSession = (0, _callMonitorHelper2.matchWephoneSessionWithAcitveCall)(theSessions, callItem);
         theSessions = (0, _ramda.filter)(function (x) {
           return x !== webphoneSession;
         }, theSessions);
@@ -799,7 +799,7 @@ _dec = (0, _di.Module)({
       _this7._normalizedCalls = (0, _ramda.sort)(function (l, r) {
         return (0, _webphoneHelper.sortByLastActiveTimeDesc)(l.webphoneSession, r.webphoneSession);
       }, (0, _ramda.map)(function (callItem) {
-        var _this7$_activeCallCon4;
+        var _this7$_activeCallCon4, _party$status;
 
         var currentRcCallSession = (_this7$_activeCallCon4 = _this7._activeCallControl.rcCallSessions) === null || _this7$_activeCallCon4 === void 0 ? void 0 : _this7$_activeCallCon4.find(function (x) {
           return x.id === callItem.id;
@@ -838,8 +838,8 @@ _dec = (0, _di.Module)({
         var toName = to === null || to === void 0 ? void 0 : to.name;
         var fromName = from === null || from === void 0 ? void 0 : from.name;
         var partyId = party === null || party === void 0 ? void 0 : party.id;
-        var telephonySession = (0, _callMonitorHelper2.normalizeTelephonySession)(currentRcCallSession);
-        var telephonyStatus = (0, _callMonitorHelper.mapTelephonyStatus)(party === null || party === void 0 ? void 0 : party.status.code); // TODO: add sipData here
+        var telephonySession = (0, _callMonitorHelper.normalizeTelephonySession)(currentRcCallSession);
+        var telephonyStatus = (0, _callMonitorHelper2.mapTelephonyStatus)(party === null || party === void 0 ? void 0 : (_party$status = party.status) === null || _party$status === void 0 ? void 0 : _party$status.code); // TODO: add sipData here
         // const sipData = {};
 
         return {
@@ -1027,9 +1027,9 @@ _dec = (0, _di.Module)({
         var endCall = null;
 
         if (useTelephonySession) {
-          endCall = (0, _callMonitorHelper.isCurrentDeviceEndCall)(sessionsCache, callItem);
+          endCall = (0, _callMonitorHelper2.isCurrentDeviceEndCall)(sessionsCache, callItem);
         } else {
-          endCall = (0, _callMonitorHelper.matchWephoneSessionWithAcitveCall)(sessionsCache, callItem);
+          endCall = (0, _callMonitorHelper2.matchWephoneSessionWithAcitveCall)(sessionsCache, callItem);
         }
 
         return {

@@ -15,14 +15,11 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-var _exportNames = {};
-exports["default"] = void 0;
 
 var _Locale = require("./Locale");
 
 Object.keys(_Locale).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
-  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
   if (key in exports && exports[key] === _Locale[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
@@ -36,7 +33,6 @@ var _Locale2 = require("./Locale.interface");
 
 Object.keys(_Locale2).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
-  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
   if (key in exports && exports[key] === _Locale2[key]) return;
   Object.defineProperty(exports, key, {
     enumerable: true,
@@ -45,6 +41,4 @@ Object.keys(_Locale2).forEach(function (key) {
     }
   });
 });
-var _default = _Locale.Locale;
-exports["default"] = _default;
 //# sourceMappingURL=index.js.map

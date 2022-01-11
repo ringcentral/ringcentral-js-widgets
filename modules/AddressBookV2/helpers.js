@@ -8,8 +8,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.decodeName = decodeName;
-exports.processAddressBookResponse = processAddressBookResponse;
 exports.getSyncParams = getSyncParams;
+exports.processAddressBookResponse = processAddressBookResponse;
 
 require("core-js/modules/es6.array.is-array");
 
