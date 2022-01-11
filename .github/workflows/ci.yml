@@ -58,14 +58,14 @@ jobs:
           path-to-lcov: ./packages/ringcentral-integration/coverage/lcov.info
           flag-name: commons
           parallel: true
-      # - run: yarn workspace @ringcentral-integration/widgets test --coverage
-      # - name: Widgets Coveralls
-      #   uses: coverallsapp/github-action@1.1.3
-      #   with:
-      #     github-token: ${{ secrets.GITHUB_TOKEN }}
-      #     path-to-lcov: ./packages/ringcentral-widgets/coverage/lcov.info
-      #     flag-name: widgets
-      #     parallel: true
+      - run: yarn workspace @ringcentral-integration/widgets test --coverage
+      - name: Widgets Coveralls
+        uses: coverallsapp/github-action@1.1.3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: ./packages/ringcentral-widgets/coverage/lcov.info
+          flag-name: widgets
+          parallel: true
       - run: yarn workspace ringcentral-widgets-test jest --ci --coverage --projects legacyTest.config.js
       - name: Widgets Integration Coveralls
         uses: coverallsapp/github-action@1.1.3
