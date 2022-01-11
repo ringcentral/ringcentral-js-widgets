@@ -5,6 +5,12 @@ require("core-js/modules/es6.object.define-property");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+Object.defineProperty(exports, "consolidateLocale", {
+  enumerable: true,
+  get: function get() {
+    return _consolidateLocale["default"];
+  }
+});
 Object.defineProperty(exports, "default", {
   enumerable: true,
   get: function get() {
@@ -21,12 +27,6 @@ Object.defineProperty(exports, "importLocale", {
   enumerable: true,
   get: function get() {
     return _importLocale["default"];
-  }
-});
-Object.defineProperty(exports, "consolidateLocale", {
-  enumerable: true,
-  get: function get() {
-    return _consolidateLocale["default"];
   }
 });
 Object.defineProperty(exports, "transformLoader", {
