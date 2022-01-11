@@ -1,9 +1,10 @@
 import { expect } from 'chai';
-import sinon from 'sinon';
 import { createStore } from 'redux';
-import RecentCalls from './index';
-import getRecentCallsReducer from './getRecentCallsReducer';
+import sinon from 'sinon';
+
 import actionTypes from './actionTypes';
+import getRecentCallsReducer from './getRecentCallsReducer';
+import RecentCalls from './index';
 
 describe('RecentCalls Unit Test', () => {
   let recentCalls;

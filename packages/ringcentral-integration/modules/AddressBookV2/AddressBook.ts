@@ -1,5 +1,7 @@
-import { computed } from '@ringcentral-integration/core';
 import { forEach, map } from 'ramda';
+
+import { computed } from '@ringcentral-integration/core';
+
 import { availabilityTypes } from '../../enums/availabilityTypes';
 import { phoneSources } from '../../enums/phoneSources';
 import { ContactModel, ContactSource } from '../../interfaces/Contact.model';
@@ -34,7 +36,8 @@ export const DEFAULT_CONTACTS_PER_PAGE = 250;
 })
 export class AddressBook
   extends DataFetcherV2Consumer<Deps, AddressBookData>
-  implements ContactSource {
+  implements ContactSource
+{
   constructor(deps: Deps) {
     super({
       deps,
@@ -210,6 +213,15 @@ export class AddressBook
   @computed(({ data }: AddressBook) => [data])
   get rawContacts() {
     return this.data?.records ?? [];
+  }
+
+  @computed((that: AddressBook) => [that.contacts])
+  get rcPersonalMapping() {
+    const rcPersonalMapping: any = {};
+    this.contacts.forEach((item: any) => {
+      rcPersonalMapping[item.id] = item;
+    });
+    return rcPersonalMapping;
   }
 
   // interface of ContactSource

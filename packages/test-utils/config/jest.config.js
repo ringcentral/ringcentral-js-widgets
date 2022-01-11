@@ -1,6 +1,6 @@
 const nodeModules = '<rootDir>/../../node_modules/';
 
-const __CI__ = process.env.NODE_ENV === 'ci';
+const __CI__ = process.argv.includes('--ci');
 
 module.exports = {
   roots: ['<rootDir>/test'],
@@ -8,7 +8,7 @@ module.exports = {
   testEnvironment: 'jsdom',
   transform: {
     'loadLocale\\.(js|jsx|ts|tsx)$': `${nodeModules}@ringcentral-integration/test-utils/mock/loadLocale.js`,
-    '^.+\\.(js|jsx|ts|tsx)$': `${nodeModules}@ringcentral-integration/test-utils/scripts/babel-crius.js`,
+    '^.+\\.(js|jsx|ts|tsx)$': `${nodeModules}@ringcentral-integration/babel-settings/lib/jestTransform.js`,
   },
   setupFiles: [
     `${nodeModules}@ringcentral-integration/test-utils/scripts/jest.setup.js`,
@@ -38,13 +38,12 @@ module.exports = {
             'jest-junit',
             {
               suiteName: 'jest tests',
-              outputDirectory: './junit-report',
+              outputDirectory: '<rootDir>/junit-report',
               outputName: './junit.xml',
-              classNameTemplate: (vars) => {
-                return vars.filename.indexOf('RCI-') > -1
+              classNameTemplate: (vars) =>
+                vars.filename.indexOf('RCI-') > -1
                   ? vars.filename.match(/(RCI-[0-9]+)/g)[0]
-                  : vars.filename;
-              },
+                  : vars.filename,
               titleTemplate: '{filename}-{title}',
               ancestorSeparator: ' › ',
               usePathForSuiteName: 'true',

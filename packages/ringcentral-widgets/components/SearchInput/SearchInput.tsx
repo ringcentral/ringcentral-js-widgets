@@ -1,7 +1,9 @@
-import React, { ChangeEvent } from 'react';
+import React, { ChangeEvent, FunctionComponent } from 'react';
+
 import classnames from 'classnames';
-import styles from './styles.scss';
+
 import SearchIcon from '../../assets/images/Search.svg';
+import styles from './styles.scss';
 
 export interface SearchInputProps {
   dataSign?: string;
@@ -14,7 +16,7 @@ export interface SearchInputProps {
   onKeyUp?: (ev: React.KeyboardEvent<HTMLInputElement>) => void;
 }
 
-export const SearchInput: React.FunctionComponent<SearchInputProps> = ({
+export const SearchInput: FunctionComponent<SearchInputProps> = ({
   dataSign,
   className,
   value,

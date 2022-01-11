@@ -1,12 +1,13 @@
 import {
   autorun,
-  title,
-  Scenario,
   Given,
-  When,
-  Then,
+  Scenario,
   Step,
+  Then,
+  title,
+  When,
 } from '@ringcentral-integration/test-utils';
+
 import { ConnectivityMonitor } from '../../modules/ConnectivityMonitorV2';
 import { mockModuleGenerator } from '../lib/mockModule';
 

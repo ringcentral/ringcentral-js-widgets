@@ -1,13 +1,15 @@
 import { Store } from 'redux';
-import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
+
 import {
   identifierKey,
   RcModuleV2,
   storeKey,
 } from '@ringcentral-integration/core';
-import { Injector, Library } from '../di';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
+
 import moduleStatuses from '../../enums/moduleStatuses';
 import proxyStatuses from '../../enums/proxyStatuses';
+import { Injector, Library } from '../di';
 import once from '../once';
 import required from '../required';
 
@@ -52,7 +54,7 @@ export interface RcModuleOptions<S, T> {
 })
 export default abstract class RcModule<
   S extends Record<string, any> = Record<string, any>,
-  T extends object = Record<string, string>
+  T extends object = Record<string, string>,
 > {
   private _getState: () => S;
   private _getProxyState: () => S;
@@ -253,8 +255,8 @@ export default abstract class RcModule<
         } else if (
           Object.prototype.hasOwnProperty.call(this, subModule) &&
           this[subModule] instanceof RcModuleV2 &&
-          !((this[subModule] as any) as RcModuleV2)._initialized &&
-          !((this[subModule] as any) as RcModuleV2)._suppressInit
+          !(this[subModule] as any as RcModuleV2)._initialized &&
+          !(this[subModule] as any as RcModuleV2)._suppressInit
         ) {
           const subRcModule: RcModuleV2 = this[subModule] as any;
           subRcModule._initialized = true;

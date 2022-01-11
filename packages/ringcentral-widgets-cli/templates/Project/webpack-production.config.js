@@ -36,11 +36,13 @@ const config = {
         APP_VERSION: JSON.stringify(version),
       },
     }),
-    new CopyWebpackPlugin([
-      { from: 'src/index.html', to: 'index.html' },
-      { from: 'src/proxy.html', to: 'proxy.html' },
-      { from: 'src/redirect.html', to: 'redirect.html' },
-    ]),
+    new CopyWebpackPlugin({
+      patterns: [
+        { from: 'src/index.html', to: 'index.html' },
+        { from: 'src/proxy.html', to: 'proxy.html' },
+        { from: 'src/redirect.html', to: 'redirect.html' },
+      ],
+    }),
   ],
   module: {
     rules: [
@@ -79,14 +81,13 @@ const config = {
       },
       {
         test: /\.woff|\.woff2|.eot|\.ttf/,
-        use:
-          'url-loader?limit=15000&publicPath=./&name=fonts/[name]_[hash].[ext]',
+        use: 'url-loader?limit=15000&publicPath=./&name=fonts/[name]_[hash].[ext]',
       },
       {
         test: /\.png|\.jpg|\.gif|\.svg/,
-        exclude: /ringcentral-integration(\/|\\)widgets(\/|\\)assets(\/|\\)images(\/|\\).+\.svg/,
-        use:
-          'url-loader?limit=20000&publicPath=./&name=images/[name]_[hash].[ext]',
+        exclude:
+          /ringcentral-integration(\/|\\)widgets(\/|\\)assets(\/|\\)images(\/|\\).+\.svg/,
+        use: 'url-loader?limit=20000&publicPath=./&name=images/[name]_[hash].[ext]',
       },
       {
         test: /\.ogg$/,

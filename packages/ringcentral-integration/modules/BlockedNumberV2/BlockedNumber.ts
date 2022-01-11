@@ -1,5 +1,6 @@
-import { computed } from '@ringcentral-integration/core';
 import BlockedNumberInfo from 'ringcentral-client/build/definitions/BlockedNumberInfo';
+
+import { computed } from '@ringcentral-integration/core';
 
 import { Module } from '../../lib/di';
 import fetchList from '../../lib/fetchList';

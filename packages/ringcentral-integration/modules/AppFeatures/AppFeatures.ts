@@ -1,4 +1,5 @@
 import { computed, RcModuleV2 } from '@ringcentral-integration/core';
+
 import { Module } from '../../lib/di';
 import { Deps, FeatureConfiguration } from './AppFeatures.interface';
 
@@ -59,7 +60,7 @@ export const defaultConfiguration: Required<FeatureConfiguration> = {
   ],
 })
 export abstract class AppFeaturesBase<
-  T extends FeatureConfiguration = FeatureConfiguration
+  T extends FeatureConfiguration = FeatureConfiguration,
 > extends RcModuleV2<Deps<T>> {
   constructor(deps: Deps<T>) {
     super({

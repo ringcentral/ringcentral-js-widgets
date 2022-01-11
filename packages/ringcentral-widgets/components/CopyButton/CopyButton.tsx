@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from 'react';
-import copyIconSvg from '@ringcentral/juno/icon/Copy';
+
 import { RcIconButton } from '@ringcentral/juno';
+import { Copy as copyIconSvg } from '@ringcentral/juno/icon';
 
 export interface CopyButtonProps {
   executeCopy?: () => void;

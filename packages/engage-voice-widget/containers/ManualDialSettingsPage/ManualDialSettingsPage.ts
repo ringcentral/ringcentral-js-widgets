@@ -2,6 +2,7 @@ import { ManualDialSettingsPanel } from '../../components/ManualDialSettingsPane
 import { connectModule } from '../../lib/connectModule';
 import { EvManualDialSettingsRenderProps } from '../../modules/EvManualDialSettingsUI/EvManualDialSettingsUI.interface';
 
-export const ManualDialSettingsPage = connectModule<
-  EvManualDialSettingsRenderProps
->((phone) => phone.evManualDialSettingsUI)(ManualDialSettingsPanel);
+export const ManualDialSettingsPage =
+  connectModule<EvManualDialSettingsRenderProps>(
+    (phone) => phone.evManualDialSettingsUI,
+  )(ManualDialSettingsPanel);

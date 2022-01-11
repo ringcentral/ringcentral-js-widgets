@@ -1,13 +1,14 @@
-import gulp from 'gulp';
-import path from 'path';
-import os from 'os';
+import execa from 'execa';
 import fs from 'fs-extra';
+import gulp from 'gulp';
 import babel from 'gulp-babel';
 import sourcemaps from 'gulp-sourcemaps';
-import execa from 'execa';
-import transformLoader from '@ringcentral-integration/locale-loader/lib/transformLoader';
+import os from 'os';
+import path from 'path';
+
 import exportLocale from '@ringcentral-integration/locale-loader/lib/exportLocale';
 import importLocale from '@ringcentral-integration/locale-loader/lib/importLocale';
+import transformLoader from '@ringcentral-integration/locale-loader/lib/transformLoader';
 import localeSettings from '@ringcentral-integration/locale-settings';
 
 const BUILD_PATH = path.resolve(__dirname, '../../build/engage-voice-widgets');

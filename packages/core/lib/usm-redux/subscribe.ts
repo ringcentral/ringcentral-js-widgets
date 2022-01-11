@@ -4,10 +4,9 @@ import {
   Unsubscribe,
   Subscription,
   Service,
-  WatchEffect,
 } from './interface';
 import { storeKey, subscriptionsKey } from './constant';
-import { isEqual } from './utils/index';
+import { isEqual as defaultIsEqual } from './utils/index';
 
 const subscribe: Subscribe = (module, listener) => {
   if (typeof module !== 'object') {
@@ -42,8 +41,12 @@ const subscribe: Subscribe = (module, listener) => {
   }
   return unsubscribe;
 };
-
-const watch: Watch = (module, selector, watcher) => {
+const watch: Watch = (
+  module,
+  selector,
+  watcher,
+  { multiple = false, isEqual = defaultIsEqual } = {},
+) => {
   if (typeof watcher !== 'function') {
     const className = Object.getPrototypeOf(module).constructor.name;
     throw new Error(
@@ -51,6 +54,26 @@ const watch: Watch = (module, selector, watcher) => {
     );
   }
   let oldValue = selector();
+  if (multiple) {
+    if (!Array.isArray(oldValue)) {
+      const className = Object.getPrototypeOf(module).constructor.name;
+      throw new Error(
+        `The 'selector' should be a function that returns an array in the class '${className}'.`,
+      );
+    }
+    return subscribe(module, () => {
+      const newValue = selector();
+      const length = oldValue.length;
+      for (let i = 0; i < length; i++) {
+        if (!isEqual(newValue[i], oldValue[i])) {
+          const lastValues = oldValue;
+          oldValue = newValue;
+          watcher(newValue, lastValues);
+          break;
+        }
+      }
+    });
+  }
   return subscribe(module, () => {
     const newValue = selector();
     if (!isEqual(newValue, oldValue)) {
@@ -61,32 +84,4 @@ const watch: Watch = (module, selector, watcher) => {
   });
 };
 
-const watchEffect: WatchEffect = (module, selector, watcher) => {
-  if (typeof watcher !== 'function') {
-    const className = Object.getPrototypeOf(module).constructor.name;
-    throw new Error(
-      `The 'watcher' should be a function in the class '${className}'.`,
-    );
-  }
-  let oldValues = selector();
-  if (!Array.isArray(oldValues)) {
-    const className = Object.getPrototypeOf(module).constructor.name;
-    throw new Error(
-      `The 'selector' should be a function that returns an array in the class '${className}'.`,
-    );
-  }
-  return subscribe(module, () => {
-    const newValues = selector();
-    const length = oldValues.length;
-    for (let i = 0; i < length; i++) {
-      if (!isEqual(newValues[i], oldValues[i])) {
-        const lastValues = oldValues;
-        oldValues = newValues;
-        watcher(newValues, lastValues);
-        break;
-      }
-    }
-  });
-};
-
-export { subscribe, watch, watchEffect };
+export { subscribe, watch };

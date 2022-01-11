@@ -1,5 +1,7 @@
-import classnames from 'classnames';
 import React, { Component } from 'react';
+
+import classnames from 'classnames';
+
 import { audios } from './audios';
 import styles from './styles.scss';
 

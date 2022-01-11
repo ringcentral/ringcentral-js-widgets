@@ -5,4 +5,4 @@ const ConversationPage = connectModule((phone) => phone.conversationUI)(
   ConversationPanel,
 );
 
-export { ConversationPage, ConversationPage as default };
+export { ConversationPage as default, ConversationPage };

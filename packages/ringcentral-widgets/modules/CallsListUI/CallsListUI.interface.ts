@@ -22,8 +22,9 @@ import {
 import { ExtensionInfo } from '@ringcentral-integration/commons/modules/ExtensionInfoV2';
 import { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiterV2';
-import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettingsV2';
+import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
 import { Webphone } from '@ringcentral-integration/commons/modules/WebphoneV2';
+
 import { ContactDetailsUI, RouteParams } from '../ContactDetailsUI';
 import { RouterInteraction } from '../RouterInteraction';
 

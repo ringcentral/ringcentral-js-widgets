@@ -5,6 +5,7 @@ export interface TransferPhoneBookRecipientPageProps {
   id: string;
 }
 
-export const TransferPhoneBookRecipientPage = connectModule<
-  TransferPhoneBookRecipientPageProps
->((phone) => phone.evTransferCallUI)(PhoneBookPanel);
+export const TransferPhoneBookRecipientPage =
+  connectModule<TransferPhoneBookRecipientPageProps>(
+    (phone) => phone.evTransferCallUI,
+  )(PhoneBookPanel);

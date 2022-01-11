@@ -1,4 +1,9 @@
-import { storageStateKey, globalStorageStateKey, RcModuleV2 } from './RcModule';
+import {
+  storageStateKey,
+  globalStorageStateKey,
+  RcModuleV2,
+  stateKey,
+} from './RcModule';
 
 export interface Descriptor<T> extends TypedPropertyDescriptor<T> {
   initializer?(): T;
@@ -12,6 +17,11 @@ export const globalStorage = (
   key: string,
   descriptor?: Descriptor<unknown>,
 ) => {
+  if (!(key in target[stateKey])) {
+    throw new Error(
+      `The ${key} must be decorated with '@state' first, and it must be a Redux state to be a persistent state`,
+    );
+  }
   target[globalStorageStateKey] = [
     ...(target[globalStorageStateKey] ?? []),
     key,
@@ -26,5 +36,10 @@ export const storage = (
   key: string,
   descriptor?: Descriptor<unknown>,
 ) => {
+  if (!(key in target[stateKey])) {
+    throw new Error(
+      `The ${key} must be decorated with '@state' first, and it must be a Redux state to be a persistent state`,
+    );
+  }
   target[storageStateKey] = [...(target[storageStateKey] ?? []), key];
 };

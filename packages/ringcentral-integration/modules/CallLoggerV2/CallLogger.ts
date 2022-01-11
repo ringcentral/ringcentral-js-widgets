@@ -1,25 +1,29 @@
 import { reduce } from 'ramda';
+
 import {
+  action,
+  computed,
   state,
   storage,
-  action,
   watch,
-  computed,
 } from '@ringcentral-integration/core';
-import { Module } from '../../lib/di';
-import { LoggerBase } from '../../lib/LoggerBaseV2';
-import {
-  isRinging,
-  isInbound,
-  removeDuplicateSelfCalls,
-} from '../../lib/callLogHelpers';
+
 import {
   CallLoggerTriggerType,
   callLoggerTriggerTypes,
 } from '../../enums/callLoggerTriggerTypes';
-import proxify from '../../lib/proxy/proxify';
-import { callIdentityFunction } from './callLoggerHelper';
 import { Call } from '../../interfaces/Call.interface';
+import { ActiveCall } from '../../interfaces/Presence.model';
+import {
+  isInbound,
+  isRinging,
+  removeDuplicateSelfCalls,
+} from '../../lib/callLogHelpers';
+import { Module } from '../../lib/di';
+import { LoggerBase } from '../../lib/LoggerBaseV2';
+import proxify from '../../lib/proxy/proxify';
+import { HistoryCall } from '../CallHistoryV2';
+import { CallLogRecord } from '../CallLogV2';
 import {
   AutoLogCallOptions,
   Deps,
@@ -30,9 +34,7 @@ import {
   UpdatedCall,
   UpdatedCallMap,
 } from './CallLogger.interface';
-import { CallLogRecord } from '../CallLogV2';
-import { HistoryCall } from '../CallHistoryV2';
-import { ActiveCall } from '../../interfaces/Presence.model';
+import { callIdentityFunction } from './callLoggerHelper';
 
 const DEFAULT_OPACITY = 20;
 
@@ -279,9 +281,8 @@ export class CallLogger<T extends Deps = Deps> extends LoggerBase<T> {
                 this._onCallUpdated(
                   {
                     ...call,
-                    isTransferredCall: !!this.transferredCallsMap[
-                      call.sessionId
-                    ],
+                    isTransferredCall:
+                      !!this.transferredCallsMap[call.sessionId],
                     transferredMiddleNumber: this.transferredCallsMap[
                       call.sessionId
                     ]
@@ -358,9 +359,8 @@ export class CallLogger<T extends Deps = Deps> extends LoggerBase<T> {
                 this._onCallUpdated(
                   {
                     ...callInfo,
-                    isTransferredCall: !!this.transferredCallsMap[
-                      callInfo.sessionId
-                    ],
+                    isTransferredCall:
+                      !!this.transferredCallsMap[callInfo.sessionId],
                     transferredMiddleNumber: this.transferredCallsMap[
                       call.sessionId
                     ]

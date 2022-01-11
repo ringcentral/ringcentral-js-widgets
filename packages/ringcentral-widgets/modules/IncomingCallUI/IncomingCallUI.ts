@@ -7,6 +7,7 @@ import {
   UIFunctions,
   UIProps,
 } from '@ringcentral-integration/core';
+
 import { checkShouldHidePhoneNumber } from '../../lib/checkShouldHidePhoneNumber';
 import {
   Deps,
@@ -75,7 +76,7 @@ class IncomingCallUI extends RcUIModuleV2<Deps> {
     }
     return {
       sourceIcons,
-      brand: brand.fullName,
+      brand: brand.name,
       nameMatches,
       currentLocale: locale.currentLocale,
       session: currentSession,

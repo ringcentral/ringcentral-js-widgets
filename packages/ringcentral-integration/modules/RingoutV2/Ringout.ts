@@ -1,6 +1,7 @@
 import { GetRingOutStatusResponse } from '@rc-ex/core/definitions';
 import RestException from '@rc-ex/core/RestException';
 import { action, RcModuleV2, state } from '@ringcentral-integration/core';
+
 import { Module } from '../../lib/di';
 import proxify from '../../lib/proxy/proxify';
 import sleep from '../../lib/sleep';

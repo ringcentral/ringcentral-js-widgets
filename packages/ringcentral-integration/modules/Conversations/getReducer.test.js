@@ -1,24 +1,23 @@
 import { expect } from 'chai';
-import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
 
+import messageTypes from '../../enums/messageTypes';
+import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
+import actionTypes from './actionTypes';
 import getReducer, {
-  getSearchInputReducer,
-  getTypeFilterReducer,
-  getOldConversationsReducer,
-  getFetchConversationsStatusReducer,
-  getCurrentPageReducer,
-  getCurrentConversationIdReducer,
-  getOldMessagesReducer,
-  getFetchMessagesStatusReducer,
-  getMessageTextsReducer,
   getConversationStatusReducer,
   getCorrespondentMatch,
   getCorrespondentResponse,
+  getCurrentConversationIdReducer,
+  getCurrentPageReducer,
+  getFetchConversationsStatusReducer,
+  getFetchMessagesStatusReducer,
+  getMessageTextsReducer,
+  getOldConversationsReducer,
+  getOldMessagesReducer,
+  getSearchInputReducer,
+  getTypeFilterReducer,
 } from './getReducer';
-
-import actionTypes from './actionTypes';
 import status from './status';
-import messageTypes from '../../enums/messageTypes';
 
 describe('Conversations :: getSearchInputReducer', () => {
   it('getSearchInputReducer should be a function', () => {
@@ -515,16 +514,13 @@ describe('getReducer', () => {
     const typeFilterReducer = getTypeFilterReducer(actionTypes);
     const oldConversationsReducer = getOldConversationsReducer(actionTypes);
     const currentPageReducer = getCurrentPageReducer(actionTypes);
-    const fetchConversationsStatusReducer = getFetchConversationsStatusReducer(
-      actionTypes,
-    );
-    const currentConversationIdReducer = getCurrentConversationIdReducer(
-      actionTypes,
-    );
+    const fetchConversationsStatusReducer =
+      getFetchConversationsStatusReducer(actionTypes);
+    const currentConversationIdReducer =
+      getCurrentConversationIdReducer(actionTypes);
     const oldMessagesReducer = getOldMessagesReducer(actionTypes);
-    const fetchMessagesStatusReducer = getFetchMessagesStatusReducer(
-      actionTypes,
-    );
+    const fetchMessagesStatusReducer =
+      getFetchMessagesStatusReducer(actionTypes);
     const messageTextsReducer = getMessageTextsReducer(actionTypes);
     const conversationStatusReducer = getConversationStatusReducer(actionTypes);
     const correspondentMatchReducer = getCorrespondentMatch(actionTypes);

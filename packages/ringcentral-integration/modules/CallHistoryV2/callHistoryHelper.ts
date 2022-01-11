@@ -43,22 +43,29 @@ export const pickFullPhoneNumber: PhoneNumberPicker = (
   return number;
 };
 
-export const addNumbersFromCall = (
-  output: string[],
-  numberMap: Record<string, boolean>,
-  pickingFullNumber = false,
-) => (call: Call) => {
-  const pickNumber = pickingFullNumber ? pickFullPhoneNumber : pickPhoneNumber;
-  if (call.from && call.from.phoneNumber) {
-    const number = pickNumber(call.from.phoneNumber, call.from.extensionNumber);
-    addIfNotExist(number, output, numberMap);
-  } else if (call.from && call.from.extensionNumber) {
-    addIfNotExist(call.from.extensionNumber, output, numberMap);
-  }
-  if (call.to && call.to.phoneNumber) {
-    const number = pickNumber(call.to.phoneNumber, call.to.extensionNumber);
-    addIfNotExist(number, output, numberMap);
-  } else if (call.to && call.to.extensionNumber) {
-    addIfNotExist(call.to.extensionNumber, output, numberMap);
-  }
-};
+export const addNumbersFromCall =
+  (
+    output: string[],
+    numberMap: Record<string, boolean>,
+    pickingFullNumber = false,
+  ) =>
+  (call: Call) => {
+    const pickNumber = pickingFullNumber
+      ? pickFullPhoneNumber
+      : pickPhoneNumber;
+    if (call.from && call.from.phoneNumber) {
+      const number = pickNumber(
+        call.from.phoneNumber,
+        call.from.extensionNumber,
+      );
+      addIfNotExist(number, output, numberMap);
+    } else if (call.from && call.from.extensionNumber) {
+      addIfNotExist(call.from.extensionNumber, output, numberMap);
+    }
+    if (call.to && call.to.phoneNumber) {
+      const number = pickNumber(call.to.phoneNumber, call.to.extensionNumber);
+      addIfNotExist(number, output, numberMap);
+    } else if (call.to && call.to.extensionNumber) {
+      addIfNotExist(call.to.extensionNumber, output, numberMap);
+    }
+  };

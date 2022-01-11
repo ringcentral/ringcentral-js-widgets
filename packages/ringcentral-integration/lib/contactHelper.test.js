@@ -1,9 +1,9 @@
 import { expect } from 'chai';
 
 import {
-  uniqueContactItems,
-  sortContactItemsByName,
   groupByFirstLetterOfName,
+  sortContactItemsByName,
+  uniqueContactItems,
 } from './contactHelper';
 
 describe('uniqueContactItems', () => {

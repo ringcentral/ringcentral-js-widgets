@@ -1,13 +1,13 @@
 import { expect } from 'chai';
+
+import { normalizeRecord } from '../../lib/messageHelper';
 import actionTypes from './actionTypes';
 import {
   getConversationListReducer,
   getConversationStoreReducer,
-  getTimestampReducer,
   getSyncInfoReducer,
+  getTimestampReducer,
 } from './getDataReducer';
-
-import { normalizeRecord } from '../../lib/messageHelper';
 
 const recordTemplate = `{
   "uri": "https://platform.ringcentral.com/restapi/v1.0/account/208594004/extension/208594004/message-store/5475922005",

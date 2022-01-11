@@ -17,7 +17,11 @@ export const waitWithCheck = async (
   if (typeof fn !== 'function') return;
   await Promise.race<void>([
     polling(fn, interval),
-    new Promise<void>((_, reject) => setTimeout(reject, timeout)),
+    new Promise<void>((_, reject) =>
+      setTimeout(() => {
+        reject(new Error(`${timeout} ms timeout error`));
+      }, timeout),
+    ),
   ]);
 };
 

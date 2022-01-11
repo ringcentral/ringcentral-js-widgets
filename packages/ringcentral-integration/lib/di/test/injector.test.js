@@ -1,14 +1,15 @@
 import chai, { expect } from 'chai';
 import dirtyChai from 'dirty-chai';
 import sinon from 'sinon';
-import { Injector } from '../';
-import Registry from '../registry/registry';
+
+import { Injector } from '..';
 import {
   ClassProvider,
   ExistingProvider,
-  ValueProvider,
   FactoryProvider,
+  ValueProvider,
 } from '../provider';
+import Registry from '../registry/registry';
 
 chai.use(dirtyChai);
 

@@ -1,19 +1,22 @@
 import { ComponentType } from 'react';
-import { Brand } from '@ringcentral-integration/commons/modules/Brand';
-import { Locale } from '@ringcentral-integration/commons/modules/Locale';
-import { CallMonitor } from '@ringcentral-integration/commons/modules/CallMonitorV2';
-import { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiterV2';
-import { ContactSearch } from '@ringcentral-integration/commons/modules/ContactSearchV2';
-import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettingsV2';
-import { ContactMatcher } from '@ringcentral-integration/commons/modules/ContactMatcherV2';
-import { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettingsV2';
-import { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures';
-import { ConnectivityMonitor } from '@ringcentral-integration/commons/modules/ConnectivityMonitorV2';
+
+import { Call } from '@ringcentral-integration/commons/interfaces/Call.interface';
+import { Entity } from '@ringcentral-integration/commons/interfaces/Entity.interface';
+import { ActiveCall } from '@ringcentral-integration/commons/interfaces/Presence.model';
 import {
-  SwitchCallActiveCallParams,
-  Webphone,
-} from '@ringcentral-integration/commons/modules/WebphoneV2';
+  NormalizedSession,
+  WebphoneSession,
+} from '@ringcentral-integration/commons/interfaces/Webphone.interface';
+import {
+  ActiveCallControl,
+  ActiveSession,
+} from '@ringcentral-integration/commons/modules/ActiveCallControlV2';
+import { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures';
+import { Brand } from '@ringcentral-integration/commons/modules/Brand';
+import { HistoryCall } from '@ringcentral-integration/commons/modules/CallHistoryV2';
+import { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettingsV2';
 import { CallLogger } from '@ringcentral-integration/commons/modules/CallLoggerV2';
+import { CallMonitor } from '@ringcentral-integration/commons/modules/CallMonitorV2';
 import {
   ComposeText,
   ToNumber,
@@ -23,23 +26,22 @@ import {
   Party,
   PartyState,
 } from '@ringcentral-integration/commons/modules/ConferenceCallV2';
+import { ConnectivityMonitor } from '@ringcentral-integration/commons/modules/ConnectivityMonitorV2';
+import { ContactMatcher } from '@ringcentral-integration/commons/modules/ContactMatcherV2';
+import { ContactSearch } from '@ringcentral-integration/commons/modules/ContactSearchV2';
+import { Locale } from '@ringcentral-integration/commons/modules/Locale';
+import { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiterV2';
+import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
 import {
-  ActiveCallControl,
-  ActiveSession,
-} from '@ringcentral-integration/commons/modules/ActiveCallControlV2';
-import {
-  NormalizedSession,
-  WebphoneSession,
-} from '@ringcentral-integration/commons/interfaces/Webphone.interface';
-import { Entity } from '@ringcentral-integration/commons/interfaces/Entity.interface';
-import { HistoryCall } from '@ringcentral-integration/commons/modules/CallHistoryV2';
-import { ActiveCall } from '@ringcentral-integration/commons/interfaces/Presence.model';
-import { Call } from '@ringcentral-integration/commons/interfaces/Call.interface';
-import RouterInteraction from '../RouterInteraction';
-import { ModalUI } from '../ModalUIV2';
-import { ContactDetailsUI, RouteParams } from '../ContactDetailsUI';
+  SwitchCallActiveCallParams,
+  Webphone,
+} from '@ringcentral-integration/commons/modules/WebphoneV2';
+
 import { OnCreateContactOptions } from '../CallsListUI';
-import { ConfirmModalOptions } from '../ModalUIV2/ModalUI.interface';
+import { ContactDetailsUI, RouteParams } from '../ContactDetailsUI';
+import { ModalUI } from '../ModalUI';
+import { ConfirmModalOptions } from '../ModalUI/ModalUI.interface';
+import { RouterInteraction } from '../RouterInteraction';
 
 export interface Deps {
   brand: Brand;
@@ -174,7 +176,7 @@ export interface ActiveCallsPanelProps {
   notificationContainerStyles?: string;
   // Contact
   showAvatar?: boolean;
-  renderContactName?: () => void;
+  renderContactName?: (call: Call) => string;
   showOtherDevice?: boolean;
   ringoutHangup: (telephonySessionId: string) => Promise<void> | void;
   ringoutTransfer: (sessionId: string) => void;

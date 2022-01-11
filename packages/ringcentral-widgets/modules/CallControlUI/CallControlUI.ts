@@ -1,17 +1,19 @@
-import { RcUIModuleV2 } from '@ringcentral-integration/core';
-import { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
 import { filter, find, values } from 'ramda';
+
+import callDirections from '@ringcentral-integration/commons/enums/callDirections';
+import { NormalizedSession } from '@ringcentral-integration/commons/interfaces/Webphone.interface';
 import { Module } from '@ringcentral-integration/commons/lib/di';
+import { formatNumber } from '@ringcentral-integration/commons/lib/formatNumber';
+import callingModes from '@ringcentral-integration/commons/modules/CallingSettings/callingModes';
 import {
   ConferenceCall,
   LastCallInfo,
 } from '@ringcentral-integration/commons/modules/ConferenceCallV2';
-import { Webphone } from '@ringcentral-integration/commons/modules/WebphoneV2';
-import callDirections from '@ringcentral-integration/commons/enums/callDirections';
-import { NormalizedSession } from '@ringcentral-integration/commons/interfaces/Webphone.interface';
-import { formatNumber } from '@ringcentral-integration/commons/lib/formatNumber';
-import callingModes from '@ringcentral-integration/commons/modules/CallingSettings/callingModes';
 import { sessionStatus } from '@ringcentral-integration/commons/modules/Webphone/sessionStatus';
+import { Webphone } from '@ringcentral-integration/commons/modules/WebphoneV2';
+import { RcUIModuleV2 } from '@ringcentral-integration/core';
+import { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
+
 import callCtrlLayouts from '../../enums/callCtrlLayouts';
 import { checkShouldHidePhoneNumber } from '../../lib/checkShouldHidePhoneNumber';
 import {
@@ -19,6 +21,7 @@ import {
   Deps,
   getLastCallInfoFromWebphoneSession,
 } from './CallControlUI.interface';
+
 @Module({
   name: 'CallControlUI',
   deps: [
@@ -138,7 +141,7 @@ export class CallControlUI extends RcUIModuleV2<Deps> {
     }
 
     return {
-      brand: brand.fullName,
+      brand: brand.name,
       nameMatches,
       phoneNumber,
       currentLocale: locale.currentLocale,

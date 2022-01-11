@@ -1,6 +1,9 @@
 import 'animate.css/animate.min.css';
-import classNames from 'classnames';
+
 import React, { FunctionComponent, useEffect, useState } from 'react';
+
+import classNames from 'classnames';
+
 import { NotificationItem } from './NotificationItem';
 import {
   NotificationMessage,

@@ -1,6 +1,7 @@
-import { computed, RcUIModuleV2 } from '@ringcentral-integration/core';
 import moment from 'moment';
+
 import { Module } from '@ringcentral-integration/commons/lib/di';
+import { computed, RcUIModuleV2 } from '@ringcentral-integration/core';
 
 import {
   EvSettingsUIFunctions,
@@ -94,10 +95,8 @@ class EvSettingsUI extends RcUIModuleV2<Deps> implements SettingsUI {
   }
 
   get agentName() {
-    const {
-      firstName,
-      lastName,
-    } = this._deps.evAuth.agent.agentConfig.agentSettings;
+    const { firstName, lastName } =
+      this._deps.evAuth.agent.agentConfig.agentSettings;
     if (!firstName && !lastName) {
       return null;
     }

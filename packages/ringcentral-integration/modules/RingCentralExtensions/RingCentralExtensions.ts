@@ -1,24 +1,25 @@
-import { SDK } from '@ringcentral/sdk';
+import WebSocket from 'isomorphic-ws';
+
 import CoreExtension from '@rc-ex/core';
 import DebugExtension from '@rc-ex/debug';
 import RcSdkExtension from '@rc-ex/rcsdk';
 import WebSocketExtension, { Events } from '@rc-ex/ws';
 import { Wsc } from '@rc-ex/ws/lib/types';
-
 import {
+  action,
   RcModuleV2,
   state,
-  action,
   storage,
 } from '@ringcentral-integration/core';
-import WebSocket from 'isomorphic-ws';
-import { proxify } from '../../lib/proxy/proxify';
+import { SDK } from '@ringcentral/sdk';
+
 import { Module } from '../../lib/di';
+import { proxify } from '../../lib/proxy/proxify';
+import { Deps } from './RingCentralExtensions.interface';
 import {
   WebSocketReadyState,
   webSocketReadyStates,
 } from './webSocketReadyStates';
-import { Deps } from './RingCentralExtensions.interface';
 
 @Module({
   name: 'RingCentralExtensions',
@@ -66,6 +67,12 @@ export class RingCentralExtensions extends RcModuleV2<Deps> {
       ...wsOptions,
       wscToken: wsOptions?.wscToken ?? this.cachedWsc?.token,
     });
+    this._webSocketExtension.eventEmitter.addListener(
+      Events.newWsc,
+      (wsc: Wsc) => {
+        this._cacheWsc(wsc);
+      },
+    );
     try {
       await this._core.installExtension(this._webSocketExtension);
     } catch (ex) {
@@ -89,12 +96,6 @@ export class RingCentralExtensions extends RcModuleV2<Deps> {
         }
         // expose events
         this._exposeConnectionEvents();
-      },
-    );
-    this._webSocketExtension.eventEmitter.addListener(
-      Events.newWsc,
-      (wsc: Wsc) => {
-        this._cacheWsc(wsc);
       },
     );
     if (this._webSocketExtension.options.autoRecover) {
@@ -142,12 +143,6 @@ export class RingCentralExtensions extends RcModuleV2<Deps> {
 
   @proxify
   async recoverWebSocketConnection() {
-    if (this.webSocketReadyState === webSocketReadyStates.connecting) {
-      console.log(
-        '[RingCentralExtensions] > recoverWebSocketConnection > already connecting',
-      );
-      return;
-    }
     await this._webSocketExtension.recover();
     this._exposeConnectionEvents();
   }

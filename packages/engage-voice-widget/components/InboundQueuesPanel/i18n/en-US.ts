@@ -8,5 +8,5 @@ export default {
   search: 'Search ',
   selectedTips:
     '{assignedInboundQueuesNumber} of {totalInboundQueuesNumber} Selected',
-  selectAll: 'Select all'
+  selectAll: 'Select all',
 };

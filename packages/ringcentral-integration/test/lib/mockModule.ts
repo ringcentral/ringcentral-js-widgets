@@ -1,5 +1,7 @@
 import { createStore } from 'redux';
+
 import { storeKey } from '@ringcentral-integration/core';
+
 import { ModuleFactory } from '../../lib/di';
 import RcModule from '../../lib/RcModule';
 

@@ -18,31 +18,21 @@
   box-sizing: border-box;
   background-color: $line-panel-background-color;
 }
+
 .contentWithHeader {
-  height: calc(100% - $header-height);
+  //FIXME: intend to leave this blank, look like there's no app using this style.
+  // Should be removed in the future.
+  // See https://git.ringcentral.com/integration/integration-apps/-/merge_requests/11035/
 }
 
 .section {
   padding-top: 8px;
 }
-.eula {
-  color: $brand-font-color;
-  text-decoration: none;
-  font-size: $primary-font-size;
-  outline: 0;
-}
-.eula:focus {
-  outline: 0;
-}
-.eula:hover {
-  text-decoration: underline;
-  color: $brand-font-color-highlight;
-}
 
-.loginNumber{
+.loginNumber {
   @include secondary-font;
 }
-.versionContainer{
+.versionContainer {
   @include secondary-font;
   padding: 10px 20px;
 }

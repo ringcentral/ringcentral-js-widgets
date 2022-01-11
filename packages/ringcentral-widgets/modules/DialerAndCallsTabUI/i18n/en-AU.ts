@@ -1,5 +1,5 @@
 export default {
-  dialer: "Dialpad",
+  dialer: "Dial pad",
   allCalls: "All calls"
 };
 

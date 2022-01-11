@@ -1,7 +1,7 @@
 import {
   transferErrors,
-  transferSuccesses,
   transferEvents,
+  transferSuccesses,
 } from '../../../../enums';
 
 export default {

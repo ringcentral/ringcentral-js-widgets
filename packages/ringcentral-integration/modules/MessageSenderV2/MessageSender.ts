@@ -1,39 +1,37 @@
-import { find } from 'ramda';
 import { EventEmitter } from 'events';
+import { find } from 'ramda';
+import CreatePagerMessageRequest from 'ringcentral-client/build/definitions/CreatePagerMessageRequest';
+import GetMessageInfoResponse from 'ringcentral-client/build/definitions/GetMessageInfoResponse';
 import * as uuid from 'uuid';
+
 import {
+  action,
   RcModuleV2,
   state,
-  action,
   track,
 } from '@ringcentral-integration/core';
-import { ApiError } from '@ringcentral/sdk';
-import GetMessageInfoResponse from 'ringcentral-client/build/definitions/GetMessageInfoResponse';
-import CreatePagerMessageRequest from 'ringcentral-client/build/definitions/CreatePagerMessageRequest';
 import {
   ObjectMapKey,
   ObjectMapValue,
 } from '@ringcentral-integration/core/lib/ObjectMap';
+import { ApiError } from '@ringcentral/sdk';
 
+import chunkMessage from '../../lib/chunkMessage';
 import { Module } from '../../lib/di';
 import isBlank from '../../lib/isBlank';
-
-import {
-  Deps,
-  SendErrorResponse,
-  SenderNumber,
-  Attachment,
-  EventParameter,
-} from './MessageSender.interface';
-
-import { messageSenderStatus } from './messageSenderStatus';
-import { messageSenderMessages } from './messageSenderMessages';
-import { messageSenderEvents } from './messageSenderEvents';
-
 import proxify from '../../lib/proxy/proxify';
-import chunkMessage from '../../lib/chunkMessage';
 import sleep from '../../lib/sleep';
 import { trackEvents } from '../Analytics';
+import {
+  Attachment,
+  Deps,
+  EventParameter,
+  SenderNumber,
+  SendErrorResponse,
+} from './MessageSender.interface';
+import { messageSenderEvents } from './messageSenderEvents';
+import { messageSenderMessages } from './messageSenderMessages';
+import { messageSenderStatus } from './messageSenderStatus';
 
 export const MESSAGE_MAX_LENGTH = 1000;
 export const MULTIPART_MESSAGE_MAX_LENGTH = MESSAGE_MAX_LENGTH * 5;
@@ -190,9 +188,8 @@ export class MessageSender extends RcModuleV2<Deps> {
       (item, index, arr) => arr.indexOf(item) === index,
     );
     this.setSendStatus(messageSenderStatus.validating);
-    const numberValidateResult: any = await this._deps.numberValidate.validateNumbers(
-      recipientNumbers,
-    );
+    const numberValidateResult: any =
+      await this._deps.numberValidate.validateNumbers(recipientNumbers);
     if (!numberValidateResult.result) {
       this._alertInvalidRecipientErrors(numberValidateResult.errors);
       this.setSendStatus(messageSenderStatus.idle);

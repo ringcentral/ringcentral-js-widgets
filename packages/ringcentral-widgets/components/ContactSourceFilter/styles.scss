@@ -37,25 +37,8 @@
   top: 30px;
   left: -55px;
   width: 90px;
-  padding: 5px;
   border-radius: 2px;
   background-color: #ffffff;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.15);
   z-index: 3;
-
-  .contactSourceItem {
-    @include secondary-font;
-    padding: 4px;
-    cursor: pointer;
-    border-bottom: 1px solid #ffffff;
-
-    &.selected {
-      color: $primary-color;
-    }
-
-    &:hover {
-      background-color: #fafafa;
-      border-bottom: 1px solid #efefef;
-    }
-  }
 }

@@ -1,9 +1,11 @@
-import React, { FC } from 'react';
-import classNames from 'classnames';
-import styles from './styles.scss';
-import { OptionsInterface } from './optionInterface';
+import React, { FunctionComponent } from 'react';
 
-const Option: FC<OptionsInterface> = ({
+import classNames from 'classnames';
+
+import { OptionsInterface } from './optionInterface';
+import styles from './styles.scss';
+
+const Option: FunctionComponent<OptionsInterface> = ({
   option,
   isOption,
   stylesFromProps = {},

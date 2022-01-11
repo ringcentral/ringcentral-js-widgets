@@ -1,6 +1,6 @@
 import {
-  IStorageBaseOptions,
   Deps as StorageBaseDeps,
+  IStorageBaseOptions,
 } from '../../lib/StorageBaseV2';
 import { Auth } from '../AuthV2';
 import { TabManager } from '../TabManager';

@@ -2,6 +2,7 @@ import {
   ObjectMap,
   ObjectMapValue,
 } from '@ringcentral-integration/core/lib/ObjectMap';
+
 import { entityTypes } from './entityTypes';
 
 export const phoneSources = ObjectMap.fromKeys([

@@ -1,31 +1,28 @@
-import {
-  track,
-  state,
-  action,
-  RcUIModuleV2,
-} from '@ringcentral-integration/core';
-import { Module } from '@ringcentral-integration/commons/lib/di';
+import { phoneTypes } from '@ringcentral-integration/commons/enums/phoneTypes';
+import { ContactModel } from '@ringcentral-integration/commons/interfaces/Contact.model';
 import background from '@ringcentral-integration/commons/lib/background';
+import { Module } from '@ringcentral-integration/commons/lib/di';
 import proxify from '@ringcentral-integration/commons/lib/proxy/proxify';
 import {
-  isE164,
-  parseIncompletePhoneNumber,
-} from '@ringcentral-integration/phone-number';
-import { phoneTypes } from '@ringcentral-integration/commons/enums/phoneTypes';
-import { formatNumber } from '@ringcentral-integration/commons/lib/formatNumber';
-import { ContactModel } from '@ringcentral-integration/commons/interfaces/Contact.model';
+  action,
+  RcUIModuleV2,
+  state,
+  track,
+} from '@ringcentral-integration/core';
+
 import {
-  ContactDetailsViewProps,
   ContactDetailsViewFunctionProps,
+  ContactDetailsViewProps,
 } from '../../components/ContactDetailsView/ContactDetailsView.interface';
 import {
   Deps,
-  RouteParams,
-  InitParams,
   GetUIFunctions,
+  InitParams,
+  RouteParams,
 } from './ContactDetailsUI.interface';
+import { ContactReadyState, contactReadyStates } from './contactReadyStates';
+import { formatContactPhoneNumber } from './helper';
 import { trackEvents } from './trackEvents';
-import { contactReadyStates, ContactReadyState } from './contactReadyStates';
 
 const DEFAULT_DIALER_ROUTE = '/dialer';
 const DEFAULT_COMPOSE_TEXT_ROUTE = '/composeText';
@@ -177,50 +174,24 @@ export class ContactDetailsUI extends RcUIModuleV2<Deps> {
 
   getUIFunctions({ params }: GetUIFunctions): ContactDetailsViewFunctionProps {
     return {
+      formatNumber: (phoneNumber: string) =>
+        formatContactPhoneNumber(
+          phoneNumber,
+          this._deps.regionSettings.countryCode,
+          this._deps.extensionInfo.isMultipleSiteEnabled,
+          this._deps.extensionInfo.site?.code,
+        ),
       onVisitPage: () => {
         this.initCurrentContact(params);
       },
       onLeavingPage: () => {
         this.resetCurrentContact();
       },
-      formatNumber: (phoneNumber: string = '') => {
-        if (!phoneNumber) {
-          return phoneNumber;
-        }
-        // if the cleaned phone number is not a E164 format
-        // we will show it directly, doesn't format it.
-        const cleanedNumber: string = parseIncompletePhoneNumber(
-          phoneNumber.toString(),
-        );
-        const isE164Number = isE164(cleanedNumber);
-        if (isE164Number) {
-          const formattedNumber: string = formatNumber({
-            phoneNumber,
-            countryCode: this._deps.regionSettings.countryCode,
-          });
-          return formattedNumber;
-        }
-        // if multi-site is enabled then we will try to remove site code with same site
-        if (
-          this._deps.extensionInfo.isMultipleSiteEnabled &&
-          this._deps.extensionInfo.site?.code
-        ) {
-          const formattedNumber: string = formatNumber({
-            phoneNumber,
-            countryCode: this._deps.regionSettings.countryCode,
-            siteCode: this._deps.extensionInfo.site?.code,
-            isMultipleSiteEnabled: this._deps.extensionInfo
-              .isMultipleSiteEnabled,
-          });
-          return formattedNumber;
-        }
-        return phoneNumber;
-      },
       canTextButtonShow: (phoneType: string) => {
-        const outboundSmsPermission = this._deps.appFeatures
-          .hasOutboundSMSPermission;
-        const internalSmsPermission = this._deps.appFeatures
-          .hasInternalSMSPermission;
+        const outboundSmsPermission =
+          this._deps.appFeatures.hasOutboundSMSPermission;
+        const internalSmsPermission =
+          this._deps.appFeatures.hasInternalSMSPermission;
         // guess this statement is to avoid exception
         const isClickToTextEnabled = !!this._deps.composeText;
         return (

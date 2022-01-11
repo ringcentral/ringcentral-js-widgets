@@ -4,6 +4,7 @@ import {
   state,
   storage,
 } from '@ringcentral-integration/core';
+
 import { messageTypes } from '../../enums/messageTypes';
 import { Entity } from '../../interfaces/Entity.interface';
 import { Message } from '../../interfaces/MessageStore.model';
@@ -56,8 +57,8 @@ export class ConversationLogger<T extends Deps = Deps> extends LoggerBase<T> {
   protected _isAutoUpdate =
     this._deps.conversationLoggerOptions.isAutoUpdate ?? true;
 
-  protected _accordWithLogRequirement = this._deps.conversationLoggerOptions
-    .accordWithLogRequirement;
+  protected _accordWithLogRequirement =
+    this._deps.conversationLoggerOptions.accordWithLogRequirement;
 
   protected _identityFunction = conversationLogIdentityFunction;
 
@@ -157,9 +158,8 @@ export class ConversationLogger<T extends Deps = Deps> extends LoggerBase<T> {
   }
 
   getLastMatchedCorrespondentEntity(conversation: ConversationLogItem) {
-    const conversationLog = this.conversationLogMap[
-      conversation.conversationId
-    ];
+    const conversationLog =
+      this.conversationLogMap[conversation.conversationId];
     if (!conversationLog) {
       return null;
     }
@@ -175,9 +175,10 @@ export class ConversationLogger<T extends Deps = Deps> extends LoggerBase<T> {
       this._deps.conversationMatcher.dataMapping[lastRecord.conversationLogId]
         .length
     ) {
-      const lastActivity = this._deps.conversationMatcher.dataMapping[
-        lastRecord.conversationLogId
-      ][0];
+      const lastActivity =
+        this._deps.conversationMatcher.dataMapping[
+          lastRecord.conversationLogId
+        ][0];
       const correspondentMatches = this._getCorrespondentMatches(lastRecord);
       return correspondentMatches.find((item) =>
         this._isLoggedContact(conversation, lastActivity, item),
@@ -232,9 +233,8 @@ export class ConversationLogger<T extends Deps = Deps> extends LoggerBase<T> {
       const selfEntity =
         (selfMatches && selfMatches.length === 1 && selfMatches[0]) || null;
 
-      let correspondentEntity = this.getLastMatchedCorrespondentEntity(
-        conversation,
-      );
+      let correspondentEntity =
+        this.getLastMatchedCorrespondentEntity(conversation);
 
       correspondentEntity =
         correspondentEntity ||
@@ -276,9 +276,8 @@ export class ConversationLogger<T extends Deps = Deps> extends LoggerBase<T> {
             Object.keys(
               this._lastProcessedConversations[conversationId],
             ).forEach((date) => {
-              const conversation = this._lastProcessedConversations[
-                conversationId
-              ][date];
+              const conversation =
+                this._lastProcessedConversations[conversationId][date];
               if (
                 !oldMap[conversationId] ||
                 !oldMap[conversationId][date] ||

@@ -1,11 +1,11 @@
 import { expect } from 'chai';
+
+import actionTypes from './actionTypes';
 import {
   getMeetingInfoReducer,
   getMeetingSchedulingStatusReducer,
   getMeetingStorageReducer,
 } from './getMeetingReducer';
-
-import actionTypes from './actionTypes';
 import scheduleStatus from './scheduleStatus';
 
 describe('Meeting :: getMeetingInfoReducer', () => {

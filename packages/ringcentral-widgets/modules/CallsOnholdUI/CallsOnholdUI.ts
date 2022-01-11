@@ -1,11 +1,13 @@
-import { computed, UIProps, UIFunctions } from '@ringcentral-integration/core';
 import { filter } from 'ramda';
+
 import { Module } from '@ringcentral-integration/commons/lib/di';
+import { computed, UIFunctions, UIProps } from '@ringcentral-integration/core';
+
 import { ActiveCallsUI } from '../ActiveCallsUI';
 import {
-  Deps,
-  CallsOnholdPanelProps,
   CallsOnholdContainerProps,
+  CallsOnholdPanelProps,
+  Deps,
 } from './CallsOnholdUI.interface';
 
 @Module({
@@ -59,8 +61,8 @@ export class CallsOnholdUI extends ActiveCallsUI<Deps> {
             this._deps.conferenceCall.conferences &&
             Object.keys(this._deps.conferenceCall.conferences)[0];
           if (confId) {
-            const confSessionId = this._deps.conferenceCall.conferences[confId]
-              .sessionId;
+            const confSessionId =
+              this._deps.conferenceCall.conferences[confId].sessionId;
             this._deps.routerInteraction.push(`/calls/active/${confSessionId}`);
           } else {
             this._deps.routerInteraction.goBack();

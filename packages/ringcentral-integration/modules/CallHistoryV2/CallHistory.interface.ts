@@ -1,14 +1,14 @@
+import { Call } from '../../interfaces/Call.interface';
+import { Entity } from '../../interfaces/Entity.interface';
+import { ActiveCall } from '../../interfaces/Presence.model';
 import { AccountInfo } from '../AccountInfoV2';
+import { ActivityMatcher } from '../ActivityMatcherV2';
 import { CallLog } from '../CallLogV2';
 import { CallMonitor } from '../CallMonitorV2';
+import { ContactMatcher } from '../ContactMatcherV2';
 import { Locale } from '../Locale';
 import { Storage } from '../StorageV2';
-import { ActivityMatcher } from '../ActivityMatcherV2';
-import { ContactMatcher } from '../ContactMatcherV2';
 import { TabManager } from '../TabManager';
-import { Call } from '../../interfaces/Call.interface';
-import { ActiveCall } from '../../interfaces/Presence.model';
-import { Entity } from '../../interfaces/Entity.interface';
 
 export interface CallHistoryOptions {
   /**
@@ -42,4 +42,11 @@ interface CallItem extends ActiveCall {
   toNumberEntity?: string;
 }
 
-export type HistoryCall = Call | CallItem;
+export type HistoryCall = (Call | CallItem) & {
+  recording?: {
+    contentUri: string;
+    id: string;
+    type: string;
+    uri: string;
+  };
+};

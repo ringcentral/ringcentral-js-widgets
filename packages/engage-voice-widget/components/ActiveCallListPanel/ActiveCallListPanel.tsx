@@ -1,10 +1,13 @@
 import React, { FunctionComponent } from 'react';
+
 import classNames from 'classnames';
 
 import {
   EvActiveCallListUIFunctions,
   EvActiveCallListUIProps,
 } from '../../interfaces';
+import { formatPhoneNumber } from '../../lib/FormatPhoneNumber';
+import { BackHeader } from '../SelectList';
 import {
   HangUpButton,
   HoldCallButton,
@@ -12,8 +15,6 @@ import {
 } from '../SmallCallControl';
 import i18n from './i18n';
 import styles from './styles.scss';
-import { formatPhoneNumber } from '../../lib/FormatPhoneNumber';
-import { BackHeader } from '../SelectList';
 
 export type ActiveCallListPanelProps = EvActiveCallListUIProps &
   EvActiveCallListUIFunctions;

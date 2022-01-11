@@ -1,7 +1,7 @@
 import callingModes from '@ringcentral-integration/commons/modules/CallingSettings/callingModes';
 import { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettingsV2';
-import { Webphone } from '@ringcentral-integration/commons/modules/WebphoneV2';
 import { CallMonitor } from '@ringcentral-integration/commons/modules/CallMonitorV2';
+import { Webphone } from '@ringcentral-integration/commons/modules/WebphoneV2';
 
 function hasActiveCalls({
   callingSettings,
@@ -20,4 +20,4 @@ function hasActiveCalls({
   return !!callMonitor?.calls.length;
 }
 
-export { hasActiveCalls, hasActiveCalls as default };
+export { hasActiveCalls as default, hasActiveCalls };

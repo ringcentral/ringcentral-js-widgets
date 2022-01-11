@@ -1,27 +1,29 @@
 import { all, filter, forEach } from 'ramda';
+
 import {
+  action,
+  computed,
   RcModuleV2,
   state,
-  action,
   storage,
-  computed,
 } from '@ringcentral-integration/core';
+
 import { Library } from '../di';
 import proxify from '../proxy/proxify';
 import {
-  Deps,
-  MatchData,
-  QuerySourceOptions,
-  SearchProviderOptions,
-  SearchProvider,
-  TriggerMatchOptions,
-  MatchOptions,
-  FetchMatchResultOptions,
-  MatchSourceOptions,
-  InsertMatchEntriesOptions,
-  MatchQueue,
-  MatchPromises,
   DataMatcherOptions,
+  Deps,
+  FetchMatchResultOptions,
+  InsertMatchEntriesOptions,
+  MatchData,
+  MatchOptions,
+  MatchPromises,
+  MatchQueue,
+  MatchSourceOptions,
+  QuerySourceOptions,
+  SearchProvider,
+  SearchProviderOptions,
+  TriggerMatchOptions,
 } from './DataMatcher.interfaces';
 
 const DEFAULT_TTL = 30 * 60 * 1000;
@@ -131,9 +133,10 @@ abstract class DataMatcher<T, D = {}> extends RcModuleV2<Deps & D> {
   }
 
   get searchProvidersReady() {
-    return all(({ readyCheckFn }) => readyCheckFn(), [
-      ...this._searchProviders.values(),
-    ]);
+    return all(
+      ({ readyCheckFn }) => readyCheckFn(),
+      [...this._searchProviders.values()],
+    );
   }
 
   addSearchProvider({

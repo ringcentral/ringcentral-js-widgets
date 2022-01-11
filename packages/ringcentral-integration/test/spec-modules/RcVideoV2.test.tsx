@@ -1,21 +1,21 @@
 import {
   autorun,
-  title,
-  Scenario,
-  Given,
-  When,
-  Then,
-  And,
-  Step,
   examples,
+  Given,
+  Scenario,
+  Step,
   StepFunction as BaseStepFunction,
+  Then,
+  title,
+  When,
 } from '@ringcentral-integration/test-utils';
+
 import videoPersonalSettingsBody from '../../integration-test/mock/data/videoPersonalSettings.json';
 import videoPreferenceBody from '../../integration-test/mock/data/videoPreference.json';
-import { RcVideo } from '../../modules/RcVideoV2';
-import { videoStatus } from '../../modules/RcVideoV2/videoStatus';
-import { RcvDelegator } from '../../modules/RcVideoV2/RcVideo.interface';
 import { RcVideoAPI } from '../../interfaces/Rcv.model';
+import { RcVideo } from '../../modules/RcVideoV2';
+import { RcvDelegator } from '../../modules/RcVideoV2/RcVideo.interface';
+import { videoStatus } from '../../modules/RcVideoV2/videoStatus';
 import { mockModuleGenerator } from '../lib/mockModule';
 
 const delegatorsBody = [];
@@ -492,7 +492,10 @@ class CheckDelegators extends Step {
           desc="Call '_updateDelegatorList' action"
           action={(_: any, context: any) => {
             context.mockModule = getMockModule();
-            context.instance._updateDelegatorList.call(context.mockModule, delegatorsBody);
+            context.instance._updateDelegatorList.call(
+              context.mockModule,
+              delegatorsBody,
+            );
           }}
         />
         <Then

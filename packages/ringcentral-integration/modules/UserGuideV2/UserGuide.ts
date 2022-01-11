@@ -1,3 +1,5 @@
+import { contains } from 'ramda';
+
 import {
   action,
   computed,
@@ -7,7 +9,7 @@ import {
   track,
   watch,
 } from '@ringcentral-integration/core';
-import { contains } from 'ramda';
+
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
 import { trackEvents } from '../Analytics';
@@ -18,10 +20,21 @@ import {
   Guides,
 } from './UserGuide.interface';
 
-const SUPPORTED_LOCALES = {
+export const SUPPORTED_LOCALES = {
   'en-US': 'en-US',
   'fr-CA': 'fr-CA',
 };
+
+function getFileName(fileUrl: string) {
+  return fileUrl.split('\\').pop().split('/').pop();
+}
+
+// Since file name has included file MD5, any file name change means file change
+function anyFileDiff(urls1: string[], urls2: string[]) {
+  const files1 = (urls1 ?? []).map((url) => getFileName(url));
+  const files2 = (urls2 ?? []).map((url) => getFileName(url));
+  return JSON.stringify(files1) !== JSON.stringify(files2);
+}
 
 @Module({
   name: 'UserGuide',
@@ -31,6 +44,7 @@ const SUPPORTED_LOCALES = {
     'Storage',
     'Webphone',
     'AppFeatures',
+    'Brand',
     { dep: 'UserGuideOptions', optional: true },
   ],
 })
@@ -45,7 +59,7 @@ export class UserGuide extends RcModuleV2<Deps> {
 
   @storage
   @state
-  allGuides: Guides = {};
+  allGuides: { [key: string]: Guides } = {};
 
   @state
   carouselState: CarouselState = {
@@ -67,7 +81,28 @@ export class UserGuide extends RcModuleV2<Deps> {
 
   @action
   setGuides(guides: Guides) {
-    this.allGuides = guides;
+    const oldGuides = this.allGuides[this._deps.brand.code] ?? {};
+    this.allGuides[this._deps.brand.code] = guides;
+    for (const locale of Object.keys(SUPPORTED_LOCALES)) {
+      if (anyFileDiff(guides[locale], oldGuides[locale])) {
+        this.start({ firstLogin: true });
+        break;
+      }
+    }
+  }
+
+  @action
+  _migrateGuides() {
+    if (!this.allGuides[this._deps.brand.code]) {
+      this.allGuides[this._deps.brand.code] = {};
+    }
+    Object.keys(SUPPORTED_LOCALES).forEach((locale) => {
+      const allGuides: Guides = this.allGuides as any;
+      if (allGuides[locale]) {
+        this.allGuides[this._deps.brand.code][locale] = allGuides[locale];
+        delete allGuides[locale];
+      }
+    });
   }
 
   @track((that: UserGuide, options: Required<CarouselOptions>) => {
@@ -82,18 +117,20 @@ export class UserGuide extends RcModuleV2<Deps> {
   }
 
   async onInitSuccess() {
-    await this.initUserGuide();
-    await this.preLoadImage();
+    if (this.hasPermission) {
+      await this.initUserGuide();
+    }
   }
 
   _shouldInit() {
     return !!(
       this.pending &&
       this._deps.auth.ready &&
+      this._deps.auth.loggedIn &&
       this._deps.locale.ready &&
       this._deps.storage.ready &&
       this._deps.appFeatures.ready &&
-      this._deps.auth.loggedIn
+      this._deps.brand.ready
     );
   }
 
@@ -103,11 +140,13 @@ export class UserGuide extends RcModuleV2<Deps> {
       (!this._deps.auth.ready ||
         !this._deps.locale.ready ||
         !this._deps.storage.ready ||
-        !this._deps.appFeatures.ready)
+        !this._deps.appFeatures.ready ||
+        !this._deps.brand.ready)
     );
   }
 
   onInitOnce() {
+    this._migrateGuides();
     // When there is an incoming call,
     // the guide should be dismissed
     watch(
@@ -116,6 +155,15 @@ export class UserGuide extends RcModuleV2<Deps> {
       (ringSession) => {
         if (this._deps.webphone.ready && ringSession) {
           this.dismiss();
+        }
+      },
+    );
+    watch(
+      this,
+      () => this._deps.brand.brandConfig,
+      async () => {
+        if (this.hasPermission) {
+          await this.initUserGuide();
         }
       },
     );
@@ -143,26 +191,36 @@ export class UserGuide extends RcModuleV2<Deps> {
   /**
    * Using webpack `require.context` to load guides files.
    * Image files will be sorted by file name in ascending order.
-   * @return {Map<String, Array<URI>>}
    */
-  resolveGuides() {
-    if (typeof this._deps.userGuideOptions?.context === 'function') {
-      const locales = Object.keys(SUPPORTED_LOCALES);
-      return this._deps.userGuideOptions.context
+  resolveGuides(): Record<string, string[]> {
+    let images =
+      (this._deps.brand.brandConfig.assets?.guides as string[]) || [];
+
+    if (
+      images.length === 0 &&
+      typeof this._deps.userGuideOptions?.context === 'function'
+    ) {
+      images = this._deps.userGuideOptions.context
         .keys()
         .sort()
-        .map((key: string) => this._deps.userGuideOptions.context(key))
-        .reduce((prev: Record<string, string[]>, curr: string) => {
-          locales.forEach((locale) => {
-            if (!prev[locale]) prev[locale] = [];
-            if (contains(locale, curr)) {
-              prev[locale].push(curr);
-            }
-          });
-          return prev;
-        }, {} as Record<string, string[]>);
+        .map((key: string) => {
+          const value = this._deps.userGuideOptions.context(key);
+          return typeof value === 'string' ? value : value?.default;
+        }) as string[];
     }
-    return {};
+
+    const locales = Object.keys(SUPPORTED_LOCALES);
+    return images.reduce<Record<string, string[]>>((acc, curr: string) => {
+      locales.forEach((locale) => {
+        if (!acc[locale]) {
+          acc[locale] = [];
+        }
+        if (contains(locale, curr)) {
+          acc[locale].push(curr);
+        }
+      });
+      return acc;
+    }, {});
   }
 
   @proxify
@@ -173,13 +231,6 @@ export class UserGuide extends RcModuleV2<Deps> {
       playing: false,
       firstLogin: false,
     });
-  }
-
-  @proxify
-  async loadGuides(guides: Guides) {
-    if (guides) {
-      this.setGuides(guides);
-    }
   }
 
   @proxify
@@ -209,16 +260,14 @@ export class UserGuide extends RcModuleV2<Deps> {
 
   @proxify
   async initUserGuide() {
-    if (!this.hasPermission) return;
-    const prevGuides = this.allGuides;
     const guides = this.resolveGuides();
     // Determine if it needs to be displayed when first log in,
     // the principles behind this is to use webpack's file hash,
     // i.e. if any of the guide files is changed, the file name hash
     // will be changed as well, in this case, it will be displayed.
-    await this.loadGuides(guides);
-    if (JSON.stringify(guides) !== JSON.stringify(prevGuides)) {
-      this.start({ firstLogin: true });
+    if (guides) {
+      this.setGuides(guides);
+      await this.preLoadImage();
     }
   }
 
@@ -235,15 +284,20 @@ export class UserGuide extends RcModuleV2<Deps> {
 
   @computed((that: UserGuide) => [
     that._deps.locale.ready,
-    that.allGuides,
+    that.allGuides[that._deps.brand.code],
     that._deps.locale.currentLocale,
   ])
   get guides() {
-    if (!this._deps.locale.ready) return [];
-    if (this.allGuides) {
-      const currentGuides = this.allGuides[this._deps.locale.currentLocale];
-      if (currentGuides && currentGuides.length > 0) return currentGuides;
-      return this.allGuides[SUPPORTED_LOCALES['en-US']] || [];
+    if (!this._deps.locale.ready) {
+      return [];
+    }
+    const brandGuides = this.allGuides[this._deps.brand.code];
+    if (brandGuides) {
+      const currentGuides = brandGuides[this._deps.locale.currentLocale];
+      if (currentGuides && currentGuides.length > 0) {
+        return currentGuides;
+      }
+      return brandGuides[SUPPORTED_LOCALES['en-US']] || [];
     }
     return [];
   }

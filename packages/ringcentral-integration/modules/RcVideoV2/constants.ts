@@ -20,7 +20,6 @@ const RCV_WAITING_ROOM_MODE = {
 } as const;
 
 const DISABLE_E2EE_WHEN_RELATED_OPTION_MATCH = {
-  allowJoinBeforeHost: true,
   isMeetingSecret: false,
   [RCV_WAITING_ROOM_API_KEYS]: RCV_WAITING_ROOM_MODE.off,
   isOnlyAuthUserJoin: false,
@@ -36,12 +35,28 @@ const RCV_PASSWORD_REGEX = /^[A-Za-z0-9]{1,10}$/;
 
 const RCV_E2EE_API_KEYS = 'e2ee';
 
+const RCV_ITEM_NAME = {
+  scheduleFor: 'scheduleFor',
+  isMeetingSecret: 'isMeetingSecret',
+  meetingPassword: 'meetingPassword',
+  allowJoinBeforeHost: 'allowJoinBeforeHost',
+  waitingRoomMode: 'waitingRoomMode',
+  waitingRoomType: 'waitingRoomType',
+  e2ee: 'e2ee',
+  isOnlyAuthUserJoin: 'isOnlyAuthUserJoin',
+  isOnlyCoworkersJoin: 'isOnlyCoworkersJoin',
+  muteVideo: 'muteVideo',
+  muteAudio: 'muteAudio',
+  allowScreenSharing: 'allowScreenSharing',
+} as const;
+
+type RcvItemType = typeof RCV_ITEM_NAME[keyof typeof RCV_ITEM_NAME];
+
 type AUTH_USER = typeof AUTH_USER_TYPE[keyof typeof AUTH_USER_TYPE];
 
-type DisableE2eeWhenRelatedOptionMatch = keyof typeof DISABLE_E2EE_WHEN_RELATED_OPTION_MATCH;
-
 // eslint-disable-next-line max-len
-type RcvWaitingRoomModeProps = typeof RCV_WAITING_ROOM_MODE[keyof typeof RCV_WAITING_ROOM_MODE];
+type RcvWaitingRoomModeProps =
+  typeof RCV_WAITING_ROOM_MODE[keyof typeof RCV_WAITING_ROOM_MODE];
 
 // eslint-disable-next-line max-len
 type RcvWaitingRoomType = Exclude<keyof typeof RCV_WAITING_ROOM_MODE, 'off'>;
@@ -51,17 +66,18 @@ type RcvWaitingRoomModeReverse = {
 };
 
 export {
-  AUTH_USER_TYPE,
   ASSISTED_USERS_MYSELF,
-  RCV_WAITING_ROOM_MODE,
-  RCV_WAITING_ROOM_API_KEYS,
-  RCV_WAITING_ROOM_MODE_REVERSE,
-  DISABLE_E2EE_WHEN_RELATED_OPTION_MATCH,
-  RCV_PASSWORD_REGEX,
-  RCV_E2EE_API_KEYS,
-  JBH_LABEL,
   AUTH_USER,
+  AUTH_USER_TYPE,
+  DISABLE_E2EE_WHEN_RELATED_OPTION_MATCH,
+  JBH_LABEL,
+  RCV_E2EE_API_KEYS,
+  RCV_ITEM_NAME,
+  RCV_PASSWORD_REGEX,
+  RCV_WAITING_ROOM_API_KEYS,
+  RCV_WAITING_ROOM_MODE,
+  RCV_WAITING_ROOM_MODE_REVERSE,
+  RcvItemType,
   RcvWaitingRoomModeProps,
   RcvWaitingRoomModeReverse,
-  DisableE2eeWhenRelatedOptionMatch,
 };

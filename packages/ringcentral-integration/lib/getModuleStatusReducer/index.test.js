@@ -1,5 +1,6 @@
 import { expect } from 'chai';
-import getModuleStatusReducer from './';
+
+import getModuleStatusReducer from '.';
 import moduleStatuses from '../../enums/moduleStatuses';
 
 const actionTypes = {

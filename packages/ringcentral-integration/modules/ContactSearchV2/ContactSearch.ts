@@ -1,26 +1,28 @@
+import { identity, sortBy } from 'ramda';
 import * as uuid from 'uuid';
-import { sortBy, identity } from 'ramda';
+
 import {
-  RcModuleV2,
-  state,
   action,
   computed,
+  RcModuleV2,
+  state,
   storage,
 } from '@ringcentral-integration/core';
+
+import { debounce } from '../../lib/debounce-throttle';
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
-import { debounce } from '../../lib/debounce-throttle';
 import {
-  Deps,
-  SearchSource,
-  SearchStringOptions,
-  SearchSourceOptions,
-  SearchFromCacheOptions,
   ContactSearchState,
-  Searching,
-  SetSearchSuccessOptions,
-  SetContactSearchOptions,
+  Deps,
   Entities,
+  SearchFromCacheOptions,
+  Searching,
+  SearchSource,
+  SearchSourceOptions,
+  SearchStringOptions,
+  SetContactSearchOptions,
+  SetSearchSuccessOptions,
 } from './ContactSearch.interface';
 import { contactSearchStatus } from './contactSearchStatus';
 

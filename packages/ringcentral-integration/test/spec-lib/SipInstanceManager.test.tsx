@@ -1,11 +1,12 @@
 import {
   autorun,
-  title,
   Scenario,
-  When,
-  Then,
   Step,
+  Then,
+  title,
+  When,
 } from '@ringcentral-integration/test-utils';
+
 import { SipInstanceManager } from '../../lib/SipInstanceManager';
 
 @autorun(test)

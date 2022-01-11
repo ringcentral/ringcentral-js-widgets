@@ -1,14 +1,15 @@
 import { RcModuleV2, watch } from '@ringcentral-integration/core';
-import { Segment, Pendo } from '../../lib/Analytics';
+
+import { Pendo, Segment } from '../../lib/Analytics';
 import { Module } from '../../lib/di';
 import saveBlob from '../../lib/saveBlob';
 import {
   Deps,
+  IdentifyOptions,
+  PendoAgent,
   TrackLog,
   TrackProps,
   TrackRouter,
-  PendoAgent,
-  IdentifyOptions,
 } from './Analytics.interface';
 import { trackRouters } from './analyticsRouters';
 

@@ -1,5 +1,6 @@
 import { EventEmitter } from 'events';
 import * as uuid from 'uuid';
+
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
 const HEART_BEAT_INTERVAL = 1000;

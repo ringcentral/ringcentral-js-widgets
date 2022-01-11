@@ -1,9 +1,10 @@
 import {
+  action,
   RcModuleV2,
   state,
-  action,
   storage,
 } from '@ringcentral-integration/core';
+
 import { Module } from '../../lib/di';
 import proxify from '../../lib/proxy/proxify';
 import { Deps } from './Feedback.interface';

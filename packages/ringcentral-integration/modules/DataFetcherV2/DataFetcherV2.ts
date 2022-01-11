@@ -1,15 +1,17 @@
+import { forEach } from 'ramda';
+
 import {
+  action,
   RcModuleV2,
   state,
   storage,
-  action,
 } from '@ringcentral-integration/core';
-import { forEach } from 'ramda';
+
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
 import { Deps } from './DataFetcherV2.interface';
-import { SourceStatusType, sourceStatus } from './sourceStatus';
 import { DataSource } from './DataSource';
+import { sourceStatus, SourceStatusType } from './sourceStatus';
 
 @Module({
   name: 'DataFetcherV2',

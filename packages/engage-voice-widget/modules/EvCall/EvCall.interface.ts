@@ -1,6 +1,5 @@
-import Alert from '@ringcentral-integration/commons/modules/Alert';
+import { Alert } from '@ringcentral-integration/commons/modules/AlertV2';
 
-import { EvTabManager } from '../EvTabManager';
 import { EvClient } from '../../lib/EvClient';
 import { EvAgentSession } from '../EvAgentSession';
 import { EvAuth } from '../EvAuth';
@@ -8,8 +7,9 @@ import { EvCallMonitor } from '../EvCallMonitor';
 import { EvIntegratedSoftphone } from '../EvIntegratedSoftphone';
 import { EvPresence } from '../EvPresence';
 import { EvSettings } from '../EvSettings';
-import { EvSubscription } from '../EvSubscription';
 import { EvStorage } from '../EvStorage';
+import { EvSubscription } from '../EvSubscription';
+import { EvTabManager } from '../EvTabManager';
 import { EvWorkingState } from '../EvWorkingState';
 
 export interface State {

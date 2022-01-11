@@ -63,29 +63,6 @@
   transform: rotate(-180deg);
 }
 
-.selected {
-  color: $primary-color;
-}
-
-.dropdownItem {
-  display: block;
-  line-height: 15px;
-  padding: 5px 10px;
-
-  &:hover {
-    color: $primary-color;
-    cursor: pointer;
-  }
-}
-
-.dropdownItem:first-child {
-  padding-top: 10px;
-}
-
-.dropdownItem:last-child {
-  padding-bottom: 10px;
-}
-
 .left {
   text-align: left;
 }
@@ -105,26 +82,14 @@
   left: 0px;
   margin: 0;
   margin-top: 1px;
-  padding: 0;
   z-index: 2;
   width: 100%;
-  border: 1px solid #efefef;
   border-radius: 2px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.175);
   background: #fff;
   max-height: 250px;
   overflow: hidden;
   overflow-y: auto;
-
-  &:hover {
-    .selected {
-      color: inherit;
-
-      &:hover {
-        color: $primary-color;
-      }
-    }
-  }
 
   .placeholder:first-child {
     color: #303030;
@@ -133,14 +98,6 @@
 
     &:hover {
       color: #303030;
-    }
-
-    .selected {
-      color: #303030;
-
-      &:hover {
-        color: #303030;
-      }
     }
   }
 }
@@ -166,18 +123,6 @@
 
 [contenteditable]:focus {
   outline: 0px solid transparent;
-}
-
-.optionLabel {
-  flex-grow: 1;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  padding-right: 8px;
-}
-
-.withLabel {
-  display: flex;
-  flex-direction: row;
 }
 
 .inputWithLabel {

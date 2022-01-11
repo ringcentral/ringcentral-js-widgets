@@ -1,11 +1,14 @@
 import React from 'react';
-import { RcThemeProvider } from '@ringcentral/juno';
+
 import { mount } from 'enzyme';
+
+import { RcThemeProvider } from '@ringcentral/juno';
+
+import { EvAgent } from '../../lib/EvClient';
 import {
   SessionConfigPanel,
   SessionConfigPanelProps,
 } from './SessionConfigPanel';
-import { EvAgent } from '../../lib/EvClient';
 
 let wrapper;
 const currentLocale = 'en-US';

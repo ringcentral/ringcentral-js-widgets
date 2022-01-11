@@ -1,11 +1,11 @@
 export default {
-  mute: "静音",
-  unmute: "取消静音",
-  hangup: "挂断",
-  reject: "拒绝",
-  hold: "保持",
-  onHold: "等候接听",
-  transfer: "转移"
+  mute: '静音',
+  unmute: '取消静音',
+  hangup: '挂断',
+  reject: '拒绝',
+  hold: '保持',
+  onHold: '等候接听',
+  transfer: '转移',
 };
 
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@

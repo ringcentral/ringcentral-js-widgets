@@ -1,14 +1,8 @@
-import {
-  fireEvent,
-  render,
-} from '@ringcentral-integration/test-utils/lib/test-utils';
-import { RcDialPad, RcDialTextField } from '@ringcentral/juno';
 import { ReactWrapper } from 'enzyme';
-import React from 'react';
-import { act } from 'react-dom/test-utils';
+
+import { RcDialTextField } from '@ringcentral/juno';
 
 import { DialoutStatusesType } from '../../../enums/dialoutStatus';
-import { DialerPanel } from '../DialerPanel';
 import { createDialerPanel } from './createDialerPanel';
 
 const mockAudio = () => {
@@ -23,30 +17,12 @@ mockAudio();
 
 describe('<DialerPanel />', () => {
   let wrapper: ReactWrapper;
-
   const getCallButton = () => wrapper.find('[data-sign="callButton"]').at(0);
   const getDeleteButton = () =>
     wrapper.find('button[data-sign="deleteButton"]').last();
 
   afterEach(async () => {
     wrapper.unmount();
-  });
-
-  [
-    { toNumber: '', desc: 'with no number filled' },
-    { toNumber: '6508652493', desc: 'without number filled' },
-  ].forEach(({ toNumber, desc }) => {
-    it(`Default state of dialpad(${desc}): Call Button be highlighted and can be clicked to dialout`, () => {
-      const dialout = jest.fn(() => {});
-      wrapper = createDialerPanel({ toNumber, dialout });
-      const recipientsInput = wrapper.find(RcDialTextField).at(0);
-      const callButton = getCallButton();
-      expect(recipientsInput.prop('value')).toBe(toNumber);
-      expect(callButton.prop('color')).toBe('success.b03');
-      expect(callButton.prop('data-icon')).toBe('answer');
-      callButton.simulate('click');
-      expect(dialout).toBeCalled();
-    });
   });
 
   it('User can manually input numbers in the recipientsInput', async () => {
@@ -59,22 +35,10 @@ describe('<DialerPanel />', () => {
     expect(setToNumber).toBeCalledWith('1243');
   });
 
-  it('dialButtonDisabled can set dial button disable attribute', () => {
-    const getDialButtonDisabled = () =>
-      getCallButton().render().attr('disabled');
-
-    wrapper = createDialerPanel({ dialButtonDisabled: true });
-    expect(getDialButtonDisabled()).toBe('disabled');
-
-    wrapper = createDialerPanel({ dialButtonDisabled: false });
-    expect(getDialButtonDisabled()).toBe(undefined);
-  });
-
   it('Delete button show switch', async () => {
     wrapper = createDialerPanel({ toNumber: '' });
     let deleteButton = getDeleteButton();
     expect(deleteButton.exists()).toBeFalsy();
-
     wrapper = createDialerPanel({ toNumber: '6508652493' });
     deleteButton = getDeleteButton();
     expect(deleteButton.exists()).toBeTruthy();
@@ -86,22 +50,8 @@ describe('<DialerPanel />', () => {
     const dialout = jest.fn(() => {});
     wrapper = createDialerPanel({ toNumber, dialout, dialoutStatus });
     const callButton = getCallButton();
-    expect(callButton.prop('data-icon')).toBe('hand-up');
     callButton.simulate('click');
     expect(dialout).not.toBeCalled();
-  });
-
-  it(`User can hangup a call in the state of callConnected`, async () => {
-    const toNumber = '6508652493';
-    const dialoutStatus = 'callConnected' as DialoutStatusesType;
-    const dialout = jest.fn(() => {});
-    const hangup = jest.fn(() => {});
-    wrapper = createDialerPanel({ toNumber, dialout, hangup, dialoutStatus });
-    const callButton = getCallButton();
-    expect(callButton.prop('data-icon')).toBe('hand-up');
-    callButton.simulate('click');
-    expect(dialout).not.toBeCalled();
-    expect(hangup).toBeCalled();
   });
 
   it('User clicks manualDialSettings', () => {
@@ -113,113 +63,31 @@ describe('<DialerPanel />', () => {
     manualDialSettings.simulate('click');
     expect(goToManualDialSettings).toBeCalled();
   });
-});
 
-describe('<DialerPanel />', () => {
-  it("User can use digit virtual keyboard to input numbers, and press zero for 1 second will typing '+'", async () => {
-    const toNumber = '1234';
-    const setToNumber = jest.fn(() => {});
-    const { container } = render(
-      <DialerPanel
-        currentLocale="en-US"
-        dialout={() => {}}
-        toNumber={toNumber}
-        size="small"
-        dialButtonDisabled={false}
-        hasDialer
-        setToNumber={setToNumber}
-        goToManualDialSettings={() => {}}
-        dialoutStatus="idle"
-        hangup={() => {}}
-      />,
-    );
+  it('Check Disabled Allow Manual Calls', () => {
+    /* RCI-3899: Check Disabled Allow Manual Calls
+      https://testit.ringcentral.com/test-cases/RCI-3899
+    */
+    wrapper = createDialerPanel({ hasDialer: true });
+    const manualDialSettings = wrapper
+      .find('[data-sign="manualDialSettings"]')
+      .at(0);
+    const callButtonTip = wrapper.find('[data-sign="callButtonTip"]').at(0);
+    const recipientsInput = wrapper.find(RcDialTextField).at(0);
+    expect(recipientsInput.exists()).toBeTruthy();
+    expect(manualDialSettings.exists()).toBeTruthy();
+    expect(callButtonTip.exists()).toBeTruthy();
 
-    const typingIcons = [
-      '1',
-      '2',
-      '3',
-      '4',
-      '5',
-      '6',
-      '7',
-      '8',
-      '9',
-      '*',
-      '0',
-      '#',
-    ];
-
-    typingIcons.forEach((key, i) => {
-      const button = container.querySelector(`[data-dial-button="${key}"]`);
-      fireEvent.mouseDown(button);
-      fireEvent.mouseUp(button);
-      expect(setToNumber).toBeCalledWith(`${toNumber}${typingIcons[i]}`);
-    });
-
-    jest.useFakeTimers();
-    const button = container.querySelector(`[data-dial-button="0"]`);
-    fireEvent.mouseDown(button);
-    await act(async () => {
-      jest.advanceTimersByTime(1100);
-    });
-    fireEvent.mouseUp(button);
-
-    expect(setToNumber).toBeCalledWith('1234+');
-  });
-  it('Click Delete Button', async () => {
-    const toNumber = '6508652493';
-    const setToNumber = jest.fn(() => {});
-
-    const { container } = render(
-      <DialerPanel
-        currentLocale="en-US"
-        dialout={() => {}}
-        toNumber={toNumber}
-        size="small"
-        dialButtonDisabled={false}
-        hasDialer
-        setToNumber={setToNumber}
-        goToManualDialSettings={() => {}}
-        dialoutStatus="idle"
-        hangup={() => {}}
-      />,
-    );
-    const deleteButton = container.querySelector('button');
-
-    fireEvent.mouseDown(deleteButton);
-    fireEvent.mouseUp(deleteButton);
-
-    expect(setToNumber).toBeCalledWith(toNumber.slice(0, -1));
-  });
-
-  it('Long press Delete Button', async () => {
-    jest.useFakeTimers();
-    const toNumber = '6508652493';
-    const setToNumber = jest.fn(() => {});
-
-    const { container } = render(
-      <DialerPanel
-        currentLocale="en-US"
-        dialout={() => {}}
-        toNumber={toNumber}
-        size="small"
-        dialButtonDisabled={false}
-        hasDialer
-        setToNumber={setToNumber}
-        goToManualDialSettings={() => {}}
-        dialoutStatus="idle"
-        hangup={() => {}}
-      />,
-    );
-    const deleteButton = container.querySelector('button');
-
-    fireEvent.mouseDown(deleteButton);
-
-    await act(async () => {
-      jest.advanceTimersByTime(1100);
-      // here will hidden deleteButton when clear toNumber, so we don't need mouseUp
-      // deleteButton.simulate('mouseUp');
-    });
-    expect(setToNumber).toBeCalledWith('');
+    const noDialerWrapper = createDialerPanel({ hasDialer: false });
+    const noManualDialSettings = noDialerWrapper
+      .find('[data-sign="manualDialSettings"]')
+      .at(0);
+    const noCallButtonTip = noDialerWrapper
+      .find('[data-sign="callButtonTip"]')
+      .at(0);
+    const noRecipientsInput = noDialerWrapper.find(RcDialTextField).at(0);
+    expect(noRecipientsInput.exists()).toBeFalsy();
+    expect(noManualDialSettings.exists()).toBeFalsy();
+    expect(noCallButtonTip.exists()).toBeFalsy();
   });
 });

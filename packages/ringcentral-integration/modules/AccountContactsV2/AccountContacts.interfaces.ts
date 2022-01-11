@@ -1,4 +1,5 @@
 import { PresenceInfoResponse } from '@rc-ex/core/definitions';
+
 import { IContact } from '../../interfaces/Contact.model';
 import { AppFeatures } from '../AppFeatures';
 import { CompanyContacts } from '../CompanyContactsV2';

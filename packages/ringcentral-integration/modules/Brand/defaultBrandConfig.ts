@@ -1,10 +1,9 @@
-import { createBrandConfig } from './createBrandConfig';
+import { BrandConfig } from './BrandConfig.interface';
 
-export const defaultBrandConfig = createBrandConfig({
+export const defaultBrandConfig: Partial<BrandConfig> = {
   id: '1210',
   code: 'rc',
   name: 'RingCentral',
   appName: 'RingCentral Widgets',
-  fullName: 'RingCentral',
   application: 'RingCentral Widgets',
-});
+};

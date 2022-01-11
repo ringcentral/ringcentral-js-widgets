@@ -1,19 +1,19 @@
 import {
   autorun,
-  title,
-  Scenario,
-  Given,
-  When,
-  Then,
-  Step,
   examples,
+  Given,
+  Scenario,
+  Step,
+  Then,
+  title,
+  When,
 } from '@ringcentral-integration/test-utils';
 
 import {
-  MessageSender,
-  messageSenderStatus,
-  messageSenderMessages,
   MESSAGE_MAX_LENGTH,
+  MessageSender,
+  messageSenderMessages,
+  messageSenderStatus,
   MULTIPART_MESSAGE_MAX_LENGTH,
 } from '../../modules/MessageSenderV2';
 import { mockModuleGenerator } from '../lib/mockModule';

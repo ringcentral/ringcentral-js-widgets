@@ -1,26 +1,27 @@
-import { map, omit, pick } from 'ramda';
 import formatMessage from 'format-message';
-import i18n from './i18n';
+import { map, omit, pick, pipe, toPairs, filter } from 'ramda';
+
 import {
   MeetingProviderTypesProps,
-  RcVideoTypesProps,
-  RcVMeetingModel,
+  RcVDialInNumberObj,
   RcvGSuiteMeetingModel,
   RcVideoAPI,
-  RcVSettingId,
-  RcVPreferencesGET,
-  RcVSettingLocksGET,
-  RcVSettingKey,
+  RcVideoTypesProps,
+  RcvInvitationRequest,
+  RcVMeetingModel,
   RcVPreferences,
+  RcVPreferencesGET,
+  RcVSettingId,
+  RcVSettingKey,
   RcVSettingLocks,
-  RcVDialInNumberObj,
+  RcVSettingLocksGET,
 } from '../../interfaces/Rcv.model';
 import {
-  RCV_WAITING_ROOM_MODE,
-  RCV_WAITING_ROOM_API_KEYS,
-  RCV_WAITING_ROOM_MODE_REVERSE,
-  RCV_PASSWORD_REGEX,
   RCV_E2EE_API_KEYS,
+  RCV_PASSWORD_REGEX,
+  RCV_WAITING_ROOM_API_KEYS,
+  RCV_WAITING_ROOM_MODE,
+  RCV_WAITING_ROOM_MODE_REVERSE,
 } from './constants';
 import { TopicProps } from './RcVideo.interface';
 
@@ -215,32 +216,13 @@ function getTopic({
   extensionName,
   brandName,
   shortName,
-  fullName,
-  brandCode,
-  currentLocale,
+  rcvMeetingTopic,
 }: TopicProps) {
-  switch (brandCode) {
-    case 'telus':
-      return formatMessage(i18n.getString('TelusVideoMeeting', currentLocale), {
-        extensionName,
-      });
-    case 'att':
-      return formatMessage(
-        i18n.getString('videoMeetingWithBrand', currentLocale),
-        {
-          extensionName,
-          brandName: fullName,
-        },
-      );
-    case 'bt':
-      brandName = shortName;
-    // eslint-disable-next-line
-    default:
-      return formatMessage(i18n.getString('videoMeeting', currentLocale), {
-        extensionName,
-        brandName,
-      });
-  }
+  return formatMessage(rcvMeetingTopic, {
+    extensionName,
+    shortName,
+    brandName,
+  });
 }
 
 /**
@@ -456,31 +438,84 @@ function formatPremiumNumbers(
   }, dialInNumber);
 }
 
+const formatRcvInvitationRequestData = (params: RcvInvitationRequest) => {
+  // format number
+  const numbers = params.dialInNumbers.map((item) => {
+    return {
+      number: item.phoneNumber,
+      unformattedNumber: item.phoneNumber,
+      country: item.country.name,
+      default: item.default,
+      location: item.location,
+    };
+  });
+  const joinUriInfo = params.joinUri?.split(`/join/`) || [];
+  // format request data
+  const parameters = {
+    numbers,
+    meetingName: `---`,
+    hostName: params.hostName,
+    meetingId: params.shortId,
+    isSIPAvailable: params.isSIPAvailable,
+    participantCode: params.shortId,
+    brandName: params.brandName,
+    entryPoint: joinUriInfo[0],
+    $Brand_Id: params.brandId,
+    $Extension_FormattingLocaleCode: params.currentLocale,
+    $Extension_LanguageLocaleCode: params.currentLocale,
+    isE2eeEnabled: !!params.e2ee,
+    password: params.isMeetingSecret ? params.meetingPassword : undefined,
+    dialInPassword: params.isMeetingSecret
+      ? params.meetingPasswordPSTN
+      : undefined,
+    maskedPassword: params.isMeetingSecret
+      ? params.meetingPasswordMasked
+      : undefined,
+  };
+  return {
+    notificationId: 'meetingInvite',
+    plainTextPreferred: true,
+    isolatedMode: true,
+    parameters: pipe(
+      toPairs,
+      map(([parameterName, parameterValue]) => ({
+        parameterName,
+        parameterValue,
+      })),
+      filter(
+        (item: { parameterName: string; parameterValue: any }) =>
+          item.parameterValue !== undefined,
+      ),
+    )(parameters),
+  };
+};
+
 // TODO: will remove this when google app script could support export seperately
 // export together because google app script not fully support export
 export {
-  RCV_PREFERENCES_IDS,
-  RCV_PREFERENCES_KEYS,
-  RCV_E2EE_RELATED_KEYS,
-  RcVideoTypes,
-  meetingProviderTypes,
-  RCV_E2EE_DEFAULT_SECURITY_OPTIONS,
   assignObject,
-  getDefaultChars,
-  validateRandomPassword,
-  generateRandomPassword,
-  validatePasswordSettings,
-  getVideoSettings,
-  getDefaultVideoSettings,
-  getTopic,
-  pruneMeetingObject,
-  transformPreferences,
-  reversePreferences,
-  prunePreferencesObject,
   comparePreferences,
-  transformSettingLocks,
-  getLockedPreferences,
-  patchWaitingRoomRelated,
   formatMainPhoneNumber,
   formatPremiumNumbers,
+  generateRandomPassword,
+  getDefaultChars,
+  getDefaultVideoSettings,
+  getLockedPreferences,
+  getTopic,
+  getVideoSettings,
+  meetingProviderTypes,
+  patchWaitingRoomRelated,
+  pruneMeetingObject,
+  prunePreferencesObject,
+  RCV_E2EE_DEFAULT_SECURITY_OPTIONS,
+  RCV_E2EE_RELATED_KEYS,
+  RCV_PREFERENCES_IDS,
+  RCV_PREFERENCES_KEYS,
+  RcVideoTypes,
+  reversePreferences,
+  transformPreferences,
+  transformSettingLocks,
+  validatePasswordSettings,
+  validateRandomPassword,
+  formatRcvInvitationRequestData,
 };

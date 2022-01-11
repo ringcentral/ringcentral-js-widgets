@@ -54,7 +54,10 @@ function extractXlfData({ locale, content }) {
   return {};
 }
 
-export default function readXlfData({ localizationFolder, supportedLocales }) {
+export default function readXlfData({
+  localizationFolder,
+  translationLocales,
+}) {
   return reduce(
     (data, locale) => {
       const fileName = `${locale}.xlf`;
@@ -66,6 +69,6 @@ export default function readXlfData({ localizationFolder, supportedLocales }) {
       return data;
     },
     {},
-    supportedLocales,
+    translationLocales,
   );
 }

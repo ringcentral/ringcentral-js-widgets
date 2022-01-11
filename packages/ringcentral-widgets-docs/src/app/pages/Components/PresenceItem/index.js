@@ -8,7 +8,7 @@ import Demo from './Demo';
 // eslint-disable-next-line
 import demoCode from '!raw-loader!./Demo';
 // eslint-disable-next-line
-import componentCode from '!raw-loader!@ringcentral-integration/widgets/components/PresenceItem';
+import componentCode from '!raw-loader!@ringcentral-integration/widgets/components/PresenceItem/PresenceItem.tsx';
 
 const PresenceItemPage = () => {
   const info = parse(componentCode);

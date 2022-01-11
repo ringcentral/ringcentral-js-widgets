@@ -2,6 +2,7 @@ import {
   GetMessageInfoResponse,
   GetMessageList,
 } from '@rc-ex/core/definitions';
+
 import { Entity } from '../../interfaces/Entity.interface';
 import { Message } from '../../interfaces/MessageStore.model';
 import { MessageStoreItem } from '../MessageStoreV2';

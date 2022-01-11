@@ -4,6 +4,7 @@ import {
   UIFunctions,
   UIProps,
 } from '@ringcentral-integration/core';
+
 import {
   CallBadgeContainerProps,
   CallBadgePanelProps,

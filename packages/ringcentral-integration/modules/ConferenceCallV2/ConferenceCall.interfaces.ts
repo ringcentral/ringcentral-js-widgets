@@ -1,16 +1,17 @@
 import { CallParty } from '@rc-ex/core/definitions';
 import { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
+
 import calleeTypes from '../../enums/calleeTypes';
 import { NormalizedCall } from '../../interfaces/Call.interface';
 import { Entity } from '../../interfaces/Entity.interface';
 import { Alert } from '../AlertV2';
+import { AppFeatures } from '../AppFeatures';
 import { Auth } from '../AuthV2';
 import { AvailabilityMonitor } from '../AvailabilityMonitorV2';
 import { CallingSettings } from '../CallingSettingsV2';
 import { Call } from '../CallV2';
 import { ConnectivityMonitor } from '../ConnectivityMonitorV2';
 import { ContactMatcher } from '../ContactMatcherV2';
-import { AppFeatures } from '../AppFeatures';
 import { sessionStatus, Webphone } from '../WebphoneV2';
 
 interface ConferenceCallOptions {
@@ -92,7 +93,7 @@ export type Party = AbstractParty<ConferenceRole, CallStatus, SessionType>;
 export type AbstractParty<
   Role extends ConferenceRole,
   Status extends CallStatus,
-  PartySessionType extends SessionType
+  PartySessionType extends SessionType,
 > = CallParty &
   (Role extends 'Host'
     ? {

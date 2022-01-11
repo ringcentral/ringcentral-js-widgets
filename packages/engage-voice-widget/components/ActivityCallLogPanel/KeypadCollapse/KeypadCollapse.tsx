@@ -10,14 +10,15 @@ import {
   RcTooltip,
 } from '@ringcentral/juno';
 import { Close, Keypad } from '@ringcentral/juno/icon';
+
+import i18n from './i18n';
 import {
-  Wrapper,
   Backdrop,
-  StyledCollapse,
   Footer,
   KeyPadCloseButton,
+  StyledCollapse,
+  Wrapper,
 } from './styles/KeyPadWrapper';
-import i18n from './i18n';
 
 type keypadProps = {
   currentLocale: string;

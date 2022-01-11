@@ -1,6 +1,6 @@
 import { expect } from 'chai';
-import { getMessageSenderStatusReducer } from './getMessageSenderReducer';
 
+import { getMessageSenderStatusReducer } from './getMessageSenderReducer';
 import messageSenderActionTypes from './messageSenderActionTypes';
 import messageSenderStatus from './messageSenderStatus';
 

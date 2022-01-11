@@ -1,9 +1,10 @@
 import { expect } from 'chai';
-import sinon from 'sinon';
 import { createStore } from 'redux';
-import RecentMessages from './index';
-import getRecentMessagesReducer from './getRecentMessagesReducer';
+import sinon from 'sinon';
+
 import actionTypes from './actionTypes';
+import getRecentMessagesReducer from './getRecentMessagesReducer';
+import RecentMessages from './index';
 
 describe('RecentMessages Unit Test', () => {
   let recentMessages;

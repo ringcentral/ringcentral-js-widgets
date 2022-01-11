@@ -1,10 +1,11 @@
 import { TokenInfo as BaseTokenInfo } from '@rc-ex/core/definitions';
 import { LoginUrlOptions as SdkLoginUrlOptions } from '@ringcentral/sdk';
-import { Locale } from '../Locale';
+
 import { Alert } from '../AlertV2';
-import { TabManager } from '../TabManager';
 import { Environment } from '../EnvironmentV2';
+import { Locale } from '../Locale';
 import { RateLimiter } from '../RateLimiterV2';
+import { TabManager } from '../TabManager';
 
 export interface TokenInfo extends BaseTokenInfo {
   expire_time?: number;

@@ -5,13 +5,13 @@ import { Router, Route } from 'react-router';
 
 import PhoneProvider from '@ringcentral-integration/widgets/lib/PhoneProvider';
 
-import RegionSettingsPage from '@ringcentral-integration/widgets/containers/RegionSettingsPage';
+import { RegionSettingsPage } from '@ringcentral-integration/widgets/containers/RegionSettingsPage';
 
 import SettingsPage from '@ringcentral-integration/widgets/containers/SettingsPage';
-import LoginPage from '@ringcentral-integration/widgets/containers/LoginPage';
+import { LoginPage } from '@ringcentral-integration/widgets/containers/LoginPage';
 
 import AlertContainer from '@ringcentral-integration/widgets/containers/AlertContainer';
-import ConnectivityBadgeContainer from '@ringcentral-integration/widgets/containers/ConnectivityBadgeContainer';
+import { ConnectivityBadgeContainer } from '@ringcentral-integration/widgets/containers/ConnectivityBadgeContainer';
 
 import MainView from '../MainView';
 import AppView from '../AppView';

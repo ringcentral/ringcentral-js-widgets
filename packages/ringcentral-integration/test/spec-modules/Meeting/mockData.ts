@@ -15,8 +15,7 @@ export const MOCK_PERSONAL_MEETING = {
     timeZone: { id: '26' },
   },
   host: {
-    uri:
-      'http://api-xmnup.lab.nordigy.ru/restapi/v1.0/account/270956004/extension/270963004',
+    uri: 'http://api-xmnup.lab.nordigy.ru/restapi/v1.0/account/270956004/extension/270963004',
     id: '270963004',
   },
   allowJoinBeforeHost: true,
@@ -36,8 +35,7 @@ export const MOCK_PERSONAL_MEETING = {
     startParticipantsVideo: false,
   },
   _pmiPassword: '',
-  uri:
-    'http://api-xmnup.lab.nordigy.ru/restapi/v1.0/account/270956004/extension/270963004/meeting/1482870071',
+  uri: 'http://api-xmnup.lab.nordigy.ru/restapi/v1.0/account/270956004/extension/270963004/meeting/1482870071',
   uuid: 't90EAKqnQNO6vQ+EmItDcQ==',
   id: '1482870071',
   pmi: '6993012426',

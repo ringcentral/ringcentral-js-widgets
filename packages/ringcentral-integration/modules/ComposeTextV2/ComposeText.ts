@@ -1,7 +1,7 @@
 import {
+  action,
   RcModuleV2,
   state,
-  action,
   storage,
   watch,
 } from '@ringcentral-integration/core';
@@ -10,13 +10,11 @@ import { ObjectMapKey } from '@ringcentral-integration/core/lib/ObjectMap';
 import { Module } from '../../lib/di';
 import isBlank from '../../lib/isBlank';
 import { proxify } from '../../lib/proxy/proxify';
-
 import {
-  messageSenderMessages,
-  ATTACHMENT_SIZE_LIMITATION,
   Attachment,
+  ATTACHMENT_SIZE_LIMITATION,
+  messageSenderMessages,
 } from '../MessageSenderV2';
-
 import { Deps, ToNumber } from './ComposeText.interface';
 
 /**
@@ -223,7 +221,8 @@ export class ComposeText<T = {}> extends RcModuleV2<Deps & T> {
       );
       if (recipient) {
         this.addToNumber(recipient);
-        this._lastContactSearchResult = this._deps.contactSearch.searchResult.slice();
+        this._lastContactSearchResult =
+          this._deps.contactSearch.searchResult.slice();
       }
     }
   }

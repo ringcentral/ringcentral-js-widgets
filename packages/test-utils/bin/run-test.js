@@ -12,8 +12,9 @@ const projectPaths = testPaths
 
 process.chdir(rootDir);
 
-const argv = ['--projects', projectPaths]
-  .concat(process.argv.slice(2))
+const argv = process.argv
+  .slice(2)
+  .concat(['--projects', projectPaths])
   .join(' ');
 
 execa.commandSync(`yarn jest ${argv}`, {

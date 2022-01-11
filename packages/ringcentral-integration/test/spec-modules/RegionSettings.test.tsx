@@ -1,15 +1,17 @@
 import {
   autorun,
-  title,
-  Scenario,
-  Given,
-  When,
-  Then,
-  Step,
   examples,
+  Given,
+  Scenario,
+  Step,
+  Then,
+  title,
+  When,
 } from '@ringcentral-integration/test-utils';
-import { RegionSettings } from '../../modules/RegionSettingsV2';
+
+import { RegionSettings } from '../../modules/RegionSettings';
 import { mockModuleGenerator } from '../lib/mockModule';
+import { regionSettingsMessages } from '../../modules/RegionSettings/regionSettingsMessages';
 
 const getMockModule = () =>
   mockModuleGenerator({
@@ -58,6 +60,63 @@ export class SetData extends Step {
             );
             expect(context.mockModule.data.areaCode).toBe(
               context.example.areaCode,
+            );
+          }}
+        />
+      </Scenario>
+    );
+  }
+}
+
+@autorun(test)
+@title('Check RegionSettings alert (when app init)')
+export class CheckRegionSettings extends Step {
+  @examples(`
+    | options                                | countryCode     | areaCode  | plan                               |
+    | { countryCode: 'CA' }                  | 'CA'            | ''        |{ isoCode: 'CA', callingCode: '1' } |
+  `)
+  run() {
+    return (
+      <Scenario desc="Check RegionSettings when countryCode is empty ">
+        <Given
+          desc="Create an RegionSettings instance with default value"
+          action={(_: any, context: any) => {
+            class MockAlert {
+              args: any = null;
+              warning(...args: any[]) {
+                this.args = args;
+              }
+            }
+            const regionSettings = new RegionSettings({
+              dialingPlan: { plans: context.example.plan },
+              extensionInfo: { country: context.example.plan },
+              alert: new MockAlert(),
+              brand: {
+                brandConfig: { allowRegionSettings: true },
+              },
+            } as any);
+            expect(regionSettings.countryCode).toBe('US');
+            expect(regionSettings.areaCode).toBe('');
+            expect(regionSettings.homeCountryId).toBe('1');
+            expect(regionSettings.showRegionSettings).toBe(true);
+            expect(regionSettings.availableCountries).toStrictEqual([
+              context.example.plan,
+            ]);
+            context.instance = regionSettings;
+          }}
+        />
+        <When
+          desc="do check region settings action (when init)"
+          action={(_: any, context: any) => {
+            context.mockModule = getMockModule();
+            context.instance.checkRegionSettings();
+          }}
+        />
+        <Then
+          desc="check alert message "
+          action={(_: any, context: any) => {
+            expect(context.instance._deps.alert.args[0].message).toBe(
+              regionSettingsMessages.dialingPlansChanged,
             );
           }}
         />

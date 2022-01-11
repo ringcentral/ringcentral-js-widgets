@@ -1,10 +1,11 @@
 import { expect } from 'chai';
+
+import actionTypes from './actionTypes';
 import {
   getAutoLogReducer,
   getLogOnRingingReducer,
   getTransferredCallsReducer,
 } from './getDataReducer';
-import actionTypes from './actionTypes';
 
 describe('getAutoLogReducer', () => {
   it('should be a function', () => {

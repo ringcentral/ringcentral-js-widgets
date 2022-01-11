@@ -1,16 +1,16 @@
 import { ContactResource } from '@rc-ex/core/definitions';
 import {
-  autorun,
-  title,
-  Scenario,
-  Given,
-  When,
-  Then,
   And,
+  autorun,
+  Given,
+  Scenario,
   Step,
+  Then,
+  title,
+  When,
 } from '@ringcentral-integration/test-utils';
-import { phoneTypes } from '../../../enums/phoneTypes';
 
+import { phoneTypes } from '../../../enums/phoneTypes';
 import { AccountContacts } from '../../../modules/AccountContactsV2';
 import { CompanyContacts } from '../../../modules/CompanyContactsV2';
 import { mockModuleGenerator } from '../../lib/mockModule';

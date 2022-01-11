@@ -1,5 +1,5 @@
-import { computed, RcUIModuleV2 } from '@ringcentral-integration/core';
 import { Module } from '@ringcentral-integration/commons/lib/di';
+import { computed, RcUIModuleV2 } from '@ringcentral-integration/core';
 
 import {
   EvActiveCallListUIFunctions,
@@ -25,7 +25,8 @@ import { ActiveCallListUI, Deps } from './EvActiveCallListUI.interface';
 })
 class EvActiveCallListUI
   extends RcUIModuleV2<Deps>
-  implements ActiveCallListUI {
+  implements ActiveCallListUI
+{
   get callId() {
     return this._deps.evCall.activityCallId;
   }

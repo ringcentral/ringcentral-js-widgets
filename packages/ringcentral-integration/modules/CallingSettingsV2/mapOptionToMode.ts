@@ -1,5 +1,5 @@
-import { callingOptions, CallingOptionsType } from './callingOptions';
 import { callingModes } from './callingModes';
+import { callingOptions, CallingOptionsType } from './callingOptions';
 
 export function mapOptionToMode(callWith: CallingOptionsType) {
   switch (callWith) {

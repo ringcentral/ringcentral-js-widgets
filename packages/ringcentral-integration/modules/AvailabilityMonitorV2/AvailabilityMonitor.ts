@@ -1,3 +1,5 @@
+import { pathOr } from 'ramda';
+
 import {
   action,
   RcModuleV2,
@@ -5,7 +7,7 @@ import {
   watch,
 } from '@ringcentral-integration/core';
 import { ApiError } from '@ringcentral/sdk';
-import { pathOr } from 'ramda';
+
 import { promisedThrottle } from '../../lib/debounce-throttle';
 import { Module } from '../../lib/di';
 import validateIsOffline from '../../lib/validateIsOffline';

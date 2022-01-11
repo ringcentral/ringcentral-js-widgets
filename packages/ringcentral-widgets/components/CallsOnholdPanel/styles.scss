@@ -1,10 +1,12 @@
+@use 'sass:math';
+
 @import '../../lib/commonStyles/full-size';
 @import '../../lib/commonStyles/colors';
 @import '../../lib/commonStyles/fonts';
 @import '../../lib/commonStyles/layout';
 
-$btnContainerHeight:127 / 442*100%;
-$panelHeight:100% - $btnContainerHeight;
+$btnContainerHeight: math.div(127, 442) * 100%;
+$panelHeight: 100% - $btnContainerHeight;
 
 .root {
   @include full-size;
@@ -13,7 +15,8 @@ $panelHeight:100% - $btnContainerHeight;
   padding-top: $header-height;
   overflow: hidden;
 
-  &, & *{
+  &,
+  & * {
     box-sizing: border-box;
   }
   .header {
@@ -34,9 +37,9 @@ $panelHeight:100% - $btnContainerHeight;
   .addBtn {
     @include full-size;
     display: inline-block;
-    width: 45/300*100%;
+    width: math.div(45, 300) * 100%;
     height: 100%;
-    .webphoneButton{
+    .webphoneButton {
       display: block;
       position: relative;
       width: 100%;
@@ -50,7 +53,8 @@ $panelHeight:100% - $btnContainerHeight;
       right: 0;
       margin: auto;
 
-      g, path {
+      g,
+      path {
         fill: #ffffff;
       }
 

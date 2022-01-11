@@ -1,11 +1,13 @@
+import { reduce } from 'ramda';
+import { Unsubscribe } from 'redux';
+
 import {
   ExtensionInfoEvent,
   FeatureInfo,
   FeatureList,
 } from '@rc-ex/core/definitions';
-import { computed, watch, watchEffect } from '@ringcentral-integration/core';
-import { reduce } from 'ramda';
-import { Unsubscribe } from 'redux';
+import { computed, watch } from '@ringcentral-integration/core';
+
 import { permissionsMessages } from '../../enums/permissionsMessages';
 import { subscriptionFilters } from '../../enums/subscriptionFilters';
 import { subscriptionHints } from '../../enums/subscriptionHints';
@@ -48,7 +50,7 @@ export class ExtensionFeatures extends DataFetcherV2Consumer<
             .get('/restapi/v1.0/account/~/extension/~/features');
           return response.json();
         } catch (error) {
-          if (error.response?.status === 403) {
+          if ((error as { response?: Response }).response?.status === 403) {
             await this._deps.auth.logout();
             this._deps.alert.danger({
               message: permissionsMessages.insufficientPrivilege,
@@ -78,7 +80,7 @@ export class ExtensionFeatures extends DataFetcherV2Consumer<
   };
 
   onInitOnce() {
-    watchEffect(
+    watch(
       this,
       () => [
         this.ready,
@@ -98,6 +100,9 @@ export class ExtensionFeatures extends DataFetcherV2Consumer<
             });
           }
         }
+      },
+      {
+        multiple: true,
       },
     );
   }

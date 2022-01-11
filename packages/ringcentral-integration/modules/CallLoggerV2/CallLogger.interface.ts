@@ -1,13 +1,13 @@
-import { Storage } from '../StorageV2';
+import { CallLoggerTriggerType } from '../../enums/callLoggerTriggerTypes';
+import { Entity } from '../../interfaces/Entity.interface';
+import { ActiveCall } from '../../interfaces/Presence.model';
+import { LogOptions as BaseLogOptions } from '../../lib/LoggerBaseV2';
+import { ActivityMatcher } from '../ActivityMatcherV2';
 import { CallHistory, HistoryCall } from '../CallHistoryV2';
 import { CallMonitor } from '../CallMonitorV2';
-import { ActivityMatcher } from '../ActivityMatcherV2';
 import { ContactMatcher } from '../ContactMatcherV2';
+import { Storage } from '../StorageV2';
 import { TabManager } from '../TabManager';
-import { LogOptions as BaseLogOptions } from '../../lib/LoggerBaseV2';
-import { Entity } from '../../interfaces/Entity.interface';
-import { CallLoggerTriggerType } from '../../enums/callLoggerTriggerTypes';
-import { ActiveCall } from '../../interfaces/Presence.model';
 
 export interface CallLoggerOptions {
   autoLog?: boolean;
@@ -27,16 +27,18 @@ export interface Deps {
 
 export type Hook = (sessionId: string) => boolean;
 
+export type UpdatedCallLog = HistoryCall & {
+  isTransferredCall: boolean;
+  transferredMiddleNumber: string;
+};
+
 export type UpdatedCallMap = {
   presenceUpdate: ActiveCall & {
     isTransferredCall: boolean;
     transferredMiddleNumber: string;
     phoneNumberUpdated?: boolean;
   };
-  callLogSync: HistoryCall & {
-    isTransferredCall: boolean;
-    transferredMiddleNumber: string;
-  };
+  callLogSync: UpdatedCallLog;
 };
 
 export type UpdatedCall<T extends keyof UpdatedCallMap> = UpdatedCallMap[T];

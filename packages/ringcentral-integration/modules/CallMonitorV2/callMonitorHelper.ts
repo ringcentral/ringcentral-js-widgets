@@ -1,4 +1,5 @@
 import { PartyStatusCode } from 'ringcentral-call-control/lib/Session';
+
 import callDirections from '../../enums/callDirections';
 import { telephonyStatus } from '../../enums/telephonyStatus';
 import { Call } from '../../interfaces/Call.interface';

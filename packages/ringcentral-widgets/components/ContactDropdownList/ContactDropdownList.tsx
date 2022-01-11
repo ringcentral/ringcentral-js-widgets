@@ -1,0 +1,110 @@
+import React, { Component } from 'react';
+
+import classnames from 'classnames';
+
+import { ContactItem } from './ContactItem';
+import styles from './styles.scss';
+
+export type ContactDropdownListProps = {
+  currentLocale: string;
+  scrollDirection?: string;
+  visibility: boolean;
+  className?: string;
+  items: {
+    name: string;
+    entityType: string;
+    phoneType: string;
+    phoneNumber: string;
+  }[];
+  formatContactPhone: (...args: any[]) => any;
+  addToRecipients: (...args: any[]) => any;
+  setSelectedIndex: (...args: any[]) => any;
+  selectedIndex: number;
+  titleEnabled?: boolean;
+  listRef?: (...args: any[]) => any;
+  phoneTypeRenderer?: (...args: any[]) => any;
+  phoneSourceNameRenderer?: (...args: any[]) => any;
+  contactInfoRenderer?: (...args: any[]) => any;
+  contactPhoneRenderer?: (...args: any[]) => any;
+};
+export class ContactDropdownList extends Component<
+  ContactDropdownListProps,
+  {}
+> {
+  // eslint-disable-next-line react/no-deprecated
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.visibility || nextProps.items.length === 0) {
+      return;
+    }
+    if (nextProps.scrollDirection === 'ArrowDown') {
+      if (nextProps.selectedIndex < nextProps.items.length) {
+        if (nextProps.selectedIndex > 4 && this.node) {
+          this.node.scrollTop += 53;
+          this.node.scrollTop = Math.floor(this.node.scrollTop / 53) * 53;
+        }
+      }
+    }
+    if (nextProps.scrollDirection === 'ArrowUp') {
+      if (nextProps.selectedIndex > -1) {
+        if (nextProps.selectedIndex < nextProps.items.length - 4 && this.node) {
+          this.node.scrollTop -= 53;
+          this.node.scrollTop = Math.floor(this.node.scrollTop / 53) * 53;
+        }
+      }
+    }
+  }
+  render() {
+    const {
+      currentLocale,
+      className,
+      listRef,
+      items,
+      selectedIndex,
+      formatContactPhone,
+      setSelectedIndex,
+      addToRecipients,
+      titleEnabled,
+      visibility,
+      phoneTypeRenderer,
+      phoneSourceNameRenderer,
+      contactInfoRenderer,
+      contactPhoneRenderer,
+    } = this.props;
+    if (!visibility || items.length === 0) {
+      return null;
+    }
+    return (
+      <ul
+        className={classnames(styles.dropdownList, className)}
+        ref={(c) => {
+          this.node = c;
+          if (typeof listRef === 'function') {
+            listRef(c);
+          }
+        }}
+        data-sign="contactDropdownList"
+      >
+        {items.map((item, index) => (
+          <ContactItem
+            currentLocale={currentLocale}
+            active={selectedIndex === index}
+            name={item.name}
+            entityType={item.entityType}
+            phoneType={item.phoneType}
+            phoneNumber={item.phoneNumber}
+            phoneTypeRenderer={phoneTypeRenderer}
+            phoneSourceNameRenderer={phoneSourceNameRenderer}
+            formatContactPhone={formatContactPhone}
+            onHover={() => setSelectedIndex(index)}
+            onClick={() => addToRecipients(item)}
+            key={`${index}${item.phoneNumber}${item.name}${item.phoneType}`}
+            titleEnabled={titleEnabled}
+            contactInfoRenderer={contactInfoRenderer}
+            contactPhoneRenderer={contactPhoneRenderer}
+            doNotCall={item.doNotCall}
+          />
+        ))}
+      </ul>
+    );
+  }
+}

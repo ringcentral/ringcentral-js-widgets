@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+
 import chunkMessage from './chunkMessage';
 
 describe('chunkMessage', () => {

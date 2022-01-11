@@ -1,23 +1,22 @@
 import { expect } from 'chai';
+
+import callDirections from '../../enums/callDirections';
+import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
+import actionTypes from './actionTypes';
+import connectionStatus from './connectionStatus';
 import getWebphoneReducer, {
-  getVideoElementPreparedReducer,
+  getActiveSessionIdReducer,
   getConnectionStatusReducer,
   getConnectRetryCountsReducer,
-  getActiveSessionIdReducer,
+  getErrorCodeReducer,
+  getLastEndedSessionsReducer,
   getRingSessionIdReducer,
   getSessionsReducer,
-  getErrorCodeReducer,
   getStatusCodeReducer,
-  getLastEndedSessionsReducer,
+  getVideoElementPreparedReducer,
   getWebphoneDeviceReducer,
 } from './getWebphoneReducer';
-
-import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
-
-import actionTypes from './actionTypes';
 import sessionStatus from './sessionStatus';
-import callDirections from '../../enums/callDirections';
-import connectionStatus from './connectionStatus';
 
 describe('Webphone :: getVideoElementPreparedReducer', () => {
   it('getVideoElementPreparedReducer should be a function', () => {
@@ -656,9 +655,8 @@ describe('getWebphoneReducer', () => {
   it('should return a combined reducer', () => {
     const reducer = getWebphoneReducer(actionTypes);
     const statusReducer = getModuleStatusReducer(actionTypes);
-    const videoElementPreparedReducer = getVideoElementPreparedReducer(
-      actionTypes,
-    );
+    const videoElementPreparedReducer =
+      getVideoElementPreparedReducer(actionTypes);
     const connectionStatusReducer = getConnectionStatusReducer(actionTypes);
     const connectRetryCountsReducer = getConnectRetryCountsReducer(actionTypes);
     const activeSessionIdReducer = getActiveSessionIdReducer(actionTypes);

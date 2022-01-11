@@ -1,23 +1,63 @@
 {
-  "uri" : "https.../restapi/v1.0/account/400371259008/extension/400371259008/message-store?availability=Alive&dateFrom=2015-11-17T14:40:00.000Z&distinctConversations=true&page=1&perPage=3",
-  "records" : [],
-  "paging" : {
-    "page" : 1,
-    "totalPages" : 1,
-    "perPage" : 20,
-    "totalElements" : 0,
-    "pageStart" : 0,
-    "pageEnd" : 0
+  "uri": "https.../restapi/v1.0/account/400371259008/extension/400371259008/message-store?availability=Alive&dateFrom=2015-11-17T14:40:00.000Z&distinctConversations=true&page=1&perPage=3",
+  "records": [
+    {
+      "uri": "https://api-rcapps-xmnup.lab.nordigy.ru/restapi/v1.0/account/1587148004/extension/1587148004/message-store/3628750004",
+      "id": 3628750004,
+      "to": [
+        {
+          "phoneNumber": "+13236003388",
+          "name": "John Doe701",
+          "location": "Los Angeles, CA"
+        }
+      ],
+      "from": {
+        "phoneNumber": "+13473441283",
+        "name": "System New",
+        "location": "New York City, Bronx, NY"
+      },
+      "type": "SMS",
+      "creationTime": "2021-09-22T08:41:27.000Z",
+      "readStatus": "Read",
+      "priority": "Normal",
+      "attachments": [
+        {
+          "id": 3628750004,
+          "uri": "https://api-rcapps-xmnup.lab.nordigy.ru/restapi/v1.0/account/1587148004/extension/1587148004/message-store/3628750004/content/3628750004",
+          "type": "Text",
+          "contentType": "text/plain"
+        }
+      ],
+      "direction": "Outbound",
+      "availability": "Alive",
+      "subject": "上次",
+      "messageStatus": "Delivered",
+      "smsSendingAttemptsCount": 1,
+      "conversationId": 4534173861163921400,
+      "conversation": {
+        "id": "4534173861163921426",
+        "uri": "https://api-rcapps-xmnup.lab.nordigy.ru/restapi/v1.0/conversation/4534173861163921426"
+      },
+      "lastModifiedTime": "2021-09-22T08:41:27.448Z"
+    }
+  ],
+  "paging": {
+    "page": 1,
+    "totalPages": 1,
+    "perPage": 20,
+    "totalElements": 0,
+    "pageStart": 0,
+    "pageEnd": 0
   },
-  "navigation" : {
-    "nextPage" : {
-      "uri" : "https.../restapi/v1.0/account/400371259008/extension/400371259008/message-store?availability=Alive&dateFrom=2015-11-17T14:40:00.000Z&distinctConversations=true&page=2&perPage=3"
+  "navigation": {
+    "nextPage": {
+      "uri": "https.../restapi/v1.0/account/400371259008/extension/400371259008/message-store?availability=Alive&dateFrom=2015-11-17T14:40:00.000Z&distinctConversations=true&page=2&perPage=3"
     },
-    "firstPage" : {
-      "uri" : "https.../restapi/v1.0/account/400371259008/extension/400371259008/message-store?availability=Alive&dateFrom=2015-11-17T14:40:00.000Z&distinctConversations=true&page=1&perPage=3"
+    "firstPage": {
+      "uri": "https.../restapi/v1.0/account/400371259008/extension/400371259008/message-store?availability=Alive&dateFrom=2015-11-17T14:40:00.000Z&distinctConversations=true&page=1&perPage=3"
     },
-    "lastPage" : {
-      "uri" : "https.../restapi/v1.0/account/400371259008/extension/400371259008/message-store?availability=Alive&dateFrom=2015-11-17T14:40:00.000Z&distinctConversations=true&page=3&perPage=3"
+    "lastPage": {
+      "uri": "https.../restapi/v1.0/account/400371259008/extension/400371259008/message-store?availability=Alive&dateFrom=2015-11-17T14:40:00.000Z&distinctConversations=true&page=3&perPage=3"
     }
   }
 }

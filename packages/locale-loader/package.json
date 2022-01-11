@@ -7,7 +7,7 @@
     "gulp": "gulp --require @ringcentral-integration/babel-settings/lib/register.js",
     "build": "yarn gulp build",
     "release": "yarn gulp release",
-    "test": "jest",
+    "test": "yarn run-test --ci",
     "watch": "jest --watch"
   },
   "repository": {
@@ -24,7 +24,7 @@
     "@ringcentral-integration/i18n": "^2.0.0"
   },
   "devDependencies": {
-    "@babel/core": "^7.11.4",
+    "@babel/core": "^7.15.8",
     "@ringcentral-integration/babel-settings": "*",
     "babel-jest": "^27.0.1",
     "gulp": "^4.0.2",
@@ -42,7 +42,7 @@
     "glob": "^7.1.2",
     "inquirer": "^6.0.0",
     "loader-utils": "^1.1.0",
-    "ramda": "^0.27.0",
+    "ramda": "^0.27.1",
     "through2": "^2.0.5",
     "xml-js": "^1.6.2"
   },
@@ -50,10 +50,7 @@
     "transform": {
       "^.+\\.js$": "@ringcentral-integration/babel-settings/lib/jestTransform.js"
     },
-    "watchPathIgnorePatterns": [
-      "localization/.*",
-      "testData/.*"
-    ],
+    "watchPathIgnorePatterns": ["localization/.*", "testData/.*"],
     "reporters": [
       "default",
       [

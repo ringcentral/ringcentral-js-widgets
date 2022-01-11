@@ -5,6 +5,7 @@ export interface TransferManualEntryRecipientPageProps {
   id: string;
 }
 
-export const TransferManualEntryRecipientPage = connectModule<
-  TransferManualEntryRecipientPageProps
->((phone) => phone.evTransferCallUI)(ManualEntryPanel);
+export const TransferManualEntryRecipientPage =
+  connectModule<TransferManualEntryRecipientPageProps>(
+    (phone) => phone.evTransferCallUI,
+  )(ManualEntryPanel);

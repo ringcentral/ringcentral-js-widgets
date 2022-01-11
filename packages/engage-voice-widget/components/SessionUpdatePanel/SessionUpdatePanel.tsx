@@ -1,9 +1,10 @@
-import { RcButton } from '@ringcentral/juno';
 import React, { FunctionComponent } from 'react';
 
+import { RcButton } from '@ringcentral/juno';
+
 import {
-  EvAgentSessionUIProps,
   EvAgentSessionUIFunctions,
+  EvAgentSessionUIProps,
 } from '../../interfaces/EvAgentSessionUI.interface';
 import {
   BasicSessionPanel,

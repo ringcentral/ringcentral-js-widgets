@@ -1,10 +1,14 @@
-import { RcButtonBase, RcIcon, RcMenu, RcMenuItem } from '@ringcentral/juno';
-import arrowDownSvg from '@ringcentral/juno/icon/ArrowDown';
-import arrowUpSvg from '@ringcentral/juno/icon/ArrowUp';
-import classNames from 'classnames';
 import React, { FunctionComponent, MouseEventHandler, useState } from 'react';
+
+import classNames from 'classnames';
+
 import { Tooltip } from '@ringcentral-integration/widgets/components/Rcui/Tooltip';
 import { TOOLTIP_LONG_DELAY_TIME } from '@ringcentral-integration/widgets/lib/toolTipDelayTime';
+import { RcButtonBase, RcIcon, RcMenu, RcMenuItem } from '@ringcentral/juno';
+import {
+  ArrowDown as arrowDownSvg,
+  ArrowUp as arrowUpSvg,
+} from '@ringcentral/juno/icon';
 
 import { EvCustomAvailableAgentState } from '../../../../interfaces/EvMainViewUI.interface';
 import styles from './styles.scss';

@@ -1,7 +1,6 @@
-import { Storage } from '@ringcentral-integration/commons/modules/StorageV2';
-import { CallLogTasks } from '@ringcentral-integration/commons/modules/CallLogTasks';
 import { CallHistory } from '@ringcentral-integration/commons/modules/CallHistoryV2';
 import { CallMonitor } from '@ringcentral-integration/commons/modules/CallMonitorV2';
+import { Storage } from '@ringcentral-integration/commons/modules/StorageV2';
 
 export interface CallLogSectionCallStatus {
   isEdited: boolean;
@@ -9,15 +8,14 @@ export interface CallLogSectionCallStatus {
   isSaving: boolean;
 }
 
-export type CallsMappingType = Record<
-  string,
-  {
-    isSucceed: boolean;
-    isEdited: boolean;
-    latestSaveTime: number;
-    latestUpdateTime: number;
-  }
->;
+export interface CallLogStatus {
+  isSucceed: boolean;
+  isEdited: boolean;
+  latestSaveTime: number;
+  latestUpdateTime: number;
+}
+
+export type CallsMappingType = Record<string, CallLogStatus>;
 
 interface CallLogSectionOptions {
   notSyncOpenState: boolean;
@@ -25,7 +23,6 @@ interface CallLogSectionOptions {
 
 export interface Deps {
   storage: Storage;
-  callLogTasks: CallLogTasks;
   callHistory: CallHistory;
   callMonitor: CallMonitor;
   callLogSectionOptions: CallLogSectionOptions;

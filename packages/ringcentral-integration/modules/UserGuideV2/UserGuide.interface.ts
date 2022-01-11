@@ -1,5 +1,6 @@
-import { Auth } from '../AuthV2';
 import { AppFeatures } from '../AppFeatures';
+import { Auth } from '../AuthV2';
+import { Brand } from '../Brand';
 import { Locale } from '../Locale';
 import { Storage } from '../StorageV2';
 import { Webphone } from '../WebphoneV2';
@@ -16,6 +17,7 @@ export interface Deps {
   webphone: Webphone;
   appFeatures: AppFeatures;
   userGuideOptions?: UserGuideOptions;
+  brand: Brand;
 }
 
 export interface CarouselOptions extends CarouselState {

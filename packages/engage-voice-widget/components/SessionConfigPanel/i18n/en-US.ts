@@ -9,5 +9,5 @@ export default {
   enterYourPhoneNumber: 'Enter your phone number',
   switchAccount: 'Switch account',
   agent: 'Agent',
-  supervisor: 'Supervisor'
+  supervisor: 'Supervisor',
 };

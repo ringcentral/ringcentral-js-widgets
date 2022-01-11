@@ -1,3 +1,6 @@
+import moment from 'moment';
+import { filter, find, isEmpty, pick } from 'ramda';
+
 import { MeetingServiceInfoResource } from '@rc-ex/core/definitions';
 import {
   action,
@@ -7,10 +10,8 @@ import {
   storage,
   track,
 } from '@ringcentral-integration/core';
-import moment from 'moment';
-import { filter, find, isEmpty, pick } from 'ramda';
 import { DEFAULT_LOCALE } from '@ringcentral-integration/i18n';
-import { Analytics } from '../AnalyticsV2';
+
 import {
   comparePreferences,
   generateRandomPassword,
@@ -27,6 +28,8 @@ import { IMeeting } from '../../interfaces/Meeting.interface';
 import background from '../../lib/background';
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
+import { trackEvents } from '../Analytics';
+import { Analytics } from '../AnalyticsV2';
 import {
   ASSISTED_USERS_MYSELF,
   COMMON_SETTINGS,
@@ -36,7 +39,12 @@ import {
   RCM_PASSWORD_REGEX,
   SAVED_DEFAULT_MEETING_SETTINGS,
 } from './constants';
-import { getExtensionName, getHostId } from './helper';
+import {
+  getExtensionName,
+  getHostId,
+  getRcmUriRegExp,
+  getRcvUriRegExp,
+} from './helper';
 import {
   CommonPersonalMeetingSettings,
   DefaultScheduleLockedSettings,
@@ -58,12 +66,11 @@ import {
   ScheduleMeetingResponse,
   UpdatingStatus,
   UserScheduleMeetingSettingResponse,
-  UserTelephonySettingResponse,
   UserSettings,
+  UserTelephonySettingResponse,
 } from './Meeting.interface';
 import { MeetingErrors } from './meetingErrors';
 import { meetingStatus } from './meetingStatus';
-import { trackEvents } from '../Analytics';
 
 @Module({
   name: 'Meeting',
@@ -204,7 +211,7 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
     if (!this.enablePersonalMeeting) {
       return {};
     }
-    return pick([...COMMON_SETTINGS, 'password'], this.personalMeeting);
+    return pick([...COMMON_SETTINGS, 'password'], this.personalMeeting || {});
   }
 
   @computed((that: Meeting) => [that._deps.locale.currentLocale])
@@ -337,8 +344,12 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
     return this._deps.meetingOptions?.enableServiceWebSettings ?? false;
   }
 
+  // will follow dynamic brand config
   get enableScheduleOnBehalf() {
-    return this._deps.meetingOptions?.enableScheduleOnBehalf ?? false;
+    return (
+      this._deps.brand.brandConfig?.enableRcmScheduleOnBehalf ??
+      this._deps.meetingOptions?.enableScheduleOnBehalf
+    );
   }
 
   get enableCustomTimezone() {
@@ -429,7 +440,7 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
     );
   }
 
-  protected async _initScheduleFor() {
+  async initScheduleFor(count = 0) {
     if (!this.enableScheduleOnBehalf) {
       return;
     }
@@ -445,14 +456,18 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
       this.updateDelegators([this.loginUser, ...records]);
     } catch (e) {
       console.error('fetch delegators error:', e);
-      console.warn('retry after 10s');
-      this._fetchDelegatorsTimeout = setTimeout(() => {
-        this._initScheduleFor();
-      }, 10000);
+      if (count >= 5) {
+        console.warn('retry after 10s');
+        this._fetchDelegatorsTimeout = setTimeout(() => {
+          this.initScheduleFor(count + 1);
+        }, 10000);
+        return;
+      }
+      this.updateDelegators([]);
     }
   }
 
-  protected async _initMeetingSettings(extensionId?: string) {
+  async _initMeetingSettings(extensionId?: string) {
     await Promise.all([
       this._initPersonalMeeting(extensionId),
       this._updateServiceWebSettings(extensionId),
@@ -467,17 +482,17 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
    */
   @background
   async init() {
-    await this.onInit();
+    await this._init();
   }
 
   @proxify
   async reload() {
-    await this.onInit();
+    await this._init();
   }
 
   @proxify
   async _init() {
-    await Promise.all([this._initMeetingSettings(), this._initScheduleFor()]);
+    await Promise.all([this._initMeetingSettings(), this.initScheduleFor()]);
   }
 
   @proxify
@@ -566,7 +581,7 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
   }
 
   @proxify
-  async _initPersonalMeeting(extensionId?: string) {
+  async _initPersonalMeeting(extensionId?: string, count = 0) {
     if (!this.enablePersonalMeeting) {
       return;
     }
@@ -580,10 +595,12 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
     } catch (e) {
       console.error('fetch personal meeting error:', e);
       this.resetPersonalMeeting();
-      console.warn('retry after 10s');
-      this._fetchPersonMeetingTimeout = setTimeout(() => {
-        this._initPersonalMeeting(extensionId);
-      }, 10000);
+      if (count < 5) {
+        console.warn('retry after 10s');
+        this._fetchPersonMeetingTimeout = setTimeout(() => {
+          this._initPersonalMeeting(extensionId, count + 1);
+        }, 10000);
+      }
     }
   }
 
@@ -625,7 +642,7 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
 
   @proxify
   async scheduleDirectly(
-    meeting: RcMMeetingModel,
+    meeting?: RcMMeetingModel,
     { isAlertSuccess = true }: { isAlertSuccess?: boolean } = {},
   ): Promise<ScheduleMeetingResponse> {
     try {
@@ -699,7 +716,7 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
 
   @proxify
   async schedule(
-    meeting: RcMMeetingModel,
+    meeting?: RcMMeetingModel,
     { isAlertSuccess = true }: { isAlertSuccess?: boolean } = {},
   ): Promise<ScheduleMeetingResponse> {
     if (this.isScheduling) return this._createMeetingPromise;
@@ -790,8 +807,21 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
   }
 
   @proxify
-  async updateScheduleFor(userExtensionId: string | number) {
-    if (!userExtensionId || !this.delegators || this.delegators.length === 0) {
+  async deleteMeeting(meetingId: string) {
+    try {
+      await this._deps.client.account().extension().meeting(meetingId).delete();
+      return true;
+    } catch (errors) {
+      await this._errorHandle(errors);
+      return false;
+    }
+  }
+
+  @proxify
+  async updateScheduleFor(
+    userExtensionId: string | number = `${this.extensionId}`,
+  ) {
+    if (!this.delegators || this.delegators.length === 0) {
       return;
     }
     const hostId = `${userExtensionId}`;
@@ -1003,7 +1033,7 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
       return null;
     }
     // only rc brand is supported for now
-    if (this._deps.brand.code !== 'rc') {
+    if (!this._deps.brand.brandConfig.allowMeetingInvitation) {
       return null;
     }
     try {
@@ -1160,11 +1190,9 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
         this._deps.alert.warning(error);
       }
     } else if (errors && errors.response) {
-      const {
-        message,
-        errorCode,
-        permissionName,
-      } = await errors.response.clone().json();
+      const { message, errorCode, permissionName } = await errors.response
+        .clone()
+        .json();
       if (errorCode === 'InsufficientPermissions' && permissionName) {
         this._deps.alert.danger({
           message: meetingStatus.insufficientPermissions,
@@ -1281,5 +1309,62 @@ export class Meeting extends RcModuleV2<Deps> implements IMeeting {
       this.updatingStatus &&
       find((obj: any) => obj.meetingId === meetingId, this.updatingStatus)
     );
+  }
+
+  get extensionId(): number {
+    return this._deps.extensionInfo.info.id;
+  }
+
+  get enableDiscoveryApi() {
+    return !!this._deps.client.service.platform().discovery();
+  }
+
+  rcvBaseWebUri: string = null;
+
+  async fetchDiscoveryConfig() {
+    const data = await this._deps.client.service
+      .platform()
+      .discovery()
+      ?.externalData();
+    if (data) {
+      this.rcvBaseWebUri = data.rcv.baseWebUri;
+    } else {
+      // handle discovery api  error in sdk
+    }
+  }
+
+  onReset() {
+    this.rcvBaseWebUri = null;
+  }
+
+  async getMeetingUriRegExp() {
+    if (this.enableDiscoveryApi && !this.rcvBaseWebUri) {
+      await this.fetchDiscoveryConfig();
+    }
+    return {
+      rcvUriRegExp: this.rcvUriRegExp,
+      rcmUriRegExp: this.rcmUriRegExp,
+    };
+  }
+
+  @computed(({ _deps }: Meeting) => [_deps.brand.brandConfig.meetingUriReg.rcm])
+  get rcmUriRegExp() {
+    return getRcmUriRegExp(this._deps.brand.brandConfig.meetingUriReg.rcm);
+  }
+
+  @computed(({ _deps, rcvBaseWebUri }: Meeting) => [
+    _deps.brand.brandConfig.meetingUriReg.rcv,
+    rcvBaseWebUri,
+  ])
+  get rcvUriRegExp() {
+    const regExpText =
+      this.enableDiscoveryApi && this.rcvBaseWebUri
+        ? `(${this.rcvBaseWebUri
+            ?.replace(/^https?:\/\//, '')
+            .replace(/\./g, '\\.')}|${
+            this._deps.brand.brandConfig.meetingUriReg.rcv
+          })`
+        : this._deps.brand.brandConfig.meetingUriReg.rcv;
+    return getRcvUriRegExp(regExpText);
   }
 }

@@ -1,3 +1,8 @@
+import { EventEmitter } from 'events';
+import { equals } from 'ramda';
+
+import { Module } from '@ringcentral-integration/commons/lib/di';
+import sleep from '@ringcentral-integration/commons/lib/sleep';
 import {
   action,
   computed,
@@ -8,17 +13,13 @@ import {
   watch,
 } from '@ringcentral-integration/core';
 import { format, parse } from '@ringcentral-integration/phone-number';
-import { EventEmitter } from 'events';
-import { equals } from 'ramda';
-import { Module } from '@ringcentral-integration/commons/lib/di';
-import sleep from '@ringcentral-integration/commons/lib/sleep';
 
 import {
   agentSessionEvents,
   dialoutStatuses,
   dropDownOptions,
-  LoginTypes,
   loginTypes,
+  LoginTypes,
   messageTypes,
   tabManagerEvents,
 } from '../../enums';
@@ -497,8 +498,8 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
     );
     this._deps.evCallDataSource.changeCallsLimited(false);
     if (!this.isMainTab) return;
-    const firstTabIdExcludeMainTab = this._deps.tabManager
-      .firstTabIdExcludeMainTab;
+    const firstTabIdExcludeMainTab =
+      this._deps.tabManager.firstTabIdExcludeMainTab;
 
     this._deps.tabManager.setMainTabId(firstTabIdExcludeMainTab);
 
@@ -1261,7 +1262,7 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
             });
             this.isForceLogin = true;
           },
-          size: 'xsmall',
+          childrenSize: 'small',
         },
         true,
       );

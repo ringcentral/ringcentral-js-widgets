@@ -1,3 +1,5 @@
+@use 'sass:math';
+
 @import '../../lib/commonStyles/colors';
 
 $padding-horizontal: 20px;
@@ -29,7 +31,7 @@ $ringout-button-size: 24px;
 }
 
 .callItemContainer {
-  padding: $padding-horizontal * 3/4 $padding-horizontal;
+  padding: $padding-horizontal * math.div(3, 4) $padding-horizontal;
   border-bottom: 1px solid #e2e2e2;
 
   .wrapper {
@@ -48,7 +50,7 @@ $ringout-button-size: 24px;
       .extraButton {
         display: flex;
         align-items: center;
-        margin-left: $padding-horizontal/2;
+        margin-left: math.div($padding-horizontal, 2);
       }
     }
 
@@ -56,7 +58,7 @@ $ringout-button-size: 24px;
       flex-basis: $button-basis;
 
       &:not(:last-of-type) {
-        margin-right: $padding-horizontal/2;
+        margin-right: math.div($padding-horizontal, 2);
       }
 
       .answerButton,
@@ -140,7 +142,7 @@ $ringout-button-size: 24px;
     .ringoutButton {
       height: $ringout-button-size;
       &:not(:last-of-type) {
-        margin-right: $padding-horizontal/2;
+        margin-right: math.div($padding-horizontal, 2);
       }
 
       .switchButton,
@@ -240,7 +242,7 @@ $ringout-button-size: 24px;
   padding: 10px 0;
 }
 
-.switchDialogContent{
+.switchDialogContent {
   word-break: break-word;
 }
 

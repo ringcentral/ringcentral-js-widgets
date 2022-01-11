@@ -9,9 +9,8 @@ $mui-margin-width: 16px;
 
 .title {
   display: block;
-  [sf-lightning] & {
-    max-width: $lightning-page-width - 2 * $lightning-page-space - $mui-margin-width;
-  }
+  max-width: $lightning-page-width - 2 * $lightning-page-space -
+    $mui-margin-width;
 
   [sf-classic] & {
     max-width: $classic-page-width - 2 * $classic-page-space - $mui-margin-width;

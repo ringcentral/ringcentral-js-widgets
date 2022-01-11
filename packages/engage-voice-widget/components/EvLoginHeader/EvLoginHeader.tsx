@@ -1,5 +1,6 @@
-import classNames from 'classnames';
 import React, { FunctionComponent } from 'react';
+
+import classNames from 'classnames';
 
 import EngageVoiceLogo from '../../assets/icons/engageVoiceLogo.svg';
 import styles from './styles.scss';

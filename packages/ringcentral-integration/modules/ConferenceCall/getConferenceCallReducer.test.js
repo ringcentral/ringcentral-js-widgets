@@ -1,14 +1,15 @@
 import { expect } from 'chai';
+
+import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
 import actionTypes from './actionTypes';
+import conferenceCallStatus from './conferenceCallStatus';
 import getConferenceCallReducer, {
   getConferenceCallStatusReducer,
-  getMakeConferenceCallReducer,
-  getMergingStatusReducer,
-  getMergingPairReducer,
   getCurrentConferenceIdReducer,
+  getMakeConferenceCallReducer,
+  getMergingPairReducer,
+  getMergingStatusReducer,
 } from './getConferenceCallReducer';
-import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
-import conferenceCallStatus from './conferenceCallStatus';
 
 describe('ConferenceCall :: getConferenceCallReducer', () => {
   it('should be a function', () => {
@@ -21,15 +22,13 @@ describe('ConferenceCall :: getConferenceCallReducer', () => {
   describe('combined reducer', () => {
     const reducer = getConferenceCallReducer(actionTypes);
     const statusReducer = getModuleStatusReducer(actionTypes);
-    const conferenceCallStatusReducer = getConferenceCallStatusReducer(
-      actionTypes,
-    );
+    const conferenceCallStatusReducer =
+      getConferenceCallStatusReducer(actionTypes);
     const conferencesReducer = getMakeConferenceCallReducer(actionTypes);
     const mergingPairReducer = getMergingPairReducer(actionTypes);
     const isMergingReducer = getMergingStatusReducer(actionTypes);
-    const currentConferenceIdReducer = getCurrentConferenceIdReducer(
-      actionTypes,
-    );
+    const currentConferenceIdReducer =
+      getCurrentConferenceIdReducer(actionTypes);
 
     it('should return the combined initialState', () => {
       expect(reducer(undefined, {})).to.deep.equal({

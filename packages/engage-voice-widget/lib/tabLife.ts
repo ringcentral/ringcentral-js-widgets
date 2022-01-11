@@ -1,4 +1,5 @@
 import { EventEmitter } from 'events';
+
 import { raceTimeout } from '@ringcentral-integration/commons/lib/raceTimeout';
 import sleep from '@ringcentral-integration/commons/lib/sleep';
 

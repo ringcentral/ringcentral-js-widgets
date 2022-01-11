@@ -11,27 +11,26 @@
     "node": ">=8"
   },
   "scripts": {
-    "test:crius:dev": "jest --config=crius.config.js",
-    "test:crius": "NODE_ENV=ci jest --config=crius.config.js",
+    "test:dev": "jest",
     "debug": "node --inspect ./node_modules/.bin/jest -i",
-    "test": "NODE_ENV=ci yarn run-test",
-    "test:jest": "jest",
+    "test": "yarn run-test --ci",
+    "test:legacy": "yarn jest --config=legacyTest.config.js",
     "test:watch": "yarn test -- --watch",
     "test:coverage": "yarn test --coverage",
     "test:showCoverage": "cat ./coverage/lcov.info | coveralls",
     "test:updateSnapshot": "jest --updateSnapshot",
     "test:debug": "node --inspect node_modules/.bin/jest --runInBand"
   },
-  "testPaths": ["crius.config.js", "."],
+  "testPaths": ["legacyTest.config.js", "."],
   "dependencies": {
-    "@rc-ex/core": "^0.9.3",
+    "@rc-ex/core": "^0.10.5",
     "@ringcentral-integration/commons": "*",
     "@ringcentral-integration/babel-settings": "*",
     "@ringcentral-integration/core": "*",
     "@ringcentral-integration/i18n": "*",
     "@ringcentral-integration/locale-loader": "*",
     "@ringcentral-integration/phone-number": "*",
-    "@ringcentral/juno": "^1.11.2",
+    "@ringcentral/juno": "^1.12.4",
     "@ringcentral-integration/test-utils": "*",
     "@ringcentral/sdk": "^4.5.0",
     "@ringcentral/subscriptions": "^4.5.0",
@@ -49,8 +48,8 @@
     "mock-socket": "^9.0.3",
     "moment": "^2.24.0",
     "normalize-css": "^2.3.1",
-    "pubnub": "^4.20.1",
-    "ramda": "^0.27.0",
+    "pubnub": "^4.29.11",
+    "ramda": "^0.27.1",
     "rc-tooltip": "^3.7.2",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -65,39 +64,10 @@
     "@ringcentral-integration/widgets-demo": "*",
     "yargs": "^17.1.1"
   },
-  "jest": {
-    "roots": ["<rootDir>/test"],
-    "testRunner": "jasmine2",
-    "testEnvironment": "jsdom",
-    "moduleNameMapper": {
-      "assets/images/.+?\\.svg$": "<rootDir>/test/__mocks__/svgMock.js",
-      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga|ogg)$": "<rootDir>/test/__mocks__/fileMock.js",
-      "\\.(css|less|scss)$": "<rootDir>/test/__mocks__/styleMock.js"
-    },
-    "transform": {
-      "loadLocale\\.(t|j)s$": "<rootDir>/test/__mocks__/loadLocale.js",
-      "^.+\\.(t|j)sx?$": "@ringcentral-integration/babel-settings/lib/jestTransform.js"
-    },
-    "setupFiles": [
-      "<rootDir>/test/support/shim.js",
-      "<rootDir>/test/support/setup.js"
-    ],
-    "snapshotSerializers": ["enzyme-to-json/serializer"],
-    "setupFilesAfterEnv": ["./jest.setup.js"],
-    "reporters": [
-      "default",
-      [
-        "jest-html-reporters",
-        {
-          "publicPath": "./html-report",
-          "filename": "jest-report.html",
-          "expand": true
-        }
-      ]
-    ]
-  },
   "devDependencies": {
     "@types/jest": "^26.0.23",
+    "@testing-library/react": "^11.2.6",
+    "@testing-library/user-event": "^13.1.9",
     "jest": "^27.0.1",
     "react-test-renderer": "^17.0.2"
   },

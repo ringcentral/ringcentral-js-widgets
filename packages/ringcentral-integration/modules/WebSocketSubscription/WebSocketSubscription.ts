@@ -1,16 +1,17 @@
-import Subscription from '@rc-ex/ws/lib/subscription';
 import { SubscriptionInfo } from '@rc-ex/core/lib/definitions';
+import Subscription from '@rc-ex/ws/lib/subscription';
 import {
+  action,
   RcModuleV2,
   state,
   storage,
-  action,
   watch,
 } from '@ringcentral-integration/core';
+
+import { SubscriptionFilter } from '../../enums/subscriptionFilters';
+import { debounce } from '../../lib/debounce-throttle';
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
-import { debounce } from '../../lib/debounce-throttle';
-import { SubscriptionFilter } from '../../enums/subscriptionFilters';
 import { webSocketReadyStates } from '../RingCentralExtensions/webSocketReadyStates';
 import { normalizeEventFilter } from './normalizeEventFilter';
 import { Deps } from './WebSocketSubscription.interface';
@@ -75,13 +76,14 @@ export class WebSocketSubscription extends RcModuleV2<Deps> {
     if (!this._deps.ringCentralExtensions.webSocketExtension.ws) {
       return;
     }
-    this._wsSubscription = await this._deps.ringCentralExtensions.webSocketExtension.subscribe(
-      this.filters,
-      (message) => {
-        this._notifyMessage(message);
-      },
-      this.cachedSubscriptionInfo,
-    );
+    this._wsSubscription =
+      await this._deps.ringCentralExtensions.webSocketExtension.subscribe(
+        this.filters,
+        (message) => {
+          this._notifyMessage(message);
+        },
+        this.cachedSubscriptionInfo,
+      );
     this._cacheSubscriptionInfo(this._wsSubscription.subscriptionInfo);
   }
 

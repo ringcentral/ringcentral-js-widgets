@@ -4,7 +4,7 @@ import AudioSettingsAlert from './AudioSettingsAlert';
 import AuthAlert from './AuthAlert';
 import CallAlert from './CallAlert';
 import CallControlAlert from './CallControlAlert';
-import CallingSettingsAlert from './CallingSettingsAlert';
+import { CallingSettingsAlert } from './CallingSettingsAlert';
 import CallLogAlert from './CallLogAlert';
 import ConferenceAlert from './ConferenceAlert';
 import ConferenceCallAlert from './ConferenceCallAlert';
@@ -12,24 +12,30 @@ import ConnectivityAlert from './ConnectivityAlert';
 import MeetingAlert from './MeetingAlert';
 import MessageSenderAlert from './MessageSenderAlert';
 import MessageStoreAlert from './MessageStoreAlert';
+import { PermissionsAlert } from './PermissionsAlert';
 import RateExceededAlert from './RateExceededAlert';
-import RegionSettingsAlert from './RegionSettingsAlert';
-import PermissionsAlert from './PermissionsAlert';
+import { RegionSettingsAlert } from './RegionSettingsAlert';
 import WebphoneAlert from './WebphoneAlert';
 
-export function AlertRenderer(
+export const AlertRenderer = ({
   alert,
   brand,
   rateLimiter,
+  softphone,
   /** router interaction when need push `regionSettingsUrl` or `callingSettingsUrl` */
   routerInteraction,
+  callLogSection,
   regionSettingsUrl = '/settings/region',
   callingSettingsUrl = '/settings/calling',
-) {
+}) => {
+  // TODO: refactor this like modalUI.registerRenderer.
   const onRegionSettingsLinkClick = ({ alertId = 'default' } = {}) => {
     routerInteraction.push(regionSettingsUrl);
     if (alertId) {
       alert.dismiss(alertId);
+    }
+    if (callLogSection) {
+      callLogSection.closeLogSection();
     }
   };
   const onCallingSettingsLinkClick = () => {
@@ -52,10 +58,9 @@ export function AlertRenderer(
       return (props) => (
         <CallingSettingsAlert
           {...props}
-          brandCode={brand.code}
           brandName={brand.name}
-          shortBrandName={brand.shortName}
-          fullBrandName={brand.fullName}
+          softphoneAppName={brand.brandConfig.callWithSoftphone?.name}
+          jupiterAppName={softphone?.jupiterAppName}
           onCallingSettingsLinkClick={onCallingSettingsLinkClick}
         />
       );
@@ -73,7 +78,7 @@ export function AlertRenderer(
       return (props) => (
         <MessageSenderAlert
           {...props}
-          brand={brand.fullName}
+          brand={brand.name}
           onAreaCodeLink={onRegionSettingsLinkClick}
         />
       );
@@ -107,7 +112,7 @@ export function AlertRenderer(
       return (props) => (
         <PermissionsAlert
           {...props}
-          brand={brand.fullName}
+          brand={brand.name}
           application={brand.appName}
         />
       );
@@ -136,4 +141,4 @@ export function AlertRenderer(
 
     return undefined;
   };
-}
+};

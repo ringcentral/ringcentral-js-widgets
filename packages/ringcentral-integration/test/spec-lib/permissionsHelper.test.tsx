@@ -1,12 +1,13 @@
 import {
   autorun,
-  title,
-  Scenario,
-  When,
-  Then,
-  Step,
   examples,
+  Scenario,
+  Step,
+  Then,
+  title,
+  When,
 } from '@ringcentral-integration/test-utils';
+
 import { hasClickToCallPermission } from '../../helpers/permissionsHelper';
 import callingOptions from '../../modules/CallingSettings/callingOptions';
 

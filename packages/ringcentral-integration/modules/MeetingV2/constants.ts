@@ -42,3 +42,12 @@ export const DEFAULT_LOCK_SETTINGS = {
     startParticipantsVideo: false,
   },
 };
+
+export const RCM_ITEM_NAME = {
+  scheduleFor: 'scheduleFor',
+  password: 'password',
+  allowJoinBeforeHost: 'allowJoinBeforeHost',
+  _requireMeetingPassword: '_requireMeetingPassword',
+} as const;
+
+export type RcmItemType = typeof RCM_ITEM_NAME[keyof typeof RCM_ITEM_NAME];

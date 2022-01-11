@@ -1,13 +1,14 @@
 import {
   autorun,
-  title,
-  Scenario,
-  Given,
-  When,
-  Then,
-  Step,
   examples,
+  Given,
+  Scenario,
+  Step,
+  Then,
+  title,
+  When,
 } from '@ringcentral-integration/test-utils';
+
 import { HistoryCall } from '../../modules/CallHistoryV2';
 import { callStatus, RecentCalls } from '../../modules/RecentCallsV2';
 import { mockModuleGenerator } from '../lib/mockModule';

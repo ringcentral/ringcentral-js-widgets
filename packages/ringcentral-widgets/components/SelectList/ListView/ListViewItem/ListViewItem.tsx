@@ -1,10 +1,6 @@
-import {
-  RcListItem,
-  RcListItemText,
-  RcFormControlLabel,
-  RcCheckbox,
-} from '@ringcentral/juno';
 import React, { FunctionComponent, useEffect, useRef } from 'react';
+
+import { RcCheckbox, RcListItem, RcListItemText } from '@ringcentral/juno';
 
 type OptionData = {
   type?: string;
@@ -20,7 +16,7 @@ export interface ListViewItemProps {
   onChange?: (option: OptionData) => any;
   valueFunction: (value: any) => any;
   startAdornment?: (type: string) => any;
-  renderFunction: (option: OptionData) => React.ReactNode;
+  renderFunction: (option: OptionData) => string;
   secondaryRenderFunction?: (option: OptionData) => any;
   onSelect: (elm?: HTMLDivElement) => any;
   multiple?: boolean;
@@ -58,7 +54,7 @@ export const ListViewItem: FunctionComponent<ListViewItemProps> = ({
       return (
         <>
           <span>{text.substring(0, i)}</span>
-          <span style={{ background: '#ffdfb1' }}>
+          <span style={{ background: '#ffdfb1' }} data-sign="highlight">
             {text.substring(i, i + filter.length)}
           </span>
           <span>{text.substring(i + filter.length)}</span>
@@ -92,6 +88,7 @@ export const ListViewItem: FunctionComponent<ListViewItemProps> = ({
           primary={getFilterResult(option)}
           secondary={secondaryRenderFunction(option)}
           data-sign="matchedItemText"
+          title={renderFunction(option)}
         />
       </RcListItem>
     </div>

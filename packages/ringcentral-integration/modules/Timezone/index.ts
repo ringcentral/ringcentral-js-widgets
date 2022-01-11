@@ -1,10 +1,11 @@
 import Client from 'ringcentral-client';
-import { Module } from '../../lib/di';
-import RcModule from '../../lib/RcModule';
-import getTimezoneReducer from './getTimezoneReducer';
-import actionTypes, { TimezoneActionTypes } from './actionTypes';
+
 import moduleStatuses from '../../enums/moduleStatuses';
+import { Module } from '../../lib/di';
 import proxify from '../../lib/proxy/proxify';
+import RcModule from '../../lib/RcModule';
+import actionTypes, { TimezoneActionTypes } from './actionTypes';
+import getTimezoneReducer from './getTimezoneReducer';
 
 interface ITimezoneResponse {
   navigation: {

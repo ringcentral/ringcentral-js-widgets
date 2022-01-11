@@ -1,11 +1,13 @@
-import { RcList } from '@ringcentral/juno';
 import React, { FunctionComponent, ReactNode, useState } from 'react';
+
 import {
   SelectListTextField,
   SelectListTextFieldProps,
 } from '@ringcentral-integration/widgets/components/CallLogFields';
 import { SelectListBasicWithScrollCheck } from '@ringcentral-integration/widgets/components/SelectList';
 import { SelectListBasicProps } from '@ringcentral-integration/widgets/components/SelectListBasic';
+import { RcList } from '@ringcentral/juno';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 

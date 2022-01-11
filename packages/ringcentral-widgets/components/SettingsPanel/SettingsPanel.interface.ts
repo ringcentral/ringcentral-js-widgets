@@ -1,3 +1,37 @@
+import { ReactNode } from 'react';
+
+import { DNDStatusValueType } from '@ringcentral-integration/commons/modules/Presence/dndStatus';
+
+import { EulaProps } from '../Eula/Eula.interface';
+
+export interface PresenceSettingProps {
+  showPresenceSettings?: boolean;
+  dndStatus?: DNDStatusValueType;
+  userStatus?: string;
+  currentLocale: string;
+  isCallQueueMember?: boolean;
+  openPresenceSettings?: boolean;
+  setAvailable?: (...args: any[]) => any;
+  setBusy?: (...args: any[]) => any;
+  setDoNotDisturb?: (...args: any[]) => any;
+  setInvisible?: (...args: any[]) => any;
+  toggleAcceptCallQueueCalls?: (...args: any[]) => any;
+}
+export interface LinkLineItemProps extends onLinkLineItemClick {
+  name?: string;
+  customTitle?: string;
+  currentLocale: string;
+  show?: boolean;
+  dataSign?: string;
+  pendoSignName?: string;
+}
+export interface LocaleProps {
+  currentLocale: string;
+  supportedLocales?: string[];
+  savedLocale?: string;
+  saveLocale(locale: string): void;
+}
+
 export interface ReportProps {
   showReport?: boolean;
   onReportLinkClick?(): any;
@@ -67,6 +101,16 @@ export interface UserGuideProps {
   onUserGuideClick?(): any;
 }
 
+export interface ClickToDialProps {
+  currentLocale: string;
+  showClickToDial?: boolean;
+  outboundSMS?: boolean;
+  clickToDialPermissions?: boolean;
+  clickToDialEnabled?: boolean;
+  clickToDialTitle?: string;
+  onClickToDialChange?(enableClickToDial: boolean): any;
+}
+
 export interface PresenceStatusSetter {
   setAvailable?: (...args: any[]) => any;
   setBusy?: (...args: any[]) => any;
@@ -75,8 +119,23 @@ export interface PresenceStatusSetter {
   toggleAcceptCallQueueCalls?: (...args: any[]) => any;
 }
 
-export interface EulaRenderer {
-  EulaRenderer?: (...args: any[]) => any;
+export interface FooterProps {
+  loginNumber: string;
+  currentLocale: string;
+  version: string;
+  versionContainer?: React.ReactNode;
+  onLogoutButtonClick?(): any;
+  eulaLink?: EulaProps['link'];
+  eulaLabel?: EulaProps['label'];
+  onEulaLinkClick?: EulaProps['onClick'];
+}
+
+export interface BasePanelProps extends FooterProps {
+  currentLocale: string;
+  className?: string;
+  showHeader?: boolean;
+  showSpinner?: boolean;
+  children?: ReactNode;
 }
 
 export interface onLinkLineItemClick {
@@ -85,4 +144,36 @@ export interface onLinkLineItemClick {
 
 export interface onSwitchLineItemChange {
   onChange?(checked: boolean): any;
+}
+export interface SwitchLineItemProps extends onSwitchLineItemChange {
+  name?: string;
+  currentLocale?: string;
+  customTitle?: string;
+  switchTitle?: string;
+  show?: boolean;
+  dataSign?: string;
+  disabled?: boolean;
+  checked?: boolean;
+}
+
+export interface SettingsPanelProps
+  extends BasePanelProps,
+    LocaleProps,
+    ReportProps,
+    CallingProps,
+    AudioProps,
+    RegionProps,
+    AutoLogCallProps,
+    AutoLogNotesProps,
+    LogSMSContentProps,
+    AutoLogSMSProps,
+    ClickToDialProps,
+    FeedbackProps,
+    QuickAccessLinkProps,
+    UserGuideProps,
+    PresenceSettingProps,
+    ShareIdeaProps {
+  children?: ReactNode;
+  currentLocale: string;
+  additional?: ReactNode;
 }

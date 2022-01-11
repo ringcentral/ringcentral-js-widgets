@@ -1,10 +1,14 @@
 import React from 'react';
-import classnames from 'classnames';
-import { RcMMeetingModel } from '@ringcentral-integration/commons/modules/MeetingV2';
 
-import { RcCheckbox, RcButton } from '@ringcentral/juno';
-import styles from './styles.scss';
+import { RcMMeetingModel } from '@ringcentral-integration/commons/modules/MeetingV2';
+import { RcButton, RcCheckbox } from '@ringcentral/juno';
+
 import i18n from './i18n';
+import {
+  ScheduleButton,
+  MeetingScheduleButtonWrapper,
+} from './MeetingScheduleButtonWrapper';
+import styles from './styles.scss';
 
 type Props = {
   currentLocale: string;
@@ -15,7 +19,7 @@ type Props = {
   showSaveAsDefault?: boolean;
   disableSaveAsDefault?: boolean;
   disabled?: boolean;
-  update?: (any) => any;
+  update?: (data: any) => any;
   showLaunchMeetingBtn?: boolean;
   launchMeeting?: (meeting?: RcMMeetingModel) => any;
 };
@@ -61,12 +65,7 @@ export class MeetingScheduleButton extends React.Component<Props, {}> {
       disabled,
     } = this.props;
     return (
-      <div
-        className={classnames(
-          styles.inviteBox,
-          !hidden ? styles.withShadow : styles.onlyButton,
-        )}
-      >
+      <MeetingScheduleButtonWrapper $hidden={hidden}>
         {hidden ? (
           <div className={styles.actionPrompt}>
             {this.getI18nPromptString()}
@@ -92,14 +91,14 @@ export class MeetingScheduleButton extends React.Component<Props, {}> {
             label={i18n.getString('saveAsDefault', currentLocale)}
           />
         ) : null}
-        <RcButton
+        <ScheduleButton
           onClick={onClick}
           disabled={disabled}
           data-sign="meetingScheduleButton"
           fullWidth
         >
           {scheduleButtonLabel || this.getI18nButtonString()}
-        </RcButton>
+        </ScheduleButton>
         {showLaunchMeetingBtn ? (
           <RcButton
             className={styles.gutter}
@@ -111,7 +110,7 @@ export class MeetingScheduleButton extends React.Component<Props, {}> {
             {i18n.getString('launchMeeting', currentLocale)}
           </RcButton>
         ) : null}
-      </div>
+      </MeetingScheduleButtonWrapper>
     );
   }
 }

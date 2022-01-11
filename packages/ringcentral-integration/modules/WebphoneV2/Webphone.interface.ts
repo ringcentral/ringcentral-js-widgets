@@ -1,4 +1,5 @@
 import { WebPhoneOptions } from 'ringcentral-web-phone';
+
 import { NormalizedSession } from '../../interfaces/Webphone.interface';
 import { RingCentralClient } from '../../lib/RingCentralClient';
 import { Alert } from '../AlertV2';
@@ -9,8 +10,8 @@ import { AvailabilityMonitor } from '../AvailabilityMonitorV2';
 import { Brand } from '../Brand';
 import { ContactMatcher } from '../ContactMatcherV2';
 import { ExtensionFeatures } from '../ExtensionFeatures';
-import { NumberValidate } from '../NumberValidateV2';
-import { RegionSettings } from '../RegionSettingsV2';
+import { NumberValidate } from '../NumberValidate';
+import { RegionSettings } from '../RegionSettings';
 import { Storage } from '../StorageV2';
 import { TabManager } from '../TabManager';
 

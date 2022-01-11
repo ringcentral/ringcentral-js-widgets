@@ -1,3 +1,10 @@
+import { EventEmitter } from 'events';
+import PhoneLinesInfo from 'ringcentral-client/build/definitions/PhoneLinesInfo';
+import RingCentralWebphone from 'ringcentral-web-phone';
+import defaultIncomingAudio from 'ringcentral-web-phone/audio/incoming.ogg';
+import defaultOutgoingAudio from 'ringcentral-web-phone/audio/outgoing.ogg';
+import { WebPhoneUserAgent } from 'ringcentral-web-phone/lib/userAgent';
+
 import CreateSipRegistrationResponse from '@rc-ex/core/definitions/CreateSipRegistrationResponse';
 import SipRegistrationDeviceInfo from '@rc-ex/core/definitions/SipRegistrationDeviceInfo';
 import {
@@ -10,18 +17,13 @@ import {
   watch,
 } from '@ringcentral-integration/core';
 import { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
-import { EventEmitter } from 'events';
-import PhoneLinesInfo from 'ringcentral-client/build/definitions/PhoneLinesInfo';
-import RingCentralWebphone from 'ringcentral-web-phone';
-import defaultIncomingAudio from 'ringcentral-web-phone/audio/incoming.ogg';
-import defaultOutgoingAudio from 'ringcentral-web-phone/audio/outgoing.ogg';
-import { WebPhoneUserAgent } from 'ringcentral-web-phone/lib/userAgent';
+
 import { WebphoneSession } from '../../interfaces/Webphone.interface';
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
+import { SipInstanceManager } from '../../lib/SipInstanceManager';
 import sleep from '../../lib/sleep';
 import { trackEvents } from '../Analytics';
-import { SipInstanceManager } from '../../lib/SipInstanceManager';
 import { connectionStatus } from './connectionStatus';
 import { EVENTS } from './events';
 import { Deps } from './Webphone.interface';
@@ -553,8 +555,6 @@ export class WebphoneBase extends RcModuleV2<Deps> {
       if (this._webphone.userAgent.transport.__clearSwitchBackTimer) {
         this._webphone.userAgent.transport.__clearSwitchBackTimer();
       }
-      // clean audio instances at web phone sdk
-      this._webphone.userAgent.audioHelper.loadAudio({});
     } catch (e) {
       console.error(e);
       // ignore clean listener error
@@ -600,6 +600,7 @@ export class WebphoneBase extends RcModuleV2<Deps> {
       enableQos: isChrome(),
       enableMidLinesInSDP: isEnableMidLinesInSDP(),
       instanceId: this._sipInstanceId, // reuse sip instance id to avoid 603 issue at reconnection
+      autoStop: false, // handle auto stop by this module, fix memory leak issue https://github.com/ringcentral/ringcentral-web-phone/pull/332
       ...(this._deps.webphoneOptions.webphoneSDKOptions ?? {}),
     });
     this.loadAudio();

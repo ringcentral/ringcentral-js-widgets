@@ -1,17 +1,19 @@
 import { EventEmitter } from 'events';
 import * as uuid from 'uuid';
-import { MemoryStorage } from './MemoryStorage';
+
 import {
   GenericStorage,
   StorageItem,
 } from '../interfaces/GenericStorage.interface';
+import { MemoryStorage } from './MemoryStorage';
 
 // TODO: experiment with a managed list of keys to watch rather than matching every event with
 // storageKey might provide better performance
 
 export class SynchronizedStorage
   extends EventEmitter
-  implements GenericStorage {
+  implements GenericStorage
+{
   private _storageKey: string;
   private _id: string;
   private _localStorage: Storage | MemoryStorage<string | null>;

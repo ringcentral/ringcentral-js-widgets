@@ -1,13 +1,15 @@
 import React, {
-  useRef,
-  useImperativeHandle,
   forwardRef,
   ReactNode,
+  useImperativeHandle,
+  useRef,
 } from 'react';
+
 import classnames from 'classnames';
-import styles from './styles.scss';
-import { RemoveButton } from '../RemoveButton';
+
 import i18n from '../RecipientsInput/i18n';
+import { RemoveButton } from '../RemoveButton';
+import styles from './styles.scss';
 
 export interface PhoneNumberInputHandles {
   focus: () => void;
@@ -45,11 +47,11 @@ export const PhoneNumberInput = forwardRef<
       focus() {
         // Ensure focus is called in the next event cycle
         // This avoids any event handler in the same cycle messing up the focus
-        setImmediate(() => {
+        setTimeout(() => {
           if (inputEl.current) {
             inputEl.current.focus();
           }
-        });
+        }, 0);
       },
       blur() {
         if (inputEl.current) {

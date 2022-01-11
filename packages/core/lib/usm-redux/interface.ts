@@ -56,14 +56,30 @@ export interface Store<T = Record<string, any>> {
 
 export type Subscribe = (module: any, listener: () => void) => Unsubscribe;
 
-export type Watch = <T>(
+export type Watch = <P extends boolean, T extends P extends true ? any[] : any>(
+  /**
+   *
+   */
   module: any,
-  selector: () => T,
+  /**
+   *
+   */
+  selector: () => P extends true ? [...T] : T,
+  /**
+   *
+   */
   watcher: (newValue: T, oldValue: T) => void,
-) => Unsubscribe;
-
-export type WatchEffect = <T extends any[]>(
-  module: any,
-  selector: () => [...T],
-  watcher: (newValue: T, oldValue: T) => void,
+  /**
+   *
+   */
+  options?: {
+    /**
+     *
+     */
+    multiple?: P;
+    /**
+     *
+     */
+    isEqual?: (x: unknown, y: unknown) => boolean;
+  },
 ) => Unsubscribe;

@@ -1,14 +1,14 @@
 import React, { FunctionComponent, useEffect } from 'react';
-import BackHeader from '../BackHeader';
-import Panel from '../Panel';
 
+import BackHeader from '../BackHeader';
 import { ContactDetails } from '../ContactDetails';
-import styles from './styles.scss';
-import i18n from './i18n';
+import Panel from '../Panel';
 import {
   ContactDetailsViewFunctionProps,
   ContactDetailsViewProps,
 } from './ContactDetailsView.interface';
+import i18n from './i18n';
+import styles from './styles.scss';
 
 interface MessageHolderProps {
   children: string;

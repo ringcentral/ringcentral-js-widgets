@@ -1,7 +1,7 @@
 import callingOptions from '@ringcentral-integration/commons/modules/CallingSettings/callingOptions';
 export default {
   title: "Chiamata",
-  [callingOptions.softphone]: "{brand} per desktop",
+  [callingOptions.softphone]: "{brand} for Desktop",
   [callingOptions.browser]: "Browser",
   [callingOptions.jupiter]: "{brand}",
   makeCallsWith: "Effettua chiamate con",

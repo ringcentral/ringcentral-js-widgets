@@ -1,4 +1,5 @@
-import MeetingScheduleResource from 'ringcentral-client/build/definitions/MeetingScheduleResource';
+import type IMeetingScheduleResource from 'ringcentral-client/build/definitions/MeetingScheduleResource';
+
 import { MeetingTypeV } from '../../helpers/meetingHelper.interface';
 import { RcMMeetingModel } from '../MeetingV2';
 
@@ -6,7 +7,6 @@ export const AUDIO_OPTIONS = {
   ComputerAudio: 'ComputerAudio',
   Phone: 'Phone',
 } as const;
-
 export interface RcmInvitationInfo {
   invitation: string;
 }
@@ -266,4 +266,4 @@ export interface MeetingDelegatorsResponse {
   records: MeetingDelegators[];
 }
 
-export { MeetingScheduleResource };
+export interface MeetingScheduleResource extends IMeetingScheduleResource {}

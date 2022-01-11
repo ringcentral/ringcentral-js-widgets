@@ -1,6 +1,5 @@
-import { watch } from '@ringcentral-integration/core';
 import { Module } from '../../lib/di';
-import { StorageBase, IStorage } from '../../lib/StorageBaseV2';
+import { IStorage, StorageBase } from '../../lib/StorageBaseV2';
 import loginStatus from '../Auth/loginStatus';
 import { Deps } from './Storage.interface';
 
@@ -81,9 +80,8 @@ export class Storage<T = {}> extends StorageBase<Deps & T> {
         for (const index in oldKey) {
           if (this.storedData[oldKey[index]]) {
             this.storedData[newKey] = this.storedData[newKey] ?? {};
-            (this.storedData[newKey] as Record<string, any>)[
-              index
-            ] = this.storedData[oldKey[index]];
+            (this.storedData[newKey] as Record<string, any>)[index] =
+              this.storedData[oldKey[index]];
           }
         }
       }

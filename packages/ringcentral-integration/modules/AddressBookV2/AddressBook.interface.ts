@@ -1,4 +1,5 @@
 import { AddressBookSync } from '@rc-ex/core/definitions';
+
 import {
   DataFetcherV2ConsumerBaseDeps,
   DataSourceBaseProps,

@@ -1,5 +1,6 @@
-import classNames from 'classnames';
 import React, { FunctionComponent, HTMLAttributes } from 'react';
+
+import classNames from 'classnames';
 
 import styles from './styles.scss';
 

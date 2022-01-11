@@ -1,6 +1,8 @@
+import { filter } from 'ramda';
+
 import { ForwardingNumberInfo } from '@rc-ex/core/definitions';
 import { computed } from '@ringcentral-integration/core';
-import { filter } from 'ramda';
+
 import { Module } from '../../lib/di';
 import fetchList from '../../lib/fetchList';
 import { DataFetcherV2Consumer, DataSource } from '../DataFetcherV2';
@@ -62,7 +64,7 @@ export class ForwardingNumber extends DataFetcherV2Consumer<
     return filter(
       (phoneNumber) =>
         !!(
-          phoneNumber.features.indexOf('CallFlip') !== -1 &&
+          phoneNumber.features?.indexOf('CallFlip') !== -1 &&
           phoneNumber.phoneNumber
         ),
       this.numbers,
@@ -74,7 +76,7 @@ export class ForwardingNumber extends DataFetcherV2Consumer<
     return filter(
       (phoneNumber) =>
         !!(
-          phoneNumber.features.indexOf('CallForwarding') !== -1 &&
+          phoneNumber.features?.indexOf('CallForwarding') !== -1 &&
           phoneNumber.phoneNumber
         ),
       this.numbers,

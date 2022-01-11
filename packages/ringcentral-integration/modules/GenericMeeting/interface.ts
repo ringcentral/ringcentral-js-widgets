@@ -1,5 +1,5 @@
-import { meetingProviderTypesProps } from '../MeetingProvider/interface';
 import { RcVMeetingModel } from '../../interfaces/Rcv.model';
+import { meetingProviderTypesProps } from '../MeetingProvider/interface';
 import { MeetingDelegator, RcMMeetingModel } from '../MeetingV2';
 
 export type ExtensionInfo = {

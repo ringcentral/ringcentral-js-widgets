@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+
 import chunked from './chunked';
 
 describe('chunked', () => {
@@ -92,6 +93,10 @@ describe('chunked', () => {
   it('should split into 3 chunks', () => {
     const array = ['1', '2', '3', '4', '5', '6'];
     const chunks = chunked(array, 2);
-    expect(chunks).to.deep.equal([['1', '2'], ['3', '4'], ['5', '6']]);
+    expect(chunks).to.deep.equal([
+      ['1', '2'],
+      ['3', '4'],
+      ['5', '6'],
+    ]);
   });
 });

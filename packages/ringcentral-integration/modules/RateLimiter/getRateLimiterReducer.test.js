@@ -1,9 +1,10 @@
 import { expect } from 'chai';
+
+import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
 import actionTypes from './actionTypes';
 import getRateLimiterReducer, {
   getTimestampReducer,
 } from './getRateLimiterReducer';
-import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
 
 describe('getTimestampReducer', () => {
   it('should be a function', () => {

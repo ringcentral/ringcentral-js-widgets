@@ -1,11 +1,12 @@
+import React, { Component } from 'react';
+
 import {
   RcList,
   RcListItem,
   RcListItemText,
   RcTextField,
 } from '@ringcentral/juno';
-import arrowDownSvg from '@ringcentral/juno/icon/ArrowDown2';
-import React, { Component } from 'react';
+import { ArrowDown2 as arrowDownSvg } from '@ringcentral/juno/icon';
 
 import { bindDebounce } from '../../lib/bindDebounce';
 import { bindNextPropsUpdate } from '../../lib/bindNextPropsUpdate';

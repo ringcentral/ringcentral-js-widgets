@@ -1,17 +1,18 @@
 import { EventEmitter } from 'events';
+
 import {
-  GenericStorage,
   AsyncStorage,
+  GenericStorage,
 } from '../../interfaces/GenericStorage.interface';
-import { SynchronizedStorage } from '../SynchronizedStorage';
 import { LocalForageStorage } from '../LocalForageStorage';
+import { SynchronizedStorage } from '../SynchronizedStorage';
 
 export type IStorage =
   | (EventEmitter & GenericStorage)
   | (EventEmitter & AsyncStorage);
 
 export interface IStorageBaseOptions<
-  T = typeof SynchronizedStorage | typeof LocalForageStorage
+  T = typeof SynchronizedStorage | typeof LocalForageStorage,
 > {
   /**
    * providers of storage

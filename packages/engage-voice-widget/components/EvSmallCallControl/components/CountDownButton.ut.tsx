@@ -1,8 +1,9 @@
-import { RcThemeProvider } from '@ringcentral/juno';
 import React from 'react';
 
-import { StepFunction } from 'crius-test';
+import { StepFunction } from '@ringcentral-integration/test-utils';
+import { RcThemeProvider } from '@ringcentral/juno';
 import { render } from '@testing-library/react';
+
 import { CountDown, CountDownButton, CountDownButtonProps } from '.';
 
 function setup({

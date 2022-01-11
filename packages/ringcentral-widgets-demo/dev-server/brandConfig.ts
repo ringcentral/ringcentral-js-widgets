@@ -5,21 +5,27 @@ export const brandConfig = createBrandConfig({
   code: 'rc',
   name: 'RingCentral',
   appName: 'RingCentral Widgets',
-  fullName: 'RingCentral',
   application: 'RingCentral Widgets',
-  allowRegionSetting: true,
+  allowRegionSettings: true,
   callWithJupiter: {
-    default: {
-      link: 'https://app.ringcentral.com/',
-      protocol: 'rcapp://',
-      name: 'RingCentral',
-    },
+    link: 'https://app.ringcentral.com/',
+    protocol: 'rcapp://',
+    name: 'RingCentral App',
   },
-  rcvTeleconference: 'https://v.ringcentral.com/teleconference/',
+  callWithSoftphone: {
+    protocol: 'rcmobile://',
+    name: 'RingCentral Phone',
+  },
+  rcvTeleconference: 'https://v.ringcentral.com/teleconference',
   meetingUriReg: {
     rcm: undefined,
     rcv: undefined,
   },
-  spartanProtocol: 'rcmobile://',
   allowJupiterUniversalLink: true,
+  conference: {
+    dialInNumbersLink: 'https://ringcentr.al/2L14jqL',
+    inviteText:
+      'Please join the {brandName} conference.\n\nDial-In Number: {formattedDialInNumber} \n{additionalNumbersSection} \nParticipant Access: {participantCode} \n\nNeed an international dial-in phone number? Please visit {dialInNumbersLink} \n\nThis conference call is brought to you by {brandName} Conferencing.',
+  },
+  rcvMeetingTopic: "{extensionName}'s {brandName} Video meeting",
 });

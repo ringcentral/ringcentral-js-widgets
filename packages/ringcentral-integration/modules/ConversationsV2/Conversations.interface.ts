@@ -1,4 +1,5 @@
 import { MessageAttachmentInfo } from '@rc-ex/core/definitions';
+
 import { Message } from '../../interfaces/MessageStore.model';
 import {
   Correspondent,
@@ -7,14 +8,14 @@ import {
 } from '../../lib/messageHelper';
 import { RingCentralClient } from '../../lib/RingCentralClient';
 import { Alert } from '../AlertV2';
+import { AppFeatures } from '../AppFeatures';
 import { Auth } from '../AuthV2';
 import { ContactMatcher } from '../ContactMatcherV2';
 import { ConversationLogger } from '../ConversationLoggerV2';
-import { AppFeatures } from '../AppFeatures';
 import { ExtensionInfo } from '../ExtensionInfoV2';
 import { Attachment, MessageSender } from '../MessageSenderV2';
 import { MessageStore } from '../MessageStoreV2';
-import { RegionSettings } from '../RegionSettingsV2';
+import { RegionSettings } from '../RegionSettings';
 
 export interface Deps {
   alert: Alert;

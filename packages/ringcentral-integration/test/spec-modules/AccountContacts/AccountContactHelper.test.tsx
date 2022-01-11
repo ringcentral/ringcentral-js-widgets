@@ -1,18 +1,18 @@
 import {
   autorun,
-  title,
-  Scenario,
-  Given,
-  Then,
-  Step,
   examples,
+  Given,
+  Scenario,
+  Step,
+  Then,
+  title,
 } from '@ringcentral-integration/test-utils';
 
-import { phoneTypes } from '../../../enums/phoneTypes';
 import { phoneSources } from '../../../enums/phoneSources';
+import { phoneTypes } from '../../../enums/phoneTypes';
 import {
-  getMatchContactsByPhoneNumber,
   getFindPhoneNumber,
+  getMatchContactsByPhoneNumber,
 } from '../../../lib/contactHelper';
 
 const mockContact = [

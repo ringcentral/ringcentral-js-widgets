@@ -1,14 +1,15 @@
-import gulp from 'gulp';
-import path from 'path';
+import dedent from 'dedent';
+import execa from 'execa';
 import fs from 'fs-extra';
+import gulp from 'gulp';
 import babel from 'gulp-babel';
 import sourcemaps from 'gulp-sourcemaps';
-import execa from 'execa';
-import transformLoader from '@ringcentral-integration/locale-loader/lib/transformLoader';
-import dedent from 'dedent';
+import path from 'path';
+
+import consolidateLocale from '@ringcentral-integration/locale-loader/lib/consolidateLocale';
 import exportLocale from '@ringcentral-integration/locale-loader/lib/exportLocale';
 import importLocale from '@ringcentral-integration/locale-loader/lib/importLocale';
-import consolidateLocale from '@ringcentral-integration/locale-loader/lib/consolidateLocale';
+import transformLoader from '@ringcentral-integration/locale-loader/lib/transformLoader';
 import localeSettings from '@ringcentral-integration/locale-settings';
 
 const BUILD_PATH = path.resolve(__dirname, '../../build/ringcentral-widgets');
@@ -120,9 +121,9 @@ function normalizeName(str) {
     .split(/[-_]/g)
     .map(
       (token, idx) =>
-        `${
-          idx > 0 ? token[0].toUpperCase() : token[0].toLowerCase()
-        }${token.toLowerCase().substr(1)}`,
+        `${idx > 0 ? token[0].toUpperCase() : token[0].toLowerCase()}${token
+          .toLowerCase()
+          .substr(1)}`,
     )
     .join('');
 }

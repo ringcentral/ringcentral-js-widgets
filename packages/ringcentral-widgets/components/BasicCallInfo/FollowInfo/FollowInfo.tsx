@@ -1,15 +1,15 @@
-import React from 'react';
+import React, { FunctionComponent } from 'react';
 
+import { TOOLTIP_LONG_DELAY_TIME } from '../../../lib/toolTipDelayTime';
 import { Tooltip } from '../../Rcui/Tooltip';
 import styles from './styles.scss';
-import { TOOLTIP_LONG_DELAY_TIME } from '../../../lib/toolTipDelayTime';
 
 export interface FollowInfoProps {
   infoList?: string[];
   splitSign: string;
 }
 
-export const FollowInfo: React.FunctionComponent<FollowInfoProps> = ({
+export const FollowInfo: FunctionComponent<FollowInfoProps> = ({
   infoList,
   splitSign,
 }) => {

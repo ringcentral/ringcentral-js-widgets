@@ -1,26 +1,24 @@
-import { storeKey } from '@ringcentral-integration/core';
 import {
   autorun,
-  title,
-  Scenario,
-  Given,
-  When,
-  Then,
-  Step,
   examples,
+  Scenario,
+  Step,
+  Then,
+  title,
+  When,
 } from '@ringcentral-integration/test-utils';
 
 import { Meeting } from '../../../modules/MeetingV2';
 import { mockModuleGenerator } from '../../lib/mockModule';
 import {
-  MOCK_PERSONAL_MEETING,
-  SAVED_DEFAULT_MEETING_SETTING,
-  LAST_MEETING_SETTING,
+  EXPECT_GENERAL_DEFAULT_SETTING_WITH_SW_SETTING,
+  EXPECT_LAST_MEETING_SETTING,
   EXPECT_PMI_DEFAULT_SETTING_WITH_SW_SETTING,
   EXPECT_SAVE_AS_DEFAULT_SETTING,
-  EXPECT_LAST_MEETING_SETTING,
-  EXPECT_GENERAL_DEFAULT_SETTING_WITH_SW_SETTING,
+  LAST_MEETING_SETTING,
+  MOCK_PERSONAL_MEETING,
   MOCK_TURN_OFF_3RD_PARTY_AUDIO,
+  SAVED_DEFAULT_MEETING_SETTING,
 } from './mockData';
 
 const mockDeps = {
@@ -29,6 +27,21 @@ const mockDeps = {
   },
   brand: {
     code: 'rc',
+  },
+  client: {
+    service: {
+      platform: () => {
+        return {
+          discovery: () => {
+            return {
+              externalData: () => {
+                return { rcv: { baseWebUri: 'a.b.c' } };
+              },
+            };
+          },
+        };
+      },
+    },
   },
 };
 
@@ -151,7 +164,8 @@ export class GeneralDefaultSettingsWhenEnableSWOff extends Step {
             expect(context.instance.showSaveAsDefault).toEqual(
               context.example.showSaveAsDefault,
             );
-            const generalDefaultSettings = context.instance.getGeneralDefaultSettings();
+            const generalDefaultSettings =
+              context.instance.getGeneralDefaultSettings();
             expect(generalDefaultSettings).toEqual(
               context.instance.showSaveAsDefault
                 ? EXPECT_SAVE_AS_DEFAULT_SETTING
@@ -319,12 +333,10 @@ export class GeneralDefaultSettingsWhenEnableSWOn extends Step {
             expect(context.instance.enablePersonalMeeting).toEqual(false);
             expect(context.instance.enableServiceWebSettings).toEqual(true);
 
-            const generalDefaultSettings = context.instance.getGeneralDefaultSettings();
-            const {
-              password,
-              _requireMeetingPassword,
-              ...rest
-            } = generalDefaultSettings;
+            const generalDefaultSettings =
+              context.instance.getGeneralDefaultSettings();
+            const { password, _requireMeetingPassword, ...rest } =
+              generalDefaultSettings;
             const {
               password: password2,
               _requireMeetingPassword: _requireMeetingPassword2,
@@ -486,10 +498,51 @@ export class GeneralDefaultSettingsLockDataWhenEnableSWOn extends Step {
           action={(_: any, context: any) => {
             expect(context.instance.enablePersonalMeeting).toEqual(false);
             expect(context.instance.enableServiceWebSettings).toEqual(true);
-            const generalDefaultSettings = context.instance.getGeneralDefaultSettings();
+            const generalDefaultSettings =
+              context.instance.getGeneralDefaultSettings();
             expect(generalDefaultSettings._lockRequireMeetingPassword).toEqual(
               context.example.lockedRequirePasswordForSchedulingNewMeetings,
             );
+          }}
+        />
+      </Scenario>
+    );
+  }
+}
+
+@autorun(test)
+@title('increase meeting code coverage')
+class CheckInitScheduleFor extends Step {
+  @examples(`
+    | number |
+    | 0      |
+    | 6      |
+  `)
+  run() {
+    return (
+      <Scenario desc="">
+        <When
+          desc="increase meeting code coverage"
+          action={(_: any, context: any) => {
+            const meeting = new Meeting({
+              ...mockDeps,
+              meetingOptions: {
+                enableScheduleOnBehalf: true,
+                enableDiscoveryApi: true,
+              },
+            } as any);
+            meeting.initScheduleFor(context.example.number);
+            meeting.init();
+            meeting.reload();
+            meeting.fetchDiscoveryConfig();
+            meeting.getMeetingUriRegExp();
+            context.instance = meeting;
+          }}
+        />
+        <Then
+          desc="increase meeting code coverage"
+          action={(_: any, context: any) => {
+            expect(context.instance.enablePersonalMeeting).toEqual(false);
           }}
         />
       </Scenario>

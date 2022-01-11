@@ -5,4 +5,5 @@ export const directTransferNotificationTypes = {
   VOICEMAIL: 'VOICEMAIL',
 } as const;
 
-export type DirectTransferNotificationTypes = keyof typeof directTransferNotificationTypes;
+export type DirectTransferNotificationTypes =
+  keyof typeof directTransferNotificationTypes;

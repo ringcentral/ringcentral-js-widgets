@@ -1,17 +1,17 @@
+import { Unsubscribe } from 'redux';
+
 import {
   ExtensionInfoEvent,
   GetExtensionInfoResponse,
 } from '@rc-ex/core/definitions';
 import { computed, watch } from '@ringcentral-integration/core';
-import { reduce } from 'ramda';
-import { Unsubscribe } from 'redux';
 
+import { permissionsMessages } from '../../enums/permissionsMessages';
 import { subscriptionFilters } from '../../enums/subscriptionFilters';
 import { subscriptionHints } from '../../enums/subscriptionHints';
 import { Module } from '../../lib/di';
 import { DataFetcherV2Consumer, DataSource } from '../DataFetcherV2';
-import { permissionsMessages } from '../../enums/permissionsMessages';
-import { Deps, RemappedServiceInfo } from './ExtensionInfo.interface';
+import { Deps } from './ExtensionInfo.interface';
 
 const extensionRegExp = /.*\/extension\/\d+$/;
 const DEFAULT_COUNTRY = {

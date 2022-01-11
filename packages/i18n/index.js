@@ -1,3 +1,4 @@
+import { getLanguageFromLocale } from './lib/getLanguageFromLocale';
 import toPseudoString from './lib/toPseudoString';
 
 export const DEFAULT_LOCALE = 'en-US';
@@ -68,9 +69,17 @@ export default class I18n {
     if (locale !== PSEUDO_LOCALE && !this._cache[locale]) {
       let data;
       try {
-        data = await (async () => this._loadLocale(locale))();
+        data = await this._loadLocale(locale);
+        if (!data) {
+          const lang = getLanguageFromLocale(locale);
+          if (lang) {
+            data = await this._loadLocale(lang);
+          }
+        }
       } catch (error) {
         /* ignore error */
+      }
+      if (!data) {
         data = {};
       }
       this._cache[locale] = data;
@@ -87,6 +96,13 @@ export default class I18n {
       Object.prototype.hasOwnProperty.call(this._cache[locale], key)
     ) {
       return this._cache[locale][key];
+    }
+    const lang = getLanguageFromLocale(locale);
+    if (
+      this._cache[lang] &&
+      Object.prototype.hasOwnProperty.call(this._cache[lang], key)
+    ) {
+      return this._cache[lang][key];
     }
     if (
       this._cache[RUNTIME.defaultLocale] &&

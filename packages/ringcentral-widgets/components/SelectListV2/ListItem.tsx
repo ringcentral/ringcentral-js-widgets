@@ -1,6 +1,8 @@
-import { RcListItem } from '@ringcentral/juno';
-import classNames from 'classnames';
 import React, { FunctionComponent } from 'react';
+
+import classNames from 'classnames';
+
+import { RcListItem } from '@ringcentral/juno';
 
 import { useScrollIntoView } from '../../react-hooks/useScrollIntoView';
 import styles from './styles.scss';

@@ -1,7 +1,7 @@
 import { expect } from 'chai';
-import getCacheReducer, { getContactSearchReducer } from './getCacheReducer';
 
 import actionTypes from './actionTypes';
+import getCacheReducer, { getContactSearchReducer } from './getCacheReducer';
 
 describe('ContactSearch :: Cache :: getContactSearchReducer', () => {
   it('should be a function', () => {

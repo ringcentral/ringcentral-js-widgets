@@ -1,10 +1,11 @@
 import { expect } from 'chai';
-import sinon from 'sinon';
 import { createStore } from 'redux';
-import DateTimeFormat from './index';
-import getDateTimeFormatReducer from './getDateTimeFormatReducer';
-import actionTypes from './actionTypes';
+import sinon from 'sinon';
+
 import moduleStatuses from '../../enums/moduleStatuses';
+import actionTypes from './actionTypes';
+import getDateTimeFormatReducer from './getDateTimeFormatReducer';
+import DateTimeFormat from './index';
 
 describe('DateTimeFormat Unit Test', () => {
   let dateTimeFormat;

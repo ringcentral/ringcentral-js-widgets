@@ -7,10 +7,11 @@ import DateTimeFormat from '@ringcentral-integration/commons/modules/DateTimeFor
 import { ForwardingNumber } from '@ringcentral-integration/commons/modules/ForwardingNumberV2';
 import { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import RateLimiter from '@ringcentral-integration/commons/modules/RateLimiter';
-import RegionSettings from '@ringcentral-integration/commons/modules/RegionSettings';
+import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
+
 import { CallLogPanelProps } from '../../components/CallLogPanel';
-import { CallLogSection as CallLogSectionV2 } from '../CallLogSectionV2';
 import CallLogSection from '../CallLogSection';
+import { CallLogSection as CallLogSectionV2 } from '../CallLogSectionV2';
 import { RouterInteraction } from '../RouterInteraction';
 
 export interface State {}

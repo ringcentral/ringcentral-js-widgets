@@ -1,12 +1,13 @@
 import { expect } from 'chai';
+
+import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
 import actionTypes from './actionTypes';
 import getEnvironmentReducer, {
   getChangeCounterReducer,
-  getServerReducer,
-  getRecordingHostReducer,
   getEnabledReducer,
+  getRecordingHostReducer,
+  getServerReducer,
 } from './getEnvironmentReducer';
-import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
 
 describe('getChangeCounter', () => {
   it('should be a function', () => {

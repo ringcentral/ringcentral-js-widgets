@@ -32,4 +32,4 @@ function normalizeNumber({
   return normalizedNumber.replace(/\s/g, '');
 }
 
-export { normalizeNumber, normalizeNumber as default };
+export { normalizeNumber as default, normalizeNumber };

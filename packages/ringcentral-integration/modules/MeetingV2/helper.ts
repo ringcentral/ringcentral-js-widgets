@@ -1,4 +1,5 @@
 import { find } from 'ramda';
+
 import { ExtensionInfo } from '../ExtensionInfoV2';
 import { MeetingDelegator, RcMMeetingModel } from './Meeting.interface';
 
@@ -43,3 +44,15 @@ export function getHostId({
   }
   return `${extensionInfo.info.id}` || '';
 }
+
+export const getRcmUriRegExp = (regExpText: string) =>
+  new RegExp(
+    `(https?):\\/\\/${regExpText}(\\/\\w+)?(\\/(\\d+))(\\?pwd=\\w+)?`,
+    'i',
+  );
+
+export const getRcvUriRegExp = (regExpText: string) =>
+  new RegExp(
+    `(https?):\\/\\/${regExpText}(\\/{1,2}\\w+)*(\\/{1,2}(\\d+))(\\?pw=\\w{32})?`,
+    'i',
+  );

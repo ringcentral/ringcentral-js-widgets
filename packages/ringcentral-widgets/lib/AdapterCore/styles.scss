@@ -1,12 +1,18 @@
+@use 'sass:math';
+
 @import '../commonStyles/no-select';
 @import '../commonStyles/colors';
 
 $header-height: 36px;
 
+$header-logo-width: 83px !default;
+$header-logo-height: 18px !default;
+
 .centerStyle {
   top: 50%;
   position: absolute;
 }
+
 .root {
   @include no-select;
   box-sizing: border-box;
@@ -81,10 +87,11 @@ $header-height: 36px;
   left: 50%;
   height: 18px;
   width: 84px;
-  margin-top: -8px;
-  margin-left: -32px;
+  margin-top: -(math.div($header-logo-height, 2));
+  margin-left: -(math.div($header-logo-width, 2));
   display: none;
 }
+
 .logo.visible {
   display: inline-block;
 }
@@ -353,7 +360,8 @@ $header-height: 36px;
 }
 .duration.visible,
 .ringingCalls.visible,
-.onHoldCalls.visible {
+.onHoldCalls.visible,
+.otherDeviceCalls.visible {
   top: 50%;
 }
 .duration {
@@ -366,7 +374,8 @@ $header-height: 36px;
   margin-left: -16px;
 }
 .ringingCalls,
-.onHoldCalls {
+.onHoldCalls,
+.otherDeviceCalls {
   @include callInfo;
   width: 100px;
   margin-left: -100px;
@@ -375,7 +384,8 @@ $header-height: 36px;
   text-align: center;
 }
 .ringingCalls.center,
-.onHoldCalls.center {
+.onHoldCalls.center,
+.otherDeviceCalls.center {
   margin-left: -50px;
 }
 

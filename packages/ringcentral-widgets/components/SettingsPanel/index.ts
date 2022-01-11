@@ -1,2 +1,2 @@
 export * from './SettingsPanel';
-export { default } from './SettingsPanel';
+export * from './SettingsPanel.interface';

@@ -38,7 +38,8 @@ export default {
   pmiSettingChangeAlert: "Wenn Sie die Einstellungen ändern und diese Besprechung ansetzen, verwenden alle Besprechungen mit persönlicher Besprechungs-ID dieselben aktuellen Einstellungen.",
   lockedTooltip: "Ihr Unternehmens-Admin verwaltet diese Einstellung",
   when: "Wann",
-  recurringDescribe: "Aktivieren Sie in der Kalendereinladung für die Teilnehmer die Option für Serien oder Wiederholungen."
+  recurringDescribe: "Aktivieren Sie in der Kalendereinladung für die Teilnehmer die Option für Serien oder Wiederholungen.",
+  ieSupportAlert: "Beachten Sie, dass {appName} nach dem 16. Februar 2022 nicht mehr mit Internet Explorer 11 funktionieren wird. Wir empfehlen einen Wechsel zu Microsoft Edge oder ein Update auf Outlook 2016 oder höher."
 };
 
 // @key: @#@"date"@#@ @source: @#@"Date"@#@
@@ -80,3 +81,4 @@ export default {
 // @key: @#@"lockedTooltip"@#@ @source: @#@"This setting is managed by your company admin"@#@
 // @key: @#@"when"@#@ @source: @#@"When"@#@
 // @key: @#@"recurringDescribe"@#@ @source: @#@"Please remember to check recurrence or repeat in your calendar invitation to your attendees."@#@
+// @key: @#@"ieSupportAlert"@#@ @source: @#@"Please note that {appName} won't work with Internet Explorer 11 after Feb 16, 2022. We recommend switching to Microsoft Edge or updating to Outlook 2016 or above."@#@

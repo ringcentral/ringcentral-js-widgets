@@ -5,7 +5,7 @@ export default {
   hours: "{howMany}時間",
   minutes: "{howMany}分",
   today: "今日",
-  duration: "所要時間",
+  duration: "期間",
   topic: "会議のタイトル",
   voIPOnly: "インターネット音声のみ",
   telephonyOnly: "電話のみ",
@@ -38,7 +38,8 @@ export default {
   pmiSettingChangeAlert: "設定を変更してこの会議をスケジュールする場合は、個人会議IDのある会議すべてで同じ最新の設定が使用されます。",
   lockedTooltip: "この設定は会社の管理者により管理されています",
   when: "日時",
-  recurringDescribe: "カレンダーの出席依頼で、参加者に定期的または繰り返し確認することを忘れないようにしてください。"
+  recurringDescribe: "カレンダーの出席依頼で、参加者に定期的または繰り返し確認することを忘れないようにしてください。",
+  ieSupportAlert: "2022年2月16日以降、Internet Explorer 11では{appName}が機能しないことにご注意ください。Microsoft Edgeを代わりに使用するか、Outlook 2016以降に更新することをお勧めします。"
 };
 
 // @key: @#@"date"@#@ @source: @#@"Date"@#@
@@ -80,3 +81,4 @@ export default {
 // @key: @#@"lockedTooltip"@#@ @source: @#@"This setting is managed by your company admin"@#@
 // @key: @#@"when"@#@ @source: @#@"When"@#@
 // @key: @#@"recurringDescribe"@#@ @source: @#@"Please remember to check recurrence or repeat in your calendar invitation to your attendees."@#@
+// @key: @#@"ieSupportAlert"@#@ @source: @#@"Please note that {appName} won't work with Internet Explorer 11 after Feb 16, 2022. We recommend switching to Microsoft Edge or updating to Outlook 2016 or above."@#@

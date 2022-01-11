@@ -69,7 +69,7 @@ function testBuild(this: BaseScenario): any {
     if (Array.isArray(Action)) {
       Action = Action.map((item) => {
         const Item = combine(item);
-        return <Item />;
+        return isCriusNode(item) ? item : <Item />;
       });
     } else {
       Action = combine(Action);

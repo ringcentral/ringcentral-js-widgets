@@ -1,13 +1,13 @@
-import { computed, RcModuleV2, watch } from '@ringcentral-integration/core';
-import { Module } from '@ringcentral-integration/commons/lib/di';
 import { callDirection } from '@ringcentral-integration/commons/enums/callDirections';
+import { Module } from '@ringcentral-integration/commons/lib/di';
+import { computed, RcModuleV2, watch } from '@ringcentral-integration/core';
 
 import { directTransferNotificationTypes } from '../../enums/directTransferNotificationTypes';
 import { makeCallsUniqueIdentifies } from '../../lib/callUniqueIdentifies';
 import { contactMatchIdentifyEncode } from '../../lib/contactMatchIdentify';
 import { EvCallbackTypes } from '../../lib/EvClient/enums/callbackTypes';
-import { CallHistory, Deps } from './EvCallHistory.interface';
 import { formatPhoneNumber } from '../../lib/FormatPhoneNumber';
+import { CallHistory, Deps } from './EvCallHistory.interface';
 
 @Module({
   name: 'EvCallHistory',

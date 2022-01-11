@@ -1,32 +1,34 @@
-import { forEach, findIndex } from 'ramda';
+import { findIndex, forEach } from 'ramda';
+
 import {
-  RcModuleV2,
-  state,
   action,
   computed,
+  RcModuleV2,
+  state,
   storage,
-  watch,
   track,
+  watch,
 } from '@ringcentral-integration/core';
-import { Module } from '../../lib/di';
+
+import { Call } from '../../interfaces/Call.interface';
+import { Entity } from '../../interfaces/Entity.interface';
+import { ActiveCall } from '../../interfaces/Presence.model';
 import {
-  sortByStartTime,
   getPhoneNumberMatches,
+  sortByStartTime,
 } from '../../lib/callLogHelpers';
+import debounce from '../../lib/debounce';
+import { Module } from '../../lib/di';
 import { normalizeNumber } from '../../lib/normalizeNumber';
 import { proxify } from '../../lib/proxy/proxify';
-import debounce from '../../lib/debounce';
+import { trackEvents } from '../Analytics';
+import { callingModes } from '../CallingSettingsV2';
 import { Deps, HistoryCall } from './CallHistory.interface';
 import {
   addNumbersFromCall,
   pickFullPhoneNumber,
   pickPhoneOrExtensionNumber,
 } from './callHistoryHelper';
-import { Call } from '../../interfaces/Call.interface';
-import { ActiveCall } from '../../interfaces/Presence.model';
-import { trackEvents } from '../Analytics';
-import { callingModes } from '../CallingSettingsV2';
-import { Entity } from '../../interfaces/Entity.interface';
 
 const DEFAULT_CLEAN_TIME = 24 * 60 * 60 * 1000; // 1 day
 
@@ -129,6 +131,11 @@ export class CallHistory<T extends Deps = Deps> extends RcModuleV2<T> {
   }
 
   @action
+  cleanEndedCalls() {
+    this.endedCalls = [];
+  }
+
+  @action
   removeAllEndedCalls() {
     this.endedCalls = [];
     this.markedList = [];
@@ -211,9 +218,10 @@ export class CallHistory<T extends Deps = Deps> extends RcModuleV2<T> {
 
     watch(
       this,
-      () => this._deps.callLog.calls,
-      (currentCalls = []) => {
-        if (!this.ready) return;
+      // use watch multiple, because this.ready is async, can't become true in time, so need watch this.ready, too
+      () => [this._deps.callLog.calls, this.ready],
+      ([currentCalls = [], ready]) => {
+        if (!ready) return;
         const ids: Record<string, boolean> = {};
         currentCalls.forEach((call) => {
           ids[call.telephonySessionId] = true;
@@ -225,11 +233,15 @@ export class CallHistory<T extends Deps = Deps> extends RcModuleV2<T> {
           this.removeEndedCalls(shouldRemovedCalls);
         }
       },
+      {
+        multiple: true,
+      },
     );
   }
 
   onReset() {
     this.setSearchInput('');
+    this.cleanEndedCalls();
   }
 
   _addEndedCalls(endedCalls: Call[]) {

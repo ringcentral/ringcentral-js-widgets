@@ -12,6 +12,7 @@ import {
   watch,
 } from '@ringcentral-integration/core';
 import { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
+
 import { messageDirection } from '../../enums/messageDirection';
 import { messageTypes } from '../../enums/messageTypes';
 import { Message } from '../../interfaces/MessageStore.model';
@@ -39,7 +40,6 @@ import {
   ATTACHMENT_SIZE_LIMITATION,
   messageSenderMessages,
 } from '../MessageSenderV2';
-import { MessageStoreConversations } from '../MessageStoreV2';
 import {
   CorrespondentMatch,
   CorrespondentResponse,
@@ -78,7 +78,7 @@ function getEarliestTime(messages: Message[]) {
   return newTime;
 }
 
-function getUniqueNumbers(conversations: Message[]): string[] {
+export function getUniqueNumbers(conversations: Message[]): string[] {
   const output: string[] = [];
   const numberMap: { [key: string]: boolean } = {};
   function addIfNotExist(number: string) {
@@ -437,10 +437,7 @@ export class Conversations extends RcModuleV2<Deps> {
     watch(
       this,
       () => this._deps.messageStore.allConversations,
-      (
-        newValue: MessageStoreConversations = [],
-        oldValue: MessageStoreConversations = [],
-      ) => {
+      (newValue = [], oldValue = []) => {
         if (newValue.length < oldValue.length) {
           if (this.oldConversations.length > 0) {
             this._cleanOldConversations();
@@ -520,9 +517,7 @@ export class Conversations extends RcModuleV2<Deps> {
       params.messageType = [typeFilter];
     }
     try {
-      const {
-        records,
-      }: GetMessageList = await this._deps.client
+      const { records }: GetMessageList = await this._deps.client
         .account()
         .extension()
         .messageStore()
@@ -611,9 +606,7 @@ export class Conversations extends RcModuleV2<Deps> {
       dateTo: dateTo.toISOString(),
     };
     try {
-      const {
-        records,
-      }: GetMessageList = await this._deps.client
+      const { records }: GetMessageList = await this._deps.client
         .account()
         .extension()
         .messageStore()
@@ -1187,10 +1180,12 @@ export class Conversations extends RcModuleV2<Deps> {
     formattedCorrespondentMatch.forEach((item) => {
       const { phoneNumber } = item;
       const conversationId = this.correspondentResponse[phoneNumber];
-      this._deps.conversationLogger.logConversation({
-        entity: item,
-        conversationId,
-      });
+      if (this._deps.conversationLogger.autoLog) {
+        this._deps.conversationLogger.logConversation({
+          entity: item,
+          conversationId,
+        });
+      }
       this.removeEntity(item);
       this.removeResponse(phoneNumber);
     });

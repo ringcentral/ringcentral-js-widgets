@@ -1,8 +1,9 @@
-import { combineReducers } from 'redux';
 import { filter } from 'ramda';
-import scheduleStatus from './scheduleStatus';
+import { combineReducers } from 'redux';
+
 import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
 import { MeetingActionTypes } from './actionTypes';
+import scheduleStatus from './scheduleStatus';
 
 export function getMeetingInfoReducer(types) {
   return (state = null, { type, meeting = null }) => {

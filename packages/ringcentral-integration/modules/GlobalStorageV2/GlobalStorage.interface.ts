@@ -1,6 +1,6 @@
 import {
-  IStorageBaseOptions,
   Deps as StorageBaseDeps,
+  IStorageBaseOptions,
 } from '../../lib/StorageBaseV2';
 
 export interface Deps extends StorageBaseDeps {

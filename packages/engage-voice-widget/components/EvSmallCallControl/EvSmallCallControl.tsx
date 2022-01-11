@@ -1,12 +1,12 @@
 import React, { FunctionComponent } from 'react';
 
 import {
+  HangUpButton,
   HoldCallButton,
   MuteCallButton,
   SmallCallControl,
-  HangUpButton,
-  TransferCallButton,
   SmallCallControlProps,
+  TransferCallButton,
 } from '../SmallCallControl';
 import {
   ActiveCallButton,
@@ -42,7 +42,7 @@ export const EvSmallCallControl: FunctionComponent<EvSmallCallControlProps> = ({
   ...rest
 }) => {
   let configData;
-  let RecordBtn: React.FunctionComponent<
+  let RecordBtn: FunctionComponent<
     CountDownButtonProps | RecordControlButtonProps | RecordingButtonProps
   >;
 

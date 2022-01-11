@@ -1,12 +1,10 @@
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import { proxify } from '@ringcentral-integration/commons/lib/proxy/proxify';
-import { CssModuleVariable } from '@ringcentral-integration/commons/modules/Brand/Brand.interface';
 import {
   RcUIModuleV2,
   UIFunctions,
   UIProps,
 } from '@ringcentral-integration/core';
-import { RcThemeInput } from '@ringcentral/juno';
 
 import { ThemeContainerProps } from '../../containers/ThemeContainer/ThemeContainer.interface';
 import { Deps } from './ThemeUI.interface';

@@ -1,7 +1,8 @@
-import { RcSwitch, RcTextField } from '@ringcentral/juno';
 import React, { FunctionComponent, useState } from 'react';
+
 import { AnimationPanel } from '@ringcentral-integration/widgets/components/AnimationPanel';
 import { CustomArrowButton } from '@ringcentral-integration/widgets/components/Rcui/CustomArrowButton';
+import { RcSwitch, RcTextField } from '@ringcentral/juno';
 
 import { BasicSessionProps } from '../../interfaces/EvAgentSessionUI.interface';
 import {

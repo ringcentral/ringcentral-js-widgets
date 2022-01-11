@@ -1,20 +1,25 @@
+@use 'sass:math';
+
 @import '../../lib/commonStyles/colors.scss';
 @import '../../lib/commonStyles/layout.scss';
-$callBtnWidth: 1/3*100%;
+$callBtnWidth: math.div(1, 3) * 100%;
 $conferenceCallBtnWidth: 50%;
-$conferenceCallBtnPaddingLeft: ($conferenceCallBtnWidth - $callBtnWidth)/2;
+$conferenceCallBtnPaddingLeft: math.div(
+  $conferenceCallBtnWidth - $callBtnWidth,
+  2
+);
 $keypadHeight: 53%;
-$buttonAreaWidth:222;
-$totalWidth:300;
-$buttonWidth:45;
-$stopButtonIconRatio:0.98;
-$completeTransferButtonIconRatio:0.85;
+$buttonAreaWidth: 222;
+$totalWidth: 300;
+$buttonWidth: 45;
+$stopButtonIconRatio: 0.98;
+$completeTransferButtonIconRatio: 0.85;
 
 .root {
   // max-width: 550px;
   margin-left: auto;
   margin-right: auto;
-  padding: 0 (1-$buttonAreaWidth/$totalWidth)/2*100%;
+  padding: 0 math.div(1- math.div($buttonAreaWidth, $totalWidth), 2) * 100%;
 }
 
 .callButton {
@@ -82,7 +87,10 @@ $completeTransferButtonIconRatio:0.85;
   .button {
     display: inline-block;
     box-sizing: border-box;
-    width: $buttonWidth/$buttonAreaWidth/$stopButtonIconRatio*100%;
+    width: math.div(
+        math.div($buttonWidth, $buttonAreaWidth),
+        $stopButtonIconRatio
+      ) * 100%;
     max-width: 140px;
   }
   .stopButton {
@@ -127,7 +135,7 @@ $completeTransferButtonIconRatio:0.85;
     .buttonName {
       color: #666;
     }
-    .buttonIcon+.buttonName {
+    .buttonIcon + .buttonName {
       margin-left: 5px;
     }
     .buttonActive {
@@ -157,8 +165,8 @@ $completeTransferButtonIconRatio:0.85;
       }
     }
   }
-  .buttonItem+.buttonItem {
-    border-top: .5px solid $silver;
+  .buttonItem + .buttonItem {
+    border-top: 0.5px solid $silver;
   }
   .buttonItem.disabled {
     cursor: not-allowed;

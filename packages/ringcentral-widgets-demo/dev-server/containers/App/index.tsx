@@ -1,47 +1,45 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { Provider } from 'react-redux';
-import { Router, Route } from 'react-router';
 import sleep from '@ringcentral-integration/commons/lib/sleep';
-
-import AlertContainer from '@ringcentral-integration/widgets/containers/AlertContainer';
-import ConnectivityBadgeContainer from '@ringcentral-integration/widgets/containers/ConnectivityBadgeContainer';
-import LoginPage from '@ringcentral-integration/widgets/containers/LoginPage';
-import CallingSettingsPage from '@ringcentral-integration/widgets/containers/CallingSettingsPage';
-import RegionSettingsPage from '@ringcentral-integration/widgets/containers/RegionSettingsPage';
-import AudioSettingsPage from '@ringcentral-integration/widgets/containers/AudioSettingsPage';
-import DialerPage from '@ringcentral-integration/widgets/containers/DialerPage';
-import ComposeTextPage from '@ringcentral-integration/widgets/containers/ComposeTextPage';
-import { ConversationPage } from '@ringcentral-integration/widgets/containers/ConversationPage';
-import ConferencePage from '@ringcentral-integration/widgets/containers/ConferencePage';
 import ConferenceCommands from '@ringcentral-integration/widgets/components/ConferenceCommands';
-import ConversationsPage from '@ringcentral-integration/widgets/containers/ConversationsPage';
-import SettingsPage from '@ringcentral-integration/widgets/containers/SettingsPage';
-import ActiveCallsPage from '@ringcentral-integration/widgets/containers/ActiveCallsPage';
-import CallsListPage from '@ringcentral-integration/widgets/containers/CallsListPage';
-import { IncomingCallContainer } from '@ringcentral-integration/widgets/containers/IncomingCallContainer';
-import CallCtrlPage from '@ringcentral-integration/widgets/containers/CallCtrlPage';
-import CallBadgeContainer from '@ringcentral-integration/widgets/containers/CallBadgeContainer';
-import { RecentActivityContainer } from '@ringcentral-integration/widgets/containers/RecentActivityContainer';
-import ContactsPage from '@ringcentral-integration/widgets/containers/ContactsPage';
-import ContactDetailsPage from '@ringcentral-integration/widgets/containers/ContactDetailsPage';
-import FeedbackPage from '@ringcentral-integration/widgets/containers/FeedbackPage';
-import UserGuidePage from '@ringcentral-integration/widgets/containers/UserGuidePage';
-import ConferenceCallDialerPage from '@ringcentral-integration/widgets/containers/ConferenceCallDialerPage';
-import { CallsOnholdPage } from '@ringcentral-integration/widgets/containers/CallsOnholdPage';
-import { DialerAndCallsTabContainer } from '@ringcentral-integration/widgets/containers/DialerAndCallsTabContainer';
-import { ConferenceParticipantPage } from '@ringcentral-integration/widgets/containers/ConferenceParticipantPage';
-import TransferPage from '@ringcentral-integration/widgets/containers/TransferPage';
-import FlipPage from '@ringcentral-integration/widgets/containers/FlipPage';
-import { SimpleCallControlPage } from '@ringcentral-integration/widgets/containers/SimpleCallControlPage';
-import MeetingPage from '@ringcentral-integration/widgets/containers/MeetingPage';
-
-import ContactSourceFilter from '@ringcentral-integration/widgets/components/ContactSourceFilter';
+import { ContactSourceFilter } from '@ringcentral-integration/widgets/components/ContactSourceFilter';
 import MeetingScheduleButton from '@ringcentral-integration/widgets/components/MeetingScheduleButton';
+import ActiveCallsPage from '@ringcentral-integration/widgets/containers/ActiveCallsPage';
+import AlertContainer from '@ringcentral-integration/widgets/containers/AlertContainer';
+import AudioSettingsPage from '@ringcentral-integration/widgets/containers/AudioSettingsPage';
+import CallBadgeContainer from '@ringcentral-integration/widgets/containers/CallBadgeContainer';
+import CallCtrlPage from '@ringcentral-integration/widgets/containers/CallCtrlPage';
+import CallingSettingsPage from '@ringcentral-integration/widgets/containers/CallingSettingsPage';
+import CallsListPage from '@ringcentral-integration/widgets/containers/CallsListPage';
+import { CallsOnholdPage } from '@ringcentral-integration/widgets/containers/CallsOnholdPage';
+import ComposeTextPage from '@ringcentral-integration/widgets/containers/ComposeTextPage';
+import ConferenceCallDialerPage from '@ringcentral-integration/widgets/containers/ConferenceCallDialerPage';
+import { ConferencePage } from '@ringcentral-integration/widgets/containers/ConferencePage';
+import { ConferenceParticipantPage } from '@ringcentral-integration/widgets/containers/ConferenceParticipantPage';
+import { ConnectivityBadgeContainer } from '@ringcentral-integration/widgets/containers/ConnectivityBadgeContainer';
+import ContactDetailsPage from '@ringcentral-integration/widgets/containers/ContactDetailsPage';
+import ContactsPage from '@ringcentral-integration/widgets/containers/ContactsPage';
+import { ConversationPage } from '@ringcentral-integration/widgets/containers/ConversationPage';
+import ConversationsPage from '@ringcentral-integration/widgets/containers/ConversationsPage';
+import { DialerAndCallsTabContainer } from '@ringcentral-integration/widgets/containers/DialerAndCallsTabContainer';
+import DialerPage from '@ringcentral-integration/widgets/containers/DialerPage';
+import { FeedbackPage } from '@ringcentral-integration/widgets/containers/FeedbackPage';
+import FlipPage from '@ringcentral-integration/widgets/containers/FlipPage';
+import { IncomingCallContainer } from '@ringcentral-integration/widgets/containers/IncomingCallContainer';
+import { LoginPage } from '@ringcentral-integration/widgets/containers/LoginPage';
+import GenericMeetingPage from '@ringcentral-integration/widgets/containers/GenericMeetingPage';
+import { ModalContainer } from '@ringcentral-integration/widgets/containers/ModalContainer';
+import { RecentActivityContainer } from '@ringcentral-integration/widgets/containers/RecentActivityContainer';
+import { RegionSettingsPage } from '@ringcentral-integration/widgets/containers/RegionSettingsPage';
+import SettingsPage from '@ringcentral-integration/widgets/containers/SettingsPage';
+import { SimpleCallControlPage } from '@ringcentral-integration/widgets/containers/SimpleCallControlPage';
+import TransferPage from '@ringcentral-integration/widgets/containers/TransferPage';
+import { UserGuidePage } from '@ringcentral-integration/widgets/containers/UserGuidePage';
 import { PhoneProvider } from '@ringcentral-integration/widgets/lib/phoneContext';
-
-import MainView from '../MainView';
+import PropTypes from 'prop-types';
+import React from 'react';
+import { Provider } from 'react-redux';
+import { Route, Router } from 'react-router';
 import AppView from '../AppView';
+import MainView from '../MainView';
 
 const App = ({ phone, icon }) => {
   const sourceIcons = {
@@ -59,6 +57,7 @@ const App = ({ phone, icon }) => {
             component={(routerProps) => (
               <AppView>
                 {routerProps.children}
+                <ModalContainer />
                 <CallBadgeContainer
                   defaultOffsetX={0}
                   defaultOffsetY={73}
@@ -299,7 +298,7 @@ const App = ({ phone, icon }) => {
               <Route
                 path="/meeting"
                 component={() => (
-                  <MeetingPage scheduleButton={MeetingScheduleButton} />
+                  <GenericMeetingPage scheduleButton={MeetingScheduleButton} />
                 )}
               />
               <Route

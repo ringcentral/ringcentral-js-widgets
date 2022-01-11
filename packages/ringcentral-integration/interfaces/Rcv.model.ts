@@ -1,6 +1,7 @@
+import { GetExtensionInfoResponse } from '@rc-ex/core/definitions';
 import {
-  RcvWaitingRoomType,
   RcvWaitingRoomModeProps,
+  RcvWaitingRoomType,
 } from '../modules/RcVideo/constants';
 
 export type MeetingProviderTypesProps = {
@@ -118,7 +119,8 @@ export type RcVSettingId =
   | 'join_authenticated_from_account_only'
   | 'screen_sharing_host_only'
   | 'waiting_room'
-  | 'waiting_room_guests_only';
+  | 'waiting_room_guests_only'
+  | 'e2ee';
 
 export interface RcVPreferenceDataItem {
   id: RcVSettingId;
@@ -153,8 +155,8 @@ export interface RcVPreferencesAPIResult {
 export type RcVSettingKey =
   | 'e2ee'
   | 'allowJoinBeforeHost'
-  // | 'muteVideo'
-  // | 'muteAudio'
+  | 'muteVideo'
+  | 'muteAudio'
   | 'isMeetingSecret'
   | 'isOnlyAuthUserJoin'
   | 'isOnlyCoworkersJoin'
@@ -170,16 +172,18 @@ export type RcVSettingLocks = Omit<
 
 export interface RcvInvitationRequest {
   hostName: string;
-  meetingName: string;
-  meetingId: string;
-  meetingUrl: string;
-  participantCode: string;
-  mainPhoneNumber?: string;
-  password?: string;
-  dialInPassword?: string;
-  location?: string;
-  joinBySip?: string;
-  premiumNumbers?: string[];
+  e2ee?: boolean;
+  shortId: string;
+  joinUri: string;
+  isMeetingSecret: boolean;
+  meetingPassword: string;
+  meetingPasswordPSTN: string;
+  meetingPasswordMasked: string;
+  dialInNumbers: RcVDialInNumberObj[];
+  currentLocale: string;
+  brandName: string;
+  brandId: string;
+  isSIPAvailable: boolean;
 }
 
 export interface RcvInvitationInfo {

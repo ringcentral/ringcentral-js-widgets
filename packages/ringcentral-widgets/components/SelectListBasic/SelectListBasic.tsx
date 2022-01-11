@@ -1,15 +1,17 @@
-import { RcIcon, RcTextField } from '@ringcentral/juno';
-import { Search } from '@ringcentral/juno/icon';
-import classNames from 'classnames';
-import formatMessage from 'format-message';
 import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
 
+import classNames from 'classnames';
+import formatMessage from 'format-message';
+
+import { RcIcon, RcTextField } from '@ringcentral/juno';
+import { Search } from '@ringcentral/juno/icon';
+
+import { TOOLTIP_LONG_DELAY_TIME } from '../../lib/toolTipDelayTime';
 import { AnimationPanel } from '../AnimationPanel';
 import BackHeader from '../BackHeaderV2';
 import { Tooltip } from '../Rcui/Tooltip';
 import i18n from './i18n';
 import styles from './styles.scss';
-import { TOOLTIP_LONG_DELAY_TIME } from '../../lib/toolTipDelayTime';
 
 export type SelectListBasicProps = {
   title: string;
@@ -90,9 +92,8 @@ const SelectListBasic: FunctionComponent<SelectListBasicProps> = ({
   isSearching,
 }) => {
   const [filter, setFilter] = useState(null);
-  const [showSearchFromServerHint, setShowSearchFromServerHint] = useState(
-    false,
-  );
+  const [showSearchFromServerHint, setShowSearchFromServerHint] =
+    useState(false);
   const scrollElmRef = useRef();
   const matchElmRef = useRef();
 
@@ -116,6 +117,9 @@ const SelectListBasic: FunctionComponent<SelectListBasicProps> = ({
   const matchAssociatedOptions = hasSearch
     ? associatedOptions.filter((option) => searchOption(option, filter))
     : associatedOptions;
+  const filteredFoundFromServerOptions = hasSearch
+    ? foundFromServerEntities.filter((option) => searchOption(option, filter))
+    : foundFromServerEntities;
   const hasResult =
     matchOptions.length +
       matchOtherOptions.length +
@@ -275,17 +279,17 @@ const SelectListBasic: FunctionComponent<SelectListBasicProps> = ({
                     </div>
                   )}
                   {showFoundFromServer && (
-                    <div className={styles.text}>
+                    <div className={styles.text} data-sign="foundFromServer">
                       {foundFromServerTitle && (
                         <div className={styles.title}>
                           {foundFromServerTitle} (
-                          {foundFromServerEntities.length})
+                          {filteredFoundFromServerOptions.length})
                         </div>
                       )}
-                      {foundFromServerEntities &&
-                      foundFromServerEntities.length > 0
+                      {filteredFoundFromServerOptions &&
+                      filteredFoundFromServerOptions.length > 0
                         ? renderListView(
-                            foundFromServerEntities,
+                            filteredFoundFromServerOptions,
                             'custom',
                             filter,
                             (elm, type) =>

@@ -1,10 +1,11 @@
-import {
-  RcUIModuleV2,
-  UIProps,
-  UIFunctions,
-} from '@ringcentral-integration/core';
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import formatNumber from '@ringcentral-integration/commons/lib/formatNumber';
+import {
+  RcUIModuleV2,
+  UIFunctions,
+  UIProps,
+} from '@ringcentral-integration/core';
+
 import {
   ConferenceParticipantPanelProps,
   Deps,

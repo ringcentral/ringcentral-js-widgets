@@ -9,15 +9,17 @@ import {
   RcPaper,
   setOpacity,
   styled,
-  zIndex,
+  px,
 } from '@ringcentral/juno';
+
+import { KeyPadHeight } from '@ringcentral-integration/widgets/components/BasicCallInfo/BasicCallInfo';
 import { pageSpace } from '../../../../scss/variables';
 
 export const Wrapper = styled.div<{ open?: boolean }>`
   position: relative;
   width: 100%;
-  height: ${({ open }) => (open ? '0' : '32px')};
-  z-index: ${zIndex('drawer')};
+  height: ${({ open }) => (open ? '0' : px(KeyPadHeight))};
+  z-index: ${({ open }) => (open ? 3 : 2)};
 `;
 
 export const Backdrop = styled.div<{ open?: boolean }>`

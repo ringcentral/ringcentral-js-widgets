@@ -1,6 +1,7 @@
 import { reduce } from 'ramda';
+
 import { formatSameSiteExtension } from '@ringcentral-integration/phone-number/lib/format';
-import isBlank from './isBlank';
+
 import { phoneTypes } from '../enums/phoneTypes';
 import {
   ContactGroup,
@@ -8,6 +9,7 @@ import {
   TypedContact,
   TypedPhoneNumber,
 } from '../interfaces/Contact.model';
+import isBlank from './isBlank';
 
 export const AllContactSourceName = 'all';
 
@@ -300,25 +302,27 @@ export const isExtensionExist = ({
   return false;
 };
 
-export const getFindPhoneNumber = ({
-  phoneNumber,
-  options = {},
-}: {
-  phoneNumber: string;
-  options?: {
-    isMultipleSiteEnabled?: boolean;
-    siteCode?: string;
+export const getFindPhoneNumber =
+  ({
+    phoneNumber,
+    options = {},
+  }: {
+    phoneNumber: string;
+    options?: {
+      isMultipleSiteEnabled?: boolean;
+      siteCode?: string;
+    };
+  }) =>
+  (item: IContact['phoneNumbers'][number]) => {
+    if (item.phoneType === phoneTypes.extension) {
+      return (
+        isAnExtension(phoneNumber) &&
+        isExtensionExist({
+          extensionNumber: phoneNumber,
+          extensionFromContacts: item.phoneNumber,
+          options,
+        })
+      );
+    }
+    return item.phoneNumber === phoneNumber;
   };
-}) => (item: IContact['phoneNumbers'][number]) => {
-  if (item.phoneType === phoneTypes.extension) {
-    return (
-      isAnExtension(phoneNumber) &&
-      isExtensionExist({
-        extensionNumber: phoneNumber,
-        extensionFromContacts: item.phoneNumber,
-        options,
-      })
-    );
-  }
-  return item.phoneNumber === phoneNumber;
-};

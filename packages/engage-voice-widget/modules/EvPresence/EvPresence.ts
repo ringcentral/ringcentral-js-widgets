@@ -1,3 +1,6 @@
+import { EventEmitter } from 'events';
+
+import { Module } from '@ringcentral-integration/commons/lib/di';
 import {
   action,
   computed,
@@ -6,15 +9,12 @@ import {
   storage,
   track,
 } from '@ringcentral-integration/core';
-import { EventEmitter } from 'events';
-import { Module } from '@ringcentral-integration/commons/lib/di';
 
 import {
   dialoutStatuses,
   DialoutStatusesType,
   messageTypes,
 } from '../../enums';
-import { trackEvents } from '../../lib/trackEvents';
 import { EvCallbackTypes } from '../../lib/EvClient/enums/callbackTypes';
 import {
   EvAddSessionNotification,
@@ -27,6 +27,7 @@ import {
   EvOffhookInitResponse,
   EvOffhookTermResponse,
 } from '../../lib/EvClient/interfaces';
+import { trackEvents } from '../../lib/trackEvents';
 import { Deps, Presence } from './EvPresence.interface';
 
 @Module({

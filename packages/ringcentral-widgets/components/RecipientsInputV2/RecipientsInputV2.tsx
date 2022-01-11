@@ -1,22 +1,24 @@
 /* eslint-disable react/no-multi-comp */
 import React, {
-  useRef,
-  useImperativeHandle,
-  useState,
   forwardRef,
-  useEffect,
   KeyboardEvent,
+  useEffect,
+  useImperativeHandle,
+  useRef,
+  useState,
 } from 'react';
+
 import classnames from 'classnames';
-import styles from './styles.scss';
+
+import i18n from '../RecipientsInput/i18n';
 import { DropdownList } from './DropdownList';
+import { PhoneNumberInput } from './PhoneNumberInput';
 import {
   RecipientsInputV2Handles,
   RecipientsInputV2Props,
 } from './RecipientsInputV2.interface';
 import { SelectedRecipients } from './SelectedRecipients';
-import { PhoneNumberInput } from './PhoneNumberInput';
-import i18n from '../RecipientsInput/i18n';
+import styles from './styles.scss';
 
 /**
  * Specs:
@@ -32,7 +34,7 @@ function isSplitterKey(e: KeyboardEvent): boolean {
     e.key === 'Enter' ||
     (e.key === 'Unidentified' && // for Safari (FF cannot rely on keyCode...)
       (e.keyCode === 186 || // semicolon
-      e.keyCode === 188 || // comma
+        e.keyCode === 188 || // comma
         e.keyCode === 13)) // enter
   ) {
     return true;
@@ -91,7 +93,7 @@ export const RecipientsInputV2 = forwardRef<
       },
     }));
     useEffect(() => {
-      const handler = ({ target }) => {
+      const handler = ({ target }: MouseEvent) => {
         if (thisEl.current && !thisEl.current.contains(target)) {
           if (inputEl.current) {
             inputEl.current.blur();
@@ -168,18 +170,19 @@ export const RecipientsInputV2 = forwardRef<
 
           if (isSplitterKey(e)) {
             e.preventDefault();
-            if (stateValue.length === 0) {
+            const trimmedValue = stateValue.trim();
+            const selectedContact = searchContactList[selectedIndex];
+            if (trimmedValue.length === 0 && !selectedContact) {
               return;
             }
-            const selectedContact = searchContactList[selectedIndex];
             if (selectedContact && e.key === 'Enter') {
               addToRecipients({
                 ...selectedContact,
               });
             } else {
               addToRecipients({
-                name: stateValue.replace(',', ''),
-                phoneNumber: stateValue.replace(',', ''),
+                name: trimmedValue.replace(',', ''),
+                phoneNumber: trimmedValue.replace(',', ''),
               });
             }
           }

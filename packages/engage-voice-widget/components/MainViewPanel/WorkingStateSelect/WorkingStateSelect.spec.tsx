@@ -1,7 +1,9 @@
-import { RcThemeProvider } from '@ringcentral/juno';
-import { mount } from 'enzyme';
 import React from 'react';
+
+import { mount } from 'enzyme';
 import { act } from 'react-dom/test-utils';
+
+import { RcThemeProvider } from '@ringcentral/juno';
 
 import { EvCustomAvailableAgentState } from '../../../interfaces/EvMainViewUI.interface';
 import { WorkingStateSelect } from './WorkingStateSelect';
@@ -95,11 +97,7 @@ const getAgentStateButton = () => {
   };
 };
 
-const getAgentStateList = () =>
-  wrapper
-    .find('RcMenu')
-    .at(0)
-    .find('RcMenuItem');
+const getAgentStateList = () => wrapper.find('RcMenu').at(0).find('RcMenuItem');
 
 function getSelectedItem(): any {
   return getAgentStateList().find('li.Mui-selected');
@@ -154,9 +152,7 @@ describe('<WorkingStateSelect />', () => {
     act(() => jest.advanceTimersByTime(2100));
 
     getAgentStateButton().click();
-    getAgentStateList()
-      .at(currentStateIndex)
-      .simulate('click');
+    getAgentStateList().at(currentStateIndex).simulate('click');
 
     const currentState = agentStates[currentStateIndex];
     expect(changeWorkingState).toBeCalledWith(currentState);

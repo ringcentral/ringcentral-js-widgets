@@ -1,9 +1,10 @@
+import { reduce } from 'ramda';
+
 import {
   ExtensionDeviceResponse,
   PhoneLinesInfo,
 } from '@rc-ex/core/definitions';
 import { computed } from '@ringcentral-integration/core';
-import { reduce } from 'ramda';
 
 import { Module } from '../../lib/di';
 import fetchList from '../../lib/fetchList';

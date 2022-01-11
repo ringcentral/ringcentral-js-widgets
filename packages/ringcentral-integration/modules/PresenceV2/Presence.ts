@@ -1,3 +1,6 @@
+import { filter, map } from 'ramda';
+import { Unsubscribe } from 'redux';
+
 import {
   DetailedExtensionPresenceEvent,
   GetPresenceInfo,
@@ -5,8 +8,7 @@ import {
 } from '@rc-ex/core/definitions';
 import { computed, watch } from '@ringcentral-integration/core';
 import { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
-import { filter, map } from 'ramda';
-import { Unsubscribe } from 'redux';
+
 import { presenceStatus } from '../../enums/presenceStatus.enum';
 import { subscriptionFilters } from '../../enums/subscriptionFilters';
 import { PresenceInfoModel } from '../../interfaces/Presence.model';
@@ -30,7 +32,13 @@ export const DEFAULT_FETCH_DELAY = 2 * 1000;
 export const DEFAULT_MAX_FETCH_DELAY = 4 * 1000;
 
 export const presenceRegExp = /.*\/presence(\?.*)?/;
-export const detailedPresenceRegExp = /.*\/presence\?detailedTelephonyState=true&sipData=true/;
+export const detailedPresenceRegExp =
+  /.*\/presence\?detailedTelephonyState=true&sipData=true/;
+
+const acceptCallQueueToggles = [
+  dndStatus.takeAllCalls,
+  dndStatus.doNotAcceptDepartmentCalls,
+];
 
 @Module({
   name: 'Presence',
@@ -56,10 +64,8 @@ export class Presence extends DataFetcherV2Consumer<Deps, PresenceInfoModel> {
       deps,
     });
     const presenceOptions = deps.presenceOptions ?? {};
-    const {
-      ttl = DEFAULT_TTL,
-      pollingInterval = DEFAULT_POLLING_INTERVAL,
-    } = presenceOptions;
+    const { ttl = DEFAULT_TTL, pollingInterval = DEFAULT_POLLING_INTERVAL } =
+      presenceOptions;
     this._source = new DataSource({
       ...presenceOptions,
       key: 'presence',
@@ -404,16 +410,12 @@ export class Presence extends DataFetcherV2Consumer<Deps, PresenceInfoModel> {
   }
 
   async toggleAcceptCallQueueCalls() {
-    const params: UpdatePresenceParams = {
-      userStatus: this.userStatus,
-    };
-    if (this.dndStatus === dndStatus.takeAllCalls) {
-      params.dndStatus = dndStatus.doNotAcceptDepartmentCalls;
-    } else if (this.dndStatus === dndStatus.doNotAcceptDepartmentCalls) {
-      params.dndStatus = dndStatus.takeAllCalls;
-    }
-    if (params.dndStatus) {
-      await this._update(params);
+    const index = acceptCallQueueToggles.findIndex(
+      (queueStatus) => this.dndStatus === queueStatus,
+    );
+
+    if (index > -1) {
+      return this._update({ dndStatus: acceptCallQueueToggles[+!index] });
     }
   }
 

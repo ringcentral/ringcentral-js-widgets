@@ -1,4 +1,5 @@
-import { filter, find } from 'ramda';
+import { filter, reduce } from 'ramda';
+
 import { Entity } from '@ringcentral-integration/commons/interfaces/Entity.interface';
 
 export function checkShouldHidePhoneNumber(
@@ -14,17 +15,20 @@ export function checkShouldHidePhoneNumber(
   ) {
     return false;
   }
+
   const filteredMatches = filter((item) => !item.hidden, contactMatches);
-  if (
-    filteredMatches.length &&
-    find((m) => {
-      return !!find(
-        (p) => p.phoneNumber === phoneNumber && !p.hidden,
-        m.phoneNumbers ?? [],
-      );
-    }, filteredMatches)
-  ) {
-    return false;
+  if (filteredMatches.length === 0) {
+    return true;
   }
-  return true;
+
+  const filteredPhoneNumbers = reduce(
+    (acc, x) => {
+      const numbers = filter((item) => !item.hidden, x.phoneNumbers);
+      return acc.concat(numbers);
+    },
+    [],
+    filteredMatches,
+  );
+
+  return filteredPhoneNumbers.length === 0;
 }

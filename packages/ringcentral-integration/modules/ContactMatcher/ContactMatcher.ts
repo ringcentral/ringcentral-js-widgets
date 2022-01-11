@@ -1,5 +1,5 @@
-import { Module } from '../../lib/di';
 import DataMatcher from '../../lib/DataMatcher';
+import { Module } from '../../lib/di';
 import proxify from '../../lib/proxy/proxify';
 
 /**

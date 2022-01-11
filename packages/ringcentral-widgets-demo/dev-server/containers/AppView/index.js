@@ -1,10 +1,8 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import { connect } from 'react-redux';
 import Environment from '@ringcentral-integration/widgets/components/Environment';
 import { withPhone } from '@ringcentral-integration/widgets/lib/phoneContext';
-import { ModalContainer } from '@ringcentral-integration/widgets/containers/ModalContainer';
-
+import PropTypes from 'prop-types';
+import React from 'react';
+import { connect } from 'react-redux';
 import styles from './styles.scss';
 
 const AppView = ({ children, server, enabled, onSetData }) => {
@@ -17,7 +15,6 @@ const AppView = ({ children, server, enabled, onSetData }) => {
         onSetData={onSetData}
         recordingHost=""
       />
-      <ModalContainer />
     </div>
   );
 };

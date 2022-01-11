@@ -1,14 +1,12 @@
-import React, { useMemo, FunctionComponent } from 'react';
-import classNames from 'classnames';
+import React, { FunctionComponent, useMemo } from 'react';
+
 import { callDirection } from '@ringcentral-integration/commons/enums/callDirections';
-import { RcIcon } from '@ringcentral/juno';
+import { RcIcon, RcPaletteKeys } from '@ringcentral/juno';
 import {
   IncallBorder,
-  OutcallBorder,
   MissedcallBorder,
+  OutcallBorder,
 } from '@ringcentral/juno/icon';
-
-import styles from './styles.scss';
 
 export type CallIconProps = {
   direction?: string;
@@ -23,7 +21,7 @@ export const CallIcon: FunctionComponent<CallIconProps> = ({
   missed,
   title,
 }) => {
-  const icon = useMemo(() => {
+  const icon = (() => {
     if (missed) {
       return MissedcallBorder;
     }
@@ -36,7 +34,19 @@ export const CallIcon: FunctionComponent<CallIconProps> = ({
       default:
         return null;
     }
-  }, [missed, direction]);
+  })();
+
+  const color = ((): RcPaletteKeys => {
+    if (active) {
+      return 'success.b04';
+    }
+
+    if (missed) {
+      return 'danger.b04';
+    }
+
+    return 'neutral.f04';
+  })();
 
   return (
     <RcIcon
@@ -44,10 +54,7 @@ export const CallIcon: FunctionComponent<CallIconProps> = ({
       title={title || direction}
       symbol={icon}
       size="medium"
-      className={classNames(styles.icon, {
-        [styles.active]: active,
-        [styles.missed]: missed,
-      })}
+      color={color}
     />
   );
 };

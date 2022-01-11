@@ -1,4 +1,13 @@
-import { autorun, title, Scenario, Given, When, Then, Step } from 'crius-test';
+import {
+  autorun,
+  Given,
+  Scenario,
+  Step,
+  Then,
+  title,
+  When,
+} from '@ringcentral-integration/test-utils';
+
 import { messageTypes } from '../../enums/messageTypes';
 import {
   Conversations,

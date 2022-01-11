@@ -5,6 +5,7 @@ import {
   state,
   storage,
 } from '@ringcentral-integration/core';
+
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
 import { callingModes } from './callingModes';
@@ -57,7 +58,8 @@ class CallingSettings extends RcModuleV2<Deps> {
       storageKey: 'CallingSettings',
     });
     this._onFirstLogin = this._deps.callingSettingsOptions?.onFirstLogin;
-    this.initRingoutPrompt = this._deps.callingSettingsOptions?.defaultRingoutPrompt;
+    this.initRingoutPrompt =
+      this._deps.callingSettingsOptions?.defaultRingoutPrompt;
     this._showCallWithJupiter =
       this._deps.callingSettingsOptions?.showCallWithJupiter ?? true;
     this._emergencyCallAvailable =
@@ -95,6 +97,11 @@ class CallingSettings extends RcModuleV2<Deps> {
   get isCustomLocation() {
     return this.data.isCustomLocation;
   }
+
+  // For Japan Emergency Service notification
+  @storage
+  @state
+  acknowledgeJPMessage = false;
 
   @storage
   @state
@@ -146,8 +153,14 @@ class CallingSettings extends RcModuleV2<Deps> {
   }
 
   @action
+  setAcknowledgeJPMessage(value: boolean) {
+    this.acknowledgeJPMessage = value;
+  }
+
+  @action
   resetSuccess() {
     this.data.fromNumber = null;
+    this.setAcknowledgeJPMessage(false);
   }
 
   async onStateChange() {
@@ -158,6 +171,12 @@ class CallingSettings extends RcModuleV2<Deps> {
       this._otherPhoneNumbers = this.otherPhoneNumbers;
       this._blockedIdDisabled = this.isBlockedIdDisabled;
       await this._validateSettings();
+    }
+  }
+
+  async onInitSuccess() {
+    if (this.isWebphoneMode) {
+      this._verifyJPEmergency();
     }
   }
 
@@ -267,6 +286,22 @@ class CallingSettings extends RcModuleV2<Deps> {
   }
 
   @proxify
+  async _verifyJPEmergency() {
+    if (this.acknowledgeJPMessage) return;
+
+    const hasJapanNumber = !!this.fromNumbers.find(
+      (record) => record?.country?.id === '112',
+    );
+    if (hasJapanNumber) {
+      this._deps.alert.warning({
+        message: callingSettingsMessages.disableEmergencyInJapan,
+        ttl: 0,
+      });
+      this.setAcknowledgeJPMessage(true);
+    }
+  }
+
+  @proxify
   async _setSoftPhoneToCallWith() {
     this.setDataAction({
       callWith: callingOptions.softphone,
@@ -345,8 +380,8 @@ class CallingSettings extends RcModuleV2<Deps> {
         ) {
           defaultCallerId = { phoneNumber: BLOCKED_ID_VALUE };
         } else if (this._deps.callerId.ringOut.type === 'PhoneNumber') {
-          const defaultPhoneNumber = this._deps.callerId?.ringOut.phoneInfo
-            ?.phoneNumber;
+          const defaultPhoneNumber =
+            this._deps.callerId?.ringOut.phoneInfo?.phoneNumber;
           const defaultEntry = this.fromNumbers.find(
             (item) => item.phoneNumber === defaultPhoneNumber,
           );
@@ -400,6 +435,10 @@ class CallingSettings extends RcModuleV2<Deps> {
         }
       }
     }
+
+    if (this.isWebphoneMode) {
+      this._verifyJPEmergency();
+    }
   }
 
   @computed((that: CallingSettings) => [
@@ -408,10 +447,8 @@ class CallingSettings extends RcModuleV2<Deps> {
     that._deps.extensionInfo.extensionNumber,
   ])
   get myPhoneNumbers() {
-    const {
-      directNumbers,
-      mainCompanyNumber,
-    } = this._deps.extensionPhoneNumber;
+    const { directNumbers, mainCompanyNumber } =
+      this._deps.extensionPhoneNumber;
     const { extensionNumber } = this._deps.extensionInfo;
     const myPhoneNumbers = directNumbers.map((item) => item.phoneNumber);
     if (mainCompanyNumber && extensionNumber) {

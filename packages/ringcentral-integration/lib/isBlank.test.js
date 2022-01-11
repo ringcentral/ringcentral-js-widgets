@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+
 import isBlank from './isBlank';
 
 describe('isBlank', () => {

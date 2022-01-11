@@ -1,14 +1,4 @@
-import { ExtensionTelephonySessionsEvent } from '@rc-ex/core/definitions';
-import {
-  action,
-  computed,
-  RcModuleV2,
-  state,
-  storage,
-  track,
-  watch,
-} from '@ringcentral-integration/core';
-import { filter, forEach, isEmpty, sort, find } from 'ramda';
+import { filter, find, forEach, isEmpty, sort } from 'ramda';
 import {
   ActiveCallInfo,
   events as callEvents,
@@ -19,12 +9,24 @@ import { PartyStatusCode } from 'ringcentral-call-control/lib/Session';
 import { events as eventsEnum, Session } from 'ringcentral-call/lib/Session';
 import { WebPhoneSession } from 'ringcentral-web-phone/lib/session';
 import { v4 as uuidV4 } from 'uuid';
+
+import { ExtensionTelephonySessionsEvent } from '@rc-ex/core/definitions';
+import {
+  action,
+  computed,
+  RcModuleV2,
+  state,
+  storage,
+  track,
+  watch,
+} from '@ringcentral-integration/core';
+
 import { callDirection } from '../../enums/callDirections';
 // eslint-disable-next-line import/no-named-as-default
 import subscriptionFilters from '../../enums/subscriptionFilters';
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
-import validateNumbers from '../../lib/validateNumbers';
+import { validateNumbers } from '../../lib/validateNumbers';
 import callControlError from '../ActiveCallControl/callControlError';
 import { trackEvents } from '../Analytics';
 import callErrors from '../Call/callErrors';
@@ -38,8 +40,8 @@ import {
   ActiveCallControlSessionData,
   ActiveSession,
   Deps,
-  ModuleMakeCallParams,
   ICurrentDeviceCallsMap,
+  ModuleMakeCallParams,
 } from './ActiveCallControl.interface';
 import {
   conflictError,
@@ -524,9 +526,8 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
     const callControlSessions = (this._rcCall?.sessions || [])
       .filter((session: Session) => filterDisconnectedCalls(session))
       .map((session: Session) => {
-        currentDeviceCallsMap[
-          session.telephonySessionId
-        ] = normalizeWebphoneSession(session.webphoneSession);
+        currentDeviceCallsMap[session.telephonySessionId] =
+          normalizeWebphoneSession(session.webphoneSession);
 
         return {
           ...session.data,
@@ -785,8 +786,12 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
       this.clearCallControlBusyTimestamp();
     } catch (error) {
       console.log('stop record error:', error);
+
+      this._deps.alert.danger({
+        message: webphoneErrors.pauseRecordError,
+      });
+
       this.clearCallControlBusyTimestamp();
-      throw error;
     }
   }
 
@@ -880,8 +885,8 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
         // when call is connecting or in voicemail then call control's Hold API will not work
         // so use webphone hold here
         (session.direction === callDirection.outbound &&
-          (otherParties[0]?.status.code === PartyStatusCode.proceeding ||
-            otherParties[0]?.status.code === PartyStatusCode.voicemail)) ||
+          (otherParties[0]?.status?.code === PartyStatusCode.proceeding ||
+            otherParties[0]?.status?.code === PartyStatusCode.voicemail)) ||
         isAtMainNumberPromptToneStage(session)
       ) {
         await webphoneSession.hold();
@@ -952,34 +957,47 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
   @proxify
   async transfer(transferNumber: string, telephonySessionId: string) {
     try {
+      const { regionSettings, brand } = this._deps;
       this.setCallControlBusyTimestamp();
       const session = this._rcCall.sessions.find(
         (s: Session) => s.id === telephonySessionId,
       );
-      const validatedResult = await this._deps.numberValidate.validateNumbers([
-        transferNumber,
-      ]);
-      if (!validatedResult.result) {
-        validatedResult.errors.forEach(async (error) => {
-          const isHAError: boolean = await this._deps.availabilityMonitor?.checkIfHAError(
-            error,
-          );
-          if (!isHAError) {
-            // TODO: fix `callErrors` type
-            this._deps.alert.warning({
-              message: (callErrors as any)[error.type],
-              payload: {
-                phoneNumber: error.phoneNumber,
-              },
-            });
-          }
+      let validatedResult;
+      let validPhoneNumber;
+      if (!this._permissionCheck) {
+        validatedResult = validateNumbers({
+          allowRegionSettings: brand.brandConfig.allowRegionSettings,
+          areaCode: regionSettings.areaCode,
+          countryCode: regionSettings.countryCode,
+          phoneNumbers: [transferNumber],
         });
-        return;
+        validPhoneNumber = validatedResult[0];
+      } else {
+        validatedResult = await this._deps.numberValidate.validateNumbers([
+          transferNumber,
+        ]);
+        if (!validatedResult.result) {
+          validatedResult.errors.forEach(async (error) => {
+            const isHAError: boolean =
+              await this._deps.availabilityMonitor?.checkIfHAError(error);
+            if (!isHAError) {
+              // TODO: fix `callErrors` type
+              this._deps.alert.warning({
+                message: (callErrors as any)[error.type],
+                payload: {
+                  phoneNumber: error.phoneNumber,
+                },
+              });
+            }
+          });
+          return;
+        }
+        // TODO: fix `validatedResult` type in `numberValidate` module.
+        validPhoneNumber =
+          (validatedResult as any).numbers[0] &&
+          (validatedResult as any).numbers[0].e164;
       }
-      // TODO: fix `validatedResult` type in `numberValidate` module.
-      const validPhoneNumber =
-        (validatedResult as any).numbers[0] &&
-        (validatedResult as any).numbers[0].e164;
+
       let phoneNumber = validPhoneNumber;
       if (validPhoneNumber.indexOf('+') === -1) {
         phoneNumber = [
@@ -1030,11 +1048,12 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
       let validatedResult;
       let validPhoneNumber;
       if (!this._permissionCheck) {
-        validatedResult = validateNumbers(
-          [forwardNumber],
-          regionSettings,
-          brand.id,
-        );
+        validatedResult = validateNumbers({
+          allowRegionSettings: brand.brandConfig.allowRegionSettings,
+          areaCode: regionSettings.areaCode,
+          countryCode: regionSettings.countryCode,
+          phoneNumbers: [forwardNumber],
+        });
         validPhoneNumber = validatedResult[0];
       } else {
         validatedResult = await this._deps.numberValidate.validateNumbers([
@@ -1182,8 +1201,8 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
           // when call is connecting or in voicemail then call control's Hold API will not work
           // so use webphone hold here
           (session.direction === callDirection.outbound &&
-            (otherParties[0]?.status.code === PartyStatusCode.proceeding ||
-              otherParties[0]?.status.code === PartyStatusCode.voicemail)) ||
+            (otherParties[0]?.status?.code === PartyStatusCode.proceeding ||
+              otherParties[0]?.status?.code === PartyStatusCode.voicemail)) ||
           isAtMainNumberPromptToneStage(session)
         ) {
           await webphoneSession.hold();
@@ -1282,14 +1301,16 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
       const session = this._rcCall.sessions.find((s: Session) => {
         return s.id === telephonySessionId;
       });
-      const currentActiveCall = this._rcCall.sessions.find(
+      const currentActiveCalls = this._rcCall.sessions.filter(
         (s: Session) =>
           s.id !== telephonySessionId &&
           s.webphoneSession &&
-          s.status === PartyStatusCode.answered,
+          (s.status === PartyStatusCode.answered ||
+            (s.direction === callDirection.outbound &&
+              s.status === PartyStatusCode.proceeding)),
       );
-      if (currentActiveCall) {
-        await currentActiveCall.hangup();
+      for (const s of currentActiveCalls) {
+        await s.hangup();
       }
       const deviceId = this._deps.webphone?.device?.id;
       await session.answer({ deviceId });
@@ -1371,9 +1392,9 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
     return this.activeSessions[telephonySessionId];
   }
 
-  getRcCallSession(telephoneSessionId: string) {
-    return this.rcCallSessions.find(
-      (session: Session) => session.telephonySessionId === telephoneSessionId,
+  getSession(telephonySessionId: string) {
+    return this.sessions.find(
+      (session) => session.telephonySessionId === telephonySessionId,
     );
   }
 

@@ -1,5 +1,6 @@
 import { GetPresenceInfo } from '@rc-ex/core/definitions';
 import { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
+
 import { Auth } from '../AuthV2';
 import ConnectivityMonitor from '../ConnectivityMonitor';
 import {

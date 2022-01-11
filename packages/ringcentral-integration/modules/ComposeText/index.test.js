@@ -1,10 +1,11 @@
 import { expect } from 'chai';
-import sinon from 'sinon';
 import { createStore } from 'redux';
-import ComposeText from './index';
-import getComposeTextReducer from './getComposeTextReducer';
-import actionTypes from './actionTypes';
+import sinon from 'sinon';
+
 import messageSenderMessages from '../MessageSender/messageSenderMessages';
+import actionTypes from './actionTypes';
+import getComposeTextReducer from './getComposeTextReducer';
+import ComposeText from './index';
 
 describe('ComposeText Unit Test', () => {
   let composeText;

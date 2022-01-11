@@ -1,10 +1,7 @@
-import {
-  action,
-  computed,
-  RcModuleV2,
-  state,
-} from '@ringcentral-integration/core';
 import bowser from 'bowser';
+
+import { action, RcModuleV2, state } from '@ringcentral-integration/core';
+
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
 import sleep from '../../lib/sleep';
@@ -21,15 +18,12 @@ import { softphoneStatus } from './softphoneStatus';
   deps: [
     'Brand',
     { dep: 'ContactMatcher', optional: true },
-    { dep: 'AccountInfo', optional: true },
-    { dep: 'DynamicConfig', optional: true },
     { dep: 'SoftphoneOptions', optional: true },
   ],
 })
 export class Softphone<T extends Deps = Deps> extends RcModuleV2<T> {
   protected _callHandler: (context: CallHandlerContext) => any;
   protected _extensionMode: boolean;
-  protected _useBrandedJupiter: boolean;
 
   constructor(deps: T) {
     super({
@@ -37,8 +31,6 @@ export class Softphone<T extends Deps = Deps> extends RcModuleV2<T> {
     });
     this._ignoreModuleReadiness(deps.contactMatcher);
     this._extensionMode = this._deps.softphoneOptions?.extensionMode ?? false;
-    this._useBrandedJupiter =
-      this._deps.softphoneOptions?.useBrandedJupiter ?? false;
     this._callHandler = this._deps.softphoneOptions?.callHandler;
   }
 
@@ -67,44 +59,21 @@ export class Softphone<T extends Deps = Deps> extends RcModuleV2<T> {
   }
 
   get spartanProtocol() {
-    return this.brandConfig.spartanProtocol;
-  }
-
-  @computed((that: Softphone) => [
-    that._deps.brand.brandConfig,
-    that._deps.accountInfo?.serviceInfo,
-    that._deps.dynamicConfig?.data,
-  ])
-  get callWithJupiterConfig() {
-    const brandId = this._deps.accountInfo?.serviceInfo.brand?.id;
-    if (this._useBrandedJupiter && brandId) {
-      const brandConfigs =
-        this._deps.dynamicConfig?.data.callWithJupiter ??
-        this.brandConfig.callWithJupiter;
-      if (brandConfigs) {
-        return brandConfigs[brandId] ?? brandConfigs.default;
-      }
-    }
-    return this.brandConfig.callWithJupiter.default;
-  }
-
-  get brandConfig() {
-    return this._deps.brand.brandConfig;
+    return this._deps.brand.brandConfig.callWithSoftphone.protocol;
   }
 
   // currently we only have RingCentral App(rc brand)'s & AT&T universal link
   get jupiterUniversalLink() {
-    return this.callWithJupiterConfig.link;
+    return this._deps.brand.brandConfig.callWithJupiter?.link;
   }
 
-  @computed(({ callWithJupiterConfig }: Softphone) => [callWithJupiterConfig])
   get jupiterAppName() {
-    return this.callWithJupiterConfig?.name ?? null;
+    return this._deps.brand.brandConfig.callWithJupiter?.name;
   }
 
   // currently we don't have Bt brand uri scheme
   get jupiterProtocol() {
-    return this.callWithJupiterConfig.protocol;
+    return this._deps.brand.brandConfig.callWithJupiter?.protocol;
   }
 
   getMakeCallUri(phoneNumber: string, callingMode: string): CallUriInfo {
@@ -134,7 +103,7 @@ export class Softphone<T extends Deps = Deps> extends RcModuleV2<T> {
     // rc brand use scheme, partner brand use universal link
     return (
       this._deps.softphoneOptions?.useJupiterUniversalLink ??
-      this.brandConfig.allowJupiterUniversalLink
+      this._deps.brand.brandConfig.allowJupiterUniversalLink
     );
   }
 
@@ -142,12 +111,8 @@ export class Softphone<T extends Deps = Deps> extends RcModuleV2<T> {
   async makeCall(phoneNumber: string, callingMode: string) {
     this.startToConnect(phoneNumber);
 
-    const {
-      protocol,
-      command,
-      uri,
-      isJupiterUniversalLink,
-    } = this.getMakeCallUri(phoneNumber, callingMode);
+    const { protocol, command, uri, isJupiterUniversalLink } =
+      this.getMakeCallUri(phoneNumber, callingMode);
 
     if (this._callHandler) {
       this._callHandler({

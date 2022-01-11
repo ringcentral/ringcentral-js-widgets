@@ -1,11 +1,12 @@
 import { EventEmitter } from 'events';
 import localforage from 'localforage';
 import * as uuid from 'uuid';
-import { MemoryStorage } from './MemoryStorage';
+
 import {
   AsyncStorage,
   StorageItem,
 } from '../interfaces/GenericStorage.interface';
+import { MemoryStorage } from './MemoryStorage';
 
 export class LocalForageStorage extends EventEmitter implements AsyncStorage {
   private _storageKey: string;

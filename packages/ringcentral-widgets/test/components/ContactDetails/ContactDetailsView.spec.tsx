@@ -1,22 +1,17 @@
 import React from 'react';
-import { render, fireEvent, configure } from '@testing-library/react';
-import {
-  toContainElement,
-  toHaveTextContent,
-} from '@testing-library/jest-dom/matchers';
+
 import {
   PhoneType,
   phoneTypes,
 } from '@ringcentral-integration/commons/enums/phoneTypes';
 import { ContactModel } from '@ringcentral-integration/commons/interfaces/Contact.model';
+import { fireEvent, render } from '@testing-library/react';
+
 import { ContactDetailsView } from '../../../components/ContactDetailsView';
 import {
   ContactDetailsViewFunctionProps,
   ContactDetailsViewProps,
 } from '../../../components/ContactDetailsView/ContactDetailsView.interface';
-
-expect.extend({ toContainElement, toHaveTextContent });
-configure({ testIdAttribute: 'data-sign' });
 
 type Props = ContactDetailsViewFunctionProps & ContactDetailsViewProps;
 

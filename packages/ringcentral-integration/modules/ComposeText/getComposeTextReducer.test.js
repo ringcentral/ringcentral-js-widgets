@@ -1,14 +1,12 @@
 import { expect } from 'chai';
-import getComposeTextReducer, {
-  getComposeTextStatusReducer,
-  getSenderNumber,
-  getTypingToNumber,
-  getToNumbers,
-  getMessageText,
-} from './getComposeTextReducer';
 
 import composeTextActionTypes from './actionTypes';
-import composeTextStatus from './composeTextStatus';
+import {
+  getMessageText,
+  getSenderNumber,
+  getToNumbers,
+  getTypingToNumber,
+} from './getComposeTextReducer';
 
 describe('CompostText :: getSenderNumber', () => {
   it('getSenderNumber should be a function', () => {

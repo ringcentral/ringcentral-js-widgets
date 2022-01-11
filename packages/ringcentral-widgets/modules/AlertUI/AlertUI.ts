@@ -1,9 +1,10 @@
+import { Module } from '@ringcentral-integration/commons/lib/di';
 import {
   RcUIModuleV2,
   UIFunctions,
   UIProps,
 } from '@ringcentral-integration/core';
-import { Module } from '@ringcentral-integration/commons/lib/di';
+
 import { AlertRenderer } from '../../components/AlertRenderer';
 import {
   NotificationMessage,
@@ -21,6 +22,14 @@ import { Deps } from './AlertUI.interface';
     'RouterInteraction',
     {
       dep: 'RateLimiter',
+      optional: true,
+    },
+    {
+      dep: 'Softphone',
+      optional: true,
+    },
+    {
+      dep: 'CallLogSection',
       optional: true,
     },
   ],
@@ -45,7 +54,7 @@ export class AlertUI extends RcUIModuleV2<Deps> {
       fullWidth,
       currentLocale: this._deps.locale.currentLocale,
       messages: this._deps.alert.messages as NotificationMessage[],
-      brand: this._deps.brand.fullName,
+      brand: this._deps.brand.name,
     };
   }
 
@@ -62,14 +71,27 @@ export class AlertUI extends RcUIModuleV2<Deps> {
             return renderer;
           }
         }
-        return AlertRenderer(
-          this._deps.alert,
-          this._deps.brand,
-          this._deps.rateLimiter,
-          this._deps.routerInteraction,
+        const {
+          alert,
+          brand,
+          softphone,
+          rateLimiter,
+          routerInteraction,
+          callLogSection,
+        } = this._deps;
+        // TODO: It would be better to refactor alertUI like modalUI.registerRenderer.
+        return AlertRenderer({
+          alert,
+          brand,
+          // support jupiterAppName with dynamicConfig, should remove this and use brandConfig
+          // instead once dynamicConfig module is deprecated
+          softphone,
+          rateLimiter,
+          routerInteraction,
+          callLogSection,
           regionSettingsUrl,
           callingSettingsUrl,
-        )(message);
+        })(message);
       },
       dismiss: (id: string) => this._deps.alert.dismiss(id),
     };

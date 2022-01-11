@@ -1,5 +1,6 @@
 import { expect } from 'chai';
-import cleanNumber, { hasNumber, hasInvalidChar } from '.';
+
+import cleanNumber from '.';
 
 describe('cleanNumber', () => {
   it(`should return numeric values if number only contains numeric values`, () => {

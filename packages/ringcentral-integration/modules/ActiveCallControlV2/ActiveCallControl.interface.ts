@@ -6,12 +6,13 @@ import {
 } from 'ringcentral-call-control/lib/Session';
 import { Session } from 'ringcentral-call/lib/Session';
 import { WebPhoneSession } from 'ringcentral-web-phone/lib/session';
+
 import { RouterInteraction } from '../../../ringcentral-widgets/modules/RouterInteraction';
 import { TelephonyStatus } from '../../enums/telephonyStatus';
 import { NormalizedSession } from '../../interfaces/Webphone.interface';
 import { RingCentralClient } from '../../lib/RingCentralClient';
 import AccountInfo from '../AccountInfo';
-import Alert from '../Alert';
+import { Alert } from '../AlertV2';
 import { AppFeatures } from '../AppFeatures';
 import AudioSettings from '../AudioSettings';
 import Auth from '../Auth';
@@ -19,9 +20,9 @@ import AvailabilityMonitor from '../AvailabilityMonitor';
 import { Brand } from '../Brand';
 import ConnectivityMonitor from '../ConnectivityMonitor';
 import ExtensionInfo from '../ExtensionInfo';
-import NumberValidate from '../NumberValidate';
+import { NumberValidate } from '../NumberValidate';
 import { Presence } from '../PresenceV2';
-import RegionSettings from '../RegionSettings';
+import { RegionSettings } from '../RegionSettings';
 import Storage from '../Storage';
 import Subscription from '../Subscription';
 import { TabManager } from '../TabManager';

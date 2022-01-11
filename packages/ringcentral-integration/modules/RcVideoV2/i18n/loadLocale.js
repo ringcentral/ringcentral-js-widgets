@@ -1,2 +1,0 @@
-/* loadLocale */
-/* noChunk */

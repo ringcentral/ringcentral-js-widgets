@@ -1,8 +1,9 @@
-import React, { FunctionComponent, useState, useEffect, useRef } from 'react';
+import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
+
 import { useIsMounted } from '../../react-hooks/useIsMounted';
-import styles from './styles.scss';
 import i18n from './i18n';
 import { AudioFileReaderProps, RingtoneProps } from './Ringtone.interface';
+import styles from './styles.scss';
 
 const AudioFileReader: FunctionComponent<AudioFileReaderProps> = ({
   currentLocale,

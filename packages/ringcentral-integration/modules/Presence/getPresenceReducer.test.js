@@ -1,12 +1,13 @@
 import { expect } from 'chai';
+
+import actionTypes from './actionTypes';
+import dndStatuses from './dndStatus';
 import {
   getDndStatusReducer,
   getLastNotDisturbDndStatusReducer,
   getPresenceStatusReducer,
   getUserStatusReducer,
 } from './getPresenceReducer';
-import dndStatuses from './dndStatus';
-import actionTypes from './actionTypes';
 
 describe('getDndStatusReducer', () => {
   it('should be a function', () => {

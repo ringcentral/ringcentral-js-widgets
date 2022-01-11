@@ -1,11 +1,11 @@
 import { RcVMeetingModel } from '../../interfaces/Rcv.model';
-import { Meeting, MeetingDelegator, RcMMeetingModel } from '../MeetingV2';
-import { ExtensionInfo } from '../ExtensionInfoV2';
 import { Brand } from '../Brand';
+import { ExtensionInfo } from '../ExtensionInfoV2';
+import { Meeting, MeetingDelegator, RcMMeetingModel } from '../MeetingV2';
 import { RcVideo } from '../RcVideoV2';
 import {
-  VideoConfiguration,
   meetingProviderTypesProps,
+  VideoConfiguration,
 } from '../VideoConfiguration';
 
 export type ExtensionInfoData = {

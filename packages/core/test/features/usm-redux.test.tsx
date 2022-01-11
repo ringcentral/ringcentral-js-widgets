@@ -17,7 +17,6 @@ import {
   watch,
   subscribe,
   Store,
-  watchEffect,
 } from '../../lib/usm-redux/index';
 
 @autorun(test)
@@ -115,12 +114,14 @@ export class EnablePatchesBasic extends Step {
               {
                 enablePatches: true,
                 reduxEnhancer: applyMiddleware(
-                  ({ getState }) => (next) => (action) => {
-                    const lastState: any = getState();
-                    const result = next(action);
-                    snapshots.push(applyPatches(lastState, action._patches));
-                    return result;
-                  },
+                  ({ getState }) =>
+                    (next) =>
+                    (action) => {
+                      const lastState: any = getState();
+                      const result = next(action);
+                      snapshots.push(applyPatches(lastState, action._patches));
+                      return result;
+                    },
                 ),
               },
             );
@@ -696,17 +697,20 @@ export class WatchBasic extends Step {
 }
 
 @autorun(test)
-@title('watchEffect::basic')
-export class WatchEffect extends Step {
+@title('watch-multiple::basic')
+export class WatchMultiple extends Step {
   run() {
     const fn = jest.fn();
     class Counter {
       constructor() {
-        watchEffect(
+        watch(
           this,
           () => [this.count.sum, this.a],
           (...args) => {
             fn(...args);
+          },
+          {
+            multiple: true,
           },
         );
       }
@@ -759,7 +763,7 @@ export class WatchEffect extends Step {
           }}
         />
         <Then
-          desc="'count' in counter should be updated and 'watchEffect' should be triggered"
+          desc="'count' in counter should be updated and 'watch' should be triggered"
           action={() => {
             const newState = Object.values(store.getState())[0] as Counter;
             expect(newState.count).toEqual({ sum: 1 });
@@ -778,7 +782,7 @@ export class WatchEffect extends Step {
           }}
         />
         <Then
-          desc="'a' in counter should be updated and 'watchEffect' should be triggered"
+          desc="'a' in counter should be updated and 'watch' should be triggered"
           action={() => {
             const newState = Object.values(store.getState())[0] as Counter;
             expect(newState.a).toEqual(1);
@@ -801,7 +805,7 @@ export class WatchEffect extends Step {
           }}
         />
         <Then
-          desc="'b' in counter should be updated and 'watchEffect' should not be triggered"
+          desc="'b' in counter should be updated and 'watch' should not be triggered"
           action={() => {
             const newState = Object.values(store.getState())[0] as Counter;
             expect(newState.b).toEqual(1);

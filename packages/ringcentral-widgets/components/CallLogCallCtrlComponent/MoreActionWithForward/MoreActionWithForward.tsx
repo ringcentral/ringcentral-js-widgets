@@ -1,7 +1,9 @@
-import { RcMenuItem, RcMenuList, RcPopover } from '@ringcentral/juno';
-import IgnoreIcon from '@ringcentral/juno/icon/Ignore';
-import classnames from 'classnames';
 import React, { FunctionComponent, useState } from 'react';
+
+import classnames from 'classnames';
+
+import { RcMenuItem, RcMenuList, RcPopover } from '@ringcentral/juno';
+import { Ignore as IgnoreIcon } from '@ringcentral/juno/icon';
 
 import dynamicsFont from '../../../assets/DynamicsFont/DynamicsFont.scss';
 import ForwardIcon from '../../../assets/images/Forward_white.svg';
@@ -73,7 +75,7 @@ const MoreActionWithForward: FunctionComponent<MoreActionWithForwardProps> = (
           horizontal: 'right',
         }}
       >
-        <RcMenuList>
+        <RcMenuList data-sign="moreList">
           <RcMenuItem
             onClick={handleForwardListClick}
             className={styles.menuItem}

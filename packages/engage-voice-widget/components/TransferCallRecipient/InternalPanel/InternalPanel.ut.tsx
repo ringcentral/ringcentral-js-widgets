@@ -1,7 +1,9 @@
-import { RcThemeProvider } from '@ringcentral/juno';
-import { StepFunction } from 'crius-test';
-import { mount } from 'enzyme';
 import React from 'react';
+
+import { mount } from 'enzyme';
+
+import { StepFunction } from '@ringcentral-integration/test-utils';
+import { RcThemeProvider } from '@ringcentral/juno';
 
 import { EvDirectAgentListItem } from '../../../lib/EvClient';
 import { InternalPanel, InternalPanelProps } from './InternalPanel';
@@ -187,18 +189,17 @@ interface UTCheckInternalPanelRenderProps {
   internalOptions: string;
 }
 
-export const UTCheckInternalPanelRender: StepFunction<UTCheckInternalPanelRenderProps> = async ({
-  internalOptions,
-}) => {
-  const wrapper = setup({});
-  const dataSign = {
-    'Search bar': 'searchBar',
-    'internal recipient list': 'searchResult',
+export const UTCheckInternalPanelRender: StepFunction<UTCheckInternalPanelRenderProps> =
+  async ({ internalOptions }) => {
+    const wrapper = setup({});
+    const dataSign = {
+      'Search bar': 'searchBar',
+      'internal recipient list': 'searchResult',
+    };
+    expect(
+      wrapper.find(`[data-sign="${dataSign[internalOptions]}"]`),
+    ).not.toBeUndefined();
   };
-  expect(
-    wrapper.find(`[data-sign="${dataSign[internalOptions]}"]`),
-  ).not.toBeUndefined();
-};
 
 export const UTCheckTransferAgentSelectCases = [
   {
@@ -220,24 +221,21 @@ interface UTCheckTransferAgentSelectProps {
   recipientDisplay: string;
 }
 
-export const UTCheckTransferAgentSelect: StepFunction<UTCheckTransferAgentSelectProps> = async ({
-  internalItem,
-  available,
-  recipientDisplay,
-}) => {
-  const changeTransferAgentId = jest.fn(() => {});
-  const agentId = '10003';
-  wrapper = setup({
-    changeTransferAgentId,
-    transferAgentList: [
-      { agentId, firstName: internalItem, lastName: '', available },
-    ],
-  });
-  const selectIndex = 0;
-  const agentItems = getAgentItems();
-  agentItems.at(selectIndex).find('[role="button"]').at(0).simulate('click');
-  expect(changeTransferAgentId).toBeCalledWith(agentId);
-};
+export const UTCheckTransferAgentSelect: StepFunction<UTCheckTransferAgentSelectProps> =
+  async ({ internalItem, available, recipientDisplay }) => {
+    const changeTransferAgentId = jest.fn(() => {});
+    const agentId = '10003';
+    wrapper = setup({
+      changeTransferAgentId,
+      transferAgentList: [
+        { agentId, firstName: internalItem, lastName: '', available },
+      ],
+    });
+    const selectIndex = 0;
+    const agentItems = getAgentItems();
+    agentItems.at(selectIndex).find('[role="button"]').at(0).simulate('click');
+    expect(changeTransferAgentId).toBeCalledWith(agentId);
+  };
 
 export const UTCheckAgentListRenderCases = [
   {
@@ -320,24 +318,25 @@ interface UTCheckAgentListRenderProps {
   availableStatus: 'Available' | 'Unavailable';
   statusColor: string;
 }
-export const UTCheckAgentListRender: StepFunction<UTCheckAgentListRenderProps> = async ({
-  agentState,
-  available,
-  recipient,
-  availableStatus,
-  statusColor,
-}) => {
-  const wrapper = setup({
-    transferAgentList: [
-      { agentState, firstName: recipient, lastName: '', available },
-    ],
-  });
-  const agentItem = wrapper.find('[data-sign="agentItem"]');
-  expect(agentItem.find('.agentName').text().trim()).toBe(recipient);
-  expect(agentItem.find('.statusText').text().trim()).toBe(availableStatus);
-  if (statusColor === 'green') {
-    expect(agentItem.find('.available')).toHaveLength(1);
-  } else if (statusColor === 'gray') {
-    expect(agentItem.find('.unavailable')).toHaveLength(1);
-  }
-};
+export const UTCheckAgentListRender: StepFunction<UTCheckAgentListRenderProps> =
+  async ({
+    agentState,
+    available,
+    recipient,
+    availableStatus,
+    statusColor,
+  }) => {
+    const wrapper = setup({
+      transferAgentList: [
+        { agentState, firstName: recipient, lastName: '', available },
+      ],
+    });
+    const agentItem = wrapper.find('[data-sign="agentItem"]');
+    expect(agentItem.find('.agentName').text().trim()).toBe(recipient);
+    expect(agentItem.find('.statusText').text().trim()).toBe(availableStatus);
+    if (statusColor === 'green') {
+      expect(agentItem.find('.available')).toHaveLength(1);
+    } else if (statusColor === 'gray') {
+      expect(agentItem.find('.unavailable')).toHaveLength(1);
+    }
+  };

@@ -12,20 +12,6 @@
     padding: 20px 0;
   }
 
-  .title {
-    text-align: center;
-    margin: 8px 0 32px;
-    color: rc-palette('neutral', 'f04');
-  }
-
-  .accountName {
-    color: rc-palette('neutral', 'f06');
-  }
-
-  .agentType {
-    color: rc-palette('neutral', 'f04');
-  }
-
   .lists {
     height: calc(100% - 136px);
     overflow-y: auto;
@@ -34,18 +20,6 @@
   div.listItem.listItem {
     height: 56px;
     width: 100%;
-
-    .content {
-      height: 56px;
-      width: 100%;
-      border-bottom: 1px solid rc-palette('neutral', 'l02');
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      div {
-        display: inline-block;
-      }
-    }
   }
 
   .accountName {

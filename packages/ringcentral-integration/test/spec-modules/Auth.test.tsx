@@ -1,12 +1,13 @@
 import {
   autorun,
-  title,
-  Scenario,
   Given,
-  Then,
+  Scenario,
   Step,
+  Then,
+  title,
 } from '@ringcentral-integration/test-utils';
-import { Auth, Token, loginStatus } from '../../modules/AuthV2';
+
+import { Auth, loginStatus, Token } from '../../modules/AuthV2';
 import { mockModuleGenerator } from '../lib/mockModule';
 
 const getMockModule = () =>

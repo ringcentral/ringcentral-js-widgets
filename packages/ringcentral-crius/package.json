@@ -8,8 +8,8 @@
   },
   "dependencies": {
     "babel-jest": "^27.0.1",
-    "crius-is": "^1.2.0",
-    "crius-test": "^1.2.0"
+    "crius-is": "*",
+    "crius-test": "*"
   },
   "keywords": [],
   "author": "",

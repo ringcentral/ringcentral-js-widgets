@@ -1,10 +1,11 @@
 import { expect } from 'chai';
+
 import getIntlDateTimeFormatter, {
-  getFormatter,
   DEFAULT_DATE_OPTIONS,
   DEFAULT_DATE_TIME_OPTIONS,
   DEFAULT_TIME_OPTIONS,
-} from './';
+  getFormatter,
+} from '.';
 
 describe('getFormatter', () => {
   it('should be a function', () => {

@@ -1,5 +1,6 @@
+import React, { FunctionComponent } from 'react';
+
 import { RcThemeProvider, RcThemeProviderProps } from '@ringcentral/juno';
-import React from 'react';
 
 export interface PhoneProviderProps<T = any> {
   phone: T;
@@ -14,7 +15,7 @@ export default PhoneContext;
  * Init `UI module system provider` and `Juno theme provider`
  * make sure you only have one `PhoneProvider` in your app
  */
-export const PhoneProvider: React.FunctionComponent<PhoneProviderProps> = ({
+export const PhoneProvider: FunctionComponent<PhoneProviderProps> = ({
   phone,
   theme,
   children,

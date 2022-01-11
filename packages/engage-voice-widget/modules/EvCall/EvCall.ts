@@ -1,3 +1,5 @@
+import { Module } from '@ringcentral-integration/commons/lib/di';
+import callErrors from '@ringcentral-integration/commons/modules/Call/callErrors';
 import {
   action,
   computed,
@@ -7,8 +9,6 @@ import {
   track,
   watch,
 } from '@ringcentral-integration/core';
-import { Module } from '@ringcentral-integration/commons/lib/di';
-import callErrors from '@ringcentral-integration/commons/modules/Call/callErrors';
 
 import { messageTypes } from '../../enums';
 import {
@@ -302,6 +302,11 @@ class EvCall extends RcModuleV2<Deps> implements Call {
           this._deps.alert.danger({
             message: messageTypes.NO_SUPPORT_COUNTRY,
             ttl: 0,
+          });
+          break;
+        case callErrors.emergencyNumber:
+          this._deps.alert.danger({
+            message: callErrors.emergencyNumber,
           });
           break;
         default:

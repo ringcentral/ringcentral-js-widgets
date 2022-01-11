@@ -18,5 +18,6 @@ export default class I18n {
   readonly currentLocale: string;
   static readonly setLocale: typeof setLocale;
   static setDefaultLocale: (locale: string) => void;
+  static padRatio: number;
 }
 export {};

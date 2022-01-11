@@ -1,3 +1,5 @@
+import { combineReducers } from 'redux';
+
 import {
   action,
   identifierKey,
@@ -7,7 +9,7 @@ import {
   state,
   usmAction,
 } from '@ringcentral-integration/core';
-import { combineReducers } from 'redux';
+
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
 import { Tabbie } from '../../lib/Tabbie';

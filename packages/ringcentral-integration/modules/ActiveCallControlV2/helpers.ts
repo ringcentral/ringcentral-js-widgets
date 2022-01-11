@@ -1,19 +1,21 @@
-import { CallRecording } from '@rc-ex/core/definitions';
+// eslint-disable-next-line import/no-named-as-default
+import { find } from 'ramda';
 import {
   Party,
   PartyStatusCode,
   Session as TelephonySession,
 } from 'ringcentral-call-control/lib/Session';
 import { Session } from 'ringcentral-call/lib/Session';
-// eslint-disable-next-line import/no-named-as-default
-import { find } from 'ramda';
-import { recordStatus } from '../Webphone/recordStatus';
-// eslint-disable-next-line import/no-named-as-default
-import callResults from '../../enums/callResults';
-import callDirections, { callDirection } from '../../enums/callDirections';
+
+import { CallRecording } from '@rc-ex/core/definitions';
+
 // eslint-disable-next-line import/no-named-as-default
 import activeCallControlStatus from '../../enums/activeCallControlStatus';
+import callDirections, { callDirection } from '../../enums/callDirections';
+// eslint-disable-next-line import/no-named-as-default
+import callResults from '../../enums/callResults';
 import { mapTelephonyStatus } from '../CallMonitor/callMonitorHelper';
+import { recordStatus } from '../Webphone/recordStatus';
 import { ActiveCallControlSessionData } from './ActiveCallControl.interface';
 
 export function isHangUp(code: string) {
@@ -146,8 +148,8 @@ export function getInboundSwitchedParty(parties: Party[]) {
   const result = find((party: Party) => {
     return (
       party.direction === callDirections.inbound &&
-      party.status.code === PartyStatusCode.disconnected &&
-      party.status.reason === 'CallSwitch'
+      party.status?.code === PartyStatusCode.disconnected &&
+      party.status?.reason === 'CallSwitch'
     );
   }, parties);
   return result;

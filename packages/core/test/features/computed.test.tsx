@@ -17,6 +17,22 @@ const generateModule = (
   sumComputedFn: Function,
 ) => {
   class Foo extends RcModuleV2 {
+    num1 = 1;
+
+    fn = jest.fn();
+
+    constructor() {
+      super();
+      // store has not been created yet
+      expect(this.num).toBe(1);
+      expect(this.fn.mock.calls.length).toBe(1);
+      this.num1 = 2;
+      expect(this.num).toBe(2);
+      expect(this.fn.mock.calls.length).toBe(2);
+      expect(this.num).toBe(2);
+      expect(this.fn.mock.calls.length).toBe(2);
+    }
+
     @state
     count = 0;
 
@@ -36,6 +52,12 @@ const generateModule = (
     @action
     increase() {
       this.count += 1;
+    }
+
+    @computed((that: Foo) => [that.count, that.num1])
+    get num() {
+      this.fn();
+      return this.count + this.num1;
     }
 
     @computed((that: Foo) => [that.count])

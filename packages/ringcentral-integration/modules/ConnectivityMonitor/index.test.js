@@ -1,16 +1,16 @@
 import chai, { expect } from 'chai';
 import chaiAsPromised from 'chai-as-promised';
 import dirtyChai from 'dirty-chai';
-import sinon from 'sinon';
 import { createStore } from 'redux';
+import sinon from 'sinon';
 
 import ConnectivityMonitor, {
-  DEFAULT_TIME_TO_RETRY,
   DEFAULT_HEART_BEAT_INTERVAL,
+  DEFAULT_TIME_TO_RETRY,
 } from '.';
-import actionTypes from './actionTypes';
 // import moduleStatuses from '../../enums/moduleStatuses';
 import sleep from '../../lib/sleep';
+import actionTypes from './actionTypes';
 
 chai.use(chaiAsPromised);
 chai.use(dirtyChai);

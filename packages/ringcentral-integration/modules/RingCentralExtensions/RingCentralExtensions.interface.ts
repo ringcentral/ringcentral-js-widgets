@@ -1,9 +1,10 @@
 import { DebugOptions } from '@rc-ex/debug';
 import { WebSocketOptions } from '@rc-ex/ws/lib/types';
-import { Auth } from '../AuthV2';
-import { Storage } from '../StorageV2';
-import { SleepDetector } from '../SleepDetectorV2';
+
 import { RingCentralClient } from '../../lib/RingCentralClient';
+import { Auth } from '../AuthV2';
+import { SleepDetector } from '../SleepDetectorV2';
+import { Storage } from '../StorageV2';
 
 export interface RingCentralExtensionsOptions {
   debugMode?: boolean;

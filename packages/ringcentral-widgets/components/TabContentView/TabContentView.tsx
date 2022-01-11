@@ -1,6 +1,7 @@
 import React, { FunctionComponent } from 'react';
-import TabContentPanel from '../TabContentPanel';
+
 import { SpinnerOverlay } from '../SpinnerOverlay';
+import TabContentPanel from '../TabContentPanel';
 import styles from './styles.scss';
 
 export interface Tab {

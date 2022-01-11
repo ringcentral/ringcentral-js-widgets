@@ -1,31 +1,6 @@
 @import '../../lib/commonStyles/colors.scss';
 @import '../../lib/commonStyles/fonts';
 
-.inviteBox {
-  flex-shrink: 0;
-  padding: 3px 20px 16px;
-  background-color: transparent;
-  box-shadow: none;
-  :first-child[data-sign='meetingScheduleButton'] {
-    margin-top: 13px;
-  }
-}
-
-.withShadow {
-  border-top: 1px solid rc-palette('neutral', 'l02');
-  position: relative;
-  background-color: $snow;
-}
-
-.onlyButton {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  margin-top: -20px;
-}
-
 .actionPrompt {
   color: #212121;
   font-size: 14px;

@@ -1,4 +1,4 @@
-import { BrandConfig } from '../Brand/Brand.interface';
+import { BrandConfig } from '../Brand/BrandConfig.interface';
 
 export interface LocaleOptions {
   defaultLocale?: string;

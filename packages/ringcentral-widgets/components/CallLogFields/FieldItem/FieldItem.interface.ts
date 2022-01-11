@@ -36,6 +36,7 @@ export type FieldItemOption = {
   renderCondition?: string;
   onlyShowInMultipleMatches?: boolean;
   showOtherSection?: boolean;
+  showFoundFromServer?: boolean;
   onChange?: (value?: any) => any;
   multiple?: boolean;
 } & Pick<RcTextFieldProps, 'helperText' | 'error' | 'disabled' | 'placeholder'>;

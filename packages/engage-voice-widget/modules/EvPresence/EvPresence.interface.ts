@@ -1,4 +1,4 @@
-import Alert from '@ringcentral-integration/commons/modules/Alert';
+import { Alert } from '@ringcentral-integration/commons/modules/AlertV2';
 import { Beforeunload } from '@ringcentral-integration/widgets/modules/Beforeunload';
 import { Mapping } from '@ringcentral-integration/widgets/typings';
 

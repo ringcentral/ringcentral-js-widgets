@@ -1,16 +1,30 @@
-import { action, RcModuleV2, state } from '@ringcentral-integration/core';
-import { camelCase } from '../../lib/camelCase';
+import {
+  action,
+  computed,
+  RcModuleV2,
+  state,
+} from '@ringcentral-integration/core';
+import { DEFAULT_LOCALE } from '@ringcentral-integration/i18n';
 
+import { camelCase } from '../../lib/camelCase';
 import { Module } from '../../lib/di';
-import { BrandConfig, Deps } from './Brand.interface';
+import { processI18n } from '../../lib/processI18n';
+import { Deps } from './Brand.interface';
+import { BrandConfig } from './BrandConfig.interface';
+import { processAssets } from './helpers';
 
 @Module({
   name: 'Brand',
-  deps: ['BrandConfig', { dep: 'Prefix', optional: true }],
+  deps: [
+    'BrandConfig',
+    'Locale',
+    { dep: 'Prefix', optional: true },
+    { dep: 'BrandConfigOptions', optional: true },
+  ],
 })
 export class Brand<
   T extends BrandConfig = BrandConfig,
-  D extends Deps<T> = Deps<T>
+  D extends Deps<T> = Deps<T>,
 > extends RcModuleV2<D> {
   protected _prefix: string = null;
   constructor(deps: D) {
@@ -30,12 +44,37 @@ export class Brand<
     this.dynamicConfig = config;
   }
 
+  @computed((that: Brand<T, D>) => [that._deps.brandConfig])
   get defaultConfig() {
-    return this._deps.brandConfig;
+    const brandConfig = this._deps.brandConfig;
+
+    if (!brandConfig?.assets) return brandConfig;
+
+    /**
+     * use current window location.origin as origin
+     * to avoid app inject into others page meet resource path issue
+     * like chrome extension content page
+     */
+    return {
+      ...brandConfig,
+      assets: processAssets(
+        brandConfig.assets,
+        this._deps.brandConfigOptions?.assetOrigin || window.location.origin,
+      ),
+    };
   }
 
+  @computed(({ dynamicConfig, _deps: { locale } }: Brand<T, D>) => [
+    dynamicConfig,
+    locale?.currentLocale,
+    locale?.defaultLocale,
+  ])
   get brandConfig() {
-    return this.dynamicConfig ?? this.defaultConfig;
+    return processI18n(
+      this.dynamicConfig ?? this.defaultConfig,
+      this._deps.locale?.currentLocale ?? DEFAULT_LOCALE,
+      this._deps.locale?.defaultLocale ?? DEFAULT_LOCALE,
+    );
   }
 
   get prefix() {
@@ -54,12 +93,16 @@ export class Brand<
     return this.brandConfig.name;
   }
 
-  get fullName() {
-    return this.brandConfig.fullName ?? this.brandConfig.name;
-  }
-
   get shortName() {
     return this.brandConfig.shortName ?? this.brandConfig.name;
+  }
+
+  get appName() {
+    return this.brandConfig.appName;
+  }
+
+  get shortAppName() {
+    return this.brandConfig.shortAppName;
   }
 
   get rcvProductName() {
@@ -74,11 +117,11 @@ export class Brand<
     return this.brandConfig.application;
   }
 
-  get appName() {
-    return this.brandConfig.appName;
-  }
-
   get rcvTeleconference() {
     return this.brandConfig.rcvTeleconference;
+  }
+
+  get assets() {
+    return this.brandConfig.assets;
   }
 }

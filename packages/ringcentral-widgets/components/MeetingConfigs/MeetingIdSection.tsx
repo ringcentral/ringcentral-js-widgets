@@ -1,9 +1,11 @@
 import 'react-widgets/dist/css/react-widgets.css';
 
-import { RcLink } from '@ringcentral/juno';
-import formatMessage from 'format-message';
 import React, { FunctionComponent } from 'react';
+
+import formatMessage from 'format-message';
+
 import { RcMMeetingModel } from '@ringcentral-integration/commons/modules/MeetingV2';
+import { RcLink } from '@ringcentral/juno';
 
 import CheckBox from '../CheckBox';
 import MeetingSection from '../MeetingSection';

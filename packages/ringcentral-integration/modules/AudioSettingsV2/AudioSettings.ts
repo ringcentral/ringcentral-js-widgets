@@ -1,3 +1,5 @@
+import { filter, find } from 'ramda';
+
 import {
   action,
   computed,
@@ -5,7 +7,7 @@ import {
   state,
   storage,
 } from '@ringcentral-integration/core';
-import { filter, find } from 'ramda';
+
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
 import { AudioSettingsData, Deps } from './AudioSettings.interface';

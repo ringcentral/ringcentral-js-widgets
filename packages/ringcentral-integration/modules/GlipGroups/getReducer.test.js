@@ -1,14 +1,13 @@
 import { expect } from 'chai';
-import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
 
+import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
+import actionTypes from './actionTypes';
 import getReducer, {
+  getCurrentGroupIdReducer,
   getDataReducer,
   getSearchFilterReducer,
-  getCurrentGroupIdReducer,
   getTimestampReducer,
 } from './getReducer';
-
-import actionTypes from './actionTypes';
 
 describe('GlipGroups :: getDataReducer', () => {
   it('getDataReducer should be a function', () => {

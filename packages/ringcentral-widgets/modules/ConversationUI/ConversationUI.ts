@@ -1,16 +1,17 @@
+import { Module } from '@ringcentral-integration/commons/lib/di';
+import { formatNumber } from '@ringcentral-integration/commons/lib/formatNumber';
+import { FormatDateTimeOptions } from '@ringcentral-integration/commons/modules/DateTimeFormatV2';
+import { Attachment } from '@ringcentral-integration/commons/modules/MessageSenderV2';
 import {
   RcUIModuleV2,
   UIFunctions,
   UIProps,
 } from '@ringcentral-integration/core';
-import { Module } from '@ringcentral-integration/commons/lib/di';
-import { formatNumber } from '@ringcentral-integration/commons/lib/formatNumber';
-import { Attachment } from '@ringcentral-integration/commons/modules/MessageSenderV2';
-import { FormatDateTimeOptions } from '@ringcentral-integration/commons/modules/DateTimeFormatV2';
+
 import {
-  Deps,
   ConversationContainerProps,
   ConversationPanelProps,
+  Deps,
   OnLogConversationOptions,
 } from './ConversationUI.interface';
 
@@ -75,7 +76,7 @@ export class ConversationUI<T> extends RcUIModuleV2<Deps & T> {
       conversations.messageText.length > 0 ||
       (conversations.attachments && conversations.attachments.length > 0);
     return {
-      brand: brand.fullName,
+      brand: brand.name,
       enableContactFallback,
       showGroupNumberName,
       supportAttachment,

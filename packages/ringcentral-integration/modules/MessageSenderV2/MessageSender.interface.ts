@@ -1,9 +1,9 @@
 import { RingCentralClient } from '../../lib/RingCentralClient';
 import { Alert } from '../AlertV2';
+import { AvailabilityMonitor } from '../AvailabilityMonitorV2';
 import { ExtensionInfo } from '../ExtensionInfoV2';
 import { ExtensionPhoneNumber } from '../ExtensionPhoneNumberV2';
-import { NumberValidate } from '../NumberValidateV2';
-import { AvailabilityMonitor } from '../AvailabilityMonitorV2';
+import { NumberValidate } from '../NumberValidate';
 
 export interface Deps {
   alert: Alert;

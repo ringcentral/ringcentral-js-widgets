@@ -1,11 +1,11 @@
 import {
   autorun,
-  title,
-  Scenario,
   Given,
-  When,
-  Then,
+  Scenario,
   Step,
+  Then,
+  title,
+  When,
 } from '@ringcentral-integration/test-utils';
 
 import { RateLimiter } from '../../modules/RateLimiterV2';

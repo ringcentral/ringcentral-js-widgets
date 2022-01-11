@@ -1,12 +1,13 @@
+import formatMessage from 'format-message';
+import { pick } from 'ramda';
+
 import format, {
   formatTypes,
 } from '@ringcentral-integration/phone-number/lib/format';
-import { pick } from 'ramda';
 
-import formatMessage from 'format-message';
+import i18n from '../modules/MeetingV2/i18n';
 import { RcMMeetingModel } from '../modules/MeetingV2/Meeting.interface';
 import { MeetingType, MeetingTypeV } from './meetingHelper.interface';
-import i18n from '../modules/MeetingV2/i18n';
 
 function getMobileDialingNumberTpl(dialInNumbers, meetingId) {
   return dialInNumbers
@@ -177,18 +178,18 @@ function updateFullTime(preTime: Date, currTime: Date | number): Date {
 // TODO: will remove this when google app script could support export seperately
 // export together because google app script not fully support export
 export {
+  comparePreferences,
+  generateRandomPassword,
+  getDefaultMeetingSettings,
+  getDefaultTopic,
+  getInitializedStartTime,
+  getMeetingSettings,
   getMobileDialingNumberTpl,
   getPhoneDialingNumberTpl,
-  UTC_TIMEZONE_ID,
-  MeetingType,
-  getMeetingSettings,
-  getDefaultMeetingSettings,
-  getInitializedStartTime,
-  prunePreferencesObject,
-  comparePreferences,
   isRecurringMeeting,
-  generateRandomPassword,
-  updateFullYear,
+  MeetingType,
+  prunePreferencesObject,
   updateFullTime,
-  getDefaultTopic,
+  updateFullYear,
+  UTC_TIMEZONE_ID,
 };

@@ -1,29 +1,25 @@
 import { EventEmitter } from 'events';
-import RcModule from '../../lib/RcModule';
+
+import { RcVMeetingModel } from '../../interfaces/Rcv.model';
+import background from '../../lib/background';
 import { Module } from '../../lib/di';
-import Meeting from '../Meeting';
-import { RcMMeetingModel } from '../MeetingV2';
+import { proxify } from '../../lib/proxy/proxify';
+import RcModule from '../../lib/RcModule';
 import { Brand } from '../Brand';
 import ExtensionInfo from '../ExtensionInfo';
-import { proxify } from '../../lib/proxy/proxify';
-import background from '../../lib/background';
-
+import Meeting from '../Meeting';
+import MeetingProvider from '../MeetingProvider';
+import { RcMMeetingModel } from '../MeetingV2';
+import { RcVideo } from '../RcVideo';
+import { actionTypes } from './actionTypes';
+import { genericMeetingStatus } from './genericMeetingStatus';
+import getGenericMeetingReducer from './getGenericMeetingReducer';
 import {
   IGenericMeeting,
   MeetingEvents,
-  ScheduleModel,
   ScheduledCallback,
+  ScheduleModel,
 } from './interface';
-
-import MeetingProvider from '../MeetingProvider';
-
-import { actionTypes } from './actionTypes';
-
-import { RcVideo } from '../RcVideo';
-
-import getGenericMeetingReducer from './getGenericMeetingReducer';
-import { RcVMeetingModel } from '../../interfaces/Rcv.model';
-import { genericMeetingStatus } from './genericMeetingStatus';
 
 @Module({
   deps: ['MeetingProvider', 'ExtensionInfo', 'Brand', 'Meeting', 'RcVideo'],

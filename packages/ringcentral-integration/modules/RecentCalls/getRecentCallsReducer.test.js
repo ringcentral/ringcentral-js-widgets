@@ -1,7 +1,8 @@
 import { expect } from 'chai';
-import { getCallsReducer, getCallStatusReducer } from './getRecentCallsReducer';
+
 import { actionTypes } from './actionTypes';
 import { callStatus } from './callStatus';
+import { getCallsReducer, getCallStatusReducer } from './getRecentCallsReducer';
 
 describe('RecentCalls :: getCallsReducer', () => {
   it('getCallsReducer should be a function', () => {
@@ -18,12 +19,12 @@ describe('RecentCalls :: getCallsReducer', () => {
     });
 
     it('should return original state of actionTypes is not recognized', () => {
-      const originalState = { '171': [] };
+      const originalState = { 171: [] };
       expect(reducer(originalState, { type: 'foo' })).to.equal(originalState);
     });
 
     it('should return all calls when new contact is passed in and user is not on a call', () => {
-      const state = { '181': [] };
+      const state = { 181: [] };
       expect(
         reducer(state, {
           type: actionTypes.loadSuccess,
@@ -31,13 +32,13 @@ describe('RecentCalls :: getCallsReducer', () => {
           contact: { id: '171' },
         }),
       ).to.deep.equal({
-        '181': [],
-        '171': [],
+        181: [],
+        171: [],
       });
     });
 
     it('should return all calls when new contact is passed in and user is on a call', () => {
-      const state = { '181': [] };
+      const state = { 181: [] };
       expect(
         reducer(state, {
           type: actionTypes.loadSuccess,
@@ -46,14 +47,14 @@ describe('RecentCalls :: getCallsReducer', () => {
           sessionId: '191',
         }),
       ).to.deep.equal({
-        '181': [],
+        181: [],
         '171-191': [],
       });
     });
 
     it('call should be removed when reset', () => {
       const state = {
-        '171': [],
+        171: [],
       };
       expect(
         reducer(state, {
@@ -78,7 +79,7 @@ describe('RecentCalls :: getCallsReducer', () => {
 
     it('should return original state when contact is undefined', () => {
       const state = {
-        '171': { id: '171' },
+        171: { id: '171' },
       };
       expect(
         reducer(state, {

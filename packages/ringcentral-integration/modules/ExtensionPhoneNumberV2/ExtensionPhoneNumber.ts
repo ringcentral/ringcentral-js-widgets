@@ -1,10 +1,12 @@
+import { filter, find } from 'ramda';
+import { Unsubscribe } from 'redux';
+
 import {
   ExtensionInfoEvent,
   UserPhoneNumberInfo,
 } from '@rc-ex/core/definitions';
 import { computed, watch } from '@ringcentral-integration/core';
-import { filter, find } from 'ramda';
-import { Unsubscribe } from 'redux';
+
 import { subscriptionFilters } from '../../enums/subscriptionFilters';
 import { subscriptionHints } from '../../enums/subscriptionHints';
 import { usageTypes } from '../../enums/usageTypes';

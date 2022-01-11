@@ -1,5 +1,6 @@
-import classnames from 'classnames';
 import React, { FunctionComponent } from 'react';
+
+import classnames from 'classnames';
 
 import Message, { MessageProps } from '../Message';
 import { ANIMATION_DURATION } from './AnimationAlertUtils';

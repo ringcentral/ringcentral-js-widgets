@@ -22,8 +22,7 @@
   },
   "homepage": "https://github.com/ringcentral/ringcentral-js-widgets/tree/master/packages/engage-voice-widgets#readme",
   "scripts": {
-    "test": "yarn test:client",
-    "test:client": "jest",
+    "test": "yarn run-test --ci",
     "build": "yarn gulp build",
     "gulp": "gulp --require @ringcentral-integration/babel-settings/lib/register.js",
     "export-locale": "yarn gulp export-locale",
@@ -36,7 +35,7 @@
     "@ringcentral-integration/commons": "^0.13.0",
     "@ringcentral-integration/core": "^0.13.0",
     "@ringcentral-integration/phone-number": "^1.0.4",
-    "@ringcentral/juno": "^1.11.2",
+    "@ringcentral/juno": "^1.12.4",
     "@ringcentral-integration/widgets": "^0.13.0"
   },
   "devDependencies": {
@@ -48,9 +47,8 @@
     "@ringcentral-integration/locale-loader": "*",
     "@ringcentral-integration/locale-settings": "*",
     "@ringcentral-integration/phone-number": "*",
-    "@ringcentral/juno": "^1.11.2",
+    "@ringcentral/juno": "^1.12.4",
     "@testing-library/react": "^11.2.6",
-    "crius-test": "^1.2.0",
     "enzyme": "^3.7.0",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.3",
     "execa": "^5.0.0",
@@ -69,7 +67,7 @@
     "moment": "^2.24.0",
     "moment-timezone": "^0.5.27",
     "prop-types": "^15.7.2",
-    "ramda": "^0.27.0",
+    "ramda": "^0.27.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-redux": "^5.1.1",

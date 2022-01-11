@@ -1,7 +1,8 @@
-import * as Sentry from '@sentry/browser';
 import { RcModuleV2, watch } from '@ringcentral-integration/core';
+import * as Sentry from '@sentry/browser';
+
 import { Module } from '../../lib/di';
-import { SentryConfig, Deps, User, Severity } from './ErrorLogger.interface';
+import { Deps, SentryConfig, Severity, User } from './ErrorLogger.interface';
 
 @Module({
   name: 'ErrorLogger',

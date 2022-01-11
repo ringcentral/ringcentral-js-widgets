@@ -1,17 +1,17 @@
 import {
   autorun,
-  title,
-  Scenario,
-  Given,
-  When,
-  Then,
-  Step,
   examples,
+  Given,
+  Scenario,
+  Step,
+  Then,
+  title,
+  When,
 } from '@ringcentral-integration/test-utils';
 
 import {
-  CallingSettings,
   callingOptions,
+  CallingSettings,
 } from '../../modules/CallingSettingsV2';
 import { mockModuleGenerator } from '../lib/mockModule';
 
@@ -24,6 +24,7 @@ const getMockModule = () =>
       timestamp: null as number,
       fromNumber: null as string,
     },
+    setAcknowledgeJPMessage: CallingSettings.prototype.setAcknowledgeJPMessage,
   });
 
 @autorun(test)
@@ -128,9 +129,9 @@ export class FromNumberState extends Step {
 @title('Show call with Jupiter default to ON')
 export class CallWithJupiterDefaultOn extends Step {
   @examples(`
-  | showCallWithJupiter |
-  | true |
-  | false|
+    | showCallWithJupiter |
+    | true                |
+    | false               |
   `)
   run() {
     return (
@@ -169,9 +170,9 @@ export class CallWithJupiterDefaultOn extends Step {
 @title('Emergency call available default to OFF')
 export class EmergencyCallAvailable extends Step {
   @examples(`
-  | emergencyCallAvailable |
-  | true |
-  | false|
+    | emergencyCallAvailable |
+    | true                   |
+    | false                  |
   `)
   run() {
     return (
@@ -199,6 +200,88 @@ export class EmergencyCallAvailable extends Step {
             expect(context.instance._emergencyCallAvailable).toBe(
               context.example.emergencyCallAvailable,
             );
+          }}
+        />
+      </Scenario>
+    );
+  }
+}
+
+@autorun(test)
+@title('Japan emergency notification structure')
+export class JapanEmergencyNotification extends Step {
+  run() {
+    return (
+      <Scenario desc="notification structure">
+        <Given
+          desc="Call settings should provide the default settings"
+          action={(_: any, context: any) => {
+            const instance = new CallingSettings({} as any);
+            expect(instance.acknowledgeJPMessage).toBe(false);
+          }}
+        />
+        <When
+          desc="Execute '_verifyJPEmergency' method with mockModule"
+          action={async (_: any, context: any) => {
+            const mockFn = jest.fn();
+            const mockModule = mockModuleGenerator({
+              acknowledgeJPMessage: false,
+              fromNumbers: [
+                {
+                  features: ['CallerId'],
+                  uri: 'https://api-rcapps-xmnup.lab.nordigy.ru/restapi/v1.0/account/3762349004/phone-number/2286092004',
+                  id: 2286092004,
+                  phoneNumber: '+81330006572',
+                  paymentType: 'Local',
+                  location: 'Tokyo , Japan',
+                  type: 'VoiceFax',
+                  usageType: 'DirectNumber',
+                  status: 'Normal',
+                  country: {
+                    uri: 'https://api-rcapps-xmnup.lab.nordigy.ru/restapi/v1.0/dictionary/country/112',
+                    id: '112',
+                    name: 'Japan',
+                  },
+                  primary: false,
+                },
+              ],
+              _deps: {
+                alert: {
+                  warning: mockFn,
+                },
+              },
+              setAcknowledgeJPMessage:
+                CallingSettings.prototype.setAcknowledgeJPMessage,
+            });
+            context.mockFn = mockFn;
+            context.mockModule = mockModule;
+            await CallingSettings.prototype._verifyJPEmergency.call(mockModule);
+          }}
+        />
+        <Then
+          desc="check the alert params"
+          action={(_: any, context: any) => {
+            expect(context.mockFn).toBeCalledWith({
+              message: 'callingSettingsMessages-disableEmergencyInJapan',
+              ttl: 0,
+            });
+            expect(context.mockModule.acknowledgeJPMessage).toEqual(true);
+          }}
+        />
+        <When
+          desc="Trigger '_verifyJPEmergency' method with mockModule again eg(refresh page)"
+          action={async (_: any, context: any) => {
+            context.mockFn.mockClear();
+            await CallingSettings.prototype._verifyJPEmergency.call(
+              context.mockModule,
+            );
+          }}
+        />
+        <Then
+          desc="alert should not be called again"
+          action={(_: any, context: any) => {
+            expect(context.mockFn).not.toBeCalledWith();
+            expect(context.mockModule.acknowledgeJPMessage).toEqual(true);
           }}
         />
       </Scenario>

@@ -1,11 +1,14 @@
+@use 'sass:math';
+
 @import '../../lib/commonStyles/full-size.scss';
 @import '../../lib/commonStyles/colors.scss';
 @import '../../lib/commonStyles/layout';
+
 $participant-count-height: 42px;
-$avatar-size:35px;
-$button-size:24px;
-$marginBetweenItems:25px;
-$padding-horizontal:20px;
+$avatar-size: 35px;
+$button-size: 24px;
+$marginBetweenItems: 25px;
+$padding-horizontal: 20px;
 
 .root {
   @include full-size;
@@ -25,11 +28,12 @@ $padding-horizontal:20px;
     /*
     * Deviding the with of the padding-right for the sake of reserving space of the scroll bar
     */
-    padding: $participant-count-height $padding-horizontal/2 0 $padding-horizontal;
+    padding: $participant-count-height math.div($padding-horizontal, 2) 0
+      $padding-horizontal;
     color: $night;
     .participantsCount {
       width: 100%;
-      padding: ($participant-count-height - 11px)/2 0;
+      padding: math.div(($participant-count-height - 11px), 2) 0;
       margin-top: -$participant-count-height;
       font-size: 11px;
       color: $coin;
@@ -66,7 +70,7 @@ $padding-horizontal:20px;
           }
         }
       }
-      .participantItem+.participantItem {
+      .participantItem + .participantItem {
         margin-top: $marginBetweenItems;
       }
       .participantItem:last-of-type {

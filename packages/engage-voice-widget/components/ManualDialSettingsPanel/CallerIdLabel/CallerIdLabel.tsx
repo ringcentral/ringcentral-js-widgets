@@ -1,5 +1,7 @@
 import React, { FunctionComponent } from 'react';
+
 import { RcText } from '@ringcentral/juno';
+
 import styles from './styles.scss';
 
 export interface CallerIdLabelProps {

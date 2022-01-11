@@ -1,10 +1,12 @@
+import { map, sort } from 'ramda';
+import { Unsubscribe } from 'redux';
+
 import {
   DetailedExtensionPresenceEvent,
   UserCallLogRecord,
 } from '@rc-ex/core/definitions';
 import { computed, watch } from '@ringcentral-integration/core';
-import { map, sort } from 'ramda';
-import { Unsubscribe } from 'redux';
+
 import { subscriptionFilters } from '../../enums/subscriptionFilters';
 import { normalizeStartTime, sortByStartTime } from '../../lib/callLogHelpers';
 import { debounce, DebouncedFunction } from '../../lib/debounce-throttle';

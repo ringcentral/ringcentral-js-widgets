@@ -1,10 +1,11 @@
 import {
-  RcModuleV2,
-  state,
   action,
   globalStorage,
+  RcModuleV2,
+  state,
 } from '@ringcentral-integration/core';
 import { SDK } from '@ringcentral/sdk';
+
 import { SDKConfig } from '../../lib/createSdkConfig';
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';

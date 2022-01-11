@@ -1,10 +1,11 @@
+import { Module } from '@ringcentral-integration/commons/lib/di';
 import {
   computed,
   RcUIModuleV2,
-  UIProps,
   UIFunctions,
+  UIProps,
 } from '@ringcentral-integration/core';
-import { Module } from '@ringcentral-integration/commons/lib/di';
+
 import { TabContentViewProps } from '../../components/TabContentView/TabContentView';
 import { hasActiveCalls } from '../../lib/hasActiveCalls';
 import {

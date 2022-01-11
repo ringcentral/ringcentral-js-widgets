@@ -1,7 +1,7 @@
 export default {
-  loginButton: "Entrar",
-  signupButton: "Novo usuário? Registre-se",
-  version: "Versão"
+  loginButton: 'Entrar',
+  signupButton: 'Novo usuário? Registre-se',
+  version: 'Versão',
 };
 
 // @key: @#@"loginButton"@#@ @source: @#@"Sign In"@#@

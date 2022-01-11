@@ -21,12 +21,13 @@ import {
   subscriptionsKey,
   usm as usmAction,
   watch,
-  watchEffect,
 } from '../usm-redux';
 
 setAutoFreeze(false);
-setPatchesToggle(true);
-enablePatches();
+setPatchesToggle(!process.env.DISABLE_PATCHES);
+if (!process.env.DISABLE_PATCHES) {
+  enablePatches();
+}
 
 export const enum ModuleStatus {
   Pending = 'PENDING',
@@ -43,16 +44,14 @@ export const enableCacheKey: unique symbol = Symbol('enableCache');
 export const enableGlobalCacheKey: unique symbol = Symbol('enableGlobalCache');
 export const storageKey: unique symbol = Symbol('storage');
 export const storageStateKey: unique symbol = Symbol('storageState');
-export const globalStorageStateKey: unique symbol = Symbol(
-  'globalStorageState',
-);
+export const globalStorageStateKey: unique symbol =
+  Symbol('globalStorageState');
 export const spawnReducersKey: unique symbol = Symbol('spawnReducers');
 export const spawnStorageReducersKey: unique symbol = Symbol(
   'spawnStorageReducers',
 );
-export const ignoreReadyModulesKey: unique symbol = Symbol(
-  'ignoreReadyModules',
-);
+export const ignoreReadyModulesKey: unique symbol =
+  Symbol('ignoreReadyModules');
 
 export interface RcModuleOptions<T> {
   deps?: T & {
@@ -208,6 +207,35 @@ abstract class RcModuleV2<T = {}> {
   _shouldReset() {
     const areNotReady = this[notReadyModulesKey].length > 0;
     return areNotReady && this.ready;
+  }
+
+  _depsCheck(
+    checkedModules: RcModuleV2[] = [this],
+    pickedModules: RcModuleV2[] = [],
+  ) {
+    Object.values(this._deps ?? {}).forEach((module) => {
+      if (module instanceof RcModuleV2 && !module.ready) {
+        const notReadyModules = Object.values(module._deps ?? {}).filter(
+          (item) => item instanceof RcModuleV2 && !item.ready,
+        );
+        if (notReadyModules.length > 0 && !checkedModules.includes(module)) {
+          checkedModules.push(module);
+          module._depsCheck(checkedModules, pickedModules);
+        } else if (
+          !pickedModules.includes(module) &&
+          notReadyModules.length === 0
+        ) {
+          pickedModules.push(module);
+        }
+      }
+    });
+    // please check `_shouldInit()` or `onInit()`.
+    return pickedModules;
+  }
+
+  @action
+  _changeState(callback: () => void) {
+    callback();
   }
 
   get pending() {
@@ -459,7 +487,6 @@ export {
   computed,
   createStore,
   watch,
-  watchEffect,
   stateKey,
   storeKey,
   identifierKey,

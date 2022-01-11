@@ -1,7 +1,8 @@
 import 'react-widgets/dist/css/react-widgets.css';
 
-import classnames from 'classnames';
 import React, { FunctionComponent } from 'react';
+
+import classnames from 'classnames';
 import DropdownList from 'react-widgets/lib/DropdownList';
 
 import MeetingSection from '../MeetingSection';

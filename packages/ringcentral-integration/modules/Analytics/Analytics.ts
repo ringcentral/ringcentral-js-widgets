@@ -1,15 +1,15 @@
 import RouterInteraction from '../../../ringcentral-widgets/modules/RouterInteraction';
 import moduleStatuses from '../../enums/moduleStatuses';
-import { Segment, Pendo } from '../../lib/Analytics';
+import { Pendo, Segment } from '../../lib/Analytics';
 import { Module } from '../../lib/di';
 import RcModule from '../../lib/RcModule';
 import saveBlob from '../../lib/saveBlob';
 import sleep from '../../lib/sleep';
+import { AnalyticsEventExtendedProps } from '../AnalyticsEventExtendedProps';
 import callingModes from '../CallingSettings/callingModes';
 import { ExtensionInfo } from '../ExtensionInfoV2';
-import { AnalyticsActionTypes, analyticsActionTypes } from './actionTypes';
+import { analyticsActionTypes, AnalyticsActionTypes } from './actionTypes';
 import getAnalyticsReducer from './getAnalyticsReducer';
-import { AnalyticsEventExtendedProps } from '../AnalyticsEventExtendedProps';
 
 export interface TrackProps {
   appName: string;

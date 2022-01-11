@@ -1,6 +1,8 @@
-import { connectModule } from '../../lib/phoneContext';
 import ConnectivityBadge from '../../components/ConnectivityBadge';
+import { connectModule } from '../../lib/phoneContext';
 
-export default connectModule((phone) => phone.connectivityBadgeUI)(
-  ConnectivityBadge,
-);
+const ConnectivityBadgeContainer = connectModule(
+  (phone) => phone.connectivityBadgeUI,
+)(ConnectivityBadge);
+
+export { ConnectivityBadgeContainer };

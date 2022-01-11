@@ -6,6 +6,7 @@ export interface RequeueGroupItemPageProps {
   groupId: string;
 }
 
-export const RequeueCallGroupItemPage = connectModule<
-  RequeueGroupItemPageProps
->((phone) => phone.evTransferCallUI)(RequeueCallGroupDetailPanel);
+export const RequeueCallGroupItemPage =
+  connectModule<RequeueGroupItemPageProps>((phone) => phone.evTransferCallUI)(
+    RequeueCallGroupDetailPanel,
+  );

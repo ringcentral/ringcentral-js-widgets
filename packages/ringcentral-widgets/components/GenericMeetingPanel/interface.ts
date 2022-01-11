@@ -1,14 +1,20 @@
+import { FunctionComponent } from 'react';
+
+import { RcVMeetingModel } from '@ringcentral-integration/commons/interfaces/Rcv.model';
 import {
+  RcmItemType,
+  RcMMeetingModel,
+} from '@ringcentral-integration/commons/modules/MeetingV2';
+import {
+  AUTH_USER,
+  RcvDelegator,
+  RcvItemType,
+} from '@ringcentral-integration/commons/modules/RcVideoV2';
+import {
+  RcCheckboxProps,
   RcDatePickerSize,
   RcTimePickerSize,
-  RcCheckboxProps,
 } from '@ringcentral/juno';
-import {
-  RcvDelegator,
-  AUTH_USER,
-} from '@ringcentral-integration/commons/modules/RcVideoV2';
-import { RcVMeetingModel } from '@ringcentral-integration/commons/interfaces/Rcv.model';
-import { RcMMeetingModel } from '@ringcentral-integration/commons/modules/MeetingV2';
 
 export interface ScheduleButtonProps {
   currentLocale: string;
@@ -26,7 +32,7 @@ export interface ScheduleButtonProps {
 }
 
 export interface CommonProps {
-  scheduleButton?: React.FunctionComponent<ScheduleButtonProps>;
+  scheduleButton?: FunctionComponent<ScheduleButtonProps>;
   invite?: (meeting: any, opener: any) => any;
   showSpinner: boolean;
   showScheduleOnBehalf?: boolean;
@@ -42,7 +48,6 @@ export interface CommonProps {
   onOK?: () => any;
   init: () => any;
   schedule?: (meeting: any, opener: any) => any;
-  showPmiAlert?: boolean;
   enablePersonalMeeting?: boolean;
   hasSettingsChanged?: boolean;
   personalMeetingId: string;
@@ -53,17 +58,23 @@ export interface CommonProps {
 export interface VideoPanelProps extends CommonProps {
   // TODO: any is reserved for RcM
   updateMeetingSettings: (meeting: RcVMeetingModel | any) => void;
+  trackSettingChanges?: (itemName: RcvItemType | RcmItemType) => void;
   updateHasSettingsChanged: (isChanged: boolean) => void;
   validatePasswordSettings: (password: string, isSecret: boolean) => boolean;
   e2eeInteractFunc: (e2eeValue: boolean) => void;
+  onPmiChangeClick: () => void;
   datePickerSize?: RcDatePickerSize;
   timePickerSize?: RcTimePickerSize;
   checkboxSize?: RcCheckboxProps['size'];
   showRcvAdminLock?: boolean;
+  showPmiConfirm?: boolean;
   delegators?: RcvDelegator[];
   joinBeforeHostLabel: string;
   authUserTypeValue: AUTH_USER;
   isJoinBeforeHostDisabled: boolean;
+  isMuteAudioDisabled: boolean;
+  isTurnOffCameraDisabled: boolean;
+  isAllowScreenSharingDisabled: boolean;
   isAuthenticatedCanJoinDisabled: boolean;
   isWaitingRoomDisabled: boolean;
   isRequirePasswordDisabled: boolean;
@@ -71,12 +82,14 @@ export interface VideoPanelProps extends CommonProps {
   isWaitingRoomGuestDisabled: boolean;
   isWaitingRoomAllDisabled: boolean;
   isAuthUserTypeDisabled: boolean;
+  isWaitingRoomTypeDisabled: boolean;
   isSignedInUsersDisabled: boolean;
   isSignedInCoWorkersDisabled: boolean;
   showWaitingRoom?: boolean;
   showE2EE?: boolean;
   isE2EEDisabled?: boolean;
   isPersonalMeetingDisabled?: boolean;
+  isPmiChangeConfirmed?: boolean;
 }
 
 export interface MeetingPanelProps extends CommonProps {
@@ -94,6 +107,8 @@ export interface MeetingPanelProps extends CommonProps {
   recurringMeetingPosition?: 'middle' | 'bottom';
   enableServiceWebSettings?: boolean;
   delegators?: RcvDelegator[];
+  showIeSupportAlert?: boolean;
+  appName?: string;
 }
 
 export interface GenericMeetingPanelProps
