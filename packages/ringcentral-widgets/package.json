@@ -40,7 +40,7 @@
     "react-widgets-moment": "^4.0.4",
     "reselect": "^2.5.4",
     "through2": "^2.0.5",
-    "url-parse": "^1.2.0",
+    "url-parse": "^1.5.8",
     "uuid": "^8.3.0"
   },
   "devDependencies": {
