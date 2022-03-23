@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 // eslint-disable-next-line
-import EntityModal from '@ringcentral-integration/widgets/components/EntityModal';
+import EntityModal from '@ringcentral-integration/widgets/components/EntityModal/EntityModal';
 import { Button } from '@ringcentral-integration/widgets/components/Button';
 
 const props = {};
@@ -38,7 +38,7 @@ class EntityModalDemo extends Component {
       <div>
         <Button onClick={this.onClick}>Open Entity Modal</Button>
         <EntityModal
-          title={`Entity Modal Title`}
+          title="Entity Modal Title"
           onCancel={this.onClose}
           onCreate={this.onCreate}
           show={this.state.show}

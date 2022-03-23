@@ -23,8 +23,7 @@ const mockedProps = {
   setSelectedIndex() {},
   selectedIndex: 0,
 };
-// TODO: fix or remove this test, it's not working with JUNO component
-describe.skip('Given at least one contact item', () => {
+describe('Given at least one contact item', () => {
   test('When visibility is false, should not render dropdown', () => {
     const { queryByRole } = render(
       <ContactDropdownList {...mockedProps} visibility={false} />,
