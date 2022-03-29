@@ -3,7 +3,7 @@ import ConnectivityMonitor from '@ringcentral-integration/commons/modules/Connec
 import { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiterV2';
 
-import OAuth from '../OAuth';
+import { OAuth } from '../OAuth';
 
 export interface LoginUIOptions {}
 

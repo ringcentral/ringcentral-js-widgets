@@ -15,7 +15,7 @@ import { debounce } from '../../lib/debounce-throttle';
 import { Module } from '../../lib/di';
 import * as messageHelper from '../../lib/messageHelper';
 import { proxify } from '../../lib/proxy/proxify';
-import sleep from '../../lib/sleep';
+import { sleep } from '../../lib/sleep';
 import { trackEvents } from '../Analytics';
 import { callingModes } from '../CallingSettingsV2';
 import { DataFetcherV2Consumer, DataSource } from '../DataFetcherV2';

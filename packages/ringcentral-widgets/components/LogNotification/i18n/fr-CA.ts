@@ -1,5 +1,5 @@
 export default {
-  confirmationInfo: "Vos modifications non sauvegardées de l’appel précédent seront perdues, voulez-vous vraiment travailler sur le nouvel appel?",
+  confirmationInfo: "Vos modifications non enregistrées de l’appel précédent seront perdues. Voulez-vous vraiment travailler sur le nouvel appel?",
   log: "Liste",
   save: "Enreg. et trav. nouv. app",
   discard: "Ann. et trav. nouv. app",

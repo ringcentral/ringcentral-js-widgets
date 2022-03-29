@@ -93,4 +93,8 @@ export default class AccountInfo extends DataFetcher {
   get _hasPermission() {
     return !!this._extensionFeatures.features?.ReadCompanyInfo?.available;
   }
+
+  get maxExtensionNumberLength() {
+    return this.info.limits?.maxExtensionNumberLength ?? 6;
+  }
 }

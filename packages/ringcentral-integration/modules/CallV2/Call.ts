@@ -21,6 +21,13 @@ const TO_NUMBER = 'toNumber';
 const FROM_NUMBER = 'fromNumber';
 const ANONYMOUS = 'anonymous';
 
+export type MakeCallParams<K = Recipient> = {
+  phoneNumber: string;
+  recipient: K;
+  fromNumber: string;
+  isConference?: boolean;
+};
+
 /**
  * @class
  * @description Call managing module
@@ -43,13 +50,16 @@ const ANONYMOUS = 'anonymous';
     { dep: 'ActiveCallControl', optional: true },
   ],
 })
-export class Call extends RcModuleV2<Deps> {
+export class Call<
+  T extends Deps = Deps,
+  K extends Recipient = Recipient,
+> extends RcModuleV2<T> {
   _internationalCheck: boolean;
   _permissionCheck: boolean;
   _callSettingMode: string = null;
   _useCallControlToMakeCall: boolean;
 
-  constructor(deps: Deps) {
+  constructor(deps: T) {
     super({
       deps,
       enableCache: true,
@@ -80,7 +90,7 @@ export class Call extends RcModuleV2<Deps> {
   @state
   data: {
     lastPhoneNumber: string;
-    lastRecipient: Recipient;
+    lastRecipient: K;
   } = {
     lastPhoneNumber: null,
     lastRecipient: null,
@@ -111,7 +121,7 @@ export class Call extends RcModuleV2<Deps> {
   }: {
     isConference: boolean;
     phoneNumber: string;
-    recipient: Recipient;
+    recipient: K;
     callSettingMode: string;
   }) {
     this.callStatus = callStatus.connecting;
@@ -200,12 +210,7 @@ export class Call extends RcModuleV2<Deps> {
     recipient,
     fromNumber,
     isConference = false,
-  }: {
-    phoneNumber: string;
-    recipient: Recipient;
-    fromNumber: string;
-    isConference?: boolean;
-  }) {
+  }: MakeCallParams<K>) {
     let session = null;
     if (this.isIdle) {
       const { phoneNumber, extendedControls } = extractControls(input);
@@ -247,7 +252,8 @@ export class Call extends RcModuleV2<Deps> {
           } else {
             this.connectError();
           }
-        } catch (error) {
+          // TODO: handle error type
+        } catch (error: any) {
           const { feature } = (await error?.response?.clone().json()) || {};
           const statusCode = error?.response?.status;
           if (!error.message && error.type && (callErrors as any)[error.type]) {
@@ -355,8 +361,12 @@ export class Call extends RcModuleV2<Deps> {
       const fromNumberIndex = waitingValidateNumbers.findIndex(
         (x) => x.type === FROM_NUMBER,
       );
-      parsedToNumber = validatedResult[toNumberIndex];
-      parsedFromNumber = validatedResult[fromNumberIndex];
+
+      if (Array.isArray(validatedResult)) {
+        parsedToNumber = validatedResult[toNumberIndex];
+        parsedFromNumber = validatedResult[fromNumberIndex];
+      }
+      // TODO: should that need handle validated fail state?
     }
     if (isWebphone && theFromNumber === ANONYMOUS) {
       parsedFromNumber = ANONYMOUS;

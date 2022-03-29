@@ -13,7 +13,7 @@ import {
 } from '../../lib/contactHelper';
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
-import sleep from '../../lib/sleep';
+import { sleep } from '../../lib/sleep';
 import { DataFetcherV2Consumer, DataSource } from '../DataFetcherV2';
 import {
   AddressBookData,

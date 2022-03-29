@@ -14,7 +14,7 @@ import proxify from '../../lib/proxy/proxify';
 import RcModule from '../../lib/RcModule';
 import { selector } from '../../lib/selector';
 import { SipInstanceManager } from '../../lib/SipInstanceManager';
-import sleep from '../../lib/sleep';
+import { sleep } from '../../lib/sleep';
 import { validateNumbers } from '../../lib/validateNumbers';
 import callErrors from '../Call/callErrors';
 import actionTypes from './actionTypes';

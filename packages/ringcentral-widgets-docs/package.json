@@ -24,7 +24,7 @@
     "@ringcentral-integration/locale-loader": "*",
     "@ringcentral-integration/phone-number": "*",
     "@ringcentral-integration/widgets": "*",
-    "@ringcentral/juno": "^1.12.4",
+    "@ringcentral/juno": "^1.12.6-beta.5910-6eeb3bdd",
     "autoprefixer": "^9.8.4",
     "babel-loader": "^8.2.2",
     "classnames": "^2.2.5",

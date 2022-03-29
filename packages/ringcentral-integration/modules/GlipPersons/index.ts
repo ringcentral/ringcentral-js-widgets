@@ -4,7 +4,7 @@ import { Module } from '../../lib/di';
 import ensureExist from '../../lib/ensureExist';
 import proxify from '../../lib/proxy/proxify';
 import RcModule from '../../lib/RcModule';
-import sleep from '../../lib/sleep';
+import { sleep } from '../../lib/sleep';
 import { actionTypes } from './actionTypes';
 import getReducer, { getGlipPersonStoreReducer } from './getReducer';
 

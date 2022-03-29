@@ -2,7 +2,7 @@ export default {
   forward: "Siirrä",
   reply: "Vastaa",
   ignore: "Ohita",
-  toVoicemail: "Puhelinvastaajaan",
+  toVoicemail: "Vastaajaan",
   answer: "Vastaa",
   answerAndEnd: "Vastaa ja lopeta",
   answerAndHold: "Vastaa ja aseta pitoon"

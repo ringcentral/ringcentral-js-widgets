@@ -12,6 +12,6 @@ export function mapOptionToMode(callWith: CallingOptionsType) {
     case callingOptions.jupiter:
       return callingModes.jupiter;
     default:
-      return callingModes.softphone;
+      return null;
   }
 }

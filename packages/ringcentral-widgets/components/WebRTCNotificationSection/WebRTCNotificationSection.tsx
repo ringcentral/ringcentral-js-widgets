@@ -3,7 +3,13 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 import classnames from 'classnames';
 
 import callDirections from '@ringcentral-integration/commons/enums/callDirections';
-import { RcMenuItem, RcMenuList, RcPopover, styled } from '@ringcentral/juno';
+import {
+  RcMenuItem,
+  RcMenuList,
+  RcPopover,
+  styled,
+  RcLink,
+} from '@ringcentral/juno';
 import { Ignore, Voicemail } from '@ringcentral/juno/icon';
 
 import AnswerIcon from '../../assets/images/Answer.svg';
@@ -25,6 +31,7 @@ export const WebRTCNotificationSection: FunctionComponent<WebRTCNotificationProp
     onCloseNotification,
     currentNotificationIdentify,
     logName,
+    subContactNameDisplay,
     currentLocale,
     formatPhone,
     isWide,
@@ -37,8 +44,14 @@ export const WebRTCNotificationSection: FunctionComponent<WebRTCNotificationProp
     forwardingNumbers,
     onForward,
     clickForwardTrack = () => {},
+    renderCallNotificationAvatar,
+    displayEntity,
+    entityType,
+    getAvatarUrl,
+    entityDetailLink,
   }) => {
     const [anchorEl, setAnchorEl] = useState(null);
+    const [avatarUrl, setAvatarUrl] = useState(displayEntity?.profileImageUrl);
 
     useEffect(() => {
       if (currentNotificationIdentify) {
@@ -48,6 +61,25 @@ export const WebRTCNotificationSection: FunctionComponent<WebRTCNotificationProp
         }
       }
     }, [call.result]);
+
+    useEffect(() => {
+      if (
+        displayEntity &&
+        displayEntity.hasProfileImage &&
+        !displayEntity.profileImageUrl
+      ) {
+        getAvatarUrl(displayEntity).then((url: string) => {
+          setAvatarUrl(url);
+        });
+      }
+    }, [displayEntity]);
+
+    const displayMatchedEntity = displayEntity
+      ? {
+          ...displayEntity,
+          profileImageUrl: avatarUrl,
+        }
+      : null;
 
     const renderLogSection = () => {
       const { direction, to, from, telephonySessionId } = call;
@@ -69,10 +101,24 @@ export const WebRTCNotificationSection: FunctionComponent<WebRTCNotificationProp
               styles.content,
             )}
           >
-            <div title={logName} className={styles.contact}>
-              {logName}
+            {renderCallNotificationAvatar?.(displayMatchedEntity, entityType)}
+            <div data-sign="logName" title={logName} className={styles.contact}>
+              {entityDetailLink ? (
+                <RcLink
+                  variant="inherit"
+                  onClick={() => window.open(entityDetailLink, '_blank')}
+                >
+                  {logName}
+                </RcLink>
+              ) : (
+                logName
+              )}
             </div>
-            <div className={styles.number}>{formatNumber}</div>
+            {subContactNameDisplay && (
+              <div data-sign="subName" className={styles.number}>
+                {subContactNameDisplay}
+              </div>
+            )}
             <div className={styles.control}>
               <ul
                 className={classnames(styles.buttonsGroup, {

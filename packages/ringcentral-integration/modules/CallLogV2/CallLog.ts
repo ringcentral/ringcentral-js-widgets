@@ -23,7 +23,7 @@ import { Module } from '../../lib/di';
 import fetchList from '../../lib/fetchList';
 import getDateFrom from '../../lib/getDateFrom';
 import { proxify } from '../../lib/proxy/proxify';
-import sleep from '../../lib/sleep';
+import { sleep } from '../../lib/sleep';
 import {
   CallLogData,
   CallLogRecords,

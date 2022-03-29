@@ -8,7 +8,7 @@ export default {
   rcvSipHeader: "\n\nParticiper à la réunion depuis un appareil SIP :",
   rcvSipContentWithPwd: "\n    {meetingId}.{meetingPasswordPSTN}@sip.rcv.com\n    Mot de passe pour l’appareil SIP : {meetingPasswordPSTN}\n",
   rcvSipContentNoPwd: "\n    {meetingId}@sip.rcv.com\n",
-  doNotModify: "===== Ne modifiez pas ce texte =====",
+  doNotModify: "---------------------------------- Ne pas modifier ----------------------------------",
   password: "\n\nMot de passe",
   passwordPstn: "\n\nMot de passe à composer :"
 };
@@ -22,6 +22,6 @@ export default {
 // @key: @#@"rcvSipHeader"@#@ @source: @#@"\n\nJoin by SIP:"@#@
 // @key: @#@"rcvSipContentWithPwd"@#@ @source: @#@"\n    {meetingId}.{meetingPasswordPSTN}@sip.rcv.com\n    SIP password: {meetingPasswordPSTN}\n"@#@
 // @key: @#@"rcvSipContentNoPwd"@#@ @source: @#@"\n    {meetingId}@sip.rcv.com\n"@#@
-// @key: @#@"doNotModify"@#@ @source: @#@"===== Do not modify this text ====="@#@
+// @key: @#@"doNotModify"@#@ @source: @#@"---------------------------------- Do Not Modify ----------------------------------"@#@
 // @key: @#@"password"@#@ @source: @#@"\n\nPassword"@#@
 // @key: @#@"passwordPstn"@#@ @source: @#@"\n\nDial-in password:"@#@

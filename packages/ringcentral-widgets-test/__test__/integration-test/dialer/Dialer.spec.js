@@ -1,6 +1,5 @@
 import NavigationBar from '@ringcentral-integration/widgets/components/NavigationBar';
 import DialerPanel from '@ringcentral-integration/widgets/components/DialerPanel';
-import RecipientsInput from '@ringcentral-integration/widgets/components/RecipientsInput';
 import { RemoveButton } from '@ringcentral-integration/widgets/components/RemoveButton';
 import DialButton from '@ringcentral-integration/widgets/components/DialButton';
 import DialPad from '@ringcentral-integration/widgets/components/DialPad';
@@ -29,21 +28,19 @@ const clickButton = (button) => {
 };
 
 const enterToNumber = async (number) => {
-  const domInput = panel.find(RecipientsInput).find('input');
+  const domInput = panel.find('input');
   domInput.instance().value = number;
   await domInput.simulate('change');
 };
 
 describe('dialer panel', () => {
   test('dial text input', async () => {
-    const recipientsInput = panel.find(RecipientsInput);
-    expect(recipientsInput).toBeDefined();
-    let domInput = recipientsInput.find('input');
+    let domInput = panel.find('input');
     expect(domInput).toBeDefined();
     expect(domInput.props().value).toEqual('');
     await enterToNumber('16506417422');
     panel = wrapper.find(DialerPanel).first();
-    domInput = panel.find(RecipientsInput).find('input');
+    domInput = panel.find('input');
     const store = wrapper.props().phone.store;
     expect(domInput.props().value).toEqual('16506417422');
     expect(store.getState(wrapper).dialerUI.toNumberField).toEqual(
@@ -52,7 +49,7 @@ describe('dialer panel', () => {
   });
 
   test('number buttons', () => {
-    let textInput = panel.find(RecipientsInput).find('input');
+    let textInput = panel.find('input');
     expect(textInput.props().value).toEqual('');
 
     const dialPad = panel.find(DialPad).first();
@@ -79,7 +76,7 @@ describe('dialer panel', () => {
     ]);
 
     panel = wrapper.find(DialerPanel).first();
-    textInput = panel.find(RecipientsInput).find('input');
+    textInput = panel.find('input');
     const store = wrapper.props().phone.store;
     expect(textInput.props().value).toEqual('123456789*0#');
 
@@ -122,7 +119,7 @@ describe('dialer panel', () => {
       'Hello world',
     );
 
-    const deleteButton = panel.find(RecipientsInput).first().find(RemoveButton);
+    const deleteButton = panel.first().find(RemoveButton);
     await deleteButton.simulate('click');
     expect(store.getState(wrapper).dialerUI.toNumberField).toEqual('');
   });
@@ -141,7 +138,7 @@ describe('dialer panel', () => {
     await callButton.simulate('click');
     await timeout(200);
     panel = wrapper.find(DialerPanel).first();
-    const deleteButton = panel.find(RecipientsInput).find(RemoveButton);
+    const deleteButton = panel.find(RemoveButton);
     await deleteButton.simulate('click');
     await timeout(200);
     expect(store.getState(wrapper).dialerUI.toNumberField).toEqual('');
@@ -152,7 +149,7 @@ describe('dialer panel', () => {
       'Hello world',
     );
     panel = wrapper.find(DialerPanel).first();
-    const textInput = panel.find(RecipientsInput).find('input');
+    const textInput = panel.find('input');
     expect(textInput.instance().value).toEqual('Hello world');
   });
 

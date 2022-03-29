@@ -11,6 +11,7 @@ import { isMissed } from '@ringcentral-integration/commons/lib/callLogHelpers';
 import recordStatusEnum from '@ringcentral-integration/commons/modules/Webphone/recordStatus';
 import { Call } from '@ringcentral-integration/commons/interfaces/Call.interface';
 
+import { RcLink, RcText } from '@ringcentral/juno';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import formatDuration from '../../lib/formatDuration';
 import DurationCounter from '../DurationCounter';
@@ -43,9 +44,8 @@ type LogBasicInfoProps = {
   currentLog?: {
     call?: Call;
     logName?: string;
-    logNameAndMoreDisplay?: string;
-    basicURL?: string;
-    task?: any;
+    subContactNameDisplay?: string;
+    entityDetailLink?: string;
     isShowEntity?: boolean;
   };
   dataSign?: string;
@@ -62,10 +62,9 @@ const LogBasicInfo: React.SFC<LogBasicInfoProps> = React.memo(
       currentLog: {
         call,
         logName,
-        logNameAndMoreDisplay,
+        subContactNameDisplay,
         isShowEntity,
-        basicURL,
-        task,
+        entityDetailLink,
       },
       formatPhone,
       currentLocale,
@@ -150,38 +149,37 @@ const LogBasicInfo: React.SFC<LogBasicInfoProps> = React.memo(
           )}
           <ul className={styles.callDisplay}>
             <li className={styles.info}>
-              {isShowEntity &&
-              (task?.whatid || task?.whoid || logNameAndMoreDisplay) ? (
-                <p
+              {isShowEntity ? (
+                <RcText
                   className={styles.logName}
                   title={`${
-                    logNameAndMoreDisplay
-                      ? `${logName}\xa0$${logNameAndMoreDisplay}`
+                    subContactNameDisplay
+                      ? `${logName} ${subContactNameDisplay}`
                       : logName
                   }`}
                   data-sign="logName"
                 >
-                  <a
-                    className={styles.SFrecordLink}
-                    onClick={() =>
-                      window.open(
-                        `${basicURL}/${task.whatid || task.whoid}`,
-                        '_blank',
-                      )
-                    }
-                  >
-                    {logNameAndMoreDisplay ? (
-                      <span>
-                        {logName}
-                        <span className={styles.logNameAndMore}>
-                          {logNameAndMoreDisplay}
-                        </span>
-                      </span>
-                    ) : (
-                      logName
-                    )}
-                  </a>
-                </p>
+                  {entityDetailLink ? (
+                    <RcLink
+                      variant="inherit"
+                      onClick={() => window.open(entityDetailLink, '_blank')}
+                    >
+                      {logName}
+                    </RcLink>
+                  ) : (
+                    logName
+                  )}
+                  {subContactNameDisplay && (
+                    <RcText
+                      color="neutral.f04"
+                      component="span"
+                      align="center"
+                      variant="caption1"
+                    >
+                      {` ${subContactNameDisplay}`}
+                    </RcText>
+                  )}
+                </RcText>
               ) : (
                 <p
                   className={styles.logName}

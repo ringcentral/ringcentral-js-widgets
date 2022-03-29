@@ -66,7 +66,7 @@ There are three kind of modules:
 
 All needed common modules which are provided by `@ringcentral-integration/commons` can be listed here. And also other modules composed by you.
 ```javascript
-import { Alert } from '@ringcentral-integration/commons/modules/AlertV2';
+import { Alert } from '@ringcentral-integration/commons/modules/Alert';
 import { Brand } from '@ringcentral-integration/commons/modules/Brand';
 
 // import other libs
@@ -146,7 +146,7 @@ function createRootModule({ apiConfig, redirectUri }) {
   @ModuleFactory({
     providers: [
       {provide: 'SDKConfig', useValue: {...apiConfig, cachePrefix: `sdk-${prefex}`}},
-      { provide: 'OAuthOptions', useValue: { redirectUri }, spread: true },
+      { provide: 'OAuthOptions', useValue: { redirectUri } },
     ]
   })
   class Root extends RcModule {}

@@ -1,10 +1,10 @@
 import callDirection from '../../enums/callDirections';
+import { sleep } from '../../lib/sleep';
 import conferenceCallErrors from '../../modules/ConferenceCall/conferenceCallErrors';
 import conferenceCallStatus from '../../modules/ConferenceCall/conferenceCallStatus';
 import * as mock from '../mock';
 import ClientHistoryRequest from '../utils/ClientHistoryRequest';
 import { containsErrorMessage, ensureLogin } from '../utils/HelpUtil';
-import { waitInSeconds } from '../utils/WaitUtil';
 
 export default (auth, client, conferenceCall, alert, account) => {
   describe('ConferenceCall:', () => {
@@ -28,7 +28,8 @@ export default (auth, client, conferenceCall, alert, account) => {
     describe('Should Update Conference Successfully', () => {
       after(async () => {
         await auth.logout();
-        await waitInSeconds(1);
+
+        await sleep(1000);
       });
 
       before(async () => {
@@ -74,7 +75,8 @@ export default (auth, client, conferenceCall, alert, account) => {
     describe('Should Failed to Update Conference', () => {
       after(async () => {
         await auth.logout();
-        await waitInSeconds(1);
+
+        await sleep(1000);
       });
 
       before(async () => {

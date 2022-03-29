@@ -164,6 +164,11 @@ export interface BrandConfig {
    * App default locales.
    */
   defaultLocale?: LocaleCode;
+
+  /**
+   * List of locales in the locale selection control like in Setting UI, by default it is same as supportedLocales.
+   */
+  localeMenuItems?: readonly LocaleCode[];
   /**
    * Preferred product name for zoom meetings.
    */

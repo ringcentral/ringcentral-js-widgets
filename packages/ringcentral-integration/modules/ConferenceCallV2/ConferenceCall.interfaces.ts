@@ -4,7 +4,7 @@ import { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
 import calleeTypes from '../../enums/calleeTypes';
 import { NormalizedCall } from '../../interfaces/Call.interface';
 import { Entity } from '../../interfaces/Entity.interface';
-import { Alert } from '../AlertV2';
+import { Alert } from '../Alert';
 import { AppFeatures } from '../AppFeatures';
 import { Auth } from '../AuthV2';
 import { AvailabilityMonitor } from '../AvailabilityMonitorV2';

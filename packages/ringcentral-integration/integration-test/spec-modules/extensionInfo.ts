@@ -1,8 +1,8 @@
 import { permissionsMessages } from '../../enums/permissionsMessages';
+import { sleep } from '../../lib/sleep';
 import * as mock from '../mock';
 import ClientHistoryRequest from '../utils/ClientHistoryRequest';
 import { containsErrorMessage, ensureLogin } from '../utils/HelpUtil';
-import { waitInSeconds } from '../utils/WaitUtil';
 
 export default (auth, client, extensionInfo, account, alert) => {
   describe('ExtensionInfo:', () => {
@@ -16,7 +16,8 @@ export default (auth, client, extensionInfo, account, alert) => {
       if (auth.loggedIn) {
         await auth.logout();
       }
-      await waitInSeconds(1);
+
+      await sleep(1000);
     });
 
     it('Should load info successfully', async () => {
@@ -31,7 +32,8 @@ export default (auth, client, extensionInfo, account, alert) => {
         this.skip();
       }
       this.retries(2);
-      await waitInSeconds(1);
+
+      await sleep(1000);
       expect(extensionInfo.info.extensionNumber).equal('101');
     });
 
@@ -42,7 +44,8 @@ export default (auth, client, extensionInfo, account, alert) => {
       await auth.login({
         ...account,
       });
-      await waitInSeconds(3);
+
+      await sleep(3000);
       expect(auth.loggedIn).equal(false);
       expect(
         containsErrorMessage(

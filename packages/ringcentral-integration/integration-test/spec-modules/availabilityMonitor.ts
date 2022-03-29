@@ -1,6 +1,6 @@
+import { sleep } from '../../lib/sleep';
 import * as mock from '../mock';
 import { ensureLogin } from '../utils/HelpUtil';
-import { waitInSeconds } from '../utils/WaitUtil';
 
 /** global describe */
 
@@ -37,7 +37,7 @@ export default ({
       mock.logout();
       await auth.logout();
       localStorage.clear();
-      await waitInSeconds(1);
+      await sleep(1000);
     });
 
     it('should switch to limited availability mode when user action occurs limited availability error', async () => {
@@ -72,7 +72,8 @@ export default ({
       });
       await callLog._sync('ISync');
       expect(availabilityMonitor.isLimitedAvailabilityMode).equal(true);
-      await waitInSeconds(15);
+      await sleep(1000 * 15);
+
       expect(availabilityMonitor.isLimitedAvailabilityMode).equal(true);
     });
 
@@ -89,7 +90,8 @@ export default ({
       });
       await callLog._sync('ISync');
       expect(availabilityMonitor.isLimitedAvailabilityMode).equal(true);
-      await waitInSeconds(15);
+
+      await sleep(1000 * 15);
       expect(availabilityMonitor.isLimitedAvailabilityMode).equal(false);
     });
   });

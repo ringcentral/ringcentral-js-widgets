@@ -7,7 +7,7 @@ import {
   VoicemailAttachment,
 } from '../../lib/messageHelper';
 import { RingCentralClient } from '../../lib/RingCentralClient';
-import { Alert } from '../AlertV2';
+import { Alert } from '../Alert';
 import { AppFeatures } from '../AppFeatures';
 import { Auth } from '../AuthV2';
 import { ContactMatcher } from '../ContactMatcherV2';

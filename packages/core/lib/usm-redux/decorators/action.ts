@@ -54,7 +54,7 @@ export const action = (
           }
           // performance checking
           const executionTime = Date.now() - time!;
-          if (executionTime > 100)
+          if (executionTime > 200)
             console.warn(
               `The execution time of method '${
                 this[identifierKey]

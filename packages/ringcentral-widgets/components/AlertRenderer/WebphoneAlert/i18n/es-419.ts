@@ -3,10 +3,10 @@ import webphoneMessages from '@ringcentral-integration/commons/modules/Webphone/
 export default {
   [webphoneErrors.connectFailed]: "Lo sentimos, las funciones del teléfono no están disponibles en este momento. Vuelva a intentarlo más tarde. ",
   [webphoneErrors.connected]: "Teléfono web registrado.",
-  [webphoneErrors.browserNotSupported]: "Lo sentimos, no es posible realizar llamadas con este navegador.",
+  [webphoneErrors.browserNotSupported]: "Lo sentimos, no es posible hacer llamadas con este navegador.",
   [webphoneErrors.webphoneCountOverLimit]: "Se pueden registrar 5 teléfonos web como máximo.",
   [webphoneErrors.checkDLError]: "No se pudo realizar una llamada saliente. Comuníquese con {brandName} para obtener asistencia si este error continúa apareciendo.",
-  [webphoneErrors.noOutboundCallWithoutDL]: "En este momento, su extensión no puede realizar llamadas salientes con navegador, comuníquese con su representante para acceder a la actualización.",
+  [webphoneErrors.noOutboundCallWithoutDL]: "En este momento, su extensión no puede hacer llamadas salientes con navegador, comuníquese con su representante para acceder a la actualización.",
   [webphoneErrors.provisionUpdate]: "Lo sentimos, cometimos un error. Intentaremos volver a conectar rápidamente.",
   [webphoneErrors.serverConnecting]: "Lo sentimos, tenemos un problema para conectar al servidor telefónico.",
   [webphoneErrors.toVoiceMailError]: "No se puede enviar la llamada Enviar al buzón debido a un error interno",

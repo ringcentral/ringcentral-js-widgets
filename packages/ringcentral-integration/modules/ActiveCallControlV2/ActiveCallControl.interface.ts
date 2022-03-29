@@ -12,7 +12,7 @@ import { TelephonyStatus } from '../../enums/telephonyStatus';
 import { NormalizedSession } from '../../interfaces/Webphone.interface';
 import { RingCentralClient } from '../../lib/RingCentralClient';
 import AccountInfo from '../AccountInfo';
-import { Alert } from '../AlertV2';
+import { Alert } from '../Alert';
 import { AppFeatures } from '../AppFeatures';
 import AudioSettings from '../AudioSettings';
 import Auth from '../Auth';

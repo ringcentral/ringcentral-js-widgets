@@ -6,17 +6,17 @@ import conferenceCallErrors from '@ringcentral-integration/commons/modules/Confe
 
 import i18n from './i18n';
 
-type ConferenceAlertProps = {
+type ConferenceCallAlertProps = {
   currentLocale: string;
   message: {
     message: string;
   };
 };
-const ConferenceAlert: React.SFC<ConferenceAlertProps> = (props) => {
+const ConferenceCallAlert: React.SFC<ConferenceCallAlertProps> = (props) => {
   const msg = i18n.getString(props.message.message, props.currentLocale);
   return <span>{msg}</span>;
 };
-ConferenceAlert.handleMessage = ({ message }) =>
+ConferenceCallAlert.handleMessage = ({ message }) =>
   contains(message, [
     conferenceCallErrors.bringInFailed,
     conferenceCallErrors.makeConferenceFailed,
@@ -24,4 +24,4 @@ ConferenceAlert.handleMessage = ({ message }) =>
     conferenceCallErrors.removeFromConferenceFailed,
     conferenceCallErrors.callIsRecording,
   ]);
-export default ConferenceAlert;
+export default ConferenceCallAlert;

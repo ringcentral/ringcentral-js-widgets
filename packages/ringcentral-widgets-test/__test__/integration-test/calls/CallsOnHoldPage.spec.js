@@ -1,4 +1,4 @@
-import sleep from '@ringcentral-integration/commons/lib/sleep';
+import { sleep } from '@ringcentral-integration/commons/lib/sleep';
 import ActiveCallPad from '@ringcentral-integration/widgets/components/ActiveCallPad';
 import ActiveCallPanel from '@ringcentral-integration/widgets/components/ActiveCallPanel';
 import ActiveCallsPanel from '@ringcentral-integration/widgets/components/ActiveCallsPanel';

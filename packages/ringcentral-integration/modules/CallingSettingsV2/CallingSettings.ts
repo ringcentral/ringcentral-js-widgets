@@ -214,7 +214,10 @@ class CallingSettings extends RcModuleV2<Deps> {
   }
 
   async _init() {
-    if (!this._deps.appFeatures.isCallingEnabled) return;
+    if (!this._deps.appFeatures.isCallingEnabled) {
+      this.setDataAction({ callWith: null, timestamp: null });
+      return;
+    }
 
     this._myPhoneNumbers = this.myPhoneNumbers;
     this._otherPhoneNumbers = this.otherPhoneNumbers;

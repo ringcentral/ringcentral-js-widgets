@@ -11,7 +11,7 @@ import {
 
 import { createApp } from '../../lib/createApp';
 import { Module, ModuleFactory } from '../../lib/di';
-import sleep from '../../lib/sleep';
+import { sleep } from '../../lib/sleep';
 
 @autorun(test)
 @title('CreateApp::basic')

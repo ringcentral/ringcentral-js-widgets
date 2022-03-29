@@ -1,7 +1,7 @@
 import callingOptions from '@ringcentral-integration/commons/modules/CallingSettings/callingOptions';
 export default {
   title: "Soittaminen",
-  [callingOptions.softphone]: "{brand} tietokoneelle",
+  [callingOptions.softphone]: "{brand} -työpöytäsovellus",
   [callingOptions.browser]: "Selain",
   [callingOptions.jupiter]: "{brand}",
   makeCallsWith: "Soita puhelut sovelluksella",

@@ -1,6 +1,6 @@
 export default {
   noResultFoundFor: "Nenhum resultado encontrado para",
-  search: "Pesquisar"
+  search: "Procurar"
 };
 
 // @key: @#@"noResultFoundFor"@#@ @source: @#@"No result found for"@#@

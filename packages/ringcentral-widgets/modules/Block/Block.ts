@@ -47,8 +47,8 @@ export class Block extends RcModuleV2<DepsModules> implements IBlock {
   }
 
   /**
-   * block view with `SpinnerOverlay`
-   * @param props props for show in `SpinnerOverlay`
+   * block view with `SpinnerOverlay`
+   * @param props props for show in `SpinnerOverlay`
    */
   block(props: BlockItem = {}) {
     const id = this._getId();

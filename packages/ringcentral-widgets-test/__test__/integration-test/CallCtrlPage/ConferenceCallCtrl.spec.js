@@ -208,7 +208,7 @@ describe(`RCI-12004 Conference maximize participants: User has a Conference Call
     expect(addButton.props().title).toEqual('Add');
     expect(addButton.props().disabled).toBe(true);
     expect(
-      addButton.find(CircleButton).find('svg').props().className,
+      addButton.find(CircleButton).find('svg').at(0).props().className,
     ).toContain('buttonDisabled');
     // #3 Make an outbound call, the Merge button is disabled
     await makeOutboundCall(phone);
@@ -220,7 +220,7 @@ describe(`RCI-12004 Conference maximize participants: User has a Conference Call
     expect(mergeButton.props().title).toEqual('Merge');
     expect(mergeButton.props().disabled).toBe(true);
     expect(
-      mergeButton.find(CircleButton).find('svg').props().className,
+      mergeButton.find(CircleButton).find('svg').at(0).props().className,
     ).toContain('buttonDisabled');
     await tearDownWrapper(wrapper);
   });
@@ -240,7 +240,7 @@ describe(`RCI-12004 Conference maximize participants: User has a Conference Call
     expect(mergeButton.props().title).toEqual('Merge');
     expect(mergeButton.props().disabled).toBe(false);
     expect(
-      mergeButton.find(CircleButton).find('svg').props().className,
+      mergeButton.find(CircleButton).find('svg').at(0).props().className,
     ).not.toContain('buttonDisabled');
     await tearDownWrapper(wrapper);
   });
@@ -256,7 +256,7 @@ describe(`RCI-12004 Conference maximize participants: User has a Conference Call
     expect(addButton.props().title).toEqual('Add');
     expect(addButton.props().disabled).toBe(false);
     expect(
-      addButton.find(CircleButton).find('svg').props().className,
+      addButton.find(CircleButton).find('svg').at(0).props().className,
     ).not.toContain('buttonDisabled');
     await tearDownWrapper(wrapper);
   });

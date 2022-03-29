@@ -3,7 +3,6 @@ import MoreActionItem from '@ringcentral-integration/widgets/components/ActiveCa
 import ActiveCallDialPad from '@ringcentral-integration/widgets/components/ActiveCallDialPad';
 import ActiveCallButton from '@ringcentral-integration/widgets/components/ActiveCallButton';
 import IncomingCallPad from '@ringcentral-integration/widgets/components/IncomingCallPad';
-import RecipientsInput from '@ringcentral-integration/widgets/components/RecipientsInput';
 import RadioBtnGroup from '@ringcentral-integration/widgets/components/RadioBtnGroup';
 import TransferPanel from '@ringcentral-integration/widgets/components/TransferPanel';
 import CircleButton from '@ringcentral-integration/widgets/components/CircleButton';
@@ -13,7 +12,7 @@ import Tooltip from '@ringcentral-integration/widgets/components/Tooltip';
 import DialPad from '@ringcentral-integration/widgets/components/DialPad';
 import TransferIcon from '@ringcentral-integration/widgets/assets/images/Transfer.svg';
 import * as mock from '@ringcentral-integration/commons/integration-test/mock';
-import forwardingNumberBody from './data/forwardingNumberNoCallFlip';
+import forwardingNumberBody from './data/forwardingNumberNoCallFlip.json';
 import { makeOutboundCall, mockConferenceCallEnv } from './helper';
 import { getInboundCall } from '../../support/callHelper';
 import { initPhoneWrapper, timeout, tearDownWrapper } from '../shared';
@@ -640,11 +639,11 @@ describe('Current Call Control Page - Transfer', () => {
     expect(panel.find('BackHeader')).toHaveLength(1);
     expect(panel.find('BackHeader').find('Button')).toHaveLength(1);
     expect(panel.find('BackHeader').text()).toEqual('Transfer to');
-    expect(panel.find(RecipientsInput)).toHaveLength(1);
-    expect(panel.find(RecipientsInput).find('label').text()).toEqual('To:');
-    expect(
-      panel.find(RecipientsInput).find('input').props().placeholder,
-    ).toEqual('Enter Name or Number');
+    expect(panel).toHaveLength(1);
+    expect(panel.find('label').text()).toEqual('To:');
+    expect(panel.find('input').props().placeholder).toEqual(
+      'Enter Name or Number',
+    );
     expect(panel.find(DialPad)).toHaveLength(1);
     expect(panel.find(CircleButton).find(TransferIcon)).toHaveLength(1);
     await tearDownWrapper(wrapper);
@@ -693,7 +692,7 @@ describe('Current Call Control Page - Transfer', () => {
     );
     const domInput = wrapper
       .find(TransferPanel)
-      .find(RecipientsInput)
+
       .find('input');
     enterToNumber(domInput, 'abcde');
     transferBtn.find('g').simulate('click');
@@ -722,7 +721,7 @@ describe('Current Call Control Page - Transfer', () => {
     wrapper.update();
     const domInput = wrapper
       .find(TransferPanel)
-      .find(RecipientsInput)
+
       .find('input');
     enterToNumber(domInput, '987654321');
     const transferBtn = wrapper.find(TransferPanel).find(CircleButton).last();

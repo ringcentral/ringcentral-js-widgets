@@ -1,4 +1,4 @@
-import { Alert } from '../AlertV2';
+import { Alert } from '../Alert';
 import { Brand } from '../Brand';
 import { DialingPlan } from '../DialingPlanV2';
 import { ExtensionInfo } from '../ExtensionInfoV2';

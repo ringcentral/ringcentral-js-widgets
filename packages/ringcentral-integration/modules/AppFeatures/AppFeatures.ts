@@ -237,6 +237,17 @@ export abstract class AppFeaturesBase<
   get isCDCEnabled() {
     return !!this.config.CDC;
   }
+
+  get isOCPEnabled() {
+    return this._deps.extensionFeatures.features?.OutboundCallPrefix?.available;
+  }
+  get OCPValue() {
+    if (this.isOCPEnabled) {
+      return this._deps.extensionFeatures.features?.OutboundCallPrefix
+        ?.params[0]?.value;
+    }
+    return '';
+  }
 }
 
 @Module()

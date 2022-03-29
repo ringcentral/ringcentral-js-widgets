@@ -73,7 +73,16 @@ interface RcModuleV2 {
   [storeKey]: Store;
 }
 
-// eslint-disable-next-line no-redeclare
+/**
+ * Module system based on Dependency Injection and Redux
+ *
+ * life cycle:
+ * - `constructor`
+ * - `onInitOnce`: when deps are ready, only run once in whole life cycle
+ * - `onInit`: when module init, module status will be set to `ready` after that event.
+ * - `onInitSuccess`: when onInit be passed successfully, this event will be triggered.
+ * - `onReset`: when one of deps be reset, this event will be triggered.
+ */
 abstract class RcModuleV2<T = {}> {
   private [onceKey] = false;
 

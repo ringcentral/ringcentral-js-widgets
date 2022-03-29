@@ -9,7 +9,7 @@ import { CallLog, Task } from '../CallLogPanel';
 export type CallLogFieldsProps = {
   currentLocale: string;
   currentLog?: CallLog;
-  onUpdateCallLog?: (...args: any[]) => any;
+  onUpdateCallLog?: (data: { task: Task }, id: string) => any;
   onSaveCallLog?: (...args: any[]) => any;
   onSelectViewVisible?: (visible: boolean, fieldName: string) => any;
   customInputDataStruct?: (...args: any[]) => any;
@@ -20,7 +20,7 @@ export type CallLogFieldsProps = {
     searchString,
   }: {
     searchString: string;
-  }) => Promise<Array<any>> | void;
+  }) => Promise<Array<any>> | Promise<void>;
   showFoundFromServer: boolean;
   editSectionScrollBy?: (top: number) => void;
   fieldSize: RcDatePickerProps['size'];
@@ -31,6 +31,11 @@ export type CallLogFieldsProps = {
     [key: string]: MutableRefObject<any>;
   };
   disabled: boolean;
+  onSelectListOpen?(fieldValue: string): void;
+  onTextAreaFocus?: React.FocusEventHandler<
+    HTMLInputElement | HTMLTextAreaElement
+  >;
+  onFullSelectFieldClick?(field: string): void;
 };
 
 export interface FieldOption {

@@ -1,7 +1,7 @@
 import { TokenInfo as BaseTokenInfo } from '@rc-ex/core/definitions';
 import { LoginUrlOptions as SdkLoginUrlOptions } from '@ringcentral/sdk';
 
-import { Alert } from '../AlertV2';
+import { Alert } from '../Alert';
 import { Environment } from '../EnvironmentV2';
 import { Locale } from '../Locale';
 import { RateLimiter } from '../RateLimiterV2';

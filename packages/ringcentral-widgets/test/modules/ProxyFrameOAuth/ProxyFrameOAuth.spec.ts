@@ -1,5 +1,5 @@
 import { mockModuleGenerator } from '@ringcentral-integration/commons/test/lib/mockModule';
-import ProxyFrameOAuth from '../../../modules/ProxyFrameOAuth';
+import { ProxyFrameOAuth } from '../../../modules/ProxyFrameOAuth';
 
 const mockFunc = jest.fn();
 

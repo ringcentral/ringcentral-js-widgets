@@ -42,6 +42,7 @@ type CallListV2Props = {
   phoneTypeRenderer?: (...args: any[]) => any;
   phoneSourceNameRenderer?: (...args: any[]) => any;
   renderContactName?: (...args: any[]) => any;
+  renderSubContactName?: (...args: any[]) => any;
   renderExtraButton?: (...args: any[]) => any;
   contactDisplayStyle?: string;
   externalViewEntity?: (...args: any[]) => any;
@@ -136,6 +137,7 @@ class CallListV2 extends React.PureComponent<CallListV2Props, CallListV2State> {
       phoneTypeRenderer,
       phoneSourceNameRenderer,
       renderContactName,
+      renderSubContactName,
       renderExtraButton,
       contactDisplayStyle,
       externalViewEntity,
@@ -195,6 +197,7 @@ class CallListV2 extends React.PureComponent<CallListV2Props, CallListV2State> {
           phoneTypeRenderer={phoneTypeRenderer}
           phoneSourceNameRenderer={phoneSourceNameRenderer}
           renderContactName={renderContactName}
+          renderSubContactName={renderSubContactName}
           renderExtraButton={renderExtraButton}
           contactDisplayStyle={contactDisplayStyle}
           externalViewEntity={externalViewEntity}
@@ -268,6 +271,7 @@ CallListV2.defaultProps = {
   phoneTypeRenderer: undefined,
   phoneSourceNameRenderer: undefined,
   renderContactName: undefined,
+  renderSubContactName: undefined,
   renderExtraButton: undefined,
   contactDisplayStyle: undefined,
   externalViewEntity: undefined,

@@ -146,10 +146,7 @@ describe('To Voicemail Button', () => {
       'To Voicemail',
     );
 
-    buttonToVoicemail
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    buttonToVoicemail.find(CircleButton).find('g').simulate('click');
     await timeout(100);
     wrapper.update();
     expect(rejectFn.mock.calls[0]).toContain(sid111);
@@ -169,10 +166,7 @@ describe('Check Answer Button', () => {
     const buttonAnswer = buttons.at(4);
     expect(buttonAnswer.find('.buttonTitle').text()).toEqual('Answer');
 
-    buttonAnswer
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    buttonAnswer.find(CircleButton).find('g').simulate('click');
     await timeout(10);
     wrapper.update();
     expect(acceptFn.mock.calls[0]).toContain(sid111);
@@ -202,11 +196,7 @@ describe('Check Answer and Hold Button', () => {
       'Answer & Hold',
     );
 
-    buttonAnswerHold
-      .find(CircleButton)
-      .first()
-      .find('g')
-      .simulate('click');
+    buttonAnswerHold.find(CircleButton).first().find('g').simulate('click');
     await timeout(10);
     expect(phone.webphone.sessions).toHaveLength(2);
 
@@ -236,11 +226,7 @@ describe('Check Answer and Hold Button', () => {
       'Answer & Hold',
     );
 
-    buttonAnswerHold
-      .find(CircleButton)
-      .first()
-      .find('g')
-      .simulate('click');
+    buttonAnswerHold.find(CircleButton).first().find('g').simulate('click');
     await timeout(10);
     expect(phone.webphone.sessions).toHaveLength(2);
 
@@ -271,11 +257,7 @@ describe('Check Answer and End Button', () => {
     const buttonAnswerEnd = multiButtons.at(0);
     expect(buttonAnswerEnd.find('.buttonTitle').text()).toEqual('Answer & End');
 
-    buttonAnswerEnd
-      .find(CircleButton)
-      .first()
-      .find('g')
-      .simulate('click');
+    buttonAnswerEnd.find(CircleButton).first().find('g').simulate('click');
     await timeout(10);
     expect(phone.webphone.sessions).toHaveLength(1);
 
@@ -302,11 +284,7 @@ describe('Check Answer and End Button', () => {
     const buttonAnswerEnd = multiButtons.at(0);
     expect(buttonAnswerEnd.find('.buttonTitle').text()).toEqual('Answer & End');
 
-    buttonAnswerEnd
-      .find(CircleButton)
-      .first()
-      .find('g')
-      .simulate('click');
+    buttonAnswerEnd.find(CircleButton).first().find('g').simulate('click');
     await timeout(10);
     expect(phone.webphone.sessions).toHaveLength(1);
 
@@ -332,10 +310,7 @@ describe('Check Ignore Button', () => {
     const buttonIgnore = buttons.at(2);
     expect(buttonIgnore.find('.buttonTitle').text()).toEqual('Ignore');
 
-    buttonIgnore
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    buttonIgnore.find(CircleButton).find('g').simulate('click');
     await timeout(10);
     wrapper.update();
     expect(phone.webphone.sessions).toHaveLength(0);
@@ -355,10 +330,7 @@ describe('Check Ignore Button', () => {
     const buttonIgnore = buttons.at(2);
     expect(buttonIgnore.find('.buttonTitle').text()).toEqual('Ignore');
 
-    buttonIgnore
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    buttonIgnore.find(CircleButton).find('g').simulate('click');
     await timeout(10);
     wrapper.update();
     expect(phone.webphone.sessions).toHaveLength(1);
@@ -380,10 +352,7 @@ describe('Check Ignore Button', () => {
     const buttonIgnore = buttons.at(2);
     expect(buttonIgnore.find('.buttonTitle').text()).toEqual('Ignore');
 
-    buttonIgnore
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    buttonIgnore.find(CircleButton).find('g').simulate('click');
     await timeout(100);
     expect(phone.webphone.sessions).toHaveLength(1);
 
@@ -407,18 +376,10 @@ describe('Check Incoming Call Forward Button', () => {
       .at(0);
     expect(buttonForward.find('.buttonTitle').text()).toEqual('Forward');
 
-    buttonForward
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    buttonForward.find(CircleButton).find('g').simulate('click');
     await timeout(10);
     wrapper.update();
-    expect(
-      wrapper
-        .find(Tooltip)
-        .at(0)
-        .props().visible,
-    ).toBe(true);
+    expect(wrapper.find(Tooltip).at(0).props().visible).toBe(true);
     await tearDownWrapper(wrapper);
     done();
   });
@@ -432,18 +393,10 @@ describe('Check Incoming Call Forward Button', () => {
       .at(0);
     expect(buttonForward.find('.buttonTitle').text()).toEqual('Forward');
 
-    buttonForward
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    buttonForward.find(CircleButton).find('g').simulate('click');
     await timeout(10);
     wrapper.update();
-    expect(
-      wrapper
-        .find(Tooltip)
-        .at(0)
-        .props().visible,
-    ).toBe(true);
+    expect(wrapper.find(Tooltip).at(0).props().visible).toBe(true);
     await tearDownWrapper(wrapper);
     done();
   });
@@ -457,18 +410,10 @@ describe('Check Incoming Call Forward Button', () => {
       .at(0);
     expect(buttonForward.find('.buttonTitle').text()).toEqual('Forward');
 
-    buttonForward
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    buttonForward.find(CircleButton).find('g').simulate('click');
     await timeout(10);
     wrapper.update();
-    expect(
-      wrapper
-        .find(Tooltip)
-        .at(0)
-        .props().visible,
-    ).toBe(true);
+    expect(wrapper.find(Tooltip).at(0).props().visible).toBe(true);
     await tearDownWrapper(wrapper);
     done();
   });
@@ -482,10 +427,7 @@ describe('Check Incoming Call Forward Button > ForwardForm', () => {
       .find(IncomingCallPad)
       .find(ActiveCallButton)
       .at(0);
-    buttonForward
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    buttonForward.find(CircleButton).find('g').simulate('click');
     await timeout(10);
     wrapper.update();
 
@@ -494,12 +436,7 @@ describe('Check Incoming Call Forward Button > ForwardForm', () => {
     btnCancel.simulate('click');
     await timeout(10);
     wrapper.update();
-    expect(
-      wrapper
-        .find(Tooltip)
-        .at(0)
-        .props().visible,
-    ).toBe(false);
+    expect(wrapper.find(Tooltip).at(0).props().visible).toBe(false);
     await tearDownWrapper(wrapper);
     done();
   });
@@ -510,10 +447,7 @@ describe('Check Incoming Call Forward Button > ForwardForm', () => {
       .find(IncomingCallPad)
       .find(ActiveCallButton)
       .at(0);
-    buttonForward
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    buttonForward.find(CircleButton).find('g').simulate('click');
     await timeout(10);
     wrapper.update();
 
@@ -539,10 +473,7 @@ describe('Check Incoming Call Forward Button > ForwardForm', () => {
       .find(IncomingCallPad)
       .find(ActiveCallButton)
       .at(0);
-    buttonForward
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    buttonForward.find(CircleButton).find('g').simulate('click');
     await timeout(10);
     wrapper.update();
 
@@ -573,10 +504,7 @@ describe('Check Incoming Call Forward Button > ForwardForm', () => {
       .find(IncomingCallPad)
       .find(ActiveCallButton)
       .at(0);
-    buttonForward
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    buttonForward.find(CircleButton).find('g').simulate('click');
     await timeout(10);
     wrapper.update();
 
@@ -613,18 +541,10 @@ describe('Check Incoming Call Reply Button', () => {
       .at(1);
     expect(buttonReply.find('.buttonTitle').text()).toEqual('Reply');
 
-    buttonReply
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    buttonReply.find(CircleButton).find('g').simulate('click');
     await timeout(10);
     wrapper.update();
-    expect(
-      wrapper
-        .find(Tooltip)
-        .at(1)
-        .props().visible,
-    ).toBe(true);
+    expect(wrapper.find(Tooltip).at(1).props().visible).toBe(true);
     await tearDownWrapper(wrapper);
     done();
   });
@@ -637,18 +557,10 @@ describe('Check Incoming Call Reply Button', () => {
       .at(1);
     expect(buttonReply.find('.buttonTitle').text()).toEqual('Reply');
 
-    buttonReply
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    buttonReply.find(CircleButton).find('g').simulate('click');
     await timeout(10);
     wrapper.update();
-    expect(
-      wrapper
-        .find(Tooltip)
-        .at(1)
-        .props().visible,
-    ).toBe(true);
+    expect(wrapper.find(Tooltip).at(1).props().visible).toBe(true);
     await tearDownWrapper(wrapper);
     done();
   });
@@ -662,40 +574,25 @@ describe('Check Incoming Call Reply Button > ReplyWithMessage', () => {
       .find(IncomingCallPad)
       .find(ActiveCallButton)
       .at(1);
-    buttonReply
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    buttonReply.find(CircleButton).find('g').simulate('click');
     await timeout(100);
     wrapper.update();
 
     const domReplyWithMessage = wrapper.find(ReplyWithMessage);
     const btnCancel = domReplyWithMessage.find(Button).at(0);
     const btnReply = domReplyWithMessage.find(Button).at(1);
-    expect(
-      domReplyWithMessage
-        .find('.label')
-        .at(0)
-        .text(),
-    ).toEqual('Will call you back in...');
-    expect(
-      domReplyWithMessage
-        .find('.label')
-        .at(1)
-        .text(),
-    ).toEqual('Call me back in...');
-    expect(
-      domReplyWithMessage
-        .find('.label')
-        .at(2)
-        .text(),
-    ).toEqual('On my way');
-    expect(
-      domReplyWithMessage
-        .find('.label')
-        .at(3)
-        .text(),
-    ).toEqual('Custom Message');
+    expect(domReplyWithMessage.find('.label').at(0).text()).toEqual(
+      'Will call you back in...',
+    );
+    expect(domReplyWithMessage.find('.label').at(1).text()).toEqual(
+      'Call me back in...',
+    );
+    expect(domReplyWithMessage.find('.label').at(2).text()).toEqual(
+      'On my way',
+    );
+    expect(domReplyWithMessage.find('.label').at(3).text()).toEqual(
+      'Custom Message',
+    );
     expect(btnCancel.text()).toEqual('Cancel');
     expect(btnReply.text()).toEqual('Reply');
     await tearDownWrapper(wrapper);
@@ -708,10 +605,7 @@ describe('Check Incoming Call Reply Button > ReplyWithMessage', () => {
       .find(IncomingCallPad)
       .find(ActiveCallButton)
       .at(1);
-    buttonReply
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    buttonReply.find(CircleButton).find('g').simulate('click');
     await timeout(100);
     wrapper.update();
 
@@ -720,12 +614,7 @@ describe('Check Incoming Call Reply Button > ReplyWithMessage', () => {
     btnCancel.first().simulate('click');
     await timeout(100);
     wrapper.update();
-    expect(
-      wrapper
-        .find(Tooltip)
-        .at(1)
-        .props().visible,
-    ).toBe(false);
+    expect(wrapper.find(Tooltip).at(1).props().visible).toBe(false);
     await tearDownWrapper(wrapper);
     done();
   });
@@ -737,10 +626,7 @@ describe('Check Incoming Call Reply Button > ReplyWithMessage', () => {
       .find(IncomingCallPad)
       .find(ActiveCallButton)
       .at(1);
-    buttonReply
-      .find(CircleButton)
-      .find('g')
-      .simulate('click');
+    buttonReply.find(CircleButton).find('g').simulate('click');
     await timeout(10);
     wrapper.update();
 

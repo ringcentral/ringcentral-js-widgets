@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 import calleeTypes from '@ringcentral-integration/commons/enums/calleeTypes';
-import sleep from '@ringcentral-integration/commons/lib/sleep';
+import { sleep } from '@ringcentral-integration/commons/lib/sleep';
 import sessionStatus from '@ringcentral-integration/commons/modules/Webphone/sessionStatus';
 
 import CallCtrlPanel from '../../components/CallCtrlPanel';

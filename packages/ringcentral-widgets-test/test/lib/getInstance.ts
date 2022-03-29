@@ -20,16 +20,17 @@ const apiConfig = {
   server: 'testServer',
 };
 
-SimulateWindowObject();
-
 export const getInstance = async ({
   shouldMockForLogin = true,
   shouldMockWebphone = true,
+  shouldMockDevices = true,
   ...options
 } = {}) => {
   jest.mock('pubnub');
   jest.mock('ringcentral-web-phone');
   jest.mock('ringcentral-call');
+
+  SimulateWindowObject(shouldMockDevices);
 
   // Mock phone
   mock.discoveryInitial();

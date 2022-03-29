@@ -3,7 +3,7 @@ import DataFetcher from '../../lib/DataFetcher';
 import { Module } from '../../lib/di';
 import fetchList from '../../lib/fetchList';
 import { selector } from '../../lib/selector';
-import sleep from '../../lib/sleep';
+import { sleep } from '../../lib/sleep';
 import { getDataReducer } from './getActiveCallsReducer';
 
 const presenceRegExp = /\/presence\?detailedTelephonyState=true/;

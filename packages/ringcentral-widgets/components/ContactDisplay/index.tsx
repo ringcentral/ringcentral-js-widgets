@@ -74,6 +74,7 @@ type ContactDisplayProps = {
   phoneSourceNameRenderer?: (...args: any[]) => any;
   showGroupNumberName?: boolean;
   contactName?: any;
+  subContactName?: any;
   iconClassName?: string;
   dropdownRenderFunction?: (...args: any[]) => any;
   dropdownClassName?: string;
@@ -154,6 +155,7 @@ const ContactDisplay: React.FC<ContactDisplayProps> = ({
   phoneSourceNameRenderer,
   showGroupNumberName,
   contactName,
+  subContactName,
   isOnConferenceCall,
   iconClassName,
   dropdownRenderFunction,
@@ -198,9 +200,18 @@ const ContactDisplay: React.FC<ContactDisplayProps> = ({
 
     if (contactName) {
       return (
-        <Title title={contactName} unread={unread} missed={missed}>
+        <Title
+          title={
+            subContactName
+              ? `${contactName.title || contactName}${subContactName.title}`
+              : contactName.title || contactName
+          }
+          unread={unread}
+          missed={missed}
+        >
           {unreadDot}
-          {contactName}
+          {contactName.tag || contactName}
+          {subContactName && subContactName.tag}
         </Title>
       );
     }

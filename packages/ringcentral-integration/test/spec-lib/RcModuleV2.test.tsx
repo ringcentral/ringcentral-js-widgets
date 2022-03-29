@@ -13,7 +13,7 @@ import {
 
 import { Module, ModuleFactory } from '../../lib/di';
 import RcModule from '../../lib/RcModule';
-import sleep from '../../lib/sleep';
+import { sleep } from '../../lib/sleep';
 import { Locale } from '../../modules/Locale';
 
 @autorun(test)

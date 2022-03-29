@@ -2,11 +2,10 @@ import React from 'react';
 
 import AudioSettingsAlert from './AudioSettingsAlert';
 import AuthAlert from './AuthAlert';
-import CallAlert from './CallAlert';
+import { CallAlert } from './CallAlert';
 import CallControlAlert from './CallControlAlert';
 import { CallingSettingsAlert } from './CallingSettingsAlert';
 import CallLogAlert from './CallLogAlert';
-import ConferenceAlert from './ConferenceAlert';
 import ConferenceCallAlert from './ConferenceCallAlert';
 import ConnectivityAlert from './ConnectivityAlert';
 import MeetingAlert from './MeetingAlert';
@@ -116,10 +115,6 @@ export const AlertRenderer = ({
           application={brand.appName}
         />
       );
-    }
-
-    if (ConferenceAlert.handleMessage(message)) {
-      return ConferenceAlert;
     }
 
     if (ConferenceCallAlert.handleMessage(message)) {

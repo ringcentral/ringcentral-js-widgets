@@ -3,7 +3,7 @@ import formatMessage from 'format-message';
 
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import { raceTimeout } from '@ringcentral-integration/commons/lib/raceTimeout';
-import sleep from '@ringcentral-integration/commons/lib/sleep';
+import { sleep } from '@ringcentral-integration/commons/lib/sleep';
 import {
   action,
   RcModuleV2,

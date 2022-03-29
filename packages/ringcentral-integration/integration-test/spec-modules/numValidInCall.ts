@@ -1,6 +1,7 @@
+import { sleep } from '../../lib/sleep';
 import callErrors from '../../modules/Call/callErrors';
 import { containsErrorMessage, ensureLogin } from '../utils/HelpUtil';
-import { waitInSeconds, waitUntilEqual } from '../utils/WaitUtil';
+import { waitUntilEqual } from '../utils/WaitUtil';
 
 export default (
   Auth,
@@ -25,7 +26,8 @@ export default (
         );
         this.skip();
       }
-      await waitInSeconds(1);
+
+      await sleep(1000);
     });
 
     afterEach(async () => {

@@ -8,7 +8,7 @@ export default {
   [callErrors.notAnExtension]: "O número da extensão não existe.",
   [callErrors.networkError]: "Não é possível estabelecer ligação devido a problemas de rede. Tente novamente mais tarde.",
   [callErrors.noInternational]: "Não tem permissões para efetuar chamadas internacionais. Contacte o administrador da conta {brand} para obter uma atualização.",
-  [callErrors.noRingoutEnable]: "A sua extensão está autorizada a efetuar chamadas através de uma aplicação para ambiente de trabalho.\n    Caso pretenda alterar para outras opções de chamada,\n    contacte o administrador da conta para obter uma atualização.",
+  [callErrors.noRingoutEnable]: "A sua extensão está autorizada a efetuar chamadas através de uma aplicação para computador.\n    Caso pretenda alterar para outras opções de chamada,\n    contacte o administrador da conta para obter uma atualização.",
   areaCode: "indicativo de zona",
   telus911: "A marcação de emergência não é suportada."
 };

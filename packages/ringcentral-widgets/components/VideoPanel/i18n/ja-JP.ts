@@ -9,7 +9,7 @@ export default {
   [ASSISTED_USERS_MYSELF]: "自分",
   joinBeforeHost: "ホストより早く参加者が参加することを許可",
   enableWaitingRoom: "待機ルームを有効にする",
-  waitingRoom: "次のユーザーのために待機ルームを有効にする",
+  waitingRoom: "有効にするユーザー",
   waitingRoomNotCoworker: "すべての社外ユーザー",
   waitingRoomGuest: "すべての未サインインユーザー",
   waitingRoomAll: "全員",

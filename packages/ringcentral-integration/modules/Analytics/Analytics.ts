@@ -4,7 +4,7 @@ import { Pendo, Segment } from '../../lib/Analytics';
 import { Module } from '../../lib/di';
 import RcModule from '../../lib/RcModule';
 import saveBlob from '../../lib/saveBlob';
-import sleep from '../../lib/sleep';
+import { sleep } from '../../lib/sleep';
 import { AnalyticsEventExtendedProps } from '../AnalyticsEventExtendedProps';
 import callingModes from '../CallingSettings/callingModes';
 import { ExtensionInfo } from '../ExtensionInfoV2';
@@ -980,10 +980,6 @@ export class Analytics extends RcModule<
       {
         eventPostfix: 'Settings',
         router: '/settings',
-      },
-      {
-        eventPostfix: 'Conference',
-        router: '/conference',
       },
       {
         eventPostfix: 'Meeting',

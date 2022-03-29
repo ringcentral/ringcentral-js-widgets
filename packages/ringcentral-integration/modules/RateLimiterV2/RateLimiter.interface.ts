@@ -1,4 +1,4 @@
-import { Alert } from '../AlertV2';
+import { Alert } from '../Alert';
 import { Environment } from '../EnvironmentV2';
 import { GlobalStorage } from '../GlobalStorageV2';
 

@@ -37,6 +37,7 @@ const config = {
   ],
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx'],
+    fullySpecified: false,
     fallback: {
       fs: false,
       path: require.resolve('path-browserify'),
@@ -46,6 +47,12 @@ const config = {
   },
   module: {
     rules: [
+      {
+        test: /\.m?js/,
+        resolve: {
+          fullySpecified: false,
+        },
+      },
       {
         test: /\.(js|jsx|ts|tsx)$/,
         use: [

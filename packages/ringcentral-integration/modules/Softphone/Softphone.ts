@@ -4,7 +4,7 @@ import { action, RcModuleV2, state } from '@ringcentral-integration/core';
 
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
-import sleep from '../../lib/sleep';
+import { sleep } from '../../lib/sleep';
 import callingModes from '../CallingSettings/callingModes';
 import { CallHandlerContext, CallUriInfo, Deps } from './Softphone.interface';
 import { softphoneStatus } from './softphoneStatus';
@@ -82,11 +82,14 @@ export class Softphone<T extends Deps = Deps> extends RcModuleV2<T> {
     let protocol = this.spartanProtocol;
     let isJupiterUniversalLink = false;
     // jupiter
-    const isCallWithJupiter = callingMode === callingModes.jupiter;
+    const isCallWithJupiter = [
+      callingModes.jupiter,
+      callingModes.jupiterUniversalLink,
+    ].includes(callingMode);
     if (isCallWithJupiter) {
       // jupiter doesn't recognize encoded string for now
       command = `r/call?number=${phoneNumber}`;
-      isJupiterUniversalLink = this.useJupiterUniversalLink;
+      isJupiterUniversalLink = this._useJupiterUniversalLink(callingMode);
       protocol = isJupiterUniversalLink
         ? this.jupiterUniversalLink
         : this.jupiterProtocol;
@@ -99,8 +102,13 @@ export class Softphone<T extends Deps = Deps> extends RcModuleV2<T> {
     };
   }
 
-  get useJupiterUniversalLink() {
-    // rc brand use scheme, partner brand use universal link
+  private _useJupiterUniversalLink(callingMode: string) {
+    // rc brand: call with jupiter, use scheme
+    // rc brand: call with jupiter web, use universal link
+    // partner brand: use universal link
+    if (callingMode === callingModes.jupiterUniversalLink) {
+      return true;
+    }
     return (
       this._deps.softphoneOptions?.useJupiterUniversalLink ??
       this._deps.brand.brandConfig.allowJupiterUniversalLink

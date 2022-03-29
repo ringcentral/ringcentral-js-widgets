@@ -7,7 +7,7 @@
     "lib": "lib"
   },
   "scripts": {
-    "test": "yarn run-test --ci",
+    "test": "yarn run-test",
     "build": "yarn gulp build",
     "gulp": "gulp --require @ringcentral-integration/babel-settings/lib/register.js",
     "release": "yarn gulp release"
@@ -29,7 +29,7 @@
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "gulp-sourcemaps": "^2.6.5",
-    "jest-html-reporters": "2.0.3"
+    "jest-html-reporters": "^3.0.4"
   },
   "dependencies": {
     "immer": "^9.0.2",

@@ -45,6 +45,9 @@ class Step<P = {}, C = {}> extends BaseStep<P, C> {
       get phone() {
         return global.instance?.phone ?? null;
       },
+      get rcMock() {
+        return global.instance?.rcMock ?? null;
+      },
       get app() {
         return global.instance?.app ?? null;
       },

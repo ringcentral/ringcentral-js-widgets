@@ -2,7 +2,7 @@ import { WebPhoneOptions } from 'ringcentral-web-phone';
 
 import { NormalizedSession } from '../../interfaces/Webphone.interface';
 import { RingCentralClient } from '../../lib/RingCentralClient';
-import { Alert } from '../AlertV2';
+import { Alert } from '../Alert';
 import { AppFeatures } from '../AppFeatures';
 import { AudioSettings } from '../AudioSettingsV2';
 import { Auth } from '../AuthV2';

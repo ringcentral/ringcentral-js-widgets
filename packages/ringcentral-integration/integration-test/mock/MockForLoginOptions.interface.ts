@@ -1,0 +1,52 @@
+export type MockForLoginOptions = {
+  /**
+   * should mock ws server
+   */
+  mockWsServer?: boolean;
+  mockTimezone?: any;
+  mockAuthzProfile?: any;
+  mockMeetingInvitation?: any;
+  mockExtensionInfo?: any;
+  mockForwardingNumber?: any;
+  mockMessageSync?: any;
+  mockConferencing?: any;
+  mockActiveCalls?: any;
+  mockUpdateConference?: any;
+  mockNumberParser?: any;
+  mockRecentActivity?: any;
+  mockMessageSyncOnce?: any;
+  mockVideoConfiguration?: any;
+  mockUserSetting?: any;
+  mockGenerateCode?: any;
+  phoneNumberData?: any;
+  dialingPlanData?: any;
+  extensionInfoData?: any;
+  accountInfoData?: any;
+  apiInfoData?: any;
+  authzProfileData?: any;
+  deviceData?: any;
+  extensionListData?: any;
+  extensionListQuery?: any;
+  isExtensionListEmptyRes?: any;
+  extensionsListData?: any;
+  accountPhoneNumberData?: any;
+  blockedNumberData?: any;
+  forwardingNumberData?: any;
+  messageListData?: any;
+  messageSyncData?: any;
+  callerIdData?: any;
+  subscriptionData?: any;
+  callLogData?: any;
+  addressBookData?: any;
+  sipProvisionData?: any;
+  fetchDLData?: any;
+  conferencingData?: any;
+  activeCallsData?: any;
+  numberParseData?: any;
+  numberParseIsOnce?: any;
+  userSettingsData?: any;
+  lockedSettingsData?: any;
+  featuresData?: any;
+  mockAssistedUsers?: any;
+  mockDelegators?: any;
+};

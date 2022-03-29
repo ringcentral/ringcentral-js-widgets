@@ -6,7 +6,7 @@ import sinon from 'sinon';
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
 import moduleStatuses from '../../enums/moduleStatuses';
-import sleep from '../sleep';
+import { sleep } from '../sleep';
 import { baseActionTypes } from './baseActionTypes';
 import DataMatcher from './index';
 

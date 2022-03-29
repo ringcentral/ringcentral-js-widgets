@@ -30,10 +30,6 @@ export const trackRouters: TrackRouter[] = [
     router: '/settings',
   },
   {
-    eventPostfix: 'Conference',
-    router: '/conference',
-  },
-  {
     eventPostfix: 'Meeting',
     router: '/meeting',
   },

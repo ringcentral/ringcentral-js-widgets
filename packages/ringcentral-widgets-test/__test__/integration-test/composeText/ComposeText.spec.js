@@ -1,4 +1,4 @@
-import sleep from '@ringcentral-integration/commons/lib/sleep';
+import { sleep } from '@ringcentral-integration/commons/lib/sleep';
 import * as mock from '@ringcentral-integration/commons/integration-test/mock';
 
 import NavigationBar from '@ringcentral-integration/widgets/components/NavigationBar';

@@ -12,12 +12,12 @@ export default {
   showKeypad: "Teclado",
   hideKeypad: "Ocultar teclado",
   unHold: "Salir de espera",
-  forward: "Transferir",
+  forward: "Reenviar",
   ignore: "Ignorar",
   voicemail: "Enviar al buzón de voz",
   custom: "Personalizar",
   answerAndEnd: "Responder y finalizar",
-  answerAndHold: "Responder y poner en espera",
+  answerAndHold: "Resp. y poner en espera",
   answer: "Responder"
 };
 

@@ -37,7 +37,6 @@ function getTabs({
   showMessages,
   showContact,
   unreadCounts,
-  showConference,
   showMeeting,
   conferenceCallEquipped,
 }) {
@@ -89,13 +88,6 @@ function getTabs({
       moreMenuIcon: MeetingNavIcon,
       label: i18n.getString('meetingLabel', currentLocale),
       path: '/meeting',
-    },
-    showConference && {
-      icon: ConferenceIcon,
-      activeIcon: ConferenceHoverIcon,
-      moreMenuIcon: ConferenceNavIcon,
-      label: i18n.getString('conferenceLabel', currentLocale),
-      path: '/conference',
     },
     {
       icon: SettingsIcon,
@@ -173,8 +165,6 @@ function mapToProps(
     (appFeatures.isCallingEnabled || appFeatures.hasReadMessagesPermission);
   const showMessages =
     appFeatures.ready && appFeatures.hasReadMessagesPermission;
-  const showConference =
-    appFeatures.ready && conference.data && appFeatures.hasConferencing;
   const showMeeting = appFeatures.ready && appFeatures.hasMeetingsPermission;
   const currentLocale = locale.currentLocale;
   const conferenceCallEquipped = !!conferenceCall;
@@ -186,7 +176,6 @@ function mapToProps(
     showHistory,
     showMessages,
     showContact,
-    showConference,
     showMeeting,
     conferenceCallEquipped,
   });

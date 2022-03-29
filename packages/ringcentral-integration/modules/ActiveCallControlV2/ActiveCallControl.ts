@@ -347,7 +347,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
         () => this._deps.webphone.connected,
         (newValue) => {
           if (newValue && this._deps.webphone._webphone) {
-            this._rcCall.setWebphone(this._deps.webphone._webphone);
+            this._rcCall?.setWebphone(this._deps.webphone._webphone);
           }
         },
       );

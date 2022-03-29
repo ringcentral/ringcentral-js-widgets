@@ -1,8 +1,8 @@
+import { sleep } from '../../lib/sleep';
 import * as mock from '../mock';
 import authzProfileBody from '../mock/data/authzProfile';
-import ClientHistoryRequest from '../utils/ClientHistoryRequest';
+// import ClientHistoryRequest from '../utils/ClientHistoryRequest';
 import { ensureLogin } from '../utils/HelpUtil';
-import { waitInSeconds } from '../utils/WaitUtil';
 
 export default (auth, client, blockedNumber, account) => {
   describe('BlockedNumber:', () => {
@@ -10,11 +10,11 @@ export default (auth, client, blockedNumber, account) => {
     mock.mockClient(client);
 
     let isLoginSuccess;
-    const clientHistoryRequest = new ClientHistoryRequest(new Map(), client);
+    // const clientHistoryRequest = new ClientHistoryRequest(new Map(), client);
 
     afterEach(async () => {
       await auth.logout();
-      await waitInSeconds(1);
+      await sleep(1000);
     });
 
     it('Should load numbers when there is ReadBlockedNumbers permission', async () => {
@@ -29,7 +29,7 @@ export default (auth, client, blockedNumber, account) => {
         this.skip();
       }
       this.retries(2);
-      await waitInSeconds(1);
+      await sleep(1000);
       expect(blockedNumber.numbers.length).equal(1);
     });
 
@@ -50,7 +50,7 @@ export default (auth, client, blockedNumber, account) => {
         this.skip();
       }
       this.retries(2);
-      await waitInSeconds(1);
+      await sleep(1000);
       expect(blockedNumber.numbers.length).equal(0);
     });
   });

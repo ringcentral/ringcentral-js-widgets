@@ -1,5 +1,5 @@
 export default {
-  onSearching: "Laden ...",
+  onSearching: "Laden...",
   noContacts: "Keine Datensätze gefunden."
 };
 

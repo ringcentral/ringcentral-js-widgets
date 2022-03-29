@@ -10,7 +10,7 @@ export default {
   inviteText_bt: "Please join the {brandName} conference.\n\nDial-in number: {formattedDialInNumber} \n{additionalNumbersSection} \nParticipant access: {participantCode} \n\nAdditional dial-in numbers {dialInNumbersLink} ",
   inviteText_rc: "Please join the {brandName} conference.\n\nDial-in number: {formattedDialInNumber} \n{additionalNumbersSection} \nParticipant access: {participantCode} \n\nNeed an international dial-in phone number? Please visit {dialInNumbersLink} \n\nThis conference call is brought to you by {brandName} Conferencing.",
   inviteText_telus: "Please join the {brandName} conference.\n\nDial-in number: {formattedDialInNumber} \n{additionalNumbersSection} \nParticipant access: {participantCode} \n\nAdditional dial-in numbers {dialInNumbersLink} ",
-  conferenceCall: "{brandName} Conference call",
+  conferenceCall: "{brandName} conference call",
   videoCall: "{brandName} Video call",
   addConferencingDetails: "Adding conferencing details",
   updateConferencingDetails: "Updating conferencing details",

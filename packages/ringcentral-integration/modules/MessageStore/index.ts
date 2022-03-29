@@ -9,7 +9,7 @@ import * as messageHelper from '../../lib/messageHelper';
 import Pollable from '../../lib/Pollable';
 import proxify from '../../lib/proxy/proxify';
 import { selector } from '../../lib/selector';
-import sleep from '../../lib/sleep';
+import { sleep } from '../../lib/sleep';
 import { actionTypes } from './actionTypes';
 import messageStoreErrors from './errors';
 import getDataReducer from './getDataReducer';

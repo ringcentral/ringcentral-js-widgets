@@ -1,8 +1,8 @@
+import { sleep } from '../../lib/sleep';
 import * as mock from '../mock';
 import authzProfileBody from '../mock/data/authzProfile';
 import ClientHistoryRequest from '../utils/ClientHistoryRequest';
 import { ensureLogin } from '../utils/HelpUtil';
-import { waitInSeconds } from '../utils/WaitUtil';
 
 export default (auth, client, presence, account) => {
   describe('Presence:', () => {
@@ -14,7 +14,8 @@ export default (auth, client, presence, account) => {
 
     afterEach(async () => {
       await auth.logout();
-      await waitInSeconds(1);
+
+      await sleep(1000);
     });
 
     it('Should load presenceStatus when there is ReadPresenceStatus permission', async () => {
@@ -29,7 +30,8 @@ export default (auth, client, presence, account) => {
         this.skip();
       }
       this.retries(2);
-      await waitInSeconds(1);
+
+      await sleep(1000);
       expect(presence.presenceStatus).equal('Available');
     });
 
@@ -50,7 +52,8 @@ export default (auth, client, presence, account) => {
         this.skip();
       }
       this.retries(2);
-      await waitInSeconds(1);
+
+      await sleep(1000);
       expect(presence.presenceStatus).equal(null);
     });
   });

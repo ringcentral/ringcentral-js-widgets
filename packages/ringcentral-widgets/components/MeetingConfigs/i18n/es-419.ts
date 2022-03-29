@@ -2,11 +2,11 @@ export default {
   topic: "Tema",
   when: "Cuándo",
   duration: "Duración",
-  recurringMeeting: "Reunión periódica",
+  recurringMeeting: "Reunión recurrente",
   recurringDescribe: "Recuerde comprobar la periodicidad o repetición en la invitación de calendario enviada a los asistentes.",
   video: "Video",
   videoDescribe: "Al unirse a una reunión",
-  host: "Video de host activado",
+  host: "Video de anfitrión activado",
   participants: "Video de participante activado",
   audioOptions: "Opciones de audio",
   voIPOnly: "Solo VoIP",
@@ -15,12 +15,12 @@ export default {
   requirePassword: "Requerir contraseña de reunión",
   password: "Contraseña",
   rcmPasswordHintText: "Su contraseña debe contener de 1 a 10 caracteres o números y no puede tener símbolos, excepto @, * o -",
-  passwordEmptyError: "Se requiere contraseña de la reunión",
-  rcmPasswordInvalidError: "Su contraseña debe contener de 1 a 10 caracteres o números y no puede tener símbolos, excepto @, * o -",
+  passwordEmptyError: "Se requiere la contraseña de la reunión",
+  rcmPasswordInvalidError: "Su contraseña debe contener de 1 a 10 caracteres o números y no puede tener símbolos, salvo @, * o -",
   enableJoinBeforeHost: "Permitir unirse antes que el anfitrión",
   telephonyOnly: "Solo telefonía",
   hostVideoOn: "Video de anfitrión activado",
-  participantVideoOn: "Video del participante activado",
+  participantVideoOn: "Video de participante activado",
   recurringEvery: "Cada",
   recurrenceType: "Tipo de recurrencia",
   recurrenceEndDate: "Fecha de finalización",
@@ -28,9 +28,9 @@ export default {
   meetingId: "Id. de la reunión",
   generateAutomatically: "Generar automáticamente",
   usePmi: "Id. de reunión personal (PMI): {meetingId}",
-  pmiChangeConfirm: "Si quiere hacer cambios para su reunión personal, ",
-  changePmiSettings: "cambie la configuración de la PMI",
-  pmiSettingChangeAlert: "Si cambia la configuración y programa esta reunión, todas las reuniones con la misma Id. de reunión personal compartirán los últimos ajustes."
+  pmiChangeConfirm: "Si quiere hacer cambios en su reunión personal, ",
+  changePmiSettings: "cambie la configuración del PMI",
+  pmiSettingChangeAlert: "Si cambia la configuración y programa esta reunión, todas las reuniones con el mismo Id. de reunión personal compartirán los últimos ajustes."
 };
 
 // @key: @#@"topic"@#@ @source: @#@"Topic"@#@

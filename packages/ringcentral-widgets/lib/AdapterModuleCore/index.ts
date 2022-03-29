@@ -24,7 +24,7 @@ import AdapterModuleCoreBase from '../AdapterModuleCoreBase';
 import { baseActionTypes } from '../AdapterModuleCoreBase/baseActionTypes';
 import IframeMessageTransport from '../IframeMessageTransport';
 
-const ALL_CALL_PATH = '/calls';
+export const ALL_CALL_PATH = '/calls';
 const ACTIVE_CALL_PATH = '/calls/active';
 
 @Module({

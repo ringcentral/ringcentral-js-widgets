@@ -17,8 +17,12 @@ export const CheckInfoTooltip: StepFunction<{
   fireEvent.mouseEnter(infoIcon);
 
   // check tooltip content
-  expect(await screen.findByRole('tooltip')).toHaveTextContent(tooltipContent);
+  expect(
+    await screen.findByRole('tooltip', {}, { timeout: 2000 }),
+  ).toHaveTextContent(tooltipContent);
 
   fireEvent.mouseLeave(infoIcon);
-  await waitForElementToBeRemoved(() => screen.getByRole('tooltip'));
+  await waitForElementToBeRemoved(() => screen.getByRole('tooltip'), {
+    timeout: 2000,
+  });
 };

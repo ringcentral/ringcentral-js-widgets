@@ -6,7 +6,7 @@ export default {
   [meetingStatus.scheduledSuccess]: "Reunión añadida",
   [meetingStatus.updatedSuccess]: "Reunión actualizada",
   [meetingStatus.meetingIsDeleted]: "La reunión ha sido eliminada",
-  [meetingStatus.internalError]: "Lo sentimos, algo salió mal. Intente de nuevo."
+  [meetingStatus.internalError]: "Lo sentimos, cometimos un error. Intente de nuevo."
 };
 
 // @key: @#@"[meetingStatus.emptyTopic]"@#@ @source: @#@"Please enter meeting topic."@#@

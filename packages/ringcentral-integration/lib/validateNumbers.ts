@@ -52,17 +52,19 @@ function numberFormat({
   };
 }
 
+type ValidateNumbersParams = {
+  phoneNumbers: string[];
+  countryCode: string;
+  areaCode: string;
+  allowRegionSettings: boolean;
+};
+
 export function validateNumbers({
   phoneNumbers,
   countryCode,
   areaCode,
   allowRegionSettings,
-}: {
-  phoneNumbers: string[];
-  countryCode: string;
-  areaCode: string;
-  allowRegionSettings: boolean;
-}) {
+}: ValidateNumbersParams) {
   const formattedResult = numberFormat({
     phoneNumbers,
     countryCode,

@@ -484,6 +484,7 @@ export class ActiveCallItem extends Component<
     phoneTypeRenderer: undefined,
     phoneSourceNameRenderer: undefined,
     renderContactName: undefined,
+    renderSubContactName: undefined,
     renderExtraButton: undefined,
     contactDisplayStyle: '',
     isOnConferenceCall: false,
@@ -702,7 +703,7 @@ export class ActiveCallItem extends Component<
       title: i18n.getString('callSwitch', currentLocale),
       className: styles.switchDialog,
       contentProps: {
-        contactName: contactName || this.getPhoneNumber(),
+        contactName: contactName?.title || contactName || this.getPhoneNumber(),
       },
       confirmButtonText: i18n.getString('comfirmOKButton', currentLocale),
       cancelButtonText: i18n.getString('comfirmCancelButton', currentLocale),
@@ -738,6 +739,7 @@ export class ActiveCallItem extends Component<
       phoneTypeRenderer,
       phoneSourceNameRenderer,
       renderContactName,
+      renderSubContactName,
       renderExtraButton,
       contactDisplayStyle,
       isOnConferenceCall,
@@ -775,6 +777,10 @@ export class ActiveCallItem extends Component<
     const contactName =
       typeof renderContactName === 'function'
         ? renderContactName(this.props.call)
+        : undefined;
+    const subContactName =
+      typeof renderSubContactName === 'function'
+        ? renderSubContactName(this.props.call)
         : undefined;
     const extraButton =
       typeof renderExtraButton === 'function' ? (
@@ -833,6 +839,7 @@ export class ActiveCallItem extends Component<
               <ContactDisplay
                 isOnConferenceCall={isOnConferenceCall}
                 contactName={showMultipleMatch ? undefined : contactName}
+                subContactName={subContactName}
                 className={classnames(
                   styles.contactDisplay,
                   contactDisplayStyle,

@@ -1,5 +1,6 @@
-export default function sleep(ms = 0) {
-  return new Promise<void>((resolve) => {
-    setTimeout(resolve, ms);
-  });
-}
+/**
+ * sleep for ms
+ * @param ms what ms to sleep
+ */
+export const sleep = (time: number) =>
+  new Promise<void>((resolve) => setTimeout(resolve, time));

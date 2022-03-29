@@ -130,7 +130,7 @@ class EvClient extends RcModuleV2<Deps> {
     this._eventEmitter.addListener(type, listener);
   }
 
-  addListenerByOnce<T extends ListenerType>(type: T, listener: Listener<T>) {
+  addListenerOnce<T extends ListenerType>(type: T, listener: Listener<T>) {
     this._eventEmitter.once(type, listener);
   }
 
@@ -329,13 +329,15 @@ class EvClient extends RcModuleV2<Deps> {
 
   openSocket(agentId: string) {
     const hasSupportWebSocket = 'WebSocket' in window;
+
     if (!hasSupportWebSocket) {
       throw new EvTypeError({
         type: messageTypes.INVALID_BROWSER,
       });
     }
+
     return new Promise<EvOpenSocketResult>((resolve) => {
-      this.addListenerByOnce(EvCallbackTypes.OPEN_SOCKET, (res) => {
+      this.addListenerOnce(EvCallbackTypes.OPEN_SOCKET, (res) => {
         resolve(res);
       });
       this._sdk.openSocket(agentId);

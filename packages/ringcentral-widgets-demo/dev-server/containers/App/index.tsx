@@ -1,5 +1,4 @@
-import sleep from '@ringcentral-integration/commons/lib/sleep';
-import ConferenceCommands from '@ringcentral-integration/widgets/components/ConferenceCommands';
+import { sleep } from '@ringcentral-integration/commons/lib/sleep';
 import { ContactSourceFilter } from '@ringcentral-integration/widgets/components/ContactSourceFilter';
 import MeetingScheduleButton from '@ringcentral-integration/widgets/components/MeetingScheduleButton';
 import ActiveCallsPage from '@ringcentral-integration/widgets/containers/ActiveCallsPage';
@@ -12,7 +11,6 @@ import CallsListPage from '@ringcentral-integration/widgets/containers/CallsList
 import { CallsOnholdPage } from '@ringcentral-integration/widgets/containers/CallsOnholdPage';
 import ComposeTextPage from '@ringcentral-integration/widgets/containers/ComposeTextPage';
 import ConferenceCallDialerPage from '@ringcentral-integration/widgets/containers/ConferenceCallDialerPage';
-import { ConferencePage } from '@ringcentral-integration/widgets/containers/ConferencePage';
 import { ConferenceParticipantPage } from '@ringcentral-integration/widgets/containers/ConferenceParticipantPage';
 import { ConnectivityBadgeContainer } from '@ringcentral-integration/widgets/containers/ConnectivityBadgeContainer';
 import ContactDetailsPage from '@ringcentral-integration/widgets/containers/ContactDetailsPage';
@@ -214,19 +212,6 @@ const App = ({ phone, icon }) => {
                       await sleep(1000);
                     }}
                     onCreateContact={() => {}}
-                  />
-                )}
-              />
-              <Route
-                path="/conference"
-                component={() => <ConferencePage enableAutoEnterHostKey />}
-              />
-              <Route
-                path="/conference/commands"
-                component={() => (
-                  <ConferenceCommands
-                    currentLocale={phone.locale.currentLocale}
-                    onBack={() => phone.routerInteraction.goBack()}
                   />
                 )}
               />

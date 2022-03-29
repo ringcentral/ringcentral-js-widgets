@@ -1,4 +1,4 @@
-import { Alert } from '../AlertV2';
+import { Alert } from '../Alert';
 import { AppFeatures } from '../AppFeatures';
 import { Auth } from '../AuthV2';
 import { ContactSearch } from '../ContactSearchV2';
@@ -29,4 +29,5 @@ export interface ToNumber {
   phoneNumber: string;
   entityType?: string;
   isWarning?: Boolean;
+  type?: string;
 }

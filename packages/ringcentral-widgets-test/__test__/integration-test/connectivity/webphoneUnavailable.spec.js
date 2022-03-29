@@ -1,5 +1,5 @@
 import { contains } from 'ramda';
-import sleep from '@ringcentral-integration/commons/lib/sleep';
+import { sleep } from '@ringcentral-integration/commons/lib/sleep';
 import audioSettingsErrors from '@ringcentral-integration/commons/modules/AudioSettings/audioSettingsErrors';
 import ConnectivityBadge from '@ringcentral-integration/widgets/components/ConnectivityBadge';
 import CircleButton from '@ringcentral-integration/widgets/components/CircleButton';

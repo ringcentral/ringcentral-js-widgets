@@ -46,6 +46,12 @@ const config = {
   module: {
     rules: [
       {
+        test: /\.m?js/,
+        resolve: {
+          fullySpecified: false,
+        },
+      },
+      {
         enforce: 'pre',
         test: /\.js$/,
         use: 'source-map-loader',

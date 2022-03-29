@@ -7,7 +7,7 @@ export default {
   noSearchResults: "Vastaavia tallenteita ei löytynyt",
   [messageTypes.all]: "Kaikki",
   [messageTypes.voiceMail]: "Ääni",
-  [messageTypes.text]: "Teksti",
+  [messageTypes.text]: "Tekstiviesti",
   [messageTypes.fax]: "Faksi"
 };
 
