@@ -41,6 +41,57 @@ const subscribe: Subscribe = (module, listener) => {
   }
   return unsubscribe;
 };
+
+/**
+ * watch value change in the store
+ *
+ * @param module binding module instance
+ * @param selector that selector you want to watch
+ * @param watcher callback function
+ * @param options options for that watcher
+ * @returns unsubscribe method
+ *
+ * @example
+ * ```ts
+ *
+    // watch one variable
+    watch(
+      this,
+      () => this._deps.auth.loggedIn,
+      (newValue, oldValue) => {
+        // do something
+      },
+    );
+
+    // watch many variables
+    watch(
+      this,
+      () => [
+        this._deps.auth.loggedIn,
+        this._deps.routerInteraction.currentPath,
+      ],
+      (newValue, oldValue) => {
+        // do something
+      },
+      { multiple: true },
+    );
+ * ```
+ * custom equality function
+ * ```ts
+    export const customEqual = (newValue: unknown, oldValue: unknown) => {
+      return x !== y;
+    };
+
+    watch(
+      this,
+      () => this._deps.auth.loggedIn,
+      (newValue, oldValue) => {
+        // do something
+      },
+      { isEqual: customEqual },
+    );
+    ```
+ */
 const watch: Watch = (
   module,
   selector,

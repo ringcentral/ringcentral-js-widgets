@@ -123,6 +123,8 @@ export interface GenericMeetingPanelProps
   CustomPanel?: React.ReactNode;
   brandName: string;
   labelPlacement?: 'end' | 'start' | 'top' | 'bottom';
+  showRemoveMeetingWarning: boolean;
+  brandConfig: any;
 }
 
 export interface GenericMeetingPanelState {}

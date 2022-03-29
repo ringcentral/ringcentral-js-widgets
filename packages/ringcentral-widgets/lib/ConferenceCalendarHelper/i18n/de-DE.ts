@@ -1,7 +1,7 @@
 export default {
   inviteMeetingContent: "{accountName} lädt Sie zu einer {brandName}-Besprechung ein.\n\nTreten Sie von einem PC, Mac, iOS oder Android aus bei: {joinUri}{passwordTpl}\n\n Oder mit einmaligem Tippen auf dem iPhone: \n\t    {mobileDialingNumberTpl}\n\n    Oder per Telefon: \n\t     Wählen Sie: \n\t    {phoneDialingNumberTpl}\n\t     Besprechungs-ID: {meetingId}\n\t     Verfügbare internationale Nummern: {teleconference} ",
   conferenceLocationField: "Konferenzbesprechung, Einwahlnummer: {dialInNumber}",
-  scheduleError: "Da ist leider etwas schief gelaufen. Versuchen Sie es erneut.",
+  scheduleError: "Da ist leider etwas schief gelaufen. Versuchen Sie es erneut.+",
   noMeetingPermission: "Sie haben leider nicht die erforderlichen Berechtigungen für {brandName} Meetings. Wenden Sie sich an den Administrator Ihres Unternehmens, um fortzufahren.",
   noConferencePermission: "Sie haben leider nicht die erforderlichen Berechtigungen für {brandName}-Konferenzen. Wenden Sie sich an den Administrator Ihres Unternehmens, um fortzufahren.",
   conferenceTitle: "Konferenzbesprechung von {displayName}",
@@ -14,7 +14,7 @@ export default {
   videoCall: "{brandName} Videoanruf",
   addConferencingDetails: "Konferenzdetails hinzufügen",
   updateConferencingDetails: "Konferenzdetails aktualisieren",
-  scheduleError: "Da ist leider etwas schief gelaufen. Versuchen Sie es erneut.",
+  scheduleError: "Da ist leider etwas schief gelaufen. Versuchen Sie es erneut.+",
   deleteBtn: "Löschen",
   settingsBtn: "Einstellungen",
   saveAsDefaultAndNotShowAgain: "Als Standard speichern und nicht erneut anzeigen",
@@ -28,7 +28,7 @@ export default {
   meetingSettingsTitle: "Einstellungen für {brand} Meetings",
   recurringMeeting: "Wiederkehrende Besprechung",
   meetingOptions: "Besprechungsoptionen",
-  schedule: "Zeitplan",
+  schedule: "Planen",
   settingsBtn: "Einstellungen"
 };
 

@@ -1,4 +1,4 @@
-import { Alert } from '../AlertV2';
+import { Alert } from '../Alert';
 import { AppFeatures } from '../AppFeatures';
 import { Brand } from '../Brand';
 import { CallerId } from '../CallerIdV2';

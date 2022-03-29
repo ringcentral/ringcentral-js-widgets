@@ -31,9 +31,6 @@ import CallsPanelPage from './Components/CallsPanel';
 import CheckBoxPage from './Components/CheckBox';
 import CircleButtonPage from './Components/CircleButton';
 import ComposeTextPanelPage from './Components/ComposeTextPanel';
-import ConferenceAlertPage from './Components/ConferenceAlert';
-import ConferenceCommandsPage from './Components/ConferenceCommands';
-import ConferencePanelPage from './Components/ConferencePanel';
 import ConnectivityAlertPage from './Components/ConnectivityAlert';
 import ConnectivityBadgePage from './Components/ConnectivityBadge';
 import ContactDetailsPage from './Components/ContactDetails';
@@ -189,12 +186,6 @@ const Routes = () => (
       path="/components/ComposeTextPanel"
       component={ComposeTextPanelPage}
     />
-    <Route path="/components/ConferenceAlert" component={ConferenceAlertPage} />
-    <Route
-      path="/components/ConferenceCommands"
-      component={ConferenceCommandsPage}
-    />
-    <Route path="/components/ConferencePanel" component={ConferencePanelPage} />
     <Route
       path="/components/ConnectivityAlert"
       component={ConnectivityAlertPage}

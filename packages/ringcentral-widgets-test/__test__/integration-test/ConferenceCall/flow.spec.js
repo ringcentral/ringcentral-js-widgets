@@ -9,7 +9,7 @@ import DialerPanel from '@ringcentral-integration/widgets/components/DialerPanel
 import ActiveCallPad from '@ringcentral-integration/widgets/components/ActiveCallPad';
 import ActiveCallButton from '@ringcentral-integration/widgets/components/ActiveCallButton';
 import CircleButton from '@ringcentral-integration/widgets/components/CircleButton';
-import RecipientsInput from '@ringcentral-integration/widgets/components/RecipientsInput';
+import { RecipientsInput } from '@ringcentral-integration/widgets/components/RecipientsInputV2';
 import { mockConferenceCallEnv } from '../CallCtrlPage/helper.js';
 import {
   makeCall,
@@ -48,10 +48,7 @@ async function dialAnotherOutboundCall(phone, wrapper) {
     await phone.webphone.hold(session.id);
   }
   /* click action */
-  const domInput = wrapper
-    .find(DialerPanel)
-    .find(RecipientsInput)
-    .find('input');
+  const domInput = wrapper.find(DialerPanel).find('input');
   enterToNumber(domInput, '987654321');
   const callButton = wrapper.find(DialerPanel).find('.callBtn').first();
   callButton.find(CircleButton).find('g').simulate('click');

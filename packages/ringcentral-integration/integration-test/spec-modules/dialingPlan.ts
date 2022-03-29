@@ -1,7 +1,7 @@
+import { sleep } from '../../lib/sleep';
 import * as mock from '../mock';
 import ClientHistoryRequest from '../utils/ClientHistoryRequest';
 import { ensureLogin } from '../utils/HelpUtil';
-import { waitInSeconds } from '../utils/WaitUtil';
 
 export default (auth, client, dialingPlan, account) => {
   describe('DialingPlan:', () => {
@@ -13,7 +13,8 @@ export default (auth, client, dialingPlan, account) => {
 
     afterEach(async () => {
       auth.logout();
-      await waitInSeconds(1);
+
+      await sleep(1000);
     });
 
     it('Should load availableExtensions when there is ReadExtensions permission', async () => {
@@ -28,7 +29,8 @@ export default (auth, client, dialingPlan, account) => {
         this.skip();
       }
       this.retries(2);
-      await waitInSeconds(1);
+
+      await sleep(1000);
       expect(dialingPlan.plans.length).equal(3);
     });
   });

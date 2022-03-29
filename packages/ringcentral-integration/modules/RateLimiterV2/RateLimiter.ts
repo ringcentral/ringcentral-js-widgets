@@ -102,7 +102,7 @@ export class RateLimiter extends RcModuleV2<Deps> {
       return;
     }
 
-    this.rateLimitAlertId = this._deps.alert.warning({
+    this.rateLimitAlertId = await this._deps.alert.warning({
       message: errorMessages.rateLimitReached,
       ttl: this.ttl,
       allowDuplicates: false,

@@ -4,7 +4,7 @@ import {
   Message,
   MessageStoreModel,
 } from '../../interfaces/MessageStore.model';
-import { Alert } from '../AlertV2';
+import { Alert } from '../Alert';
 import { AppFeatures } from '../AppFeatures';
 import { Auth } from '../AuthV2';
 import { AvailabilityMonitor } from '../AvailabilityMonitorV2';

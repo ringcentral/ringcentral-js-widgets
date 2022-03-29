@@ -9,7 +9,7 @@ import ConnectivityMonitor, {
   DEFAULT_TIME_TO_RETRY,
 } from '.';
 // import moduleStatuses from '../../enums/moduleStatuses';
-import sleep from '../../lib/sleep';
+import { sleep } from '../../lib/sleep';
 import actionTypes from './actionTypes';
 
 chai.use(chaiAsPromised);

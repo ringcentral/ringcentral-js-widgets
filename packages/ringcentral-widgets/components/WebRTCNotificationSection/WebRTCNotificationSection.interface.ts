@@ -1,3 +1,5 @@
+import { IContact } from '@ringcentral-integration/commons/interfaces/Contact.model';
+
 export interface WebRTCNotificationProps {
   formatPhone: (...args: any[]) => any;
   currentLocale: string;
@@ -15,6 +17,15 @@ export interface WebRTCNotificationProps {
   hasActiveSession: boolean;
   answer: (telephonySession: string) => any;
   clickForwardTrack?: () => any;
+  renderCallNotificationAvatar: (
+    contact: IContact,
+    entityType: string,
+  ) => JSX.Element;
+  subContactNameDisplay: string;
+  displayEntity: any;
+  entityType: string;
+  getAvatarUrl: (contact: IContact) => Promise<string>;
+  entityDetailLink: string;
 }
 
 export interface Call {

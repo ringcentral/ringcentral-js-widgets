@@ -9,6 +9,7 @@ export const entityTypes = ObjectMap.fromKeys([
   'lead',
   'opportunity',
   'systemUser',
+  'company',
 ]);
 
 export type EntityType = ObjectMapValue<typeof entityTypes>;

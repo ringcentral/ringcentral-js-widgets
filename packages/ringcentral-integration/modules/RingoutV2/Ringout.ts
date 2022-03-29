@@ -4,7 +4,7 @@ import { action, RcModuleV2, state } from '@ringcentral-integration/core';
 
 import { Module } from '../../lib/di';
 import proxify from '../../lib/proxy/proxify';
-import sleep from '../../lib/sleep';
+import { sleep } from '../../lib/sleep';
 import { Deps, MakeCallOptions } from './Ringout.interface';
 import { ringoutErrors } from './ringoutErrors';
 import { ringoutStatus } from './ringoutStatus';

@@ -1,6 +1,6 @@
 import { AccountInfo } from '../AccountInfoV2';
 import { AnalyticsEventExtendedProps } from '../AnalyticsEventExtendedProps';
-import { BrandConfig } from '../Brand';
+import { Brand } from '../Brand';
 import { ExtensionInfo } from '../ExtensionInfoV2';
 import { Locale } from '../Locale';
 
@@ -15,7 +15,7 @@ interface Auth {
 
 export interface Deps {
   auth: Auth;
-  brandConfig: BrandConfig;
+  brand: Brand;
   analyticsOptions: AnalyticsOptions;
   accountInfo?: AccountInfo;
   extensionInfo?: ExtensionInfo;

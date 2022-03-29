@@ -8,7 +8,7 @@ import {
   RcListItemText,
   RcMenuItem,
   RcMenuList,
-  RcSubThemeProvider,
+  RcThemeProvider,
   spacing,
   styled,
 } from '@ringcentral/juno';
@@ -461,7 +461,7 @@ class DropdownSelect extends Component<
     const renderValue = this.renderValue(value);
     const selectedOptionLabel = this.renderSelectedOptionLabel();
     return (
-      <RcSubThemeProvider>
+      <RcThemeProvider>
         <div
           data-sign={dataSign}
           className={classnames(containerClassName, wrapperStyle)}
@@ -516,7 +516,7 @@ class DropdownSelect extends Component<
           </div>
           {dropdownMenu}
         </div>
-      </RcSubThemeProvider>
+      </RcThemeProvider>
     );
   }
 }

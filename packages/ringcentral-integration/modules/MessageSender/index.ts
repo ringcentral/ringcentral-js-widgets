@@ -8,7 +8,7 @@ import { Module } from '../../lib/di';
 import isBlank from '../../lib/isBlank';
 import proxify from '../../lib/proxy/proxify';
 import RcModule from '../../lib/RcModule';
-import sleep from '../../lib/sleep';
+import { sleep } from '../../lib/sleep';
 import getMessageSenderReducer from './getMessageSenderReducer';
 import { messageSenderActionTypes } from './messageSenderActionTypes';
 import { messageSenderMessages } from './messageSenderMessages';

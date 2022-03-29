@@ -5,7 +5,7 @@ import { ModuleFactory } from '@ringcentral-integration/commons/lib/di';
 import RcModule from '@ringcentral-integration/commons/lib/RcModule';
 import { LocalForageStorage } from '@ringcentral-integration/commons/lib/LocalForageStorage';
 
-import { Alert } from '@ringcentral-integration/commons/modules/AlertV2';
+import { Alert } from '@ringcentral-integration/commons/modules/Alert';
 import { AlertUI } from '@ringcentral-integration/widgets/modules/AlertUI';
 import AccountInfo from '@ringcentral-integration/commons/modules/AccountInfo';
 import { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures';
@@ -27,8 +27,8 @@ import { SleepDetector } from '@ringcentral-integration/commons/modules/SleepDet
 import Subscription from '@ringcentral-integration/commons/modules/Subscription';
 import { ConnectivityBadgeUI } from '@ringcentral-integration/widgets/modules/ConnectivityBadgeUI';
 import { ConnectivityManager } from '@ringcentral-integration/widgets/modules/ConnectivityManager';
-import LoginUI from '@ringcentral-integration/widgets/modules/LoginUI';
-import OAuth from '@ringcentral-integration/widgets/modules/OAuth';
+import { LoginUI } from '@ringcentral-integration/widgets/modules/LoginUI';
+import { OAuth } from '@ringcentral-integration/widgets/modules/OAuth';
 import { RegionSettingsUI } from '@ringcentral-integration/widgets/modules/RegionSettingsUI';
 import RouterInteraction from '@ringcentral-integration/widgets/modules/RouterInteraction';
 import { SettingsUI } from '@ringcentral-integration/widgets/modules/SettingsUI';
@@ -141,7 +141,7 @@ export function createPhone({
         useValue: { name: brandConfig.appName, version: appVersion },
       },
       { provide: 'BrandConfig', useValue: brandConfig },
-      { provide: 'OAuthOptions', useValue: { redirectUri }, spread: true },
+      { provide: 'OAuthOptions', useValue: { redirectUri } },
     ],
   })
   class Phone extends BasePhone {}

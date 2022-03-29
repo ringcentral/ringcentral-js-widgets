@@ -1,11 +1,6 @@
-import { configure } from 'enzyme';
-import Adapter from '@wojtekmaj/enzyme-adapter-react-17';
-import { URL } from 'url';
-
-// Using for React UI component Unit Test.
-const adapter = new Adapter();
-configure({ adapter });
 /* global jest, __CI__ */
+
+import { URL } from 'url';
 
 window.HTMLMediaElement.prototype.pause = () => {};
 window.HTMLMediaElement.prototype.play = async () => {};

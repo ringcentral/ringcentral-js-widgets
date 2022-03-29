@@ -14,7 +14,7 @@ type CallDirectionsKeys = keyof typeof callDirections;
 
 type CallDirections = typeof callDirections[CallDirectionsKeys];
 
-interface InitACallProps {
+export interface InitACallProps {
   phoneNumber?: string;
   isWebRTC?: boolean;
   direction?: CallDirections;

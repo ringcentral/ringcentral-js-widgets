@@ -4,7 +4,7 @@ import React, { Component } from 'react';
 
 import { contains } from 'ramda';
 
-import sleep from '@ringcentral-integration/commons/lib/sleep';
+import { sleep } from '@ringcentral-integration/commons/lib/sleep';
 
 import AlertDisplay, { AlertDisplayProps } from '../AlertDisplay';
 import { ANIMATION_DURATION } from './AnimationAlertUtils';

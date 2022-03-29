@@ -18,6 +18,27 @@ export const supportedLocales: readonly [
   'ko-KR',
 ];
 
+export const translationLocales: readonly [
+  'en-US',
+  'en-GB',
+  'en-AU',
+  'fr-FR',
+  'fr-CA',
+  'de-DE',
+  'it-IT',
+  'es-ES',
+  'es-419',
+  'ja-JP',
+  'pt-PT',
+  'pt-BR',
+  'zh-CN',
+  'zh-TW',
+  'zh-HK',
+  'nl-NL',
+  'ko-KR',
+  'fi-FI',
+];
+
 export type SupportedLocales = typeof supportedLocales[number];
 export type SupportedLanguages = typeof supportedLocales extends {
   [index: number]: `${infer E}-${string}`;

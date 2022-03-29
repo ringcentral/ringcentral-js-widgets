@@ -85,4 +85,6 @@ export const trackEvents = ObjectMap.fromObject({
   clickRecentActivitySms: 'Recent Activity: SMS',
   clickRecentActivityFaxes: 'Recent Activity: Faxes',
   clickRecentActivityVoicemails: 'Recent Activity: Voicemails',
+  clickSaveLogSection: 'Click Save Call Log',
+  clickCloseLogNotification: 'Click Stay or Close Notification',
 } as const);

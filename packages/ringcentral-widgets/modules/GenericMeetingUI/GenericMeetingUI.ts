@@ -24,6 +24,7 @@ import i18n from './i18n';
   deps: [
     'GenericMeeting',
     'AppFeatures',
+    'Brand',
     'Locale',
     'ModalUI',
     'RateLimiter',
@@ -177,6 +178,7 @@ export class GenericMeetingUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
       showRcvAdminLock = false,
       showPmiConfirm = false,
       configDisabled = false,
+      showRemoveMeetingWarning = false,
     } = props;
     const isRCM = this._deps.genericMeeting.isRCM;
     const isRCV = this._deps.genericMeeting.isRCV;
@@ -206,6 +208,8 @@ export class GenericMeetingUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
       timePickerSize,
       showRcvAdminLock,
       showPmiConfirm,
+      showRemoveMeetingWarning,
+      brandConfig: this._deps.brand.brandConfig,
       recurringMeetingPosition,
       meeting: this.meeting,
       currentLocale: this._deps.locale.currentLocale,

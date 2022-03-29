@@ -12,7 +12,7 @@ import {
 } from '../../interfaces/Webphone.interface';
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
-import sleep from '../../lib/sleep';
+import { sleep } from '../../lib/sleep';
 import { validateNumbers } from '../../lib/validateNumbers';
 import { trackEvents } from '../Analytics';
 import { callErrors } from '../CallV2/callErrors';

@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
-    "babel-jest": "^27.0.1",
+    "babel-jest": "^27.4.6",
     "crius-is": "*",
     "crius-test": "*"
   },

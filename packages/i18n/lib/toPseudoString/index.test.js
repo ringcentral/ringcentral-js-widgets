@@ -1,8 +1,5 @@
-import faker from 'faker';
-import toPseudoString, {
-  toAccentString,
-  processVars,
-} from './';
+import faker from '@faker-js/faker';
+import toPseudoString, { toAccentString, processVars } from './';
 
 describe('toAccentString', () => {
   test('should be a function', () => {
@@ -12,14 +9,12 @@ describe('toAccentString', () => {
     [...new Array(10)]
       .map(() => faker.lorem.word())
       .forEach((word) => {
-        expect(toAccentString(word).length)
-          .toBe(word.length);
+        expect(toAccentString(word).length).toBe(word.length);
       });
     [...new Array(10)]
       .map(() => faker.lorem.words())
       .forEach((word) => {
-        expect(toAccentString(word).length)
-          .toBe(word.length);
+        expect(toAccentString(word).length).toBe(word.length);
       });
   });
 });
@@ -30,14 +25,13 @@ describe('processVars', () => {
   });
   test('should accentify ICU strings without messing with variables', () => {
     [...new Array(10)]
-      .map(() => `{${faker.lorem.word}}`)
+      // this is a bound function in old version faker
+      .map(() => `{${faker.lorem.word.bind()}}`)
       .forEach((str) => {
         const line = `${faker.lorem.words()} ${str} ${faker.lorem.words()}`;
         const accentedLine = processVars(line);
-        expect(accentedLine.indexOf(str) > -1)
-          .toBe(true);
-        expect(accentedLine.length)
-          .toBe(line.length);
+        expect(accentedLine.indexOf(str) > -1).toBe(true);
+        expect(accentedLine.length).toBe(line.length);
       });
   });
 });
@@ -47,20 +41,22 @@ describe('toPseudoString', () => {
     expect(typeof toPseudoString).toBe('function');
   });
   test('should return accented strings', () => {
-    [...new Array(10)].map(() => faker.lorem.words())
+    [...new Array(10)]
+      .map(() => faker.lorem.words())
       .forEach((str) => {
-        expect(toPseudoString({ str }).indexOf(toAccentString(str)) > -1)
-          .toBe(true);
+        expect(toPseudoString({ str }).indexOf(toAccentString(str)) > -1).toBe(
+          true,
+        );
       });
   });
   test('should accentify ICU strings without messing with variables', () => {
     [...new Array(10)]
-      .map(() => `{${faker.lorem.word}}`)
+      // this is a bound function in old version faker
+      .map(() => `{${faker.lorem.word.bind()}}`)
       .forEach((str) => {
         const line = `${faker.lorem.words()} ${str} ${faker.lorem.words()}`;
         const accentedLine = toPseudoString({ str: line });
-        expect(accentedLine.indexOf(str) > -1)
-          .toBe(true);
+        expect(accentedLine.indexOf(str) > -1).toBe(true);
       });
   });
   test('should recognize escaped braces and accentify the contents', () => {
@@ -70,12 +66,12 @@ describe('toPseudoString', () => {
         escaped: `'{${faker.lorem.word()}}'`,
       }))
       .forEach((set) => {
-        const line = `${faker.lorem.words()} ${set.variable} ${set.escaped} ${faker.lorem.words()}`;
+        const line = `${faker.lorem.words()} ${set.variable} ${
+          set.escaped
+        } ${faker.lorem.words()}`;
         const accentedLine = toPseudoString({ str: line });
-        expect(accentedLine.indexOf(set.variable) > -1)
-          .toBe(true);
-        expect(accentedLine.indexOf(set.escaped) === -1)
-          .toBe(true);
+        expect(accentedLine.indexOf(set.variable) > -1).toBe(true);
+        expect(accentedLine.indexOf(set.escaped) === -1).toBe(true);
       });
   });
 });

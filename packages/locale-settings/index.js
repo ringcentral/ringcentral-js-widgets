@@ -16,9 +16,10 @@ const supportedLocales = [
   'zh-HK',
   'nl-NL',
   'ko-KR',
+  'fi-FI',
 ];
 
-const translationLocales = [...supportedLocales, 'fi-FI'];
+const translationLocales = supportedLocales;
 
 module.exports = {
   supportedLocales,

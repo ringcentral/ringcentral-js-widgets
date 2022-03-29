@@ -1,4 +1,4 @@
-import { Alert } from '@ringcentral-integration/commons/modules/AlertV2';
+import { Alert } from '@ringcentral-integration/commons/modules/Alert';
 import { AudioSettings } from '@ringcentral-integration/commons/modules/AudioSettingsV2';
 import { Auth } from '@ringcentral-integration/commons/modules/AuthV2';
 import { AvailabilityMonitor } from '@ringcentral-integration/commons/modules/AvailabilityMonitorV2';
@@ -6,7 +6,7 @@ import { CallingSettings } from '@ringcentral-integration/commons/modules/Callin
 import { ConnectivityMonitor } from '@ringcentral-integration/commons/modules/ConnectivityMonitorV2';
 import { Webphone } from '@ringcentral-integration/commons/modules/WebphoneV2';
 
-import OAuth from '../OAuth';
+import { OAuth } from '../OAuth';
 
 export interface Deps {
   alert: Alert;

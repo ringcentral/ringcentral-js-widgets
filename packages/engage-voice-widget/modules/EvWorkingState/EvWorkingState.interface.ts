@@ -1,4 +1,4 @@
-import { Alert } from '@ringcentral-integration/commons/modules/AlertV2';
+import { Alert } from '@ringcentral-integration/commons/modules/Alert';
 import { Auth } from '@ringcentral-integration/commons/modules/AuthV2';
 
 import { EvAgentState, EvClient } from '../../lib/EvClient';

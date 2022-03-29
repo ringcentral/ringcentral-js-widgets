@@ -1,5 +1,5 @@
 import { ActiveCallControl } from '../ActiveCallControlV2';
-import { Alert } from '../AlertV2';
+import { Alert } from '../Alert';
 import { AvailabilityMonitor } from '../AvailabilityMonitorV2';
 import { Brand } from '../Brand';
 import { CallingSettings } from '../CallingSettingsV2';
@@ -40,5 +40,5 @@ export interface Deps {
 
 export interface Recipient {
   phoneNumber: string;
-  extension: string;
+  extension?: string;
 }

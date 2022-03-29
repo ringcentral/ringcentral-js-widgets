@@ -1,7 +1,7 @@
 import callingOptions from '@ringcentral-integration/commons/modules/CallingSettings/callingOptions';
 export default {
   title: "Bellen",
-  [callingOptions.softphone]: "{brand} for Desktop",
+  [callingOptions.softphone]: "{brand} voor desktop",
   [callingOptions.browser]: "Browser",
   [callingOptions.jupiter]: "{brand}",
   makeCallsWith: "Plaats mijn oproepen met",

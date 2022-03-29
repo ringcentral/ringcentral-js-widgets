@@ -208,7 +208,7 @@ import { RingCentralClient } from '../../../lib/RingCentralClient';
 
 import RcModule  from '../src/lib/RcModule';
 
-import Alert from '../src/modules/AlertV2';
+import Alert from '../src/modules/Alert';
 import Storage from '../src/modules/Storage';
 import Call from '../src/modules/DialingPlan';
 

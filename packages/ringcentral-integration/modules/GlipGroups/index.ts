@@ -5,7 +5,7 @@ import isBlank from '../../lib/isBlank';
 import Pollable from '../../lib/Pollable';
 import proxify from '../../lib/proxy/proxify';
 import { selector } from '../../lib/selector';
-import sleep from '../../lib/sleep';
+import { sleep } from '../../lib/sleep';
 import { actionTypes } from './actionTypes';
 import getReducer, { getDataReducer, getTimestampReducer } from './getReducer';
 

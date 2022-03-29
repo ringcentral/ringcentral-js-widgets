@@ -20,7 +20,7 @@ import chunkMessage from '../../lib/chunkMessage';
 import { Module } from '../../lib/di';
 import isBlank from '../../lib/isBlank';
 import proxify from '../../lib/proxy/proxify';
-import sleep from '../../lib/sleep';
+import { sleep } from '../../lib/sleep';
 import { trackEvents } from '../Analytics';
 import {
   Attachment,

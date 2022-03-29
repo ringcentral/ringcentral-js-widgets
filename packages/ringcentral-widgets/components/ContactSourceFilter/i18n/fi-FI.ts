@@ -1,6 +1,6 @@
 export default {
   all: "Kaikki",
-  company: "Yritys",
+  company: "Yhtiö",
   personal: "Omat"
 };
 

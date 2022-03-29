@@ -86,3 +86,5 @@ export const DropdownList = forwardRef<DropdownListHandles, DropdownListProps>(
     );
   },
 );
+
+DropdownList.displayName = 'DropdownList';

@@ -22,7 +22,7 @@ export default {
   rcMeetingSettings: "Video-Besprechungseinstellungen",
   audioOptions: "Audio-Optionen",
   recurringMeeting: "Wiederkehrende Besprechung",
-  recurringNote: "Hinweis: Diese Option aktivieren, wenn „Wiederholung“ ausgewählt wird",
+  recurringNote: "Hinweis: Diese Option aktivieren, wenn \"Wiederholung\" ausgewählt wird",
   joinBeforeHost: "Teilnehmern erlauben, vor dem Gastgeber teilzunehmen",
   turnOffCamera: "Kamera für Teilnehmer ausschalten",
   turnOffHostCamera: "Kamera für Gastgeber bei Teilnahme an Besprechung deaktivieren",

@@ -14,6 +14,7 @@ import {
 import { SDK } from '@ringcentral/sdk';
 
 import { Module } from '../../lib/di';
+import background from '../../lib/background';
 import { proxify } from '../../lib/proxy/proxify';
 import { Deps } from './RingCentralExtensions.interface';
 import {
@@ -46,6 +47,7 @@ export class RingCentralExtensions extends RcModuleV2<Deps> {
     });
   }
 
+  @background
   private async _setupInfra() {
     this._core = new CoreExtension();
 
@@ -82,18 +84,16 @@ export class RingCentralExtensions extends RcModuleV2<Deps> {
     }
   }
 
-  async onInitOnce() {
-    await this._setupInfra();
-
+  @background
+  private async _bindEvents() {
     // expose WebSocket events
     this._exposeConnectionEvents();
     this._webSocketExtension.eventEmitter.addListener(
       Events.newWebSocketObject,
       async (ws) => {
+        // TODO: should mock correct from @rc-ex/ws
         // for mock WebSocket used
-        if (ws._onCreated) {
-          await ws._onCreated();
-        }
+        await ws._onCreated?.();
         // expose events
         this._exposeConnectionEvents();
       },
@@ -130,6 +130,11 @@ export class RingCentralExtensions extends RcModuleV2<Deps> {
     this._deps.auth.addBeforeLogoutHandler(() => {
       this.revokeWebSocketConnection();
     });
+  }
+
+  async onInitOnce() {
+    await this._setupInfra();
+    await this._bindEvents();
   }
 
   @action
@@ -179,7 +184,9 @@ export class RingCentralExtensions extends RcModuleV2<Deps> {
   }
 
   @action
-  _setWebSocketReadyState(readyState: WebSocketExtension['ws']['readyState']) {
+  private _setWebSocketReadyState(
+    readyState: WebSocketExtension['ws']['readyState'],
+  ) {
     switch (readyState) {
       case WebSocket.CONNECTING:
         this.webSocketReadyState = webSocketReadyStates.connecting;

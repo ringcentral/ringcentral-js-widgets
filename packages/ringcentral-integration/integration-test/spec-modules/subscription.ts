@@ -1,8 +1,8 @@
+import { sleep } from '../../lib/sleep';
 import { subscriptionStatus } from '../../modules/Subscription/subscriptionStatus';
 import * as mock from '../mock';
 import ClientHistoryRequest from '../utils/ClientHistoryRequest';
 import { ensureLogin } from '../utils/HelpUtil';
-import { waitInSeconds } from '../utils/WaitUtil';
 
 export default (auth, client, subscription, account) => {
   describe('Subscription:', () => {
@@ -18,7 +18,8 @@ export default (auth, client, subscription, account) => {
       if (auth.loggedIn) {
         await auth.logout();
       }
-      await waitInSeconds(1);
+
+      await sleep(1000);
     });
     it('Should create subscription successfully', async () => {
       mock.restore();
@@ -32,7 +33,7 @@ export default (auth, client, subscription, account) => {
         this.skip();
       }
       this.retries(2);
-      await waitInSeconds(3);
+      await sleep(3000);
       expect(subscription.subscriptionStatus).equal(
         subscriptionStatus.subscribed,
       );
@@ -54,7 +55,7 @@ export default (auth, client, subscription, account) => {
         this.skip();
       }
 
-      await waitInSeconds(3);
+      await sleep(3000);
       expect(subscription.subscriptionStatus).equal(
         subscriptionStatus.notSubscribed,
       );

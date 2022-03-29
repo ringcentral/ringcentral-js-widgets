@@ -4,7 +4,7 @@ import { GetExtensionInfoResponse } from '@rc-ex/core/definitions';
 
 import { RcVDialInNumberObj } from '../../interfaces/Rcv.model';
 import { AccountInfo } from '../AccountInfoV2';
-import { Alert } from '../AlertV2';
+import { Alert } from '../Alert';
 import AvailabilityMonitor from '../AvailabilityMonitor';
 import { Brand } from '../Brand';
 import { ExtensionInfo } from '../ExtensionInfoV2';

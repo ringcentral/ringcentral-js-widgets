@@ -10,7 +10,7 @@ import { AccountInfo } from '@ringcentral-integration/commons/modules/AccountInf
 import { ActiveCallControl } from '@ringcentral-integration/commons/modules/ActiveCallControlV2';
 import { ActiveCalls } from '@ringcentral-integration/commons/modules/ActiveCallsV2';
 import { AddressBook } from '@ringcentral-integration/commons/modules/AddressBookV2';
-import { Alert } from '@ringcentral-integration/commons/modules/AlertV2';
+import { Alert } from '@ringcentral-integration/commons/modules/Alert';
 import { Analytics } from '@ringcentral-integration/commons/modules/AnalyticsV2';
 import { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures';
 import { AudioSettings } from '@ringcentral-integration/commons/modules/AudioSettingsV2';
@@ -28,7 +28,6 @@ import { CallMonitor } from '@ringcentral-integration/commons/modules/CallMonito
 import { Call } from '@ringcentral-integration/commons/modules/CallV2';
 import { CompanyContacts } from '@ringcentral-integration/commons/modules/CompanyContactsV2';
 import { ComposeText } from '@ringcentral-integration/commons/modules/ComposeTextV2';
-import Conference from '@ringcentral-integration/commons/modules/Conference';
 import { ConferenceCall } from '@ringcentral-integration/commons/modules/ConferenceCallV2';
 import { ConnectivityMonitor } from '@ringcentral-integration/commons/modules/ConnectivityMonitorV2';
 import { ContactMatcher } from '@ringcentral-integration/commons/modules/ContactMatcherV2';
@@ -86,9 +85,8 @@ import { CallingSettingsUI } from '@ringcentral-integration/widgets/modules/Call
 import { CallsListUI } from '@ringcentral-integration/widgets/modules/CallsListUI';
 import { CallsOnholdUI } from '@ringcentral-integration/widgets/modules/CallsOnholdUI';
 import { ComposeTextUI } from '@ringcentral-integration/widgets/modules/ComposeTextUI';
-import ConferenceDialerUI from '@ringcentral-integration/widgets/modules/ConferenceDialerUI';
+import { ConferenceDialerUI } from '@ringcentral-integration/widgets/modules/ConferenceDialerUI';
 import { ConferenceParticipantUI } from '@ringcentral-integration/widgets/modules/ConferenceParticipantUI';
-import { ConferenceUI } from '@ringcentral-integration/widgets/modules/ConferenceUI';
 import { ConnectivityBadgeUI } from '@ringcentral-integration/widgets/modules/ConnectivityBadgeUI';
 import { ConnectivityManager } from '@ringcentral-integration/widgets/modules/ConnectivityManager';
 import { ContactDetailsUI } from '@ringcentral-integration/widgets/modules/ContactDetailsUI';
@@ -96,13 +94,13 @@ import { ContactListUI } from '@ringcentral-integration/widgets/modules/ContactL
 import { ConversationsUI } from '@ringcentral-integration/widgets/modules/ConversationsUI';
 import { ConversationUI } from '@ringcentral-integration/widgets/modules/ConversationUI';
 import { DialerAndCallsTabUI } from '@ringcentral-integration/widgets/modules/DialerAndCallsTabUI';
-import DialerUI from '@ringcentral-integration/widgets/modules/DialerUI';
+import { DialerUI } from '@ringcentral-integration/widgets/modules/DialerUI';
 import { FeedbackUI } from '@ringcentral-integration/widgets/modules/FeedbackUI';
 import { FlipUI } from '@ringcentral-integration/widgets/modules/FlipUI';
 import { IncomingCallUI } from '@ringcentral-integration/widgets/modules/IncomingCallUI';
-import LoginUI from '@ringcentral-integration/widgets/modules/LoginUI';
+import { LoginUI } from '@ringcentral-integration/widgets/modules/LoginUI';
 import { ModalUI } from '@ringcentral-integration/widgets/modules/ModalUI';
-import OAuth from '@ringcentral-integration/widgets/modules/OAuth';
+import { OAuth } from '@ringcentral-integration/widgets/modules/OAuth';
 import { RecentActivityUI } from '@ringcentral-integration/widgets/modules/RecentActivityUI';
 import { RegionSettingsUI } from '@ringcentral-integration/widgets/modules/RegionSettingsUI';
 import RouterInteraction from '@ringcentral-integration/widgets/modules/RouterInteraction';
@@ -183,7 +181,6 @@ const history =
     { provide: 'ComposeText', useClass: ComposeText },
     { provide: 'MessageStore', useClass: MessageStore },
     { provide: 'Conversations', useClass: Conversations },
-    { provide: 'Conference', useClass: Conference },
     { provide: 'RouterInteraction', useClass: RouterInteraction },
     { provide: 'CallLog', useClass: CallLog },
     { provide: 'CallHistory', useClass: CallHistory },
@@ -209,9 +206,8 @@ const history =
     { provide: 'ContactSearch', useClass: ContactSearch },
     { provide: 'CallMonitor', useClass: CallMonitor },
     { provide: 'DialerUI', useClass: DialerUI },
-    { provide: 'DialerUIOptions', useValue: { useV2: false }, spread: true },
+    { provide: 'DialerUIOptions', useValue: { useV2: true } },
     { provide: 'ConferenceDialerUI', useClass: ConferenceDialerUI },
-    { provide: 'ConferenceUI', useClass: ConferenceUI },
     { provide: 'ContactListUI', useClass: ContactListUI },
     { provide: 'ContactDetailsUI', useClass: ContactDetailsUI },
     { provide: 'ActiveCallsUI', useClass: ActiveCallsUI },
@@ -284,7 +280,7 @@ const history =
       provide: 'EnvironmentOptions',
       useValue: {
         defaultRecordingHost:
-          'https://apps.ringcentral.com/integrations/recording/index.html',
+          'https://apps.ringcentral.com/integrations/recording/dev/rc/index.html',
       },
     },
     // {
@@ -558,7 +554,6 @@ export default class BasePhone extends RcModule {
           const showContact = appFeatures.isCallingEnabled;
           const showComposeText = appFeatures.hasComposeTextPermission;
           const showMessages = appFeatures.hasReadMessagesPermission;
-          const showConference = appFeatures.hasConferencing;
           const showMeeting = appFeatures.hasMeetingsPermission;
           if (showDialPad) {
             this.routerInteraction.push('/dialer');
@@ -574,8 +569,6 @@ export default class BasePhone extends RcModule {
             this.routerInteraction.push('/contacts');
           } else if (showMeeting) {
             this.routerInteraction.push('/meeting');
-          } else if (showConference) {
-            this.routerInteraction.push('/conference');
           } else {
             this.routerInteraction.push('/settings');
           }

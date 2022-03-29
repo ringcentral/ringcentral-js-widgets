@@ -13,7 +13,8 @@
   "scripts": {
     "test:dev": "jest",
     "debug": "node --inspect ./node_modules/.bin/jest -i",
-    "test": "yarn run-test --ci",
+    "test": "yarn run-test",
+    "test:create": "cd ../../packages/ringcentral-e2e-test && CASE_TYPE=IT PROJECT_PATH=../ringcentral-js-widgets/ringcentral-widgets-test yarn tees create",
     "test:legacy": "yarn jest --config=legacyTest.config.js",
     "test:watch": "yarn test -- --watch",
     "test:coverage": "yarn test --coverage",
@@ -30,12 +31,12 @@
     "@ringcentral-integration/i18n": "*",
     "@ringcentral-integration/locale-loader": "*",
     "@ringcentral-integration/phone-number": "*",
-    "@ringcentral/juno": "^1.12.4",
+    "@ringcentral/juno": "^1.12.6-beta.5910-6eeb3bdd",
     "@ringcentral-integration/test-utils": "*",
     "@ringcentral/sdk": "^4.5.0",
     "@ringcentral/subscriptions": "^4.5.0",
     "babel-istanbul": "^0.12.1",
-    "babel-jest": "^27.0.1",
+    "babel-jest": "^27.4.6",
     "coveralls": "^3.0.4",
     "dotenv": "^6.2.0",
     "enzyme": "^3.7.0",
@@ -44,7 +45,7 @@
     "format-message": "^6.2.3",
     "fs-extra": "^9.0.1",
     "identity-obj-proxy": "^3.0.0",
-    "jest-html-reporters": "2.0.3",
+    "jest-html-reporters": "^3.0.4",
     "mock-socket": "^9.0.3",
     "moment": "^2.24.0",
     "normalize-css": "^2.3.1",
@@ -65,10 +66,10 @@
     "yargs": "^17.1.1"
   },
   "devDependencies": {
-    "@types/jest": "^26.0.23",
+    "@types/jest": "^27.4.0",
     "@testing-library/react": "^11.2.6",
     "@testing-library/user-event": "^13.1.9",
-    "jest": "^27.0.1",
+    "jest": "^27.4.7",
     "react-test-renderer": "^17.0.2"
   },
   "ci": {

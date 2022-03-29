@@ -18,8 +18,10 @@ class EntityModalDemo extends Component {
     };
   }
   onClick = () => {
-    this.setState({
-      show: !this.state.show,
+    this.setState((state) => {
+      return {
+        show: !state.show,
+      };
     });
   };
   onClose = () => {
@@ -34,6 +36,7 @@ class EntityModalDemo extends Component {
     this.onClose();
   };
   render() {
+    const { show, selected } = this.state;
     return (
       <div>
         <Button onClick={this.onClick}>Open Entity Modal</Button>
@@ -41,10 +44,10 @@ class EntityModalDemo extends Component {
           title="Entity Modal Title"
           onCancel={this.onClose}
           onCreate={this.onCreate}
-          show={this.state.show}
+          show={show}
           {...props}
         />
-        <p>{`You choose [ ${this.state.selected} ] as your Entity Type.`}</p>
+        <p>{`You choose [ ${selected} ] as your Entity Type.`}</p>
       </div>
     );
   }

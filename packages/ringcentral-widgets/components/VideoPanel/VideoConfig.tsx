@@ -38,6 +38,7 @@ import {
   RcTimePickerProps,
   spacing,
   styled,
+  RcAlert,
 } from '@ringcentral/juno';
 import { InfoBorder } from '@ringcentral/juno/icon';
 
@@ -50,7 +51,7 @@ import {
 } from '../../lib/MeetingHelper';
 import { ExtendedTooltip } from '../MeetingConfigsV2/ExtendedTooltip';
 import { SpinnerOverlay } from '../SpinnerOverlay';
-import { MeetingAlert } from '../MeetingAlert';
+import { MeetingAlert, RemoveMeetingWarn } from '../MeetingAlert';
 import i18n from './i18n';
 import { SettingGroup } from './SettingGroup';
 import styles from './styles.scss';
@@ -128,6 +129,8 @@ interface VideoConfigProps {
   isWaitingRoomTypeDisabled: boolean;
   isSignedInUsersDisabled: boolean;
   isSignedInCoWorkersDisabled: boolean;
+  showRemoveMeetingWarning: boolean;
+  brandConfig: any;
 }
 
 const PanelRoot = styled.div`
@@ -184,6 +187,8 @@ export const VideoConfig: FunctionComponent<VideoConfigProps> = (props) => {
     isWaitingRoomNotCoworkerDisabled,
     isWaitingRoomGuestDisabled,
     isWaitingRoomAllDisabled,
+    showRemoveMeetingWarning,
+    brandConfig,
     showIeSupportAlert,
     appName,
   } = props;
@@ -216,7 +221,6 @@ export const VideoConfig: FunctionComponent<VideoConfigProps> = (props) => {
   /* Scrollbar */
   const configRef = useRef<HTMLDivElement>();
   const [hasScrollBar, setHasScrollBar] = useState<boolean>(false);
-
   useEffect(() => {
     setHasScrollBar(
       configRef.current.scrollHeight > configRef.current.clientHeight,
@@ -231,6 +235,14 @@ export const VideoConfig: FunctionComponent<VideoConfigProps> = (props) => {
     >
       <div className={styles.meetingContent}>
         {showSpinnerInConfigPanel ? <SpinnerOverlay /> : null}
+        {showRemoveMeetingWarning && (
+          <SettingGroup dataSign="removeMeetingWarningPanel" expandable={false}>
+            <RemoveMeetingWarn
+              brandConfig={brandConfig}
+              currentLocale={currentLocale}
+            />
+          </SettingGroup>
+        )}
         <div className={classnames(styles.meetingSection, styles.gutterTop)}>
           {children}
         </div>

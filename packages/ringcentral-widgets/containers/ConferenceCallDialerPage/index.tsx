@@ -2,8 +2,9 @@ import React, { Component } from 'react';
 
 import BackButton from '../../components/BackButton';
 import BackHeader from '../../components/BackHeader';
-import DialerPanel from '../../components/DialerPanel';
+import { DialerPanel } from '../../components/DialerPanel';
 import { connectModule } from '../../lib/phoneContext';
+import type { ConferenceDialerUIContainerProps } from '../../modules/ConferenceDialerUI/ConferenceDialerUI.interface';
 import i18n from './i18n';
 
 type ConferenceCallDialerPanelProps = {
@@ -32,6 +33,10 @@ class ConferenceCallDialerPanel extends Component<
 ConferenceCallDialerPanel.defaultProps = {
   ...DialerPanel.defaultProps,
 };
-export default connectModule((phone) => phone.conferenceDialerUI)(
-  ConferenceCallDialerPanel,
-);
+
+export const ConferenceCallDialerPage = connectModule<
+  any,
+  ConferenceDialerUIContainerProps
+>((phone) => phone.conferenceDialerUI)(ConferenceCallDialerPanel);
+
+export default ConferenceCallDialerPage;

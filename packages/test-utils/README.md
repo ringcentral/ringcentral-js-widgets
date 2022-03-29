@@ -21,7 +21,7 @@ yarn jest
 Run the following command to start `jest.retryTimes(3)` by default on CI:
 
 ```sh
-yarn run-test --ci
+yarn run-test
 ```
 
 
@@ -61,23 +61,6 @@ import { Foobar } from '../components/Foobar';
 test('', () => {
   // `const app = render(<Foobar version="" />);` is equivalent to:
   const app = mount(Foobar, { version: '' });
-});
-```
-
-## Note
-
-1. If you need to use `@testing-library/jest-dom`, please add `setupFilesAfterEnv` setting.
-
-```diff
-const merge = require('@ringcentral-integration/test-utils/lib/merge');
-const baseConfig = require('@ringcentral-integration/test-utils/config/jest.config');
-
-module.exports = merge(baseConfig, {
-  setupFiles: ['<rootDir>/test/__mocks__/setup.ts'],
-+ setupFilesAfterEnv: [
-+   '@ringcentral-integration/test-utils/config/jest.testingLibraryConfig.ts',
-+ ],
-  // add additional jest config
 });
 ```
 

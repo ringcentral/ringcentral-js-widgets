@@ -12,7 +12,7 @@ import { proxify } from '../../lib/proxy/proxify';
 import { Deps, SetDataOptions } from './Environment.interface';
 
 const DEFAULT_RECORDING_HOST =
-  'https://apps.ringcentral.com/integrations/recording/index.html';
+  'https://apps.ringcentral.com/integrations/recording/v3.0/rc/index.html';
 
 @Module({
   name: 'Environment',

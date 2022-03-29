@@ -1,7 +1,7 @@
 export default {
   start: "快速浏览一下",
   skip: "跳过",
-  next: "下一个",
+  next: "下一步",
   finish: "完成"
 };
 

@@ -22,7 +22,7 @@ import { WebphoneSession } from '../../interfaces/Webphone.interface';
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
 import { SipInstanceManager } from '../../lib/SipInstanceManager';
-import sleep from '../../lib/sleep';
+import { sleep } from '../../lib/sleep';
 import { trackEvents } from '../Analytics';
 import { connectionStatus } from './connectionStatus';
 import { EVENTS } from './events';

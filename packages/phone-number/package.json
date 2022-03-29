@@ -21,36 +21,20 @@
   "peerDependencies": {},
   "devDependencies": {
     "@ringcentral-integration/babel-settings": "*",
-    "babel-jest": "^27.0.1",
+    "babel-jest": "^27.4.6",
     "fs-extra": "^9.0.1",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "gulp-sourcemaps": "^2.6.5",
-    "jest": "^27.0.1",
-    "jest-html-reporters": "2.0.3"
+    "jest": "^27.4.7",
+    "jest-html-reporters": "^3.0.4"
   },
   "scripts": {
     "gulp": "gulp --require @ringcentral-integration/babel-settings/lib/register.js",
     "build": "yarn gulp build",
     "release": "yarn gulp release",
-    "test": "yarn run-test --ci",
+    "test": "yarn run-test",
     "watch": "jest --watch"
-  },
-  "jest": {
-    "transform": {
-      "^.+\\.(j|t)sx?$": "@ringcentral-integration/babel-settings/lib/jestTransform.js"
-    },
-    "reporters": [
-      "default",
-      [
-        "jest-html-reporters",
-        {
-          "publicPath": "./html-report",
-          "filename": "jest-report.html",
-          "expand": true
-        }
-      ]
-    ]
   },
   "ci": {
     "phone-number": "**"

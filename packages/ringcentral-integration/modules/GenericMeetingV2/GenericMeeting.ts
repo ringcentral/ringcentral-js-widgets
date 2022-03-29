@@ -31,10 +31,10 @@ import { genericMeetingStatus } from './genericMeetingStatus';
     { dep: 'GenericMeetingOptions', optional: true },
   ],
 })
-export class GenericMeeting<T = {}> extends RcModuleV2<Deps & T> {
+export class GenericMeeting<T extends Deps = Deps> extends RcModuleV2<T> {
   protected _eventEmitter = new EventEmitter();
 
-  constructor(deps: Deps & T) {
+  constructor(deps: T) {
     super({
       deps,
       enableCache: deps.genericMeetingOptions?.enableCache ?? false,

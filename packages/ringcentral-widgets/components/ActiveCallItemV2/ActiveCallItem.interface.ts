@@ -124,6 +124,7 @@ export interface ActiveCallItemProps {
   phoneTypeRenderer?: (...args: any[]) => any;
   phoneSourceNameRenderer?: (...args: any[]) => any;
   renderContactName?: (call: Call) => string;
+  renderSubContactName?: (call: Call) => string;
   renderExtraButton?: (call: Call) => any;
   contactDisplayStyle?: string;
   isOnConferenceCall?: boolean;

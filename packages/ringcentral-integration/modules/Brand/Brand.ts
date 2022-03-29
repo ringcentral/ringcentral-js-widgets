@@ -37,15 +37,37 @@ export class Brand<
   }
 
   @state
-  dynamicConfig: T = null;
+  protected _dynamicConfig: T = null;
 
   @action
   setDynamicConfig(config: T) {
-    this.dynamicConfig = config;
+    this._dynamicConfig = config;
   }
 
-  @computed((that: Brand<T, D>) => [that._deps.brandConfig])
-  get defaultConfig() {
+  /**
+   * dynamic brand config with i18n processed with currentLocale
+   */
+  @computed(({ _dynamicConfig, _deps: { locale } }: Brand<T, D>) => [
+    _dynamicConfig,
+    locale?.currentLocale,
+    locale?.defaultLocale,
+  ])
+  get dynamicConfig() {
+    return (
+      this._dynamicConfig &&
+      processI18n(
+        this._dynamicConfig,
+        this._deps.locale?.currentLocale ?? DEFAULT_LOCALE,
+        this._deps.locale?.defaultLocale ?? DEFAULT_LOCALE,
+      )
+    );
+  }
+
+  /**
+   * default brand config with assets processed
+   */
+  @computed(({ _deps: { brandConfig } }: Brand<T, D>) => [brandConfig])
+  protected get _defaultConfig() {
     const brandConfig = this._deps.brandConfig;
 
     if (!brandConfig?.assets) return brandConfig;
@@ -64,14 +86,29 @@ export class Brand<
     };
   }
 
-  @computed(({ dynamicConfig, _deps: { locale } }: Brand<T, D>) => [
-    dynamicConfig,
-    locale?.currentLocale,
-    locale?.defaultLocale,
-  ])
+  /**
+   * default brand config with assets and i18n processed using en-US
+   */
+  @computed(({ _defaultConfig }: Brand<T, D>) => [_defaultConfig])
+  get defaultConfig() {
+    return processI18n(this._defaultConfig);
+  }
+
+  /**
+   * Generic brand config accessor that returns dynamic config if available, and defaults
+   * to default config. The result is assets and i18n processed with current Locale.
+   */
+  @computed(
+    ({ _defaultConfig, _dynamicConfig, _deps: { locale } }: Brand<T, D>) => [
+      _defaultConfig,
+      _dynamicConfig,
+      locale?.currentLocale,
+      locale?.defaultLocale,
+    ],
+  )
   get brandConfig() {
     return processI18n(
-      this.dynamicConfig ?? this.defaultConfig,
+      this._dynamicConfig ?? this._defaultConfig,
       this._deps.locale?.currentLocale ?? DEFAULT_LOCALE,
       this._deps.locale?.defaultLocale ?? DEFAULT_LOCALE,
     );

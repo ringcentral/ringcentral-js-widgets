@@ -3,7 +3,7 @@ export default {
   [callLogMessages.logCallLogFailed]: "No se ha podido cargar el registro de llamadas por un error inesperado. Actualice la página y vuelva a intentarlo.",
   // New version of log failed message
   [callLogMessages.logFailed]: "Lo sentimos, no hemos podido registrar su llamada. Vuelva a intentarlo más tarde.",
-  [callLogMessages.fieldRequired]: "Se deben completar los campos obligatorios."
+  [callLogMessages.fieldRequired]: "Se deben completar los cambios obligatorios."
 };
 
 // @key: @#@"[callLogMessages.logCallLogFailed]"@#@ @source: @#@"Failed to load call log form due to unexpected error. Please refresh the page and try again."@#@

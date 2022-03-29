@@ -8,7 +8,7 @@ Add `@ringcentral-integration/crius` to the development dependencies in the spec
 
 ## CLI
 
-- `yarn run-test --ci`
+- `yarn run-test`
 
 If using `--ci`, it will retry three times when get an error.
 

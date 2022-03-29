@@ -17,6 +17,6 @@ const argv = process.argv
   .concat(['--projects', projectPaths])
   .join(' ');
 
-execa.commandSync(`yarn jest ${argv}`, {
+execa.commandSync(`yarn jest --maxWorkers=70% ${argv}`, {
   stdio: 'inherit',
 });

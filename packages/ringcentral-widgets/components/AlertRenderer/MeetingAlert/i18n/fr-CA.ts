@@ -5,7 +5,7 @@ export default {
   [meetingStatus.insufficientPermissions]: "{application} ne possède pas la permission {permissionName}.",
   [meetingStatus.scheduledSuccess]: "Réunion ajoutée",
   [meetingStatus.updatedSuccess]: "Réunion mise à jour",
-  [meetingStatus.meetingIsDeleted]: "Meeting supprimé",
+  [meetingStatus.meetingIsDeleted]: "La réunion a été supprimée",
   [meetingStatus.internalError]: "Désolé, une erreur s’est produite de notre côté. Veuillez réessayer."
 };
 

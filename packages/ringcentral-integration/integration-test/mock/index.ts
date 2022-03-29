@@ -66,6 +66,9 @@ import wsConnectionDetailsBody from './data/ws/connectionDetails.json';
 import wsHeartbeatResponse from './data/ws/heartbeatResponse.json';
 import wsSubscriptionResponse from './data/ws/subscriptionResponse.json';
 import wsTokenBody from './data/ws/wstoken.json';
+import { MockForLoginOptions } from './MockForLoginOptions.interface';
+
+export * from './types';
 
 export const mockWsServer = 'ws://whatever';
 export const mockServer = 'http://whatever';
@@ -105,6 +108,16 @@ export function mockApi({
   statusText = 'OK',
   headers,
   isOnce = true,
+}: {
+  method?: any;
+  path?: any;
+  server?: any;
+  url?: any;
+  body?: any;
+  status?: any;
+  statusText?: any;
+  headers?: any;
+  isOnce?: any;
 }) {
   let responseHeaders;
   const isJson = typeof body !== 'string';
@@ -179,6 +192,7 @@ function startWebSocketMockServer() {
     });
   });
 
+  // TODO: should find way to change that implementation
   // hook WebSocket
   WebSocket.prototype._onCreated = async () => {
     await server.connected;
@@ -234,7 +248,7 @@ export function logout() {
   });
 }
 
-export function tokenRefresh(failure) {
+export function tokenRefresh(failure?: boolean) {
   if (!failure) {
     mockApi({
       method: 'POST',
@@ -833,7 +847,7 @@ export function rcvInvitation(mockInvitation = RCV_INVITATION_BODY) {
   });
 }
 export function meetingInfo(
-  meetingId = null,
+  meetingId: string = null,
   mockResponse = {},
   isOnce = false,
 ) {
@@ -872,7 +886,7 @@ export function videoPersonalSettings(
 }
 
 export function getRcvMeetingInfo(
-  shortId,
+  shortId: string,
   extensionId: number | string = extensionBody.id,
   mockResponse = {},
   isOnce = false,
@@ -888,7 +902,7 @@ export function getRcvMeetingInfo(
   });
 }
 
-export function patchRcvMeeting(meetingId, mockResponse = {}) {
+export function patchRcvMeeting(meetingId: string, mockResponse = {}) {
   mockApi({
     method: 'PATCH',
     url: `${mockServer}/rcvideo/v1/bridges/${meetingId}`,
@@ -1053,10 +1067,36 @@ export function generateCode(mockResponse = {}) {
   });
 }
 
+interface MockStopRecordErrorProps {
+  sessionId?: string;
+  recordingId?: string;
+  partyId?: string;
+  status?: number;
+}
+
+// TODO: generate this mock function
+export function MockStopRecordError({
+  sessionId,
+  recordingId,
+  partyId,
+  status = 403,
+}: MockStopRecordErrorProps) {
+  mockApi({
+    path: `/restapi/v1.0/account/~/telephony/sessions/${sessionId}/parties/${partyId}/recordings/${recordingId}`,
+    method: 'PATCH',
+    body: {
+      errorCode: 'TAS-115',
+      message: 'ACR mute is not supported for this call',
+    },
+    isOnce: false,
+    status,
+  });
+}
+
 export function mockForLogin({
+  mockWsServer = true,
   mockTimezone = false,
   mockAuthzProfile = true,
-  mockMeetingInvitation = true, // TODO: remove it if uesless
   mockExtensionInfo = true,
   mockForwardingNumber = true,
   mockMessageSync = true,
@@ -1069,60 +1109,87 @@ export function mockForLogin({
   mockVideoConfiguration = true,
   mockUserSetting = true,
   mockGenerateCode = false,
-  ...params
-} = {}) {
+  phoneNumberData = {},
+  dialingPlanData,
+  extensionInfoData,
+  accountInfoData,
+  apiInfoData,
+  authzProfileData,
+  deviceData,
+  extensionListData,
+  extensionListQuery,
+  isExtensionListEmptyRes,
+  extensionsListData,
+  blockedNumberData,
+  forwardingNumberData,
+  messageListData,
+  messageSyncData,
+  callerIdData,
+  subscriptionData,
+  callLogData,
+  addressBookData,
+  sipProvisionData,
+  fetchDLData,
+  conferencingData,
+  activeCallsData,
+  numberParseData,
+  numberParseIsOnce,
+  userSettingsData,
+  lockedSettingsData,
+  featuresData,
+  mockAssistedUsers,
+  mockDelegators,
+}: MockForLoginOptions = {}) {
   discoveryInitial();
   discoveryExternal();
-  wstoken();
+
+  if (mockWsServer) wstoken();
+
   authentication();
   logout();
   tokenRefresh();
   presence('~');
-  dialingPlan(params.dialingPlanData);
+  dialingPlan(dialingPlanData);
   if (mockExtensionInfo) {
-    extensionInfo(params.extensionInfoData);
+    extensionInfo(extensionInfoData);
   }
   if (mockTimezone) {
     timezone();
   }
-  accountInfo(params.accountInfoData);
-  apiInfo(params.apiInfoData);
+  accountInfo(accountInfoData);
+  apiInfo(apiInfoData);
   if (mockAuthzProfile) {
-    authzProfile(params.authzProfileData);
+    authzProfile(authzProfileData);
   }
-  device(params.deviceData);
-  extensionList(
-    params.extensionListData,
-    params.extensionListQuery,
-    params.isExtensionListEmptyRes,
-  );
-  companyContactList(params.extensionsListData);
-  // accountPhoneNumber(params.accountPhoneNumberData);
-  blockedNumber(params.blockedNumberData);
+  device(deviceData);
+  extensionList(extensionListData, extensionListQuery, isExtensionListEmptyRes);
+  companyContactList(extensionsListData);
+  // accountPhoneNumber(accountPhoneNumberData);
+  blockedNumber(blockedNumberData);
   if (mockForwardingNumber) {
-    forwardingNumber(params.forwardingNumberData);
+    forwardingNumber(forwardingNumberData);
   }
-  messageList(params.messageListData);
+  messageList(messageListData);
 
   if (mockMessageSync) {
-    messageSync(params.messageSyncData, mockMessageSyncOnce);
+    messageSync(messageSyncData, mockMessageSyncOnce);
   }
-  phoneNumber(params.phoneNumberData);
-  callerId(params.callerIdData);
-  subscription(params.subscriptionData);
-  callLog(params.callLogData);
-  addressBook(params.addressBookData);
-  sipProvision(params.sipProvisionData);
-  fetchDL(params.fetchDLData);
-  dialInNumbers(params.fetchDLData);
+  phoneNumber(phoneNumberData);
+  callerId(callerIdData);
+  subscription(subscriptionData);
+  callLog(callLogData);
+  addressBook(addressBookData);
+  sipProvision(sipProvisionData);
+  fetchDL(fetchDLData);
+  dialInNumbers(fetchDLData);
   if (mockConferencing) {
-    conferencing(params.conferencingData);
+    conferencing(conferencingData);
   }
   if (mockActiveCalls) {
-    activeCalls(params.activeCallsData);
+    activeCalls(activeCallsData);
   }
   if (mockNumberParser) {
-    numberParser(params.numberParseData, params.numberParseIsOnce);
+    numberParser(numberParseData, numberParseIsOnce);
   }
   if (mockUpdateConference) {
     conferenceCall();
@@ -1136,12 +1203,12 @@ export function mockForLogin({
   }
   videoPreference();
   if (mockUserSetting) {
-    userSettings(params.userSettingsData);
+    userSettings(userSettingsData);
   }
-  lockedSettings(params.lockedSettingsData);
-  features(params.featuresData);
-  assistedUsers(params.mockAssistedUsers);
-  delegators(params.mockDelegators);
+  lockedSettings(lockedSettingsData);
+  features(featuresData);
+  assistedUsers(mockAssistedUsers);
+  delegators(mockDelegators);
   videoPersonalSettings();
   if (mockGenerateCode) {
     generateCode();

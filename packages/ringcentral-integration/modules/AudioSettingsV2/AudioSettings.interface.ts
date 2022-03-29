@@ -1,4 +1,4 @@
-import { Alert } from '../AlertV2';
+import { Alert } from '../Alert';
 import { AppFeatures } from '../AppFeatures';
 import { Auth } from '../AuthV2';
 import { Storage } from '../StorageV2';

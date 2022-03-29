@@ -291,7 +291,7 @@ class AudioSettingsPanel extends Component {
       <IconLine
         noBorder
         icon={
-          <Button onClick={checkUserMedia}>
+          <Button dataSign="checkMicPermission" onClick={checkUserMedia}>
             {i18n.getString('checkMicPermission')}
           </Button>
         }

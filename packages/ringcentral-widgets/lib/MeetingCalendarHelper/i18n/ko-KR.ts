@@ -8,7 +8,7 @@ export default {
   rcvSipHeader: "\n\nSIP로 참가:",
   rcvSipContentWithPwd: "\n    {meetingId}.{meetingPasswordPSTN}@sip.rcv.com\n    SIP 비밀번호: {meetingPasswordPSTN}\n",
   rcvSipContentNoPwd: "\n    {meetingId}@sip.rcv.com\n",
-  doNotModify: "===== 이 텍스트를 수정하지 마세요. =====",
+  doNotModify: "----------------------------------수정하지 마세요 ----------------------------------",
   password: "\n\n비밀번호",
   passwordPstn: "\n\n전화 접속 비밀번호:"
 };
@@ -22,6 +22,6 @@ export default {
 // @key: @#@"rcvSipHeader"@#@ @source: @#@"\n\nJoin by SIP:"@#@
 // @key: @#@"rcvSipContentWithPwd"@#@ @source: @#@"\n    {meetingId}.{meetingPasswordPSTN}@sip.rcv.com\n    SIP password: {meetingPasswordPSTN}\n"@#@
 // @key: @#@"rcvSipContentNoPwd"@#@ @source: @#@"\n    {meetingId}@sip.rcv.com\n"@#@
-// @key: @#@"doNotModify"@#@ @source: @#@"===== Do not modify this text ====="@#@
+// @key: @#@"doNotModify"@#@ @source: @#@"---------------------------------- Do Not Modify ----------------------------------"@#@
 // @key: @#@"password"@#@ @source: @#@"\n\nPassword"@#@
 // @key: @#@"passwordPstn"@#@ @source: @#@"\n\nDial-in password:"@#@

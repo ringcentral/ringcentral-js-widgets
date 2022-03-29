@@ -1,7 +1,7 @@
+import { sleep } from '../../lib/sleep';
 import * as mock from '../mock';
 import authzProfileBody from '../mock/data/authzProfile';
 import { ensureLogin } from '../utils/HelpUtil';
-import { waitInSeconds } from '../utils/WaitUtil';
 
 export default (auth, client, forwardingNumber, account) => {
   describe('ForwardingNumber:', () => {
@@ -27,24 +27,28 @@ export default (auth, client, forwardingNumber, account) => {
 
       after(async () => {
         await auth.logout();
-        await waitInSeconds(1);
+
+        await sleep(1000);
       });
 
       it('Should load numbers', async () => {
         this.retries(2);
-        await waitInSeconds(1);
+
+        await sleep(1000);
         expect(forwardingNumber.numbers.length).equal(2);
       });
 
       it('Should get flip numbers correctly', async () => {
         this.retries(2);
-        await waitInSeconds(1);
+
+        await sleep(1000);
         expect(forwardingNumber.flipNumbers.length).equal(2);
       });
 
       it('Should get forwarding numbers correctly', async () => {
         this.retries(2);
-        await waitInSeconds(1);
+
+        await sleep(1000);
         expect(forwardingNumber.forwardingNumbers.length).equal(1);
       });
     });
@@ -70,24 +74,28 @@ export default (auth, client, forwardingNumber, account) => {
 
       after(async () => {
         await auth.logout();
-        await waitInSeconds(1);
+
+        await sleep(1000);
       });
 
       it('Should not load numbers', async () => {
         this.retries(2);
-        await waitInSeconds(1);
+
+        await sleep(1000);
         expect(forwardingNumber.numbers.length).equal(0);
       });
 
       it('Should not load flip numbers', async () => {
         this.retries(2);
-        await waitInSeconds(1);
+
+        await sleep(1000);
         expect(forwardingNumber.flipNumbers.length).equal(0);
       });
 
       it('Should not load forwarding numbers', async () => {
         this.retries(2);
-        await waitInSeconds(1);
+
+        await sleep(1000);
         expect(forwardingNumber.forwardingNumbers.length).equal(0);
       });
     });
@@ -106,10 +114,12 @@ export default (auth, client, forwardingNumber, account) => {
         );
         this.skip();
       }
-      await waitInSeconds(1);
+
+      await sleep(1000);
       expect(forwardingNumber.numbers.length).equal(0);
       await auth.logout();
-      await waitInSeconds(1);
+
+      await sleep(1000);
     });
   });
 };

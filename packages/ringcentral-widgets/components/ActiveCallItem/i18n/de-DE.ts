@@ -1,5 +1,5 @@
 export default {
-  logging: "Protokollierung ...",
+  logging: "Protokollierung...",
   logCall: "Anruf protokollieren",
   editLog: "Protokoll bearbeiten",
   select: "Übereinstimmenden Datensatz auswählen",

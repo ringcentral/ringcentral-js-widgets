@@ -152,12 +152,12 @@ export class RecentMessages extends RcModuleV2<Deps> {
 
   /**
    * Searching for recent messages of specific contact.
-   * @param {Object} currentContact - Current contact
-   * @param {Array} messages - Messages in messageStore
-   * @param {Boolean} fromLocal - Only get recent messages locally
-   * @param {Number} daySpan - Find messages within certain days
-   * @param {Number} length - Maximum length of recent messages
-   * @return {Array}
+   * @param currentContact - Current contact
+   * @param messages - Messages in messageStore
+   * @param fromLocal - Only get recent messages locally
+   * @param daySpan - Find messages within certain days
+   * @param length - Maximum length of recent messages
+   * @return
    * @private
    */
   async _getRecentMessages(
@@ -236,7 +236,7 @@ export class RecentMessages extends RcModuleV2<Deps> {
   /**
    * Fetch recent messages from server by given current contact.
    */
-  _fetchRemoteRecentMessages(
+  async _fetchRemoteRecentMessages(
     { phoneNumbers }: Entity,
     dateFrom: string,
     dateTo = new Date().toISOString(),
@@ -264,10 +264,10 @@ export class RecentMessages extends RcModuleV2<Deps> {
 
     // TODO: Because we need to navigate to the message page,
     // So we may need to push new messages to messageStore
-    return concurrentExecute(recentMessagesPromise, 5, 500)
-      .then(flattenToMessageRecords)
-      .then(markAsRemoteMessage)
-      .then((messages) => sortMessages(messages));
+    const allMessages = await concurrentExecute(recentMessagesPromise, 5, 500);
+    const messageRecords = flattenToMessageRecords(allMessages);
+    const remoteMessage = markAsRemoteMessage(messageRecords);
+    return sortMessages(remoteMessage);
   }
 
   _fetchMessageList(params: FetchMessageListOptions) {

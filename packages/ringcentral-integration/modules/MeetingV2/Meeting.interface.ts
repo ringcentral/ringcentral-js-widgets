@@ -3,7 +3,7 @@ import Client from 'ringcentral-client';
 import { TimezoneInfo } from '@rc-ex/core/definitions';
 
 import { MeetingTypeV } from '../../helpers/meetingHelper.interface';
-import { Alert } from '../AlertV2';
+import { Alert } from '../Alert';
 import AvailabilityMonitor from '../AvailabilityMonitor';
 import { Brand } from '../Brand';
 import { ExtensionInfo as ExtensionInfoV2 } from '../ExtensionInfoV2';

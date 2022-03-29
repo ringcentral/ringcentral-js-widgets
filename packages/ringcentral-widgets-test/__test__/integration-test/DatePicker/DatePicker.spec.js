@@ -3,7 +3,7 @@ import React from 'react';
 import DatePicker from '@ringcentral-integration/widgets/components/DatePicker';
 import DateTimePicker from 'react-widgets/lib/DateTimePicker';
 import momentLocalizer from 'react-widgets-moment';
-import sleep from '@ringcentral-integration/commons/lib/sleep';
+import { sleep } from '@ringcentral-integration/commons/lib/sleep';
 
 const setup = (props) => {
   const wrapper = mount(<DateTimePicker {...props} />);

@@ -2,7 +2,7 @@ import moduleStatuses from '../../enums/moduleStatuses';
 import { Module } from '../../lib/di';
 import proxify from '../../lib/proxy/proxify';
 import RcModule from '../../lib/RcModule';
-import sleep from '../../lib/sleep';
+import { sleep } from '../../lib/sleep';
 import actionTypes from './actionTypes';
 import getRingoutReducer from './getRingoutReducer';
 import ringoutErrors from './ringoutErrors';

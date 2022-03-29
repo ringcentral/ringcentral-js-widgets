@@ -2,7 +2,7 @@ import { EventEmitter } from 'events';
 import { equals } from 'ramda';
 
 import { Module } from '@ringcentral-integration/commons/lib/di';
-import sleep from '@ringcentral-integration/commons/lib/sleep';
+import { sleep } from '@ringcentral-integration/commons/lib/sleep';
 import {
   action,
   computed,

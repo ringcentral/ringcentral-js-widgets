@@ -31,6 +31,9 @@ export class Step<P = {}, C = {}> extends BaseStep<P, C & Context> {
     get app() {
       return global.instance.app;
     },
+    get rcMock() {
+      return global.instance.rcMock;
+    },
     payload: {
       //
     },

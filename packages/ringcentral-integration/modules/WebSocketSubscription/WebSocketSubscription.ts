@@ -9,9 +9,10 @@ import {
 } from '@ringcentral-integration/core';
 
 import { SubscriptionFilter } from '../../enums/subscriptionFilters';
-import { debounce } from '../../lib/debounce-throttle';
 import { Module } from '../../lib/di';
+import background from '../../lib/background';
 import { proxify } from '../../lib/proxy/proxify';
+import { debounce } from '../../lib/debounce-throttle';
 import { webSocketReadyStates } from '../RingCentralExtensions/webSocketReadyStates';
 import { normalizeEventFilter } from './normalizeEventFilter';
 import { Deps } from './WebSocketSubscription.interface';
@@ -44,7 +45,8 @@ export class WebSocketSubscription extends RcModuleV2<Deps> {
     );
   }
 
-  onInitOnce() {
+  @background
+  private async _bindEvents() {
     watch(
       this,
       () => this._isWebSocketOpened(),
@@ -53,22 +55,24 @@ export class WebSocketSubscription extends RcModuleV2<Deps> {
           return;
         }
         if (isOpened) {
-          this._debouncedUpdateSubscription();
+          this.debouncedUpdateSubscription();
         } else {
-          this._debouncedUpdateSubscription.cancel();
+          this.cancelDebouncedUpdateSubscription();
         }
       },
     );
   }
 
+  async onInitOnce() {
+    await this._bindEvents();
+  }
+
   async onInit() {
-    if (this._isWebSocketOpened()) {
-      await this._debouncedUpdateSubscription();
-    }
+    await this.debouncedUpdateSubscription();
   }
 
   async onReset() {
-    await this._debouncedUpdateSubscription.cancel();
+    await this.cancelDebouncedUpdateSubscription();
     this._wsSubscription = null;
   }
 
@@ -145,6 +149,16 @@ export class WebSocketSubscription extends RcModuleV2<Deps> {
   });
 
   @proxify
+  async debouncedUpdateSubscription() {
+    this._debouncedUpdateSubscription();
+  }
+
+  @proxify
+  async cancelDebouncedUpdateSubscription() {
+    this._debouncedUpdateSubscription.cancel();
+  }
+
+  @proxify
   async subscribe(eventsFilters: SubscriptionFilter[] = []) {
     if (!this.ready) {
       return;
@@ -152,7 +166,7 @@ export class WebSocketSubscription extends RcModuleV2<Deps> {
     const oldLength = this.filters.length;
     this._addFilters(eventsFilters);
     if (oldLength !== this.filters.length) {
-      await this._debouncedUpdateSubscription();
+      await this.debouncedUpdateSubscription();
     }
   }
 
@@ -164,7 +178,7 @@ export class WebSocketSubscription extends RcModuleV2<Deps> {
     const oldLength = this.filters.length;
     this._removeFilters(eventsFilters);
     if (oldLength !== this.filters.length) {
-      await this._debouncedUpdateSubscription();
+      await this.debouncedUpdateSubscription();
     }
   }
 

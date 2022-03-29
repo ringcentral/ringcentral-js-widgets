@@ -24,11 +24,13 @@ function getTestSources() {
       argv.folder.forEach((str) => {
         str.split(',').forEach((f) => {
           src.add(`${f}/**/*.test.js`);
+          src.add(`${f}/**/*.test.ts`);
         });
       });
     } else {
       argv.folder.split(',').forEach((f) => {
         src.add(`${f}/**/*.test.js`);
+        src.add(`${f}/**/*.test.ts`);
       });
     }
   }
@@ -50,6 +52,7 @@ function getTestSources() {
 
   if (!src.size) {
     src.add('./**/*.test.js');
+    src.add('./**/*.test.ts');
     src.add('!./node_modules{/**,}');
   }
 
@@ -60,11 +63,19 @@ function preCoverage() {
   const testSources = getTestSources();
 
   return gulp
-    .src(['enums/**/*.js', 'lib/**/*.js', 'modules/**/*.js', '!./**/*.test.js'])
+    .src([
+      'enums/**/*.js',
+      'lib/**/*.js',
+      'modules/**/*.js',
+      '!./**/*.test.js',
+      '!./**/*.test.ts',
+    ])
     .pipe(
       istanbul({
         includeUntested:
-          testSources.length === 2 && testSources[0] === './**/*.test.js',
+          testSources.length === 2 &&
+          (testSources[0] === './**/*.test.js' ||
+            testSources[0] === './**/*.test.ts'),
         instrumenter: babelIstanbul.Instrumenter,
       }),
     )
@@ -111,6 +122,7 @@ export function compile() {
       './**/*.ts',
       '!./**/*.d.ts',
       '!./**/*.test.js',
+      '!./**/*.test.ts',
       '!./*.js',
       '!./coverage{/**,}',
       '!./docs{/**,}',

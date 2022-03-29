@@ -4,7 +4,7 @@ import subscriptionFilters from '../../enums/subscriptionFilters';
 import subscriptionHints from '../../enums/subscriptionHints';
 import DataFetcher from '../../lib/DataFetcher';
 import { Module } from '../../lib/di';
-import sleep from '../../lib/sleep';
+import { sleep } from '../../lib/sleep';
 import { meetingProviderTypes } from './interface';
 import { getMeetingProvider } from './service';
 

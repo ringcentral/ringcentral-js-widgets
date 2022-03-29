@@ -1,9 +1,9 @@
+import { sleep } from '../../lib/sleep';
 import * as mock from '../mock';
 import dialingPlanData from '../mock/data/dialingPlan';
 import extensionInfoData from '../mock/data/extensionInfo';
 import ClientHistoryRequest from '../utils/ClientHistoryRequest';
 import { ensureLogin } from '../utils/HelpUtil';
-import { waitInSeconds } from '../utils/WaitUtil';
 
 export default (auth, client, regionSettings, account) => {
   describe('Region Settings:', async () => {
@@ -27,7 +27,8 @@ export default (auth, client, regionSettings, account) => {
 
     it('should be ready in 2 seconds after login', async () => {
       this.retries(2);
-      await waitInSeconds(2);
+
+      await sleep(2000);
       expect(regionSettings.availableCountries).to.have.length.above(0);
       expect(regionSettings.countryCode).to.equal(
         extensionInfoData.regionalSettings.homeCountry.isoCode,

@@ -103,4 +103,8 @@ export class AccountInfo extends DataFetcherV2Consumer<
   get mainCompanyNumber() {
     return this.info.mainNumber;
   }
+
+  get maxExtensionNumberLength() {
+    return this.info.limits?.maxExtensionNumberLength ?? 6;
+  }
 }

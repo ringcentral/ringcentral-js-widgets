@@ -12,12 +12,15 @@ import {
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import { proxify } from '@ringcentral-integration/commons/lib/proxy/proxify';
 import { HistoryCall } from '@ringcentral-integration/commons/modules/CallHistoryV2';
+import { trackEvents } from '@ringcentral-integration/commons/modules/AnalyticsV2';
+
 import {
   action,
   computed,
   RcModuleV2,
   state,
   storage,
+  track,
 } from '@ringcentral-integration/core';
 
 import { Mapping } from '../../typings';
@@ -49,7 +52,7 @@ export class CallLogSection<T extends Deps = Deps> extends RcModuleV2<T> {
   private _onUpdate: AddLogHandlerFunctions['onUpdate'];
   private _onError: AddLogHandlerFunctions['onError'];
 
-  constructor(deps: Deps) {
+  constructor(deps: T) {
     super({
       deps,
       storageKey: 'callLogSection',
@@ -141,6 +144,11 @@ export class CallLogSection<T extends Deps = Deps> extends RcModuleV2<T> {
       },
       true,
     );
+  }
+
+  @proxify
+  async markAsUnSaving(identify: string) {
+    this.update(identify, {}, false);
   }
 
   @proxify
@@ -245,6 +253,7 @@ export class CallLogSection<T extends Deps = Deps> extends RcModuleV2<T> {
 
   // TODO: add args type when implement call log ui
   @proxify
+  @track(trackEvents.clickSaveLogSection)
   async saveCallLog(identify: string, ...args: any) {
     if (
       identify &&
@@ -305,6 +314,7 @@ export class CallLogSection<T extends Deps = Deps> extends RcModuleV2<T> {
   }
 
   @proxify
+  @track(trackEvents.clickCloseLogNotification)
   async closeLogNotification() {
     if (this.showNotification) {
       this.setLogNotificationIdentify(null);
@@ -368,7 +378,7 @@ export class CallLogSection<T extends Deps = Deps> extends RcModuleV2<T> {
       identity,
       // eslint-disable-next-line react-hooks/rules-of-hooks
       useWith(pick, [keys, identity]),
-    ]) as any;
+    ])(this.callsMappingState, this.callsSavingStatus) as any;
   }
 
   @computed((that: CallLogSection) => [
@@ -397,10 +407,11 @@ export class CallLogSection<T extends Deps = Deps> extends RcModuleV2<T> {
   @computed((that: CallLogSection) => [
     that.currentNotificationIdentify,
     that._deps.callMonitor.calls,
+    that._deps.callHistory.calls,
   ])
-  get currentNotificationCall() {
+  get currentNotificationCall(): HistoryCall {
     return (
-      this._deps.callMonitor.calls.find(
+      [...this._deps.callMonitor.calls, ...this._deps.callHistory.calls].find(
         (call) => call.sessionId === this.currentNotificationIdentify,
       ) || {}
     );

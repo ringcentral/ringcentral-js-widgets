@@ -1,4 +1,4 @@
-import sleep from '../sleep';
+import { sleep } from '../sleep';
 
 type PromiseThunks<T> = (() => Promise<T>)[];
 

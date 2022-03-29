@@ -9,7 +9,7 @@ export default {
   [phoneTypes.home]: "Casa",
   [phoneTypes.business]: "Trabajo",
   [phoneTypes.fax]: "Fax",
-  [phoneTypes.company]: "Compañía",
+  [phoneTypes.company]: "Empresa",
   [phoneTypes.other]: "Otro",
   emailLabel: "Correo electrónico",
   call: "Llamar",
@@ -19,7 +19,7 @@ export default {
   [presenceStatus.busy]: "Ocupado",
   [dndStatus.doNotAcceptAnyCalls]: "No molestar",
   notActivated: "Inactivo",
-  company: "Compañía",
+  company: "Empresa",
   jobTitle: "Título",
   site: "Sitio"
 };

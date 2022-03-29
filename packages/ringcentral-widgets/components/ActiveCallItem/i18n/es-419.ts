@@ -26,7 +26,7 @@ export default {
   anonymous: "Anónimo",
   mergeToConference: "Combinar",
   hold: "En espera",
-  unhold: "Reanudar",
+  unhold: "Salir de espera",
   transfer: "Transferir",
   reject: "Rechazar",
   switchCall: "Cambiar llamada a esta aplicación",

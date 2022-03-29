@@ -9,10 +9,8 @@ import CircleButton from '@ringcentral-integration/widgets/components/CircleButt
 import FromField from '@ringcentral-integration/widgets/components/FromField';
 import BackHeader from '@ringcentral-integration/widgets/components/BackHeader';
 import BackButton from '@ringcentral-integration/widgets/components/BackButton';
-import RecipientsInput from '@ringcentral-integration/widgets/components/RecipientsInput';
-import { ContactDropdownList } from '@ringcentral-integration/widgets/components/ContactDropdownList';
 import { waitUntilEqual } from '@ringcentral-integration/commons/integration-test/utils/WaitUtil';
-import updateConferenceCallBody from '@ringcentral-integration/commons/integration-test/mock/data/updateConference';
+import updateConferenceCallBody from '@ringcentral-integration/commons/integration-test/mock/data/updateConference.json';
 import DropdownSelect from '@ringcentral-integration/widgets/components/DropdownSelect';
 import { initPhoneWrapper, timeout, tearDownWrapper } from '../shared';
 import {
@@ -21,7 +19,7 @@ import {
   mockActiveCalls,
   mockPresencePubnub,
 } from '../../support/callHelper';
-import extensionsListBody from './data/extensions';
+import extensionsListBody from './data/extensions.json';
 
 beforeEach(async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 64000;
@@ -342,18 +340,18 @@ describe('RCI-1710156: Call control add call flow', () => {
       'Active Call',
     );
     // #3 User input SfB/<$brand> contact name in To field
-    const toInput = wrapper
-      .find(RecipientsInput)
-      .find("input[name='receiver']");
+    const toInput = wrapper.find("input[name='receiver']");
     expect(toInput).toHaveLength(1);
     toInput.props().onFocus();
     await phone.contactSearch.search({ searchString: 'Something1 New1' });
     toInput.props().onChange({ currentTarget: { value: 'Something1 New1' } });
     await timeout(100);
     wrapper.update();
-    const dropdownList = wrapper.find(ContactDropdownList);
+    const dropdownList = wrapper.find('DropdownList');
     expect(dropdownList.props().visibility).toBe(true);
-    expect(dropdownList.props().items[0].name).toEqual('Something1 New1');
+    expect(dropdownList.props().recipientOptions[0].name).toEqual(
+      'Something1 New1',
+    );
     await tearDownWrapper(wrapper);
     // #4 TODO
   });

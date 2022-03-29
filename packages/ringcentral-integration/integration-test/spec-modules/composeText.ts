@@ -1,13 +1,9 @@
+import { sleep } from '../../lib/sleep';
 import loginStatus from '../../modules/Auth/loginStatus';
 import messageSenderMessages from '../../modules/MessageSender/messageSenderMessages';
 import ClientHistoryRequest from '../utils/ClientHistoryRequest';
 import { containsErrorMessage, ensureLogin } from '../utils/HelpUtil';
-import {
-  waitInSeconds,
-  waitUntilEqual,
-  waitUntilNotNull,
-  waitUntilObjectSizeGreaterThan,
-} from '../utils/WaitUtil';
+import { waitUntilEqual } from '../utils/WaitUtil';
 
 export default (
   auth,
@@ -32,15 +28,16 @@ export default (
           account,
         );
       }
-      await waitUntilNotNull(
-        () => messageSender.senderNumbersList[0].phoneNumber,
+      await waitUntilEqual(
+        () => messageSender.senderNumbersList[0].phoneNumber != null,
         'First number in senderNumberList',
+        true,
         3,
       );
-      await waitUntilObjectSizeGreaterThan(
-        () => composeText.senderNumber,
+      await waitUntilEqual(
+        () => composeText.senderNumber.length > 0,
         'Sender Number',
-        0,
+        true,
         3,
       );
     });
@@ -85,7 +82,7 @@ export default (
           loginStatus.loggedIn,
           3,
         );
-        await waitInSeconds(2);
+        await sleep(2000);
         expect(composeText.senderNumber).to.equals(
           messageSender.senderNumbersList[1].phoneNumber,
         );

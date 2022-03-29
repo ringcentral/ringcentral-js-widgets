@@ -1,4 +1,4 @@
-import sleep from './sleep';
+import { sleep } from './sleep';
 
 export const polling = async (
   fn: () => boolean | Promise<boolean>,

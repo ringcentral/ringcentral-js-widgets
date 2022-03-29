@@ -2,6 +2,7 @@ import { RcModuleV2, watch } from '@ringcentral-integration/core';
 
 import { Pendo, Segment } from '../../lib/Analytics';
 import { Module } from '../../lib/di';
+import proxify from '../../lib/proxy/proxify';
 import saveBlob from '../../lib/saveBlob';
 import {
   Deps,
@@ -19,7 +20,7 @@ import { trackRouters } from './analyticsRouters';
   name: 'Analytics',
   deps: [
     'Auth',
-    'BrandConfig',
+    'Brand',
     'AnalyticsOptions',
     { dep: 'AccountInfo', optional: true },
     { dep: 'ExtensionInfo', optional: true },
@@ -28,7 +29,7 @@ import { trackRouters } from './analyticsRouters';
     { dep: 'AnalyticsEventExtendedProps', optional: true },
   ],
 })
-export class Analytics<T extends Deps> extends RcModuleV2<T> {
+export class Analytics<T extends Deps = Deps> extends RcModuleV2<T> {
   protected _useLog = this._deps.analyticsOptions.useLog ?? false;
 
   protected _lingerThreshold =
@@ -68,6 +69,14 @@ export class Analytics<T extends Deps> extends RcModuleV2<T> {
   }
 
   onInitOnce() {
+    if (this._deps.analyticsOptions.analyticsKey && this._segment) {
+      this._segment.load(this._deps.analyticsOptions.analyticsKey, {
+        integrations: {
+          All: true,
+          Mixpanel: true,
+        },
+      });
+    }
     if (this._deps.routerInteraction) {
       // make sure that track if refresh app
       this.trackRouter();
@@ -96,17 +105,6 @@ export class Analytics<T extends Deps> extends RcModuleV2<T> {
         this.trackLinger(target);
       }
     }, this._lingerThreshold);
-  }
-
-  onInit() {
-    if (this._deps.analyticsOptions.analyticsKey && this._segment) {
-      this._segment.load(this._deps.analyticsOptions.analyticsKey, {
-        integrations: {
-          All: true,
-          Mixpanel: true,
-        },
-      });
-    }
   }
 
   setUserId() {
@@ -169,9 +167,9 @@ export class Analytics<T extends Deps> extends RcModuleV2<T> {
         id: userId,
         ...props,
         companyName: this._deps.extensionInfo?.info?.contact?.company,
-        appName: this._deps.brandConfig.appName,
+        appName: this._deps.brand.defaultConfig.appName,
         appVersion: this._deps.analyticsOptions.appVersion,
-        appBrand: this._deps.brandConfig.code,
+        appBrand: this._deps.brand.defaultConfig.code,
         plaBrand: this._deps.accountInfo?.serviceInfo?.brand?.name,
         countryCode: this._deps.accountInfo?.countryCode,
       },
@@ -185,7 +183,8 @@ export class Analytics<T extends Deps> extends RcModuleV2<T> {
       });
   }
 
-  track(event: string, properties: any = {}) {
+  @proxify
+  async track(event: string, properties: any = {}) {
     if (!this.analytics) {
       return;
     }
@@ -230,9 +229,9 @@ export class Analytics<T extends Deps> extends RcModuleV2<T> {
   trackNavigation({ router, eventPostfix }: TrackRouter) {
     const trackProps = {
       router,
-      appName: this._deps.brandConfig.appName,
+      appName: this._deps.brand.defaultConfig.appName,
       appVersion: this._deps.analyticsOptions.appVersion,
-      brand: this._deps.brandConfig.code,
+      brand: this._deps.brand.defaultConfig.code,
     };
     this.track(`Navigation: Click/${eventPostfix}`, trackProps);
   }
@@ -240,9 +239,9 @@ export class Analytics<T extends Deps> extends RcModuleV2<T> {
   trackLinger({ router, eventPostfix }: TrackRouter) {
     const trackProps = {
       router,
-      appName: this._deps.brandConfig.appName,
+      appName: this._deps.brand.defaultConfig.appName,
       appVersion: this._deps.analyticsOptions.appVersion,
-      brand: this._deps.brandConfig.code,
+      brand: this._deps.brand.defaultConfig.code,
     };
     this.track(`Navigation: View/${eventPostfix}`, trackProps);
   }
@@ -273,9 +272,9 @@ export class Analytics<T extends Deps> extends RcModuleV2<T> {
 
   get trackProps(): TrackProps {
     return {
-      appName: this._deps.brandConfig.appName,
+      appName: this._deps.brand.defaultConfig.appName,
       appVersion: this._deps.analyticsOptions.appVersion,
-      brand: this._deps.brandConfig.code,
+      brand: this._deps.brand.defaultConfig.code,
       'App Language': this._deps.locale?.currentLocale || '',
       'Browser Language': this._deps.locale?.browserLocale || '',
       'Extension Type': this._deps.extensionInfo?.info.type || '',

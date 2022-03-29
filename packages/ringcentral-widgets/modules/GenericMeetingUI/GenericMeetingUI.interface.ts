@@ -6,6 +6,7 @@ import { GenericMeeting } from '@ringcentral-integration/commons/modules/Generic
 import { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiterV2';
 import { RcDatePickerSize, RcTimePickerSize } from '@ringcentral/juno';
+import { Brand } from '@ringcentral-integration/commons/modules/Brand';
 
 import { ModalUI } from '../ModalUI';
 
@@ -16,6 +17,7 @@ export interface Deps {
   rateLimiter: RateLimiter;
   connectivityMonitor: ConnectivityMonitor;
   modalUI: ModalUI;
+  brand: Brand;
 }
 
 export interface GenericMeetingContainerProps {
@@ -25,6 +27,7 @@ export interface GenericMeetingContainerProps {
   showWhen?: boolean;
   showDuration?: boolean;
   openNewWindow?: boolean;
+  showRemoveMeetingWarning?: boolean;
   labelPlacement?: 'end' | 'start' | 'top' | 'bottom';
   scheduleButton?: FunctionComponent;
   datePickerSize?: RcDatePickerSize;

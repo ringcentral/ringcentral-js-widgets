@@ -5,7 +5,7 @@ import LoggerBase from '../../lib/LoggerBase';
 import { getNumbersFromMessage, sortByDate } from '../../lib/messageHelper';
 import proxify from '../../lib/proxy/proxify';
 import { selector } from '../../lib/selector';
-import sleep from '../../lib/sleep';
+import { sleep } from '../../lib/sleep';
 import { actionTypes } from './actionTypes';
 import getDataReducer from './getDataReducer';
 

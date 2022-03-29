@@ -331,7 +331,8 @@ class Auth extends RcModuleV2<Deps> {
     scope,
     tokenUri,
     discoveryUri,
-  }: LoginOptions) {
+  }: // TODO: should use SDK Type if that can be work
+  Partial<LoginOptions>) {
     this.setLogin();
     let ownerId: number;
     if (accessToken) {
