@@ -53,7 +53,7 @@ var _processI18n = require("../../lib/processI18n");
 
 var _helpers = require("./helpers");
 
-var _dec, _dec2, _dec3, _class, _class2, _descriptor;
+var _dec, _dec2, _dec3, _dec4, _dec5, _class, _class2, _descriptor;
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
@@ -69,7 +69,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } Object.defineProperty(subClass, "prototype", { value: Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }), writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
@@ -96,12 +96,21 @@ var Brand = (_dec = (0, _di.Module)({
     dep: 'BrandConfigOptions',
     optional: true
   }]
-}), _dec2 = (0, _core.computed)(function (that) {
-  return [that._deps.brandConfig];
-}), _dec3 = (0, _core.computed)(function (_ref) {
-  var dynamicConfig = _ref.dynamicConfig,
+}), _dec2 = (0, _core.computed)(function (_ref) {
+  var _dynamicConfig = _ref._dynamicConfig,
       locale = _ref._deps.locale;
-  return [dynamicConfig, locale === null || locale === void 0 ? void 0 : locale.currentLocale, locale === null || locale === void 0 ? void 0 : locale.defaultLocale];
+  return [_dynamicConfig, locale === null || locale === void 0 ? void 0 : locale.currentLocale, locale === null || locale === void 0 ? void 0 : locale.defaultLocale];
+}), _dec3 = (0, _core.computed)(function (_ref2) {
+  var brandConfig = _ref2._deps.brandConfig;
+  return [brandConfig];
+}), _dec4 = (0, _core.computed)(function (_ref3) {
+  var _defaultConfig = _ref3._defaultConfig;
+  return [_defaultConfig];
+}), _dec5 = (0, _core.computed)(function (_ref4) {
+  var _defaultConfig = _ref4._defaultConfig,
+      _dynamicConfig = _ref4._dynamicConfig,
+      locale = _ref4._deps.locale;
+  return [_defaultConfig, _dynamicConfig, locale === null || locale === void 0 ? void 0 : locale.currentLocale, locale === null || locale === void 0 ? void 0 : locale.defaultLocale];
 }), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModuleV) {
   _inherits(Brand, _RcModuleV);
 
@@ -119,7 +128,7 @@ var Brand = (_dec = (0, _di.Module)({
     });
     _this._prefix = null;
 
-    _initializerDefineProperty(_this, "dynamicConfig", _descriptor, _assertThisInitialized(_this));
+    _initializerDefineProperty(_this, "_dynamicConfig", _descriptor, _assertThisInitialized(_this));
 
     _this._prefix = "".concat(_this._deps.brandConfig.code, "-").concat((0, _camelCase.camelCase)((_this$_deps$brandConf = _this._deps.brandConfig.application) !== null && _this$_deps$brandConf !== void 0 ? _this$_deps$brandConf : ''));
     return _this;
@@ -128,10 +137,25 @@ var Brand = (_dec = (0, _di.Module)({
   _createClass(Brand, [{
     key: "setDynamicConfig",
     value: function setDynamicConfig(config) {
-      this.dynamicConfig = config;
+      this._dynamicConfig = config;
     }
+    /**
+     * dynamic brand config with i18n processed with currentLocale
+     */
+
   }, {
-    key: "defaultConfig",
+    key: "dynamicConfig",
+    get: function get() {
+      var _this$_deps$locale$cu, _this$_deps$locale, _this$_deps$locale$de, _this$_deps$locale2;
+
+      return this._dynamicConfig && (0, _processI18n.processI18n)(this._dynamicConfig, (_this$_deps$locale$cu = (_this$_deps$locale = this._deps.locale) === null || _this$_deps$locale === void 0 ? void 0 : _this$_deps$locale.currentLocale) !== null && _this$_deps$locale$cu !== void 0 ? _this$_deps$locale$cu : _i18n.DEFAULT_LOCALE, (_this$_deps$locale$de = (_this$_deps$locale2 = this._deps.locale) === null || _this$_deps$locale2 === void 0 ? void 0 : _this$_deps$locale2.defaultLocale) !== null && _this$_deps$locale$de !== void 0 ? _this$_deps$locale$de : _i18n.DEFAULT_LOCALE);
+    }
+    /**
+     * default brand config with assets processed
+     */
+
+  }, {
+    key: "_defaultConfig",
     get: function get() {
       var _this$_deps$brandConf2;
 
@@ -147,12 +171,26 @@ var Brand = (_dec = (0, _di.Module)({
         assets: (0, _helpers.processAssets)(brandConfig.assets, ((_this$_deps$brandConf2 = this._deps.brandConfigOptions) === null || _this$_deps$brandConf2 === void 0 ? void 0 : _this$_deps$brandConf2.assetOrigin) || window.location.origin)
       });
     }
+    /**
+     * default brand config with assets and i18n processed using en-US
+     */
+
+  }, {
+    key: "defaultConfig",
+    get: function get() {
+      return (0, _processI18n.processI18n)(this._defaultConfig);
+    }
+    /**
+     * Generic brand config accessor that returns dynamic config if available, and defaults
+     * to default config. The result is assets and i18n processed with current Locale.
+     */
+
   }, {
     key: "brandConfig",
     get: function get() {
-      var _this$dynamicConfig, _this$_deps$locale$cu, _this$_deps$locale, _this$_deps$locale$de, _this$_deps$locale2;
+      var _this$_dynamicConfig, _this$_deps$locale$cu2, _this$_deps$locale3, _this$_deps$locale$de2, _this$_deps$locale4;
 
-      return (0, _processI18n.processI18n)((_this$dynamicConfig = this.dynamicConfig) !== null && _this$dynamicConfig !== void 0 ? _this$dynamicConfig : this.defaultConfig, (_this$_deps$locale$cu = (_this$_deps$locale = this._deps.locale) === null || _this$_deps$locale === void 0 ? void 0 : _this$_deps$locale.currentLocale) !== null && _this$_deps$locale$cu !== void 0 ? _this$_deps$locale$cu : _i18n.DEFAULT_LOCALE, (_this$_deps$locale$de = (_this$_deps$locale2 = this._deps.locale) === null || _this$_deps$locale2 === void 0 ? void 0 : _this$_deps$locale2.defaultLocale) !== null && _this$_deps$locale$de !== void 0 ? _this$_deps$locale$de : _i18n.DEFAULT_LOCALE);
+      return (0, _processI18n.processI18n)((_this$_dynamicConfig = this._dynamicConfig) !== null && _this$_dynamicConfig !== void 0 ? _this$_dynamicConfig : this._defaultConfig, (_this$_deps$locale$cu2 = (_this$_deps$locale3 = this._deps.locale) === null || _this$_deps$locale3 === void 0 ? void 0 : _this$_deps$locale3.currentLocale) !== null && _this$_deps$locale$cu2 !== void 0 ? _this$_deps$locale$cu2 : _i18n.DEFAULT_LOCALE, (_this$_deps$locale$de2 = (_this$_deps$locale4 = this._deps.locale) === null || _this$_deps$locale4 === void 0 ? void 0 : _this$_deps$locale4.defaultLocale) !== null && _this$_deps$locale$de2 !== void 0 ? _this$_deps$locale$de2 : _i18n.DEFAULT_LOCALE);
     }
   }, {
     key: "prefix",
@@ -221,13 +259,13 @@ var Brand = (_dec = (0, _di.Module)({
   }]);
 
   return Brand;
-}(_core.RcModuleV2), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "dynamicConfig", [_core.state], {
+}(_core.RcModuleV2), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "_dynamicConfig", [_core.state], {
   configurable: true,
   enumerable: true,
   writable: true,
   initializer: function initializer() {
     return null;
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "setDynamicConfig", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setDynamicConfig"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "defaultConfig", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "defaultConfig"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "brandConfig", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "brandConfig"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "setDynamicConfig", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setDynamicConfig"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "dynamicConfig", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "dynamicConfig"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_defaultConfig", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "_defaultConfig"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "defaultConfig", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "defaultConfig"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "brandConfig", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "brandConfig"), _class2.prototype)), _class2)) || _class);
 exports.Brand = Brand;
 //# sourceMappingURL=Brand.js.map

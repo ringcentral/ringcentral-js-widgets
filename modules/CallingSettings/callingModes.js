@@ -12,7 +12,8 @@ var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
 var _default = _ObjectMap.ObjectMap.prefixKeys(['softphone', // ringcentral phone
 'ringout', // branding rc..
 'webphone', // webrtc
-'jupiter' // ringcentral(jupiter)
+'jupiter', // ringcentral (jupiter app)
+'jupiterUniversalLink' // ringcentral (jupiter web)
 ], 'callingModes');
 
 exports["default"] = _default;

@@ -26,7 +26,7 @@ function mapOptionToMode(callWith) {
       return _callingModes.callingModes.jupiter;
 
     default:
-      return _callingModes.callingModes.softphone;
+      return null;
   }
 }
 //# sourceMappingURL=mapOptionToMode.js.map

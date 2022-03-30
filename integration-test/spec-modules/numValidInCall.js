@@ -13,6 +13,8 @@ exports["default"] = void 0;
 
 require("regenerator-runtime/runtime");
 
+var _sleep = require("../../lib/sleep");
+
 var _callErrors = _interopRequireDefault(require("../../modules/Call/callErrors"));
 
 var _HelpUtil = require("../utils/HelpUtil");
@@ -59,7 +61,7 @@ var _default = function _default(Auth, Alert, Client, RegionSettings, Call, acco
                       }
 
                       _context.next = 7;
-                      return (0, _WaitUtil.waitInSeconds)(1);
+                      return (0, _sleep.sleep)(1000);
 
                     case 7:
                     case "end":

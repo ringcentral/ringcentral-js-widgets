@@ -54,7 +54,7 @@ var _ActiveCallControl = _interopRequireDefault(require("../../../modules/Active
 
 var _AddressBook = _interopRequireDefault(require("../../../modules/AddressBook"));
 
-var _AlertV = require("../../../modules/AlertV2");
+var _Alert = require("../../../modules/Alert");
 
 var _AppFeatures = require("../../../modules/AppFeatures");
 
@@ -81,8 +81,6 @@ var _CallMonitor = _interopRequireDefault(require("../../../modules/CallMonitor"
 var _CompanyContacts = _interopRequireDefault(require("../../../modules/CompanyContacts"));
 
 var _ComposeText = _interopRequireDefault(require("../../../modules/ComposeText"));
-
-var _Conference = _interopRequireDefault(require("../../../modules/Conference"));
 
 var _ConferenceCall = _interopRequireDefault(require("../../../modules/ConferenceCall"));
 
@@ -162,7 +160,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } Object.defineProperty(subClass, "prototype", { value: Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }), writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
@@ -195,7 +193,7 @@ var BasePhone = (_dec2 = (0, _di.ModuleFactory)({
     }]
   }, {
     provide: 'Alert',
-    useClass: _AlertV.Alert
+    useClass: _Alert.Alert
   }, {
     provide: 'Brand',
     useClass: _Brand.Brand
@@ -297,7 +295,7 @@ var BasePhone = (_dec2 = (0, _di.ModuleFactory)({
     useClass: _Conversations["default"]
   }, {
     provide: 'Conference',
-    useClass: _Conference["default"]
+    useClass: Conference
   }, {
     provide: 'CallLog',
     useClass: _CallLog["default"]

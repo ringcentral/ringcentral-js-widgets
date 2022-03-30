@@ -87,7 +87,7 @@ function _get() { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Re
 
 function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } Object.defineProperty(subClass, "prototype", { value: Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }), writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
@@ -255,6 +255,13 @@ _dec = (0, _di.Module)({
       var _this$_extensionFeatu, _this$_extensionFeatu2;
 
       return !!((_this$_extensionFeatu = this._extensionFeatures.features) === null || _this$_extensionFeatu === void 0 ? void 0 : (_this$_extensionFeatu2 = _this$_extensionFeatu.ReadCompanyInfo) === null || _this$_extensionFeatu2 === void 0 ? void 0 : _this$_extensionFeatu2.available);
+    }
+  }, {
+    key: "maxExtensionNumberLength",
+    get: function get() {
+      var _this$info$limits$max, _this$info$limits;
+
+      return (_this$info$limits$max = (_this$info$limits = this.info.limits) === null || _this$info$limits === void 0 ? void 0 : _this$info$limits.maxExtensionNumberLength) !== null && _this$info$limits$max !== void 0 ? _this$info$limits$max : 6;
     }
   }]);
 

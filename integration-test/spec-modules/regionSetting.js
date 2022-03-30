@@ -29,6 +29,8 @@ require("core-js/modules/es6.map");
 
 require("regenerator-runtime/runtime");
 
+var _sleep = require("../../lib/sleep");
+
 var mock = _interopRequireWildcard(require("../mock"));
 
 var _dialingPlan = _interopRequireDefault(require("../mock/data/dialingPlan"));
@@ -38,8 +40,6 @@ var _extensionInfo = _interopRequireDefault(require("../mock/data/extensionInfo"
 var _ClientHistoryRequest = _interopRequireDefault(require("../utils/ClientHistoryRequest"));
 
 var _HelpUtil = require("../utils/HelpUtil");
-
-var _WaitUtil = require("../utils/WaitUtil");
 
 var _this = void 0;
 
@@ -98,7 +98,7 @@ var _default = function _default(auth, client, regionSettings, account) {
                       _this.retries(2);
 
                       _context2.next = 3;
-                      return (0, _WaitUtil.waitInSeconds)(2);
+                      return (0, _sleep.sleep)(2000);
 
                     case 3:
                       expect(regionSettings.availableCountries).to.have.length.above(0);

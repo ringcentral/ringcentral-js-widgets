@@ -31,6 +31,8 @@ require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.map");
 
+var _sleep = require("../../lib/sleep");
+
 var mock = _interopRequireWildcard(require("../mock"));
 
 var _authzProfile = _interopRequireDefault(require("../mock/data/authzProfile"));
@@ -38,8 +40,6 @@ var _authzProfile = _interopRequireDefault(require("../mock/data/authzProfile"))
 var _ClientHistoryRequest = _interopRequireDefault(require("../utils/ClientHistoryRequest"));
 
 var _HelpUtil = require("../utils/HelpUtil");
-
-var _WaitUtil = require("../utils/WaitUtil");
 
 var _this = void 0;
 
@@ -70,7 +70,7 @@ var _default = function _default(auth, client, presence, account) {
 
             case 2:
               _context.next = 4;
-              return (0, _WaitUtil.waitInSeconds)(1);
+              return (0, _sleep.sleep)(1000);
 
             case 4:
             case "end":
@@ -101,7 +101,7 @@ var _default = function _default(auth, client, presence, account) {
               _this.retries(2);
 
               _context2.next = 9;
-              return (0, _WaitUtil.waitInSeconds)(1);
+              return (0, _sleep.sleep)(1000);
 
             case 9:
               expect(presence.presenceStatus).equal('Available');
@@ -142,7 +142,7 @@ var _default = function _default(auth, client, presence, account) {
               _this.retries(2);
 
               _context3.next = 10;
-              return (0, _WaitUtil.waitInSeconds)(1);
+              return (0, _sleep.sleep)(1000);
 
             case 10:
               expect(presence.presenceStatus).equal(null);

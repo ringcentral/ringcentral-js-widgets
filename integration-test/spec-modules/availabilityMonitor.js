@@ -27,11 +27,11 @@ exports["default"] = void 0;
 
 require("regenerator-runtime/runtime");
 
+var _sleep = require("../../lib/sleep");
+
 var mock = _interopRequireWildcard(require("../mock"));
 
 var _HelpUtil = require("../utils/HelpUtil");
-
-var _WaitUtil = require("../utils/WaitUtil");
 
 var _this = void 0;
 
@@ -98,7 +98,7 @@ var _default = function _default(_ref) {
             case 4:
               localStorage.clear();
               _context2.next = 7;
-              return (0, _WaitUtil.waitInSeconds)(1);
+              return (0, _sleep.sleep)(1000);
 
             case 7:
             case "end":
@@ -173,7 +173,7 @@ var _default = function _default(_ref) {
             case 5:
               expect(availabilityMonitor.isLimitedAvailabilityMode).equal(true);
               _context5.next = 8;
-              return (0, _WaitUtil.waitInSeconds)(15);
+              return (0, _sleep.sleep)(1000 * 15);
 
             case 8:
               expect(availabilityMonitor.isLimitedAvailabilityMode).equal(true);
@@ -206,7 +206,7 @@ var _default = function _default(_ref) {
             case 5:
               expect(availabilityMonitor.isLimitedAvailabilityMode).equal(true);
               _context6.next = 8;
-              return (0, _WaitUtil.waitInSeconds)(15);
+              return (0, _sleep.sleep)(1000 * 15);
 
             case 8:
               expect(availabilityMonitor.isLimitedAvailabilityMode).equal(false);

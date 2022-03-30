@@ -35,6 +35,8 @@ require("core-js/modules/es6.map");
 
 var _callDirections = _interopRequireDefault(require("../../enums/callDirections"));
 
+var _sleep = require("../../lib/sleep");
+
 var _conferenceCallErrors = _interopRequireDefault(require("../../modules/ConferenceCall/conferenceCallErrors"));
 
 var _conferenceCallStatus = _interopRequireDefault(require("../../modules/ConferenceCall/conferenceCallStatus"));
@@ -44,8 +46,6 @@ var mock = _interopRequireWildcard(require("../mock"));
 var _ClientHistoryRequest = _interopRequireDefault(require("../utils/ClientHistoryRequest"));
 
 var _HelpUtil = require("../utils/HelpUtil");
-
-var _WaitUtil = require("../utils/WaitUtil");
 
 var _this = void 0;
 
@@ -85,7 +85,7 @@ var _default = function _default(auth, client, conferenceCall, alert, account) {
 
               case 2:
                 _context.next = 4;
-                return (0, _WaitUtil.waitInSeconds)(1);
+                return (0, _sleep.sleep)(1000);
 
               case 4:
               case "end":
@@ -164,7 +164,7 @@ var _default = function _default(auth, client, conferenceCall, alert, account) {
 
               case 2:
                 _context4.next = 4;
-                return (0, _WaitUtil.waitInSeconds)(1);
+                return (0, _sleep.sleep)(1000);
 
               case 4:
               case "end":

@@ -28,9 +28,6 @@ var trackRouters = [{
   eventPostfix: 'Settings',
   router: '/settings'
 }, {
-  eventPostfix: 'Conference',
-  router: '/conference'
-}, {
   eventPostfix: 'Meeting',
   router: '/meeting'
 }, {

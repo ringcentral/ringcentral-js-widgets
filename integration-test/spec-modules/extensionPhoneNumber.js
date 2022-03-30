@@ -31,6 +31,8 @@ require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.map");
 
+var _sleep = require("../../lib/sleep");
+
 var mock = _interopRequireWildcard(require("../mock"));
 
 var _authzProfile = _interopRequireDefault(require("../mock/data/authzProfile"));
@@ -38,8 +40,6 @@ var _authzProfile = _interopRequireDefault(require("../mock/data/authzProfile"))
 var _ClientHistoryRequest = _interopRequireDefault(require("../utils/ClientHistoryRequest"));
 
 var _HelpUtil = require("../utils/HelpUtil");
-
-var _WaitUtil = require("../utils/WaitUtil");
 
 var _this = void 0;
 
@@ -97,7 +97,7 @@ var _default = function _default(auth, client, extensionPhoneNumber, account) {
 
               case 2:
                 _context2.next = 4;
-                return (0, _WaitUtil.waitInSeconds)(1);
+                return (0, _sleep.sleep)(1000);
 
               case 4:
               case "end":
@@ -114,7 +114,7 @@ var _default = function _default(auth, client, extensionPhoneNumber, account) {
                 _this.retries(2);
 
                 _context3.next = 3;
-                return (0, _WaitUtil.waitInSeconds)(1);
+                return (0, _sleep.sleep)(1000);
 
               case 3:
                 expect(extensionPhoneNumber.numbers.length).equal(5);
@@ -134,7 +134,7 @@ var _default = function _default(auth, client, extensionPhoneNumber, account) {
                 _this.retries(2);
 
                 _context4.next = 3;
-                return (0, _WaitUtil.waitInSeconds)(1);
+                return (0, _sleep.sleep)(1000);
 
               case 3:
                 expect(extensionPhoneNumber.mainCompanyNumber.usageType).equal('MainCompanyNumber');
@@ -154,7 +154,7 @@ var _default = function _default(auth, client, extensionPhoneNumber, account) {
                 _this.retries(2);
 
                 _context5.next = 3;
-                return (0, _WaitUtil.waitInSeconds)(1);
+                return (0, _sleep.sleep)(1000);
 
               case 3:
                 expect(extensionPhoneNumber.companyNumbers.length).equal(1);
@@ -174,7 +174,7 @@ var _default = function _default(auth, client, extensionPhoneNumber, account) {
                 _this.retries(2);
 
                 _context6.next = 3;
-                return (0, _WaitUtil.waitInSeconds)(1);
+                return (0, _sleep.sleep)(1000);
 
               case 3:
                 expect(extensionPhoneNumber.directNumbers.length).equal(3);
@@ -194,7 +194,7 @@ var _default = function _default(auth, client, extensionPhoneNumber, account) {
                 _this.retries(2);
 
                 _context7.next = 3;
-                return (0, _WaitUtil.waitInSeconds)(1);
+                return (0, _sleep.sleep)(1000);
 
               case 3:
                 expect(extensionPhoneNumber.callerIdNumbers.length).equal(5);
@@ -214,7 +214,7 @@ var _default = function _default(auth, client, extensionPhoneNumber, account) {
                 _this.retries(2);
 
                 _context8.next = 3;
-                return (0, _WaitUtil.waitInSeconds)(1);
+                return (0, _sleep.sleep)(1000);
 
               case 3:
                 expect(extensionPhoneNumber.smsSenderNumbers.length).equal(5);
@@ -271,7 +271,7 @@ var _default = function _default(auth, client, extensionPhoneNumber, account) {
 
               case 2:
                 _context10.next = 4;
-                return (0, _WaitUtil.waitInSeconds)(1);
+                return (0, _sleep.sleep)(1000);
 
               case 4:
               case "end":
@@ -288,7 +288,7 @@ var _default = function _default(auth, client, extensionPhoneNumber, account) {
                 _this.retries(2);
 
                 _context11.next = 3;
-                return (0, _WaitUtil.waitInSeconds)(1);
+                return (0, _sleep.sleep)(1000);
 
               case 3:
                 expect(extensionPhoneNumber.numbers.length).equal(0);
@@ -308,7 +308,7 @@ var _default = function _default(auth, client, extensionPhoneNumber, account) {
                 _this.retries(2);
 
                 _context12.next = 3;
-                return (0, _WaitUtil.waitInSeconds)(1);
+                return (0, _sleep.sleep)(1000);
 
               case 3:
                 expect(extensionPhoneNumber.mainCompanyNumber).equal(undefined);
@@ -328,7 +328,7 @@ var _default = function _default(auth, client, extensionPhoneNumber, account) {
                 _this.retries(2);
 
                 _context13.next = 3;
-                return (0, _WaitUtil.waitInSeconds)(1);
+                return (0, _sleep.sleep)(1000);
 
               case 3:
                 expect(extensionPhoneNumber.companyNumbers.length).equal(0);
@@ -348,7 +348,7 @@ var _default = function _default(auth, client, extensionPhoneNumber, account) {
                 _this.retries(2);
 
                 _context14.next = 3;
-                return (0, _WaitUtil.waitInSeconds)(1);
+                return (0, _sleep.sleep)(1000);
 
               case 3:
                 expect(extensionPhoneNumber.directNumbers.length).equal(0);
@@ -368,7 +368,7 @@ var _default = function _default(auth, client, extensionPhoneNumber, account) {
                 _this.retries(2);
 
                 _context15.next = 3;
-                return (0, _WaitUtil.waitInSeconds)(1);
+                return (0, _sleep.sleep)(1000);
 
               case 3:
                 expect(extensionPhoneNumber.callerIdNumbers.length).equal(0);
@@ -388,7 +388,7 @@ var _default = function _default(auth, client, extensionPhoneNumber, account) {
                 _this.retries(2);
 
                 _context16.next = 3;
-                return (0, _WaitUtil.waitInSeconds)(1);
+                return (0, _sleep.sleep)(1000);
 
               case 3:
                 expect(extensionPhoneNumber.smsSenderNumbers.length).equal(0);

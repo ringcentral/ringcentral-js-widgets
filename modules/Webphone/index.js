@@ -95,7 +95,7 @@ var _selector = require("../../lib/selector");
 
 var _SipInstanceManager = require("../../lib/SipInstanceManager");
 
-var _sleep = _interopRequireDefault(require("../../lib/sleep"));
+var _sleep = require("../../lib/sleep");
 
 var _validateNumbers = require("../../lib/validateNumbers");
 
@@ -167,7 +167,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } Object.defineProperty(subClass, "prototype", { value: Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }), writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
@@ -1036,7 +1036,7 @@ var Webphone = (_dec = (0, _di.Module)({
 
               case 2:
                 _context8.next = 4;
-                return (0, _sleep["default"])(INACTIVE_SLEEP_DELAY);
+                return (0, _sleep.sleep)(INACTIVE_SLEEP_DELAY);
 
               case 4:
                 _context8.next = 6;
@@ -1166,7 +1166,7 @@ var Webphone = (_dec = (0, _di.Module)({
                 }
 
                 _context9.next = 16;
-                return (0, _sleep["default"])(this._connectDelay);
+                return (0, _sleep.sleep)(this._connectDelay);
 
               case 16:
                 if (skipDLCheck) {
@@ -1339,7 +1339,7 @@ var Webphone = (_dec = (0, _di.Module)({
 
 
                 _context10.next = 8;
-                return (0, _sleep["default"])(this._getConnectTimeoutTtl());
+                return (0, _sleep.sleep)(this._getConnectTimeoutTtl());
 
               case 8:
                 if (this.connectError) {
@@ -1560,7 +1560,7 @@ var Webphone = (_dec = (0, _di.Module)({
 
               case 5:
                 _context12.next = 7;
-                return (0, _sleep["default"])(500);
+                return (0, _sleep.sleep)(500);
 
               case 7:
                 if (this._tabManager.active) {
@@ -1782,7 +1782,7 @@ var Webphone = (_dec = (0, _di.Module)({
                 }
 
                 _context16.next = 8;
-                return (0, _sleep["default"])(2000);
+                return (0, _sleep.sleep)(2000);
 
               case 8:
                 _context16.next = 12;

@@ -61,6 +61,8 @@ var _core2 = require("@ringcentral-integration/core");
 
 var _di = require("../../lib/di");
 
+var _background = _interopRequireDefault(require("../../lib/background"));
+
 var _proxify = require("../../lib/proxy/proxify");
 
 var _webSocketReadyStates = require("./webSocketReadyStates");
@@ -91,7 +93,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } Object.defineProperty(subClass, "prototype", { value: Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }), writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
@@ -225,9 +227,9 @@ var RingCentralExtensions = (_dec = (0, _di.Module)({
       return _setupInfra;
     }()
   }, {
-    key: "onInitOnce",
+    key: "_bindEvents",
     value: function () {
-      var _onInitOnce = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+      var _bindEvents2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
         var _this3 = this,
             _this$_deps$sleepDete;
 
@@ -235,32 +237,25 @@ var RingCentralExtensions = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                _context4.next = 2;
-                return this._setupInfra();
-
-              case 2:
                 // expose WebSocket events
                 this._exposeConnectionEvents();
 
                 this._webSocketExtension.eventEmitter.addListener(_ws.Events.newWebSocketObject, /*#__PURE__*/function () {
                   var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(ws) {
+                    var _ws$_onCreated;
+
                     return regeneratorRuntime.wrap(function _callee2$(_context2) {
                       while (1) {
                         switch (_context2.prev = _context2.next) {
                           case 0:
-                            if (!ws._onCreated) {
-                              _context2.next = 3;
-                              break;
-                            }
+                            _context2.next = 2;
+                            return (_ws$_onCreated = ws._onCreated) === null || _ws$_onCreated === void 0 ? void 0 : _ws$_onCreated.call(ws);
 
-                            _context2.next = 3;
-                            return ws._onCreated();
-
-                          case 3:
+                          case 2:
                             // expose events
                             _this3._exposeConnectionEvents();
 
-                          case 4:
+                          case 3:
                           case "end":
                             return _context2.stop();
                         }
@@ -313,12 +308,41 @@ var RingCentralExtensions = (_dec = (0, _di.Module)({
                   _this3.revokeWebSocketConnection();
                 });
 
-              case 8:
+              case 6:
               case "end":
                 return _context4.stop();
             }
           }
         }, _callee4, this);
+      }));
+
+      function _bindEvents() {
+        return _bindEvents2.apply(this, arguments);
+      }
+
+      return _bindEvents;
+    }()
+  }, {
+    key: "onInitOnce",
+    value: function () {
+      var _onInitOnce = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
+          while (1) {
+            switch (_context5.prev = _context5.next) {
+              case 0:
+                _context5.next = 2;
+                return this._setupInfra();
+
+              case 2:
+                _context5.next = 4;
+                return this._bindEvents();
+
+              case 4:
+              case "end":
+                return _context5.stop();
+            }
+          }
+        }, _callee5, this);
       }));
 
       function onInitOnce() {
@@ -335,12 +359,12 @@ var RingCentralExtensions = (_dec = (0, _di.Module)({
   }, {
     key: "recoverWebSocketConnection",
     value: function () {
-      var _recoverWebSocketConnection = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
-        return regeneratorRuntime.wrap(function _callee5$(_context5) {
+      var _recoverWebSocketConnection = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
+        return regeneratorRuntime.wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
-                _context5.next = 2;
+                _context6.next = 2;
                 return this._webSocketExtension.recover();
 
               case 2:
@@ -348,10 +372,10 @@ var RingCentralExtensions = (_dec = (0, _di.Module)({
 
               case 3:
               case "end":
-                return _context5.stop();
+                return _context6.stop();
             }
           }
-        }, _callee5, this);
+        }, _callee6, this);
       }));
 
       function recoverWebSocketConnection() {
@@ -363,12 +387,12 @@ var RingCentralExtensions = (_dec = (0, _di.Module)({
   }, {
     key: "revokeWebSocketConnection",
     value: function () {
-      var _revokeWebSocketConnection = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
-        return regeneratorRuntime.wrap(function _callee6$(_context6) {
+      var _revokeWebSocketConnection = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
+        return regeneratorRuntime.wrap(function _callee7$(_context7) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context7.prev = _context7.next) {
               case 0:
-                _context6.next = 2;
+                _context7.next = 2;
                 return this._webSocketExtension.revoke();
 
               case 2:
@@ -376,10 +400,10 @@ var RingCentralExtensions = (_dec = (0, _di.Module)({
 
               case 3:
               case "end":
-                return _context6.stop();
+                return _context7.stop();
             }
           }
-        }, _callee6, this);
+        }, _callee7, this);
       }));
 
       function revokeWebSocketConnection() {
@@ -474,7 +498,7 @@ var RingCentralExtensions = (_dec = (0, _di.Module)({
   }]);
 
   return RingCentralExtensions;
-}(_core2.RcModuleV2), (_applyDecoratedDescriptor(_class2.prototype, "_cacheWsc", [_core2.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_cacheWsc"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "cachedWsc", [_core2.storage, _core2.state], {
+}(_core2.RcModuleV2), (_applyDecoratedDescriptor(_class2.prototype, "_setupInfra", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_setupInfra"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_bindEvents", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "_bindEvents"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_cacheWsc", [_core2.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_cacheWsc"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "cachedWsc", [_core2.storage, _core2.state], {
   configurable: true,
   enumerable: true,
   writable: true,

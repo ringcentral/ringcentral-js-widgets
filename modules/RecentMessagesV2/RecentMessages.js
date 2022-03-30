@@ -91,7 +91,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } Object.defineProperty(subClass, "prototype", { value: Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }), writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
@@ -258,12 +258,12 @@ var RecentMessages = (_dec = (0, _di.Module)({
     }
     /**
      * Searching for recent messages of specific contact.
-     * @param {Object} currentContact - Current contact
-     * @param {Array} messages - Messages in messageStore
-     * @param {Boolean} fromLocal - Only get recent messages locally
-     * @param {Number} daySpan - Find messages within certain days
-     * @param {Number} length - Maximum length of recent messages
-     * @return {Array}
+     * @param currentContact - Current contact
+     * @param messages - Messages in messageStore
+     * @param fromLocal - Only get recent messages locally
+     * @param daySpan - Find messages within certain days
+     * @param length - Maximum length of recent messages
+     * @return
      * @private
      */
 
@@ -363,37 +363,70 @@ var RecentMessages = (_dec = (0, _di.Module)({
 
   }, {
     key: "_fetchRemoteRecentMessages",
-    value: function _fetchRemoteRecentMessages(_ref6, dateFrom) {
-      var _this3 = this;
+    value: function () {
+      var _fetchRemoteRecentMessages2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(_ref6, dateFrom) {
+        var _this3 = this;
 
-      var phoneNumbers = _ref6.phoneNumbers;
-      var dateTo = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : new Date().toISOString();
-      var length = arguments.length > 3 ? arguments[3] : undefined;
-      var params = {
-        dateTo: dateTo,
-        dateFrom: dateFrom,
-        messageType: ['SMS', 'Text', 'Pager'],
-        perPage: length
-      };
-      var recentMessagesPromise = phoneNumbers.reduce(function (acc, _ref7) {
-        var phoneNumber = _ref7.phoneNumber;
+        var phoneNumbers,
+            dateTo,
+            length,
+            params,
+            recentMessagesPromise,
+            allMessages,
+            messageRecords,
+            remoteMessage,
+            _args3 = arguments;
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                phoneNumbers = _ref6.phoneNumbers;
+                dateTo = _args3.length > 2 && _args3[2] !== undefined ? _args3[2] : new Date().toISOString();
+                length = _args3.length > 3 ? _args3[3] : undefined;
+                params = {
+                  dateTo: dateTo,
+                  dateFrom: dateFrom,
+                  messageType: ['SMS', 'Text', 'Pager'],
+                  perPage: length
+                };
+                recentMessagesPromise = phoneNumbers.reduce(function (acc, _ref7) {
+                  var phoneNumber = _ref7.phoneNumber;
 
-        if (phoneNumber) {
-          var promise = _this3._fetchMessageList(_objectSpread(_objectSpread({}, params), {}, {
-            phoneNumber: phoneNumber
-          }));
+                  if (phoneNumber) {
+                    var promise = _this3._fetchMessageList(_objectSpread(_objectSpread({}, params), {}, {
+                      phoneNumber: phoneNumber
+                    }));
 
-          return acc.concat(promise);
-        }
+                    return acc.concat(promise);
+                  }
 
-        return acc;
-      }, []); // TODO: Because we need to navigate to the message page,
-      // So we may need to push new messages to messageStore
+                  return acc;
+                }, []); // TODO: Because we need to navigate to the message page,
+                // So we may need to push new messages to messageStore
 
-      return (0, _concurrentExecute["default"])(recentMessagesPromise, 5, 500).then(_recentMessagesHelper.flattenToMessageRecords).then(_recentMessagesHelper.markAsRemoteMessage).then(function (messages) {
-        return (0, _recentMessagesHelper.sortMessages)(messages);
-      });
-    }
+                _context3.next = 7;
+                return (0, _concurrentExecute["default"])(recentMessagesPromise, 5, 500);
+
+              case 7:
+                allMessages = _context3.sent;
+                messageRecords = (0, _recentMessagesHelper.flattenToMessageRecords)(allMessages);
+                remoteMessage = (0, _recentMessagesHelper.markAsRemoteMessage)(messageRecords);
+                return _context3.abrupt("return", (0, _recentMessagesHelper.sortMessages)(remoteMessage));
+
+              case 11:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3);
+      }));
+
+      function _fetchRemoteRecentMessages(_x3, _x4) {
+        return _fetchRemoteRecentMessages2.apply(this, arguments);
+      }
+
+      return _fetchRemoteRecentMessages;
+    }()
   }, {
     key: "_fetchMessageList",
     value: function _fetchMessageList(params) {

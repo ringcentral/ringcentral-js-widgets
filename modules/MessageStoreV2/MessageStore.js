@@ -85,7 +85,7 @@ var messageHelper = _interopRequireWildcard(require("../../lib/messageHelper"));
 
 var _proxify = require("../../lib/proxy/proxify");
 
-var _sleep = _interopRequireDefault(require("../../lib/sleep"));
+var _sleep = require("../../lib/sleep");
 
 var _Analytics = require("../Analytics");
 
@@ -98,8 +98,6 @@ var _messageStoreErrors = require("./messageStoreErrors");
 var _messageStoreHelper = require("./messageStoreHelper");
 
 var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _dec12, _dec13, _dec14, _dec15, _class, _class2;
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
@@ -123,7 +121,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } Object.defineProperty(subClass, "prototype", { value: Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }), writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
@@ -572,7 +570,7 @@ var MessageStore = (_dec = (0, _di.Module)({
 
               case 11:
                 _context3.next = 13;
-                return (0, _sleep["default"])(500);
+                return (0, _sleep.sleep)(500);
 
               case 13:
                 olderDateTo = new Date(records[records.length - 1].creationTime);
@@ -1149,7 +1147,7 @@ var MessageStore = (_dec = (0, _di.Module)({
                 }
 
                 _context11.next = 23;
-                return (0, _sleep["default"])(1300);
+                return (0, _sleep.sleep)(1300);
 
               case 23:
                 if (!(ownerId !== this._deps.auth.ownerId)) {

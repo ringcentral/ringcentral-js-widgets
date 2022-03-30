@@ -29,13 +29,13 @@ require("core-js/modules/es6.array.filter");
 
 require("regenerator-runtime/runtime");
 
+var _sleep = require("../../lib/sleep");
+
 var mock = _interopRequireWildcard(require("../mock"));
 
 var _authzProfile = _interopRequireDefault(require("../mock/data/authzProfile"));
 
 var _HelpUtil = require("../utils/HelpUtil");
-
-var _WaitUtil = require("../utils/WaitUtil");
 
 var _this = void 0;
 
@@ -93,7 +93,7 @@ var _default = function _default(auth, client, forwardingNumber, account) {
 
               case 2:
                 _context2.next = 4;
-                return (0, _WaitUtil.waitInSeconds)(1);
+                return (0, _sleep.sleep)(1000);
 
               case 4:
               case "end":
@@ -110,7 +110,7 @@ var _default = function _default(auth, client, forwardingNumber, account) {
                 _this.retries(2);
 
                 _context3.next = 3;
-                return (0, _WaitUtil.waitInSeconds)(1);
+                return (0, _sleep.sleep)(1000);
 
               case 3:
                 expect(forwardingNumber.numbers.length).equal(2);
@@ -130,7 +130,7 @@ var _default = function _default(auth, client, forwardingNumber, account) {
                 _this.retries(2);
 
                 _context4.next = 3;
-                return (0, _WaitUtil.waitInSeconds)(1);
+                return (0, _sleep.sleep)(1000);
 
               case 3:
                 expect(forwardingNumber.flipNumbers.length).equal(2);
@@ -150,7 +150,7 @@ var _default = function _default(auth, client, forwardingNumber, account) {
                 _this.retries(2);
 
                 _context5.next = 3;
-                return (0, _WaitUtil.waitInSeconds)(1);
+                return (0, _sleep.sleep)(1000);
 
               case 3:
                 expect(forwardingNumber.forwardingNumbers.length).equal(1);
@@ -207,7 +207,7 @@ var _default = function _default(auth, client, forwardingNumber, account) {
 
               case 2:
                 _context7.next = 4;
-                return (0, _WaitUtil.waitInSeconds)(1);
+                return (0, _sleep.sleep)(1000);
 
               case 4:
               case "end":
@@ -224,7 +224,7 @@ var _default = function _default(auth, client, forwardingNumber, account) {
                 _this.retries(2);
 
                 _context8.next = 3;
-                return (0, _WaitUtil.waitInSeconds)(1);
+                return (0, _sleep.sleep)(1000);
 
               case 3:
                 expect(forwardingNumber.numbers.length).equal(0);
@@ -244,7 +244,7 @@ var _default = function _default(auth, client, forwardingNumber, account) {
                 _this.retries(2);
 
                 _context9.next = 3;
-                return (0, _WaitUtil.waitInSeconds)(1);
+                return (0, _sleep.sleep)(1000);
 
               case 3:
                 expect(forwardingNumber.flipNumbers.length).equal(0);
@@ -264,7 +264,7 @@ var _default = function _default(auth, client, forwardingNumber, account) {
                 _this.retries(2);
 
                 _context10.next = 3;
-                return (0, _WaitUtil.waitInSeconds)(1);
+                return (0, _sleep.sleep)(1000);
 
               case 3:
                 expect(forwardingNumber.forwardingNumbers.length).equal(0);
@@ -302,7 +302,7 @@ var _default = function _default(auth, client, forwardingNumber, account) {
               }
 
               _context11.next = 9;
-              return (0, _WaitUtil.waitInSeconds)(1);
+              return (0, _sleep.sleep)(1000);
 
             case 9:
               expect(forwardingNumber.numbers.length).equal(0);
@@ -311,7 +311,7 @@ var _default = function _default(auth, client, forwardingNumber, account) {
 
             case 12:
               _context11.next = 14;
-              return (0, _WaitUtil.waitInSeconds)(1);
+              return (0, _sleep.sleep)(1000);
 
             case 14:
             case "end":

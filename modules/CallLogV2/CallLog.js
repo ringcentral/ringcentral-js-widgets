@@ -71,7 +71,7 @@ var _getDateFrom = _interopRequireDefault(require("../../lib/getDateFrom"));
 
 var _proxify = require("../../lib/proxy/proxify");
 
-var _sleep = _interopRequireDefault(require("../../lib/sleep"));
+var _sleep = require("../../lib/sleep");
 
 var _helper = require("./helper");
 
@@ -103,7 +103,7 @@ function _get() { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Re
 
 function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } Object.defineProperty(subClass, "prototype", { value: Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }), writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
@@ -339,7 +339,7 @@ var CallLog = (_dec = (0, _di.Module)({
 
                   ownerId = _this4._deps.auth.ownerId;
                   _context2.next = 4;
-                  return (0, _sleep["default"])(SYNC_DELAY);
+                  return (0, _sleep.sleep)(SYNC_DELAY);
 
                 case 4:
                   if (ownerId === _this4._deps.auth.ownerId && (!_this4._deps.storage || !_this4._deps.tabManager || _this4._deps.tabManager.active)) {
@@ -723,7 +723,7 @@ var CallLog = (_dec = (0, _di.Module)({
                                 switch (_context8.prev = _context8.next) {
                                   case 0:
                                     _context8.next = 2;
-                                    return (0, _sleep["default"])(300);
+                                    return (0, _sleep.sleep)(300);
 
                                   case 2:
                                     return _context8.abrupt("return", _this6._sync(syncType));

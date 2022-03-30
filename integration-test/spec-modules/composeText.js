@@ -33,6 +33,8 @@ require("core-js/modules/es6.map");
 
 require("regenerator-runtime/runtime");
 
+var _sleep = require("../../lib/sleep");
+
 var _loginStatus = _interopRequireDefault(require("../../modules/Auth/loginStatus"));
 
 var _messageSenderMessages = _interopRequireDefault(require("../../modules/MessageSender/messageSenderMessages"));
@@ -86,15 +88,15 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
                       }
 
                       _context.next = 6;
-                      return (0, _WaitUtil.waitUntilNotNull)(function () {
-                        return messageSender.senderNumbersList[0].phoneNumber;
-                      }, 'First number in senderNumberList', 3);
+                      return (0, _WaitUtil.waitUntilEqual)(function () {
+                        return messageSender.senderNumbersList[0].phoneNumber != null;
+                      }, 'First number in senderNumberList', true, 3);
 
                     case 6:
                       _context.next = 8;
-                      return (0, _WaitUtil.waitUntilObjectSizeGreaterThan)(function () {
-                        return composeText.senderNumber;
-                      }, 'Sender Number', 0, 3);
+                      return (0, _WaitUtil.waitUntilEqual)(function () {
+                        return composeText.senderNumber.length > 0;
+                      }, 'Sender Number', true, 3);
 
                     case 8:
                     case "end":
@@ -138,7 +140,7 @@ var _default = function _default(auth, client, account, alert, regionSettings, c
 
                       case 7:
                         _context2.next = 9;
-                        return (0, _WaitUtil.waitInSeconds)(2);
+                        return (0, _sleep.sleep)(2000);
 
                       case 9:
                         expect(composeText.senderNumber).to.equals(messageSender.senderNumbersList[1].phoneNumber);

@@ -29,13 +29,13 @@ require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.map");
 
+var _sleep = require("../../lib/sleep");
+
 var mock = _interopRequireWildcard(require("../mock"));
 
 var _ClientHistoryRequest = _interopRequireDefault(require("../utils/ClientHistoryRequest"));
 
 var _HelpUtil = require("../utils/HelpUtil");
-
-var _WaitUtil = require("../utils/WaitUtil");
 
 var _this = void 0;
 
@@ -63,7 +63,7 @@ var _default = function _default(auth, client, dialingPlan, account) {
             case 0:
               auth.logout();
               _context.next = 3;
-              return (0, _WaitUtil.waitInSeconds)(1);
+              return (0, _sleep.sleep)(1000);
 
             case 3:
             case "end":
@@ -94,7 +94,7 @@ var _default = function _default(auth, client, dialingPlan, account) {
               _this.retries(2);
 
               _context2.next = 9;
-              return (0, _WaitUtil.waitInSeconds)(1);
+              return (0, _sleep.sleep)(1000);
 
             case 9:
               expect(dialingPlan.plans.length).equal(3);

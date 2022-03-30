@@ -41,6 +41,10 @@ require("core-js/modules/es6.string.link");
 
 require("regenerator-runtime/runtime");
 
+require("core-js/modules/es7.array.includes");
+
+require("core-js/modules/es6.string.includes");
+
 var _bowser = _interopRequireDefault(require("bowser"));
 
 var _core = require("@ringcentral-integration/core");
@@ -49,7 +53,7 @@ var _di = require("../../lib/di");
 
 var _proxify = require("../../lib/proxy/proxify");
 
-var _sleep = _interopRequireDefault(require("../../lib/sleep"));
+var _sleep = require("../../lib/sleep");
 
 var _callingModes = _interopRequireDefault(require("../CallingSettings/callingModes"));
 
@@ -71,7 +75,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } Object.defineProperty(subClass, "prototype", { value: Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }), writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
@@ -156,12 +160,12 @@ var Softphone = (_dec = (0, _di.Module)({
       var protocol = this.spartanProtocol;
       var isJupiterUniversalLink = false; // jupiter
 
-      var isCallWithJupiter = callingMode === _callingModes["default"].jupiter;
+      var isCallWithJupiter = [_callingModes["default"].jupiter, _callingModes["default"].jupiterUniversalLink].includes(callingMode);
 
       if (isCallWithJupiter) {
         // jupiter doesn't recognize encoded string for now
         command = "r/call?number=".concat(phoneNumber);
-        isJupiterUniversalLink = this.useJupiterUniversalLink;
+        isJupiterUniversalLink = this._useJupiterUniversalLink(callingMode);
         protocol = isJupiterUniversalLink ? this.jupiterUniversalLink : this.jupiterProtocol;
       }
 
@@ -171,6 +175,20 @@ var Softphone = (_dec = (0, _di.Module)({
         isJupiterUniversalLink: isJupiterUniversalLink,
         uri: "".concat(protocol).concat(command)
       };
+    }
+  }, {
+    key: "_useJupiterUniversalLink",
+    value: function _useJupiterUniversalLink(callingMode) {
+      var _this$_deps$softphone4, _this$_deps$softphone5;
+
+      // rc brand: call with jupiter, use scheme
+      // rc brand: call with jupiter web, use universal link
+      // partner brand: use universal link
+      if (callingMode === _callingModes["default"].jupiterUniversalLink) {
+        return true;
+      }
+
+      return (_this$_deps$softphone4 = (_this$_deps$softphone5 = this._deps.softphoneOptions) === null || _this$_deps$softphone5 === void 0 ? void 0 : _this$_deps$softphone5.useJupiterUniversalLink) !== null && _this$_deps$softphone4 !== void 0 ? _this$_deps$softphone4 : this._deps.brand.brandConfig.allowJupiterUniversalLink;
     }
   }, {
     key: "makeCall",
@@ -237,12 +255,12 @@ var Softphone = (_dec = (0, _di.Module)({
                 frame.style.display = 'none';
                 document.body.appendChild(frame);
                 _context.next = 20;
-                return (0, _sleep["default"])(100);
+                return (0, _sleep.sleep)(100);
 
               case 20:
                 frame.contentWindow.location.href = uri;
                 _context.next = 23;
-                return (0, _sleep["default"])(300);
+                return (0, _sleep.sleep)(300);
 
               case 23:
                 document.body.removeChild(frame);
@@ -302,14 +320,6 @@ var Softphone = (_dec = (0, _di.Module)({
       var _this$_deps$brand$bra3;
 
       return (_this$_deps$brand$bra3 = this._deps.brand.brandConfig.callWithJupiter) === null || _this$_deps$brand$bra3 === void 0 ? void 0 : _this$_deps$brand$bra3.protocol;
-    }
-  }, {
-    key: "useJupiterUniversalLink",
-    get: function get() {
-      var _this$_deps$softphone4, _this$_deps$softphone5;
-
-      // rc brand use scheme, partner brand use universal link
-      return (_this$_deps$softphone4 = (_this$_deps$softphone5 = this._deps.softphoneOptions) === null || _this$_deps$softphone5 === void 0 ? void 0 : _this$_deps$softphone5.useJupiterUniversalLink) !== null && _this$_deps$softphone4 !== void 0 ? _this$_deps$softphone4 : this._deps.brand.brandConfig.allowJupiterUniversalLink;
     }
   }]);
 

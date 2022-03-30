@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.array.index-of");
-
 require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.string.iterator");
@@ -41,6 +39,86 @@ require("core-js/modules/es6.object.keys");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+var _exportNames = {
+  mockWsServer: true,
+  mockServer: true,
+  createSDK: true,
+  lastOptions: true,
+  mockApi: true,
+  wstoken: true,
+  authentication: true,
+  logout: true,
+  tokenRefresh: true,
+  presence: true,
+  presenceUpdate: true,
+  dialingPlan: true,
+  extensionInfo: true,
+  conferenceCallBringIn: true,
+  removeFromConference: true,
+  extensionList: true,
+  companyContactList: true,
+  accountInfo: true,
+  apiInfo: true,
+  messageSync: true,
+  messageList: true,
+  updateMessageStatus: true,
+  authzProfile: true,
+  blockedNumber: true,
+  forwardingNumber: true,
+  phoneNumber: true,
+  accountPhoneNumber: true,
+  subscription: true,
+  numberParser: true,
+  sms: true,
+  addressBook: true,
+  callLog: true,
+  userSettings: true,
+  lockedSettings: true,
+  assistedUsers: true,
+  delegators: true,
+  device: true,
+  conferencing: true,
+  numberParse: true,
+  conferenceCall: true,
+  updateConferenceCall: true,
+  terminateConferenceCall: true,
+  activeCalls: true,
+  sipProvision: true,
+  fetchDL: true,
+  fetchDLWithNoRecord: true,
+  restore: true,
+  reset: true,
+  mockForbidden: true,
+  mockLimited: true,
+  mockClient: true,
+  ringOut: true,
+  ringOutUpdate: true,
+  meeting: true,
+  meetingInvitation: true,
+  rcvInvitation: true,
+  meetingInfo: true,
+  videoPreference: true,
+  videoPersonalSettings: true,
+  getRcvMeetingInfo: true,
+  patchRcvMeeting: true,
+  postRcvBridges: true,
+  serviceInfo: true,
+  meetingProvider: true,
+  meetingProviderRcm: true,
+  meetingProviderRcv: true,
+  recentActivity: true,
+  videoConfiguration: true,
+  callerId: true,
+  features: true,
+  timezone: true,
+  dialInNumbers: true,
+  discoveryInitial: true,
+  discoveryExternal: true,
+  generateCode: true,
+  MockStopRecordError: true,
+  mockForLogin: true
+};
+exports.MockStopRecordError = MockStopRecordError;
 exports.accountInfo = accountInfo;
 exports.accountPhoneNumber = accountPhoneNumber;
 exports.activeCalls = activeCalls;
@@ -253,11 +331,21 @@ var _subscriptionResponse = _interopRequireDefault(require("./data/ws/subscripti
 
 var _wstoken = _interopRequireDefault(require("./data/ws/wstoken.json"));
 
+var _types = require("./types");
+
+Object.keys(_types).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  if (key in exports && exports[key] === _types[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _types[key];
+    }
+  });
+});
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-
-function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -391,7 +479,8 @@ function startWebSocketMockServer() {
         }
       }
     });
-  }); // hook WebSocket
+  }); // TODO: should find way to change that implementation
+  // hook WebSocket
 
   _isomorphicWs["default"].prototype._onCreated = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
     return regeneratorRuntime.wrap(function _callee$(_context) {
@@ -1221,100 +1310,148 @@ function generateCode() {
   });
 }
 
-function mockForLogin() {
-  var _ref6 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
+// TODO: generate this mock function
+function MockStopRecordError(_ref6) {
+  var sessionId = _ref6.sessionId,
+      recordingId = _ref6.recordingId,
+      partyId = _ref6.partyId,
+      _ref6$status = _ref6.status,
+      status = _ref6$status === void 0 ? 403 : _ref6$status;
+  mockApi({
+    path: "/restapi/v1.0/account/~/telephony/sessions/".concat(sessionId, "/parties/").concat(partyId, "/recordings/").concat(recordingId),
+    method: 'PATCH',
+    body: {
+      errorCode: 'TAS-115',
+      message: 'ACR mute is not supported for this call'
+    },
+    isOnce: false,
+    status: status
+  });
+}
 
-  var _ref6$mockTimezone = _ref6.mockTimezone,
-      mockTimezone = _ref6$mockTimezone === void 0 ? false : _ref6$mockTimezone,
-      _ref6$mockAuthzProfil = _ref6.mockAuthzProfile,
-      mockAuthzProfile = _ref6$mockAuthzProfil === void 0 ? true : _ref6$mockAuthzProfil,
-      _ref6$mockMeetingInvi = _ref6.mockMeetingInvitation,
-      mockMeetingInvitation = _ref6$mockMeetingInvi === void 0 ? true : _ref6$mockMeetingInvi,
-      _ref6$mockExtensionIn = _ref6.mockExtensionInfo,
-      mockExtensionInfo = _ref6$mockExtensionIn === void 0 ? true : _ref6$mockExtensionIn,
-      _ref6$mockForwardingN = _ref6.mockForwardingNumber,
-      mockForwardingNumber = _ref6$mockForwardingN === void 0 ? true : _ref6$mockForwardingN,
-      _ref6$mockMessageSync = _ref6.mockMessageSync,
-      mockMessageSync = _ref6$mockMessageSync === void 0 ? true : _ref6$mockMessageSync,
-      _ref6$mockConferencin = _ref6.mockConferencing,
-      mockConferencing = _ref6$mockConferencin === void 0 ? true : _ref6$mockConferencin,
-      _ref6$mockActiveCalls = _ref6.mockActiveCalls,
-      mockActiveCalls = _ref6$mockActiveCalls === void 0 ? true : _ref6$mockActiveCalls,
-      _ref6$mockUpdateConfe = _ref6.mockUpdateConference,
-      mockUpdateConference = _ref6$mockUpdateConfe === void 0 ? true : _ref6$mockUpdateConfe,
-      _ref6$mockNumberParse = _ref6.mockNumberParser,
-      mockNumberParser = _ref6$mockNumberParse === void 0 ? true : _ref6$mockNumberParse,
-      _ref6$mockRecentActiv = _ref6.mockRecentActivity,
-      mockRecentActivity = _ref6$mockRecentActiv === void 0 ? true : _ref6$mockRecentActiv,
-      _ref6$mockMessageSync2 = _ref6.mockMessageSyncOnce,
-      mockMessageSyncOnce = _ref6$mockMessageSync2 === void 0 ? false : _ref6$mockMessageSync2,
-      _ref6$mockVideoConfig = _ref6.mockVideoConfiguration,
-      mockVideoConfiguration = _ref6$mockVideoConfig === void 0 ? true : _ref6$mockVideoConfig,
-      _ref6$mockUserSetting = _ref6.mockUserSetting,
-      mockUserSetting = _ref6$mockUserSetting === void 0 ? true : _ref6$mockUserSetting,
-      _ref6$mockGenerateCod = _ref6.mockGenerateCode,
-      mockGenerateCode = _ref6$mockGenerateCod === void 0 ? false : _ref6$mockGenerateCod,
-      params = _objectWithoutProperties(_ref6, ["mockTimezone", "mockAuthzProfile", "mockMeetingInvitation", "mockExtensionInfo", "mockForwardingNumber", "mockMessageSync", "mockConferencing", "mockActiveCalls", "mockUpdateConference", "mockNumberParser", "mockRecentActivity", "mockMessageSyncOnce", "mockVideoConfiguration", "mockUserSetting", "mockGenerateCode"]);
+function mockForLogin() {
+  var _ref7 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+      _ref7$mockWsServer = _ref7.mockWsServer,
+      mockWsServer = _ref7$mockWsServer === void 0 ? true : _ref7$mockWsServer,
+      _ref7$mockTimezone = _ref7.mockTimezone,
+      mockTimezone = _ref7$mockTimezone === void 0 ? false : _ref7$mockTimezone,
+      _ref7$mockAuthzProfil = _ref7.mockAuthzProfile,
+      mockAuthzProfile = _ref7$mockAuthzProfil === void 0 ? true : _ref7$mockAuthzProfil,
+      _ref7$mockExtensionIn = _ref7.mockExtensionInfo,
+      mockExtensionInfo = _ref7$mockExtensionIn === void 0 ? true : _ref7$mockExtensionIn,
+      _ref7$mockForwardingN = _ref7.mockForwardingNumber,
+      mockForwardingNumber = _ref7$mockForwardingN === void 0 ? true : _ref7$mockForwardingN,
+      _ref7$mockMessageSync = _ref7.mockMessageSync,
+      mockMessageSync = _ref7$mockMessageSync === void 0 ? true : _ref7$mockMessageSync,
+      _ref7$mockConferencin = _ref7.mockConferencing,
+      mockConferencing = _ref7$mockConferencin === void 0 ? true : _ref7$mockConferencin,
+      _ref7$mockActiveCalls = _ref7.mockActiveCalls,
+      mockActiveCalls = _ref7$mockActiveCalls === void 0 ? true : _ref7$mockActiveCalls,
+      _ref7$mockUpdateConfe = _ref7.mockUpdateConference,
+      mockUpdateConference = _ref7$mockUpdateConfe === void 0 ? true : _ref7$mockUpdateConfe,
+      _ref7$mockNumberParse = _ref7.mockNumberParser,
+      mockNumberParser = _ref7$mockNumberParse === void 0 ? true : _ref7$mockNumberParse,
+      _ref7$mockRecentActiv = _ref7.mockRecentActivity,
+      mockRecentActivity = _ref7$mockRecentActiv === void 0 ? true : _ref7$mockRecentActiv,
+      _ref7$mockMessageSync2 = _ref7.mockMessageSyncOnce,
+      mockMessageSyncOnce = _ref7$mockMessageSync2 === void 0 ? false : _ref7$mockMessageSync2,
+      _ref7$mockVideoConfig = _ref7.mockVideoConfiguration,
+      mockVideoConfiguration = _ref7$mockVideoConfig === void 0 ? true : _ref7$mockVideoConfig,
+      _ref7$mockUserSetting = _ref7.mockUserSetting,
+      mockUserSetting = _ref7$mockUserSetting === void 0 ? true : _ref7$mockUserSetting,
+      _ref7$mockGenerateCod = _ref7.mockGenerateCode,
+      mockGenerateCode = _ref7$mockGenerateCod === void 0 ? false : _ref7$mockGenerateCod,
+      _ref7$phoneNumberData = _ref7.phoneNumberData,
+      phoneNumberData = _ref7$phoneNumberData === void 0 ? {} : _ref7$phoneNumberData,
+      dialingPlanData = _ref7.dialingPlanData,
+      extensionInfoData = _ref7.extensionInfoData,
+      accountInfoData = _ref7.accountInfoData,
+      apiInfoData = _ref7.apiInfoData,
+      authzProfileData = _ref7.authzProfileData,
+      deviceData = _ref7.deviceData,
+      extensionListData = _ref7.extensionListData,
+      extensionListQuery = _ref7.extensionListQuery,
+      isExtensionListEmptyRes = _ref7.isExtensionListEmptyRes,
+      extensionsListData = _ref7.extensionsListData,
+      blockedNumberData = _ref7.blockedNumberData,
+      forwardingNumberData = _ref7.forwardingNumberData,
+      messageListData = _ref7.messageListData,
+      messageSyncData = _ref7.messageSyncData,
+      callerIdData = _ref7.callerIdData,
+      subscriptionData = _ref7.subscriptionData,
+      callLogData = _ref7.callLogData,
+      addressBookData = _ref7.addressBookData,
+      sipProvisionData = _ref7.sipProvisionData,
+      fetchDLData = _ref7.fetchDLData,
+      conferencingData = _ref7.conferencingData,
+      activeCallsData = _ref7.activeCallsData,
+      numberParseData = _ref7.numberParseData,
+      numberParseIsOnce = _ref7.numberParseIsOnce,
+      userSettingsData = _ref7.userSettingsData,
+      lockedSettingsData = _ref7.lockedSettingsData,
+      featuresData = _ref7.featuresData,
+      mockAssistedUsers = _ref7.mockAssistedUsers,
+      mockDelegators = _ref7.mockDelegators;
 
   discoveryInitial();
   discoveryExternal();
-  wstoken();
+  if (mockWsServer) wstoken();
   authentication();
   logout();
   tokenRefresh();
   presence('~');
-  dialingPlan(params.dialingPlanData);
+  dialingPlan(dialingPlanData);
 
   if (mockExtensionInfo) {
-    extensionInfo(params.extensionInfoData);
+    extensionInfo(extensionInfoData);
   }
 
   if (mockTimezone) {
     timezone();
   }
 
-  accountInfo(params.accountInfoData);
-  apiInfo(params.apiInfoData);
+  accountInfo(accountInfoData);
+  apiInfo(apiInfoData);
 
   if (mockAuthzProfile) {
-    authzProfile(params.authzProfileData);
+    authzProfile(authzProfileData);
   }
 
-  device(params.deviceData);
-  extensionList(params.extensionListData, params.extensionListQuery, params.isExtensionListEmptyRes);
-  companyContactList(params.extensionsListData); // accountPhoneNumber(params.accountPhoneNumberData);
+  device(deviceData);
+  extensionList(extensionListData, extensionListQuery, isExtensionListEmptyRes);
+  companyContactList(extensionsListData); // accountPhoneNumber(accountPhoneNumberData);
 
-  blockedNumber(params.blockedNumberData);
+  blockedNumber(blockedNumberData);
 
   if (mockForwardingNumber) {
-    forwardingNumber(params.forwardingNumberData);
+    forwardingNumber(forwardingNumberData);
   }
 
-  messageList(params.messageListData);
+  messageList(messageListData);
 
   if (mockMessageSync) {
-    messageSync(params.messageSyncData, mockMessageSyncOnce);
+    messageSync(messageSyncData, mockMessageSyncOnce);
   }
 
-  phoneNumber(params.phoneNumberData);
-  callerId(params.callerIdData);
-  subscription(params.subscriptionData);
-  callLog(params.callLogData);
-  addressBook(params.addressBookData);
-  sipProvision(params.sipProvisionData);
-  fetchDL(params.fetchDLData);
-  dialInNumbers(params.fetchDLData);
+  phoneNumber(phoneNumberData);
+  callerId(callerIdData);
+  subscription(subscriptionData);
+  callLog(callLogData);
+  addressBook(addressBookData);
+  sipProvision(sipProvisionData);
+  fetchDL(fetchDLData);
+  dialInNumbers(fetchDLData);
 
   if (mockConferencing) {
-    conferencing(params.conferencingData);
+    conferencing(conferencingData);
   }
 
   if (mockActiveCalls) {
-    activeCalls(params.activeCallsData);
+    activeCalls(activeCallsData);
   }
 
   if (mockNumberParser) {
-    numberParser(params.numberParseData, params.numberParseIsOnce);
+    numberParser(numberParseData, numberParseIsOnce);
   }
 
   if (mockUpdateConference) {
@@ -1333,13 +1470,13 @@ function mockForLogin() {
   videoPreference();
 
   if (mockUserSetting) {
-    userSettings(params.userSettingsData);
+    userSettings(userSettingsData);
   }
 
-  lockedSettings(params.lockedSettingsData);
-  features(params.featuresData);
-  assistedUsers(params.mockAssistedUsers);
-  delegators(params.mockDelegators);
+  lockedSettings(lockedSettingsData);
+  features(featuresData);
+  assistedUsers(mockAssistedUsers);
+  delegators(mockDelegators);
   videoPersonalSettings();
 
   if (mockGenerateCode) {

@@ -75,7 +75,7 @@ var _di = require("../../lib/di");
 
 var _proxify = require("../../lib/proxy/proxify");
 
-var _sleep = _interopRequireDefault(require("../../lib/sleep"));
+var _sleep = require("../../lib/sleep");
 
 var _validateNumbers = require("../../lib/validateNumbers");
 
@@ -129,7 +129,7 @@ function _get() { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Re
 
 function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } Object.defineProperty(subClass, "prototype", { value: Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }), writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
@@ -544,7 +544,7 @@ var Webphone = (_dec = (0, _di.Module)({
                 }
 
                 _context.next = 8;
-                return (0, _sleep["default"])(2000);
+                return (0, _sleep.sleep)(2000);
 
               case 8:
                 _context.next = 12;

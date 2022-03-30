@@ -8,9 +8,17 @@ require("core-js/modules/es6.symbol");
 
 require("core-js/modules/es6.object.define-property");
 
+require("core-js/modules/web.dom.iterable");
+
+require("core-js/modules/es6.array.iterator");
+
+require("core-js/modules/es6.string.iterator");
+
 require("core-js/modules/es6.weak-map");
 
 require("core-js/modules/es6.promise");
+
+require("core-js/modules/es6.object.to-string");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -21,25 +29,13 @@ require("core-js/modules/es6.array.filter");
 
 require("regenerator-runtime/runtime");
 
-require("core-js/modules/web.dom.iterable");
-
-require("core-js/modules/es6.array.iterator");
-
-require("core-js/modules/es6.object.to-string");
-
-require("core-js/modules/es6.string.iterator");
-
-require("core-js/modules/es6.map");
+var _sleep = require("../../lib/sleep");
 
 var mock = _interopRequireWildcard(require("../mock"));
 
 var _authzProfile = _interopRequireDefault(require("../mock/data/authzProfile"));
 
-var _ClientHistoryRequest = _interopRequireDefault(require("../utils/ClientHistoryRequest"));
-
 var _HelpUtil = require("../utils/HelpUtil");
-
-var _WaitUtil = require("../utils/WaitUtil");
 
 var _this = void 0;
 
@@ -58,8 +54,8 @@ var _default = function _default(auth, client, blockedNumber, account) {
     _this.timeout(20000);
 
     mock.mockClient(client);
-    var isLoginSuccess;
-    var clientHistoryRequest = new _ClientHistoryRequest["default"](new Map(), client);
+    var isLoginSuccess; // const clientHistoryRequest = new ClientHistoryRequest(new Map(), client);
+
     afterEach( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
       return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
@@ -70,7 +66,7 @@ var _default = function _default(auth, client, blockedNumber, account) {
 
             case 2:
               _context.next = 4;
-              return (0, _WaitUtil.waitInSeconds)(1);
+              return (0, _sleep.sleep)(1000);
 
             case 4:
             case "end":
@@ -101,7 +97,7 @@ var _default = function _default(auth, client, blockedNumber, account) {
               _this.retries(2);
 
               _context2.next = 9;
-              return (0, _WaitUtil.waitInSeconds)(1);
+              return (0, _sleep.sleep)(1000);
 
             case 9:
               expect(blockedNumber.numbers.length).equal(1);
@@ -142,7 +138,7 @@ var _default = function _default(auth, client, blockedNumber, account) {
               _this.retries(2);
 
               _context3.next = 10;
-              return (0, _WaitUtil.waitInSeconds)(1);
+              return (0, _sleep.sleep)(1000);
 
             case 10:
               expect(blockedNumber.numbers.length).equal(0);

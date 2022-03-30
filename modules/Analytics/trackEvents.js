@@ -92,7 +92,9 @@ var trackEvents = _ObjectMap.ObjectMap.fromObject({
   clickRecentActivityCall: 'Recent Activity: Call',
   clickRecentActivitySms: 'Recent Activity: SMS',
   clickRecentActivityFaxes: 'Recent Activity: Faxes',
-  clickRecentActivityVoicemails: 'Recent Activity: Voicemails'
+  clickRecentActivityVoicemails: 'Recent Activity: Voicemails',
+  clickSaveLogSection: 'Click Save Call Log',
+  clickCloseLogNotification: 'Click Stay or Close Notification'
 });
 
 exports.trackEvents = trackEvents;

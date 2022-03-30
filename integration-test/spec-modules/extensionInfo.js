@@ -41,13 +41,13 @@ require("core-js/modules/es6.map");
 
 var _permissionsMessages = require("../../enums/permissionsMessages");
 
+var _sleep = require("../../lib/sleep");
+
 var mock = _interopRequireWildcard(require("../mock"));
 
 var _ClientHistoryRequest = _interopRequireDefault(require("../utils/ClientHistoryRequest"));
 
 var _HelpUtil = require("../utils/HelpUtil");
-
-var _WaitUtil = require("../utils/WaitUtil");
 
 var _this = void 0;
 
@@ -89,7 +89,7 @@ var _default = function _default(auth, client, extensionInfo, account, alert) {
 
             case 3:
               _context.next = 5;
-              return (0, _WaitUtil.waitInSeconds)(1);
+              return (0, _sleep.sleep)(1000);
 
             case 5:
             case "end":
@@ -120,7 +120,7 @@ var _default = function _default(auth, client, extensionInfo, account, alert) {
               _this.retries(2);
 
               _context2.next = 9;
-              return (0, _WaitUtil.waitInSeconds)(1);
+              return (0, _sleep.sleep)(1000);
 
             case 9:
               expect(extensionInfo.info.extensionNumber).equal('101');
@@ -149,7 +149,7 @@ var _default = function _default(auth, client, extensionInfo, account, alert) {
 
             case 5:
               _context3.next = 7;
-              return (0, _WaitUtil.waitInSeconds)(3);
+              return (0, _sleep.sleep)(3000);
 
             case 7:
               expect(auth.loggedIn).equal(false);

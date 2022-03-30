@@ -29,6 +29,8 @@ require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.map");
 
+var _sleep = require("../../lib/sleep");
+
 var _subscriptionStatus = require("../../modules/Subscription/subscriptionStatus");
 
 var mock = _interopRequireWildcard(require("../mock"));
@@ -36,8 +38,6 @@ var mock = _interopRequireWildcard(require("../mock"));
 var _ClientHistoryRequest = _interopRequireDefault(require("../utils/ClientHistoryRequest"));
 
 var _HelpUtil = require("../utils/HelpUtil");
-
-var _WaitUtil = require("../utils/WaitUtil");
 
 var _this = void 0;
 
@@ -87,7 +87,7 @@ var _default = function _default(auth, client, subscription, account) {
 
             case 3:
               _context2.next = 5;
-              return (0, _WaitUtil.waitInSeconds)(1);
+              return (0, _sleep.sleep)(1000);
 
             case 5:
             case "end":
@@ -118,7 +118,7 @@ var _default = function _default(auth, client, subscription, account) {
               _this.retries(2);
 
               _context3.next = 9;
-              return (0, _WaitUtil.waitInSeconds)(3);
+              return (0, _sleep.sleep)(3000);
 
             case 9:
               expect(subscription.subscriptionStatus).equal(_subscriptionStatus.subscriptionStatus.subscribed);
@@ -157,7 +157,7 @@ var _default = function _default(auth, client, subscription, account) {
               }
 
               _context4.next = 9;
-              return (0, _WaitUtil.waitInSeconds)(3);
+              return (0, _sleep.sleep)(3000);
 
             case 9:
               expect(subscription.subscriptionStatus).equal(_subscriptionStatus.subscriptionStatus.notSubscribed);

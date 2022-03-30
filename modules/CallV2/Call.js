@@ -43,6 +43,8 @@ require("core-js/modules/es6.regexp.split");
 
 require("core-js/modules/es6.array.for-each");
 
+require("core-js/modules/es6.array.is-array");
+
 require("core-js/modules/es6.array.find-index");
 
 require("core-js/modules/es6.array.map");
@@ -97,7 +99,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } Object.defineProperty(subClass, "prototype", { value: Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }), writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
@@ -118,11 +120,11 @@ function _initializerWarningHelper(descriptor, context) { throw new Error('Decor
 var TO_NUMBER = 'toNumber';
 var FROM_NUMBER = 'fromNumber';
 var ANONYMOUS = 'anonymous';
+
 /**
  * @class
  * @description Call managing module
  */
-
 var Call = (_dec = (0, _di.Module)({
   name: 'Call',
   deps: ['Alert', 'Storage', 'Brand', 'Softphone', 'Ringout', 'NumberValidate', 'RegionSettings', 'CallingSettings', 'ExtensionFeatures', {
@@ -577,8 +579,12 @@ var Call = (_dec = (0, _di.Module)({
         var fromNumberIndex = waitingValidateNumbers.findIndex(function (x) {
           return x.type === FROM_NUMBER;
         });
-        parsedToNumber = validatedResult[toNumberIndex];
-        parsedFromNumber = validatedResult[fromNumberIndex];
+
+        if (Array.isArray(validatedResult)) {
+          parsedToNumber = validatedResult[toNumberIndex];
+          parsedFromNumber = validatedResult[fromNumberIndex];
+        } // TODO: should that need handle validated fail state?
+
       }
 
       if (isWebphone && theFromNumber === ANONYMOUS) {

@@ -4,15 +4,27 @@ function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" =
 
 require("core-js/modules/es7.symbol.async-iterator");
 
+require("core-js/modules/es6.promise");
+
 require("core-js/modules/es6.object.define-properties");
 
 require("core-js/modules/es7.object.get-own-property-descriptors");
 
-require("core-js/modules/es6.array.for-each");
-
 require("core-js/modules/es6.array.filter");
 
 require("core-js/modules/es6.symbol");
+
+require("core-js/modules/es6.object.create");
+
+require("core-js/modules/es6.reflect.construct");
+
+require("core-js/modules/es6.object.set-prototype-of");
+
+require("core-js/modules/es6.object.define-property");
+
+require("core-js/modules/es6.array.slice");
+
+require("core-js/modules/es6.array.reduce");
 
 require("core-js/modules/web.dom.iterable");
 
@@ -22,13 +34,7 @@ require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
-require("core-js/modules/es6.object.create");
-
-require("core-js/modules/es6.object.define-property");
-
-require("core-js/modules/es6.reflect.construct");
-
-require("core-js/modules/es6.object.set-prototype-of");
+require("core-js/modules/es6.array.for-each");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -43,6 +49,8 @@ require("core-js/modules/es6.regexp.split");
 
 require("core-js/modules/es6.date.to-iso-string");
 
+require("regenerator-runtime/runtime");
+
 require("core-js/modules/es6.function.name");
 
 var _core = require("@ringcentral-integration/core");
@@ -51,13 +59,19 @@ var _Analytics = require("../../lib/Analytics");
 
 var _di = require("../../lib/di");
 
+var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
+
 var _saveBlob = _interopRequireDefault(require("../../lib/saveBlob"));
 
 var _analyticsRouters = require("./analyticsRouters");
 
-var _dec, _class;
+var _dec, _class, _class2;
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
 
@@ -75,7 +89,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } Object.defineProperty(subClass, "prototype", { value: Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }), writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
@@ -89,11 +103,13 @@ function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Re
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
+
 // TODO: refactoring the module against `https://docs.google.com/spreadsheets/d/1xufV6-C-RJR6OJgwFYHYzNQwhIdN4BXXCo8ABs7RT-8/edit#gid=1480480736`
 // TODO: if use `dialerUI`/`callLogSection`/`adapter`, make sure they should all be RcModuleV2
 var Analytics = (_dec = (0, _di.Module)({
   name: 'Analytics',
-  deps: ['Auth', 'BrandConfig', 'AnalyticsOptions', {
+  deps: ['Auth', 'Brand', 'AnalyticsOptions', {
     dep: 'AccountInfo',
     optional: true
   }, {
@@ -109,7 +125,7 @@ var Analytics = (_dec = (0, _di.Module)({
     dep: 'AnalyticsEventExtendedProps',
     optional: true
   }]
-}), _dec(_class = /*#__PURE__*/function (_RcModuleV) {
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModuleV) {
   _inherits(Analytics, _RcModuleV);
 
   var _super = _createSuper(Analytics);
@@ -152,6 +168,15 @@ var Analytics = (_dec = (0, _di.Module)({
     value: function onInitOnce() {
       var _this2 = this;
 
+      if (this._deps.analyticsOptions.analyticsKey && this._segment) {
+        this._segment.load(this._deps.analyticsOptions.analyticsKey, {
+          integrations: {
+            All: true,
+            Mixpanel: true
+          }
+        });
+      }
+
       if (this._deps.routerInteraction) {
         // make sure that track if refresh app
         this.trackRouter();
@@ -185,18 +210,6 @@ var Analytics = (_dec = (0, _di.Module)({
           _this3.trackLinger(target);
         }
       }, this._lingerThreshold);
-    }
-  }, {
-    key: "onInit",
-    value: function onInit() {
-      if (this._deps.analyticsOptions.analyticsKey && this._segment) {
-        this._segment.load(this._deps.analyticsOptions.analyticsKey, {
-          integrations: {
-            All: true,
-            Mixpanel: true
-          }
-        });
-      }
     }
   }, {
     key: "setUserId",
@@ -282,9 +295,9 @@ var Analytics = (_dec = (0, _di.Module)({
           id: userId
         }, props), {}, {
           companyName: (_this$_deps$extension4 = this._deps.extensionInfo) === null || _this$_deps$extension4 === void 0 ? void 0 : (_this$_deps$extension5 = _this$_deps$extension4.info) === null || _this$_deps$extension5 === void 0 ? void 0 : (_this$_deps$extension6 = _this$_deps$extension5.contact) === null || _this$_deps$extension6 === void 0 ? void 0 : _this$_deps$extension6.company,
-          appName: this._deps.brandConfig.appName,
+          appName: this._deps.brand.defaultConfig.appName,
           appVersion: this._deps.analyticsOptions.appVersion,
-          appBrand: this._deps.brandConfig.code,
+          appBrand: this._deps.brand.defaultConfig.code,
           plaBrand: (_this$_deps$accountIn = this._deps.accountInfo) === null || _this$_deps$accountIn === void 0 ? void 0 : (_this$_deps$accountIn2 = _this$_deps$accountIn.serviceInfo) === null || _this$_deps$accountIn2 === void 0 ? void 0 : (_this$_deps$accountIn3 = _this$_deps$accountIn2.brand) === null || _this$_deps$accountIn3 === void 0 ? void 0 : _this$_deps$accountIn3.name,
           countryCode: (_this$_deps$accountIn4 = this._deps.accountInfo) === null || _this$_deps$accountIn4 === void 0 ? void 0 : _this$_deps$accountIn4.countryCode
         }),
@@ -296,37 +309,62 @@ var Analytics = (_dec = (0, _di.Module)({
     }
   }, {
     key: "track",
-    value: function track(event) {
-      var _this$_deps$analytics7, _this$_pendo, _this$_pendo$isReady;
+    value: function () {
+      var _track = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(event) {
+        var _this$_deps$analytics7, _this$_pendo, _this$_pendo$isReady;
 
-      var properties = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
+        var properties,
+            trackProps,
+            _args = arguments;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                properties = _args.length > 1 && _args[1] !== undefined ? _args[1] : {};
 
-      if (!this.analytics) {
-        return;
+                if (this.analytics) {
+                  _context.next = 3;
+                  break;
+                }
+
+                return _context.abrupt("return");
+
+              case 3:
+                trackProps = _objectSpread(_objectSpread(_objectSpread({}, this.trackProps), properties), (_this$_deps$analytics7 = this._deps.analyticsEventExtendedProps) === null || _this$_deps$analytics7 === void 0 ? void 0 : _this$_deps$analytics7.extendedProps.get(event));
+                this.analytics.track(event, trackProps, {
+                  integrations: {
+                    All: true,
+                    Mixpanel: true,
+                    Pendo: this._enablePendo
+                  }
+                });
+
+                if (this._useLog) {
+                  this._logs.push({
+                    timeStamp: new Date().toISOString(),
+                    event: event,
+                    trackProps: trackProps
+                  });
+                }
+
+                if (this._enablePendo && ((_this$_pendo = this._pendo) === null || _this$_pendo === void 0 ? void 0 : (_this$_pendo$isReady = _this$_pendo.isReady) === null || _this$_pendo$isReady === void 0 ? void 0 : _this$_pendo$isReady.call(_this$_pendo))) {
+                  this._pendo.track("".concat(trackProps.appName, "-").concat(event), trackProps);
+                }
+
+              case 7:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function track(_x) {
+        return _track.apply(this, arguments);
       }
 
-      var trackProps = _objectSpread(_objectSpread(_objectSpread({}, this.trackProps), properties), (_this$_deps$analytics7 = this._deps.analyticsEventExtendedProps) === null || _this$_deps$analytics7 === void 0 ? void 0 : _this$_deps$analytics7.extendedProps.get(event));
-
-      this.analytics.track(event, trackProps, {
-        integrations: {
-          All: true,
-          Mixpanel: true,
-          Pendo: this._enablePendo
-        }
-      });
-
-      if (this._useLog) {
-        this._logs.push({
-          timeStamp: new Date().toISOString(),
-          event: event,
-          trackProps: trackProps
-        });
-      }
-
-      if (this._enablePendo && ((_this$_pendo = this._pendo) === null || _this$_pendo === void 0 ? void 0 : (_this$_pendo$isReady = _this$_pendo.isReady) === null || _this$_pendo$isReady === void 0 ? void 0 : _this$_pendo$isReady.call(_this$_pendo))) {
-        this._pendo.track("".concat(trackProps.appName, "-").concat(event), trackProps);
-      }
-    }
+      return track;
+    }()
   }, {
     key: "downloadLogs",
     value: function downloadLogs() {
@@ -346,9 +384,9 @@ var Analytics = (_dec = (0, _di.Module)({
           eventPostfix = _ref3.eventPostfix;
       var trackProps = {
         router: router,
-        appName: this._deps.brandConfig.appName,
+        appName: this._deps.brand.defaultConfig.appName,
         appVersion: this._deps.analyticsOptions.appVersion,
-        brand: this._deps.brandConfig.code
+        brand: this._deps.brand.defaultConfig.code
       };
       this.track("Navigation: Click/".concat(eventPostfix), trackProps);
     }
@@ -359,9 +397,9 @@ var Analytics = (_dec = (0, _di.Module)({
           eventPostfix = _ref4.eventPostfix;
       var trackProps = {
         router: router,
-        appName: this._deps.brandConfig.appName,
+        appName: this._deps.brand.defaultConfig.appName,
         appVersion: this._deps.analyticsOptions.appVersion,
-        brand: this._deps.brandConfig.code
+        brand: this._deps.brand.defaultConfig.code
       };
       this.track("Navigation: View/".concat(eventPostfix), trackProps);
     }
@@ -403,9 +441,9 @@ var Analytics = (_dec = (0, _di.Module)({
       var _this$_deps$locale, _this$_deps$locale2, _this$_deps$extension7;
 
       return {
-        appName: this._deps.brandConfig.appName,
+        appName: this._deps.brand.defaultConfig.appName,
         appVersion: this._deps.analyticsOptions.appVersion,
-        brand: this._deps.brandConfig.code,
+        brand: this._deps.brand.defaultConfig.code,
         'App Language': ((_this$_deps$locale = this._deps.locale) === null || _this$_deps$locale === void 0 ? void 0 : _this$_deps$locale.currentLocale) || '',
         'Browser Language': ((_this$_deps$locale2 = this._deps.locale) === null || _this$_deps$locale2 === void 0 ? void 0 : _this$_deps$locale2.browserLocale) || '',
         'Extension Type': ((_this$_deps$extension7 = this._deps.extensionInfo) === null || _this$_deps$extension7 === void 0 ? void 0 : _this$_deps$extension7.info.type) || ''
@@ -414,6 +452,6 @@ var Analytics = (_dec = (0, _di.Module)({
   }]);
 
   return Analytics;
-}(_core.RcModuleV2)) || _class);
+}(_core.RcModuleV2), (_applyDecoratedDescriptor(_class2.prototype, "track", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "track"), _class2.prototype)), _class2)) || _class);
 exports.Analytics = Analytics;
 //# sourceMappingURL=Analytics.js.map
