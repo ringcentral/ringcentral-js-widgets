@@ -66,7 +66,6 @@ jobs:
       #     path-to-lcov: ./packages/ringcentral-widgets/coverage/lcov.info
       #     flag-name: widgets
       #     parallel: true
-      - run: free -m
       - run: yarn workspace ringcentral-widgets-test test --coverage
         env:
           NODE_OPTIONS: --max-old-space-size=4096
