@@ -2,7 +2,7 @@ import { EventEmitter } from 'events';
 import { Unsubscribe } from 'redux';
 
 import { Module } from '@ringcentral-integration/commons/lib/di';
-import sleep from '@ringcentral-integration/commons/lib/sleep';
+import { sleep } from '@ringcentral-integration/commons/lib/sleep';
 import {
   action,
   computed,
@@ -45,7 +45,7 @@ const DEFAULT_COUNTRIES = ['USA', 'CAN'];
   ],
 })
 class EvAuth extends RcModuleV2<Deps> implements Auth {
-  public connecting?: boolean;
+  public connecting = false;
 
   private _eventEmitter = new EventEmitter();
 

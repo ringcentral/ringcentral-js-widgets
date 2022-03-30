@@ -43,7 +43,7 @@ require("regenerator-runtime/runtime");
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _sleep = _interopRequireDefault(require("@ringcentral-integration/commons/lib/sleep"));
+var _sleep = require("@ringcentral-integration/commons/lib/sleep");
 
 var _IconButton = require("@ringcentral/juno/es6/components/Buttons/IconButton/IconButton.js");
 
@@ -122,7 +122,7 @@ var CountDownButton = function CountDownButton(_ref2) {
                 clearTimerSet(); // to handle other tabs had not execute this part code because this Component destroyed
 
                 _context.next = 5;
-                return (0, _sleep["default"])(1000);
+                return (0, _sleep.sleep)(1000);
 
               case 5:
                 onResumeRecord();

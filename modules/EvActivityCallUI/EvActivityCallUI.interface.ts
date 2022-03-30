@@ -1,4 +1,4 @@
-import { Alert } from '@ringcentral-integration/commons/modules/AlertV2';
+import { Alert } from '@ringcentral-integration/commons/modules/Alert';
 import ConnectivityMonitor from '@ringcentral-integration/commons/modules/ConnectivityMonitor';
 import { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import RateLimiter from '@ringcentral-integration/commons/modules/RateLimiter';

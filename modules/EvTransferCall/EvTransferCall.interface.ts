@@ -1,4 +1,4 @@
-import { Alert } from '@ringcentral-integration/commons/modules/AlertV2';
+import { Alert } from '@ringcentral-integration/commons/modules/Alert';
 import { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import { ModalUI } from '@ringcentral-integration/widgets/modules/ModalUI';
 
