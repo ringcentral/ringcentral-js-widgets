@@ -22,7 +22,7 @@ var _default = {
   unHold: "Poista pidosta",
   forward: "Siirrä",
   ignore: "Ohita",
-  voicemail: "Puhelinvastaajaan",
+  voicemail: "Vastaajaan",
   custom: "Mukautettu",
   answerAndEnd: "Vastaa ja lopeta",
   answerAndHold: "Vastaa ja aseta pitoon",

@@ -23,6 +23,10 @@ var _callLogHelpers = require("@ringcentral-integration/commons/lib/callLogHelpe
 
 var _recordStatus = _interopRequireDefault(require("@ringcentral-integration/commons/modules/Webphone/recordStatus"));
 
+var _Link = require("@ringcentral/juno/es6/components/Link/Link.js");
+
+var _Text = require("@ringcentral/juno/es6/components/Text/Text.js");
+
 var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
 
 var _formatDuration = _interopRequireDefault(require("../../lib/formatDuration"));
@@ -65,10 +69,9 @@ var LogBasicInfo = /*#__PURE__*/_react["default"].memo(function (props) {
   var _props$currentLog = props.currentLog,
       call = _props$currentLog.call,
       logName = _props$currentLog.logName,
-      logNameAndMoreDisplay = _props$currentLog.logNameAndMoreDisplay,
+      subContactNameDisplay = _props$currentLog.subContactNameDisplay,
       isShowEntity = _props$currentLog.isShowEntity,
-      basicURL = _props$currentLog.basicURL,
-      task = _props$currentLog.task,
+      entityDetailLink = _props$currentLog.entityDetailLink,
       formatPhone = props.formatPhone,
       currentLocale = props.currentLocale,
       dataSign = props.dataSign,
@@ -134,18 +137,21 @@ var LogBasicInfo = /*#__PURE__*/_react["default"].memo(function (props) {
     className: _styles["default"].callDisplay
   }, /*#__PURE__*/_react["default"].createElement("li", {
     className: _styles["default"].info
-  }, isShowEntity && ((task === null || task === void 0 ? void 0 : task.whatid) || (task === null || task === void 0 ? void 0 : task.whoid) || logNameAndMoreDisplay) ? /*#__PURE__*/_react["default"].createElement("p", {
+  }, isShowEntity ? /*#__PURE__*/_react["default"].createElement(_Text.RcText, {
     className: _styles["default"].logName,
-    title: "".concat(logNameAndMoreDisplay ? "".concat(logName, "\xA0$").concat(logNameAndMoreDisplay) : logName),
+    title: "".concat(subContactNameDisplay ? "".concat(logName, " ").concat(subContactNameDisplay) : logName),
     "data-sign": "logName"
-  }, /*#__PURE__*/_react["default"].createElement("a", {
-    className: _styles["default"].SFrecordLink,
+  }, entityDetailLink ? /*#__PURE__*/_react["default"].createElement(_Link.RcLink, {
+    variant: "inherit",
     onClick: function onClick() {
-      return window.open("".concat(basicURL, "/").concat(task.whatid || task.whoid), '_blank');
+      return window.open(entityDetailLink, '_blank');
     }
-  }, logNameAndMoreDisplay ? /*#__PURE__*/_react["default"].createElement("span", null, logName, /*#__PURE__*/_react["default"].createElement("span", {
-    className: _styles["default"].logNameAndMore
-  }, logNameAndMoreDisplay)) : logName)) : /*#__PURE__*/_react["default"].createElement("p", {
+  }, logName) : logName, subContactNameDisplay && /*#__PURE__*/_react["default"].createElement(_Text.RcText, {
+    color: "neutral.f04",
+    component: "span",
+    align: "center",
+    variant: "caption1"
+  }, " ".concat(subContactNameDisplay))) : /*#__PURE__*/_react["default"].createElement("p", {
     className: _styles["default"].logName,
     title: logName,
     "data-sign": "logName"

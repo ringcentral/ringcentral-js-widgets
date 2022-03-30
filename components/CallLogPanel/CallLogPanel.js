@@ -16,9 +16,9 @@ require("core-js/modules/es6.string.iterator");
 
 require("core-js/modules/es6.weak-map");
 
-require("core-js/modules/es6.object.create");
-
 require("core-js/modules/es6.object.define-property");
+
+require("core-js/modules/es6.object.create");
 
 require("core-js/modules/es6.reflect.construct");
 
@@ -63,7 +63,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } Object.defineProperty(subClass, "prototype", { value: Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }), writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
@@ -290,10 +290,16 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
           toVoicemail = _this$props6.toVoicemail,
           forwardingNumbers = _this$props6.forwardingNumbers,
           answer = _this$props6.answer,
-          clickForwardTrack = _this$props6.clickForwardTrack;
+          clickForwardTrack = _this$props6.clickForwardTrack,
+          renderCallNotificationAvatar = _this$props6.renderCallNotificationAvatar,
+          getAvatarUrl = _this$props6.getAvatarUrl;
       var showNotification = logNotification.showNotification,
           call = logNotification.call,
-          logName = logNotification.logName;
+          logName = logNotification.logName,
+          subContactNameDisplay = logNotification.subContactNameDisplay,
+          displayEntity = logNotification.displayEntity,
+          entityType = logNotification.entityType,
+          entityDetailLink = logNotification.entityDetailLink;
 
       if (!showNotification) {
         return null;
@@ -306,6 +312,10 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
           currentLocale: currentLocale,
           call: call,
           logName: logName,
+          subContactNameDisplay: subContactNameDisplay,
+          displayEntity: displayEntity,
+          entityType: entityType,
+          entityDetailLink: entityDetailLink,
           onCloseNotification: onCloseNotification,
           currentNotificationIdentify: currentNotificationIdentify,
           isWide: isWide,
@@ -317,7 +327,9 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
           forwardingNumbers: forwardingNumbers,
           hasActiveSession: !!activeSession,
           answer: answer,
-          clickForwardTrack: clickForwardTrack
+          clickForwardTrack: clickForwardTrack,
+          renderCallNotificationAvatar: renderCallNotificationAvatar,
+          getAvatarUrl: getAvatarUrl
         });
       }
 
@@ -433,8 +445,18 @@ CallLogPanel.defaultProps = {
     showNotification: false,
     call: null,
     logName: null,
-    notificationIsExpand: false
+    notificationIsExpand: false,
+    subContactNameDisplay: '',
+    displayEntity: null,
+    entityType: '',
+    entityDetailLink: ''
   },
-  showRecordingIndicator: false
+  showRecordingIndicator: false,
+  renderCallNotificationAvatar: function renderCallNotificationAvatar() {
+    return null;
+  },
+  getAvatarUrl: function getAvatarUrl() {
+    return null;
+  }
 };
 //# sourceMappingURL=CallLogPanel.js.map

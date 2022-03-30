@@ -171,6 +171,7 @@ function getBaseRcmTpl(
   { meeting, serviceInfo, extensionInfo, invitationInfo }: RcmMainParams,
   brand: CommonBrand,
   currentLocale: string,
+  addNoModifyAlert = false,
 ): TplResult {
   const accountName = extensionInfo.name;
   const meetingId = meeting.id;
@@ -181,6 +182,10 @@ function getBaseRcmTpl(
   const phoneDialingNumberTpl = serviceInfo.phoneDialingNumberTpl;
   const passwordTpl = getPasswordTpl(password, currentLocale);
   const teleconference = brand.brandConfig.teleconference;
+
+  const prefix = addNoModifyAlert
+    ? `${i18n.getString('doNotModify', currentLocale)}\n`
+    : '';
 
   let formattedMsg = invitationInfo?.invitation;
   if (!formattedMsg) {
@@ -200,7 +205,7 @@ function getBaseRcmTpl(
   }
 
   return {
-    formattedMsg,
+    formattedMsg: `${prefix}${formattedMsg}`,
     links: {
       joinUri,
       teleconference,
@@ -212,8 +217,14 @@ function getRcmEventTpl(
   mainInfo: RcmMainParams,
   brand: CommonBrand,
   currentLocale: string,
+  addNoModifyAlert = false,
 ): string {
-  const tplResult = getBaseRcmTpl(mainInfo, brand, currentLocale);
+  const tplResult = getBaseRcmTpl(
+    mainInfo,
+    brand,
+    currentLocale,
+    addNoModifyAlert,
+  );
   return tplResult.formattedMsg;
 }
 
@@ -221,8 +232,14 @@ function getRcmHtmlEventTpl(
   mainInfo: RcmMainParams,
   brand: CommonBrand,
   currentLocale: string,
+  addNoModifyAlert = false,
 ): string {
-  const tplResult = getBaseRcmTpl(mainInfo, brand, currentLocale);
+  const tplResult = getBaseRcmTpl(
+    mainInfo,
+    brand,
+    currentLocale,
+    addNoModifyAlert,
+  );
   return formatTextToHtml(tplResult.formattedMsg, {
     links: [tplResult.links.joinUri, tplResult.links.teleconference],
   });
@@ -297,12 +314,16 @@ function getBaseRcvTpl(
   currentLocale: string,
   enableRcvConnector = false,
   enableE2EE = false,
+  addNoModifyAlert = false,
 ): TplResult {
+  const prefix = addNoModifyAlert
+    ? `${i18n.getString('doNotModify', currentLocale)}\n`
+    : '';
   const joinUri = meeting.joinUri;
   const teleconference = brand.rcvTeleconference;
   if (invitationInfo) {
     return {
-      formattedMsg: invitationInfo,
+      formattedMsg: `${prefix}${invitationInfo}`,
       links: {
         joinUri,
         teleconference,
@@ -320,20 +341,21 @@ function getBaseRcvTpl(
     meetingContent.push(
       i18n.getString('rcvE2EEInviteMeetingContent', currentLocale),
     );
+    const formattedMsg = formatMessage(meetingContent.join(''), {
+      accountName,
+      brandName: brand.name,
+      rcvProductName: brand.brandConfig.rcvProductName,
+      joinUri,
+      e2EESupportLinkText: formatMessage(
+        i18n.getString('e2EESupportLinkText', currentLocale),
+        {
+          brandName: brand.name,
+        },
+      ),
+      rcvE2EESupportUrl: brand.rcvE2EESupportUrl,
+    });
     return {
-      formattedMsg: formatMessage(meetingContent.join(''), {
-        accountName,
-        brandName: brand.name,
-        rcvProductName: brand.brandConfig.rcvProductName,
-        joinUri,
-        e2EESupportLinkText: formatMessage(
-          i18n.getString('e2EESupportLinkText', currentLocale),
-          {
-            brandName: brand.name,
-          },
-        ),
-        rcvE2EESupportUrl: brand.rcvE2EESupportUrl,
-      }),
+      formattedMsg: `${prefix}${formattedMsg}`,
       links: {
         joinUri,
         teleconference,
@@ -396,7 +418,7 @@ function getBaseRcvTpl(
   });
 
   return {
-    formattedMsg,
+    formattedMsg: `${prefix}${formattedMsg}`,
     links: {
       joinUri,
       teleconference,

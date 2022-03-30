@@ -9,7 +9,7 @@ import { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimite
 import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
 
 import { ConnectivityManager } from '../ConnectivityManager';
-import DialerUI from '../DialerUI';
+import { DialerUI } from '../DialerUI';
 import { RouterInteraction } from '../RouterInteraction';
 
 export interface ContactDetailsUIOptions {

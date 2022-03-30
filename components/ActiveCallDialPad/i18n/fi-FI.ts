@@ -1,6 +1,6 @@
 export default {
   hide: "Piilota",
-  end: "Päätä",
+  end: "Lopeta",
   keypad: "Näppäimistö"
 };
 

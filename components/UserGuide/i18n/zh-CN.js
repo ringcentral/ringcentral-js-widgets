@@ -9,7 +9,7 @@ exports["default"] = void 0;
 var _default = {
   start: "快速浏览一下",
   skip: "跳过",
-  next: "下一个",
+  next: "下一步",
   finish: "完成"
 }; // @key: @#@"start"@#@ @source: @#@"Take a quick tour"@#@
 // @key: @#@"skip"@#@ @source: @#@"Skip"@#@

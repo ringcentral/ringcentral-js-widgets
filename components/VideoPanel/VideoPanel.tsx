@@ -1,7 +1,7 @@
 import React, { FunctionComponent, useRef } from 'react';
 
 import { RcVMeetingModel } from '@ringcentral-integration/commons/interfaces/Rcv.model';
-import sleep from '@ringcentral-integration/commons/lib/sleep';
+import { sleep } from '@ringcentral-integration/commons/lib/sleep';
 import {
   AUTH_USER,
   RcvDelegator,

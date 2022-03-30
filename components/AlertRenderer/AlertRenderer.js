@@ -17,15 +17,13 @@ var _AudioSettingsAlert = _interopRequireDefault(require("./AudioSettingsAlert")
 
 var _AuthAlert = _interopRequireDefault(require("./AuthAlert"));
 
-var _CallAlert = _interopRequireDefault(require("./CallAlert"));
+var _CallAlert = require("./CallAlert");
 
 var _CallControlAlert = _interopRequireDefault(require("./CallControlAlert"));
 
 var _CallingSettingsAlert = require("./CallingSettingsAlert");
 
 var _CallLogAlert = _interopRequireDefault(require("./CallLogAlert"));
-
-var _ConferenceAlert = _interopRequireDefault(require("./ConferenceAlert"));
 
 var _ConferenceCallAlert = _interopRequireDefault(require("./ConferenceCallAlert"));
 
@@ -87,9 +85,9 @@ var AlertRenderer = function AlertRenderer(_ref) {
       return _AuthAlert["default"];
     }
 
-    if (_CallAlert["default"].handleMessage(message)) {
+    if (_CallAlert.CallAlert.handleMessage(message)) {
       return function (props) {
-        return /*#__PURE__*/_react["default"].createElement(_CallAlert["default"], _extends({}, props, {
+        return /*#__PURE__*/_react["default"].createElement(_CallAlert.CallAlert, _extends({}, props, {
           brand: brand,
           onAreaCodeLinkClick: onRegionSettingsLinkClick
         }));
@@ -166,10 +164,6 @@ var AlertRenderer = function AlertRenderer(_ref) {
           application: brand.appName
         }));
       };
-    }
-
-    if (_ConferenceAlert["default"].handleMessage(message)) {
-      return _ConferenceAlert["default"];
     }
 
     if (_ConferenceCallAlert["default"].handleMessage(message)) {

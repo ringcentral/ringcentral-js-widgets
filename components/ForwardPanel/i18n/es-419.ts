@@ -1,5 +1,5 @@
 export default {
-  forward: "Transferir"
+  forward: "Reenviar"
 };
 
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@

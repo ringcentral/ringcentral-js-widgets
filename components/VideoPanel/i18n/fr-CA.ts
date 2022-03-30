@@ -33,9 +33,9 @@ export default {
   signedInCoWorkers: "Collègues connectés",
   limitScreenSharing: "Seuls l’animateur et les modérateurs peuvent partager leur écran",
   lockTooltip: "Ces paramètres sont gérés par votre administrateur",
-  pmiSettingAlert: "Ces paramètres s’appliqueront à toutes les réunions créées avec le même PMI",
+  pmiSettingAlert: "Ces paramètres seront appliqués à toutes les réunions créées avec le même code de réunion personnelle",
   today: "Aujourd’hui",
-  scheduleForGuidance: "Vous planifiez une réunion pour quelqu'un d'autre?\n1. Assurez-vous d'être dans son Calendrier Outlook.\n2. Dans le menu déroulant, sélectionnez la personne pour laquelle vous planifiez une réunion.\n",
+  scheduleForGuidance: "Vous planifiez une réunion pour quelqu’un d’autre?\n1. Assurez-vous d’être dans son Calendrier Outlook.\n2. Dans le menu déroulant, sélectionnez la personne pour laquelle vous planifiez une réunion.\n",
   scheduleForGuidanceMore: "En savoir plus",
   changePmiSettings: "Changer les paramètres de la réunion personnelle",
   ieSupportAlert: "Veuillez noter que {appName} ne fonctionnera pas dans Internet Explorer 11 après le 16 février 2022. Nous recommandons de passer à Microsoft Edge ou à Office 2016 ou à une version ultérieure."

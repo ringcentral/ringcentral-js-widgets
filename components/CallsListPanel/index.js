@@ -6,9 +6,9 @@ require("core-js/modules/es7.symbol.async-iterator");
 
 require("core-js/modules/es6.symbol");
 
-require("core-js/modules/es6.object.create");
-
 require("core-js/modules/es6.object.define-property");
+
+require("core-js/modules/es6.object.create");
 
 require("core-js/modules/es6.reflect.construct");
 
@@ -57,7 +57,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } Object.defineProperty(subClass, "prototype", { value: Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }), writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
@@ -105,6 +105,7 @@ var ActiveCallList = function ActiveCallList(_ref) {
       phoneSourceNameRenderer = _ref.phoneSourceNameRenderer,
       disableLinks = _ref.disableLinks,
       renderContactName = _ref.renderContactName,
+      renderSubContactName = _ref.renderSubContactName,
       renderExtraButton = _ref.renderExtraButton,
       contactDisplayStyle = _ref.contactDisplayStyle,
       externalViewEntity = _ref.externalViewEntity,
@@ -152,6 +153,7 @@ var ActiveCallList = function ActiveCallList(_ref) {
       phoneSourceNameRenderer: phoneSourceNameRenderer,
       disableLinks: disableLinks,
       renderContactName: renderContactName,
+      renderSubContactName: renderSubContactName,
       renderExtraButton: renderExtraButton,
       contactDisplayStyle: contactDisplayStyle,
       externalViewEntity: externalViewEntity,
@@ -192,6 +194,7 @@ ActiveCallList.propTypes = {
   phoneSourceNameRenderer: _propTypes["default"].func,
   disableLinks: _propTypes["default"].bool,
   renderContactName: _propTypes["default"].func,
+  renderSubContactName: _propTypes["default"].func,
   renderExtraButton: _propTypes["default"].func,
   contactDisplayStyle: _propTypes["default"].string,
   externalViewEntity: _propTypes["default"].func,
@@ -223,6 +226,7 @@ ActiveCallList.defaultProps = {
   phoneSourceNameRenderer: undefined,
   disableLinks: false,
   renderContactName: undefined,
+  renderSubContactName: undefined,
   renderExtraButton: undefined,
   contactDisplayStyle: undefined,
   externalViewEntity: undefined,
@@ -420,6 +424,7 @@ var CallsListPanel = /*#__PURE__*/function (_React$PureComponent) {
           calls = _this$props2.calls,
           active = _this$props2.active,
           renderContactName = _this$props2.renderContactName,
+          renderSubContactName = _this$props2.renderSubContactName,
           renderExtraButton = _this$props2.renderExtraButton,
           contactDisplayStyle = _this$props2.contactDisplayStyle,
           activeContactDisplayStyle = _this$props2.activeContactDisplayStyle,
@@ -489,6 +494,7 @@ var CallsListPanel = /*#__PURE__*/function (_React$PureComponent) {
         phoneTypeRenderer: phoneTypeRenderer,
         phoneSourceNameRenderer: phoneSourceNameRenderer,
         renderContactName: renderContactName,
+        renderSubContactName: renderSubContactName,
         renderExtraButton: renderExtraButton,
         contactDisplayStyle: contactDisplayStyle,
         externalViewEntity: externalViewEntity,
@@ -527,6 +533,7 @@ var CallsListPanel = /*#__PURE__*/function (_React$PureComponent) {
         phoneTypeRenderer: phoneTypeRenderer,
         phoneSourceNameRenderer: phoneSourceNameRenderer,
         renderContactName: renderContactName,
+        renderSubContactName: renderSubContactName,
         renderExtraButton: renderExtraButton,
         contactDisplayStyle: contactDisplayStyle,
         externalViewEntity: externalViewEntity,
@@ -576,6 +583,7 @@ var CallsListPanel = /*#__PURE__*/function (_React$PureComponent) {
           phoneSourceNameRenderer: phoneSourceNameRenderer,
           disableLinks: disableLinks,
           renderContactName: renderContactName,
+          renderSubContactName: renderSubContactName,
           renderExtraButton: renderExtraButton,
           contactDisplayStyle: activeContactDisplayStyle,
           externalViewEntity: externalViewEntity,
@@ -652,6 +660,7 @@ CallsListPanel.propTypes = {
   dateTimeFormatter: _propTypes["default"].func.isRequired,
   active: _propTypes["default"].bool,
   renderContactName: _propTypes["default"].func,
+  renderSubContactName: _propTypes["default"].func,
   renderExtraButton: _propTypes["default"].func,
   contactDisplayStyle: _propTypes["default"].string,
   activeContactDisplayStyle: _propTypes["default"].string,
@@ -715,6 +724,7 @@ CallsListPanel.defaultProps = {
   disableClickToDial: false,
   active: false,
   renderContactName: undefined,
+  renderSubContactName: undefined,
   renderExtraButton: undefined,
   contactDisplayStyle: _styles["default"].contactDisplay,
   activeContactDisplayStyle: _styles["default"].activeContactDisplay,

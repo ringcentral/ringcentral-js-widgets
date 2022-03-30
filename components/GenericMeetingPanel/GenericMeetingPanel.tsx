@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 
 import { RcVMeetingModel } from '@ringcentral-integration/commons/interfaces/Rcv.model';
-import sleep from '@ringcentral-integration/commons/lib/sleep';
+import { sleep } from '@ringcentral-integration/commons/lib/sleep';
 import { RcMMeetingModel } from '@ringcentral-integration/commons/modules/MeetingV2';
 
 import isSafari from '../../lib/isSafari';
@@ -94,6 +94,8 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
     defaultTopic,
     isPersonalMeetingDisabled,
     showIeSupportAlert,
+    showRemoveMeetingWarning,
+    brandConfig,
     appName,
   } = props;
 
@@ -152,6 +154,8 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
           timePickerSize={timePickerSize}
           checkboxSize={checkboxSize}
           showIeSupportAlert={showIeSupportAlert}
+          showRemoveMeetingWarning={showRemoveMeetingWarning}
+          brandConfig={brandConfig}
           appName={appName}
         >
           {showTopic && (
@@ -217,6 +221,8 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
           isRequirePasswordDisabled={isRequirePasswordDisabled}
           showIeSupportAlert={showIeSupportAlert}
           appName={appName}
+          showRemoveMeetingWarning={showRemoveMeetingWarning}
+          brandConfig={brandConfig}
         >
           {showTopic && (
             <Topic

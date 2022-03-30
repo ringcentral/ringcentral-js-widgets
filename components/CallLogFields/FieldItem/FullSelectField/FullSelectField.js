@@ -40,7 +40,8 @@ var FullSelectField = function FullSelectField(_ref) {
       TextFieldProps = _ref.TextFieldProps,
       field = _ref.field,
       title = _ref.title,
-      rest = _objectWithoutProperties(_ref, ["disabled", "TextFieldProps", "field", "title"]);
+      onFullSelectFieldClick = _ref.onFullSelectFieldClick,
+      rest = _objectWithoutProperties(_ref, ["disabled", "TextFieldProps", "field", "title", "onFullSelectFieldClick"]);
 
   var helperText = TextFieldProps.helperText,
       value = TextFieldProps.value;
@@ -53,12 +54,16 @@ var FullSelectField = function FullSelectField(_ref) {
     value: value,
     disabled: disabled,
     helperText: helperText,
-    label: title
+    label: title,
+    onClick: function onClick() {
+      return onFullSelectFieldClick(field);
+    }
   }));
 };
 
 exports.FullSelectField = FullSelectField;
 FullSelectField.defaultProps = {
-  TextFieldProps: {}
+  TextFieldProps: {},
+  onFullSelectFieldClick: function onFullSelectFieldClick() {}
 };
 //# sourceMappingURL=FullSelectField.js.map

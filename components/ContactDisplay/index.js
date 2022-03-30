@@ -214,6 +214,7 @@ var ContactDisplay = function ContactDisplay(_ref3) {
       phoneSourceNameRenderer = _ref3.phoneSourceNameRenderer,
       showGroupNumberName = _ref3.showGroupNumberName,
       contactName = _ref3.contactName,
+      subContactName = _ref3.subContactName,
       isOnConferenceCall = _ref3.isOnConferenceCall,
       iconClassName = _ref3.iconClassName,
       dropdownRenderFunction = _ref3.dropdownRenderFunction,
@@ -261,10 +262,10 @@ var ContactDisplay = function ContactDisplay(_ref3) {
 
     if (contactName) {
       return /*#__PURE__*/_react["default"].createElement(Title, {
-        title: contactName,
+        title: subContactName ? "".concat(contactName.title || contactName).concat(subContactName.title) : contactName.title || contactName,
         unread: unread,
         missed: missed
-      }, unreadDot, contactName);
+      }, unreadDot, contactName.tag || contactName, subContactName && subContactName.tag);
     }
 
     if (groupNumbers && showGroupNumberName) {

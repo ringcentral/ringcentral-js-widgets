@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  toolTip: "Afficher en {crmName}"
+  toolTip: "Afficher dans {crmName}"
 }; // @key: @#@"toolTip"@#@ @source: @#@"View in {crmName}"@#@
 
 exports["default"] = _default;

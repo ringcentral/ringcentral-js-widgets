@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { AlertItem } from '@ringcentral-integration/commons/modules/AlertV2';
+import { AlertItem } from '@ringcentral-integration/commons/modules/Alert';
 import { callingSettingsMessages } from '@ringcentral-integration/commons/modules/CallingSettingsV2/callingSettingsMessages';
 
 import FormattedMessage from '../../FormattedMessage';

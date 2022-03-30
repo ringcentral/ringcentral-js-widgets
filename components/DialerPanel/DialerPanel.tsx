@@ -98,6 +98,7 @@ const DialerPanel: FunctionComponent<DialerPanelProps> = ({
     if (useV2 && autoFocus && inputEl.current) {
       inputEl.current.focus();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const input = useV2 ? (
     <RecipientsInputV2

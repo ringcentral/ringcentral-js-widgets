@@ -11,7 +11,7 @@ var _default = {
   save: "Guardar y abrir nuevo",
   discard: "Desechar y abrir nuevo",
   hangup: "Colgar",
-  reject: "Enviar al buzón"
+  reject: "Enviar al buzón de voz"
 }; // @key: @#@"log"@#@ @source: @#@"Log"@#@
 // @key: @#@"save"@#@ @source: @#@"Save and new"@#@
 // @key: @#@"discard"@#@ @source: @#@"Discard and new"@#@

@@ -99,7 +99,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } Object.defineProperty(subClass, "prototype", { value: Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }), writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
@@ -584,7 +584,7 @@ var ActiveCallItem = /*#__PURE__*/function (_Component) {
         title: _i18n["default"].getString('callSwitch', currentLocale),
         className: _styles["default"].switchDialog,
         contentProps: {
-          contactName: contactName || _this.getPhoneNumber()
+          contactName: (contactName === null || contactName === void 0 ? void 0 : contactName.title) || contactName || _this.getPhoneNumber()
         },
         confirmButtonText: _i18n["default"].getString('comfirmOKButton', currentLocale),
         cancelButtonText: _i18n["default"].getString('comfirmCancelButton', currentLocale),
@@ -751,6 +751,7 @@ var ActiveCallItem = /*#__PURE__*/function (_Component) {
           phoneTypeRenderer = _this$props3.phoneTypeRenderer,
           phoneSourceNameRenderer = _this$props3.phoneSourceNameRenderer,
           renderContactName = _this$props3.renderContactName,
+          renderSubContactName = _this$props3.renderSubContactName,
           renderExtraButton = _this$props3.renderExtraButton,
           contactDisplayStyle = _this$props3.contactDisplayStyle,
           isOnConferenceCall = _this$props3.isOnConferenceCall,
@@ -786,6 +787,7 @@ var ActiveCallItem = /*#__PURE__*/function (_Component) {
       var ringing = (0, _callLogHelpers.isRinging)(this.props.call);
       var inbound = (0, _callLogHelpers.isInbound)(this.props.call);
       var contactName = typeof renderContactName === 'function' ? renderContactName(this.props.call) : undefined;
+      var subContactName = typeof renderSubContactName === 'function' ? renderSubContactName(this.props.call) : undefined;
       var extraButton = typeof renderExtraButton === 'function' ? /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].extraButton
       }, renderExtraButton(this.props.call)) : undefined;
@@ -822,6 +824,7 @@ var ActiveCallItem = /*#__PURE__*/function (_Component) {
         }, /*#__PURE__*/_react["default"].createElement(_ContactDisplay["default"], {
           isOnConferenceCall: isOnConferenceCall,
           contactName: showMultipleMatch ? undefined : contactName,
+          subContactName: subContactName,
           className: (0, _classnames13["default"])(_styles["default"].contactDisplay, contactDisplayStyle),
           contactMatches: contactMatches,
           selected: this.state.selected,
@@ -900,6 +903,7 @@ ActiveCallItem.defaultProps = {
   phoneTypeRenderer: undefined,
   phoneSourceNameRenderer: undefined,
   renderContactName: undefined,
+  renderSubContactName: undefined,
   renderExtraButton: undefined,
   contactDisplayStyle: '',
   isOnConferenceCall: false,

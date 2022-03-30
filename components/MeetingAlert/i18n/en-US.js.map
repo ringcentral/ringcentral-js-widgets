@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/MeetingAlert/i18n/en-US.ts"],"names":["removeMeetingWarning"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,oBAAoB,EAClB;AAFW,C","sourcesContent":["export default {\n  removeMeetingWarning:\n    \"Please note that the meeting feature won't work after May 31, 2022. We recommend switching to the {app}.\",\n};\n"],"file":"en-US.js"}

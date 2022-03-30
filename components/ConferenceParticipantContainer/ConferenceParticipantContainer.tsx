@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import sleep from '@ringcentral-integration/commons/lib/sleep';
+import { sleep } from '@ringcentral-integration/commons/lib/sleep';
 
 import ConferenceParticipantPanel from '../ConferenceParticipantPanel';
 

@@ -1,7 +1,7 @@
 export default {
   DirectNumber: "Suora",
   MainCompanyNumber: "Päänumero",
-  CompanyNumber: "Yritys",
+  CompanyNumber: "Yhtiö",
   CompanyFaxNumber: "Faksi",
   Blocked: "Estetty",
   AdditionalCompanyNumber: "Yritys",

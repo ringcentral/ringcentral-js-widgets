@@ -7,12 +7,14 @@ import { SelectListTextField } from './SelectListTextField/SelectListTextField';
 
 export type FullSelectFieldProps = {
   TextFieldProps: Pick<RcTextFieldProps, 'helperText' | 'value'>;
+  onFullSelectFieldClick?(field: string): void;
 } & SelectListProps;
 export const FullSelectField: FunctionComponent<FullSelectFieldProps> = ({
   disabled,
   TextFieldProps,
   field,
   title,
+  onFullSelectFieldClick,
   ...rest
 }) => {
   const { helperText, value } = TextFieldProps;
@@ -24,6 +26,7 @@ export const FullSelectField: FunctionComponent<FullSelectFieldProps> = ({
         disabled={disabled}
         helperText={helperText}
         label={title}
+        onClick={() => onFullSelectFieldClick(field)}
       />
     </SelectList>
   );
@@ -31,4 +34,5 @@ export const FullSelectField: FunctionComponent<FullSelectFieldProps> = ({
 
 FullSelectField.defaultProps = {
   TextFieldProps: {},
+  onFullSelectFieldClick() {},
 };

@@ -17,7 +17,7 @@ export default {
   audio: "Audio",
   scheduleFor: "Programar en nombre de",
   [ASSISTED_USERS_MYSELF]: "Mí mismo",
-  meetingOptions: "Opciones de la reunión",
+  meetingOptions: "Opciones de reunión",
   meetingSettings: "Configuración de la reunión",
   rcMeetingSettings: "Configuración de reuniones por video",
   audioOptions: "Opciones de audio",

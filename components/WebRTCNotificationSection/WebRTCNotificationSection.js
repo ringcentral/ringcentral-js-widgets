@@ -2,11 +2,19 @@
 
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
+require("core-js/modules/es6.weak-map");
+
+require("core-js/modules/es7.object.get-own-property-descriptors");
+
+require("core-js/modules/es6.array.for-each");
+
+require("core-js/modules/es6.array.filter");
+
 require("core-js/modules/web.dom.iterable");
 
 require("core-js/modules/es6.array.iterator");
 
-require("core-js/modules/es6.weak-map");
+require("core-js/modules/es6.object.keys");
 
 require("core-js/modules/es6.object.define-property");
 
@@ -55,6 +63,8 @@ var _Popover = require("@ringcentral/juno/es6/components/Popover/Popover.js");
 
 var _styledComponents = _interopRequireDefault(require("@ringcentral/juno/es6/foundation/styled-components.js"));
 
+var _Link = require("@ringcentral/juno/es6/components/Link/Link.js");
+
 var _Ignore = _interopRequireDefault(require("@ringcentral/juno/es6/icon/Ignore.js"));
 
 var _Voicemail = _interopRequireDefault(require("@ringcentral/juno/es6/icon/Voicemail.js"));
@@ -78,6 +88,10 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
@@ -112,6 +126,7 @@ var WebRTCNotificationSection = function WebRTCNotificationSection(_ref) {
       onCloseNotification = _ref.onCloseNotification,
       currentNotificationIdentify = _ref.currentNotificationIdentify,
       logName = _ref.logName,
+      subContactNameDisplay = _ref.subContactNameDisplay,
       currentLocale = _ref.currentLocale,
       formatPhone = _ref.formatPhone,
       isWide = _ref.isWide,
@@ -124,12 +139,22 @@ var WebRTCNotificationSection = function WebRTCNotificationSection(_ref) {
       forwardingNumbers = _ref.forwardingNumbers,
       onForward = _ref.onForward,
       _ref$clickForwardTrac = _ref.clickForwardTrack,
-      clickForwardTrack = _ref$clickForwardTrac === void 0 ? function () {} : _ref$clickForwardTrac;
+      clickForwardTrack = _ref$clickForwardTrac === void 0 ? function () {} : _ref$clickForwardTrac,
+      renderCallNotificationAvatar = _ref.renderCallNotificationAvatar,
+      displayEntity = _ref.displayEntity,
+      entityType = _ref.entityType,
+      getAvatarUrl = _ref.getAvatarUrl,
+      entityDetailLink = _ref.entityDetailLink;
 
   var _useState = (0, _react.useState)(null),
       _useState2 = _slicedToArray(_useState, 2),
       anchorEl = _useState2[0],
       setAnchorEl = _useState2[1];
+
+  var _useState3 = (0, _react.useState)(displayEntity === null || displayEntity === void 0 ? void 0 : displayEntity.profileImageUrl),
+      _useState4 = _slicedToArray(_useState3, 2),
+      avatarUrl = _useState4[0],
+      setAvatarUrl = _useState4[1];
 
   (0, _react.useEffect)(function () {
     if (currentNotificationIdentify) {
@@ -140,6 +165,16 @@ var WebRTCNotificationSection = function WebRTCNotificationSection(_ref) {
       }
     }
   }, [call.result]);
+  (0, _react.useEffect)(function () {
+    if (displayEntity && displayEntity.hasProfileImage && !displayEntity.profileImageUrl) {
+      getAvatarUrl(displayEntity).then(function (url) {
+        setAvatarUrl(url);
+      });
+    }
+  }, [displayEntity]);
+  var displayMatchedEntity = displayEntity ? _objectSpread(_objectSpread({}, displayEntity), {}, {
+    profileImageUrl: avatarUrl
+  }) : null;
 
   var renderLogSection = function renderLogSection() {
     var direction = call.direction,
@@ -159,12 +194,19 @@ var WebRTCNotificationSection = function WebRTCNotificationSection(_ref) {
     }, /*#__PURE__*/_react["default"].createElement("div", {
       "data-sign": "inboundNotification",
       className: (0, _classnames2["default"])(!isWide ? _styles["default"].classic : null, _styles["default"].content)
-    }, /*#__PURE__*/_react["default"].createElement("div", {
+    }, renderCallNotificationAvatar === null || renderCallNotificationAvatar === void 0 ? void 0 : renderCallNotificationAvatar(displayMatchedEntity, entityType), /*#__PURE__*/_react["default"].createElement("div", {
+      "data-sign": "logName",
       title: logName,
       className: _styles["default"].contact
-    }, logName), /*#__PURE__*/_react["default"].createElement("div", {
+    }, entityDetailLink ? /*#__PURE__*/_react["default"].createElement(_Link.RcLink, {
+      variant: "inherit",
+      onClick: function onClick() {
+        return window.open(entityDetailLink, '_blank');
+      }
+    }, logName) : logName), subContactNameDisplay && /*#__PURE__*/_react["default"].createElement("div", {
+      "data-sign": "subName",
       className: _styles["default"].number
-    }, formatNumber), /*#__PURE__*/_react["default"].createElement("div", {
+    }, subContactNameDisplay), /*#__PURE__*/_react["default"].createElement("div", {
       className: _styles["default"].control
     }, /*#__PURE__*/_react["default"].createElement("ul", {
       className: (0, _classnames2["default"])(_styles["default"].buttonsGroup, _defineProperty({}, _styles["default"].singleCallCtrl, !hasActiveSession))

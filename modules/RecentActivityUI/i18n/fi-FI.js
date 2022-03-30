@@ -8,7 +8,7 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 var _default = {
   recentActivities: "Viimeisimmät tapahtumat",
-  text: "Teksti",
+  text: "Tekstiviesti",
   fax: "Faksi",
   voicemail: "Puhelinvastaaja",
   call: "Puhelu"

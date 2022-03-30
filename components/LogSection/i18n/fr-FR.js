@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  saveLog: "Enregistrer"
+  saveLog: "Sauvegarder"
 }; // @key: @#@"saveLog"@#@ @source: @#@"Save"@#@
 
 exports["default"] = _default;

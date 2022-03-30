@@ -1,0 +1,1 @@
+{"version":3,"sources":["components/CommunicationSetupPanel/i18n/en-US.ts"],"names":["dial","message"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,IAAI,EAAE,MADO;AAEbC,EAAAA,OAAO,EAAE;AAFI,C","sourcesContent":["export default {\n  dial: 'Dial',\n  message: 'Message'\n};\n"],"file":"en-US.js"}

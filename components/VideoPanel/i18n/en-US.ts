@@ -21,7 +21,8 @@ export default {
   turnOffCamera: 'Turn off camera for participants',
   requirePassword: 'Require password',
   useE2ee: 'Use end-to-end encryption',
-  e2eeTooltip: "End-to-end encrypted meetings are the most private, but features like joining by phone, closed captions, and recording aren't available.",
+  e2eeTooltip:
+    "End-to-end encrypted meetings are the most private, but features like joining by phone, closed captions, and recording aren't available.",
   setPassword: 'Set password *',
   setPasswordNotSymbol: 'Set password',
   passwordEmptyError: 'Meeting password required',
@@ -38,8 +39,10 @@ export default {
   lockTooltip: 'This setting is managed by your company admin',
   pmiSettingAlert: 'These settings will apply to all meetings created with PMI',
   today: 'Today',
-  scheduleForGuidance: "Scheduling for someone else?\n1. Make sure you're on their Outlook calendar.\n2. From the dropdown, select the person you're scheduling for.\n",
+  scheduleForGuidance:
+    "Scheduling for someone else?\n1. Make sure you're on their Outlook calendar.\n2. From the dropdown, select the person you're scheduling for.\n",
   scheduleForGuidanceMore: 'Learn details',
   changePmiSettings: 'Change Personal meeting settings',
-  ieSupportAlert: 'Please note that {appName} won\'t work with Internet Explorer 11 after Feb 16, 2022. We recommend switching to Microsoft Edge or updating to Outlook 2016 or above.',
+  ieSupportAlert:
+    "Please note that {appName} won't work with Internet Explorer 11 after Feb 16, 2022. We recommend switching to Microsoft Edge or updating to Outlook 2016 or above.",
 };

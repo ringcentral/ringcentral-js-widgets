@@ -1,6 +1,6 @@
 export default {
   recentActivities: "Viimeisimmät tapahtumat",
-  text: "Teksti",
+  text: "Tekstiviesti",
   fax: "Faksi",
   voicemail: "Puhelinvastaaja",
   call: "Puhelu"

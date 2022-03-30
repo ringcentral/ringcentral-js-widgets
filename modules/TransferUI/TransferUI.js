@@ -53,7 +53,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } Object.defineProperty(subClass, "prototype", { value: Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }), writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
@@ -113,7 +113,8 @@ var TransferUI = (_dec = (0, _di.Module)({
           enableWarmTransfer = _ref$enableWarmTransf === void 0 ? false : _ref$enableWarmTransf;
       this._params = params;
       var sessionId = params.sessionId,
-          type = params.type;
+          _params$type = params.type,
+          type = _params$type === void 0 ? 'active' : _params$type;
       return {
         sessionId: sessionId,
         currentLocale: this._deps.locale.currentLocale,
@@ -184,7 +185,8 @@ var TransferUI = (_dec = (0, _di.Module)({
     get: function get() {
       var _this$_params = this._params,
           sessionId = _this$_params.sessionId,
-          type = _this$_params.type;
+          _this$_params$type = _this$_params.type,
+          type = _this$_params$type === void 0 ? 'active' : _this$_params$type;
 
       if (type === 'active' && this._deps.activeCallControl) {
         return this._deps.activeCallControl.activeSession;

@@ -71,9 +71,11 @@ var _di = require("@ringcentral-integration/commons/lib/di");
 
 var _proxify = require("@ringcentral-integration/commons/lib/proxy/proxify");
 
+var _AnalyticsV = require("@ringcentral-integration/commons/modules/AnalyticsV2");
+
 var _core = require("@ringcentral-integration/core");
 
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8, _descriptor9;
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8, _descriptor9;
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -109,7 +111,7 @@ function _get() { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Re
 
 function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } Object.defineProperty(subClass, "prototype", { value: Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }), writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
@@ -132,16 +134,16 @@ var CallLogSection = (_dec = (0, _di.Module)({
     dep: 'CallLogSectionOptions',
     optional: true
   }]
-}), _dec2 = (0, _core.computed)(function (that) {
+}), _dec2 = (0, _core.track)(_AnalyticsV.trackEvents.clickSaveLogSection), _dec3 = (0, _core.track)(_AnalyticsV.trackEvents.clickCloseLogNotification), _dec4 = (0, _core.computed)(function (that) {
   return [that.identifyList, that.callsMappingState];
-}), _dec3 = (0, _core.computed)(function (that) {
-  return [that.callsMappingState, that.callsSavingStatus];
-}), _dec4 = (0, _core.computed)(function (that) {
-  return [that.currentIdentify, that.callsMappingState];
 }), _dec5 = (0, _core.computed)(function (that) {
-  return [that.currentIdentify, that._deps.callHistory.calls, that._deps.callMonitor.calls];
+  return [that.callsMappingState, that.callsSavingStatus];
 }), _dec6 = (0, _core.computed)(function (that) {
-  return [that.currentNotificationIdentify, that._deps.callMonitor.calls];
+  return [that.currentIdentify, that.callsMappingState];
+}), _dec7 = (0, _core.computed)(function (that) {
+  return [that.currentIdentify, that._deps.callHistory.calls, that._deps.callMonitor.calls];
+}), _dec8 = (0, _core.computed)(function (that) {
+  return [that.currentNotificationIdentify, that._deps.callMonitor.calls, that._deps.callHistory.calls];
 }), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModuleV) {
   _inherits(CallLogSection, _RcModuleV);
 
@@ -264,17 +266,14 @@ var CallLogSection = (_dec = (0, _di.Module)({
       return saving;
     }()
   }, {
-    key: "saveError",
+    key: "markAsUnSaving",
     value: function () {
-      var _saveError = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(identify) {
+      var _markAsUnSaving = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(identify) {
         return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
-                this.update(identify, {
-                  isEdited: true,
-                  isSucceed: false
-                }, false);
+                this.update(identify, {}, false);
 
               case 1:
               case "end":
@@ -284,7 +283,34 @@ var CallLogSection = (_dec = (0, _di.Module)({
         }, _callee3, this);
       }));
 
-      function saveError(_x3) {
+      function markAsUnSaving(_x3) {
+        return _markAsUnSaving.apply(this, arguments);
+      }
+
+      return markAsUnSaving;
+    }()
+  }, {
+    key: "saveError",
+    value: function () {
+      var _saveError = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(identify) {
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                this.update(identify, {
+                  isEdited: true,
+                  isSucceed: false
+                }, false);
+
+              case 1:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4, this);
+      }));
+
+      function saveError(_x4) {
         return _saveError.apply(this, arguments);
       }
 
@@ -294,33 +320,33 @@ var CallLogSection = (_dec = (0, _di.Module)({
   }, {
     key: "_handleSuccess",
     value: function () {
-      var _handleSuccess2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(identify) {
+      var _handleSuccess2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(identify) {
         var _len,
             args,
             _key,
-            _args4 = arguments;
+            _args5 = arguments;
 
-        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
                 this.saveSuccess(identify);
 
-                for (_len = _args4.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-                  args[_key - 1] = _args4[_key];
+                for (_len = _args5.length, args = new Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+                  args[_key - 1] = _args5[_key];
                 }
 
                 if (typeof this._onSuccess === 'function') this._onSuccess.apply(this, [identify].concat(args));
 
               case 3:
               case "end":
-                return _context4.stop();
+                return _context5.stop();
             }
           }
-        }, _callee4, this);
+        }, _callee5, this);
       }));
 
-      function _handleSuccess(_x4) {
+      function _handleSuccess(_x5) {
         return _handleSuccess2.apply(this, arguments);
       }
 
@@ -330,39 +356,39 @@ var CallLogSection = (_dec = (0, _di.Module)({
   }, {
     key: "_handleError",
     value: function () {
-      var _handleError2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(identify) {
+      var _handleError2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(identify) {
         var _len2,
             args,
             _key2,
-            _args5 = arguments;
+            _args6 = arguments;
 
-        return regeneratorRuntime.wrap(function _callee5$(_context5) {
+        return regeneratorRuntime.wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
                 this.saveError(identify);
 
                 if (!(typeof this._onError === 'function')) {
-                  _context5.next = 5;
+                  _context6.next = 5;
                   break;
                 }
 
-                for (_len2 = _args5.length, args = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
-                  args[_key2 - 1] = _args5[_key2];
+                for (_len2 = _args6.length, args = new Array(_len2 > 1 ? _len2 - 1 : 0), _key2 = 1; _key2 < _len2; _key2++) {
+                  args[_key2 - 1] = _args6[_key2];
                 }
 
-                _context5.next = 5;
+                _context6.next = 5;
                 return this._onError.apply(this, [identify].concat(args));
 
               case 5:
               case "end":
-                return _context5.stop();
+                return _context6.stop();
             }
           }
-        }, _callee5, this);
+        }, _callee6, this);
       }));
 
-      function _handleError(_x5) {
+      function _handleError(_x6) {
         return _handleError2.apply(this, arguments);
       }
 
@@ -371,10 +397,10 @@ var CallLogSection = (_dec = (0, _di.Module)({
   }, {
     key: "showLogSection",
     value: function () {
-      var _showLogSection = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(identify) {
-        return regeneratorRuntime.wrap(function _callee6$(_context6) {
+      var _showLogSection = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(identify) {
+        return regeneratorRuntime.wrap(function _callee7$(_context7) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context7.prev = _context7.next) {
               case 0:
                 if (!this.show || identify !== this.currentIdentify) {
                   this.setLogSectionIdentify(identify);
@@ -382,13 +408,13 @@ var CallLogSection = (_dec = (0, _di.Module)({
 
               case 1:
               case "end":
-                return _context6.stop();
+                return _context7.stop();
             }
           }
-        }, _callee6, this);
+        }, _callee7, this);
       }));
 
-      function showLogSection(_x6) {
+      function showLogSection(_x7) {
         return _showLogSection.apply(this, arguments);
       }
 
@@ -415,10 +441,10 @@ var CallLogSection = (_dec = (0, _di.Module)({
   }, {
     key: "showLogNotification",
     value: function () {
-      var _showLogNotification = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(identify) {
-        return regeneratorRuntime.wrap(function _callee7$(_context7) {
+      var _showLogNotification = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8(identify) {
+        return regeneratorRuntime.wrap(function _callee8$(_context8) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context8.prev = _context8.next) {
               case 0:
                 if (!this.showNotification || identify !== this.currentNotificationIdentify) {
                   this.setLogNotificationIdentify(identify);
@@ -426,13 +452,13 @@ var CallLogSection = (_dec = (0, _di.Module)({
 
               case 1:
               case "end":
-                return _context7.stop();
+                return _context8.stop();
             }
           }
-        }, _callee7, this);
+        }, _callee8, this);
       }));
 
-      function showLogNotification(_x7) {
+      function showLogNotification(_x8) {
         return _showLogNotification.apply(this, arguments);
       }
 
@@ -465,37 +491,37 @@ var CallLogSection = (_dec = (0, _di.Module)({
   }, {
     key: "updateCallLog",
     value: function () {
-      var _updateCallLog = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8(identify) {
+      var _updateCallLog = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9(identify) {
         var _len3,
             args,
             _key3,
-            _args8 = arguments;
+            _args9 = arguments;
 
-        return regeneratorRuntime.wrap(function _callee8$(_context8) {
+        return regeneratorRuntime.wrap(function _callee9$(_context9) {
           while (1) {
-            switch (_context8.prev = _context8.next) {
+            switch (_context9.prev = _context9.next) {
               case 0:
                 this.update(identify, {
                   latestUpdateTime: Date.now(),
                   isEdited: true
                 }, this.callsSavingStatus[identify]);
 
-                for (_len3 = _args8.length, args = new Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {
-                  args[_key3 - 1] = _args8[_key3];
+                for (_len3 = _args9.length, args = new Array(_len3 > 1 ? _len3 - 1 : 0), _key3 = 1; _key3 < _len3; _key3++) {
+                  args[_key3 - 1] = _args9[_key3];
                 }
 
-                _context8.next = 4;
+                _context9.next = 4;
                 return this._onUpdate.apply(this, [identify].concat(args));
 
               case 4:
               case "end":
-                return _context8.stop();
+                return _context9.stop();
             }
           }
-        }, _callee8, this);
+        }, _callee9, this);
       }));
 
-      function updateCallLog(_x8) {
+      function updateCallLog(_x9) {
         return _updateCallLog.apply(this, arguments);
       }
 
@@ -505,37 +531,37 @@ var CallLogSection = (_dec = (0, _di.Module)({
   }, {
     key: "saveCallLog",
     value: function () {
-      var _saveCallLog = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9(identify) {
+      var _saveCallLog = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10(identify) {
         var _len4,
             args,
             _key4,
             result,
-            _args9 = arguments;
+            _args10 = arguments;
 
-        return regeneratorRuntime.wrap(function _callee9$(_context9) {
+        return regeneratorRuntime.wrap(function _callee10$(_context10) {
           while (1) {
-            switch (_context9.prev = _context9.next) {
+            switch (_context10.prev = _context10.next) {
               case 0:
                 if (!(identify && (!this.callsMapping[identify] || !this.callsMapping[identify].isSaving))) {
-                  _context9.next = 18;
+                  _context10.next = 18;
                   break;
                 }
 
                 this.saving(identify);
 
-                for (_len4 = _args9.length, args = new Array(_len4 > 1 ? _len4 - 1 : 0), _key4 = 1; _key4 < _len4; _key4++) {
-                  args[_key4 - 1] = _args9[_key4];
+                for (_len4 = _args10.length, args = new Array(_len4 > 1 ? _len4 - 1 : 0), _key4 = 1; _key4 < _len4; _key4++) {
+                  args[_key4 - 1] = _args10[_key4];
                 }
 
-                _context9.prev = 3;
-                _context9.next = 6;
+                _context10.prev = 3;
+                _context10.next = 6;
                 return this._logFunction.apply(this, [identify].concat(args));
 
               case 6:
-                result = _context9.sent;
+                result = _context10.sent;
 
                 if (result) {
-                  _context9.next = 9;
+                  _context10.next = 9;
                   break;
                 }
 
@@ -546,26 +572,26 @@ var CallLogSection = (_dec = (0, _di.Module)({
                   result: result
                 }));
 
-                return _context9.abrupt("return", result);
+                return _context10.abrupt("return", result);
 
               case 13:
-                _context9.prev = 13;
-                _context9.t0 = _context9["catch"](3);
-                _context9.next = 17;
+                _context10.prev = 13;
+                _context10.t0 = _context10["catch"](3);
+                _context10.next = 17;
                 return this._handleError.apply(this, [identify].concat(args));
 
               case 17:
-                console.warn(_context9.t0);
+                console.warn(_context10.t0);
 
               case 18:
               case "end":
-                return _context9.stop();
+                return _context10.stop();
             }
           }
-        }, _callee9, this, [[3, 13]]);
+        }, _callee10, this, [[3, 13]]);
       }));
 
-      function saveCallLog(_x9) {
+      function saveCallLog(_x10) {
         return _saveCallLog.apply(this, arguments);
       }
 
@@ -574,41 +600,41 @@ var CallLogSection = (_dec = (0, _di.Module)({
   }, {
     key: "handleLogSection",
     value: function () {
-      var _handleLogSection = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10(identify) {
-        return regeneratorRuntime.wrap(function _callee10$(_context10) {
+      var _handleLogSection = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11(identify) {
+        return regeneratorRuntime.wrap(function _callee11$(_context11) {
           while (1) {
-            switch (_context10.prev = _context10.next) {
+            switch (_context11.prev = _context11.next) {
               case 0:
                 if (this.show) {
-                  _context10.next = 5;
+                  _context11.next = 5;
                   break;
                 }
 
-                _context10.next = 3;
+                _context11.next = 3;
                 return this.showLogSection(identify);
 
               case 3:
-                _context10.next = 8;
+                _context11.next = 8;
                 break;
 
               case 5:
                 if (!(!this.notificationIsExpand && this.currentIdentify !== identify)) {
-                  _context10.next = 8;
+                  _context11.next = 8;
                   break;
                 }
 
-                _context10.next = 8;
+                _context11.next = 8;
                 return this.showLogNotification(identify);
 
               case 8:
               case "end":
-                return _context10.stop();
+                return _context11.stop();
             }
           }
-        }, _callee10, this);
+        }, _callee11, this);
       }));
 
-      function handleLogSection(_x10) {
+      function handleLogSection(_x11) {
         return _handleLogSection.apply(this, arguments);
       }
 
@@ -617,10 +643,10 @@ var CallLogSection = (_dec = (0, _di.Module)({
   }, {
     key: "closeLogSection",
     value: function () {
-      var _closeLogSection = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11() {
-        return regeneratorRuntime.wrap(function _callee11$(_context11) {
+      var _closeLogSection = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12() {
+        return regeneratorRuntime.wrap(function _callee12$(_context12) {
           while (1) {
-            switch (_context11.prev = _context11.next) {
+            switch (_context12.prev = _context12.next) {
               case 0:
                 if (this.show) {
                   this.setLogSectionIdentify(null);
@@ -628,10 +654,10 @@ var CallLogSection = (_dec = (0, _di.Module)({
 
               case 1:
               case "end":
-                return _context11.stop();
+                return _context12.stop();
             }
           }
-        }, _callee11, this);
+        }, _callee12, this);
       }));
 
       function closeLogSection() {
@@ -643,30 +669,30 @@ var CallLogSection = (_dec = (0, _di.Module)({
   }, {
     key: "discardAndHandleNotification",
     value: function () {
-      var _discardAndHandleNotification = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12() {
+      var _discardAndHandleNotification = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee13() {
         var currentNotificationIdentify;
-        return regeneratorRuntime.wrap(function _callee12$(_context12) {
+        return regeneratorRuntime.wrap(function _callee13$(_context13) {
           while (1) {
-            switch (_context12.prev = _context12.next) {
+            switch (_context13.prev = _context13.next) {
               case 0:
                 currentNotificationIdentify = this.currentNotificationIdentify;
-                _context12.next = 3;
+                _context13.next = 3;
                 return this.closeLogNotification();
 
               case 3:
-                _context12.next = 5;
+                _context13.next = 5;
                 return this.closeLogSection();
 
               case 5:
-                _context12.next = 7;
+                _context13.next = 7;
                 return this.showLogSection(currentNotificationIdentify);
 
               case 7:
               case "end":
-                return _context12.stop();
+                return _context13.stop();
             }
           }
-        }, _callee12, this);
+        }, _callee13, this);
       }));
 
       function discardAndHandleNotification() {
@@ -678,35 +704,35 @@ var CallLogSection = (_dec = (0, _di.Module)({
   }, {
     key: "saveAndHandleNotification",
     value: function () {
-      var _saveAndHandleNotification = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee13() {
+      var _saveAndHandleNotification = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee14() {
         var currentNotificationIdentify, currentIdentify;
-        return regeneratorRuntime.wrap(function _callee13$(_context13) {
+        return regeneratorRuntime.wrap(function _callee14$(_context14) {
           while (1) {
-            switch (_context13.prev = _context13.next) {
+            switch (_context14.prev = _context14.next) {
               case 0:
                 currentNotificationIdentify = this.currentNotificationIdentify;
                 currentIdentify = this.currentIdentify;
-                _context13.next = 4;
+                _context14.next = 4;
                 return this.saveCallLog(currentIdentify);
 
               case 4:
-                _context13.next = 6;
+                _context14.next = 6;
                 return this.closeLogNotification();
 
               case 6:
-                _context13.next = 8;
+                _context14.next = 8;
                 return this.closeLogSection();
 
               case 8:
-                _context13.next = 10;
+                _context14.next = 10;
                 return this.showLogSection(currentNotificationIdentify);
 
               case 10:
               case "end":
-                return _context13.stop();
+                return _context14.stop();
             }
           }
-        }, _callee13, this);
+        }, _callee14, this);
       }));
 
       function saveAndHandleNotification() {
@@ -718,10 +744,10 @@ var CallLogSection = (_dec = (0, _di.Module)({
   }, {
     key: "closeLogNotification",
     value: function () {
-      var _closeLogNotification = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee14() {
-        return regeneratorRuntime.wrap(function _callee14$(_context14) {
+      var _closeLogNotification = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee15() {
+        return regeneratorRuntime.wrap(function _callee15$(_context15) {
           while (1) {
-            switch (_context14.prev = _context14.next) {
+            switch (_context15.prev = _context15.next) {
               case 0:
                 if (this.showNotification) {
                   this.setLogNotificationIdentify(null);
@@ -730,10 +756,10 @@ var CallLogSection = (_dec = (0, _di.Module)({
 
               case 1:
               case "end":
-                return _context14.stop();
+                return _context15.stop();
             }
           }
-        }, _callee14, this);
+        }, _callee15, this);
       }));
 
       function closeLogNotification() {
@@ -755,10 +781,10 @@ var CallLogSection = (_dec = (0, _di.Module)({
   }, {
     key: "shrinkNotification",
     value: function () {
-      var _shrinkNotification = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee15() {
-        return regeneratorRuntime.wrap(function _callee15$(_context15) {
+      var _shrinkNotification = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee16() {
+        return regeneratorRuntime.wrap(function _callee16$(_context16) {
           while (1) {
-            switch (_context15.prev = _context15.next) {
+            switch (_context16.prev = _context16.next) {
               case 0:
                 if (this.notificationIsExpand) {
                   this.setNotificationIsExpand(false);
@@ -766,10 +792,10 @@ var CallLogSection = (_dec = (0, _di.Module)({
 
               case 1:
               case "end":
-                return _context15.stop();
+                return _context16.stop();
             }
           }
-        }, _callee15, this);
+        }, _callee16, this);
       }));
 
       function shrinkNotification() {
@@ -781,10 +807,10 @@ var CallLogSection = (_dec = (0, _di.Module)({
   }, {
     key: "expandNotification",
     value: function () {
-      var _expandNotification = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee16() {
-        return regeneratorRuntime.wrap(function _callee16$(_context16) {
+      var _expandNotification = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee17() {
+        return regeneratorRuntime.wrap(function _callee17$(_context17) {
           while (1) {
-            switch (_context16.prev = _context16.next) {
+            switch (_context17.prev = _context17.next) {
               case 0:
                 if (!this.notificationIsExpand) {
                   this.setNotificationIsExpand(true);
@@ -792,10 +818,10 @@ var CallLogSection = (_dec = (0, _di.Module)({
 
               case 1:
               case "end":
-                return _context16.stop();
+                return _context17.stop();
             }
           }
-        }, _callee16, this);
+        }, _callee17, this);
       }));
 
       function expandNotification() {
@@ -807,33 +833,33 @@ var CallLogSection = (_dec = (0, _di.Module)({
   }, {
     key: "expandLogNotification",
     value: function () {
-      var _expandLogNotification = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee17() {
-        return regeneratorRuntime.wrap(function _callee17$(_context17) {
+      var _expandLogNotification = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee18() {
+        return regeneratorRuntime.wrap(function _callee18$(_context18) {
           while (1) {
-            switch (_context17.prev = _context17.next) {
+            switch (_context18.prev = _context18.next) {
               case 0:
                 if (this.show) {
-                  _context17.next = 5;
+                  _context18.next = 5;
                   break;
                 }
 
-                _context17.next = 3;
+                _context18.next = 3;
                 return this.showLogSection(this.currentNotificationIdentify);
 
               case 3:
-                _context17.next = 5;
+                _context18.next = 5;
                 return this.closeLogNotification();
 
               case 5:
-                _context17.next = 7;
+                _context18.next = 7;
                 return this.expandNotification();
 
               case 7:
               case "end":
-                return _context17.stop();
+                return _context18.stop();
             }
           }
-        }, _callee17, this);
+        }, _callee18, this);
       }));
 
       function expandLogNotification() {
@@ -860,7 +886,7 @@ var CallLogSection = (_dec = (0, _di.Module)({
     key: "callsMapping",
     get: function get() {
       return (0, _ramda.converge)((0, _ramda.mergeWith)((0, _ramda.flip)((0, _ramda.assoc)('isSaving'))), [_ramda.identity, // eslint-disable-next-line react-hooks/rules-of-hooks
-      (0, _ramda.useWith)(_ramda.pick, [_ramda.keys, _ramda.identity])]);
+      (0, _ramda.useWith)(_ramda.pick, [_ramda.keys, _ramda.identity])])(this.callsMappingState, this.callsSavingStatus);
     }
   }, {
     key: "currentCallLogStatus",
@@ -881,7 +907,7 @@ var CallLogSection = (_dec = (0, _di.Module)({
     get: function get() {
       var _this4 = this;
 
-      return this._deps.callMonitor.calls.find(function (call) {
+      return [].concat(_toConsumableArray(this._deps.callMonitor.calls), _toConsumableArray(this._deps.callHistory.calls)).find(function (call) {
         return call.sessionId === _this4.currentNotificationIdentify;
       }) || {};
     }
@@ -981,6 +1007,6 @@ var CallLogSection = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return false;
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "update", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "update"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "saveSuccess", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "saveSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "saving", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "saving"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "saveError", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "saveError"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_handleSuccess", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_handleSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_handleError", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_handleError"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "showLogSection", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "showLogSection"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setLogSectionIdentify", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setLogSectionIdentify"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setLogNotificationIdentify", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setLogNotificationIdentify"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "showLogNotification", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "showLogNotification"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateCallLog", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "updateCallLog"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "saveCallLog", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "saveCallLog"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "handleLogSection", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "handleLogSection"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "closeLogSection", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "closeLogSection"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "discardAndHandleNotification", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "discardAndHandleNotification"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "saveAndHandleNotification", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "saveAndHandleNotification"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "closeLogNotification", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "closeLogNotification"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setNotificationIsExpand", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setNotificationIsExpand"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "shrinkNotification", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "shrinkNotification"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "expandNotification", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "expandNotification"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "expandLogNotification", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "expandLogNotification"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "calls", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "calls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "callsMapping", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "callsMapping"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "currentCallLogStatus", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "currentCallLogStatus"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "currentCall", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "currentCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "currentNotificationCall", [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, "currentNotificationCall"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "update", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "update"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "saveSuccess", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "saveSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "saving", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "saving"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "markAsUnSaving", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "markAsUnSaving"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "saveError", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "saveError"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_handleSuccess", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_handleSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_handleError", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_handleError"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "showLogSection", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "showLogSection"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setLogSectionIdentify", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setLogSectionIdentify"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setLogNotificationIdentify", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setLogNotificationIdentify"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "showLogNotification", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "showLogNotification"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateCallLog", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "updateCallLog"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "saveCallLog", [_proxify.proxify, _dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "saveCallLog"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "handleLogSection", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "handleLogSection"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "closeLogSection", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "closeLogSection"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "discardAndHandleNotification", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "discardAndHandleNotification"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "saveAndHandleNotification", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "saveAndHandleNotification"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "closeLogNotification", [_proxify.proxify, _dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "closeLogNotification"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setNotificationIsExpand", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setNotificationIsExpand"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "shrinkNotification", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "shrinkNotification"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "expandNotification", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "expandNotification"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "expandLogNotification", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "expandLogNotification"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "calls", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "calls"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "callsMapping", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "callsMapping"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "currentCallLogStatus", [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, "currentCallLogStatus"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "currentCall", [_dec7], Object.getOwnPropertyDescriptor(_class2.prototype, "currentCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "currentNotificationCall", [_dec8], Object.getOwnPropertyDescriptor(_class2.prototype, "currentNotificationCall"), _class2.prototype)), _class2)) || _class);
 exports.CallLogSection = CallLogSection;
 //# sourceMappingURL=CallLogSection.js.map

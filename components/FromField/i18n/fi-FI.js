@@ -9,7 +9,7 @@ exports["default"] = void 0;
 var _default = {
   DirectNumber: "Suora",
   MainCompanyNumber: "Päänumero",
-  CompanyNumber: "Yritys",
+  CompanyNumber: "Yhtiö",
   CompanyFaxNumber: "Faksi",
   Blocked: "Estetty",
   AdditionalCompanyNumber: "Yritys",

@@ -45,4 +45,6 @@ export interface TransferUIPanelProps {
 export interface TransferUIContainerProps {
   params: { sessionId?: string; type?: string };
   enableWarmTransfer?: boolean;
+  phoneTypeRenderer?: (...args: any[]) => any;
+  phoneSourceNameRenderer?: (...args: any[]) => any;
 }

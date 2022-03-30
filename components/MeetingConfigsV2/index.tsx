@@ -51,7 +51,7 @@ import {
   MINUTE_SCALE,
 } from '../../lib/MeetingHelper';
 import { SpinnerOverlay } from '../SpinnerOverlay';
-import { MeetingAlert } from '../MeetingAlert';
+import { MeetingAlert, RemoveMeetingWarn } from '../MeetingAlert';
 import { ExtendedTooltip as MeetingOptionLocked } from './ExtendedTooltip';
 import i18n from './i18n';
 import styles from './styles.scss';
@@ -88,6 +88,8 @@ export interface MeetingConfigsProps {
   recurringMeetingPosition?: 'middle' | 'bottom';
   defaultTopic: string;
   showIeSupportAlert?: boolean;
+  showRemoveMeetingWarning?: boolean;
+  brandConfig?: any;
   appName?: string;
 }
 
@@ -211,6 +213,8 @@ export const MeetingConfigs: FunctionComponent<MeetingConfigsProps> = ({
   recurringMeetingPosition,
   defaultTopic,
   showIeSupportAlert,
+  showRemoveMeetingWarning,
+  brandConfig,
   appName,
 }) => {
   useEffect(() => {
@@ -307,6 +311,12 @@ export const MeetingConfigs: FunctionComponent<MeetingConfigsProps> = ({
     >
       <div className={styles.meetingContent}>
         {showSpinnerInConfigPanel ? <SpinnerOverlay /> : null}
+        {showRemoveMeetingWarning && (
+          <RemoveMeetingWarn
+            brandConfig={brandConfig}
+            currentLocale={currentLocale}
+          />
+        )}
         {showTopic ? (
           <div
             className={classnames(styles.meetingSection, styles.meetingTitle)}

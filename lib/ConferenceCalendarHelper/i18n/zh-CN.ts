@@ -1,7 +1,7 @@
 export default {
   inviteMeetingContent: "{accountName}正在邀请您参加 {brandName} 会议。\n\n从电脑、Mac、iOS 或 Android 加入：{joinUri}{passwordTpl}\n\n 或者从 iPhone 一键加入：\n\t    {mobileDialingNumberTpl}\n\n    或者从电话加入：\n\t     拨号：\n\t    {phoneDialingNumberTpl}\n\t     会议 ID：{meetingId}\n\t     可用的国际号码： {teleconference} ",
   conferenceLocationField: "电话会议，拨入号码：{dialInNumber}",
-  scheduleError: "对不起，出了点问题，请重试。",
+  scheduleError: "抱歉，出现问题，请重试。",
   noMeetingPermission: "对不起，您没有使用 {brandName} Meetings 的权限。请联系贵公司的管理员以继续。",
   noConferencePermission: "对不起，您没有使用 {brandName} 电话会议的权限。请联系贵公司的管理员以继续。",
   conferenceTitle: "{displayName}的电话会议",
@@ -14,7 +14,7 @@ export default {
   videoCall: "{brandName} 视频通话",
   addConferencingDetails: "添加电话会议详细信息",
   updateConferencingDetails: "更新电话会议详细信息",
-  scheduleError: "对不起，出了点问题，请重试。",
+  scheduleError: "抱歉，出现问题，请重试。",
   deleteBtn: "删除",
   settingsBtn: "设置",
   saveAsDefaultAndNotShowAgain: "保存为默认值且不再显示",

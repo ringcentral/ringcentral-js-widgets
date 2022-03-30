@@ -34,9 +34,9 @@ require("core-js/modules/es6.array.from");
 
 require("core-js/modules/es6.array.is-array");
 
-require("core-js/modules/es6.object.create");
-
 require("core-js/modules/es6.object.define-property");
+
+require("core-js/modules/es6.object.create");
 
 require("core-js/modules/es6.reflect.construct");
 
@@ -119,7 +119,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } Object.defineProperty(subClass, "prototype", { value: Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }), writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
@@ -174,13 +174,13 @@ var FieldItem = /*#__PURE__*/function (_Component) {
           showFoundFromServer = _this$props$fieldOpti.showFoundFromServer,
           onSave = _this$props.onSave,
           onSelectViewVisible = _this$props.onSelectViewVisible,
-          contactSearch = _this$props.contactSearch;
-      var _this$props2 = _this.props,
-          currentLog = _this$props2.currentLog,
-          startAdornmentRender = _this$props2.startAdornmentRender,
-          referenceFieldOptions = _this$props2.referenceFieldOptions,
-          currentLocale = _this$props2.currentLocale,
-          disabled = _this$props2.disabled;
+          contactSearch = _this$props.contactSearch,
+          onFullSelectFieldClick = _this$props.onFullSelectFieldClick,
+          currentLog = _this$props.currentLog,
+          startAdornmentRender = _this$props.startAdornmentRender,
+          referenceFieldOptions = _this$props.referenceFieldOptions,
+          currentLocale = _this$props.currentLocale,
+          disabled = _this$props.disabled;
       var task = currentLog.task,
           _currentLog$currentLo = currentLog.currentLogCall;
       _currentLog$currentLo = _currentLog$currentLo === void 0 ? {} : _currentLog$currentLo;
@@ -276,6 +276,7 @@ var FieldItem = /*#__PURE__*/function (_Component) {
           };
         }(),
         onSelectViewVisible: onSelectViewVisible,
+        onFullSelectFieldClick: onFullSelectFieldClick,
         valueFunction: getValue,
         renderFunction: getLabel,
         secondaryRenderFunction: getType,
@@ -296,13 +297,13 @@ var FieldItem = /*#__PURE__*/function (_Component) {
     _this.renderInput = function () {
       var _this$currentValue;
 
-      var _this$props3 = _this.props,
-          _this$props3$fieldOpt = _this$props3.fieldOption,
-          label = _this$props3$fieldOpt.label,
-          value = _this$props3$fieldOpt.value,
-          type = _this$props3$fieldOpt.type,
-          required = _this$props3$fieldOpt.required,
-          onSave = _this$props3.onSave;
+      var _this$props2 = _this.props,
+          _this$props2$fieldOpt = _this$props2.fieldOption,
+          label = _this$props2$fieldOpt.label,
+          value = _this$props2$fieldOpt.value,
+          type = _this$props2$fieldOpt.type,
+          required = _this$props2$fieldOpt.required,
+          onSave = _this$props2.onSave;
       return /*#__PURE__*/_react["default"].createElement(_LogFieldsInput.LogFieldsInput, {
         label: label,
         type: type === 'string' ? 'text' : 'number',
@@ -317,16 +318,17 @@ var FieldItem = /*#__PURE__*/function (_Component) {
     };
 
     _this.renderTextArea = function () {
-      var _this$props4 = _this.props,
-          _this$props4$fieldOpt = _this$props4.fieldOption,
-          label = _this$props4$fieldOpt.label,
-          value = _this$props4$fieldOpt.value,
-          error = _this$props4$fieldOpt.error,
-          helperText = _this$props4$fieldOpt.helperText,
-          required = _this$props4$fieldOpt.required,
-          _onChange = _this$props4$fieldOpt.onChange,
-          disabled = _this$props4$fieldOpt.disabled,
-          onSave = _this$props4.onSave;
+      var _this$props3 = _this.props,
+          _this$props3$fieldOpt = _this$props3.fieldOption,
+          label = _this$props3$fieldOpt.label,
+          value = _this$props3$fieldOpt.value,
+          error = _this$props3$fieldOpt.error,
+          helperText = _this$props3$fieldOpt.helperText,
+          required = _this$props3$fieldOpt.required,
+          _onChange = _this$props3$fieldOpt.onChange,
+          disabled = _this$props3$fieldOpt.disabled,
+          onSave = _this$props3.onSave,
+          onTextAreaFocus = _this$props3.onTextAreaFocus;
       return /*#__PURE__*/_react["default"].createElement(_LogFieldsInput.LogFieldsInput, {
         label: label,
         required: required,
@@ -341,17 +343,18 @@ var FieldItem = /*#__PURE__*/function (_Component) {
           _this._updateValue(value, text, onSave);
 
           if (_onChange) _onChange(text);
-        }
+        },
+        onFocus: onTextAreaFocus
       });
     };
 
     _this.renderDatePicker = function () {
-      var _this$props5 = _this.props,
-          _this$props5$fieldOpt = _this$props5.fieldOption,
-          label = _this$props5$fieldOpt.label,
-          fieldValue = _this$props5$fieldOpt.value,
-          required = _this$props5$fieldOpt.required,
-          onSave = _this$props5.onSave;
+      var _this$props4 = _this.props,
+          _this$props4$fieldOpt = _this$props4.fieldOption,
+          label = _this$props4$fieldOpt.label,
+          fieldValue = _this$props4$fieldOpt.value,
+          required = _this$props4$fieldOpt.required,
+          onSave = _this$props4.onSave;
       var fieldSize = _this.props.fieldSize;
       var date = _this.currentValue ? (0, _timeFormatHelper.getDateFromUTCDay)(_this.currentValue) : null;
       return /*#__PURE__*/_react["default"].createElement(_DatePicker.RcDatePicker, {
@@ -393,17 +396,17 @@ var FieldItem = /*#__PURE__*/function (_Component) {
     };
 
     _this.renderSubjectField = function () {
+      var _this$props5 = _this.props,
+          _this$props5$currentL = _this$props5.currentLog,
+          task = _this$props5$currentL.task,
+          subjectPicklist = _this$props5$currentL.subjectPicklist,
+          subjectDropdownsTracker = _this$props5.subjectDropdownsTracker,
+          timeout = _this$props5.timeout;
       var _this$props6 = _this.props,
-          _this$props6$currentL = _this$props6.currentLog,
-          task = _this$props6$currentL.task,
-          subjectPicklist = _this$props6$currentL.subjectPicklist,
-          subjectDropdownsTracker = _this$props6.subjectDropdownsTracker,
-          timeout = _this$props6.timeout;
-      var _this$props7 = _this.props,
-          _this$props7$fieldOpt = _this$props7.fieldOption,
-          required = _this$props7$fieldOpt.required,
-          label = _this$props7$fieldOpt.label,
-          onSave = _this$props7.onSave;
+          _this$props6$fieldOpt = _this$props6.fieldOption,
+          required = _this$props6$fieldOpt.required,
+          label = _this$props6$fieldOpt.label,
+          onSave = _this$props6.onSave;
       return /*#__PURE__*/_react["default"].createElement(_InputSelect["default"], {
         required: required,
         subjectPicklist: subjectPicklist,
@@ -417,19 +420,21 @@ var FieldItem = /*#__PURE__*/function (_Component) {
     };
 
     _this.renderSelectMenu = function () {
-      var _this$props8 = _this.props,
-          _this$props8$fieldOpt = _this$props8.fieldOption,
-          label = _this$props8$fieldOpt.label,
-          fieldValue = _this$props8$fieldOpt.value,
-          picklistOptions = _this$props8$fieldOpt.picklistOptions,
-          required = _this$props8$fieldOpt.required,
-          helperText = _this$props8$fieldOpt.helperText,
-          error = _this$props8$fieldOpt.error,
-          onChange = _this$props8$fieldOpt.onChange,
-          _this$props8$fieldOpt2 = _this$props8$fieldOpt.disabled,
-          propsDisabled = _this$props8$fieldOpt2 === void 0 ? false : _this$props8$fieldOpt2,
-          placeholder = _this$props8$fieldOpt.placeholder,
-          onSave = _this$props8.onSave;
+      var _this$props7 = _this.props,
+          _this$props7$fieldOpt = _this$props7.fieldOption,
+          label = _this$props7$fieldOpt.label,
+          fieldValue = _this$props7$fieldOpt.value,
+          picklistOptions = _this$props7$fieldOpt.picklistOptions,
+          required = _this$props7$fieldOpt.required,
+          helperText = _this$props7$fieldOpt.helperText,
+          error = _this$props7$fieldOpt.error,
+          onChange = _this$props7$fieldOpt.onChange,
+          _this$props7$fieldOpt2 = _this$props7$fieldOpt.disabled,
+          propsDisabled = _this$props7$fieldOpt2 === void 0 ? false : _this$props7$fieldOpt2,
+          placeholder = _this$props7$fieldOpt.placeholder,
+          onSave = _this$props7.onSave,
+          _this$props7$onSelect = _this$props7.onSelectListOpen,
+          onSelectListOpen = _this$props7$onSelect === void 0 ? function () {} : _this$props7$onSelect;
       var selectList = (picklistOptions || []).map(function (item) {
         var value = item;
         var label = item !== null ? item : appDefaultValue;
@@ -496,19 +501,22 @@ var FieldItem = /*#__PURE__*/function (_Component) {
             return _ref4.apply(this, arguments);
           };
         }(),
-        options: selectList
+        options: selectList,
+        onOpen: function onOpen() {
+          return onSelectListOpen(fieldValue);
+        }
       });
     };
 
     _this.renderRadio = function () {
       var _task$tickets, _task$matches;
 
-      var _this$props9 = _this.props,
-          _this$props9$fieldOpt = _this$props9.fieldOption,
-          picklistOptions = _this$props9$fieldOpt.picklistOptions,
-          label = _this$props9$fieldOpt.label,
-          currentLog = _this$props9.currentLog,
-          disableAllFields = _this$props9.disabled;
+      var _this$props8 = _this.props,
+          _this$props8$fieldOpt = _this$props8.fieldOption,
+          picklistOptions = _this$props8$fieldOpt.picklistOptions,
+          label = _this$props8$fieldOpt.label,
+          currentLog = _this$props8.currentLog,
+          disableAllFields = _this$props8.disabled;
       var task = currentLog.task,
           disableSaveLog = currentLog.disableSaveLog;
       var options = [{
@@ -540,13 +548,13 @@ var FieldItem = /*#__PURE__*/function (_Component) {
       var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(event, value) {
         var _task$tickets$;
 
-        var _this$props10, currentLog, onUpdateCallLog, currentSessionId, _currentLog$task, task;
+        var _this$props9, currentLog, onUpdateCallLog, currentSessionId, _currentLog$task, task;
 
         return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                _this$props10 = _this.props, currentLog = _this$props10.currentLog, onUpdateCallLog = _this$props10.onUpdateCallLog;
+                _this$props9 = _this.props, currentLog = _this$props9.currentLog, onUpdateCallLog = _this$props9.onUpdateCallLog;
                 currentSessionId = currentLog.currentSessionId, _currentLog$task = currentLog.task, task = _currentLog$task === void 0 ? {} : _currentLog$task;
                 _context4.next = 4;
                 return onUpdateCallLog(_objectSpread(_objectSpread({}, currentLog), {}, {
@@ -572,10 +580,10 @@ var FieldItem = /*#__PURE__*/function (_Component) {
     _this.renderTicketSelectList = function () {
       var _task$tickets2;
 
-      var _this$props11 = _this.props,
-          currentLog = _this$props11.currentLog,
-          fieldOption = _this$props11.fieldOption,
-          disabled = _this$props11.disabled;
+      var _this$props10 = _this.props,
+          currentLog = _this$props10.currentLog,
+          fieldOption = _this$props10.fieldOption,
+          disabled = _this$props10.disabled;
       var renderCondition = fieldOption.renderCondition,
           label = fieldOption.label;
       var task = currentLog.task; // TODO: consider move this logic to zendesk
@@ -608,9 +616,9 @@ var FieldItem = /*#__PURE__*/function (_Component) {
 
     _this.onSelectChange = function (event) {
       var value = event.target.value;
-      var _this$props12 = _this.props,
-          currentLog = _this$props12.currentLog,
-          onUpdateCallLog = _this$props12.onUpdateCallLog;
+      var _this$props11 = _this.props,
+          currentLog = _this$props11.currentLog,
+          onUpdateCallLog = _this$props11.onUpdateCallLog;
       var currentSessionId = currentLog.currentSessionId,
           _currentLog$task2 = currentLog.task,
           task = _currentLog$task2 === void 0 ? {} : _currentLog$task2;
@@ -624,13 +632,13 @@ var FieldItem = /*#__PURE__*/function (_Component) {
     _this.onInputSelectChange = function (value) {
       return /*#__PURE__*/function () {
         var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(item) {
-          var _this$props13, _this$props13$current, currentSessionId, _this$props13$current2, task, onUpdateCallLog, customInputDataStruct, defaultLogData, logData;
+          var _this$props12, _this$props12$current, currentSessionId, _this$props12$current2, task, onUpdateCallLog, customInputDataStruct, defaultLogData, logData;
 
           return regeneratorRuntime.wrap(function _callee5$(_context5) {
             while (1) {
               switch (_context5.prev = _context5.next) {
                 case 0:
-                  _this$props13 = _this.props, _this$props13$current = _this$props13.currentLog, currentSessionId = _this$props13$current.currentSessionId, _this$props13$current2 = _this$props13$current.task, task = _this$props13$current2 === void 0 ? {} : _this$props13$current2, onUpdateCallLog = _this$props13.onUpdateCallLog, customInputDataStruct = _this$props13.customInputDataStruct;
+                  _this$props12 = _this.props, _this$props12$current = _this$props12.currentLog, currentSessionId = _this$props12$current.currentSessionId, _this$props12$current2 = _this$props12$current.task, task = _this$props12$current2 === void 0 ? {} : _this$props12$current2, onUpdateCallLog = _this$props12.onUpdateCallLog, customInputDataStruct = _this$props12.customInputDataStruct;
                   defaultLogData = {
                     isSaved: false,
                     task: _defineProperty({}, value, item)
@@ -684,13 +692,13 @@ var FieldItem = /*#__PURE__*/function (_Component) {
   }, {
     key: "render",
     value: function render() {
-      var _this$props14 = this.props,
-          _this$props14$fieldOp = _this$props14.fieldOption,
-          value = _this$props14$fieldOp.value,
-          type = _this$props14$fieldOp.type,
-          error = _this$props14$fieldOp.error,
-          enableScrollError = _this$props14$fieldOp.enableScrollError,
-          editSectionScrollBy = _this$props14.editSectionScrollBy;
+      var _this$props13 = this.props,
+          _this$props13$fieldOp = _this$props13.fieldOption,
+          value = _this$props13$fieldOp.value,
+          type = _this$props13$fieldOp.type,
+          error = _this$props13$fieldOp.error,
+          enableScrollError = _this$props13$fieldOp.enableScrollError,
+          editSectionScrollBy = _this$props13.editSectionScrollBy;
 
       if (this.fieldsRenderMap[type] && this.fieldsRenderMap[type]()) {
         if (error && enableScrollError && this.fieldItemRef.current) {

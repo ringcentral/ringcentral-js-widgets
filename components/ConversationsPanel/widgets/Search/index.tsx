@@ -53,6 +53,7 @@ const Search: React.FC<SearchProps> = ({
       />
       <span
         title={i18n.getString('composeText', currentLocale)}
+        data-sign="ComposeText"
         className={styles.textIcon}
         onClick={goToComposeText}
       >

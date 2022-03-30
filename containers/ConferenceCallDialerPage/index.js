@@ -30,16 +30,16 @@ require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
-require("core-js/modules/es6.object.create");
-
 require("core-js/modules/es6.object.define-property");
+
+require("core-js/modules/es6.object.create");
 
 require("core-js/modules/es6.reflect.construct");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = void 0;
+exports["default"] = exports.ConferenceCallDialerPage = void 0;
 
 require("core-js/modules/es6.object.set-prototype-of");
 
@@ -49,7 +49,7 @@ var _BackButton = _interopRequireDefault(require("../../components/BackButton"))
 
 var _BackHeader = _interopRequireDefault(require("../../components/BackHeader"));
 
-var _DialerPanel = _interopRequireDefault(require("../../components/DialerPanel"));
+var _DialerPanel = require("../../components/DialerPanel");
 
 var _phoneContext = require("../../lib/phoneContext");
 
@@ -79,7 +79,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } Object.defineProperty(subClass, "prototype", { value: Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }), writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
@@ -122,7 +122,7 @@ var ConferenceCallDialerPanel = /*#__PURE__*/function (_Component) {
         backButton: /*#__PURE__*/_react["default"].createElement(_BackButton["default"], {
           label: _i18n["default"].getString('activeCall')
         })
-      }), /*#__PURE__*/_react["default"].createElement(_DialerPanel["default"], _extends({
+      }), /*#__PURE__*/_react["default"].createElement(_DialerPanel.DialerPanel, _extends({
         key: "dialer"
       }, baseProps))];
     }
@@ -131,11 +131,11 @@ var ConferenceCallDialerPanel = /*#__PURE__*/function (_Component) {
   return ConferenceCallDialerPanel;
 }(_react.Component);
 
-ConferenceCallDialerPanel.defaultProps = _objectSpread({}, _DialerPanel["default"].defaultProps);
-
-var _default = (0, _phoneContext.connectModule)(function (phone) {
+ConferenceCallDialerPanel.defaultProps = _objectSpread({}, _DialerPanel.DialerPanel.defaultProps);
+var ConferenceCallDialerPage = (0, _phoneContext.connectModule)(function (phone) {
   return phone.conferenceDialerUI;
 })(ConferenceCallDialerPanel);
-
+exports.ConferenceCallDialerPage = ConferenceCallDialerPage;
+var _default = ConferenceCallDialerPage;
 exports["default"] = _default;
 //# sourceMappingURL=index.js.map

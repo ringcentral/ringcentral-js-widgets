@@ -1,3 +1,4 @@
+import { useSleep } from '@ringcentral/juno';
 import 'animate.css/animate.min.css';
 
 import React, { FunctionComponent, useEffect, useState } from 'react';
@@ -22,7 +23,7 @@ export const NotificationPanel: FunctionComponent<NotificationPanelProps> = ({
   ...rest
 }) => {
   const [currentMessages, setCurrentMessages] = useState(messages);
-  const [timer, setTimer] = useState(null);
+  const { sleep, cancel } = useSleep();
 
   useEffect(() => {
     const updatedMessages: NotificationMessage[] = [];
@@ -46,16 +47,12 @@ export const NotificationPanel: FunctionComponent<NotificationPanelProps> = ({
       setCurrentMessages(updatedMessages);
 
       if (duration > 0) {
-        const timerId = setTimeout(() => {
+        sleep(duration).then(() => {
           setCurrentMessages(messages);
-        }, duration);
-
-        setTimer(timerId);
+        });
       }
     } else {
-      if (timer) {
-        clearTimeout(timer);
-      }
+      cancel();
       setCurrentMessages(messages);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

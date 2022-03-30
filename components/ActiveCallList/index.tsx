@@ -58,6 +58,7 @@ type ActiveCallListProps = {
   updateSessionMatchedContact?: (...args: any[]) => any;
   renderExtraButton?: (...args: any[]) => any;
   renderContactName?: (...args: any[]) => any;
+  renderSubContactName?: (...args: any[]) => any;
   ringoutHangup?: (...args: any[]) => any;
   ringoutTransfer?: (...args: any[]) => any;
   ringoutReject?: (...args: any[]) => any;
@@ -117,6 +118,7 @@ const ActiveCallList: React.SFC<ActiveCallListProps> = ({
   updateSessionMatchedContact,
   renderExtraButton,
   renderContactName,
+  renderSubContactName,
   ringoutHangup,
   ringoutTransfer,
   ringoutReject,
@@ -198,6 +200,7 @@ const ActiveCallList: React.SFC<ActiveCallListProps> = ({
             updateSessionMatchedContact={updateSessionMatchedContact}
             renderExtraButton={renderExtraButton}
             renderContactName={renderContactName}
+            renderSubContactName={renderSubContactName}
             ringoutHangup={ringoutHangup}
             ringoutTransfer={ringoutTransfer}
             ringoutReject={ringoutReject}
@@ -259,6 +262,7 @@ ActiveCallList.defaultProps = {
   updateSessionMatchedContact: (i) => i,
   renderExtraButton: undefined,
   renderContactName: undefined,
+  renderSubContactName: undefined,
   ringoutHangup: undefined,
   ringoutTransfer: undefined,
   ringoutReject: undefined,

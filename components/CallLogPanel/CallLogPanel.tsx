@@ -47,8 +47,14 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
       call: null,
       logName: null,
       notificationIsExpand: false,
+      subContactNameDisplay: '',
+      displayEntity: null,
+      entityType: '',
+      entityDetailLink: '',
     },
     showRecordingIndicator: false,
+    renderCallNotificationAvatar: () => null,
+    getAvatarUrl: () => null,
   };
 
   editSectionRef = React.createRef<HTMLDivElement>();
@@ -249,8 +255,18 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
       forwardingNumbers,
       answer,
       clickForwardTrack,
+      renderCallNotificationAvatar,
+      getAvatarUrl,
     } = this.props;
-    const { showNotification, call, logName } = logNotification;
+    const {
+      showNotification,
+      call,
+      logName,
+      subContactNameDisplay,
+      displayEntity,
+      entityType,
+      entityDetailLink,
+    } = logNotification;
     if (!showNotification) {
       return null;
     }
@@ -262,6 +278,10 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
           currentLocale={currentLocale}
           call={call}
           logName={logName}
+          subContactNameDisplay={subContactNameDisplay}
+          displayEntity={displayEntity}
+          entityType={entityType}
+          entityDetailLink={entityDetailLink}
           onCloseNotification={onCloseNotification}
           currentNotificationIdentify={currentNotificationIdentify}
           isWide={isWide}
@@ -274,6 +294,8 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
           hasActiveSession={!!activeSession}
           answer={answer}
           clickForwardTrack={clickForwardTrack}
+          renderCallNotificationAvatar={renderCallNotificationAvatar}
+          getAvatarUrl={getAvatarUrl}
         />
       );
     }

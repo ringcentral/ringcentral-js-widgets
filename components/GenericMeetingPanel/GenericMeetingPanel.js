@@ -41,7 +41,7 @@ require("core-js/modules/es6.function.name");
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _sleep = _interopRequireDefault(require("@ringcentral-integration/commons/lib/sleep"));
+var _sleep = require("@ringcentral-integration/commons/lib/sleep");
 
 var _isSafari = _interopRequireDefault(require("../../lib/isSafari"));
 
@@ -152,6 +152,8 @@ var GenericMeetingPanel = function GenericMeetingPanel(props) {
       defaultTopic = props.defaultTopic,
       isPersonalMeetingDisabled = props.isPersonalMeetingDisabled,
       showIeSupportAlert = props.showIeSupportAlert,
+      showRemoveMeetingWarning = props.showRemoveMeetingWarning,
+      brandConfig = props.brandConfig,
       appName = props.appName;
 
   if (showSpinner) {
@@ -206,6 +208,8 @@ var GenericMeetingPanel = function GenericMeetingPanel(props) {
     timePickerSize: timePickerSize,
     checkboxSize: checkboxSize,
     showIeSupportAlert: showIeSupportAlert,
+    showRemoveMeetingWarning: showRemoveMeetingWarning,
+    brandConfig: brandConfig,
     appName: appName
   }, showTopic && /*#__PURE__*/_react["default"].createElement(_InnerTopic.Topic, {
     name: meeting.topic,
@@ -265,7 +269,9 @@ var GenericMeetingPanel = function GenericMeetingPanel(props) {
     isWaitingRoomDisabled: isWaitingRoomDisabled,
     isRequirePasswordDisabled: isRequirePasswordDisabled,
     showIeSupportAlert: showIeSupportAlert,
-    appName: appName
+    appName: appName,
+    showRemoveMeetingWarning: showRemoveMeetingWarning,
+    brandConfig: brandConfig
   }, showTopic && /*#__PURE__*/_react["default"].createElement(_InnerTopic.Topic, {
     name: meeting.name,
     updateMeetingTopic: function updateMeetingTopic(name) {
@@ -294,7 +300,7 @@ var GenericMeetingPanel = function GenericMeetingPanel(props) {
               }
 
               _context.next = 3;
-              return (0, _sleep["default"])(100);
+              return (0, _sleep.sleep)(100);
 
             case 3:
               opener = openNewWindow && (0, _isSafari["default"])() ? window.open() : null;

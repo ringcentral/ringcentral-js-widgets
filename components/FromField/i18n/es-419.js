@@ -9,10 +9,10 @@ exports["default"] = void 0;
 var _default = {
   DirectNumber: "Directo",
   MainCompanyNumber: "Principal",
-  CompanyNumber: "Compañía",
+  CompanyNumber: "Empresa",
   CompanyFaxNumber: "Fax",
   Blocked: "Bloqueado",
-  AdditionalCompanyNumber: "Compañía",
+  AdditionalCompanyNumber: "Empresa",
   ForwardedCompanyNumber: "Reenviado",
   from: "De"
 }; // @key: @#@"DirectNumber"@#@ @source: @#@"Direct"@#@

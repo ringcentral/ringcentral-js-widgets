@@ -1,9 +1,9 @@
 import conferenceCallErrors from '@ringcentral-integration/commons/modules/ConferenceCall/conferenceCallErrors';
 export default {
-  [conferenceCallErrors.bringInFailed]: "No se pudo combinar las llamadas a causa de un error inesperado. Inténtelo de nuevo más tarde.",
-  [conferenceCallErrors.makeConferenceFailed]: "No se pudo combinar las llamadas a causa de un error inesperado. Inténtelo de nuevo más tarde.",
-  [conferenceCallErrors.terminateConferenceFailed]: "No se pudo colgar la conferencia a causa de un error inesperado. Inténtelo de nuevo más tarde.",
-  [conferenceCallErrors.removeFromConferenceFailed]: "No se pudo quitar al participante a causa de un error inesperado. Inténtelo de nuevo más tarde.",
+  [conferenceCallErrors.bringInFailed]: "No se pudo combinar las llamadas a causa de un error inesperado. Vuelva a intentarlo más tarde.",
+  [conferenceCallErrors.makeConferenceFailed]: "No se pudo combinar las llamadas a causa de un error inesperado. Vuelva a intentarlo más tarde.",
+  [conferenceCallErrors.terminateConferenceFailed]: "No se pudo colgar la conferencia a causa de un error inesperado. Vuelva a intentarlo más tarde.",
+  [conferenceCallErrors.removeFromConferenceFailed]: "No se pudo quitar al participante a causa de un error inesperado. Vuelva a intentarlo más tarde.",
   [conferenceCallErrors.callIsRecording]: "Grabación de llamada en curso. Detenga la grabación y vuelva a intentarlo."
 };
 

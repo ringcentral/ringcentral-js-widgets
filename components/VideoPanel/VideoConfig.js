@@ -208,6 +208,8 @@ var VideoConfig = function VideoConfig(props) {
       isWaitingRoomNotCoworkerDisabled = props.isWaitingRoomNotCoworkerDisabled,
       isWaitingRoomGuestDisabled = props.isWaitingRoomGuestDisabled,
       isWaitingRoomAllDisabled = props.isWaitingRoomAllDisabled,
+      showRemoveMeetingWarning = props.showRemoveMeetingWarning,
+      brandConfig = props.brandConfig,
       showIeSupportAlert = props.showIeSupportAlert,
       appName = props.appName;
   var settingsGroupExpandable = false;
@@ -252,7 +254,13 @@ var VideoConfig = function VideoConfig(props) {
     "data-sign": "videoConfigsPanel"
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].meetingContent
-  }, showSpinnerInConfigPanel ? /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, null) : null, /*#__PURE__*/_react["default"].createElement("div", {
+  }, showSpinnerInConfigPanel ? /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, null) : null, showRemoveMeetingWarning && /*#__PURE__*/_react["default"].createElement(_SettingGroup.SettingGroup, {
+    dataSign: "removeMeetingWarningPanel",
+    expandable: false
+  }, /*#__PURE__*/_react["default"].createElement(_MeetingAlert.RemoveMeetingWarn, {
+    brandConfig: brandConfig,
+    currentLocale: currentLocale
+  })), /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames4["default"])(_styles["default"].meetingSection, _styles["default"].gutterTop)
   }, children), recipientsSection ? /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].meetingSection

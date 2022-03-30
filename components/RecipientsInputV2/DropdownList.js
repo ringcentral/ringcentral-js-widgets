@@ -110,4 +110,5 @@ var DropdownList = /*#__PURE__*/(0, _react.forwardRef)(function (_ref, ref) {
   }));
 });
 exports.DropdownList = DropdownList;
+DropdownList.displayName = 'DropdownList';
 //# sourceMappingURL=DropdownList.js.map

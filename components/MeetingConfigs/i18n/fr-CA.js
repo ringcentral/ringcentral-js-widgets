@@ -35,10 +35,10 @@ var _default = {
   currentLocale: "Jour(s)",
   meetingId: "Code de réunion",
   generateAutomatically: "Générer automatiquement",
-  usePmi: "ID de meeting personnel (PMI) : {meetingId}",
-  pmiChangeConfirm: "Pour apporter des changements à votre meeting personnel, ",
-  changePmiSettings: "modifiez les paramètres PMI",
-  pmiSettingChangeAlert: "Si vous modifiez les paramètres et planifiez ce meeting, tous les meetings avec le même PMI utiliseront ces paramètres."
+  usePmi: "Code de réunion personnelle : {meetingId}",
+  pmiChangeConfirm: "Pour apporter des changements à votre réunion personnelle, ",
+  changePmiSettings: "changez les paramètres du code de réunion personnelle",
+  pmiSettingChangeAlert: "Si vous changez les paramètres et planifiez cette réunion, toutes les réunions avec le même code de réunion personnelle utiliseront ces paramètres."
 }; // @key: @#@"topic"@#@ @source: @#@"Topic"@#@
 // @key: @#@"when"@#@ @source: @#@"When"@#@
 // @key: @#@"duration"@#@ @source: @#@"Duration"@#@

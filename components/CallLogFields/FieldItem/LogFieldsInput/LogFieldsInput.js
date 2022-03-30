@@ -22,9 +22,9 @@ require("core-js/modules/es6.object.to-string");
 
 require("core-js/modules/es6.object.keys");
 
-require("core-js/modules/es6.object.create");
-
 require("core-js/modules/es6.object.define-property");
+
+require("core-js/modules/es6.object.create");
 
 require("core-js/modules/es6.reflect.construct");
 
@@ -67,7 +67,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } Object.defineProperty(subClass, "prototype", { value: Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }), writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
@@ -129,7 +129,8 @@ var LogFieldsInput = /*#__PURE__*/function (_Component) {
           required = _this$props.required,
           error = _this$props.error,
           type = _this$props.type,
-          rest = _objectWithoutProperties(_this$props, ["onChange", "required", "error", "type"]);
+          onFocus = _this$props.onFocus,
+          rest = _objectWithoutProperties(_this$props, ["onChange", "required", "error", "type", "onFocus"]);
 
       var value = this.state.value;
       var styleRequired = required ? _styles["default"].isRequired : null;
@@ -146,7 +147,8 @@ var LogFieldsInput = /*#__PURE__*/function (_Component) {
           return _this2.updateValue(type === 'number' && e.target.value !== '' ? Number(e.target.value) : e.target.value, _onChange);
         },
         fullWidth: true,
-        clearBtn: false
+        clearBtn: false,
+        onFocus: onFocus
       })));
     }
   }]);

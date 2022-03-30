@@ -1,4 +1,4 @@
-import { AlertItem } from '@ringcentral-integration/commons/modules/AlertV2';
+import { AlertItem } from '@ringcentral-integration/commons/modules/Alert';
 
 export interface HandleMessage {
   handleMessage: (message: AlertItem) => boolean;

@@ -23,3 +23,7 @@ declare module 'thread-loader' {
 declare module 'webpack-bundle-analyzer' {
   export const BundleAnalyzerPlugin: any;
 }
+
+interface Window {
+  oAuthCallback: (callbackUri: string) => void;
+}

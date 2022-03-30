@@ -51,6 +51,7 @@ const ActiveCallList = ({
   phoneSourceNameRenderer,
   disableLinks,
   renderContactName,
+  renderSubContactName,
   renderExtraButton,
   contactDisplayStyle,
   externalViewEntity,
@@ -96,6 +97,7 @@ const ActiveCallList = ({
           phoneSourceNameRenderer={phoneSourceNameRenderer}
           disableLinks={disableLinks}
           renderContactName={renderContactName}
+          renderSubContactName={renderSubContactName}
           renderExtraButton={renderExtraButton}
           contactDisplayStyle={contactDisplayStyle}
           externalViewEntity={externalViewEntity}
@@ -138,6 +140,7 @@ ActiveCallList.propTypes = {
   phoneSourceNameRenderer: PropTypes.func,
   disableLinks: PropTypes.bool,
   renderContactName: PropTypes.func,
+  renderSubContactName: PropTypes.func,
   renderExtraButton: PropTypes.func,
   contactDisplayStyle: PropTypes.string,
   externalViewEntity: PropTypes.func,
@@ -170,6 +173,7 @@ ActiveCallList.defaultProps = {
   phoneSourceNameRenderer: undefined,
   disableLinks: false,
   renderContactName: undefined,
+  renderSubContactName: undefined,
   renderExtraButton: undefined,
   contactDisplayStyle: undefined,
   externalViewEntity: undefined,
@@ -388,6 +392,7 @@ class CallsListPanel extends React.PureComponent {
       calls,
       active,
       renderContactName,
+      renderSubContactName,
       renderExtraButton,
       contactDisplayStyle,
       activeContactDisplayStyle,
@@ -457,6 +462,7 @@ class CallsListPanel extends React.PureComponent {
         phoneTypeRenderer={phoneTypeRenderer}
         phoneSourceNameRenderer={phoneSourceNameRenderer}
         renderContactName={renderContactName}
+        renderSubContactName={renderSubContactName}
         renderExtraButton={renderExtraButton}
         contactDisplayStyle={contactDisplayStyle}
         externalViewEntity={externalViewEntity}
@@ -497,6 +503,7 @@ class CallsListPanel extends React.PureComponent {
         phoneTypeRenderer={phoneTypeRenderer}
         phoneSourceNameRenderer={phoneSourceNameRenderer}
         renderContactName={renderContactName}
+        renderSubContactName={renderSubContactName}
         renderExtraButton={renderExtraButton}
         contactDisplayStyle={contactDisplayStyle}
         externalViewEntity={externalViewEntity}
@@ -550,6 +557,7 @@ class CallsListPanel extends React.PureComponent {
         phoneSourceNameRenderer={phoneSourceNameRenderer}
         disableLinks={disableLinks}
         renderContactName={renderContactName}
+        renderSubContactName={renderSubContactName}
         renderExtraButton={renderExtraButton}
         contactDisplayStyle={activeContactDisplayStyle}
         externalViewEntity={externalViewEntity}
@@ -668,6 +676,7 @@ CallsListPanel.propTypes = {
   dateTimeFormatter: PropTypes.func.isRequired,
   active: PropTypes.bool,
   renderContactName: PropTypes.func,
+  renderSubContactName: PropTypes.func,
   renderExtraButton: PropTypes.func,
   contactDisplayStyle: PropTypes.string,
   activeContactDisplayStyle: PropTypes.string,
@@ -732,6 +741,7 @@ CallsListPanel.defaultProps = {
   disableClickToDial: false,
   active: false,
   renderContactName: undefined,
+  renderSubContactName: undefined,
   renderExtraButton: undefined,
   contactDisplayStyle: styles.contactDisplay,
   activeContactDisplayStyle: styles.activeContactDisplay,

@@ -77,7 +77,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } Object.defineProperty(subClass, "prototype", { value: Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }), writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
@@ -97,7 +97,7 @@ function _initializerWarningHelper(descriptor, context) { throw new Error('Decor
 
 var GenericMeetingUI = (_dec = (0, _di.Module)({
   name: 'GenericMeetingUI',
-  deps: ['GenericMeeting', 'AppFeatures', 'Locale', 'ModalUI', 'RateLimiter', 'ConnectivityMonitor']
+  deps: ['GenericMeeting', 'AppFeatures', 'Brand', 'Locale', 'ModalUI', 'RateLimiter', 'ConnectivityMonitor']
 }), _dec(_class = (_class2 = /*#__PURE__*/function (_RcUIModuleV) {
   _inherits(GenericMeetingUI, _RcUIModuleV);
 
@@ -213,7 +213,9 @@ var GenericMeetingUI = (_dec = (0, _di.Module)({
           _props$showPmiConfirm = props.showPmiConfirm,
           showPmiConfirm = _props$showPmiConfirm === void 0 ? false : _props$showPmiConfirm,
           _props$configDisabled = props.configDisabled,
-          configDisabled = _props$configDisabled === void 0 ? false : _props$configDisabled;
+          configDisabled = _props$configDisabled === void 0 ? false : _props$configDisabled,
+          _props$showRemoveMeet = props.showRemoveMeetingWarning,
+          showRemoveMeetingWarning = _props$showRemoveMeet === void 0 ? false : _props$showRemoveMeet;
       var isRCM = this._deps.genericMeeting.isRCM;
       var isRCV = this._deps.genericMeeting.isRCV;
       var isAllOptionDisabled = !!(disabled || !((_this$meeting2 = this.meeting) === null || _this$meeting2 === void 0 ? void 0 : _this$meeting2.isMeetingPasswordValid) || this._deps.genericMeeting.ready && this._deps.genericMeeting.isScheduling || this._deps.connectivityMonitor && !this._deps.connectivityMonitor.connectivity || this._deps.rateLimiter && this._deps.rateLimiter.throttling);
@@ -232,6 +234,8 @@ var GenericMeetingUI = (_dec = (0, _di.Module)({
         timePickerSize: timePickerSize,
         showRcvAdminLock: showRcvAdminLock,
         showPmiConfirm: showPmiConfirm,
+        showRemoveMeetingWarning: showRemoveMeetingWarning,
+        brandConfig: this._deps.brand.brandConfig,
         recurringMeetingPosition: recurringMeetingPosition,
         meeting: this.meeting,
         currentLocale: this._deps.locale.currentLocale,

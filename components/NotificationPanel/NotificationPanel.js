@@ -53,6 +53,8 @@ require("core-js/modules/es6.array.some");
 
 require("core-js/modules/es6.array.for-each");
 
+var _useSleep2 = require("@ringcentral/juno/es6/foundation/hooks/useSleep/useSleep.js");
+
 require("animate.css/animate.min.css");
 
 var _react = _interopRequireWildcard(require("react"));
@@ -108,10 +110,9 @@ var NotificationPanel = function NotificationPanel(_ref) {
       currentMessages = _useState2[0],
       setCurrentMessages = _useState2[1];
 
-  var _useState3 = (0, _react.useState)(null),
-      _useState4 = _slicedToArray(_useState3, 2),
-      timer = _useState4[0],
-      setTimer = _useState4[1];
+  var _useSleep = (0, _useSleep2.useSleep)(),
+      sleep = _useSleep.sleep,
+      cancel = _useSleep.cancel;
 
   (0, _react.useEffect)(function () {
     var updatedMessages = []; // if length is grater means that is delete item.
@@ -136,16 +137,12 @@ var NotificationPanel = function NotificationPanel(_ref) {
       setCurrentMessages(updatedMessages);
 
       if (duration > 0) {
-        var timerId = setTimeout(function () {
+        sleep(duration).then(function () {
           setCurrentMessages(messages);
-        }, duration);
-        setTimer(timerId);
+        });
       }
     } else {
-      if (timer) {
-        clearTimeout(timer);
-      }
-
+      cancel();
       setCurrentMessages(messages);
     } // eslint-disable-next-line react-hooks/exhaustive-deps
 

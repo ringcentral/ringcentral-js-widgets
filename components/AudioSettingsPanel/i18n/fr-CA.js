@@ -11,7 +11,7 @@ var _default = {
   dialButtonVolume: "Volume du bouton pour composer un numéro",
   ringtoneVolume: "Volume de la sonnerie",
   callVolume: "Volume de l’appel",
-  muteCalls: "Act. mode disc. appels",
+  muteCalls: "Désactiver le son des appels",
   outputDevice: "Périphérique de sortie",
   inputDevice: "Périphérique d’entrée",
   micPermission: "Autorisation de l’usage du microphone",

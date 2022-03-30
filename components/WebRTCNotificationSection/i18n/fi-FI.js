@@ -9,7 +9,7 @@ exports["default"] = void 0;
 var _default = {
   forward: "Siirrä",
   ignore: "Ohita",
-  toVoicemail: "Puhelinvastaajaan",
+  toVoicemail: "Vastaajaan",
   answer: "Vastaa",
   endAndAnswer: "Lopeta ja vastaa",
   holdAndAnswer: "Aseta pitoon ja vastaa",

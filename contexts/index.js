@@ -28,4 +28,17 @@ Object.keys(_SelectListContext).forEach(function (key) {
     }
   });
 });
+
+var _CommunicationSetup = require("./CommunicationSetup");
+
+Object.keys(_CommunicationSetup).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _CommunicationSetup[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _CommunicationSetup[key];
+    }
+  });
+});
 //# sourceMappingURL=index.js.map

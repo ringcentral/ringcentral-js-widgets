@@ -20,7 +20,7 @@ import {
 import { ConnectivityManager } from '../ConnectivityManager';
 import { ContactDetailsUI } from '../ContactDetailsUI';
 import { OnViewContactOptions } from '../ConversationsUI';
-import DialerUI from '../DialerUI';
+import { DialerUI } from '../DialerUI';
 import { RouterInteraction } from '../RouterInteraction';
 
 export interface Deps {

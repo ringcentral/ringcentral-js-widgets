@@ -91,7 +91,8 @@ var DialerPanel = function DialerPanel(_ref) {
   (0, _react.useEffect)(function () {
     if (useV2 && autoFocus && inputEl.current) {
       inputEl.current.focus();
-    }
+    } // eslint-disable-next-line react-hooks/exhaustive-deps
+
   }, []);
   var input = useV2 ? /*#__PURE__*/_react["default"].createElement(_RecipientsInputV.RecipientsInputV2, {
     ref: inputEl,

@@ -247,6 +247,8 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
       recurringMeetingPosition = _ref2.recurringMeetingPosition,
       defaultTopic = _ref2.defaultTopic,
       showIeSupportAlert = _ref2.showIeSupportAlert,
+      showRemoveMeetingWarning = _ref2.showRemoveMeetingWarning,
+      brandConfig = _ref2.brandConfig,
       appName = _ref2.appName;
   (0, _react.useEffect)(function () {
     if (init) {
@@ -367,7 +369,10 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
     "data-sign": "meetingConfigsPanel"
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].meetingContent
-  }, showSpinnerInConfigPanel ? /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, null) : null, showTopic ? /*#__PURE__*/_react["default"].createElement("div", {
+  }, showSpinnerInConfigPanel ? /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, null) : null, showRemoveMeetingWarning && /*#__PURE__*/_react["default"].createElement(_MeetingAlert.RemoveMeetingWarn, {
+    brandConfig: brandConfig,
+    currentLocale: currentLocale
+  }), showTopic ? /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames4["default"])(_styles["default"].meetingSection, _styles["default"].meetingTitle)
   }, children) : null, recipientsSection ? /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].meetingSection

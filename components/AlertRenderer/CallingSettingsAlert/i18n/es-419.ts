@@ -1,11 +1,11 @@
 import { callingSettingsMessages } from '@ringcentral-integration/commons/modules/CallingSettingsV2/callingSettingsMessages';
 export default {
   [callingSettingsMessages.saveSuccess]: "La configuración se guardó correctamente.",
-  [callingSettingsMessages.saveSuccessWithSoftphone]: "La configuración se guardó correctamente. Asegúrese de que tiene {brand} instalado en su computadora.",
+  [callingSettingsMessages.saveSuccessWithSoftphone]: "La configuración se guardó correctamente. Asegúrese de que tiene {brand} instalado en su equipo.",
   [callingSettingsMessages.permissionChanged]: "Sus permisos han cambiado recientemente. Vaya a {link} para comprobar sus opciones de llamadas.",
   [callingSettingsMessages.phoneNumberChanged]: "La información de su número de teléfono ha cambiado recientemente. Vaya a {link} para comprobar sus opciones de llamadas.",
   link: "Configuración > Llamadas",
-  [callingSettingsMessages.webphonePermissionRemoved]: "Se cambiaron sus permisos y no puede realizar llamadas con el explorador. Para obtener más información, póngase en contacto con el administrador de su cuenta.",
+  [callingSettingsMessages.webphonePermissionRemoved]: "Se cambiaron sus permisos y no puede hacer llamadas con el explorador. Para obtener más información, póngase en contacto con el administrador de su cuenta.",
   [callingSettingsMessages.emergencyCallingNotAvailable]: "No es posible llamar a números de emergencia o de servicios especiales. En caso de emergencia, utilice su teléfono fijo tradicional o inalámbrico para llamar a un número de emergencia.",
   [callingSettingsMessages.saveSuccessWithJupiter]: "La configuración se guardó correctamente. Asegúrese de que tiene {brand} instalado en su equipo.",
   [callingSettingsMessages.disableEmergencyInJapan]: "El servicio de emergencia no está disponible en Japón."

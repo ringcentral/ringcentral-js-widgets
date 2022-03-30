@@ -13,19 +13,14 @@
   position: absolute;
   top: 50%;
   left: 50%;
-  margin-top: -134px;
-  margin-left: -134px;
   width: 268px;
-  height: 267px;
+  padding-bottom: 36px;
   background-color: #fff;
   border-radius: 4px;
   box-shadow: 0px 13px 46px 0px rgba(0, 0, 0, 0.14),
     0px 8px 25px 0px rgba(0, 0, 0, 0.22);
   text-align: center;
-
-  &:not(.classic) {
-    transform: translateY(36px);
-  }
+  transform: translate(-50%, -50%);
 }
 
 .contact {
@@ -188,9 +183,7 @@
 }
 
 .classic {
-  margin-left: -92px;
   width: 184px;
-  height: 267px;
 
   .contact {
     @extend .overflowEllipsis;

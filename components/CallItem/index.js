@@ -127,7 +127,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
 
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } Object.defineProperty(subClass, "prototype", { value: Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }), writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
@@ -599,6 +599,7 @@ var CallItem = /*#__PURE__*/function (_Component) {
           phoneTypeRenderer = _this$props5.phoneTypeRenderer,
           phoneSourceNameRenderer = _this$props5.phoneSourceNameRenderer,
           renderContactName = _this$props5.renderContactName,
+          renderSubContactName = _this$props5.renderSubContactName,
           renderExtraButton = _this$props5.renderExtraButton,
           contactDisplayStyle = _this$props5.contactDisplayStyle,
           externalViewEntity = _this$props5.externalViewEntity,
@@ -647,6 +648,7 @@ var CallItem = /*#__PURE__*/function (_Component) {
       }
 
       var contactName = typeof renderContactName === 'function' ? renderContactName(this.props.call) : undefined;
+      var subContactName = typeof renderSubContactName === 'function' ? renderSubContactName(this.props.call) : undefined;
       var extraButton = typeof renderExtraButton === 'function' ? renderExtraButton(this.props.call) : undefined;
       var menuExtended = this.props.extended || this.state.extended;
       var selectedMatchContactType = (_this$getSelectedCont = (_this$getSelectedCont2 = this.getSelectedContact()) === null || _this$getSelectedCont2 === void 0 ? void 0 : _this$getSelectedCont2.type) !== null && _this$getSelectedCont !== void 0 ? _this$getSelectedCont : '';
@@ -672,6 +674,7 @@ var CallItem = /*#__PURE__*/function (_Component) {
         missed: missed,
         isOnConferenceCall: direction === _callDirections["default"].outbound && toName === 'Conference',
         contactName: contactName,
+        subContactName: subContactName,
         reference: function reference(ref) {
           _this3.contactDisplay = ref;
         },
@@ -795,6 +798,7 @@ CallItem.propTypes = {
   phoneTypeRenderer: _propTypes["default"].func,
   phoneSourceNameRenderer: _propTypes["default"].func,
   renderContactName: _propTypes["default"].func,
+  renderSubContactName: _propTypes["default"].func,
   renderExtraButton: _propTypes["default"].func,
   contactDisplayStyle: _propTypes["default"].string,
   externalViewEntity: _propTypes["default"].func,
@@ -834,6 +838,7 @@ CallItem.defaultProps = {
   phoneTypeRenderer: undefined,
   phoneSourceNameRenderer: undefined,
   renderContactName: undefined,
+  renderSubContactName: undefined,
   renderExtraButton: undefined,
   contactDisplayStyle: undefined,
   externalViewEntity: undefined,

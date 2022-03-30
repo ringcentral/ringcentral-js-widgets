@@ -55,7 +55,7 @@ export class LogFieldsInput extends Component<
   }
 
   render() {
-    const { onChange, required, error, type, ...rest } = this.props;
+    const { onChange, required, error, type, onFocus, ...rest } = this.props;
     const { value } = this.state;
     const styleRequired = required ? styles.isRequired : null;
     return (
@@ -78,6 +78,7 @@ export class LogFieldsInput extends Component<
           }
           fullWidth
           clearBtn={false}
+          onFocus={onFocus}
         />
       </div>
     );

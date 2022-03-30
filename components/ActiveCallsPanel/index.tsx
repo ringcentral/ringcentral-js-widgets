@@ -71,6 +71,7 @@ type ActiveCallsPanelProps = {
   notificationContainerStyles?: string;
   showAvatar?: boolean;
   renderContactName?: (...args: any[]) => any;
+  renderSubContactName?:(...args: any[]) => any;
   showOtherDevice?: boolean;
   ringoutHangup?: (...args: any[]) => any;
   ringoutTransfer?: (...args: any[]) => any;
@@ -242,6 +243,7 @@ class ActiveCallsPanel extends Component<ActiveCallsPanelProps, {}> {
       updateSessionMatchedContact,
       renderExtraButton,
       renderContactName,
+      renderSubContactName,
       ringoutHangup,
       ringoutTransfer,
       ringoutReject,
@@ -291,6 +293,7 @@ class ActiveCallsPanel extends Component<ActiveCallsPanelProps, {}> {
         webphoneToVoicemail={webphoneToVoicemail}
         renderExtraButton={renderExtraButton}
         renderContactName={renderContactName}
+        renderSubContactName={renderSubContactName}
         enableContactFallback={enableContactFallback}
         sourceIcons={sourceIcons}
         phoneTypeRenderer={phoneTypeRenderer}
@@ -445,6 +448,7 @@ ActiveCallsPanel.defaultProps = {
   // Contact
   showAvatar: true,
   renderContactName: undefined,
+  renderSubContactName: undefined,
   showOtherDevice: true,
   ringoutHangup: undefined,
   ringoutTransfer: undefined,

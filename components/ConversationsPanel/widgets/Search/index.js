@@ -50,6 +50,7 @@ var Search = function Search(_ref) {
     disabled: disableLinks
   }), /*#__PURE__*/_react["default"].createElement("span", {
     title: _i18n["default"].getString('composeText', currentLocale),
+    "data-sign": "ComposeText",
     className: _styles["default"].textIcon,
     onClick: goToComposeText
   }, /*#__PURE__*/_react["default"].createElement(_NewComposeTextHover["default"], {

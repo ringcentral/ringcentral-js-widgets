@@ -7,7 +7,7 @@ export default {
   starSharp4Title: "Menu",
   starSharp4Body: "Permet d’écouter la liste de commandes du téléphone à clavier",
   starSharp5Title: "Définir les modes d’écoute",
-  starSharp5Body: "Appuyez une fois pour : Désactiver le micro des appelants; les appelants peuvent le réactiver en appuyant sur  *, #, 6\nAppuyez deux fois pour : Désactiver le micro des appelants; écoute seulement. Aucune option pour réactiver le micro\nAppuyez trois fois pour : Réactiver le micro des appelants; la ligne est de nouveau ouverte.",
+  starSharp5Body: "Appuyez une fois pour : Désactiver le micro des appelants; les appelants peuvent le réactiver en appuyant sur  *, #, 6\nAppuyez deux fois pour : Désactiver le micro des appelants; écoute seulement. Aucune option pour réactiver le micro\nAppuyez trois fois pour : Réactiver le micro des appelants; la ligne est de nouveau décrochée.",
   starSharp6Title: "Act. mode disc. sur la ligne de l’animateur",
   starSharp6Body: "Appuyez une fois pour DÉSACTIVER le micro\nAppuyez de nouveau pour RÉACTIVER le micro",
   starSharp7Title: "Sécuriser la conférence",

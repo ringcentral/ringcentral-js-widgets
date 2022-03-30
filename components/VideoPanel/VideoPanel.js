@@ -41,7 +41,7 @@ require("core-js/modules/es6.function.name");
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _sleep = _interopRequireDefault(require("@ringcentral-integration/commons/lib/sleep"));
+var _sleep = require("@ringcentral-integration/commons/lib/sleep");
 
 var _isSafari = _interopRequireDefault(require("../../lib/isSafari"));
 
@@ -203,7 +203,7 @@ var VideoPanel = function VideoPanel(_ref) {
               }
 
               _context.next = 3;
-              return (0, _sleep["default"])(100);
+              return (0, _sleep.sleep)(100);
 
             case 3:
               _opener = openNewWindow && (0, _isSafari["default"])() ? window.open() : null;

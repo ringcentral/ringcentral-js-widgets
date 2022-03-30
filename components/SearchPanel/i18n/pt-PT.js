@@ -8,7 +8,7 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 var _default = {
   noResultFoundFor: "Nenhum resultado encontrado para",
-  search: "Pesquisar"
+  search: "Procurar"
 }; // @key: @#@"noResultFoundFor"@#@ @source: @#@"No result found for"@#@
 // @key: @#@"search"@#@ @source: @#@"Search"@#@
 

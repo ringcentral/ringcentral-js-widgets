@@ -21,7 +21,7 @@ var _default = (_title$search$compose = {
   composeText: "Kirjoita tekstiviesti",
   noMessages: "Ei viestejä",
   noSearchResults: "Vastaavia tallenteita ei löytynyt"
-}, _defineProperty(_title$search$compose, _messageTypes["default"].all, "Kaikki"), _defineProperty(_title$search$compose, _messageTypes["default"].voiceMail, "Ääni"), _defineProperty(_title$search$compose, _messageTypes["default"].text, "Teksti"), _defineProperty(_title$search$compose, _messageTypes["default"].fax, "Faksi"), _title$search$compose); // @key: @#@"title"@#@ @source: @#@"Messages"@#@
+}, _defineProperty(_title$search$compose, _messageTypes["default"].all, "Kaikki"), _defineProperty(_title$search$compose, _messageTypes["default"].voiceMail, "Ääni"), _defineProperty(_title$search$compose, _messageTypes["default"].text, "Tekstiviesti"), _defineProperty(_title$search$compose, _messageTypes["default"].fax, "Faksi"), _title$search$compose); // @key: @#@"title"@#@ @source: @#@"Messages"@#@
 // @key: @#@"search"@#@ @source: @#@"Search..."@#@
 // @key: @#@"composeText"@#@ @source: @#@"Compose Text"@#@
 // @key: @#@"noMessages"@#@ @source: @#@"No Messages"@#@

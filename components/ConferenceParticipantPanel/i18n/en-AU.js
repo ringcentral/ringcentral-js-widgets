@@ -7,7 +7,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  removeParticipant: "Remove participant",
+  removeParticipant: "Remove Participant",
   confirmStr1: "Are you sure you want to remove",
   confirmStr2: "from this call?",
   remove: "Remove",

@@ -30,10 +30,7 @@ var merge = require('@ringcentral-integration/test-utils/lib/merge');
 
 var baseConfig = require('@ringcentral-integration/test-utils/config/jest.config');
 
-module.exports = _objectSpread(_objectSpread({}, merge(baseConfig, {
-  setupFilesAfterEnv: ['@ringcentral-integration/test-utils/config/jest.testingLibraryConfig.ts'] // add additional jest config
-
-})), {}, {
+module.exports = _objectSpread(_objectSpread({}, merge(baseConfig, {})), {}, {
   roots: ['<rootDir>']
 });
 //# sourceMappingURL=jest.config.js.map

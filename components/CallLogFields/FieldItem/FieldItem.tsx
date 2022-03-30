@@ -61,8 +61,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
       onSave,
       onSelectViewVisible,
       contactSearch,
-    } = this.props;
-    const {
+      onFullSelectFieldClick,
       currentLog,
       startAdornmentRender,
       referenceFieldOptions,
@@ -163,6 +162,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
           if (fieldOnChange) fieldOnChange(args);
         }}
         onSelectViewVisible={onSelectViewVisible}
+        onFullSelectFieldClick={onFullSelectFieldClick}
         valueFunction={getValue}
         renderFunction={getLabel}
         secondaryRenderFunction={getType}
@@ -211,6 +211,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
         disabled,
       },
       onSave,
+      onTextAreaFocus,
     } = this.props;
     return (
       <LogFieldsInput
@@ -227,6 +228,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
           this._updateValue(value, text, onSave);
           if (onChange) onChange(text);
         }}
+        onFocus={onTextAreaFocus}
       />
     );
   };
@@ -296,6 +298,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
         placeholder,
       },
       onSave,
+      onSelectListOpen = () => {},
     } = this.props;
 
     const selectList = (picklistOptions || []).map((item) => {
@@ -340,6 +343,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
           if (onChange) onChange(value);
         }}
         options={selectList}
+        onOpen={() => onSelectListOpen(fieldValue)}
       />
     );
   };

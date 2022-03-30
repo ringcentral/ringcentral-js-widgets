@@ -17,7 +17,7 @@ require("react-widgets/dist/css/react-widgets.css");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _sleep = _interopRequireDefault(require("@ringcentral-integration/commons/lib/sleep"));
+var _sleep = require("@ringcentral-integration/commons/lib/sleep");
 
 var _isSafari = _interopRequireDefault(require("../../lib/isSafari"));
 
@@ -91,7 +91,7 @@ var MeetingPanel = function MeetingPanel(props) {
               }
 
               _context.next = 3;
-              return (0, _sleep["default"])(100);
+              return (0, _sleep.sleep)(100);
 
             case 3:
               /**

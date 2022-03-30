@@ -383,6 +383,7 @@ class CallItem extends Component {
       phoneTypeRenderer,
       phoneSourceNameRenderer,
       renderContactName,
+      renderSubContactName,
       renderExtraButton,
       contactDisplayStyle,
       externalViewEntity,
@@ -435,6 +436,10 @@ class CallItem extends Component {
       typeof renderContactName === 'function'
         ? renderContactName(this.props.call)
         : undefined;
+    const subContactName =
+      typeof renderSubContactName === 'function'
+        ? renderSubContactName(this.props.call)
+        : undefined;
     const extraButton =
       typeof renderExtraButton === 'function'
         ? renderExtraButton(this.props.call)
@@ -466,6 +471,7 @@ class CallItem extends Component {
                 direction === callDirections.outbound && toName === 'Conference'
               }
               contactName={contactName}
+              subContactName={subContactName}
               reference={(ref) => {
                 this.contactDisplay = ref;
               }}
@@ -600,6 +606,7 @@ CallItem.propTypes = {
   phoneTypeRenderer: PropTypes.func,
   phoneSourceNameRenderer: PropTypes.func,
   renderContactName: PropTypes.func,
+  renderSubContactName: PropTypes.func,
   renderExtraButton: PropTypes.func,
   contactDisplayStyle: PropTypes.string,
   externalViewEntity: PropTypes.func,
@@ -638,6 +645,7 @@ CallItem.defaultProps = {
   phoneTypeRenderer: undefined,
   phoneSourceNameRenderer: undefined,
   renderContactName: undefined,
+  renderSubContactName: undefined,
   renderExtraButton: undefined,
   contactDisplayStyle: undefined,
   externalViewEntity: undefined,

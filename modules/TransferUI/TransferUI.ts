@@ -40,7 +40,7 @@ export class TransferUI extends RcUIModuleV2<Deps> {
     that._deps.webphone?.sessions,
   ])
   get session() {
-    const { sessionId, type } = this._params;
+    const { sessionId, type = 'active' } = this._params;
 
     if (type === 'active' && this._deps.activeCallControl) {
       return this._deps.activeCallControl.activeSession;
@@ -60,7 +60,7 @@ export class TransferUI extends RcUIModuleV2<Deps> {
     enableWarmTransfer = false,
   }: TransferUIContainerProps): UIProps<TransferUIPanelProps> {
     this._params = params;
-    const { sessionId, type } = params;
+    const { sessionId, type = 'active' } = params;
 
     return {
       sessionId,
