@@ -56,8 +56,12 @@ $ cd ringcentral-js-widgets
 Install dependent libraries:
 
 ```bash
-$ yarn install
-$ yarn bootstrap # Bootstrap with lerna
+$ yarn
+```
+
+Test:
+
+```bash
 $ yarn test # Run tests
 ```
 

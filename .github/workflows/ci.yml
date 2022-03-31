@@ -67,6 +67,8 @@ jobs:
       #     flag-name: widgets
       #     parallel: true
       - run: yarn workspace ringcentral-widgets-test test --coverage
+        env:
+          NODE_OPTIONS: --max-old-space-size=4096
       - name: Widgets Integration Coveralls
         uses: coverallsapp/github-action@1.1.3
         with:
