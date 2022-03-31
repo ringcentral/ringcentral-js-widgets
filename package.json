@@ -50,8 +50,5 @@
   "dependencies": {
     "execa": "^1.0.0",
     "fs-extra": "^7.0.1"
-  },
-  "resolutions": {
-
   }
 }
