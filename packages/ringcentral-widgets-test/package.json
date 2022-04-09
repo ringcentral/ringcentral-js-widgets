@@ -47,7 +47,7 @@
     "identity-obj-proxy": "^3.0.0",
     "jest-html-reporters": "^3.0.4",
     "mock-socket": "^9.0.3",
-    "moment": "^2.24.0",
+    "moment": "^2.29.2",
     "normalize-css": "^2.3.1",
     "pubnub": "^4.29.11",
     "ramda": "^0.27.1",
