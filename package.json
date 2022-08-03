@@ -1,6 +1,6 @@
 {
   "name": "@ringcentral-integration/engage-voice-widgets",
-  "version": "0.13.0",
+  "version": "0.13.3",
   "description": "RingCentral Engage Voice Integration Widget Library",
   "main": "index.js",
   "directories": {
