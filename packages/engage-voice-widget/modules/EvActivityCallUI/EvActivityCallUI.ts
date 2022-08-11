@@ -70,8 +70,8 @@ type FormState = {
     { dep: 'EvActivityCallUIOptions', optional: true },
   ],
 })
-class EvActivityCallUI<T = {}>
-  extends RcUIModuleV2<Deps & T>
+class EvActivityCallUI<T extends Deps = Deps>
+  extends RcUIModuleV2<T>
   implements ActivityCallUI
 {
   public isFirstTimeHandled = false;
@@ -84,7 +84,7 @@ class EvActivityCallUI<T = {}>
     console.warn('this should be implement in extend module');
   }
 
-  constructor(deps: Deps & T) {
+  constructor(deps: T) {
     super({
       deps,
       enableCache: true,
@@ -150,7 +150,7 @@ class EvActivityCallUI<T = {}>
     this.isKeypadOpen = false;
   }
 
-  onInitOnce() {
+  override onInitOnce() {
     this.resetKeypadStatus();
 
     this._deps.evCallMonitor.onCallRinging(() => {
@@ -274,7 +274,7 @@ class EvActivityCallUI<T = {}>
     );
   }
 
-  // TODO add `callDisposition` in CallLog
+  // TODO: add `callDisposition` in CallLog
   @computed((that: EvActivityCallUI) => [
     that.callId,
     that.currentEvCall,
@@ -301,9 +301,9 @@ class EvActivityCallUI<T = {}>
     }
     const { callType, dnis, uii, ani, queueDts, agentId } = currentCall;
 
-    // TODO confirm about  dialDest or dnis?
+    // TODO: confirm about  dialDest or dnis?
     const fromNumber = callType === 'OUTBOUND' ? dnis : ani;
-    // TODO confirm about  dialDest or dnis?
+    // TODO: confirm about  dialDest or dnis?
     const toNumber = callType === 'OUTBOUND' ? ani : dnis;
     const { dispositionId, notes } = callDisposition || {};
 
@@ -323,7 +323,7 @@ class EvActivityCallUI<T = {}>
           phoneNumber: toNumber,
           name: toNumber,
         },
-        telephonyStatus: 'CallConnected', // TODO handle with call state and agent state
+        telephonyStatus: 'CallConnected', // TODO: handle with call state and agent state
         sessionId: currentCall.session.sessionId,
         telephonySessionId: uii,
         partyId: agentId,
@@ -549,7 +549,7 @@ class EvActivityCallUI<T = {}>
     this.resetKeypadStatus();
   }
 
-  onStateChange() {
+  override onStateChange() {
     if (this.ready && this.tabManagerEnabled && this._deps.tabManager.ready) {
       this._checkTabManagerEvent();
 

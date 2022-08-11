@@ -9,4 +9,5 @@ export default {
   zh: 'Chinese',
   nl: 'Dutch',
   ko: 'Korean',
+  fi: 'Suomi',
 };

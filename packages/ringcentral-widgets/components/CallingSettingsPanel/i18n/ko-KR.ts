@@ -1,7 +1,7 @@
-import callingOptions from '@ringcentral-integration/commons/modules/CallingSettings/callingOptions';
+import { callingOptions } from '@ringcentral-integration/commons/modules/CallingSettings';
 export default {
-  title: "통화",
-  [callingOptions.softphone]: "{brand} for Desktop",
+  title: "통화 중",
+  [callingOptions.softphone]: "데스크톱용 {brand}",
   [callingOptions.browser]: "브라우저",
   [callingOptions.jupiter]: "{brand}",
   makeCallsWith: "다음으로 내 전화 걸기",

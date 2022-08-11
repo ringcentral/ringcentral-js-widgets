@@ -1,3 +1,4 @@
+// @ts-nocheck
 export class Provider {
   constructor(token, isPrivate) {
     this.token = token;

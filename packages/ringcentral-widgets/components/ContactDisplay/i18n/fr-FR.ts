@@ -1,5 +1,5 @@
 export default {
-  logging: "Connexion en cours...",
+  logging: "Connexion en cours…",
   logCall: "Journal des appels",
   editLog: "Modifier le journal",
   select: "Sélec. enreg.",

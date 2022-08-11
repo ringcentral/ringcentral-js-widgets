@@ -1,9 +1,9 @@
 export default {
   mute: "Dempen",
-  unmute: "Dempen uit",
+  unmute: "Dempen uitschakelen",
   hangup: "Ophangen",
   reject: "Weigeren",
-  hold: "In de wacht",
+  hold: "Wacht",
   onHold: "In de wacht",
   transfer: "Doorschakelen",
   more: "Meer",
@@ -18,7 +18,9 @@ export default {
   custom: "Aangepast",
   answerAndEnd: "Beantwoorden en beëindigen",
   answerAndHold: "Beantwoorden en in de wacht zetten",
-  answer: "Beantwoorden"
+  answer: "Beantwoorden",
+  completeTransfer: "Doorverbinden voltooien",
+  reply: "Beantwoorden"
 };
 
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
@@ -41,3 +43,5 @@ export default {
 // @key: @#@"answerAndEnd"@#@ @source: @#@"Answer & End"@#@
 // @key: @#@"answerAndHold"@#@ @source: @#@"Answer & Hold"@#@
 // @key: @#@"answer"@#@ @source: @#@"Answer"@#@
+// @key: @#@"completeTransfer"@#@ @source: @#@"Complete transfer"@#@
+// @key: @#@"reply"@#@ @source: @#@"Reply"@#@

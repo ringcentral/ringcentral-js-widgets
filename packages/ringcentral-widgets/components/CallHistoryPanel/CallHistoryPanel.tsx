@@ -82,9 +82,9 @@ const StyledCallHistoryPanel = styled.div`
 `;
 
 export const CallHistoryPanel: FunctionComponent<CallHistoryPanelProps> = ({
-  calls,
+  calls = [],
   currentLocale,
-  getActionMenu,
+  getActionMenu = () => [],
   isWide = true,
   listScrollTop = 0,
   changeListScrollTop = () => {},
@@ -92,6 +92,7 @@ export const CallHistoryPanel: FunctionComponent<CallHistoryPanelProps> = ({
   const listRef = useRef(null);
 
   useEffect(() => {
+    // @ts-expect-error TS(2339): Property 'setScrollTop' does not exist on type 'ne... Remove this comment to see the full error message
     listRef.current?.setScrollTop(listScrollTop);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -107,7 +108,9 @@ export const CallHistoryPanel: FunctionComponent<CallHistoryPanelProps> = ({
     calls.forEach((call: CallLog) => {
       const { id, startTime } = call;
 
+      // @ts-expect-error TS(2345): Argument of type 'number | undefined' is not assig... Remove this comment to see the full error message
       const callDate = formatCallDate(startTime);
+      // @ts-expect-error TS(2345): Argument of type 'number | undefined' is not assig... Remove this comment to see the full error message
       const callTime = formatCallTime(startTime);
       const callWithFormattedDate = {
         ...call,
@@ -115,20 +118,25 @@ export const CallHistoryPanel: FunctionComponent<CallHistoryPanelProps> = ({
         callTime,
       };
 
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       if (!_tree.root.children.includes(callDate)) {
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         _tree.root.children.push(callDate);
       }
 
       if (!Object.keys(_tree).includes(callDate)) {
         _tree[callDate] = {
           name: callDate,
+          // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
           children: [id],
           depth: 1,
         };
       } else {
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         _tree[callDate].children.push(id);
       }
 
+      // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
       _tree[id] = {
         name: id,
         depth: 2,
@@ -174,9 +182,12 @@ export const CallHistoryPanel: FunctionComponent<CallHistoryPanelProps> = ({
         );
       }
       return (
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         <div data-sign="historyItem" style={style} key={node.call.id}>
           <CallHistoryItem
+            // @ts-expect-error TS(2322): Type 'CallLog | undefined' is not assignable to ty... Remove this comment to see the full error message
             call={node.call}
+            // @ts-expect-error TS(2345): Argument of type 'CallLog | undefined' is not assi... Remove this comment to see the full error message
             actionMenu={getActionMenu(node.call)}
             isWide={isWide}
           />
@@ -188,10 +199,12 @@ export const CallHistoryPanel: FunctionComponent<CallHistoryPanelProps> = ({
 
   return (
     <StyledCallHistoryPanel>
+      {/* @ts-expect-error TS(2532): Object is possibly 'undefined'. */}
       {tree.root.children.length ? (
         <StickyVirtualizedList
           overscanRowCount={20}
           root={ROOT_NODE}
+          // @ts-expect-error TS(2322): Type '(id: string) => { id: string; height: number... Remove this comment to see the full error message
           getChildren={getChildren}
           rowRenderer={rowRenderer}
           defaultRowHeight={64}
@@ -209,9 +222,4 @@ export const CallHistoryPanel: FunctionComponent<CallHistoryPanelProps> = ({
       )}
     </StyledCallHistoryPanel>
   );
-};
-
-CallHistoryPanel.defaultProps = {
-  calls: [],
-  getActionMenu: () => [],
 };

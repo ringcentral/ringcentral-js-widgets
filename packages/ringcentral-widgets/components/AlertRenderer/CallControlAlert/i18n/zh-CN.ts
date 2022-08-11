@@ -1,11 +1,13 @@
-import callControlError from '@ringcentral-integration/commons/modules/ActiveCallControl/callControlError';
+import { callControlError } from '@ringcentral-integration/commons/modules/ActiveCallControl';
 const {
   holdConflictError,
   unHoldConflictError,
   muteConflictError,
   unMuteConflictError,
   generalError,
-  forwardSuccess
+  forwardSuccess,
+  transferCompleted,
+  replyCompleted
 } = callControlError;
 export default {
   [muteConflictError]: "此通话已经在其他设备上被静音。请取消静音该通话，然后再通过此应用进行操作。",
@@ -13,7 +15,9 @@ export default {
   [unMuteConflictError]: "此通话已经在其他设备上被取消静音。请静音该通话，然后再通过此应用进行操作。",
   [holdConflictError]: "此通话已经在其他设备上被取消搁置。请搁置该通话，然后再通过此应用进行操作。",
   [generalError]: "意外的服务器错误。请稍后重试。",
-  [forwardSuccess]: "已转移呼叫"
+  [forwardSuccess]: "呼叫已转接",
+  [transferCompleted]: "呼叫已转接",
+  [replyCompleted]: "已发送语音消息。"
 };
 
 // @key: @#@"muteConflictError"@#@ @source: @#@"This call had been muted on other device. Please unmute the call before you control in this App."@#@
@@ -22,3 +26,5 @@ export default {
 // @key: @#@"holdConflictError"@#@ @source: @#@"This call had been unheld on other device. Please hold the call before you control in this App."@#@
 // @key: @#@"generalError"@#@ @source: @#@"Unexpected server error. Please try again later."@#@
 // @key: @#@"forwardSuccess"@#@ @source: @#@"Call forwarded"@#@
+// @key: @#@"transferCompleted"@#@ @source: @#@"Call transferred"@#@
+// @key: @#@"replyCompleted"@#@ @source: @#@"Voice message sent."@#@

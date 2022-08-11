@@ -1,5 +1,8 @@
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
+/**
+ * @deprecated should use `@ringcentral-integration/commons/enums/trackEvents` instead
+ */
 export const trackEvents = ObjectMap.fromObject({
   outbound: 'Outbound Call',
   mute: 'Call Control: Mute',
@@ -87,4 +90,7 @@ export const trackEvents = ObjectMap.fromObject({
   clickRecentActivityVoicemails: 'Recent Activity: Voicemails',
   clickSaveLogSection: 'Click Save Call Log',
   clickCloseLogNotification: 'Click Stay or Close Notification',
+  changeDailerDirectoryTab: 'Click to navigate in dialer search result pages',
+  changeSMSDirectoryTab: 'Click to navigate in compose SMS search result pages',
+  openEntityDetailLink: 'Click hyperlink to view record',
 } as const);

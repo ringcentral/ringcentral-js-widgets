@@ -16,7 +16,7 @@ export default {
   audio: "Audio",
   language: "Language",
   feedback: "Feedback",
-  userGuide: "What's new",
+  userGuide: "What’s New",
   quickAccess: "Quick access setting",
   report: "Analytics report",
   shareIdea: "Share idea"

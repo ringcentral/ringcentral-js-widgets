@@ -2,7 +2,7 @@ export default {
   start: "둘러보기",
   skip: "건너뛰기",
   next: "다음",
-  finish: "마침"
+  finish: "완료"
 };
 
 // @key: @#@"start"@#@ @source: @#@"Take a quick tour"@#@

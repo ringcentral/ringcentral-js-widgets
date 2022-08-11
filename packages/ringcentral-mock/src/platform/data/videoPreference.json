@@ -1,0 +1,200 @@
+[
+  {
+    "id": "screen_sharing_host_only",
+    "value": "all",
+    "readOnly": false,
+    "canModifyAccess": true
+  },
+  {
+    "id": "notifications_recording_deleted",
+    "value": true,
+    "readOnly": false,
+    "canModifyAccess": true
+  },
+  {
+    "id": "start_screen_sharing_host_only",
+    "value": "all",
+    "readOnly": false,
+    "canModifyAccess": true
+  },
+  {
+    "id": "use_pmi_instant",
+    "value": false,
+    "readOnly": false,
+    "canModifyAccess": true
+  },
+  {
+    "id": "sounds_suppress_gt_10",
+    "value": false,
+    "readOnly": false,
+    "canModifyAccess": true
+  },
+  {
+    "id": "always_join_from_browser",
+    "value": false,
+    "readOnly": false,
+    "canModifyAccess": true
+  },
+  {
+    "id": "sounds_entry_exit_group",
+    "value": false,
+    "readOnly": false,
+    "canModifyAccess": true
+  },
+  {
+    "id": "join_before_host",
+    "value": false,
+    "readOnly": false,
+    "canModifyAccess": true
+  },
+  {
+    "id": "join_video_off",
+    "value": true,
+    "readOnly": false,
+    "canModifyAccess": true
+  },
+  {
+    "id": "remote_desktop",
+    "value": false,
+    "readOnly": false,
+    "canModifyAccess": true
+  },
+  {
+    "id": "password_instant",
+    "value": true,
+    "readOnly": false,
+    "canModifyAccess": true
+  },
+  {
+    "id": "notifications_meeting_ended",
+    "value": false,
+    "readOnly": false,
+    "canModifyAccess": true
+  },
+  {
+    "id": "use_pmi_scheduled",
+    "value": false,
+    "readOnly": false,
+    "canModifyAccess": true
+  },
+  {
+    "id": "sounds_new_participants",
+    "value": false,
+    "readOnly": false,
+    "canModifyAccess": true
+  },
+  {
+    "id": "join_audio_mute",
+    "value": false,
+    "readOnly": false,
+    "canModifyAccess": true
+  },
+  {
+    "id": "join_authenticated_from_account_only",
+    "value": "anyone_signed_into_rc",
+    "readOnly": false,
+    "canModifyAccess": true
+  },
+  {
+    "id": "join_computer_audio",
+    "value": false,
+    "readOnly": false,
+    "canModifyAccess": true
+  },
+  {
+    "id": "notifications_recording_shared",
+    "value": true,
+    "readOnly": false,
+    "canModifyAccess": true
+  },
+  {
+    "id": "sounds_entry_exit_events",
+    "value": "entry_exit",
+    "readOnly": false,
+    "canModifyAccess": true
+  },
+  {
+    "id": "guest_join",
+    "value": false,
+    "readOnly": false,
+    "canModifyAccess": true
+  },
+  {
+    "id": "notifications_recording_ready",
+    "value": true,
+    "readOnly": false,
+    "canModifyAccess": true
+  },
+  {
+    "id": "password_scheduled",
+    "value": true,
+    "readOnly": false,
+    "canModifyAccess": true
+  },
+  {
+    "id": "screen_sharing_full",
+    "value": true,
+    "readOnly": false,
+    "canModifyAccess": true
+  },
+  {
+    "id": "waiting_room",
+    "value": false,
+    "readOnly": false,
+    "canModifyAccess": true
+  },
+  {
+    "id": "chat",
+    "value": true,
+    "readOnly": false,
+    "canModifyAccess": true
+  },
+  {
+    "id": "annotations",
+    "value": true,
+    "readOnly": false,
+    "canModifyAccess": true
+  },
+  {
+    "id": "instant_join",
+    "value": true,
+    "readOnly": false,
+    "canModifyAccess": true
+  },
+  {
+    "id": "screen_sharing",
+    "value": true,
+    "readOnly": false,
+    "canModifyAccess": true
+  },
+  {
+    "id": "find_me",
+    "value": false,
+    "readOnly": false,
+    "canModifyAccess": true
+  },
+  {
+    "id": "after_meeting_survey",
+    "value": true,
+    "readOnly": false,
+    "canModifyAccess": true
+  },
+  {
+    "id": "waiting_room_guests_only",
+    "value": "all",
+    "readOnly": false,
+    "canModifyAccess": true
+  },
+  {
+    "id": "e2ee",
+    "value": false,
+    "readOnly": false,
+    "canModifyAccess": true
+  },
+  {
+    "id": "controls",
+    "value": "always",
+    "readOnly": false,
+    "canModifyAccess": true
+  }
+]

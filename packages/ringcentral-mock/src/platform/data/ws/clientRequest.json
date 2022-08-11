@@ -1,0 +1,18 @@
+[
+  {
+    "type": "ClientRequest",
+    "messageId": "E/GU8N64QuSRyt6aa5PFUA/2",
+    "status": 204,
+    "headers": {
+      "Server": "nginx",
+      "Date": "Mon, 14 Feb 2022 06:21:48 GMT",
+      "LocalHostInfo": "10.74.3.11__13475@xxxx-c01-csg01",
+      "X-Rate-Limit-Group": "medium",
+      "X-Rate-Limit-Limit": "40",
+      "X-Rate-Limit-Remaining": "39",
+      "X-Rate-Limit-Window": "60",
+      "RoutingKey": "SJC01P01",
+      "RCRequestId": "5211fcc0-8d5e-11ec-9224-005056bebe11-2"
+    }
+  }
+]

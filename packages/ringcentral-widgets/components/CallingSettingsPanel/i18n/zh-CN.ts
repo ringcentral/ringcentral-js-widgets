@@ -1,4 +1,4 @@
-import callingOptions from '@ringcentral-integration/commons/modules/CallingSettings/callingOptions';
+import { callingOptions } from '@ringcentral-integration/commons/modules/CallingSettings';
 export default {
   title: "呼叫",
   [callingOptions.softphone]: "{brand} for Desktop",
@@ -7,7 +7,7 @@ export default {
   makeCallsWith: "通过以下方式拨打电话",
   ringoutHint: "先在我的位置振铃，然后连接被叫方",
   myLocationLabel: "我的位置",
-  press1ToStartCallLabel: "连接通话前提示我拨 1",
+  press1ToStartCallLabel: "接通通话前提示我拨 1",
   [`${callingOptions.browser}Tooltip`]: "使用此选项通过计算机的麦克风和扬声器拨打和接听电话。",
   [`${callingOptions.softphone}Tooltip`]: "使用此选项，通过 {brand} 拨打和接听电话。",
   [`${callingOptions.ringout}Tooltip`]: "通过此选项，可以使用您选择或输入的电话号码拨打电话。",

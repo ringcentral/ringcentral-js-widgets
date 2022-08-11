@@ -1,9 +1,9 @@
 export default {
   DirectNumber: "Direkt",
-  MainCompanyNumber: "Hauptleitung",
+  MainCompanyNumber: "Haupt",
   CompanyNumber: "Unternehmen",
   CompanyFaxNumber: "Fax",
-  Blocked: "Blockiert",
+  Blocked: "Rufnummernunterdrückung",
   AdditionalCompanyNumber: "Unternehmen",
   ForwardedCompanyNumber: "Weitergeleitet",
   from: "Von"

@@ -1,4 +1,4 @@
-import { contains } from 'ramda';
+import { includes } from 'ramda';
 import {
   isConferenceSession,
   normalizeSession,
@@ -57,7 +57,7 @@ export default class Session {
         uri: {
           user: to,
         },
-        displayName: to && contains('conf_', to) ? 'Conference' : null,
+        displayName: to && includes('conf_', to) ? 'Conference' : null,
       },
       from: {
         uri: {},
@@ -90,7 +90,7 @@ export default class Session {
 
   on(event, cb) {
     if (!this._events[event]) {
-      this._events[event] = []
+      this._events[event] = [];
     }
     this._events[event].push(cb);
   }

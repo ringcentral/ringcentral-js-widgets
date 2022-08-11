@@ -1,0 +1,16 @@
+{
+  "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/908199004/extension/908199004/presence",
+  "extension": {
+    "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/908199004/extension/908199004",
+    "id": 908199004,
+    "extensionNumber": "101"
+  },
+  "presenceStatus": "Available",
+  "telephonyStatus": "NoCall",
+  "userStatus": "Available",
+  "dndStatus": "TakeAllCalls",
+  "meetingStatus": "Disconnected",
+  "allowSeeMyPresence": true,
+  "ringOnMonitoredCall": false,
+  "pickUpCallsOnHold": false
+}

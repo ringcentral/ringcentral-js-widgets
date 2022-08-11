@@ -63,6 +63,7 @@ const MultiCallAnswerButton: React.SFC<MultiCallAnswerButtonProps> = (
         showBorder={false}
         onClick={props.onClick}
         icon={AnswerIcon}
+        // @ts-expect-error TS(2339): Property 'dataSign' does not exist on type 'PropsW... Remove this comment to see the full error message
         dataSign={props.dataSign}
       />
       <text className={styles.buttonTitle} x="250" y="500" textAnchor="middle">
@@ -72,6 +73,7 @@ const MultiCallAnswerButton: React.SFC<MultiCallAnswerButtonProps> = (
   );
 };
 MultiCallAnswerButton.defaultProps = {
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   className: null,
   isEndOtherCall: true,
   width: '100%',

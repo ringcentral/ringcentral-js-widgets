@@ -46,13 +46,17 @@ type CallsPanelProps = {
   phoneSourceNameRenderer?: (...args: any[]) => any;
   useNewList?: boolean;
   enableCDC?: boolean;
+  formatPhone: (phoneNumber: string) => string | undefined;
+  maxExtensionNumberLength: number;
 };
 type CallsPanelState = {
   contentHeight: number;
   contentWidth: number;
 };
 class CallsPanel extends React.PureComponent<CallsPanelProps, CallsPanelState> {
-  constructor(props) {
+  _listWrapper: any;
+  _mounted: any;
+  constructor(props: any) {
     super(props);
     this.state = {
       contentHeight: 0,
@@ -61,11 +65,13 @@ class CallsPanel extends React.PureComponent<CallsPanelProps, CallsPanelState> {
     this._mounted = false;
     this._listWrapper = React.createRef();
   }
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   componentDidMount() {
     this._mounted = true;
     this._calculateContentSize();
     window.addEventListener('resize', this._onResize);
   }
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   componentWillUnmount() {
     this._mounted = false;
     window.removeEventListener('resize', this._onResize);
@@ -93,6 +99,7 @@ class CallsPanel extends React.PureComponent<CallsPanelProps, CallsPanelState> {
       contentWidth: 0,
     });
   }
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     const {
       brand,
@@ -130,10 +137,13 @@ class CallsPanel extends React.PureComponent<CallsPanelProps, CallsPanelState> {
       currentSiteCode,
       isMultipleSiteEnabled,
       enableCDC,
+      maxExtensionNumberLength,
+      formatPhone,
     } = this.props;
     const { contentWidth, contentHeight } = this.state;
     const callsListView = useNewList ? (
       <CallListV2
+        formatPhone={formatPhone}
         currentSiteCode={currentSiteCode}
         isMultipleSiteEnabled={isMultipleSiteEnabled}
         brand={brand}
@@ -167,8 +177,10 @@ class CallsPanel extends React.PureComponent<CallsPanelProps, CallsPanelState> {
         phoneSourceNameRenderer={phoneSourceNameRenderer}
         width={contentWidth}
         height={contentHeight}
+        // @ts-expect-error TS(2322): Type '{ formatPhone: (phoneNumber: string) => stri... Remove this comment to see the full error message
         useNewList={useNewList}
         enableCDC={enableCDC}
+        maxExtensionNumberLength={maxExtensionNumberLength}
       />
     ) : (
       <CallList
@@ -203,6 +215,7 @@ class CallsPanel extends React.PureComponent<CallsPanelProps, CallsPanelState> {
         sourceIcons={sourceIcons}
         phoneTypeRenderer={phoneTypeRenderer}
         phoneSourceNameRenderer={phoneSourceNameRenderer}
+        maxExtensionNumberLength={maxExtensionNumberLength}
       />
     );
     const content = showSpinner ? <SpinnerOverlay /> : callsListView;
@@ -214,6 +227,7 @@ class CallsPanel extends React.PureComponent<CallsPanelProps, CallsPanelState> {
     );
   }
 }
+// @ts-expect-error TS(2339): Property 'defaultProps' does not exist on type 'ty... Remove this comment to see the full error message
 CallsPanel.defaultProps = {
   currentSiteCode: '',
   isMultipleSiteEnabled: false,

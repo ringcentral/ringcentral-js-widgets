@@ -1,26 +1,19 @@
-import isToday from '../isToday';
+export function isToday(utcString: string) {
+  const now = new Date();
+  const t = new Date(utcString);
+
+  return (
+    now.getFullYear() === t.getFullYear() &&
+    now.getMonth() === t.getMonth() &&
+    now.getDate() === t.getDate()
+  );
+}
 
 export const formatterCache: Record<string, Intl.DateTimeFormat> = {};
 
-interface DateTimeFormatOptions {
-  localeMatcher?: string;
-  weekday?: string;
-  era?: string;
-  year?: string;
-  month?: string;
-  day?: string;
-  hour?: string;
-  minute?: string;
-  second?: string;
-  timeZoneName?: string;
-  formatMatcher?: string;
-  hour12?: boolean;
-  timeZone?: string;
-}
-
 export function getFormatter(
   locale: string,
-  options: DateTimeFormatOptions,
+  options: Intl.DateTimeFormatOptions,
 ): Intl.DateTimeFormat {
   const key = JSON.stringify([locale, options]);
   if (!formatterCache[key]) {
@@ -29,7 +22,7 @@ export function getFormatter(
   return formatterCache[key];
 }
 
-export const DEFAULT_DATE_TIME_OPTIONS = {
+export const DEFAULT_DATE_TIME_OPTIONS: Intl.DateTimeFormatOptions = {
   year: 'numeric',
   month: 'numeric',
   day: 'numeric',
@@ -38,13 +31,13 @@ export const DEFAULT_DATE_TIME_OPTIONS = {
   hour12: false,
 };
 
-export const DEFAULT_DATE_OPTIONS = {
+export const DEFAULT_DATE_OPTIONS: Intl.DateTimeFormatOptions = {
   year: 'numeric',
   month: 'numeric',
   day: 'numeric',
 };
 
-export const DEFAULT_TIME_OPTIONS = {
+export const DEFAULT_TIME_OPTIONS: Intl.DateTimeFormatOptions = {
   hour: 'numeric',
   minute: 'numeric',
   hour12: false,

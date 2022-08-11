@@ -1,9 +1,9 @@
-import conferenceCallErrors from '@ringcentral-integration/commons/modules/ConferenceCall/conferenceCallErrors';
+import { conferenceCallErrors } from '@ringcentral-integration/commons/modules/ConferenceCall';
 export default {
-  [conferenceCallErrors.bringInFailed]: "Das Zusammenführen von Anrufen ist wegen unerwarteter Fehler fehlgeschlagen. Bitte versuchen Sie es später erneut.",
-  [conferenceCallErrors.makeConferenceFailed]: "Das Zusammenführen von Anrufen ist wegen unerwarteter Fehler fehlgeschlagen. Bitte versuchen Sie es später erneut.",
-  [conferenceCallErrors.terminateConferenceFailed]: "Das Beenden der Konferenz ist aufgrund unerwarteter Fehler fehlgeschlagen. Bitte versuchen Sie es später erneut.",
-  [conferenceCallErrors.removeFromConferenceFailed]: "Das Entfernen des Teilnehmers ist aufgrund unerwarteter Fehler fehlgeschlagen. Bitte versuchen Sie es später erneut.",
+  [conferenceCallErrors.bringInFailed]: "Das Zusammenführen von Anrufen ist wegen unerwarteter Fehler fehlgeschlagen. Versuchen Sie es später noch einmal.",
+  [conferenceCallErrors.makeConferenceFailed]: "Das Zusammenführen von Anrufen ist wegen unerwarteter Fehler fehlgeschlagen. Versuchen Sie es später noch einmal.",
+  [conferenceCallErrors.terminateConferenceFailed]: "Das Beenden der Konferenz ist aufgrund unerwarteter Fehler fehlgeschlagen. Versuchen Sie es später noch einmal.",
+  [conferenceCallErrors.removeFromConferenceFailed]: "Das Entfernen des Teilnehmers ist aufgrund unerwarteter Fehler fehlgeschlagen. Versuchen Sie es später noch einmal.",
   [conferenceCallErrors.callIsRecording]: "Anrufaufzeichnung in Verarbeitung. Bitte stoppen Sie die Aufzeichnung und versuchen Sie es erneut."
 };
 

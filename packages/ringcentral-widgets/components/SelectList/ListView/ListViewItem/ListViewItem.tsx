@@ -1,8 +1,11 @@
 import React, { FunctionComponent, useEffect, useRef } from 'react';
 
+import { emptyFn } from '@ringcentral-integration/utils';
 import { RcCheckbox, RcListItem, RcListItemText } from '@ringcentral/juno';
 
-type OptionData = {
+import { TextWithHighlight } from '../../../TextWithHighlight';
+
+export type OptionData = {
   type?: string;
   [key: string]: any;
 };
@@ -15,25 +18,27 @@ export interface ListViewItemProps {
   filter?: string;
   onChange?: (option: OptionData) => any;
   valueFunction: (value: any) => any;
-  startAdornment?: (type: string) => any;
+  startAdornment?: (type?: string) => any;
   renderFunction: (option: OptionData) => string;
   secondaryRenderFunction?: (option: OptionData) => any;
   onSelect: (elm?: HTMLDivElement) => any;
   multiple?: boolean;
+  disabled?: boolean;
 }
 
 export const ListViewItem: FunctionComponent<ListViewItemProps> = ({
+  option = {},
+  filter = null,
+  onChange = emptyFn,
+  startAdornment = emptyFn,
+  secondaryRenderFunction = emptyFn,
+  multiple = false,
+  disabled = false,
   renderFunction,
-  secondaryRenderFunction,
-  startAdornment,
-  filter,
   valueFunction,
   value,
-  option,
-  onChange,
   index,
   onSelect,
-  multiple,
 }) => {
   const selectElm = useRef<HTMLDivElement>();
   const currentValue = valueFunction(value);
@@ -47,23 +52,9 @@ export const ListViewItem: FunctionComponent<ListViewItemProps> = ({
       onSelect(selectElm.current);
     }
   }, [isSelected, onSelect]);
-  const getFilterResult = (option) => {
-    const text = renderFunction(option);
-    if (filter && typeof text === 'string') {
-      const i = text.toLowerCase().indexOf(filter.toLowerCase());
-      return (
-        <>
-          <span>{text.substring(0, i)}</span>
-          <span style={{ background: '#ffdfb1' }} data-sign="highlight">
-            {text.substring(i, i + filter.length)}
-          </span>
-          <span>{text.substring(i + filter.length)}</span>
-        </>
-      );
-    }
-    return text;
-  };
+
   return (
+    // @ts-expect-error TS(2322): Type 'MutableRefObject<HTMLDivElement | undefined>... Remove this comment to see the full error message
     <div ref={selectElm}>
       <RcListItem
         button
@@ -76,29 +67,28 @@ export const ListViewItem: FunctionComponent<ListViewItemProps> = ({
         }
         data-sign={`match${index}`}
         selected={isSelected}
+        disabled={disabled}
       >
-        {startAdornment && startAdornment(type)}
+        {startAdornment?.(type)}
         {multiple && (
           <RcCheckbox
             checked={isSelected}
             data-sign={isSelected ? 'selected' : 'unselected'}
+            disabled={disabled}
           />
         )}
         <RcListItemText
-          primary={getFilterResult(option)}
+          primary={
+            <TextWithHighlight
+              // @ts-expect-error TS(2322): Type 'string | null' is not assignable to type 'st... Remove this comment to see the full error message
+              highLightText={filter}
+              text={renderFunction(option)}
+            />
+          }
           secondary={secondaryRenderFunction(option)}
           data-sign="matchedItemText"
-          title={renderFunction(option)}
         />
       </RcListItem>
     </div>
   );
-};
-ListViewItem.defaultProps = {
-  option: {},
-  filter: null,
-  onChange() {},
-  startAdornment() {},
-  secondaryRenderFunction() {},
-  multiple: false,
 };

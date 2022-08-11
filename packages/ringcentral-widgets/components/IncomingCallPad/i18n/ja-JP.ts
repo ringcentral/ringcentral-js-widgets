@@ -3,9 +3,9 @@ export default {
   reply: "返信",
   ignore: "無視",
   toVoicemail: "ボイスメールへ",
-  answer: "電話に出る",
+  answer: "応答",
   answerAndEnd: "応答して終了",
-  answerAndHold: "応答して保留"
+  answerAndHold: "応答/保留"
 };
 
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@

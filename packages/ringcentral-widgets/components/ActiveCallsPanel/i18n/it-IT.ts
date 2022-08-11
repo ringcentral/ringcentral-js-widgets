@@ -1,9 +1,9 @@
 export default {
   noActiveCalls: "Nessuna chiamata attiva",
   currentCall: "Chiamata corrente",
-  ringCall: "Squillo chiamata",
+  ringCall: "Chiamata in arrivo",
   onHoldCall: "Chiamata in attesa",
-  otherDeviceCall: "Chiamate in corso sugli altri miei dispositivi",
+  otherDeviceCall: "Chiamate in corso sugli altri dispositivi",
   confirmation: "Conferma",
   confirmMergeToConference: "Aggiungere alla conferenza telefonica?",
   mergeToConference: "Unisci",

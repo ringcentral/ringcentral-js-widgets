@@ -1,7 +1,7 @@
 import { combineReducers } from 'redux';
 
-export function getClosedReducer(types) {
-  return (state = false, { type, closed }) => {
+export function getClosedReducer(types: any) {
+  return (state = false, { type, closed }: any) => {
     switch (type) {
       case types.syncClosed:
         return !!closed;
@@ -13,8 +13,8 @@ export function getClosedReducer(types) {
   };
 }
 
-export function getMinimizedReducer(types) {
-  return (state = false, { type, minimized }) => {
+export function getMinimizedReducer(types: any) {
+  return (state = false, { type, minimized }: any) => {
     switch (type) {
       case types.syncMinimized:
         return !!minimized;
@@ -26,8 +26,8 @@ export function getMinimizedReducer(types) {
   };
 }
 
-export function getSizeReducer(types) {
-  return (state = { width: 300, height: 500 }, { type, size = {} }) => {
+export function getSizeReducer(types: any) {
+  return (state = { width: 300, height: 500 }, { type, size = {} }: any) => {
     switch (type) {
       case types.syncSize:
         return {
@@ -40,7 +40,7 @@ export function getSizeReducer(types) {
   };
 }
 
-export function getPositionReducer(types) {
+export function getPositionReducer(types: any) {
   return (
     state = {
       translateX: null,
@@ -50,13 +50,14 @@ export function getPositionReducer(types) {
     },
     {
       type,
+
       position: {
         translateX = state.translateX,
         translateY = state.translateY,
         minTranslateX = state.minTranslateX,
         minTranslateY = state.minTranslateY,
       } = {},
-    },
+    }: any,
   ) => {
     if (type === types.syncPosition) {
       return {
@@ -70,7 +71,7 @@ export function getPositionReducer(types) {
   };
 }
 
-export default function getDefaultGlobalStorageReducer(types) {
+export default function getDefaultGlobalStorageReducer(types: any) {
   return combineReducers({
     closed: getClosedReducer(types),
     minimized: getMinimizedReducer(types),

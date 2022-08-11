@@ -1,6 +1,6 @@
 export default {
   region: "Región",
-  calling: "Llamadas",
+  calling: "Llamando",
   logout: "Cerrar sesión",
   version: "Versión",
   settings: "Configuración",

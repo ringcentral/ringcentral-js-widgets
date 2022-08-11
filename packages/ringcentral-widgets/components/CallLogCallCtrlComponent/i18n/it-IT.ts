@@ -1,9 +1,9 @@
 export default {
-  mute: "Disatt. audio",
+  mute: "Disattiva audio",
   unmute: "Riattiva audio",
   hangup: "Riaggancia",
   reject: "Rifiuta",
-  hold: "Attesa",
+  hold: "Metti in attesa",
   onHold: "In attesa",
   transfer: "Trasferisci",
   more: "Altro",
@@ -15,10 +15,12 @@ export default {
   forward: "Trasferisci",
   ignore: "Ignora",
   voicemail: "Alla segreteria telefonica",
-  custom: "Personalizzato",
+  custom: "Personalizza",
   answerAndEnd: "Rispondi e termina",
-  answerAndHold: "Rispondi e metti in attesa",
-  answer: "Rispondi"
+  answerAndHold: "Rispondi e attesa",
+  answer: "Rispondi",
+  completeTransfer: "Completa trasferimento",
+  reply: "Rispondi"
 };
 
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
@@ -41,3 +43,5 @@ export default {
 // @key: @#@"answerAndEnd"@#@ @source: @#@"Answer & End"@#@
 // @key: @#@"answerAndHold"@#@ @source: @#@"Answer & Hold"@#@
 // @key: @#@"answer"@#@ @source: @#@"Answer"@#@
+// @key: @#@"completeTransfer"@#@ @source: @#@"Complete transfer"@#@
+// @key: @#@"reply"@#@ @source: @#@"Reply"@#@

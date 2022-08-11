@@ -1,5 +1,5 @@
 export default {
-  to: "至：",
+  to: "撥給：",
   enterNameOrPhoneNumber: "輸入號碼"
 };
 

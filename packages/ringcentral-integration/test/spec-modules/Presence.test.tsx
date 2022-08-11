@@ -8,7 +8,7 @@ import {
   title,
 } from '@ringcentral-integration/test-utils';
 
-import { Presence } from '../../modules/PresenceV2';
+import { Presence } from '../../modules/Presence';
 
 class MockAuth {
   loggedIn = true;

@@ -1,6 +1,6 @@
 export default {
   ringing: "Appel entrant",
-  callConnected: "Appel connecté"
+  callConnected: "Appel établi"
 };
 
 // @key: @#@"ringing"@#@ @source: @#@"Incoming call"@#@

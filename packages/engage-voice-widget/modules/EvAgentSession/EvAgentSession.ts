@@ -2,7 +2,7 @@ import { EventEmitter } from 'events';
 import { equals } from 'ramda';
 
 import { Module } from '@ringcentral-integration/commons/lib/di';
-import { sleep } from '@ringcentral-integration/commons/lib/sleep';
+import { sleep } from '@ringcentral-integration/commons/utils';
 import {
   action,
   computed,
@@ -394,9 +394,7 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
   }
 
   @action
-  setFreshConfig() {
-    this._clearCalls();
-
+  _setFreshConfig() {
     this.loginType = DEFAULT_LOGIN_TYPE;
     this.extensionNumber = '';
     this.takingCall = true;
@@ -410,6 +408,11 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
         (inboundQueue) => inboundQueue.gateId,
       );
     }
+  }
+
+  setFreshConfig() {
+    this._clearCalls();
+    this._setFreshConfig();
   }
 
   get defaultAutoAnswerOn() {
@@ -465,7 +468,7 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
     return !equals(sessionConfigs, this.formGroup);
   }
 
-  _shouldReset() {
+  override _shouldReset() {
     return super._shouldReset() && !this._deps.auth.loggedIn;
   }
 
@@ -521,7 +524,7 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
     );
   }
 
-  onInitOnce() {
+  override onInitOnce() {
     this._init();
 
     this.onConfigSuccess(() => {
@@ -679,7 +682,7 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
   }
 
   // ! also reset in onReset for auth logout by rc
-  onReset() {
+  override onReset() {
     console.log('onReset in EvAgentSession~~');
     try {
       this._resetAllState();
@@ -707,7 +710,7 @@ class EvAgentSession extends RcModuleV2<Deps> implements AgentSession {
     );
   }
 
-  async onStateChange() {
+  override async onStateChange() {
     if (this.ready && this.tabManagerEnabled && this._deps.tabManager.ready) {
       await this._checkTabManagerEvent();
     }

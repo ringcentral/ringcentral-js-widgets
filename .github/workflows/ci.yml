@@ -42,6 +42,7 @@ jobs:
           path-to-lcov: ./packages/locale-loader/coverage/lcov.info
           flag-name: locale-loader
           parallel: true
+      - run: yarn workspace @ringcentral-integration/utils test --coverage
       - run: yarn workspace @ringcentral-integration/core test --coverage
       - name: Core Coveralls
         uses: coverallsapp/github-action@1.1.3

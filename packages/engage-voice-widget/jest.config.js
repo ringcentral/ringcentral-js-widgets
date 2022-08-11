@@ -7,6 +7,7 @@ module.exports = {
       '@SDK': '<rootDir>/lib/EvClient/__SDK__/agentLibrary.dev.js',
     },
     setupFiles: [
+      '@ringcentral-integration/test-utils/scripts/enzyme-jest.setup.js',
       '<rootDir>/test/support/shim.js',
       '<rootDir>/test/support/setup.js',
     ],

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import { sleep } from '@ringcentral-integration/commons/lib/sleep';
+import { sleep } from '@ringcentral-integration/commons/utils';
 
 import ConferenceParticipantPanel from '../ConferenceParticipantPanel';
 
@@ -14,17 +14,21 @@ class ConferenceParticipantContainer extends Component<
   ConferenceParticipantContainerProps,
   {}
 > {
-  constructor(props) {
+  mounted: any;
+  constructor(props: any) {
     super(props);
     this.mounted = false;
   }
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   componentDidMount() {
     this.mounted = true;
   }
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   componentWillUnmount() {
     this.mounted = false;
   }
-  UNSAFE_componentWillReceiveProps(nextProps) {
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
+  UNSAFE_componentWillReceiveProps(nextProps: any) {
     if (!this.mounted) {
       return;
     }
@@ -40,7 +44,9 @@ class ConferenceParticipantContainer extends Component<
       });
     }
   }
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
+    // @ts-expect-error TS(2741): Property 'currentLocale' is missing in type '{ par... Remove this comment to see the full error message
     return <ConferenceParticipantPanel {...this.props} />;
   }
 }

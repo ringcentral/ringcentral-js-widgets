@@ -7,7 +7,7 @@ export interface PhoneProviderProps<T = any> {
   theme?: RcThemeProviderProps['theme'];
 }
 
-export const PhoneContext = React.createContext(null);
+export const PhoneContext = React.createContext<any>(null);
 
 export default PhoneContext;
 
@@ -34,7 +34,7 @@ export const PhoneProvider: FunctionComponent<PhoneProviderProps> = ({
  */
 export function withPhone(Comp: any) {
   // eslint-disable-next-line func-names
-  return function (props: any) {
+  return (props: any) => {
     return (
       <PhoneContext.Consumer>
         {(phone) => <Comp phone={phone} {...props} />}

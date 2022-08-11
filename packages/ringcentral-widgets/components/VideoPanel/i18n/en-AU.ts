@@ -1,4 +1,4 @@
-import { ASSISTED_USERS_MYSELF } from '@ringcentral-integration/commons/modules/RcVideo/constants';
+import { ASSISTED_USERS_MYSELF } from '@ringcentral-integration/commons/modules/RcVideo';
 export default {
   topic: "Meeting title",
   date: "Date",
@@ -15,7 +15,7 @@ export default {
   waitingRoomAll: "Everyone",
   enterPassword: "Enter Password",
   onlyJoinAfterMe: "Participants can only join after me",
-  onlyJoinAfterHost: "Participants can only join after the host",
+  onlyJoinAfterHost: "Participants can only join after host",
   muteAudio: "Mute audio for participants",
   turnOffCamera: "Turn off camera for participants",
   requirePassword: "Require password",
@@ -30,14 +30,14 @@ export default {
   meetingSettingsSecurity: "Security",
   onlyAuthUserJoin: "Only authenticated users can join",
   signedInUsers: "Signed-in users",
-  signedInCoWorkers: "Signed-in co-workers",
+  signedInCoWorkers: "Signed-in colleagues",
   limitScreenSharing: "Only the host & moderators can share screen",
   lockTooltip: "This setting is managed by your company admin",
   pmiSettingAlert: "These settings will apply to all meetings created with PMI",
   today: "Today",
   scheduleForGuidance: "Scheduling for someone else?\n1. Make sure you’re on their Outlook calendar.\n2. From the dropdown, select the person you’re scheduling for.\n",
   scheduleForGuidanceMore: "Learn details",
-  changePmiSettings: "Change personal meeting settings",
+  changePmiSettings: "Change Personal Meeting settings",
   ieSupportAlert: "Please note that {appName} won’t work with Internet Explorer 11 after 16th Feb 2022. We recommend switching to Microsoft Edge or updating to Outlook 2016 or above."
 };
 
@@ -78,5 +78,5 @@ export default {
 // @key: @#@"today"@#@ @source: @#@"Today"@#@
 // @key: @#@"scheduleForGuidance"@#@ @source: @#@"Scheduling for someone else?\n1. Make sure you're on their Outlook calendar.\n2. From the dropdown, select the person you're scheduling for.\n"@#@
 // @key: @#@"scheduleForGuidanceMore"@#@ @source: @#@"Learn details"@#@
-// @key: @#@"changePmiSettings"@#@ @source: @#@"Change Personal meeting settings"@#@
+// @key: @#@"changePmiSettings"@#@ @source: @#@"Change Personal Meeting settings"@#@
 // @key: @#@"ieSupportAlert"@#@ @source: @#@"Please note that {appName} won't work with Internet Explorer 11 after Feb 16, 2022. We recommend switching to Microsoft Edge or updating to Outlook 2016 or above."@#@

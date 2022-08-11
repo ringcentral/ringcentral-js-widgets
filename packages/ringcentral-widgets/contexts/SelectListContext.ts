@@ -5,6 +5,7 @@ export type SelectListContextValue = {
 };
 
 export const SelectListContext = createContext<SelectListContextValue>({
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'MutableRefO... Remove this comment to see the full error message
   scrollElmRef: null,
 });
 

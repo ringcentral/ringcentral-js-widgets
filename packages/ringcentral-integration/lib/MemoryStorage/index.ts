@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * Simple polyfill of localStorage object for using storageModules in node
  */

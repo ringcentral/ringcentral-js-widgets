@@ -1,10 +1,10 @@
 import { Alert } from '@ringcentral-integration/commons/modules/Alert';
-import { AudioSettings } from '@ringcentral-integration/commons/modules/AudioSettingsV2';
-import { Auth } from '@ringcentral-integration/commons/modules/AuthV2';
-import { AvailabilityMonitor } from '@ringcentral-integration/commons/modules/AvailabilityMonitorV2';
-import { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettingsV2';
-import { ConnectivityMonitor } from '@ringcentral-integration/commons/modules/ConnectivityMonitorV2';
-import { Webphone } from '@ringcentral-integration/commons/modules/WebphoneV2';
+import { AudioSettings } from '@ringcentral-integration/commons/modules/AudioSettings';
+import { Auth } from '@ringcentral-integration/commons/modules/Auth';
+import { AvailabilityMonitor } from '@ringcentral-integration/commons/modules/AvailabilityMonitor';
+import { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettings';
+import { ConnectivityMonitor } from '@ringcentral-integration/commons/modules/ConnectivityMonitor';
+import { Webphone } from '@ringcentral-integration/commons/modules/Webphone';
 
 import { OAuth } from '../OAuth';
 

@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 
 import { RcIconButton } from '@ringcentral/juno';
-import { TransferCall } from '@ringcentral/juno/icon';
+import { TransferCall } from '@ringcentral/juno-icon';
 
 import i18n from '../i18n';
 import { CallButtonsProps } from './CallButtons.interface';

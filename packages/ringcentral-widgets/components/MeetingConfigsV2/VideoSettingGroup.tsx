@@ -1,10 +1,12 @@
 import React, { FunctionComponent } from 'react';
 
-import { RcFormGroup } from '@ringcentral/juno';
-import { RcAccordion } from '@ringcentral/juno/components/Accordion';
-import { RcAccordionDetails } from '@ringcentral/juno/components/Accordion/AccordionDetails';
-import { RcAccordionSummary } from '@ringcentral/juno/components/Accordion/AccordionSummary';
-import { ArrowDown2 as arrowDownSvg } from '@ringcentral/juno/icon';
+import {
+  RcAccordion,
+  RcAccordionDetails,
+  RcAccordionSummary,
+  RcFormGroup,
+} from '@ringcentral/juno';
+import { ArrowDown2 as arrowDownSvg } from '@ringcentral/juno-icon';
 
 import styles from './styles.scss';
 
@@ -34,6 +36,7 @@ export const VideoSettingGroup: FunctionComponent<VideoSettingGroupProps> = ({
         <RcAccordionSummary
           classes={{
             root: styles.accordionSummary,
+            // @ts-expect-error TS(2322): Type 'string | null' is not assignable to type 'st... Remove this comment to see the full error message
             disabled: expandable ? null : styles.accordionSummaryDisabled,
           }}
           expandIcon={expandable ? arrowDownSvg : undefined}

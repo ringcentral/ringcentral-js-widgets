@@ -1,0 +1,92 @@
+{
+  "records": [
+    {
+      "id": "386516004",
+      "type": "User",
+      "status": "Enabled",
+      "firstName": "RCV",
+      "lastName": "New",
+      "email": "something+1646619921964-4284@kamino1646619920985.com",
+      "extensionNumber": "101",
+      "account": { "id": "386516004" },
+      "phoneNumbers": [
+        {
+          "phoneNumber": "+12055641589",
+          "type": "VoiceFax",
+          "formattedPhoneNumber": "+1 (205) 5641589",
+          "usageType": "DirectNumber",
+          "primary": true
+        },
+        {
+          "phoneNumber": "+12055641661",
+          "type": "VoiceFax",
+          "formattedPhoneNumber": "+1 (205) 5641661",
+          "usageType": "DirectNumber"
+        },
+        {
+          "phoneNumber": "+16504878235",
+          "formattedPhoneNumber": "+1 (650) 4878235",
+          "usageType": "ContactNumber"
+        }
+      ]
+    },
+    {
+      "id": "386526004",
+      "type": "User",
+      "status": "Enabled",
+      "firstName": "RCV",
+      "lastName": "RCV",
+      "email": "rcv.rcv@kamino1646619920985.com",
+      "extensionNumber": "102",
+      "account": { "id": "386516004" },
+      "phoneNumbers": [
+        {
+          "phoneNumber": "+12055641612",
+          "type": "VoiceFax",
+          "formattedPhoneNumber": "+1 (205) 5641612",
+          "usageType": "DirectNumber",
+          "primary": true
+        },
+        {
+          "phoneNumber": "+12055641688",
+          "type": "VoiceFax",
+          "formattedPhoneNumber": "+1 (205) 5641688",
+          "usageType": "DirectNumber"
+        }
+      ]
+    },
+    {
+      "id": "386529004",
+      "type": "User",
+      "status": "Enabled",
+      "firstName": "RCV",
+      "lastName": "RCV_ext3",
+      "email": "rcv.rcv_ext3@kamino1646619920985.com",
+      "extensionNumber": "103",
+      "account": { "id": "386516004" },
+      "phoneNumbers": [
+        {
+          "phoneNumber": "+12055641648",
+          "type": "VoiceFax",
+          "formattedPhoneNumber": "+1 (205) 5641648",
+          "usageType": "DirectNumber",
+          "primary": true
+        },
+        {
+          "phoneNumber": "+12055641707",
+          "type": "VoiceFax",
+          "formattedPhoneNumber": "+1 (205) 5641707",
+          "usageType": "DirectNumber"
+        }
+      ]
+    }
+  ],
+  "paging": {
+    "page": 1,
+    "totalPages": 1,
+    "perPage": 2000,
+    "totalElements": 3,
+    "pageStart": 0,
+    "pageEnd": 2
+  }
+}

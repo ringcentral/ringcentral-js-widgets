@@ -1,5 +1,5 @@
 import { Module } from '@ringcentral-integration/commons/lib/di';
-import callingOptions from '@ringcentral-integration/commons/modules/CallingSettings/callingOptions';
+import { callingOptions } from '@ringcentral-integration/commons/modules/CallingSettings';
 import {
   RcUIModuleV2,
   UIFunctions,
@@ -47,6 +47,7 @@ class CallingSettingsUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
     return {
       currentLocale: this._deps.locale.currentLocale,
       callWithOptions: this._deps.callingSettings.callWithOptions,
+      // @ts-expect-error TS(2322): Type 'string | null' is not assignable to type 'st... Remove this comment to see the full error message
       callWith: this._deps.callingSettings.callWith,
       myLocation: this._deps.callingSettings.myLocation,
       ringoutPrompt: this._deps.callingSettings.ringoutPrompt,
@@ -58,18 +59,24 @@ class CallingSettingsUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
       ),
       showSpinner: this.showSpinner,
       locationSearchable: this.locationSearchable,
+      // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
       showRingToneSettings:
         this.ringtoneSettings &&
         this._deps.callingSettings.isChangeRingToneAllowed,
+      // @ts-expect-error TS(2322): Type 'string | null | undefined' is not assignable... Remove this comment to see the full error message
       incomingAudioFile: this._deps.webphone?.incomingAudioFile,
       incomingAudio: this._deps.webphone?.incomingAudio,
+      // @ts-expect-error TS(2322): Type 'string | null | undefined' is not assignable... Remove this comment to see the full error message
       outgoingAudioFile: this._deps.webphone?.outgoingAudioFile,
       outgoingAudio: this._deps.webphone?.outgoingAudio,
       defaultIncomingAudioFile: this._deps.webphone?.defaultIncomingAudioFile,
       defaultIncomingAudio: this._deps.webphone?.defaultIncomingAudio,
+      // @ts-expect-error TS(2322): Type 'string | null | undefined' is not assignable... Remove this comment to see the full error message
       defaultOutgoingAudioFile: this._deps.webphone?.outgoingAudioFile,
       defaultOutgoingAudio: this._deps.webphone?.outgoingAudio,
+      // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
       jupiterAppName: this._deps.callingSettings.jupiterAppName,
+      // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
       softphoneAppName: this._deps.brand.brandConfig.callWithSoftphone?.name,
     };
   }
@@ -98,9 +105,13 @@ class CallingSettingsUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
         );
         if (this._deps.webphone && callWith === callingOptions.browser) {
           this._deps.webphone.setRingtone({
+            // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
             incomingAudio,
+            // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
             incomingAudioFile,
+            // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
             outgoingAudio,
+            // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
             outgoingAudioFile,
           });
         }

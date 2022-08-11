@@ -1,14 +1,14 @@
-import { ForwardingNumberInfo } from '@rc-ex/core/definitions';
+import type ForwardingNumberInfo from '@rc-ex/core/lib/definitions/ForwardingNumberInfo';
 import {
   ActiveCallControl,
   ActiveSession,
-} from '@ringcentral-integration/commons/modules/ActiveCallControlV2';
-import { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettingsV2';
-import { CallMonitor } from '@ringcentral-integration/commons/modules/CallMonitorV2';
-import { ConnectivityMonitor } from '@ringcentral-integration/commons/modules/ConnectivityMonitorV2';
+} from '@ringcentral-integration/commons/modules/ActiveCallControl';
+import { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettings';
+import { CallMonitor } from '@ringcentral-integration/commons/modules/CallMonitor';
+import { ConnectivityMonitor } from '@ringcentral-integration/commons/modules/ConnectivityMonitor';
 import { ExtensionFeatures } from '@ringcentral-integration/commons/modules/ExtensionFeatures';
-import { ForwardingNumber } from '@ringcentral-integration/commons/modules/ForwardingNumberV2';
-import { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiterV2';
+import { ForwardingNumber } from '@ringcentral-integration/commons/modules/ForwardingNumber';
+import { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiter';
 
 import { RouterInteraction } from '../RouterInteraction';
 
@@ -43,10 +43,12 @@ export interface CallLogCallCtrlPanelProps {
   onUnHold: ActiveCallControl['unhold'];
   startRecord: ActiveCallControl['startRecord'];
   stopRecord: ActiveCallControl['stopRecord'];
+  onCompleteWarmTransfer: ActiveCallControl['completeWarmTransfer'];
   onTransfer: (telephonySessionId: string) => Promise<void>;
   sendDTMF: (dtmfValue: string, telephonySessionId: string) => Promise<void>;
   answer: ActiveCallControl['answer'];
   forward: (phoneNumber: string, telephonySessionId: string) => void;
+  reply: (telephonySessionId: string) => void;
   ignore: ActiveCallControl['ignore'];
   answerAndHold: ActiveCallControl['answerAndHold'];
   answerAndEnd: ActiveCallControl['answerAndEnd'];

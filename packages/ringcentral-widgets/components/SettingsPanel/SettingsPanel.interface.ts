@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 
-import { DNDStatusValueType } from '@ringcentral-integration/commons/modules/Presence/dndStatus';
+import { BrandConfig } from '@ringcentral-integration/commons/modules/Brand';
+import { DNDStatusValueType } from '@ringcentral-integration/commons/modules/Presence';
 
 import { EulaProps } from '../Eula/Eula.interface';
 
@@ -101,6 +102,11 @@ export interface UserGuideProps {
   onUserGuideClick?(): any;
 }
 
+export interface ReportIssueProps {
+  showReportIssue?: boolean;
+  onReportIssueClick?(): any;
+}
+
 export interface ClickToDialProps {
   currentLocale: string;
   showClickToDial?: boolean;
@@ -171,9 +177,12 @@ export interface SettingsPanelProps
     FeedbackProps,
     QuickAccessLinkProps,
     UserGuideProps,
+    ReportIssueProps,
     PresenceSettingProps,
     ShareIdeaProps {
   children?: ReactNode;
   currentLocale: string;
   additional?: ReactNode;
+  brandConfig: BrandConfig;
+  showRemoveMeetingWarning: boolean;
 }

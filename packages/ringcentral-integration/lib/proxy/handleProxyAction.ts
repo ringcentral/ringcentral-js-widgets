@@ -17,7 +17,11 @@ export const dropStates = (action: any) => {
 export const pushStates = (target: RcModuleV2, action: any) => {
   if (action._usm === usmAction) {
     // restore changes states for reduction of serialized data from `patches`
-    const _state = applyPatches(target.store.getState(), action._patches);
+    const _state = applyPatches(
+      target[action.type]._getLastState(),
+      action._patches,
+    );
+    target[action.type]._handleState(_state);
     return {
       ...action,
       _state,

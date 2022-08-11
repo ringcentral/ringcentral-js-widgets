@@ -24,7 +24,9 @@ export class CallsOnholdUI extends ActiveCallsUI<Deps> {
   get calls() {
     return filter(
       (call) =>
+        // @ts-expect-error TS(2769): No overload matches this call.
         call.webphoneSession &&
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         !this._deps.conferenceCall.isConferenceSession(
           call.webphoneSession.id,
         ) &&
@@ -33,6 +35,7 @@ export class CallsOnholdUI extends ActiveCallsUI<Deps> {
     );
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   getUIProps(
     options: CallsOnholdContainerProps,
   ): UIProps<CallsOnholdPanelProps> {
@@ -43,6 +46,7 @@ export class CallsOnholdUI extends ActiveCallsUI<Deps> {
     };
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   getUIFunctions(
     options: CallsOnholdContainerProps,
   ): UIFunctions<CallsOnholdPanelProps> {
@@ -52,25 +56,31 @@ export class CallsOnholdUI extends ActiveCallsUI<Deps> {
         // to track user click merge
         this._deps.callMonitor.callsOnHoldClickMergeTrack();
 
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         const sessions = await this._deps.conferenceCall.parseMergingSessions({
           sessionId,
           sessionIdToMergeWith: options.params.fromSessionId,
         });
         if (sessions) {
           const confId =
+            // @ts-expect-error TS(2532): Object is possibly 'undefined'.
             this._deps.conferenceCall.conferences &&
+            // @ts-expect-error TS(2532): Object is possibly 'undefined'.
             Object.keys(this._deps.conferenceCall.conferences)[0];
           if (confId) {
             const confSessionId =
+              // @ts-expect-error TS(2532): Object is possibly 'undefined'.
               this._deps.conferenceCall.conferences[confId].sessionId;
             this._deps.routerInteraction.push(`/calls/active/${confSessionId}`);
           } else {
             this._deps.routerInteraction.goBack();
           }
+          // @ts-expect-error TS(2532): Object is possibly 'undefined'.
           await this._deps.conferenceCall.mergeSessions(sessions);
         }
       },
       onBackButtonClick: () => {
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         if (this._deps.webphone.sessions.length) {
           this._deps.routerInteraction.goBack();
           return;

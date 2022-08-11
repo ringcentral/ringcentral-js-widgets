@@ -1,10 +1,10 @@
 export default {
   DirectNumber: "Directo",
   MainCompanyNumber: "Principal",
-  CompanyNumber: "Compañía",
+  CompanyNumber: "Empresa",
   CompanyFaxNumber: "Fax",
   Blocked: "Bloqueado",
-  AdditionalCompanyNumber: "Compañía",
+  AdditionalCompanyNumber: "Empresa",
   ForwardedCompanyNumber: "Desviado",
   from: "De"
 };

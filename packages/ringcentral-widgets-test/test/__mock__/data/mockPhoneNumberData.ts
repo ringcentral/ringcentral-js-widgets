@@ -7,7 +7,7 @@ export const mockPhoneNumberData = () => {
         'MmsSender',
         'InternationalSmsSender',
       ],
-      uri: 'https://api-rcapps-xmnup.lab.nordigy.ru/restapi/v1.0/account/3762349004/phone-number/2286086004',
+      uri: 'https://platform.devtest.ringcentral.com/restapi/v1.0/account/3762349004/phone-number/2286086004',
       id: 2286086004,
       phoneNumber: '+17608791723',
       paymentType: 'Local',
@@ -16,7 +16,7 @@ export const mockPhoneNumberData = () => {
       usageType: 'DirectNumber',
       status: 'Normal',
       country: {
-        uri: 'https://api-rcapps-xmnup.lab.nordigy.ru/restapi/v1.0/dictionary/country/1',
+        uri: 'https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/1',
         id: '1',
         name: 'United States',
       },
@@ -24,7 +24,7 @@ export const mockPhoneNumberData = () => {
     },
     {
       features: ['CallerId'],
-      uri: 'https://api-rcapps-xmnup.lab.nordigy.ru/restapi/v1.0/account/3762349004/phone-number/2286092004',
+      uri: 'https://platform.devtest.ringcentral.com/restapi/v1.0/account/3762349004/phone-number/2286092004',
       id: 2286092004,
       phoneNumber: '+81330006572',
       paymentType: 'Local',
@@ -33,7 +33,7 @@ export const mockPhoneNumberData = () => {
       usageType: 'DirectNumber',
       status: 'Normal',
       country: {
-        uri: 'https://api-rcapps-xmnup.lab.nordigy.ru/restapi/v1.0/dictionary/country/112',
+        uri: 'https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/112',
         id: '112',
         name: 'Japan',
       },

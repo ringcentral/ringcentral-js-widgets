@@ -1,16 +1,18 @@
+import { HistoryCall } from '@ringcentral-integration/commons/modules/CallHistory';
+
 import { FieldItemOption } from '../CallLogFields/FieldItem/FieldItem.interface';
 
 // This interface will change folder in the future
 export interface CallLog {
-  call?: Call;
+  call?: Call | HistoryCall;
   currentSessionId?: string;
-  // TODO remove sf call log interface
+  // TODO: remove sf call log interface
   nameEntities?: SfEntity[];
   relatedToEntities?: SfEntity[];
   associatedEntities?: SfEntity[];
   subjectPicklist?: string[];
   task?: Task;
-  // TODO remove sf call log interface
+  // TODO: remove sf call log interface
   navigateToEntities?: NavigateToEntities;
   currentLogCall?: CurrentLogCall;
   showLog?: boolean;

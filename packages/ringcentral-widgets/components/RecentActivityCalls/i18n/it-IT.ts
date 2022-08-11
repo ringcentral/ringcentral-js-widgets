@@ -1,5 +1,5 @@
 export default {
-  noRecords: "Nessun record corrispondente.",
+  noRecords: "Nessun record recente corrispondente.",
   inBound: "In entrata",
   outBound: "In uscita",
   missed: "Chiamata persa"

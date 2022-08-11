@@ -9,6 +9,7 @@ export type ContactDisplayItemProps = {
   entityType?: string;
   phoneNumber?: string;
   sourceIcons?: {
+    // @ts-expect-error TS(2411): Property 'brandIcon' of type 'ComponentType<any> |... Remove this comment to see the full error message
     brandIcon?: ComponentType<any>;
     [key: string]: ComponentType<any>;
   };
@@ -20,11 +21,14 @@ export const ContactDisplayItem: React.FC<ContactDisplayItemProps> = ({
   phoneNumber,
   sourceIcons,
 }) => {
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'ComponentTy... Remove this comment to see the full error message
   let SourceIcon: ComponentType<any> = null;
   if (entityType) {
     if (entityType === phoneSources.rcContact) {
+      // @ts-expect-error TS(2322): Type 'ComponentType<any> | undefined' is not assig... Remove this comment to see the full error message
       SourceIcon = sourceIcons.brandIcon;
     } else {
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       SourceIcon = sourceIcons[entityType];
     }
   }

@@ -1,15 +1,24 @@
-import { ParsePhoneNumberResponse } from '@rc-ex/core/definitions';
+import type ParsePhoneNumberResponse from '@rc-ex/core/lib/definitions/ParsePhoneNumberResponse';
 import { RcModuleV2 } from '@ringcentral-integration/core';
 import { parse } from '@ringcentral-integration/phone-number';
 
+import {
+  Category,
+  NumberParserAPIResponse,
+  ParsePhoneNumberResultsItem,
+} from '../../interfaces/NumberParserResponse.interface';
+import cleanNumber from '../../lib/cleanNumber';
 import { isAnExtension, isExtensionExist } from '../../lib/contactHelper';
 import { Module } from '../../lib/di';
 import { hasNoAreaCode } from '../../lib/hasNoAreaCode';
-import isBlank from '../../lib/isBlank';
-import normalizeNumber from '../../lib/normalizeNumber';
+import { isBlank } from '../../lib/isBlank';
+import { normalizeNumber } from '../../lib/normalizeNumber';
 import { proxify } from '../../lib/proxy/proxify';
-import {
+import type {
   Deps,
+  ParsePhoneNumberAPIParam,
+  ParseResult,
+  ParseResultItem,
   ValidatedPhoneNumbers,
   ValidateFormattedError,
   ValidateFormattingResult,
@@ -17,6 +26,8 @@ import {
   ValidateParsingResult,
   ValidateResult,
 } from './NumberValidate.interface';
+import { contextSourceOption } from './NumberValidate.interface';
+import { callErrors } from '../Call/callErrors';
 
 @Module({
   name: 'NumberValidate',
@@ -26,6 +37,8 @@ import {
     'RegionSettings',
     'AccountInfo',
     'CompanyContacts',
+    'AppFeatures',
+    'Alert',
     { dep: 'ExtensionInfo', optional: true },
     { dep: 'NumberValidateOptions', optional: true },
   ],
@@ -69,10 +82,14 @@ export class NumberValidate extends RcModuleV2<Deps> {
    * @param {*} extensionNumber
    * @returns {String} extensionNumber | null
    */
-  getAvailableExtension(extensionNumber: string) {
-    if (!isAnExtension(extensionNumber)) {
+  getAvailableExtension(
+    extensionNumber: string,
+    maxExtensionNumberLength: number = 6,
+  ) {
+    if (!isAnExtension(extensionNumber, maxExtensionNumberLength)) {
       return null;
     }
+    // @ts-expect-error
     const { isMultipleSiteEnabled, site } = this._deps.extensionInfo;
     const { filteredContacts, ivrContacts } = this._deps.companyContacts;
     const contacts = filteredContacts.concat(ivrContacts);
@@ -80,6 +97,7 @@ export class NumberValidate extends RcModuleV2<Deps> {
       contacts.find((item) =>
         isExtensionExist({
           extensionNumber,
+          // @ts-expect-error
           extensionFromContacts: item.extensionNumber,
           options: {
             isMultipleSiteEnabled,
@@ -94,10 +112,10 @@ export class NumberValidate extends RcModuleV2<Deps> {
     return !!this.getAvailableExtension(extensionNumber);
   }
 
-  isNotAnExtension(extensionNumber: string) {
+  isNotAnExtension(extensionNumber: string, maxExtensionLength = 6) {
     return (
       extensionNumber &&
-      extensionNumber.length <= 6 &&
+      extensionNumber.length <= maxExtensionLength &&
       !this._deps.companyContacts.isAvailableExtension(extensionNumber)
     );
   }
@@ -108,6 +126,7 @@ export class NumberValidate extends RcModuleV2<Deps> {
       phoneNumber: companyNumber,
       countryCode,
       areaCode,
+      maxExtensionLength: this._deps.accountInfo.maxExtensionNumberLength,
     });
     if (normalizedCompanyNumber !== this._deps.accountInfo.mainCompanyNumber) {
       return false;
@@ -150,24 +169,30 @@ export class NumberValidate extends RcModuleV2<Deps> {
     parsedNumbers.map((phoneNumber) => {
       if (this._isSpecial(phoneNumber)) {
         errors.push({
+          // @ts-expect-error
           phoneNumber: phoneNumber.originalString,
           type: 'specialNumber',
         });
         return null;
       }
-      const number = phoneNumber.originalString;
-      const availableExtension = this.getAvailableExtension(number);
-
-      if (isAnExtension(number) && !availableExtension) {
-        errors.push({
-          phoneNumber: phoneNumber.originalString,
-          type: 'notAnExtension',
-        });
-        return null;
+      let extensionObj = {};
+      if (!this._deps.companyContacts?.enableCompanyPublicApi) {
+        const number = phoneNumber.originalString;
+        // @ts-expect-error
+        const availableExtension = this.getAvailableExtension(number);
+        // @ts-expect-error
+        if (isAnExtension(number) && !availableExtension) {
+          errors.push({
+            // @ts-expect-error
+            phoneNumber: phoneNumber.originalString,
+            type: 'notAnExtension',
+          });
+          return null;
+        }
+        extensionObj = availableExtension ? { availableExtension } : {};
       }
-
-      const extensionObj = availableExtension ? { availableExtension } : {};
       validatedPhoneNumbers.push({ ...phoneNumber, ...extensionObj });
+
       return null;
     });
     return {
@@ -188,10 +213,12 @@ export class NumberValidate extends RcModuleV2<Deps> {
       normalizedNumbers,
       homeCountry,
     );
+    // @ts-expect-error
     return response.phoneNumbers.map((phoneNumber) => ({
       ...phoneNumber,
       international:
         !!phoneNumber.country &&
+        // @ts-expect-error
         phoneNumber.country.callingCode !== response.homeCountry.callingCode,
     }));
   }
@@ -213,5 +240,196 @@ export class NumberValidate extends RcModuleV2<Deps> {
         homeCountry,
       );
     return response;
+  }
+
+  // introduce number parser v2
+  // need to remove private, so that we can test
+  @proxify
+  async _parsingPhoneNumber(
+    data: ParsePhoneNumberAPIParam,
+  ): Promise<NumberParserAPIResponse | null> {
+    try {
+      const response = await this._deps.client.service
+        .platform()
+        .post(`/restapi/v2/number-parser/parse`, data);
+      return response.json();
+    } catch (ex) {
+      this._deps.alert.danger({
+        message: callErrors.numberParseError,
+        payload: ex,
+      });
+      return null;
+    }
+  }
+
+  @proxify
+  async parseNumbers(inputs: string[]): Promise<ParseResult | void> {
+    const { countryCode, defaultAreaCode = null } = this._deps.regionSettings;
+    const brandId = this._deps.brand.brandConfig.id;
+    const phoneNumbers = inputs.map((input: string) => cleanNumber(input));
+    const data: ParsePhoneNumberAPIParam = {
+      originalStrings: phoneNumbers,
+      contextSource: contextSourceOption.account,
+      context: {
+        brandId,
+        country: {
+          isoCode: countryCode,
+        },
+        defaultAreaCode,
+        outboundCallPrefix: this._deps.appFeatures.OCPValue,
+        conflictHandling: this._deps.appFeatures.enableSmartDialPlan
+          ? 'Client'
+          : 'Default',
+        maxExtensionNumberLength:
+          this._deps.accountInfo.maxExtensionNumberLength,
+      },
+    };
+    const response = await this._parsingPhoneNumber(data);
+    return response?.results.map((result) => this.handleResult(result));
+  }
+
+  // whether the number is an empty string or contains invalid characters
+  validate(numbers: string[]): ValidateFormattingResult {
+    const errors: ValidateFormattedError = [];
+    numbers.forEach((phoneNumber) => {
+      if (isBlank(phoneNumber) || /[^\d*+#\-(). ]/.test(phoneNumber)) {
+        errors.push({ phoneNumber, type: 'noToNumber' });
+      }
+    });
+    return {
+      result: errors.length === 0,
+      errors,
+    };
+  }
+
+  private handleResult(
+    resultItem: ParsePhoneNumberResultsItem,
+  ): ParseResultItem {
+    const formatObj = resultItem.formats?.[0];
+    const originalString = resultItem.originalString;
+    let parseResult: ParseResultItem = {
+      originalString,
+      isAnExtension: false,
+      isInternational: false,
+      specialService: false,
+      parsedNumber: resultItem.originalString,
+      availableExtension: null,
+      ...formatObj,
+    };
+    switch (resultItem.category) {
+      case Category.SpecialService:
+        parseResult.specialService = true;
+        parseResult.parsedNumber = formatObj?.national;
+        break;
+      case Category.Extension:
+        parseResult = {
+          ...parseResult,
+          ...this.handleExtension(resultItem),
+        };
+        break;
+      case Category.Regular:
+      case Category.ShortCode:
+      case Category.TollFree:
+        parseResult.isInternational = this.isInternational(resultItem);
+
+        parseResult.parsedNumber =
+          formatObj.e164Extended ||
+          formatObj.e164 ||
+          formatObj.dialableExtended;
+        break;
+      case Category.Unknown:
+        parseResult.parsedNumber =
+          formatObj.dialableExtended || formatObj.dialable;
+        break;
+      case Category.Ambiguous:
+        parseResult = {
+          ...parseResult,
+          ...this.handleAmbiguous(resultItem),
+        };
+        break;
+      default:
+        break;
+    }
+
+    return parseResult;
+  }
+
+  private handleExtension(resultItem: ParsePhoneNumberResultsItem) {
+    const originalString = resultItem.originalString;
+    const maxExtensionNumberLength =
+      this._deps.accountInfo.maxExtensionNumberLength;
+    const parsedNumber =
+      resultItem.numberDetails?.extensionNumber || originalString;
+    const availableExtension = this.getAvailableExtension(
+      parsedNumber,
+      maxExtensionNumberLength,
+    );
+    const isAnExtension = true;
+
+    return {
+      isAnExtension,
+      parsedNumber,
+      availableExtension,
+    };
+  }
+
+  private handleAmbiguous(resultItem: ParsePhoneNumberResultsItem) {
+    const originalString = resultItem.originalString;
+    const maxExtensionNumberLength =
+      this._deps.accountInfo.maxExtensionNumberLength;
+    const availableExtension = this.getAvailableExtension(
+      originalString,
+      maxExtensionNumberLength,
+    );
+    let isInternational = false;
+    let parsedNumber = originalString;
+    let isAnExtension = false;
+    if (availableExtension) {
+      parsedNumber = availableExtension;
+      isAnExtension = true;
+    } else {
+      const externalNumber = resultItem.formats.find(
+        (item) => item.category !== Category.Extension,
+      );
+      isInternational = !!externalNumber && this.isInternational(resultItem);
+      parsedNumber =
+        externalNumber?.e164Extended || externalNumber?.e164 || originalString;
+    }
+
+    return {
+      isAnExtension,
+      parsedNumber,
+      isInternational,
+      availableExtension,
+    };
+  }
+
+  private isInternational(resultItem: ParsePhoneNumberResultsItem): boolean {
+    const phoneNumberISOCode = resultItem.numberDetails?.country?.isoCode;
+    const regionSettingsCountryCode = this._deps.regionSettings.countryCode;
+
+    const ISOCode_US = 'US';
+    const ISOCode_CA = 'CA';
+
+    // Allow CA customer to call US phone numbers
+    // Check RCINT-25922 for more details
+    if (
+      regionSettingsCountryCode === ISOCode_CA &&
+      phoneNumberISOCode === ISOCode_US
+    ) {
+      return false;
+    }
+
+    // Allow US customer to call CA phone numbers
+    // Check RCINT-25922 for more details
+    if (
+      regionSettingsCountryCode === ISOCode_US &&
+      phoneNumberISOCode === ISOCode_CA
+    ) {
+      return false;
+    }
+
+    // For rest of the cases, check if the number is international
+    return phoneNumberISOCode !== regionSettingsCountryCode;
   }
 }

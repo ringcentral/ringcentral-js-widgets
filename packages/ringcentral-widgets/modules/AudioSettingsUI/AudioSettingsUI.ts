@@ -1,5 +1,5 @@
 import { Module } from '@ringcentral-integration/commons/lib/di';
-import callingOptions from '@ringcentral-integration/commons/modules/CallingSettings/callingOptions';
+import { callingOptions } from '@ringcentral-integration/commons/modules/CallingSettings';
 import {
   RcUIModuleV2,
   UIFunctions,

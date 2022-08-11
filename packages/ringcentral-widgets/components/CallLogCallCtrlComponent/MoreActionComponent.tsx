@@ -2,7 +2,13 @@ import React, { FunctionComponent } from 'react';
 
 import classnames from 'classnames';
 
-import { RcIcon, RcMenuItem, RcMenuList, RcPopover } from '@ringcentral/juno';
+import {
+  RcIcon,
+  RcIconButton,
+  RcMenuItem,
+  RcMenuList,
+  RcPopover,
+} from '@ringcentral/juno';
 
 import CircleButton from '../CircleButton';
 import { MoreActionComponentProps } from './MoreActionComponent.interface';
@@ -19,6 +25,7 @@ export const MoreActionComponent: FunctionComponent<MoreActionComponentProps> =
     handleClose,
     popoverClasses,
     dataSign,
+    useJunoIcon = false,
   }) => {
     if (!Array.isArray(actionsList) || actionsList.length === 0) {
       return <></>;
@@ -27,15 +34,27 @@ export const MoreActionComponent: FunctionComponent<MoreActionComponentProps> =
     return (
       <>
         <span title={rootButtonProps.tooltip}>
-          <CircleButton
-            dataSign={dataSign}
-            icon={rootButtonProps.icon}
-            onClick={handleClick}
-            className={classnames(rootButtonProps.className, styles.button, {
-              [styles.buttonDisabled]: disabled,
-            })}
-            disabled={false}
-          />
+          {!useJunoIcon ? (
+            <CircleButton
+              dataSign={dataSign}
+              icon={rootButtonProps.icon}
+              onClick={handleClick}
+              className={classnames(rootButtonProps.className, styles.button, {
+                [styles.buttonDisabled]: disabled,
+                [styles.rootButtonActive]: !!anchorEl,
+              })}
+              disabled={false}
+            />
+          ) : (
+            <RcIconButton
+              data-sign={dataSign}
+              symbol={rootButtonProps.junoIcon}
+              color="action.primary"
+              variant={anchorEl ? 'inverse' : undefined}
+              onClick={handleClick}
+              disabled={false}
+            />
+          )}
         </span>
         <RcPopover
           anchorOrigin={{
@@ -66,6 +85,7 @@ export const MoreActionComponent: FunctionComponent<MoreActionComponentProps> =
                   <RcMenuItem
                     key={key}
                     onClick={onClick}
+                    // @ts-expect-error TS(2322): Type '{ children: Element; key: string; onClick: (... Remove this comment to see the full error message
                     maxWidth={170}
                     data-value={key}
                     disabled={disabled}

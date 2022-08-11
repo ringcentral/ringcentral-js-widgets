@@ -97,6 +97,7 @@ class DropdownSelect extends Component<
 > {
   inputRef = createRef<HTMLInputElement>();
 
+  // @ts-expect-error TS(2564): Property 'saveContent' has no initializer and is n... Remove this comment to see the full error message
   saveContent: string;
 
   _optionsWithLabel;
@@ -106,11 +107,17 @@ class DropdownSelect extends Component<
   static defaultProps: Partial<DropdownSelectProps> = {
     icon: undefined,
     reference: undefined,
+    // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
     className: null,
+    // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
     selectedClassName: null,
+    // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
     dropdownClassName: null,
+    // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
     iconClassName: null,
+    // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | nu... Remove this comment to see the full error message
     value: null,
+    // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
     label: null,
     onChange: undefined,
     disabled: false,
@@ -126,6 +133,7 @@ class DropdownSelect extends Component<
     ellipsis: true,
     noPadding: false,
     onToggle() {},
+    // @ts-expect-error TS(2322): Type 'null' is not assignable to type '((...args: ... Remove this comment to see the full error message
     searchOption: null,
     open: false,
     wrapperStyle: '',
@@ -133,6 +141,7 @@ class DropdownSelect extends Component<
     dataSign: 'dropdownSelect',
     customInputEnabled: false,
     optionsWithLabel: false,
+    // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'number | un... Remove this comment to see the full error message
     customInputLimit: null,
   };
 
@@ -142,6 +151,7 @@ class DropdownSelect extends Component<
       (x) => x.value === this.props.value,
     );
     this.state = {
+      // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
       open: this.props.open,
       filter: null,
       selectedOption: selectedOption || {
@@ -165,16 +175,22 @@ class DropdownSelect extends Component<
       window.addEventListener('click', this._handleDocumentClick, false);
 
       if (searchOption) {
+        // @ts-expect-error TS(2531): Object is possibly 'null'.
         this.saveContent = this.inputRef.current.value;
+        // @ts-expect-error TS(2531): Object is possibly 'null'.
         this.inputRef.current.focus();
         if (!customInputEnabled && document.execCommand) {
+          // @ts-expect-error TS(2345): Argument of type 'null' is not assignable to param... Remove this comment to see the full error message
           document.execCommand('selectAll', false, null);
         }
       }
       if (this._optionsWithLabel) {
+        // @ts-expect-error TS(2531): Object is possibly 'null'.
         this.inputRef.current.style.textAlign = 'left';
         if (customInputEnabled) {
+          // @ts-expect-error TS(2531): Object is possibly 'null'.
           const valueLength = this.inputRef.current.value.length;
+          // @ts-expect-error TS(2531): Object is possibly 'null'.
           this.inputRef.current.setSelectionRange(valueLength, valueLength);
         }
       }
@@ -186,10 +202,12 @@ class DropdownSelect extends Component<
           this._reSetBoxValue();
         }
         if (document.getSelection) {
+          // @ts-expect-error TS(2531): Object is possibly 'null'.
           document.getSelection().removeAllRanges();
         }
       }
       if (this._optionsWithLabel) {
+        // @ts-expect-error TS(2531): Object is possibly 'null'.
         this.inputRef.current.style.textAlign = 'right';
       }
     }
@@ -218,6 +236,7 @@ class DropdownSelect extends Component<
         selectedValue = option.value;
         this.setState({ selectedOption: option });
       }
+      // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
       this.props.onChange(selectedValue, idx);
     }
     this._toggleShowDropdown();
@@ -260,6 +279,7 @@ class DropdownSelect extends Component<
     if (this.props.searchOption) {
       this.setState({ filter: e.target.value });
     }
+    // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
     this.props.onChange(e.target.value);
   };
 
@@ -268,10 +288,12 @@ class DropdownSelect extends Component<
       this.inputRef.current &&
       this.inputRef.current.value !== this.saveContent
     ) {
+      // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
       this.props.onChange(this.saveContent);
     }
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   componentDidUpdate(
     prevProps: DropdownSelectProps,
     prevState: DropdownSelectState,
@@ -286,6 +308,7 @@ class DropdownSelect extends Component<
     }
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   UNSAFE_componentWillReceiveProps(nextProps: DropdownSelectProps) {
     if (nextProps.open !== undefined && nextProps.open !== this.props.open) {
       this.setState({
@@ -294,11 +317,13 @@ class DropdownSelect extends Component<
     }
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   componentWillUnmount() {
     window.removeEventListener('click', this._handleDocumentClick, false);
   }
 
   valueFunction(option: any, idx: number) {
+    // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
     return this.props.valueFunction(
       option,
       this.props.placeholder ? `${idx - 1}` : idx,
@@ -315,6 +340,7 @@ class DropdownSelect extends Component<
       );
     }
     const { placeholder, renderFunction } = this.props;
+    // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
     return placeholder && idx === 0 ? placeholder : renderFunction(option, idx);
   }
 
@@ -322,8 +348,10 @@ class DropdownSelect extends Component<
     const { placeholder, renderValue } = this.props;
     if (placeholder) {
       value = parseInt(value, 10) + 1;
+      // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
       return value === 0 ? placeholder : renderValue(value - 1);
     }
+    // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
     return renderValue(value);
   }
 
@@ -348,7 +376,7 @@ class DropdownSelect extends Component<
       dropdownAlign,
     } = this.props;
 
-    const { filter } = this.state;
+    const { filter, open } = this.state;
 
     let currentOptions = placeholder ? [{}, ...options] : options;
 
@@ -362,6 +390,9 @@ class DropdownSelect extends Component<
           searchOption(option, filter),
         );
       }
+    }
+    if (!open) {
+      currentOptions = [];
     }
     return (
       <RcMenuList
@@ -382,6 +413,7 @@ class DropdownSelect extends Component<
               key={currentValue || idx}
               selected={selected}
               className={classnames(
+                // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
                 styles[dropdownAlign],
                 ellipsis && styles.ellipsis,
                 placeholder && styles.placeholder,
@@ -417,6 +449,7 @@ class DropdownSelect extends Component<
     );
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     const {
       reference,
@@ -439,7 +472,9 @@ class DropdownSelect extends Component<
     } = this.props;
     const { open, selectedOption } = this.state;
     const currentLabel = label ? (
-      <label htmlFor="searchInput">{label}</label>
+      <label htmlFor="searchInput" title={label}>
+        {label}
+      </label>
     ) : null;
     const currentIconClassName = classnames(
       styles.icon,
@@ -457,7 +492,8 @@ class DropdownSelect extends Component<
       styles.button,
       disabled ? styles.disabled : null,
     );
-    const dropdownMenu = renderDropdownMenu ? null : this.renderDropdownMenu();
+    const dropdownMenu =
+      renderDropdownMenu || !this.state.open ? null : this.renderDropdownMenu();
     const renderValue = this.renderValue(value);
     const selectedOptionLabel = this.renderSelectedOptionLabel();
     return (

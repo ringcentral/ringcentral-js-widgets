@@ -1,11 +1,11 @@
 export default {
-  matched: "Vastaa",
+  matched: "Vastaava(t)",
   other: "Muu",
-  associated: "Yhdistetty",
-  foundFromServer: "Löytyi sovelluksesta {appName}"
+  associated: "Liittyvä(t)",
+  foundFromServer: "Löydetty sovelluksesta {appName}"
 };
 
 // @key: @#@"matched"@#@ @source: @#@"Matched"@#@
 // @key: @#@"other"@#@ @source: @#@"Other"@#@
 // @key: @#@"associated"@#@ @source: @#@"Associated"@#@
-// @key: @#@"foundFromServer"@#@ @source: @#@"Founds from {appName}"@#@
+// @key: @#@"foundFromServer"@#@ @source: @#@"Found from {appName}"@#@

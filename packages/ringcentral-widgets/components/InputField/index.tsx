@@ -25,6 +25,7 @@ const InputField: React.SFC<InputFieldProps> = (props) => {
   );
 };
 InputField.defaultProps = {
+  // @ts-expect-error TS(2322): Type '{ children: undefined; label: undefined; lab... Remove this comment to see the full error message
   children: undefined,
   label: undefined,
   labelHint: undefined,

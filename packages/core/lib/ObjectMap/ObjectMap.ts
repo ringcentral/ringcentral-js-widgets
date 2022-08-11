@@ -40,7 +40,7 @@ export function prefixString(str: string, prefix: string = ''): string {
 export class ObjectMap<
   D extends Record<string | number, any>,
   K extends keyof D,
-  V extends D[K]
+  V extends D[K],
 > {
   private readonly [sDefinition] = new Map();
 
@@ -70,7 +70,7 @@ export class ObjectMap<
   static fromObject<
     D extends Record<string | number, any>,
     K extends keyof D,
-    V extends D[K]
+    V extends D[K],
   >(definition: D) {
     return new ObjectMap(definition) as ObjectMap<D, K, V> & D;
   }
@@ -81,8 +81,9 @@ export class ObjectMap<
     for (const key of keys) {
       definition[key] = key;
     }
-    return new ObjectMap(definition) as ObjectMap<{ [V in K]: V }, K, K> &
-      { [V in K]: V };
+    return new ObjectMap(definition) as ObjectMap<{ [V in K]: V }, K, K> & {
+      [V in K]: V;
+    };
   }
 
   @factory
@@ -95,14 +96,13 @@ export class ObjectMap<
       { [V in K]: string },
       K,
       string
-    > &
-      { [V in K]: string };
+    > & { [V in K]: string };
   }
 
   static getKey<D, K extends keyof D, V extends D[K]>(
     instance: ObjectMap<D, K, V> & D,
     value: V,
-  ): K {
+  ): K | null {
     const [key = null] =
       find<[K, V]>(([, v]) => v === value, [...ObjectMap.entries(instance)]) ||
       [];
@@ -170,7 +170,7 @@ export class ObjectMap<
   static prefixValues<
     D extends Record<K, string>,
     K extends keyof D,
-    V extends D[K]
+    V extends D[K],
   >(instance: ObjectMap<D, K, V> & D, prefix = '') {
     if (prefix === '') {
       return instance;
@@ -190,7 +190,6 @@ export class ObjectMap<
       { [V in K]: string },
       K,
       string
-    > &
-      { [V in K]: string };
+    > & { [V in K]: string };
   }
 }

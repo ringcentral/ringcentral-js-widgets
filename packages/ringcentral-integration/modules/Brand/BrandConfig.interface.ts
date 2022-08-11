@@ -69,6 +69,7 @@ export interface PhoneAppDownloadUrlType {
   mac?: string;
 }
 
+export type Mode = 'development' | 'production';
 export interface CallWithJupiterConfig {
   /**
    * Branded Jupiter call  link
@@ -127,7 +128,7 @@ export interface BrandConfig {
    * Short name of the brand. Used in places where the display
    * area is limited. aka shortBrandName
    */
-  shortName?: I18nStrings | string;
+  shortName: I18nStrings | string;
   /**
    * Name of the application.
    */
@@ -166,10 +167,6 @@ export interface BrandConfig {
   defaultLocale?: LocaleCode;
 
   /**
-   * List of locales in the locale selection control like in Setting UI, by default it is same as supportedLocales.
-   */
-  localeMenuItems?: readonly LocaleCode[];
-  /**
    * Preferred product name for zoom meetings.
    */
   rcmProductName?: I18nStrings | string;
@@ -178,8 +175,13 @@ export interface BrandConfig {
    */
   rcvProductName: I18nStrings | string;
   /**
+   * Feature toggle: enable rcm schedule on behalf feature
+   */
+  enableRcmScheduleOnBehalf?: boolean;
+  /**
    * Rcv E2EE support link
    */
+
   rcvE2EESupportUrl?: URL;
   /**
    * RCV default Meeting topic
@@ -270,13 +272,25 @@ export interface BrandConfig {
     inviteText: I18nStrings | string;
   };
   /**
-   * allow Meeting Invitation
+   * support Enterprise dial plan
    */
-  allowMeetingInvitation?: boolean;
+  enableEDP?: boolean;
   /**
    * sub brands
    */
   subBrands?: SubBrand[];
+  /**
+   * build mode
+   */
+  mode?: Mode;
+  /**
+   * disable call with RingCentral phone
+   */
+  isDisableSpartan?: boolean;
+  /**
+   * show feedback in setting page
+   */
+  showFeedback?: boolean;
 }
 
 export type SubBrandOverride = Partial<

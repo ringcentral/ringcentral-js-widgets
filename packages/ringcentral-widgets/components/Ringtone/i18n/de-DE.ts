@@ -2,7 +2,7 @@ export default {
   ringtones: "Klingeltöne",
   incomingRingtone: "Klingelton für eingehende Anrufe",
   outgoingRingtone: "Klingelton für ausgehende Anrufe",
-  play: "Wiedergabe",
+  play: "Abspielen",
   stop: "Anhalten",
   upload: "Hochladen",
   reset: "Zurücksetzen",

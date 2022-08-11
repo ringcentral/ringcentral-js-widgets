@@ -15,6 +15,7 @@ export const Locale: FunctionComponent<LocaleProps> = ({
     return (
       <InputLine label={i18n.getString('language', currentLocale)}>
         <LocalePicker
+          // @ts-expect-error TS(2769): No overload matches this call.
           value={savedLocale}
           onChange={saveLocale}
           options={supportedLocales}

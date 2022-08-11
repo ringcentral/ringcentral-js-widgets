@@ -6,4 +6,6 @@ export * from './MakeCall';
 export * from './MakeC2DCall';
 export * from './MakeInboundCall';
 export * from './MakeOutboundCall';
+export * from './ClickBackButton';
 export * from './ClickDialNumberButton';
+export * from './ClickCallItemByLabel';

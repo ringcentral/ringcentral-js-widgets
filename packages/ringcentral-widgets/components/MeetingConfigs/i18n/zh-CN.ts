@@ -9,7 +9,7 @@ export default {
   host: "主持人视频开启",
   participants: "参与者视频开启",
   audioOptions: "音频选项",
-  voIPOnly: "仅网络电话",
+  voIPOnly: "仅 VoIP",
   both: "两者",
   meetingOptions: "会议选项",
   requirePassword: "需要会议密码",

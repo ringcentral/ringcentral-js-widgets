@@ -5,25 +5,24 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import formatMessage from 'format-message';
+
 import classnames from 'classnames';
 
 import {
   generateRandomPassword,
+  isRecurringMeeting,
+  MeetingType,
   updateFullTime,
   updateFullYear,
 } from '@ringcentral-integration/commons/helpers/meetingHelper';
 import {
   ASSISTED_USERS_MYSELF,
-  isRecurringMeeting,
-  MeetingType,
-} from '@ringcentral-integration/commons/modules/Meeting';
-import {
   MeetingDelegator,
   RCM_ITEM_NAME,
   RcmItemType,
   RcMMeetingModel,
-} from '@ringcentral-integration/commons/modules/MeetingV2';
+} from '@ringcentral-integration/commons/modules/Meeting';
+import { format } from '@ringcentral-integration/utils';
 import {
   RcAlert,
   RcCheckbox,
@@ -41,7 +40,7 @@ import {
   spacing,
   styled,
 } from '@ringcentral/juno';
-import { LockBorder as lockSvg } from '@ringcentral/juno/icon';
+import { LockBorder as lockSvg } from '@ringcentral/juno-icon';
 
 import { formatMeetingId } from '../../lib/MeetingCalendarHelper';
 import {
@@ -50,8 +49,8 @@ import {
   HOUR_SCALE,
   MINUTE_SCALE,
 } from '../../lib/MeetingHelper';
-import { SpinnerOverlay } from '../SpinnerOverlay';
 import { MeetingAlert, RemoveMeetingWarn } from '../MeetingAlert';
+import { SpinnerOverlay } from '../SpinnerOverlay';
 import { ExtendedTooltip as MeetingOptionLocked } from './ExtendedTooltip';
 import i18n from './i18n';
 import styles from './styles.scss';
@@ -90,7 +89,6 @@ export interface MeetingConfigsProps {
   showIeSupportAlert?: boolean;
   showRemoveMeetingWarning?: boolean;
   brandConfig?: any;
-  appName?: string;
 }
 
 function getHelperTextForPasswordField(
@@ -184,6 +182,11 @@ const PanelRoot = styled.div`
 `;
 
 export const MeetingConfigs: FunctionComponent<MeetingConfigsProps> = ({
+  showRecurringMeeting = true,
+  labelPlacement = 'start',
+  datePickerSize = 'medium',
+  timePickerSize = 'medium',
+  checkboxSize = 'medium',
   updateMeetingSettings,
   disabled,
   personalMeetingId,
@@ -196,7 +199,6 @@ export const MeetingConfigs: FunctionComponent<MeetingConfigsProps> = ({
   showTopic,
   showWhen,
   showDuration,
-  showRecurringMeeting,
   meetingOptionToggle,
   audioOptionToggle,
   useTimePicker,
@@ -204,10 +206,6 @@ export const MeetingConfigs: FunctionComponent<MeetingConfigsProps> = ({
   delegators,
   updateScheduleFor,
   trackSettingChanges,
-  labelPlacement,
-  datePickerSize,
-  timePickerSize,
-  checkboxSize,
   showSpinnerInConfigPanel,
   enableServiceWebSettings,
   recurringMeetingPosition,
@@ -215,7 +213,6 @@ export const MeetingConfigs: FunctionComponent<MeetingConfigsProps> = ({
   showIeSupportAlert,
   showRemoveMeetingWarning,
   brandConfig,
-  appName,
 }) => {
   useEffect(() => {
     if (init) {
@@ -240,6 +237,7 @@ export const MeetingConfigs: FunctionComponent<MeetingConfigsProps> = ({
 
   useEffect(() => {
     setHasScrollBar(
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       configRef.current.scrollHeight > configRef.current.clientHeight,
     );
   }, []);
@@ -294,16 +292,20 @@ export const MeetingConfigs: FunctionComponent<MeetingConfigsProps> = ({
 
   const settingsGroupExpandable = false;
 
+  // FIXME: Argument of type '"end" | "start" | "top" | "botto... Remove this comment to see the full error message
   const checkboxCommProps = getCheckboxCommProps(labelPlacement);
 
   const startTime = useMemo(() => {
+    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     return new Date(meeting.schedule.startTime);
+    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
   }, [meeting.schedule.startTime]);
 
   const hoursList = getHoursList(HOUR_SCALE, currentLocale);
   const minutesList = getMinutesList(MINUTE_SCALE, currentLocale);
 
   return (
+    // @ts-expect-error TS(2322): Type '{ children: Element; ref: MutableRefObject<H... Remove this comment to see the full error message
     <PanelRoot
       ref={configRef}
       className={styles.videoConfig}
@@ -346,6 +348,7 @@ export const MeetingConfigs: FunctionComponent<MeetingConfigsProps> = ({
                     update({
                       schedule: {
                         ...meeting.schedule,
+                        // @ts-expect-error TS(2345): Argument of type 'Date | null' is not assignable t... Remove this comment to see the full error message
                         startTime: updateFullYear(startTime, value),
                       },
                     });
@@ -367,6 +370,7 @@ export const MeetingConfigs: FunctionComponent<MeetingConfigsProps> = ({
                     update({
                       schedule: {
                         ...meeting.schedule,
+                        // @ts-expect-error TS(2345): Argument of type 'Date | null' is not assignable t... Remove this comment to see the full error message
                         startTime: updateFullTime(startTime, value),
                       },
                     });
@@ -382,10 +386,13 @@ export const MeetingConfigs: FunctionComponent<MeetingConfigsProps> = ({
                   fullWidth
                   gutterBottom
                   data-sign="durationHour"
+                  // @ts-expect-error TS(2532): Object is possibly 'undefined'.
                   value={Math.floor(meeting.schedule.durationInMinutes / 60)}
                   onChange={(e) => {
+                    // @ts-expect-error TS(2571): Object is of type 'unknown'.
                     const value = +e.target.value;
                     const restMinutes = Math.floor(
+                      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
                       meeting.schedule.durationInMinutes % 60,
                     );
                     const durationInMinutes = value * 60 + restMinutes;
@@ -402,9 +409,11 @@ export const MeetingConfigs: FunctionComponent<MeetingConfigsProps> = ({
                   {hoursList.map((item, i) => (
                     <RcMenuItem
                       key={i}
+                      // @ts-expect-error TS(2339): Property 'value' does not exist on type 'never'.
                       value={item.value}
                       data-sign={`option${i}`}
                     >
+                      {/* @ts-expect-error TS(2339): Property 'text' does not exist on type 'never'. */}
                       {item !== null ? item.text : 'defaultValue'}
                     </RcMenuItem>
                   ))}
@@ -416,12 +425,16 @@ export const MeetingConfigs: FunctionComponent<MeetingConfigsProps> = ({
                   gutterBottom
                   data-sign="durationMinute"
                   required
+                  // @ts-expect-error TS(2532): Object is possibly 'undefined'.
                   value={Math.floor(meeting.schedule.durationInMinutes % 60)}
                   onChange={(e) => {
+                    // @ts-expect-error TS(2571): Object is of type 'unknown'.
                     const value = +e.target.value;
                     const restHours = Math.floor(
+                      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
                       meeting.schedule.durationInMinutes / 60,
                     );
+                    // @ts-expect-error TS(2339): Property 'value' does not exist on type 'never'.
                     const isMax = restHours === hoursList.slice(-1)[0].value;
                     const minutes = isMax ? 0 : value;
                     const durationInMinutes = restHours * 60 + minutes;
@@ -436,9 +449,11 @@ export const MeetingConfigs: FunctionComponent<MeetingConfigsProps> = ({
                   {minutesList.map((item, i) => (
                     <RcMenuItem
                       key={i}
+                      // @ts-expect-error TS(2339): Property 'value' does not exist on type 'never'.
                       value={item.value}
                       data-sign={`option${i}`}
                     >
+                      {/* @ts-expect-error TS(2339): Property 'text' does not exist on type 'never'. */}
                       {item !== null ? item.text : 'defaultValue'}
                     </RcMenuItem>
                   ))}
@@ -880,10 +895,10 @@ export const MeetingConfigs: FunctionComponent<MeetingConfigsProps> = ({
             <VideoSettingGroup dataSign="ieAlert" expandable={false}>
               <MeetingAlert
                 severity="warning"
-                content={formatMessage(
+                content={format(
                   i18n.getString('ieSupportAlert', currentLocale),
                   {
-                    appName,
+                    appName: brandConfig.appName,
                   },
                 )}
               />
@@ -895,10 +910,4 @@ export const MeetingConfigs: FunctionComponent<MeetingConfigsProps> = ({
   );
 };
 
-MeetingConfigs.defaultProps = {
-  showRecurringMeeting: true,
-  labelPlacement: 'start',
-  datePickerSize: 'medium',
-  timePickerSize: 'medium',
-  checkboxSize: 'medium',
-};
+MeetingConfigs.defaultProps = {};

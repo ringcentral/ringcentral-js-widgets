@@ -1,98 +1,79 @@
 import React, { ComponentType } from 'react';
 import { RcThemeProvider } from '@ringcentral/juno';
-import { render } from '@testing-library/react';
+import { render, RenderResult } from '@testing-library/react';
+import preview from 'jest-preview';
 
-type ReRender = (ui: React.ReactElement) => void;
+type ReRender = (ui: React.ReactElement) => RenderResult;
 type Render = typeof render;
+
 export type ReturnTypeOfRender = ReturnType<Render>;
+
+type RenderComponent = <T>(
+  /**
+   * Component to render
+   */
+  Component: ComponentType<T>,
+  /**
+   * Props to pass to the component
+   */
+  props: T,
+  /**
+   * options for render
+   */
+  options?: {
+    /**
+     * auto wrap with `RcThemeProvider`
+     *
+     * @default true
+     */
+    disableAutoThemeProvider?: boolean;
+  },
+) => ReturnTypeOfRender;
 
 /**
  * Render React component with `@testing-library/react`.
  *
- * @param {ComponentType} Component React component
- * @param {object} props the component's props
+ * default will wrap the component with `RcThemeProvider`
  */
-export const mount: <T>(
-  Component: ComponentType<T>,
-  props: T,
-  wrapThemeProvider?: boolean,
-) => ReturnTypeOfRender = (Component, props, wrapThemeProvider = false) => {
-  if (wrapThemeProvider) {
-    return render(<Component {...props} />);
-  }
-  return render(
-    <RcThemeProvider>
-      <Component {...props} />
-    </RcThemeProvider>,
-  );
-};
-
-export const remount = <T,>(
-  rerender: ReRender,
-  Component: ComponentType<T>,
-  props: T,
+export const renderComponent: RenderComponent = (
+  Component,
+  props,
+  { disableAutoThemeProvider = false } = {},
 ) => {
-  return rerender(
-    <RcThemeProvider>
-      <Component {...props} />
-    </RcThemeProvider>,
-  );
-};
+  const element = <Component {...props} />;
+  let app: RenderResult;
 
-function _pageRender(
-  page: any,
-  sourceProps: any,
-  render: Render,
-  wrapThemeProvider?: boolean,
-): ReturnTypeOfRender;
-function _pageRender(
-  page: any,
-  sourceProps: any,
-  rerender: ReRender,
-  wrapThemeProvider?: boolean,
-): void;
-function _pageRender(
-  page: any,
-  sourceProps: any,
-  renderOrRerender: ReRender | Render,
-  wrapThemeProvider = true,
-): ReturnTypeOfRender | void {
-  const obj = page(sourceProps);
-  const { Component, props } = obj;
-  if (wrapThemeProvider) {
-    return renderOrRerender(
-      <RcThemeProvider>
-        <Component {...props} />
-      </RcThemeProvider>,
-    );
+  if (disableAutoThemeProvider) {
+    app = render(element);
+  } else {
+    app = render(<RcThemeProvider>{element}</RcThemeProvider>);
   }
-  return renderOrRerender(<Component {...props} />);
-}
-
-/**
- * mount ui module with props automatically
- * @param page any module page
- * @param sourceProps props you want to set on page
- */
-export const pageMount = (
-  page: any,
-  sourceProps: any,
-  wrapThemeProvider?: boolean,
-) => {
-  return _pageRender(page, sourceProps, render, wrapThemeProvider);
+  if (process.env.DEBUG === 'preview') {
+    preview.debug();
+  }
+  return app;
 };
 
 /**
- * ReRender React component with `@testing-library/react`.
+ * rerender Render React component with `@testing-library/react`.
  *
- * @param page any module page
- * @param sourceProps props you want to set on page
+ * default will wrap the component with `RcThemeProvider`
  */
-export const pageUpdate = (
-  page: any,
-  sourceProps: any,
+export const rerenderComponent = <T,>(
   rerender: ReRender,
-  wrapThemeProvider?: boolean,
+  Component: ComponentType<T>,
+  props: T,
+  { disableAutoThemeProvider = false } = {},
 ) => {
-  return _pageRender(page, sourceProps, rerender, wrapThemeProvider);
+  const element = <Component {...props} />;
+  let app: RenderResult;
+  if (disableAutoThemeProvider) {
+    app = rerender(element);
+  } else {
+    app = rerender(<RcThemeProvider>{element}</RcThemeProvider>);
+  }
+  if (process.env.DEBUG === 'preview') {
+    preview.debug();
+  }
+  return app;
 };

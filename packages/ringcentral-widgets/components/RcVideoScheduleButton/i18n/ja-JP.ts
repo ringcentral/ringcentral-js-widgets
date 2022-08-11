@@ -1,5 +1,5 @@
 export default {
-  schedule: "会議のスケジュール設定",
+  schedule: "会議をスケジュール",
   prompt: "アカウント情報へのアクセスを許可するためにRingCentralを承認してください。",
   saveAsDefault: "既定として保存"
 };

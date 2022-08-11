@@ -8,6 +8,7 @@ export const processAssets = (
   origin: string,
 ) => {
   // when that processed, return directly
+  // @ts-expect-error
   if (assets[processedKey]) {
     return assets;
   }
@@ -16,6 +17,7 @@ export const processAssets = (
     return `${origin}${url}`;
   };
 
+  // @ts-expect-error
   return Object.entries(assets).reduce<BrandConfig['assets']>(
     (acc, [key, url]) => {
       if (!url) {
@@ -23,8 +25,10 @@ export const processAssets = (
       }
 
       if (Array.isArray(url)) {
+        // @ts-expect-error
         acc[key] = url.map((x) => getUrl(x));
       } else {
+        // @ts-expect-error
         acc[key] = getUrl(url);
       }
 

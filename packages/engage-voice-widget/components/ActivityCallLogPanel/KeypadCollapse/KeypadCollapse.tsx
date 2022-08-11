@@ -9,7 +9,7 @@ import {
   RcPaper,
   RcTooltip,
 } from '@ringcentral/juno';
-import { Close, Keypad } from '@ringcentral/juno/icon';
+import { Close, Keypad } from '@ringcentral/juno-icon';
 
 import i18n from './i18n';
 import {

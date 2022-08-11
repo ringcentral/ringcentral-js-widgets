@@ -32,6 +32,7 @@ export const Footer: FunctionComponent<FooterProps> = ({
           <Eula
             dataSign="eula"
             currentLocale={currentLocale}
+            // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
             link={eulaLink}
             label={eulaLabel}
             onClick={onEulaLinkClick}

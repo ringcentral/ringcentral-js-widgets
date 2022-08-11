@@ -13,6 +13,7 @@ export abstract class DataFetcherV2Consumer<
   D extends DataFetcherV2ConsumerBaseDeps,
   T,
 > extends RcModuleV2<D> {
+  // @ts-expect-error
   protected _source: DataSource<T>;
   protected _emitter = new EventEmitter();
 
@@ -24,7 +25,7 @@ export abstract class DataFetcherV2Consumer<
     return baseEvents;
   }
 
-  onInitOnce() {
+  override onInitOnce() {
     watch(
       this,
       () => [this.ready, this.data],
@@ -47,7 +48,7 @@ export abstract class DataFetcherV2Consumer<
     return this._emitter.off(...args);
   }
 
-  _shouldInit() {
+  override _shouldInit() {
     return !!(
       super._shouldInit() &&
       this._deps.dataFetcherV2.getSourceStatus(this._source) ===
@@ -55,7 +56,7 @@ export abstract class DataFetcherV2Consumer<
     );
   }
 
-  _shouldReset() {
+  override _shouldReset() {
     return !!(
       super._shouldReset() ||
       (this.ready &&

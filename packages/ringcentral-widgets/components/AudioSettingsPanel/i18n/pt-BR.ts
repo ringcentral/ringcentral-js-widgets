@@ -3,7 +3,7 @@ export default {
   dialButtonVolume: "Volume do botão de discagem",
   ringtoneVolume: "Volume do toque",
   callVolume: "Volume da chamada",
-  muteCalls: "Colocar chamadas no mudo",
+  muteCalls: "Ativar mudo de chamadas",
   outputDevice: "Dispositivo de saída",
   inputDevice: "Dispositivo de entrada",
   micPermission: "Permissão de microfone",

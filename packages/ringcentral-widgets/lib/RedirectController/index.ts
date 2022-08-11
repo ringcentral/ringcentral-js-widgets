@@ -38,6 +38,7 @@ export default class RedirectController {
       const {
         query: { state },
       } = url.parse(callbackUri, true);
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       const uuid = state.split('-').slice(1).join('-');
       const key = `${prefix}-${uuid}-callbackUri`;
       localStorage.removeItem(key);

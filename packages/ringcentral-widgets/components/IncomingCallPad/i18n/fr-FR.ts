@@ -1,11 +1,11 @@
 export default {
-  forward: "Transférer",
+  forward: "Renvoyer",
   reply: "Répondre",
   ignore: "Ignorer",
-  toVoicemail: "Vers messag. vocale",
+  toVoicemail: "Vers la messagerie vocale",
   answer: "Répondre",
   answerAndEnd: "Rép et racc.",
-  answerAndHold: "Rép. et attente"
+  answerAndHold: "Répondre et mettre en attente"
 };
 
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@

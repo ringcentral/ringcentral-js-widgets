@@ -14,6 +14,7 @@ export default {
   videoCall: "Videochamada do {brandName}",
   addConferencingDetails: "A adicionar detalhes da conferência",
   updateConferencingDetails: "A atualizar detalhes da conferência",
+  // @ts-expect-error TS(1117): An object literal cannot have multiple properties ... Remove this comment to see the full error message
   scheduleError: "Lamentamos, mas ocorreu um erro. Tente novamente.",
   deleteBtn: "Eliminar",
   settingsBtn: "Definições",
@@ -27,8 +28,9 @@ export default {
   failedToRetrieveMeeting: "Perdeu-se a ligação de rede. Elimine esta reunião e tente novamente mais tarde.",
   meetingSettingsTitle: "{brand} Meetings – Definições",
   recurringMeeting: "Reunião periódica",
-  meetingOptions: "Opções de reunião",
+  meetingOptions: "Opções da reunião",
   schedule: "Agendar",
+  // @ts-expect-error TS(1117): An object literal cannot have multiple properties ... Remove this comment to see the full error message
   settingsBtn: "Definições"
 };
 

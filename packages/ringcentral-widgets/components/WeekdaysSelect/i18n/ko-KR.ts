@@ -4,7 +4,7 @@ export default {
   wednesday: "수",
   thursday: "목",
   friday: "금",
-  saturday: "토",
+  saturday: "일",
   sunday: "일"
 };
 

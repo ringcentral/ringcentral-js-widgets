@@ -1,6 +1,11 @@
+/* istanbul ignore file */
+
+// TODO: that component still not completely yet, view in calling settings, layout style issue, still in Technical Preview
+
 import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
 
-import { useIsMounted } from '../../react-hooks/useIsMounted';
+import { useAudio, useMountState } from '@ringcentral/juno';
+
 import i18n from './i18n';
 import { AudioFileReaderProps, RingtoneProps } from './Ringtone.interface';
 import styles from './styles.scss';
@@ -14,16 +19,28 @@ const AudioFileReader: FunctionComponent<AudioFileReaderProps> = ({
   onChange,
   onReset,
 }) => {
-  const isMountedRef = useIsMounted();
-  const audioElRef = useRef(null);
-  const inputElRef = useRef(null);
-  const [playState, setPlayState] = useState(false);
+  const isMountedRef = useMountState();
+  const inputElRef = useRef<HTMLInputElement>(null);
+  const [playing, setPlaying] = useState(false);
+
+  const audio = useAudio((audio) => {
+    audio.onplay = () => setPlaying(true);
+    audio.onpause = () => setPlaying(false);
+
+    if (dataUrl) {
+      audio.src = dataUrl;
+    }
+  });
 
   useEffect(() => {
-    audioElRef.current.pause();
-    audioElRef.current.currentTime = 0;
-    setPlayState(false);
-  }, [dataUrl]);
+    audio.pause();
+    audio.currentTime = 0;
+    setPlaying(false);
+
+    if (dataUrl) {
+      audio.src = dataUrl;
+    }
+  }, [audio, dataUrl]);
 
   const resetButton =
     fileName !== defaultFileName || dataUrl !== defaultDataUrl ? (
@@ -50,26 +67,24 @@ const AudioFileReader: FunctionComponent<AudioFileReaderProps> = ({
         <button
           type="button"
           onClick={async () => {
-            if (audioElRef.current) {
-              if (playState) {
-                audioElRef.current.pause();
-              } else {
-                try {
-                  audioElRef.current.currentTime = 0;
-                  await audioElRef.current.play();
-                } catch (err) {
-                  if (isMountedRef.current) {
-                    console.log(err);
-                    console.log(
-                      'Failed to play audio, please select a different file',
-                    );
-                  }
+            if (playing) {
+              audio.pause();
+            } else {
+              try {
+                audio.currentTime = 0;
+                await audio.play();
+              } catch (err) {
+                if (isMountedRef.current) {
+                  console.log(err);
+                  console.log(
+                    'Failed to play audio, please select a different file',
+                  );
                 }
               }
             }
           }}
         >
-          {playState
+          {playing
             ? i18n.getString('stop', currentLocale)
             : i18n.getString('play', currentLocale)}
         </button>
@@ -79,11 +94,11 @@ const AudioFileReader: FunctionComponent<AudioFileReaderProps> = ({
         className={styles.hidden}
         type="file"
         onChange={({ currentTarget }) => {
-          if (currentTarget.files.length) {
+          if (currentTarget?.files?.length) {
             const file = currentTarget.files[0];
-            // const canPlayType = audioElRef.current?.canPlayType(file.type);
-            // if (canPlayType !== '') {}
+
             const reader = new FileReader();
+
             reader.onload = () => {
               if (isMountedRef.current) {
                 onChange({
@@ -91,22 +106,12 @@ const AudioFileReader: FunctionComponent<AudioFileReaderProps> = ({
                   dataUrl: reader.result as string,
                 });
                 // reset input
-                currentTarget.value = null;
+                currentTarget.value = '';
               }
             };
+
             reader.readAsDataURL(file);
           }
-        }}
-      />
-      <audio
-        ref={audioElRef}
-        className={styles.hidden}
-        src={dataUrl}
-        onPlay={() => {
-          setPlayState(true);
-        }}
-        onPause={() => {
-          setPlayState(false);
         }}
       />
     </div>
@@ -145,7 +150,7 @@ export const RingTone: FunctionComponent<RingtoneProps> = ({
             defaultFileName: defaultIncomingAudioFile,
             defaultDataUrl: defaultIncomingAudio,
             onChange: ({ fileName, dataUrl }) => {
-              setIncomingAudio({ fileName, dataUrl });
+              setIncomingAudio?.({ fileName, dataUrl });
             },
             onReset: resetIncomingAudio,
           }}
@@ -159,7 +164,7 @@ export const RingTone: FunctionComponent<RingtoneProps> = ({
             defaultFileName: defaultOutgoingAudioFile,
             defaultDataUrl: defaultOutgoingAudio,
             onChange: ({ fileName, dataUrl }) => {
-              setOutgoingAudio({ fileName, dataUrl });
+              setOutgoingAudio?.({ fileName, dataUrl });
             },
             onReset: resetOutgoingAudio,
           }}

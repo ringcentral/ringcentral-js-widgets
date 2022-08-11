@@ -6,7 +6,7 @@ export default {
   onHoldCall: "Chamada em espera",
   historyCalls: "Chamadas anteriores",
   otherDeviceCall: "Chamadas em curso nos outros dispositivos",
-  searchPlaceholder: "Pesquisar..."
+  searchPlaceholder: "Pesquisar…"
 };
 
 // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@

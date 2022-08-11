@@ -3,7 +3,7 @@ import parse from 'url-parse';
 import popWindow from '../popWindow';
 import simpleHash from '../simpleHash';
 
-let loginWindow = null;
+let loginWindow: any = null;
 
 const {
   query: { prefix = 'rc', hash = simpleHash() },

@@ -1,5 +1,5 @@
 /* RCI-3777: Check cannot auto recording
-https://testit.ringcentral.com/test-cases/RCI-3777
+https://test_id_domain/test-cases/RCI-3777
 */
 
 import {

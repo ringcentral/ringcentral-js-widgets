@@ -1,13 +1,15 @@
-import { parse } from '@ringcentral-integration/phone-number';
+import { CountryCode, parse } from '@ringcentral-integration/phone-number';
 
 function parseNumber({
   phoneNumber,
   countryCode,
   areaCode,
+  maxExtensionLength,
 }: {
   phoneNumber: string;
-  countryCode: string;
+  countryCode: CountryCode;
   areaCode?: string;
+  maxExtensionLength?: number;
 }) {
   const {
     hasPlus,
@@ -19,6 +21,7 @@ function parseNumber({
     input: phoneNumber,
     countryCode,
     areaCode,
+    maxExtensionLength,
   });
   return {
     hasPlus,

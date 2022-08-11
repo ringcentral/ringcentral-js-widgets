@@ -1,7 +1,6 @@
-import { AccountInfo } from '../AccountInfoV2';
-import { AnalyticsEventExtendedProps } from '../AnalyticsEventExtendedProps';
+import { AccountInfo } from '../AccountInfo';
 import { Brand } from '../Brand';
-import { ExtensionInfo } from '../ExtensionInfoV2';
+import { ExtensionInfo } from '../ExtensionInfo';
 import { Locale } from '../Locale';
 
 interface RouterInteraction {
@@ -21,7 +20,6 @@ export interface Deps {
   extensionInfo?: ExtensionInfo;
   locale?: Locale;
   routerInteraction?: RouterInteraction;
-  analyticsEventExtendedProps?: AnalyticsEventExtendedProps;
 }
 
 export interface AnalyticsOptions {
@@ -55,6 +53,9 @@ export interface AnalyticsOptions {
   trackRouters?: TrackRouter[];
 
   env?: string;
+
+  /** Self-hosting the Pendo Agent for applications with strict CSP  */
+  useLocalPendoJS?: boolean;
 }
 
 export interface TrackProps {
@@ -66,11 +67,13 @@ export interface TrackProps {
   'Extension Type': string;
 }
 
-export interface TrackRouter {
-  eventPostfix: string;
-  router: string;
-}
-
+export type TrackRouter =
+  | {
+      eventPostfix: string;
+      router: string;
+    }
+  | null
+  | undefined;
 export interface TrackLog {
   timeStamp: string;
   event: string;
@@ -83,10 +86,9 @@ export interface PendoAgent {
     appName: string;
     appVersion: string;
     appBrand: string;
-    plaBrand: string;
+    plaBrand?: string;
     countryCode?: string;
-    companyName?: string;
-    [key: string]: string;
+    [key: string]: string | undefined;
   };
   account: {
     id: string;
@@ -97,4 +99,8 @@ export interface PendoAgent {
 export interface IdentifyOptions {
   userId: string;
   [K: string]: any;
+}
+
+export interface IExtendedProps {
+  [key: string]: string | number;
 }

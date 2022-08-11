@@ -18,7 +18,7 @@ import i18n from './i18n';
 import styles from './styles.scss';
 
 const viewport = document.querySelector('div#viewport');
-const CallIcon = ({ title, iconClassName }) => (
+const CallIcon = ({ title, iconClassName }: any) => (
   <span className={classnames(iconClassName, styles.iconSize)} title={title} />
 );
 
@@ -35,7 +35,7 @@ const callIconMap = {
   [callDirections.inbound]: dynamicsFont.inbound,
   [callDirections.outbound]: dynamicsFont.outbound,
 };
-function LogNotification({
+const LogNotification = ({
   formatPhone,
   currentLog,
   currentLocale,
@@ -49,7 +49,7 @@ function LogNotification({
   onHangup,
   showEndButton = true,
   shrinkNotification,
-}) {
+}: any) => {
   const anchorEl = React.useRef(null);
   const renderEndButton =
     showEndButton && currentSession
@@ -126,6 +126,10 @@ function LogNotification({
 
   const { call, logName } = currentLog;
   const { direction, to, from } = call;
+  const callIconTitle =
+    direction === 'Inbound'
+      ? i18n.getString('Inbound', currentLocale)
+      : i18n.getString('Outbound', currentLocale);
   const number =
     direction === callDirections.outbound
       ? to && (to.phoneNumber || to.extensionNumber)
@@ -135,7 +139,11 @@ function LogNotification({
     <div className={styles.container}>
       <div className={styles.callInfo}>
         <div className={styles.callIcon}>
-          <CallIcon title={direction} iconClassName={callIconMap[direction]} />
+          <CallIcon
+            title={callIconTitle}
+            // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+            iconClassName={callIconMap[direction]}
+          />
         </div>
         <div className={styles.contactInfo}>
           <p className={styles.contactName}>{logName}</p>
@@ -148,7 +156,7 @@ function LogNotification({
       </div>
     </div>
   );
-}
+};
 
 LogNotification.propTypes = {
   currentLocale: PropTypes.string.isRequired,

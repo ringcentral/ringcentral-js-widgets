@@ -4,7 +4,7 @@ export default {
   editLog: "Lijst bewerken",
   viewDetails: "Details weergeven",
   addEntity: "Nieuwe maken",
-  call: "Oproep",
+  call: "Bellen",
   text: "Tekstbericht",
   conversation: "Gesprek",
   groupConversation: "Groepsgesprek",

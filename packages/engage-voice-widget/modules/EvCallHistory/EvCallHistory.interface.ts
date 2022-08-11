@@ -1,5 +1,5 @@
-import { ActivityMatcher } from '@ringcentral-integration/commons/modules/ActivityMatcherV2';
-import { ContactMatcher } from '@ringcentral-integration/commons/modules/ContactMatcherV2';
+import { ActivityMatcher } from '@ringcentral-integration/commons/modules/ActivityMatcher';
+import { ContactMatcher } from '@ringcentral-integration/commons/modules/ContactMatcher';
 import { Locale } from '@ringcentral-integration/commons/modules/Locale';
 
 import { EvAgentSession } from '../EvAgentSession';

@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from 'react';
 
+import { emptyFn } from '@ringcentral-integration/utils';
 import { RcList } from '@ringcentral/juno';
 
 import i18n from './i18n';
@@ -21,13 +22,13 @@ export interface SearchResultProps {
 }
 
 export const SearchResult: FunctionComponent<SearchResultProps> = ({
+  renderListItem = emptyFn,
+  classes = {},
+  tipWhenNoOptions = '',
   options,
   filteredOptions,
   filter,
   currentLocale,
-  renderListItem,
-  classes,
-  tipWhenNoOptions,
 }) => {
   const noResultMessage = i18n.getString('noResultFoundFor', currentLocale);
   return (
@@ -51,10 +52,4 @@ export const SearchResult: FunctionComponent<SearchResultProps> = ({
       )}
     </>
   );
-};
-
-SearchResult.defaultProps = {
-  renderListItem() {},
-  classes: {},
-  tipWhenNoOptions: '',
 };

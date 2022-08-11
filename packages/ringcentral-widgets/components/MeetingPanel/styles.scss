@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   height: 100%;
-  label[class*="Switch"] {
+  label[class*='Switch'] {
     flex-shrink: 0;
   }
 }

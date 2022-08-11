@@ -20,7 +20,7 @@ const listen = (
       return descriptor;
     }
   }
-  target.listeners ??= {};
+  target.listeners = target.listeners ?? {};
   target.listeners[key] = fn;
   return {
     ...descriptor,

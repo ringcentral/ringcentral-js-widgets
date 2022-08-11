@@ -1,10 +1,9 @@
-@import '../../lib/commonStyles/vertical-align';
-@import '../../lib/commonStyles/no-select';
-@import '../../lib/commonStyles/colors';
+@import '../../lib/commonStyles/vertical-align.scss';
+@import '../../lib/commonStyles/no-select.scss';
+@import '../../lib/commonStyles/colors.scss';
 
 $icon-width: 10%;
 $icon-min-width: 58px;
-
 
 .wrapper {
   display: flex;

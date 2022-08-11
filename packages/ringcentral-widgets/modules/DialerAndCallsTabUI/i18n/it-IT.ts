@@ -1,6 +1,6 @@
 export default {
-  dialer: "Tastierino",
-  allCalls: "Tutte"
+  dialer: "Tastiera del telefono",
+  allCalls: "Tutte le chiamate"
 };
 
 // @key: @#@"dialer"@#@ @source: @#@"Dial Pad"@#@

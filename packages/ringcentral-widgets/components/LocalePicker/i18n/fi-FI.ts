@@ -8,7 +8,8 @@ export default {
   pt: "portugali",
   zh: "kiina",
   nl: "hollanti",
-  ko: "korea"
+  ko: "korea",
+  fi: "suomi"
 };
 
 // @key: @#@"en"@#@ @source: @#@"English"@#@
@@ -21,3 +22,4 @@ export default {
 // @key: @#@"zh"@#@ @source: @#@"Chinese"@#@
 // @key: @#@"nl"@#@ @source: @#@"Dutch"@#@
 // @key: @#@"ko"@#@ @source: @#@"Korean"@#@
+// @key: @#@"fi"@#@ @source: @#@"Suomi"@#@

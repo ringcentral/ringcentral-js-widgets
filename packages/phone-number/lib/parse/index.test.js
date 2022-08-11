@@ -134,6 +134,34 @@ describe('parse', () => {
       hasPlus: false,
     });
   });
+  test('parse extension number with max extension length is 8 digits', () => {
+    expect(parse({ input: '12345678', maxExtensionLength: 8 })).toMatchObject({
+      input: '12345678',
+      isServiceNumber: false,
+      hasInvalidChars: false,
+      isExtension: true,
+      parsedCountry: null,
+      parsedNumber: null,
+      phoneNumber: '12345678',
+      extension: null,
+      isValid: true,
+      hasPlus: false,
+    });
+    expect(
+      parse({ input: '12345678 * 103', maxExtensionLength: 8 }),
+    ).toMatchObject({
+      input: '12345678 * 103',
+      isServiceNumber: false,
+      hasInvalidChars: false,
+      isExtension: true,
+      parsedCountry: null,
+      parsedNumber: null,
+      phoneNumber: '12345678',
+      extension: null,
+      isValid: true,
+      hasPlus: false,
+    });
+  });
   test('parse short number with +', () => {
     expect(parse({ input: '+123456' })).toMatchObject({
       input: '+123456',
@@ -141,7 +169,7 @@ describe('parse', () => {
       hasInvalidChars: false,
       isExtension: false,
       parsedCountry: null,
-      parsedNumber: null,
+      parsedNumber: '+1 234 56',
       phoneNumber: '+123456',
       extension: null,
       isValid: true,

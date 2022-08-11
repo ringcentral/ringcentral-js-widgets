@@ -8,7 +8,7 @@ import {
   RcSnackbarContent,
   RcSnackbarContentType,
 } from '@ringcentral/juno';
-import { Close as closeSvg } from '@ringcentral/juno/icon';
+import { Close as closeSvg } from '@ringcentral/juno-icon';
 
 import {
   NotificationItemProps,
@@ -38,10 +38,13 @@ export const NotificationItem: FunctionComponent<NotificationItemProps> = memo(
     brand,
     dismiss,
     getRenderer,
-    duration,
+    duration = 0,
     animation: defaultAnimation,
     backdropAnimation: defaultBackdropAnimation,
-    classes: { snackbar: snackbarClass, backdrop: backdropClass },
+    classes: {
+      snackbar: snackbarClass = {},
+      backdrop: backdropClass = undefined,
+    } = {},
     size,
     messageAlign,
     fullWidth,

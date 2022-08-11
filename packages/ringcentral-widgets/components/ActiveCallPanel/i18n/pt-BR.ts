@@ -1,8 +1,8 @@
 export default {
   conferenceCall: "Chamada em conferência",
   onHold: "Em espera",
-  unknown: "Desconhecido",
-  disconnected: "Desconectado",
+  unknown: "Desconhecida",
+  disconnected: "Desconectada",
   loading: "Carregando...",
   loadingTimeout: "O carregamento atingiu o tempo limite."
 };

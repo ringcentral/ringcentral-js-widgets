@@ -1,4 +1,4 @@
-export default (message) => {
+export default (message: string) => {
   if (!message) {
     return false;
   }

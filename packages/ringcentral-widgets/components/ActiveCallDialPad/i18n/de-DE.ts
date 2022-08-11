@@ -1,7 +1,7 @@
 export default {
   hide: "Ausblenden",
   end: "Beenden",
-  keypad: "Wählfeld"
+  keypad: "Wähltastatur"
 };
 
 // @key: @#@"hide"@#@ @source: @#@"Hide"@#@

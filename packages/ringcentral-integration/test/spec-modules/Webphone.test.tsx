@@ -7,7 +7,7 @@ import {
   title,
   When,
 } from '@ringcentral-integration/test-utils';
-import Webphone from '../../modules/Webphone';
+import { Webphone } from '../../modules/Webphone';
 
 import { mockModuleGenerator } from '../lib/mockModule';
 
@@ -17,7 +17,7 @@ export class CheckforwardData extends Step {
   @examples(`
     | sessionId | permissionCheck |
     | 'testId'  | false           |
-    | null      | false           |
+    | 'test'    | false           |
   `)
   run() {
     return (
@@ -27,8 +27,19 @@ export class CheckforwardData extends Step {
           action={(props: any, context: any) => {
             const { sessionId, permissionCheck } = props;
             context.mockModule = mockModuleGenerator({
-              _sessions: {
-                get: (sessionId: string) => sessionId,
+              originalSessions: {
+                testId: 'testId',
+              },
+              _deps: {
+                brand: {
+                  brandConfig: {
+                    allowRegionSettings: false,
+                  },
+                },
+                regionSettings: {
+                  areaCode: '650',
+                  countryCode: 'US',
+                },
               },
               _permissionCheck: permissionCheck,
             });
@@ -43,7 +54,7 @@ export class CheckforwardData extends Step {
         <Then
           desc="The check was successfule"
           action={(_: any, context: any) => {
-            expect(context.mockModule._permissionCheck).not.toBeNull();
+            expect(context.mockModule.originalSessions.testId).not.toBeNull();
           }}
         />
       </Scenario>
@@ -53,11 +64,11 @@ export class CheckforwardData extends Step {
 
 @autorun(test)
 @title('Check transfer data')
-export class ChecktransferData extends Step {
+export class CheckInitialData1 extends Step {
   @examples(`
     | sessionId | permissionCheck |
     | 'testId'  | false           |
-    | null      | false           |
+    | 'test'    | false           |
   `)
   run() {
     return (
@@ -67,15 +78,11 @@ export class ChecktransferData extends Step {
           action={(props: any, context: any) => {
             const { sessionId, permissionCheck } = props;
             context.mockModule = mockModuleGenerator({
-              _sessions: {
-                get: (sessionId: string) => {
-                  return sessionId
-                    ? { __rc_isOnTransfer: sessionId }
-                    : sessionId;
-                },
+              originalSessions: {
+                testId: { __rc_isOnTransfer: true },
               },
-              _updateSessions: () => null,
               _permissionCheck: permissionCheck,
+              _updateSessions: () => null,
             });
 
             Webphone.prototype.transfer.call(
@@ -86,9 +93,9 @@ export class ChecktransferData extends Step {
           }}
         />
         <Then
-          desc="The check was successfule"
+          desc="The check was successful"
           action={(_: any, context: any) => {
-            expect(context.mockModule._permissionCheck).not.toBeNull();
+            expect(context.mockModule.originalSessions.testId).not.toBeNull();
           }}
         />
       </Scenario>
@@ -98,11 +105,11 @@ export class ChecktransferData extends Step {
 
 @autorun(test)
 @title('Check startWarmTransfer data')
-export class CheckStartWarmTransfer extends Step {
+export class CheckInitialData12 extends Step {
   @examples(`
     | sessionId |
     | 'testId'  |
-    | null      |
+    | 'test'    |
   `)
   run() {
     return (
@@ -112,12 +119,8 @@ export class CheckStartWarmTransfer extends Step {
           action={(props: any, context: any) => {
             const { sessionId } = props;
             context.mockModule = mockModuleGenerator({
-              _sessions: {
-                get: (sessionId: string) => {
-                  return sessionId
-                    ? { __rc_isOnTransfer: sessionId }
-                    : sessionId;
-                },
+              originalSessions: {
+                testId: { __rc_isOnTransfer: true },
               },
               _updateSessions: () => null,
             });
@@ -130,9 +133,9 @@ export class CheckStartWarmTransfer extends Step {
           }}
         />
         <Then
-          desc="The check was successfule"
+          desc="The check was successful"
           action={(_: any, context: any) => {
-            expect(context.mockModule._permissionCheck).not.toBeNull();
+            expect(context.mockModule.originalSessions.testId).not.toBeNull();
           }}
         />
       </Scenario>

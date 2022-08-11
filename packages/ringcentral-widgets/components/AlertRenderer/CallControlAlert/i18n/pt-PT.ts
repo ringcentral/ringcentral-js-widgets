@@ -1,11 +1,13 @@
-import callControlError from '@ringcentral-integration/commons/modules/ActiveCallControl/callControlError';
+import { callControlError } from '@ringcentral-integration/commons/modules/ActiveCallControl';
 const {
   holdConflictError,
   unHoldConflictError,
   muteConflictError,
   unMuteConflictError,
   generalError,
-  forwardSuccess
+  forwardSuccess,
+  transferCompleted,
+  replyCompleted
 } = callControlError;
 export default {
   [muteConflictError]: "O som desta chamada foi desativado noutro dispositivo. Ative o som da chamada antes de assumir o controlo nesta aplicação.",
@@ -13,7 +15,9 @@ export default {
   [unMuteConflictError]: "O som desta chamada foi ativado noutro dispositivo. Desative o som da chamada antes de assumir o controlo nesta aplicação.",
   [holdConflictError]: "Esta chamada foi retomada noutro dispositivo. Coloque a chamada em espera antes de assumir o controlo nesta aplicação.",
   [generalError]: "Erro de servidor inesperado. Tente novamente mais tarde.",
-  [forwardSuccess]: "Chamada reencaminhada"
+  [forwardSuccess]: "Chamada reencaminhada",
+  [transferCompleted]: "Chamada transferida",
+  [replyCompleted]: "Mensagem de voz enviada."
 };
 
 // @key: @#@"muteConflictError"@#@ @source: @#@"This call had been muted on other device. Please unmute the call before you control in this App."@#@
@@ -22,3 +26,5 @@ export default {
 // @key: @#@"holdConflictError"@#@ @source: @#@"This call had been unheld on other device. Please hold the call before you control in this App."@#@
 // @key: @#@"generalError"@#@ @source: @#@"Unexpected server error. Please try again later."@#@
 // @key: @#@"forwardSuccess"@#@ @source: @#@"Call forwarded"@#@
+// @key: @#@"transferCompleted"@#@ @source: @#@"Call transferred"@#@
+// @key: @#@"replyCompleted"@#@ @source: @#@"Voice message sent."@#@

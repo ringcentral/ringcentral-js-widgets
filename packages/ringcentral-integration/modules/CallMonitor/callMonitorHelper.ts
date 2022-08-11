@@ -1,9 +1,10 @@
-import { PartyStatusCode } from 'ringcentral-call-control/lib/Session';
-
 import callDirections from '../../enums/callDirections';
-import { telephonyStatus } from '../../enums/telephonyStatus';
+import { Call } from '../../interfaces/Call.interface';
+import { ActiveCall } from '../../interfaces/Presence.model';
+import { NormalizedSession } from '../../interfaces/Webphone.interface';
+import { ActiveCallControlSessionData } from '../../interfaces/ActiveSession.interface';
 
-function getSessionStartTime(session) {
+function getSessionStartTime(session: NormalizedSession) {
   let webphoneStartTime;
   if (session.direction === callDirections.inbound) {
     webphoneStartTime = session.creationTime;
@@ -13,7 +14,10 @@ function getSessionStartTime(session) {
   return webphoneStartTime;
 }
 
-export function matchWephoneSessionWithAcitveCall(sessions, callItem) {
+export function matchWephoneSessionWithAcitveCall(
+  sessions: NormalizedSession[],
+  callItem: ActiveCall | Call,
+) {
   if (!sessions || !callItem) {
     return undefined;
   }
@@ -55,23 +59,31 @@ export function matchWephoneSessionWithAcitveCall(sessions, callItem) {
      * the `InviteClientContext`'s id will always begin with callItem's id.
      */
     if (callItem.toName && callItem.toName.toLowerCase() === 'conference') {
+      // @ts-expect-error
       return session.id.indexOf(callItem.id) === 0;
     }
 
-    if (!callItem.sipData.remoteUri || callItem.sipData.remoteUri === '') {
+    if (
+      // @ts-expect-error
+      !(callItem as ActiveCall).sipData.remoteUri ||
+      // @ts-expect-error
+      (callItem as ActiveCall).sipData.remoteUri === ''
+    ) {
       return false;
     }
 
     if (
       session.direction === callDirections.inbound &&
-      callItem.sipData.remoteUri.indexOf(session.from) === -1
+      // @ts-expect-error
+      (callItem as ActiveCall).sipData.remoteUri.indexOf(session.from) === -1
     ) {
       return false;
     }
 
     if (
       session.direction === callDirections.outbound &&
-      callItem.sipData.remoteUri.indexOf(session.to) === -1
+      // @ts-expect-error
+      (callItem as ActiveCall).sipData.remoteUri.indexOf(session.to) === -1
     ) {
       return false;
     }
@@ -79,6 +91,7 @@ export function matchWephoneSessionWithAcitveCall(sessions, callItem) {
     // 16000 is from experience in test.
     // there is delay bettween active call created and webphone session created
     // for example, the time delay is decided by when webphone get invite info
+    // @ts-expect-error
     if (Math.abs(callItem.startTime - getSessionStartTime(session)) > 16000) {
       return false;
     }
@@ -88,7 +101,9 @@ export function matchWephoneSessionWithAcitveCall(sessions, callItem) {
   if (matches.length > 1) {
     // order by the time gap asc
     matches.sort((x, y) => {
+      // @ts-expect-error
       const gapX = Math.abs(callItem.startTime - getSessionStartTime(x));
+      // @ts-expect-error
       const gapY = Math.abs(callItem.startTime - getSessionStartTime(y));
       return gapX === gapY ? 0 : gapX - gapY;
     });
@@ -97,34 +112,18 @@ export function matchWephoneSessionWithAcitveCall(sessions, callItem) {
   return matches[0];
 }
 
-export function isCurrentDeviceEndCall(sessions, callItem) {
+export function isCurrentDeviceEndCall(sessions: string[], callItem: Call) {
+  // @ts-expect-error
   return sessions.indexOf(callItem.telephonySessionId) !== -1;
 }
 
-// telephony session status match presence telephonyStatus
-export function mapTelephonyStatus(telephonySessionStatus) {
-  let result = null;
-  switch (telephonySessionStatus) {
-    case PartyStatusCode.setup:
-    case PartyStatusCode.proceeding: {
-      result = telephonyStatus.ringing;
-      break;
-    }
-    case PartyStatusCode.hold: {
-      result = telephonyStatus.onHold;
-      break;
-    }
-    case PartyStatusCode.answered: {
-      result = telephonyStatus.callConnected;
-      break;
-    }
-    case PartyStatusCode.parked: {
-      result = telephonyStatus.parkedCall;
-      break;
-    }
-    default: {
-      result = telephonyStatus.noCall;
-    }
-  }
-  return result;
+export function normalizeTelephonySession(
+  session: ActiveCallControlSessionData,
+) {
+  return {
+    status: session.status,
+    id: session.id,
+    direction: session.direction,
+    otherParties: session.otherParties,
+  };
 }

@@ -10,7 +10,7 @@ export default {
   emailPlaceHolder: "ronald.app@ringcentral.com",
   feedbackTopic: "Rubrique du commentaire",
   topicPlaceHolder: "Veuillez choisir une option",
-  bugReport: "Signalement de bogue",
+  bugReport: "Signalement de bug",
   featureRequest: "Demande de fonctionnalité",
   others: "Autres",
   subject: "Objet",

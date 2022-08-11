@@ -1,19 +1,29 @@
+import { trackEvents } from '@ringcentral-integration/commons/enums/trackEvents';
+import { trackWindowType } from '@ringcentral-integration/commons/lib/Analytics';
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import { formatNumber } from '@ringcentral-integration/commons/lib/formatNumber';
 import { normalizeNumber } from '@ringcentral-integration/commons/lib/normalizeNumber';
 import proxify from '@ringcentral-integration/commons/lib/proxy/proxify';
-import callErrors from '@ringcentral-integration/commons/modules/Call/callErrors';
-import { Recipient } from '@ringcentral-integration/commons/modules/CallV2/Call.interface';
+import {
+  callErrors,
+  Recipient,
+} from '@ringcentral-integration/commons/modules/Call';
 import {
   action,
   computed,
   RcUIModuleV2,
   state,
+  track,
   UIFunctions,
   UIProps,
 } from '@ringcentral-integration/core';
+import { parse } from '@ringcentral-integration/phone-number';
 
-import { Deps, DialerUIPanelProps } from './DialerUI.interface';
+import {
+  Deps,
+  DialerUIPanelProps,
+  OnCallButtonClickOptions,
+} from './DialerUI.interface';
 
 const TIMEOUT = 60 * 1000;
 
@@ -21,6 +31,8 @@ export type DialerUICallParams<T = Recipient> = {
   phoneNumber?: string;
   recipient?: T;
   fromNumber?: string;
+  clickDialerToCall?: boolean;
+  isStandAlone?: boolean;
 };
 
 @Module({
@@ -34,6 +46,7 @@ export type DialerUICallParams<T = Recipient> = {
     'Alert',
     'Call',
     'ExtensionFeatures',
+    'AccountInfo',
     { dep: 'AudioSettings', optional: true },
     { dep: 'ContactSearch', optional: true },
     { dep: 'ConferenceCall', optional: true },
@@ -42,6 +55,7 @@ export type DialerUICallParams<T = Recipient> = {
 })
 export class DialerUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
   _latestCallTime: number = 0;
+  _lastSearchInput: string = '';
 
   _callHooks: ((params: DialerUICallParams) => Promise<void>)[] = [];
 
@@ -50,7 +64,7 @@ export class DialerUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
    */
   protected callVerify?: (params: DialerUICallParams<any>) => Promise<boolean>;
 
-  constructor(deps: Deps & T) {
+  constructor(deps: T) {
     super({
       deps,
     });
@@ -72,6 +86,7 @@ export class DialerUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
   }
 
   @state
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Recipient'.
   recipient: Recipient = null;
 
   @action
@@ -135,6 +150,16 @@ export class DialerUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
     );
   }
 
+  override onReset() {
+    this.resetState({
+      toNumberField: '',
+      isLastInputFromDialpad: false,
+      // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Recipient'.
+      recipient: null,
+    });
+    this._lastSearchInput = '';
+  }
+
   @action
   resetState(
     {
@@ -147,6 +172,7 @@ export class DialerUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
     > = {
       toNumberField: '',
       isLastInputFromDialpad: false,
+      // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Recipient'.
       recipient: null,
     },
   ) {
@@ -182,6 +208,7 @@ export class DialerUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
 
   @proxify
   async setRecipient(recipient: Recipient) {
+    this._lastSearchInput = this.toNumberField;
     this.resetState({
       toNumberField: '',
       isLastInputFromDialpad: false,
@@ -192,15 +219,18 @@ export class DialerUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
   @proxify
   async clearRecipient() {
     this.resetState({
-      toNumberField: this.toNumberField,
+      toNumberField: '',
       isLastInputFromDialpad: false,
+      // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Recipient'.
       recipient: null,
     });
   }
 
   async triggerHook({
     phoneNumber = '',
+    // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Recipient'.
     recipient = null,
+    // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string'.
     fromNumber = null,
   }: DialerUICallParams) {
     for (const hook of this._callHooks) {
@@ -215,12 +245,18 @@ export class DialerUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
   @proxify
   async call({
     phoneNumber = '',
+    // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Recipient'.
     recipient = null,
+    // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string'.
     fromNumber = null,
+    clickDialerToCall = false,
+    isStandAlone,
   }: DialerUICallParams) {
+    if (window.runner) {
+      this._trackClickOutbound(isStandAlone);
+    }
     if (phoneNumber || recipient) {
       this._latestCallTime = Date.now();
-
       this.resetState({
         toNumberField: phoneNumber,
         isLastInputFromDialpad: false,
@@ -236,11 +272,19 @@ export class DialerUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
       // * trigger hooks after pass verification
       await this.triggerHook({ phoneNumber, recipient, fromNumber });
 
+      // for data tracking
+      const { hasInvalidChars, isValid } = parse({
+        input: this._lastSearchInput || this.toNumberField,
+      });
+      const isValidNumber = !hasInvalidChars && isValid;
+
       try {
         await this._deps.call.call({
           phoneNumber: this.toNumberField,
           recipient: this.recipient,
           fromNumber,
+          clickDialerToCall,
+          isValidNumber,
         });
 
         this.resetState();
@@ -253,6 +297,7 @@ export class DialerUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
   @action
   protected _loadLastPhoneNumberAction() {
     this.resetState({
+      // @ts-expect-error TS(2322): Type 'string | null' is not assignable to type 'st... Remove this comment to see the full error message
       toNumberField: this._deps.call.lastPhoneNumber,
       recipient: this._deps.call.lastRecipient,
       isLastInputFromDialpad: false,
@@ -270,19 +315,29 @@ export class DialerUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
     this._loadLastPhoneNumberAction();
   }
 
+  @track(trackWindowType(trackEvents.clickOutboundButton))
+  protected _trackClickOutbound(isStandAlone?: boolean) {
+    //
+  }
+
   @proxify
   async onCallButtonClick({
     fromNumber,
     fromSessionId,
-  }: { fromNumber?: string; fromSessionId?: string } = {}) {
+    clickDialerToCall,
+    isStandAlone,
+  }: OnCallButtonClickOptions = {}) {
     if (`${this.toNumberField}`.trim().length === 0 && !this.recipient) {
       this._loadLastPhoneNumber();
     } else {
+      // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
       this._onBeforeCall(fromSessionId);
       await this.call({
         phoneNumber: this.toNumberField,
         recipient: this.recipient,
         fromNumber,
+        clickDialerToCall,
+        isStandAlone,
       });
     }
   }
@@ -302,17 +357,23 @@ export class DialerUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
    * @deprecated
    */
   isCallFromCurrentDevice(phoneNumber: string) {
-    const latestNumber = normalizeNumber({
+    const originalPhoneNumber =
+      this._deps.call.lastPhoneNumber ||
+      this._deps.call.lastRecipient?.phoneNumber;
+    const formattedPhoneNumber = normalizeNumber({
       phoneNumber:
         this._deps.call.lastPhoneNumber ||
         this._deps.call.lastRecipient?.phoneNumber,
       countryCode: this._deps.regionSettings.countryCode,
       areaCode: this._deps.regionSettings.areaCode,
+      maxExtensionLength: this._deps.accountInfo.maxExtensionNumberLength,
       // if call out with extension number then only match main company number
     })?.split('*')[0];
-
+    // use includes since after we introduced EDP, the number dialed at to field maybe different to server parsed number.
     if (
-      latestNumber === phoneNumber &&
+      (phoneNumber?.includes(formattedPhoneNumber) ||
+        phoneNumber?.includes(originalPhoneNumber) ||
+        phoneNumber === this._deps.call.lastValidatedToNumber) &&
       Date.now() - this._latestCallTime <= TIMEOUT
     ) {
       this._latestCallTime = 0;
@@ -325,9 +386,11 @@ export class DialerUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
   getUIProps(): UIProps<DialerUIPanelProps> {
     return {
       currentLocale: this._deps.locale.currentLocale,
+      // @ts-expect-error TS(2322): Type 'string | null' is not assignable to type 'st... Remove this comment to see the full error message
       callingMode: this._deps.callingSettings.callingMode,
       isWebphoneMode: this._deps.callingSettings.isWebphoneMode,
       callButtonDisabled: this.isCallButtonDisabled,
+      // @ts-expect-error TS(2322): Type 'string | null' is not assignable to type 'st... Remove this comment to see the full error message
       fromNumber: this._deps.callingSettings.fromNumber,
       fromNumbers: this._deps.callingSettings.fromNumbers,
       toNumber: this.toNumberField,
@@ -339,7 +402,9 @@ export class DialerUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
       dialButtonMuted: this._deps.audioSettings?.dialButtonMuted ?? false,
       isLastInputFromDialpad: this.isLastInputFromDialpad,
       disableFromField: this.disableFromField,
+      // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
       useV2: this._deps.dialerUIOptions?.useV2,
+      // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
       showAnonymous: this.isShowAnonymous,
     };
   }
@@ -349,18 +414,25 @@ export class DialerUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
     return {
       onToNumberChange: (...args) => this.setToNumberField(...args),
       clearToNumber: () => this.clearToNumberField(),
-      onCallButtonClick: () => this.onCallButtonClick(),
+      onCallButtonClick: (options: OnCallButtonClickOptions) =>
+        this.onCallButtonClick({
+          ...options,
+          isStandAlone: window?.runner?._standAlone,
+        }),
       changeFromNumber: (...args) =>
         this._deps.callingSettings.updateFromNumber(...args),
       formatPhone: (phoneNumber) =>
+        // @ts-expect-error TS(2322): Type 'string | null | undefined' is not assignable... Remove this comment to see the full error message
         formatNumber({
           phoneNumber,
           areaCode: this._deps.regionSettings.areaCode,
           countryCode: this._deps.regionSettings.countryCode,
+          maxExtensionLength: this._deps.accountInfo.maxExtensionNumberLength,
         }),
       setRecipient: (...args) => this.setRecipient(...args),
       clearRecipient: () => this.clearRecipient(),
       searchContact: (searchString) =>
+        // @ts-expect-error TS(2322): Type 'Promise<void> | undefined' is not assignable... Remove this comment to see the full error message
         this._deps.contactSearch?.debouncedSearch({ searchString }),
     };
   }

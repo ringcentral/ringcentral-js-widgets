@@ -5,7 +5,3 @@ export const WaitForInitMeeting: StepFunction<any> = async (props, context) => {
   const { init } = phone.genericMeetingUI.getUIFunctions({ phone });
   await init();
 };
-
-export const WaitForInitGenericMeeting: StepFunction = async (_, { phone }) => {
-  await phone.genericMeeting.initMeeting();
-};

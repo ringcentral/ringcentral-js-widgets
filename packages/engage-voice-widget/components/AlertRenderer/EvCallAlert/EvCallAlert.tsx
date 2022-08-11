@@ -1,4 +1,4 @@
-import { contains } from 'ramda';
+import { includes } from 'ramda';
 
 import { messageTypes } from '../../../enums';
 import i18n from './i18n';
@@ -18,7 +18,7 @@ export default function EvCallAlert({
 }
 
 EvCallAlert.handleMessage = ({ message }: { message: string }) =>
-  contains(message, [
+  includes(message, [
     messageTypes.NO_SUPPORT_COUNTRY,
     messageTypes.INTERCEPT,
     messageTypes.FAILED_TO_CALL,

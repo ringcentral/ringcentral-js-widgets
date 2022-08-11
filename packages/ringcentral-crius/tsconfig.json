@@ -1,8 +1,5 @@
 {
-  "extends": "../../ringcentral-js-widgets/tsconfig.json",
-  "include": ["src/**/*", "typings/**/*.d.ts"],
-  "exclude": ["test/**/*", "node_modules", "build"],
-  "compilerOptions": {
-    "reactNamespace": "JSX"
-  }
+  "extends": "../../ringcentral-js-widgets/tsconfig.test.json",
+  "include": ["src/**/*", "test/**/*", "typings/**/*.d.ts"],
+  "exclude": ["node_modules", "build"]
 }

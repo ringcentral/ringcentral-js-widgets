@@ -27,7 +27,10 @@ export const SelectedRecipients: FunctionComponent<SelectedRecipientsProps> = ({
 }) => {
   if (multiple && recipients.length) {
     return (
-      <ul className={classnames(className, styles.selectReceivers)}>
+      <ul
+        data-sign="recipientsList"
+        className={classnames(className, styles.selectReceivers)}
+      >
         {recipients.map((item) => (
           <SelectedRecipientItem
             {...item}

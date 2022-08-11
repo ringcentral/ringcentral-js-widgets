@@ -1,8 +1,8 @@
 import { Descriptor, identifierKey, RcModuleV2 } from './RcModule';
 
-// TODO: move to `ringcentral-integration` package and import Analytics type
-
-type Analytics = any;
+export interface IAnalytics {
+  track(event: string, data?: any): void;
+}
 
 type TrackEvent =
   | string
@@ -11,7 +11,7 @@ type TrackEvent =
     ) =>
       | (
           | [string, object?]
-          | ((analytics: Analytics) => [string, object?] | void)
+          | ((analytics: IAnalytics) => [string, object?] | void)
         )
       | void);
 
@@ -23,16 +23,16 @@ type TrackEvent =
 export const track = (trackEvent: TrackEvent) => {
   return (target: RcModuleV2, name: string, descriptor?: Descriptor<any>) => {
     if (
-      typeof descriptor.value !== 'function' &&
-      typeof descriptor.initializer !== 'function'
+      typeof descriptor?.value !== 'function' &&
+      typeof descriptor?.initializer !== 'function'
     ) {
       throw new Error(`@track decorated '${name}' is not a method`);
     }
-    let fn: (...args: any) => any = descriptor.value;
+    let fn: (...args: any) => any = descriptor?.value;
     const initializer = descriptor.initializer;
     // eslint-disable-next-line func-names
     const trackedFn = function (this: RcModuleV2, ...args: any) {
-      const { analytics }: { analytics: Analytics } = this.parentModule as any;
+      const { analytics }: { analytics: IAnalytics } = this.parentModule as any;
       if (typeof initializer === 'function') {
         fn = initializer.call(this);
       }

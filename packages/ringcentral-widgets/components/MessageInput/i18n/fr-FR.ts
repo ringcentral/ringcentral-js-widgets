@@ -1,7 +1,7 @@
 export default {
   from: "De",
   to: "À",
-  enterNameOrNumber: "Saisir le numéro ou le nom",
+  enterNameOrNumber: "Saisir le numéro ou le nom…",
   typeMessage: "Saisir un message...",
   send: "Envoyer"
 };

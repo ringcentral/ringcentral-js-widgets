@@ -6,6 +6,7 @@ import { Deps } from './ConnectivityManager.interface';
 import { connectivityTypes } from './connectivityTypes';
 
 @Module({
+  name: 'ConnectivityManager',
   deps: [
     'Alert',
     'OAuth',
@@ -24,7 +25,7 @@ class ConnectivityManager extends RcModuleV2<Deps> {
     });
   }
 
-  onInitOnce() {
+  override onInitOnce() {
     watch(
       this,
       () => this.connectivityType,
@@ -121,9 +122,13 @@ class ConnectivityManager extends RcModuleV2<Deps> {
   get isWebphoneInitializing() {
     return (
       !!this._deps.callingSettings?.isWebphoneMode &&
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       (!this._deps.webphone.ready ||
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         this._deps.webphone.disconnected ||
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         this._deps.webphone.connecting ||
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         this._deps.webphone.connectFailed)
     );
   }
@@ -151,9 +156,9 @@ class ConnectivityManager extends RcModuleV2<Deps> {
     );
   }
 
-  // todo: fix oAuth type
+  // TODO: fix oAuth type
   get proxyRetryCount(): boolean {
-    // @ts-ignore
+    // @ts-expect-error TS(2339): Property 'proxyRetryCount' does not exist on type ... Remove this comment to see the full error message
     return this._deps.oAuth && this._deps.oAuth.proxyRetryCount > 0;
   }
 

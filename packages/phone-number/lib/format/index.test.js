@@ -70,6 +70,7 @@ describe('format', () => {
       format({
         phoneNumber: `${areaCode}${phoneNumber}`,
         countryCode: 'US',
+        type: formatTypes.international,
       }),
     );
     expect(
@@ -82,6 +83,7 @@ describe('format', () => {
       format({
         phoneNumber: `${areaCode}${phoneNumber}`,
         countryCode: 'CA',
+        type: formatTypes.international,
       }),
     );
   });

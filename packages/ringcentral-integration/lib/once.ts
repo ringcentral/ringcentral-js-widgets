@@ -11,7 +11,7 @@ export default function once(
   function wrappedFn(this: ThisType<object>) {
     if (!run) {
       run = true;
-      return value.call(this);
+      return value!.call(this);
     }
     return undefined;
   }

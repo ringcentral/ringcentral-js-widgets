@@ -1,5 +1,5 @@
 export default {
-  mute: "Disatt. audio",
+  mute: "Disattiva audio",
   unmute: "Riattiva audio",
   hangup: "Riaggancia",
   reject: "Rifiuta"

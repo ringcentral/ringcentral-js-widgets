@@ -1,9 +1,15 @@
 import callDirections from '../../enums/callDirections';
+import {
+  NormalizedSession,
+  PartyData,
+  WebphoneSession,
+} from '../../interfaces/Webphone.interface';
 import { camelize } from '../../lib/di/utils/utils';
-import recordStatus from './recordStatus';
-import sessionStatus from './sessionStatus';
+import { recordStatus } from './recordStatus';
+import { sessionStatus } from './sessionStatus';
+import { WebphoneSessionRequestHeaders } from './Webphone.interface';
 
-let environment;
+let environment: Window & typeof globalThis;
 if (typeof window !== 'undefined') {
   environment = window;
 }
@@ -32,7 +38,7 @@ export function isEnableMidLinesInSDP() {
     return false;
   }
   const version = parseInt(
-    navigator.userAgent.toLowerCase().match(/firefox\/([0-9]+)/)[1],
+    navigator.userAgent.toLowerCase().match(/firefox\/([0-9]+)/)?.[1]!,
     10,
   );
   return version >= 63;
@@ -57,7 +63,10 @@ export function isBrowserSupport() {
   return isWebSocketSupport() && isWebRTCSupport();
 }
 
-export function extractHeadersData(session, headers) {
+export function extractHeadersData(
+  session: WebphoneSession,
+  headers: WebphoneSessionRequestHeaders,
+) {
   if (
     headers &&
     headers['P-Rc-Api-Ids'] &&
@@ -81,10 +90,11 @@ export function extractHeadersData(session, headers) {
       .reduce((accum, [key, value]) => {
         accum[camelize(key)] = value;
         return accum;
-      }, {});
+      }, {} as { [key: string]: string });
 
     if (Object.keys(data).length) {
-      session.__rc_partyData = data;
+      // TODO: fix type
+      session.__rc_partyData = data as any as PartyData;
     }
   }
 
@@ -98,7 +108,15 @@ export function extractHeadersData(session, headers) {
   }
 }
 
-export function getCallQueueName({ direction, toUserName, fromUserName }) {
+export function getCallQueueName({
+  direction,
+  toUserName,
+  fromUserName,
+}: {
+  direction: string;
+  toUserName: string;
+  fromUserName: string;
+}) {
   if (direction === callDirections.outbound) {
     return null;
   }
@@ -109,19 +127,29 @@ export function getCallQueueName({ direction, toUserName, fromUserName }) {
   return queueName;
 }
 
-export function normalizeSession(session) {
+export function normalizeSession(
+  session?: WebphoneSession,
+): NormalizedSession | undefined {
+  if (!session) {
+    return session;
+  }
+  const toUserName = session.request?.to?.displayName;
+  const fromUserName = session.request?.from?.displayName;
   return {
     id: session.id,
     callId: session.__rc_callId,
     direction: session.__rc_direction,
     callStatus: session.__rc_callStatus,
-    to: session.request.to.uri.user,
-    toUserName: session.request.to.displayName,
-    from: session.request.from.uri.user,
+    // @ts-expect-error
+    to: session.request?.to?.uri?.user,
+    toUserName,
+    // @ts-expect-error
+    from: session.request?.from?.uri?.user,
     fromNumber: session.__rc_fromNumber,
-    fromUserName: session.request.from.displayName,
+    fromUserName,
     fromTag: session.fromTag,
     toTag: session.toTag,
+    // @ts-expect-error
     startTime: session.startTime && new Date(session.startTime).getTime(),
     creationTime: session.__rc_creationTime,
     isOnHold: !!session.localHold,
@@ -132,22 +160,25 @@ export function normalizeSession(session) {
     isForwarded: !!session.__rc_isForwarded,
     isReplied: !!session.__rc_isReplied,
     recordStatus: session.__rc_recordStatus || recordStatus.idle,
+    // @ts-expect-error
     contactMatch: session.__rc_contactMatch,
     minimized: !!session.__rc_minimized,
+    // @ts-expect-error
     partyData: session.__rc_partyData || null,
     lastActiveTime: session.__rc_lastActiveTime,
     cached: false,
     removed: false,
+    // @ts-expect-error
     callQueueName: getCallQueueName({
       direction: session.__rc_direction,
-      toUserName: session.request.to.displayName,
-      fromUserName: session.request.from.displayName,
+      toUserName,
+      fromUserName,
     }),
     warmTransferSessionId: session.__rc_transferSessionId,
   };
 }
 
-export function isRing(session) {
+export function isRing(session: NormalizedSession) {
   return !!(
     session &&
     session.direction === callDirections.inbound &&
@@ -155,15 +186,21 @@ export function isRing(session) {
   );
 }
 
-export function isOnHold(session) {
+export function isOnHold(session: NormalizedSession) {
   return !!(session && session.isOnHold);
 }
 
-export function sortByCreationTimeDesc(l, r) {
+export function sortByCreationTimeDesc(
+  l: NormalizedSession,
+  r: NormalizedSession,
+) {
   return r.startTime - l.startTime;
 }
 
-export function sortByLastActiveTimeDesc(l, r) {
+export function sortByLastActiveTimeDesc(
+  l: NormalizedSession,
+  r: NormalizedSession,
+) {
   if (!l || !r) {
     return 0;
   }
@@ -176,11 +213,11 @@ export function sortByLastActiveTimeDesc(l, r) {
 /**
  * HACK: this function is not very reliable, only use it before the merging complete.
  */
-export function isConferenceSession(session) {
+export function isConferenceSession(session: NormalizedSession) {
   return session && session.to && session.to.indexOf('conf_') === 0;
 }
 
-export function isRecording(session) {
+export function isRecording(session: NormalizedSession) {
   return !!(
     session &&
     (session.recordStatus === recordStatus.pending ||

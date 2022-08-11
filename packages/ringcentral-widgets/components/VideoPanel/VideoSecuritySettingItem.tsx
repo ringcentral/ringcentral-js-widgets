@@ -1,7 +1,7 @@
 import React, { FunctionComponent, ReactNode } from 'react';
 
 import { RcFormControlLabel, RcIcon, RcTooltip } from '@ringcentral/juno';
-import { LockBorder } from '@ringcentral/juno/icon';
+import { LockBorder } from '@ringcentral/juno-icon';
 
 import i18n from './i18n';
 import styles from './styles.scss';
@@ -42,7 +42,6 @@ interface VideoSecuritySettingItemProps {
   children: ReactNode;
   hasScrollBar: boolean;
   labelPlacement?: 'end' | 'start' | 'top' | 'bottom';
-  classes?: {};
 }
 
 export const VideoSecuritySettingItem: FunctionComponent<VideoSecuritySettingItemProps> =

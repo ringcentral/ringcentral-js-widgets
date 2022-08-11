@@ -1,24 +1,26 @@
-import { presenceStatus } from '@ringcentral-integration/commons/enums/presenceStatus.enum';
-import dndStatus from '@ringcentral-integration/commons/modules/Presence/dndStatus';
 import { phoneTypes } from '@ringcentral-integration/commons/enums/phoneTypes';
+import { presenceStatus } from '@ringcentral-integration/commons/enums/presenceStatus.enum';
+import { dndStatus } from '@ringcentral-integration/commons/modules/Presence';
 export default {
   [phoneTypes.extension]: "分机",
   [phoneTypes.direct]: "直拨",
   [phoneTypes.mobile]: "移动",
   [phoneTypes.contact]: "联系电话",
-  [phoneTypes.home]: "家庭",
+  [phoneTypes.home]: "住宅",
   [phoneTypes.business]: "商务",
   [phoneTypes.fax]: "传真",
+  // @ts-expect-error TS(2718): Duplicate property 'company'.
   [phoneTypes.company]: "公司",
   [phoneTypes.other]: "其他",
-  emailLabel: "电子邮件地址",
-  call: "呼叫",
+  emailLabel: "电子邮件",
+  call: "电话",
   text: "短信",
-  [presenceStatus.available]: "在线",
+  [presenceStatus.available]: "有空",
   [presenceStatus.offline]: "隐身",
   [presenceStatus.busy]: "忙碌",
   [dndStatus.doNotAcceptAnyCalls]: "勿扰",
   notActivated: "停用",
+  // @ts-expect-error TS(2733): Property 'company' was also declared here.
   company: "公司",
   jobTitle: "职位",
   site: "站点"

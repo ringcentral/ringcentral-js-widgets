@@ -1,6 +1,5 @@
 const localeSettings = require('@ringcentral-integration/locale-settings');
 
-const jsRegex = ['**/*.js', '**/*.jsx'];
 const tsRegex = ['**/*.ts', '**/*.tsx'];
 const jsExtensions = ['.js', '.jsx'];
 const tsExtensions = ['.ts', '.tsx'];
@@ -107,6 +106,7 @@ module.exports = {
       'LabeledStatement',
       'WithStatement',
     ],
+    'react/default-props-match-prop-types': 0,
     'react/destructuring-assignment': 1,
     'react/sort-comp': 0,
     'react/forbid-prop-types': 0,
@@ -118,7 +118,7 @@ module.exports = {
       },
     ],
     'react/no-array-index-key': 0,
-    'react/require-default-props': 1,
+    'react/require-default-props': 0,
     'react/no-did-mount-set-state': 0, // dom size detection after mount may require setState in didMount
     'react/jsx-no-target-blank': 0,
     'react/no-this-in-sfc': 0,
@@ -164,6 +164,19 @@ module.exports = {
       },
       rules: {
         'no-eval': 0,
+      },
+    },
+    // for next generation projects, we should install all dep in root folder, so there is no longer need that settings
+    {
+      files: ['__next__/**'],
+      rules: {
+        'import/no-extraneous-dependencies': 'off',
+      },
+    },
+    {
+      files: ['*.view.tsx', '*.plugin.tsx'],
+      rules: {
+        'react-hooks/rules-of-hooks': 'off',
       },
     },
     {
@@ -214,6 +227,12 @@ module.exports = {
         'object-shorthand': [2, 'always'],
         '@typescript-eslint/no-unused-vars': 1,
         'no-dupe-class-members': 0, // ts already checks this, disable this to allow overloading
+      },
+    },
+    {
+      files: ['./tools/**/*'],
+      rules: {
+        'func-names': 'off',
       },
     },
   ],

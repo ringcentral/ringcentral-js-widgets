@@ -5,12 +5,12 @@ export default {
   select: "Select record",
   OnHold: "On Hold",
   Ringing: "Ringing",
-  CallConnected: "Call connected",
+  CallConnected: "Call Connected",
   unknownUser: "Unknown user",
   unknownNumber: "Anonymous",
   unavailable: "Unavailable",
-  viewDetails: "View details",
-  conferenceCall: "Conference call"
+  viewDetails: "View Details",
+  conferenceCall: "Conference Call"
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@

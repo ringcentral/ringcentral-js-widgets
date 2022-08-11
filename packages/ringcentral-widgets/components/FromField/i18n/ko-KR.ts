@@ -1,5 +1,5 @@
 export default {
-  DirectNumber: "직통",
+  DirectNumber: "직접",
   MainCompanyNumber: "주요",
   CompanyNumber: "회사",
   CompanyFaxNumber: "팩스",

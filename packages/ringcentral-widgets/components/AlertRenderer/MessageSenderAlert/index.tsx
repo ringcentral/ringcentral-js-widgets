@@ -1,7 +1,6 @@
 import React from 'react';
 
-import messageSenderMessages from '@ringcentral-integration/commons/modules/MessageSender/messageSenderMessages';
-import messageSenderMessagesV2 from '@ringcentral-integration/commons/modules/MessageSenderV2/messageSenderMessages';
+import { messageSenderMessages } from '@ringcentral-integration/commons/modules/MessageSender';
 
 import FormattedMessage from '../../FormattedMessage';
 import i18n from './i18n';
@@ -15,8 +14,9 @@ type MessageSenderAlertProps = {
   };
   onAreaCodeLink?: (...args: any[]) => any;
 };
-const MessageSenderAlert: React.SFC<MessageSenderAlertProps> = ({
+const MessageSenderAlert: React.FC<MessageSenderAlertProps> = ({
   currentLocale,
+  // @ts-expect-error TS(2339): Property 'id' does not exist on type '{ message: s... Remove this comment to see the full error message
   message: { id, message },
   onAreaCodeLink,
   brand,
@@ -39,10 +39,13 @@ const MessageSenderAlert: React.SFC<MessageSenderAlertProps> = ({
     return (
       <FormattedMessage
         message={i18n.getString(message, currentLocale)}
+        // @ts-expect-error TS(2322): Type 'string | Element' is not assignable to type ... Remove this comment to see the full error message
         values={{ areaCodeLink }}
       />
     );
-  } else if (
+  }
+
+  if (
     [
       messageSenderMessages.noInternalSMSPermission,
       messageSenderMessages.noSMSPermission,
@@ -51,6 +54,7 @@ const MessageSenderAlert: React.SFC<MessageSenderAlertProps> = ({
     return (
       <FormattedMessage
         message={i18n.getString(message, currentLocale)}
+        // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
         values={{ brand }}
       />
     );
@@ -61,7 +65,8 @@ MessageSenderAlert.defaultProps = {
   onAreaCodeLink: undefined,
   brand: 'RingCentral',
 };
-MessageSenderAlert.handleMessage = ({ message }) =>
+// @ts-expect-error TS(2339): Property 'handleMessage' does not exist on type 'F... Remove this comment to see the full error message
+MessageSenderAlert.handleMessage = ({ message }: any) =>
   message === messageSenderMessages.sendSuccess ||
   message === messageSenderMessages.sendError ||
   message === messageSenderMessages.numberValidateError ||
@@ -84,8 +89,8 @@ MessageSenderAlert.handleMessage = ({ message }) =>
   message === messageSenderMessages.internationalSMSNotSupported ||
   message === messageSenderMessages.noInternalSMSPermission ||
   message === messageSenderMessages.noSMSPermission ||
-  message === messageSenderMessagesV2.attachmentCountLimitation ||
-  message === messageSenderMessagesV2.attachmentSizeLimitation ||
-  message === messageSenderMessagesV2.noAttachmentToExtension ||
+  message === messageSenderMessages.attachmentCountLimitation ||
+  message === messageSenderMessages.attachmentSizeLimitation ||
+  message === messageSenderMessages.noAttachmentToExtension ||
   message === messageSenderMessages.sending;
 export default MessageSenderAlert;

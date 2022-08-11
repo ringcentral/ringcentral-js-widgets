@@ -14,8 +14,10 @@ export const RecipientPhone: FunctionComponent<RecipientPhoneProps> = ({
   enableTitle,
 }) => {
   const phoneTypeName = phoneTypeRenderer
-    ? phoneTypeRenderer(phoneType)
-    : phoneTypeNames.getString(phoneType, currentLocale);
+    ? // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
+      phoneTypeRenderer(phoneType)
+    : // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
+      phoneTypeNames.getString(phoneType, currentLocale);
   const title = enableTitle
     ? `${formatContactPhone(phoneNumber)} ${splitter} ${phoneTypeName}`
     : undefined;

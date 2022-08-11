@@ -1,21 +1,28 @@
 import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
 
 import classNames from 'classnames';
-import formatMessage from 'format-message';
 
-import { RcIcon, RcTextField } from '@ringcentral/juno';
-import { Search } from '@ringcentral/juno/icon';
+import { emptyFn, format } from '@ringcentral-integration/utils';
+import {
+  RcIcon,
+  RcTextField,
+  useDepsChange,
+  useRefState,
+} from '@ringcentral/juno';
+import { Search } from '@ringcentral/juno-icon';
 
 import { TOOLTIP_LONG_DELAY_TIME } from '../../lib/toolTipDelayTime';
 import { AnimationPanel } from '../AnimationPanel';
 import BackHeader from '../BackHeaderV2';
 import { Tooltip } from '../Rcui/Tooltip';
+import selectListI18n from '../SelectList/i18n';
+import { ListViewProps } from '../SelectList/ListView';
 import i18n from './i18n';
 import styles from './styles.scss';
 
 export type SelectListBasicProps = {
   title: string;
-  options?: object[];
+  options?: ListViewProps['options'];
   otherOptions?: object[];
   associatedOptions?: object[];
   showOtherSection?: boolean;
@@ -36,7 +43,12 @@ export type SelectListBasicProps = {
   ) => React.ReactNode;
   open?: boolean;
   setOpen?: (...args: any[]) => any;
-  scrollCheck?: (scrollElmRef, matchElmRef, elm, type) => any;
+  scrollCheck?: (
+    scrollElmRef: any,
+    matchElmRef: any,
+    elm: any,
+    type: any,
+  ) => any;
   selectListBasicClassName?: string;
   backHeaderClassName?: string;
   listContainerClassName?: string;
@@ -58,40 +70,46 @@ export type SelectListBasicProps = {
   isSearching?: boolean;
   setShowSearchFromServerHint?: (state: boolean) => any;
   showSearchFromServerHint?: boolean;
+  disabled?: boolean;
+};
+
+const defaultRenderListView = () => {
+  return null;
 };
 
 const SelectListBasic: FunctionComponent<SelectListBasicProps> = ({
+  options = [],
+  otherOptions = [],
+  associatedOptions = [],
+  showOtherSection = true,
+  showAssociatedSection = false,
+  placeholder = '',
+  rightIcon = null,
+  setOpen = emptyFn,
+  open = false,
+  renderListView = defaultRenderListView,
+  scrollCheck = emptyFn,
+  selectListBasicClassName = null,
+  backHeaderClassName = null,
+  listContainerClassName = null,
+  classes = {},
+  onBackClick = undefined,
+  matchedTitle = null,
+  otherTitle = null,
+  associatedTitle = null,
+  contactSearch = null,
+  field = null,
+  foundFromServerTitle = null,
+  showFoundFromServer = false,
+  foundFromServerEntities = [],
+  appName = null,
+  isSearching = false,
+  disabled = false,
   title,
-  options,
-  otherOptions,
-  associatedOptions,
-  showOtherSection,
-  showAssociatedSection,
-  placeholder,
   searchOption,
-  rightIcon,
-  matchedTitle,
-  otherTitle,
-  associatedTitle,
   currentLocale,
-  renderListView,
-  open,
-  setOpen,
-  scrollCheck,
-  selectListBasicClassName,
-  backHeaderClassName,
-  listContainerClassName,
-  classes,
-  onBackClick,
-  contactSearch,
-  field,
-  foundFromServerTitle,
-  showFoundFromServer,
-  foundFromServerEntities,
-  appName,
-  isSearching,
 }) => {
-  const [filter, setFilter] = useState(null);
+  const [filterRef, setFilter] = useRefState<string>('');
   const [showSearchFromServerHint, setShowSearchFromServerHint] =
     useState(false);
   const scrollElmRef = useRef();
@@ -99,14 +117,23 @@ const SelectListBasic: FunctionComponent<SelectListBasicProps> = ({
 
   // When open change clear filter
   useEffect(() => {
-    setFilter(null);
+    setFilter('');
     setShowSearchFromServerHint(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
   useEffect(() => {
     if (isSearching) {
       setShowSearchFromServerHint(false);
     }
   }, [isSearching]);
+
+  useDepsChange(() => {
+    // null is invalid for RcTextField at disabled status but empty string works
+    if (disabled) setFilter('', false);
+  }, [disabled]);
+  const filter = filterRef.current;
+
+  // @ts-expect-error TS(2774): This condition will always return true since this ... Remove this comment to see the full error message
   const hasSearch = searchOption && filter;
   const matchOptions = hasSearch
     ? options.filter((option) => searchOption(option, filter))
@@ -134,7 +161,7 @@ const SelectListBasic: FunctionComponent<SelectListBasicProps> = ({
   };
   const foundFromServerHint = (
     <p className={styles.hint}>
-      {formatMessage(i18n.getString('foundFromServerHint', currentLocale), {
+      {format(i18n.getString('foundFromServerHint', currentLocale), {
         appName,
       })}
     </p>
@@ -152,7 +179,23 @@ const SelectListBasic: FunctionComponent<SelectListBasicProps> = ({
     ? foundFromServerHint
     : notResultFoundFromServer;
   const showLoading = isSearching ? loading : notFoundFromServer;
+
+  matchedTitle =
+    matchedTitle || selectListI18n.getString('matched', currentLocale);
+
+  otherTitle = otherTitle || selectListI18n.getString('other', currentLocale);
+
+  foundFromServerTitle =
+    foundFromServerTitle ||
+    format(selectListI18n.getString('foundFromServer', currentLocale), {
+      appName,
+    });
+
+  associatedTitle =
+    associatedTitle || selectListI18n.getString('associated', currentLocale);
+
   return (
+    // @ts-expect-error TS(2322): Type 'string | null' is not assignable to type 'st... Remove this comment to see the full error message
     <AnimationPanel open={open} className={selectListBasicClassName}>
       {open ? (
         <>
@@ -161,6 +204,7 @@ const SelectListBasic: FunctionComponent<SelectListBasicProps> = ({
             title={title}
             onBackClick={backHeaderOnclick}
             rightIcon={rightIcon}
+            // @ts-expect-error TS(2322): Type 'string | null' is not assignable to type 'st... Remove this comment to see the full error message
             className={backHeaderClassName}
           />
           <main className={styles.main} data-sign="selectList">
@@ -207,11 +251,13 @@ const SelectListBasic: FunctionComponent<SelectListBasicProps> = ({
                       if (searchString.length) {
                         contactSearch({
                           searchString,
+                          // @ts-expect-error TS(2322): Type 'string | null' is not assignable to type 'st... Remove this comment to see the full error message
                           fromField: field,
                         });
                       }
                     }
                   }}
+                  disabled={disabled}
                 />
               </div>
             </Tooltip>
@@ -220,12 +266,14 @@ const SelectListBasic: FunctionComponent<SelectListBasicProps> = ({
                 styles.listContainer,
                 listContainerClassName,
               )}
+              // @ts-expect-error TS(2322): Type 'MutableRefObject<undefined>' is not assignab... Remove this comment to see the full error message
               ref={scrollElmRef}
               data-sign="searchResult"
             >
               {hasResult || showFoundFromServer ? (
                 <>
                   <div
+                    // @ts-expect-error TS(2322): Type 'MutableRefObject<undefined>' is not assignab... Remove this comment to see the full error message
                     ref={matchElmRef}
                     className={styles.text}
                     data-sign={matchedTitle}
@@ -240,7 +288,7 @@ const SelectListBasic: FunctionComponent<SelectListBasicProps> = ({
                         matchOptions,
                         'matched',
                         filter,
-                        (elm, type) =>
+                        (elm: any, type: any) =>
                           scrollCheck(scrollElmRef, matchElmRef, elm, type),
                       )}
                   </div>
@@ -256,7 +304,7 @@ const SelectListBasic: FunctionComponent<SelectListBasicProps> = ({
                           matchOtherOptions,
                           'other',
                           filter,
-                          (elm, type) =>
+                          (elm: any, type: any) =>
                             scrollCheck(scrollElmRef, matchElmRef, elm, type),
                         )}
                     </div>
@@ -273,7 +321,7 @@ const SelectListBasic: FunctionComponent<SelectListBasicProps> = ({
                           matchAssociatedOptions,
                           'other',
                           filter,
-                          (elm, type) =>
+                          (elm: any, type: any) =>
                             scrollCheck(scrollElmRef, matchElmRef, elm, type),
                         )}
                     </div>
@@ -292,7 +340,7 @@ const SelectListBasic: FunctionComponent<SelectListBasicProps> = ({
                             filteredFoundFromServerOptions,
                             'custom',
                             filter,
-                            (elm, type) =>
+                            (elm: any, type: any) =>
                               scrollCheck(scrollElmRef, matchElmRef, elm, type),
                           )
                         : showLoading}
@@ -320,36 +368,5 @@ const SelectListBasic: FunctionComponent<SelectListBasicProps> = ({
     </AnimationPanel>
   );
 };
-SelectListBasic.defaultProps = {
-  options: [],
-  otherOptions: [],
-  associatedOptions: [],
-  showOtherSection: true,
-  showAssociatedSection: false,
-  placeholder: '',
-  rightIcon: null,
-  setOpen() {},
-  open: false,
-  renderListView() {
-    return null;
-  },
-  scrollCheck() {},
-  selectListBasicClassName: null,
-  backHeaderClassName: null,
-  listContainerClassName: null,
-  classes: {},
-  onBackClick: undefined,
-  matchedTitle: null,
-  otherTitle: null,
-  associatedTitle: null,
-  contactSearch: null,
-  field: null,
-  foundFromServerTitle: null,
-  showFoundFromServer: false,
-  foundFromServerEntities: [],
-  appName: null,
-  isSearching: false,
-  setShowSearchFromServerHint() {},
-  showSearchFromServerHint: true,
-};
+
 export { SelectListBasic };

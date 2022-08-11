@@ -1,0 +1,7 @@
+import { CallQueueMemberPresence } from './CallQueueMemberPresence';
+
+export interface CallQueuePresence {
+  /**
+   */
+  records: CallQueueMemberPresence[];
+}

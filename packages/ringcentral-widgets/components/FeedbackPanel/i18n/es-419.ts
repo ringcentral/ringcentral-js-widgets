@@ -5,7 +5,7 @@ export default {
   instruction: "Sus comentarios tienen mucho valor para nosotros. Si tiene problemas al utilizar la aplicación, quiere solicitar una función o informar de un problema, estaremos encantados de ayudarle.",
   fillForm: "Rellene el siguiente formulario y haga clic ",
   useMailBox: " o utilice directamente su buzón de correo y envíe su solicitud a ",
-  email: "Su dirección de correo electrónico",
+  email: "su dirección de correo electrónico",
   reply: "(para que podamos contestarle)",
   emailPlaceHolder: "ronald.app@ringcentral.com",
   feedbackTopic: "Tema del comentario",

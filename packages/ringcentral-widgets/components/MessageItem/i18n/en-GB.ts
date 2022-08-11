@@ -2,8 +2,8 @@ import messageTypes from '@ringcentral-integration/commons/enums/messageTypes';
 export default {
   addLog: "Log",
   editLog: "Edit Log",
-  viewDetails: "View details",
-  addEntity: "Create new",
+  viewDetails: "View Details",
+  addEntity: "Create New",
   call: "Call",
   text: "Text",
   conversation: "Conversation",

@@ -99,7 +99,7 @@ class EntriesUseCase extends Step {
             for (const key of Object.keys(definition)) {
               const pair = find((entry) => entry[0] === key, kvPairs);
               expect(pair).toBeDefined();
-              expect(pair[1]).toBe(definition[key]);
+              expect(pair?.[1]).toBe(definition[key]);
             }
           }}
         />

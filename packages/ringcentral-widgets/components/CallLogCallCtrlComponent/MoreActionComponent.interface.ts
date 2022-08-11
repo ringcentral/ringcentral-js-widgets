@@ -18,6 +18,7 @@ export interface MoreActionComponentProps {
     icon: any;
     tooltip: string;
     className: string;
+    junoIcon?: any;
   };
   withSubText: boolean;
   handleClick: () => void;
@@ -27,4 +28,5 @@ export interface MoreActionComponentProps {
     root: string;
     paper: string;
   };
+  useJunoIcon?: boolean;
 }

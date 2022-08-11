@@ -1,5 +1,5 @@
 export default {
-  unknown: "Desconhecido",
+  unknown: "Desconhecida",
   anonymous: "Anônimo",
   activeCall: "Chamada ativa"
 };

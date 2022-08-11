@@ -4,11 +4,13 @@ import callDirections from '@ringcentral-integration/commons/enums/callDirection
 import { isRingingInboundCall } from '@ringcentral-integration/commons/lib/callLogHelpers';
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import formatNumber from '@ringcentral-integration/commons/lib/formatNumber';
-import { ActiveSession } from '@ringcentral-integration/commons/modules/ActiveCallControlV2';
-import { isHolding } from '@ringcentral-integration/commons/modules/ActiveCallControlV2/helpers';
-import callingModes from '@ringcentral-integration/commons/modules/CallingSettings/callingModes';
+import {
+  ActiveSession,
+  isHolding,
+} from '@ringcentral-integration/commons/modules/ActiveCallControl';
+import { callingModes } from '@ringcentral-integration/commons/modules/CallingSettings';
+import { SwitchCallActiveCallParams } from '@ringcentral-integration/commons/modules/Webphone';
 import { isOnHold } from '@ringcentral-integration/commons/modules/Webphone/webphoneHelper';
-import { SwitchCallActiveCallParams } from '@ringcentral-integration/commons/modules/WebphoneV2';
 import {
   RcUIModuleV2,
   UIFunctions,
@@ -37,6 +39,8 @@ const ModalContentRendererID = 'ActiveCallsUI.ModalContentRenderer';
     'RouterInteraction',
     'AppFeatures',
     'ConnectivityMonitor',
+    'AccountInfo',
+    'ExtensionInfo',
     { dep: 'ModalUI', optional: true },
     { dep: 'Webphone', optional: true },
     { dep: 'CallLogger', optional: true },
@@ -46,8 +50,8 @@ const ModalContentRendererID = 'ActiveCallsUI.ModalContentRenderer';
     { dep: 'ActiveCallControl', optional: true },
   ],
 })
-export class ActiveCallsUI<T = {}> extends RcUIModuleV2<Deps & T> {
-  constructor(deps: Deps & T) {
+export class ActiveCallsUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
+  constructor(deps: T) {
     super({
       deps,
     });
@@ -87,8 +91,11 @@ export class ActiveCallsUI<T = {}> extends RcUIModuleV2<Deps & T> {
       showRingoutCallControl,
       showTransferCall,
       showHoldOnOtherDevice,
-      showSwitchCall:
-        showSwitchCall && isWebRTC && this._deps.webphone?.connected,
+      showSwitchCall: !!(
+        showSwitchCall &&
+        isWebRTC &&
+        this._deps.webphone?.connected
+      ),
       autoLog: !!this._deps.callLogger?.autoLog,
       isWebRTC,
       conferenceCallParties: this._deps.conferenceCall
@@ -101,8 +108,21 @@ export class ActiveCallsUI<T = {}> extends RcUIModuleV2<Deps & T> {
         controlBusy,
       useCallControl,
       isWide: this.isWide,
+      allCalls: this._deps.callMonitor.calls,
     };
   }
+
+  private _defaultOnViewContact: ActiveCallsContainerProps['onViewContact'] = (
+    options,
+  ) => {
+    const { id, type } = options.contact;
+
+    this._deps.contactDetailsUI?.showContactDetails({
+      type,
+      id,
+      direct: true,
+    });
+  };
 
   getUIFunctions({
     composeTextRoute = '/composeText',
@@ -111,29 +131,34 @@ export class ActiveCallsUI<T = {}> extends RcUIModuleV2<Deps & T> {
     onLogCall,
     isLoggedContact,
     onCallsEmpty,
-    onViewContact,
+    onViewContact = this._defaultOnViewContact,
     showViewContact = true,
     getAvatarUrl,
     useV2,
     useCallControl,
   }: ActiveCallsContainerProps): UIFunctions<ActiveCallsPanelProps> {
-    // Toggle to control if use new call control API, should using the ActiveCallControlV2 module same time,
+    // Toggle to control if use new call control API, should using the ActiveCallControl module same time,
     // when you set this toggle to true (https://developers.ringcentral.com/api-reference/Call-Control/createCallOutCallSession)
     const useActiveCallControl = !!(
       useCallControl && this._deps.activeCallControl
     );
     return {
       modalConfirm: (props) =>
+        // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
         this._deps.modalUI?.confirm({
           ...props,
           content: ModalContentRendererID,
         }),
+      // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
       modalClose: (id) => this._deps.modalUI?.close(id),
       formatPhone: (phoneNumber) =>
         formatNumber({
           phoneNumber,
           areaCode: this._deps.regionSettings.areaCode,
           countryCode: this._deps.regionSettings.countryCode,
+          maxExtensionLength: this._deps.accountInfo.maxExtensionNumberLength,
+          siteCode: this._deps.extensionInfo.site?.code,
+          isMultipleSiteEnabled: this._deps.extensionInfo.isMultipleSiteEnabled,
         }),
       webphoneAnswer: async (
         sessionId,
@@ -141,9 +166,12 @@ export class ActiveCallsUI<T = {}> extends RcUIModuleV2<Deps & T> {
         isHoldAndAnswer = false,
       ) => {
         if (useActiveCallControl) {
+          // @ts-expect-error TS(2532): Object is possibly 'undefined'.
           isHoldAndAnswer && this._deps.activeCallControl.answerAndHold
-            ? this._deps.activeCallControl.answerAndHold(telephonySessionId)
-            : this._deps.activeCallControl.answer(telephonySessionId);
+            ? // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+              this._deps.activeCallControl.answerAndHold(telephonySessionId)
+            : // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+              this._deps.activeCallControl.answer(telephonySessionId);
         } else {
           if (!this._deps.webphone) {
             return;
@@ -160,26 +188,31 @@ export class ActiveCallsUI<T = {}> extends RcUIModuleV2<Deps & T> {
             this._deps.conferenceCall.closeMergingPair();
           }
 
-          this._deps.webphone.answer(sessionId);
+          this._deps.webphone.answer(sessionId, window?.runner?._standAlone);
         }
       },
+      // @ts-expect-error TS(2322): Type '(sessionId: string, telephonySessionId: stri... Remove this comment to see the full error message
       webphoneToVoicemail: (sessionId, telephonySessionId) => {
         if (useActiveCallControl) {
+          // @ts-expect-error TS(2532): Object is possibly 'undefined'.
           return this._deps.activeCallControl.reject(telephonySessionId);
         }
         return this._deps.webphone?.toVoiceMail(sessionId);
       },
+      // @ts-expect-error TS(2322): Type 'Promise<void> | undefined' is not assignable... Remove this comment to see the full error message
       webphoneReject: (sessionId) => this._deps.webphone?.reject(sessionId),
       webphoneHangup: (sessionId, telephonySessionId) => {
         // user action track
         this._deps.callMonitor.allCallsClickHangupTrack();
         if (useActiveCallControl) {
+          // @ts-expect-error TS(2532): Object is possibly 'undefined'.
           return this._deps.activeCallControl.hangUp(telephonySessionId);
         }
         return this._deps.webphone?.hangup(sessionId);
       },
       webphoneResume: async (sessionId, telephonySessionId) => {
         if (useActiveCallControl) {
+          // @ts-expect-error TS(2532): Object is possibly 'undefined'.
           return this._deps.activeCallControl.unhold(telephonySessionId);
         }
         if (!this._deps.webphone) {
@@ -197,12 +230,15 @@ export class ActiveCallsUI<T = {}> extends RcUIModuleV2<Deps & T> {
         // user action track
         this._deps.callMonitor.allCallsClickHoldTrack();
         if (useActiveCallControl) {
+          // @ts-expect-error TS(2532): Object is possibly 'undefined'.
           return this._deps.activeCallControl.hold(telephonySessionId);
         }
         return this._deps.webphone?.hold(sessionId);
       },
+      // @ts-expect-error TS(2322): Type '(activeCall: SwitchCallActiveCallParams | Ac... Remove this comment to see the full error message
       webphoneSwitchCall: async (activeCall) => {
         if (useActiveCallControl) {
+          // @ts-expect-error TS(2532): Object is possibly 'undefined'.
           return this._deps.activeCallControl.switch(
             (activeCall as ActiveSession).telephonySessionId,
           );
@@ -231,34 +267,32 @@ export class ActiveCallsUI<T = {}> extends RcUIModuleV2<Deps & T> {
         this._deps.callMonitor.allCallsClickRejectTrack();
         return this._deps.activeCallControl?.reject(sessionId);
       },
-      onViewContact: showViewContact
-        ? onViewContact ||
-          (({ contact }) => {
-            const { id, type } = contact;
-            this._deps.contactDetailsUI?.showContactDetails({
-              type,
-              id,
-              direct: true,
-            });
-          })
-        : null,
+      onViewContact: (options) => {
+        if (!showViewContact) return;
+
+        onViewContact(options);
+      },
       onClickToSms: this._deps.composeText
         ? async (contact, isDummyContact = false) => {
             if (this._deps.routerInteraction) {
               this._deps.routerInteraction.push(composeTextRoute);
             }
+            // @ts-expect-error TS(2532): Object is possibly 'undefined'.
             this._deps.composeText.clean();
             const { name } = contact as {
               name: string;
             };
             if (name && contact.phoneNumber && isDummyContact) {
+              // @ts-expect-error TS(2532): Object is possibly 'undefined'.
               this._deps.composeText.updateTypingToNumber(name);
               this._deps.contactSearch.search({ searchString: name });
             } else {
+              // @ts-expect-error TS(2532): Object is possibly 'undefined'.
               this._deps.composeText.addToRecipients(contact);
             }
           }
         : undefined,
+      // @ts-expect-error TS(2322): Type '(({ phoneNumber, name, entityType }: OnCreat... Remove this comment to see the full error message
       onCreateContact: onCreateContact
         ? async ({ phoneNumber, name, entityType }) => {
             const hasMatchNumber =
@@ -273,10 +307,12 @@ export class ActiveCallsUI<T = {}> extends RcUIModuleV2<Deps & T> {
           }
         : undefined,
       isLoggedContact,
+
       onLogCall:
         onLogCall ||
         (this._deps.callLogger &&
           (async ({ call, contact, redirect = true }) => {
+            // @ts-expect-error TS(2532): Object is possibly 'undefined'.
             await this._deps.callLogger.logCall({
               call,
               contact,
@@ -289,6 +325,7 @@ export class ActiveCallsUI<T = {}> extends RcUIModuleV2<Deps & T> {
           const isWebRTC =
             this._deps.callingSettings.callingMode === callingModes.webphone;
 
+          // @ts-expect-error TS(2532): Object is possibly 'undefined'.
           if (isWebRTC && !this._deps.webphone.sessions.length) {
             this._deps.routerInteraction.push('/dialer');
           }
@@ -312,6 +349,7 @@ export class ActiveCallsUI<T = {}> extends RcUIModuleV2<Deps & T> {
           // For webphone call
           // show the ring call modal when click a ringing call.
           if (isRingingInboundCall(call)) {
+            // @ts-expect-error TS(2532): Object is possibly 'undefined'.
             this._deps.webphone.toggleMinimized(call.webphoneSession.id);
             return;
           }
@@ -326,6 +364,7 @@ export class ActiveCallsUI<T = {}> extends RcUIModuleV2<Deps & T> {
       },
       getAvatarUrl,
       updateSessionMatchedContact: (sessionId, contact) =>
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         this._deps.webphone.updateSessionMatchedContact(sessionId, contact),
       // function to check if a call is on hold status
       isOnHold: (webphoneSession) => {
@@ -334,6 +373,7 @@ export class ActiveCallsUI<T = {}> extends RcUIModuleV2<Deps & T> {
             this._deps.callMonitor.calls.find(
               (call) => call.webphoneSession === webphoneSession,
             ) || {};
+          // @ts-expect-error TS(2339): Property 'telephonySession' does not exist on type... Remove this comment to see the full error message
           const { telephonySession } = call;
           return isHolding(telephonySession);
         }

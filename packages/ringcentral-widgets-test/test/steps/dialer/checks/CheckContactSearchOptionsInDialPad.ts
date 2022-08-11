@@ -1,3 +1,5 @@
+import { waitInSeconds } from '@ringcentral-integration/commons/integration-test/utils/WaitUtil';
+import { waitForRenderReady } from '@ringcentral-integration/test-utils/lib/test-utils';
 import { screen, waitFor } from '@testing-library/react';
 
 import { StepFunction } from '../../../lib/step';
@@ -17,11 +19,14 @@ export const CheckContactSearchOptionsInDialPad: StepFunction<{
   if (options) {
     await waitFor(
       () => expect(screen.queryByTestId('dropdownList')).not.toBeNull(),
-      { timeout: 3000 },
+      { timeout: 1000 },
     );
     expect(getSearchOptions()).toStrictEqual(options);
   } else {
-    jest.advanceTimersByTime(3000);
+    jest.useFakeTimers();
+    await waitForRenderReady();
+    jest.advanceTimersByTime(1000);
     expect(screen.queryByTestId('dropdownList')).toBeNull();
+    jest.useRealTimers();
   }
 };

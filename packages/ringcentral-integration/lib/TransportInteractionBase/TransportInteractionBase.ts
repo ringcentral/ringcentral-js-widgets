@@ -39,7 +39,7 @@ export default class TransportInteractionBase {
 
     try {
       emitData.result = await fetchFunc();
-    } catch (error) {
+    } catch (error: any /** TODO: confirm with instanceof */) {
       console.log(error);
       emitData.error = error;
     }

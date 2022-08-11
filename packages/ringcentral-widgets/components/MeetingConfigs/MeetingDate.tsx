@@ -33,11 +33,12 @@ const MeetingDate: FunctionComponent<MeetingDateProps> = ({
   isRecurring,
 }) => {
   // The default value of the text input is in the componentDidMount.
-  const formatDisplay = (Hours, Minutes) => {
+  const formatDisplay = (Hours: any, Minutes: any) => {
     setTimeout(() => {
       that.minutes.value = `0${Minutes}0`.slice(-3, -1);
       const currentHours = `0${Hours}0`.slice(-3, -1);
       if (useTimePicker) {
+        // @ts-expect-error TS(2365): Operator '>' cannot be applied to types 'string' a... Remove this comment to see the full error message
         if (currentHours > 12) {
           const convertedHours = +currentHours % 12;
           that.hours.value =
@@ -80,9 +81,9 @@ const MeetingDate: FunctionComponent<MeetingDateProps> = ({
       }
     }, 100);
   };
-  const accumulator = (event, max) => {
+  const accumulator = (event: any, max: any) => {
     const currentValue = parseInt(event.target.value, 10);
-    const isValid = (value) =>
+    const isValid = (value: any) =>
       currentValue > 0 - value && currentValue < max - value;
     const isUpKey = event.keyCode === 38;
     if (isUpKey) {
@@ -95,7 +96,7 @@ const MeetingDate: FunctionComponent<MeetingDateProps> = ({
       event.target.value = `0${value}0`.slice(-3, -1);
     }
   };
-  const preventDatePickerReplay = (isFocus) => {
+  const preventDatePickerReplay = (isFocus: any) => {
     that.dateBlur = true;
     setTimeout(() => {
       if (!isFocus && !that.timeBlur) {
@@ -104,7 +105,7 @@ const MeetingDate: FunctionComponent<MeetingDateProps> = ({
       that.dateBlur = false;
     }, 200);
   };
-  const preventTimePickerReplay = (isFocus) => {
+  const preventTimePickerReplay = (isFocus: any) => {
     that.timeBlur = true;
     setTimeout(() => {
       if (!isFocus && !that.dateBlur) {
@@ -126,6 +127,7 @@ const MeetingDate: FunctionComponent<MeetingDateProps> = ({
         .toDate();
       minMinute = nearlest;
     }
+    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     console.log('prepared minTime', +minMinute);
   }
   return !isRecurring ? (
@@ -167,7 +169,7 @@ const MeetingDate: FunctionComponent<MeetingDateProps> = ({
                 preventDatePickerReplay(false);
               }}
               onToggle={preventDatePickerReplay}
-              ref={(ref) => {
+              ref={(ref: any) => {
                 that.date = ref;
               }}
               format="MM/DD/YY"
@@ -222,7 +224,7 @@ const MeetingDate: FunctionComponent<MeetingDateProps> = ({
                 preventTimePickerReplay(false);
               }}
               onToggle={preventTimePickerReplay}
-              ref={(ref) => {
+              ref={(ref: any) => {
                 that.time = ref;
               }}
               format="hh:mm A"
@@ -237,6 +239,7 @@ const MeetingDate: FunctionComponent<MeetingDateProps> = ({
               }}
             >
               <input
+                // @ts-expect-error TS(2322): Type '{ flag: string; disabled: boolean; ref: (ref... Remove this comment to see the full error message
                 flag="timeInput"
                 disabled={useTimePicker}
                 ref={(ref) => {
@@ -258,6 +261,7 @@ const MeetingDate: FunctionComponent<MeetingDateProps> = ({
                 onKeyDown={(event) => {
                   accumulator(event, 24);
                   const isRightKey = event.keyCode === 39;
+                  // @ts-expect-error TS(2339): Property 'selectionEnd' does not exist on type 'Ev... Remove this comment to see the full error message
                   const isSelectionEnd = event.target.selectionEnd === 2;
                   if (isRightKey && isSelectionEnd) {
                     that.minutes.focus();
@@ -269,6 +273,7 @@ const MeetingDate: FunctionComponent<MeetingDateProps> = ({
               />
               <div className={styles.colon}>:</div>
               <input
+                // @ts-expect-error TS(2322): Type '{ flag: string; disabled: boolean; ref: (ref... Remove this comment to see the full error message
                 flag="timeInput"
                 disabled={useTimePicker}
                 ref={(ref) => {
@@ -280,6 +285,7 @@ const MeetingDate: FunctionComponent<MeetingDateProps> = ({
                 onKeyDown={(event) => {
                   const isDelKey = event.keyCode === 8;
                   const isLeftKey = event.keyCode === 37;
+                  // @ts-expect-error TS(2339): Property 'selectionEnd' does not exist on type 'Ev... Remove this comment to see the full error message
                   const isSelectionHead = event.target.selectionEnd === 0;
                   if (isSelectionHead && (isDelKey || isLeftKey)) {
                     that.hours.focus();

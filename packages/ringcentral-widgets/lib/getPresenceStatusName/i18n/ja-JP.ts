@@ -1,7 +1,7 @@
 import { presenceStatus } from '@ringcentral-integration/commons/enums/presenceStatus.enum';
-import dndStatus from '@ringcentral-integration/commons/modules/Presence/dndStatus';
+import { dndStatus } from '@ringcentral-integration/commons/modules/Presence';
 export default {
-  [presenceStatus.available]: "応答可能",
+  [presenceStatus.available]: "連絡可能",
   [presenceStatus.offline]: "非表示",
   [presenceStatus.busy]: "取り込み中",
   [dndStatus.doNotAcceptAnyCalls]: "応答不可"

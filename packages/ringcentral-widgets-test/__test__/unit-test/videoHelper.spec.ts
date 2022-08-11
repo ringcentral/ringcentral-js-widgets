@@ -13,8 +13,8 @@ function mockFunctions() {
 jest.mock('@ringcentral-integration/commons/modules/RcVideo/videoHelper', () =>
   mockFunctions(),
 );
-const generator = require('@ringcentral-integration/commons/modules/RcVideo/videoHelper');
-const v2helper = require('@ringcentral-integration/commons/modules/RcVideoV2/videoHelper');
+const generator = require('@ringcentral-integration/commons/modules/RcVideo');
+const v2helper = require('@ringcentral-integration/commons/modules/RcVideo/videoHelper');
 
 describe.each`
   password        | expected
@@ -58,7 +58,7 @@ describe('formatRcvInvitationRequestData', () => {
       hostName: 'Something New',
       e2ee: true,
       shortId: '686418630',
-      joinUri: 'https://xmnup-rxe-1-v.lab.nordigy.ru/join/1234',
+      joinUri: 'https://v.ringcentral.com/join/1234',
       isMeetingSecret: true,
       meetingPassword: '3xBp9jEkJm',
       meetingPasswordPSTN: '3927953556',
@@ -102,7 +102,7 @@ describe('formatRcvInvitationRequestData', () => {
         { parameterName: 'brandName', parameterValue: 'RingCentral' },
         {
           parameterName: 'entryPoint',
-          parameterValue: 'https://xmnup-rxe-1-v.lab.nordigy.ru',
+          parameterValue: 'https://v.ringcentral.com',
         },
         { parameterName: '$Brand_Id', parameterValue: '1210' },
         {
@@ -128,7 +128,7 @@ describe('formatRcvInvitationRequestData', () => {
       hostName: 'Something New',
       e2ee: true,
       shortId: '686418630',
-      joinUri: 'https://xmnup-rxe-1-v.lab.nordigy.ru/join/1234',
+      joinUri: 'https://v.ringcentral.com/join/1234',
       isMeetingSecret: false,
       meetingPassword: '3xBp9jEkJm',
       meetingPasswordPSTN: '3927953556',
@@ -172,7 +172,7 @@ describe('formatRcvInvitationRequestData', () => {
         { parameterName: 'brandName', parameterValue: 'RingCentral' },
         {
           parameterName: 'entryPoint',
-          parameterValue: 'https://xmnup-rxe-1-v.lab.nordigy.ru',
+          parameterValue: 'https://v.ringcentral.com',
         },
         { parameterName: '$Brand_Id', parameterValue: '1210' },
         {

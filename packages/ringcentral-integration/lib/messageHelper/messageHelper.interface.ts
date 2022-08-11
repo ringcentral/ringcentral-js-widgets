@@ -5,7 +5,7 @@ export interface Correspondent {
 }
 
 export interface VoicemailAttachment {
-  duration: number;
+  duration?: number;
   uri?: string;
 }
 

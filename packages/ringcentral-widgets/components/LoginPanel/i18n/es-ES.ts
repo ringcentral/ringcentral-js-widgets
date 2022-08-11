@@ -1,6 +1,6 @@
 export default {
   loginButton: "Iniciar sesión",
-  signupButton: "¿Es un usuario nuevo? Regístrese",
+  signupButton: "¿Es un usuario nuevo? Registrarse",
   version: "Versión"
 };
 

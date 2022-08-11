@@ -45,7 +45,7 @@ export default function detect({ input, countryCode = 'US', areaCode = '' }) {
       v2: true,
     }),
   );
-  if ((countryCode === 'US' || countryCode === 'CA') && areaCode.length === 3) {
+  if (countryCode === 'CA' && areaCode.length === 3) {
     const sevenDigits = find7DigitNumbers(input, countryCode);
     if (sevenDigits.length) {
       // keep a reference of the original output to search in

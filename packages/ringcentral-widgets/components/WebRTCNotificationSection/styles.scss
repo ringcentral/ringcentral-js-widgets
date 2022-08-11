@@ -1,5 +1,7 @@
 @import '../../lib/commonStyles/colors.scss';
 
+$width: 30px;
+
 .layer {
   position: fixed;
   z-index: 1001;
@@ -73,8 +75,10 @@
 }
 
 .button {
-  width: 30px;
-  height: 30px;
+  box-sizing: border-box;
+  padding: 2px;
+  width: $width;
+  height: $width;
 }
 
 .multipleButton {
@@ -232,7 +236,7 @@
 
   .hangup,
   .answer {
-    width: 30px;
-    height: 30px;
+    width: $width;
+    height: $width;
   }
 }

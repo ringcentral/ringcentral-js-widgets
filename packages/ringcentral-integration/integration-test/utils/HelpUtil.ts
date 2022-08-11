@@ -1,5 +1,5 @@
-import { Auth } from '../../modules/AuthV2';
-import { waitUntilEqual } from './WaitUtil';
+import { Auth } from '../../modules/Auth';
+import { waitUntilTo } from '../../utils';
 
 export function containsErrorMessage(errorArray, errorMessageString) {
   return errorArray.find((element) => {
@@ -17,7 +17,9 @@ export async function ensureLogin(
     password: string;
   },
 ) {
-  await waitUntilEqual(() => auth.ready, 'Auth ready', true, 60);
+  await waitUntilTo(() => {
+    expect(auth.ready).toBeTruthy();
+  });
   const waitLoginSuccess = new Promise<void>((resolve) => {
     const cleanFunc = auth.addAfterLoggedInHandler(() => {
       cleanFunc();

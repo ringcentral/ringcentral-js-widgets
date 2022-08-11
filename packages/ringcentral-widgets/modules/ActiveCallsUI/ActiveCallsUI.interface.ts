@@ -10,32 +10,35 @@ import {
 import {
   ActiveCallControl,
   ActiveSession,
-} from '@ringcentral-integration/commons/modules/ActiveCallControlV2';
+} from '@ringcentral-integration/commons/modules/ActiveCallControl';
 import { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures';
 import { Brand } from '@ringcentral-integration/commons/modules/Brand';
-import { HistoryCall } from '@ringcentral-integration/commons/modules/CallHistoryV2';
-import { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettingsV2';
-import { CallLogger } from '@ringcentral-integration/commons/modules/CallLoggerV2';
-import { CallMonitor } from '@ringcentral-integration/commons/modules/CallMonitorV2';
+import { HistoryCall } from '@ringcentral-integration/commons/modules/CallHistory';
+import { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettings';
+import { CallLogger } from '@ringcentral-integration/commons/modules/CallLogger';
+import { CallMonitor } from '@ringcentral-integration/commons/modules/CallMonitor';
 import {
   ComposeText,
   ToNumber,
-} from '@ringcentral-integration/commons/modules/ComposeTextV2';
+} from '@ringcentral-integration/commons/modules/ComposeText';
 import {
   ConferenceCall,
   Party,
   PartyState,
-} from '@ringcentral-integration/commons/modules/ConferenceCallV2';
-import { ConnectivityMonitor } from '@ringcentral-integration/commons/modules/ConnectivityMonitorV2';
-import { ContactMatcher } from '@ringcentral-integration/commons/modules/ContactMatcherV2';
-import { ContactSearch } from '@ringcentral-integration/commons/modules/ContactSearchV2';
+} from '@ringcentral-integration/commons/modules/ConferenceCall';
+import { ConnectivityMonitor } from '@ringcentral-integration/commons/modules/ConnectivityMonitor';
+import { ContactMatcher } from '@ringcentral-integration/commons/modules/ContactMatcher';
+import { ContactSearch } from '@ringcentral-integration/commons/modules/ContactSearch';
 import { Locale } from '@ringcentral-integration/commons/modules/Locale';
-import { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiterV2';
+import { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiter';
 import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
+import { AccountInfo } from '@ringcentral-integration/commons/modules/AccountInfo';
+import { ExtensionInfo } from '@ringcentral-integration/commons/modules/ExtensionInfo';
+
 import {
   SwitchCallActiveCallParams,
   Webphone,
-} from '@ringcentral-integration/commons/modules/WebphoneV2';
+} from '@ringcentral-integration/commons/modules/Webphone';
 
 import { OnCreateContactOptions } from '../CallsListUI';
 import { ContactDetailsUI, RouteParams } from '../ContactDetailsUI';
@@ -62,6 +65,8 @@ export interface Deps {
   conferenceCall?: ConferenceCall;
   contactDetailsUI?: ContactDetailsUI;
   activeCallControl?: ActiveCallControl;
+  accountInfo: AccountInfo;
+  extensionInfo: ExtensionInfo;
 }
 
 export interface ActiveCallsContainerProps {
@@ -150,7 +155,7 @@ export interface ActiveCallsPanelProps {
   isSessionAConferenceCall: (sessionId: string) => boolean;
   onCallItemClick: (call: Call) => void;
   getAvatarUrl: (...args: any) => string;
-  conferenceCallParties: (Party & PartyState)[];
+  conferenceCallParties: (Party & PartyState)[] | null;
   webphoneHold: (
     sessionId: string,
     telephonySessionId: string,
@@ -198,4 +203,5 @@ export interface ActiveCallsPanelProps {
   useCallControl: boolean;
   clickSwitchTrack: () => void;
   isWide: boolean;
+  allCalls: Call[];
 }

@@ -1,5 +1,5 @@
 export default {
-  title: "オーディオ",
+  title: "音声",
   dialButtonVolume: "ダイヤルボタンの音量",
   ringtoneVolume: "着信音の音量",
   callVolume: "通話の音量",

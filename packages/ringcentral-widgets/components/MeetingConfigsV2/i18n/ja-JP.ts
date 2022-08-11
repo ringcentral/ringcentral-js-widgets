@@ -6,7 +6,7 @@ export default {
   minutes: "{howMany}分",
   today: "今日",
   duration: "期間",
-  topic: "会議のタイトル",
+  topic: "会議タイトル",
   voIPOnly: "インターネット音声のみ",
   telephonyOnly: "電話のみ",
   both: "電話とインターネットの音声",
@@ -26,7 +26,7 @@ export default {
   joinBeforeHost: "ホストより早く参加者が参加することを許可する",
   turnOffCamera: "参加者のカメラをオフにする",
   turnOffHostCamera: "会議への参加時にホストのカメラをオフにする",
-  requirePassword: "パスワードを必須にする",
+  requirePassword: "パスワードが必要です",
   enterPassword: "パスワードを入力",
   setPassword: "パスワードを設定*",
   passwordEmptyError: "会議パスワードが必要です",
@@ -38,7 +38,7 @@ export default {
   pmiSettingChangeAlert: "設定を変更してこの会議をスケジュールする場合は、個人会議IDのある会議すべてで同じ最新の設定が使用されます。",
   lockedTooltip: "この設定は会社の管理者により管理されています",
   when: "日時",
-  recurringDescribe: "カレンダーの出席依頼で、参加者に定期的または繰り返し確認することを忘れないようにしてください。",
+  recurringDescribe: "出席者に対するカレンダーの招待で、会議が定期的に、または繰り返し設定されていることを確認してください。",
   ieSupportAlert: "2022年2月16日以降、Internet Explorer 11では{appName}が機能しないことにご注意ください。Microsoft Edgeを代わりに使用するか、Outlook 2016以降に更新することをお勧めします。"
 };
 

@@ -1,0 +1,38 @@
+{
+  "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/363799004/extension/363820004/message-store/1026017004",
+  "id": 1026017004,
+  "to": [
+    {
+      "phoneNumber": "+18013734253",
+      "location": "Provo, UT"
+    }
+  ],
+  "from": {
+    "phoneNumber": "+18012854444",
+    "name": "John Doe701",
+    "location": "Midvale, UT"
+  },
+  "type": "SMS",
+  "creationTime": "2022-03-11T14:26:12.000Z",
+  "readStatus": "Read",
+  "priority": "Normal",
+  "attachments": [
+    {
+      "id": 1026017004,
+      "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/363799004/extension/363820004/message-store/1026017004/content/1026017004",
+      "type": "Text",
+      "contentType": "text/plain"
+    }
+  ],
+  "direction": "Outbound",
+  "availability": "Alive",
+  "subject": "123",
+  "messageStatus": "Delivered",
+  "smsSendingAttemptsCount": 1,
+  "conversationId": 3237561336559605395,
+  "conversation": {
+    "id": "3237561336559605395",
+    "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/conversation/3237561336559605395"
+  },
+  "lastModifiedTime": "2022-03-11T14:26:13.711Z"
+}

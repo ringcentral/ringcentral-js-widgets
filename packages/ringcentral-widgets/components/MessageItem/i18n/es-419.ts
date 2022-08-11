@@ -4,7 +4,7 @@ export default {
   editLog: "Editar registro",
   viewDetails: "Ver detalles",
   addEntity: "Crear nuevo",
-  call: "Llamar",
+  call: "Llamada",
   text: "Mensaje",
   conversation: "Conversación",
   groupConversation: "Conversación grupal",

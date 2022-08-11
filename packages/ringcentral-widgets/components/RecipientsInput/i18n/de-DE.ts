@@ -4,4 +4,4 @@ export default {
 };
 
 // @key: @#@"to"@#@ @source: @#@"To"@#@
-// @key: @#@"enterNameOrNumber"@#@ @source: @#@"Enter Name or Number"@#@
+// @key: @#@"enterNameOrNumber"@#@ @source: @#@"Enter name or number"@#@

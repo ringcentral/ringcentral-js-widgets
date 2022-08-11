@@ -1,4 +1,4 @@
-import conferenceCallErrors from '@ringcentral-integration/commons/modules/ConferenceCall/conferenceCallErrors';
+import { conferenceCallErrors } from '@ringcentral-integration/commons/modules/ConferenceCall';
 export default {
   [conferenceCallErrors.bringInFailed]: "Failed to merge the calls due to unexpected errors. Please try again later.",
   [conferenceCallErrors.makeConferenceFailed]: "Failed to merge the calls due to unexpected errors. Please try again later.",

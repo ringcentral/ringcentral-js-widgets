@@ -48,7 +48,7 @@ class EvSettings extends RcModuleV2<Deps> implements Settings {
     return this.isOffhook ? 'connected' : 'disconnected';
   }
 
-  onInitOnce() {
+  override onInitOnce() {
     this._deps.evAgentSession.onTriggerConfig(async () => {
       this._deps.presence.setOffhookTerm();
     });

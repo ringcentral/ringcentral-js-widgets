@@ -13,5 +13,5 @@ export default {
   more: 'Call Actions',
   mergeToConference: 'Merge',
   end: 'End',
-  completeTransfer: 'Complete\nTransfer'
+  completeTransfer: 'Complete\nTransfer',
 };

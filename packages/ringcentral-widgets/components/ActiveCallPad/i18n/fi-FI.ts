@@ -4,7 +4,7 @@ export default {
   keypad: "Näppäimistö",
   hold: "Pito",
   onHold: "Pidossa",
-  park: "Siirrä säilytykseen",
+  park: "Säilytyksessä",
   stopRecord: "Lopeta",
   record: "Tallenna",
   add: "Lisää",
@@ -12,7 +12,7 @@ export default {
   flip: "Käännä",
   more: "Puhelutoiminnot",
   mergeToConference: "Yhdistä",
-  end: "Päätä",
+  end: "Lopeta",
   completeTransfer: "Suorita\nsiirto"
 };
 

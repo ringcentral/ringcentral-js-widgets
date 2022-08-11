@@ -4,5 +4,6 @@ declare module NodeJS {
   interface Global {
     instance: any;
     clientHistoryRequest: any;
+    toggleEnv: () => void;
   }
 }

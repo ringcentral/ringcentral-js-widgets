@@ -1,7 +1,7 @@
 export default {
   sureToDeleteVoiceMail: "Soll diese Voicemail wirklich gelöscht werden?",
   sureToDeleteFax: "Soll dieses Fax wirklich gelöscht werden?",
-  doNotAskAgain: "Mich nicht nochmals fragen"
+  doNotAskAgain: "Nicht erneut fragen"
 };
 
 // @key: @#@"sureToDeleteVoiceMail"@#@ @source: @#@"Are you sure you want to delete this voicemail?"@#@

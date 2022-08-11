@@ -1,0 +1,76 @@
+{
+  "context": {
+    "brandId": "1210",
+    "country": {
+      "isoCode": "US",
+      "name": "United States of America",
+      "callingCode": "1"
+    },
+    "vanityPhoneNumbersAllowed": true,
+    "maxExtensionNumberLength": 7,
+    "shortCodesAllowed": false,
+    "shortExtensionNumberLength": 5,
+    "maskedPhoneNumbersAllowed": false,
+    "conflictHandling": "Default"
+  },
+  "results": [
+    {
+      "originalString": "6505819954",
+      "category": "Regular",
+      "numberDetails": {
+        "country": {
+          "isoCode": "US",
+          "name": "United States of America",
+          "callingCode": "1"
+        },
+        "nationalDestinationCode": "650",
+        "areaCode": "650",
+        "regionalDestinationCode": "581",
+        "subscriberNumber": "5819954",
+        "status": "Valid"
+      },
+      "formats": [
+        {
+          "e164": "+16505819954",
+          "e164Extended": "+16505819954",
+          "national": "(650) 581-9954",
+          "nationalExtended": "(650) 581-9954",
+          "international": "+1 (650) 5819954",
+          "internationalExtended": "+1 650 581 9954",
+          "dialable": "6505819954",
+          "dialableExtended": "6505819954",
+          "category": "Regular"
+        }
+      ]
+    },
+    {
+      "originalString": "+16785402304",
+      "category": "Regular",
+      "numberDetails": {
+        "country": {
+          "isoCode": "US",
+          "name": "United States of America",
+          "callingCode": "1"
+        },
+        "nationalDestinationCode": "678",
+        "areaCode": "678",
+        "regionalDestinationCode": "540",
+        "subscriberNumber": "5402304",
+        "status": "Valid"
+      },
+      "formats": [
+        {
+          "e164": "+16785402304",
+          "e164Extended": "+16785402304",
+          "national": "(678) 540-2304",
+          "nationalExtended": "(678) 540-2304",
+          "international": "+1 (678) 5402304",
+          "internationalExtended": "+1 678 540 2304",
+          "dialable": "6785402304",
+          "dialableExtended": "6785402304",
+          "category": "Regular"
+        }
+      ]
+    }
+  ]
+}

@@ -1,5 +1,6 @@
 import { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import { RcBaseProps } from '@ringcentral/juno';
+import React from 'react';
 
 import { ModalProps } from '../../components/ModalV2/interface';
 
@@ -102,7 +103,7 @@ export type CustomRendererProps = {
 
 export type CustomRenderer<
   T extends CustomRendererProps = CustomRendererProps,
-> = (props: T) => string | JSX.Element;
+> = (props: T) => React.ReactNode;
 
 export type HandlerFunction = (
   ...args: any

@@ -11,21 +11,21 @@
 
 .badge {
   white-space: nowrap;
-  color:$snow;
+  color: $snow;
   font-size: 12px;
   height: 30px;
   line-height: 30px;
   border-radius: 20px;
   padding: 0 12px;
 
-  svg{
+  svg {
     margin-left: 6px;
     position: relative;
     top: 2px;
   }
 }
 
-.result{
+.result {
   color: $snow;
   background: $bigRed;
 }
@@ -36,31 +36,41 @@
   background: $darkRed;
 }
 
-.loading{
+.loading {
   color: $snow;
   background: $bigRed;
-  svg{
-    -webkit-animation:loadingCirle 1s linear infinite;
+  svg {
+    -webkit-animation: loadingCirle 1s linear infinite;
   }
 }
 
-@-webkit-keyframes loadingCirle{
-  0%{-webkit-transform:rotate(0deg);}
+@-webkit-keyframes loadingCirle {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
 
-  25%{-webkit-transform:rotate(90deg);}
+  25% {
+    -webkit-transform: rotate(90deg);
+  }
 
-  50%{-webkit-transform:rotate(180deg);}
+  50% {
+    -webkit-transform: rotate(180deg);
+  }
 
-  75%{-webkit-transform:rotate(270deg);}
+  75% {
+    -webkit-transform: rotate(270deg);
+  }
 
-  100%{-webkit-transform:rotate(360deg);}
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
 }
 
-.loading:hover{
+.loading:hover {
   color: $snow;
   background: $bigRed;
 }
-.loading:focus{
+.loading:focus {
   color: $snow;
   background: $bigRed;
 }

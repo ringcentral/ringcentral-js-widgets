@@ -1,5 +1,5 @@
 export default {
-  logging: "Connexion en cours...",
+  logging: "Connexion en cours…",
   logCall: "Journal des appels",
   editLog: "Modifier le journal",
   select: "Sélectionner une correspondance de registre",
@@ -13,7 +13,7 @@ export default {
   addEntity: "Créer nouveau",
   addLog: "Journal",
   text: "SMS",
-  call: "Appeler",
+  call: "Appel",
   addContact: "Ajouter un contact",
   missedCall: "Manqué",
   inboundCall: "Entrant",

@@ -1,4 +1,4 @@
-import { contains } from 'ramda';
+import { includes } from 'ramda';
 
 import { EvSoftphoneEvents, tabManagerEvents } from '../../../enums';
 import { EvCallbackTypes } from '../../../lib/EvClient/enums';
@@ -19,7 +19,7 @@ export default function EvIntegratedSoftphoneAlert({
 }
 
 EvIntegratedSoftphoneAlert.handleMessage = ({ message }: { message: string }) =>
-  contains(message, [
+  includes(message, [
     EvCallbackTypes.SIP_REGISTRATION_FAILED,
     EvSoftphoneEvents.AUDIO_STREAM_REJECTED,
     EvSoftphoneEvents.CALL_REJECTED,

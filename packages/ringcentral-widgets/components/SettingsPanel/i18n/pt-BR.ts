@@ -1,7 +1,7 @@
 export default {
   region: "Região",
   calling: "Chamadas",
-  logout: "Sair",
+  logout: "Fazer logout",
   version: "Versão",
   settings: "Configurações",
   clickToDial: "Clique para discar",
@@ -18,7 +18,7 @@ export default {
   feedback: "Comentários",
   userGuide: "Novidades",
   quickAccess: "Configuração de acesso rápido",
-  report: "Relatório de análise",
+  report: "Relatório do Analytics",
   shareIdea: "Compartilhar ideia"
 };
 

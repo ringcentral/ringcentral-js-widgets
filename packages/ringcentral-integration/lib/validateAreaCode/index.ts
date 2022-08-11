@@ -1,4 +1,4 @@
-export default function validateAreaCode(code) {
+export default function validateAreaCode(code?: string) {
   if (code === undefined) {
     return true;
   }

@@ -1,15 +1,15 @@
 import React, { ReactElement } from 'react';
 
+import { trackEvents } from '@ringcentral-integration/commons/enums/trackEvents';
 import { Entity } from '@ringcentral-integration/commons/interfaces/Entity.interface';
 import { Message } from '@ringcentral-integration/commons/interfaces/MessageStore.model';
-import { trackEvents } from '@ringcentral-integration/commons/modules/Analytics';
-import { HistoryCall } from '@ringcentral-integration/commons/modules/CallHistoryV2';
-import { FormatDateTimeOptions } from '@ringcentral-integration/commons/modules/DateTimeFormatV2';
-import { RecentCalls } from '@ringcentral-integration/commons/modules/RecentCallsV2';
+import { HistoryCall } from '@ringcentral-integration/commons/modules/CallHistory';
+import { FormatDateTimeOptions } from '@ringcentral-integration/commons/modules/DateTimeFormat';
+import { RecentCalls } from '@ringcentral-integration/commons/modules/RecentCalls';
 import {
   RecentMessage,
   RecentMessages,
-} from '@ringcentral-integration/commons/modules/RecentMessagesV2';
+} from '@ringcentral-integration/commons/modules/RecentMessages';
 
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import FaxIcon from '../../assets/images/Fax.svg';
@@ -99,6 +99,7 @@ export const getTabs = ({
             isActive: (path) => path === 'recentMessages',
             view: (
               <RecentActivityMessages
+                // @ts-expect-error TS(2769): No overload matches this call.
                 messages={messages}
                 navigateTo={navigateTo}
                 dateTimeFormatter={dateTimeFormatter}
@@ -135,6 +136,7 @@ export const getTabs = ({
             isActive: (path) => path === 'recentCalls',
             view: (
               <RecentActivityCalls
+                // @ts-expect-error TS(2769): No overload matches this call.
                 calls={calls}
                 dateTimeFormatter={dateTimeFormatter}
                 currentLocale={currentLocale}

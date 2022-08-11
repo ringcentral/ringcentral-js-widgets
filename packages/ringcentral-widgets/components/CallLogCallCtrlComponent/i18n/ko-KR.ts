@@ -6,19 +6,21 @@ export default {
   hold: "대기",
   onHold: "대기 중",
   transfer: "전달",
-  more: "자세히",
-  stopRecord: "녹음 중지",
-  record: "녹음",
+  more: "더 보기",
+  stopRecord: "기록 중지",
+  record: "레코드",
   showKeypad: "키패드",
   hideKeypad: "키패드 숨기기",
-  unHold: "대기 해제",
-  forward: "전달",
+  unHold: "보류 해제",
+  forward: "착신 전환",
   ignore: "무시",
   voicemail: "음성 사서함에 보내기",
   custom: "사용자 지정",
   answerAndEnd: "응답 후 종료",
   answerAndHold: "응답 후 대기",
-  answer: "응답"
+  answer: "응답",
+  completeTransfer: "전달 완료",
+  reply: "회신"
 };
 
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
@@ -41,3 +43,5 @@ export default {
 // @key: @#@"answerAndEnd"@#@ @source: @#@"Answer & End"@#@
 // @key: @#@"answerAndHold"@#@ @source: @#@"Answer & Hold"@#@
 // @key: @#@"answer"@#@ @source: @#@"Answer"@#@
+// @key: @#@"completeTransfer"@#@ @source: @#@"Complete transfer"@#@
+// @key: @#@"reply"@#@ @source: @#@"Reply"@#@

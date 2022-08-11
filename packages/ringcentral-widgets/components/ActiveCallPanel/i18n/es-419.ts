@@ -2,7 +2,7 @@ export default {
   conferenceCall: "Conferencia telefónica",
   onHold: "En espera",
   unknown: "Desconocido",
-  disconnected: "Desconectada",
+  disconnected: "Desconectado",
   loading: "Cargando...",
   loadingTimeout: "Tiempo de carga vencido."
 };

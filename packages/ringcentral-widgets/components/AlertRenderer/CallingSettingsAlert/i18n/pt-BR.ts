@@ -1,9 +1,9 @@
-import { callingSettingsMessages } from '@ringcentral-integration/commons/modules/CallingSettingsV2/callingSettingsMessages';
+import { callingSettingsMessages } from '@ringcentral-integration/commons/modules/CallingSettings';
 export default {
   [callingSettingsMessages.saveSuccess]: "Configurações salvas com sucesso.",
   [callingSettingsMessages.saveSuccessWithSoftphone]: "Configurações salvas com sucesso. Verifique se o {brand} está instalado no computador.",
-  [callingSettingsMessages.permissionChanged]: "Suas permissões foram alteradas recentemente. Acesse o {link} para verificar as opções de Chamada.",
-  [callingSettingsMessages.phoneNumberChanged]: "As informações de números de telefone foram alteradas recentemente. Acesse o {link} para verificar as opções de Chamada.",
+  [callingSettingsMessages.permissionChanged]: "Suas permissões foram alteradas recentemente. Acesse {link} para verificar as opções de Chamada.",
+  [callingSettingsMessages.phoneNumberChanged]: "As informações de números de telefone foram alteradas recentemente. Acesse {link} para verificar as opções de Chamada.",
   link: "Configurações > Chamada",
   [callingSettingsMessages.webphonePermissionRemoved]: "Suas permissões foram alteradas e não é possível fazer chamadas com o Navegador. Para obter mais detalhes, entre em contato com o administrador da conta.",
   [callingSettingsMessages.emergencyCallingNotAvailable]: "Não há suporte de discagem para números de emergência ou serviço especiais. Em uma emergência, use seu telefone fixo tradicional ou sem fio para fazer uma chamada para um número de emergência.",

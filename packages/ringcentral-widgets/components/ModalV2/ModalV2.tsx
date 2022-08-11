@@ -41,7 +41,7 @@ export const ModalV2: FunctionComponent<ModalV2Props & { phone: any }> = ({
         }
 
         return (
-          <PopupBox open={open} key={key} {...rest}>
+          <PopupBox key={key} {...rest} open={open}>
             {children}
           </PopupBox>
         );

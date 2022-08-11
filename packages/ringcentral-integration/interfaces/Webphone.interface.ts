@@ -1,6 +1,7 @@
 import { WebPhoneSession as WebphoneSessionBase } from 'ringcentral-web-phone/lib/session';
+import { Session as SessionBase } from 'ringcentral-call/lib/Session';
 
-import { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
+import type { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
 
 import { extendedControlStatus } from '../enums/extendedControlStatus';
 import { Entity } from './Entity.interface';
@@ -9,6 +10,10 @@ export interface PartyData {
   partyId: string;
   telephonySessionId: string;
   sessionId: string;
+}
+
+export interface Session extends SessionBase {
+  webphoneSession: WebphoneSession;
 }
 
 export interface WebphoneSession extends WebphoneSessionBase {

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import messageStoreErrors from '@ringcentral-integration/commons/modules/MessageStore/errors';
+import { messageStoreErrors } from '@ringcentral-integration/commons/modules/MessageStore';
 
 import FormattedMessage from '../../FormattedMessage';
 import i18n from './i18n';
@@ -24,6 +24,7 @@ const MessageStoreAlert: React.SFC<MessageStoreAlertProps> = (props) => {
   }
   return view;
 };
-MessageStoreAlert.handleMessage = ({ message }) =>
+// @ts-expect-error TS(2339): Property 'handleMessage' does not exist on type 'S... Remove this comment to see the full error message
+MessageStoreAlert.handleMessage = ({ message }: any) =>
   message === messageStoreErrors.deleteFailed;
 export default MessageStoreAlert;

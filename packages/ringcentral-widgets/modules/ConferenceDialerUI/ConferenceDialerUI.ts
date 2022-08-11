@@ -46,8 +46,9 @@ export class ConferenceDialerUI extends DialerUI<Deps> {
     this._setLastSessionId(sessionId);
   }
 
-  _onBeforeCall(fromSessionId: string) {
+  override _onBeforeCall(fromSessionId: string) {
     if (
+      this._deps.conferenceCall &&
       fromSessionId &&
       !this._deps.conferenceCall.mergingPair?.fromSessionId
     ) {
@@ -58,7 +59,7 @@ export class ConferenceDialerUI extends DialerUI<Deps> {
     }
   }
 
-  getUIProps(): UIProps<ConferenceDialerUIPanelProps> {
+  override getUIProps(): UIProps<ConferenceDialerUIPanelProps> {
     return {
       ...super.getUIProps(),
       inConference: true,
@@ -66,7 +67,7 @@ export class ConferenceDialerUI extends DialerUI<Deps> {
     };
   }
 
-  getUIFunctions(
+  override getUIFunctions(
     props: ConferenceDialerUIContainerProps,
   ): UIFunctions<ConferenceDialerUIPanelProps> {
     const {
@@ -75,7 +76,7 @@ export class ConferenceDialerUI extends DialerUI<Deps> {
     return {
       ...super.getUIFunctions(props),
       onBack: () => this._deps.routerInteraction.push(this._backURL),
-      setLastSessionId: () => this.setLastSessionId(fromSessionId),
+      setLastSessionId: () => this.setLastSessionId(fromSessionId!),
       onCallButtonClick: () =>
         this.onCallButtonClick({ fromNumber, fromSessionId }),
     };

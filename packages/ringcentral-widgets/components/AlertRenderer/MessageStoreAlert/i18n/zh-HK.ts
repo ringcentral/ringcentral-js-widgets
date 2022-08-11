@@ -1,4 +1,4 @@
-import messageStoreErrors from '@ringcentral-integration/commons/modules/MessageStore/errors';
+import { messageStoreErrors } from '@ringcentral-integration/commons/modules/MessageStore';
 export default {
   [messageStoreErrors.deleteFailed]: "內部伺服器錯誤，因此無法刪除語音信箱。"
 };

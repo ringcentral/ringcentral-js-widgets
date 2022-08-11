@@ -1,6 +1,6 @@
+import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 import callResults from '@ringcentral-integration/commons/enums/callResults';
 import telephonyStatuses from '@ringcentral-integration/commons/enums/telephonyStatus';
-import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 export default {
   [callDirections.inbound]: "Inbound",
   [callDirections.outbound]: "Outbound",
@@ -24,18 +24,18 @@ export default {
   [callResults.received]: "Received",
   [callResults.faxReceiptError]: "Fax receipt error",
   [callResults.faxOnDemand]: "Fax on demand",
-  [callResults.partialReceive]: "Partial receive",
+  [callResults.partialReceive]: "Partially Received",
   [callResults.blocked]: "Blocked",
   [callResults.callConnected]: "Call connected",
-  [callResults.noAnswer]: "No answer",
-  [callResults.internationalDisabled]: "International disabled",
+  [callResults.noAnswer]: "No Answer",
+  [callResults.internationalDisabled]: "International Disabled",
   [callResults.busy]: "Busy",
   [callResults.faxSendError]: "Fax send error",
   [callResults.sent]: "Sent",
   [callResults.callFailed]: "Call failed",
-  [callResults.internalError]: "Internal error",
-  [callResults.IPPhoneOffline]: "IP phone offline",
-  [callResults.restrictedNumber]: "Restricted number",
+  [callResults.internalError]: "Internal Error",
+  [callResults.IPPhoneOffline]: "IP Phone Offline",
+  [callResults.restrictedNumber]: "Restricted Number",
   [callResults.wrongNumber]: "Wrong number",
   [callResults.stopped]: "Stopped",
   [callResults.suspendedAccount]: "Suspended account",
@@ -45,7 +45,8 @@ export default {
   [callResults.declined]: "Declined",
   [callResults.faxReceipt]: "Fax receipt",
   [callResults.disconnected]: "Disconnected",
-  [callResults.notAllowed]: "Not allowed"
+  [callResults.notAllowed]: "Not Allowed",
+  warmTransferSwitchCall: "Switch calls"
 };
 
 // @key: @#@"[callDirections.inbound]"@#@ @source: @#@"Inbound"@#@
@@ -92,3 +93,4 @@ export default {
 // @key: @#@"[callResults.faxReceipt]"@#@ @source: @#@"Fax Receipt"@#@
 // @key: @#@"[callResults.disconnected]"@#@ @source: @#@"Disconnected"@#@
 // @key: @#@"[callResults.notAllowed]"@#@ @source: @#@"Not Allowed"@#@
+// @key: @#@"warmTransferSwitchCall"@#@ @source: @#@"Switch calls"@#@

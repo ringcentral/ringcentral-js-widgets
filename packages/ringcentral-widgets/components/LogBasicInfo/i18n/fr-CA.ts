@@ -1,6 +1,6 @@
+import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 import callResults from '@ringcentral-integration/commons/enums/callResults';
 import telephonyStatuses from '@ringcentral-integration/commons/enums/telephonyStatus';
-import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 export default {
   [callDirections.inbound]: "Entrant",
   [callDirections.outbound]: "Sortant",
@@ -16,8 +16,8 @@ export default {
   [telephonyStatuses.parkedCall]: "Mis en garde",
   [callResults.unknown]: "Inconnu",
   [callResults.missed]: "Manqué",
-  [callResults.callAccepted]: "réponse obtenue",
-  [callResults.accepted]: "réponse obtenue",
+  [callResults.callAccepted]: "Répondu",
+  [callResults.accepted]: "Répondu",
   [callResults.voicemail]: "Messagerie vocale",
   [callResults.rejected]: "Refusé",
   [callResults.reply]: "Répondre",

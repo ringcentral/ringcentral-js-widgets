@@ -1,4 +1,4 @@
-import callErrors from '@ringcentral-integration/commons/modules/Call/callErrors';
+import { callErrors } from '@ringcentral-integration/commons/modules/Call';
 export default {
   [callErrors.emergencyNumber]: "Chiamata di emergenza non disponibile. Utilizza un altro telefono per contattare i servizi di emergenza",
   [callErrors.noToNumber]: "Immetti un numero di telefono valido.",
@@ -9,6 +9,7 @@ export default {
   [callErrors.networkError]: "Impossibile connettersi a causa di problemi di rete. Riprova più tardi.",
   [callErrors.noInternational]: "Non disponi delle autorizzazioni per effettuare chiamate internazionali. Contatta l'amministratore dell'account {brand} per effettuare un upgrade.",
   [callErrors.noRingoutEnable]: "Dal tuo interno è possibile effettuare chiamate con l'app per il desktop.\n    Per passare ad altre opzioni di chiamata\n    contatta l'amministratore dell'account per un aggiornamento.",
+  [callErrors.numberParseError]: "Si è verificato un problema. Riprova più tardi.",
   areaCode: "prefisso",
   telus911: "Chiamate di emergenza non supportate."
 };
@@ -22,5 +23,6 @@ export default {
 // @key: @#@"[callErrors.networkError]"@#@ @source: @#@"Cannot connect due to network issues. Please try again later."@#@
 // @key: @#@"[callErrors.noInternational]"@#@ @source: @#@"You don't have permissions to make international calls. Please contact your {brand} account administrator for an upgrade."@#@
 // @key: @#@"[callErrors.noRingoutEnable]"@#@ @source: @#@"Your extension is allowed to make calls with desktop app.\n    If you wish to switch to other calling options\n    please contact your account administrator for an upgrade."@#@
+// @key: @#@"[callErrors.numberParseError]"@#@ @source: @#@"Sorry, there was a problem on our end. Please try again later."@#@
 // @key: @#@"areaCode"@#@ @source: @#@"area code"@#@
 // @key: @#@"telus911"@#@ @source: @#@"Emergency dialing is not supported."@#@

@@ -5,7 +5,7 @@ export default {
   composeText: "Criar texto",
   noMessages: "Nenhuma mensagem",
   noSearchResults: "Nenhum registro correspondente encontrado",
-  [messageTypes.all]: "Tudo",
+  [messageTypes.all]: "Todos",
   [messageTypes.voiceMail]: "Voz",
   [messageTypes.text]: "Texto",
   [messageTypes.fax]: "Fax"

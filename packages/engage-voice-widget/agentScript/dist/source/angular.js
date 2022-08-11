@@ -13338,7 +13338,7 @@ AST.prototype = {
   },
 
   constant: function() {
-    // TODO check that it is a constant
+    // TODO: check that it is a constant
     return { type: AST.Literal, value: this.consume().value };
   },
 

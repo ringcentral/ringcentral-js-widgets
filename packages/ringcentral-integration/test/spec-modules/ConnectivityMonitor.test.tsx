@@ -8,7 +8,7 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
-import { ConnectivityMonitor } from '../../modules/ConnectivityMonitorV2';
+import { ConnectivityMonitor } from '../../modules/ConnectivityMonitor';
 import { mockModuleGenerator } from '../lib/mockModule';
 
 const getMockModule = () =>

@@ -1,13 +1,15 @@
-import React, { memo, FunctionComponent } from 'react';
+import React, { FunctionComponent, memo } from 'react';
+
 import {
+  RcAvatar,
+  RcIcon,
   RcListItem,
   RcListItemAvatar,
-  RcAvatar,
-  RcListItemText,
   RcListItemSecondaryAction,
-  RcIcon,
+  RcListItemText,
 } from '@ringcentral/juno';
-import { Dial, DefaultAvatar } from '@ringcentral/juno/icon';
+import { DefaultAvatar, Dial } from '@ringcentral/juno-icon';
+
 import i18n from './i18n';
 
 interface DirectlyProceedLineProps {

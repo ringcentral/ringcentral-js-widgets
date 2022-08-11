@@ -1,7 +1,7 @@
 import moduleStatuses from '../../enums/moduleStatuses';
 import { Module } from '../../lib/di';
 import ensureExist from '../../lib/ensureExist';
-import isBlank from '../../lib/isBlank';
+import { isBlank } from '../../lib/isBlank';
 import proxify from '../../lib/proxy/proxify';
 import RcModule from '../../lib/RcModule';
 import { actionTypes } from './actionTypes';
@@ -88,7 +88,7 @@ export default class GlipPosts extends RcModule {
     }
   }
 
-  _shouldInit() {
+  override _shouldInit() {
     return (
       this._auth.loggedIn &&
       this._subscription.ready &&
@@ -97,7 +97,7 @@ export default class GlipPosts extends RcModule {
     );
   }
 
-  _shouldReset() {
+  override _shouldReset() {
     return (
       (!this._auth.loggedIn ||
         !this._extensionFeatures.ready ||
@@ -185,7 +185,7 @@ export default class GlipPosts extends RcModule {
             lastPageToken: pageToken,
             navigation: response.navigation,
           });
-        } catch (e) {
+        } catch (e: any /** TODO: confirm with instanceof */) {
           this.store.dispatch({
             type: this.actionTypes.fetchError,
           });
@@ -252,7 +252,7 @@ export default class GlipPosts extends RcModule {
         record,
         oldRecordId: fakeId,
       });
-    } catch (e) {
+    } catch (e: any /** TODO: confirm with instanceof */) {
       fakeRecord.sendStatus = status.createError;
       this.store.dispatch({
         type: this.actionTypes.createError,
@@ -280,7 +280,7 @@ export default class GlipPosts extends RcModule {
         },
       );
       return response.json();
-    } catch (e) {
+    } catch (e: any /** TODO: confirm with instanceof */) {
       console.error(e);
     }
     return null;

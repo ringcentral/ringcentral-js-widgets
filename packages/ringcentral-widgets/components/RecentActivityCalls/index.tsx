@@ -9,7 +9,7 @@ import Spinner from '../Spinner';
 import i18n from './i18n';
 import styles from './styles.scss';
 
-function getCurrentStatus({ direction, result }, currentLocale) {
+function getCurrentStatus({ direction, result }: any, currentLocale: any) {
   if (direction === 'Inbound') {
     if (result === 'Missed') {
       return {
@@ -29,7 +29,7 @@ function getCurrentStatus({ direction, result }, currentLocale) {
   };
 }
 
-function CallItem({ call, dateTimeFormatter, currentLocale }) {
+const CallItem = ({ call, dateTimeFormatter, currentLocale }: any) => {
   let { duration, startTime } = call;
   const { status, icon, isMissedCall } = getCurrentStatus(call, currentLocale);
   startTime = dateTimeFormatter({
@@ -56,7 +56,7 @@ function CallItem({ call, dateTimeFormatter, currentLocale }) {
       </dl>
     </div>
   );
-}
+};
 
 CallItem.propTypes = {
   call: PropTypes.object.isRequired,
@@ -65,22 +65,28 @@ CallItem.propTypes = {
 };
 
 class RecentActivityCalls extends Component {
-  shouldComponentUpdate(nextProps) {
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
+  shouldComponentUpdate(nextProps: any) {
     return (
+      // @ts-expect-error TS(2339): Property 'currentLocale' does not exist on type 'R... Remove this comment to see the full error message
       nextProps.currentLocale !== this.props.currentLocale ||
+      // @ts-expect-error TS(2339): Property 'calls' does not exist on type 'Readonly<... Remove this comment to see the full error message
       nextProps.calls !== this.props.calls ||
+      // @ts-expect-error TS(2339): Property 'isCallsLoaded' does not exist on type 'R... Remove this comment to see the full error message
       nextProps.isCallsLoaded !== this.props.isCallsLoaded
     );
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
+    // @ts-expect-error TS(2339): Property 'currentLocale' does not exist on type 'R... Remove this comment to see the full error message
     const { currentLocale, calls, isCallsLoaded, dateTimeFormatter } =
       this.props;
     let callListView = null;
     if (!isCallsLoaded) {
       callListView = <Spinner className={styles.spinner} ringWidth={4} />;
     } else if (calls.length > 0) {
-      callListView = calls.map((call) => (
+      callListView = calls.map((call: any) => (
         <CallItem
           key={call.id}
           call={call}
@@ -99,6 +105,7 @@ class RecentActivityCalls extends Component {
   }
 }
 
+// @ts-expect-error TS(2339): Property 'propTypes' does not exist on type 'typeo... Remove this comment to see the full error message
 RecentActivityCalls.propTypes = {
   currentLocale: PropTypes.string.isRequired,
   calls: PropTypes.array.isRequired,

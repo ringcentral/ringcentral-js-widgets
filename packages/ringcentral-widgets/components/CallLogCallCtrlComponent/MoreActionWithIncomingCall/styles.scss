@@ -1,0 +1,75 @@
+@import '../../../lib/commonStyles/colors.scss';
+
+$width: 41px;
+
+.overflowEllipsis {
+  width: 100%;
+  text-align: left;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.button {
+  box-sizing: border-box;
+  width: $width;
+  height: $width;
+  [sf-classic] & {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+.webRTCNotificationButton {
+  width: 30px;
+  height: 30px;
+  padding: 2px
+}
+
+.buttonDisabled {
+  circle {
+    fill: $lightgray;
+    stroke: $gray;
+  }
+  path {
+    fill: $primary-color-highlight-solid;
+  }
+  g {
+    cursor: default;
+
+    &:hover {
+      circle {
+        stroke: $gray;
+      }
+    }
+  }
+}
+
+.forwardNumberItem {
+  display: flex;
+  vertical-align: middle;
+  flex-direction: column;
+  text-align: center;
+  align-items: flex-start;
+  justify-content: center;
+  height: 56px;
+  width: 138px;
+  min-height: 56px;
+  .actionText {
+    color: rgb(33, 33, 33);
+    font-size: 15px;
+    font-weight: normal;
+    letter-spacing: 0px;
+    line-height: 22px;
+    @extend .overflowEllipsis;
+  }
+
+  .subText {
+    color: rgb(129, 146, 175);
+    font-size: 12px;
+    font-weight: normal;
+    letter-spacing: 0px;
+    line-height: 16px;
+    @extend .overflowEllipsis;
+  }
+}

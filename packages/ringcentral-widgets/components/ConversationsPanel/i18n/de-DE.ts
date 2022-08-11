@@ -2,7 +2,7 @@ import messageTypes from '@ringcentral-integration/commons/enums/messageTypes';
 export default {
   title: "Nachrichten",
   search: "Suchen...",
-  composeText: "Textnachricht erstellen",
+  composeText: "Text erstellen",
   noMessages: "Keine Meldungen",
   noSearchResults: "Kein übereinstimmender Datensatz gefunden",
   [messageTypes.all]: "Alle",

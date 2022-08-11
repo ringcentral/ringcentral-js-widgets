@@ -28,15 +28,17 @@ type ActiveCallActionMenuProps = {
   viewEntityTitle?: string;
 };
 class ActiveCallActionMenu extends Component<ActiveCallActionMenuProps, {}> {
-  constructor(props) {
+  captureClick: any;
+  constructor(props: any) {
     super(props);
-    this.captureClick = (e) => {
+    this.captureClick = (e: any) => {
       // e.captureClick = this.props.captureClick;
       if (this.props.stopPropagation) {
         e.stopPropagation();
       }
     };
   }
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     const {
       className,
@@ -72,6 +74,7 @@ class ActiveCallActionMenu extends Component<ActiveCallActionMenuProps, {}> {
         disableLinks={disableLinks}
         isLogged={isLogged}
         isLogging={isLogging}
+        // @ts-expect-error TS(2322): Type '{ className: string; onLog: (...args: any[])... Remove this comment to see the full error message
         currentLocale={currentLocale}
         addTitle={addLogTitle}
         editTitle={editLogTitle}
@@ -113,6 +116,7 @@ class ActiveCallActionMenu extends Component<ActiveCallActionMenuProps, {}> {
     );
   }
 }
+// @ts-expect-error TS(2339): Property 'defaultProps' does not exist on type 'ty... Remove this comment to see the full error message
 ActiveCallActionMenu.defaultProps = {
   className: undefined,
   onClickToSms: undefined,

@@ -1,8 +1,7 @@
-import { GetExtensionInfoResponse } from '@rc-ex/core/definitions';
-import {
+import type {
   RcvWaitingRoomModeProps,
   RcvWaitingRoomType,
-} from '../modules/RcVideo/constants';
+} from '../modules/RcVideo';
 
 export type MeetingProviderTypesProps = {
   meeting: 'RCMeetings';
@@ -174,6 +173,7 @@ export interface RcvInvitationRequest {
   hostName: string;
   e2ee?: boolean;
   shortId: string;
+  id: string;
   joinUri: string;
   isMeetingSecret: boolean;
   meetingPassword: string;

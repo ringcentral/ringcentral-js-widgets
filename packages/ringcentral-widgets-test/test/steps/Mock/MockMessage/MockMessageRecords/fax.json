@@ -1,0 +1,32 @@
+{
+  "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/1025515004/extension/1025515004/message-store/1215819004",
+  "id": 1215819004,
+  "to": [
+    {
+      "recipientId": "3075328004",
+      "phoneNumber": "+12092425302",
+      "location": "Stockton, CA",
+      "messageStatus": "Sent"
+    }
+  ],
+  "type": "Fax",
+  "creationTime": "2022-04-15T03:57:46.000Z",
+  "readStatus": "Unread",
+  "priority": "Normal",
+  "attachments": [
+    {
+      "id": 1215819004,
+      "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/1025515004/extension/1025515004/message-store/1215819004/content/1215819004",
+      "type": "RenderedDocument",
+      "contentType": "application/pdf"
+    }
+  ],
+  "direction" : "Inbound",
+  "availability": "Alive",
+  "messageStatus" : "Received",
+  "faxResolution": "High",
+  "faxPageCount": 1,
+  "lastModifiedTime": "2022-04-15T04:01:13.661Z",
+  "coverIndex": 1,
+  "coverPageText": "test"
+}

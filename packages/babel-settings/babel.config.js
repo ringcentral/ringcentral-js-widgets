@@ -21,7 +21,7 @@ const plugins = [
 
 function normalizePresetEnvOptions({
   useBuiltIns = 'usage',
-  corejs = 2,
+  corejs = 3,
   ...options
 } = {}) {
   return {

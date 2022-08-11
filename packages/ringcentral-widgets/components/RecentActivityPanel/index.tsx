@@ -9,7 +9,7 @@ import RecentActivityView from '../RecentActivityView';
 import expandable from './expandable';
 import styles from './styles.scss';
 
-const ToggleIcon = ({ expanded }) => (
+const ToggleIcon = ({ expanded }: any) => (
   <i
     className={classnames(
       dynamicsFont.arrow,
@@ -25,7 +25,7 @@ ToggleIcon.propTypes = {
 /**
  * RecentActivityPanel component provides a animated slide-out panel.
  */
-const RecentActivityPanel = (props) => {
+const RecentActivityPanel = (props: any) => {
   const { title, expanded, onPanelToggle } = props;
   const toggleButton = {
     label: <ToggleIcon expanded={expanded} />,
@@ -39,6 +39,7 @@ const RecentActivityPanel = (props) => {
   return (
     <div className={containerClass}>
       <Header
+        // @ts-expect-error TS(2322): Type '{ label: JSX.Element; onClick: any; placemen... Remove this comment to see the full error message
         buttons={[toggleButton]}
         className={styles.header}
         onClick={onPanelToggle}
@@ -63,10 +64,12 @@ RecentActivityPanel.defaultProps = {
   className: null,
 };
 
-export default expandable({
+const ExpandableRecentActivityPanel = expandable({
   styles: {
     height: '200px',
     offset: '27px',
   },
   className: styles.expandable,
 })(RecentActivityPanel);
+
+export default ExpandableRecentActivityPanel;

@@ -7,7 +7,7 @@ import {
   RcDialTextFieldProps,
   RcIconButton,
 } from '@ringcentral/juno';
-import { Deletenumber } from '@ringcentral/juno/icon';
+import { Deletenumber } from '@ringcentral/juno-icon';
 
 import { DialerWrapper, TextFieldWrapper } from './styles';
 

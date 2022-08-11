@@ -1,4 +1,4 @@
-import { callingSettingsMessages } from '@ringcentral-integration/commons/modules/CallingSettingsV2/callingSettingsMessages';
+import { callingSettingsMessages } from '@ringcentral-integration/commons/modules/CallingSettings';
 
 export default {
   [callingSettingsMessages.saveSuccess]: 'Settings saved successfully.',
@@ -15,6 +15,6 @@ export default {
     'Dialing emergency or special service numbers is not supported. In an emergency, use your traditional wireline or wireless phone to call an emergency number.',
   [callingSettingsMessages.saveSuccessWithJupiter]:
     'Settings saved successfully. Please make sure you have {brand} installed in your computer.',
-  [callingSettingsMessages.disableEmergencyInJapan]: 
+  [callingSettingsMessages.disableEmergencyInJapan]:
     'Emergency service is not available in Japan.',
 };

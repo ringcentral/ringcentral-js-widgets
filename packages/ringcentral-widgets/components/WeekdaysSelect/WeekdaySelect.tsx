@@ -12,7 +12,7 @@ const WeekdaysSelect: FunctionComponent<WeekdaysSelectProps> = ({
   multiple,
   currentLocale,
 }) => {
-  const onClick = (e) => {
+  const onClick = (e: any) => {
     e.preventDefault();
     const _selected = selected.slice(0);
     const maxLength = multiple ? 7 : 1;

@@ -1,20 +1,17 @@
 const __CI__ = process.argv.includes('--ci');
-
+const useSwc = !!process.env.SWC;
+useSwc && console.log(`Using @swc/jest`);
 function getReporters(reporterPrefix) {
   const reporters = [];
 
-  const isWatch = process.argv.includes('--watch');
-
-  if (isWatch || __CI__) {
-    reporters.push('default', [
-      'jest-html-reporters',
-      {
-        publicPath: '<rootDir>/html-report',
-        filename: `${reporterPrefix}jest-report.html`,
-        expand: true,
-      },
-    ]);
-  }
+  reporters.push('default', [
+    'jest-html-reporters',
+    {
+      publicPath: '<rootDir>/html-report',
+      filename: `${reporterPrefix}jest-report.html`,
+      failureMessageOnly: false,
+    },
+  ]);
 
   // 'jest-junit' for CI status statistics only
   if (__CI__) {
@@ -47,8 +44,30 @@ const getBaseJestConfig = ({ reporterPrefix = '' } = {}) => {
     transform: {
       'loadLocale\\.(js|jsx|ts|tsx)$':
         '@ringcentral-integration/test-utils/mock/loadLocale.js',
-      '^.+\\.(js|jsx|ts|tsx)$':
-        '@ringcentral-integration/babel-settings/lib/jestTransform.js',
+      ...(useSwc
+        ? {
+            '^.+\\.(t|j)sx?$': [
+              '@swc/jest',
+              {
+                jsc: {
+                  target: 'es2020',
+                  parser: {
+                    syntax: 'typescript',
+                    decorators: true,
+                    tsx: true,
+                  },
+                  transform: {
+                    legacyDecorator: true,
+                    decoratorMetadata: true,
+                  },
+                },
+              },
+            ],
+          }
+        : {
+            '^.+\\.(js|jsx|ts|tsx)$':
+              '@ringcentral-integration/babel-settings/lib/jestTransform.js',
+          }),
     },
     moduleNameMapper: {
       '\\.svg$': '@ringcentral-integration/test-utils/mock/svgMock.js',

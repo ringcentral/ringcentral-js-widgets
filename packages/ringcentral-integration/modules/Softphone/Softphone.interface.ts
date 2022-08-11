@@ -1,5 +1,5 @@
 import { Brand } from '../Brand';
-import { ContactMatcher } from '../ContactMatcherV2';
+import { ContactMatcher } from '../ContactMatcher';
 
 export interface CallUriInfo {
   command: string;

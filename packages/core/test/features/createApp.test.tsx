@@ -1,20 +1,21 @@
 import {
   autorun,
-  title,
-  Scenario,
   Given,
-  When,
-  Then,
+  Scenario,
   Step,
+  Then,
+  title,
+  When,
 } from '@ringcentral-integration/test-utils';
+import { sleep } from '@ringcentral-integration/utils';
+
 import {
-  RcModuleV2,
-  state,
   action,
   createApp,
+  RcModuleV2,
+  state,
   subscribe,
 } from '../../lib/RcModule';
-import { sleep } from '../lib/sleep';
 
 const onStateChangeFn = jest.fn();
 const subscribeFn = jest.fn();
@@ -35,7 +36,7 @@ class Counter extends RcModuleV2 {
     this.count.sum += 1;
   }
 
-  async onInit() {
+  override async onInit() {
     await sleep(100);
   }
 }
@@ -45,7 +46,7 @@ class Root extends RcModuleV2<{ counter: Counter }> {
     super({ deps });
   }
 
-  onStateChange() {
+  override onStateChange() {
     onStateChangeFn();
   }
 

@@ -6,9 +6,10 @@ export default {
   es: "Español",
   it: "Italiano",
   pt: "Portugués",
-  zh: "chino",
-  nl: "holandés",
-  ko: "coreano"
+  zh: "Chino",
+  nl: "Holandés",
+  ko: "Coreano",
+  fi: "Suomi"
 };
 
 // @key: @#@"en"@#@ @source: @#@"English"@#@
@@ -21,3 +22,4 @@ export default {
 // @key: @#@"zh"@#@ @source: @#@"Chinese"@#@
 // @key: @#@"nl"@#@ @source: @#@"Dutch"@#@
 // @key: @#@"ko"@#@ @source: @#@"Korean"@#@
+// @key: @#@"fi"@#@ @source: @#@"Suomi"@#@

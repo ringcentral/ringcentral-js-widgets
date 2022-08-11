@@ -29,14 +29,19 @@ export default class CallLogFields extends Component<CallLogFieldsProps, {}> {
   renderFields = () => {
     const {
       currentLog: {
+        // @ts-expect-error TS(2339): Property 'customLogFields' does not exist on type ... Remove this comment to see the full error message
         customLogFields,
+        // @ts-expect-error TS(2339): Property 'currentLogCall' does not exist on type '... Remove this comment to see the full error message
         currentLogCall: { isAutoSave } = {},
+        // @ts-expect-error TS(2339): Property 'call' does not exist on type 'CallLog | ... Remove this comment to see the full error message
         call,
+        // @ts-expect-error TS(2339): Property 'task' does not exist on type 'CallLog | ... Remove this comment to see the full error message
         task = {} as Task,
       },
       refs,
       onSaveCallLog,
     } = this.props;
+    // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
     const onSave = () => isAutoSave && task.id && onSaveCallLog(call);
     return [...customLogFields]
       .sort((a, b) => a.sort - b.sort)
@@ -44,6 +49,7 @@ export default class CallLogFields extends Component<CallLogFieldsProps, {}> {
         return (
           <FieldItem
             {...this.props}
+            // @ts-expect-error TS(2532): Object is possibly 'undefined'.
             fieldRef={refs[fieldOption.value]}
             fieldOption={fieldOption}
             debounce={this.debounce}
@@ -56,12 +62,15 @@ export default class CallLogFields extends Component<CallLogFieldsProps, {}> {
       });
   };
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     const { currentLog, classes } = this.props;
+    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     if (!currentLog.task) {
       return null;
     }
     return (
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       <div className={classNames(styles.callLogFieldsSection, classes.root)}>
         {this.renderFields()}
       </div>

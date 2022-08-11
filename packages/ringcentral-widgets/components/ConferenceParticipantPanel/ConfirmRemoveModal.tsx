@@ -24,13 +24,17 @@ const ConfirmRemoveModal: React.SFC<ConfirmRemoveModalProps> = ({
     return null;
   }
   let displayText =
+    // @ts-expect-error TS(2339): Property 'partyNumber' does not exist on type 'obj... Remove this comment to see the full error message
     detail.partyNumber || i18n.getString('unknownNumber', currentLocale);
+  // @ts-expect-error TS(2339): Property 'partyName' does not exist on type 'objec... Remove this comment to see the full error message
   if (detail.partyName && detail.calleeType === calleeTypes.contacts) {
     // means that matched a contact
+    // @ts-expect-error TS(2339): Property 'partyName' does not exist on type 'objec... Remove this comment to see the full error message
     displayText = detail.partyName;
   }
   return (
     <Modal
+      // @ts-expect-error TS(2322): Type '{ children: Element; show: boolean; headerCl... Remove this comment to see the full error message
       show={show}
       headerClassName={styles.header}
       currentLocale={currentLocale}
@@ -55,6 +59,7 @@ const ConfirmRemoveModal: React.SFC<ConfirmRemoveModalProps> = ({
 ConfirmRemoveModal.defaultProps = {
   onRemove() {},
   onCancel() {},
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'object | un... Remove this comment to see the full error message
   detail: null,
 };
 export default ConfirmRemoveModal;

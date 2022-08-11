@@ -3,7 +3,7 @@ export default {
   MainCompanyNumber: "Principal",
   CompanyNumber: "Empresa",
   CompanyFaxNumber: "Fax",
-  Blocked: "Bloqueado",
+  Blocked: "Bloqueada",
   AdditionalCompanyNumber: "Empresa",
   ForwardedCompanyNumber: "Encaminhado",
   from: "De"

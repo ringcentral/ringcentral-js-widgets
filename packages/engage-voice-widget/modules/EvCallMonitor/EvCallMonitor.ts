@@ -125,7 +125,7 @@ class EvCallMonitor extends RcModuleV2<Deps> implements CallMonitor {
             ...call,
             recordingUrl,
             agentName,
-            // TODO confirm about using `toMatches` & `fromMatches`?
+            // TODO: confirm about using `toMatches` & `fromMatches`?
             contactMatches: contactMatches[contactMatchIdentify] || [],
             activityMatches:
               id && activityMatches[id] ? activityMatches[id] : [],
@@ -154,7 +154,7 @@ class EvCallMonitor extends RcModuleV2<Deps> implements CallMonitor {
     return this._deps.evCallDataSource.limitCalls();
   }
 
-  onStateChange() {
+  override onStateChange() {
     if (this._deps.evAgentSession.configSuccess) {
       if (this.calls.length > this._oldCalls.length) {
         const currentCall = this.calls[0];

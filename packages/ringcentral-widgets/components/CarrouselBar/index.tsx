@@ -20,7 +20,9 @@ type CarrouselBarState = ((prevState: any) => {
     hoverBar: boolean;
   };
 class CarrouselBar extends Component<CarrouselBarProps, CarrouselBarState> {
-  constructor(props) {
+  timeout: any;
+  validChildren: any;
+  constructor(props: any) {
     super(props);
     this.state = {
       currentIndex: 0,
@@ -29,14 +31,16 @@ class CarrouselBar extends Component<CarrouselBarProps, CarrouselBarState> {
       hoverBar: false,
     };
   }
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   componentDidMount() {
     this.timeout = setInterval(() => {
       if (!this.props.hoverBar) {
-        this.setState((prevState) => ({
+        this.setState((prevState: any) => ({
           currentIndex:
             prevState.currentIndex >= this.validChildren.length - 1
               ? 0
               : prevState.currentIndex + 1,
+
           showAnimation: true,
           animationMode: prevState.animationMode === 'move' ? 'moveOn' : 'move',
           hoverBar: false,
@@ -44,7 +48,8 @@ class CarrouselBar extends Component<CarrouselBarProps, CarrouselBarState> {
       }
     }, this.props.scrollInterval);
   }
-  componentWillReceiveProps(nextProps) {
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
+  UNSAFE_componentWillReceiveProps(nextProps: any) {
     if (nextProps.children !== this.props.children) {
       this.validChildren = this.getValidChildren(nextProps.children);
     }
@@ -54,14 +59,16 @@ class CarrouselBar extends Component<CarrouselBarProps, CarrouselBarState> {
       }));
     }
   }
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   componentWillUnmount() {
     clearTimeout(this.timeout);
     this.timeout = null;
   }
-  getValidChildren(children) {
+  getValidChildren(children: any) {
     // .toArray automatically removes invalid React children
     return React.Children.toArray(children);
   }
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     this.validChildren = this.getValidChildren(this.props.children);
     if (this.validChildren.length < 2) {
@@ -82,6 +89,7 @@ class CarrouselBar extends Component<CarrouselBarProps, CarrouselBarState> {
     );
   }
 }
+// @ts-expect-error TS(2339): Property 'defaultProps' does not exist on type 'ty... Remove this comment to see the full error message
 CarrouselBar.defaultProps = {
   children: undefined,
   scrollInterval: DEFAULT_SCROLL_INTERVAL,

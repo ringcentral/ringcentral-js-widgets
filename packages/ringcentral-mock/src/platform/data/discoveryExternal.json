@@ -1,0 +1,33 @@
+{
+  "version": "1.0.0",
+  "expiresIn": 86400,
+  "retryCount": 3,
+  "retryInterval": 3,
+  "retryCycleDelay": 824,
+  "discoveryApi": {
+    "initialUri": "http://platform.devtest.ringcentral.com/.well-known/entry-points/initial",
+    "externalUri": "http://platform.devtest.ringcentral.com/.well-known/entry-points/external"
+  },
+  "authApi": {
+    "authorizationUri": "http://platform.devtest.ringcentral.com/restapi/oauth/authorize",
+    "oidcDiscoveryUri": "http://platform.devtest.ringcentral.com/.well-known/openid-configuration",
+    "baseUri": "http://platform.devtest.ringcentral.com",
+    "tokenUri": "http://platform.devtest.ringcentral.com/restapi/oauth/token"
+  },
+  "coreApi": {
+    "baseUri": "http://platform.devtest.ringcentral.com",
+    "pubnubOrigin": "ringcentral.pubnubapi.com"
+  },
+  "rcv": {
+    "baseWebUri": "http://platform.devtest.ringcentral.com",
+    "baseApiUri": "http://platform.devtest.ringcentral.com",
+    "pubnubOrigin": "ringcentral.pubnubapi.com"
+  },
+  "rcm": {
+    "baseWebUri": "http://platform.devtest.ringcentral.com",
+    "sdkDomain": "rcdev.dev.meetzoom.us"
+  },
+  "edc": {
+    "baseUri": "http://platform.devtest.ringcentral.com"
+  }
+}

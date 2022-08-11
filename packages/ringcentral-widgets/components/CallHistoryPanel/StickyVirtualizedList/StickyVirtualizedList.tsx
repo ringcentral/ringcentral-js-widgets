@@ -38,9 +38,13 @@ export class StickyVirtualizedList extends React.PureComponent<
     visibleStart: number;
     visibleEnd: number;
   };
+  // @ts-expect-error TS(2564): Property 'structureChanged' has no initializer and... Remove this comment to see the full error message
   structureChanged: boolean;
+  // @ts-expect-error TS(2564): Property 'elem' has no initializer and is not defi... Remove this comment to see the full error message
   elem: HTMLElement;
+  // @ts-expect-error TS(2564): Property 'pendingScrollTop' has no initializer and... Remove this comment to see the full error message
   pendingScrollTop: number;
+  // @ts-expect-error TS(2564): Property 'treeToRender' has no initializer and is ... Remove this comment to see the full error message
   treeToRender: JSX.Element;
 
   constructor(props: StickyVirtualizedListProps) {
@@ -56,6 +60,7 @@ export class StickyVirtualizedList extends React.PureComponent<
     this.nodes = [];
     this.getChildrenCache = {};
     this.rowRenderCache = {};
+    // @ts-expect-error TS(2322): Type 'undefined' is not assignable to type '{ star... Remove this comment to see the full error message
     this.rowRenderRange = undefined;
   }
 
@@ -65,6 +70,7 @@ export class StickyVirtualizedList extends React.PureComponent<
     nodes: Node[] = [],
     isFirstChild = false,
     isLastChild = false,
+    // @ts-expect-error TS(2322): Type 'undefined' is not assignable to type 'number... Remove this comment to see the full error message
     parentIndex: number = undefined,
     context = { totalHeight: 0 },
   ) {
@@ -85,6 +91,7 @@ export class StickyVirtualizedList extends React.PureComponent<
       top: context.totalHeight,
       parentIndex,
       parentInfo,
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       depth: parentIndex !== undefined ? parentInfo.depth + 1 : 0,
       height,
       index,
@@ -92,14 +99,18 @@ export class StickyVirtualizedList extends React.PureComponent<
       isLastChild,
     };
 
+    // @ts-expect-error TS(2345): Argument of type '{ top: number; parentIndex: numb... Remove this comment to see the full error message
     nodes.push(nodeInfo);
 
     if (parentIndex !== undefined) {
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       parentInfo.children.push(index);
     }
 
+    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     context.totalHeight += height;
 
+    // @ts-expect-error TS(2345): Argument of type '{ top: number; parentIndex: numb... Remove this comment to see the full error message
     const children = props.getChildren(node.id, nodeInfo);
 
     if (props.isModelImmutable) {
@@ -161,6 +172,7 @@ export class StickyVirtualizedList extends React.PureComponent<
     return arr;
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   UNSAFE_componentWillMount() {
     this.refreshCachedMetadata(this.props);
     this.storeRenderTree(this.props, this.state);
@@ -174,6 +186,7 @@ export class StickyVirtualizedList extends React.PureComponent<
     );
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   UNSAFE_componentWillReceiveProps(newProps: StickyVirtualizedListProps) {
     // These two properties will change when the structure changes, so we need to re-build the tree when this happens.
     if (this.treeDataUpdated(newProps)) {
@@ -185,6 +198,7 @@ export class StickyVirtualizedList extends React.PureComponent<
     }
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   UNSAFE_componentWillUpdate(
     newProps: StickyVirtualizedListProps,
     newState: StickyVirtualizedListState,
@@ -278,7 +292,9 @@ export class StickyVirtualizedList extends React.PureComponent<
       inView = this.isIndexInViewport(index);
     } else {
       inView =
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         this.elem.scrollTop <= node.top + node.height - node.stickyTop &&
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         this.elem.scrollTop + this.props.height >= node.top;
     }
     if (inView) {
@@ -292,14 +308,18 @@ export class StickyVirtualizedList extends React.PureComponent<
         if (ancestor.isSticky) {
           if (
             !includeObscured &&
+            // @ts-expect-error TS(2532): Object is possibly 'undefined'.
             ancestor.stickyTop + ancestor.height >
+              // @ts-expect-error TS(2532): Object is possibly 'undefined'.
               node.top - this.elem.scrollTop
           ) {
             return false;
           }
           if (
             includeObscured &&
+            // @ts-expect-error TS(2532): Object is possibly 'undefined'.
             ancestor.stickyTop + ancestor.height >
+              // @ts-expect-error TS(2532): Object is possibly 'undefined'.
               node.top + node.height - this.elem.scrollTop
           ) {
             return false;
@@ -321,7 +341,9 @@ export class StickyVirtualizedList extends React.PureComponent<
       return false;
     }
     return (
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       this.elem.scrollTop <= node.top - node.stickyTop &&
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       this.elem.scrollTop + this.props.height >= node.top + node.height
     );
   }
@@ -359,12 +381,14 @@ export class StickyVirtualizedList extends React.PureComponent<
       let scrollTop;
       if (alignToTop) {
         if (node.isSticky) {
+          // @ts-expect-error TS(2532): Object is possibly 'undefined'.
           scrollTop = node.top - node.stickyTop;
         } else {
           const path = this.getParentPath(index, false);
           for (let i = 0; i < path.length; i++) {
             const ancestor = path[i];
             if (ancestor.isSticky) {
+              // @ts-expect-error TS(2532): Object is possibly 'undefined'.
               scrollTop = node.top - ancestor.stickyTop - ancestor.height;
               break;
             }
@@ -375,12 +399,15 @@ export class StickyVirtualizedList extends React.PureComponent<
           }
         }
       } else {
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         scrollTop = node.top - this.props.height + node.height;
       }
+      // @ts-expect-error TS(2345): Argument of type 'number | undefined' is not assig... Remove this comment to see the full error message
       this.setScrollTop(scrollTop);
     }
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   componentDidUpdate(
     prevProps: StickyVirtualizedListProps,
     prevState: StickyVirtualizedListState,
@@ -447,6 +474,7 @@ export class StickyVirtualizedList extends React.PureComponent<
     this.treeToRender = this.renderParentTree(props, state);
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   forceUpdate() {
     this.getChildrenCache = {};
     this.rowRenderCache = {};
@@ -464,11 +492,13 @@ export class StickyVirtualizedList extends React.PureComponent<
     // Parent nodes to the current range.
     const indexesToRender: Set<number> = new Set();
     for (let i = 0; i < path.length; i++) {
+      // @ts-expect-error TS(2345): Argument of type 'number | undefined' is not assig... Remove this comment to see the full error message
       indexesToRender.add(path[i].index);
     }
 
     // The rest of the nodes within the range.
     for (let i = this.rowRenderRange.start; i <= this.rowRenderRange.end; i++) {
+      // @ts-expect-error TS(2345): Argument of type 'number | undefined' is not assig... Remove this comment to see the full error message
       indexesToRender.add(this.nodes[i].index);
     }
 
@@ -508,6 +538,7 @@ export class StickyVirtualizedList extends React.PureComponent<
         style={{
           position: 'absolute',
           width: '100%',
+          // @ts-expect-error TS(2532): Object is possibly 'undefined'.
           height: parent.totalHeight - parent.height,
         }}
       >
@@ -572,6 +603,7 @@ export class StickyVirtualizedList extends React.PureComponent<
   ) {
     const nodes: JSX.Element[] = [];
     let top = 0;
+    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     parent.children.forEach((index) => {
       const child = this.nodes[index];
 
@@ -618,6 +650,7 @@ export class StickyVirtualizedList extends React.PureComponent<
       }
       // Needs to be on the outside so that we add the the top even if
       // this node is not visible
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       top += child.totalHeight;
     });
     return nodes;
@@ -634,6 +667,7 @@ export class StickyVirtualizedList extends React.PureComponent<
       return this.rowRenderCache[nodeInfo.id];
     }
 
+    // @ts-expect-error TS(2322): Type 'CSSProperties | undefined' is not assignable... Remove this comment to see the full error message
     const renderedRow = props.rowRenderer({ id: nodeInfo.id, nodeInfo, style });
 
     if (props.isModelImmutable) {
@@ -653,7 +687,9 @@ export class StickyVirtualizedList extends React.PureComponent<
   ) {
     // Needs to be at least 1
     const overscanRowCount =
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       props.overscanRowCount > 0 ? props.overscanRowCount : 1;
+    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     let start = state.currNodePos - overscanRowCount;
     if (start < 0) {
       start = 0;
@@ -662,11 +698,13 @@ export class StickyVirtualizedList extends React.PureComponent<
 
     while (
       this.nodes[visibleEnd] &&
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       this.nodes[visibleEnd].top < state.scrollTop + props.height
     ) {
       visibleEnd++;
     }
 
+    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     let end = visibleEnd + overscanRowCount;
     if (end > this.nodes.length - 1) {
       end = this.nodes.length - 1;
@@ -679,6 +717,7 @@ export class StickyVirtualizedList extends React.PureComponent<
     let currNode = this.nodes[nodeIndex];
     const path = [];
     while (currNode) {
+      // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
       currNode = this.nodes[currNode.parentIndex];
       if (currNode) {
         path.push(currNode);
@@ -690,6 +729,7 @@ export class StickyVirtualizedList extends React.PureComponent<
   forwardSearch(scrollTop: number, searchPos: number) {
     const nodes = this.nodes;
     for (let i = searchPos; i < nodes.length; i++) {
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       if (nodes[i].top >= scrollTop) {
         return i;
       }
@@ -704,6 +744,7 @@ export class StickyVirtualizedList extends React.PureComponent<
       i >= 0;
       i--
     ) {
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       if (nodes[i].top <= scrollTop) {
         return i;
       }
@@ -736,6 +777,7 @@ export class StickyVirtualizedList extends React.PureComponent<
     this.setState(
       { currNodePos: pos ? pos : 0, scrollTop, scrollReason },
       () => {
+        // @ts-expect-error TS(2322): Type 'undefined' is not assignable to type 'number... Remove this comment to see the full error message
         this.pendingScrollTop = undefined;
       },
     );
@@ -762,6 +804,7 @@ export class StickyVirtualizedList extends React.PureComponent<
     });
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     let style = { overflow: 'auto', position: 'relative' } as CSSProperties;
     if (this.props.width) {
@@ -773,6 +816,7 @@ export class StickyVirtualizedList extends React.PureComponent<
 
     return (
       <div
+        // @ts-expect-error TS(2322): Type 'HTMLDivElement | null' is not assignable to ... Remove this comment to see the full error message
         ref={(elem) => (this.elem = elem)}
         className="rv-sticky-tree"
         style={style}

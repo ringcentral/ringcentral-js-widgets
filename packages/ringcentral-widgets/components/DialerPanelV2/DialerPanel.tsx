@@ -1,20 +1,22 @@
-import React, { FunctionComponent } from 'react';
+import React, { FunctionComponent, useCallback } from 'react';
+
+import { ToNumber as Recipient } from '@ringcentral-integration/commons/modules/ComposeText';
 import {
-  styled,
+  flexCenterStyle,
   palette2,
+  RcDialerPadSounds,
   RcDialPad,
   RcIconButton,
   spacing,
-  flexCenterStyle,
-  RcDialerPadSounds,
+  styled,
 } from '@ringcentral/juno';
-import Phone from '@ringcentral/juno/icon/Phone';
-import { Recipient } from '../RecipientsInputV2/RecipientsInputV2.interface';
-import { SpinnerOverlay } from '../SpinnerOverlay';
-import { CommunicationSetupPanel } from '../CommunicationSetupPanel';
-import { fullSizeStyle } from '../../lib/commonStyles';
+import { Phone } from '@ringcentral/juno-icon';
 
-export interface DialerPanelProps {
+import { fullSizeStyle } from '../../lib/commonStyles';
+import { CommunicationSetupPanel } from '../CommunicationSetupPanel';
+import { SpinnerOverlay } from '../SpinnerOverlay';
+
+export type DialerPanelProps = {
   currentLocale: string;
   className?: string;
   dialButtonsClassName?: string;
@@ -57,7 +59,8 @@ export interface DialerPanelProps {
   isLastInputFromDialpad?: boolean;
   useV2?: boolean;
   showAnonymous?: boolean;
-}
+};
+
 const DialerPanelContainer = styled.div`
   ${fullSizeStyle};
   box-sizing: border-box;
@@ -69,13 +72,24 @@ const BodyBottom = styled.div`
   margin-bottom: ${spacing(7)};
 `;
 
+const StyledRcDialPad = styled(RcDialPad)`
+  [sf-classic] & {
+    height: 90%;
+  }
+`;
+
 // TODO: check withTabs
 const DialerWrapper = styled.div<{ withTabs: boolean }>`
   flex: 1 1 auto;
-  margin: ${spacing(2, 11)};
+  margin: ${({ withTabs }) => (withTabs ? spacing(0, 11) : spacing(2, 11))};
   display: flex;
   justify-content: center;
   flex-direction: column;
+  [sf-classic] & {
+    height: 70%;
+    margin-left: 10px;
+    margin-right: 10px;
+  }
 `;
 
 export const DialerPanel: FunctionComponent<DialerPanelProps> = (props) => {
@@ -106,15 +120,24 @@ export const DialerPanel: FunctionComponent<DialerPanelProps> = (props) => {
 
   // TODO: when have tag should check if need disable dial button
   // const hasTags = recipients.length > 0;
+  const handleSelect = useCallback(
+    async (...args) => {
+      await setRecipient(...args);
+      onCallButtonClick();
+    },
+    [setRecipient, onCallButtonClick],
+  );
 
   return (
     <DialerPanelContainer>
       <CommunicationSetupPanel
         // To field
         recipients={recipients}
+        // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
         toNumber={toNumber}
+        // @ts-expect-error TS(2322): Type '((...args: any[]) => any) | undefined' is no... Remove this comment to see the full error message
         onToNumberChange={onToNumberChange}
-        setRecipient={setRecipient}
+        setRecipient={handleSelect}
         clearRecipient={clearRecipient}
         autoFocus={autoFocus}
         // From field
@@ -128,13 +151,19 @@ export const DialerPanel: FunctionComponent<DialerPanelProps> = (props) => {
         // Common
         currentLocale={currentLocale}
       >
+        {/* @ts-expect-error TS(2322): Type 'boolean | undefined' is not */}
         <DialerWrapper withTabs={withTabs}>
-          <RcDialPad
+          <StyledRcDialPad
+            data-sign="dialPad"
             onChange={(value) => {
+              // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
               onToNumberChange(toNumber + value, true);
             }}
             sounds={RcDialerPadSounds}
-            getDialPadButtonProps={(v) => ({ 'data-test-id': `${v}` })}
+            getDialPadButtonProps={(v) => ({
+              'data-test-id': `${v}`,
+              'data-sign': `dialPadBtn${v}`,
+            })}
             volume={dialButtonVolume}
             muted={dialButtonMuted}
           />
@@ -144,17 +173,18 @@ export const DialerPanel: FunctionComponent<DialerPanelProps> = (props) => {
             data-sign="callButton"
             color="success.b03"
             symbol={Phone}
-            size="large"
+            size={withTabs ? 'medium' : 'large'}
             variant="contained"
             elevation="0"
             activeElevation="0"
-            onClick={onCallButtonClick}
+            onClick={() => onCallButtonClick({ clickDialerToCall: true })}
             disabled={callButtonDisabled}
           />
         </BodyBottom>
         {showSpinner ? <SpinnerOverlay /> : null}
         {children}
       </CommunicationSetupPanel>
+      intreact/default-props-match-prop-types
     </DialerPanelContainer>
   );
 };
@@ -162,9 +192,6 @@ export const DialerPanel: FunctionComponent<DialerPanelProps> = (props) => {
 const Empty: FunctionComponent = () => null;
 
 DialerPanel.defaultProps = {
-  className: null,
-  dialButtonsClassName: null,
-  fromNumber: null,
   callButtonDisabled: false,
   toNumber: '',
   fromNumbers: [],

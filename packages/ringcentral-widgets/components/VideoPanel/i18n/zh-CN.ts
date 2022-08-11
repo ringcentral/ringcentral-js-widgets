@@ -1,15 +1,15 @@
-import { ASSISTED_USERS_MYSELF } from '@ringcentral-integration/commons/modules/RcVideo/constants';
+import { ASSISTED_USERS_MYSELF } from '@ringcentral-integration/commons/modules/RcVideo';
 export default {
   topic: "会议标题",
   date: "日期",
   startTime: "时间",
   duration: "时长",
-  scheduleFor: "代表以下人员安排时间：",
+  scheduleFor: "代表以下人员安排：",
   meetingSettings: "会议设置",
-  [ASSISTED_USERS_MYSELF]: "自己",
+  [ASSISTED_USERS_MYSELF]: "我自己",
   joinBeforeHost: "允许参与者在主持人之前加入",
   enableWaitingRoom: "启用等候室",
-  waitingRoom: "启用等候室给",
+  waitingRoom: "为以下人员启用等候室",
   waitingRoomNotCoworker: "我公司以外的任何人员",
   waitingRoomGuest: "任何未登录的人员",
   waitingRoomAll: "所有人",
@@ -21,17 +21,17 @@ export default {
   requirePassword: "需要输入密码",
   useE2ee: "使用端到端加密",
   e2eeTooltip: "端到端加密会议的私密性最强，但无法使用通过电话加入、隐藏式字幕和录制等功能。",
-  setPassword: "设置密码 *",
+  setPassword: "设置密码*",
   setPasswordNotSymbol: "设置密码",
   passwordEmptyError: "会议密码为必填项",
   passwordInvalidError: "密码必须包含 1 到 10 个字母和数字，但不能包含特殊符号",
-  passwordHintText: "密码应包含 1 到 10 个字母和数字，但不能包含特殊符号",
+  passwordHintText: "您的密码应为 1 到 10 个字母和数字，但不能包含特殊符号",
   usePersonalMeetingId: "使用个人会议 ID",
-  meetingSettingsSecurity: "安全",
+  meetingSettingsSecurity: "安全性",
   onlyAuthUserJoin: "只有经过身份验证的用户才能加入",
   signedInUsers: "已登录的用户",
   signedInCoWorkers: "已登录的同事",
-  limitScreenSharing: "只有主持人和管理员可以共享屏幕",
+  limitScreenSharing: "仅主持人和代理主持人可以共享屏幕",
   lockTooltip: "此设置由公司管理员管理",
   pmiSettingAlert: "这些设置将应用到使用 PMI 创建的所有会议",
   today: "今天",
@@ -78,5 +78,5 @@ export default {
 // @key: @#@"today"@#@ @source: @#@"Today"@#@
 // @key: @#@"scheduleForGuidance"@#@ @source: @#@"Scheduling for someone else?\n1. Make sure you're on their Outlook calendar.\n2. From the dropdown, select the person you're scheduling for.\n"@#@
 // @key: @#@"scheduleForGuidanceMore"@#@ @source: @#@"Learn details"@#@
-// @key: @#@"changePmiSettings"@#@ @source: @#@"Change Personal meeting settings"@#@
+// @key: @#@"changePmiSettings"@#@ @source: @#@"Change Personal Meeting settings"@#@
 // @key: @#@"ieSupportAlert"@#@ @source: @#@"Please note that {appName} won't work with Internet Explorer 11 after Feb 16, 2022. We recommend switching to Microsoft Edge or updating to Outlook 2016 or above."@#@

@@ -7,7 +7,7 @@ import CallLogPanel, {
   CallLogPanelProps,
 } from '@ringcentral-integration/widgets/components/CallLogPanel';
 import { RcButton, RcIconButton, RcMenu, RcMenuItem } from '@ringcentral/juno';
-import { Transcription } from '@ringcentral/juno/icon';
+import { Transcription } from '@ringcentral/juno-icon';
 
 import { transferTypes } from '../../enums';
 import {

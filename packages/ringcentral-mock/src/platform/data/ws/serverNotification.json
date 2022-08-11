@@ -1,0 +1,47 @@
+[
+  {
+    "type": "ServerNotification",
+    "messageId": "5745390252954738247",
+    "status": 200,
+    "headers": { "RCRequestId": "8d38dba2-8a4d-11ec-ac15-005056be0c18" }
+  },
+  {
+    "uuid": "5745390252954738247",
+    "event": "/restapi/v1.0/account/908199004/extension/908199004/presence?detailedTelephonyState=true&sipData=true",
+    "timestamp": "2022-02-10T08:43:42.805Z",
+    "subscriptionId": "70400705-9b57-484e-aad0-a4ba318fbdeb",
+    "ownerId": "908199004",
+    "body": {
+      "extensionId": 908199004,
+      "telephonyStatus": "Ringing",
+      "activeCalls": [
+        {
+          "id": "j4d3cdrpsor53mefq01c",
+          "direction": "Outbound",
+          "from": "+19073490936",
+          "to": "+12055439065",
+          "telephonyStatus": "Ringing",
+          "sipData": {
+            "toTag": "c13ltuhnoj",
+            "fromTag": "10.74.13.130-5070-881943ee-889e-440a",
+            "remoteUri": "-",
+            "localUri": "-"
+          },
+          "sessionId": "45561702004",
+          "startTime": "2022-02-10T08:43:42.718Z",
+          "partyId": "p-a4a0d8226a3d4z17ee2cd74ddz2edde0000-1",
+          "telephonySessionId": "s-a4a0d8226a3d4z17ee2cd74ddz2edde0000"
+        }
+      ],
+      "sequence": 10,
+      "presenceStatus": "Available",
+      "userStatus": "Available",
+      "dndStatus": "TakeAllCalls",
+      "meetingStatus": "Disconnected",
+      "allowSeeMyPresence": true,
+      "ringOnMonitoredCall": false,
+      "pickUpCallsOnHold": false,
+      "totalActiveCalls": 1
+    }
+  }
+]

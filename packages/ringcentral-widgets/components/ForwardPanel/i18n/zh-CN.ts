@@ -1,5 +1,5 @@
 export default {
-  forward: "转移"
+  forward: "转接"
 };
 
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@

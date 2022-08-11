@@ -4,5 +4,3 @@ export const errorMessages = ObjectMap.prefixKeys(
   ['serviceLimited'],
   'limitedErrorMessages',
 );
-
-export default errorMessages;

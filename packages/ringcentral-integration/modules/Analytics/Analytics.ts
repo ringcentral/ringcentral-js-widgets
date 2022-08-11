@@ -1,13 +1,13 @@
+import { sleep } from '@ringcentral-integration/utils';
+
 import RouterInteraction from '../../../ringcentral-widgets/modules/RouterInteraction';
 import moduleStatuses from '../../enums/moduleStatuses';
 import { Pendo, Segment } from '../../lib/Analytics';
 import { Module } from '../../lib/di';
 import RcModule from '../../lib/RcModule';
 import saveBlob from '../../lib/saveBlob';
-import { sleep } from '../../lib/sleep';
-import { AnalyticsEventExtendedProps } from '../AnalyticsEventExtendedProps';
-import callingModes from '../CallingSettings/callingModes';
-import { ExtensionInfo } from '../ExtensionInfoV2';
+import { callingModes } from '../CallingSettings/callingModes';
+import { ExtensionInfo } from '../ExtensionInfo';
 import { analyticsActionTypes, AnalyticsActionTypes } from './actionTypes';
 import getAnalyticsReducer from './getAnalyticsReducer';
 
@@ -63,8 +63,7 @@ export interface PendoAgent {
     appVersion: string;
     appBrand: string;
     plaBrand: string;
-    countryCode?: string;
-    companyName?: string;
+    countryCode: string;
     [key: string]: string;
   };
   account: {
@@ -141,7 +140,6 @@ export const tracking = track(DEFAULT_TAG_NAME);
     { dep: 'ActiveCallControl', optional: true },
     { dep: 'DialerUI', optional: true },
     { dep: 'TierChecker', optional: true },
-    { dep: 'AnalyticsEventExtendedProps', optional: true },
   ],
 })
 export class Analytics extends RcModule<
@@ -176,7 +174,6 @@ export class Analytics extends RcModule<
   protected _meeting: any;
   protected _rcVideo: any;
   protected _tierChecker: any;
-  protected _analyticsEventExtendedProps?: AnalyticsEventExtendedProps;
   private _dialerUI: any;
 
   private _segment: any;
@@ -224,7 +221,6 @@ export class Analytics extends RcModule<
     rcVideo,
     dialerUI,
     tierChecker,
-    analyticsEventExtendedProps,
     // settinigs
     useLog = false,
     lingerThreshold = 1000,
@@ -271,8 +267,6 @@ export class Analytics extends RcModule<
     this._activeCallControl = activeCallControl;
     this._dialerUI = dialerUI;
     this._tierChecker = tierChecker;
-    this._analyticsEventExtendedProps = analyticsEventExtendedProps;
-
     // init
     this._reducer = getAnalyticsReducer(this.actionTypes);
     this._segment = Segment();
@@ -297,19 +291,25 @@ export class Analytics extends RcModule<
 
   protected _identify({ userId, ...props }: IdentifyOptions) {
     if (this.analytics) {
-      this.analytics.identify(
-        userId,
-        {
-          ...props,
-          companyName: this._extensionInfo?.info?.contact?.company,
+      this.analytics.ready(() => {
+        // According to EU policy, we had to disable mixpanel to upload IP addresses
+        if (typeof window.mixpanel !== 'undefined') {
+          window.mixpanel.set_config({
+            ...window.mixpanel.config,
+            ip: false,
+          });
+        } else {
+          console.error(
+            'Mixpanel is not defined, and failure to disable IP address upload',
+          );
+        }
+      });
+      this.analytics.identify(userId, props, {
+        integrations: {
+          All: true,
+          Mixpanel: true,
         },
-        {
-          integrations: {
-            All: true,
-            Mixpanel: true,
-          },
-        },
-      );
+      });
     }
     if (this._enablePendo && this._pendoApiKey) {
       this._pendoInitialize({ userId, ...props, env: this._env });
@@ -343,7 +343,6 @@ export class Analytics extends RcModule<
       visitor: {
         id: userId,
         ...props,
-        companyName: this._extensionInfo?.info?.contact?.company,
         appName: this._appName,
         appVersion: this._appVersion,
         appBrand: this._brandCode,
@@ -368,7 +367,6 @@ export class Analytics extends RcModule<
     const trackProps: TrackProps = {
       ...this.trackProps,
       ...properties,
-      ...this._analyticsEventExtendedProps?.extendedProps.get(event),
     };
 
     this.analytics.track(event, trackProps, {

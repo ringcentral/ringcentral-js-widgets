@@ -1,7 +1,7 @@
 export default {
   noRecords: "Não foram encontrados registos.",
-  inBound: "Recebidas",
-  outBound: "Efetuadas",
+  inBound: "Recebida",
+  outBound: "Efetuada",
   missed: "Chamada não atendida"
 };
 

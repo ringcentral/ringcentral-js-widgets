@@ -2,7 +2,7 @@ export default {
   logging: "Iniciando sesión...",
   logCall: "Registrar llamada",
   editLog: "Editar registro",
-  select: "Seleccionar registro",
+  select: "Selecc. registro",
   OnHold: "En espera",
   Ringing: "Llamando",
   CallConnected: "Llamada conectada",

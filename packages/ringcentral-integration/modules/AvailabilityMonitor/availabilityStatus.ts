@@ -4,5 +4,3 @@ export const availability = ObjectMap.prefixKeys(
   ['HIGH', 'LIMITED'],
   'availability',
 );
-
-export default availability;

@@ -1,39 +1,47 @@
-import DataMatcher from '../../lib/DataMatcher';
+import { Entity } from '../../interfaces/Entity.interface';
+import { DataMatcher } from '../../lib/DataMatcherV2';
 import { Module } from '../../lib/di';
-import proxify from '../../lib/proxy/proxify';
+import { proxify } from '../../lib/proxy/proxify';
+import {
+  Deps,
+  ForceMatchBatchNumbersOptions,
+  ForceMatchNumberOptions,
+  HasMatchNumberOptions,
+} from './ContactMatcher.interface';
 
-/**
- * @class
- * @description Contact matcher managing module
- */
 @Module({
+  name: 'ContactMatcher',
   deps: [{ dep: 'ContactMatcherOptions', optional: true }],
 })
-export default class ContactMatcher extends DataMatcher {
-  /**
-   * @constructor
-   */
-  constructor({ ...options }) {
-    super({
-      name: 'contactMatcher',
-      ...options,
-    });
+class ContactMatcher<T = Entity, D extends Deps = Deps> extends DataMatcher<
+  T,
+  D
+> {
+  constructor(deps: D) {
+    super(deps, 'ContactMatcher', deps.contactMatcherOptions?.disableCache);
+  }
+
+  // @ts-expect-error
+  get dataMatcherOptions() {
+    return this._deps.contactMatcherOptions;
   }
 
   @proxify
-  async hasMatchNumber({ phoneNumber, ignoreCache = false }) {
+  async hasMatchNumber({
+    phoneNumber,
+    ignoreCache = false,
+  }: HasMatchNumberOptions) {
     await this.match({
       queries: [phoneNumber],
       ignoreCache,
     });
-    return (
-      !!this.dataMapping[phoneNumber] &&
-      this.dataMapping[phoneNumber].length > 0
-    );
+    return this.dataMapping[phoneNumber]?.length > 0;
   }
 
   @proxify
-  async forceMatchBatchNumbers({ phoneNumbers }) {
+  async forceMatchBatchNumbers({
+    phoneNumbers,
+  }: ForceMatchBatchNumbersOptions) {
     await this.match({
       queries: phoneNumbers,
       ignoreCache: true,
@@ -42,9 +50,11 @@ export default class ContactMatcher extends DataMatcher {
   }
 
   @proxify
-  async forceMatchNumber({ phoneNumber }) {
+  async forceMatchNumber({ phoneNumber }: ForceMatchNumberOptions) {
     await this.forceMatchBatchNumbers({
       phoneNumbers: [phoneNumber],
     });
   }
 }
+
+export { ContactMatcher };

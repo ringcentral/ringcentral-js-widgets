@@ -1,6 +1,6 @@
 export default {
-  from: "Alkaen",
-  to: "Päättyen",
+  from: "Lähettäjä",
+  to: "Vastaanottaja",
   enterNameOrNumber: "Anna nimi tai numero...",
   typeMessage: "Kirjoita viesti...",
   send: "Lähetä"

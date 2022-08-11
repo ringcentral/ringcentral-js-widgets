@@ -1,6 +1,8 @@
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-export default ObjectMap.prefixKeys(
+export const callCtrlLayouts = ObjectMap.prefixKeys(
   ['normalCtrl', 'mergeCtrl', 'conferenceCtrl', 'completeTransferCtrl'],
   'callCtrlLayouts',
 );
+
+export default callCtrlLayouts;

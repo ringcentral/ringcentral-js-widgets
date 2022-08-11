@@ -51,7 +51,7 @@
     @include field-label-font;
   }
 
-  .textArea{
+  .textArea {
     border-radius: 2px;
     border: 1px solid #a6a6a6;
     box-sizing: border-box;
@@ -67,7 +67,7 @@
       resize: none;
 
       &:focus {
-        outline: 0
+        outline: 0;
       }
     }
   }

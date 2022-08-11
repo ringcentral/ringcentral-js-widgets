@@ -1,15 +1,15 @@
-import callControlError from '@ringcentral-integration/commons/modules/ActiveCallControl/callControlError';
+import { callControlError } from '@ringcentral-integration/commons/modules/ActiveCallControl';
 
 import i18n from './i18n';
 
 export default function CallControlAlert({
   message: { message },
   currentLocale,
-}) {
+}: any) {
   return i18n.getString(message, currentLocale);
 }
 
-CallControlAlert.handleMessage = ({ message }) => {
+CallControlAlert.handleMessage = ({ message }: any) => {
   const {
     holdConflictError,
     unHoldConflictError,
@@ -17,6 +17,8 @@ CallControlAlert.handleMessage = ({ message }) => {
     unMuteConflictError,
     generalError,
     forwardSuccess,
+    transferCompleted,
+    replyCompleted,
   } = callControlError;
   return (
     message === holdConflictError ||
@@ -24,6 +26,8 @@ CallControlAlert.handleMessage = ({ message }) => {
     message === muteConflictError ||
     message === unMuteConflictError ||
     message === generalError ||
-    message === forwardSuccess
+    message === forwardSuccess ||
+    message === transferCompleted ||
+    message === replyCompleted
   );
 };

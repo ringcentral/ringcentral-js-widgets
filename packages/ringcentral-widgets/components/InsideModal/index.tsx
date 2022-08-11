@@ -32,6 +32,7 @@ const InsideModal: React.SFC<InsideModalProps> = ({
 }) => {
   return (
     <Modal
+      // @ts-expect-error TS(2322): Type '{ children: ReactNode; title: string | undef... Remove this comment to see the full error message
       title={title}
       headerClassName={styles.title}
       className={classnames(styles.container, containerStyles)}
@@ -55,6 +56,7 @@ InsideModal.defaultProps = {
   clickOutToClose: true,
   show: undefined,
   onClose: undefined,
+  // @ts-expect-error TS(2322): Type '{ title: string; showTitle: true; showCloseB... Remove this comment to see the full error message
   children: undefined,
   containerStyles: undefined,
   maskStyle: undefined,

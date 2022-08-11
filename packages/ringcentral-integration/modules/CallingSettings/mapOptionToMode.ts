@@ -1,7 +1,7 @@
-import callingModes from './callingModes';
-import callingOptions from './callingOptions';
+import { callingModes } from './callingModes';
+import { callingOptions, CallingOptionsType } from './callingOptions';
 
-export default function mapOptionToMode(callWith) {
+export function mapOptionToMode(callWith: CallingOptionsType) {
   switch (callWith) {
     case callingOptions.softphone:
       return callingModes.softphone;
@@ -12,6 +12,6 @@ export default function mapOptionToMode(callWith) {
     case callingOptions.jupiter:
       return callingModes.jupiter;
     default:
-      return callingModes.softphone;
+      return null;
   }
 }

@@ -8,7 +8,13 @@ import { Button } from '../Button';
 import i18n from './i18n';
 import styles from './styles.scss';
 
-function FlatButton({ className, disabled, onClick, children, dataSign }) {
+const FlatButton = ({
+  className,
+  disabled,
+  onClick,
+  children,
+  dataSign,
+}: any) => {
   return (
     <div
       className={classnames(
@@ -23,7 +29,7 @@ function FlatButton({ className, disabled, onClick, children, dataSign }) {
       {children}
     </div>
   );
-}
+};
 FlatButton.propTypes = {
   className: propTypes.string,
   disabled: propTypes.bool,
@@ -40,7 +46,7 @@ FlatButton.defaultProps = {
   dataSign: '',
 };
 
-function Dialog({
+const Dialog = ({
   children,
   title,
   onConfirm,
@@ -56,7 +62,7 @@ function Dialog({
   headerClassName,
   contentClassName,
   footerClassName,
-}) {
+}: any) => {
   const footer =
     !currentLocale || (!onCancel && !onConfirm) ? null : (
       <div className={classnames(styles.footer, footerClassName)}>
@@ -93,6 +99,7 @@ function Dialog({
     <div className={classnames(styles.dialog, className)}>
       {showTitle ? (
         <div className={classnames(styles.header, headerClassName)}>
+          {/* @ts-expect-error TS(2322): Type 'string | null' is not assignable */}
           <div className={styles.headerText} title={headText}>
             {headText}
           </div>
@@ -113,7 +120,7 @@ function Dialog({
       {footer}
     </div>
   );
-}
+};
 
 Dialog.propTypes = {
   className: propTypes.string,

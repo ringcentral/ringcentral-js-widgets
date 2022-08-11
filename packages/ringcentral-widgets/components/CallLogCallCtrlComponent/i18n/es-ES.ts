@@ -10,15 +10,17 @@ export default {
   stopRecord: "Detener grabación",
   record: "Grabar",
   showKeypad: "Teclado",
-  hideKeypad: "Ocultar teclado",
-  unHold: "Reanudar",
-  forward: "Reenviar",
+  hideKeypad: "Ocultar teclado de marcación",
+  unHold: "Reanudar llamada",
+  forward: "Desviar",
   ignore: "Ignorar",
-  voicemail: "A buzón de voz",
-  custom: "Personalizado",
+  voicemail: "Al buzón de voz",
+  custom: "Personalizar",
   answerAndEnd: "Responder y finalizar",
   answerAndHold: "Responder y poner en espera",
-  answer: "Responder"
+  answer: "Responder",
+  completeTransfer: "Completar transferencia",
+  reply: "Responder"
 };
 
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
@@ -41,3 +43,5 @@ export default {
 // @key: @#@"answerAndEnd"@#@ @source: @#@"Answer & End"@#@
 // @key: @#@"answerAndHold"@#@ @source: @#@"Answer & Hold"@#@
 // @key: @#@"answer"@#@ @source: @#@"Answer"@#@
+// @key: @#@"completeTransfer"@#@ @source: @#@"Complete transfer"@#@
+// @key: @#@"reply"@#@ @source: @#@"Reply"@#@

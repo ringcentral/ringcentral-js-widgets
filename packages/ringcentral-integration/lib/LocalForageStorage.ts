@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { EventEmitter } from 'events';
 import localforage from 'localforage';
 import * as uuid from 'uuid';
@@ -48,7 +49,7 @@ export class LocalForageStorage extends EventEmitter implements AsyncStorage {
               key,
               value,
             });
-          } catch (e) {
+          } catch (e: any /** TODO: confirm with instanceof */) {
             /* ignore error */
           }
         }
@@ -96,7 +97,7 @@ export class LocalForageStorage extends EventEmitter implements AsyncStorage {
     try {
       const { value } = originalData;
       return value;
-    } catch (error) {
+    } catch (error: any /** TODO: confirm with instanceof */) {
       return undefined;
     }
   }
@@ -109,7 +110,7 @@ export class LocalForageStorage extends EventEmitter implements AsyncStorage {
     });
     try {
       this._updateStorageSyncData(key);
-    } catch (error) {
+    } catch (error: any /** TODO: confirm with instanceof */) {
       console.error(error);
     }
   }

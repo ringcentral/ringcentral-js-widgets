@@ -96,6 +96,7 @@ class UserAgent {
     return {
       setVolume() {},
       playIncoming() {},
+      playOutgoing() {},
       loadAudio() {},
     };
   }

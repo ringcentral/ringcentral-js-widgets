@@ -7,3 +7,10 @@ interface LockManager {
 declare interface Navigator {
   locks?: LockManager;
 }
+
+interface Window {
+  mixpanel: any;
+  runner?: {
+    _standAlone?: boolean;
+  };
+}

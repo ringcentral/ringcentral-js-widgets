@@ -8,7 +8,7 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
-import { ComposeText } from '../../modules/ComposeTextV2';
+import { ComposeText } from '../../modules/ComposeText';
 import { mockModuleGenerator } from '../lib/mockModule';
 
 class MockModule {

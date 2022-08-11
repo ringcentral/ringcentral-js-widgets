@@ -196,7 +196,7 @@ class EvPresence extends RcModuleV2<Deps> implements Presence {
     this._deps.evCallDataSource.clearCalls();
   }
 
-  onInitOnce() {
+  override onInitOnce() {
     this._bindSubscription();
   }
 

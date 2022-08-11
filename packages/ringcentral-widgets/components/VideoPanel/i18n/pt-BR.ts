@@ -1,4 +1,4 @@
-import { ASSISTED_USERS_MYSELF } from '@ringcentral-integration/commons/modules/RcVideo/constants';
+import { ASSISTED_USERS_MYSELF } from '@ringcentral-integration/commons/modules/RcVideo';
 export default {
   topic: "Título da reunião",
   date: "Data",
@@ -8,22 +8,22 @@ export default {
   meetingSettings: "Configurações da reunião",
   [ASSISTED_USERS_MYSELF]: "Eu mesmo",
   joinBeforeHost: "Permitir que os participantes entrem antes do organizador",
-  enableWaitingRoom: "Habilitar sala de espera",
-  waitingRoom: "Habilitar sala de espera para",
+  enableWaitingRoom: "Ativar sala de espera",
+  waitingRoom: "Ativar sala de espera para",
   waitingRoomNotCoworker: "Pessoas de fora da empresa",
   waitingRoomGuest: "Pessoas não conectadas",
   waitingRoomAll: "Todos",
-  enterPassword: "Insira a senha",
+  enterPassword: "Inserir senha",
   onlyJoinAfterMe: "Os participantes só podem entrar depois de mim",
   onlyJoinAfterHost: "Os participantes só podem entrar depois do organizador",
-  muteAudio: "Ativar mudo de áudio para participantes",
-  turnOffCamera: "Desligar câmera para os particip.",
+  muteAudio: "Ativar mudo para participantes",
+  turnOffCamera: "Desativar câmera para participantes",
   requirePassword: "Exigir senha",
   useE2ee: "Usar criptografia de ponta a ponta",
   e2eeTooltip: "As reuniões com criptografia de ponta a ponta são privadas, mas recursos alguns recursos, como entrar pelo telefone, legenda oculta e gravação, não estão disponíveis.",
   setPassword: "Definir senha *",
   setPasswordNotSymbol: "Definir senha",
-  passwordEmptyError: "Necessária senha da reunião",
+  passwordEmptyError: "Senha da reunião necessária",
   passwordInvalidError: "Sua senha deve ter de 1 a 10 letras ou números e não pode conter símbolos",
   passwordHintText: "Sua senha deve ter de 1 a 10 letras ou números e não pode conter símbolos",
   usePersonalMeetingId: "Usar ID da reunião pessoal",
@@ -78,5 +78,5 @@ export default {
 // @key: @#@"today"@#@ @source: @#@"Today"@#@
 // @key: @#@"scheduleForGuidance"@#@ @source: @#@"Scheduling for someone else?\n1. Make sure you're on their Outlook calendar.\n2. From the dropdown, select the person you're scheduling for.\n"@#@
 // @key: @#@"scheduleForGuidanceMore"@#@ @source: @#@"Learn details"@#@
-// @key: @#@"changePmiSettings"@#@ @source: @#@"Change Personal meeting settings"@#@
+// @key: @#@"changePmiSettings"@#@ @source: @#@"Change Personal Meeting settings"@#@
 // @key: @#@"ieSupportAlert"@#@ @source: @#@"Please note that {appName} won't work with Internet Explorer 11 after Feb 16, 2022. We recommend switching to Microsoft Edge or updating to Outlook 2016 or above."@#@

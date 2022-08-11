@@ -1,64 +1,65 @@
 $box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.15);
-$transition-duration: .2s;
-$background-color:#fff;
+$transition-duration: 0.2s;
+$background-color: #fff;
 
-.dropdownContainer{
-  $background-color:#fff;
+.dropdownContainer {
+  $background-color: #fff;
   box-shadow: $box-shadow;
-  transition: transform ease-in-out $transition-duration,opacity ease-in-out $transition-duration;
+  transition: transform ease-in-out $transition-duration,
+    opacity ease-in-out $transition-duration;
   transform: scale(0);
   transform-origin: center bottom;
-  opacity:0;
+  opacity: 0;
   display: inline-block;
   position: relative;
   * {
     box-sizing: border-box;
   }
 
-  .dropdown{
+  .dropdown {
     display: inline-block;
-    text-align:center;
+    text-align: center;
     background: $background-color;
-    position:relative;
-    z-index:2;
-    padding:5px;
+    position: relative;
+    z-index: 2;
+    padding: 5px;
     min-width: 15px;
     min-height: 15px;
   }
 }
 
 .top,
-.bottom{
-  .tail{
-    z-index:1;
+.bottom {
+  .tail {
+    z-index: 1;
     position: absolute;
-    display:inline-block;
-    width:10px;
-    height:10px;
+    display: inline-block;
+    width: 10px;
+    height: 10px;
     transform: rotateZ(45deg);
     background: $background-color;
-    box-shadow:$box-shadow;
+    box-shadow: $box-shadow;
     margin: auto;
-    left:0;
-    right:0;
+    left: 0;
+    right: 0;
   }
 }
 
-.top{
-  .tail{
+.top {
+  .tail {
     bottom: -4.5px;
   }
 }
 
-.bottom{
-  .tail{
+.bottom {
+  .tail {
     top: -4.5px;
     transform: rotateZ(-45deg);
     box-shadow: 1px 0px 0px #e2e2e2;
   }
 }
 
-.opened{
+.opened {
   transform: scale(1);
-  opacity:1;
+  opacity: 1;
 }

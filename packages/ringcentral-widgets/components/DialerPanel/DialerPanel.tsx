@@ -2,13 +2,14 @@ import React, { FunctionComponent, useEffect, useRef } from 'react';
 
 import classnames from 'classnames';
 
+import { ToNumber as Recipient } from '@ringcentral-integration/commons/modules/ComposeText';
+
 import AnswerIcon from '../../assets/images/Answer.svg';
 import CircleButton from '../CircleButton';
 import DialPad from '../DialPad';
 import FromField from '../FromField';
 import RecipientsInput from '../RecipientsInput';
 import { RecipientsInputV2 } from '../RecipientsInputV2';
-import { Recipient } from '../RecipientsInputV2/RecipientsInputV2.interface';
 import { SpinnerOverlay } from '../SpinnerOverlay';
 import styles from './styles.scss';
 
@@ -96,6 +97,7 @@ const DialerPanel: FunctionComponent<DialerPanelProps> = ({
   const inputEl = useRef(null);
   useEffect(() => {
     if (useV2 && autoFocus && inputEl.current) {
+      // @ts-expect-error TS(2339): Property 'focus' does not exist on type 'never'.
       inputEl.current.focus();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -103,13 +105,16 @@ const DialerPanel: FunctionComponent<DialerPanelProps> = ({
   const input = useV2 ? (
     <RecipientsInputV2
       ref={inputEl}
+      // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
       value={toNumber}
+      // @ts-expect-error TS(2322): Type '((...args: any[]) => any) | undefined' is no... Remove this comment to see the full error message
       onInputChange={onToNumberChange}
       onInputClear={clearToNumber}
       recipients={recipients}
       addToRecipients={setRecipient}
       removeFromRecipients={clearRecipient}
       searchContactList={searchContactList}
+      // @ts-expect-error TS(2322): Type '((...args: any[]) => any) | undefined' is no... Remove this comment to see the full error message
       formatContactPhone={formatPhone}
       currentLocale={currentLocale}
       phoneTypeRenderer={phoneTypeRenderer}
@@ -118,6 +123,7 @@ const DialerPanel: FunctionComponent<DialerPanelProps> = ({
       contactPhoneRenderer={recipientsContactPhoneRenderer}
       isLastInputFromDialpad={isLastInputFromDialpad}
       enableTitle
+      // @ts-expect-error TS(2322): Type 'string | null' is not assignable to type 'st... Remove this comment to see the full error message
       className={
         !showFromField
           ? classnames(styles.inputField, styles.recipientsField)
@@ -146,6 +152,7 @@ const DialerPanel: FunctionComponent<DialerPanelProps> = ({
       isLastInputFromDialpad={isLastInputFromDialpad}
       titleEnabled
       autoFocus={autoFocus}
+      // @ts-expect-error TS(2322): Type 'string | null' is not assignable to type 'st... Remove this comment to see the full error message
       className={
         !showFromField
           ? classnames(styles.inputField, styles.recipientsField)
@@ -159,10 +166,15 @@ const DialerPanel: FunctionComponent<DialerPanelProps> = ({
       {showFromField ? (
         <div className={styles.inputField}>
           <FromField
+            // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
             showAnonymous={showAnonymous}
+            // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
             fromNumber={fromNumber}
+            // @ts-expect-error TS(2322): Type '{ phoneNumber?: string | undefined; usageTyp... Remove this comment to see the full error message
             fromNumbers={fromNumbers}
+            // @ts-expect-error TS(2322): Type '((...args: any[]) => any) | undefined' is no... Remove this comment to see the full error message
             onChange={changeFromNumber}
+            // @ts-expect-error TS(2322): Type '((...args: any[]) => any) | undefined' is no... Remove this comment to see the full error message
             formatPhone={formatPhone}
             currentLocale={currentLocale}
             hidden={!isWebphoneMode}
@@ -174,8 +186,10 @@ const DialerPanel: FunctionComponent<DialerPanelProps> = ({
         <DialPad
           className={styles.dialPad}
           onButtonOutput={(key) => {
+            // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
             onToNumberChange(toNumber + key, true);
             if (inputEl.current) {
+              // @ts-expect-error TS(2339): Property 'focus' does not exist on type 'never'.
               inputEl.current.focus();
             }
           }}
@@ -196,7 +210,7 @@ const DialerPanel: FunctionComponent<DialerPanelProps> = ({
                 styles.dialBtn,
                 callButtonDisabled && styles.disabled,
               )}
-              onClick={onCallButtonClick}
+              onClick={() => onCallButtonClick({ clickDialerToCall: true })}
               disabled={callButtonDisabled}
               icon={AnswerIcon}
               showBorder={false}
@@ -213,8 +227,11 @@ const DialerPanel: FunctionComponent<DialerPanelProps> = ({
 const Empty: FunctionComponent = () => null;
 
 DialerPanel.defaultProps = {
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   className: null,
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   dialButtonsClassName: null,
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   fromNumber: null,
   callButtonDisabled: false,
   toNumber: '',

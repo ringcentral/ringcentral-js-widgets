@@ -282,3 +282,83 @@ class ModuleComputedCheckWithInheritance extends Step {
     );
   }
 }
+
+@autorun(test)
+@title('RcModuleV2::computed check with error type')
+class ComputedCheckWithErrorType extends Step {
+  run() {
+    let error: any;
+    return (
+      <Scenario desc="RcModuleV2::computed check features">
+        <When
+          desc="run computed with error type"
+          action={(_: any, context: any) => {
+            class Foo extends RcModuleV2 {
+              @state
+              count = 0;
+
+              // @ts-ignore
+              @computed({})
+              get sum() {
+                return this.count + 1;
+              }
+            }
+            const foo = new Foo();
+            createApp({
+              main: foo,
+            });
+            try {
+              foo.sum;
+            } catch (e: any) {
+              error = e;
+            }
+          }}
+        />
+        <Then
+          desc="error should be thrown"
+          action={(_: any, context: any) => {
+            expect(error.toString()).toBe(
+              'TypeError: depsCallback is not a function',
+            );
+          }}
+        />
+      </Scenario>
+    );
+  }
+}
+
+@autorun(test)
+@title('RcModuleV2::computed check with method')
+class ComputedCheckWithMethod extends Step {
+  run() {
+    let error: any;
+    return (
+      <Scenario desc="RcModuleV2::computed check features">
+        <When
+          desc="run computed with method"
+          action={(_: any, context: any) => {
+            try {
+              class Foo extends RcModuleV2 {
+                @state
+                count = 0;
+
+                @computed((that: Foo) => [that.count])
+                sum() {
+                  return this.count + 1;
+                }
+              }
+            } catch (e: any) {
+              error = e;
+            }
+          }}
+        />
+        <Then
+          desc="error should be thrown"
+          action={(_: any, context: any) => {
+            expect(error.toString()).toMatch('TypeError');
+          }}
+        />
+      </Scenario>
+    );
+  }
+}

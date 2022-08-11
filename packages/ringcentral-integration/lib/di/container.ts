@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { DIError } from './utils/error';
 
 export default class Container {

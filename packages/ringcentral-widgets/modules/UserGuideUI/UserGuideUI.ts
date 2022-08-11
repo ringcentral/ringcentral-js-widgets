@@ -21,30 +21,29 @@ export class UserGuideUI extends RcUIModuleV2<Deps> {
   }
 
   getUIProps(): UIProps<UserGuidePanelProps> {
-    const { locale, userGuide } = this._deps;
-    const { curIdx, entered, playing } = userGuide.carouselState;
+    const { curIdx, entered, playing } = this._deps.userGuide.carouselState;
     return {
       showSpinner: !(
-        userGuide.ready &&
-        userGuide.preLoadImageStatus &&
-        locale.ready
+        this._deps.userGuide.ready &&
+        this._deps.userGuide.preLoadImageStatus &&
+        this._deps.locale.ready
       ),
-      currentLocale: locale.currentLocale,
+      currentLocale: this._deps.locale.currentLocale,
       curIdx,
       entered,
       playing,
-      firstLogin: userGuide.firstLogin,
-      guides: userGuide.guides,
+      firstLogin: this._deps.userGuide.firstLogin,
+      guides: this._deps.userGuide.guides,
     };
   }
 
   getUIFunctions(): UIFunctions<UserGuidePanelProps> {
-    const { userGuide, quickAccess } = this._deps;
-    const quickAccessEnter = quickAccess
-      ? () => quickAccess.enter()
+    const quickAccessEnter = this._deps.quickAccess
+      ? // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+        () => this._deps.quickAccess.enter()
       : undefined;
     return {
-      updateCarousel: (...args) => userGuide.updateCarousel(...args),
+      updateCarousel: (...args) => this._deps.userGuide.updateCarousel(...args),
       quickAccessEnter,
     };
   }

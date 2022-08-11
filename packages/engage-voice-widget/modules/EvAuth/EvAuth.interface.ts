@@ -1,5 +1,5 @@
 import { Alert } from '@ringcentral-integration/commons/modules/Alert';
-import { Auth as RcAuth } from '@ringcentral-integration/commons/modules/AuthV2';
+import { Auth as RcAuth } from '@ringcentral-integration/commons/modules/Auth';
 import { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import { Block } from '@ringcentral-integration/widgets/modules/Block';
 import RouterInteraction from '@ringcentral-integration/widgets/modules/RouterInteraction';
@@ -25,13 +25,12 @@ export interface Deps {
 }
 
 export interface State {
+  connecting: boolean;
   connected: boolean;
   agent: EvAgentData;
 }
 
 export interface Auth extends State {
-  connecting?: boolean;
-  disconnecting?: boolean;
   setConnectionData(connection: State): void;
 }
 

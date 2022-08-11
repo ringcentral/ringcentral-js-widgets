@@ -1,5 +1,5 @@
 export default {
-  forward: "转移",
+  forward: "转接",
   cancel: "取消",
   customNumber: "自定义号码"
 };

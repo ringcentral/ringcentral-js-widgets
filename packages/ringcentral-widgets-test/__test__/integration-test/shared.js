@@ -1,19 +1,18 @@
 import React from 'react';
+
 import { mount } from 'enzyme';
 import { createStore } from 'redux';
+
 import * as mock from '@ringcentral-integration/commons/integration-test/mock';
+import ClientHistoryRequest from '@ringcentral-integration/commons/integration-test/utils/ClientHistoryRequest';
 import { ensureLogin } from '@ringcentral-integration/commons/integration-test/utils/HelpUtil';
 import SimulateWindowObject from '@ringcentral-integration/commons/integration-test/utils/SimulateWindowObject';
-import ClientHistoryRequest from '@ringcentral-integration/commons/integration-test/utils/ClientHistoryRequest';
-import { waitUntilEqual } from '@ringcentral-integration/commons/integration-test/utils/WaitUtil';
-import { createPhone } from '@ringcentral-integration/widgets-demo/dev-server/Phone';
-import App from '@ringcentral-integration/widgets-demo/dev-server/containers/App';
-import version from '@ringcentral-integration/widgets-demo/dev-server/version';
-import prefix from '@ringcentral-integration/widgets-demo/dev-server/prefix';
+import { waitUntilTo } from '@ringcentral-integration/utils';
 import { brandConfig } from '@ringcentral-integration/widgets-demo/dev-server/brandConfig';
-
-export const timeout = (ms) =>
-  new Promise((resolve) => setTimeout(() => resolve(true), ms));
+import App from '@ringcentral-integration/widgets-demo/dev-server/containers/App';
+import { createPhone } from '@ringcentral-integration/widgets-demo/dev-server/Phone';
+import prefix from '@ringcentral-integration/widgets-demo/dev-server/prefix';
+import version from '@ringcentral-integration/widgets-demo/dev-server/version';
 
 const apiConfig = {
   appKey: 'testKey',
@@ -64,13 +63,10 @@ const getPhone = async ({
       password: 'test',
     });
     if (shouldMockWebphone) {
-      await waitUntilEqual(
-        () => !!phone.webphone._webphone,
-        '_webphone',
-        true,
-        5,
-        10,
-      );
+      await waitUntilTo(() => {
+        expect(phone.webphone._webphone).not.toEqual(null);
+      });
+
       if (phone.webphone.connecting && phone.webphone._webphone) {
         phone.webphone._webphone.userAgent.trigger('registered');
       }

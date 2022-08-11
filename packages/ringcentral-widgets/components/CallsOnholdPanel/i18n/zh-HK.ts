@@ -1,7 +1,7 @@
 export default {
   add: "新增",
   noCalls: "沒有可用通話",
-  activeCall: "使用中通話"
+  activeCall: "進行中的通話"
 };
 
 // @key: @#@"add"@#@ @source: @#@"Add"@#@

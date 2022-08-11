@@ -2,7 +2,7 @@ import { EventEmitter } from 'events';
 import { Unsubscribe } from 'redux';
 
 import { Module } from '@ringcentral-integration/commons/lib/di';
-import { sleep } from '@ringcentral-integration/commons/lib/sleep';
+import { sleep } from '@ringcentral-integration/commons/utils';
 import {
   action,
   computed,
@@ -260,11 +260,11 @@ class EvAuth extends RcModuleV2<Deps> implements Auth {
     }
   }
 
-  _shouldInit() {
+  override _shouldInit() {
     return super._shouldInit() && this._deps.auth.loggedIn && this.connected;
   }
 
-  onInitOnce() {
+  override onInitOnce() {
     this._deps.evSubscription.subscribe(EvCallbackTypes.LOGOUT, async () => {
       this._emitLogoutBefore();
 
@@ -282,7 +282,7 @@ class EvAuth extends RcModuleV2<Deps> implements Auth {
     });
   }
 
-  async onStateChange() {
+  override async onStateChange() {
     // here not need check this.ready, because that should work when not login
     if (this.tabManagerEnabled && this._deps.tabManager.ready) {
       await this._checkTabManagerEvent();

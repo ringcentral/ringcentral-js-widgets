@@ -6,7 +6,7 @@ import {
   IncallBorder,
   MissedcallBorder,
   OutcallBorder,
-} from '@ringcentral/juno/icon';
+} from '@ringcentral/juno-icon';
 
 export type CallIconProps = {
   direction?: string;
@@ -52,6 +52,7 @@ export const CallIcon: FunctionComponent<CallIconProps> = ({
     <RcIcon
       data-sign="callIcon"
       title={title || direction}
+      // @ts-expect-error TS(2322): Type 'MemoExoticComponent<ForwardRefExoticComponen... Remove this comment to see the full error message
       symbol={icon}
       size="medium"
       color={color}

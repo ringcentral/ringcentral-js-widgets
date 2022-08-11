@@ -1,6 +1,6 @@
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-export default ObjectMap.prefixKeys(
+export const callingModes = ObjectMap.prefixKeys(
   [
     'softphone', // ringcentral phone
     'ringout', // branding rc..

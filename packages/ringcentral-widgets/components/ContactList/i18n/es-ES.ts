@@ -1,5 +1,5 @@
 export default {
-  onSearching: "Cargando...",
+  onSearching: "Cargando…",
   noContacts: "No se han encontrado registros."
 };
 

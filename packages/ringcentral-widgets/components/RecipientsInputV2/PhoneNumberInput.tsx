@@ -49,12 +49,14 @@ export const PhoneNumberInput = forwardRef<
         // This avoids any event handler in the same cycle messing up the focus
         setTimeout(() => {
           if (inputEl.current) {
+            // @ts-expect-error TS(2339): Property 'focus' does not exist on type 'never'.
             inputEl.current.focus();
           }
         }, 0);
       },
       blur() {
         if (inputEl.current) {
+          // @ts-expect-error TS(2339): Property 'blur' does not exist on type 'never'.
           inputEl.current.blur();
         }
       },
@@ -73,6 +75,7 @@ export const PhoneNumberInput = forwardRef<
             ref={inputEl}
             name="receiver"
             value={value}
+            // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
             onChange={({ currentTarget: { value } }) => onChange(value)}
             onPaste={(ev) => {
               console.log(ev);
@@ -80,12 +83,14 @@ export const PhoneNumberInput = forwardRef<
             className={styles.numberInput}
             maxLength={30}
             onFocus={onFocus}
+            // @ts-expect-error TS(2322): Type '{} | null' is not assignable to type 'string... Remove this comment to see the full error message
             placeholder={placeholder}
             autoComplete="off"
           />
         </div>
         <RemoveButton
           className={styles.removeButton}
+          // @ts-expect-error TS(2322): Type '(() => void) | undefined' is not assignable ... Remove this comment to see the full error message
           onClick={onClear}
           visibility={value.length > 0}
         />

@@ -8,7 +8,7 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
-import { Ringout, ringoutStatus } from '../../modules/RingoutV2';
+import { Ringout, ringoutStatus } from '../../modules/Ringout';
 import { mockModuleGenerator } from '../lib/mockModule';
 
 const getMockModule = () =>

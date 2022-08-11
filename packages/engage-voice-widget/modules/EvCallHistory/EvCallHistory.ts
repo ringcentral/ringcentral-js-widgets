@@ -127,12 +127,12 @@ class EvCallHistory extends RcModuleV2<Deps> implements CallHistory {
     return makeCallsUniqueIdentifies(this.rawCalls);
   }
 
-  onInitOnce() {
+  override onInitOnce() {
     this._deps.evSubscription.subscribe(
       EvCallbackTypes.DIRECT_AGENT_TRANSFER_NOTIF,
       (data) => {
         if (data.status === directTransferNotificationTypes.VOICEMAIL) {
-          // TODO add `data` for list and alert message about 'Direct Transfer: data.ani, Click to view call detail.'
+          // TODO: add `data` for list and alert message about 'Direct Transfer: data.ani, Click to view call detail.'
         }
       },
     );

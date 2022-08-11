@@ -1,0 +1,31 @@
+{
+  "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/number-parser/parse?nationalAsPriority=false&homeCountry=US",
+  "homeCountry": {
+    "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/1",
+    "id": "1",
+    "name": "United States",
+    "isoCode": "US",
+    "callingCode": "1"
+  },
+  "phoneNumbers": [
+    {
+      "originalString": "+12054091529",
+      "country": {
+        "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/1",
+        "id": "1",
+        "name": "United States",
+        "isoCode": "US",
+        "callingCode": "1"
+      },
+      "areaCode": "205",
+      "subscriberNumber": "4091529",
+      "formattedNational": "(205) 409-1529",
+      "formattedInternational": "+1 (205) 4091529",
+      "dialable": "2054091529",
+      "e164": "+12054091529",
+      "special": false,
+      "normalized": "12054091529",
+      "tollFree": false
+    }
+  ]
+}

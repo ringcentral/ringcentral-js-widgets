@@ -35,6 +35,11 @@ describe('<FeedbackPanel />', () => {
     wrapper.find('input').at(0).simulate('change');
     wrapper.find('input').at(1).instance().value = 'Test1';
     wrapper.find('input').at(1).simulate('change');
+    // show dropdown select
+    wrapper
+      .find('[data-sign="dropdownSelect"] [data-sign="selectedItem"]')
+      .at(0)
+      .simulate('click');
     wrapper.find('ul').at(0).simulate('click');
     wrapper.find('li').at(2).simulate('click');
     wrapper.find('textarea').at(0).instance().value = 'Test textarea';
@@ -55,6 +60,11 @@ describe('<FeedbackPanel />', () => {
     wrapper.find('input').at(0).simulate('change');
     wrapper.find('input').at(1).instance().value = 'Test1';
     wrapper.find('input').at(1).simulate('change');
+    // show dropdown select
+    wrapper
+      .find('[data-sign="dropdownSelect"] [data-sign="selectedItem"]')
+      .at(0)
+      .simulate('click');
     wrapper.find('ul').at(0).simulate('click');
     wrapper.find('li').at(2).simulate('click');
     wrapper.find('textarea').at(0).instance().value = 'Test textarea';

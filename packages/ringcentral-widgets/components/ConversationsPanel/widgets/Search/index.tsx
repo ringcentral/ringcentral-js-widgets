@@ -45,7 +45,9 @@ const Search: React.FC<SearchProps> = ({
       )}
     >
       <SearchInput
+        dataSign="conversationSearch"
         className={styles.searchInput}
+        // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
         value={searchInput}
         onChange={onSearchInputChange}
         placeholder={i18n.getString('search', currentLocale)}

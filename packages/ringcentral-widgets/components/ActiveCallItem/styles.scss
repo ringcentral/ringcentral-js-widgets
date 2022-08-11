@@ -26,8 +26,6 @@ $fixed-icon-width: 21px;
   @include secondary-font;
 }
 
-
-
 .infoWrapper {
   display: flex;
   flex-direction: column;
@@ -91,7 +89,7 @@ $fixed-icon-width: 21px;
 .webphoneButtons {
   text-align: right;
   white-space: nowrap;
-  .webphoneButton+.webphoneButton {
+  .webphoneButton + .webphoneButton {
     margin-left: 5px;
   }
 }

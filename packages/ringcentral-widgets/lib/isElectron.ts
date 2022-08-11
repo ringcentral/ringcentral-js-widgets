@@ -1,3 +1,3 @@
 export const isElectron = () => {
-  return navigator.userAgent.toLowerCase().indexOf(' electron/') > -1;
+  return navigator?.userAgent?.toLowerCase().indexOf(' electron/') > -1;
 };

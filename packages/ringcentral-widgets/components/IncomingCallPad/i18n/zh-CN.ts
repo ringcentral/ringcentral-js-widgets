@@ -1,5 +1,5 @@
 export default {
-  forward: "转移",
+  forward: "转接",
   reply: "回复",
   ignore: "忽略",
   toVoicemail: "到语音信箱",

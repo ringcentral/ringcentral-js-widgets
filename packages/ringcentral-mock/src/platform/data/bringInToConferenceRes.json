@@ -1,0 +1,20 @@
+{
+  "attributes": {},
+  "conferenceRole": "Participant",
+  "direction": "Inbound",
+  "from": {
+    "deviceId": "274382004",
+    "extensionId": "652388004",
+    "phoneNumber": "+12055641563"
+  },
+  "id": "p-a4a0d81285c1az17fbeac3fd7z80c6d0000-2",
+  "muted": false,
+  "standAlone": false,
+  "status": {
+    "code": "Setup"
+  },
+  "to": {
+    "name": "Conference",
+    "phoneNumber": "conference"
+  }
+}

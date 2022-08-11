@@ -1,7 +1,7 @@
 {
-    "uri" : "https://api-xmnup.lab.nordigy.ru/restapi/v1.0/account/129832006/extension/129832006/device?page=1&perPage=100",
+    "uri" : "https://platform.devtest.ringcentral.com/restapi/v1.0/account/129832006/extension/129832006/device?page=1&perPage=100",
     "records" : [ {
-      "uri" : "https://api-xmnup.lab.nordigy.ru/restapi/v1.0/account/129832006/device/71401006",
+      "uri" : "https://platform.devtest.ringcentral.com/restapi/v1.0/account/129832006/device/71401006",
       "id" : "71401006",
       "type" : "HardPhone",
       "sku" : "HP-52",
@@ -14,7 +14,7 @@
       "name" : "Something1 New1 Cisco SPA-122 ATA",
       "status" : "Offline",
       "extension" : {
-        "uri" : "https://api-xmnup.lab.nordigy.ru/restapi/v1.0/account/129832006/extension/129832006",
+        "uri" : "https://platform.devtest.ringcentral.com/restapi/v1.0/account/129832006/extension/129832006",
         "id" : 129832006,
         "extensionNumber" : "101"
       },
@@ -31,7 +31,7 @@
           "type" : "VoiceFax",
           "usageType" : "DirectNumber",
           "country" : {
-            "uri" : "https://api-xmnup.lab.nordigy.ru/restapi/v1.0/dictionary/country/224",
+            "uri" : "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/224",
             "id" : "224",
             "name" : "United Kingdom"
           }
@@ -70,7 +70,7 @@
       },
       "linePooling" : "Host"
     }, {
-      "uri" : "https://api-xmnup.lab.nordigy.ru/restapi/v1.0/account/129832006/device/71402006",
+      "uri" : "https://platform.devtest.ringcentral.com/restapi/v1.0/account/129832006/device/71402006",
       "id" : "71402006",
       "type" : "HardPhone",
       "sku" : "HP-52",
@@ -83,7 +83,7 @@
       "name" : "Something1 New1 Cisco SPA-122 ATA",
       "status" : "Offline",
       "extension" : {
-        "uri" : "https://api-xmnup.lab.nordigy.ru/restapi/v1.0/account/129832006/extension/129832006",
+        "uri" : "https://platform.devtest.ringcentral.com/restapi/v1.0/account/129832006/extension/129832006",
         "id" : 129832006,
         "extensionNumber" : "101"
       },
@@ -100,7 +100,7 @@
           "type" : "VoiceFax",
           "usageType" : "DirectNumber",
           "country" : {
-            "uri" : "https://api-xmnup.lab.nordigy.ru/restapi/v1.0/dictionary/country/160",
+            "uri" : "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/160",
             "id" : "160",
             "name" : "New Zealand"
           }
@@ -136,7 +136,7 @@
       },
       "linePooling" : "Host"
     }, {
-      "uri" : "https://api-xmnup.lab.nordigy.ru/restapi/v1.0/account/129832006/device/803423325020",
+      "uri" : "https://platform.devtest.ringcentral.com/restapi/v1.0/account/129832006/device/803423325020",
       "id" : "803423325020",
       "type" : "SoftPhone",
       "sku" : "DV-1",
@@ -145,7 +145,7 @@
       "computerName" : "LMXMN208",
       "status" : "Offline",
       "extension" : {
-        "uri" : "https://api-xmnup.lab.nordigy.ru/restapi/v1.0/account/129832006/extension/129832006",
+        "uri" : "https://platform.devtest.ringcentral.com/restapi/v1.0/account/129832006/extension/129832006",
         "id" : 129832006,
         "extensionNumber" : "101"
       },
@@ -162,7 +162,7 @@
           "type" : "VoiceFax",
           "usageType" : "DirectNumber",
           "country" : {
-            "uri" : "https://api-xmnup.lab.nordigy.ru/restapi/v1.0/dictionary/country/160",
+            "uri" : "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/160",
             "id" : "160",
             "name" : "New Zealand"
           }
@@ -170,7 +170,7 @@
       } ],
       "linePooling" : "None"
     }, {
-      "uri" : "https://api-xmnup.lab.nordigy.ru/restapi/v1.0/account/129832006/device/803464455020",
+      "uri" : "https://platform.devtest.ringcentral.com/restapi/v1.0/account/129832006/device/803464455020",
       "id" : "803464455020",
       "type" : "SoftPhone",
       "sku" : "DV-1",
@@ -179,7 +179,7 @@
       "computerName" : "LMXMN046",
       "status" : "Offline",
       "extension" : {
-        "uri" : "https://api-xmnup.lab.nordigy.ru/restapi/v1.0/account/129832006/extension/129832006",
+        "uri" : "https://platform.devtest.ringcentral.com/restapi/v1.0/account/129832006/extension/129832006",
         "id" : 129832006,
         "extensionNumber" : "101"
       },
@@ -196,7 +196,7 @@
           "type" : "VoiceFax",
           "usageType" : "DirectNumber",
           "country" : {
-            "uri" : "https://api-xmnup.lab.nordigy.ru/restapi/v1.0/dictionary/country/160",
+            "uri" : "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/160",
             "id" : "160",
             "name" : "New Zealand"
           }
@@ -214,10 +214,10 @@
     },
     "navigation" : {
       "firstPage" : {
-        "uri" : "https://api-xmnup.lab.nordigy.ru/restapi/v1.0/account/129832006/extension/129832006/device?page=1&perPage=100"
+        "uri" : "https://platform.devtest.ringcentral.com/restapi/v1.0/account/129832006/extension/129832006/device?page=1&perPage=100"
       },
       "lastPage" : {
-        "uri" : "https://api-xmnup.lab.nordigy.ru/restapi/v1.0/account/129832006/extension/129832006/device?page=1&perPage=100"
+        "uri" : "https://platform.devtest.ringcentral.com/restapi/v1.0/account/129832006/extension/129832006/device?page=1&perPage=100"
       }
     }
   }

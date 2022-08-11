@@ -1,4 +1,4 @@
-import { ASSISTED_USERS_MYSELF } from '@ringcentral-integration/commons/modules/RcVideo/constants';
+import { ASSISTED_USERS_MYSELF } from '@ringcentral-integration/commons/modules/RcVideo';
 export default {
   topic: "Meetingtitel",
   date: "Datum",
@@ -20,7 +20,7 @@ export default {
   turnOffCamera: "Camera uitschakelen voor deelnemers",
   requirePassword: "Wachtwoord vereisen",
   useE2ee: "Gebruik end-to-end-codering",
-  e2eeTooltip: "End-to-end-gecodeerde meetings zijn het meest privé, maar functies zoals deelnemen via telefoon, ondertiteling en opnemen zijn niet beschikbaar.",
+  e2eeTooltip: "Meetings die end-to-end versleuteld zijn, zijn het meest privé, maar functies als inbellen, ondertitels en opnemen zijn dan niet beschikbaar.",
   setPassword: "Wachtwoord instellen *",
   setPasswordNotSymbol: "Wachtwoord instellen",
   passwordEmptyError: "Wachtwoord meeting vereist",
@@ -78,5 +78,5 @@ export default {
 // @key: @#@"today"@#@ @source: @#@"Today"@#@
 // @key: @#@"scheduleForGuidance"@#@ @source: @#@"Scheduling for someone else?\n1. Make sure you're on their Outlook calendar.\n2. From the dropdown, select the person you're scheduling for.\n"@#@
 // @key: @#@"scheduleForGuidanceMore"@#@ @source: @#@"Learn details"@#@
-// @key: @#@"changePmiSettings"@#@ @source: @#@"Change Personal meeting settings"@#@
+// @key: @#@"changePmiSettings"@#@ @source: @#@"Change Personal Meeting settings"@#@
 // @key: @#@"ieSupportAlert"@#@ @source: @#@"Please note that {appName} won't work with Internet Explorer 11 after Feb 16, 2022. We recommend switching to Microsoft Edge or updating to Outlook 2016 or above."@#@

@@ -1,6 +1,6 @@
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-export default ObjectMap.prefixKeys(
+export const callingOptions = ObjectMap.prefixKeys(
   [
     'softphone', // RingCentral phone
     'ringout', // ringout
@@ -9,3 +9,6 @@ export default ObjectMap.prefixKeys(
   ],
   'callingOptions',
 );
+
+export type CallingOptionsKeys = keyof typeof callingOptions;
+export type CallingOptionsType = typeof callingOptions[CallingOptionsKeys];

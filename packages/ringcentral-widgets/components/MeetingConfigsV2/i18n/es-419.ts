@@ -2,7 +2,7 @@ import { ASSISTED_USERS_MYSELF } from '@ringcentral-integration/commons/modules/
 export default {
   date: "Fecha",
   time: "Hora",
-  hours: "{howMany} h",
+  hours: "{howMany} h",
   minutes: "{howMany} min",
   today: "Hoy",
   duration: "Duración",

@@ -30,6 +30,7 @@ const MeetingTopic: FunctionComponent<TopicProps> = ({
           that.topic = ref;
         }}
         onPaste={(event) => {
+          // @ts-expect-error TS(2339): Property 'value' does not exist on type 'EventTarg... Remove this comment to see the full error message
           const topic = event.target.value;
           event.preventDefault();
           event.clipboardData.items[0].getAsString((data) => {

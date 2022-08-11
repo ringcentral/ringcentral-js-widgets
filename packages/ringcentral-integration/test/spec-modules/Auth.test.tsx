@@ -7,7 +7,7 @@ import {
   title,
 } from '@ringcentral-integration/test-utils';
 
-import { Auth, loginStatus, Token } from '../../modules/AuthV2';
+import { Auth, loginStatus, Token } from '../../modules/Auth';
 import { mockModuleGenerator } from '../lib/mockModule';
 
 const getMockModule = () =>

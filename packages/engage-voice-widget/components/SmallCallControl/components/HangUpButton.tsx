@@ -3,7 +3,7 @@ import React, { FunctionComponent } from 'react';
 import classnames from 'classnames';
 
 import { RcIconButton } from '@ringcentral/juno';
-import { HandUp } from '@ringcentral/juno/icon';
+import { HandUp } from '@ringcentral/juno-icon';
 
 import { getCircleIconButtonTitle } from '../help';
 import i18n from '../i18n';

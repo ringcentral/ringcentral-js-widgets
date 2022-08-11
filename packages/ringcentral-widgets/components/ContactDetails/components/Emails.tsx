@@ -25,6 +25,7 @@ export const Emails: FunctionComponent<EmailsProps> = ({
         <li key={idx}>
           <a
             title={email}
+            // @ts-expect-error TS(2322): Type 'string | null' is not assignable to type 'st... Remove this comment to see the full error message
             className={onClickMailTo ? styles.underline : null}
             onClick={onClickMailTo && (() => onClickMailTo(email, contactType))}
           >

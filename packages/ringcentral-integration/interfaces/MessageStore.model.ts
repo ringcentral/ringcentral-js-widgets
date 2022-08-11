@@ -1,7 +1,5 @@
-import {
-  GetMessageInfoResponse,
-  SyncInfoMessages,
-} from '@rc-ex/core/definitions';
+import type GetMessageInfoResponse from '@rc-ex/core/lib/definitions/GetMessageInfoResponse';
+import type SyncInfoMessages from '@rc-ex/core/lib/definitions/SyncInfoMessages';
 
 export interface ConversationItem {
   id: string;
@@ -17,9 +15,9 @@ export type Message = Pick<
     'creationTime' | 'conversationId' | 'lastModifiedTime'
   >
 > & {
-  conversationId: string;
-  creationTime: number;
-  lastModifiedTime: number;
+  conversationId?: string;
+  creationTime?: number;
+  lastModifiedTime?: number;
   conversationMatches?: any[];
   correspondentMatches?: any[];
   lastMatchedCorrespondentEntity?: any;

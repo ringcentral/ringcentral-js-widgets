@@ -4,10 +4,10 @@ import classnames from 'classnames';
 
 import styles from './styles.scss';
 
-function capitalize(str) {
+function capitalize(str: any) {
   return str[0].toUpperCase() + str.slice(1);
 }
-function getMeidaCls(str) {
+function getMeidaCls(str: any) {
   return styles[`media${capitalize(str)}`];
 }
 type MediaObjectProps = {
@@ -48,6 +48,7 @@ const MediaObject: React.SFC<MediaObjectProps> = ({
       className={classnames({
         [styles.media]: true,
         [styles.flex]: !!flexible,
+        // @ts-expect-error TS(2464): A computed property name must be of type 'string',... Remove this comment to see the full error message
         [containerCls]: !!containerCls,
       })}
     >
@@ -91,14 +92,23 @@ const MediaObject: React.SFC<MediaObjectProps> = ({
   );
 };
 MediaObject.defaultProps = {
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   containerCls: null,
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Element | u... Remove this comment to see the full error message
   mediaLeft: null,
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | El... Remove this comment to see the full error message
   mediaBody: null,
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Element | u... Remove this comment to see the full error message
   mediaRight: null,
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   mediaHeading: null,
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   leftCls: null,
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   bodyCls: null,
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   rightCls: null,
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   headingCls: null,
   leftAlignment: 'middle',
   bodyAlignment: 'middle',

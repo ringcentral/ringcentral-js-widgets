@@ -30,7 +30,7 @@
           "code": "Proceeding",
           "mobilePickupData": {
             "ccMailboxes": ["400144455008"],
-            "to": "#19008@sip-mesdevams.lab.nordigy.ru:5060",
+            "to": "#19008@platform.devtest.ringcentral.com:5060",
             "sid": "402936472080",
             "srvLvl": "-149699523",
             "srvLvlExt": "390"

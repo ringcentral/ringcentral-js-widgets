@@ -1,6 +1,6 @@
+import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 import callResults from '@ringcentral-integration/commons/enums/callResults';
 import telephonyStatuses from '@ringcentral-integration/commons/enums/telephonyStatus';
-import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 
 export default {
   [callDirections.inbound]: 'Inbound',
@@ -47,4 +47,5 @@ export default {
   [callResults.faxReceipt]: 'Fax Receipt',
   [callResults.disconnected]: 'Disconnected',
   [callResults.notAllowed]: 'Not Allowed',
+  warmTransferSwitchCall: 'Switch calls',
 };

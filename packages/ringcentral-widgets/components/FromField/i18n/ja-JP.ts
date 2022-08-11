@@ -1,6 +1,6 @@
 export default {
-  DirectNumber: "ダイレクト",
-  MainCompanyNumber: "代表",
+  DirectNumber: "直通",
+  MainCompanyNumber: "メイン",
   CompanyNumber: "会社",
   CompanyFaxNumber: "FAX",
   Blocked: "ブロック済み",

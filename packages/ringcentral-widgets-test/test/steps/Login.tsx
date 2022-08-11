@@ -1,6 +1,7 @@
 import { StepFunction } from '../lib/step';
-import { getInstance } from '../lib/getInstance';
 import { CommonLogin } from './CommonLogin';
+import { CreateInstance } from './CreateInstance';
+import { CreateMock, MockExtensionInfo, MockGetPhoneNumber } from './Mock';
 
 interface LoginProps {
   username?: string;
@@ -9,7 +10,14 @@ interface LoginProps {
 }
 
 const Login: StepFunction<LoginProps> = async (props) => {
-  return <CommonLogin {...props} getInstance={getInstance} />;
+  return (
+    <>
+      <CreateMock />
+      <MockExtensionInfo />
+      <MockGetPhoneNumber />
+      <CommonLogin {...props} CreateInstance={CreateInstance} />
+    </>
+  );
 };
 
 export { Login };

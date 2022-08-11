@@ -1,9 +1,9 @@
 export default {
-  to: "À :",
+  to: "À :",
   transferTo: "Transférer à",
   blindTransfer: "Transférer",
   warmTransfer: "Demander d’abord",
-  enterNameOrNumber: "Entrer le numéro"
+  enterNameOrNumber: "Saisir le numéro"
 };
 
 // @key: @#@"to"@#@ @source: @#@"To:"@#@

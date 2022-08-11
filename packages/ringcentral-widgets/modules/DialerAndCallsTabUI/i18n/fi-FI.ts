@@ -1,5 +1,5 @@
 export default {
-  dialer: "Valintapaneeli",
+  dialer: "Näppäimistö",
   allCalls: "Kaikki puhelut"
 };
 

@@ -3,7 +3,7 @@ import classnames from 'classnames';
 import { presenceStatus } from '@ringcentral-integration/commons/enums/presenceStatus.enum';
 import debounce from '@ringcentral-integration/commons/lib/debounce';
 import ensureExist from '@ringcentral-integration/commons/lib/ensureExist';
-import dndStatus from '@ringcentral-integration/commons/modules/Presence/dndStatus';
+import { dndStatus } from '@ringcentral-integration/commons/modules/Presence';
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
 import formatDuration from '../formatDuration';
@@ -39,20 +39,33 @@ const ROTATE_INTERVAL = 5000;
 
 export default class AdapterCore {
   currentState: number;
+  // @ts-expect-error TS(2564): Property 'callInfoMap' has no initializer and is n... Remove this comment to see the full error message
   callInfoMap: Record<number, boolean>;
+  // @ts-expect-error TS(2564): Property '_otherDeviceCallsLength' has no initiali... Remove this comment to see the full error message
   private _otherDeviceCallsLength: number;
+  // @ts-expect-error TS(2564): Property '_onHoldCallsLength' has no initializer a... Remove this comment to see the full error message
   private _onHoldCallsLength: number;
+  // @ts-expect-error TS(2564): Property '_ringingCallsLength' has no initializer ... Remove this comment to see the full error message
   private _ringingCallsLength: number;
+  // @ts-expect-error TS(2564): Property '_currentStartTime' has no initializer an... Remove this comment to see the full error message
   private _currentStartTime: number;
+  // @ts-expect-error TS(2564): Property '_otherDeviceCallsEl' has no initializer ... Remove this comment to see the full error message
   private _otherDeviceCallsEl: HTMLElement;
+  // @ts-expect-error TS(2564): Property '_onHoldCallsEl' has no initializer and i... Remove this comment to see the full error message
   private _onHoldCallsEl: HTMLElement;
+  // @ts-expect-error TS(2564): Property '_ringingCallsEl' has no initializer and ... Remove this comment to see the full error message
   private _ringingCallsEl: HTMLElement;
+  // @ts-expect-error TS(2564): Property '_durationEl' has no initializer and is n... Remove this comment to see the full error message
   private _durationEl: HTMLElement;
+  // @ts-expect-error TS(2564): Property '_currentCallEl' has no initializer and i... Remove this comment to see the full error message
   private _currentCallEl: HTMLElement;
+  // @ts-expect-error TS(2564): Property '_viewCallsEl' has no initializer and is ... Remove this comment to see the full error message
   private _viewCallsEl: HTMLElement;
+  // @ts-expect-error TS(2564): Property '_scrollable' has no initializer and is n... Remove this comment to see the full error message
   private _scrollable: boolean;
   private _strings: any;
   private _hoverBar: any;
+  // @ts-expect-error TS(2564): Property 'lastState' has no initializer and is not... Remove this comment to see the full error message
   lastState: number;
   private _onAllCallsPath: any;
   private _onCurrentCallPath: any;
@@ -90,6 +103,7 @@ export default class AdapterCore {
   _presenceItemEls: any;
   _dropdownPresence: any;
   _contentFrameEl: any;
+  // @ts-expect-error TS(2564): Property '_isClick' has no initializer and is not ... Remove this comment to see the full error message
   _isClick: boolean;
   _resizeTimeout: any;
   _resizeTick: any;
@@ -97,10 +111,14 @@ export default class AdapterCore {
   _logoUrl: any;
   _appUrl: any;
   _ringing: any;
+  // @ts-expect-error TS(2564): Property '_hasActiveCalls' has no initializer and ... Remove this comment to see the full error message
   _hasActiveCalls: boolean;
   _locale: any;
-  rotateInterval: any;
-  durationInterval: any;
+  // @ts-expect-error TS(2564): Property 'rotateInterval' has no initializer and i... Remove this comment to see the full error message
+  rotateInterval: number;
+  // @ts-expect-error TS(2564): Property 'durationInterval' has no initializer and... Remove this comment to see the full error message
+  durationInterval: number;
+  _themeVariableString: string;
 
   // life cycle
   protected _beforeRender() {}
@@ -113,9 +131,11 @@ export default class AdapterCore {
     messageTypes = baseMessageTypes,
     defaultDirection = 'left',
     defaultPadding = 15,
-  }) {
+    themeVariableString,
+  }: any) {
     this._prefix = prefix;
     this._messageTypes = ObjectMap.prefixValues(messageTypes, prefix);
+    // @ts-expect-error TS(2345): Argument of type 'string' is not assignable to par... Remove this comment to see the full error message
     this._container = ensureExist.call(this, container, 'container');
     this._root = root;
     this._styles = styles;
@@ -145,9 +165,10 @@ export default class AdapterCore {
     this._scrollale = false;
 
     this._strings = {};
+    this._themeVariableString = themeVariableString;
   }
 
-  _onMessage(msg) {
+  _onMessage(msg: any) {
     if (msg) {
       switch (msg.type) {
         case this._messageTypes.syncClosed:
@@ -186,7 +207,7 @@ export default class AdapterCore {
     }
   }
 
-  _getContentDOM(sanboxAttributeValue, allowAttributeValue) {
+  _getContentDOM(sanboxAttributeValue: any, allowAttributeValue: any) {
     return `
       <header class="${this._styles.header}" draggable="false">
         <div class="${this._styles.presence} ${this._styles.noPresence}">
@@ -248,6 +269,7 @@ export default class AdapterCore {
       ALLOW_ATTRIBUTE_VALUE,
     );
     this._headerEl = this._root.querySelector(`.${this._styles.header}`);
+    this._headerEl.style.cssText = this._themeVariableString;
     this._logoEl = this._root.querySelector(`.${this._styles.logo}`);
     this._logoEl.addEventListener('dragstart', () => false);
 
@@ -257,7 +279,7 @@ export default class AdapterCore {
 
     // toggle button
     this._toggleEl = this._root.querySelector(`.${this._styles.toggle}`);
-    this._toggleEl.addEventListener(clickEvent, (evt) => {
+    this._toggleEl.addEventListener(clickEvent, (evt: any) => {
       evt.stopPropagation();
       this.toggleMinimized();
     });
@@ -271,7 +293,7 @@ export default class AdapterCore {
     }
 
     this._presenceEl = this._root.querySelector(`.${this._styles.presence}`);
-    this._presenceEl.addEventListener(clickEvent, (evt) => {
+    this._presenceEl.addEventListener(clickEvent, (evt: any) => {
       evt.stopPropagation();
       this.togglePresenceDropdown();
     });
@@ -280,13 +302,14 @@ export default class AdapterCore {
       `.${this._styles.presenceItem}`,
     );
 
-    this._presenceItemEls.forEach((itemEl) => {
+    this._presenceItemEls.forEach((itemEl: any) => {
       const dataPresence = itemEl.getAttribute('data-presence');
-      itemEl.addEventListener(clickEvent, (evt) => {
+      itemEl.addEventListener(clickEvent, (evt: any) => {
         evt.stopPropagation();
         this.togglePresenceDropdown();
         this._postMessage({
           type: this._messageTypes.presenceItemClicked,
+          // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
           presenceType: presenceStatus[dataPresence] || dndStatus[dataPresence],
         });
       });
@@ -296,7 +319,7 @@ export default class AdapterCore {
       `.${this._styles.dropdownPresence}`,
     );
     if (this._dropdownPresence) {
-      this._dropdownPresence.addEventListener(clickEvent, (evt) => {
+      this._dropdownPresence.addEventListener(clickEvent, (evt: any) => {
         evt.stopPropagation();
         this.togglePresenceDropdown();
       });
@@ -346,7 +369,7 @@ export default class AdapterCore {
       `.${this._styles.otherDeviceCalls}`,
     );
 
-    this._headerEl.addEventListener('mousedown', (evt) => {
+    this._headerEl.addEventListener('mousedown', (evt: any) => {
       this._dragging = true;
       this._isClick = true;
       this._dragStartPosition = {
@@ -386,8 +409,9 @@ export default class AdapterCore {
     });
 
     this._isClick = true;
-    this._headerEl.addEventListener(clickEvent, (evt) => {
+    this._headerEl.addEventListener(clickEvent, (evt: any) => {
       if (this._isClick) {
+        // @ts-expect-error TS(2554): Expected 0 arguments, but got 1.
         this._onHeaderClicked(evt);
       }
     });
@@ -442,7 +466,7 @@ export default class AdapterCore {
     }
   };
 
-  _onWindowMouseMove = (evt) => {
+  _onWindowMouseMove = (evt: any) => {
     if (this._dragging) {
       if (evt.buttons === 0) {
         this._dragging = false;
@@ -482,11 +506,11 @@ export default class AdapterCore {
     return this._messageTransport;
   }
 
-  _postMessage(data) {
+  _postMessage(data: any) {
     this.messageTransport.postMessage(data);
   }
 
-  _setLogoUrl(logoUrl) {
+  _setLogoUrl(logoUrl: any) {
     this._logoUrl = logoUrl;
     this._logoEl.src = logoUrl;
     this._logoEl.setAttribute(
@@ -498,21 +522,21 @@ export default class AdapterCore {
     );
   }
 
-  _setAppUrl(appUrl) {
+  _setAppUrl(appUrl: any) {
     this._appUrl = appUrl;
     if (appUrl) {
       this.contentFrameEl.src = appUrl;
     }
   }
 
-  _onSyncMinimized(minimized) {
+  _onSyncMinimized(minimized: any) {
     this._minimized = !!minimized;
     this._renderMainClass();
     this.renderAdapterSize();
     this._renderRestrictedPosition();
   }
 
-  setMinimized(minimized) {
+  setMinimized(minimized: any) {
     this._onSyncMinimized(minimized);
     this._postMessage({
       type: this._messageTypes.syncMinimized,
@@ -546,12 +570,12 @@ export default class AdapterCore {
     };
   }
 
-  _onSyncClosed(closed) {
+  _onSyncClosed(closed: any) {
     this._closed = !!closed;
     this._renderMainClass();
   }
 
-  setClosed(closed) {
+  setClosed(closed: any) {
     this._onSyncClosed(closed);
     this._postMessage({
       type: this._messageTypes.syncClosed,
@@ -563,7 +587,7 @@ export default class AdapterCore {
     this.setClosed(!this.closed);
   }
 
-  _onSyncSize({ width, height }) {
+  _onSyncSize({ width, height }: any) {
     this._appWidth = width;
     this._appHeight = height;
     this._contentFrameEl.style.width = `${width}px`;
@@ -571,7 +595,7 @@ export default class AdapterCore {
     this.renderAdapterSize();
   }
 
-  setSize(size) {
+  setSize(size: any) {
     this._onSyncSize(size);
     this._postMessage({
       type: this._messageTypes.syncSize,
@@ -579,7 +603,7 @@ export default class AdapterCore {
     });
   }
 
-  _onPushRingState({ ringing }) {
+  _onPushRingState({ ringing }: any) {
     this._ringing = ringing;
     this._render();
   }
@@ -589,7 +613,7 @@ export default class AdapterCore {
     onHoldCallsLength,
     otherDeviceCallsLength,
     currentStartTime,
-  }) {
+  }: any) {
     this._currentStartTime = currentStartTime;
     this._ringingCallsLength = ringingCallsLength;
     this._onHoldCallsLength = onHoldCallsLength;
@@ -602,17 +626,22 @@ export default class AdapterCore {
     this.renderCallsBar();
   }
 
-  _onPushOnCurrentCallPath({ onCurrentCallPath }) {
+  _onPushOnCurrentCallPath({ onCurrentCallPath }: any) {
     this._onCurrentCallPath = onCurrentCallPath;
     this._render();
   }
 
-  _onPushOnAllCallsPath({ onAllCallsPath }) {
+  _onPushOnAllCallsPath({ onAllCallsPath }: any) {
     this._onAllCallsPath = onAllCallsPath;
     this._render();
   }
 
-  _onPushPresence({ dndStatus, userStatus, telephonyStatus, presenceOption }) {
+  _onPushPresence({
+    dndStatus,
+    userStatus,
+    telephonyStatus,
+    presenceOption,
+  }: any) {
     if (
       dndStatus !== this._dndStatus ||
       userStatus !== this._userStatus ||
@@ -626,7 +655,7 @@ export default class AdapterCore {
     }
   }
 
-  _onPushLocale({ locale, strings = {} }) {
+  _onPushLocale({ locale, strings = {} }: any) {
     this._locale = locale;
     this._strings = strings;
     this._renderString();
@@ -662,7 +691,7 @@ export default class AdapterCore {
     dndStatus,
     userStatus,
     telephonyStatus,
-  }) {
+  }: any) {
     this._minimized = minimized;
     this._closed = closed;
     if (!this._dragging) {
@@ -787,10 +816,12 @@ export default class AdapterCore {
       ),
     );
 
-    this._presenceItemEls.forEach((presenceItem) => {
+    this._presenceItemEls.forEach((presenceItem: any) => {
       const dataPresence = presenceItem.getAttribute('data-presence');
       if (
+        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         presenceStatus[dataPresence] === this._presenceOption ||
+        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         dndStatus[dataPresence] === this._presenceOption
       ) {
         presenceItem.setAttribute(
@@ -815,6 +846,7 @@ export default class AdapterCore {
     // should clean up rotate duration when call info changed
     if (this.rotateInterval) {
       clearInterval(this.rotateInterval);
+      // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'number'.
       this.rotateInterval = null;
     }
     // when there is no call
@@ -824,6 +856,7 @@ export default class AdapterCore {
       this._hoverBar = false;
       if (this.durationInterval) {
         clearInterval(this.durationInterval);
+        // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'number'.
         this.durationInterval = null;
       }
       this._renderCallsBar();
@@ -854,6 +887,7 @@ export default class AdapterCore {
       this._hoverBar = false;
       if (this.durationInterval) {
         clearInterval(this.durationInterval);
+        // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'number'.
         this.durationInterval = null;
       }
       this._renderRingingCalls();
@@ -880,6 +914,7 @@ export default class AdapterCore {
     };
     // when multiple calls, should scroll with call info
     this.rotateCallInfo();
+    // @ts-expect-error TS(2322): Type 'Timeout' is not assignable to type 'number'.
     this.rotateInterval = setInterval(() => {
       this.rotateCallInfo();
     }, ROTATE_INTERVAL);
@@ -1035,10 +1070,12 @@ export default class AdapterCore {
   _renderCallDuration() {
     if (this.durationInterval) {
       clearInterval(this.durationInterval);
+      // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'number'.
       this.durationInterval = null;
     }
     const duration = formatDuration(this.calculateState());
     this._durationEl.innerHTML = duration;
+    // @ts-expect-error TS(2322): Type 'Timeout' is not assignable to type 'number'.
     this.durationInterval = setInterval(() => {
       const duration = formatDuration(this.calculateState());
       this._durationEl.innerHTML = duration;
@@ -1085,7 +1122,7 @@ export default class AdapterCore {
     if (!this._strings) {
       return;
     }
-    this._presenceItemEls.forEach((presenceItem) => {
+    this._presenceItemEls.forEach((presenceItem: any) => {
       const dataPresence = presenceItem.getAttribute('data-presence');
       presenceItem.querySelector('span').innerHTML =
         this._strings[`${dataPresence}Btn`];
@@ -1101,7 +1138,7 @@ export default class AdapterCore {
   }
 
   dispose() {
-    // TODO clean up
+    // TODO: clean up
     window.removeEventListener('mousemove', this._onWindowMouseMove);
     window.removeEventListener('resize', this._onWindowResize);
     if (this._resizeTimeout) {

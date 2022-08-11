@@ -1,7 +1,7 @@
 export default {
-  flipHeader: "將通話轉接至...",
-  flip: "轉接",
-  complete: "完成轉接"
+  flipHeader: "將通話切換至...",
+  flip: "切換",
+  complete: "完成切換"
 };
 
 // @key: @#@"flipHeader"@#@ @source: @#@"Flip Call to..."@#@

@@ -1,12 +1,12 @@
 export default {
   DirectNumber: "Suora",
   MainCompanyNumber: "Päänumero",
-  CompanyNumber: "Yhtiö",
+  CompanyNumber: "Yritys",
   CompanyFaxNumber: "Faksi",
   Blocked: "Estetty",
   AdditionalCompanyNumber: "Yritys",
   ForwardedCompanyNumber: "Siirretty",
-  from: "Soittaja"
+  from: "Lähettäjä"
 };
 
 // @key: @#@"DirectNumber"@#@ @source: @#@"Direct"@#@

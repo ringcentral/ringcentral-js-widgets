@@ -1,6 +1,6 @@
 export default {
   currentCall: "Chamada atual",
-  viewCalls: "Visualizar",
+  viewCalls: "Exibir",
   view: "Exibir",
   incomingCall: "{numberOf} chamada recebida",
   incomingCalls: "{numberOf} chamadas recebidas",

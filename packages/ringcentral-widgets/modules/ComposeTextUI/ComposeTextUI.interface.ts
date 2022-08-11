@@ -1,14 +1,15 @@
 import { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures';
 import { Brand } from '@ringcentral-integration/commons/modules/Brand';
-import { ComposeText } from '@ringcentral-integration/commons/modules/ComposeTextV2';
-import { ConnectivityMonitor } from '@ringcentral-integration/commons/modules/ConnectivityMonitorV2';
-import { ContactSearch } from '@ringcentral-integration/commons/modules/ContactSearchV2';
-import { Conversations } from '@ringcentral-integration/commons/modules/ConversationsV2';
+import { ComposeText } from '@ringcentral-integration/commons/modules/ComposeText';
+import { ConnectivityMonitor } from '@ringcentral-integration/commons/modules/ConnectivityMonitor';
+import { ContactSearch } from '@ringcentral-integration/commons/modules/ContactSearch';
+import { Conversations } from '@ringcentral-integration/commons/modules/Conversations';
 import { Locale } from '@ringcentral-integration/commons/modules/Locale';
-import { MessageSender } from '@ringcentral-integration/commons/modules/MessageSenderV2';
-import { MessageStore } from '@ringcentral-integration/commons/modules/MessageStoreV2';
-import { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiterV2';
+import { MessageSender } from '@ringcentral-integration/commons/modules/MessageSender';
+import { MessageStore } from '@ringcentral-integration/commons/modules/MessageStore';
+import { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiter';
 import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
+import { AccountInfo } from '@ringcentral-integration/commons/modules/AccountInfo';
 
 import { RouterInteraction } from '../RouterInteraction';
 
@@ -25,6 +26,7 @@ export interface Deps {
   regionSettings: RegionSettings;
   appFeatures: AppFeatures;
   routerInteraction: RouterInteraction;
+  accountInfo: AccountInfo;
 }
 
 export interface ComposeTextUIComponentProps {
@@ -35,4 +37,5 @@ export interface ComposeTextUIComponentProps {
   phoneSourceNameRenderer?: (...arg: any[]) => any;
   recipientsContactInfoRenderer?: (...arg: any[]) => any;
   recipientsContactPhoneRenderer?: (...arg: any[]) => any;
+  useRecipientsInputV2?: boolean;
 }

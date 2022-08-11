@@ -3,7 +3,7 @@ export default {
   text: "SMS",
   fax: "Fax",
   voicemail: "Messagerie vocale",
-  call: "Appeler"
+  call: "Appel"
 };
 
 // @key: @#@"recentActivities"@#@ @source: @#@"Recent Activities"@#@

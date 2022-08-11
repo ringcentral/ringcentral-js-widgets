@@ -40,7 +40,7 @@
     } ],
     "profileImage": {
       "etag": "4567da7e386282f39482203d55bac2c9",
-      "uri": "http://media-xmnup.lab.nordigy.ru/restapi/v1.0/account/129836006/extension/206745006/profile-image"
+      "uri": "http://platform.devtest.ringcentral.com/restapi/v1.0/account/129836006/extension/206745006/profile-image"
     }
   }, {
     "id" : "228705006",

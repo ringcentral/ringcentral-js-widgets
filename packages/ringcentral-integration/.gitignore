@@ -40,9 +40,6 @@ karma
 release
 dev-server/config.js
 
-integration-test/commons/config/apiConfig.js
-integration-test/commons/config/testAccount.js
-
 demo-extension-build
 
 junit

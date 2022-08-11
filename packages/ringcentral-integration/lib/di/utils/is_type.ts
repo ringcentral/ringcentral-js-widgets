@@ -1,3 +1,4 @@
+// @ts-nocheck
 export function isEmpty(param) {
   return !param || param.length === 0;
 }

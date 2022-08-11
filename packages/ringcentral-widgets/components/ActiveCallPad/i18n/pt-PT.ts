@@ -1,6 +1,6 @@
 export default {
   unmute: "Ativar som",
-  mute: "Desat. som",
+  mute: "Desativar som",
   keypad: "Teclado",
   hold: "Em espera",
   onHold: "Em espera",

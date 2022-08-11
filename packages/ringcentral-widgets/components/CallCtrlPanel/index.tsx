@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, memo } from 'react';
 
 import callCtrlLayouts from '../../enums/callCtrlLayouts';
 import ActiveCallDialPad from '../ActiveCallDialPad';
@@ -73,7 +73,16 @@ type CallCtrlPanelState = {
   isShowMergeConfirm: boolean;
 };
 class CallCtrlPanel extends Component<CallCtrlPanelProps, CallCtrlPanelState> {
-  constructor(props) {
+  confirmMerge: any;
+  hiddenKeyPad: any;
+  hideMergeConfirm: any;
+  hideMergeConfirmAlt: any;
+  onFlip: any;
+  onMerge: any;
+  onTransfer: any;
+  showKeyPad: any;
+  showMergeConfirm: any;
+  constructor(props: any) {
     super(props);
     this.state = {
       isShowKeyPad: false,
@@ -90,6 +99,7 @@ class CallCtrlPanel extends Component<CallCtrlPanelProps, CallCtrlPanelState> {
       });
     };
     this.onFlip = () => {
+      // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
       this.props.onFlip(this.props.sessionId);
     };
     this.onTransfer = () => {
@@ -108,6 +118,7 @@ class CallCtrlPanel extends Component<CallCtrlPanelProps, CallCtrlPanelState> {
         }
       }
       // track user click merge
+      // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
       this.props.afterOnMerge();
     };
     this.showMergeConfirm = () => {
@@ -123,6 +134,7 @@ class CallCtrlPanel extends Component<CallCtrlPanelProps, CallCtrlPanelState> {
     this.hideMergeConfirmAlt = () => {
       this.hideMergeConfirm();
       // user action track
+      // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
       this.props.afterHideMergeConfirm();
     };
     this.confirmMerge = () => {
@@ -133,10 +145,12 @@ class CallCtrlPanel extends Component<CallCtrlPanelProps, CallCtrlPanelState> {
         this.props.onMerge();
       }
       // user action track
+      // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
       this.props.afterConfirmMerge();
     };
   }
-  componentWillReceiveProps(nextProps) {
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
+  UNSAFE_componentWillReceiveProps(nextProps: any) {
     if (!nextProps.hasConferenceCall && this.state.isShowMergeConfirm) {
       this.hideMergeConfirm();
     }
@@ -145,6 +159,7 @@ class CallCtrlPanel extends Component<CallCtrlPanelProps, CallCtrlPanelState> {
       this.hideMergeConfirm();
     }
   }
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     const {
       onKeyPadChange,
@@ -206,6 +221,7 @@ class CallCtrlPanel extends Component<CallCtrlPanelProps, CallCtrlPanelState> {
     if (isShowKeyPad) {
       return (
         <ActiveCallDialPad
+          // @ts-expect-error TS(2322): Type '((...args: any[]) => any) | undefined' is no... Remove this comment to see the full error message
           onChange={onKeyPadChange}
           hiddenDialPad={this.hiddenKeyPad}
           onHangup={onHangup}
@@ -228,12 +244,15 @@ class CallCtrlPanel extends Component<CallCtrlPanelProps, CallCtrlPanelState> {
         isOnHold={isOnHold}
         isOnTransfer={isOnTransfer}
         isOnWaitingTransfer={isOnWaitingTransfer}
+        // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
         recordStatus={recordStatus}
         onMute={onMute}
         onUnmute={onUnmute}
         onHold={onHold}
         onUnhold={onUnhold}
+        // @ts-expect-error TS(2322): Type '((...args: any[]) => any) | undefined' is no... Remove this comment to see the full error message
         onRecord={onRecord}
+        // @ts-expect-error TS(2322): Type '((...args: any[]) => any) | undefined' is no... Remove this comment to see the full error message
         onStopRecord={onStopRecord}
         onShowKeyPad={this.showKeyPad}
         onHangup={onHangup}
@@ -246,6 +265,7 @@ class CallCtrlPanel extends Component<CallCtrlPanelProps, CallCtrlPanelState> {
         areaCode={areaCode}
         countryCode={countryCode}
         selectedMatcherIndex={selectedMatcherIndex}
+        // @ts-expect-error TS(2322): Type '((...args: any[]) => any) | undefined' is no... Remove this comment to see the full error message
         onSelectMatcherName={onSelectMatcherName}
         avatarUrl={avatarUrl}
         brand={brand}
@@ -286,6 +306,7 @@ class CallCtrlPanel extends Component<CallCtrlPanelProps, CallCtrlPanelState> {
     );
   }
 }
+// @ts-expect-error TS(2339): Property 'defaultProps' does not exist on type 'ty... Remove this comment to see the full error message
 CallCtrlPanel.defaultProps = {
   startTime: null,
   isOnMute: false,
@@ -315,7 +336,7 @@ CallCtrlPanel.defaultProps = {
   conferenceCallParties: undefined,
   lastCallInfo: undefined,
   getAvatarUrl: () => null,
-  gotoParticipantsCtrl: (i) => i,
+  gotoParticipantsCtrl: (i: any) => i,
   afterHideMergeConfirm: () => null,
   afterConfirmMerge: () => null,
   afterOnMerge: () => null,
@@ -335,4 +356,4 @@ CallCtrlPanel.defaultProps = {
   isOnWaitingTransfer: false,
   isOnTransfer: false,
 };
-export default CallCtrlPanel;
+export default memo(CallCtrlPanel);

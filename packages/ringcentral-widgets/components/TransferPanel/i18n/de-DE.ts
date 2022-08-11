@@ -1,7 +1,7 @@
 export default {
-  to: "An:",
-  transferTo: "Weiterleiten an",
-  blindTransfer: "Weiterleitung",
+  to: "Versenden an:",
+  transferTo: "Übertragen an",
+  blindTransfer: "Übertragung",
   warmTransfer: "Zuerst fragen",
   enterNameOrNumber: "Nummer eingeben"
 };

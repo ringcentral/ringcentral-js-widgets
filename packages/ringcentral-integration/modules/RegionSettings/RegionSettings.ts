@@ -1,4 +1,9 @@
-import { find } from 'ramda';
+import {
+  CountryCode,
+  getCountryCallingCode,
+  parsePhoneNumber,
+} from 'libphonenumber-js';
+import { find, includes } from 'ramda';
 
 import {
   action,
@@ -23,6 +28,9 @@ import { regionSettingsMessages } from './regionSettingsMessages';
     'DialingPlan',
     'ExtensionInfo',
     'Storage',
+    'ExtensionPhoneNumber',
+    'AppFeatures',
+    { dep: 'ExtensionNumberAreaCode', optional: true },
     { dep: 'TabManager', optional: true },
     { dep: 'RegionSettingsOptions', optional: true },
   ],
@@ -34,27 +42,21 @@ export class RegionSettings extends RcModuleV2<Deps> {
       enableCache: true,
       storageKey: 'RegionSettings',
     });
-    /* migration storage v1 to v2 */
-    if (this._deps.storage) {
-      this._deps.storage.migrationMapping =
-        this._deps.storage.migrationMapping ?? {};
-      this._deps.storage.migrationMapping['RegionSettings-data'] = {
-        countryCode: 'regionSettingsCountryCode',
-        areaCode: 'regionSettingsAreaCode',
-      };
-    }
-    /* migration storage v1 to v2 */
   }
 
   @storage
   @state
   data = {
-    countryCode: 'US',
+    countryCode: this._deps.extensionInfo?.isoCode || '',
     areaCode: '',
   };
 
-  get countryCode() {
-    return this.data.countryCode || 'US';
+  get countryCode(): CountryCode {
+    return (
+      (this.data.countryCode as CountryCode) ||
+      this._deps.extensionInfo.isoCode ||
+      'US'
+    );
   }
 
   get areaCode() {
@@ -70,7 +72,7 @@ export class RegionSettings extends RcModuleV2<Deps> {
     this.data.areaCode = areaCode;
   }
 
-  onInitOnce() {
+  override onInitOnce() {
     watch(
       this,
       () => this.availableCountries,
@@ -85,7 +87,7 @@ export class RegionSettings extends RcModuleV2<Deps> {
     );
   }
 
-  onInit() {
+  override onInit() {
     if (!this._deps.tabManager || this._deps.tabManager.active) {
       this.checkRegionSettings();
     }
@@ -114,7 +116,8 @@ export class RegionSettings extends RcModuleV2<Deps> {
 
   @proxify
   async checkRegionSettings() {
-    let { countryCode } = this;
+    let countryCode: CountryCode | null = this.countryCode;
+
     if (
       countryCode &&
       !find((plan) => plan.isoCode === countryCode, this.availableCountries)
@@ -127,15 +130,16 @@ export class RegionSettings extends RcModuleV2<Deps> {
         this._alertSettingsChanged();
       }
     }
+
     if (!countryCode) {
       const country =
         find(
           (plan) => plan.isoCode === this._deps.extensionInfo.country.isoCode,
           this.availableCountries,
         ) || this.availableCountries[0];
-      countryCode = country && country.isoCode;
+
       this._setData({
-        countryCode,
+        countryCode: country?.isoCode,
         areaCode: '',
       });
     }
@@ -143,7 +147,8 @@ export class RegionSettings extends RcModuleV2<Deps> {
 
   @proxify
   async setData({ areaCode, countryCode }: RegionSettingsData) {
-    if (!validateAreaCode(areaCode)) {
+    const isEDPEnabled = this._deps.appFeatures.isEDPEnabled;
+    if (!isEDPEnabled && !validateAreaCode(areaCode)) {
       this._deps.alert.danger({
         message: regionSettingsMessages.areaCodeInvalid,
       });
@@ -153,7 +158,7 @@ export class RegionSettings extends RcModuleV2<Deps> {
       countryCode,
       areaCode: areaCode && areaCode.trim(),
     });
-    this._deps.alert.info({
+    this._deps.alert.success({
       message: regionSettingsMessages.saveSuccess,
     });
   }
@@ -179,8 +184,11 @@ export class RegionSettings extends RcModuleV2<Deps> {
       this.availableCountries.length === 1 &&
       (this.availableCountries[0].isoCode === 'US' ||
         this.availableCountries[0].isoCode === 'CA');
+    const isEDPEnabled = this._deps.appFeatures.isEDPEnabled;
 
-    return allowRegionSettings && (hasMultiplePlans || isUSOrCA);
+    return (
+      allowRegionSettings && (hasMultiplePlans || isEDPEnabled || isUSOrCA)
+    );
   }
 
   @computed(({ availableCountries, countryCode }: RegionSettings) => [
@@ -193,5 +201,38 @@ export class RegionSettings extends RcModuleV2<Deps> {
     );
     const homeCountryId = (homeCountry && homeCountry.id) || '1';
     return homeCountryId;
+  }
+
+  @computed((that: RegionSettings) => [
+    that.areaCode,
+    that.countryCode,
+    that._deps.appFeatures.isEDPEnabled,
+    that._deps.extensionNumberAreaCode?.defaultAreaCode,
+  ])
+  get defaultAreaCode(): string | null {
+    const isEDPEnabled = this._deps.appFeatures.isEDPEnabled;
+    if (isEDPEnabled && includes(this.countryCode, ['US', 'PR'])) {
+      return null;
+    }
+
+    if (this.areaCode) return this.areaCode;
+
+    const extensionAreaCode =
+      this._deps.extensionNumberAreaCode?.defaultAreaCode;
+    const callingCode = getCountryCallingCode(this.countryCode as CountryCode);
+    const { primaryNumber, mainCompanyNumber } =
+      this._deps.extensionPhoneNumber;
+
+    const mainNumberCallingCode =
+      mainCompanyNumber?.phoneNumber &&
+      parsePhoneNumber(mainCompanyNumber.phoneNumber).countryCallingCode;
+    const primaryNumberCallingCode =
+      primaryNumber?.phoneNumber &&
+      parsePhoneNumber(primaryNumber.phoneNumber).countryCallingCode;
+
+    const canUseExtensionAreaCode =
+      primaryNumberCallingCode === callingCode ||
+      mainNumberCallingCode === callingCode;
+    return (canUseExtensionAreaCode && extensionAreaCode) || null;
   }
 }

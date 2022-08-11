@@ -1,12 +1,14 @@
 import React from 'react';
-import NavigationBar from '@ringcentral-integration/widgets/components/NavigationBar';
-import { SettingsPanel } from '@ringcentral-integration/widgets/components/SettingsPanel';
-import ComposeTextPanel from '@ringcentral-integration/widgets/components/ComposeTextPanel';
-import { PresenceSettingSection } from '@ringcentral-integration/widgets/components/PresenceSettingSection';
-import { PresenceItem } from '@ringcentral-integration/widgets/components/PresenceItem';
-import ConnectivityBadge from '@ringcentral-integration/widgets/components/ConnectivityBadge';
 
-import { initPhoneWrapper, timeout, tearDownWrapper } from '../shared';
+import { sleep } from '@ringcentral-integration/commons/utils';
+import ComposeTextPanel from '@ringcentral-integration/widgets/components/ComposeTextPanel';
+import ConnectivityBadge from '@ringcentral-integration/widgets/components/ConnectivityBadge';
+import NavigationBar from '@ringcentral-integration/widgets/components/NavigationBar';
+import { PresenceItem } from '@ringcentral-integration/widgets/components/PresenceItem';
+import { PresenceSettingSection } from '@ringcentral-integration/widgets/components/PresenceSettingSection';
+import { SettingsPanel } from '@ringcentral-integration/widgets/components/SettingsPanel';
+
+import { initPhoneWrapper, tearDownWrapper } from '../shared';
 import { HAMocks } from './mockLimited';
 
 const MAX_PRESENCE_OPTIONS = 4;
@@ -77,11 +79,11 @@ describe.skip('From `Normal Mode` to `Limited Mode`', () => {
     textArea.instance().value = messageContent;
     await textArea.simulate('change');
     // wait for textArea 500ms debounce;
-    await timeout(1000);
+    await sleep(1000);
     wrapper.update();
     await sendButton.simulate('click');
 
-    await timeout(500);
+    await sleep(500);
     wrapper.update();
     const contains = wrapper.contains(
       <div>
@@ -162,7 +164,6 @@ describe.skip('From `Normal Mode` to `Limited Mode`', () => {
 
     try {
       const busyItem = await getPresenceItem(wrapper, 1);
-      debugger;
       await busyItem.click();
     } catch (error) {
       console.error('===>Change presence error: ', error);
@@ -170,11 +171,11 @@ describe.skip('From `Normal Mode` to `Limited Mode`', () => {
     const monitor = wrapper.prop('phone').availabilityMonitor;
     monitor._randomTime = 0.0001;
     // Default waiting value
-    await timeout(200);
+    await sleep(200);
     wrapper.update();
 
     expect(wrapper.find(ConnectivityBadge).text()).toEqual('Limited Mode');
-    await timeout((waitingSeconds + 0.5) * 1000);
+    await sleep((waitingSeconds + 0.5) * 1000);
     wrapper.update();
 
     expect(wrapper.find(ConnectivityBadge).text()).toEqual('');

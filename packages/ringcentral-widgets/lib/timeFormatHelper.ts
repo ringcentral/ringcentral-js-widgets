@@ -8,6 +8,6 @@ export function setUTCTime(time: number | Date = Date.now()) {
   return Date.UTC(year, month, date);
 }
 
-export function getDateFromUTCDay(timeStamp) {
+export function getDateFromUTCDay(timeStamp: any) {
   return new Date(moment.utc(timeStamp).format('MM/DD/YYYY'));
 }

@@ -1,7 +1,7 @@
 import { alpha3ToAlpha2 } from 'i18n-iso-countries';
 
 import { Module } from '@ringcentral-integration/commons/lib/di';
-import callErrors from '@ringcentral-integration/commons/modules/Call/callErrors';
+import { callErrors } from '@ringcentral-integration/commons/modules/Call';
 import {
   action,
   computed,
@@ -280,7 +280,7 @@ class EvTransferCall extends RcModuleV2<Deps> implements TransferCall {
     ).available;
   }
 
-  onInitOnce() {
+  override onInitOnce() {
     this._deps.evAgentSession.onTriggerConfig(async () => {
       this.setTransferStatus(transferStatuses.idle);
     });
@@ -701,7 +701,7 @@ class EvTransferCall extends RcModuleV2<Deps> implements TransferCall {
           countryId,
         });
       } else {
-        // TODO handle to ban transferring international call
+        // TODO: handle to ban transferring international call
       }
     } else {
       await this.evClient.coldTransferCall({ dialDest });

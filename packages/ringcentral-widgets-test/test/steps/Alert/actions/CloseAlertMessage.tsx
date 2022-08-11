@@ -1,18 +1,32 @@
 import { waitForRenderReady } from '@ringcentral-integration/test-utils/lib/test-utils';
-import { screen, waitFor, fireEvent } from '@testing-library/react';
+import {
+  screen,
+  waitFor,
+  fireEvent,
+  queryByTestId,
+  prettyDOM,
+} from '@testing-library/react';
 import { StepFunction } from '../../../lib/step';
 
 export const CloseAlertMessage: StepFunction<{
   message?: string;
 }> = async ({ message }, context) => {
   jest.useFakeTimers();
-  await waitFor(
-    () => {
-      expect(screen.getByTestId('alert')).toBeInTheDocument();
-    },
-    { timeout: 3000 },
-  );
-  fireEvent.click(screen.getByTestId('dismiss'));
+  await waitFor(() => {
+    expect(screen.queryAllByTestId('alert')).not.toBeNull();
+  });
+  if (screen.queryAllByTestId('alert').length > 1 && message) {
+    // handle when there are multiple alert messages
+    const alert = screen.getByText(message, { exact: false })?.parentElement
+      ?.parentElement as HTMLElement;
+    const dismissBtn =
+      alert && (queryByTestId(alert, 'dismiss') as HTMLElement);
+    if (dismissBtn) {
+      fireEvent.click(dismissBtn);
+    }
+  } else {
+    fireEvent.click(screen.getByTestId('dismiss'));
+  }
 
   await waitForRenderReady();
   jest.runOnlyPendingTimers();

@@ -51,7 +51,7 @@ export default class <%- name %> extends RcModule {
     }
   }
 
-  _shouldInit() {
+  override _shouldInit() {
     return (
       <%_ dependencies.forEach(function(dependence) { -%>
       <%- `this._${dependence.charAt(0).toLowerCase()}${dependence.slice(1)}.ready &&` %>
@@ -60,7 +60,7 @@ export default class <%- name %> extends RcModule {
     );
   }
 
-  _shouldReset() {
+  override _shouldReset() {
     return (
       (
         <%_ dependencies.forEach(function(dependence, index) { -%>

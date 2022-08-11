@@ -1,6 +1,6 @@
 export default {
   confirmation: "确认",
-  confirmMergeToConference: "添加至电话会议？",
+  confirmMergeToConference: "是否添加至电话会议？",
   mergeToConference: "合并",
   conferenceCall: "电话会议"
 };

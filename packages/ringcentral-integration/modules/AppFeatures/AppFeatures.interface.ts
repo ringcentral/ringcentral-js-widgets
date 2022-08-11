@@ -1,4 +1,5 @@
-import { Auth } from '../AuthV2';
+import { Auth } from '../Auth';
+import { Brand } from '../Brand';
 import { ExtensionFeatures } from '../ExtensionFeatures';
 
 export interface AppFeaturesOptions {
@@ -7,6 +8,7 @@ export interface AppFeaturesOptions {
 
 export interface Deps<T extends FeatureConfiguration> {
   auth: Auth;
+  brand: Brand;
   extensionFeatures: ExtensionFeatures;
   featureConfiguration?: T;
   appFeaturesOptions?: AppFeaturesOptions;
@@ -30,4 +32,5 @@ export interface FeatureConfiguration {
   Contacts?: boolean;
   HideContactsWhenNoCallOrMessage?: boolean;
   CDC?: boolean;
+  EDP?: boolean;
 }

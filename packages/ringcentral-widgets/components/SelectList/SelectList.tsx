@@ -5,10 +5,7 @@ import React, {
   useState,
 } from 'react';
 
-import formatMessage from 'format-message';
-
 import { SelectListBasic, SelectListBasicProps } from '../SelectListBasic';
-import i18n from './i18n';
 import { ListView, ListViewProps } from './ListView';
 import styles from './styles.scss';
 import { WithScrollCheck } from './WithScrollCheck';
@@ -41,6 +38,7 @@ export type SelectListProps = {
   autoClose?: boolean;
   onBackClick: () => void;
   multiple?: boolean;
+  isSearching?: boolean;
 } & Pick<
   ListViewProps,
   | 'options'
@@ -55,7 +53,7 @@ export type SelectListProps = {
     'foundFromServerEntities' | 'foundFromServerTitle' | 'showFoundFromServer'
   >;
 
-type RenderListView = ComponentProps<
+export type RenderListView = ComponentProps<
   typeof SelectListBasicWithScrollCheck
 >['renderListView'];
 
@@ -85,6 +83,7 @@ export const SelectList: FunctionComponent<SelectListProps> = (props) => {
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
+    // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
     onSelectViewVisible(open, field);
   }, [field, onSelectViewVisible, open]);
 
@@ -97,6 +96,7 @@ export const SelectList: FunctionComponent<SelectListProps> = (props) => {
         if (document.activeElement) {
           (document.activeElement as HTMLInputElement).blur();
         }
+        // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
         onChange(value);
         // auto close select section after selected a value
         if (autoClose) {
@@ -115,6 +115,7 @@ export const SelectList: FunctionComponent<SelectListProps> = (props) => {
 
   return (
     <div
+      // @ts-expect-error TS(2322): Type 'string | null' is not assignable to type 'st... Remove this comment to see the full error message
       className={disabled ? styles.disabled : null}
       data-sign="select-list-panel"
     >
@@ -134,17 +135,10 @@ export const SelectList: FunctionComponent<SelectListProps> = (props) => {
       </div>
       <SelectListBasicWithScrollCheck
         {...props}
-        matchedTitle={matchedTitle || i18n.getString('matched', currentLocale)}
-        otherTitle={otherTitle || i18n.getString('other', currentLocale)}
-        associatedTitle={
-          associatedTitle || i18n.getString('associated', currentLocale)
-        }
-        foundFromServerTitle={
-          foundFromServerTitle ||
-          formatMessage(i18n.getString('foundFromServer', currentLocale), {
-            appName,
-          })
-        }
+        matchedTitle={matchedTitle}
+        otherTitle={otherTitle}
+        associatedTitle={associatedTitle}
+        foundFromServerTitle={foundFromServerTitle}
         renderListView={renderListView}
         open={open}
         setOpen={setOpen}
@@ -165,14 +159,19 @@ SelectList.defaultProps = {
   associatedTitle: '',
   field: '',
   value: {},
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Element | u... Remove this comment to see the full error message
   rightIcon: null,
   onChange() {},
   startAdornment() {},
   onSelectViewVisible() {},
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   backHeaderClassName: null,
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type '((...args: ... Remove this comment to see the full error message
   contactSearch: null,
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   appName: null,
   showFoundFromServer: false,
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   foundFromServerTitle: null,
   foundFromServerEntities: [],
   autoClose: true,

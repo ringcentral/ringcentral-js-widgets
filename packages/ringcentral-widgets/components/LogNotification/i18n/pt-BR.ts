@@ -1,7 +1,7 @@
 export default {
   confirmationInfo: "Suas edições não salvas na chamada anterior serão perdidas, tem certeza de que deseja trabalhar em uma nova chamada?",
-  log: "Registrar",
-  save: "Salvar e trabalhar em nova",
+  log: "Log",
+  save: "Salvar e usar nova",
   discard: "Descartar e usar nova",
   stay: "Permanecer no anterior"
 };

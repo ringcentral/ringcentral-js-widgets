@@ -19,6 +19,7 @@ import {
     'Webphone',
     'RegionSettings',
     'RouterInteraction',
+    'AccountInfo',
     { dep: 'ConferenceParticipantUIOptions', optional: true },
   ],
 })
@@ -30,45 +31,48 @@ class ConferenceParticipantUI extends RcUIModuleV2<Deps> {
   }
 
   getUIProps(): UIProps<ConferenceParticipantPanelProps> {
-    const { locale, conferenceCall, webphone } = this._deps;
-    const participants = conferenceCall.partyProfiles;
-    const sessionCount = (webphone.sessions && webphone.sessions.length) || 0;
+    const participants = this._deps.conferenceCall.partyProfiles;
+    const sessionCount =
+      (this._deps.webphone.sessions && this._deps.webphone.sessions.length) ||
+      0;
     return {
-      currentLocale: locale.currentLocale,
+      currentLocale: this._deps.locale.currentLocale,
       participants,
       sessionCount,
     };
   }
 
   getUIFunctions(): UIFunctions<ConferenceParticipantPanelProps> {
-    const { conferenceCall, routerInteraction, regionSettings } = this._deps;
     return {
       onBackButtonClick: () => {
-        routerInteraction.goBack();
+        this._deps.routerInteraction.goBack();
       },
       removeFunc: async (id) => {
         const confId =
-          conferenceCall.conferences &&
-          Object.keys(conferenceCall.conferences)[0];
+          this._deps.conferenceCall.conferences &&
+          Object.keys(this._deps.conferenceCall.conferences)[0];
         try {
-          await conferenceCall.removeFromConference(confId, id);
+          await this._deps.conferenceCall.removeFromConference(confId, id);
           // user action track
-          conferenceCall.removeParticipantClickRemoveTrack();
+          this._deps.conferenceCall.removeParticipantClickRemoveTrack();
           return true;
         } catch (e) {
           return false;
         }
       },
       formatPhone: (phoneNumber) =>
+        // @ts-expect-error TS(2322): Type 'string | null | undefined' is not assignable... Remove this comment to see the full error message
         formatNumber({
           phoneNumber,
-          areaCode: regionSettings.areaCode,
-          countryCode: regionSettings.countryCode,
+          areaCode: this._deps.regionSettings.areaCode,
+          countryCode: this._deps.regionSettings.countryCode,
+          maxExtensionLength: this._deps.accountInfo.maxExtensionNumberLength,
         }),
       // user action track functions
       afterOnRemoveBtnClick: () =>
-        conferenceCall.participantListClickHangupTrack(),
-      afterOnCancel: () => conferenceCall.removeParticipantClickCancelTrack(),
+        this._deps.conferenceCall.participantListClickHangupTrack(),
+      afterOnCancel: () =>
+        this._deps.conferenceCall.removeParticipantClickCancelTrack(),
     };
   }
 }

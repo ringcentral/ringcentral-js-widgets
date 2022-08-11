@@ -1,5 +1,5 @@
 import { Alert } from '../Alert';
-import { Auth } from '../AuthV2';
+import { Auth } from '../Auth';
 import { ExtensionFeatures } from '../ExtensionFeatures';
 
 export interface TierCheckerOptions {

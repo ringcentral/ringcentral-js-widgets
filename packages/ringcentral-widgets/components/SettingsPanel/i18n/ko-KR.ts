@@ -1,6 +1,6 @@
 export default {
   region: "지역",
-  calling: "통화",
+  calling: "통화 중",
   logout: "로그아웃",
   version: "버전",
   settings: "설정",
@@ -18,7 +18,7 @@ export default {
   feedback: "피드백",
   userGuide: "새로운 기능",
   quickAccess: "빠른 액세스 설정",
-  report: "분석 보고서",
+  report: "Analytics 보고서",
   shareIdea: "아이디어 공유"
 };
 

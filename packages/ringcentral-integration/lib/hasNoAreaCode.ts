@@ -1,4 +1,4 @@
-import { parse } from '@ringcentral-integration/phone-number';
+import { CountryCode, parse } from '@ringcentral-integration/phone-number';
 
 export function hasNoAreaCode({
   input,
@@ -6,7 +6,7 @@ export function hasNoAreaCode({
   areaCode,
 }: {
   input: string;
-  countryCode: string;
+  countryCode: CountryCode;
   areaCode: string;
 }) {
   const { hasPlus, phoneNumber, isServiceNumber } = parse({
@@ -16,7 +16,7 @@ export function hasNoAreaCode({
   return (
     !isServiceNumber &&
     !hasPlus &&
-    phoneNumber.length === 7 &&
+    phoneNumber?.length === 7 &&
     (countryCode === 'CA' || countryCode === 'US') &&
     areaCode === ''
   );

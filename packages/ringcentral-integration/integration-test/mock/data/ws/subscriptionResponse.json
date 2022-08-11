@@ -7,7 +7,7 @@
       "Server": "nginx",
       "Date": "Fri, 02 Jul 2021 13:04:51 GMT",
       "Content-Type": "application/json",
-      "LocalHostInfo": "10.74.3.11__12645@xrs01-c01-csg01.lab.nordigy.ru",
+      "LocalHostInfo": "10.74.3.11__12645@xrs01-c01-csg01.rc-lab-mock-domain.com",
       "WSG-SubscriptionId": "9c5bf39a-2c66-43e4-a927-737de24097b1",
       "X-Rate-Limit-Group": "medium",
       "X-Rate-Limit-Limit": "75",

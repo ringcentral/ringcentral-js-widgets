@@ -3,6 +3,7 @@ import 'rc-tooltip/assets/bootstrap_white.css';
 import React, { Component } from 'react';
 
 import classnames from 'classnames';
+// @ts-expect-error TS(7016): Could not find a declaration file for module 'rc-t... Remove this comment to see the full error message
 import Tooltip from 'rc-tooltip';
 
 import AnswerIcon from '../../assets/images/Answer.svg';
@@ -48,7 +49,18 @@ class IncomingCallPad extends Component<
   IncomingCallPadProps,
   IncomingCallPadState
 > {
-  constructor(props) {
+  closeForwardForm: any;
+  closeReplyWithMessage: any;
+  forwardContainner: any;
+  onReplyMessageChange: any;
+  onShowForwardChange: any;
+  onShowReplyWithMessageChange: any;
+  replyTimeout: any;
+  replyWithMessage: any;
+  replyWithMessageContainner: any;
+  toVoiceMail: any;
+  voicemailTimeout: any;
+  constructor(props: any) {
     super(props);
     this.state = {
       showForward: false,
@@ -57,7 +69,7 @@ class IncomingCallPad extends Component<
       toVoiceMailEnabled: true,
       replyMessageEnabled: true,
     };
-    this.onShowForwardChange = (visible) => {
+    this.onShowForwardChange = (visible: any) => {
       this.setState({
         showForward: visible,
       });
@@ -65,12 +77,12 @@ class IncomingCallPad extends Component<
     this.closeForwardForm = () => {
       this.onShowForwardChange(false);
     };
-    this.onShowReplyWithMessageChange = (visible) => {
+    this.onShowReplyWithMessageChange = (visible: any) => {
       this.setState({
         showReplyWithMessage: visible,
       });
     };
-    this.onReplyMessageChange = (message) => {
+    this.onReplyMessageChange = (message: any) => {
       this.setState({ replyMessage: message });
     };
     this.closeReplyWithMessage = () => {
@@ -78,6 +90,7 @@ class IncomingCallPad extends Component<
     };
     this.toVoiceMail = () => {
       this.props.toVoiceMail();
+      // @ts-expect-error TS(2774): This condition will always return true since this ... Remove this comment to see the full error message
       if (this.props.toVoiceMail) {
         this.setState({
           toVoiceMailEnabled: false,
@@ -87,8 +100,9 @@ class IncomingCallPad extends Component<
         }, 3000);
       }
     };
-    this.replyWithMessage = (value) => {
+    this.replyWithMessage = (value: any) => {
       this.props.replyWithMessage(value);
+      // @ts-expect-error TS(2774): This condition will always return true since this ... Remove this comment to see the full error message
       if (this.props.replyWithMessage) {
         this.setState({
           replyMessageEnabled: false,
@@ -99,7 +113,8 @@ class IncomingCallPad extends Component<
       }
     };
   }
-  UNSAFE_componentWillReceiveProps(newProps) {
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
+  UNSAFE_componentWillReceiveProps(newProps: any) {
     if (this.props.sessionId !== newProps.sessionId) {
       if (this.replyTimeout) {
         clearTimeout(this.replyTimeout);
@@ -111,6 +126,7 @@ class IncomingCallPad extends Component<
       }
     }
   }
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   componentWillUnmount() {
     if (this.replyTimeout) {
       clearTimeout(this.replyTimeout);
@@ -121,6 +137,7 @@ class IncomingCallPad extends Component<
       this.voicemailTimeout = null;
     }
   }
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     const {
       currentLocale,
@@ -139,6 +156,7 @@ class IncomingCallPad extends Component<
         className={classnames(styles.buttonRow, styles.multiCallsButtonGroup)}
       >
         <MultiCallAnswerButton
+          // @ts-expect-error TS(2322): Type '((...args: any[]) => any) | undefined' is no... Remove this comment to see the full error message
           onClick={answerAndEnd}
           title={i18n.getString('answerAndEnd', currentLocale)}
           dataSign="answerAndEnd"
@@ -160,6 +178,7 @@ class IncomingCallPad extends Component<
           disabled={!this.state.toVoiceMailEnabled}
         />
         <MultiCallAnswerButton
+          // @ts-expect-error TS(2322): Type '((...args: any[]) => any) | undefined' is no... Remove this comment to see the full error message
           onClick={answerAndHold}
           title={i18n.getString('answerAndHold', currentLocale)}
           dataSign="answerAndHold"
@@ -220,6 +239,7 @@ class IncomingCallPad extends Component<
             getTooltipContainer={() => this.forwardContainner}
             overlay={
               <ForwardForm
+                // @ts-expect-error TS(2322): Type '{ forwardingNumbers: any[]; currentLocale: s... Remove this comment to see the full error message
                 forwardingNumbers={forwardingNumbers}
                 currentLocale={currentLocale}
                 onCancel={this.closeForwardForm}
@@ -254,6 +274,7 @@ class IncomingCallPad extends Component<
               <ReplyWithMessage
                 currentLocale={currentLocale}
                 onCancel={this.closeReplyWithMessage}
+                // @ts-expect-error TS(2322): Type '{ currentLocale: string; onCancel: any; valu... Remove this comment to see the full error message
                 value={this.state.replyMessage}
                 onChange={this.onReplyMessageChange}
                 onReply={this.replyWithMessage}
@@ -282,8 +303,9 @@ class IncomingCallPad extends Component<
     );
   }
 }
+// @ts-expect-error TS(2339): Property 'defaultProps' does not exist on type 'ty... Remove this comment to see the full error message
 IncomingCallPad.defaultProps = {
-  formatPhone: (phone) => phone,
+  formatPhone: (phone: any) => phone,
   className: null,
   answerAndEnd: () => null,
   answerAndHold: () => null,

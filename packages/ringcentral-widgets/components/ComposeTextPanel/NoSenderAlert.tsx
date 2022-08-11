@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import messageSenderMessages from '@ringcentral-integration/commons/modules/MessageSender/messageSenderMessages';
+import { messageSenderMessages } from '@ringcentral-integration/commons/modules/MessageSender';
 
 import AlertDisplay from '../AlertDisplay';
 import MessageSenderAlert from '../AlertRenderer/MessageSenderAlert';
@@ -14,7 +14,10 @@ type NoSenderAlertState = {
   showAlert: any;
 };
 class NoSenderAlert extends Component<NoSenderAlertProps, NoSenderAlertState> {
-  constructor(props) {
+  getRenderer: any;
+  messages: any;
+  onDismissAlert: any;
+  constructor(props: any) {
     super(props);
     this.state = {
       showAlert: props.showAlert,
@@ -33,13 +36,15 @@ class NoSenderAlert extends Component<NoSenderAlertProps, NoSenderAlertState> {
       },
     ];
   }
-  componentWillReceiveProps(nextProps) {
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
+  UNSAFE_componentWillReceiveProps(nextProps: any) {
     if (nextProps.showAlert !== this.state.showAlert) {
       this.setState({
         showAlert: nextProps.showAlert,
       });
     }
   }
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     return this.state.showAlert ? (
       <AlertDisplay
@@ -52,6 +57,7 @@ class NoSenderAlert extends Component<NoSenderAlertProps, NoSenderAlertState> {
     ) : null;
   }
 }
+// @ts-expect-error TS(2339): Property 'defaultProps' does not exist on type 'ty... Remove this comment to see the full error message
 NoSenderAlert.defaultProps = {
   brand: 'RingCentral',
 };

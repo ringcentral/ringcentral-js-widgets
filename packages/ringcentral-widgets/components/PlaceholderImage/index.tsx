@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 
 const cache = {};
-const defaultContainer = (x) => x;
+const defaultContainer = (x: any) => x;
 type PlaceholderImageProps = {
   src?: string;
   placeholder?: React.ReactNode;
@@ -29,7 +29,8 @@ class PlaceholderImage extends Component<
     container: defaultContainer,
     placeholderContainer: defaultContainer,
   };
-  constructor(props) {
+  img: any;
+  constructor(props: any) {
     super(props);
     this.state = {
       isLoading: true,
@@ -38,6 +39,7 @@ class PlaceholderImage extends Component<
   }
   onLoad = () => {
     const { src } = this.props;
+    // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
     cache[src] = true;
     if (this.img) {
       this.setState({ isLoaded: true });
@@ -45,6 +47,7 @@ class PlaceholderImage extends Component<
   };
   onError = () => {
     const { src } = this.props;
+    // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
     cache[src] = false;
     if (!this.img) {
       return false;
@@ -69,18 +72,21 @@ class PlaceholderImage extends Component<
     }
     delete this.img;
   };
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   componentDidMount() {
     const { isLoading } = this.state;
     if (isLoading) {
       this.loadImg();
     }
   }
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   componentWillUnmount() {
     if (this.img) {
       this.unloadImg();
     }
   }
-  componentWillReceiveProps(nextProps) {
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
+  UNSAFE_componentWillReceiveProps(nextProps: any) {
     const { src: imgSrc } = nextProps;
     const { src } = this.props;
     if (src !== imgSrc) {
@@ -97,6 +103,7 @@ class PlaceholderImage extends Component<
       );
     }
   }
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     const { container, src, placeholder, placeholderContainer, ...rest } =
       this.props;
@@ -107,9 +114,11 @@ class PlaceholderImage extends Component<
         ...rest,
       };
       /* eslint-disable-next-line */
+      // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
       return container(<img {...imgProps} />);
     }
     if (!isLoaded && isLoading) {
+      // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
       return placeholder ? placeholderContainer(placeholder) : null;
     }
     return null;

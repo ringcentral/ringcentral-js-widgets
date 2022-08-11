@@ -1,0 +1,10 @@
+import { AdaptiveCardInfoRequestItem } from './AdaptiveCardInfoRequestItem';
+
+export interface AdaptiveCardInfoRequest {
+  /**
+   */
+  type: 'Container';
+  /**
+   */
+  items: AdaptiveCardInfoRequestItem[];
+}

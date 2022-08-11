@@ -17,6 +17,10 @@ $rowHeight: 50px;
   @include secondary-font;
 }
 
+.clearBoth {
+  clear: both;
+}
+
 .section {
   line-height: 23px;
   overflow: hidden;
@@ -115,7 +119,6 @@ $rowHeight: 50px;
     }
   }
 }
-
 
 .profile {
   padding: 20px 0;
@@ -227,8 +230,6 @@ $rowHeight: 50px;
     vertical-align: top;
   }
 }
-
-
 
 .email {
   li:not(:first-child) {

@@ -14,7 +14,7 @@ import {
   contactSearchStatus,
   DefaultMinimalSearchLength,
   DefaultSearchingState,
-} from '../../modules/ContactSearchV2';
+} from '../../modules/ContactSearch';
 import { mockModuleGenerator } from '../lib/mockModule';
 
 const getMockModule = ({
@@ -99,7 +99,7 @@ export class SetPrepareSearch extends Step {
           desc="Check value should be expected"
           action={(_: any, context: any) => {
             expect(context.mockModule.searchStatus).toBe(
-              contactSearchStatus.idle,
+              contactSearchStatus.prepareSearching,
             );
             expect(context.mockModule.searching).toBe(DefaultSearchingState);
           }}

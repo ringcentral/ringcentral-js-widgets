@@ -29,7 +29,7 @@ type UserGuideState = {
   playing: any;
 };
 class UserGuide extends React.Component<UserGuideProps, UserGuideState> {
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     this.state = {
       curIdx: props.curIdx || 0,
@@ -37,7 +37,8 @@ class UserGuide extends React.Component<UserGuideProps, UserGuideState> {
       playing: props.playing || false,
     };
   }
-  componentWillReceiveProps(nextProps) {
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
+  UNSAFE_componentWillReceiveProps(nextProps: any) {
     const { curIdx, entered, playing } = nextProps;
     if (this.state.curIdx !== curIdx) {
       this.setState({ curIdx });
@@ -49,7 +50,7 @@ class UserGuide extends React.Component<UserGuideProps, UserGuideState> {
       this.setState({ playing });
     }
   }
-  slideTo = (idx) => {
+  slideTo = (idx: any) => {
     if (idx > this.props.guides.length - 1) {
       this.exit();
       return;
@@ -57,6 +58,7 @@ class UserGuide extends React.Component<UserGuideProps, UserGuideState> {
     this.setState({
       curIdx: idx,
     });
+    // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
     this.props.updateCarousel({
       curIdx: idx,
       entered: this.state.entered,
@@ -68,6 +70,7 @@ class UserGuide extends React.Component<UserGuideProps, UserGuideState> {
       this.setState({
         playing: false,
       });
+      // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
       this.props.updateCarousel({
         curIdx: this.state.curIdx,
         entered: this.state.entered,
@@ -85,6 +88,7 @@ class UserGuide extends React.Component<UserGuideProps, UserGuideState> {
     this.setState({
       entered: false,
     });
+    // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
     this.props.updateCarousel({
       curIdx: 0,
       entered: false,
@@ -173,6 +177,7 @@ class UserGuide extends React.Component<UserGuideProps, UserGuideState> {
     const controlView = (
       <Transition in={this.state.curIdx > 0} timeout={300}>
         {(state) => (
+          // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
           <div className={styles.control} style={{ ...controlStyles[state] }}>
             {skipButton}
             <ul className={styles.indicator}>{indicatorView}</ul>
@@ -195,6 +200,7 @@ class UserGuide extends React.Component<UserGuideProps, UserGuideState> {
       </div>
     );
   }
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     if (
       !this.props.guides ||
@@ -224,6 +230,7 @@ class UserGuide extends React.Component<UserGuideProps, UserGuideState> {
     );
   }
 }
+// @ts-expect-error TS(2339): Property 'defaultProps' does not exist on type 'ty... Remove this comment to see the full error message
 UserGuide.defaultProps = {
   curIdx: 0,
   entered: false,

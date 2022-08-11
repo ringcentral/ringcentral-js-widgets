@@ -1,4 +1,4 @@
-import callErrors from '@ringcentral-integration/commons/modules/Call/callErrors';
+import { callErrors } from '@ringcentral-integration/commons/modules/Call';
 export default {
   [callErrors.emergencyNumber]: "Emergency calling is not available. Please use another phone to contact emergency services",
   [callErrors.noToNumber]: "Please enter a valid phone number.",
@@ -9,6 +9,7 @@ export default {
   [callErrors.networkError]: "Cannot connect due to network issues. Please try again later.",
   [callErrors.noInternational]: "You don't have permissions to make international calls. Please contact your {brand} account administrator for an upgrade.",
   [callErrors.noRingoutEnable]: "Your extension is allowed to make calls with desktop app.\n    If you wish to switch to other calling options,\n    please contact your account administrator for an upgrade.",
+  [callErrors.numberParseError]: "Sorry, there was a problem on our end. Please try again later.",
   areaCode: "area code",
   telus911: "Emergency dialling is not supported."
 };
@@ -22,5 +23,6 @@ export default {
 // @key: @#@"[callErrors.networkError]"@#@ @source: @#@"Cannot connect due to network issues. Please try again later."@#@
 // @key: @#@"[callErrors.noInternational]"@#@ @source: @#@"You don't have permissions to make international calls. Please contact your {brand} account administrator for an upgrade."@#@
 // @key: @#@"[callErrors.noRingoutEnable]"@#@ @source: @#@"Your extension is allowed to make calls with desktop app.\n    If you wish to switch to other calling options\n    please contact your account administrator for an upgrade."@#@
+// @key: @#@"[callErrors.numberParseError]"@#@ @source: @#@"Sorry, there was a problem on our end. Please try again later."@#@
 // @key: @#@"areaCode"@#@ @source: @#@"area code"@#@
 // @key: @#@"telus911"@#@ @source: @#@"Emergency dialing is not supported."@#@

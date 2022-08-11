@@ -1,6 +1,6 @@
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-export default ObjectMap.prefixKeys(
+export const deprecatedCallingOptions = ObjectMap.prefixKeys(
   ['myphone', 'otherphone', 'customphone'],
   'callingOptions',
 );

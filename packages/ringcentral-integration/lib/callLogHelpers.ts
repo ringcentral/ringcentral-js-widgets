@@ -7,11 +7,11 @@ import {
   isValidNumber,
 } from '@ringcentral-integration/phone-number';
 
-import callActions from '../enums/callActions';
+import { callActions } from '../enums/callActions';
 import callDirections from '../enums/callDirections';
-import callResults, { CallResultsKey } from '../enums/callResults';
+import { callResults, CallResultsKey } from '../enums/callResults';
 import telephonyStatuses from '../enums/telephonyStatus';
-import terminationTypes from '../enums/terminationTypes';
+import { terminationTypes } from '../enums/terminationTypes';
 import { Call } from '../interfaces/Call.interface';
 import { ActiveCall } from '../interfaces/Presence.model';
 
@@ -26,8 +26,24 @@ export function isOutbound(call: { direction?: string } = {}) {
   return call.direction === callDirections.outbound;
 }
 
+export function getWebphoneSessionDisplayName(
+  currentSession: Call['webphoneSession'],
+) {
+  // TODO: just return null temporary, wait check api can be use with platform
+  return null;
+  // if (!currentSession) {
+  //   return null;
+  // }
+
+  // return currentSession.direction === callDirections.inbound
+  //   ? currentSession.fromUserName
+  //   : currentSession.toUserName;
+}
+
 /* status helpers */
-export function isRinging(call: Call = {}) {
+export function isRinging(call: Call) {
+  if (!call) return false;
+
   return call.telephonyStatus === telephonyStatuses.ringing;
 }
 export function isRingingInboundCall(call: Call) {
@@ -56,15 +72,15 @@ const callResultsToMissedMap = ObjectMap.fromObject(
   ),
 );
 
-export function isMissed(call: ActiveCall = {}) {
-  return !!callResultsToMissedMap[call.result];
+export function isMissed(call: Partial<ActiveCall> = {}) {
+  return !!callResultsToMissedMap[call.result!];
 }
 
 export function hasRingingCalls(calls: Call[] = []) {
   return !!calls.find(isRinging);
 }
 
-export function isEnded(call: ActiveCall = {}) {
+export function isEnded(call: Partial<ActiveCall> = {}) {
   return (
     call.telephonyStatus === telephonyStatuses.noCall &&
     call.terminationType === terminationTypes.final
@@ -75,15 +91,15 @@ export function hasEndedCalls(calls: ActiveCall[]) {
   return !!calls.find(isEnded);
 }
 
-export function isOnHold(call: ActiveCall = {}) {
+export function isOnHold(call: { telephonyStatus?: string } = {}) {
   return call.telephonyStatus === telephonyStatuses.onHold;
 }
 
-export function isIntermediateCall(call: ActiveCall = {}) {
+export function isIntermediateCall(call: Partial<ActiveCall> = {}) {
   return call.terminationType === terminationTypes.intermediate;
 }
 
-export function isSelfCall(call: ActiveCall = {}) {
+export function isSelfCall(call: Partial<ActiveCall> = {}) {
   if (call.to && call.from) {
     return call.to.phoneNumber === call.from.phoneNumber;
   }
@@ -106,7 +122,7 @@ export function sortByStartTime(
   b: { startTime?: number | string },
 ) {
   if (a.startTime === b.startTime) return 0;
-  return a.startTime > b.startTime ? -1 : 1;
+  return a.startTime! > b.startTime! ? -1 : 1;
 }
 
 export function normalizeStartTime<T extends { startTime?: number | string }>(
@@ -119,7 +135,8 @@ export function normalizeStartTime<T extends { startTime?: number | string }>(
     // Fix: Safari doesn't support timezone offset
     // `startTime` might switch between `2019-10-18T08:18:47.972+0000`
     // and `2019-10-18T08:18:47.972Z`
-    result.startTime = moment(item.startTime).valueOf();
+    // moment construction using a non-iso string is deprecated
+    result.startTime = moment(new Date(item.startTime)).valueOf();
   }
   return result;
 }
@@ -138,7 +155,7 @@ export function areTwoLegs(inbound: ActiveCall, outbound: ActiveCall) {
   if (isInbound(inbound) && isOutbound(outbound)) {
     switch (
       Math.abs(
-        parseInt(inbound.sessionId, 10) - parseInt(outbound.sessionId, 10),
+        parseInt(inbound.sessionId!, 10) - parseInt(outbound.sessionId!, 10),
       )
     ) {
       case 1000:
@@ -218,7 +235,10 @@ export function removeInboundRingOutLegs(calls: ActiveCall[]) {
         // Handle inboundLeg.from is '+19072028624', but outboundLeg.to is '9072028624'
         // https://jira.ringcentral.com/browse/RCINT-3127
         if (
-          isValidNumber(inbound.from && inbound.from.phoneNumber) &&
+          inbound.from &&
+          // TODO: should confirm that type, not met
+          // @ts-expect-error ts-migrate(2306) FIXME: type not match
+          isValidNumber(inbound.from?.phoneNumber) &&
           isSameLocalNumber(
             inbound.from.phoneNumber,
             outbound.to && outbound.to.phoneNumber,
@@ -255,15 +275,16 @@ export function removeDuplicateIntermediateCalls(calls: ActiveCall[]) {
   > = {};
   calls.forEach((call) => {
     const isIntermediate = isIntermediateCall(call);
-    if (!indexMap[call.sessionId]) {
-      indexMap[call.sessionId] = {
+    const sessionId = call.sessionId!;
+    if (!indexMap[sessionId]) {
+      indexMap[sessionId] = {
         index: resultCalls.length,
         isIntermediate,
       };
       resultCalls.push(call);
     } else if (!isIntermediate) {
-      indexMap[call.sessionId].isIntermediate = false;
-      resultCalls[indexMap[call.sessionId].index] = call;
+      indexMap[sessionId].isIntermediate = false;
+      resultCalls[indexMap[sessionId].index] = call;
     }
   });
   return resultCalls;
@@ -281,23 +302,25 @@ export function removeDuplicateSelfCalls(calls: ActiveCall[]) {
   > = {};
   calls.forEach((call) => {
     const isSelf = isSelfCall(call);
-    if (!indexMap[call.sessionId]) {
-      indexMap[call.sessionId] = {
+    const sessionId = call.sessionId!;
+
+    if (!indexMap[sessionId]) {
+      indexMap[sessionId] = {
         index: resultCalls.length,
         isSelf,
       };
       resultCalls.push(call);
     } else if (!isSelf) {
-      indexMap[call.sessionId].isSelf = false;
-      resultCalls[indexMap[call.sessionId].index] = call;
+      indexMap[sessionId].isSelf = false;
+      resultCalls[indexMap[sessionId].index] = call;
     }
   });
   return resultCalls;
 }
 
-export function getPhoneNumber(call: Call = {}) {
+export function getPhoneNumber(call: Partial<Call> = {}) {
   if (isEmpty(call)) {
-    return null;
+    return undefined;
   }
   const { to = {}, from = {} } = call;
   if (isOutbound(call)) {
@@ -307,7 +330,7 @@ export function getPhoneNumber(call: Call = {}) {
 }
 
 // Get phone number and matches.
-export function getPhoneNumberMatches(call: Call = {}) {
+export function getPhoneNumberMatches(call: Partial<Call> = {}) {
   const {
     to = {},
     from = {},

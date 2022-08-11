@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { combineReducers } from 'redux';
 
 import {
@@ -19,15 +20,17 @@ import { Deps, TabEvent } from './TabManager.interface';
   name: 'TabManager',
   deps: [{ dep: 'TabManagerOptions', optional: true }, 'Prefix'],
 })
-export class TabManager extends RcModuleV2<Deps> {
+export class TabManager<T extends Deps = Deps> extends RcModuleV2<T> {
   public tabbie: Tabbie;
-  constructor(deps: Deps) {
+  constructor(deps: T) {
     super({
       deps,
       enableGlobalCache: deps.tabManagerOptions?.enableCache ?? false,
     });
     this.tabbie = new Tabbie({
       prefix: this._deps.prefix,
+      autoMainTab: this._deps.tabManagerOptions?.autoMainTab,
+      isMainTab: this._deps.tabManagerOptions?.isMainTab,
     });
   }
 
@@ -63,8 +66,12 @@ export class TabManager extends RcModuleV2<Deps> {
   }
 
   _eventReducer = (state: TabEvent = null, action: any) => {
-    if (action._usm === usmAction) {
-      const { event } = this._getStateV2(action._state, this[identifierKey]);
+    if (
+      action._usm === usmAction &&
+      action.type === this[identifierKey] &&
+      Object.hasOwnProperty.call(action._state, 'event')
+    ) {
+      const { event } = action._state;
       if (
         event &&
         // It needs to match the exact modification event about `@action _setEvent()` in this module for Redux state.
@@ -91,7 +98,7 @@ export class TabManager extends RcModuleV2<Deps> {
     });
   }
 
-  async onInitOnce() {
+  override async onInitOnce() {
     this._setId(this.tabbie.id);
     if (this.tabbie.enabled) {
       this._setActive(await this.tabbie.checkIsMain());

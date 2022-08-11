@@ -8,7 +8,7 @@ import { RcIconButton } from '@ringcentral/juno';
 import {
   Attachment as attachmentSvg,
   Close as removeSvg,
-} from '@ringcentral/juno/icon';
+} from '@ringcentral/juno-icon';
 
 import i18n from './i18n';
 import styles from './styles.scss';
@@ -51,7 +51,11 @@ class MessageInput extends Component {
     removeAttachment: undefined,
   };
 
-  constructor(props, context) {
+  _fileInputRef: any;
+  _lastValueChange: any;
+  textArea: any;
+
+  constructor(props: any, context: any) {
     super(props, context);
     this.state = {
       value: props.value,
@@ -61,8 +65,10 @@ class MessageInput extends Component {
     this._fileInputRef = React.createRef();
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
+  UNSAFE_componentWillReceiveProps(nextProps: any) {
     if (
+      // @ts-expect-error TS(2339): Property 'value' does not exist on type 'Readonly<... Remove this comment to see the full error message
       nextProps.value !== this.state.value &&
       // ignore value changes from props for 300ms after typing
       // this is to prevent unnecessary value changes when used in chrome extension
@@ -76,8 +82,11 @@ class MessageInput extends Component {
         }),
         () => {
           const newHeight = this.calculateNewHeight();
+          // @ts-expect-error TS(2339): Property 'height' does not exist on type 'Readonly... Remove this comment to see the full error message
           if (newHeight !== this.state.height) {
+            // @ts-expect-error TS(2339): Property 'onHeightChange' does not exist on type '... Remove this comment to see the full error message
             if (typeof this.props.onHeightChange === 'function') {
+              // @ts-expect-error TS(2339): Property 'onHeightChange' does not exist on type '... Remove this comment to see the full error message
               this.props.onHeightChange(newHeight);
             }
             this.setState({
@@ -89,11 +98,15 @@ class MessageInput extends Component {
     }
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   componentDidMount() {
     // do a initial size check in case the component is mounted with multi line value
     const newHeight = this.calculateNewHeight();
+    // @ts-expect-error TS(2339): Property 'height' does not exist on type 'Readonly... Remove this comment to see the full error message
     if (newHeight !== this.state.height) {
+      // @ts-expect-error TS(2339): Property 'onHeightChange' does not exist on type '... Remove this comment to see the full error message
       if (typeof this.props.onHeightChange === 'function') {
+        // @ts-expect-error TS(2339): Property 'onHeightChange' does not exist on type '... Remove this comment to see the full error message
         this.props.onHeightChange(newHeight);
       }
       this.setState({
@@ -103,14 +116,18 @@ class MessageInput extends Component {
   }
 
   calculateNewHeight() {
+    // @ts-expect-error TS(2339): Property 'inputExpandable' does not exist on type ... Remove this comment to see the full error message
     if (!this.props.inputExpandable) {
+      // @ts-expect-error TS(2339): Property 'minHeight' does not exist on type 'Reado... Remove this comment to see the full error message
       return this.props.minHeight;
     }
     // temperarily set height to 0 to check scrollHeight
     this.textArea.style.height = 0;
     const newHeight = this.textArea.scrollHeight + 10 + UIHeightOffset;
     // set height back to original to avoid messing with react
+    // @ts-expect-error TS(2339): Property 'height' does not exist on type 'Readonly... Remove this comment to see the full error message
     this.textArea.style.height = `${this.state.height - UIHeightOffset}px`;
+    // @ts-expect-error TS(2339): Property 'minHeight' does not exist on type 'Reado... Remove this comment to see the full error message
     const { minHeight, maxHeight } = this.props;
     if (newHeight < minHeight) {
       return minHeight;
@@ -121,16 +138,19 @@ class MessageInput extends Component {
     return newHeight;
   }
 
-  onChange = (e) => {
+  onChange = (e: any) => {
     this._lastValueChange = Date.now();
     const {
       currentTarget: { value },
     } = e;
     const newHeight = this.calculateNewHeight();
     if (
+      // @ts-expect-error TS(2339): Property 'height' does not exist on type 'Readonly... Remove this comment to see the full error message
       newHeight !== this.state.height &&
+      // @ts-expect-error TS(2339): Property 'onHeightChange' does not exist on type '... Remove this comment to see the full error message
       typeof this.props.onHeightChange === 'function'
     ) {
+      // @ts-expect-error TS(2339): Property 'onHeightChange' does not exist on type '... Remove this comment to see the full error message
       this.props.onHeightChange(newHeight);
     }
     this.setState({
@@ -142,22 +162,31 @@ class MessageInput extends Component {
   };
 
   updateMessageText =
+    // @ts-expect-error TS(2339): Property 'onChange' does not exist on type 'Readon... Remove this comment to see the full error message
     typeof this.props.onChange === 'function'
       ? debounce({
+          // @ts-expect-error TS(2339): Property 'onChange' does not exist on type 'Readon... Remove this comment to see the full error message
           fn: () => this.props.onChange(this.state.value),
         })
       : null;
 
-  onKeyDown = (e) => {
+  onKeyDown = (e: any) => {
     if (e.key === 'Enter' && !e.shiftKey) {
       e.preventDefault();
+
+      // TODO: this component should be refactored whole UX logic
+      // @ts-expect-error TS(2339): Property 'sendButtonDisabled' does not exist on ty... Remove this comment to see the full error message
+      if (this.props.sendButtonDisabled) return;
+
       this.onSend();
     }
   };
 
   onSend = () => {
     this.updateMessageText?.flush();
+    // @ts-expect-error TS(2339): Property 'disabled' does not exist on type 'Readon... Remove this comment to see the full error message
     if (!this.props.disabled && typeof this.props.onSend === 'function') {
+      // @ts-expect-error TS(2339): Property 'onSend' does not exist on type 'Readonly... Remove this comment to see the full error message
       this.props.onSend(this.state.value, this.props.attachments);
     }
   };
@@ -166,10 +195,11 @@ class MessageInput extends Component {
     this._fileInputRef.current.click();
   };
 
-  onSelectAttachment = ({ currentTarget }) => {
+  onSelectAttachment = ({ currentTarget }: any) => {
     if (currentTarget.files.length === 0) {
       return;
     }
+    // @ts-expect-error TS(2339): Property 'addAttachment' does not exist on type 'R... Remove this comment to see the full error message
     const { addAttachment } = this.props;
     let file = currentTarget.files[0];
     if (
@@ -185,16 +215,25 @@ class MessageInput extends Component {
     });
   };
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     const {
+      // @ts-expect-error TS(2339): Property 'currentLocale' does not exist on type 'R... Remove this comment to see the full error message
       currentLocale,
+      // @ts-expect-error TS(2339): Property 'disabled' does not exist on type 'Readon... Remove this comment to see the full error message
       disabled,
+      // @ts-expect-error TS(2339): Property 'sendButtonDisabled' does not exist on ty... Remove this comment to see the full error message
       sendButtonDisabled,
+      // @ts-expect-error TS(2339): Property 'maxLength' does not exist on type 'Reado... Remove this comment to see the full error message
       maxLength,
+      // @ts-expect-error TS(2339): Property 'supportAttachment' does not exist on typ... Remove this comment to see the full error message
       supportAttachment,
+      // @ts-expect-error TS(2339): Property 'attachments' does not exist on type 'Rea... Remove this comment to see the full error message
       attachments,
+      // @ts-expect-error TS(2339): Property 'removeAttachment' does not exist on type... Remove this comment to see the full error message
       removeAttachment,
     } = this.props;
+    // @ts-expect-error TS(2339): Property 'value' does not exist on type 'Readonly<... Remove this comment to see the full error message
     const { value, height } = this.state;
     const inputHeight = height - UIHeightOffset;
     return (
@@ -249,7 +288,7 @@ class MessageInput extends Component {
           />
         </div>
         <div className={styles.attachments}>
-          {attachments.map((attachment) => {
+          {attachments.map((attachment: any) => {
             return (
               <div
                 className={styles.attachmentItem}

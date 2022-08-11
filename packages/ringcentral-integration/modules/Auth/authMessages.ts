@@ -1,6 +1,6 @@
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-export default ObjectMap.prefixKeys(
+export const authMessages = ObjectMap.prefixKeys(
   [
     'emptyPassword',
     'emptyUsername',
@@ -9,6 +9,7 @@ export default ObjectMap.prefixKeys(
     'logoutError',
     'accessDenied',
     'internalError',
+    'siteAccessForbidden',
   ],
   'authMessages',
 );

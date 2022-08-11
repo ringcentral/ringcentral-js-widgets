@@ -1,5 +1,4 @@
-import messageSenderMessages from '@ringcentral-integration/commons/modules/MessageSender/messageSenderMessages';
-import messageSenderMessagesV2 from '@ringcentral-integration/commons/modules/MessageSenderV2/messageSenderMessages';
+import { messageSenderMessages } from '@ringcentral-integration/commons/modules/MessageSender';
 export default {
   [messageSenderMessages.sendSuccess]: "傳送成功。",
   [messageSenderMessages.sendError]: "傳送訊息時發生錯誤。",
@@ -13,21 +12,21 @@ export default {
   [messageSenderMessages.multipartTextTooLong]: "文字過長，上限為 5000 字",
   [messageSenderMessages.recipientNumberInvalids]: "請輸入有效的電話號碼。",
   [messageSenderMessages.noAreaCode]: "請設定 {areaCodeLink} 以使用 7 位數當地電話號碼。",
-  [messageSenderMessages.specialNumber]: "不支援傳送文字簡訊至緊急/特別服務號碼。",
-  [messageSenderMessages.connectFailed]: "連線失敗。請稍後再試一次。",
-  [messageSenderMessages.internalError]: "因為內部錯誤導致無法連線。請稍後再試一次。",
+  [messageSenderMessages.specialNumber]: "不支援傳送文字簡訊給緊急/特別服務號碼。",
+  [messageSenderMessages.connectFailed]: "連線失敗。請稍後再試。",
+  [messageSenderMessages.internalError]: "因為內部錯誤導致無法連線。請稍後再試。",
   [messageSenderMessages.notAnExtension]: "分機號碼不存在。",
-  [messageSenderMessages.networkError]: "因網路問題，無法連線。請稍後再試一次。",
-  [messageSenderMessages.senderNumberInvalid]: "需要有效的電話號碼，才能將簡訊傳送給您公司外的收件者，請聯絡您的管理員，為您的帳戶加入直撥號碼。",
+  [messageSenderMessages.networkError]: "因網路問題，無法連線。請稍後再試。",
+  [messageSenderMessages.senderNumberInvalid]: "需要有效的電話號碼，才能將文字訊息傳送給您公司外的收件者，請聯絡您的管理員，為您的帳戶加入直撥號碼。",
   [messageSenderMessages.notSmsToExtension]: "無法透過主要電話號碼傳送至分機號碼。如果要傳送至分機號碼，請只輸入分機號碼。",
   [messageSenderMessages.internationalSMSNotSupported]: "不支援傳送簡訊給國際電話號碼。",
   [messageSenderMessages.noInternalSMSPermission]: "您沒有傳送訊息的權限。請聯絡您的 {brand} 帳戶管理員以升級。",
-  [messageSenderMessages.noSMSPermission]: "您沒有向組織以外之收件者寄送訊息的權限。",
-  [messageSenderMessagesV2.attachmentCountLimitation]: "最多 10 個附件為限。",
-  [messageSenderMessagesV2.attachmentSizeLimitation]: "附件大小不可超過 1.5MB。",
-  [messageSenderMessagesV2.noAttachmentToExtension]: "不支援傳送多媒體訊息至分機。",
+  [messageSenderMessages.noSMSPermission]: "您無權向組織以外的收件者傳送訊息。",
+  [messageSenderMessages.attachmentCountLimitation]: "最多 10 個附件為限。",
+  [messageSenderMessages.attachmentSizeLimitation]: "附件大小不可超過 1.5MB。",
+  [messageSenderMessages.noAttachmentToExtension]: "不支援傳送多媒體訊息至分機。",
   areaCode: "區碼",
-  [messageSenderMessages.sending]: "訊息傳送中…可能需要一些時間來完成。"
+  [messageSenderMessages.sending]: "訊息傳送中…可能需要一些時間才會完成。"
 };
 
 // @key: @#@"[messageSenderMessages.sendSuccess]"@#@ @source: @#@"Send Success."@#@
@@ -48,12 +47,12 @@ export default {
 // @key: @#@"[messageSenderMessages.notAnExtension]"@#@ @source: @#@"The extension number does not exist."@#@
 // @key: @#@"[messageSenderMessages.networkError]"@#@ @source: @#@"Cannot connect due to network issues. Please try again later."@#@
 // @key: @#@"[messageSenderMessages.senderNumberInvalid]"@#@ @source: @#@"A valid Phone Number is required to send text message to recipients outside of your company, Please contact your Administrator to add a direct number to your account."@#@
-// @key: @#@"[messageSenderMessages.notSmsToExtension]"@#@ @source: @#@"Cannot send To a extension number with main phone number. If you want to sent to a extension Number, please just enter extension Number."@#@
+// @key: @#@"[messageSenderMessages.notSmsToExtension]"@#@ @source: @#@"Cannot send to an extension number with main phone number. If you want to send to an extension number, please just enter extension number."@#@
 // @key: @#@"[messageSenderMessages.internationalSMSNotSupported]"@#@ @source: @#@"Sending SMS to international phone number is not supported."@#@
 // @key: @#@"[messageSenderMessages.noInternalSMSPermission]"@#@ @source: @#@"You don't have permission to send messages. Please contact your {brand} account administrator for upgrade."@#@
 // @key: @#@"[messageSenderMessages.noSMSPermission]"@#@ @source: @#@"You don't have permission to send messages to recipients outside of your organization."@#@
-// @key: @#@"[messageSenderMessagesV2.attachmentCountLimitation]"@#@ @source: @#@"Maximum 10 attachments."@#@
-// @key: @#@"[messageSenderMessagesV2.attachmentSizeLimitation]"@#@ @source: @#@"Attachments size is limited to 1.5M bytes."@#@
-// @key: @#@"[messageSenderMessagesV2.noAttachmentToExtension]"@#@ @source: @#@"It isn't supported to send MMS to an extension."@#@
+// @key: @#@"[messageSenderMessages.attachmentCountLimitation]"@#@ @source: @#@"Maximum 10 attachments."@#@
+// @key: @#@"[messageSenderMessages.attachmentSizeLimitation]"@#@ @source: @#@"Attachments size is limited to 1.5M bytes."@#@
+// @key: @#@"[messageSenderMessages.noAttachmentToExtension]"@#@ @source: @#@"It isn't supported to send MMS to an extension."@#@
 // @key: @#@"areaCode"@#@ @source: @#@"area code"@#@
 // @key: @#@"[messageSenderMessages.sending]"@#@ @source: @#@"Message being sent…It may take a couple of minutes to complete."@#@

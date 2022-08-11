@@ -1,5 +1,5 @@
 export default {
-  currentCall: "Current call",
+  currentCall: "Current Call",
   viewCalls: "View calls",
   view: "View",
   incomingCall: "{numberOf} incoming call",

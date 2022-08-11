@@ -24,7 +24,8 @@ export const action = (
     }
     if (typeof getStagedState() === 'undefined') {
       try {
-        const lastState = this[storeKey].getState();
+        const lastState: Record<string, any> =
+          this._getLastState?.() ?? this[storeKey].getState();
         let state: Record<string, any> | undefined;
         let patches: Patch[] = [];
         let inversePatches: Patch[] = [];
@@ -54,7 +55,7 @@ export const action = (
           }
           // performance checking
           const executionTime = Date.now() - time!;
-          if (executionTime > 200)
+          if (executionTime > 100)
             console.warn(
               `The execution time of method '${
                 this[identifierKey]
@@ -64,6 +65,7 @@ export const action = (
         }
 
         if (changed) {
+          this._handleState?.(state);
           const action: Action = {
             type: this[identifierKey],
             method: key,

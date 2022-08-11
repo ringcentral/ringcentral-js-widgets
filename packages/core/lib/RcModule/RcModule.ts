@@ -1,4 +1,4 @@
-import { combineReducers, ReducersMapObject } from 'redux';
+import { combineReducers, Reducer, ReducersMapObject } from 'redux';
 import {
   action,
   Action,
@@ -24,6 +24,7 @@ import {
 } from '../usm-redux';
 
 setAutoFreeze(false);
+
 setPatchesToggle(!process.env.DISABLE_PATCHES);
 if (!process.env.DISABLE_PATCHES) {
   enablePatches();
@@ -65,12 +66,20 @@ export interface RcModuleOptions<T> {
 
 interface RcModuleV2 {
   parentModule: RcModuleV2;
-  [storageStateKey]?: string[];
-  [globalStorageStateKey]?: string[];
+  [storageStateKey]: string[];
+  [globalStorageStateKey]: string[];
   [stateKey]: Record<string, any>;
   [identifierKey]: string;
   [subscriptionsKey]: Subscription[];
   [storeKey]: Store;
+}
+
+interface IStorage extends RcModuleV2 {
+  registerReducer(options: {
+    key: string;
+    reducer: Reducer<any, Action>;
+  }): void;
+  data: Record<string, any>;
 }
 
 /**
@@ -83,10 +92,15 @@ interface RcModuleV2 {
  * - `onInitSuccess`: when onInit be passed successfully, this event will be triggered.
  * - `onReset`: when one of deps be reset, this event will be triggered.
  */
-abstract class RcModuleV2<T = {}> {
+abstract class RcModuleV2<
+  T extends Record<string, any> & {
+    storage?: IStorage;
+    globalStorage?: IStorage;
+  } = {},
+> {
   private [onceKey] = false;
 
-  private [storageKey]: string;
+  private [storageKey]?: string;
 
   private [enableCacheKey]: boolean;
 
@@ -120,7 +134,7 @@ abstract class RcModuleV2<T = {}> {
    */
   protected onStateChange?(): Promise<void> | void;
 
-  protected _deps: T & { storage?: any; globalStorage?: any };
+  protected _deps: T;
 
   constructor({
     deps,
@@ -128,7 +142,7 @@ abstract class RcModuleV2<T = {}> {
     enableGlobalCache = false,
     ...options
   }: RcModuleOptions<T> = {}) {
-    this._deps = deps;
+    this._deps = deps! ?? {};
     this[storageKey] = options.storageKey;
     this[enableCacheKey] = enableCache;
     this[enableGlobalCacheKey] = enableGlobalCache;
@@ -197,7 +211,7 @@ abstract class RcModuleV2<T = {}> {
     this[ignoreReadyModulesKey].add(dep);
   }
 
-  private get [notReadyModulesKey]() {
+  private get [notReadyModulesKey](): RcModuleV2[] {
     const modules = Object.values(this._deps || {}).filter(
       // In order to be compatible with RcModuleV1
       (module: RcModuleV2) => module && typeof module.ready !== 'undefined',
@@ -206,6 +220,37 @@ abstract class RcModuleV2<T = {}> {
       (module: RcModuleV2) =>
         !module.ready && !this[ignoreReadyModulesKey].has(module),
     );
+  }
+
+  private _getLastState() {
+    const lastState: Record<string, any> = {
+      // for combineReducers check state with reducers
+      __state: this._getStateV2(this[storeKey].getState(), this[identifierKey]),
+      __identifier: this[identifierKey],
+    };
+    if (this._deps.storage?.data) {
+      this[storageStateKey].forEach((key: string) => {
+        const storageReducerKey = `${this[storageKey]}-${key}`;
+        lastState[key] = this._deps.storage!.data[storageReducerKey];
+      });
+    }
+    if (this._deps.globalStorage?.data) {
+      this[globalStorageStateKey].forEach((key: string) => {
+        const storageReducerKey = `${this[storageKey]}-${key}`;
+        lastState[key] = this._deps.globalStorage!.data[storageReducerKey];
+      });
+    }
+    return lastState;
+  }
+
+  private _handleState(state: {
+    __state?: Record<string, any>;
+    __identifier?: string;
+    [key: string]: any;
+  }) {
+    Object.assign(state, state.__state);
+    delete state.__state;
+    delete state.__identifier;
   }
 
   _shouldInit() {
@@ -277,11 +322,13 @@ abstract class RcModuleV2<T = {}> {
       if (typeof descriptor === 'undefined') return;
       const initialState = descriptor.value;
       const storageReducerKey = `${this[storageKey]}-${key}`;
-      this._deps.storage.registerReducer({
+      this._deps.storage!.registerReducer({
         key: storageReducerKey,
         reducer: (state = initialState, action: Action) =>
-          action._usm === usmAction
-            ? this._getStateV2(action._state, 'storage').data[storageReducerKey]
+          action._usm === usmAction &&
+          action.type === this[identifierKey] &&
+          Object.hasOwnProperty.call(action._state, key)
+            ? action._state[key]
             : state,
       });
       Object.assign(descriptors, {
@@ -290,18 +337,22 @@ abstract class RcModuleV2<T = {}> {
           configurable: false,
           get(this: Service) {
             const stagedState: any = getStagedState();
-            return stagedState
-              ? this._getStateV2(stagedState, 'storage').data![
-                  storageReducerKey
-                ]
+            return stagedState?.__identifier === this[identifierKey]
+              ? stagedState[key]
               : this._deps.storage.data![storageReducerKey];
           },
           set(this: Service, value: unknown) {
             const stagedState = getStagedState();
+            if (
+              stagedState &&
+              stagedState.__identifier !== this[identifierKey]
+            ) {
+              throw new Error(
+                `RcModule does not support cross-module execution of the methods decorated by action`,
+              );
+            }
             if (stagedState) {
-              this._getStateV2(stagedState, 'storage').data![
-                storageReducerKey
-              ] = value;
+              stagedState[key] = value;
               return;
             }
             this._deps.storage.data![storageReducerKey] = value;
@@ -318,13 +369,13 @@ abstract class RcModuleV2<T = {}> {
       if (typeof descriptor === 'undefined') return;
       const initialState = descriptor.value;
       const storageReducerKey = `${this[storageKey]}-${key}`;
-      this._deps.globalStorage.registerReducer({
+      this._deps.globalStorage!.registerReducer({
         key: storageReducerKey,
         reducer: (state = initialState, action: Action) =>
-          action._usm === usmAction
-            ? this._getStateV2(action._state, 'globalStorage').data[
-                storageReducerKey
-              ]
+          action._usm === usmAction &&
+          action.type === this[identifierKey] &&
+          Object.hasOwnProperty.call(action._state, key)
+            ? action._state[key]
             : state,
       });
       Object.assign(descriptors, {
@@ -333,18 +384,22 @@ abstract class RcModuleV2<T = {}> {
           configurable: false,
           get(this: Service) {
             const stagedState = getStagedState();
-            return stagedState
-              ? this._getStateV2(stagedState, 'globalStorage').data![
-                  storageReducerKey
-                ]
+            return stagedState?.__identifier === this[identifierKey]
+              ? stagedState[key]
               : this._deps.globalStorage.data![storageReducerKey];
           },
           set(this: Service, value: unknown) {
             const stagedState = getStagedState();
+            if (
+              stagedState &&
+              stagedState.__identifier !== this[identifierKey]
+            ) {
+              throw new Error(
+                `RcModule does not support cross-module execution of the methods decorated by action`,
+              );
+            }
             if (stagedState) {
-              this._getStateV2(stagedState, 'globalStorage').data![
-                storageReducerKey
-              ] = value;
+              stagedState[key] = value;
               return;
             }
             this._deps.globalStorage.data![storageReducerKey] = value;
@@ -365,7 +420,7 @@ abstract class RcModuleV2<T = {}> {
 
   private _suppressInit?: boolean;
 
-  protected _reducers: ReducersMapObject;
+  protected _reducers?: ReducersMapObject;
 
   protected _getStateV2 = (state: Record<string, any>, key: string) =>
     state[key];
@@ -385,10 +440,9 @@ abstract class RcModuleV2<T = {}> {
         configurable: false,
         get(this: Service) {
           const stagedState = getStagedState();
-          return this._getStateV2(
-            stagedState ?? this[storeKey]?.getState(),
-            this[identifierKey],
-          );
+          return stagedState?.__identifier === this[identifierKey]
+            ? stagedState.__state
+            : this._getStateV2(this[storeKey]?.getState(), this[identifierKey]);
         },
       },
     };
@@ -411,8 +465,10 @@ abstract class RcModuleV2<T = {}> {
         });
         return Object.assign(serviceReducersMapObject, {
           [key]: (state = initialState, action: Action) =>
-            action._usm === usmAction
-              ? this._getStateV2(action._state, this[identifierKey])[key]
+            action._usm === usmAction &&
+            this[identifierKey] === action.type &&
+            Object.hasOwnProperty.call(action._state, key)
+              ? action._state[key]
               : state,
         });
       },
@@ -423,11 +479,14 @@ abstract class RcModuleV2<T = {}> {
     Object.defineProperties(this, descriptors);
   }
 
-  get reducer() {
+  get reducer(): Reducer<any, Action<any>> {
     if (this._reducers) return combineReducers(this._reducers);
     this[spawnStorageReducersKey]();
     this[spawnReducersKey]();
-    return combineReducers(this._reducers);
+    if (!this._reducers) {
+      throw new Error(`Combine reducers error`);
+    }
+    return combineReducers(this._reducers!);
   }
 
   async _initModule() {

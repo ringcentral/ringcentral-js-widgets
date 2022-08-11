@@ -1,3 +1,4 @@
+// @ts-nocheck
 import wrapDescriptor from './wrapDescriptor';
 
 export default function deprecated(prototype, property, descriptor) {

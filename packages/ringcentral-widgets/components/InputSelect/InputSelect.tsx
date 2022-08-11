@@ -6,7 +6,7 @@ import {
   RcListItemText,
   RcTextField,
 } from '@ringcentral/juno';
-import { ArrowDown2 as arrowDownSvg } from '@ringcentral/juno/icon';
+import { ArrowDown2 as arrowDownSvg } from '@ringcentral/juno-icon';
 
 import { bindDebounce } from '../../lib/bindDebounce';
 import { bindNextPropsUpdate } from '../../lib/bindNextPropsUpdate';
@@ -34,6 +34,7 @@ export default class InputSelect extends Component<
   static defaultProps: Partial<InputSelectProps> = {
     required: false,
     subjectPicklist: [],
+    // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
     subject: null,
     onChange: undefined,
     onSave: undefined,
@@ -44,8 +45,9 @@ export default class InputSelect extends Component<
   checkPropsUpdate = bindNextPropsUpdate(this);
   debounce = bindDebounce(this, this.props.timeout);
 
+  // @ts-expect-error TS(2564): Property 'wrapper' has no initializer and is not d... Remove this comment to see the full error message
   wrapper: HTMLDivElement;
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     const { subject } = this.props;
     this.state = {
@@ -54,10 +56,13 @@ export default class InputSelect extends Component<
     };
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
+  UNSAFE_componentWillReceiveProps(nextProps: any) {
+    // @ts-expect-error TS(2554): Expected 3 arguments, but got 2.
     this.checkPropsUpdate(nextProps, 'subject');
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   componentWillUnmount() {
     window.removeEventListener('click', this._handleDocumentClick, false);
   }
@@ -71,6 +76,7 @@ export default class InputSelect extends Component<
     return (
       <div className={styles.select}>
         <RcList>
+          {/* @ts-expect-error TS(2532): Object is possibly 'undefined'. */}
           {subjectPicklist.map((option, i) => (
             <RcListItem
               key={i}
@@ -92,6 +98,7 @@ export default class InputSelect extends Component<
     );
   };
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     const { subjectPicklist, required, label } = this.props;
     const { subject = '' } = this.state;
@@ -100,6 +107,7 @@ export default class InputSelect extends Component<
       <div
         className={styles.root}
         ref={(ref) => {
+          // @ts-expect-error TS(2322): Type 'HTMLDivElement | null' is not assignable to ... Remove this comment to see the full error message
           this.wrapper = ref;
         }}
       >
@@ -117,6 +125,7 @@ export default class InputSelect extends Component<
             maxLength: 255,
           }}
           InputProps={{
+            // @ts-expect-error TS(2532): Object is possibly 'undefined'.
             endAdornment: subjectPicklist.length > 0 && (
               <CustomArrowButton
                 symbol={arrowDownSvg}
@@ -132,19 +141,21 @@ export default class InputSelect extends Component<
     );
   }
 
-  updateValue(subject, time) {
+  updateValue(subject: any, time: any) {
     const { onChange, onSave, timeout } = this.props;
     this.setState({ subject }, () => {
       this.debounce(() => {
         const { subject } = this.state;
+        // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
         onChange(subject).then(() => {
+          // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
           this.debounce(() => onSave(), timeout - time);
         });
       }, time);
     });
   }
 
-  onSelectChange = (subject) => {
+  onSelectChange = (subject: any) => {
     const { onSelectOption, onSave, onChange } = this.props;
     this.setState({ subject }, () => {
       this.debounce(() => {
@@ -152,6 +163,7 @@ export default class InputSelect extends Component<
           onSelectOption();
         }
         const { subject } = this.state;
+        // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
         onChange(subject).then(() => onSave());
       }, 0);
     });
@@ -168,7 +180,7 @@ export default class InputSelect extends Component<
     this.setState({ expand: !expand });
   };
 
-  _handleDocumentClick = (e) => {
+  _handleDocumentClick = (e: any) => {
     if (this.wrapper && this.wrapper.contains(e.target)) {
       return;
     }

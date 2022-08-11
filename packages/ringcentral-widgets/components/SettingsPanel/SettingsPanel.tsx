@@ -1,5 +1,6 @@
 import React, { FunctionComponent } from 'react';
 
+import { RemoveMeetingWarn } from '../MeetingAlert';
 import { BasePanel } from './BasePanel';
 import { ClickToDial } from './ClickToDial';
 import { LinkLineItem } from './LinkLineItem';
@@ -47,6 +48,7 @@ export const SettingsPanel: FunctionComponent<SettingsPanelProps> = ({
   onReportLinkClick = Empty,
   onShareIdeaClick,
   onUserGuideClick,
+  onReportIssueClick,
   openPresenceSettings = false,
   outboundSMS = false,
   savedLocale,
@@ -71,12 +73,16 @@ export const SettingsPanel: FunctionComponent<SettingsPanelProps> = ({
   showShareIdea = false,
   showSpinner = false,
   showUserGuide = false,
+  // @ts-expect-error TS(2339): Property 'isEnablePendo' does not exist on type 'P... Remove this comment to see the full error message
   isEnablePendo = false,
+  showReportIssue = false,
   supportedLocales,
   toggleAcceptCallQueueCalls = Empty,
   userStatus,
   version,
   versionContainer,
+  showRemoveMeetingWarning,
+  brandConfig,
 }) => {
   return (
     <BasePanel
@@ -94,6 +100,13 @@ export const SettingsPanel: FunctionComponent<SettingsPanelProps> = ({
         versionContainer,
       }}
     >
+      {showRemoveMeetingWarning && (
+        <RemoveMeetingWarn
+          brandConfig={brandConfig}
+          currentLocale={currentLocale}
+          hasRemoved
+        />
+      )}
       <LinkLineItem
         name="report"
         show={showReport}
@@ -210,6 +223,12 @@ export const SettingsPanel: FunctionComponent<SettingsPanelProps> = ({
         show={showUserGuide}
         currentLocale={currentLocale}
         onClick={onUserGuideClick}
+      />
+      <LinkLineItem
+        name="reportIssue"
+        show={showReportIssue}
+        currentLocale={currentLocale}
+        onClick={onReportIssueClick}
       />
     </BasePanel>
   );

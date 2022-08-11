@@ -1,25 +1,26 @@
 export default {
-  inviteMeetingContent: "{accountName} le está invitando a una reunión de {brandName}.\n\nÚnase desde PC, Mac, iOS o Android: {joinUri}{passwordTpl}\n\n O desde iPhone con tan solo pulsar una vez:\n\t    {mobileDialingNumberTpl}\n\n    O desde un teléfono:\n\t     Marque:\n\t    {phoneDialingNumberTpl}\n\t     ID de la reunión: {meetingId}\n\t     Números internacionales disponibles: {teleconference} ",
+  inviteMeetingContent: "{accountName} Le está invitando a una reunión de {brandName}.\n\nÚnase desde PC, Mac, iOS o Android: {joinUri}{passwordTpl}\n\n O desde iPhone con tan solo pulsar una vez:\n\t    {mobileDialingNumberTpl}\n\n    O desde un teléfono:\n\t     Marque:\n\t    {phoneDialingNumberTpl}\n\t     ID de la reunión: {meetingId}\n\t     Números internacionales disponibles: {teleconference} ",
   conferenceLocationField: "Conferencia, número de marcación: {dialInNumber}",
   scheduleError: "Se produjo un error; inténtelo de nuevo.",
-  noMeetingPermission: "No tiene permiso para {brandName} Meetings. Póngase en contacto con el administrador de la compañía para continuar.",
-  noConferencePermission: "No tiene permiso para el servicio de conferencias {brandName}. Póngase en contacto con el administrador de la compañía para continuar.",
+  noMeetingPermission: "No tiene permiso para {brandName} Meetings. Póngase en contacto con el administrador de la empresa para continuar.",
+  noConferencePermission: "No tiene permiso para el servicio de conferencias {brandName}. Póngase en contacto con el administrador de la empresa para continuar.",
   conferenceTitle: "Reunión de conferencia de {displayName}",
   internationalNumber: "Números de marcación internacionales:",
   inviteText_att: "Únase a la conferencia de {brandName}.\n\nNúmero de marcación: {formattedDialInNumber} \n{additionalNumbersSection} \nAcceso de participante: {participantCode} \n\n¿Necesita un número de marcación internacional? Visite {dialInNumbersLink} \n\nEsta llamada de conferencia es posible gracias al servicio de conferencias de {brandName}.",
   inviteText_bt: "Únase a la conferencia de {brandName}.\n\nNúmero de marcación:  {formattedDialInNumber} \n{additionalNumbersSection} \nAcceso de participante: {participantCode} \n\nNúmeros de marcación adicionales {dialInNumbersLink} ",
   inviteText_rc: "Únase a la conferencia de {brandName}.\n\nNúmero de marcación: {formattedDialInNumber} \n{additionalNumbersSection} \nAcceso de participante: {participantCode} \n\n¿Necesita un número de marcación internacional? Visite {dialInNumbersLink} \n\nEsta llamada de conferencia es posible gracias al servicio de conferencias de {brandName}.",
   inviteText_telus: "Únase a la conferencia de {brandName}.\n\nNúmero de marcación:  {formattedDialInNumber} \n{additionalNumbersSection} \nAcceso de participante: {participantCode} \n\nNúmeros de marcación adicionales {dialInNumbersLink} ",
-  conferenceCall: "Llamada de conferencia de {brandName}",
+  conferenceCall: "{brandName} Llamada de conferencia",
   videoCall: "Videollamada de {brandName}",
   addConferencingDetails: "Añadiendo los detalles de la conferencia",
   updateConferencingDetails: "Actualizando los detalles de la conferencia",
+  // @ts-expect-error TS(1117): An object literal cannot have multiple properties ... Remove this comment to see the full error message
   scheduleError: "Se produjo un error; inténtelo de nuevo.",
   deleteBtn: "Eliminar",
   settingsBtn: "Configuración",
   saveAsDefaultAndNotShowAgain: "Guardar como predeterminado y no mostrar de nuevo",
   saveAsDefault: "Guardar como predeterminado",
-  done: "Listo",
+  done: "Finalizado",
   update: "Actualizar",
   conferenceSettingsTitle: "Configuración del servicio de conferencias de {brand}",
   videoSettingsTitle: "Configuración de {brand} Meetings",
@@ -29,6 +30,7 @@ export default {
   recurringMeeting: "Reunión periódica",
   meetingOptions: "Opciones de reunión",
   schedule: "Programar",
+  // @ts-expect-error TS(1117): An object literal cannot have multiple properties ... Remove this comment to see the full error message
   settingsBtn: "Configuración"
 };
 

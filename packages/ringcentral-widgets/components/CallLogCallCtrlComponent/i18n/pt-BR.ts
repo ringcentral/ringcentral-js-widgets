@@ -1,24 +1,26 @@
 export default {
-  mute: "Mudo",
-  unmute: "Ativar som",
+  mute: "Ativar mudo",
+  unmute: "Desativar mudo",
   hangup: "Desligar",
   reject: "Rejeitar",
-  hold: "Aguardar",
+  hold: "Colocar em espera",
   onHold: "Em espera",
   transfer: "Transferir",
   more: "Mais",
   stopRecord: "Parar gravação",
   record: "Gravar",
-  showKeypad: "Teclado",
-  hideKeypad: "Ocultar teclado",
-  unHold: "Liberar",
+  showKeypad: "Teclado numérico",
+  hideKeypad: "Ocultar teclado numérico",
+  unHold: "Retomar",
   forward: "Encaminhar",
   ignore: "Ignorar",
-  voicemail: "P/ cx. postal",
-  custom: "Personalizar",
+  voicemail: "Para caixa postal",
+  custom: "Personalizada",
   answerAndEnd: "Responder e terminar",
   answerAndHold: "Responder e colocar em espera",
-  answer: "Atender"
+  answer: "Atender",
+  completeTransfer: "Concluir a transferência",
+  reply: "Responder"
 };
 
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
@@ -41,3 +43,5 @@ export default {
 // @key: @#@"answerAndEnd"@#@ @source: @#@"Answer & End"@#@
 // @key: @#@"answerAndHold"@#@ @source: @#@"Answer & Hold"@#@
 // @key: @#@"answer"@#@ @source: @#@"Answer"@#@
+// @key: @#@"completeTransfer"@#@ @source: @#@"Complete transfer"@#@
+// @key: @#@"reply"@#@ @source: @#@"Reply"@#@

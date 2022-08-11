@@ -21,7 +21,9 @@ class CopyToClipboard extends Component<CopyToClipboardProps, {}> {
   async executeCopy() {
     const { copiedText, handleSuccess, handleFailure } = this.props;
     try {
+      // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
       await handleCopy(copiedText);
+      // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
       handleSuccess();
     } catch (e) {
       if (typeof handleFailure === 'function') {
@@ -29,6 +31,7 @@ class CopyToClipboard extends Component<CopyToClipboardProps, {}> {
       }
     }
   }
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     const {
       currentLocale,
@@ -38,6 +41,7 @@ class CopyToClipboard extends Component<CopyToClipboardProps, {}> {
       button: CustomButton,
     } = this.props;
     return CustomButton ? (
+      // @ts-expect-error TS(2604): JSX element type 'CustomButton' does not have any ... Remove this comment to see the full error message
       <CustomButton {...this.props} executeCopy={() => this.executeCopy()} />
     ) : (
       <Button
@@ -51,6 +55,7 @@ class CopyToClipboard extends Component<CopyToClipboardProps, {}> {
     );
   }
 }
+// @ts-expect-error TS(2339): Property 'defaultProps' does not exist on type 'ty... Remove this comment to see the full error message
 CopyToClipboard.defaultProps = {
   handleSuccess: undefined,
   handleFailure: undefined,

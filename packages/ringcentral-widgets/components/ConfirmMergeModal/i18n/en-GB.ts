@@ -2,7 +2,7 @@ export default {
   confirmation: "Confirmation",
   confirmMergeToConference: "Add to conference call?",
   mergeToConference: "Merge",
-  conferenceCall: "Conference call"
+  conferenceCall: "Conference Call"
 };
 
 // @key: @#@"confirmation"@#@ @source: @#@"Confirmation"@#@

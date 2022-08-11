@@ -12,7 +12,7 @@ import { SDK } from '@ringcentral/sdk';
 // TODO: make 'ringcentral-client' support JS SDK v4 or replace it
 class RestPrefix extends PathSegment {
   constructor(service: SDK) {
-    super('restapi/v1.0', null, null, service);
+    super('restapi/v1.0', undefined, undefined, service);
   }
 }
 
@@ -21,27 +21,27 @@ class RingCentralClient extends Client {
     return new RestPrefix(this.service.platform());
   }
 
-  account(id?: string): Account {
+  override account(id?: string): Account {
     return new Account(this.restPrefix(), id, this.service.platform());
   }
 
-  clientInfo(id?: string): ClientInfo {
+  override clientInfo(id?: string): ClientInfo {
     return new ClientInfo(this.restPrefix(), id, this.service.platform());
   }
 
-  dictionary(id?: string): Dictionary {
+  override dictionary(id?: string): Dictionary {
     return new Dictionary(this.restPrefix(), id, this.service.platform());
   }
 
-  numberParser(id?: string): NumberParser {
+  override numberParser(id?: string): NumberParser {
     return new NumberParser(this.restPrefix(), id, this.service.platform());
   }
 
-  subscription(id?: string): Subscription {
+  override subscription(id?: string): Subscription {
     return new Subscription(this.restPrefix(), id, this.service.platform());
   }
 
-  glip(id?: string) {
+  override glip(id?: string) {
     return new Glip(this.restPrefix(), id, this.service.platform());
   }
 }

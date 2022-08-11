@@ -1,5 +1,5 @@
 export default {
-  to: "至：",
+  to: "撥給：",
   transferTo: "轉接至",
   blindTransfer: "轉接",
   warmTransfer: "首先詢問",

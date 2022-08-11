@@ -1,3 +1,4 @@
+import { waitForRenderReady } from '@ringcentral-integration/test-utils/lib/test-utils';
 import { fireEvent, screen } from '@testing-library/react';
 
 import { StepFunction } from '../../../lib/step';
@@ -8,7 +9,12 @@ export const NavigateToSettings: StepFunction = async () => {
     fireEvent.click(screen.getByTestId('Settings'));
     return;
   }
-  // some app "settings" inside at two-level menu
-  fireEvent.click(screen.getByTestId('moreMenu'));
-  fireEvent.click(await screen.findByTestId('settingsTab'));
+
+  if (screen.queryByTestId('moreMenu')) {
+    fireEvent.click(screen.getByTestId('moreMenu'));
+    await waitForRenderReady();
+  }
+
+  fireEvent.click(screen.getByTestId('settingsTab'));
+  expect(screen.getByTestId('version')).toBeInTheDocument();
 };

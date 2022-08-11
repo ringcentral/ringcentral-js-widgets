@@ -8,20 +8,20 @@ import React, {
   useState,
 } from 'react';
 
-import { RcIcon } from '@ringcentral/juno';
 import classnames from 'classnames';
-import formatMessage from 'format-message';
-import { InfoBorder as infoSvg } from '@ringcentral/juno/icon';
+
 /* eslint-disable react/destructuring-assignment */
-import callingOptions from '@ringcentral-integration/commons/modules/CallingSettings/callingOptions';
-import { Tooltip } from '../Rcui/Tooltip';
+import { callingOptions } from '@ringcentral-integration/commons/modules/CallingSettings';
+import { format } from '@ringcentral-integration/utils';
+import { RcIcon } from '@ringcentral/juno';
+import { InfoBorder as infoSvg } from '@ringcentral/juno-icon';
 
 import BackHeader from '../BackHeader';
 import { DropdownSelect } from '../DropdownSelect';
 import IconField from '../IconField';
 import InputField from '../InputField';
 import Panel from '../Panel';
-import { RingTone } from '../Ringtone';
+import { Tooltip } from '../Rcui/Tooltip';
 import SaveButton from '../SaveButton';
 import { SpinnerOverlay } from '../SpinnerOverlay';
 import Switch from '../Switch';
@@ -97,7 +97,7 @@ const CallWithSettings: FunctionComponent<CallWithProps> = ({
           <Tooltip
             title={keys.map((key) => (
               <div key={key}>
-                {formatMessage(i18n.getString(key, currentLocale), {
+                {format(i18n.getString(key, currentLocale), {
                   brand: optionName,
                 })}
               </div>
@@ -130,7 +130,7 @@ const CallWithSettings: FunctionComponent<CallWithProps> = ({
   );
 };
 
-// TODO properly type available numbers
+// TODO: properly type available numbers
 
 interface RingoutSettingsProps {
   currentLocale: string;
@@ -176,6 +176,7 @@ const RingoutSettings: FunctionComponent<RingoutSettingsProps> = ({
               className={classnames(styles.select, styles.locationSelect)}
               value={myLocation}
               onChange={onMyLocationChange}
+              // @ts-expect-error TS(2322): Type '((option: string, text: string) => boolean) ... Remove this comment to see the full error message
               searchOption={
                 locationSearchable
                   ? (option: string, text: string) => option.includes(text)
@@ -304,11 +305,11 @@ const CallingSettings: FunctionComponent<CallingSettingsProps> = ({
           disabled,
         }}
       />
-      <RingTone
+      {/* TODO: still in Technical Preview */}
+      {/* <RingTone
         {...{
           currentLocale,
-          showRingToneSettings:
-            showRingToneSettings && callWithState === callingOptions.browser,
+          showRingToneSettings: true,
           incomingAudio: incomingAudioState,
           incomingAudioFile: incomingAudioFileState,
           outgoingAudio: outgoingAudioState,
@@ -334,7 +335,7 @@ const CallingSettings: FunctionComponent<CallingSettingsProps> = ({
             setOutgoingAudioFileState(defaultOutgoingAudioFile);
           },
         }}
-      />
+      /> */}
       <SaveButton
         {...{
           currentLocale,

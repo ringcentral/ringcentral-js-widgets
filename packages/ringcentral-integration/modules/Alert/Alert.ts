@@ -55,7 +55,7 @@ export class Alert extends RcModuleV2<Deps> {
     this.messages.push(item);
   }
 
-  onInit() {
+  override onInit() {
     if (this._deps.alertOptions?.enableTabSync) {
       this.messages.forEach(({ ttl }) => {
         setTimeout(this._autoDismiss, ttl + 10);
@@ -84,7 +84,7 @@ export class Alert extends RcModuleV2<Deps> {
     message,
     payload,
     level = alertLevels.info as AlertLevelType,
-    ttl = this._deps.alertOptions.ttl,
+    ttl = this._deps.alertOptions!.ttl!,
     allowDuplicates = true,
     loading = false,
     backdrop = false,
@@ -205,7 +205,7 @@ export class Alert extends RcModuleV2<Deps> {
 
   @action
   _dismiss(ids: string | string[]) {
-    const _ids = [].concat(ids);
+    const _ids = ([] as string[]).concat(ids);
     this.messages = this.messages.filter(
       (item) => _ids.indexOf(item.id) === -1,
     );

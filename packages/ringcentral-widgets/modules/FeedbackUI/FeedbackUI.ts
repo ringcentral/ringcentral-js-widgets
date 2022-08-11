@@ -20,46 +20,44 @@ export class FeedbackUI extends RcUIModuleV2<Deps> {
   }
 
   getUIProps(): UIProps<FeedbackPanelProps> {
-    const { locale, feedback, brand } = this._deps;
     return {
-      brandName: brand.name,
-      currentLocale: locale.currentLocale,
-      email: feedback.email,
-      topic: feedback.topic,
-      subject: feedback.subject,
-      description: feedback.description,
+      brandName: this._deps.brand.name,
+      currentLocale: this._deps.locale.currentLocale,
+      email: this._deps.feedback.email,
+      topic: this._deps.feedback.topic,
+      subject: this._deps.feedback.subject,
+      description: this._deps.feedback.description,
     };
   }
 
   getUIFunctions({
     sendFeedback,
   }: FeedbackContainerProps): UIFunctions<FeedbackPanelProps> {
-    const { feedback, routerInteraction } = this._deps;
     return {
       onBackClick: () => {
-        routerInteraction.goBack();
+        this._deps.routerInteraction.goBack();
       },
       onEmailChange: (value) => {
-        feedback.updateEmail(value);
+        this._deps.feedback.updateEmail(value);
       },
       onTopicChange: (value) => {
-        feedback.updateTopic(value);
+        this._deps.feedback.updateTopic(value);
       },
       onSubjectChange: (value) => {
-        feedback.updateSubject(value);
+        this._deps.feedback.updateSubject(value);
       },
       onDescriptionChange: (value) => {
-        feedback.updateDescription(value);
+        this._deps.feedback.updateDescription(value);
       },
       onRevertClick: () => {
-        feedback.clean();
+        this._deps.feedback.clean();
       },
       sendFeedback: (mailToUrl) => {
         if (sendFeedback) {
           sendFeedback(mailToUrl);
           return;
         }
-        feedback.sendFeedback(mailToUrl);
+        this._deps.feedback.sendFeedback(mailToUrl);
       },
     };
   }

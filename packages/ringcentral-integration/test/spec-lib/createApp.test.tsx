@@ -1,4 +1,5 @@
 import { action, RcModuleV2, state } from '@ringcentral-integration/core';
+import { sleep } from '@ringcentral-integration/utils';
 import {
   autorun,
   Given,
@@ -11,7 +12,6 @@ import {
 
 import { createApp } from '../../lib/createApp';
 import { Module, ModuleFactory } from '../../lib/di';
-import { sleep } from '../../lib/sleep';
 
 @autorun(test)
 @title('CreateApp::basic')
@@ -35,7 +35,7 @@ export class CreateAppBasic extends Step {
                 this.count.sum += 1;
               }
 
-              async onInit() {
+              override async onInit() {
                 await sleep(100);
               }
             }
@@ -48,7 +48,7 @@ export class CreateAppBasic extends Step {
                 super({ deps });
               }
 
-              onStateChange() {
+              override onStateChange() {
                 context.fn();
               }
             }

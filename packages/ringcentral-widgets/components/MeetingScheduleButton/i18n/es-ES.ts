@@ -1,5 +1,5 @@
 export default {
-  schedule: "Programar una reunión",
+  schedule: "Programar reunión",
   prompt: "Autorice a RingCentral a acceder a la información de cuenta.",
   saveAsDefault: "Guardar como predeterminado",
   launchMeeting: "Iniciar reunión"

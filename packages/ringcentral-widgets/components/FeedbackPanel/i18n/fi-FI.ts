@@ -12,7 +12,7 @@ export default {
   topicPlaceHolder: "Valitse vaihtoehto",
   bugReport: "Virheraportti",
   featureRequest: "Ominaisuusehdotus",
-  others: "Muu",
+  others: "Muut",
   subject: "Aihe",
   subjectPlaceHolder: "Kerro, miten voimme auttaa",
   description: "Täysi kuvaus",

@@ -1,6 +1,6 @@
 export default {
-  sureToDeleteVoiceMail: "このボイスメールを削除してもよろしいですか？",
-  sureToDeleteFax: "このFAXを削除しますか？",
+  sureToDeleteVoiceMail: "このボイスメールを削除しますか？",
+  sureToDeleteFax: "このFAXを削除してもよろしいですか？",
   doNotAskAgain: "次回から通知しない"
 };
 

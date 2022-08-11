@@ -1,5 +1,5 @@
 export default {
-  forward: "Transférer",
+  forward: "Renvoyer",
   cancel: "Annuler",
   customNumber: "N° personnalisé"
 };

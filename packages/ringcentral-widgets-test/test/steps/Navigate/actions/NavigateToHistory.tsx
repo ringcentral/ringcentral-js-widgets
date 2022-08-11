@@ -4,13 +4,13 @@ import { RouterInteraction } from '@ringcentral-integration/widgets/modules/Rout
 import { StepFunction } from '../../../lib/step';
 
 export const NavigateToHistory: StepFunction<
-  any,
+  { testId?: string },
   {
     phone: {
       routerInteraction: RouterInteraction;
     };
   }
-> = (props, context) => {
+> = ({ testId = 'History' }, context) => {
   /**
    *
    * Note:
@@ -19,7 +19,6 @@ export const NavigateToHistory: StepFunction<
    * https://github.com/jsdom/jsdom/issues/1590
    *
    */
-
   window.HTMLElement.prototype.getBoundingClientRect = jest.fn(
     () =>
       ({
@@ -33,8 +32,8 @@ export const NavigateToHistory: StepFunction<
         left: 0,
       } as DOMRect),
   );
-  const selector = screen.getByTestId('History');
-  expect(selector).not.toBeNull();
+
+  const element = screen.getByTestId(testId);
 
   /**
    *
@@ -45,9 +44,12 @@ export const NavigateToHistory: StepFunction<
    * https://jestjs.io/docs/timer-mocks
    *
    * */
-  jest.useFakeTimers();
-  fireEvent.click(selector);
-  expect(context.phone.routerInteraction.currentPath).toBe(`/history`);
-  jest.runOnlyPendingTimers();
-  jest.useRealTimers();
+  expect(element).toBeInTheDocument();
+  if (element) {
+    jest.useFakeTimers();
+    fireEvent.click(element);
+    expect(context.phone.routerInteraction.currentPath).toBe(`/history`);
+    jest.runOnlyPendingTimers();
+    jest.useRealTimers();
+  }
 };

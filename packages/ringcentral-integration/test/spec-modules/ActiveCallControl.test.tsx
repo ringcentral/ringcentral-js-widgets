@@ -10,8 +10,8 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
-import { ActiveCallControl } from '../../modules/ActiveCallControlV2';
-import { mockModuleGenerator } from '../lib/mockModule';
+import { ActiveCallControl } from '../../modules/ActiveCallControl';
+import { mockModuleGenerator as baseMockModuleGenerator } from '../lib/mockModule';
 
 const mockParty = {};
 
@@ -31,7 +31,7 @@ const mockSession = {
   from: 'testFrom',
   id: 'testId',
   otherParties: {},
-  recordings: {},
+  recordings: [],
   sessionId: 'testSessionId',
   startTime: 'testStartTime',
   status: 'testStatus',
@@ -41,6 +41,7 @@ const mockSession = {
 
 const sessionState = {
   id: 'testId',
+  isRecording: false,
   extensionId: 'testExtensionId',
   accountId: 'testAccountId',
   parties: [] as [],
@@ -49,7 +50,7 @@ const sessionState = {
   direction: 'testDirection',
   from: 'testFrom',
   otherParties: {},
-  recordings: {},
+  recordings: [],
   sessionId: 'testSessionId',
   startTime: 'testStartTime',
   status: 'testStatus',
@@ -58,18 +59,27 @@ const sessionState = {
   to: 'testto',
 };
 
+const mockModuleGenerator = (options: any) => {
+  return baseMockModuleGenerator({
+    ...options,
+    // @ts-ignore
+    _getSessionById: ActiveCallControl.prototype._getSessionById,
+    // @ts-ignore
+    _updateActiveSessions: ActiveCallControl.prototype._updateActiveSessions,
+  });
+};
+
 const getMockModule = () =>
   mockModuleGenerator({
     data: {
       sessions: [] as SessionData[],
-      activeSessionId: null as string,
+      activeSessionId: null as any as string,
       busyTimestamp: 0,
       timestamp: 0,
     },
     _rcCall: {
       sessions: [mockSession],
     },
-    _updateActiveSessions: ActiveCallControl.prototype._updateActiveSessions,
   });
 
 @autorun(test)
@@ -212,11 +222,11 @@ export class ActiveCallControlActiveSessionId extends Step {
 }
 
 @autorun(test)
-@title('ActiveCallControl Module "transferCall" action')
+@title('ActiveCallControl Module "getValidPhoneNumber" action')
 export class ActiveCallControlTransferCall extends Step {
   run() {
     return (
-      <Scenario desc="verify transfer call number">
+      <Scenario desc="verify getValidPhoneNumber call number">
         <When
           desc="Execute 'transfer' method with mock module"
           action={(_: any, context: any) => {
@@ -225,6 +235,9 @@ export class ActiveCallControlTransferCall extends Step {
                 regionSettings: {
                   areaCode: '',
                   countryCode: 'US',
+                },
+                accountInfo: {
+                  mainCompanyNumber: '',
                 },
                 brand: {
                   brandConfig: { allowRegionSettings: true },
@@ -244,10 +257,9 @@ export class ActiveCallControlTransferCall extends Step {
               clearCallControlBusyTimestamp: () => null,
               setCallControlBusyTimestamp: () => null,
             });
-            ActiveCallControl.prototype.transfer.call(
+            ActiveCallControl.prototype.getValidPhoneNumber.call(
               context.mock,
               '101',
-              'testSessionId',
             );
           }}
         />
@@ -260,13 +272,16 @@ export class ActiveCallControlTransferCall extends Step {
           }}
         />
         <When
-          desc="Execute 'transfer' method with mock module _permissionCheck false"
+          desc="Execute 'getValidPhoneNumber' method with mock module _permissionCheck false"
           action={async (_: any, context: any) => {
             context.mock = mockModuleGenerator({
               _deps: {
                 regionSettings: {
                   areaCode: '',
                   countryCode: 'US',
+                },
+                accountInfo: {
+                  mainCompanyNumber: '',
                 },
                 brand: {
                   brandConfig: { allowRegionSettings: true },
@@ -294,10 +309,9 @@ export class ActiveCallControlTransferCall extends Step {
               clearCallControlBusyTimestamp: () => null,
               setCallControlBusyTimestamp: () => null,
             });
-            await ActiveCallControl.prototype.transfer.call(
+            await ActiveCallControl.prototype.getValidPhoneNumber.call(
               context.mock,
               '101',
-              'testSessionId',
             );
           }}
         />
@@ -310,13 +324,16 @@ export class ActiveCallControlTransferCall extends Step {
           }}
         />
         <When
-          desc="Execute 'transfer' method with mock module _permissionCheck false and error"
+          desc="Execute 'getValidPhoneNumber' method with mock module _permissionCheck false and error"
           action={async (_: any, context: any) => {
             context.mock = mockModuleGenerator({
               _deps: {
                 regionSettings: {
                   areaCode: '',
                   countryCode: 'US',
+                },
+                accountInfo: {
+                  mainCompanyNumber: '',
                 },
                 brand: {
                   brandConfig: { allowRegionSettings: true },
@@ -340,10 +357,9 @@ export class ActiveCallControlTransferCall extends Step {
               clearCallControlBusyTimestamp: () => null,
               setCallControlBusyTimestamp: () => null,
             });
-            await ActiveCallControl.prototype.transfer.call(
+            await ActiveCallControl.prototype.getValidPhoneNumber.call(
               context.mock,
               '101',
-              'testSessionId',
             );
           }}
         />

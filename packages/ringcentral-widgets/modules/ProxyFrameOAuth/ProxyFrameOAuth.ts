@@ -25,11 +25,15 @@ type CallbackParams = {
   ],
 })
 export class ProxyFrameOAuth<T extends Deps = Deps> extends OAuthBase<T> {
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Timeout'.
   private _retryTimeoutId: ReturnType<typeof setTimeout> = null;
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Timeout'.
   private _implicitRefreshTimeoutId: ReturnType<typeof setTimeout> = null;
 
   private _uuid = uuid.v4();
+  // @ts-expect-error TS(2564): Property '_proxyFrame' has no initializer and is n... Remove this comment to see the full error message
   private _proxyFrame: HTMLIFrameElement;
+  // @ts-expect-error TS(2564): Property '_implicitRefreshFrame' has no initialize... Remove this comment to see the full error message
   private _implicitRefreshFrame: HTMLIFrameElement;
   protected _loggedIn = false;
 
@@ -55,7 +59,7 @@ export class ProxyFrameOAuth<T extends Deps = Deps> extends OAuthBase<T> {
     } as T);
   }
 
-  onInitOnce() {
+  override onInitOnce() {
     super.onInitOnce && super.onInitOnce();
 
     watch(
@@ -108,6 +112,7 @@ export class ProxyFrameOAuth<T extends Deps = Deps> extends OAuthBase<T> {
     );
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   async _handleCallbackUri(callbackUri: string, refresh = false) {
     await super._handleCallbackUri(callbackUri, refresh);
 
@@ -116,6 +121,7 @@ export class ProxyFrameOAuth<T extends Deps = Deps> extends OAuthBase<T> {
     }
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   get name() {
     return 'proxyFrameOAuth';
   }
@@ -125,10 +131,12 @@ export class ProxyFrameOAuth<T extends Deps = Deps> extends OAuthBase<T> {
   }
 
   get proxyUri() {
+    // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
     const prefix = encodeURIComponent(this.prefix);
 
     const proxyUri = url.resolve(
       window.location.href,
+      // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
       this._deps.oAuthOptions?.proxyUri,
     );
 
@@ -146,6 +154,7 @@ export class ProxyFrameOAuth<T extends Deps = Deps> extends OAuthBase<T> {
   }
 
   @action
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   setOAuthReady(val: boolean) {
     super.setOAuthReady(val);
     this.setProxyRetryCount(0);
@@ -160,6 +169,7 @@ export class ProxyFrameOAuth<T extends Deps = Deps> extends OAuthBase<T> {
       this._handleCallbackUri(callbackUri);
     } else if (proxyLoaded) {
       clearTimeout(this._retryTimeoutId);
+      // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Timeout'.
       this._retryTimeoutId = null;
 
       this.setOAuthReady(true);
@@ -199,6 +209,7 @@ export class ProxyFrameOAuth<T extends Deps = Deps> extends OAuthBase<T> {
   };
 
   private _retrySetupProxyFrame() {
+    // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Timeout'.
     this._retryTimeoutId = null;
     if (this.oAuthReady) return;
 
@@ -209,6 +220,7 @@ export class ProxyFrameOAuth<T extends Deps = Deps> extends OAuthBase<T> {
 
   private _destroyProxyFrame() {
     document.body.removeChild(this._proxyFrame);
+    // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'HTMLIFrameE... Remove this comment to see the full error message
     this._proxyFrame = null;
     window.removeEventListener('message', this._callbackHandler);
   }
@@ -222,11 +234,13 @@ export class ProxyFrameOAuth<T extends Deps = Deps> extends OAuthBase<T> {
   }
 
   @background
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   async destroyOAuth() {
     if (!this._proxyFrame) return;
 
     if (this._retryTimeoutId) {
       clearTimeout(this._retryTimeoutId);
+      // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Timeout'.
       this._retryTimeoutId = null;
     }
 
@@ -235,6 +249,7 @@ export class ProxyFrameOAuth<T extends Deps = Deps> extends OAuthBase<T> {
   }
 
   @proxify
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   async openOAuthPage() {
     if (!this.oAuthReady) return;
 
@@ -242,6 +257,7 @@ export class ProxyFrameOAuth<T extends Deps = Deps> extends OAuthBase<T> {
       await this._deps.client.service.platform().loginUrlWithDiscovery();
     }
 
+    // @ts-expect-error TS(2531): Object is possibly 'null'.
     this._proxyFrame.contentWindow.postMessage(
       {
         oAuthUri: this.oAuthUri,
@@ -273,8 +289,10 @@ export class ProxyFrameOAuth<T extends Deps = Deps> extends OAuthBase<T> {
     if (!this._implicitRefreshFrame) return;
 
     document.body.removeChild(this._implicitRefreshFrame);
+    // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'HTMLIFrameE... Remove this comment to see the full error message
     this._implicitRefreshFrame = null;
     window.removeEventListener('message', this._implicitRefreshCallBack);
+    // @ts-expect-error TS(2322): Type 'null' is not assignable to type '({ origin, ... Remove this comment to see the full error message
     this._callbackHandler = null;
   }
 
@@ -307,6 +325,7 @@ export class ProxyFrameOAuth<T extends Deps = Deps> extends OAuthBase<T> {
       }
 
       this._createImplicitRefreshIframe();
+      // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Timeout'.
       this._implicitRefreshTimeoutId = null;
     }, refreshTokenTimeoutTime);
   }

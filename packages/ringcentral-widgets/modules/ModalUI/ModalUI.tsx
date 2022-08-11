@@ -99,6 +99,7 @@ export class ModalUI extends RcUIModuleV2<Deps> {
     // for most non-async functions the loading status will occur too briefly
     // so that the UI will not really render the loading status at all
     this._setLoading(id, true);
+    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     const handler = this._handlerRegister.get(id).get(onConfirm);
 
     if (handler) {
@@ -117,6 +118,7 @@ export class ModalUI extends RcUIModuleV2<Deps> {
       }
     }
 
+    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     this._promises.get(id).resolve(true);
     this._promises.delete(id);
     this.close(id);
@@ -125,6 +127,7 @@ export class ModalUI extends RcUIModuleV2<Deps> {
   @proxify
   private async _onExited(id: string, onExited?: string) {
     this._promises.get(id)?.resolve(false);
+    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     this._handlerRegister.get(id).get(onExited)?.();
     this._promises.delete(id);
     this._removeModal(id);
@@ -133,17 +136,20 @@ export class ModalUI extends RcUIModuleV2<Deps> {
 
   @proxify
   private async _onCancel(id: string, onCancel?: string) {
+    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     this._handlerRegister.get(id).get(onCancel)?.();
     this.close(id);
   }
 
   private _registerHandler(id: string, handler: HandlerFunction) {
     const handlerID = v4();
+    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     this._handlerRegister.get(id).set(handlerID, handler);
     return handlerID;
   }
 
   private _removeHandler(id: string, handlerID: string) {
+    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     this._handlerRegister.get(id).delete(handlerID);
   }
 
@@ -196,6 +202,7 @@ export class ModalUI extends RcUIModuleV2<Deps> {
             find((id) => id === oldProps[key], handlerIDs);
           if (oldID) {
             // replace oldHandler
+            // @ts-expect-error TS(2532): Object is possibly 'undefined'.
             this._handlerRegister.get(id).set(oldID, props[key]);
           } else {
             const handlerID = this._registerHandler(id, props[key]);
@@ -312,6 +319,7 @@ export class ModalUI extends RcUIModuleV2<Deps> {
 
     this._promises.set(id, {
       promise,
+      // @ts-expect-error TS(2322): Type 'undefined' is not assignable to type '(ok: b... Remove this comment to see the full error message
       resolve: resolveFn,
     });
 
@@ -361,6 +369,7 @@ export class ModalUI extends RcUIModuleV2<Deps> {
         ...props,
         variant: 'confirm',
       },
+      // @ts-expect-error TS(2345): Argument of type 'true | undefined' is not assigna... Remove this comment to see the full error message
       usePromise,
     ) as any;
   }
@@ -375,6 +384,7 @@ export class ModalUI extends RcUIModuleV2<Deps> {
         ...props,
         variant: 'alert',
       },
+      // @ts-expect-error TS(2345): Argument of type 'true | undefined' is not assigna... Remove this comment to see the full error message
       usePromise,
     ) as any;
   }
@@ -388,20 +398,13 @@ export class ModalUI extends RcUIModuleV2<Deps> {
         ...props,
         variant: 'info',
       },
+      // @ts-expect-error TS(2345): Argument of type 'true | undefined' is not assigna... Remove this comment to see the full error message
       usePromise,
     ) as any;
   }
 
-  @computed(
-    ({
-      _modals,
-      _deps: {
-        locale: { currentLocale },
-      },
-    }: ModalUI) => [_modals, currentLocale],
-  )
+  @computed((that: ModalUI) => [that._modals, that._deps.locale.currentLocale])
   get modals() {
-    const currentLocale = this._deps.locale.currentLocale;
     return map(
       ({
         id,
@@ -454,18 +457,20 @@ export class ModalUI extends RcUIModuleV2<Deps> {
         }
 
         const renderedTitle =
+          // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
           this._rendererRegister.get(title)?.({
-            currentLocale,
+            currentLocale: this._deps.locale.currentLocale,
             ...this._rehydrateFunctions(id, titleProps, handlerIDs),
             onConfirm: uiProps.onConfirm,
             onCancel: uiProps.onCancel,
           }) ?? title;
 
         if (variant === 'info') {
+          // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
           uiProps.title = this._rendererRegister.get(infoTitleRendererID)({
             title: renderedTitle,
             onConfirm: uiProps.onConfirm,
-            currentLocale,
+            currentLocale: this._deps.locale.currentLocale,
           });
           uiProps.TitleProps = {
             disableTypography: true,
@@ -477,8 +482,9 @@ export class ModalUI extends RcUIModuleV2<Deps> {
         }
 
         uiProps.children =
+          // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
           this._rendererRegister.get(content)?.({
-            currentLocale,
+            currentLocale: this._deps.locale.currentLocale,
             ...this._rehydrateFunctions(id, contentProps, handlerIDs),
             onConfirm: uiProps.onConfirm,
             onCancel: uiProps.onCancel,
@@ -487,23 +493,26 @@ export class ModalUI extends RcUIModuleV2<Deps> {
         uiProps.footer =
           variant === 'info'
             ? null
-            : this._rendererRegister.get(footer)?.({
-                currentLocale,
+            : // @ts-expect-error TS(2345): Argument of type '((boolean | ReactChild | ReactFr... Remove this comment to see the full error message
+              this._rendererRegister.get(footer)?.({
+                currentLocale: this._deps.locale.currentLocale,
                 ...this._rehydrateFunctions(id, footerProps, handlerIDs),
                 onConfirm: uiProps.onConfirm,
                 onCancel: uiProps.onCancel,
               }) ?? footer;
 
         uiProps.confirmButtonText =
+          // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
           (this._rendererRegister.get(confirmButtonText)?.({
-            currentLocale,
+            currentLocale: this._deps.locale.currentLocale,
             onConfirm: uiProps.onConfirm,
             onCancel: uiProps.onCancel,
           }) as string) ?? confirmButtonText;
 
         uiProps.cancelButtonText =
+          // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
           (this._rendererRegister.get(cancelButtonText)?.({
-            currentLocale,
+            currentLocale: this._deps.locale.currentLocale,
             onConfirm: uiProps.onConfirm,
             onCancel: uiProps.onCancel,
           }) as string) ?? cancelButtonText;
@@ -516,6 +525,7 @@ export class ModalUI extends RcUIModuleV2<Deps> {
 
   @background
   getPromise(id: string) {
+    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     return this._promises.get(id).promise;
   }
 

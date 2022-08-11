@@ -9,7 +9,7 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
-import { DateTimeFormat } from '../../modules/DateTimeFormatV2';
+import { DateTimeFormat } from '../../modules/DateTimeFormat';
 
 @autorun(test)
 @title('addFormatter function with ${JSON.stringify(option)} & error: ${error}')

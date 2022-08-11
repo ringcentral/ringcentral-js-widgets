@@ -14,6 +14,7 @@ import {
   sourceNodeRenderer,
 } from './ContactDetails.interface';
 import styles from './styles.scss';
+import { GetPresenceFn } from '../../react-hooks/usePresence';
 
 interface ContactDetailsProps
   extends onClickMailTo,
@@ -26,6 +27,7 @@ interface ContactDetailsProps
   disableLinks: boolean;
   isMultipleSiteEnabled: boolean;
   isCallButtonDisabled: boolean;
+  getPresence: GetPresenceFn;
 }
 
 export const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
@@ -41,10 +43,12 @@ export const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
   onClickToDial,
   onClickToSMS,
   sourceNodeRenderer,
+  getPresence,
 }) => {
   return (
     <div className={styles.root} role="main">
       <Profile
+        getPresence={getPresence}
         contact={contact}
         sourceNodeRenderer={sourceNodeRenderer}
         currentLocale={currentLocale}

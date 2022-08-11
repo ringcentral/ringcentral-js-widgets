@@ -1436,7 +1436,7 @@ export default (function () {
       // Reset the current call counter for Agent Daily Stats
       model.agentDailyStats.currCallTime = 0;
 
-      // todo handle scripting??
+      // TODO: handle scripting??
 
       model.currentCall = newCall;
 
@@ -1903,7 +1903,7 @@ export default (function () {
     AuthenticateRequest.prototype.processResponse = function (response) {
       var model = UIModel.getInstance();
       model.authenticatePacket = response; // raw response packet
-      model.authenticateRequest.accessToken = response.accessToken; // TODO - dlb - store in local storage
+      model.authenticateRequest.accessToken = response.accessToken; // TODO: - dlb - store in local storage
       model.authenticateRequest.refreshToken = response.refreshToken;
       model.authenticateRequest.tokenType = response.tokenType;
       model.authenticateRequest.socketUrl = response.iqUrl;
@@ -13791,7 +13791,7 @@ when agent submits a chat end request, send "CHAT-AGENT-END" request to IntelliQ
           var opts = {
             all: true,
           };
-          model.libraryInstance.offhookTerm(); // TODO - dlb - set up callback with agent-js??
+          model.libraryInstance.offhookTerm(); // TODO: - dlb - set up callback with agent-js??
           webRtc.hangup();
           webRtc.ua.unregister(opts);
 

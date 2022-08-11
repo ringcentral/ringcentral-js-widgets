@@ -1,12 +1,12 @@
 import React, { FunctionComponent, useRef } from 'react';
 
 import { RcVMeetingModel } from '@ringcentral-integration/commons/interfaces/Rcv.model';
-import { sleep } from '@ringcentral-integration/commons/lib/sleep';
 import {
   AUTH_USER,
   RcvDelegator,
   RcvItemType,
-} from '@ringcentral-integration/commons/modules/RcVideoV2';
+} from '@ringcentral-integration/commons/modules/RcVideo';
+import { sleep } from '@ringcentral-integration/commons/utils';
 import {
   RcCheckboxProps,
   RcDatePickerSize,
@@ -42,6 +42,7 @@ export const VideoPanel: FunctionComponent<VideoPanelProps> = ({
   showRcvAdminLock,
   showPmiConfirm,
   isPmiChangeConfirmed,
+  // @ts-expect-error TS(2339): Property 'onPmiChangeClick' does not exist on type... Remove this comment to see the full error message
   onPmiChangeClick,
   showWaitingRoom,
   showE2EE,
@@ -65,6 +66,7 @@ export const VideoPanel: FunctionComponent<VideoPanelProps> = ({
   isAllowScreenSharingDisabled,
   isAuthenticatedCanJoinDisabled,
   isAuthUserTypeDisabled,
+  // @ts-expect-error TS(2339): Property 'isWaitingRoomTypeDisabled' does not exis... Remove this comment to see the full error message
   isWaitingRoomTypeDisabled,
   isSignedInUsersDisabled,
   isSignedInCoWorkersDisabled,
@@ -100,6 +102,7 @@ export const VideoPanel: FunctionComponent<VideoPanelProps> = ({
         switchUsePersonalMeetingId={switchUsePersonalMeetingId}
         trackSettingChanges={trackSettingChanges}
         disabled={configDisabled}
+        // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
         isPersonalMeetingDisabled={isPersonalMeetingDisabled}
         isPmiChangeConfirmed={isPmiChangeConfirmed}
         labelPlacement={labelPlacement}
@@ -129,6 +132,7 @@ export const VideoPanel: FunctionComponent<VideoPanelProps> = ({
         isWaitingRoomDisabled={isWaitingRoomDisabled}
         isRequirePasswordDisabled={isRequirePasswordDisabled}
       >
+        {/* @ts-expect-error TS(2741): Property 'defaultTopic' is missing in type '{ name... Remove this comment to see the full error message */}
         <Topic
           name={meeting.name}
           updateMeetingTopic={(name) => {
@@ -152,8 +156,10 @@ export const VideoPanel: FunctionComponent<VideoPanelProps> = ({
               await schedule(
                 {
                   ...meeting,
+                  // @ts-expect-error TS(2531): Object is possibly 'null'.
                   name: topicRef.current.value,
                 },
+                // @ts-expect-error TS(2345): Argument of type 'Window | null' is not assignable... Remove this comment to see the full error message
                 opener,
               );
             }
@@ -173,8 +179,6 @@ interface VideoPanelProps {
   hidden: boolean;
   disabled: boolean;
   onOK: any;
-  onClick: any;
-  update: any;
   showSaveAsDefault: boolean;
   disableSaveAsDefault: boolean;
   scheduleButton: any;
@@ -222,6 +226,5 @@ interface VideoPanelProps {
   e2eeInteractFunc: (e2eeValue: boolean) => void;
   schedule: (meeting: RcVMeetingModel, opener: Window) => any;
   updateMeetingSettings: (meeting: Partial<RcVMeetingModel>) => void;
-  validatePasswordSettings: (password: string, isSecret: boolean) => boolean;
   updateScheduleFor: (userExtensionId: string) => any;
 }

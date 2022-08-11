@@ -9,7 +9,7 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
-import { LocaleSettings } from '../../modules/LocaleSettingsV2';
+import { LocaleSettings } from '../../modules/LocaleSettings';
 import { mockModuleGenerator } from '../lib/mockModule';
 
 const getMockModule = () =>

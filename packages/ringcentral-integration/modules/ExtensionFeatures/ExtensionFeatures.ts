@@ -1,18 +1,15 @@
 import { reduce } from 'ramda';
 import { Unsubscribe } from 'redux';
-
-import {
-  ExtensionInfoEvent,
-  FeatureInfo,
-  FeatureList,
-} from '@rc-ex/core/definitions';
+import type ExtensionInfoEvent from '@rc-ex/core/lib/definitions/ExtensionInfoEvent';
+import type FeatureInfo from '@rc-ex/core/lib/definitions/FeatureInfo';
+import type FeatureList from '@rc-ex/core/lib/definitions/FeatureList';
 import { computed, watch } from '@ringcentral-integration/core';
 
 import { permissionsMessages } from '../../enums/permissionsMessages';
 import { subscriptionFilters } from '../../enums/subscriptionFilters';
 import { subscriptionHints } from '../../enums/subscriptionHints';
 import { Module } from '../../lib/di';
-import loginStatus from '../Auth/loginStatus';
+import { loginStatus } from '../Auth';
 import { DataFetcherV2Consumer, DataSource } from '../DataFetcherV2';
 import { Deps } from './ExtensionFeatures.interface';
 
@@ -32,6 +29,7 @@ export class ExtensionFeatures extends DataFetcherV2Consumer<
   Deps,
   FeatureList
 > {
+  // @ts-expect-error
   protected _stopWatchingSubscription: Unsubscribe = null;
   constructor(deps: Deps) {
     super({
@@ -49,7 +47,7 @@ export class ExtensionFeatures extends DataFetcherV2Consumer<
             .platform()
             .get('/restapi/v1.0/account/~/extension/~/features');
           return response.json();
-        } catch (error) {
+        } catch (error: any /** TODO: confirm with instanceof */) {
           if ((error as { response?: Response }).response?.status === 403) {
             await this._deps.auth.logout();
             this._deps.alert.danger({
@@ -61,7 +59,7 @@ export class ExtensionFeatures extends DataFetcherV2Consumer<
           throw error;
         }
       },
-      readyCheckFunction: () => this._deps.subscription?.ready ?? true,
+      readyCheckFunction: () => true,
     });
     this._deps.dataFetcherV2.register(this._source);
   }
@@ -79,7 +77,7 @@ export class ExtensionFeatures extends DataFetcherV2Consumer<
     }
   };
 
-  onInitOnce() {
+  override onInitOnce() {
     watch(
       this,
       () => [
@@ -107,19 +105,20 @@ export class ExtensionFeatures extends DataFetcherV2Consumer<
     );
   }
 
-  onInit() {
+  override onInit() {
     if (this._deps.subscription) {
       this._deps.subscription.subscribe([subscriptionFilters.extensionInfo]);
       this._stopWatchingSubscription = watch(
         this,
-        () => this._deps.subscription.message,
+        () => this._deps.subscription!.message,
         this._handleSubscription,
       );
     }
   }
 
-  onReset() {
+  override onReset() {
     this._stopWatchingSubscription?.();
+    // @ts-expect-error
     this._stopWatchingSubscription = null;
   }
 
@@ -127,7 +126,7 @@ export class ExtensionFeatures extends DataFetcherV2Consumer<
   get features() {
     return reduce(
       (features, item) => {
-        features[item.id] = item;
+        if (item && item.id) features[item.id] = item;
         return features;
       },
       {} as Record<string, FeatureInfo>,

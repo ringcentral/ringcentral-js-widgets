@@ -28,4 +28,5 @@ export const brandConfig = createBrandConfig({
       'Please join the {brandName} conference.\n\nDial-In Number: {formattedDialInNumber} \n{additionalNumbersSection} \nParticipant Access: {participantCode} \n\nNeed an international dial-in phone number? Please visit {dialInNumbersLink} \n\nThis conference call is brought to you by {brandName} Conferencing.',
   },
   rcvMeetingTopic: "{extensionName}'s {brandName} Video meeting",
+  enableEDP: true,
 });

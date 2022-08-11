@@ -12,11 +12,11 @@ export default {
   viewDetails: "Ver detalhes",
   addEntity: "Criar novo",
   addLog: "Registo",
-  text: "Texto",
+  text: "Enviar SMS",
   call: "Ligar",
   missedCall: "Não atendida",
-  inboundCall: "Recebidas",
-  outboundCall: "Efetuadas"
+  inboundCall: "Recebida",
+  outboundCall: "Efetuada"
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@

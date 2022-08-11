@@ -20,10 +20,12 @@ const CallInfo: React.SFC<CallInfoProps> = ({
   return (
     <FormattedMessage
       message={i18n.getString(message, currentLocale)}
+      // @ts-expect-error TS(2339): Property 'name' does not exist on type 'object'.
       values={{ brand: brand.name }}
     />
   );
 };
-CallInfo.handleMessage = ({ message }) =>
+// @ts-expect-error TS(2339): Property 'handleMessage' does not exist on type 'S... Remove this comment to see the full error message
+CallInfo.handleMessage = ({ message }: any) =>
   message === permissionsMessages.callingDisable;
 export default CallInfo;

@@ -1,10 +1,7 @@
-import { contains } from 'ramda';
+import { includes } from 'ramda';
 import { Unsubscribe } from 'redux';
-
-import {
-  ExtensionInfoEvent,
-  UserVideoConfiguration,
-} from '@rc-ex/core/definitions';
+import type ExtensionInfoEvent from '@rc-ex/core/lib/definitions/ExtensionInfoEvent';
+import type UserVideoConfiguration from '@rc-ex/core/lib/definitions/UserVideoConfiguration';
 import { watch } from '@ringcentral-integration/core';
 
 import { subscriptionFilters } from '../../enums/subscriptionFilters';
@@ -33,7 +30,7 @@ export class VideoConfiguration extends DataFetcherV2Consumer<
   Deps,
   UserVideoConfiguration
 > {
-  protected _stopWatching: Unsubscribe = null;
+  protected _stopWatching: Unsubscribe | null = null;
   protected _debouncedFetchData: DebouncedFunction<
     VideoConfiguration['fetchData']
   >;
@@ -85,7 +82,7 @@ export class VideoConfiguration extends DataFetcherV2Consumer<
     }
   }
 
-  onInit() {
+  override onInit() {
     this._deps.subscription.subscribe([subscriptionFilters.extensionInfo]);
     this._stopWatching = watch(
       this,
@@ -94,7 +91,7 @@ export class VideoConfiguration extends DataFetcherV2Consumer<
     );
   }
 
-  onReset() {
+  override onReset() {
     this._stopWatching?.();
     this._stopWatching = null;
     this._debouncedFetchData.cancel();
@@ -105,7 +102,7 @@ export class VideoConfiguration extends DataFetcherV2Consumer<
   }
 
   get isRCM() {
-    return contains(this.provider, [
+    return includes(this.provider, [
       videoProviders.RCMeetings,
       videoProviders.None,
     ]);

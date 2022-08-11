@@ -6,7 +6,7 @@ export default {
   cancel: "Cancel",
   participants: "Participants",
   participant: "Participant",
-  conferenceCall: "Conference call",
+  conferenceCall: "Conference Call",
   unknownNumber: "Anonymous"
 };
 

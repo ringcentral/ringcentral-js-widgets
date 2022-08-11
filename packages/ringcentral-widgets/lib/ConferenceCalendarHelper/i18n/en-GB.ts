@@ -5,15 +5,16 @@ export default {
   noMeetingPermission: "Sorry, you don't have {brandName} Meetings permissions. Contact your company administrator to continue.",
   noConferencePermission: "Sorry, you don't have {brandName} Conference permissions. Contact your company administrator to continue.",
   conferenceTitle: "{displayName}'s Conference Meeting",
-  internationalNumber: "International dial-in numbers:",
+  internationalNumber: "International Dial-in Numbers:",
   inviteText_att: "Please join the {brandName} conference.\n\nDial-in number: {formattedDialInNumber} \n{additionalNumbersSection} \nParticipant access: {participantCode} \n\nNeed an international dial-in phone number? Please visit {dialInNumbersLink} \n\nThis conference call is brought to you by {brandName} Conferencing.",
   inviteText_bt: "Please join the {brandName} conference.\n\nDial-in number: {formattedDialInNumber} \n{additionalNumbersSection} \nParticipant access: {participantCode} \n\nAdditional dial-in numbers {dialInNumbersLink} ",
   inviteText_rc: "Please join the {brandName} conference.\n\nDial-in number: {formattedDialInNumber} \n{additionalNumbersSection} \nParticipant access: {participantCode} \n\nNeed an international dial-in phone number? Please visit {dialInNumbersLink} \n\nThis conference call is brought to you by {brandName} Conferencing.",
   inviteText_telus: "Please join the {brandName} conference.\n\nDial-in number: {formattedDialInNumber} \n{additionalNumbersSection} \nParticipant access: {participantCode} \n\nAdditional dial-in numbers {dialInNumbersLink} ",
-  conferenceCall: "{brandName} conference call",
-  videoCall: "{brandName} Video call",
+  conferenceCall: "{brandName} Conference Call",
+  videoCall: "{brandName} Video Call",
   addConferencingDetails: "Adding conferencing details",
   updateConferencingDetails: "Updating conferencing details",
+  // @ts-expect-error TS(1117): An object literal cannot have multiple properties ... Remove this comment to see the full error message
   scheduleError: "Sorry, something went wrong, please try again.",
   deleteBtn: "Delete",
   settingsBtn: "Settings",
@@ -29,6 +30,7 @@ export default {
   recurringMeeting: "Recurring Meeting",
   meetingOptions: "Meeting Options",
   schedule: "Schedule",
+  // @ts-expect-error TS(1117): An object literal cannot have multiple properties ... Remove this comment to see the full error message
   settingsBtn: "Settings"
 };
 

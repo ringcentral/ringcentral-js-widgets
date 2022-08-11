@@ -1,4 +1,4 @@
-import detect from './';
+import detect from '.';
 
 const withPlus = [
   '+54 115 236 0151',
@@ -106,18 +106,13 @@ describe('detect', () => {
         );
       });
     });
-    test('should accept 7-digit numbers if defaultCountry is US or CA and areaCode is given', () => {
+    test('should accept 7-digit numbers if defaultCountry is CA and areaCode is given', () => {
       sevenDigits.forEach((item) => {
-        let matches = detect({
+        const matches = detect({
           input: item,
-          countryCode: 'US',
-          areaCode: '650',
+          countryCode: 'CA',
+          areaCode: '416',
         });
-        expect(matches.length).toBe(1);
-        expect(item.substring(matches[0].startsAt, matches[0].endsAt)).toBe(
-          item,
-        );
-        matches = detect({ input: item, countryCode: 'CA', areaCode: '416' });
         expect(matches.length).toBe(1);
         expect(item.substring(matches[0].startsAt, matches[0].endsAt)).toBe(
           item,

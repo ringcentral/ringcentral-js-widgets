@@ -10,16 +10,17 @@ export default {
   inviteText_bt: "Participe da conferência do {brandName}.\n\nNúmero de discagem: {formattedDialInNumber} \n{additionalNumbersSection} \nAcesso do participante: {participantCode} \n\nNúmeros de discagem adicionais {dialInNumbersLink} ",
   inviteText_rc: "Participe da conferência do {brandName}.\n\nNúmero de discagem: {formattedDialInNumber} \n{additionalNumbersSection} \nAcesso do participante: {participantCode} \n\nPrecisa de um número de discagem internacional? Acesse {dialInNumbersLink} \n\nEsta chamada em conferência é possibilitada pelo {brandName} Conferencing.",
   inviteText_telus: "Participe da conferência do {brandName}.\n\nNúmero de discagem: {formattedDialInNumber} \n{additionalNumbersSection} \nAcesso do participante: {participantCode} \n\nNúmeros de discagem adicionais {dialInNumbersLink} ",
-  conferenceCall: "Chamada em conferência do {brandName}",
+  conferenceCall: "{brandName} Chamada em conferência",
   videoCall: "Chamada de vídeo do {brandName}",
   addConferencingDetails: "Adicionando detalhes da conferência",
   updateConferencingDetails: "Atualizando detalhes da conferência",
+  // @ts-expect-error TS(1117): An object literal cannot have multiple properties ... Remove this comment to see the full error message
   scheduleError: "Ocorreu um erro. Tente novamente.",
   deleteBtn: "Excluir",
   settingsBtn: "Configurações",
   saveAsDefaultAndNotShowAgain: "Salvar como padrão e não mostrar novamente",
   saveAsDefault: "Salvar como padrão",
-  done: "Concluir",
+  done: "Concluído",
   update: "Atualizar",
   conferenceSettingsTitle: "Configurações de conferência do {brand}",
   videoSettingsTitle: "Configurações do {brand} Meetings",
@@ -29,6 +30,7 @@ export default {
   recurringMeeting: "Reunião recorrente",
   meetingOptions: "Opções de reunião",
   schedule: "Agendar",
+  // @ts-expect-error TS(1117): An object literal cannot have multiple properties ... Remove this comment to see the full error message
   settingsBtn: "Configurações"
 };
 

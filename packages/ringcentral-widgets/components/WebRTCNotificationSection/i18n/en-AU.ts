@@ -5,7 +5,8 @@ export default {
   answer: "Answer",
   endAndAnswer: "End & Answer",
   holdAndAnswer: "Hold & Answer",
-  custom: "Custom"
+  custom: "Custom",
+  more: "More"
 };
 
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@
@@ -15,3 +16,4 @@ export default {
 // @key: @#@"endAndAnswer"@#@ @source: @#@"End & Answer"@#@
 // @key: @#@"holdAndAnswer"@#@ @source: @#@"Hold & Answer"@#@
 // @key: @#@"custom"@#@ @source: @#@"Custom"@#@
+// @key: @#@"more"@#@ @source: @#@"More"@#@

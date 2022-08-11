@@ -13,8 +13,10 @@ export const RecipientInfo: FunctionComponent<RecipientInfoProps> = ({
   splitter,
 }) => {
   const phoneSourceName = phoneSourceNameRenderer
-    ? phoneSourceNameRenderer(entityType)
-    : phoneSourceNames.getString(entityType, currentLocale);
+    ? // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
+      phoneSourceNameRenderer(entityType)
+    : // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
+      phoneSourceNames.getString(entityType, currentLocale);
   const title = enableTitle
     ? `${name} ${splitter} ${phoneSourceName}`
     : undefined;

@@ -11,7 +11,7 @@ import {
 import {
   GenericMeeting,
   genericMeetingStatus,
-} from '../../modules/GenericMeetingV2';
+} from '../../modules/GenericMeeting';
 import { mockModuleGenerator } from '../lib/mockModule';
 
 const getMockModule = () =>

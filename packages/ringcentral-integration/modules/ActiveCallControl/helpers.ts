@@ -1,19 +1,58 @@
-import activeCallControlStatus from '../../enums/activeCallControlStatus';
-import callDirections from '../../enums/callDirections';
-import callResults from '../../enums/callResults';
-import recordStatus from '../Webphone/recordStatus';
+// eslint-disable-next-line import/no-named-as-default
+import { find } from 'ramda';
+import {
+  Party,
+  PartyStatusCode,
+  Session as TelephonySession,
+} from 'ringcentral-call-control/lib/Session';
+import { Session } from 'ringcentral-call/lib/Session';
+import type CallRecording from '@rc-ex/core/lib/definitions/CallRecording';
 
-export function isHangUp(code) {
+// eslint-disable-next-line import/no-named-as-default
+import activeCallControlStatus from '../../enums/activeCallControlStatus';
+import callDirections, { callDirection } from '../../enums/callDirections';
+// eslint-disable-next-line import/no-named-as-default
+import callResults from '../../enums/callResults';
+import { recordStatus } from '../Webphone/recordStatus';
+import { ActiveCallControlSessionData } from './ActiveCallControl.interface';
+import { telephonyStatus } from '../../enums/telephonyStatus';
+
+// telephony session status match presence telephonyStatus
+export function mapTelephonyStatus(telephonySessionStatus: PartyStatusCode) {
+  switch (telephonySessionStatus) {
+    case PartyStatusCode.setup:
+    case PartyStatusCode.proceeding:
+      return telephonyStatus.ringing;
+    case PartyStatusCode.hold:
+      return telephonyStatus.onHold;
+    case PartyStatusCode.answered:
+      return telephonyStatus.callConnected;
+    case PartyStatusCode.parked:
+      return telephonyStatus.parkedCall;
+    default:
+      return telephonyStatus.noCall;
+  }
+}
+
+export function isHangUp(code: string) {
   return code === callResults.disconnected;
 }
-export function isRejectCode({ direction, code }) {
+
+export function isRejectCode({
+  direction,
+  code,
+}: {
+  direction: string;
+  code: string;
+}) {
   return (
     direction === callDirections.inbound &&
     (code === activeCallControlStatus.setUp ||
       code === activeCallControlStatus.proceeding)
   );
 }
-export function isOnRecording(recordings) {
+
+export function isOnRecording(recordings: Array<CallRecording>) {
   if (!recordings || recordings.length === 0) {
     return false;
   }
@@ -21,18 +60,14 @@ export function isOnRecording(recordings) {
   return recording.active;
 }
 
-export function getSessionsParty(session) {
-  const extensionId = session.extensionId;
-  return session.parties.find((p) => {
-    return p.extensionId === extensionId;
-  });
-}
-
-export function normalizeSession({ session, call }) {
-  const party = getSessionsParty(session);
+// TODO: add call type in callMonitor module
+export function normalizeSession({
+  session,
+}: {
+  session: ActiveCallControlSessionData;
+}) {
+  const { party, creationTime, sessionId } = session;
   const { id: partyId, direction, from, to, status, recordings, muted } = party;
-
-  const { startTime, sessionId } = call;
 
   const formatValue = {
     telephonySessionId: session.id,
@@ -46,9 +81,10 @@ export function normalizeSession({ session, call }) {
     toUserName: to?.name,
     id: session.id,
     sessionId,
-    callStatus: call.telephonyStatus,
-    startTime,
-    creationTime: startTime,
+    // @ts-expect-error
+    callStatus: mapTelephonyStatus(status?.code),
+    startTime: new Date(creationTime).getTime(),
+    creationTime,
     isOnMute: muted,
     isForwarded: false,
     isOnFlip: false,
@@ -58,22 +94,134 @@ export function normalizeSession({ session, call }) {
     isToVoicemail: false,
     lastHoldingTime: 0,
     minimized: false,
+    // @ts-expect-error
     recordStatus: isOnRecording(recordings)
       ? recordStatus.recording
       : recordStatus.idle,
     removed: false,
+    // @ts-expect-error
     isReject: isRejectCode({ direction, code: status?.code }),
   };
-  return {
-    ...formatValue,
-  };
+  return formatValue;
 }
 
-export function conflictError({ message, response }) {
+export function conflictError({
+  message,
+  response,
+}: {
+  message: string;
+  response: any;
+}) {
   const conflictErrRgx = /409/g;
   const conflictMsgRgx = /Incorrect State/g;
   return (
     conflictErrRgx.test(message) &&
     conflictMsgRgx.test(response && response._text)
   );
+}
+
+export function isRinging(
+  telephonySession: ActiveCallControlSessionData | Session,
+) {
+  return (
+    telephonySession &&
+    (telephonySession.status === PartyStatusCode.proceeding ||
+      telephonySession.status === PartyStatusCode.setup) &&
+    telephonySession.direction === callDirections.inbound
+  );
+}
+
+export function isHolding(telephonySession: ActiveCallControlSessionData) {
+  return telephonySession.status === PartyStatusCode.hold;
+}
+
+export function isRecording(session: ActiveCallControlSessionData) {
+  const { party } = session;
+  // @ts-expect-error
+  return isOnRecording(party.recordings);
+}
+
+export function isForwardedToVoiceMail(session: ActiveCallControlSessionData) {
+  return session.status === PartyStatusCode.voicemail;
+}
+
+export function isOnSetupStage(session: ActiveCallControlSessionData) {
+  return session.status === PartyStatusCode.setup;
+}
+
+export function isFaxSession(session: ActiveCallControlSessionData) {
+  return session.status === PartyStatusCode.faxReceive;
+}
+
+// call to main company number but still at inputting extension number prompt tone stage
+export function isAtMainNumberPromptToneStage(session: Session) {
+  if (!session) return false;
+  const { otherParties = [], direction, status } = session;
+  if (
+    direction === callDirections.outbound &&
+    status === PartyStatusCode.answered &&
+    !otherParties.length
+  ) {
+    return true;
+  }
+  return false;
+}
+
+export function getInboundSwitchedParty(parties: Party[]) {
+  if (!parties.length) return false;
+  const result = find((party: Party) => {
+    return (
+      party.direction === callDirections.inbound &&
+      party.status?.code === PartyStatusCode.disconnected &&
+      // @ts-expect-error
+      party.status?.reason === 'CallSwitch'
+    );
+  }, parties);
+  return result;
+}
+
+export function filterDisconnectedCalls(
+  session: Session | ActiveCallControlSessionData,
+) {
+  // workaround of bug:
+  // switch an inbound call then call direction will change to outbound
+  const { party, otherParties, direction, status } = session;
+  if (
+    direction === callDirection.outbound &&
+    status !== PartyStatusCode.disconnected
+  ) {
+    const inboundSwitchedParty = getInboundSwitchedParty(otherParties);
+    if (inboundSwitchedParty) {
+      party.direction = inboundSwitchedParty.direction;
+      party.to = inboundSwitchedParty.to;
+      party.from = inboundSwitchedParty.from;
+    }
+  }
+  return session.status !== PartyStatusCode.disconnected;
+}
+
+export function normalizeTelephonySession(
+  session?: TelephonySession,
+): ActiveCallControlSessionData {
+  if (!session) {
+    // @ts-expect-error
+    return {};
+  }
+  return {
+    accountId: session.accountId,
+    creationTime: session.creationTime,
+    // @ts-expect-error
+    data: session.data,
+    extensionId: session.extensionId,
+    id: session.id,
+    origin: session.origin,
+    otherParties: session.otherParties,
+    parties: session.parties,
+    party: session.party,
+    recordings: session.recordings,
+    requestOptions: session.requestOptions,
+    serverId: session.serverId,
+    sessionId: session.sessionId,
+    voiceCallToken: session.voiceCallToken,
+  };
 }

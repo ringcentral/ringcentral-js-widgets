@@ -1,8 +1,8 @@
 import React from 'react';
 
-import { contains } from 'ramda';
+import { includes } from 'ramda';
 
-import conferenceCallErrors from '@ringcentral-integration/commons/modules/ConferenceCall/conferenceCallErrors';
+import { conferenceCallErrors } from '@ringcentral-integration/commons/modules/ConferenceCall';
 
 import i18n from './i18n';
 
@@ -16,8 +16,9 @@ const ConferenceCallAlert: React.SFC<ConferenceCallAlertProps> = (props) => {
   const msg = i18n.getString(props.message.message, props.currentLocale);
   return <span>{msg}</span>;
 };
-ConferenceCallAlert.handleMessage = ({ message }) =>
-  contains(message, [
+// @ts-expect-error TS(2339): Property 'handleMessage' does not exist on type 'S... Remove this comment to see the full error message
+ConferenceCallAlert.handleMessage = ({ message }: any) =>
+  includes(message, [
     conferenceCallErrors.bringInFailed,
     conferenceCallErrors.makeConferenceFailed,
     conferenceCallErrors.terminateConferenceFailed,

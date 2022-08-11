@@ -3,9 +3,9 @@ export default {
   MainCompanyNumber: "主号码",
   CompanyNumber: "公司",
   CompanyFaxNumber: "传真",
-  Blocked: "已阻止",
+  Blocked: "阻止显示主叫信息",
   AdditionalCompanyNumber: "公司",
-  ForwardedCompanyNumber: "已转发",
+  ForwardedCompanyNumber: "已转接",
   from: "自"
 };
 

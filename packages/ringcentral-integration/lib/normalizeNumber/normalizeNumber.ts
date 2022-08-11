@@ -5,6 +5,9 @@ type NormalizeNumberParams = {
   removeExtension?: boolean;
   countryCode?: string;
   areaCode?: string;
+  maxExtensionLength?: number;
+  isMultipleSiteEnabled?: boolean;
+  siteCode?: string;
 };
 
 /**
@@ -16,6 +19,9 @@ export function normalizeNumber({
   removeExtension = false,
   countryCode = 'US',
   areaCode = '',
+  maxExtensionLength = 6,
+  siteCode = '',
+  isMultipleSiteEnabled = false,
 }: NormalizeNumberParams) {
   const normalizedNumber: string = format({
     phoneNumber,
@@ -23,6 +29,9 @@ export function normalizeNumber({
     countryCode,
     areaCode,
     type: formatTypes.e164,
-  });
+    maxExtensionLength,
+    siteCode,
+    isMultipleSiteEnabled,
+  })!;
   return normalizedNumber.replace(/\s/g, '');
 }
