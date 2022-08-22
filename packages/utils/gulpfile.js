@@ -5,13 +5,13 @@ import babel from 'gulp-babel';
 import sourcemaps from 'gulp-sourcemaps';
 import cp from 'child_process';
 
-const BUILD_PATH = path.resolve(__dirname, '../../build/core');
+const BUILD_PATH = path.resolve(__dirname, '../../build/utils');
 export function clean() {
   return fs.remove(BUILD_PATH);
 }
 export function compile() {
   return gulp
-    .src(['./src/**/*.ts'], {
+    .src(['./src/**/*.ts', './index.ts'], {
       base: './',
     })
     .pipe(sourcemaps.init())
@@ -49,7 +49,7 @@ async function getVersionFromTag() {
   }
 }
 
-const RELEASE_PATH = path.resolve(__dirname, '../../release/core');
+const RELEASE_PATH = path.resolve(__dirname, '../../release/utils');
 
 export async function releaseClean() {
   if (!(await fs.exists(RELEASE_PATH))) {
@@ -75,6 +75,7 @@ export async function generatePackage() {
   );
   delete packageInfo.scripts;
   delete packageInfo.devDependencies;
+  packageInfo.main = 'index.js';
   const version = await getVersionFromTag();
   if (version) {
     packageInfo.version = version;

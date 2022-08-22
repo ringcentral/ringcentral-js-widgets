@@ -43,6 +43,13 @@ jobs:
           flag-name: locale-loader
           parallel: true
       - run: yarn workspace @ringcentral-integration/utils test --coverage
+      - name: Core Coveralls
+        uses: coverallsapp/github-action@1.1.3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: ./packages/utils/coverage/lcov.info
+          flag-name: utils
+          parallel: true
       - run: yarn workspace @ringcentral-integration/core test --coverage
       - name: Core Coveralls
         uses: coverallsapp/github-action@1.1.3
@@ -97,6 +104,14 @@ jobs:
         with:
           node-version: 14.x
       - run: yarn
+      - run: yarn workspace @ringcentral-integration/utils release
+      - name: Utils Branch Release
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: utils-release
+          FOLDER: release/utils
+          CLEAN: true
       - run: yarn workspace @ringcentral-integration/core release
       - name: Core Branch Release
         uses: JamesIves/github-pages-deploy-action@3.7.1
