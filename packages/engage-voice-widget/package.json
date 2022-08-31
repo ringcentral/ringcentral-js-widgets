@@ -65,7 +65,7 @@
     "format-message": "^6.2.3",
     "i18n-iso-countries": "^4.3.1",
     "moment": "^2.24.0",
-    "moment-timezone": "^0.5.27",
+    "moment-timezone": "^0.5.35",
     "prop-types": "^15.7.2",
     "ramda": "^0.27.1",
     "react": "^17.0.2",
