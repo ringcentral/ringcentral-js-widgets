@@ -33,7 +33,7 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _ListItem = require("@ringcentral/juno/es6/components/List/ListItem/ListItem.js");
+var _juno = require("@ringcentral/juno");
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
@@ -63,7 +63,7 @@ var ListItemWithScrollCheck = function ListItemWithScrollCheck(_ref) {
       scrollCheck(selectElm.current);
     }
   });
-  return /*#__PURE__*/_react["default"].createElement(_ListItem.RcListItem, _extends({}, rest, {
+  return /*#__PURE__*/_react["default"].createElement(_juno.RcListItem, _extends({}, rest, {
     innerRef: selectElm,
     button: true,
     selected: selected,

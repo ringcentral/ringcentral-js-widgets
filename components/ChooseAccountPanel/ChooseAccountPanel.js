@@ -19,13 +19,7 @@ var _react = _interopRequireDefault(require("react"));
 
 var _CustomArrowButton = require("@ringcentral-integration/widgets/components/Rcui/CustomArrowButton");
 
-var _newPalette = require("@ringcentral/juno/es6/foundation/styles/newPalette.js");
-
-var _Typography = require("@ringcentral/juno/es6/components/Typography/Typography.js");
-
-var _spacing = require("@ringcentral/juno/es6/foundation/styles/spacing.js");
-
-var _styledComponents = _interopRequireDefault(require("@ringcentral/juno/es6/foundation/styled-components.js"));
+var _juno = require("@ringcentral/juno");
 
 var _EvLoginHeader = require("../EvLoginHeader");
 
@@ -59,9 +53,9 @@ function _templateObject() {
 
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
-var StyledTitle = (0, _styledComponents["default"])(_Typography.RcTypography)(_templateObject(), (0, _spacing.spacing)(2, 0, 8));
+var StyledTitle = (0, _juno.styled)(_juno.RcTypography)(_templateObject(), (0, _juno.spacing)(2, 0, 8));
 
-var ContentItem = _styledComponents["default"].div(_templateObject2(), (0, _newPalette.palette2)('neutral', 'l02'));
+var ContentItem = _juno.styled.div(_templateObject2(), (0, _juno.palette2)('neutral', 'l02'));
 
 var ChooseAccountPanel = function ChooseAccountPanel(_ref) {
   var currentLocale = _ref.currentLocale,
@@ -87,10 +81,10 @@ var ChooseAccountPanel = function ChooseAccountPanel(_ref) {
       className: _styles["default"].listItem
     }, /*#__PURE__*/_react["default"].createElement(ContentItem, {
       "data-sign": "subAccount"
-    }, /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement(_Typography.RcTypography, {
+    }, /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement(_juno.RcTypography, {
       variant: "body1",
       color: "neutral.f06"
-    }, agent.accountName), /*#__PURE__*/_react["default"].createElement(_Typography.RcTypography, {
+    }, agent.accountName), /*#__PURE__*/_react["default"].createElement(_juno.RcTypography, {
       variant: "caption1",
       color: "neutral.f04"
     }, _i18n["default"].getString(agent.agentType, currentLocale))), /*#__PURE__*/_react["default"].createElement(_CustomArrowButton.CustomArrowButton, null)));

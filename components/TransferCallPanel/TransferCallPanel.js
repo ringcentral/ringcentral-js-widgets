@@ -29,17 +29,9 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _CustomArrowButton = require("@ringcentral-integration/widgets/components/Rcui/CustomArrowButton");
 
-var _Button = require("@ringcentral/juno/es6/components/Buttons/Button/Button.js");
+var _juno = require("@ringcentral/juno");
 
-var _Checkbox = require("@ringcentral/juno/es6/components/Forms/Checkbox/Checkbox.js");
-
-var _IconButton = require("@ringcentral/juno/es6/components/Buttons/IconButton/IconButton.js");
-
-var _SnackbarAction = require("@ringcentral/juno/es6/components/Snackbar/SnackbarAction/SnackbarAction.js");
-
-var _TextField = require("@ringcentral/juno/es6/components/Forms/TextField/TextField.js");
-
-var _Dialer = _interopRequireDefault(require("@ringcentral/juno/es6/icon/Dialer.js"));
+var _icon = require("@ringcentral/juno/icon");
 
 var _PickList = require("../PickList");
 
@@ -73,18 +65,18 @@ var TransferCallPanel = function TransferCallPanel(_ref) {
       cancelTransferPage = _ref.cancelTransferPage,
       isWide = _ref.isWide;
   (0, _react.useEffect)(function () {
-    setCancelTemplate( /*#__PURE__*/_react["default"].createElement(_SnackbarAction.RcSnackbarAction, {
+    setCancelTemplate( /*#__PURE__*/_react["default"].createElement(_juno.RcSnackbarAction, {
       onClick: function onClick() {
         return cancelTransfer();
       }
     }, _i18n["default"].getString('cancel', currentLocale)));
   }, []);
   var endAdornment = (0, _react.useCallback)(function (disabled) {
-    return selectedTransferType === 'manualEntry' ? /*#__PURE__*/_react["default"].createElement(_IconButton.RcIconButton, {
+    return selectedTransferType === 'manualEntry' ? /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {
       size: "medium",
       color: "interactive.f01",
       variant: "plain",
-      symbol: _Dialer["default"]
+      symbol: _icon.Dialer
     }) : /*#__PURE__*/_react["default"].createElement(_CustomArrowButton.CustomArrowButton, {
       disabled: disabled
     });
@@ -113,7 +105,7 @@ var TransferCallPanel = function TransferCallPanel(_ref) {
         disabled = _ref2.disabled,
         readonly = _ref2.readonly,
         router = _ref2.router;
-    return /*#__PURE__*/_react["default"].createElement(_TextField.RcTextField, {
+    return /*#__PURE__*/_react["default"].createElement(_juno.RcTextField, {
       key: index,
       gutterBottom: true,
       "data-sign": "callRecipient".concat(index),
@@ -134,7 +126,7 @@ var TransferCallPanel = function TransferCallPanel(_ref) {
         return clickCallRecipient(router);
       }
     });
-  }), /*#__PURE__*/_react["default"].createElement(_Checkbox.RcCheckbox, {
+  }), /*#__PURE__*/_react["default"].createElement(_juno.RcCheckbox, {
     "data-sign": "stayOnCall",
     label: _i18n["default"].getString('stayOnCall', currentLocale),
     checked: isStayOnCall,
@@ -148,7 +140,7 @@ var TransferCallPanel = function TransferCallPanel(_ref) {
     }
   })), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].buttons
-  }, /*#__PURE__*/_react["default"].createElement(_Button.RcButton, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcButton, {
     "data-sign": "cancel",
     classes: {
       root: _styles["default"].cancelButton
@@ -157,7 +149,7 @@ var TransferCallPanel = function TransferCallPanel(_ref) {
     size: "medium",
     onClick: cancelTransferPage,
     variant: "outlined"
-  }, _i18n["default"].getString('cancel', currentLocale)), /*#__PURE__*/_react["default"].createElement(_Button.RcButton, {
+  }, _i18n["default"].getString('cancel', currentLocale)), /*#__PURE__*/_react["default"].createElement(_juno.RcButton, {
     "data-sign": "transferCall",
     disabled: transferCallDisabled,
     loading: transferring,

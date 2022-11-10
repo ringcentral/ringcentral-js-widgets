@@ -25,9 +25,7 @@ require("core-js/modules/es6.array.map");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _MenuItem = require("@ringcentral/juno/es6/components/Menu/MenuItem/MenuItem.js");
-
-var _Select = require("@ringcentral/juno/es6/components/Forms/Select/Select.js");
+var _juno = require("@ringcentral/juno");
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
@@ -55,7 +53,7 @@ var PickList = function PickList(_ref) {
       InputProps = _ref.InputProps,
       rest = _objectWithoutProperties(_ref, ["options", "optionValueKey", "optionLabelKey", "label", "value", "required", "onChange", "dataSign", "renderItem", "renderValue", "InputProps"]);
 
-  return /*#__PURE__*/_react["default"].createElement(_Select.RcSelect, _extends({
+  return /*#__PURE__*/_react["default"].createElement(_juno.RcSelect, _extends({
     "data-sign": dataSign,
     fullWidth: true,
     gutterBottom: true,
@@ -71,7 +69,7 @@ var PickList = function PickList(_ref) {
     renderValue: renderValue
   }, rest), options.map(function (item, i) {
     var label = item[optionLabelKey];
-    return /*#__PURE__*/_react["default"].createElement(_MenuItem.RcMenuItem, {
+    return /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
       key: i,
       value: item[optionValueKey],
       "data-sign": "option".concat(i)

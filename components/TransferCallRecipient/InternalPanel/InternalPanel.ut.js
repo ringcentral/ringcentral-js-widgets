@@ -49,7 +49,7 @@ var _react = _interopRequireDefault(require("react"));
 
 var _enzyme = require("enzyme");
 
-var _ThemeProvider = require("@ringcentral/juno/es6/foundation/theme/ThemeProvider.js");
+var _juno = require("@ringcentral/juno");
 
 var _InternalPanel = require("./InternalPanel");
 
@@ -129,7 +129,7 @@ function setup(_ref) {
       searchAgent = _ref$searchAgent === void 0 ? defaultSearchAgent : _ref$searchAgent,
       _ref$transferAgentLis2 = _ref.transferAgentList,
       transferAgentList = _ref$transferAgentLis2 === void 0 ? defaultTransferAgentList : _ref$transferAgentLis2;
-  return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_ThemeProvider.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_InternalPanel.InternalPanel, {
+  return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_InternalPanel.InternalPanel, {
     currentLocale: currentLocale,
     goBack: goBack,
     transferAgentList: transferAgentList,

@@ -49,13 +49,9 @@ var _BasicCallInfo = require("@ringcentral-integration/widgets/components/BasicC
 
 var _CallLogPanel = _interopRequireDefault(require("@ringcentral-integration/widgets/components/CallLogPanel"));
 
-var _Button = require("@ringcentral/juno/es6/components/Buttons/Button/Button.js");
+var _juno = require("@ringcentral/juno");
 
-var _Menu = require("@ringcentral/juno/es6/components/Menu/Menu/Menu.js");
-
-var _MenuItem = require("@ringcentral/juno/es6/components/Menu/MenuItem/MenuItem.js");
-
-var _Transcription = _interopRequireDefault(require("@ringcentral/juno/es6/icon/Transcription.js"));
+var _icon = require("@ringcentral/juno/icon");
 
 var _enums = require("../../enums");
 
@@ -228,7 +224,7 @@ var ActivityCallLogPanel = function ActivityCallLogPanel(_ref) {
         size: "medium",
         variant: "contained",
         color: "neutral.f01",
-        symbol: _Transcription["default"],
+        symbol: _icon.Transcription,
         onClick: agentScriptData.onClick
       }));
     },
@@ -243,7 +239,7 @@ var ActivityCallLogPanel = function ActivityCallLogPanel(_ref) {
     },
     renderCallLogCallControl: function renderCallLogCallControl() {
       var isOnTransfer = Boolean(transferEl);
-      return !isCallEnd && /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_Menu.RcMenu, {
+      return !isCallEnd && /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_juno.RcMenu, {
         classes: {
           paper: _styles["default"].paper
         },
@@ -251,25 +247,25 @@ var ActivityCallLogPanel = function ActivityCallLogPanel(_ref) {
         open: isOnTransfer,
         onClose: handleTransferClose,
         "data-sign": "transferMenu"
-      }, /*#__PURE__*/_react["default"].createElement(_MenuItem.RcMenuItem, {
+      }, /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
         onClick: function onClick() {
           return goToTransferCallPage(_enums.transferTypes.internal);
         },
         disabled: !allowTransferCall || disableInternalTransfer,
         "data-sign": "transferItem-internalTransfer"
-      }, _i18n["default"].getString('internalTransfer', currentLocale)), /*#__PURE__*/_react["default"].createElement(_MenuItem.RcMenuItem, {
+      }, _i18n["default"].getString('internalTransfer', currentLocale)), /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
         onClick: function onClick() {
           return goToTransferCallPage(_enums.transferTypes.phoneBook);
         },
         disabled: !allowTransferCall,
         "data-sign": "transferItem-phoneBookTransfer"
-      }, _i18n["default"].getString('phoneBookTransfer', currentLocale)), /*#__PURE__*/_react["default"].createElement(_MenuItem.RcMenuItem, {
+      }, _i18n["default"].getString('phoneBookTransfer', currentLocale)), /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
         onClick: function onClick() {
           return goToRequeueCallPage();
         },
         disabled: !allowRequeueCall,
         "data-sign": "transferItem-queueTransfer"
-      }, _i18n["default"].getString('queueTransfer', currentLocale)), /*#__PURE__*/_react["default"].createElement(_MenuItem.RcMenuItem, {
+      }, _i18n["default"].getString('queueTransfer', currentLocale)), /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
         onClick: function onClick() {
           return goToTransferCallPage(_enums.transferTypes.manualEntry);
         },
@@ -311,7 +307,7 @@ var ActivityCallLogPanel = function ActivityCallLogPanel(_ref) {
         timeStamp: timeStamp
       }));
     }
-  }), isCallEnd && /*#__PURE__*/_react["default"].createElement(_ActivityCallLogWrapper.SubmitButtonWrapper, null, /*#__PURE__*/_react["default"].createElement(_Button.RcButton, {
+  }), isCallEnd && /*#__PURE__*/_react["default"].createElement(_ActivityCallLogWrapper.SubmitButtonWrapper, null, /*#__PURE__*/_react["default"].createElement(_juno.RcButton, {
     "data-sign": "submit",
     size: "large",
     fullWidth: true,

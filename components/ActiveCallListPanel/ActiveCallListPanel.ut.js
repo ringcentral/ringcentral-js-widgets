@@ -19,7 +19,7 @@ var _react = _interopRequireDefault(require("react"));
 
 var _enzyme = require("enzyme");
 
-var _ThemeProvider = require("@ringcentral/juno/es6/foundation/theme/ThemeProvider.js");
+var _juno = require("@ringcentral/juno");
 
 var _i18n = _interopRequireDefault(require("../SmallCallControl/i18n"));
 
@@ -75,7 +75,7 @@ function setup() {
       _ref$isInbound = _ref.isInbound,
       isInbound = _ref$isInbound === void 0 ? false : _ref$isInbound;
 
-  return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_ThemeProvider.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_ActiveCallListPanel.ActiveCallListPanel, {
+  return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_ActiveCallListPanel.ActiveCallListPanel, {
     currentLocale: currentLocale,
     goBack: goBack,
     callList: callList,

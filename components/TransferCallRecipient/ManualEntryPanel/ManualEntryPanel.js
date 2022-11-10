@@ -37,7 +37,7 @@ require("core-js/modules/es6.array.is-array");
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _Button = require("@ringcentral/juno/es6/components/Buttons/Button/Button.js");
+var _juno = require("@ringcentral/juno");
 
 var _DialerPanel = require("../../DialerPanel");
 
@@ -97,7 +97,7 @@ var ManualEntryPanel = function ManualEntryPanel(_ref) {
     className: _styles["default"].actionContainer
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].button
-  }, /*#__PURE__*/_react["default"].createElement(_Button.RcButton, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcButton, {
     "data-sign": "nextButton",
     size: "medium",
     fullWidth: true,

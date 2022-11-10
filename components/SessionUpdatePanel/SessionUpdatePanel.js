@@ -23,7 +23,7 @@ require("core-js/modules/es6.object.keys");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _Button = require("@ringcentral/juno/es6/components/Buttons/Button/Button.js");
+var _juno = require("@ringcentral/juno");
 
 var _BasicSessionPanel = require("../BasicSessionPanel");
 
@@ -60,7 +60,7 @@ var SessionUpdatePanel = function SessionUpdatePanel(_ref) {
     classes: {
       root: _styles["default"].basicSessionPanel
     }
-  })), /*#__PURE__*/_react["default"].createElement(_Button.RcButton, {
+  })), /*#__PURE__*/_react["default"].createElement(_juno.RcButton, {
     "data-sign": "saveUpdate",
     fullWidth: true,
     size: "medium",
@@ -68,7 +68,7 @@ var SessionUpdatePanel = function SessionUpdatePanel(_ref) {
     classes: {
       root: _styles["default"].saveUpdateButton
     }
-  }, _i18n["default"].getString('saveUpdate', currentLocale)), /*#__PURE__*/_react["default"].createElement(_Button.RcButton, {
+  }, _i18n["default"].getString('saveUpdate', currentLocale)), /*#__PURE__*/_react["default"].createElement(_juno.RcButton, {
     "data-sign": "cancel",
     fullWidth: true,
     size: "medium",

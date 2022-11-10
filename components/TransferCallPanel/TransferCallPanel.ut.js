@@ -15,7 +15,7 @@ var _react = _interopRequireDefault(require("react"));
 
 var _enzyme = require("enzyme");
 
-var _ThemeProvider = require("@ringcentral/juno/es6/foundation/theme/ThemeProvider.js");
+var _juno = require("@ringcentral/juno");
 
 var _transferTypes = require("../../enums/transferTypes");
 
@@ -95,7 +95,7 @@ function setup(_ref) {
       cancelTransfer = _ref$cancelTransfer === void 0 ? function () {} : _ref$cancelTransfer,
       _ref$cancelTransferPa = _ref.cancelTransferPage,
       cancelTransferPage = _ref$cancelTransferPa === void 0 ? function () {} : _ref$cancelTransferPa;
-  return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_ThemeProvider.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_TransferCallPanel.TransferCallPanel, {
+  return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_TransferCallPanel.TransferCallPanel, {
     currentLocale: currentLocale,
     goBack: goBack,
     clickCallRecipient: clickCallRecipient,

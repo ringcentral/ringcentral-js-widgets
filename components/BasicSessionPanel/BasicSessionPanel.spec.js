@@ -12,7 +12,7 @@ var _react = _interopRequireDefault(require("react"));
 
 var _enzyme = require("enzyme");
 
-var _ThemeProvider = require("@ringcentral/juno/es6/foundation/theme/ThemeProvider.js");
+var _juno = require("@ringcentral/juno");
 
 var _BasicSessionPanel = require("./BasicSessionPanel");
 
@@ -97,7 +97,7 @@ function setup(_ref) {
       showSkillProfile = _ref$showSkillProfile === void 0 ? true : _ref$showSkillProfile,
       _ref$showAutoAnswer = _ref.showAutoAnswer,
       showAutoAnswer = _ref$showAutoAnswer === void 0 ? true : _ref$showAutoAnswer;
-  return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_ThemeProvider.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_BasicSessionPanel.BasicSessionPanel, {
+  return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_BasicSessionPanel.BasicSessionPanel, {
     currentLocale: currentLocale,
     selectedSkillProfileId: selectedSkillProfileId,
     skillProfileList: skillProfileList,

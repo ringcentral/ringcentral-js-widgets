@@ -41,7 +41,7 @@ var _Tooltip = require("@ringcentral-integration/widgets/components/Rcui/Tooltip
 
 var _toolTipDelayTime = require("@ringcentral-integration/widgets/lib/toolTipDelayTime");
 
-var _Button = require("@ringcentral/juno/es6/components/Buttons/Button/Button.js");
+var _juno = require("@ringcentral/juno");
 
 var _SelectList = require("../../../SelectList");
 
@@ -107,7 +107,7 @@ var RequeueCallGroupDetailPanel = function RequeueCallGroupDetailPanel(_ref) {
     }
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].checkContainer
-  }, /*#__PURE__*/_react["default"].createElement(_Button.RcButton, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcButton, {
     title: selectText,
     disabled: !queueId,
     onClick: function onClick() {

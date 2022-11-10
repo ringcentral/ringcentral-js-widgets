@@ -47,7 +47,7 @@ var _CallLogFields = require("@ringcentral-integration/widgets/components/CallLo
 
 var _SelectList = require("@ringcentral-integration/widgets/components/SelectList");
 
-var _List = require("@ringcentral/juno/es6/components/List/List/List.js");
+var _juno = require("@ringcentral/juno");
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
@@ -122,7 +122,7 @@ var SearchSelectField = function SearchSelectField(_ref) {
     }),
     backHeaderClassName: _styles["default"].backHeader,
     renderListView: function renderListView(options, type, filter, scrollCheck) {
-      return /*#__PURE__*/_react["default"].createElement(_List.RcList, null, listRenderer(options, scrollCheck, toggleOpen));
+      return /*#__PURE__*/_react["default"].createElement(_juno.RcList, null, listRenderer(options, scrollCheck, toggleOpen));
     }
   })));
 };

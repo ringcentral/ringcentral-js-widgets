@@ -45,9 +45,7 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _sleep = require("@ringcentral-integration/commons/lib/sleep");
 
-var _IconButton = require("@ringcentral/juno/es6/components/Buttons/IconButton/IconButton.js");
-
-var _Text = require("@ringcentral/juno/es6/components/Text/Text.js");
+var _juno = require("@ringcentral/juno");
 
 var _i18n = _interopRequireDefault(require("../i18n"));
 
@@ -76,7 +74,7 @@ function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
 var CountDown = function CountDown(_ref) {
   var data = _ref.data;
   var count = data > 99 ? '99+' : data;
-  return /*#__PURE__*/_react["default"].createElement(_Text.RcText, {
+  return /*#__PURE__*/_react["default"].createElement(_juno.RcText, {
     color: "danger.f02",
     variant: "subheading1",
     "data-sign": "CountDownText"
@@ -153,7 +151,7 @@ var CountDownButton = function CountDownButton(_ref2) {
 
     return clearTimerSet;
   }, [timeStamp, recordPauseCount]);
-  return /*#__PURE__*/_react["default"].createElement(_IconButton.RcIconButton, {
+  return /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {
     "data-sign": dataSign,
     color: "danger.f02",
     symbol: function symbol() {

@@ -10,7 +10,7 @@ var _react = _interopRequireDefault(require("react"));
 
 var _enzyme = require("enzyme");
 
-var _ThemeProvider = require("@ringcentral/juno/es6/foundation/theme/ThemeProvider.js");
+var _juno = require("@ringcentral/juno");
 
 var _RequeueCallGroupDetailPanel = require("./RequeueCallGroupDetailPanel");
 
@@ -50,7 +50,7 @@ function setup() {
       submitSelection = _ref2$submitSelection === void 0 ? function () {} : _ref2$submitSelection;
 
   var selectedGateId = defalutSelectedQueueGroup.gates[selectedGateIndex] ? defalutSelectedQueueGroup.gates[selectedGateIndex].gateId : '';
-  return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_ThemeProvider.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_RequeueCallGroupDetailPanel.RequeueCallGroupDetailPanel, {
+  return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_RequeueCallGroupDetailPanel.RequeueCallGroupDetailPanel, {
     currentLocale: currentLocale,
     goBack: goBack,
     searchGate: searchGate,

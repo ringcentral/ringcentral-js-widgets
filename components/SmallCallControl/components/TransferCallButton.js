@@ -9,9 +9,9 @@ exports.TransferCallButton = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _IconButton = require("@ringcentral/juno/es6/components/Buttons/IconButton/IconButton.js");
+var _juno = require("@ringcentral/juno");
 
-var _TransferCall = _interopRequireDefault(require("@ringcentral/juno/es6/icon/TransferCall.js"));
+var _icon = require("@ringcentral/juno/icon");
 
 var _i18n = _interopRequireDefault(require("../i18n"));
 
@@ -31,11 +31,11 @@ var TransferCallButton = function TransferCallButton(_ref) {
     active: false,
     disable: disableTransfer
   });
-  return /*#__PURE__*/_react["default"].createElement(_IconButton.RcIconButton, {
+  return /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {
     ref: transferRef,
     size: size,
     onClick: onTransfer,
-    symbol: _TransferCall["default"],
+    symbol: _icon.TransferCall,
     disabled: disableTransfer,
     "data-sign": dataSign,
     "data-icon": "transfer-call",

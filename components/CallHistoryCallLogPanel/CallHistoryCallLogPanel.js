@@ -37,7 +37,7 @@ var _BasicCallInfo = require("@ringcentral-integration/widgets/components/BasicC
 
 var _CallLogPanel = _interopRequireDefault(require("@ringcentral-integration/widgets/components/CallLogPanel"));
 
-var _Button = require("@ringcentral/juno/es6/components/Buttons/Button/Button.js");
+var _juno = require("@ringcentral/juno");
 
 var _EvActivityCallUI = require("../../interfaces/EvActivityCallUI.interface");
 
@@ -141,7 +141,7 @@ var CallHistoryCallLogPanel = function CallHistoryCallLogPanel(_ref) {
         ivrAlertData: ivrAlertData
       }));
     }
-  }), /*#__PURE__*/_react["default"].createElement(_ActivityCallLogWrapper.SubmitButtonWrapper, null, /*#__PURE__*/_react["default"].createElement(_Button.RcButton, {
+  }), /*#__PURE__*/_react["default"].createElement(_ActivityCallLogWrapper.SubmitButtonWrapper, null, /*#__PURE__*/_react["default"].createElement(_juno.RcButton, {
     "data-sign": method,
     size: "large",
     fullWidth: true,

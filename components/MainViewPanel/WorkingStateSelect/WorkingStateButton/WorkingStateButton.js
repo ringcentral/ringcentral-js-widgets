@@ -45,17 +45,9 @@ var _Tooltip = require("@ringcentral-integration/widgets/components/Rcui/Tooltip
 
 var _toolTipDelayTime = require("@ringcentral-integration/widgets/lib/toolTipDelayTime");
 
-var _ButtonBase = require("@ringcentral/juno/es6/components/Buttons/ButtonBase/ButtonBase.js");
+var _juno = require("@ringcentral/juno");
 
-var _Icon = require("@ringcentral/juno/es6/components/Icon/Icon.js");
-
-var _Menu = require("@ringcentral/juno/es6/components/Menu/Menu/Menu.js");
-
-var _MenuItem = require("@ringcentral/juno/es6/components/Menu/MenuItem/MenuItem.js");
-
-var _ArrowDown = _interopRequireDefault(require("@ringcentral/juno/es6/icon/ArrowDown.js"));
-
-var _ArrowUp = _interopRequireDefault(require("@ringcentral/juno/es6/icon/ArrowUp.js"));
+var _icon = require("@ringcentral/juno/icon");
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
@@ -108,7 +100,7 @@ var WorkingStateButton = function WorkingStateButton(_ref) {
     role: "button",
     className: (0, _classnames["default"])(_styles["default"].state, _styles["default"][color]),
     onClick: handleClick
-  }, /*#__PURE__*/_react["default"].createElement(_ButtonBase.RcButtonBase, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcButtonBase, {
     disabled: disabled,
     className: _styles["default"].fullWidth,
     "data-sign": "workingStateButton"
@@ -123,10 +115,10 @@ var WorkingStateButton = function WorkingStateButton(_ref) {
   }, label)), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].timer,
     "data-sign": "timer"
-  }, timerText), /*#__PURE__*/_react["default"].createElement(_Icon.RcIcon, {
+  }, timerText), /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
     className: _styles["default"].icon,
-    symbol: menuOpened ? _ArrowUp["default"] : _ArrowDown["default"]
-  }))), /*#__PURE__*/_react["default"].createElement(_Menu.RcMenu, {
+    symbol: menuOpened ? _icon.ArrowUp : _icon.ArrowDown
+  }))), /*#__PURE__*/_react["default"].createElement(_juno.RcMenu, {
     PaperProps: {
       style: {
         maxHeight: 280
@@ -140,7 +132,7 @@ var WorkingStateButton = function WorkingStateButton(_ref) {
     onClose: handleClose
   }, options.map(function (state, i) {
     var selected = optionIndex === i;
-    return /*#__PURE__*/_react["default"].createElement(_MenuItem.RcMenuItem, {
+    return /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
       key: i,
       onClick: function onClick() {
         handleClose();

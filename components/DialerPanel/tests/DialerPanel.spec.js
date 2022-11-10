@@ -8,7 +8,7 @@ require("core-js/modules/es6.promise");
 
 require("core-js/modules/es6.object.to-string");
 
-var _DialTextField = require("@ringcentral/juno/es6/components/Dialer/DialTextField/DialTextField.js");
+var _juno = require("@ringcentral/juno");
 
 var _createDialerPanel = require("./createDialerPanel");
 
@@ -62,7 +62,7 @@ describe('<DialerPanel />', function () {
               toNumber: toNumber,
               setToNumber: setToNumber
             });
-            recipientsInput = wrapper.find(_DialTextField.RcDialTextField).at(0);
+            recipientsInput = wrapper.find(_juno.RcDialTextField).at(0);
             eventObj = {
               target: {
                 value: '1243'
@@ -145,7 +145,7 @@ describe('<DialerPanel />', function () {
     });
     var manualDialSettings = wrapper.find('[data-sign="manualDialSettings"]').at(0);
     var callButtonTip = wrapper.find('[data-sign="callButtonTip"]').at(0);
-    var recipientsInput = wrapper.find(_DialTextField.RcDialTextField).at(0);
+    var recipientsInput = wrapper.find(_juno.RcDialTextField).at(0);
     expect(recipientsInput.exists()).toBeTruthy();
     expect(manualDialSettings.exists()).toBeTruthy();
     expect(callButtonTip.exists()).toBeTruthy();
@@ -154,7 +154,7 @@ describe('<DialerPanel />', function () {
     });
     var noManualDialSettings = noDialerWrapper.find('[data-sign="manualDialSettings"]').at(0);
     var noCallButtonTip = noDialerWrapper.find('[data-sign="callButtonTip"]').at(0);
-    var noRecipientsInput = noDialerWrapper.find(_DialTextField.RcDialTextField).at(0);
+    var noRecipientsInput = noDialerWrapper.find(_juno.RcDialTextField).at(0);
     expect(noRecipientsInput.exists()).toBeFalsy();
     expect(noManualDialSettings.exists()).toBeFalsy();
     expect(noCallButtonTip.exists()).toBeFalsy();

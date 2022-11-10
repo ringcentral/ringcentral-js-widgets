@@ -41,9 +41,7 @@ var _AnimationPanel = require("@ringcentral-integration/widgets/components/Anima
 
 var _CustomArrowButton = require("@ringcentral-integration/widgets/components/Rcui/CustomArrowButton");
 
-var _Switch = require("@ringcentral/juno/es6/components/Forms/Switch/Switch.js");
-
-var _TextField = require("@ringcentral/juno/es6/components/Forms/TextField/TextField.js");
+var _juno = require("@ringcentral/juno");
 
 var _InboundQueuesPanel = require("../InboundQueuesPanel");
 
@@ -120,7 +118,7 @@ var BasicSessionPanel = function BasicSessionPanel(_ref) {
     }
   })), /*#__PURE__*/_react["default"].createElement("div", {
     className: classes.root
-  }, showInboundQueues && /*#__PURE__*/_react["default"].createElement(_TextField.RcTextField, {
+  }, showInboundQueues && /*#__PURE__*/_react["default"].createElement(_juno.RcTextField, {
     label: _i18n["default"].getString('inboundQueues', currentLocale),
     gutterBottom: true,
     title: inboundQueuesFieldText,
@@ -154,7 +152,7 @@ var BasicSessionPanel = function BasicSessionPanel(_ref) {
     label: _i18n["default"].getString('voiceConnection', currentLocale),
     value: loginType,
     onChange: setLoginType
-  }), isExtensionNumber && /*#__PURE__*/_react["default"].createElement(_TextField.RcTextField, {
+  }), isExtensionNumber && /*#__PURE__*/_react["default"].createElement(_juno.RcTextField, {
     gutterBottom: true,
     label: _i18n["default"].getString('extensionNumber', currentLocale),
     fullWidth: true,
@@ -172,7 +170,7 @@ var BasicSessionPanel = function BasicSessionPanel(_ref) {
       var value = _ref2.target.value;
       setExtensionNumber(value);
     }
-  }), showAutoAnswer && /*#__PURE__*/_react["default"].createElement(_Switch.RcSwitch, {
+  }), showAutoAnswer && /*#__PURE__*/_react["default"].createElement(_juno.RcSwitch, {
     "data-sign": "autoAnswer",
     className: _styles["default"].switchRoot,
     formControlLabelProps: {

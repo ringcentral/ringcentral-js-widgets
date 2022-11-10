@@ -9,9 +9,9 @@ exports.RecordControlButton = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _IconButton = require("@ringcentral/juno/es6/components/Buttons/IconButton/IconButton.js");
+var _juno = require("@ringcentral/juno");
 
-var _StopRecord = _interopRequireDefault(require("@ringcentral/juno/es6/icon/StopRecord.js"));
+var _icon = require("@ringcentral/juno/icon");
 
 var _iconRecord = _interopRequireDefault(require("../../../assets/icons/icon-record.svg"));
 
@@ -28,17 +28,17 @@ var RecordControlButton = function RecordControlButton(_ref) {
       size = _ref.size,
       className = _ref.className,
       onPauseRecord = _ref.onPauseRecord;
-  return isRecording ? /*#__PURE__*/_react["default"].createElement(_IconButton.RcIconButton, {
+  return isRecording ? /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {
     "data-sign": disablePauseRecord ? 'StopRecording' : 'PauseRecording',
     color: "danger.f02",
-    symbol: _StopRecord["default"],
+    symbol: _icon.StopRecord,
     variant: "round",
     title: _i18n["default"].getString(disablePauseRecord ? 'stopRecording' : 'pauseRecording', currentLocale),
     onClick: disablePauseRecord ? onStopRecord : onPauseRecord,
     size: size,
     className: className,
     shouldPersistBg: true
-  }) : /*#__PURE__*/_react["default"].createElement(_IconButton.RcIconButton, {
+  }) : /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {
     "data-sign": "StartRecording",
     symbol: _iconRecord["default"],
     variant: "round",

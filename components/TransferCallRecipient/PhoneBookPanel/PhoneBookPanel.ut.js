@@ -31,7 +31,7 @@ var _enzyme = require("enzyme");
 
 var _phoneNumber = require("@ringcentral-integration/phone-number");
 
-var _ThemeProvider = require("@ringcentral/juno/es6/foundation/theme/ThemeProvider.js");
+var _juno = require("@ringcentral/juno");
 
 var _PhoneBookPanel = require("./PhoneBookPanel");
 
@@ -104,7 +104,7 @@ function setup(_ref) {
       changeTransferPhoneBookSelected = _ref$changeTransferPh === void 0 ? function () {} : _ref$changeTransferPh,
       _ref$transferPhoneBoo2 = _ref.transferPhoneBook,
       transferPhoneBook = _ref$transferPhoneBoo2 === void 0 ? defaultTransferPhoneBook : _ref$transferPhoneBoo2;
-  return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_ThemeProvider.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_PhoneBookPanel.PhoneBookPanel, {
+  return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_PhoneBookPanel.PhoneBookPanel, {
     currentLocale: currentLocale,
     goBack: goBack,
     transferPhoneBook: transferPhoneBook,

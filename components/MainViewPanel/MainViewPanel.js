@@ -33,19 +33,9 @@ var _Tooltip = require("@ringcentral-integration/widgets/components/Rcui/Tooltip
 
 var _TabNavigationView = _interopRequireDefault(require("@ringcentral-integration/widgets/components/TabNavigationView"));
 
-var _Icon = require("@ringcentral/juno/es6/components/Icon/Icon.js");
+var _juno = require("@ringcentral/juno");
 
-var _Phone = _interopRequireDefault(require("@ringcentral/juno/es6/icon/Phone.js"));
-
-var _PhoneBorder = _interopRequireDefault(require("@ringcentral/juno/es6/icon/PhoneBorder.js"));
-
-var _Settings = _interopRequireDefault(require("@ringcentral/juno/es6/icon/Settings.js"));
-
-var _SettingsBorder = _interopRequireDefault(require("@ringcentral/juno/es6/icon/SettingsBorder.js"));
-
-var _Time = _interopRequireDefault(require("@ringcentral/juno/es6/icon/Time.js"));
-
-var _TimeBorder = _interopRequireDefault(require("@ringcentral/juno/es6/icon/TimeBorder.js"));
+var _icon = require("@ringcentral/juno/icon");
 
 var _iconPvcConnecting = _interopRequireDefault(require("../../assets/icons/icon-pvc-connecting.svg"));
 
@@ -72,7 +62,7 @@ function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
 var CustomIcon = function CustomIcon(props) {
-  return /*#__PURE__*/_react["default"].createElement(_Icon.RcIcon, _extends({
+  return /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, _extends({
     className: _styles["default"].icon
   }, props));
 };
@@ -100,12 +90,12 @@ var MainViewPanel = function MainViewPanel(_ref) {
   var tabs = [{
     icon: function icon() {
       return /*#__PURE__*/_react["default"].createElement(CustomIcon, {
-        symbol: _PhoneBorder["default"]
+        symbol: _icon.PhoneBorder
       });
     },
     activeIcon: function activeIcon() {
       return /*#__PURE__*/_react["default"].createElement(CustomIcon, {
-        symbol: _Phone["default"]
+        symbol: _icon.Phone
       });
     },
     label: _i18n["default"].getString('dialpadLabel', currentLocale),
@@ -117,12 +107,12 @@ var MainViewPanel = function MainViewPanel(_ref) {
   }, {
     icon: function icon() {
       return /*#__PURE__*/_react["default"].createElement(CustomIcon, {
-        symbol: _TimeBorder["default"]
+        symbol: _icon.TimeBorder
       });
     },
     activeIcon: function activeIcon() {
       return /*#__PURE__*/_react["default"].createElement(CustomIcon, {
-        symbol: _Time["default"]
+        symbol: _icon.Time
       });
     },
     label: _i18n["default"].getString('historyLabel', currentLocale),
@@ -134,12 +124,12 @@ var MainViewPanel = function MainViewPanel(_ref) {
   }, {
     icon: function icon() {
       return /*#__PURE__*/_react["default"].createElement(CustomIcon, {
-        symbol: _SettingsBorder["default"]
+        symbol: _icon.SettingsBorder
       });
     },
     activeIcon: function activeIcon() {
       return /*#__PURE__*/_react["default"].createElement(CustomIcon, {
-        symbol: _Settings["default"]
+        symbol: _icon.Settings
       });
     },
     label: _i18n["default"].getString('settingsLabel', currentLocale),
@@ -188,7 +178,7 @@ var MainViewPanel = function MainViewPanel(_ref) {
 
     return /*#__PURE__*/_react["default"].createElement(_Tooltip.Tooltip, {
       title: title
-    }, /*#__PURE__*/_react["default"].createElement(_Icon.RcIcon, {
+    }, /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
       className: className,
       symbol: symbol
     }));

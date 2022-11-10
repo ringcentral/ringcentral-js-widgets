@@ -12,7 +12,7 @@ var _react = _interopRequireDefault(require("react"));
 
 var _enzyme = require("enzyme");
 
-var _ThemeProvider = require("@ringcentral/juno/es6/foundation/theme/ThemeProvider.js");
+var _juno = require("@ringcentral/juno");
 
 var _i18n = _interopRequireDefault(require("../../modules/EvManualDialSettingsUI/i18n"));
 
@@ -67,7 +67,7 @@ function setup(_ref) {
       goBack = _ref$goBack === void 0 ? function () {} : _ref$goBack,
       _ref$settingFields = _ref.settingFields,
       settingFields = _ref$settingFields === void 0 ? defaultSettingFields : _ref$settingFields;
-  return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_ThemeProvider.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_ManualDialSettingsPanel.ManualDialSettingsPanel, {
+  return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_ManualDialSettingsPanel.ManualDialSettingsPanel, {
     currentLocale: currentLocale,
     goBack: goBack,
     settingFields: settingFields,

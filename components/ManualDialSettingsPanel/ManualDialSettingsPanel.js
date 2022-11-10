@@ -27,9 +27,7 @@ require("core-js/modules/es6.array.map");
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _Button = require("@ringcentral/juno/es6/components/Buttons/Button/Button.js");
-
-var _TextField = require("@ringcentral/juno/es6/components/Forms/TextField/TextField.js");
+var _juno = require("@ringcentral/juno");
 
 var _i18n = _interopRequireDefault(require("../../modules/EvManualDialSettingsUI/i18n"));
 
@@ -106,7 +104,7 @@ var ManualDialSettingsPanel = function ManualDialSettingsPanel(_ref) {
     }
 
     if (input) {
-      return /*#__PURE__*/_react["default"].createElement(_TextField.RcTextField, {
+      return /*#__PURE__*/_react["default"].createElement(_juno.RcTextField, {
         key: key,
         label: input.label,
         inputProps: {
@@ -136,7 +134,7 @@ var ManualDialSettingsPanel = function ManualDialSettingsPanel(_ref) {
     return null;
   })), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].footer
-  }, /*#__PURE__*/_react["default"].createElement(_Button.RcButton, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcButton, {
     "data-sign": "saveButton",
     size: "medium",
     fullWidth: true,

@@ -9,9 +9,9 @@ exports.HoldCallButton = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _IconButton = require("@ringcentral/juno/es6/components/Buttons/IconButton/IconButton.js");
+var _juno = require("@ringcentral/juno");
 
-var _Hold = _interopRequireDefault(require("@ringcentral/juno/es6/icon/Hold.js"));
+var _icon = require("@ringcentral/juno/icon");
 
 var _help = require("../help");
 
@@ -40,8 +40,8 @@ var HoldCallButton = function HoldCallButton(_ref) {
     active: isOnHold,
     disable: disableHold
   });
-  return /*#__PURE__*/_react["default"].createElement(_IconButton.RcIconButton, {
-    symbol: _Hold["default"],
+  return /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {
+    symbol: _icon.Hold,
     "data-icon": "hold",
     title: _i18n["default"].getString(holdTitle, currentLocale),
     color: color,

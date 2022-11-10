@@ -37,23 +37,9 @@ require("core-js/modules/es6.array.is-array");
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _Dialer = require("@ringcentral/juno/es6/components/Dialer/Dialer.js");
+var _juno = require("@ringcentral/juno");
 
-var _RcDialerPadSounds = _interopRequireDefault(require("@ringcentral/juno/es6/components/Dialer/DialPad/assets/RcDialerPadSounds.json"));
-
-var _DialPad = require("@ringcentral/juno/es6/components/Dialer/DialPad/DialPad.js");
-
-var _DialTextField = require("@ringcentral/juno/es6/components/Dialer/DialTextField/DialTextField.js");
-
-var _IconButton = require("@ringcentral/juno/es6/components/Buttons/IconButton/IconButton.js");
-
-var _Paper = require("@ringcentral/juno/es6/components/Paper/Paper.js");
-
-var _Tooltip = require("@ringcentral/juno/es6/components/Tooltip/Tooltip.js");
-
-var _Close = _interopRequireDefault(require("@ringcentral/juno/es6/icon/Close.js"));
-
-var _Keypad = _interopRequireDefault(require("@ringcentral/juno/es6/icon/Keypad.js"));
+var _icon = require("@ringcentral/juno/icon");
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
@@ -109,19 +95,19 @@ var KeypadCollapse = function KeypadCollapse(_ref) {
     onExited: function onExited() {
       setForceToolTipHide(false);
     }
-  }, /*#__PURE__*/_react["default"].createElement(_Paper.RcPaper, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcPaper, {
     elevation: 0
-  }, isKeypadOpen ? /*#__PURE__*/_react["default"].createElement(_KeyPadWrapper.KeyPadCloseButton, null, /*#__PURE__*/_react["default"].createElement(_IconButton.RcIconButton, {
+  }, isKeypadOpen ? /*#__PURE__*/_react["default"].createElement(_KeyPadWrapper.KeyPadCloseButton, null, /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {
     "data-sign": "keypadCloseButton",
     variant: "plain",
     size: "medium",
-    symbol: _Close["default"],
+    symbol: _icon.Close,
     title: _i18n["default"].getString('close', currentLocale),
     onClick: function onClick() {
       setKeypadIsOpen(false);
       setkeypadOpenHover(false);
     }
-  })) : /*#__PURE__*/_react["default"].createElement(_Tooltip.RcTooltip, {
+  })) : /*#__PURE__*/_react["default"].createElement(_juno.RcTooltip, {
     placement: "top",
     title: _i18n["default"].getString('keypad', currentLocale),
     open: keypadOpenHover,
@@ -143,11 +129,11 @@ var KeypadCollapse = function KeypadCollapse(_ref) {
     keypadOpenHover: keypadOpenHover,
     open: isKeypadOpen,
     "data-sign": "keypadOpenButton"
-  }, /*#__PURE__*/_react["default"].createElement(_IconButton.RcIconButton, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {
     variant: "plain",
     size: "small",
-    symbol: _Keypad["default"]
-  }))), /*#__PURE__*/_react["default"].createElement(_Dialer.RcDialer, null, isKeypadOpen && /*#__PURE__*/_react["default"].createElement(_DialTextField.RcDialTextField, {
+    symbol: _icon.Keypad
+  }))), /*#__PURE__*/_react["default"].createElement(_juno.RcDialer, null, isKeypadOpen && /*#__PURE__*/_react["default"].createElement(_juno.RcDialTextField, {
     "data-sign": "keypadTextField",
     value: keypadValue,
     align: "center",
@@ -162,8 +148,8 @@ var KeypadCollapse = function KeypadCollapse(_ref) {
         e.preventDefault();
       }
     }
-  }), /*#__PURE__*/_react["default"].createElement(_DialPad.RcDialPad, {
-    sounds: _RcDialerPadSounds["default"],
+  }), /*#__PURE__*/_react["default"].createElement(_juno.RcDialPad, {
+    sounds: _juno.RcDialerPadSounds,
     "data-sign": "keypadCollapse"
   })))));
 };

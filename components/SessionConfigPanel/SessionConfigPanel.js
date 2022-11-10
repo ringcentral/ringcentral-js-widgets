@@ -29,17 +29,9 @@ require("core-js/modules/es6.array.slice");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _newPalette = require("@ringcentral/juno/es6/foundation/styles/newPalette.js");
+var _juno = require("@ringcentral/juno");
 
-var _Button = require("@ringcentral/juno/es6/components/Buttons/Button/Button.js");
-
-var _IconButton = require("@ringcentral/juno/es6/components/Buttons/IconButton/IconButton.js");
-
-var _Typography = require("@ringcentral/juno/es6/components/Typography/Typography.js");
-
-var _styledComponents = _interopRequireDefault(require("@ringcentral/juno/es6/foundation/styled-components.js"));
-
-var _ArrowLeft = _interopRequireDefault(require("@ringcentral/juno/es6/icon/ArrowLeft2.js"));
+var _icon = require("@ringcentral/juno/icon");
 
 var _BasicSessionPanel = require("../BasicSessionPanel");
 
@@ -69,7 +61,7 @@ function _templateObject() {
 
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
-var StyledGoBackBack = _styledComponents["default"].div(_templateObject(), (0, _newPalette.palette2)('neutral', 'b03'), function (_ref) {
+var StyledGoBackBack = _juno.styled.div(_templateObject(), (0, _juno.palette2)('neutral', 'b03'), function (_ref) {
   var show = _ref.show;
   return !show && 'hidden';
 });
@@ -93,23 +85,23 @@ var SessionConfigPanel = function SessionConfigPanel(_ref2) {
   }, /*#__PURE__*/_react["default"].createElement("div", {
     onClick: onAccountReChoose,
     className: _styles["default"].goBack
-  }, /*#__PURE__*/_react["default"].createElement(_IconButton.RcIconButton, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {
     className: _styles["default"].back,
     variant: "round",
     size: "medium",
-    symbol: _ArrowLeft["default"],
+    symbol: _icon.ArrowLeft2,
     color: "interactive.b02",
     "data-sign": "reChooseAccountButton"
-  }), /*#__PURE__*/_react["default"].createElement(_Typography.RcTypography, {
+  }), /*#__PURE__*/_react["default"].createElement(_juno.RcTypography, {
     variant: "body1",
     color: "interactive.f01"
   }, _i18n["default"].getString('switchAccount', currentLocale)))), /*#__PURE__*/_react["default"].createElement("div", {
     "data-sign": "accountInfo",
     className: _styles["default"].accountInfo
-  }, /*#__PURE__*/_react["default"].createElement(_Typography.RcTypography, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcTypography, {
     color: "neutral.f06",
     variant: "body1"
-  }, selectedAgent === null || selectedAgent === void 0 ? void 0 : selectedAgent.accountName), /*#__PURE__*/_react["default"].createElement(_Typography.RcTypography, {
+  }, selectedAgent === null || selectedAgent === void 0 ? void 0 : selectedAgent.accountName), /*#__PURE__*/_react["default"].createElement(_juno.RcTypography, {
     variant: "caption1",
     color: "neutral.f04",
     "data-sign": "agentType"
@@ -119,7 +111,7 @@ var SessionConfigPanel = function SessionConfigPanel(_ref2) {
     }
   }, rest, {
     currentLocale: currentLocale
-  })), /*#__PURE__*/_react["default"].createElement(_Button.RcButton, {
+  })), /*#__PURE__*/_react["default"].createElement(_juno.RcButton, {
     "data-sign": "setConfigure",
     fullWidth: true,
     disabled: isLoading,

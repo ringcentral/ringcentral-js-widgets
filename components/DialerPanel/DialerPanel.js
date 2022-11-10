@@ -9,11 +9,7 @@ exports.DialerPanel = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _Button = require("@ringcentral/juno/es6/components/Buttons/Button/Button.js");
-
-var _Link = require("@ringcentral/juno/es6/components/Link/Link.js");
-
-var _Text = require("@ringcentral/juno/es6/components/Text/Text.js");
+var _juno = require("@ringcentral/juno");
 
 var _Dialer = require("./Dialer");
 
@@ -51,19 +47,19 @@ var DialerPanel = function DialerPanel(_ref) {
     value: toNumber,
     setValue: setToNumber,
     placeholder: _i18n["default"].getString('dialPlaceholder', currentLocale)
-  }, !toNumber && /*#__PURE__*/_react["default"].createElement(_DialerPanelWrapper.RcTextWrapper, null, /*#__PURE__*/_react["default"].createElement(_Text.RcText, {
+  }, !toNumber && /*#__PURE__*/_react["default"].createElement(_DialerPanelWrapper.RcTextWrapper, null, /*#__PURE__*/_react["default"].createElement(_juno.RcText, {
     variant: "inherit",
     align: "center",
     noWrap: false,
     color: "neutral.f03",
     "data-sign": "callButtonTip"
-  }, _i18n["default"].getString('callButtonTip', currentLocale)), /*#__PURE__*/_react["default"].createElement(_Text.RcText, {
+  }, _i18n["default"].getString('callButtonTip', currentLocale)), /*#__PURE__*/_react["default"].createElement(_juno.RcText, {
     variant: "inherit",
     align: "center",
     noWrap: false,
     color: "neutral.f03",
     "data-sign": "callButtonEmergencyTip"
-  }, _i18n["default"].getString('callButtonEmergencyTip', currentLocale))), toNumber && /*#__PURE__*/_react["default"].createElement(_Button.RcButton, {
+  }, _i18n["default"].getString('callButtonEmergencyTip', currentLocale))), toNumber && /*#__PURE__*/_react["default"].createElement(_juno.RcButton, {
     size: size === 'medium' ? 'large' : size,
     disabledVariant: "normal",
     title: _i18n["default"].getString('callButton', currentLocale),
@@ -76,7 +72,7 @@ var DialerPanel = function DialerPanel(_ref) {
         hangup();
       }
     }
-  }, _i18n["default"].getString('callButton', currentLocale)), /*#__PURE__*/_react["default"].createElement(_DialerPanelWrapper.RcLinkWrapper, null, /*#__PURE__*/_react["default"].createElement(_Link.RcLink, {
+  }, _i18n["default"].getString('callButton', currentLocale)), /*#__PURE__*/_react["default"].createElement(_DialerPanelWrapper.RcLinkWrapper, null, /*#__PURE__*/_react["default"].createElement(_juno.RcLink, {
     variant: LinkSizeMapping[size],
     onClick: goToManualDialSettings,
     "data-sign": "manualDialSettings"
