@@ -7,30 +7,30 @@ import { LocalForageStorage } from '@ringcentral-integration/commons/lib/LocalFo
 
 import { Alert } from '@ringcentral-integration/commons/modules/Alert';
 import { AlertUI } from '@ringcentral-integration/widgets/modules/AlertUI';
-import AccountInfo from '@ringcentral-integration/commons/modules/AccountInfo';
+import { AccountInfo } from '@ringcentral-integration/commons/modules/AccountInfoV2';
 import { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures';
-import Auth from '@ringcentral-integration/commons/modules/Auth';
+import { Auth } from '@ringcentral-integration/commons/modules/AuthV2';
 import { Brand } from '@ringcentral-integration/commons/modules/Brand';
-import ConnectivityMonitor from '@ringcentral-integration/commons/modules/ConnectivityMonitor';
-import DateTimeFormat from '@ringcentral-integration/commons/modules/DateTimeFormat';
+import { ConnectivityMonitor } from '@ringcentral-integration/commons/modules/ConnectivityMonitorV2';
+import { DateTimeFormat } from '@ringcentral-integration/commons/modules/DateTimeFormatV2';
 import { DataFetcherV2 } from '@ringcentral-integration/commons/modules/DataFetcherV2';
-import DialingPlan from '@ringcentral-integration/commons/modules/DialingPlan';
-import Environment from '@ringcentral-integration/commons/modules/Environment';
+import { DialingPlan } from '@ringcentral-integration/commons/modules/DialingPlanV2';
+import { Environment } from '@ringcentral-integration/commons/modules/EnvironmentV2';
 import { ExtensionFeatures } from '@ringcentral-integration/commons/modules/ExtensionFeatures';
-import ExtensionInfo from '@ringcentral-integration/commons/modules/ExtensionInfo';
-import GlobalStorage from '@ringcentral-integration/commons/modules/GlobalStorage';
+import { ExtensionInfo } from '@ringcentral-integration/commons/modules/ExtensionInfoV2';
+import { GlobalStorage } from '@ringcentral-integration/commons/modules/GlobalStorageV2';
 import { Locale } from '@ringcentral-integration/commons/modules/Locale';
-import RateLimiter from '@ringcentral-integration/commons/modules/RateLimiter';
+import { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiterV2';
 import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
-import Storage from '@ringcentral-integration/commons/modules/Storage';
+import { Storage } from '@ringcentral-integration/commons/modules/StorageV2';
 import { SleepDetector } from '@ringcentral-integration/commons/modules/SleepDetectorV2';
-import Subscription from '@ringcentral-integration/commons/modules/Subscription';
+import { Subscription } from '@ringcentral-integration/commons/modules/SubscriptionV2';
 import { ConnectivityBadgeUI } from '@ringcentral-integration/widgets/modules/ConnectivityBadgeUI';
 import { ConnectivityManager } from '@ringcentral-integration/widgets/modules/ConnectivityManager';
 import { LoginUI } from '@ringcentral-integration/widgets/modules/LoginUI';
 import { OAuth } from '@ringcentral-integration/widgets/modules/OAuth';
 import { RegionSettingsUI } from '@ringcentral-integration/widgets/modules/RegionSettingsUI';
-import RouterInteraction from '@ringcentral-integration/widgets/modules/RouterInteraction';
+import { RouterInteraction } from '@ringcentral-integration/widgets/modules/RouterInteraction';
 import { SettingsUI } from '@ringcentral-integration/widgets/modules/SettingsUI';
 
 // user Dependency Injection with decorator to create a phone class

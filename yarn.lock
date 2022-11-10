@@ -3183,13 +3183,6 @@ babel-plugin-const-enum@^1.0.1:
     "@babel/helper-plugin-utils" "^7.0.0"
     "@babel/plugin-syntax-typescript" "^7.3.3"
 
-babel-plugin-direct-import@^0.9.2:
-  version "0.9.2"
-  resolved "https://registry.yarnpkg.com/babel-plugin-direct-import/-/babel-plugin-direct-import-0.9.2.tgz#108e086b12e76dcc30ca2a628a6f3dd1a9caa943"
-  integrity sha512-1Y3vul4+L54QJLZ3bg9sHCI7lMjBW6Hkra1JWhVdGWZ7dIPDrICYvdM0KFYyQEg7Au0xip3fbsi/p9aMgbbebA==
-  dependencies:
-    resolve "^1.20.0"
-
 babel-plugin-dynamic-import-node@^2.3.3:
   version "2.3.3"
   resolved "https://registry.yarnpkg.com/babel-plugin-dynamic-import-node/-/babel-plugin-dynamic-import-node-2.3.3.tgz#84fda19c976ec5c6defef57f9427b3def66e17a3"
