@@ -1,22 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
-require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.symbol");
-
 require("core-js/modules/es6.object.define-property");
-
-require("core-js/modules/web.dom.iterable");
-
-require("core-js/modules/es6.array.iterator");
-
-require("core-js/modules/es6.object.to-string");
-
-require("core-js/modules/es6.string.iterator");
-
-require("core-js/modules/es6.weak-map");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -31,21 +15,11 @@ require("core-js/modules/es6.array.slice");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _Box = require("@ringcentral/juno/es6/components/Box/Box.js");
-
-var _Button = require("@ringcentral/juno/es6/components/Buttons/Button/Button.js");
-
-var _spacing = require("@ringcentral/juno/es6/foundation/styles/spacing.js");
-
-var _styledComponents = _interopRequireWildcard(require("@ringcentral/juno/es6/foundation/styled-components.js"));
+var _juno = require("@ringcentral/juno");
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
-
-function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
-
-function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -67,7 +41,7 @@ var HOURS = 1;
 exports.HOURS = HOURS;
 var DAYS = 2;
 exports.DAYS = DAYS;
-var TimeButton = (0, _styledComponents["default"])(_Button.RcButton)(_templateObject());
+var TimeButton = (0, _juno.styled)(_juno.RcButton)(_templateObject());
 TimeButton.defaultProps = {
   size: 'xsmall',
   radius: 'round',
@@ -87,7 +61,7 @@ var TimeInput = function TimeInput(_ref) {
     onSelectTimeUnit(unit);
   };
 
-  var theme = (0, _styledComponents.RcUseTheme)();
+  var theme = (0, _juno.useTheme)();
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].timeInput
   }, /*#__PURE__*/_react["default"].createElement("span", {
@@ -97,8 +71,8 @@ var TimeInput = function TimeInput(_ref) {
     value: timeValue,
     onChange: onTimeValueChange,
     ref: inputRef
-  })), /*#__PURE__*/_react["default"].createElement(_Box.RcBox, {
-    marginLeft: (0, _spacing.spacing)(2)({
+  })), /*#__PURE__*/_react["default"].createElement(_juno.RcBox, {
+    marginLeft: (0, _juno.spacing)(2)({
       theme: theme
     }),
     clone: true

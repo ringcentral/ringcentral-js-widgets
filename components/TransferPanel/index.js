@@ -33,7 +33,7 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _Askfirst = _interopRequireDefault(require("@ringcentral/juno/es6/icon/Askfirst.js"));
+var _icon = require("@ringcentral/juno/icon");
 
 var _Transfer = _interopRequireDefault(require("../../assets/images/Transfer.svg"));
 
@@ -214,7 +214,7 @@ var TransferPanel = /*#__PURE__*/function (_PureComponent) {
           dataSign: "warnTransferBtn",
           className: isOnTransfer ? _styles["default"].disabled : undefined,
           onClick: this.onWarmTransfer,
-          icon: _Askfirst["default"],
+          icon: _icon.Askfirst,
           disabled: isOnTransfer || controlBusy,
           title: _i18n["default"].getString('warmTransfer', currentLocale)
         }));

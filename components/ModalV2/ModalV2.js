@@ -33,15 +33,7 @@ var _react = _interopRequireDefault(require("react"));
 
 var _ramda = require("ramda");
 
-var _combineProps = require("@ringcentral/juno/es6/foundation/utils/combineProps.js");
-
-var _newPalette = require("@ringcentral/juno/es6/foundation/styles/newPalette.js");
-
-var _DialogContent = require("@ringcentral/juno/es6/components/Dialog/DialogContent/DialogContent.js");
-
-var _PopupBox = require("@ringcentral/juno/es6/components/PopupBox/PopupBox.js");
-
-var _styledComponents = _interopRequireDefault(require("@ringcentral/juno/es6/foundation/styled-components.js"));
+var _juno = require("@ringcentral/juno");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -63,7 +55,7 @@ function _templateObject() {
 
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
-var PopupBox = (0, _styledComponents["default"])(_PopupBox.RcPopupBox)(_templateObject(), _DialogContent.RcDialogContent, (0, _newPalette.palette2)('neutral', 'f06'));
+var PopupBox = (0, _juno.styled)(_juno.RcPopupBox)(_templateObject(), _juno.RcDialogContent, (0, _juno.palette2)('neutral', 'f06'));
 
 var ModalV2 = function ModalV2(_ref) {
   var modals = _ref.modals,
@@ -75,7 +67,7 @@ var ModalV2 = function ModalV2(_ref) {
         open = _ref2.open,
         modalProps = _objectWithoutProperties(_ref2, ["key", "open"]);
 
-    var _ref3 = (0, _combineProps.combineProps)(dialogProps, modalProps),
+    var _ref3 = (0, _juno.combineProps)(dialogProps, modalProps),
         children = _ref3.children,
         rest = _objectWithoutProperties(_ref3, ["children"]);
 

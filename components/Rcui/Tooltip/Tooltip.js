@@ -23,7 +23,7 @@ require("core-js/modules/es6.object.keys");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _Tooltip = require("@ringcentral/juno/es6/components/Tooltip/Tooltip.js");
+var _juno = require("@ringcentral/juno");
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
@@ -41,7 +41,7 @@ var Tooltip = function Tooltip(_ref) {
       rest = _objectWithoutProperties(_ref, ["children", "title"]);
 
   if (!title) return children;
-  return /*#__PURE__*/_react["default"].createElement(_Tooltip.RcTooltip, _extends({
+  return /*#__PURE__*/_react["default"].createElement(_juno.RcTooltip, _extends({
     size: "medium",
     title: /*#__PURE__*/_react["default"].createElement("span", {
       className: _styles["default"].title

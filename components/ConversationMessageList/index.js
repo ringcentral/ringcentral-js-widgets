@@ -53,11 +53,9 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _isBlank = _interopRequireDefault(require("@ringcentral-integration/commons/lib/isBlank"));
 
-var _Icon = require("@ringcentral/juno/es6/components/Icon/Icon.js");
+var _juno = require("@ringcentral/juno");
 
-var _DefaultFile = _interopRequireDefault(require("@ringcentral/juno/es6/icon/DefaultFile.js"));
-
-var _Download = _interopRequireDefault(require("@ringcentral/juno/es6/icon/Download.js"));
+var _icon = require("@ringcentral/juno/icon");
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
@@ -133,9 +131,9 @@ var Message = function Message(_ref) {
       key: attachment.id,
       title: fileName,
       className: _styles["default"].file
-    }, /*#__PURE__*/_react["default"].createElement(_Icon.RcIcon, {
+    }, /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
       size: "small",
-      symbol: _DefaultFile["default"]
+      symbol: _icon.DefaultFile
     }), /*#__PURE__*/_react["default"].createElement("span", {
       className: _styles["default"].fileName
     }, fileName), /*#__PURE__*/_react["default"].createElement("a", {
@@ -149,9 +147,9 @@ var Message = function Message(_ref) {
       },
       title: _i18n["default"].getString('download', currentLocale),
       href: "".concat(attachment.uri, "&contentDisposition=Attachment")
-    }, /*#__PURE__*/_react["default"].createElement(_Icon.RcIcon, {
+    }, /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
       size: "small",
-      symbol: _Download["default"]
+      symbol: _icon.Download
     })));
   });
   return /*#__PURE__*/_react["default"].createElement("div", {

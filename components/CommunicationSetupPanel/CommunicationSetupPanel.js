@@ -57,19 +57,9 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _CallingSettingsV = require("@ringcentral-integration/commons/modules/CallingSettingsV2");
 
-var _DialDelete = require("@ringcentral/juno/es6/components/Dialer/DialDelete/DialDelete.js");
+var _juno = require("@ringcentral/juno");
 
-var _IconButton = require("@ringcentral/juno/es6/components/Buttons/IconButton/IconButton.js");
-
-var _ListItemText = require("@ringcentral/juno/es6/components/List/ListItemText/ListItemText.js");
-
-var _MenuItem = require("@ringcentral/juno/es6/components/Menu/MenuItem/MenuItem.js");
-
-var _Select = require("@ringcentral/juno/es6/components/Forms/Select/Select.js");
-
-var _Text = require("@ringcentral/juno/es6/components/Text/Text.js");
-
-var _DeleteCircle = _interopRequireDefault(require("@ringcentral/juno/es6/icon/DeleteCircle.js"));
+var _icon = require("@ringcentral/juno/icon");
 
 var _CommunicationSetupProvider = require("./CommunicationSetupProvider");
 
@@ -133,10 +123,10 @@ var FromField = function FromField(_ref) {
       changeFromNumber = _ref.changeFromNumber,
       options = _ref.options,
       blockedLabel = _ref.blockedLabel;
-  return /*#__PURE__*/_react["default"].createElement(_styles.FieldLine, null, /*#__PURE__*/_react["default"].createElement(_Text.RcText, {
+  return /*#__PURE__*/_react["default"].createElement(_styles.FieldLine, null, /*#__PURE__*/_react["default"].createElement(_juno.RcText, {
     variant: "caption1",
     color: "neutral.b04"
-  }, "".concat(_i18n["default"].getString('from', currentLocale), ":")), /*#__PURE__*/_react["default"].createElement(_Select.RcSelect, {
+  }, "".concat(_i18n["default"].getString('from', currentLocale), ":")), /*#__PURE__*/_react["default"].createElement(_juno.RcSelect, {
     fullWidth: true,
     textVariant: "caption1",
     "data-sign": "phoneNumber",
@@ -150,15 +140,15 @@ var FromField = function FromField(_ref) {
       disableUnderline: true
     }
   }, options.map(function (item) {
-    return /*#__PURE__*/_react["default"].createElement(_MenuItem.RcMenuItem, {
+    return /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
       onClick: function onClick() {
         return changeFromNumber(item);
       },
       value: item.phoneNumber,
       key: item.phoneNumber
-    }, item.phoneNumber === _CallingSettingsV.BLOCKED_ID_VALUE ? /*#__PURE__*/_react["default"].createElement(_ListItemText.RcListItemText, {
+    }, item.phoneNumber === _CallingSettingsV.BLOCKED_ID_VALUE ? /*#__PURE__*/_react["default"].createElement(_juno.RcListItemText, {
       primary: blockedLabel
-    }) : /*#__PURE__*/_react["default"].createElement(_ListItemText.RcListItemText, {
+    }) : /*#__PURE__*/_react["default"].createElement(_juno.RcListItemText, {
       primary: formatPhone(item.phoneNumber),
       secondary: _i18n["default"].getString(item.usageType, currentLocale)
     }));
@@ -300,7 +290,7 @@ var CommunicationSetupWrapper = function CommunicationSetupWrapper(props) {
       });
     }));
   }, [recipients, clearRecipient]);
-  return /*#__PURE__*/_react["default"].createElement(_styles.RootWrapper, null, /*#__PURE__*/_react["default"].createElement(_styles.CallFields, null, /*#__PURE__*/_react["default"].createElement(_styles.FieldLine, null, /*#__PURE__*/_react["default"].createElement(_Text.RcText, {
+  return /*#__PURE__*/_react["default"].createElement(_styles.RootWrapper, null, /*#__PURE__*/_react["default"].createElement(_styles.CallFields, null, /*#__PURE__*/_react["default"].createElement(_styles.FieldLine, null, /*#__PURE__*/_react["default"].createElement(_juno.RcText, {
     color: "neutral.b05"
   }, label), /*#__PURE__*/_react["default"].createElement(_styles.StyledToInputWrapper, null, RecipientComponent, !hiddenInput && /*#__PURE__*/_react["default"].createElement(_styles.StyledRcDialTextField, {
     inputRef: inputRef,
@@ -346,13 +336,13 @@ var CommunicationSetupWrapper = function CommunicationSetupWrapper(props) {
       };
     }(),
     InputProps: _objectSpread(_objectSpread({}, InputProps), {}, {
-      endAdornment: openSearchPage && /*#__PURE__*/_react["default"].createElement(_DialDelete.RcDialDelete, {
+      endAdornment: openSearchPage && /*#__PURE__*/_react["default"].createElement(_juno.RcDialDelete, {
         onDelete: function onDelete(e) {
           e.preventDefault();
           closeSearchPage();
         }
-      }, /*#__PURE__*/_react["default"].createElement(_IconButton.RcIconButton, {
-        symbol: _DeleteCircle["default"],
+      }, /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {
+        symbol: _icon.DeleteCircle,
         "data-sign": "deleteButton",
         title: "Delete",
         variant: "plain",

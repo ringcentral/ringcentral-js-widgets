@@ -35,15 +35,9 @@ require("core-js/modules/es6.array.map");
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _List = require("@ringcentral/juno/es6/components/List/List/List.js");
+var _juno = require("@ringcentral/juno");
 
-var _ListItem = require("@ringcentral/juno/es6/components/List/ListItem/ListItem.js");
-
-var _ListItemText = require("@ringcentral/juno/es6/components/List/ListItemText/ListItemText.js");
-
-var _TextField = require("@ringcentral/juno/es6/components/Forms/TextField/TextField.js");
-
-var _ArrowDown = _interopRequireDefault(require("@ringcentral/juno/es6/icon/ArrowDown2.js"));
+var _icon = require("@ringcentral/juno/icon");
 
 var _bindDebounce = require("../../lib/bindDebounce");
 
@@ -104,8 +98,8 @@ var InputSelect = /*#__PURE__*/function (_Component) {
 
       return /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].select
-      }, /*#__PURE__*/_react["default"].createElement(_List.RcList, null, subjectPicklist.map(function (option, i) {
-        return /*#__PURE__*/_react["default"].createElement(_ListItem.RcListItem, {
+      }, /*#__PURE__*/_react["default"].createElement(_juno.RcList, null, subjectPicklist.map(function (option, i) {
+        return /*#__PURE__*/_react["default"].createElement(_juno.RcListItem, {
           key: i,
           button: true,
           singleLine: true,
@@ -113,7 +107,7 @@ var InputSelect = /*#__PURE__*/function (_Component) {
             return _this.onSelectChange(option);
           },
           "data-sign": "match".concat(i)
-        }, /*#__PURE__*/_react["default"].createElement(_ListItemText.RcListItemText, {
+        }, /*#__PURE__*/_react["default"].createElement(_juno.RcListItemText, {
           primary: option,
           classes: {
             primary: _styles["default"].listText
@@ -203,7 +197,7 @@ var InputSelect = /*#__PURE__*/function (_Component) {
         ref: function ref(_ref) {
           _this2.wrapper = _ref;
         }
-      }, /*#__PURE__*/_react["default"].createElement(_TextField.RcTextField, {
+      }, /*#__PURE__*/_react["default"].createElement(_juno.RcTextField, {
         label: label || 'Subject',
         "data-sign": "subject",
         gutterBottom: true,
@@ -218,7 +212,7 @@ var InputSelect = /*#__PURE__*/function (_Component) {
         },
         InputProps: {
           endAdornment: subjectPicklist.length > 0 && /*#__PURE__*/_react["default"].createElement(_CustomArrowButton.CustomArrowButton, {
-            symbol: _ArrowDown["default"],
+            symbol: _icon.ArrowDown2,
             onClick: this.toggleDropDownList,
             size: "large"
           })

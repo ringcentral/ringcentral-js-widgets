@@ -65,9 +65,7 @@ require("core-js/modules/es6.function.name");
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _DatePicker = require("@ringcentral/juno/es6/components/Forms/Picker/DatePicker/DatePicker.js");
-
-var _Typography = require("@ringcentral/juno/es6/components/Typography/Typography.js");
+var _juno = require("@ringcentral/juno");
 
 var _timeFormatHelper = require("../../../lib/timeFormatHelper");
 
@@ -357,7 +355,7 @@ var FieldItem = /*#__PURE__*/function (_Component) {
           onSave = _this$props4.onSave;
       var fieldSize = _this.props.fieldSize;
       var date = _this.currentValue ? (0, _timeFormatHelper.getDateFromUTCDay)(_this.currentValue) : null;
-      return /*#__PURE__*/_react["default"].createElement(_DatePicker.RcDatePicker, {
+      return /*#__PURE__*/_react["default"].createElement(_juno.RcDatePicker, {
         fullWidth: true,
         size: fieldSize,
         "data-sign": fieldValue,
@@ -529,7 +527,7 @@ var FieldItem = /*#__PURE__*/function (_Component) {
         disabled: !!(!task.tickets || ((_task$tickets = task.tickets) === null || _task$tickets === void 0 ? void 0 : _task$tickets.length) === 0 || ((_task$matches = task.matches) === null || _task$matches === void 0 ? void 0 : _task$matches.length) > 1 && !task.whoid || disableAllFields)
       }];
       var defaultOption = task.option || picklistOptions[0].value;
-      return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_Typography.RcTypography, {
+      return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_juno.RcTypography, {
         color: "inherit",
         variant: "caption2",
         component: "div",

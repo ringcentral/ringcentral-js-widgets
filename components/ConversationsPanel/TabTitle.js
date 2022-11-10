@@ -15,9 +15,7 @@ require("core-js/modules/es6.array.slice");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _newPalette = require("@ringcentral/juno/es6/foundation/styles/newPalette.js");
-
-var _styledComponents = _interopRequireDefault(require("@ringcentral/juno/es6/foundation/styled-components.js"));
+var _juno = require("@ringcentral/juno");
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
@@ -37,9 +35,9 @@ function _templateObject() {
 
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
-var StyledTitle = _styledComponents["default"].div(_templateObject(), function (_ref) {
+var StyledTitle = _juno.styled.div(_templateObject(), function (_ref) {
   var $active = _ref.$active;
-  return $active && (0, _newPalette.palette2)('tab', 'selected');
+  return $active && (0, _juno.palette2)('tab', 'selected');
 });
 
 var TabTitle = function TabTitle(_ref2) {

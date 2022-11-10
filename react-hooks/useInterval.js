@@ -9,7 +9,7 @@ exports.useInterval = void 0;
 
 var _react = require("react");
 
-var _useEventCallback = require("@ringcentral/juno/es6/foundation/hooks/useEventCallback/useEventCallback.js");
+var _juno = require("@ringcentral/juno");
 
 /**
  * controllable interval, provide easy way to control interval
@@ -41,10 +41,10 @@ var useInterval = function useInterval(callback) {
   var startImmediately = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : true;
   var intervalRef = (0, _react.useRef)();
   var countRef = (0, _react.useRef)(0);
-  var getRunning = (0, _useEventCallback.useEventCallback)(function () {
+  var getRunning = (0, _juno.useEventCallback)(function () {
     return !!intervalRef.current;
   });
-  var savedCallback = (0, _useEventCallback.useEventCallback)(function (times) {
+  var savedCallback = (0, _juno.useEventCallback)(function (times) {
     callback(times);
   });
   var pause = (0, _react.useCallback)(function () {

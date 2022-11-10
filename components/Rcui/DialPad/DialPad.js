@@ -25,7 +25,7 @@ var _react = _interopRequireDefault(require("react"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _DialPad = require("@ringcentral/juno/es6/components/Dialer/DialPad/DialPad.js");
+var _juno = require("@ringcentral/juno");
 
 var _RcDialerPadSounds = _interopRequireDefault(require("@ringcentral/juno/RcDialerPadSounds.json"));
 
@@ -50,7 +50,7 @@ var DialPad = function DialPad(_ref) {
     return onChange && onChange(e);
   };
 
-  return /*#__PURE__*/_react["default"].createElement(_DialPad.RcDialPad, _extends({
+  return /*#__PURE__*/_react["default"].createElement(_juno.RcDialPad, _extends({
     "data-sign": "".concat(dataSign || '', "DialPad"),
     className: (0, _classnames["default"])(_styles["default"].root, className),
     onChange: handleChange,

@@ -31,13 +31,7 @@ require("core-js/modules/es6.array.slice");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _Button = require("@ringcentral/juno/es6/components/Buttons/Button/Button.js");
-
-var _Checkbox = require("@ringcentral/juno/es6/components/Forms/Checkbox/Checkbox.js");
-
-var _spacing = require("@ringcentral/juno/es6/foundation/styles/spacing.js");
-
-var _styledComponents = _interopRequireDefault(require("@ringcentral/juno/es6/foundation/styled-components.js"));
+var _juno = require("@ringcentral/juno");
 
 var _MeetingScheduleButtonWrapper = require("../MeetingScheduleButton/MeetingScheduleButtonWrapper");
 
@@ -67,9 +61,9 @@ function getI18nButtonString() {
   return _i18n["default"].getString('schedule');
 }
 
-var RcVideoScheduleButtonWrapper = (0, _styledComponents["default"])(_MeetingScheduleButtonWrapper.MeetingScheduleButtonWrapper)(_templateObject(), function (_ref) {
+var RcVideoScheduleButtonWrapper = (0, _juno.styled)(_MeetingScheduleButtonWrapper.MeetingScheduleButtonWrapper)(_templateObject(), function (_ref) {
   var $noCheckbox = _ref.$noCheckbox;
-  return $noCheckbox ? (0, _spacing.spacing)(4) : '5px';
+  return $noCheckbox ? (0, _juno.spacing)(4) : '5px';
 });
 
 var RcVideoScheduleButton = function RcVideoScheduleButton(props) {
@@ -85,7 +79,7 @@ var RcVideoScheduleButton = function RcVideoScheduleButton(props) {
   return /*#__PURE__*/_react["default"].createElement(RcVideoScheduleButtonWrapper, {
     $hidden: hidden,
     $noCheckbox: !showSaveAsDefault
-  }, showSaveAsDefault ? /*#__PURE__*/_react["default"].createElement(_Checkbox.RcCheckbox, {
+  }, showSaveAsDefault ? /*#__PURE__*/_react["default"].createElement(_juno.RcCheckbox, {
     label: _i18n["default"].getString('saveAsDefault', currentLocale),
     "data-sign": "saveAsDefault",
     checked: meeting.saveAsDefault,
@@ -95,7 +89,7 @@ var RcVideoScheduleButton = function RcVideoScheduleButton(props) {
         saveAsDefault: !meeting.saveAsDefault
       }));
     }
-  }) : null, /*#__PURE__*/_react["default"].createElement(_Button.RcButton, {
+  }) : null, /*#__PURE__*/_react["default"].createElement(_juno.RcButton, {
     onClick: onClick,
     disabled: disabled,
     "data-sign": "videoScheduleButton",

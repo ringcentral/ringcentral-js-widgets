@@ -41,7 +41,7 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _TextField = require("@ringcentral/juno/es6/components/Forms/TextField/TextField.js");
+var _juno = require("@ringcentral/juno");
 
 var _bindDebounce = require("../../../../lib/bindDebounce");
 
@@ -136,7 +136,7 @@ var LogFieldsInput = /*#__PURE__*/function (_Component) {
       var styleRequired = required ? _styles["default"].isRequired : null;
       return /*#__PURE__*/_react["default"].createElement("div", {
         className: (0, _classnames["default"])(styleRequired, _styles["default"].commonStyle)
-      }, /*#__PURE__*/_react["default"].createElement(_TextField.RcTextField, _extends({}, rest, {
+      }, /*#__PURE__*/_react["default"].createElement(_juno.RcTextField, _extends({}, rest, {
         inputRef: this.inputRef,
         type: type,
         required: required,

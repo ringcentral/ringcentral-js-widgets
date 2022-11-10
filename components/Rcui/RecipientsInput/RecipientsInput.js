@@ -45,17 +45,9 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _combineProps = require("@ringcentral/juno/es6/foundation/utils/combineProps.js");
+var _juno = require("@ringcentral/juno");
 
-var _IconButton = require("@ringcentral/juno/es6/components/Buttons/IconButton/IconButton.js");
-
-var _TextField = require("@ringcentral/juno/es6/components/Forms/TextField/TextField.js");
-
-var _useEventCallback = require("@ringcentral/juno/es6/foundation/hooks/useEventCallback/useEventCallback.js");
-
-var _useForkRef = require("@ringcentral/juno/es6/foundation/hooks/useForkRef/useForkRef.js");
-
-var _Deletenumber = _interopRequireDefault(require("@ringcentral/juno/es6/icon/Deletenumber.js"));
+var _icon = require("@ringcentral/juno/icon");
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
@@ -100,7 +92,7 @@ var RecipientsInput = /*#__PURE__*/(0, _react.forwardRef)(function (_ref, ref) {
       rest = _objectWithoutProperties(_ref, ["placeholder", "value", "currentLocale", "onChange", "onDelete", "onClear", "className", "deleteIconProps"]);
 
   var innerRef = (0, _react.useRef)();
-  var inputRef = (0, _useForkRef.useForkRef)(ref, innerRef);
+  var inputRef = (0, _juno.useForkRef)(ref, innerRef);
 
   var _useState = (0, _react.useState)(null),
       _useState2 = _slicedToArray(_useState, 2),
@@ -113,14 +105,14 @@ var RecipientsInput = /*#__PURE__*/(0, _react.forwardRef)(function (_ref, ref) {
       setTimer = _useState4[1];
 
   var haveDeleteButton = !!value;
-  var handleMouseDown = (0, _useEventCallback.useEventCallback)(function () {
+  var handleMouseDown = (0, _juno.useEventCallback)(function () {
     setMouseDownTime(+new Date());
     setTimer(setTimeout(function () {
       onClear();
       setTimer(null);
     }, throttledTime));
   });
-  var handleMouseUp = (0, _useEventCallback.useEventCallback)(function () {
+  var handleMouseUp = (0, _juno.useEventCallback)(function () {
     var curTime = +new Date();
 
     if (mouseDownTime && curTime - mouseDownTime >= throttledTime) {
@@ -135,7 +127,7 @@ var RecipientsInput = /*#__PURE__*/(0, _react.forwardRef)(function (_ref, ref) {
   }, [value]);
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(className, _styles["default"].inputRoot)
-  }, /*#__PURE__*/_react["default"].createElement(_TextField.RcTextField, _extends({
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcTextField, _extends({
     placeholder: placeholder || _i18n["default"].getString('dialPlaceholder', currentLocale),
     value: value,
     inputProps: {
@@ -167,12 +159,12 @@ var RecipientsInput = /*#__PURE__*/(0, _react.forwardRef)(function (_ref, ref) {
         root: _styles["default"].root,
         input: _styles["default"].input
       },
-      endAdornment: haveDeleteButton && /*#__PURE__*/_react["default"].createElement(_IconButton.RcIconButton, _extends({
+      endAdornment: haveDeleteButton && /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, _extends({
         color: "neutral.f03",
-        symbol: _Deletenumber["default"],
+        symbol: _icon.Deletenumber,
         "data-sign": "deleteButton",
         title: "delete"
-      }, (0, _combineProps.combineProps)({
+      }, (0, _juno.combineProps)({
         onMouseUp: handleMouseUp,
         onMouseDown: handleMouseDown
       }, deleteIconProps), {

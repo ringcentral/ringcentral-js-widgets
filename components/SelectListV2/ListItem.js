@@ -29,7 +29,7 @@ var _react = _interopRequireDefault(require("react"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _ListItem = require("@ringcentral/juno/es6/components/List/ListItem/ListItem.js");
+var _juno = require("@ringcentral/juno");
 
 var _useScrollIntoView = require("../../react-hooks/useScrollIntoView");
 
@@ -64,7 +64,7 @@ var ListItem = function ListItem(_ref) {
       rest = _objectWithoutProperties(_ref, ["selected", "onClick", "children", "className"]);
 
   var itemRef = (0, _useScrollIntoView.useScrollIntoView)(selected);
-  return /*#__PURE__*/_react["default"].createElement(_ListItem.RcListItem, _extends({
+  return /*#__PURE__*/_react["default"].createElement(_juno.RcListItem, _extends({
     innerRef: itemRef,
     button: true,
     selected: selected,

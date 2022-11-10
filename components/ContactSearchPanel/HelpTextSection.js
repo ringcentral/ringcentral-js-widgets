@@ -27,15 +27,9 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _formatMessage = _interopRequireDefault(require("format-message"));
 
-var _ListItem = require("@ringcentral/juno/es6/components/List/ListItem/ListItem.js");
+var _juno = require("@ringcentral/juno");
 
-var _ListItemSecondaryAction = require("@ringcentral/juno/es6/components/List/ListItemSecondaryAction/ListItemSecondaryAction.js");
-
-var _Icon = require("@ringcentral/juno/es6/components/Icon/Icon.js");
-
-var _Text = require("@ringcentral/juno/es6/components/Text/Text.js");
-
-var _Search = _interopRequireDefault(require("@ringcentral/juno/es6/icon/Search.js"));
+var _icon = require("@ringcentral/juno/icon");
 
 var _ContactSearchPanelEnum = require("./ContactSearchPanelEnum");
 
@@ -104,7 +98,7 @@ var HelpTextSection = /*#__PURE__*/(0, _react.memo)(function (_ref) {
   var isThirdPartyTab = activeTab === _ContactSearchPanelEnum.TabsEnum.thirdParty;
 
   if (inputLength >= searchMinimumLength && isThirdPartyTab) {
-    thirdPartySearchBar = /*#__PURE__*/_react["default"].createElement(_ListItem.RcListItem, {
+    thirdPartySearchBar = /*#__PURE__*/_react["default"].createElement(_juno.RcListItem, {
       onClick: onClick,
       "data-sign": "HelpSectionSearchBar"
     }, /*#__PURE__*/_react["default"].createElement(_styles.StyledListItemText, {
@@ -112,9 +106,9 @@ var HelpTextSection = /*#__PURE__*/(0, _react.memo)(function (_ref) {
       secondary: (0, _formatMessage["default"])(_i18n["default"].getString(_ContactSearchPanelEnum.HintsType.searchBarContent, currentLocale), {
         sourceName: sourceName
       })
-    }), /*#__PURE__*/_react["default"].createElement(_ListItemSecondaryAction.RcListItemSecondaryAction, null, /*#__PURE__*/_react["default"].createElement(_Icon.RcIcon, {
+    }), /*#__PURE__*/_react["default"].createElement(_juno.RcListItemSecondaryAction, null, /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
       color: "action.primary",
-      symbol: _Search["default"]
+      symbol: _icon.Search
     })));
   }
 
@@ -147,7 +141,7 @@ var HelpTextSection = /*#__PURE__*/(0, _react.memo)(function (_ref) {
     hintsSection = /*#__PURE__*/_react["default"].createElement(_styles.HintsWrapper, null, !!hintTitleKey && /*#__PURE__*/_react["default"].createElement(_styles.StyledHintsTitle, {
       "data-sign": "HelpSectionHintTitle",
       variant: "caption2"
-    }, _i18n["default"].getString(hintTitleKey, currentLocale)), !!hintContentKey && /*#__PURE__*/_react["default"].createElement(_Text.RcText, {
+    }, _i18n["default"].getString(hintTitleKey, currentLocale)), !!hintContentKey && /*#__PURE__*/_react["default"].createElement(_juno.RcText, {
       "data-sign": "HelpSectionHintContent",
       variant: "caption1",
       color: "neutral.b04",

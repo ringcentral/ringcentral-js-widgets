@@ -11,13 +11,9 @@ var _react = _interopRequireDefault(require("react"));
 
 var _callDirections = require("@ringcentral-integration/commons/enums/callDirections");
 
-var _Icon = require("@ringcentral/juno/es6/components/Icon/Icon.js");
+var _juno = require("@ringcentral/juno");
 
-var _IncallBorder = _interopRequireDefault(require("@ringcentral/juno/es6/icon/IncallBorder.js"));
-
-var _MissedcallBorder = _interopRequireDefault(require("@ringcentral/juno/es6/icon/MissedcallBorder.js"));
-
-var _OutcallBorder = _interopRequireDefault(require("@ringcentral/juno/es6/icon/OutcallBorder.js"));
+var _icon = require("@ringcentral/juno/icon");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -29,15 +25,15 @@ var CallIcon = function CallIcon(_ref) {
 
   var icon = function () {
     if (missed) {
-      return _MissedcallBorder["default"];
+      return _icon.MissedcallBorder;
     }
 
     switch (direction) {
       case _callDirections.callDirection.inbound:
-        return _IncallBorder["default"];
+        return _icon.IncallBorder;
 
       case _callDirections.callDirection.outbound:
-        return _OutcallBorder["default"];
+        return _icon.OutcallBorder;
 
       default:
         return null;
@@ -56,7 +52,7 @@ var CallIcon = function CallIcon(_ref) {
     return 'neutral.f04';
   }();
 
-  return /*#__PURE__*/_react["default"].createElement(_Icon.RcIcon, {
+  return /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
     "data-sign": "callIcon",
     title: title || direction,
     symbol: icon,

@@ -21,15 +21,7 @@ var _classnames = _interopRequireDefault(require("classnames"));
 
 var _callDirections = require("@ringcentral-integration/commons/enums/callDirections");
 
-var _newPalette = require("@ringcentral/juno/es6/foundation/styles/newPalette.js");
-
-var _Text = require("@ringcentral/juno/es6/components/Text/Text.js");
-
-var _Typography = require("@ringcentral/juno/es6/components/Typography/Typography.js");
-
-var _spacing = require("@ringcentral/juno/es6/foundation/styles/spacing.js");
-
-var _styledComponents = _interopRequireDefault(require("@ringcentral/juno/es6/foundation/styled-components.js"));
+var _juno = require("@ringcentral/juno");
 
 var _CallHistoryActions = require("../CallHistoryActions");
 
@@ -51,10 +43,10 @@ function _templateObject() {
 
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
-var Item = _styledComponents["default"].div(_templateObject(), function (_ref) {
+var Item = _juno.styled.div(_templateObject(), function (_ref) {
   var isWide = _ref.isWide;
-  return isWide ? (0, _spacing.spacing)(3, 4) : (0, _spacing.spacing)(3);
-}, (0, _newPalette.palette2)('neutral', 'l02'));
+  return isWide ? (0, _juno.spacing)(3, 4) : (0, _juno.spacing)(3);
+}, (0, _juno.palette2)('neutral', 'l02'));
 
 var CallHistoryItem = function CallHistoryItem(_ref2) {
   var call = _ref2.call,
@@ -69,14 +61,14 @@ var CallHistoryItem = function CallHistoryItem(_ref2) {
     className: (0, _classnames["default"])([_styles["default"].left, !isWide && _styles["default"].classic])
   }, /*#__PURE__*/_react["default"].createElement(_CallIcon.CallIcon, call), /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])([_styles["default"].info, !isWide && _styles["default"].classic])
-  }, /*#__PURE__*/_react["default"].createElement(_Text.RcText, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcText, {
     variant: "body1",
     noWrap: true,
     color: "neutral.f06",
     "data-sign": "matchedName",
     className: _styles["default"].name,
     title: displayName
-  }, displayName), /*#__PURE__*/_react["default"].createElement(_Typography.RcTypography, {
+  }, displayName), /*#__PURE__*/_react["default"].createElement(_juno.RcTypography, {
     variant: "caption1",
     color: "neutral.f04",
     "data-sign": "callTime"

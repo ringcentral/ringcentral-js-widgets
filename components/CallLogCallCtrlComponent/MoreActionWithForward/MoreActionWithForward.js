@@ -41,13 +41,9 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _classnames2 = _interopRequireDefault(require("classnames"));
 
-var _MenuItem = require("@ringcentral/juno/es6/components/Menu/MenuItem/MenuItem.js");
+var _juno = require("@ringcentral/juno");
 
-var _MenuList = require("@ringcentral/juno/es6/components/Menu/MenuList/MenuList.js");
-
-var _Popover = require("@ringcentral/juno/es6/components/Popover/Popover.js");
-
-var _Ignore = _interopRequireDefault(require("@ringcentral/juno/es6/icon/Ignore.js"));
+var _icon = require("@ringcentral/juno/icon");
 
 var _DynamicsFont = _interopRequireDefault(require("../../../assets/DynamicsFont/DynamicsFont.scss"));
 
@@ -144,7 +140,7 @@ var MoreActionWithForward = function MoreActionWithForward(props) {
     icon: _MoreIcon["default"],
     onClick: handleClick,
     className: (0, _classnames2["default"])(_styles["default"].button, _defineProperty({}, _styles["default"].buttonDisabled, disabled))
-  })), /*#__PURE__*/_react["default"].createElement(_Popover.RcPopover, {
+  })), /*#__PURE__*/_react["default"].createElement(_juno.RcPopover, {
     open: !!anchorEl,
     onClose: handleClose,
     anchorEl: anchorEl,
@@ -156,9 +152,9 @@ var MoreActionWithForward = function MoreActionWithForward(props) {
       vertical: 'bottom',
       horizontal: 'right'
     }
-  }, /*#__PURE__*/_react["default"].createElement(_MenuList.RcMenuList, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcMenuList, {
     "data-sign": "moreList"
-  }, /*#__PURE__*/_react["default"].createElement(_MenuItem.RcMenuItem, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
     onClick: handleForwardListClick,
     className: _styles["default"].menuItem,
     "data-sign": "forward"
@@ -171,15 +167,15 @@ var MoreActionWithForward = function MoreActionWithForward(props) {
   }, /*#__PURE__*/_react["default"].createElement("i", {
     "data-sign": "backButton",
     className: _DynamicsFont["default"].arrow
-  }))), /*#__PURE__*/_react["default"].createElement(_MenuItem.RcMenuItem, {
+  }))), /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
     className: _styles["default"].menuItem,
     onClick: ignore,
     "data-sign": "ignore"
   }, /*#__PURE__*/_react["default"].createElement("span", {
     className: (0, _classnames2["default"])(_styles["default"].itemIconLeft, _styles["default"].ignoreIcon)
-  }, /*#__PURE__*/_react["default"].createElement(_Ignore["default"], null)), /*#__PURE__*/_react["default"].createElement("span", {
+  }, /*#__PURE__*/_react["default"].createElement(_icon.Ignore, null)), /*#__PURE__*/_react["default"].createElement("span", {
     className: _styles["default"].itemText
-  }, "Ignore")))), /*#__PURE__*/_react["default"].createElement(_Popover.RcPopover, {
+  }, "Ignore")))), /*#__PURE__*/_react["default"].createElement(_juno.RcPopover, {
     open: !!forwardListEl,
     onClose: handleForwardListClose,
     anchorEl: forwardListEl,
@@ -191,7 +187,7 @@ var MoreActionWithForward = function MoreActionWithForward(props) {
       vertical: 'bottom',
       horizontal: 'right'
     }
-  }, /*#__PURE__*/_react["default"].createElement(_MenuList.RcMenuList, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcMenuList, {
     classes: {
       root: _styles["default"].forwardMenuList
     }
@@ -199,7 +195,7 @@ var MoreActionWithForward = function MoreActionWithForward(props) {
     phoneNumber: 'custom',
     label: _i18n["default"].getString('custom', currentLocale)
   }]).map(function (item) {
-    return /*#__PURE__*/_react["default"].createElement(_MenuItem.RcMenuItem, {
+    return /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
       onClick: onForward,
       key: item.phoneNumber,
       "data-value": item.phoneNumber,

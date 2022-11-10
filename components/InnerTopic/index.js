@@ -37,7 +37,7 @@ require("core-js/modules/es6.function.name");
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _TextField = require("@ringcentral/juno/es6/components/Forms/TextField/TextField.js");
+var _juno = require("@ringcentral/juno");
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
@@ -90,7 +90,7 @@ var InnerTopic = /*#__PURE__*/(0, _react.forwardRef)(function (_ref, ref) {
       value: topic
     };
   }, [topic]);
-  return /*#__PURE__*/_react["default"].createElement(_TextField.RcTextField, {
+  return /*#__PURE__*/_react["default"].createElement(_juno.RcTextField, {
     ref: inputRef,
     label: _i18n["default"].getString('topic', currentLocale),
     "data-sign": "topic",

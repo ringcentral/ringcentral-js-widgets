@@ -15,19 +15,7 @@ require("core-js/modules/es6.array.slice");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _styledComponents = _interopRequireDefault(require("@ringcentral/juno/es6/foundation/styled-components.js"));
-
-var _newPalette = require("@ringcentral/juno/es6/foundation/styles/newPalette.js");
-
-var _DialPad = require("@ringcentral/juno/es6/components/Dialer/DialPad/DialPad.js");
-
-var _IconButton = require("@ringcentral/juno/es6/components/Buttons/IconButton/IconButton.js");
-
-var _spacing = require("@ringcentral/juno/es6/foundation/styles/spacing.js");
-
-var _flexCenter = require("@ringcentral/juno/es6/foundation/styles/flexCenter.js");
-
-var _RcDialerPadSounds = _interopRequireDefault(require("@ringcentral/juno/es6/components/Dialer/DialPad/assets/RcDialerPadSounds.json"));
+var _juno = require("@ringcentral/juno");
 
 var _Phone = _interopRequireDefault(require("@ringcentral/juno/icon/Phone"));
 
@@ -71,12 +59,12 @@ function _templateObject() {
 
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
-var DialerPanelContainer = _styledComponents["default"].div(_templateObject(), _commonStyles.fullSizeStyle, (0, _newPalette.palette2)('neutral', 'f01'));
+var DialerPanelContainer = _juno.styled.div(_templateObject(), _commonStyles.fullSizeStyle, (0, _juno.palette2)('neutral', 'f01'));
 
-var BodyBottom = _styledComponents["default"].div(_templateObject2(), _flexCenter.flexCenterStyle, (0, _spacing.spacing)(7)); // TODO: check withTabs
+var BodyBottom = _juno.styled.div(_templateObject2(), _juno.flexCenterStyle, (0, _juno.spacing)(7)); // TODO: check withTabs
 
 
-var DialerWrapper = _styledComponents["default"].div(_templateObject3(), (0, _spacing.spacing)(2, 11));
+var DialerWrapper = _juno.styled.div(_templateObject3(), (0, _juno.spacing)(2, 11));
 
 var DialerPanel = function DialerPanel(props) {
   var currentLocale = props.currentLocale,
@@ -125,11 +113,11 @@ var DialerPanel = function DialerPanel(props) {
     currentLocale: currentLocale
   }, /*#__PURE__*/_react["default"].createElement(DialerWrapper, {
     withTabs: withTabs
-  }, /*#__PURE__*/_react["default"].createElement(_DialPad.RcDialPad, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcDialPad, {
     onChange: function onChange(value) {
       onToNumberChange(toNumber + value, true);
     },
-    sounds: _RcDialerPadSounds["default"],
+    sounds: _juno.RcDialerPadSounds,
     getDialPadButtonProps: function getDialPadButtonProps(v) {
       return {
         'data-test-id': "".concat(v)
@@ -137,7 +125,7 @@ var DialerPanel = function DialerPanel(props) {
     },
     volume: dialButtonVolume,
     muted: dialButtonMuted
-  })), /*#__PURE__*/_react["default"].createElement(BodyBottom, null, /*#__PURE__*/_react["default"].createElement(_IconButton.RcIconButton, {
+  })), /*#__PURE__*/_react["default"].createElement(BodyBottom, null, /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {
     "data-sign": "callButton",
     color: "success.b03",
     symbol: _Phone["default"],

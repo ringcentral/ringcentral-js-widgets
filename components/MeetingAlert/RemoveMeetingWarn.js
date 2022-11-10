@@ -9,9 +9,7 @@ exports.RemoveMeetingWarn = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _Alert = require("@ringcentral/juno/es6/components/Alert/Alert.js");
-
-var _Link = require("@ringcentral/juno/es6/components/Link/Link.js");
+var _juno = require("@ringcentral/juno");
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
@@ -25,7 +23,7 @@ var RemoveMeetingWarn = function RemoveMeetingWarn(_ref) {
   var currentLocale = _ref.currentLocale,
       brandConfig = _ref.brandConfig;
 
-  var app = /*#__PURE__*/_react["default"].createElement(_Link.RcLink, {
+  var app = /*#__PURE__*/_react["default"].createElement(_juno.RcLink, {
     variant: "inherit",
     "data-sign": "removeMeetingWarningLink",
     className: _styles["default"].underline,
@@ -37,7 +35,7 @@ var RemoveMeetingWarn = function RemoveMeetingWarn(_ref) {
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].expandWrapper,
     "data-sign": "removeMeetingWarning"
-  }, /*#__PURE__*/_react["default"].createElement(_Alert.RcAlert, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcAlert, {
     severity: "warning",
     className: _styles["default"].expandAlert
   }, /*#__PURE__*/_react["default"].createElement(_FormattedMessage["default"], {

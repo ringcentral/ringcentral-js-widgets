@@ -13,9 +13,7 @@ var _classnames2 = _interopRequireDefault(require("classnames"));
 
 var _callDirections = _interopRequireDefault(require("@ringcentral-integration/commons/enums/callDirections"));
 
-var _IncallBorder = _interopRequireDefault(require("@ringcentral/juno/es6/icon/IncallBorder.js"));
-
-var _OutcallBorder = _interopRequireDefault(require("@ringcentral/juno/es6/icon/OutcallBorder.js"));
+var _icon = require("@ringcentral/juno/icon");
 
 var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
 
@@ -30,7 +28,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "d
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 var callIconMap = (_callIconMap = {}, _defineProperty(_callIconMap, _callDirections["default"].inbound, _DynamicsFont["default"].inbound), _defineProperty(_callIconMap, _callDirections["default"].outbound, _DynamicsFont["default"].outbound), _callIconMap);
-var newCallIconMap = (_newCallIconMap = {}, _defineProperty(_newCallIconMap, _callDirections["default"].inbound, _IncallBorder["default"]), _defineProperty(_newCallIconMap, _callDirections["default"].outbound, _OutcallBorder["default"]), _newCallIconMap);
+var newCallIconMap = (_newCallIconMap = {}, _defineProperty(_newCallIconMap, _callDirections["default"].inbound, _icon.IncallBorder), _defineProperty(_newCallIconMap, _callDirections["default"].outbound, _icon.OutcallBorder), _newCallIconMap);
 
 var CallIcon = function CallIcon(_ref) {
   var direction = _ref.direction,

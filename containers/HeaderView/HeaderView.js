@@ -1,14 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
-require("core-js/modules/es7.symbol.async-iterator");
-
 require("core-js/modules/es6.object.define-property");
-
-require("core-js/modules/es6.string.iterator");
-
-require("core-js/modules/es6.weak-map");
 
 require("core-js/modules/es6.object.assign");
 
@@ -37,11 +29,7 @@ require("core-js/modules/es6.array.slice");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _styledComponents = _interopRequireWildcard(require("@ringcentral/juno/es6/foundation/styled-components.js"));
-
-var _flexCenter = require("@ringcentral/juno/es6/foundation/styles/flexCenter.js");
-
-var _newPalette = require("@ringcentral/juno/es6/foundation/styles/newPalette.js");
+var _juno = require("@ringcentral/juno");
 
 var _CallMonitorBar = _interopRequireDefault(require("../../components/CallMonitorBar"));
 
@@ -52,10 +40,6 @@ var _commonStyles = require("../../lib/commonStyles");
 var _phoneContext = require("../../lib/phoneContext");
 
 var _utils = require("./utils");
-
-function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
-
-function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -120,15 +104,15 @@ function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(
 var ALL_CALL_PATH = '/calls';
 var ACTIVE_CALL_PATH = '/calls/active'; // TODO: refactor with Juno
 
-var GlobalStyle = (0, _styledComponents.createGlobalStyle)(_templateObject());
+var GlobalStyle = (0, _juno.createGlobalStyle)(_templateObject());
 
-var Header = _styledComponents["default"].header(_templateObject2(), _commonStyles.noSelectStyle, _utils.headerViewHeight, _utils.headerViewHeight, (0, _newPalette.palette2)('neutral', 'b01'), (0, _newPalette.palette2)('neutral', 'l02'));
+var Header = _juno.styled.header(_templateObject2(), _commonStyles.noSelectStyle, _utils.headerViewHeight, _utils.headerViewHeight, (0, _juno.palette2)('neutral', 'b01'), (0, _juno.palette2)('neutral', 'l02'));
 
-var LogoWrapper = _styledComponents["default"].div(_templateObject3(), _commonStyles.fullSizeStyle, _flexCenter.flexCenterStyle);
+var LogoWrapper = _juno.styled.div(_templateObject3(), _commonStyles.fullSizeStyle, _juno.flexCenterStyle);
 
-var Wrapper = _styledComponents["default"].div(_templateObject4(), _commonStyles.fullSizeStyle);
+var Wrapper = _juno.styled.div(_templateObject4(), _commonStyles.fullSizeStyle);
 
-var Main = _styledComponents["default"].main(_templateObject5(), _utils.headerViewHeight);
+var Main = _juno.styled.main(_templateObject5(), _utils.headerViewHeight);
 
 var HeaderView = function HeaderView(_ref) {
   var Logo = _ref.logo,

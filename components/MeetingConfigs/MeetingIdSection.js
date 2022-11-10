@@ -13,7 +13,7 @@ var _react = _interopRequireDefault(require("react"));
 
 var _formatMessage = _interopRequireDefault(require("format-message"));
 
-var _Link = require("@ringcentral/juno/es6/components/Link/Link.js");
+var _juno = require("@ringcentral/juno");
 
 var _CheckBox = _interopRequireDefault(require("../CheckBox"));
 
@@ -62,7 +62,7 @@ var MeetingIdSection = function MeetingIdSection(_ref) {
     className: _styles["default"].pmiHintContainer
   }, _i18n["default"].getString('pmiSettingChangeAlert', currentLocale)) : null, meeting.usePersonalMeetingId && !isChangePmiConfirmed ? /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].pmiHintContainer
-  }, _i18n["default"].getString('pmiChangeConfirm', currentLocale), /*#__PURE__*/_react["default"].createElement(_Link.RcLink, {
+  }, _i18n["default"].getString('pmiChangeConfirm', currentLocale), /*#__PURE__*/_react["default"].createElement(_juno.RcLink, {
     onClick: function onClick() {
       return handlePmiConfirmed(true);
     }

@@ -9,15 +9,9 @@ exports.SettingGroup = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _Accordion = require("@ringcentral/juno/es6/components/Accordion/Accordion.js");
+var _juno = require("@ringcentral/juno");
 
-var _AccordionDetails = require("@ringcentral/juno/es6/components/Accordion/AccordionDetails/AccordionDetails.js");
-
-var _AccordionSummary = require("@ringcentral/juno/es6/components/Accordion/AccordionSummary/AccordionSummary.js");
-
-var _FormGroup = require("@ringcentral/juno/es6/components/Forms/FormGroup/FormGroup.js");
-
-var _ArrowDown = _interopRequireDefault(require("@ringcentral/juno/es6/icon/ArrowDown2.js"));
+var _icon = require("@ringcentral/juno/icon");
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
@@ -30,25 +24,25 @@ var SettingGroup = function SettingGroup(_ref) {
       _ref$defaultExpanded = _ref.defaultExpanded,
       defaultExpanded = _ref$defaultExpanded === void 0 ? true : _ref$defaultExpanded,
       children = _ref.children;
-  return /*#__PURE__*/_react["default"].createElement(_Accordion.RcAccordion, {
+  return /*#__PURE__*/_react["default"].createElement(_juno.RcAccordion, {
     classes: {
       root: _styles["default"].accordion
     },
     defaultExpanded: defaultExpanded,
     disabled: !expandable
-  }, summary ? /*#__PURE__*/_react["default"].createElement(_AccordionSummary.RcAccordionSummary, {
+  }, summary ? /*#__PURE__*/_react["default"].createElement(_juno.RcAccordionSummary, {
     classes: {
       root: _styles["default"].accordionSummary,
       disabled: expandable ? null : _styles["default"].accordionSummaryDisabled
     },
-    expandIcon: expandable ? _ArrowDown["default"] : undefined,
+    expandIcon: expandable ? _icon.ArrowDown2 : undefined,
     "data-sign": "".concat(dataSign, "Summary")
-  }, summary) : null, /*#__PURE__*/_react["default"].createElement(_AccordionDetails.RcAccordionDetails, {
+  }, summary) : null, /*#__PURE__*/_react["default"].createElement(_juno.RcAccordionDetails, {
     classes: {
       root: _styles["default"].accordionDetails
     },
     "data-sign": "".concat(dataSign, "Details")
-  }, /*#__PURE__*/_react["default"].createElement(_FormGroup.RcFormGroup, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcFormGroup, {
     classes: {
       root: _styles["default"].toggleGroup
     }

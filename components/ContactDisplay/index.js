@@ -55,29 +55,9 @@ var _classnames = _interopRequireDefault(require("classnames"));
 
 var _formatNumber = _interopRequireDefault(require("@ringcentral-integration/commons/lib/formatNumber"));
 
-var _ellipsis = require("@ringcentral/juno/es6/foundation/styles/ellipsis.js");
+var _juno = require("@ringcentral/juno");
 
-var _flexWidth = require("@ringcentral/juno/es6/foundation/styles/flexWidth.js");
-
-var _newPalette = require("@ringcentral/juno/es6/foundation/styles/newPalette.js");
-
-var _radius = require("@ringcentral/juno/es6/foundation/styles/radius.js");
-
-var _Button = require("@ringcentral/juno/es6/components/Buttons/Button/Button.js");
-
-var _Icon = require("@ringcentral/juno/es6/components/Icon/Icon.js");
-
-var _Menu = require("@ringcentral/juno/es6/components/Menu/Menu/Menu.js");
-
-var _MenuItem = require("@ringcentral/juno/es6/components/Menu/MenuItem/MenuItem.js");
-
-var _spacing = require("@ringcentral/juno/es6/foundation/styles/spacing.js");
-
-var _styledComponents = _interopRequireDefault(require("@ringcentral/juno/es6/foundation/styled-components.js"));
-
-var _ArrowDown = _interopRequireDefault(require("@ringcentral/juno/es6/icon/ArrowDown2.js"));
-
-var _ArrowUp = _interopRequireDefault(require("@ringcentral/juno/es6/icon/ArrowUp2.js"));
+var _icon = require("@ringcentral/juno/icon");
 
 var _ContactDisplayItem = require("./ContactDisplayItem");
 
@@ -161,9 +141,9 @@ function _templateObject() {
 
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
-var UnReadDot = _styledComponents["default"].div(_templateObject(), (0, _flexWidth.flexWidth)('8px'), (0, _newPalette.palette2)('interactive', 'f01'), (0, _radius.radius)('round'), (0, _spacing.spacing)(1.5));
+var UnReadDot = _juno.styled.div(_templateObject(), (0, _juno.flexWidth)('8px'), (0, _juno.palette2)('interactive', 'f01'), (0, _juno.radius)('round'), (0, _juno.spacing)(1.5));
 
-var MenuButton = (0, _styledComponents["default"])(_Button.RcButton)(_templateObject2());
+var MenuButton = (0, _juno.styled)(_juno.RcButton)(_templateObject2());
 
 var _Title = function _Title(_ref) {
   var children = _ref.children,
@@ -176,14 +156,14 @@ var _Title = function _Title(_ref) {
   }), children);
 };
 
-var Title = (0, _styledComponents["default"])(_Title)(_templateObject3(), function (_ref2) {
+var Title = (0, _juno.styled)(_Title)(_templateObject3(), function (_ref2) {
   var unread = _ref2.unread,
       missed = _ref2.missed;
   return (// eslint-disable-next-line no-nested-ternary
-    missed ? (0, _newPalette.palette2)('danger', 'f02') : unread ? (0, _newPalette.palette2)('interactive', 'f01') : (0, _newPalette.palette2)('neutral', 'f06')
+    missed ? (0, _juno.palette2)('danger', 'f02') : unread ? (0, _juno.palette2)('interactive', 'f01') : (0, _juno.palette2)('neutral', 'f06')
   );
-}, _ellipsis.ellipsis);
-var StyledMenu = (0, _styledComponents["default"])(_Menu.RcMenu)(_templateObject4(), _MenuItem.RcMenuItem);
+}, _juno.ellipsis);
+var StyledMenu = (0, _juno.styled)(_juno.RcMenu)(_templateObject4(), _juno.RcMenuItem);
 
 var ContactDisplay = function ContactDisplay(_ref3) {
   var reference = _ref3.reference,
@@ -365,8 +345,8 @@ var ContactDisplay = function ContactDisplay(_ref3) {
         onClick: handleClick,
         disabled: disabled || isLogging,
         title: _title2,
-        endIcon: /*#__PURE__*/_react["default"].createElement(_Icon.RcIcon, {
-          symbol: open ? _ArrowUp["default"] : _ArrowDown["default"],
+        endIcon: /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
+          symbol: open ? _icon.ArrowUp2 : _icon.ArrowDown2,
           size: "small",
           color: "neutral.f04"
         })
@@ -415,7 +395,7 @@ var ContactDisplay = function ContactDisplay(_ref3) {
           });
         }();
 
-        return /*#__PURE__*/_react["default"].createElement(_MenuItem.RcMenuItem, {
+        return /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
           title: title,
           value: itemValue,
           key: i,

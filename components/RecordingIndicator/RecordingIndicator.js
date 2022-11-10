@@ -39,7 +39,7 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _Icon = require("@ringcentral/juno/es6/components/Icon/Icon.js");
+var _juno = require("@ringcentral/juno");
 
 var _RecordOn = _interopRequireDefault(require("../../assets/images/RecordOn.svg"));
 
@@ -114,7 +114,7 @@ var RecordingIndicator = function RecordingIndicator(_ref2) {
       return setShow(true);
     }, 0);
   }, [count]);
-  return show ? /*#__PURE__*/_react["default"].createElement(_Icon.RcIcon, {
+  return show ? /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
     "data-sign": dataSign,
     size: "small",
     symbol: _RecordOn["default"],

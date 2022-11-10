@@ -33,13 +33,7 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _opacity = require("@ringcentral/juno/es6/foundation/styles/opacity.js");
-
-var _newPalette = require("@ringcentral/juno/es6/foundation/styles/newPalette.js");
-
-var _CircularProgress = require("@ringcentral/juno/es6/components/Progress/CircularProgress/CircularProgress.js");
-
-var _styledComponents = _interopRequireDefault(require("@ringcentral/juno/es6/foundation/styled-components.js"));
+var _juno = require("@ringcentral/juno");
 
 var _commonStyles = require("../../lib/commonStyles");
 
@@ -74,16 +68,16 @@ function _templateObject() {
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
 var JunoSpinnerWrapper = function JunoSpinnerWrapper() {
-  return /*#__PURE__*/_react["default"].createElement(_CircularProgress.RcCircularProgress, {
+  return /*#__PURE__*/_react["default"].createElement(_juno.RcCircularProgress, {
     size: 43
   });
 };
 
-var StyledContainer = _styledComponents["default"].div(_templateObject(), function (props) {
+var StyledContainer = _juno.styled.div(_templateObject(), function (props) {
   return props.top;
 });
 
-var Mask = _styledComponents["default"].div(_templateObject2(), (0, _newPalette.palette2)('neutral', 'b01'), (0, _opacity.opacity)('48'), _commonStyles.fullSizeStyle);
+var Mask = _juno.styled.div(_templateObject2(), (0, _juno.palette2)('neutral', 'b01'), (0, _juno.opacity)('48'), _commonStyles.fullSizeStyle);
 
 var SpinnerOverlay = /*#__PURE__*/(0, _react.memo)(function (_ref) {
   var className = _ref.className,

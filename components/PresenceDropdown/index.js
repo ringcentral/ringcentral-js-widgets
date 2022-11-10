@@ -41,19 +41,11 @@ require("core-js/modules/es6.array.slice");
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _Menu = require("@ringcentral/juno/es6/components/Menu/Menu/Menu.js");
-
-var _Presence = require("@ringcentral/juno/es6/components/Presence/Presence.js");
-
-var _spacing = require("@ringcentral/juno/es6/foundation/styles/spacing.js");
-
-var _styledComponents = _interopRequireDefault(require("@ringcentral/juno/es6/foundation/styled-components.js"));
+var _juno = require("@ringcentral/juno");
 
 var _getPresenceStatusName = require("../../lib/getPresenceStatusName");
 
 var _usePresenceItems2 = require("./usePresenceItems");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
@@ -83,7 +75,7 @@ function _templateObject() {
 
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
-var Wrapper = _styledComponents["default"].div(_templateObject(), (0, _spacing.spacing)(5));
+var Wrapper = _juno.styled.div(_templateObject(), (0, _juno.spacing)(5));
 
 var PresenceDropdown = function PresenceDropdown(_ref) {
   var userStatus = _ref.userStatus,
@@ -149,7 +141,7 @@ var PresenceDropdown = function PresenceDropdown(_ref) {
   }
 
   var title = (0, _getPresenceStatusName.getPresenceStatusName)(userStatus, dndStatus, currentLocale);
-  return /*#__PURE__*/_react["default"].createElement(Wrapper, null, /*#__PURE__*/_react["default"].createElement(_Presence.RcPresence, {
+  return /*#__PURE__*/_react["default"].createElement(Wrapper, null, /*#__PURE__*/_react["default"].createElement(_juno.RcPresence, {
     role: "button",
     "aria-label": "presence state",
     size: "large",
@@ -157,7 +149,7 @@ var PresenceDropdown = function PresenceDropdown(_ref) {
     title: title,
     onClick: handleClick,
     className: className
-  }), /*#__PURE__*/_react["default"].createElement(_Menu.RcMenu, {
+  }), /*#__PURE__*/_react["default"].createElement(_juno.RcMenu, {
     open: Boolean(anchorEl),
     anchorEl: anchorEl,
     onClose: handleClose,

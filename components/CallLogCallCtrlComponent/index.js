@@ -53,13 +53,7 @@ var _telephonyStatus = _interopRequireDefault(require("@ringcentral-integration/
 
 var _recordStatus = _interopRequireDefault(require("@ringcentral-integration/commons/modules/Webphone/recordStatus"));
 
-var _Hold = _interopRequireDefault(require("@ringcentral/juno/es6/icon/Hold.js"));
-
-var _Ignore = _interopRequireDefault(require("@ringcentral/juno/es6/icon/Ignore.js"));
-
-var _TransferCall = _interopRequireDefault(require("@ringcentral/juno/es6/icon/TransferCall.js"));
-
-var _Voicemail = _interopRequireDefault(require("@ringcentral/juno/es6/icon/Voicemail.js"));
+var _icon = require("@ringcentral/juno/icon");
 
 var _Answer = _interopRequireDefault(require("../../assets/images/Answer.svg"));
 
@@ -71,7 +65,7 @@ var _EndAnswer = _interopRequireDefault(require("../../assets/images/EndAnswer.s
 
 var _Forward_white = _interopRequireDefault(require("../../assets/images/Forward_white.svg"));
 
-var _Hold2 = _interopRequireDefault(require("../../assets/images/Hold.svg"));
+var _Hold = _interopRequireDefault(require("../../assets/images/Hold.svg"));
 
 var _HoldAnswer = _interopRequireDefault(require("../../assets/images/HoldAnswer.svg"));
 
@@ -259,13 +253,13 @@ var CallLogCallCtrlComponent = function CallLogCallCtrlComponent(props) {
     var recordDisabled = recordPendingState || isOnHold || isOutboundCallConnecting || isOutboundCallOnVoiceMail;
     var holdDisabled = disableLinks || isOutboundCallConnecting;
     var moreActions = [{
-      icon: _TransferCall["default"],
+      icon: _icon.TransferCall,
       key: 'transfer',
       onClick: onTransfer,
       iconClassName: (0, _classnames16["default"])(_defineProperty({}, _styles["default"].moreActionIcon, true)),
       text: _i18n["default"].getString('transfer', currentLocale)
     }, {
-      icon: _Hold["default"],
+      icon: _icon.Hold,
       key: onHoldText,
       onClick: holdAction,
       iconClassName: (0, _classnames16["default"])((_classnames2 = {}, _defineProperty(_classnames2, _styles["default"].moreActionIcon, true), _defineProperty(_classnames2, _styles["default"].holdActive, isOnHold), _classnames2)),
@@ -385,7 +379,7 @@ var CallLogCallCtrlComponent = function CallLogCallCtrlComponent(props) {
       title: _i18n["default"].getString('ignore', currentLocale)
     }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
       dataSign: "ignore",
-      icon: _Ignore["default"],
+      icon: _icon.Ignore,
       iconWidth: 250,
       iconHeight: 250,
       iconX: 125,
@@ -398,7 +392,7 @@ var CallLogCallCtrlComponent = function CallLogCallCtrlComponent(props) {
     }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
       dataSign: "voicemail",
       showBorder: false,
-      icon: _Voicemail["default"],
+      icon: _icon.Voicemail,
       iconWidth: 250,
       iconHeight: 250,
       iconX: 125,
@@ -433,7 +427,7 @@ var CallLogCallCtrlComponent = function CallLogCallCtrlComponent(props) {
     }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
       dataSign: "voicemail",
       showBorder: false,
-      icon: _Voicemail["default"],
+      icon: _icon.Voicemail,
       iconWidth: 250,
       iconHeight: 250,
       iconX: 125,
@@ -479,7 +473,7 @@ var CallLogCallCtrlComponent = function CallLogCallCtrlComponent(props) {
     title: _i18n["default"].getString(holdTitle, currentLocale)
   }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
     dataSign: holdTitle,
-    icon: _Hold2["default"],
+    icon: _Hold["default"],
     onClick: holdAction,
     className: (0, _classnames16["default"])((_classnames14 = {}, _defineProperty(_classnames14, _styles["default"].button, true), _defineProperty(_classnames14, _styles["default"].buttonActive, isOnHold), _defineProperty(_classnames14, _styles["default"].buttonDisabled, isInComingCall || disableLinks || isOutboundCallConnecting), _classnames14)),
     disabled: disableLinks || isInComingCall || isOutboundCallConnecting

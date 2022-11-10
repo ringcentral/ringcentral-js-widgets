@@ -41,11 +41,7 @@ require("core-js/modules/es6.array.filter");
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _Checkbox = require("@ringcentral/juno/es6/components/Forms/Checkbox/Checkbox.js");
-
-var _ListItem = require("@ringcentral/juno/es6/components/List/ListItem/ListItem.js");
-
-var _ListItemText = require("@ringcentral/juno/es6/components/List/ListItemText/ListItemText.js");
+var _juno = require("@ringcentral/juno");
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
@@ -98,7 +94,7 @@ var ListViewItem = function ListViewItem(_ref) {
 
   return /*#__PURE__*/_react["default"].createElement("div", {
     ref: selectElm
-  }, /*#__PURE__*/_react["default"].createElement(_ListItem.RcListItem, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcListItem, {
     button: true,
     size: "medium",
     singleLine: true,
@@ -111,10 +107,10 @@ var ListViewItem = function ListViewItem(_ref) {
     },
     "data-sign": "match".concat(index),
     selected: isSelected
-  }, startAdornment && startAdornment(type), multiple && /*#__PURE__*/_react["default"].createElement(_Checkbox.RcCheckbox, {
+  }, startAdornment && startAdornment(type), multiple && /*#__PURE__*/_react["default"].createElement(_juno.RcCheckbox, {
     checked: isSelected,
     "data-sign": isSelected ? 'selected' : 'unselected'
-  }), /*#__PURE__*/_react["default"].createElement(_ListItemText.RcListItemText, {
+  }), /*#__PURE__*/_react["default"].createElement(_juno.RcListItemText, {
     primary: getFilterResult(option),
     secondary: secondaryRenderFunction(option),
     "data-sign": "matchedItemText",

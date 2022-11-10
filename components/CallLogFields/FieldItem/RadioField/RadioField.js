@@ -11,11 +11,7 @@ require("core-js/modules/es6.array.map");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _FormControlLabel = require("@ringcentral/juno/es6/components/Forms/FormControlLabel/FormControlLabel.js");
-
-var _Radio = require("@ringcentral/juno/es6/components/Forms/Radio/Radio.js");
-
-var _RadioGroup = require("@ringcentral/juno/es6/components/Forms/RadioGroup/RadioGroup.js");
+var _juno = require("@ringcentral/juno");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
@@ -24,14 +20,14 @@ var RadioField = function RadioField(_ref) {
       options = _ref.options,
       classes = _ref.classes,
       onChange = _ref.onChange;
-  return /*#__PURE__*/_react["default"].createElement(_RadioGroup.RcRadioGroup, {
+  return /*#__PURE__*/_react["default"].createElement(_juno.RcRadioGroup, {
     value: value,
     onChange: onChange
   }, options.map(function (item, i) {
-    return /*#__PURE__*/_react["default"].createElement(_FormControlLabel.RcFormControlLabel, {
+    return /*#__PURE__*/_react["default"].createElement(_juno.RcFormControlLabel, {
       key: "label-".concat(i),
       value: item.value,
-      control: /*#__PURE__*/_react["default"].createElement(_Radio.RcRadio, {
+      control: /*#__PURE__*/_react["default"].createElement(_juno.RcRadio, {
         key: "radio-".concat(i),
         size: "small"
       }),

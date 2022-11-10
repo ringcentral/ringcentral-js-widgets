@@ -45,11 +45,9 @@ var _propTypes = _interopRequireDefault(require("prop-types"));
 
 var _debounce = require("@ringcentral-integration/commons/lib/debounce-throttle/debounce");
 
-var _IconButton = require("@ringcentral/juno/es6/components/Buttons/IconButton/IconButton.js");
+var _juno = require("@ringcentral/juno");
 
-var _Attachment = _interopRequireDefault(require("@ringcentral/juno/es6/icon/Attachment.js"));
-
-var _Close = _interopRequireDefault(require("@ringcentral/juno/es6/icon/Close.js"));
+var _icon = require("@ringcentral/juno/icon");
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
@@ -268,10 +266,10 @@ var MessageInput = /*#__PURE__*/function (_Component) {
         className: (0, _classnames["default"])(_styles["default"].root, supportAttachment && _styles["default"].supportAttachment)
       }, /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].attachmentIcon
-      }, /*#__PURE__*/_react["default"].createElement(_IconButton.RcIconButton, {
+      }, /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {
         variant: "round",
         size: "small",
-        symbol: _Attachment["default"],
+        symbol: _icon.Attachment,
         onClick: this.onAttachmentIconClick,
         disabled: disabled
       }), /*#__PURE__*/_react["default"].createElement("input", {
@@ -317,9 +315,9 @@ var MessageInput = /*#__PURE__*/function (_Component) {
           title: attachment.name
         }, attachment.name, /*#__PURE__*/_react["default"].createElement("div", {
           className: _styles["default"].attachmentRemoveIcon
-        }, /*#__PURE__*/_react["default"].createElement(_IconButton.RcIconButton, {
+        }, /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {
           size: "small",
-          symbol: _Close["default"],
+          symbol: _icon.Close,
           disabled: disabled,
           onClick: function onClick() {
             removeAttachment(attachment);

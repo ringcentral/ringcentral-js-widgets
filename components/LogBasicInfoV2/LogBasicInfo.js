@@ -23,9 +23,7 @@ var _callLogHelpers = require("@ringcentral-integration/commons/lib/callLogHelpe
 
 var _recordStatus = _interopRequireDefault(require("@ringcentral-integration/commons/modules/Webphone/recordStatus"));
 
-var _Link = require("@ringcentral/juno/es6/components/Link/Link.js");
-
-var _Text = require("@ringcentral/juno/es6/components/Text/Text.js");
+var _juno = require("@ringcentral/juno");
 
 var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
 
@@ -137,16 +135,16 @@ var LogBasicInfo = /*#__PURE__*/_react["default"].memo(function (props) {
     className: _styles["default"].callDisplay
   }, /*#__PURE__*/_react["default"].createElement("li", {
     className: _styles["default"].info
-  }, isShowEntity ? /*#__PURE__*/_react["default"].createElement(_Text.RcText, {
+  }, isShowEntity ? /*#__PURE__*/_react["default"].createElement(_juno.RcText, {
     className: _styles["default"].logName,
     title: "".concat(subContactNameDisplay ? "".concat(logName, " ").concat(subContactNameDisplay) : logName),
     "data-sign": "logName"
-  }, entityDetailLink ? /*#__PURE__*/_react["default"].createElement(_Link.RcLink, {
+  }, entityDetailLink ? /*#__PURE__*/_react["default"].createElement(_juno.RcLink, {
     variant: "inherit",
     onClick: function onClick() {
       return window.open(entityDetailLink, '_blank');
     }
-  }, logName) : logName, subContactNameDisplay && /*#__PURE__*/_react["default"].createElement(_Text.RcText, {
+  }, logName) : logName, subContactNameDisplay && /*#__PURE__*/_react["default"].createElement(_juno.RcText, {
     color: "neutral.f04",
     component: "span",
     align: "center",

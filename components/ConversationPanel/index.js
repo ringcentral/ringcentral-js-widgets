@@ -45,7 +45,7 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _propTypes = _interopRequireDefault(require("prop-types"));
 
-var _Alert = require("@ringcentral/juno/es6/components/Alert/Alert.js");
+var _juno = require("@ringcentral/juno");
 
 var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
 
@@ -447,7 +447,7 @@ var ConversationPanel = /*#__PURE__*/function (_Component) {
         className: _DynamicsFont["default"].arrow
       })), extraButton && /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].logButton
-      }, extraButton), logButton), conversationBody, ((_this$props$restrictS2 = (_this$props4 = this.props).restrictSendMessage) === null || _this$props$restrictS2 === void 0 ? void 0 : _this$props$restrictS2.call(_this$props4, this.getSelectedContact())) ? /*#__PURE__*/_react["default"].createElement(_Alert.RcAlert, {
+      }, extraButton), logButton), conversationBody, ((_this$props$restrictS2 = (_this$props4 = this.props).restrictSendMessage) === null || _this$props$restrictS2 === void 0 ? void 0 : _this$props$restrictS2.call(_this$props4, this.getSelectedContact())) ? /*#__PURE__*/_react["default"].createElement(_juno.RcAlert, {
         ref: function ref(target) {
           _this2.dncAlert = target;
         },

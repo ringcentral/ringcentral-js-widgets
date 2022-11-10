@@ -9,7 +9,7 @@ exports.MeetingAlert = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _Alert = require("@ringcentral/juno/es6/components/Alert/Alert.js");
+var _juno = require("@ringcentral/juno");
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
@@ -20,7 +20,7 @@ var MeetingAlert = function MeetingAlert(_ref) {
       severity = _ref.severity;
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].wrapper
-  }, /*#__PURE__*/_react["default"].createElement(_Alert.RcAlert, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcAlert, {
     severity: severity,
     className: _styles["default"].alert
   }, content));

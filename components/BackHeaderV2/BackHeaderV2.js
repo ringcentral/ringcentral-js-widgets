@@ -43,13 +43,9 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _classnames2 = _interopRequireDefault(require("classnames"));
 
-var _IconButton = require("@ringcentral/juno/es6/components/Buttons/IconButton/IconButton.js");
+var _juno = require("@ringcentral/juno");
 
-var _Typography = require("@ringcentral/juno/es6/components/Typography/Typography.js");
-
-var _styledComponents = _interopRequireDefault(require("@ringcentral/juno/es6/foundation/styled-components.js"));
-
-var _ChevronLeft = _interopRequireDefault(require("@ringcentral/juno/es6/icon/ChevronLeft.js"));
+var _icon = require("@ringcentral/juno/icon");
 
 var _toolTipDelayTime = require("../../lib/toolTipDelayTime");
 
@@ -90,7 +86,7 @@ function _templateObject() {
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
 var initWidth = 67;
-var Title = (0, _styledComponents["default"])(_Typography.RcTypography)(_templateObject(), function (_ref) {
+var Title = (0, _juno.styled)(_juno.RcTypography)(_templateObject(), function (_ref) {
   var $maxWidth = _ref.$maxWidth;
   return $maxWidth;
 });
@@ -122,7 +118,7 @@ var BackHeader = function BackHeader(_ref2) {
   var rightIconClass = (0, _classnames2["default"])(_styles["default"].rightIcon, _defineProperty({}, _styles["default"].emptyRightIcon, !rightIcon));
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: rootClass
-  }, /*#__PURE__*/_react["default"].createElement(_IconButton.RcIconButton, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {
     className: (0, _classnames2["default"])(_styles["default"].back),
     variant: "round",
     size: "small",
@@ -148,7 +144,7 @@ var BackHeader = function BackHeader(_ref2) {
 BackHeader.defaultProps = {
   title: '',
   rightIcon: null,
-  backIcon: _ChevronLeft["default"],
+  backIcon: _icon.ChevronLeft,
   className: null,
   currentLocale: 'en-US',
   isWide: true

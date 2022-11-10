@@ -41,13 +41,7 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _ListItem = require("@ringcentral/juno/es6/components/List/ListItem/ListItem.js");
-
-var _MenuList = require("@ringcentral/juno/es6/components/Menu/MenuList/MenuList.js");
-
-var _spacing = require("@ringcentral/juno/es6/foundation/styles/spacing.js");
-
-var _styledComponents = _interopRequireDefault(require("@ringcentral/juno/es6/foundation/styled-components.js"));
+var _juno = require("@ringcentral/juno");
 
 var _ContactFilter = _interopRequireDefault(require("../../assets/images/ContactFilter.svg"));
 
@@ -95,7 +89,7 @@ function _templateObject() {
 
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
-var StyledListItem = (0, _styledComponents["default"])(_ListItem.RcListItem)(_templateObject(), (0, _spacing.spacing)(2));
+var StyledListItem = (0, _juno.styled)(_juno.RcListItem)(_templateObject(), (0, _juno.spacing)(2));
 
 var ContactSourceFilter = /*#__PURE__*/function (_Component) {
   _inherits(ContactSourceFilter, _Component);
@@ -207,7 +201,7 @@ var ContactSourceFilter = /*#__PURE__*/function (_Component) {
         className: (0, _classnames["default"])(_styles["default"].filterIconNode, _styles["default"].iconNoneFill)
       }) : /*#__PURE__*/_react["default"].createElement(_ContactFilterSolid["default"], {
         className: _styles["default"].filterIconNode
-      })), !this.state.unfold ? null : /*#__PURE__*/_react["default"].createElement(_MenuList.RcMenuList, {
+      })), !this.state.unfold ? null : /*#__PURE__*/_react["default"].createElement(_juno.RcMenuList, {
         className: _styles["default"].contactSourceList,
         onClick: function onClick(e) {
           return e.stopPropagation();

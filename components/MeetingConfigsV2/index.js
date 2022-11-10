@@ -69,31 +69,9 @@ var _Meeting = require("@ringcentral-integration/commons/modules/Meeting");
 
 var _MeetingV = require("@ringcentral-integration/commons/modules/MeetingV2");
 
-var _Alert = require("@ringcentral/juno/es6/components/Alert/Alert.js");
+var _juno = require("@ringcentral/juno");
 
-var _Checkbox = require("@ringcentral/juno/es6/components/Forms/Checkbox/Checkbox.js");
-
-var _DatePicker = require("@ringcentral/juno/es6/components/Forms/Picker/DatePicker/DatePicker.js");
-
-var _Icon = require("@ringcentral/juno/es6/components/Icon/Icon.js");
-
-var _Link = require("@ringcentral/juno/es6/components/Link/Link.js");
-
-var _MenuItem = require("@ringcentral/juno/es6/components/Menu/MenuItem/MenuItem.js");
-
-var _Select = require("@ringcentral/juno/es6/components/Forms/Select/Select.js");
-
-var _TextField = require("@ringcentral/juno/es6/components/Forms/TextField/TextField.js");
-
-var _TimePicker = require("@ringcentral/juno/es6/components/Forms/Picker/TimePicker/TimePicker.js");
-
-var _Typography = require("@ringcentral/juno/es6/components/Typography/Typography.js");
-
-var _spacing = require("@ringcentral/juno/es6/foundation/styles/spacing.js");
-
-var _styledComponents = _interopRequireDefault(require("@ringcentral/juno/es6/foundation/styled-components.js"));
-
-var _LockBorder = _interopRequireDefault(require("@ringcentral/juno/es6/icon/LockBorder.js"));
+var _icon = require("@ringcentral/juno/icon");
 
 var _MeetingCalendarHelper = require("../../lib/MeetingCalendarHelper");
 
@@ -205,15 +183,15 @@ var MeetingOptionLabel = function MeetingOptionLabel(_ref) {
     "data-sign": "".concat(dataSign, "_lock"),
     hasScrollBar: hasScrollBar,
     title: _i18n["default"].getString('lockedTooltip', currentLocale)
-  }, /*#__PURE__*/_react["default"].createElement(_Icon.RcIcon, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
     size: "small",
     className: _styles["default"].lockButton,
     color: "neutral.f04",
-    symbol: _LockBorder["default"]
+    symbol: _icon.LockBorder
   }))) : null);
 };
 
-var PanelRoot = _styledComponents["default"].div(_templateObject(), _Checkbox.RcCheckbox, (0, _spacing.spacing)(2));
+var PanelRoot = _juno.styled.div(_templateObject(), _juno.RcCheckbox, (0, _juno.spacing)(2));
 
 var MeetingConfigs = function MeetingConfigs(_ref2) {
   var _meeting$telephonyUse, _meeting$settingLock, _meeting$settingLock2, _meeting$settingLock3, _meeting$settingLock4, _meeting$settingLock5, _meeting$settingLock6, _meeting$settingLock7, _meeting$settingLock8;
@@ -382,7 +360,7 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
     className: _styles["default"].meetingSection
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].meetingDatePicker
-  }, /*#__PURE__*/_react["default"].createElement(_DatePicker.RcDatePicker, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcDatePicker, {
     fullWidth: true,
     gutterBottom: true,
     label: _i18n["default"].getString('date', currentLocale),
@@ -402,7 +380,7 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
     }
   })), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].meetingTimePicker
-  }, /*#__PURE__*/_react["default"].createElement(_TimePicker.ExportType, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcTimePicker, {
     fullWidth: true,
     gutterBottom: true,
     clearBtn: false,
@@ -423,7 +401,7 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
     className: _styles["default"].meetingSection
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].hourDuration
-  }, /*#__PURE__*/_react["default"].createElement(_Select.RcSelect, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcSelect, {
     fullWidth: true,
     gutterBottom: true,
     "data-sign": "durationHour",
@@ -441,14 +419,14 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
     className: _styles["default"].select,
     label: _i18n["default"].getString('duration', currentLocale)
   }, hoursList.map(function (item, i) {
-    return /*#__PURE__*/_react["default"].createElement(_MenuItem.RcMenuItem, {
+    return /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
       key: i,
       value: item.value,
       "data-sign": "option".concat(i)
     }, item !== null ? item.text : 'defaultValue');
   }))), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].minuteDuration
-  }, /*#__PURE__*/_react["default"].createElement(_Select.RcSelect, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcSelect, {
     fullWidth: true,
     gutterBottom: true,
     "data-sign": "durationMinute",
@@ -467,7 +445,7 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
       });
     }
   }, minutesList.map(function (item, i) {
-    return /*#__PURE__*/_react["default"].createElement(_MenuItem.RcMenuItem, {
+    return /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
       key: i,
       value: item.value,
       "data-sign": "option".concat(i)
@@ -475,7 +453,7 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
   })))) : null, showRecurringMeeting && recurringMeetingPosition === 'middle' ? /*#__PURE__*/_react["default"].createElement(_VideoSettingGroup.VideoSettingGroup, {
     dataSign: "meetingIdSection",
     expandable: settingsGroupExpandable
-  }, /*#__PURE__*/_react["default"].createElement(_Checkbox.RcCheckbox, _extends({}, checkboxCommProps, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcCheckbox, _extends({}, checkboxCommProps, {
     disabled: isDisabled,
     size: checkboxSize,
     "data-sign": "recurringMeeting",
@@ -487,7 +465,7 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
       dataSign: "recurringMeeting",
       labelPlacement: labelPlacement
     }, _i18n["default"].getString('recurringMeeting', currentLocale))
-  })), isRecurring ? /*#__PURE__*/_react["default"].createElement(_Typography.RcTypography, {
+  })), isRecurring ? /*#__PURE__*/_react["default"].createElement(_juno.RcTypography, {
     variant: "caption1",
     className: _styles["default"].recurringDescribe
   }, _i18n["default"].getString('recurringDescribe', currentLocale)) : null) : null, showScheduleOnBehalf ? /*#__PURE__*/_react["default"].createElement(_VideoSettingGroup.VideoSettingGroup, {
@@ -496,7 +474,7 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
     summary: _i18n["default"].getString('scheduleFor', currentLocale)
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames4["default"])(_styles["default"].sideMargin, _styles["default"].selectOption)
-  }, /*#__PURE__*/_react["default"].createElement(_Select.RcSelect, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcSelect, {
     variant: "box",
     disabled: disabled,
     className: (0, _classnames4["default"])(_styles["default"].boxSelect, _styles["default"].autoFullWidth),
@@ -508,7 +486,7 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
     value: meeting.host.id
   }, delegators.map(function (item, index) {
     var userName = item.name === _Meeting.ASSISTED_USERS_MYSELF ? _i18n["default"].getString(item.name, currentLocale) : item.name;
-    return /*#__PURE__*/_react["default"].createElement(_MenuItem.RcMenuItem, {
+    return /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
       value: item.id,
       key: item.id,
       title: userName,
@@ -519,7 +497,7 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
     dataSign: "meetingIdSection",
     expandable: settingsGroupExpandable,
     summary: _i18n["default"].getString('meetingId', currentLocale)
-  }, /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_Checkbox.RcCheckbox, _extends({}, checkboxCommProps, {
+  }, /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_juno.RcCheckbox, _extends({}, checkboxCommProps, {
     "data-sign": "usePersonalMeetingId",
     disabled: disabled,
     size: checkboxSize,
@@ -545,10 +523,10 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
     }, _i18n["default"].getString('usePersonalMeetingId', currentLocale), "\xA0", /*#__PURE__*/_react["default"].createElement("span", {
       "data-sign": "personalMeetingId"
     }, (0, _MeetingCalendarHelper.formatMeetingId)(personalMeetingId, '-')))
-  })), meeting.usePersonalMeetingId ? /*#__PURE__*/_react["default"].createElement(_Alert.RcAlert, {
+  })), meeting.usePersonalMeetingId ? /*#__PURE__*/_react["default"].createElement(_juno.RcAlert, {
     severity: "info",
     className: _styles["default"].alertContainer
-  }, isPmiConfirm ? _i18n["default"].getString('pmiSettingChangeAlert', currentLocale) : /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, _i18n["default"].getString('pmiChangeConfirm', currentLocale), /*#__PURE__*/_react["default"].createElement(_Link.RcLink, {
+  }, isPmiConfirm ? _i18n["default"].getString('pmiSettingChangeAlert', currentLocale) : /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, _i18n["default"].getString('pmiChangeConfirm', currentLocale), /*#__PURE__*/_react["default"].createElement(_juno.RcLink, {
     variant: "inherit",
     onClick: function onClick() {
       return setPmiConfirm(!isPmiConfirm);
@@ -558,7 +536,7 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
     dataSign: "passwordSection",
     expandable: settingsGroupExpandable,
     summary: _i18n["default"].getString('password', currentLocale)
-  }, /*#__PURE__*/_react["default"].createElement(_Checkbox.RcCheckbox, _extends({}, checkboxCommProps, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcCheckbox, _extends({}, checkboxCommProps, {
     "data-sign": "requirePassword",
     disabled: isDisabled || meeting._lockRequireMeetingPassword,
     size: checkboxSize,
@@ -587,7 +565,7 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
     }, _i18n["default"].getString('requirePassword', currentLocale))
   })), meeting._requireMeetingPassword ? /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames4["default"])(_styles["default"].passwordField, _styles["default"].noBottomMargin, _defineProperty({}, _styles["default"].subPrefixPadding, labelPlacement === 'end'))
-  }, /*#__PURE__*/_react["default"].createElement(_TextField.RcTextField, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcTextField, {
     size: "small",
     variant: "outline",
     fullWidth: true,
@@ -617,7 +595,7 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
     dataSign: "videoSection",
     expandable: settingsGroupExpandable,
     summary: _i18n["default"].getString('video', currentLocale)
-  }, /*#__PURE__*/_react["default"].createElement(_Checkbox.RcCheckbox, _extends({}, checkboxCommProps, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcCheckbox, _extends({}, checkboxCommProps, {
     "data-sign": "turnOffCamera",
     disabled: isDisabled || enableServiceWebSettings && ((_meeting$settingLock = meeting.settingLock) === null || _meeting$settingLock === void 0 ? void 0 : _meeting$settingLock.startParticipantsVideo),
     size: checkboxSize,
@@ -634,7 +612,7 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
       currentLocale: currentLocale,
       hasScrollBar: hasScrollBar
     }, _i18n["default"].getString('turnOffCamera', currentLocale))
-  })), /*#__PURE__*/_react["default"].createElement(_Checkbox.RcCheckbox, _extends({}, checkboxCommProps, {
+  })), /*#__PURE__*/_react["default"].createElement(_juno.RcCheckbox, _extends({}, checkboxCommProps, {
     "data-sign": "turnOffHostCamera",
     disabled: isDisabled || enableServiceWebSettings && ((_meeting$settingLock3 = meeting.settingLock) === null || _meeting$settingLock3 === void 0 ? void 0 : _meeting$settingLock3.startHostVideo),
     size: checkboxSize,
@@ -659,7 +637,7 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
     className: (0, _classnames4["default"])(_styles["default"].selectOption, _styles["default"].labelContent, _styles["default"].sideMargin)
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames4["default"])(_styles["default"].placementLeft, _styles["default"].hackWidth)
-  }, /*#__PURE__*/_react["default"].createElement(_Select.RcSelect, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcSelect, {
     fullWidth: true,
     variant: "box",
     "data-sign": "audioOptions",
@@ -673,19 +651,19 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
       updateAudioOptions(e.target.value);
     },
     value: audioOptions
-  }, /*#__PURE__*/_react["default"].createElement(_MenuItem.RcMenuItem, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
     "data-sign": "Phone",
     value: "Phone",
     className: _styles["default"].boxSelectMenuItem
-  }, _i18n["default"].getString('telephonyOnly', currentLocale)), /*#__PURE__*/_react["default"].createElement(_MenuItem.RcMenuItem, {
+  }, _i18n["default"].getString('telephonyOnly', currentLocale)), /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
     "data-sign": "ComputerAudio",
     value: "ComputerAudio",
     className: _styles["default"].boxSelectMenuItem
-  }, _i18n["default"].getString('voIPOnly', currentLocale)), /*#__PURE__*/_react["default"].createElement(_MenuItem.RcMenuItem, {
+  }, _i18n["default"].getString('voIPOnly', currentLocale)), /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
     "data-sign": "Phone_ComputerAudio",
     value: "Phone_ComputerAudio",
     className: _styles["default"].boxSelectMenuItem
-  }, _i18n["default"].getString('both', currentLocale)), /*#__PURE__*/_react["default"].createElement(_MenuItem.RcMenuItem, {
+  }, _i18n["default"].getString('both', currentLocale)), /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
     "data-sign": "ThirdParty",
     value: "ThirdParty",
     className: _styles["default"].boxSelectMenuItem,
@@ -696,15 +674,15 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
     "data-sign": "audioSection_lock",
     hasScrollBar: hasScrollBar,
     title: _i18n["default"].getString('lockedTooltip', currentLocale)
-  }, /*#__PURE__*/_react["default"].createElement(_Icon.RcIcon, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
     size: "small",
-    symbol: _LockBorder["default"],
+    symbol: _icon.LockBorder,
     className: _styles["default"].lockButton
   }))) : null)), /*#__PURE__*/_react["default"].createElement(_VideoSettingGroup.VideoSettingGroup, {
     dataSign: "meetingOptionsSection",
     expandable: settingsGroupExpandable,
     summary: _i18n["default"].getString('meetingOptions', currentLocale)
-  }, /*#__PURE__*/_react["default"].createElement(_Checkbox.RcCheckbox, _extends({}, checkboxCommProps, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcCheckbox, _extends({}, checkboxCommProps, {
     disabled: isDisabled || enableServiceWebSettings && ((_meeting$settingLock7 = meeting.settingLock) === null || _meeting$settingLock7 === void 0 ? void 0 : _meeting$settingLock7.allowJoinBeforeHost),
     size: checkboxSize,
     "data-sign": "enableJoinToggle",
@@ -722,7 +700,7 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
       currentLocale: currentLocale,
       hasScrollBar: hasScrollBar
     }, _i18n["default"].getString('joinBeforeHost', currentLocale))
-  })), showRecurringMeeting && recurringMeetingPosition === 'bottom' ? /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_Checkbox.RcCheckbox, _extends({}, checkboxCommProps, {
+  })), showRecurringMeeting && recurringMeetingPosition === 'bottom' ? /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_juno.RcCheckbox, _extends({}, checkboxCommProps, {
     disabled: isDisabled,
     size: checkboxSize,
     "data-sign": "recurringMeeting",
@@ -734,7 +712,7 @@ var MeetingConfigs = function MeetingConfigs(_ref2) {
       dataSign: "recurringMeeting",
       labelPlacement: labelPlacement
     }, _i18n["default"].getString('recurringMeeting', currentLocale))
-  })), /*#__PURE__*/_react["default"].createElement(_Typography.RcTypography, {
+  })), /*#__PURE__*/_react["default"].createElement(_juno.RcTypography, {
     variant: "caption1",
     className: (0, _classnames4["default"])(_styles["default"].recurringNote, _defineProperty({}, _styles["default"].subPrefixPadding, labelPlacement === 'end'))
   }, _i18n["default"].getString('recurringNote', currentLocale))) : null), showIeSupportAlert && /*#__PURE__*/_react["default"].createElement(_VideoSettingGroup.VideoSettingGroup, {

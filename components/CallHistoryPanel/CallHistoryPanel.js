@@ -49,11 +49,7 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _moment = _interopRequireDefault(require("moment"));
 
-var _newPalette = require("@ringcentral/juno/es6/foundation/styles/newPalette.js");
-
-var _styledComponents = _interopRequireDefault(require("@ringcentral/juno/es6/foundation/styled-components.js"));
-
-var _typography = require("@ringcentral/juno/es6/foundation/styles/typography.js");
+var _juno = require("@ringcentral/juno");
 
 var _CallHistoryItem = require("./CallHistoryItem");
 
@@ -127,9 +123,9 @@ function formatCallTime(timestamp) {
   return (0, _moment["default"])(timestamp).format('h:mm A');
 }
 
-var DateText = _styledComponents["default"].div(_templateObject(), (0, _typography.typography)('caption1'), (0, _newPalette.palette2)('neutral', 'f06'), DATE_ITEM_HEIGHT, DATE_ITEM_HEIGHT, (0, _newPalette.palette2)('neutral', 'b01'), (0, _newPalette.palette2)('neutral', 'l02'));
+var DateText = _juno.styled.div(_templateObject(), (0, _juno.typography)('caption1'), (0, _juno.palette2)('neutral', 'f06'), DATE_ITEM_HEIGHT, DATE_ITEM_HEIGHT, (0, _juno.palette2)('neutral', 'b01'), (0, _juno.palette2)('neutral', 'l02'));
 
-var StyledCallHistoryPanel = _styledComponents["default"].div(_templateObject2(), (0, _newPalette.palette2)('neutral', 'l02'), (0, _newPalette.palette2)('neutral', 'b01'));
+var StyledCallHistoryPanel = _juno.styled.div(_templateObject2(), (0, _juno.palette2)('neutral', 'l02'), (0, _juno.palette2)('neutral', 'b01'));
 
 var CallHistoryPanel = function CallHistoryPanel(_ref) {
   var calls = _ref.calls,

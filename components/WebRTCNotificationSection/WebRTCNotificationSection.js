@@ -55,19 +55,9 @@ var _classnames2 = _interopRequireDefault(require("classnames"));
 
 var _callDirections = _interopRequireDefault(require("@ringcentral-integration/commons/enums/callDirections"));
 
-var _MenuItem = require("@ringcentral/juno/es6/components/Menu/MenuItem/MenuItem.js");
+var _juno = require("@ringcentral/juno");
 
-var _MenuList = require("@ringcentral/juno/es6/components/Menu/MenuList/MenuList.js");
-
-var _Popover = require("@ringcentral/juno/es6/components/Popover/Popover.js");
-
-var _styledComponents = _interopRequireDefault(require("@ringcentral/juno/es6/foundation/styled-components.js"));
-
-var _Link = require("@ringcentral/juno/es6/components/Link/Link.js");
-
-var _Ignore = _interopRequireDefault(require("@ringcentral/juno/es6/icon/Ignore.js"));
-
-var _Voicemail = _interopRequireDefault(require("@ringcentral/juno/es6/icon/Voicemail.js"));
+var _icon = require("@ringcentral/juno/icon");
 
 var _Answer = _interopRequireDefault(require("../../assets/images/Answer.svg"));
 
@@ -119,7 +109,7 @@ function _templateObject() {
 
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
-var ForwardActiveList = _styledComponents["default"].div(_templateObject());
+var ForwardActiveList = _juno.styled.div(_templateObject());
 
 var WebRTCNotificationSection = function WebRTCNotificationSection(_ref) {
   var call = _ref.call,
@@ -198,7 +188,7 @@ var WebRTCNotificationSection = function WebRTCNotificationSection(_ref) {
       "data-sign": "logName",
       title: logName,
       className: _styles["default"].contact
-    }, entityDetailLink ? /*#__PURE__*/_react["default"].createElement(_Link.RcLink, {
+    }, entityDetailLink ? /*#__PURE__*/_react["default"].createElement(_juno.RcLink, {
       variant: "inherit",
       onClick: function onClick() {
         return window.open(entityDetailLink, '_blank');
@@ -214,7 +204,7 @@ var WebRTCNotificationSection = function WebRTCNotificationSection(_ref) {
       className: _styles["default"].callButton
     }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
       dataSign: "ignore",
-      icon: _Ignore["default"],
+      icon: _icon.Ignore,
       iconWidth: 250,
       iconHeight: 250,
       iconX: 125,
@@ -240,7 +230,7 @@ var WebRTCNotificationSection = function WebRTCNotificationSection(_ref) {
       className: (0, _classnames2["default"])(_styles["default"].callButton, _styles["default"].voicemail)
     }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
       dataSign: "toVoiceMail",
-      icon: _Voicemail["default"],
+      icon: _icon.Voicemail,
       className: (0, _classnames2["default"])(_styles["default"].button, _styles["default"].hangup),
       showBorder: false,
       iconWidth: 250,
@@ -289,7 +279,7 @@ var WebRTCNotificationSection = function WebRTCNotificationSection(_ref) {
       className: _styles["default"].callButton
     }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
       dataSign: "toVoiceMail",
-      icon: _Voicemail["default"],
+      icon: _icon.Voicemail,
       className: (0, _classnames2["default"])(_styles["default"].button, _styles["default"].hangup),
       showBorder: false,
       iconWidth: 250,
@@ -349,7 +339,7 @@ var WebRTCNotificationSection = function WebRTCNotificationSection(_ref) {
       subText: null,
       onClick: forward
     });
-    return /*#__PURE__*/_react["default"].createElement(_Popover.RcPopover, {
+    return /*#__PURE__*/_react["default"].createElement(_juno.RcPopover, {
       anchorOrigin: {
         vertical: 'center',
         horizontal: isWide ? 'left' : 'center'
@@ -369,12 +359,12 @@ var WebRTCNotificationSection = function WebRTCNotificationSection(_ref) {
       }
     }, /*#__PURE__*/_react["default"].createElement(ForwardActiveList, {
       "data-sign": "forwardActiveList"
-    }, /*#__PURE__*/_react["default"].createElement(_MenuList.RcMenuList, null, forwardList.map(function (_ref2) {
+    }, /*#__PURE__*/_react["default"].createElement(_juno.RcMenuList, null, forwardList.map(function (_ref2) {
       var text = _ref2.text,
           subText = _ref2.subText,
           onClick = _ref2.onClick,
           key = _ref2.key;
-      return /*#__PURE__*/_react["default"].createElement(_MenuItem.RcMenuItem, {
+      return /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
         key: key,
         onClick: onClick,
         "data-value": key

@@ -15,15 +15,9 @@ require("core-js/modules/es6.array.slice");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _IconButton = require("@ringcentral/juno/es6/components/Buttons/IconButton/IconButton.js");
+var _juno = require("@ringcentral/juno");
 
-var _Text = require("@ringcentral/juno/es6/components/Text/Text.js");
-
-var _spacing = require("@ringcentral/juno/es6/foundation/styles/spacing.js");
-
-var _styledComponents = _interopRequireDefault(require("@ringcentral/juno/es6/foundation/styled-components.js"));
-
-var _Close = _interopRequireDefault(require("@ringcentral/juno/es6/icon/Close.js"));
+var _icon = require("@ringcentral/juno/icon");
 
 var _i18n = _interopRequireDefault(require("../i18n"));
 
@@ -72,9 +66,9 @@ var defaultCancelRenderer = function defaultCancelRenderer(_ref2) {
 
 exports.defaultCancelRenderer = defaultCancelRenderer;
 
-var Header = _styledComponents["default"].header(_templateObject());
+var Header = _juno.styled.header(_templateObject());
 
-var Title = (0, _styledComponents["default"])(_Text.RcText)(_templateObject2(), (0, _spacing.spacing)(3));
+var Title = (0, _juno.styled)(_juno.RcText)(_templateObject2(), (0, _juno.spacing)(3));
 
 var infoTitleRenderer = function infoTitleRenderer(_ref3) {
   var currentLocale = _ref3.currentLocale,
@@ -84,9 +78,9 @@ var infoTitleRenderer = function infoTitleRenderer(_ref3) {
     variant: "title2",
     component: "h2",
     flexFull: true
-  }, title), /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement(_IconButton.RcIconButton, {
+  }, title), /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {
     tooltipTitle: _i18n["default"].getString('close', currentLocale),
-    symbol: _Close["default"],
+    symbol: _icon.Close,
     onClick: onConfirm
   })));
 };

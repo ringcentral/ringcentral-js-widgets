@@ -13,21 +13,9 @@ require("core-js/modules/es6.object.freeze");
 
 require("core-js/modules/es6.array.slice");
 
-var _newPalette = require("@ringcentral/juno/es6/foundation/styles/newPalette.js");
-
-var _DialTextField = require("@ringcentral/juno/es6/components/Dialer/DialTextField/DialTextField.js");
-
-var _Text = require("@ringcentral/juno/es6/components/Text/Text.js");
-
-var _spacing = require("@ringcentral/juno/es6/foundation/styles/spacing.js");
-
-var _styledComponents = _interopRequireDefault(require("@ringcentral/juno/es6/foundation/styled-components.js"));
-
-var _Chip = require("@ringcentral/juno/es6/components/Chip/Chip.js");
+var _juno = require("@ringcentral/juno");
 
 var _commonStyles = require("../../../lib/commonStyles");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _templateObject9() {
   var data = _taggedTemplateLiteral(["\n  margin: 2px 0;\n  padding: 0;\n"]);
@@ -121,35 +109,35 @@ function _templateObject() {
 
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
-var CallFields = _styledComponents["default"].div(_templateObject(), (0, _spacing.spacing)(5), (0, _newPalette.palette2)('nav', 'line'), _Text.RcText);
+var CallFields = _juno.styled.div(_templateObject(), (0, _juno.spacing)(5), (0, _juno.palette2)('nav', 'line'), _juno.RcText);
 
 exports.CallFields = CallFields;
 
-var RootWrapper = _styledComponents["default"].div(_templateObject2(), _commonStyles.fullSizeStyle);
+var RootWrapper = _juno.styled.div(_templateObject2(), _commonStyles.fullSizeStyle);
 
 exports.RootWrapper = RootWrapper;
 
-var FullSizeWrapper = _styledComponents["default"].div(_templateObject3(), _commonStyles.fullSizeStyle);
+var FullSizeWrapper = _juno.styled.div(_templateObject3(), _commonStyles.fullSizeStyle);
 
 exports.FullSizeWrapper = FullSizeWrapper;
 
-var ResultContainer = _styledComponents["default"].div(_templateObject4(), _commonStyles.fullSizeStyle, (0, _newPalette.palette2)('neutral', 'b01'));
+var ResultContainer = _juno.styled.div(_templateObject4(), _commonStyles.fullSizeStyle, (0, _juno.palette2)('neutral', 'b01'));
 
 exports.ResultContainer = ResultContainer;
 
-var FieldLine = _styledComponents["default"].div(_templateObject5());
+var FieldLine = _juno.styled.div(_templateObject5());
 
 exports.FieldLine = FieldLine;
 
-var StyledToInputWrapper = _styledComponents["default"].div(_templateObject6());
+var StyledToInputWrapper = _juno.styled.div(_templateObject6());
 
 exports.StyledToInputWrapper = StyledToInputWrapper;
 
-var StyledRecipientsWrapper = _styledComponents["default"].div(_templateObject7());
+var StyledRecipientsWrapper = _juno.styled.div(_templateObject7());
 
 exports.StyledRecipientsWrapper = StyledRecipientsWrapper;
-var StyledRcDialTextField = (0, _styledComponents["default"])(_DialTextField.RcDialTextField)(_templateObject8());
+var StyledRcDialTextField = (0, _juno.styled)(_juno.RcDialTextField)(_templateObject8());
 exports.StyledRcDialTextField = StyledRcDialTextField;
-var StyledRcChip = (0, _styledComponents["default"])(_Chip.RcChip)(_templateObject9());
+var StyledRcChip = (0, _juno.styled)(_juno.RcChip)(_templateObject9());
 exports.StyledRcChip = StyledRcChip;
 //# sourceMappingURL=CallFields.js.map

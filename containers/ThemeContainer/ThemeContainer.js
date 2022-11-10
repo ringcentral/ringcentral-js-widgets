@@ -15,9 +15,7 @@ require("core-js/modules/es6.array.slice");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _styledComponents = require("@ringcentral/juno/es6/foundation/styled-components.js");
-
-var _ThemeProvider = require("@ringcentral/juno/es6/foundation/theme/ThemeProvider.js");
+var _juno = require("@ringcentral/juno");
 
 var _phoneContext = require("../../lib/phoneContext");
 
@@ -47,12 +45,12 @@ function _templateObject() {
 
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
-var GlobalVariablesStyles = (0, _styledComponents.createGlobalStyle)(_templateObject(), function (_ref) {
+var GlobalVariablesStyles = (0, _juno.createGlobalStyle)(_templateObject(), function (_ref) {
   var variable = _ref.variable,
       theme = _ref.theme;
   return (0, _utils.getThemeVariableString)(variable, theme);
 });
-var GlobalStyle = (0, _styledComponents.createGlobalStyle)(_templateObject2(), function (_ref2) {
+var GlobalStyle = (0, _juno.createGlobalStyle)(_templateObject2(), function (_ref2) {
   var style = _ref2.style;
   return style;
 });
@@ -63,7 +61,7 @@ var ThemeProvider = function ThemeProvider(_ref3) {
       theme = _ref3.theme,
       variable = _ref3.variable,
       prefixGlobalClass = _ref3.prefixGlobalClass;
-  return /*#__PURE__*/_react["default"].createElement(_ThemeProvider.RcThemeProvider, {
+  return /*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, {
     theme: theme,
     prefixGlobalClass: prefixGlobalClass
   }, /*#__PURE__*/_react["default"].createElement(GlobalVariablesStyles, {

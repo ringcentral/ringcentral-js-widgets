@@ -53,29 +53,7 @@ require("regenerator-runtime/runtime");
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _Paper = require("@ringcentral/juno/es6/components/Paper/Paper.js");
-
-var _Tab = require("@ringcentral/juno/es6/components/Tabs/Tab/Tab.js");
-
-var _Tabs = require("@ringcentral/juno/es6/components/Tabs/Tabs/Tabs.js");
-
-var _Text = require("@ringcentral/juno/es6/components/Text/Text.js");
-
-var _styledComponents = _interopRequireDefault(require("@ringcentral/juno/es6/foundation/styled-components.js"));
-
-var _Avatar = require("@ringcentral/juno/es6/components/Avatar/Avatar.js");
-
-var _SuggestionList = require("@ringcentral/juno/es6/components/Downshift/SuggestionList/SuggestionList.js");
-
-var _useSuggestionList2 = require("@ringcentral/juno/es6/components/Downshift/SuggestionList/utils/useSuggestionList.js");
-
-var _ListItemText = require("@ringcentral/juno/es6/components/List/ListItemText/ListItemText.js");
-
-var _MenuItem = require("@ringcentral/juno/es6/components/Menu/MenuItem/MenuItem.js");
-
-var _Loading = require("@ringcentral/juno/es6/components/Loading/Loading.js");
-
-var _usePrevious = require("@ringcentral/juno/es6/foundation/hooks/usePrevious/usePrevious.js");
+var _juno = require("@ringcentral/juno");
 
 var _phoneTypes = require("@ringcentral-integration/commons/enums/phoneTypes");
 
@@ -139,9 +117,9 @@ function _templateObject() {
 
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
-var StyledContactSearchPanel = _styledComponents["default"].div(_templateObject());
+var StyledContactSearchPanel = _juno.styled.div(_templateObject());
 
-var FullSizeWrapper = _styledComponents["default"].div(_templateObject2());
+var FullSizeWrapper = _juno.styled.div(_templateObject2());
 
 exports.FullSizeWrapper = FullSizeWrapper;
 
@@ -181,7 +159,7 @@ var ContactSearchPanel = function ContactSearchPanel(_ref) {
       searchResult = _useState8[0],
       setSearchResult = _useState8[1];
 
-  var previousUserInput = (0, _usePrevious.usePrevious)(function () {
+  var previousUserInput = (0, _juno.usePrevious)(function () {
     return userInput;
   });
   var optionsMap = (_optionsMap = {}, _defineProperty(_optionsMap, _ContactSearchPanelEnum.TabsEnum.thirdParty, thirdPartyContacts), _defineProperty(_optionsMap, _ContactSearchPanelEnum.TabsEnum.company, companyContacts), _defineProperty(_optionsMap, _ContactSearchPanelEnum.TabsEnum.personal, personalContacts), _optionsMap);
@@ -241,7 +219,7 @@ var ContactSearchPanel = function ContactSearchPanel(_ref) {
   var options = showSearchResult && inThirdPartyTab ? searchResult : optionsMap[activeTab];
   console.log('list item', options.length);
 
-  var _useSuggestionList = (0, _useSuggestionList2.useSuggestionList)({
+  var _useSuggestionList = (0, _juno.useSuggestionList)({
     inputValue: userInput,
     options: options,
     inputRef: inputRef,
@@ -282,9 +260,9 @@ var ContactSearchPanel = function ContactSearchPanel(_ref) {
   }, [currentLocale, formatPhone]);
   return /*#__PURE__*/_react["default"].createElement(StyledContactSearchPanel, {
     "data-sign": "contactSearchPanel"
-  }, /*#__PURE__*/_react["default"].createElement(_Paper.RcPaper, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcPaper, {
     square: true
-  }, /*#__PURE__*/_react["default"].createElement(_Tabs.RcTabs, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcTabs, {
     value: activeTab,
     onChange: function onChange(e, v) {
       inputRef === null || inputRef === void 0 ? void 0 : inputRef.current.focus();
@@ -295,15 +273,15 @@ var ContactSearchPanel = function ContactSearchPanel(_ref) {
   }, tabs.map(function (_ref4) {
     var label = _ref4.label,
         value = _ref4.value;
-    return /*#__PURE__*/_react["default"].createElement(_Tab.RcTab, {
+    return /*#__PURE__*/_react["default"].createElement(_juno.RcTab, {
       key: label,
       "data-sign": "".concat(value, "ContactSearchResult"),
-      label: /*#__PURE__*/_react["default"].createElement(_Text.RcText, {
+      label: /*#__PURE__*/_react["default"].createElement(_juno.RcText, {
         variant: "caption1"
       }, "".concat(label)),
       value: value
     });
-  }))), /*#__PURE__*/_react["default"].createElement(FullSizeWrapper, null, /*#__PURE__*/_react["default"].createElement(_Loading.RcLoading, {
+  }))), /*#__PURE__*/_react["default"].createElement(FullSizeWrapper, null, /*#__PURE__*/_react["default"].createElement(_juno.RcLoading, {
     loading: isLoading
   }, /*#__PURE__*/_react["default"].createElement(_HelpTextSection.HelpTextSection, {
     showSearchResult: showSearchResult,
@@ -313,7 +291,7 @@ var ContactSearchPanel = function ContactSearchPanel(_ref) {
     activeTab: activeTab,
     hasRecords: !!optionItems.length,
     onClick: searchContacts
-  }), /*#__PURE__*/_react["default"].createElement(_SuggestionList.RcSuggestionList, {
+  }), /*#__PURE__*/_react["default"].createElement(_juno.RcSuggestionList, {
     "data-sign": "contactSearchDropdown",
     tabIndex: -1,
     highlightedIndex: highlightedIndex,
@@ -333,25 +311,25 @@ var ContactSearchPanel = function ContactSearchPanel(_ref) {
           entityType = _ref5.entityType,
           restProps = _objectWithoutProperties(_ref5, ["name", "phoneNumber", "phoneType", "isPrimary", "type", "resourceType", "doNotCall", "entityType"]);
 
-      return isPrimary ? /*#__PURE__*/_react["default"].createElement(_MenuItem.RcMenuItem, _extends({
+      return isPrimary ? /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, _extends({
         selected: state.selected,
         "data-sign": "contactSearchSelectMenuItem",
-        avatar: /*#__PURE__*/_react["default"].createElement(_Avatar.ExportType, {
+        avatar: /*#__PURE__*/_react["default"].createElement(_juno.RcAvatar, {
           color: "interactive.b02",
           size: "xsmall"
         }, name.slice(0, 1).toUpperCase())
-      }, restProps), /*#__PURE__*/_react["default"].createElement(_ListItemText.RcListItemText, {
+      }, restProps), /*#__PURE__*/_react["default"].createElement(_juno.RcListItemText, {
         primary: name,
         secondary: getFormattedLabel({
           phoneType: phoneType,
           type: type,
           phoneNumber: phoneNumber
         })
-      })) : /*#__PURE__*/_react["default"].createElement(_MenuItem.RcMenuItem, _extends({
+      })) : /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, _extends({
         selected: state.selected,
         "data-sign": "contactSearchSelectMenuItem",
         avatar: /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null)
-      }, restProps), /*#__PURE__*/_react["default"].createElement(_ListItemText.RcListItemText, {
+      }, restProps), /*#__PURE__*/_react["default"].createElement(_juno.RcListItemText, {
         style: {
           marginLeft: '32px'
         },

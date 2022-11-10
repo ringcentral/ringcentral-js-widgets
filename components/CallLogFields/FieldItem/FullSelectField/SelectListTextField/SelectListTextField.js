@@ -23,7 +23,7 @@ require("core-js/modules/es6.object.keys");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _TextField = require("@ringcentral/juno/es6/components/Forms/TextField/TextField.js");
+var _juno = require("@ringcentral/juno");
 
 var _CustomArrowButton = require("../../../../Rcui/CustomArrowButton");
 
@@ -42,7 +42,7 @@ var SelectListTextField = function SelectListTextField(_ref) {
       disabled = _ref.disabled,
       rest = _objectWithoutProperties(_ref, ["value", "disabled"]);
 
-  return /*#__PURE__*/_react["default"].createElement(_TextField.RcTextField, _extends({}, rest, {
+  return /*#__PURE__*/_react["default"].createElement(_juno.RcTextField, _extends({}, rest, {
     title: "".concat(value),
     value: value,
     gutterBottom: true,

@@ -25,21 +25,9 @@ exports.DirectlyProceedLine = void 0;
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _ListItem = require("@ringcentral/juno/es6/components/List/ListItem/ListItem.js");
+var _juno = require("@ringcentral/juno");
 
-var _ListItemAvatar = require("@ringcentral/juno/es6/components/List/ListItemAvatar/ListItemAvatar.js");
-
-var _Avatar = require("@ringcentral/juno/es6/components/Avatar/Avatar.js");
-
-var _ListItemText = require("@ringcentral/juno/es6/components/List/ListItemText/ListItemText.js");
-
-var _ListItemSecondaryAction = require("@ringcentral/juno/es6/components/List/ListItemSecondaryAction/ListItemSecondaryAction.js");
-
-var _Icon = require("@ringcentral/juno/es6/components/Icon/Icon.js");
-
-var _Dial = _interopRequireDefault(require("@ringcentral/juno/es6/icon/Dial.js"));
-
-var _DefaultAvatar = _interopRequireDefault(require("@ringcentral/juno/es6/icon/DefaultAvatar.js"));
+var _icon = require("@ringcentral/juno/icon");
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
@@ -54,21 +42,21 @@ var DirectlyProceedLine = /*#__PURE__*/(0, _react.memo)(function (_ref) {
       number = _ref.number,
       currentLocale = _ref.currentLocale,
       inMessagePage = _ref.inMessagePage;
-  return /*#__PURE__*/_react["default"].createElement(_ListItem.RcListItem, {
+  return /*#__PURE__*/_react["default"].createElement(_juno.RcListItem, {
     "data-sign": "directlyProceedEntrance",
     color: "highlight.f01",
     singleLine: true,
     onClick: onClick
-  }, /*#__PURE__*/_react["default"].createElement(_ListItemAvatar.RcListItemAvatar, null, /*#__PURE__*/_react["default"].createElement(_Avatar.ExportType, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcListItemAvatar, null, /*#__PURE__*/_react["default"].createElement(_juno.RcAvatar, {
     color: "avatar.global",
     size: "xsmall",
-    iconSymbol: _DefaultAvatar["default"]
-  })), /*#__PURE__*/_react["default"].createElement(_ListItemText.RcListItemText, {
+    iconSymbol: _icon.DefaultAvatar
+  })), /*#__PURE__*/_react["default"].createElement(_juno.RcListItemText, {
     primary: "".concat(_i18n["default"].getString(inMessagePage ? 'message' : 'dial', currentLocale)),
     secondary: number
-  }), /*#__PURE__*/_react["default"].createElement(_ListItemSecondaryAction.RcListItemSecondaryAction, null, /*#__PURE__*/_react["default"].createElement(_Icon.RcIcon, {
+  }), /*#__PURE__*/_react["default"].createElement(_juno.RcListItemSecondaryAction, null, /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
     color: "action.primary",
-    symbol: _Dial["default"]
+    symbol: _icon.Dial
   })));
 });
 exports.DirectlyProceedLine = DirectlyProceedLine;

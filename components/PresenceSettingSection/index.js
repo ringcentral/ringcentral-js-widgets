@@ -45,21 +45,7 @@ var _classnames = _interopRequireDefault(require("classnames"));
 
 var _dndStatus = _interopRequireDefault(require("@ringcentral-integration/commons/modules/Presence/dndStatus"));
 
-var _flexCenter = require("@ringcentral/juno/es6/foundation/styles/flexCenter.js");
-
-var _newPalette = require("@ringcentral/juno/es6/foundation/styles/newPalette.js");
-
-var _Box = require("@ringcentral/juno/es6/components/Box/Box.js");
-
-var _List = require("@ringcentral/juno/es6/components/List/List/List.js");
-
-var _ListItem = require("@ringcentral/juno/es6/components/List/ListItem/ListItem.js");
-
-var _Presence = require("@ringcentral/juno/es6/components/Presence/Presence.js");
-
-var _spacing = require("@ringcentral/juno/es6/foundation/styles/spacing.js");
-
-var _styledComponents = _interopRequireDefault(require("@ringcentral/juno/es6/foundation/styled-components.js"));
+var _juno = require("@ringcentral/juno");
 
 var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
 
@@ -115,9 +101,9 @@ function _templateObject() {
 
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
-var StyledList = (0, _styledComponents["default"])(_List.RcList)(_templateObject(), (0, _newPalette.palette2)('neutral', 'elevation'), _ListItem.RcListItem, (0, _spacing.spacing)(5)); // TODO: when full page refactor, remove this
+var StyledList = (0, _juno.styled)(_juno.RcList)(_templateObject(), (0, _juno.palette2)('neutral', 'elevation'), _juno.RcListItem, (0, _juno.spacing)(5)); // TODO: when full page refactor, remove this
 
-var StyledPresenceWrap = _styledComponents["default"].div(_templateObject2(), _flexCenter.flexCenterStyle, (0, _newPalette.palette2)('neutral', 'f05'), _Presence.RcPresence, (0, _spacing.spacing)(2));
+var StyledPresenceWrap = _juno.styled.div(_templateObject2(), _juno.flexCenterStyle, (0, _juno.palette2)('neutral', 'f05'), _juno.RcPresence, (0, _juno.spacing)(2));
 
 var PresenceSettingSection = function PresenceSettingSection(_ref) {
   var _ref$showPresenceSett = _ref.showPresenceSettings,
@@ -201,9 +187,9 @@ var PresenceSettingSection = function PresenceSettingSection(_ref) {
     className: _styles["default"].iconLine
   }, /*#__PURE__*/_react["default"].createElement(StyledPresenceWrap, null, /*#__PURE__*/_react["default"].createElement("div", {
     "data-sign": "status"
-  }, _i18n["default"].getString('status', currentLocale)), /*#__PURE__*/_react["default"].createElement(_Box.RcBox, {
+  }, _i18n["default"].getString('status', currentLocale)), /*#__PURE__*/_react["default"].createElement(_juno.RcBox, {
     flex: "1 1 auto"
-  }), /*#__PURE__*/_react["default"].createElement(_Presence.RcPresence, {
+  }), /*#__PURE__*/_react["default"].createElement(_juno.RcPresence, {
     size: "medium",
     type: selectedItem === null || selectedItem === void 0 ? void 0 : selectedItem.type
   }), /*#__PURE__*/_react["default"].createElement("span", null, currentStatus))), /*#__PURE__*/_react["default"].createElement(StyledList, {

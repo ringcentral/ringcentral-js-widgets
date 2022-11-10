@@ -17,11 +17,7 @@ require("core-js/modules/es6.function.name");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _newPalette = require("@ringcentral/juno/es6/foundation/styles/newPalette.js");
-
-var _ListItem = require("@ringcentral/juno/es6/components/List/ListItem/ListItem.js");
-
-var _styledComponents = _interopRequireDefault(require("@ringcentral/juno/es6/foundation/styled-components.js"));
+var _juno = require("@ringcentral/juno");
 
 var _ContactInfo = require("./ContactInfo");
 
@@ -45,7 +41,7 @@ function _templateObject() {
 
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
-var StyledListItem = (0, _styledComponents["default"])(_ListItem.RcListItem)(_templateObject(), (0, _newPalette.palette2)('neutral', 'f04'));
+var StyledListItem = (0, _juno.styled)(_juno.RcListItem)(_templateObject(), (0, _juno.palette2)('neutral', 'f04'));
 
 var ContactItem = function ContactItem(_ref) {
   var currentLocale = _ref.currentLocale,

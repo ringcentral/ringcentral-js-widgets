@@ -31,17 +31,9 @@ require("core-js/modules/es6.array.slice");
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _ListItem = require("@ringcentral/juno/es6/components/List/ListItem/ListItem.js");
-
-var _Presence = require("@ringcentral/juno/es6/components/Presence/Presence.js");
-
-var _spacing = require("@ringcentral/juno/es6/foundation/styles/spacing.js");
-
-var _styledComponents = _interopRequireDefault(require("@ringcentral/juno/es6/foundation/styled-components.js"));
+var _juno = require("@ringcentral/juno");
 
 var _getPresenceStatusName = require("../../lib/getPresenceStatusName");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
@@ -59,7 +51,7 @@ function _templateObject() {
 
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
-var StyledListItem = (0, _styledComponents["default"])(_ListItem.RcListItem)(_templateObject(), (0, _spacing.spacing)(2), (0, _spacing.spacing)(2), _Presence.RcPresence, (0, _spacing.spacing)(1.5));
+var StyledListItem = (0, _juno.styled)(_juno.RcListItem)(_templateObject(), (0, _juno.spacing)(2), (0, _juno.spacing)(2), _juno.RcPresence, (0, _juno.spacing)(1.5));
 var PresenceItem = /*#__PURE__*/(0, _react.forwardRef)(function (_ref, ref) {
   var selected = _ref.selected,
       classNameProp = _ref.className,
@@ -75,7 +67,7 @@ var PresenceItem = /*#__PURE__*/(0, _react.forwardRef)(function (_ref, ref) {
     disableGutters: true,
     className: classNameProp,
     onClick: onClick
-  }, /*#__PURE__*/_react["default"].createElement(_Presence.RcPresence, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcPresence, {
     size: "medium",
     type: type
   }), /*#__PURE__*/_react["default"].createElement("span", null, name));

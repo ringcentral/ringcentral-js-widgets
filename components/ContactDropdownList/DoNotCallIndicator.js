@@ -9,9 +9,9 @@ exports.DoNotCallIndicator = void 0;
 
 var _react = _interopRequireDefault(require("react"));
 
-var _Icon = require("@ringcentral/juno/es6/components/Icon/Icon.js");
+var _juno = require("@ringcentral/juno");
 
-var _Blocked = _interopRequireDefault(require("@ringcentral/juno/es6/icon/Blocked.js"));
+var _icon = require("@ringcentral/juno/icon");
 
 var _Tooltip = require("../Rcui/Tooltip");
 
@@ -30,9 +30,9 @@ var DoNotCallIndicator = function DoNotCallIndicator(_ref) {
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].doNotCall,
     "data-sign": "doNotCall"
-  }, /*#__PURE__*/_react["default"].createElement(_Icon.RcIcon, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
     color: "neutral.f04",
-    symbol: _Blocked["default"],
+    symbol: _icon.Blocked,
     size: "xsmall"
   })));
 };

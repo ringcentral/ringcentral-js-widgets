@@ -55,21 +55,7 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _ellipsis = require("@ringcentral/juno/es6/foundation/styles/ellipsis.js");
-
-var _flexWidth = require("@ringcentral/juno/es6/foundation/styles/flexWidth.js");
-
-var _ListItemText = require("@ringcentral/juno/es6/components/List/ListItemText/ListItemText.js");
-
-var _MenuItem = require("@ringcentral/juno/es6/components/Menu/MenuItem/MenuItem.js");
-
-var _MenuList = require("@ringcentral/juno/es6/components/Menu/MenuList/MenuList.js");
-
-var _ThemeProvider = require("@ringcentral/juno/es6/foundation/theme/ThemeProvider.js");
-
-var _spacing = require("@ringcentral/juno/es6/foundation/styles/spacing.js");
-
-var _styledComponents = _interopRequireDefault(require("@ringcentral/juno/es6/foundation/styled-components.js"));
+var _juno = require("@ringcentral/juno");
 
 var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
 
@@ -165,14 +151,14 @@ function _templateObject() {
 
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
-var gutter = (0, _spacing.spacing)(2.5);
-var StyledMenuItem = (0, _styledComponents["default"])(_MenuItem.RcMenuItem)(_templateObject(), _ListItemText.RcListItemText, gutter, gutter);
+var gutter = (0, _juno.spacing)(2.5);
+var StyledMenuItem = (0, _juno.styled)(_juno.RcMenuItem)(_templateObject(), _juno.RcListItemText, gutter, gutter);
 
-var Label = _styledComponents["default"].span(_templateObject2(), (0, _flexWidth.flexWidth)('40%'), (0, _spacing.spacing)(2));
+var Label = _juno.styled.span(_templateObject2(), (0, _juno.flexWidth)('40%'), (0, _juno.spacing)(2));
 
-var Value = _styledComponents["default"].span(_templateObject3());
+var Value = _juno.styled.span(_templateObject3());
 
-var WithLabelWrapper = _styledComponents["default"].div(_templateObject4(), _ellipsis.ellipsis);
+var WithLabelWrapper = _juno.styled.div(_templateObject4(), _juno.ellipsis);
 
 StyledMenuItem.defaultProps = {
   disableGutters: true
@@ -462,7 +448,7 @@ var DropdownSelect = /*#__PURE__*/function (_Component) {
         }
       }
 
-      return /*#__PURE__*/_react["default"].createElement(_MenuList.RcMenuList, {
+      return /*#__PURE__*/_react["default"].createElement(_juno.RcMenuList, {
         className: (0, _classnames["default"])(_styles["default"].dropdown, dropdownClassName),
         ref: function ref(_ref) {
           _this2.dropdownMenu = _ref;
@@ -488,7 +474,7 @@ var DropdownSelect = /*#__PURE__*/function (_Component) {
               _this2.onChange(e, option, idx);
             }
           }
-        }, /*#__PURE__*/_react["default"].createElement(_ListItemText.RcListItemText, null, display));
+        }, /*#__PURE__*/_react["default"].createElement(_juno.RcListItemText, null, display));
       }));
     }
   }, {
@@ -538,7 +524,7 @@ var DropdownSelect = /*#__PURE__*/function (_Component) {
       var dropdownMenu = renderDropdownMenu ? null : this.renderDropdownMenu();
       var renderValue = this.renderValue(value);
       var selectedOptionLabel = this.renderSelectedOptionLabel();
-      return /*#__PURE__*/_react["default"].createElement(_ThemeProvider.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement("div", {
+      return /*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement("div", {
         "data-sign": dataSign,
         className: (0, _classnames["default"])(containerClassName, wrapperStyle),
         ref: function ref(_ref2) {
@@ -611,7 +597,7 @@ DropdownSelect.defaultProps = {
   optionsWithLabel: false,
   customInputLimit: null
 };
-var StyledDropdownSelect = (0, _styledComponents["default"])(DropdownSelect)(_templateObject5());
+var StyledDropdownSelect = (0, _juno.styled)(DropdownSelect)(_templateObject5());
 exports.StyledDropdownSelect = StyledDropdownSelect;
 var _default = DropdownSelect;
 exports["default"] = _default;

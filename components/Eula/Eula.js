@@ -11,7 +11,7 @@ require("core-js/modules/es6.string.link");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _Link = require("@ringcentral/juno/es6/components/Link/Link.js");
+var _juno = require("@ringcentral/juno");
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
@@ -33,7 +33,7 @@ var Eula = function Eula(_ref) {
     } : null;
   }, [onClick, link]);
 
-  return /*#__PURE__*/_react["default"].createElement(_Link.RcLink, {
+  return /*#__PURE__*/_react["default"].createElement(_juno.RcLink, {
     color: "content.brand",
     variant: "inherit",
     className: className,

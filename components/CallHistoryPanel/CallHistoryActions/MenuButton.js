@@ -39,15 +39,7 @@ require("core-js/modules/es6.array.map");
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _Icon = require("@ringcentral/juno/es6/components/Icon/Icon.js");
-
-var _IconButton = require("@ringcentral/juno/es6/components/Buttons/IconButton/IconButton.js");
-
-var _Menu = require("@ringcentral/juno/es6/components/Menu/Menu/Menu.js");
-
-var _MenuItem = require("@ringcentral/juno/es6/components/Menu/MenuItem/MenuItem.js");
-
-var _SubMenu = require("@ringcentral/juno/es6/components/Menu/SubMenu/SubMenu.js");
+var _juno = require("@ringcentral/juno");
 
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
 
@@ -93,13 +85,13 @@ var MenuButton = /*#__PURE__*/(0, _react.memo)(function (_ref) {
         subMenu = _ref2.subMenu,
         dataSign = _ref2.dataSign;
 
-    var menuIcon = icon && /*#__PURE__*/_react["default"].createElement(_Icon.RcIcon, {
+    var menuIcon = icon && /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
       symbol: icon,
       size: "small"
     });
 
     if (action) {
-      return /*#__PURE__*/_react["default"].createElement(_MenuItem.RcMenuItem, {
+      return /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
         onClick: action,
         icon: menuIcon,
         key: label,
@@ -109,7 +101,7 @@ var MenuButton = /*#__PURE__*/(0, _react.memo)(function (_ref) {
     }
 
     if (subMenu) {
-      return /*#__PURE__*/_react["default"].createElement(_SubMenu.RcSubMenu, {
+      return /*#__PURE__*/_react["default"].createElement(_juno.RcSubMenu, {
         title: label,
         icon: menuIcon,
         key: label,
@@ -119,14 +111,14 @@ var MenuButton = /*#__PURE__*/(0, _react.memo)(function (_ref) {
     }
   };
 
-  return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_IconButton.RcIconButton, {
+  return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {
     onClick: handleClick,
     symbol: icon,
     size: "medium",
     variant: "plain",
     disabled: disabled,
     "data-sign": dataSign
-  }), /*#__PURE__*/_react["default"].createElement(_Menu.RcMenu, {
+  }), /*#__PURE__*/_react["default"].createElement(_juno.RcMenu, {
     anchorEl: anchorEl,
     keepMounted: true,
     autoClose: true,

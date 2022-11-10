@@ -41,11 +41,9 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _Icon = require("@ringcentral/juno/es6/components/Icon/Icon.js");
+var _juno = require("@ringcentral/juno");
 
-var _TextField = require("@ringcentral/juno/es6/components/Forms/TextField/TextField.js");
-
-var _Search = _interopRequireDefault(require("@ringcentral/juno/es6/icon/Search.js"));
+var _icon = require("@ringcentral/juno/icon");
 
 var _contexts = require("../../contexts");
 
@@ -102,15 +100,15 @@ var SearchPanel = function SearchPanel(_ref) {
   // IE polyfill
   _react["default"].createElement("span", {
     className: (0, _classnames["default"])(_styles["default"].placeholder, classes.placeholder)
-  }, placeholder || _i18n["default"].getString('search', currentLocale)), /*#__PURE__*/_react["default"].createElement(_TextField.RcTextField, {
+  }, placeholder || _i18n["default"].getString('search', currentLocale)), /*#__PURE__*/_react["default"].createElement(_juno.RcTextField, {
     size: "small",
     fullWidth: true,
     variant: "outline",
     radius: "round",
     value: filter,
     InputProps: {
-      startAdornment: /*#__PURE__*/_react["default"].createElement(_Icon.RcIcon, {
-        symbol: _Search["default"],
+      startAdornment: /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
+        symbol: _icon.Search,
         size: "small",
         color: "neutral.f04"
       })

@@ -43,11 +43,7 @@ var _classnames = _interopRequireDefault(require("classnames"));
 
 var _isBlank = _interopRequireDefault(require("@ringcentral-integration/commons/lib/isBlank"));
 
-var _MenuItem = require("@ringcentral/juno/es6/components/Menu/MenuItem/MenuItem.js");
-
-var _MenuList = require("@ringcentral/juno/es6/components/Menu/MenuList/MenuList.js");
-
-var _styledComponents = _interopRequireDefault(require("@ringcentral/juno/es6/foundation/styled-components.js"));
+var _juno = require("@ringcentral/juno");
 
 var _Button = require("../Button");
 
@@ -100,7 +96,7 @@ var CALL_ME = 1;
 var ON_MY_WAY = 2;
 var CUSTOM_MESSAGE = 3;
 var cleanRegex = /[^\d]/g;
-var StyledMenuItem = (0, _styledComponents["default"])(_MenuItem.RcMenuItem)(_templateObject());
+var StyledMenuItem = (0, _juno.styled)(_juno.RcMenuItem)(_templateObject());
 StyledMenuItem.defaultProps = {
   disableRipple: true
 };
@@ -234,7 +230,7 @@ var ReplyWithMessage = /*#__PURE__*/function (_Component) {
       var disableButton = (0, _isBlank["default"])(this._getValue().replyText) || disabled;
       return /*#__PURE__*/_react["default"].createElement("div", {
         className: (0, _classnames["default"])(_styles["default"].root, className)
-      }, /*#__PURE__*/_react["default"].createElement(_MenuList.RcMenuList, {
+      }, /*#__PURE__*/_react["default"].createElement(_juno.RcMenuList, {
         className: _styles["default"].messages
       }, /*#__PURE__*/_react["default"].createElement(StyledMenuItem, {
         onClick: function onClick() {

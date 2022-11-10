@@ -13,15 +13,7 @@ require("core-js/modules/es6.object.freeze");
 
 require("core-js/modules/es6.array.slice");
 
-var _styledComponents = _interopRequireDefault(require("@ringcentral/juno/es6/foundation/styled-components.js"));
-
-var _Text = require("@ringcentral/juno/es6/components/Text/Text.js");
-
-var _spacing = require("@ringcentral/juno/es6/foundation/styles/spacing.js");
-
-var _ListItemText = require("@ringcentral/juno/es6/components/List/ListItemText/ListItemText.js");
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+var _juno = require("@ringcentral/juno");
 
 function _templateObject4() {
   var data = _taggedTemplateLiteral(["\n  display: flex;\n  flex-direction: column;\n  margin: 0 ", ";\n"]);
@@ -65,15 +57,15 @@ function _templateObject() {
 
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
-var HelpTextSectionWrapper = _styledComponents["default"].div(_templateObject(), (0, _spacing.spacing)(2));
+var HelpTextSectionWrapper = _juno.styled.div(_templateObject(), (0, _juno.spacing)(2));
 
 exports.HelpTextSectionWrapper = HelpTextSectionWrapper;
-var StyledHintsTitle = (0, _styledComponents["default"])(_Text.RcText)(_templateObject2(), (0, _spacing.spacing)(1));
+var StyledHintsTitle = (0, _juno.styled)(_juno.RcText)(_templateObject2(), (0, _juno.spacing)(1));
 exports.StyledHintsTitle = StyledHintsTitle;
-var StyledListItemText = (0, _styledComponents["default"])(_ListItemText.RcListItemText)(_templateObject3(), (0, _spacing.spacing)(10));
+var StyledListItemText = (0, _juno.styled)(_juno.RcListItemText)(_templateObject3(), (0, _juno.spacing)(10));
 exports.StyledListItemText = StyledListItemText;
 
-var HintsWrapper = _styledComponents["default"].div(_templateObject4(), (0, _spacing.spacing)(4));
+var HintsWrapper = _juno.styled.div(_templateObject4(), (0, _juno.spacing)(4));
 
 exports.HintsWrapper = HintsWrapper;
 //# sourceMappingURL=HelpTextSection.js.map

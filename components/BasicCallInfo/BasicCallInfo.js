@@ -39,13 +39,9 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _IconButton = require("@ringcentral/juno/es6/components/Buttons/IconButton/IconButton.js");
+var _juno = require("@ringcentral/juno");
 
-var _px = require("@ringcentral/juno/es6/foundation/styles/px.js");
-
-var _ChevronLeft = _interopRequireDefault(require("@ringcentral/juno/es6/icon/ChevronLeft.js"));
-
-var _ChevronRight = _interopRequireDefault(require("@ringcentral/juno/es6/icon/ChevronRight.js"));
+var _icon = require("@ringcentral/juno/icon");
 
 var _AnimationPanel = require("../AnimationPanel");
 
@@ -108,11 +104,11 @@ var BasicCallInfo = function BasicCallInfo(_ref) {
 
   (0, _react.useEffect)(function () {
     if (callControlRef === null || callControlRef === void 0 ? void 0 : callControlRef.current) {
-      setPanelHeight("calc(100% - ".concat((0, _px.px)(callControlRef.current.clientHeight + KeyPadHeight), ")"));
+      setPanelHeight("calc(100% - ".concat((0, _juno.px)(callControlRef.current.clientHeight + KeyPadHeight), ")"));
     }
 
     if (status === 'callEnd') {
-      setPanelHeight("calc(100% - ".concat((0, _px.px)(SubmitButtonHeight), ")"));
+      setPanelHeight("calc(100% - ".concat((0, _juno.px)(SubmitButtonHeight), ")"));
     }
   }, [status, callControlRef]); // when ringing state change, close that info view
 
@@ -131,11 +127,11 @@ var BasicCallInfo = function BasicCallInfo(_ref) {
     followInfos: followInfos
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].rightIcon
-  }, /*#__PURE__*/_react["default"].createElement(_IconButton.RcIconButton, {
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {
     variant: "round",
     size: "small",
     color: "neutral.b04",
-    symbol: _ChevronRight["default"],
+    symbol: _icon.ChevronRight,
     "data-sign": "detailButton",
     onClick: toggleOpen
   }))), /*#__PURE__*/_react["default"].createElement(_ShinyBar.ShinyBar, {
@@ -150,11 +146,11 @@ var BasicCallInfo = function BasicCallInfo(_ref) {
     }
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].panel
-  }, /*#__PURE__*/_react["default"].createElement("header", null, /*#__PURE__*/_react["default"].createElement(_IconButton.RcIconButton, {
+  }, /*#__PURE__*/_react["default"].createElement("header", null, /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {
     variant: "round",
     size: "small",
     color: "neutral.f04",
-    symbol: _ChevronLeft["default"],
+    symbol: _icon.ChevronLeft,
     "data-sign": "backButton",
     onClick: toggleOpen
   })), /*#__PURE__*/_react["default"].createElement("main", null, /*#__PURE__*/_react["default"].createElement(_BasicCallInfoMain.BasicCallInfoMain, {

@@ -23,9 +23,7 @@ require("core-js/modules/es6.array.some");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _styledComponents = _interopRequireDefault(require("@ringcentral/juno/es6/foundation/styled-components.js"));
-
-var _newPalette = require("@ringcentral/juno/es6/foundation/styles/newPalette.js");
+var _juno = require("@ringcentral/juno");
 
 var _MessageInput = _interopRequireDefault(require("../MessageInput"));
 
@@ -55,7 +53,7 @@ function _templateObject() {
 
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
-var Root = _styledComponents["default"].div(_templateObject(), _commonStyles.fullSizeStyle, (0, _newPalette.palette2)('neutral', 'b01'));
+var Root = _juno.styled.div(_templateObject(), _commonStyles.fullSizeStyle, (0, _juno.palette2)('neutral', 'b01'));
 
 var ComposeTextPanel = function ComposeTextPanel(_ref) {
   var showSpinner = _ref.showSpinner,

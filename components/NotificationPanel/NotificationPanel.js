@@ -53,7 +53,7 @@ require("core-js/modules/es6.array.some");
 
 require("core-js/modules/es6.array.for-each");
 
-var _useSleep2 = require("@ringcentral/juno/es6/foundation/hooks/useSleep/useSleep.js");
+var _juno = require("@ringcentral/juno");
 
 require("animate.css/animate.min.css");
 
@@ -110,7 +110,7 @@ var NotificationPanel = function NotificationPanel(_ref) {
       currentMessages = _useState2[0],
       setCurrentMessages = _useState2[1];
 
-  var _useSleep = (0, _useSleep2.useSleep)(),
+  var _useSleep = (0, _juno.useSleep)(),
       sleep = _useSleep.sleep,
       cancel = _useSleep.cancel;
 

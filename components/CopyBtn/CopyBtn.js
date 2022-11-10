@@ -31,13 +31,9 @@ require("core-js/modules/es6.array.slice");
 
 var _react = _interopRequireWildcard(require("react"));
 
-var _IconButton = require("@ringcentral/juno/es6/components/Buttons/IconButton/IconButton.js");
+var _juno = require("@ringcentral/juno");
 
-var _spacing = require("@ringcentral/juno/es6/foundation/styles/spacing.js");
-
-var _styledComponents = _interopRequireDefault(require("@ringcentral/juno/es6/foundation/styled-components.js"));
-
-var _Copy = _interopRequireDefault(require("@ringcentral/juno/es6/icon/Copy.js"));
+var _icon = require("@ringcentral/juno/icon");
 
 var _CopyToClipboard = _interopRequireDefault(require("../CopyToClipboard"));
 
@@ -61,18 +57,18 @@ function _templateObject() {
 
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
 
-var BtnContainer = (0, _styledComponents["default"])('div')(_templateObject(), (0, _spacing.spacing)(8));
+var BtnContainer = (0, _juno.styled)('div')(_templateObject(), (0, _juno.spacing)(8));
 
 var InnerBtn = function InnerBtn(_ref) {
   var size = _ref.size,
       currentLocale = _ref.currentLocale,
       executeCopy = _ref.executeCopy;
-  return /*#__PURE__*/_react["default"].createElement(_IconButton.RcIconButton, {
+  return /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {
     variant: "round",
     size: size,
     color: "neutral.f04",
     "data-sign": "copyBtn",
-    symbol: _Copy["default"],
+    symbol: _icon.Copy,
     title: _i18n["default"].getString('copy', currentLocale),
     onClick: executeCopy
   });

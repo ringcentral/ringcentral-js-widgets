@@ -28,13 +28,9 @@ var _react = _interopRequireWildcard(require("react"));
 
 var _classnames = _interopRequireDefault(require("classnames"));
 
-var _combineProps = require("@ringcentral/juno/es6/foundation/utils/combineProps.js");
+var _juno = require("@ringcentral/juno");
 
-var _SnackbarAction = require("@ringcentral/juno/es6/components/Snackbar/SnackbarAction/SnackbarAction.js");
-
-var _SnackbarContent = require("@ringcentral/juno/es6/components/Snackbar/SnackbarContent/SnackbarContent.js");
-
-var _Close = _interopRequireDefault(require("@ringcentral/juno/es6/icon/Close.js"));
+var _icon = require("@ringcentral/juno/icon");
 
 var _styles = _interopRequireDefault(require("./styles.scss"));
 
@@ -104,14 +100,14 @@ var NotificationItem = /*#__PURE__*/(0, _react.memo)(function (_ref) {
     className: (0, _classnames["default"])(_styles["default"].backdrop, backdropClass, classes.backdrop, 'animated', backdropAnimation),
     style: animationStyle,
     onClick: onBackdropClick
-  }), /*#__PURE__*/_react["default"].createElement(_SnackbarContent.RcSnackbarContent, {
+  }), /*#__PURE__*/_react["default"].createElement(_juno.RcSnackbarContent, {
     "data-sign": "notification",
     "data-sign-type": type,
     type: type,
     size: size,
     fullWidth: fullWidth,
     loading: loading,
-    classes: (0, _combineProps.combineProps)({
+    classes: (0, _juno.combineProps)({
       root: (0, _classnames["default"])('animated', _styles["default"].snackbar, animation)
     }, snackbarClass),
     style: animationStyle,
@@ -121,9 +117,9 @@ var NotificationItem = /*#__PURE__*/(0, _react.memo)(function (_ref) {
       currentLocale: currentLocale,
       brand: brand
     }),
-    action: action !== null && action !== void 0 ? action : /*#__PURE__*/_react["default"].createElement(_SnackbarAction.RcSnackbarAction, {
+    action: action !== null && action !== void 0 ? action : /*#__PURE__*/_react["default"].createElement(_juno.RcSnackbarAction, {
       variant: "icon",
-      symbol: _Close["default"],
+      symbol: _icon.Close,
       size: "small",
       onClick: function onClick() {
         dismiss(id);

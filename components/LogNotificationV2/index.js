@@ -17,11 +17,7 @@ var _callDirections = _interopRequireDefault(require("@ringcentral-integration/c
 
 var _telephonyStatus = _interopRequireDefault(require("@ringcentral-integration/commons/enums/telephonyStatus"));
 
-var _MenuItem = require("@ringcentral/juno/es6/components/Menu/MenuItem/MenuItem.js");
-
-var _MenuList = require("@ringcentral/juno/es6/components/Menu/MenuList/MenuList.js");
-
-var _Popover = require("@ringcentral/juno/es6/components/Popover/Popover.js");
+var _juno = require("@ringcentral/juno");
 
 var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
 
@@ -108,7 +104,7 @@ function LogNotification(_ref2) {
         return onExpand();
       },
       className: (0, _classnames["default"])(_styles["default"].logBtn, _styles["default"].actionItem)
-    }, !isExpand ? /*#__PURE__*/_react["default"].createElement(_LogUnclick["default"], null) : /*#__PURE__*/_react["default"].createElement(_LogClick["default"], null))), /*#__PURE__*/_react["default"].createElement(_Popover.RcPopover, {
+    }, !isExpand ? /*#__PURE__*/_react["default"].createElement(_LogUnclick["default"], null) : /*#__PURE__*/_react["default"].createElement(_LogClick["default"], null))), /*#__PURE__*/_react["default"].createElement(_juno.RcPopover, {
       open: !!anchorEl.current && isExpand,
       anchorEl: anchorEl.current,
       onClose: function onClose() {
@@ -125,12 +121,12 @@ function LogNotification(_ref2) {
       closeAfterTransition: true,
       container: viewport,
       className: _styles["default"].modalAnimation
-    }, /*#__PURE__*/_react["default"].createElement(_MenuList.RcMenuList, null, /*#__PURE__*/_react["default"].createElement(_MenuItem.RcMenuItem, {
+    }, /*#__PURE__*/_react["default"].createElement(_juno.RcMenuList, null, /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
       onClick: function onClick() {
         return onSave();
       },
       className: _styles["default"].menuItem
-    }, _i18n2["default"].getString('save', currentLocale)), /*#__PURE__*/_react["default"].createElement(_MenuItem.RcMenuItem, {
+    }, _i18n2["default"].getString('save', currentLocale)), /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, {
       onClick: function onClick() {
         return onDiscard();
       },

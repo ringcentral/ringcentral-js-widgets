@@ -37,9 +37,7 @@ require("core-js/modules/es6.object.set-prototype-of");
 
 var _react = _interopRequireDefault(require("react"));
 
-var _Button = require("@ringcentral/juno/es6/components/Buttons/Button/Button.js");
-
-var _Checkbox = require("@ringcentral/juno/es6/components/Forms/Checkbox/Checkbox.js");
+var _juno = require("@ringcentral/juno");
 
 var _i18n = _interopRequireDefault(require("./i18n"));
 
@@ -120,7 +118,7 @@ var MeetingScheduleButton = /*#__PURE__*/function (_React$Component) {
         $hidden: hidden
       }, hidden ? /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].actionPrompt
-      }, this.getI18nPromptString()) : null, showSaveAsDefault ? /*#__PURE__*/_react["default"].createElement(_Checkbox.RcCheckbox, {
+      }, this.getI18nPromptString()) : null, showSaveAsDefault ? /*#__PURE__*/_react["default"].createElement(_juno.RcCheckbox, {
         "data-sign": "saveAsDefault",
         checked: meeting === null || meeting === void 0 ? void 0 : meeting.saveAsDefault,
         disabled: disableSaveAsDefault,
@@ -141,7 +139,7 @@ var MeetingScheduleButton = /*#__PURE__*/function (_React$Component) {
         disabled: disabled,
         "data-sign": "meetingScheduleButton",
         fullWidth: true
-      }, scheduleButtonLabel || this.getI18nButtonString()), showLaunchMeetingBtn ? /*#__PURE__*/_react["default"].createElement(_Button.RcButton, {
+      }, scheduleButtonLabel || this.getI18nButtonString()), showLaunchMeetingBtn ? /*#__PURE__*/_react["default"].createElement(_juno.RcButton, {
         className: _styles["default"].gutter,
         onClick: function onClick() {
           return launchMeeting(meeting);
