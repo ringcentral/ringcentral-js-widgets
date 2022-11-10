@@ -95,7 +95,7 @@
   },
   "peerDependencies": {
     "@ringcentral-integration/core": "^0.13.0",
-    "@ringcentral-integration/i18n": "^2.0.1",
+    "@ringcentral-integration/i18n": "^2.1.1",
     "@ringcentral-integration/phone-number": "^1.0.4",
     "@ringcentral/juno": "^1.12.6-beta.5910-6eeb3bdd",
     "@ringcentral/sdk": "^4.6.0",

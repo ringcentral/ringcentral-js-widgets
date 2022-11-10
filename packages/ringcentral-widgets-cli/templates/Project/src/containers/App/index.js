@@ -3,8 +3,7 @@ import PropTypes from 'prop-types';
 import { Provider } from 'react-redux';
 import { Router, Route } from 'react-router';
 
-import PhoneProvider from '@ringcentral-integration/widgets/lib/PhoneProvider';
-
+import { PhoneProvider } from '@ringcentral-integration/widgets/lib/phoneContext';
 import { RegionSettingsPage } from '@ringcentral-integration/widgets/containers/RegionSettingsPage';
 
 import SettingsPage from '@ringcentral-integration/widgets/containers/SettingsPage';

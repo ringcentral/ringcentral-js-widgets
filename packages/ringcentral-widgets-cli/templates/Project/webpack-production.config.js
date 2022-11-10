@@ -28,7 +28,46 @@ const config = {
     path: buildPath,
     filename: '[name].js',
   },
+  resolve: {
+    // webpack < 5 used to include polyfills for node.js core modules by default.
+    // This is no longer the case. Verify if you need this module and configure a polyfill for it.
+    //
+    // more doc: https://webpack.js.org/configuration/resolve/#resolvefallback
+    //
+    fallback: {
+      crypto: require.resolve('crypto-browserify'),
+      stream: require.resolve('stream-browserify'),
+      vm: require.resolve('vm-browserify'),
+      timers: require.resolve('timers-browserify'),
+      process: require.resolve('process/browser'),
+      assert: require.resolve('assert'),
+      buffer: require.resolve('buffer'),
+      console: require.resolve('console-browserify'),
+      constants: require.resolve('constants-browserify'),
+      domain: require.resolve('domain-browser'),
+      events: require.resolve('events'),
+      http: require.resolve('stream-http'),
+      https: require.resolve('https-browserify'),
+      os: require.resolve('os-browserify/browser'),
+      path: require.resolve('path-browserify'),
+      punycode: require.resolve('punycode'),
+      querystring: require.resolve('querystring-es3'),
+      string_decoder: require.resolve('string_decoder'),
+      sys: require.resolve('util'),
+      tty: require.resolve('tty-browserify'),
+      url: require.resolve('url'),
+      util: require.resolve('util'),
+      zlib: require.resolve('browserify-zlib'),
+    },
+    extensions: ['.js', '.jsx', '.ts', '.tsx'],
+  },
   plugins: [
+    new webpack.ProvidePlugin({
+      process: 'process/browser.js',
+      Buffer: ['buffer', 'Buffer'],
+      setImmediate: ['setimmediate', 'setImmedate'],
+      clearImmediate: ['setimmediate', 'clearImmedate'],
+    }),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('production'),
@@ -81,17 +120,23 @@ const config = {
       },
       {
         test: /\.woff|\.woff2|.eot|\.ttf/,
-        use: 'url-loader?limit=15000&publicPath=./&name=fonts/[name]_[hash].[ext]',
+        // use:
+        //   'url-loader?limit=15000&publicPath=./&name=fonts/[name]_[hash].[ext]',
+        use: {
+          loader: 'url-loader',
+          options: {
+            limit: 15000,
+            name: 'fonts/[name]_[hash].[ext]',
+            // TODO: it should be upgrade css-loader and update config
+            esModule: false,
+          },
+        },
       },
       {
         test: /\.png|\.jpg|\.gif|\.svg/,
         exclude:
-          /ringcentral-integration(\/|\\)widgets(\/|\\)assets(\/|\\)images(\/|\\).+\.svg/,
+          /@ringcentral-integration(\/|\\)widgets(\/|\\)assets(\/|\\)images(\/|\\).+\.svg/,
         use: 'url-loader?limit=20000&publicPath=./&name=images/[name]_[hash].[ext]',
-      },
-      {
-        test: /\.ogg$/,
-        use: 'file-loader?publicPath=./&name=audio/[name]_[hash].[ext]',
       },
       {
         test: /\.sass|\.scss/,
@@ -120,6 +165,10 @@ const config = {
             },
           },
         ],
+      },
+      {
+        test: /\.ogg$/,
+        use: 'file-loader?publicPath=./&name=audio/[name]_[hash].[ext]',
       },
     ],
   },
