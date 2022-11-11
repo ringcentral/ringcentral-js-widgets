@@ -60,7 +60,6 @@ import { SettingsUI } from '@ringcentral-integration/widgets/modules/SettingsUI'
         StorageProvider: LocalForageStorage, // IndexedDB
         disableInactiveTabsWrite: true,
       },
-      spread: false,
     },
     { provide: 'RateLimiter', useClass: RateLimiter },
     { provide: 'Subscription', useClass: Subscription },
