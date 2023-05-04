@@ -26,6 +26,10 @@ export interface WebRTCNotificationProps {
   entityType: string;
   getAvatarUrl: (contact: IContact) => Promise<string>;
   entityDetailLink: string;
+  openEntityDetailLinkTrack?: () => any;
+  reply?: (telephonySession: string) => any;
+  enableReply?: boolean;
+  disableLinks?: boolean;
 }
 
 export interface Call {

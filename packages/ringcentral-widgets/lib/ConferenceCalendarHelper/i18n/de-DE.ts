@@ -10,16 +10,17 @@ export default {
   inviteText_bt: "Treten Sie bitte der {brandName}-Konferenz bei.\n\nEinwahlnummer: {formattedDialInNumber} \n{additionalNumbersSection} \nTeilnehmerzugang: {participantCode} \n\nZusätzliche Einwahlnummern {dialInNumbersLink} ",
   inviteText_rc: "Treten Sie bitte der {brandName}-Konferenz bei.\n\nEinwahlnummer: {formattedDialInNumber} \n{additionalNumbersSection} \nTeilnehmerzugang: {participantCode} \n\nBenötigen Sie eine internationale Einwahlnummer? Besuchen Sie bitte {dialInNumbersLink} \n\nDiese Telefonkonferenz wird Ihnen durch {brandName}-Konferenzen bereitgestellt.",
   inviteText_telus: "Treten Sie bitte der {brandName}-Konferenz bei.\n\nEinwahlnummer: {formattedDialInNumber} \n{additionalNumbersSection} \nTeilnehmerzugang: {participantCode} \n\nZusätzliche Einwahlnummern {dialInNumbersLink} ",
-  conferenceCall: "{brandName} Telefonkonferenz",
-  videoCall: "{brandName} Videoanruf",
+  conferenceCall: "{brandName}-Telefonkonferenz",
+  videoCall: "{brandName} Video-Anruf",
   addConferencingDetails: "Konferenzdetails hinzufügen",
   updateConferencingDetails: "Konferenzdetails aktualisieren",
+  // @ts-expect-error TS(1117): An object literal cannot have multiple properties ... Remove this comment to see the full error message
   scheduleError: "Da ist leider etwas schief gelaufen. Versuchen Sie es erneut.+",
   deleteBtn: "Löschen",
   settingsBtn: "Einstellungen",
   saveAsDefaultAndNotShowAgain: "Als Standard speichern und nicht erneut anzeigen",
   saveAsDefault: "Als Standard speichern",
-  done: "Fertig",
+  done: "Erledigt",
   update: "Aktualisieren",
   conferenceSettingsTitle: "{brand}-Konferenzeinstellungen",
   videoSettingsTitle: "{brand} Meetings-Einstellungen",
@@ -29,6 +30,7 @@ export default {
   recurringMeeting: "Wiederkehrende Besprechung",
   meetingOptions: "Besprechungsoptionen",
   schedule: "Planen",
+  // @ts-expect-error TS(1117): An object literal cannot have multiple properties ... Remove this comment to see the full error message
   settingsBtn: "Einstellungen"
 };
 

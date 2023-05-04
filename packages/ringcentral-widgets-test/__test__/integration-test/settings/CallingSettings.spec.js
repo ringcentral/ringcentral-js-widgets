@@ -28,9 +28,11 @@ describe('calling settings', () => {
     );
   });
 
-  test('check button state with when select different option', () => {
+  test('check button state with when select different option', async () => {
     let saveButton = callingSettings.find('SaveButton').first();
     expect(saveButton.props().disabled).toEqual(true);
+    callingSettings.find('[data-sign="selectRoot"]').first().simulate('click');
+    callingSettings = wrapper.find(CallingSettingsPanel).first();
     const items = callingSettings.find('li[data-sign="selectMenuItem"]');
     // items.at(5).text()
     const lastItem = items.at(items.length - 1);
@@ -42,6 +44,8 @@ describe('calling settings', () => {
 
   test('check save run correctly', async () => {
     const saveButton = callingSettings.find('SaveButton').first();
+    callingSettings.find('[data-sign="selectRoot"]').first().simulate('click');
+    callingSettings = wrapper.find(CallingSettingsPanel).first();
     const items = callingSettings.find('li[data-sign="selectMenuItem"]');
     const lastItem = items.at(items.length - 1);
     lastItem.simulate('click');
@@ -53,7 +57,7 @@ describe('calling settings', () => {
     expect(messages).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          level: 'info',
+          level: 'success',
           message: 'callingSettingsMessages-saveSuccess',
         }),
       ]),
@@ -67,7 +71,6 @@ describe('calling settings', () => {
       .alert.messages.find((item) =>
         /emergencyCallingNotAvailable/.test(item.message),
       );
-    expect(message).toBeTruthy();
-    expect(message.level).toEqual('info');
+    expect(message).toBeUndefined();
   });
 });

@@ -4,5 +4,3 @@ export const ringoutErrors = ObjectMap.prefixKeys(
   ['pollingFailed', 'pollingCancelled', 'firstLegConnectFailed'],
   'ringoutErrors',
 );
-
-export default ringoutErrors;

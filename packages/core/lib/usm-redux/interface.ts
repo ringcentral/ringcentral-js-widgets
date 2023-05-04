@@ -27,6 +27,8 @@ export interface Service<T extends Record<string, any> = Record<string, any>> {
   readonly [stateKey]: T;
   readonly [storeKey]: Store<T>;
   readonly [subscriptionsKey]: Subscription[];
+  _getLastState?: () => Record<string, any>;
+  _handleState?: (...args: any) => void;
   [K: string]: any;
 }
 

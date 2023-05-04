@@ -1,17 +1,18 @@
 import {
   autorun,
-  title,
-  Scenario,
   Given,
-  When,
-  Then,
+  Scenario,
   Step,
+  Then,
+  title,
+  When,
 } from '@ringcentral-integration/test-utils';
-import { RcModuleV2, state, action, createApp } from '../../lib/RcModule';
-import { sleep } from '../lib/sleep';
+import { sleep } from '@ringcentral-integration/utils';
+
+import { createApp, RcModuleV2, state } from '../../lib/RcModule';
 
 class Foo extends RcModuleV2 {
-  onInit() {
+  override onInit() {
     return new Promise<void>(() => {});
   }
 }
@@ -25,7 +26,7 @@ class Counter extends RcModuleV2<{ foo: Foo; bar: Bar }> {
 
   changeTime = 0;
 
-  onStateChange() {
+  override onStateChange() {
     this.changeTime += 1;
   }
 

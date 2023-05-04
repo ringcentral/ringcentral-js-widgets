@@ -1,5 +1,5 @@
 {
-    "uri" : "https://api-xmnup.lab.nordigy.ru/restapi/v1.0/account/129832006/extension/129832006/device?page=1&perPage=100",
+    "uri" : "https://platform.devtest.ringcentral.com/restapi/v1.0/account/129832006/extension/129832006/device?page=1&perPage=100",
     "records" : [],
     "paging" : {
       "page" : 1,
@@ -11,10 +11,10 @@
     },
     "navigation" : {
       "firstPage" : {
-        "uri" : "https://api-xmnup.lab.nordigy.ru/restapi/v1.0/account/129832006/extension/129832006/device?page=1&perPage=100"
+        "uri" : "https://platform.devtest.ringcentral.com/restapi/v1.0/account/129832006/extension/129832006/device?page=1&perPage=100"
       },
       "lastPage" : {
-        "uri" : "https://api-xmnup.lab.nordigy.ru/restapi/v1.0/account/129832006/extension/129832006/device?page=1&perPage=100"
+        "uri" : "https://platform.devtest.ringcentral.com/restapi/v1.0/account/129832006/extension/129832006/device?page=1&perPage=100"
       }
     }
   }

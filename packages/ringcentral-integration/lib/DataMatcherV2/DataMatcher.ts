@@ -24,7 +24,7 @@ import {
   SearchProvider,
   SearchProviderOptions,
   TriggerMatchOptions,
-} from './DataMatcher.interfaces';
+} from './DataMatcher.interface';
 
 const DEFAULT_TTL = 30 * 60 * 1000;
 const DEFAULT_NO_MATCH_TTL = 30 * 1000;
@@ -33,7 +33,7 @@ const DEFAULT_NO_MATCH_TTL = 30 * 1000;
   name: 'DataMatcher',
   deps: [{ dep: 'Storage', optional: true }],
 })
-abstract class DataMatcher<T, D = {}> extends RcModuleV2<Deps & D> {
+abstract class DataMatcher<T, D extends Deps = Deps> extends RcModuleV2<D> {
   protected _querySources = new Map<
     QuerySourceOptions['getQueriesFn'],
     QuerySourceOptions['readyCheckFn']
@@ -72,7 +72,7 @@ abstract class DataMatcher<T, D = {}> extends RcModuleV2<Deps & D> {
     return this.dataMatcherOptions?.noMatchTtl ?? DEFAULT_NO_MATCH_TTL;
   }
 
-  onReset() {
+  override onReset() {
     this._lastCleanUp = 0;
   }
 
@@ -121,11 +121,11 @@ abstract class DataMatcher<T, D = {}> extends RcModuleV2<Deps & D> {
     }
   }
 
-  _shouldInit() {
+  override _shouldInit() {
     return !!(super._shouldInit() && this.searchProvidersReady);
   }
 
-  _shouldReset() {
+  override _shouldReset() {
     return !!(
       super._shouldReset() ||
       (this.ready && !this.searchProvidersReady)
@@ -244,7 +244,7 @@ abstract class DataMatcher<T, D = {}> extends RcModuleV2<Deps & D> {
         queries,
         data,
       });
-    } catch (error) {
+    } catch (error: any /** TODO: confirm with instanceof */) {
       this._matchPromises.delete(name);
       throw error;
     }
@@ -264,6 +264,7 @@ abstract class DataMatcher<T, D = {}> extends RcModuleV2<Deps & D> {
 
     let matching: MatchPromises<T> | MatchQueue;
     if (!ignoreQueue && this._matchPromises.has(name)) {
+      // @ts-ignore
       matching = this._matchPromises.get(name);
       promises.push(matching.promise);
       matching.queries.forEach((item) => {
@@ -273,6 +274,7 @@ abstract class DataMatcher<T, D = {}> extends RcModuleV2<Deps & D> {
 
     let queue: MatchQueue;
     if (!ignoreQueue && this._matchQueues.has(name)) {
+      // @ts-ignore
       queue = this._matchQueues.get(name);
       promises.push(queue.promise);
       queue.queries.forEach((item) => {
@@ -299,6 +301,7 @@ abstract class DataMatcher<T, D = {}> extends RcModuleV2<Deps & D> {
             queries: newQueries,
           }),
         );
+        // @ts-ignore
       } else if (!matching) {
         matching = {
           promise: this._fetchMatchResult({
@@ -308,11 +311,13 @@ abstract class DataMatcher<T, D = {}> extends RcModuleV2<Deps & D> {
           queries: newQueries,
         };
         promises.push(matching.promise);
+        // @ts-ignore
       } else if (!queue) {
         const promise = (async () => {
           await matching.promise;
           const promise = this._fetchMatchResult({
             name,
+            // @ts-ignore
             queries: queue.queries,
           });
           this._matchQueues.delete(name);

@@ -1,6 +1,6 @@
+import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 import callResults from '@ringcentral-integration/commons/enums/callResults';
 import telephonyStatuses from '@ringcentral-integration/commons/enums/telephonyStatus';
-import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 export default {
   [callDirections.inbound]: "Eingehend",
   [callDirections.outbound]: "Ausgehend",
@@ -11,25 +11,25 @@ export default {
   OutboundDirection: "Ausgehender Anruf an:",
   [telephonyStatuses.noCall]: "Getrennt",
   [telephonyStatuses.callConnected]: "Verbunden",
-  [telephonyStatuses.ringing]: "Es wird angerufen",
-  [telephonyStatuses.onHold]: "Gehalten",
+  [telephonyStatuses.ringing]: "Läutet",
+  [telephonyStatuses.onHold]: "Wird gehalten",
   [telephonyStatuses.parkedCall]: "Geparkt",
   [callResults.unknown]: "Unbekannt",
-  [callResults.missed]: "Verpasst",
+  [callResults.missed]: "Verpasste",
   [callResults.callAccepted]: "Beantwortet",
   [callResults.accepted]: "Beantwortet",
   [callResults.voicemail]: "Voicemail",
   [callResults.rejected]: "Abgelehnt",
-  [callResults.reply]: "Antworten",
+  [callResults.reply]: "Antwort",
   [callResults.received]: "Empfangen",
   [callResults.faxReceiptError]: "Faxempfangsfehler",
   [callResults.faxOnDemand]: "Fax bei Bedarf",
   [callResults.partialReceive]: "Teilweise empfangen",
-  [callResults.blocked]: "Blockiert",
+  [callResults.blocked]: "Unterdrückt",
   [callResults.callConnected]: "Anruf verbunden",
   [callResults.noAnswer]: "Keine Antwort",
   [callResults.internationalDisabled]: "International deaktiviert",
-  [callResults.busy]: "Belegt",
+  [callResults.busy]: "Besetzt",
   [callResults.faxSendError]: "Faxsendefehler",
   [callResults.sent]: "Gesendet",
   [callResults.callFailed]: "Anruf fehlgeschlagen",
@@ -45,7 +45,8 @@ export default {
   [callResults.declined]: "Abgelehnt",
   [callResults.faxReceipt]: "Faxempfang",
   [callResults.disconnected]: "Getrennt",
-  [callResults.notAllowed]: "Nicht zulässig"
+  [callResults.notAllowed]: "Nicht zulässig",
+  warmTransferSwitchCall: "Anrufe wechseln"
 };
 
 // @key: @#@"[callDirections.inbound]"@#@ @source: @#@"Inbound"@#@
@@ -92,3 +93,4 @@ export default {
 // @key: @#@"[callResults.faxReceipt]"@#@ @source: @#@"Fax Receipt"@#@
 // @key: @#@"[callResults.disconnected]"@#@ @source: @#@"Disconnected"@#@
 // @key: @#@"[callResults.notAllowed]"@#@ @source: @#@"Not Allowed"@#@
+// @key: @#@"warmTransferSwitchCall"@#@ @source: @#@"Switch calls"@#@

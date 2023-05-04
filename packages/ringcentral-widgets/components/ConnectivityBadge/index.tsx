@@ -62,8 +62,10 @@ const ConnectivityBadge: FunctionComponent<ConnectivityBadgeProps> = ({
   );
 };
 ConnectivityBadge.defaultProps = {
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   className: null,
   onClick() {},
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   mode: null,
   webphoneConnecting: false,
   hasLimitedStatusError: false,

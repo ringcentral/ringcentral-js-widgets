@@ -8,7 +8,7 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
-import { Meeting } from '../../../modules/MeetingV2';
+import { Meeting } from '../../../modules/Meeting';
 import { mockModuleGenerator } from '../../lib/mockModule';
 import {
   EXPECT_GENERAL_DEFAULT_SETTING_WITH_SW_SETTING,

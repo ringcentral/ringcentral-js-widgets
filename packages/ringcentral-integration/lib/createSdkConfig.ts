@@ -1,4 +1,4 @@
-import { SDKOptions } from '@ringcentral/sdk';
+import type { SDKOptions } from '@ringcentral/sdk';
 
 // TODO: Maybe it could not all be optional type, maybe could push sdk auhter to change it
 export type SDKConfig = SDKOptions & {

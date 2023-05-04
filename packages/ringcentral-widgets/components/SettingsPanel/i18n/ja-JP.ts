@@ -1,6 +1,6 @@
 export default {
   region: "地域",
-  calling: "通話",
+  calling: "発信中",
   logout: "ログアウト",
   version: "バージョン",
   settings: "設定",
@@ -13,7 +13,7 @@ export default {
   clickToSMS: "クリックSMS",
   logSMSContent: "SMSコンテンツの記録",
   clickToDialSMS: "クリックダイヤル/SMS",
-  audio: "オーディオ",
+  audio: "音声",
   language: "言語",
   feedback: "フィードバック",
   userGuide: "新着情報",

@@ -1,15 +1,18 @@
-import formatMessage from 'format-message';
 import { pick } from 'ramda';
-
-import format, {
+import type DialInNumberResource from '@rc-ex/core/lib/definitions/DialInNumberResource';
+import formatPhoneNumber, {
   formatTypes,
 } from '@ringcentral-integration/phone-number/lib/format';
+import { format } from '@ringcentral-integration/utils';
 
-import i18n from '../modules/MeetingV2/i18n';
-import { RcMMeetingModel } from '../modules/MeetingV2/Meeting.interface';
+import i18n from '../modules/Meeting/i18n';
+import type { RcMMeetingModel } from '../modules/Meeting/Meeting.interface';
 import { MeetingType, MeetingTypeV } from './meetingHelper.interface';
 
-function getMobileDialingNumberTpl(dialInNumbers, meetingId) {
+function getMobileDialingNumberTpl(
+  dialInNumbers: DialInNumberResource[],
+  meetingId: string,
+) {
   return dialInNumbers
     .map(({ phoneNumber, location = '' }) =>
       location
@@ -19,12 +22,12 @@ function getMobileDialingNumberTpl(dialInNumbers, meetingId) {
     .join('\n    ');
 }
 
-function getPhoneDialingNumberTpl(dialInNumbers) {
+function getPhoneDialingNumberTpl(dialInNumbers: DialInNumberResource[]) {
   return dialInNumbers
     .map(({ phoneNumber, location = '', country }) => {
-      const filterFormattedNumber = format({
+      const filterFormattedNumber = formatPhoneNumber({
         phoneNumber,
-        countryCode: country.isoCode,
+        countryCode: country?.isoCode,
         type: formatTypes.international,
       });
       return location
@@ -43,43 +46,11 @@ function isRecurringMeeting(meetingType: MeetingTypeV) {
   );
 }
 
-function getMeetingSettings({
-  extensionName,
-  startTime,
-  durationInMinutes = 60,
-  topic = '',
-  currentLocale = 'en-US',
-}) {
-  return {
-    topic:
-      topic ||
-      formatMessage(i18n.getString('meetingTitle', currentLocale), {
-        extensionName,
-      }),
-    meetingType: MeetingType.SCHEDULED,
-    password: '',
-    schedule: {
-      startTime,
-      durationInMinutes,
-      timeZone: {
-        id: UTC_TIMEZONE_ID,
-      },
-    },
-    host: {
-      id: null,
-    },
-    allowJoinBeforeHost: false,
-    startHostVideo: false,
-    startParticipantsVideo: false,
-    audioOptions: ['Phone', 'ComputerAudio'],
-  };
-}
-
 function getDefaultTopic(
   extensionName: string,
   currentLocale: string = 'en-US',
 ) {
-  return formatMessage(i18n.getString('meetingTitle', currentLocale), {
+  return format(i18n.getString('meetingTitle', currentLocale), {
     extensionName,
   });
 }
@@ -90,7 +61,7 @@ function getDefaultMeetingSettings(
   currentLocale: string = 'en-US',
   startTime: number,
   hostId?: string,
-): RcMMeetingModel {
+): Partial<RcMMeetingModel> {
   return {
     topic: getDefaultTopic(extensionName, currentLocale),
     meetingType: MeetingType.SCHEDULED,
@@ -130,16 +101,19 @@ const preferencesMembers = [
   '_requireMeetingPassword',
 ];
 
-function prunePreferencesObject(meeting) {
+function prunePreferencesObject(meeting: RcMMeetingModel) {
   const preferences = pick(preferencesMembers, meeting);
   return preferences;
 }
 
-function comparePreferences(preferences, meeting): boolean {
+function comparePreferences(
+  preferences: RcMMeetingModel,
+  meeting: RcMMeetingModel,
+) {
   let preferencesChanged = false;
   if (preferences && meeting) {
     for (const key in preferences) {
-      if (preferences[key] !== meeting[key]) {
+      if ((preferences as any)[key] !== (meeting as any)[key]) {
         preferencesChanged = true;
         break;
       }
@@ -175,7 +149,7 @@ function updateFullTime(preTime: Date, currTime: Date | number): Date {
   return preTime;
 }
 
-// TODO: will remove this when google app script could support export seperately
+// TODO: will remove this when google app script could support export separately
 // export together because google app script not fully support export
 export {
   comparePreferences,
@@ -183,7 +157,6 @@ export {
   getDefaultMeetingSettings,
   getDefaultTopic,
   getInitializedStartTime,
-  getMeetingSettings,
   getMobileDialingNumberTpl,
   getPhoneDialingNumberTpl,
   isRecurringMeeting,

@@ -1,7 +1,7 @@
 export default {
-  removeParticipant: "参加者の削除",
-  confirmStr1: "この通話から",
-  confirmStr2: "を削除してもよろしいですか？",
+  removeParticipant: "参加者を削除",
+  confirmStr1: "この通話から削除しても",
+  confirmStr2: "よろしいですか？",
   remove: "削除",
   cancel: "キャンセル",
   participants: "参加者",

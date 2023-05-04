@@ -1,10 +1,11 @@
+import { sleep } from '@ringcentral-integration/utils';
+
 import moduleStatuses from '../../enums/moduleStatuses';
 import { batchGetApi } from '../../lib/batchApiHelper';
 import { Module } from '../../lib/di';
 import ensureExist from '../../lib/ensureExist';
 import proxify from '../../lib/proxy/proxify';
 import RcModule from '../../lib/RcModule';
-import { sleep } from '../../lib/sleep';
 import { actionTypes } from './actionTypes';
 import getReducer, { getGlipPersonStoreReducer } from './getReducer';
 
@@ -85,7 +86,7 @@ export default class GlipPersons extends RcModule {
     }
   }
 
-  _shouldInit() {
+  override _shouldInit() {
     return (
       this._auth.loggedIn &&
       this._appFeatures.ready &&
@@ -95,7 +96,7 @@ export default class GlipPersons extends RcModule {
     );
   }
 
-  _shouldReset() {
+  override _shouldReset() {
     return (
       ((this._storage && !this._storage.ready) ||
         (this._tabManager && !this._tabManager.ready) ||
@@ -121,7 +122,7 @@ export default class GlipPersons extends RcModule {
         type: this.actionTypes.fetchSuccess,
         person,
       });
-    } catch (e) {
+    } catch (e: any /** TODO: confirm with instanceof */) {
       this.store.dispatch({
         type: this.actionTypes.fetchError,
       });
@@ -162,7 +163,7 @@ export default class GlipPersons extends RcModule {
       ids.forEach((id) => {
         delete this._fetchingIds[id];
       });
-    } catch (e) {
+    } catch (e: any /** TODO: confirm with instanceof */) {
       this.store.dispatch({
         type: this.actionTypes.fetchError,
       });

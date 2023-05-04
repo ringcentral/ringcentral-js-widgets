@@ -4,7 +4,7 @@ export default {
   editLog: "编辑记录",
   viewDetails: "查看详细信息",
   addEntity: "新建",
-  call: "呼叫",
+  call: "电话",
   text: "短信",
   conversation: "对话",
   groupConversation: "群组对话",

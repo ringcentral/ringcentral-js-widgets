@@ -7,6 +7,4 @@ export const dndStatus = ObjectMap.fromObject({
   takeDepartmentCallsOnly: 'TakeDepartmentCallsOnly',
 } as const);
 
-export default dndStatus;
-
 export type DNDStatusValueType = typeof dndStatus[keyof typeof dndStatus];

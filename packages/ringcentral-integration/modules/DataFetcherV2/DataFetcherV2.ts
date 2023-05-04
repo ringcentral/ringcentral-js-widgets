@@ -9,9 +9,10 @@ import {
 
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
-import { Deps } from './DataFetcherV2.interface';
+import type { Deps } from './DataFetcherV2.interface';
 import { DataSource } from './DataSource';
-import { sourceStatus, SourceStatusType } from './sourceStatus';
+import { sourceStatus } from './sourceStatus';
+import type { SourceStatusType } from './sourceStatus';
 
 @Module({
   name: 'DataFetcherV2',
@@ -39,11 +40,11 @@ export class DataFetcherV2 extends RcModuleV2<Deps> {
     );
   }
 
-  _shouldInit() {
+  override _shouldInit() {
     return this._deps.auth.loggedIn && super._shouldInit();
   }
 
-  _shouldReset() {
+  override _shouldReset() {
     return !!(
       super._shouldReset() ||
       (this.ready && !this._deps.auth.loggedIn)
@@ -123,7 +124,7 @@ export class DataFetcherV2 extends RcModuleV2<Deps> {
         }
         this._promises.delete(source.key);
       }
-    } catch (error) {
+    } catch (error: any /** TODO: confirm with instanceof */) {
       if (this._deps.auth.ownerId === ownerId) {
         this._promises.delete(source.key);
         this._setFetching(source.key, false);
@@ -146,6 +147,7 @@ export class DataFetcherV2 extends RcModuleV2<Deps> {
 
   protected _startPolling<T>(
     source: DataSource<T>,
+    // @ts-expect-error
     t = this.getTimestamp(source) + source.pollingInterval + 10 - Date.now(),
   ) {
     this._clearTimeout(source);
@@ -214,6 +216,7 @@ export class DataFetcherV2 extends RcModuleV2<Deps> {
   }
 
   protected _expired<T>(source: DataSource<T>) {
+    // @ts-expect-error
     return Date.now() - this.getTimestamp(source) > source.ttl;
   }
 
@@ -310,6 +313,7 @@ export class DataFetcherV2 extends RcModuleV2<Deps> {
         } else if (status === sourceStatus.ready) {
           this._setSourceStatus(source.key, sourceStatus.pending);
           if (source.cleanOnReset) {
+            // @ts-expect-error
             this._setData(source.key, source.disableCache, null, null);
           }
         }
@@ -367,12 +371,12 @@ export class DataFetcherV2 extends RcModuleV2<Deps> {
     this._deleteKeys(this._getInvalidCachedKeys());
   }
 
-  onInit() {
+  override onInit() {
     // clean up cached sources that are no longer exist
     this._cleanCache();
   }
 
-  onReset() {
+  override onReset() {
     forEach((source) => {
       // clear all pollings or retries
       this._clearTimeout(source);
@@ -388,12 +392,13 @@ export class DataFetcherV2 extends RcModuleV2<Deps> {
         this.getData(source) !== null &&
         this.getTimestamp(source) !== null
       ) {
+        // @ts-expect-error
         this._setData(source.key, source.disableCache, null, null);
       }
     }, Array.from(this._sources));
   }
 
-  onStateChange() {
+  override onStateChange() {
     this._processSources();
   }
 
@@ -408,6 +413,7 @@ export class DataFetcherV2 extends RcModuleV2<Deps> {
       }
       return this.cachedData[source.key] || null;
     }
+    // @ts-expect-error
     return null;
   }
 }

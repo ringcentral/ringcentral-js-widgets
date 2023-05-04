@@ -1,6 +1,6 @@
 export default {
   topic: "Aihe",
-  when: "Kun",
+  when: "Aika",
   duration: "Kesto",
   recurringMeeting: "Toistuva tapaaminen",
   recurringDescribe: "Muista tarkistaa osallistujille lähetettävän kalenterikutsun toistuvuus.",
@@ -14,7 +14,7 @@ export default {
   meetingOptions: "Tapaamisasetukset",
   requirePassword: "Edellytä tapaamisen salasanaa",
   password: "Salasana",
-  rcmPasswordHintText: "Salasanasi tulee olla 1–10 merkkiä ja numeroa pitkä, eikä se saa sisältää muita symboleita kuin @, * tai -",
+  rcmPasswordHintText: "Salasanasi on oltava 1–10 merkkiä ja numeroa pitkä, eikä se saa sisältää muita symboleita kuin @, * tai -",
   passwordEmptyError: "Tapaamisen salasana vaaditaan",
   rcmPasswordInvalidError: "Salasanasi on oltava 1–10 merkkiä ja numeroa pitkä, eikä se saa sisältää muita symboleita kuin @, * tai -",
   enableJoinBeforeHost: "Ota käyttöön liittyminen ennen ylläpitäjää",

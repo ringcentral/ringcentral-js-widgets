@@ -75,16 +75,26 @@
   top: 1px;
 }
 
-@keyframes refreshCirle{
-  0%{-webkit-transform:rotate(0deg);}
+@keyframes refreshCirle {
+  0% {
+    -webkit-transform: rotate(0deg);
+  }
 
-  25%{-webkit-transform:rotate(90deg);}
+  25% {
+    -webkit-transform: rotate(90deg);
+  }
 
-  50%{-webkit-transform:rotate(180deg);}
+  50% {
+    -webkit-transform: rotate(180deg);
+  }
 
-  75%{-webkit-transform:rotate(270deg);}
+  75% {
+    -webkit-transform: rotate(270deg);
+  }
 
-  100%{-webkit-transform:rotate(360deg);}
+  100% {
+    -webkit-transform: rotate(360deg);
+  }
 }
 
 .refreshingIcon {

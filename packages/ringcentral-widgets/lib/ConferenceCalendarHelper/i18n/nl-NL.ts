@@ -14,6 +14,7 @@ export default {
   videoCall: "{brandName}-video-oproep",
   addConferencingDetails: "Conferencegegevens toevoegen",
   updateConferencingDetails: "Conferencegegevens worden bijgewerkt",
+  // @ts-expect-error TS(1117): An object literal cannot have multiple properties ... Remove this comment to see the full error message
   scheduleError: "Er is bij ons iets fout gegaan. Probeer het opnieuw.",
   deleteBtn: "Verwijderen",
   settingsBtn: "Instellingen",
@@ -29,6 +30,7 @@ export default {
   recurringMeeting: "Terugkerende meeting",
   meetingOptions: "Meetingopties",
   schedule: "Plannen",
+  // @ts-expect-error TS(1117): An object literal cannot have multiple properties ... Remove this comment to see the full error message
   settingsBtn: "Instellingen"
 };
 

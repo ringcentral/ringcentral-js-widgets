@@ -7,21 +7,21 @@ export default {
   [webphoneErrors.webphoneCountOverLimit]: "登録できるウェブ電話は最大5台です。",
   [webphoneErrors.checkDLError]: "外線通話ができません。このエラーが表示され続ける場合は、{brandName} サポートにお問い合わせください。",
   [webphoneErrors.noOutboundCallWithoutDL]: "お使いの内線は現在ブラウザーを使用した通話発信を許可されていません。アップグレードについてアカウント担当者にお問い合わせください。",
-  [webphoneErrors.provisionUpdate]: "申し訳ございません。こちら側で問題が発生しました。まもなく自動的に再接続を試みます。",
-  [webphoneErrors.serverConnecting]: "申し訳ございません。電話サーバーへの接続に問題があります。",
-  [webphoneErrors.toVoiceMailError]: "内部エラーにより、通話をボイスメールに送信できません",
+  [webphoneErrors.provisionUpdate]: "申し訳ございませんが、こちら側で問題が発生しました。まもなく自動的に再接続を試みます。",
+  [webphoneErrors.serverConnecting]: "申し訳ございませんが、電話サーバーへの接続に問題があります。",
+  [webphoneErrors.toVoiceMailError]: "内部エラーにより、通話をボイスメールへ送信できません",
   [webphoneErrors.muteError]: "現在、通話をミュートできません。",
   [webphoneErrors.holdError]: "現在、通話を保留できません。",
   [webphoneErrors.flipError]: "通話をフリップできません。後でもう一度やり直してください。",
   [webphoneErrors.recordError]: "現在、通話を録音できません。エラーコード：{errorCode}",
-  [webphoneErrors.pauseRecordError]: "申し訳ございません。通話の録音を停止することができませんでした。もう一度やり直してください。",
+  [webphoneErrors.pauseRecordError]: "申し訳ございません。通話の録音を停止することができませんでした。後でもう一度やり直してください。",
   [webphoneErrors.recordDisabled]: "申し訳ありません。お使いのアカウントでは、通話を録音する機能はサポートされていません。アカウント管理者にお問い合わせください。",
   [webphoneErrors.transferError]: "通話を転送できません。後でもう一度やり直してください。",
   [webphoneMessages.parked]: "通話は{parkedNumber}でパークされました",
   failWithStatusCode: "申し訳ございません。エラー{errorCode}が発生しました。問題が解決しない場合は、このエラーを{brandName}サポートに報告してください。",
-  registeringWithStatusCode: "申し訳ございません。問題が発生しました。再接続しようとしています。問題が解決しない場合は、このエラーを{brandName}サポートに報告してください。エラーコード：{errorCode}",
-  failWithoutStatusCode: "申し訳ございません。こちら側で問題が発生しました。エラーが解決しない場合は、このエラーを{brandName}サポートに報告してください。",
-  registeringWithoutStatusCode: "申し訳ございません。問題が発生しました。再接続しようとしています。問題が解決しない場合は、このエラーを{brandName}サポートに報告してください。"
+  registeringWithStatusCode: "申し訳ありませんが、問題が発生しました。再接続しようとしています。問題が解決しない場合は、このエラーを{brandName}サポートに報告してください。エラーコード：{errorCode}",
+  failWithoutStatusCode: "申し訳ありません。こちら側で問題が発生しました。エラーが解決しない場合は、このエラーを{brandName}サポートに報告してください。",
+  registeringWithoutStatusCode: "申し訳ありませんが、問題が発生しました。再接続しようとしています。問題が解決しない場合は、このエラーを{brandName}サポートに報告してください。"
 };
 
 // @key: @#@"[webphoneErrors.connectFailed]"@#@ @source: @#@"Sorry, phone features are currently unavailable. Please retry later. "@#@

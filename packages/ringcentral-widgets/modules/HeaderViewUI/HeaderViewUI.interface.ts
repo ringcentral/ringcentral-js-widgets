@@ -1,11 +1,11 @@
-import { Auth } from '@ringcentral-integration/commons/modules/AuthV2';
+import { Auth } from '@ringcentral-integration/commons/modules/Auth';
 import { Brand } from '@ringcentral-integration/commons/modules/Brand';
-import { CallMonitor } from '@ringcentral-integration/commons/modules/CallMonitorV2';
+import { CallMonitor } from '@ringcentral-integration/commons/modules/CallMonitor';
 import { Locale } from '@ringcentral-integration/commons/modules/Locale';
-import { Presence } from '@ringcentral-integration/commons/modules/PresenceV2';
-import { QuickAccess } from '@ringcentral-integration/commons/modules/QuickAccessV2';
-import { UserGuide } from '@ringcentral-integration/commons/modules/UserGuideV2';
-import { Webphone } from '@ringcentral-integration/commons/modules/WebphoneV2';
+import { Presence } from '@ringcentral-integration/commons/modules/Presence';
+import { QuickAccess } from '@ringcentral-integration/commons/modules/QuickAccess';
+import { UserGuide } from '@ringcentral-integration/commons/modules/UserGuide';
+import { Webphone } from '@ringcentral-integration/commons/modules/Webphone';
 
 import { RouterInteraction } from '../RouterInteraction';
 

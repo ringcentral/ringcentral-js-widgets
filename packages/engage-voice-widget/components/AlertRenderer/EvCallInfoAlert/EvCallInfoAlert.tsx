@@ -1,4 +1,4 @@
-import { contains } from 'ramda';
+import { includes } from 'ramda';
 
 import { messageTypes } from '../../../enums/messageTypes';
 import i18n from './i18n';
@@ -22,4 +22,4 @@ export default function EvCallInfoAlert({
 }
 
 EvCallInfoAlert.handleMessage = ({ message }: HandleMessage): boolean =>
-  contains(message, [messageTypes.COPY_UII_SUCCESS]);
+  includes(message, [messageTypes.COPY_UII_SUCCESS]);

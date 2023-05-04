@@ -1,4 +1,6 @@
 export default {
   removeMeetingWarning:
-    "Please note that the meeting feature won't work after May 31, 2022. We recommend switching to the {app}.",
+    'Please switch to the {app} to continue using the meeting feature.',
+  scheduleMeetingTips:
+    'Please note that we removed meetings from this app. To use meetings, we recommend the {app}.',
 };

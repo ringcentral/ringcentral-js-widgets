@@ -1,0 +1,27 @@
+{
+  "uri" : "https://platform.devtest.ringcentral.com/restapi/v1.0/account/1025515004/extension/1025515004/message-store/1191138004",
+  "id" : 1191138004,
+  "to" : [ {
+    "name" : "Something New"
+  } ],
+  "from" : {
+    "phoneNumber" : "+18445223307",
+    "name" : "RingCentral"
+  },
+  "type" : "VoiceMail",
+  "creationTime" : "2022-04-11T01:17:32.000Z",
+  "readStatus" : "Unread",
+  "priority" : "Normal",
+  "attachments" : [ {
+    "id" : 1191138004,
+    "uri" : "https://platform.devtest.ringcentral.com/restapi/v1.0/account/1025515004/extension/1025515004/message-store/1191138004/content/1191138004",
+    "type" : "AudioRecording",
+    "contentType" : "audio/x-wav",
+    "vmDuration" : 25
+  } ],
+  "direction" : "Inbound",
+  "availability" : "Alive",
+  "messageStatus" : "Received",
+  "lastModifiedTime" : "2022-04-11T01:17:32.866Z",
+  "vmTranscriptionStatus" : "NotAvailable"
+}

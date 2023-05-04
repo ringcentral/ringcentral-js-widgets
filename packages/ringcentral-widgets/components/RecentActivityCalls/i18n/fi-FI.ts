@@ -1,6 +1,6 @@
 export default {
   noRecords: "Viimeaikaisia tallenteita ei löytynyt.",
-  inBound: "Tuleva",
+  inBound: "Saapuva",
   outBound: "Lähtevä",
   missed: "Vastaamaton puhelu"
 };

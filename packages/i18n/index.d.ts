@@ -3,6 +3,7 @@ export declare const PSEUDO_LOCALE = 'en-ZZ';
 export declare const RUNTIME: {
   locale: string;
   defaultLocale: string;
+  fallbackLocale: string;
   instances: Set<any>;
   padRatio: number;
 };

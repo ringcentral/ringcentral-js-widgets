@@ -1,5 +1,5 @@
 import { Module } from '@ringcentral-integration/commons/lib/di';
-import loginStatus from '@ringcentral-integration/commons/modules/Auth/loginStatus';
+import { loginStatus } from '@ringcentral-integration/commons/modules/Auth';
 import {
   RcUIModuleV2,
   UIProps,

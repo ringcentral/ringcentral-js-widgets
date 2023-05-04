@@ -136,7 +136,12 @@ export const createStore = (
             });
           }
           const reducer = (state = value, action: Action) => {
-            return action._usm === usm ? action._state[identifier][key] : state;
+            if (action._usm !== usm) return state;
+            if (!service._getLastState) return action._state[identifier][key];
+            return identifier === action.type &&
+              Object.hasOwnProperty.call(action._state, key)
+              ? action._state[key]
+              : state;
           };
           return Object.assign(serviceReducersMapObject, {
             [key]: reducer,
@@ -157,7 +162,11 @@ export const createStore = (
           configurable: false,
           get(this: typeof service) {
             const stagedState = getStagedState();
-            if (stagedState) return stagedState[identifier];
+            if (stagedState)
+              return this._getLastState &&
+                stagedState?.__identifier === identifier
+                ? stagedState.__state
+                : stagedState[identifier];
             const currentState = this[storeKey]?.getState()[identifier];
             if (enableAutoFreeze && !Object.isFrozen(currentState)) {
               return Object.freeze(currentState);

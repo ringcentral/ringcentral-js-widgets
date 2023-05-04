@@ -1,3 +1,4 @@
+// @ts-nocheck
 export const DEFAULT_THRESHOLD = 500;
 
 /**
@@ -33,9 +34,9 @@ export function debounce<F extends (...args: any) => any>({
   threshold = DEFAULT_THRESHOLD,
   leading = false,
   trailing = true,
-  maxThreshold = null,
+  maxThreshold,
 }: DebounceOptions<F>): DebouncedFunction<F> {
-  let timeoutId: NodeJS.Timeout = null;
+  let timeoutId: NodeJS.Timeout;
   let lastArgs: Parameters<F>;
   let lastThis: any;
   let lastResult: ReturnType<F>;

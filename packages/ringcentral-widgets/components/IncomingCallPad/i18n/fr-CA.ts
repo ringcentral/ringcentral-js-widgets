@@ -1,10 +1,10 @@
 export default {
-  forward: "Renvoyer",
+  forward: "Transférer",
   reply: "Répondre",
   ignore: "Ignorer",
-  toVoicemail: "Messagerie vocale",
+  toVoicemail: "À la messagerie vocale",
   answer: "Répondre",
-  answerAndEnd: "Répondre et\nraccrocher",
+  answerAndEnd: "Répondre et raccrocher",
   answerAndHold: "Répondre et mettre en attente"
 };
 

@@ -1,3 +1,2 @@
-import ContactMatcher from './ContactMatcher';
-
-export default ContactMatcher;
+export * from './ContactMatcher';
+export * from './ContactMatcher.interface';

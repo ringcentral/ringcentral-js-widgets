@@ -5,7 +5,12 @@ import { StepFunction } from '../../../lib/step';
 export const CheckAlertNoAutoDismiss: StepFunction<{
   ttl?: number;
   length?: number;
-}> = async ({ ttl = 5000, length = 1 } = {}) => {
+  message?: string;
+}> = async ({ ttl = 5000, length = 1, message } = {}) => {
   jest.advanceTimersByTime(ttl + 1000);
-  expect(screen.queryAllByTestId('alert').length).toBe(length);
+  if (message) {
+    expect(screen.getByText(message)).toBeInTheDocument();
+  } else {
+    expect(screen.queryAllByTestId('alert').length).toBe(length);
+  }
 };

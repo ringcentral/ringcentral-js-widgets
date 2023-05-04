@@ -1,11 +1,8 @@
-import {
-  GetMessageInfoResponse,
-  MessageAttachmentInfo,
-} from '@rc-ex/core/definitions';
+import type GetMessageInfoResponse from '@rc-ex/core/lib/definitions/GetMessageInfoResponse';
+import type MessageAttachmentInfo from '@rc-ex/core/lib/definitions/MessageAttachmentInfo';
 
 import { messageTypes } from '../../enums/messageTypes';
 import { Message } from '../../interfaces/MessageStore.model';
-import removeUri from '../removeUri';
 import {
   Correspondent,
   FaxAttachment,
@@ -83,7 +80,7 @@ export function getMyNumberFromMessage({
     return message.from;
   }
   if (message.type === messageTypes.pager) {
-    const myNumber = message.to.find(
+    const myNumber = message.to!.find(
       (number) => number.extensionNumber === myExtensionNumber,
     );
     if (myNumber) {
@@ -102,7 +99,7 @@ export function uniqueRecipients(
   recipients.forEach((recipient) => {
     if (filter(recipient)) {
       const key = recipient.extensionNumber || recipient.phoneNumber;
-      recipientMap[key] = recipient;
+      recipientMap[key!] = recipient;
     }
   });
   return Object.values(recipientMap);
@@ -125,7 +122,7 @@ export function getRecipientNumbersFromMessage({
     }
     return fromRecipients;
   }
-  const allRecipients = fromRecipients.concat(message.to);
+  const allRecipients = fromRecipients.concat(message.to!);
   const recipients = filterNumbers(allRecipients, myNumber);
   if (recipients.length === 0) {
     recipients.push(myNumber);
@@ -144,10 +141,15 @@ export function getRecipients({
     message,
     myExtensionNumber,
   });
-  return getRecipientNumbersFromMessage({
-    message,
-    myNumber,
-  });
+
+  if (myNumber) {
+    return getRecipientNumbersFromMessage({
+      message,
+      myNumber,
+    });
+  }
+
+  return [];
 }
 
 export function getNumbersFromMessage({
@@ -215,7 +217,7 @@ export function sortByDate(a: SortEntity, b: SortEntity) {
 
 export function sortSearchResults(a: SortEntity, b: SortEntity) {
   if (a.matchOrder === b.matchOrder) return sortByDate(a, b);
-  return a.matchOrder > b.matchOrder ? 1 : -1;
+  return a.matchOrder! > b.matchOrder! ? 1 : -1;
 }
 
 export function getVoicemailAttachment(
@@ -276,7 +278,7 @@ export function getMMSAttachments(
 export function getConversationId(record: GetMessageInfoResponse) {
   const conversationId =
     (record.conversation && record.conversation.id) || record.id;
-  return conversationId.toString();
+  return conversationId?.toString();
 }
 
 export function sortByCreationTime<T extends { creationTime: number }>(
@@ -288,13 +290,19 @@ export function sortByCreationTime<T extends { creationTime: number }>(
 }
 
 export function normalizeRecord(record: GetMessageInfoResponse): Message {
-  const newRecord = removeUri(record) as GetMessageInfoResponse;
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const { uri, ...newRecord } = record;
   const conversationId = getConversationId(record);
   delete newRecord.conversation;
+
   return {
     ...newRecord,
-    creationTime: new Date(record.creationTime).getTime(),
-    lastModifiedTime: new Date(record.lastModifiedTime).getTime(),
+    creationTime: record.creationTime
+      ? new Date(record.creationTime).getTime()
+      : undefined,
+    lastModifiedTime: record.lastModifiedTime
+      ? new Date(record.lastModifiedTime).getTime()
+      : undefined,
     conversationId,
   };
 }
@@ -315,7 +323,7 @@ export function messageIsUnread(message: Message) {
  */
 export const filterMessages = (messages: Message[]) => {
   function sortByCreationTime(records: Message[]) {
-    return records.sort((a, b) => sortByDate(a, b));
+    return records.sort((a, b) => sortByDate(a as any, b as any));
   }
   function groupMessages(records: Message[]) {
     const faxRecords = records.filter(messageIsFax);
@@ -330,5 +338,5 @@ export const filterMessages = (messages: Message[]) => {
 
   const { fax, voice, text } = groupMessages(messages);
 
-  return [].concat(fax.slice(0, 100), voice.slice(0, 100), text.slice(0, 250));
+  return [...fax.slice(0, 100), ...voice.slice(0, 100), ...text.slice(0, 250)];
 };

@@ -5,7 +5,7 @@ interface UTContactMatchProps {
   userName?: string;
 }
 
-export const UTContactMatch: StepFunction<UTContactMatchProps> = async (
+export const UTContactMatch: StepFunction<UTContactMatchProps> = (
   { userName },
   _,
 ) => {

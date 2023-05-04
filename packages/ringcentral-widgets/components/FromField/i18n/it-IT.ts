@@ -3,9 +3,9 @@ export default {
   MainCompanyNumber: "Principale",
   CompanyNumber: "Azienda",
   CompanyFaxNumber: "Fax",
-  Blocked: "Bloccato",
+  Blocked: "Bloccata",
   AdditionalCompanyNumber: "Azienda",
-  ForwardedCompanyNumber: "Inoltrato",
+  ForwardedCompanyNumber: "Trasferita",
   from: "Da"
 };
 

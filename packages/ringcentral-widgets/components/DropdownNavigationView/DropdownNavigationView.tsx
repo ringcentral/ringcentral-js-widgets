@@ -1,94 +1,87 @@
-import React, { Component } from 'react';
+import React, { FunctionComponent, useRef } from 'react';
+
+import { useGlobalListener } from '@ringcentral/juno';
 
 import DropdownNavigationItem from '../DropdownNavigationItem';
 import { TabPropTypes } from '../NavigationBar';
 import styles from './styles.scss';
 
-type DropdownNavigationViewProps = {
+export interface DropdownNavigationViewProps {
   tabs: TabPropTypes[];
-  goTo: (...args: any[]) => any;
+  goTo: (tab: Partial<TabPropTypes>) => void;
   currentPath: string;
   currentVirtualPath?: string;
-};
-export default class DropdownNavigationView extends Component<DropdownNavigationViewProps> {
-  childNavigationElement: HTMLElement;
+}
 
-  constructor(props) {
-    super(props);
-    this.removeChildNavBar = this.removeChildNavBar.bind(this);
-  }
+const DropdownNavigation: FunctionComponent<DropdownNavigationViewProps> = ({
+  tabs,
+  goTo,
+  currentPath,
+  currentVirtualPath,
+}) => {
+  const childNavigationElementRef = useRef<HTMLDivElement>(null);
+  const windowClickCountRef = useRef(0);
 
-  componentWillUnmount() {
-    this.removeListener();
-  }
+  // TODO: should switch to Juno menu
+  useGlobalListener('click', (ev) => {
+    const menuElm = childNavigationElementRef.current;
 
-  setChildNavigationElement(el) {
-    setTimeout(() => {
-      this.childNavigationElement = el;
-      if (this.childNavigationElement) {
-        this.addListener();
-      } else {
-        this.removeListener();
-      }
-    }, 0);
-  }
+    // ignore first time click, cause that first click will also trigger window click
+    if (windowClickCountRef.current === 0) {
+      windowClickCountRef.current = 1;
 
-  addListener() {
-    window.addEventListener('click', this.removeChildNavBar);
-  }
+      return;
+    }
 
-  removeListener() {
-    window.removeEventListener('click', this.removeChildNavBar);
-  }
-
-  removeChildNavBar(ev) {
     if (
-      !this.childNavigationElement ||
-      this.childNavigationElement === ev.target ||
-      this.childNavigationElement.contains(ev.target)
+      !menuElm ||
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+      (ev.target &&
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+        (menuElm === ev.target || menuElm.contains(ev.target as Node)))
     ) {
       return;
     }
-    this.removeListener();
-    this.props.goTo({
-      virtualPath: '',
-    });
-  }
 
-  render() {
-    const { tabs, goTo, currentPath, currentVirtualPath } = this.props;
-    return tabs.length ? (
-      <div
-        className={styles.root}
-        ref={(el) => {
-          this.setChildNavigationElement(el);
-        }}
-      >
-        {tabs.map((tab, index) => {
-          const Icon = tab.icon;
-          const ActiveIcon = tab.activeIcon;
-          const active =
-            (tab.isActive && tab.isActive(currentPath, currentVirtualPath)) ||
-            (tab.path && tab.path === currentPath) ||
-            (tab.virtualPath && tab.virtualPath === currentVirtualPath);
-          const isReverseFillIcon = tab.path === '/contacts' && !active;
-          return (
-            <DropdownNavigationItem
-              {...tab}
-              key={index}
-              onClick={() => {
-                goTo(tab);
-              }}
-              active={active}
-              icon={typeof Icon === 'function' ? <Icon /> : Icon}
-              isReverseFillIcon={isReverseFillIcon}
-              activeIcon={
-                typeof ActiveIcon === 'function' ? <ActiveIcon /> : ActiveIcon
-              }
-            />
-          );
-        })}
-      </div>
-    ) : null;
-  }
-}
+    goTo({ virtualPath: '' });
+  });
+
+  return (
+    <div className={styles.root} ref={childNavigationElementRef}>
+      {tabs.map((tab, index) => {
+        const Icon = tab.icon;
+        const ActiveIcon = tab.activeIcon;
+        const active = !!(
+          (tab.isActive && tab.isActive(currentPath, currentVirtualPath)) ||
+          (tab.path && tab.path === currentPath) ||
+          (tab.virtualPath && tab.virtualPath === currentVirtualPath)
+        );
+        const isReverseFillIcon = tab.path === '/contacts' && !active;
+        return (
+          <DropdownNavigationItem
+            {...tab}
+            key={index}
+            onClick={() => {
+              goTo(tab);
+            }}
+            active={active}
+            icon={typeof Icon === 'function' ? <Icon /> : Icon}
+            isReverseFillIcon={isReverseFillIcon}
+            activeIcon={
+              typeof ActiveIcon === 'function' ? <ActiveIcon /> : ActiveIcon
+            }
+          />
+        );
+      })}
+    </div>
+  );
+};
+
+// TODO: that check should move to outside
+export const DropdownNavigationView: FunctionComponent<DropdownNavigationViewProps> =
+  (props) => {
+    const { tabs } = props;
+    return tabs.length ? <DropdownNavigation {...props} /> : null;
+  };
+
+export default DropdownNavigationView;

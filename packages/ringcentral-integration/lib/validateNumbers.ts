@@ -1,3 +1,5 @@
+import { CountryCode } from '@ringcentral-integration/phone-number';
+
 import { hasNoAreaCode } from './hasNoAreaCode';
 import { isValidNumber } from './isValidNumber';
 import { normalizeNumber } from './normalizeNumber';
@@ -24,7 +26,7 @@ function numberFormat({
   allowRegionSettings,
 }: {
   phoneNumbers: string[];
-  countryCode: string;
+  countryCode: CountryCode;
   areaCode: string;
   allowRegionSettings: boolean;
 }) {
@@ -54,7 +56,7 @@ function numberFormat({
 
 type ValidateNumbersParams = {
   phoneNumbers: string[];
-  countryCode: string;
+  countryCode: CountryCode;
   areaCode: string;
   allowRegionSettings: boolean;
 };
@@ -72,10 +74,8 @@ export function validateNumbers({
     allowRegionSettings,
   });
   if (!formattedResult.result) {
-    formattedResult.errors.forEach((error) => {
-      throw error;
-    });
-    return formattedResult;
+    const error = formattedResult.errors[0];
+    throw error;
   }
   const parsedResult = numberParser({
     phoneNumbers,

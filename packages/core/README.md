@@ -39,7 +39,7 @@ The decorator `storage` depends on `Storage` Module, And  The decorator `globalS
 
 `onInit` life cycle for current initialization after all deps modules are all ready.
 
-- onInitOnce()
+-  override onInitOnce()
 
 `onInitOnce` once life cycle for current initialization after all deps modules are all ready.
 
@@ -90,7 +90,7 @@ class Auth extends RcModuleV2<Deps> {
     return { writeable: this.connected, readable: true };
   }
 
-  async onInitSuccess() {
+  override async onInitSuccess() {
     //
   }
 }
@@ -104,6 +104,7 @@ class Auth extends RcModuleV2<Deps> {
 
 `@action` is used to decorate a method that changes the state of the module (Executing it will dispatch a Redux action), and it does **NOT** support asynchronous methods.
 
+> The method decorated with @action in the current module **CANNOT** call the method decorated with @action in other modules.
 
 - The @action decorated method should have **no side effects**.
 
@@ -126,7 +127,7 @@ class ContactsList extends RcModuleV2<Deps> {
     // ....
   }
 
-  onInitOnce() {  // ✅ good practice
+  override onInitOnce() {  // ✅ good practice
     watch(
       this,
       () => this.contacts,

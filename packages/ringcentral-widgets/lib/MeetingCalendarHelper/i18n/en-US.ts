@@ -14,7 +14,8 @@ export default {
   rcvSipContentWithPwd:
     '\n    {meetingId}.{meetingPasswordPSTN}@sip.rcv.com\n    SIP password: {meetingPasswordPSTN}\n',
   rcvSipContentNoPwd: '\n    {meetingId}@sip.rcv.com\n',
-  doNotModify: '---------------------------------- Do Not Modify ----------------------------------',
+  doNotModify:
+    '---------------------------------- Do Not Modify ----------------------------------',
   password: '\n\nPassword',
   passwordPstn: '\n\nDial-in password:',
 };

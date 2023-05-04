@@ -35,6 +35,7 @@ export const mockModuleGenerator = <T, P>(options: T, props?: P) =>
         subscribe() {},
       },
       parentModule: {},
+      _getStateV2: () => {},
     },
     props,
   );

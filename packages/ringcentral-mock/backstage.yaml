@@ -1,0 +1,19 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: ringcentral-mock
+  description: |
+    A RingCentral Platform APIs mocking library.
+  tags:
+    - typescript
+    - fetch
+    - mock
+    - testing
+  annotations:
+    backstage.io/techdocs-ref: dir:./
+spec:
+  type: library
+  system: integration-apps
+  owner: group:integration
+  lifecycle: production
+  subcomponentOf: integration-apps-monorepo

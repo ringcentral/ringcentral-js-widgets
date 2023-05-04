@@ -20,4 +20,5 @@ export default {
   quickAccess: 'Quick Access Setting',
   report: 'Analytics Report',
   shareIdea: 'Share idea',
+  reportIssue: 'Report issue',
 };

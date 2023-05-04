@@ -8,8 +8,10 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
-import { hasClickToCallPermission } from '../../helpers/permissionsHelper';
-import callingOptions from '../../modules/CallingSettings/callingOptions';
+import {
+  hasClickToCallPermission,
+  callingOptions,
+} from '../../modules/CallingSettings';
 
 @autorun(test)
 @title('ClickToCallPermission::basic')

@@ -3,8 +3,8 @@ export default {
   logCall: "Anruf protokollieren",
   editLog: "Protokoll bearbeiten",
   select: "Übereinstimmenden Datensatz auswählen",
-  OnHold: "Gehalten",
-  Ringing: "Es wird angerufen",
+  OnHold: "Wird gehalten",
+  Ringing: "Läutet",
   CallConnected: "Anruf verbunden",
   unknownUser: "Unbekannter Benutzer",
   unknownNumber: "Anonym",
@@ -12,10 +12,10 @@ export default {
   viewDetails: "Details anzeigen",
   addEntity: "Neu erstellen",
   addLog: "Protokoll",
-  text: "Textn.",
+  text: "Text",
   call: "Anruf",
   addContact: "Kontakt hinzufügen",
-  missedCall: "Verpasst",
+  missedCall: "Verpasste",
   inboundCall: "Eingehend",
   outboundCall: "Ausgehend",
   from: "Von",
@@ -24,10 +24,10 @@ export default {
   accept: "Antworten",
   toVoicemail: "An Voicemail",
   anonymous: "Anonym",
-  mergeToConference: "Zus.führen",
+  mergeToConference: "Zusammenführen",
   hold: "Halten",
-  unhold: "Gehaltenen Anruf annehmen",
-  transfer: "Weiterleitung",
+  unhold: "Wiederaufnehmen",
+  transfer: "Übertragen",
   reject: "Ablehnen",
   switchCall: "Anruf zu dieser App wechseln",
   callSwitch: "Anrufwechsel",
@@ -35,7 +35,7 @@ export default {
   comfirmCancelButton: "Abbrechen",
   comfirmOKButton: "Wechseln",
   ignore: "Ignorieren",
-  holdAndAnswer: "Halten & beantw."
+  holdAndAnswer: "Halten und antworten"
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@

@@ -2,7 +2,7 @@ import callLogMessages from '@ringcentral-integration/commons/enums/callLogMessa
 export default {
   [callLogMessages.logCallLogFailed]: "No se ha podido cargar el registro de llamadas por un error inesperado. Actualice la página y vuelva a intentarlo.",
   // New version of log failed message
-  [callLogMessages.logFailed]: "Lo sentimos, no hemos podido registrar su llamada. Vuelva a intentarlo más tarde.",
+  [callLogMessages.logFailed]: "Lo sentimos, no hemos podido registrar su llamada. Inténtelo de nuevo más tarde.",
   [callLogMessages.fieldRequired]: "Se deben completar los cambios obligatorios."
 };
 

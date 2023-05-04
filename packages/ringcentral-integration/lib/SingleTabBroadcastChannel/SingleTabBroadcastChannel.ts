@@ -1,4 +1,4 @@
-import { raceTimeout } from '../raceTimeout';
+import { waitUntilTo } from '../../utils';
 
 type BroadcastChannelMessage = (ev: MessageEvent) => any;
 
@@ -49,24 +49,27 @@ export class SingleTabBroadcastChannel {
       }
     };
 
-    const result = await raceTimeout<any>(
-      new Promise((resolve) => {
-        _resolve = resolve;
+    try {
+      const result = await waitUntilTo(
+        () =>
+          new Promise((resolve) => {
+            _resolve = resolve;
 
-        this._res.addEventListener('message', listener);
-        this._makeRequest(message);
-      }),
-      {
-        timeout: this.checkTime,
-        onTimeout: (resolve) => resolve(null),
-        finalize: () => {
-          _resolve();
-          this._res.removeEventListener('message', listener);
+            this._res.addEventListener('message', listener);
+            this._makeRequest(message);
+          }),
+        {
+          timeout: this.checkTime,
         },
-      },
-    );
+      );
 
-    return result;
+      return result;
+    } catch (error: any /** TODO: confirm with instanceof */) {
+      return null;
+    } finally {
+      _resolve();
+      this._res.removeEventListener('message', listener);
+    }
   }
 
   send(message: any) {

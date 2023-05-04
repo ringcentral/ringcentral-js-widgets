@@ -5,7 +5,7 @@ export default {
   MultiWithoutNAMessage: "Seleziona il paese in cui ti trovi. Verrà utilizzato per la formattazione dei numeri di telefono e le chiamate locali.",
   country: "Paese",
   areaCode: "Prefisso",
-  areaCodePlaceholder: "Inserisci prefisso"
+  areaCodePlaceholder: "Immetti prefisso"
 };
 
 // @key: @#@"title"@#@ @source: @#@"Region"@#@

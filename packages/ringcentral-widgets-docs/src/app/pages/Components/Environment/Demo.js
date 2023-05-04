@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import Environment from '@ringcentral-integration/widgets/components/Environment';
+import { EnvironmentPanel } from '@ringcentral-integration/widgets/components/EnvironmentPanel';
 
 const props = {};
 props.server = 'test string';
@@ -21,7 +21,7 @@ const EnvironmentDemo = () => (
       border: '1px solid #f3f3f3',
     }}
   >
-    <Environment {...props} />
+    <EnvironmentPanel {...props} />
   </div>
 );
 export default EnvironmentDemo;

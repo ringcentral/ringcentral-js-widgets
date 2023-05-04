@@ -1,12 +1,14 @@
-import { contains } from 'ramda';
-import subscriptionBody from '@ringcentral-integration/commons/integration-test/mock/data/subscription.json';
-import { isConferenceSession } from '@ringcentral-integration/commons/modules/Webphone/webphoneHelper';
+import { includes } from 'ramda';
+
 import telephonyStatuses from '@ringcentral-integration/commons/enums/telephonyStatus';
 import * as mock from '@ringcentral-integration/commons/integration-test/mock';
+import subscriptionBody from '@ringcentral-integration/commons/integration-test/mock/data/subscription.json';
+import { isConferenceSession } from '@ringcentral-integration/commons/modules/Webphone/webphoneHelper';
+import { sleep } from '@ringcentral-integration/utils';
+
 import MockedPubNub from '../__mocks__/pubnub';
 import MockedWebphone from '../__mocks__/ringcentral-web-phone';
 import Session, { CONFERENCE_SESSION_ID } from './session';
-import { timeout } from '../integration-test/shared';
 
 const defaultInboundOption = {
   id: '111',
@@ -90,7 +92,7 @@ export async function mockPresencePubnub(activeCallsBody) {
     },
   );
   pubnub.mockMessage(encrypted);
-  await timeout(1000);
+  await sleep(1000);
 }
 
 /* --- mock data --- */
@@ -135,8 +137,7 @@ export function mockGenerateActiveCallsApi({ sessions }) {
   const records = sessions.reduce(
     (calls, session) =>
       calls.concat({
-        uri:
-          'https://api-xmnup.lab.nordigy.ru/restapi/v1.0/account/160746006/extension/160751006/call-log/Q6E-u_FeDGlNQA?view=Simple',
+        uri: 'https://platform.devtest.ringcentral.com/restapi/v1.0/account/160746006/extension/160751006/call-log/Q6E-u_FeDGlNQA?view=Simple',
         id: 'Q6E-u_FeDGlNQA',
         sessionId: session.id,
         startTime: '2018-08-02T01:48:31.000Z',
@@ -174,7 +175,7 @@ export function mockActiveCalls(
     startTime: '2018-08-07T09:20:09.405Z',
   };
   return webphoneSessions.reduce((calls, session) => {
-    const telephonyStatus = contains(session.id, ringSessionIds)
+    const telephonyStatus = includes(session.id, ringSessionIds)
       ? telephonyStatuses.ringing
       : telephonyStatuses.onHold;
     if (isConferenceSession(session)) {
@@ -236,14 +237,14 @@ async function mockPubnub(data) {
     },
   );
   pubnub.mockMessage(encrypted);
-  await timeout(2000);
+  await sleep(2000);
 }
 
 async function mockWebphone(eventName, webSession) {
   const webphone = MockedWebphone.getLastWebphone() || new MockedWebphone();
   webphone.userAgent.trigger(eventName, webSession);
 
-  await timeout(1000);
+  await sleep(1000);
 }
 
 export { CONFERENCE_SESSION_ID, mockPubnub, mockWebphone };

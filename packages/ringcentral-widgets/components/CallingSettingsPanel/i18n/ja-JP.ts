@@ -1,10 +1,10 @@
-import callingOptions from '@ringcentral-integration/commons/modules/CallingSettings/callingOptions';
+import { callingOptions } from '@ringcentral-integration/commons/modules/CallingSettings';
 export default {
   title: "通話",
   [callingOptions.softphone]: "{brand} for Desktop",
   [callingOptions.browser]: "ブラウザー",
   [callingOptions.jupiter]: "{brand}",
-  makeCallsWith: "通話発信に使用する電話",
+  makeCallsWith: "通話発信に使用する",
   ringoutHint: "最初に自分の場所で自身を呼び出した後、通話相手に接続する",
   myLocationLabel: "自分の場所",
   press1ToStartCallLabel: "通話接続前に「1」をダイヤルするように指示するメッセージを受け取る",

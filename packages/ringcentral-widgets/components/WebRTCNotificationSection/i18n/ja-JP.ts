@@ -2,10 +2,11 @@ export default {
   forward: "転送",
   ignore: "無視",
   toVoicemail: "ボイスメールへ",
-  answer: "電話に出る",
+  answer: "応答",
   endAndAnswer: "終了/応答",
-  holdAndAnswer: "保留/応答",
-  custom: "カスタム"
+  holdAndAnswer: "保留して応答",
+  custom: "カスタム",
+  more: "詳細"
 };
 
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@
@@ -15,3 +16,4 @@ export default {
 // @key: @#@"endAndAnswer"@#@ @source: @#@"End & Answer"@#@
 // @key: @#@"holdAndAnswer"@#@ @source: @#@"Hold & Answer"@#@
 // @key: @#@"custom"@#@ @source: @#@"Custom"@#@
+// @key: @#@"more"@#@ @source: @#@"More"@#@

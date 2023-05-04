@@ -2,7 +2,7 @@ import { RcModuleV2, watch } from '@ringcentral-integration/core';
 
 import { permissionsMessages } from '../../enums/permissionsMessages';
 import { Module } from '../../lib/di';
-import { loginStatus } from '../AuthV2/loginStatus';
+import { loginStatus } from '../Auth';
 import { Deps } from './TierChecker.interface';
 
 @Module({
@@ -34,7 +34,7 @@ export class TierChecker extends RcModuleV2<Deps> {
     return this._deps.tierCheckerOptions?.enforceCRMFeature ?? true;
   }
 
-  onInitOnce() {
+  override onInitOnce() {
     watch(
       this,
       () => [

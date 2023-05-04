@@ -7,21 +7,21 @@ export default {
   [webphoneErrors.webphoneCountOverLimit]: "최대 5개의 WebPhone을 등록할 수 있습니다.",
   [webphoneErrors.checkDLError]: "발신 전화를 걸 수 없습니다. 이 오류가 계속 표시되면 {brandName}에 문의하여 지원을 받으세요.",
   [webphoneErrors.noOutboundCallWithoutDL]: "현재 내선에서 브라우저를 사용하여 발신 전화를 걸 수 없습니다. 계정 담당자에게 문의하여 업그레이드하세요.",
-  [webphoneErrors.provisionUpdate]: "죄송합니다. 당사 시스템에서 문제가 발생했습니다. 곧 자동으로 다시 연결하려고 시도합니다.",
+  [webphoneErrors.provisionUpdate]: "죄송합니다. 시스템에서 문제가 발생했습니다. 곧 자동으로 다시 연결하려고 시도합니다.",
   [webphoneErrors.serverConnecting]: "죄송합니다. 전화 서버에 연결하는 데 문제가 있습니다.",
   [webphoneErrors.toVoiceMailError]: "내부 오류로 인해 통화를 음성 사서함으로 보낼 수 없습니다.",
   [webphoneErrors.muteError]: "현재 통화를 음소거할 수 없습니다.",
   [webphoneErrors.holdError]: "현재 통화를 대기할 수 없습니다.",
   [webphoneErrors.flipError]: "통화를 전환할 수 없습니다. 나중에 다시 시도하세요.",
   [webphoneErrors.recordError]: "현재 통화를 녹음할 수 없습니다. 오류 코드: {errorCode}",
-  [webphoneErrors.pauseRecordError]: "죄송합니다. 통화 녹음을 중지할 수 없습니다. 나중에 다시 시도해 보세요.",
+  [webphoneErrors.pauseRecordError]: "죄송합니다. 통화 녹음을 중지할 수 없습니다. 나중에 다시 시도하세요.",
   [webphoneErrors.recordDisabled]: "죄송합니다. 계정에 통화를 녹음하는 기능이 없습니다. 계정 관리자에게 문의하세요.",
   [webphoneErrors.transferError]: "통화를 전달할 수 없습니다. 나중에 다시 시도하세요.",
-  [webphoneMessages.parked]: "다음 위치에서 통화가 대기되었습니다. {parkedNumber}",
+  [webphoneMessages.parked]: "위치 {parkedNumber}에서 통화가 대기되었습니다.",
   failWithStatusCode: "죄송합니다. 오류({errorCode})가 발생했습니다. 문제가 지속되면 {brandName} 지원팀에 이 오류를 보고하세요.",
-  registeringWithStatusCode: "죄송합니다. 문제가 발생하여 다시 연결하고 있습니다. 문제가 지속되면 {brandName} 지원팀에 이 오류를 보고하세요. 오류 코드: {errorCode}.",
-  failWithoutStatusCode: "죄송합니다. 당사 시스템에서 문제가 발생했습니다. 문제가 지속되면 {brandName} 지원팀에 이 오류를 보고하세요.",
-  registeringWithoutStatusCode: "죄송합니다. 문제가 발생하여 다시 연결하고 있습니다. 문제가 지속되면 {brandName} 지원팀에 이 오류를 보고하세요."
+  registeringWithStatusCode: "죄송합니다. 문제가 발생했습니다. 문제가 발생하여 다시 연결하고 있습니다. 문제가 지속되면 {brandName} 지원팀에 이 오류를 보고하세요. 오류 코드: {errorCode}.",
+  failWithoutStatusCode: "죄송합니다. 시스템에서 문제가 발생했습니다. 문제가 지속되면 {brandName} 지원팀에 이 오류를 보고하세요.",
+  registeringWithoutStatusCode: "죄송합니다. 문제가 발생했습니다. 문제가 발생하여 다시 연결하고 있습니다. 문제가 지속되면 {brandName} 지원팀에 이 오류를 보고하세요."
 };
 
 // @key: @#@"[webphoneErrors.connectFailed]"@#@ @source: @#@"Sorry, phone features are currently unavailable. Please retry later. "@#@

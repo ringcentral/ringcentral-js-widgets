@@ -1,6 +1,6 @@
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-export default ObjectMap.prefixKeys(
+export const meetingStatus = ObjectMap.prefixKeys(
   [
     'invalidMeetingInfo',
     'emptyTopic',
@@ -11,6 +11,7 @@ export default ObjectMap.prefixKeys(
     'updatedSuccess',
     'internalError',
     'meetingIsDeleted',
+    'renderInviteError',
   ],
   'meetingStatus',
 );

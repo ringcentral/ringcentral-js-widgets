@@ -1,4 +1,4 @@
-import { contains } from 'ramda';
+import { includes } from 'ramda';
 
 import { logTypes } from '../../../enums/logTypes';
 import i18n from './i18n';
@@ -25,7 +25,7 @@ export default function EvCallDispositionAlert({
 }
 
 EvCallDispositionAlert.handleMessage = ({ message }: HandleMessage): boolean =>
-  contains(message, [
+  includes(message, [
     logTypes.CALL_DISPOSITION_FAILURE,
     logTypes.CALL_DISPOSITION_SUCCESS,
     logTypes.CALL_LOG_CREATE_FAILURE,

@@ -1,0 +1,10 @@
+{
+  "extends": "../../ringcentral-js-widgets/tsconfig.json",
+  "exclude": ["test/**/*", "node_modules"],
+  "include": ["./**/*.ts", "./**/*.tsx", "./typings/**/*.d.ts"],
+  "compilerOptions": {
+    "esModuleInterop": true,
+    "noImplicitAny": false,
+    "skipLibCheck": true,
+  }
+}

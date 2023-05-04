@@ -15,7 +15,7 @@ import {
   messageSenderMessages,
   messageSenderStatus,
   MULTIPART_MESSAGE_MAX_LENGTH,
-} from '../../modules/MessageSenderV2';
+} from '../../modules/MessageSender';
 import { mockModuleGenerator } from '../lib/mockModule';
 
 const getMockModule = () =>
@@ -106,6 +106,8 @@ export class SendStatus extends Step {
               numberValidate: {} as any,
               availabilityMonitor: {} as any,
               messageSenderOptions: {} as any,
+              accountInfo: { maxExtensionNumberLength: 8 } as any,
+              appFeatures: {} as any,
             });
             context.instance = messageSender;
             expect(messageSender.sendStatus).toEqual(messageSenderStatus.idle);
@@ -157,6 +159,8 @@ export class BlankSendText extends Step {
               numberValidate: {} as any,
               availabilityMonitor: {} as any,
               messageSenderOptions: {} as any,
+              accountInfo: { maxExtensionNumberLength: 8 } as any,
+              appFeatures: {} as any,
             });
             messageSender._validateToNumbers = jest.fn();
             context.instance = messageSender;
@@ -224,6 +228,8 @@ export class LongSendText extends Step {
               numberValidate: {} as any,
               availabilityMonitor: {} as any,
               messageSenderOptions: {} as any,
+              accountInfo: { maxExtensionNumberLength: 8 } as any,
+              appFeatures: {} as any,
             });
             messageSender._validateToNumbers = jest.fn();
             context.instance = messageSender;
@@ -278,6 +284,8 @@ export class LongSendTextWithMultipart extends Step {
               numberValidate: {} as any,
               availabilityMonitor: {} as any,
               messageSenderOptions: {} as any,
+              accountInfo: { maxExtensionNumberLength: 8 } as any,
+              appFeatures: {} as any,
             });
             messageSender._validateToNumbers = jest.fn();
             context.instance = messageSender;
@@ -332,6 +340,8 @@ export class NoToNumbers extends Step {
               numberValidate: {} as any,
               availabilityMonitor: {} as any,
               messageSenderOptions: {} as any,
+              accountInfo: { maxExtensionNumberLength: 8 } as any,
+              appFeatures: {} as any,
             });
             messageSender._sendSms = jest.fn();
             messageSender._sendPager = jest.fn();
@@ -387,6 +397,8 @@ export class SendPagerSuccessfully extends Step {
                 },
               } as any,
               messageSenderOptions: {} as any,
+              accountInfo: { maxExtensionNumberLength: 8 } as any,
+              appFeatures: {} as any,
             });
             Object.assign(
               messageSender,
@@ -448,6 +460,8 @@ export class SendSMSSuccessfully extends Step {
                 },
               } as any,
               messageSenderOptions: {} as any,
+              accountInfo: { maxExtensionNumberLength: 8 } as any,
+              appFeatures: {} as any,
             });
             Object.assign(
               messageSender,
@@ -505,6 +519,8 @@ export class SendSMSAndPagerSuccessfully extends Step {
                 },
               } as any,
               messageSenderOptions: {} as any,
+              accountInfo: { maxExtensionNumberLength: 8 } as any,
+              appFeatures: {} as any,
             });
             Object.assign(messageSender, mockModuleGenerator({}));
             context.instance = messageSender;

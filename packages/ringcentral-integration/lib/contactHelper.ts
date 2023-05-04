@@ -6,10 +6,11 @@ import { phoneTypes } from '../enums/phoneTypes';
 import {
   ContactGroup,
   IContact,
+  ContactPhoneNumber,
   TypedContact,
   TypedPhoneNumber,
 } from '../interfaces/Contact.model';
-import isBlank from './isBlank';
+import { isBlank } from './isBlank';
 
 export const AllContactSourceName = 'all';
 
@@ -21,15 +22,27 @@ export function addPhoneToContact(
   if (isBlank(phone)) {
     return;
   }
-  const existedPhone = contact.phoneNumbers.find(
+  const existedPhone = contact.phoneNumbers!.find(
     (number) => number && number.phoneNumber === phone,
   );
-  if (existedPhone) {
-    existedPhone.phoneType = type;
+  /**
+   * otherFax => fax
+   * businessFax => fax
+   * businessPhone => business
+   * businessPhone2 => business
+   */
+  let phoneType: string;
+  if (/Fax/.test(type)) {
+    phoneType = 'fax';
   } else {
-    contact.phoneNumbers.push({
+    phoneType = type.replace(/Phone2|Phone/, '');
+  }
+  if (existedPhone) {
+    existedPhone.phoneType = phoneType;
+  } else {
+    contact.phoneNumbers!.push({
       phoneNumber: phone,
-      phoneType: type.replace('Phone', ''),
+      phoneType,
     });
   }
 }
@@ -45,9 +58,9 @@ export function uniqueContactItems(input: IContact[] = []) {
       }
       return result;
     },
-    [],
+    [] as IContact[],
     input,
-  ) as IContact[];
+  );
 }
 
 const NON_ALPHABET_RE = /[^a-z]/i;
@@ -189,8 +202,8 @@ export function getSearchForPhoneNumbers({
           contactId: contact.id,
           name: contact.name || `${contact.firstName} ${contact.lastName}`,
           type: contact.type,
-          phoneNumber,
-          phoneType: phoneType.replace('Phone', ''),
+          phoneNumber: phoneNumber!,
+          phoneType: phoneType!.replace('Phone', ''),
           profileImageUrl: contact.profileImage?.uri,
           entityType,
         });
@@ -204,13 +217,13 @@ export function getMatchContactsByPhoneNumber({
   contacts,
   phoneNumber,
   entityType,
-  findPhoneNumber = (item: IContact['phoneNumbers'][number]) =>
+  findPhoneNumber = (item: ContactPhoneNumber) =>
     item.phoneNumber === phoneNumber,
 }: {
   contacts: IContact[];
   phoneNumber: string;
   entityType: string;
-  findPhoneNumber?: (item: IContact['phoneNumbers'][number]) => boolean;
+  findPhoneNumber?: (item: ContactPhoneNumber) => boolean;
 }): TypedContact[] {
   const result: TypedContact[] = [];
   contacts.forEach((contact) => {
@@ -221,7 +234,7 @@ export function getMatchContactsByPhoneNumber({
     }
     const matchedContact = {
       ...contact,
-      phoneNumbers: [...contact.phoneNumbers],
+      phoneNumbers: [...(contact.phoneNumbers || [])],
       entityType,
     };
     result.push(matchedContact);
@@ -261,8 +274,11 @@ const isSameSite = ({
   );
 };
 
-export const isAnExtension = (number: string): boolean => {
-  return number && number.length <= 6 && number[0] !== '+';
+export const isAnExtension = (
+  number: string,
+  maxExtensionLength = 6,
+): boolean => {
+  return number?.length <= maxExtensionLength && number[0] !== '+';
 };
 
 /**
@@ -271,7 +287,7 @@ export const isAnExtension = (number: string): boolean => {
 export const isExtensionExist = ({
   extensionNumber,
   extensionFromContacts,
-  options,
+  options = {},
 }: {
   /**
    * extensionNumber need to be checked
@@ -284,6 +300,7 @@ export const isExtensionExist = ({
   options?: {
     isMultipleSiteEnabled?: boolean;
     siteCode?: string;
+    maxExtensionLength?: number;
   };
 }): boolean => {
   if (extensionFromContacts === extensionNumber) {
@@ -311,15 +328,16 @@ export const getFindPhoneNumber =
     options?: {
       isMultipleSiteEnabled?: boolean;
       siteCode?: string;
+      maxExtensionLength?: number;
     };
   }) =>
-  (item: IContact['phoneNumbers'][number]) => {
+  (item: ContactPhoneNumber) => {
     if (item.phoneType === phoneTypes.extension) {
       return (
-        isAnExtension(phoneNumber) &&
+        isAnExtension(phoneNumber, options.maxExtensionLength) &&
         isExtensionExist({
           extensionNumber: phoneNumber,
-          extensionFromContacts: item.phoneNumber,
+          extensionFromContacts: item.phoneNumber!,
           options,
         })
       );

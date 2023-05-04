@@ -1,7 +1,7 @@
 export const RCV_INVITATION_BODY = `Something New has invited you to a RingCentral Video meeting.
 
     Please join using this link:
-        https://xmnup-rxe-1-v.lab.nordigy.ru/join/036308267?pw=af8e831dc8755c9a62247eba3e3745d0
+        https://v.ringcentral.com/join/036308267?pw=af8e831dc8755c9a62247eba3e3745d0
 
     Meeting ID: 036308267
 
@@ -27,7 +27,7 @@ export const RCV_INVITATION_BODY = `Something New has invited you to a RingCentr
 
     Dial-in password: 7929613992
 
-    International numbers available: https://xmnup-rxe-1-v.lab.nordigy.ru/teleconference`;
+    International numbers available: https://v.ringcentral.com/teleconference`;
 
 export const RCV_INVITATION_START = `--Boundary505_1908357336_1639130420796\r\n
     Content-Type: text/plain;charset=utf-8\r\n

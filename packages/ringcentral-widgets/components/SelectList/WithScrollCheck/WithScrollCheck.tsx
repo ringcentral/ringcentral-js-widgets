@@ -1,7 +1,12 @@
 import React from 'react';
 
-export const WithScrollCheck = (SelectList) => {
-  const scrollCheck = (scrollElmRef, matchElmRef, elm, type) => {
+export const WithScrollCheck = (SelectList: any) => {
+  const scrollCheck = (
+    scrollElmRef: any,
+    matchElmRef: any,
+    elm: any,
+    type: any,
+  ) => {
     const scrollElm = scrollElmRef.current;
     const matchElm = matchElmRef.current;
     if (scrollElm && scrollElm.scrollHeight > scrollElm.clientHeight) {
@@ -11,5 +16,5 @@ export const WithScrollCheck = (SelectList) => {
           : elm.offsetTop;
     }
   };
-  return (props) => <SelectList scrollCheck={scrollCheck} {...props} />;
+  return (props: any) => <SelectList scrollCheck={scrollCheck} {...props} />;
 };

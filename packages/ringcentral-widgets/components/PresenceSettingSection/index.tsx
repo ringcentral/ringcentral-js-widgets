@@ -2,9 +2,10 @@ import React, { FunctionComponent, useState } from 'react';
 
 import classnames from 'classnames';
 
-import dndStatus, {
+import {
+  dndStatus,
   DNDStatusValueType,
-} from '@ringcentral-integration/commons/modules/Presence/dndStatus';
+} from '@ringcentral-integration/commons/modules/Presence';
 import {
   flexCenterStyle,
   palette2,

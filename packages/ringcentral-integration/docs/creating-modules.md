@@ -100,7 +100,7 @@ Here we extend the RcModule class to create the Call module. There are some key 
 
 ```javascript
 import RcModule from '../../lib/RcModule';
-import callingModes from '../CallingSettings/callingModes';
+import { callingModes } from '../CallingSettings';
 import moduleStatuses from '../../enums/moduleStatuses';
 import proxify from '../../lib/proxy/proxify';
 import callActionTypes from './actionTypes';
@@ -108,7 +108,7 @@ import getCallReducer, { getLastCallNumberReducer } from './getCallReducer';
 
 import callStatus from './callStatus';
 import callErrors from './callErrors';
-import ringoutErrors from '../Ringout/ringoutErrors';
+import { ringoutErrors } from '../Ringout';
 
 export default class Call extends RcModule {
     constructor({ alert, client, storage, ...options }) {

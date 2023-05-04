@@ -187,7 +187,7 @@ class EvWorkingState extends RcModuleV2<Deps> implements WorkingState {
     this.time = time;
   }
 
-  onInitOnce() {
+  override onInitOnce() {
     this._deps.evCallMonitor.onCallEnded(() => {
       this.setIsPendingDisposition(true);
     });
@@ -208,7 +208,7 @@ class EvWorkingState extends RcModuleV2<Deps> implements WorkingState {
     );
   }
 
-  async onStateChange() {
+  override async onStateChange() {
     if (this.ready && this.tabManagerEnabled && this._deps.tabManager.ready) {
       const { event } = this._deps.tabManager;
       if (event) {

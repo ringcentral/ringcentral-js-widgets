@@ -35,10 +35,10 @@ export default {
   usePersonalMeetingId: "Use Personal Meeting ID",
   pmiChangeConfirm: "If you want to make changes for your Personal Meeting, ",
   changePmiSettings: "change PMI settings",
-  pmiSettingChangeAlert: "If you change the settings and schedule this meeting, all of meetings with Personal Meeting ID will use the same latest settings.",
+  pmiSettingChangeAlert: "If you change the settings and schedule this meeting, all meetings with Personal Meeting ID will use the same latest settings.",
   lockedTooltip: "This setting is managed by your company admin",
   when: "When",
-  recurringDescribe: "Please remember to check for recurrences or repeats in your calendar invitations to your attendees.",
+  recurringDescribe: "Please remember to check for recurrences or repeats in your calendar invitation to your attendees.",
   ieSupportAlert: "Please note that {appName} won’t work with Internet Explorer 11 after 16th Feb 2022. We recommend switching to Microsoft Edge or updating to Outlook 2016 or above."
 };
 

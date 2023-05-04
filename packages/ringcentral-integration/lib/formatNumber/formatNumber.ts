@@ -8,6 +8,7 @@ export type FormatNumberParams = {
   siteCode?: string;
   international?: boolean;
   isMultipleSiteEnabled?: boolean;
+  maxExtensionLength?: number;
 };
 
 /**
@@ -22,6 +23,7 @@ export default function formatNumber({
   siteCode = '',
   international = false,
   isMultipleSiteEnabled = false,
+  maxExtensionLength = 6,
 }: FormatNumberParams) {
   return format({
     phoneNumber,
@@ -31,5 +33,6 @@ export default function formatNumber({
     isMultipleSiteEnabled,
     removeExtension,
     type: international ? formatTypes.international : formatTypes.local,
+    maxExtensionLength,
   });
 }

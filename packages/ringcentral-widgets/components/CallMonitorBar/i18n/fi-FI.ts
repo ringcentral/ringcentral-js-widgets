@@ -6,8 +6,8 @@ export default {
   incomingCalls: "{numberOf} saapuvaa puhelua",
   callOnHold: "{numberOf} puhelu pidossa",
   callsOnHold: "{numberOf} puhelua pidossa",
-  otherDeviceCall: "{numberOf} puhelu toisella laitteella",
-  otherDeviceCalls: "{numberOf} puhelua toisella laitteella"
+  otherDeviceCall: "{numberOf} puhelu muilla laitteilla",
+  otherDeviceCalls: "{numberOf} puhelua muilla laitteilla"
 };
 
 // @key: @#@"currentCall"@#@ @source: @#@"Current Call"@#@

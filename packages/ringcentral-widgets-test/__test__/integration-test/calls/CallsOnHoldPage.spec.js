@@ -1,4 +1,4 @@
-import { sleep } from '@ringcentral-integration/commons/lib/sleep';
+import { sleep } from '@ringcentral-integration/commons/utils';
 import ActiveCallPad from '@ringcentral-integration/widgets/components/ActiveCallPad';
 import ActiveCallPanel from '@ringcentral-integration/widgets/components/ActiveCallPanel';
 import ActiveCallsPanel from '@ringcentral-integration/widgets/components/ActiveCallsPanel';
@@ -10,7 +10,7 @@ import CircleButton from '@ringcentral-integration/widgets/components/CircleButt
 import CallsOnholdPanel from '@ringcentral-integration/widgets/components/CallsOnholdPanel';
 import DialerPanel from '@ringcentral-integration/widgets/components/DialerPanel';
 import NavigationBar from '@ringcentral-integration/widgets/components/NavigationBar';
-import { mockConferenceCallEnv } from '../CallCtrlPage/helper.js';
+import { mockConferenceCallEnv } from '../CallCtrlPage/helper';
 import { makeCall } from '../../support/callHelper';
 import { mockMultiOutboundCalls } from './helper';
 import { initPhoneWrapper, tearDownWrapper } from '../shared';

@@ -12,7 +12,7 @@ export default {
   topicPlaceHolder: "Wählen Sie eine Option aus",
   bugReport: "Fehlerbericht",
   featureRequest: "Anfrage von Funktionen",
-  others: "Sonstiges",
+  others: "Sonstige",
   subject: "Betreff",
   subjectPlaceHolder: "Teilen Sie uns mit, wie wir Ihnen helfen können.",
   description: "Vollständige Beschreibung",

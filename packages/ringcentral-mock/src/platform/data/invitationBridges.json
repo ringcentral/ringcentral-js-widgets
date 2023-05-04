@@ -1,0 +1,36 @@
+{
+  "name" : "RingCentral Video Meeting",
+  "url" : "https://platform.devtest.ringcentral.com/join/247937928?pw=4efb4689917e0f25b4bf17d53b885670",
+  "pins" : {
+    "pstn" : {
+      "participant" : "247937928",
+      "host" : "067886207"
+    },
+    "web" : "247937928"
+  },
+  "hostName" : "RCV RCV",
+  "security" : {
+    "password" : {
+      "plainText" : "UkbpFwgE78",
+      "pstn" : "8527394378",
+      "hash" : "4efb4689917e0f25b4bf17d53b885670"
+    },
+    "passwordProtected" : true,
+    "e2ee" : false
+  },
+  "teleconference" : "https://platform.devtest.ringcentral.com/teleconference",
+  "phoneNumbers" : [
+    {
+      "country" : {
+        "uri" : "/restapi/v1.0/dictionary/country/1",
+        "id" : "1",
+        "name" : "United States",
+        "isoCode" : "US",
+        "callingCode" : "1"
+      },
+      "phoneNumber" : "+12679304000",
+      "premium" : false,
+      "location" : "Philadelphia, PA"
+    }
+  ]
+}

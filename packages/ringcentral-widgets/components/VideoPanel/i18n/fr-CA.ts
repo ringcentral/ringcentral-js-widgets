@@ -1,4 +1,4 @@
-import { ASSISTED_USERS_MYSELF } from '@ringcentral-integration/commons/modules/RcVideo/constants';
+import { ASSISTED_USERS_MYSELF } from '@ringcentral-integration/commons/modules/RcVideo';
 export default {
   topic: "Titre de la réunion",
   date: "Date",
@@ -13,9 +13,9 @@ export default {
   waitingRoomNotCoworker: "Personnes externes",
   waitingRoomGuest: "Personnes non connectées",
   waitingRoomAll: "Tout le monde",
-  enterPassword: "Saisissez le mot de passe",
-  onlyJoinAfterMe: "Les participants ne peuvent se joindre à la réunion qu’après moi",
-  onlyJoinAfterHost: "Les participants ne peuvent se joindre à la réunion qu’après l’animateur",
+  enterPassword: "Entrez le mot de passe",
+  onlyJoinAfterMe: "Les participants ne peuvent se joindre qu’après moi",
+  onlyJoinAfterHost: "Les participants ne peuvent se joindre qu’après l’animateur",
   muteAudio: "Désactiver le son des participants",
   turnOffCamera: "Désactiver la caméra des participants",
   requirePassword: "Exiger un mot de passe",
@@ -23,19 +23,19 @@ export default {
   e2eeTooltip: "Les réunions chiffrées de bout en bout sont les réunions les plus confidentielles, mais des fonctionnalités comme la participation par téléphone, les sous-titres codés et l’enregistrement ne sont pas disponibles.",
   setPassword: "Définir le mot de passe *",
   setPasswordNotSymbol: "Définir le mot de passe",
-  passwordEmptyError: "Mot de passe de la réunion requis",
-  passwordInvalidError: "Votre mot de passe doit contenir de 1 à 10 lettres et chiffres, mais ne peut pas contenir de symboles.",
-  passwordHintText: "Votre mot de passe doit contenir de 1 à 10 lettres et chiffres, mais ne peut pas comporter de symboles.",
-  usePersonalMeetingId: "Utiliser le code de réunion personnel",
+  passwordEmptyError: "Mot de passe de la réunion obligatoire",
+  passwordInvalidError: "Votre mot de passe doit contenir de 1 à 10 lettres et chiffres, mais ne pas contenir de symboles.",
+  passwordHintText: "Votre mot de passe doit contenir de 1 à 10 lettres et chiffres, mais ne pas contenir de symboles.",
+  usePersonalMeetingId: "Utiliser le code de réunion personnelle",
   meetingSettingsSecurity: "Sécurité",
   onlyAuthUserJoin: "Seuls les utilisateurs authentifiés peuvent se joindre",
   signedInUsers: "Utilisateurs connectés",
   signedInCoWorkers: "Collègues connectés",
   limitScreenSharing: "Seuls l’animateur et les modérateurs peuvent partager leur écran",
-  lockTooltip: "Ces paramètres sont gérés par votre administrateur",
+  lockTooltip: "Ce paramètre est géré par l’administrateur de votre entreprise",
   pmiSettingAlert: "Ces paramètres seront appliqués à toutes les réunions créées avec le même code de réunion personnelle",
   today: "Aujourd’hui",
-  scheduleForGuidance: "Vous planifiez une réunion pour quelqu’un d’autre?\n1. Assurez-vous d’être dans son Calendrier Outlook.\n2. Dans le menu déroulant, sélectionnez la personne pour laquelle vous planifiez une réunion.\n",
+  scheduleForGuidance: "Vous planifiez une réunion pour quelqu’un d’autre?\n1. Assurez-vous d’être dans son calendrier Outlook.\n2. Dans le menu déroulant, sélectionnez la personne pour laquelle vous planifiez une réunion.\n",
   scheduleForGuidanceMore: "En savoir plus",
   changePmiSettings: "Changer les paramètres de la réunion personnelle",
   ieSupportAlert: "Veuillez noter que {appName} ne fonctionnera pas dans Internet Explorer 11 après le 16 février 2022. Nous recommandons de passer à Microsoft Edge ou à Office 2016 ou à une version ultérieure."
@@ -78,5 +78,5 @@ export default {
 // @key: @#@"today"@#@ @source: @#@"Today"@#@
 // @key: @#@"scheduleForGuidance"@#@ @source: @#@"Scheduling for someone else?\n1. Make sure you're on their Outlook calendar.\n2. From the dropdown, select the person you're scheduling for.\n"@#@
 // @key: @#@"scheduleForGuidanceMore"@#@ @source: @#@"Learn details"@#@
-// @key: @#@"changePmiSettings"@#@ @source: @#@"Change Personal meeting settings"@#@
+// @key: @#@"changePmiSettings"@#@ @source: @#@"Change Personal Meeting settings"@#@
 // @key: @#@"ieSupportAlert"@#@ @source: @#@"Please note that {appName} won't work with Internet Explorer 11 after Feb 16, 2022. We recommend switching to Microsoft Edge or updating to Outlook 2016 or above."@#@

@@ -1,10 +1,10 @@
 export default {
   monday: "S",
-  tuesday: "Q",
+  tuesday: "T",
   wednesday: "Q",
   thursday: "Q",
   friday: "S",
-  saturday: "D",
+  saturday: "S",
   sunday: "D"
 };
 

@@ -34,7 +34,7 @@ export default {
   IE: "Irlanda",
   IL: "Israel",
   IN: "Índia",
-  IT: "Israel",
+  IT: "Itália",
   JP: "Japão",
   KE: "Quénia",
   KR: "Coreia do Sul",

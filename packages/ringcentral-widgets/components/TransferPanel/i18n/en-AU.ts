@@ -3,7 +3,7 @@ export default {
   transferTo: "Transfer to",
   blindTransfer: "Transfer",
   warmTransfer: "Ask first",
-  enterNameOrNumber: "Enter number"
+  enterNameOrNumber: "Enter Number"
 };
 
 // @key: @#@"to"@#@ @source: @#@"To:"@#@

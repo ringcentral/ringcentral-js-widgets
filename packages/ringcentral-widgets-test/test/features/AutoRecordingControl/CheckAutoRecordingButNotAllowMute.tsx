@@ -1,10 +1,9 @@
 /* RCI-3758: Check auto recording but not allow mute
-https://testit.ringcentral.com/test-cases/RCI-3758
+https://test_id_domain/test-cases/RCI-3758
 */
 import {
   FeaturesData,
   Record,
-  MockStopRecordError,
 } from '@ringcentral-integration/commons/integration-test/mock';
 
 import { Context } from '../../interfaces';
@@ -25,7 +24,7 @@ import {
 import { CheckAlertMessage } from '../../steps/Alert';
 import {
   ClickMoreButton,
-  ClickStopRecordButton,
+  StopRecordCall,
   MakeInboundCall,
   MakeOutboundCall,
   CheckRecordingIndicator,
@@ -70,7 +69,7 @@ export const checkAutoRecordingButNotAllowMute = ({
       | direction  | mock_auto_call_recording         | mock_auto_call_recording_mute | status     | is_recording |
       | 'Inbound'  | ${mockAutoInboundCallRecording}  | ${mockAutoCallRecordingMute}  | 'connected'| true         |
       | 'Outbound' | ${mockAutoOutboundCallRecording} | ${mockAutoCallRecordingMute}  | 'ring'     | true         |
-    `)
+      `)
     run() {
       return (
         <Scenario desc="Check auto recording but not allow mute">
@@ -118,26 +117,15 @@ export const checkAutoRecordingButNotAllowMute = ({
                 }
                 return <MakeOutboundCall />;
               },
-              (_: any, { phone }: Context) => {
-                const {
-                  id: sessionId,
-                  recordings,
-                  party,
-                } = phone.activeCallControl.sessions[0];
-                const recordingId = recordings[0].id;
-                const partyId = party.id;
-                MockStopRecordError({
-                  sessionId,
-                  recordingId,
-                  partyId,
-                });
+              (_: any, { rcMock }: Context) => {
+                rcMock.stopRecord(403);
               },
               ClickMoreButton,
             ]}
           />
           <And
             desc="User click 'Stop recording' button"
-            action={ClickStopRecordButton}
+            action={StopRecordCall}
           />
           <Then
             desc="User should see that the call is being recording"

@@ -1,9 +1,10 @@
-import messageSyncBody from '@ringcentral-integration/commons/integration-test/mock/data/messageSync.json';
-import messageFaxItemBody from '@ringcentral-integration/commons/integration-test/mock/data/messageFaxItem.json';
-import subscriptionBody from '@ringcentral-integration/commons/integration-test/mock/data/subscription.json';
-import pubnubMsg from '@ringcentral-integration/commons/integration-test/mock/data/pubnub.json';
 import * as mock from '@ringcentral-integration/commons/integration-test/mock';
-import { timeout } from '../shared';
+import messageFaxItemBody from '@ringcentral-integration/commons/integration-test/mock/data/messageFaxItem.json';
+import messageSyncBody from '@ringcentral-integration/commons/integration-test/mock/data/messageSync.json';
+import pubnubMsg from '@ringcentral-integration/commons/integration-test/mock/data/pubnub.json';
+import subscriptionBody from '@ringcentral-integration/commons/integration-test/mock/data/subscription.json';
+import { sleep } from '@ringcentral-integration/utils';
+
 import Pubnub from '../../__mocks__/pubnub';
 
 export async function mockPubnub() {
@@ -22,7 +23,7 @@ export async function mockPubnub() {
     },
   );
   pubnub.mockMessage(encrypted);
-  await timeout(100);
+  await sleep(100);
 }
 
 export function mockGenerateMessageApi({

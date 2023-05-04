@@ -1,10 +1,9 @@
 /* RCI-3778: Check non-pstn call control action
-https://testit.ringcentral.com/test-cases/RCI-3778
+https://test_id_domain/test-cases/RCI-3778
 */
 
 import {
   FeaturesData,
-  MockStopRecordError,
   Record,
 } from '@ringcentral-integration/commons/integration-test/mock';
 import { Context } from '../../interfaces';
@@ -25,7 +24,7 @@ import {
 import { CheckAlertMessage } from '../../steps/Alert';
 import {
   ClickMoreButton,
-  ClickStopRecordButton,
+  StopRecordCall,
   MakeInboundCall,
   MakeOutboundCall,
   CheckCannotControlMute,
@@ -113,19 +112,8 @@ export const checkNonPstnCallAction = ({
                 }
                 return <MakeOutboundCall />;
               },
-              (_: any, { phone }: Context) => {
-                const {
-                  id: sessionId,
-                  recordings,
-                  party,
-                } = phone.activeCallControl.sessions[0];
-                const recordingId = recordings[0].id;
-                const partyId = party.id;
-                MockStopRecordError({
-                  sessionId,
-                  recordingId,
-                  partyId,
-                });
+              (_: any, { rcMock }: Context) => {
+                rcMock.stopRecord(403);
               },
             ]}
           />
@@ -135,7 +123,7 @@ export const checkNonPstnCallAction = ({
           />
           <Then
             desc="User click the recording button"
-            action={ClickStopRecordButton}
+            action={StopRecordCall}
           />
           <And
             desc="User should see that alert error message and fail to pause, Call is still on recording status"

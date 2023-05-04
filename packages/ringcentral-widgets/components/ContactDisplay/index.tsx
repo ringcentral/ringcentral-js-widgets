@@ -15,7 +15,7 @@ import {
   spacing,
   styled,
 } from '@ringcentral/juno';
-import { ArrowDown2, ArrowUp2 } from '@ringcentral/juno/icon';
+import { ArrowDown2, ArrowUp2 } from '@ringcentral/juno-icon';
 
 import {
   ContactDisplayItem,
@@ -26,7 +26,7 @@ import { Entity } from './Entity.interface';
 import i18n from './i18n';
 import styles from './styles.scss';
 
-const UnReadDot = styled.div`
+export const UnReadDot = styled.div`
   display: inline-block;
   height: 8px;
   ${flexWidth('8px')}
@@ -45,6 +45,7 @@ const MenuButton = styled(RcButton)`
 `;
 
 type ContactDisplayProps = {
+  name?: string;
   isOnConferenceCall?: boolean;
   reference?: (...args: any[]) => any;
   className?: string;
@@ -70,7 +71,6 @@ type ContactDisplayProps = {
   brand?: string;
   stopPropagation?: boolean;
   sourceIcons?: ContactDisplayItemProps['sourceIcons'];
-  phoneTypeRenderer?: (...args: any[]) => any;
   phoneSourceNameRenderer?: (...args: any[]) => any;
   showGroupNumberName?: boolean;
   contactName?: any;
@@ -80,6 +80,9 @@ type ContactDisplayProps = {
   dropdownClassName?: string;
   unread?: boolean;
   missed?: boolean;
+  formatPhone?: (phoneNumber: string) => string | undefined;
+  warmTransferRole?: string;
+  maxExtensionNumberLength?: number;
 };
 
 type TitleProps = React.DetailedHTMLProps<
@@ -102,7 +105,7 @@ const _Title: FunctionComponent<TitleProps> = ({
   </div>
 );
 
-const Title = styled(_Title)`
+export const Title = styled(_Title)`
   font-size: 14px;
   color: ${({ unread, missed }) =>
     // eslint-disable-next-line no-nested-ternary
@@ -128,6 +131,8 @@ const StyledMenu = styled(RcMenu)`
 `;
 
 const ContactDisplay: React.FC<ContactDisplayProps> = ({
+  warmTransferRole,
+  name,
   reference,
   className,
   contactMatches,
@@ -162,14 +167,21 @@ const ContactDisplay: React.FC<ContactDisplayProps> = ({
   dropdownClassName,
   unread,
   missed,
+  formatPhone,
+  maxExtensionNumberLength,
 }) => {
-  const phoneNumberAfterFormat = formatNumber({
-    phoneNumber,
-    countryCode,
-    areaCode,
-    siteCode: currentSiteCode,
-    isMultipleSiteEnabled,
-  });
+  const phoneNumberAfterFormat =
+    // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
+    formatPhone?.(phoneNumber) ??
+    formatNumber({
+      // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
+      phoneNumber,
+      countryCode,
+      areaCode,
+      siteCode: currentSiteCode,
+      isMultipleSiteEnabled,
+      maxExtensionLength: maxExtensionNumberLength,
+    });
 
   const unreadDot = unread && (
     <UnReadDot data-sign="unread" aria-label="unread" />
@@ -211,6 +223,7 @@ const ContactDisplay: React.FC<ContactDisplayProps> = ({
         >
           {unreadDot}
           {contactName.tag || contactName}
+          {warmTransferRole}
           {subContactName && subContactName.tag}
         </Title>
       );
@@ -244,12 +257,25 @@ const ContactDisplay: React.FC<ContactDisplayProps> = ({
     }
 
     if (contactMatches.length === 0) {
+      const fallBackResult = enableContactFallback && fallBackName;
+
       const display =
-        (enableContactFallback && fallBackName) ||
+        name ||
+        fallBackResult ||
         phoneNumberAfterFormat ||
         i18n.getString('unknownNumber', currentLocale);
+
+      const groupedNameTitle = name
+        ? `${name} | ${phoneNumberAfterFormat}`
+        : undefined;
+
       const title =
-        (enableContactFallback && fallBackName) || phoneNumberAfterFormat || '';
+        // grouped name with phone number
+        groupedNameTitle ||
+        fallBackResult ||
+        phoneNumberAfterFormat ||
+        undefined;
+
       return (
         <Title title={title} unread={unread} missed={missed}>
           {unreadDot}
@@ -263,6 +289,7 @@ const ContactDisplay: React.FC<ContactDisplayProps> = ({
       const title = displayFormatter({
         entityName: display,
         entityType: contactMatches[0].entityType,
+        // @ts-expect-error TS(2322): Type 'string | null | undefined' is not assignable... Remove this comment to see the full error message
         phoneNumber: phoneNumberAfterFormat,
         brand,
         currentLocale,
@@ -292,6 +319,7 @@ const ContactDisplay: React.FC<ContactDisplayProps> = ({
 
       const value = displayFormatter({
         entityName: curr?.name,
+        // @ts-expect-error TS(2322): Type 'string | false | undefined' is not assignabl... Remove this comment to see the full error message
         entityType: showType && curr.entityType,
         brand,
         currentLocale,
@@ -302,6 +330,7 @@ const ContactDisplay: React.FC<ContactDisplayProps> = ({
         ? displayFormatter({
             entityName: curr.name,
             entityType: curr.entityType,
+            // @ts-expect-error TS(2322): Type 'string | null | undefined' is not assignable... Remove this comment to see the full error message
             phoneNumber: phoneNumberAfterFormat,
             brand,
             currentLocale,
@@ -311,6 +340,7 @@ const ContactDisplay: React.FC<ContactDisplayProps> = ({
 
       const open = Boolean(anchorEl);
 
+      // @ts-expect-error TS(2454): Variable 'currPlaceholder' is used before being as... Remove this comment to see the full error message
       const items = currPlaceholder ? [{} as Entity, ...entities] : entities;
 
       return (
@@ -321,6 +351,7 @@ const ContactDisplay: React.FC<ContactDisplayProps> = ({
             color={unread ? 'interactive.f01' : 'neutral.f06'}
             onClick={handleClick}
             disabled={disabled || isLogging}
+            // @ts-expect-error TS(2322): Type 'string | null | undefined' is not assignable... Remove this comment to see the full error message
             title={title}
             endIcon={
               <RcIcon
@@ -332,6 +363,7 @@ const ContactDisplay: React.FC<ContactDisplayProps> = ({
           >
             {unreadDot}
             <Title unread={unread} missed={missed}>
+              {/* @ts-expect-error TS(2454): Variable 'currPlaceholder' is used */}
               {selected > -1 ? value : currPlaceholder}
             </Title>
           </MenuButton>
@@ -353,6 +385,7 @@ const ContactDisplay: React.FC<ContactDisplayProps> = ({
                 ? displayFormatter({
                     entityName: entity.name,
                     entityType: entity.entityType,
+                    // @ts-expect-error TS(2322): Type 'string | null | undefined' is not assignable... Remove this comment to see the full error message
                     phoneNumber: phoneNumberAfterFormat,
                     brand,
                     currentLocale,
@@ -362,6 +395,7 @@ const ContactDisplay: React.FC<ContactDisplayProps> = ({
 
               const itemValue = displayFormatter({
                 entityName: entity.name,
+                // @ts-expect-error TS(2322): Type 'string | false | undefined' is not assignabl... Remove this comment to see the full error message
                 entityType: showType && entity.entityType,
                 brand,
                 currentLocale,
@@ -388,6 +422,7 @@ const ContactDisplay: React.FC<ContactDisplayProps> = ({
 
               return (
                 <RcMenuItem
+                  // @ts-expect-error TS(2322): Type 'string | null | undefined' is not assignable... Remove this comment to see the full error message
                   title={title}
                   value={itemValue}
                   key={i}
@@ -400,7 +435,7 @@ const ContactDisplay: React.FC<ContactDisplayProps> = ({
                       // TODO: should check that feature in salesforce
                       // do nothing
                     } else {
-                      onSelectContact(entity, i);
+                      onSelectContact?.(entity, i);
                     }
 
                     handleClose();
@@ -429,8 +464,7 @@ ContactDisplay.defaultProps = {
   placeholder: '',
   stopPropagation: true,
   showGroupNumberName: false,
-  iconClassName: null,
-  dropdownClassName: null,
+  maxExtensionNumberLength: 6,
 };
 
 export default ContactDisplay;

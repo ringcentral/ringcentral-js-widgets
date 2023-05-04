@@ -1,6 +1,6 @@
 export default {
-  from: "De",
-  to: "A",
+  from: "Desde",
+  to: "Para",
   enterNameOrNumber: "Ingresar número o nombre...",
   typeMessage: "Escribir mensaje...",
   send: "Enviar"

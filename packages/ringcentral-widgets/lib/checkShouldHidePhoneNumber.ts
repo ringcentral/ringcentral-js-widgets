@@ -1,6 +1,9 @@
 import { filter, reduce } from 'ramda';
 
-import { Entity } from '@ringcentral-integration/commons/interfaces/Entity.interface';
+import {
+  Entity,
+  EntityPhoneNumberItem,
+} from '@ringcentral-integration/commons/interfaces/Entity.interface';
 
 export function checkShouldHidePhoneNumber(
   phoneNumber: string,
@@ -23,10 +26,10 @@ export function checkShouldHidePhoneNumber(
 
   const filteredPhoneNumbers = reduce(
     (acc, x) => {
-      const numbers = filter((item) => !item.hidden, x.phoneNumbers);
+      const numbers = filter((item) => !item.hidden, x.phoneNumbers || []);
       return acc.concat(numbers);
     },
-    [],
+    [] as EntityPhoneNumberItem[],
     filteredMatches,
   );
 

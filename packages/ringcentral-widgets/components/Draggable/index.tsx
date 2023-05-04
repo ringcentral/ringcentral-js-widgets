@@ -21,7 +21,15 @@ type DraggableState = {
 };
 /* eslint { "react/no-unused-state": 0 } */
 class Draggable extends Component<DraggableProps, DraggableState> {
-  constructor(props) {
+  _isClick: any;
+  _onClick: any;
+  _onMouseDown: any;
+  _onMouseMove: any;
+  _onMouseUp: any;
+  _positionXOnMouseDown: any;
+  _positionYOnMouseDown: any;
+  draggableDom: any;
+  constructor(props: any) {
     super(props);
     this.state = {
       dragging: false,
@@ -31,7 +39,7 @@ class Draggable extends Component<DraggableProps, DraggableState> {
       translateY: props.positionOffsetY,
     };
     this._isClick = true;
-    this._onMouseDown = (e) => {
+    this._onMouseDown = (e: any) => {
       if (e.button !== 0) return;
       if (this.state.dragging) {
         return;
@@ -49,7 +57,7 @@ class Draggable extends Component<DraggableProps, DraggableState> {
       e.stopPropagation();
       e.preventDefault();
     };
-    this._onMouseMove = (e) => {
+    this._onMouseMove = (e: any) => {
       if (!this.state.dragging) {
         return;
       }
@@ -68,8 +76,10 @@ class Draggable extends Component<DraggableProps, DraggableState> {
       const width = (child && child.clientWidth) || 0;
       if (
         Math.abs(newPositionX - this._positionXOnMouseDown) >
+          // @ts-expect-error TS(2532): Object is possibly 'undefined'.
           this.props.clickThreshold ||
         Math.abs(newPositionY - this._positionYOnMouseDown) >
+          // @ts-expect-error TS(2532): Object is possibly 'undefined'.
           this.props.clickThreshold
       ) {
         this._isClick = false;
@@ -100,10 +110,11 @@ class Draggable extends Component<DraggableProps, DraggableState> {
       e.stopPropagation();
       e.preventDefault();
     };
-    this._onMouseUp = (e) => {
+    this._onMouseUp = (e: any) => {
       this.setState({
         dragging: false,
       });
+      // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
       this.props.updatePositionOffset(
         this.state.translateX,
         this.state.translateY,
@@ -113,17 +124,20 @@ class Draggable extends Component<DraggableProps, DraggableState> {
       e.stopPropagation();
       e.preventDefault();
     };
-    this._onClick = (e) => {
+    this._onClick = (e: any) => {
       if (!this._isClick) {
         return;
       }
+      // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
       this.props.onClick(e);
     };
   }
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   componentWillUnmount() {
     window.removeEventListener('mousemove', this._onMouseMove);
     window.removeEventListener('mouseup', this._onMouseUp);
   }
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     const { className, children } = this.props;
     const style = {
@@ -146,6 +160,7 @@ class Draggable extends Component<DraggableProps, DraggableState> {
     );
   }
 }
+// @ts-expect-error TS(2339): Property 'defaultProps' does not exist on type 'ty... Remove this comment to see the full error message
 Draggable.defaultProps = {
   className: null,
   onClick: () => null,

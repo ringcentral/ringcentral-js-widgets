@@ -1,4 +1,4 @@
-import { contains } from 'ramda';
+import { includes } from 'ramda';
 
 import {
   transferErrors,
@@ -22,7 +22,7 @@ export default function EvTransferCallAlert({
 }
 
 EvTransferCallAlert.handleMessage = ({ message }: { message: string }) =>
-  contains(message, [
+  includes(message, [
     transferEvents.START,
     transferErrors.TRANSFER_ERROR,
     transferSuccesses.TRANSFER_CONNECTED,

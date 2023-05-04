@@ -1,3 +1,5 @@
+// @ts-nocheck TODO: should fixed that ts issues
+
 import moduleStatuses from '@ringcentral-integration/commons/enums/moduleStatuses';
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import ensureExist from '@ringcentral-integration/commons/lib/ensureExist';
@@ -25,11 +27,13 @@ export default class AdapterModuleCoreBase extends RcModule {
     presence,
     routerInteraction,
     getGlobalStorageReducer = getDefaultGlobalStorageReducer,
+
     messageTransport = new IframeMessageTransport({
       targetWindow: window.parent,
     }),
+
     ...options
-  }) {
+  }: any) {
     super({
       prefix,
       actionTypes,
@@ -37,16 +41,20 @@ export default class AdapterModuleCoreBase extends RcModule {
     });
 
     this._messageTypes = ObjectMap.prefixValues(messageTypes, prefix);
+    // @ts-expect-error TS(2345): Argument of type 'string' is not assignable to par... Remove this comment to see the full error message
     this._locale = ensureExist.call(this, locale, 'locale');
     this._messageTransport = ensureExist.call(
       this,
       messageTransport,
+      // @ts-expect-error TS(2345): Argument of type 'string' is not assignable to par... Remove this comment to see the full error message
       'messageTransport',
     );
+    // @ts-expect-error TS(2345): Argument of type 'string' is not assignable to par... Remove this comment to see the full error message
     this._presence = ensureExist.call(this, presence, 'presence');
     this._router = ensureExist.call(
       this,
       routerInteraction,
+      // @ts-expect-error TS(2345): Argument of type 'string' is not assignable to par... Remove this comment to see the full error message
       'routerInteraction',
     );
 
@@ -54,6 +62,7 @@ export default class AdapterModuleCoreBase extends RcModule {
     this._globalStorage = ensureExist.call(
       this,
       globalStorage,
+      // @ts-expect-error TS(2345): Argument of type 'string' is not assignable to par... Remove this comment to see the full error message
       'globalStorage',
     );
 
@@ -65,12 +74,14 @@ export default class AdapterModuleCoreBase extends RcModule {
     this._reducer = getModuleStatusReducer(this.actionTypes);
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   initialize() {
-    this._messageTransport.addListener((msg) => this._onMessage(msg));
+    this._messageTransport.addListener((msg: any) => this._onMessage(msg));
     this.store.subscribe(() => this._onStateChange());
   }
 
-  _shouldInit() {
+  // @ts-expect-error TS(4113): This member cannot have an 'override' modifier bec... Remove this comment to see the full error message
+  override _shouldInit() {
     return (
       this.pending &&
       this._globalStorage.ready &&
@@ -79,6 +90,7 @@ export default class AdapterModuleCoreBase extends RcModule {
     );
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   _onStateChange() {
     if (this._shouldInit()) {
       this.store.dispatch({
@@ -134,7 +146,7 @@ export default class AdapterModuleCoreBase extends RcModule {
     }
   }
 
-  _postMessage(data) {
+  _postMessage(data: any) {
     this._messageTransport.postMessage(data);
   }
 
@@ -170,7 +182,7 @@ export default class AdapterModuleCoreBase extends RcModule {
     }
   }
 
-  _onMessage(msg) {
+  _onMessage(msg: any) {
     if (msg) {
       switch (msg.type) {
         case this._messageTypes.syncClosed:
@@ -204,7 +216,7 @@ export default class AdapterModuleCoreBase extends RcModule {
   }
 
   @proxify
-  async _syncClosed(closed) {
+  async _syncClosed(closed: any) {
     this.store.dispatch({
       type: this.actionTypes.syncClosed,
       closed,
@@ -212,7 +224,7 @@ export default class AdapterModuleCoreBase extends RcModule {
   }
 
   @proxify
-  async _syncMinimized(minimized) {
+  async _syncMinimized(minimized: any) {
     this.store.dispatch({
       type: this.actionTypes.syncMinimized,
       minimized,
@@ -236,7 +248,7 @@ export default class AdapterModuleCoreBase extends RcModule {
   }
 
   @proxify
-  async _onPresenceItemClicked(presenceData) {
+  async _onPresenceItemClicked(presenceData: any) {
     await this._presence.setPresence(presenceData);
   }
 
@@ -257,6 +269,7 @@ export default class AdapterModuleCoreBase extends RcModule {
     throw new Error('Should implement the _onNavigateToViewCalls function.');
   }
 
+  // @ts-expect-error TS(2345): Argument of type 'TypedPropertyDescriptor<() => vo... Remove this comment to see the full error message
   @proxify
   _onPopOut() {
     if (typeof this.showClientWindow === 'function') {
@@ -269,10 +282,12 @@ export default class AdapterModuleCoreBase extends RcModule {
     return this.state.status || this.state;
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   get ready() {
     return this.status === moduleStatuses.ready;
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   get pending() {
     return this.status === moduleStatuses.pending;
   }

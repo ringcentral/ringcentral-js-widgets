@@ -1,5 +1,5 @@
 export default {
-  createLog: "Protokoll erstellen",
+  createLog: "Protokoll erstell.",
   creating: "Erstellen",
   save: "Speichern",
   saving: "Wird gespeichert",

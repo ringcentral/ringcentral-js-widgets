@@ -1,6 +1,6 @@
 export default {
   download: "Herunterladen",
-  play: "Wiedergabe",
+  play: "Abspielen",
   pause: "Anhalten"
 };
 

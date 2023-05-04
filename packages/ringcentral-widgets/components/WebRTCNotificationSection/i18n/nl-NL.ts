@@ -5,7 +5,8 @@ export default {
   answer: "Beantwoorden",
   endAndAnswer: "Beëindigen en beantwoorden",
   holdAndAnswer: "In wacht en beantwoorden",
-  custom: "Aangepast"
+  custom: "Aangepast",
+  more: "Meer"
 };
 
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@
@@ -15,3 +16,4 @@ export default {
 // @key: @#@"endAndAnswer"@#@ @source: @#@"End & Answer"@#@
 // @key: @#@"holdAndAnswer"@#@ @source: @#@"Hold & Answer"@#@
 // @key: @#@"custom"@#@ @source: @#@"Custom"@#@
+// @key: @#@"more"@#@ @source: @#@"More"@#@

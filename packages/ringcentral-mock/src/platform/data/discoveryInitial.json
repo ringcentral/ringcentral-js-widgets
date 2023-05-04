@@ -1,0 +1,28 @@
+{
+  "version": "1.0.0",
+  "retryCount": 3,
+  "retryInterval": 3,
+  "discoveryApi": {
+    "defaultExternalUri": "http://platform.devtest.ringcentral.com/.well-known/entry-points/external"
+  },
+  "authApi": {
+    "authorizationUri": "http://platform.devtest.ringcentral.com/restapi/oauth/authorize",
+    "oidcDiscoveryUri": "http://platform.devtest.ringcentral.com/.well-known/openid-configuration",
+    "defaultTokenUri": "http://platform.devtest.ringcentral.com/restapi/oauth/token"
+  },
+  "coreApi": {
+    "baseUri": "http://platform.devtest.ringcentral.com"
+  },
+  "rcm": {
+    "baseWebUri": "http://platform.devtest.ringcentral.com",
+    "sdkDomain": "whatever"
+  },
+  "rcv": {
+    "baseWebUri": "hhttp://platform.devtest.ringcentral.com",
+    "baseApiUri": "http://platform.devtest.ringcentral.com",
+    "pubnubOrigin": "ringcentral.pubnubapi.com"
+  },
+  "edc": {
+    "baseUri": "http://platform.devtest.ringcentral.com"
+  }
+}

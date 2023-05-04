@@ -2,7 +2,7 @@
  * Set mouse focus and move cursor to end of input
  * @param {HTMLElement} inputField
  */
-export const focusCampo = (inputField) => {
+export const focusCampo = (inputField: any) => {
   inputField.blur();
   if (inputField && inputField.value.length !== 0) {
     if (inputField.createTextRange) {

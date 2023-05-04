@@ -5,7 +5,7 @@ import classnames from 'classnames';
 import calleeTypes from '@ringcentral-integration/commons/enums/calleeTypes';
 import sessionStatus from '@ringcentral-integration/commons/modules/Webphone/sessionStatus';
 
-import CallAvatar from '../CallAvatar';
+import { CallAvatar } from '../CallAvatar';
 import i18n from './i18n';
 import styles from './styles.scss';
 
@@ -24,7 +24,9 @@ type MergeInfoState = {
   lastCallInfoTimeout: boolean;
 };
 class MergeInfo extends Component<MergeInfoProps, MergeInfoState> {
-  constructor(props) {
+  mounted: any;
+  timeout_clock: any;
+  constructor(props: any) {
     super(props);
     this.state = {
       lastCallAvatar: null,
@@ -32,21 +34,26 @@ class MergeInfo extends Component<MergeInfoProps, MergeInfoState> {
     };
     this.mounted = false;
   }
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   componentWillUnmount() {
     this.mounted = false;
     if (this.timeout_clock) {
       clearTimeout(this.timeout_clock);
     }
   }
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   componentDidMount() {
     this.mounted = true;
     const { lastCallInfo, getAvatarUrl } = this.props;
     if (
       lastCallInfo &&
+      // @ts-expect-error TS(2339): Property 'avatarUrl' does not exist on type 'objec... Remove this comment to see the full error message
       !lastCallInfo.avatarUrl &&
+      // @ts-expect-error TS(2339): Property 'lastCallContact' does not exist on type ... Remove this comment to see the full error message
       lastCallInfo.lastCallContact
     ) {
-      getAvatarUrl(lastCallInfo.lastCallContact).then((lastCallAvatar) => {
+      // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
+      getAvatarUrl(lastCallInfo.lastCallContact).then((lastCallAvatar: any) => {
         if (this.mounted) {
           this.setState({
             lastCallAvatar,
@@ -54,8 +61,10 @@ class MergeInfo extends Component<MergeInfoProps, MergeInfoState> {
         }
       });
     }
+    // @ts-expect-error TS(2339): Property 'calleeType' does not exist on type 'obje... Remove this comment to see the full error message
     if (lastCallInfo && lastCallInfo.calleeType !== calleeTypes.conference) {
       const isSimplifiedCallAndLastCallInfoNotReady =
+        // @ts-expect-error TS(2339): Property 'name' does not exist on type 'object'.
         !lastCallInfo.name || !lastCallInfo.phoneNumber;
       if (isSimplifiedCallAndLastCallInfoNotReady) {
         this.timeout_clock = setTimeout(() => {
@@ -70,6 +79,7 @@ class MergeInfo extends Component<MergeInfoProps, MergeInfoState> {
       }
     }
   }
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     const {
       currentLocale,
@@ -84,36 +94,45 @@ class MergeInfo extends Component<MergeInfoProps, MergeInfoState> {
     }
     const { lastCallAvatar, lastCallInfoTimeout } = this.state;
     const isLastCallInfoReady =
+      // @ts-expect-error TS(2339): Property 'name' does not exist on type 'object'.
       !!lastCallInfo && (!!lastCallInfo.name || !!lastCallInfo.phoneNumber);
     const isLastCallEnded =
+      // @ts-expect-error TS(2339): Property 'status' does not exist on type 'object'.
       lastCallInfo && lastCallInfo.status === sessionStatus.finished;
     const statusClasses = classnames({
       [styles.callee_status]: true,
       [styles.callee_status_disconnected]: !!isLastCallEnded,
     });
     const isOnConferenceCall = !!(
-      lastCallInfo && lastCallInfo.calleeType === calleeTypes.conference
+      // @ts-expect-error TS(2339): Property 'calleeType' does not exist on type 'obje... Remove this comment to see the full error message
+      (lastCallInfo && lastCallInfo.calleeType === calleeTypes.conference)
     );
     const isContacts = !!(
-      lastCallInfo && lastCallInfo.calleeType === calleeTypes.contacts
+      // @ts-expect-error TS(2339): Property 'calleeType' does not exist on type 'obje... Remove this comment to see the full error message
+      (lastCallInfo && lastCallInfo.calleeType === calleeTypes.contacts)
     );
     const calleeName = isContacts
-      ? lastCallInfo.name
-      : formatPhone(lastCallInfo.phoneNumber);
+      ? // @ts-expect-error TS(2339): Property 'name' does not exist on type 'object'.
+        lastCallInfo.name
+      : // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
+        formatPhone(lastCallInfo.phoneNumber);
     const loadingText = i18n.getString('loading');
     const loadingTimeoutText = i18n.getString('loadingTimeout');
     const showSpinner =
       !lastCallInfoTimeout && !isLastCallInfoReady && !isOnConferenceCall;
     return (
-      <div className={styles.mergeInfo}>
+      <div className={styles.mergeInfo} data-sign="mergeInfo">
         <div className={styles.merge_item}>
           <div className={styles.callee_avatar}>
             <CallAvatar
               avatarUrl={
+                // @ts-expect-error TS(2339): Property 'avatarUrl' does not exist on type 'objec... Remove this comment to see the full error message
                 isContacts && !lastCallInfo.avatarUrl
                   ? lastCallAvatar
-                  : lastCallInfo.avatarUrl
+                  : // @ts-expect-error TS(2339): Property 'avatarUrl' does not exist on type 'objec... Remove this comment to see the full error message
+                    lastCallInfo.avatarUrl
               }
+              // @ts-expect-error TS(2339): Property 'extraNum' does not exist on type 'object... Remove this comment to see the full error message
               extraNum={isOnConferenceCall ? lastCallInfo.extraNum : 0}
               isOnConferenceCall={isOnConferenceCall}
               spinnerMode={showSpinner}
@@ -146,6 +165,7 @@ class MergeInfo extends Component<MergeInfoProps, MergeInfoState> {
           {(isLastCallInfoReady ||
             (!isLastCallInfoReady && isOnConferenceCall)) && (
             <div className={statusClasses}>
+              {/* @ts-expect-error TS(2339): Property 'status' does not exist on */}
               {lastCallInfo.status === sessionStatus.finished
                 ? i18n.getString('disconnected', currentLocale)
                 : i18n.getString('onHold', currentLocale)}
@@ -157,6 +177,7 @@ class MergeInfo extends Component<MergeInfoProps, MergeInfoState> {
             {currentCallAvatarUrl ? (
               <CallAvatar avatarUrl={currentCallAvatarUrl} />
             ) : (
+              // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
               <CallAvatar avatarUrl={null} />
             )}
           </div>
@@ -172,6 +193,7 @@ class MergeInfo extends Component<MergeInfoProps, MergeInfoState> {
     );
   }
 }
+// @ts-expect-error TS(2339): Property 'defaultProps' does not exist on type 'ty... Remove this comment to see the full error message
 MergeInfo.defaultProps = {
   lastCallInfo: { calleeType: calleeTypes.unknown },
   currentCallTitle: undefined,

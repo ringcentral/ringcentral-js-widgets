@@ -45,8 +45,8 @@ import {
     { dep: 'EvAgentScriptOptions', optional: true },
   ],
 })
-class EvAgentScript<T = {}>
-  extends RcModuleV2<Deps & T>
+class EvAgentScript<T extends Deps = Deps>
+  extends RcModuleV2<T>
   implements AgentScript
 {
   private _channel: SingleTabBroadcastChannel;
@@ -54,7 +54,7 @@ class EvAgentScript<T = {}>
   protected _eventEmitter = new EventEmitter();
   private _hadResponse = false;
 
-  constructor(deps: Deps & T) {
+  constructor(deps: T) {
     super({
       deps,
       enableCache: true,
@@ -107,7 +107,7 @@ class EvAgentScript<T = {}>
     this._eventEmitter.on(agentScriptEvents.UPDATE_DISPOSITION, cb);
   }
 
-  onInitOnce() {
+  override onInitOnce() {
     this._bindChannel();
 
     // when script change emit that
@@ -135,7 +135,7 @@ class EvAgentScript<T = {}>
     });
   }
 
-  onInit() {
+  override onInit() {
     console.log('EvAgentScript!! init');
     this.setIsDisplayAgentScript(true);
   }

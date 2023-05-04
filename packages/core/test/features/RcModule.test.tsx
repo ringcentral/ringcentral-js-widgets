@@ -140,8 +140,8 @@ function createStatefulModuleFoo(props: any, context: any) {
 }
 
 class MockStorage {
-  _key: string;
-  _reducer: Reducer;
+  _key?: string;
+  _reducer?: Reducer;
   registerReducer({ key, reducer }: { key: string; reducer: Reducer }) {
     this._key = key;
     this._reducer = reducer;

@@ -22,6 +22,7 @@ export const TabTitle: React.FC<TabTitleProps> = ({
   active,
 }) => {
   return (
+    // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
     <StyledTitle $active={active} className={styles.tabTitle}>
       {i18n.getString(type, currentLocale)}
     </StyledTitle>

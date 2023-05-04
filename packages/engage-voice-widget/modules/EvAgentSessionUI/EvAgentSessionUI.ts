@@ -50,7 +50,7 @@ class EvAgentSessionUI extends RcUIModuleV2<Deps> implements SessionConfigUI {
     });
   }
 
-  async onStateChange() {
+  override async onStateChange() {
     if (
       this.ready &&
       this._deps.tabManager.ready &&
@@ -108,7 +108,7 @@ class EvAgentSessionUI extends RcUIModuleV2<Deps> implements SessionConfigUI {
     this.isLoading = isLoading;
   }
 
-  onInit() {
+  override onInit() {
     this.setIsLoading(false);
   }
 

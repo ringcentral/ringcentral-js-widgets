@@ -1,5 +1,5 @@
-export function bindNextPropsUpdate(instance) {
-  return (nextProps, field = 'value', isFocus) => {
+export function bindNextPropsUpdate(instance: any) {
+  return (nextProps: any, field = 'value', isFocus: any) => {
     if (
       typeof nextProps[field] !== 'undefined' &&
       nextProps[field] !== instance.props[field] &&

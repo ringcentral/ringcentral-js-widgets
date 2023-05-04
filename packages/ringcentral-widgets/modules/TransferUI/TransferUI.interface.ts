@@ -2,12 +2,16 @@ import { NormalizedSession } from '@ringcentral-integration/commons/interfaces/W
 import {
   ActiveCallControl,
   ActiveSession,
-} from '@ringcentral-integration/commons/modules/ActiveCallControlV2';
-import { ContactSearch } from '@ringcentral-integration/commons/modules/ContactSearchV2';
+} from '@ringcentral-integration/commons/modules/ActiveCallControl';
+import { ContactSearch } from '@ringcentral-integration/commons/modules/ContactSearch';
 import { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
-import { Webphone } from '@ringcentral-integration/commons/modules/WebphoneV2';
+import { Webphone } from '@ringcentral-integration/commons/modules/Webphone';
+import { AccountInfo } from '@ringcentral-integration/commons/modules/AccountInfo';
 
+import { Alert } from '@ringcentral-integration/commons/modules/Alert';
+import { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettings';
+import { CompanyContacts } from '@ringcentral-integration/commons/modules/CompanyContacts';
 import { RouterInteraction } from '../RouterInteraction';
 
 export interface TransferUIOptions {}
@@ -20,6 +24,10 @@ export interface Deps {
   webphone: Webphone;
   activeCallControl: ActiveCallControl;
   TransferUIOptions?: TransferUIOptions;
+  accountInfo: AccountInfo;
+  alert: Alert;
+  callingSettings: CallingSettings;
+  companyContacts: CompanyContacts;
 }
 
 export interface TransferUIPanelProps {
@@ -35,6 +43,7 @@ export interface TransferUIPanelProps {
   enableWarmTransfer: boolean;
   setActiveSessionId: (sessionId: string) => void;
   onTransfer: (transferNumber: string, sessionId: string) => void;
+  onToVoicemail: (voicemailId: string, sessionId: string) => void;
   onWarmTransfer: (transferNumber: string, sessionId: string) => void;
   onBack: () => void;
   onCallEnd: () => void;

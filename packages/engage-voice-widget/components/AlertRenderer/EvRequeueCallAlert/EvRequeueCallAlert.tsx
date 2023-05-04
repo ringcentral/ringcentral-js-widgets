@@ -1,4 +1,4 @@
-import { contains } from 'ramda';
+import { includes } from 'ramda';
 
 import { requeueEvents } from '../../../enums';
 import i18n from './i18n';
@@ -18,7 +18,7 @@ export default function EvRequeueCallAlert({
 }
 
 EvRequeueCallAlert.handleMessage = ({ message }: { message: string }) =>
-  contains(message, [
+  includes(message, [
     requeueEvents.FAILURE,
     requeueEvents.START,
     requeueEvents.SUCCESS,

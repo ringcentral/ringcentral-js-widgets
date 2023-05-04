@@ -1,3 +1,3 @@
 export default {
-  dialPlaceholder: 'Enter Name or Number',
+  dialPlaceholder: 'Enter name or number',
 };

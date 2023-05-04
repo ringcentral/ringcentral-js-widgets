@@ -2302,7 +2302,7 @@ $templateCache.put('scriptRender/tools/startScript/StartScript.tpl.html','<div c
         }
 
         function _showGrowl() {
-            return false; // TODO since we don't have translate set up yet, don't show growl
+            return false; // TODO: since we don't have translate set up yet, don't show growl
             //return $scope.options.data.action.showMessages;
         }
 

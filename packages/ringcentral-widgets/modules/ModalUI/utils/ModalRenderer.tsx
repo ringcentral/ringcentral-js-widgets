@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { RcIconButton, RcText, spacing, styled } from '@ringcentral/juno';
-import { Close as close } from '@ringcentral/juno/icon';
+import { Close as close } from '@ringcentral/juno-icon';
 
 import i18n from '../i18n';
 import { CustomRenderer } from '../ModalUI.interface';

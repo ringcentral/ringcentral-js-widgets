@@ -1,6 +1,6 @@
-import padLeft from '@ringcentral-integration/commons/lib/padLeft';
+import padStart from 'lodash/padStart';
 
-export default function formatDuration(duration) {
+export default function formatDuration(duration: any) {
   if (Number.isNaN(duration)) {
     return '--:--';
   }
@@ -9,11 +9,11 @@ export default function formatDuration(duration) {
       ? Math.round(duration)
       : parseInt(duration, 10);
 
-  const seconds = padLeft(intDuration % 60, '0', 2);
-  const minutes = padLeft(Math.floor(intDuration / 60) % 60, '0', 2);
+  const seconds = padStart(`${intDuration % 60}`, 2, '0');
+  const minutes = padStart(`${Math.floor(intDuration / 60) % 60}`, 2, '0');
   const hours = Math.floor(intDuration / 3600) % 24;
 
-  return `${
-    hours > 0 ? `${padLeft(hours, '0', 2)}:` : ''
-  }${minutes}:${seconds}`;
+  const hourString = hours > 0 ? `${padStart(`${hours}`, 2, '0')}:` : '';
+
+  return `${hourString}${minutes}:${seconds}`;
 }

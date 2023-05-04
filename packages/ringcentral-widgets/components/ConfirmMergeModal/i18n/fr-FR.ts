@@ -1,6 +1,6 @@
 export default {
   confirmation: "Confirmation",
-  confirmMergeToConference: "Ajouter à la conférence téléphonique ?",
+  confirmMergeToConference: "Ajouter à la conférence téléphonique ?",
   mergeToConference: "Fusionner",
   conferenceCall: "Conférence téléphonique"
 };

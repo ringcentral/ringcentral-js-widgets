@@ -1,4 +1,4 @@
-import messageStoreErrors from '@ringcentral-integration/commons/modules/MessageStore/errors';
+import { messageStoreErrors } from '@ringcentral-integration/commons/modules/MessageStore';
 export default {
   [messageStoreErrors.deleteFailed]: "由于内部服务器错误，无法删除语音邮件。"
 };

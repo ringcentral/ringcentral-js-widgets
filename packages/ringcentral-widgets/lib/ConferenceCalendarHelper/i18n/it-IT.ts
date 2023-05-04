@@ -10,16 +10,17 @@ export default {
   inviteText_bt: "Accedi alla conferenza {brandName}.\n\nNumero di accesso: {formattedDialInNumber} \n{additionalNumbersSection} \nAccesso partecipante: {participantCode} \n\nNumeri di accesso aggiuntivi {dialInNumbersLink} ",
   inviteText_rc: "Accedi alla conferenza {brandName}.\n\nNumero di accesso:  {formattedDialInNumber} \n{additionalNumbersSection} \nAccesso partecipante: {participantCode} \n\nTi serve un numero di telefono con accesso internazionale? Visita {dialInNumbersLink} \n\nQuesta conferenza telefonica è offerta dal servizio di conferenza {brandName}.",
   inviteText_telus: "Accedi alla conferenza {brandName}.\n\nNumero di accesso: {formattedDialInNumber} \n{additionalNumbersSection} \nAccesso partecipante: {participantCode} \n\nNumeri di accesso aggiuntivi {dialInNumbersLink} ",
-  conferenceCall: "Conferenza telefonica {brandName}",
+  conferenceCall: "{brandName} Conferenza telefonica",
   videoCall: "Videochiamata {brandName}",
   addConferencingDetails: "Aggiunta dei dettagli della conferenza",
   updateConferencingDetails: "Aggiornamento dei dettagli della conferenza",
+  // @ts-expect-error TS(1117): An object literal cannot have multiple properties ... Remove this comment to see the full error message
   scheduleError: "Si è verificato un problema. Riprova più tardi.",
   deleteBtn: "Elimina",
   settingsBtn: "Impostazioni",
   saveAsDefaultAndNotShowAgain: "Salva come predefinito e non mostrare più",
   saveAsDefault: "Salva come predefinito",
-  done: "Fine",
+  done: "Fatto",
   update: "Aggiorna",
   conferenceSettingsTitle: "Impostazioni conferenza {brand}",
   videoSettingsTitle: "Impostazioni {brand} Meetings",
@@ -29,6 +30,7 @@ export default {
   recurringMeeting: "Riunione ricorrente",
   meetingOptions: "Opzioni riunione",
   schedule: "Programma",
+  // @ts-expect-error TS(1117): An object literal cannot have multiple properties ... Remove this comment to see the full error message
   settingsBtn: "Impostazioni"
 };
 

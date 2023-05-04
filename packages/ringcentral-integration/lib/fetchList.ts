@@ -10,10 +10,10 @@ async function parallelFetch<T, P>(fn: Fn<T>, perPage: PerPage, params: P) {
     perPage,
     page: 1,
   });
-  const list = data.records.slice();
-  if (data.paging.totalPages > 1) {
+  const list = data.records!.slice();
+  if (data.paging!.totalPages! > 1) {
     const promises = [];
-    for (let i = data.paging.totalPages; i > 1; i -= 1) {
+    for (let i = data.paging!.totalPages!; i > 1; i -= 1) {
       promises.push(
         fn({
           ...params,
@@ -23,7 +23,7 @@ async function parallelFetch<T, P>(fn: Fn<T>, perPage: PerPage, params: P) {
       );
     }
     (await Promise.all(promises)).reduce((output, item) => {
-      output.push(...item.records);
+      output.push(...item.records!);
       return output;
     }, list);
   }
@@ -43,8 +43,8 @@ async function serialFetch<T, P>(fn: Fn<T>, perPage: PerPage, params: P) {
       page: fetchedPages,
     });
     /* eslint { "prefer-destructuring": 0 } */
-    totalPages = data.paging.totalPages;
-    list.push(...data.records);
+    totalPages = data.paging!.totalPages!;
+    list.push(...data.records!);
   }
   return list;
 }

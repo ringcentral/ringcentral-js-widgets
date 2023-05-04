@@ -35,6 +35,9 @@ export const defaultConfiguration: Required<FeatureConfiguration> = {
 
   // CompanyDirectoryControl
   CDC: false,
+
+  // Enterprise dial plan
+  EDP: false,
 };
 
 /**
@@ -49,6 +52,7 @@ export const defaultConfiguration: Required<FeatureConfiguration> = {
   deps: [
     'Auth',
     'ExtensionFeatures',
+    'Brand',
     {
       dep: 'FeatureConfiguration',
       optional: true,
@@ -68,13 +72,11 @@ export abstract class AppFeaturesBase<
     });
   }
 
-  @computed(({ _deps: { featureConfiguration } }: AppFeaturesBase) => [
-    featureConfiguration,
-  ])
+  @computed((that: AppFeaturesBase) => [that._deps.featureConfiguration])
   get config(): T {
     return {
       ...defaultConfiguration,
-      ...this._deps.featureConfiguration,
+      ...this._deps.featureConfiguration!,
     };
   }
 
@@ -98,7 +100,9 @@ export abstract class AppFeaturesBase<
   }
 
   get isSoftphoneEnabled() {
-    return !!this.config.Softphone;
+    return !!(
+      this.config.Softphone && !this._deps.brand.brandConfig?.isDisableSpartan
+    );
   }
 
   get isRingCentralAppEnabled() {
@@ -189,11 +193,13 @@ export abstract class AppFeaturesBase<
       ?.available;
   }
 
+  get readExtensionCallLogAvailable() {
+    return this._deps.extensionFeatures.features?.ReadExtensionCallLog
+      ?.available;
+  }
+
   get hasReadExtensionCallLog() {
-    return !!(
-      this._deps.extensionFeatures.features?.ReadExtensionCallLog?.available &&
-      this.config.CallLog
-    );
+    return !!(this.readExtensionCallLogAvailable && this.config.CallLog);
   }
 
   get hasConferenceCall() {
@@ -204,13 +210,6 @@ export abstract class AppFeaturesBase<
     );
   }
 
-  get hasConferencing() {
-    return !!(
-      this._deps.extensionFeatures.features?.Conferencing?.available &&
-      this.config.Conferencing
-    );
-  }
-
   get hasGlipPermission() {
     return !!(
       this._deps.extensionFeatures.features?.Glip?.available && this.config.Glip
@@ -218,9 +217,9 @@ export abstract class AppFeaturesBase<
   }
 
   get hasCallControl() {
-    return (
-      (this._deps.auth.token?.scope?.indexOf('CallControl') > -1 ||
-        this._deps.auth.token?.scope?.indexOf('TelephonySession') > -1) &&
+    return !!(
+      (this._deps.auth.token?.scope?.indexOf('CallControl')! > -1 ||
+        this._deps.auth.token?.scope?.indexOf('TelephonySession')! > -1) &&
       this.config.CallControl
     );
   }
@@ -241,14 +240,27 @@ export abstract class AppFeaturesBase<
   get isOCPEnabled() {
     return this._deps.extensionFeatures.features?.OutboundCallPrefix?.available;
   }
+
   get OCPValue() {
     if (this.isOCPEnabled) {
       return this._deps.extensionFeatures.features?.OutboundCallPrefix
-        ?.params[0]?.value;
+        ?.params?.[0]?.value;
     }
-    return '';
+    return null;
+  }
+
+  get enableSmartDialPlan() {
+    return (
+      this._deps.extensionFeatures.features?.SmartDialPlanRouting?.available &&
+      this.isEDPEnabled
+    );
+  }
+  get isEDPEnabled() {
+    return !!this.config.EDP && this._deps.brand.brandConfig.enableEDP;
   }
 }
 
-@Module()
+@Module({
+  name: 'AppFeatures',
+})
 export class AppFeatures extends AppFeaturesBase {}

@@ -1,5 +1,6 @@
-import { CountryInfo } from '@rc-ex/core/definitions';
-import { Auth } from '@ringcentral-integration/commons/modules/AuthV2';
+import type CountryInfo from '@rc-ex/core/lib/definitions/CountryInfo';
+import { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures';
+import { Auth } from '@ringcentral-integration/commons/modules/Auth';
 import { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import {
   RegionSettings,
@@ -15,6 +16,7 @@ export interface Deps {
   locale: Locale;
   regionSettings: RegionSettings;
   routerInteraction: RouterInteraction;
+  appFeatures: AppFeatures;
   regionSettingsUIOptions?: RegionSettingsUIOptions;
 }
 
@@ -33,6 +35,7 @@ export interface RegionSettingsUIPanelProps {
   onBackButtonClick: () => Promise<void>;
   onSave: (args_0: RegionSettingsData) => Promise<void>;
   onLogoutButtonClick: () => Promise<void>;
+  canAreaCodeShow: (currentCountryCode: string) => boolean;
 }
 
 export interface RegionSettingsUIContainerProps {}

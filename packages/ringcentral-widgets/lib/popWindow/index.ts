@@ -11,9 +11,9 @@ export function popWindow(url: string, id: string, w: number, h: number) {
 
   const width = window.screen.width || window.outerWidth;
   const height = window.screen.height || window.innerHeight;
-
   const left = width / 2 - w / 2 + dualScreenLeft;
   const top = height / 2 - h / 2 + dualScreenTop;
+
   const newWindow = window.open(
     url,
     id,
@@ -22,9 +22,7 @@ export function popWindow(url: string, id: string, w: number, h: number) {
 
   // Puts focus on the newWindow
   try {
-    if (newWindow.focus) {
-      newWindow.focus();
-    }
+    newWindow?.focus();
   } catch (error) {
     /* ignore error */
   }

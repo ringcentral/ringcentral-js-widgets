@@ -15,7 +15,7 @@ import {
   promisedDebounce,
   throttle,
 } from '../../lib/debounce-throttle';
-import { sleep } from '../../lib/sleep';
+import { sleep } from '@ringcentral-integration/utils';
 
 @autorun(test)
 @title('Debounce::basic')

@@ -1,6 +1,6 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 
-import { sleep } from '@ringcentral-integration/commons/lib/sleep';
+import { sleep } from '@ringcentral-integration/commons/utils';
 import { RcIconButton, RcText } from '@ringcentral/juno';
 
 import { CallButtonsProps } from '../../SmallCallControl';

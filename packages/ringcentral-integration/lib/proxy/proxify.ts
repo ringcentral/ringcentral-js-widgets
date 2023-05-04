@@ -1,3 +1,4 @@
+// @ts-nocheck
 export function proxify(
   prototype: object,
   property: string,

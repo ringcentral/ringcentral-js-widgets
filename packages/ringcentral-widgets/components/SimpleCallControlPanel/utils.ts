@@ -5,18 +5,23 @@ import i18n from './i18n';
 export const pickEleByProps = (props = {}, list = []) => {
   const keys = Object.keys(props);
   const result = list.filter((item) => {
+    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     const shouldPicked = keys.every((key) => props[key] === item[key]);
     return shouldPicked;
   });
   return result;
 };
 
-export const pickFallBackInfo = (call, contactName, currentLocale) => {
+export const pickFallBackInfo = (
+  call: any,
+  contactName: any,
+  currentLocale: any,
+) => {
   const direction = call?.direction;
   let fallBackName = contactName;
   let fallBackNumber = '';
 
-  function getName(target) {
+  function getName(target: any) {
     const { activityMatches } = target;
     const SINGLE_OR_NONE_MATCH = 2;
     if (!contactName) {
@@ -28,7 +33,7 @@ export const pickFallBackInfo = (call, contactName, currentLocale) => {
     return contactName;
   }
 
-  function getNumber(numberObj) {
+  function getNumber(numberObj: any) {
     const { extensionNumber, phoneNumber } = numberObj;
     return phoneNumber || extensionNumber || numberObj;
   }

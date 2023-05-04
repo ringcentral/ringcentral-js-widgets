@@ -1,7 +1,7 @@
 export default {
   title: "Région",
   NAOnlyMessage: "Veuillez entrer votre indicatif régional. Il sera utilisé pour la composition des numéros locaux.",
-  MultiWithNAMessage: "Veuillez entrer le pays et l’indicatif régional de votre région. Il sera utilisé pour la composition des numéros locaux et le formatage des numéros de téléphone.",
+  MultiWithNAMessage: "Veuillez définir l’indicatif de votre pays et votre indicatif régional. Ils seront utilisés pour la composition des numéros locaux et le formatage des numéros de téléphone.",
   MultiWithoutNAMessage: "Veuillez sélectionner le pays correspondant à votre emplacement. Il sera utilisé pour la composition des numéros locaux et le formatage des numéros de téléphone.",
   country: "Pays",
   areaCode: "Indicatif régional",

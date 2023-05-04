@@ -1,5 +1,5 @@
 export default {
-  activeCall: "使用中通話"
+  activeCall: "進行中的通話"
 };
 
 // @key: @#@"activeCall"@#@ @source: @#@"Active Call"@#@

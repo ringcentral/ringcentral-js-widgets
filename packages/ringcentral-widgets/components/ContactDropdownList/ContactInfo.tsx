@@ -30,6 +30,7 @@ export const ContactInfo: React.FC<ContactInfoProps> = ({
       className={classnames(styles.nameSection, {
         [styles.dncNameSection]: doNotCall,
       })}
+      // @ts-expect-error TS(2322): Type 'string | false | undefined' is not assignabl... Remove this comment to see the full error message
       title={titleEnabled && nameTitle}
       data-sign="contactNameSection"
     >

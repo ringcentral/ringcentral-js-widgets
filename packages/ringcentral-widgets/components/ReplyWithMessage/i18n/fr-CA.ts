@@ -2,7 +2,7 @@ export default {
   cancel: "Annuler",
   reply: "Répondre",
   onMyWay: "En route",
-  customMessage: "Message personnalisé",
+  customMessage: "Personnaliser le message",
   callMeBackIn: "Rappelez-moi dans",
   willCallYouBackIn: "Vous rappellera dans",
   min: "min",

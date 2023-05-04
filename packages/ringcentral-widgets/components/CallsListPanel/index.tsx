@@ -16,7 +16,7 @@ import { SpinnerOverlay } from '../SpinnerOverlay';
 import i18n from './i18n';
 import styles from './styles.scss';
 
-// TODO it is ActiveCallsPanel's function is the same, and remove ActiveCallsPanel after migration.
+// TODO: it is ActiveCallsPanel's function is the same, and remove ActiveCallsPanel after migration.
 
 const SEARCH_BAR_HEIGHT = 51;
 
@@ -57,7 +57,7 @@ const ActiveCallList = ({
   externalViewEntity,
   externalHasEntity,
   readTextPermission,
-}) => {
+}: any) => {
   if (calls.length === 0) {
     return null;
   }
@@ -66,8 +66,9 @@ const ActiveCallList = ({
       <div className={styles.listTitle} data-sign="callListTitle">
         {title}
       </div>
-      {calls.map((call) => (
+      {calls.map((call: any) => (
         <ActiveCallItem
+          // @ts-expect-error TS(2322): Type '{ call: any; key: any; currentLocale: any; a... Remove this comment to see the full error message
           call={call}
           key={call.id}
           currentLocale={currentLocale}
@@ -182,7 +183,10 @@ ActiveCallList.defaultProps = {
 };
 
 class CallsListPanel extends React.PureComponent {
-  constructor(props) {
+  _listWrapper: any;
+  _mounted: any;
+  _root: any;
+  constructor(props: any) {
     super(props);
     this.state = {
       contentHeight: 0,
@@ -192,7 +196,9 @@ class CallsListPanel extends React.PureComponent {
     this._listWrapper = React.createRef();
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   componentDidMount() {
+    // @ts-expect-error TS(2339): Property 'adaptive' does not exist on type 'Readon... Remove this comment to see the full error message
     if (this.props.adaptive) {
       this._mounted = true;
       this._calculateContentSize();
@@ -200,13 +206,17 @@ class CallsListPanel extends React.PureComponent {
     }
     if (
       !this.hasCalls(this.props) &&
+      // @ts-expect-error TS(2339): Property 'onCallsEmpty' does not exist on type 'Re... Remove this comment to see the full error message
       typeof this.props.onCallsEmpty === 'function'
     ) {
+      // @ts-expect-error TS(2339): Property 'onCallsEmpty' does not exist on type 'Re... Remove this comment to see the full error message
       this.props.onCallsEmpty();
     }
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   componentWillUnmount() {
+    // @ts-expect-error TS(2339): Property 'adaptive' does not exist on type 'Readon... Remove this comment to see the full error message
     if (this.props.adaptive) {
       this._mounted = false;
       window.removeEventListener('resize', this._onResize);
@@ -226,6 +236,7 @@ class CallsListPanel extends React.PureComponent {
       this._listWrapper.current.getBoundingClientRect
     ) {
       const react = this._listWrapper.current.getBoundingClientRect();
+      // @ts-expect-error TS(2339): Property 'onSearchInputChange' does not exist on t... Remove this comment to see the full error message
       const { onSearchInputChange } = this.props;
       this.setState({
         contentHeight:
@@ -244,51 +255,79 @@ class CallsListPanel extends React.PureComponent {
     });
   }
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
+  UNSAFE_componentWillReceiveProps(nextProps: any) {
     if (
       this.hasCalls(this.props) &&
       !this.hasCalls(nextProps) &&
+      // @ts-expect-error TS(2339): Property 'onCallsEmpty' does not exist on type 'Re... Remove this comment to see the full error message
       typeof this.props.onCallsEmpty === 'function'
     ) {
+      // @ts-expect-error TS(2339): Property 'onCallsEmpty' does not exist on type 'Re... Remove this comment to see the full error message
       this.props.onCallsEmpty();
     }
   }
 
   hasCalls(props = this.props) {
     return (
+      // @ts-expect-error TS(2339): Property 'activeRingCalls' does not exist on type ... Remove this comment to see the full error message
       props.activeRingCalls.length > 0 ||
+      // @ts-expect-error TS(2339): Property 'activeOnHoldCalls' does not exist on typ... Remove this comment to see the full error message
       props.activeOnHoldCalls.length > 0 ||
+      // @ts-expect-error TS(2339): Property 'activeCurrentCalls' does not exist on ty... Remove this comment to see the full error message
       props.activeCurrentCalls.length > 0 ||
+      // @ts-expect-error TS(2339): Property 'otherDeviceCalls' does not exist on type... Remove this comment to see the full error message
       props.otherDeviceCalls.length > 0 ||
+      // @ts-expect-error TS(2339): Property 'calls' does not exist on type 'Readonly<... Remove this comment to see the full error message
       props.calls.length > 0
     );
   }
 
   renderLogSection() {
+    // @ts-expect-error TS(2339): Property 'currentLog' does not exist on type 'Read... Remove this comment to see the full error message
     if (!this.props.currentLog) return null;
 
     const {
+      // @ts-expect-error TS(2339): Property 'formatPhone' does not exist on type 'Rea... Remove this comment to see the full error message
       formatPhone,
+      // @ts-expect-error TS(2339): Property 'currentLocale' does not exist on type 'R... Remove this comment to see the full error message
       currentLocale,
+      // @ts-expect-error TS(2339): Property 'currentLog' does not exist on type 'Read... Remove this comment to see the full error message
       currentLog,
       // - styles
+      // @ts-expect-error TS(2339): Property 'sectionContainerStyles' does not exist o... Remove this comment to see the full error message
       sectionContainerStyles,
+      // @ts-expect-error TS(2339): Property 'sectionModalStyles' does not exist on ty... Remove this comment to see the full error message
       sectionModalStyles,
       // - aditional
+      // @ts-expect-error TS(2339): Property 'additionalInfo' does not exist on type '... Remove this comment to see the full error message
       additionalInfo,
+      // @ts-expect-error TS(2339): Property 'showSaveLogBtn' does not exist on type '... Remove this comment to see the full error message
       showSaveLogBtn,
+      // @ts-expect-error TS(2339): Property 'renderEditLogSection' does not exist on ... Remove this comment to see the full error message
       renderEditLogSection,
+      // @ts-expect-error TS(2339): Property 'renderSaveLogButton' does not exist on t... Remove this comment to see the full error message
       renderSaveLogButton,
+      // @ts-expect-error TS(2339): Property 'onSaveCallLog' does not exist on type 'R... Remove this comment to see the full error message
       onSaveCallLog,
+      // @ts-expect-error TS(2339): Property 'onUpdateCallLog' does not exist on type ... Remove this comment to see the full error message
       onUpdateCallLog,
+      // @ts-expect-error TS(2339): Property 'onCloseLogSection' does not exist on typ... Remove this comment to see the full error message
       onCloseLogSection,
       // notification
+      // @ts-expect-error TS(2339): Property 'logNotification' does not exist on type ... Remove this comment to see the full error message
       logNotification,
+      // @ts-expect-error TS(2339): Property 'showNotiLogButton' does not exist on typ... Remove this comment to see the full error message
       showNotiLogButton,
+      // @ts-expect-error TS(2339): Property 'onCloseNotification' does not exist on t... Remove this comment to see the full error message
       onCloseNotification,
+      // @ts-expect-error TS(2339): Property 'onSaveNotification' does not exist on ty... Remove this comment to see the full error message
       onSaveNotification,
+      // @ts-expect-error TS(2339): Property 'onExpandNotification' does not exist on ... Remove this comment to see the full error message
       onExpandNotification,
+      // @ts-expect-error TS(2339): Property 'onDiscardNotification' does not exist on... Remove this comment to see the full error message
       onDiscardNotification,
+      // @ts-expect-error TS(2339): Property 'notificationContainerStyles' does not ex... Remove this comment to see the full error message
       notificationContainerStyles,
     } = this.props;
     return (
@@ -303,6 +342,7 @@ class CallsListPanel extends React.PureComponent {
           maskStyle={styles.maskStyle}
         >
           <LogSection
+            // @ts-expect-error TS(2322): Type '{ currentLocale: any; currentLog: any; addit... Remove this comment to see the full error message
             currentLocale={currentLocale}
             currentLog={currentLog}
             additionalInfo={additionalInfo}
@@ -346,82 +386,157 @@ class CallsListPanel extends React.PureComponent {
     );
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     const {
+      // @ts-expect-error TS(2339): Property 'useNewList' does not exist on type 'Read... Remove this comment to see the full error message
       useNewList,
+      // @ts-expect-error TS(2339): Property 'width' does not exist on type 'Readonly<... Remove this comment to see the full error message
       width,
+      // @ts-expect-error TS(2339): Property 'height' does not exist on type 'Readonly... Remove this comment to see the full error message
       height,
+      // @ts-expect-error TS(2339): Property 'onlyHistory' does not exist on type 'Rea... Remove this comment to see the full error message
       onlyHistory,
+      // @ts-expect-error TS(2339): Property 'activeRingCalls' does not exist on type ... Remove this comment to see the full error message
       activeRingCalls,
+      // @ts-expect-error TS(2339): Property 'activeOnHoldCalls' does not exist on typ... Remove this comment to see the full error message
       activeOnHoldCalls,
+      // @ts-expect-error TS(2339): Property 'activeCurrentCalls' does not exist on ty... Remove this comment to see the full error message
       activeCurrentCalls,
+      // @ts-expect-error TS(2339): Property 'otherDeviceCalls' does not exist on type... Remove this comment to see the full error message
       otherDeviceCalls,
+      // @ts-expect-error TS(2339): Property 'showSpinner' does not exist on type 'Rea... Remove this comment to see the full error message
       showSpinner,
+      // @ts-expect-error TS(2339): Property 'searchInput' does not exist on type 'Rea... Remove this comment to see the full error message
       searchInput,
+      // @ts-expect-error TS(2339): Property 'onSearchInputChange' does not exist on t... Remove this comment to see the full error message
       onSearchInputChange,
+      // @ts-expect-error TS(2339): Property 'className' does not exist on type 'Reado... Remove this comment to see the full error message
       className,
+      // @ts-expect-error TS(2339): Property 'currentLocale' does not exist on type 'R... Remove this comment to see the full error message
       currentLocale,
+      // @ts-expect-error TS(2339): Property 'areaCode' does not exist on type 'Readon... Remove this comment to see the full error message
       areaCode,
+      // @ts-expect-error TS(2339): Property 'countryCode' does not exist on type 'Rea... Remove this comment to see the full error message
       countryCode,
+      // @ts-expect-error TS(2339): Property 'brand' does not exist on type 'Readonly<... Remove this comment to see the full error message
       brand,
+      // @ts-expect-error TS(2339): Property 'showContactDisplayPlaceholder' does not ... Remove this comment to see the full error message
       showContactDisplayPlaceholder,
+      // @ts-expect-error TS(2339): Property 'formatPhone' does not exist on type 'Rea... Remove this comment to see the full error message
       formatPhone,
+      // @ts-expect-error TS(2339): Property 'onClickToSms' does not exist on type 'Re... Remove this comment to see the full error message
       onClickToSms,
+      // @ts-expect-error TS(2339): Property 'onCreateContact' does not exist on type ... Remove this comment to see the full error message
       onCreateContact,
+      // @ts-expect-error TS(2339): Property 'createEntityTypes' does not exist on typ... Remove this comment to see the full error message
       createEntityTypes,
+      // @ts-expect-error TS(2339): Property 'onViewContact' does not exist on type 'R... Remove this comment to see the full error message
       onViewContact,
+      // @ts-expect-error TS(2339): Property 'outboundSmsPermission' does not exist on... Remove this comment to see the full error message
       outboundSmsPermission,
+      // @ts-expect-error TS(2339): Property 'internalSmsPermission' does not exist on... Remove this comment to see the full error message
       internalSmsPermission,
+      // @ts-expect-error TS(2339): Property 'isLoggedContact' does not exist on type ... Remove this comment to see the full error message
       isLoggedContact,
+      // @ts-expect-error TS(2339): Property 'onLogCall' does not exist on type 'Reado... Remove this comment to see the full error message
       onLogCall,
+      // @ts-expect-error TS(2339): Property 'autoLog' does not exist on type 'Readonl... Remove this comment to see the full error message
       autoLog,
+      // @ts-expect-error TS(2339): Property 'loggingMap' does not exist on type 'Read... Remove this comment to see the full error message
       loggingMap,
+      // @ts-expect-error TS(2339): Property 'webphoneAnswer' does not exist on type '... Remove this comment to see the full error message
       webphoneAnswer,
+      // @ts-expect-error TS(2339): Property 'webphoneReject' does not exist on type '... Remove this comment to see the full error message
       webphoneReject,
+      // @ts-expect-error TS(2339): Property 'webphoneHangup' does not exist on type '... Remove this comment to see the full error message
       webphoneHangup,
+      // @ts-expect-error TS(2339): Property 'webphoneResume' does not exist on type '... Remove this comment to see the full error message
       webphoneResume,
+      // @ts-expect-error TS(2339): Property 'enableContactFallback' does not exist on... Remove this comment to see the full error message
       enableContactFallback,
+      // @ts-expect-error TS(2339): Property 'webphoneToVoicemail' does not exist on t... Remove this comment to see the full error message
       webphoneToVoicemail,
+      // @ts-expect-error TS(2339): Property 'sourceIcons' does not exist on type 'Rea... Remove this comment to see the full error message
       sourceIcons,
+      // @ts-expect-error TS(2339): Property 'phoneTypeRenderer' does not exist on typ... Remove this comment to see the full error message
       phoneTypeRenderer,
+      // @ts-expect-error TS(2339): Property 'phoneSourceNameRenderer' does not exist ... Remove this comment to see the full error message
       phoneSourceNameRenderer,
+      // @ts-expect-error TS(2339): Property 'onClickToDial' does not exist on type 'R... Remove this comment to see the full error message
       onClickToDial,
+      // @ts-expect-error TS(2339): Property 'disableLinks' does not exist on type 'Re... Remove this comment to see the full error message
       disableLinks,
+      // @ts-expect-error TS(2339): Property 'disableClickToDial' does not exist on ty... Remove this comment to see the full error message
       disableClickToDial,
+      // @ts-expect-error TS(2339): Property 'dateTimeFormatter' does not exist on typ... Remove this comment to see the full error message
       dateTimeFormatter,
+      // @ts-expect-error TS(2339): Property 'calls' does not exist on type 'Readonly<... Remove this comment to see the full error message
       calls,
+      // @ts-expect-error TS(2339): Property 'active' does not exist on type 'Readonly... Remove this comment to see the full error message
       active,
+      // @ts-expect-error TS(2339): Property 'renderContactName' does not exist on typ... Remove this comment to see the full error message
       renderContactName,
+      // @ts-expect-error TS(2339): Property 'renderSubContactName' does not exist on ... Remove this comment to see the full error message
       renderSubContactName,
+      // @ts-expect-error TS(2339): Property 'renderExtraButton' does not exist on typ... Remove this comment to see the full error message
       renderExtraButton,
+      // @ts-expect-error TS(2339): Property 'contactDisplayStyle' does not exist on t... Remove this comment to see the full error message
       contactDisplayStyle,
+      // @ts-expect-error TS(2339): Property 'activeContactDisplayStyle' does not exis... Remove this comment to see the full error message
       activeContactDisplayStyle,
+      // @ts-expect-error TS(2339): Property 'currentLog' does not exist on type 'Read... Remove this comment to see the full error message
       currentLog,
+      // @ts-expect-error TS(2339): Property 'additionalInfo' does not exist on type '... Remove this comment to see the full error message
       additionalInfo,
+      // @ts-expect-error TS(2339): Property 'onCloseLogSection' does not exist on typ... Remove this comment to see the full error message
       onCloseLogSection,
+      // @ts-expect-error TS(2339): Property 'onUpdateCallLog' does not exist on type ... Remove this comment to see the full error message
       onUpdateCallLog,
+      // @ts-expect-error TS(2339): Property 'onSaveCallLog' does not exist on type 'R... Remove this comment to see the full error message
       onSaveCallLog,
+      // @ts-expect-error TS(2339): Property 'renderEditLogSection' does not exist on ... Remove this comment to see the full error message
       renderEditLogSection,
+      // @ts-expect-error TS(2339): Property 'renderSaveLogButton' does not exist on t... Remove this comment to see the full error message
       renderSaveLogButton,
+      // @ts-expect-error TS(2339): Property 'logNotification' does not exist on type ... Remove this comment to see the full error message
       logNotification,
+      // @ts-expect-error TS(2339): Property 'onCloseNotification' does not exist on t... Remove this comment to see the full error message
       onCloseNotification,
+      // @ts-expect-error TS(2339): Property 'onDiscardNotification' does not exist on... Remove this comment to see the full error message
       onDiscardNotification,
+      // @ts-expect-error TS(2339): Property 'onSaveNotification' does not exist on ty... Remove this comment to see the full error message
       onSaveNotification,
+      // @ts-expect-error TS(2339): Property 'onExpandNotification' does not exist on ... Remove this comment to see the full error message
       onExpandNotification,
+      // @ts-expect-error TS(2339): Property 'showSaveLogBtn' does not exist on type '... Remove this comment to see the full error message
       showSaveLogBtn,
+      // @ts-expect-error TS(2339): Property 'showNotiLogButton' does not exist on typ... Remove this comment to see the full error message
       showNotiLogButton,
+      // @ts-expect-error TS(2339): Property 'sectionContainerStyles' does not exist o... Remove this comment to see the full error message
       sectionContainerStyles,
+      // @ts-expect-error TS(2339): Property 'sectionModalStyles' does not exist on ty... Remove this comment to see the full error message
       sectionModalStyles,
+      // @ts-expect-error TS(2339): Property 'notificationContainerStyles' does not ex... Remove this comment to see the full error message
       notificationContainerStyles,
+      // @ts-expect-error TS(2339): Property 'externalViewEntity' does not exist on ty... Remove this comment to see the full error message
       externalViewEntity,
+      // @ts-expect-error TS(2339): Property 'externalHasEntity' does not exist on typ... Remove this comment to see the full error message
       externalHasEntity,
+      // @ts-expect-error TS(2339): Property 'readTextPermission' does not exist on ty... Remove this comment to see the full error message
       readTextPermission,
       children,
+      // @ts-expect-error TS(2339): Property 'adaptive' does not exist on type 'Readon... Remove this comment to see the full error message
       adaptive,
+      // @ts-expect-error TS(2339): Property 'showChooseEntityModal' does not exist on... Remove this comment to see the full error message
       showChooseEntityModal,
+      // @ts-expect-error TS(2339): Property 'enableCDC' does not exist on type 'Reado... Remove this comment to see the full error message
       enableCDC,
+      // @ts-expect-error TS(2339): Property 'maxExtensionLength' does not exist on ty... Remove this comment to see the full error message
+      maxExtensionLength,
     } = this.props;
 
+    // @ts-expect-error TS(2339): Property 'contentWidth' does not exist on type 'Re... Remove this comment to see the full error message
     const { contentWidth, contentHeight } = this.state;
 
     if (showSpinner) {
@@ -429,6 +544,7 @@ class CallsListPanel extends React.PureComponent {
     }
     const isShowMessageIcon = readTextPermission && !!onClickToSms;
     const CallsListView = useNewList ? (
+      // @ts-expect-error TS(2741): Property 'formatPhone' is missing in type '{ width... Remove this comment to see the full error message
       <CallListV2
         width={adaptive ? contentWidth : width}
         height={adaptive ? contentHeight : height}
@@ -449,6 +565,7 @@ class CallsListPanel extends React.PureComponent {
         outboundSmsPermission={outboundSmsPermission}
         internalSmsPermission={internalSmsPermission}
         dateTimeFormatter={dateTimeFormatter}
+        maxExtensionNumberLength={maxExtensionLength}
         active={active}
         loggingMap={loggingMap}
         webphoneAnswer={webphoneAnswer}
@@ -503,6 +620,7 @@ class CallsListPanel extends React.PureComponent {
         phoneTypeRenderer={phoneTypeRenderer}
         phoneSourceNameRenderer={phoneSourceNameRenderer}
         renderContactName={renderContactName}
+        // @ts-expect-error TS(2769): No overload matches this call.
         renderSubContactName={renderSubContactName}
         renderExtraButton={renderExtraButton}
         contactDisplayStyle={contactDisplayStyle}
@@ -526,7 +644,7 @@ class CallsListPanel extends React.PureComponent {
       </div>
     ) : null;
 
-    const getCallList = (calls, title) => (
+    const getCallList = (calls: any, title: any) => (
       <ActiveCallList
         title={title}
         calls={calls}
@@ -631,6 +749,7 @@ class CallsListPanel extends React.PureComponent {
   }
 }
 
+// @ts-expect-error TS(2339): Property 'propTypes' does not exist on type 'typeo... Remove this comment to see the full error message
 CallsListPanel.propTypes = {
   useNewList: PropTypes.bool,
   width: PropTypes.number,
@@ -707,6 +826,7 @@ CallsListPanel.propTypes = {
   enableCDC: PropTypes.bool,
 };
 
+// @ts-expect-error TS(2339): Property 'defaultProps' does not exist on type 'ty... Remove this comment to see the full error message
 CallsListPanel.defaultProps = {
   adaptive: false,
   useNewList: false,

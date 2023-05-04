@@ -1,16 +1,17 @@
 import { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures';
+import { AccountInfo } from '@ringcentral-integration/commons/modules/AccountInfo';
 import { Brand } from '@ringcentral-integration/commons/modules/Brand';
-import { CallHistory } from '@ringcentral-integration/commons/modules/CallHistoryV2';
-import { CallLogger } from '@ringcentral-integration/commons/modules/CallLoggerV2';
-import { Call } from '@ringcentral-integration/commons/modules/CallV2';
-import { ComposeText } from '@ringcentral-integration/commons/modules/ComposeTextV2';
-import { ConnectivityMonitor } from '@ringcentral-integration/commons/modules/ConnectivityMonitorV2';
-import { ContactMatcher } from '@ringcentral-integration/commons/modules/ContactMatcherV2';
-import { ContactSearch } from '@ringcentral-integration/commons/modules/ContactSearchV2';
-import { DateTimeFormat } from '@ringcentral-integration/commons/modules/DateTimeFormatV2';
-import { ExtensionInfo } from '@ringcentral-integration/commons/modules/ExtensionInfoV2';
+import { CallHistory } from '@ringcentral-integration/commons/modules/CallHistory';
+import { CallLogger } from '@ringcentral-integration/commons/modules/CallLogger';
+import { Call } from '@ringcentral-integration/commons/modules/Call';
+import { ComposeText } from '@ringcentral-integration/commons/modules/ComposeText';
+import { ConnectivityMonitor } from '@ringcentral-integration/commons/modules/ConnectivityMonitor';
+import { ContactMatcher } from '@ringcentral-integration/commons/modules/ContactMatcher';
+import { ContactSearch } from '@ringcentral-integration/commons/modules/ContactSearch';
+import { DateTimeFormat } from '@ringcentral-integration/commons/modules/DateTimeFormat';
+import { ExtensionInfo } from '@ringcentral-integration/commons/modules/ExtensionInfo';
 import { Locale } from '@ringcentral-integration/commons/modules/Locale';
-import { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiterV2';
+import { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiter';
 import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
 
 import {
@@ -42,6 +43,7 @@ export interface Deps {
   contactDetailsUI?: ContactDetailsUI;
   extensionInfo?: ExtensionInfo;
   dateTimeFormat: DateTimeFormat;
+  accountInfo: AccountInfo;
 }
 
 export interface CallHistoryUIComponentProps {
@@ -55,5 +57,6 @@ export interface CallHistoryUIComponentProps {
   isLoggedContact?: boolean;
   dialerRoute?: string;
   composeTextRoute?: string;
+  formatPhone: (phoneNumber: string) => string | undefined;
   onViewContact: (options: OnViewContactOptions) => any;
 }

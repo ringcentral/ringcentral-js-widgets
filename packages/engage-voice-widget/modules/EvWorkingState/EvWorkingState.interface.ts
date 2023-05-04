@@ -1,5 +1,5 @@
 import { Alert } from '@ringcentral-integration/commons/modules/Alert';
-import { Auth } from '@ringcentral-integration/commons/modules/AuthV2';
+import { Auth } from '@ringcentral-integration/commons/modules/Auth';
 
 import { EvAgentState, EvClient } from '../../lib/EvClient';
 import { EvAgentSession } from '../EvAgentSession';

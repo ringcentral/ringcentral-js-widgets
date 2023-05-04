@@ -1,9 +1,7 @@
-import {
-  ActiveCallInfo,
-  CallLogCallerInfo,
-  GetPresenceInfo,
-  UserCallLogRecord,
-} from '@rc-ex/core/definitions';
+import type ActiveCallInfo from '@rc-ex/core/lib/definitions/ActiveCallInfo';
+import type CallLogCallerInfo from '@rc-ex/core/lib/definitions/CallLogCallerInfo';
+import type GetPresenceInfo from '@rc-ex/core/lib/definitions/GetPresenceInfo';
+import type UserCallLogRecord from '@rc-ex/core/lib/definitions/UserCallLogRecord';
 import { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
 
 import { dndStatus } from '../enums/dndStatus';
@@ -21,8 +19,7 @@ export type ActiveCall = Pick<
   ActiveCallInfo,
   Exclude<keyof ActiveCallInfo, 'to' | 'from' | 'startTime'>
 > & {
-  // TODO: remove optional type
-  to?: CallLogCallerInfo;
+  to: CallLogCallerInfo;
   from?: CallLogCallerInfo;
   action?: UserCallLogRecord['action'];
   result?: UserCallLogRecord['result'];

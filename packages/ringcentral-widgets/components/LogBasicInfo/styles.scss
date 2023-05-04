@@ -9,7 +9,7 @@
 }
 
 .callInfo::after {
-  content: " ";
+  content: ' ';
   display: block;
   height: 0;
   clear: both;
@@ -67,12 +67,13 @@
 }
 
 .ringing:before {
-    position: absolute;
-    top: 6px;
-    left: 5px;
+  position: absolute;
+  top: 6px;
+  left: 5px;
 }
 
-.number, .status {
+.number,
+.status {
   font-size: 12px;
 }
 
@@ -93,7 +94,7 @@
 }
 
 .orange {
-  color:$orange;
+  color: $orange;
 }
 
 .root {
@@ -139,5 +140,3 @@
     right: -1px;
   }
 }
-
-

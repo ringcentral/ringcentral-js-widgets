@@ -1,48 +1,35 @@
-import { parseNumber } from 'libphonenumber-js';
+import {
+  parseNumber,
+  CountryCode,
+  AsYouType,
+  ParsedNumber,
+} from 'libphonenumber-js';
 import cleanNumber from '../cleanNumber';
 import extractControls from '../extractControls';
-import { ParseResult } from './parse.interface';
+import { ParseResult, ParseParam, ProcessParam } from './parse.interface';
 
 const invalidCharsRegExp = /[^\d*+#\-(). ]/;
 const plusRegex = /\+/g;
 const extensionDelimiter = /[*#]/g;
 
 /**
- * @typedef {object} ParsedResult
- * @property {string} input
- * @property {string} parsedCountry
- * @property {string} parsedNumber
- * @property {boolean} isValid
- * @property {boolean} hasInvalidChars
- * @property {boolean} isExtension
- * @property {boolean} isServiceNumber
- * @property {boolean} hasPlus
- * @property {string} phoneNumber
- * @property {string} extension
- * @property {string[]} extendedControls
+ * helper function to attach parsed country and phone number with libphonenumber
  */
-
-/**
- * @description helper function to attatch parsed country and phone number with libphonenumber
- * @param {ParsedResult} result
- * @param {string} countryCode
- */
-function attachParsedCountryInfo(result, countryCode) {
+function attachParsedCountryInfo(
+  result: ParseResult,
+  countryCode?: CountryCode,
+) {
+  const asYouType = new AsYouType(countryCode);
   const { country = null, phone = null } = parseNumber(
-    result.phoneNumber,
+    result.phoneNumber!,
     countryCode,
-  );
+  ) as ParsedNumber;
   result.parsedCountry = country;
-  result.parsedNumber = phone;
+  result.parsedNumber = phone || asYouType.input(result.phoneNumber!);
+  result.countryCallingCode = asYouType.getCallingCode();
 }
 
-/**
- * @description process the tokens as a service number
- * @param {ParsedResult} result
- * @param {string[]} tokens
- * @returns {ParsedResult}
- */
-function processServiceNumber(result, tokens) {
+function processServiceNumber({ result, tokens }: ProcessParam): ParseResult {
   if (tokens[1] && tokens[1].length) {
     result.isServiceNumber = true;
     result.phoneNumber = `*${tokens[1]}`;
@@ -52,13 +39,9 @@ function processServiceNumber(result, tokens) {
 }
 
 /**
- * @description process the tokens as an E164 formatted number
- * @param {ParsedResult} result
- * @param {string[]} tokens
- * @param {string} countryCode
- * @returns {ParsedResult}
+ * process the tokens as an E164 formatted number
  */
-function processInternational(result, tokens, countryCode) {
+function processInternational({ result, tokens, countryCode }: ProcessParam) {
   if (tokens[0] && tokens[0].length) {
     result.hasPlus = true;
     result.phoneNumber = `+${tokens[0]}`;
@@ -73,16 +56,20 @@ function processInternational(result, tokens, countryCode) {
 }
 
 /**
- * @description process the tokens as local numbers including extensions
- * @param {ParsedResult} result
- * @param {string[]} tokens
- * @param {string} countryCode
- * @returns {ParsedResult}
+ * process the tokens as local numbers including extensions
  */
-function processLocalNumber(result, tokens, countryCode) {
+function processLocalNumber({
+  result,
+  tokens,
+  countryCode,
+  maxExtensionLength,
+}: ProcessParam): ParseResult {
   if (tokens[0] && tokens[0].length) {
     // not extension
-    if (tokens[0].length > 6) {
+    if (
+      maxExtensionLength !== undefined &&
+      tokens[0].length > maxExtensionLength
+    ) {
       result.phoneNumber = tokens[0];
       attachParsedCountryInfo(result, countryCode);
       if (tokens[1] && tokens[1].length) {
@@ -97,24 +84,14 @@ function processLocalNumber(result, tokens, countryCode) {
   }
   return result;
 }
-
 /**
- * @typedef {object} ParseInput
- * @property {string} input
- * @property {string} countryCode
- */
-
-/**
- * @param {ParseInput}
- * @returns {ParsedResult}
+ * parse the input phone number
  */
 export default function parse({
   input,
   countryCode = 'US',
-}: {
-  input: string;
-  countryCode?: string;
-}): ParseResult {
+  maxExtensionLength = 6,
+}: ParseParam): ParseResult {
   const { phoneNumber, extendedControls } = extractControls(input);
   const cleanInput = cleanNumber(phoneNumber);
   const result: ParseResult = {
@@ -143,14 +120,19 @@ export default function parse({
 
   // cleanInput = '*xxxx'; // service number
   if (startWithStar) {
-    return processServiceNumber(result, tokens);
+    return processServiceNumber({ result, tokens });
   }
 
   // cleanInput = '+xxx'; // should contain country code
   if (startWithPlus) {
-    return processInternational(result, tokens, countryCode);
+    return processInternational({ result, tokens, countryCode });
   }
 
   // cleanNumber = 'xxxxx'; // is local number
-  return processLocalNumber(result, tokens, countryCode);
+  return processLocalNumber({
+    result,
+    tokens,
+    countryCode,
+    maxExtensionLength,
+  });
 }

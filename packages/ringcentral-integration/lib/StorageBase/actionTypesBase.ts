@@ -8,4 +8,4 @@ export const actionTypesBase = ObjectMap.fromKeys([
   'sync',
 ]);
 
-export default actionTypesBase;
+export type ActionTypesBase = Record<keyof typeof actionTypesBase, string>;

@@ -1,11 +1,11 @@
 import bowser from 'bowser';
 
 import { action, RcModuleV2, state } from '@ringcentral-integration/core';
+import { sleep } from '@ringcentral-integration/utils';
 
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
-import { sleep } from '../../lib/sleep';
-import callingModes from '../CallingSettings/callingModes';
+import { callingModes } from '../CallingSettings/callingModes';
 import { CallHandlerContext, CallUriInfo, Deps } from './Softphone.interface';
 import { softphoneStatus } from './softphoneStatus';
 
@@ -29,12 +29,15 @@ export class Softphone<T extends Deps = Deps> extends RcModuleV2<T> {
     super({
       deps,
     });
+    // @ts-expect-error
     this._ignoreModuleReadiness(deps.contactMatcher);
     this._extensionMode = this._deps.softphoneOptions?.extensionMode ?? false;
+    // @ts-expect-error
     this._callHandler = this._deps.softphoneOptions?.callHandler;
   }
 
   @state
+  // @ts-expect-error
   connectingPhoneNumber: string = null;
 
   @state
@@ -49,6 +52,7 @@ export class Softphone<T extends Deps = Deps> extends RcModuleV2<T> {
   @action
   connectComplete() {
     this.softphoneStatus = softphoneStatus.idle;
+    // @ts-expect-error
     this.connectingPhoneNumber = null;
   }
 
@@ -59,6 +63,7 @@ export class Softphone<T extends Deps = Deps> extends RcModuleV2<T> {
   }
 
   get spartanProtocol() {
+    // @ts-expect-error
     return this._deps.brand.brandConfig.callWithSoftphone.protocol;
   }
 
@@ -89,7 +94,9 @@ export class Softphone<T extends Deps = Deps> extends RcModuleV2<T> {
     if (isCallWithJupiter) {
       // jupiter doesn't recognize encoded string for now
       command = `r/call?number=${phoneNumber}`;
+      // @ts-expect-error
       isJupiterUniversalLink = this._useJupiterUniversalLink(callingMode);
+      // @ts-expect-error
       protocol = isJupiterUniversalLink
         ? this.jupiterUniversalLink
         : this.jupiterProtocol;
@@ -147,8 +154,10 @@ export class Softphone<T extends Deps = Deps> extends RcModuleV2<T> {
 
       if (openLink) {
         window.open(uri);
+        // @ts-expect-error
       } else if (window.navigator.msLaunchUri) {
         // to support ie to start the service
+        // @ts-expect-error
         window.navigator.msLaunchUri(uri);
       } else {
         // open via iframe
@@ -156,6 +165,7 @@ export class Softphone<T extends Deps = Deps> extends RcModuleV2<T> {
         frame.style.display = 'none';
         document.body.appendChild(frame);
         await sleep(100);
+        // @ts-expect-error
         frame.contentWindow.location.href = uri;
         await sleep(300);
         document.body.removeChild(frame);

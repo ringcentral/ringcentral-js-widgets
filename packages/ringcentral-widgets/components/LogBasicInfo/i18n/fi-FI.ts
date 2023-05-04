@@ -1,13 +1,13 @@
+import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 import callResults from '@ringcentral-integration/commons/enums/callResults';
 import telephonyStatuses from '@ringcentral-integration/commons/enums/telephonyStatus';
-import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 export default {
-  [callDirections.inbound]: "Tuleva",
+  [callDirections.inbound]: "Saapuva",
   [callDirections.outbound]: "Lähtevä",
   status: "Tila:",
   InboundNumber: "Soittajatunnus:",
   OutboundNumber: "Soitettiin:",
-  InboundDirection: "Saapuva puhelu paikasta:",
+  InboundDirection: "Saapuva puhelu kohteesta:",
   OutboundDirection: "Lähtevä puhelu kohteeseen:",
   [telephonyStatuses.noCall]: "Yhteys katkaistu",
   [telephonyStatuses.callConnected]: "Yhdistetty",

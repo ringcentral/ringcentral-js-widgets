@@ -1,0 +1,36 @@
+[
+  {
+    "type": "ClientRequest",
+    "messageId": "oMtcBl8rQ9mvrPHdP4TYxA/0",
+    "status": 200,
+    "headers": {
+      "Server": "nginx",
+      "Date": "Fri, 02 Jul 2021 13:04:51 GMT",
+      "Content-Type": "application/json",
+      "LocalHostInfo": "10.74.3.11__12645@xrs01-c01-csg01.xxxxxx.com",
+      "WSG-SubscriptionId": "9c5bf39a-2c66-43e4-a927-737de24097b1",
+      "X-Rate-Limit-Group": "medium",
+      "X-Rate-Limit-Limit": "75",
+      "X-Rate-Limit-Remaining": "74",
+      "X-Rate-Limit-Window": "60",
+      "RoutingKey": "SJC01P01",
+      "RCRequestId": "e724579e-db35-11eb-9df5-005056bea08c-0"
+    }
+  },
+  {
+    "uri": "/restapi/v1.0/subscription/9c5bf39a-2c66-43e4-a927-737de24097b1",
+    "id": "9c5bf39a-2c66-43e4-a927-737de24097b1",
+    "creationTime": "2021-07-02T13:04:51.695Z",
+    "status": "Active",
+    "eventFilters": [
+      "/restapi/v1.0/account/472231004/extension/472231004/presence?detailedTelephonyState=true&sipData=true",
+      "/restapi/v1.0/account/472231004/extension/472231004/telephony/sessions",
+      "/restapi/v1.0/account/472231004/extension/472231004/message-store",
+      "/restapi/v1.0/account/472231004/extension/472231004",
+      "/restapi/v1.0/account/472231004/directory/contacts"
+    ],
+    "expirationTime": "2021-07-03T13:04:51.695Z",
+    "expiresIn": 86399,
+    "deliveryMode": { "transportType": "WebSocket", "encryption": false }
+  }
+]

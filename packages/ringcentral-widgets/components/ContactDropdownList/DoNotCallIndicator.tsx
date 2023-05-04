@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { RcIcon } from '@ringcentral/juno';
-import { Blocked } from '@ringcentral/juno/icon';
+import { Blocked } from '@ringcentral/juno-icon';
 
 import { Tooltip } from '../Rcui/Tooltip';
 import i18n from './i18n';
@@ -12,6 +12,9 @@ type DoNotCallIndicatorProps = {
   currentLocale: string;
 };
 
+/**
+ * @deprecated please use ringcentral-js-widgets/ringcentral-widgets/components/ContactSearchPanel/DoNotCallIndicator.tsx
+ */
 export const DoNotCallIndicator: React.FC<DoNotCallIndicatorProps> = ({
   doNotCall,
   currentLocale,

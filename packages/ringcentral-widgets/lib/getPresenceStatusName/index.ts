@@ -1,4 +1,4 @@
-import dndStatus from '@ringcentral-integration/commons/modules/Presence/dndStatus';
+import { dndStatus } from '@ringcentral-integration/commons/modules/Presence';
 
 import i18n from './i18n';
 

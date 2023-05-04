@@ -1,11 +1,11 @@
 export default {
-  logging: "正在记录...",
+  logging: "正在记录…",
   logCall: "记录通话",
   editLog: "编辑记录",
   select: "选择匹配记录",
-  OnHold: "等候接听",
+  OnHold: "保持",
   Ringing: "正在振铃",
-  CallConnected: "通话已连接",
+  CallConnected: "呼叫已接通",
   unknownUser: "未知用户",
   unknownNumber: "匿名",
   unavailable: "不可用",
@@ -13,9 +13,9 @@ export default {
   addEntity: "新建",
   addLog: "记录",
   text: "短信",
-  call: "呼叫",
+  call: "电话",
   missedCall: "未接",
-  inboundCall: "呼入",
+  inboundCall: "入站",
   outboundCall: "呼出"
 };
 

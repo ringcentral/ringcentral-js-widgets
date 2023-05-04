@@ -6,11 +6,11 @@ export default {
   [phoneTypes.mobile]: "Mobiltelefon",
   [phoneTypes.phone]: "Telefon",
   [phoneTypes.unknown]: "Unbekannter Telefontyp",
-  [phoneTypes.company]: "Firmennummer",
-  [phoneTypes.direct]: "Direktwahlnummer",
+  [phoneTypes.company]: "Unternehmensnummer",
+  [phoneTypes.direct]: "Durchwahlnummer",
   [phoneTypes.contact]: "Kontakttelefon",
   [phoneTypes.fax]: "Fax",
-  [phoneTypes.other]: "Andere"
+  [phoneTypes.other]: "Sonstiges"
 };
 
 // @key: @#@"[phoneTypes.business]"@#@ @source: @#@"Business Phone"@#@

@@ -6,7 +6,6 @@ import {
 } from '@ringcentral-integration/core';
 import { DEFAULT_LOCALE } from '@ringcentral-integration/i18n';
 
-import { camelCase } from '../../lib/camelCase';
 import { Module } from '../../lib/di';
 import { processI18n } from '../../lib/processI18n';
 import { Deps } from './Brand.interface';
@@ -26,18 +25,18 @@ export class Brand<
   T extends BrandConfig = BrandConfig,
   D extends Deps<T> = Deps<T>,
 > extends RcModuleV2<D> {
-  protected _prefix: string = null;
+  protected _prefix: string | null = null;
   constructor(deps: D) {
     super({
       deps,
     });
-    this._prefix = `${this._deps.brandConfig.code}-${camelCase(
-      this._deps.brandConfig.application ?? '',
-    )}`;
+    this._prefix = `${this._deps.brandConfig.code}-${
+      this._deps.brandConfig.application ?? ''
+    }`;
   }
 
   @state
-  protected _dynamicConfig: T = null;
+  protected _dynamicConfig: T | null = null;
 
   @action
   setDynamicConfig(config: T) {
@@ -47,10 +46,10 @@ export class Brand<
   /**
    * dynamic brand config with i18n processed with currentLocale
    */
-  @computed(({ _dynamicConfig, _deps: { locale } }: Brand<T, D>) => [
-    _dynamicConfig,
-    locale?.currentLocale,
-    locale?.defaultLocale,
+  @computed((that: Brand<T, D>) => [
+    that._dynamicConfig,
+    that._deps.locale?.currentLocale,
+    that._deps.locale?.defaultLocale,
   ])
   get dynamicConfig() {
     return (
@@ -66,7 +65,7 @@ export class Brand<
   /**
    * default brand config with assets processed
    */
-  @computed(({ _deps: { brandConfig } }: Brand<T, D>) => [brandConfig])
+  @computed((that: Brand<T, D>) => [that._deps.brandConfig])
   protected get _defaultConfig() {
     const brandConfig = this._deps.brandConfig;
 
@@ -89,7 +88,7 @@ export class Brand<
   /**
    * default brand config with assets and i18n processed using en-US
    */
-  @computed(({ _defaultConfig }: Brand<T, D>) => [_defaultConfig])
+  @computed((that: Brand<T, D>) => [that._defaultConfig])
   get defaultConfig() {
     return processI18n(this._defaultConfig);
   }
@@ -98,14 +97,12 @@ export class Brand<
    * Generic brand config accessor that returns dynamic config if available, and defaults
    * to default config. The result is assets and i18n processed with current Locale.
    */
-  @computed(
-    ({ _defaultConfig, _dynamicConfig, _deps: { locale } }: Brand<T, D>) => [
-      _defaultConfig,
-      _dynamicConfig,
-      locale?.currentLocale,
-      locale?.defaultLocale,
-    ],
-  )
+  @computed((that: Brand<T, D>) => [
+    that._defaultConfig,
+    that._dynamicConfig,
+    that._deps.locale?.currentLocale,
+    that._deps.locale?.defaultLocale,
+  ])
   get brandConfig() {
     return processI18n(
       this._dynamicConfig ?? this._defaultConfig,

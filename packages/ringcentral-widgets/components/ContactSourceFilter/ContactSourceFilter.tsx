@@ -41,10 +41,12 @@ export class ContactSourceFilter extends Component<
       unfold,
     };
   }
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   componentDidMount() {
     this._mounted = true;
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   componentWillUnmount() {
     this._mounted = false;
     if (!this.state.unfold) {
@@ -95,6 +97,7 @@ export class ContactSourceFilter extends Component<
     this.hideList();
   };
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     const { className, currentLocale, contactSourceNames, selectedSourceName } =
       this.props;
@@ -108,6 +111,7 @@ export class ContactSourceFilter extends Component<
         <div
           data-sign="filterIconContainer"
           className={styles.filterIconContainer}
+          // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
           title={this.getString(selectedSourceName, currentLocale)}
         >
           {isAllSource ? (

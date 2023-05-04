@@ -1,4 +1,4 @@
-import { ContactResource } from '@rc-ex/core/definitions';
+import type ContactResource from '@rc-ex/core/lib/definitions/ContactResource';
 import {
   And,
   autorun,
@@ -11,8 +11,8 @@ import {
 } from '@ringcentral-integration/test-utils';
 
 import { phoneTypes } from '../../../enums/phoneTypes';
-import { AccountContacts } from '../../../modules/AccountContactsV2';
-import { CompanyContacts } from '../../../modules/CompanyContactsV2';
+import { AccountContacts } from '../../../modules/AccountContacts';
+import { CompanyContacts } from '../../../modules/CompanyContacts';
 import { mockModuleGenerator } from '../../lib/mockModule';
 
 const getMockModule = () =>

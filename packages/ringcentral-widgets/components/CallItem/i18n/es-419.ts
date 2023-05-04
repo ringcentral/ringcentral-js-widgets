@@ -13,7 +13,7 @@ export default {
   addEntity: "Crear nuevo",
   addLog: "Registro",
   text: "Mensaje",
-  call: "Llamar",
+  call: "Llamada",
   missedCall: "Perdida",
   inboundCall: "Entrante",
   outboundCall: "Saliente"

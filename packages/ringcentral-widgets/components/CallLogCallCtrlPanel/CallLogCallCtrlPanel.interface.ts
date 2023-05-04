@@ -1,13 +1,15 @@
-import { ForwardingNumberInfo } from '@rc-ex/core/definitions';
+import type ForwardingNumberInfo from '@rc-ex/core/lib/definitions/ForwardingNumberInfo';
 import {
   ActiveCallControl,
   ActiveSession,
-} from '@ringcentral-integration/commons/modules/ActiveCallControlV2';
+} from '@ringcentral-integration/commons/modules/ActiveCallControl';
 
 export interface CallLogCallCtrlPanelProps {
   currentLocale?: string;
   isWide?: boolean;
+  enableReply?: boolean;
   isCurrentDeviceCall?: boolean;
+  warmTransferActiveTelephonySessionId?: string;
   transferRef?: React.RefObject<HTMLSpanElement>;
   isOnTransfer?: boolean;
 
@@ -26,10 +28,12 @@ export interface CallLogCallCtrlPanelProps {
   onUnHold: ActiveCallControl['unhold'];
   startRecord: ActiveCallControl['startRecord'];
   stopRecord: ActiveCallControl['stopRecord'];
+  onCompleteWarmTransfer: ActiveCallControl['completeWarmTransfer'];
   onTransfer: (telephonySessionId: string) => Promise<void>;
   sendDTMF: (dtmfValue: string, telephonySessionId: string) => Promise<void>;
   answer: ActiveCallControl['answer'];
   forward: (phoneNumber: string, telephonySessionId: string) => void;
+  reply: (telephonySessionId: string) => void;
   ignore: ActiveCallControl['ignore'];
   answerAndHold: ActiveCallControl['answerAndHold'];
   answerAndEnd: ActiveCallControl['answerAndEnd'];

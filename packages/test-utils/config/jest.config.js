@@ -5,5 +5,6 @@ module.exports = merge(getBaseJestConfig(), {
   roots: ['<rootDir>/test'],
   setupFilesAfterEnv: [
     '@ringcentral-integration/test-utils/scripts/testing-library.setupAfterEnv.js',
+    '@ringcentral-integration/test-utils/scripts/jest.teardown.js',
   ],
 });

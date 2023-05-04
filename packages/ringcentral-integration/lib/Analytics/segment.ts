@@ -53,8 +53,10 @@ export default function init() {
   // for methods in Analytics.js so that you never have to wait
   // for it to load to actually record data. The `method` is
   // stored as the first argument, so we can replay the data.
-  analytics.factory = function (method) {
+  analytics.factory = function (method: (...args: any[]) => void) {
     return function () {
+      // @ts-ignore
+      // eslint-disable-next-line prefer-rest-params
       const args = Array.prototype.slice.call(arguments);
       args.unshift(method);
       analytics.push(args);
@@ -70,7 +72,7 @@ export default function init() {
 
   // Define a method to load Analytics.js from our CDN,
   // and that will be sure to only ever load it once.
-  analytics.load = function (key, options) {
+  analytics.load = function (key: string, options: any) {
     // Create an async script element based on your key.
     const script = document.createElement('script');
     script.type = 'text/javascript';

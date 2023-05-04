@@ -25,6 +25,7 @@ export const PermissionsAlert: React.SFC<PermissionsAlertProps> = ({
       msg = (
         <FormattedMessage
           message={i18n.getString(message, currentLocale)}
+          // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
           values={{ brand, application }}
         />
       );
@@ -38,7 +39,8 @@ export const PermissionsAlert: React.SFC<PermissionsAlertProps> = ({
 PermissionsAlert.defaultProps = {
   application: undefined,
 };
-PermissionsAlert.handleMessage = ({ message }) =>
+// @ts-expect-error TS(2339): Property 'handleMessage' does not exist on type 'S... Remove this comment to see the full error message
+PermissionsAlert.handleMessage = ({ message }: any) =>
   message === permissionsMessages.invalidTier ||
   message === permissionsMessages.insufficientPrivilege;
 export default PermissionsAlert;

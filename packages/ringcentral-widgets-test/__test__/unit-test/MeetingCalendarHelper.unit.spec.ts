@@ -6,7 +6,7 @@ import {
   formatTextToHtml,
   getRcvEventTpl,
 } from '@ringcentral-integration/widgets/lib/MeetingCalendarHelper';
-import { getDefaultVideoSettings } from '@ringcentral-integration/commons/modules/RcVideoV2';
+import { getDefaultVideoSettings } from '@ringcentral-integration/commons/modules/RcVideo';
 
 describe.each`
   meetingId           | expected

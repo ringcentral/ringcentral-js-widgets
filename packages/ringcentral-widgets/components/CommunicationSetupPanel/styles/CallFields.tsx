@@ -1,10 +1,11 @@
 import {
+  css,
   palette2,
+  RcChip,
   RcDialTextField,
   RcText,
   spacing,
   styled,
-  RcChip,
 } from '@ringcentral/juno';
 
 import { fullSizeStyle } from '../../../lib/commonStyles';
@@ -28,26 +29,39 @@ export const RootWrapper = styled.div`
 `;
 
 export const FullSizeWrapper = styled.div`
-  ${fullSizeStyle};
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
 `;
 
 export const ResultContainer = styled.div`
   ${fullSizeStyle};
-  position: absolute;
   display: flex;
   flex-direction: column;
   background: ${palette2('neutral', 'b01')};
-  z-index: 20;
+  z-index: 10;
 `;
 
 export const FieldLine = styled.div`
   display: flex;
-  align-items: center;
   flex-wrap: nowrap;
+  &:nth-child(1) {
+    align-items: flex-start;
+    p {
+      margin-top: ${spacing(1)};
+      [sf-classic] & {
+        margin-top: 3px;
+      }
+    }
+  }
+  &:nth-child(2) {
+    align-items: center;
+  }
 `;
 
-export const StyledToInputWrapper = styled.div`
-  width: 100%;
+export const StyledRcChip = styled(RcChip)`
+  margin: 2px 0;
+  padding: 0;
 `;
 
 export const StyledRecipientsWrapper = styled.div`
@@ -55,15 +69,43 @@ export const StyledRecipientsWrapper = styled.div`
   display: inline-flex;
   flex-wrap: wrap;
   flex-direction: row;
-  overflow-y: auto;
   max-height: 122px;
 `;
 
 export const StyledRcDialTextField = styled(RcDialTextField)`
+  input {
+    text-overflow: ellipsis;
+    min-width: 20px;
+  }
   min-height: 32px;
+  [sf-classic] & {
+    min-height: 28px;
+  }
 `;
 
-export const StyledRcChip = styled(RcChip)`
-  margin: 2px 0;
-  padding: 0;
+export const StyledToInputWrapper = styled.div<{ inputFullWidth: boolean }>`
+  width: 100%;
+  min-width: 0;
+  max-height: 122px;
+  overflow-y: auto;
+  overflow-x: hidden;
+
+  ${({ inputFullWidth }) =>
+    inputFullWidth &&
+    css`
+      display: flex;
+      justify-content: flex-start;
+      align-items: flex-start;
+      flex-wrap: wrap;
+
+      ${StyledRcDialTextField} {
+        flex: 1 1 0%;
+        min-width: 50px;
+      }
+
+      ${StyledRecipientsWrapper} {
+        width: auto;
+        display: contents;
+      }
+    `}
 `;

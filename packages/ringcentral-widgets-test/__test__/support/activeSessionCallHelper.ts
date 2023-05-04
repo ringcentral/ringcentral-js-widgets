@@ -5,6 +5,7 @@ import {
   PartyStatusCode,
   telephonySessionBuildersCache,
 } from '@ringcentral-integration/commons/integration-test/mock/telephonySessionBuilder';
+import { sleep } from '@ringcentral-integration/utils';
 import WebphoneSessionMock from './WebphoneSessionMock';
 import { mockPubnub, mockWebphone } from './callHelper';
 
@@ -25,6 +26,8 @@ export interface InitACallProps {
   toNumberData?: NumberData;
   startTime?: string;
   isRecording?: boolean;
+  useUserAgentSession?: boolean;
+  tempSocketMockServer?: { trigger(...args: any[]): Promise<void> };
 }
 
 interface InitACallFunc {
@@ -41,6 +44,7 @@ const initACall: InitACallFunc = async ({
   fromNumberData,
   toNumberData,
   startTime,
+  tempSocketMockServer,
   ...props
 }) => {
   const partyStatus =
@@ -59,7 +63,13 @@ const initACall: InitACallFunc = async ({
 
   const telephoneSessionId = telephonySessionBuilder.telephoneSessionId;
 
-  await mockPubnub(telephonySessionBuilder.done());
+  if (tempSocketMockServer) {
+    // temp solution for introduce wsg, will remove soon after introduce `rc mock`;
+    await tempSocketMockServer.trigger(telephonySessionBuilder.done());
+    await sleep(2000);
+  } else {
+    await mockPubnub(telephonySessionBuilder.done());
+  }
 
   if (isWebRTC) {
     const webSession = new WebphoneSessionMock(telephoneSessionId);
@@ -67,6 +77,8 @@ const initACall: InitACallFunc = async ({
       direction === callDirections.inbound ? 'invite' : 'inviteSent';
     await mockWebphone(callEvent, webSession);
   }
+
+  return telephoneSessionId;
 };
 
 function getLastTelephonySessionBuilder() {
@@ -75,16 +87,47 @@ function getLastTelephonySessionBuilder() {
   ];
 }
 
-const connectLatestCall = async () => {
+const connectLatestCall = async (
+  tempSocketMockServer?: InitACallProps['tempSocketMockServer'],
+) => {
   const telephonySessionBuilder = getLastTelephonySessionBuilder();
   telephonySessionBuilder.setConnected();
-  await mockPubnub(telephonySessionBuilder.done());
+  const data = telephonySessionBuilder.done();
+  if (tempSocketMockServer) {
+    await tempSocketMockServer.trigger(data);
+  } else {
+    await mockPubnub(data);
+  }
 };
 
-const disConnectLatestCall = async () => {
+const disConnectLatestCall = async (
+  tempSocketMockServer?: InitACallProps['tempSocketMockServer'],
+) => {
   const telephonySessionBuilder = getLastTelephonySessionBuilder();
   telephonySessionBuilder.setDisconnected();
-  await mockPubnub(telephonySessionBuilder.done());
+  const data = telephonySessionBuilder.done();
+  if (tempSocketMockServer) {
+    await tempSocketMockServer.trigger(data);
+  } else {
+    await mockPubnub(data);
+  }
 };
 
-export { initACall, connectLatestCall, disConnectLatestCall };
+const holdCall = async (
+  telephonySessionId: string,
+  tempSocketMockServer?: InitACallProps['tempSocketMockServer'],
+) => {
+  const telephonySessionBuilder = telephonySessionBuildersCache.find(
+    (s: any) => s.data.body.telephonySessionId === telephonySessionId,
+  );
+  telephonySessionBuilder?.setHoldCall();
+  const data = telephonySessionBuilder?.done();
+
+  if (tempSocketMockServer) {
+    await tempSocketMockServer.trigger(data);
+  } else {
+    await mockPubnub(data);
+  }
+};
+
+export { initACall, connectLatestCall, disConnectLatestCall, holdCall };

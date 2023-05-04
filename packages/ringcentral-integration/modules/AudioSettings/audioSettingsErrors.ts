@@ -4,5 +4,3 @@ export const audioSettingsErrors = ObjectMap.prefixKeys(
   ['userMediaPermission'],
   'audioSettings',
 );
-
-export default audioSettingsErrors;

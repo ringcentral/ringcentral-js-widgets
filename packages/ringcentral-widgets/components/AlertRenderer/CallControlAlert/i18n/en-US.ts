@@ -1,4 +1,4 @@
-import callControlError from '@ringcentral-integration/commons/modules/ActiveCallControl/callControlError';
+import { callControlError } from '@ringcentral-integration/commons/modules/ActiveCallControl';
 
 const {
   holdConflictError,
@@ -7,6 +7,8 @@ const {
   unMuteConflictError,
   generalError,
   forwardSuccess,
+  transferCompleted,
+  replyCompleted,
 } = callControlError;
 
 export default {
@@ -20,4 +22,6 @@ export default {
     'This call had been unheld on other device. Please hold the call before you control in this App.',
   [generalError]: 'Unexpected server error. Please try again later.',
   [forwardSuccess]: 'Call forwarded',
+  [transferCompleted]: 'Call transferred',
+  [replyCompleted]: 'Voice message sent.',
 };

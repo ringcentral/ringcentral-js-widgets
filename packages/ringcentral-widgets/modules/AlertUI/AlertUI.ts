@@ -71,24 +71,16 @@ export class AlertUI extends RcUIModuleV2<Deps> {
             return renderer;
           }
         }
-        const {
-          alert,
-          brand,
-          softphone,
-          rateLimiter,
-          routerInteraction,
-          callLogSection,
-        } = this._deps;
         // TODO: It would be better to refactor alertUI like modalUI.registerRenderer.
         return AlertRenderer({
-          alert,
-          brand,
+          alert: this._deps.alert,
+          brand: this._deps.brand,
           // support jupiterAppName with dynamicConfig, should remove this and use brandConfig
           // instead once dynamicConfig module is deprecated
-          softphone,
-          rateLimiter,
-          routerInteraction,
-          callLogSection,
+          softphone: this._deps.softphone,
+          rateLimiter: this._deps.rateLimiter,
+          routerInteraction: this._deps.routerInteraction,
+          callLogSection: this._deps.callLogSection,
           regionSettingsUrl,
           callingSettingsUrl,
         })(message);

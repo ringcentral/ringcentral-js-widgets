@@ -1,6 +1,6 @@
 export default {
   region: "Région",
-  calling: "Appel",
+  calling: "Appel en cours",
   logout: "Déconnexion",
   version: "Version",
   settings: "Paramètres",
@@ -18,7 +18,7 @@ export default {
   feedback: "Commentaires",
   userGuide: "Nouveautés",
   quickAccess: "Paramètre d’accès rapide",
-  report: "Rapport analytique",
+  report: "Rapport Analytics",
   shareIdea: "Partager une idée"
 };
 

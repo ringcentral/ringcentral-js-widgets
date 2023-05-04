@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import classnames from 'classnames';
 
-import isBlank from '@ringcentral-integration/commons/lib/isBlank';
+import { isBlank } from '@ringcentral-integration/commons/lib/isBlank';
 import { RcMenuItem, RcMenuList, styled } from '@ringcentral/juno';
 
 import { Button } from '../Button';
@@ -51,6 +51,7 @@ class ReplyWithMessage extends Component<
   customValueInput: any;
 
   static defaultProps: Partial<ReplyWithMessageProps> = {
+    // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
     className: null,
     onChange: undefined,
   };
@@ -71,6 +72,7 @@ class ReplyWithMessage extends Component<
     this.setState({
       type: index,
     });
+    // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
     this.props.onChange(this._getValue());
   };
 
@@ -79,6 +81,7 @@ class ReplyWithMessage extends Component<
     this.setState({
       customValue: value,
     });
+    // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
     this.props.onChange(this._getValue());
   };
 
@@ -152,6 +155,7 @@ class ReplyWithMessage extends Component<
     return value;
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     const { className, onCancel, currentLocale, disabled } = this.props;
     const disableButton = isBlank(this._getValue().replyText) || disabled;

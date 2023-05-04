@@ -1,5 +1,5 @@
 export default {
-  all: "所有",
+  all: "全部",
   company: "公司",
   personal: "個人"
 };

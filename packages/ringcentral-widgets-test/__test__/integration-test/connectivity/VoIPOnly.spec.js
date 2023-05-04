@@ -1,9 +1,12 @@
-import { contains } from 'ramda';
-import ConnectivityBadge from '@ringcentral-integration/widgets/components/ConnectivityBadge';
+import { includes } from 'ramda';
+
+import { sleep } from '@ringcentral-integration/commons/utils';
 import ConnectivityAlert from '@ringcentral-integration/widgets/components/AlertRenderer/ConnectivityAlert';
 import CircleButton from '@ringcentral-integration/widgets/components/CircleButton';
+import ConnectivityBadge from '@ringcentral-integration/widgets/components/ConnectivityBadge';
+
 import { HAMocks } from '../HALimitedMode/mockLimited';
-import { getWrapper, timeout, tearDownWrapper } from '../shared';
+import { getWrapper, tearDownWrapper } from '../shared';
 
 let wrapper = null;
 let phone = null;
@@ -22,7 +25,7 @@ describe('VoIP Only Mode', () => {
         message: 'none',
         response: { status: 500 },
       });
-    await timeout(10); // wait refreshError listener to be executed
+    await sleep(10); // wait refreshError listener to be executed
     wrapper.update();
     badge = wrapper.find(ConnectivityBadge);
   });
@@ -46,12 +49,12 @@ describe('VoIP Only Mode', () => {
 
   test('Call Buttons are enabled', () => {
     const button = wrapper.find(CircleButton);
-    expect(contains('disabled', button.at(0).prop('className'))).toBeFalsy();
+    expect(includes('disabled', button.at(0).prop('className'))).toBeFalsy();
   });
 
   test('Click on the badge', async () => {
     phone.connectivityManager._hideAlerts();
-    await timeout(500);
+    await sleep(500);
     wrapper.update();
     expect(wrapper.find(ConnectivityAlert).exists()).toBeFalsy();
     badge.simulate('click');
@@ -80,7 +83,7 @@ describe('Exit from VoIP Only Mode to Normal Mode', () => {
         message: 'none',
         response: { status: 500 },
       });
-    await timeout(10);
+    await sleep(10);
     wrapper.update();
     badge = wrapper.find(ConnectivityBadge);
     expect(badge.text()).toEqual('VoIP Only');
@@ -92,7 +95,7 @@ describe('Exit from VoIP Only Mode to Normal Mode', () => {
     phone.availabilityMonitor._deps.client.service
       .platform()
       .emit('refreshSuccess');
-    await timeout(600);
+    await sleep(600);
     wrapper.update();
     badge = wrapper.find(ConnectivityBadge);
     expect(wrapper.find(ConnectivityBadge).text()).not.toEqual('VoIP Only');
@@ -102,7 +105,7 @@ describe('Exit from VoIP Only Mode to Normal Mode', () => {
 
   test('Exit from check status api return 200.', async () => {
     phone.availabilityMonitor._switchToVoIPOnlyMode();
-    await timeout(100);
+    await sleep(100);
     wrapper.update();
     badge = wrapper.find(ConnectivityBadge);
     expect(badge.text()).toEqual('VoIP Only');
@@ -114,7 +117,7 @@ describe('Exit from VoIP Only Mode to Normal Mode', () => {
     phone.availabilityMonitor._randomTime = 0.0001;
     HAMocks.checkStatus();
     await phone.availabilityMonitor._healthCheck();
-    await timeout(1000);
+    await sleep(1000);
     wrapper.update();
 
     expect(wrapper.find(ConnectivityBadge).text()).not.toEqual('VoIP Only');

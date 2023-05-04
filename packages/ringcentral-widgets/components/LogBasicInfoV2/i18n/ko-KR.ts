@@ -1,6 +1,6 @@
+import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 import callResults from '@ringcentral-integration/commons/enums/callResults';
 import telephonyStatuses from '@ringcentral-integration/commons/enums/telephonyStatus';
-import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 export default {
   [callDirections.inbound]: "수신",
   [callDirections.outbound]: "발신",
@@ -15,9 +15,9 @@ export default {
   [telephonyStatuses.onHold]: "대기 중",
   [telephonyStatuses.parkedCall]: "통화 대기됨",
   [callResults.unknown]: "알 수 없음",
-  [callResults.missed]: "부재중",
-  [callResults.callAccepted]: "응답됨",
-  [callResults.accepted]: "응답됨",
+  [callResults.missed]: "부재중 전화",
+  [callResults.callAccepted]: "답변됨",
+  [callResults.accepted]: "답변됨",
   [callResults.voicemail]: "음성 사서함",
   [callResults.rejected]: "거부됨",
   [callResults.reply]: "회신",
@@ -45,7 +45,8 @@ export default {
   [callResults.declined]: "거부됨",
   [callResults.faxReceipt]: "팩스 수신",
   [callResults.disconnected]: "연결 끊김",
-  [callResults.notAllowed]: "허용되지 않음"
+  [callResults.notAllowed]: "허용되지 않음",
+  warmTransferSwitchCall: "통화 넘기기"
 };
 
 // @key: @#@"[callDirections.inbound]"@#@ @source: @#@"Inbound"@#@
@@ -92,3 +93,4 @@ export default {
 // @key: @#@"[callResults.faxReceipt]"@#@ @source: @#@"Fax Receipt"@#@
 // @key: @#@"[callResults.disconnected]"@#@ @source: @#@"Disconnected"@#@
 // @key: @#@"[callResults.notAllowed]"@#@ @source: @#@"Not Allowed"@#@
+// @key: @#@"warmTransferSwitchCall"@#@ @source: @#@"Switch calls"@#@

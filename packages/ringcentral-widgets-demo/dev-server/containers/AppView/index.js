@@ -1,15 +1,18 @@
-import Environment from '@ringcentral-integration/widgets/components/Environment';
-import { withPhone } from '@ringcentral-integration/widgets/lib/phoneContext';
-import PropTypes from 'prop-types';
 import React from 'react';
+
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+
+import { EnvironmentPanel } from '@ringcentral-integration/widgets/components/EnvironmentPanel';
+import { withPhone } from '@ringcentral-integration/widgets/lib/phoneContext';
+
 import styles from './styles.scss';
 
 const AppView = ({ children, server, enabled, onSetData }) => {
   return (
     <div className={styles.root}>
       {children}
-      <Environment
+      <EnvironmentPanel
         server={server}
         enabled={enabled}
         onSetData={onSetData}

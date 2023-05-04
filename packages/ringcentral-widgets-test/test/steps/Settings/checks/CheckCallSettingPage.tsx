@@ -1,28 +1,23 @@
-import {
-  fireEvent,
-  screen,
-  waitForElementToBeRemoved,
-} from '@testing-library/react';
+import { fireEvent, screen } from '@testing-library/react';
 
 import { StepFunction } from '../../../lib/step';
 
 export const CheckInfoTooltip: StepFunction<{
   tooltipContent: string | RegExp;
-}> = async ({ tooltipContent }) => {
+}> = ({ tooltipContent }) => {
   // check if i icon show in the calling setting page
   const infoIcon = document.querySelector('[data-sign="callSettingInfo"] span');
   expect(infoIcon).toBeInTheDocument();
 
-  // check make call with info tooltip
-  fireEvent.mouseEnter(infoIcon);
+  jest.useFakeTimers();
 
-  // check tooltip content
-  expect(
-    await screen.findByRole('tooltip', {}, { timeout: 2000 }),
-  ).toHaveTextContent(tooltipContent);
+  fireEvent.mouseEnter(infoIcon);
+  jest.runAllTimers();
+  expect(screen.getByRole('tooltip')).toHaveTextContent(tooltipContent);
 
   fireEvent.mouseLeave(infoIcon);
-  await waitForElementToBeRemoved(() => screen.getByRole('tooltip'), {
-    timeout: 2000,
-  });
+  jest.runAllTimers();
+  expect(screen.queryByRole('tooltip')).toBeNull();
+
+  jest.useRealTimers();
 };

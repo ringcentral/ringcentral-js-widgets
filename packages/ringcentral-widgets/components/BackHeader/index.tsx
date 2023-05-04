@@ -30,6 +30,7 @@ const BackHeader: React.SFC<BackHeaderProps> = (props) => {
     placement: 'left',
   });
   return (
+    // @ts-expect-error TS(2322): Type '{ label: ReactNode; onClick?: ((...args: any... Remove this comment to see the full error message
     <Header buttons={buttons} className={props.className}>
       {props.children}
     </Header>
@@ -37,6 +38,7 @@ const BackHeader: React.SFC<BackHeaderProps> = (props) => {
 };
 BackHeader.defaultProps = {
   className: '',
+  // @ts-expect-error TS(2322): Type '{ className: string; children: undefined; bu... Remove this comment to see the full error message
   children: undefined,
   buttons: undefined,
   backButton: undefined,

@@ -1,4 +1,4 @@
-import conferenceCallErrors from '@ringcentral-integration/commons/modules/ConferenceCall/conferenceCallErrors';
+import { conferenceCallErrors } from '@ringcentral-integration/commons/modules/ConferenceCall';
 export default {
   [conferenceCallErrors.bringInFailed]: "예기치 않은 오류로 인해 통화를 병합하지 못했습니다. 나중에 다시 시도하세요.",
   [conferenceCallErrors.makeConferenceFailed]: "예기치 않은 오류로 인해 통화를 병합하지 못했습니다. 나중에 다시 시도하세요.",

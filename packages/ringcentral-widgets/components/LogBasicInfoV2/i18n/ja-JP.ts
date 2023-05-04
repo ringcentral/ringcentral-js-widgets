@@ -1,6 +1,6 @@
+import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 import callResults from '@ringcentral-integration/commons/enums/callResults';
 import telephonyStatuses from '@ringcentral-integration/commons/enums/telephonyStatus';
-import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 export default {
   [callDirections.inbound]: "着信",
   [callDirections.outbound]: "発信",
@@ -9,7 +9,7 @@ export default {
   OutboundNumber: "通話先：",
   InboundDirection: "発信元：",
   OutboundDirection: "発信先：",
-  [telephonyStatuses.noCall]: "切断済み",
+  [telephonyStatuses.noCall]: "接続解除済み",
   [telephonyStatuses.callConnected]: "接続済み",
   [telephonyStatuses.ringing]: "呼び出し中",
   [telephonyStatuses.onHold]: "保留中",
@@ -28,7 +28,7 @@ export default {
   [callResults.blocked]: "ブロック済み",
   [callResults.callConnected]: "通話を接続済み",
   [callResults.noAnswer]: "応答なし",
-  [callResults.internationalDisabled]: "国際電話無効",
+  [callResults.internationalDisabled]: "国際電話が無効です",
   [callResults.busy]: "取り込み中",
   [callResults.faxSendError]: "FAX送信エラー",
   [callResults.sent]: "送信済み",
@@ -44,8 +44,9 @@ export default {
   [callResults.abandoned]: "放棄済み",
   [callResults.declined]: "拒否済み",
   [callResults.faxReceipt]: "FAX受信",
-  [callResults.disconnected]: "切断済み",
-  [callResults.notAllowed]: "不許可"
+  [callResults.disconnected]: "接続解除済み",
+  [callResults.notAllowed]: "許可されていません",
+  warmTransferSwitchCall: "通話を切り替える"
 };
 
 // @key: @#@"[callDirections.inbound]"@#@ @source: @#@"Inbound"@#@
@@ -92,3 +93,4 @@ export default {
 // @key: @#@"[callResults.faxReceipt]"@#@ @source: @#@"Fax Receipt"@#@
 // @key: @#@"[callResults.disconnected]"@#@ @source: @#@"Disconnected"@#@
 // @key: @#@"[callResults.notAllowed]"@#@ @source: @#@"Not Allowed"@#@
+// @key: @#@"warmTransferSwitchCall"@#@ @source: @#@"Switch calls"@#@

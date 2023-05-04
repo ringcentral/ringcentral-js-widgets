@@ -1,7 +1,7 @@
 import React, { FunctionComponent } from 'react';
 
 import { RcIconButton } from '@ringcentral/juno';
-import { Hold } from '@ringcentral/juno/icon';
+import { Hold } from '@ringcentral/juno-icon';
 
 import { getCircleIconButtonTitle } from '../help';
 import i18n from '../i18n';

@@ -1,4 +1,5 @@
 import { ContactModel } from '@ringcentral-integration/commons/interfaces/Contact.model';
+import { GetPresenceFn } from '../../react-hooks/usePresence';
 
 import {
   clickToDial,
@@ -10,11 +11,14 @@ import {
 
 export interface ContactDetailsViewProps {
   currentLocale: string;
-  contact: ContactModel;
+  contact: ContactModel | null;
   isMultipleSiteEnabled: boolean;
   isCallButtonDisabled: boolean;
   disableLinks: boolean;
   showSpinner: boolean;
+  onVisitPage?: () => void;
+  onLeavingPage?: () => void;
+  getPresence: GetPresenceFn;
 }
 
 export interface ContactDetailsViewFunctionProps
@@ -24,6 +28,4 @@ export interface ContactDetailsViewFunctionProps
     clickToSMS,
     sourceNodeRenderer {
   onBackClick?: () => any;
-  onVisitPage?: () => any;
-  onLeavingPage?: () => any;
 }

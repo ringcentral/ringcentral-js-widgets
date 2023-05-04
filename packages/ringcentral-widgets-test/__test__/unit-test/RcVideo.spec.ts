@@ -1,5 +1,7 @@
-import { RcVideo } from '@ringcentral-integration/commons/modules/RcVideo/RcVideo';
-import { RCV_E2EE_DEFAULT_SECURITY_OPTIONS } from '@ringcentral-integration/commons/modules/RcVideo/videoHelper';
+import {
+  RCV_E2EE_DEFAULT_SECURITY_OPTIONS,
+  RcVideo,
+} from '@ringcentral-integration/commons/modules/RcVideo';
 
 const mockSaveSinglePreference = jest.fn();
 const mockUpdatePreference = jest.fn();
@@ -88,9 +90,8 @@ describe.each`
         _saveSinglePreference: mockSaveSinglePreference,
         updatePreference: mockUpdatePreference,
       };
-      const savePreferencesChanges = RcVideo.prototype.savePreferencesChanges.bind(
-        context,
-      );
+      const savePreferencesChanges =
+        RcVideo.prototype.savePreferencesChanges.bind(context);
       await savePreferencesChanges({
         isMeetingSecret,
         allowJoinBeforeHost,

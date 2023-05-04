@@ -25,6 +25,7 @@
   line-height: 29px;
   font-weight: 200;
   min-width: 46px;
+  @include text-ellipsis;
 }
 
 .rightPanel {

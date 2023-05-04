@@ -23,12 +23,14 @@ $minHeight: 500px;
     font-size: $maxFontSize;
   }
   // fix some view size incoming pad text will overlaps
-  @media screen and (max-width: $maxWidth) and (min-width: $minWidth) and (min-height: $minHeight){
-   text {
-     font-size: calc(#{$minFontSize} + (90 - 76) * ((100vw - #{$maxWidth}) / (385 - 200)));
-   }
+  @media screen and (max-width: $maxWidth) and (min-width: $minWidth) and (min-height: $minHeight) {
+    text {
+      font-size: calc(
+        #{$minFontSize} + (90 - 76) * ((100vw - #{$maxWidth}) / (385 - 200))
+      );
+    }
   }
-  @media screen and (max-width: $minWidth){
+  @media screen and (max-width: $minWidth) {
     text {
       font-size: $minFontSize;
     }
@@ -44,7 +46,8 @@ $minHeight: 500px;
   circle {
     fill: #ff4646;
   }
-  g, path {
+  g,
+  path {
     fill: #ffffff;
   }
 }
@@ -52,7 +55,6 @@ $minHeight: 500px;
 .voiceMailButton {
   composes: button;
 }
-
 
 .answerButton {
   composes: button;
@@ -75,7 +77,7 @@ $minHeight: 500px;
   height: 25%;
 }
 
-.forwardContainner{
+.forwardContainner {
   display: block;
   width: 60%;
   height: 1px;

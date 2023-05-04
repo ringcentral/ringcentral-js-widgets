@@ -1,11 +1,13 @@
 import * as mock from '@ringcentral-integration/commons/integration-test/mock';
 import messageSyncBody from '@ringcentral-integration/commons/integration-test/mock/data/messageSync.json';
-import ConversationsPanel from '@ringcentral-integration/widgets/components/ConversationsPanel';
+import { sleep } from '@ringcentral-integration/commons/utils';
+import { ConversationsPanel } from '@ringcentral-integration/widgets/components/ConversationsPanel';
 import MessageItem from '@ringcentral-integration/widgets/components/MessageItem';
 import NavigationBar from '@ringcentral-integration/widgets/components/NavigationBar';
 import { SearchInput } from '@ringcentral-integration/widgets/components/SearchInput';
-import { getWrapper, tearDownWrapper, timeout } from '../shared';
-import { mockPubnub } from './helper.js';
+
+import { getWrapper, tearDownWrapper } from '../shared';
+import { mockPubnub } from './helper';
 
 let wrapper = null;
 let panel = null;
@@ -101,7 +103,7 @@ describe('messages', () => {
     panel = wrapper.find(ConversationsPanel).first();
     searchInput = panel.find(SearchInput).first();
     expect(searchInput.props().value).toEqual('olia');
-    await timeout(200);
+    await sleep(200);
     wrapper.update();
     panel = wrapper.find(ConversationsPanel).first();
     expect(panel.find('.noMessages').text().trim()).toEqual(

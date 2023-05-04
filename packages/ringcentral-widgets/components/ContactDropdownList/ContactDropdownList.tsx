@@ -31,8 +31,10 @@ export class ContactDropdownList extends Component<
   ContactDropdownListProps,
   {}
 > {
+  node: any;
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   // eslint-disable-next-line react/no-deprecated
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps: any) {
     if (!nextProps.visibility || nextProps.items.length === 0) {
       return;
     }
@@ -53,6 +55,7 @@ export class ContactDropdownList extends Component<
       }
     }
   }
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     const {
       currentLocale,
@@ -101,6 +104,7 @@ export class ContactDropdownList extends Component<
             titleEnabled={titleEnabled}
             contactInfoRenderer={contactInfoRenderer}
             contactPhoneRenderer={contactPhoneRenderer}
+            // @ts-expect-error TS(2339): Property 'doNotCall' does not exist on type '{ nam... Remove this comment to see the full error message
             doNotCall={item.doNotCall}
           />
         ))}

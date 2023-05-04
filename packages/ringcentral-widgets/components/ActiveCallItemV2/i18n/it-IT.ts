@@ -15,7 +15,7 @@ export default {
   // text: 'Text',
   // call: 'Call',
   // addContact: 'Add Contact',
-  missedCall: "Perse",
+  missedCall: "Persa",
   inboundCall: "In entrata",
   outboundCall: "In uscita" // from: 'From',
   // to: 'To',

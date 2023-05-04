@@ -1,6 +1,6 @@
 export default {
   schedule: "Programma riunione",
-  prompt: "Autorizza RingCentral ad accedere alle informazioni del tuo account.",
+  prompt: "Autorizza RingCentral ad accedere alle informazioni sul tuo account.",
   saveAsDefault: "Salva come predefinito"
 };
 

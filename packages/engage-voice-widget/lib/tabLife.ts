@@ -1,12 +1,12 @@
 import { EventEmitter } from 'events';
 
-import { raceTimeout } from '@ringcentral-integration/commons/lib/raceTimeout';
-import { sleep } from '@ringcentral-integration/commons/lib/sleep';
+import { sleep, waitUntilTo } from '@ringcentral-integration/commons/utils';
 
 const TAB_CHANNEL_KEY = 'channel$$';
 
 const ALIVE_EVENT = 'TabLife_alive';
 
+// TODO: that tabLife need cleanup
 export class TabLife {
   private _eventEmitter = new EventEmitter();
   private readonly reqKey = `${this.prefix}_req_${TAB_CHANNEL_KEY}`;
@@ -28,7 +28,11 @@ export class TabLife {
   ) {}
 
   async isAlive(timeout?: number) {
-    return this._isAlive || this._checkHasAlive(timeout);
+    if (this._isAlive) {
+      return true;
+    }
+
+    return this._checkHasAlive(timeout);
   }
 
   async isLeave(timeout = 3000) {
@@ -109,6 +113,7 @@ export class TabLife {
 
   private async _checkHasAlive(timeout = this.option.checkTime) {
     let _resolve: (value?: any) => void;
+    const resolveTrue = () => _resolve(true);
 
     const listener = ({ data }: MessageEvent) => {
       const { key } = data;
@@ -121,40 +126,43 @@ export class TabLife {
       }
     };
 
-    const result = await raceTimeout<boolean>(
-      new Promise((resolve) => {
-        _resolve = resolve;
-        this._eventEmitter.once(ALIVE_EVENT, _resolve);
+    try {
+      const result = await waitUntilTo(
+        () =>
+          new Promise<boolean>((resolve) => {
+            _resolve = resolve;
+            this._eventEmitter.once(ALIVE_EVENT, resolveTrue);
 
-        if (this._isInit) {
-          try {
-            this._res.addEventListener('message', listener);
+            if (this._isInit) {
+              try {
+                this._res.addEventListener('message', listener);
 
-            this._req.postMessage({ key: this.prefix });
-          } catch (error) {
-            // console.trace(error);
-            resolve(false);
-          }
-        }
-      }),
-      {
-        timeout,
-        onTimeout: (resolve) => resolve(false),
-        finalize: () => {
-          this._eventEmitter.off(ALIVE_EVENT, _resolve);
-
-          if (this._isInit) {
-            try {
-              this._res.removeEventListener('message', listener);
-            } catch (error) {
-              // console.trace(error);
+                this._req.postMessage({ key: this.prefix });
+              } catch (error) {
+                _resolve(false);
+              }
             }
-          }
-          _resolve();
+          }),
+        {
+          timeout,
         },
-      },
-    );
+      );
 
-    return result;
+      return result;
+    } catch (error) {
+      // timeout
+      return false;
+    } finally {
+      this._eventEmitter.off(ALIVE_EVENT, resolveTrue);
+
+      if (this._isInit) {
+        try {
+          this._res.removeEventListener('message', listener);
+        } catch (error) {
+          // console.trace(error);
+        }
+      }
+      _resolve();
+    }
   }
 }

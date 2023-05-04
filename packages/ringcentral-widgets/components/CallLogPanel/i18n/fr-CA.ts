@@ -1,5 +1,5 @@
 export default {
-  createCallLog: "Créer liste d’app.",
+  createCallLog: "Créer journal",
   viewInSalesforce: "Afficher dans Salesforce",
   createLog: "Créer un journal"
 };

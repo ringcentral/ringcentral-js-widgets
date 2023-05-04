@@ -16,7 +16,7 @@ export default {
   // call: 'Call',
   // addContact: 'Add Contact',
   missedCall: "Vastaamaton",
-  inboundCall: "Tuleva",
+  inboundCall: "Saapuva",
   outboundCall: "Lähtevä" // from: 'From',
   // to: 'To',
   // hangup: 'Hangup',

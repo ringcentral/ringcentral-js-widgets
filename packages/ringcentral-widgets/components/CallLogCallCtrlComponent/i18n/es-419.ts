@@ -1,9 +1,9 @@
 export default {
   mute: "Silenciar",
-  unmute: "Act. sonido",
+  unmute: "Activar sonido",
   hangup: "Colgar",
   reject: "Rechazar",
-  hold: "En espera",
+  hold: "Retener",
   onHold: "En espera",
   transfer: "Transferir",
   more: "Más",
@@ -12,13 +12,15 @@ export default {
   showKeypad: "Teclado",
   hideKeypad: "Ocultar teclado",
   unHold: "Salir de espera",
-  forward: "Reenviar",
+  forward: "Transferir",
   ignore: "Ignorar",
   voicemail: "Enviar al buzón de voz",
   custom: "Personalizar",
-  answerAndEnd: "Responder y finalizar",
+  answerAndEnd: "Resp. y finalizar",
   answerAndHold: "Resp. y poner en espera",
-  answer: "Responder"
+  answer: "Responder",
+  completeTransfer: "Completar transferencia",
+  reply: "Responder"
 };
 
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
@@ -41,3 +43,5 @@ export default {
 // @key: @#@"answerAndEnd"@#@ @source: @#@"Answer & End"@#@
 // @key: @#@"answerAndHold"@#@ @source: @#@"Answer & Hold"@#@
 // @key: @#@"answer"@#@ @source: @#@"Answer"@#@
+// @key: @#@"completeTransfer"@#@ @source: @#@"Complete transfer"@#@
+// @key: @#@"reply"@#@ @source: @#@"Reply"@#@

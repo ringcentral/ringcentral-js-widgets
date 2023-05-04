@@ -1,4 +1,4 @@
-import { ASSISTED_USERS_MYSELF } from '@ringcentral-integration/commons/modules/RcVideo/constants';
+import { ASSISTED_USERS_MYSELF } from '@ringcentral-integration/commons/modules/RcVideo';
 export default {
   topic: "Tapaamisen otsikko",
   date: "Päivämäärä",
@@ -10,8 +10,8 @@ export default {
   joinBeforeHost: "Salli osallistujien liittyä ennen ylläpitäjää",
   enableWaitingRoom: "Ota odotushuone käyttöön",
   waitingRoom: "Ota odotushuone käyttöön seuraaville:",
-  waitingRoomNotCoworker: "Kuka vain yritykseni ulkopuolinen",
-  waitingRoomGuest: "Kuka vain, joka ei ole kirjautunut",
+  waitingRoomNotCoworker: "Kuka tahansa yritykseni ulkopuolinen",
+  waitingRoomGuest: "Kuka tahansa, joka ei ole kirjautunut",
   waitingRoomAll: "Kaikki",
   enterPassword: "Anna salasanasi",
   onlyJoinAfterMe: "Osallistujat voivat liittyä vasta minun jälkeeni",
@@ -25,7 +25,7 @@ export default {
   setPasswordNotSymbol: "Määritä salasana",
   passwordEmptyError: "Tapaamisen salasana vaaditaan",
   passwordInvalidError: "Salasanasi on oltava 1–10 kirjainta ja numeroa pitkä, eikä se saa sisältää symboleita",
-  passwordHintText: "Salasanasi tulee olla 1–10 kirjainta ja numeroa pitkä, eikä se saa sisältää symboleita",
+  passwordHintText: "Salasanasi on oltava 1–10 kirjainta ja numeroa pitkä, eikä se saa sisältää symboleita",
   usePersonalMeetingId: "Käytä henkilökohtaista tapaamistunnusta",
   meetingSettingsSecurity: "Turvallisuus",
   onlyAuthUserJoin: "Vain valtuutetut käyttäjät voivat liittyä",
@@ -78,5 +78,5 @@ export default {
 // @key: @#@"today"@#@ @source: @#@"Today"@#@
 // @key: @#@"scheduleForGuidance"@#@ @source: @#@"Scheduling for someone else?\n1. Make sure you're on their Outlook calendar.\n2. From the dropdown, select the person you're scheduling for.\n"@#@
 // @key: @#@"scheduleForGuidanceMore"@#@ @source: @#@"Learn details"@#@
-// @key: @#@"changePmiSettings"@#@ @source: @#@"Change Personal meeting settings"@#@
+// @key: @#@"changePmiSettings"@#@ @source: @#@"Change Personal Meeting settings"@#@
 // @key: @#@"ieSupportAlert"@#@ @source: @#@"Please note that {appName} won't work with Internet Explorer 11 after Feb 16, 2022. We recommend switching to Microsoft Edge or updating to Outlook 2016 or above."@#@

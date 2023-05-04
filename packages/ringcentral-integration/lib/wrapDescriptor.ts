@@ -1,3 +1,4 @@
+// @ts-nocheck
 interface Descriptor<T> extends TypedPropertyDescriptor<T> {
   initializer?(): T;
 }

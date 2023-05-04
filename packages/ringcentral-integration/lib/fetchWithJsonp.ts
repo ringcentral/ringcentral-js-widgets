@@ -1,7 +1,7 @@
-const callback = '__rc_config_data_callback__';
+const CALLBACK_KEY = '__rc_config_data_callback__';
 
 const RUNTIME: {
-  lastPromise: Promise<any>;
+  lastPromise: Promise<any> | null;
 } = {
   lastPromise: null,
 };
@@ -13,7 +13,7 @@ export const fetchWithJsonp = <T>(url: string) => {
       // if there is already ongoing request, wait for it to be done
       // before replacing the window.__rc_config_data_callback__ function
       await lastPromise;
-    } catch (error) {
+    } catch (error: any /** TODO: confirm with instanceof */) {
       // ignore last error
     }
     return new Promise<T>((resolve, reject) => {
@@ -21,16 +21,15 @@ export const fetchWithJsonp = <T>(url: string) => {
       script.src = url;
       script.onerror = () => {
         document.body.removeChild(script);
-        (window as any)[callback] = null;
+        (window as any)[CALLBACK_KEY] = null;
         if (RUNTIME.lastPromise === promise) {
           RUNTIME.lastPromise = null;
         }
         reject(new Error(`'${url}' jsonp fetch failed`));
       };
-      // TODO: add type
-      (window as any)[callback] = (data: T) => {
+      (window as any)[CALLBACK_KEY] = (data: T) => {
         document.body.removeChild(script);
-        (window as any)[callback] = null;
+        (window as any)[CALLBACK_KEY] = null;
         if (RUNTIME.lastPromise === promise) {
           RUNTIME.lastPromise = null;
         }

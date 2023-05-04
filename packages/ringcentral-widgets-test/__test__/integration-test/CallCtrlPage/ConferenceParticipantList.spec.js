@@ -1,10 +1,13 @@
-import { contains } from 'ramda';
-import ConferenceInfo from '@ringcentral-integration/widgets/components/ActiveCallPanel/ConferenceInfo';
-import ParticipantItem from '@ringcentral-integration/widgets/components/ConferenceParticipantPanel/ParticipantItem';
-import ConfirmRemoveModal from '@ringcentral-integration/widgets/components/ConferenceParticipantPanel/ConfirmRemoveModal';
+import { includes } from 'ramda';
+
 import * as mock from '@ringcentral-integration/commons/integration-test/mock';
+import { sleep } from '@ringcentral-integration/commons/utils';
+import ConferenceInfo from '@ringcentral-integration/widgets/components/ActiveCallPanel/ConferenceInfo';
+import ConfirmRemoveModal from '@ringcentral-integration/widgets/components/ConferenceParticipantPanel/ConfirmRemoveModal';
+import ParticipantItem from '@ringcentral-integration/widgets/components/ConferenceParticipantPanel/ParticipantItem';
+
+import { initPhoneWrapper } from '../shared';
 import { mockConferenceCallEnv, removeParticipant } from './helper';
-import { initPhoneWrapper, timeout } from '../shared';
 
 describe('Conference Participant List Page', () => {
   test('participant list page(2 participants) hang up all participants', async () => {
@@ -16,7 +19,7 @@ describe('Conference Participant List Page', () => {
     expect(wrapper.find(ConferenceInfo)).toBeDefined();
     const avatarArea = wrapper.find(ConferenceInfo).find('.avatarContainer');
     avatarArea.simulate('click');
-    await timeout(100);
+    await sleep(100);
     expect(phone.routerInteraction.currentPath).toEqual(
       '/conferenceCall/participants',
     );
@@ -31,14 +34,11 @@ describe('Conference Participant List Page', () => {
       .at(0)
       .find('g')
       .simulate('click');
-    await timeout(100);
+    await sleep(100);
     let confirmModal = wrapper.find(ConfirmRemoveModal);
     expect(confirmModal.props().show).toBeTruthy();
-    confirmModal
-      .find('.cancelBtn')
-      .at(0)
-      .simulate('click');
-    await timeout(100);
+    confirmModal.find('.cancelBtn').at(0).simulate('click');
+    await sleep(100);
     confirmModal = wrapper.find(ConfirmRemoveModal);
     expect(confirmModal.props().show).toBeFalsy();
     participantLists
@@ -47,19 +47,16 @@ describe('Conference Participant List Page', () => {
       .at(0)
       .find('g')
       .simulate('click');
-    await timeout(100);
+    await sleep(100);
     confirmModal = wrapper.find(ConfirmRemoveModal);
     const partyProfiles = phone.conferenceCall.partyProfiles;
     const conferenceId = phone.conferenceCall.currentConferenceId;
     mock.removeFromConference(conferenceId, partyProfiles[0].id);
     let conferenceBody = removeParticipant(phone, partyProfiles[0].id);
     mock.updateConferenceCall(conferenceId, conferenceBody, true);
-    confirmModal
-      .find('.confirmBtn')
-      .at(0)
-      .simulate('click');
+    confirmModal.find('.confirmBtn').at(0).simulate('click');
     // need to add a timeout
-    await timeout(100);
+    await sleep(100);
     wrapper.update();
     confirmModal = wrapper.find(ConfirmRemoveModal);
     expect(confirmModal.props().show).toBeFalsy();
@@ -73,26 +70,23 @@ describe('Conference Participant List Page', () => {
       .at(0)
       .find('g')
       .simulate('click');
-    await timeout(100);
+    await sleep(100);
     confirmModal = wrapper.find(ConfirmRemoveModal);
     expect(confirmModal.props().show).toBeTruthy();
     mock.removeFromConference(conferenceId, partyProfiles[1].id);
     conferenceBody = removeParticipant(phone, partyProfiles[1].id);
     mock.updateConferenceCall(conferenceId, conferenceBody, true);
-    confirmModal
-      .find('.confirmBtn')
-      .at(0)
-      .simulate('click');
-    await timeout(100);
+    confirmModal.find('.confirmBtn').at(0).simulate('click');
+    await sleep(100);
     wrapper.update();
     confirmModal = wrapper.find(ConfirmRemoveModal);
     expect(confirmModal.props().show).toBeFalsy();
     participantLists = wrapper.find(ParticipantItem);
     expect(participantLists).toHaveLength(0);
     expect(wrapper.find('.participantsCount').text()).toEqual('0 Participants');
-    await timeout(750);
+    await sleep(750);
     expect(
-      contains('/calls/active', phone.routerInteraction.currentPath),
+      includes('/calls/active', phone.routerInteraction.currentPath),
     ).toBeTruthy();
   });
   test('participant list page click back button', async () => {
@@ -102,7 +96,7 @@ describe('Conference Participant List Page', () => {
     expect(wrapper.find(ConferenceInfo)).toBeDefined();
     const avatarArea = wrapper.find(ConferenceInfo).find('.avatarContainer');
     avatarArea.simulate('click');
-    await timeout(100);
+    await sleep(100);
     expect(phone.routerInteraction.currentPath).toEqual(
       '/conferenceCall/participants',
     );
@@ -110,9 +104,9 @@ describe('Conference Participant List Page', () => {
     const backLabel = wrapper.find('.backLabel');
     expect(backLabel.text()).toEqual('Conference Call');
     backLabel.simulate('click');
-    await timeout(100);
+    await sleep(100);
     expect(
-      contains('/calls/active', phone.routerInteraction.currentPath),
+      includes('/calls/active', phone.routerInteraction.currentPath),
     ).toBeTruthy();
   });
 });

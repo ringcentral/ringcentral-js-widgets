@@ -1,5 +1,5 @@
 export default {
-  onSearching: "正在載入...",
+  onSearching: "載入中...",
   noContacts: "找不到記錄。"
 };
 

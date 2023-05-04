@@ -4,5 +4,3 @@ export const errorMessages = ObjectMap.prefixKeys(
   ['rateLimitReached'],
   'rateLimiterErrorMessages',
 );
-
-export default errorMessages;

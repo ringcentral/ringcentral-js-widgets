@@ -1,10 +1,17 @@
-import { PhoneNumberInfoNumberParser } from '@rc-ex/core/definitions';
+import type PhoneNumberInfoNumberParser from '@rc-ex/core/lib/definitions/PhoneNumberInfoNumberParser';
 
-import { AccountInfo } from '../AccountInfoV2';
+import {
+  ConflictHandling,
+  Country,
+  ResultFormattedItem,
+} from '../../interfaces/NumberParserResponse.interface';
+import { AccountInfo } from '../AccountInfo';
+import { AppFeatures } from '../AppFeatures';
 import { Brand } from '../Brand';
-import { CompanyContacts } from '../CompanyContactsV2';
-import { ExtensionInfo } from '../ExtensionInfoV2';
+import { CompanyContacts } from '../CompanyContacts';
+import { ExtensionInfo } from '../ExtensionInfo';
 import { RegionSettings } from '../RegionSettings';
+import { Alert } from '../Alert';
 
 export interface NumberValidateOptions {
   //
@@ -18,6 +25,8 @@ export interface Deps {
   companyContacts: CompanyContacts;
   extensionInfo?: ExtensionInfo;
   numberValidateOptions?: NumberValidateOptions;
+  appFeatures: AppFeatures;
+  alert: Alert;
 }
 
 export type ValidateFormattedError = {
@@ -46,3 +55,44 @@ export type ValidateParsingResult = {
 };
 
 export type ValidateResult = ValidateFormattingResult | ValidateParsingResult;
+
+// introduce number parser v2
+
+export const contextSourceOption = {
+  default: 'Default',
+  account: 'Account',
+};
+
+export interface ParsePhoneNumberAPIParam {
+  originalStrings: Array<string>;
+  contextSource?: typeof contextSourceOption[keyof typeof contextSourceOption];
+  context?: {
+    brandId?: string;
+    country?: Pick<Country, 'isoCode'>;
+    defaultAreaCode?: string | null;
+    vanityPhoneNumbersAllowed?: boolean;
+    maxExtensionNumberLength?: number;
+    shortCodesAllowed?: boolean;
+    siteCode?: string;
+    shortExtensionNumberLength?: number;
+    outboundCallPrefix?: string | null;
+    maskedPhoneNumbersAllowed?: boolean;
+    conflictHandling?: ConflictHandling;
+  };
+  resultContent?: {
+    includeNumberDetails?: boolean;
+    includeDialingDetails?: boolean;
+    includeFormatting?: boolean;
+  };
+}
+
+export interface ParseResultItem extends ResultFormattedItem {
+  originalString?: string;
+  isAnExtension?: boolean;
+  isInternational?: boolean;
+  specialService?: boolean;
+  parsedNumber?: string;
+  availableExtension?: string | null;
+}
+
+export type ParseResult = Array<ParseResultItem>;

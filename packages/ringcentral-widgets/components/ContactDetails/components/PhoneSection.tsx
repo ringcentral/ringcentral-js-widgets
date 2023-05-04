@@ -71,12 +71,19 @@ const PhoneListItem: FunctionComponent<PhoneListItemProps> = ({
   const displayedPhoneNumber = rawPhoneNumber || formattedNumber;
   // User will use, for example: +16501234567
   // In multi-site feature, "user will see" and "user will use" are the same
-  const usedPhoneNumber = isMultipleSiteEnabled ? formattedNumber : phoneNumber;
+  const usedPhoneNumber =
+    isMultipleSiteEnabled && phoneType === 'extension'
+      ? formattedNumber
+      : phoneNumber;
 
   return (
-    <li>
+    <li className={styles.clearBoth}>
       <div className={classnames(styles.text, styles.number)}>
-        <span data-sign="contactNumber" title={usedPhoneNumber}>
+        <span
+          data-sign="contactNumber"
+          aria-label={phoneType}
+          title={usedPhoneNumber}
+        >
           {displayedPhoneNumber}
         </span>
       </div>
@@ -146,9 +153,12 @@ export const PhoneSection: FunctionComponent<PhoneSectionProps> = ({
     const phoneMap = reduce(
       (acc, item) => {
         if (item.phoneType !== acc.lastType) {
+          // @ts-expect-error TS(2322): Type '"business" | "extension" | "home" | "mobile"... Remove this comment to see the full error message
           acc.lastType = item.phoneType;
+          // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
           acc.map[item.phoneType] = [];
         }
+        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         acc.map[item.phoneType].push(item);
         return acc;
       },

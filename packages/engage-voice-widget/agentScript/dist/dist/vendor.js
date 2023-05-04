@@ -4398,13 +4398,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	      options: '=',
 	      model: '=',
 	      originalModel: '=?',
-	      formId: '@', // TODO remove formId in a breaking release
+	      formId: '@', // TODO: remove formId in a breaking release
 	      index: '=?',
 	      fields: '=?',
 	      formState: '=?',
 	      formOptions: '=?',
 	      form: '=?' },
-	    // TODO require form in a breaking release
+	    // TODO: require form in a breaking release
 	    controller: FormlyFieldController,
 	    link: fieldLink
 	  };

@@ -14,7 +14,7 @@ export default {
   addLog: "Log",
   text: "Texto",
   call: "Chamada",
-  missedCall: "Perdidas",
+  missedCall: "Perdida",
   inboundCall: "Entrada",
   outboundCall: "Saída"
 };

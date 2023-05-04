@@ -1,8 +1,11 @@
 import { Alert } from '../Alert';
+import { AppFeatures } from '../AppFeatures';
 import { Brand } from '../Brand';
-import { DialingPlan } from '../DialingPlanV2';
-import { ExtensionInfo } from '../ExtensionInfoV2';
-import { Storage } from '../StorageV2';
+import { DialingPlan } from '../DialingPlan';
+import { ExtensionInfo } from '../ExtensionInfo';
+import { ExtensionNumberAreaCode } from '../ExtensionNumberAreaCode';
+import { ExtensionPhoneNumber } from '../ExtensionPhoneNumber';
+import { Storage } from '../Storage';
 import { TabManager } from '../TabManager';
 
 export interface RegionSettingsData {
@@ -22,4 +25,7 @@ export interface Deps {
   storage: Storage;
   tabManager?: TabManager;
   regionSettingsOptions?: RegionSettingsOptions;
+  extensionNumberAreaCode?: ExtensionNumberAreaCode;
+  extensionPhoneNumber: ExtensionPhoneNumber;
+  appFeatures: AppFeatures;
 }

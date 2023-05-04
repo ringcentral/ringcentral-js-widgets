@@ -25,7 +25,7 @@ export default {
   toVoicemail: "Naar voicemail",
   anonymous: "Anoniem",
   mergeToConference: "Samenvoegen",
-  hold: "In de wacht",
+  hold: "Wacht",
   unhold: "Uit de wacht",
   transfer: "Doorschakelen",
   reject: "Weigeren",
@@ -33,7 +33,7 @@ export default {
   callSwitch: "Oproep schakelen",
   comfirmContext: "U bent momenteel in een actieve oproep met {displayName}. Wilt u de oproep voortzetten op dit apparaat?",
   comfirmCancelButton: "Annuleren",
-  comfirmOKButton: "Wisselen",
+  comfirmOKButton: "Schakelen",
   ignore: "Negeren",
   holdAndAnswer: "In wacht en beantwoorden"
 };

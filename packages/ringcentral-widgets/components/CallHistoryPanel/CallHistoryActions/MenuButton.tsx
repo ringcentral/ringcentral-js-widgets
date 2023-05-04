@@ -78,6 +78,7 @@ export const MenuButton: FunctionComponent<CallLogMenuItem> = memo(
           open={Boolean(anchorEl)}
           onClose={handleClose}
         >
+          {/* @ts-expect-error TS(2532): Object is possibly 'undefined'. */}
           {subMenu.map(renderMenuItem)}
         </RcMenu>
       </>

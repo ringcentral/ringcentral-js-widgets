@@ -1,4 +1,4 @@
-import { formatNumber } from 'libphonenumber-js';
+import { formatNumber, getCountryCallingCode } from 'libphonenumber-js';
 import parse from '../parse';
 
 const formatTypes = {
@@ -43,6 +43,7 @@ export default function format({
   removeExtension = false,
   isMultipleSiteEnabled = false,
   extensionDelimeter = ' * ',
+  maxExtensionLength = 6,
 }) {
   const {
     phoneNumber: number,
@@ -53,7 +54,8 @@ export default function format({
     isServiceNumber,
     isValid,
     hasPlus,
-  } = parse({ input: phoneNumber, countryCode });
+    countryCallingCode,
+  } = parse({ input: phoneNumber, countryCode, maxExtensionLength });
 
   if (!isValid) {
     return '';
@@ -78,11 +80,10 @@ export default function format({
     finalType = 'International';
   } else {
     finalType =
-      // assume local
-      !parsedCountry ||
       // ignore US/CA difference
       (isUSCA && (parsedCountry === 'US' || parsedCountry === 'CA')) ||
-      parsedCountry === countryCode
+      parsedCountry === countryCode ||
+      countryCallingCode === getCountryCallingCode(countryCode)
         ? 'National'
         : 'International';
   }

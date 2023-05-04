@@ -1,6 +1,6 @@
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-export default ObjectMap.prefixKeys(
+export const callErrors = ObjectMap.prefixKeys(
   [
     'noToNumber',
     'noAreaCode',
@@ -11,6 +11,7 @@ export default ObjectMap.prefixKeys(
     'noRingoutEnable',
     'noInternational',
     'emergencyNumber',
+    'numberParseError',
   ],
   'callErrors',
 );

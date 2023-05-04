@@ -1,6 +1,6 @@
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-export default ObjectMap.prefixKeys(
+export const loginStatus = ObjectMap.prefixKeys(
   ['loggingIn', 'loggedIn', 'beforeLogout', 'loggingOut', 'notLoggedIn'],
   'loginStatus',
 );

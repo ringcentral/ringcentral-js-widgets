@@ -1,5 +1,5 @@
 export default {
-  to: "Para:",
+  to: "A:",
   transferTo: "Transferir a",
   blindTransfer: "Transferir",
   warmTransfer: "Preguntar primero",

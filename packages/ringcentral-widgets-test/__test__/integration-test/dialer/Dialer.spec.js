@@ -1,11 +1,12 @@
-import NavigationBar from '@ringcentral-integration/widgets/components/NavigationBar';
-import DialerPanel from '@ringcentral-integration/widgets/components/DialerPanel';
-import { RemoveButton } from '@ringcentral-integration/widgets/components/RemoveButton';
+import { sleep } from '@ringcentral-integration/commons/utils';
 import DialButton from '@ringcentral-integration/widgets/components/DialButton';
+import DialerPanel from '@ringcentral-integration/widgets/components/DialerPanel';
 import DialPad from '@ringcentral-integration/widgets/components/DialPad';
 import DropdownSelect from '@ringcentral-integration/widgets/components/DropdownSelect';
+import NavigationBar from '@ringcentral-integration/widgets/components/NavigationBar';
+import { RemoveButton } from '@ringcentral-integration/widgets/components/RemoveButton';
 
-import { getWrapper, timeout } from '../shared';
+import { getWrapper } from '../shared';
 
 let wrapper = null;
 let panel = null;
@@ -100,7 +101,7 @@ describe('dialer panel', () => {
       .find('.callBtn')
       .find('.btnSvgGroup');
     await callButton.simulate('click');
-    await timeout(200);
+    await sleep(200);
     const messages = store.getState(wrapper).alert.messages;
     expect(messages).toEqual(
       expect.arrayContaining([
@@ -136,15 +137,15 @@ describe('dialer panel', () => {
       .find('.callBtn')
       .find('.btnSvgGroup');
     await callButton.simulate('click');
-    await timeout(200);
+    await sleep(200);
     panel = wrapper.find(DialerPanel).first();
     const deleteButton = panel.find(RemoveButton);
     await deleteButton.simulate('click');
-    await timeout(200);
+    await sleep(200);
     expect(store.getState(wrapper).dialerUI.toNumberField).toEqual('');
 
     await callButton.simulate('click');
-    await timeout(200);
+    await sleep(200);
     expect(store.getState(wrapper).dialerUI.toNumberField).toEqual(
       'Hello world',
     );
@@ -155,6 +156,9 @@ describe('dialer panel', () => {
 
   test('from dropdown', async () => {
     let dropdownSelect = panel.find(DropdownSelect).first();
+    dropdownSelect.find('[data-sign="selectRoot"]').first().simulate('click');
+    panel = wrapper.find(DialerPanel).first();
+    dropdownSelect = panel.find(DropdownSelect).first();
     const dropdown = dropdownSelect.find('.dropdown').first();
     const dropdownItems = dropdown.find('li[data-sign="selectMenuItem"]');
     expect(dropdownItems.length > 1).toEqual(true);

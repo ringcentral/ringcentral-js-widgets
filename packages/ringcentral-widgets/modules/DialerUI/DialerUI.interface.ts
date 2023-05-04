@@ -1,17 +1,15 @@
-import type { UserPhoneNumberInfo } from '@rc-ex/core/definitions';
+import type UserPhoneNumberInfo from '@rc-ex/core/lib/definitions/UserPhoneNumberInfo';
 import { Alert } from '@ringcentral-integration/commons/modules/Alert';
-import { AudioSettings } from '@ringcentral-integration/commons/modules/AudioSettingsV2';
-import { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettingsV2';
-import {
-  Call,
-  Recipient,
-} from '@ringcentral-integration/commons/modules/CallV2';
-import { ConferenceCall } from '@ringcentral-integration/commons/modules/ConferenceCallV2';
-import { ContactSearch } from '@ringcentral-integration/commons/modules/ContactSearchV2';
+import { AudioSettings } from '@ringcentral-integration/commons/modules/AudioSettings';
+import { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettings';
+import { Call, Recipient } from '@ringcentral-integration/commons/modules/Call';
+import { ConferenceCall } from '@ringcentral-integration/commons/modules/ConferenceCall';
+import { ContactSearch } from '@ringcentral-integration/commons/modules/ContactSearch';
 import { ExtensionFeatures } from '@ringcentral-integration/commons/modules/ExtensionFeatures';
 import { Locale } from '@ringcentral-integration/commons/modules/Locale';
-import { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiterV2';
+import { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiter';
 import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
+import { AccountInfo } from '@ringcentral-integration/commons/modules/AccountInfo';
 
 import { ConnectivityManager } from '../ConnectivityManager';
 
@@ -32,6 +30,7 @@ export interface Deps {
   contactSearch?: ContactSearch;
   conferenceCall?: ConferenceCall;
   dialerUIOptions?: DialerUIOptions;
+  accountInfo: AccountInfo;
 }
 
 export interface DialerUIPanelProps {
@@ -61,10 +60,17 @@ export interface DialerUIPanelProps {
     fromDialPad?: boolean,
   ) => Promise<void>;
   clearToNumber: () => Promise<void>;
-  onCallButtonClick: () => Promise<void>;
+  onCallButtonClick: (options: OnCallButtonClickOptions) => Promise<void>;
   changeFromNumber: (number: { phoneNumber?: string }) => Promise<void>;
   formatPhone: (phoneNumber: string) => string;
   setRecipient: (recipient: Recipient) => Promise<void>;
   clearRecipient: () => Promise<void>;
   searchContact: (searchString: string) => Promise<void>;
+}
+
+export interface OnCallButtonClickOptions {
+  fromNumber?: string;
+  fromSessionId?: string;
+  clickDialerToCall?: boolean;
+  isStandAlone?: boolean;
 }

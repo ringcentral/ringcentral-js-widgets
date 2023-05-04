@@ -1,5 +1,3 @@
-import formatMessage from 'format-message';
-
 import {
   action,
   computed,
@@ -65,18 +63,18 @@ export class Locale extends RcModuleV2<Deps> {
   }
 
   @state
-  locale: string = null;
+  locale: string | null = null;
 
   @state
-  proxyLocale: string = null;
+  proxyLocale: string | null = null;
 
   @action
-  _setProxyLocaleSuccess(locale: string) {
+  _setProxyLocaleSuccess(locale: string | null) {
     this.proxyLocale = locale;
   }
 
   @proxify
-  async setProxyLocaleSuccess(locale: string) {
+  async setProxyLocaleSuccess(locale: string | null) {
     this._setProxyLocaleSuccess(locale);
   }
 
@@ -97,14 +95,14 @@ export class Locale extends RcModuleV2<Deps> {
     this.locale = locale;
   }
 
-  onInitOnce() {
+  override onInitOnce() {
     if (this._polling) {
       this._syncBrowserLocale();
     }
   }
 
-  async initializeProxy() {
-    let setLocalePromise: Promise<void>;
+  override async initializeProxy() {
+    let setLocalePromise: Promise<void> | null;
     await this._setLocale(this.currentLocale);
     this.setProxyLocaleSuccess(this.currentLocale);
     this.store.subscribe(async () => {
@@ -117,7 +115,7 @@ export class Locale extends RcModuleV2<Deps> {
     });
   }
 
-  async onInit() {
+  override async onInit() {
     await this.setLocale(
       this._detectBrowser ? this.browserLocale : this.defaultLocale,
     );
@@ -130,14 +128,8 @@ export class Locale extends RcModuleV2<Deps> {
     setTimeout(() => this._syncBrowserLocale(), this._pollingInterval);
   }
 
-  protected async _setLocale(locale: string) {
+  protected async _setLocale(locale: string | null) {
     await I18n.setLocale(locale);
-    formatMessage.setup({
-      locale:
-        this.currentLocale === PSEUDO_LOCALE
-          ? DEFAULT_LOCALE
-          : this.currentLocale,
-    });
   }
 
   normalizeLocale(inputLocale: string) {
@@ -156,7 +148,8 @@ export class Locale extends RcModuleV2<Deps> {
   }
 
   get browserLocale() {
-    return detectBrowserLocale(this.defaultLocale);
+    const locale = detectBrowserLocale(this.defaultLocale);
+    return this.normalizeLocale(locale);
   }
 
   @proxify
@@ -165,16 +158,14 @@ export class Locale extends RcModuleV2<Deps> {
   }
 
   /**
-   *  Sets the desired locale as the current locale. This will also
-   *  set all I18n instances to the same locale, as well as set formatMessage to use
-   *  the same locale.
+   * Sets the desired locale as the current locale.
    */
   @proxify
   async setLocale(locale: string) {
     try {
       await this._setLocale(locale);
       this._setLocaleSuccess(locale);
-    } catch (error) {
+    } catch (error: any /** TODO: confirm with instanceof */) {
       console.log(error);
     }
   }

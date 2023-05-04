@@ -9,7 +9,7 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
-import { QuickAccess } from '../../modules/QuickAccessV2';
+import { QuickAccess } from '../../modules/QuickAccess';
 import { mockModuleGenerator } from '../lib/mockModule';
 
 const getMockModule = () =>

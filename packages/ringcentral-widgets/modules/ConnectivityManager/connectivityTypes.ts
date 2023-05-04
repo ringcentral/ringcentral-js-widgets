@@ -8,6 +8,7 @@ export const connectivityTypes = ObjectMap.prefixKeys(
     'voipOnly',
     'survival',
     'webphoneUnavailable',
+    'connecting',
   ],
   'connectivityTypes',
 );

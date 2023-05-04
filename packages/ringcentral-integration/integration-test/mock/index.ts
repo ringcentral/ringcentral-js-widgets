@@ -4,7 +4,7 @@ import JestWebSocketMock from 'jest-websocket-mock';
 
 import { SDK } from '@ringcentral/sdk';
 
-import { RCV_PREFERENCES_IDS } from '../../modules/RcVideo/videoHelper';
+import { RCV_PREFERENCES_IDS } from '../../modules/RcVideo';
 import accountBody from './data/accountInfo.json';
 import accountPhoneNumberBody from './data/accountPhoneNumber.json';
 import activeCallsBody from './data/activeCalls.json';
@@ -47,6 +47,7 @@ import messageListBody from './data/messageList.json';
 import messageSyncBody from './data/messageSync.json';
 import numberParseBody from './data/numberParse.json';
 import numberParserBody from './data/numberParser.json';
+import numberParserV2Body from './data/numberParserV2.json';
 import phoneNumberBody from './data/phoneNumber.json';
 import postRcvBridgesBody from './data/postRcvBridges.json';
 import presenceBody from './data/presence.json';
@@ -156,6 +157,7 @@ export function mockApi({
 function startWebSocketMockServer() {
   // mock WebSocket server
   const server = new JestWebSocketMock(mockWsServer);
+  global.webSocketServer = server;
   server.on('connection', (socket) => {
     // type: ConnectionDetails
     socket.send(JSON.stringify(wsConnectionDetailsBody));
@@ -205,12 +207,7 @@ function startWebSocketMockServer() {
   };
 }
 
-let wsMockServerStarted = false;
 export function wstoken() {
-  if (!wsMockServerStarted) {
-    startWebSocketMockServer();
-    wsMockServerStarted = true;
-  }
   mockApi({
     method: 'POST',
     path: '/restapi/oauth/wstoken',
@@ -220,6 +217,15 @@ export function wstoken() {
     },
     isOnce: false,
   });
+}
+
+let wsMockServerStarted = false;
+export function mockServerAndToken() {
+  if (!wsMockServerStarted) {
+    startWebSocketMockServer();
+    wsMockServerStarted = true;
+  }
+  wstoken();
 }
 
 export function authentication() {
@@ -381,6 +387,16 @@ export function companyContactList(mockResponse = {}) {
   });
 }
 
+export function companyContactPublicList(mockResponse = {}) {
+  mockApi({
+    url: `begin:${mockServer}/restapi/v1.0/account/~/directory/entries`,
+    body: {
+      ...extensionsListBody,
+      ...mockResponse,
+    },
+  });
+}
+
 export function accountInfo(mockResponse = {}) {
   mockApi({
     path: '/restapi/v1.0/account/~',
@@ -522,6 +538,18 @@ export function numberParser(mockResponse = {}, isOnce = true) {
     url: `begin:${mockServer}/restapi/v1.0/number-parser/`,
     body: {
       ...numberParserBody,
+      ...mockResponse,
+    },
+    isOnce,
+  });
+}
+
+export function numberParserV2(mockResponse = {}, isOnce = true) {
+  mockApi({
+    method: 'POST',
+    url: `begin:${mockServer}/restapi/v2/number-parser/parse`,
+    body: {
+      ...numberParserV2Body,
       ...mockResponse,
     },
     isOnce,
@@ -1074,25 +1102,6 @@ interface MockStopRecordErrorProps {
   status?: number;
 }
 
-// TODO: generate this mock function
-export function MockStopRecordError({
-  sessionId,
-  recordingId,
-  partyId,
-  status = 403,
-}: MockStopRecordErrorProps) {
-  mockApi({
-    path: `/restapi/v1.0/account/~/telephony/sessions/${sessionId}/parties/${partyId}/recordings/${recordingId}`,
-    method: 'PATCH',
-    body: {
-      errorCode: 'TAS-115',
-      message: 'ACR mute is not supported for this call',
-    },
-    isOnce: false,
-    status,
-  });
-}
-
 export function mockForLogin({
   mockWsServer = true,
   mockTimezone = false,
@@ -1164,6 +1173,7 @@ export function mockForLogin({
   device(deviceData);
   extensionList(extensionListData, extensionListQuery, isExtensionListEmptyRes);
   companyContactList(extensionsListData);
+  companyContactPublicList(extensionsListData);
   // accountPhoneNumber(accountPhoneNumberData);
   blockedNumber(blockedNumberData);
   if (mockForwardingNumber) {
@@ -1190,6 +1200,7 @@ export function mockForLogin({
   }
   if (mockNumberParser) {
     numberParser(numberParseData, numberParseIsOnce);
+    numberParserV2(numberParseData, numberParseIsOnce);
   }
   if (mockUpdateConference) {
     conferenceCall();

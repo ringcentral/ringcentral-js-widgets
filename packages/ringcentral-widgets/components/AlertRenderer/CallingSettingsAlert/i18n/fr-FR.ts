@@ -1,6 +1,6 @@
-import { callingSettingsMessages } from '@ringcentral-integration/commons/modules/CallingSettingsV2/callingSettingsMessages';
+import { callingSettingsMessages } from '@ringcentral-integration/commons/modules/CallingSettings';
 export default {
-  [callingSettingsMessages.saveSuccess]: "Les paramètres ont été enregistrés.",
+  [callingSettingsMessages.saveSuccess]: "Les paramètres ont été sauvegardés.",
   [callingSettingsMessages.saveSuccessWithSoftphone]: "Les paramètres ont été sauvegardés. Veuillez vous assurer que {brand} est installé sur votre machine.",
   [callingSettingsMessages.permissionChanged]: "Vos autorisations ont été modifiées récemment. Veuillez vous rendre dans {link} pour vérifier vos options d’appel.",
   [callingSettingsMessages.phoneNumberChanged]: "Les informations de votre téléphone mobile ont été modifiées récemment. Veuillez vous rendre dans {link} pour vérifier vos options d’appel.",

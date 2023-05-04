@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { PropertyDescriptor, Service } from '../interface';
 import { stateKey } from '../constant';
 

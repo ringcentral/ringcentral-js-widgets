@@ -9,8 +9,8 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
-import { HistoryCall } from '../../modules/CallHistoryV2';
-import { callStatus, RecentCalls } from '../../modules/RecentCallsV2';
+import { HistoryCall } from '../../modules/CallHistory';
+import { callStatus, RecentCalls } from '../../modules/RecentCalls';
 import { mockModuleGenerator } from '../lib/mockModule';
 
 const getMockModule = () =>

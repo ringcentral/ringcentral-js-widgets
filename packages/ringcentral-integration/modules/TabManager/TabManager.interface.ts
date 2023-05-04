@@ -1,5 +1,7 @@
 export interface TabManagerOptions {
   enableCache?: boolean;
+  autoMainTab?: boolean;
+  isMainTab?: boolean;
 }
 
 export interface Deps {

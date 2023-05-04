@@ -4,8 +4,8 @@ export default {
   outgoingRingtone: "Toque de chamada realizada",
   play: "Reproduzir",
   stop: "Parar",
-  upload: "Fazer upload",
-  reset: "Redefinir",
+  upload: "Carregar",
+  reset: "Restaurar",
   save: "Salvar"
 };
 

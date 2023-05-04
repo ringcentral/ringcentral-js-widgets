@@ -5,7 +5,7 @@ export default {
   viewDetails: "Näytä tiedot",
   addEntity: "Luo uusi",
   call: "Puhelu",
-  text: "Teksti",
+  text: "Tekstiviesti",
   conversation: "Keskustelu",
   groupConversation: "Ryhmäkeskustelu",
   voiceMessage: "Ääniviesti",

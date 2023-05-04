@@ -1,5 +1,7 @@
-import { fireEvent } from '@testing-library/react';
+import { waitForRenderReady } from '@ringcentral-integration/test-utils/lib/test-utils';
+import userEvent from '@testing-library/user-event';
 
-export const ClickDialButton = () => {
-  fireEvent.click(document.querySelector('.callBtn circle'));
+export const ClickDialButton = async () => {
+  userEvent.click(document.querySelector('[data-sign="callButton"] circle'));
+  await waitForRenderReady();
 };

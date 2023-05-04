@@ -1,27 +1,27 @@
 import webphoneErrors from '@ringcentral-integration/commons/modules/Webphone/webphoneErrors';
 import webphoneMessages from '@ringcentral-integration/commons/modules/Webphone/webphoneMessages';
 export default {
-  [webphoneErrors.connectFailed]: "Désolé, les fonctionnalités du téléphone sont actuellement indisponibles. Veuillez réessayer plus tard. ",
-  [webphoneErrors.connected]: "Téléphone Web inscrit.",
-  [webphoneErrors.browserNotSupported]: "Désolé, les appels via ce navigateur ne sont pas pris en charge.",
-  [webphoneErrors.webphoneCountOverLimit]: "Cinq téléphones Web au maximum peuvent être enregistrés.",
+  [webphoneErrors.connectFailed]: "Désolés, les fonctionnalités du téléphone ne sont pas disponibles pour le moment. Veuillez réessayer plus tard. ",
+  [webphoneErrors.connected]: "Téléphone Web enregistré.",
+  [webphoneErrors.browserNotSupported]: "Désolés, les appels effectués à l’aide de ce navigateur ne sont pas pris en charge.",
+  [webphoneErrors.webphoneCountOverLimit]: "Jusqu’à 5 téléphones Web peuvent être enregistrés.",
   [webphoneErrors.checkDLError]: "Impossible de passer un appel téléphonique sortant. Communiquez avec {brandName} pour obtenir du soutien si cette erreur persiste.",
   [webphoneErrors.noOutboundCallWithoutDL]: "Votre poste n’est pas autorisé à faire des appels sortants avec le navigateur pour le moment. Veuillez communiquer avec votre représentant de compte pour obtenir une mise à niveau.",
-  [webphoneErrors.provisionUpdate]: "Désolé, une erreur s’est produite de notre côté. Nous allons automatiquement essayer de vous reconnecter sous peu.",
-  [webphoneErrors.serverConnecting]: "Désolé, nous rencontrons un problème de connexion au serveur téléphonique.",
+  [webphoneErrors.provisionUpdate]: "Désolés, une erreur s’est produite de notre côté. Nous allons automatiquement essayer de vous reconnecter sous peu.",
+  [webphoneErrors.serverConnecting]: "Désolés, nous rencontrons un problème de connexion au serveur téléphonique.",
   [webphoneErrors.toVoiceMailError]: "Impossible d’acheminer l’appel vers la messagerie vocale en raison d’une erreur interne",
   [webphoneErrors.muteError]: "Le son de l’appel ne peut être désactivé pour le moment.",
   [webphoneErrors.holdError]: "L’appel ne peut être mis en attente pour le moment.",
   [webphoneErrors.flipError]: "Impossible de renvoyer l’appel. Veuillez réessayer plus tard.",
   [webphoneErrors.recordError]: "Vous ne pouvez pas enregistrer l’appel pour le moment. Code d’erreur : {errorCode}",
   [webphoneErrors.pauseRecordError]: "Désolés, nous n’avons pas pu arrêter l’enregistrement de l’appel. Réessayez plus tard.",
-  [webphoneErrors.recordDisabled]: "Désolé, votre compte ne possède pas la fonction d’enregistrement d’appel. Veuillez communiquer avec votre administrateur de compte.",
+  [webphoneErrors.recordDisabled]: "Désolés, votre compte ne possède pas la fonctionnalité pour enregistrer un appel. Veuillez communiquer avec votre administrateur de compte.",
   [webphoneErrors.transferError]: "Impossible de transférer l’appel. Veuillez réessayer plus tard.",
   [webphoneMessages.parked]: "Votre appel est parqué à : {parkedNumber}",
-  failWithStatusCode: "Désolé, nous avons rencontré une erreur : {errorCode}. Si le problème persiste, signalez au service de soutien de {brandName}.",
-  registeringWithStatusCode: "Désolé, une erreur s’est produite. Nous essayons de vous reconnecter. Si le problème persiste, veuillez le signaler au service de soutien de {brandName}. Code d’erreur : {errorCode}.",
-  failWithoutStatusCode: "Désolé, une erreur s’est produite de notre côté. Si l’erreur persiste, veuillez la signaler au service de soutien de {brandName}.",
-  registeringWithoutStatusCode: "Désolé, une erreur s’est produite. Nous essayons de vous reconnecter. Si le problème persiste, veuillez le signaler au service de soutien de {brandName}."
+  failWithStatusCode: "Désolés, nous avons rencontré une erreur : {errorCode}. Si le problème persiste, signalez au service de soutien de {brandName}.",
+  registeringWithStatusCode: "Désolés, une erreur s’est produite. Nous essayons de vous reconnecter. Si le problème persiste, veuillez le signaler au service de soutien de {brandName}. Code d’erreur : {errorCode}.",
+  failWithoutStatusCode: "Désolés, une erreur s’est produite de notre côté. Si l’erreur persiste, veuillez la signaler au service de soutien de {brandName}.",
+  registeringWithoutStatusCode: "Désolés, une erreur s’est produite. Nous essayons de vous reconnecter. Si le problème persiste, veuillez le signaler au service de soutien de {brandName}."
 };
 
 // @key: @#@"[webphoneErrors.connectFailed]"@#@ @source: @#@"Sorry, phone features are currently unavailable. Please retry later. "@#@

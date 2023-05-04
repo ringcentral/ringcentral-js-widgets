@@ -27,8 +27,13 @@ export const ClickToDial: FunctionComponent<ClickToDialProps> = ({
   if (showClickToDial && (outboundSMS || clickToDialPermissions)) {
     return (
       <IconLine
+        dataSign="clickToDialSMS"
         icon={
-          <Switch checked={clickToDialEnabled} onChange={onClickToDialChange} />
+          <Switch
+            dataSign="switchClickToDialSMS"
+            checked={clickToDialEnabled}
+            onChange={onClickToDialChange}
+          />
         }
         title={clickToDialTitle}
       >

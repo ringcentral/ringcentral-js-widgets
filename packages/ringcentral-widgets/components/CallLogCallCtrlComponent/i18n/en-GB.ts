@@ -18,7 +18,9 @@ export default {
   custom: "Custom",
   answerAndEnd: "Answer & End",
   answerAndHold: "Answer & Hold",
-  answer: "Answer"
+  answer: "Answer",
+  completeTransfer: "Complete transfer",
+  reply: "Reply"
 };
 
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
@@ -41,3 +43,5 @@ export default {
 // @key: @#@"answerAndEnd"@#@ @source: @#@"Answer & End"@#@
 // @key: @#@"answerAndHold"@#@ @source: @#@"Answer & Hold"@#@
 // @key: @#@"answer"@#@ @source: @#@"Answer"@#@
+// @key: @#@"completeTransfer"@#@ @source: @#@"Complete transfer"@#@
+// @key: @#@"reply"@#@ @source: @#@"Reply"@#@

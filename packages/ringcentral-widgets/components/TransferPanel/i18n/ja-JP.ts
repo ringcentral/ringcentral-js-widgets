@@ -3,7 +3,7 @@ export default {
   transferTo: "転送先",
   blindTransfer: "転送",
   warmTransfer: "最初に問い合わせる",
-  enterNameOrNumber: "番号の入力"
+  enterNameOrNumber: "番号を入力"
 };
 
 // @key: @#@"to"@#@ @source: @#@"To:"@#@

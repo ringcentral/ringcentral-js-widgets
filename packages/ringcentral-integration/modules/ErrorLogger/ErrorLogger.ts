@@ -1,56 +1,28 @@
+import { RcModuleV2, watch } from '@ringcentral-integration/core';
 import * as Sentry from '@sentry/browser';
 
 import { Module } from '../../lib/di';
-import RcModule from '../../lib/RcModule';
+import { Deps, SentryConfig, Severity, User } from './ErrorLogger.interface';
 
-export interface SentryConfig {
-  endpoint: string;
-  sampleRate?: number;
-}
-
-export interface User {
-  id?: string;
-  email?: string;
-  username?: string;
-}
-
-export enum Severity {
-  Error = 'error',
-  Warning = 'warning',
-  Log = 'log',
-  Info = 'info',
-  Debug = 'debug',
-}
-
-/**
- * Error Logger based on Sentry
- */
 @Module({
+  name: 'ErrorLogger',
   deps: [
+    'BrandConfig',
     { dep: 'Auth', optional: true },
     { dep: 'ErrorLoggerOptions', optional: true },
   ],
 })
-export class ErrorLogger extends RcModule {
-  private _auth: any;
-  private _loggedIn?: boolean = false;
-  private _sentryInitialized: boolean = false;
+export class ErrorLogger extends RcModuleV2<Deps> {
+  private _sentryInitialized = false;
 
-  constructor({
-    auth,
-    appName,
-    appBrand,
-    appVersion,
-    environment,
-    sentryConfig,
-    ...options
-  }) {
+  constructor(deps: Deps) {
     super({
-      ...options,
+      deps,
     });
-
-    this._auth = auth;
-
+    const appName = this._deps.brandConfig.appName;
+    const appBrand = this._deps.brandConfig.code;
+    const { appVersion, environment, sentryConfig } =
+      this._deps.errorLoggerOptions ?? {};
     if (sentryConfig?.endpoint) {
       this._bootstrap({
         sentryConfig,
@@ -93,48 +65,47 @@ export class ErrorLogger extends RcModule {
     this._sentryInitialized = true;
   }
 
-  get _actionTypes() {
-    /* no action types */
-    return null;
-  }
-
-  _onStateChange() {
-    if (this._sentryInitialized && this._auth) {
-      const loggedInChanged = this._loggedIn !== this._auth.loggedIn;
-      if (loggedInChanged) {
-        this._loggedIn = this._auth.loggedIn;
-        // set user
-        const user: User = {
-          id: this._auth.ownerId,
-        };
-        this.setUser(user);
-      }
+  override onInitOnce() {
+    if (this._sentryInitialized && this._deps.auth) {
+      watch(
+        this,
+        () => this._deps.auth.loggedIn,
+        (loggedIn) => {
+          if (loggedIn) {
+            // set user
+            const user: User = {
+              id: this._deps.auth.ownerId,
+            };
+            this.setUser(user);
+          }
+        },
+      );
     }
   }
 
-  setUser(user: User): void {
+  setUser(user: User) {
     Sentry.configureScope((scope) => {
       scope.setUser(user);
     });
   }
 
-  setTags(tags: { [key: string]: string }): void {
+  setTags(tags: Record<string, string>) {
     Sentry.configureScope((scope) => {
       scope.setTags(tags);
     });
   }
 
-  log(message: string, level?: Severity): string {
+  log(message: string, level?: Severity) {
     const eventId = Sentry.captureMessage(message, level);
     return eventId;
   }
 
-  logError(error: any): string {
+  logError(error: any) {
     const eventId = Sentry.captureException(error);
     return eventId;
   }
 
-  test(message: string = '[test] error logger'): string {
+  test(message: string = '[test] error logger') {
     const eventId = this.log(message, Severity.Debug);
     return eventId;
   }

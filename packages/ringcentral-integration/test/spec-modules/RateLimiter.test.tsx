@@ -8,7 +8,7 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
-import { RateLimiter } from '../../modules/RateLimiterV2';
+import { RateLimiter } from '../../modules/RateLimiter';
 import { mockModuleGenerator } from '../lib/mockModule';
 
 const getMockModule = () =>

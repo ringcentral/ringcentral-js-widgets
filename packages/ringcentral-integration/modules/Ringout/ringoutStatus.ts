@@ -4,5 +4,3 @@ export const ringoutStatus = ObjectMap.prefixKeys(
   ['idle', 'connecting'],
   'ringoutStatus',
 );
-
-export default ringoutStatus;

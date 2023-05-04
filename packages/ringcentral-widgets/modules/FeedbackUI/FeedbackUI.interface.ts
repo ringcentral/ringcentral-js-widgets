@@ -1,5 +1,5 @@
 import { Locale } from '@ringcentral-integration/commons/modules/Locale';
-import { Feedback } from '@ringcentral-integration/commons/modules/FeedbackV2';
+import { Feedback } from '@ringcentral-integration/commons/modules/Feedback';
 import { Brand } from '@ringcentral-integration/commons/modules/Brand';
 import { RouterInteraction } from '../RouterInteraction';
 

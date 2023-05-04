@@ -14,7 +14,8 @@ type SwitchProps = {
 };
 const Switch: React.SFC<SwitchProps> = (props) => {
   const onChange = props.onChange
-    ? (e) => !props.disable && props.onChange(e.currentTarget.checked)
+    ? // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
+      (e: any) => !props.disable && props.onChange(e.currentTarget.checked)
     : undefined;
   return (
     <label
@@ -25,11 +26,14 @@ const Switch: React.SFC<SwitchProps> = (props) => {
         props.className,
         props.disable && styles.disable,
       )}
+      htmlFor={props.dataSign}
     >
       <input
+        id={props.dataSign}
         data-sign="switch"
         type="checkbox"
         role="switch"
+        disabled={props.disable}
         aria-label={props.dataSign}
         checked={props.checked}
         onChange={onChange}

@@ -1,4 +1,4 @@
-import { ASSISTED_USERS_MYSELF } from '@ringcentral-integration/commons/modules/RcVideo/constants';
+import { ASSISTED_USERS_MYSELF } from '@ringcentral-integration/commons/modules/RcVideo';
 export default {
   topic: "Titolo della riunione",
   date: "Data",
@@ -6,38 +6,38 @@ export default {
   duration: "Durata",
   scheduleFor: "Programma per conto di",
   meetingSettings: "Impostazioni riunione",
-  [ASSISTED_USERS_MYSELF]: "Me stesso",
+  [ASSISTED_USERS_MYSELF]: "Me",
   joinBeforeHost: "Consenti ai partecipanti di accedere prima dell'host",
   enableWaitingRoom: "Abilita sala d'attesa",
   waitingRoom: "Abilita sala d'attesa per",
   waitingRoomNotCoworker: "Chiunque al di fuori della mia azienda",
   waitingRoomGuest: "Chi non si è registrato",
   waitingRoomAll: "Tutti",
-  enterPassword: "Inserisci password",
+  enterPassword: "Immetti password",
   onlyJoinAfterMe: "I partecipanti possono accedere solo dopo di me",
   onlyJoinAfterHost: "I partecipanti possono accedere solo dopo l'host",
-  muteAudio: "Disattiva audio per i partecipanti",
-  turnOffCamera: "Disattiva la videocamera per i partecipanti",
+  muteAudio: "Disattiva l'audio per i partecipanti",
+  turnOffCamera: "Disattiva videocamera per i partecipanti",
   requirePassword: "Richiedi password",
   useE2ee: "Utilizza crittografia end-to-end",
   e2eeTooltip: "Le riunioni crittografate end-to-end sono le più private, ma le funzioni come partecipare tramite telefono, sottotitoli e registrazione non sono disponibili.",
-  setPassword: "Imposta la password *",
+  setPassword: "Imposta password *",
   setPasswordNotSymbol: "Imposta la password",
   passwordEmptyError: "La password per la riunione è obbligatoria",
   passwordInvalidError: "La password deve avere 1-10 lettere e numeri e non può contenere simboli",
-  passwordHintText: "La password deve avere 1-10 lettere e numeri e non può contenere simboli",
+  passwordHintText: "La password deve contenere da 1 a 10 lettere e numeri, ma non può contenere simboli",
   usePersonalMeetingId: "Usa ID riunione personale",
   meetingSettingsSecurity: "Sicurezza",
-  onlyAuthUserJoin: "Possono partecipare solo gli utenti autenticati",
+  onlyAuthUserJoin: "Solo gli utenti autenticati possono partecipare",
   signedInUsers: "Utenti registrati",
   signedInCoWorkers: "Collaboratori connessi",
-  limitScreenSharing: "Solo gli host e i moderatori possono condividere lo schermo",
+  limitScreenSharing: "Solo host e moderatori possono condividere lo schermo",
   lockTooltip: "L'impostazione è gestita dall'amministratore dell'azienda",
   pmiSettingAlert: "Queste impostazioni si applicheranno a tutte le riunioni create con il PMI",
   today: "Oggi",
   scheduleForGuidance: "Stai pianificando per qualcun altro?\n1. Assicurati di essere nel loro calendario di Outlook.\n2. Dall'elenco a discesa, seleziona la persona per la quale stai pianificando.\n",
   scheduleForGuidanceMore: "Scopri i dettagli",
-  changePmiSettings: "Modifica le impostazioni della riunione personale",
+  changePmiSettings: "Modifica impostazioni riunione personale",
   ieSupportAlert: "Tieni presente che {appName} non funzionerà con Internet Explorer 11 dopo il 16 febbraio 2022. Consigliamo di passare a Microsoft Edge o di aggiornare a Outlook 2016 o versione successiva."
 };
 
@@ -78,5 +78,5 @@ export default {
 // @key: @#@"today"@#@ @source: @#@"Today"@#@
 // @key: @#@"scheduleForGuidance"@#@ @source: @#@"Scheduling for someone else?\n1. Make sure you're on their Outlook calendar.\n2. From the dropdown, select the person you're scheduling for.\n"@#@
 // @key: @#@"scheduleForGuidanceMore"@#@ @source: @#@"Learn details"@#@
-// @key: @#@"changePmiSettings"@#@ @source: @#@"Change Personal meeting settings"@#@
+// @key: @#@"changePmiSettings"@#@ @source: @#@"Change Personal Meeting settings"@#@
 // @key: @#@"ieSupportAlert"@#@ @source: @#@"Please note that {appName} won't work with Internet Explorer 11 after Feb 16, 2022. We recommend switching to Microsoft Edge or updating to Outlook 2016 or above."@#@

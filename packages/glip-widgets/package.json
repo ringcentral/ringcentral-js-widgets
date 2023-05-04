@@ -25,8 +25,8 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-redux": "^5.1.1",
-    "react-router": "^3.0.0",
-    "react-router-redux": "^4.0.7",
+    "react-router": "^3.2.6",
+    "react-router-redux": "^4.0.8",
     "@ringcentral-integration/widgets": "^0.13.0"
   },
   "devDependencies": {
@@ -36,7 +36,7 @@
     "@ringcentral-integration/locale-settings": "*",
     "autoprefixer": "^9.8.4",
     "execa": "^5.0.0",
-    "fs-extra": "^9.0.1",
+    "fs-extra": "^10.1.0",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "gulp-istanbul": "^1.1.1",

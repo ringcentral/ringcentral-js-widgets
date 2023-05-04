@@ -4,7 +4,10 @@
  * use our own implementation for now.
  */
 
-export default function chunkMessage(text, maxLength) {
+export default function chunkMessage(
+  text: string,
+  maxLength: number,
+): string[] {
   if (!text) {
     return [];
   }

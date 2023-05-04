@@ -22,6 +22,7 @@ const IconField: React.SFC<IconFieldProps> = (props) => {
   );
 };
 IconField.defaultProps = {
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   title: null,
 };
 export default IconField;

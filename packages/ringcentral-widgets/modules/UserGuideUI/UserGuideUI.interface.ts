@@ -1,6 +1,6 @@
 import { Locale } from '@ringcentral-integration/commons/modules/Locale';
-import { QuickAccess } from '@ringcentral-integration/commons/modules/QuickAccessV2';
-import { UserGuide } from '@ringcentral-integration/commons/modules/UserGuideV2';
+import { QuickAccess } from '@ringcentral-integration/commons/modules/QuickAccess';
+import { UserGuide } from '@ringcentral-integration/commons/modules/UserGuide';
 import { RouterInteraction } from '../RouterInteraction';
 
 export interface Deps {

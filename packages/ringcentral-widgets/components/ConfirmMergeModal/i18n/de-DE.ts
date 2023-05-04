@@ -1,7 +1,7 @@
 export default {
   confirmation: "Bestätigung",
   confirmMergeToConference: "Zur Telefonkonferenz hinzufügen?",
-  mergeToConference: "Zus.führen",
+  mergeToConference: "Zusammenführen",
   conferenceCall: "Telefonkonferenz"
 };
 

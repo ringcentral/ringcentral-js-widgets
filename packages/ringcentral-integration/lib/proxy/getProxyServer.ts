@@ -63,7 +63,7 @@ export default function getProxyServer(
                     requestId,
                     result,
                   });
-                } catch (error) {
+                } catch (error: any /** TODO: confirm with instanceof */) {
                   transport.response({
                     requestId,
                     error,

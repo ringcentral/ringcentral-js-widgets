@@ -5,7 +5,7 @@ export default {
   customMessage: "Mensagem personalizada",
   callMeBackIn: "Ligue de novo em",
   willCallYouBackIn: "Retornarei a chamada em",
-  min: "min.",
+  min: "min",
   hours: "horas",
   days: "dias"
 };

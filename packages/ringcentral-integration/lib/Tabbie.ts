@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { EventEmitter } from 'events';
 import * as uuid from 'uuid';
 
@@ -25,6 +26,8 @@ export class Tabbie {
 
   private _emitter = new EventEmitter();
 
+  private _autoMainTab?: boolean;
+  private _isMainTab?: boolean;
   private _mainTabKey: string;
 
   private _heartBeatKey: string;
@@ -87,11 +90,22 @@ export class Tabbie {
     heartBeatInterval = HEART_BEAT_INTERVAL,
     heartBeatExpire = HEART_BEAT_EXPIRE,
     gcInterval = GC_INTERVAL,
+    autoMainTab = true,
+    isMainTab,
+  }: {
+    prefix?: string;
+    heartBeatInterval?: number;
+    heartBeatExpire?: number;
+    gcInterval?: number;
+    autoMainTab?: boolean;
+    isMainTab?: boolean;
   }) {
     this.prefix = getPrefix(prefix);
     this._heartBeatInterval = heartBeatInterval;
     this._heartBeatExpire = heartBeatExpire;
     this._gcInterval = gcInterval;
+    this._autoMainTab = autoMainTab;
+    this._isMainTab = isMainTab;
 
     this.enabled =
       typeof window !== 'undefined' &&
@@ -108,18 +122,18 @@ export class Tabbie {
 
     if (this.enabled) {
       this._bindInterval();
-
-      this._bindListener();
-      if (!document.hidden) {
-        this.setAsMainTab();
-      } else if (!this.mainTabId) {
-        this._setFirstTabAsMainTab();
-      }
-      window.addEventListener('unload', () => {
-        if (this.isMainTab) {
-          localStorage.removeItem(this._mainTabKey);
+      this._bindStorageListener();
+      if (autoMainTab) {
+        this._bindVisibilityListener();
+        if (!document.hidden) {
+          this.setAsMainTab();
+        } else if (!this.mainTabId) {
+          this._setFirstTabAsMainTab();
         }
-      });
+      } else if (isMainTab === true) {
+        this.setAsMainTab();
+      }
+      this._bindUnloadListener();
     }
   }
 
@@ -133,10 +147,12 @@ export class Tabbie {
     this._gcIntervalId = setInterval(this._gc, this._gcInterval);
   }
 
-  private _bindListener() {
+  private _bindVisibilityListener() {
     document.addEventListener('visibilitychange', this._setAsVisibleTab);
     window.addEventListener('focus', this._setAsVisibleTab);
+  }
 
+  private _bindStorageListener() {
     window.addEventListener('storage', async ({ key, newValue }) => {
       if (key === this._mainTabKey) {
         // use the newest main tab id from localhost instead of from the event
@@ -161,11 +177,16 @@ export class Tabbie {
         }
       }
     });
+  }
 
+  private _bindUnloadListener() {
     window.addEventListener('unload', () => {
       clearInterval(this._gcIntervalId);
       clearInterval(this._heartBeatIntervalId);
       localStorage.removeItem(this._heartBeatKey);
+      if (this.isMainTab) {
+        localStorage.removeItem(this._mainTabKey);
+      }
     });
   }
 
@@ -200,6 +221,9 @@ export class Tabbie {
     // assume main if not enabled
     // this is to ensure that modules depending on this would function
     // in node like environments
+    if (!this._autoMainTab) {
+      return !!this._isMainTab;
+    }
     return !this.enabled || (await this.getMainTabId()) === this.id;
   }
 

@@ -14,7 +14,7 @@ export default {
   [webphoneErrors.holdError]: "Oproep kan momenteel niet in de wacht worden gezet.",
   [webphoneErrors.flipError]: "Kan de oproep niet omkeren. Probeer het later opnieuw.",
   [webphoneErrors.recordError]: "U kunt de oproep momenteel niet opnemen. Foutcode: {errorCode}",
-  [webphoneErrors.pauseRecordError]: "We kunnen het opnemen van de oproep niet stoppen. Probeer het later opnieuw.",
+  [webphoneErrors.pauseRecordError]: "We kunnen het opnemen van de oproep niet stoppen. Probeer het later nogmaals.",
   [webphoneErrors.recordDisabled]: "Uw account heeft niet de functie om een oproep op te nemen. Neem contact op met uw accountbeheerder.",
   [webphoneErrors.transferError]: "Kan de oproep niet doorschakelen. Probeer het later opnieuw.",
   [webphoneMessages.parked]: "Uw oproep is geparkeerd op locatie: {parkedNumber}",

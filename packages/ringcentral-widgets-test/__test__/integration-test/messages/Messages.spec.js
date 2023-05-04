@@ -1,16 +1,17 @@
-import NavigationBar from '@ringcentral-integration/widgets/components/NavigationBar';
-import ConversationList from '@ringcentral-integration/widgets/components/ConversationList';
-import ConversationsPanel from '@ringcentral-integration/widgets/components/ConversationsPanel';
-import ContactDisplay from '@ringcentral-integration/widgets/components/ContactDisplay';
-import { SearchInput } from '@ringcentral-integration/widgets/components/SearchInput';
-import MessageItem from '@ringcentral-integration/widgets/components/MessageItem';
-import ConversationPanel from '@ringcentral-integration/widgets/components/ConversationPanel';
-import LogButton from '@ringcentral-integration/widgets/components/LogButton';
-import { Button } from '@ringcentral-integration/widgets/components/Button';
-import Spinner from '@ringcentral-integration/widgets/components/Spinner';
 import * as mock from '@ringcentral-integration/commons/integration-test/mock';
+import { sleep } from '@ringcentral-integration/commons/utils';
+import { Button } from '@ringcentral-integration/widgets/components/Button';
+import ContactDisplay from '@ringcentral-integration/widgets/components/ContactDisplay';
+import ConversationList from '@ringcentral-integration/widgets/components/ConversationList';
+import ConversationPanel from '@ringcentral-integration/widgets/components/ConversationPanel';
+import { ConversationsPanel } from '@ringcentral-integration/widgets/components/ConversationsPanel';
+import LogButton from '@ringcentral-integration/widgets/components/LogButton';
+import MessageItem from '@ringcentral-integration/widgets/components/MessageItem';
+import NavigationBar from '@ringcentral-integration/widgets/components/NavigationBar';
+import { SearchInput } from '@ringcentral-integration/widgets/components/SearchInput';
+import Spinner from '@ringcentral-integration/widgets/components/Spinner';
 
-import { getWrapper, timeout, tearDownWrapper } from '../shared';
+import { getWrapper, tearDownWrapper } from '../shared';
 
 let wrapper = null;
 let panel = null;
@@ -73,7 +74,7 @@ describe('messages', () => {
     );
     const firstMessage = panel.find(MessageItem).first();
     await firstMessage.find('.wrapper').first().simulate('click');
-    await timeout(200); // wait conversation loaded
+    await sleep(200); // wait conversation loaded
     const conversationPanel = wrapper.find(ConversationPanel);
     expect(conversationPanel.length > 0).toBe(true);
   });
@@ -101,7 +102,7 @@ describe('messages', () => {
         .find(Button);
       expect(logButton.props().disabled).toBe(true);
       expect(logButton.find(Spinner).length).toBe(1);
-      await timeout(2000);
+      await sleep(2000);
       wrapper.update();
       panel = wrapper.find(ConversationList).first();
       logButton = panel
@@ -126,7 +127,7 @@ describe('messages', () => {
     );
     const firstMessage = panel.find(MessageItem).first();
     await firstMessage.find('.wrapper').first().simulate('click');
-    await timeout(200); // wait conversation loaded
+    await sleep(200); // wait conversation loaded
     const conversationPanel = wrapper.find(ConversationPanel);
     const logButton = conversationPanel.find(LogButton).first().find(Button);
     expect(logButton.props().disabled).toBe(false);
@@ -144,7 +145,7 @@ describe('messages', () => {
     );
     const firstMessage = panel.find(MessageItem).first();
     await firstMessage.find('.wrapper').first().simulate('click');
-    await timeout(200); // wait conversation loaded
+    await sleep(200); // wait conversation loaded
     let conversationPanel = wrapper.find(ConversationPanel);
     let logButton = conversationPanel.find(LogButton).find(Button);
     logButton.simulate('click');
@@ -152,7 +153,7 @@ describe('messages', () => {
     logButton = conversationPanel.find(LogButton).find(Button);
     expect(logButton.props().disabled).toBe(true);
     expect(logButton.find(Spinner).length).toBe(1);
-    await timeout(200);
+    await sleep(200);
     wrapper.update();
     conversationPanel = wrapper.find(ConversationPanel);
     logButton = conversationPanel.find(LogButton).find(Button);

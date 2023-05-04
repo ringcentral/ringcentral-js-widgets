@@ -6,12 +6,14 @@ import callDirections from '@ringcentral-integration/commons/enums/callDirection
 import { telephonySessionStatus } from '@ringcentral-integration/commons/enums/telephonySessionStatus';
 import telephonyStatuses from '@ringcentral-integration/commons/enums/telephonyStatus';
 import recordStatusEnum from '@ringcentral-integration/commons/modules/Webphone/recordStatus';
+import { RcIconButtonGroup } from '@ringcentral/juno';
 import {
+  CallMore as JunoMoreIcon,
   Hold as HoldIconInAction,
   Ignore as IgnoreIcon,
   TransferCall as TransferSmallIcon,
   Voicemail as VoicemailIcon,
-} from '@ringcentral/juno/icon';
+} from '@ringcentral/juno-icon';
 
 import AnswerIcon from '../../assets/images/Answer.svg';
 import DialpadIcon from '../../assets/images/Dialpad.svg';
@@ -30,7 +32,8 @@ import CircleButton from '../CircleButton';
 import { CallLogDialpad } from './CallLogDialpad';
 import i18n from './i18n';
 import { MoreActionComponent } from './MoreActionComponent';
-import { MoreActionWithForward } from './MoreActionWithForward';
+import { MoreActionWithIncomingCall } from './MoreActionWithIncomingCall';
+import { CompleteTransferButton } from './style';
 import styles from './styles.scss';
 
 const recodingVoiceTime = 6781;
@@ -40,6 +43,7 @@ type CallLogCallCtrlComponentProps = {
   onHangup?: (...args: any[]) => any;
   onReject?: (...args: any[]) => any;
   onTransfer?: (...args: any[]) => any;
+  onCompleteWarmTransfer?: (...args: any[]) => any;
   isOnMute?: boolean;
   isOnHold?: boolean;
   onUnHold?: (...args: any[]) => any;
@@ -53,6 +57,7 @@ type CallLogCallCtrlComponentProps = {
   callDirection: string;
   isWide?: boolean;
   isCurrentDeviceCall?: boolean;
+  warmTransferActiveTelephonySessionId?: string;
   transferRef?:
     | ((...args: any[]) => any)
     | {
@@ -62,14 +67,16 @@ type CallLogCallCtrlComponentProps = {
   sendDTMF?: (...args: any[]) => any;
   forward?: (...args: any[]) => any;
   answer?: (...args: any[]) => any;
+  reply?: (telephonySession: string) => any;
   forwardingNumbers?: any[];
   ignore?: (...args: any[]) => any;
   otherActiveCalls?: boolean;
   answerAndHold?: (...args: any[]) => any;
   answerAndEnd?: (...args: any[]) => any;
   dialpadToggleTrack?: (...args: any[]) => any;
-  clickForwardTrack?: (...args: any[]) => any;
+  clickForwardTrack: (...args: any[]) => any;
   realOutboundCallStatus?: string;
+  enableReply?: boolean;
 };
 const CallLogCallCtrlComponent: React.SFC<CallLogCallCtrlComponentProps> = (
   props,
@@ -85,6 +92,7 @@ const CallLogCallCtrlComponent: React.SFC<CallLogCallCtrlComponentProps> = (
     currentLocale,
     callDirection,
     onTransfer,
+    onCompleteWarmTransfer,
     isOnTransfer,
     isOnHold,
     onUnHold,
@@ -98,6 +106,7 @@ const CallLogCallCtrlComponent: React.SFC<CallLogCallCtrlComponentProps> = (
     sendDTMF,
     forward,
     answer,
+    reply,
     forwardingNumbers,
     ignore,
     otherActiveCalls,
@@ -106,7 +115,10 @@ const CallLogCallCtrlComponent: React.SFC<CallLogCallCtrlComponentProps> = (
     realOutboundCallStatus,
     dialpadToggleTrack,
     clickForwardTrack,
+    warmTransferActiveTelephonySessionId,
+    enableReply,
   } = props;
+
   // reject conditions: call direction is inbound & call status is ringing
   const isInComingCall =
     callDirections.inbound === callDirection &&
@@ -126,14 +138,16 @@ const CallLogCallCtrlComponent: React.SFC<CallLogCallCtrlComponentProps> = (
   const disabledCtrl = callStatus === telephonyStatuses.ringing;
   const [dialpadShow, onDialpadShow] = useState(false);
   const toggleDialpadShow = () => {
+    // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
     dialpadToggleTrack(!dialpadShow);
     onDialpadShow(!dialpadShow);
   };
   // WebRTC logic
   const [anchorEl, setAnchorEl] = useState(null);
   const [recordPendingState, setRecordPendingState] = useState(false);
-  let timer;
-  const startRecordAction = async (...args) => {
+  let timer: any;
+  const startRecordAction = async (...args: any[]) => {
+    // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
     const res = await startRecord(...args);
     if (res) {
       setRecordPendingState(true);
@@ -147,6 +161,7 @@ const CallLogCallCtrlComponent: React.SFC<CallLogCallCtrlComponentProps> = (
     timer = null;
   });
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    // @ts-expect-error TS(2345): Argument of type 'EventTarget & HTMLButtonElement'... Remove this comment to see the full error message
     setAnchorEl(event.currentTarget);
   };
   const handleClose = () => {
@@ -154,9 +169,11 @@ const CallLogCallCtrlComponent: React.SFC<CallLogCallCtrlComponentProps> = (
   };
   const isWebRTCCall = isCurrentDeviceCall;
   const onGoingActiveCalls = otherActiveCalls;
+  const warmTransferCall = !!warmTransferActiveTelephonySessionId;
+  const showExtraCallControl = warmTransferCall || isWebRTCCall;
   if (
-    (isWebRTCCall && callDirections.outbound === callDirection) ||
-    (isWebRTCCall &&
+    (showExtraCallControl && callDirections.outbound === callDirection) ||
+    (showExtraCallControl &&
       callDirections.inbound === callDirection &&
       callStatus !== telephonyStatuses.ringing)
   ) {
@@ -171,6 +188,72 @@ const CallLogCallCtrlComponent: React.SFC<CallLogCallCtrlComponentProps> = (
       isOutboundCallConnecting ||
       isOutboundCallOnVoiceMail;
     const holdDisabled = disableLinks || isOutboundCallConnecting;
+    const warmTransferMoreActions = [
+      {
+        icon: muteIcon,
+        key: muteTitle,
+        onClick: muteAction,
+        iconClassName: classnames({
+          [styles.moreActionIcon]: true,
+          [styles.buttonDisabled]: disableLinks || disabledCtrl,
+          [styles.moreActionIconActive]: isOnMute,
+        }),
+        disabled: disableLinks || disabledCtrl,
+        text: i18n.getString(muteTitle, currentLocale),
+      },
+      {
+        icon: DialpadIcon,
+        key: keypadText,
+        onClick: () => {
+          handleClose();
+          toggleDialpadShow();
+        },
+        iconClassName: classnames({
+          [styles.moreActionIcon]: true,
+          [styles.buttonDisabled]: isInComingCall || disableLinks,
+          [styles.moreActionIconActive]: dialpadShow,
+        }),
+        disabled: disableLinks || isInComingCall,
+        text: i18n.getString(keypadText, currentLocale),
+      },
+      {
+        icon: HoldIconInAction,
+        key: onHoldText,
+        onClick: holdAction,
+        iconClassName: classnames({
+          [styles.moreActionIcon]: true,
+          [styles.holdActive]: isOnHold,
+        }),
+        disabled: holdDisabled,
+        text: i18n.getString(onHoldText, currentLocale),
+      },
+      {
+        icon: isRecording ? RecordIconActive : RecordIcon,
+        key: recordingText,
+        onClick: recordAction,
+        iconClassName: classnames({
+          [styles.moreActionIcon]: true,
+          [styles.recordingIcon]: true,
+          [styles.recordingDisabled]: recordPendingState,
+        }),
+        disabled: recordDisabled,
+        text: i18n.getString(recordingText, currentLocale),
+      },
+      {
+        icon: EndIcon,
+        key: endTitle,
+        onClick: () => {
+          handleClose();
+          endAction?.();
+        },
+        iconClassName: classnames({
+          [styles.buttonDisabled]: disableLinks,
+          [styles.endIcon]: true,
+        }),
+        disabled: disableLinks,
+        text: i18n.getString(endTitle, currentLocale),
+      },
+    ];
     const moreActions = [
       {
         icon: TransferSmallIcon,
@@ -207,8 +290,62 @@ const CallLogCallCtrlComponent: React.SFC<CallLogCallCtrlComponentProps> = (
     ];
     const rootButtonProps = {
       icon: MoreIcon,
+      junoIcon: JunoMoreIcon,
       tooltip: i18n.getString('more', currentLocale),
     };
+    const DialPadCom = dialpadShow && (
+      <CallLogDialpad
+        className={classnames(styles.smallDialpad, {
+          [styles.smallDiapadShow]: dialpadShow,
+        })}
+        onChange={(e) => {
+          // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
+          sendDTMF(e);
+        }}
+        onClose={toggleDialpadShow}
+        isWide={isWide}
+      />
+    );
+    if (warmTransferActiveTelephonySessionId) {
+      return (
+        <>
+          <RcIconButtonGroup
+            data-sign="warmTransferControlButtonsWrap"
+            className={classnames(!isWide ? styles.classic : null, styles.root)}
+          >
+            <CompleteTransferButton
+              isWide={isWide}
+              data-sign="completeTransfer"
+              disabled={disableLinks || disabledCtrl}
+              color="positive"
+              radius="round"
+              disabledVariant="mask"
+              fullWidth
+              onClick={onCompleteWarmTransfer}
+            >
+              {i18n.getString('completeTransfer', currentLocale)}
+            </CompleteTransferButton>
+            <MoreActionComponent
+              dataSign="more"
+              // @ts-expect-error TS(2741): Property 'className' is missing in type '{ icon: a... Remove this comment to see the full error message
+              rootButtonProps={rootButtonProps}
+              // @ts-expect-error TS(2322): Type '({ icon: any; key: string; onClick: ((...arg... Remove this comment to see the full error message
+              actionsList={warmTransferMoreActions}
+              // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
+              currentLocale={currentLocale}
+              disabled={disableLinks || disabledCtrl}
+              // @ts-expect-error TS(2322): Type '(event: React.MouseEvent<HTMLButtonElement>)... Remove this comment to see the full error message
+              handleClick={handleClick}
+              handleClose={handleClose}
+              anchorEl={anchorEl}
+              useJunoIcon
+            />
+          </RcIconButtonGroup>
+          {DialPadCom}
+        </>
+      );
+    }
+
     return (
       <>
         <div
@@ -241,10 +378,14 @@ const CallLogCallCtrlComponent: React.SFC<CallLogCallCtrlComponentProps> = (
           </span>
           <MoreActionComponent
             dataSign="more"
+            // @ts-expect-error TS(2322): Type '{ icon: any; junoIcon: React.MemoExoticCompo... Remove this comment to see the full error message
             rootButtonProps={rootButtonProps}
+            // @ts-expect-error TS(2322): Type '({ icon: MemoExoticComponent<ForwardRefExoti... Remove this comment to see the full error message
             actionsList={moreActions}
+            // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
             currentLocale={currentLocale}
             disabled={disableLinks || disabledCtrl}
+            // @ts-expect-error TS(2322): Type '(event: React.MouseEvent<HTMLButtonElement>)... Remove this comment to see the full error message
             handleClick={handleClick}
             handleClose={handleClose}
             anchorEl={anchorEl}
@@ -264,37 +405,29 @@ const CallLogCallCtrlComponent: React.SFC<CallLogCallCtrlComponentProps> = (
             />
           </span>
         </div>
-        {dialpadShow && (
-          <CallLogDialpad
-            className={classnames(styles.smallDialpad, {
-              [styles.smallDiapadShow]: dialpadShow,
-            })}
-            onChange={(e) => {
-              sendDTMF(e);
-            }}
-            onClose={toggleDialpadShow}
-            isWide={isWide}
-          />
-        )}
+        {DialPadCom}
       </>
     );
   }
   if (isWebRTCCall && isInComingCall && !onGoingActiveCalls) {
     const forwardTitle = i18n.getString('forward', currentLocale);
-    const onForward = (e) => {
+    const onForward = (e: any) => {
       e.stopPropagation();
       handleClose();
       const selectdValue = e.currentTarget.attributes['data-value'].value;
+      // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
       forward(selectdValue);
     };
+    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     const forwardList = forwardingNumbers.map((phoneNumber) => {
       return {
         key: phoneNumber.phoneNumber,
         text: phoneNumber.label,
         subText: phoneNumber.phoneNumber,
-        onClick: (e) => onForward(e),
+        onClick: (e: any) => onForward(e),
       };
     });
+    // @ts-expect-error TS(2345): Argument of type '{ key: string; text: string; onC... Remove this comment to see the full error message
     forwardList.push({
       key: 'custom',
       text: i18n.getString('custom', currentLocale),
@@ -302,25 +435,46 @@ const CallLogCallCtrlComponent: React.SFC<CallLogCallCtrlComponentProps> = (
     });
     const rootButtonProps = {
       icon: ForwardIcon,
-      className: !!anchorEl && styles.rootButtonActive,
       tooltip: forwardTitle,
     };
     return (
       <div className={classnames(!isWide ? styles.classic : null, styles.root)}>
-        <MoreActionComponent
-          dataSign={!anchorEl ? 'forward' : 'forwardActive'}
-          rootButtonProps={rootButtonProps}
-          actionsList={forwardList}
-          currentLocale={currentLocale}
-          handleClick={(e) => {
-            clickForwardTrack();
-            handleClick(e);
-          }}
-          handleClose={handleClose}
-          anchorEl={anchorEl}
-          withSubText
-          popoverClasses={{ paper: styles.forwardPopover }}
-        />
+        {enableReply ? (
+          <MoreActionWithIncomingCall
+            // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
+            currentLocale={currentLocale}
+            // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
+            disabled={disableLinks}
+            // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
+            forwardingNumbers={forwardingNumbers}
+            // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
+            forward={forward}
+            enableReply={enableReply}
+            // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
+            reply={reply}
+            clickForwardTrack={clickForwardTrack}
+          />
+        ) : (
+          <MoreActionComponent
+            dataSign={!anchorEl ? 'forward' : 'forwardActive'}
+            // @ts-expect-error TS(2322): Type '{ icon: any; className: boolean; tooltip: st... Remove this comment to see the full error message
+            rootButtonProps={rootButtonProps}
+            // @ts-expect-error TS(2322): Type '{ key: any; text: any; subText: any; onClick... Remove this comment to see the full error message
+            actionsList={forwardList}
+            // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
+            currentLocale={currentLocale}
+            // @ts-expect-error TS(2322): Type '(e: any) => void' is not assignable to type ... Remove this comment to see the full error message
+            handleClick={(e: any) => {
+              clickForwardTrack();
+              handleClick(e);
+            }}
+            handleClose={handleClose}
+            anchorEl={anchorEl}
+            withSubText
+            // @ts-expect-error TS(2741): Property 'root' is missing in type '{ paper: strin... Remove this comment to see the full error message
+            popoverClasses={{ paper: styles.forwardPopover }}
+          />
+        )}
         <span title={i18n.getString('ignore', currentLocale)}>
           <CircleButton
             dataSign="ignore"
@@ -338,7 +492,7 @@ const CallLogCallCtrlComponent: React.SFC<CallLogCallCtrlComponentProps> = (
         </span>
         <span title={i18n.getString('voicemail', currentLocale)}>
           <CircleButton
-            dataSign="voicemail"
+            dataSign="toVoiceMail"
             showBorder={false}
             icon={VoicemailIcon}
             iconWidth={250}
@@ -374,6 +528,21 @@ const CallLogCallCtrlComponent: React.SFC<CallLogCallCtrlComponentProps> = (
   if (isWebRTCCall && onGoingActiveCalls && isInComingCall) {
     return (
       <div className={classnames(!isWide ? styles.classic : null, styles.root)}>
+        <MoreActionWithIncomingCall
+          // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
+          currentLocale={currentLocale}
+          // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
+          disabled={disableLinks}
+          // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
+          forwardingNumbers={forwardingNumbers}
+          // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
+          forward={forward}
+          ignore={ignore}
+          enableReply={enableReply}
+          // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
+          reply={reply}
+          clickForwardTrack={clickForwardTrack}
+        />
         <span
           data-sign="endAndAnswer"
           title={i18n.getString('answerAndEnd', currentLocale)}
@@ -408,14 +577,6 @@ const CallLogCallCtrlComponent: React.SFC<CallLogCallCtrlComponentProps> = (
         >
           <HoldAnswerIcon />
         </span>
-        <MoreActionWithForward
-          currentLocale={currentLocale}
-          disabled={disableLinks}
-          forwardingNumbers={forwardingNumbers}
-          forward={forward}
-          ignore={ignore}
-          clickForwardTrack={clickForwardTrack}
-        />
       </div>
     );
   }
@@ -433,6 +594,7 @@ const CallLogCallCtrlComponent: React.SFC<CallLogCallCtrlComponentProps> = (
           disabled={disableLinks || disabledCtrl}
         />
       </span>
+      {/* @ts-expect-error TS(2322): Type '{ current?: any; } | ((...args: any[]) => an... Remove this comment to see the full error message */}
       <span ref={transferRef} title={i18n.getString('transfer', currentLocale)}>
         <CircleButton
           dataSign="transfer"

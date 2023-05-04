@@ -49,6 +49,7 @@ const LogNotification: React.SFC<LogNotificationProps> = ({
   if (showEndButton && showLogButton) {
     let endButton = null;
     if (currentSession) {
+      // @ts-expect-error TS(2339): Property 'callStatus' does not exist on type '{}'.
       const { callStatus, direction } = currentSession;
       const isInComingCall =
         callDirections.inbound === direction &&
@@ -82,6 +83,7 @@ const LogNotification: React.SFC<LogNotificationProps> = ({
             styles.expandButtonWithEnd,
             isExpand && styles.expandDisableButton,
           )}
+          // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
           onClick={() => onExpand()}
         >
           {i18n.getString('log', currentLocale)}
@@ -96,6 +98,7 @@ const LogNotification: React.SFC<LogNotificationProps> = ({
           styles.expandButton,
           isExpand && styles.expandDisableButton,
         )}
+        // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
         onClick={() => onExpand()}
       >
         {i18n.getString('log', currentLocale)}

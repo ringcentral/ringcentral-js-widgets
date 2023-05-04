@@ -12,10 +12,10 @@ export default {
   viewDetails: "Näytä tiedot",
   addEntity: "Luo uusi",
   addLog: "Loki",
-  text: "Teksti",
+  text: "Tekstiviesti",
   call: "Puhelu",
   missedCall: "Vastaamaton",
-  inboundCall: "Tuleva",
+  inboundCall: "Saapuva",
   outboundCall: "Lähtevä"
 };
 

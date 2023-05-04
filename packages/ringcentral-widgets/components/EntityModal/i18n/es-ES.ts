@@ -2,7 +2,7 @@ export default {
   account: "Cuenta",
   contact: "Contacto",
   lead: "Posible cliente",
-  opportunity: "Candidato a cliente",
+  opportunity: "Oportunidad",
   case: "Caso",
   chooseEntity: "Seleccionar tipo de entidad",
   create: "Crear"

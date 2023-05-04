@@ -54,6 +54,7 @@ const NavigationButton: FunctionComponent<NavigationButtonProps> = ({
       );
     }
   }
+
   return (
     <StyledTab
       onClick={onClick}
@@ -62,14 +63,15 @@ const NavigationButton: FunctionComponent<NavigationButtonProps> = ({
         active && styles.active,
         fullSizeInk ? null : styles.linearBorder,
       )}
-      $active={active}
+      $active={!!active}
       style={{
         width,
       }}
     >
       <div className={styles.iconHolder} title={label} data-sign={label}>
-        <div className={styles.icon}>{icon}</div>
-        {notice}
+        <div className={styles.icon}>
+          {icon} {notice}
+        </div>
       </div>
     </StyledTab>
   );

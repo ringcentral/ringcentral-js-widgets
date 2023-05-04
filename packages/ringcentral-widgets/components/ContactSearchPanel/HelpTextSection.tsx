@@ -1,64 +1,29 @@
-import React, { memo, FunctionComponent } from 'react';
-import formatMessage from 'format-message';
-import {
-  RcListItem,
-  RcListItemSecondaryAction,
-  RcIcon,
-  RcText,
-} from '@ringcentral/juno';
-import { Search } from '@ringcentral/juno/icon';
-import { TabsEnum, TabsEnumType, HintsType } from './ContactSearchPanelEnum';
+import React, { FunctionComponent, memo } from 'react';
+
+import { format } from '@ringcentral-integration/utils';
+import { RcText } from '@ringcentral/juno';
+
+import { HintsType, TabsEnum, TabsEnumType } from './ContactSearchPanelEnum';
+import i18n from './i18n';
 import {
   HelpTextSectionWrapper,
-  StyledHintsTitle,
-  StyledListItemText,
   HintsWrapper,
+  StyledHintsTitle,
 } from './styles';
-import i18n from './i18n';
 
 interface HelpTextSectionProps {
-  onClick?: (...args: any[]) => any;
   inputLength: number;
   activeTab: TabsEnumType;
   hasRecords: boolean;
-  showSearchResult: boolean;
   currentLocale: string;
   sourceName: string;
   searchMinimumLength?: number;
+  isLoading?: boolean;
 }
 
 const HintsMap = {
-  [TabsEnum.company]: {
-    noRecord: { title: '', context: '' },
-    noFilterRecord: {
-      title: HintsType.noFilterOrSearchRecordsTitle,
-      context: HintsType.noFilterOrSearchRecordsContent,
-    },
-  },
-  [TabsEnum.personal]: {
-    noRecord: {
-      title: HintsType.personalNoRecordsTitle,
-      context: HintsType.personalNoRecordsContent,
-    },
-    noFilterRecord: {
-      title: HintsType.noFilterOrSearchRecordsTitle,
-      context: HintsType.noFilterOrSearchRecordsContent,
-    },
-  },
-  [TabsEnum.thirdParty]: {
-    noRecord: {
-      title: HintsType.thirdPartyNoRecordsTitle,
-      context: HintsType.thirdPartyNoRecordsContent,
-    },
-    noFilterRecord: {
-      title: HintsType.noFilterOrSearchRecordsTitle,
-      context: HintsType.thirdPartyNoRecordsContent,
-    },
-    noSearchRecord: {
-      title: HintsType.noFilterOrSearchRecordsTitle,
-      context: HintsType.noFilterOrSearchRecordsContent,
-    },
-  },
+  title: HintsType.noFilterOrSearchRecordsTitle,
+  context: HintsType.noFilterOrSearchRecordsContent,
 };
 
 export const HelpTextSection: FunctionComponent<HelpTextSectionProps> = memo(
@@ -66,65 +31,38 @@ export const HelpTextSection: FunctionComponent<HelpTextSectionProps> = memo(
     inputLength,
     activeTab,
     hasRecords,
-    onClick,
-    showSearchResult,
     currentLocale,
     sourceName,
     searchMinimumLength = 3,
+    isLoading,
   }) => {
-    let thirdPartySearchBar;
-    let hintsSection;
     let hintTitleKey;
     let hintContentKey;
-    let recentlyCallTitle;
-    const noInputString = inputLength === 0;
     const isThirdPartyTab = activeTab === TabsEnum.thirdParty;
 
-    if (inputLength >= searchMinimumLength && isThirdPartyTab) {
-      thirdPartySearchBar = (
-        <RcListItem onClick={onClick} data-sign="HelpSectionSearchBar">
-          <StyledListItemText
-            color="neutral.f06"
-            secondary={formatMessage(
-              i18n.getString(HintsType.searchBarContent, currentLocale),
-              {
-                sourceName,
-              },
-            )}
-          />
-          <RcListItemSecondaryAction>
-            <RcIcon color="action.primary" symbol={Search} />
-          </RcListItemSecondaryAction>
-        </RcListItem>
-      );
-    }
-
-    if (!hasRecords) {
-      let hintsKeyMap;
-      const noRecordKey = noInputString ? 'noRecord' : 'noFilterRecord';
-
-      if (isThirdPartyTab) {
-        const mapKey = showSearchResult ? 'noSearchRecord' : noRecordKey;
-        hintsKeyMap = HintsMap[activeTab][mapKey];
-      } else {
-        hintsKeyMap = HintsMap[activeTab][noRecordKey];
-      }
-      hintTitleKey = hintsKeyMap.title;
-      hintContentKey = hintsKeyMap.context;
-    }
-
-    if (hasRecords && isThirdPartyTab) {
-      if (!showSearchResult) {
-        recentlyCallTitle = HintsType.thirdPartyRecordsTitle;
-      }
-
-      if (inputLength > 0 && inputLength < searchMinimumLength) {
+    if (isThirdPartyTab) {
+      if (inputLength < searchMinimumLength) {
         hintContentKey = HintsType.thirdPartyNoRecordsContent;
+      } else if (isLoading) {
+        hintContentKey = HintsType.searching;
+      } else if (!hasRecords) {
+        hintTitleKey = HintsMap.title;
+        hintContentKey = HintsMap.context;
       }
     }
 
-    if (hintTitleKey || hintContentKey || recentlyCallTitle) {
-      hintsSection = (
+    if (!isThirdPartyTab && !hasRecords) {
+      hintTitleKey = HintsMap.title;
+      hintContentKey = HintsMap.context;
+    }
+
+    if (!hintTitleKey && !hintContentKey) {
+      return null;
+    }
+
+    return (
+      // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
+      <HelpTextSectionWrapper isLoading={isLoading}>
         <HintsWrapper>
           {!!hintTitleKey && (
             <StyledHintsTitle
@@ -141,27 +79,13 @@ export const HelpTextSection: FunctionComponent<HelpTextSectionProps> = memo(
               color="neutral.b04"
               noWrap={false}
             >
-              {formatMessage(i18n.getString(hintContentKey, currentLocale), {
+              {format(i18n.getString(hintContentKey, currentLocale), {
                 sourceName,
+                minimumLength: searchMinimumLength,
               })}
             </RcText>
           )}
-          {!!recentlyCallTitle && (
-            <StyledHintsTitle
-              data-sign="HelpSectionHintTitle"
-              variant="caption2"
-            >
-              {i18n.getString(recentlyCallTitle, currentLocale)}
-            </StyledHintsTitle>
-          )}
         </HintsWrapper>
-      );
-    }
-
-    return (
-      <HelpTextSectionWrapper>
-        {thirdPartySearchBar}
-        {hintsSection}
       </HelpTextSectionWrapper>
     );
   },

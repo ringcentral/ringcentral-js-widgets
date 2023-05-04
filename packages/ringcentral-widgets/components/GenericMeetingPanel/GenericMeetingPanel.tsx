@@ -1,8 +1,8 @@
 import React, { useRef } from 'react';
 
 import { RcVMeetingModel } from '@ringcentral-integration/commons/interfaces/Rcv.model';
-import { sleep } from '@ringcentral-integration/commons/lib/sleep';
-import { RcMMeetingModel } from '@ringcentral-integration/commons/modules/MeetingV2';
+import { RcMMeetingModel } from '@ringcentral-integration/commons/modules/Meeting';
+import { sleep } from '@ringcentral-integration/commons/utils';
 
 import isSafari from '../../lib/isSafari';
 import { Topic, TopicRef } from '../InnerTopic';
@@ -65,6 +65,7 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
     isE2EEDisabled,
     personalMeetingId,
     switchUsePersonalMeetingId,
+    // @ts-expect-error TS(2339): Property 'updateHasSettingsChanged' does not exist... Remove this comment to see the full error message
     updateHasSettingsChanged,
     trackSettingChanges,
     e2eeInteractFunc,
@@ -96,7 +97,6 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
     showIeSupportAlert,
     showRemoveMeetingWarning,
     brandConfig,
-    appName,
   } = props;
 
   if (showSpinner) {
@@ -110,6 +110,7 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
           update={updateMeetingSettings}
           init={init}
           meeting={meeting as RcMMeetingModel}
+          // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
           disabled={configDisabled}
           currentLocale={currentLocale}
           recipientsSection={recipientsSection}
@@ -120,6 +121,7 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
           meetingOptionToggle={meetingOptionToggle}
           passwordPlaceholderEnable={passwordPlaceholderEnable}
           audioOptionToggle={audioOptionToggle}
+          // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
           enablePersonalMeeting={enablePersonalMeeting}
           personalMeetingId={personalMeetingId}
           switchUsePersonalMeetingId={switchUsePersonalMeetingId}
@@ -127,6 +129,7 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
       )}
       {isRCM && useRcmV2 && (
         <MeetingConfigsV2
+          // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
           disabled={configDisabled}
           defaultTopic={defaultTopic}
           showSpinnerInConfigPanel={showSpinnerInConfigPanel}
@@ -145,6 +148,7 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
           meetingOptionToggle={meetingOptionToggle}
           audioOptionToggle={audioOptionToggle}
           showScheduleOnBehalf={showScheduleOnBehalf}
+          // @ts-expect-error TS(2322): Type 'RcvDelegator[] | undefined' is not assignabl... Remove this comment to see the full error message
           delegators={delegators}
           updateScheduleFor={updateScheduleFor}
           trackSettingChanges={trackSettingChanges}
@@ -156,7 +160,6 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
           showIeSupportAlert={showIeSupportAlert}
           showRemoveMeetingWarning={showRemoveMeetingWarning}
           brandConfig={brandConfig}
-          appName={appName}
         >
           {showTopic && (
             <Topic
@@ -174,6 +177,7 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
       {isRCV && (
         <VideoConfig
           disabled={configDisabled}
+          // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
           isPersonalMeetingDisabled={isPersonalMeetingDisabled}
           currentLocale={currentLocale}
           labelPlacement={labelPlacement}
@@ -220,7 +224,6 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
           isWaitingRoomDisabled={isWaitingRoomDisabled}
           isRequirePasswordDisabled={isRequirePasswordDisabled}
           showIeSupportAlert={showIeSupportAlert}
-          appName={appName}
           showRemoveMeetingWarning={showRemoveMeetingWarning}
           brandConfig={brandConfig}
         >
@@ -242,6 +245,7 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
           currentLocale={currentLocale}
           disabled={disabled}
           meeting={meeting}
+          // @ts-expect-error TS(2322): Type '(() => any) | undefined' is not assignable t... Remove this comment to see the full error message
           onOK={onOK}
           onClick={async () => {
             if (!disabled) {
@@ -251,18 +255,23 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
               const meetingSetting = isRCM
                 ? {
                     ...meeting,
+                    // @ts-expect-error TS(2339): Property 'topic' does not exist on type 'RcMMeetin... Remove this comment to see the full error message
                     topic: useRcmV2 ? topicRef.current?.value : meeting.topic,
                   }
                 : {
                     ...meeting,
                     name: topicRef.current?.value,
                   };
+              // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
               await schedule(meetingSetting, opener);
             }
           }}
           update={updateMeetingSettings}
+          // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
           showSaveAsDefault={showSaveAsDefault}
+          // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
           disableSaveAsDefault={disableSaveAsDefault}
+          // @ts-expect-error TS(2322): Type '(() => any) | undefined' is not assignable t... Remove this comment to see the full error message
           launchMeeting={launchMeeting}
           showLaunchMeetingBtn={showLaunchMeetingBtn}
           appCode={appCode}

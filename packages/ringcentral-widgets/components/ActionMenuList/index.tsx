@@ -26,7 +26,7 @@ export const ConfirmDeleteModal = ({
   onDelete,
   onCancel,
   type,
-}) => {
+}: any) => {
   let tip;
   if (type === messageTypes.fax) {
     tip = i18n.getString('sureToDeleteFax', currentLocale);
@@ -35,6 +35,7 @@ export const ConfirmDeleteModal = ({
   }
   return (
     <Modal
+      // @ts-expect-error TS(2322): Type '{ children: Element; show: any; currentLocal... Remove this comment to see the full error message
       show={show}
       currentLocale={currentLocale}
       onConfirm={onDelete}
@@ -65,7 +66,7 @@ export const ClickToDialButton = ({
   disableClickToDial,
   phoneNumber,
   title,
-}) => {
+}: any) => {
   return (
     <Button
       className={classnames(styles.button, styles.clickToDialButton, className)}
@@ -100,7 +101,7 @@ export const ClickToSmsButton = ({
   disableLinks,
   phoneNumber,
   title,
-}) => {
+}: any) => {
   return (
     <Button
       className={classnames(styles.button, styles.clickToSmsButton, className)}
@@ -132,7 +133,7 @@ export const DeleteButton = ({
   title,
   openDeleteModal,
   disabled,
-}) => {
+}: any) => {
   return (
     <Button
       className={classnames(styles.button, styles.svgBtn, className)}
@@ -173,7 +174,7 @@ export const MarkButton = ({
   markTitle,
   unmarkTitle,
   disabled,
-}) => {
+}: any) => {
   const Icon = marked ? UnmarkIcon : MarkIcon;
   const title = marked ? unmarkTitle : markTitle;
   const classNames = classnames(
@@ -209,7 +210,7 @@ MarkButton.defaultProps = {
   unmarkTitle: undefined,
 };
 
-export const PreviewButton = ({ title, onClick, disabled, className }) => {
+export const PreviewButton = ({ title, onClick, disabled, className }: any) => {
   return (
     <Button
       className={classnames(styles.button, styles.svgBtn, className)}
@@ -239,7 +240,8 @@ PreviewButton.defaultProps = {
 };
 
 class ActionMenuList extends Component {
-  constructor(props) {
+  onMark: any;
+  constructor(props: any) {
     super(props);
 
     this.state = {
@@ -250,12 +252,14 @@ class ActionMenuList extends Component {
     };
 
     this.onMark = async () => {
+      // @ts-expect-error TS(2339): Property 'marking' does not exist on type 'Readonl... Remove this comment to see the full error message
       if (this.state.marking) {
         return;
       }
       this.setState({
         marking: true,
       });
+      // @ts-expect-error TS(2339): Property 'marked' does not exist on type 'Readonly... Remove this comment to see the full error message
       const { marked, onUnmark, onMark } = this.props;
       const onClick = marked ? onUnmark : onMark;
       try {
@@ -269,7 +273,8 @@ class ActionMenuList extends Component {
     };
   }
 
-  onCreateEnityModal = (entityType) => {
+  onCreateEnityModal = (entityType: any) => {
+    // @ts-expect-error TS(2339): Property 'onCreateEntity' does not exist on type '... Remove this comment to see the full error message
     this.props.onCreateEntity(entityType);
     this.closeEntityModal();
   };
@@ -291,6 +296,7 @@ class ActionMenuList extends Component {
   };
 
   onDelete = () => {
+    // @ts-expect-error TS(2339): Property 'onDelete' does not exist on type 'Readon... Remove this comment to see the full error message
     this.props.onDelete();
     this.setState({
       disableDelete: true,
@@ -314,19 +320,22 @@ class ActionMenuList extends Component {
     this.onCloseDeleteModal();
   };
 
-  preventEventPropagating = (e) => {
+  preventEventPropagating = (e: any) => {
     if (e.target !== e.currentTarget) {
       e.stopPropagation();
     }
   };
 
   onPreview = () => {
+    // @ts-expect-error TS(2339): Property 'faxAttachment' does not exist on type 'R... Remove this comment to see the full error message
     if (this.props.faxAttachment && this.props.faxAttachment.uri) {
+      // @ts-expect-error TS(2339): Property 'onPreview' does not exist on type 'Reado... Remove this comment to see the full error message
       this.props.onPreview(this.props.faxAttachment.uri);
     }
   };
 
-  _onDownloadClick = (e) => {
+  _onDownloadClick = (e: any) => {
+    // @ts-expect-error TS(2339): Property 'faxAttachment' does not exist on type 'R... Remove this comment to see the full error message
     const { faxAttachment, onFaxDownload, disableLinks } = this.props;
     if (disableLinks) {
       e.preventDefault();
@@ -341,17 +350,29 @@ class ActionMenuList extends Component {
 
   getEntityButton = () => {
     const {
+      // @ts-expect-error TS(2339): Property 'hasEntity' does not exist on type 'Reado... Remove this comment to see the full error message
       hasEntity,
+      // @ts-expect-error TS(2339): Property 'phoneNumber' does not exist on type 'Rea... Remove this comment to see the full error message
       phoneNumber,
+      // @ts-expect-error TS(2339): Property 'disableLinks' does not exist on type 'Re... Remove this comment to see the full error message
       disableLinks,
+      // @ts-expect-error TS(2339): Property 'onViewEntity' does not exist on type 'Re... Remove this comment to see the full error message
       onViewEntity,
+      // @ts-expect-error TS(2339): Property 'onCreateEntity' does not exist on type '... Remove this comment to see the full error message
       onCreateEntity,
+      // @ts-expect-error TS(2339): Property 'createEntityTitle' does not exist on typ... Remove this comment to see the full error message
       createEntityTitle,
+      // @ts-expect-error TS(2339): Property 'viewEntityTitle' does not exist on type ... Remove this comment to see the full error message
       viewEntityTitle,
+      // @ts-expect-error TS(2339): Property 'externalViewEntity' does not exist on ty... Remove this comment to see the full error message
       externalViewEntity,
+      // @ts-expect-error TS(2339): Property 'externalHasEntity' does not exist on typ... Remove this comment to see the full error message
       externalHasEntity,
+      // @ts-expect-error TS(2339): Property 'showChooseEntityModal' does not exist on... Remove this comment to see the full error message
       showChooseEntityModal,
+      // @ts-expect-error TS(2339): Property 'shouldHideEntityButton' does not exist o... Remove this comment to see the full error message
       shouldHideEntityButton,
+      // @ts-expect-error TS(2339): Property 'selectedMatchContactType' does not exist... Remove this comment to see the full error message
       selectedMatchContactType,
     } = this.props;
 
@@ -424,39 +445,75 @@ class ActionMenuList extends Component {
     return null;
   };
 
-  render() {
+  override render() {
     const {
+      // @ts-expect-error TS(2339): Property 'className' does not exist on type 'Reado... Remove this comment to see the full error message
       className,
+      // @ts-expect-error TS(2339): Property 'type' does not exist on type 'Readonly<{... Remove this comment to see the full error message
       type,
+      // @ts-expect-error TS(2339): Property 'currentLocale' does not exist on type 'R... Remove this comment to see the full error message
       currentLocale,
+      // @ts-expect-error TS(2339): Property 'onLog' does not exist on type 'Readonly<... Remove this comment to see the full error message
       onLog,
+      // @ts-expect-error TS(2339): Property 'isLogged' does not exist on type 'Readon... Remove this comment to see the full error message
       isLogged,
+      // @ts-expect-error TS(2339): Property 'isLogging' does not exist on type 'Reado... Remove this comment to see the full error message
       isLogging,
+      // @ts-expect-error TS(2339): Property 'createEntityTypes' does not exist on typ... Remove this comment to see the full error message
       createEntityTypes,
+      // @ts-expect-error TS(2339): Property 'hasEntity' does not exist on type 'Reado... Remove this comment to see the full error message
       hasEntity,
+      // @ts-expect-error TS(2339): Property 'onClickToDial' does not exist on type 'R... Remove this comment to see the full error message
       onClickToDial,
+      // @ts-expect-error TS(2339): Property 'onClickToSms' does not exist on type 'Re... Remove this comment to see the full error message
       onClickToSms,
+      // @ts-expect-error TS(2339): Property 'phoneNumber' does not exist on type 'Rea... Remove this comment to see the full error message
       phoneNumber,
+      // @ts-expect-error TS(2339): Property 'disableLinks' does not exist on type 'Re... Remove this comment to see the full error message
       disableLinks,
+      // @ts-expect-error TS(2339): Property 'disableCallButton' does not exist on typ... Remove this comment to see the full error message
       disableCallButton,
+      // @ts-expect-error TS(2339): Property 'disableClickToDial' does not exist on ty... Remove this comment to see the full error message
       disableClickToDial,
+      // @ts-expect-error TS(2339): Property 'addLogTitle' does not exist on type 'Rea... Remove this comment to see the full error message
       addLogTitle,
+      // @ts-expect-error TS(2339): Property 'editLogTitle' does not exist on type 'Re... Remove this comment to see the full error message
       editLogTitle,
+      // @ts-expect-error TS(2339): Property 'callTitle' does not exist on type 'Reado... Remove this comment to see the full error message
       callTitle,
+      // @ts-expect-error TS(2339): Property 'textTitle' does not exist on type 'Reado... Remove this comment to see the full error message
       textTitle,
+      // @ts-expect-error TS(2339): Property 'onDelete' does not exist on type 'Readon... Remove this comment to see the full error message
       onDelete,
+      // @ts-expect-error TS(2339): Property 'deleteTitle' does not exist on type 'Rea... Remove this comment to see the full error message
       deleteTitle,
+      // @ts-expect-error TS(2339): Property 'onMark' does not exist on type 'Readonly... Remove this comment to see the full error message
       onMark,
+      // @ts-expect-error TS(2339): Property 'marked' does not exist on type 'Readonly... Remove this comment to see the full error message
       marked,
+      // @ts-expect-error TS(2339): Property 'markTitle' does not exist on type 'Reado... Remove this comment to see the full error message
       markTitle,
+      // @ts-expect-error TS(2339): Property 'unmarkTitle' does not exist on type 'Rea... Remove this comment to see the full error message
       unmarkTitle,
+      // @ts-expect-error TS(2339): Property 'previewTitle' does not exist on type 'Re... Remove this comment to see the full error message
       previewTitle,
+      // @ts-expect-error TS(2339): Property 'downloadTitle' does not exist on type 'R... Remove this comment to see the full error message
       downloadTitle,
+      // @ts-expect-error TS(2339): Property 'onPreview' does not exist on type 'Reado... Remove this comment to see the full error message
       onPreview,
+      // @ts-expect-error TS(2339): Property 'faxAttachment' does not exist on type 'R... Remove this comment to see the full error message
       faxAttachment,
+      // @ts-expect-error TS(2339): Property 'disableClickToSms' does not exist on typ... Remove this comment to see the full error message
       disableClickToSms,
+      // @ts-expect-error TS(2339): Property 'externalHasEntity' does not exist on typ... Remove this comment to see the full error message
+      externalHasEntity,
+      // @ts-expect-error TS(2339): Property 'externalViewEntity' does not exist on ty... Remove this comment to see the full error message
+      externalViewEntity,
+      // @ts-expect-error TS(2339): Property 'externalViewEntity' does not exist on ty... Remove this comment to see the full error message
+      extraButton,
     } = this.props;
 
+    // @ts-expect-error TS(2339): Property 'deleteModalVisible' does not exist on ty... Remove this comment to see the full error message
     const { deleteModalVisible, disableDelete, entityModalVisible } =
       this.state;
 
@@ -467,6 +524,7 @@ class ActionMenuList extends Component {
         disableLinks={disableLinks}
         isLogged={isLogged}
         isLogging={isLogging}
+        // @ts-expect-error TS(2322): Type '{ className: string; onLog: any; disableLink... Remove this comment to see the full error message
         currentLocale={currentLocale}
         addTitle={addLogTitle}
         editTitle={editLogTitle}
@@ -474,9 +532,9 @@ class ActionMenuList extends Component {
     ) : null;
 
     const entityButton = this.getEntityButton();
-
+    const isMatched = externalViewEntity ? externalHasEntity : hasEntity;
     const entityModal =
-      !hasEntity && phoneNumber ? (
+      !isMatched && phoneNumber ? (
         <EntityModal
           currentLocale={currentLocale}
           entities={createEntityTypes}
@@ -490,6 +548,7 @@ class ActionMenuList extends Component {
       <ClickToDialButton
         onClickToDial={onClickToDial}
         phoneNumber={phoneNumber}
+        // @ts-expect-error TS(2322): Type '{ onClickToDial: any; phoneNumber: any; disa... Remove this comment to see the full error message
         disableLinks={disableLinks}
         disableCallButton={disableLinks || disableCallButton}
         disableClickToDial={disableClickToDial}
@@ -502,12 +561,14 @@ class ActionMenuList extends Component {
         onClickToSms={onClickToSms}
         phoneNumber={phoneNumber}
         disableLinks={disableLinks || disableClickToSms}
+        // @ts-expect-error TS(2322): Type '{ onClickToSms: any; phoneNumber: any; disab... Remove this comment to see the full error message
         currentLocale={currentLocale}
         title={textTitle}
       />
     ) : null;
     const deleteButton = onDelete ? (
       <DeleteButton
+        // @ts-expect-error TS(2322): Type '{ onDelete: any; currentLocale: any; title: ... Remove this comment to see the full error message
         onDelete={onDelete}
         currentLocale={currentLocale}
         title={deleteTitle}
@@ -559,6 +620,7 @@ class ActionMenuList extends Component {
             title={downloadTitle}
             href={`${faxAttachment.uri}&contentDisposition=Attachment`}
             onClick={this._onDownloadClick}
+            // @ts-expect-error TS(2322): Type '{ children: Element; target: "_blank"; downl... Remove this comment to see the full error message
             disabled={disableLinks}
           >
             <DownloadIcon width={18} height={18} />
@@ -580,11 +642,13 @@ class ActionMenuList extends Component {
         {deleteButton}
         {entityModal}
         {confirmDeleteModal}
+        {extraButton}
       </div>
     );
   }
 }
 
+// @ts-expect-error TS(2339): Property 'propTypes' does not exist on type 'typeo... Remove this comment to see the full error message
 ActionMenuList.propTypes = {
   className: PropTypes.string,
   type: PropTypes.string,
@@ -628,7 +692,9 @@ ActionMenuList.propTypes = {
   selectedMatchContactType: PropTypes.string,
   showChooseEntityModal: PropTypes.bool,
   shouldHideEntityButton: PropTypes.bool,
+  extraButton: PropTypes.element,
 };
+// @ts-expect-error TS(2339): Property 'defaultProps' does not exist on type 'ty... Remove this comment to see the full error message
 ActionMenuList.defaultProps = {
   className: undefined,
   type: undefined,
@@ -669,6 +735,7 @@ ActionMenuList.defaultProps = {
   selectedMatchContactType: '',
   showChooseEntityModal: true,
   shouldHideEntityButton: false,
+  extraButton: undefined,
 };
 
 export default ActionMenuList;

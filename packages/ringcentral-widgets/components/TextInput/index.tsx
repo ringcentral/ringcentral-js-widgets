@@ -26,21 +26,23 @@ type TextInputState = {
   value: any;
 };
 class TextInput extends Component<TextInputProps, TextInputState> {
-  constructor(props) {
+  input: any;
+  constructor(props: any) {
     super(props);
     this.state = {
       value: props.value,
     };
     this.input = null;
   }
-  componentWillReceiveProps(nextProps) {
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
+  UNSAFE_componentWillReceiveProps(nextProps: any) {
     if (nextProps.value !== this.props.value) {
       this.setState({
         value: nextProps.value,
       });
     }
   }
-  onInputChange = (e) => {
+  onInputChange = (e: any) => {
     let value = e.currentTarget.value;
     if (typeof this.props.filter === 'function') {
       value = this.props.filter(value);
@@ -50,6 +52,7 @@ class TextInput extends Component<TextInputProps, TextInputState> {
       this.props.onChange(e);
     }
   };
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     const {
       className,
@@ -95,6 +98,7 @@ class TextInput extends Component<TextInputProps, TextInputState> {
     );
   }
 }
+// @ts-expect-error TS(2339): Property 'defaultProps' does not exist on type 'ty... Remove this comment to see the full error message
 TextInput.defaultProps = {
   className: undefined,
   onChange: undefined,

@@ -1,4 +1,4 @@
-import { ASSISTED_USERS_MYSELF } from '@ringcentral-integration/commons/modules/RcVideo/constants';
+import { ASSISTED_USERS_MYSELF } from '@ringcentral-integration/commons/modules/RcVideo';
 export default {
   topic: "会議タイトル",
   date: "日付",
@@ -14,11 +14,11 @@ export default {
   waitingRoomGuest: "すべての未サインインユーザー",
   waitingRoomAll: "全員",
   enterPassword: "パスワードを入力",
-  onlyJoinAfterMe: "自分の後にのみ参加者が参加可能にする",
+  onlyJoinAfterMe: "自分が入る前に参加者の入室を許可しない",
   onlyJoinAfterHost: "ホストの後にのみ参加者が参加可能にする",
-  muteAudio: "参加者のオーディオをミュート",
+  muteAudio: "参加者のオーディオをミュートにする",
   turnOffCamera: "参加者のカメラをオフにする",
-  requirePassword: "パスワードを必須にする",
+  requirePassword: "パスワードが必要です",
   useE2ee: "エンドツーエンドの暗号化を使用",
   e2eeTooltip: "エンドツーエンドで暗号化された会議は最もプライベートが守られる環境ですが、電話での参加、字幕、レコーディングなどの機能は使用できません。",
   setPassword: "パスワードを設定*",
@@ -78,5 +78,5 @@ export default {
 // @key: @#@"today"@#@ @source: @#@"Today"@#@
 // @key: @#@"scheduleForGuidance"@#@ @source: @#@"Scheduling for someone else?\n1. Make sure you're on their Outlook calendar.\n2. From the dropdown, select the person you're scheduling for.\n"@#@
 // @key: @#@"scheduleForGuidanceMore"@#@ @source: @#@"Learn details"@#@
-// @key: @#@"changePmiSettings"@#@ @source: @#@"Change Personal meeting settings"@#@
+// @key: @#@"changePmiSettings"@#@ @source: @#@"Change Personal Meeting settings"@#@
 // @key: @#@"ieSupportAlert"@#@ @source: @#@"Please note that {appName} won't work with Internet Explorer 11 after Feb 16, 2022. We recommend switching to Microsoft Edge or updating to Outlook 2016 or above."@#@

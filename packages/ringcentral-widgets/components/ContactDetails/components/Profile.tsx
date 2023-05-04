@@ -3,8 +3,10 @@ import React, { FunctionComponent } from 'react';
 import classnames from 'classnames';
 
 import { extensionStatusTypes } from '@ringcentral-integration/commons/enums/extensionStatusTypes';
-import { ContactModel } from '@ringcentral-integration/commons/interfaces/Contact.model';
-import { PresenceModel } from '@ringcentral-integration/commons/interfaces/Presence.model';
+import {
+  ContactModel,
+  ContactPresence,
+} from '@ringcentral-integration/commons/interfaces/Contact.model';
 
 import { getPresenceStatusName } from '../../../lib/getPresenceStatusName';
 import PresenceStatusIcon from '../../PresenceStatusIcon';
@@ -12,10 +14,11 @@ import { sourceNodeRenderer } from '../ContactDetails.interface';
 import i18n from '../i18n';
 import styles from '../styles.scss';
 import { Avatar } from './Avatar';
+import { GetPresenceFn, usePresence } from '../../../react-hooks/usePresence';
 
 interface StatusProps {
   inactive: boolean;
-  presence?: PresenceModel;
+  presence?: ContactPresence | null;
   currentLocale: string;
 }
 
@@ -36,7 +39,7 @@ const Status: FunctionComponent<StatusProps> = ({
     );
   }
   if (presence) {
-    const { presenceStatus, dndStatus } = presence;
+    const { presenceStatus = '', dndStatus = '' } = presence;
     const presenceName = getPresenceStatusName(
       presenceStatus,
       dndStatus,
@@ -51,7 +54,9 @@ const Status: FunctionComponent<StatusProps> = ({
             dndStatus={dndStatus}
           />
         </div>
-        <span className={styles.presenceName}>{presenceName}</span>
+        {presenceName && (
+          <span className={styles.presenceName}>{presenceName}</span>
+        )}
       </div>
     );
   }
@@ -59,7 +64,7 @@ const Status: FunctionComponent<StatusProps> = ({
 };
 
 interface NameProps {
-  presence?: PresenceModel;
+  presence?: ContactPresence | null;
   inactive: boolean;
   name: string;
 }
@@ -74,6 +79,7 @@ const Name: FunctionComponent<NameProps> = ({ presence, inactive, name }) => {
       )}
       title={name}
       data-sign="contactName"
+      data-inactive={inactive}
     >
       {name}
     </div>
@@ -81,17 +87,29 @@ const Name: FunctionComponent<NameProps> = ({ presence, inactive, name }) => {
 };
 
 export interface ProfileProps extends sourceNodeRenderer {
-  contact: ContactModel;
+  contact: ContactModel &
+    Partial<{
+      profileImageUrl: string;
+      status: string;
+      site: {
+        name: string;
+        code: string;
+      };
+    }>;
   currentLocale: string;
   isMultipleSiteEnabled: boolean;
+  getPresence: GetPresenceFn;
 }
 
 export const Profile: FunctionComponent<ProfileProps> = ({
-  contact: { name, presence, profileImageUrl, status, site, type },
+  contact,
   sourceNodeRenderer,
   currentLocale,
   isMultipleSiteEnabled,
+  getPresence,
 }) => {
+  const { name, profileImageUrl, status, site, type } = contact;
+  const presence = usePresence(contact, { fetch: getPresence });
   const inactive = status === extensionStatusTypes.notActivated;
   return (
     <section className={styles.profile} aria-label="profile">

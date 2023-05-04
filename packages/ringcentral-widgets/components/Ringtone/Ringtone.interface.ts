@@ -27,8 +27,8 @@ export interface AudioFileReaderProps {
   currentLocale: string;
   fileName?: string;
   dataUrl?: string;
-  defaultFileName: string;
-  defaultDataUrl: string;
+  defaultFileName: string | undefined;
+  defaultDataUrl: string | undefined;
   onChange: (props: fileChangeProps) => void;
-  onReset: () => void;
+  onReset?: () => void;
 }

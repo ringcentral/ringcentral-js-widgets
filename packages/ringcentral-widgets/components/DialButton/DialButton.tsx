@@ -6,6 +6,7 @@ import { audios } from './audios';
 import styles from './styles.scss';
 
 const ALTERNATIVE_TIMEOUT = 1000;
+// @ts-expect-error TS(2322): Type 'null' is not assignable to type 'HTMLAudioEl... Remove this comment to see the full error message
 let player: HTMLAudioElement = null;
 
 interface DialButtonProps {
@@ -34,10 +35,12 @@ export default class DialButton extends Component<
     muted: false,
   };
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   state: DialButtonState = {
     pressed: false,
   };
 
+  // @ts-expect-error TS(2564): Property 'timeout' has no initializer and is not d... Remove this comment to see the full error message
   timeout: NodeJS.Timeout;
 
   isEdge =
@@ -46,9 +49,11 @@ export default class DialButton extends Component<
       window.navigator.userAgent.indexOf('Edge') > -1) ||
     false;
 
+  // @ts-expect-error TS(2564): Property 'audio' has no initializer and is not def... Remove this comment to see the full error message
   audio: HTMLAudioElement;
 
   constructor(props: DialButtonProps, ...args: any[]) {
+    // @ts-expect-error TS(2556): A spread argument must either have a tuple type or... Remove this comment to see the full error message
     super(props, ...args);
 
     if (typeof document !== 'undefined' && document.createElement && !player) {
@@ -56,7 +61,7 @@ export default class DialButton extends Component<
     }
   }
 
-  onMouseDown = (e) => {
+  onMouseDown = (e: any) => {
     e.preventDefault();
 
     if (
@@ -64,7 +69,9 @@ export default class DialButton extends Component<
       player.canPlayType('audio/ogg') !== '' &&
       audios[this.props.btn?.value]
     ) {
+      // @ts-expect-error TS(2322): Type 'number | undefined' is not assignable to typ... Remove this comment to see the full error message
       player.volume = this.props.volume;
+      // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
       player.muted = this.props.muted;
       player.src = audios[this.props.btn.value];
       player.currentTime = 0;
@@ -78,6 +85,7 @@ export default class DialButton extends Component<
       if (this.state.pressed) {
         if (this.timeout) {
           clearTimeout(this.timeout);
+          // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Timeout'.
           this.timeout = null;
         }
         if (typeof this.props.onOutput === 'function') {
@@ -100,6 +108,7 @@ export default class DialButton extends Component<
     if (this.state.pressed) {
       if (this.timeout) {
         clearTimeout(this.timeout);
+        // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Timeout'.
         this.timeout = null;
       }
       if (typeof this.props.onOutput === 'function') {
@@ -115,6 +124,7 @@ export default class DialButton extends Component<
     if (this.state.pressed) {
       if (this.timeout) {
         clearTimeout(this.timeout);
+        // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Timeout'.
         this.timeout = null;
       }
       this.setState({
@@ -123,6 +133,7 @@ export default class DialButton extends Component<
     }
   };
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     const isSpecial = this.props.btn.value === '*';
     return (

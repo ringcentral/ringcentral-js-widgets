@@ -45,6 +45,7 @@ export type Party = {
   };
   status: {
     code: typeof PartyStatusCode[PartyStatusCodeKeys];
+    reason: string;
     mobilePickupData: {
       ccMailboxes: string[];
       to: string;
@@ -57,6 +58,7 @@ export type Party = {
   missedCall: boolean;
   standAlone: boolean;
   muted: boolean;
+  queueCall: boolean;
 };
 
 export type Origin = {
@@ -78,6 +80,7 @@ export type Body = {
 
 let sequence = 10;
 const DEFAULT_DIRECTION = callDirections.outbound;
+const DEFAULT_RECORD_STATUS = false;
 export const DEFAULT_PHONE_NUMBER = '+16501234567';
 
 const DEFAULT_EXTENSION_ID = extensionBody.id.toString();
@@ -107,6 +110,8 @@ interface InitParams {
   toNumberData?: NumberData;
   startTime?: string;
   isRecording?: boolean;
+  muteStatus?: boolean;
+  queueCall?: boolean;
 }
 
 export const telephonySessionBuildersCache: TelephonySessionBuilder[] = [];
@@ -118,14 +123,19 @@ class TelephonySessionBuilder {
   private _direction: CallDirections;
   private _sessionId: string;
   private _partyStatus: PartyStatusCode;
+  private _partyReason: string;
   private _partyId: string;
   private _fromNumberData: NumberData;
   private _toNumberData: NumberData;
   private _startTime: string;
   private _isRecording: boolean;
+  private _muteStatus: boolean;
+  private _queueCall: boolean;
+  relatedWebphoneSession: any;
 
   constructor(initParams: InitParams = {}) {
     this._init(initParams);
+    telephonySessionBuildersCache.push(this);
   }
 
   _init({
@@ -134,10 +144,13 @@ class TelephonySessionBuilder {
     direction = DEFAULT_DIRECTION,
     sessionId,
     status = PartyStatusCode.proceeding,
+    reason = 'AttendedTransfer',
     fromNumberData,
     toNumberData,
     startTime,
-    isRecording,
+    isRecording = DEFAULT_RECORD_STATUS,
+    muteStatus = false,
+    queueCall = false,
   }: InitParams) {
     this._telephonySessionId = telephonySessionId;
     this._sessionId = sessionId || telephonySessionId;
@@ -145,10 +158,17 @@ class TelephonySessionBuilder {
     this._direction = direction;
     this._partyId = `${telephonySessionId}-1`;
     this._partyStatus = status;
+    this._partyReason = reason;
     this._fromNumberData = fromNumberData;
     this._toNumberData = toNumberData;
     this._startTime = startTime;
     this._isRecording = isRecording;
+    this._muteStatus = muteStatus;
+    this._queueCall = queueCall;
+  }
+
+  setRelatedWebphoneSession(webphoneSession: any) {
+    this.relatedWebphoneSession = webphoneSession;
   }
 
   direction(direction: CallDirections) {
@@ -158,6 +178,10 @@ class TelephonySessionBuilder {
 
   status(status: PartyStatusCode) {
     this._partyStatus = status;
+    return this;
+  }
+  reason(reason: string) {
+    this._partyReason = reason;
     return this;
   }
 
@@ -177,7 +201,7 @@ class TelephonySessionBuilder {
   }
 
   telephonySessionId(telephonySessionId: string) {
-    this._data.body.telephonySessionId = telephonySessionId;
+    this._telephonySessionId = telephonySessionId;
     return this;
   }
 
@@ -194,6 +218,26 @@ class TelephonySessionBuilder {
     return this.status(PartyStatusCode.disconnected);
   }
 
+  setGone() {
+    return this.status(PartyStatusCode.gone);
+  }
+  setReason() {
+    return this.reason('AttendedTransfer');
+  }
+
+  setHoldCall() {
+    return this.status(PartyStatusCode.hold);
+  }
+  setMuteCall() {
+    this._muteStatus = true;
+    return this;
+  }
+
+  startRecord() {
+    this._isRecording = true;
+    return this;
+  }
+
   setInboundCall() {
     return this.direction('Inbound');
   }
@@ -208,7 +252,6 @@ class TelephonySessionBuilder {
   }
 
   done() {
-    telephonySessionBuildersCache.push(this);
     return this.data;
   }
 
@@ -257,9 +300,10 @@ class TelephonySessionBuilder {
             from: this._fromNumberData || this.numberData,
             status: {
               code: this._partyStatus,
+              reason: this._partyReason,
               mobilePickupData: {
                 ccMailboxes: ['400144455008'],
-                to: '#19008@sip-mesdevams.lab.nordigy.ru:5060',
+                to: '#19008@platform.devtest.ringcentral.com:5060',
                 sid: '402936472080',
                 srvLvl: '-149699523',
                 srvLvlExt: '390',
@@ -268,7 +312,8 @@ class TelephonySessionBuilder {
             recordings: this.recordings,
             missedCall: false,
             standAlone: false,
-            muted: false,
+            muted: this._muteStatus,
+            queueCall: this._queueCall,
           },
         ],
         recordings: this.recordings,

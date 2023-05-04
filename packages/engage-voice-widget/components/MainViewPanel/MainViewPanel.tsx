@@ -13,7 +13,7 @@ import {
   SettingsBorder as settingsBorderSvg,
   Time as TimeSvg,
   TimeBorder as TimeBorderSvg,
-} from '@ringcentral/juno/icon';
+} from '@ringcentral/juno-icon';
 
 import offHookSvgConnecting from '../../assets/icons/icon-pvc-connecting.svg';
 import offHookSvgDisabled from '../../assets/icons/icon-pvc-disabled.svg';

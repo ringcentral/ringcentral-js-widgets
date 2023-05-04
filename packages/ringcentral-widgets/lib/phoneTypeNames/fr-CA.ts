@@ -9,7 +9,7 @@ export default {
   [phoneTypes.company]: "Numéro de l’entreprise",
   [phoneTypes.direct]: "Numéro direct",
   [phoneTypes.contact]: "Numéro de téléphone",
-  [phoneTypes.fax]: "Télécopieur",
+  [phoneTypes.fax]: "Fax",
   [phoneTypes.other]: "Autre"
 };
 

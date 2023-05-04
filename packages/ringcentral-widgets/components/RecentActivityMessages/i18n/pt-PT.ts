@@ -1,5 +1,5 @@
 export default {
-  noRecords: "Não foram encontrados registos."
+  noRecords: "Nenhum registo recente encontrado."
 };
 
 // @key: @#@"noRecords"@#@ @source: @#@"No recent records found."@#@

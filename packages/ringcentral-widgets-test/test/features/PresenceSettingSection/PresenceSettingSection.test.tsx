@@ -10,7 +10,6 @@ import {
   Then,
 } from '@ringcentral-integration/test-utils';
 import { PresenceSetting } from '@ringcentral-integration/widgets/test/components/PresenceSettingSection/PresenceSettingSection';
-import * as mock from '@ringcentral-integration/commons/integration-test/mock';
 import { Login } from '../../steps/Login';
 
 const NavigateTo: StepFunction<{ path: string }> = ({ path }, { phone }) => {
@@ -68,8 +67,8 @@ export class CheckInitialData extends Step {
         />
         <Then
           desc="Mock available presence"
-          action={({ state }: PresenceDropdownCheckProps) => {
-            mock.presenceUpdate('~', responseMap[state]);
+          action={({ state }: PresenceDropdownCheckProps, { rcMock }) => {
+            rcMock.presenceUpdate(responseMap[state]);
           }}
         />
         <When desc="Check presence setting section" action={PresenceSetting} />

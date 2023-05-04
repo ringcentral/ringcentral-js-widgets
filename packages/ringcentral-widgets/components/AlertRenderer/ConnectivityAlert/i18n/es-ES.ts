@@ -2,9 +2,9 @@ import { connectivityTypes } from '../../../../modules/ConnectivityManager';
 export default {
   [connectivityTypes.networkLoss]: "Se produjo un error; compruebe la conexión de red e inténtelo de nuevo.",
   [connectivityTypes.offline]: "No se puede conectar al servidor. Vuelva a intentarlo más tarde.",
-  [connectivityTypes.serverUnavailable]: "Se produjo un error por nuestra parte. Vuelva a intentarlo más tarde.",
+  [connectivityTypes.serverUnavailable]: "Se ha producido un error en nuestro sistema. Inténtelo de nuevo más tarde.",
   [connectivityTypes.voipOnly]: "Se produjo un error por nuestra parte, pero estamos trabajando para solucionarlo. Aún puede realizar llamadas, pero otras funciones actualmente están limitadas.",
-  [connectivityTypes.survival]: "Se produjo un error por nuestra parte, pero estamos trabajando para solucionarlo. Es posible que tenga acceso limitado a determinadas funciones. La aplicación se recuperará automáticamente tan pronto como esté disponible."
+  [connectivityTypes.survival]: "Se ha producido un error en nuestro sistema, pero estamos trabajando para solucionarlo. Es posible que tenga acceso limitado a determinadas funciones. La aplicación se recuperará automáticamente tan pronto como esté disponible."
 };
 
 // @key: @#@"[connectivityTypes.networkLoss]"@#@ @source: @#@"Sorry, something went wrong, check your network connection and try again."@#@

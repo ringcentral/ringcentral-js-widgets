@@ -2,6 +2,7 @@ import { CallResultsValue } from '../enums/callResults';
 import { Entity } from './Entity.interface';
 import { ActiveCall } from './Presence.model';
 import { NormalizedSession } from './Webphone.interface';
+import { IWarmTransferInfo } from './ActiveSession.interface';
 
 export interface CallerInfo {
   phoneNumber?: string;
@@ -25,10 +26,12 @@ export interface NormalizedCall {
   from?: CallerInfo;
   to?: CallerInfo;
   startTime?: number;
-  sessionId?: string;
+  sessionId: string;
   webphoneSession?: NormalizedSession;
   telephonyStatus?: ActiveCall['telephonyStatus'];
   duration?: number;
+  warmTransferInfo?: IWarmTransferInfo;
+  isRecording?: boolean;
 }
 
 export type NormalizedCalls = NormalizedCall[];

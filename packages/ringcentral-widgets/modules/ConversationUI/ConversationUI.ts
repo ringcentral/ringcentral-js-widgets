@@ -1,18 +1,17 @@
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import { formatNumber } from '@ringcentral-integration/commons/lib/formatNumber';
-import { FormatDateTimeOptions } from '@ringcentral-integration/commons/modules/DateTimeFormatV2';
-import { Attachment } from '@ringcentral-integration/commons/modules/MessageSenderV2';
 import {
   RcUIModuleV2,
   UIFunctions,
   UIProps,
+  track,
 } from '@ringcentral-integration/core';
+import { trackEvents } from '@ringcentral-integration/commons/enums/trackEvents';
 
 import {
   ConversationContainerProps,
   ConversationPanelProps,
   Deps,
-  OnLogConversationOptions,
 } from './ConversationUI.interface';
 
 @Module({
@@ -28,13 +27,15 @@ import {
     'ConnectivityMonitor',
     'MessageStore',
     'RouterInteraction',
+    'AccountInfo',
+    'ExtensionInfo',
     { dep: 'ConversationLogger', optional: true },
     { dep: 'ContactMatcher', optional: true },
     { dep: 'ConversationUIOptions', optional: true },
   ],
 })
-export class ConversationUI<T> extends RcUIModuleV2<Deps & T> {
-  constructor(deps: Deps & T) {
+export class ConversationUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
+  constructor(deps: T) {
     super({
       deps,
     });
@@ -48,59 +49,56 @@ export class ConversationUI<T> extends RcUIModuleV2<Deps & T> {
     perPage = 20,
     inputExpandable,
   }: ConversationContainerProps): UIProps<ConversationPanelProps> {
-    const {
-      brand,
-      locale,
-      conversationLogger,
-      dateTimeFormat,
-      contactMatcher,
-      regionSettings,
-      conversations,
-      rateLimiter,
-      connectivityMonitor,
-      appFeatures,
-    } = this._deps;
     const disableLinks =
-      rateLimiter.throttling || !connectivityMonitor.connectivity;
+      this._deps.rateLimiter.throttling ||
+      !this._deps.connectivityMonitor.connectivity;
     const showSpinner = !(
-      dateTimeFormat.ready &&
-      (!contactMatcher || contactMatcher.ready) &&
-      regionSettings.ready &&
-      conversations.ready &&
-      rateLimiter.ready &&
-      connectivityMonitor.ready &&
-      (!conversationLogger || conversationLogger.ready)
+      this._deps.dateTimeFormat.ready &&
+      (!this._deps.contactMatcher || this._deps.contactMatcher.ready) &&
+      this._deps.regionSettings.ready &&
+      this._deps.conversations.ready &&
+      this._deps.rateLimiter.ready &&
+      this._deps.connectivityMonitor.ready &&
+      (!this._deps.conversationLogger || this._deps.conversationLogger.ready)
     );
-    const currentConversation = conversations.currentConversation;
+    const currentConversation = this._deps.conversations.currentConversation;
     const hasInputContent =
-      conversations.messageText.length > 0 ||
-      (conversations.attachments && conversations.attachments.length > 0);
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+      this._deps.conversations.messageText.length > 0 ||
+      (this._deps.conversations.attachments &&
+        this._deps.conversations.attachments.length > 0);
     return {
-      brand: brand.name,
+      brand: this._deps.brand.name,
       enableContactFallback,
       showGroupNumberName,
       supportAttachment,
-      currentLocale: locale.currentLocale,
+      currentLocale: this._deps.locale.currentLocale,
       conversationId: params.conversationId,
       sendButtonDisabled:
-        conversations.pushing ||
+        this._deps.conversations.pushing ||
         disableLinks ||
         !hasInputContent ||
         showSpinner,
-      areaCode: regionSettings.areaCode,
-      countryCode: regionSettings.countryCode,
+      areaCode: this._deps.regionSettings.areaCode,
+      countryCode: this._deps.regionSettings.countryCode,
       showSpinner,
       recipients: currentConversation.recipients,
       messages: currentConversation.messages,
-      messageText: conversations.messageText,
-      attachments: conversations.attachments,
+      // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
+      messageText: this._deps.conversations.messageText,
+      // @ts-expect-error TS(2322): Type 'Attachment[] | undefined' is not assignable ... Remove this comment to see the full error message
+      attachments: this._deps.conversations.attachments,
       conversation: currentConversation,
       disableLinks,
-      autoLog: !!conversationLogger?.autoLog,
+      autoLog: !!this._deps.conversationLogger?.autoLog,
       perPage,
-      loadingNextPage: conversations.loadingOldMessages,
+      loadingNextPage: this._deps.conversations.loadingOldMessages,
+      // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
       inputExpandable,
-      enableCDC: appFeatures.isCDCEnabled,
+      enableCDC: this._deps.appFeatures.isCDCEnabled,
+      isMultipleSiteEnabled: this._deps.extensionInfo?.isMultipleSiteEnabled,
+      currentSiteCode: this._deps.extensionInfo?.site?.code,
+      maxExtensionNumberLength: this._deps.accountInfo.maxExtensionNumberLength,
     };
   }
 
@@ -110,36 +108,31 @@ export class ConversationUI<T> extends RcUIModuleV2<Deps & T> {
     conversationsPath = '/messages',
     renderExtraButton,
   }: ConversationContainerProps): UIFunctions<ConversationPanelProps> {
-    const {
-      contactMatcher,
-      dateTimeFormat,
-      routerInteraction,
-      conversationLogger,
-      regionSettings,
-      conversations,
-      messageStore,
-    } = this._deps;
     let getMatcherContactName: ConversationPanelProps['getMatcherContactName'];
     let getMatcherContactList: ConversationPanelProps['getMatcherContactList'];
     let getMatcherContactNameList: ConversationPanelProps['getMatcherContactNameList'];
-    if (contactMatcher && contactMatcher.ready) {
+    if (this._deps.contactMatcher && this._deps.contactMatcher.ready) {
       getMatcherContactList = (phoneNumber) => {
-        const matcherNames = contactMatcher.dataMapping[phoneNumber];
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+        const matcherNames = this._deps.contactMatcher.dataMapping[phoneNumber];
         if (matcherNames?.length > 0) {
           return matcherNames.map(
             (matcher) =>
+              // @ts-expect-error TS(2532): Object is possibly 'undefined'.
               `${matcher.name} | ${matcher.phoneNumbers[0].phoneType}`,
           );
         }
         return [];
       };
       getMatcherContactNameList = (phoneNumber) => {
-        const matcherNames = contactMatcher.dataMapping[phoneNumber];
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+        const matcherNames = this._deps.contactMatcher.dataMapping[phoneNumber];
         if (matcherNames?.length > 0) {
           return matcherNames.map((matcher) => matcher.name);
         }
         return [];
       };
+      // @ts-expect-error TS(2322): Type '(phoneNumber: string) => string | null' is n... Remove this comment to see the full error message
       getMatcherContactName = (phoneNumber) => {
         const matcherNames = getMatcherContactNameList(phoneNumber);
         return matcherNames?.length > 0 ? matcherNames.join('&') : null;
@@ -147,51 +140,69 @@ export class ConversationUI<T> extends RcUIModuleV2<Deps & T> {
     }
 
     return {
-      replyToReceivers: (text: string, attachments?: Attachment[]) =>
-        conversations.replyToReceivers(text, attachments),
-      unloadConversation: () => conversations.unloadConversation(),
-      loadConversation: (id: string) => conversations.loadConversation(id),
-      updateMessageText: (text: string) =>
-        conversations.updateMessageText(text),
-      addAttachment: (attachment: Attachment) =>
-        conversations.addAttachment(attachment),
-      removeAttachment: (attachment: Attachment) =>
-        conversations.removeAttachment(attachment),
+      replyToReceivers: (text, attachments) =>
+        // @ts-expect-error TS(2322): Type 'Promise<GetMessageInfoResponse | null>' is n... Remove this comment to see the full error message
+        this._deps.conversations.replyToReceivers(text, attachments),
+      unloadConversation: () => this._deps.conversations.unloadConversation(),
+      loadConversation: (id) => this._deps.conversations.loadConversation(id),
+      updateMessageText: (text) =>
+        // @ts-expect-error TS(2322): Type 'Promise<boolean | undefined>' is not assigna... Remove this comment to see the full error message
+        this._deps.conversations.updateMessageText(text),
+      addAttachment: (attachment) =>
+        this._deps.conversations.addAttachment(attachment),
+      removeAttachment: (attachment) =>
+        this._deps.conversations.removeAttachment(attachment),
+      // @ts-expect-error TS(2322): Type '(options: Partial<FormatDateTimeOptions>) =>... Remove this comment to see the full error message
       dateTimeFormatter:
         dateTimeFormatter ??
-        ((options: Partial<FormatDateTimeOptions>) =>
-          dateTimeFormat.formatDateTime(options)),
-      formatPhone: (phoneNumber: string) =>
+        ((options) => this._deps.dateTimeFormat.formatDateTime(options)),
+      formatPhone: (phoneNumber) =>
+        // @ts-expect-error TS(2322): Type 'string | null | undefined' is not assignable... Remove this comment to see the full error message
         formatNumber({
           phoneNumber,
-          areaCode: regionSettings.areaCode,
-          countryCode: regionSettings.countryCode,
+          areaCode: this._deps.regionSettings.areaCode,
+          countryCode: this._deps.regionSettings.countryCode,
+          maxExtensionLength: this._deps.accountInfo.maxExtensionNumberLength,
         }),
+      // @ts-expect-error TS(2454): Variable 'getMatcherContactName' is used before be... Remove this comment to see the full error message
       getMatcherContactName,
+      // @ts-expect-error TS(2454): Variable 'getMatcherContactList' is used before be... Remove this comment to see the full error message
       getMatcherContactList,
+      // @ts-expect-error TS(2454): Variable 'getMatcherContactNameList' is used befor... Remove this comment to see the full error message
       getMatcherContactNameList,
       onLogConversation:
         onLogConversation ||
-        (conversationLogger &&
-          (async ({
-            redirect = true,
-            ...options
-          }: OnLogConversationOptions) => {
-            await conversationLogger.logConversation({
+        (this._deps.conversationLogger &&
+          (async ({ redirect = true, ...options }) => {
+            await this._deps.conversationLogger.logConversation({
               ...options,
               redirect,
             });
           })),
-      goBack() {
-        routerInteraction.push(conversationsPath);
+      goBack: () => {
+        this._deps.routerInteraction.push(conversationsPath);
       },
-      readMessages(id: string) {
-        messageStore.readMessages(id);
+      readMessages: (id) => {
+        this._deps.messageStore.readMessages(id);
       },
-      loadPreviousMessages() {
-        conversations.fetchOldMessages();
+      loadPreviousMessages: () => {
+        this._deps.conversations.fetchOldMessages();
       },
       renderExtraButton,
+      onLinkClick: (href: string) =>
+        this._trackClickConversationHyperlink(href),
     };
   }
+
+  @track((_, href) => {
+    let linkType = 'website';
+    if (href.startsWith('mailto:')) {
+      linkType = 'email';
+    }
+    return [
+      trackEvents.clickConversationHyperlink,
+      { 'Hyperlink type': linkType },
+    ];
+  })
+  private _trackClickConversationHyperlink(href: string) {}
 }

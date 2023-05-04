@@ -82,20 +82,24 @@ export const RecipientsInputV2 = forwardRef<
       focus() {
         setIsInputFocused(true);
         if (inputEl.current) {
+          // @ts-expect-error TS(2339): Property 'focus' does not exist on type 'never'.
           inputEl.current.focus();
         }
       },
       blur() {
         setIsInputFocused(false);
         if (inputEl.current) {
+          // @ts-expect-error TS(2339): Property 'blur' does not exist on type 'never'.
           inputEl.current.blur();
         }
       },
     }));
     useEffect(() => {
       const handler = ({ target }: MouseEvent) => {
+        // @ts-expect-error TS(2339): Property 'contains' does not exist on type 'never'... Remove this comment to see the full error message
         if (thisEl.current && !thisEl.current.contains(target)) {
           if (inputEl.current) {
+            // @ts-expect-error TS(2339): Property 'blur' does not exist on type 'never'.
             inputEl.current.blur();
           }
           setIsInputFocused(false);
@@ -129,6 +133,7 @@ export const RecipientsInputV2 = forwardRef<
             setSelectedIndex(0);
             onInputChange(newValue);
             if (listEl.current) {
+              // @ts-expect-error TS(2339): Property 'setScrollPosition' does not exist on typ... Remove this comment to see the full error message
               listEl.current.setScrollPosition(0);
             }
           }}
@@ -155,6 +160,7 @@ export const RecipientsInputV2 = forwardRef<
               if (selectedIndex > 0) {
                 setSelectedIndex((prevIndex) => prevIndex - 1);
                 if (selectedIndex - 1 < searchContactList.length - 4) {
+                  // @ts-expect-error TS(2531): Object is possibly 'null'.
                   listEl.current.scrollUp();
                 }
               }
@@ -162,6 +168,7 @@ export const RecipientsInputV2 = forwardRef<
               if (selectedIndex < searchContactList.length - 1) {
                 setSelectedIndex((prevIndex) => prevIndex + 1);
                 if (selectedIndex + 1 > 4) {
+                  // @ts-expect-error TS(2531): Object is possibly 'null'.
                   listEl.current.scrollDown();
                 }
               }

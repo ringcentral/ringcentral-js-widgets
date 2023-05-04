@@ -7,7 +7,7 @@ import {
   RcTypography,
   styled,
 } from '@ringcentral/juno';
-import { ArrowLeft2 as arrowLeftSvg } from '@ringcentral/juno/icon';
+import { ArrowLeft2 as arrowLeftSvg } from '@ringcentral/juno-icon';
 
 import {
   EvAgentSessionUIFunctions,

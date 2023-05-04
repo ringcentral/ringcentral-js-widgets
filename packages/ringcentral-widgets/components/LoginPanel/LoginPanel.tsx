@@ -9,7 +9,7 @@ import {
   typography,
 } from '@ringcentral/juno';
 
-import { headerViewHeight } from '../../containers/HeaderView/utils/HeaderViewUtils';
+import { headerViewHeight } from '../HeaderView/utils/HeaderViewUtils';
 import { SpinnerOverlay, SpinnerOverlayProps } from '../SpinnerOverlay';
 import i18n from './i18n';
 

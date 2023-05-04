@@ -2,7 +2,7 @@ export default {
   recentActivities: "Attività recenti",
   text: "SMS",
   fax: "Fax",
-  voicemail: "Messaggio vocale",
+  voicemail: "Segreteria telefonica",
   call: "Chiamata"
 };
 

@@ -7,8 +7,10 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
-import { subscriptionStatus as subscriptionStatuses } from '../../modules/Subscription/subscriptionStatus';
-import { Subscription } from '../../modules/SubscriptionV2';
+import {
+  Subscription,
+  subscriptionStatus as subscriptionStatuses,
+} from '../../modules/Subscription';
 
 class MockStorage {
   registerReducer() {}
@@ -69,11 +71,13 @@ function createMockSubscription({
   });
 }
 
-function GenericSubscriptionInstance({
+type GenericSubscriptionInstanceProp = {
+  instanceData?: Partial<Subscription>;
+};
+
+const GenericSubscriptionInstance = ({
   instanceData,
-}: {
-  instanceData?: Partial<Subscription> & any;
-}) {
+}: GenericSubscriptionInstanceProp) => {
   return (
     <>
       <Given
@@ -85,7 +89,7 @@ function GenericSubscriptionInstance({
       />
     </>
   );
-}
+};
 
 @autorun(test)
 @title('Subscription::on notification event')

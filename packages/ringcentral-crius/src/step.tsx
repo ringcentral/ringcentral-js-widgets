@@ -14,7 +14,7 @@ import { isCriusNode } from 'crius-is';
 import { combine } from './combine';
 import { TestType, testTypes } from './constant';
 
-export { beforeEach, afterEach } from 'crius-test';
+export { beforeEach, afterEach, BaseContext } from 'crius-test';
 
 interface BuilderProps {
   desc: string;
@@ -36,11 +36,22 @@ global.afterEach?.(async () => {
   }
 });
 
-class Step<P = {}, C = {}> extends BaseStep<P, C> {
+abstract class Step<P = {}, C = {}> extends BaseStep<P, C> {
   static priority?: string;
   static type?: string;
   static status?: string;
-  static get context() {
+  static common?: boolean;
+
+  /**
+   * those for class Element type correct
+   */
+  render: any;
+  setState: any;
+  forceUpdate: any;
+  state: any;
+  refs: any;
+
+  static override get context() {
     return {
       get phone() {
         return global.instance?.phone ?? null;
@@ -77,6 +88,10 @@ function testBuild(this: BaseScenario): any {
     } else {
       Action = combine(Action);
     }
+  } else if (!isCriusNode(Action) && typeof Action !== 'undefined') {
+    throw new Error(`
+      The action of Step with desc '${this.props.action}' is not a valid crius node.
+    `);
   }
   return (
     <>
@@ -87,7 +102,7 @@ function testBuild(this: BaseScenario): any {
 }
 
 class Scenario<P = {}, C = {}> extends BaseScenario<BuilderProps & P, C> {
-  run(): any {
+  override run(): any {
     return testBuild.call(this);
   }
 
@@ -99,7 +114,7 @@ class Scenario<P = {}, C = {}> extends BaseScenario<BuilderProps & P, C> {
 }
 
 class Given<P = {}, C = {}> extends BaseGiven<BuilderProps & P, C> {
-  run(): any {
+  override run(): any {
     return testBuild.call(this);
   }
 
@@ -111,7 +126,7 @@ class Given<P = {}, C = {}> extends BaseGiven<BuilderProps & P, C> {
 }
 
 class When<P = {}, C = {}> extends BaseWhen<BuilderProps & P, C> {
-  run(): any {
+  override run(): any {
     return testBuild.call(this);
   }
 
@@ -123,7 +138,7 @@ class When<P = {}, C = {}> extends BaseWhen<BuilderProps & P, C> {
 }
 
 class Then<P = {}, C = {}> extends BaseThen<BuilderProps & P, C> {
-  run(): any {
+  override run(): any {
     return testBuild.call(this);
   }
 
@@ -135,7 +150,7 @@ class Then<P = {}, C = {}> extends BaseThen<BuilderProps & P, C> {
 }
 
 class And<P = {}, C = {}> extends BaseAnd<BuilderProps & P, C> {
-  run(): any {
+  override run(): any {
     return testBuild.call(this);
   }
 
@@ -155,14 +170,22 @@ const autorun = (_test: Function) => (_target: object) => {
       `'TEST_TYPE' value should be in ${JSON.stringify(testTypes)}.`,
     );
   }
-  const skipTest =
-    process.env.TEST_TYPE &&
-    process.env.TEST_TYPE !== (_target as typeof Step).type &&
-    (_test as jest.It).skip;
-  return baseAutorun(skipTest || _test)(_target);
+  const { type, common } = _target as typeof Step;
+  const skipCommonTest =
+    !process.env.COMMON && Object.keys(_target).includes('common') && !!common;
+  if (skipCommonTest) return;
+  const test =
+    process.env.TEST_TYPE && process.env.TEST_TYPE !== type
+      ? (_test as jest.It).skip
+      : _test;
+  return baseAutorun(test)(_target);
 };
 
 export interface StepFunction<P = {}, C = {}> extends BaseStepFunction<P, C> {}
+
+export type StepProp =
+  | StepFunction<any, any>
+  | (StepFunction<any, any> | JSX.Element)[];
 
 export {
   Step,

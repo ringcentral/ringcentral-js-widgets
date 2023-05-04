@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { EventEmitter } from 'events';
 import * as uuid from 'uuid';
 
@@ -53,7 +54,7 @@ export class SynchronizedStorage
               //   });
               // }, 0);
             }
-          } catch (error) {
+          } catch (error: any /** TODO: confirm with instanceof */) {
             /* ignore error */
           }
         }
@@ -94,7 +95,7 @@ export class SynchronizedStorage
         this._localStorage.getItem(`${this._storageKey}-${key}`),
       );
       return value;
-    } catch (error) {
+    } catch (error: any /** TODO: confirm with instanceof */) {
       return undefined;
     }
   }

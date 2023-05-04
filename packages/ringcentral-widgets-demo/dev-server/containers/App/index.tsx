@@ -1,4 +1,4 @@
-import { sleep } from '@ringcentral-integration/commons/lib/sleep';
+import { sleep } from '@ringcentral-integration/commons/utils';
 import { ContactSourceFilter } from '@ringcentral-integration/widgets/components/ContactSourceFilter';
 import MeetingScheduleButton from '@ringcentral-integration/widgets/components/MeetingScheduleButton';
 import ActiveCallsPage from '@ringcentral-integration/widgets/containers/ActiveCallsPage';

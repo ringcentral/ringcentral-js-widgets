@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
-
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 
-import isBlank from '@ringcentral-integration/commons/lib/isBlank';
+import { isBlank } from '@ringcentral-integration/commons/lib/isBlank';
 import { RcIcon } from '@ringcentral/juno';
 import {
   DefaultFile as fileSvg,
   Download as downloadSvg,
-} from '@ringcentral/juno/icon';
+} from '@ringcentral/juno-icon';
 
 import i18n from './i18n';
 import styles from './styles.scss';
+import { SubjectRender as DefaultRender } from './SubjectRender';
 
-function getExtFromContentType(contentType) {
+function getExtFromContentType(contentType: any) {
   const ext = contentType.split('/');
   return ext[1].split('+')[0];
 }
@@ -27,18 +27,18 @@ export const Message = ({
   mmsAttachments,
   currentLocale,
   onAttachmentDownload,
-}) => {
+  onLinkClick,
+}: any) => {
   let subjectNode;
   if (subject && !isBlank(subject)) {
-    subjectNode = SubjectRenderer ? (
-      <SubjectRenderer subject={subject} />
-    ) : (
-      subject
+    const SubjectComp = SubjectRenderer || DefaultRender;
+    subjectNode = (
+      <SubjectComp subject={subject} onLinkClick={onLinkClick} />
     );
   }
   const imageAttachments = mmsAttachments
-    .filter((m) => m.contentType.indexOf('image') > -1)
-    .map((attachment) => {
+    .filter((m: any) => m.contentType.indexOf('image') > -1)
+    .map((attachment: any) => {
       return (
         <img
           key={attachment.id}
@@ -49,8 +49,8 @@ export const Message = ({
       );
     });
   const otherAttachments = mmsAttachments
-    .filter((m) => m.contentType.indexOf('image') === -1)
-    .map((attachment) => {
+    .filter((m: any) => m.contentType.indexOf('image') === -1)
+    .map((attachment: any) => {
       const fileName =
         attachment.fileName ||
         `${attachment.id}.${getExtFromContentType(attachment.contentType)}`;
@@ -111,6 +111,7 @@ Message.propTypes = {
   mmsAttachments: PropTypes.array,
   currentLocale: PropTypes.string.isRequired,
   onAttachmentDownload: PropTypes.func,
+  onLinkClick: PropTypes.func,
 };
 
 Message.defaultProps = {
@@ -123,11 +124,18 @@ Message.defaultProps = {
 };
 
 class ConversationMessageList extends Component {
+  _listRef: any;
+  _scrollHeight: any;
+  _scrollTop: any;
+  _scrollUp: any;
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   componentDidMount() {
     this.scrollToLastMessage();
   }
 
-  componentDidUpdate(previousProps) {
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
+  componentDidUpdate(previousProps: any) {
+    // @ts-expect-error TS(2339): Property 'messages' does not exist on type 'Readon... Remove this comment to see the full error message
     if (previousProps.messages.length === this.props.messages.length) {
       return;
     }
@@ -157,6 +165,7 @@ class ConversationMessageList extends Component {
       this._scrollUp = false;
     }
     if (currentScrollTop < 20 && this._scrollTop >= 20) {
+      // @ts-expect-error TS(2339): Property 'loadPreviousMessages' does not exist on ... Remove this comment to see the full error message
       this.props.loadPreviousMessages();
     }
     this._scrollTop = currentScrollTop;
@@ -168,35 +177,51 @@ class ConversationMessageList extends Component {
     }
   };
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     const {
+      // @ts-expect-error TS(2339): Property 'className' does not exist on type 'Reado... Remove this comment to see the full error message
       className,
+      // @ts-expect-error TS(2339): Property 'dateTimeFormatter' does not exist on typ... Remove this comment to see the full error message
       dateTimeFormatter,
+      // @ts-expect-error TS(2339): Property 'messages' does not exist on type 'Readon... Remove this comment to see the full error message
       messages,
+      // @ts-expect-error TS(2339): Property 'showSender' does not exist on type 'Read... Remove this comment to see the full error message
       showSender,
+      // @ts-expect-error TS(2339): Property 'height' does not exist on type 'Readonly... Remove this comment to see the full error message
       height,
+      // @ts-expect-error TS(2339): Property 'messageSubjectRenderer' does not exist o... Remove this comment to see the full error message
       messageSubjectRenderer,
+      // @ts-expect-error TS(2339): Property 'formatPhone' does not exist on type 'Rea... Remove this comment to see the full error message
       formatPhone,
+      // @ts-expect-error TS(2339): Property 'loadingNextPage' does not exist on type ... Remove this comment to see the full error message
       loadingNextPage,
+      // @ts-expect-error TS(2339): Property 'currentLocale' does not exist on type 'R... Remove this comment to see the full error message
       currentLocale,
+      // @ts-expect-error TS(2339): Property 'onAttachmentDownload' does not exist on ... Remove this comment to see the full error message
       onAttachmentDownload,
+      // @ts-expect-error TS(2339): Property 'onLinkClick' does not exist on ... Remove this comment to see the full error message
+      onLinkClick,
     } = this.props;
 
     let lastDate = 0;
-    const messageList = messages.map((message) => {
+    const messageList = messages.map((message: any) => {
       const sender = showSender
         ? message.from.name ||
           formatPhone(message.from.extensionNumber || message.from.phoneNumber)
         : null;
       const date = new Date(message.creationTime);
       const time =
+        // @ts-expect-error TS(2362): The left-hand side of an arithmetic operation must... Remove this comment to see the full error message
         date - lastDate < 60 * 60 * 1000 &&
+        // @ts-expect-error TS(2339): Property 'getHours' does not exist on type 'number... Remove this comment to see the full error message
         date.getHours() === lastDate.getHours()
           ? null
           : dateTimeFormatter({
               utcTimestamp: message.creationTime,
               type: 'long',
             });
+      // @ts-expect-error TS(2322): Type 'Date' is not assignable to type 'number'.
       lastDate = date;
       return (
         <Message
@@ -209,6 +234,7 @@ class ConversationMessageList extends Component {
           mmsAttachments={message.mmsAttachments}
           currentLocale={currentLocale}
           onAttachmentDownload={onAttachmentDownload}
+          onLinkClick={onLinkClick}
         />
       );
     });
@@ -233,6 +259,7 @@ class ConversationMessageList extends Component {
   }
 }
 
+// @ts-expect-error TS(2339): Property 'propTypes' does not exist on type 'typeo... Remove this comment to see the full error message
 ConversationMessageList.propTypes = {
   currentLocale: PropTypes.string,
   messages: PropTypes.arrayOf(
@@ -255,6 +282,7 @@ ConversationMessageList.propTypes = {
   onAttachmentDownload: PropTypes.func,
 };
 
+// @ts-expect-error TS(2339): Property 'defaultProps' does not exist on type 'ty... Remove this comment to see the full error message
 ConversationMessageList.defaultProps = {
   currentLocale: 'en-US',
   className: null,

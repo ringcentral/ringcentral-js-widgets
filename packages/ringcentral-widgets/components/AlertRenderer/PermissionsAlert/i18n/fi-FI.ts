@@ -1,6 +1,6 @@
 import { permissionsMessages } from '@ringcentral-integration/commons/enums/permissionsMessages';
 export default {
-  [permissionsMessages.invalidTier]: "Versiosi ei tue {application}-integraatiota. Ota yhteyttä tilisi järjestelmänvalvojaan, jos haluat päivittää palvelun {brand} versiosi.",
+  [permissionsMessages.invalidTier]: "Versiosi ei tue {application} -integraatiota. Ota yhteyttä tilisi järjestelmänvalvojaan, jos haluat päivittää palvelun {brand} versiosi.",
   [permissionsMessages.insufficientPrivilege]: "Käyttölupa ei riitä. Pyydä päivitystä tilin järjestelmänvalvojalta."
 };
 

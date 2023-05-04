@@ -13,7 +13,7 @@ import {
 
 import { Module, ModuleFactory } from '../../lib/di';
 import RcModule from '../../lib/RcModule';
-import { sleep } from '../../lib/sleep';
+import { sleep } from '@ringcentral-integration/utils';
 import { Locale } from '../../modules/Locale';
 
 @autorun(test)
@@ -39,7 +39,7 @@ export class CompatibilityForRcModuleV1 extends Step {
                 this.count.sum += 1;
               }
 
-              async onInit() {
+              override async onInit() {
                 await new Promise((r) => setTimeout(r, 0));
               }
             }

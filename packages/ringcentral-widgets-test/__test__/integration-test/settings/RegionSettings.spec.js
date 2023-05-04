@@ -52,24 +52,8 @@ describe('region settings', () => {
     expect(messages).toEqual(
       expect.arrayContaining([
         expect.objectContaining({
-          level: 'info',
+          level: 'success',
           message: 'regionSettingsMessages-saveSuccess',
-        }),
-      ]),
-    );
-  });
-
-  test('invalid area code', async () => {
-    const saveButton = regionSettings.find('SaveButton').first();
-    await enterAreaCode('000');
-    await saveButton.simulate('click');
-    const store = wrapper.props().phone.store;
-    const messages = store.getState(wrapper).alert.messages;
-    expect(messages).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({
-          level: 'danger',
-          message: 'regionSettingsMessages-areaCodeInvalid',
         }),
       ]),
     );

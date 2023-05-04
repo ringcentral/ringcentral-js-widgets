@@ -2,7 +2,6 @@ import React, { Component, createRef } from 'react';
 
 import classnames from 'classnames';
 
-import { isObject } from '@ringcentral-integration/commons/lib/di/utils/is_type';
 import { recordStatus as recordStatuses } from '@ringcentral-integration/commons/modules/Webphone/recordStatus';
 
 import CombineIcon from '../../assets/images/Combine.svg';
@@ -79,7 +78,9 @@ type ActiveCallPadState = { expandMore: boolean } & ((prevState: any) => {
     moreButton: any;
   };
 class ActiveCallPad extends Component<ActiveCallPadProps, ActiveCallPadState> {
-  constructor(props) {
+  dropdown: any;
+  moreButton: any;
+  constructor(props: any) {
     super(props);
     this.moreButton = createRef();
     this.dropdown = createRef();
@@ -90,8 +91,8 @@ class ActiveCallPad extends Component<ActiveCallPadProps, ActiveCallPadState> {
       moreButton: this.moreButton && this.moreButton.current,
     };
   }
-  onClick(e) {
-    if (isObject(this.dropdown) && isObject(this.dropdown.current)) {
+  onClick(e: any) {
+    if (this.dropdown && this.dropdown.current) {
       const {
         dom: { current },
       } = this.dropdown.current;
@@ -107,25 +108,29 @@ class ActiveCallPad extends Component<ActiveCallPadProps, ActiveCallPadState> {
     }
   }
   toggleMore() {
-    this.setState((prevState) => ({
+    this.setState((prevState: any) => ({
       expandMore: !prevState.expandMore,
     }));
   }
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   componentDidMount() {
     document.body.addEventListener('click', this.onClick);
     this.setState({
       moreButton: this.moreButton && this.moreButton.current,
     });
   }
-  componentWillReceiveProps() {
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
+  UNSAFE_componentWillReceiveProps() {
     this.setState({
       moreButton: this.moreButton && this.moreButton.current,
     });
   }
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   componentWillUnmount() {
     document.body.removeEventListener('click', this.onClick);
   }
-  shouldComponentUpdate(nextProps, nextState) {
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
+  shouldComponentUpdate(nextProps: any, nextState: any) {
     if (nextState !== this.state) {
       return true;
     }
@@ -133,6 +138,7 @@ class ActiveCallPad extends Component<ActiveCallPadProps, ActiveCallPadState> {
     for (const p in nextProps) {
       if (Object.prototype.hasOwnProperty.call(nextProps, p)) {
         const val = nextProps[p];
+        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         if (val !== this.props[p] && typeof val !== 'function') {
           showUpdate = true;
           break;
@@ -141,6 +147,7 @@ class ActiveCallPad extends Component<ActiveCallPadProps, ActiveCallPadState> {
     }
     return showUpdate;
   }
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     const {
       controlBusy,
@@ -313,7 +320,9 @@ class ActiveCallPad extends Component<ActiveCallPadProps, ActiveCallPadState> {
       });
     }
     // filter actions
+    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     if (actions.length > 0) {
+      // @ts-expect-error TS(2345): Argument of type 'any[] | undefined' is not assign... Remove this comment to see the full error message
       buttons = pickElements(actions, buttons);
     }
     /* --------------------- More Actions --------------------------- */
@@ -343,6 +352,7 @@ class ActiveCallPad extends Component<ActiveCallPadProps, ActiveCallPadState> {
           >
             <div className={styles.buttonPopup}>
               {buttons.slice(DisplayButtonNumber - 1).map(({ id, ...opts }) => (
+                // @ts-expect-error TS(2322): Type '{ icon: any; iconWidth: number; iconHeight: ... Remove this comment to see the full error message
                 <MoreActionItem key={id} {...opts} />
               ))}
             </div>
@@ -393,6 +403,7 @@ class ActiveCallPad extends Component<ActiveCallPadProps, ActiveCallPadState> {
     );
   }
 }
+// @ts-expect-error TS(2339): Property 'defaultProps' does not exist on type 'ty... Remove this comment to see the full error message
 ActiveCallPad.defaultProps = {
   className: null,
   isOnMute: false,

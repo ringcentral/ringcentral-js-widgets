@@ -1,17 +1,18 @@
-import IncomingCallPanel from '@ringcentral-integration/widgets/components/IncomingCallPanel';
-import IncomingCallPad from '@ringcentral-integration/widgets/components/IncomingCallPad';
-import NavigationBar from '@ringcentral-integration/widgets/components/NavigationBar';
-import ActiveCallList from '@ringcentral-integration/widgets/components/ActiveCallList';
-import { ActiveCallItem as ActiveCallItemV2 } from '@ringcentral-integration/widgets/components/ActiveCallItemV2';
-import ActiveCallItem from '@ringcentral-integration/widgets/components/ActiveCallItem';
-import ActiveCallsPanel from '@ringcentral-integration/widgets/components/ActiveCallsPanel';
-import MultiCallAnswerButton from '@ringcentral-integration/widgets/components/MultiCallAnswerButton';
-import ActiveCallPad from '@ringcentral-integration/widgets/components/ActiveCallPad';
+import { sleep } from '@ringcentral-integration/commons/utils';
 import ActiveCallButton from '@ringcentral-integration/widgets/components/ActiveCallButton';
-import { timeout, initPhoneWrapper, tearDownWrapper } from '../shared';
+import ActiveCallItem from '@ringcentral-integration/widgets/components/ActiveCallItem';
+import { ActiveCallItem as ActiveCallItemV2 } from '@ringcentral-integration/widgets/components/ActiveCallItemV2';
+import ActiveCallList from '@ringcentral-integration/widgets/components/ActiveCallList';
+import ActiveCallPad from '@ringcentral-integration/widgets/components/ActiveCallPad';
+import ActiveCallsPanel from '@ringcentral-integration/widgets/components/ActiveCallsPanel';
+import IncomingCallPad from '@ringcentral-integration/widgets/components/IncomingCallPad';
+import IncomingCallPanel from '@ringcentral-integration/widgets/components/IncomingCallPanel';
+import MultiCallAnswerButton from '@ringcentral-integration/widgets/components/MultiCallAnswerButton';
+import NavigationBar from '@ringcentral-integration/widgets/components/NavigationBar';
 
+import { getInboundCall, makeCall } from '../../support/callHelper';
+import { initPhoneWrapper, tearDownWrapper } from '../shared';
 import { mockActiveCallPanelData } from './helper';
-import { makeCall, getInboundCall } from '../../support/callHelper';
 
 beforeEach(async () => {
   jasmine.DEFAULT_TIMEOUT_INTERVAL = 64000;
@@ -33,7 +34,7 @@ async function checkIncomingPopup(wrapper, phone) {
       .find('[data-sign="currentName"]')
       .simulate('click');
   }
-  await timeout(100);
+  await sleep(100);
   expect(phone.routerInteraction.currentPath).toEqual('/calls');
   wrapper.update();
   expect(wrapper.find(IncomingCallPad)).toHaveLength(1);
@@ -55,7 +56,7 @@ describe('RCI-1105: Incoming Call Control Page from All Calls', () => {
     const backBtn = incomingCallPanel.find('.backButton');
     expect(backBtn).toHaveLength(1);
     backBtn.simulate('click');
-    await timeout(100);
+    await sleep(100);
     expect(phone.routerInteraction.currentPath).toEqual('/dialer');
     expect(wrapper.find(NavigationBar)).toHaveLength(2);
     phone.routerInteraction.push('/calls');
@@ -78,7 +79,7 @@ describe('RCI-1105: Incoming Call Control Page from All Calls', () => {
     );
     const inboundSession = await getInboundCall(phone);
     await mockActiveCallPanelData(phone, [], [inboundSession.id]);
-    await timeout(1000);
+    await sleep(1000);
     wrapper.update();
     const answerBtn = wrapper.find(MultiCallAnswerButton);
     expect(answerBtn).toHaveLength(2);
@@ -88,14 +89,14 @@ describe('RCI-1105: Incoming Call Control Page from All Calls', () => {
     );
 
     wrapper.find('.backButton').at(1).simulate('click');
-    await timeout(100);
+    await sleep(100);
     const activeCallPad = wrapper.find(ActiveCallPad);
     expect(activeCallPad).toHaveLength(1);
     expect(activeCallPad.find(ActiveCallButton)).toHaveLength(6);
     const backBtn = wrapper.find('.backLabel');
     expect(backBtn.text()).toEqual('All Calls');
     backBtn.simulate('click');
-    await timeout(100);
+    await sleep(100);
     expect(phone.routerInteraction.currentPath).toEqual('/calls');
     wrapper.update();
     await checkIncomingPopup(wrapper, phone);
@@ -103,7 +104,7 @@ describe('RCI-1105: Incoming Call Control Page from All Calls', () => {
     const ignoreBtn = wrapper.find(ActiveCallButton).at(2);
     expect(ignoreBtn.find('.buttonTitle').text()).toEqual('Ignore');
     ignoreBtn.simulate('click');
-    await timeout(100);
+    await sleep(100);
     expect(phone.routerInteraction.currentPath).toEqual('/calls');
 
     await tearDownWrapper(wrapper);
@@ -137,14 +138,14 @@ describe('RCI-1105: Incoming Call Control Page from All Calls', () => {
     }
     expect(ringingCalls).toHaveLength(2);
     ringingCalls.at(0).find('[data-sign="currentName"]').simulate('click');
-    await timeout(100);
+    await sleep(100);
     wrapper.update();
     expect(wrapper.find(IncomingCallPanel)).toHaveLength(1);
     wrapper.find(IncomingCallPanel).find('.backButton').simulate('click');
-    await timeout(100);
+    await sleep(100);
     wrapper.update();
     ringingCalls.at(1).find('[data-sign="currentName"]').simulate('click');
-    await timeout(100);
+    await sleep(100);
     wrapper.update();
     expect(wrapper.find(IncomingCallPanel)).toHaveLength(1);
     await tearDownWrapper(wrapper);

@@ -1,5 +1,5 @@
 export default {
-  searchPlaceholder: "搜索...",
+  searchPlaceholder: "搜索…",
   refresh: "刷新"
 };
 

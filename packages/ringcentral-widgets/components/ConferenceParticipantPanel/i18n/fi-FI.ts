@@ -1,11 +1,11 @@
 export default {
   removeParticipant: "Poista osallistuja",
-  confirmStr1: "Haluatko varmasti poistaa",
+  confirmStr1: "Haluatko varmasti poistaa osallistujan",
   confirmStr2: "tästä puhelusta?",
   remove: "Poista",
   cancel: "Peruuta",
-  participants: "Osallistujat",
-  participant: "Osallistuja",
+  participants: "osallistujaa",
+  participant: "osallistuja",
   conferenceCall: "Neuvottelupuhelu",
   unknownNumber: "Nimetön"
 };

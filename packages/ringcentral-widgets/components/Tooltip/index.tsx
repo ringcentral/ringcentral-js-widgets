@@ -2,14 +2,13 @@ import React, { Component } from 'react';
 
 import classnames from 'classnames';
 
-import { isFunction } from '@ringcentral-integration/commons/lib/di/utils/is_type';
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
 import styles from './styles.scss';
 
 const POSITION = ObjectMap.fromKeys(['top', 'left']);
 const TAIL_HEIGHT = Math.sqrt(10 ** 2 * 2);
-const getDimensions = (element) => {
+const getDimensions = (element: any) => {
   const PROPERTIES = {
     position: 'fixed',
     visibility: 'hidden',
@@ -17,6 +16,7 @@ const getDimensions = (element) => {
   if (element.nodeType) {
     let clonedEl = element.cloneNode(true);
     Object.keys(PROPERTIES).forEach((key) => {
+      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       clonedEl.style[key] = PROPERTIES[key];
     });
     document.body.appendChild(clonedEl);
@@ -39,13 +39,15 @@ const transitionEnd = () => {
     transition: 'transitionend',
   };
   for (const name in transEndEventNames) {
+    // @ts-expect-error TS(7015): Element implicitly has an 'any' type because index... Remove this comment to see the full error message
     if (el.style[name] !== undefined) {
+      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       return transEndEventNames[name];
     }
   }
   return null;
 };
-const getPageOffset = (el) => {
+const getPageOffset = (el: any) => {
   if (!el) {
     return null;
   }
@@ -57,7 +59,7 @@ const getPageOffset = (el) => {
     left: rect.left + scollLeft,
   };
 };
-const getRelativeOffset = (el) => {
+const getRelativeOffset = (el: any) => {
   const res = { top: 0, left: 0 };
   if (!el) {
     return null;
@@ -91,13 +93,18 @@ type TooltipState = ((preState: any) => any) &
     position: null;
   };
 class Tooltip extends Component<TooltipProps, TooltipState> {
-  constructor(props) {
+  dom: any;
+  onResize: any;
+  constructor(props: any) {
     super(props);
     this.onResize = this.checkPosition.bind(this);
     this.onTransitionEnd = this.onTransitionEnd.bind(this);
     this.state = {
+      // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'never'.
       cachedPositioning: null,
+      // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'never'.
       visibility: null,
+      // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'never'.
       position: null,
     };
     this.dom = React.createRef();
@@ -107,18 +114,21 @@ class Tooltip extends Component<TooltipProps, TooltipState> {
   }
   setVisibility(props = this.props) {
     this.setState((preState) => ({
+      // @ts-expect-error TS(2698): Spread types may only be created from object types... Remove this comment to see the full error message
       ...preState,
       visibility: props.open ? 'initial' : 'hidden',
     }));
   }
   setVisible() {
     this.setState((preState) => ({
+      // @ts-expect-error TS(2698): Spread types may only be created from object types... Remove this comment to see the full error message
       ...preState,
       visibility: 'initial',
     }));
   }
   setInVisible() {
     this.setState((preState) => ({
+      // @ts-expect-error TS(2698): Spread types may only be created from object types... Remove this comment to see the full error message
       ...preState,
       visibility: 'hidden',
     }));
@@ -135,6 +145,7 @@ class Tooltip extends Component<TooltipProps, TooltipState> {
       elm = document.body;
     }
     if (elm) {
+      // @ts-expect-error TS(2339): Property 'style' does not exist on type 'object'.
       elm.style.position = RELATIVE;
     }
   }
@@ -147,16 +158,21 @@ class Tooltip extends Component<TooltipProps, TooltipState> {
           }
         : {
             elm: triggerElm,
+            // @ts-expect-error TS(2345): Argument of type 'object' is not assignable to par... Remove this comment to see the full error message
             position: window.getComputedStyle(triggerElm).position,
           };
+      // @ts-expect-error TS(2345): Argument of type '{ cachedPositioning: { elm: obje... Remove this comment to see the full error message
       this.setState({
         cachedPositioning,
       });
     }
   }
   restorePositioning() {
+    // @ts-expect-error TS(2339): Property 'cachedPositioning' does not exist on typ... Remove this comment to see the full error message
     if (this.state.cachedPositioning && this.state.cachedPositioning.elm) {
+      // @ts-expect-error TS(2339): Property 'cachedPositioning' does not exist on typ... Remove this comment to see the full error message
       this.state.cachedPositioning.elm.style.potition =
+        // @ts-expect-error TS(2339): Property 'cachedPositioning' does not exist on typ... Remove this comment to see the full error message
         this.state.cachedPositioning.position;
     }
   }
@@ -176,12 +192,16 @@ class Tooltip extends Component<TooltipProps, TooltipState> {
       }
       const top =
         props.direction === POSITION.top
-          ? offset && offset.top - currentDemension.height - TAIL_HEIGHT / 2
-          : offset && offset.top + demensionOfTrigger.height + TAIL_HEIGHT / 2;
+          ? // @ts-expect-error TS(2531): Object is possibly 'null'.
+            offset && offset.top - currentDemension.height - TAIL_HEIGHT / 2
+          : // @ts-expect-error TS(2531): Object is possibly 'null'.
+            offset && offset.top + demensionOfTrigger.height + TAIL_HEIGHT / 2;
       const left =
         offset &&
+        // @ts-expect-error TS(2531): Object is possibly 'null'.
         offset.left + demensionOfTrigger.width / 2 - currentDemension.width / 2;
       this.setState((preState) => ({
+        // @ts-expect-error TS(2698): Spread types may only be created from object types... Remove this comment to see the full error message
         ...preState,
         position: {
           left,
@@ -190,6 +210,7 @@ class Tooltip extends Component<TooltipProps, TooltipState> {
       }));
     }
   }
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   componentDidMount() {
     this.recordPositioning();
     this.changeTriggerElmPosition();
@@ -203,7 +224,8 @@ class Tooltip extends Component<TooltipProps, TooltipState> {
       );
     }
   }
-  UNSAFE_componentWillReceiveProps(nextProps) {
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
+  UNSAFE_componentWillReceiveProps(nextProps: any) {
     if (nextProps.triggerElm !== this.props.triggerElm) {
       this.restorePositioning();
       this.recordPositioning(nextProps.triggerElm);
@@ -217,22 +239,25 @@ class Tooltip extends Component<TooltipProps, TooltipState> {
     }
     if (nextProps.open !== this.props.open) {
       if (nextProps.open) {
+        // @ts-expect-error TS(2554): Expected 0 arguments, but got 1.
         this.setVisible(nextProps);
       }
       if (nextProps.open) {
-        isFunction(this.props.beforeOpen) && this.props.beforeOpen();
+        this.props.beforeOpen?.();
       } else {
-        isFunction(this.props.beforeClose) && this.props.beforeClose();
+        this.props.beforeClose?.();
       }
     }
   }
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   componentDidUpdate() {
     if (this.props.open) {
-      isFunction(this.props.onOpen) && this.props.onOpen();
+      this.props.onOpen?.();
     } else {
-      isFunction(this.props.onClose) && this.props.onClose();
+      this.props.onClose?.();
     }
   }
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   componentWillUnmount() {
     window.removeEventListener('resize', this.onResize);
     if (TRANSITION_END_EVT_NAME) {
@@ -243,6 +268,7 @@ class Tooltip extends Component<TooltipProps, TooltipState> {
     }
     this.restorePositioning();
   }
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     const { open, direction, fixed, children } = this.props;
     return (
@@ -251,11 +277,14 @@ class Tooltip extends Component<TooltipProps, TooltipState> {
         className={classnames(
           styles.dropdownContainer,
           open ? styles.opened : null,
+          // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
           styles[direction],
         )}
         style={{
+          // @ts-expect-error TS(2339): Property 'visibility' does not exist on type 'neve... Remove this comment to see the full error message
           visibility: this.state.visibility,
           position: fixed ? 'fixed' : 'absolute',
+          // @ts-expect-error TS(2339): Property 'position' does not exist on type 'never'... Remove this comment to see the full error message
           ...this.state.position,
         }}
       >
@@ -265,15 +294,16 @@ class Tooltip extends Component<TooltipProps, TooltipState> {
     );
   }
 }
+// @ts-expect-error TS(2339): Property 'defaultProps' does not exist on type 'ty... Remove this comment to see the full error message
 Tooltip.defaultProps = {
   triggerElm: null,
   fixed: false,
   direction: 'bottom',
   open: false,
   children: null,
-  beforeOpen: (i) => i,
-  onOpen: (i) => i,
-  beforeClose: (i) => i,
-  onClose: (i) => i,
+  beforeOpen: (i: any) => i,
+  onOpen: (i: any) => i,
+  beforeClose: (i: any) => i,
+  onClose: (i: any) => i,
 };
 export default Tooltip;

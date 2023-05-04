@@ -41,6 +41,7 @@ export const PresenceItem = forwardRef<any, PresenceItemProps>(
     },
     ref,
   ) => {
+    // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
     const name = getPresenceStatusName(userStatus, dndStatus, currentLocale);
 
     return (

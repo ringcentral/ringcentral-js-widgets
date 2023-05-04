@@ -1,13 +1,13 @@
-import { parse } from '@ringcentral-integration/phone-number';
+import { CountryCode, parse } from '@ringcentral-integration/phone-number';
 
-import isBlank from './isBlank';
+import { isBlank } from './isBlank';
 
 function isValidNumber({
   input,
   countryCode,
 }: {
   input: string;
-  countryCode: string;
+  countryCode: CountryCode;
 }) {
   if (isBlank(input)) {
     return false;

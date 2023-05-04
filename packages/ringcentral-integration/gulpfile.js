@@ -11,6 +11,8 @@ import yargs from 'yargs';
 
 import transformLoader from '@ringcentral-integration/locale-loader/lib/transformLoader';
 import localeSettings from '@ringcentral-integration/locale-settings';
+import exportLocale from '@ringcentral-integration/locale-loader/lib/exportLocale';
+import importLocale from '@ringcentral-integration/locale-loader/lib/importLocale';
 
 const TIMEOUT = 30000;
 const { argv } = yargs;
@@ -220,3 +222,22 @@ export const release = gulp.series(
   gulp.parallel(build, releaseClean),
   gulp.parallel(releaseCopy, generatePackage),
 );
+
+exports['export-locale'] = async () =>
+  exportLocale({
+    ...localeSettings,
+  });
+exports['export-locale-full'] = async () =>
+  exportLocale({
+    ...localeSettings,
+    exportType: 'full',
+  });
+exports['export-locale-translated'] = async () =>
+  exportLocale({
+    ...localeSettings,
+    exportType: 'translated',
+  });
+exports['import-locale'] = async () =>
+  importLocale({
+    ...localeSettings,
+  });

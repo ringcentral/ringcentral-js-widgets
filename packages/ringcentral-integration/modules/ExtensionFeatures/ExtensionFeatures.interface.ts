@@ -1,10 +1,10 @@
 import { Alert } from '../Alert';
-import { Auth } from '../AuthV2';
+import { Auth } from '../Auth';
 import {
   DataFetcherV2ConsumerBaseDeps,
   DataSourceBaseProps,
 } from '../DataFetcherV2';
-import { Subscription } from '../SubscriptionV2';
+import { Subscription } from '../Subscription';
 import { TabManager } from '../TabManager';
 
 export interface ExtensionFeaturesOptions extends DataSourceBaseProps {

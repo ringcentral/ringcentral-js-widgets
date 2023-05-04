@@ -1,24 +1,25 @@
 import * as mock from '@ringcentral-integration/commons/integration-test/mock';
-import { CallCtrlContainer } from '@ringcentral-integration/widgets/containers/CallCtrlPage';
-import MergeInfo from '@ringcentral-integration/widgets/components/ActiveCallPanel/MergeInfo';
-import CallAvatar from '@ringcentral-integration/widgets/components/CallAvatar';
-import DurationCounter from '@ringcentral-integration/widgets/components/DurationCounter';
-import ActiveCallPad from '@ringcentral-integration/widgets/components/ActiveCallPad/';
-import ActiveCallButton from '@ringcentral-integration/widgets/components/ActiveCallButton';
-import CircleButton from '@ringcentral-integration/widgets/components/CircleButton';
-import FromField from '@ringcentral-integration/widgets/components/FromField';
-import BackHeader from '@ringcentral-integration/widgets/components/BackHeader';
-import BackButton from '@ringcentral-integration/widgets/components/BackButton';
-import { waitUntilEqual } from '@ringcentral-integration/commons/integration-test/utils/WaitUtil';
 import updateConferenceCallBody from '@ringcentral-integration/commons/integration-test/mock/data/updateConference.json';
+import { sleep, waitUntilTo } from '@ringcentral-integration/commons/utils';
+import ActiveCallButton from '@ringcentral-integration/widgets/components/ActiveCallButton';
+import ActiveCallPad from '@ringcentral-integration/widgets/components/ActiveCallPad';
+import MergeInfo from '@ringcentral-integration/widgets/components/ActiveCallPanel/MergeInfo';
+import BackButton from '@ringcentral-integration/widgets/components/BackButton';
+import BackHeader from '@ringcentral-integration/widgets/components/BackHeader';
+import CallAvatar from '@ringcentral-integration/widgets/components/CallAvatar';
+import CircleButton from '@ringcentral-integration/widgets/components/CircleButton';
 import DropdownSelect from '@ringcentral-integration/widgets/components/DropdownSelect';
-import { initPhoneWrapper, timeout, tearDownWrapper } from '../shared';
+import DurationCounter from '@ringcentral-integration/widgets/components/DurationCounter';
+import FromField from '@ringcentral-integration/widgets/components/FromField';
+import { CallCtrlContainer } from '@ringcentral-integration/widgets/containers/CallCtrlPage';
+
 import {
   CONFERENCE_SESSION_ID,
   makeCall,
   mockActiveCalls,
   mockPresencePubnub,
 } from '../../support/callHelper';
+import { initPhoneWrapper, tearDownWrapper } from '../shared';
 import extensionsListBody from './data/extensions.json';
 
 beforeEach(async () => {
@@ -32,30 +33,22 @@ async function call(phone, wrapper, phoneNumber) {
     fromNumber: '+16505819954',
   });
   outboundSession.accept(phone.webphone.acceptOptions);
-  await timeout(100);
+  await sleep(100);
   wrapper.update();
   return outboundSession;
 }
 
 async function mockSub(phone) {
-  await waitUntilEqual(
-    () =>
-      !!(
-        phone.subscription._subscription &&
-        phone.subscription._subscription._pubnub
-      ),
-    'subscription',
-    true,
-    5,
-    10,
-  );
+  await waitUntilTo(() => {
+    expect(phone.subscription._subscription._pubnub).not.toEqual(null);
+  });
   const activeCallsBody = mockActiveCalls(phone.webphone.sessions, []);
   mock.activeCalls(activeCallsBody);
   await phone.subscription.subscribe(
     ['/restapi/v1.0/account/~/extension/~/presence'],
     10,
   );
-  await timeout(100);
+  await sleep(100);
   await mockPresencePubnub(activeCallsBody);
 }
 
@@ -95,6 +88,7 @@ async function mockStartConference(phone, wrapper) {
   mock.terminateConferenceCall(CONFERENCE_SESSION_ID);
   mock.conferenceCall();
   mock.device();
+  mock.numberParserV2();
   await mockContacts(phone);
   const contactA = phone.contacts.allContacts.find(
     (item) => item.type === 'company',
@@ -109,7 +103,7 @@ async function mockStartConference(phone, wrapper) {
   wrapper.update();
   const mergeButton = wrapper.find(CallCtrlContainer).find(CircleButton).at(3);
   mergeButton.find('g').simulate('click');
-  await timeout(100);
+  await sleep(100);
   /* manual terminate normal session, accept conference session */
   phone.webphone.sessions.forEach((x) => {
     const session = phone.webphone._sessions.get(x.id);
@@ -118,12 +112,12 @@ async function mockStartConference(phone, wrapper) {
       session.reject();
     }
   });
-  await timeout(1000);
+  await sleep(1000);
   const conferenceSessionId = Object.values(phone.conferenceCall.conferences)[0]
     .sessionId;
   const conferenceSession = phone.webphone._sessions.get(conferenceSessionId);
   conferenceSession.accept(phone.webphone.acceptOptions);
-  await timeout(1000);
+  await sleep(1000);
   wrapper.update();
 }
 
@@ -166,7 +160,7 @@ describe('RCI-1071: simplified call control page #3', () => {
     expect(phone.routerInteraction.currentPath).toEqual(
       `/calls/active/${sessionB.id}`,
     );
-    await timeout(300);
+    await sleep(300);
     const mergeInfo = wrapper.find(MergeInfo);
     expect(mergeInfo).toHaveLength(1);
 
@@ -195,7 +189,7 @@ describe('RCI-1071: simplified call control page #3', () => {
     const sessionA = phone.webphone._sessions.get(sessionId);
     sessionA.terminate();
     wrapper.update();
-    await timeout(300);
+    await sleep(300);
 
     const mergeInfo = wrapper.find(MergeInfo);
     expect(mergeInfo).toHaveLength(1);
@@ -237,7 +231,7 @@ describe('RCI-1071: simplified call control page #3', () => {
     const callCtrlContainer = wrapper.find(CallCtrlContainer);
     const addButton = callCtrlContainer.find(CircleButton).at(3);
     addButton.find('g').simulate('click');
-    await timeout(500);
+    await sleep(500);
     wrapper.update();
     expect(phone.routerInteraction.currentPath).toEqual(
       `/conferenceCall/dialer/${conferenceSession.fromNumber}/${conferenceSession.id}`,
@@ -258,7 +252,7 @@ describe('RCI-1071: simplified call control page #3', () => {
     expect(mergeInfo.find('.callee_status').text()).toEqual('On Hold');
     // FIXME: temporarily disable these lines.
     // await phone.webphone.hangup(conferenceSessionId);
-    // await timeout(1000);
+    // await sleep(1000);
     // phone.webphone._updateSessions();
 
     // expect(mergeInfo.find('.callee_status').text()).toEqual('Disconnected');
@@ -327,7 +321,7 @@ describe('RCI-1710156: Call control add call flow', () => {
     expect(addButton.find(CircleButton)).toHaveLength(1);
     expect(addButton.find('.buttonTitle').text()).toEqual('Add');
     // #2 user selected add button
-    await timeout(400);
+    await sleep(400);
     addCircleButton.find('g').simulate('click');
     wrapper.update();
     const fromNumber = phone.webphone.activeSession.fromNumber;
@@ -345,7 +339,7 @@ describe('RCI-1710156: Call control add call flow', () => {
     toInput.props().onFocus();
     await phone.contactSearch.search({ searchString: 'Something1 New1' });
     toInput.props().onChange({ currentTarget: { value: 'Something1 New1' } });
-    await timeout(100);
+    await sleep(100);
     wrapper.update();
     const dropdownList = wrapper.find('DropdownList');
     expect(dropdownList.props().visibility).toBe(true);

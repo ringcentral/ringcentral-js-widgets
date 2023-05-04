@@ -1,9 +1,9 @@
 import { ASSISTED_USERS_MYSELF } from '@ringcentral-integration/commons/modules/Meeting';
 export default {
   date: "Datum",
-  time: "Tijdstip",
-  hours: "{howMany} u.",
-  minutes: "{howMany} min.",
+  time: "Tijd",
+  hours: "{howMany} uur",
+  minutes: "{howMany} min",
   today: "Vandaag",
   duration: "Duur",
   topic: "Meetingtitel",

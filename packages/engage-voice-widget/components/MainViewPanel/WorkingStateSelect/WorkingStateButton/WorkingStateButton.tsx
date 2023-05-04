@@ -8,7 +8,7 @@ import { RcButtonBase, RcIcon, RcMenu, RcMenuItem } from '@ringcentral/juno';
 import {
   ArrowDown as arrowDownSvg,
   ArrowUp as arrowUpSvg,
-} from '@ringcentral/juno/icon';
+} from '@ringcentral/juno-icon';
 
 import { EvCustomAvailableAgentState } from '../../../../interfaces/EvMainViewUI.interface';
 import styles from './styles.scss';

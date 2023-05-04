@@ -45,7 +45,7 @@ class EvActiveCallControl
 
   @storage
   @state
-  isRecording: boolean = null;
+  isRecording: boolean | null = null;
 
   @action
   setIsRecording(isRecording: boolean) {

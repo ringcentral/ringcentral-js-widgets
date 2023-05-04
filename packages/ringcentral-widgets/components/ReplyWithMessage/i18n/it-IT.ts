@@ -5,7 +5,7 @@ export default {
   customMessage: "Messaggio personalizzato",
   callMeBackIn: "Richiamami tra",
   willCallYouBackIn: "Ti richiamo tra",
-  min: "min",
+  min: "minuti",
   hours: "ore",
   days: "giorni"
 };

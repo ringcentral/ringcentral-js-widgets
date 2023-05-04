@@ -26,21 +26,22 @@ type FeedbackPanelProps = {
   sendFeedback: (...args: any[]) => any;
 };
 class FeedbackPanel extends Component<FeedbackPanelProps, {}> {
+  topicOptions: any;
   onRevertClick = () => {
     this.props.onRevertClick();
   };
-  onEmailChange = (e) => {
+  onEmailChange = (e: any) => {
     const { value } = e.currentTarget;
     this.props.onEmailChange(value);
   };
-  onTopicChange = (option) => {
+  onTopicChange = (option: any) => {
     this.props.onTopicChange(option);
   };
-  onSubjectChange = (e) => {
+  onSubjectChange = (e: any) => {
     const { value } = e.currentTarget;
     this.props.onSubjectChange(value);
   };
-  onDescriptionChange = (e) => {
+  onDescriptionChange = (e: any) => {
     const { value } = e.currentTarget;
     this.props.onDescriptionChange(value);
   };
@@ -61,6 +62,7 @@ class FeedbackPanel extends Component<FeedbackPanelProps, {}> {
     )}&body=${window.encodeURIComponent(content)}`;
     this.props.sendFeedback(mailToUrl);
   };
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     const { currentLocale } = this.props;
     this.topicOptions = [
@@ -69,8 +71,11 @@ class FeedbackPanel extends Component<FeedbackPanelProps, {}> {
       i18n.getString('others', currentLocale),
     ];
     const selectedTopicIndex =
-      this.topicOptions.findIndex((topic) => topic === this.props.topic) > -1
-        ? this.topicOptions.findIndex((topic) => topic === this.props.topic) + 1
+      this.topicOptions.findIndex((topic: any) => topic === this.props.topic) >
+      -1
+        ? this.topicOptions.findIndex(
+            (topic: any) => topic === this.props.topic,
+          ) + 1
         : -1;
     return (
       <div className={styles.root}>
@@ -79,6 +84,7 @@ class FeedbackPanel extends Component<FeedbackPanelProps, {}> {
           buttons={[
             {
               label: <RevertBtn className={styles.rightBtn} />,
+              // @ts-expect-error TS(2322): Type '{ label: JSX.Element; title: string; placeme... Remove this comment to see the full error message
               title: i18n.getString('revert', currentLocale),
               placement: 'right',
               onClick: this.onRevertClick,

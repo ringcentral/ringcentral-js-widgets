@@ -1,6 +1,6 @@
 export default {
   conferenceCall: "Telefonkonferenz",
-  onHold: "Gehalten",
+  onHold: "Wird gehalten",
   unknown: "Unbekannt",
   disconnected: "Getrennt",
   loading: "Ladevorgang läuft…",

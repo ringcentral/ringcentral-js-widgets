@@ -16,7 +16,7 @@ export default {
   subject: "Oggetto",
   subjectPlaceHolder: "Facci sapere come possiamo aiutarti",
   description: "Descrizione completa",
-  descriptionPlaceHolder: "Includi tutte le informazioni che puoi",
+  descriptionPlaceHolder: "Includi tutte le informazioni disponibili",
   send: "Invia il tuo feedback"
 };
 

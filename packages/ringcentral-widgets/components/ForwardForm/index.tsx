@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 
-import isBlank from '@ringcentral-integration/commons/lib/isBlank';
+import { isBlank } from '@ringcentral-integration/commons/lib/isBlank';
 
 import { Button } from '../Button';
 import RecipientsInput from '../RecipientsInput';
@@ -12,10 +12,10 @@ import styles from './styles.scss';
 
 const cleanRegex = /[^\d+*-\s]/g;
 
-function ForwardNumbers({ numbers, onSelect, selected, formatPhone }) {
+const ForwardNumbers = ({ numbers, onSelect, selected, formatPhone }: any) => {
   return (
     <div className={styles.numbers}>
-      {numbers.map((number, index) => (
+      {numbers.map((number: any, index: any) => (
         <div
           key={number.id}
           data-sign={`forward-number-${number.label.toLowerCase()}`}
@@ -34,7 +34,7 @@ function ForwardNumbers({ numbers, onSelect, selected, formatPhone }) {
       ))}
     </div>
   );
-}
+};
 
 ForwardNumbers.propTypes = {
   numbers: PropTypes.array.isRequired,
@@ -44,7 +44,13 @@ ForwardNumbers.propTypes = {
 };
 
 class ForwardForm extends Component {
-  constructor(props) {
+  _mounted: any;
+  customInput: any;
+  filter: any;
+  onForward: any;
+  onSelect: any;
+  onSelectCustomNumber: any;
+  constructor(props: any) {
     super(props);
     this.state = {
       selectedIndex: 0,
@@ -53,13 +59,15 @@ class ForwardForm extends Component {
       recipient: null,
     };
 
-    this.filter = (value) => value.replace(cleanRegex, '');
+    this.filter = (value: any) => value.replace(cleanRegex, '');
 
-    this.onSelect = (index) => {
+    this.onSelect = (index: any) => {
       this.setState({
         selectedIndex: index,
       });
+      // @ts-expect-error TS(2339): Property 'onChange' does not exist on type 'Readon... Remove this comment to see the full error message
       if (typeof this.props.onChange === 'function') {
+        // @ts-expect-error TS(2339): Property 'onChange' does not exist on type 'Readon... Remove this comment to see the full error message
         this.props.onChange(this.getValue());
       }
     };
@@ -68,6 +76,7 @@ class ForwardForm extends Component {
       this.setState({
         handling: true,
       });
+      // @ts-expect-error TS(2339): Property 'onForward' does not exist on type 'Reado... Remove this comment to see the full error message
       const result = await this.props.onForward(this.getValue());
       if (!this._mounted) {
         return;
@@ -76,11 +85,13 @@ class ForwardForm extends Component {
         handling: false,
       });
       if (result) {
+        // @ts-expect-error TS(2339): Property 'onCancel' does not exist on type 'Readon... Remove this comment to see the full error message
         this.props.onCancel();
       }
     };
 
     this.onSelectCustomNumber = () => {
+      // @ts-expect-error TS(2339): Property 'forwardingNumbers' does not exist on typ... Remove this comment to see the full error message
       this.onSelect(this.props.forwardingNumbers.length);
       setTimeout(() => {
         if (this.customInput) {
@@ -90,27 +101,34 @@ class ForwardForm extends Component {
     };
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   componentDidMount() {
     this._mounted = true;
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   componentWillUnmount() {
     this._mounted = false;
   }
 
   getValue() {
+    // @ts-expect-error TS(2339): Property 'selectedIndex' does not exist on type 'R... Remove this comment to see the full error message
     if (this.state.selectedIndex < this.props.forwardingNumbers.length) {
       const forwardingNumber =
+        // @ts-expect-error TS(2339): Property 'forwardingNumbers' does not exist on typ... Remove this comment to see the full error message
         this.props.forwardingNumbers[this.state.selectedIndex];
       return forwardingNumber && forwardingNumber.phoneNumber;
     }
+    // @ts-expect-error TS(2339): Property 'recipient' does not exist on type 'Reado... Remove this comment to see the full error message
     if (this.state.recipient) {
+      // @ts-expect-error TS(2339): Property 'recipient' does not exist on type 'Reado... Remove this comment to see the full error message
       return this.state.recipient.phoneNumber;
     }
+    // @ts-expect-error TS(2339): Property 'customValue' does not exist on type 'Rea... Remove this comment to see the full error message
     return this.state.customValue;
   }
 
-  _onCustomValueChange = (value) => {
+  _onCustomValueChange = (value: any) => {
     this.setState({
       customValue: value,
     });
@@ -122,7 +140,7 @@ class ForwardForm extends Component {
     });
   };
 
-  _setRecipient = (recipient) => {
+  _setRecipient = (recipient: any) => {
     this.setState({
       recipient,
     });
@@ -135,20 +153,32 @@ class ForwardForm extends Component {
     });
   };
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     const {
+      // @ts-expect-error TS(2339): Property 'className' does not exist on type 'Reado... Remove this comment to see the full error message
       className,
+      // @ts-expect-error TS(2339): Property 'onCancel' does not exist on type 'Readon... Remove this comment to see the full error message
       onCancel,
+      // @ts-expect-error TS(2339): Property 'currentLocale' does not exist on type 'R... Remove this comment to see the full error message
       currentLocale,
+      // @ts-expect-error TS(2339): Property 'forwardingNumbers' does not exist on typ... Remove this comment to see the full error message
       forwardingNumbers,
+      // @ts-expect-error TS(2339): Property 'formatPhone' does not exist on type 'Rea... Remove this comment to see the full error message
       formatPhone,
+      // @ts-expect-error TS(2339): Property 'searchContact' does not exist on type 'R... Remove this comment to see the full error message
       searchContact,
+      // @ts-expect-error TS(2339): Property 'searchContactList' does not exist on typ... Remove this comment to see the full error message
       searchContactList,
+      // @ts-expect-error TS(2339): Property 'phoneTypeRenderer' does not exist on typ... Remove this comment to see the full error message
       phoneTypeRenderer,
+      // @ts-expect-error TS(2339): Property 'phoneSourceNameRenderer' does not exist ... Remove this comment to see the full error message
       phoneSourceNameRenderer,
+      // @ts-expect-error TS(2339): Property 'autoFocus' does not exist on type 'Reado... Remove this comment to see the full error message
       autoFocus,
     } = this.props;
     const value = this.getValue();
+    // @ts-expect-error TS(2339): Property 'handling' does not exist on type 'Readon... Remove this comment to see the full error message
     const disableButton = isBlank(value) || this.state.handling;
     return (
       <div
@@ -159,12 +189,14 @@ class ForwardForm extends Component {
           formatPhone={formatPhone}
           numbers={forwardingNumbers}
           onSelect={this.onSelect}
+          // @ts-expect-error TS(2339): Property 'selectedIndex' does not exist on type 'R... Remove this comment to see the full error message
           selected={this.state.selectedIndex}
         />
         <div
           data-sign="customNumber"
           className={classnames(
             styles.custromNumber,
+            // @ts-expect-error TS(2339): Property 'selectedIndex' does not exist on type 'R... Remove this comment to see the full error message
             this.state.selectedIndex === forwardingNumbers.length
               ? styles.active
               : null,
@@ -180,10 +212,12 @@ class ForwardForm extends Component {
             inputRef={(ref) => {
               this.customInput = ref;
             }}
+            // @ts-expect-error TS(2339): Property 'customValue' does not exist on type 'Rea... Remove this comment to see the full error message
             value={this.state.customValue}
             className={styles.customInput}
             onChange={this._onCustomValueChange}
             onClean={this._clearToNumber}
+            // @ts-expect-error TS(2339): Property 'recipient' does not exist on type 'Reado... Remove this comment to see the full error message
             recipient={this.state.recipient}
             addToRecipients={this._setRecipient}
             removeFromRecipients={this._clearRecipient}
@@ -224,6 +258,7 @@ class ForwardForm extends Component {
   }
 }
 
+// @ts-expect-error TS(2339): Property 'propTypes' does not exist on type 'typeo... Remove this comment to see the full error message
 ForwardForm.propTypes = {
   className: PropTypes.string,
   onCancel: PropTypes.func.isRequired,
@@ -239,6 +274,7 @@ ForwardForm.propTypes = {
   autoFocus: PropTypes.bool,
 };
 
+// @ts-expect-error TS(2339): Property 'defaultProps' does not exist on type 'ty... Remove this comment to see the full error message
 ForwardForm.defaultProps = {
   className: null,
   onChange: undefined,

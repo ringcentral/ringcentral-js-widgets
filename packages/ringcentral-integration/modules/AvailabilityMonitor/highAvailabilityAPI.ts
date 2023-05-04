@@ -2,7 +2,7 @@ import { availability } from './availabilityStatus';
 
 // TODO: Store as JSON, and can be requested from backend server
 
-export default [
+export const highAvailabilityAPI = [
   {
     reg: /\/restapi\/v1.0\/account$/,
     POST: availability.LIMITED,

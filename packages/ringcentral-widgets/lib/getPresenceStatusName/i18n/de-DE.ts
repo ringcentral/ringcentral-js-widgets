@@ -1,9 +1,9 @@
 import { presenceStatus } from '@ringcentral-integration/commons/enums/presenceStatus.enum';
-import dndStatus from '@ringcentral-integration/commons/modules/Presence/dndStatus';
+import { dndStatus } from '@ringcentral-integration/commons/modules/Presence';
 export default {
   [presenceStatus.available]: "Verfügbar",
   [presenceStatus.offline]: "Unsichtbar",
-  [presenceStatus.busy]: "Belegt",
+  [presenceStatus.busy]: "Besetzt",
   [dndStatus.doNotAcceptAnyCalls]: "Nicht stören"
 };
 

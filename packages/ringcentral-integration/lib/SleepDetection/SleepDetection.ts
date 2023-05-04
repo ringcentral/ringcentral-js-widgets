@@ -23,7 +23,7 @@ export interface SleepDetectionOptions {
 export class SleepDetection {
   protected _detectionInterval: number;
   protected _detectionThreshold: number;
-  protected _timeoutId: NodeJS.Timeout = null;
+  protected _timeoutId: NodeJS.Timeout | null = null;
   protected _emitter = new EventEmitter();
 
   constructor({

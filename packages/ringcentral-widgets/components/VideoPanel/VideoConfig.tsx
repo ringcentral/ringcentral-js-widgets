@@ -5,7 +5,7 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import formatMessage from 'format-message';
+
 import classnames from 'classnames';
 
 import {
@@ -22,25 +22,25 @@ import {
   RcvDelegator,
   RcvItemType,
   RcvWaitingRoomModeProps,
-} from '@ringcentral-integration/commons/modules/RcVideoV2';
+} from '@ringcentral-integration/commons/modules/RcVideo';
+import { format } from '@ringcentral-integration/utils';
 import {
   RcCheckbox,
   RcCheckboxProps,
   RcDatePicker,
   RcDatePickerProps,
   RcIcon,
+  RcLink,
   RcMenuItem,
   RcSelect,
+  RcText,
   RcTextField,
   RcTimePicker,
-  RcLink,
-  RcText,
   RcTimePickerProps,
   spacing,
   styled,
-  RcAlert,
 } from '@ringcentral/juno';
-import { InfoBorder } from '@ringcentral/juno/icon';
+import { InfoBorder } from '@ringcentral/juno-icon';
 
 import { formatMeetingId } from '../../lib/MeetingCalendarHelper';
 import {
@@ -49,14 +49,14 @@ import {
   HOUR_SCALE,
   MINUTE_SCALE,
 } from '../../lib/MeetingHelper';
+import { MeetingAlert, RemoveMeetingWarn } from '../MeetingAlert';
 import { ExtendedTooltip } from '../MeetingConfigsV2/ExtendedTooltip';
 import { SpinnerOverlay } from '../SpinnerOverlay';
-import { MeetingAlert, RemoveMeetingWarn } from '../MeetingAlert';
+import { RCV_SCHEDULE_ON_BEHALF_GUIDANCE_LINK } from './constants';
 import i18n from './i18n';
 import { SettingGroup } from './SettingGroup';
 import styles from './styles.scss';
 import { VideoSecuritySettingItem } from './VideoSecuritySettingItem';
-import { RCV_SCHEDULE_ON_BEHALF_GUIDANCE_LINK } from './constants';
 
 function getHelperTextForPasswordField(
   meeting: RcVMeetingModel,
@@ -100,10 +100,8 @@ interface VideoConfigProps {
   isPersonalMeetingDisabled: boolean;
   personalMeetingId: string;
   showIeSupportAlert?: boolean;
-  appName?: string;
   switchUsePersonalMeetingId: (usePersonalMeetingId: boolean) => any;
   trackSettingChanges?: (itemName: RcvItemType) => void;
-  updateHasSettingsChanged: (isChanged: boolean) => void;
   updateScheduleFor: (userExtensionId: string) => any;
   init: () => any;
   e2eeInteractFunc: (e2eeValue: boolean) => void;
@@ -190,7 +188,6 @@ export const VideoConfig: FunctionComponent<VideoConfigProps> = (props) => {
     showRemoveMeetingWarning,
     brandConfig,
     showIeSupportAlert,
-    appName,
   } = props;
 
   const settingsGroupExpandable = false;
@@ -223,11 +220,13 @@ export const VideoConfig: FunctionComponent<VideoConfigProps> = (props) => {
   const [hasScrollBar, setHasScrollBar] = useState<boolean>(false);
   useEffect(() => {
     setHasScrollBar(
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       configRef.current.scrollHeight > configRef.current.clientHeight,
     );
   }, []);
 
   return (
+    // @ts-expect-error TS(2322): Type '{ children: Element; ref: MutableRefObject<H... Remove this comment to see the full error message
     <PanelRoot
       ref={configRef}
       className={styles.videoConfig}
@@ -265,6 +264,7 @@ export const VideoConfig: FunctionComponent<VideoConfigProps> = (props) => {
                 todayButtonText={i18n.getString('today', currentLocale)}
                 onChange={(value) => {
                   update({
+                    // @ts-expect-error TS(2345): Argument of type 'Date | null' is not assignable t... Remove this comment to see the full error message
                     startTime: updateFullYear(startTime, value),
                   });
                 }}
@@ -283,6 +283,7 @@ export const VideoConfig: FunctionComponent<VideoConfigProps> = (props) => {
                 value={startTime}
                 onChange={(value) => {
                   update({
+                    // @ts-expect-error TS(2345): Argument of type 'Date | null' is not assignable t... Remove this comment to see the full error message
                     startTime: updateFullTime(startTime, value),
                   });
                 }}
@@ -300,6 +301,7 @@ export const VideoConfig: FunctionComponent<VideoConfigProps> = (props) => {
                 data-sign="durationHour"
                 value={Math.floor(meeting.duration / 60)}
                 onChange={(e) => {
+                  // @ts-expect-error TS(2571): Object is of type 'unknown'.
                   const value = +e.target.value;
                   const restMinutes = Math.floor(meeting.duration % 60);
                   const durationInMinutes = value * 60 + restMinutes;
@@ -313,9 +315,11 @@ export const VideoConfig: FunctionComponent<VideoConfigProps> = (props) => {
                 {hoursList.map((item, i) => (
                   <RcMenuItem
                     key={i}
+                    // @ts-expect-error TS(2339): Property 'value' does not exist on type 'never'.
                     value={item.value}
                     data-sign={`option${i}`}
                   >
+                    {/* @ts-expect-error TS(2339): Property 'text' does not exist on type 'never'. */}
                     {item !== null ? item.text : 'defaultValue'}
                   </RcMenuItem>
                 ))}
@@ -329,8 +333,10 @@ export const VideoConfig: FunctionComponent<VideoConfigProps> = (props) => {
                 required
                 value={Math.floor(meeting.duration % 60)}
                 onChange={(e) => {
+                  // @ts-expect-error TS(2571): Object is of type 'unknown'.
                   const value = +e.target.value;
                   const restHours = Math.floor(meeting.duration / 60);
+                  // @ts-expect-error TS(2339): Property 'value' does not exist on type 'never'.
                   const isMax = restHours === hoursList.slice(-1)[0].value;
                   const minutes = isMax ? 0 : value;
                   const durationInMinutes = restHours * 60 + minutes;
@@ -342,9 +348,11 @@ export const VideoConfig: FunctionComponent<VideoConfigProps> = (props) => {
                 {minutesList.map((item, i) => (
                   <RcMenuItem
                     key={i}
+                    // @ts-expect-error TS(2339): Property 'value' does not exist on type 'never'.
                     value={item.value}
                     data-sign={`option${i}`}
                   >
+                    {/* @ts-expect-error TS(2339): Property 'text' does not exist on type 'never'. */}
                     {item !== null ? item.text : 'defaultValue'}
                   </RcMenuItem>
                 ))}
@@ -420,10 +428,12 @@ export const VideoConfig: FunctionComponent<VideoConfigProps> = (props) => {
                 disabled={disabled}
                 onChange={(e) => {
                   updateScheduleFor(e.target.value as string);
+                  // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
                   trackSettingChanges(RCV_ITEM_NAME.scheduleFor);
                 }}
                 value={meeting.extensionId}
               >
+                {/* @ts-expect-error TS(2532): Object is possibly 'undefined'. */}
                 {delegators.map((item: RcvDelegator, index: number) => {
                   const userName =
                     item.name === ASSISTED_USERS_MYSELF
@@ -580,6 +590,7 @@ export const VideoConfig: FunctionComponent<VideoConfigProps> = (props) => {
                 size={checkboxSize}
                 onChange={(ev, value) => {
                   e2eeInteractFunc(value);
+                  // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
                   trackSettingChanges(RCV_ITEM_NAME.e2ee);
                 }}
               />
@@ -647,6 +658,7 @@ export const VideoConfig: FunctionComponent<VideoConfigProps> = (props) => {
                 }}
                 onBlur={() => {
                   setPasswordFocus(false);
+                  // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
                   trackSettingChanges(RCV_ITEM_NAME.meetingPassword);
                 }}
               />
@@ -738,6 +750,10 @@ export const VideoConfig: FunctionComponent<VideoConfigProps> = (props) => {
                       disabled={isWaitingRoomNotCoworkerDisabled}
                       value={RCV_WAITING_ROOM_MODE.notcoworker}
                       className={styles.boxSelectMenuItem}
+                      title={i18n.getString(
+                        'waitingRoomNotCoworker',
+                        currentLocale,
+                      )}
                     >
                       {i18n.getString('waitingRoomNotCoworker', currentLocale)}
                     </RcMenuItem>
@@ -746,6 +762,7 @@ export const VideoConfig: FunctionComponent<VideoConfigProps> = (props) => {
                       disabled={isWaitingRoomGuestDisabled}
                       value={RCV_WAITING_ROOM_MODE.guests}
                       className={styles.boxSelectMenuItem}
+                      title={i18n.getString('waitingRoomGuest', currentLocale)}
                     >
                       {i18n.getString('waitingRoomGuest', currentLocale)}
                     </RcMenuItem>
@@ -754,6 +771,7 @@ export const VideoConfig: FunctionComponent<VideoConfigProps> = (props) => {
                       disabled={isWaitingRoomAllDisabled}
                       value={RCV_WAITING_ROOM_MODE.all}
                       className={styles.boxSelectMenuItem}
+                      title={i18n.getString('waitingRoomAll', currentLocale)}
                     >
                       {i18n.getString('waitingRoomAll', currentLocale)}
                     </RcMenuItem>
@@ -815,12 +833,14 @@ export const VideoConfig: FunctionComponent<VideoConfigProps> = (props) => {
                 <RcMenuItem
                   disabled={isSignedInUsersDisabled}
                   value={AUTH_USER_TYPE.SIGNED_IN_USERS}
+                  title={i18n.getString('signedInUsers', currentLocale)}
                 >
                   {i18n.getString('signedInUsers', currentLocale)}
                 </RcMenuItem>
                 <RcMenuItem
                   disabled={isSignedInCoWorkersDisabled}
                   value={AUTH_USER_TYPE.SIGNED_IN_CO_WORKERS}
+                  title={i18n.getString('signedInCoWorkers', currentLocale)}
                 >
                   {i18n.getString('signedInCoWorkers', currentLocale)}
                 </RcMenuItem>
@@ -856,12 +876,9 @@ export const VideoConfig: FunctionComponent<VideoConfigProps> = (props) => {
           <SettingGroup dataSign="iePanel" expandable={false}>
             <MeetingAlert
               severity="warning"
-              content={formatMessage(
-                i18n.getString('ieSupportAlert', currentLocale),
-                {
-                  appName,
-                },
-              )}
+              content={format(i18n.getString('ieSupportAlert', currentLocale), {
+                appName: brandConfig.appName,
+              })}
             />
           </SettingGroup>
         )}

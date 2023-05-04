@@ -3,8 +3,8 @@ export default {
   logCall: "Anruf protokollieren",
   editLog: "Protokoll bearbeiten",
   select: "Übereinstimmenden Datensatz auswählen",
-  OnHold: "Gehalten",
-  Ringing: "Es wird angerufen",
+  OnHold: "Wird gehalten",
+  Ringing: "Läutet",
   CallConnected: "Anruf verbunden",
   unknownUser: "Unbekannter Benutzer",
   unknownNumber: "Anonym",
@@ -12,9 +12,9 @@ export default {
   viewDetails: "Details anzeigen",
   addEntity: "Neu erstellen",
   addLog: "Protokoll",
-  text: "Textn.",
+  text: "Text",
   call: "Anruf",
-  missedCall: "Verpasst",
+  missedCall: "Verpasste",
   inboundCall: "Eingehend",
   outboundCall: "Ausgehend"
 };

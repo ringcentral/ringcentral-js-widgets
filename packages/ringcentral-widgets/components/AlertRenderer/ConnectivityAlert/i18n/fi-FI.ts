@@ -1,10 +1,10 @@
 import { connectivityTypes } from '../../../../modules/ConnectivityManager';
 export default {
-  [connectivityTypes.networkLoss]: "Jotakin meni vikaan. Tarkista verkkoyhteytesi ja yritä uudelleen.",
+  [connectivityTypes.networkLoss]: "Jokin meni vikaan. Tarkista verkkoyhteytesi ja yritä uudelleen.",
   [connectivityTypes.offline]: "Yhteyden muodostaminen palvelimeen epäonnistui. Yritä myöhemmin uudelleen.",
-  [connectivityTypes.serverUnavailable]: "Jotakin meni vikaan palvelimellamme. Yritä myöhemmin uudelleen.",
-  [connectivityTypes.voipOnly]: "Jotakin meni vikaan palvelimellamme. Pyrimme korjaamaan vian pikimmiten. Voit edelleen soittaa puheluita, mutta muita toimintoja on rajoitettu.",
-  [connectivityTypes.survival]: "Jotakin meni vikaan palvelimellamme. Pyrimme korjaamaan vian pikimmiten. Tietyt ominaisuudet voivat olla käytössä vain rajoitetusti. Sovellus palautuu normaalitilaan niin pian kuin mahdollista."
+  [connectivityTypes.serverUnavailable]: "Jokin meni vikaan palvelimellamme. Yritä myöhemmin uudelleen.",
+  [connectivityTypes.voipOnly]: "Jokin meni vikaan palvelimellamme. Pyrimme korjaamaan vian pikimmiten. Voit edelleen soittaa puheluita, mutta muita toimintoja on rajoitettu.",
+  [connectivityTypes.survival]: "Jokin meni vikaan palvelimellamme. Pyrimme korjaamaan vian pikimmiten. Tietyt ominaisuudet voivat olla käytössä vain rajoitetusti. Sovellus palautuu normaalitilaan niin pian kuin mahdollista."
 };
 
 // @key: @#@"[connectivityTypes.networkLoss]"@#@ @source: @#@"Sorry, something went wrong, check your network connection and try again."@#@

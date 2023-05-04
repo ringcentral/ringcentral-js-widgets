@@ -1,11 +1,12 @@
+import { sleep } from '@ringcentral-integration/utils';
+
 import moduleStatuses from '../../enums/moduleStatuses';
 import { Module } from '../../lib/di';
 import ensureExist from '../../lib/ensureExist';
-import isBlank from '../../lib/isBlank';
+import { isBlank } from '../../lib/isBlank';
 import Pollable from '../../lib/Pollable';
 import proxify from '../../lib/proxy/proxify';
 import { selector } from '../../lib/selector';
-import { sleep } from '../../lib/sleep';
 import { actionTypes } from './actionTypes';
 import getReducer, { getDataReducer, getTimestampReducer } from './getReducer';
 
@@ -224,7 +225,7 @@ export default class GlipGroups extends Pollable {
     }
   }
 
-  _shouldInit() {
+  override _shouldInit() {
     return !!(
       this._auth.loggedIn &&
       this._appFeatures.ready &&
@@ -239,7 +240,7 @@ export default class GlipGroups extends Pollable {
     );
   }
 
-  _shouldReset() {
+  override _shouldReset() {
     return !!(
       (!this._auth.loggedIn ||
         !this._appFeatures.ready ||
@@ -320,7 +321,7 @@ export default class GlipGroups extends Pollable {
     if (this._shouldFetch()) {
       try {
         await this.fetchData();
-      } catch (e) {
+      } catch (e: any /** TODO: confirm with instanceof */) {
         console.error('fetchData error:', e);
         this._retry();
       }
@@ -429,7 +430,7 @@ export default class GlipGroups extends Pollable {
         }
         this._promise = null;
       }
-    } catch (error) {
+    } catch (error: any /** TODO: confirm with instanceof */) {
       if (this._auth.ownerId === ownerId) {
         this._promise = null;
         this.store.dispatch({
@@ -474,7 +475,7 @@ export default class GlipGroups extends Pollable {
         groupId: group.id,
       });
       return group;
-    } catch (e) {
+    } catch (e: any /** TODO: confirm with instanceof */) {
       console.error(e);
     }
     return null;

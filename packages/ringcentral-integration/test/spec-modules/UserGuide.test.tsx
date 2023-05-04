@@ -13,7 +13,7 @@ import {
   Guides,
   SUPPORTED_LOCALES,
   UserGuide,
-} from '../../modules/UserGuideV2';
+} from '../../modules/UserGuide';
 import { mockModuleGenerator } from '../lib/mockModule';
 
 const brandCode = 'rc';

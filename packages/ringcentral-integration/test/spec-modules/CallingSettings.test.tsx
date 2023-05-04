@@ -9,10 +9,7 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
-import {
-  callingOptions,
-  CallingSettings,
-} from '../../modules/CallingSettingsV2';
+import { callingOptions, CallingSettings } from '../../modules/CallingSettings';
 import { mockModuleGenerator } from '../lib/mockModule';
 
 const getMockModule = () =>
@@ -229,7 +226,7 @@ export class JapanEmergencyNotification extends Step {
               fromNumbers: [
                 {
                   features: ['CallerId'],
-                  uri: 'https://api-rcapps-xmnup.lab.nordigy.ru/restapi/v1.0/account/3762349004/phone-number/2286092004',
+                  uri: 'https://platform.devtest.ringcentral.com/restapi/v1.0/account/3762349004/phone-number/2286092004',
                   id: 2286092004,
                   phoneNumber: '+81330006572',
                   paymentType: 'Local',
@@ -238,7 +235,7 @@ export class JapanEmergencyNotification extends Step {
                   usageType: 'DirectNumber',
                   status: 'Normal',
                   country: {
-                    uri: 'https://api-rcapps-xmnup.lab.nordigy.ru/restapi/v1.0/dictionary/country/112',
+                    uri: 'https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/112',
                     id: '112',
                     name: 'Japan',
                   },

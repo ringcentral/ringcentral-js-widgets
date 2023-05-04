@@ -11,7 +11,7 @@ export default class CallBadge extends Component<
   CallBadgeProps,
   CallBadgeState
 > {
-  constructor(props) {
+  constructor(props: any) {
     super(props);
 
     this.state = {
@@ -20,7 +20,7 @@ export default class CallBadge extends Component<
     };
   }
 
-  updatePositionOffset = (x, y) => {
+  updatePositionOffset = (x: any, y: any) => {
     this.setState({
       badgeOffsetX: x,
       badgeOffsetY: y,
@@ -49,6 +49,7 @@ export default class CallBadge extends Component<
     return isRinging;
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     const { session, hidden, currentLocale } = this.props;
     const { badgeOffsetX, badgeOffsetY } = this.state;
@@ -57,6 +58,7 @@ export default class CallBadge extends Component<
       return null;
     }
     const isRinging = this._isRinging();
+    // @ts-expect-error TS(2339): Property 'minimized' does not exist on type 'Sessi... Remove this comment to see the full error message
     if (isRinging && !session.minimized) {
       return null;
     }

@@ -1,30 +1,38 @@
 import {
   BaseStep,
   StepFunction as BaseStepFunction,
+  StepProp as BaseStepProp,
 } from '@ringcentral-integration/test-utils';
+
 import { Context } from '../interfaces';
 
 export {
-  Scenario,
-  Given,
-  When,
-  Then,
   And,
   autorun,
-  title,
-  examples,
   beforeEach,
+  common,
+  examples,
+  Given,
   it,
   p1,
   p2,
   p3,
+  Scenario,
+  Then,
+  title,
+  When,
 } from '@ringcentral-integration/test-utils';
 
 export interface StepFunction<P = {}, C = {}>
   extends BaseStepFunction<P, C & Context> {}
 
-export class Step<P = {}, C = {}> extends BaseStep<P, C & Context> {
-  static context: Context = {
+export type StepProp =
+  | BaseStepProp
+  | StepFunction<any, any>
+  | (StepFunction<any, any> | JSX.Element)[];
+
+export abstract class Step<P = {}, C = {}> extends BaseStep<P, C & Context> {
+  static override context: Context = {
     get phone() {
       return global.instance.phone;
     },

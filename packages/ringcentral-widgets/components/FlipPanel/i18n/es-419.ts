@@ -1,6 +1,6 @@
 export default {
   flipHeader: "Voltear llamada a...",
-  flip: "Volteo",
+  flip: "Transferir",
   complete: "Completar Flip"
 };
 

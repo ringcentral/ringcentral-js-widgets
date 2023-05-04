@@ -2,9 +2,11 @@ import React from 'react';
 
 import { mount } from 'enzyme';
 
-import { RcThemeProvider } from '@ringcentral/juno';
-import { RcAccordion } from '@ringcentral/juno/components/Accordion';
-import { RcAccordionSummary } from '@ringcentral/juno/components/Accordion/AccordionSummary';
+import {
+  RcAccordion,
+  RcAccordionSummary,
+  RcThemeProvider,
+} from '@ringcentral/juno';
 
 import { EvCallData, EvCurrentLog, EvIvrData } from '../../interfaces';
 import i18n from '../SmallCallControl/i18n';

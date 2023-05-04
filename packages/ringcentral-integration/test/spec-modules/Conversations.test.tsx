@@ -12,7 +12,7 @@ import { messageTypes } from '../../enums/messageTypes';
 import {
   Conversations,
   conversationsStatus,
-} from '../../modules/ConversationsV2';
+} from '../../modules/Conversations';
 import { mockModuleGenerator } from '../lib/mockModule';
 
 class MockModule {

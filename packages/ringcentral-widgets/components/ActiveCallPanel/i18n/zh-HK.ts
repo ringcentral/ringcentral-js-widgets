@@ -1,8 +1,8 @@
 export default {
   conferenceCall: "電話會議",
-  onHold: "等待接通",
+  onHold: "保留",
   unknown: "未知",
-  disconnected: "中斷連接",
+  disconnected: "已中斷連線",
   loading: "正在載入...",
   loadingTimeout: "載入逾時。"
 };

@@ -2,7 +2,7 @@ import React from 'react';
 
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
-import { contains } from 'ramda';
+import { includes } from 'ramda';
 
 import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 import callResults from '@ringcentral-integration/commons/enums/callResults';
@@ -13,7 +13,7 @@ import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import i18n from './i18n';
 import styles from './styles.scss';
 
-const CallIcon = ({ title, iconClassName }) => (
+const CallIcon = ({ title, iconClassName }: any) => (
   <div className={styles.callIcon} title={title}>
     <span className={iconClassName} />
   </div>
@@ -55,7 +55,7 @@ const colorStatusMap = {
   orange: [telephonyStatuses.onHold, telephonyStatuses.parkedCall],
 };
 
-function LogBasicInfo(props) {
+const LogBasicInfo = (props: any) => {
   const {
     currentLog: { call, logName },
     formatPhone,
@@ -74,9 +74,9 @@ function LogBasicInfo(props) {
   const status = result || telephonyStatus;
   const active = !duration && duration !== 0;
   const missed = isMissed(call);
-  const green = contains(status, colorStatusMap.green);
-  const red = contains(status, colorStatusMap.red);
-  const orange = contains(status, colorStatusMap.orange);
+  const green = includes(status, colorStatusMap.green);
+  const red = includes(status, colorStatusMap.red);
+  const orange = includes(status, colorStatusMap.orange);
   const isRinging = status === telephonyStatuses.ringing;
   const title = missed
     ? i18n.getString(callResults.missed, currentLocale)
@@ -86,6 +86,7 @@ function LogBasicInfo(props) {
     styles.icon,
     isRinging && styles.ringing,
     isRinging && dynamicsFont.callHover,
+    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     !isRinging && !missed && callIconMap[direction],
     missed && styles.missed,
     missed && callIconMap[callResults.missed],
@@ -129,7 +130,7 @@ function LogBasicInfo(props) {
       <div className={styles.extra}>{props.extraButton}</div>
     </div>
   );
-}
+};
 
 LogBasicInfo.propTypes = {
   currentLocale: PropTypes.string.isRequired,
@@ -142,7 +143,7 @@ LogBasicInfo.propTypes = {
 };
 
 LogBasicInfo.defaultProps = {
-  formatPhone: (value) => value,
+  formatPhone: (value: any) => value,
   currentLog: {},
   extraButton: undefined,
   clickable: false,

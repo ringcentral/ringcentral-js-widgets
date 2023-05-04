@@ -1,211 +1,208 @@
-import React, { Component } from 'react';
-
-import PropTypes from 'prop-types';
+import React, { FunctionComponent, useEffect, useState } from 'react';
 
 import callDirections from '@ringcentral-integration/commons/enums/callDirections';
+import { useMountState } from '@ringcentral/juno';
 
 import IncomingCallPanel from '../IncomingCallPanel';
 import i18n from './i18n';
 
-class IncomingCallView extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      selectedMatcherIndex: 0,
-      avatarUrl: null,
-      hasOtherActiveCall: false,
-    };
+export type IncomingCallViewProps = {
+  session: {
+    id?: string;
+    direction?: string;
+    startTime?: number;
+    isOnMute?: boolean;
+    isOnHold?: boolean;
+    isOnRecord?: boolean;
+    to?: string;
+    from?: string;
+    contactMatch?: object;
+    minimized?: boolean;
+    callQueueName?: any;
+  };
+  showCallQueueName?: any;
+  currentLocale: string;
+  toggleMinimized: (...args: any[]) => any;
+  answer: (...args: any[]) => any;
+  reject: (...args: any[]) => any;
+  onForward: (...args: any[]) => any;
+  toVoiceMail: (...args: any[]) => any;
+  replyWithMessage: (...args: any[]) => any;
+  formatPhone: (...args: any[]) => any;
+  nameMatches: any[];
+  areaCode: string;
+  countryCode: string;
+  getAvatarUrl: (...args: any[]) => any;
+  forwardingNumbers: any[];
+  updateSessionMatchedContact: (...args: any[]) => any;
+  showContactDisplayPlaceholder: boolean;
+  brand: string;
+  activeSessionId?: string;
+  sourceIcons?: object;
+  hangup: (...args: any[]) => any;
+  onHold: (...args: any[]) => any;
+  searchContactList: any[];
+  searchContact: (...args: any[]) => any;
+  phoneTypeRenderer?: (...args: any[]) => any;
+  phoneSourceNameRenderer?: (...args: any[]) => any;
+  phoneNumber: string;
+  name: string;
+};
+export const IncomingCallView: FunctionComponent<IncomingCallViewProps> = (
+  props,
+) => {
+  const {
+    currentLocale,
+    nameMatches = [],
+    phoneNumber,
+    formatPhone,
+    areaCode,
+    countryCode,
+    forwardingNumbers,
+    brand,
+    showContactDisplayPlaceholder,
+    sourceIcons,
+    searchContact,
+    searchContactList,
+    children,
+    session,
+    activeSessionId,
+    showCallQueueName,
+    reject: rejectProp,
+    toVoiceMail: toVoiceMailProp,
+    replyWithMessage: replyWithMessageProp,
+    toggleMinimized: toggleMinimizedProp,
+    hangup: hangupProp,
+    answer: answerProp,
+    onHold: onHoldProp,
+    onForward: onForwardProp,
+    getAvatarUrl,
+    updateSessionMatchedContact,
+    phoneTypeRenderer,
+    phoneSourceNameRenderer,
+    name,
+  } = props;
+  const [selectedMatcherIndex, setSelectedMatcherIndex] = useState(0);
+  const [avatarUrl, setAvatarUrl] = useState(null);
 
-    this.onSelectMatcherName = (option) => {
-      const nameMatches = this.props.nameMatches || [];
-      let selectedMatcherIndex = nameMatches.findIndex(
-        (match) => match.id === option.id,
-      );
-      if (selectedMatcherIndex < 0) {
-        selectedMatcherIndex = 0;
-      }
-      this.setState({
-        selectedMatcherIndex,
-        avatarUrl: null,
-      });
-      const contact = nameMatches[selectedMatcherIndex];
-      if (contact) {
-        this.props.updateSessionMatchedContact(this.props.session.id, contact);
-        this.props.getAvatarUrl(contact).then((avatarUrl) => {
-          this.setState({ avatarUrl });
-        });
-      }
-    };
-  }
+  const { current: mounted } = useMountState();
 
-  answer = () => this.props.answer(this.props.session.id);
-  reject = () => this.props.reject(this.props.session.id);
-  toVoiceMail = () => this.props.toVoiceMail(this.props.session.id);
-  replyWithMessage = (message) =>
-    this.props.replyWithMessage(this.props.session.id, message);
+  const hasOtherActiveCall = !!activeSessionId;
+  const answer = () => answerProp(session.id);
+  const reject = () => rejectProp(session.id);
+  const toVoiceMail = () => toVoiceMailProp(session.id);
+  const replyWithMessage = (message: string) =>
+    replyWithMessageProp(session.id, message);
 
-  toggleMinimized = () => this.props.toggleMinimized(this.props.session.id);
-  answerAndEnd = async () => {
-    await this.props.hangup(this.props.activeSessionId);
-    await this.props.answer(this.props.session.id);
+  const toggleMinimized = () => toggleMinimizedProp(session.id);
+  const answerAndEnd = async () => {
+    await hangupProp(activeSessionId);
+    await answerProp(session.id);
   };
 
-  answerAndHold = async () => {
-    await this.props.onHold(this.props.activeSessionId);
-    await this.props.answer(this.props.session.id);
+  const answerAndHold = async () => {
+    await onHoldProp(activeSessionId);
+    await answerProp(session.id);
   };
 
-  onForward = (forwardNumber) =>
-    this.props.onForward(this.props.session.id, forwardNumber);
+  const onForward = (forwardNumber: string) =>
+    onForwardProp(session.id, forwardNumber);
 
-  componentDidMount() {
-    this._mounted = true;
-    this._updateAvatarAndMatchIndex(this.props);
-  }
+  const updateAvatarUrl = async (contact: any) => {
+    avatarUrl && setAvatarUrl(null);
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (this.props.session.id !== nextProps.session.id) {
-      this._updateAvatarAndMatchIndex(nextProps);
-    }
-    this.setState({
-      hasOtherActiveCall: !!nextProps.activeSessionId,
-    });
-  }
-
-  componentWillUnmount() {
-    this._mounted = false;
-  }
-
-  _updateAvatarAndMatchIndex(props) {
-    let selectedMatcherIndex = 0;
-    let contact = props.session.contactMatch;
-    if (!contact) {
-      contact = props.nameMatches && props.nameMatches[0];
-    } else {
-      selectedMatcherIndex = props.nameMatches.findIndex(
-        (match) => match.id === contact.id,
-      );
-    }
-    this.setState({
-      selectedMatcherIndex,
-      avatarUrl: null,
-    });
     if (contact) {
-      props.getAvatarUrl(contact).then((avatarUrl) => {
-        if (!this._mounted) {
-          return;
-        }
-        this.setState({ avatarUrl });
-      });
-    }
-  }
+      const avatarUrl = await getAvatarUrl(contact);
+      // prevent memory leak issue when component unmounted
+      if (!mounted) return;
 
-  render() {
-    const { session, showCallQueueName } = this.props;
-    const active = !!session.id;
-    if (!active) {
-      return null;
+      setAvatarUrl(avatarUrl);
     }
-    if (session.minimized) {
-      return null;
+  };
+
+  const getSelectedMatcherItem = (currContact: any | undefined) => {
+    let index = nameMatches.findIndex((match) => match.id === currContact?.id);
+
+    if (index < 0) index = 0;
+
+    if (index !== selectedMatcherIndex) {
+      setSelectedMatcherIndex(index);
     }
-    let fallbackUserName;
-    if (
-      session.direction === callDirections.inbound &&
-      session.from === 'anonymous'
-    ) {
-      fallbackUserName = i18n.getString('anonymous', this.props.currentLocale);
+
+    return nameMatches[index];
+  };
+
+  const handleSelectMatcherName = (currContact: any) => {
+    const contact = getSelectedMatcherItem(currContact);
+
+    if (contact) {
+      updateAvatarUrl(contact);
+
+      updateSessionMatchedContact(session.id, contact);
     }
-    if (!fallbackUserName) {
-      fallbackUserName = i18n.getString('unknown', this.props.currentLocale);
-    }
-    return (
-      <IncomingCallPanel
-        currentLocale={this.props.currentLocale}
-        nameMatches={this.props.nameMatches}
-        fallBackName={fallbackUserName}
-        callQueueName={showCallQueueName ? session.callQueueName : null}
-        phoneNumber={this.props.phoneNumber}
-        answer={this.answer}
-        reject={this.reject}
-        replyWithMessage={this.replyWithMessage}
-        toVoiceMail={this.toVoiceMail}
-        formatPhone={this.props.formatPhone}
-        areaCode={this.props.areaCode}
-        countryCode={this.props.countryCode}
-        selectedMatcherIndex={this.state.selectedMatcherIndex}
-        onSelectMatcherName={this.onSelectMatcherName}
-        avatarUrl={this.state.avatarUrl}
-        onBackButtonClick={this.toggleMinimized}
-        forwardingNumbers={this.props.forwardingNumbers}
-        onForward={this.onForward}
-        brand={this.props.brand}
-        showContactDisplayPlaceholder={this.props.showContactDisplayPlaceholder}
-        hasOtherActiveCall={this.state.hasOtherActiveCall}
-        answerAndEnd={this.answerAndEnd}
-        answerAndHold={this.answerAndHold}
-        sessionId={this.props.session.id}
-        sourceIcons={this.props.sourceIcons}
-        searchContact={this.props.searchContact}
-        searchContactList={this.props.searchContactList}
-        phoneTypeRenderer={this.props.phoneTypeRenderer}
-        phoneSourceNameRenderer={this.props.phoneSourceNameRenderer}
-      >
-        {this.props.children}
-      </IncomingCallPanel>
+  };
+
+  useEffect(() => {
+    const contact = getSelectedMatcherItem(
+      session.contactMatch ||
+        // zero index maybe null
+        nameMatches?.[0],
     );
+
+    updateAvatarUrl(contact);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [session.id]);
+
+  const active = !!session.id;
+  if (!active || session.minimized) {
+    return null;
   }
-}
 
-IncomingCallView.propTypes = {
-  session: PropTypes.shape({
-    id: PropTypes.string,
-    direction: PropTypes.string,
-    startTime: PropTypes.number,
-    isOnMute: PropTypes.bool,
-    isOnHold: PropTypes.bool,
-    isOnRecord: PropTypes.bool,
-    to: PropTypes.string,
-    from: PropTypes.string,
-    contactMatch: PropTypes.object,
-    minimized: PropTypes.bool,
-    callQueueName: PropTypes.any,
-  }).isRequired,
-  showCallQueueName: PropTypes.any,
-  currentLocale: PropTypes.string.isRequired,
-  toggleMinimized: PropTypes.func.isRequired,
-  answer: PropTypes.func.isRequired,
-  reject: PropTypes.func.isRequired,
-  onForward: PropTypes.func.isRequired,
-  toVoiceMail: PropTypes.func.isRequired,
-  replyWithMessage: PropTypes.func.isRequired,
-  formatPhone: PropTypes.func.isRequired,
-  children: PropTypes.node,
-  nameMatches: PropTypes.array.isRequired,
-  areaCode: PropTypes.string.isRequired,
-  countryCode: PropTypes.string.isRequired,
-  getAvatarUrl: PropTypes.func.isRequired,
-  forwardingNumbers: PropTypes.array.isRequired,
-  updateSessionMatchedContact: PropTypes.func.isRequired,
-  showContactDisplayPlaceholder: PropTypes.bool.isRequired,
-  brand: PropTypes.string.isRequired,
-  activeSessionId: PropTypes.string,
-  sourceIcons: PropTypes.object,
-  hangup: PropTypes.func.isRequired,
-  onHold: PropTypes.func.isRequired,
-  searchContactList: PropTypes.array.isRequired,
-  searchContact: PropTypes.func.isRequired,
-  phoneTypeRenderer: PropTypes.func,
-  phoneSourceNameRenderer: PropTypes.func,
+  let fallbackUserName: string | undefined;
+  if (
+    session.direction === callDirections.inbound &&
+    session.from === 'anonymous'
+  ) {
+    fallbackUserName = i18n.getString('anonymous', currentLocale);
+  }
+  if (!fallbackUserName) {
+    fallbackUserName = i18n.getString('unknown', currentLocale);
+  }
+
+  return (
+    <IncomingCallPanel
+      currentLocale={currentLocale}
+      nameMatches={nameMatches}
+      name={name}
+      fallBackName={fallbackUserName}
+      callQueueName={showCallQueueName ? session.callQueueName : null}
+      phoneNumber={phoneNumber}
+      answer={answer}
+      reject={reject}
+      replyWithMessage={replyWithMessage}
+      toVoiceMail={toVoiceMail}
+      formatPhone={formatPhone}
+      areaCode={areaCode}
+      countryCode={countryCode}
+      selectedMatcherIndex={selectedMatcherIndex}
+      onSelectMatcherName={handleSelectMatcherName}
+      avatarUrl={avatarUrl}
+      onBackButtonClick={toggleMinimized}
+      forwardingNumbers={forwardingNumbers}
+      onForward={onForward}
+      brand={brand}
+      showContactDisplayPlaceholder={showContactDisplayPlaceholder}
+      hasOtherActiveCall={hasOtherActiveCall}
+      answerAndEnd={answerAndEnd}
+      answerAndHold={answerAndHold}
+      sessionId={session.id}
+      sourceIcons={sourceIcons}
+      searchContact={searchContact}
+      searchContactList={searchContactList}
+      phoneTypeRenderer={phoneTypeRenderer}
+      phoneSourceNameRenderer={phoneSourceNameRenderer}
+    >
+      {children}
+    </IncomingCallPanel>
+  );
 };
-
-IncomingCallView.defaultProps = {
-  children: undefined,
-  activeSessionId: null,
-  sourceIcons: undefined,
-  phoneTypeRenderer: undefined,
-  phoneSourceNameRenderer: undefined,
-  showCallQueueName: null,
-};
-
-export { IncomingCallView };

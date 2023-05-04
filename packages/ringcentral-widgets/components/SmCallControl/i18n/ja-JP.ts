@@ -1,7 +1,7 @@
 export default {
   mute: "ミュート",
   unmute: "ミュート解除",
-  hangup: "通話終了",
+  hangup: "通話を終了",
   reject: "拒否"
 };
 

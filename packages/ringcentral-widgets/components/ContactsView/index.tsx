@@ -2,14 +2,13 @@ import React, { Component } from 'react';
 
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
-import { contains } from 'ramda';
+import { includes } from 'ramda';
 
 import debounce from '@ringcentral-integration/commons/lib/debounce';
 
 import AddContactIcon from '../../assets/images/ContactAdd.svg';
 import RefreshingIcon from '../../assets/images/OvalLoading.svg';
 import RefreshContactIcon from '../../assets/images/RetryIcon.svg';
-import ContactItem from '../ContactItem';
 import ContactList from '../ContactList';
 import { ContactSourceFilter } from '../ContactSourceFilter';
 import Panel from '../Panel';
@@ -18,6 +17,7 @@ import { SpinnerOverlay } from '../SpinnerOverlay';
 import i18n from './i18n';
 import styles from './styles.scss';
 
+// @ts-expect-error
 const AddContact = ({ className, onClick }) => {
   return (
     <div className={className} onClick={onClick}>
@@ -36,9 +36,13 @@ AddContact.defaultProps = {
 };
 
 const RefreshContacts = ({
+  // @ts-expect-error
   className,
+  // @ts-expect-error
   onRefresh,
+  // @ts-expect-error
   refreshing,
+  // @ts-expect-error
   currentLocale,
 }) => {
   let icon = null;
@@ -75,6 +79,7 @@ RefreshContacts.defaultProps = {
 };
 
 class ContactsView extends Component {
+  // @ts-expect-error
   constructor(props) {
     super(props);
     this.state = {
@@ -85,8 +90,11 @@ class ContactsView extends Component {
       contentWidth: 0,
       refreshing: false,
     };
+    // @ts-expect-error
     this.contactList = React.createRef();
+    // @ts-expect-error
     this.contentWrapper = React.createRef();
+    // @ts-expect-error
     this.onUnfoldChange = (unfold) => {
       this.setState({
         unfold,
@@ -96,10 +104,15 @@ class ContactsView extends Component {
 
   calculateContentSize = () => {
     if (
+      // @ts-expect-error
       this.contentWrapper &&
+      // @ts-expect-error
       this.contentWrapper.current &&
+      // @ts-expect-error
       this.contentWrapper.current.getBoundingClientRect
     ) {
+      // @ts-expect-error
+
       const rect = this.contentWrapper.current.getBoundingClientRect();
       return {
         contentHeight: rect.bottom - rect.top,
@@ -112,8 +125,11 @@ class ContactsView extends Component {
     };
   };
 
+  // @ts-expect-error
   componentDidMount() {
+    // @ts-expect-error
     this._mounted = true;
+    // @ts-expect-error
     const { onVisitPage } = this.props;
     if (typeof onVisitPage === 'function') {
       onVisitPage();
@@ -124,8 +140,11 @@ class ContactsView extends Component {
     window.addEventListener('resize', this.onResize);
   }
 
+  // @ts-expect-error
   UNSAFE_componentWillUpdate(nextProps, nextState) {
+    // @ts-expect-error
     const { lastInputTimestamp } = this.state;
+    // @ts-expect-error
     const { searchString: searchStringProp } = this.props;
     // sync search string from other app instance
     const isNotEditing = Date.now() - lastInputTimestamp > 2000;
@@ -133,7 +152,8 @@ class ContactsView extends Component {
       nextState.searchString = nextProps.searchString;
     }
     // default to the first contact source when current selected contact source is removed
-    if (!contains(nextProps.searchSource, nextProps.contactSourceNames)) {
+    if (!includes(nextProps.searchSource, nextProps.contactSourceNames)) {
+      // @ts-expect-error
       const { searchString } = this.state;
       this.search({
         searchSource: nextProps.contactSourceNames[0],
@@ -142,11 +162,14 @@ class ContactsView extends Component {
     }
   }
 
+  // @ts-expect-error
   componentWillUnmount() {
+    // @ts-expect-error
     this._mounted = false;
     window.removeEventListener('resize', this.onResize);
   }
 
+  // @ts-expect-error
   onSearchInputChange = (ev) => {
     this.setState(
       {
@@ -154,7 +177,9 @@ class ContactsView extends Component {
         lastInputTimestamp: Date.now(),
       },
       () => {
+        // @ts-expect-error
         const { searchString } = this.state;
+        // @ts-expect-error
         const { searchSource } = this.props;
         this.search({
           searchString,
@@ -164,14 +189,20 @@ class ContactsView extends Component {
     );
   };
 
+  // @ts-expect-error
   onSourceSelect = (searchSource) => {
     if (
+      // @ts-expect-error
       this.contactList &&
+      // @ts-expect-error
       this.contactList.current &&
+      // @ts-expect-error
       this.contactList.current.resetScrollTop
     ) {
+      // @ts-expect-error
       this.contactList.current.resetScrollTop();
     }
+    // @ts-expect-error
     const { searchString } = this.state;
     this.search({
       searchSource,
@@ -180,6 +211,7 @@ class ContactsView extends Component {
   };
 
   onResize = debounce(() => {
+    // @ts-expect-error
     if (this._mounted) {
       this.setState({
         ...this.calculateContentSize(),
@@ -188,6 +220,7 @@ class ContactsView extends Component {
   }, 300);
 
   onRefresh = async () => {
+    // @ts-expect-error
     const { onRefresh } = this.props;
     if (typeof onRefresh === 'function') {
       this.setState({ refreshing: true }, async () => {
@@ -197,7 +230,9 @@ class ContactsView extends Component {
     }
   };
 
+  // @ts-expect-error
   search({ searchSource, searchString }) {
+    // @ts-expect-error
     const { onSearchContact } = this.props;
     if (typeof onSearchContact === 'function') {
       onSearchContact({
@@ -207,26 +242,44 @@ class ContactsView extends Component {
     }
   }
 
+  // @ts-expect-error
   render() {
     const {
+      // @ts-expect-error
       currentLocale,
+      // @ts-expect-error
       contactGroups,
+      // @ts-expect-error
       contactSourceNames,
+      // @ts-expect-error
       searchSource,
+      // @ts-expect-error
       isSearching,
+      // @ts-expect-error
       showSpinner,
+      // @ts-expect-error
       getAvatarUrl,
+      // @ts-expect-error
       getPresence,
+      // @ts-expect-error
       onItemSelect,
+      // @ts-expect-error
       contactSourceFilterRenderer: Filter,
+      // @ts-expect-error
       sourceNodeRenderer,
+      // @ts-expect-error
       onRefresh,
+      // @ts-expect-error
       bottomNotice,
+      // @ts-expect-error
       bottomNoticeHeight,
       children,
+      // @ts-expect-error
       currentSiteCode,
+      // @ts-expect-error
       isMultipleSiteEnabled,
     } = this.props;
+    // @ts-expect-error
     const { refreshing, searchString, unfold, contentWidth, contentHeight } =
       this.state;
 
@@ -260,13 +313,22 @@ class ContactsView extends Component {
             onSourceSelect={this.onSourceSelect}
             selectedSourceName={searchSource}
             unfold={unfold}
+            // @ts-expect-error
             onUnfoldChange={this.onUnfoldChange}
           />
         </div>
         <Panel className={styles.content}>
-          <div className={styles.contentWrapper} ref={this.contentWrapper}>
+          <div
+            className={styles.contentWrapper}
+            ref={
+              // @ts-expect-error
+              this.contentWrapper
+            }
+          >
             <ContactList
+              // @ts-expect-error
               ref={this.contactList}
+              // @ts-expect-error
               currentLocale={currentLocale}
               contactGroups={contactGroups}
               getAvatarUrl={getAvatarUrl}
@@ -290,13 +352,25 @@ class ContactsView extends Component {
   }
 }
 
+// @ts-expect-error
 ContactsView.propTypes = {
   currentLocale: PropTypes.string.isRequired,
   contactGroups: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string.isRequired,
       caption: PropTypes.string.isRequired,
-      contacts: PropTypes.arrayOf(ContactItem.propTypes.contact).isRequired,
+      contacts: PropTypes.arrayOf(
+        PropTypes.shape({
+          id: PropTypes.string,
+          type: PropTypes.string,
+          name: PropTypes.string,
+          extensionNumber: PropTypes.string,
+          email: PropTypes.string,
+          profileImageUrl: PropTypes.string,
+          presence: PropTypes.object,
+          contactStatus: PropTypes.string,
+        }),
+      ).isRequired,
     }),
   ).isRequired,
   contactSourceNames: PropTypes.arrayOf(PropTypes.string).isRequired,
@@ -319,6 +393,7 @@ ContactsView.propTypes = {
   children: PropTypes.node,
 };
 
+// @ts-expect-error
 ContactsView.defaultProps = {
   searchSource: undefined,
   searchString: undefined,

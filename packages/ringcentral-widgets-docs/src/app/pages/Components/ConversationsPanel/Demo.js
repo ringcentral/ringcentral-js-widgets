@@ -1,6 +1,6 @@
 import React from 'react';
 // eslint-disable-next-line
-import ConversationsPanel from '@ringcentral-integration/widgets/components/ConversationsPanel';
+import { ConversationsPanel } from '@ringcentral-integration/widgets/components/ConversationsPanel';
 
 const props = {};
 props.currentLocale = 'en-US';

@@ -1,17 +1,17 @@
 import * as mock from '@ringcentral-integration/commons/integration-test/mock';
+import { sleep } from '@ringcentral-integration/commons/utils';
 
-import getConferenceCallBody from './data/getConferenceCall';
-import deviceBody from './data/device';
 import {
   makeCall,
-  mockActiveCalls,
   makeConferenceCall,
-  mockGeneratePresenceApi,
-  mockPresencePubnub,
+  mockActiveCalls,
   mockGenerateActiveCallsApi,
+  mockGeneratePresenceApi,
   mockGeneratePresenceUpdateApi,
+  mockPresencePubnub,
 } from '../../support/callHelper';
-import { timeout } from '../shared';
+import deviceBody from './data/device.json';
+import getConferenceCallBody from './data/getConferenceCall';
 
 export async function makeOutboundCall(phone) {
   mock.device(deviceBody);
@@ -79,7 +79,7 @@ export async function mockConferenceCallEnv(
     ['/restapi/v1.0/account/~/extension/~/presence'],
     10,
   );
-  await timeout(100);
+  await sleep(100);
   await mockPresencePubnub(activeCallsBody);
   /* mock redux data */
   if (phone.conferenceCall.setConferencesState) {

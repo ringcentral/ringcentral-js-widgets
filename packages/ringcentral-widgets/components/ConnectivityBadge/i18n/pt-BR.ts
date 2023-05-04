@@ -1,8 +1,8 @@
 import { connectivityTypes } from '../../../modules/ConnectivityManager';
 export default {
   [connectivityTypes.webphoneUnavailable]: "Telefone da Web indisponível",
-  [connectivityTypes.offline]: "Offline",
-  [connectivityTypes.voipOnly]: "VoIP somente",
+  [connectivityTypes.offline]: "Off-line",
+  [connectivityTypes.voipOnly]: "Somente VoIP",
   [connectivityTypes.survival]: "Modo limitado",
   [connectivityTypes.connecting]: "Conectando"
 };

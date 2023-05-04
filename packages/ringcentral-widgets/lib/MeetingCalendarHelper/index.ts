@@ -1,6 +1,5 @@
-import formatMessage from 'format-message';
-
 import { RcVDialInNumberObj } from '@ringcentral-integration/commons/interfaces/Rcv.model';
+import { format } from '@ringcentral-integration/utils';
 
 import { formatMeetingId } from './formatMeetingId';
 import i18n from './i18n';
@@ -189,7 +188,7 @@ function getBaseRcmTpl(
 
   let formattedMsg = invitationInfo?.invitation;
   if (!formattedMsg) {
-    formattedMsg = formatMessage(
+    formattedMsg = format(
       i18n.getString('inviteMeetingContent', currentLocale),
       {
         accountName,
@@ -208,6 +207,7 @@ function getBaseRcmTpl(
     formattedMsg: `${prefix}${formattedMsg}`,
     links: {
       joinUri,
+      // @ts-expect-error TS(2322): Type 'URL | undefined' is not assignable to type '... Remove this comment to see the full error message
       teleconference,
     },
   };
@@ -272,7 +272,7 @@ function formatDialInSection({
     currentLocale,
   );
   const showMeetingPasswordPSTN = !!(isMeetingSecret && meetingPasswordPSTN);
-  const dialingInfo = formatMessage(dialingString, {
+  const dialingInfo = format(dialingString, {
     smartphones: formatSmartphones(
       dialInNumber,
       shortId,
@@ -299,7 +299,7 @@ function getRcvDialInInfo({
 }: DialInSectionParams & { rcvTeleconference: string }) {
   const hasDialInNumber = args?.dialInNumber?.length > 0;
   const dialInSection = hasDialInNumber ? formatDialInSection(args) : '';
-  const teleconferenceInfo = formatMessage(
+  const teleconferenceInfo = format(
     i18n.getString('rcvTeleconference', args.currentLocale),
     {
       teleconference: rcvTeleconference,
@@ -326,6 +326,7 @@ function getBaseRcvTpl(
       formattedMsg: `${prefix}${invitationInfo}`,
       links: {
         joinUri,
+        // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
         teleconference,
       },
     };
@@ -341,12 +342,12 @@ function getBaseRcvTpl(
     meetingContent.push(
       i18n.getString('rcvE2EEInviteMeetingContent', currentLocale),
     );
-    const formattedMsg = formatMessage(meetingContent.join(''), {
+    const formattedMsg = format(meetingContent.join(''), {
       accountName,
       brandName: brand.name,
       rcvProductName: brand.brandConfig.rcvProductName,
       joinUri,
-      e2EESupportLinkText: formatMessage(
+      e2EESupportLinkText: format(
         i18n.getString('e2EESupportLinkText', currentLocale),
         {
           brandName: brand.name,
@@ -358,6 +359,7 @@ function getBaseRcvTpl(
       formattedMsg: `${prefix}${formattedMsg}`,
       links: {
         joinUri,
+        // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
         teleconference,
       },
     };
@@ -398,7 +400,7 @@ function getBaseRcvTpl(
 
   const shortId = meeting.shortId;
 
-  const formattedMsg = formatMessage(meetingContent.join(''), {
+  const formattedMsg = format(meetingContent.join(''), {
     accountName,
     brandName: brand.brandConfig.rcvBrandName ?? brand.name,
     joinUri,
@@ -421,6 +423,7 @@ function getBaseRcvTpl(
     formattedMsg: `${prefix}${formattedMsg}`,
     links: {
       joinUri,
+      // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
       teleconference,
     },
   };
@@ -432,6 +435,7 @@ function getRcvEventTpl(
   currentLocale: string,
   enableRcvConnector = false,
   enableE2EE = false,
+  addNoModifyAlert = false,
 ): string {
   const tplResult = getBaseRcvTpl(
     mainInfo,
@@ -439,6 +443,7 @@ function getRcvEventTpl(
     currentLocale,
     enableRcvConnector,
     enableE2EE,
+    addNoModifyAlert,
   );
   return tplResult.formattedMsg;
 }
@@ -462,19 +467,17 @@ function getRcvHtmlEventTpl(
     tplResult.links.joinUri,
     tplResult.links.teleconference,
     {
+      // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
       uri: brand.rcvE2EESupportUrl,
-      text: formatMessage(
-        i18n.getString('e2EESupportLinkText', currentLocale),
-        {
-          brandName: brand.name,
-        },
-      ),
+      text: format(i18n.getString('e2EESupportLinkText', currentLocale), {
+        brandName: brand.name,
+      }),
     },
   ];
 
   return formatTextToHtml(tplResult.formattedMsg, {
     uselessSentences: [
-      `${formatMessage(i18n.getString('e2EESupportLinkText', currentLocale), {
+      `${format(i18n.getString('e2EESupportLinkText', currentLocale), {
         brandName: brand.name,
       })}<br>`,
     ],
@@ -505,6 +508,7 @@ function getMeetingId(
     }
   }
 
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string'.
   return null;
 }
 
@@ -534,9 +538,9 @@ function meetingLinkContains(
 }
 
 export {
-  getBaseRcvTpl,
   formatMeetingId,
   formatTextToHtml,
+  getBaseRcvTpl,
   getMeetingId,
   getRcmEventTpl,
   getRcmHtmlEventTpl,

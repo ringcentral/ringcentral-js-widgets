@@ -1,69 +1,48 @@
-import { combineReducers } from 'redux';
+import { Reducer, ReducersMapObject } from 'redux';
 
-import getModuleStatusReducer from '../getModuleStatusReducer';
+import { usmAction } from '@ringcentral-integration/core';
 
-function calculateInitialState(reducers) {
-  const initialState = {};
+import { ActionTypesBase } from './actionTypesBase';
+
+function calculateInitialState(reducers: ReducersMapObject) {
+  const initialState: Record<string, unknown> = {};
   /* eslint-disable guard-for-in */
   for (const key in reducers) {
-    initialState[key] = reducers[key](undefined, {});
+    initialState[key] = reducers[key](undefined, {} as any);
   }
   return initialState;
 }
 
-export function getDataReducer({ types, reducers }) {
+export function getDataReducer({
+  types,
+  reducers,
+}: {
+  types: ActionTypesBase;
+  reducers: ReducersMapObject;
+}): Reducer {
   return (state = calculateInitialState(reducers), action) => {
-    switch (action.type) {
-      case types.initSuccess:
-        return action.data;
-      case types.sync:
-        return {
-          ...state,
-          [action.key]: action.value,
-        };
-      case types.resetSuccess: {
-        const newState = {};
-        // reset the data to initial states
-        /* eslint-disable guard-for-in */
-        for (const key in reducers) {
-          newState[key] = reducers[key](undefined, action);
+    if (
+      action._usm === usmAction &&
+      (action.type === 'globalStorage' || action.type === 'storage')
+    ) {
+      // usm-redux update data with generic reducer for globalStorage & storage.
+      const [name] = types.init.split('-');
+      if (name === action.type) {
+        // for proxy storage state
+        if (action._state.target) {
+          return action._state.target[action.type].data;
         }
-        return newState;
-      }
-      default: {
-        const newState = {};
-        let hasChange = false;
-        // compute new substates and check for changes
-        /* eslint-disable guard-for-in */
-        for (const key in reducers) {
-          newState[key] = reducers[key](state[key], action);
-          if (newState[key] !== state[key]) hasChange = true;
-        }
-        return hasChange ? newState : state;
+        return action._state.data;
       }
     }
-  };
-}
-
-export function getStorageKeyReducer(types) {
-  return (state = null, { type, storageKey }) => {
-    switch (type) {
-      case types.initSuccess:
-        return storageKey;
-
-      case types.resetSuccess:
-        return null;
-
-      default:
-        return state;
+    const newState: Record<string, unknown> = {};
+    let hasChange = false;
+    // compute new sub states and check for changes
+    /* eslint-disable guard-for-in */
+    for (const key in reducers) {
+      newState[key] = reducers[key](state[key], action);
+      if (newState[key] !== state[key]) hasChange = true;
     }
+    return hasChange ? newState : state;
   };
-}
-
-export default function getStorageReducer({ types, reducers }) {
-  return combineReducers({
-    status: getModuleStatusReducer(types),
-    data: getDataReducer({ types, reducers }),
-    storageKey: getStorageKeyReducer(types),
-  });
 }

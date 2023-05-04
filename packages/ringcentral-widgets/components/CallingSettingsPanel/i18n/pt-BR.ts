@@ -1,4 +1,4 @@
-import callingOptions from '@ringcentral-integration/commons/modules/CallingSettings/callingOptions';
+import { callingOptions } from '@ringcentral-integration/commons/modules/CallingSettings';
 export default {
   title: "Chamadas",
   [callingOptions.softphone]: "{brand} para Desktop",
@@ -9,10 +9,10 @@ export default {
   myLocationLabel: "Meu local",
   press1ToStartCallLabel: "Solicitar discar 1 antes de conectar a chamada",
   [`${callingOptions.browser}Tooltip`]: "Use esta opção para fazer e receber chamadas usando o microfone e o alto-falante do computador.",
-  [`${callingOptions.softphone}Tooltip`]: "Use esta opção para fazer e receber chamadas usando o aplicativo {brand}.",
+  [`${callingOptions.softphone}Tooltip`]: "Use esta opção para fazer e receber chamadas usando o {brand}.",
   [`${callingOptions.ringout}Tooltip`]: "Use esta opção para fazer chamadas usando o número de telefone selecionado ou inserido.",
   [`${callingOptions.ringout}Tooltip1`]: "Quando você fizer a chamada, primeiro este telefone tocará e só depois o da pessoa para a qual você ligou.",
-  [`${callingOptions.jupiter}Tooltip`]: "Use esta opção para fazer e receber chamadas usando o aplicativo {brand}."
+  [`${callingOptions.jupiter}Tooltip`]: "Use esta opção para fazer e receber chamadas usando o {brand}."
 };
 
 // @key: @#@"title"@#@ @source: @#@"Calling"@#@

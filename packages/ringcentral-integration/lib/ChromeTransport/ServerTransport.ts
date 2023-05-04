@@ -87,7 +87,7 @@ export class ServerTransport extends TransportBase {
             : null;
           resolve(!!this._activeTabIds);
         });
-      } catch (error) {
+      } catch (error: any /** TODO: confirm with instanceof */) {
         this._activeTabIds = null;
         console.log(error);
         resolve(false);

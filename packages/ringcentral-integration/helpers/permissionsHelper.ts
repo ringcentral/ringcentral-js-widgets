@@ -1,4 +1,4 @@
-import callingOptions from '../modules/CallingSettings/callingOptions';
+import { callingOptions } from '../modules/CallingSettings';
 
 export function hasClickToCallPermission({
   callWith,

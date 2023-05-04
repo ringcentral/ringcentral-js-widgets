@@ -1,12 +1,14 @@
 import { RcModuleV2, watch } from '@ringcentral-integration/core';
+import { IAnalytics } from '@ringcentral-integration/core/lib/track';
 
 import { Pendo, Segment } from '../../lib/Analytics';
 import { Module } from '../../lib/di';
-import proxify from '../../lib/proxy/proxify';
+import { proxify } from '../../lib/proxy/proxify';
 import saveBlob from '../../lib/saveBlob';
 import {
   Deps,
   IdentifyOptions,
+  IExtendedProps,
   PendoAgent,
   TrackLog,
   TrackProps,
@@ -26,10 +28,12 @@ import { trackRouters } from './analyticsRouters';
     { dep: 'ExtensionInfo', optional: true },
     { dep: 'RouterInteraction', optional: true },
     { dep: 'Locale', optional: true },
-    { dep: 'AnalyticsEventExtendedProps', optional: true },
   ],
 })
-export class Analytics<T extends Deps = Deps> extends RcModuleV2<T> {
+export class Analytics<T extends Deps = Deps>
+  extends RcModuleV2<T>
+  implements IAnalytics
+{
   protected _useLog = this._deps.analyticsOptions.useLog ?? false;
 
   protected _lingerThreshold =
@@ -46,15 +50,19 @@ export class Analytics<T extends Deps = Deps> extends RcModuleV2<T> {
 
   protected _logs: TrackLog[] = [];
 
-  protected _lingerTimeout?: NodeJS.Timeout = null;
+  protected _lingerTimeout: NodeJS.Timeout | null = null;
 
   private _pendo: any;
 
-  private _waitPendoCount: number;
+  private _waitPendoCount = 0;
 
-  private _pendoTimeout: ReturnType<typeof setTimeout>;
+  private _pendoTimeout?: ReturnType<typeof setTimeout>;
 
   private _env = this._deps.analyticsOptions.env ?? 'dev';
+
+  private _eventExtendedPropsMap = new Map<string, IExtendedProps>();
+  private _useLocalPendoJS =
+    this._deps.analyticsOptions.useLocalPendoJS ?? false;
 
   constructor(deps: T) {
     super({
@@ -62,13 +70,17 @@ export class Analytics<T extends Deps = Deps> extends RcModuleV2<T> {
     });
     this._segment = Segment();
     if (this._enablePendo && this._pendoApiKey) {
-      Pendo.init(this._pendoApiKey, (pendoInstance: any) => {
-        this._pendo = pendoInstance;
-      });
+      Pendo.init(
+        this._pendoApiKey,
+        this._useLocalPendoJS,
+        (pendoInstance: any) => {
+          this._pendo = pendoInstance;
+        },
+      );
     }
   }
 
-  onInitOnce() {
+  override onInitOnce() {
     if (this._deps.analyticsOptions.analyticsKey && this._segment) {
       this._segment.load(this._deps.analyticsOptions.analyticsKey, {
         integrations: {
@@ -82,7 +94,7 @@ export class Analytics<T extends Deps = Deps> extends RcModuleV2<T> {
       this.trackRouter();
       watch(
         this,
-        () => this._deps.routerInteraction.currentPath,
+        () => this._deps.routerInteraction!.currentPath,
         (currentPath) => {
           this.trackRouter(currentPath);
         },
@@ -90,7 +102,7 @@ export class Analytics<T extends Deps = Deps> extends RcModuleV2<T> {
     }
   }
 
-  trackRouter(currentPath = this._deps.routerInteraction.currentPath) {
+  trackRouter(currentPath = this._deps.routerInteraction?.currentPath) {
     const target = this.getTrackTarget(currentPath);
     if (target) {
       this.trackNavigation(target);
@@ -101,7 +113,7 @@ export class Analytics<T extends Deps = Deps> extends RcModuleV2<T> {
     }
     this._lingerTimeout = setTimeout(() => {
       this._lingerTimeout = null;
-      if (target && this._deps.routerInteraction.currentPath === currentPath) {
+      if (target && this._deps.routerInteraction?.currentPath === currentPath) {
         this.trackLinger(target);
       }
     }, this._lingerThreshold);
@@ -119,24 +131,37 @@ export class Analytics<T extends Deps = Deps> extends RcModuleV2<T> {
 
   protected _identify({ userId, ...props }: IdentifyOptions) {
     if (this.analytics) {
-      this.analytics.identify(
-        userId,
-        {
-          ...props,
-          companyName: this._deps.extensionInfo?.info?.contact?.company,
+      this.analytics.ready(() => {
+        // According to EU policy, we had to disable mixpanel to upload IP addresses
+        if (typeof window.mixpanel !== 'undefined') {
+          window.mixpanel.set_config({
+            ...window.mixpanel.config,
+            ip: false,
+          });
+        } else {
+          console.error(
+            'Mixpanel is not defined, and failure to disable IP address upload',
+          );
+        }
+      });
+      this.analytics.identify(userId, props, {
+        integrations: {
+          All: true,
+          Mixpanel: true,
+          Pendo: this._enablePendo,
         },
-        {
-          integrations: {
-            All: true,
-            Mixpanel: true,
-            Pendo: this._enablePendo,
-          },
-        },
-      );
+      });
     }
     if (this._enablePendo && this._pendoApiKey) {
       this._pendoInitialize({ userId, ...props, env: this._env });
     }
+  }
+
+  pendoIdentify({
+    userId,
+    ...props
+  }: { userId: string } & Record<string, any>) {
+    this._pendoInitialize({ userId, ...props, env: this._env });
   }
 
   protected _pendoInitialize({
@@ -166,7 +191,6 @@ export class Analytics<T extends Deps = Deps> extends RcModuleV2<T> {
       visitor: {
         id: userId,
         ...props,
-        companyName: this._deps.extensionInfo?.info?.contact?.company,
         appName: this._deps.brand.defaultConfig.appName,
         appVersion: this._deps.analyticsOptions.appVersion,
         appBrand: this._deps.brand.defaultConfig.code,
@@ -192,7 +216,7 @@ export class Analytics<T extends Deps = Deps> extends RcModuleV2<T> {
     const trackProps: TrackProps = {
       ...this.trackProps,
       ...properties,
-      ...this._deps.analyticsEventExtendedProps?.extendedProps.get(event),
+      ...this.extendedProps.get(event),
     };
 
     this.analytics.track(event, trackProps, {
@@ -226,7 +250,10 @@ export class Analytics<T extends Deps = Deps> extends RcModuleV2<T> {
     saveBlob('logs.json', blob);
   }
 
-  trackNavigation({ router, eventPostfix }: TrackRouter) {
+  trackNavigation({
+    router,
+    eventPostfix,
+  }: Exclude<TrackRouter, null | undefined>) {
     const trackProps = {
       router,
       appName: this._deps.brand.defaultConfig.appName,
@@ -236,7 +263,10 @@ export class Analytics<T extends Deps = Deps> extends RcModuleV2<T> {
     this.track(`Navigation: Click/${eventPostfix}`, trackProps);
   }
 
-  trackLinger({ router, eventPostfix }: TrackRouter) {
+  trackLinger({
+    router,
+    eventPostfix,
+  }: Exclude<TrackRouter, null | undefined>) {
     const trackProps = {
       router,
       appName: this._deps.brand.defaultConfig.appName,
@@ -253,7 +283,7 @@ export class Analytics<T extends Deps = Deps> extends RcModuleV2<T> {
       return null;
     }
     const routes = currentPath.split('/');
-    let formatRoute: string = null;
+    let formatRoute: string | null = null;
     const needMatchSecondRoutes = ['calls'];
     if (routes.length >= 3 && needMatchSecondRoutes.indexOf(routes[1]) !== -1) {
       formatRoute = `/${routes[1]}/${routes[2]}`;
@@ -261,9 +291,30 @@ export class Analytics<T extends Deps = Deps> extends RcModuleV2<T> {
       formatRoute = `/${routes[1]}`;
     }
     const target = this._trackRouters.find(
-      (target) => formatRoute === target.router,
+      (target) => formatRoute === target?.router,
     );
     return target;
+  }
+
+  addEventsExtendedProps({
+    events,
+    extendedProps,
+  }: {
+    events: string[];
+    extendedProps: IExtendedProps;
+  }) {
+    if (!events || !extendedProps) {
+      console.error('[events or extendedProps] is required');
+      return;
+    }
+    events.forEach((event) => {
+      const oldValue = this._eventExtendedPropsMap.get(event);
+      this._eventExtendedPropsMap.set(event, { ...oldValue, ...extendedProps });
+    });
+  }
+
+  get extendedProps() {
+    return this._eventExtendedPropsMap;
   }
 
   get analytics() {
@@ -279,5 +330,9 @@ export class Analytics<T extends Deps = Deps> extends RcModuleV2<T> {
       'Browser Language': this._deps.locale?.browserLocale || '',
       'Extension Type': this._deps.extensionInfo?.info.type || '',
     };
+  }
+
+  get pendo() {
+    return this._pendo;
   }
 }

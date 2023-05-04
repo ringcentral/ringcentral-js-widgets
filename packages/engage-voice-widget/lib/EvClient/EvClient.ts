@@ -1,7 +1,7 @@
+import { waitUntilTo } from '@ringcentral-integration/commons/utils';
 import { EventEmitter } from 'events';
 
 import { Module } from '@ringcentral-integration/commons/lib/di';
-import { raceTimeout } from '@ringcentral-integration/commons/lib/raceTimeout';
 import { action, RcModuleV2, state } from '@ringcentral-integration/core';
 // eslint-disable-next-line import/no-unresolved
 import AgentLibrary from '@SDK';
@@ -170,7 +170,7 @@ class EvClient extends RcModuleV2<Deps> {
     }
   }
 
-  onInitOnce() {
+  override onInitOnce() {
     this.initSDK();
   }
 
@@ -356,18 +356,20 @@ class EvClient extends RcModuleV2<Deps> {
     rcAccessToken: string,
     tokenType: EvTokenType,
   ) {
-    const authenticateResponse = await raceTimeout(
-      this.authenticateAgent(rcAccessToken, tokenType),
-      {
-        timeout: 120 * 1000,
-        onTimeout: (resolve) => resolve(null),
+    const authenticateResponse = await waitUntilTo(
+      () => {
+        return this.authenticateAgent(rcAccessToken, tokenType);
       },
-    );
-    if (!authenticateResponse) {
+      {
+        interval: 0,
+        timeout: 120 * 1000,
+      },
+    ).catch(() => {
       throw new EvTypeError({
         type: messageTypes.CONNECT_TIMEOUT,
       });
-    }
+    });
+
     if (
       authenticateResponse.type === 'Authenticate Error' ||
       authenticateResponse.message
@@ -682,9 +684,7 @@ class EvClient extends RcModuleV2<Deps> {
   async multiLoginRequest() {
     // temp solution, and wait for ev backend enhancement.
     try {
-      await raceTimeout(this._multiLoginRequest(), {
-        onTimeout: (res, rej) => rej(),
-      });
+      await waitUntilTo(() => this._multiLoginRequest(), { timeout: 30000 });
     } catch (error) {
       throw new Error('_multiLoginRequest fail or 30s timeout');
     }

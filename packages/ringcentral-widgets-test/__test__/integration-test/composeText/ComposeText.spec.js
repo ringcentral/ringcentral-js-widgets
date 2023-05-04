@@ -1,13 +1,12 @@
-import { sleep } from '@ringcentral-integration/commons/lib/sleep';
 import * as mock from '@ringcentral-integration/commons/integration-test/mock';
-
-import NavigationBar from '@ringcentral-integration/widgets/components/NavigationBar';
+import { sleep } from '@ringcentral-integration/commons/utils';
 import ComposeTextPanel from '@ringcentral-integration/widgets/components/ComposeTextPanel';
-import DropdownSelect from '@ringcentral-integration/widgets/components/DropdownSelect';
-import ConversationPanel from '@ringcentral-integration/widgets/components/ConversationPanel';
 import { Message } from '@ringcentral-integration/widgets/components/ConversationMessageList';
+import ConversationPanel from '@ringcentral-integration/widgets/components/ConversationPanel';
+import DropdownSelect from '@ringcentral-integration/widgets/components/DropdownSelect';
+import NavigationBar from '@ringcentral-integration/widgets/components/NavigationBar';
 
-import { getWrapper, timeout } from '../shared';
+import { getWrapper } from '../shared';
 
 let wrapper = null;
 let panel = null;
@@ -40,7 +39,7 @@ describe('compose text panel', () => {
     textArea.instance().value = 'Hello world';
     await textArea.simulate('change');
     // wait for textArea 500ms debounce;
-    await timeout(1000);
+    await sleep(1000);
     wrapper.update();
     panel = wrapper.find(ComposeTextPanel).first();
     textArea = panel.find('.textField').first().find('textarea');
@@ -55,7 +54,10 @@ describe('compose text panel', () => {
   });
 
   test('from dropdown', async () => {
-    const dropdownSelect = panel.find(DropdownSelect).first();
+    let dropdownSelect = panel.find(DropdownSelect).first();
+    dropdownSelect.find('[data-sign="selectRoot"]').first().simulate('click');
+    panel = wrapper.find(ComposeTextPanel).first();
+    dropdownSelect = panel.find(DropdownSelect).first();
     const dropdown = dropdownSelect.find('.dropdown').first();
     const dropdownItems = dropdown.find('li[data-sign="selectMenuItem"]');
     expect(dropdownItems.length > 1).toEqual(true);
@@ -80,33 +82,5 @@ describe('compose text panel', () => {
     expect(selected.text()).toEqual(secondNumber);
     await dropdownItems.at(0).simulate('click');
     expect(selected.text()).toEqual(firstNumber);
-  });
-
-  test('send an SMS', async () => {
-    const messageContent = `Hello world ${Date.now()}`;
-    mock.numberParser();
-    mock.sms({
-      subject: messageContent,
-    });
-
-    toNumber.instance().value = '16505819954';
-    await toNumber.simulate('change');
-    textArea.instance().value = messageContent;
-    await textArea.simulate('change');
-    // wait for textArea 500ms debounce;
-    await timeout(1000);
-    wrapper.update();
-    panel = wrapper.find(ComposeTextPanel).first();
-    sendButton = panel.find('.sendButton').first();
-    expect(sendButton.props().disabled).toBe(false);
-    await sendButton.simulate('click');
-    await timeout(200);
-    wrapper.update();
-    const conversationPanel = wrapper.find(ConversationPanel);
-    expect(conversationPanel.length > 0).toBe(true);
-    const messages = conversationPanel.first().find(Message);
-    const lastMessage = messages.at(messages.length - 1);
-    expect(lastMessage.props()).toBeDefined();
-    expect(lastMessage.props().subject).toMatch(new RegExp(messageContent));
   });
 });

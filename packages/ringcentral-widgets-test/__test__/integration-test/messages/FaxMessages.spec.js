@@ -1,27 +1,26 @@
-import { phoneTypes } from '@ringcentral-integration/commons/enums/phoneTypes';
-import { phoneSources } from '@ringcentral-integration/commons/enums/phoneSources';
 import messageTypes from '@ringcentral-integration/commons/enums/messageTypes';
+import { phoneSources } from '@ringcentral-integration/commons/enums/phoneSources';
+import { phoneTypes } from '@ringcentral-integration/commons/enums/phoneTypes';
 import * as mock from '@ringcentral-integration/commons/integration-test/mock';
 import messageSyncBody from '@ringcentral-integration/commons/integration-test/mock/data/messageSync.json';
 import { ensureLogin } from '@ringcentral-integration/commons/integration-test/utils/HelpUtil';
-import { waitUntil } from '@ringcentral-integration/commons/lib/waitUntil';
-
-import NavigationBar from '@ringcentral-integration/widgets/components/NavigationBar';
-import ConversationsPanel from '@ringcentral-integration/widgets/components/ConversationsPanel';
-import MessageItem from '@ringcentral-integration/widgets/components/MessageItem';
-import ContactDisplay from '@ringcentral-integration/widgets/components/ContactDisplay';
+import { sleep, waitUntilTo } from '@ringcentral-integration/commons/utils';
 import {
   MarkButton,
   PreviewButton,
 } from '@ringcentral-integration/widgets/components/ActionMenuList';
+import ContactDisplay from '@ringcentral-integration/widgets/components/ContactDisplay';
+import { ConversationsPanel } from '@ringcentral-integration/widgets/components/ConversationsPanel';
 import EntityButton from '@ringcentral-integration/widgets/components/EntityButton';
+import MessageItem from '@ringcentral-integration/widgets/components/MessageItem';
+import NavigationBar from '@ringcentral-integration/widgets/components/NavigationBar';
 
-import { getWrapper, timeout, tearDownWrapper } from '../shared';
+import { getWrapper, tearDownWrapper } from '../shared';
 import {
   mockGenerateMessageApi,
-  mockUpdateMessageStatusApi,
   mockPubnub,
-} from './helper.js';
+  mockUpdateMessageStatusApi,
+} from './helper';
 
 let wrapper = null;
 let panel = null;
@@ -110,7 +109,9 @@ describe('fax messages', () => {
         username: 'test',
         password: 'test',
       });
-      await waitUntil(() => phone.conversations.ready, 100, 10000);
+      await waitUntilTo(() => {
+        expect(phone.conversations.ready).toBeTruthy();
+      });
       wrapper.setProps({ phone });
       wrapper.update();
       navigationBar = wrapper.find(NavigationBar).first();
@@ -150,7 +151,9 @@ describe('fax messages', () => {
         username: 'test',
         password: 'test',
       });
-      await waitUntil(() => phone.conversations.ready, 100, 10000);
+      await waitUntilTo(() => {
+        expect(phone.conversations.ready).toBeTruthy();
+      });
       wrapper.setProps({ phone });
       navigationBar = wrapper.find(NavigationBar).first();
       await navigationBar.props().goTo('/messages');
@@ -193,7 +196,9 @@ describe('fax messages', () => {
         username: 'test',
         password: 'test',
       });
-      await waitUntil(() => phone.conversations.ready, 100, 10000);
+      await waitUntilTo(() => {
+        expect(phone.conversations.ready).toBeTruthy();
+      });
       wrapper.setProps({ phone });
       navigationBar = wrapper.find(NavigationBar).first();
       await navigationBar.props().goTo('/messages');
@@ -236,7 +241,9 @@ describe('fax messages', () => {
         username: 'test',
         password: 'test',
       });
-      await waitUntil(() => phone.conversations.ready, 100, 10000);
+      await waitUntilTo(() => {
+        expect(phone.conversations.ready).toBeTruthy();
+      });
       wrapper.setProps({ phone });
       navigationBar = wrapper.find(NavigationBar).first();
       await navigationBar.props().goTo('/messages');
@@ -316,7 +323,9 @@ describe('fax messages', () => {
         username: 'test',
         password: 'test',
       });
-      await waitUntil(() => phone.conversations.ready, 100, 10000);
+      await waitUntilTo(() => {
+        expect(phone.conversations.ready).toBeTruthy();
+      });
       wrapper.setProps({ phone });
       wrapper.update();
       navigationBar = wrapper.find(NavigationBar).first();
@@ -357,7 +366,9 @@ describe('fax messages', () => {
         username: 'test',
         password: 'test',
       });
-      await waitUntil(() => phone.conversations.ready, 100, 10000);
+      await waitUntilTo(() => {
+        expect(phone.conversations.ready).toBeTruthy();
+      });
       wrapper.setProps({ phone });
       wrapper.update();
       navigationBar = wrapper.find(NavigationBar).first();
@@ -393,7 +404,9 @@ describe('fax messages', () => {
         username: 'test',
         password: 'test',
       });
-      await waitUntil(() => phone.conversations.ready, 100, 10000);
+      await waitUntilTo(() => {
+        expect(phone.conversations.ready).toBeTruthy();
+      });
       wrapper.setProps({ phone });
       wrapper.update();
       navigationBar = wrapper.find(NavigationBar).first();
@@ -428,7 +441,9 @@ describe('fax messages', () => {
         username: 'test',
         password: 'test',
       });
-      await waitUntil(() => phone.conversations.ready, 100, 10000);
+      await waitUntilTo(() => {
+        expect(phone.conversations.ready).toBeTruthy();
+      });
       wrapper.setProps({ phone });
       wrapper.update();
       navigationBar = wrapper.find(NavigationBar).first();
@@ -462,7 +477,9 @@ describe('fax messages', () => {
         username: 'test',
         password: 'test',
       });
-      await waitUntil(() => phone.conversations.ready, 100, 10000);
+      await waitUntilTo(() => {
+        expect(phone.conversations.ready).toBeTruthy();
+      });
       wrapper.setProps({ phone });
       wrapper.update();
       navigationBar = wrapper.find(NavigationBar).first();
@@ -497,7 +514,9 @@ describe('fax messages', () => {
         username: 'test',
         password: 'test',
       });
-      await waitUntil(() => phone.conversations.ready, 100, 10000);
+      await waitUntilTo(() => {
+        expect(phone.conversations.ready).toBeTruthy();
+      });
       wrapper.setProps({ phone });
       wrapper.update();
       navigationBar = wrapper.find(NavigationBar).first();
@@ -519,7 +538,7 @@ describe('fax messages', () => {
       expect(notice.at(0).text()).toEqual('1');
       const messageItem = wrapper.find(ConversationsPanel).find(MessageItem);
       await messageItem.find(PreviewButton).props().onClick();
-      await timeout(1000);
+      await sleep(1000);
       wrapper.update();
       notice = wrapper
         .find(ConversationsPanel)
@@ -549,7 +568,9 @@ describe('fax messages', () => {
         username: 'test',
         password: 'test',
       });
-      await waitUntil(() => phone.conversations.ready, 100, 10000);
+      await waitUntilTo(() => {
+        expect(phone.conversations.ready).toBeTruthy();
+      });
       // Object.defineProperty(phone.contactMatcher, 'ready', {
       //   value: true,
       // });
@@ -578,7 +599,7 @@ describe('fax messages', () => {
         .find(MarkButton);
       expect(markButton).toBeDefined();
       await markButton.simulate('click');
-      await timeout(2000);
+      await sleep(2000);
       wrapper.update();
       expect(phone.messageStore.faxUnreadCounts).toEqual(1);
       notice = wrapper
@@ -606,8 +627,10 @@ describe('fax messages', () => {
         username: 'test',
         password: 'test',
       });
-      await waitUntil(() => phone.conversations.ready, 100, 10000);
-      await timeout(100);
+      await waitUntilTo(() => {
+        expect(phone.conversations.ready).toBeTruthy();
+      });
+      await sleep(100);
       mockUpdateMessageStatusApi({
         id: 1,
         readStatus: 'Read',
@@ -637,7 +660,9 @@ describe('fax messages', () => {
         .find(MarkButton);
       expect(markButton).toBeDefined();
       markButton.simulate('click');
-      await waitUntil(() => phone.messageStore.faxUnreadCounts === 99);
+      await waitUntilTo(() => {
+        expect(phone.messageStore.faxUnreadCounts === 99).toBeTruthy();
+      });
       wrapper.update();
       expect(phone.messageStore.faxUnreadCounts).toEqual(99);
       notice = wrapper
@@ -666,7 +691,9 @@ describe('fax messages', () => {
         username: 'test',
         password: 'test',
       });
-      await waitUntil(() => phone.conversations.ready, 100, 10000);
+      await waitUntilTo(() => {
+        expect(phone.conversations.ready).toBeTruthy();
+      });
       mockUpdateMessageStatusApi({
         id: 1,
         readStatus: 'Read',
@@ -687,7 +714,9 @@ describe('fax messages', () => {
         .find(MarkButton);
       expect(markButton).toBeDefined();
       await markButton.simulate('click');
-      await waitUntil(() => phone.messageStore.faxUnreadCounts === 99);
+      await waitUntilTo(() => {
+        expect(phone.messageStore.faxUnreadCounts === 99).toBeTruthy();
+      });
       wrapper.update();
       let notice = wrapper
         .find(ConversationsPanel)
@@ -709,7 +738,9 @@ describe('fax messages', () => {
         .find(MarkButton);
       expect(markButton).toBeDefined();
       await markButton.simulate('click');
-      await waitUntil(() => phone.messageStore.faxUnreadCounts === 100);
+      await waitUntilTo(() => {
+        expect(phone.messageStore.faxUnreadCounts === 100).toBeTruthy();
+      });
       wrapper.update();
       phone = wrapper.props().phone;
       expect(phone.messageStore.faxUnreadCounts).toEqual(100);
@@ -751,7 +782,7 @@ describe('fax messages', () => {
         ['/restapi/v1.0/account/~/extension/~/message-sync'],
         10,
       );
-      await timeout(100);
+      await sleep(100);
       await mockPubnub();
 
       wrapper.update();
@@ -779,7 +810,7 @@ describe('fax messages', () => {
         ['/restapi/v1.0/account/~/extension/~/message-sync'],
         10,
       );
-      await timeout(100);
+      await sleep(100);
       await mockPubnub();
       wrapper.update();
 
@@ -800,7 +831,7 @@ describe('fax messages', () => {
         ['/restapi/v1.0/account/~/extension/~/message-sync'],
         10,
       );
-      await timeout(100);
+      await sleep(100);
       await mockPubnub();
 
       wrapper.update();
@@ -823,7 +854,7 @@ describe('fax messages', () => {
         ['/restapi/v1.0/account/~/extension/~/message-sync'],
         10,
       );
-      await timeout(100);
+      await sleep(100);
       await mockPubnub();
 
       wrapper.update();
@@ -846,7 +877,7 @@ describe('fax messages', () => {
         ['/restapi/v1.0/account/~/extension/~/message-sync'],
         10,
       );
-      await timeout(100);
+      await sleep(100);
       await mockPubnub();
 
       wrapper.update();
@@ -868,7 +899,7 @@ describe('fax messages', () => {
         ['/restapi/v1.0/account/~/extension/~/message-sync'],
         10,
       );
-      await timeout(100);
+      await sleep(100);
       await mockPubnub();
       wrapper.update();
 

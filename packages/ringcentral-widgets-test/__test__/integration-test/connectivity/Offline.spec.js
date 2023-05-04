@@ -1,9 +1,12 @@
-import { contains } from 'ramda';
-import ConnectivityBadge from '@ringcentral-integration/widgets/components/ConnectivityBadge';
+import { includes } from 'ramda';
+
+import { callingModes } from '@ringcentral-integration/commons/modules/CallingSettings';
+import { sleep } from '@ringcentral-integration/utils';
 import ConnectivityAlert from '@ringcentral-integration/widgets/components/AlertRenderer/ConnectivityAlert';
 import CircleButton from '@ringcentral-integration/widgets/components/CircleButton';
-import callingModes from '@ringcentral-integration/commons/modules/CallingSettings/callingModes';
-import { getWrapper, timeout } from '../shared';
+import ConnectivityBadge from '@ringcentral-integration/widgets/components/ConnectivityBadge';
+
+import { getWrapper } from '../shared';
 
 let wrapper = null;
 let phone = null;
@@ -36,12 +39,12 @@ describe('Network is lost', () => {
 
   test('Call Buttons are disabled', () => {
     const button = wrapper.find(CircleButton);
-    expect(contains('disabled', button.at(0).prop('className'))).toBeTruthy();
+    expect(includes('disabled', button.at(0).prop('className'))).toBeTruthy();
   });
 
   test.skip('Click on the badge', async () => {
     phone.connectivityManager._hideAlerts();
-    await timeout(500);
+    await sleep(500);
     wrapper.update();
     expect(wrapper.find(ConnectivityAlert).exists()).toBeFalsy();
     badge.simulate('click');
@@ -54,7 +57,7 @@ describe('Network is lost', () => {
 
   test('platform is accessible', async () => {
     phone.connectivityMonitor._requestSuccessHandler();
-    await timeout(500);
+    await sleep(500);
     wrapper.update();
     expect(wrapper.find(ConnectivityBadge).text()).not.toEqual('Offline');
     expect(wrapper.find(ConnectivityAlert).exists()).toBeFalsy();
@@ -80,12 +83,12 @@ describe('Platform is not accessible', () => {
 
   test('All Buttons are disabled', () => {
     const button = wrapper.find(CircleButton);
-    expect(contains('disabled', button.at(0).prop('className'))).toBeTruthy();
+    expect(includes('disabled', button.at(0).prop('className'))).toBeTruthy();
   });
 
   test.skip('Click on the badge', async () => {
     phone.connectivityManager._hideAlerts();
-    await timeout(500);
+    await sleep(500);
     wrapper.update();
     expect(wrapper.find(ConnectivityAlert).exists()).toBeFalsy();
     badge.simulate('click');
@@ -98,7 +101,7 @@ describe('Platform is not accessible', () => {
 
   test('platform is accessible', async () => {
     phone.connectivityMonitor._requestSuccessHandler();
-    await timeout(500);
+    await sleep(500);
     wrapper.update();
     expect(wrapper.find(ConnectivityBadge).text()).not.toEqual('Offline');
     expect(wrapper.find(ConnectivityAlert).exists()).toBeFalsy();
@@ -115,7 +118,7 @@ describe('Offline = VoIP Only mode + Webphone Unavailable', () => {
         message: 'none',
         response: { status: 500 },
       });
-    await timeout(10);
+    await sleep(10);
     wrapper.update();
     badge = wrapper.find(ConnectivityBadge);
     expect(badge.text()).toEqual('VoIP Only');
@@ -123,7 +126,7 @@ describe('Offline = VoIP Only mode + Webphone Unavailable', () => {
 
   test('App is not in webphone mode', async () => {
     phone.callingSettings._setSoftPhoneToCallWith();
-    await timeout(500);
+    await sleep(500);
     wrapper.update();
     expect(phone.callingSettings.callingMode).not.toEqual(
       callingModes.webphone,
@@ -134,14 +137,14 @@ describe('Offline = VoIP Only mode + Webphone Unavailable', () => {
       'Sorry, something went wrong on our end. Try again later.',
     );
     const button = wrapper.find(CircleButton);
-    expect(contains('disabled', button.at(0).prop('className'))).toBeTruthy();
+    expect(includes('disabled', button.at(0).prop('className'))).toBeTruthy();
   });
 
   test('App is in webphone mode and webphone is unavailable', async () => {
     phone.audioSettings.onGetUserMediaError.bind(phone.audioSettings);
     await phone.audioSettings.onGetUserMediaError();
     wrapper.update();
-    await timeout(500);
+    await sleep(500);
     expect(phone.callingSettings.callingMode).toEqual(callingModes.webphone);
     expect(wrapper.find(ConnectivityBadge).text()).toEqual('Offline');
     const connectivityAlerts = wrapper.find(ConnectivityAlert) || [];
@@ -149,6 +152,6 @@ describe('Offline = VoIP Only mode + Webphone Unavailable', () => {
       'Sorry, something went wrong on our end. Try again later.',
     );
     const button = wrapper.find(CircleButton);
-    expect(contains('disabled', button.at(0).prop('className'))).toBeTruthy();
+    expect(includes('disabled', button.at(0).prop('className'))).toBeTruthy();
   });
 });

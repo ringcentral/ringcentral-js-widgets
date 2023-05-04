@@ -71,7 +71,7 @@ type ActiveCallsPanelProps = {
   notificationContainerStyles?: string;
   showAvatar?: boolean;
   renderContactName?: (...args: any[]) => any;
-  renderSubContactName?:(...args: any[]) => any;
+  renderSubContactName?: (...args: any[]) => any;
   showOtherDevice?: boolean;
   ringoutHangup?: (...args: any[]) => any;
   ringoutTransfer?: (...args: any[]) => any;
@@ -91,8 +91,11 @@ type ActiveCallsPanelProps = {
   newCallIcon?: boolean;
   clickSwitchTrack?: (...args: any[]) => any;
   isWide?: boolean;
+  allCalls: any[];
 };
 class ActiveCallsPanel extends Component<ActiveCallsPanelProps, {}> {
+  container: any;
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   componentDidMount() {
     if (
       !this.hasCalls(this.props) &&
@@ -101,7 +104,8 @@ class ActiveCallsPanel extends Component<ActiveCallsPanelProps, {}> {
       this.props.onCallsEmpty();
     }
   }
-  UNSAFE_componentWillReceiveProps(nextProps) {
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
+  UNSAFE_componentWillReceiveProps(nextProps: any) {
     if (
       this.hasCalls(this.props) &&
       !this.hasCalls(nextProps) &&
@@ -149,18 +153,22 @@ class ActiveCallsPanel extends Component<ActiveCallsPanelProps, {}> {
     return (
       <div>
         <InsideModal
+          // @ts-expect-error TS(2339): Property 'title' does not exist on type 'object'.
           title={currentLog.title}
+          // @ts-expect-error TS(2339): Property 'showLog' does not exist on type 'object'... Remove this comment to see the full error message
           show={currentLog.showLog}
           onClose={onCloseLogSection}
           clickOutToClose={false}
           maskStyle={styles.maskStyle}
         >
           <LogSection
+            // @ts-expect-error TS(2322): Type '{ currentLocale: string; currentLog: object;... Remove this comment to see the full error message
             currentLocale={currentLocale}
             currentLog={currentLog}
             formatPhone={formatPhone}
             // additionalInfo={additionalInfo}
             isInnerMask={
+              // @ts-expect-error TS(2339): Property 'notificationIsExpand' does not exist on ... Remove this comment to see the full error message
               logNotification && logNotification.notificationIsExpand
             }
             // save call log
@@ -176,6 +184,7 @@ class ActiveCallsPanel extends Component<ActiveCallsPanelProps, {}> {
         </InsideModal>
         {logNotification ? (
           <InsideModal
+            // @ts-expect-error TS(2339): Property 'showNotification' does not exist on type... Remove this comment to see the full error message
             show={logNotification.showNotification}
             showTitle={false}
             containerStyles={classnames(
@@ -191,6 +200,7 @@ class ActiveCallsPanel extends Component<ActiveCallsPanelProps, {}> {
               currentLocale={currentLocale}
               formatPhone={formatPhone}
               currentLog={logNotification}
+              // @ts-expect-error TS(2339): Property 'notificationIsExpand' does not exist on ... Remove this comment to see the full error message
               isExpand={logNotification.notificationIsExpand}
               onSave={onSaveNotification}
               onExpand={onExpandNotification}
@@ -202,7 +212,7 @@ class ActiveCallsPanel extends Component<ActiveCallsPanelProps, {}> {
       </div>
     );
   }
-  getCallList(calls, title, showCallDetail = false) {
+  getCallList(calls: any, title: any, showCallDetail = false, allCalls: any) {
     const {
       currentLocale,
       areaCode,
@@ -298,6 +308,7 @@ class ActiveCallsPanel extends Component<ActiveCallsPanelProps, {}> {
         sourceIcons={sourceIcons}
         phoneTypeRenderer={phoneTypeRenderer}
         phoneSourceNameRenderer={phoneSourceNameRenderer}
+        // @ts-expect-error TS(2322): Type '{ title: any; calls: any; currentLocale: str... Remove this comment to see the full error message
         isWebRTC={isWebRTC}
         currentCall={activeCurrentCalls[0]}
         isSessionAConferenceCall={isSessionAConferenceCall}
@@ -325,9 +336,11 @@ class ActiveCallsPanel extends Component<ActiveCallsPanelProps, {}> {
         newCallIcon={newCallIcon}
         clickSwitchTrack={clickSwitchTrack}
         isWide={isWide}
+        allCalls={allCalls}
       />
     );
   }
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     const {
       activeRingCalls,
@@ -339,6 +352,7 @@ class ActiveCallsPanel extends Component<ActiveCallsPanelProps, {}> {
       showSpinner,
       showOtherDevice,
       showCallDetail,
+      allCalls,
     } = this.props;
     const logSection = this.renderLogSection();
     if (!this.hasCalls()) {
@@ -360,6 +374,7 @@ class ActiveCallsPanel extends Component<ActiveCallsPanelProps, {}> {
           otherDeviceCalls,
           i18n.getString('otherDeviceCall', currentLocale),
           true,
+          allCalls,
         )
       : null;
     return (
@@ -374,16 +389,19 @@ class ActiveCallsPanel extends Component<ActiveCallsPanelProps, {}> {
             activeRingCalls,
             i18n.getString('ringCall', currentLocale),
             showCallDetail,
+            allCalls,
           )}
           {this.getCallList(
             activeCurrentCalls,
             i18n.getString('currentCall', currentLocale),
             showCallDetail,
+            allCalls,
           )}
           {this.getCallList(
             activeOnHoldCalls,
             i18n.getString('onHoldCall', currentLocale),
             showCallDetail,
+            allCalls,
           )}
           {otherDevice}
         </div>
@@ -393,6 +411,7 @@ class ActiveCallsPanel extends Component<ActiveCallsPanelProps, {}> {
     );
   }
 }
+// @ts-expect-error TS(2339): Property 'defaultProps' does not exist on type 'ty... Remove this comment to see the full error message
 ActiveCallsPanel.defaultProps = {
   isWide: true,
   className: undefined,
@@ -426,9 +445,9 @@ ActiveCallsPanel.defaultProps = {
   onCallItemClick: false,
   getAvatarUrl: undefined,
   conferenceCallParties: [],
-  webphoneHold: (i) => i,
+  webphoneHold: (i: any) => i,
   useV2: false,
-  updateSessionMatchedContact: (i) => i,
+  updateSessionMatchedContact: (i: any) => i,
   // CallLog related
   currentLog: undefined,
   renderEditLogSection: undefined,

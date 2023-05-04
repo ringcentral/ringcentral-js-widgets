@@ -4,7 +4,7 @@ export default {
   [connectivityTypes.offline]: "Offline",
   [connectivityTypes.voipOnly]: "Nur VoIP",
   [connectivityTypes.survival]: "Eingeschränkter Modus",
-  [connectivityTypes.connecting]: "Verbindung wird hergestellt"
+  [connectivityTypes.connecting]: "Verbinden"
 };
 
 // @key: @#@"[connectivityTypes.webphoneUnavailable]"@#@ @source: @#@"Web Phone Unavailable"@#@

@@ -9,7 +9,7 @@ import {
 } from '@ringcentral-integration/test-utils';
 
 import { Call } from '../../interfaces/Call.interface';
-import { CallHistory, HistoryCall } from '../../modules/CallHistoryV2';
+import { CallHistory, HistoryCall } from '../../modules/CallHistory';
 import { mockModuleGenerator } from '../lib/mockModule';
 
 const getMockModule = () =>

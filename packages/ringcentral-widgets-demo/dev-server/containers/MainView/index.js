@@ -1,12 +1,9 @@
 /* eslint-disable react/prop-types */
-import callingOptions from '@ringcentral-integration/commons/modules/CallingSettings/callingOptions';
+import { callingOptions } from '@ringcentral-integration/commons/modules/CallingSettings';
 import HistoryIcon from '@ringcentral-integration/widgets/assets/images/CallHistory.svg';
 import HistoryHoverIcon from '@ringcentral-integration/widgets/assets/images/CallHistoryHover.svg';
 import CallsIcon from '@ringcentral-integration/widgets/assets/images/Calls.svg';
 import CallsHoverIcon from '@ringcentral-integration/widgets/assets/images/CallsHover.svg';
-import ConferenceIcon from '@ringcentral-integration/widgets/assets/images/Conference.svg';
-import ConferenceHoverIcon from '@ringcentral-integration/widgets/assets/images/ConferenceHover.svg';
-import ConferenceNavIcon from '@ringcentral-integration/widgets/assets/images/ConferenceNavigation.svg';
 import ContactIcon from '@ringcentral-integration/widgets/assets/images/Contact.svg';
 import ContactHoverIcon from '@ringcentral-integration/widgets/assets/images/ContactHover.svg';
 import ContactNavIcon from '@ringcentral-integration/widgets/assets/images/ContactsNavigation.svg';

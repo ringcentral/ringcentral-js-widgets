@@ -36,9 +36,11 @@ export class SetData extends Step {
         <Given
           desc="Create an RegionSettings instance with default value"
           action={(_: any, context: any) => {
-            const regionSettings = new RegionSettings({} as any);
-            expect(regionSettings.data.countryCode).toBe('US');
-            expect(regionSettings.data.areaCode).toBe('');
+            const regionSettings = new RegionSettings({
+              extensionInfo: {},
+            } as any);
+            expect(regionSettings.countryCode).toBe('US');
+            expect(regionSettings.areaCode).toBe('');
             context.instance = regionSettings;
           }}
         />
@@ -93,6 +95,9 @@ export class CheckRegionSettings extends Step {
               alert: new MockAlert(),
               brand: {
                 brandConfig: { allowRegionSettings: true },
+              },
+              appFeatures: {
+                isEDPEnabled: false,
               },
             } as any);
             expect(regionSettings.countryCode).toBe('US');

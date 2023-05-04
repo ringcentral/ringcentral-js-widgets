@@ -1,7 +1,7 @@
 export default {
   download: "Transferir",
   play: "Reproduzir",
-  pause: "Pausa"
+  pause: "Colocar em pausa"
 };
 
 // @key: @#@"download"@#@ @source: @#@"Download"@#@

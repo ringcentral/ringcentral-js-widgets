@@ -66,7 +66,7 @@ describe('<DialerPanel />', () => {
 
   it('Check Disabled Allow Manual Calls', () => {
     /* RCI-3899: Check Disabled Allow Manual Calls
-      https://testit.ringcentral.com/test-cases/RCI-3899
+      https://test_id_domain/test-cases/RCI-3899
     */
     wrapper = createDialerPanel({ hasDialer: true });
     const manualDialSettings = wrapper

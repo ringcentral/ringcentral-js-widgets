@@ -1,2 +1,2 @@
 export * from './DataMatcher';
-export * from './DataMatcher.interfaces';
+export * from './DataMatcher.interface';

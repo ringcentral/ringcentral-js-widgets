@@ -1,9 +1,10 @@
 import React from 'react';
+
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 
+import { EnvironmentPanel } from '@ringcentral-integration/widgets/components/EnvironmentPanel';
 import { withPhone } from '@ringcentral-integration/widgets/lib/phoneContext';
-import Environment from '@ringcentral-integration/widgets/components/Environment';
 
 import styles from './styles.scss';
 
@@ -12,7 +13,7 @@ function AppView(props) {
     <div className={styles.root}>
       {props.children}
 
-      <Environment
+      <EnvironmentPanel
         server={props.server}
         enabled={props.enabled}
         onSetData={props.onSetData}

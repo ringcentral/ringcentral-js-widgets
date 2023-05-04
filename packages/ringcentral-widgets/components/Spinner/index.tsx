@@ -22,6 +22,7 @@ const Spinner: React.SFC<SpinnerProps> = ({ className, ringWidth }) => {
   );
 };
 Spinner.defaultProps = {
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   className: null,
   ringWidth: 8,
 };

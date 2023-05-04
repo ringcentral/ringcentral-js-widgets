@@ -2,9 +2,12 @@ import React, { Component } from 'react';
 
 import classnames from 'classnames';
 
+import { ToNumber } from '@ringcentral-integration/commons/modules/ComposeText';
+
 import FromField from '../FromField';
 import MessageInput from '../MessageInput';
 import RecipientsInput from '../RecipientsInput';
+import { RecipientsInputV2 } from '../RecipientsInputV2';
 import { SpinnerOverlay } from '../SpinnerOverlay';
 import NoSenderAlert from './NoSenderAlert';
 import styles from './styles.scss';
@@ -34,13 +37,10 @@ export interface ComposeTextPanelProps {
   addToNumber: (...args: any[]) => any;
   removeToNumber: (...args: any[]) => any;
   updateMessageText: (...args: any[]) => any;
-  messageText?: string;
-  typingToNumber?: string;
-  senderNumber?: string;
-  toNumbers: {
-    phoneNumber: string;
-    name?: string;
-  }[];
+  messageText: string;
+  typingToNumber: string;
+  senderNumber: string;
+  toNumbers: ToNumber[];
   outboundSMS?: boolean;
   showSpinner?: boolean;
   phoneTypeRenderer?: (...args: any[]) => any;
@@ -56,6 +56,7 @@ export interface ComposeTextPanelProps {
   }[];
   addAttachment?: (...args: any[]) => any;
   removeAttachment?: (...args: any[]) => any;
+  useRecipientsInputV2?: boolean;
 }
 type ComposeTextPanelState = {
   messageText: any;
@@ -64,121 +65,194 @@ class ComposeTextPanel extends Component<
   ComposeTextPanelProps,
   ComposeTextPanelState
 > {
-  constructor(props) {
+  addToRecipients: (item: ToNumber) => void;
+  removeFromRecipients: (phoneNumber: string) => void;
+  cleanReceiverValue: () => void;
+  onSenderChange: any;
+  static defaultProps: {
+    brand: 'RingCentral';
+    className: null;
+    messageText: '';
+    typingToNumber: '';
+    senderNumber: '';
+    outboundSMS: false;
+    showSpinner: false;
+    autoFocus: false;
+    supportAttachment: false;
+  };
+  constructor(props: ComposeTextPanelProps | Readonly<ComposeTextPanelProps>) {
     super(props);
     this.state = {
       messageText: props.messageText,
     };
-    this.onSenderChange = (value) => {
-      this.props.updateSenderNumber(value);
+    const {
+      updateSenderNumber,
+      cleanTypingToNumber,
+      addToNumber,
+      removeToNumber,
+    } = this.props;
+    this.onSenderChange = (value: any) => {
+      updateSenderNumber(value);
     };
     this.cleanReceiverValue = () => {
-      this.props.cleanTypingToNumber();
+      cleanTypingToNumber();
     };
     this.addToRecipients = async (receiver, shouldClean = true) => {
-      const isAdded = await this.props.addToNumber(receiver);
+      const isAdded = await addToNumber(receiver);
       if (isAdded && shouldClean) {
-        this.props.cleanTypingToNumber();
+        cleanTypingToNumber();
       }
     };
     this.removeFromRecipients = (phoneNumber) => {
-      this.props.removeToNumber({ phoneNumber });
+      removeToNumber({ phoneNumber });
     };
   }
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    if (nextProps.messageText !== this.state.messageText) {
+
+  override UNSAFE_componentWillReceiveProps(nextProps: { messageText: any }) {
+    const { messageText } = this.state;
+    if (nextProps.messageText !== messageText) {
       this.setState({
         messageText: nextProps.messageText,
       });
     }
   }
   hasSenderNumbers() {
-    return this.props.senderNumbers.length > 0;
+    const { senderNumbers } = this.props;
+    return senderNumbers.length > 0;
   }
   hasPersonalRecipient() {
-    return this.props.toNumbers.some((x) => x && x.type !== 'company');
+    const { toNumbers } = this.props;
+    return toNumbers.some((x) => x && x.type !== 'company');
   }
+
   showAlert() {
-    return (
+    const { outboundSMS } = this.props;
+    return !!(
       !this.hasSenderNumbers() &&
-      this.props.outboundSMS &&
+      outboundSMS &&
       this.hasPersonalRecipient()
     );
   }
-  render() {
+
+  onInputChange = (searchString: string) => {
+    const { updateTypingToNumber, searchContact } = this.props;
+    updateTypingToNumber(searchString);
+    searchContact(searchString);
+  };
+
+  override render() {
+    const {
+      send,
+      brand,
+      autoFocus,
+      className,
+      toNumbers,
+      attachments,
+      formatPhone,
+      messageText,
+      showSpinner,
+      senderNumber,
+      addAttachment,
+      currentLocale,
+      searchContact,
+      senderNumbers,
+      typingToNumber,
+      inputExpandable,
+      removeAttachment,
+      phoneTypeRenderer,
+      searchContactList,
+      supportAttachment,
+      updateMessageText,
+      detectPhoneNumbers,
+      formatContactPhone,
+      sendButtonDisabled,
+      updateTypingToNumber,
+      // TODO: temporary solution, wait for new component ready
+      useRecipientsInputV2,
+      phoneSourceNameRenderer,
+      recipientsContactInfoRenderer,
+      recipientsContactPhoneRenderer,
+    } = this.props;
+    const filteredSearchContactList =
+      useRecipientsInputV2 && typingToNumber.length >= 3
+        ? searchContactList
+        : [];
     return (
-      <div className={classnames(styles.root, this.props.className)}>
-        {this.props.showSpinner ? <SpinnerOverlay /> : null}
+      <div className={classnames(styles.root, className)}>
+        {showSpinner ? <SpinnerOverlay /> : null}
         <NoSenderAlert
-          currentLocale={this.props.currentLocale}
+          currentLocale={currentLocale}
           showAlert={this.showAlert()}
-          brand={this.props.brand}
+          brand={brand}
         />
-        <RecipientsInput
-          value={this.props.typingToNumber}
-          recipientsClassName={styles.recipients}
-          onChange={this.props.updateTypingToNumber}
-          onClean={this.cleanReceiverValue}
-          recipients={this.props.toNumbers}
-          addToRecipients={this.addToRecipients}
-          removeFromRecipients={this.removeFromRecipients}
-          searchContact={this.props.searchContact}
-          searchContactList={this.props.searchContactList}
-          formatContactPhone={this.props.formatContactPhone}
-          detectPhoneNumbers={this.props.detectPhoneNumbers}
-          currentLocale={this.props.currentLocale}
-          phoneTypeRenderer={this.props.phoneTypeRenderer}
-          phoneSourceNameRenderer={this.props.phoneSourceNameRenderer}
-          contactInfoRenderer={this.props.recipientsContactInfoRenderer}
-          contactPhoneRenderer={this.props.recipientsContactPhoneRenderer}
-          titleEnabled
-          autoFocus={this.props.autoFocus}
-          multiple
-        />
+        {useRecipientsInputV2 ? (
+          <RecipientsInputV2
+            value={typingToNumber}
+            recipientsClassName={styles.recipients}
+            onInputChange={this.onInputChange}
+            onInputClear={this.cleanReceiverValue}
+            recipients={toNumbers}
+            addToRecipients={this.addToRecipients}
+            removeFromRecipients={this.removeFromRecipients}
+            searchContactList={filteredSearchContactList}
+            formatContactPhone={formatContactPhone}
+            currentLocale={currentLocale}
+            phoneTypeRenderer={phoneTypeRenderer}
+            phoneSourceNameRenderer={phoneSourceNameRenderer}
+            contactInfoRenderer={recipientsContactInfoRenderer}
+            contactPhoneRenderer={recipientsContactPhoneRenderer}
+            enableTitle
+            multiple
+          />
+        ) : (
+          <RecipientsInput
+            value={typingToNumber}
+            recipientsClassName={styles.recipients}
+            onChange={updateTypingToNumber}
+            onClean={this.cleanReceiverValue}
+            recipients={toNumbers}
+            addToRecipients={this.addToRecipients}
+            removeFromRecipients={this.removeFromRecipients}
+            searchContact={searchContact}
+            searchContactList={searchContactList}
+            formatContactPhone={formatContactPhone}
+            detectPhoneNumbers={detectPhoneNumbers}
+            currentLocale={currentLocale}
+            phoneTypeRenderer={phoneTypeRenderer}
+            phoneSourceNameRenderer={phoneSourceNameRenderer}
+            contactInfoRenderer={recipientsContactInfoRenderer}
+            contactPhoneRenderer={recipientsContactPhoneRenderer}
+            titleEnabled
+            autoFocus={autoFocus}
+            multiple
+          />
+        )}
         <div className={styles.senderField}>
           <FromField
-            currentLocale={this.props.currentLocale}
-            fromNumber={this.props.senderNumber}
-            fromNumbers={this.props.senderNumbers}
-            formatPhone={this.props.formatPhone}
+            currentLocale={currentLocale}
+            fromNumber={senderNumber}
+            fromNumbers={senderNumbers}
+            formatPhone={formatPhone}
             onChange={this.onSenderChange}
             hidden={!this.hasSenderNumbers()}
             showAnonymous={false}
           />
         </div>
         <MessageInput
-          value={this.props.messageText}
-          onChange={this.props.updateMessageText}
-          sendButtonDisabled={this.props.sendButtonDisabled}
-          currentLocale={this.props.currentLocale}
-          onSend={this.props.send}
-          inputExpandable={this.props.inputExpandable}
-          attachments={this.props.attachments}
-          supportAttachment={this.props.supportAttachment}
-          addAttachment={this.props.addAttachment}
-          removeAttachment={this.props.removeAttachment}
+          value={messageText}
+          onChange={updateMessageText}
+          sendButtonDisabled={sendButtonDisabled}
+          currentLocale={currentLocale}
+          onSend={send}
+          inputExpandable={inputExpandable}
+          attachments={attachments}
+          supportAttachment={supportAttachment}
+          addAttachment={addAttachment}
+          removeAttachment={removeAttachment}
         />
       </div>
     );
   }
 }
-ComposeTextPanel.defaultProps = {
-  brand: 'RingCentral',
-  className: null,
-  messageText: '',
-  typingToNumber: '',
-  senderNumber: '',
-  outboundSMS: false,
-  showSpinner: false,
-  phoneTypeRenderer: undefined,
-  phoneSourceNameRenderer: undefined,
-  recipientsContactInfoRenderer: undefined,
-  recipientsContactPhoneRenderer: undefined,
-  autoFocus: false,
-  inputExpandable: undefined,
-  supportAttachment: false,
-  attachments: undefined,
-  addAttachment: undefined,
-  removeAttachment: undefined,
-};
+
 export default ComposeTextPanel;

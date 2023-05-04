@@ -21,6 +21,7 @@ export class Theme extends RcModuleV2<Deps> {
   constructor(deps: Deps) {
     super({
       deps,
+      enableGlobalCache: true,
       storageKey: 'Theme',
     });
   }
@@ -34,7 +35,7 @@ export class Theme extends RcModuleV2<Deps> {
     this.themeType = type;
   }
 
-  onInitOnce() {
+  override onInitOnce() {
     const defaultThemeType = this._deps.brand.brandConfig.theme?.defaultTheme;
     if (defaultThemeType) {
       this.setThemeType(defaultThemeType);

@@ -22,7 +22,7 @@ export default {
   ES: "España",
   FI: "Finlandia",
   FR: "Francia",
-  GB: "Reino Unido",
+  GB: "Reino Unido",
   GE: "Georgia",
   GH: "Ghana",
   GN: "Guinea",

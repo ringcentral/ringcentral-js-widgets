@@ -1,5 +1,5 @@
 /* RCI-3694: Call from App(Jupiter) Jupiter App Name I18n Support
-https://testit.ringcentral.com/RCI-3694
+https://test_id_domain/RCI-3694
 Preconditions:
 The name property in callWithJupiter in the app's brandConfig is configured to use the following i18n values: en-US: 'en-US App Name', fr-FR: 'fr-FR App Name'.
 User is logged-in into 3rd party
@@ -58,7 +58,11 @@ const NavigateTo: StepFunction<{ path: string }> = ({ path }, { phone }) => {
 };
 
 const ExpandDropdown: StepFunction<{ testId: string }> = ({ testId }) => {
-  fireEvent.click(screen.getByTestId(testId));
+  const callingSettingElement = screen.getByTestId(testId);
+  const selectRoot = callingSettingElement.querySelector(
+    '[data-sign="selectRoot"]',
+  );
+  fireEvent.click(selectRoot);
 };
 
 const CheckDropdown: StepFunction<{ appName: string }> = async ({

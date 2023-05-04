@@ -1,6 +1,6 @@
 /**
  * RCI-4071: Limit inputing only more than three spaces in dial pad
- * https://testit.ringcentral.com/test-cases/RCI-4071
+ * https://test_id_domain/test-cases/RCI-4071
  * Preconditions:
  * 1. It have already installed CTI.
  * 2. CTI has been logged in.
@@ -19,8 +19,10 @@ import {
   it,
   StepFunction,
 } from '../../lib/step';
-import { InputToField } from '../../steps/dialer';
-import { CheckInputToRecipientsNoExist } from '../../steps/dialer/checks/CheckInputToRecipients';
+import {
+  InputToField,
+  CheckInputToRecipientsNoExist,
+} from '../../steps/dialer';
 
 export const CheckHitEnterInputMoreThanThreeSpaces = ({
   Login,

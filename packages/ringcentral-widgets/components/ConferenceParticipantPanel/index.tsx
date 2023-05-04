@@ -29,7 +29,7 @@ class ParticipantsContainer extends Component<
   ParticipantsContainerProps,
   ParticipantsContainerState
 > {
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     this.state = {
       showModal: false,
@@ -43,19 +43,22 @@ class ParticipantsContainer extends Component<
   formatPrticipants(props = this.props) {
     const { participants, formatPhone } = props;
     participants.map((participant) => {
+      // @ts-expect-error TS(2339): Property 'partyNumber' does not exist on type 'obj... Remove this comment to see the full error message
       participant.partyNumber = formatPhone(participant.partyNumber);
       return participant;
     });
   }
-  onRemoveBtnClick(participant) {
+  onRemoveBtnClick(participant: any) {
     this.setState(() => ({
       detail: participant,
       showModal: true,
     }));
+    // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
     this.props.afterOnRemoveBtnClick();
   }
   onCancel() {
     this.onCancelNoAfter();
+    // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
     this.props.afterOnCancel();
   }
   // onCancel without track
@@ -65,17 +68,20 @@ class ParticipantsContainer extends Component<
       detail: null,
     });
   }
-  componentWillReceiveProps(nextProps) {
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
+  UNSAFE_componentWillReceiveProps(nextProps: any) {
     this.formatPrticipants(nextProps);
     if (
       this.state.showModal &&
       !nextProps.participants.find(
-        (participant) => participant.id === this.state.detail.id,
+        // @ts-expect-error TS(2531): Object is possibly 'null'.
+        (participant: any) => participant.id === this.state.detail.id,
       )
     ) {
       this.onCancelNoAfter();
     }
   }
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     const { participants, currentLocale, removeFunc, onBackButtonClick } =
       this.props;
@@ -104,8 +110,9 @@ class ParticipantsContainer extends Component<
                   currentLocale,
                 )}`}
           </div>
-          <div className={styles.participantsList}>
+          <div className={styles.participantsList} data-sign="participantsList">
             {participants.map((participant) => {
+              // @ts-expect-error TS(2339): Property 'id' does not exist on type '{}'.
               const { id, avatarUrl, partyName, partyNumber, calleeType } =
                 participant;
               let displayText =
@@ -128,10 +135,12 @@ class ParticipantsContainer extends Component<
         </div>
         <ConfirmRemoveModal
           show={showModal}
+          // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'object | un... Remove this comment to see the full error message
           detail={detail}
           onCancel={this.onCancel}
           currentLocale={currentLocale}
           onRemove={() =>
+            // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
             removeFunc(detail && detail.id).then(this.onCancelNoAfter)
           }
         />
@@ -139,11 +148,12 @@ class ParticipantsContainer extends Component<
     );
   }
 }
+// @ts-expect-error TS(2339): Property 'defaultProps' does not exist on type 'ty... Remove this comment to see the full error message
 ParticipantsContainer.defaultProps = {
-  removeFunc: (i) => i,
-  onBackButtonClick: (i) => i,
-  formatPhone: (i) => i,
-  afterOnCancel: (i) => i,
-  afterOnRemoveBtnClick: (i) => i,
+  removeFunc: (i: any) => i,
+  onBackButtonClick: (i: any) => i,
+  formatPhone: (i: any) => i,
+  afterOnCancel: (i: any) => i,
+  afterOnRemoveBtnClick: (i: any) => i,
 };
 export default ParticipantsContainer;

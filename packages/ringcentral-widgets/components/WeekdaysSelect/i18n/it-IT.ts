@@ -5,7 +5,7 @@ export default {
   thursday: "G",
   friday: "V",
   saturday: "S",
-  sunday: "D"
+  sunday: "S"
 };
 
 // @key: @#@"monday"@#@ @source: @#@"M"@#@

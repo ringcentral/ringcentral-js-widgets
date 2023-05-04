@@ -1,27 +1,29 @@
-import { presenceStatus } from '@ringcentral-integration/commons/enums/presenceStatus.enum';
-import dndStatus from '@ringcentral-integration/commons/modules/Presence/dndStatus';
 import { phoneTypes } from '@ringcentral-integration/commons/enums/phoneTypes';
+import { presenceStatus } from '@ringcentral-integration/commons/enums/presenceStatus.enum';
+import { dndStatus } from '@ringcentral-integration/commons/modules/Presence';
 export default {
   [phoneTypes.extension]: "Durchw.",
   [phoneTypes.direct]: "Direkt",
-  [phoneTypes.mobile]: "Mobil",
+  [phoneTypes.mobile]: "Mobiltelefon",
   [phoneTypes.contact]: "Kontakttelefon",
   [phoneTypes.home]: "Privat",
-  [phoneTypes.business]: "Arbeit",
+  [phoneTypes.business]: "Geschäftlich",
   [phoneTypes.fax]: "Fax",
+  // @ts-expect-error TS(2718): Duplicate property 'company'.
   [phoneTypes.company]: "Unternehmen",
-  [phoneTypes.other]: "Andere",
+  [phoneTypes.other]: "Sonstiges",
   emailLabel: "E-Mail",
   call: "Anruf",
-  text: "Textn.",
+  text: "Text",
   [presenceStatus.available]: "Verfügbar",
   [presenceStatus.offline]: "Unsichtbar",
-  [presenceStatus.busy]: "Belegt",
+  [presenceStatus.busy]: "Besetzt",
   [dndStatus.doNotAcceptAnyCalls]: "Nicht stören",
   notActivated: "Inaktiv",
+  // @ts-expect-error TS(2733): Property 'company' was also declared here.
   company: "Unternehmen",
   jobTitle: "Titel",
-  site: "Seite"
+  site: "Site"
 };
 
 // @key: @#@"[phoneTypes.extension]"@#@ @source: @#@"Ext."@#@

@@ -4,5 +4,3 @@ export const callStatus = ObjectMap.prefixKeys(
   ['loading', 'loaded'],
   'recentCallStatus',
 );
-
-export default callStatus;

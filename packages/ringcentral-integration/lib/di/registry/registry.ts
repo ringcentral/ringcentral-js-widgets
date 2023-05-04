@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { isArray, isFunction, isObject } from '../utils/is_type';
 import { assert, getParentClass } from '../utils/utils';
 import ModuleRegistry from './module_registry';
@@ -71,12 +72,10 @@ export default class Registry {
       hasProviders ? moduleProviderMetadata.providers : [],
       this.resolveInheritedModuleFactory(parentClass),
     );
-    this.providerRegistry.resolve(
-      currentClass,
-      Object.assign({}, moduleProviderMetadata, {
-        providers: providerMetadata,
-      }),
-    );
+    this.providerRegistry.resolve(currentClass, {
+      ...moduleProviderMetadata,
+      providers: providerMetadata,
+    });
     return providerMetadata;
   }
 
@@ -99,12 +98,7 @@ export default class Registry {
       this.resolveInheritedDependencies(parentClass),
     );
     // Update parent class metadata
-    this.moduleRegistry.resolve(
-      currentClass,
-      Object.assign({}, moduleMetadata, {
-        deps,
-      }),
-    );
+    this.moduleRegistry.resolve(currentClass, { ...moduleMetadata, deps });
     return deps;
   }
 
@@ -125,7 +119,7 @@ export default class Registry {
         useClass: providerMetadata.provide,
       };
     }
-    return Object.assign({}, providerMetadata, formatted);
+    return { ...providerMetadata, ...formatted };
   }
 
   /**
@@ -154,12 +148,12 @@ export default class Registry {
           isObject(pp.useValue),
           `Expected parent provider of [${p.provide}] to be an Object`,
         );
-        p.useValue = Object.assign({}, pp.useValue, p.useValue);
-        merged.set(p.provide, Object.assign({}, pp, p));
+        p.useValue = { ...pp.useValue, ...p.useValue };
+        merged.set(p.provide, { ...pp, ...p });
       } else {
         // useClass, useExisting, useFactory will always overwrite parent provider
         p = this._formatClassProvider(p);
-        merged.set(p.provide, Object.assign({}, pp, p));
+        merged.set(p.provide, { ...pp, ...p });
       }
     }
     return Array.from(merged.values());

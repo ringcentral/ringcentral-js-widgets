@@ -1,5 +1,5 @@
 export default {
-  to: "Vastaanottaja:",
+  to: "Vst.ot:",
   enterNameOrPhoneNumber: "Anna numero"
 };
 

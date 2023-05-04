@@ -9,6 +9,7 @@ type SessionProps = {
   isOnMute: boolean;
   isOnHold: boolean;
   isOnRecord: boolean;
+  // @ts-expect-error TS(2749): 'sessionStatus' refers to a value, but is being us... Remove this comment to see the full error message
   callStatus: sessionStatus;
 };
 

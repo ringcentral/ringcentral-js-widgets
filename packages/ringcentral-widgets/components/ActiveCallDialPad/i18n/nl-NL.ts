@@ -1,6 +1,6 @@
 export default {
   hide: "Verbergen",
-  end: "Eindigen",
+  end: "Beëindigen",
   keypad: "Keypad"
 };
 

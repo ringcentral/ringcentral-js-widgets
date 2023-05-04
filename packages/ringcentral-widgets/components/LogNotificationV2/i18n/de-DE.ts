@@ -1,4 +1,6 @@
 export default {
+  Inbound: "Eingehend",
+  Outbound: "Ausgehend",
   log: "Protokoll",
   save: "Speichern und neu",
   discard: "Verwerfen und neu",
@@ -6,6 +8,8 @@ export default {
   reject: "An Voicemail"
 };
 
+// @key: @#@"Inbound"@#@ @source: @#@"Inbound"@#@
+// @key: @#@"Outbound"@#@ @source: @#@"Outbound"@#@
 // @key: @#@"log"@#@ @source: @#@"Log"@#@
 // @key: @#@"save"@#@ @source: @#@"Save and new"@#@
 // @key: @#@"discard"@#@ @source: @#@"Discard and new"@#@

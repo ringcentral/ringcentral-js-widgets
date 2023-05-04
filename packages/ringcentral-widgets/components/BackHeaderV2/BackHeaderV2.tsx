@@ -8,10 +8,8 @@ import {
   RcTypography,
   styled,
 } from '@ringcentral/juno';
-import { ChevronLeft as chevronLeftSvg } from '@ringcentral/juno/icon';
+import { ChevronLeft as chevronLeftSvg } from '@ringcentral/juno-icon';
 
-import { TOOLTIP_LONG_DELAY_TIME } from '../../lib/toolTipDelayTime';
-import { Tooltip } from '../Rcui/Tooltip';
 import styles from './styles.scss';
 
 const initWidth = 67;
@@ -26,24 +24,24 @@ export interface BackHeaderProps {
   isWide?: boolean;
 }
 
-const Title = styled(RcTypography)<{ $maxWidth: number }>`
+const Title = styled(RcTypography)<{ $maxWidth?: number }>`
   max-width: ${({ $maxWidth }) => $maxWidth}px;
 `;
 
 const BackHeader: FunctionComponent<BackHeaderProps> = ({
   onBackClick,
-  title,
-  rightIcon,
+  title = '',
+  rightIcon = null,
   className,
-  currentLocale,
-  isWide,
-  backIcon,
+  currentLocale = 'en-US',
+  isWide = true,
+  backIcon = chevronLeftSvg,
 }) => {
   const [maxWidth, setMaxWidth] = useState(initWidth);
-  const rightRef = useRef<HTMLDivElement>();
+  const rightRef = useRef<HTMLDivElement>(null);
   const isClassic = !isWide;
   useEffect(() => {
-    if (isClassic) {
+    if (isClassic && rightRef.current) {
       // this smallest clientWidth is 62.
       setMaxWidth(initWidth - (rightRef.current.clientWidth - 62));
     }
@@ -67,18 +65,17 @@ const BackHeader: FunctionComponent<BackHeaderProps> = ({
         data-sign="backButton"
         onClick={onBackClick}
       />
-      <div className={styles.title}>
+      <div className={styles.title} data-sign="backHeaderTitle">
         {title ? (
-          <Tooltip title={title} enterDelay={TOOLTIP_LONG_DELAY_TIME}>
-            <Title
-              color="neutral.f06"
-              variant="body2"
-              component="span"
-              $maxWidth={isClassic ? maxWidth : null}
-            >
-              {title}
-            </Title>
-          </Tooltip>
+          <Title
+            color="neutral.f06"
+            variant="body2"
+            component="span"
+            $maxWidth={isClassic ? maxWidth : undefined}
+            title={title}
+          >
+            {title}
+          </Title>
         ) : null}
       </div>
       <div ref={rightRef} className={rightIconClass}>
@@ -86,15 +83,6 @@ const BackHeader: FunctionComponent<BackHeaderProps> = ({
       </div>
     </div>
   );
-};
-
-BackHeader.defaultProps = {
-  title: '',
-  rightIcon: null,
-  backIcon: chevronLeftSvg,
-  className: null,
-  currentLocale: 'en-US',
-  isWide: true,
 };
 
 export default BackHeader;

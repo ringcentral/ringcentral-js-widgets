@@ -1,3 +1,4 @@
+// @ts-nocheck
 export function DIError(message, ...args) {
   return new Error(`[DI] ${message}`, ...args);
 }

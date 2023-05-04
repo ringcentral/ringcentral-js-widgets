@@ -12,7 +12,7 @@ const PhoneNumber = ({
   usageType,
   currentLocale,
   phoneNumber,
-}) => {
+}: any) => {
   const usageTypeDom = usageType ? (
     <span className={styles.usageType}>
       {i18n.getString(usageType, currentLocale)}
@@ -38,6 +38,18 @@ PhoneNumber.defaultProps = {
   usageType: null,
 };
 
+interface FromFieldIns {
+  fromNumber: string;
+  formatPhone: (...args: any[]) => any;
+  fromNumbers: any[];
+  onChange: (...args: any[]) => any;
+  currentLocale: string;
+  hidden: boolean;
+  showAnonymous: boolean;
+  className?: string;
+  disabled?: boolean;
+}
+
 // phone number formatting becomes expensive when there are lots of numbers
 // memo makes this a pure component to reduce rendering cost
 const FromField = memo(function FromField({
@@ -50,7 +62,7 @@ const FromField = memo(function FromField({
   disabled,
   showAnonymous,
   currentLocale,
-}) {
+}: FromFieldIns) {
   if (hidden) {
     return null;
   }
@@ -99,6 +111,7 @@ const FromField = memo(function FromField({
   );
 });
 
+// @ts-expect-error TS(2339): Property 'propTypes' does not exist on type 'Named... Remove this comment to see the full error message
 FromField.propTypes = {
   fromNumber: PropTypes.string,
   formatPhone: PropTypes.func.isRequired,
@@ -116,6 +129,7 @@ FromField.propTypes = {
   disabled: PropTypes.bool,
 };
 
+// @ts-expect-error TS(2339): Property 'defaultProps' does not exist on type 'Na... Remove this comment to see the full error message
 FromField.defaultProps = {
   fromNumber: null,
   className: undefined,

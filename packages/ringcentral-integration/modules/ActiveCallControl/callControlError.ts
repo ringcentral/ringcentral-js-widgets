@@ -1,6 +1,6 @@
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-export default ObjectMap.prefixKeys(
+export const callControlError = ObjectMap.prefixKeys(
   [
     'holdConflictError',
     'unHoldConflictError',
@@ -8,6 +8,8 @@ export default ObjectMap.prefixKeys(
     'unMuteConflictError',
     'generalError',
     'forwardSuccess',
+    'transferCompleted',
+    'replyCompleted',
   ],
   'callControl',
 );

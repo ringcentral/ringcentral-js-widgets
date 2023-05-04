@@ -1,6 +1,6 @@
 export default {
   noResultFoundFor: "Aucun résultat trouvé pour",
-  foundFromServerHint: "Tapez le mot-clé et appuyez sur Entrée pour effectuer une recherche dans {appName}",
+  foundFromServerHint: "Entrez un mot-clé et appuyez sur Entrée pour effectuer une recherche dans {appName}",
   notResultFoundFromServer: "Aucun résultat trouvé",
   loading: "chargement en cours..."
 };

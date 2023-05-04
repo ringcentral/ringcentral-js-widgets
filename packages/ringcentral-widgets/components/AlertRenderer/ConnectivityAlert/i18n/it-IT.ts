@@ -1,10 +1,10 @@
 import { connectivityTypes } from '../../../../modules/ConnectivityManager';
 export default {
-  [connectivityTypes.networkLoss]: "Si è verificato un problema, controllare la connessione di rete e riprovare.",
+  [connectivityTypes.networkLoss]: "Si è verificato un problema, controlla la connessione di rete e riprova.",
   [connectivityTypes.offline]: "Impossibile connettersi al server. Riprova più tardi.",
-  [connectivityTypes.serverUnavailable]: "Spiacenti, si è verificato un problema. Riprova più tardi.",
-  [connectivityTypes.voipOnly]: "Siamo spiacenti, stiamo lavorando per risolvere il problema. È comunque possibile effettuare chiamate, ma le altre funzioni sono limitate.",
-  [connectivityTypes.survival]: "Siamo spiacenti, stiamo lavorando per risolvere il problema. È possibile che l'accesso a determinate funzioni risulti limitato. L'app sarà ripristinata automaticamente non appena disponibile."
+  [connectivityTypes.serverUnavailable]: "Si è verificato un problema nei nostri sistemi. Riprova più tardi.",
+  [connectivityTypes.voipOnly]: "Si è verificato un problema, ma stiamo lavorando per risolverlo. È comunque possibile effettuare chiamate, ma le altre funzioni sono limitate.",
+  [connectivityTypes.survival]: "Si è verificato un problema, ma stiamo lavorando per risolverlo. È possibile che l'accesso a determinate funzioni risulti limitato. L'app sarà ripristinata automaticamente non appena disponibile."
 };
 
 // @key: @#@"[connectivityTypes.networkLoss]"@#@ @source: @#@"Sorry, something went wrong, check your network connection and try again."@#@

@@ -1,6 +1,5 @@
 import { addIndex, filter, reduce, sort } from 'ramda';
-
-import { PhoneNumberResource } from '@rc-ex/core/definitions';
+import type PhoneNumberResource from '@rc-ex/core/lib/definitions/PhoneNumberResource';
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
 import { phoneTypes } from '../enums/phoneTypes';
@@ -22,7 +21,7 @@ export const phoneTypeOrder = Object.freeze([
   phoneTypes.company,
 ]);
 
-export const phoneTypeOrderMap = Object.freeze(
+export const phoneTypeOrderMap: Record<string, any> = Object.freeze(
   addIndex<string, any>(reduce)(
     (acc, item, idx) => {
       acc[item] = idx;
@@ -42,7 +41,7 @@ export const sortByPhoneTypes = sort<PhoneNumberModel>(
 );
 
 const supportedUsageTypePhoneTypeMap: Partial<
-  Record<PhoneNumberResource['usageType'], string>
+  Record<NonNullable<PhoneNumberResource['usageType']>, string>
 > = {
   ContactNumber: phoneTypes.contact,
   MobileNumber: phoneTypes.mobile,
@@ -54,8 +53,8 @@ const SUPPORTED_USAGE_TYPES = Object.keys(supportedUsageTypePhoneTypeMap);
 // Support all direct number + Mobile and Contact Number
 export const isSupportedPhoneNumber = (phone: PhoneNumberResource) =>
   phone.type ||
-  (!phone.type && SUPPORTED_USAGE_TYPES.includes(phone.usageType));
+  (!phone.type && SUPPORTED_USAGE_TYPES.includes(phone.usageType!));
 
 export const convertUsageTypeToPhoneType = (
   usageType: PhoneNumberResource['usageType'],
-) => supportedUsageTypePhoneTypeMap[usageType] || phoneTypes.direct;
+) => supportedUsageTypePhoneTypeMap[usageType!] || phoneTypes.direct;

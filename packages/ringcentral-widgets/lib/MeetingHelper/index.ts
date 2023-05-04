@@ -1,5 +1,6 @@
-import formatMessage from 'format-message';
 import { reduce } from 'ramda';
+
+import { format } from '@ringcentral-integration/utils';
 
 import i18n from '../../components/MeetingConfigsV2/i18n';
 
@@ -11,10 +12,11 @@ export function getMinutesList(MINUTE_SCALE: number, currentLocale: string) {
     (result) => {
       const index = result.length;
       const value = (60 / MINUTE_SCALE) * index;
-      const text = formatMessage(i18n.getString('minutes', currentLocale), {
+      const text = format(i18n.getString('minutes', currentLocale), {
         howMany: `${value}0`.slice(0, 2),
       });
       return result.concat({
+        // @ts-expect-error TS(2769): No overload matches this call.
         value,
         text,
       });
@@ -31,10 +33,11 @@ export function getHoursList(HOUR_SCALE: number, currentLocale: string) {
   return reduce(
     (result) => {
       const value = result.length;
-      const text = formatMessage(i18n.getString('hours', currentLocale), {
+      const text = format(i18n.getString('hours', currentLocale), {
         howMany: `0${value}0`.slice(-3, -1),
       });
       return result.concat({
+        // @ts-expect-error TS(2769): No overload matches this call.
         value,
         text,
       });

@@ -2,15 +2,14 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 
 import classnames from 'classnames';
 
-import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 import {
+  RcLink,
   RcMenuItem,
   RcMenuList,
   RcPopover,
   styled,
-  RcLink,
 } from '@ringcentral/juno';
-import { Ignore, Voicemail } from '@ringcentral/juno/icon';
+import { Ignore, Voicemail } from '@ringcentral/juno-icon';
 
 import AnswerIcon from '../../assets/images/Answer.svg';
 import EndAnswerIcon from '../../assets/images/EndAnswer.svg';
@@ -20,6 +19,7 @@ import CircleButton from '../CircleButton';
 import i18n from './i18n';
 import styles from './styles.scss';
 import { WebRTCNotificationProps } from './WebRTCNotificationSection.interface';
+import { MoreActionWithIncomingCall } from '../CallLogCallCtrlComponent/MoreActionWithIncomingCall';
 
 const ForwardActiveList = styled.div`
   max-width: 170px;
@@ -33,7 +33,6 @@ export const WebRTCNotificationSection: FunctionComponent<WebRTCNotificationProp
     logName,
     subContactNameDisplay,
     currentLocale,
-    formatPhone,
     isWide,
     onIgnore,
     endAndAnswer,
@@ -49,6 +48,10 @@ export const WebRTCNotificationSection: FunctionComponent<WebRTCNotificationProp
     entityType,
     getAvatarUrl,
     entityDetailLink,
+    openEntityDetailLinkTrack,
+    reply,
+    enableReply,
+    disableLinks = false,
   }) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const [avatarUrl, setAvatarUrl] = useState(displayEntity?.profileImageUrl);
@@ -60,6 +63,7 @@ export const WebRTCNotificationSection: FunctionComponent<WebRTCNotificationProp
           onCloseNotification();
         }
       }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [call.result]);
 
     useEffect(() => {
@@ -72,6 +76,7 @@ export const WebRTCNotificationSection: FunctionComponent<WebRTCNotificationProp
           setAvatarUrl(url);
         });
       }
+      // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [displayEntity]);
 
     const displayMatchedEntity = displayEntity
@@ -82,14 +87,10 @@ export const WebRTCNotificationSection: FunctionComponent<WebRTCNotificationProp
       : null;
 
     const renderLogSection = () => {
-      const { direction, to, from, telephonySessionId } = call;
-      const number =
-        direction === callDirections.outbound
-          ? to && (to.phoneNumber || to.extensionNumber)
-          : from && (from.phoneNumber || from.extensionNumber);
-      const formatNumber = formatPhone(number);
+      const { telephonySessionId } = call;
       const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
         clickForwardTrack();
+        // @ts-expect-error TS(2345): Argument of type 'EventTarget & HTMLButtonElement'... Remove this comment to see the full error message
         setAnchorEl(event.currentTarget);
       };
       return (
@@ -106,7 +107,11 @@ export const WebRTCNotificationSection: FunctionComponent<WebRTCNotificationProp
               {entityDetailLink ? (
                 <RcLink
                   variant="inherit"
-                  onClick={() => window.open(entityDetailLink, '_blank')}
+                  onClick={() => {
+                    window.open(entityDetailLink, '_blank');
+                    // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
+                    openEntityDetailLinkTrack();
+                  }}
                 >
                   {logName}
                 </RcLink>
@@ -144,18 +149,43 @@ export const WebRTCNotificationSection: FunctionComponent<WebRTCNotificationProp
                   </span>
                 </li>
                 <li className={styles.callButton}>
-                  <CircleButton
-                    dataSign={!anchorEl ? 'forward' : 'forwardActive'}
-                    icon={ForwardIcon}
-                    className={styles.button}
-                    onClick={handleClick}
-                  />
-                  <span
-                    title={i18n.getString('forward', currentLocale)}
-                    className={styles.firstLineText}
-                  >
-                    {i18n.getString('forward', currentLocale)}
-                  </span>
+                  {enableReply ? (
+                    <>
+                      <MoreActionWithIncomingCall
+                        currentLocale={currentLocale}
+                        disabled={disableLinks}
+                        forwardingNumbers={forwardingNumbers}
+                        forward={async (phoneNumber) =>
+                          onForward(phoneNumber, telephonySessionId)
+                        }
+                        enableReply
+                        reply={() => reply?.(telephonySessionId)}
+                        clickForwardTrack={clickForwardTrack}
+                        isWebRTCNotification
+                      />
+                      <span
+                        title={i18n.getString('more', currentLocale)}
+                        className={styles.firstLineText}
+                      >
+                        {i18n.getString('more', currentLocale)}
+                      </span>
+                    </>
+                  ) : (
+                    <>
+                      <CircleButton
+                        dataSign={!anchorEl ? 'forward' : 'forwardActive'}
+                        icon={ForwardIcon}
+                        className={styles.button}
+                        onClick={handleClick}
+                      />
+                      <span
+                        title={i18n.getString('forward', currentLocale)}
+                        className={styles.firstLineText}
+                      >
+                        {i18n.getString('forward', currentLocale)}
+                      </span>
+                    </>
+                  )}
                 </li>
                 {!isWide && hasActiveSession && (
                   <li
@@ -288,6 +318,7 @@ export const WebRTCNotificationSection: FunctionComponent<WebRTCNotificationProp
         e.stopPropagation();
         handleClose();
         // TODO: check that type, should switch to getAttribute
+        // @ts-expect-error TS(7015): Element implicitly has an 'any' type because index... Remove this comment to see the full error message
         const selectedValue = e.currentTarget.attributes['data-value'].value;
         onForward(selectedValue, call?.telephonySessionId);
       };
@@ -338,6 +369,7 @@ export const WebRTCNotificationSection: FunctionComponent<WebRTCNotificationProp
         </RcPopover>
       );
     };
+
     return (
       <>
         {renderLogSection()}

@@ -1,15 +1,19 @@
-import {
-  ContactResource,
-  PersonalContactResource,
-  PhoneNumberResource,
-  PresenceInfoResponse,
-} from '@rc-ex/core/definitions';
+import type ContactResource from '@rc-ex/core/lib/definitions/ContactResource';
+import type PersonalContactResource from '@rc-ex/core/lib/definitions/PersonalContactResource';
+import type PhoneNumberResource from '@rc-ex/core/lib/definitions/PhoneNumberResource';
+import type PresenceInfoResponse from '@rc-ex/core/lib/definitions/PresenceInfoResponse';
 
 export interface ContactGroup {
   caption: string;
   contacts: IContact[];
   id: string;
 }
+
+export type ContactPhoneNumber = {
+  phoneNumber?: string;
+  phoneType?: string;
+  hidden?: boolean;
+} & PhoneNumberResource;
 
 export interface IContact extends ContactResource {
   id: string;
@@ -18,17 +22,14 @@ export interface IContact extends ContactResource {
   lastName?: string;
   name?: string;
   phoneNumber?: string;
-  phoneNumbers?: ({
-    phoneNumber?: string;
-    phoneType?: string;
-    hidden?: boolean;
-  } & PhoneNumberResource)[];
+  phoneNumbers?: ContactPhoneNumber[];
   email?: string;
   emails?: string[];
   hasProfileImage?: boolean;
   extensionNumber?: string;
   profileImageUrl?: string;
   hidden?: boolean;
+  presence?: ContactPresence | null;
 }
 export interface TypedPhoneNumber {
   id: string;
@@ -89,15 +90,20 @@ export interface ContactSource {
   getPresence?: (
     contact: IContact,
     useCache?: boolean,
-  ) => ContactPresence | Promise<ContactPresence>;
+  ) => ContactPresence | Promise<ContactPresence | null>;
   /**
    * get source profile image
    */
-  getProfileImage?: (contact: IContact, useCache?: boolean) => Promise<string>;
+  getProfileImage?: (
+    contact: IContact,
+    useCache?: boolean,
+  ) => Promise<string | null>;
   /**
    * find contact by id
    */
-  findContact?: (contactId: string) => IContact | Promise<IContact>;
+  findContact?: (
+    contactId: string,
+  ) => IContact | Promise<IContact | undefined> | undefined;
   /**
    * filter contacts
    */

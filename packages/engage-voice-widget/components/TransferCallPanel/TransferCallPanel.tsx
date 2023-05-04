@@ -8,7 +8,7 @@ import {
   RcSnackbarAction,
   RcTextField,
 } from '@ringcentral/juno';
-import { Dialer as dialerSvg } from '@ringcentral/juno/icon';
+import { Dialer as dialerSvg } from '@ringcentral/juno-icon';
 
 import {
   EvTransferCallUIFunctions,

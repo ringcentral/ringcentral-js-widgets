@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { debounce, DebouncedFunction, DebounceOptions } from './debounce';
 
 export interface PromisedDebounceFunction<
@@ -31,7 +32,7 @@ export function promisedDebounce<F extends (...args: any) => any>({
         lastResolve(result);
       }, 0);
       return result;
-    } catch (error) {
+    } catch (error: any /** TODO: confirm with instanceof */) {
       setTimeout(() => {
         lastReject(error);
       }, 0);

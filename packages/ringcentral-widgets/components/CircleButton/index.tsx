@@ -48,7 +48,9 @@ const CircleButton: React.SFC<CircleButtonProps> = (props) => {
       xmlns="http://www.w3.org/2000/svg"
       className={classnames(styles.btnSvg, props.className)}
       viewBox="0 0 500 500"
+      aria-disabled={props.disabled}
       onClick={(e) => {
+        // @ts-expect-error TS(2339): Property 'tagName' does not exist on type 'EventTa... Remove this comment to see the full error message
         if (e.target && e.target.tagName !== 'svg' && onClick) {
           onClick(e);
         }
@@ -76,6 +78,7 @@ CircleButton.defaultProps = {
   showBorder: true,
   iconClassName: undefined,
   disabled: false,
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type '((...args: ... Remove this comment to see the full error message
   onClick: null,
   width: '100%',
   height: '100%',
@@ -85,6 +88,7 @@ CircleButton.defaultProps = {
   iconHeight: 200,
   iconX: 150,
   iconY: 150,
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   title: null,
   showRipple: false,
 };

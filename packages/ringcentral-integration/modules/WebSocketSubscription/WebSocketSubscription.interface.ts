@@ -1,12 +1,10 @@
 import { RingCentralExtensions } from '../RingCentralExtensions';
-import { Storage } from '../StorageV2';
+import { TabManager } from '../TabManager';
 
-export interface WebSocketSubscriptionOptions {
-  refreshDelay?: number;
-}
+export interface WebSocketSubscriptionOptions {}
 
 export interface Deps {
-  storage: Storage;
   ringCentralExtensions: RingCentralExtensions;
+  tabManager?: TabManager;
   webSocketSubscriptionOptions?: WebSocketSubscriptionOptions;
 }

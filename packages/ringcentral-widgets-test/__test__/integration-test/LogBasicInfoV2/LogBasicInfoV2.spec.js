@@ -1,5 +1,6 @@
 import React from 'react';
 import { mount } from 'enzyme';
+import { RcThemeProvider } from '@ringcentral/juno';
 import LogBasicInfoV2 from '@ringcentral-integration/widgets/components/LogBasicInfoV2';
 import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 import getIntlDateTimeFormatter, {
@@ -9,10 +10,9 @@ import callResults from '@ringcentral-integration/commons/enums/callResults';
 import telephonyStatuses from '@ringcentral-integration/commons/enums/telephonyStatus';
 
 const setup = (props) => {
-  const { call, logName } = props;
+  const { call } = props;
   const currentLog = {
     call,
-    logName,
   };
   const dateTimeFormatter = getIntlDateTimeFormatter({
     timeOptions: {
@@ -21,11 +21,13 @@ const setup = (props) => {
     },
   });
   const wrapper = mount(
-    <LogBasicInfoV2
-      currentLog={currentLog}
-      dateTimeFormatter={dateTimeFormatter}
-      {...props}
-    />,
+    <RcThemeProvider>
+      <LogBasicInfoV2
+        currentLog={currentLog}
+        dateTimeFormatter={dateTimeFormatter}
+        {...props}
+      />
+    </RcThemeProvider>,
   );
   return wrapper;
 };
@@ -113,7 +115,6 @@ describe('<LogBasicLogInfoV2 />', () => {
         telephonyStatus: null,
         startTime: 1567580584730,
       },
-      logName: 'Multiple',
     };
     const wrapper = setup(props);
     const handler = CheckHandler(wrapper);
@@ -122,7 +123,6 @@ describe('<LogBasicLogInfoV2 />', () => {
       'Disconnected',
     );
     handler.notExist('.active');
-    expect(wrapper.find('.logName').text()).toEqual('Multiple');
   });
 
   it('Missed an inbound call', () => {
@@ -151,7 +151,7 @@ describe('<LogBasicLogInfoV2 />', () => {
     expect(wrapper.find('span[data-sign="callStatus"]').text()).toEqual(
       'Missed',
     );
-    expect(wrapper.find('li.time p:first-child').text()).toEqual('00:11');
+    expect(wrapper.find('li.time div').text()).toEqual('00:11');
     expect(wrapper.find('li.time p:last-child').text()).toEqual('9/4/2019');
     handler.notExist('.active');
   });

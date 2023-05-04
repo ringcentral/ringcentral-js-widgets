@@ -1,6 +1,6 @@
 export default {
-  ringing: "撥入電話",
-  callConnected: "通話已接通"
+  ringing: "來電",
+  callConnected: "通話已連線"
 };
 
 // @key: @#@"ringing"@#@ @source: @#@"Incoming call"@#@

@@ -1,4 +1,5 @@
-import { connectionStatus } from '@ringcentral-integration/commons/modules/WebphoneV2/connectionStatus';
+import { connectionStatus } from '@ringcentral-integration/commons/modules/Webphone';
+
 import { connectionStatusEnum } from '../../../../interfaces';
 import { StepFunction } from '../../../../lib/step';
 
@@ -6,7 +7,7 @@ export const ChangeConnectionStatus: StepFunction<{
   status: connectionStatusEnum;
 }> = async ({ status }, context) => {
   const { phone } = context;
-  // todo: refactor
+  // TODO: refactor
   if (phone.webphone._deps) {
     phone.webphone._setConnectionStatus(connectionStatus[status]);
   } else {

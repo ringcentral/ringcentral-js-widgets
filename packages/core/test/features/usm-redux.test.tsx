@@ -845,10 +845,10 @@ export class CreateStoreInheritance extends Step {
       counter1 = 0;
 
       @state
-      count = { sum: 0 };
+      override count = { sum: 0 };
 
       @action
-      increase() {
+      override increase() {
         this.count.sum += 1;
       }
     }
@@ -858,10 +858,10 @@ export class CreateStoreInheritance extends Step {
       counter2 = 0;
 
       @state
-      count = { sum: 0 };
+      override count = { sum: 0 };
 
       @action
-      increase() {
+      override increase() {
         this.count.sum += 1;
       }
     }
@@ -936,20 +936,20 @@ export class CreateStoreInheritanceSuper extends Step {
 
     class Counter1 extends Counter {
       @state
-      count = { sum: 0 };
+      override count = { sum: 0 };
 
       @action
-      increase() {
+      override increase() {
         this.count.sum += 1;
       }
     }
 
     class Counter2 extends Counter {
       @state
-      count = { sum: 0 };
+      override count = { sum: 0 };
 
       @action
-      increase() {
+      override increase() {
         super.increase();
         this.count.sum += 1;
       }

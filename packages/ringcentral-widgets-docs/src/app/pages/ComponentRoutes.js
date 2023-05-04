@@ -44,7 +44,6 @@ import ConversationMessageListPage from './Components/ConversationMessageList';
 import ConversationPanelPage from './Components/ConversationPanel';
 import ConversationsPanelPage from './Components/ConversationsPanel';
 import CopyToClipboardPage from './Components/CopyToClipboard';
-import DatePickerPage from './Components/DatePicker';
 import DialButtonPage from './Components/DialButton';
 import DialerPanelPage from './Components/DialerPanel';
 import DialPadPage from './Components/DialPad';
@@ -122,7 +121,6 @@ import SwitchPage from './Components/Switch';
 import TabNavigationButtonPage from './Components/TabNavigationButton';
 import TabNavigationViewPage from './Components/TabNavigationView';
 import TextInputPage from './Components/TextInput';
-import ToFieldPage from './Components/ToField';
 import TransferPanelPage from './Components/TransferPanel';
 import UserGuidePage from './Components/UserGuide';
 import VoicemailPlayerPage from './Components/VoicemailPlayer';
@@ -216,7 +214,6 @@ const Routes = () => (
       component={ConversationsPanelPage}
     />
     <Route path="/components/CopyToClipboard" component={CopyToClipboardPage} />
-    <Route path="/components/DatePicker" component={DatePickerPage} />
     <Route path="/components/DialButton" component={DialButtonPage} />
     <Route path="/components/DialPad" component={DialPadPage} />
     <Route path="/components/DialTextInput" component={DialTextInputPage} />
@@ -363,7 +360,6 @@ const Routes = () => (
       component={TabNavigationViewPage}
     />
     <Route path="/components/TextInput" component={TextInputPage} />
-    <Route path="/components/ToField" component={ToFieldPage} />
     <Route path="/components/TransferPanel" component={TransferPanelPage} />
     <Route path="/components/UserGuide" component={UserGuidePage} />
     <Route path="/components/VoicemailPlayer" component={VoicemailPlayerPage} />

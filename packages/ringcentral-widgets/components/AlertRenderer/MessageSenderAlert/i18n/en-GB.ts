@@ -1,7 +1,6 @@
-import messageSenderMessages from '@ringcentral-integration/commons/modules/MessageSender/messageSenderMessages';
-import messageSenderMessagesV2 from '@ringcentral-integration/commons/modules/MessageSenderV2/messageSenderMessages';
+import { messageSenderMessages } from '@ringcentral-integration/commons/modules/MessageSender';
 export default {
-  [messageSenderMessages.sendSuccess]: "Sending success.",
+  [messageSenderMessages.sendSuccess]: "Send Success.",
   [messageSenderMessages.sendError]: "Something went wrong when sending the message.",
   [messageSenderMessages.numberValidateError]: "Phone Number Validation Error.",
   [messageSenderMessages.textEmpty]: "Please enter the text to be sent.",
@@ -19,13 +18,13 @@ export default {
   [messageSenderMessages.notAnExtension]: "The extension number does not exist.",
   [messageSenderMessages.networkError]: "Cannot connect due to network issues. Please try again later.",
   [messageSenderMessages.senderNumberInvalid]: "A valid Phone Number is required to send text messages to recipients outside of your company. Please contact your Administrator to add a direct number to your account.",
-  [messageSenderMessages.notSmsToExtension]: "Cannot send to an extension number with main phone number. If you want to send to an extension number, please just enter the extension number.",
+  [messageSenderMessages.notSmsToExtension]: "Cannot send to an extension number with main phone number. If you want to send to an extension number, please just enter extension number.",
   [messageSenderMessages.internationalSMSNotSupported]: "Sending an SMS to an international phone number is not supported.",
   [messageSenderMessages.noInternalSMSPermission]: "You don't have permission to send messages. Please contact your {brand} account administrator to upgrade.",
   [messageSenderMessages.noSMSPermission]: "You don't have permission to send messages to recipients outside your organisation.",
-  [messageSenderMessagesV2.attachmentCountLimitation]: "Maximum 10 attachments.",
-  [messageSenderMessagesV2.attachmentSizeLimitation]: "Attachments size is limited to 1.5 M bytes.",
-  [messageSenderMessagesV2.noAttachmentToExtension]: "It isn't supported to send MMS to an extension.",
+  [messageSenderMessages.attachmentCountLimitation]: "Maximum 10 attachments.",
+  [messageSenderMessages.attachmentSizeLimitation]: "Attachments size is limited to 1.5 M bytes.",
+  [messageSenderMessages.noAttachmentToExtension]: "It isn't supported to send MMS to an extension.",
   areaCode: "area code",
   [messageSenderMessages.sending]: "Message is being sent. It may take a couple of minutes to complete."
 };
@@ -48,12 +47,12 @@ export default {
 // @key: @#@"[messageSenderMessages.notAnExtension]"@#@ @source: @#@"The extension number does not exist."@#@
 // @key: @#@"[messageSenderMessages.networkError]"@#@ @source: @#@"Cannot connect due to network issues. Please try again later."@#@
 // @key: @#@"[messageSenderMessages.senderNumberInvalid]"@#@ @source: @#@"A valid Phone Number is required to send text message to recipients outside of your company, Please contact your Administrator to add a direct number to your account."@#@
-// @key: @#@"[messageSenderMessages.notSmsToExtension]"@#@ @source: @#@"Cannot send To a extension number with main phone number. If you want to sent to a extension Number, please just enter extension Number."@#@
+// @key: @#@"[messageSenderMessages.notSmsToExtension]"@#@ @source: @#@"Cannot send to an extension number with main phone number. If you want to send to an extension number, please just enter extension number."@#@
 // @key: @#@"[messageSenderMessages.internationalSMSNotSupported]"@#@ @source: @#@"Sending SMS to international phone number is not supported."@#@
 // @key: @#@"[messageSenderMessages.noInternalSMSPermission]"@#@ @source: @#@"You don't have permission to send messages. Please contact your {brand} account administrator for upgrade."@#@
 // @key: @#@"[messageSenderMessages.noSMSPermission]"@#@ @source: @#@"You don't have permission to send messages to recipients outside of your organization."@#@
-// @key: @#@"[messageSenderMessagesV2.attachmentCountLimitation]"@#@ @source: @#@"Maximum 10 attachments."@#@
-// @key: @#@"[messageSenderMessagesV2.attachmentSizeLimitation]"@#@ @source: @#@"Attachments size is limited to 1.5M bytes."@#@
-// @key: @#@"[messageSenderMessagesV2.noAttachmentToExtension]"@#@ @source: @#@"It isn't supported to send MMS to an extension."@#@
+// @key: @#@"[messageSenderMessages.attachmentCountLimitation]"@#@ @source: @#@"Maximum 10 attachments."@#@
+// @key: @#@"[messageSenderMessages.attachmentSizeLimitation]"@#@ @source: @#@"Attachments size is limited to 1.5M bytes."@#@
+// @key: @#@"[messageSenderMessages.noAttachmentToExtension]"@#@ @source: @#@"It isn't supported to send MMS to an extension."@#@
 // @key: @#@"areaCode"@#@ @source: @#@"area code"@#@
 // @key: @#@"[messageSenderMessages.sending]"@#@ @source: @#@"Message being sent…It may take a couple of minutes to complete."@#@

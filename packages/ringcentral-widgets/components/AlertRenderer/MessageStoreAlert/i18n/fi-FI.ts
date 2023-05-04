@@ -1,4 +1,4 @@
-import messageStoreErrors from '@ringcentral-integration/commons/modules/MessageStore/errors';
+import { messageStoreErrors } from '@ringcentral-integration/commons/modules/MessageStore';
 export default {
   [messageStoreErrors.deleteFailed]: "Vastaajaviestiä ei voi poistaa sisäisen palvelinvirheen vuoksi."
 };

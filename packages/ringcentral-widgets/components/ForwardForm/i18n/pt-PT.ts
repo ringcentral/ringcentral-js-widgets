@@ -1,5 +1,5 @@
 export default {
-  forward: "Reencam.",
+  forward: "Reencaminhar",
   cancel: "Cancelar",
   customNumber: "Número personalizado"
 };

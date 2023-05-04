@@ -1,4 +1,5 @@
 export default {
   dial: 'Dial',
-  message: 'Message'
+  message: 'Message',
+  transfer: 'Transfer',
 };

@@ -1,6 +1,6 @@
+import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 import callResults from '@ringcentral-integration/commons/enums/callResults';
 import telephonyStatuses from '@ringcentral-integration/commons/enums/telephonyStatus';
-import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 export default {
   [callDirections.inbound]: "Entrant",
   [callDirections.outbound]: "Sortant",
@@ -16,8 +16,8 @@ export default {
   [telephonyStatuses.parkedCall]: "Mis en garde",
   [callResults.unknown]: "Inconnu",
   [callResults.missed]: "Manqué",
-  [callResults.callAccepted]: "réponse obtenue",
-  [callResults.accepted]: "réponse obtenue",
+  [callResults.callAccepted]: "Répondu",
+  [callResults.accepted]: "Répondu",
   [callResults.voicemail]: "Messagerie vocale",
   [callResults.rejected]: "Refusé",
   [callResults.reply]: "Répondre",
@@ -45,7 +45,8 @@ export default {
   [callResults.declined]: "Refusé",
   [callResults.faxReceipt]: "Réception de fax",
   [callResults.disconnected]: "Déconnecté",
-  [callResults.notAllowed]: "Non autorisé"
+  [callResults.notAllowed]: "Non autorisé",
+  warmTransferSwitchCall: "Permuter les appels"
 };
 
 // @key: @#@"[callDirections.inbound]"@#@ @source: @#@"Inbound"@#@
@@ -92,3 +93,4 @@ export default {
 // @key: @#@"[callResults.faxReceipt]"@#@ @source: @#@"Fax Receipt"@#@
 // @key: @#@"[callResults.disconnected]"@#@ @source: @#@"Disconnected"@#@
 // @key: @#@"[callResults.notAllowed]"@#@ @source: @#@"Not Allowed"@#@
+// @key: @#@"warmTransferSwitchCall"@#@ @source: @#@"Switch calls"@#@

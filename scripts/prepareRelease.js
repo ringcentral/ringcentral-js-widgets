@@ -8,6 +8,7 @@ const packageNames = [
   '@ringcentral-integration/phone-number',
   '@ringcentral-integration/glip-widgets',
   '@ringcentral-integration/core',
+  '@ringcentral-integration/utils',
   '@ringcentral-integration/babel-settings',
   '@ringcentral-integration/engage-voice-widgets',
 ];
@@ -19,6 +20,7 @@ const releaseBranchNames = [
   'phone-number-release',
   'glip-widgets-release',
   'core-release',
+  'utils-release',
   'engage-voice-widgets-release',
 ];
 

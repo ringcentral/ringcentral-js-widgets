@@ -1,6 +1,6 @@
 {
     "device" : {
-        "uri" : "https://api-xmnup.lab.nordigy.ru/restapi/v1.0/account/129832006/device/17737006",
+        "uri" : "https://platform.devtest.ringcentral.com/restapi/v1.0/account/129832006/device/17737006",
         "id" : "17737006",
         "type" : "WebPhone",
         "status" : "Online",
@@ -12,9 +12,9 @@
         "username" : "18442085446*101",
         "password" : "s0aO1",
         "authorizationId" : "17737006",
-        "domain" : "sip-xmnup.lab.nordigy.ru",
-        "outboundProxy" : "webphone-sip-xmnup.lab.nordigy.ru:8083",
-        "outboundProxyBackup" : "webphone-sip-xmnup.lab.nordigy.ru:8083",
+        "domain" : "platform.devtest.ringcentral.com",
+        "outboundProxy" : "webphone-platform.devtest.ringcentral.com:8083",
+        "outboundProxyBackup" : "webphone-platform.devtest.ringcentral.com:8083",
         "switchBackInterval" : 3600
     } ],
     "sipFlags" : {

@@ -1,3 +1,4 @@
+// @ts-nocheck
 /**
  * ## @deprecated
  * ## Please using ringcentral-js-widgets/ringcentral-integration/lib/debounce-throttle/debounce.ts
@@ -9,6 +10,8 @@
  * @param {Number} threshold - execution threshold
  * @param {Boolean} immediate - trigger on leading edge
  * @return {Function}
+ *
+ * @deprecated
  */
 export default function debounce(func, threshold = 500, immediate = false) {
   if (typeof func !== 'function') {

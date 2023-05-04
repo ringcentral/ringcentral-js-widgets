@@ -1,7 +1,7 @@
 import { Brand } from '@ringcentral-integration/commons/modules/Brand';
-import { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettingsV2';
+import { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettings';
 import { Locale } from '@ringcentral-integration/commons/modules/Locale';
-import { Webphone } from '@ringcentral-integration/commons/modules/WebphoneV2';
+import { Webphone } from '@ringcentral-integration/commons/modules/Webphone';
 
 import { RouterInteraction } from '../RouterInteraction';
 

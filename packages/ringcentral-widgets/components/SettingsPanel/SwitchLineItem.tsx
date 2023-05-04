@@ -35,6 +35,7 @@ export const SwitchLineItem: FunctionComponent<SwitchLineItemProps> = ({
       }
     >
       <span className={classnames(disabled && styles.disableText)}>
+        {/* @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message */}
         {customTitle || i18n.getString(name, currentLocale)}
       </span>
     </IconLine>

@@ -16,5 +16,3 @@ export const conferenceCallErrors = ObjectMap.prefixKeys(
   ],
   'conferenceCall',
 );
-
-export default conferenceCallErrors;

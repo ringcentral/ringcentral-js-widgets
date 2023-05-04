@@ -1,3 +1,4 @@
+// @ts-nocheck
 import Registry from '../registry/registry';
 
 /**

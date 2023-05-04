@@ -1,5 +1,5 @@
-import ActivityMatcher from '@ringcentral-integration/commons/modules/ActivityMatcher';
-import ContactMatcher from '@ringcentral-integration/commons/modules/ContactMatcher';
+import { ActivityMatcher } from '@ringcentral-integration/commons/modules/ActivityMatcher';
+import { ContactMatcher } from '@ringcentral-integration/commons/modules/ContactMatcher';
 
 import { EvCallDispositionItem, EvClient } from '../../lib/EvClient';
 import { EvAgentScript } from '../EvAgentScript';

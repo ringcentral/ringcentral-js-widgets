@@ -3,5 +3,5 @@ export default {
   text: 'Text',
   fax: 'Fax',
   voicemail: 'Voicemail',
-  call: 'Call'
+  call: 'Call',
 };

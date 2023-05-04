@@ -3,7 +3,7 @@ export default {
   incomingRingtone: "Suoneria chiamata in entrata",
   outgoingRingtone: "Suoneria chiamata in uscita",
   play: "Riproduci",
-  stop: "Stop",
+  stop: "Interrompi",
   upload: "Carica",
   reset: "Reimposta",
   save: "Salva"

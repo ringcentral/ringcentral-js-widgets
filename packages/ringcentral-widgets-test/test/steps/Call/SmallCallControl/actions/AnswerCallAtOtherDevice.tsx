@@ -1,4 +1,4 @@
-import { ICurrentDeviceCallsMap } from '@ringcentral-integration/commons/modules/ActiveCallControlV2';
+import { ICurrentDeviceCallsMap } from '@ringcentral-integration/commons/modules/ActiveCallControl';
 import { StepFunction } from '../../../../lib/step';
 import { CallButtonBehavior } from './CallButtonBehavior';
 

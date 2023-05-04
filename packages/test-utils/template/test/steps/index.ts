@@ -19,8 +19,8 @@ export {
 export interface StepFunction<P = {}, C = {}>
   extends BaseStepFunction<P, C & Context> {}
 
-export class Step<P = {}, C = {}> extends BaseStep<P, C & Context> {
-  static context: Context = {
+export abstract class Step<P = {}, C = {}> extends BaseStep<P, C & Context> {
+  static override context: Context = {
     payload: {
       //
     },
