@@ -2,25 +2,17 @@
 
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 
-require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.symbol");
-
-require("core-js/modules/es6.object.define-property");
-
-require("core-js/modules/web.dom.iterable");
-
-require("core-js/modules/es6.array.iterator");
-
-require("core-js/modules/es6.object.to-string");
-
-require("core-js/modules/es6.string.iterator");
-
-require("core-js/modules/es6.weak-map");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
+var _exportNames = {
+  format: true,
+  formatTypes: true,
+  detect: true,
+  parse: true,
+  isE164: true,
+  isSameLocalNumber: true
+};
 Object.defineProperty(exports, "detect", {
   enumerable: true,
   get: function get() {
@@ -51,26 +43,12 @@ Object.defineProperty(exports, "isSameLocalNumber", {
     return _isSameLocalNumber["default"];
   }
 });
-Object.defineProperty(exports, "isValidNumber", {
-  enumerable: true,
-  get: function get() {
-    return _libphonenumberJs.isValidNumber;
-  }
-});
 Object.defineProperty(exports, "parse", {
   enumerable: true,
   get: function get() {
     return _parse["default"];
   }
 });
-Object.defineProperty(exports, "parseIncompletePhoneNumber", {
-  enumerable: true,
-  get: function get() {
-    return _libphonenumberJs.parseIncompletePhoneNumber;
-  }
-});
-
-var _libphonenumberJs = require("libphonenumber-js");
 
 var _format = _interopRequireWildcard(require("./lib/format"));
 
@@ -81,6 +59,20 @@ var _parse = _interopRequireDefault(require("./lib/parse"));
 var _isE = _interopRequireDefault(require("./lib/isE164"));
 
 var _isSameLocalNumber = _interopRequireDefault(require("./lib/isSameLocalNumber"));
+
+var _libphonenumberJs = require("libphonenumber-js");
+
+Object.keys(_libphonenumberJs).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
+  if (key in exports && exports[key] === _libphonenumberJs[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _libphonenumberJs[key];
+    }
+  });
+});
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
