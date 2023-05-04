@@ -21,7 +21,7 @@
     "@babel/parser": "^7.11.4",
     "chalk": "^2.4.1",
     "dedent": "^0.7.0",
-    "fs-extra": "^9.0.1",
+    "fs-extra": "^10.1.0",
     "glob": "^7.1.2",
     "inquirer": "^6.0.0",
     "loader-utils": "^1.1.0",
@@ -30,6 +30,6 @@
     "xml-js": "^1.6.2"
   },
   "ci": {
-    "locale-loader": "**"
+    "@ringcentral-integration/locale-loader": "**"
   }
 }
