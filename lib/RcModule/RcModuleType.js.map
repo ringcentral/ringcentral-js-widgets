@@ -1,1 +1,1 @@
-{"version":3,"sources":[],"names":[],"mappings":"","sourcesContent":[],"file":"RcModuleType.js"}
+{"version":3,"file":"RcModuleType.js","names":[],"sources":["lib/RcModule/RcModuleType.ts"],"sourcesContent":["import { RcModuleV2 } from './RcModule';\n\nexport type RcModuleType<\n  T extends RcModuleV2,\n  K extends string = string,\n> = Omit<\n  T,\n  | Exclude<\n      keyof RcModuleV2,\n      'pending' | 'ready' | 'initializing' | 'resetting'\n    >\n  | K\n>;\n"],"mappings":""}

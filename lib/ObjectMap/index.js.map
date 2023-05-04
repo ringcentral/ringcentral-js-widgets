@@ -1,1 +1,1 @@
-{"version":3,"sources":["lib/ObjectMap/index.ts"],"names":[],"mappings":";;;;;;;;;;;;;;;;;;AAAA;;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA;AAAA","sourcesContent":["export * from './ObjectMap';\n"],"file":"index.js"}
+{"version":3,"file":"index.js","names":[],"sources":["lib/ObjectMap/index.ts"],"sourcesContent":["export * from './ObjectMap';\n"],"mappings":";;;;;;AAAA;;AAAA;EAAA;EAAA;EAAA;IAAA;IAAA;MAAA;IAAA;EAAA;AAAA"}

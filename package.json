@@ -17,11 +17,18 @@
   "homepage": "https://github.com/ringcentral/ringcentral-js-widgets/tree/master/packages/core#readme",
   "license": "MIT",
   "dependencies": {
-    "immer": "^9.0.2",
+    "@ringcentral-integration/utils": "*",
+    "immer": "^9.0.12",
     "ramda": "^0.27.1",
     "redux": "^4.0.5"
   },
   "ci": {
-    "core": "**"
+    "@ringcentral-integration/core": {
+      "includes": "**",
+      "excludes": [
+        "*.md",
+        "**/*.md"
+      ]
+    }
   }
 }
