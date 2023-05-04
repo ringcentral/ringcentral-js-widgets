@@ -1,47 +1,29 @@
 "use strict";
 
-require("core-js/modules/es6.array.is-array");
+require("core-js/modules/es.array.iterator");
 
-require("core-js/modules/es7.symbol.async-iterator");
+require("core-js/modules/es.number.constructor");
 
-require("core-js/modules/es6.symbol");
+require("core-js/modules/es.number.is-nan");
 
-require("core-js/modules/es6.array.from");
+require("core-js/modules/es.number.parse-float");
 
-require("core-js/modules/es6.function.name");
+require("core-js/modules/es.object.to-string");
 
-require("core-js/modules/es6.regexp.to-string");
+require("core-js/modules/es.promise");
 
-require("core-js/modules/es6.date.to-string");
+require("core-js/modules/es.set");
 
-require("core-js/modules/es6.array.slice");
+require("core-js/modules/es.string.iterator");
 
-require("core-js/modules/es6.object.define-property");
-
-require("core-js/modules/es6.promise");
+require("core-js/modules/web.dom-collections.iterator");
 
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = exports.RUNTIME = exports.PSEUDO_LOCALE = exports.DEFAULT_LOCALE = void 0;
 
-require("core-js/modules/es6.number.parse-float");
-
-require("core-js/modules/es6.number.constructor");
-
-require("core-js/modules/es6.number.is-nan");
-
 require("regenerator-runtime/runtime");
-
-require("core-js/modules/web.dom.iterable");
-
-require("core-js/modules/es6.array.iterator");
-
-require("core-js/modules/es6.object.to-string");
-
-require("core-js/modules/es6.string.iterator");
-
-require("core-js/modules/es6.set");
 
 var _getLanguageFromLocale = require("./lib/getLanguageFromLocale");
 
