@@ -1,6 +1,6 @@
 {
   "name": "@ringcentral-integration/core",
-  "version": "0.13.0",
+  "version": "0.14.0",
   "description": "The foundation package for RingCentral Integration products.",
   "homepage": "https://github.com/ringcentral/ringcentral-js-widgets/tree/master/packages/core#readme",
   "bugs": {
