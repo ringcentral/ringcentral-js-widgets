@@ -33,16 +33,10 @@ Object.defineProperty(exports, "transformLoader", {
     return _transformLoader["default"];
   }
 });
-
 var _localeLoader = _interopRequireDefault(require("./lib/localeLoader"));
-
 var _exportLocale = _interopRequireDefault(require("./lib/exportLocale"));
-
 var _importLocale = _interopRequireDefault(require("./lib/importLocale"));
-
 var _consolidateLocale = _interopRequireDefault(require("./lib/consolidateLocale"));
-
 var _transformLoader = _interopRequireDefault(require("./lib/transformLoader"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 //# sourceMappingURL=index.js.map
