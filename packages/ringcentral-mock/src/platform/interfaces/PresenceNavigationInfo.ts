@@ -1,4 +1,4 @@
-import { PresenceNavigationInfoURI } from './PresenceNavigationInfoURI';
+import type { PresenceNavigationInfoURI } from './PresenceNavigationInfoURI';
 
 // Information on navigation
 export interface PresenceNavigationInfo {

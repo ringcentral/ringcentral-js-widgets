@@ -15,7 +15,7 @@ import { initPhoneWrapper, tearDownWrapper } from '../shared';
 import { mockActiveCallPanelData } from './helper';
 
 beforeEach(async () => {
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 64000;
+  jest.setTimeout(64000);
 });
 
 async function checkIncomingPopup(wrapper, phone) {

@@ -1,6 +1,6 @@
-import { PagingDeviceInfo } from './PagingDeviceInfo';
-import { ProvisioningNavigationInfo } from './ProvisioningNavigationInfo';
-import { ProvisioningPagingInfo } from './ProvisioningPagingInfo';
+import type { PagingDeviceInfo } from './PagingDeviceInfo';
+import type { ProvisioningNavigationInfo } from './ProvisioningNavigationInfo';
+import type { ProvisioningPagingInfo } from './ProvisioningPagingInfo';
 
 export interface PagingOnlyGroupDevices {
   /**

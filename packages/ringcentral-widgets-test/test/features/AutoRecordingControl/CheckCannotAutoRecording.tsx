@@ -1,11 +1,12 @@
 /* RCI-3777: Check cannot auto recording
-https://test_id_domain/test-cases/RCI-3777
+https://test_it_domain/test-cases/RCI-3777
 */
 
-import {
+import type {
   FeaturesData,
   Record,
 } from '@ringcentral-integration/commons/integration-test/mock';
+import type { StepFunction } from '../../lib/step';
 import {
   autorun,
   title,
@@ -13,7 +14,6 @@ import {
   Then,
   Step,
   Given,
-  StepFunction,
   examples,
   it,
   p2,

@@ -1,5 +1,5 @@
-import { CalledNumberInfo } from './CalledNumberInfo';
-import { CompanyAnsweringRuleExtensionInfo } from './CompanyAnsweringRuleExtensionInfo';
+import type { CalledNumberInfo } from './CalledNumberInfo';
+import type { CompanyAnsweringRuleExtensionInfo } from './CompanyAnsweringRuleExtensionInfo';
 
 export interface ListCompanyAnsweringRuleInfo {
   /**

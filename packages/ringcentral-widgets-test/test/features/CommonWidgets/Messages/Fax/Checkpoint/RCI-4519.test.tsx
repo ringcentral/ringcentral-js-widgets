@@ -1,6 +1,6 @@
 /**
  * RCI-4519: Check faxes list in 90 days for Google/0365
- * https://test_id_domain/test-cases/RCI-4519
+ * https://test_it_domain/test-cases/RCI-4519
  * Preconditions:
  * Account_A has 2 faxes(Today is 2022/6/20, last 90 days is 2022/3/20 ):
 	fax1 is before 2022/3/20
@@ -16,11 +16,11 @@
  *
  */
 
+import type { StepProp } from '@ringcentral-integration/test-utils';
 import {
   p2,
   it,
   autorun,
-  StepProp,
   Scenario,
   Step,
   Then,

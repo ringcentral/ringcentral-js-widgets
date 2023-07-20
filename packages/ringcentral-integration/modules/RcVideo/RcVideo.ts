@@ -12,7 +12,8 @@ import type { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap
 import { DEFAULT_LOCALE } from '@ringcentral-integration/i18n';
 
 import { getInitializedStartTime } from '../../helpers/meetingHelper';
-import { IMeeting } from '../../interfaces/Meeting.interface';
+import { renameTurkey, renameTurkeyCountry } from '../../helpers/renameTurkey';
+import type { IMeeting } from '../../interfaces/Meeting.interface';
 import type {
   RcVDialInNumberGET,
   RcVDialInNumberObj,
@@ -31,14 +32,14 @@ import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
 import { trackEvents } from '../../enums/trackEvents';
 import { MeetingErrors, meetingStatus } from '../Meeting';
+import type { RcvWaitingRoomModeProps } from './constants';
 import {
   ASSISTED_USERS_MYSELF,
   INVITATION_BOUNDARY_REGEX,
   RCV_E2EE_API_KEYS,
   RCV_WAITING_ROOM_API_KEYS,
-  RcvWaitingRoomModeProps,
 } from './constants';
-import {
+import type {
   Deps,
   InvitationBridgesResponse,
   RcvDelegator,
@@ -149,7 +150,7 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
   preferences: RcVPreferencesGET = {};
 
   @state
-  isPreferencesChanged: boolean = false;
+  isPreferencesChanged = false;
 
   @state
   settingLocks: RcVSettingLocksGET = {};
@@ -162,7 +163,7 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
   delegators: RcvDelegator[] = [];
 
   @state
-  hasSettingsChanged: boolean = false;
+  hasSettingsChanged = false;
 
   @action
   protected _savePersonalMeeting(settings: Partial<RcVideoAPI>) {
@@ -188,7 +189,7 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
   @action
   protected _updateMeetingSettings(
     info: Partial<RcVMeetingModel>,
-    patch: boolean = true,
+    patch = true,
   ) {
     this.meeting = patch
       ? {
@@ -559,7 +560,7 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
 
   async startMeeting(
     meeting: RcVMeetingModel,
-    isAlertSuccess: boolean = true,
+    isAlertSuccess = true,
   ): Promise<any> {
     // When user click on button "start", client create bridge type=0, but doesn't send time-to-life for this bridge. Backend has default ttl = 24 hours.
     return this.createMeeting(
@@ -614,7 +615,8 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
         .platform()
         .post('/restapi/v1.0/uns/render-document', data);
       const blobData = await response.text();
-      return blobData.replace(INVITATION_BOUNDARY_REGEX, '');
+      const invitation = blobData.replace(INVITATION_BOUNDARY_REGEX, '');
+      return renameTurkey(invitation);
     } catch (ex) {
       console.warn('failed to get invitation', ex);
       if (this._enableInvitationApiFailedToast) {
@@ -652,6 +654,9 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
     const data = (await result.json()) as RcVDialInNumberGET;
     const phoneNumbers = data?.phoneNumbers;
     if (Array.isArray(phoneNumbers)) {
+      phoneNumbers.forEach((item) => {
+        renameTurkeyCountry(item.country);
+      });
       const defaultPhoneNumber = find((obj) => obj.default, phoneNumbers);
 
       if (this._enableHostCountryDialinNumbers) {
@@ -787,6 +792,11 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
 
       const meetingDetail = this.pruneMeetingObject(meeting);
 
+      // when meeting is rcv pmi, use pmi default name
+      if (meeting?.usePersonalMeetingId) {
+        meetingDetail.name = this.personalMeeting.name || '';
+      }
+
       const [newMeeting, dialInNumber, extensionInfo] = await Promise.all([
         // @ts-expect-error
         this._patchBridges(meeting.id, meetingDetail),
@@ -873,10 +883,7 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
   }
 
   @proxify
-  async updateMeetingSettings(
-    meeting: Partial<RcVMeetingModel>,
-    patch: boolean = true,
-  ) {
+  async updateMeetingSettings(meeting: Partial<RcVMeetingModel>, patch = true) {
     let processedMeeting = meeting;
     if (this.enableWaitingRoom) {
       processedMeeting = {

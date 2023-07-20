@@ -1,9 +1,9 @@
-import { ContactInfoCreationRequest } from './ContactInfoCreationRequest';
-import { CustomFieldInfo } from './CustomFieldInfo';
-import { ReferenceInfo } from './ReferenceInfo';
-import { RegionalSettings } from './RegionalSettings';
-import { SiteInfo } from './SiteInfo';
-import { ExtensionStatusInfo } from './ExtensionStatusInfo';
+import type { ContactInfoCreationRequest } from './ContactInfoCreationRequest';
+import type { CustomFieldInfo } from './CustomFieldInfo';
+import type { ReferenceInfo } from './ReferenceInfo';
+import type { RegionalSettings } from './RegionalSettings';
+import type { SiteInfo } from './SiteInfo';
+import type { ExtensionStatusInfo } from './ExtensionStatusInfo';
 
 export interface ExtensionCreationRequest {
   /**

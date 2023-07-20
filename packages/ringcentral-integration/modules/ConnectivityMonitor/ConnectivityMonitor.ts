@@ -1,13 +1,13 @@
 import 'isomorphic-fetch';
 
 import { action, RcModuleV2, state } from '@ringcentral-integration/core';
-import { ApiError } from '@ringcentral/sdk';
+import type { ApiError } from '@ringcentral/sdk';
 
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
 import { errorMessages } from '../AvailabilityMonitor';
 import { errorMessages as rateLimiterErrorMessage } from '../RateLimiter';
-import { Deps } from './ConnectivityMonitor.interface';
+import type { Deps } from './ConnectivityMonitor.interface';
 
 export const DEFAULT_TIME_TO_RETRY = 5 * 1000;
 export const DEFAULT_HEART_BEAT_INTERVAL = 60 * 1000;
@@ -49,13 +49,11 @@ export class ConnectivityMonitor extends RcModuleV2<Deps> {
     }
   };
 
-  // @ts-expect-error
-  protected _retryTimeoutId: NodeJS.Timeout = null;
+  protected _retryTimeoutId: NodeJS.Timeout | null = null;
 
   protected _lastEnvironmentCounter = 0;
 
-  // @ts-expect-error
-  private _unbindHandlers?: () => void = null;
+  private _unbindHandlers?: (() => void) | null = null;
 
   protected _requestSuccessHandler = () => {
     if (!this.connectivity) {
@@ -67,11 +65,10 @@ export class ConnectivityMonitor extends RcModuleV2<Deps> {
   protected _requestErrorHandler = (error: ApiError) => {
     if (error.message && errorMessageTypes.includes(error.message)) return;
 
-    if (!error.response) {
-      if (this.connectivity) {
-        this.setConnectFail();
-      }
+    if (!error.response && this.connectivity) {
+      this.setConnectFail();
     }
+
     this._retry();
   };
 
@@ -136,8 +133,10 @@ export class ConnectivityMonitor extends RcModuleV2<Deps> {
 
   override onStateChange() {
     if (!this._shouldInit() && this._shouldRebindHandlers()) {
-      // @ts-expect-error
-      this._lastEnvironmentCounter = this._deps.environment.changeCounter;
+      if (this._deps.environment) {
+        this._lastEnvironmentCounter = this._deps.environment.changeCounter;
+      }
+
       this._bindHandlers();
     }
   }
@@ -158,7 +157,6 @@ export class ConnectivityMonitor extends RcModuleV2<Deps> {
         this._requestErrorHandler,
       );
       window?.removeEventListener('offline', this._networkErrorHandler);
-      // @ts-expect-error
       this._unbindHandlers = null;
     };
   }
@@ -175,7 +173,6 @@ export class ConnectivityMonitor extends RcModuleV2<Deps> {
   _clearTimeout() {
     if (this._retryTimeoutId) {
       clearTimeout(this._retryTimeoutId);
-      // @ts-expect-error
       this._retryTimeoutId = null;
     }
   }
@@ -184,7 +181,6 @@ export class ConnectivityMonitor extends RcModuleV2<Deps> {
     this._clearTimeout();
 
     this._retryTimeoutId = setTimeout(() => {
-      // @ts-expect-error
       this._retryTimeoutId = null;
       this._checkConnection();
     }, t);

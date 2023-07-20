@@ -1,7 +1,7 @@
 import { screen, waitFor } from '@testing-library/react';
-import { waitForRenderReady } from '@ringcentral-integration/test-utils/lib/test-utils';
+import { waitForRenderReady } from '@ringcentral-integration/test-utils';
 import userEvent from '@testing-library/user-event';
-import { StepFunction } from '../../../lib/step';
+import type { StepFunction } from '../../../lib/step';
 
 export const ClickFromField: StepFunction = async () => {
   await waitFor(() => {

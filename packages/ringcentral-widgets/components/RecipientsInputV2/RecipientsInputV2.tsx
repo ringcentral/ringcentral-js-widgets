@@ -1,7 +1,7 @@
 /* eslint-disable react/no-multi-comp */
+import type { KeyboardEvent } from 'react';
 import React, {
   forwardRef,
-  KeyboardEvent,
   useEffect,
   useImperativeHandle,
   useRef,
@@ -13,7 +13,7 @@ import classnames from 'classnames';
 import i18n from '../RecipientsInput/i18n';
 import { DropdownList } from './DropdownList';
 import { PhoneNumberInput } from './PhoneNumberInput';
-import {
+import type {
   RecipientsInputV2Handles,
   RecipientsInputV2Props,
 } from './RecipientsInputV2.interface';

@@ -1,5 +1,5 @@
-import { GlipMessageAttachmentInfo } from './GlipMessageAttachmentInfo';
-import { GlipMentionsInfo } from './GlipMentionsInfo';
+import type { GlipMessageAttachmentInfo } from './GlipMessageAttachmentInfo';
+import type { GlipMentionsInfo } from './GlipMentionsInfo';
 
 export interface GlipPostInfo {
   /**

@@ -1,6 +1,6 @@
-import { AutomaticLocationUpdatesSiteInfo } from './AutomaticLocationUpdatesSiteInfo';
-import { LocationUpdatesEmergencyAddressInfo } from './LocationUpdatesEmergencyAddressInfo';
-import { ERLLocationInfo } from './ERLLocationInfo';
+import type { AutomaticLocationUpdatesSiteInfo } from './AutomaticLocationUpdatesSiteInfo';
+import type { LocationUpdatesEmergencyAddressInfo } from './LocationUpdatesEmergencyAddressInfo';
+import type { ERLLocationInfo } from './ERLLocationInfo';
 
 export interface WirelessPointInfo {
   /**

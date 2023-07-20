@@ -14,7 +14,7 @@ export default {
   [webphoneErrors.holdError]: "Der Anruf kann im Moment nicht gehalten werden.",
   [webphoneErrors.flipError]: "Der Anruf kann nicht umgelegt werden. Versuchen Sie es später noch einmal.",
   [webphoneErrors.recordError]: "Sie können den Anruf gegenwärtig nicht aufzeichnen. Fehlercode: {errorCode}",
-  [webphoneErrors.pauseRecordError]: "Leider konnten wir das Aufzeichnen des Anrufs nicht beenden. Versuchen Sie es später noch einmal.",
+  [webphoneErrors.pauseRecordError]: "Wir konnten die Aufzeichnung des Anrufs leider nicht beenden. Versuchen Sie es später noch einmal.",
   [webphoneErrors.recordDisabled]: "Ihr Konto verfügt über keine Funktion zum Aufzeichnen von Anrufen. Wenden Sie sich an Ihren Kontoadministrator.",
   [webphoneErrors.transferError]: "Der Anruf kann nicht weitergeleitet werden. Versuchen Sie es später noch einmal.",
   [webphoneMessages.parked]: "Ihr Anruf ist an folgendem Ort geparkt: {parkedNumber}",

@@ -9,9 +9,9 @@ import {
 import type { RcTheme } from '@ringcentral/juno';
 
 import { Module } from '../../lib/di';
-import { CssModuleVariable } from '../Brand/BrandConfig.interface';
+import type { CssModuleVariable } from '../Brand/BrandConfig.interface';
 import { defaultCssVariable } from './defaultCssVariable';
-import { Deps } from './Theme.interface';
+import type { Deps } from './Theme.interface';
 
 @Module({
   name: 'Theme',
@@ -28,7 +28,7 @@ export class Theme extends RcModuleV2<Deps> {
 
   @globalStorage
   @state
-  themeType: string = '';
+  themeType = '';
 
   @action
   setThemeType(type: string) {

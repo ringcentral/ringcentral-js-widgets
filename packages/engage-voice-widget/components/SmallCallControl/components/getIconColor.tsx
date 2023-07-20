@@ -1,4 +1,4 @@
-import { RcPaletteProp } from '@ringcentral/juno';
+import type { RcPaletteProp } from '@ringcentral/juno';
 
 type GetIconColorParams = {
   disable: boolean;

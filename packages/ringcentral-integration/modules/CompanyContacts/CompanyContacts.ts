@@ -1,5 +1,5 @@
 import { filter, find, forEach, map, reduce, reject } from 'ramda';
-import { Unsubscribe } from 'redux';
+import type { Unsubscribe } from 'redux';
 import type ContactResource from '@rc-ex/core/lib/definitions/ContactResource';
 import {
   action,
@@ -8,7 +8,7 @@ import {
   storage,
   watch,
 } from '@ringcentral-integration/core';
-import { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
+import type { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
 
 import { extensionStatusTypes } from '../../enums/extensionStatusTypes';
 import { extensionTypes } from '../../enums/extensionTypes';
@@ -17,7 +17,7 @@ import { subscriptionFilters } from '../../enums/subscriptionFilters';
 import { Module } from '../../lib/di';
 import fetchList from '../../lib/fetchList';
 import { DataFetcherV2Consumer, DataSource } from '../DataFetcherV2';
-import { Deps } from './CompanyContacts.interface';
+import type { Deps } from './CompanyContacts.interface';
 
 /**
  * TODO:

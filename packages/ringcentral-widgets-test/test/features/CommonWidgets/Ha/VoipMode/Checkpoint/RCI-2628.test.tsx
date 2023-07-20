@@ -1,6 +1,6 @@
 /**
  * RCI-2628: Verify the app enter Voip mode when Refresh token API returns >=500
- * https://test_id_domain/test-cases/RCI-2628
+ * https://test_it_domain/test-cases/RCI-2628
  * Preconditions:
  * Open the Charles
  * API Request:
@@ -17,12 +17,12 @@
  * > Login app with RC account
  */
 
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p1,
   it,
   autorun,
   And,
-  StepFunction,
   Scenario,
   Step,
   Then,
@@ -63,7 +63,7 @@ export class VoipOnlyRefreshToken extends Step {
   callIconDisabled = false;
   smsIconDisabled = true;
   historyTabDataSign = 'History';
-  appName: string = 'common';
+  appName = 'common';
   run() {
     const { Login, CreateMock } = this;
     return (

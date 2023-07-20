@@ -1,8 +1,10 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
-import { RcTextFieldProps } from '@ringcentral/juno';
+import type { RcTextFieldProps } from '@ringcentral/juno';
 
-import { SelectList, SelectListProps } from '../../../SelectList';
+import type { SelectListProps } from '../../../SelectList';
+import { SelectList } from '../../../SelectList';
 import { SelectListTextField } from './SelectListTextField/SelectListTextField';
 
 export type FullSelectFieldProps = {

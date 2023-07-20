@@ -2,13 +2,12 @@ import produce, {
   setAutoFreeze,
   enablePatches as enablePatchesWithImmer,
 } from 'immer';
-import {
-  createStore as createStoreWithRedux,
-  combineReducers,
+import type {
   ReducersMapObject,
   PreloadedState,
   Store as ReduxStore,
 } from 'redux';
+import { createStore as createStoreWithRedux, combineReducers } from 'redux';
 import {
   stateKey,
   storeKey,
@@ -18,7 +17,7 @@ import {
   usm,
 } from './constant';
 import { getStagedState } from './utils/index';
-import {
+import type {
   Action,
   StoreOptions,
   Store,

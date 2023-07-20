@@ -1,4 +1,4 @@
-import { GlipDataExportNavigationInfoUri } from './GlipDataExportNavigationInfoUri';
+import type { GlipDataExportNavigationInfoUri } from './GlipDataExportNavigationInfoUri';
 
 export interface GlipDataExportNavigationInfo {
   /**

@@ -1,4 +1,4 @@
-import { OrderBy } from './OrderBy';
+import type { OrderBy } from './OrderBy';
 
 export interface SearchDirectoryEntriesRequest {
   /**

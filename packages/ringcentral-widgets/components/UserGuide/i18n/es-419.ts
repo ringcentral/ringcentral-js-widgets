@@ -1,6 +1,6 @@
 export default {
   start: "Realizar una visita rápida",
-  skip: "Saltar",
+  skip: "Omitir",
   next: "Siguiente",
   finish: "Finalizar"
 };

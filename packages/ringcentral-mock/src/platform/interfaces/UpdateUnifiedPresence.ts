@@ -1,5 +1,5 @@
-import { UpdateUnifiedPresenceGlip } from './UpdateUnifiedPresenceGlip';
-import { UpdateUnifiedPresenceTelephony } from './UpdateUnifiedPresenceTelephony';
+import type { UpdateUnifiedPresenceGlip } from './UpdateUnifiedPresenceGlip';
+import type { UpdateUnifiedPresenceTelephony } from './UpdateUnifiedPresenceTelephony';
 
 export interface UpdateUnifiedPresence {
   /**

@@ -1,3 +1,4 @@
+import type { StepFunction } from '../../lib/step';
 import {
   autorun,
   title,
@@ -5,7 +6,6 @@ import {
   Given,
   Then,
   Step,
-  StepFunction,
   common,
 } from '../../lib/step';
 import { OAuthCheck } from '../../steps/OAuthCheck';

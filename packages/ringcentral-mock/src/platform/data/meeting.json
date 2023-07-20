@@ -23,5 +23,8 @@
   "allowJoinBeforeHost": false,
   "startHostVideo": false,
   "startParticipantsVideo": false,
-  "audioOptions": ["Phone", "ComputerAudio"]
+  "audioOptions": [
+    "Phone",
+    "ComputerAudio"
+  ]
 }

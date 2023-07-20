@@ -1,6 +1,6 @@
 /**
  * RCI-4035: Request for RCV meeting invitation
- * https://test_id_domain/test-cases/RCI-4035
+ * https://test_it_domain/test-cases/RCI-4035
  * Preconditions:
  * The user has logged in to RC CTI with settings below
  *
@@ -40,6 +40,7 @@ import {
   CheckInvitation,
   CheckRCVPageDisplay,
 } from '../../../../../../../steps/Meeting';
+import type { StepFunction } from '../../../../../../../lib/step';
 import {
   p1,
   it,
@@ -50,7 +51,6 @@ import {
   title,
   When,
   And,
-  StepFunction,
 } from '../../../../../../../lib/step';
 import { Login as CommonLogin } from '../../../../../../../steps/Login';
 

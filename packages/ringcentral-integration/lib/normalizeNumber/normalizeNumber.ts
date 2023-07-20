@@ -1,3 +1,4 @@
+import type { CountryCode } from '@ringcentral-integration/phone-number';
 import { format, formatTypes } from '@ringcentral-integration/phone-number';
 
 type NormalizeNumberParams = {
@@ -26,7 +27,7 @@ export function normalizeNumber({
   const normalizedNumber: string = format({
     phoneNumber,
     removeExtension,
-    countryCode,
+    countryCode: countryCode as CountryCode,
     areaCode,
     type: formatTypes.e164,
     maxExtensionLength,

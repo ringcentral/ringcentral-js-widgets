@@ -1,5 +1,5 @@
-import gulp from 'gulp';
 import path from 'path';
+import gulp from 'gulp';
 import fs from 'fs-extra';
 import babel from 'gulp-babel';
 import sourcemaps from 'gulp-sourcemaps';

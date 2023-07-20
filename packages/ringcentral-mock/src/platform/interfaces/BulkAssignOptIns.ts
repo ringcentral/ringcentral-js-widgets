@@ -1,4 +1,4 @@
-import { OptOutBulkAssignFailedEntry } from './OptOutBulkAssignFailedEntry';
+import type { OptOutBulkAssignFailedEntry } from './OptOutBulkAssignFailedEntry';
 
 // Contains successfull and failed opt-ins
 export interface BulkAssignOptIns {

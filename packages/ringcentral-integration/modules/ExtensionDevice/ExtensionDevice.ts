@@ -1,12 +1,12 @@
 import { reduce } from 'ramda';
-import type ExtensionDeviceResponse from '@rc-ex/core/lib/definitions/ExtensionDeviceResponse';
+import type DeviceResource from '@rc-ex/core/lib/definitions/DeviceResource';
 import type PhoneLinesInfo from '@rc-ex/core/lib/definitions/PhoneLinesInfo';
 import { computed } from '@ringcentral-integration/core';
 
 import { Module } from '../../lib/di';
 import fetchList from '../../lib/fetchList';
 import { DataFetcherV2Consumer, DataSource } from '../DataFetcherV2';
-import { Deps } from './ExtensionDevice.interface';
+import type { Deps } from './ExtensionDevice.interface';
 
 @Module({
   name: 'ExtensionDevice',
@@ -18,7 +18,7 @@ import { Deps } from './ExtensionDevice.interface';
 })
 export class ExtensionDevice extends DataFetcherV2Consumer<
   Deps,
-  ExtensionDeviceResponse[]
+  DeviceResource[]
 > {
   constructor(deps: Deps) {
     super({
@@ -28,7 +28,7 @@ export class ExtensionDevice extends DataFetcherV2Consumer<
       ...deps.extensionDeviceOptions,
       key: 'extensionDevice',
       cleanOnReset: true,
-      fetchFunction: async (): Promise<ExtensionDeviceResponse[]> =>
+      fetchFunction: async (): Promise<DeviceResource[]> =>
         fetchList((params: any) =>
           this._deps.client.account().extension().device().list(params),
         ),

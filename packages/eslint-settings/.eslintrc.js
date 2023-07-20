@@ -1,169 +1,143 @@
-const localeSettings = require('@ringcentral-integration/locale-settings');
-
-const tsRegex = ['**/*.ts', '**/*.tsx'];
-const jsExtensions = ['.js', '.jsx'];
-const tsExtensions = ['.ts', '.tsx'];
-const allExtensions = jsExtensions.concat(tsExtensions);
-
+/** @type {import('eslint').Linter.Config} */
 module.exports = {
-  extends: [
-    'airbnb',
-    'plugin:import/errors',
-    'plugin:import/warnings',
-    'plugin:prettier/recommended',
-  ],
-  parserOptions: {
-    ecmaVersion: 7,
-    ecmaFeatures: {
-      legacyDecorators: true,
-    },
-  },
-  parser: 'babel-eslint',
-  env: {
-    browser: true,
-    // webextensions: true,
-    // jest: true,
-    // jasmine: true
-  },
-  globals: {
-    $: true,
-  },
-  plugins: ['import', 'react-hooks'],
-  settings: {
-    'import/resolver': {
-      node: {
-        extensions: allExtensions,
-      },
-    },
-  },
-  rules: {
-    'max-len': [
-      2,
-      {
-        code: 100,
-        comments: 100,
-        ignoreComments: true,
-        ignoreStrings: true,
-        ignoreTemplateLiterals: true,
-        ignoreRegExpLiterals: true,
-      },
-    ],
-    'object-curly-newline': 0,
-    'object-curly-spacing': ['error', 'always'],
-    'object-shorthand': [
-      2,
-      'always',
-      {
-        avoidExplicitReturnArrows: true,
-      },
-    ],
-    'function-paren-newline': 0,
-    'class-methods-use-this': 0,
-    'comma-dangle': 0,
-    'prefer-destructuring': [
-      2,
-      {
-        AssignmentExpression: {
-          array: false,
-          object: false,
+  plugins: ['@nrwl/nx', 'lodash'],
+  ignorePatterns: ['node_modules', 'dist', 'build', 'html-report', '*.json'],
+  overrides: [
+    // js ts files
+    {
+      files: ['*.ts', '*.tsx', '*.js', '*.jsx'],
+      extends: [
+        'plugin:@nrwl/nx/javascript',
+        'plugin:import/recommended',
+        'plugin:prettier/recommended',
+      ],
+      settings: {
+        'import/resolver': {
+          node: {
+            extensions: ['.js', '.jsx', '.ts', '.tsx'],
+          },
         },
       },
-    ],
-    'import/extensions': 'off',
-    'import/no-extraneous-dependencies': [
-      'error',
-      {
-        devDependencies: true,
-        optionalDependencies: false,
-        peerDependencies: true,
+      rules: {
+        'lodash/import-scope': 'error',
+        'react/no-array-index-key': 'warn',
+        'import/no-cycle': 'error',
+        'import/order': 'error',
+        'import/no-duplicates': 'error',
+        'import/named': 'off',
+        'no-console': 'warn',
+        '@typescript-eslint/no-empty-function': 'off',
+        // for more detail view here https://nx.dev/structure/monorepo-tags
+        '@nrwl/nx/enforce-module-boundaries': [
+          'error',
+          {
+            enforceBuildableLibDependency: false,
+            allow: [],
+            depConstraints: [
+              {
+                sourceTag: '*',
+                onlyDependOnLibsWithTags: ['*'],
+              },
+            ],
+          },
+        ],
       },
-    ],
-    'no-unused-expressions': 0,
-    'import/no-unresolved': 1,
-    'import/prefer-default-export': 0,
-    'import/no-webpack-loader-syntax': 1,
-    'jsx-a11y/label-has-for': 0, // allow implicit label for input implementation
-    'jsx-a11y/no-static-element-interactions': 0,
-    'jsx-a11y/no-noninteractive-element-interactions': 0,
-    'jsx-a11y/mouse-events-have-key-events': 0,
-    'jsx-a11y/click-events-have-key-events': 0,
-    'jsx-a11y/anchor-is-valid': 0,
-    'jsx-a11y/media-has-caption': 0,
-    'linebreak-style': [1, process.platform === 'win32' ? 'windows' : 'unix'],
-    'lines-between-class-members': 0, // function overloading in ts can be interrupted by this
-    'no-await-in-loop': 0,
-    'no-console': 0,
-    'no-empty-function': 0,
-    'no-param-reassign': 0, // [].reduce are easier with this turned off,
-    'no-shadow': 0,
-    'no-underscore-dangle': 0,
-    'no-unused-vars': 1,
-    'no-mixed-operators': 0,
-    'no-void': 0,
-    'no-restricted-syntax': [
-      2,
-      'DebuggerStatement',
-      'LabeledStatement',
-      'WithStatement',
-    ],
-    'react/default-props-match-prop-types': 0,
-    'react/destructuring-assignment': 1,
-    'react/sort-comp': 0,
-    'react/forbid-prop-types': 0,
-    'react/jsx-closing-bracket-location': 0,
-    'react/jsx-filename-extension': [
-      1,
-      {
-        extensions: allExtensions,
+    },
+    // js files
+    {
+      files: ['*.js', '*.jsx'],
+      extends: ['plugin:@nrwl/nx/javascript'],
+      rules: {
+        '@typescript-eslint/no-empty-function': 'off',
       },
-    ],
-    'react/no-array-index-key': 0,
-    'react/require-default-props': 0,
-    'react/no-did-mount-set-state': 0, // dom size detection after mount may require setState in didMount
-    'react/jsx-no-target-blank': 0,
-    'react/no-this-in-sfc': 0,
-    'consistent-return': 0,
-    'react/jsx-wrap-multilines': [
-      'error',
-      { declaration: false, assignment: false },
-    ],
-    'react/jsx-one-expression-per-line': 0,
-    'no-plusplus': 0,
-    camelcase: 0,
-    'react-hooks/rules-of-hooks': 'error',
-    'react-hooks/exhaustive-deps': 'warn',
-    'react/jsx-no-duplicate-props': [2, { ignoreCase: false }],
-    'react/jsx-curly-newline': 'off',
-    'react/state-in-constructor': 'off',
-    'react/static-property-placement': 'off',
-    'react/jsx-props-no-spreading': 'off',
-    'max-classes-per-file': 'off',
-    // for crius use, the jsx must have react use ts cover that.
-    'react/react-in-jsx-scope': 'off',
-    'react/function-component-definition': [
-      1,
-      {
-        namedComponents: 'arrow-function',
-        unnamedComponents: 'arrow-function',
+    },
+    // ts files
+    {
+      files: ['*.ts', '*.tsx'],
+      extends: ['plugin:@nrwl/nx/typescript', 'plugin:import/typescript'],
+      rules: {
+        '@typescript-eslint/no-non-null-asserted-optional-chain': 'off',
+        '@typescript-eslint/no-empty-interface': 'off',
+        '@typescript-eslint/no-var-requires': 'warn',
+        '@typescript-eslint/no-unused-vars': 'off',
+        '@typescript-eslint/no-non-null-assertion': 'off',
+        // * close that for current eslint still not support metadata https://github.com/typescript-eslint/typescript-eslint/issues/5468
+        // '@typescript-eslint/consistent-type-imports': 'error',
+        '@typescript-eslint/ban-types': [
+          'error',
+          {
+            types: {
+              '{}': false,
+            },
+            extendDefaults: true,
+          },
+        ],
+        '@typescript-eslint/ban-ts-comment': 'off',
+        'no-alert': 'error',
       },
-    ],
-  },
-  overrides: [
+    },
+    // react files
+    {
+      files: ['*.jsx', '*.tsx'],
+      extends: ['plugin:@nrwl/nx/react'],
+      rules: {
+        // a11y still not need in our app
+        'jsx-a11y/anchor-is-valid': 'off',
+      },
+    },
+    {
+      files: ['**/__stories__/**/*'],
+      extends: ['plugin:storybook/recommended'],
+      rules: {
+        'no-console': 'off',
+        '@nrwl/nx/enforce-module-boundaries': 'off',
+        'jest/no-disabled-tests': 'off',
+        'jest/valid-expect': 'error',
+        'jest/valid-expect-in-promise': 'error',
+        'jest/no-identical-title': 'warn',
+        'jsx-a11y/accessible-emoji': 'warn',
+        'react/button-has-type': 'off',
+        'jsx-a11y/label-has-associated-control': 'warn',
+        'no-alert': 'warn',
+      },
+    },
+    // scripts related files
+    {
+      files: ['**/scripts/**/*', '**/tools/**/*', 'gulpfile.js'],
+      rules: {
+        'no-console': 'off',
+        // off all import related rules in here for performance issue
+        'import/namespace': 'off',
+        'import/no-named-as-default': 'off',
+        'import/default': 'off',
+        'import/no-named-as-default-member': 'off',
+        'import/no-cycle': 'off',
+        '@nrwl/nx/enforce-module-boundaries': 'off',
+      },
+    },
+    // test files
     {
       files: [
-        '*.test.js',
-        '*.spec.js',
-        '**/test/**/*.js',
-        '**/test/**/*.ts',
-        '**/__test__/**/*.js',
-        '**/__test__/**/*.ts',
+        '**/*.test.ts',
+        '**/*.spec.ts',
+        '**/*.spec.tsx',
+        '**/*.test.tsx',
+        '**/*.test.js',
+        '**/*.test.jsx',
+        '**/*.spec.js',
+        '**/*.spec.jsx',
       ],
-      env: {
-        jest: true,
-        jasmine: true,
-      },
+      plugins: ['jest'],
       rules: {
-        'no-eval': 0,
+        '@nrwl/nx/enforce-module-boundaries': 'off',
+        'react-hooks/rules-of-hooks': 'off',
+        'no-undef': 'off',
+      },
+    },
+    {
+      files: ['*.d.ts'],
+      rules: {
+        '@typescript-eslint/triple-slash-reference': 'off',
       },
     },
     // for next generation projects, we should install all dep in root folder, so there is no longer need that settings
@@ -171,68 +145,21 @@ module.exports = {
       files: ['__next__/**'],
       rules: {
         'import/no-extraneous-dependencies': 'off',
+        // * close that for current eslint still not support metadata https://github.com/typescript-eslint/typescript-eslint/issues/5468
+        // '@typescript-eslint/consistent-type-imports': 'off',
+      },
+    },
+    // for i18n folder, ignore prettier format
+    {
+      files: ['**/i18n/**/*'],
+      rules: {
+        quotes: ['error', 'single', { avoidEscape: true }],
       },
     },
     {
       files: ['*.view.tsx', '*.plugin.tsx'],
       rules: {
         'react-hooks/rules-of-hooks': 'off',
-      },
-    },
-    {
-      files: localeSettings.supportedLocales.map((locale) => `**/${locale}.js`),
-      rules: {
-        quotes: 0,
-      },
-    },
-    {
-      files: tsRegex,
-      env: {
-        browser: true,
-      },
-      parser: '@typescript-eslint/parser',
-      parserOptions: {
-        jsx: true,
-        ecmaVersion: 2018, // Allows for the parsing of modern ECMAScript features
-        sourceType: 'module', // Allows for the use of imports
-      },
-      plugins: ['@typescript-eslint', 'import'],
-      settings: {
-        'import/extensions': allExtensions,
-        'import/parsers': {
-          '@typescript-eslint/parser': tsExtensions,
-        },
-        'import/resolver': {
-          node: {
-            extensions: allExtensions,
-          },
-        },
-      },
-      rules: {
-        'no-use-before-define': 'off',
-        '@typescript-eslint/no-use-before-define': ['error'],
-        'no-redeclare': 'off',
-        '@typescript-eslint/no-redeclare': ['error'],
-        'no-undef': 0,
-        'react/prop-types': 0,
-        'import/no-unresolved': [2, { commonjs: true, amd: true }],
-        'import/named': 0,
-        'import/namespace': 2,
-        'import/default': 2,
-        'import/export': 1,
-        'arrow-parens': [2, 'always'],
-        'no-useless-constructor': 'off',
-        'no-unused-vars': 0,
-        '@typescript-eslint/no-useless-constructor': 2,
-        'object-shorthand': [2, 'always'],
-        '@typescript-eslint/no-unused-vars': 1,
-        'no-dupe-class-members': 0, // ts already checks this, disable this to allow overloading
-      },
-    },
-    {
-      files: ['./tools/**/*'],
-      rules: {
-        'func-names': 'off',
       },
     },
   ],

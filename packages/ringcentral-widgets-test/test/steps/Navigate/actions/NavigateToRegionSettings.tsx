@@ -1,6 +1,6 @@
 import { fireEvent, screen, waitFor } from '@testing-library/react';
 
-import { StepFunction } from '../../../lib/step';
+import type { StepFunction } from '../../../lib/step';
 
 export const NavigateToRegionSettings: StepFunction = async () => {
   expect(screen.getByText('Region')).toBeInTheDocument();

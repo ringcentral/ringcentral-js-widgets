@@ -1,4 +1,4 @@
-import { PronouncedNamePromptInfo } from './PronouncedNamePromptInfo';
+import type { PronouncedNamePromptInfo } from './PronouncedNamePromptInfo';
 
 export interface PronouncedNameInfo {
   /**

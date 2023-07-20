@@ -1,4 +1,4 @@
-import { SwitchValidated } from './SwitchValidated';
+import type { SwitchValidated } from './SwitchValidated';
 
 export interface ValidateMultipleSwitchesResponse {
   /**

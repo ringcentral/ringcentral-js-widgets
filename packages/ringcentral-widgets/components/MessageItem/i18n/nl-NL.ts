@@ -8,7 +8,7 @@ export default {
   text: "Tekstbericht",
   conversation: "Gesprek",
   groupConversation: "Groepsgesprek",
-  voiceMessage: "Voice-bericht",
+  voiceMessage: "Spraakbericht",
   [messageTypes.voiceMail]: "Voicemail",
   [messageTypes.fax]: "Fax",
   mark: "Markeren als ongelezen",

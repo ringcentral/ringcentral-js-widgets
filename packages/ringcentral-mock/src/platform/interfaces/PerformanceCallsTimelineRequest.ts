@@ -1,7 +1,7 @@
-import { TimelinePerformanceCallsGrouping } from './TimelinePerformanceCallsGrouping';
-import { PerformanceCallsTimeSettings } from './PerformanceCallsTimeSettings';
-import { PerformanceCallsFilters } from './PerformanceCallsFilters';
-import { TimelineResponseDataOptions } from './TimelineResponseDataOptions';
+import type { TimelinePerformanceCallsGrouping } from './TimelinePerformanceCallsGrouping';
+import type { PerformanceCallsTimeSettings } from './PerformanceCallsTimeSettings';
+import type { PerformanceCallsFilters } from './PerformanceCallsFilters';
+import type { TimelineResponseDataOptions } from './TimelineResponseDataOptions';
 
 export interface PerformanceCallsTimelineRequest {
   /**

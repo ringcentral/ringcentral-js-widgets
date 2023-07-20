@@ -1,5 +1,5 @@
-import { BulkAssignOptOuts } from './BulkAssignOptOuts';
-import { BulkAssignOptIns } from './BulkAssignOptIns';
+import type { BulkAssignOptOuts } from './BulkAssignOptOuts';
+import type { BulkAssignOptIns } from './BulkAssignOptIns';
 
 // The results of adding opt-outs and opt-ins
 export interface OptOutBulkAssignResponse {

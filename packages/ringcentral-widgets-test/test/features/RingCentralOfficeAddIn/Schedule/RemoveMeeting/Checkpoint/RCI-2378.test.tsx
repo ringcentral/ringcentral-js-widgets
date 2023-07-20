@@ -1,6 +1,6 @@
 /**
  * RCI-2378: RCV:Check the remove meeting button
- * https://test_id_domain/test-cases/RCI-2378
+ * https://test_it_domain/test-cases/RCI-2378
  * Preconditions:
  * RC CTI app is installed and enabled
  * The user has logged in to 3rd party
@@ -11,6 +11,7 @@
  * Outlook > Calendar >Edit the event1>Click 'New Appointment' or 'New Meeting' in the menu bar > Click {Brand name} for Outlook
  */
 
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p2,
   it,
@@ -18,7 +19,6 @@ import {
   examples,
   And,
   Scenario,
-  StepFunction,
   Step,
   Then,
   title,

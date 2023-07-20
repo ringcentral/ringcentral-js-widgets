@@ -1,8 +1,8 @@
-import {
+import type {
   Deps as DialerUIDeps,
   DialerUIPanelProps,
 } from '../DialerUI/DialerUI.interface';
-import { RouterInteraction } from '../RouterInteraction';
+import type { RouterInteraction } from '../RouterInteraction';
 
 export interface ConferenceDialerUIOptions {
   /** go back to url */

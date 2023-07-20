@@ -1,7 +1,7 @@
-import { AutomaticLocationUpdatesSiteInfo } from './AutomaticLocationUpdatesSiteInfo';
-import { PublicIpRangeInfo } from './PublicIpRangeInfo';
-import { PrivateIpRangeInfoRequest } from './PrivateIpRangeInfoRequest';
-import { ERLLocationInfo } from './ERLLocationInfo';
+import type { AutomaticLocationUpdatesSiteInfo } from './AutomaticLocationUpdatesSiteInfo';
+import type { PublicIpRangeInfo } from './PublicIpRangeInfo';
+import type { PrivateIpRangeInfoRequest } from './PrivateIpRangeInfoRequest';
+import type { ERLLocationInfo } from './ERLLocationInfo';
 
 export interface CreateNetworkRequest {
   /**

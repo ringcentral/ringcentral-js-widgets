@@ -1,7 +1,7 @@
-import { MakeRingOutCallerInfoRequestFrom } from './MakeRingOutCallerInfoRequestFrom';
-import { MakeRingOutCallerInfoRequestTo } from './MakeRingOutCallerInfoRequestTo';
-import { MakeRingOutCallerIdInfo } from './MakeRingOutCallerIdInfo';
-import { MakeRingOutCoutryInfo } from './MakeRingOutCoutryInfo';
+import type { MakeRingOutCallerInfoRequestFrom } from './MakeRingOutCallerInfoRequestFrom';
+import type { MakeRingOutCallerInfoRequestTo } from './MakeRingOutCallerInfoRequestTo';
+import type { MakeRingOutCallerIdInfo } from './MakeRingOutCallerIdInfo';
+import type { MakeRingOutCoutryInfo } from './MakeRingOutCoutryInfo';
 
 export interface MakeRingOutRequest {
   /**

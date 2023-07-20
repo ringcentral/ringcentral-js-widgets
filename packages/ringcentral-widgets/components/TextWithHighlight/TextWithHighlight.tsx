@@ -1,4 +1,5 @@
-import React, { Fragment, FunctionComponent, useMemo } from 'react';
+import type { FunctionComponent } from 'react';
+import React, { Fragment, useMemo } from 'react';
 
 import { palette2, styled } from '@ringcentral/juno';
 

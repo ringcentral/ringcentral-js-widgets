@@ -2,11 +2,12 @@ import React from 'react';
 
 import { mount } from 'enzyme';
 
-import { StepFunction } from '@ringcentral-integration/test-utils';
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 import { RcThemeProvider } from '@ringcentral/juno';
 
-import { EvDirectAgentListItem } from '../../../lib/EvClient';
-import { InternalPanel, InternalPanelProps } from './InternalPanel';
+import type { EvDirectAgentListItem } from '../../../lib/EvClient';
+import type { InternalPanelProps } from './InternalPanel';
+import { InternalPanel } from './InternalPanel';
 
 let wrapper;
 const currentLocale = 'en-US';

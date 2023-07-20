@@ -64,7 +64,7 @@ class EntityModal extends Component<EntityModalProps, EntityModalState> {
                 checked={entityType === this.state.selected}
                 onChange={this.onRadioChange}
               />
-              {i18n.getString(`${entityType}`, currentLocale)}
+              {i18n.getString(entityType, currentLocale)}
             </label>
           </div>
         ))}

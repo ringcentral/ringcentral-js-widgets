@@ -99,12 +99,13 @@ class Tooltip extends Component<TooltipProps, TooltipState> {
     super(props);
     this.onResize = this.checkPosition.bind(this);
     this.onTransitionEnd = this.onTransitionEnd.bind(this);
+    // @ts-ignore
     this.state = {
-      // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'never'.
+      // @ts-ignore
       cachedPositioning: null,
-      // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'never'.
+      // @ts-ignore
       visibility: null,
-      // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'never'.
+      // @ts-ignore
       position: null,
     };
     this.dom = React.createRef();

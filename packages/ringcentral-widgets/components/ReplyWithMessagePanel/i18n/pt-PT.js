@@ -1,5 +1,5 @@
 export default {
-  title: "Responder com mensagem de voz",
+  title: "Responder com msg de voz",
   customMessage: "Mensagem personalizada",
   customMessagePlaceholder: "Escreva uma mensagem personalizada"
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import type React from 'react';
 
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 

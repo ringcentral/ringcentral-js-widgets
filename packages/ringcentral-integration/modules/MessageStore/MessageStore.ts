@@ -1,10 +1,11 @@
 import { EventEmitter } from 'events';
+import type { ApiError } from '@ringcentral/sdk';
 import type GetMessageInfoResponse from '@rc-ex/core/lib/definitions/GetMessageInfoResponse';
 import { computed, track, watch } from '@ringcentral-integration/core';
 import { sleep } from '@ringcentral-integration/utils';
 
 import { subscriptionFilters } from '../../enums/subscriptionFilters';
-import {
+import type {
   Message,
   Messages,
   MessageStoreModel,
@@ -18,7 +19,7 @@ import { proxify } from '../../lib/proxy/proxify';
 import { trackEvents } from '../../enums/trackEvents';
 import { callingModes } from '../CallingSettings';
 import { DataFetcherV2Consumer, DataSource } from '../DataFetcherV2';
-import {
+import type {
   Deps,
   DispatchedMessageIds,
   MessageHandler,
@@ -39,6 +40,9 @@ const DEFAULT_RETRY = 62 * 1000; // 62 sec
 const DEFAULT_DAY_SPAN = 7; // default to load 7 days messages
 const DEFAULT_MESSAGES_FILTER = (list: Messages) => list;
 const UPDATE_MESSAGE_ONCE_COUNT = 20; // Number of messages to be updated in one time
+
+// reference: https://developers.ringcentral.com/api-reference/Message-Store/syncMessages
+const INVALID_TOKEN_ERROR_CODES = ['CMN-101', 'MSG-333'];
 
 /**
  * Messages data managing module
@@ -302,7 +306,6 @@ export class MessageStore<T extends Deps = Deps> extends DataFetcherV2Consumer<
     });
     Object.keys(updatedConversations).forEach((id) => {
       const noSorted = newState[id];
-      // @ts-expect-error
       newState[id] = noSorted.sort(messageHelper.sortByCreationTime);
     });
     return newState;
@@ -367,11 +370,14 @@ export class MessageStore<T extends Deps = Deps> extends DataFetcherV2Consumer<
           syncToken,
           dateTo,
         });
-      } catch (error: any /** TODO: confirm with instanceof */) {
+      } catch (e: unknown) {
+        const error = e as ApiError;
         if (
-          error &&
-          (error.message === 'Parameter [syncToken] value is invalid' ||
-            error.message === 'Parameter [syncToken] is invalid')
+          error.response?.status === 400 &&
+          (await error.response?.clone().json())?.error?.some(
+            ({ errorCode = '' } = {}) =>
+              INVALID_TOKEN_ERROR_CODES.includes(errorCode),
+          )
         ) {
           data = await this._syncFunction({
             recordCount,

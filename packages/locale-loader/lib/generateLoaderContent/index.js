@@ -13,7 +13,7 @@ function returnLoadLocaleCode(chunk, locale, basename) {
   if (chunk) {
     code = `
           if (typeof require.ensure === 'function') {
-            return require.ensure(['./${basename}'], (require) => {${code}
+            return require.ensure('./${basename}', (require) => {${code}
             }, '${locale}');
           } else {${code}
           }`;
@@ -61,7 +61,8 @@ export default function generateLoaderContent(
     const basename = getBaseName(f);
     const locale = formatLocale(basename);
     const lang = locale.split('-')[0];
-    const returnCode = returnLoadLocaleCode(chunk, locale, basename);
+    const isChunk = typeof chunk === 'function' ? chunk(locale) : chunk;
+    const returnCode = returnLoadLocaleCode(isChunk, locale, basename);
     let langDefaultCase = '';
     if (!usedLang[lang]) {
       usedLang[lang] = true;

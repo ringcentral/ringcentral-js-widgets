@@ -1,3 +1,4 @@
+import type { BaseContext } from '@ringcentral-integration/test-utils';
 import {
   autorun,
   title,
@@ -7,7 +8,6 @@ import {
   Then,
   Step,
   examples,
-  BaseContext,
 } from '@ringcentral-integration/test-utils';
 import { find } from 'ramda';
 

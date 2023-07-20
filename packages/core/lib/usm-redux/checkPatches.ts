@@ -1,4 +1,4 @@
-import { Action } from './interface';
+import type { Action } from './interface';
 
 export const checkPatches = (
   oldStateTree: Record<string, any>,

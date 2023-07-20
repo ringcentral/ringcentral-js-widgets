@@ -1,5 +1,5 @@
-import { RcModuleType } from '../RcModule';
-import { RcUIModuleV2 } from './RcUIModule';
+import type { RcModuleType } from '../RcModule';
+import type { RcUIModuleV2 } from './RcUIModule';
 
 export type RcUIModuleType<T extends RcUIModuleV2> = RcModuleType<
   T,

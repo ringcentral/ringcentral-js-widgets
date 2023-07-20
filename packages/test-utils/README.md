@@ -54,7 +54,7 @@ You can use it with any jest cli parameter. For example, `yarn run-test --covera
 -   `renderComponent(Component, props)`
 
 ```tsx
-import { renderComponent } from '@ringcentral-integration/test-utils/lib/render';
+import { renderComponent } from '@ringcentral-integration/test-utils';
 import { Foobar } from '../components/Foobar';
 
 test('', () => {
@@ -74,10 +74,6 @@ expect(console.log).toBeCalledWith(result);
 ## Retry
 
 When using the `RETRY=$time` argument in front of CLI, we will be able to set the number of retries.
-
-## DEV mode
-
-When using the `SWC=true` argument in front of CLI, we will use `@swc/jest` as testing runner for fast tests.
 
 ## Debugging
 

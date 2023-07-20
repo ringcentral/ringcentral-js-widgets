@@ -1,9 +1,11 @@
 import { screen } from '@testing-library/react';
-import { StepFunction } from '../../../lib/step';
+import { waitForRenderReady } from '@ringcentral-integration/test-utils';
+import type { StepFunction } from '../../../lib/step';
 
 export const CheckCallCtrlButton: StepFunction<{
   callButtonBehaviorType: 'hold' | 'onHold' | 'record' | 'mute';
 }> = async ({ callButtonBehaviorType }) => {
+  await waitForRenderReady();
   switch (callButtonBehaviorType) {
     case 'onHold':
       expect(screen.getByTestId('onHold')).toBeInTheDocument();

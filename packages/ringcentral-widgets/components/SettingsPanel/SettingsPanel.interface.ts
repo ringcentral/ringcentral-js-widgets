@@ -1,9 +1,9 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
-import { BrandConfig } from '@ringcentral-integration/commons/modules/Brand';
-import { DNDStatusValueType } from '@ringcentral-integration/commons/modules/Presence';
+import type { BrandConfig } from '@ringcentral-integration/commons/modules/Brand';
+import type { DNDStatusValueType } from '@ringcentral-integration/commons/modules/Presence';
 
-import { EulaProps } from '../Eula/Eula.interface';
+import type { EulaProps } from '../Eula/Eula.interface';
 
 export interface PresenceSettingProps {
   showPresenceSettings?: boolean;

@@ -1,6 +1,6 @@
 export default {
   unmute: "Riattiva audio",
-  mute: "Disattiva audio",
+  mute: "Disatt. audio",
   keypad: "Tastiera",
   hold: "Metti in attesa",
   onHold: "In attesa",

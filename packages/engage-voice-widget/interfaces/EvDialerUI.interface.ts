@@ -1,6 +1,6 @@
-import { RcBaseSize } from '@ringcentral/juno';
+import type { RcBaseSize } from '@ringcentral/juno';
 
-import { DialoutStatusesType } from '../enums';
+import type { DialoutStatusesType } from '../enums';
 
 export type EvDialerUIProps = {
   toNumber: string;

@@ -1,0 +1,77 @@
+{
+  "uri": "https://api-xmnup.lab.nordigy.ru/restapi/v1.0/client-info",
+  "client": {
+    "detected": true,
+    "userAgent": "PostmanRuntime/7.29.2",
+    "appId": "7gufiGT3T3CCuCP37hMDaQ~LW0n-yIkSYWWsLqeWA2Syg",
+    "appName": "Microsoft Teams: RingCentral",
+    "appVersion": "7.29.2",
+    "locale": "en-US"
+  },
+  "provisioning": {
+    "interopClientIds": {
+      "serviceWeb": "DE0Af3c63a68092734D333990A0401D349EEd9bdc46e80ec158238C3D857A92A",
+      "expressSetup": "a85da13c1fd991f09A9EB97FB4301c1ebf9e3f840431877921151c06660858bf",
+      "qosReports": "BG3JfKMgSUaSjZvEIT1KeA",
+      "analyticsPortal": "YCzy6r9qTyCpyMPN1rUgVA",
+      "carPlay": "obeAu02zQyWALRwW9R2avw",
+      "rcVideo": "AJdKBzHLRkie9peuDaZLLw",
+      "rcMeetings": "KI38mp4Ns033cEC681b94677b9B3AD0bbeFC2Ab1E"
+    },
+    "webUris": {
+      "expressSetupMobile": "https://service-xmnup-us.secure.lab.nordigy.ru/rc-setup/mobile/?appUrlScheme={appUrlScheme}&code={authCode}&hash=",
+      "signUp": "http://service-xmnup-us.lab.nordigy.ru/office/plansandpricing.html",
+      "support": "http://service-xmnup-us.lab.nordigy.ru/support.html",
+      "mobileWebUsers": "https://service-xmnup.lab.nordigy.ru/mobileweb/settings.html?session={random}&mid=1080138004&code={authCode}#extensions?tab=%22users%22&localeId=en_US&appUrlScheme={appUrlScheme}",
+      "mobileWebBilling": "https://service-xmnup.lab.nordigy.ru/mobileweb/settings.html?session={random}&mid=1080138004&code={authCode}#billing/main?appUrlScheme={appUrlScheme}&localeId=en_US",
+      "mobileWebPhoneSystem": "https://service-xmnup.lab.nordigy.ru/mobileweb/settings.html?session={random}&mid=1080138004&code={authCode}#main?screen=phoneSystem&appUrlScheme={appUrlScheme}&localeId=en_US",
+      "mobileWebUserSettings": "https://service-xmnup.lab.nordigy.ru/mobileweb/settings.html?session={random}&mid=1080138004&code={authCode}#main?screen=myInbound&appUrlScheme={appUrlScheme}&localeId=en_US",
+      "mobileWebTellAFriend": "https://service-xmnup.lab.nordigy.ru/mobileweb/settings.html?session={random}&mid=1080138004&code={authCode}#tellAFriend/main?appUrlScheme={appUrlScheme}&localeId=en_US",
+      "mobileWebChangePassword": "https://service-xmnup.lab.nordigy.ru/mobileweb/settings.html?session={random}&mid=1080138004&code={authCode}#changePwd?brandId=1210&mid=1080138004&appUrlScheme={appUrlScheme}&localeId=en_US",
+      "mobileWebInternationalCalling": "https://service-xmnup.lab.nordigy.ru/mobileweb/settings.html?session={random}&mid=1080138004&code={authCode}#billing/internationalCalling?appUrlScheme={appUrlScheme}&localeId=en_US",
+      "mobileWebCallHandling": "https://service-xmnup.lab.nordigy.ru/mobileweb/settings.html?session={random}&mid=1080138004&code={authCode}#userCallForwarding/rules?mid=1080138004&appUrlScheme={appUrlScheme}&localeId=en_US",
+      "mobileWebNotifications": "https://service-xmnup.lab.nordigy.ru/mobileweb/settings.html?session={random}&mid=1080138004&code={authCode}#notificationSettings?mid=1080138004&appUrlScheme={appUrlScheme}&localeId=en_US",
+      "mobileWebReporting": "https://service-xmnup.lab.nordigy.ru/mobileweb/reports.html?session={random}&mid=1080138004&code={authCode}&appUrlScheme={appUrlScheme}&localeId=en_US",
+      "mobileWebTrialUpgrade": "https://service-xmnup.lab.nordigy.ru/mobileweb/settings.html?session={random}&mid=1080138004&code={authCode}#billing/upgrade?brandId=1210&appUrlScheme={appUrlScheme}&localeId=en_US",
+      "mobileWebCallQueueManagement": "https://service-xmnup.lab.nordigy.ru/mobileweb/settings.html?session={random}&mid=1080138004&code={authCode}#callQueueManagement?mid=1080138004&appUrlScheme={appUrlScheme}&localeId=en_US",
+      "serviceWebHome": "https://service-xmnup.lab.nordigy.ru/login/main.asp?mid=1080138004&code={authCode}&rdr=",
+      "serviceWebPhoneSystem": "https://service-xmnup.lab.nordigy.ru/login/main.asp?mid=1080138004&code={authCode}&rdr=/company/index.html",
+      "serviceWebUserSettings": "https://service-xmnup.lab.nordigy.ru/login/main.asp?mid=1080138004&code={authCode}&rdr=/settings/index.html",
+      "serviceWebBilling": "https://service-xmnup.lab.nordigy.ru/login/main.asp?mid=1080138004&code={authCode}&rdr=%2Fsettings%2Fbilling.html",
+      "serviceWebTellAFriend": "https://www.ringcentral.com/buylove/buylove.html?BMID=REFTIER&PID=6969",
+      "serviceWebChangePassword": "https://service-xmnup.lab.nordigy.ru/login/changePwd.html?localeId=en_US&mid=1080138004&number=12054061927",
+      "serviceWebCallHandling": "https://service-xmnup.lab.nordigy.ru/login/main.asp?mid=1080138004&code={authCode}&rdr=%2Fsettings%2Findex.html%23%2Fsettings%2FcallHandling",
+      "serviceWebBlockedCalls": "https://service-xmnup.lab.nordigy.ru/login/main.asp?mid=1080138004&code={authCode}&rdr=%2Fsettings%2Findex.html%23%2Fsettings%2FscreeningGreetingHoldMusic%2FblockedCalls",
+      "serviceWebUserPhones": "https://service-xmnup.lab.nordigy.ru/login/main.asp?mid=1080138004&code={authCode}&rdr=%2Fsettings%2Findex.html%23%2Fsettings%2FphonesAndNumbers%2Fphone",
+      "serviceWebBillingPayment": "https://service-xmnup.lab.nordigy.ru/billing/payment.html",
+      "expiresIn": 1800,
+      "liveReports": "https://do-not-use-deprecated.net",
+      "mobileWebQosReports": "https://analytics-xmnup.ponylab.ringcentral.com/qos",
+      "mobileAppDownload": "https://www.ringcentral.com/apps/?apps=ringcentral-glip,ringcentral-phone",
+      "meetings": "https://rcm.rcdev.ringcentral.com",
+      "webinar": "https://webinar.ringcentral.com",
+      "meetingsRecordings": "https://service-xmnup.lab.nordigy.ru",
+      "analyticsPortal": "https://analytics-xmnup.ponylab.ringcentral.com/login?code={authCode}",
+      "expressSetup": "https://service-xmnup-us.secure.lab.nordigy.ru/rc-setup/web/index.html?code={authCode}",
+      "resetPassword": "https://login-xmnup.rclabenv.com/api/resetPassword?client_id={clientId}&login_hint={username}&redirect_uri={appUrlScheme}&display={display}&brand_id=1210&ui_locales=en_US",
+      "smbCompanySettings": "https://service-xmnup.lab.nordigy.ru/smb/entry/companySettings?mid=1080138004&code={authCode}&localeId=en_US&theme={themeId}&appId=7gufiGT3T3CCuCP37hMDaQ~LW0n-yIkSYWWsLqeWA2Syg",
+      "smbVoicemailPin": "https://service-xmnup.lab.nordigy.ru/smb/entry/mobile/userSetup/pin?mid=1080138004&code={authCode}&localeId=en_US&theme={themeId}&appId=7gufiGT3T3CCuCP37hMDaQ~LW0n-yIkSYWWsLqeWA2Syg",
+      "smbUserCallForwarding": "https://service-xmnup.lab.nordigy.ru/smb/entry/userSetup/callForwarding?mid=1080138004&code={authCode}&localeId=en_US&theme={themeId}&appId=7gufiGT3T3CCuCP37hMDaQ~LW0n-yIkSYWWsLqeWA2Syg",
+      "smbUserVoicemail": "https://service-xmnup.lab.nordigy.ru/smb/entry/userSetup/voicemail?mid=1080138004&code={authCode}&localeId=en_US&theme={themeId}&appId=7gufiGT3T3CCuCP37hMDaQ~LW0n-yIkSYWWsLqeWA2Syg",
+      "smbFacSettings": "https://service-xmnup.lab.nordigy.ru/smb/entry/userSetup/forwardAllCalls?mid=1080138004&code={authCode}&localeId=en_US&theme={themeId}&appId=7gufiGT3T3CCuCP37hMDaQ~LW0n-yIkSYWWsLqeWA2Syg",
+      "smbMobileFacSettings": "https://service-xmnup.lab.nordigy.ru/smb/entry/mobile/userSetup/forwardAllCalls?mid=1080138004&code={authCode}&localeId=en_US&theme={themeId}&appId=7gufiGT3T3CCuCP37hMDaQ~LW0n-yIkSYWWsLqeWA2Syg"
+    },
+    "hints": {
+      "forceUnifiedMobileApp": {
+        "actionRequired": true
+      },
+      "smbMobileClient": {
+        "actionRequired": false
+      }
+    },
+    "assetService": {
+      "baseUri": "https://platform.devtest.ringcentral.com",
+      "assetId": "f7cade80b7cc92b991cf4d2806d6bd78"
+    }
+  }
+}

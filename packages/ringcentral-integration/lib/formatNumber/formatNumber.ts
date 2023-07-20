@@ -1,3 +1,4 @@
+import type { CountryCode } from '@ringcentral-integration/phone-number';
 import { format, formatTypes } from '@ringcentral-integration/phone-number';
 
 export type FormatNumberParams = {
@@ -9,6 +10,7 @@ export type FormatNumberParams = {
   international?: boolean;
   isMultipleSiteEnabled?: boolean;
   maxExtensionLength?: number;
+  isEDPEnabled?: boolean;
 };
 
 /**
@@ -24,15 +26,17 @@ export default function formatNumber({
   international = false,
   isMultipleSiteEnabled = false,
   maxExtensionLength = 6,
+  isEDPEnabled = false,
 }: FormatNumberParams) {
   return format({
     phoneNumber,
-    countryCode,
+    countryCode: countryCode as CountryCode,
     areaCode,
     siteCode,
     isMultipleSiteEnabled,
     removeExtension,
     type: international ? formatTypes.international : formatTypes.local,
     maxExtensionLength,
+    isEDPEnabled,
   });
 }

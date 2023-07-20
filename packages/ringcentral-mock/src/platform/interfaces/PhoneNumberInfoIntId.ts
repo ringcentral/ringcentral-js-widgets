@@ -1,5 +1,5 @@
-import { PhoneNumberCountryInfo } from './PhoneNumberCountryInfo';
-import { DeviceProvisioningExtensionInfo } from './DeviceProvisioningExtensionInfo';
+import type { PhoneNumberCountryInfo } from './PhoneNumberCountryInfo';
+import type { DeviceProvisioningExtensionInfo } from './DeviceProvisioningExtensionInfo';
 
 // Phone number information
 export interface PhoneNumberInfoIntId {

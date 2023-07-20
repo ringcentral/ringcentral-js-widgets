@@ -10,7 +10,7 @@ export default {
   [messageSenderMessages.recipientsEmpty]: "Immetti un numero di destinazione valido.",
   [messageSenderMessages.textTooLong]: "Testo troppo lungo, limite di 1000",
   [messageSenderMessages.multipartTextTooLong]: "Testo troppo lungo, limite di 5000",
-  [messageSenderMessages.recipientNumberInvalids]: "Immetti un numero di telefono valido.",
+  [messageSenderMessages.recipientNumberInvalids]: "Inserisci un numero di telefono valido.",
   [messageSenderMessages.noAreaCode]: "Imposta {areaCodeLink} per l'utilizzo dei numeri di telefono locali a 7 cifre.",
   [messageSenderMessages.specialNumber]: "L'invio di SMS a numeri di servizi di emergenza o servizi speciali non è supportato.",
   [messageSenderMessages.connectFailed]: "Connessione non riuscita. Riprova più tardi.",
@@ -26,7 +26,8 @@ export default {
   [messageSenderMessages.attachmentSizeLimitation]: "La dimensione massima degli allegati è 1,5 MB.",
   [messageSenderMessages.noAttachmentToExtension]: "Non è supportato l'invio di MMS a un interno.",
   areaCode: "prefisso",
-  [messageSenderMessages.sending]: "Invio messaggio in corso… l'operazione potrebbe richiedere un paio di minuti."
+  [messageSenderMessages.sending]: "Invio messaggio in corso… l'operazione potrebbe richiedere un paio di minuti.",
+  [messageSenderMessages.shortNumbersNotAvailable]: "L'invio di SMS a numeri brevi non è disponibile."
 };
 
 // @key: @#@"[messageSenderMessages.sendSuccess]"@#@ @source: @#@"Send Success."@#@
@@ -56,3 +57,4 @@ export default {
 // @key: @#@"[messageSenderMessages.noAttachmentToExtension]"@#@ @source: @#@"It isn't supported to send MMS to an extension."@#@
 // @key: @#@"areaCode"@#@ @source: @#@"area code"@#@
 // @key: @#@"[messageSenderMessages.sending]"@#@ @source: @#@"Message being sent…It may take a couple of minutes to complete."@#@
+// @key: @#@"[messageSenderMessages.shortNumbersNotAvailable]"@#@ @source: @#@"Sending SMS to short numbers is not available."@#@

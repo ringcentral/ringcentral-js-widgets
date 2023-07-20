@@ -1,6 +1,6 @@
 import messageSyncBody from '@ringcentral-integration/mock/src/platform/data/messageSync.json';
 
-import { StepFunction } from '../../../lib/step';
+import type { StepFunction } from '../../../lib/step';
 
 interface MockMessageSyncProps {
   handler?: (messageSync: any) => any;
@@ -20,7 +20,7 @@ export const MockMessageSync: StepFunction<MockMessageSyncProps> = (
     return handler?.(mockData) ?? mockData;
   };
 
-  if (!isDefaultInit) {
+  const setupMock = () => {
     rcMock.get(
       '/restapi/v1.0/account/:accountId/extension/:extensionId/message-sync',
       200,
@@ -29,19 +29,15 @@ export const MockMessageSync: StepFunction<MockMessageSyncProps> = (
         response: responseFunc,
       },
     );
+  };
+
+  if (!isDefaultInit) {
+    setupMock();
     return;
   }
+
   rcMock.defaultInitMocks.delete(rcMock.getMessageSync);
-  rcMock.defaultInitMocks.add(() => {
-    rcMock.get(
-      '/restapi/v1.0/account/:accountId/extension/:extensionId/message-sync',
-      200,
-      {
-        repeat,
-        response: responseFunc,
-      },
-    );
-  });
+  rcMock.defaultInitMocks.add(setupMock);
 };
 
 export const MockReadMessage: StepFunction<{

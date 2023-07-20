@@ -6,7 +6,7 @@ import {
   storage,
 } from '@ringcentral-integration/core';
 
-import {
+import type {
   CallDisposition,
   Deps,
   EvCallDispositionMapping,

@@ -1,6 +1,6 @@
 /**
  * RCI-1821: RCV - Only allow authenticated users to join meetings
- * https://test_id_domain/test-cases/RCI-1821
+ * https://test_it_domain/test-cases/RCI-1821
  * Preconditions:
  * CTI app is installed and enabled
  * Users have an RCV account that is usable.
@@ -10,6 +10,7 @@
  * LTI:Click the Schedule' button on the Home/Recents meeting list page
  */
 
+import type { StepFunction } from '../../../../../../lib/step';
 import {
   p2,
   it,
@@ -19,7 +20,6 @@ import {
   Then,
   title,
   When,
-  StepFunction,
   common,
 } from '../../../../../../lib/step';
 import { Login as CommonLogin } from '../../../../../../steps/Login';

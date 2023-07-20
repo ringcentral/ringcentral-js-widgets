@@ -1,4 +1,4 @@
-import { BusinessAddressInfo } from './BusinessAddressInfo';
+import type { BusinessAddressInfo } from './BusinessAddressInfo';
 
 export interface ModifyAccountBusinessAddressRequest {
   /**

@@ -1,11 +1,10 @@
-import React, { FunctionComponent, ReactNode, useState } from 'react';
+import type { FunctionComponent, ReactNode } from 'react';
+import React, { useState } from 'react';
 
-import {
-  SelectListTextField,
-  SelectListTextFieldProps,
-} from '@ringcentral-integration/widgets/components/CallLogFields';
+import type { SelectListTextFieldProps } from '@ringcentral-integration/widgets/components/CallLogFields';
+import { SelectListTextField } from '@ringcentral-integration/widgets/components/CallLogFields';
 import { SelectListBasicWithScrollCheck } from '@ringcentral-integration/widgets/components/SelectList';
-import { SelectListBasicProps } from '@ringcentral-integration/widgets/components/SelectListBasic';
+import type { SelectListBasicProps } from '@ringcentral-integration/widgets/components/SelectListBasic';
 import { RcList } from '@ringcentral/juno';
 
 import i18n from './i18n';

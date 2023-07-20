@@ -1,4 +1,4 @@
-import { CallQueueMember } from './CallQueueMember';
+import type { CallQueueMember } from './CallQueueMember';
 
 export interface CallQueueMemberPresence {
   /**

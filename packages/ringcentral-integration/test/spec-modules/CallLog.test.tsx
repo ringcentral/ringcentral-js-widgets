@@ -8,7 +8,8 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
-import { CallLog, CallLogData } from '../../modules/CallLog';
+import type { CallLogData } from '../../modules/CallLog';
+import { CallLog } from '../../modules/CallLog';
 import { mockModuleGenerator } from '../lib/mockModule';
 
 const getMockModule = () =>

@@ -1,14 +1,10 @@
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import { formatNumber } from '@ringcentral-integration/commons/lib/formatNumber';
-import {
-  RcUIModuleV2,
-  UIFunctions,
-  UIProps,
-  track,
-} from '@ringcentral-integration/core';
+import type { UIFunctions, UIProps } from '@ringcentral-integration/core';
+import { RcUIModuleV2, track } from '@ringcentral-integration/core';
 import { trackEvents } from '@ringcentral-integration/commons/enums/trackEvents';
 
-import {
+import type {
   ConversationContainerProps,
   ConversationPanelProps,
   Deps,

@@ -1,5 +1,9 @@
 module.exports = {
   process(src, filename, config, options) {
-    return "const enUS = require('./en-US').default; module.exports = async function loadLocale() { return enUS; };";
+    return `
+    module.exports = async function loadLocale(currentLocale = 'en-US') {
+      return require(\`./\${currentLocale}\`).default;
+    };
+    `;
   },
 };

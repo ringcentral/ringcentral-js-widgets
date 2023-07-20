@@ -4,30 +4,34 @@
   "retryCount": 3,
   "retryInterval": 3,
   "retryCycleDelay": 824,
+  "brandId": "1210",
   "discoveryApi": {
-    "initialUri": "http://platform.devtest.ringcentral.com/.well-known/entry-points/initial",
-    "externalUri": "http://platform.devtest.ringcentral.com/.well-known/entry-points/external"
+    "initialUri": "https://platform.devtest.ringcentral.com/.well-known/entry-points/initial",
+    "externalUri": "https://platform.devtest.ringcentral.com/.well-known/entry-points/external"
   },
   "authApi": {
-    "authorizationUri": "http://platform.devtest.ringcentral.com/restapi/oauth/authorize",
-    "oidcDiscoveryUri": "http://platform.devtest.ringcentral.com/.well-known/openid-configuration",
-    "baseUri": "http://platform.devtest.ringcentral.com",
-    "tokenUri": "http://platform.devtest.ringcentral.com/restapi/oauth/token"
+    "authorizationUri": "https://platform.devtest.ringcentral.com/restapi/oauth/authorize",
+    "oidcDiscoveryUri": "https://platform.devtest.ringcentral.com/.well-known/openid-configuration",
+    "baseUri": "https://platform.devtest.ringcentral.com",
+    "tokenUri": "https://platform.devtest.ringcentral.com/restapi/oauth/token"
   },
   "coreApi": {
-    "baseUri": "http://platform.devtest.ringcentral.com",
+    "baseUri": "https://platform.devtest.ringcentral.com",
     "pubnubOrigin": "ringcentral.pubnubapi.com"
   },
   "rcv": {
-    "baseWebUri": "http://platform.devtest.ringcentral.com",
-    "baseApiUri": "http://platform.devtest.ringcentral.com",
+    "baseWebUri": "https://platform.devtest.ringcentral.com",
+    "baseApiUri": "https://platform.devtest.ringcentral.com",
     "pubnubOrigin": "ringcentral.pubnubapi.com"
   },
   "rcm": {
-    "baseWebUri": "http://platform.devtest.ringcentral.com",
-    "sdkDomain": "rcdev.dev.meetzoom.us"
+    "baseWebUri": "https://platform.devtest.ringcentral.com",
+    "sdkDomain": "platform.devtest.ringcentral.com"
   },
-  "edc": {
-    "baseUri": "http://platform.devtest.ringcentral.com"
-  }
+  "edc": { "baseUri": "https://platform.devtest.ringcentral.com" },
+  "rcw": { "baseApiUri": "https://platform.devtest.ringcentral.com" },
+  "featureFlagsApi": { "baseUri": "https://ffs-authorized.platform.devtest.ringcentral.com" },
+  "mvpApp": { "baseUri": "https://platform.devtest.ringcentral.com" },
+  "tag": "whatever",
+  "expireTime": 1663644482505
 }

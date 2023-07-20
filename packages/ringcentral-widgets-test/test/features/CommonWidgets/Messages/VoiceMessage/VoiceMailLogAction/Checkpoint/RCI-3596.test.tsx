@@ -1,6 +1,6 @@
 /**
  * RCI-3596: Tooltip verification in Messages_Voice
- * https://test_id_domain/test-cases/RCI-3596
+ * https://test_it_domain/test-cases/RCI-3596
  * Preconditions:
  * UserA has logged into the CTI app
  * UserA has the following voice record with UserB
@@ -46,6 +46,7 @@
  * > Go to 'Messages' tab> Go to 'Voice' tab> Open the dropdown for one item
  */
 
+import type { StepProp } from '@ringcentral-integration/test-utils';
 import {
   autorun,
   examples,
@@ -56,7 +57,6 @@ import {
   Step,
   Then,
   title,
-  StepProp,
 } from '@ringcentral-integration/test-utils';
 
 import { mockMessageListData } from '../../../../../../__mock__';
@@ -83,8 +83,8 @@ import { CheckConversationTabTooltip } from '../../../../../../steps/Navigate/ch
 export class VoiceMailTooltip extends Step {
   CustomLogin: StepProp | null = null;
   CustomCreateMock: StepProp | null = null;
-  expectShowEntityButton: boolean = false;
-  mockCDC: boolean = false;
+  expectShowEntityButton = false;
+  mockCDC = false;
   @examples(`
     | contactName     | phoneNumber    | durationTime |
     | 'Test ContactA' | '+18662100000' | '01:25'      |
@@ -144,6 +144,8 @@ export class VoiceMailTooltip extends Step {
               ...mockData,
               ...mockMessageListData(null),
             })}
+            repeat={0}
+            isDefaultInit
           />,
           <MockMessageSync
             handler={(mockData) => ({

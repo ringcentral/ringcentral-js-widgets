@@ -2,7 +2,7 @@ export default {
   to: "宛先：",
   transferTo: "転送先",
   blindTransfer: "転送",
-  warmTransfer: "最初に問い合わせる",
+  warmTransfer: "最初に聞く",
   enterNameOrNumber: "番号を入力",
   toVoicemail: "ボイスメールへ"
 };

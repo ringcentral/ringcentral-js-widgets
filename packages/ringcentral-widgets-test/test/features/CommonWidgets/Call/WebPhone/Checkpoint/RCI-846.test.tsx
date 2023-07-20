@@ -1,6 +1,6 @@
 /**
  * RCI-846: Multiple calls incoming_answer and hold
- * https://test_id_domain/test-cases/RCI-846
+ * https://test_it_domain/test-cases/RCI-846
  * Preconditions:
  * 2. User has logged into RC CTI App
  * Entry point(/s):
@@ -18,7 +18,7 @@ import {
   When,
   Given,
 } from '@ringcentral-integration/test-utils';
-import { StepFunction } from '../../../../../lib/step';
+import type { StepFunction } from '../../../../../lib/step';
 import {
   CallItemButtonBehavior,
   CheckAllCallsListPage,
@@ -96,7 +96,6 @@ export class RCI846 extends Step {
               // The new call is answered
               expect(phone.webphone.answer).toBeCalledWith(
                 firstIncomingCall.id,
-                undefined,
               );
               expect(phone.webphone._onAccepted).toBeCalledWith(
                 expect.objectContaining({

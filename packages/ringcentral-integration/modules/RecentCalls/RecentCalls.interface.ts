@@ -1,8 +1,8 @@
-import { Entity } from '../../interfaces/Entity.interface';
-import { Auth } from '../Auth';
-import { CallHistory, HistoryCall } from '../CallHistory';
+import type { Entity } from '../../interfaces/Entity.interface';
+import type { Auth } from '../Auth';
+import type { CallHistory, HistoryCall } from '../CallHistory';
 
-interface RecentCallsOptions {
+export interface RecentCallsOptions {
   //
 }
 
@@ -30,15 +30,15 @@ export type FetchCallLogListOptions =
 export interface LoadSuccessOptions {
   contact: Entity;
   calls: HistoryCall[];
-  sessionId: string;
+  sessionId: string | null;
 }
 
 export interface CleanUpCallsOptions {
   contact: Entity;
-  sessionId?: string;
+  sessionId: string | null;
 }
 
 export interface GetCallsOptions {
   currentContact: Entity;
-  sessionId: string;
+  sessionId: string | null;
 }

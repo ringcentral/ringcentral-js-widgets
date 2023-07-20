@@ -9,11 +9,11 @@ import {
 } from '@ringcentral-integration/core';
 
 import { saveStatus } from '../../interfaces/EvActivityCallUI.interface';
-import {
+import type {
   EvDialerUIFunctions,
   EvDialerUIProps,
 } from '../../interfaces/EvDialerUI.interface';
-import { Deps, DialerUI } from './EvDialerUI.interface';
+import type { Deps, DialerUI } from './EvDialerUI.interface';
 
 @Module({
   name: 'EvDialerUI',

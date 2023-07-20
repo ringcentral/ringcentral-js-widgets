@@ -1,4 +1,4 @@
-import { DevicePhoneNumberCountryInfo } from './DevicePhoneNumberCountryInfo';
+import type { DevicePhoneNumberCountryInfo } from './DevicePhoneNumberCountryInfo';
 
 // Phone number information
 export interface DevicePhoneNumberInfo {

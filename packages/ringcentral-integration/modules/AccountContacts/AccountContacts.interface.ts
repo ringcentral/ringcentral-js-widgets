@@ -1,10 +1,10 @@
 import type PresenceInfoResponse from '@rc-ex/core/lib/definitions/PresenceInfoResponse';
 
-import { IContact } from '../../interfaces/Contact.model';
-import { AccountInfo } from '../AccountInfo';
-import { AppFeatures } from '../AppFeatures';
-import { CompanyContacts } from '../CompanyContacts';
-import { ExtensionInfo } from '../ExtensionInfo';
+import type { IContact } from '../../interfaces/Contact.model';
+import type { AccountInfo } from '../AccountInfo';
+import type { AppFeatures } from '../AppFeatures';
+import type { CompanyContacts } from '../CompanyContacts';
+import type { ExtensionInfo } from '../ExtensionInfo';
 
 export interface Deps {
   client: any;
@@ -16,10 +16,6 @@ export interface Deps {
 }
 
 export interface AccountContactsOptions {
-  /**
-   * timestamp of local cache, default 30 mins
-   */
-  ttl?: number;
   /**
    * timestamp of avatar local cache, default 2 hour
    */
@@ -44,7 +40,11 @@ export type ProfileImages = Record<string, ProfileImage>;
 export interface Presence {
   presence: Pick<
     PresenceInfoResponse,
-    'dndStatus' | 'presenceStatus' | 'telephonyStatus' | 'userStatus'
+    | 'dndStatus'
+    | 'presenceStatus'
+    | 'telephonyStatus'
+    | 'userStatus'
+    | 'meetingStatus'
   >;
   timestamp: number;
 }
@@ -61,9 +61,10 @@ export interface DirectoryContacts {
   cdc: Contact[];
 }
 
-export type PresenceContexts = {
-  contact: IContact;
-  resolve: (...args: any) => void;
-}[];
+export type GetPresenceContext = {
+  accountId: string;
+  extensionId: string;
+  callbacks: Array<(...args: any) => void>;
+};
 
 export type PresenceMap = Record<string, Presence['presence']>;

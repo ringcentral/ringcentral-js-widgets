@@ -14,7 +14,7 @@ export default {
   [webphoneErrors.holdError]: "Call cannot be held at the moment.",
   [webphoneErrors.flipError]: "Cannot flip the call. Please try again later.",
   [webphoneErrors.recordError]: "You cannot record the call at the moment. Error code: {errorCode}",
-  [webphoneErrors.pauseRecordError]: "Sorry, we weren't able to stop recording the call. Try again later.",
+  [webphoneErrors.pauseRecordError]: "Sorry, we weren’t able to stop recording the call. Try again later.",
   [webphoneErrors.recordDisabled]: "Sorry, your account does not have the feature to record a call. Please contact your account administrator.",
   [webphoneErrors.transferError]: "Cannot transfer the call. Please try again later.",
   [webphoneMessages.parked]: "Your call is parked at location: {parkedNumber}",

@@ -4,11 +4,9 @@ import { mount } from 'enzyme';
 
 import { RcThemeProvider } from '@ringcentral/juno';
 
-import { EvAgent } from '../../lib/EvClient';
-import {
-  SessionConfigPanel,
-  SessionConfigPanelProps,
-} from './SessionConfigPanel';
+import type { EvAgent } from '../../lib/EvClient';
+import type { SessionConfigPanelProps } from './SessionConfigPanel';
+import { SessionConfigPanel } from './SessionConfigPanel';
 
 let wrapper;
 const currentLocale = 'en-US';

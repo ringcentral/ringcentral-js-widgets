@@ -1,16 +1,16 @@
-import { ActiveCallControl } from '../ActiveCallControl';
-import { Alert } from '../Alert';
-import { AppFeatures } from '../AppFeatures';
-import { AvailabilityMonitor } from '../AvailabilityMonitor';
-import { Brand } from '../Brand';
-import { CallingSettings } from '../CallingSettings';
-import { ExtensionFeatures } from '../ExtensionFeatures';
-import { NumberValidate } from '../NumberValidate';
-import { RegionSettings } from '../RegionSettings';
-import { Ringout } from '../Ringout';
-import { Softphone } from '../Softphone';
-import { Storage } from '../Storage';
-import { Webphone } from '../Webphone';
+import type { ActiveCallControl } from '../ActiveCallControl';
+import type { Alert } from '../Alert';
+import type { AppFeatures } from '../AppFeatures';
+import type { AvailabilityMonitor } from '../AvailabilityMonitor';
+import type { Brand } from '../Brand';
+import type { CallingSettings } from '../CallingSettings';
+import type { ExtensionFeatures } from '../ExtensionFeatures';
+import type { NumberValidate } from '../NumberValidate';
+import type { RegionSettings } from '../RegionSettings';
+import type { Ringout } from '../Ringout';
+import type { Softphone } from '../Softphone';
+import type { Storage } from '../Storage';
+import type { Webphone } from '../Webphone';
 
 export interface ToNumberMatched {
   entityId: string;

@@ -1,5 +1,5 @@
-import { TrackLog } from '@ringcentral-integration/commons/modules/AnalyticsV2';
-import { StepFunction } from '../../lib/step';
+import type { TrackLog } from '@ringcentral-integration/commons/modules/AnalyticsV2';
+import type { StepFunction } from '../../lib/step';
 
 interface CheckEventTrackingProps {
   /**

@@ -1,39 +1,38 @@
 {
   "name": "@ringcentral-integration/test-utils",
   "version": "0.0.1",
-  "description": "Test utilities for RingCentral Integration",
   "private": true,
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "bin": {
-    "test-cli": "bin/index.js",
-    "run-test": "bin/run-test.js",
-    "setup-test": "bin/setup-test.js"
+  "description": "Test utilities for RingCentral Integration",
+  "homepage": "https://github.com/ringcentral/ringcentral-js-widgets/tree/master/packages/test-utils#readme",
+  "bugs": {
+    "url": "https://github.com/ringcentral/ringcentral-js-widgets/issues"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ringcentral/ringcentral-js-widgets.git"
   },
-  "author": "RingCentral Integration Team",
-  "bugs": {
-    "url": "https://github.com/ringcentral/ringcentral-js-widgets/issues"
-  },
-  "homepage": "https://github.com/ringcentral/ringcentral-js-widgets/tree/master/packages/test-utils#readme",
   "license": "MIT",
+  "author": "RingCentral Integration Team",
+  "main": "index.js",
+  "bin": {
+    "run-test": "bin/run-test.js",
+    "setup-test": "bin/setup-test.js",
+    "test-cli": "bin/index.js"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
   "dependencies": {
     "@ringcentral-integration/babel-settings": "*",
     "@ringcentral-integration/crius": "*",
-    "@ringcentral/juno": "^2.16.1",
-    "@ringcentral/juno-icon": "^1.12.0",
-    "@swc/core": "^1.2.213",
-    "@swc/jest": "^0.2.21",
-    "@testing-library/jest-dom": "^5.16.2",
-    "@testing-library/react": "^12.1.2",
+    "@ringcentral/juno": "^2.35.2",
+    "@ringcentral/juno-icon": "^1.43.0",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^12.1.4",
+    "@testing-library/user-event": "^13.5.0",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.3",
     "babel-jest": "^27.4.6",
-    "cross-env": "^5.1.3",
+    "cross-env": "^7.0.3",
     "debug": "^4.3.2",
     "enzyme": "^3.7.0",
     "enzyme-to-json": "^3.3.4",
@@ -42,8 +41,10 @@
     "identity-obj-proxy": "3.0.0",
     "jest": "^27.4.7",
     "jest-junit": "^6.3.0",
-    "jest-preview": "^0.2.3",
+    "jest-preview": "^0.3.1",
     "jest-websocket-mock": "^2.2.1",
-    "react": "^17.0.2"
+    "rxjs": "^7.8.0",
+    "react": "^17.0.2",
+    "reflect-metadata": "^0.1.13"
   }
 }

@@ -10,16 +10,18 @@
     "hostKey": "558809",
     "personalMeetingId": "148112345"
   },
-  "dialInNumbers": [{
-    "phoneNumber": "+17732319226",
-    "formattedNumber": "(773) 231-9226",
-    "country": {
-      "uri": "https://api-rcapps.ringcentral.com/restapi/v1.0/dictionary/country/1",
-      "id": "1",
-      "name": "United States",
-      "isoCode": "US",
-      "callingCode": "1"
+  "dialInNumbers": [
+    {
+      "phoneNumber": "+17732319226",
+      "formattedNumber": "(773) 231-9226",
+      "country": {
+        "uri": "https://api-rcapps.ringcentral.com/restapi/v1.0/dictionary/country/1",
+        "id": "1",
+        "name": "United States",
+        "isoCode": "US",
+        "callingCode": "1"
+      }
     }
-  }],
+  ],
   "domain": "ringcentral.zoom.us"
 }

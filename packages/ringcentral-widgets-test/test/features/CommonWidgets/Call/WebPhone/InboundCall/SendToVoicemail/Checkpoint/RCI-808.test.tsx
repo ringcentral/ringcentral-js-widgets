@@ -1,6 +1,6 @@
 /**
  * RCI-808: Single/second incoming Call_ Send to voicemail
- * https://test_id_domain/test-cases/RCI-808
+ * https://test_it_domain/test-cases/RCI-808
  * Preconditions:
  *
  * Entry point(/s):
@@ -8,12 +8,12 @@
  * 2. Make a call and keep in call control page, then make an inbound call
  */
 
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p1,
   it,
   autorun,
   examples,
-  StepFunction,
   Scenario,
   Step,
   Then,

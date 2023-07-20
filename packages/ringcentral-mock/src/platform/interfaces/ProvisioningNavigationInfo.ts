@@ -1,4 +1,4 @@
-import { ProvisioningNavigationInfoUri } from './ProvisioningNavigationInfoUri';
+import type { ProvisioningNavigationInfoUri } from './ProvisioningNavigationInfoUri';
 
 // Information on navigation
 export interface ProvisioningNavigationInfo {

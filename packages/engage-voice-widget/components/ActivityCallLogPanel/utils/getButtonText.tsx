@@ -3,7 +3,7 @@ import React from 'react';
 import { RcIcon } from '@ringcentral/juno';
 import { Check } from '@ringcentral/juno-icon';
 
-import { EvActivityCallUIProps } from '../../../interfaces';
+import type { EvActivityCallUIProps } from '../../../interfaces';
 import i18n from '../i18n';
 
 export function getButtonText(

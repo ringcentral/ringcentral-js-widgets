@@ -1,7 +1,7 @@
-import { PersonalContactResource } from './PersonalContactResource';
-import { UserContactsNavigationInfo } from './UserContactsNavigationInfo';
-import { UserContactsPagingInfo } from './UserContactsPagingInfo';
-import { UserContactsGroupsInfo } from './UserContactsGroupsInfo';
+import type { PersonalContactResource } from './PersonalContactResource';
+import type { UserContactsNavigationInfo } from './UserContactsNavigationInfo';
+import type { UserContactsPagingInfo } from './UserContactsPagingInfo';
+import type { UserContactsGroupsInfo } from './UserContactsGroupsInfo';
 
 export interface ContactList {
   /**

@@ -1,7 +1,5 @@
-import {
-  ActivityCallLogPanel,
-  ActivityCallLogPanelProps,
-} from '../../components/ActivityCallLogPanel';
+import type { ActivityCallLogPanelProps } from '../../components/ActivityCallLogPanel';
+import { ActivityCallLogPanel } from '../../components/ActivityCallLogPanel';
 import { connectModule } from '../../lib/connectModule';
 
 export type ActivityCallLogPageProps = {

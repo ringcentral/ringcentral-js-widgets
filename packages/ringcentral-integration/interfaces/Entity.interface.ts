@@ -13,6 +13,7 @@ export interface Entity {
   id: string;
   name: string;
   type: string;
+  entityType: string;
   phone?: string;
   phoneNumber?: string;
   phoneNumbers?: EntityPhoneNumberItem[];

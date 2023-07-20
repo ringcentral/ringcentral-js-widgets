@@ -1,4 +1,4 @@
-import {
+import type {
   Session,
   WebPhoneSession,
 } from '@ringcentral-integration/commons/modules/ActiveCallControl';

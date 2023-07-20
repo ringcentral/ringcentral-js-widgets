@@ -1,6 +1,6 @@
 /**
  * RCI-4319: View fax contact details
- * https://test_id_domain/test-cases/RCI-4319
+ * https://test_it_domain/test-cases/RCI-4319
  * Preconditions:
  * The user has logged into the CTI app with AI CDC off
  * The user has authorized 3rd party
@@ -17,6 +17,7 @@
  * > Messages tab > All/Fax >Click expand fax action menu of{Fax}
  */
 
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p2,
   it,
@@ -29,7 +30,6 @@ import {
   title,
   When,
   And,
-  StepFunction,
 } from '@ringcentral-integration/test-utils';
 import {
   MockExtensionsList,
@@ -83,6 +83,8 @@ export class RCI4319CompanyContact extends Step {
                 ...mockData,
                 ...mockMessageListData(null),
               })}
+              isDefaultInit
+              repeat={0}
             />,
             <MockMessageSync
               handler={(mockData) => ({
@@ -162,6 +164,8 @@ export class RCI4319PersonalContact extends Step {
                 ...mockData,
                 ...mockMessageListData(null),
               })}
+              repeat={0}
+              isDefaultInit
             />,
             <MockMessageSync
               useFaker
@@ -230,6 +234,8 @@ export class RCI4319ThirdParty extends Step {
                 ...mockData,
                 ...mockMessageListData(null),
               })}
+              repeat={0}
+              isDefaultInit
             />,
             <MockMessageSync
               useFaker

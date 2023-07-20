@@ -1,16 +1,13 @@
 import callDirections from '@ringcentral-integration/commons/enums/callDirections';
-import { Entity } from '@ringcentral-integration/commons/interfaces/Entity.interface';
+import type { Entity } from '@ringcentral-integration/commons/interfaces/Entity.interface';
 import { Module } from '@ringcentral-integration/commons/lib/di';
-import {
-  RcUIModuleV2,
-  UIFunctions,
-  UIProps,
-} from '@ringcentral-integration/core';
+import type { UIFunctions, UIProps } from '@ringcentral-integration/core';
+import { RcUIModuleV2 } from '@ringcentral-integration/core';
 
-import { SimpleCallControlPanelProps } from '../../components/SimpleCallControlPanel';
+import type { SimpleCallControlPanelProps } from '../../components/SimpleCallControlPanel';
 import i18n from '../../components/SimpleCallControlPanel/i18n';
 import { pickFallBackInfo } from '../../components/SimpleCallControlPanel/utils';
-import {
+import type {
   Deps,
   SimpleCallControlContainerProps,
 } from './SimpleCallControlUI.interface';

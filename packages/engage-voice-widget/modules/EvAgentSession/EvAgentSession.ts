@@ -14,17 +14,17 @@ import {
 } from '@ringcentral-integration/core';
 import { format, parse } from '@ringcentral-integration/phone-number';
 
+import type { LoginTypes } from '../../enums';
 import {
   agentSessionEvents,
   dialoutStatuses,
   dropDownOptions,
   loginTypes,
-  LoginTypes,
   messageTypes,
   tabManagerEvents,
 } from '../../enums';
-import { LoginType } from '../../interfaces/EvAgentSessionUI.interface';
-import {
+import type { LoginType } from '../../interfaces/EvAgentSessionUI.interface';
+import type {
   EvAgentConfig,
   EvAvailableSkillProfile,
   EvConfigureAgentOptions,
@@ -32,7 +32,7 @@ import {
 import { evStatus } from '../../lib/EvClient/enums';
 import { TabLife } from '../../lib/tabLife';
 import { trackEvents } from '../../lib/trackEvents';
-import { AgentSession, Deps, FormGroup } from './EvAgentSession.interface';
+import type { AgentSession, Deps, FormGroup } from './EvAgentSession.interface';
 import i18n from './i18n';
 import { tabManagerEnabled } from './tabManagerEnabled.decorator';
 

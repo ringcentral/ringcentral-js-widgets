@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 import classnames from 'classnames';
 
-import { ToNumber } from '@ringcentral-integration/commons/modules/ComposeText';
+import type { ToNumber } from '@ringcentral-integration/commons/modules/ComposeText';
 
 import FromField from '../FromField';
 import MessageInput from '../MessageInput';

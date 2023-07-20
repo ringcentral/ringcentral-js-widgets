@@ -1,12 +1,7 @@
 import 'rc-tooltip/assets/bootstrap_white.css';
 
-import React, {
-  ChangeEvent,
-  FunctionComponent,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import type { ChangeEvent, FunctionComponent } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import classnames from 'classnames';
 
@@ -26,7 +21,7 @@ import SaveButton from '../SaveButton';
 import { SpinnerOverlay } from '../SpinnerOverlay';
 import Switch from '../Switch';
 import TextInput from '../TextInput';
-import {
+import type {
   CallingSettingsPanelProps,
   CallingSettingsProps,
   CallWithProps,
@@ -114,6 +109,7 @@ const CallWithSettings: FunctionComponent<CallWithProps> = ({
     >
       <DropdownSelect
         dataSign="callingSetting"
+        dropdownClassName={styles.overWidth}
         className={styles.select}
         value={callWith}
         onChange={onCallWithChange}

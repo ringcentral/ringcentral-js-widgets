@@ -1,6 +1,6 @@
 /**
  * RCI-517: Region setting for multiple dialing plans (None US/CA)
- * https://test_id_domain/test-cases/RCI-517
+ * https://test_it_domain/test-cases/RCI-517
  * Preconditions:
  * User is logged into 3rd party
  * RC account has2 or more dialing plans, none of the dialing plans is US or CA (e.g UK and FR)
@@ -16,6 +16,7 @@
  * > Clickthe 'Region' setting option
  */
 
+import type { StepProp } from '@ringcentral-integration/test-utils';
 import {
   p2,
   it,
@@ -26,7 +27,6 @@ import {
   Then,
   title,
   When,
-  StepProp,
 } from '@ringcentral-integration/test-utils';
 
 import { CommonLogin } from '../../../../../steps/CommonLogin';

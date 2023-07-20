@@ -1,4 +1,4 @@
-import { StepFunction } from '../../../../lib/step';
+import type { StepFunction } from '../../../../lib/step';
 import { CallButtonBehavior } from './CallButtonBehavior';
 
 export const ToVoiceMail: StepFunction = async (props, context) => {

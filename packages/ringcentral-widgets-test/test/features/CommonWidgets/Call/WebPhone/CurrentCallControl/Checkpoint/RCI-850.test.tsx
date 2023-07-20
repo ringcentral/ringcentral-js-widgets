@@ -1,12 +1,13 @@
 /**
  * RCI-850: Multiple calls incoming_send to voicemail
- * https://test_id_domain/test-cases/RCI-850
+ * https://test_it_domain/test-cases/RCI-850
  * Preconditions:
  * 2. User has logged into RC CTI App
  * Entry point(/s):
  * Make a call and keep in call control page
  */
 
+import type { StepProp } from '@ringcentral-integration/test-utils';
 import {
   p1,
   it,
@@ -16,7 +17,6 @@ import {
   Then,
   title,
   When,
-  StepProp,
 } from '@ringcentral-integration/test-utils';
 import {
   CallItemButtonBehavior,

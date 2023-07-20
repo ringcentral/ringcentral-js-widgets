@@ -1,4 +1,5 @@
-import React, { ChangeEvent, FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React, { ChangeEvent } from 'react';
 
 import classnames from 'classnames';
 

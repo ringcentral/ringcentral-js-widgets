@@ -1,13 +1,13 @@
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import { computed, RcModuleV2 } from '@ringcentral-integration/core';
-import { Mapping } from '@ringcentral-integration/widgets/typings';
+import type { Mapping } from '@ringcentral-integration/widgets/typings';
 
 import { callStatus } from '../../enums';
-import { EvCallData } from '../../interfaces/EvData.interface';
+import type { EvCallData } from '../../interfaces/EvData.interface';
 import { makeCallsUniqueIdentifies } from '../../lib/callUniqueIdentifies';
 import { contactMatchIdentifyEncode } from '../../lib/contactMatchIdentify';
-import { EvAddSessionNotification } from '../../lib/EvClient/interfaces';
-import { CallMonitor, Deps } from './EvCallMonitor.interface';
+import type { EvAddSessionNotification } from '../../lib/EvClient/interfaces';
+import type { CallMonitor, Deps } from './EvCallMonitor.interface';
 
 @Module({
   name: 'EvCallMonitor',

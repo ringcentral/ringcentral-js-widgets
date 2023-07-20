@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 import classNames from 'classnames';
 
 import { bindDebounce } from '../../lib/bindDebounce';
-import { Task } from '../CallLogPanel';
-import { CallLogFieldsProps } from './CallLogFields.interface';
+import type { Task } from '../CallLogPanel';
+import type { CallLogFieldsProps } from './CallLogFields.interface';
 import { FieldItem } from './FieldItem';
 import styles from './styles.scss';
 

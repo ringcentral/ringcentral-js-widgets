@@ -34,7 +34,7 @@ const ALTERNATIVE_TIMEOUT = 1000; // refer to DialButton
 const sid111 = '111';
 
 beforeEach(async () => {
-  jasmine.DEFAUL_INTERVAL = 64000;
+  jest.setTimeout(64000);
 });
 
 afterEach(() => {

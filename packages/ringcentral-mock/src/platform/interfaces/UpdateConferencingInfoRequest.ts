@@ -1,4 +1,4 @@
-import { ConferencePhoneNumberInfo } from './ConferencePhoneNumberInfo';
+import type { ConferencePhoneNumberInfo } from './ConferencePhoneNumberInfo';
 
 export interface UpdateConferencingInfoRequest {
   /**

@@ -22,12 +22,12 @@
       "contentType": "text/plain"
     }
   ],
-  "direction" : "Inbound",
+  "direction": "Inbound",
   "availability": "Alive",
   "subject": "test",
-  "messageStatus" : "Received",
+  "messageStatus": "Received",
   "smsSendingAttemptsCount": 1,
-  "conversationId": 356628458090137377,
+  "conversationId": 356628458090137400,
   "conversation": {
     "id": "356628458090137377",
     "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/conversation/356628458090137377"

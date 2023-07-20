@@ -1,7 +1,7 @@
 import { computed, RcModuleV2 } from '@ringcentral-integration/core';
 
 import { Module } from '../../lib/di';
-import { Deps, FeatureConfiguration } from './AppFeatures.interface';
+import type { Deps, FeatureConfiguration } from './AppFeatures.interface';
 
 // Required<FeatureConfiguration> helps to make sure that the default config aligns with the interface
 export const defaultConfiguration: Required<FeatureConfiguration> = {

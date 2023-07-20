@@ -1,4 +1,5 @@
-import React, { FunctionComponent, useMemo, useRef, useState } from 'react';
+import type { FunctionComponent } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 
 import { BLOCKED_ID_VALUE } from '@ringcentral-integration/commons/modules/CallingSettings';
 import type { ToNumber } from '@ringcentral-integration/commons/modules/ComposeText';
@@ -13,16 +14,14 @@ import {
 import { DeleteCircle } from '@ringcentral/juno-icon';
 
 import { useCommunicationSetupContext } from '../../contexts';
-import {
-  TabsEnum,
-  TabsEnumType,
-} from '../ContactSearchPanel/ContactSearchPanelEnum';
+import type { TabsEnumType } from '../ContactSearchPanel/ContactSearchPanelEnum';
+import { TabsEnum } from '../ContactSearchPanel/ContactSearchPanelEnum';
 import fromFieldI18n from '../FromField/i18n';
 import inputI18n from '../RecipientsInput/i18n';
 import { CommunicationSetupProvider } from './CommunicationSetupProvider';
 import ContactSearchContainer from './ContactSearchContainer';
 import { isSplitterKey } from './helper';
-import i18n from './i18n';
+import i18n, { I18nKey } from './i18n';
 import {
   CallFields,
   FieldLine,
@@ -133,7 +132,7 @@ export type CommunicationSetupPanelProps = {
   clearRecipient: (...args: any[]) => any;
   autoFocus?: boolean;
   multiple?: boolean;
-  directlyProceedType?: string;
+  directlyProceedType?: I18nKey;
   inputFullWidth: boolean;
   // From field
   showAnonymous?: boolean;
@@ -363,10 +362,10 @@ const CommunicationSetupWrapper: FunctionComponent<CommunicationSetupPanelProps>
                 inputRef={inputRef}
                 userInput={toNumber}
                 defaultTab={defaultTab}
-                directlyProceedText={`${i18n.getString(
+                directlyProceedText={i18n.getString(
                   directlyProceedType,
                   currentLocale,
-                )}`}
+                )}
               />
             </ResultContainer>
           )}

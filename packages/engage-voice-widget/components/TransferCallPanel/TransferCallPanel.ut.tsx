@@ -2,13 +2,14 @@ import React from 'react';
 
 import { mount } from 'enzyme';
 
-import { StepFunction } from '@ringcentral-integration/test-utils';
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 import { RcThemeProvider } from '@ringcentral/juno';
 
 import { transferTypes } from '../../enums/transferTypes';
-import { EvTransferOption } from '../../interfaces';
+import type { EvTransferOption } from '../../interfaces';
 import i18n from './i18n';
-import { TransferCallPanel, TransferCallPanelProps } from './TransferCallPanel';
+import type { TransferCallPanelProps } from './TransferCallPanel';
+import { TransferCallPanel } from './TransferCallPanel';
 
 const currentLocale = 'en-US';
 const defaultTransferOptions: EvTransferOption[] = [

@@ -1,4 +1,4 @@
-import { GlipTaskInfo } from './GlipTaskInfo';
+import type { GlipTaskInfo } from './GlipTaskInfo';
 
 export interface GlipTaskList {
   /**

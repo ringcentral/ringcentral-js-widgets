@@ -2,7 +2,7 @@ import { forEach } from 'ramda';
 import type AddressBookSync from '@rc-ex/core/lib/definitions/AddressBookSync';
 
 import { syncTypes } from '../../enums/syncTypes';
-import { SyncParameters } from './AddressBook.interface';
+import type { SyncParameters } from './AddressBook.interface';
 
 const REGX_DECODE = /&\w+;/g;
 const DECODE: Record<string, string> = {

@@ -1,10 +1,10 @@
-import { MutableRefObject } from 'react';
+import type { MutableRefObject } from 'react';
 
-import { IContact } from '@ringcentral-integration/commons/interfaces/Contact.model';
-import { DateTimeFormatter } from '@ringcentral-integration/commons/lib/getIntlDateTimeFormatter';
-import { RcIconProps } from '@ringcentral/juno';
+import type { IContact } from '@ringcentral-integration/commons/interfaces/Contact.model';
+import type { DateTimeFormatter } from '@ringcentral-integration/commons/lib/getIntlDateTimeFormatter';
+import type { RcIconProps } from '@ringcentral/juno';
 
-import { Call, CallLog, CallLogTitle } from './CallLog.interface';
+import type { Call, CallLog, CallLogTitle } from './CallLog.interface';
 
 interface CallLogPanelConfig {
   showSpinner: boolean;

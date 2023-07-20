@@ -1,7 +1,7 @@
-import { SupervisePartyFrom } from './SupervisePartyFrom';
-import { SupervisePartyTo } from './SupervisePartyTo';
-import { OwnerInfo } from './OwnerInfo';
-import { CallStatusInfo } from './CallStatusInfo';
+import type { SupervisePartyFrom } from './SupervisePartyFrom';
+import type { SupervisePartyTo } from './SupervisePartyTo';
+import type { OwnerInfo } from './OwnerInfo';
+import type { CallStatusInfo } from './CallStatusInfo';
 
 export interface SuperviseCallSession {
   /**

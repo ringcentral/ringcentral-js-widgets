@@ -6,7 +6,7 @@ export default {
   [meetingStatus.scheduledSuccess]: "Reunión añadida",
   [meetingStatus.updatedSuccess]: "Reunión actualizada",
   [meetingStatus.meetingIsDeleted]: "La reunión ha sido eliminada",
-  [meetingStatus.internalError]: "Lo sentimos, cometimos un error. Inténtelo de nuevo más tarde.",
+  [meetingStatus.internalError]: "Se produjo un error en nuestro sistema. Inténtelo de nuevo más tarde.",
   [meetingStatus.renderInviteError]: "Lo sentimos, hubo un problema de nuestra parte y no pudimos agregar la invitación a la reunión. Inténtelo de nuevo más tarde."
 };
 

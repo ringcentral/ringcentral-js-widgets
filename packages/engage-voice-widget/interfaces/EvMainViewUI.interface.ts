@@ -1,5 +1,5 @@
-import { EvAgentState, EvAvailableAgentState } from '../lib/EvClient';
-import { EvOffhookState } from './EvSettingsUI.interface';
+import type { EvAgentState, EvAvailableAgentState } from '../lib/EvClient';
+import type { EvOffhookState } from './EvSettingsUI.interface';
 
 export type EvCustomAvailableAgentState = {
   color?: string;

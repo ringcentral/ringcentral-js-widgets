@@ -6,7 +6,11 @@ import { sleep } from '@ringcentral-integration/utils';
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
 import { callingModes } from '../CallingSettings/callingModes';
-import { CallHandlerContext, CallUriInfo, Deps } from './Softphone.interface';
+import type {
+  CallHandlerContext,
+  CallUriInfo,
+  Deps,
+} from './Softphone.interface';
 import { softphoneStatus } from './softphoneStatus';
 
 /**

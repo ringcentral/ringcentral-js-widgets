@@ -1,4 +1,4 @@
-import { CreateAnsweringRuleForwardingNumberInfo } from './CreateAnsweringRuleForwardingNumberInfo';
+import type { CreateAnsweringRuleForwardingNumberInfo } from './CreateAnsweringRuleForwardingNumberInfo';
 
 export interface RuleInfo {
   /**

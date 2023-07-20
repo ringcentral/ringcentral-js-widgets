@@ -1,8 +1,8 @@
-import {
+import type {
   RcVideoAPI,
   RcVSettingKey,
 } from '@ringcentral-integration/commons/interfaces/Rcv.model';
-import { StepFunction } from '../../../lib/step';
+import type { StepFunction } from '../../../lib/step';
 
 export const CheckPostMeetingParams: StepFunction<Partial<RcVideoAPI>> = async (
   { children, ...params },

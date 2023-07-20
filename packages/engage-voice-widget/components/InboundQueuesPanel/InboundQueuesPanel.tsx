@@ -1,9 +1,10 @@
-import React, { FunctionComponent, useState } from 'react';
+import type { FunctionComponent } from 'react';
+import React, { useState } from 'react';
 
 import { format } from '@ringcentral-integration/utils';
 import { RcButton, RcCheckbox, RcListItem } from '@ringcentral/juno';
 
-import {
+import type {
   AvailableQueue,
   EvAgentSessionUIFunctions,
   EvAgentSessionUIProps,

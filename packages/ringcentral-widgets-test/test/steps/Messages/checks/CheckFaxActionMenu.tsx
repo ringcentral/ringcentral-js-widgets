@@ -1,4 +1,4 @@
-import { StepFunction } from '@ringcentral-integration/test-utils';
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 import { screen } from '@testing-library/react';
 
 export const CheckFaxActionMenu: StepFunction = async () => {

@@ -1,6 +1,6 @@
 /**
  * RCI-4182: Fax tab should hide when the login user without fax permission
- * https://test_id_domain/test-cases/RCI-4182
+ * https://test_it_domain/test-cases/RCI-4182
  * Preconditions:
  * UserAhas logged into the 3rd party
  * CTI app is installed
@@ -9,13 +9,13 @@
  *
  */
 
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p2,
   it,
   autorun,
   Given,
   Scenario,
-  StepFunction,
   Step,
   Then,
   title,

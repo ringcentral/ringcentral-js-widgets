@@ -1,7 +1,7 @@
-import { connectionStatus } from '@ringcentral-integration/commons/modules/Webphone';
-import { ObjectMapKey } from '@ringcentral-integration/core/lib/ObjectMap/ObjectMap';
-import { RcMock } from '@ringcentral-integration/mock';
-import { ReturnTypeOfRender } from '@ringcentral-integration/test-utils/lib/render';
+import type { connectionStatus } from '@ringcentral-integration/commons/modules/Webphone';
+import type { ObjectMapKey } from '@ringcentral-integration/core/lib/ObjectMap/ObjectMap';
+import type { RcMock } from '@ringcentral-integration/mock';
+import type { ReturnTypeOfRender } from '@ringcentral-integration/test-utils';
 
 export type connectionStatusEnum = ObjectMapKey<typeof connectionStatus>;
 

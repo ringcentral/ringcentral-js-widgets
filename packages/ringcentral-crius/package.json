@@ -2,6 +2,9 @@
   "name": "@ringcentral-integration/crius",
   "version": "0.13.0",
   "description": "A test lib based on Crius for RingCentral Integration",
+  "keywords": [],
+  "license": "ISC",
+  "author": "",
   "main": "index.ts",
   "scripts": {
     "test": "jest"
@@ -11,9 +14,7 @@
     "crius-is": "*",
     "crius-test": "*"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "common": true,
   "ci": {
     "@ringcentral-integration/crius": "**"
   }

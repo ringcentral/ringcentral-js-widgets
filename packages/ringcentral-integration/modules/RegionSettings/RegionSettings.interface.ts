@@ -1,12 +1,12 @@
-import { Alert } from '../Alert';
-import { AppFeatures } from '../AppFeatures';
-import { Brand } from '../Brand';
-import { DialingPlan } from '../DialingPlan';
-import { ExtensionInfo } from '../ExtensionInfo';
-import { ExtensionNumberAreaCode } from '../ExtensionNumberAreaCode';
-import { ExtensionPhoneNumber } from '../ExtensionPhoneNumber';
-import { Storage } from '../Storage';
-import { TabManager } from '../TabManager';
+import type { Alert } from '../Alert';
+import type { AppFeatures } from '../AppFeatures';
+import type { Brand } from '../Brand';
+import type { DialingPlan } from '../DialingPlan';
+import type { ExtensionInfo } from '../ExtensionInfo';
+import type { ExtensionNumberAreaCode } from '../ExtensionNumberAreaCode';
+import type { ExtensionPhoneNumber } from '../ExtensionPhoneNumber';
+import type { Storage } from '../Storage';
+import type { TabManager } from '../TabManager';
 
 export interface RegionSettingsData {
   countryCode?: string;

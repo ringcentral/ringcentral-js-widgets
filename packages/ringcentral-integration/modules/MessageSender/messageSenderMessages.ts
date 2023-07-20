@@ -29,6 +29,7 @@ export const messageSenderMessages = ObjectMap.prefixKeys(
     'attachmentSizeLimitation',
     'attachmentCountLimitation',
     'noAttachmentToExtension',
+    'shortNumbersNotAvailable',
   ],
   'message-sender-msg',
 );

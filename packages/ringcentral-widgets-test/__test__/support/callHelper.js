@@ -40,12 +40,20 @@ export async function getInboundCall(phone, options = defaultInboundOption) {
   return session;
 }
 
-export async function makeCall(phone, options = defaultOutboundOption) {
+export async function makeCall(
+  phone,
+  options = defaultOutboundOption,
+  status = 'connecting',
+) {
   for (const session of phone.webphone.sessions) {
     await phone.webphone.hold(session.id);
   }
   mock.device();
   const session = await phone.webphone.makeCall(options);
+  session.trigger('progress', {});
+  if (status === 'connected') {
+    session.trigger('accepted', {});
+  }
   return session;
 }
 
@@ -55,6 +63,7 @@ export async function makeConferenceCall(
 ) {
   mock.device();
   const session = await phone.webphone.makeCall(options);
+  session.trigger('progress', {});
   return session;
 }
 

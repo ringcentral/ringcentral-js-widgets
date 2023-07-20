@@ -1,6 +1,6 @@
 /**
  * RCI-2368: Update meeting -  for different delegators
- * https://test_id_domain/test-cases/RCI-2368
+ * https://test_it_domain/test-cases/RCI-2368
  * Preconditions:
  * RC CTI app is installed and enabled
  * The user has logged in to 3rd party with userA
@@ -12,6 +12,7 @@
  * Scheduler:Login to Outlook: Calendar -> New Event > RingCentral Scheduler AppOutlook appointment :Login to Outlook: > New Meeting/Appointment > RingCentral for outlook
  */
 
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p2,
   it,
@@ -24,7 +25,6 @@ import {
   title,
   And,
   When,
-  StepFunction,
 } from '@ringcentral-integration/test-utils';
 
 import { Login as CommonLogin } from '../../../../steps/Login';

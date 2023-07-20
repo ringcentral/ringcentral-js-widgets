@@ -1,4 +1,4 @@
-import { StepFunction } from 'crius-test';
+import type { StepFunction } from 'crius-test';
 import { getProps } from './getProps';
 
 export const combine = (fn: StepFunction) => {

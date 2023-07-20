@@ -2,7 +2,7 @@ import { waitUntilTo } from '@ringcentral-integration/utils';
 import { fireEvent, screen } from '@testing-library/react';
 import { act } from 'react-dom/test-utils';
 
-import { StepFunction } from '../../../lib/step';
+import type { StepFunction } from '../../../lib/step';
 
 interface SetAreaCodeInt {
   areaCode: string;

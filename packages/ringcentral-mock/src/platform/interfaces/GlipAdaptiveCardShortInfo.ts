@@ -1,4 +1,4 @@
-import { AdaptiveCardCreator } from './AdaptiveCardCreator';
+import type { AdaptiveCardCreator } from './AdaptiveCardCreator';
 
 export interface GlipAdaptiveCardShortInfo {
   /**

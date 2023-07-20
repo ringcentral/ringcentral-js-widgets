@@ -25,7 +25,7 @@ export default {
   recurringNote: "Huomaa: ota tämä käyttöön, kun valitset Toistuvuuden",
   joinBeforeHost: "Salli osallistujien liittyä ennen ylläpitäjää",
   turnOffCamera: "Poista kamera osallistujien käytöstä",
-  turnOffHostCamera: "Poista ylläpitäjän kamera käytöstä tapaamiseen liityttäessä",
+  turnOffHostCamera: "Sammuta ylläpitäjän kamera, kun liitytään tapaamiseen",
   requirePassword: "Edellytä salasanaa",
   enterPassword: "Anna salasanasi",
   setPassword: "Määritä salasana*",

@@ -13,6 +13,7 @@ import { phoneTypes } from '../../../enums/phoneTypes';
 import {
   getFindPhoneNumber,
   getMatchContactsByPhoneNumber,
+  isAnExtension,
 } from '../../../lib/contactHelper';
 
 const mockContact = [
@@ -94,12 +95,14 @@ export class getContact extends Step {
             const contacts = mockContact;
             const currentSite = { name: 'US', code: '22' };
             const phoneNumber = context.example.matchString;
+            const shouldMatchExtension = isAnExtension(phoneNumber);
             context.actual = getMatchContactsByPhoneNumber({
               contacts,
               phoneNumber,
               entityType: phoneSources.rcContact,
               findPhoneNumber: getFindPhoneNumber({
                 phoneNumber,
+                shouldMatchExtension,
                 options: {
                   isMultipleSiteEnabled: true,
                   siteCode: currentSite.code,

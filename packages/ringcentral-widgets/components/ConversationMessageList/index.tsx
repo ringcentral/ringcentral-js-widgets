@@ -32,9 +32,7 @@ export const Message = ({
   let subjectNode;
   if (subject && !isBlank(subject)) {
     const SubjectComp = SubjectRenderer || DefaultRender;
-    subjectNode = (
-      <SubjectComp subject={subject} onLinkClick={onLinkClick} />
-    );
+    subjectNode = <SubjectComp subject={subject} onLinkClick={onLinkClick} />;
   }
   const imageAttachments = mmsAttachments
     .filter((m: any) => m.contentType.indexOf('image') > -1)

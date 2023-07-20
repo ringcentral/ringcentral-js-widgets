@@ -1,7 +1,7 @@
-import { GlipCreatorInfo } from './GlipCreatorInfo';
-import { TaskAssigneeInfo } from './TaskAssigneeInfo';
-import { GlipTaskRecurrenceInfo } from './GlipTaskRecurrenceInfo';
-import { TaskAttachment } from './TaskAttachment';
+import type { GlipCreatorInfo } from './GlipCreatorInfo';
+import type { TaskAssigneeInfo } from './TaskAssigneeInfo';
+import type { GlipTaskRecurrenceInfo } from './GlipTaskRecurrenceInfo';
+import type { TaskAttachment } from './TaskAttachment';
 
 export interface GlipTaskInfo {
   /**

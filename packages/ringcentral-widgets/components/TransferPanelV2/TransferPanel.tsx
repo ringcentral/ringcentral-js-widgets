@@ -1,7 +1,8 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import type { FunctionComponent } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { IContact } from '@ringcentral-integration/commons/interfaces/Contact.model';
-import { ActiveSession } from '@ringcentral-integration/commons/modules/ActiveCallControl';
+import type { IContact } from '@ringcentral-integration/commons/interfaces/Contact.model';
+import type { ActiveSession } from '@ringcentral-integration/commons/modules/ActiveCallControl';
 import { RcDialerPadSounds, RcText, usePrevious } from '@ringcentral/juno';
 import { Askfirst, TransferCall, Voicemail } from '@ringcentral/juno-icon';
 
@@ -18,7 +19,7 @@ import {
   StyledRcDialPad,
   TransferPage,
 } from './StyledTransferPanel';
-import { recipientProps } from './TransferPanel.interface';
+import type { recipientProps } from './TransferPanel.interface';
 
 export type TransferPanelProps = {
   setActiveSessionId: (...args: any[]) => any;

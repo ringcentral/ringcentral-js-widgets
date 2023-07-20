@@ -1,10 +1,10 @@
-import { MutableRefObject, ReactNode } from 'react';
+import type { MutableRefObject, ReactNode } from 'react';
 
-import { ReactElementLike } from 'prop-types';
+import type { ReactElementLike } from 'prop-types';
 
-import { RcDatePickerProps } from '@ringcentral/juno';
+import type { RcDatePickerProps } from '@ringcentral/juno';
 
-import { CallLog, Task } from '../CallLogPanel';
+import type { CallLog, Task } from '../CallLogPanel';
 
 export type CallLogFieldsProps = {
   currentLocale: string;

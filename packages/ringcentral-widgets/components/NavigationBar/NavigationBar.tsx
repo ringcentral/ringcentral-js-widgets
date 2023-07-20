@@ -1,10 +1,11 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import type { FunctionComponent } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import classnames from 'classnames';
 
 import { useEventCallback, useMountState } from '@ringcentral/juno';
 
-import { NavigationButtonIcon } from '../TabNavigationButton';
+import type { NavigationButtonIcon } from '../TabNavigationButton';
 import type {
   NavigationBarProps,
   TabPropTypes,
@@ -36,6 +37,7 @@ function getTabInfo({
 
     if (React.isValidElement(icon)) {
       return React.cloneElement(icon, {
+        // @ts-expect-error
         active: activeAttr,
       });
     }

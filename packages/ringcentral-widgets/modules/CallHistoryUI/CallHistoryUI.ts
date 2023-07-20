@@ -1,12 +1,15 @@
-import { Entity } from '@ringcentral-integration/commons/interfaces/Entity.interface';
+import type { Entity } from '@ringcentral-integration/commons/interfaces/Entity.interface';
 import { Module } from '@ringcentral-integration/commons/lib/di';
-import formatNumber from '@ringcentral-integration/commons/lib/formatNumber';
-import { ToNumber } from '@ringcentral-integration/commons/modules/ComposeText';
-import { DateTimeFormat } from '@ringcentral-integration/commons/modules/DateTimeFormat';
+import { formatNumber } from '@ringcentral-integration/commons/lib/formatNumber';
+import type { ToNumber } from '@ringcentral-integration/commons/modules/ComposeText';
+import type { DateTimeFormat } from '@ringcentral-integration/commons/modules/DateTimeFormat';
 import { RcUIModuleV2 } from '@ringcentral-integration/core';
 
-import { OnCreateContactOptions } from '../CallsListUI/CallsListUI.interface';
-import { CallHistoryUIComponentProps, Deps } from './CallHistoryUI.interface';
+import type { OnCreateContactOptions } from '../CallsListUI/CallsListUI.interface';
+import type {
+  CallHistoryUIComponentProps,
+  Deps,
+} from './CallHistoryUI.interface';
 import i18n from './i18n';
 
 /**
@@ -148,7 +151,6 @@ export class CallHistoryUI extends RcUIModuleV2<Deps> {
                 // @ts-expect-error TS(2532): Object is possibly 'undefined'.
                 this._deps.dialerUI.call({
                   recipient,
-                  isStandAlone: window?.runner?._standAlone,
                 });
                 this._deps.callHistory.onClickToCall();
               }

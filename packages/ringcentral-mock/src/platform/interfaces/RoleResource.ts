@@ -1,4 +1,4 @@
-import { PermissionIdResource } from './PermissionIdResource';
+import type { PermissionIdResource } from './PermissionIdResource';
 
 export interface RoleResource {
   /**

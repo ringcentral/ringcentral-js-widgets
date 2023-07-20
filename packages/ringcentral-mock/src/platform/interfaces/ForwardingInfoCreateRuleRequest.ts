@@ -1,4 +1,4 @@
-import { RuleInfoCreateRuleRequest } from './RuleInfoCreateRuleRequest';
+import type { RuleInfoCreateRuleRequest } from './RuleInfoCreateRuleRequest';
 
 // Forwarding parameters. Returned if 'ForwardCalls' is specified in 'callHandlingAction'. These settings determine the forwarding numbers to which the call will be forwarded
 export interface ForwardingInfoCreateRuleRequest {

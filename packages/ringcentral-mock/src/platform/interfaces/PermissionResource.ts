@@ -1,5 +1,5 @@
-import { PermissionCategoryIdResource } from './PermissionCategoryIdResource';
-import { PermissionIdResource } from './PermissionIdResource';
+import type { PermissionCategoryIdResource } from './PermissionCategoryIdResource';
+import type { PermissionIdResource } from './PermissionIdResource';
 
 export interface PermissionResource {
   /**

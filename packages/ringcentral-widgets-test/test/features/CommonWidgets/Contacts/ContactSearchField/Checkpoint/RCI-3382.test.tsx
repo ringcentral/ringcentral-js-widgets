@@ -1,6 +1,6 @@
 /**
  * RCI-3382: Search contact not match any contact
- * https://test_id_domain/test-cases/RCI-3382
+ * https://test_it_domain/test-cases/RCI-3382
  * Preconditions:
  * 1. RC CTI app is installed and enabled
  * 2.User has logged in to RC CTI app
@@ -13,6 +13,7 @@
  * CTI > contact page >search box
  */
 
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p2,
   it,
@@ -23,7 +24,6 @@ import {
   title,
   When,
   common,
-  StepFunction,
 } from '@ringcentral-integration/test-utils';
 import { screen } from '@testing-library/react';
 import { CommonLogin } from '../../../../../steps/CommonLogin';

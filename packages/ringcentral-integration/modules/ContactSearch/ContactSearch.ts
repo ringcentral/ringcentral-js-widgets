@@ -12,7 +12,7 @@ import {
 import { debounce } from '../../lib/debounce-throttle';
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
-import {
+import type {
   ContactSearchState,
   Deps,
   Entities,

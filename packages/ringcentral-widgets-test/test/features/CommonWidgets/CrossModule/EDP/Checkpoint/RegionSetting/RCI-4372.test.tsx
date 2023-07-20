@@ -1,6 +1,6 @@
 /**
  * RCI-4372: Open region setting for all RC brand
- * https://test_id_domain/test-cases/RCI-4372
+ * https://test_it_domain/test-cases/RCI-4372
  * Preconditions:
  * CTI app is integrated
  * The user has logged in to the CTI app with RC brand
@@ -24,7 +24,7 @@ import {
 import { screen } from '@testing-library/react';
 
 import { generateDialPlanData } from '../../../../../../__mock__/generateDialPlanData';
-import { StepProp } from '../../../../../../lib/step';
+import type { StepProp } from '../../../../../../lib/step';
 import { CommonLogin } from '../../../../../../steps/CommonLogin';
 import { MockDialingPlan } from '../../../../../../steps/Mock';
 import { NavigateTo } from '../../../../../../steps/Router';

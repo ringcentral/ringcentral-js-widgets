@@ -1,4 +1,4 @@
-import { CallerIdPhoneInfoRequest } from './CallerIdPhoneInfoRequest';
+import type { CallerIdPhoneInfoRequest } from './CallerIdPhoneInfoRequest';
 
 export interface CallerIdByFeatureInfoRequest {
   /**

@@ -1,9 +1,10 @@
-import React, { FunctionComponent, useRef } from 'react';
+import type { FunctionComponent } from 'react';
+import React, { useRef } from 'react';
 
 import { useGlobalListener } from '@ringcentral/juno';
 
 import DropdownNavigationItem from '../DropdownNavigationItem';
-import { TabPropTypes } from '../NavigationBar';
+import type { TabPropTypes } from '../NavigationBar';
 import styles from './styles.scss';
 
 export interface DropdownNavigationViewProps {

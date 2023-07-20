@@ -10,9 +10,8 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
-import concurrentExecute, {
-  ConcurrentExecuteOptions,
-} from '../../lib/concurrentExecute';
+import type { ConcurrentExecuteOptions } from '../../lib/concurrentExecute';
+import concurrentExecute from '../../lib/concurrentExecute';
 
 type ConcurrentExecuteProps = {
   values: number[];

@@ -1,6 +1,6 @@
 import { ClickToNavigatePage } from '../../Router/action/PageNavigation';
-import { Context } from '../../../interfaces';
-import { StepFunction } from '../../../lib/step';
+import type { Context } from '../../../interfaces';
+import type { StepFunction } from '../../../lib/step';
 
 export const CheckCallButtonEnable: StepFunction<{
   enable: boolean;

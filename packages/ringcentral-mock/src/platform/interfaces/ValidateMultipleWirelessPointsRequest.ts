@@ -1,4 +1,4 @@
-import { WirelessPointInfoRequest } from './WirelessPointInfoRequest';
+import type { WirelessPointInfoRequest } from './WirelessPointInfoRequest';
 
 export interface ValidateMultipleWirelessPointsRequest {
   /**

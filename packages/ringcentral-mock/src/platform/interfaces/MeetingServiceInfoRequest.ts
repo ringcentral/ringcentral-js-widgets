@@ -1,4 +1,4 @@
-import { MeetingExternalUserInfoResource } from './MeetingExternalUserInfoResource';
+import type { MeetingExternalUserInfoResource } from './MeetingExternalUserInfoResource';
 
 export interface MeetingServiceInfoRequest {
   /**

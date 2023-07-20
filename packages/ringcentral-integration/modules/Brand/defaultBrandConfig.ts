@@ -1,4 +1,4 @@
-import { BrandConfig } from './BrandConfig.interface';
+import type { BrandConfig } from './BrandConfig.interface';
 
 export const defaultBrandConfig: Partial<BrandConfig> = {
   id: '1210',

@@ -5,12 +5,12 @@ import {
   state,
   watch,
 } from '@ringcentral-integration/core';
-import { ApiError } from '@ringcentral/sdk';
+import type { ApiError } from '@ringcentral/sdk';
 
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
 import { errorMessages } from './errorMessages';
-import { Deps } from './RateLimiter.interface';
+import type { Deps } from './RateLimiter.interface';
 
 const DEFAULT_THROTTLE_DURATION = 61 * 1000;
 

@@ -1,4 +1,4 @@
-import { StepFunction } from '@ringcentral-integration/crius';
+import type { StepFunction } from '@ringcentral-integration/crius';
 
 interface ClearAllTimersProps {}
 

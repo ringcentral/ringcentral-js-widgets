@@ -4,7 +4,7 @@ import CoreExtension from '@rc-ex/core';
 import DebugExtension from '@rc-ex/debug';
 import RcSdkExtension from '@rc-ex/rcsdk';
 import WebSocketExtension, { Events } from '@rc-ex/ws';
-import { Wsc, WsToken } from '@rc-ex/ws/lib/types';
+import type { Wsc, WsToken } from '@rc-ex/ws/lib/types';
 import {
   action,
   RcModuleV2,
@@ -12,20 +12,18 @@ import {
   storage,
   watch,
 } from '@ringcentral-integration/core';
-import { SDK } from '@ringcentral/sdk';
+import type { SDK } from '@ringcentral/sdk';
 
 import background from '../../lib/background';
 import { debounce } from '../../lib/debounce-throttle';
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
-import { TabEvent } from '../TabManager';
-import { Deps } from './RingCentralExtensions.interface';
-import {
-  WebSocketReadyState,
-  webSocketReadyStates,
-} from './webSocketReadyStates';
+import type { TabEvent } from '../TabManager';
+import type { Deps } from './RingCentralExtensions.interface';
+import type { WebSocketReadyState } from './webSocketReadyStates';
+import { webSocketReadyStates } from './webSocketReadyStates';
 
-const DEFAULT_ACTIVE_DELAY = 1000;
+const RECOVER_DEBOUNCE_THRESHOLD = process.env.NODE_ENV === 'test' ? 0 : 1000;
 export const InactiveTabEventName = 'RingCentralExtensions-inactive';
 export const SyncTokensTabEventName = 'RingCentralExtensions-syncTokens';
 
@@ -37,6 +35,7 @@ export const SyncTokensTabEventName = 'RingCentralExtensions-syncTokens';
     'Storage',
     { dep: 'TabManager', optional: true },
     { dep: 'SleepDetector', optional: true },
+    { dep: 'AvailabilityMonitor', optional: true },
     { dep: 'RingCentralExtensionsOptions', optional: true },
   ],
 })
@@ -46,6 +45,7 @@ export class RingCentralExtensions extends RcModuleV2<Deps> {
   private _webSocketExtension!: WebSocketExtension;
   // refs
   private _removeWsListener?: () => void;
+  private _wsConnectionReady?: boolean;
 
   constructor(deps: Deps) {
     super({
@@ -65,7 +65,9 @@ export class RingCentralExtensions extends RcModuleV2<Deps> {
     try {
       await this.recoverWebSocketConnection();
     } catch (e: any /** TODO: confirm with instanceof */) {
-      console.log(`onInitSuccess error: ${e}`);
+      if (process.env.NODE_ENV !== 'test') {
+        console.log(`onInitSuccess error: ${e}`);
+      }
     }
   }
 
@@ -74,7 +76,7 @@ export class RingCentralExtensions extends RcModuleV2<Deps> {
     this._core = new CoreExtension();
 
     // install DebugExtension
-    if (this.debugMode) {
+    if (process.env.NODE_ENV !== 'production' && this.debugMode) {
       const debugExtension = new DebugExtension(
         this._deps.ringCentralExtensionsOptions?.debugOptions,
       );
@@ -91,30 +93,11 @@ export class RingCentralExtensions extends RcModuleV2<Deps> {
       ...wsOptions,
       wscToken: wsOptions?.wscToken ?? this.wscToken?.token,
     });
-    this._webSocketExtension.wsToken = this.wsToken as WsToken;
-    this._webSocketExtension.wsTokenExpiresAt = this.wsTokenExpiresAt;
+    this._useTokens();
     this._webSocketExtension.eventEmitter.addListener(Events.newWsc, () => {
       this._saveTokens();
     });
-    if (!this.disconnectOnInactive || this.isTabActive) {
-      await this._installWebSocketExtension();
-    }
-  }
-
-  private async _installWebSocketExtension() {
-    try {
-      await this._core.installExtension(this._webSocketExtension);
-    } catch (ex) {
-      // It tries to establish connection on install.
-      // Catch the connection issue and ignore.
-      console.error('[RingCentralExtensions] Establish websocket failed', ex);
-    }
-  }
-
-  @background
-  private async _bindEvents() {
     // expose WebSocket events
-    this._exposeConnectionEvents();
     this._webSocketExtension.eventEmitter.addListener(
       Events.newWebSocketObject,
       async (ws) => {
@@ -125,6 +108,44 @@ export class RingCentralExtensions extends RcModuleV2<Deps> {
         this._exposeConnectionEvents();
       },
     );
+    this._webSocketExtension.eventEmitter.addListener(
+      Events.connectionReady,
+      () => {
+        this._wsConnectionReady = true;
+        this._syncWsReadyState();
+      },
+    );
+    if (
+      this._deps.auth.loggedIn &&
+      (!this.disconnectOnInactive || this.isTabActive)
+    ) {
+      await this._installWebSocketExtension();
+    }
+  }
+
+  private async _installWebSocketExtension() {
+    if (!this.allowSwitchConnection) {
+      return;
+    }
+    try {
+      if (process.env.NODE_ENV !== 'test') {
+        console.log('[RingCentralExtensions] > WebSocketExtension > install');
+      }
+      await this._core.installExtension(this._webSocketExtension);
+    } catch (ex) {
+      // It tries to establish connection on install.
+      // Catch the connection issue and ignore.
+      if (process.env.NODE_ENV !== 'test') {
+        console.error(
+          '[RingCentralExtensions] > WebSocketExtension > install failed',
+          ex,
+        );
+      }
+    }
+  }
+
+  @background
+  private async _bindEvents() {
     if (this._webSocketExtension.options.autoRecover?.enabled) {
       this._webSocketExtension.eventEmitter.addListener(
         Events.autoRecoverSuccess,
@@ -141,12 +162,9 @@ export class RingCentralExtensions extends RcModuleV2<Deps> {
     }
 
     // register SleepDetector
-    this._deps.sleepDetector?.on(
-      this._deps.sleepDetector.events.detected,
-      () => {
-        this.recoverWebSocketConnection();
-      },
-    );
+    this._deps.sleepDetector?.on('detected', () => {
+      this.recoverWebSocketConnection();
+    });
 
     // hook auth events
     this._deps.auth.addAfterLoggedInHandler(() => {
@@ -158,14 +176,37 @@ export class RingCentralExtensions extends RcModuleV2<Deps> {
 
     // multiple tabs support
     if (this.disconnectOnInactive) {
+      this._setSharedState();
+      watch(
+        this,
+        () => this.isWebSocketReady,
+        () => {
+          this._setSharedState();
+        },
+      );
       watch(
         this,
         () => this.isTabActive,
         async (tabActive) => {
           if (tabActive) {
+            if (process.env.NODE_ENV !== 'test') {
+              console.log('[RingCentralExtensions] > tab > active');
+            }
             await this._debouncedOnTabActive();
           } else {
+            if (process.env.NODE_ENV !== 'test') {
+              console.log('[RingCentralExtensions] > tab > inactive');
+            }
             await this._debouncedOnTabActive.cancel();
+          }
+        },
+      );
+      watch(
+        this,
+        () => this.allowSwitchConnection,
+        (allow) => {
+          if (allow && this.isTabActive) {
+            this._onTabActive();
           }
         },
       );
@@ -183,8 +224,17 @@ export class RingCentralExtensions extends RcModuleV2<Deps> {
     }
   }
 
+  private _setSharedState() {
+    if (this._deps.availabilityMonitor && this._deps.tabManager) {
+      const key = `ws-${this._deps.tabManager.id}`;
+      this._deps.availabilityMonitor.setSharedState(key, {
+        webSocketReady: this.isWebSocketReady,
+      });
+    }
+  }
+
   private _debouncedOnTabActive = debounce({
-    threshold: DEFAULT_ACTIVE_DELAY,
+    threshold: RECOVER_DEBOUNCE_THRESHOLD,
     fn: this._onTabActive,
   });
 
@@ -195,14 +245,6 @@ export class RingCentralExtensions extends RcModuleV2<Deps> {
     }
     // as an active tab, inactive other tabs
     await this._inactiveOtherTabs();
-    // when auto recover of active tab is NOT configured as disabled
-    if (
-      this._deps.ringCentralExtensionsOptions?.webSocketOptions?.autoRecover
-        ?.enabled !== false
-    ) {
-      // enable auto recover
-      this._webSocketExtension.options.autoRecover!.enabled = true;
-    }
     // recover WebSocket for current tab and other tabs will being disconnected automatically
     this.recoverWebSocketConnection();
   }
@@ -215,17 +257,26 @@ export class RingCentralExtensions extends RcModuleV2<Deps> {
       // as an inactive tab, disable auto recover
       this._webSocketExtension.options.autoRecover!.enabled = false;
     } else if (event.name === SyncTokensTabEventName) {
-      // as an inactive tab, sync with tokens that are received from active tab
+      // as an inactive tab, sync and use with tokens that are received from active tab
       this._setTokens(event.args![0], event.args![1], event.args![2]);
-      this._webSocketExtension.wsToken = this.wsToken as WsToken;
-      this._webSocketExtension.wsTokenExpiresAt = this.wsTokenExpiresAt;
-      this._webSocketExtension.wsc = this.wscToken as Wsc;
+      this._useTokens();
     }
   }
 
   private async _inactiveOtherTabs() {
+    if (!this.allowSwitchConnection) {
+      return;
+    }
     // inactive other tabs, for stopping WebSocket auto recover
     await this._deps.tabManager?.send(InactiveTabEventName);
+    // when auto recover of active tab is NOT configured as disabled
+    if (
+      this._deps.ringCentralExtensionsOptions?.webSocketOptions?.autoRecover
+        ?.enabled !== false
+    ) {
+      // enable auto recover
+      this._webSocketExtension.options.autoRecover!.enabled = true;
+    }
   }
 
   private async _syncTokensToOtherTabs() {
@@ -237,6 +288,12 @@ export class RingCentralExtensions extends RcModuleV2<Deps> {
       this.wsTokenExpiresAt,
       this.wscToken,
     );
+  }
+
+  private _useTokens() {
+    this._webSocketExtension.wsToken = this.wsToken as WsToken;
+    this._webSocketExtension.wsTokenExpiresAt = this.wsTokenExpiresAt;
+    this._webSocketExtension.wsc = this.wscToken as Wsc;
   }
 
   private _saveTokens() {
@@ -263,9 +320,9 @@ export class RingCentralExtensions extends RcModuleV2<Deps> {
     wsTokenExpiresAt?: number,
     wscToken?: Wsc | null,
   ) {
-    this.wsToken = wsToken;
+    this.wsToken = wsToken ?? null;
     this.wsTokenExpiresAt = wsTokenExpiresAt ?? 0;
-    this.wscToken = wscToken;
+    this.wscToken = wscToken ?? null;
   }
 
   @storage
@@ -274,7 +331,7 @@ export class RingCentralExtensions extends RcModuleV2<Deps> {
 
   @storage
   @state
-  wsTokenExpiresAt: number = 0;
+  wsTokenExpiresAt = 0;
 
   @storage
   @state
@@ -285,7 +342,13 @@ export class RingCentralExtensions extends RcModuleV2<Deps> {
     if (!this.ready) {
       return;
     }
+    if (!this._deps.auth.loggedIn) {
+      return;
+    }
     if (this.disconnectOnInactive && !this.isTabActive) {
+      return;
+    }
+    if (!this.allowSwitchConnection) {
       return;
     }
     // detect if not yet installed
@@ -301,7 +364,7 @@ export class RingCentralExtensions extends RcModuleV2<Deps> {
 
   @proxify
   async revokeWebSocketConnection() {
-    if (!this.ready || !this.isWebSocketOpen) {
+    if (!this.ready || !this.isWebSocketReady) {
       return;
     }
     if (this.disconnectOnInactive && !this.isTabActive) {
@@ -314,18 +377,21 @@ export class RingCentralExtensions extends RcModuleV2<Deps> {
 
   private _exposeConnectionEvents() {
     this._removeWsListener?.();
-    ((ws: WebSocket) => {
-      if (ws) {
-        ws.addEventListener('close', this._syncWsReadyState);
-        ws.addEventListener('open', this._syncWsReadyState);
-        ws.addEventListener('error', this._syncWsReadyState);
-        this._removeWsListener = () => {
-          ws.removeEventListener('close', this._syncWsReadyState);
-          ws.removeEventListener('open', this._syncWsReadyState);
-          ws.removeEventListener('error', this._syncWsReadyState);
-        };
-      }
-    })(this._webSocketExtension.ws);
+
+    const { ws } = this._webSocketExtension;
+
+    if (ws) {
+      ws.addEventListener('close', this._syncWsReadyState);
+      ws.addEventListener('open', this._syncWsReadyState);
+      ws.addEventListener('error', this._syncWsReadyState);
+
+      this._removeWsListener = () => {
+        ws.removeEventListener('close', this._syncWsReadyState);
+        ws.removeEventListener('open', this._syncWsReadyState);
+        ws.removeEventListener('error', this._syncWsReadyState);
+      };
+    }
+
     this._syncWsReadyState();
   }
 
@@ -338,33 +404,48 @@ export class RingCentralExtensions extends RcModuleV2<Deps> {
   private _setWebSocketReadyState(
     readyState: WebSocketExtension['ws']['readyState'],
   ) {
+    let state: WebSocketReadyState | null;
     switch (readyState) {
-      case WebSocket.CONNECTING:
-        this.webSocketReadyState = webSocketReadyStates.connecting;
+      case WebSocket.CONNECTING: {
+        state = webSocketReadyStates.connecting;
         break;
-      case WebSocket.OPEN:
-        this.webSocketReadyState = webSocketReadyStates.open;
+      }
+      case WebSocket.OPEN: {
+        if (this._wsConnectionReady) {
+          state = webSocketReadyStates.ready;
+        } else {
+          state = webSocketReadyStates.open;
+        }
         break;
-      case WebSocket.CLOSING:
-        this.webSocketReadyState = webSocketReadyStates.closing;
+      }
+      case WebSocket.CLOSING: {
+        state = webSocketReadyStates.closing;
         break;
-      case WebSocket.CLOSED:
-        this.webSocketReadyState = webSocketReadyStates.closed;
+      }
+      case WebSocket.CLOSED: {
+        state = webSocketReadyStates.closed;
+        this._wsConnectionReady = false;
         break;
-      default:
-        this.webSocketReadyState = null;
+      }
+      default: {
+        state = null;
+        this._wsConnectionReady = undefined;
         break;
+      }
     }
-    console.log(
-      `[RingCentralExtensions] > webSocketReadyState > ${this.webSocketReadyState}`,
-    );
+    if (process.env.NODE_ENV !== 'test' && this.webSocketReadyState !== state) {
+      console.log(
+        `[RingCentralExtensions] > webSocketReadyState > ${this.webSocketReadyState} -> ${state}`,
+      );
+    }
+    this.webSocketReadyState = state;
   }
 
   @state
   webSocketReadyState?: WebSocketReadyState | null = null;
 
-  get isWebSocketOpen() {
-    return this.webSocketReadyState === webSocketReadyStates.open;
+  get isWebSocketReady() {
+    return this.webSocketReadyState === webSocketReadyStates.ready;
   }
 
   get debugMode(): boolean {
@@ -395,5 +476,15 @@ export class RingCentralExtensions extends RcModuleV2<Deps> {
 
   get webSocketExtension(): WebSocketExtension {
     return this._webSocketExtension;
+  }
+
+  get allowSwitchConnection() {
+    if (
+      this._deps.availabilityMonitor?.hasCallSession &&
+      this._deps.availabilityMonitor?.hasWebSocketReady
+    ) {
+      return false;
+    }
+    return true;
   }
 }

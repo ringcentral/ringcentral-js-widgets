@@ -1,9 +1,10 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import IconLine from '../IconLine';
 import Switch from '../Switch';
 import i18n from './i18n';
-import { ClickToDialProps } from './SettingsPanel.interface';
+import type { ClickToDialProps } from './SettingsPanel.interface';
 
 export const ClickToDial: FunctionComponent<ClickToDialProps> = ({
   currentLocale,

@@ -1,6 +1,6 @@
 /**
  * RCI-3573: View details of the voice message
- * https://test_id_domain/test-cases/RCI-3573
+ * https://test_it_domain/test-cases/RCI-3573
  * Preconditions:
  * RC CTI app is installed and enabled
  * User A has login 3rd party
@@ -16,12 +16,12 @@
  * > User A go to Messages page > All/Voice tab
  */
 
+import type { StepProp } from '@ringcentral-integration/test-utils';
 import {
   p2,
   it,
   autorun,
   examples,
-  StepProp,
   And,
   Scenario,
   Step,
@@ -77,6 +77,8 @@ export class RCI3573 extends Step {
                 ...mockData,
                 ...mockMessageListData(null),
               })}
+              isDefaultInit
+              repeat={0}
             />,
             <MockMessageSync
               isDefaultInit

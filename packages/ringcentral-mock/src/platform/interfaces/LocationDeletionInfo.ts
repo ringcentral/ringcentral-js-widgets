@@ -1,4 +1,4 @@
-import { LocationDeletionErrorInfo } from './LocationDeletionErrorInfo';
+import type { LocationDeletionErrorInfo } from './LocationDeletionErrorInfo';
 
 export interface LocationDeletionInfo {
   /**

@@ -1,6 +1,6 @@
 /**
  * RCI-2997: Schedule Meeting with 'RingCentral Video Connector Beta' flag is On but API fail to return
- * https://test_id_domain/test-cases/RCI-2997
+ * https://test_it_domain/test-cases/RCI-2997
  * Preconditions:
  * RC CTI app is installed and enabled
  * Turnonthe 'RingCentral Video Room Connector'flag on theAdmin web
@@ -17,6 +17,7 @@
  * 793123 is the dial-in password
  */
 
+import type { StepProp } from '@ringcentral-integration/test-utils';
 import {
   p3,
   it,
@@ -29,7 +30,6 @@ import {
   Then,
   title,
   When,
-  StepProp,
 } from '@ringcentral-integration/test-utils';
 
 import { CommonLogin } from '../../../../../../../../steps/CommonLogin';

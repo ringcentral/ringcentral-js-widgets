@@ -4,8 +4,11 @@ import { RcDatePicker, RcTypography } from '@ringcentral/juno';
 
 import { getDateFromUTCDay, setUTCTime } from '../../../lib/timeFormatHelper';
 import InputSelect from '../../InputSelect';
-import { CallLogFieldsProps, FieldMetadata } from '../CallLogFields.interface';
-import {
+import type {
+  CallLogFieldsProps,
+  FieldMetadata,
+} from '../CallLogFields.interface';
+import type {
   FieldItemOption,
   FieldsMap,
   PickListOption,

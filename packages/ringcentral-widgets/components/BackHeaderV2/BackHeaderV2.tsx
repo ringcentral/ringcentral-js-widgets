@@ -1,13 +1,10 @@
-import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
+import type { FunctionComponent } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import classnames from 'classnames';
 
-import {
-  RcIconButton,
-  RcIconButtonProps,
-  RcTypography,
-  styled,
-} from '@ringcentral/juno';
+import type { RcIconButtonProps } from '@ringcentral/juno';
+import { RcIconButton, RcTypography, styled } from '@ringcentral/juno';
 import { ChevronLeft as chevronLeftSvg } from '@ringcentral/juno-icon';
 
 import styles from './styles.scss';

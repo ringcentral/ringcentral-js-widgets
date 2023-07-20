@@ -1,5 +1,5 @@
 import { reduce } from 'ramda';
-import { Unsubscribe } from 'redux';
+import type { Unsubscribe } from 'redux';
 import type ExtensionInfoEvent from '@rc-ex/core/lib/definitions/ExtensionInfoEvent';
 import type FeatureInfo from '@rc-ex/core/lib/definitions/FeatureInfo';
 import type FeatureList from '@rc-ex/core/lib/definitions/FeatureList';
@@ -11,7 +11,7 @@ import { subscriptionHints } from '../../enums/subscriptionHints';
 import { Module } from '../../lib/di';
 import { loginStatus } from '../Auth';
 import { DataFetcherV2Consumer, DataSource } from '../DataFetcherV2';
-import { Deps } from './ExtensionFeatures.interface';
+import type { Deps } from './ExtensionFeatures.interface';
 
 @Module({
   name: 'ExtensionFeatures',

@@ -21,9 +21,9 @@
       "contentType": "application/pdf"
     }
   ],
-  "direction" : "Inbound",
+  "direction": "Inbound",
   "availability": "Alive",
-  "messageStatus" : "Received",
+  "messageStatus": "Received",
   "faxResolution": "High",
   "faxPageCount": 1,
   "lastModifiedTime": "2022-04-15T04:01:13.661Z",

@@ -1,8 +1,9 @@
 import 'react-widgets/dist/css/react-widgets.css';
 
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
-import { RcMMeetingModel } from '@ringcentral-integration/commons/modules/Meeting';
+import type { RcMMeetingModel } from '@ringcentral-integration/commons/modules/Meeting';
 import { format } from '@ringcentral-integration/utils';
 import { RcLink } from '@ringcentral/juno';
 

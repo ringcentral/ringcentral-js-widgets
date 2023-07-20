@@ -1,4 +1,4 @@
-import { GetCountryInfoNumberParser } from './GetCountryInfoNumberParser';
+import type { GetCountryInfoNumberParser } from './GetCountryInfoNumberParser';
 
 export interface PhoneNumberInfoNumberParser {
   /**

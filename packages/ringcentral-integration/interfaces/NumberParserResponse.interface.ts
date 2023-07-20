@@ -113,7 +113,7 @@ export interface NumberParserAPIResponse {
 
 export interface ParsePhoneNumberAPIParam {
   originalStrings: Array<string>;
-  contextSource?: typeof ContextSourceOption[keyof typeof ContextSourceOption];
+  contextSource?: (typeof ContextSourceOption)[keyof typeof ContextSourceOption];
   context?: {
     brandId?: string;
     country?: Pick<Country, 'isoCode'>;

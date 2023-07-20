@@ -1,6 +1,6 @@
 import background from '@ringcentral-integration/commons/lib/background';
 import { Module } from '@ringcentral-integration/commons/lib/di';
-import proxify from '@ringcentral-integration/commons/lib/proxy/proxify';
+import { proxify } from '@ringcentral-integration/commons/lib/proxy/proxify';
 import {
   action,
   computed,
@@ -9,12 +9,12 @@ import {
 } from '@ringcentral-integration/core';
 import { filter, find, findIndex, map } from 'ramda';
 import { v4 } from 'uuid';
-import {
+import type {
   ModalProps,
   ModalV2UIFunctions,
   ModalV2UIProps,
 } from '../../components/ModalV2/interface';
-import {
+import type {
   AlertModalOptions,
   ConfirmModalOptions,
   CustomRenderer,

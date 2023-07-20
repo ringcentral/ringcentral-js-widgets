@@ -1,5 +1,5 @@
 import type SubscriptionInfo from '@rc-ex/core/lib/definitions/SubscriptionInfo';
-import Subscription from '@rc-ex/ws/lib/subscription';
+import type Subscription from '@rc-ex/ws/lib/subscription';
 import {
   action,
   RcModuleV2,
@@ -8,23 +8,26 @@ import {
   watch,
 } from '@ringcentral-integration/core';
 
-import { SubscriptionFilter } from '../../enums/subscriptionFilters';
+import type { SubscriptionFilter } from '../../enums/subscriptionFilters';
 import background from '../../lib/background';
-import { debounce } from '../../lib/debounce-throttle';
+import { promisedDebounce } from '../../lib/debounce-throttle';
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
 import { webSocketReadyStates } from '../RingCentralExtensions/webSocketReadyStates';
-import { normalizeEventFilter } from './normalizeEventFilter';
-import { TabEvent } from '../TabManager';
-import { Deps } from './WebSocketSubscription.interface';
+import type { TabEvent } from '../TabManager';
+import {
+  isTheSameWebSocket,
+  normalizeEventFilter,
+} from './normalizeEventFilter';
+import type { Deps } from './WebSocketSubscription.interface';
 
-const DEFAULT_REFRESH_DELAY = 1000;
-export const SyncTokensTabEventName = 'WebSocketSubscription-syncTokens';
+const DEFAULT_REFRESH_DELAY = process.env.NODE_ENV === 'test' ? 0 : 1000;
 export const SyncMessageTabEventName = 'WebSocketSubscription-syncMessage';
 
 @Module({
   name: 'WebSocketSubscription',
   deps: [
+    'Client',
     'Storage',
     'RingCentralExtensions',
     { dep: 'TabManager', optional: true },
@@ -47,12 +50,22 @@ export class WebSocketSubscription extends RcModuleV2<Deps> {
   }
 
   override async onInitSuccess() {
-    await this._debouncedUpdateSubscription();
+    await this._debouncedUpdateSubscriptionCatchCancel();
   }
 
   override async onReset() {
     await this._debouncedUpdateSubscription.cancel();
     await this._removeSubscription();
+  }
+
+  private async _debouncedUpdateSubscriptionCatchCancel() {
+    try {
+      await this._debouncedUpdateSubscription();
+    } catch (error: any /** TODO: confirm with instanceof */) {
+      if (error.message !== 'cancelled') {
+        throw error;
+      }
+    }
   }
 
   get onlyOneTabConnected(): boolean {
@@ -65,11 +78,11 @@ export class WebSocketSubscription extends RcModuleV2<Deps> {
       this,
       () => this._deps.ringCentralExtensions.webSocketReadyState,
       async (wsState) => {
-        if (!this.ready) {
+        if (!this.ready || !wsState) {
           return;
         }
-        if (wsState === webSocketReadyStates.open) {
-          await this._debouncedUpdateSubscription();
+        if (wsState === webSocketReadyStates.ready) {
+          await this._updateSubscription();
         } else if (wsState === webSocketReadyStates.closing) {
           // when websocket is going to close, revoke subscription beforehand
           await this._revokeSubscription();
@@ -94,24 +107,12 @@ export class WebSocketSubscription extends RcModuleV2<Deps> {
     if (!this.ready || !event) {
       return;
     }
-    if (event.name === SyncTokensTabEventName) {
-      this._setTokens(event.args![0], event.args![1]);
-    } else if (event.name === SyncMessageTabEventName) {
+    if (event.name === SyncMessageTabEventName) {
       this._notifyMessage(event.args![0]);
     }
   }
 
-  private async _syncTokensToOtherTabs() {
-    // sync required tokens to other tabs, so that other tabs can recover connection with latest tokens as needed
-    // although tokens that are in storage are already synced, still we pass tokens manually for sync in time
-    await this._deps.tabManager?.send(
-      SyncTokensTabEventName,
-      this.subscriptionInfo,
-      this.subscriptionChannel,
-    );
-  }
-
-  private async _syncMessageToOtherTabs(message: any) {
+  private async _syncMessageToOtherTabs(message: unknown) {
     // sync notification message to other tabs, so that other tabs got the latest message state
     await this._deps.tabManager?.send(SyncMessageTabEventName, message);
   }
@@ -129,8 +130,8 @@ export class WebSocketSubscription extends RcModuleV2<Deps> {
     subscriptionInfo?: SubscriptionInfo | null,
     subscriptionChannel?: string | null,
   ) {
-    this.subscriptionInfo = subscriptionInfo;
-    this.subscriptionChannel = subscriptionChannel;
+    this.subscriptionInfo = subscriptionInfo ?? null;
+    this.subscriptionChannel = subscriptionChannel ?? null;
   }
 
   private _saveTokens() {
@@ -138,26 +139,38 @@ export class WebSocketSubscription extends RcModuleV2<Deps> {
       this._wsSubscription?.subscriptionInfo,
       this._deps.ringCentralExtensions.webSocketExtension.ws.url,
     );
-    if (this.onlyOneTabConnected) {
-      this._syncTokensToOtherTabs();
-    }
   }
 
   private _clearTokens() {
     this._setTokens(null, null);
-    if (this.onlyOneTabConnected) {
-      this._syncTokensToOtherTabs();
-    }
   }
 
-  private async _createSubscription() {
+  private async _obtainSubscription() {
     const isNewChannel =
-      this.subscriptionChannel !==
-      this._deps.ringCentralExtensions.webSocketExtension.ws.url;
-    console.log(
-      `[WebSocketSubscription] > _createSubscription > isNewChannel: ${isNewChannel}`,
-    );
-    this._wsSubscription =
+      !this.subscriptionChannel ||
+      !isTheSameWebSocket(
+        this.subscriptionChannel,
+        this._deps.ringCentralExtensions.webSocketExtension.ws.url,
+      );
+    if (process.env.NODE_ENV !== 'test') {
+      console.log(
+        `[WebSocketSubscription] > _obtainSubscription > isNewChannel: ${isNewChannel}`,
+      );
+    }
+
+    // For reduce the total number of subscriptions (ttl 24 hours, limited number 20),
+    // Revoke existing subscription before creating new.
+    if (isNewChannel) {
+      await this._revokeSubscription();
+      if (process.env.NODE_ENV !== 'test') {
+        console.log(
+          '[WebSocketSubscription] > _obtainSubscription > existing subscription revoked',
+        );
+      }
+    }
+
+    // Create or recover subscription
+    const subscription =
       await this._deps.ringCentralExtensions.webSocketExtension.subscribe(
         this.filters,
         (message) => {
@@ -168,6 +181,25 @@ export class WebSocketSubscription extends RcModuleV2<Deps> {
         },
         isNewChannel ? null : this.subscriptionInfo,
       );
+
+    const isNewSubscription =
+      !this.subscriptionInfo ||
+      this.subscriptionInfo.id !== subscription.subscriptionInfo?.id;
+    if (isNewSubscription) {
+      if (process.env.NODE_ENV !== 'test') {
+        console.log(
+          '[WebSocketSubscription] > _obtainSubscription > subscription created',
+        );
+      }
+    } else {
+      if (process.env.NODE_ENV !== 'test') {
+        console.log(
+          '[WebSocketSubscription] > _obtainSubscription > subscription recovered',
+        );
+      }
+    }
+
+    this._wsSubscription = subscription;
     this._saveTokens();
   }
 
@@ -180,31 +212,40 @@ export class WebSocketSubscription extends RcModuleV2<Deps> {
   }
 
   private async _revokeSubscription() {
-    if (this._wsSubscription) {
-      try {
+    try {
+      // Prior using ws channel for revoking, it is faster
+      if (this._wsSubscription) {
         await this._wsSubscription.revoke();
-        this._wsSubscription = undefined;
-        this._clearTokens(); // once subscription is revoked, all tokens are expired
-      } catch (ex) {
-        // ignore error of revoke request
+      }
+      // Else try to revoke over RESTful API
+      // When page reload we do have cached subscriptionInfo but not _wsSubscription object
+      else if (this.subscriptionInfo) {
+        await this._deps.client.service
+          .platform()
+          .delete(this.subscriptionInfo.uri);
+      }
+    } catch (ex) {
+      // ignore error of revoke request
+      if (process.env.NODE_ENV !== 'test') {
         console.warn(`[WebSocketSubscription] > _revokeSubscription > ${ex}`);
       }
     }
+    this._wsSubscription = undefined;
+    this._clearTokens(); // once subscription is revoked, all tokens are expired
   }
 
+  // Remove client side subscription object only
   private async _removeSubscription() {
     if (this._wsSubscription) {
-      if (typeof this._wsSubscription.remove === 'function') {
-        this._wsSubscription.remove();
-      }
+      this._wsSubscription.remove();
       this._wsSubscription = undefined;
     }
   }
 
   @proxify
   private async _updateSubscription() {
-    // only when websocket is open for create/refresh/revoke subscription
-    if (!this._deps.ringCentralExtensions.isWebSocketOpen) {
+    // only when websocket is ready for create/refresh/revoke subscription
+    if (!this._deps.ringCentralExtensions.isWebSocketReady) {
       return;
     }
     if (this.filters.length === 0) {
@@ -212,14 +253,14 @@ export class WebSocketSubscription extends RcModuleV2<Deps> {
       return;
     }
     if (!this._wsSubscription) {
-      await this._createSubscription();
+      await this._obtainSubscription();
     } else if (
       this.filters
         .map((x) => normalizeEventFilter(x))
         .sort()
         .join(',') !==
       (this._wsSubscription.subscriptionInfo?.eventFilters ?? [])
-        .map((x) => normalizeEventFilter(x))
+        .map((x: string) => normalizeEventFilter(x))
         .sort()
         .join(',')
     ) {
@@ -227,7 +268,7 @@ export class WebSocketSubscription extends RcModuleV2<Deps> {
     }
   }
 
-  private _debouncedUpdateSubscription = debounce({
+  private _debouncedUpdateSubscription = promisedDebounce({
     fn: this._updateSubscription,
     threshold: DEFAULT_REFRESH_DELAY,
   });
@@ -240,7 +281,7 @@ export class WebSocketSubscription extends RcModuleV2<Deps> {
     const oldLength = this.filters.length;
     this._addFilters(eventsFilters);
     if (oldLength !== this.filters.length) {
-      await this._debouncedUpdateSubscription();
+      await this._debouncedUpdateSubscriptionCatchCancel();
     }
   }
 
@@ -252,7 +293,7 @@ export class WebSocketSubscription extends RcModuleV2<Deps> {
     const oldLength = this.filters.length;
     this._removeFilters(eventsFilters);
     if (oldLength !== this.filters.length) {
-      await this._debouncedUpdateSubscription();
+      await this._debouncedUpdateSubscriptionCatchCancel();
     }
   }
 
@@ -269,13 +310,13 @@ export class WebSocketSubscription extends RcModuleV2<Deps> {
   }
 
   @action
-  private _notifyMessage(message: any) {
-    this.message = message;
+  private _notifyMessage(message: unknown) {
+    this.message = message ?? null;
   }
 
   @state
   filters: SubscriptionFilter[] = [];
 
   @state
-  message?: any = null;
+  message?: unknown = null;
 }

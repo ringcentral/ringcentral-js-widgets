@@ -1,18 +1,15 @@
 import React from 'react';
 
 import { Module } from '@ringcentral-integration/commons/lib/di';
-import formatNumber from '@ringcentral-integration/commons/lib/formatNumber';
+import { formatNumber } from '@ringcentral-integration/commons/lib/formatNumber';
 import { callingOptions } from '@ringcentral-integration/commons/modules/CallingSettings';
-import {
-  RcModuleOptions,
-  RcUIModuleV2,
-  track,
-} from '@ringcentral-integration/core';
+import type { RcModuleOptions } from '@ringcentral-integration/core';
+import { RcUIModuleV2, track } from '@ringcentral-integration/core';
 import { isOnHold } from '@ringcentral-integration/commons/lib/callLogHelpers';
 import { trackEvents } from '@ringcentral-integration/commons/enums/trackEvents';
 
 import { CallLogCallCtrlContainer } from '../../containers/CallLogCallCtrlContainer';
-import {
+import type {
   CallLogUIFunctions,
   CallLogUIInterface,
   CallLogUIProps,

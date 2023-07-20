@@ -11,7 +11,9 @@ export default function formatLocale(locale, delimeter = '-') {
     tokens[tokens.length - 1] = tokens[tokens.length - 1].toUpperCase();
   }
   if (tokens.length > 2) {
-    tokens[1] = `${tokens[1][0].toUpperCase()}${tokens[1].substring(1).toLowerCase()}`;
+    tokens[1] = `${tokens[1][0].toUpperCase()}${tokens[1]
+      .substring(1)
+      .toLowerCase()}`;
   }
   return tokens.join(delimeter);
 }

@@ -1,4 +1,7 @@
-import { BaseContext, StepFunction } from '@ringcentral-integration/test-utils';
+import type {
+  BaseContext,
+  StepFunction,
+} from '@ringcentral-integration/test-utils';
 import { waitFor } from '@testing-library/react';
 
 interface CheckMessageItemHighlightProps {

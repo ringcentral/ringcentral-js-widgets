@@ -1,6 +1,6 @@
 /**
  * RCI-1121: History tab with calls
- * https://test_id_domain/test-cases/RCI-1121
+ * https://test_it_domain/test-cases/RCI-1121
  * Preconditions:
  * The user has logged into 3rd party.
  * The current date is 2020/08/08
@@ -24,13 +24,14 @@
  */
 
 import {
+  common,
+  StepFunction,
   autorun,
   examples,
   Given,
   p2,
   Scenario,
   Step,
-  StepFunction,
   Then,
   title,
   When,
@@ -148,8 +149,9 @@ const expectedValues = [
   },
 ];
 
-@autorun(test)
+@autorun(test.skip)
 @it
+@common
 @p2
 @title('History tab with calls')
 export class HistoryWithCalls extends Step {

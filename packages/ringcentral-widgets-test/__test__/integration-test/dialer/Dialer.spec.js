@@ -11,7 +11,7 @@ import { getWrapper } from '../shared';
 let wrapper = null;
 let panel = null;
 beforeEach(async () => {
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 64000;
+  jest.setTimeout(64000);
   wrapper = await getWrapper();
   const navigationBar = wrapper.find(NavigationBar).first();
   await navigationBar.props().goTo('/');

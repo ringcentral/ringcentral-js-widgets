@@ -1,6 +1,6 @@
-import { FaxCoverPageInfo } from './FaxCoverPageInfo';
-import { MessagingNavigationInfo } from './MessagingNavigationInfo';
-import { MessagingPagingInfo } from './MessagingPagingInfo';
+import type { FaxCoverPageInfo } from './FaxCoverPageInfo';
+import type { MessagingNavigationInfo } from './MessagingNavigationInfo';
+import type { MessagingPagingInfo } from './MessagingPagingInfo';
 
 export interface ListFaxCoverPagesResponse {
   /**

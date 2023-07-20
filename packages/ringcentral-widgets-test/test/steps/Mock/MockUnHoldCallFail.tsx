@@ -1,4 +1,4 @@
-import { StepFunction } from '../../lib/step';
+import type { StepFunction } from '../../lib/step';
 
 export const MockUnHoldCallFail: StepFunction<any> = (_, { rcMock }) => {
   rcMock.post(

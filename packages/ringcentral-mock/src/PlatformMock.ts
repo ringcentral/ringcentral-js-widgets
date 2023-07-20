@@ -1,16 +1,18 @@
-import Ajv from 'ajv';
-import { MockOptions, MockRequest } from 'fetch-mock';
-import fetchMock from 'fetch-mock-jest';
-import { JSONSchemaFakerOptions } from 'json-schema-faker';
-import { OpenAPIV3 } from 'openapi-types';
-import { match } from 'path-to-regexp';
 import { URL, URLSearchParams } from 'url';
+import Ajv from 'ajv';
+import type { MockOptions, MockRequest } from 'fetch-mock';
+import fetchMock from 'fetch-mock-jest';
+import type { JSONSchemaFakerOptions } from 'json-schema-faker';
+import type { OpenAPIV3 } from 'openapi-types';
+import { match } from 'path-to-regexp';
 import $RefParser from '@apidevtools/json-schema-ref-parser';
-import { createDebugger, Debugger } from './debugger';
-import { fake, Generate } from './faker';
-import { Delete, Get, Patch, Post, Put } from './platform/apis';
+import type { Debugger } from './debugger';
+import { createDebugger } from './debugger';
+import type { Generate } from './faker';
+import { fake } from './faker';
+import type { Delete, Get, Patch, Post, Put } from './platform/apis';
 import schemas from './platform/schemas.json';
-import { SchemaObject } from './interface';
+import type { SchemaObject } from './interface';
 
 interface ResponseBody<T> {
   /**
@@ -147,7 +149,7 @@ export class PlatformMock {
   /**
    * initialized state for platform mock
    */
-  initialized: boolean = false;
+  initialized = false;
   /**
    * optimization of parsing components schema
    */

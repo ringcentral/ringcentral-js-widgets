@@ -1,6 +1,6 @@
-import { StepFunction } from '../../../lib/step';
+import type { StepFunction } from '../../../lib/step';
 import { mockMessageListData } from '../../../__mock__';
-import { MessageProps } from './MessageProps.interface';
+import type { MessageProps } from './MessageProps.interface';
 
 interface IReceiveSMSSuccess extends MessageProps {
   phoneNumber: string;

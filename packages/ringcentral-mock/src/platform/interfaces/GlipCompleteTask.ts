@@ -1,4 +1,4 @@
-import { AssigneeInfo } from './AssigneeInfo';
+import type { AssigneeInfo } from './AssigneeInfo';
 
 export interface GlipCompleteTask {
   /**

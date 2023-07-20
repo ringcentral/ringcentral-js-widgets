@@ -1,8 +1,9 @@
-import React, { FunctionComponent, useEffect, useRef } from 'react';
+import type { FunctionComponent } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import classnames from 'classnames';
 
-import { ToNumber as Recipient } from '@ringcentral-integration/commons/modules/ComposeText';
+import type { ToNumber as Recipient } from '@ringcentral-integration/commons/modules/ComposeText';
 
 import AnswerIcon from '../../assets/images/Answer.svg';
 import CircleButton from '../CircleButton';

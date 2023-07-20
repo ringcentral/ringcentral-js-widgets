@@ -1,5 +1,5 @@
 export default {
-  unknown: "Desconhecida",
+  unknown: "Desconhecido",
   anonymous: "Anônimo",
   activeCalls: "Todas as chamadas"
 };

@@ -1,17 +1,22 @@
-const CALLBACK_KEY = '__rc_config_data_callback__';
+const RUNTIME: Record<
+  string,
+  {
+    lastPromise: Promise<any> | null;
+  }
+> = {};
 
-const RUNTIME: {
-  lastPromise: Promise<any> | null;
-} = {
-  lastPromise: null,
-};
-
-export const fetchWithJsonp = <T>(url: string) => {
-  const lastPromise = RUNTIME.lastPromise;
+export const fetchWithJsonp = <T>(url: string, key: string) => {
+  if (!RUNTIME[key]) {
+    RUNTIME[key] = {
+      lastPromise: null,
+    };
+  }
+  const runtime = RUNTIME[key];
+  const lastPromise = runtime?.lastPromise;
   const promise = (async () => {
     try {
       // if there is already ongoing request, wait for it to be done
-      // before replacing the window.__rc_config_data_callback__ function
+      // before replacing the window.[key] function
       await lastPromise;
     } catch (error: any /** TODO: confirm with instanceof */) {
       // ignore last error
@@ -21,23 +26,23 @@ export const fetchWithJsonp = <T>(url: string) => {
       script.src = url;
       script.onerror = () => {
         document.body.removeChild(script);
-        (window as any)[CALLBACK_KEY] = null;
-        if (RUNTIME.lastPromise === promise) {
-          RUNTIME.lastPromise = null;
+        (window as any)[key] = null;
+        if (runtime.lastPromise === promise) {
+          runtime.lastPromise = null;
         }
         reject(new Error(`'${url}' jsonp fetch failed`));
       };
-      (window as any)[CALLBACK_KEY] = (data: T) => {
+      (window as any)[key] = (data: T) => {
         document.body.removeChild(script);
-        (window as any)[CALLBACK_KEY] = null;
-        if (RUNTIME.lastPromise === promise) {
-          RUNTIME.lastPromise = null;
+        (window as any)[key] = null;
+        if (runtime.lastPromise === promise) {
+          runtime.lastPromise = null;
         }
         resolve(data);
       };
       document.body.appendChild(script);
     });
   })();
-  RUNTIME.lastPromise = promise;
+  runtime.lastPromise = promise;
   return promise;
 };

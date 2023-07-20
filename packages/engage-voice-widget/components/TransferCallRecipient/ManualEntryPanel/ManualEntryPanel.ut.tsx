@@ -2,10 +2,11 @@ import React from 'react';
 
 import { mount } from 'enzyme';
 
-import { StepFunction } from '@ringcentral-integration/test-utils';
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 import { RcThemeProvider } from '@ringcentral/juno';
 
-import { ManualEntryPanel, ManualEntryPanelProps } from './ManualEntryPanel';
+import type { ManualEntryPanelProps } from './ManualEntryPanel';
+import { ManualEntryPanel } from './ManualEntryPanel';
 
 let wrapper;
 const currentLocale = 'en-US';

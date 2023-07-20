@@ -1,4 +1,5 @@
-import React, { DOMAttributes, FunctionComponent } from 'react';
+import type { DOMAttributes, FunctionComponent } from 'react';
+import React from 'react';
 
 import classNames from 'classnames';
 

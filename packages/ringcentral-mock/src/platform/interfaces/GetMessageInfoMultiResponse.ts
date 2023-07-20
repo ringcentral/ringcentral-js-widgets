@@ -1,4 +1,4 @@
-import { MessageBody } from './MessageBody';
+import type { MessageBody } from './MessageBody';
 
 export interface GetMessageInfoMultiResponse {
   /**

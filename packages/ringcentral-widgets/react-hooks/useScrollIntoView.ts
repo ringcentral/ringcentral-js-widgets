@@ -7,7 +7,7 @@ import { SelectListContext } from '../contexts';
  * Use that with `SelectListContext`
  * @param scrollIntoView is that should be scrollIntoView
  */
-export function useScrollIntoView(scrollIntoView: boolean = true) {
+export function useScrollIntoView(scrollIntoView = true) {
   const targetElementRef = useRef<HTMLElement>(null);
 
   const { scrollElmRef } = useContext(SelectListContext);

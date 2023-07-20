@@ -1,9 +1,10 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import { createGlobalStyle, RcThemeProvider } from '@ringcentral/juno';
 
 import { connectModule } from '../../lib/phoneContext';
-import { ThemeContainerProps } from './ThemeContainer.interface';
+import type { ThemeContainerProps } from './ThemeContainer.interface';
 import { getThemeVariableString } from './utils';
 
 type GlobalVariablesStylesProps = Pick<ThemeContainerProps, 'variable'>;

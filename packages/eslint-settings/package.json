@@ -7,24 +7,25 @@
     "type": "git",
     "url": "https://github.com/ringcentral/ringcentral-js-widget.git"
   },
-  "engines": {
-    "node": ">=8"
-  },
   "scripts": {
     "update-eslint": "ncu '/eslint/' -u"
   },
   "dependencies": {
-    "@ringcentral-integration/locale-settings": "*",
-    "@typescript-eslint/eslint-plugin": "^4.16.1",
-    "@typescript-eslint/parser": "^4.16.1",
-    "babel-eslint": "^10.1.0",
-    "eslint": "^7.7.0",
-    "eslint-config-airbnb": "^18.2.0",
-    "eslint-config-prettier": "^6.11.0",
-    "eslint-plugin-import": "^2.22.0",
-    "eslint-plugin-jsx-a11y": "^6.3.1",
-    "eslint-plugin-prettier": "^3.1.4",
-    "eslint-plugin-react": "^7.20.6",
-    "eslint-plugin-react-hooks": "^4.1.0"
+    "@nrwl/eslint-plugin-nx": "15.3.3",
+    "@typescript-eslint/eslint-plugin": "5.36.1",
+    "@typescript-eslint/parser": "5.36.1",
+    "eslint": "8.23.0",
+    "eslint-config-prettier": "8.5.0",
+    "eslint-plugin-import": "2.26.0",
+    "eslint-plugin-jest": "27.0.1",
+    "eslint-plugin-jsx-a11y": "6.6.1",
+    "eslint-plugin-lodash": "^7.4.0",
+    "eslint-plugin-prettier": "4.2.1",
+    "eslint-plugin-react": "7.31.1",
+    "eslint-plugin-react-hooks": "4.6.0",
+    "eslint-plugin-storybook": "0.6.4"
+  },
+  "engines": {
+    "node": ">=14"
   }
 }

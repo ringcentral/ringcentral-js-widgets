@@ -1,6 +1,6 @@
 /**
  * RCI-1900: RCV - Schedule PMI meeting with changing settings
- * https://test_id_domain/test-cases/RCI-1900
+ * https://test_it_domain/test-cases/RCI-1900
  * Preconditions:
  * Already installed and logged in RingCentral Outlook Add-Ins.
  * User has logged in to 3rd party
@@ -50,7 +50,7 @@ import {
   CheckModalExist,
   ClickConfirmInModal,
 } from '../../../../../../../steps/Modal';
-import { StepProp } from '../../../../../../../lib/step';
+import type { StepProp } from '../../../../../../../lib/step';
 
 @autorun(test.skip)
 @common

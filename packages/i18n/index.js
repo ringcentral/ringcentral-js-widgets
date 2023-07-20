@@ -165,6 +165,7 @@ export default class I18n {
 
   static set padRatio(ratio) {
     if (Number.isNaN(ratio)) {
+      // eslint-disable-next-line no-console
       console.log('ratio must be a number');
       return;
     }
@@ -172,10 +173,6 @@ export default class I18n {
   }
 
   static setDefaultLocale(locale) {
-    RUNTIME.defaultLocale = locale;
-  }
-
-  static async setDefaultLocale(locale) {
     return setDefaultLocale(locale);
   }
 

@@ -26,6 +26,7 @@ $baseSize: $circle + 2px;
     border-radius: math.div($baseSize, 2);
     position: absolute;
     content: '';
+    box-sizing: content-box;
   }
 }
 

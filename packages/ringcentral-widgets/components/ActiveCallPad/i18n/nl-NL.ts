@@ -1,7 +1,7 @@
 export default {
   unmute: "Dempen uitschakelen",
   mute: "Dempen",
-  keypad: "Keypad",
+  keypad: "Toetsenblok",
   hold: "Wacht",
   onHold: "In de wacht",
   park: "Parkeren",

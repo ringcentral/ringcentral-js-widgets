@@ -1,13 +1,10 @@
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import { callingOptions } from '@ringcentral-integration/commons/modules/CallingSettings';
-import {
-  RcUIModuleV2,
-  UIFunctions,
-  UIProps,
-} from '@ringcentral-integration/core';
+import type { UIFunctions, UIProps } from '@ringcentral-integration/core';
+import { RcUIModuleV2 } from '@ringcentral-integration/core';
 
-import { CallingSettingsPanelProps } from '../../components/CallingSettingsPanel/CallingSettingsPenal.interface';
-import { Deps } from './CallingSettingsUI.interface';
+import type { CallingSettingsPanelProps } from '../../components/CallingSettingsPanel/CallingSettingsPenal.interface';
+import type { Deps } from './CallingSettingsUI.interface';
 
 @Module({
   name: 'CallingSettingsUI',

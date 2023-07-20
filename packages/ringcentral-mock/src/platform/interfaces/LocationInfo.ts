@@ -1,4 +1,4 @@
-import { LocationStateInfo } from './LocationStateInfo';
+import type { LocationStateInfo } from './LocationStateInfo';
 
 export interface LocationInfo {
   /**

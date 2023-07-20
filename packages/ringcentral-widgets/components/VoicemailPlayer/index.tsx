@@ -3,10 +3,10 @@ import { RcLink } from '@ringcentral/juno';
 
 import classnames from 'classnames';
 
+import { formatDuration } from '@ringcentral-integration/commons/lib/formatDuration';
 import DownloadIcon from '../../assets/images/Download.svg';
 import PauseIcon from '../../assets/images/Pause.svg';
 import PlayIcon from '../../assets/images/Play.svg';
-import formatDuration from '../../lib/formatDuration';
 import { Button } from '../Button';
 import i18n from './i18n';
 import styles from './styles.scss';

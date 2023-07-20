@@ -10,7 +10,7 @@ import {
 
 import { phoneSources } from '../../enums/phoneSources';
 import { phoneTypes } from '../../enums/phoneTypes';
-import {
+import type {
   ContactPresence,
   ContactSource,
   IContact,
@@ -21,6 +21,7 @@ import {
   getFindPhoneNumber,
   getMatchContactsByPhoneNumber,
   getSearchForPhoneNumbers,
+  isAnExtension,
 } from '../../lib/contactHelper';
 import { Module } from '../../lib/di';
 import { isBlank } from '../../lib/isBlank';
@@ -29,19 +30,19 @@ import {
   isSupportedPhoneNumber,
 } from '../../lib/phoneTypeHelper';
 import { proxify } from '../../lib/proxy/proxify';
-import {
+import type {
   Contact,
   Deps,
   DirectoryContacts,
-  PresenceContexts,
+  GetPresenceContext,
   PresenceMap,
   Presences,
   ProfileImages,
 } from './AccountContacts.interface';
 
-const MaximumBatchGetPresence = 30;
-const DEFAULT_TTL = 30 * 60 * 1000; // 30 mins
-const DEFAULT_PRESENCE_TTL = 10 * 60 * 1000; // 10 mins
+export const PRESENCE_ENQUEUE_DELAY = 1 * 1000; // 1 second
+const MAXIMUM_BATCH_GET_PRESENCE = 30;
+export const DEFAULT_PRESENCE_TTL = 10 * 60 * 1000; // 10 mins
 const DEFAULT_AVATAR_TTL = 2 * 60 * 60 * 1000; // 2 hour
 const DEFAULT_AVATAR_QUERY_INTERVAL = 2 * 1000; // 2 seconds
 
@@ -57,8 +58,7 @@ const DEFAULT_AVATAR_QUERY_INTERVAL = 2 * 1000; // 2 seconds
   ],
 })
 export class AccountContacts extends RcModuleV2<Deps> implements ContactSource {
-  protected _getPresenceContexts?: PresenceContexts | null;
-
+  protected _getPresenceContexts: Map<string, GetPresenceContext> = new Map();
   protected _enqueueTimeoutId?: NodeJS.Timeout;
 
   constructor(deps: Deps) {
@@ -144,10 +144,8 @@ export class AccountContacts extends RcModuleV2<Deps> implements ContactSource {
     });
     this.profileImages = {};
     this.presences = {};
-  }
-
-  get _ttl() {
-    return this._deps.accountContactsOptions?.ttl ?? DEFAULT_TTL;
+    clearTimeout(this._enqueueTimeoutId);
+    this._getPresenceContexts.clear();
   }
 
   get _avatarTtl() {
@@ -232,34 +230,49 @@ export class AccountContacts extends RcModuleV2<Deps> implements ContactSource {
         return;
       }
 
-      const presenceId = `${contact.id}`;
+      const extensionId = contact.id;
       if (
         useCache &&
-        this.presences[presenceId] &&
-        Date.now() - this.presences[presenceId].timestamp < this._presenceTtl
+        this.presences[extensionId] &&
+        Date.now() - this.presences[extensionId].timestamp < this._presenceTtl
       ) {
-        const { presence } = this.presences[presenceId];
+        const { presence } = this.presences[extensionId];
         resolve(presence);
         return;
       }
 
-      if (!this._getPresenceContexts) {
-        this._getPresenceContexts = [];
+      const accountId = contact.account?.id;
+      if (!accountId) {
+        resolve(null);
+        return;
       }
-      this._getPresenceContexts.push({
-        contact,
-        resolve,
-      });
+
+      const contextKey = `${accountId}-${extensionId}`;
+      const context = this._getPresenceContexts.get(contextKey);
+      if (context) {
+        context.callbacks.push(resolve);
+      } else {
+        this._getPresenceContexts.set(contextKey, {
+          accountId,
+          extensionId,
+          callbacks: [resolve],
+        });
+      }
+
+      const startProcessing = () => {
+        const contexts = Array.from(this._getPresenceContexts.values());
+        this._getPresenceContexts.clear();
+        this._fetchPresences(contexts);
+      };
 
       clearTimeout(this._enqueueTimeoutId!);
-      if (this._getPresenceContexts.length === MaximumBatchGetPresence) {
-        this._processQueryPresences(this._getPresenceContexts);
-        this._getPresenceContexts = null;
+      if (this._getPresenceContexts.size === MAXIMUM_BATCH_GET_PRESENCE) {
+        startProcessing();
       } else {
-        this._enqueueTimeoutId = setTimeout(() => {
-          this._processQueryPresences(this._getPresenceContexts!);
-          this._getPresenceContexts = null;
-        }, 1000);
+        this._enqueueTimeoutId = setTimeout(
+          startProcessing,
+          PRESENCE_ENQUEUE_DELAY,
+        );
       }
     });
   }
@@ -287,7 +300,7 @@ export class AccountContacts extends RcModuleV2<Deps> implements ContactSource {
         ? this.directoryContacts.cdc
         : this.directoryContacts.all,
       searchString,
-      entityType: phoneSources.contact,
+      entityType: phoneSources.rcContact,
       options: { isMultipleSiteEnabled, siteCode: site?.code },
     });
   }
@@ -295,6 +308,10 @@ export class AccountContacts extends RcModuleV2<Deps> implements ContactSource {
   // interface of ContactSource
   matchContactsByPhoneNumber(phoneNumber: string) {
     const { isMultipleSiteEnabled, site } = this._deps.extensionInfo;
+    const shouldMatchExtension = isAnExtension(
+      phoneNumber,
+      this._deps.accountInfo.maxExtensionNumberLength,
+    );
     return getMatchContactsByPhoneNumber({
       contacts: [
         ...this.contacts,
@@ -304,6 +321,7 @@ export class AccountContacts extends RcModuleV2<Deps> implements ContactSource {
       entityType: phoneSources.rcContact,
       findPhoneNumber: getFindPhoneNumber({
         phoneNumber,
+        shouldMatchExtension,
         options: {
           isMultipleSiteEnabled,
           siteCode: site?.code,
@@ -313,53 +331,76 @@ export class AccountContacts extends RcModuleV2<Deps> implements ContactSource {
     });
   }
 
-  async _processQueryPresences(getPresenceContexts: PresenceContexts) {
-    const contacts = getPresenceContexts.map((x) => x.contact);
-    const responses = await this._batchQueryPresences(contacts);
-    const presenceMap: PresenceMap = {};
-    getPresenceContexts.forEach((ctx) => {
-      const response = responses[ctx.contact.id];
-      if (!response) {
-        ctx.resolve(null);
-        return;
-      }
-      const { dndStatus, presenceStatus, telephonyStatus, userStatus } =
-        response;
-      const presenceId = ctx.contact.id;
-      presenceMap[presenceId] = {
-        dndStatus,
-        presenceStatus,
-        telephonyStatus,
-        userStatus,
-      };
-      ctx.resolve(presenceMap[presenceId]);
-    });
+  async _fetchPresences(contexts: GetPresenceContext[]) {
+    // request
+    const responses = await this._batchFetchPresences(contexts);
+    // response
+    const presenceMap = reduce(
+      (acc, { extensionId }) => {
+        const response = responses[extensionId];
+        if (response) {
+          const {
+            dndStatus,
+            presenceStatus,
+            telephonyStatus,
+            userStatus,
+            meetingStatus,
+          } = response;
+          acc[extensionId] = {
+            dndStatus,
+            presenceStatus,
+            telephonyStatus,
+            userStatus,
+            meetingStatus,
+          };
+        } else if (this.presences[extensionId]) {
+          // Should keep the previous state when fail to fetch
+          acc[extensionId] = this.presences[extensionId].presence;
+        }
+        return acc;
+      },
+      {} as PresenceMap,
+      contexts,
+    );
+    // update state
     this.batchFetchPresenceSuccess({
       presenceMap,
       ttl: this._presenceTtl,
     });
+    // callback
+    contexts.forEach(({ extensionId, callbacks }) => {
+      const presence = presenceMap[extensionId];
+      for (const resolve of callbacks) {
+        try {
+          resolve(presence);
+        } catch (ex) {
+          console.error(ex);
+        }
+      }
+    });
   }
 
-  async _batchQueryPresences(contacts: IContact[]) {
+  async _batchFetchPresences(contexts: GetPresenceContext[]) {
     const presenceSet: Record<string, PresenceInfoResponse> = {};
     try {
       const accountExtensionMap = reduce(
-        (acc: Record<string, string[]>, item) => {
-          if (!acc[item.account!.id!]) {
-            acc[item.account!.id!] = [];
+        (acc, { accountId, extensionId }) => {
+          const extensionIds = acc[accountId] ?? [];
+          if (!extensionIds.includes(extensionId)) {
+            extensionIds.push(extensionId);
           }
-          acc[item.account!.id!].push(item.id);
+          acc[accountId] = extensionIds;
           return acc;
         },
-        {},
-        contacts,
+        {} as Record<string, string[]>,
+        contexts,
       );
       const batchResponses = await Promise.all<
         (PresenceInfoResponse | ValidationError)[]
       >(
         map(async (accountId): Promise<any> => {
           if (accountExtensionMap[accountId].length > 1) {
-            const ids = join(',', accountExtensionMap[accountId]);
+            const extensionIds = join(',', accountExtensionMap[accountId]);
             // extract json data now so the data appears in the same format
             // as single requests
             return Promise.all(
@@ -367,17 +408,18 @@ export class AccountContacts extends RcModuleV2<Deps> implements ContactSource {
                 async (resp) => resp.json(),
                 await batchGetApi({
                   platform: this._deps.client.service.platform(),
-                  url: `/restapi/v1.0/account/${accountId}/extension/${ids}/presence`,
+                  url: `/restapi/v1.0/account/${accountId}/extension/${extensionIds}/presence`,
                 }),
               ),
             );
           }
           // wrap single request response data in array to keep the same
           // format as batch requests
+          const extensionId = accountExtensionMap[accountId][0];
           return [
             await this._deps.client
               .account(accountId)
-              .extension(accountExtensionMap[accountId][0])
+              .extension(extensionId)
               .presence()
               .get(),
           ];

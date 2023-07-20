@@ -1,5 +1,5 @@
 export default {
-  forward: "Weiterleiten",
+  forward: "Weiterl.",
   reply: "Antwort",
   ignore: "Ignorieren",
   toVoicemail: "An Voicemail",

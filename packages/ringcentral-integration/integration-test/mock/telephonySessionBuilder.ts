@@ -1,4 +1,4 @@
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { PartyStatusCode } from 'ringcentral-call-control/lib/Session';
 import { v4 as uuidV4 } from 'uuid';
 
@@ -22,7 +22,7 @@ export type PhoneNumber = {
 
 type CallDirectionsKeys = keyof typeof callDirections;
 
-type CallDirections = typeof callDirections[CallDirectionsKeys];
+type CallDirections = (typeof callDirections)[CallDirectionsKeys];
 type PartyStatusCodeKeys = keyof typeof PartyStatusCode;
 type recordingsProps = {
   id?: string;
@@ -44,7 +44,7 @@ export type Party = {
     extensionId: string;
   };
   status: {
-    code: typeof PartyStatusCode[PartyStatusCodeKeys];
+    code: (typeof PartyStatusCode)[PartyStatusCodeKeys];
     reason: string;
     mobilePickupData: {
       ccMailboxes: string[];
@@ -280,7 +280,7 @@ class TelephonySessionBuilder {
     return {
       ...telephonySessionMessage,
       uuid: uuidV4(),
-      timestamp: moment().format(),
+      timestamp: dayjs().format(),
       subscriptionId: uuidV4(),
       body: {
         ...telephonySessionMessage.body,

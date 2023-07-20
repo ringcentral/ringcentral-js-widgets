@@ -1,4 +1,3 @@
-
 export const languageRexExp = /^([a-z]{2})(-.*)?/;
 
 export const getLanguageFromLocale = (locale) => {

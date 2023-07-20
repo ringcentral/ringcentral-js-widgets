@@ -1,5 +1,5 @@
-import { ContactSource } from '../../interfaces/Contact.model';
-import { Auth } from '../Auth';
+import type { ContactSource } from '../../interfaces/Contact.model';
+import type { Auth } from '../Auth';
 
 export interface ContactsOptions {}
 

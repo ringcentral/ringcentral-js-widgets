@@ -3,7 +3,7 @@ import callResults from '@ringcentral-integration/commons/enums/callResults';
 import telephonyStatuses from '@ringcentral-integration/commons/enums/telephonyStatus';
 export default {
   [callDirections.inbound]: "Saapuva",
-  [callDirections.outbound]: "Lähtevä",
+  [callDirections.outbound]: "Lähtevät",
   status: "Tila:",
   InboundNumber: "Soittajatunnus:",
   OutboundNumber: "Soitettiin:",

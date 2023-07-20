@@ -1,4 +1,4 @@
-import { RolesBusinessSiteResource } from './RolesBusinessSiteResource';
+import type { RolesBusinessSiteResource } from './RolesBusinessSiteResource';
 
 export interface BusinessSiteCollectionResource {
   /**

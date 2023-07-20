@@ -12,7 +12,7 @@ import {
 
 import { phoneTypes } from '../../../enums/phoneTypes';
 import { AccountContacts } from '../../../modules/AccountContacts';
-import { CompanyContacts } from '../../../modules/CompanyContacts';
+import type { CompanyContacts } from '../../../modules/CompanyContacts';
 import { mockModuleGenerator } from '../../lib/mockModule';
 
 const getMockModule = () =>

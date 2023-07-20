@@ -1,4 +1,5 @@
-import React, { Component, PropsWithChildren } from 'react';
+import type { PropsWithChildren } from 'react';
+import React, { Component } from 'react';
 
 import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 import calleeTypes from '@ringcentral-integration/commons/enums/calleeTypes';
@@ -71,6 +72,7 @@ export type CallCtrlContainerProps = PropsWithChildren<{
   onCompleteTransfer?: (...args: any[]) => any;
   phoneNumber?: string;
   showPark?: boolean;
+  controlBusy?: boolean;
 }>;
 type CallCtrlContainerState = {
   layout: any;
@@ -384,6 +386,7 @@ export class CallCtrlContainer extends Component<
         afterHideMergeConfirm={this.props.afterHideMergeConfirm}
         afterConfirmMerge={this.props.afterConfirmMerge}
         afterOnMerge={this.props.afterOnMerge}
+        controlBusy={this.props.controlBusy}
       >
         {this.props.children}
       </CallCtrlPanel>
@@ -418,4 +421,5 @@ CallCtrlContainer.defaultProps = {
   onCompleteTransfer: () => null,
   phoneNumber: null,
   showPark: false,
+  controlBusy: false,
 };

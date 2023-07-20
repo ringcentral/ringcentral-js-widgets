@@ -7,7 +7,7 @@ export default {
   participants: "Partecipanti",
   participant: "Partecipante",
   conferenceCall: "Conferenza telefonica",
-  unknownNumber: "Numero anonimo"
+  unknownNumber: "Anonimo"
 };
 
 // @key: @#@"removeParticipant"@#@ @source: @#@"Remove Participant"@#@

@@ -1,13 +1,13 @@
-import { PerformanceCallsTotal } from './PerformanceCallsTotal';
-import { PerformanceCallsByDirection } from './PerformanceCallsByDirection';
-import { PerformanceCallsByOrigin } from './PerformanceCallsByOrigin';
-import { PerformanceCallsByResponse } from './PerformanceCallsByResponse';
-import { PerformanceCallsSegments } from './PerformanceCallsSegments';
-import { PerformanceCallsByResult } from './PerformanceCallsByResult';
-import { PerformanceCallsActions } from './PerformanceCallsActions';
-import { PerformanceCallsByCompanyHours } from './PerformanceCallsByCompanyHours';
-import { PerformanceCallsByQueueSla } from './PerformanceCallsByQueueSla';
-import { PerformanceCallsByType } from './PerformanceCallsByType';
+import type { PerformanceCallsTotal } from './PerformanceCallsTotal';
+import type { PerformanceCallsByDirection } from './PerformanceCallsByDirection';
+import type { PerformanceCallsByOrigin } from './PerformanceCallsByOrigin';
+import type { PerformanceCallsByResponse } from './PerformanceCallsByResponse';
+import type { PerformanceCallsSegments } from './PerformanceCallsSegments';
+import type { PerformanceCallsByResult } from './PerformanceCallsByResult';
+import type { PerformanceCallsActions } from './PerformanceCallsActions';
+import type { PerformanceCallsByCompanyHours } from './PerformanceCallsByCompanyHours';
+import type { PerformanceCallsByQueueSla } from './PerformanceCallsByQueueSla';
+import type { PerformanceCallsByType } from './PerformanceCallsByType';
 
 // Call volume data for the specified grouping
 export interface PerformanceCallsCounters {

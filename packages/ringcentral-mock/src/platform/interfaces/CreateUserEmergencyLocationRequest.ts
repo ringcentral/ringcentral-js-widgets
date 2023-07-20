@@ -1,4 +1,4 @@
-import { LocationUpdatesEmergencyAddressInfoRequest } from './LocationUpdatesEmergencyAddressInfoRequest';
+import type { LocationUpdatesEmergencyAddressInfoRequest } from './LocationUpdatesEmergencyAddressInfoRequest';
 
 export interface CreateUserEmergencyLocationRequest {
   /**

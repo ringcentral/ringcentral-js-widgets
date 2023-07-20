@@ -1,5 +1,5 @@
-import { EvTransferType } from '../enums';
-import {
+import type { EvTransferType } from '../enums';
+import type {
   EvAvailableCountry,
   EvAvailableRequeueQueue,
   EvDirectAgentListItem,

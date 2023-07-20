@@ -1,5 +1,5 @@
-import { CallPartyInfo } from './CallPartyInfo';
-import { CallSessionStatusInfo } from './CallSessionStatusInfo';
+import type { CallPartyInfo } from './CallPartyInfo';
+import type { CallSessionStatusInfo } from './CallSessionStatusInfo';
 
 export interface TelephonySessionsEventPartyInfo {
   /**

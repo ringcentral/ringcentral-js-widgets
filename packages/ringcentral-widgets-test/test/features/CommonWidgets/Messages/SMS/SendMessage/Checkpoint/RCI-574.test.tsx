@@ -1,8 +1,9 @@
 /**
  * RCI-574: Compose text page
- * https://test_id_domain/test-cases/RCI-574
+ * https://test_it_domain/test-cases/RCI-574
  */
 import phoneNumberData from '@ringcentral-integration/mock/src/platform/data/phoneNumber.json';
+import type { StepFunction } from '../../../../../../lib/step';
 import {
   p2,
   autorun,
@@ -12,7 +13,6 @@ import {
   Then,
   title,
   When,
-  StepFunction,
 } from '../../../../../../lib/step';
 import {
   NavigateToComposeText,

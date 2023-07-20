@@ -1,6 +1,6 @@
-import { NumberData } from '@ringcentral-integration/commons/integration-test/mock/telephonySessionBuilder';
+import type { NumberData } from '@ringcentral-integration/commons/integration-test/mock/telephonySessionBuilder';
 
-import { StepFunction } from '../../../lib/step';
+import type { StepFunction } from '../../../lib/step';
 import { AnswerCall } from '../SmallCallControl';
 import { MakeInboundCall } from './MakeInboundCall';
 import { MakeOutboundCall } from './MakeOutboundCall';

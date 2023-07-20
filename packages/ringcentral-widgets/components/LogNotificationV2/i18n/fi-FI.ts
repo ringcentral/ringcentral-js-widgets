@@ -1,6 +1,6 @@
 export default {
-  Inbound: "Saapuva",
-  Outbound: "Lähtevä",
+  Inbound: "Saapuvat",
+  Outbound: "Lähtevät",
   log: "Loki",
   save: "Tallenna ja uusi",
   discard: "Hylkää ja uusi",

@@ -1,4 +1,4 @@
-import { CallSessionObject } from './CallSessionObject';
+import type { CallSessionObject } from './CallSessionObject';
 
 export interface CallSession {
   /**

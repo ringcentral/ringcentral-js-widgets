@@ -26,7 +26,8 @@ export default {
   [messageSenderMessages.attachmentSizeLimitation]: "첨부 파일은 1.5M바이트로 제한됩니다.",
   [messageSenderMessages.noAttachmentToExtension]: "내선으로 MMS 보내기는 지원되지 않습니다.",
   areaCode: "지역 코드",
-  [messageSenderMessages.sending]: "메시지를 보내는 중... 완료하는 데 몇 분 정도 걸릴 수 있습니다."
+  [messageSenderMessages.sending]: "메시지를 보내는 중... 완료하는 데 몇 분 정도 걸릴 수 있습니다.",
+  [messageSenderMessages.shortNumbersNotAvailable]: "단축 번호로는 SMS를 보낼 수 없습니다."
 };
 
 // @key: @#@"[messageSenderMessages.sendSuccess]"@#@ @source: @#@"Send Success."@#@
@@ -56,3 +57,4 @@ export default {
 // @key: @#@"[messageSenderMessages.noAttachmentToExtension]"@#@ @source: @#@"It isn't supported to send MMS to an extension."@#@
 // @key: @#@"areaCode"@#@ @source: @#@"area code"@#@
 // @key: @#@"[messageSenderMessages.sending]"@#@ @source: @#@"Message being sent…It may take a couple of minutes to complete."@#@
+// @key: @#@"[messageSenderMessages.shortNumbersNotAvailable]"@#@ @source: @#@"Sending SMS to short numbers is not available."@#@

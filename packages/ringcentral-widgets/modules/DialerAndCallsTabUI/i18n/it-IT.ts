@@ -1,5 +1,5 @@
 export default {
-  dialer: "Tastiera del telefono",
+  dialer: "Tastierino",
   allCalls: "Tutte le chiamate"
 };
 

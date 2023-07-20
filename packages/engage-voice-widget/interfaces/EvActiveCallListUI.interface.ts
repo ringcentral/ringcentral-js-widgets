@@ -1,4 +1,4 @@
-import { EvCallData } from './EvData.interface';
+import type { EvCallData } from './EvData.interface';
 
 export type EvActiveCallListUIProps = {
   currentLocale: string;

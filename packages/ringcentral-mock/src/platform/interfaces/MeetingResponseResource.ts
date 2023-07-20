@@ -1,7 +1,7 @@
-import { MeetingLinks } from './MeetingLinks';
-import { MeetingScheduleResource } from './MeetingScheduleResource';
-import { HostInfoRequest } from './HostInfoRequest';
-import { RecurrenceInfo } from './RecurrenceInfo';
+import type { MeetingLinks } from './MeetingLinks';
+import type { MeetingScheduleResource } from './MeetingScheduleResource';
+import type { HostInfoRequest } from './HostInfoRequest';
+import type { RecurrenceInfo } from './RecurrenceInfo';
 
 export interface MeetingResponseResource {
   /**

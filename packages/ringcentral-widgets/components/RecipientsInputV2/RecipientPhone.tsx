@@ -1,7 +1,8 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import phoneTypeNames from '../../lib/phoneTypeNames';
-import { RecipientPhoneProps } from './RecipientsInputV2.interface';
+import type { RecipientPhoneProps } from './RecipientsInputV2.interface';
 import styles from './styles.scss';
 
 export const RecipientPhone: FunctionComponent<RecipientPhoneProps> = ({

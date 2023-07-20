@@ -22,7 +22,7 @@ export class Base64Hanlder extends Step {
   run() {
     return (
       <Scenario desc="DataUrl::decodeBase64DataUrl">
-        <When desc="setup" action={(_: any, context: any) => {}} />
+        <When desc="setup" />
         <Then
           desc="should return inline content ${inlineContent} when data URL is ${dataURL}"
           action={({ dataURL, isBase64, inlineContent }: any, { x }: any) => {

@@ -2,26 +2,29 @@
   "name": "@ringcentral-integration/utils",
   "version": "0.0.1",
   "description": "Base utils package for RingCentral integration products.",
-  "main": "index.ts",
-  "directories": {
-    "lib": "lib"
-  },
-  "scripts": {
-    "test": "yarn run-test",
-    "build": "yarn gulp build",
-    "gulp": "gulp --require @ringcentral-integration/babel-settings/lib/register.js",
-    "release": "yarn gulp release"
+  "homepage": "https://github.com/ringcentral/ringcentral-js-widgets/tree/master/packages/core#readme",
+  "bugs": {
+    "url": "https://github.com/ringcentral/ringcentral-js-widgets/issues"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ringcentral/ringcentral-js-widgets.git"
   },
-  "author": "RingCentral Integration Team",
-  "bugs": {
-    "url": "https://github.com/ringcentral/ringcentral-js-widgets/issues"
-  },
-  "homepage": "https://github.com/ringcentral/ringcentral-js-widgets/tree/master/packages/core#readme",
   "license": "MIT",
+  "author": "RingCentral Integration Team",
+  "main": "index.ts",
+  "directories": {
+    "lib": "lib"
+  },
+  "scripts": {
+    "build": "yarn gulp build",
+    "gulp": "gulp --require @ringcentral-integration/babel-settings/lib/register.js",
+    "release": "yarn gulp release",
+    "test": "yarn run-test"
+  },
+  "dependencies": {
+    "string-template": "^1.0.0"
+  },
   "devDependencies": {
     "@ringcentral-integration/babel-settings": "*",
     "@ringcentral-integration/test-utils": "*",
@@ -30,11 +33,11 @@
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "gulp-sourcemaps": "^2.6.5",
-    "jest-html-reporters": "^3.0.8"
+    "jest-html-reporters": "^3.0.8",
+    "webpack": "^5.58.1",
+    "yargs": "^17.1.1"
   },
-  "dependencies": {
-    "string-template": "^1.0.0"
-  },
+  "common": true,
   "ci": {
     "@ringcentral-integration/utils": "**"
   }

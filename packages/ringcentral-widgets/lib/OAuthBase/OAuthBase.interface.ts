@@ -1,8 +1,8 @@
-import { Alert } from '@ringcentral-integration/commons/modules/Alert';
-import { Auth } from '@ringcentral-integration/commons/modules/Auth';
-import { Brand } from '@ringcentral-integration/commons/modules/Brand';
-import { Locale } from '@ringcentral-integration/commons/modules/Locale';
-import TabManager from '@ringcentral-integration/commons/modules/TabManager';
+import type { Alert } from '@ringcentral-integration/commons/modules/Alert';
+import type { Auth } from '@ringcentral-integration/commons/modules/Auth';
+import type { Brand } from '@ringcentral-integration/commons/modules/Brand';
+import type { Locale } from '@ringcentral-integration/commons/modules/Locale';
+import type TabManager from '@ringcentral-integration/commons/modules/TabManager';
 import type { LoginUrlOptions } from '@ringcentral/sdk';
 
 export interface OAuthOptions

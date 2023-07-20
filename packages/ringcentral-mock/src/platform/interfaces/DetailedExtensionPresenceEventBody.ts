@@ -1,4 +1,4 @@
-import { ActiveCallInfoWithoutSIP } from './ActiveCallInfoWithoutSIP';
+import type { ActiveCallInfoWithoutSIP } from './ActiveCallInfoWithoutSIP';
 
 // Notification payload body
 export interface DetailedExtensionPresenceEventBody {

@@ -1,5 +1,5 @@
-import { ContactBusinessAddressInfo } from './ContactBusinessAddressInfo';
-import { PronouncedNameInfo } from './PronouncedNameInfo';
+import type { ContactBusinessAddressInfo } from './ContactBusinessAddressInfo';
+import type { PronouncedNameInfo } from './PronouncedNameInfo';
 
 // Contact Information
 export interface ContactInfoCreationRequest {

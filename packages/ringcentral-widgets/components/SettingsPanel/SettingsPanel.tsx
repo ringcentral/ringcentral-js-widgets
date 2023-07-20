@@ -1,4 +1,5 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import { RemoveMeetingWarn } from '../MeetingAlert';
 import { BasePanel } from './BasePanel';
@@ -6,7 +7,7 @@ import { ClickToDial } from './ClickToDial';
 import { LinkLineItem } from './LinkLineItem';
 import { Locale } from './Locale';
 import { PresenceSetting } from './PresenceSetting';
-import { SettingsPanelProps } from './SettingsPanel.interface';
+import type { SettingsPanelProps } from './SettingsPanel.interface';
 import { SwitchLineItem } from './SwitchLineItem';
 
 const Empty = (): null => null;

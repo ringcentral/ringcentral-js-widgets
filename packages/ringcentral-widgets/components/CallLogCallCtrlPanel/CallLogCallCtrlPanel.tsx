@@ -1,7 +1,8 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import CallLogCallCtrlComponent from '../CallLogCallCtrlComponent';
-import { CallLogCallCtrlPanelProps } from './CallLogCallCtrlPanel.interface';
+import type { CallLogCallCtrlPanelProps } from './CallLogCallCtrlPanel.interface';
 
 export type CurrentSession = {
   isOnMute: boolean;
@@ -38,6 +39,7 @@ const CallLogCallCtrlPanel: FunctionComponent<CallLogCallCtrlPanelProps> = (
     dialpadToggleTrack,
     clickForwardTrack,
     warmTransferActiveTelephonySessionId,
+    allowPickupCall,
   } = props;
 
   if (!currentSession) {
@@ -89,6 +91,7 @@ const CallLogCallCtrlPanel: FunctionComponent<CallLogCallCtrlPanelProps> = (
         warmTransferActiveTelephonySessionId
       }
       enableReply={enableReply}
+      allowPickupCall={allowPickupCall}
     />
   );
 };

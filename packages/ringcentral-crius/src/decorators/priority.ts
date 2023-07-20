@@ -1,5 +1,6 @@
-import { priorities, Priority } from '../constant';
-import { Step } from '../step';
+import type { Priority } from '../constant';
+import { priorities } from '../constant';
+import type { Step } from '../step';
 
 function priority(value: Priority) {
   if (typeof value === 'undefined' || value === null) {

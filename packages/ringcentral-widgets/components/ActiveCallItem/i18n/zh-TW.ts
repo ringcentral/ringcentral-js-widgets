@@ -8,7 +8,7 @@ export default {
   CallConnected: "通話已連線",
   unknownUser: "未知的使用者",
   unknownNumber: "匿名",
-  unavailable: "不可用",
+  unavailable: "無法接聽通話",
   viewDetails: "檢視詳細資訊",
   addEntity: "建立",
   addLog: "記錄",

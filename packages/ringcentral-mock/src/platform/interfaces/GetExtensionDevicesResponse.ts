@@ -1,6 +1,6 @@
-import { ExtensionDeviceResponse } from './ExtensionDeviceResponse';
-import { DeviceProvisioningNavigationInfo } from './DeviceProvisioningNavigationInfo';
-import { DeviceProvisioningPagingInfo } from './DeviceProvisioningPagingInfo';
+import type { ExtensionDeviceResponse } from './ExtensionDeviceResponse';
+import type { DeviceProvisioningNavigationInfo } from './DeviceProvisioningNavigationInfo';
+import type { DeviceProvisioningPagingInfo } from './DeviceProvisioningPagingInfo';
 
 export interface GetExtensionDevicesResponse {
   /**

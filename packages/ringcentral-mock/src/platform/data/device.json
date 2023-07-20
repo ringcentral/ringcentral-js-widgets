@@ -10,7 +10,11 @@
         "id": "51",
         "name": "Cisco SPA-303 Desk Phone",
         "addons": [],
-        "features": ["Intercom", "Paging", "BLA"]
+        "features": [
+          "Intercom",
+          "Paging",
+          "BLA"
+        ]
       },
       "name": "Phone",
       "serial": "HELL38923006-160770006",

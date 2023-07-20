@@ -1,4 +1,4 @@
-import { SessionData } from 'ringcentral-call-control/lib/Session';
+import type { SessionData } from 'ringcentral-call-control/lib/Session';
 
 import {
   autorun,

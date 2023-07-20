@@ -1,5 +1,5 @@
-import { AudioPromptInfo } from './AudioPromptInfo';
-import { PromptLanguageInfo } from './PromptLanguageInfo';
+import type { AudioPromptInfo } from './AudioPromptInfo';
+import type { PromptLanguageInfo } from './PromptLanguageInfo';
 
 // Prompt metadata
 export interface IVRMenuPromptInfo {

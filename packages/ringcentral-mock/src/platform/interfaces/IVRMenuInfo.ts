@@ -1,6 +1,6 @@
-import { IVRMenuSiteInfo } from './IVRMenuSiteInfo';
-import { IVRMenuPromptInfo } from './IVRMenuPromptInfo';
-import { IVRMenuActionsInfo } from './IVRMenuActionsInfo';
+import type { IVRMenuSiteInfo } from './IVRMenuSiteInfo';
+import type { IVRMenuPromptInfo } from './IVRMenuPromptInfo';
+import type { IVRMenuActionsInfo } from './IVRMenuActionsInfo';
 
 export interface IVRMenuInfo {
   /**

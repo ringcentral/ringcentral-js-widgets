@@ -1,7 +1,7 @@
 import { waitUntilTo } from '@ringcentral-integration/utils';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { StepFunction } from '../../lib/step';
+import type { StepFunction } from '../../lib/step';
 
 interface SearchProps {
   testId: string;

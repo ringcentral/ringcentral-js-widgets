@@ -18,6 +18,7 @@ const plugins = [
   '@babel/plugin-proposal-optional-chaining',
   '@babel/plugin-proposal-nullish-coalescing-operator',
   'const-enum',
+  '@babel/plugin-transform-typescript',
 ];
 
 function normalizePresetEnvOptions({
@@ -38,10 +39,14 @@ function checkGulp(caller) {
 
 module.exports = function baseBabelConfig(
   api,
-  { presetEnvOptions = {}, sourceType = 'module' } = {},
+  {
+    presetEnvOptions = {},
+    sourceType = 'module',
+    plugins: otherPlugins = [],
+  } = {},
 ) {
   const isGulp = api.caller(checkGulp);
-  const newPlugins = [...plugins];
+  const newPlugins = [...plugins, ...otherPlugins];
   if (isGulp) {
     // use `babel-plugin-direct-import` to import juno directly at widget lib release
     newPlugins.push([

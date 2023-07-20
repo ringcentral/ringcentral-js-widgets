@@ -1,12 +1,12 @@
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import { callingOptions } from '@ringcentral-integration/commons/modules/CallingSettings';
-import {
-  RcUIModuleV2,
-  UIFunctions,
-  UIProps,
-} from '@ringcentral-integration/core';
+import type { UIFunctions, UIProps } from '@ringcentral-integration/core';
+import { RcUIModuleV2 } from '@ringcentral-integration/core';
 
-import { AudioSettingsPanelProps, Deps } from './AudioSettingsUI.interface';
+import type {
+  AudioSettingsPanelProps,
+  Deps,
+} from './AudioSettingsUI.interface';
 
 @Module({
   name: 'AudioSettingsUI',

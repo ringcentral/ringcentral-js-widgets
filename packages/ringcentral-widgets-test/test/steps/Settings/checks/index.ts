@@ -5,3 +5,4 @@ export * from './CheckAreaCodeField';
 export * from './CheckCallWithSoftphoneOption';
 export * from './CheckAppVersionDisplay';
 export * from './CheckCountryCodeHint';
+export * from './CheckAcceptCallQueueCalls';

@@ -30,29 +30,29 @@ describe.each`
 
 describe('formatTextToHtml', () => {
   test('formalize and replace newlines', () => {
-    const message: string = 'aaa\nbbb\r\nccc\rddd';
+    const message = 'aaa\nbbb\r\nccc\rddd';
     expect(formatTextToHtml(message)).toEqual(
       `aaa${htmlNewLine}bbb${htmlNewLine}ccc${htmlNewLine}ddd`,
     );
   });
 
   test('replace leading whitespaces', () => {
-    const message: string = `${' '.repeat(3)}aaa bbb`;
+    const message = `${' '.repeat(3)}aaa bbb`;
     expect(formatTextToHtml(message)).toEqual(
       `${htmlIndentation.repeat(3)}aaa bbb`,
     );
   });
 
   test('replace all tabs', () => {
-    const message: string = '\taaa\tbbb';
+    const message = '\taaa\tbbb';
     expect(formatTextToHtml(message)).toEqual(
       `${htmlTabIndentation}aaa${htmlTabIndentation}bbb`,
     );
   });
 
   test('replace links', () => {
-    const link: string = 'https://rcdev.dev.meetzoom.us/j/1492252796';
-    const message: string = `meeting link ${link}`;
+    const link = 'https://rcdev.dev.meetzoom.us/j/1492252796';
+    const message = `meeting link ${link}`;
     expect(
       formatTextToHtml(message, {
         links: [link],
@@ -61,10 +61,10 @@ describe('formatTextToHtml', () => {
   });
 
   test('search two links', () => {
-    const link1: string =
+    const link1 =
       'https://rcdev.dev.meetzoom.us/j/1492252796?pwd=sdfkljkl23423423';
-    const link2: string = 'https://v.ringcentral.com/teleconference';
-    const message: string = `meeting link ${link1}<br /> ${link2}`;
+    const link2 = 'https://v.ringcentral.com/teleconference';
+    const message = `meeting link ${link1}<br /> ${link2}`;
     expect(
       formatTextToHtml(message, {
         searchLinks: true,
@@ -75,9 +75,9 @@ describe('formatTextToHtml', () => {
   });
 
   test('search one links', () => {
-    const link1: string =
+    const link1 =
       'https://rcdev.dev.meetzoom.us/j/1492252796?pwd=sdfkljkl23423423';
-    const message: string = `meeting link ${link1}`;
+    const message = `meeting link ${link1}`;
     expect(
       formatTextToHtml(message, {
         searchLinks: true,
@@ -86,8 +86,8 @@ describe('formatTextToHtml', () => {
   });
 
   test('search links followed by <br>', () => {
-    const link1: string = 'https://rcdev.dev.meetzoom.us/j/1492252796';
-    const message: string = `meeting link ${link1}<br>`;
+    const link1 = 'https://rcdev.dev.meetzoom.us/j/1492252796';
+    const message = `meeting link ${link1}<br>`;
     expect(
       formatTextToHtml(message, {
         searchLinks: true,
@@ -98,9 +98,9 @@ describe('formatTextToHtml', () => {
   });
 
   test('search links within anchor', () => {
-    const link1: string = 'https://rcdev.dev.meetzoom.us/j/1492252796';
-    const link2: string = 'https://v.ringcentral.com/teleconference';
-    const message: string = `meeting link <a target="_blank" href="${link1}">${link1}</a> ${link2}<br>`;
+    const link1 = 'https://rcdev.dev.meetzoom.us/j/1492252796';
+    const link2 = 'https://v.ringcentral.com/teleconference';
+    const message = `meeting link <a target="_blank" href="${link1}">${link1}</a> ${link2}<br>`;
     expect(
       formatTextToHtml(message, {
         searchLinks: true,
@@ -111,9 +111,9 @@ describe('formatTextToHtml', () => {
   });
 
   test('composited', () => {
-    const link1: string = 'https://rcdev.dev.meetzoom.us/j/1492252796';
-    const link2: string = 'https://v.ringcentral.com/teleconference';
-    const link3: string = 'https://www.ringcentral.com/apps';
+    const link1 = 'https://rcdev.dev.meetzoom.us/j/1492252796';
+    const link2 = 'https://v.ringcentral.com/teleconference';
+    const link3 = 'https://www.ringcentral.com/apps';
     const inputParts: string[] = [
       `meeting link ${link1}`,
       '\n aaa',

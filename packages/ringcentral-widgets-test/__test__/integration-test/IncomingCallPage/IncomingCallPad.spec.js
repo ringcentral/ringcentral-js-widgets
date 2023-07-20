@@ -76,7 +76,7 @@ const enterToNumber = async (target, number) => {
 };
 
 beforeEach(async () => {
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 64000;
+  jest.setTimeout(64000);
 });
 
 afterEach(() => {

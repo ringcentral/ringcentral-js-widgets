@@ -5,11 +5,12 @@ import {
 } from '@ringcentral/juno';
 
 import { Send } from '@ringcentral/juno-icon';
-import React, { FunctionComponent, useState, MouseEvent } from 'react';
+import type { FunctionComponent } from 'react';
+import React, { useState, MouseEvent } from 'react';
 import BackHeader from '../BackHeaderV2';
+import type { ReplyWithPattern } from '../../modules/ReplyWithMessageUI';
 import i18n from './i18n';
-import { ReplyWithPattern } from '../../modules/ReplyWithMessageUI';
-import {
+import type {
   OptionsItem,
   ReplyWithMessageProps,
 } from './ReplyWithMessagePanel.interface';

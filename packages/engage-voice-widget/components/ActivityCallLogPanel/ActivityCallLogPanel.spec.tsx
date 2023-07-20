@@ -8,12 +8,10 @@ import {
   RcThemeProvider,
 } from '@ringcentral/juno';
 
-import { EvCallData, EvCurrentLog, EvIvrData } from '../../interfaces';
+import type { EvCallData, EvCurrentLog, EvIvrData } from '../../interfaces';
 import i18n from '../SmallCallControl/i18n';
-import {
-  ActivityCallLogPanel,
-  ActivityCallLogPanelProps,
-} from './ActivityCallLogPanel';
+import type { ActivityCallLogPanelProps } from './ActivityCallLogPanel';
+import { ActivityCallLogPanel } from './ActivityCallLogPanel';
 
 let wrapper;
 const currentLocale = 'en-US';

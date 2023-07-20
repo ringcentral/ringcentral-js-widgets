@@ -7,20 +7,20 @@ export default {
   [webphoneErrors.webphoneCountOverLimit]: "Se pueden registrar 5 teléfonos web como máximo.",
   [webphoneErrors.checkDLError]: "No se pudo realizar una llamada saliente. Comuníquese con {brandName} para obtener asistencia si este error continúa apareciendo.",
   [webphoneErrors.noOutboundCallWithoutDL]: "En este momento, su extensión no puede hacer llamadas salientes con navegador, comuníquese con su representante para acceder a la actualización.",
-  [webphoneErrors.provisionUpdate]: "Lo sentimos, cometimos un error. Intentaremos volver a conectar rápidamente.",
+  [webphoneErrors.provisionUpdate]: "Se produjo un error en nuestro sistema. Intentaremos volver a conectar rápidamente.",
   [webphoneErrors.serverConnecting]: "Lo sentimos, tenemos un problema para conectar al servidor telefónico.",
   [webphoneErrors.toVoiceMailError]: "No se puede enviar la llamada al buzón debido a un error interno",
   [webphoneErrors.muteError]: "No se puede silenciar la llamada en este momento.",
   [webphoneErrors.holdError]: "No se puede poner la llamada en espera en este momento.",
   [webphoneErrors.flipError]: "No se puede voltear la llamada. Inténtelo de nuevo más tarde.",
   [webphoneErrors.recordError]: "No puede grabar la llamada en este momento. Código de error: {errorCode}",
-  [webphoneErrors.pauseRecordError]: "Lo sentimos, no pudimos dejar de grabar la llamada. Inténtelo de nuevo más tarde.",
+  [webphoneErrors.pauseRecordError]: "Lo sentimos, no pudimos detener la grabación de la llamada. Inténtelo de nuevo más tarde.",
   [webphoneErrors.recordDisabled]: "Su cuenta no incluye la función de grabar llamadas. Comuníquese con el administrador de su cuenta.",
   [webphoneErrors.transferError]: "No se puede transferir la llamada. Inténtelo de nuevo más tarde.",
   [webphoneMessages.parked]: "Su llamada se recuperó en la ubicación: {parkedNumber}",
   failWithStatusCode: "Lo sentimos, hemos detectado un error: {errorCode}. Si el problema persiste, comuníquelo al servicio técnico de {brandName}.",
   registeringWithStatusCode: "Lo sentimos, cometimos un error. Estamos intentando volver a conectar. Si el problema persiste, comuníquelo al servicio técnico de {brandName}. Código de error: {errorCode}.",
-  failWithoutStatusCode: "Lo sentimos, cometimos un error. Si el error persiste, comuníquelo al servicio técnico de {brandName}.",
+  failWithoutStatusCode: "Se produjo un error en nuestro sistema. Si el error persiste, comuníquelo al servicio técnico de {brandName}.",
   registeringWithoutStatusCode: "Lo sentimos, cometimos un error. Estamos intentando volver a conectar. Si el problema persiste, comuníquelo al servicio técnico de {brandName}."
 };
 

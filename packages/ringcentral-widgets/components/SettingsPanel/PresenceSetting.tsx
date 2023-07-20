@@ -1,7 +1,8 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import { PresenceSettingSection } from '../PresenceSettingSection';
-import { PresenceSettingProps } from './SettingsPanel.interface';
+import type { PresenceSettingProps } from './SettingsPanel.interface';
 
 const PresenceSetting: FunctionComponent<PresenceSettingProps> = ({
   showPresenceSettings,

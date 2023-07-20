@@ -1,10 +1,10 @@
-import { AppFeatures } from '../AppFeatures';
-import {
+import type { AppFeatures } from '../AppFeatures';
+import type {
   DataFetcherV2ConsumerBaseDeps,
   DataSourceBaseProps,
 } from '../DataFetcherV2';
-import { Subscription } from '../Subscription';
-import { TabManager } from '../TabManager';
+import type { Subscription } from '../Subscription';
+import type { TabManager } from '../TabManager';
 
 export interface ActiveCallsOptions extends DataSourceBaseProps {
   fetchDelay?: number;

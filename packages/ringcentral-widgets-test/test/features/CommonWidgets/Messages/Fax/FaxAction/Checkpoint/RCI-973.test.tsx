@@ -1,6 +1,6 @@
 /**
  * RCI-973: Fax action buttons
- * https://test_id_domain/test-cases/RCI-973
+ * https://test_it_domain/test-cases/RCI-973
  * Preconditions:
  * The user has logged into the CTI app with AI CDC off
  * The user has authorized 3rd party
@@ -68,6 +68,8 @@ export class RCI973FaxActionButtons extends Step {
                 ...mockData,
                 ...mockMessageListData(null),
               })}
+              isDefaultInit
+              repeat={0}
             />,
             <MockMessageSync
               isDefaultInit

@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react';
 
 import { formatContactPhoneNumber } from '../../../../modules/ContactDetailsUI';
-import { StepFunction } from '../../../lib/step';
+import type { StepFunction } from '../../../lib/step';
 
 export const CheckContactNumberExist: StepFunction<
   { number: string },

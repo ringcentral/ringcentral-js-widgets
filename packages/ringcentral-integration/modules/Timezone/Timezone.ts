@@ -11,7 +11,7 @@ import {
 
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
-import { Deps } from './Timezone.interface';
+import type { Deps } from './Timezone.interface';
 
 const CACHE_TTL = 60 * 60e3;
 

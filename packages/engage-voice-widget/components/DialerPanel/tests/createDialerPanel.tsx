@@ -4,7 +4,7 @@ import { mount } from 'enzyme';
 
 import { RcThemeProvider } from '@ringcentral/juno';
 
-import { DialoutStatusesType } from '../../../enums/dialoutStatus';
+import type { DialoutStatusesType } from '../../../enums/dialoutStatus';
 import { DialerPanel } from '../DialerPanel';
 
 const currentLocale = 'en-US';

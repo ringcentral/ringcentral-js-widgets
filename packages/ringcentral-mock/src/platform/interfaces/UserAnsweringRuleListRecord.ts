@@ -1,4 +1,4 @@
-import { SharedLinesInfo } from './SharedLinesInfo';
+import type { SharedLinesInfo } from './SharedLinesInfo';
 
 export interface UserAnsweringRuleListRecord {
   /**

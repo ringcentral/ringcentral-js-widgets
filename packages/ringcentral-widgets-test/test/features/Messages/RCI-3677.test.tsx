@@ -1,6 +1,6 @@
 /**
  * RCI-3677: Fax log for user was hide
- * https://test_id_domain/test-cases/RCI-3677
+ * https://test_it_domain/test-cases/RCI-3677
  * Preconditions:
  * UserAhas logged into the 3rd party
  * CTI app is installed
@@ -19,6 +19,7 @@
  *
  */
 
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   autorun,
   examples,
@@ -27,7 +28,6 @@ import {
   p2,
   Scenario,
   Step,
-  StepFunction,
   Then,
   title,
   When,
@@ -84,6 +84,8 @@ export class Fax3677 extends Step<IFax3677Props> {
               ...mockData,
               ...mockMessageListData(null),
             })}
+            repeat={0}
+            isDefaultInit
           />,
           <MockMessageSync
             handler={(mockData) => ({

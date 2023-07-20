@@ -64,6 +64,7 @@ export async function mockConferenceCallEnv(
   /* mock data */
   mock.device(deviceBody);
   const conferenceSession = await makeConferenceCall(phone);
+  conferenceSession.trigger('accepted', {});
   const activeCallsBody = mockActiveCalls(phone.webphone.sessions, []);
   mockGeneratePresenceApi({
     activeCalls: activeCallsBody,

@@ -1,5 +1,5 @@
 export default {
-  logging: "Connexion...",
+  logging: "Connexion…",
   logCall: "Journal des appels",
   editLog: "Modifier le journal",
   select: "Sélectionner un enregistrement correspondant",
@@ -12,7 +12,7 @@ export default {
   viewDetails: "Afficher les renseignements",
   addEntity: "Créer",
   addLog: "Liste",
-  text: "Texter",
+  text: "Texto",
   call: "Appeler",
   addContact: "Ajouter un contact",
   missedCall: "Manqué",

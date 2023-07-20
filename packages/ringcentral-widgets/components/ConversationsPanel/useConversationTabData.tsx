@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 
 import messageTypes from '@ringcentral-integration/commons/enums/messageTypes';
 
-import { TabPropTypes } from '../NavigationBar';
+import type { TabPropTypes } from '../NavigationBar';
 import i18n from './i18n';
 import { TabTitle } from './TabTitle';
 

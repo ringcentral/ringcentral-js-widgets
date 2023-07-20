@@ -2,7 +2,7 @@ export default {
   to: "Para:",
   transferTo: "Transferir para",
   blindTransfer: "Transferir",
-  warmTransfer: "Perguntar primeiro",
+  warmTransfer: "Pergunte primeiro",
   enterNameOrNumber: "Inserir número",
   toVoicemail: "Para caixa postal"
 };

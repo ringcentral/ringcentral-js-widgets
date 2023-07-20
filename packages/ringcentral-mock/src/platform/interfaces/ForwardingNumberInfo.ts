@@ -1,4 +1,4 @@
-import { CreateForwardingNumberDeviceInfo } from './CreateForwardingNumberDeviceInfo';
+import type { CreateForwardingNumberDeviceInfo } from './CreateForwardingNumberDeviceInfo';
 
 export interface ForwardingNumberInfo {
   /**

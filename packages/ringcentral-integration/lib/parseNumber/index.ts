@@ -1,4 +1,5 @@
-import { CountryCode, parse } from '@ringcentral-integration/phone-number';
+import type { CountryCode } from '@ringcentral-integration/phone-number';
+import { parse } from '@ringcentral-integration/phone-number';
 
 function parseNumber({
   phoneNumber,

@@ -1,4 +1,4 @@
-import { PeerInfo } from './PeerInfo';
+import type { PeerInfo } from './PeerInfo';
 
 // Status data of a call session
 export interface CallStatusInfo {

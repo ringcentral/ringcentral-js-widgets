@@ -1,11 +1,11 @@
-import { Unsubscribe } from 'redux';
+import type { Unsubscribe } from 'redux';
 
 import { computed, watch } from '@ringcentral-integration/core';
 
-import { NumberParserAPIResponse } from '../../interfaces/NumberParserResponse.interface';
+import type { NumberParserAPIResponse } from '../../interfaces/NumberParserResponse.interface';
 import { Module } from '../../lib/di';
 import { DataFetcherV2Consumer, DataSource } from '../DataFetcherV2';
-import { Deps } from './ExtensionNumberAreaCode.interface';
+import type { Deps } from './ExtensionNumberAreaCode.interface';
 
 @Module({
   name: 'ExtensionNumberAreaCode',
@@ -22,8 +22,7 @@ export class ExtensionNumberAreaCode extends DataFetcherV2Consumer<
   Deps,
   NumberParserAPIResponse
 > {
-  // @ts-expect-error
-  protected _stopWatching: Unsubscribe;
+  protected _stopWatching?: Unsubscribe;
 
   constructor(deps: Deps) {
     super({
@@ -80,8 +79,7 @@ export class ExtensionNumberAreaCode extends DataFetcherV2Consumer<
 
   override onReset() {
     this._stopWatching?.();
-    // @ts-expect-error
-    this._stopWatching = null;
+    this._stopWatching = undefined;
   }
 
   @computed((that: ExtensionNumberAreaCode) => [
@@ -98,12 +96,14 @@ export class ExtensionNumberAreaCode extends DataFetcherV2Consumer<
   }
 
   @computed(({ data }: ExtensionNumberAreaCode) => [data])
-  get defaultAreaCode(): string {
+  get defaultAreaCode() {
+    if (!this.data) {
+      return;
+    }
     const [primaryNumber, mainCompanyNumber] = this.data.results;
     return (
       primaryNumber?.numberDetails?.areaCode ||
-      mainCompanyNumber?.numberDetails?.areaCode ||
-      ''
+      mainCompanyNumber?.numberDetails?.areaCode
     );
   }
 }

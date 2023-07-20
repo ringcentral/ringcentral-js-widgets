@@ -15,7 +15,7 @@ export type ContactPhoneNumber = {
   hidden?: boolean;
 } & PhoneNumberResource;
 
-export interface IContact extends ContactResource {
+export interface IContact extends Omit<ContactResource, 'type'> {
   id: string;
   type: string;
   firstName?: string;
@@ -31,6 +31,7 @@ export interface IContact extends ContactResource {
   hidden?: boolean;
   presence?: ContactPresence | null;
 }
+
 export interface TypedPhoneNumber {
   id: string;
   name: string;
@@ -60,7 +61,11 @@ export interface ContactModel
 
 export type ContactPresence = Pick<
   PresenceInfoResponse,
-  'dndStatus' | 'presenceStatus' | 'telephonyStatus' | 'userStatus'
+  | 'dndStatus'
+  | 'presenceStatus'
+  | 'telephonyStatus'
+  | 'userStatus'
+  | 'meetingStatus'
 >;
 
 export interface ContactSource {

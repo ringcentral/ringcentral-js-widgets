@@ -1,10 +1,10 @@
-import { DeviceModelInfo } from './DeviceModelInfo';
-import { DeviceExtensionInfo } from './DeviceExtensionInfo';
-import { DeviceEmergencyServiceAddressResource } from './DeviceEmergencyServiceAddressResource';
-import { SipRegistrationDeviceEmergencyInfo } from './SipRegistrationDeviceEmergencyInfo';
-import { Shipping } from './Shipping';
-import { DevicePhoneLinesInfo } from './DevicePhoneLinesInfo';
-import { DeviceSiteInfo } from './DeviceSiteInfo';
+import type { DeviceModelInfo } from './DeviceModelInfo';
+import type { DeviceExtensionInfo } from './DeviceExtensionInfo';
+import type { DeviceEmergencyServiceAddressResource } from './DeviceEmergencyServiceAddressResource';
+import type { SipRegistrationDeviceEmergencyInfo } from './SipRegistrationDeviceEmergencyInfo';
+import type { Shipping } from './Shipping';
+import type { DevicePhoneLinesInfo } from './DevicePhoneLinesInfo';
+import type { DeviceSiteInfo } from './DeviceSiteInfo';
 
 export interface SipRegistrationDeviceInfo {
   /**

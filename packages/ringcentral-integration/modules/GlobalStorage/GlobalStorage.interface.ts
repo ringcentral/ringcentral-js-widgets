@@ -1,4 +1,4 @@
-import {
+import type {
   Deps as StorageBaseDeps,
   IStorageBaseOptions,
 } from '../../lib/StorageBase';

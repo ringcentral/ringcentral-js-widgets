@@ -1,6 +1,6 @@
 /**
  * RCI-4394: Send text to PSTN when can't match ext. but valid PSTN (DT<=MEL)
- * https://test_id_domain/test-cases/RCI-4394
+ * https://test_it_domain/test-cases/RCI-4394
  * Preconditions:
  * CTI app is integrated,
  * User is logged-in to 3rd party
@@ -49,7 +49,7 @@ import { screen } from '@testing-library/react';
 
 import { mockMessageListData } from '../../../../../../__mock__';
 import { generateDialPlanData } from '../../../../../../__mock__/generateDialPlanData';
-import { StepProp } from '../../../../../../lib/step';
+import type { StepProp } from '../../../../../../lib/step';
 import { ClickBackButton } from '../../../../../../steps/Common';
 import { CommonLogin } from '../../../../../../steps/CommonLogin';
 import { CheckConversations } from '../../../../../../steps/Conversation/CheckConversations';
@@ -63,6 +63,7 @@ import {
   MockGetPhoneNumber,
   MockGetTelephonyState,
   MockMessageSync,
+  MockMessageList,
   MockNumberParserV2,
   MockPermission,
   MockPostSMS,
@@ -73,17 +74,17 @@ import { NavigateTo } from '../../../../../../steps/Router';
 @autorun(test)
 @it
 @p1
-@common
 @title(`Send text to PSTN when can't match ext. but valid PSTN (DT<=MEL)`)
+@common
 export class SMSPSTNSDPEnabled extends Step {
   Login: StepProp = (props) => (
     <CommonLogin {...props} CreateInstance={CreateInstance} />
   );
   CreateMock: StepProp | null = CreateMock;
   @examples(`
-    | isoCode | MaxExtensionLength | phoneNumber | parsedNumber     | e164ParsedNumber |
-    | 'CA'    | 8                  | '2482217'   | '(205) 248-2217' | '+12052482217'   |
-    | 'GB'    | 8                  | '31350033'  | '028 3135 0033'  | '+442831350033'  |
+    | isoCode | MaxExtensionLength | phoneNumber | parsedNumber    | e164ParsedNumber |
+    | 'AU'    | 8                  | '2482217'   | '2052482217'    | '+612052482217'  |
+    | 'GB'    | 8                  | '31350033'  | '028 3135 0033' | '+442831350033'  |
   `)
   run() {
     const { Login, CreateMock } = this;
@@ -111,8 +112,7 @@ export class SMSPSTNSDPEnabled extends Step {
             handler={() => {
               return [
                 generateDialPlanData('44', '44', 'United Kingdom', 'GB'),
-                generateDialPlanData('39', '39', 'Canada', 'CA'),
-                generateDialPlanData('1', '1', 'United States', 'US'),
+                generateDialPlanData('61', '61', 'Australia', 'AU'),
               ];
             }}
           />,
@@ -143,6 +143,14 @@ export class SMSPSTNSDPEnabled extends Step {
                 toNumber: parsedNumber,
               }),
             })}
+          />,
+          <MockMessageList
+            handler={(mockData) => ({
+              ...mockData,
+              records: [],
+            })}
+            repeat={0}
+            isDefaultInit
           />,
           <MockPostSMS
             isDefaultInit

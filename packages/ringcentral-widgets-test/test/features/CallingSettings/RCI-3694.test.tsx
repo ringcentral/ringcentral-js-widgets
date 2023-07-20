@@ -1,5 +1,5 @@
 /* RCI-3694: Call from App(Jupiter) Jupiter App Name I18n Support
-https://test_id_domain/RCI-3694
+https://test_it_domain/RCI-3694
 Preconditions:
 The name property in callWithJupiter in the app's brandConfig is configured to use the following i18n values: en-US: 'en-US App Name', fr-FR: 'fr-FR App Name'.
 User is logged-in into 3rd party
@@ -13,6 +13,7 @@ Entry point(/s):
 Settings > Calling > Make my calls with
 */
 import { screen, fireEvent } from '@testing-library/react';
+import type { StepFunction } from '../../lib/step';
 import {
   autorun,
   title,
@@ -22,7 +23,6 @@ import {
   And,
   Then,
   Step,
-  StepFunction,
   examples,
 } from '../../lib/step';
 import { Login } from '../../steps/Login';

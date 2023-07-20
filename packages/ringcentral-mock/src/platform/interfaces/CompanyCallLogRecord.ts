@@ -1,10 +1,10 @@
-import { ExtensionInfoCallLog } from './ExtensionInfoCallLog';
-import { CallLogCallerInfo } from './CallLogCallerInfo';
-import { CallLogRecordMessage } from './CallLogRecordMessage';
-import { CallLogDelegateInfo } from './CallLogDelegateInfo';
-import { CallLogRecordingInfo } from './CallLogRecordingInfo';
-import { CallLogRecordLegInfo } from './CallLogRecordLegInfo';
-import { BillingInfo } from './BillingInfo';
+import type { ExtensionInfoCallLog } from './ExtensionInfoCallLog';
+import type { CallLogCallerInfo } from './CallLogCallerInfo';
+import type { CallLogRecordMessage } from './CallLogRecordMessage';
+import type { CallLogDelegateInfo } from './CallLogDelegateInfo';
+import type { CallLogRecordingInfo } from './CallLogRecordingInfo';
+import type { CallLogRecordLegInfo } from './CallLogRecordLegInfo';
+import type { BillingInfo } from './BillingInfo';
 
 export interface CompanyCallLogRecord {
   /**

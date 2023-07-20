@@ -1,5 +1,5 @@
-import { WeeklyScheduleInfo } from './WeeklyScheduleInfo';
-import { RangesInfo } from './RangesInfo';
+import type { WeeklyScheduleInfo } from './WeeklyScheduleInfo';
+import type { RangesInfo } from './RangesInfo';
 
 // Schedule when an answering rule should be applied
 export interface ScheduleInfo {

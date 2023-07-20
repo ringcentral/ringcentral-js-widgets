@@ -1,5 +1,5 @@
 import { URL } from 'url';
-import { StepFunction } from '../lib/step';
+import type { StepFunction } from '../lib/step';
 
 interface OAuthCheckProps {
   localeId: string;

@@ -1,4 +1,4 @@
-import { GlipPreferencesChats } from './GlipPreferencesChats';
+import type { GlipPreferencesChats } from './GlipPreferencesChats';
 
 export interface GlipPreferencesInfo {
   /**

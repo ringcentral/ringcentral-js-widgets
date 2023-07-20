@@ -1,6 +1,6 @@
-import { Patch } from 'immer';
-import { ReducersMapObject, Reducer, StoreEnhancer } from 'redux';
-import {
+import type { Patch } from 'immer';
+import type { ReducersMapObject, Reducer, StoreEnhancer } from 'redux';
+import type {
   stateKey,
   storeKey,
   subscriptionsKey,

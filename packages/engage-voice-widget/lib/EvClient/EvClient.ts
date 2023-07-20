@@ -1,5 +1,5 @@
-import { waitUntilTo } from '@ringcentral-integration/commons/utils';
 import { EventEmitter } from 'events';
+import { waitUntilTo } from '@ringcentral-integration/commons/utils';
 
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import { action, RcModuleV2, state } from '@ringcentral-integration/core';
@@ -11,7 +11,7 @@ import { _encodeSymbol } from '../constant';
 import { EvTypeError } from '../EvTypeError';
 import { evStatus } from './enums';
 import { EvCallbackTypes } from './enums/callbackTypes';
-import {
+import type {
   Deps,
   EvACKResponse,
   EvAddSessionNotification,

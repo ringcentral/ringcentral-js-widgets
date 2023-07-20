@@ -1,7 +1,7 @@
 import callDirections from '@ringcentral-integration/commons/enums/callDirections';
+import type { NumberData } from '@ringcentral-integration/commons/integration-test/mock/telephonySessionBuilder';
 import {
   createTelephonySession,
-  NumberData,
   PartyStatusCode,
   telephonySessionBuildersCache,
 } from '@ringcentral-integration/commons/integration-test/mock/telephonySessionBuilder';

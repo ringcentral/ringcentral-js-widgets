@@ -11,9 +11,9 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
+import { sleep } from '@ringcentral-integration/utils';
 import { Module, ModuleFactory } from '../../lib/di';
 import RcModule from '../../lib/RcModule';
-import { sleep } from '@ringcentral-integration/utils';
 import { Locale } from '../../modules/Locale';
 
 @autorun(test)

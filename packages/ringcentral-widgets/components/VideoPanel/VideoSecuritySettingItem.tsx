@@ -1,4 +1,5 @@
-import React, { FunctionComponent, ReactNode } from 'react';
+import type { FunctionComponent, ReactNode } from 'react';
+import React from 'react';
 
 import { RcFormControlLabel, RcIcon, RcTooltip } from '@ringcentral/juno';
 import { LockBorder } from '@ringcentral/juno-icon';

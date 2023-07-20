@@ -1,8 +1,10 @@
-import React, { FunctionComponent, ReactElement } from 'react';
+import type { FunctionComponent, ReactElement } from 'react';
+import React from 'react';
 
 import { RcList } from '@ringcentral/juno';
 
-import { ListViewItem, ListViewItemProps } from './ListViewItem';
+import type { ListViewItemProps } from './ListViewItem';
+import { ListViewItem } from './ListViewItem';
 
 export type ListViewProps = {
   options?: ListViewItemProps['option'][];

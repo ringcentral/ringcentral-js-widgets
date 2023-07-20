@@ -6,7 +6,7 @@ describe('validateNumbers', () => {
   it('should return result numbers if phoneNumbers is valid', () => {
     const result = validateNumbers({
       phoneNumbers: ['8370000'],
-      countryCode: 'US',
+      countryCode: 'CA',
       areaCode: '666',
       allowRegionSettings: true,
     });

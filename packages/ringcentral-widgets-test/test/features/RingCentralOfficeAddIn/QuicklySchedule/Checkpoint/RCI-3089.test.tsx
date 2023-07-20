@@ -1,6 +1,6 @@
 /**
  * RCI-3089: Users event description should be kept when add meeting
- * https://test_id_domain/test-cases/RCI-3089
+ * https://test_it_domain/test-cases/RCI-3089
  * Preconditions:
  * <ol><li>RC CTI app is installed and enabled</li><li>User has logged in to 3rd party</li><li>User logged in to RC CTI app</li><li>User has an outlook event (Event1) with description</li></ol>
 <p><strong><span style='color: rgb(102, 153, 102);'>
@@ -9,6 +9,7 @@
 <p><span style='background-color: transparent;'>Outlook > Calendar > Edit the event1</span>> <span style='background-color: transparent;'>Click </span><span style='background-color: transparent;'>'RingCentral Scheduler' / 'Schedule with RingCentral'</span></p><p>Outlook > Calendar > <span style='background-color: transparent;'>Edit the event1></span><span style='background-color: transparent;'> </span><span style='background-color: transparent;'>Click 'New Appointment' or 'New Meeting' in the menu bar > Click {Brand name} for Outlook</span></p>
  */
 
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p1,
   it,
@@ -16,7 +17,6 @@ import {
   examples,
   And,
   Scenario,
-  StepFunction,
   Step,
   Given,
   Then,

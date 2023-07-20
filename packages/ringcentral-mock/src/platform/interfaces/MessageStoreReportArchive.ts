@@ -1,4 +1,4 @@
-import { ArchiveInfo } from './ArchiveInfo';
+import type { ArchiveInfo } from './ArchiveInfo';
 
 export interface MessageStoreReportArchive {
   /**

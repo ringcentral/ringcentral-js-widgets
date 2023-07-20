@@ -4,5 +4,6 @@ export * from './WaitForInitMeeting';
 export * from './OperateRCVPage';
 export * from './OperateRCMPage';
 export * from './OperateFooter';
+export * from './OperateTopic';
 export * from './ClickScheduleMeeting';
 export * from './ClickCloseMeetingButton';

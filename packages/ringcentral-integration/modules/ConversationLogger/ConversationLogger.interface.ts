@@ -1,16 +1,16 @@
-import { Entity } from '../../interfaces/Entity.interface';
-import { Message } from '../../interfaces/MessageStore.model';
-import { LogOptions as BaseLogOptions } from '../../lib/LoggerBase';
-import { Correspondent } from '../../lib/messageHelper';
-import { AppFeatures } from '../AppFeatures';
-import { Auth } from '../Auth';
-import { ContactMatcher } from '../ContactMatcher';
-import { ConversationMatcher } from '../ConversationMatcher';
-import { DateTimeFormat, FormatDateTimeOptions } from '../DateTimeFormat';
-import { ExtensionInfo } from '../ExtensionInfo';
-import { MessageStore } from '../MessageStore';
-import { Storage } from '../Storage';
-import { TabManager } from '../TabManager';
+import type { Entity } from '../../interfaces/Entity.interface';
+import type { Message } from '../../interfaces/MessageStore.model';
+import type { LogOptions as BaseLogOptions } from '../../lib/LoggerBase';
+import type { Correspondent } from '../../lib/messageHelper';
+import type { AppFeatures } from '../AppFeatures';
+import type { Auth } from '../Auth';
+import type { ContactMatcher } from '../ContactMatcher';
+import type { ConversationMatcher } from '../ConversationMatcher';
+import type { DateTimeFormat, FormatDateTimeOptions } from '../DateTimeFormat';
+import type { ExtensionInfo } from '../ExtensionInfo';
+import type { MessageStore } from '../MessageStore';
+import type { Storage } from '../Storage';
+import type { TabManager } from '../TabManager';
 
 export interface ConversationLoggerOptions {
   isLoggedContact?: (

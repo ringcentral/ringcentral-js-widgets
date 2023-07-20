@@ -7,7 +7,9 @@
       "token": "SEhiQTh3fEJxUTR1YjVEM2ppeEh6aXJiLWJPY2RON1lGT0pZMU40azNFM2pLWElab1BERHRCWWpjSXg4RFdiMTNVdFh0WjZJakRldTZva1FBVDI5OWJRb2dEaC1odldMblVKOG1nN0p3cGV5dWhlMnZfU1k3M2JLVzljbmRFODlnTmh0LWZSVFVJZ3lOM1p0VFJrTXhjamY0eTFFS2p5REdmbkd3VnRWVGdrekxvbHgyRjdaaFpRRTdHOGc2aVZvLWZHdzhCRGFwbS10UXNrY3pGQ3VjVld1R1dqelE",
       "sequence": 1
     },
-    "headers": { "RCRequestId": "4cc688a8-db2a-11eb-a334-005056be4c3c" }
+    "headers": {
+      "RCRequestId": "4cc688a8-db2a-11eb-a334-005056be4c3c"
+    }
   },
   {
     "creationTime": "2021-07-02T11:40:28.805+0000",

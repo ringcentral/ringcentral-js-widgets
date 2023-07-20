@@ -1,7 +1,8 @@
-import { combineReducers, Reducer, ReducersMapObject } from 'redux';
+import type { Reducer, ReducersMapObject } from 'redux';
+import { combineReducers } from 'redux';
+import type { Action, Service, Store, Subscription } from '../usm-redux';
 import {
   action,
-  Action,
   applyPatches,
   computed,
   createStore,
@@ -9,15 +10,12 @@ import {
   enablePatches,
   getStagedState,
   identifierKey,
-  Service,
   setAutoFreeze,
   setPatchesToggle,
   state,
   stateKey,
-  Store,
   storeKey,
   subscribe,
-  Subscription,
   subscriptionsKey,
   usm as usmAction,
   watch,

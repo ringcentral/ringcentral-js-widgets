@@ -1,6 +1,6 @@
 /**
  * RCI-4200: If selected country's countryCallingCode does not match the primary number's countryCalling Code, then area code value is null
- * https://test_id_domain/test-cases/RCI-4200
+ * https://test_it_domain/test-cases/RCI-4200
  * Preconditions:
  * CTI app is integrated,
  * User is logged-in into 3rd party
@@ -24,6 +24,7 @@
  */
 
 import { waitUntilTo } from '@ringcentral-integration/utils';
+import type { StepProp } from '../../../../../../lib/step';
 import {
   p2,
   it,
@@ -34,8 +35,6 @@ import {
   Step,
   Then,
   title,
-  StepFunction,
-  StepProp,
 } from '../../../../../../lib/step';
 import { CommonLogin } from '../../../../../../steps/CommonLogin';
 import {
@@ -125,7 +124,7 @@ export class SelectedCountryCallingCode extends Step {
             await waitUntilTo(() => {
               expect(phone.extensionPhoneNumber.ready).toBeTruthy();
             });
-            expect(phone.regionSettings.defaultAreaCode).toBe(
+            expect(phone.regionSettings.defaultAreaCode ?? null).toBe(
               this.context.example.expectAccountAreaCode,
             );
           }}

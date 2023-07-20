@@ -1,8 +1,8 @@
 import callDirections from '../../enums/callDirections';
-import { Call } from '../../interfaces/Call.interface';
-import { ActiveCall } from '../../interfaces/Presence.model';
-import { NormalizedSession } from '../../interfaces/Webphone.interface';
-import { ActiveCallControlSessionData } from '../../interfaces/ActiveSession.interface';
+import type { Call } from '../../interfaces/Call.interface';
+import type { ActiveCall } from '../../interfaces/Presence.model';
+import type { NormalizedSession } from '../../interfaces/Webphone.interface';
+import type { ActiveCallControlSessionData } from '../../interfaces/ActiveSession.interface';
 
 function getSessionStartTime(session: NormalizedSession) {
   let webphoneStartTime;

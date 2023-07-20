@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { RcAlert, RcAlertProps } from '@ringcentral/juno';
+import type { RcAlertProps } from '@ringcentral/juno';
+import { RcAlert } from '@ringcentral/juno';
 
 import styles from './styles.scss';
 

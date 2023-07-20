@@ -1,17 +1,18 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import { map } from 'ramda';
 
+import type { RcPopupBoxProps } from '@ringcentral/juno';
 import {
   combineProps,
   palette2,
   RcDialogContent,
   RcPopupBox,
-  RcPopupBoxProps,
   styled,
 } from '@ringcentral/juno';
 
-import { ModalV2Props } from './interface';
+import type { ModalV2Props } from './interface';
 
 const PopupBox = styled(RcPopupBox)`
   ${RcDialogContent} {

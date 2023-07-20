@@ -3,7 +3,7 @@ import React, { forwardRef, useImperativeHandle, useRef } from 'react';
 import classnames from 'classnames';
 
 import { RecipientOption } from './RecipientOption';
-import {
+import type {
   DropdownListHandles,
   DropdownListProps,
 } from './RecipientsInputV2.interface';

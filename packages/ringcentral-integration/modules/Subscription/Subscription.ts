@@ -6,22 +6,21 @@ import {
   state,
   storage,
 } from '@ringcentral-integration/core';
-import { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
-import { ApiError } from '@ringcentral/sdk';
+import type { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
+import type { ApiError } from '@ringcentral/sdk';
 import Subscriptions from '@ringcentral/subscriptions';
 import type { SubscriptionData } from '@ringcentral/subscriptions/src/subscription/Subscription';
 
-import { subscriptionFilters } from '../../enums/subscriptionFilters';
-import {
-  debounce,
+import type { subscriptionFilters } from '../../enums/subscriptionFilters';
+import type {
   DebouncedFunction,
-  promisedDebounce,
   PromisedDebounceFunction,
 } from '../../lib/debounce-throttle';
+import { debounce, promisedDebounce } from '../../lib/debounce-throttle';
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
 import { normalizeEventFilter } from './normalizeEventFilter';
-import { Deps, MessageBase } from './Subscription.interface';
+import type { Deps, MessageBase } from './Subscription.interface';
 import { subscriptionStatus } from './subscriptionStatus';
 
 const DEFAULT_TIME_TO_RETRY = 20 * 1000;
@@ -54,7 +53,7 @@ export class Subscription extends RcModuleV2<Deps> {
     Subscription['_createSubscriptionWithLock']
   >;
 
-  __debugNotification__: boolean = false;
+  __debugNotification__ = false;
 
   constructor(deps: Deps) {
     super({

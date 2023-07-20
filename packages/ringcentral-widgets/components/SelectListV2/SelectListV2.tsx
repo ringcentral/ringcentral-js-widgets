@@ -1,12 +1,15 @@
-import React, { FunctionComponent, useRef } from 'react';
+import type { FunctionComponent } from 'react';
+import React, { useRef } from 'react';
 
 import classNames from 'classnames';
 
 import { emptyFn } from '@ringcentral-integration/utils';
 
 import { SelectListContext } from '../../contexts';
-import BackHeader, { BackHeaderProps } from '../BackHeaderV2';
-import { SearchPanel, SearchPanelProps } from '../SearchPanel';
+import type { BackHeaderProps } from '../BackHeaderV2';
+import BackHeader from '../BackHeaderV2';
+import type { SearchPanelProps } from '../SearchPanel';
+import { SearchPanel } from '../SearchPanel';
 import styles from './styles.scss';
 
 export type SelectListV2Props = {

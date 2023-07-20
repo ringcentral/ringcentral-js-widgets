@@ -1,6 +1,6 @@
 /**
  * RCI-4362: Call to external when the Ext changes
- * https://test_id_domain/test-cases/RCI-4362
+ * https://test_it_domain/test-cases/RCI-4362
  * Preconditions:
  * CTI app is integrated,
  * The user has logged in to the CTI app
@@ -31,12 +31,14 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
-import { StepProp } from '../../../lib/step';
+import type { StepProp } from '../../../lib/step';
 import { CheckCallControlPage, MakeCall } from '../../../steps/Call';
 import { CommonLogin } from '../../../steps/CommonLogin';
 import {
   MockAccountInfo,
   MockCallLogs,
+  MockDialingPlan,
+  MockExtensionInfo,
   MockExtensionsList,
   mockExtensionsListData,
   MockMessageSync,
@@ -46,6 +48,7 @@ import {
 } from '../../../steps/Mock';
 import { NavigateTo } from '../../../steps/Router/action';
 import { SetAreaCode } from '../../../steps/Settings';
+import { generateDialPlanData } from '../../../__mock__/generateDialPlanData';
 
 @autorun(test.skip)
 @it
@@ -56,9 +59,9 @@ export class RCI4362 extends Step {
   CreateMock: StepProp | null = null;
   Logout: StepProp | null = null;
   @examples(`
-      | maxExtensionNumberLength | areaCode | phoneNumber    | parsedNumber     | e164           |
-      | 7                        | '205'    |  '2482217'     | '(205) 248-2217' | '+12052482217' |
-    `)
+    | maxExtensionNumberLength | areaCode | phoneNumber | parsedNumber    | e164            |
+    | 7                        | '114'    | '3346365'   | '0114 334 6365' | '+441143346365' |
+  `)
   run() {
     const { Login, CreateMock, Logout } = this;
     return (
@@ -110,6 +113,17 @@ export class RCI4362 extends Step {
           <MockCallLogs repeat={0} />,
           <MockPresence repeat={0} />,
           <MockMessageSync repeat={0} />,
+          <MockExtensionInfo
+            handle={(mockData) => {
+              mockData.regionalSettings.homeCountry.isoCode = 'GB';
+              return mockData;
+            }}
+          />,
+          <MockDialingPlan
+            handler={() => {
+              return [generateDialPlanData('44', '44', 'United Kingdom', 'GB')];
+            }}
+          />,
         ]}
       >
         <Given desc="Login APP" action={Login} />

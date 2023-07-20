@@ -1,6 +1,6 @@
 /**
  * RCI-4105: Call emergency when OPC enabled
- * https://test_id_domain/test-cases/RCI-4105
+ * https://test_it_domain/test-cases/RCI-4105
  * Preconditions:
  * CTI app is integrated,
  * User is logged-in into 3rd party
@@ -42,7 +42,7 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
-import { StepProp } from '../../../../lib/step';
+import type { StepProp } from '../../../../lib/step';
 import {
   CheckCallControlPage as BaseCheckCallControlPage,
   MakeCall,

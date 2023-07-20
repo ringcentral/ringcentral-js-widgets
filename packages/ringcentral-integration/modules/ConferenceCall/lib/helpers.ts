@@ -1,6 +1,6 @@
 import { filter, find, map, sort } from 'ramda';
 
-import { Party } from '../ConferenceCall.interface';
+import type { Party } from '../ConferenceCall.interface';
 import { conferenceRole } from './constants';
 
 export function ascendSortParties(parties: Party[]): Party[] {

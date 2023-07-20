@@ -15,7 +15,7 @@ export default {
   forward: "Desviar",
   ignore: "Ignorar",
   voicemail: "Al buzón de voz",
-  custom: "Personalizar",
+  custom: "Personalizado",
   answerAndEnd: "Responder y finalizar",
   answerAndHold: "Responder y poner en espera",
   answer: "Responder",

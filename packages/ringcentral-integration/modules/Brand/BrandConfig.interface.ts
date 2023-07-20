@@ -1,4 +1,4 @@
-import { LocaleCode } from '@ringcentral-integration/locale-settings';
+import type { LocaleCode } from '@ringcentral-integration/locale-settings';
 import type { PaletteReturnType, RcThemeInput } from '@ringcentral/juno';
 
 export const I18nFlag = '__i18n__';
@@ -291,6 +291,14 @@ export interface BrandConfig {
    * show feedback in setting page
    */
   showFeedback?: boolean;
+  /**
+   * Enable Pendo for feedback
+   */
+  isEnablePendo?: boolean;
+  /**
+   * Extension V3 upgrade knowledge base article link
+   */
+  extV3KBLink?: string;
 }
 
 export type SubBrandOverride = Partial<

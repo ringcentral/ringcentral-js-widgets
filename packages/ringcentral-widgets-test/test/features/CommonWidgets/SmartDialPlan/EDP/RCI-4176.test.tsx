@@ -12,16 +12,17 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
-import { StepProp } from '../../../../lib/step';
+import type { StepProp } from '../../../../lib/step';
 import {
   CheckParseApiCalledWithParams,
   MakeCall,
 } from '../../../../steps/Call';
 import { CommonLogin } from '../../../../steps/CommonLogin';
 import { SendSMS } from '../../../../steps/Messages/actions';
-import { MockAccountInfo } from '../../../../steps/Mock';
+import { MockAccountInfo, MockDialingPlan, MockExtensionInfo } from '../../../../steps/Mock';
 import { NavigateTo } from '../../../../steps/Router/action';
 import { SetAreaCode } from '../../../../steps/Settings';
+import { generateDialPlanData } from '../../../../__mock__/generateDialPlanData';
 
 @autorun(test.skip)
 @it
@@ -31,12 +32,11 @@ export class RCI4176 extends Step {
   Login: StepProp = CommonLogin;
   CreateMock: StepProp | null = null;
   @examples(`
-      | maxExtensionNumberLength | areaCode | phoneNumber    |
-      | 7                        | '251'    | '+12513734253' |
-      | 7                        | '205'    | '2430001'      |
-      | 8                        | '251'    | '2630002'      |
-      | 7                        | null     | '2630002'      |
-    `)
+    | country | maxExtensionNumberLength | areaCode | phoneNumber    |
+    | 'GB'    | 7                        | '251'    | '2430001'      |
+    | 'US'    | 7                        | ''       | '+12513734253' |
+    | 'SG'    | 8                        | '251'    | '2630002'      |
+  `)
   run() {
     const { Login, CreateMock } = this;
     return (
@@ -49,6 +49,21 @@ export class RCI4176 extends Step {
               mockData.limits.maxExtensionNumberLength =
                 this.context.example.maxExtensionNumberLength;
               return mockData;
+            }}
+          />,
+          <MockExtensionInfo
+            handle={(mockData) => {
+              mockData.regionalSettings.homeCountry.isoCode =
+                this.example.country;
+              return mockData;
+            }}
+          />,
+          <MockDialingPlan
+            handler={() => {
+              return [
+                generateDialPlanData('44', '44', 'United Kingdom', 'GB'),
+                generateDialPlanData('1', '1', 'United States', 'US'),
+              ];
             }}
           />,
         ]}

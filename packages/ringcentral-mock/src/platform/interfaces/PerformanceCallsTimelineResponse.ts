@@ -1,4 +1,4 @@
-import { TimelineData } from './TimelineData';
+import type { TimelineData } from './TimelineData';
 
 export interface PerformanceCallsTimelineResponse {
   /**

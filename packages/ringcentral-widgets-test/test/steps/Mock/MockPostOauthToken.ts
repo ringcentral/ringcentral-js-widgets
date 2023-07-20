@@ -1,10 +1,10 @@
-import { StepFunction } from '../../lib/step';
+import type { StepFunction } from '../../lib/step';
 
 interface MockPostOauthTokenProps {
   isDefaultInit?: boolean;
   repeat?: number;
   failure?: boolean;
-  failureCode?: 400 | 403;
+  failureCode?: 400 | 403 | 503;
 }
 
 export const MockPostOauthToken: StepFunction<MockPostOauthTokenProps> = async (
@@ -12,12 +12,10 @@ export const MockPostOauthToken: StepFunction<MockPostOauthTokenProps> = async (
   { rcMock },
 ) => {
   if (!isDefaultInit) {
-    rcMock.defaultInitMocks.add(() => {
-      rcMock.postOauthToken({
-        failure,
-        repeat,
-        failureCode,
-      });
+    rcMock.postOauthToken({
+      failure,
+      repeat,
+      failureCode,
     });
     return;
   }

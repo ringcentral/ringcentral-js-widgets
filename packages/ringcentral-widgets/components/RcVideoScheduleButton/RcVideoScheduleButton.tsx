@@ -1,6 +1,7 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
-import { RcVMeetingModel } from '@ringcentral-integration/commons/interfaces/Rcv.model';
+import type { RcVMeetingModel } from '@ringcentral-integration/commons/interfaces/Rcv.model';
 import { RcButton, RcCheckbox, spacing, styled } from '@ringcentral/juno';
 
 import { MeetingScheduleButtonWrapper } from '../MeetingScheduleButton/MeetingScheduleButtonWrapper';

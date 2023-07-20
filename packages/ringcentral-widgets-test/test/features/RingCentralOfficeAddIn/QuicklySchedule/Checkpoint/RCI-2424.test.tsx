@@ -1,6 +1,6 @@
 /**
  * RCI-2424: Meeting information should be injected into Outlook after add meeting
- * https://test_id_domain/test-cases/RCI-2424
+ * https://test_it_domain/test-cases/RCI-2424
  * Preconditions:
  * RC CTI app is installed and enabled
  * User has logged in to 3rd party
@@ -10,13 +10,13 @@
  * Outlook > Calendar >Click 'New Appointment' or 'New Meeting' in the menu bar > Click {Brand name} for Outlook
  */
 
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p1,
   it,
   autorun,
   And,
   Scenario,
-  StepFunction,
   Step,
   Given,
   Then,
@@ -42,7 +42,7 @@ export class RCI2424 extends Step {
     | 'bt'    | 'BT Cloud Work Video Meeting'          | 'Cloud Work'         |
     | 'telus' | 'TELUS Business Connect Video Meeting' | 'Business Connect'   |
     | 'avaya' | 'Avaya Cloud Office Video Meeting'     | 'Avaya Cloud Office' |
-    | 'att'   | 'AT&T Office@Hand Meetings Meeting'    | 'Office@Hand'        |
+    | 'att'   | 'Office@Hand Meetings Meeting'    | 'Office@Hand'        |
   `)
   run() {
     const { Login, CheckInjection } = this;

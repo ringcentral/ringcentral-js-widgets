@@ -1,4 +1,4 @@
-import { ContactCenterProvider } from './ContactCenterProvider';
+import type { ContactCenterProvider } from './ContactCenterProvider';
 
 // Information on the extension, to which the phone number is assigned. Returned only for the request of Account phone number list
 export interface UserPhoneNumberExtensionInfo {

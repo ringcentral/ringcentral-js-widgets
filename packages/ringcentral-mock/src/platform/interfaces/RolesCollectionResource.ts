@@ -1,6 +1,6 @@
-import { RoleResource } from './RoleResource';
-import { RNPPagingInfo } from './RNPPagingInfo';
-import { RNPNavigationInfo } from './RNPNavigationInfo';
+import type { RoleResource } from './RoleResource';
+import type { RNPPagingInfo } from './RNPPagingInfo';
+import type { RNPNavigationInfo } from './RNPNavigationInfo';
 
 export interface RolesCollectionResource {
   /**

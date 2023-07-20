@@ -1,6 +1,6 @@
 export default {
   start: "Visita guidata rapida",
-  skip: "Salta",
+  skip: "Ignora",
   next: "Avanti",
   finish: "Fine"
 };

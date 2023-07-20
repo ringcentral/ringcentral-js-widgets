@@ -1,12 +1,13 @@
 /* RCI-3778: Check non-pstn call control action
-https://test_id_domain/test-cases/RCI-3778
+https://test_it_domain/test-cases/RCI-3778
 */
 
-import {
+import type {
   FeaturesData,
   Record,
 } from '@ringcentral-integration/commons/integration-test/mock';
-import { Context } from '../../interfaces';
+import type { Context } from '../../interfaces';
+import type { StepFunction } from '../../lib/step';
 import {
   autorun,
   title,
@@ -14,7 +15,6 @@ import {
   Then,
   Step,
   Given,
-  StepFunction,
   examples,
   it,
   p2,

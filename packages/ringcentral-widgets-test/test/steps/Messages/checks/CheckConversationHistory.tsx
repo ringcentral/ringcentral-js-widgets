@@ -1,5 +1,5 @@
-import { waitForRenderReady } from '@ringcentral-integration/test-utils/lib/test-utils';
-import { StepFunction } from '@ringcentral-integration/test-utils';
+import { waitForRenderReady } from '@ringcentral-integration/test-utils';
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 import { screen, within } from '@testing-library/react';
 import { intersection } from 'ramda';
 

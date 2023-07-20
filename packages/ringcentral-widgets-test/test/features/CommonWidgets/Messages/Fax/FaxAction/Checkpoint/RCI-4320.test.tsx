@@ -1,6 +1,6 @@
 /**
  * RCI-4320: Delete fax
- * https://test_id_domain/test-cases/RCI-4320
+ * https://test_it_domain/test-cases/RCI-4320
  * Preconditions:
  * The user has logged into the CTI app with AI CDC off
  * The user has authorized 3rd party
@@ -23,7 +23,7 @@ import {
   title,
   When,
 } from '@ringcentral-integration/test-utils';
-import { StepFunction } from '../../../../../../lib/step';
+import type { StepFunction } from '../../../../../../lib/step';
 import { CommonLogin } from '../../../../../../steps/CommonLogin';
 import {
   CheckElementTitleById,
@@ -74,12 +74,13 @@ export class RCI4320 extends Step {
             <>
               <CreateMock />
               <MockMessageList
+                isDefaultInit
                 handler={(mockData) => ({
                   ...mockData,
                   ...mockMessageListData(null),
                 })}
+                repeat={0}
               />
-              ,
               <MockMessageSync
                 useFaker
                 handler={(mockData) => ({

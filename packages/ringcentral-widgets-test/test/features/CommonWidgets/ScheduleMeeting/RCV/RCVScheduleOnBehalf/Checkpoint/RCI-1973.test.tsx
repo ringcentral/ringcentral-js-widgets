@@ -1,6 +1,6 @@
 /**
  * RCI-1973: Schedule on behalf fails
- * https://test_id_domain/test-cases/RCI-1973
+ * https://test_it_domain/test-cases/RCI-1973
  * Preconditions:
  * User hasRCVpermission.
  * Already installed and logged in app
@@ -20,7 +20,7 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
-import { StepProp } from '../../../../../../lib/step';
+import type { StepProp } from '../../../../../../lib/step';
 import { CommonLogin } from '../../../../../../steps/CommonLogin';
 import {
   CheckRCVPageDisplay,

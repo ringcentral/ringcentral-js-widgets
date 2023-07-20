@@ -1,4 +1,4 @@
-import { Brand } from '../Brand';
+import type { Brand } from '../Brand';
 
 export interface ThemeOptions {}
 export interface Deps {

@@ -1,6 +1,10 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
-import { NavigationBarProps, TabPropTypes } from './NavigationBar.interface';
+import type {
+  NavigationBarProps,
+  TabPropTypes,
+} from './NavigationBar.interface';
 
 export type NavigationBarMoreMenuProps = Pick<
   NavigationBarProps,

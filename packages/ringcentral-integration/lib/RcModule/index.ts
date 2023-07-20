@@ -1,5 +1,5 @@
 // @ts-nocheck
-import { Store } from 'redux';
+import type { Store } from 'redux';
 
 import {
   identifierKey,
@@ -63,7 +63,7 @@ export default abstract class RcModule<
   private _prefixedActionTypes: any; // TODO: refactor with usm
   public _reducer: any; // TODO: refactor with usm
   public _proxyReducer: any; // TODO: refactor with usm
-  private _modulePath: string = 'root';
+  private _modulePath = 'root';
   private _store?: Store;
   public _suppressInit: boolean;
   public _initialized: boolean;
@@ -238,7 +238,9 @@ export default abstract class RcModule<
 
   @once
   @required.warn
-  _onStateChange() {}
+  _onStateChange() {
+    //
+  }
 
   _initModule() {
     if (!this._suppressInit) {
@@ -295,10 +297,7 @@ export default abstract class RcModule<
     return this._store;
   }
 
-  /**
-   * Represents for module status, should be implemented by child class.
-   */
-  abstract get status(): string;
+  private status(): string;
 
   get ready() {
     return this.status === moduleStatuses.ready;

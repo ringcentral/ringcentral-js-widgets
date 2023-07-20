@@ -1,6 +1,6 @@
 /**
  * RCI-1370: User should see it's own schedule meeting page according to the video provider
- * https://test_id_domain/test-cases/RCI-1370
+ * https://test_it_domain/test-cases/RCI-1370
  * Preconditions:
  * 1. RC CTI app is installed and enabled
  * Extension type(/s):
@@ -11,6 +11,7 @@
  * 2.Login CTI with RCV provider account > More > Schedule meeting
  */
 
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p2,
   it,
@@ -18,7 +19,6 @@ import {
   examples,
   Given,
   Scenario,
-  StepFunction,
   Step,
   Then,
   title,

@@ -1,8 +1,10 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import classnames from 'classnames';
 
-import Message, { MessageProps } from '../Message';
+import type { MessageProps } from '../Message';
+import Message from '../Message';
 import { ANIMATION_DURATION } from './AnimationAlertUtils';
 
 type AnimationMessageProps = {

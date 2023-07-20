@@ -1,4 +1,4 @@
-import { CallMonitoringExtensionInfo } from './CallMonitoringExtensionInfo';
+import type { CallMonitoringExtensionInfo } from './CallMonitoringExtensionInfo';
 
 export interface CallMonitoringBulkAssign {
   /**

@@ -1,6 +1,6 @@
 /**
  * RCI-4461: Region setting for multiple dialing plans account
- * https://test_id_domain/test-cases/RCI-4461
+ * https://test_it_domain/test-cases/RCI-4461
  * Preconditions:
  * CTI app is integrated
  * EDP is enabled
@@ -25,7 +25,7 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
-import { StepProp } from '../../../../../../lib/step';
+import type { StepProp } from '../../../../../../lib/step';
 import { CommonLogin } from '../../../../../../steps/CommonLogin';
 import { CreateInstance } from '../../../../../../steps/CreateInstance';
 import {

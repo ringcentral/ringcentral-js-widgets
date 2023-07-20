@@ -1,9 +1,9 @@
 import presenceBody from '../platform/data/presence.json';
-import {
+import type {
   DetailedExtensionPresenceEventBody,
   DetailedExtensionPresenceWithSIPEventBody,
 } from '../platform/interfaces';
-import { DetailedExtensionPresenceWithSIPEvent } from '../platform/interfaces/DetailedExtensionPresenceWithSIPEvent';
+import type { DetailedExtensionPresenceWithSIPEvent } from '../platform/interfaces/DetailedExtensionPresenceWithSIPEvent';
 
 export interface IGenerateTelephonyState {
   hasActiveCall: boolean;

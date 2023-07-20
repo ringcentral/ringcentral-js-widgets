@@ -1,6 +1,7 @@
 import React from 'react';
 
-import { RcAlert, RcAlertProps, RcLink } from '@ringcentral/juno';
+import type { RcAlertProps } from '@ringcentral/juno';
+import { RcAlert, RcLink } from '@ringcentral/juno';
 
 import FormattedMessage from '../FormattedMessage';
 import i18n from './i18n';
@@ -9,6 +10,7 @@ import styles from './styles.scss';
 type RemoveMeetingWarnProps = Pick<RcAlertProps, 'severity'> & {
   currentLocale: string;
   brandConfig: any;
+  // for Firefox
   hasRemoved?: boolean;
 };
 

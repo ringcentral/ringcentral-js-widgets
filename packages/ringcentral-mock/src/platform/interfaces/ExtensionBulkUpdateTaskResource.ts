@@ -1,4 +1,4 @@
-import { ExtensionBulkUpdateTaskResult } from './ExtensionBulkUpdateTaskResult';
+import type { ExtensionBulkUpdateTaskResult } from './ExtensionBulkUpdateTaskResult';
 
 // Information on a task for updating multiple extensions
 export interface ExtensionBulkUpdateTaskResource {

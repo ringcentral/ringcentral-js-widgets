@@ -1,6 +1,6 @@
 /**
  * RCI-3689: The send message update to conversation
- * https://test_id_domain/test-cases/RCI-3689
+ * https://test_it_domain/test-cases/RCI-3689
  * Preconditions:
  * UserAhas logged into the 3rd party
  * CTI app is installed
@@ -52,6 +52,7 @@
 
  */
 
+import type { StepProp } from '@ringcentral-integration/test-utils';
 import {
   p2,
   it,
@@ -62,7 +63,6 @@ import {
   Then,
   title,
   When,
-  StepProp,
 } from '@ringcentral-integration/test-utils';
 
 import { CommonLogin } from '../../../../../../steps/CommonLogin';

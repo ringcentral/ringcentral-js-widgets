@@ -1,7 +1,7 @@
-import { AccountInfo } from '../AccountInfo';
-import { Brand } from '../Brand';
-import { ExtensionInfo } from '../ExtensionInfo';
-import { Locale } from '../Locale';
+import type { AccountInfo } from '../AccountInfo';
+import type { Brand } from '../Brand';
+import type { ExtensionInfo } from '../ExtensionInfo';
+import type { Locale } from '../Locale';
 
 interface RouterInteraction {
   currentPath: string;
@@ -56,6 +56,9 @@ export interface AnalyticsOptions {
 
   /** Self-hosting the Pendo Agent for applications with strict CSP  */
   useLocalPendoJS?: boolean;
+
+  /** Self-hosting Analytics js for applications with strict CSP (e.g. chrome extension mv3)  */
+  useLocalAnalyticsJS?: boolean;
 }
 
 export interface TrackProps {

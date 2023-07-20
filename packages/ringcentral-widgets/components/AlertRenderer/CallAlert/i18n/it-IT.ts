@@ -1,7 +1,7 @@
 import { callErrors } from '@ringcentral-integration/commons/modules/Call';
 export default {
-  [callErrors.emergencyNumber]: "Chiamata di emergenza non disponibile. Utilizza un altro telefono per contattare i servizi di emergenza",
-  [callErrors.noToNumber]: "Immetti un numero di telefono valido.",
+  [callErrors.emergencyNumber]: "Chiamate di emergenza non disponibile. Utilizza un altro telefono per contattare i servizi di emergenza",
+  [callErrors.noToNumber]: "Inserisci un numero di telefono valido.",
   [callErrors.noAreaCode]: "Imposta {areaCodeLink} per l'utilizzo dei numeri di telefono locali a 7 cifre.",
   [callErrors.connectFailed]: "Connessione non riuscita. Riprova più tardi.",
   [callErrors.internalError]: "Impossibile connettersi a causa di errori interni. Riprova più tardi.",

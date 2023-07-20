@@ -1,4 +1,4 @@
-import { StepFunction } from '@ringcentral-integration/test-utils';
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 import { fireEvent, screen, waitFor } from '@testing-library/react';
 import { ClickDialNumberButton } from '../../actions/ClickDialNumberButton';
 import { CallButtonBehavior } from './CallButtonBehavior';

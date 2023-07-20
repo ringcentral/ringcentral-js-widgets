@@ -1,6 +1,6 @@
 /**
  * RCI-2743: PMI waiting room default values
- * https://test_id_domain/test-cases/RCI-2743
+ * https://test_it_domain/test-cases/RCI-2743
  * Preconditions:
  * RC CTI app is installed and enabled
  * The user has logged in to 3rd party
@@ -22,12 +22,12 @@
  * RCV web:https://v.ringcentral.com/welcome/join/
  */
 
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p2,
   it,
   autorun,
   examples,
-  StepFunction,
   Scenario,
   Step,
   Then,

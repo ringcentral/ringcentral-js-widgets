@@ -1,6 +1,6 @@
 /**
  * RCI-4019: UI - PMI Change settings button
- * https://test_id_domain/test-cases/RCI-4019
+ * https://test_it_domain/test-cases/RCI-4019
  * Preconditions:
  * Already installed and logged in RingCentral Outlook Add-Ins.
  * User has logged in to 3rd party
@@ -9,11 +9,11 @@
  * Outlook appointment:Login to Outlook: > New Meeting/Appointment > RingCentral for outlook> meeting setting page > Mark on 'Use Personal Meeting ID XXX-XXX-XXX'
  */
 
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p2,
   it,
   autorun,
-  StepFunction,
   And,
   Scenario,
   Step,

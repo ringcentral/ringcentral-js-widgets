@@ -1,5 +1,5 @@
 import { EventEmitter } from 'events';
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import {
@@ -8,21 +8,21 @@ import {
   state,
   storage,
 } from '@ringcentral-integration/core';
-import { Mapping } from '@ringcentral-integration/widgets/typings';
+import type { Mapping } from '@ringcentral-integration/widgets/typings';
 
 import { callStatus } from '../../enums';
-import {
+import type {
   EvCallData,
   EvEvRequeueCallGate,
 } from '../../interfaces/EvData.interface';
-import {
+import type {
   EvAddSessionNotification,
   EvBaseCall,
   EvDropSessionNotification,
   EvEndedCall,
   EvHoldResponse,
 } from '../../lib/EvClient';
-import { CallDataSource, Deps } from './EvCallDataSource.interface';
+import type { CallDataSource, Deps } from './EvCallDataSource.interface';
 import { getTimeStamp } from './helper';
 
 @Module({
@@ -258,7 +258,7 @@ class EvCallDataSource extends RcModuleV2<Deps> implements CallDataSource {
   }
 
   private _getLastWeekDayTimestamp() {
-    const now = moment();
+    const now = dayjs();
     const lastWeekDay = now.clone().subtract(7, 'days').startOf('day');
     return lastWeekDay.valueOf();
   }

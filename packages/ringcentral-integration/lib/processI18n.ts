@@ -6,9 +6,10 @@ import I18n, {
 } from '@ringcentral-integration/i18n';
 import { getLanguageFromLocale } from '@ringcentral-integration/i18n/lib/getLanguageFromLocale';
 import toPseudoString from '@ringcentral-integration/i18n/lib/toPseudoString';
-import { LocaleCode } from '@ringcentral-integration/locale-settings';
+import type { LocaleCode } from '@ringcentral-integration/locale-settings';
 
-import { I18nFlag, I18nStrings } from '../modules/Brand/BrandConfig.interface';
+import type { I18nStrings } from '../modules/Brand/BrandConfig.interface';
+import { I18nFlag } from '../modules/Brand/BrandConfig.interface';
 
 // TODO: find a better place to put this file
 
@@ -30,7 +31,7 @@ export type ConvertI18nToString<T> = T extends Array<infer D>
  * @param parentKey parent key of object
  * @returns BrandConfig without I18nStrings structure
  */
-export function processI18n<T extends unknown>(
+export function processI18n<T>(
   input: T,
   locale: LocaleCode = DEFAULT_LOCALE,
   defaultLocale: LocaleCode = DEFAULT_LOCALE,
@@ -43,18 +44,22 @@ export function processI18n<T extends unknown>(
     ) as ConvertI18nToString<T>;
   }
   if (input && typeof input === 'object') {
-    if ((input as I18nStrings)[I18nFlag]) {
+    if ((input as unknown as I18nStrings)[I18nFlag]) {
       if (locale === PSEUDO_LOCALE) {
         return toPseudoString({
-          str: (input as I18nStrings).translations[defaultLocale] ?? parentKey,
+          str:
+            (input as unknown as I18nStrings).translations[defaultLocale] ??
+            parentKey,
           padRatio: I18n.padRatio,
-        }) as ConvertI18nToString<T>;
+        }) as unknown as ConvertI18nToString<T>;
       }
-      return ((input as I18nStrings).translations[locale] ??
-        (input as I18nStrings).translations[getLanguageFromLocale(locale)] ??
-        (input as I18nStrings).translations[
+      return ((input as unknown as I18nStrings).translations[locale] ??
+        (input as unknown as I18nStrings).translations[
+          getLanguageFromLocale(locale)
+        ] ??
+        (input as unknown as I18nStrings).translations[
           defaultLocale
-        ]) as ConvertI18nToString<T>;
+        ]) as unknown as ConvertI18nToString<T>;
     }
     return reduce(
       (acc, key) => {

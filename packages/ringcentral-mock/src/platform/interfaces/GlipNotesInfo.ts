@@ -1,5 +1,5 @@
-import { GlipNoteInfo } from './GlipNoteInfo';
-import { GlipNavigationInfo } from './GlipNavigationInfo';
+import type { GlipNoteInfo } from './GlipNoteInfo';
+import type { GlipNavigationInfo } from './GlipNavigationInfo';
 
 export interface GlipNotesInfo {
   /**

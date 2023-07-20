@@ -1,12 +1,10 @@
-import React, {
-  ComponentProps,
-  FunctionComponent,
-  useEffect,
-  useState,
-} from 'react';
+import type { ComponentProps, FunctionComponent } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { SelectListBasic, SelectListBasicProps } from '../SelectListBasic';
-import { ListView, ListViewProps } from './ListView';
+import type { SelectListBasicProps } from '../SelectListBasic';
+import { SelectListBasic } from '../SelectListBasic';
+import type { ListViewProps } from './ListView';
+import { ListView } from './ListView';
 import styles from './styles.scss';
 import { WithScrollCheck } from './WithScrollCheck';
 

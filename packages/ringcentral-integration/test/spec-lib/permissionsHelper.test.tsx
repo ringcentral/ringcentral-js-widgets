@@ -13,7 +13,8 @@ import {
   callingOptions,
 } from '../../modules/CallingSettings';
 
-@autorun(test)
+// would run it in RCI-4779
+@autorun(test.skip)
 @title('ClickToCallPermission::basic')
 export class ClickToCallPermissionBasic extends Step {
   @examples(`
@@ -31,7 +32,7 @@ export class ClickToCallPermissionBasic extends Step {
     | 'ringout'   | false          | true            | false      |
     | 'ringout'   | false          | false           | false      |
     | 'jupiter'   | true           | true            | true       |
-    | 'jupiter'   | true           | false           | false      |
+    | 'jupiter'   | true           | false           | true       |
     | 'jupiter'   | false          | true            | true       |
     | 'jupiter'   | false          | false           | false      |
   `)

@@ -1,0 +1,7 @@
+{
+  "enabled" : false,
+  "reason" : {
+    "code" : "ExtensionLimitation",
+    "message" : "The feature is turned off for the extension"
+  }
+}

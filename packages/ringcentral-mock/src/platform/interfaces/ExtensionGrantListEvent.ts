@@ -1,4 +1,4 @@
-import { ExtensionGrantListEventBody } from './ExtensionGrantListEventBody';
+import type { ExtensionGrantListEventBody } from './ExtensionGrantListEventBody';
 
 export interface ExtensionGrantListEvent {
   /**

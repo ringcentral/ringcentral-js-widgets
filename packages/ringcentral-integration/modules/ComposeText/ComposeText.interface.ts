@@ -1,10 +1,10 @@
-import { Alert } from '../Alert';
-import { AppFeatures } from '../AppFeatures';
-import { Auth } from '../Auth';
-import { ContactSearch } from '../ContactSearch';
-import { MessageSender } from '../MessageSender';
-import { NumberValidate } from '../NumberValidate';
-import { Storage } from '../Storage';
+import type { Alert } from '../Alert';
+import type { AppFeatures } from '../AppFeatures';
+import type { Auth } from '../Auth';
+import type { ContactSearch } from '../ContactSearch';
+import type { MessageSender } from '../MessageSender';
+import type { NumberValidate } from '../NumberValidate';
+import type { Storage } from '../Storage';
 
 interface RouterInteraction {
   currentPath: string;
@@ -28,7 +28,7 @@ export interface ToNumber {
   id?: string;
   phoneNumber: string;
   entityType?: string;
-  isWarning?: Boolean;
+  isWarning?: boolean;
   type?: string;
   name?: string;
   phoneType?: string;

@@ -1,4 +1,4 @@
-import { CallLogNavigationInfoURI } from './CallLogNavigationInfoURI';
+import type { CallLogNavigationInfoURI } from './CallLogNavigationInfoURI';
 
 // Information on navigation
 export interface CallLogNavigationInfo {

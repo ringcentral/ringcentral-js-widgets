@@ -26,7 +26,8 @@ export default {
   [messageSenderMessages.attachmentSizeLimitation]: "Liitteen koko voi olla enintään 1,5 Mt.",
   [messageSenderMessages.noAttachmentToExtension]: "Multimediaviestin lähettämistä alanumeroon ei tueta.",
   areaCode: "suuntanumero",
-  [messageSenderMessages.sending]: "Viestiä lähetetään... Lähetys voi kestää muutaman minuutin."
+  [messageSenderMessages.sending]: "Viestiä lähetetään... Lähetys voi kestää muutaman minuutin.",
+  [messageSenderMessages.shortNumbersNotAvailable]: "SMS-viestien lähetys lyhytnumeroihin ei ole käytettävissä."
 };
 
 // @key: @#@"[messageSenderMessages.sendSuccess]"@#@ @source: @#@"Send Success."@#@
@@ -56,3 +57,4 @@ export default {
 // @key: @#@"[messageSenderMessages.noAttachmentToExtension]"@#@ @source: @#@"It isn't supported to send MMS to an extension."@#@
 // @key: @#@"areaCode"@#@ @source: @#@"area code"@#@
 // @key: @#@"[messageSenderMessages.sending]"@#@ @source: @#@"Message being sent…It may take a couple of minutes to complete."@#@
+// @key: @#@"[messageSenderMessages.shortNumbersNotAvailable]"@#@ @source: @#@"Sending SMS to short numbers is not available."@#@

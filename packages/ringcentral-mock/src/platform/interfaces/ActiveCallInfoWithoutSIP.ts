@@ -1,4 +1,4 @@
-import { CallInfoCQ } from './CallInfoCQ';
+import type { CallInfoCQ } from './CallInfoCQ';
 
 export interface ActiveCallInfoWithoutSIP {
   /**

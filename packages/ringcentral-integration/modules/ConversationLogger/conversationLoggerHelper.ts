@@ -1,4 +1,4 @@
-import { ConversationLogItem } from './ConversationLogger.interface';
+import type { ConversationLogItem } from './ConversationLogger.interface';
 
 export function getLogId({
   conversationId,

@@ -1,6 +1,6 @@
 /**
  * RCI-1858: RCM - Update meeting - meeting deleted
- * https://test_id_domain/test-cases/RCI-1858
+ * https://test_it_domain/test-cases/RCI-1858
  * Preconditions:
  * Already installed and logged in RingCentral Office Add-In
  * Entry point(/s):
@@ -9,6 +9,7 @@
  * Mac Outlook
  */
 
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   And,
   autorun,
@@ -16,13 +17,12 @@ import {
   p2,
   Scenario,
   Step,
-  StepFunction,
   Then,
   title,
   When,
 } from '@ringcentral-integration/test-utils';
 
-import { StepProp } from '../../../../lib/step';
+import type { StepProp } from '../../../../lib/step';
 import { CheckAlertToBeCallWith } from '../../../../steps/Alert';
 import { CommonLogin } from '../../../../steps/CommonLogin';
 import {

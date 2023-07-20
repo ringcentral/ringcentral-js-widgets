@@ -94,11 +94,11 @@ export const trackEvents = ObjectMap.fromObject({
   changeDailerDirectoryTab: 'Click to navigate in dialer search result pages',
   changeSMSDirectoryTab: 'Click to navigate in compose SMS search result pages',
   openEntityDetailLink: 'Click hyperlink to view record',
-  clickOutboundButton: 'Click outbound call button in extension app',
-  clickAnswerCallButton: 'Click answer call button in extension app',
   completeWarmTransfer:
     'Transfer: Click complete transfer/Warm transfer call log page',
   clickConversationHyperlink: 'Click hyperlink/SMS conversation',
   clickReplyWithMessage: 'Call: Click Reply on Call Control',
   executionReplyWithMessage: 'Attempt to reply message on inbound call',
+  clickToCallInContactDetails: 'Click To Dial (Contact Details)',
+  clickToSMSInContactDetails: 'Click To SMS (Contact Details)',
 } as const);

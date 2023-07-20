@@ -1,4 +1,4 @@
-import { GlipWebhookInfo } from './GlipWebhookInfo';
+import type { GlipWebhookInfo } from './GlipWebhookInfo';
 
 export interface GlipWebhookList {
   /**

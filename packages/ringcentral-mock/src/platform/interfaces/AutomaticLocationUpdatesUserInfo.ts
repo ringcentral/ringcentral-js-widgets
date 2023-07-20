@@ -1,4 +1,4 @@
-import { AutomaticLocationUpdatesSiteInfo } from './AutomaticLocationUpdatesSiteInfo';
+import type { AutomaticLocationUpdatesSiteInfo } from './AutomaticLocationUpdatesSiteInfo';
 
 export interface AutomaticLocationUpdatesUserInfo {
   /**

@@ -1,4 +1,5 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import classnames from 'classnames';
 
@@ -11,7 +12,7 @@ import {
 } from '@ringcentral/juno';
 
 import CircleButton from '../CircleButton';
-import { MoreActionComponentProps } from './MoreActionComponent.interface';
+import type { MoreActionComponentProps } from './MoreActionComponent.interface';
 import styles from './styles.scss';
 
 export const MoreActionComponent: FunctionComponent<MoreActionComponentProps> =

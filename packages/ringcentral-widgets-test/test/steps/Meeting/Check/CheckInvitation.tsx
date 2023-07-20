@@ -1,5 +1,5 @@
-import dialInNumbersBody from '@ringcentral-integration/mock/src/platform/data/dialInNumbers.json';
-import { StepFunction } from '../../../lib/step';
+import type dialInNumbersBody from '@ringcentral-integration/mock/src/platform/data/dialInNumbers.json';
+import type { StepFunction } from '../../../lib/step';
 
 export const CheckInvitation: StepFunction = async (_, { phone, rcMock }) => {
   const { phoneNumbers } = (await rcMock.fetchMock

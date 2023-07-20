@@ -1,6 +1,6 @@
 /**
  * RCI-531: Outbound call - Ringout fails
- * https://test_id_domain/test-cases/RCI-531
+ * https://test_it_domain/test-cases/RCI-531
  * Preconditions:
  * <ol><li style='margin: 0px; padding: 0px;'>User is logged-in into 3rd party</li><li style='margin: 0px; padding: 0px;'>CTI app is integrated,</li><li style='margin: 0px; padding: 0px;'>User has log in CTI app</li></ol>
 <p><strong><span style='color:#669966'>
@@ -10,6 +10,7 @@
 <li class='u'>Settings > Calling > Make my calls with >RingOut</li></ol>
  */
 
+import type { StepProp } from '@ringcentral-integration/test-utils';
 import {
   p2,
   it,
@@ -19,7 +20,6 @@ import {
   Given,
   Scenario,
   Step,
-  StepProp,
   Then,
   title,
   When,
@@ -27,7 +27,7 @@ import {
 } from '@ringcentral-integration/test-utils';
 import deviceBody from '@ringcentral-integration/mock/src/platform/data/device.json';
 import phoneNumberBody from '@ringcentral-integration/mock/src/platform/data/phoneNumber.json';
-import { GetExtensionPhoneNumbersResponse } from '@ringcentral-integration/mock';
+import type { GetExtensionPhoneNumbersResponse } from '@ringcentral-integration/mock';
 
 import {
   CheckAlertMessage,

@@ -1,6 +1,6 @@
 /**
  * RCI-3281: Update PMI meeting - E2EE is on and locked
- * https://test_id_domain/test-cases/RCI-3281
+ * https://test_it_domain/test-cases/RCI-3281
  * Preconditions:
  * RC CTI app is installed and enabled
  * Turn on the 'RingCentral Video E2EE Availability'flag on theAdmin web
@@ -22,7 +22,7 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
-import { StepProp } from '../../../../../../../lib/step';
+import type { StepProp } from '../../../../../../../lib/step';
 import { Login as CommonLogin } from '../../../../../../../steps/Login';
 import {
   CheckboxIsChecked,

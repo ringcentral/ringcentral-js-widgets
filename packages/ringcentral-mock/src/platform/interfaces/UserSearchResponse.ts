@@ -1,4 +1,4 @@
-import { UserResponse } from './UserResponse';
+import type { UserResponse } from './UserResponse';
 
 export interface UserSearchResponse {
   /**

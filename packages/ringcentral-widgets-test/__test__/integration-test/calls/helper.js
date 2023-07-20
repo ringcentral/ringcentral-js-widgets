@@ -2,8 +2,6 @@ import telephonyStatuses from '@ringcentral-integration/commons/enums/telephonyS
 import * as mock from '@ringcentral-integration/commons/integration-test/mock';
 import { waitUntilTo } from '@ringcentral-integration/commons/utils';
 
-import deviceBody from './data/device.json';
-
 import {
   makeCall,
   getInboundCall,
@@ -13,6 +11,7 @@ import {
   mockGeneratePresenceUpdateApi,
   mockGenerateActiveCallsApi,
 } from '../../support/callHelper';
+import deviceBody from './data/device.json';
 
 function mockCallProcedure(func) {
   return async (phone, ...args) => {

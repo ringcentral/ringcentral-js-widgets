@@ -1,6 +1,6 @@
 import chalk from 'chalk';
 import debug from 'debug';
-import { MockRequest } from 'fetch-mock';
+import type { MockRequest } from 'fetch-mock';
 
 const mockDebug = debug('rc-mock:mock');
 const unmockDebug = debug('rc-mock:unmock');

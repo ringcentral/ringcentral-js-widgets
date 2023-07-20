@@ -1,4 +1,4 @@
-import { RcPopupBoxProps } from '@ringcentral/juno';
+import type { RcPopupBoxProps } from '@ringcentral/juno';
 
 export type ModalV2UIProps = {
   modals: ModalProps[];

@@ -9,7 +9,7 @@ export const rateLimitThrottle = <F extends (...args: any) => Promise<any>>({
   poolWindow,
 }: RateLimitThrottleOptions & { fn: F }) => {
   let resetPromise: Promise<void> = null;
-  let count: number = 0;
+  let count = 0;
 
   function getResetPromise() {
     if (!resetPromise) {

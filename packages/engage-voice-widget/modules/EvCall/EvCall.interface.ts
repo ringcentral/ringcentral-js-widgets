@@ -1,16 +1,16 @@
-import { Alert } from '@ringcentral-integration/commons/modules/Alert';
+import type { Alert } from '@ringcentral-integration/commons/modules/Alert';
 
-import { EvClient } from '../../lib/EvClient';
-import { EvAgentSession } from '../EvAgentSession';
-import { EvAuth } from '../EvAuth';
-import { EvCallMonitor } from '../EvCallMonitor';
-import { EvIntegratedSoftphone } from '../EvIntegratedSoftphone';
-import { EvPresence } from '../EvPresence';
-import { EvSettings } from '../EvSettings';
-import { EvStorage } from '../EvStorage';
-import { EvSubscription } from '../EvSubscription';
-import { EvTabManager } from '../EvTabManager';
-import { EvWorkingState } from '../EvWorkingState';
+import type { EvClient } from '../../lib/EvClient';
+import type { EvAgentSession } from '../EvAgentSession';
+import type { EvAuth } from '../EvAuth';
+import type { EvCallMonitor } from '../EvCallMonitor';
+import type { EvIntegratedSoftphone } from '../EvIntegratedSoftphone';
+import type { EvPresence } from '../EvPresence';
+import type { EvSettings } from '../EvSettings';
+import type { EvStorage } from '../EvStorage';
+import type { EvSubscription } from '../EvSubscription';
+import type { EvTabManager } from '../EvTabManager';
+import type { EvWorkingState } from '../EvWorkingState';
 
 export interface State {
   dialoutCallerId: string;

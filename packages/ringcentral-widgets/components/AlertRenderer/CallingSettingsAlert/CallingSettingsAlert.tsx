@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { AlertItem } from '@ringcentral-integration/commons/modules/Alert';
+import type { AlertItem } from '@ringcentral-integration/commons/modules/Alert';
 import { callingSettingsMessages } from '@ringcentral-integration/commons/modules/CallingSettings';
 
 import FormattedMessage from '../../FormattedMessage';
-import { HandleMessage } from '../HandleMessage.interface';
+import type { HandleMessage } from '../HandleMessage.interface';
 import i18n from './i18n';
 
 export interface CallingSettingsAlertProps {

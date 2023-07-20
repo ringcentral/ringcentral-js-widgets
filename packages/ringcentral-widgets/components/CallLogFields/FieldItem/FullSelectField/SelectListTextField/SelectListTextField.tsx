@@ -1,6 +1,8 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
-import { RcTextField, RcTextFieldProps } from '@ringcentral/juno';
+import type { RcTextFieldProps } from '@ringcentral/juno';
+import { RcTextField } from '@ringcentral/juno';
 
 import { CustomArrowButton } from '../../../../Rcui/CustomArrowButton';
 import styles from '../styles.scss';

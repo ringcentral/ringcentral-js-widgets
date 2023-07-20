@@ -3,6 +3,7 @@ import { callingSettingsMessages } from '@ringcentral-integration/commons/module
 import { waitFor } from '@testing-library/react';
 
 import { mockPhoneNumberData } from '../../../../__mock__/data';
+import type { StepFunction } from '../../../../lib/step';
 import {
   And,
   autorun,
@@ -13,7 +14,6 @@ import {
   p2,
   Scenario,
   Step,
-  StepFunction,
   Then,
   title,
   When,
@@ -34,7 +34,7 @@ import {
 
 // TODO: skip this widget test since webphone mock has some errors, only run in other projects
 // User story:
-// https://jira.ringcentral.com/browse/RCINT-23300
+// https://jira_domain/browse/RCINT-23300
 @autorun(test.skip)
 @common
 @it

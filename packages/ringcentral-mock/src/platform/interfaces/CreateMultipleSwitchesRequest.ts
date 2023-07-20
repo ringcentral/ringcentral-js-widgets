@@ -1,4 +1,4 @@
-import { CreateSwitchInfo } from './CreateSwitchInfo';
+import type { CreateSwitchInfo } from './CreateSwitchInfo';
 
 export interface CreateMultipleSwitchesRequest {
   /**

@@ -1,6 +1,6 @@
 /**
  * RCI-1836: Alert when error status for call control button
- * https://test_id_domain/test-cases/RCI-1836
+ * https://test_it_domain/test-cases/RCI-1836
  * Preconditions:
  * 1. User is logged into Salesforce.
  * 2. User is logged in RC CTI App
@@ -18,6 +18,7 @@
  * 3. Initial warm transfer(Only for Salesforce)
  */
 
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p2,
   it,
@@ -27,7 +28,6 @@ import {
   Then,
   title,
   When,
-  StepFunction,
 } from '@ringcentral-integration/test-utils';
 import { PartyStatusCode } from '@ringcentral-integration/commons/integration-test/mock/telephonySessionBuilder';
 import callDirection from '@ringcentral-integration/commons/enums/callDirections';
@@ -43,7 +43,8 @@ import {
   MakeOutboundCall,
 } from '../../../steps/Call';
 import { CheckInCallLogPage } from '../../../steps/CallLog';
-import { CommonLogin, LoginProps } from '../../../steps/CommonLogin';
+import type { LoginProps } from '../../../steps/CommonLogin';
+import { CommonLogin } from '../../../steps/CommonLogin';
 import { ClickCallButton, InputToField } from '../../../steps/dialer';
 import { NavigateToDialer } from '../../../steps/Navigate';
 import { MockUnHoldCallFail } from '../../../steps/Mock/MockUnHoldCallFail';

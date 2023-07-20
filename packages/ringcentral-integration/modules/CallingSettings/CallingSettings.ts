@@ -9,8 +9,9 @@ import {
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
 import { callingModes } from './callingModes';
-import { callingOptions, CallingOptionsType } from './callingOptions';
-import { Deps } from './CallingSettings.interface';
+import type { CallingOptionsType } from './callingOptions';
+import { callingOptions } from './callingOptions';
+import type { Deps } from './CallingSettings.interface';
 import { callingSettingsMessages } from './callingSettingsMessages';
 import { deprecatedCallingOptions } from './deprecatedCallingOptions';
 import { mapOptionToMode } from './mapOptionToMode';

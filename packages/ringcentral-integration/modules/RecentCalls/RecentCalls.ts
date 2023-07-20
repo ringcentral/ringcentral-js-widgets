@@ -1,15 +1,15 @@
-import type UserCallLogResponse from '@rc-ex/core/lib/definitions/UserCallLogResponse';
+import type CallLogResponse from '@rc-ex/core/lib/definitions/CallLogResponse';
 import { action, RcModuleV2, state } from '@ringcentral-integration/core';
 
 import { phoneTypes } from '../../enums/phoneTypes';
-import { Entity } from '../../interfaces/Entity.interface';
+import type { Entity } from '../../interfaces/Entity.interface';
 import background from '../../lib/background';
 import concurrentExecute from '../../lib/concurrentExecute';
 import { Module } from '../../lib/di';
 import getDateFrom from '../../lib/getDateFrom';
-import { HistoryCall } from '../CallHistory';
+import type { HistoryCall } from '../CallHistory';
 import { callStatus } from './callStatus';
-import {
+import type {
   CleanUpCallsOptions,
   Deps,
   FetchCallLogListOptions,
@@ -43,7 +43,7 @@ export class RecentCalls extends RcModuleV2<Deps> {
   calls: Record<string, HistoryCall[]> = {};
 
   @state
-  callStatus: string = null;
+  callStatus: string | null = null;
 
   @action
   initLoad() {
@@ -191,7 +191,7 @@ export class RecentCalls extends RcModuleV2<Deps> {
         });
         return acc.concat(promise);
       },
-      [] as (() => Promise<UserCallLogResponse>)[],
+      [] as (() => Promise<CallLogResponse>)[],
     );
 
     return concurrentExecute(recentCallsPromises, 5, { delay: 500 }).then(
@@ -208,7 +208,7 @@ export class RecentCalls extends RcModuleV2<Deps> {
         .account()
         .extension()
         .callLog()
-        .list(params) as Promise<UserCallLogResponse>;
+        .list(params) as Promise<CallLogResponse>;
     };
   }
 }

@@ -1,5 +1,5 @@
 import type ForwardingNumberInfo from '@rc-ex/core/lib/definitions/ForwardingNumberInfo';
-import {
+import type {
   ActiveCallControl,
   ActiveSession,
 } from '@ringcentral-integration/commons/modules/ActiveCallControl';
@@ -39,4 +39,5 @@ export interface CallLogCallCtrlPanelProps {
   answerAndEnd: ActiveCallControl['answerAndEnd'];
   dialpadToggleTrack: (open: boolean) => void;
   clickForwardTrack: ActiveCallControl['clickForwardTrack'];
+  allowPickupCall: boolean;
 }

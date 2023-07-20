@@ -1,4 +1,5 @@
-import { ParsePhoneNumberResponse, PlatformMock } from '../../src';
+import type { ParsePhoneNumberResponse } from '../../src';
+import { PlatformMock } from '../../src';
 import { autorun, Given, Scenario, Step, Then, title, When } from '../steps';
 
 @autorun(test)

@@ -1,4 +1,4 @@
-import messageSyncBody from '@ringcentral-integration/mock/src/platform/data/messageSync.json';
+import type messageSyncBody from '@ringcentral-integration/mock/src/platform/data/messageSync.json';
 
 import fax from './MockMessageRecords/fax.json';
 import voiceMail from './MockMessageRecords/voicemail.json';
@@ -33,7 +33,7 @@ export const generateMessage = ({
     messages.push({
       ...templateRecord,
       // 5475922005
-      id: id ? id : Math.floor(Math.random() * 10e10),
+      id: id || Math.floor(Math.random() * 10e10),
       startTime: new Date().toISOString(),
       readStatus: i < unreadCount ? 'Unread' : 'Read',
       ...mockRecords[i],

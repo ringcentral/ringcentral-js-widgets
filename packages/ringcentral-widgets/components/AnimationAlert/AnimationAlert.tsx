@@ -6,7 +6,8 @@ import { includes } from 'ramda';
 
 import { sleep } from '@ringcentral-integration/commons/utils';
 
-import AlertDisplay, { AlertDisplayProps } from '../AlertDisplay';
+import type { AlertDisplayProps } from '../AlertDisplay';
+import AlertDisplay from '../AlertDisplay';
 import { ANIMATION_DURATION } from './AnimationAlertUtils';
 import { AnimationMessage } from './AnimationMessage';
 

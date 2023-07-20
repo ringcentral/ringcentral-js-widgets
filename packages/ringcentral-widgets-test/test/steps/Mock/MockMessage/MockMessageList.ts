@@ -1,5 +1,5 @@
 import messageListBody from '@ringcentral-integration/mock/src/platform/data/messageList.json';
-import { StepFunction } from '../../../lib/step';
+import type { StepFunction } from '../../../lib/step';
 
 interface MockMessageListProps {
   handler?: (messageList: typeof messageListBody) => any;
@@ -21,6 +21,7 @@ export const MockMessageList: StepFunction<MockMessageListProps> = async (
 
   if (!isDefaultInit) {
     rcMock.getMessageStore(responseFunc, repeat);
+    return;
   }
   rcMock.defaultInitMocks.delete(rcMock.getMessageStore);
   rcMock.defaultInitMocks.add(() => {

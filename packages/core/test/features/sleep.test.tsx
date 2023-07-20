@@ -1,10 +1,10 @@
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   autorun,
   examples,
   Given,
   Scenario,
   Step,
-  StepFunction,
   Then,
   title,
   When,

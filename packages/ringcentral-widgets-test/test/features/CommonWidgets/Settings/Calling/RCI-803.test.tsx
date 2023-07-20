@@ -1,3 +1,4 @@
+import type { StepFunction } from '../../../../lib/step';
 import {
   autorun,
   title,
@@ -9,7 +10,6 @@ import {
   Step,
   it,
   common,
-  StepFunction,
 } from '../../../../lib/step';
 import { NavigateTo } from '../../../../steps/Router/action';
 import { ClickLogoutButton } from '../../../../steps/Settings';

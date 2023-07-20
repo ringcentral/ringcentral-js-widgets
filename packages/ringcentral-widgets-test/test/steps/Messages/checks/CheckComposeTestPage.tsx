@@ -1,5 +1,5 @@
-import { StepFunction } from '@ringcentral-integration/test-utils';
-import { waitForRenderReady } from '@ringcentral-integration/test-utils/lib/test-utils';
+import type { StepFunction } from '@ringcentral-integration/test-utils';
+import { waitForRenderReady } from '@ringcentral-integration/test-utils';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 

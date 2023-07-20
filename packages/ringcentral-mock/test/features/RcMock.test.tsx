@@ -1,4 +1,5 @@
-import { GetTokenRequest, PubnubMock, RcMock, TokenInfo } from '../../src';
+import type { GetTokenRequest, TokenInfo } from '../../src';
+import { PubnubMock, RcMock } from '../../src';
 import { autorun, Given, Scenario, Step, Then, title, When } from '../steps';
 
 @autorun(test)

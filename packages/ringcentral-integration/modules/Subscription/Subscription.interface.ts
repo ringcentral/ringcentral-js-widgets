@@ -1,6 +1,6 @@
-import { Auth } from '../Auth';
-import { SleepDetector } from '../SleepDetector';
-import { Storage } from '../Storage';
+import type { Auth } from '../Auth';
+import type { SleepDetector } from '../SleepDetector';
+import type { Storage } from '../Storage';
 
 /**
  * Extracted from @rc-ex

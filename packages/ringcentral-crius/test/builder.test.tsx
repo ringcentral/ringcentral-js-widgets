@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-use-before-define */
+import type { StepFunction } from '../src';
 import {
   autorun,
   title,
@@ -9,7 +10,6 @@ import {
   Then,
   Step,
   examples,
-  StepFunction,
 } from '../src';
 
 test('base builder with examples', async () => {

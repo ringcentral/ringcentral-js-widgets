@@ -1,4 +1,5 @@
-import React, { ComponentType } from 'react';
+import type { ComponentType } from 'react';
+import React from 'react';
 
 import { phoneSources } from '@ringcentral-integration/commons/enums/phoneSources';
 

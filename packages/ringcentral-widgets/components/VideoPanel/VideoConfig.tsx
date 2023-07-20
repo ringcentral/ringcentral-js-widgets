@@ -1,10 +1,5 @@
-import React, {
-  FunctionComponent,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import type { FunctionComponent } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import classnames from 'classnames';
 
@@ -12,23 +7,28 @@ import {
   updateFullTime,
   updateFullYear,
 } from '@ringcentral-integration/commons/helpers/meetingHelper';
-import { RcVMeetingModel } from '@ringcentral-integration/commons/interfaces/Rcv.model';
-import {
-  ASSISTED_USERS_MYSELF,
+import type { RcVMeetingModel } from '@ringcentral-integration/commons/interfaces/Rcv.model';
+import type {
   AUTH_USER,
-  AUTH_USER_TYPE,
-  RCV_ITEM_NAME,
-  RCV_WAITING_ROOM_MODE,
   RcvDelegator,
   RcvItemType,
   RcvWaitingRoomModeProps,
 } from '@ringcentral-integration/commons/modules/RcVideo';
+import {
+  ASSISTED_USERS_MYSELF,
+  AUTH_USER_TYPE,
+  RCV_ITEM_NAME,
+  RCV_WAITING_ROOM_MODE,
+} from '@ringcentral-integration/commons/modules/RcVideo';
 import { format } from '@ringcentral-integration/utils';
+import type {
+  RcCheckboxProps,
+  RcDatePickerProps,
+  RcTimePickerProps,
+} from '@ringcentral/juno';
 import {
   RcCheckbox,
-  RcCheckboxProps,
   RcDatePicker,
-  RcDatePickerProps,
   RcIcon,
   RcLink,
   RcMenuItem,
@@ -36,7 +36,6 @@ import {
   RcText,
   RcTextField,
   RcTimePicker,
-  RcTimePickerProps,
   spacing,
   styled,
 } from '@ringcentral/juno';
@@ -53,7 +52,7 @@ import { MeetingAlert, RemoveMeetingWarn } from '../MeetingAlert';
 import { ExtendedTooltip } from '../MeetingConfigsV2/ExtendedTooltip';
 import { SpinnerOverlay } from '../SpinnerOverlay';
 import { RCV_SCHEDULE_ON_BEHALF_GUIDANCE_LINK } from './constants';
-import i18n from './i18n';
+import i18n, { I18nKey } from './i18n';
 import { SettingGroup } from './SettingGroup';
 import styles from './styles.scss';
 import { VideoSecuritySettingItem } from './VideoSecuritySettingItem';
@@ -365,58 +364,56 @@ export const VideoConfig: FunctionComponent<VideoConfigProps> = (props) => {
             dataSign="scheduleOnBehalfPanel"
             expandable={settingsGroupExpandable}
             summary={
-              <>
-                <span className={styles.flexVertical}>
-                  {i18n.getString('scheduleFor', currentLocale)}
-                  <ExtendedTooltip
-                    interactive
-                    placement="bottom"
-                    hasScrollBar={hasScrollBar}
-                    data-sign="scheduleForTooltip"
-                    title={
-                      <div
-                        onClick={(e) => {
-                          e.stopPropagation();
-                        }}
-                      >
-                        <div
-                          data-sign="scheduleForGuidance"
-                          className={styles.preLine}
-                        >
-                          {i18n.getString('scheduleForGuidance', currentLocale)}
-                        </div>
-                        <br />
-                        <div>
-                          <RcLink
-                            variant="inherit"
-                            data-sign="scheduleForGuidanceLink"
-                            className={styles.underline}
-                            target="_blank"
-                            color="neutral.b01"
-                            href={RCV_SCHEDULE_ON_BEHALF_GUIDANCE_LINK}
-                          >
-                            {i18n.getString(
-                              'scheduleForGuidanceMore',
-                              currentLocale,
-                            )}
-                          </RcLink>
-                        </div>
-                      </div>
-                    }
-                  >
-                    <RcIcon
-                      size="small"
-                      color="neutral.f04"
-                      symbol={InfoBorder}
-                      data-sign="scheduleForGuidanceIcon"
-                      className={styles.allowCursor}
+              <span className={styles.flexVertical}>
+                {i18n.getString('scheduleFor', currentLocale)}
+                <ExtendedTooltip
+                  interactive
+                  placement="bottom"
+                  hasScrollBar={hasScrollBar}
+                  data-sign="scheduleForTooltip"
+                  title={
+                    <div
                       onClick={(e) => {
                         e.stopPropagation();
                       }}
-                    />
-                  </ExtendedTooltip>
-                </span>
-              </>
+                    >
+                      <div
+                        data-sign="scheduleForGuidance"
+                        className={styles.preLine}
+                      >
+                        {i18n.getString('scheduleForGuidance', currentLocale)}
+                      </div>
+                      <br />
+                      <div>
+                        <RcLink
+                          variant="inherit"
+                          data-sign="scheduleForGuidanceLink"
+                          className={styles.underline}
+                          target="_blank"
+                          color="neutral.b01"
+                          href={RCV_SCHEDULE_ON_BEHALF_GUIDANCE_LINK}
+                        >
+                          {i18n.getString(
+                            'scheduleForGuidanceMore',
+                            currentLocale,
+                          )}
+                        </RcLink>
+                      </div>
+                    </div>
+                  }
+                >
+                  <RcIcon
+                    size="small"
+                    color="neutral.f04"
+                    symbol={InfoBorder}
+                    data-sign="scheduleForGuidanceIcon"
+                    className={styles.allowCursor}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                    }}
+                  />
+                </ExtendedTooltip>
+              </span>
             }
           >
             <div className={styles.boxSelectWrapper}>
@@ -564,23 +561,21 @@ export const VideoConfig: FunctionComponent<VideoConfigProps> = (props) => {
               isLock={showRcvAdminLock && meeting.settingLock?.e2ee}
               currentLocale={currentLocale}
               label={
-                <>
-                  <span className={styles.flexVertical}>
-                    {i18n.getString('useE2ee', currentLocale)}
-                    <ExtendedTooltip
-                      placement="top"
-                      hasScrollBar={hasScrollBar}
-                      title={i18n.getString('e2eeTooltip', currentLocale)}
-                      data-sign="e2eeTooltip"
-                    >
-                      <RcIcon
-                        size="small"
-                        color="neutral.f04"
-                        symbol={InfoBorder}
-                      />
-                    </ExtendedTooltip>
-                  </span>
-                </>
+                <span className={styles.flexVertical}>
+                  {i18n.getString('useE2ee', currentLocale)}
+                  <ExtendedTooltip
+                    placement="top"
+                    hasScrollBar={hasScrollBar}
+                    title={i18n.getString('e2eeTooltip', currentLocale)}
+                    data-sign="e2eeTooltip"
+                  >
+                    <RcIcon
+                      size="small"
+                      color="neutral.f04"
+                      symbol={InfoBorder}
+                    />
+                  </ExtendedTooltip>
+                </span>
               }
             >
               <RcCheckbox
@@ -672,7 +667,10 @@ export const VideoConfig: FunctionComponent<VideoConfigProps> = (props) => {
               showRcvAdminLock && meeting.settingLock?.allowJoinBeforeHost
             }
             currentLocale={currentLocale}
-            label={i18n.getString(joinBeforeHostLabel, currentLocale)}
+            label={i18n.getString(
+              joinBeforeHostLabel as I18nKey,
+              currentLocale,
+            )}
           >
             <RcCheckbox
               data-sign="allowJoinBeforeHost"

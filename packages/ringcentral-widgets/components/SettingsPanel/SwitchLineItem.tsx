@@ -1,11 +1,12 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import classnames from 'classnames';
 
 import IconLine from '../IconLine';
 import Switch from '../Switch';
 import i18n from './i18n';
-import { SwitchLineItemProps } from './SettingsPanel.interface';
+import type { SwitchLineItemProps } from './SettingsPanel.interface';
 import styles from './styles.scss';
 
 export const SwitchLineItem: FunctionComponent<SwitchLineItemProps> = ({

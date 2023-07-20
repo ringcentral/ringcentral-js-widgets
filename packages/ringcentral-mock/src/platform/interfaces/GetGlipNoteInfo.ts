@@ -1,6 +1,6 @@
-import { GlipCreatorInfo } from './GlipCreatorInfo';
-import { LastModifiedByInfo } from './LastModifiedByInfo';
-import { LockedByInfo } from './LockedByInfo';
+import type { GlipCreatorInfo } from './GlipCreatorInfo';
+import type { LastModifiedByInfo } from './LastModifiedByInfo';
+import type { LockedByInfo } from './LockedByInfo';
 
 export interface GetGlipNoteInfo {
   /**

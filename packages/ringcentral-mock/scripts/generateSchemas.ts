@@ -1,7 +1,7 @@
-import execa from 'execa';
 import fs from 'fs';
-import { OpenAPIV3 } from 'openapi-types';
 import path from 'path';
+import execa from 'execa';
+import type { OpenAPIV3 } from 'openapi-types';
 import { clone } from 'ramda';
 
 type PropertyWithFaker = OpenAPIV3.NonArraySchemaObject & {
@@ -10,7 +10,7 @@ type PropertyWithFaker = OpenAPIV3.NonArraySchemaObject & {
 
 const fakerMapping = {
   phoneNumber: {
-    'phone.phoneNumberFormat': 1,
+    'phone.phoneNumber': '+1##########',
   },
   id: 'datatype.uuid',
   uri: 'internet.url',

@@ -1,5 +1,5 @@
 export default {
-  forward: "Reencaminhar",
+  forward: "Reenc.",
   ignore: "Ignorar",
   toVoicemail: "Para correio de voz",
   answer: "Atender",

@@ -1,7 +1,7 @@
-import { waitForRenderReady } from '@ringcentral-integration/test-utils/lib/test-utils';
+import { waitForRenderReady } from '@ringcentral-integration/test-utils';
 import { screen, fireEvent } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { StepFunction } from '../../../lib/step';
+import type { StepFunction } from '../../../lib/step';
 
 export const InputToField: StepFunction<{
   input: string;

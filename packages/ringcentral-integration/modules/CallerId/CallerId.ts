@@ -4,7 +4,7 @@ import { computed } from '@ringcentral-integration/core';
 
 import { Module } from '../../lib/di';
 import { DataFetcherV2Consumer, DataSource } from '../DataFetcherV2';
-import { Deps } from './CallerId.interface';
+import type { Deps } from './CallerId.interface';
 
 @Module({
   name: 'CallerId',

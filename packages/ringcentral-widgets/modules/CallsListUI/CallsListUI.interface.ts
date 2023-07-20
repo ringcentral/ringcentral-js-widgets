@@ -1,33 +1,33 @@
-import { Call as ICall } from '@ringcentral-integration/commons/interfaces/Call.interface';
-import { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures';
-import { Brand } from '@ringcentral-integration/commons/modules/Brand';
-import {
+import type { Call as ICall } from '@ringcentral-integration/commons/interfaces/Call.interface';
+import type { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures';
+import type { Brand } from '@ringcentral-integration/commons/modules/Brand';
+import type {
   CallHistory,
   HistoryCall,
 } from '@ringcentral-integration/commons/modules/CallHistory';
-import { CallLogger } from '@ringcentral-integration/commons/modules/CallLogger';
-import { CallMonitor } from '@ringcentral-integration/commons/modules/CallMonitor';
-import { Call } from '@ringcentral-integration/commons/modules/Call';
-import {
+import type { CallLogger } from '@ringcentral-integration/commons/modules/CallLogger';
+import type { CallMonitor } from '@ringcentral-integration/commons/modules/CallMonitor';
+import type { Call } from '@ringcentral-integration/commons/modules/Call';
+import type {
   ComposeText,
   ToNumber,
 } from '@ringcentral-integration/commons/modules/ComposeText';
-import { ConnectivityMonitor } from '@ringcentral-integration/commons/modules/ConnectivityMonitor';
-import { ContactMatcher } from '@ringcentral-integration/commons/modules/ContactMatcher';
-import { ContactSearch } from '@ringcentral-integration/commons/modules/ContactSearch';
-import {
+import type { ConnectivityMonitor } from '@ringcentral-integration/commons/modules/ConnectivityMonitor';
+import type { ContactMatcher } from '@ringcentral-integration/commons/modules/ContactMatcher';
+import type { ContactSearch } from '@ringcentral-integration/commons/modules/ContactSearch';
+import type {
   DateTimeFormat,
   FormatDateTimeOptions,
 } from '@ringcentral-integration/commons/modules/DateTimeFormat';
-import { ExtensionInfo } from '@ringcentral-integration/commons/modules/ExtensionInfo';
-import { Locale } from '@ringcentral-integration/commons/modules/Locale';
-import { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiter';
-import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
-import { Webphone } from '@ringcentral-integration/commons/modules/Webphone';
-import { AccountInfo } from '@ringcentral-integration/commons/modules/AccountInfo';
+import type { ExtensionInfo } from '@ringcentral-integration/commons/modules/ExtensionInfo';
+import type { Locale } from '@ringcentral-integration/commons/modules/Locale';
+import type { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiter';
+import type { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
+import type { Webphone } from '@ringcentral-integration/commons/modules/Webphone';
+import type { AccountInfo } from '@ringcentral-integration/commons/modules/AccountInfo';
 
-import { ContactDetailsUI, RouteParams } from '../ContactDetailsUI';
-import { RouterInteraction } from '../RouterInteraction';
+import type { ContactDetailsUI, RouteParams } from '../ContactDetailsUI';
+import type { RouterInteraction } from '../RouterInteraction';
 
 export interface Deps {
   brand: Brand;

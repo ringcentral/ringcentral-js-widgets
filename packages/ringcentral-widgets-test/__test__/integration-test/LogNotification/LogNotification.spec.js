@@ -98,11 +98,8 @@ describe('Call Log Notification:', () => {
     };
     const wrapper = setup(props);
     expect(
-      wrapper
-        .find('.confirmationContainer')
-        .find(Button)
-        .at(0)
-        .props().children,
+      wrapper.find('.confirmationContainer').find(Button).at(0).props()
+        .children,
     ).toEqual('Save & Work on New');
     expect(
       wrapper
@@ -121,11 +118,8 @@ describe('Call Log Notification:', () => {
     };
     const wrapper = setup(props);
     expect(
-      wrapper
-        .find('.confirmationContainer')
-        .find(Button)
-        .at(0)
-        .props().children,
+      wrapper.find('.confirmationContainer').find(Button).at(0).props()
+        .children,
     ).toEqual('Stay on Previous Work');
   });
   it('Should display Discard & Work on New when has props: onDiscard', () => {
@@ -137,11 +131,8 @@ describe('Call Log Notification:', () => {
     };
     const wrapper = setup(props);
     expect(
-      wrapper
-        .find('.confirmationContainer')
-        .find(Button)
-        .at(0)
-        .props().children,
+      wrapper.find('.confirmationContainer').find(Button).at(0).props()
+        .children,
     ).toEqual('Discard & Work on New');
   });
   it('Should display Save & Work on New on New when has props: onSave', () => {
@@ -153,11 +144,8 @@ describe('Call Log Notification:', () => {
     };
     const wrapper = setup(props);
     expect(
-      wrapper
-        .find('.confirmationContainer')
-        .find(Button)
-        .at(0)
-        .props().children,
+      wrapper.find('.confirmationContainer').find(Button).at(0).props()
+        .children,
     ).toEqual('Save & Work on New');
   });
 });

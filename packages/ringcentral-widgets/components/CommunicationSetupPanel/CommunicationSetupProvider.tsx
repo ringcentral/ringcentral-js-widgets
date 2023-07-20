@@ -1,9 +1,8 @@
-import React, { FunctionComponent, useRef } from 'react';
+import type { FunctionComponent } from 'react';
+import React, { useRef } from 'react';
 
-import {
-  CommunicationSetupContext,
-  CommunicationSetupContextValue,
-} from '../../contexts';
+import type { CommunicationSetupContextValue } from '../../contexts';
+import { CommunicationSetupContext } from '../../contexts';
 
 type ContextProps = {};
 

@@ -1,8 +1,9 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import classNames from 'classnames';
 
-import {
+import type {
   EvActiveCallListUIFunctions,
   EvActiveCallListUIProps,
 } from '../../interfaces';

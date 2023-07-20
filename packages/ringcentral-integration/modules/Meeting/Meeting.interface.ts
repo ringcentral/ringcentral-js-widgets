@@ -1,14 +1,14 @@
-import Client from 'ringcentral-client';
+import type Client from 'ringcentral-client';
 import type TimezoneInfo from '@rc-ex/core/lib/definitions/TimezoneInfo';
 
-import { MeetingTypeV } from '../../helpers/meetingHelper.interface';
-import { Alert } from '../Alert';
-import { AvailabilityMonitor } from '../AvailabilityMonitor';
-import { Brand } from '../Brand';
-import { ExtensionInfo as ExtensionInfoModule } from '../ExtensionInfo';
-import { Locale } from '../Locale';
-import { Storage } from '../Storage';
-import { VideoConfiguration } from '../VideoConfiguration';
+import type { MeetingTypeV } from '../../helpers/meetingHelper.interface';
+import type { Alert } from '../Alert';
+import type { AvailabilityMonitor } from '../AvailabilityMonitor';
+import type { Brand } from '../Brand';
+import type { ExtensionInfo as ExtensionInfoModule } from '../ExtensionInfo';
+import type { Locale } from '../Locale';
+import type { Storage } from '../Storage';
+import type { VideoConfiguration } from '../VideoConfiguration';
 
 export interface MeetingScheduleResource {
   startTime?: number | string;

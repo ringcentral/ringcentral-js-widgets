@@ -1,6 +1,6 @@
 /**
  * RCI-4359: SDP enable and dialed with other call option
- * https://test_id_domain/test-cases/RCI-4359
+ * https://test_it_domain/test-cases/RCI-4359
  * Preconditions:
  * CTI app is integrated,
  * User is logged-in into 3rd party
@@ -39,7 +39,7 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
-import { StepProp } from '../../../../../lib/step';
+import type { StepProp } from '../../../../../lib/step';
 import {
   CheckConferenceCallControlPage,
   CheckIncomingCallPageExist,
@@ -52,6 +52,7 @@ import { CommonLogin } from '../../../../../steps/CommonLogin';
 import {
   MockAccountInfo,
   MockCallLogs,
+  MockDialingPlan,
   MockExtensionsList,
   mockExtensionsListData,
   MockMessageSync,
@@ -60,12 +61,13 @@ import {
 } from '../../../../../steps/Mock';
 import { NavigateTo } from '../../../../../steps/Router';
 import { SetAreaCode } from '../../../../../steps/Settings';
+import { generateDialPlanData } from '../../../../../__mock__/generateDialPlanData';
 
 @autorun(test.skip)
 @it
 @p2
-@common
 @title('SDP enable and dialed with other call option')
+@common
 export class SDPEnabledAndTransfer extends Step {
   Login: StepProp = CommonLogin;
   CreateMock: StepProp | null = null;
@@ -158,15 +160,15 @@ export class SDPEnabledAndTransfer extends Step {
 @autorun(test.skip)
 @it
 @p2
-@common
 @title('SDP enable and dialed and add call')
+@common
 export class SDPEnabledAndAddCall extends Step {
   Login: StepProp = CommonLogin;
   CreateMock: StepProp | null = null;
 
   @examples(`
-    | maxExtensionLength | areaCode | phoneNumber | e164           | parsedNumber     |
-    | 6                  | '205'    | '2482217'   | '+12052482217' | '(205) 248-2217' |
+    | maxExtensionLength | areaCode | phoneNumber | e164          | parsedNumber |
+    | 6                  | '3'      | '4009567'   | '+6134009567' | '34009567'   |
   `)
   run() {
     const { Login, CreateMock } = this;
@@ -206,6 +208,11 @@ export class SDPEnabledAndAddCall extends Step {
               return mockData;
             }}
           />,
+          <MockDialingPlan
+            handler={() => [
+              generateDialPlanData('61', '61', 'Australia', 'AU'),
+            ]}
+          />,
         ]}
       >
         <Given desc="login App" action={Login} />
@@ -240,8 +247,8 @@ export class SDPEnabledAndAddCall extends Step {
 @autorun(test.skip)
 @it
 @p2
-@common
 @title('SDP enable and dialed and forward call')
+@common
 export class SDPEnabledAndForward extends Step {
   Login: StepProp = CommonLogin;
   CreateMock: StepProp | null = null;
@@ -298,6 +305,11 @@ export class SDPEnabledAndForward extends Step {
               ];
               return mockData;
             }}
+          />,
+          <MockDialingPlan
+            handler={() => [
+              generateDialPlanData('44', '44', 'United Kingdom', 'GB'),
+            ]}
           />,
         ]}
       >

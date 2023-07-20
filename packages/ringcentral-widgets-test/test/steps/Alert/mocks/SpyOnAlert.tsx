@@ -1,6 +1,6 @@
 import { Alert } from '@ringcentral-integration/commons/modules/Alert';
 
-import { StepFunction } from '../../../lib/step';
+import type { StepFunction } from '../../../lib/step';
 
 let spyOnAlert: jest.SpyInstance;
 

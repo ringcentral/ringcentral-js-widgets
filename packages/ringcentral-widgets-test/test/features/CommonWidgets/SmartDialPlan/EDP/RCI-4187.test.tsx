@@ -1,6 +1,6 @@
 /**
  * RCI-4187: The priority of the default area code
- * https://test_id_domain/test-cases/RCI-4187
+ * https://test_it_domain/test-cases/RCI-4187
  * Preconditions:
  * CTI app is integrated,
  * User is logged-in into 3rd party
@@ -32,16 +32,18 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
-import { StepProp } from '../../../../lib/step';
+import type { StepProp } from '../../../../lib/step';
 import { CheckPassAreaCode, MakeCall } from '../../../../steps/Call';
 import { CommonLogin } from '../../../../steps/CommonLogin';
 import {
   MockAccountInfo,
+  MockDialingPlan,
   MockNumberParserV2,
   MockPermission,
 } from '../../../../steps/Mock';
 import { NavigateTo } from '../../../../steps/Router/action';
 import { SetAreaCode } from '../../../../steps/Settings';
+import { generateDialPlanData } from '../../../../__mock__/generateDialPlanData';
 
 @autorun(test.skip)
 @it
@@ -51,9 +53,9 @@ export class RCI4187 extends Step {
   Login: StepProp = CommonLogin;
   CreateMock: StepProp | null = null;
   @examples(`
-      | areaCode | areaCodeByAPI | phoneNumber    | formattedPhoneNumber | direction  |
-      | '205'    | '403'         | '+16505819954' | '(650) 581-9954'     | 'Outbound' |
-    `)
+    | areaCode | areaCodeByAPI | phoneNumber    | formattedPhoneNumber | direction  |
+    | '205'    | '403'         | '+16505819954' | '(650) 581-9954'     | 'Outbound' |
+  `)
   run() {
     const { Login, CreateMock } = this;
     return (
@@ -65,6 +67,11 @@ export class RCI4187 extends Step {
             handler={(mockData) => {
               mockData.limits.maxExtensionNumberLength = 7;
               return mockData;
+            }}
+          />,
+          <MockDialingPlan
+            handler={() => {
+              return [generateDialPlanData('33', '44', 'France', 'FR')];
             }}
           />,
           <MockNumberParserV2

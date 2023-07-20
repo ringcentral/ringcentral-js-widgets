@@ -9,7 +9,7 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
-import { HistoryCall } from '../../modules/CallHistory';
+import type { HistoryCall } from '../../modules/CallHistory';
 import { callStatus, RecentCalls } from '../../modules/RecentCalls';
 import { mockModuleGenerator } from '../lib/mockModule';
 

@@ -1,4 +1,4 @@
-import { AddressBookBulkUploadTaskResult } from './AddressBookBulkUploadTaskResult';
+import type { AddressBookBulkUploadTaskResult } from './AddressBookBulkUploadTaskResult';
 
 // Information on a task for adding multiple contacts to multiple extensions
 export interface AddressBookBulkUploadResponse {

@@ -1,7 +1,7 @@
-import { AggregatePerformanceCallsGrouping } from './AggregatePerformanceCallsGrouping';
-import { PerformanceCallsTimeSettings } from './PerformanceCallsTimeSettings';
-import { PerformanceCallsFilters } from './PerformanceCallsFilters';
-import { PerformanceCallsResponseDataOptions } from './PerformanceCallsResponseDataOptions';
+import type { AggregatePerformanceCallsGrouping } from './AggregatePerformanceCallsGrouping';
+import type { PerformanceCallsTimeSettings } from './PerformanceCallsTimeSettings';
+import type { PerformanceCallsFilters } from './PerformanceCallsFilters';
+import type { PerformanceCallsResponseDataOptions } from './PerformanceCallsResponseDataOptions';
 
 export interface PerformanceCallsAggregatesRequest {
   /**

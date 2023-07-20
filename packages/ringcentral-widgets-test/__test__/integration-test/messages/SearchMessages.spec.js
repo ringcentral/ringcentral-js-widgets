@@ -13,7 +13,7 @@ let wrapper = null;
 let panel = null;
 let navigationBar = null;
 beforeEach(async () => {
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 64000;
+  jest.setTimeout(64000);
   wrapper = await getWrapper();
   navigationBar = wrapper.find(NavigationBar).first();
   await navigationBar.props().goTo('/messages');

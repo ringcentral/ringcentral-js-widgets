@@ -1,6 +1,6 @@
 export default {
   allCalls: "Todas as chamadas",
-  Unknown: "Desconhecida",
+  Unknown: "Desconhecido",
   Multiple: "Vários"
 };
 

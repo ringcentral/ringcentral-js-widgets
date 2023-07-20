@@ -1,4 +1,4 @@
-import { RNPNavigationInfoUri } from './RNPNavigationInfoUri';
+import type { RNPNavigationInfoUri } from './RNPNavigationInfoUri';
 
 export interface RNPNavigationInfo {
   /**

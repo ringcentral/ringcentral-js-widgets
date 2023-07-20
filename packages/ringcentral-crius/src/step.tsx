@@ -1,6 +1,6 @@
+import type { StepFunction as BaseStepFunction } from 'crius-test';
 import {
   Step as BaseStep,
-  StepFunction as BaseStepFunction,
   autorun as baseAutorun,
   title,
   Scenario as BaseScenario,
@@ -12,7 +12,8 @@ import {
 } from 'crius-test';
 import { isCriusNode } from 'crius-is';
 import { combine } from './combine';
-import { TestType, testTypes } from './constant';
+import type { TestType } from './constant';
+import { testTypes } from './constant';
 
 export { beforeEach, afterEach, BaseContext } from 'crius-test';
 

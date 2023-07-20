@@ -1,17 +1,13 @@
 import callDirections from '@ringcentral-integration/commons/enums/callDirections';
-import { NormalizedSession } from '@ringcentral-integration/commons/interfaces/Webphone.interface';
+import type { NormalizedSession } from '@ringcentral-integration/commons/interfaces/Webphone.interface';
 import { getWebphoneSessionDisplayName } from '@ringcentral-integration/commons/lib/callLogHelpers';
 import { Module } from '@ringcentral-integration/commons/lib/di';
-import formatNumber from '@ringcentral-integration/commons/lib/formatNumber';
-import {
-  computed,
-  RcUIModuleV2,
-  UIFunctions,
-  UIProps,
-} from '@ringcentral-integration/core';
+import { formatNumber } from '@ringcentral-integration/commons/lib/formatNumber';
+import type { UIFunctions, UIProps } from '@ringcentral-integration/core';
+import { computed, RcUIModuleV2 } from '@ringcentral-integration/core';
 
 import { checkShouldHidePhoneNumber } from '../../lib/checkShouldHidePhoneNumber';
-import {
+import type {
   Deps,
   IncomingCallContainerProps,
   IncomingCallUIPanelProps,
@@ -139,7 +135,7 @@ class IncomingCallUI extends RcUIModuleV2<Deps> {
         }),
       answer: (sessionId) => {
         this._deps.conferenceCall?.closeMergingPair();
-        this._deps.webphone.answer(sessionId, window?.runner?._standAlone);
+        this._deps.webphone.answer(sessionId);
       },
       reject: (sessionId) => this._deps.webphone.reject(sessionId),
       toVoiceMail: (sessionId) => this._deps.webphone.toVoiceMail(sessionId),

@@ -1,4 +1,5 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import type { FunctionComponent } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import classnames from 'classnames';
 
@@ -16,10 +17,10 @@ import EndAnswerIcon from '../../assets/images/EndAnswer.svg';
 import ForwardIcon from '../../assets/images/Forward_white.svg';
 import HoldAnswerIcon from '../../assets/images/HoldAnswer.svg';
 import CircleButton from '../CircleButton';
+import { MoreActionWithIncomingCall } from '../CallLogCallCtrlComponent/MoreActionWithIncomingCall';
 import i18n from './i18n';
 import styles from './styles.scss';
-import { WebRTCNotificationProps } from './WebRTCNotificationSection.interface';
-import { MoreActionWithIncomingCall } from '../CallLogCallCtrlComponent/MoreActionWithIncomingCall';
+import type { WebRTCNotificationProps } from './WebRTCNotificationSection.interface';
 
 const ForwardActiveList = styled.div`
   max-width: 170px;

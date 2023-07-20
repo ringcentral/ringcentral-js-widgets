@@ -1,6 +1,6 @@
 /**
  * RCI-831: Web phone registration - display progressing icon and disable call button
- * https://test_id_domain/test-cases/RCI-831
+ * https://test_it_domain/test-cases/RCI-831
  * Preconditions:
  * Account's WebRTC is enabled
  * 'Browser' is selected in Setting > Calling > Make my calls with
@@ -13,7 +13,8 @@
 
 import { connectionStatus } from '@ringcentral-integration/commons/modules/Webphone';
 
-import { Context } from '../../../interfaces';
+import type { Context } from '../../../interfaces';
+import type { StepFunction } from '../../../lib/step';
 import {
   autorun,
   common,
@@ -21,7 +22,6 @@ import {
   p2,
   Scenario,
   Step,
-  StepFunction,
   Then,
   title,
   When,

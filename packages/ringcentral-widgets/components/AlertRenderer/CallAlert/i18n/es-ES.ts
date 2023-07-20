@@ -1,7 +1,7 @@
 import { callErrors } from '@ringcentral-integration/commons/modules/Call';
 export default {
   [callErrors.emergencyNumber]: "Las llamadas de emergencia no están disponibles. Use otro teléfono para ponerse en contacto con los servicios de emergencia.",
-  [callErrors.noToNumber]: "Introduzca un número de teléfono válido.",
+  [callErrors.noToNumber]: "Indique un número de teléfono válido.",
   [callErrors.noAreaCode]: "Establezca {areaCodeLink} para usar los números de teléfono locales de 7 dígitos.",
   [callErrors.connectFailed]: "Error de conexión. Inténtelo de nuevo más tarde.",
   [callErrors.internalError]: "Se ha producido un fallo en la conexión. Inténtelo de nuevo más tarde.",

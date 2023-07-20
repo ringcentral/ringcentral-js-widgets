@@ -1,11 +1,11 @@
-import { ExtensionStatusInfo } from './ExtensionStatusInfo';
-import { ContactInfoUpdateRequest } from './ContactInfoUpdateRequest';
-import { ExtensionRegionalSettingRequest } from './ExtensionRegionalSettingRequest';
-import { CallQueueInfoRequest } from './CallQueueInfoRequest';
-import { UserTransitionInfo } from './UserTransitionInfo';
-import { CustomFieldInfo } from './CustomFieldInfo';
-import { AutomaticLocationUpdatesSiteInfo } from './AutomaticLocationUpdatesSiteInfo';
-import { ReferenceInfo } from './ReferenceInfo';
+import type { ExtensionStatusInfo } from './ExtensionStatusInfo';
+import type { ContactInfoUpdateRequest } from './ContactInfoUpdateRequest';
+import type { ExtensionRegionalSettingRequest } from './ExtensionRegionalSettingRequest';
+import type { CallQueueInfoRequest } from './CallQueueInfoRequest';
+import type { UserTransitionInfo } from './UserTransitionInfo';
+import type { CustomFieldInfo } from './CustomFieldInfo';
+import type { AutomaticLocationUpdatesSiteInfo } from './AutomaticLocationUpdatesSiteInfo';
+import type { ReferenceInfo } from './ReferenceInfo';
 
 export interface ExtensionBulkUpdateInfo {
   /**

@@ -1,8 +1,8 @@
-import { CallResultsValue } from '../enums/callResults';
-import { Entity } from './Entity.interface';
-import { ActiveCall } from './Presence.model';
-import { NormalizedSession } from './Webphone.interface';
-import { IWarmTransferInfo } from './ActiveSession.interface';
+import type { CallResultsValue } from '../enums/callResults';
+import type { Entity } from './Entity.interface';
+import type { ActiveCall } from './Presence.model';
+import type { NormalizedSession } from './Webphone.interface';
+import type { IWarmTransferInfo } from './ActiveSession.interface';
 
 export interface CallerInfo {
   phoneNumber?: string;

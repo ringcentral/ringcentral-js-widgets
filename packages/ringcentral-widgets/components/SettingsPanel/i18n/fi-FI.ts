@@ -19,7 +19,8 @@ export default {
   userGuide: "Uutta",
   quickAccess: "Pikakäyttöasetukset",
   report: "Analytics-raportti",
-  shareIdea: "Jaa idea"
+  shareIdea: "Jaa idea",
+  reportIssue: "Ilmoita ongelmasta"
 };
 
 // @key: @#@"region"@#@ @source: @#@"Region"@#@
@@ -43,3 +44,4 @@ export default {
 // @key: @#@"quickAccess"@#@ @source: @#@"Quick Access Setting"@#@
 // @key: @#@"report"@#@ @source: @#@"Analytics Report"@#@
 // @key: @#@"shareIdea"@#@ @source: @#@"Share idea"@#@
+// @key: @#@"reportIssue"@#@ @source: @#@"Report issue"@#@

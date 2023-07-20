@@ -1,5 +1,5 @@
-import { EmergencyLocationAddressInfo } from './EmergencyLocationAddressInfo';
-import { ShortSiteInfo } from './ShortSiteInfo';
+import type { EmergencyLocationAddressInfo } from './EmergencyLocationAddressInfo';
+import type { ShortSiteInfo } from './ShortSiteInfo';
 
 export interface EmergencyLocationInfoRequest {
   /**

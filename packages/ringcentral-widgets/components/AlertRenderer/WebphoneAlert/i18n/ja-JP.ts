@@ -14,7 +14,7 @@ export default {
   [webphoneErrors.holdError]: "現在、通話を保留できません。",
   [webphoneErrors.flipError]: "通話をフリップできません。後でもう一度やり直してください。",
   [webphoneErrors.recordError]: "現在、通話を録音できません。エラーコード：{errorCode}",
-  [webphoneErrors.pauseRecordError]: "申し訳ございません。通話の録音を停止することができませんでした。後でもう一度やり直してください。",
+  [webphoneErrors.pauseRecordError]: "申し訳ありません。通話の録音を停止できませんでした。後でもう一度やり直してください。",
   [webphoneErrors.recordDisabled]: "申し訳ありません。お使いのアカウントでは、通話を録音する機能はサポートされていません。アカウント管理者にお問い合わせください。",
   [webphoneErrors.transferError]: "通話を転送できません。後でもう一度やり直してください。",
   [webphoneMessages.parked]: "通話は{parkedNumber}でパークされました",

@@ -1,7 +1,5 @@
-import {
-  ObjectMap,
-  ObjectMapKey,
-} from '@ringcentral-integration/core/lib/ObjectMap';
+import type { ObjectMapKey } from '@ringcentral-integration/core/lib/ObjectMap';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
 export const callResults = ObjectMap.fromObject({
   IPPhoneOffline: 'IP Phone Offline',

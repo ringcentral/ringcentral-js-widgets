@@ -180,7 +180,7 @@ angular
     'ENV_VARS',
     function run($rootScope, $window, ENV_VARS) {
       // this adds a redirectTo param to the $stateProvider, allowing default views from parent
-      $rootScope.$on('$stateChangeStart', function(event, toState, toParams) {
+      $rootScope.$on('$stateChangeStart', function (event, toState, toParams) {
         if (toState.redirectTo) {
           event.preventDefault();
           $state.go(toState.redirectTo, toParams);
@@ -204,40 +204,34 @@ angular
     'RenderNav',
     'BrandingSvc',
     function AppCtrl($scope, RenderNav, BrandingSvc) {
-      $scope.$on('$stateChangeStart', function(
-        event,
-        toState,
-        toParams,
-        fromState,
-        fromParams,
-      ) {
-        if (toState.name === 'base') {
-          $scope.loadingScript = true;
-        }
+      $scope.$on(
+        '$stateChangeStart',
+        function (event, toState, toParams, fromState, fromParams) {
+          if (toState.name === 'base') {
+            $scope.loadingScript = true;
+          }
 
-        // set this if it's missing, happens on page refresh
-        if (!toParams.toolType) {
-          var split = toState.name.split('.');
-          toParams.toolType = split[split.length - 1];
-        }
-      });
+          // set this if it's missing, happens on page refresh
+          if (!toParams.toolType) {
+            var split = toState.name.split('.');
+            toParams.toolType = split[split.length - 1];
+          }
+        },
+      );
 
-      $scope.$on('$stateChangeSuccess', function(
-        event,
-        toState,
-        toParams,
-        fromState,
-        fromParams,
-      ) {
-        $scope.pageTitle = 'Scripting Studio | ';
-        $scope.pageTitle += toState.pageTitle || 'Configuration';
+      $scope.$on(
+        '$stateChangeSuccess',
+        function (event, toState, toParams, fromState, fromParams) {
+          $scope.pageTitle = 'Scripting Studio | ';
+          $scope.pageTitle += toState.pageTitle || 'Configuration';
 
-        if (toState.name === 'base') {
-          $scope.loadingScript = false;
-        }
+          if (toState.name === 'base') {
+            $scope.loadingScript = false;
+          }
 
-        RenderNav.addState(toState.name, toParams);
-      });
+          RenderNav.addState(toState.name, toParams);
+        },
+      );
 
       $scope.favImg = BrandingSvc.getFavUrl();
 

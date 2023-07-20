@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
 
+import { formatDuration } from '@ringcentral-integration/commons/lib/formatDuration';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
-import formatDuration from '../../lib/formatDuration';
 import Spinner from '../Spinner';
 import i18n from './i18n';
 import styles from './styles.scss';

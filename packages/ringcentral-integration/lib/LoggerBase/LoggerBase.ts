@@ -6,7 +6,7 @@ import {
 } from '@ringcentral-integration/core';
 
 import { proxify } from '../proxy/proxify';
-import { Deps, LogOptions, Options } from './LoggerBase.interface';
+import type { Deps, LogOptions, Options } from './LoggerBase.interface';
 import { convertListToMap, defaultIdentityFunction } from './loggerBaseHelper';
 
 export abstract class LoggerBase<T extends Deps = Deps> extends RcModuleV2<T> {

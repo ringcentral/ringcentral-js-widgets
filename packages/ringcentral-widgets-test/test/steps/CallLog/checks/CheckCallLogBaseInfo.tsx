@@ -1,6 +1,6 @@
 import { screen, getByTestId, waitFor } from '@testing-library/react';
 
-import { StepFunction } from '../../../lib/step';
+import type { StepFunction } from '../../../lib/step';
 
 interface IBaseInfoParams {
   name?: string;

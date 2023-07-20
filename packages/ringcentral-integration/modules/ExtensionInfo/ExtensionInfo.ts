@@ -1,14 +1,14 @@
-import { Unsubscribe } from 'redux';
+import type { Unsubscribe } from 'redux';
 import type ExtensionInfoEvent from '@rc-ex/core/lib/definitions/ExtensionInfoEvent';
 import type GetExtensionInfoResponse from '@rc-ex/core/lib/definitions/GetExtensionInfoResponse';
 import { computed, watch } from '@ringcentral-integration/core';
-
+import { renameTurkeyCountry } from '../../helpers/renameTurkey';
 import { permissionsMessages } from '../../enums/permissionsMessages';
 import { subscriptionFilters } from '../../enums/subscriptionFilters';
 import { subscriptionHints } from '../../enums/subscriptionHints';
 import { Module } from '../../lib/di';
 import { DataFetcherV2Consumer, DataSource } from '../DataFetcherV2';
-import { Deps } from './ExtensionInfo.interface';
+import type { Deps } from './ExtensionInfo.interface';
 
 const extensionRegExp = /.*\/extension\/\d+$/;
 const DEFAULT_COUNTRY = {
@@ -108,11 +108,14 @@ export class ExtensionInfo extends DataFetcherV2Consumer<
 
   @computed(({ data }: ExtensionInfo) => [data])
   get info(): GetExtensionInfoResponse {
+    if (this.data?.regionalSettings?.homeCountry) {
+      renameTurkeyCountry(this.data.regionalSettings.homeCountry);
+    }
     return this.data ?? {};
   }
 
   get id() {
-    return this.info.id;
+    return this.info.id!;
   }
 
   get extensionNumber() {

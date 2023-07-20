@@ -1,4 +1,4 @@
-import { AccountPresenceEventBody } from './AccountPresenceEventBody';
+import type { AccountPresenceEventBody } from './AccountPresenceEventBody';
 
 export interface AccountPresenceEvent {
   /**

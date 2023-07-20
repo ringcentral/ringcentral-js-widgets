@@ -1,7 +1,7 @@
 import * as uuid from 'uuid';
 
 import Client from '@ringcentral/sdk/lib/http/Client';
-import Platform from '@ringcentral/sdk/lib/platform/Platform';
+import type Platform from '@ringcentral/sdk/lib/platform/Platform';
 
 interface Options {
   headers: Record<string, string>;
@@ -18,18 +18,18 @@ export async function batchPutApi({
   query?: Record<string, any>;
   body: any[];
 }) {
-  const boundry = `Boundary_${uuid.v4()}`;
+  const boundary = `Boundary_${uuid.v4()}`;
   const options: Options = { headers: {} };
   options.headers[
     Client._contentType
-  ] = `${Client._multipartContentType}; boundary=${boundry}`;
+  ] = `${Client._multipartContentType}; boundary=${boundary}`;
   let _body = body.reduce<string>((data, item) => {
-    data += `--${boundry}\r\n`;
+    data += `--${boundary}\r\n`;
     data += `${Client._contentType}: ${Client._jsonContentType}\r\n\r\n`;
     data += `${JSON.stringify(item.body)}\r\n`;
     return data;
   }, '');
-  _body += `--${boundry}--`;
+  _body += `--${boundary}--`;
   const result = await platform.put(url, _body, query, options);
   // TODO: fix modifier issue about SDK.
   return (platform as any)._client.toMultipart(result);
@@ -44,11 +44,11 @@ export async function batchGetApi({
   url: string;
   query?: Record<string, any>;
 }) {
-  const boundry = `Boundary_${uuid.v4()}`;
+  const boundary = `Boundary_${uuid.v4()}`;
   const options: Options = { headers: {} };
   options.headers[
     Client._contentType
-  ] = `${Client._multipartContentType}; boundary=${boundry}`;
+  ] = `${Client._multipartContentType}; boundary=${boundary}`;
   const result = await platform.get(url, query, options);
   // TODO: fix modifier issue about SDK.
   return (platform as any)._client.toMultipart(result);

@@ -20,7 +20,7 @@ import {
 } from './helper';
 
 beforeEach(async () => {
-  jasmine.DEFAUL_INTERVAL = 64000;
+  jest.setTimeout(64000);
 });
 
 afterEach(() => {

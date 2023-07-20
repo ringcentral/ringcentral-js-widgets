@@ -1,10 +1,12 @@
 {
-  "errorCode" : "InvalidParameter",
-  "message" : "Resource for parameter [to] is not found",
-  "errors" : [ {
-    "errorCode" : "CMN-102",
-    "message" : "Resource for parameter [to] is not found",
-    "parameterName" : "to"
-  } ],
-  "parameterName" : "to"
+  "errorCode": "InvalidParameter",
+  "message": "Resource for parameter [to] is not found",
+  "errors": [
+    {
+      "errorCode": "CMN-102",
+      "message": "Resource for parameter [to] is not found",
+      "parameterName": "to"
+    }
+  ],
+  "parameterName": "to"
 }

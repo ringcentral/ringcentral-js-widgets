@@ -1,13 +1,13 @@
-import { ForwardingInfoCreateRuleRequest } from './ForwardingInfoCreateRuleRequest';
-import { CallersInfoRequest } from './CallersInfoRequest';
-import { CalledNumberInfo } from './CalledNumberInfo';
-import { ScheduleInfo } from './ScheduleInfo';
-import { UnconditionalForwardingInfo } from './UnconditionalForwardingInfo';
-import { QueueInfo } from './QueueInfo';
-import { VoicemailInfo } from './VoicemailInfo';
-import { MissedCallInfo } from './MissedCallInfo';
-import { GreetingInfo } from './GreetingInfo';
-import { TransferredExtensionInfo } from './TransferredExtensionInfo';
+import type { ForwardingInfoCreateRuleRequest } from './ForwardingInfoCreateRuleRequest';
+import type { CallersInfoRequest } from './CallersInfoRequest';
+import type { CalledNumberInfo } from './CalledNumberInfo';
+import type { ScheduleInfo } from './ScheduleInfo';
+import type { UnconditionalForwardingInfo } from './UnconditionalForwardingInfo';
+import type { QueueInfo } from './QueueInfo';
+import type { VoicemailInfo } from './VoicemailInfo';
+import type { MissedCallInfo } from './MissedCallInfo';
+import type { GreetingInfo } from './GreetingInfo';
+import type { TransferredExtensionInfo } from './TransferredExtensionInfo';
 
 export interface UpdateAnsweringRuleRequest {
   /**

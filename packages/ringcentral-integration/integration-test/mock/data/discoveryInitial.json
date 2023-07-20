@@ -1,28 +1,28 @@
 {
-  "version" : "1.0.0",
-  "retryCount" : 3,
-  "retryInterval" : 3,
-  "discoveryApi" : {
-    "defaultExternalUri" : "http://whatever/.well-known/entry-points/external"
+  "version": "1.0.0",
+  "retryCount": 3,
+  "retryInterval": 3,
+  "discoveryApi": {
+    "defaultExternalUri": "http://whatever/.well-known/entry-points/external"
   },
-  "authApi" : {
-    "authorizationUri" : "http://whatever/restapi/oauth/authorize",
-    "oidcDiscoveryUri" : "http://whatever/.well-known/openid-configuration",
-    "defaultTokenUri" : "http://whatever/restapi/oauth/token"
+  "authApi": {
+    "authorizationUri": "http://whatever/restapi/oauth/authorize",
+    "oidcDiscoveryUri": "http://whatever/.well-known/openid-configuration",
+    "defaultTokenUri": "http://whatever/restapi/oauth/token"
   },
-  "coreApi" : {
-    "baseUri" : "http://whatever"
+  "coreApi": {
+    "baseUri": "http://whatever"
   },
-  "rcm" : {
-    "baseWebUri" : "http://whatever",
-    "sdkDomain" : "whatever"
+  "rcm": {
+    "baseWebUri": "http://whatever",
+    "sdkDomain": "whatever"
   },
-  "rcv" : {
-    "baseWebUri" : "hhttp://whatever",
-    "baseApiUri" : "http://whatever",
-    "pubnubOrigin" : "ringcentral.pubnubapi.com"
+  "rcv": {
+    "baseWebUri": "hhttp://whatever",
+    "baseApiUri": "http://whatever",
+    "pubnubOrigin": "ringcentral.pubnubapi.com"
   },
-  "edc" : {
-    "baseUri" : "http://whatever"
+  "edc": {
+    "baseUri": "http://whatever"
   }
 }

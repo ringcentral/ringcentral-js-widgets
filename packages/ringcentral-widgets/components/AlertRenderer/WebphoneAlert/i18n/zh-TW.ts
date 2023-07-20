@@ -14,7 +14,7 @@ export default {
   [webphoneErrors.holdError]: "目前無法保留通話。",
   [webphoneErrors.flipError]: "無法轉接通話。請稍後再試。",
   [webphoneErrors.recordError]: "目前無法對通話進行錄音。錯誤代碼：{errorCode}",
-  [webphoneErrors.pauseRecordError]: "抱歉，無法停止錄製通話。請稍後再試。",
+  [webphoneErrors.pauseRecordError]: "抱歉，我們無法停止通話錄音。請稍後再試一次。",
   [webphoneErrors.recordDisabled]: "抱歉，您的帳戶並不具進行通話錄音的功能。請聯絡您的帳戶管理員。",
   [webphoneErrors.transferError]: "無法轉接通話。請稍後再試。",
   [webphoneMessages.parked]: "您的通話寄存位置為：{parkedNumber}",

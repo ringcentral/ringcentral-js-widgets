@@ -1,5 +1,6 @@
-import { RcvDelegator } from '@ringcentral-integration/commons/modules/RcVideo';
-import { NormalizedSession } from '@ringcentral-integration/commons/interfaces/Webphone.interface';
+import type { MockRequest } from 'fetch-mock';
+import type { RcvDelegator } from '@ringcentral-integration/commons/modules/RcVideo';
+import type { NormalizedSession } from '@ringcentral-integration/commons/interfaces/Webphone.interface';
 import { callDirection } from '@ringcentral-integration/commons/enums/callDirections';
 import { telephonyStatus as telephonyStatuses } from '@ringcentral-integration/commons/enums/telephonyStatus';
 import { isConferenceSession } from '@ringcentral-integration/commons/modules/Webphone/webphoneHelper';
@@ -9,10 +10,11 @@ import {
   PartyStatusCode,
   telephonySessionBuildersCache,
 } from '@ringcentral-integration/commons/integration-test/mock/telephonySessionBuilder';
-import { PlatformMock, PlatformMockOptions } from './PlatformMock';
-import { PubnubMock, WebSocketMock } from './subscription';
+import type { PlatformMockOptions } from './PlatformMock';
+import { PlatformMock } from './PlatformMock';
+import type { PubnubMock, WebSocketMock } from './subscription';
 import { generateTelephonyState } from './lib/generateTelephonyState';
-import {
+import type {
   AccountLockedSettingResponse,
   DetailedExtensionPresenceWithSIPEvent,
   FeatureList,
@@ -36,14 +38,18 @@ import {
   GetExtensionDevicesResponse,
   GetMessageSyncResponse,
   GetMessageInfoResponse,
+  TokenInfo,
+  ExtensionCallQueuePresenceList,
+  GetCallRecordingResponse,
 } from './platform/interfaces';
-import {
+import type {
   ArraySchemaObject,
   MakeCallProps,
   MessageProps,
   SchemaObject,
 } from './interface';
 import accountBody from './platform/data/accountInfo.json';
+import clientInfoResponseBody from './platform/data/clientInfo.json';
 import featuresBody from './platform/data/features.json';
 import blockedNumberBody from './platform/data/blockedNumber.json';
 import extensionsListBody from './platform/data/extensions.json';
@@ -54,6 +60,7 @@ import discoveryInitialBody from './platform/data/discoveryInitial.json';
 import videoPersonalSettingsBody from './platform/data/videoPersonalSettings.json';
 import rcvMeetingSettingsBody from './platform/data/rcvMeetingSettings.json';
 import dialInNumbersBody from './platform/data/dialInNumbers.json';
+import forwardAllCallsBody from './platform/data/forwardAllCallsInfo.json';
 import postRcvBridgesBody from './platform/data/postRcvBridges.json';
 import videoPreferenceBody from './platform/data/videoPreference.json';
 import extensionInfoBody from './platform/data/extensionInfo.json';
@@ -85,12 +92,18 @@ export interface RcMockOptions extends PlatformMockOptions {
    * mock subscription for RcMock, it should be PubnubMock or WebSocketMock.
    */
   subscription: PubnubMock | WebSocketMock;
+
+  /**
+   * Enable separating accurate /message-sync mock for Voicemail, Sms, Fax modules.
+   * False by default, which only enable /message-sync for all of them.
+   * */
+  enableSeparateMessageSyncMock?: boolean;
 }
 
 export interface PostOauthTokenProps {
   failure?: boolean;
   repeat?: number;
-  failureCode?: 400 | 403;
+  failureCode?: 400 | 403 | 503;
 }
 
 type HttpStatusCode = 200 | 400 | 403 | 404 | 503 | 409 | 500;
@@ -112,33 +125,42 @@ type HttpStatusCode = 200 | 400 | 403 | 404 | 503 | 409 | 500;
 export class RcMock extends PlatformMock {
   subscription: PubnubMock | WebSocketMock;
 
-  constructor({ subscription, ...options }: RcMockOptions) {
+  constructor({
+    subscription,
+    enableSeparateMessageSyncMock,
+    ...options
+  }: RcMockOptions) {
     super(options);
     this.subscription = subscription;
     this.defaultInitMocks
+      .add(this.getCheckPubsub)
       .add(this.postAuthentication)
       .add(this.postOauthToken)
       .add(this.getCallerId)
+      .add(this.getCallQueue)
       .add(this.getExtension)
       .add(this.getAccount)
       .add(this.getFeatures)
+      .add(this.getForwardAllCalls)
       .add(this.postSubscription)
       .add(this.getDevice)
       .add(this.getBlockedNumber)
       .add(this.getAddressBookSync)
       .add(this.getPresence)
+      .add(this.getInstances)
       .add(this.getPhoneNumber)
       .add(this.getForwardingNumber)
       .add(this.getContacts)
       .add(this.getContactsByPublicApi)
       .add(this.getDialingPlan)
       .add(this.getVideoConfiguration)
-      .add(this.getMessageSync)
       .add(this.getActiveCalls)
       .add(this.getCallLogSync)
       .add(this.getMessageStore)
       .add(this.deleteMessage)
+      .add(this.deleteConversation)
       .add(this.postSipProvision)
+      .add(this.getClientInfo)
       .add(this.postAuthRevoke)
       .add(this.deleteSubscription)
       .add(this.getDiscoveryInitial)
@@ -163,12 +185,37 @@ export class RcMock extends PlatformMock {
       .add(this.postWsToken)
       .add(this.getTelephonyState)
       .add(this.getCallLog)
+      .add(this.deleteCallLog)
+      .add(this.deleteAllCallLog)
       .add(this.postSms)
       .add(this.getProfileImage)
       .add(this.getInvitationBridges)
       .add(this.postCompanyPager)
       .add(this.postNumberParserV2)
       .add(this.ringOut);
+
+    if (enableSeparateMessageSyncMock) {
+      this.defaultInitMocks
+        .add(this.getFaxMessageSync)
+        .add(this.getVoicemailMessageSync)
+        .add(this.getSmsMessageSync);
+    } else {
+      this.defaultInitMocks.add(this.getMessageSync);
+    }
+  }
+
+  replaceDefaultInitMock(
+    key: (...args: any[]) => any,
+    value: (...args: any[]) => any,
+  ) {
+    const arr = [...this.defaultInitMocks];
+    const index = arr.indexOf(key);
+    if (index > -1) {
+      arr.splice(index, 1, value);
+      this.defaultInitMocks = new Set(arr);
+    } else {
+      throw new Error(`Can not find ${key} in defaultInitMocks`);
+    }
   }
 
   removeWebphone?: () => void;
@@ -179,19 +226,28 @@ export class RcMock extends PlatformMock {
     return super.reset();
   }
 
-  postAuthentication() {
+  getCheckPubsub() {
+    this.get('https://pubsub.pubnub.com/time/0' as any, 200, {
+      response: () => {
+        return { body: '' };
+      },
+    });
+  }
+
+  postAuthentication(handler?: (mockData: TokenInfo) => TokenInfo) {
     this.post('/restapi/oauth/token', 200, {
       response: ({ mockData }) => {
+        const data = {
+          ...mockData,
+          access_token: btoa(Math.random().toString()),
+          refresh_token: btoa(Math.random().toString()),
+          expires_in: 3600,
+          refresh_token_expires_in: 60480,
+          expireTime: Date.now() + 3600 * 1000,
+          scope: 'SMS RCM Foo Boo CallControl TelephonySessions',
+        };
         return {
-          body: {
-            ...mockData,
-            access_token: btoa(Math.random().toString()),
-            refresh_token: btoa(Math.random().toString()),
-            expires_in: 3600,
-            refresh_token_expires_in: 60480,
-            expireTime: Date.now() + 3600 * 1000,
-            scope: 'SMS RCM Foo Boo CallControl TelephonySessions',
-          },
+          body: handler?.(data) ?? data,
         };
       },
     });
@@ -332,7 +388,37 @@ export class RcMock extends PlatformMock {
     );
   }
 
-  getPresence(repeat: number = 1) {
+  getForwardAllCalls(
+    handler?: (data: typeof forwardAllCallsBody) => typeof forwardAllCallsBody,
+    repeat = 0,
+  ) {
+    this.get(
+      '/restapi/v1.0/account/:accountId/extension/:extensionId/forward-all-calls' as any,
+      200,
+      {
+        repeat,
+        response: () => {
+          return {
+            body: handler?.(forwardAllCallsBody) ?? forwardAllCallsBody,
+          };
+        },
+      },
+    );
+  }
+
+  getInstances(handler = (data: any) => data) {
+    this.get(
+      '/restapi/v1.0/account/:accountId/extension/:extensionId/instances' as any,
+      200,
+      {
+        response: () => {
+          return handler?.({ records: [] }) ?? { records: [] };
+        },
+      },
+    );
+  }
+
+  getPresence(repeat = 0, handler = (data: GetPresenceInfo) => data) {
     this.get(
       '/restapi/v1.0/account/:accountId/extension/:extensionId/presence',
       200,
@@ -340,7 +426,7 @@ export class RcMock extends PlatformMock {
         repeat,
         response: ({ mockData }) => {
           return {
-            body: {
+            body: handler({
               uri: mockData.uri,
               extension: mockData.extension,
               presenceStatus: 'Available',
@@ -351,7 +437,7 @@ export class RcMock extends PlatformMock {
               allowSeeMyPresence: true,
               ringOnMonitoredCall: false,
               pickUpCallsOnHold: false,
-            } as GetPresenceInfo,
+            } as GetPresenceInfo),
           };
         },
       },
@@ -461,7 +547,7 @@ export class RcMock extends PlatformMock {
     });
   }
 
-  postSubscription(repeat: number = 1) {
+  postSubscription(repeat = 1) {
     this.post('/restapi/v1.0/subscription', 200, {
       schema: (schema) => {
         schema.mockData.properties!.status.default = 'Active';
@@ -505,6 +591,7 @@ export class RcMock extends PlatformMock {
       readStatus = 'Read',
       availability = 'Alive',
       repeat = 1,
+      query,
     }: MessageProps = {},
     handler?: (mockData: GetMessageSyncResponse) => GetMessageSyncResponse,
   ) {
@@ -512,6 +599,7 @@ export class RcMock extends PlatformMock {
       '/restapi/v1.0/account/:accountId/extension/:extensionId/message-sync',
       200,
       {
+        query,
         schema: (schema) => {
           const { records } = schema.mockData.properties!;
           records.maxItems = 1;
@@ -542,9 +630,72 @@ export class RcMock extends PlatformMock {
     );
   }
 
+  getFaxMessageSync(
+    props: MessageProps = { syncType: 'FSync' },
+    handler?: (mockData: GetMessageSyncResponse) => GetMessageSyncResponse,
+  ) {
+    return this.getMessageSync(
+      {
+        ...props,
+        query:
+          props.syncType === 'ISync'
+            ? {}
+            : {
+                ...props.query,
+                messageType: 'Fax',
+              },
+      },
+      handler,
+    );
+  }
+
+  getVoicemailMessageSync(
+    props: MessageProps = { syncType: 'FSync' },
+    handler?: (mockData: GetMessageSyncResponse) => GetMessageSyncResponse,
+  ) {
+    return this.getMessageSync(
+      {
+        ...props,
+        query:
+          props.syncType === 'ISync'
+            ? {}
+            : {
+                ...props.query,
+                messageType: 'VoiceMail',
+              },
+      },
+      handler,
+    );
+  }
+
+  getSmsMessageSync(
+    props: MessageProps = { syncType: 'FSync' },
+    handler?: (mockData: GetMessageSyncResponse) => GetMessageSyncResponse,
+  ) {
+    return this.getMessageSync(
+      {
+        ...props,
+        query:
+          props.syncType === 'ISync'
+            ? {}
+            : {
+                ...props.query,
+                messageType: ['SMS', 'Text'],
+              },
+      },
+      handler,
+    );
+  }
+
   deleteMessage() {
     this.delete(
       '/restapi/v1.0/account/:accountId/extension/:extensionId/message-store/:messageId',
+    );
+  }
+
+  deleteConversation() {
+    this.delete(
+      '/restapi/v1.0/account/:accountId/extension/:extensionId/message-store',
     );
   }
 
@@ -614,10 +765,7 @@ export class RcMock extends PlatformMock {
     });
   }
 
-  getCallLogSync(
-    handler?: (mockData: CallLogSync) => CallLogSync,
-    repeat: number = 1,
-  ) {
+  getCallLogSync(handler?: (mockData: CallLogSync) => CallLogSync, repeat = 1) {
     this.get(
       '/restapi/v1.0/account/:accountId/extension/:extensionId/call-log-sync',
       200,
@@ -639,6 +787,7 @@ export class RcMock extends PlatformMock {
       },
     );
   }
+
   getCallLog(
     handler?: (mockData: UserCallLogResponse) => UserCallLogResponse,
     repeat?: number,
@@ -658,9 +807,34 @@ export class RcMock extends PlatformMock {
     );
   }
 
+  deleteAllCallLog(status = 200, repeat = 1) {
+    this.delete(
+      '/restapi/v1.0/account/:accountId/extension/:extensionId/call-log' as any,
+      status,
+      {
+        repeat,
+        response: () => {
+          return {
+            body: {},
+          };
+        },
+      },
+    );
+  }
+
+  deleteCallLog(status = 200, repeat = 1) {
+    this.delete(
+      '/restapi/v1.0/account/:accountId/extension/:extensionId/call-log/:id' as any,
+      status,
+      {
+        repeat,
+      },
+    );
+  }
+
   getMessageStore(
     handler?: (mockData: GetMessageList) => GetMessageList,
-    repeat: number = 1,
+    repeat = 1,
   ) {
     this.get(
       '/restapi/v1.0/account/:accountId/extension/:extensionId/message-store',
@@ -678,7 +852,7 @@ export class RcMock extends PlatformMock {
 
   putMessageStore(
     handler?: (mockData: GetMessageInfoResponse) => GetMessageInfoResponse,
-    repeat: number = 1,
+    repeat = 1,
   ) {
     this.put(
       '/restapi/v1.0/account/:accountId/extension/:extensionId/message-store/:messageId',
@@ -696,6 +870,15 @@ export class RcMock extends PlatformMock {
 
   postSipProvision() {
     this.post('/restapi/v1.0/client-info/sip-provision');
+  }
+
+  getClientInfo(handler?: () => any, repeat = 0) {
+    this.get('/restapi/v1.0/client-info' as any, 200, {
+      repeat,
+      response: {
+        body: handler?.() ?? clientInfoResponseBody,
+      },
+    });
   }
 
   getTimezone() {
@@ -808,8 +991,8 @@ export class RcMock extends PlatformMock {
     handler?: (
       mockData: typeof numberParserAPIResponse,
     ) => typeof numberParserAPIResponse,
-    repeat: number = 0,
-    status: number = 200,
+    repeat = 0,
+    status = 200,
   ) {
     this.post('/restapi/v2/number-parser/parse' as any, status, {
       repeat,
@@ -845,7 +1028,7 @@ export class RcMock extends PlatformMock {
     handler?: (
       mockData: GetSMSMessageInfoResponse,
     ) => GetSMSMessageInfoResponse,
-    repeat: number = 0,
+    repeat = 0,
     status: 200 | 401 = 200,
   ) {
     this.post(
@@ -871,9 +1054,9 @@ export class RcMock extends PlatformMock {
         | typeof companyPagerResponse
         | typeof companyPagerInvalidResponse,
     ) => typeof companyPagerResponse | typeof companyPagerInvalidResponse,
-    repeat: number = 1,
-    requestInvalid: boolean = false,
-    responseCode: number = 200,
+    repeat = 1,
+    requestInvalid = false,
+    responseCode = 200,
   ) {
     const responseBody = requestInvalid
       ? companyPagerInvalidResponse
@@ -1155,12 +1338,11 @@ export class RcMock extends PlatformMock {
   }
 
   postWsToken() {
-    const mockWsServer = 'ws://whatever';
     this.post('/restapi/oauth/wstoken' as any, 200, {
       response: {
         body: {
           ...wsTokenBody,
-          uri: mockWsServer,
+          uri: (this.subscription as WebSocketMock).url,
         },
       },
       repeat: 0,
@@ -1256,6 +1438,31 @@ export class RcMock extends PlatformMock {
     );
   }
 
+  async triggerPresenceChanged(
+    handler?: (eventData: GetPresenceInfo) => GetPresenceInfo,
+  ) {
+    const eventBody = {
+      allowSeeMyPresence: true,
+      dndStatus: 'TakeAllCalls',
+      extensionId: 383295004,
+      meetingStatus: 'Disconnected',
+      pickUpCallsOnHold: false,
+      presenceStatus: 'Available',
+      ringOnMonitoredCall: false,
+      sequence: 51,
+      telephonyStatus: 'NoCall',
+      userStatus: 'Available',
+    } as any as GetPresenceInfo;
+
+    const event = {
+      event:
+        '/restapi/v1.0/account/~/extension/~/presence?detailedTelephonyState=true&sipData=true&totalActiveCalls',
+      timestamp: new Date().toISOString(),
+      body: handler?.(eventBody) ?? eventBody,
+    };
+    await this.subscription.trigger(event);
+  }
+
   async triggerActiveCallChanged({
     handler,
     sessions,
@@ -1264,11 +1471,7 @@ export class RcMock extends PlatformMock {
     handler?: (eventData: GetPresenceInfo) => GetPresenceInfo;
   }) {
     const activeCalls = sessions
-      ? this.generateActiveCalls(
-          sessions,
-          [],
-          sessions.map((i) => i.id),
-        )
+      ? this.generateActiveCalls(sessions, [], sessions.map((i) => i.id) as any)
       : [];
     const event = {
       event:
@@ -1290,7 +1493,7 @@ export class RcMock extends PlatformMock {
         // TODO: fix type for miss `uri, extension, message, meetingStatus`
       } as any as GetPresenceInfo,
     };
-    await this.subscription.trigger(handler?.(event) ?? event);
+    await this.subscription.trigger(handler?.(event as any) ?? event);
   }
 
   async receiveCall({
@@ -1573,16 +1776,57 @@ export class RcMock extends PlatformMock {
   }
 
   presenceUpdate(
-    handler?: (presenceBodyData: typeof presenceBody) => typeof presenceBody,
+    handler?: (
+      presenceBodyData: typeof presenceBody,
+      request?: MockRequest,
+    ) => typeof presenceBody,
+    repeat?: number,
   ) {
     this.put(
       '/restapi/v1.0/account/:accountId/extension/:extensionId/presence',
       200,
       {
-        response: {
-          body: (handler?.(presenceBody) ??
-            presenceBody) as PresenceInfoResponse,
+        repeat,
+        response: ({ request }) => {
+          return {
+            body: (handler?.(presenceBody, request) ??
+              presenceBody) as PresenceInfoResponse,
+          };
         },
+      },
+    );
+  }
+
+  getCallQueue(
+    handler?: (
+      callQueueBody: ExtensionCallQueuePresenceList,
+    ) => ExtensionCallQueuePresenceList,
+  ) {
+    this.get(
+      '/restapi/v1.0/account/:accountId/extension/:extensionId/call-queue-presence',
+      200,
+      {
+        response: ({ mockData }) => ({
+          body: (handler?.(mockData) ??
+            mockData) as ExtensionCallQueuePresenceList,
+        }),
+      },
+    );
+  }
+
+  updateCallQueue(
+    handler?: (
+      callQueueBody: ExtensionCallQueuePresenceList,
+    ) => ExtensionCallQueuePresenceList,
+  ) {
+    this.put(
+      '/restapi/v1.0/account/:accountId/extension/:extensionId/call-queue-presence',
+      200,
+      {
+        response: ({ mockData }) => ({
+          body: (handler?.(mockData) ??
+            mockData) as ExtensionCallQueuePresenceList,
+        }),
       },
     );
   }
@@ -1705,6 +1949,7 @@ export class RcMock extends PlatformMock {
       '/restapi/v1.0/account/:accountId/extension/:extensionId/profile-image/:scaleSize',
       200,
       {
+        repeat: 0,
         body: new Blob(),
       },
     );
@@ -1735,5 +1980,17 @@ export class RcMock extends PlatformMock {
         repeat: 0,
       },
     );
+  }
+
+  getCallRecordingData(
+    handler?: (
+      recordingData: GetCallRecordingResponse,
+    ) => GetCallRecordingResponse,
+  ) {
+    this.get('/restapi/v1.0/account/:accountId/recording/:recordingId', 200, {
+      response: ({ mockData }) => ({
+        body: (handler?.(mockData) ?? mockData) as GetCallRecordingResponse,
+      }),
+    });
   }
 }

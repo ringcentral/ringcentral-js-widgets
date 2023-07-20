@@ -5,9 +5,9 @@ export default {
   customMessage: "Personnaliser le message",
   callMeBackIn: "Rappelez-moi dans",
   willCallYouBackIn: "Vous rappellera dans",
-  min: "min",
-  hours: "heures",
-  days: "jours"
+  min: " min",
+  hours: " heures",
+  days: " jours"
 };
 
 // @key: @#@"cancel"@#@ @source: @#@"Cancel"@#@

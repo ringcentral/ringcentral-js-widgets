@@ -1,7 +1,7 @@
 import { connectionStatus } from '@ringcentral-integration/commons/modules/Webphone';
 
-import { connectionStatusEnum } from '../../../../interfaces';
-import { StepFunction } from '../../../../lib/step';
+import type { connectionStatusEnum } from '../../../../interfaces';
+import type { StepFunction } from '../../../../lib/step';
 
 export const ChangeConnectionStatus: StepFunction<{
   status: connectionStatusEnum;

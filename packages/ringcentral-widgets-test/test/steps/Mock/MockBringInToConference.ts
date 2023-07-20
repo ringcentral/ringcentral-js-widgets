@@ -1,6 +1,6 @@
-import bringInToConferenceResponse from '@ringcentral-integration/mock/src/platform/data/bringInToConferenceRes.json';
+import type bringInToConferenceResponse from '@ringcentral-integration/mock/src/platform/data/bringInToConferenceRes.json';
 
-import { StepFunction } from '../../lib/step';
+import type { StepFunction } from '../../lib/step';
 
 interface MockBringInToConferenceProps {
   handler?: (

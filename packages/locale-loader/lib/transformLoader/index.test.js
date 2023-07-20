@@ -7,10 +7,10 @@ const sourceFolder = './testData-transformLocaleLoader';
 
 const files = ['en_us.js', 'FR-FR.JS', 'aa-AAAA-ZZ.JS'];
 
-function transform() {
+function transform(globs = path.resolve(sourceFolder, 'loadLocale.js')) {
   return new Promise((resolve, reject) => {
     gulp
-      .src(path.resolve(sourceFolder, 'loadLocale.js'))
+      .src(globs)
       .pipe(transformLocaleLoader())
       .pipe(gulp.dest(path.resolve(sourceFolder, 'output')))
       .on('end', resolve)
@@ -42,5 +42,13 @@ describe('transformLocaleLoader', () => {
     const outputPath = path.resolve(sourceFolder, 'output', 'loadLocale.js');
     expect(await fs.exists(outputPath)).toBe(true);
     expect(await fs.readFile(outputPath, 'utf8')).toBe(content);
+  });
+  test('should support transform folder (by ignore NULL content resource)', async () => {
+    const content = '/* loadLocale */';
+    await fs.writeFile(path.resolve(sourceFolder, 'loadLocale.js'), content);
+    await transform(sourceFolder);
+    const outputPath = path.resolve(sourceFolder, 'output', 'loadLocale.js');
+    expect(await fs.exists(outputPath)).toBe(true);
+    expect(await fs.readFile(outputPath, 'utf8')).not.toBe(content);
   });
 });

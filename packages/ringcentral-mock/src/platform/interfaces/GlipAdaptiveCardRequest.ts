@@ -1,7 +1,7 @@
-import { AdaptiveCardInfoRequest } from './AdaptiveCardInfoRequest';
-import { AdaptiveCardAction } from './AdaptiveCardAction';
-import { AdaptiveCardSelectAction } from './AdaptiveCardSelectAction';
-import { BackgroundImage } from './BackgroundImage';
+import type { AdaptiveCardInfoRequest } from './AdaptiveCardInfoRequest';
+import type { AdaptiveCardAction } from './AdaptiveCardAction';
+import type { AdaptiveCardSelectAction } from './AdaptiveCardSelectAction';
+import type { BackgroundImage } from './BackgroundImage';
 
 export interface GlipAdaptiveCardRequest {
   /**

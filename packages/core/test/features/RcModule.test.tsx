@@ -9,7 +9,7 @@ import {
   Step,
   examples,
 } from '@ringcentral-integration/test-utils';
-import { Reducer } from 'redux';
+import type { Reducer } from 'redux';
 
 import {
   RcModuleV2,

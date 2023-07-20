@@ -1,4 +1,4 @@
-import { RcModuleV2 } from './RcModule';
+import type { RcModuleV2 } from './RcModule';
 
 export type RcModuleType<
   T extends RcModuleV2,

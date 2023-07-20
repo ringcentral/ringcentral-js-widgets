@@ -1,6 +1,6 @@
 /**
  * RCI-4313: The UI check of Compose text page layout
- * https://test_id_domain/test-cases/RCI-4313
+ * https://test_it_domain/test-cases/RCI-4313
  * Preconditions:
  * User_A should be the Auto-Receptionist for your Phone System
  * SMS of Company number should be enabled
@@ -9,6 +9,7 @@
  * > ALL/Text tab
  * >Click theCompose texticon
  */
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p2,
   it,
@@ -20,7 +21,6 @@ import {
   Then,
   title,
   When,
-  StepFunction,
 } from '@ringcentral-integration/test-utils';
 import { CreateMock as CommonCreateMock } from '../../../../steps/Mock';
 import { NavigateToComposeText } from '../../../../steps/Navigate';

@@ -1,11 +1,10 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import classNames from 'classnames';
 
-import {
-  ListItem as BaseListItem,
-  ListItemProps,
-} from '@ringcentral-integration/widgets/components/SelectListV2';
+import type { ListItemProps } from '@ringcentral-integration/widgets/components/SelectListV2';
+import { ListItem as BaseListItem } from '@ringcentral-integration/widgets/components/SelectListV2';
 
 import styles from './styles.scss';
 

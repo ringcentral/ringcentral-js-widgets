@@ -1,9 +1,9 @@
-import gulp from 'gulp';
 import path from 'path';
+import cp from 'child_process';
+import gulp from 'gulp';
 import fs from 'fs-extra';
 import babel from 'gulp-babel';
 import sourcemaps from 'gulp-sourcemaps';
-import cp from 'child_process';
 
 const BUILD_PATH = path.resolve(__dirname, '../../build/core');
 export function clean() {

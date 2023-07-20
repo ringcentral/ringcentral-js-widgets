@@ -1,7 +1,7 @@
 require('@ringcentral-integration/babel-settings/lib/register.js');
 
-const webpack = require('webpack');
 const path = require('path');
+const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
 
 const buildPath = path.resolve(__dirname, 'src/app');

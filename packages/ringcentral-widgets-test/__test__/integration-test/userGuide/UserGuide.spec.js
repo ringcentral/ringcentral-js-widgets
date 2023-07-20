@@ -43,10 +43,7 @@ describe('<UserGuide />', () => {
         playing
       />,
     );
-    wrapper
-      .find('.control .secondaryButton')
-      .first()
-      .simulate('click');
+    wrapper.find('.control .secondaryButton').first().simulate('click');
     expect(wrapper.state('playing')).toEqual(false);
   });
 });

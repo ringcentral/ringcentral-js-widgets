@@ -8,7 +8,7 @@ import {
   state,
 } from '@ringcentral-integration/core';
 
-import { BlockItem, DepsModules, IBlock } from './Block.interface';
+import type { BlockItem, DepsModules, IBlock } from './Block.interface';
 
 type ModalMappingType = Record<string, BlockItem>;
 

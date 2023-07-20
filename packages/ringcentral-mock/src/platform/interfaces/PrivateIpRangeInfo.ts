@@ -1,4 +1,4 @@
-import { LocationUpdatesEmergencyAddressInfo } from './LocationUpdatesEmergencyAddressInfo';
+import type { LocationUpdatesEmergencyAddressInfo } from './LocationUpdatesEmergencyAddressInfo';
 
 export interface PrivateIpRangeInfo {
   /**

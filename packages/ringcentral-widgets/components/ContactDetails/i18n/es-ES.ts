@@ -12,7 +12,7 @@ export default {
   // @ts-expect-error TS(2718): Duplicate property 'company'.
   [phoneTypes.company]: "Empresa",
   [phoneTypes.other]: "Otro",
-  emailLabel: "Dirección de correo electrónico",
+  emailLabel: "Correo electrónico",
   call: "Llamada",
   text: "Mensaje",
   [presenceStatus.available]: "Disponible",

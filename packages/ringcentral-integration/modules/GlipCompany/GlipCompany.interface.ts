@@ -1,5 +1,5 @@
-import { AppFeatures } from '../AppFeatures';
-import {
+import type { AppFeatures } from '../AppFeatures';
+import type {
   DataFetcherV2ConsumerBaseDeps,
   DataSourceBaseProps,
 } from '../DataFetcherV2';

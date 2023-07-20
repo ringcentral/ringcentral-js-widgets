@@ -1,7 +1,7 @@
 export default {
   cancel: "Cancelar",
   close: "Fechar",
-  ok: "Ok"
+  ok: "OK"
 };
 
 // @key: @#@"cancel"@#@ @source: @#@"Cancel"@#@

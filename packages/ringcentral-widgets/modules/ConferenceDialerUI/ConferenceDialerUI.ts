@@ -1,14 +1,10 @@
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import { proxify } from '@ringcentral-integration/commons/lib/proxy/proxify';
-import {
-  action,
-  state,
-  UIFunctions,
-  UIProps,
-} from '@ringcentral-integration/core';
+import type { UIFunctions, UIProps } from '@ringcentral-integration/core';
+import { action, state } from '@ringcentral-integration/core';
 
 import { DialerUI } from '../DialerUI';
-import {
+import type {
   ConferenceDialerUIContainerProps,
   ConferenceDialerUIPanelProps,
   Deps,
@@ -29,7 +25,7 @@ export class ConferenceDialerUI extends DialerUI<Deps> {
   }
 
   @state
-  lastSessionId: string = '';
+  lastSessionId = '';
 
   @action
   _setLastSessionId(val: string) {

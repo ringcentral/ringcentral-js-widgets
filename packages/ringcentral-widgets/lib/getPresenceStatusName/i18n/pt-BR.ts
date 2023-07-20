@@ -4,7 +4,7 @@ export default {
   [presenceStatus.available]: "Disponível",
   [presenceStatus.offline]: "Invisível",
   [presenceStatus.busy]: "Ocupado",
-  [dndStatus.doNotAcceptAnyCalls]: "Não perturbe"
+  [dndStatus.doNotAcceptAnyCalls]: "Não perturbar"
 };
 
 // @key: @#@"[presenceStatus.available]"@#@ @source: @#@"Available"@#@

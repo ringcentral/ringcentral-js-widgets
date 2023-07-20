@@ -1,10 +1,10 @@
 import type AddressBookSync from '@rc-ex/core/lib/definitions/AddressBookSync';
 
-import {
+import type {
   DataFetcherV2ConsumerBaseDeps,
   DataSourceBaseProps,
 } from '../DataFetcherV2';
-import { ExtensionFeatures } from '../ExtensionFeatures';
+import type { ExtensionFeatures } from '../ExtensionFeatures';
 
 export interface AddressBookOptions extends DataSourceBaseProps {
   fetchInterval?: number;

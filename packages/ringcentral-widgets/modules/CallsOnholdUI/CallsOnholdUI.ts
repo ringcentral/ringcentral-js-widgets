@@ -1,10 +1,11 @@
 import { filter } from 'ramda';
 
 import { Module } from '@ringcentral-integration/commons/lib/di';
-import { computed, UIFunctions, UIProps } from '@ringcentral-integration/core';
+import type { UIFunctions, UIProps } from '@ringcentral-integration/core';
+import { computed } from '@ringcentral-integration/core';
 
 import { ActiveCallsUI } from '../ActiveCallsUI';
-import {
+import type {
   CallsOnholdContainerProps,
   CallsOnholdPanelProps,
   Deps,

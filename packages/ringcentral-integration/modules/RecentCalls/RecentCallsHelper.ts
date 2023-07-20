@@ -1,7 +1,7 @@
-import type UserCallLogRecord from '@rc-ex/core/lib/definitions/UserCallLogRecord';
-import type UserCallLogResponse from '@rc-ex/core/lib/definitions/UserCallLogResponse';
+import type CallLogRecord from '@rc-ex/core/lib/definitions/CallLogRecord';
+import type CallLogResponse from '@rc-ex/core/lib/definitions/CallLogResponse';
 
-import { HistoryCall } from '../CallHistory';
+import type { HistoryCall } from '../CallHistory';
 
 export const filterPhoneNumber =
   (call: HistoryCall) =>
@@ -11,10 +11,10 @@ export const filterPhoneNumber =
     phoneNumber === call.from.extensionNumber ||
     phoneNumber === call.to.extensionNumber;
 
-export const flattenToRecords = (items: UserCallLogResponse[]) =>
+export const flattenToRecords = (items: CallLogResponse[]) =>
   items.reduce(
     (acc, { records }) => acc.concat(records),
-    [] as UserCallLogRecord[],
+    [] as CallLogRecord[],
   );
 
 // Sort by time in descending order

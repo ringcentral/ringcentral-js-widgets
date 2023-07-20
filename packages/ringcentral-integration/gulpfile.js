@@ -1,12 +1,12 @@
-import babelIstanbul from 'babel-istanbul';
 import cp from 'child_process';
+import path from 'path';
+import babelIstanbul from 'babel-istanbul';
 import fs from 'fs-extra';
 import gulp from 'gulp';
 import babel from 'gulp-babel';
 import istanbul from 'gulp-istanbul';
 import mocha from 'gulp-mocha';
 import sourcemaps from 'gulp-sourcemaps';
-import path from 'path';
 import yargs from 'yargs';
 
 import transformLoader from '@ringcentral-integration/locale-loader/lib/transformLoader';

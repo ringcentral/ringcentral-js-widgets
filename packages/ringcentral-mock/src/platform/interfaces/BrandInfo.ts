@@ -1,4 +1,4 @@
-import { CountryInfo } from './CountryInfo';
+import type { CountryInfo } from './CountryInfo';
 
 // Information on account brand
 export interface BrandInfo {

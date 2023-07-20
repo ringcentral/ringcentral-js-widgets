@@ -1,6 +1,6 @@
 /**
  * RCI-4390: Can call Special Service number when match (DT<MEL)
- * https://test_id_domain/test-cases/RCI-4390
+ * https://test_it_domain/test-cases/RCI-4390
  * Preconditions:
  * CTI app is integrated,
  * User is logged-in to 3rd party
@@ -42,7 +42,7 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
-import { StepProp } from '../../../../../../lib/step';
+import type { StepProp } from '../../../../../../lib/step';
 import {
   CheckCallControlPage as BaseCheckCallControlPage,
   MakeCall,

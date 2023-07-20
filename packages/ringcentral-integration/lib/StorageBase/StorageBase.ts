@@ -1,4 +1,5 @@
-import { Action, combineReducers, Reducer, ReducersMapObject } from 'redux';
+import type { Action, Reducer, ReducersMapObject } from 'redux';
+import { combineReducers } from 'redux';
 
 import {
   action,
@@ -11,9 +12,10 @@ import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
 import { Module } from '../di';
 import { SynchronizedStorage } from '../SynchronizedStorage';
-import { actionTypesBase, ActionTypesBase } from './actionTypesBase';
+import type { ActionTypesBase } from './actionTypesBase';
+import { actionTypesBase } from './actionTypesBase';
 import { getDataReducer } from './getStorageReducer';
-import {
+import type {
   Deps,
   IStorage,
   IStorageBaseOptions,

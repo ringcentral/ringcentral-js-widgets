@@ -1,6 +1,6 @@
 /**
  * RCI-865: Second call incoming_Ignore
- * https://test_id_domain/test-cases/RCI-865
+ * https://test_it_domain/test-cases/RCI-865
  * Preconditions:
  *
  * Entry point(/s):
@@ -19,7 +19,7 @@ import {
   title,
   When,
 } from '@ringcentral-integration/test-utils';
-import { StepFunction } from '../../../../../../../lib/step';
+import type { StepFunction } from '../../../../../../../lib/step';
 import {
   AnswerCall,
   CallButtonBehavior,

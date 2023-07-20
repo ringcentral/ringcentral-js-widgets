@@ -1,4 +1,4 @@
-import { BrandConfig } from './BrandConfig.interface';
+import type { BrandConfig } from './BrandConfig.interface';
 
 const processedKey = '$$processed$$';
 

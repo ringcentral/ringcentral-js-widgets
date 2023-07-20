@@ -2,36 +2,23 @@
   "name": "@ringcentral-integration/locale-loader",
   "version": "2.0.2",
   "description": "Locale Loader for webpack",
-  "main": "index.js",
-  "scripts": {
-    "gulp": "gulp --require @ringcentral-integration/babel-settings/lib/register.js",
-    "build": "yarn gulp build",
-    "release": "yarn gulp release",
-    "test": "yarn run-test",
-    "watch": "jest --watch"
+  "homepage": "https://github.com/ringcentral/ringcentral-js-widgets#readme",
+  "bugs": {
+    "url": "https://github.com/ringcentral/ringcentral-js-widgets/issues"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ringcentral/ringcentral-js-widgets.git"
   },
-  "author": "RingCentral Integrations",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/ringcentral/ringcentral-js-widgets/issues"
-  },
-  "homepage": "https://github.com/ringcentral/ringcentral-js-widgets#readme",
-  "peerDependencies": {
-    "@ringcentral-integration/i18n": "^2.0.0"
-  },
-  "devDependencies": {
-    "@babel/core": "^7.15.8",
-    "@ringcentral-integration/babel-settings": "*",
-    "babel-jest": "^27.4.6",
-    "gulp": "^4.0.2",
-    "gulp-babel": "^8.0.0",
-    "gulp-sourcemaps": "^2.6.5",
-    "jest": "^27.4.7",
-    "jest-html-reporters": "^3.0.8"
+  "author": "RingCentral Integrations",
+  "main": "index.js",
+  "scripts": {
+    "build": "yarn gulp build",
+    "gulp": "gulp --require @ringcentral-integration/babel-settings/lib/register.js",
+    "release": "yarn gulp release",
+    "test": "yarn run-test",
+    "watch": "jest --watch"
   },
   "dependencies": {
     "@babel/generator": "^7.11.4",
@@ -42,10 +29,24 @@
     "glob": "^7.1.2",
     "inquirer": "^6.0.0",
     "loader-utils": "^1.1.0",
-    "ramda": "^0.27.1",
+    "ramda": "^0.28.0",
     "through2": "^2.0.5",
     "xml-js": "^1.6.2"
   },
+  "devDependencies": {
+    "@babel/core": "^7.20.12",
+    "@ringcentral-integration/babel-settings": "*",
+    "babel-jest": "^27.4.6",
+    "gulp": "^4.0.2",
+    "gulp-babel": "^8.0.0",
+    "gulp-sourcemaps": "^2.6.5",
+    "jest": "^27.4.7",
+    "jest-html-reporters": "^3.0.8"
+  },
+  "peerDependencies": {
+    "@ringcentral-integration/i18n": "^2.0.0"
+  },
+  "common": true,
   "ci": {
     "@ringcentral-integration/locale-loader": "**"
   }

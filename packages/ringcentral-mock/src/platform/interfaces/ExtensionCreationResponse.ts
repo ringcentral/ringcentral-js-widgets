@@ -1,12 +1,12 @@
-import { ContactInfo } from './ContactInfo';
-import { CustomFieldInfo } from './CustomFieldInfo';
-import { ExtensionPermissions } from './ExtensionPermissions';
-import { ProfileImageInfo } from './ProfileImageInfo';
-import { ReferenceInfo } from './ReferenceInfo';
-import { RegionalSettings } from './RegionalSettings';
-import { ExtensionServiceFeatureInfo } from './ExtensionServiceFeatureInfo';
-import { AutomaticLocationUpdatesSiteInfo } from './AutomaticLocationUpdatesSiteInfo';
-import { ExtensionStatusInfo } from './ExtensionStatusInfo';
+import type { ContactInfo } from './ContactInfo';
+import type { CustomFieldInfo } from './CustomFieldInfo';
+import type { ExtensionPermissions } from './ExtensionPermissions';
+import type { ProfileImageInfo } from './ProfileImageInfo';
+import type { ReferenceInfo } from './ReferenceInfo';
+import type { RegionalSettings } from './RegionalSettings';
+import type { ExtensionServiceFeatureInfo } from './ExtensionServiceFeatureInfo';
+import type { AutomaticLocationUpdatesSiteInfo } from './AutomaticLocationUpdatesSiteInfo';
+import type { ExtensionStatusInfo } from './ExtensionStatusInfo';
 
 export interface ExtensionCreationResponse {
   /**

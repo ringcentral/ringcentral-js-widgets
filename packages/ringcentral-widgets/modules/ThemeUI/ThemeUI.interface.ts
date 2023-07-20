@@ -1,4 +1,4 @@
-import { Theme } from '@ringcentral-integration/commons/modules/Theme';
+import type { Theme } from '@ringcentral-integration/commons/modules/Theme';
 
 export interface ThemeUIOptions {}
 export interface Deps {

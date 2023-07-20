@@ -4,7 +4,7 @@ export default {
   wednesday: "M",
   thursday: "G",
   friday: "V",
-  saturday: "S",
+  saturday: "D",
   sunday: "S"
 };
 

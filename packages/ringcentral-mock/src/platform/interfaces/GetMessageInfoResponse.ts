@@ -1,7 +1,7 @@
-import { MessageAttachmentInfo } from './MessageAttachmentInfo';
-import { ConversationInfo } from './ConversationInfo';
-import { MessageStoreCallerInfoResponseFrom } from './MessageStoreCallerInfoResponseFrom';
-import { MessageStoreCallerInfoResponseTo } from './MessageStoreCallerInfoResponseTo';
+import type { MessageAttachmentInfo } from './MessageAttachmentInfo';
+import type { ConversationInfo } from './ConversationInfo';
+import type { MessageStoreCallerInfoResponseFrom } from './MessageStoreCallerInfoResponseFrom';
+import type { MessageStoreCallerInfoResponseTo } from './MessageStoreCallerInfoResponseTo';
 
 export interface GetMessageInfoResponse {
   /**

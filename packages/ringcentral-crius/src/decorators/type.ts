@@ -1,5 +1,6 @@
-import { TestType, testTypes } from '../constant';
-import { Step } from '../step';
+import type { TestType } from '../constant';
+import { testTypes } from '../constant';
+import type { Step } from '../step';
 
 function type(value: TestType) {
   if (typeof value === 'undefined' || value === null) {

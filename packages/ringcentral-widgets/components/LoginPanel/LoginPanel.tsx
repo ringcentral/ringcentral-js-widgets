@@ -1,16 +1,18 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
+import type { RcButtonSize } from '@ringcentral/juno';
 import {
   flexCenterStyle,
   palette2,
   RcButton,
-  RcButtonSize,
   styled,
   typography,
 } from '@ringcentral/juno';
 
 import { headerViewHeight } from '../HeaderView/utils/HeaderViewUtils';
-import { SpinnerOverlay, SpinnerOverlayProps } from '../SpinnerOverlay';
+import type { SpinnerOverlayProps } from '../SpinnerOverlay';
+import { SpinnerOverlay } from '../SpinnerOverlay';
 import i18n from './i18n';
 
 export type LoginPanelProps = {

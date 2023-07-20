@@ -1,4 +1,4 @@
-import { CallsSegments } from './CallsSegments';
+import type { CallsSegments } from './CallsSegments';
 
 export interface PerformanceCallsSegments {
   /**

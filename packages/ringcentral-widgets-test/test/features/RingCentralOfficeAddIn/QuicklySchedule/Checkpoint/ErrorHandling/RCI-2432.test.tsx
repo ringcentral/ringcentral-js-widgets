@@ -1,6 +1,6 @@
 /**
  * RCI-2432: Add meeting fails when RCV server errors
- * https://test_id_domain/test-cases/RCI-2432
+ * https://test_it_domain/test-cases/RCI-2432
  * Preconditions:
  * 1. RC CTI app is installed and enabled
  * 2. User has logged in to 3rd party
@@ -12,13 +12,13 @@
  * Failed to add a meeting Some scenarios such as poor network connection
  */
 
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p2,
   it,
   autorun,
   And,
   Scenario,
-  StepFunction,
   Step,
   Given,
   Then,

@@ -8,7 +8,7 @@ import { DEFAULT_LOCALE } from '@ringcentral-integration/i18n';
 
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
-import { Deps } from './LocaleSettings.interface';
+import type { Deps } from './LocaleSettings.interface';
 
 @Module({
   name: 'LocaleSettings',

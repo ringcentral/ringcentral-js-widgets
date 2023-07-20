@@ -1,4 +1,4 @@
-import { DetailedExtensionPresenceEventBody } from './DetailedExtensionPresenceEventBody';
+import type { DetailedExtensionPresenceEventBody } from './DetailedExtensionPresenceEventBody';
 
 export interface DetailedExtensionPresenceEvent {
   /**

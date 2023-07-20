@@ -230,7 +230,7 @@ export class validateWithNumberParser extends Step {
           }}
         />
         <And
-          desc="should return error result value"
+          desc="should not return error result value for Special number"
           action={async (_: any, context: any) => {
             const spy = jest
               .spyOn(context.instance, '_isSpecial')
@@ -239,7 +239,7 @@ export class validateWithNumberParser extends Step {
             const res = await context.instance.validateWithNumberParser([
               '101',
             ]);
-            expect(res.result).toBe(false);
+            expect(res.result).toBe(true);
             spy.mockRestore();
           }}
         />

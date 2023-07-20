@@ -9,15 +9,15 @@ import {
   state,
   watch,
 } from '@ringcentral-integration/core';
-import { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
+import type { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
 
 import { messageDirection } from '../../enums/messageDirection';
 import { messageTypes } from '../../enums/messageTypes';
-import { Message } from '../../interfaces/MessageStore.model';
+import type { Message } from '../../interfaces/MessageStore.model';
 import cleanNumber from '../../lib/cleanNumber';
 import { Module } from '../../lib/di';
+import type { Correspondent } from '../../lib/messageHelper';
 import {
-  Correspondent,
   getFaxAttachment,
   getMMSAttachments,
   getMyNumberFromMessage,
@@ -33,12 +33,12 @@ import {
 } from '../../lib/messageHelper';
 import { normalizeNumber } from '../../lib/normalizeNumber';
 import { proxify } from '../../lib/proxy/proxify';
+import type { Attachment } from '../MessageSender';
 import {
-  Attachment,
   ATTACHMENT_SIZE_LIMITATION,
   messageSenderMessages,
 } from '../MessageSender';
-import {
+import type {
   CorrespondentMatch,
   CorrespondentResponse,
   CurrentConversation,
@@ -128,8 +128,8 @@ export const DEFAULT_DAY_SPAN = 90;
   ],
 })
 export class Conversations extends RcModuleV2<Deps> {
-  protected _olderDataExisted: boolean = true;
-  protected _olderMessagesExisted: boolean = true;
+  protected _olderDataExisted = true;
+  protected _olderMessagesExisted = true;
 
   protected _perPage: number;
   protected _daySpan: number;
@@ -169,7 +169,7 @@ export class Conversations extends RcModuleV2<Deps> {
   }
 
   @state
-  searchInput: string = '';
+  searchInput = '';
 
   @state
   typeFilter: ObjectMapValue<typeof messageTypes> = messageTypes.all;
@@ -178,7 +178,7 @@ export class Conversations extends RcModuleV2<Deps> {
   oldConversations: Message[] = [];
 
   @state
-  currentPage: number = 1;
+  currentPage = 1;
 
   @state
   fetchConversationsStatus: ObjectMapValue<typeof conversationsStatus> =
@@ -208,7 +208,7 @@ export class Conversations extends RcModuleV2<Deps> {
   correspondentResponse: CorrespondentResponse = {};
 
   @action
-  _updateSearchInput(input: string = '') {
+  _updateSearchInput(input = '') {
     this.searchInput = input;
   }
 
@@ -350,10 +350,7 @@ export class Conversations extends RcModuleV2<Deps> {
   }
 
   @action
-  _addCorrespondentResponses(
-    responses: Message[] = [],
-    phoneNumber: string = '',
-  ) {
+  _addCorrespondentResponses(responses: Message[] = [], phoneNumber = '') {
     this.correspondentResponse = responses.reduce(
       (accumulator: any, response: any) => {
         const {

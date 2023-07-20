@@ -26,7 +26,8 @@ export default {
   [messageSenderMessages.attachmentSizeLimitation]: "添付ファイルのサイズの上限は1.5メガバイトです。",
   [messageSenderMessages.noAttachmentToExtension]: "MMSの内線への送信はサポートされていません。",
   areaCode: "市外局番",
-  [messageSenderMessages.sending]: "メッセージを送信しています…完了するまで数分かかる場合があります。"
+  [messageSenderMessages.sending]: "メッセージを送信しています…完了するまで数分かかる場合があります。",
+  [messageSenderMessages.shortNumbersNotAvailable]: "短縮番号へのSMSの送信はできません。"
 };
 
 // @key: @#@"[messageSenderMessages.sendSuccess]"@#@ @source: @#@"Send Success."@#@
@@ -56,3 +57,4 @@ export default {
 // @key: @#@"[messageSenderMessages.noAttachmentToExtension]"@#@ @source: @#@"It isn't supported to send MMS to an extension."@#@
 // @key: @#@"areaCode"@#@ @source: @#@"area code"@#@
 // @key: @#@"[messageSenderMessages.sending]"@#@ @source: @#@"Message being sent…It may take a couple of minutes to complete."@#@
+// @key: @#@"[messageSenderMessages.shortNumbersNotAvailable]"@#@ @source: @#@"Sending SMS to short numbers is not available."@#@

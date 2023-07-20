@@ -1,11 +1,11 @@
 import { Module } from '@ringcentral-integration/commons/lib/di';
-import formatNumber from '@ringcentral-integration/commons/lib/formatNumber';
-import { ToNumber } from '@ringcentral-integration/commons/modules/ComposeText';
-import { FormatDateTimeOptions } from '@ringcentral-integration/commons/modules/DateTimeFormat';
+import { formatNumber } from '@ringcentral-integration/commons/lib/formatNumber';
+import type { ToNumber } from '@ringcentral-integration/commons/modules/ComposeText';
+import type { FormatDateTimeOptions } from '@ringcentral-integration/commons/modules/DateTimeFormat';
 import { RcUIModuleV2 } from '@ringcentral-integration/core';
 
-import { RouteParams } from '../ContactDetailsUI';
-import {
+import type { RouteParams } from '../ContactDetailsUI';
+import type {
   CallsListUIFunctions,
   CallsListUIProps,
   Deps,
@@ -115,7 +115,7 @@ export class CallsListUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
         }),
       // @ts-expect-error TS(2322): Type '(sessionId: string) => Promise<void> | undef... Remove this comment to see the full error message
       webphoneAnswer: (sessionId: string) =>
-        this._deps.webphone?.answer(sessionId, window?.runner?._standAlone),
+        this._deps.webphone?.answer(sessionId),
       // @ts-expect-error TS(2322): Type '(sessionId: string) => Promise<void> | undef... Remove this comment to see the full error message
       webphoneToVoicemail: (sessionId: string) =>
         this._deps.webphone?.toVoiceMail(sessionId),
@@ -189,7 +189,6 @@ export class CallsListUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
               this._deps.routerInteraction.push(dialerRoute);
               this._deps.dialerUI.call({
                 recipient,
-                isStandAlone: window?.runner?._standAlone,
               });
               this._deps.callHistory.onClickToCall();
             }

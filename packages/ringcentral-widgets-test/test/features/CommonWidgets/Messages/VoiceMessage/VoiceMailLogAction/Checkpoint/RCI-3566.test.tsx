@@ -1,6 +1,6 @@
 /**
  * RCI-3566: Delete voice message
- * https://test_id_domain/test-cases/RCI-3566
+ * https://test_it_domain/test-cases/RCI-3566
  * Preconditions:
  * RC CTI app is installed and enabled
  * User must have login 3rd party
@@ -24,7 +24,7 @@ import {
 } from '@ringcentral-integration/test-utils';
 
 import { mockMessageListData } from '../../../../../../__mock__';
-import { StepProp } from '../../../../../../lib/step';
+import type { StepProp } from '../../../../../../lib/step';
 import {
   CheckNoMessagesDisplay,
   CheckVoicemailDeleteConfirmPopup,
@@ -59,6 +59,8 @@ export class DeleteVoiceMessage extends Step {
               ...mockData,
               ...mockMessageListData(null),
             })}
+            isDefaultInit
+            repeat={0}
           />,
           <MockMessageSync
             handler={(mockData) => ({

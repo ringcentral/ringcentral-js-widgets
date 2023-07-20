@@ -1,8 +1,8 @@
-import { Reducer, ReducersMapObject } from 'redux';
+import type { Reducer, ReducersMapObject } from 'redux';
 
 import { usmAction } from '@ringcentral-integration/core';
 
-import { ActionTypesBase } from './actionTypesBase';
+import type { ActionTypesBase } from './actionTypesBase';
 
 function calculateInitialState(reducers: ReducersMapObject) {
   const initialState: Record<string, unknown> = {};

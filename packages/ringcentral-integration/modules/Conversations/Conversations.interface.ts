@@ -1,21 +1,21 @@
 import type MessageAttachmentInfo from '@rc-ex/core/lib/definitions/MessageAttachmentInfo';
 
-import { Message } from '../../interfaces/MessageStore.model';
-import {
+import type { Message } from '../../interfaces/MessageStore.model';
+import type {
   Correspondent,
   FaxAttachment,
   VoicemailAttachment,
 } from '../../lib/messageHelper';
-import { RingCentralClient } from '../../lib/RingCentralClient';
-import { Alert } from '../Alert';
-import { AppFeatures } from '../AppFeatures';
-import { Auth } from '../Auth';
-import { ContactMatcher } from '../ContactMatcher';
-import { ConversationLogger } from '../ConversationLogger';
-import { ExtensionInfo } from '../ExtensionInfo';
-import { Attachment, MessageSender } from '../MessageSender';
-import { MessageStore } from '../MessageStore';
-import { RegionSettings } from '../RegionSettings';
+import type { RingCentralClient } from '../../lib/RingCentralClient';
+import type { Alert } from '../Alert';
+import type { AppFeatures } from '../AppFeatures';
+import type { Auth } from '../Auth';
+import type { ContactMatcher } from '../ContactMatcher';
+import type { ConversationLogger } from '../ConversationLogger';
+import type { ExtensionInfo } from '../ExtensionInfo';
+import type { Attachment, MessageSender } from '../MessageSender';
+import type { MessageStore } from '../MessageStore';
+import type { RegionSettings } from '../RegionSettings';
 
 export interface Deps {
   alert: Alert;

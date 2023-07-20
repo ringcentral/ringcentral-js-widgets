@@ -1,6 +1,8 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
-import { RcThemeProvider, RcThemeProviderProps } from '@ringcentral/juno';
+import type { RcThemeProviderProps } from '@ringcentral/juno';
+import { RcThemeProvider } from '@ringcentral/juno';
 
 export interface PhoneProviderProps<T = any> {
   phone: T;

@@ -8,12 +8,8 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
-import {
-  CarouselState,
-  Guides,
-  SUPPORTED_LOCALES,
-  UserGuide,
-} from '../../modules/UserGuide';
+import type { CarouselState, Guides } from '../../modules/UserGuide';
+import { SUPPORTED_LOCALES, UserGuide } from '../../modules/UserGuide';
 import { mockModuleGenerator } from '../lib/mockModule';
 
 const brandCode = 'rc';

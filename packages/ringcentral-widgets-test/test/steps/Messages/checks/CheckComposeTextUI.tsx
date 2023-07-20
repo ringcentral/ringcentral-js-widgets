@@ -1,4 +1,4 @@
-import { StepFunction } from '@ringcentral-integration/test-utils';
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 import { screen } from '@testing-library/react';
 
 export const CheckComposeTextUI: StepFunction = async () => {

@@ -1,5 +1,5 @@
-import { ICurrentDeviceCallsMap } from '@ringcentral-integration/commons/modules/ActiveCallControl';
-import { StepFunction } from '../../../../lib/step';
+import type { ICurrentDeviceCallsMap } from '@ringcentral-integration/commons/modules/ActiveCallControl';
+import type { StepFunction } from '../../../../lib/step';
 import { CallButtonBehavior } from './CallButtonBehavior';
 
 export const AnswerCallAtOtherDevice: StepFunction = async (props, context) => {

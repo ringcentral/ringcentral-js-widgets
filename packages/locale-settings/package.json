@@ -1,10 +1,10 @@
 {
   "name": "@ringcentral-integration/locale-settings",
   "version": "0.0.1",
-  "description": "Default locale settings.",
-  "main": "index.js",
-  "license": "MIT",
   "private": true,
+  "description": "Default locale settings.",
+  "license": "MIT",
+  "main": "index.js",
   "ci": {
     "ringcentral-widgets-test": "**"
   }

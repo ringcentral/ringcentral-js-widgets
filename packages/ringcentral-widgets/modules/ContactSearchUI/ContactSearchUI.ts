@@ -1,25 +1,24 @@
 import { trackEvents } from '@ringcentral-integration/commons/enums/trackEvents';
-import {
+import type {
   ContactPresence,
   IContact,
 } from '@ringcentral-integration/commons/interfaces/Contact.model';
 import { debounce } from '@ringcentral-integration/commons/lib/debounce-throttle';
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import { formatNumber } from '@ringcentral-integration/commons/lib/formatNumber';
-import proxify from '@ringcentral-integration/commons/lib/proxy/proxify';
+import { proxify } from '@ringcentral-integration/commons/lib/proxy/proxify';
+import type { UIFunctions, UIProps } from '@ringcentral-integration/core';
 import {
   action,
   computed,
   RcUIModuleV2,
   state,
   track,
-  UIFunctions,
-  UIProps,
   watch,
 } from '@ringcentral-integration/core';
 
 import { getRcFilteredContacts } from './ContactSearchHelper';
-import {
+import type {
   ContactSearchPanelProps,
   Deps,
   IContactSearchItem,
@@ -72,7 +71,7 @@ export class ContactSearchUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
     this.filterString = filterString;
   }
 
-  getFilteredCompanyContacts(searchFilter: string = '') {
+  getFilteredCompanyContacts(searchFilter = '') {
     const lowCaseString = searchFilter.toLowerCase();
     if (this._companyContacts !== this._deps.accountContacts.contacts) {
       this._companyContacts = this._deps.accountContacts.contacts;
@@ -89,7 +88,7 @@ export class ContactSearchUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
     return result;
   }
 
-  getFilteredPersonalContacts(searchFilter: string = '') {
+  getFilteredPersonalContacts(searchFilter = '') {
     const lowCaseString = searchFilter.toLowerCase();
     if (this._personalContactsCache[lowCaseString]) {
       return this._personalContactsCache[lowCaseString];
@@ -172,7 +171,7 @@ export class ContactSearchUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
   @proxify
   async getPresence(
     contact: IContact,
-    useCache: boolean = true,
+    useCache = true,
   ): Promise<ContactPresence | null> {
     const presence = await this._deps.contacts.getPresence(contact, useCache);
     return presence;

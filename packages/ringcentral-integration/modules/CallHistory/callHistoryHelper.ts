@@ -1,4 +1,4 @@
-import { Call } from '../../interfaces/Call.interface';
+import type { Call } from '../../interfaces/Call.interface';
 
 const RC_EXTENSION_DELIMITER = '*';
 

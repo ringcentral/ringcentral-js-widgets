@@ -7,7 +7,7 @@ import NumberParser from 'ringcentral-client/build/paths/NumberParser';
 import Subscription from 'ringcentral-client/build/paths/Subscription';
 import PathSegment from 'ringcentral-client/build/PathSegment';
 
-import { SDK } from '@ringcentral/sdk';
+import type { SDK } from '@ringcentral/sdk';
 
 // TODO: make 'ringcentral-client' support JS SDK v4 or replace it
 class RestPrefix extends PathSegment {

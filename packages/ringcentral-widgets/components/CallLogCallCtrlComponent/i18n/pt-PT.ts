@@ -12,7 +12,7 @@ export default {
   showKeypad: "Teclado",
   hideKeypad: "Ocultar teclado",
   unHold: "Retomar",
-  forward: "Reencaminhar",
+  forward: "Reenc.",
   ignore: "Ignorar",
   voicemail: "Para correio de voz",
   custom: "Personalizado",
@@ -20,7 +20,7 @@ export default {
   answerAndHold: "Atender e em espera",
   answer: "Atender",
   completeTransfer: "Concluir transferência",
-  reply: "Responder"
+  reply: "Resp."
 };
 
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@

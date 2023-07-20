@@ -15,9 +15,9 @@ export default {
   emailLabel: "電子郵件",
   call: "通話",
   text: "文字",
-  [presenceStatus.available]: "線上",
+  [presenceStatus.available]: "有空",
   [presenceStatus.offline]: "隱藏",
-  [presenceStatus.busy]: "忙碌",
+  [presenceStatus.busy]: "忙碌中",
   [dndStatus.doNotAcceptAnyCalls]: "請勿打擾",
   notActivated: "非使用中",
   // @ts-expect-error TS(2733): Property 'company' was also declared here.

@@ -1,20 +1,20 @@
 import type GetMessageInfoResponse from '@rc-ex/core/lib/definitions/GetMessageInfoResponse';
 
-import {
+import type {
   Message,
   MessageStoreModel,
 } from '../../interfaces/MessageStore.model';
-import { Alert } from '../Alert';
-import { AppFeatures } from '../AppFeatures';
-import { Auth } from '../Auth';
-import { AvailabilityMonitor } from '../AvailabilityMonitor';
-import { ConnectivityMonitor } from '../ConnectivityMonitor';
-import {
+import type { Alert } from '../Alert';
+import type { AppFeatures } from '../AppFeatures';
+import type { Auth } from '../Auth';
+import type { AvailabilityMonitor } from '../AvailabilityMonitor';
+import type { ConnectivityMonitor } from '../ConnectivityMonitor';
+import type {
   DataFetcherV2ConsumerBaseDeps,
   DataSourceBaseProps,
 } from '../DataFetcherV2';
-import { Subscription } from '../Subscription';
-import { TabManager } from '../TabManager';
+import type { Subscription } from '../Subscription';
+import type { TabManager } from '../TabManager';
 
 export interface MessageStoreOptions extends DataSourceBaseProps {
   daySpan?: number;

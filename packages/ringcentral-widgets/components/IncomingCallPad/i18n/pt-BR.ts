@@ -4,8 +4,8 @@ export default {
   ignore: "Ignorar",
   toVoicemail: "Para caixa postal",
   answer: "Atender",
-  answerAndEnd: "Responder e terminar",
-  answerAndHold: "Atender e em espera"
+  answerAndEnd: "Atender e terminar",
+  answerAndHold: "Atender e colocar em espera"
 };
 
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@

@@ -1,6 +1,6 @@
 /**
  * RCI-802: Single Incoming Call_ Answer Call
- * https://test_id_domain/test-cases/RCI-802
+ * https://test_it_domain/test-cases/RCI-802
  * Preconditions:
  * 1. User has logged into 3rd party.
  * Entry point(/s):
@@ -19,7 +19,7 @@ import {
   title,
   When,
 } from '@ringcentral-integration/test-utils';
-import { StepFunction } from '../../../../../../../lib/step';
+import type { StepFunction } from '../../../../../../../lib/step';
 import {
   AnswerCall,
   CheckButtonExist,

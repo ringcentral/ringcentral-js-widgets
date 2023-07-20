@@ -2,6 +2,16 @@
   "name": "@ringcentral-integration/engage-voice-widgets",
   "version": "0.13.0",
   "description": "RingCentral Engage Voice Integration Widget Library",
+  "homepage": "https://github.com/ringcentral/ringcentral-js-widgets/tree/master/packages/engage-voice-widgets#readme",
+  "bugs": {
+    "url": "https://github.com/ringcentral/ringcentral-js-widgets/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ringcentral/ringcentral-js-widgets.git"
+  },
+  "license": "MIT",
+  "author": "RingCentral Integrations Team",
   "main": "index.js",
   "directories": {
     "lib": "lib",
@@ -13,70 +23,58 @@
     "modules": "modules",
     "scss": "scss"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/ringcentral/ringcentral-js-widgets.git"
-  },
-  "bugs": {
-    "url": "https://github.com/ringcentral/ringcentral-js-widgets/issues"
-  },
-  "homepage": "https://github.com/ringcentral/ringcentral-js-widgets/tree/master/packages/engage-voice-widgets#readme",
   "scripts": {
-    "test": "yarn run-test",
     "build": "yarn gulp build",
-    "gulp": "gulp --require @ringcentral-integration/babel-settings/lib/register.js",
     "export-locale": "yarn gulp export-locale",
+    "gulp": "gulp --require @ringcentral-integration/babel-settings/lib/register.js",
     "import-locale": "yarn gulp import-locale",
-    "release": "yarn gulp release"
+    "release": "yarn gulp release",
+    "test": "yarn run-test"
   },
-  "author": "RingCentral Integrations Team",
-  "license": "MIT",
-  "peerDependencies": {
-    "@ringcentral-integration/commons": "^0.13.0",
-    "@ringcentral-integration/core": "^0.13.0",
-    "@ringcentral-integration/phone-number": "^1.0.4",
-    "@ringcentral-integration/utils": "^0.0.1",
-    "@ringcentral-integration/widgets": "^0.13.0",
-    "@ringcentral/juno": "^2.16.1",
-    "@ringcentral/juno-icon": "^1.12.0"
+  "dependencies": {
+    "classnames": "^2.2.6",
+    "i18n-iso-countries": "^4.3.1",
+    "prop-types": "^15.7.2",
+    "ramda": "^0.28.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-redux": "^5.1.1",
+    "react-router": "^3.2.6",
+    "redux": "^4.2.0",
+    "sip.js": "0.11.6"
   },
   "devDependencies": {
-    "@ringcentral-integration/test-utils": "*",
     "@ringcentral-integration/babel-settings": "*",
     "@ringcentral-integration/commons": "*",
-    "@ringcentral-integration/widgets": "*",
     "@ringcentral-integration/core": "*",
     "@ringcentral-integration/locale-loader": "*",
     "@ringcentral-integration/locale-settings": "*",
     "@ringcentral-integration/phone-number": "*",
+    "@ringcentral-integration/test-utils": "*",
     "@ringcentral-integration/utils": "*",
-    "@ringcentral/juno": "^2.16.1",
-    "@ringcentral/juno-icon": "^1.12.0",
-    "@testing-library/react": "^12.1.2",
-    "enzyme": "^3.7.0",
+    "@ringcentral-integration/widgets": "*",
+    "@ringcentral/juno": "^2.35.2",
+    "@ringcentral/juno-icon": "^1.43.0",
+    "@testing-library/react": "^12.1.4",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.3",
+    "dotenv": "^6.2.0",
+    "enzyme": "^3.7.0",
     "execa": "^5.0.0",
     "fs-extra": "^10.1.0",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "gulp-istanbul": "^1.1.1",
     "gulp-sourcemaps": "^2.6.5",
-    "jest-html-reporters": "^3.0.8",
-    "dotenv": "^6.2.0"
+    "jest-html-reporters": "^3.0.8"
   },
-  "dependencies": {
-    "classnames": "^2.2.6",
-    "i18n-iso-countries": "^4.3.1",
-    "moment": "^2.29.1",
-    "moment-timezone": "^0.5.34",
-    "prop-types": "^15.7.2",
-    "ramda": "^0.27.1",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-redux": "^5.1.1",
-    "react-router": "^3.2.6",
-    "redux": "^4.0.5",
-    "sip.js": "0.11.6"
+  "peerDependencies": {
+    "@ringcentral-integration/commons": "^0.13.0",
+    "@ringcentral-integration/core": "^0.13.0",
+    "@ringcentral-integration/phone-number": "^1.0.4",
+    "@ringcentral-integration/utils": "^0.0.1",
+    "@ringcentral-integration/widgets": "^0.13.0",
+    "@ringcentral/juno": "^2.35.2",
+    "@ringcentral/juno-icon": "^1.42.0"
   },
   "ci": {
     "@ringcentral-integration/engage-voice-widgets": "**"

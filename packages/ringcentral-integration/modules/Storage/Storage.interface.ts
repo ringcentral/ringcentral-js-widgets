@@ -1,9 +1,9 @@
-import {
+import type {
   Deps as StorageBaseDeps,
   IStorageBaseOptions,
 } from '../../lib/StorageBase';
-import { Auth } from '../Auth';
-import { TabManager } from '../TabManager';
+import type { Auth } from '../Auth';
+import type { TabManager } from '../TabManager';
 
 export interface StorageOptions extends IStorageBaseOptions {
   /**

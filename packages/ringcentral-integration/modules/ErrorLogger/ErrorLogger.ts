@@ -1,8 +1,11 @@
 import { RcModuleV2, watch } from '@ringcentral-integration/core';
+
 import * as Sentry from '@sentry/browser';
+import type { SeverityLevel, User } from '@sentry/types';
+import { BrowserTracing } from '@sentry/tracing';
 
 import { Module } from '../../lib/di';
-import { Deps, SentryConfig, Severity, User } from './ErrorLogger.interface';
+import type { Deps, ErrorLoggerOptions } from './ErrorLogger.interface';
 
 @Module({
   name: 'ErrorLogger',
@@ -19,38 +22,37 @@ export class ErrorLogger extends RcModuleV2<Deps> {
     super({
       deps,
     });
-    const appName = this._deps.brandConfig.appName;
-    const appBrand = this._deps.brandConfig.code;
-    const { appVersion, environment, sentryConfig } =
-      this._deps.errorLoggerOptions ?? {};
+
+    if (deps.errorLoggerOptions) {
+      this._bootstrap(deps.errorLoggerOptions);
+    }
+  }
+
+  private _bootstrap(options: ErrorLoggerOptions) {
+    const { appVersion, appRelease, environment, sentryConfig } = options;
     if (sentryConfig?.endpoint) {
-      this._bootstrap({
-        sentryConfig,
+      // init client
+      this._init({
+        dsn: sentryConfig.endpoint,
+        sampleRate: sentryConfig.sampleRate,
         environment,
+        release: appRelease ?? appVersion,
+        integrations: [new BrowserTracing()],
       });
+      // set tags
+      const appName = this._deps.brandConfig.appName;
+      const appBrand = this._deps.brandConfig.code;
       this.setTags({
-        'app.name': appName,
+        'app.name': appName as string,
         'app.brand': appBrand,
-        'app.version': appVersion,
+        'app.version': appVersion ?? '',
       });
     }
   }
 
-  private _bootstrap({
-    sentryConfig,
-    environment,
-    release,
-  }: {
-    sentryConfig: SentryConfig;
-    environment: string;
-    release?: string;
-  }): void {
+  private _init(options: Sentry.BrowserOptions) {
     Sentry.init({
-      dsn: sentryConfig.endpoint,
-      sampleRate: sentryConfig.sampleRate,
-      environment,
-      release,
-      enabled: true,
+      ...options,
       ignoreErrors: [
         '200 OK',
         'Failed to fetch',
@@ -69,21 +71,20 @@ export class ErrorLogger extends RcModuleV2<Deps> {
     if (this._sentryInitialized && this._deps.auth) {
       watch(
         this,
-        () => this._deps.auth.loggedIn,
+        () => this._deps.auth?.loggedIn,
         (loggedIn) => {
           if (loggedIn) {
             // set user
-            const user: User = {
-              id: this._deps.auth.ownerId,
-            };
-            this.setUser(user);
+            this.setUser({
+              id: this._deps.auth?.ownerId,
+            });
           }
         },
       );
     }
   }
 
-  setUser(user: User) {
+  setUser(user: User | null) {
     Sentry.configureScope((scope) => {
       scope.setUser(user);
     });
@@ -95,18 +96,25 @@ export class ErrorLogger extends RcModuleV2<Deps> {
     });
   }
 
-  log(message: string, level?: Severity) {
+  log(message: string, level?: SeverityLevel) {
     const eventId = Sentry.captureMessage(message, level);
     return eventId;
   }
 
-  logError(error: any) {
+  logError(error: unknown) {
     const eventId = Sentry.captureException(error);
     return eventId;
   }
 
-  test(message: string = '[test] error logger') {
-    const eventId = this.log(message, Severity.Debug);
+  test(message = '[ErrorLogger] test') {
+    const eventId = this.log(message, 'debug');
     return eventId;
+  }
+
+  testError(message = '[ErrorLogger] test error') {
+    // To support test with devtool console, throw error within a new thread by using setTimeout
+    setTimeout(() => {
+      throw new Error(message);
+    }, 0);
   }
 }

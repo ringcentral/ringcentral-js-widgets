@@ -1,10 +1,10 @@
+import os from 'os';
+import path from 'path';
 import execa from 'execa';
 import fs from 'fs-extra';
 import gulp from 'gulp';
 import babel from 'gulp-babel';
 import sourcemaps from 'gulp-sourcemaps';
-import os from 'os';
-import path from 'path';
 
 import exportLocale from '@ringcentral-integration/locale-loader/lib/exportLocale';
 import importLocale from '@ringcentral-integration/locale-loader/lib/importLocale';

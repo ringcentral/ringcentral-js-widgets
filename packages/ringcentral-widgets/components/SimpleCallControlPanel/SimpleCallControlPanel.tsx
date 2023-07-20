@@ -1,18 +1,13 @@
-import React, {
-  FunctionComponent,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import type { FunctionComponent } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import formatNumber from '@ringcentral-integration/commons/lib/formatNumber';
+import { formatNumber } from '@ringcentral-integration/commons/lib/formatNumber';
 
 import callCtrlLayouts from '../../enums/callCtrlLayouts';
 import { ACTIONS_CTRL_MAP } from '../ActiveCallPad';
 import CallCtrlPanel from '../CallCtrlPanel';
 import i18n from './i18n';
-import { SimpleCallControlPanelProps } from './SimpleCallControlPanel.interface';
+import type { SimpleCallControlPanelProps } from './SimpleCallControlPanel.interface';
 
 const SimpleCallControlPanel: FunctionComponent<SimpleCallControlPanelProps> =
   ({

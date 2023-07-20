@@ -40,6 +40,5 @@ export interface MessageSyncList {
 export interface MessageStoreModel {
   syncInfo: SyncInfoMessages;
   conversationList: ConversationItem[];
-  // conversationStore: Record<string, GetMessageInfoResponse[]>;
   conversationStore: Record<string, Messages>;
 }

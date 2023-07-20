@@ -1,4 +1,4 @@
-import { ExtensionInfoGrants } from './ExtensionInfoGrants';
+import type { ExtensionInfoGrants } from './ExtensionInfoGrants';
 
 export interface GrantInfo {
   /**

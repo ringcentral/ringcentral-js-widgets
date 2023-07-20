@@ -50,7 +50,7 @@ export const charMap = {
   W: 0x0174,
   X: 0x1e8a,
   Y: 0x00dd,
-  Z: 0x017d
+  Z: 0x017d,
 };
 
 const padCharacters = '~!@#$%^&*';
@@ -58,7 +58,7 @@ const padCharacters = '~!@#$%^&*';
 const replaceFunctions = Object.keys(charMap).map((char) => {
   const regExp = new RegExp(char, 'g');
   const accentChar = String.fromCharCode(charMap[char]);
-  return str => str.replace(regExp, accentChar);
+  return (str) => str.replace(regExp, accentChar);
 });
 
 export function toAccentString(str) {
@@ -84,7 +84,6 @@ export function processVars(str) {
   tokens.push(toAccentString(input));
   return tokens.join('');
 }
-
 
 export function padString({ str, padRatio = 0.3, padChar = ' ' } = {}) {
   const normalized = str || '';

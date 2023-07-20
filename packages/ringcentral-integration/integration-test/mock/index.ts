@@ -67,7 +67,7 @@ import wsConnectionDetailsBody from './data/ws/connectionDetails.json';
 import wsHeartbeatResponse from './data/ws/heartbeatResponse.json';
 import wsSubscriptionResponse from './data/ws/subscriptionResponse.json';
 import wsTokenBody from './data/ws/wstoken.json';
-import { MockForLoginOptions } from './MockForLoginOptions.interface';
+import type { MockForLoginOptions } from './MockForLoginOptions.interface';
 
 export * from './types';
 

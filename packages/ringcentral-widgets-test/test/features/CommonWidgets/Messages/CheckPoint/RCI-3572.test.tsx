@@ -1,6 +1,6 @@
 /**
  * RCI-3572: Conversation unread count
- * https://test_id_domain/test-cases/RCI-3572
+ * https://test_it_domain/test-cases/RCI-3572
  * Preconditions:
  * The user has logged into the CTI app
  * The user has SMS permission
@@ -12,6 +12,7 @@
   | Text |1 |5 |Read |0 |
 
  */
+import type { StepFunction } from '../../../../lib/step';
 import {
   p2,
   autorun,
@@ -22,7 +23,6 @@ import {
   Then,
   title,
   When,
-  StepFunction,
 } from '../../../../lib/step';
 import {
   CreateMock as CommonCreateMock,

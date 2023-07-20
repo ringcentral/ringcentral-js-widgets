@@ -1,6 +1,6 @@
 /**
  * RCI-4125: Outbound call - from ${BrandName} Phone(RC phone)
- * https://test_id_domain/test-cases/RCI-4125
+ * https://test_it_domain/test-cases/RCI-4125
  * Preconditions:
  * User is logged-in into 3rd party
  * CTI app is integerated,
@@ -21,7 +21,7 @@
  *
   | Brand |Brand Name |Link |
   | RC |'RingCentral Phone' |'rcmobile://call?number={phoneNumber}' |
-	| AT&T |'AT&T Office@Hand Phone' |'https://app.officeathand.att.com/r/call?number={phoneNumber}' |
+	| AT&T |'Office@Hand Phone' |'https://app.officeathand.att.com/r/call?number={phoneNumber}' |
 	| BT |'BT Cloud Work Phone' |'rcbtmobile://call?number={phoneNumber}' |
 	| Telus |'Business Connect Phone' |'rctelus://call?number={phoneNumber}' |
 
@@ -41,7 +41,7 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
-import { StepFunction } from '../../../../../../lib/step';
+import type { StepFunction } from '../../../../../../lib/step';
 import { MakeCall } from '../../../../../../steps/Call';
 import { CommonLogin } from '../../../../../../steps/CommonLogin';
 import { NavigateToDialer } from '../../../../../../steps/Navigate';
@@ -60,7 +60,7 @@ const exampleData = [
   },
   {
     brand: 'att',
-    brandName: 'AT&T Office@Hand Phone',
+    brandName: 'Office@Hand Phone',
     link: /attvr20:\/\/call\?number=.+/,
   },
   {

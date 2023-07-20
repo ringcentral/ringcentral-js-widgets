@@ -1,5 +1,5 @@
-import fs from 'fs-extra';
 import path from 'path';
+import fs from 'fs-extra';
 import formatLocale from '@ringcentral-integration/i18n/lib/formatLocale';
 import localeLoader from '.';
 

@@ -27,7 +27,7 @@
   "availability": "Alive",
   "subject": "test 2",
   "messageStatus": "Sent",
-  "conversationId": 6015823250778200202,
+  "conversationId": 6015823250778200000,
   "conversation": {
     "id": "6015823250778200202",
     "uri": "https://platform.ringcentral.com/restapi/v1.0/conversation/6015823250778200202"

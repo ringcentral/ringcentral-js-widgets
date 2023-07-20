@@ -7,7 +7,7 @@ import { makeCallsUniqueIdentifies } from '../../lib/callUniqueIdentifies';
 import { contactMatchIdentifyEncode } from '../../lib/contactMatchIdentify';
 import { EvCallbackTypes } from '../../lib/EvClient/enums/callbackTypes';
 import { formatPhoneNumber } from '../../lib/FormatPhoneNumber';
-import { CallHistory, Deps } from './EvCallHistory.interface';
+import type { CallHistory, Deps } from './EvCallHistory.interface';
 
 @Module({
   name: 'EvCallHistory',

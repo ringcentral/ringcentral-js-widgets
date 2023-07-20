@@ -2,7 +2,7 @@ import { ASSISTED_USERS_MYSELF } from '@ringcentral-integration/commons/modules/
 export default {
   date: "Data",
   time: "Ora",
-  hours: "{howMany} ore",
+  hours: "{howMany} h",
   minutes: "{howMany} min",
   today: "Oggi",
   duration: "Durata",
@@ -28,7 +28,7 @@ export default {
   turnOffHostCamera: "Spegni la videocamera per l'host durante l'accesso alla riunione",
   requirePassword: "Richiedi password",
   enterPassword: "Immetti password",
-  setPassword: "Imposta password *",
+  setPassword: "Imposta password*",
   passwordEmptyError: "La password per la riunione è obbligatoria",
   rcmPasswordInvalidError: "La password deve avere 1-10 caratteri, deve contenere numeri e non può contenere simboli, tranne @, * o -",
   rcmPasswordHintText: "La password deve avere 1-10 caratteri, deve contenere numeri e non può contenere simboli, tranne @, * o -",

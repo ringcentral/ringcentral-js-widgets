@@ -1,11 +1,12 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import { RcIconButton } from '@ringcentral/juno';
 import { Hold } from '@ringcentral/juno-icon';
 
 import { getCircleIconButtonTitle } from '../help';
 import i18n from '../i18n';
-import { CallButtonsProps } from './CallButtons.interface';
+import type { CallButtonsProps } from './CallButtons.interface';
 import { getIconColor } from './getIconColor';
 
 export type HoldCallButtonProps = CallButtonsProps & {

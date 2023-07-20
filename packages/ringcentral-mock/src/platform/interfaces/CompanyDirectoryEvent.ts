@@ -1,4 +1,4 @@
-import { CompanyDirectoryEventBody } from './CompanyDirectoryEventBody';
+import type { CompanyDirectoryEventBody } from './CompanyDirectoryEventBody';
 
 export interface CompanyDirectoryEvent {
   /**

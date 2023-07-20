@@ -1,24 +1,25 @@
-import React, { Component, ReactNode } from 'react';
+import type { ReactNode } from 'react';
+import React, { Component } from 'react';
 
 import classnames from 'classnames';
 
 import { extensionTypes } from '@ringcentral-integration/commons/enums/extensionTypes';
 import messageDirection from '@ringcentral-integration/commons/enums/messageDirection';
 import messageTypes from '@ringcentral-integration/commons/enums/messageTypes';
-import { Message } from '@ringcentral-integration/commons/interfaces/MessageStore.model';
+import type { Message } from '@ringcentral-integration/commons/interfaces/MessageStore.model';
 import {
   messageIsFax,
   messageIsTextMessage,
 } from '@ringcentral-integration/commons/lib/messageHelper';
+import { formatDuration } from '@ringcentral-integration/commons/lib/formatDuration';
 import parseNumber from '@ringcentral-integration/commons/lib/parseNumber';
 import { format } from '@ringcentral-integration/utils';
 
 import { checkShouldHideContactUser } from '../../lib/checkShouldHideContactUser';
 import { checkShouldHidePhoneNumber } from '../../lib/checkShouldHidePhoneNumber';
-import formatDuration from '../../lib/formatDuration';
 import ActionMenuList from '../ActionMenuList';
 import ContactDisplay from '../ContactDisplay';
-import { ContactDisplayItemProps } from '../ContactDisplay/ContactDisplayItem';
+import type { ContactDisplayItemProps } from '../ContactDisplay/ContactDisplayItem';
 import SlideMenu from '../SlideMenu';
 import VoicemailPlayer from '../VoicemailPlayer';
 import { ConversationIcon } from './ConversationIcon';

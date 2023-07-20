@@ -1,4 +1,4 @@
-import { CallLogRecordDeviceInfo } from './CallLogRecordDeviceInfo';
+import type { CallLogRecordDeviceInfo } from './CallLogRecordDeviceInfo';
 
 // Information on caller ('from') or callee ('to')
 export interface CallLogCallerInfo {

@@ -1,6 +1,6 @@
 /**
  * RCI-3876: Schedule "Join after host" meeting
- * https://test_id_domain/test-cases/RCI-3876
+ * https://test_it_domain/test-cases/RCI-3876
  * Preconditions:
  * Already installed and logged in RingCentral Outlook Add-Ins
  * Login withRCVaccount
@@ -20,6 +20,7 @@ import {
   CheckRCVPageDisplay,
   SwitchToggleTo,
 } from '../../../../../../steps/Meeting';
+import type { StepFunction } from '../../../../../../lib/step';
 import {
   common,
   it,
@@ -31,7 +32,6 @@ import {
   title,
   When,
   p1,
-  StepFunction,
 } from '../../../../../../lib/step';
 import { Login as CommonLogin } from '../../../../../../steps/Login';
 

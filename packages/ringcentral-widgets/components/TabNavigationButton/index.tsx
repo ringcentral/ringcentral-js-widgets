@@ -1,9 +1,10 @@
-import React, {
+import type {
   ComponentType,
   DOMAttributes,
   FunctionComponent,
   ReactElement,
 } from 'react';
+import React from 'react';
 
 import classnames from 'classnames';
 

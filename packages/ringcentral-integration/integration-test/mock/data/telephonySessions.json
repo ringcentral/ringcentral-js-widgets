@@ -29,7 +29,9 @@
         "status": {
           "code": "Proceeding",
           "mobilePickupData": {
-            "ccMailboxes": ["400144455008"],
+            "ccMailboxes": [
+              "400144455008"
+            ],
             "to": "#19008@platform.devtest.ringcentral.com:5060",
             "sid": "402936472080",
             "srvLvl": "-149699523",

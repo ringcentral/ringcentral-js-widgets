@@ -1,10 +1,10 @@
-import { Mapping } from '@ringcentral-integration/widgets/typings';
+import type { Mapping } from '@ringcentral-integration/widgets/typings';
 
-import { EvCallData } from '../../interfaces/EvData.interface';
-import { EvClient } from '../../lib/EvClient';
-import { EvAuth } from '../EvAuth';
-import { EvStorage } from '../EvStorage';
-import { EvTabManager } from '../EvTabManager';
+import type { EvCallData } from '../../interfaces/EvData.interface';
+import type { EvClient } from '../../lib/EvClient';
+import type { EvAuth } from '../EvAuth';
+import type { EvStorage } from '../EvStorage';
+import type { EvTabManager } from '../EvTabManager';
 
 export interface State {
   /** current agent ongoing session calls list with callId (encodeUii({ uii, sessionId })) */

@@ -5,7 +5,7 @@ import { permissionsMessages } from '../../enums/permissionsMessages';
 import { Module } from '../../lib/di';
 import { loginStatus } from '../Auth';
 import { DataFetcherV2Consumer, DataSource } from '../DataFetcherV2';
-import { Deps } from './AccountInfo.interface';
+import type { Deps } from './AccountInfo.interface';
 
 @Module({
   name: 'AccountInfo',

@@ -1,6 +1,6 @@
 /**
  * RCI-2740: PMI waiting room values respect to SW settings when AuthCanJoin is locked
- * https://test_id_domain/test-cases/RCI-2740
+ * https://test_it_domain/test-cases/RCI-2740
  * Preconditions:
  * RC CTI app is installed and enabled
  * The user has logged in to 3rd party
@@ -20,12 +20,12 @@
  * > Then lock 'Require participants to enter a waiting room before joining the meeting'
  */
 
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p2,
   it,
   autorun,
   examples,
-  StepFunction,
   Scenario,
   Step,
   Then,

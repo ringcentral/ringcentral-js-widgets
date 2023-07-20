@@ -1,6 +1,6 @@
 import userEvent from '@testing-library/user-event';
 import { fireEvent, screen } from '@testing-library/react';
-import { StepFunction } from '../../../lib/step';
+import type { StepFunction } from '../../../lib/step';
 
 export const FocusOnPasswordField: StepFunction = async () => {
   const inputNode = screen.queryByTestId('password')?.querySelector('input');

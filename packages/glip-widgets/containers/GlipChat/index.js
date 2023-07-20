@@ -110,10 +110,7 @@ function mapToFunctions(
 }
 
 const GlipChatPage = withPhone(
-  connect(
-    mapToProps,
-    mapToFunctions,
-  )(GlipChatPanel),
+  connect(mapToProps, mapToFunctions)(GlipChatPanel),
 );
 
 export default GlipChatPage;

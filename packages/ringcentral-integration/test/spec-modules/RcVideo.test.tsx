@@ -1,10 +1,10 @@
+import type { StepFunction as BaseStepFunction } from '@ringcentral-integration/test-utils';
 import {
   autorun,
   examples,
   Given,
   Scenario,
   Step,
-  StepFunction as BaseStepFunction,
   Then,
   title,
   When,
@@ -12,9 +12,9 @@ import {
 
 import videoPersonalSettingsBody from '../../integration-test/mock/data/videoPersonalSettings.json';
 import videoPreferenceBody from '../../integration-test/mock/data/videoPreference.json';
-import { RcVideoAPI } from '../../interfaces/Rcv.model';
+import type { RcVideoAPI } from '../../interfaces/Rcv.model';
 import { RcVideo } from '../../modules/RcVideo';
-import { RcvDelegator } from '../../modules/RcVideo/RcVideo.interface';
+import type { RcvDelegator } from '../../modules/RcVideo/RcVideo.interface';
 import { videoStatus } from '../../modules/RcVideo/videoStatus';
 import { mockModuleGenerator } from '../lib/mockModule';
 
@@ -24,8 +24,7 @@ interface Context {
   phone: any;
 }
 
-interface StepFunction<P = {}, C = {}>
-  extends BaseStepFunction<P, C & Context> {}
+type StepFunction<P = {}, C = {}> = BaseStepFunction<P, C & Context>;
 
 class MockModule {
   _ready = true;

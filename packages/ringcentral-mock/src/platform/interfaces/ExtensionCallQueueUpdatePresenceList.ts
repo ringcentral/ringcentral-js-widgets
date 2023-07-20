@@ -1,4 +1,4 @@
-import { ExtensionCallQueueUpdatePresence } from './ExtensionCallQueueUpdatePresence';
+import type { ExtensionCallQueueUpdatePresence } from './ExtensionCallQueueUpdatePresence';
 
 export interface ExtensionCallQueueUpdatePresenceList {
   /**

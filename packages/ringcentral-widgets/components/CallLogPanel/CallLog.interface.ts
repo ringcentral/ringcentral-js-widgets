@@ -1,6 +1,6 @@
-import { HistoryCall } from '@ringcentral-integration/commons/modules/CallHistory';
+import type { HistoryCall } from '@ringcentral-integration/commons/modules/CallHistory';
 
-import { FieldItemOption } from '../CallLogFields/FieldItem/FieldItem.interface';
+import type { FieldItemOption } from '../CallLogFields/FieldItem/FieldItem.interface';
 
 // This interface will change folder in the future
 export interface CallLog {

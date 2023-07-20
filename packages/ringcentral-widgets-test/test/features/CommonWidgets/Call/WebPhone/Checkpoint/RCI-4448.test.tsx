@@ -1,6 +1,6 @@
 /**
  * RCI-4448: The non-provisioned forwarded number can not be presented in the list of caller
- * https://test_id_domain/test-cases/RCI-4448
+ * https://test_it_domain/test-cases/RCI-4448
  * Preconditions:
  * User has logged into RC CTI App
  * User has created a non-provisioned forwarded number on SW
@@ -16,6 +16,7 @@
  * Open CTI > Navigate todial page
  */
 
+import type { StepProp } from '@ringcentral-integration/test-utils';
 import {
   p2,
   it,
@@ -27,7 +28,6 @@ import {
   When,
   common,
   examples,
-  StepProp,
 } from '@ringcentral-integration/test-utils';
 import { StepFunction } from '../../../../../lib/step';
 import { CommonLogin } from '../../../../../steps/CommonLogin';

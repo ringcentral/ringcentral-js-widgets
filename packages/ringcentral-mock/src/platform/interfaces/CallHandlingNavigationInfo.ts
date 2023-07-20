@@ -1,4 +1,4 @@
-import { CallHandlingNavigationInfoUri } from './CallHandlingNavigationInfoUri';
+import type { CallHandlingNavigationInfoUri } from './CallHandlingNavigationInfoUri';
 
 // Information on navigation
 export interface CallHandlingNavigationInfo {

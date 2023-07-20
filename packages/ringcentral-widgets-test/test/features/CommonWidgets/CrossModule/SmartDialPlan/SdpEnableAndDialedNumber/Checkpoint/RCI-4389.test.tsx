@@ -1,6 +1,6 @@
 /**
  * RCI-4389: Can call PSTN when can't match ext. but valid PSTN (DT<=MEL)
- * https://test_id_domain/test-cases/RCI-4389
+ * https://test_it_domain/test-cases/RCI-4389
  * Preconditions:
  * CTI app is integrated,
  * User is logged-in to 3rd party
@@ -29,6 +29,7 @@
  */
 
 import { Category } from '@ringcentral-integration/commons/interfaces/NumberParserResponse.interface';
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   And,
   autorun,
@@ -39,14 +40,13 @@ import {
   p1,
   Scenario,
   Step,
-  StepFunction,
   Then,
   title,
   When,
 } from '@ringcentral-integration/test-utils';
 import { screen } from '@testing-library/react';
 
-import { StepProp } from '../../../../../../lib/step';
+import type { StepProp } from '../../../../../../lib/step';
 
 import { CommonLogin } from '../../../../../../steps/CommonLogin';
 import {
@@ -72,14 +72,14 @@ import { NavigateToHistory as BaseNavigateToHistory } from '../../../../../../st
 @autorun(test)
 @it
 @p1
-@common
 @title(`Can call PSTN when can't match ext. but valid PSTN (DT<=MEL)`)
+@common
 export class DialPSTNSDPEnabled extends Step {
   Login: StepProp = (props) => (
     <CommonLogin {...props} CreateInstance={CreateInstance} />
   );
   CreateMock: StepProp | null = CreateMock;
-  historyTestId: string = 'History';
+  historyTestId = 'History';
   CheckNumberInHistoryPage: StepFunction<any, any> = ({
     e164ParsedNumber,
   }: any) => {
@@ -89,9 +89,9 @@ export class DialPSTNSDPEnabled extends Step {
     BaseCheckCallControlPage;
   NavigateToHistory: typeof BaseNavigateToHistory = BaseNavigateToHistory;
   @examples(`
-    | isoCode | MaxExtensionLength | phoneNumber | parsedNumber     | e164ParsedNumber |
-    | 'CA'    | 8                  | '2482217'   | '(205) 248-2217' | '+12052482217'   |
-    | 'GB'    | 8                  | '31350033'  | '028 3135 0033'  | '+442831350033'  |
+    | isoCode | MaxExtensionLength | phoneNumber | parsedNumber    | e164ParsedNumber |
+    | 'AU'    | 8                  | '4009569'   | '34009569'      | '+6134009569'    |
+    | 'GB'    | 8                  | '31350033'  | '028 3135 0033' | '+442831350033'  |
   `)
   run() {
     const {
@@ -110,6 +110,7 @@ export class DialPSTNSDPEnabled extends Step {
           isoCode,
           parsedNumber,
           phoneNumber,
+          e164ParsedNumber,
         }: any) => [
           CreateMock,
           <MockAccountInfo
@@ -123,6 +124,7 @@ export class DialPSTNSDPEnabled extends Step {
           <MockDialingPlan
             handler={() => {
               return [
+                generateDialPlanData('61', '61', 'Australia', 'AU'),
                 generateDialPlanData('44', '44', 'United Kingdom', 'GB'),
                 generateDialPlanData('39', '39', 'Canada', 'CA'),
                 generateDialPlanData('1', '1', 'United States', 'US'),
@@ -152,27 +154,21 @@ export class DialPSTNSDPEnabled extends Step {
             mockResponse={generateCallLogData({
               telephonySessionId: '767676543',
               direction: 'Outbound',
-              toNumber: parsedNumber,
+              toNumber: e164ParsedNumber,
               toName: 'Something New',
             })}
           />,
           <MockNumberParserV2
             isDefaultInit
             handler={(mockData) => {
-              mockData.results[0].category = Category.Ambiguous;
-              mockData.results[0].numberDetails.extensionNumber = phoneNumber;
-
+              mockData.results[0].category = Category.Regular;
               mockData.results[0].formats = [
                 {
                   ...mockData.results[0].formats[0],
-                  category: Category.Extension,
-                  dialable: phoneNumber,
-                  dialableExtended: phoneNumber,
-                },
-                {
-                  ...mockData.results[0].formats[0],
                   e164Extended: this.example.e164ParsedNumber,
-                  category: Category.Regular,
+                  dialable: parsedNumber,
+                  dialableExtended: parsedNumber,
+                  national: parsedNumber,
                 },
               ];
               return mockData;

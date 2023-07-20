@@ -1,11 +1,11 @@
-import { BrandInfo } from './BrandInfo';
-import { ContractedCountryInfo } from './ContractedCountryInfo';
-import { ServicePlanInfo } from './ServicePlanInfo';
-import { TargetServicePlanInfo } from './TargetServicePlanInfo';
-import { BillingPlanInfo } from './BillingPlanInfo';
-import { ServiceFeatureInfo } from './ServiceFeatureInfo';
-import { AccountLimits } from './AccountLimits';
-import { PackageInfo } from './PackageInfo';
+import type { BrandInfo } from './BrandInfo';
+import type { ContractedCountryInfo } from './ContractedCountryInfo';
+import type { ServicePlanInfo } from './ServicePlanInfo';
+import type { TargetServicePlanInfo } from './TargetServicePlanInfo';
+import type { BillingPlanInfo } from './BillingPlanInfo';
+import type { ServiceFeatureInfo } from './ServiceFeatureInfo';
+import type { AccountLimits } from './AccountLimits';
+import type { PackageInfo } from './PackageInfo';
 
 export interface GetServiceInfoResponse {
   /**

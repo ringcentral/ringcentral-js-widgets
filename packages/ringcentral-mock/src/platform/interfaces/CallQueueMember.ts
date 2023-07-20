@@ -1,4 +1,4 @@
-import { SiteResource } from './SiteResource';
+import type { SiteResource } from './SiteResource';
 
 // Call queue member information
 export interface CallQueueMember {

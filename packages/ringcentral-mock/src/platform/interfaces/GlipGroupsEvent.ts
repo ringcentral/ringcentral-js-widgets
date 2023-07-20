@@ -1,4 +1,4 @@
-import { GlipMemberInfo } from './GlipMemberInfo';
+import type { GlipMemberInfo } from './GlipMemberInfo';
 
 export interface GlipGroupsEvent {
   /**

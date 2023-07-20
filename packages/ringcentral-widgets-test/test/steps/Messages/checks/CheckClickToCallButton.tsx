@@ -1,6 +1,6 @@
 import { fireEvent, screen } from '@testing-library/react';
-import { StepFunction } from '../../../lib/step';
-import { Context } from '../../../interfaces';
+import type { StepFunction } from '../../../lib/step';
+import type { Context } from '../../../interfaces';
 
 export const CheckClickToCallButton: StepFunction<{
   phoneNumber: string;

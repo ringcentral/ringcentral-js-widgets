@@ -1,6 +1,6 @@
+import path from 'path';
 import xml from 'xml-js';
 import fs from 'fs-extra';
-import path from 'path';
 import { reduce } from 'ramda';
 
 function extractKey(str) {

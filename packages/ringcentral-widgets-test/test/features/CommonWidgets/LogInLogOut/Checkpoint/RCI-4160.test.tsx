@@ -1,6 +1,6 @@
 /**
  * RCI-4160: Check CTI remains login status for a certain period of time
- * https://test_id_domain/test-cases/RCI-4160
+ * https://test_it_domain/test-cases/RCI-4160
  * Preconditions:
  * RC CTI app is installed and enabled
  * User must have an RC CTI account
@@ -12,6 +12,7 @@
  * >Press the 'Sign In' button
  */
 
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p2,
   it,
@@ -21,7 +22,6 @@ import {
   Then,
   title,
   When,
-  StepFunction,
 } from '@ringcentral-integration/test-utils';
 
 import { Login as CommonLogin } from '../../../../steps/Login';

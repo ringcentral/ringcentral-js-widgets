@@ -1,12 +1,12 @@
 import { act, fireEvent, screen, waitFor } from '@testing-library/react';
 
-import { StepFunction } from '../../../lib/step';
-import { MessageProps } from './MessageProps.interface';
+import type { StepFunction } from '../../../lib/step';
+import type { MessageProps } from './MessageProps.interface';
 
 interface InputSMSProps extends MessageProps {}
 
 export const InputSMS: StepFunction<InputSMSProps> = async ({
-  phoneNumber,
+  phoneNumber = '+18883221914',
   textMessage = 'test message',
 }) => {
   act(() => {

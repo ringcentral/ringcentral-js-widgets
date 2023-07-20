@@ -1,14 +1,12 @@
 import React from 'react';
 
-import {
-  PhoneType,
-  phoneTypes,
-} from '@ringcentral-integration/commons/enums/phoneTypes';
-import { ContactModel } from '@ringcentral-integration/commons/interfaces/Contact.model';
+import type { PhoneType } from '@ringcentral-integration/commons/enums/phoneTypes';
+import { phoneTypes } from '@ringcentral-integration/commons/enums/phoneTypes';
+import type { ContactModel } from '@ringcentral-integration/commons/interfaces/Contact.model';
 import { fireEvent, render } from '@testing-library/react';
 
 import { ContactDetailsView } from '../../../components/ContactDetailsView';
-import {
+import type {
   ContactDetailsViewFunctionProps,
   ContactDetailsViewProps,
 } from '../../../components/ContactDetailsView/ContactDetailsView.interface';

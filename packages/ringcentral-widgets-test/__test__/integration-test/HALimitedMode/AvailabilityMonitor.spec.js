@@ -40,7 +40,7 @@ async function getPresenceItem(rootWrapper, presenceItemIndex) {
 }
 
 beforeEach(() => {
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 64000;
+  jest.setTimeout(64000);
 });
 
 afterEach(() => {

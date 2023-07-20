@@ -57,22 +57,9 @@ describe('format', () => {
     ).toBe(format({ phoneNumber: `${phoneNumber}*${extension}` }));
   });
 
-  test('should add areaCode if phoneNumber is 7 digits and countryCode is US or CA', () => {
+  test('should add areaCode if phoneNumber is 7 digits and countryCode is CA', () => {
     const phoneNumber = '1234567';
     const areaCode = '890';
-    expect(
-      format({
-        phoneNumber,
-        areaCode,
-        countryCode: 'US',
-      }),
-    ).toBe(
-      format({
-        phoneNumber: `${areaCode}${phoneNumber}`,
-        countryCode: 'US',
-        type: formatTypes.international,
-      }),
-    );
     expect(
       format({
         phoneNumber,
@@ -88,7 +75,7 @@ describe('format', () => {
     );
   });
 
-  test('should ignore areaCode if countryCode is not US or CA', () => {
+  test('should ignore areaCode if countryCode is not CA', () => {
     const phoneNumber = '1234567';
     const areaCode = '890';
     expect(
@@ -150,14 +137,14 @@ describe('format', () => {
     });
   });
 
-  test('should differentiate between other NA numbers', () => {
+  test('PR should not be formatted as international number', () => {
     const phoneNumber = '+17872628888'; // Puerto Rico Pizza Hut
     expect(
       format({
         phoneNumber,
         countryCode: 'US',
       })[0] === '+',
-    ).toBe(true);
+    ).toBe(false);
   });
   test('should format to localFormat if phoneNumber matchs countryCode', () => {
     expect(
@@ -320,23 +307,9 @@ describe('format', () => {
       ).toBe(phoneNumber.split('*').pop());
     });
   });
-  test('should add areaCode if phoneNumber is 7 digits and countryCode is US or CA', () => {
+  test('should add areaCode if phoneNumber is 7 digits and countryCode is CA', () => {
     const phoneNumber = '1234567';
     const areaCode = '890';
-    expect(
-      format({
-        phoneNumber,
-        areaCode,
-        countryCode: 'US',
-        type: formatTypes.e164,
-      }),
-    ).toBe(
-      format({
-        phoneNumber: `${areaCode}${phoneNumber}`,
-        countryCode: 'US',
-        type: formatTypes.e164,
-      }),
-    );
     expect(
       format({
         phoneNumber,

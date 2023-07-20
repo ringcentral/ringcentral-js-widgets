@@ -5,7 +5,7 @@ export default {
   [phoneTypes.extension]: "Alanro",
   [phoneTypes.direct]: "Suora",
   [phoneTypes.mobile]: "Mobiili",
-  [phoneTypes.contact]: "Yhteyspuhelinnumero",
+  [phoneTypes.contact]: "Yhteystiedon puhelin",
   [phoneTypes.home]: "Etusivu",
   [phoneTypes.business]: "Työ",
   [phoneTypes.fax]: "Faksi",

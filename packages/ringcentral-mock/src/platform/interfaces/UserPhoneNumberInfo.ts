@@ -1,6 +1,6 @@
-import { CountryInfo } from './CountryInfo';
-import { ContactCenterProvider } from './ContactCenterProvider';
-import { UserPhoneNumberExtensionInfo } from './UserPhoneNumberExtensionInfo';
+import type { CountryInfo } from './CountryInfo';
+import type { ContactCenterProvider } from './ContactCenterProvider';
+import type { UserPhoneNumberExtensionInfo } from './UserPhoneNumberExtensionInfo';
 
 export interface UserPhoneNumberInfo {
   /**

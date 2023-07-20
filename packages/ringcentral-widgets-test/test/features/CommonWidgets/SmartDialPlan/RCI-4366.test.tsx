@@ -1,6 +1,6 @@
 /**
  * RCI-4366: SDP enable and send message to invalid pstn number
- * https://test_id_domain/test-cases/RCI-4366
+ * https://test_it_domain/test-cases/RCI-4366
  * Preconditions:
  * CTI app is integrated,
  * User is logged-in into 3rd party
@@ -37,19 +37,22 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
-import { StepProp } from '../../../lib/step';
+import type { StepProp } from '../../../lib/step';
 import { CloseAlertMessage } from '../../../steps/Alert';
 import { CommonLogin } from '../../../steps/CommonLogin';
 import { CheckInvalidSmsPrompt, SendSMS } from '../../../steps/Messages';
 import {
   MockAccountInfo,
   MockCompanyPager,
+  MockDialingPlan,
+  MockExtensionInfo,
   MockGetPhoneNumber,
   MockNumberParserV2,
   MockPermission,
 } from '../../../steps/Mock';
 import { NavigateTo } from '../../../steps/Router/action';
 import { SetAreaCode } from '../../../steps/Settings';
+import { generateDialPlanData } from '../../../__mock__/generateDialPlanData';
 
 @autorun(test.skip)
 @it
@@ -59,10 +62,10 @@ export class RCI4366 extends Step {
   Login: StepProp = CommonLogin;
   CreateMock: StepProp | null = null;
   @examples(`
-    | maxExtensionNumberLength | areaCode | phoneNumber    | parsedNumber |
-    | 8                        | '205'    | '223456'       | '223456'     |
-    | 7                        | '20'     | '1234567'      | '1234567'    |
-    `)
+    | country | maxExtensionNumberLength | areaCode | phoneNumber | parsedNumber |
+    | 'CA'    | 8                        | '205'    | '223456'    | '223456'     |
+    | 'GB'    | 7                        | '20'     | '1234567'   | '1234567'    |
+  `)
   run() {
     const { Login, CreateMock } = this;
     return (
@@ -95,6 +98,31 @@ export class RCI4366 extends Step {
             responseCode={400}
           />,
           MockGetPhoneNumber,
+          <MockExtensionInfo
+            handle={(mockData) => {
+              mockData.regionalSettings.homeCountry.isoCode =
+                this.example.country;
+              return mockData;
+            }}
+          />,
+          <MockDialingPlan
+            handler={() => {
+              return [
+                generateDialPlanData('44', '44', 'United Kingdom', 'GB'),
+                generateDialPlanData('1', '39', 'Canada', 'CA'),
+              ];
+            }}
+          />,
+          <MockNumberParserV2
+            isDefaultInit={true}
+            handler={(mockData) => {
+              mockData.results[0].category = Category.Extension;
+              mockData.results[0].numberDetails.extensionNumber =
+                this.example.parsedNumber;
+              mockData.results = [mockData.results[0]];
+              return mockData;
+            }}
+          />,
         ]}
       >
         <Given desc="Login APP" action={Login} />
@@ -103,22 +131,14 @@ export class RCI4366 extends Step {
                      2. set area code"
           action={[
             <NavigateTo path="/settings/region" />,
-            SetAreaCode,
-            CloseAlertMessage,
-          ]}
-        />
-        <When
-          desc="Mock parse extension number"
-          action={[
-            <MockNumberParserV2
-              isDefaultInit={false}
-              handler={(mockData) => {
-                mockData.results[0].category = Category.Extension;
-                mockData.results[0].numberDetails.extensionNumber =
-                  this.context.example.parsedNumber;
-                return mockData;
-              }}
-            />,
+            () => {
+              if (this.example.country !== 'CA') {
+                return [
+                  <SetAreaCode areaCode={this.example.areaCode} />,
+                  CloseAlertMessage,
+                ];
+              }
+            },
           ]}
         />
         <When

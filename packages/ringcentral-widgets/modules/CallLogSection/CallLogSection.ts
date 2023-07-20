@@ -11,9 +11,9 @@ import {
 
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import { proxify } from '@ringcentral-integration/commons/lib/proxy/proxify';
-import { HistoryCall } from '@ringcentral-integration/commons/modules/CallHistory';
+import type { HistoryCall } from '@ringcentral-integration/commons/modules/CallHistory';
 import { trackEvents } from '@ringcentral-integration/commons/enums/trackEvents';
-import { Call } from '@ringcentral-integration/commons/interfaces/Call.interface';
+import type { Call } from '@ringcentral-integration/commons/interfaces/Call.interface';
 import { isOnHold } from '@ringcentral-integration/commons/lib/callLogHelpers';
 
 import {
@@ -26,8 +26,8 @@ import {
   watch,
 } from '@ringcentral-integration/core';
 
-import { Mapping } from '../../typings';
-import {
+import type { Mapping } from '../../typings';
+import type {
   AddLogHandlerFunctions,
   CallLogSectionCallStatus,
   CallLogStatus,
@@ -79,28 +79,28 @@ export class CallLogSection<T extends Deps = Deps> extends RcModuleV2<T> {
   identifyList: Array<string> = [];
 
   @state
-  stateCurrentIdentify: string = '';
+  stateCurrentIdentify = '';
 
   @storage
   @state
-  storageCurrentIdentify: string = '';
+  storageCurrentIdentify = '';
 
   @state
-  stateCurrentNotificationIdentify: string = '';
-
-  @storage
-  @state
-  storageCurrentNotificationIdentify: string = '';
-
-  @state
-  stateNotificationIsExpand: boolean = false;
+  stateCurrentNotificationIdentify = '';
 
   @storage
   @state
-  storageNotificationIsExpand: boolean = false;
+  storageCurrentNotificationIdentify = '';
 
   @state
-  warmTransferActiveTelephonySessionId: string = '';
+  stateNotificationIsExpand = false;
+
+  @storage
+  @state
+  storageNotificationIsExpand = false;
+
+  @state
+  warmTransferActiveTelephonySessionId = '';
 
   override _shouldInit() {
     return super._shouldInit() && !!this._readyCheckFunction?.();
@@ -175,7 +175,7 @@ export class CallLogSection<T extends Deps = Deps> extends RcModuleV2<T> {
   }
 
   @action
-  setWarmTransferCallActiveId(telephonySessionId: string = '') {
+  setWarmTransferCallActiveId(telephonySessionId = '') {
     this.warmTransferActiveTelephonySessionId = telephonySessionId;
   }
 
@@ -360,8 +360,9 @@ export class CallLogSection<T extends Deps = Deps> extends RcModuleV2<T> {
   }
 
   @proxify
-  async discardAndHandleNotification() {
-    const currentNotificationIdentify = this.currentNotificationIdentify;
+  async discardAndHandleNotification(sessionId: string) {
+    const currentNotificationIdentify =
+      sessionId || this.currentNotificationIdentify;
     await this.closeLogNotification();
     await this.closeLogSection();
     await this.showLogSection(currentNotificationIdentify);

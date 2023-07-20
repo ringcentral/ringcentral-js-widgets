@@ -4,8 +4,8 @@ import { format } from '@ringcentral-integration/utils';
 
 import i18n from '../../components/MeetingConfigsV2/i18n';
 
-export const MINUTE_SCALE: number = 4;
-export const HOUR_SCALE: number = 13;
+export const MINUTE_SCALE = 4;
+export const HOUR_SCALE = 13;
 
 export function getMinutesList(MINUTE_SCALE: number, currentLocale: string) {
   return reduce(

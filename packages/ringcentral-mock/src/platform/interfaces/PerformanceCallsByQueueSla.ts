@@ -1,4 +1,4 @@
-import { CallsByQueueSla } from './CallsByQueueSla';
+import type { CallsByQueueSla } from './CallsByQueueSla';
 
 export interface PerformanceCallsByQueueSla {
   /**

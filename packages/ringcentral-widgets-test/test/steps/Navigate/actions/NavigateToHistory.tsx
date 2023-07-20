@@ -1,7 +1,7 @@
 import { fireEvent, screen } from '@testing-library/react';
-import { RouterInteraction } from '@ringcentral-integration/widgets/modules/RouterInteraction';
+import type { RouterInteraction } from '@ringcentral-integration/widgets/modules/RouterInteraction';
 
-import { StepFunction } from '../../../lib/step';
+import type { StepFunction } from '../../../lib/step';
 
 export const NavigateToHistory: StepFunction<
   { testId?: string },

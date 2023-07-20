@@ -1,10 +1,5 @@
-import React, {
-  createContext,
-  FunctionComponent,
-  useContext,
-  useEffect,
-  useState,
-} from 'react';
+import type { FunctionComponent } from 'react';
+import React, { createContext, useContext, useEffect, useState } from 'react';
 
 import classnames from 'classnames';
 

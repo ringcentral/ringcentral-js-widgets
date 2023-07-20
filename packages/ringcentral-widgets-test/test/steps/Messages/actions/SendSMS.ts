@@ -1,7 +1,7 @@
 import { fireEvent, screen } from '@testing-library/react';
-import { StepFunction } from '../../../lib/step';
+import type { StepFunction } from '../../../lib/step';
 import { InputSMS } from './InputSMS';
-import { MessageProps } from './MessageProps.interface';
+import type { MessageProps } from './MessageProps.interface';
 
 interface SendSMSProps extends MessageProps {}
 

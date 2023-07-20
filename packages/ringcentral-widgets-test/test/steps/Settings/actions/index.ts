@@ -5,3 +5,5 @@ export * from './SetCallSetting';
 export * from './SelectCountryCode';
 export * from './ExpandRingOutDropdown';
 export * from './SelectRingOutOption';
+export * from './SetPresenceStatus';
+export * from './SetAcceptCallQueueCalls';

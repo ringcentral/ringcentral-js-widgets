@@ -60,7 +60,7 @@ export default {
   SI: 'Slovenia',
   SK: 'Slovakia',
   SV: 'El Salvador',
-  TR: 'Turkey',
+  TR: 'Türkiye',
   TW: 'Taiwan',
   UA: 'Ukraine',
   US: 'United States',

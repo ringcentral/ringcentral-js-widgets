@@ -1,6 +1,6 @@
-import { PartyInfo } from './PartyInfo';
-import { OwnerInfo } from './OwnerInfo';
-import { CallStatusInfo } from './CallStatusInfo';
+import type { PartyInfo } from './PartyInfo';
+import type { OwnerInfo } from './OwnerInfo';
+import type { CallStatusInfo } from './CallStatusInfo';
 
 export interface PartySuperviseResponse {
   /**

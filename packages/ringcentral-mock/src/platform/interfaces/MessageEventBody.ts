@@ -1,4 +1,4 @@
-import { MessageChanges } from './MessageChanges';
+import type { MessageChanges } from './MessageChanges';
 
 // Notification payload body
 export interface MessageEventBody {

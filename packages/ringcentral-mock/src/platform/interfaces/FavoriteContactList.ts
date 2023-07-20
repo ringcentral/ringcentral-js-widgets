@@ -1,4 +1,4 @@
-import { FavoriteContactResource } from './FavoriteContactResource';
+import type { FavoriteContactResource } from './FavoriteContactResource';
 
 export interface FavoriteContactList {
   /**

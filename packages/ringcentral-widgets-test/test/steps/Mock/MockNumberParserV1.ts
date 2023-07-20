@@ -1,5 +1,5 @@
-import parerPhoneNumbersResponse from '@ringcentral-integration/mock/src/platform/data/numberParser.json';
-import { StepFunction } from '../../lib/step';
+import type parerPhoneNumbersResponse from '@ringcentral-integration/mock/src/platform/data/numberParser.json';
+import type { StepFunction } from '../../lib/step';
 
 interface MockNumberParserProps {
   handler?: (

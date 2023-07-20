@@ -41,7 +41,7 @@ export default {
   [callResults.suspendedAccount]: "Opgeheven account",
   [callResults.hangUp]: "Opgehangen",
   [callResults.HangUp]: "Opgehangen",
-  [callResults.abandoned]: "Verlaten",
+  [callResults.abandoned]: "Opgegeven",
   [callResults.declined]: "Geweigerd",
   [callResults.faxReceipt]: "Faxbewijs",
   [callResults.disconnected]: "Verbinding verbroken",

@@ -1,4 +1,4 @@
 export interface MessageProps {
-  phoneNumber: string;
+  phoneNumber?: string;
   textMessage?: string;
 }

@@ -1,6 +1,6 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
-import { SearchSelectFieldProps } from '../components/SearchSelectField';
+import type { SearchSelectFieldProps } from '../components/SearchSelectField';
 
 interface SettingField {
   dataSign?: string;

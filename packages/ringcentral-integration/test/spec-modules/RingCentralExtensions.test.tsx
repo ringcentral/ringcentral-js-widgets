@@ -1,6 +1,8 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
+
+import { EventEmitter } from 'events';
 import {
   autorun,
-  examples,
   Given,
   Scenario,
   Step,
@@ -8,9 +10,7 @@ import {
   title,
   When,
 } from '@ringcentral-integration/test-utils';
-import { sleep } from '@ringcentral-integration/utils';
 
-import { EventEmitter } from 'events';
 import WebSocket from 'isomorphic-ws';
 import { Events } from '@rc-ex/ws';
 import {
@@ -29,9 +29,9 @@ export class DefaultState extends Step {
       <Scenario desc="RingCentralExtensions">
         <Given
           desc="Create an RingCentralExtensions instance with default value"
-          action={(_: any, context: any) => {
+          action={(_: unknown, context: any) => {
             context.instance = new RingCentralExtensions({} as any);
-            expect(context.instance.isWebSocketOpen).toEqual(false);
+            expect(context.instance.isWebSocketReady).toEqual(false);
             expect(context.instance.debugMode).toEqual(false);
             expect(context.instance.isTabActive).toEqual(false);
             expect(context.instance.disconnectOnInactive).toEqual(false);
@@ -39,7 +39,7 @@ export class DefaultState extends Step {
         />
         <When
           desc="Call RingCentralExtensions 'onInitOnce' action"
-          action={async (_: any, context: any) => {
+          action={async (_: unknown, context: any) => {
             context.mockModule = mockModuleGenerator({
               _setupInfra() {},
               _bindEvents() {},
@@ -57,14 +57,14 @@ export class DefaultState extends Step {
         />
         <Then
           desc="Check value should be expected"
-          action={(_: any, context: any) => {
+          action={(_: unknown, context: any) => {
             expect(context._setupInfraSpy).toBeCalledTimes(1);
             expect(context._bindEventsSpy).toBeCalledTimes(1);
           }}
         />
         <When
           desc="Call RingCentralExtensions 'onInitSuccess' action"
-          action={async (_: any, context: any) => {
+          action={async (_: unknown, context: any) => {
             context.mockModule = mockModuleGenerator({
               recoverWebSocketConnection() {},
             });
@@ -83,20 +83,34 @@ export class DefaultState extends Step {
         />
         <Then
           desc="Check value should be expected"
-          action={(_: any, context: any) => {
+          action={(_: unknown, context: any) => {
             expect(context.recoverWebSocketConnectionSpy).toBeCalledTimes(2);
           }}
         />
         <When
           desc="Call RingCentralExtensions '_setupInfra' action"
-          action={async (_: any, context: any) => {
+          action={async (_: unknown, context: any) => {
             context.mockModule = mockModuleGenerator({
+              _wsConnectionReady: undefined,
               debugMode: true,
               sdk: { request() {} },
-              _deps: {},
+              _deps: {
+                auth: { loggedIn: true },
+              },
+              _exposeConnectionEvents() {},
+              _syncWsReadyState() {},
               _installWebSocketExtension() {},
               _saveTokens() {},
+              _useTokens: (RingCentralExtensions.prototype as any)._useTokens,
             });
+            context._exposeConnectionEventsSpy = jest.spyOn(
+              context.mockModule,
+              '_exposeConnectionEvents',
+            );
+            context._syncWsReadyStateSpy = jest.spyOn(
+              context.mockModule,
+              '_syncWsReadyState',
+            );
             context._installWebSocketExtensionSpy = jest.spyOn(
               context.mockModule,
               '_installWebSocketExtension',
@@ -105,14 +119,42 @@ export class DefaultState extends Step {
               context.mockModule,
               '_saveTokens',
             );
+            context._useTokensSpy = jest.spyOn(
+              context.mockModule,
+              '_useTokens',
+            );
             await context.instance._setupInfra.call(context.mockModule);
           }}
         />
         <Then
           desc="Check value should be expected"
-          action={(_: any, context: any) => {
+          action={async (_: unknown, context: any) => {
             expect(context.mockModule._core).toBeTruthy();
             expect(context.mockModule._webSocketExtension).toBeTruthy();
+
+            // on install
+            expect(context._useTokensSpy).toHaveBeenCalledTimes(1);
+            expect(context._exposeConnectionEventsSpy).toBeCalledTimes(0);
+            context._exposeConnectionEventsSpy.mockReset();
+
+            // on newWebSocketObject
+            await context.mockModule._webSocketExtension.eventEmitter.emit(
+              Events.newWebSocketObject,
+              {}, // fake ws obj
+            );
+            expect(context._exposeConnectionEventsSpy).toBeCalledTimes(1);
+            context._exposeConnectionEventsSpy.mockReset();
+
+            // on connectionReady
+            await context.mockModule._webSocketExtension.eventEmitter.emit(
+              Events.connectionReady,
+              {}, // fake ws obj
+            );
+            expect(context.mockModule._wsConnectionReady).toEqual(true);
+            expect(context._syncWsReadyStateSpy).toBeCalledTimes(1);
+            context._syncWsReadyStateSpy.mockReset();
+
+            // installWebSocketExtension
             expect(context._installWebSocketExtensionSpy).toBeCalledTimes(1);
             context.mockModule._webSocketExtension.eventEmitter.emit(
               Events.newWsc,
@@ -122,23 +164,23 @@ export class DefaultState extends Step {
         />
         <When
           desc="Call RingCentralExtensions '_bindEvents' action"
-          action={async (_: any, context: any) => {
+          action={async (_: unknown, context: any) => {
             context.mockModule = mockModuleGenerator({
               disconnectOnInactive: true,
               isTabActive: true,
               _deps: {
                 sleepDetector: {
-                  on(name, handler) {
+                  on(name: string, handler: () => void) {
                     context.sleepDetectorEvent = name;
                     context.sleepDetectorHandler = handler;
                   },
                   events: { detected: 'detected' },
                 },
                 auth: {
-                  addAfterLoggedInHandler(handler) {
+                  addAfterLoggedInHandler(handler: () => void) {
                     context.authAfterLoggedInHandler = handler;
                   },
-                  addBeforeLogoutHandler(handler) {
+                  addBeforeLogoutHandler(handler: () => void) {
                     context.authBeforeLogoutHandler = handler;
                   },
                 },
@@ -152,11 +194,16 @@ export class DefaultState extends Step {
                 },
                 eventEmitter: new EventEmitter(),
               },
+              _setSharedState() {},
               _exposeConnectionEvents() {},
               _inactiveOtherTabs() {},
               recoverWebSocketConnection() {},
               revokeWebSocketConnection() {},
             });
+            context._setSharedStateSpy = jest.spyOn(
+              context.mockModule,
+              '_setSharedState',
+            );
             context._exposeConnectionEventsSpy = jest.spyOn(
               context.mockModule,
               '_exposeConnectionEvents',
@@ -178,35 +225,30 @@ export class DefaultState extends Step {
         />
         <Then
           desc="Check value should be expected"
-          action={async (_: any, context: any) => {
+          action={async (_: unknown, context: any) => {
+            expect(context._setSharedStateSpy).toBeCalledTimes(1);
             expect(context._inactiveOtherTabsSpy).toBeCalledTimes(1);
-            // times 1
-            expect(context._exposeConnectionEventsSpy).toBeCalledTimes(1);
-            context._exposeConnectionEventsSpy.mockReset();
-            // times 2
-            await context.mockModule._webSocketExtension.eventEmitter.emit(
-              Events.newWebSocketObject,
-              {}, // fake ws obj
-            );
-            expect(context._exposeConnectionEventsSpy).toBeCalledTimes(1);
-            context._exposeConnectionEventsSpy.mockReset();
-            // times 3
+
+            // on autoRecoverSuccess
             context.mockModule._webSocketExtension.eventEmitter.emit(
               Events.autoRecoverSuccess,
             );
             expect(context._exposeConnectionEventsSpy).toBeCalledTimes(1);
             context._exposeConnectionEventsSpy.mockReset();
-            // times 4
+
+            // on autoRecoverFailed
             context.mockModule._webSocketExtension.eventEmitter.emit(
               Events.autoRecoverFailed,
             );
             expect(context._exposeConnectionEventsSpy).toBeCalledTimes(1);
             context._exposeConnectionEventsSpy.mockReset();
+
             // sleepDetector handler
             expect(context.sleepDetectorEvent).toEqual('detected');
             expect(context.sleepDetectorHandler).toBeTruthy();
             context.sleepDetectorHandler();
             expect(context.recoverWebSocketConnectionSpy).toBeCalledTimes(1);
+
             // auth handlers
             expect(context.authAfterLoggedInHandler).toBeTruthy();
             expect(context.authBeforeLogoutHandler).toBeTruthy();
@@ -217,13 +259,51 @@ export class DefaultState extends Step {
           }}
         />
         <When
-          desc="Call RingCentralExtensions '_installWebSocketExtension' action"
-          action={async (_: any, context: any) => {
+          desc="Call RingCentralExtensions '_setSharedState' action"
+          action={async (_: unknown, context: any) => {
+            context.currentTabId = 'fake-tab-id';
             context.mockModule = mockModuleGenerator({
+              isWebSocketReady: true,
+              _deps: {
+                tabManager: {
+                  id: context.currentTabId,
+                },
+                availabilityMonitor: {
+                  setSharedState() {},
+                },
+              },
+            });
+            context.setSharedStateSpy = jest.spyOn(
+              context.mockModule._deps.availabilityMonitor,
+              'setSharedState',
+            );
+            await context.instance._setSharedState.call(context.mockModule);
+          }}
+        />
+        <Then
+          desc="Check value should be expected"
+          action={async (_: unknown, context: any) => {
+            expect(context.setSharedStateSpy).toBeCalledWith(
+              `ws-${context.currentTabId}`,
+              { webSocketReady: true },
+            );
+          }}
+        />
+        <When
+          desc="Call RingCentralExtensions '_installWebSocketExtension' action"
+          action={async (_: unknown, context: any) => {
+            context.mockModule = mockModuleGenerator({
+              allowSwitchConnection: true,
               _core: {
                 installExtension() {},
               },
             });
+            // cancelled path
+            context.mockModule.allowSwitchConnection = false;
+            await context.instance._installWebSocketExtension.call(
+              context.mockModule,
+            );
+            context.mockModule.allowSwitchConnection = true;
             // normal path
             context.installExtensionSpy = jest.spyOn(
               context.mockModule._core,
@@ -243,24 +323,17 @@ export class DefaultState extends Step {
         />
         <Then
           desc="Check value should be expected"
-          action={(_: any, context: any) => {
+          action={(_: unknown, context: any) => {
             expect(context.installExtensionSpy).toBeCalledTimes(2);
           }}
         />
         <When
           desc="Call RingCentralExtensions '_onTabActive' action"
-          action={async (_: any, context: any) => {
+          action={async (_: unknown, context: any) => {
             context.mockModule = mockModuleGenerator({
               _deps: {},
               ready: true,
               isTabActive: true,
-              _webSocketExtension: {
-                options: {
-                  autoRecover: {
-                    enabled: false,
-                  },
-                },
-              },
               _inactiveOtherTabs() {},
               recoverWebSocketConnection() {},
             });
@@ -282,18 +355,14 @@ export class DefaultState extends Step {
         />
         <Then
           desc="Check value should be expected"
-          action={(_: any, context: any) => {
-            expect(
-              context.mockModule._webSocketExtension.options.autoRecover
-                .enabled,
-            ).toEqual(true);
+          action={(_: unknown, context: any) => {
             expect(context._inactiveOtherTabsSpy).toBeCalledTimes(1);
             expect(context.recoverWebSocketConnectionSpy).toBeCalledTimes(1);
           }}
         />
         <When
           desc="Call RingCentralExtensions '_tabMessageHandler' action"
-          action={async (_: any, context: any) => {
+          action={async (_: unknown, context: any) => {
             context.mockModule = mockModuleGenerator({
               ready: true,
               _webSocketExtension: {
@@ -304,10 +373,15 @@ export class DefaultState extends Step {
                 },
               },
               _setTokens() {},
+              _useTokens() {},
             });
             context._setTokensSpy = jest.spyOn(
               context.mockModule,
               '_setTokens',
+            );
+            context._useTokensSpy = jest.spyOn(
+              context.mockModule,
+              '_useTokens',
             );
             context.instance._tabMessageHandler.call(context.mockModule);
             context.instance._tabMessageHandler.call(context.mockModule, {
@@ -321,35 +395,49 @@ export class DefaultState extends Step {
         />
         <Then
           desc="Check value should be expected"
-          action={(_: any, context: any) => {
+          action={(_: unknown, context: any) => {
             expect(
               context.mockModule._webSocketExtension.options.autoRecover
                 .enabled,
             ).toEqual(false);
             expect(context._setTokensSpy).toBeCalledTimes(1);
+            expect(context._useTokensSpy).toBeCalledTimes(1);
           }}
         />
         <When
           desc="Call RingCentralExtensions '_inactiveOtherTabs' and '_syncTokensToOtherTabs' actions"
-          action={(_: any, context: any) => {
+          action={async (_: unknown, context: any) => {
             context.mockModule = mockModuleGenerator({
               _deps: {
                 tabManager: {
                   send() {},
                 },
               },
+              _webSocketExtension: {
+                options: {
+                  autoRecover: {
+                    enabled: false,
+                  },
+                },
+              },
+              allowSwitchConnection: true,
             });
             context.sendSpy = jest.spyOn(
               context.mockModule._deps.tabManager,
               'send',
             );
+            // cancelled path
+            context.mockModule.allowSwitchConnection = false;
+            await context.instance._inactiveOtherTabs.call(context.mockModule);
+            context.mockModule.allowSwitchConnection = true;
+            // normal path
             context.instance._inactiveOtherTabs.call(context.mockModule);
             context.instance._syncTokensToOtherTabs.call(context.mockModule);
           }}
         />
         <Then
           desc="Check value should be expected"
-          action={(_: any, context: any) => {
+          action={(_: unknown, context: any) => {
             expect(context.sendSpy).toBeCalledTimes(2);
             expect(context.sendSpy.mock.calls[0][0]).toEqual(
               InactiveTabEventName,
@@ -357,11 +445,15 @@ export class DefaultState extends Step {
             expect(context.sendSpy.mock.calls[1][0]).toEqual(
               SyncTokensTabEventName,
             );
+            expect(
+              context.mockModule._webSocketExtension.options.autoRecover
+                .enabled,
+            ).toEqual(true);
           }}
         />
         <When
           desc="Call RingCentralExtensions '_setTokens', '_saveTokens' and '_clearTokens' actions"
-          action={async (_: any, context: any) => {
+          action={async (_: unknown, context: any) => {
             context.mockModule = mockModuleGenerator({
               _webSocketExtension: {},
               disconnectOnInactive: true,
@@ -382,21 +474,25 @@ export class DefaultState extends Step {
         />
         <Then
           desc="Check value should be expected"
-          action={(_: any, context: any) => {
+          action={(_: unknown, context: any) => {
             expect(context._setTokensSpy).toBeCalledTimes(2);
             expect(context._syncTokensToOtherTabsSpy).toBeCalledTimes(2);
           }}
         />
         <When
           desc="Call RingCentralExtensions 'recoverWebSocketConnection' action"
-          action={async (_: any, context: any) => {
+          action={async (_: unknown, context: any) => {
             context.mockModule = mockModuleGenerator({
               ready: true,
               disconnectOnInactive: true,
               isTabActive: true,
+              allowSwitchConnection: true,
               _webSocketExtension: {
                 rc: null,
                 recover() {},
+              },
+              _deps: {
+                auth: { loggedIn: true },
               },
               _installWebSocketExtension() {},
               _exposeConnectionEvents() {},
@@ -424,12 +520,24 @@ export class DefaultState extends Step {
             );
             context.mockModule.ready = true;
             // path 3
+            context.mockModule._deps.auth.loggedIn = false;
+            await context.instance.recoverWebSocketConnection.call(
+              context.mockModule,
+            );
+            context.mockModule._deps.auth.loggedIn = true;
+            // path 4
             context.mockModule.isTabActive = false;
             await context.instance.recoverWebSocketConnection.call(
               context.mockModule,
             );
             context.mockModule.isTabActive = true;
-            // path 4
+            // path 5
+            context.mockModule.allowSwitchConnection = false;
+            await context.instance.recoverWebSocketConnection.call(
+              context.mockModule,
+            );
+            context.mockModule.allowSwitchConnection = true;
+            // path 6
             context.mockModule._webSocketExtension.rc = {};
             await context.instance.recoverWebSocketConnection.call(
               context.mockModule,
@@ -439,7 +547,7 @@ export class DefaultState extends Step {
         />
         <Then
           desc="Check value should be expected"
-          action={(_: any, context: any) => {
+          action={(_: unknown, context: any) => {
             expect(context.recoverSpy).toBeCalledTimes(1);
             expect(context._installWebSocketExtensionSpy).toBeCalledTimes(1);
             expect(context._exposeConnectionEventsSpy).toBeCalledTimes(2);
@@ -447,10 +555,10 @@ export class DefaultState extends Step {
         />
         <When
           desc="Call RingCentralExtensions 'revokeWebSocketConnection' action"
-          action={async (_: any, context: any) => {
+          action={async (_: unknown, context: any) => {
             context.mockModule = mockModuleGenerator({
               ready: true,
-              isWebSocketOpen: true,
+              isWebSocketReady: true,
               disconnectOnInactive: true,
               isTabActive: true,
               _webSocketExtension: {
@@ -491,7 +599,7 @@ export class DefaultState extends Step {
         />
         <Then
           desc="Check value should be expected"
-          action={(_: any, context: any) => {
+          action={(_: unknown, context: any) => {
             expect(context.revokeSpy).toBeCalledTimes(1);
             expect(context._clearTokensSpy).toBeCalledTimes(1);
             expect(context._exposeConnectionEventsSpy).toBeCalledTimes(1);
@@ -499,7 +607,7 @@ export class DefaultState extends Step {
         />
         <When
           desc="Call RingCentralExtensions '_exposeConnectionEvents' action"
-          action={async (_: any, context: any) => {
+          action={async (_: unknown, context: any) => {
             context.mockModule = mockModuleGenerator({
               _webSocketExtension: {
                 ws: {
@@ -524,59 +632,81 @@ export class DefaultState extends Step {
         />
         <Then
           desc="Check value should be expected"
-          action={(_: any, context: any) => {
+          action={(_: unknown, context: any) => {
             expect(context.mockModule._removeWsListener).toBeTruthy();
             expect(context._syncWsReadyStateSpy).toBeCalledTimes(2);
           }}
         />
         <When
           desc="Call RingCentralExtensions '_setWebSocketReadyState' actions"
-          action={async (_: any, context: any) => {
+          action={async (_: unknown, context: any) => {
             context.mockModule = mockModuleGenerator({
               webSocketReadyState: null,
+              _wsConnectionReady: undefined,
             });
-            // value 1
+
+            // readyState: null
             context.instance._setWebSocketReadyState.call(
               context.mockModule,
               null,
             );
-            context.readyState1 = context.mockModule.webSocketReadyState;
-            // value 2
+            context.readyState_null = context.mockModule.webSocketReadyState;
+
+            // readyState: connecting
             context.instance._setWebSocketReadyState.call(
               context.mockModule,
               WebSocket.CONNECTING,
             );
-            context.readyState2 = context.mockModule.webSocketReadyState;
-            // value 3
+            context.readyState_connecting =
+              context.mockModule.webSocketReadyState;
+
+            // readyState: open
             context.instance._setWebSocketReadyState.call(
               context.mockModule,
               WebSocket.OPEN,
             );
-            context.readyState3 = context.mockModule.webSocketReadyState;
-            // value 4
+            context.readyState_open = context.mockModule.webSocketReadyState;
+
+            // readyState: ready
+            context.mockModule._wsConnectionReady = true;
+            context.instance._setWebSocketReadyState.call(
+              context.mockModule,
+              WebSocket.OPEN,
+            );
+            context.readyState_ready = context.mockModule.webSocketReadyState;
+
+            // readyState: closing
             context.instance._setWebSocketReadyState.call(
               context.mockModule,
               WebSocket.CLOSING,
             );
-            context.readyState4 = context.mockModule.webSocketReadyState;
-            // value 5
+            context.readyState_closing = context.mockModule.webSocketReadyState;
+
+            // readyState: closed
             context.instance._setWebSocketReadyState.call(
               context.mockModule,
               WebSocket.CLOSED,
             );
-            context.readyState5 = context.mockModule.webSocketReadyState;
+            context.readyState_closed = context.mockModule.webSocketReadyState;
           }}
         />
         <Then
           desc="Check value should be expected"
-          action={(_: any, context: any) => {
-            expect(context.readyState1).toEqual(null);
-            expect(context.readyState2).toEqual(
+          action={(_: unknown, context: any) => {
+            expect(context.readyState_null).toEqual(null);
+            expect(context.readyState_connecting).toEqual(
               webSocketReadyStates.connecting,
             );
-            expect(context.readyState3).toEqual(webSocketReadyStates.open);
-            expect(context.readyState4).toEqual(webSocketReadyStates.closing);
-            expect(context.readyState5).toEqual(webSocketReadyStates.closed);
+            expect(context.readyState_open).toEqual(webSocketReadyStates.open);
+            expect(context.readyState_ready).toEqual(
+              webSocketReadyStates.ready,
+            );
+            expect(context.readyState_closing).toEqual(
+              webSocketReadyStates.closing,
+            );
+            expect(context.readyState_closed).toEqual(
+              webSocketReadyStates.closed,
+            );
           }}
         />
       </Scenario>

@@ -1,6 +1,6 @@
-import { CallQueueMemberInfo } from './CallQueueMemberInfo';
-import { ProvisioningNavigationInfo } from './ProvisioningNavigationInfo';
-import { ProvisioningPagingInfo } from './ProvisioningPagingInfo';
+import type { CallQueueMemberInfo } from './CallQueueMemberInfo';
+import type { ProvisioningNavigationInfo } from './ProvisioningNavigationInfo';
+import type { ProvisioningPagingInfo } from './ProvisioningPagingInfo';
 
 export interface CallQueueMembers {
   /**

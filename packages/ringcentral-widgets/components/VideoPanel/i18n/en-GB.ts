@@ -20,7 +20,7 @@ export default {
   turnOffCamera: "Turn off camera for participants",
   requirePassword: "Require password",
   useE2ee: "Use end-to-end encryption",
-  e2eeTooltip: "End-to-end encrypted meetings are the most private, but features like joining by phone, closed captions and recording aren't available.",
+  e2eeTooltip: "End-to-end encrypted meetings are the most private, but features like joining by phone, closed captions and recording aren’t available.",
   setPassword: "Set password *",
   setPasswordNotSymbol: "Set password",
   passwordEmptyError: "Meeting password required",

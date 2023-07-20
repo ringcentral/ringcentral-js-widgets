@@ -1,6 +1,6 @@
 import { waitUntilTo } from '@ringcentral-integration/commons/utils';
 
-import { StepFunction } from '../../lib/step';
+import type { StepFunction } from '../../lib/step';
 
 export const WaitForMeetingProvider: StepFunction = async (_, context) => {
   const { phone } = context;

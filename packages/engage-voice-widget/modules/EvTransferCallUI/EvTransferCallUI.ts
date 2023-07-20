@@ -1,16 +1,17 @@
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import { computed, RcUIModuleV2 } from '@ringcentral-integration/core';
 
-import { EvTransferType, transferTypes } from '../../enums/transferTypes';
-import {
+import type { EvTransferType } from '../../enums/transferTypes';
+import { transferTypes } from '../../enums/transferTypes';
+import type {
   EvTransferCallUIFunctions,
   EvTransferCallUIProps,
   EvTransferOption,
   EvTransferViewPhoneBookItem,
   GoToRequeueGroupDetailPageParams,
 } from '../../interfaces/EvTransferCallUI.interface';
-import { EvDirectAgentListItem } from '../../lib/EvClient';
-import { Deps, TransferCallUI } from './EvTransferCallUI.interface';
+import type { EvDirectAgentListItem } from '../../lib/EvClient';
+import type { Deps, TransferCallUI } from './EvTransferCallUI.interface';
 import i18n from './i18n';
 import { getInternalTransferName } from './util';
 
@@ -125,7 +126,7 @@ class EvTransferCallUI extends RcUIModuleV2<Deps> implements TransferCallUI {
     this._redirectRequeueCall(`/queueGroup/${groupId}`);
   };
 
-  private _redirectRequeueCall(url: string = '') {
+  private _redirectRequeueCall(url = '') {
     this._deps.routerInteraction.push(
       `/activityCallLog/${this.callId}/transferCall${url}`,
     );

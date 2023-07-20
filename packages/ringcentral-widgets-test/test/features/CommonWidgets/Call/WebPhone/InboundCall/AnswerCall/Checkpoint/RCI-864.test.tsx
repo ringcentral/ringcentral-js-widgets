@@ -1,6 +1,6 @@
 /**
  * RCI-864: Second call incoming_Answer and End
- * https://test_id_domain/test-cases/RCI-864
+ * https://test_it_domain/test-cases/RCI-864
  * Preconditions:
  *
  * Entry point(/s):
@@ -8,6 +8,7 @@
  * 2. Make a outbound call, and make another incoming call
  */
 
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p1,
   it,
@@ -19,7 +20,6 @@ import {
   title,
   When,
   And,
-  StepFunction,
 } from '@ringcentral-integration/test-utils';
 
 import {
@@ -39,7 +39,7 @@ import { TriggerActiveCallChanged } from '../../../../../../../steps/Mock';
 @title('Second call incoming_Answer and End - ${direction}')
 export class RCI864 extends Step {
   Login: StepFunction<any, any> = CommonLoginEntry;
-  firstCallId: string = '';
+  firstCallId = '';
   @examples(`
     | phoneNumber1   | phoneNumber2   | direction  |
     | '+18882556247' | '+15552556247' | 'Inbound'  |

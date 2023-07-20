@@ -1,5 +1,5 @@
-import { PresetInfo } from './PresetInfo';
-import { CustomGreetingInfoRequest } from './CustomGreetingInfoRequest';
+import type { PresetInfo } from './PresetInfo';
+import type { CustomGreetingInfoRequest } from './CustomGreetingInfoRequest';
 
 export interface GreetingInfo {
   /**

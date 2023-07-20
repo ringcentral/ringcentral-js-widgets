@@ -1,6 +1,6 @@
 /**
  * RCI-4208: Call Status Monitor Bar_ single incoming call
- * https://test_id_domain/test-cases/RCI-4208
+ * https://test_it_domain/test-cases/RCI-4208
  * Preconditions:
  *
  * Entry point(/s):
@@ -20,7 +20,7 @@ import {
   common,
 } from '@ringcentral-integration/test-utils';
 import { screen } from '@testing-library/react';
-import { StepFunction } from '../../../../../lib/step';
+import type { StepFunction } from '../../../../../lib/step';
 import {
   CheckIncomingCallPageExist,
   MakeInboundCall,

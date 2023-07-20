@@ -23,6 +23,13 @@
   "name": "Something1 New1",
   "type": "User",
   "status": "Enabled",
+  "departments": [
+    {
+      "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/208594004/extension/208594004",
+      "id": "208594004",
+      "extensionNumber": "101"
+    }
+  ],
   "serviceFeatures": [
     {
       "featureName": "SMS",

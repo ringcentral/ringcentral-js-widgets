@@ -1,4 +1,4 @@
-import { PerformanceCallsTimeInterval } from './PerformanceCallsTimeInterval';
+import type { PerformanceCallsTimeInterval } from './PerformanceCallsTimeInterval';
 
 // Allows more granular control over time included in the report
 export interface PerformanceCallsAdvancedTimeSettings {

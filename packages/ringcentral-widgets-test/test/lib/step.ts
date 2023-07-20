@@ -1,10 +1,10 @@
-import {
-  BaseStep,
+import type {
   StepFunction as BaseStepFunction,
   StepProp as BaseStepProp,
 } from '@ringcentral-integration/test-utils';
+import { BaseStep } from '@ringcentral-integration/test-utils';
 
-import { Context } from '../interfaces';
+import type { Context } from '../interfaces';
 
 export {
   And,

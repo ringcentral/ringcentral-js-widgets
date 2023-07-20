@@ -1,4 +1,4 @@
-import { GlipMentionsInfo } from './GlipMentionsInfo';
+import type { GlipMentionsInfo } from './GlipMentionsInfo';
 
 export interface GlipPostEvent {
   /**

@@ -1,4 +1,5 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import classNames from 'classnames';
 
@@ -7,7 +8,7 @@ import { TOOLTIP_LONG_DELAY_TIME } from '@ringcentral-integration/widgets/lib/to
 import { RcButton, RcIconButton, RcTypography } from '@ringcentral/juno';
 import { Edit } from '@ringcentral/juno-icon';
 
-import {
+import type {
   EvSettingsUIFunctions,
   EvSettingsUIProps,
 } from '../../interfaces/EvSettingsUI.interface';

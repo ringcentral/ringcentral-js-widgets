@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { StepFunction } from '@ringcentral-integration/test-utils';
-import { render } from '@ringcentral-integration/test-utils/lib/test-utils';
+import type { StepFunction } from '@ringcentral-integration/test-utils';
+import { render } from '@ringcentral-integration/test-utils';
 
 import { CallHistoryPanel } from '../../../components/CallHistoryPanel';
 

@@ -8,9 +8,9 @@ import {
 } from '@ringcentral-integration/core';
 
 import { requeueEvents } from '../../enums';
-import { EvCallData } from '../../interfaces/EvData.interface';
+import type { EvCallData } from '../../interfaces/EvData.interface';
 import { EvTypeError } from '../../lib/EvTypeError';
-import { Deps, RequeueCall } from './EvRequeueCall.interface';
+import type { Deps, RequeueCall } from './EvRequeueCall.interface';
 
 type EvRequeueCallStatus = Partial<
   Pick<
@@ -42,19 +42,19 @@ class EvRequeueCall extends RcModuleV2<Deps> implements RequeueCall {
 
   @storage
   @state
-  selectedQueueGroupId: string = '';
+  selectedQueueGroupId = '';
 
   @storage
   @state
-  selectedGateId: string = '';
+  selectedGateId = '';
 
   @storage
   @state
-  stayOnCall: boolean = false;
+  stayOnCall = false;
 
   @storage
   @state
-  requeuing: boolean = false;
+  requeuing = false;
 
   @computed((that: EvRequeueCall) => [
     that._deps.evCall.currentCall,

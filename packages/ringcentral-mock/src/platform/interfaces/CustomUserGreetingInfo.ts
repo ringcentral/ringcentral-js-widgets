@@ -1,4 +1,4 @@
-import { CustomGreetingAnsweringRuleInfo } from './CustomGreetingAnsweringRuleInfo';
+import type { CustomGreetingAnsweringRuleInfo } from './CustomGreetingAnsweringRuleInfo';
 
 export interface CustomUserGreetingInfo {
   /**

@@ -1,12 +1,8 @@
 import { Module } from '@ringcentral-integration/commons/lib/di';
-import {
-  RcUIModuleV2,
-  UIFunctions,
-  UIProps,
-  computed,
-} from '@ringcentral-integration/core';
+import type { UIFunctions, UIProps } from '@ringcentral-integration/core';
+import { RcUIModuleV2, computed } from '@ringcentral-integration/core';
 
-import {
+import type {
   CallBadgeContainerProps,
   CallBadgePanelProps,
   Deps,

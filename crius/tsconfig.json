@@ -1,0 +1,14 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "moduleResolution": "node",
+    "experimentalDecorators": true,
+    "esModuleInterop": true,
+    "noEmit": true,
+    "strict": true,
+    "allowJs": true,
+    "jsx": "preserve",
+    "types": ["jest", "node"]
+  },
+  "exclude": ["node_modules", "**/*.spec.ts"]
+}

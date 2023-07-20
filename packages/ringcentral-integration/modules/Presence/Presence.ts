@@ -1,26 +1,33 @@
 import { filter, map } from 'ramda';
-import { Unsubscribe } from 'redux';
+import type { Unsubscribe } from 'redux';
 import type DetailedExtensionPresenceEvent from '@rc-ex/core/lib/definitions/DetailedExtensionPresenceEvent';
 import type GetPresenceInfo from '@rc-ex/core/lib/definitions/GetPresenceInfo';
 import type PresenceInfoResponse from '@rc-ex/core/lib/definitions/PresenceInfoResponse';
-import { computed, watch } from '@ringcentral-integration/core';
-import { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
+import {
+  computed,
+  state,
+  action,
+  watch,
+  storage,
+} from '@ringcentral-integration/core';
+import type { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
 
 import { presenceStatus } from '../../enums/presenceStatus.enum';
 import { subscriptionFilters } from '../../enums/subscriptionFilters';
-import { PresenceInfoModel } from '../../interfaces/Presence.model';
+import type { PresenceInfoModel } from '../../interfaces/Presence.model';
 import {
   isEnded,
   normalizeFromTo,
   normalizeStartTime,
   removeInboundRingOutLegs,
 } from '../../lib/callLogHelpers';
-import { debounce, DebouncedFunction } from '../../lib/debounce-throttle';
+import type { DebouncedFunction } from '../../lib/debounce-throttle';
+import { debounce } from '../../lib/debounce-throttle';
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
 import { DataFetcherV2Consumer, DataSource } from '../DataFetcherV2';
 import { dndStatus } from './dndStatus';
-import { Deps, UpdatePresenceParams } from './Presence.interface';
+import type { Deps, UpdatePresenceParams } from './Presence.interface';
 import { removeIntermediateCall } from './removeIntermediateCall';
 
 export const DEFAULT_TTL = 62 * 1000;
@@ -46,6 +53,7 @@ const acceptCallQueueToggles = [
     'DataFetcherV2',
     'ExtensionFeatures',
     'Subscription',
+    'Storage',
     { dep: 'TabManager', optional: true },
     { dep: 'PresenceOptions', optional: true },
   ],
@@ -61,6 +69,8 @@ export class Presence extends DataFetcherV2Consumer<Deps, PresenceInfoModel> {
   constructor(deps: Deps) {
     super({
       deps,
+      enableCache: true,
+      storageKey: 'Presence',
     });
     const presenceOptions = deps.presenceOptions ?? {};
     const { ttl = DEFAULT_TTL, pollingInterval = DEFAULT_POLLING_INTERVAL } =
@@ -89,8 +99,6 @@ export class Presence extends DataFetcherV2Consumer<Deps, PresenceInfoModel> {
           Date.now(),
         );
         return {
-          // @ts-expect-error
-          lastDndStatus: this._lastDndStatus,
           sequence: this._sequence,
           // @ts-expect-error
           activeCalls,
@@ -116,6 +124,15 @@ export class Presence extends DataFetcherV2Consumer<Deps, PresenceInfoModel> {
       threshold: this._fetchDelay,
       maxThreshold: this._maxFetchDelay,
     });
+  }
+
+  @storage
+  @state
+  lastDndStatus: PresenceInfoModel['dndStatus'] | null = null;
+
+  @action
+  _setLastDndStatus(dndStatus: PresenceInfoModel['dndStatus'] | null) {
+    this.lastDndStatus = dndStatus;
   }
 
   get _endPoint() {
@@ -151,7 +168,7 @@ export class Presence extends DataFetcherV2Consumer<Deps, PresenceInfoModel> {
 
   _processRawActiveCalls(
     activeCalls: GetPresenceInfo['activeCalls'] = [],
-    totalActiveCalls: number = 0,
+    totalActiveCalls = 0,
     timestamp: number,
   ) {
     if (activeCalls.length < totalActiveCalls) {
@@ -165,7 +182,7 @@ export class Presence extends DataFetcherV2Consumer<Deps, PresenceInfoModel> {
       );
       if (!existingCall) {
         const normalizedCall = normalizeStartTime(normalizeFromTo(activeCall));
-        const startTime = normalizedCall.startTime || timestamp;
+        const startTime = Number(normalizedCall.startTime || timestamp);
         const offset = Math.min(timestamp - startTime, 0);
         return {
           ...normalizedCall,
@@ -202,6 +219,7 @@ export class Presence extends DataFetcherV2Consumer<Deps, PresenceInfoModel> {
         telephonyStatus = this.telephonyStatus,
         userStatus = this.userStatus,
       } = message.body;
+      this._setLastDndStatus(this._calculateLastDndStatus(dndStatus));
       const activeCalls = this._processRawActiveCalls(
         message.body.activeCalls,
         message.body.totalActiveCalls,
@@ -212,23 +230,16 @@ export class Presence extends DataFetcherV2Consumer<Deps, PresenceInfoModel> {
           sequence,
           // @ts-expect-error
           activeCalls,
-          // @ts-expect-error
           dndStatus,
-          // @ts-expect-error
           meetingStatus,
-          // @ts-expect-error
           presenceStatus,
-          // @ts-expect-error
           telephonyStatus,
-          // @ts-expect-error
           userStatus,
-          // @ts-expect-error
-          lastDndStatus: this._calculateLastDndStatus(dndStatus),
         },
         timestamp,
       );
       /**
-       * as pointed out by Igor in https://jira.ringcentral.com/browse/PLA-33391,
+       * as pointed out by Igor in https://jira_domain/browse/PLA-33391,
        * when the real calls count larger than the active calls returned by the pubnub,
        * we need to pulling the calls manually.
        */
@@ -275,10 +286,6 @@ export class Presence extends DataFetcherV2Consumer<Deps, PresenceInfoModel> {
     this._debouncedFetchData.cancel();
   }
 
-  get _lastDndStatus() {
-    return this.data?.lastDndStatus ?? null;
-  }
-
   get _sequence() {
     return this.data?.sequence ?? 0;
   }
@@ -297,13 +304,12 @@ export class Presence extends DataFetcherV2Consumer<Deps, PresenceInfoModel> {
   }
 
   _calculateLastDndStatus(
-    newDndStatus: ObjectMapValue<typeof dndStatus>,
-  ): ObjectMapValue<typeof dndStatus> {
-    // @ts-expect-error
+    newDndStatus: PresenceInfoModel['dndStatus'] | null,
+  ): PresenceInfoModel['dndStatus'] | null {
     return newDndStatus !== this.dndStatus &&
       newDndStatus !== dndStatus.doNotAcceptAnyCalls
       ? newDndStatus
-      : this._lastDndStatus;
+      : this.lastDndStatus;
   }
 
   @proxify
@@ -320,13 +326,13 @@ export class Presence extends DataFetcherV2Consumer<Deps, PresenceInfoModel> {
     if (ownerId === this._deps.auth.ownerId) {
       const newDndStatus = ((data.dndStatus !== 'Unknown' && data.dndStatus) ??
         this.data.dndStatus) as ObjectMapValue<typeof dndStatus>;
+      this._setLastDndStatus(this._calculateLastDndStatus(newDndStatus));
       this._updateData({
         presenceStatus: data.presenceStatus,
         userStatus: data.userStatus,
         telephonyStatus: data.telephonyStatus,
         dndStatus: newDndStatus,
         meetingStatus: data.meetingStatus,
-        lastDndStatus: this._calculateLastDndStatus(newDndStatus),
       });
     }
   }
@@ -353,7 +359,7 @@ export class Presence extends DataFetcherV2Consumer<Deps, PresenceInfoModel> {
       params.dndStatus !== dndStatus.takeAllCalls &&
       params.dndStatus !== dndStatus.doNotAcceptDepartmentCalls
     ) {
-      params.dndStatus = this._lastDndStatus ?? dndStatus.takeAllCalls;
+      params.dndStatus = this.lastDndStatus ?? dndStatus.takeAllCalls;
     }
     return params;
   }

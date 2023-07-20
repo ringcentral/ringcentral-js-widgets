@@ -1,4 +1,4 @@
-import {
+import type {
   ContactPresence,
   IContact,
 } from '@ringcentral-integration/commons/interfaces/Contact.model';
@@ -10,7 +10,7 @@ import {
 } from '@ringcentral-integration/commons/lib/contactHelper';
 import { debounce } from '@ringcentral-integration/commons/lib/debounce-throttle';
 import { Module } from '@ringcentral-integration/commons/lib/di';
-import proxify from '@ringcentral-integration/commons/lib/proxy/proxify';
+import { proxify } from '@ringcentral-integration/commons/lib/proxy/proxify';
 import {
   action,
   computed,
@@ -19,8 +19,8 @@ import {
   watch,
 } from '@ringcentral-integration/core';
 
-import { RouteParams } from '../ContactDetailsUI';
-import {
+import type { RouteParams } from '../ContactDetailsUI';
+import type {
   ContactSourceLastStatus,
   Deps,
   FilterCriteria,
@@ -29,7 +29,7 @@ import {
   StampedFilterCriteria,
 } from './ContactListUI.interface';
 
-export const FILTER_THRESHOLD: number = 500;
+export const FILTER_THRESHOLD = 500;
 
 @Module({
   name: 'ContactListUI',
@@ -43,7 +43,7 @@ export const FILTER_THRESHOLD: number = 500;
 })
 export class ContactListUI extends RcUIModuleV2<Deps> {
   private _sourcesLastStatus: Map<string, ContactSourceLastStatus> = new Map();
-  private _sourcesUpdatedAt: number = 0;
+  private _sourcesUpdatedAt = 0;
   // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'StampedFilt... Remove this comment to see the full error message
   private _currentFilterCriteria: StampedFilterCriteria = null;
   // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'StampedFilt... Remove this comment to see the full error message
@@ -137,13 +137,13 @@ export class ContactListUI extends RcUIModuleV2<Deps> {
   sourceFilter: string = AllContactSourceName;
 
   @state
-  searchFilter: string = '';
+  searchFilter = '';
 
   @state
-  filterStamp: number = 0;
+  filterStamp = 0;
 
   @state
-  isFiltering: boolean = false;
+  isFiltering = false;
 
   @state
   filteredContactsList: [string, string][] = [];
@@ -282,7 +282,7 @@ export class ContactListUI extends RcUIModuleV2<Deps> {
   @proxify
   async getPresence(
     contact: IContact,
-    useCache: boolean = true,
+    useCache = true,
   ): Promise<ContactPresence | null> {
     const presence = await this._deps.contacts.getPresence(contact, useCache);
     return presence;

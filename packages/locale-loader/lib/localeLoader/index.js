@@ -4,10 +4,37 @@ import generateLoaderContent from '../generateLoaderContent';
 import isLocaleFile, { localeFilter } from '../isLocaleFile';
 import isLoaderFile, { noChunks } from '../isLoaderFile';
 
+/**
+ *
+ * locale loader can work with options like below
+ * ```
+ * {
+ *   loader: '@ringcentral-integration/locale-loader',
+ *   options: {
+ *     supportedLocales,
+ *     chunk,
+ *   },
+ * }
+ * ```
+ *
+ * - `supportedLocales` to support locales
+ * * `chunk`
+ *   * be `boolean` will toggle that chunk mode.
+ *   * be `function` can be method with `(locale: string) => boolean`, provide you a way to specify which language be chunked.
+ *
+ * @example
+ * ```ts
+ * chunk: (local: string) => {
+ *   return local !== 'en-US'; // en-US will not be chunked, that will be package into main script directly
+ * }
+ * ```
+ */
 module.exports = function localeLoader(content) {
   const callback = this.async();
   const options = loaderUtils.getOptions(this) || {};
   const supportedLocales = options.supportedLocales || [];
+  const chunk = !noChunks(content) && (options.chunk ?? true);
+
   if (isLoaderFile(content)) {
     (async () => {
       const files = (await fs.readdir(this.context))
@@ -17,7 +44,7 @@ module.exports = function localeLoader(content) {
         null,
         generateLoaderContent({
           files,
-          chunk: !noChunks(content),
+          chunk,
           supportedLocales,
         }),
       );

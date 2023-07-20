@@ -1,7 +1,7 @@
-import { MeetingTypeV } from '@ringcentral-integration/commons/helpers/meetingHelper.interface';
-import { RcVDialInNumberObj } from '@ringcentral-integration/commons/interfaces/Rcv.model';
-import { BrandConfig } from '@ringcentral-integration/commons/modules/Brand/BrandConfig.interface';
-import { RcmInvitationInfo } from '@ringcentral-integration/commons/modules/Meeting';
+import type { MeetingTypeV } from '@ringcentral-integration/commons/helpers/meetingHelper.interface';
+import type { RcVDialInNumberObj } from '@ringcentral-integration/commons/interfaces/Rcv.model';
+import type { BrandConfig } from '@ringcentral-integration/commons/modules/Brand/BrandConfig.interface';
+import type { RcmInvitationInfo } from '@ringcentral-integration/commons/modules/Meeting';
 
 interface RcmMeeting {
   id: string;
@@ -45,6 +45,7 @@ export interface CommonBrand {
   id: string;
   code: string;
   name: string;
+  shortName: string;
   rcvProductName?: string;
   rcvE2EESupportUrl?: string;
   brandConfig: BrandConfig;

@@ -1,12 +1,12 @@
 import { screen, fireEvent, getByText } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { waitForRenderReady } from '@ringcentral-integration/test-utils/lib/test-utils';
+import { waitForRenderReady } from '@ringcentral-integration/test-utils';
 import postRcvBridgesBody from '@ringcentral-integration/mock/src/platform/data/postRcvBridges.json';
-import { EnterRandomPassword } from './OperatePasswordField';
-import { RcvCheckboxDataSign } from '../Meeting.interface';
+import type { RcvCheckboxDataSign } from '../Meeting.interface';
 import { SelectOptionFromDropDown } from '../../Common';
-import { Context } from '../../../interfaces';
-import { StepFunction } from '../../../lib/step';
+import type { Context } from '../../../interfaces';
+import type { StepFunction } from '../../../lib/step';
+import { EnterRandomPassword } from './OperatePasswordField';
 
 export const ClickCancelOnPopup: StepFunction = async () => {
   screen.getByText('Cancel').click();
@@ -109,9 +109,12 @@ export const ClickScheduleButton: StepFunction = async (
   context: Context,
 ) => {
   const { phone, rcMock } = context;
-  const { id, ...data } = phone.genericMeeting.meeting;
+  const { id, name, ...data } = phone.genericMeeting.meeting;
+  const meetingName = phone.genericMeeting.meeting.usePersonalMeetingId
+    ? phone.genericMeeting.personalMeeting.name
+    : name;
   rcMock.patch('/rcvideo/v1/bridges/:meetingId' as any, 200, {
-    response: { body: { ...postRcvBridgesBody, ...data } },
+    response: { body: { ...postRcvBridgesBody, ...data, name: meetingName } },
   });
 
   jest.useFakeTimers();

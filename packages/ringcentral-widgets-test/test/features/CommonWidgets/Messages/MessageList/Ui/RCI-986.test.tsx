@@ -1,12 +1,13 @@
 /**
  * RCI-986: Messages List
- * https://test_id_domain/test-cases/RCI-986
+ * https://test_it_domain/test-cases/RCI-986
  * Preconditions:
  *
  * Entry point(/s):
  *
  */
 
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p2,
   it,
@@ -17,7 +18,6 @@ import {
   Then,
   title,
   When,
-  StepFunction,
 } from '@ringcentral-integration/test-utils';
 import { CheckMessageItemHighlight } from '../../../../../steps/Messages/checks/CheckMessageItemHighlight';
 import { CheckTab } from '../../../../../steps/Messages/checks/CheckTab';

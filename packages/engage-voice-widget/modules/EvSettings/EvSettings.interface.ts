@@ -1,8 +1,8 @@
-import { EvClient } from '../../lib/EvClient';
-import { EvAgentSession } from '../EvAgentSession';
-import { EvAuth } from '../EvAuth';
-import { EvPresence } from '../EvPresence';
-import { EvStorage } from '../EvStorage';
+import type { EvClient } from '../../lib/EvClient';
+import type { EvAgentSession } from '../EvAgentSession';
+import type { EvAuth } from '../EvAuth';
+import type { EvPresence } from '../EvPresence';
+import type { EvStorage } from '../EvStorage';
 
 export interface State {}
 

@@ -1,4 +1,5 @@
-import React, { ChangeEventHandler, FC, useEffect, useState } from 'react';
+import type { ChangeEventHandler, FC } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import classnames from 'classnames';
 

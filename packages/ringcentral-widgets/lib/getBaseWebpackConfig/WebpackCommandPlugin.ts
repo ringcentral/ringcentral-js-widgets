@@ -1,5 +1,5 @@
 import execa from 'execa';
-import { Compiler } from 'webpack';
+import type { Compiler } from 'webpack';
 
 interface PluginOptions {
   /**

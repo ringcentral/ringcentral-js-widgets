@@ -1,6 +1,6 @@
 /**
  * RCI-2367: Update meeting -  Mark ON RCV PMI
- * https://test_id_domain/test-cases/RCI-2367
+ * https://test_it_domain/test-cases/RCI-2367
  * Preconditions:
  * 1. RC CTI app is installed and enabled
  * 2. User has logged in to 3rd party
@@ -9,6 +9,7 @@
  * Login to Outlook: Calendar -> New Event > RingCentral Scheduler App
  */
 
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p2,
   it,
@@ -20,7 +21,6 @@ import {
   Then,
   title,
   When,
-  StepFunction,
 } from '@ringcentral-integration/test-utils';
 import { Login as CommonLogin } from '../../../../steps/Login';
 import {

@@ -3,7 +3,7 @@ import type PhoneNumberResource from '@rc-ex/core/lib/definitions/PhoneNumberRes
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
 import { phoneTypes } from '../enums/phoneTypes';
-import { PhoneNumberModel } from '../interfaces/PhoneNumber.model';
+import type { PhoneNumberModel } from '../interfaces/PhoneNumber.model';
 
 export const phoneTypeOrder = Object.freeze([
   phoneTypes.extension,

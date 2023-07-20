@@ -1,6 +1,6 @@
 export default {
-  Inbound: "入站",
-  Outbound: "呼出",
+  Inbound: "拨入",
+  Outbound: "拨出",
   log: "记录",
   save: "保存并新建",
   discard: "丢弃和新建",

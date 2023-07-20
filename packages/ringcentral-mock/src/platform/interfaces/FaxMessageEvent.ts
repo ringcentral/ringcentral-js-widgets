@@ -1,4 +1,4 @@
-import { FaxMessageEventBody } from './FaxMessageEventBody';
+import type { FaxMessageEventBody } from './FaxMessageEventBody';
 
 export interface FaxMessageEvent {
   /**

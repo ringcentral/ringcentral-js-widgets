@@ -2,7 +2,7 @@ export default {
   unknown: "Desconhecido",
   multipleMatches: "Várias correspondências",
   anonymous: "Anónimo",
-  none: "Nenhum"
+  none: "Nenhuma"
 };
 
 // @key: @#@"unknown"@#@ @source: @#@"Unknown"@#@

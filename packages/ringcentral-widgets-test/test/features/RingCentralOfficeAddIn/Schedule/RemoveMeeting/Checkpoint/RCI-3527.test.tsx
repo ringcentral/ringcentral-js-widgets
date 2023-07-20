@@ -1,6 +1,6 @@
 /**
  * RCI-3527: Cancel move meeting
- * https://test_id_domain/test-cases/RCI-3527
+ * https://test_it_domain/test-cases/RCI-3527
  * Preconditions:
  * RC CTI app is installed and enabled
  * The user has logged in to 3rd party
@@ -11,12 +11,12 @@
  * Outlook > Calendar >Edit the event1>Click 'New Appointment' or 'New Meeting' in the menu bar > Click {Brand name} for Outlook
  */
 
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p2,
   it,
   autorun,
   Scenario,
-  StepFunction,
   Step,
   Then,
   title,

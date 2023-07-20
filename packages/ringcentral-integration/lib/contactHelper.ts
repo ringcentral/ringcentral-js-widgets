@@ -3,7 +3,7 @@ import { reduce } from 'ramda';
 import { formatSameSiteExtension } from '@ringcentral-integration/phone-number/lib/format';
 
 import { phoneTypes } from '../enums/phoneTypes';
-import {
+import type {
   ContactGroup,
   IContact,
   ContactPhoneNumber,
@@ -232,11 +232,10 @@ export function getMatchContactsByPhoneNumber({
     if (!found) {
       return;
     }
-    const matchedContact = {
-      ...contact,
+    const matchedContact = Object.assign({}, contact, {
       phoneNumbers: [...(contact.phoneNumbers || [])],
       entityType,
-    };
+    });
     result.push(matchedContact);
   });
   return result;
@@ -322,9 +321,11 @@ export const isExtensionExist = ({
 export const getFindPhoneNumber =
   ({
     phoneNumber,
+    shouldMatchExtension,
     options = {},
   }: {
     phoneNumber: string;
+    shouldMatchExtension: boolean;
     options?: {
       isMultipleSiteEnabled?: boolean;
       siteCode?: string;
@@ -332,15 +333,12 @@ export const getFindPhoneNumber =
     };
   }) =>
   (item: ContactPhoneNumber) => {
-    if (item.phoneType === phoneTypes.extension) {
-      return (
-        isAnExtension(phoneNumber, options.maxExtensionLength) &&
-        isExtensionExist({
-          extensionNumber: phoneNumber,
-          extensionFromContacts: item.phoneNumber!,
-          options,
-        })
-      );
+    if (item.phoneType === phoneTypes.extension && shouldMatchExtension) {
+      return isExtensionExist({
+        extensionNumber: phoneNumber,
+        extensionFromContacts: item.phoneNumber!,
+        options,
+      });
     }
     return item.phoneNumber === phoneNumber;
   };

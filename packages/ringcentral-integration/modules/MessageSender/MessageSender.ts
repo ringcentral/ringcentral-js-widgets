@@ -1,7 +1,7 @@
 import { EventEmitter } from 'events';
 import { find } from 'ramda';
-import CreatePagerMessageRequest from 'ringcentral-client/build/definitions/CreatePagerMessageRequest';
-import GetMessageInfoResponse from 'ringcentral-client/build/definitions/GetMessageInfoResponse';
+import type CreatePagerMessageRequest from 'ringcentral-client/build/definitions/CreatePagerMessageRequest';
+import type GetMessageInfoResponse from 'ringcentral-client/build/definitions/GetMessageInfoResponse';
 import * as uuid from 'uuid';
 
 import {
@@ -10,19 +10,19 @@ import {
   state,
   track,
 } from '@ringcentral-integration/core';
-import {
+import type {
   ObjectMapKey,
   ObjectMapValue,
 } from '@ringcentral-integration/core/lib/ObjectMap';
 import { sleep } from '@ringcentral-integration/utils';
-import { ApiError } from '@ringcentral/sdk';
+import type { ApiError } from '@ringcentral/sdk';
 
 import chunkMessage from '../../lib/chunkMessage';
 import { Module } from '../../lib/di';
 import { isBlank } from '../../lib/isBlank';
 import proxify from '../../lib/proxy/proxify';
 import { trackEvents } from '../../enums/trackEvents';
-import {
+import type {
   Attachment,
   Deps,
   EventParameter,
@@ -174,10 +174,12 @@ export class MessageSender extends RcModuleV2<Deps> {
   async _validateToNumbers(toNumbers: string[]) {
     const result: {
       result: boolean;
-      numbers?: any[];
+      extNumbers: string[];
+      noExtNumbers: string[];
     } = {
       result: false,
-      numbers: [],
+      extNumbers: [],
+      noExtNumbers: [],
     };
     if (this._validateToNumbersIsEmpty(toNumbers)) {
       return result;
@@ -201,9 +203,15 @@ export class MessageSender extends RcModuleV2<Deps> {
       );
       if (parsedNumbers) {
         result.result = true;
-        result.numbers = parsedNumbers?.map(
-          (item) => item.availableExtension ?? item.parsedNumber,
-        );
+        parsedNumbers.forEach((item) => {
+          if (item.isAnExtension) {
+            result.extNumbers?.push(
+              (item.availableExtension ?? item.parsedNumber)!,
+            );
+          } else {
+            result.noExtNumbers?.push(item.parsedNumber!);
+          }
+        });
       }
     } else {
       // @ts-expect-error
@@ -221,11 +229,13 @@ export class MessageSender extends RcModuleV2<Deps> {
             this.setSendStatus(messageSenderStatus.idle);
             return result;
           }
-          // @ts-expect-error
-          result.numbers.push(number.subAddress);
+          result.extNumbers.push(number.subAddress);
         } else {
-          // @ts-expect-error
-          result.numbers.push(number.availableExtension || number.e164);
+          if (number.isAnExtension) {
+            result.extNumbers.push((number.availableExtension || number.e164)!);
+          } else {
+            result.noExtNumbers.push(number.e164!);
+          }
         }
       }
       result.result = true;
@@ -258,20 +268,8 @@ export class MessageSender extends RcModuleV2<Deps> {
       if (!validateToNumberResult.result) {
         return null;
       }
-      const recipientNumbers = validateToNumberResult.numbers;
-      const maxExtensionLength =
-        // @ts-expect-error
-        this._deps.accountInfo.maxExtensionNumberLength;
-
-      // @ts-expect-error
-      const extensionNumbers = recipientNumbers.filter(
-        (number) => number.length <= maxExtensionLength,
-      );
-      // @ts-expect-error
-      const phoneNumbers = recipientNumbers.filter(
-        (number) => number.length > maxExtensionLength,
-      );
-
+      const extensionNumbers = validateToNumberResult.extNumbers;
+      const phoneNumbers = validateToNumberResult.noExtNumbers;
       if (extensionNumbers.length > 0 && attachments.length > 0) {
         this._alertWarning(messageSenderMessages.noAttachmentToExtension);
         return null;
@@ -465,6 +463,10 @@ export class MessageSender extends RcModuleV2<Deps> {
         if (err.errorCode === 'MSG-246') {
           // MSG-246 : "Sending SMS from/to extension numbers is not available"
           this._alertWarning(messageSenderMessages.notSmsToExtension);
+        }
+        if (err.errorCode === 'MSG-247') {
+          // MSG-247 : "Sending SMS to short numbers is not available"
+          this._alertWarning(messageSenderMessages.shortNumbersNotAvailable);
         }
         if (err.errorCode === 'MSG-240') {
           // MSG-240 : "International SMS is not supported"

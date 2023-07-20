@@ -1,7 +1,7 @@
-import { DOMAttributes } from 'react';
+import type { DOMAttributes } from 'react';
 
-import { GlobalStorage } from '../GlobalStorage';
-import { AlertLevelType } from './alertLevels';
+import type { GlobalStorage } from '../GlobalStorage';
+import type { AlertLevelType } from './alertLevels';
 
 export interface Deps {
   globalStorage: GlobalStorage;
@@ -24,8 +24,6 @@ export interface AlertOptions {
    */
   action?: React.ReactNode;
 }
-
-export type AlertLevel = {};
 
 export interface AlertItem {
   /**

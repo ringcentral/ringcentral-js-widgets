@@ -1,13 +1,13 @@
-import { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
+import type { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
 
-import { extensionTypes } from '../../enums/extensionTypes';
-import {
+import type { extensionTypes } from '../../enums/extensionTypes';
+import type {
   DataFetcherV2ConsumerBaseDeps,
   DataSourceBaseProps,
 } from '../DataFetcherV2';
-import { ExtensionFeatures } from '../ExtensionFeatures';
-import { Subscription } from '../Subscription';
-import { TabManager } from '../TabManager';
+import type { ExtensionFeatures } from '../ExtensionFeatures';
+import type { Subscription } from '../Subscription';
+import type { TabManager } from '../TabManager';
 
 export interface CompanyContactsOptions extends DataSourceBaseProps {
   allowSettings?: boolean;

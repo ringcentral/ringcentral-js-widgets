@@ -1,6 +1,6 @@
 /**
  * RCI-885: Filter contacts
- * https://test_id_domain/test-cases/RCI-885
+ * https://test_it_domain/test-cases/RCI-885
  * Preconditions:
  * 1. RC CTI app is installed and enabled
  * 2.User has logged in to RC CTI app
@@ -22,7 +22,7 @@ import {
   When,
   common,
 } from '@ringcentral-integration/test-utils';
-import { StepProp } from '../../../../lib/step';
+import type { StepProp } from '../../../../lib/step';
 import { CommonLogin } from '../../../../steps/CommonLogin';
 import {
   CheckContactItemExistInList,

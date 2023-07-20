@@ -1,6 +1,6 @@
 /**
  * RCI-4401: Can call PSTN when dialed number match valid PSTN (DT>MEL)
- * https://test_id_domain/test-cases/RCI-4401
+ * https://test_it_domain/test-cases/RCI-4401
  * Preconditions:
  * CTI app is integrated,
  * User is logged-in to 3rd party
@@ -43,7 +43,7 @@ import {
   When,
   common,
 } from '@ringcentral-integration/test-utils';
-import { StepProp } from '../../../../../../lib/step';
+import type { StepProp } from '../../../../../../lib/step';
 import { CheckCallControlPage, MakeCall } from '../../../../../../steps/Call';
 import { CheckLogBaseInfoActive } from '../../../../../../steps/CallLog';
 import { CommonLogin } from '../../../../../../steps/CommonLogin';
@@ -69,7 +69,7 @@ export class DialPSTNEDPEnabled extends Step {
     <CommonLogin {...props} CreateInstance={CreateInstance} />
   );
   CreateMock: StepProp | null = CreateMock;
-  appName: string = 'common';
+  appName = 'common';
 
   @examples(`
     | maxExtensionLength | phoneNumber | areaCode | parsedNumber    | e164            |

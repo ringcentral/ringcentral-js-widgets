@@ -2,7 +2,7 @@ import { callErrors } from '@ringcentral-integration/commons/modules/Call';
 export default {
   [callErrors.emergencyNumber]: "L’appel d’urgence n’est pas disponible. Veuillez utiliser un autre téléphone pour communiquer avec les services d’urgence",
   [callErrors.noToNumber]: "Veuillez entrer un numéro de téléphone valide.",
-  [callErrors.noAreaCode]: "Veuillez configurer l’{areaCodeLink} pour utiliser des numéros de téléphone locaux à 7 chiffres.",
+  [callErrors.noAreaCode]: "Veuillez configurer l’{areaCodeLink} pour utiliser des numéros de téléphone locaux à 7 chiffres.",
   [callErrors.connectFailed]: "Échec de la connexion. Veuillez réessayer plus tard.",
   [callErrors.internalError]: "Connexion impossible en raison d’erreurs internes. Veuillez réessayer plus tard.",
   [callErrors.notAnExtension]: "Le numéro de poste n’existe pas.",

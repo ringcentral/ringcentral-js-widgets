@@ -1,4 +1,4 @@
-import { TimeInterval } from './TimeInterval';
+import type { TimeInterval } from './TimeInterval';
 
 // Weekly schedule
 export interface WeeklyScheduleInfo {

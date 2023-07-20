@@ -17,7 +17,7 @@ export default {
   [generalError]: "Onverwachte serverfout. Probeer het later opnieuw.",
   [forwardSuccess]: "Oproep doorverbonden",
   [transferCompleted]: "Oproep doorverbonden",
-  [replyCompleted]: "Voice-bericht verzonden."
+  [replyCompleted]: "Spraakbericht verzonden."
 };
 
 // @key: @#@"muteConflictError"@#@ @source: @#@"This call had been muted on other device. Please unmute the call before you control in this App."@#@

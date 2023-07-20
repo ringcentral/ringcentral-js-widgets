@@ -1,15 +1,16 @@
 /**
  * RCI-445: Local number formatting
- * https://test_id_domain/test-cases/RCI-445
+ * https://test_it_domain/test-cases/RCI-445
  * Preconditions:
  * <ol><li style='margin: 0px; padding: 0px;'>User is logged-in into 3rd party</li><li style='margin: 0px; padding: 0px;'>User has logged into CTI App with the account which has multiple dialing plans as below</li></ol><table class='table table-bordered'><tbody><tr><td><span style='font-weight: bold;'>Set DL(Dialing plans) in SW</span></td><td><span style='font-weight: bold;'>Country</span></td></tr><tr><td>US</td><td>US</td></tr><tr><td>CA</td><td>CA</td></tr></tbody></table><p style='margin: 0px; padding: 0px;'><i style='background-color: transparent;'><span style='font-weight: bolder;'>Note(/s)</span>: </i><span style='background-color: transparent;'>For Salesforce 6.0, user has logged into CTI app and set his locale to US/CA in Salesforce</span></p><p><strong><span style='color:#669966'><br></span></strong></p><p><strong><span style='color:#669966'>
  * Entry point(/s):
  * ntry point(/s): </span></strong></p><p>> Go to the 'Setting'</p><p>> Click 'Region' option</p>
  */
 
-import dialingPlanBody from '@ringcentral-integration/commons/integration-test/mock/data/dialingPlan.json';
-import { waitForRenderReady } from '@ringcentral-integration/test-utils/lib/test-utils';
+import type dialingPlanBody from '@ringcentral-integration/commons/integration-test/mock/data/dialingPlan.json';
+import { waitForRenderReady } from '@ringcentral-integration/test-utils';
 import { Login as CommonLogin } from '../../../../../steps/Login';
+import type { StepFunction } from '../../../../../lib/step';
 import {
   p2,
   it,
@@ -21,7 +22,6 @@ import {
   Then,
   title,
   When,
-  StepFunction,
 } from '../../../../../lib/step';
 import {
   NavigateToSettings,
@@ -30,7 +30,7 @@ import {
 } from '../../../../../steps/Navigate';
 import { SelectCountryCode, SetAreaCode } from '../../../../../steps/Settings';
 import { SendSMS } from '../../../../../steps/Messages';
-import { Context } from '../../../../../interfaces';
+import type { Context } from '../../../../../interfaces';
 import {
   CreateMock as CommonCreateMock,
   MockGetPhoneNumber,

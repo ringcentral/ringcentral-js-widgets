@@ -1,6 +1,6 @@
-import { Alert } from '../Alert';
-import { Auth } from '../Auth';
-import { ExtensionFeatures } from '../ExtensionFeatures';
+import type { Alert } from '../Alert';
+import type { Auth } from '../Auth';
+import type { ExtensionFeatures } from '../ExtensionFeatures';
 
 export interface TierCheckerOptions {
   crmFeature?: string;

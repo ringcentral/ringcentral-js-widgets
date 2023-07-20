@@ -1,6 +1,6 @@
 export default {
   contactDetails: "Coordonnées du contact",
-  loadingContact: "Chargement du contact...",
+  loadingContact: "Chargement du contact…",
   contactNotFound: "Contact introuvable."
 };
 

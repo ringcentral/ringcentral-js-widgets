@@ -6,10 +6,10 @@ import {
 } from '@ringcentral-integration/core';
 import { SDK } from '@ringcentral/sdk';
 
-import { SDKConfig } from '../../lib/createSdkConfig';
+import type { SDKConfig } from '../../lib/createSdkConfig';
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
-import { Deps, SetDataOptions } from './Environment.interface';
+import type { Deps, SetDataOptions } from './Environment.interface';
 
 const DEFAULT_RECORDING_HOST =
   'https://apps.ringcentral.com/integrations/recording/v3.0/rc/index.html';

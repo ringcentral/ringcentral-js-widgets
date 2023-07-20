@@ -1,6 +1,6 @@
 /**
  * RCI-3690: The send button status
- * https://test_id_domain/test-cases/RCI-3690
+ * https://test_it_domain/test-cases/RCI-3690
  * Preconditions:
  * UserA has logged into the 3rd party
  * CTI app is installed
@@ -26,6 +26,7 @@
 
  */
 
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   autorun,
   examples,
@@ -34,7 +35,6 @@ import {
   p2,
   Scenario,
   Step,
-  StepFunction,
   Then,
   title,
   When,
@@ -42,7 +42,7 @@ import {
 import { waitUntilTo } from '@ringcentral-integration/utils';
 import { fireEvent, screen, waitFor } from '@testing-library/react';
 
-import { StepProp } from '../../../../../../lib/step';
+import type { StepProp } from '../../../../../../lib/step';
 import {
   ClearMessage,
   InputSMS,

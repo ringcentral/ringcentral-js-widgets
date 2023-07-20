@@ -1,6 +1,6 @@
-import { MessageStoreCallerInfoRequest } from './MessageStoreCallerInfoRequest';
-import { MessageCountryInfo } from './MessageCountryInfo';
-import { Attachment } from './Attachment';
+import type { MessageStoreCallerInfoRequest } from './MessageStoreCallerInfoRequest';
+import type { MessageCountryInfo } from './MessageCountryInfo';
+import type { Attachment } from './Attachment';
 
 export interface CreateMMSMessage {
   /**

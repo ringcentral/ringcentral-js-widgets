@@ -1,4 +1,4 @@
-import { PhoneType } from '../enums/phoneTypes';
+import type { PhoneType } from '../enums/phoneTypes';
 
 export interface PhoneNumberModel {
   phoneNumber: string;

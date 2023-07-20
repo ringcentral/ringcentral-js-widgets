@@ -1,4 +1,4 @@
-import { InstantMessageEventBody } from './InstantMessageEventBody';
+import type { InstantMessageEventBody } from './InstantMessageEventBody';
 
 export interface InstantMessageEvent {
   /**

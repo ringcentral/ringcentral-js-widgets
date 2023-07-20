@@ -1,8 +1,11 @@
 // @ts-nocheck
 import { Module } from '../../lib/di';
-import { IStorage, StorageBase } from '../../lib/StorageBase';
+import type { IStorage } from '../../lib/StorageBase';
+import { StorageBase } from '../../lib/StorageBase';
 import { loginStatus } from '../Auth';
-import { Deps } from './Storage.interface';
+import type { Deps } from './Storage.interface';
+
+const dataFetcherKey = 'dataFetcherV2-storageData';
 
 @Module({
   name: 'Storage',
@@ -47,50 +50,53 @@ export class Storage<T extends Deps = Deps> extends StorageBase<T> {
       const currentData = this.data;
       // save new data to storage when changed
       for (const key in currentData) {
-        if (this.storedData[key] !== currentData[key]) {
-          /*
-           * This workaround is used to fix their respective dataFetcherV2
-           * instance storage data sync issue caused by different modules in
-           * two different instances in browser windows with the same origin.
-           */
-          const deep = key.includes('dataFetcherV2') ? 2 : 0;
-          const newValue = this.updateMinimumSet(
-            this.storedData[key],
-            currentData[key],
-            deep,
-          );
-          this.storedData[key] = newValue;
-          this._storage.setItem(key, newValue);
+        if (key !== dataFetcherKey) {
+          if (this.storedData[key] !== currentData[key]) {
+            this._storage.setItem(key, currentData[key]);
+            this.storedData[key] = currentData[key];
+          }
+        } else {
+          const currentFetcherData = currentData[dataFetcherKey] ?? {};
+          if (!this.storedData[dataFetcherKey]) {
+            this.storedData[dataFetcherKey] = {};
+          }
+          const storedFetcherData = this.storedData[dataFetcherKey];
+          let needToSave = false;
+          // initial state has no cachedTimestamps and need to save
+          if (!storedFetcherData.cachedTimestamps) {
+            needToSave = true;
+            this.storedData[dataFetcherKey] = currentFetcherData;
+          } else {
+            // if cachedTimestamps changed, cachedData should be changed too
+            // And an action only updates one data
+            for (const _key in currentFetcherData.cachedTimestamps) {
+              if (
+                storedFetcherData.cachedTimestamps[_key] !==
+                currentFetcherData.cachedTimestamps[_key]
+              ) {
+                needToSave = true;
+                storedFetcherData.cachedTimestamps[_key] =
+                  currentFetcherData.cachedTimestamps[_key];
+                storedFetcherData.cachedData[_key] =
+                  currentFetcherData.cachedData[_key];
+              }
+            }
+          }
+          if (needToSave) {
+            this._storage.setItem(
+              dataFetcherKey,
+              this.storedData[dataFetcherKey],
+            );
+          }
         }
       }
     }
   }
 
-  updateMinimumSet(oldData: any, newData: any, deep = 0) {
-    if (deep === 0) {
-      return newData;
-    }
-
-    if (!newData || !oldData || typeof newData !== 'object') {
-      return newData;
-    }
-
-    for (const key in newData) {
-      if (oldData[key] !== newData[key]) {
-        oldData[key] = this.updateMinimumSet(
-          oldData[key],
-          newData[key],
-          deep - 1,
-        );
-      }
-    }
-    return oldData;
-  }
-
   get storageKey() {
-    return `${this.prefix ? `${this.prefix}-` : ''}storage-${
-      this._deps.auth.ownerId
-    }`;
+    const prefix = this.prefix ? `${this.prefix}-` : '';
+
+    return `${prefix}storage-${this._deps.auth.ownerId}`;
   }
 
   override async onInit() {

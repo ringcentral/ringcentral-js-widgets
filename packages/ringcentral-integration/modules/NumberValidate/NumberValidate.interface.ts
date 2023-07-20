@@ -1,17 +1,17 @@
 import type PhoneNumberInfoNumberParser from '@rc-ex/core/lib/definitions/PhoneNumberInfoNumberParser';
 
-import {
+import type {
   ConflictHandling,
   Country,
   ResultFormattedItem,
 } from '../../interfaces/NumberParserResponse.interface';
-import { AccountInfo } from '../AccountInfo';
-import { AppFeatures } from '../AppFeatures';
-import { Brand } from '../Brand';
-import { CompanyContacts } from '../CompanyContacts';
-import { ExtensionInfo } from '../ExtensionInfo';
-import { RegionSettings } from '../RegionSettings';
-import { Alert } from '../Alert';
+import type { AccountInfo } from '../AccountInfo';
+import type { AppFeatures } from '../AppFeatures';
+import type { Brand } from '../Brand';
+import type { CompanyContacts } from '../CompanyContacts';
+import type { ExtensionInfo } from '../ExtensionInfo';
+import type { RegionSettings } from '../RegionSettings';
+import type { Alert } from '../Alert';
 
 export interface NumberValidateOptions {
   //
@@ -65,11 +65,11 @@ export const contextSourceOption = {
 
 export interface ParsePhoneNumberAPIParam {
   originalStrings: Array<string>;
-  contextSource?: typeof contextSourceOption[keyof typeof contextSourceOption];
+  contextSource?: (typeof contextSourceOption)[keyof typeof contextSourceOption];
   context?: {
     brandId?: string;
     country?: Pick<Country, 'isoCode'>;
-    defaultAreaCode?: string | null;
+    defaultAreaCode?: string;
     vanityPhoneNumbersAllowed?: boolean;
     maxExtensionNumberLength?: number;
     shortCodesAllowed?: boolean;

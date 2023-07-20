@@ -1,7 +1,7 @@
-import { waitForRenderReady } from '@ringcentral-integration/test-utils/lib/test-utils';
+import { waitForRenderReady } from '@ringcentral-integration/test-utils';
 import { fireEvent, getByText, screen } from '@testing-library/react';
-import { StepFunction } from '../../../lib/step';
-import { DropdownDataSign } from '../interface';
+import type { StepFunction } from '../../../lib/step';
+import type { DropdownDataSign } from '../interface';
 
 export const SelectOptionFromDropDown: StepFunction<{
   dropdownSelector: DropdownDataSign;
