@@ -1,36 +1,22 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
+require("core-js/modules/es.array.map");
+require("core-js/modules/es.function.name");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = GlipPost;
-
-require("core-js/modules/es6.array.map");
-
-require("core-js/modules/es6.function.name");
-
 var _react = _interopRequireDefault(require("react"));
-
 var _propTypes = _interopRequireDefault(require("prop-types"));
-
 var _classnames = _interopRequireDefault(require("classnames"));
-
 var _status = _interopRequireDefault(require("@ringcentral-integration/commons/modules/GlipPosts/status"));
-
 var _default_avatar = _interopRequireDefault(require("../../assets/images/default_avatar.png"));
-
-var _styles = _interopRequireDefault(require("./styles.scss"));
-
 var _GlipPostContent = _interopRequireDefault(require("../GlipPostContent"));
-
+var _styles = _interopRequireDefault(require("./styles.scss"));
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 function PostAvatar(_ref) {
   var creator = _ref.creator,
-      viewProfile = _ref.viewProfile;
-
+    viewProfile = _ref.viewProfile;
   if (!creator) {
     // TODO: update alt with i18n
     return /*#__PURE__*/_react["default"].createElement("img", {
@@ -38,7 +24,6 @@ function PostAvatar(_ref) {
       alt: "default avatar"
     });
   }
-
   return /*#__PURE__*/_react["default"].createElement("img", {
     onClick: function onClick() {
       return viewProfile(creator.id);
@@ -47,7 +32,6 @@ function PostAvatar(_ref) {
     alt: creator.id
   });
 }
-
 PostAvatar.propTypes = {
   creator: _propTypes["default"].object,
   viewProfile: _propTypes["default"].func.isRequired
@@ -55,16 +39,13 @@ PostAvatar.propTypes = {
 PostAvatar.defaultProps = {
   creator: null
 };
-
 function PostName(_ref2) {
   var creator = _ref2.creator,
-      showName = _ref2.showName,
-      viewProfile = _ref2.viewProfile;
-
+    showName = _ref2.showName,
+    viewProfile = _ref2.viewProfile;
   if (!creator || !showName) {
     return null;
   }
-
   return /*#__PURE__*/_react["default"].createElement("span", {
     className: _styles["default"].name,
     onClick: function onClick() {
@@ -72,7 +53,6 @@ function PostName(_ref2) {
     }
   }, creator.firstName, " ", creator.lastName);
 }
-
 PostName.propTypes = {
   creator: _propTypes["default"].object,
   viewProfile: _propTypes["default"].func.isRequired,
@@ -81,53 +61,43 @@ PostName.propTypes = {
 PostName.defaultProps = {
   creator: null
 };
-
 function PostStatus(_ref3) {
   var sendStatus = _ref3.sendStatus;
-
   if (!sendStatus) {
     return null;
-  } // TODO: update sending status with i18n
-
-
+  }
+  // TODO: update sending status with i18n
   return /*#__PURE__*/_react["default"].createElement("span", null, "(", sendStatus === _status["default"].creating ? 'Sending' : 'Send failed', ")");
 }
-
 PostStatus.propTypes = {
   sendStatus: _propTypes["default"].string
 };
 PostStatus.defaultProps = {
   sendStatus: null
 };
-
 function PostTime(_ref4) {
   var creationTime = _ref4.creationTime;
-
   if (!creationTime) {
     return null;
   }
-
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].time
   }, creationTime);
 }
-
 PostTime.propTypes = {
   creationTime: _propTypes["default"].string
 };
 PostTime.defaultProps = {
   creationTime: null
 };
-
 function GlipPost(_ref5) {
   var post = _ref5.post,
-      className = _ref5.className,
-      creationTime = _ref5.creationTime,
-      showName = _ref5.showName,
-      atRender = _ref5.atRender,
-      viewProfile = _ref5.viewProfile;
+    className = _ref5.className,
+    creationTime = _ref5.creationTime,
+    showName = _ref5.showName,
+    atRender = _ref5.atRender,
+    viewProfile = _ref5.viewProfile;
   var addedPersons = null;
-
   if (post.type === 'PersonsAdded') {
     addedPersons = post.addedPersonIds && post.addedPersonIds.map(function (id) {
       var peronName = atRender({
@@ -138,9 +108,8 @@ function GlipPost(_ref5) {
         key: id
       }, peronName);
     });
-  } // TODO: update joining status with i18n
-
-
+  }
+  // TODO: update joining status with i18n
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].root, className)
   }, /*#__PURE__*/_react["default"].createElement(PostTime, {
@@ -165,7 +134,6 @@ function GlipPost(_ref5) {
     atRender: atRender
   }) : null));
 }
-
 GlipPost.propTypes = {
   className: _propTypes["default"].string,
   post: _propTypes["default"].object,

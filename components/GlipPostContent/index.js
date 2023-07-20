@@ -1,34 +1,21 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
+require("core-js/modules/es.array.map");
+require("core-js/modules/es.function.name");
+require("core-js/modules/es.regexp.exec");
+require("core-js/modules/es.string.replace");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-
-require("core-js/modules/es6.regexp.replace");
-
-require("core-js/modules/es6.function.name");
-
-require("core-js/modules/es6.array.map");
-
 var _react = _interopRequireDefault(require("react"));
-
 var _propTypes = _interopRequireDefault(require("prop-types"));
-
 var _classnames = _interopRequireDefault(require("classnames"));
-
 var _Download = _interopRequireDefault(require("@ringcentral-integration/widgets/assets/images/Download.svg"));
-
 var _isPicture = _interopRequireDefault(require("../../lib/isPicture"));
-
 var _GlipMarkdown = _interopRequireDefault(require("../GlipMarkdown"));
-
 var _styles = _interopRequireDefault(require("./styles.scss"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 function Attachments(_ref) {
   var attachments = _ref.attachments;
   var attachmentFiles = attachments.map(function (attachment) {
@@ -40,12 +27,10 @@ function Attachments(_ref) {
         className: _styles["default"].attachmentImg
       });
     }
-
     if (attachment.type === 'Card') {
       // TODO: update message with i18n
       return 'Unsupported message';
     }
-
     return /*#__PURE__*/_react["default"].createElement("a", {
       key: attachment.name,
       download: true,
@@ -63,28 +48,22 @@ function Attachments(_ref) {
     className: _styles["default"].attachments
   }, attachmentFiles);
 }
-
 Attachments.propTypes = {
   attachments: _propTypes["default"].array.isRequired
 };
-
 function PostContent(_ref2) {
   var post = _ref2.post,
-      className = _ref2.className,
-      atRender = _ref2.atRender;
-
+    className = _ref2.className,
+    atRender = _ref2.atRender;
   if (!post.text && (!post.attachments || post.attachments.length === 0)) {
     return /*#__PURE__*/_react["default"].createElement("div", {
       className: (0, _classnames["default"])(_styles["default"].root, className)
     }, "Unsupported message");
   }
-
   var text = post.text;
-
   if (text) {
     text = text.replace('[code]', '```\n').replace('[/code]', '\n```\n');
   }
-
   var textContent = text ? /*#__PURE__*/_react["default"].createElement(_GlipMarkdown["default"], {
     text: text,
     atRender: atRender
@@ -98,7 +77,6 @@ function PostContent(_ref2) {
     className: _styles["default"].content
   }, textContent, attachments));
 }
-
 PostContent.propTypes = {
   post: _propTypes["default"].object.isRequired,
   className: _propTypes["default"].string,

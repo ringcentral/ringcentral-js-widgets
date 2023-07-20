@@ -2,41 +2,41 @@
   "name": "@ringcentral-integration/glip-widgets",
   "version": "0.0.1",
   "description": "RingCentral Integration Glip Widgets Library",
-  "main": "index.js",
-  "scripts": {
-    "gulp": "gulp --require @ringcentral-integration/babel-settings/lib/register.js",
-    "build": "yarn gulp build",
-    "release": "yarn gulp release",
-    "eslint": "eslint --quiet ."
+  "homepage": "https://github.com/ringcentral/ringcentral-js-widgets#readme",
+  "bugs": {
+    "url": "https://github.com/ringcentral/ringcentral-js-widgets/issues"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ringcentral/ringcentral-js-widgets.git"
   },
-  "author": "RingCentral Integrations Team",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/ringcentral/ringcentral-js-widgets/issues"
+  "author": "RingCentral Integrations Team",
+  "main": "index.js",
+  "scripts": {
+    "build": "yarn gulp build",
+    "eslint": "eslint --quiet .",
+    "gulp": "gulp --require @ringcentral-integration/babel-settings/lib/register.js",
+    "release": "yarn gulp release"
   },
-  "homepage": "https://github.com/ringcentral/ringcentral-js-widgets#readme",
-  "peerDependencies": {
-    "@ringcentral-integration/core": "^0.13.0",
-    "@ringcentral-integration/commons": "^0.13.0",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "react-redux": "^5.1.1",
-    "react-router": "^3.0.0",
-    "react-router-redux": "^4.0.7",
-    "@ringcentral-integration/widgets": "^0.13.0"
+  "dependencies": {
+    "classnames": "^2.2.5",
+    "immutable": "^3.7.4",
+    "prop-types": "^15.7.2",
+    "ramda": "^0.28.0",
+    "rc-editor-mention": "^1.1.13",
+    "react-emojione": "^5.0.0",
+    "react-markdown": "^3.1.4",
+    "react-virtualized": "^9.19.1"
   },
   "devDependencies": {
-    "@ringcentral-integration/core": "*",
     "@ringcentral-integration/babel-settings": "*",
+    "@ringcentral-integration/core": "*",
     "@ringcentral-integration/locale-loader": "*",
     "@ringcentral-integration/locale-settings": "*",
     "autoprefixer": "^9.8.4",
     "execa": "^5.0.0",
-    "fs-extra": "^9.0.1",
+    "fs-extra": "^10.1.0",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "gulp-istanbul": "^1.1.1",
@@ -47,15 +47,15 @@
     "redux-thunk": "^2.2.0",
     "yargs": "^17.1.1"
   },
-  "dependencies": {
-    "classnames": "^2.2.5",
-    "immutable": "^3.7.4",
-    "prop-types": "^15.7.2",
-    "ramda": "^0.27.1",
-    "rc-editor-mention": "^1.1.13",
-    "react-emojione": "^5.0.0",
-    "react-markdown": "^3.1.4",
-    "react-virtualized": "^9.19.1"
+  "peerDependencies": {
+    "@ringcentral-integration/commons": "^0.14.0",
+    "@ringcentral-integration/core": "^0.14.0",
+    "@ringcentral-integration/widgets": "^0.14.0",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-redux": "^5.1.1",
+    "react-router": "^3.2.6",
+    "react-router-redux": "^4.0.8"
   },
   "ci": {
     "ringcentral-widgets-test": "**"

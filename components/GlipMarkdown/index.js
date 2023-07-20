@@ -1,40 +1,25 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
-require("core-js/modules/es6.object.assign");
-
+require("core-js/modules/es.array.map");
+require("core-js/modules/es.array.reduce");
+require("core-js/modules/es.function.bind");
+require("core-js/modules/es.object.assign");
+require("core-js/modules/es.regexp.exec");
+require("core-js/modules/es.string.replace");
+require("core-js/modules/es.string.split");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-
-require("core-js/modules/es6.array.reduce");
-
-require("core-js/modules/es6.regexp.split");
-
-require("core-js/modules/es6.array.map");
-
-require("core-js/modules/es6.regexp.replace");
-
 var _react = _interopRequireDefault(require("react"));
-
 var _propTypes = _interopRequireDefault(require("prop-types"));
-
 var _classnames = _interopRequireDefault(require("classnames"));
-
 var _reactMarkdown = _interopRequireDefault(require("react-markdown"));
-
 var _reactEmojione = _interopRequireDefault(require("react-emojione"));
-
 var _emojione = _interopRequireDefault(require("../../assets/images/emojione.png"));
-
 var _styles = _interopRequireDefault(require("./styles.scss"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
-
+function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 function ImageRender(props) {
   if (props.alt === ':Person' || props.alt === ':Team') {
     if (typeof props.atRender === 'function') {
@@ -44,18 +29,15 @@ function ImageRender(props) {
         type: props.alt.replace(':', '')
       });
     }
-
     return /*#__PURE__*/_react["default"].createElement("a", {
       href: "#".concat(props.src)
     }, "@", props.src);
   }
-
   return /*#__PURE__*/_react["default"].createElement("img", {
     src: props.src,
     alt: props.alt
   });
 }
-
 ImageRender.propTypes = {
   src: _propTypes["default"].string.isRequired,
   alt: _propTypes["default"].string,
@@ -65,7 +47,6 @@ ImageRender.defaultProps = {
   alt: undefined,
   atRender: undefined
 };
-
 function LinkRender(props) {
   return /*#__PURE__*/_react["default"].createElement("a", {
     target: "_blank",
@@ -74,7 +55,6 @@ function LinkRender(props) {
     title: props.title
   }, props.children);
 }
-
 LinkRender.propTypes = {
   href: _propTypes["default"].string.isRequired,
   children: _propTypes["default"].node.isRequired,
@@ -83,7 +63,6 @@ LinkRender.propTypes = {
 LinkRender.defaultProps = {
   title: undefined
 };
-
 function TextRender(props) {
   var children = props.children.map(function (child) {
     if (child && child.split) {
@@ -91,12 +70,10 @@ function TextRender(props) {
         if (lines.length > 0) {
           lines.push( /*#__PURE__*/_react["default"].createElement("br", null));
         }
-
         lines.push(line);
         return lines;
       }, []);
     }
-
     return child;
   });
   return /*#__PURE__*/_react["default"].createElement("p", null, /*#__PURE__*/_react["default"].createElement(_reactEmojione["default"], {
@@ -105,15 +82,13 @@ function TextRender(props) {
     }
   }, children));
 }
-
 TextRender.propTypes = {
   children: _propTypes["default"].node.isRequired
 };
-
 function Markdown(_ref) {
   var className = _ref.className,
-      text = _ref.text,
-      atRender = _ref.atRender;
+    text = _ref.text,
+    atRender = _ref.atRender;
   var renderers = {
     image: function image(props) {
       return /*#__PURE__*/_react["default"].createElement(ImageRender, _extends({}, props, {
