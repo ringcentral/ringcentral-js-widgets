@@ -1,13 +1,7 @@
 "use strict";
 
-module.exports = {
-  transform: {
-    '^.+\\.(j|t)sx?$': '@ringcentral-integration/babel-settings/lib/jestTransform.js'
-  },
-  reporters: ['default', ['jest-html-reporters', {
-    publicPath: './html-report',
-    filename: 'jest-report.html',
-    expand: true
-  }]]
-};
+var merge = require('@ringcentral-integration/test-utils/lib/merge');
+var _require = require('@ringcentral-integration/test-utils/config/getBaseJestConfig'),
+  getBaseJestConfig = _require.getBaseJestConfig;
+module.exports = merge(getBaseJestConfig(), {});
 //# sourceMappingURL=jest.config.js.map
