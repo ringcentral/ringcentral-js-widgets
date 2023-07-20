@@ -1,1 +1,1 @@
-{"version":3,"sources":["components/ModalV2/i18n/en-US.ts"],"names":["close"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,KAAK,EAAE;AADM,C","sourcesContent":["export default {\n  close: 'Close',\n};\n"],"file":"en-US.js"}
+{"version":3,"file":"en-US.js","names":["close","exports","_default"],"sources":["components/ModalV2/i18n/en-US.ts"],"sourcesContent":["export default {\n  close: 'Close',\n};\n"],"mappings":";;;;;;eAAe;EACbA,KAAK,EAAE;AACT,CAAC;AAAAC,OAAA,cAAAC,QAAA"}

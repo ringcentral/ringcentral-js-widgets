@@ -12,9 +12,36 @@ import NotificationSection from '../NotificationSection';
 import NotificationSectionV2 from '../NotificationSectionV2';
 import { SpinnerOverlay } from '../SpinnerOverlay';
 import WebRTCNotificationSection from '../WebRTCNotificationSection';
-import { CallLogPanelProps } from './CallLogPanel.interface';
+import type { CallLog } from './CallLog.interface';
+import type { CallLogPanelProps } from './CallLogPanel.interface';
 import i18n from './i18n';
 import styles from './styles.scss';
+
+const getWarmTransferSession = ({
+  mainLog,
+  transferLog,
+  activeTelephonySessionId,
+}: {
+  mainLog: CallLog;
+  transferLog?: CallLog;
+  activeTelephonySessionId: string;
+}) => {
+  if (
+    !transferLog ||
+    !transferLog?.call ||
+    transferLog?.call?.telephonySessionId !== activeTelephonySessionId
+  ) {
+    return {
+      activeLog: mainLog,
+      subLog: transferLog,
+    };
+  }
+
+  return {
+    activeLog: transferLog,
+    subLog: mainLog,
+  };
+};
 
 export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
   static defaultProps: Partial<CallLogPanelProps> = {
@@ -36,15 +63,19 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
     isInTransferPage: false,
     showSpinner: true,
     isWide: true,
+    enableReply: false,
     showNotiLogButton: true,
     disableLinks: false,
     useNewNotification: false,
+    // @ts-expect-error TS(2322): Type 'null' is not assignable to type '(({ searchS... Remove this comment to see the full error message
     contactSearch: null,
     showFoundFromServer: false,
     isSearching: false,
     logNotification: {
       showNotification: false,
+      // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Call'.
       call: null,
+      // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string'.
       logName: null,
       notificationIsExpand: false,
       subContactNameDisplay: '',
@@ -53,13 +84,16 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
       entityDetailLink: '',
     },
     showRecordingIndicator: false,
+    // @ts-expect-error TS(2322): Type '() => null' is not assignable to type '(cont... Remove this comment to see the full error message
     renderCallNotificationAvatar: () => null,
+    // @ts-expect-error TS(2322): Type '() => null' is not assignable to type '(cont... Remove this comment to see the full error message
     getAvatarUrl: () => null,
   };
 
   editSectionRef = React.createRef<HTMLDivElement>();
 
   // TODO: use react function component to refactor with react hook
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   // eslint-disable-next-line react/no-deprecated
   componentWillMount() {
     const { pushLogPageStatus } = this.props;
@@ -68,6 +102,7 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
     }
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   componentWillUnmount() {
     const { pushLogPageStatus } = this.props;
     if (pushLogPageStatus) {
@@ -76,6 +111,7 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
   }
 
   editSectionScrollBy = (top: number) => {
+    // @ts-expect-error TS(2531): Object is possibly 'null'.
     this.editSectionRef.current.scrollBy({
       top,
       behavior: 'smooth',
@@ -86,6 +122,7 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
     const {
       currentLog,
       renderEditLogSection,
+      // @ts-expect-error TS(2339): Property 'editSection' does not exist on type 'Cal... Remove this comment to see the full error message
       classes: { editSection },
       renderKeypadPanel,
     } = this.props;
@@ -114,15 +151,29 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
   getCallControlButtons() {
     const {
       currentLog,
+      // @ts-expect-error TS(2339): Property 'callLogCallControl' does not exist on ty... Remove this comment to see the full error message
       classes: { callLogCallControl = null },
+      // @ts-expect-error TS(2339): Property 'callLogCallControl' does not exist on ty... Remove this comment to see the full error message
       refs: { callLogCallControl: callLogCallControlRef },
       renderCallLogCallControl,
       isWide,
+      enableReply,
       showSmallCallControl,
+      warmTransferLog,
+      warmTransferActiveTelephonySessionId,
     } = this.props;
-    const { call } = currentLog;
+
+    const { activeLog } = getWarmTransferSession({
+      mainLog: currentLog,
+      transferLog: warmTransferLog,
+      activeTelephonySessionId: warmTransferActiveTelephonySessionId,
+    });
+
+    const { call } = activeLog;
+    // @ts-expect-error TS(2339): Property 'telephonySessionId' does not exist on ty... Remove this comment to see the full error message
     const { telephonySessionId, webphoneSession } = call;
     const isCurrentDeviceCall = !!webphoneSession;
+
     if (showSmallCallControl) {
       return (
         <div
@@ -133,8 +184,11 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
           {renderCallLogCallControl &&
             renderCallLogCallControl(
               telephonySessionId,
+              // @ts-expect-error TS(2345): Argument of type 'boolean | undefined' is not assi... Remove this comment to see the full error message
               isWide,
+              enableReply,
               isCurrentDeviceCall,
+              warmTransferActiveTelephonySessionId,
             )}
         </div>
       );
@@ -159,6 +213,7 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
       startAdornmentRender,
       objectTypeIconsMap,
     } = this.props;
+    // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
     return renderEditLogSection({
       currentLocale,
       onSaveCallLog,
@@ -181,28 +236,44 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
     const {
       isWide,
       currentLog,
+      warmTransferLog,
       currentLocale,
       formatPhone,
       dateTimeFormatter,
       renderBasicInfo,
+      // @ts-expect-error TS(2339): Property 'logBasicInfo' does not exist on type 'Ca... Remove this comment to see the full error message
       classes: { logBasicInfo },
-      currentSession,
       showRecordingIndicator,
+      openEntityDetailLinkTrack,
+      warmTransferActiveTelephonySessionId,
+      onSwitchWarmTransferSession,
     } = this.props;
     if (renderBasicInfo) {
       return renderBasicInfo({ formatPhone, dateTimeFormatter, currentLog });
     }
+
+    const { activeLog, subLog } = getWarmTransferSession({
+      mainLog: currentLog,
+      transferLog: warmTransferLog,
+      activeTelephonySessionId: warmTransferActiveTelephonySessionId,
+    });
+
     return (
       <LogBasicInfo
         dataSign="leftSectionInfo"
         isWide={isWide}
-        currentLog={currentLog}
+        // @ts-expect-error TS(2322): Type 'CallLog' is not assignable to type 'ILogInfo... Remove this comment to see the full error message
+        currentLog={activeLog}
+        // @ts-expect-error TS(2322): Type 'CallLog | undefined' is not assignable to ty... Remove this comment to see the full error message
+        subCallLog={subLog}
         currentLocale={currentLocale}
         formatPhone={formatPhone}
+        // @ts-expect-error TS(2322): Type '(({ utcTimestamp, locale, type, }: DateTimeF... Remove this comment to see the full error message
         dateTimeFormatter={dateTimeFormatter}
         className={logBasicInfo}
-        recordStatus={currentSession?.recordStatus}
         showRecordingIndicator={showRecordingIndicator}
+        openEntityDetailLinkTrack={openEntityDetailLinkTrack}
+        onSwitchWarmTransferSession={onSwitchWarmTransferSession}
       />
     );
   }
@@ -257,21 +328,37 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
       clickForwardTrack,
       renderCallNotificationAvatar,
       getAvatarUrl,
+      openEntityDetailLinkTrack,
+      enableReply,
+      reply,
     } = this.props;
     const {
+      // @ts-expect-error TS(2339): Property 'showNotification' does not exist on type... Remove this comment to see the full error message
       showNotification,
+      // @ts-expect-error TS(2339): Property 'call' does not exist on type 'LogNotific... Remove this comment to see the full error message
       call,
+      // @ts-expect-error TS(2339): Property 'logName' does not exist on type 'LogNoti... Remove this comment to see the full error message
       logName,
+      // @ts-expect-error TS(2339): Property 'subContactNameDisplay' does not exist on... Remove this comment to see the full error message
       subContactNameDisplay,
+      // @ts-expect-error TS(2339): Property 'displayEntity' does not exist on type 'L... Remove this comment to see the full error message
       displayEntity,
+      // @ts-expect-error TS(2339): Property 'entityType' does not exist on type 'LogN... Remove this comment to see the full error message
       entityType,
+      // @ts-expect-error TS(2339): Property 'entityDetailLink' does not exist on type... Remove this comment to see the full error message
       entityDetailLink,
     } = logNotification;
     if (!showNotification) {
       return null;
     }
     if (isWebRTC) {
-      if (!call || !call.webphoneSession) return null;
+      if (
+        !call ||
+        !call.webphoneSession ||
+        call.webphoneSession.callStatus !== 'webphone-session-connecting'
+      ) {
+        return null;
+      }
       return (
         <WebRTCNotificationSection
           formatPhone={formatPhone}
@@ -282,8 +369,11 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
           displayEntity={displayEntity}
           entityType={entityType}
           entityDetailLink={entityDetailLink}
+          // @ts-expect-error TS(2322): Type '((...args: any[]) => any) | undefined' is no... Remove this comment to see the full error message
           onCloseNotification={onCloseNotification}
+          // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
           currentNotificationIdentify={currentNotificationIdentify}
+          // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
           isWide={isWide}
           onIgnore={onIgnore}
           onForward={onForward}
@@ -294,8 +384,14 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
           hasActiveSession={!!activeSession}
           answer={answer}
           clickForwardTrack={clickForwardTrack}
+          // @ts-expect-error TS(2322): Type '((contact: IContact, entityType: string) => ... Remove this comment to see the full error message
           renderCallNotificationAvatar={renderCallNotificationAvatar}
+          // @ts-expect-error TS(2322): Type '((contact: IContact) => Promise<string>) | u... Remove this comment to see the full error message
           getAvatarUrl={getAvatarUrl}
+          openEntityDetailLinkTrack={openEntityDetailLinkTrack}
+          enableReply={enableReply}
+          disableLinks={disableLinks}
+          reply={reply}
         />
       );
     }
@@ -333,6 +429,7 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
         onReject={onReject}
         onHangup={onHangup}
         disableLinks={disableLinks}
+        openEntityDetailLinkTrack={openEntityDetailLinkTrack}
       />
     );
   }
@@ -342,11 +439,14 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
     goBack();
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     const {
       currentIdentify,
       currentLocale,
+      // @ts-expect-error TS(2339): Property 'root' does not exist on type 'CallLogPan... Remove this comment to see the full error message
       classes: { root, backHeader },
+      // @ts-expect-error TS(2339): Property 'root' does not exist on type 'CallLogPan... Remove this comment to see the full error message
       refs: { root: rootRef },
       backIcon,
       header,
@@ -373,6 +473,7 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
             backIcon={backIcon}
             isWide={isWide}
             rightIcon={getRenderLogButton?.() || this.genSaveLogButtonV2()}
+            // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
             title={i18n.getString(headerTitle, currentLocale)}
             className={classnames(styles.header, backHeader)}
             onBackClick={() => this.goBack()}

@@ -1,1 +1,0 @@
-{"version":3,"sources":["containers/ConferenceCallDialerPage/i18n/es-419.ts"],"names":["activeCall"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,UAAU,EAAE;AADC,C,EAIf","sourcesContent":["export default {\n  activeCall: \"Llamada activa\"\n};\n\n// @key: @#@\"activeCall\"@#@ @source: @#@\"Active Call\"@#@\n"],"file":"es-419.js"}

@@ -1,13 +1,12 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 var _default = {
-  removeMeetingWarning: "Please note that the meeting feature won't work after May 31, 2022. We recommend switching to the {app}."
+  removeMeetingWarning: 'Please switch to the {app} to continue using the meeting feature.',
+  scheduleMeetingTips: 'Please note that we removed meetings from this app. To use meetings, we recommend the {app}.'
 };
 exports["default"] = _default;
 //# sourceMappingURL=en-US.js.map

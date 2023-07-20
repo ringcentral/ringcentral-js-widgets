@@ -1,26 +1,26 @@
 import { filter, find, values } from 'ramda';
 
 import callDirections from '@ringcentral-integration/commons/enums/callDirections';
-import { NormalizedSession } from '@ringcentral-integration/commons/interfaces/Webphone.interface';
+import type { NormalizedSession } from '@ringcentral-integration/commons/interfaces/Webphone.interface';
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import { formatNumber } from '@ringcentral-integration/commons/lib/formatNumber';
-import callingModes from '@ringcentral-integration/commons/modules/CallingSettings/callingModes';
-import {
+import { callingModes } from '@ringcentral-integration/commons/modules/CallingSettings';
+import type {
   ConferenceCall,
   LastCallInfo,
-} from '@ringcentral-integration/commons/modules/ConferenceCallV2';
+} from '@ringcentral-integration/commons/modules/ConferenceCall';
 import { sessionStatus } from '@ringcentral-integration/commons/modules/Webphone/sessionStatus';
-import { Webphone } from '@ringcentral-integration/commons/modules/WebphoneV2';
-import { RcUIModuleV2 } from '@ringcentral-integration/core';
-import { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
+import type { Webphone } from '@ringcentral-integration/commons/modules/Webphone';
+import { RcUIModuleV2, computed } from '@ringcentral-integration/core';
+import type { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
 
 import callCtrlLayouts from '../../enums/callCtrlLayouts';
 import { checkShouldHidePhoneNumber } from '../../lib/checkShouldHidePhoneNumber';
-import {
+import type {
   CallControlComponentProps,
   Deps,
-  getLastCallInfoFromWebphoneSession,
 } from './CallControlUI.interface';
+import { getLastCallInfoFromWebphoneSession } from './CallControlUI.interface';
 
 @Module({
   name: 'CallControlUI',
@@ -37,6 +37,7 @@ import {
     'CallMonitor',
     'ExtensionInfo',
     'AppFeatures',
+    'AccountInfo',
     { dep: 'ConferenceCall', optional: true },
     { dep: 'RouterInteraction', optional: true },
   ],
@@ -48,108 +49,141 @@ export class CallControlUI extends RcUIModuleV2<Deps> {
     });
   }
 
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string'.
+  currentSessionId: string = null;
+
+  @computed((that: CallControlUI) => [
+    that.currentSessionId,
+    that._deps.webphone.sessions,
+    that._deps.webphone.activeSession,
+  ])
+  get currentSession() {
+    return (
+      (this.currentSessionId
+        ? find(
+            (session) => session.id === this.currentSessionId,
+            this._deps.webphone.sessions,
+          )
+        : this._deps.webphone.activeSession) || ({} as NormalizedSession)
+    );
+  }
+
+  @computed((that: CallControlUI) => [
+    that._deps.contactMatcher?.dataMapping,
+    that.currentSession.from,
+  ])
+  get fromMatches() {
+    return (
+      this._deps.contactMatcher?.dataMapping?.[this.currentSession.from] ?? []
+    );
+  }
+
+  @computed((that: CallControlUI) => [
+    that._deps.contactMatcher?.dataMapping,
+    that.currentSession.to,
+  ])
+  get toMatches() {
+    return (
+      this._deps.contactMatcher?.dataMapping?.[this.currentSession.to] ?? []
+    );
+  }
+
   getUIProps({
     params,
     showCallQueueName = false,
     showPark = false,
     children,
   }: CallControlComponentProps) {
-    const {
-      brand,
-      callingSettings,
-      conferenceCall,
-      connectivityManager,
-      contactMatcher,
-      contactSearch,
-      forwardingNumber,
-      regionSettings,
-      locale,
-      webphone,
-    } = this._deps;
-
-    const sessionId = params?.sessionId;
-
-    const currentSession =
-      (sessionId
-        ? find((session) => session.id === sessionId, webphone.sessions)
-        : webphone.activeSession) || ({} as NormalizedSession);
-    const contactMapping = contactMatcher?.dataMapping;
-    const fromMatches = contactMapping?.[currentSession.from] ?? [];
-    const toMatches = contactMapping?.[currentSession.to] ?? [];
+    // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
+    this.currentSessionId = params?.sessionId;
     const nameMatches =
-      currentSession.direction === callDirections.outbound
-        ? toMatches
-        : fromMatches;
+      this.currentSession.direction === callDirections.outbound
+        ? this.toMatches
+        : this.fromMatches;
 
-    const isWebRTC = callingSettings.callingMode === callingModes.webphone;
-    const isInboundCall = currentSession.direction === callDirections.inbound;
+    const isWebRTC =
+      this._deps.callingSettings.callingMode === callingModes.webphone;
+    const isInboundCall =
+      this.currentSession.direction === callDirections.inbound;
 
-    let lastCallInfo = conferenceCall?.lastCallInfo;
+    let lastCallInfo = this._deps.conferenceCall?.lastCallInfo;
 
-    const conferenceCallEquipped = conferenceCall?.hasPermission ?? false;
+    const conferenceCallEquipped =
+      this._deps.conferenceCall?.hasPermission ?? false;
     const conferenceData = conferenceCallEquipped
-      ? values(conferenceCall.conferences)[0]
+      ? // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+        values(this._deps.conferenceCall.conferences)[0]
       : undefined;
     const isOnConference = conferenceCallEquipped
-      ? conferenceCall.isConferenceSession(currentSession.id)
+      ? // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+        this._deps.conferenceCall.isConferenceSession(this.currentSession.id)
       : false;
-    const isMerging = conferenceCallEquipped && conferenceCall.isMerging;
+    const isMerging =
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+      conferenceCallEquipped && this._deps.conferenceCall.isMerging;
     const conferenceCallId =
       conferenceData && isWebRTC ? conferenceData.conference.id : null;
     const isConferenceCallOverload =
       conferenceData && isWebRTC
-        ? conferenceCall.isOverload(conferenceCallId)
+        ? // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+          this._deps.conferenceCall.isOverload(conferenceCallId)
         : false;
 
     const hasConferenceCall = !!conferenceData;
     const conferenceCallParties = conferenceCallEquipped
-      ? conferenceCall.partyProfiles
+      ? // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+        this._deps.conferenceCall.partyProfiles
       : undefined;
 
     // TODO: investigate whether this can simply use isMerging
     const fromSessionId = conferenceCallEquipped
-      ? conferenceCall.mergingPair?.fromSessionId
+      ? // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+        this._deps.conferenceCall.mergingPair?.fromSessionId
       : undefined;
     const hideChildren =
       conferenceCallEquipped &&
       !isInboundCall &&
       fromSessionId &&
-      fromSessionId !== currentSession.id;
-    lastCallInfo && lastCallInfo.status !== sessionStatus.finished;
+      fromSessionId !== this.currentSession.id &&
+      lastCallInfo &&
+      lastCallInfo.status !== sessionStatus.finished;
 
-    if (currentSession.warmTransferSessionId) {
-      const warmTransferSession = webphone.sessions.find(
-        (session) => session.id === currentSession.warmTransferSessionId,
+    if (this.currentSession.warmTransferSessionId) {
+      const warmTransferSession = this._deps.webphone.sessions.find(
+        (session) => session.id === this.currentSession.warmTransferSessionId,
       );
+      // @ts-expect-error TS(2345): Argument of type 'NormalizedSession | undefined' i... Remove this comment to see the full error message
       lastCallInfo = getLastCallInfoFromWebphoneSession(warmTransferSession);
     }
 
     const disableLinks = !!(
-      connectivityManager.isOfflineMode || connectivityManager.isVoipOnlyMode
+      this._deps.connectivityManager.isOfflineMode ||
+      this._deps.connectivityManager.isVoipOnlyMode
     );
 
     let phoneNumber =
-      currentSession.direction === callDirections.outbound
-        ? currentSession.to
-        : currentSession.from;
+      this.currentSession.direction === callDirections.outbound
+        ? this.currentSession.to
+        : this.currentSession.from;
 
     if (
       this._deps.appFeatures.isCDCEnabled &&
       checkShouldHidePhoneNumber(phoneNumber, nameMatches)
     ) {
+      // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string'.
       phoneNumber = null;
     }
 
     return {
-      brand: brand.name,
+      brand: this._deps.brand.name,
       nameMatches,
       phoneNumber,
-      currentLocale: locale.currentLocale,
-      session: currentSession,
-      areaCode: regionSettings.areaCode,
-      countryCode: regionSettings.countryCode,
+      currentLocale: this._deps.locale.currentLocale,
+      session: this.currentSession,
+      areaCode: this._deps.regionSettings.areaCode,
+      countryCode: this._deps.regionSettings.countryCode,
       showBackButton: true, // callMonitor.calls.length > 0,
-      searchContactList: contactSearch.sortedResult,
+      searchContactList: this._deps.contactSearch.sortedResult,
       showSpinner: isMerging,
       conferenceCallEquipped,
       hasConferenceCall,
@@ -163,9 +197,10 @@ export class CallControlUI extends RcUIModuleV2<Deps> {
       isWebRTC,
       disableLinks,
       isConferenceCallOverload,
-      disableFlip: forwardingNumber.flipNumbers.length === 0,
+      disableFlip: this._deps.forwardingNumber.flipNumbers.length === 0,
       showCallQueueName,
       showPark,
+      controlBusy: this.currentSession.callStatus === sessionStatus.setup,
     };
   }
 
@@ -180,8 +215,8 @@ export class CallControlUI extends RcUIModuleV2<Deps> {
     lastCallInfo?: LastCallInfo;
     session?: NormalizedSession;
   }) => {
-    const { conferenceCall, webphone } = this._deps;
     let layout = callCtrlLayouts.normalCtrl;
+    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     if (session.warmTransferSessionId) {
       return callCtrlLayouts.completeTransferCtrl;
     }
@@ -192,25 +227,33 @@ export class CallControlUI extends RcUIModuleV2<Deps> {
     if (isOnConference) {
       return callCtrlLayouts.conferenceCtrl;
     }
+    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     const isInboundCall = session.direction === callDirections.inbound;
 
-    const { fromSessionId } = conferenceCall.mergingPair;
+    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+    const { fromSessionId } = this._deps.conferenceCall.mergingPair;
     const fromSession = find(
       (x: any) => x.id === fromSessionId,
-      webphone.sessions,
+      this._deps.webphone.sessions,
     );
 
     const activeSessionId =
-      webphone && webphone.activeSession && webphone.activeSession.id;
+      this._deps.webphone &&
+      this._deps.webphone.activeSession &&
+      this._deps.webphone.activeSession.id;
 
     if (
       !isOnConference &&
       !isInboundCall &&
       fromSession &&
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       fromSessionId !== session.id &&
       lastCallInfo &&
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       (session.callStatus !== sessionStatus.onHold ||
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         (session.callStatus === sessionStatus.onHold &&
+          // @ts-expect-error TS(2532): Object is possibly 'undefined'.
           session.id === activeSessionId))
     ) {
       // enter merge ctrl page.
@@ -226,110 +269,128 @@ export class CallControlUI extends RcUIModuleV2<Deps> {
     phoneTypeRenderer,
     phoneSourceNameRenderer,
   }: CallControlComponentProps) {
-    const {
-      conferenceCall,
-      webphone,
-      regionSettings,
-      extensionInfo,
-      callingSettings,
-      callMonitor,
-      routerInteraction,
-      contactSearch,
-    } = this._deps;
     return {
       getInitialLayout: this.getInitialLayout,
       formatPhone: (phoneNumber: string) =>
         formatNumber({
           phoneNumber,
-          areaCode: regionSettings.areaCode,
-          countryCode: regionSettings.countryCode,
-          siteCode: extensionInfo?.site?.code ?? '',
-          isMultipleSiteEnabled: extensionInfo.isMultipleSiteEnabled,
+          areaCode: this._deps.regionSettings.areaCode,
+          countryCode: this._deps.regionSettings.countryCode,
+          siteCode: this._deps.extensionInfo?.site?.code ?? '',
+          isMultipleSiteEnabled: this._deps.extensionInfo.isMultipleSiteEnabled,
+          maxExtensionLength: this._deps.accountInfo.maxExtensionNumberLength,
+          isEDPEnabled: this._deps.appFeatures.isEDPEnabled,
         }),
       onHangup: (
         sessionId: string,
         layout: ObjectMapValue<typeof callCtrlLayouts>,
       ) => {
-        webphone.hangup(sessionId);
+        this._deps.webphone.hangup(sessionId);
         if (layout && layout === callCtrlLayouts.mergeCtrl) {
-          callMonitor.mergeControlClickHangupTrack();
+          this._deps.callMonitor.mergeControlClickHangupTrack();
         }
       },
-      onMute: (sessionId: string) => webphone.mute(sessionId),
-      onUnmute: (sessionId: string) => webphone.unmute(sessionId),
-      onHold: (sessionId: string) => webphone.hold(sessionId),
+      onMute: (sessionId: string) => this._deps.webphone.mute(sessionId),
+      onUnmute: (sessionId: string) => this._deps.webphone.unmute(sessionId),
+      onHold: (sessionId: string) => this._deps.webphone.hold(sessionId),
       onUnhold: (sessionId: string) => {
-        webphone.unhold(sessionId);
+        this._deps.webphone.unhold(sessionId);
       },
-      onRecord: (sessionId: string) => webphone.startRecord(sessionId),
-      onStopRecord: (sessionId: string) => webphone.stopRecord(sessionId),
+      onRecord: (sessionId: string) =>
+        this._deps.webphone.startRecord(sessionId),
+      onStopRecord: (sessionId: string) =>
+        this._deps.webphone.stopRecord(sessionId),
       sendDTMF: (...args: Parameters<Webphone['sendDTMF']>) =>
-        webphone.sendDTMF(...args),
+        this._deps.webphone.sendDTMF(...args),
       updateSessionMatchedContact: (
         ...args: Parameters<Webphone['updateSessionMatchedContact']>
-      ) => webphone.updateSessionMatchedContact(...args),
+      ) => this._deps.webphone.updateSessionMatchedContact(...args),
       getAvatarUrl,
       onBackButtonClick,
       onFlip: (sessionId: string) => {
-        routerInteraction.push(`/flip/${sessionId}`);
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+        this._deps.routerInteraction.push(`/flip/${sessionId}`);
       },
       onTransfer: (sessionId: string) => {
-        routerInteraction.push(`/transfer/${sessionId}/webphone`);
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+        this._deps.routerInteraction.push(`/transfer/${sessionId}/webphone`);
       },
       onCompleteTransfer: (sessionId: string) => {
-        webphone.completeWarmTransfer(sessionId);
+        this._deps.webphone.completeWarmTransfer(sessionId);
       },
-      onPark: (sessionId: string) => webphone.park(sessionId),
+      onPark: (sessionId: string) => this._deps.webphone.park(sessionId),
       searchContact: (searchString: string) =>
-        contactSearch.debouncedSearch({ searchString }),
+        this._deps.contactSearch.debouncedSearch({ searchString }),
       phoneTypeRenderer,
       phoneSourceNameRenderer,
       onAdd: (sessionId: string) => {
         // track user click add on call control
-        callMonitor.callControlClickAddTrack();
-        const session = find((x: any) => x.id === sessionId, webphone.sessions);
-        if (!session || !conferenceCall.validateCallRecording(session)) {
+        this._deps.callMonitor.callControlClickAddTrack();
+        const session = find(
+          (x: any) => x.id === sessionId,
+          this._deps.webphone.sessions,
+        );
+        if (
+          !session ||
+          // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+          !this._deps.conferenceCall.validateCallRecording(session)
+        ) {
           return;
         }
-        let fromNumber = callingSettings.fromNumber;
+        let fromNumber = this._deps.callingSettings.fromNumber;
         if (session.direction === callDirections.outbound) {
           fromNumber = session.fromNumber; // keep the same fromNumber
         }
         const otherCalls = filter(
           (call: any) =>
             call.webphoneSession && call.webphoneSession.id !== session.id,
-          callMonitor.allCalls,
+          this._deps.callMonitor.allCalls,
         );
         if (otherCalls.length) {
           // goto 'calls on hold' page
-          routerInteraction.push(
+          // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+          this._deps.routerInteraction.push(
             `/conferenceCall/callsOnhold/${fromNumber}/${session.id}`,
           );
         } else {
-          if (conferenceCall) {
-            conferenceCall.setMergeParty({ fromSessionId: sessionId });
+          if (this._deps.conferenceCall) {
+            this._deps.conferenceCall.setMergeParty({
+              fromSessionId: sessionId,
+            });
           }
           // goto dialer directly
-          routerInteraction.push(
+          // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+          this._deps.routerInteraction.push(
             `/conferenceCall/dialer/${fromNumber}/${sessionId}`,
           );
         }
       },
       onBeforeMerge: (sessionId: string) => {
-        const session = find((x: any) => x.id === sessionId, webphone.sessions);
-        if (!session || !conferenceCall.validateCallRecording(session)) {
+        const session = find(
+          (x: any) => x.id === sessionId,
+          this._deps.webphone.sessions,
+        );
+        if (
+          !session ||
+          // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+          !this._deps.conferenceCall.validateCallRecording(session)
+        ) {
           return false;
         }
-        if (conferenceCall) {
-          const conferenceData = Object.values(conferenceCall.conferences)[0];
+        if (this._deps.conferenceCall) {
+          const conferenceData = Object.values(
+            this._deps.conferenceCall.conferences,
+          )[0];
           if (conferenceData) {
             const conferenceSession = find(
               (x: any) => x.id === conferenceData.sessionId,
-              webphone.sessions,
+              this._deps.webphone.sessions,
             );
             if (
               conferenceSession &&
-              !conferenceCall.validateCallRecording(conferenceSession)
+              !this._deps.conferenceCall.validateCallRecording(
+                conferenceSession,
+              )
             ) {
               return false;
             }
@@ -338,34 +399,45 @@ export class CallControlUI extends RcUIModuleV2<Deps> {
         return true;
       },
       onMerge: async (sessionId: string) => {
-        const sessions = await conferenceCall.parseMergingSessions({
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+        const sessions = await this._deps.conferenceCall.parseMergingSessions({
           sessionId,
         });
         if (sessions) {
-          await conferenceCall.mergeSessions(sessions);
+          // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+          await this._deps.conferenceCall.mergeSessions(sessions);
         }
       },
 
       gotoParticipantsCtrl: () => {
-        routerInteraction.push('/conferenceCall/participants');
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+        this._deps.routerInteraction.push('/conferenceCall/participants');
         // track user click participant area on call control
-        callMonitor.callControlClickParticipantAreaTrack();
+        this._deps.callMonitor.callControlClickParticipantAreaTrack();
       },
       loadConference: (conferenceId: string) => {
-        if (conferenceCall) {
-          conferenceCall.loadConference(conferenceId);
+        if (this._deps.conferenceCall) {
+          this._deps.conferenceCall.loadConference(conferenceId);
         }
       },
       closeMergingPair: () => {
-        return conferenceCall && conferenceCall.closeMergingPair();
+        return (
+          this._deps.conferenceCall &&
+          this._deps.conferenceCall.closeMergingPair()
+        );
       },
       setMergeParty: (...args: Parameters<ConferenceCall['setMergeParty']>) => {
-        return conferenceCall && conferenceCall.setMergeParty(...args);
+        return (
+          this._deps.conferenceCall &&
+          this._deps.conferenceCall.setMergeParty(...args)
+        );
       },
       // user action track functions
-      afterHideMergeConfirm: () => callMonitor.confirmMergeClickCloseTrack(),
-      afterConfirmMerge: () => callMonitor.confirmMergeClickMergeTrack(),
-      afterOnMerge: () => callMonitor.callControlClickMergeTrack(),
+      afterHideMergeConfirm: () =>
+        this._deps.callMonitor.confirmMergeClickCloseTrack(),
+      afterConfirmMerge: () =>
+        this._deps.callMonitor.confirmMergeClickMergeTrack(),
+      afterOnMerge: () => this._deps.callMonitor.callControlClickMergeTrack(),
     };
   }
 }

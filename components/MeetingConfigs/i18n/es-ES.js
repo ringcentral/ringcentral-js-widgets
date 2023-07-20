@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -10,7 +8,7 @@ var _default = {
   topic: "Tema",
   when: "Cuándo",
   duration: "Duración",
-  recurringMeeting: "Reunión periódica",
+  recurringMeeting: "Reunión recurrente",
   recurringDescribe: "Recuerde comprobar la periodicidad o repetición en la invitación de calendario enviada a los asistentes.",
   video: "Vídeo",
   videoDescribe: "Al unirse a una reunión",
@@ -23,11 +21,11 @@ var _default = {
   requirePassword: "Es necesaria la contraseña de reunión",
   password: "Contraseña",
   rcmPasswordHintText: "La contraseña debe tener un máximo de 10 caracteres o números y no puede incluir símbolos, excepto “@”, “*” o “-”.",
-  passwordEmptyError: "Se requiere la contraseña de la reunión",
+  passwordEmptyError: "Contraseña de la reunión obligatoria",
   rcmPasswordInvalidError: "La contraseña debe tener un máximo de 10 caracteres o números y no puede incluir símbolos, excepto “@”, “*” o “-”.",
   enableJoinBeforeHost: "Permitir unirse antes que el host",
   telephonyOnly: "Solo telefonía",
-  hostVideoOn: "Vídeo del anfitrión activado",
+  hostVideoOn: "Vídeo del host activado",
   participantVideoOn: "Vídeo del participante activado",
   recurringEvery: "Cada",
   recurrenceType: "Tipo de repetición",
@@ -71,6 +69,5 @@ var _default = {
 // @key: @#@"pmiChangeConfirm"@#@ @source: @#@"If you want to make changes for your personal meeting, "@#@
 // @key: @#@"changePmiSettings"@#@ @source: @#@"change PMI settings"@#@
 // @key: @#@"pmiSettingChangeAlert"@#@ @source: @#@"If you change the settings and schedule this meeting, all of meetings with Personal Meeting ID will use the same latest settings."@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=es-ES.js.map

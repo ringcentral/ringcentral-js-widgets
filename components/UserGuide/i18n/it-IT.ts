@@ -1,8 +1,8 @@
 export default {
   start: "Visita guidata rapida",
-  skip: "Salta",
+  skip: "Ignora",
   next: "Avanti",
-  finish: "Termina"
+  finish: "Fine"
 };
 
 // @key: @#@"start"@#@ @source: @#@"Take a quick tour"@#@

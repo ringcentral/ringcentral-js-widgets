@@ -1,8 +1,8 @@
 export interface CallLogDialpadProps {
   onChange: (string: DtmfValue) => void;
-  onClose: () => {};
+  onClose: () => any;
   className: string;
-  isWide: boolean;
+  isWide?: boolean;
 }
 
 export type DtmfValue =

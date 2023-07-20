@@ -2,7 +2,7 @@ export default {
   419: "拉丁美洲",
   AR: "阿根廷",
   AT: "奧地利",
-  AU: "澳大利亞",
+  AU: "澳洲",
   BE: "比利時",
   BG: "保加利亞",
   BH: "巴林",
@@ -129,7 +129,7 @@ export default {
 // @key: @#@"SI"@#@ @source: @#@"Slovenia"@#@
 // @key: @#@"SK"@#@ @source: @#@"Slovakia"@#@
 // @key: @#@"SV"@#@ @source: @#@"El Salvador"@#@
-// @key: @#@"TR"@#@ @source: @#@"Turkey"@#@
+// @key: @#@"TR"@#@ @source: @#@"Türkiye"@#@
 // @key: @#@"TW"@#@ @source: @#@"Taiwan"@#@
 // @key: @#@"UA"@#@ @source: @#@"Ukraine"@#@
 // @key: @#@"US"@#@ @source: @#@"United States"@#@

@@ -1,239 +1,169 @@
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
-require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.symbol");
-
-require("core-js/modules/web.dom.iterable");
-
-require("core-js/modules/es6.array.iterator");
-
-require("core-js/modules/es6.object.to-string");
-
-require("core-js/modules/es6.string.iterator");
-
-require("core-js/modules/es6.weak-map");
-
-require("core-js/modules/es6.object.assign");
-
-require("core-js/modules/es6.object.define-property");
-
-require("core-js/modules/es6.object.create");
-
-require("core-js/modules/es6.reflect.construct");
-
+require("core-js/modules/es.array.is-array");
+require("core-js/modules/es.array.map");
+require("core-js/modules/es.array.slice");
+require("core-js/modules/es.array.some");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = void 0;
-
-require("core-js/modules/es6.object.set-prototype-of");
-
-require("core-js/modules/es6.array.slice");
-
-require("core-js/modules/es6.array.some");
-
-require("core-js/modules/es6.array.map");
-
-require("core-js/modules/es6.array.find");
-
-require("core-js/modules/es6.function.bind");
-
+exports.NavigationBar = void 0;
+require("regenerator-runtime/runtime");
 var _react = _interopRequireWildcard(require("react"));
-
 var _classnames = _interopRequireDefault(require("classnames"));
-
+var _juno = require("@ringcentral/juno");
+var _NavigationBarMoreMenu = require("./NavigationBarMoreMenu");
 var _styles = _interopRequireDefault(require("./styles.scss"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
-
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
-function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-var NavigationBar = /*#__PURE__*/function (_Component) {
-  _inherits(NavigationBar, _Component);
-
-  var _super = _createSuper(NavigationBar);
-
-  function NavigationBar(props) {
-    var _this;
-
-    _classCallCheck(this, NavigationBar);
-
-    _this = _super.call(this, props);
-    _this._mounted = void 0;
-    _this.goTo = _this.goTo.bind(_assertThisInitialized(_this));
-    _this._mounted = false;
-    _this.state = {
-      currentVirtualPath: _this.props.currentVirtualPath
-    };
-    return _this;
-  }
-
-  _createClass(NavigationBar, [{
-    key: "componentDidMount",
-    value: function componentDidMount() {
-      this._mounted = true;
-    }
-  }, {
-    key: "UNSAFE_componentWillReceiveProps",
-    value: function UNSAFE_componentWillReceiveProps(nextProps) {
-      if (nextProps.currentVirtualPath && this._mounted) {
-        this.setState({
-          currentVirtualPath: nextProps.currentVirtualPath
-        });
-      }
-    }
-  }, {
-    key: "componentWillUnmount",
-    value: function componentWillUnmount() {
-      this._mounted = false;
-    }
-  }, {
-    key: "goTo",
-    value: function goTo(tab) {
-      var _this2 = this;
-
-      this.props.goTo(tab.path, tab.virtualPath); // seems like the goTo is asynchronous
-      // so here set timeout for resolving menu looks flash issue
-
-      setTimeout(function () {
-        if (_this2._mounted) {
-          _this2.setState({
-            currentVirtualPath: tab.virtualPath
-          });
-        }
-      }, 10);
-    }
-  }, {
-    key: "render",
-    value: function render() {
-      var _this3 = this;
-
-      var _this$props = this.props,
-          className = _this$props.className,
-          button = _this$props.button,
-          childNavigationView = _this$props.childNavigationView,
-          currentPath = _this$props.currentPath,
-          tabWidth = _this$props.tabWidth,
-          tabHeight = _this$props.tabHeight,
-          tabs = _this$props.tabs,
-          fullSizeInk = _this$props.fullSizeInk,
-          direction = _this$props.direction,
-          tooltipForceHide = _this$props.tooltipForceHide;
-      var NavigationButton = button;
-      var ChildNavigationView = childNavigationView;
-      var isVertical = direction === 'vertical';
-      var directionClass = isVertical ? _styles["default"].vertical : undefined;
-      var currentVirtualPath = this.state.currentVirtualPath;
-      var _tabWidth = '0';
-
-      var _tabHeight = isVertical ? tabHeight || '50px' : '100%';
-
-      if (tabWidth) {
-        _tabWidth = tabWidth;
-      } else {
-        // Align equally fully
-        _tabWidth = tabs.length > 0 ? "".concat(1 / tabs.length * 100, "%") : '0';
-      }
-
-      var dropdownMenuTab = tabs.find(function (tab) {
-        return tab.childTabs && tab.isActive && tab.isActive(currentPath, currentVirtualPath);
+function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0) { ; } } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
+function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+function getTabInfo(_ref) {
+  var _tab$isActive, _tab$childTabs;
+  var tab = _ref.tab,
+    currentPath = _ref.currentPath,
+    currentVirtualPath = _ref.currentVirtualPath;
+  var active = ((_tab$isActive = tab.isActive) === null || _tab$isActive === void 0 ? void 0 : _tab$isActive.call(tab, currentPath, currentVirtualPath)) || tab.path && tab.path === currentPath || tab.virtualPath && tab.virtualPath === currentVirtualPath || ((_tab$childTabs = tab.childTabs) === null || _tab$childTabs === void 0 ? void 0 : _tab$childTabs.some(function (childTab) {
+    return childTab.path === currentPath || childTab.path === currentPath.slice(0, 9);
+  }));
+  var activeAttr = active ? 'true' : '';
+  function getIcon(icon) {
+    if (!icon) return icon;
+    if ( /*#__PURE__*/_react["default"].isValidElement(icon)) {
+      return /*#__PURE__*/_react["default"].cloneElement(icon, {
+        // @ts-expect-error
+        active: activeAttr
       });
-      var dropdownMenu = dropdownMenuTab && dropdownMenuTab.childTabs;
-      return /*#__PURE__*/_react["default"].createElement("nav", {
-        className: (0, _classnames["default"])(_styles["default"].root, className, directionClass)
-      }, tabs.map(function (tab, index) {
-        var _tab$isActive;
-
-        var active = ((_tab$isActive = tab.isActive) === null || _tab$isActive === void 0 ? void 0 : _tab$isActive.call(tab, currentPath, currentVirtualPath)) || tab.path && tab.path === currentPath || tab.virtualPath && tab.virtualPath === currentVirtualPath || tab.childTabs && tab.childTabs.some(function (childTab) {
-          return childTab.path === currentPath || childTab.path === currentPath.slice(0, 9);
-        });
-        var activeAttr = active ? 'true' : '';
-        var icon = tab.icon,
-            activeIcon = tab.activeIcon;
-
-        if (typeof icon === 'function') {
-          var Icon = icon;
-          icon = tab.childTabs ? /*#__PURE__*/_react["default"].createElement(Icon, {
-            currentPath: currentPath
-          }) : /*#__PURE__*/_react["default"].createElement(Icon, null);
-        } else if (icon && /*#__PURE__*/_react["default"].isValidElement(icon)) {
-          icon = /*#__PURE__*/_react["default"].cloneElement(icon, {
-            active: activeAttr
-          });
+    }
+    var Icon = icon;
+    return tab.childTabs ? /*#__PURE__*/_react["default"].createElement(Icon, {
+      currentPath: currentPath
+    }) : /*#__PURE__*/_react["default"].createElement(Icon, null);
+  }
+  var icon = tab.icon,
+    activeIcon = tab.activeIcon;
+  return {
+    icon: getIcon(icon),
+    activeIcon: getIcon(activeIcon),
+    active: active
+  };
+}
+function getTabSize(_ref2) {
+  var isVertical = _ref2.isVertical,
+    tabHeight = _ref2.tabHeight,
+    tabWidth = _ref2.tabWidth,
+    _ref2$tabs = _ref2.tabs,
+    tabs = _ref2$tabs === void 0 ? [] : _ref2$tabs;
+  var width = tabWidth !== null && tabWidth !== void 0 ? tabWidth : tabs.length > 0 ? "".concat(1 / tabs.length * 100, "%") : '0';
+  var height = isVertical ? tabHeight !== null && tabHeight !== void 0 ? tabHeight : '50px' : '100%';
+  return {
+    width: width,
+    height: height
+  };
+}
+var NavigationBar = function NavigationBar(props) {
+  var _props$fullSizeInk = props.fullSizeInk,
+    fullSizeInk = _props$fullSizeInk === void 0 ? true : _props$fullSizeInk,
+    _props$tabs = props.tabs,
+    tabs = _props$tabs === void 0 ? [] : _props$tabs,
+    _props$direction = props.direction,
+    direction = _props$direction === void 0 ? 'horizontal' : _props$direction,
+    currentVirtualPathProp = props.currentVirtualPath,
+    goToProp = props.goTo,
+    className = props.className,
+    NavigationButton = props.button,
+    childNavigationView = props.childNavigationView,
+    currentPath = props.currentPath,
+    tabWidth = props.tabWidth,
+    tabHeight = props.tabHeight,
+    tooltipForceHide = props.tooltipForceHide;
+  var _useState = (0, _react.useState)(currentVirtualPathProp),
+    _useState2 = _slicedToArray(_useState, 2),
+    currentVirtualPath = _useState2[0],
+    setCurrentVirtualPath = _useState2[1];
+  var isMounted = (0, _juno.useMountState)();
+  var isVertical = direction === 'vertical';
+  var directionClass = isVertical ? _styles["default"].vertical : undefined;
+  var setCurrentRouteState = (0, _juno.useEventCallback)(function (path) {
+    if (isMounted.current) {
+      setCurrentVirtualPath(path);
+    }
+  });
+  var goTo = /*#__PURE__*/function () {
+    var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(tab) {
+      return regeneratorRuntime.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              _context.next = 2;
+              return goToProp === null || goToProp === void 0 ? void 0 : goToProp(tab.path, tab.virtualPath);
+            case 2:
+              // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
+              setCurrentRouteState(tab.virtualPath);
+            case 3:
+            case "end":
+              return _context.stop();
+          }
         }
-
-        if (typeof activeIcon === 'function') {
-          var ActiveIcon = activeIcon;
-          activeIcon = tab.childTabs ? /*#__PURE__*/_react["default"].createElement(ActiveIcon, {
-            currentPath: currentPath
-          }) : /*#__PURE__*/_react["default"].createElement(ActiveIcon, null);
-        } else if (activeIcon && /*#__PURE__*/_react["default"].isValidElement(activeIcon)) {
-          activeIcon = /*#__PURE__*/_react["default"].cloneElement(activeIcon, {
-            active: activeAttr
-          });
-        }
-
-        return /*#__PURE__*/_react["default"].createElement(NavigationButton, _extends({}, tab, {
-          fullSizeInk: fullSizeInk,
-          key: index,
-          onClick: function onClick() {
-            _this3.goTo(tab);
-          },
-          active: active,
-          width: _tabWidth,
-          height: _tabHeight,
-          icon: icon,
-          activeIcon: activeIcon,
-          tooltipForceHide: tooltipForceHide
-        }));
-      }), ChildNavigationView && dropdownMenu && dropdownMenu.length ? /*#__PURE__*/_react["default"].createElement(ChildNavigationView, {
-        tabs: dropdownMenu,
-        goTo: this.goTo,
+      }, _callee);
+    }));
+    return function goTo(_x2) {
+      return _ref3.apply(this, arguments);
+    };
+  }();
+  var _getTabSize = getTabSize({
+      isVertical: isVertical,
+      tabHeight: tabHeight,
+      tabWidth: tabWidth,
+      tabs: tabs
+    }),
+    width = _getTabSize.width,
+    height = _getTabSize.height;
+  (0, _react.useEffect)(function () {
+    if (currentVirtualPath) {
+      setCurrentRouteState(currentVirtualPath);
+    }
+  }, [currentVirtualPath, setCurrentRouteState]);
+  return /*#__PURE__*/_react["default"].createElement("nav", {
+    className: (0, _classnames["default"])(_styles["default"].root, className, directionClass)
+  }, tabs.map(function (tab, index) {
+    var _getTabInfo = getTabInfo({
+        tab: tab,
         currentPath: currentPath,
         currentVirtualPath: currentVirtualPath
-      }) : null);
-    }
-  }]);
-
-  return NavigationBar;
-}(_react.Component);
-
-exports["default"] = NavigationBar;
-NavigationBar.defaultProps = {
-  className: undefined,
-  childNavigationView: undefined,
-  currentVirtualPath: undefined,
-  tabWidth: undefined,
-  tabHeight: undefined,
-  tabs: [],
-  fullSizeInk: true,
-  direction: 'horizonal'
+      }),
+      active = _getTabInfo.active,
+      icon = _getTabInfo.icon,
+      activeIcon = _getTabInfo.activeIcon;
+    return /*#__PURE__*/_react["default"].createElement(NavigationButton, _extends({}, tab, {
+      active: active,
+      icon: icon,
+      activeIcon: activeIcon,
+      fullSizeInk: fullSizeInk,
+      key: index,
+      onClick: function onClick() {
+        return goTo(tab);
+      },
+      width: width,
+      height: height,
+      tooltipForceHide: tooltipForceHide
+    }));
+  }), childNavigationView ? /*#__PURE__*/_react["default"].createElement(_NavigationBarMoreMenu.NavigationBarMoreMenu, {
+    tabs: tabs,
+    currentPath: currentPath,
+    childNavigationView: childNavigationView,
+    goTo: goTo,
+    currentVirtualPath: currentVirtualPath
+  }) : null);
 };
+exports.NavigationBar = NavigationBar;
 //# sourceMappingURL=NavigationBar.js.map

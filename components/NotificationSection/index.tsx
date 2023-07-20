@@ -21,9 +21,11 @@ type NotificationSectionProps = {
   onReject: (...args: any[]) => any;
   onHangup: (...args: any[]) => any;
   disableLinks?: boolean;
+  openEntityDetailLinkTrack?: (...args: any[]) => any;
 };
 class NotificationSection extends Component<NotificationSectionProps, {}> {
-  componentWillUpdate(nextProps) {
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
+  UNSAFE_componentWillUpdate(nextProps: any) {
     const {
       logNotification,
       onCloseNotification,
@@ -57,6 +59,7 @@ class NotificationSection extends Component<NotificationSectionProps, {}> {
       <div
         className={classnames(
           styles.root,
+          // @ts-expect-error TS(2532): Object is possibly 'undefined'.
           logNotification.notificationIsExpand ? styles.cover : null,
         )}
       >
@@ -74,6 +77,7 @@ class NotificationSection extends Component<NotificationSectionProps, {}> {
             currentLocale={currentLocale}
             formatPhone={formatPhone}
             currentLog={logNotification}
+            // @ts-expect-error TS(2532): Object is possibly 'undefined'.
             isExpand={logNotification.notificationIsExpand}
             onSave={onSaveNotification}
             onExpand={onExpandNotification}
@@ -88,10 +92,12 @@ class NotificationSection extends Component<NotificationSectionProps, {}> {
       </div>
     );
   }
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     return this.renderLogSection();
   }
 }
+// @ts-expect-error TS(2339): Property 'defaultProps' does not exist on type 'ty... Remove this comment to see the full error message
 NotificationSection.defaultProps = {
   // Notification
   logNotification: undefined,

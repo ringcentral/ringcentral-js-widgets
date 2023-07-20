@@ -1,6 +1,8 @@
-import React, { FunctionComponent, useMemo, useRef, useState } from 'react';
+import type { FunctionComponent } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 
-import { BLOCKED_ID_VALUE } from '@ringcentral-integration/commons/modules/CallingSettingsV2';
+import { BLOCKED_ID_VALUE } from '@ringcentral-integration/commons/modules/CallingSettings';
+import type { ToNumber } from '@ringcentral-integration/commons/modules/ComposeText';
 import {
   RcDialDelete,
   RcIconButton,
@@ -9,26 +11,27 @@ import {
   RcSelect,
   RcText,
 } from '@ringcentral/juno';
-import { DeleteCircle } from '@ringcentral/juno/icon';
+import { DeleteCircle } from '@ringcentral/juno-icon';
 
-import { CommunicationSetupProvider } from './CommunicationSetupProvider';
 import { useCommunicationSetupContext } from '../../contexts';
-
+import type { TabsEnumType } from '../ContactSearchPanel/ContactSearchPanelEnum';
+import { TabsEnum } from '../ContactSearchPanel/ContactSearchPanelEnum';
 import fromFieldI18n from '../FromField/i18n';
-import i18n from '../RecipientsInput/i18n';
-import { DirectlyProceedLine } from './DirectlyProceedLine';
+import inputI18n from '../RecipientsInput/i18n';
+import { CommunicationSetupProvider } from './CommunicationSetupProvider';
 import ContactSearchContainer from './ContactSearchContainer';
-import { isSplitterKey, validateValidChars } from './helper';
+import { isSplitterKey } from './helper';
+import i18n, { I18nKey } from './i18n';
 import {
   CallFields,
   FieldLine,
   FullSizeWrapper,
   ResultContainer,
   RootWrapper,
-  StyledRcDialTextField,
-  StyledToInputWrapper,
-  StyledRecipientsWrapper,
   StyledRcChip,
+  StyledRcDialTextField,
+  StyledRecipientsWrapper,
+  StyledToInputWrapper,
 } from './styles';
 
 const maxLength = 30;
@@ -44,6 +47,7 @@ interface FromFieldProps {
     usageType?: string;
   }[];
   blockedLabel: string;
+  inputRef: React.RefObject<HTMLInputElement>;
 }
 
 const FromField: FunctionComponent<FromFieldProps> = ({
@@ -54,6 +58,7 @@ const FromField: FunctionComponent<FromFieldProps> = ({
   changeFromNumber,
   options,
   blockedLabel,
+  inputRef,
 }) => (
   <FieldLine>
     <RcText variant="caption1" color="neutral.b04">
@@ -72,18 +77,27 @@ const FromField: FunctionComponent<FromFieldProps> = ({
         // classes: customSelectInputClasses,
         disableUnderline: true,
       }}
+      MenuProps={{
+        TransitionProps: {
+          onExited: () => {
+            inputRef.current?.focus();
+          },
+        },
+      }}
     >
       {options.map((item) => (
         <RcMenuItem
           onClick={() => changeFromNumber(item)}
           value={item.phoneNumber}
           key={item.phoneNumber}
+          data-sign="selectMenuItem"
         >
           {item.phoneNumber === BLOCKED_ID_VALUE ? (
             <RcListItemText primary={blockedLabel} />
           ) : (
             <RcListItemText
               primary={formatPhone(item.phoneNumber)}
+              // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
               secondary={fromFieldI18n.getString(item.usageType, currentLocale)}
             />
           )}
@@ -107,33 +121,32 @@ const FromField: FunctionComponent<FromFieldProps> = ({
 //   }
 // `;
 
-interface CommunicationSetupPanelProps {
+export type CommunicationSetupPanelProps = {
   // To field
   onToNumberChange: (...args: any[]) => any;
   label?: string;
-  placeholder?: string;
-  recipients?: {
-    phoneNumber: string;
-    name?: string;
-    isWarning?: boolean;
-  }[];
+  placeholder?: string | null;
+  recipients: ToNumber[];
   toNumber: string;
   setRecipient: (...args: any[]) => any;
   clearRecipient: (...args: any[]) => any;
   autoFocus?: boolean;
   multiple?: boolean;
+  directlyProceedType?: I18nKey;
+  inputFullWidth: boolean;
   // From field
-  showAnonymous: boolean;
-  fromNumber: string;
-  fromNumbers: { phoneNumber: string; usageType?: string }[];
-  changeFromNumber: (...args: any[]) => any;
-  formatPhone: (...args: any[]) => string;
-  detectPhoneNumbers: (...args: any[]) => any;
-  showFromField: boolean;
+  showAnonymous?: boolean;
+  fromNumber?: string;
+  fromNumbers?: { phoneNumber: string; usageType?: string }[];
+  changeFromNumber?: (...args: any[]) => any;
+  formatPhone?: (...args: any[]) => string;
+  detectPhoneNumbers?: (...args: any[]) => any;
+  showFromField?: boolean;
   disableFromField?: boolean;
   // Common
   currentLocale: string;
-}
+  defaultTab?: TabsEnumType;
+};
 
 const CommunicationSetupWrapper: FunctionComponent<CommunicationSetupPanelProps> =
   (props) => {
@@ -147,6 +160,7 @@ const CommunicationSetupWrapper: FunctionComponent<CommunicationSetupPanelProps>
       formatPhone,
       recipients,
       multiple = false,
+      directlyProceedType = 'dial',
       setRecipient,
       clearRecipient,
       autoFocus,
@@ -154,15 +168,20 @@ const CommunicationSetupWrapper: FunctionComponent<CommunicationSetupPanelProps>
       disableFromField = false,
       children,
       showAnonymous,
-      label = `${i18n.getString('to', currentLocale)}:`,
-      placeholder = `${i18n.getString('enterNameOrNumber', currentLocale)}`,
+      label = `${inputI18n.getString('to', currentLocale)}:`,
+      placeholder = `${inputI18n.getString(
+        'enterNameOrNumber',
+        currentLocale,
+      )}`,
       detectPhoneNumbers,
+      defaultTab = TabsEnum.thirdParty,
+      inputFullWidth,
     } = props;
 
     const inputRef = useRef<HTMLInputElement>(null);
 
     const [openSearchPage, setOpenSearchPage] = useState<boolean>(false);
-
+    const showSearchPage = openSearchPage && !!toNumber.trim();
     const setRecipientByChars = (Chars: string) => {
       setOpenSearchPage(false);
       setRecipient({
@@ -175,7 +194,6 @@ const CommunicationSetupWrapper: FunctionComponent<CommunicationSetupPanelProps>
     const setRecipientHandler = (optionItem: any) => {
       setOpenSearchPage(false);
       setRecipient(optionItem);
-      inputRef.current?.blur();
     };
 
     const keyDownHandler = (e: React.KeyboardEvent) => {
@@ -191,7 +209,6 @@ const CommunicationSetupWrapper: FunctionComponent<CommunicationSetupPanelProps>
       inputRef.current?.blur();
     };
 
-    const showDirectlyLine = validateValidChars(toNumber);
     const hasTags = recipients.length > 0;
 
     const hiddenInput = !multiple && hasTags;
@@ -199,6 +216,7 @@ const CommunicationSetupWrapper: FunctionComponent<CommunicationSetupPanelProps>
     const options = useMemo(() => {
       if (showAnonymous) {
         return [
+          // @ts-expect-error TS(2488): Type '{ phoneNumber: string; usageType?: string | ... Remove this comment to see the full error message
           ...fromNumbers,
           {
             phoneNumber: BLOCKED_ID_VALUE,
@@ -213,10 +231,12 @@ const CommunicationSetupWrapper: FunctionComponent<CommunicationSetupPanelProps>
     const { inputPropsRef } = useCommunicationSetupContext();
 
     const InputProps = {
-      onChange: (...args) => {
+      onChange: (...args: any[]) => {
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         inputPropsRef?.current?.onChange.apply(null, args);
       },
       onKeyDown: (...args: any[]) => {
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         inputPropsRef?.current?.onKeyDown.apply(null, args);
       },
     };
@@ -227,6 +247,7 @@ const CommunicationSetupWrapper: FunctionComponent<CommunicationSetupPanelProps>
           <StyledRecipientsWrapper>
             {recipients.map((item, index) => (
               <StyledRcChip
+                data-sign="recipientsChip"
                 deleteIconProps={{ size: 'small' }}
                 style={{ fontSize: '14px' }}
                 onDelete={() => clearRecipient(item)}
@@ -240,12 +261,22 @@ const CommunicationSetupWrapper: FunctionComponent<CommunicationSetupPanelProps>
       [recipients, clearRecipient],
     );
 
+    const inputChangeHandler = (value: string) => {
+      if (value.trim()) {
+        setOpenSearchPage(true);
+      } else {
+        setOpenSearchPage(false);
+      }
+
+      onToNumberChange(value);
+    };
+
     return (
       <RootWrapper>
         <CallFields>
           <FieldLine>
             <RcText color="neutral.b05">{label}</RcText>
-            <StyledToInputWrapper>
+            <StyledToInputWrapper inputFullWidth={inputFullWidth}>
               {RecipientComponent}
               {!hiddenInput && (
                 <StyledRcDialTextField
@@ -257,8 +288,11 @@ const CommunicationSetupWrapper: FunctionComponent<CommunicationSetupPanelProps>
                   textVariant="body1"
                   onKeyDown={keyDownHandler}
                   value={toNumber}
-                  onChange={onToNumberChange}
-                  placeholder={placeholder}
+                  onChange={inputChangeHandler}
+                  // @ts-expect-error TS(2322): Type 'string | null' is not assignable to type 'st... Remove this comment to see the full error message
+                  placeholder={
+                    inputFullWidth && !!recipients.length ? null : placeholder
+                  }
                   onPaste={async (ev) => {
                     if (
                       detectPhoneNumbers &&
@@ -266,13 +300,14 @@ const CommunicationSetupWrapper: FunctionComponent<CommunicationSetupPanelProps>
                       ev.clipboardData.getData
                     ) {
                       const pastedText = ev.clipboardData.getData('text/plain');
+                      ev.preventDefault();
                       const result = await detectPhoneNumbers(pastedText);
-                      result && ev.preventDefault();
+                      !result && inputChangeHandler(pastedText);
                     }
                   }}
                   InputProps={{
                     ...InputProps,
-                    endAdornment: openSearchPage && (
+                    endAdornment: !!toNumber.length && (
                       <RcDialDelete
                         onDelete={(e) => {
                           e.preventDefault();
@@ -289,7 +324,9 @@ const CommunicationSetupWrapper: FunctionComponent<CommunicationSetupPanelProps>
                       </RcDialDelete>
                     ),
                     onFocus: () => {
-                      setOpenSearchPage(true);
+                      if (toNumber.trim()) {
+                        setOpenSearchPage(true);
+                      }
                     },
                   }}
                   inputProps={{
@@ -302,34 +339,34 @@ const CommunicationSetupWrapper: FunctionComponent<CommunicationSetupPanelProps>
           </FieldLine>
           {showFromField && (
             <FromField
+              inputRef={inputRef}
               currentLocale={currentLocale}
               disableFromField={disableFromField}
+              // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
               fromNumber={fromNumber}
+              // @ts-expect-error TS(2322): Type '((...args: any[]) => string) | undefined' is... Remove this comment to see the full error message
               formatPhone={formatPhone}
+              // @ts-expect-error TS(2322): Type '((...args: any[]) => any) | undefined' is no... Remove this comment to see the full error message
               changeFromNumber={changeFromNumber}
+              // @ts-expect-error TS(2322): Type 'any[] | undefined' is not assignable to type... Remove this comment to see the full error message
               options={options}
               blockedLabel={blockedLabel}
             />
           )}
         </CallFields>
         <FullSizeWrapper>
-          {openSearchPage && (
+          {showSearchPage && (
             <ResultContainer>
-              <FullSizeWrapper>
-                <ContactSearchContainer
-                  optionClickHandler={setRecipientHandler}
-                  inputRef={inputRef}
-                  userInput={toNumber}
-                />
-              </FullSizeWrapper>
-              {showDirectlyLine && (
-                <DirectlyProceedLine
-                  inMessagePage={multiple}
-                  currentLocale={currentLocale}
-                  number={toNumber}
-                  onClick={() => setRecipientByChars(toNumber)}
-                />
-              )}
+              <ContactSearchContainer
+                optionClickHandler={setRecipientHandler}
+                inputRef={inputRef}
+                userInput={toNumber}
+                defaultTab={defaultTab}
+                directlyProceedText={i18n.getString(
+                  directlyProceedType,
+                  currentLocale,
+                )}
+              />
             </ResultContainer>
           )}
           {children}

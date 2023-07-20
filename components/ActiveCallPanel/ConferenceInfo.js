@@ -1,94 +1,49 @@
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
-require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.symbol");
-
-require("core-js/modules/web.dom.iterable");
-
-require("core-js/modules/es6.array.iterator");
-
-require("core-js/modules/es6.object.to-string");
-
-require("core-js/modules/es6.string.iterator");
-
-require("core-js/modules/es6.weak-map");
-
-require("core-js/modules/es6.object.define-property");
-
-require("core-js/modules/es6.object.create");
-
-require("core-js/modules/es6.reflect.construct");
-
+require("core-js/modules/es.array.concat");
+require("core-js/modules/es.array.find");
+require("core-js/modules/es.array.is-array");
+require("core-js/modules/es.array.map");
+require("core-js/modules/es.array.slice");
+require("core-js/modules/es.function.bind");
+require("core-js/modules/es.object.get-prototype-of");
+require("core-js/modules/es.object.set-prototype-of");
+require("core-js/modules/es.parse-int");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-
-require("core-js/modules/es6.object.set-prototype-of");
-
-require("core-js/modules/es6.array.map");
-
-require("core-js/modules/es6.array.slice");
-
-require("core-js/modules/es6.array.is-array");
-
-require("core-js/modules/es6.array.find");
-
 var _react = _interopRequireWildcard(require("react"));
-
 var _classnames = _interopRequireDefault(require("classnames"));
-
 var _debounce = _interopRequireDefault(require("@ringcentral-integration/commons/lib/debounce"));
-
 var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
-
-var _CallAvatar = _interopRequireDefault(require("../CallAvatar"));
-
+var _CallAvatar = require("../CallAvatar");
 var _i18n = _interopRequireDefault(require("./i18n"));
-
 var _styles = _interopRequireDefault(require("./styles.scss"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
-
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
-
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 var MAXIMUM_AVATARS = 4;
-var WIDTH_PER_AVATAR = parseInt(_styles["default"].conferenceAvatarSize, 0); // 51
-
-var AVATAR_MERGIN_LEFT = parseInt(_styles["default"].avatarMerginLeftSize, 0); // -20
-
-var PEDDING_WIDTH = parseInt(_styles["default"].avatarPaddingSize, 0); // 15
-
+var WIDTH_PER_AVATAR = parseInt(_styles["default"].conferenceAvatarSize, 10); // 51
+var AVATAR_MERGIN_LEFT = parseInt(_styles["default"].avatarMerginLeftSize, 10); // -20
+var PEDDING_WIDTH = parseInt(_styles["default"].avatarPaddingSize, 10); // 15
 var minWidthCalculator = function minWidthCalculator(count) {
   return WIDTH_PER_AVATAR * count + AVATAR_MERGIN_LEFT * (count - 1) + PEDDING_WIDTH * 2 + 1 + 2;
-}; // when the container width reachs below item of width, display the avatar amount of count.
-
-
+};
+// when the container width reachs below item of width, display the avatar amount of count.
 var KINDS_OF_WIDTH_THAT_NEED_ADAPATER = [{
   avartarCount: 0,
   width: minWidthCalculator(1)
@@ -102,18 +57,15 @@ var KINDS_OF_WIDTH_THAT_NEED_ADAPATER = [{
   avartarCount: 3,
   width: minWidthCalculator(MAXIMUM_AVATARS + 1)
 }];
-
 var ConferenceInfo = /*#__PURE__*/function (_Component) {
   _inherits(ConferenceInfo, _Component);
-
   var _super = _createSuper(ConferenceInfo);
-
   function ConferenceInfo(props) {
     var _this;
-
     _classCallCheck(this, ConferenceInfo);
-
     _this = _super.call(this, props);
+    _this._container = void 0;
+    _this._mounted = void 0;
     _this.onWindowResize = (0, _debounce["default"])(function () {
       _this.updateAvatarAmounts(_this.props);
     }, 100);
@@ -123,37 +75,30 @@ var ConferenceInfo = /*#__PURE__*/function (_Component) {
     _this._container = /*#__PURE__*/_react["default"].createRef();
     return _this;
   }
-
   _createClass(ConferenceInfo, [{
     key: "_computeAvatarCountByWindowWidth",
     value: function _computeAvatarCountByWindowWidth(props) {
       var partyProfiles = props.partyProfiles;
       var avatarProfilesCount = partyProfiles && partyProfiles.length || 0;
-
       if (!this._mounted) {
         if (avatarProfilesCount >= MAXIMUM_AVATARS) {
           return MAXIMUM_AVATARS;
         }
-
         return avatarProfilesCount;
       }
-
       var width = this._container && this._container.current && this._container.current.clientWidth;
       var avatarCount = avatarProfilesCount;
       var firstMatchWidth = KINDS_OF_WIDTH_THAT_NEED_ADAPATER.find(function (it) {
         return width < it.width;
       });
-
       if (firstMatchWidth) {
         avatarCount = firstMatchWidth.avartarCount;
-
         if (avatarCount + 1 === avatarProfilesCount) {
           avatarCount = avatarProfilesCount;
         }
       } else if (avatarCount >= MAXIMUM_AVATARS) {
         avatarCount = MAXIMUM_AVATARS;
       }
-
       return avatarCount;
     }
   }, {
@@ -162,45 +107,42 @@ var ConferenceInfo = /*#__PURE__*/function (_Component) {
       if (!this._mounted) {
         return;
       }
-
       var avatarCount = this._computeAvatarCountByWindowWidth(props);
-
       if (avatarCount !== this.state.avatarCount) {
         this.setState({
           avatarCount: avatarCount
         });
       }
-    }
+    } // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   }, {
-    key: "componentWillReceiveProps",
-    value: function componentWillReceiveProps(nextProps) {
+    key: "UNSAFE_componentWillReceiveProps",
+    value: function UNSAFE_componentWillReceiveProps(nextProps) {
       this.updateAvatarAmounts(nextProps);
-    }
+    } // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   }, {
     key: "componentDidMount",
     value: function componentDidMount() {
       this._mounted = true;
       window.addEventListener('resize', this.onWindowResize);
       this.updateAvatarAmounts(this.props);
-    }
+    } // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   }, {
     key: "componentWillUnmount",
     value: function componentWillUnmount() {
       this._mounted = false;
       window.removeEventListener('resize', this.onWindowResize);
-    }
+    } // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   }, {
     key: "shouldComponentUpdate",
     value: function shouldComponentUpdate(nextProps, nextState) {
       var partyProfiles = nextProps.partyProfiles;
       var oldpartyProfiles = this.props.partyProfiles;
       var showUpdate = true;
-
       if (partyProfiles !== oldpartyProfiles) {
         if (Array.isArray(partyProfiles) && Array.isArray(oldpartyProfiles) && partyProfiles.length === oldpartyProfiles.length) {
           showUpdate = false;
-
           for (var i = 0; i < partyProfiles.length; i += 1) {
+            // @ts-expect-error TS(2339): Property 'id' does not exist on type '{ avatarUrl?... Remove this comment to see the full error message
             if (partyProfiles[i].id !== oldpartyProfiles[i].id) {
               showUpdate = true;
               break;
@@ -212,55 +154,53 @@ var ConferenceInfo = /*#__PURE__*/function (_Component) {
       } else {
         showUpdate = false;
       }
-
       return showUpdate;
     }
   }, {
     key: "computeDisplayedProfiles",
     value: function computeDisplayedProfiles(_ref) {
       var profiles = _ref.profiles,
-          avatarCount = _ref.avatarCount;
+        avatarCount = _ref.avatarCount;
       var displayedProfiles = profiles.length >= avatarCount ? profiles.slice(0, avatarCount) : profiles;
       var remains = profiles.length - avatarCount;
       return {
         displayedProfiles: displayedProfiles,
         remains: remains
       };
-    }
+    } // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   }, {
     key: "render",
     value: function render() {
       var _this$props = this.props,
-          currentLocale = _this$props.currentLocale,
-          partyProfiles = _this$props.partyProfiles,
-          _onClick = _this$props.onClick;
+        currentLocale = _this$props.currentLocale,
+        partyProfiles = _this$props.partyProfiles,
+        _onClick = _this$props.onClick;
       var profiles = partyProfiles || [];
       var avatarCount = this.state.avatarCount;
-
       var _this$computeDisplaye = this.computeDisplayedProfiles({
-        profiles: profiles,
-        avatarCount: avatarCount
-      }),
-          displayedProfiles = _this$computeDisplaye.displayedProfiles,
-          remains = _this$computeDisplaye.remains;
-
+          profiles: profiles,
+          avatarCount: avatarCount
+        }),
+        displayedProfiles = _this$computeDisplaye.displayedProfiles,
+        remains = _this$computeDisplaye.remains;
       return /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].conferenceCallInfoContainer,
         ref: this._container
       }, displayedProfiles.length || avatarCount === 0 && remains > 0 ? /*#__PURE__*/_react["default"].createElement("div", {
+        "data-sign": "conferenceInfo",
         className: (0, _classnames["default"])(_styles["default"].avatarContainer, _styles["default"].clickable),
         onClick: function onClick(e) {
           e.preventDefault();
-
+          // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
           _onClick();
         }
       }, displayedProfiles.map(function (_ref2, idx) {
         var avatarUrl = _ref2.avatarUrl,
-            partyName = _ref2.partyName;
+          partyName = _ref2.partyName;
         return /*#__PURE__*/_react["default"].createElement("div", {
           key: "".concat(partyName, "_").concat(idx),
           className: _styles["default"].avatar
-        }, /*#__PURE__*/_react["default"].createElement(_CallAvatar["default"], {
+        }, /*#__PURE__*/_react["default"].createElement(_CallAvatar.CallAvatar, {
           avatarUrl: avatarUrl
         }));
       }), remains > 0 ? /*#__PURE__*/_react["default"].createElement("div", {
@@ -280,10 +220,8 @@ var ConferenceInfo = /*#__PURE__*/function (_Component) {
       }, _i18n["default"].getString('conferenceCall', currentLocale)));
     }
   }]);
-
   return ConferenceInfo;
-}(_react.Component);
-
+}(_react.Component); // @ts-expect-error TS(2339): Property 'defaultProps' does not exist on type 'ty... Remove this comment to see the full error message
 ConferenceInfo.defaultProps = {
   partyProfiles: null,
   onClick: function onClick(i) {

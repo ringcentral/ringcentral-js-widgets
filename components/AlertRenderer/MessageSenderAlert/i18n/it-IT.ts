@@ -1,5 +1,4 @@
-import messageSenderMessages from '@ringcentral-integration/commons/modules/MessageSender/messageSenderMessages';
-import messageSenderMessagesV2 from '@ringcentral-integration/commons/modules/MessageSenderV2/messageSenderMessages';
+import { messageSenderMessages } from '@ringcentral-integration/commons/modules/MessageSender';
 export default {
   [messageSenderMessages.sendSuccess]: "Invio completato.",
   [messageSenderMessages.sendError]: "Errore durante l'invio del messaggio.",
@@ -11,7 +10,7 @@ export default {
   [messageSenderMessages.recipientsEmpty]: "Immetti un numero di destinazione valido.",
   [messageSenderMessages.textTooLong]: "Testo troppo lungo, limite di 1000",
   [messageSenderMessages.multipartTextTooLong]: "Testo troppo lungo, limite di 5000",
-  [messageSenderMessages.recipientNumberInvalids]: "Immetti un numero di telefono valido.",
+  [messageSenderMessages.recipientNumberInvalids]: "Inserisci un numero di telefono valido.",
   [messageSenderMessages.noAreaCode]: "Imposta {areaCodeLink} per l'utilizzo dei numeri di telefono locali a 7 cifre.",
   [messageSenderMessages.specialNumber]: "L'invio di SMS a numeri di servizi di emergenza o servizi speciali non è supportato.",
   [messageSenderMessages.connectFailed]: "Connessione non riuscita. Riprova più tardi.",
@@ -19,15 +18,16 @@ export default {
   [messageSenderMessages.notAnExtension]: "Il numero interno non esiste.",
   [messageSenderMessages.networkError]: "Impossibile connettersi a causa di problemi di rete. Riprova più tardi.",
   [messageSenderMessages.senderNumberInvalid]: "È richiesto un numero di telefono valido per inviare messaggi di testo a destinatari esterni all'azienda. Contatta l'amministratore per aggiungere un numero diretto al tuo account.",
-  [messageSenderMessages.notSmsToExtension]: "Impossibile inviare a un interno con numero di telefono principale. Se vuoi inviare a un interno, inserisci il numero di interno.",
+  [messageSenderMessages.notSmsToExtension]: "Impossibile inviare a un numero interno con numero di telefono principale. Se desideri inviare a un numero interno, immetti il numero.",
   [messageSenderMessages.internationalSMSNotSupported]: "L'invio di SMS a un numero di telefono internazionale non è supportato.",
   [messageSenderMessages.noInternalSMSPermission]: "Non disponi dell'autorizzazione per inviare messaggi. Contatta l'amministratore del tuo account {brand} per eseguire l'upgrade.",
-  [messageSenderMessages.noSMSPermission]: "Non sei autorizzato a inviare messaggi a destinatari esterni all'organizzazione.",
-  [messageSenderMessagesV2.attachmentCountLimitation]: "Massimo 10 allegati.",
-  [messageSenderMessagesV2.attachmentSizeLimitation]: "La dimensione massima degli allegati è 1,5 MB.",
-  [messageSenderMessagesV2.noAttachmentToExtension]: "Non è supportato l'invio di MMS a un interno.",
+  [messageSenderMessages.noSMSPermission]: "Non hai l'autorizzazione per inviare messaggi a destinatari esterni all'organizzazione.",
+  [messageSenderMessages.attachmentCountLimitation]: "Massimo 10 allegati.",
+  [messageSenderMessages.attachmentSizeLimitation]: "La dimensione massima degli allegati è 1,5 MB.",
+  [messageSenderMessages.noAttachmentToExtension]: "Non è supportato l'invio di MMS a un interno.",
   areaCode: "prefisso",
-  [messageSenderMessages.sending]: "Invio messaggio in corso… l'operazione potrebbe richiedere un paio di minuti."
+  [messageSenderMessages.sending]: "Invio messaggio in corso… l'operazione potrebbe richiedere un paio di minuti.",
+  [messageSenderMessages.shortNumbersNotAvailable]: "L'invio di SMS a numeri brevi non è disponibile."
 };
 
 // @key: @#@"[messageSenderMessages.sendSuccess]"@#@ @source: @#@"Send Success."@#@
@@ -48,12 +48,13 @@ export default {
 // @key: @#@"[messageSenderMessages.notAnExtension]"@#@ @source: @#@"The extension number does not exist."@#@
 // @key: @#@"[messageSenderMessages.networkError]"@#@ @source: @#@"Cannot connect due to network issues. Please try again later."@#@
 // @key: @#@"[messageSenderMessages.senderNumberInvalid]"@#@ @source: @#@"A valid Phone Number is required to send text message to recipients outside of your company, Please contact your Administrator to add a direct number to your account."@#@
-// @key: @#@"[messageSenderMessages.notSmsToExtension]"@#@ @source: @#@"Cannot send To a extension number with main phone number. If you want to sent to a extension Number, please just enter extension Number."@#@
+// @key: @#@"[messageSenderMessages.notSmsToExtension]"@#@ @source: @#@"Cannot send to an extension number with main phone number. If you want to send to an extension number, please just enter extension number."@#@
 // @key: @#@"[messageSenderMessages.internationalSMSNotSupported]"@#@ @source: @#@"Sending SMS to international phone number is not supported."@#@
 // @key: @#@"[messageSenderMessages.noInternalSMSPermission]"@#@ @source: @#@"You don't have permission to send messages. Please contact your {brand} account administrator for upgrade."@#@
 // @key: @#@"[messageSenderMessages.noSMSPermission]"@#@ @source: @#@"You don't have permission to send messages to recipients outside of your organization."@#@
-// @key: @#@"[messageSenderMessagesV2.attachmentCountLimitation]"@#@ @source: @#@"Maximum 10 attachments."@#@
-// @key: @#@"[messageSenderMessagesV2.attachmentSizeLimitation]"@#@ @source: @#@"Attachments size is limited to 1.5M bytes."@#@
-// @key: @#@"[messageSenderMessagesV2.noAttachmentToExtension]"@#@ @source: @#@"It isn't supported to send MMS to an extension."@#@
+// @key: @#@"[messageSenderMessages.attachmentCountLimitation]"@#@ @source: @#@"Maximum 10 attachments."@#@
+// @key: @#@"[messageSenderMessages.attachmentSizeLimitation]"@#@ @source: @#@"Attachments size is limited to 1.5M bytes."@#@
+// @key: @#@"[messageSenderMessages.noAttachmentToExtension]"@#@ @source: @#@"It isn't supported to send MMS to an extension."@#@
 // @key: @#@"areaCode"@#@ @source: @#@"area code"@#@
 // @key: @#@"[messageSenderMessages.sending]"@#@ @source: @#@"Message being sent…It may take a couple of minutes to complete."@#@
+// @key: @#@"[messageSenderMessages.shortNumbersNotAvailable]"@#@ @source: @#@"Sending SMS to short numbers is not available."@#@

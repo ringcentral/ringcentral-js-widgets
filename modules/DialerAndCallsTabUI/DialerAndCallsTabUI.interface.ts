@@ -1,9 +1,9 @@
-import { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettingsV2';
-import { CallMonitor } from '@ringcentral-integration/commons/modules/CallMonitorV2';
-import { Locale } from '@ringcentral-integration/commons/modules/Locale';
-import { Webphone } from '@ringcentral-integration/commons/modules/WebphoneV2';
+import type { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettings';
+import type { CallMonitor } from '@ringcentral-integration/commons/modules/CallMonitor';
+import type { Locale } from '@ringcentral-integration/commons/modules/Locale';
+import type { Webphone } from '@ringcentral-integration/commons/modules/Webphone';
 
-import { RouterInteraction } from '../RouterInteraction';
+import type { RouterInteraction } from '../RouterInteraction';
 
 interface DialerAndCallsTabUIOptions {
   //

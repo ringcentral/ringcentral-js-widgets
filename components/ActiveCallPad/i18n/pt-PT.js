@@ -1,14 +1,12 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 var _default = {
   unmute: "Ativar som",
-  mute: "Desat. som",
+  mute: "Desativar som",
   keypad: "Teclado",
   hold: "Em espera",
   onHold: "Em espera",
@@ -37,6 +35,5 @@ var _default = {
 // @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
 // @key: @#@"end"@#@ @source: @#@"End"@#@
 // @key: @#@"completeTransfer"@#@ @source: @#@"Complete\nTransfer"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=pt-PT.js.map

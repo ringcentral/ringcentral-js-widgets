@@ -1,4 +1,5 @@
-import React, { ClipboardEvent, Component } from 'react';
+import type { ClipboardEvent } from 'react';
+import React, { Component } from 'react';
 
 import classnames from 'classnames';
 
@@ -68,6 +69,7 @@ class RecipientsInput extends Component<
   handleHotKey: (ev: React.KeyboardEvent<HTMLInputElement>) => void;
   listRef: any;
   inputRef: any;
+  // @ts-expect-error TS(2564): Property '_focusTimeout' has no initializer and is... Remove this comment to see the full error message
   _focusTimeout: NodeJS.Timeout;
 
   static defaultProps: Partial<RecipientsInputProps> = {
@@ -75,7 +77,7 @@ class RecipientsInput extends Component<
     searchContact: () => null,
   };
 
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     this.state = {
       value: props.value,
@@ -179,6 +181,7 @@ class RecipientsInput extends Component<
   }
 
   onInputKeyUp = (ev: React.KeyboardEvent<HTMLInputElement>) => {
+    // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
     this.props.searchContact(ev.currentTarget.value);
     this.setState({
       isFocusOnInput: true,
@@ -204,6 +207,7 @@ class RecipientsInput extends Component<
 
   onPaste = async (ev: ClipboardEvent) => {
     if (
+      // @ts-ignore
       this.props.detectPhoneNumbers &&
       ev.clipboardData &&
       ev.clipboardData.getData
@@ -226,7 +230,8 @@ class RecipientsInput extends Component<
     this.props.onClean();
   };
 
-  UNSAFE_componentWillReceiveProps(nextProps) {
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
+  UNSAFE_componentWillReceiveProps(nextProps: any) {
     const isNotEditing =
       !this.state.isFocusOnInput ||
       Date.now() - this.state.lastInputTimestamp > 2000;
@@ -240,11 +245,14 @@ class RecipientsInput extends Component<
           focusCampo(this.inputRef);
         }
       });
+      // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
       this.props.searchContact(nextProps.value);
     }
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   componentDidMount() {
+    // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
     this.props.searchContact(this.props.value);
     window.addEventListener('click', this.clickHandler);
     if (this.props.autoFocus) {
@@ -256,6 +264,7 @@ class RecipientsInput extends Component<
     }
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   componentWillUnmount() {
     window.removeEventListener('click', this.clickHandler);
   }
@@ -275,18 +284,19 @@ class RecipientsInput extends Component<
     });
   };
 
-  _addToRecipients = (item) => {
+  _addToRecipients = (item: any) => {
     this.setState({ value: '', isFocusOnInput: false });
     this.props.addToRecipients(item);
   };
 
-  setInputRef = (ref) => {
+  setInputRef = (ref: any) => {
     this.inputRef = ref;
     if (typeof this.props.inputRef === 'function') {
       this.props.inputRef(ref);
     }
   };
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     const {
       className,
@@ -311,15 +321,15 @@ class RecipientsInput extends Component<
 
     const { value, isFocusOnInput, scrollDirection, selectedContactIndex } =
       this.state;
-    // TODO a temporary fix for rendering slower search result.
+    // TODO: a temporary fix for rendering slower search result.
     const relatedContactList =
       value.length >= 3 ? searchContactList.slice(0, 50) : [];
+    const labelString =
+      label === undefined ? `${i18n.getString('to', currentLocale)}:` : label;
     const labelEl = (
       // eslint-disable-next-line jsx-a11y/label-has-associated-control
-      <label className={styles.label}>
-        {label === undefined
-          ? `${i18n.getString('to', currentLocale)}:`
-          : label}
+      <label className={styles.label} title={labelString}>
+        {labelString}
       </label>
     );
     const toNumberInput =
@@ -376,7 +386,9 @@ class RecipientsInput extends Component<
         >
           <SelectedRecipients
             recipient={recipient}
+            // @ts-expect-error TS(2322): Type '{ phoneNumber: string; name?: string | undef... Remove this comment to see the full error message
             recipients={recipients}
+            // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
             multiple={multiple}
             onRemove={removeFromRecipients}
             className={recipientsClassName}
@@ -388,6 +400,7 @@ class RecipientsInput extends Component<
           listRef={(ref) => {
             this.listRef = ref;
           }}
+          // @ts-expect-error TS(2769): No overload matches this call.
           scrollDirection={scrollDirection}
           selectedIndex={selectedContactIndex}
           setSelectedIndex={this.setSelectedIndex}

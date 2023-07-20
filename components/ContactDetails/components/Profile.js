@@ -1,37 +1,24 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
+require("core-js/modules/es.function.name");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.Profile = void 0;
-
-require("core-js/modules/es6.function.name");
-
 var _react = _interopRequireDefault(require("react"));
-
 var _classnames = _interopRequireDefault(require("classnames"));
-
 var _extensionStatusTypes = require("@ringcentral-integration/commons/enums/extensionStatusTypes");
-
 var _getPresenceStatusName = require("../../../lib/getPresenceStatusName");
-
 var _PresenceStatusIcon = _interopRequireDefault(require("../../PresenceStatusIcon"));
-
 var _i18n = _interopRequireDefault(require("../i18n"));
-
 var _styles = _interopRequireDefault(require("../styles.scss"));
-
+var _usePresence = require("../../../react-hooks/usePresence");
 var _Avatar = require("./Avatar");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 var Status = function Status(_ref) {
   var presence = _ref.presence,
-      inactive = _ref.inactive,
-      currentLocale = _ref.currentLocale;
-
+    inactive = _ref.inactive,
+    currentLocale = _ref.currentLocale;
   if (inactive) {
     return /*#__PURE__*/_react["default"].createElement("div", {
       className: _styles["default"].status
@@ -39,10 +26,11 @@ var Status = function Status(_ref) {
       className: _styles["default"].inactiveText
     }, _i18n["default"].getString('notActivated', currentLocale))));
   }
-
   if (presence) {
-    var presenceStatus = presence.presenceStatus,
-        dndStatus = presence.dndStatus;
+    var _presence$presenceSta = presence.presenceStatus,
+      presenceStatus = _presence$presenceSta === void 0 ? '' : _presence$presenceSta,
+      _presence$dndStatus = presence.dndStatus,
+      dndStatus = _presence$dndStatus === void 0 ? '' : _presence$dndStatus;
     var presenceName = (0, _getPresenceStatusName.getPresenceStatusName)(presenceStatus, dndStatus, currentLocale);
     return /*#__PURE__*/_react["default"].createElement("div", {
       className: _styles["default"].status
@@ -52,36 +40,37 @@ var Status = function Status(_ref) {
       className: _styles["default"].presenceIcon,
       presenceStatus: presenceStatus,
       dndStatus: dndStatus
-    })), /*#__PURE__*/_react["default"].createElement("span", {
+    })), presenceName && /*#__PURE__*/_react["default"].createElement("span", {
       className: _styles["default"].presenceName
     }, presenceName));
   }
-
   return null;
 };
-
 var Name = function Name(_ref2) {
   var presence = _ref2.presence,
-      inactive = _ref2.inactive,
-      name = _ref2.name;
+    inactive = _ref2.inactive,
+    name = _ref2.name;
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].name, !presence && _styles["default"].withoutPresence, inactive && _styles["default"].inactiveText),
     title: name,
-    "data-sign": "contactName"
+    "data-sign": "contactName",
+    "data-inactive": inactive
   }, name);
 };
-
 var Profile = function Profile(_ref3) {
-  var _ref3$contact = _ref3.contact,
-      name = _ref3$contact.name,
-      presence = _ref3$contact.presence,
-      profileImageUrl = _ref3$contact.profileImageUrl,
-      status = _ref3$contact.status,
-      site = _ref3$contact.site,
-      type = _ref3$contact.type,
-      sourceNodeRenderer = _ref3.sourceNodeRenderer,
-      currentLocale = _ref3.currentLocale,
-      isMultipleSiteEnabled = _ref3.isMultipleSiteEnabled;
+  var contact = _ref3.contact,
+    sourceNodeRenderer = _ref3.sourceNodeRenderer,
+    currentLocale = _ref3.currentLocale,
+    isMultipleSiteEnabled = _ref3.isMultipleSiteEnabled,
+    getPresence = _ref3.getPresence;
+  var name = contact.name,
+    profileImageUrl = contact.profileImageUrl,
+    status = contact.status,
+    site = contact.site,
+    type = contact.type; // @ts-ignore
+  var presence = (0, _usePresence.usePresence)(contact, {
+    fetch: getPresence
+  });
   var inactive = status === _extensionStatusTypes.extensionStatusTypes.notActivated;
   return /*#__PURE__*/_react["default"].createElement("section", {
     className: _styles["default"].profile,
@@ -114,7 +103,6 @@ var Profile = function Profile(_ref3) {
     className: _styles["default"].content
   }, site.name)));
 };
-
 exports.Profile = Profile;
 Profile.defaultProps = {
   sourceNodeRenderer: function sourceNodeRenderer() {

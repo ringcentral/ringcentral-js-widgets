@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -23,7 +21,7 @@ var _default = {
   // text: 'Text',
   // call: 'Call',
   // addContact: 'Add Contact',
-  missedCall: "Verpasst",
+  missedCall: "Verpasste",
   inboundCall: "Eingehend",
   outboundCall: "Ausgehend" // from: 'From',
   // to: 'To',
@@ -34,10 +32,8 @@ var _default = {
   // mergeToConference: 'Merge',
   // hold: 'Hold',
   // unhold: 'Unhold',
-
 }; // @key: @#@"missedCall"@#@ @source: @#@"Missed"@#@
 // @key: @#@"inboundCall"@#@ @source: @#@"Inbound"@#@
 // @key: @#@"outboundCall"@#@ @source: @#@"Outbound"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=de-DE.js.map

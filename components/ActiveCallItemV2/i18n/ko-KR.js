@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -23,7 +21,7 @@ var _default = {
   // text: 'Text',
   // call: 'Call',
   // addContact: 'Add Contact',
-  missedCall: "부재중",
+  missedCall: "부재중 전화",
   inboundCall: "수신",
   outboundCall: "발신" // from: 'From',
   // to: 'To',
@@ -34,10 +32,8 @@ var _default = {
   // mergeToConference: 'Merge',
   // hold: 'Hold',
   // unhold: 'Unhold',
-
 }; // @key: @#@"missedCall"@#@ @source: @#@"Missed"@#@
 // @key: @#@"inboundCall"@#@ @source: @#@"Inbound"@#@
 // @key: @#@"outboundCall"@#@ @source: @#@"Outbound"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=ko-KR.js.map

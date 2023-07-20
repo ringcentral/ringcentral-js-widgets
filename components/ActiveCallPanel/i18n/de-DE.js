@@ -1,14 +1,12 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 var _default = {
   conferenceCall: "Telefonkonferenz",
-  onHold: "Gehalten",
+  onHold: "Wird gehalten",
   unknown: "Unbekannt",
   disconnected: "Getrennt",
   loading: "Ladevorgang läuft…",
@@ -19,6 +17,5 @@ var _default = {
 // @key: @#@"disconnected"@#@ @source: @#@"Disconnected"@#@
 // @key: @#@"loading"@#@ @source: @#@"Loading ..."@#@
 // @key: @#@"loadingTimeout"@#@ @source: @#@"Loading timeout."@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=de-DE.js.map

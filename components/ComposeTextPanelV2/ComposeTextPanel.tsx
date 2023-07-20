@@ -1,17 +1,12 @@
-import React, { FunctionComponent } from 'react';
-import { styled, palette2 } from '@ringcentral/juno';
+import type { FunctionComponent } from 'react';
+import React from 'react';
+
+import { CommunicationSetupPanel } from '../CommunicationSetupPanel';
+// TODO: Re implement this component by function component
+import NoSenderAlert from '../ComposeTextPanel/NoSenderAlert';
 import MessageInput from '../MessageInput';
 import { SpinnerOverlay } from '../SpinnerOverlay';
-// todo: Re implement this component by function component
-import NoSenderAlert from '../ComposeTextPanel/NoSenderAlert';
-import { fullSizeStyle } from '../../lib/commonStyles';
-import { CommunicationSetupPanel } from '../CommunicationSetupPanel';
-
-const Root = styled.div`
-  ${fullSizeStyle};
-  box-sizing: border-box;
-  background: ${palette2('neutral', 'b01')};
-`;
+import { Root } from './styles';
 
 export interface ComposeTextPanelProps {
   brand: string;
@@ -48,6 +43,7 @@ export interface ComposeTextPanelProps {
   }[];
   addAttachment?: (...args: any[]) => any;
   removeAttachment?: (...args: any[]) => any;
+  hintInfo?: JSX.Element;
 }
 
 export const ComposeTextPanel: FunctionComponent<ComposeTextPanelProps> = ({
@@ -73,6 +69,7 @@ export const ComposeTextPanel: FunctionComponent<ComposeTextPanelProps> = ({
   toNumbers,
   senderNumber,
   senderNumbers,
+  hintInfo,
   formatPhone,
   updateSenderNumber,
   cleanTypingToNumber,
@@ -81,8 +78,12 @@ export const ComposeTextPanel: FunctionComponent<ComposeTextPanelProps> = ({
 }) => {
   const hasSenderNumbers = senderNumbers.length > 0;
   const hasPersonalRecipient = toNumbers.some((x) => x && x.type !== 'company');
-  // todo, double check the logic here.
-  const showAlert = !hasSenderNumbers && outboundSMS && hasPersonalRecipient;
+  // TODO:, double check the logic here.
+  const showAlert = !!(
+    !hasSenderNumbers &&
+    outboundSMS &&
+    hasPersonalRecipient
+  );
 
   const addToRecipients = async (receiver: any) => {
     const isAdded = await addToNumber(receiver);
@@ -95,8 +96,10 @@ export const ComposeTextPanel: FunctionComponent<ComposeTextPanelProps> = ({
     <Root>
       {showSpinner && <SpinnerOverlay />}
       <CommunicationSetupPanel
+        // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
         toNumber={typingToNumber}
         onToNumberChange={updateTypingToNumber}
+        directlyProceedType="message"
         multiple
         autoFocus={autoFocus}
         recipients={toNumbers}
@@ -111,13 +114,16 @@ export const ComposeTextPanel: FunctionComponent<ComposeTextPanelProps> = ({
         formatPhone={formatPhone}
         changeFromNumber={updateSenderNumber}
         showFromField={hasSenderNumbers}
+        inputFullWidth={!!hintInfo}
       >
         <NoSenderAlert
           currentLocale={currentLocale}
           showAlert={showAlert}
           brand={brand}
         />
+        {hintInfo}
         <MessageInput
+          // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
           value={messageText}
           onChange={updateMessageText}
           sendButtonDisabled={sendButtonDisabled}

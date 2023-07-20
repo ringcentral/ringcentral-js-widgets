@@ -6,12 +6,12 @@ export default {
   onHold: "保留中",
   park: "パーク",
   stopRecord: "停止",
-  record: "録音",
+  record: "レコーディング",
   add: "追加",
   transfer: "転送",
   flip: "フリップ",
   more: "通話アクション",
-  mergeToConference: "マージ",
+  mergeToConference: "統合",
   end: "終了",
   completeTransfer: "転送を\n完了"
 };

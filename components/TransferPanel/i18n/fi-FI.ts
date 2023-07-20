@@ -1,5 +1,5 @@
 export default {
-  to: "Vastaanottaja:",
+  to: "Vst.ot:",
   transferTo: "Siirto kohteeseen",
   blindTransfer: "Siirrä",
   warmTransfer: "Kysy ensin",

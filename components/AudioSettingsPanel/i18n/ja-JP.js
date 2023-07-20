@@ -1,13 +1,11 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 var _default = {
-  title: "オーディオ",
+  title: "音声",
   dialButtonVolume: "ダイヤルボタンの音量",
   ringtoneVolume: "着信音の音量",
   callVolume: "通話の音量",
@@ -39,6 +37,5 @@ var _default = {
 // @key: @#@"noLabelTip"@#@ @source: @#@"Sorry, your current browser permissions aren't set to allow us to access your audio input devices."@#@
 // @key: @#@"clickHere"@#@ @source: @#@"Click here"@#@
 // @key: @#@"defaultOutputDevice"@#@ @source: @#@"Default output device"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=ja-JP.js.map

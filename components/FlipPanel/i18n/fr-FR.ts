@@ -1,7 +1,7 @@
 export default {
-  flipHeader: "Renvoyer l’appel vers...",
-  flip: "Renvoi",
-  complete: "Terminer le renvoi"
+  flipHeader: "Basculer l’appel vers...",
+  flip: "Basculer",
+  complete: "Terminer le basculement"
 };
 
 // @key: @#@"flipHeader"@#@ @source: @#@"Flip Call to..."@#@

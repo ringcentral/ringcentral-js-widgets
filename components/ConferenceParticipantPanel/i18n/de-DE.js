@@ -1,15 +1,13 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 var _default = {
   removeParticipant: "Teilnehmer entfernen",
-  confirmStr1: "Möchten Sie",
-  confirmStr2: "wirklich aus diesem Anruf entfernen?",
+  confirmStr1: "Möchten Sie wirklich",
+  confirmStr2: "aus diesem Anruf entfernen?",
   remove: "Entfernen",
   cancel: "Abbrechen",
   participants: "Teilnehmer",
@@ -25,6 +23,5 @@ var _default = {
 // @key: @#@"participant"@#@ @source: @#@"Participant"@#@
 // @key: @#@"conferenceCall"@#@ @source: @#@"Conference Call"@#@
 // @key: @#@"unknownNumber"@#@ @source: @#@"Anonymous"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=de-DE.js.map

@@ -1,12 +1,12 @@
 export default {
   noActiveCalls: "Aucun appel actif",
   noCalls: "Aucun résultat.",
-  currentCall: "Appel actuel",
+  currentCall: "Appel en cours",
   ringCall: "Sonnerie en cours",
   onHoldCall: "Appel en attente",
-  historyCalls: "Appels émis dans le passé<",
+  historyCalls: "Appels émis dans le passé",
   otherDeviceCall: "Appels en cours sur mes autres terminaux",
-  searchPlaceholder: "Recherche..."
+  searchPlaceholder: "Recherche…"
 };
 
 // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@

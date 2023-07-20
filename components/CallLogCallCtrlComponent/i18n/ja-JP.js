@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -9,13 +7,13 @@ exports["default"] = void 0;
 var _default = {
   mute: "ミュート",
   unmute: "ミュート解除",
-  hangup: "通話終了",
+  hangup: "通話を終了",
   reject: "拒否",
   hold: "保留",
   onHold: "保留中",
   transfer: "転送",
-  more: "その他",
-  stopRecord: "レコーディングを停止",
+  more: "さらに表示",
+  stopRecord: "録音を停止",
   record: "レコーディング",
   showKeypad: "キーパッド",
   hideKeypad: "キーパッドを非表示",
@@ -26,7 +24,9 @@ var _default = {
   custom: "カスタム",
   answerAndEnd: "応答/終了",
   answerAndHold: "応答/保留",
-  answer: "応答"
+  answer: "応答",
+  completeTransfer: "転送完了",
+  reply: "返信"
 }; // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
 // @key: @#@"hangup"@#@ @source: @#@"Hang up"@#@
@@ -47,6 +47,7 @@ var _default = {
 // @key: @#@"answerAndEnd"@#@ @source: @#@"Answer & End"@#@
 // @key: @#@"answerAndHold"@#@ @source: @#@"Answer & Hold"@#@
 // @key: @#@"answer"@#@ @source: @#@"Answer"@#@
-
+// @key: @#@"completeTransfer"@#@ @source: @#@"Complete transfer"@#@
+// @key: @#@"reply"@#@ @source: @#@"Reply"@#@
 exports["default"] = _default;
 //# sourceMappingURL=ja-JP.js.map

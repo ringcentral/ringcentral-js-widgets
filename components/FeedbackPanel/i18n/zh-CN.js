@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -12,14 +10,14 @@ var _default = {
   revert: "复原",
   instruction: "您的反馈对我们很有价值。如果您在使用应用程序时遇到问题、想要申请功能或报告错误，我们非常乐意为您提供帮助。",
   fillForm: "请填写下表并点击 ",
-  useMailBox: " 或直接使用您的邮箱将您的要求发送至 ",
+  useMailBox: " 或直接使用您的邮箱将您的请求发送至 ",
   email: "您的电子邮件地址",
   reply: "（方便我们回复您）",
   emailPlaceHolder: "ronald.app@ringcentral.com",
   feedbackTopic: "反馈主题",
   topicPlaceHolder: "请选择一个选项",
   bugReport: "错误报告",
-  featureRequest: "功能申请",
+  featureRequest: "功能请求",
   others: "其他",
   subject: "主题",
   subjectPlaceHolder: "告诉我们您需要什么帮助",
@@ -45,6 +43,5 @@ var _default = {
 // @key: @#@"description"@#@ @source: @#@"Full description"@#@
 // @key: @#@"descriptionPlaceHolder"@#@ @source: @#@"Please include as much information as possible"@#@
 // @key: @#@"send"@#@ @source: @#@"Send Your Feedback"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=zh-CN.js.map

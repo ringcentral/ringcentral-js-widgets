@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -10,7 +8,7 @@ var _default = {
   logging: "Iniciando sesión...",
   logCall: "Registrar llamada",
   editLog: "Editar registro",
-  select: "Seleccionar registro",
+  select: "Selecc. registro",
   OnHold: "En espera",
   Ringing: "Llamando",
   CallConnected: "Llamada conectada",
@@ -31,6 +29,5 @@ var _default = {
 // @key: @#@"unavailable"@#@ @source: @#@"Unavailable"@#@
 // @key: @#@"viewDetails"@#@ @source: @#@"View Details"@#@
 // @key: @#@"conferenceCall"@#@ @source: @#@"Conference Call"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=es-419.js.map

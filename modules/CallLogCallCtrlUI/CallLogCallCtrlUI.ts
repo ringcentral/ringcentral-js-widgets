@@ -1,12 +1,10 @@
+import { trackEvents } from '@ringcentral-integration/commons/enums/trackEvents';
 import { Module } from '@ringcentral-integration/commons/lib/di';
-import callingModes from '@ringcentral-integration/commons/modules/CallingSettings/callingModes';
-import {
-  RcUIModuleV2,
-  UIFunctions,
-  UIProps,
-} from '@ringcentral-integration/core';
+import { callingModes } from '@ringcentral-integration/commons/modules/CallingSettings';
+import type { UIFunctions, UIProps } from '@ringcentral-integration/core';
+import { RcUIModuleV2, track } from '@ringcentral-integration/core';
 
-import {
+import type {
   CallLogCallCtrlContainerProps,
   CallLogCallCtrlPanelProps,
   Deps,
@@ -49,22 +47,32 @@ class CallLogCallCtrlUI extends RcUIModuleV2<Deps> {
       this._deps.activeCallControl?.getSession(telephonySessionId)
         ?.otherParties[0]?.status?.code;
     const { activeOnHoldCalls, activeCurrentCalls } = this._deps.callMonitor;
+    const controlBusy = this._deps.activeCallControl?.busy || false;
+    const isEnablePickup =
+      !!this._deps.activeCallControl.pickUpCallDataMap[telephonySessionId];
+    const allowPickupCall = isEnablePickup && isWebphone;
+
     const otherActiveCalls =
       currentSession &&
       !!activeOnHoldCalls
         .concat(activeCurrentCalls)
         .filter((call: any) => call.sessionId !== currentSession.sessionId)
         .length;
+
     return {
       isWebphone,
+      // @ts-expect-error TS(2322): Type 'Partial<ActiveSession> | null' is not assign... Remove this comment to see the full error message
       currentSession,
       disableLinks:
         !this._deps.connectivityMonitor.connectivity ||
-        this._deps.rateLimiter.throttling,
+        this._deps.rateLimiter.throttling ||
+        controlBusy,
       telephonySessionId,
       forwardingNumbers: this._deps.forwardingNumber.forwardingNumbers,
+      // @ts-expect-error TS(2322): Type 'boolean | null' is not assignable to type 'b... Remove this comment to see the full error message
       otherActiveCalls,
       realOutboundCallStatus,
+      allowPickupCall,
     };
   }
 
@@ -94,6 +102,12 @@ class CallLogCallCtrlUI extends RcUIModuleV2<Deps> {
       stopRecord: this._deps.activeCallControl.stopRecord.bind(
         this._deps.activeCallControl,
       ),
+      onCompleteWarmTransfer: (telephonySession: string) => {
+        this.completeWarmTransferTrack();
+        return this._deps.activeCallControl.completeWarmTransfer(
+          telephonySession,
+        );
+      },
       onTransfer: this._onTransfer,
       sendDTMF: (dtmfValue, telephonySessionId) =>
         this._deps.activeCallControl.sendDTMF(dtmfValue, telephonySessionId),
@@ -110,6 +124,12 @@ class CallLogCallCtrlUI extends RcUIModuleV2<Deps> {
             telephonySessionId,
           );
         }
+      },
+      reply: (telephonySessionId) => {
+        this._deps.routerInteraction.push(
+          `/replyWithMessage/${telephonySessionId}/active`,
+        );
+        this.replyWithMessageEntranceTrack();
       },
       ignore: this._deps.activeCallControl.ignore.bind(
         this._deps.activeCallControl,
@@ -132,6 +152,12 @@ class CallLogCallCtrlUI extends RcUIModuleV2<Deps> {
       ),
     };
   }
+
+  @track(() => [trackEvents.clickReplyWithMessage, { entry: 'Call log  page' }])
+  replyWithMessageEntranceTrack() {}
+
+  @track(trackEvents.completeWarmTransfer)
+  completeWarmTransferTrack() {}
 }
 
 export { CallLogCallCtrlUI };

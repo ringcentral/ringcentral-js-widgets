@@ -1,6 +1,6 @@
+import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 import callResults from '@ringcentral-integration/commons/enums/callResults';
 import telephonyStatuses from '@ringcentral-integration/commons/enums/telephonyStatus';
-import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 export default {
   [callDirections.inbound]: "Inkomend",
   [callDirections.outbound]: "Uitgaand",
@@ -41,7 +41,7 @@ export default {
   [callResults.suspendedAccount]: "Opgeheven account",
   [callResults.hangUp]: "Opgehangen",
   [callResults.HangUp]: "Opgehangen",
-  [callResults.abandoned]: "Verlaten",
+  [callResults.abandoned]: "Opgegeven",
   [callResults.declined]: "Geweigerd",
   [callResults.faxReceipt]: "Faxbewijs",
   [callResults.disconnected]: "Verbinding verbroken",

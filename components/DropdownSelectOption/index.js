@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -17,8 +15,6 @@ Object.defineProperty(exports, "OptionType", {
     return _optionInterface.OptionType;
   }
 });
-
 var _DropdownSelectOptions = require("./DropdownSelectOptions");
-
 var _optionInterface = require("./optionInterface");
 //# sourceMappingURL=index.js.map

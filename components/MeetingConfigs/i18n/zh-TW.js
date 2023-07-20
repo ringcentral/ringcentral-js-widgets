@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -17,15 +15,15 @@ var _default = {
   host: "主持人視訊開啟",
   participants: "參與者視訊開啟",
   audioOptions: "音訊選項",
-  voIPOnly: "僅網路電話",
+  voIPOnly: "僅 VoIP",
   both: "兩者皆是",
   meetingOptions: "會議選項",
-  requirePassword: "會議密碼為必填",
+  requirePassword: "需要會議密碼",
   password: "密碼",
   rcmPasswordHintText: "您的密碼應包含 1 到 10 個字元和數字，並且不得包含任何符號 (除 @、* 或 - 以外)",
   passwordEmptyError: "需要會議密碼",
   rcmPasswordInvalidError: "您的密碼必須包含 1 到 10 個字元和數字，並且不得包含任何符號 (除 @、* 或 - 以外)",
-  enableJoinBeforeHost: "允許在主持人進入會議前加入",
+  enableJoinBeforeHost: "允許在主持人之前加入",
   telephonyOnly: "僅電話",
   hostVideoOn: "主持人視訊開啟",
   participantVideoOn: "參與者視訊開啟",
@@ -71,6 +69,5 @@ var _default = {
 // @key: @#@"pmiChangeConfirm"@#@ @source: @#@"If you want to make changes for your personal meeting, "@#@
 // @key: @#@"changePmiSettings"@#@ @source: @#@"change PMI settings"@#@
 // @key: @#@"pmiSettingChangeAlert"@#@ @source: @#@"If you change the settings and schedule this meeting, all of meetings with Personal Meeting ID will use the same latest settings."@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=zh-TW.js.map

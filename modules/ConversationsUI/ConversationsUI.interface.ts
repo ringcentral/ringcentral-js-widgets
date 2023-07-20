@@ -1,31 +1,34 @@
-import messageTypes from '@ringcentral-integration/commons/enums/messageTypes';
-import { Entity } from '@ringcentral-integration/commons/interfaces/Entity.interface';
-import { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures';
-import { Brand } from '@ringcentral-integration/commons/modules/Brand';
-import { Call } from '@ringcentral-integration/commons/modules/CallV2';
-import { ComposeText } from '@ringcentral-integration/commons/modules/ComposeTextV2';
-import { ConnectivityMonitor } from '@ringcentral-integration/commons/modules/ConnectivityMonitorV2';
-import { ContactMatcher } from '@ringcentral-integration/commons/modules/ContactMatcherV2';
-import { ContactSearch } from '@ringcentral-integration/commons/modules/ContactSearchV2';
-import { ConversationLogger } from '@ringcentral-integration/commons/modules/ConversationLoggerV2';
-import {
+import type messageTypes from '@ringcentral-integration/commons/enums/messageTypes';
+import type { Entity } from '@ringcentral-integration/commons/interfaces/Entity.interface';
+import type { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures';
+import type { Brand } from '@ringcentral-integration/commons/modules/Brand';
+import type { Call } from '@ringcentral-integration/commons/modules/Call';
+import type { ComposeText } from '@ringcentral-integration/commons/modules/ComposeText';
+import type { ConnectivityMonitor } from '@ringcentral-integration/commons/modules/ConnectivityMonitor';
+import type { ContactMatcher } from '@ringcentral-integration/commons/modules/ContactMatcher';
+import type { ContactSearch } from '@ringcentral-integration/commons/modules/ContactSearch';
+import type { ConversationLogger } from '@ringcentral-integration/commons/modules/ConversationLogger';
+import type {
   Conversations,
   CurrentConversation,
   FilteredConversation,
-} from '@ringcentral-integration/commons/modules/ConversationsV2';
-import {
+} from '@ringcentral-integration/commons/modules/Conversations';
+import type {
   DateTimeFormat,
   FormatDateTimeOptions,
-} from '@ringcentral-integration/commons/modules/DateTimeFormatV2';
-import { ExtensionInfo } from '@ringcentral-integration/commons/modules/ExtensionInfoV2';
-import { Locale } from '@ringcentral-integration/commons/modules/Locale';
-import { MessageStore } from '@ringcentral-integration/commons/modules/MessageStoreV2';
-import { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiterV2';
-import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
-import { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
+} from '@ringcentral-integration/commons/modules/DateTimeFormat';
+import type { ExtensionInfo } from '@ringcentral-integration/commons/modules/ExtensionInfo';
+import type { Locale } from '@ringcentral-integration/commons/modules/Locale';
+import type { MessageStore } from '@ringcentral-integration/commons/modules/MessageStore';
+import type { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiter';
+import type { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
+import type { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
+import type { AccountInfo } from '@ringcentral-integration/commons/modules/AccountInfo';
+import type { Message } from '@ringcentral-integration/commons/interfaces/MessageStore.model';
 
-import { ContactDetailsUI } from '../ContactDetailsUI';
-import { RouterInteraction } from '../RouterInteraction';
+import type { ReactNode } from 'react';
+import type { ContactDetailsUI } from '../ContactDetailsUI';
+import type { RouterInteraction } from '../RouterInteraction';
 
 export interface ConversationsUIOptions {
   //
@@ -54,6 +57,7 @@ export interface Deps {
   composeText: ComposeText;
   contactSearch: ContactSearch;
   conversationsUIOptions?: ConversationsUIOptions;
+  accountInfo: AccountInfo;
 }
 
 export interface OnCreateContactOptions {
@@ -93,6 +97,12 @@ export interface ConversationsContainerProps {
     conversation: CurrentConversation,
     options: RenderExtraButtonOptions,
   ): React.ReactElement;
+  renderContactName?: (options: {
+    conversation: CurrentConversation;
+    phoneNumber: string;
+    unread: boolean;
+    defaultContactDisplay: JSX.Element;
+  }) => ReactNode;
 }
 
 export type OnClickToDialOptions = Entity & {
@@ -185,4 +195,14 @@ export interface ConversationsPanelProps {
   dropdownClassName?: string;
   renderContactList?: (entity: { name: string; labelType: string }) => any;
   enableCDC: boolean;
+  maxExtensionNumberLength: number;
+  renderContactName?(options: {
+    conversation: CurrentConversation;
+    phoneNumber: string;
+    unread: boolean;
+    defaultContactDisplay: JSX.Element;
+  }): ReactNode;
+  externalHasEntity: (conversation: FilteredConversation) => boolean;
+  externalViewEntity: (conversation: FilteredConversation) => void;
+  renderActionMenuExtraButton?: (conversation: Message) => ReactNode;
 }

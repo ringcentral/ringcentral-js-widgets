@@ -1,7 +1,7 @@
 import { connectivityTypes } from '../../../../modules/ConnectivityManager';
 export default {
   [connectivityTypes.networkLoss]: "Algo deu errado. Verifique sua conexão de rede e tente novamente.",
-  [connectivityTypes.offline]: "Não é possível conectar ao servidor. Tente mais tarde.",
+  [connectivityTypes.offline]: "Não é possível conectar ao servidor. Tente novamente mais tarde.",
   [connectivityTypes.serverUnavailable]: "Algo deu errado do nosso lado. Tente novamente mais tarde.",
   [connectivityTypes.voipOnly]: "Algo deu errado do nosso lado, mas estamos trabalhando para corrigir o problema. Você ainda pode fazer chamadas, mas outras funções estão limitadas no momento.",
   [connectivityTypes.survival]: "Algo deu errado do nosso lado, mas estamos trabalhando para corrigir o problema. Você pode ter acesso limitado a alguns recursos. O aplicativo será recuperado automaticamente assim que estiver disponível."

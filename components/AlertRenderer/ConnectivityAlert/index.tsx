@@ -15,7 +15,8 @@ const ConnectivityAlert: React.SFC<ConnectivityAlertProps> = ({
 }) => {
   return <div>{i18n.getString(message, currentLocale)}</div>;
 };
-ConnectivityAlert.handleMessage = ({ message }) =>
+// @ts-expect-error TS(2339): Property 'handleMessage' does not exist on type 'S... Remove this comment to see the full error message
+ConnectivityAlert.handleMessage = ({ message }: any) =>
   message === connectivityTypes.networkLoss ||
   message === connectivityTypes.offline ||
   message === connectivityTypes.serverUnavailable ||

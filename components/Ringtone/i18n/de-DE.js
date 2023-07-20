@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -10,7 +8,7 @@ var _default = {
   ringtones: "Klingeltöne",
   incomingRingtone: "Klingelton für eingehende Anrufe",
   outgoingRingtone: "Klingelton für ausgehende Anrufe",
-  play: "Wiedergabe",
+  play: "Abspielen",
   stop: "Anhalten",
   upload: "Hochladen",
   reset: "Zurücksetzen",
@@ -23,6 +21,5 @@ var _default = {
 // @key: @#@"upload"@#@ @source: @#@"Upload"@#@
 // @key: @#@"reset"@#@ @source: @#@"Reset"@#@
 // @key: @#@"save"@#@ @source: @#@"Save"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=de-DE.js.map

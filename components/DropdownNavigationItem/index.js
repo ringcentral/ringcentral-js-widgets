@@ -1,33 +1,25 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-
 var _react = _interopRequireDefault(require("react"));
-
 var _classnames = _interopRequireDefault(require("classnames"));
-
 var _styles = _interopRequireDefault(require("./styles.scss"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 var DropdownNavigationItem = function DropdownNavigationItem(_ref) {
   var icon = _ref.icon,
-      activeIcon = _ref.activeIcon,
-      active = _ref.active,
-      isReverseFillIcon = _ref.isReverseFillIcon,
-      label = _ref.label,
-      title = _ref.title,
-      noticeCounts = _ref.noticeCounts,
-      onClick = _ref.onClick,
-      keepStyle = _ref.keepStyle,
-      dataSign = _ref.dataSign;
+    activeIcon = _ref.activeIcon,
+    active = _ref.active,
+    isReverseFillIcon = _ref.isReverseFillIcon,
+    label = _ref.label,
+    title = _ref.title,
+    noticeCounts = _ref.noticeCounts,
+    onClick = _ref.onClick,
+    keepStyle = _ref.keepStyle,
+    dataSign = _ref.dataSign;
   var notice = null;
-
   if (noticeCounts && noticeCounts > 0) {
     if (noticeCounts > 99) {
       notice = /*#__PURE__*/_react["default"].createElement("div", {
@@ -39,7 +31,6 @@ var DropdownNavigationItem = function DropdownNavigationItem(_ref) {
       }, noticeCounts);
     }
   }
-
   var styleClass = !keepStyle ? _styles["default"].iconStyles : null;
   return /*#__PURE__*/_react["default"].createElement("div", {
     title: title || label,
@@ -52,7 +43,6 @@ var DropdownNavigationItem = function DropdownNavigationItem(_ref) {
     className: _styles["default"].labelHolder
   }, label), notice);
 };
-
 DropdownNavigationItem.defaultProps = {
   active: false,
   isReverseFillIcon: false,

@@ -1,6 +1,6 @@
 export default {
   start: "Découverte rapide",
-  skip: "Passer",
+  skip: "Ignorer",
   next: "Suivant",
   finish: "Terminer"
 };

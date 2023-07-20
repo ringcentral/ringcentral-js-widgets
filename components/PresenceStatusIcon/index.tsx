@@ -20,7 +20,9 @@ const PresenceStatusIcon: React.SFC<PresenceStatusIconProps> = ({
     <div
       className={classnames(
         styles.presence,
+        // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
         styles[presenceStatus || userStatus],
+        // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
         styles[dndStatus],
         className,
       )}
@@ -30,9 +32,13 @@ const PresenceStatusIcon: React.SFC<PresenceStatusIconProps> = ({
   );
 };
 PresenceStatusIcon.defaultProps = {
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   className: null,
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   dndStatus: null,
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   userStatus: null,
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   presenceStatus: null,
 };
 export default PresenceStatusIcon;

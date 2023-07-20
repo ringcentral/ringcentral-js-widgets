@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -13,6 +11,5 @@ var _default = {
 }; // @key: @#@"contactDetails"@#@ @source: @#@"Contact Details"@#@
 // @key: @#@"loadingContact"@#@ @source: @#@"Loading contact..."@#@
 // @key: @#@"contactNotFound"@#@ @source: @#@"Contact not found."@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=en-GB.js.map

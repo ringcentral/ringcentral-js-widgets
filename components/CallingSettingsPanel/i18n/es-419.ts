@@ -1,6 +1,6 @@
-import callingOptions from '@ringcentral-integration/commons/modules/CallingSettings/callingOptions';
+import { callingOptions } from '@ringcentral-integration/commons/modules/CallingSettings';
 export default {
-  title: "Llamadas",
+  title: "Llamando",
   [callingOptions.softphone]: "{brand} for Desktop",
   [callingOptions.browser]: "Navegador",
   [callingOptions.jupiter]: "{brand}",

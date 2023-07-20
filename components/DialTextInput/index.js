@@ -1,33 +1,23 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-
 var _react = _interopRequireDefault(require("react"));
-
 var _classnames = _interopRequireDefault(require("classnames"));
-
 var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
-
 var _TextInput = _interopRequireDefault(require("../TextInput"));
-
 var _i18n = _interopRequireDefault(require("./i18n"));
-
 var _styles = _interopRequireDefault(require("./styles.scss"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 var DialTextInput = function DialTextInput(_ref) {
   var className = _ref.className,
-      invalid = _ref.invalid,
-      value = _ref.value,
-      onChangeEvent = _ref.onChangeEvent,
-      onDelete = _ref.onDelete,
-      autoFocus = _ref.autoFocus;
+    invalid = _ref.invalid,
+    value = _ref.value,
+    onChangeEvent = _ref.onChangeEvent,
+    onDelete = _ref.onDelete,
+    autoFocus = _ref.autoFocus;
   var deleteDisplay = value === '' ? {
     display: 'none'
   } : {
@@ -49,7 +39,6 @@ var DialTextInput = function DialTextInput(_ref) {
     onClick: onDelete
   }));
 };
-
 var _default = DialTextInput;
 exports["default"] = _default;
 //# sourceMappingURL=index.js.map

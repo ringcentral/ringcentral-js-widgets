@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -25,7 +23,8 @@ var _default = {
   // addContact: 'Add Contact',
   missedCall: 'Missed',
   inboundCall: 'Inbound',
-  outboundCall: 'Outbound' // from: 'From',
+  outboundCall: 'Outbound'
+  // from: 'From',
   // to: 'To',
   // hangup: 'Hangup',
   // accept: 'Accept',
@@ -34,7 +33,6 @@ var _default = {
   // mergeToConference: 'Merge',
   // hold: 'Hold',
   // unhold: 'Unhold',
-
 };
 exports["default"] = _default;
 //# sourceMappingURL=en-US.js.map

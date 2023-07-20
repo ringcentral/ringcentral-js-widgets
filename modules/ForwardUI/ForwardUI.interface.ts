@@ -1,7 +1,7 @@
-import { ActiveCallControl } from '@ringcentral-integration/commons/modules/ActiveCallControlV2';
-import { Locale } from '@ringcentral-integration/commons/modules/Locale';
+import type { ActiveCallControl } from '@ringcentral-integration/commons/modules/ActiveCallControl';
+import type { Locale } from '@ringcentral-integration/commons/modules/Locale';
 
-import RouterInteraction from '../RouterInteraction';
+import type RouterInteraction from '../RouterInteraction';
 
 export interface ForwardUIOptions {}
 export interface Deps {

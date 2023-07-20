@@ -1,7 +1,7 @@
 import { phoneSources } from '@ringcentral-integration/commons/enums/phoneSources';
 export default {
   [phoneSources.account]: "계정",
-  [phoneSources.contact]: "연락처",
+  [phoneSources.contact]: "문의하기",
   [phoneSources.rcContact]: "{brand}",
   [phoneSources.lead]: "잠재 고객",
   [phoneSources.opportunity]: "기회",

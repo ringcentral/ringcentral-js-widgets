@@ -2,7 +2,7 @@ export default {
   419: "라틴 아메리카",
   AR: "아르헨티나",
   AT: "오스트리아",
-  AU: "오스트레일리아",
+  AU: "호주",
   BE: "벨기에",
   BG: "불가리아",
   BH: "바레인",
@@ -60,7 +60,7 @@ export default {
   SI: "슬로베니아",
   SK: "슬로바키아",
   SV: "엘살바도르",
-  TR: "터키",
+  TR: "튀르키예",
   TW: "대만",
   UA: "우크라이나",
   US: "미국",
@@ -129,7 +129,7 @@ export default {
 // @key: @#@"SI"@#@ @source: @#@"Slovenia"@#@
 // @key: @#@"SK"@#@ @source: @#@"Slovakia"@#@
 // @key: @#@"SV"@#@ @source: @#@"El Salvador"@#@
-// @key: @#@"TR"@#@ @source: @#@"Turkey"@#@
+// @key: @#@"TR"@#@ @source: @#@"Türkiye"@#@
 // @key: @#@"TW"@#@ @source: @#@"Taiwan"@#@
 // @key: @#@"UA"@#@ @source: @#@"Ukraine"@#@
 // @key: @#@"US"@#@ @source: @#@"United States"@#@

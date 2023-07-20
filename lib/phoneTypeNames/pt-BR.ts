@@ -1,6 +1,6 @@
 import { phoneTypes } from '@ringcentral-integration/commons/enums/phoneTypes';
 export default {
-  [phoneTypes.business]: "Telefone comercial",
+  [phoneTypes.business]: "Telefone corporativo",
   [phoneTypes.extension]: "Número do ramal",
   [phoneTypes.home]: "Número da casa",
   [phoneTypes.mobile]: "Telefone celular",

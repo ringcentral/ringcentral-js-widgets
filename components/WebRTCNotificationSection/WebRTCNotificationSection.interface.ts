@@ -1,4 +1,4 @@
-import { IContact } from '@ringcentral-integration/commons/interfaces/Contact.model';
+import type { IContact } from '@ringcentral-integration/commons/interfaces/Contact.model';
 
 export interface WebRTCNotificationProps {
   formatPhone: (...args: any[]) => any;
@@ -26,6 +26,10 @@ export interface WebRTCNotificationProps {
   entityType: string;
   getAvatarUrl: (contact: IContact) => Promise<string>;
   entityDetailLink: string;
+  openEntityDetailLinkTrack?: () => any;
+  reply?: (telephonySession: string) => any;
+  enableReply?: boolean;
+  disableLinks?: boolean;
 }
 
 export interface Call {

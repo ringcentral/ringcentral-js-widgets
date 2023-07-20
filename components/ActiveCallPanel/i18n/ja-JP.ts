@@ -2,7 +2,7 @@ export default {
   conferenceCall: "電話会議",
   onHold: "保留中",
   unknown: "不明",
-  disconnected: "切断済み",
+  disconnected: "接続解除済み",
   loading: "読み込み中...",
   loadingTimeout: "読み込みがタイムアウトしました。"
 };

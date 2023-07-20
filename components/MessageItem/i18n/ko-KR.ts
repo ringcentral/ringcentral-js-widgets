@@ -4,7 +4,7 @@ export default {
   editLog: "기록 편집",
   viewDetails: "세부 정보 보기",
   addEntity: "새로 만들기",
-  call: "통화",
+  call: "전화",
   text: "문자",
   conversation: "대화",
   groupConversation: "그룹 대화",

@@ -1,0 +1,1 @@
+{"version":3,"file":"pt-BR.js","names":["activeCall","exports","_default"],"sources":["components/ConferenceDialerPanel/i18n/pt-BR.ts"],"sourcesContent":["export default {\n  activeCall: \"Chamada ativa\"\n};\n\n// @key: @#@\"activeCall\"@#@ @source: @#@\"Active Call\"@#@\n"],"mappings":";;;;;;eAAe;EACbA,UAAU,EAAE;AACd,CAAC,EAED;AAAAC,OAAA,cAAAC,QAAA"}

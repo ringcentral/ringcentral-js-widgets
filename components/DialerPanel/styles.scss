@@ -3,8 +3,8 @@
 @import '../../lib/commonStyles/vertical-align';
 @import '../../lib/commonStyles/colors';
 
-$row_margin:50px;
-$dial_pad_width: calc(100% - #{$row_margin*2});
+$row_margin: 50px;
+$dial_pad_width: calc(100% - #{$row_margin * 2});
 $dial_input_height: 10%;
 
 .root {
@@ -71,7 +71,8 @@ $dial_input_height: 10%;
 }
 
 .dialBtn {
-  g, path {
+  g,
+  path {
     fill: #ffffff;
   }
 

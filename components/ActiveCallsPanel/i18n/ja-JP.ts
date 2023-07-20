@@ -6,7 +6,7 @@ export default {
   otherDeviceCall: "他のデバイスで進行中の通話",
   confirmation: "確認",
   confirmMergeToConference: "電話会議に追加しますか?",
-  mergeToConference: "マージ",
+  mergeToConference: "統合",
   conferenceCall: "電話会議"
 };
 

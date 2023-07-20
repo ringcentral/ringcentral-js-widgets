@@ -1,43 +1,43 @@
-import { ASSISTED_USERS_MYSELF } from '@ringcentral-integration/commons/modules/RcVideo/constants';
+import { ASSISTED_USERS_MYSELF } from '@ringcentral-integration/commons/modules/RcVideo';
 export default {
   topic: "Nombre de la reunión",
   date: "Fecha",
   startTime: "Hora",
   duration: "Duración",
-  scheduleFor: "Programar en",
+  scheduleFor: "Programar en nombre de",
   meetingSettings: "Configuración de la reunión",
   [ASSISTED_USERS_MYSELF]: "Mi nombre",
-  joinBeforeHost: "Permitir a los participantes unirse antes que el organizador",
+  joinBeforeHost: "Permitir a los participantes unirse antes que el host",
   enableWaitingRoom: "Habilitar sala de espera",
   waitingRoom: "Habilitar sala de espera para",
   waitingRoomNotCoworker: "Cualquier usuario de fuera de mi empresa",
   waitingRoomGuest: "Cualquier usuario que no haya iniciado sesión",
-  waitingRoomAll: "Todos",
+  waitingRoomAll: "A todos",
   enterPassword: "Introducir contraseña",
   onlyJoinAfterMe: "Los participantes solo pueden unirse después de mí",
-  onlyJoinAfterHost: "Los participantes solo pueden unirse después del organizador",
-  muteAudio: "Silenciar participantes",
-  turnOffCamera: "Desactivar cámara de participantes",
+  onlyJoinAfterHost: "Los participantes pueden unirse solo después del host",
+  muteAudio: "Silenciar el audio de los participantes",
+  turnOffCamera: "Desactivar la cámara de los participantes",
   requirePassword: "Solicitar contraseña",
   useE2ee: "Usar cifrado de extremo a extremo",
   e2eeTooltip: "Las reuniones con cifrado de extremo a extremo son las más privadas, sin embargo, habrá características que no estén disponibles como unirse por teléfono, subtitulado y grabación.",
   setPassword: "Establecer contraseña *",
   setPasswordNotSymbol: "Establecer contraseña",
-  passwordEmptyError: "Se requiere la contraseña de la reunión",
+  passwordEmptyError: "Contraseña de la reunión obligatoria",
   passwordInvalidError: "La contraseña debe tener entre 1 y 10 caracteres o números y no puede incluir símbolos.",
-  passwordHintText: "La contraseña debe tener un máximo de 10 caracteres o números y no puede incluir símbolos",
+  passwordHintText: "Su contraseña debe tener entre 1 y 10 letras y números, pero no puede contener símbolos",
   usePersonalMeetingId: "Utilizar ID de reunión personal",
   meetingSettingsSecurity: "Seguridad",
-  onlyAuthUserJoin: "Solo pueden unirse los usuarios autenticados",
-  signedInUsers: "Usuarios con sesión iniciada",
-  signedInCoWorkers: "Compañeros de trabajo con la sesión iniciada",
+  onlyAuthUserJoin: "Solo los usuarios autentificados pueden unirse",
+  signedInUsers: "Usuarios registrados",
+  signedInCoWorkers: "Compañeros registrados",
   limitScreenSharing: "Solo el organizador y los moderadores pueden compartir la pantalla",
   lockTooltip: "El administrador de la empresa gestiona esta opción.",
   pmiSettingAlert: "Esta configuración se aplicará a todas las reuniones creadas con el PMI.",
   today: "Hoy",
   scheduleForGuidance: "¿La está programando en nombre de otra persona?\n1. Asegúrese de que está en su calendario de Outlook.\n2. En el menú desplegable, seleccione la persona en cuyo nombre desea programar.\n",
   scheduleForGuidanceMore: "Más información",
-  changePmiSettings: "Cambiar configuración de reunión personal",
+  changePmiSettings: "Cambiar ajustes de la reunión personal",
   ieSupportAlert: "Tenga en cuenta que {appName} no funcionará con Internet Explorer 11 después del 16 de febrero de 2022. Le recomendamos que cambie a Microsoft Edge o actualice a Outlook 2016 o posterior."
 };
 
@@ -78,5 +78,5 @@ export default {
 // @key: @#@"today"@#@ @source: @#@"Today"@#@
 // @key: @#@"scheduleForGuidance"@#@ @source: @#@"Scheduling for someone else?\n1. Make sure you're on their Outlook calendar.\n2. From the dropdown, select the person you're scheduling for.\n"@#@
 // @key: @#@"scheduleForGuidanceMore"@#@ @source: @#@"Learn details"@#@
-// @key: @#@"changePmiSettings"@#@ @source: @#@"Change Personal meeting settings"@#@
+// @key: @#@"changePmiSettings"@#@ @source: @#@"Change Personal Meeting settings"@#@
 // @key: @#@"ieSupportAlert"@#@ @source: @#@"Please note that {appName} won't work with Internet Explorer 11 after Feb 16, 2022. We recommend switching to Microsoft Edge or updating to Outlook 2016 or above."@#@

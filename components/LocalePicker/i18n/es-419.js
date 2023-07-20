@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -10,13 +8,14 @@ var _default = {
   en: "Inglés",
   ja: "Japonés",
   fr: "Francés",
-  de: "Danés",
+  de: "Alemán",
   es: "Español",
   it: "Italiano",
   pt: "Portugués",
   zh: "Chino",
   nl: "Holandés",
-  ko: "Coreano"
+  ko: "Coreano",
+  fi: "Finés (Suomi)"
 }; // @key: @#@"en"@#@ @source: @#@"English"@#@
 // @key: @#@"ja"@#@ @source: @#@"Japanese"@#@
 // @key: @#@"fr"@#@ @source: @#@"French"@#@
@@ -27,6 +26,6 @@ var _default = {
 // @key: @#@"zh"@#@ @source: @#@"Chinese"@#@
 // @key: @#@"nl"@#@ @source: @#@"Dutch"@#@
 // @key: @#@"ko"@#@ @source: @#@"Korean"@#@
-
+// @key: @#@"fi"@#@ @source: @#@"Suomi"@#@
 exports["default"] = _default;
 //# sourceMappingURL=es-419.js.map

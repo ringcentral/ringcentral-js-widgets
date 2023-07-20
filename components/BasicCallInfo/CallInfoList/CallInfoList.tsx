@@ -1,4 +1,5 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import classnames from 'classnames';
 
@@ -6,7 +7,8 @@ import { RcList, RcListItem } from '@ringcentral/juno';
 
 import copyButton from '../../CopyButton/CopyButton';
 import CopyToClipboard from '../../CopyToClipboard';
-import { CallInfo, CallInfoProps } from '../CallInfo';
+import type { CallInfoProps } from '../CallInfo';
+import { CallInfo } from '../CallInfo';
 import styles from './styles.scss';
 
 export interface CallInfoListProps {
@@ -37,7 +39,9 @@ export const CallInfoList: FunctionComponent<CallInfoListProps> = ({
             {enableCopy && (
               <div className={styles.copyBtn}>
                 <CopyToClipboard
+                  // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
                   handleSuccess={() => onCopySuccess(attr)}
+                  // @ts-expect-error TS(2769): No overload matches this call.
                   currentLocale={currentLocale}
                   button={copyButton}
                   copiedText={content}

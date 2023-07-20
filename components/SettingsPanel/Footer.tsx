@@ -1,4 +1,5 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import classnames from 'classnames';
 
@@ -7,7 +8,7 @@ import { Eula } from '../Eula';
 import IconLine from '../IconLine';
 import Line from '../Line';
 import i18n from './i18n';
-import { FooterProps } from './SettingsPanel.interface';
+import type { FooterProps } from './SettingsPanel.interface';
 import styles from './styles.scss';
 
 export const Footer: FunctionComponent<FooterProps> = ({
@@ -32,6 +33,7 @@ export const Footer: FunctionComponent<FooterProps> = ({
           <Eula
             dataSign="eula"
             currentLocale={currentLocale}
+            // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
             link={eulaLink}
             label={eulaLabel}
             onClick={onEulaLinkClick}

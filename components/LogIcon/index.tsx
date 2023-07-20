@@ -35,11 +35,12 @@ const LogIcon: React.SFC<LogIconProps> = ({
   } else {
     tooltip = i18n.getString(id ? 'logged' : 'unlogged', currentLocale);
   }
-  const onClick = (e) => {
+  const onClick = (e: any) => {
     e.stopPropagation();
     if (disabled) {
       return;
     }
+    // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
     viewTask({
       sessionId,
       id,

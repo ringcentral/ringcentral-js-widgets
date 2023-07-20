@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -12,8 +10,8 @@ var _default = {
   outgoingRingtone: "Toque de chamada realizada",
   play: "Reproduzir",
   stop: "Parar",
-  upload: "Fazer upload",
-  reset: "Redefinir",
+  upload: "Carregar",
+  reset: "Restaurar",
   save: "Salvar"
 }; // @key: @#@"ringtones"@#@ @source: @#@"Ringtones"@#@
 // @key: @#@"incomingRingtone"@#@ @source: @#@"Incoming Ringtone"@#@
@@ -23,6 +21,5 @@ var _default = {
 // @key: @#@"upload"@#@ @source: @#@"Upload"@#@
 // @key: @#@"reset"@#@ @source: @#@"Reset"@#@
 // @key: @#@"save"@#@ @source: @#@"Save"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=pt-BR.js.map

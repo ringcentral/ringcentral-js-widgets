@@ -1,5 +1,5 @@
 export default {
-  flipHeader: "将呼叫切换至...",
+  flipHeader: "将呼叫切换至…",
   flip: "切换",
   complete: "完成切换"
 };

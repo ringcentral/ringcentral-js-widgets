@@ -1,16 +1,14 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 var _default = {
   cancel: "Abbrechen",
-  reply: "Antworten",
+  reply: "Antwort",
   onMyWay: "Bin unterwegs",
-  customMessage: "Benutzerdef. Nachricht",
+  customMessage: "Benutzerdefinierte Nachricht",
   callMeBackIn: "Rufen Sie mich zurück in",
   willCallYouBackIn: "Ich rufe Sie zurück in",
   min: "Min.",
@@ -25,6 +23,5 @@ var _default = {
 // @key: @#@"min"@#@ @source: @#@"min"@#@
 // @key: @#@"hours"@#@ @source: @#@"hours"@#@
 // @key: @#@"days"@#@ @source: @#@"days"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=de-DE.js.map

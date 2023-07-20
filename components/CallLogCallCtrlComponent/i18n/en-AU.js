@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -26,7 +24,9 @@ var _default = {
   custom: "Custom",
   answerAndEnd: "Answer & End",
   answerAndHold: "Answer & Hold",
-  answer: "Answer"
+  answer: "Answer",
+  completeTransfer: "Complete transfer",
+  reply: "Reply"
 }; // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
 // @key: @#@"hangup"@#@ @source: @#@"Hang up"@#@
@@ -47,6 +47,7 @@ var _default = {
 // @key: @#@"answerAndEnd"@#@ @source: @#@"Answer & End"@#@
 // @key: @#@"answerAndHold"@#@ @source: @#@"Answer & Hold"@#@
 // @key: @#@"answer"@#@ @source: @#@"Answer"@#@
-
+// @key: @#@"completeTransfer"@#@ @source: @#@"Complete transfer"@#@
+// @key: @#@"reply"@#@ @source: @#@"Reply"@#@
 exports["default"] = _default;
 //# sourceMappingURL=en-AU.js.map

@@ -1,4 +1,5 @@
-import React, { FunctionComponent, MouseEvent } from 'react';
+import type { FunctionComponent, MouseEvent } from 'react';
+import React from 'react';
 
 import classnames from 'classnames';
 
@@ -55,7 +56,10 @@ export const SelectedRecipients: FunctionComponent<SelectedRecipientsProps> = ({
 }) => {
   if (recipients.length) {
     return (
-      <ul className={classnames(className, styles.selectReceivers)}>
+      <ul
+        data-sign="recipientsList"
+        className={classnames(className, styles.selectReceivers)}
+      >
         {recipients.map((item) => (
           <Recipient
             key={item.phoneNumber}

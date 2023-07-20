@@ -1,15 +1,16 @@
-import { MutableRefObject } from 'react';
+import type { MutableRefObject } from 'react';
 
-import { DateTimeFormatter } from '@ringcentral-integration/commons/lib/getIntlDateTimeFormatter';
-import { IContact } from '@ringcentral-integration/commons/interfaces/Contact.model';
-import { RcIconProps } from '@ringcentral/juno';
+import type { IContact } from '@ringcentral-integration/commons/interfaces/Contact.model';
+import type { DateTimeFormatter } from '@ringcentral-integration/commons/lib/getIntlDateTimeFormatter';
+import type { RcIconProps } from '@ringcentral/juno';
 
-import { Call, CallLog, CallLogTitle } from './CallLog.interface';
+import type { Call, CallLog, CallLogTitle } from './CallLog.interface';
 
 interface CallLogPanelConfig {
   showSpinner: boolean;
   isInTransferPage: boolean;
 
+  enableReply?: boolean;
   isWide?: boolean;
   header?: boolean;
   headerTitle?: CallLogTitle;
@@ -29,19 +30,23 @@ type CallLogPanelGroup<T> = {
 
 export interface CallLogPanelProps extends CallLogPanelConfig {
   currentLog: CallLog;
+  warmTransferLog?: CallLog;
+  warmTransferActiveTelephonySessionId: string;
   currentLocale: string;
   goBack: (...args: any[]) => any;
   formatPhone: (...args: any[]) => any;
   onReject: (...args: any[]) => any;
   onHangup: (...args: any[]) => any;
+  onSwitchWarmTransferSession: () => any;
   renderKeypadPanel: (...args: any[]) => any;
   renderSaveLogButton: (...args: any[]) => JSX.Element;
   getRenderLogButton?: () => JSX.Element;
   buttonStatus: { buttonDisabled: boolean; buttonContent: string };
 
   additionalInfo?: object;
-  onUpdateCallLog?: (data: { task }, id: string) => any;
+  onUpdateCallLog?: (data: { task: any }, id: string) => any;
   onSaveCallLog?: (...args: any[]) => any;
+  openEntityDetailLinkTrack?: (...args: any[]) => any;
   onSelectViewVisible?: (visible: boolean, fieldName: string) => any;
 
   dateTimeFormatter?: DateTimeFormatter;
@@ -79,7 +84,9 @@ export interface CallLogPanelProps extends CallLogPanelConfig {
   renderCallLogCallControl?: (
     telephonySessionId: string,
     isWide: boolean,
+    enableReply: boolean,
     isCurrentDeviceCall: boolean,
+    warmTransferActiveTelephonySessionId: string,
   ) => JSX.Element;
 
   backIcon?: RcIconProps['symbol'];
@@ -119,6 +126,7 @@ export interface CallLogPanelProps extends CallLogPanelConfig {
   toVoicemail: (telephonySession: string) => any;
   forwardingNumbers: any[];
   onForward: (phoneNumber: string, telephonySession: string) => any;
+  reply: (telephonySessionId: string) => any;
   answer: (telephonySession: string) => any;
   showRecordingIndicator?: boolean;
   clickForwardTrack?: () => any;

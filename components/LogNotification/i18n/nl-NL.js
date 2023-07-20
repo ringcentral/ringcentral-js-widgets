@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -17,6 +15,5 @@ var _default = {
 // @key: @#@"save"@#@ @source: @#@"Save & Work on New"@#@
 // @key: @#@"discard"@#@ @source: @#@"Discard & Work on New"@#@
 // @key: @#@"stay"@#@ @source: @#@"Stay on Previous Work"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=nl-NL.js.map

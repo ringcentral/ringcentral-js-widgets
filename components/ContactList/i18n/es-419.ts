@@ -1,6 +1,6 @@
 export default {
   onSearching: "Cargando...",
-  noContacts: "No se han encontrado registros."
+  noContacts: "No se encontraron registros."
 };
 
 // @key: @#@"onSearching"@#@ @source: @#@"Loading..."@#@

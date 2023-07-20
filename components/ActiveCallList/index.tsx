@@ -4,9 +4,10 @@ import classnames from 'classnames';
 
 import ActiveCallItem from '../ActiveCallItem';
 import { ActiveCallItem as ActiveCallItemV2 } from '../ActiveCallItemV2';
+import i18n from './i18n';
 import styles from './styles.scss';
 
-function isConferenceCall(normalizedCall) {
+function isConferenceCall(normalizedCall: any) {
   return (
     normalizedCall &&
     normalizedCall.to &&
@@ -75,6 +76,7 @@ type ActiveCallListProps = {
   newCallIcon?: boolean;
   clickSwitchTrack?: (...args: any[]) => any;
   isWide?: boolean;
+  allCalls: any[];
 };
 const ActiveCallList: React.SFC<ActiveCallListProps> = ({
   calls,
@@ -136,6 +138,7 @@ const ActiveCallList: React.SFC<ActiveCallListProps> = ({
   clickSwitchTrack,
   showMultipleMatch,
   isWide,
+  allCalls,
 }) => {
   if (!calls.length) {
     return null;
@@ -147,6 +150,7 @@ const ActiveCallList: React.SFC<ActiveCallListProps> = ({
       <div
         className={styles.listTitle}
         style={{
+          // @ts-expect-error TS(2322): Type 'string | null' is not assignable to type 'Ma... Remove this comment to see the full error message
           marginBottom: useV2 && title ? '-5px' : null,
         }}
         title={title}
@@ -156,10 +160,31 @@ const ActiveCallList: React.SFC<ActiveCallListProps> = ({
       </div>
       {calls.map((call) => {
         const isOnConferenceCall = call.webphoneSession
-          ? isSessionAConferenceCall(call.webphoneSession.id)
+          ? // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
+            isSessionAConferenceCall(call.webphoneSession.id)
           : isConferenceCall(call); // in case it's an other device call
+
+        const { warmTransferInfo } = call;
+        let warmTransferRole;
+        let originalCall: any;
+
+        if (warmTransferInfo) {
+          warmTransferRole = warmTransferInfo.isOriginal
+            ? ` (${i18n.getString('callerCall', currentLocale)})`
+            : ` (${i18n.getString('transferCall', currentLocale)})`;
+
+          if (!call.warmTransferInfo.isOriginal) {
+            originalCall = allCalls?.find(
+              (s: any) =>
+                s.telephonySessionId ===
+                call.warmTransferInfo?.relatedTelephonySessionId,
+            );
+          }
+        }
+
         return (
           <Component
+            warmTransferRole={warmTransferRole}
             call={call}
             key={call.id}
             isOnConferenceCall={isOnConferenceCall}
@@ -177,13 +202,21 @@ const ActiveCallList: React.SFC<ActiveCallListProps> = ({
             onViewContact={onViewContact}
             onCreateContact={onCreateContact}
             loggingMap={loggingMap}
+            // @ts-expect-error TS(2322): Type '((...args: any[]) => any) | undefined' is no... Remove this comment to see the full error message
             webphoneAnswer={webphoneAnswer}
+            // @ts-expect-error TS(2322): Type '((...args: any[]) => any) | undefined' is no... Remove this comment to see the full error message
             webphoneReject={webphoneReject}
+            // @ts-expect-error TS(2322): Type '((...args: any[]) => any) | undefined' is no... Remove this comment to see the full error message
             webphoneHangup={webphoneHangup}
+            // @ts-expect-error TS(2322): Type '((...args: any[]) => any) | undefined' is no... Remove this comment to see the full error message
             webphoneResume={webphoneResume}
+            // @ts-expect-error TS(2322): Type '((...args: any[]) => any) | undefined' is no... Remove this comment to see the full error message
             webphoneToVoicemail={webphoneToVoicemail}
+            // @ts-expect-error TS(2322): Type '((...args: any[]) => any) | undefined' is no... Remove this comment to see the full error message
             webphoneSwitchCall={webphoneSwitchCall}
+            // @ts-expect-error TS(2322): Type '((...args: any[]) => any) | undefined' is no... Remove this comment to see the full error message
             modalConfirm={modalConfirm}
+            // @ts-expect-error TS(2322): Type '((...args: any[]) => any) | undefined' is no... Remove this comment to see the full error message
             modalClose={modalClose}
             enableContactFallback={enableContactFallback}
             autoLog={autoLog}
@@ -191,18 +224,24 @@ const ActiveCallList: React.SFC<ActiveCallListProps> = ({
             phoneTypeRenderer={phoneTypeRenderer}
             phoneSourceNameRenderer={phoneSourceNameRenderer}
             hasActionMenu={!isOnConferenceCall}
-            onClick={() => onCallItemClick(call)}
+            // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
+            onClick={() => onCallItemClick(originalCall || call)}
             showAvatar={showAvatar}
             getAvatarUrl={getAvatarUrl}
+            // @ts-expect-error TS(2322): Type 'object[] | undefined' is not assignable to t... Remove this comment to see the full error message
             conferenceCallParties={conferenceCallParties}
+            // @ts-expect-error TS(2322): Type '((...args: any[]) => any) | undefined' is no... Remove this comment to see the full error message
             webphoneHold={webphoneHold}
             showCallDetail={showCallDetail}
             updateSessionMatchedContact={updateSessionMatchedContact}
             renderExtraButton={renderExtraButton}
             renderContactName={renderContactName}
             renderSubContactName={renderSubContactName}
+            // @ts-expect-error TS(2322): Type '((...args: any[]) => any) | undefined' is no... Remove this comment to see the full error message
             ringoutHangup={ringoutHangup}
+            // @ts-expect-error TS(2322): Type '((...args: any[]) => any) | undefined' is no... Remove this comment to see the full error message
             ringoutTransfer={ringoutTransfer}
+            // @ts-expect-error TS(2322): Type '((...args: any[]) => any) | undefined' is no... Remove this comment to see the full error message
             ringoutReject={ringoutReject}
             disableLinks={disableLinks}
             showRingoutCallControl={showRingoutCallControl}
@@ -211,10 +250,12 @@ const ActiveCallList: React.SFC<ActiveCallListProps> = ({
             showTransferCall={showTransferCall}
             showHoldOnOtherDevice={showHoldOnOtherDevice}
             isOnHold={isOnHold}
+            // @ts-expect-error TS(2322): Type '((...args: any[]) => any) | undefined' is no... Remove this comment to see the full error message
             webphoneIgnore={webphoneIgnore}
             showIgnoreBtn={showIgnoreBtn}
             showHoldAnswerBtn={showHoldAnswerBtn}
             useCallDetailV2={useCallDetailV2}
+            // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
             newCallIcon={newCallIcon}
             clickSwitchTrack={clickSwitchTrack}
             isWide={isWide}

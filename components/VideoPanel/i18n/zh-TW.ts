@@ -1,10 +1,10 @@
-import { ASSISTED_USERS_MYSELF } from '@ringcentral-integration/commons/modules/RcVideo/constants';
+import { ASSISTED_USERS_MYSELF } from '@ringcentral-integration/commons/modules/RcVideo';
 export default {
   topic: "會議標題",
   date: "日期",
   startTime: "時間",
   duration: "時長",
-  scheduleFor: "代表以下對象排程",
+  scheduleFor: "代表以下對象安排時間",
   meetingSettings: "會議設定",
   [ASSISTED_USERS_MYSELF]: "我本人",
   joinBeforeHost: "允許參與者在主持人之前加入",
@@ -12,27 +12,27 @@ export default {
   waitingRoom: "為以下對象啟用等候室",
   waitingRoomNotCoworker: "公司以外任何人",
   waitingRoomGuest: "未登入的任何人",
-  waitingRoomAll: "任何人",
+  waitingRoomAll: "所有人",
   enterPassword: "輸入密碼",
   onlyJoinAfterMe: "參與者只能在我之後加入",
-  onlyJoinAfterHost: "參與者只能在主持人之後加入",
+  onlyJoinAfterHost: "參加者僅能在主持人之後加入",
   muteAudio: "靜音參與者的音訊",
-  turnOffCamera: "關閉參與者的相機",
+  turnOffCamera: "關閉參與者的攝影機",
   requirePassword: "需要密碼",
   useE2ee: "使用端對端加密",
   e2eeTooltip: "端對端加密的會議最具私密性，但無法使用透過電話加入、隱藏式字幕和錄製等功能。",
   setPassword: "請設定密碼 *",
   setPasswordNotSymbol: "請設定密碼",
-  passwordEmptyError: "必須提供會議密碼",
-  passwordInvalidError: "您的密碼必須包含 1 到 10 個字元和數字，但不得包含任何符號",
-  passwordHintText: "您的密碼應包含 1 到 10 個字元和數字，但不得包含任何符號",
+  passwordEmptyError: "需要會議密碼",
+  passwordInvalidError: "您的密碼須為 1 到 10 個字母和數字，但不得包含任何符號",
+  passwordHintText: "您的密碼應為 1 到 10 個字母和數字，但不得包含任何符號",
   usePersonalMeetingId: "使用個人會議 ID",
   meetingSettingsSecurity: "安全性",
-  onlyAuthUserJoin: "只有通過驗證的使用者可以加入",
+  onlyAuthUserJoin: "僅限通過驗證的使用者可以加入",
   signedInUsers: "已登入的使用者",
   signedInCoWorkers: "登入的同仁",
   limitScreenSharing: "只有主持人和仲裁者可以分享畫面",
-  lockTooltip: "此設定是由貴公司管理員負責管理",
+  lockTooltip: "此設定由貴公司管理員管理",
   pmiSettingAlert: "這些設定將套用至所有使用 PMI 建立的會議",
   today: "今日",
   scheduleForGuidance: "要為其他人排程嗎？\n1. 請確認您在他們的 Outlook 行事曆中。\n2. 從下拉選單中選取您要幫助其排程的人員。\n",
@@ -78,5 +78,5 @@ export default {
 // @key: @#@"today"@#@ @source: @#@"Today"@#@
 // @key: @#@"scheduleForGuidance"@#@ @source: @#@"Scheduling for someone else?\n1. Make sure you're on their Outlook calendar.\n2. From the dropdown, select the person you're scheduling for.\n"@#@
 // @key: @#@"scheduleForGuidanceMore"@#@ @source: @#@"Learn details"@#@
-// @key: @#@"changePmiSettings"@#@ @source: @#@"Change Personal meeting settings"@#@
+// @key: @#@"changePmiSettings"@#@ @source: @#@"Change Personal Meeting settings"@#@
 // @key: @#@"ieSupportAlert"@#@ @source: @#@"Please note that {appName} won't work with Internet Explorer 11 after Feb 16, 2022. We recommend switching to Microsoft Edge or updating to Outlook 2016 or above."@#@

@@ -1,16 +1,17 @@
-import { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
 
-import { RcVMeetingModel } from '@ringcentral-integration/commons/interfaces/Rcv.model';
-import {
+import type { RcVMeetingModel } from '@ringcentral-integration/commons/interfaces/Rcv.model';
+import type { BrandConfig } from '@ringcentral-integration/commons/modules/Brand';
+import type {
   RcmItemType,
   RcMMeetingModel,
-} from '@ringcentral-integration/commons/modules/MeetingV2';
-import {
+} from '@ringcentral-integration/commons/modules/Meeting';
+import type {
   AUTH_USER,
   RcvDelegator,
   RcvItemType,
-} from '@ringcentral-integration/commons/modules/RcVideoV2';
-import {
+} from '@ringcentral-integration/commons/modules/RcVideo';
+import type {
   RcCheckboxProps,
   RcDatePickerSize,
   RcTimePickerSize,
@@ -59,7 +60,6 @@ export interface VideoPanelProps extends CommonProps {
   // TODO: any is reserved for RcM
   updateMeetingSettings: (meeting: RcVMeetingModel | any) => void;
   trackSettingChanges?: (itemName: RcvItemType | RcmItemType) => void;
-  updateHasSettingsChanged: (isChanged: boolean) => void;
   validatePasswordSettings: (password: string, isSecret: boolean) => boolean;
   e2eeInteractFunc: (e2eeValue: boolean) => void;
   onPmiChangeClick: () => void;
@@ -98,7 +98,7 @@ export interface MeetingPanelProps extends CommonProps {
   showRecurringMeeting?: boolean;
   recipientsSection: React.ReactNode;
   passwordPlaceholderEnable?: boolean;
-  launchMeeting: () => any;
+  launchMeeting?: () => any;
   showLaunchMeetingBtn: boolean;
   scheduleButtonLabel: string;
   appCode: string;
@@ -114,7 +114,7 @@ export interface MeetingPanelProps extends CommonProps {
 export interface GenericMeetingPanelProps
   extends VideoPanelProps,
     MeetingPanelProps {
-  meeting: RcMMeetingModel | RcVMeetingModel;
+  meeting: RcMMeetingModel | Partial<RcVMeetingModel>;
   useRcmV2: boolean;
   isRCM: boolean;
   isRCV: boolean;
@@ -124,7 +124,7 @@ export interface GenericMeetingPanelProps
   brandName: string;
   labelPlacement?: 'end' | 'start' | 'top' | 'bottom';
   showRemoveMeetingWarning: boolean;
-  brandConfig: any;
+  brandConfig: BrandConfig;
 }
 
 export interface GenericMeetingPanelState {}

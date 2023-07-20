@@ -1,17 +1,15 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 var _default = {
-  mute: "Disatt. audio",
+  mute: "Disattiva audio",
   unmute: "Riattiva audio",
   hangup: "Riaggancia",
   reject: "Rifiuta",
-  hold: "Attesa",
+  hold: "Metti in attesa",
   onHold: "In attesa",
   transfer: "Trasferisci",
   more: "Altro",
@@ -20,13 +18,15 @@ var _default = {
   showKeypad: "Tastiera",
   hideKeypad: "Nascondi tastiera",
   unHold: "Interrompi l'attesa",
-  forward: "Trasferisci",
+  forward: "Inoltra",
   ignore: "Ignora",
   voicemail: "Alla segreteria telefonica",
-  custom: "Personalizzato",
+  custom: "Personalizza",
   answerAndEnd: "Rispondi e termina",
-  answerAndHold: "Rispondi e metti in attesa",
-  answer: "Rispondi"
+  answerAndHold: "Rispondi e attesa",
+  answer: "Rispondi",
+  completeTransfer: "Completa trasferimento",
+  reply: "Rispondi"
 }; // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
 // @key: @#@"hangup"@#@ @source: @#@"Hang up"@#@
@@ -47,6 +47,7 @@ var _default = {
 // @key: @#@"answerAndEnd"@#@ @source: @#@"Answer & End"@#@
 // @key: @#@"answerAndHold"@#@ @source: @#@"Answer & Hold"@#@
 // @key: @#@"answer"@#@ @source: @#@"Answer"@#@
-
+// @key: @#@"completeTransfer"@#@ @source: @#@"Complete transfer"@#@
+// @key: @#@"reply"@#@ @source: @#@"Reply"@#@
 exports["default"] = _default;
 //# sourceMappingURL=it-IT.js.map

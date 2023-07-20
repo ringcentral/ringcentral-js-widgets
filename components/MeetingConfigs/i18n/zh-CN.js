@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -17,7 +15,7 @@ var _default = {
   host: "主持人视频开启",
   participants: "参与者视频开启",
   audioOptions: "音频选项",
-  voIPOnly: "仅网络电话",
+  voIPOnly: "仅 VoIP",
   both: "两者",
   meetingOptions: "会议选项",
   requirePassword: "需要会议密码",
@@ -71,6 +69,5 @@ var _default = {
 // @key: @#@"pmiChangeConfirm"@#@ @source: @#@"If you want to make changes for your personal meeting, "@#@
 // @key: @#@"changePmiSettings"@#@ @source: @#@"change PMI settings"@#@
 // @key: @#@"pmiSettingChangeAlert"@#@ @source: @#@"If you change the settings and schedule this meeting, all of meetings with Personal Meeting ID will use the same latest settings."@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=zh-CN.js.map

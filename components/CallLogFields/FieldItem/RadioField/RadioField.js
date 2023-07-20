@@ -1,25 +1,18 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
+require("core-js/modules/es.array.map");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.RadioField = void 0;
-
-require("core-js/modules/es6.array.map");
-
 var _react = _interopRequireDefault(require("react"));
-
 var _juno = require("@ringcentral/juno");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 var RadioField = function RadioField(_ref) {
   var value = _ref.value,
-      options = _ref.options,
-      classes = _ref.classes,
-      onChange = _ref.onChange;
+    options = _ref.options,
+    classes = _ref.classes,
+    onChange = _ref.onChange;
   return /*#__PURE__*/_react["default"].createElement(_juno.RcRadioGroup, {
     value: value,
     onChange: onChange
@@ -37,6 +30,5 @@ var RadioField = function RadioField(_ref) {
     });
   }));
 };
-
 exports.RadioField = RadioField;
 //# sourceMappingURL=RadioField.js.map

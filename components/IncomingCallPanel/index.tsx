@@ -1,15 +1,34 @@
-import React from 'react';
+import type { FunctionComponent } from 'react';
+import React, { memo } from 'react';
 
 import classnames from 'classnames';
-import PropTypes from 'prop-types';
 
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
-import CallAvatar from '../CallAvatar';
+import { CallAvatar } from '../CallAvatar';
 import ContactDisplay from '../ContactDisplay';
 import IncomingCallPad from '../IncomingCallPad';
 import styles from './styles.scss';
 
-function UserInfo(props) {
+// TODO: fix that props type when full refactor ready
+const UserInfo: FunctionComponent<any> = ({
+  avatarUrl,
+  callQueueName,
+  nameMatches,
+  phoneNumber,
+  fallBackName,
+  currentLocale,
+  areaCode,
+  name,
+  countryCode,
+  selectedMatcherIndex,
+  onSelectMatcherName,
+  brand = 'RingCentral',
+  showContactDisplayPlaceholder = true,
+  sourceIcons,
+  phoneTypeRenderer,
+  phoneSourceNameRenderer,
+  formatPhone,
+}) => {
   return (
     <div className={styles.userInfo}>
       <div className={styles.avatarContainer}>
@@ -17,174 +36,130 @@ function UserInfo(props) {
           <div className={classnames(styles.ringOutside, styles.ringing)} />
           <div className={classnames(styles.ringInner, styles.ringing)} />
           <div className={styles.avatar} data-sign="avatar">
-            <CallAvatar avatarUrl={props.avatarUrl} />
+            <CallAvatar avatarUrl={avatarUrl} />
           </div>
         </div>
       </div>
       <div className={styles.userNameContainer}>
-        {props.callQueueName}
+        {callQueueName}
         <ContactDisplay
+          name={name}
           className={styles.userName}
           selectClassName={styles.dropdown}
-          contactMatches={props.nameMatches}
-          phoneNumber={props.phoneNumber}
-          fallBackName={props.fallBackName}
-          currentLocale={props.currentLocale}
-          areaCode={props.areaCode}
-          countryCode={props.countryCode}
+          contactMatches={nameMatches}
+          phoneNumber={phoneNumber}
+          fallBackName={fallBackName}
+          currentLocale={currentLocale}
+          areaCode={areaCode}
+          countryCode={countryCode}
           showType={false}
-          selected={props.selectedMatcherIndex}
-          onSelectContact={props.onSelectMatcherName}
+          selected={selectedMatcherIndex}
+          onSelectContact={onSelectMatcherName}
           isLogging={false}
           enableContactFallback
-          brand={props.brand}
-          showPlaceholder={props.showContactDisplayPlaceholder}
-          sourceIcons={props.sourceIcons}
-          phoneTypeRenderer={props.phoneTypeRenderer}
-          phoneSourceNameRenderer={props.phoneSourceNameRenderer}
+          brand={brand}
+          showPlaceholder={showContactDisplayPlaceholder}
+          sourceIcons={sourceIcons}
+          // @ts-expect-error TS(2322): Type '{ name: any; className: string; selectClassN... Remove this comment to see the full error message
+          phoneTypeRenderer={phoneTypeRenderer}
+          phoneSourceNameRenderer={phoneSourceNameRenderer}
         />
       </div>
       <div className={styles.userPhoneNumber} data-sign="userPhoneNumber">
-        {props.formatPhone(props.phoneNumber)}
+        {formatPhone(phoneNumber)}
       </div>
     </div>
   );
-}
-
-UserInfo.propTypes = {
-  phoneNumber: PropTypes.string,
-  currentLocale: PropTypes.string.isRequired,
-  formatPhone: PropTypes.func.isRequired,
-  nameMatches: PropTypes.array.isRequired,
-  fallBackName: PropTypes.string.isRequired,
-  areaCode: PropTypes.string.isRequired,
-  countryCode: PropTypes.string.isRequired,
-  selectedMatcherIndex: PropTypes.number.isRequired,
-  onSelectMatcherName: PropTypes.func.isRequired,
-  avatarUrl: PropTypes.string,
-  brand: PropTypes.string,
-  showContactDisplayPlaceholder: PropTypes.bool,
-  sourceIcons: PropTypes.object,
-  phoneTypeRenderer: PropTypes.func,
-  phoneSourceNameRenderer: PropTypes.func,
-  callQueueName: PropTypes.string,
 };
 
-UserInfo.defaultProps = {
-  phoneNumber: null,
-  avatarUrl: null,
-  brand: 'RingCentral',
-  showContactDisplayPlaceholder: true,
-  sourceIcons: undefined,
-  phoneTypeRenderer: undefined,
-  phoneSourceNameRenderer: undefined,
-  callQueueName: null,
-};
-
-function IncomingCallPanel(props) {
+const IncomingCallPanel: FunctionComponent<any> = ({
+  className,
+  onBackButtonClick,
+  phoneNumber,
+  callQueueName,
+  currentLocale,
+  formatPhone,
+  nameMatches,
+  fallBackName,
+  areaCode,
+  countryCode,
+  selectedMatcherIndex,
+  onSelectMatcherName,
+  avatarUrl,
+  brand = 'RingCentral',
+  showContactDisplayPlaceholder,
+  sourceIcons,
+  phoneTypeRenderer,
+  phoneSourceNameRenderer,
+  forwardingNumbers,
+  answer,
+  reject,
+  toVoiceMail,
+  replyWithMessage,
+  onForward,
+  hasOtherActiveCall,
+  answerAndEnd,
+  answerAndHold,
+  sessionId,
+  searchContact,
+  searchContactList,
+  children,
+  name,
+}) => {
   return (
     <div
       data-sign="IncomingCallPanel"
-      className={classnames(styles.root, props.className)}
+      className={classnames(styles.root, className)}
     >
       <span
         data-sign="backButton"
         className={styles.backButton}
-        onClick={props.onBackButtonClick}
+        onClick={onBackButtonClick}
       >
         <i className={classnames(dynamicsFont.arrow, styles.backIcon)} />
       </span>
       <UserInfo
-        phoneNumber={props.phoneNumber}
-        callQueueName={props.callQueueName}
-        currentLocale={props.currentLocale}
+        name={name}
+        phoneNumber={phoneNumber}
+        callQueueName={callQueueName}
+        currentLocale={currentLocale}
         className={styles.userInfo}
-        formatPhone={props.formatPhone}
-        nameMatches={props.nameMatches}
-        fallBackName={props.fallBackName}
-        areaCode={props.areaCode}
-        countryCode={props.countryCode}
-        selectedMatcherIndex={props.selectedMatcherIndex}
-        onSelectMatcherName={props.onSelectMatcherName}
-        avatarUrl={props.avatarUrl}
-        brand={props.brand}
-        showContactDisplayPlaceholder={props.showContactDisplayPlaceholder}
-        sourceIcons={props.sourceIcons}
-        phoneTypeRenderer={props.phoneTypeRenderer}
-        phoneSourceNameRenderer={props.phoneSourceNameRenderer}
+        formatPhone={formatPhone}
+        nameMatches={nameMatches}
+        fallBackName={fallBackName}
+        areaCode={areaCode}
+        countryCode={countryCode}
+        selectedMatcherIndex={selectedMatcherIndex}
+        onSelectMatcherName={onSelectMatcherName}
+        avatarUrl={avatarUrl}
+        brand={brand}
+        showContactDisplayPlaceholder={showContactDisplayPlaceholder}
+        sourceIcons={sourceIcons}
+        phoneTypeRenderer={phoneTypeRenderer}
+        phoneSourceNameRenderer={phoneSourceNameRenderer}
       />
       <IncomingCallPad
         className={styles.callPad}
-        forwardingNumbers={props.forwardingNumbers}
-        formatPhone={props.formatPhone}
-        answer={props.answer}
-        reject={props.reject}
-        toVoiceMail={props.toVoiceMail}
-        replyWithMessage={props.replyWithMessage}
-        onForward={props.onForward}
-        currentLocale={props.currentLocale}
-        hasOtherActiveCall={props.hasOtherActiveCall}
-        answerAndEnd={props.answerAndEnd}
-        answerAndHold={props.answerAndHold}
-        sessionId={props.sessionId}
-        searchContact={props.searchContact}
-        searchContactList={props.searchContactList}
-        phoneTypeRenderer={props.phoneTypeRenderer}
-        phoneSourceNameRenderer={props.phoneSourceNameRenderer}
+        forwardingNumbers={forwardingNumbers}
+        formatPhone={formatPhone}
+        answer={answer}
+        reject={reject}
+        toVoiceMail={toVoiceMail}
+        replyWithMessage={replyWithMessage}
+        onForward={onForward}
+        currentLocale={currentLocale}
+        hasOtherActiveCall={hasOtherActiveCall}
+        answerAndEnd={answerAndEnd}
+        answerAndHold={answerAndHold}
+        sessionId={sessionId}
+        searchContact={searchContact}
+        searchContactList={searchContactList}
+        phoneTypeRenderer={phoneTypeRenderer}
+        phoneSourceNameRenderer={phoneSourceNameRenderer}
       />
-      {props.children}
+      {children}
     </div>
   );
-}
-
-IncomingCallPanel.propTypes = {
-  currentLocale: PropTypes.string.isRequired,
-  phoneNumber: PropTypes.string,
-  className: PropTypes.string,
-  answer: PropTypes.func.isRequired,
-  reject: PropTypes.func.isRequired,
-  toVoiceMail: PropTypes.func.isRequired,
-  replyWithMessage: PropTypes.func.isRequired,
-  children: PropTypes.node,
-  formatPhone: PropTypes.func.isRequired,
-  nameMatches: PropTypes.array.isRequired,
-  fallBackName: PropTypes.string.isRequired,
-  areaCode: PropTypes.string.isRequired,
-  countryCode: PropTypes.string.isRequired,
-  selectedMatcherIndex: PropTypes.number.isRequired,
-  onSelectMatcherName: PropTypes.func.isRequired,
-  avatarUrl: PropTypes.string,
-  onBackButtonClick: PropTypes.func.isRequired,
-  forwardingNumbers: PropTypes.array.isRequired,
-  onForward: PropTypes.func.isRequired,
-  brand: PropTypes.string,
-  showContactDisplayPlaceholder: PropTypes.bool,
-  answerAndEnd: PropTypes.func,
-  answerAndHold: PropTypes.func,
-  hasOtherActiveCall: PropTypes.bool,
-  sessionId: PropTypes.string.isRequired,
-  sourceIcons: PropTypes.object,
-  searchContactList: PropTypes.array.isRequired,
-  searchContact: PropTypes.func.isRequired,
-  phoneTypeRenderer: PropTypes.func,
-  phoneSourceNameRenderer: PropTypes.func,
-  callQueueName: PropTypes.string,
 };
 
-IncomingCallPanel.defaultProps = {
-  className: null,
-  phoneNumber: null,
-  children: undefined,
-  avatarUrl: null,
-  brand: 'RingCentral',
-  showContactDisplayPlaceholder: true,
-  answerAndEnd: undefined,
-  answerAndHold: undefined,
-  hasOtherActiveCall: false,
-  sourceIcons: undefined,
-  phoneTypeRenderer: undefined,
-  phoneSourceNameRenderer: undefined,
-  callQueueName: null,
-};
-
-export default IncomingCallPanel;
+export default memo(IncomingCallPanel);

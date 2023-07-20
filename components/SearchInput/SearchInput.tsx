@@ -1,4 +1,5 @@
-import React, { ChangeEvent, FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React, { ChangeEvent } from 'react';
 
 import classnames from 'classnames';
 
@@ -28,7 +29,7 @@ export const SearchInput: FunctionComponent<SearchInputProps> = ({
 }) => {
   return (
     <div className={classnames(styles.root, className)}>
-      <SearchIcon className={styles.icon} />
+      <SearchIcon data-sign="searchIcon" className={styles.icon} />
       <input
         data-sign={dataSign}
         name="search"
@@ -46,6 +47,7 @@ export const SearchInput: FunctionComponent<SearchInputProps> = ({
 };
 
 SearchInput.defaultProps = {
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   className: null,
   disabled: false,
   placeholder: '',

@@ -1,9 +1,11 @@
-import React, { FunctionComponent, ReactNode } from 'react';
+import type { FunctionComponent, ReactNode } from 'react';
+import React from 'react';
 
 import classnames from 'classnames';
 
 import DropdownNavigationView from '../DropdownNavigationView';
-import NavigationBar, { NavigationBarProps } from '../NavigationBar';
+import type { NavigationBarProps } from '../NavigationBar';
+import { NavigationBar } from '../NavigationBar';
 import { SpinnerOverlay } from '../SpinnerOverlay';
 import TabNavigationButton from '../TabNavigationButton';
 import styles from './styles.scss';
@@ -18,7 +20,7 @@ export interface TabNavigationViewProps {
   brandIcon?: ReactNode;
   tabWidth?: string;
   tabHeight?: string;
-  tabs?: NavigationBarProps['tabs'];
+  tabs: NavigationBarProps['tabs'];
   holdReady?: boolean;
   navBarClassName?: string;
   tabNavigationViewClassName?: string;
@@ -47,11 +49,15 @@ const TabNavigationView: FunctionComponent<TabNavigationViewProps> = ({
     return <SpinnerOverlay />;
   }
 
+  if (holdReady) return null;
+
   const isVertical = navigationPosition === 'left';
+
   const navBar = (
     <NavigationBar
       button={TabNavigationButton}
       tooltipForceHide={tooltipForceHide}
+      // @ts-expect-error TS(2322): Type 'FunctionComponent<DropdownNavigationViewProp... Remove this comment to see the full error message
       childNavigationView={DropdownNavigationView}
       tabs={tabs}
       goTo={goTo}
@@ -63,7 +69,7 @@ const TabNavigationView: FunctionComponent<TabNavigationViewProps> = ({
       className={navBarClassName}
     />
   );
-  if (holdReady) return null;
+
   return (
     <div
       className={classnames(
@@ -88,7 +94,6 @@ const TabNavigationView: FunctionComponent<TabNavigationViewProps> = ({
           !isVertical && styles.hasMaxHeight,
         )}
       >
-        {' '}
         {children}
       </div>
       {navigationPosition === 'bottom' ? <>{navBar}</> : null}
@@ -98,10 +103,8 @@ const TabNavigationView: FunctionComponent<TabNavigationViewProps> = ({
 
 TabNavigationView.defaultProps = {
   children: null,
-  className: null,
   navigationPosition: 'top',
   brandIcon: null,
-  tabs: null,
   holdReady: false,
   onLoading: false,
 };

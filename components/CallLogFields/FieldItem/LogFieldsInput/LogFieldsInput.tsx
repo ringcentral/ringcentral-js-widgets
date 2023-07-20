@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 
 import classnames from 'classnames';
 
-import { RcTextField, RcTextFieldProps } from '@ringcentral/juno';
+import type { RcTextFieldProps } from '@ringcentral/juno';
+import { RcTextField } from '@ringcentral/juno';
 
 import { bindDebounce } from '../../../../lib/bindDebounce';
 import { bindNextPropsUpdate } from '../../../../lib/bindNextPropsUpdate';
@@ -40,8 +41,9 @@ export class LogFieldsInput extends Component<
     };
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   // eslint-disable-next-line react/no-deprecated
-  componentWillReceiveProps(nextProps) {
+  UNSAFE_componentWillReceiveProps(nextProps: any) {
     const isFocus = document.activeElement === this.inputRef.current;
     this.checkPropsUpdate(nextProps, 'value', isFocus);
   }
@@ -54,6 +56,7 @@ export class LogFieldsInput extends Component<
     this.debounce(() => onChange(value));
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     const { onChange, required, error, type, onFocus, ...rest } = this.props;
     const { value } = this.state;

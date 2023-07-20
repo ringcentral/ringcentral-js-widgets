@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -21,6 +19,5 @@ var _default = {
 // @key: @#@"country"@#@ @source: @#@"Country"@#@
 // @key: @#@"areaCode"@#@ @source: @#@"Area Code"@#@
 // @key: @#@"areaCodePlaceholder"@#@ @source: @#@"Enter Area Code"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=zh-HK.js.map

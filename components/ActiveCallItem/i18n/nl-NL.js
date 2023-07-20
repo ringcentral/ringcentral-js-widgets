@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -33,7 +31,7 @@ var _default = {
   toVoicemail: "Naar voicemail",
   anonymous: "Anoniem",
   mergeToConference: "Samenvoegen",
-  hold: "In de wacht",
+  hold: "Wacht",
   unhold: "Uit de wacht",
   transfer: "Doorschakelen",
   reject: "Weigeren",
@@ -41,7 +39,7 @@ var _default = {
   callSwitch: "Oproep schakelen",
   comfirmContext: "U bent momenteel in een actieve oproep met {displayName}. Wilt u de oproep voortzetten op dit apparaat?",
   comfirmCancelButton: "Annuleren",
-  comfirmOKButton: "Wisselen",
+  comfirmOKButton: "Schakelen",
   ignore: "Negeren",
   holdAndAnswer: "In wacht en beantwoorden"
 }; // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
@@ -81,6 +79,5 @@ var _default = {
 // @key: @#@"comfirmOKButton"@#@ @source: @#@"Switch"@#@
 // @key: @#@"ignore"@#@ @source: @#@"Ignore"@#@
 // @key: @#@"holdAndAnswer"@#@ @source: @#@"Hold & Answer"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=nl-NL.js.map

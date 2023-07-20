@@ -1,6 +1,6 @@
+import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 import callResults from '@ringcentral-integration/commons/enums/callResults';
 import telephonyStatuses from '@ringcentral-integration/commons/enums/telephonyStatus';
-import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 export default {
   [callDirections.inbound]: "Entrant",
   [callDirections.outbound]: "Sortant",
@@ -16,8 +16,8 @@ export default {
   [telephonyStatuses.parkedCall]: "Parqué",
   [callResults.unknown]: "Inconnu",
   [callResults.missed]: "Manqué",
-  [callResults.callAccepted]: "Réponse obtenue",
-  [callResults.accepted]: "Réponse obtenue",
+  [callResults.callAccepted]: "Répondu",
+  [callResults.accepted]: "Répondu",
   [callResults.voicemail]: "Messagerie vocale",
   [callResults.rejected]: "Refusé",
   [callResults.reply]: "Répondre",
@@ -26,10 +26,10 @@ export default {
   [callResults.faxOnDemand]: "Fax à la demande",
   [callResults.partialReceive]: "Réception partielle",
   [callResults.blocked]: "Bloqué",
-  [callResults.callConnected]: "Appel connecté",
+  [callResults.callConnected]: "Appel établi",
   [callResults.noAnswer]: "Aucune réponse",
   [callResults.internationalDisabled]: "Appels à l’international désactivés",
-  [callResults.busy]: "Occupé(e)",
+  [callResults.busy]: "Occupé",
   [callResults.faxSendError]: "Erreur d’envoi du fax",
   [callResults.sent]: "Envoyé",
   [callResults.callFailed]: "L’appel a échoué",
@@ -45,7 +45,8 @@ export default {
   [callResults.declined]: "Refusé",
   [callResults.faxReceipt]: "Réception du fax",
   [callResults.disconnected]: "Déconnecté",
-  [callResults.notAllowed]: "Non autorisé"
+  [callResults.notAllowed]: "Non autorisé",
+  warmTransferSwitchCall: "Basculer les appels"
 };
 
 // @key: @#@"[callDirections.inbound]"@#@ @source: @#@"Inbound"@#@
@@ -92,3 +93,4 @@ export default {
 // @key: @#@"[callResults.faxReceipt]"@#@ @source: @#@"Fax Receipt"@#@
 // @key: @#@"[callResults.disconnected]"@#@ @source: @#@"Disconnected"@#@
 // @key: @#@"[callResults.notAllowed]"@#@ @source: @#@"Not Allowed"@#@
+// @key: @#@"warmTransferSwitchCall"@#@ @source: @#@"Switch calls"@#@

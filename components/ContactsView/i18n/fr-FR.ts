@@ -1,5 +1,5 @@
 export default {
-  searchPlaceholder: "Recherche...",
+  searchPlaceholder: "Recherche…",
   refresh: "Actualiser"
 };
 

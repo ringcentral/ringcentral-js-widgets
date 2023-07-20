@@ -1,4 +1,5 @@
-import React, { ComponentType, FunctionComponent, memo } from 'react';
+import type { ComponentType, FunctionComponent } from 'react';
+import React, { memo } from 'react';
 
 import classNames from 'classnames';
 
@@ -51,10 +52,14 @@ export const SpinnerOverlay: FunctionComponent<SpinnerOverlayProps> =
       return (
         <div
           data-sign="spinnerOverlay"
+          // @ts-expect-error TS(2532): Object is possibly 'undefined'.
           className={classNames(styles.root, className, classes.root)}
         >
+          {/* @ts-expect-error TS(2532): Object is possibly 'undefined'. */}
           <Mask className={classes.mask} />
+          {/* @ts-expect-error TS(2532): Object is possibly 'undefined'. */}
           <StyledContainer className={classes.container} top={top}>
+            {/* @ts-expect-error TS(2604): JSX element type 'SpinnerComponent' */}
             <SpinnerComponent />
           </StyledContainer>
         </div>

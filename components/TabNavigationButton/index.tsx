@@ -1,13 +1,23 @@
-import React, { DOMAttributes, FunctionComponent, ReactNode } from 'react';
+import type {
+  ComponentType,
+  DOMAttributes,
+  FunctionComponent,
+  ReactElement,
+} from 'react';
+import React from 'react';
 
 import classnames from 'classnames';
 
 import { Tooltip } from '../Rcui/Tooltip';
 import styles from './styles.scss';
 
+type NavigationButtonIconProps = {
+  currentPath?: string;
+};
+
 export type NavigationButtonIcon =
-  | ReactNode
-  | (({ currentPath }: { currentPath: string }) => ReactNode);
+  | ReactElement
+  | ComponentType<NavigationButtonIconProps>;
 
 export interface NavigationButtonProps {
   icon: NavigationButtonIcon;
@@ -27,7 +37,7 @@ export interface NavigationButtonProps {
   dataSign?: string;
 }
 
-const NavigationButton: FunctionComponent<NavigationButtonProps> = ({
+export const NavigationButton: FunctionComponent<NavigationButtonProps> = ({
   active,
   activeIcon,
   icon,
@@ -47,9 +57,17 @@ const NavigationButton: FunctionComponent<NavigationButtonProps> = ({
   let notice = null;
   if (noticeCounts && noticeCounts > 0) {
     if (noticeCounts > 99) {
-      notice = <div className={styles.notices}>99+</div>;
+      notice = (
+        <div className={styles.notices} data-sign="navigationNoticeCount">
+          99+
+        </div>
+      );
     } else {
-      notice = <div className={styles.notice}>{noticeCounts}</div>;
+      notice = (
+        <div className={styles.notice} data-sign="navigationNoticeCount">
+          {noticeCounts}
+        </div>
+      );
     }
   }
 

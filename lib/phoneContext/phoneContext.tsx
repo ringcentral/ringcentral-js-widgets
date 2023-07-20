@@ -1,13 +1,15 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
-import { RcThemeProvider, RcThemeProviderProps } from '@ringcentral/juno';
+import type { RcThemeProviderProps } from '@ringcentral/juno';
+import { RcThemeProvider } from '@ringcentral/juno';
 
 export interface PhoneProviderProps<T = any> {
   phone: T;
   theme?: RcThemeProviderProps['theme'];
 }
 
-export const PhoneContext = React.createContext(null);
+export const PhoneContext = React.createContext<any>(null);
 
 export default PhoneContext;
 
@@ -34,7 +36,7 @@ export const PhoneProvider: FunctionComponent<PhoneProviderProps> = ({
  */
 export function withPhone(Comp: any) {
   // eslint-disable-next-line func-names
-  return function (props: any) {
+  return (props: any) => {
     return (
       <PhoneContext.Consumer>
         {(phone) => <Comp phone={phone} {...props} />}

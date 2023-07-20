@@ -1,6 +1,6 @@
 export default {
-  unmute: "Désac. muet",
-  mute: "Muet",
+  unmute: "Réactiver le micro",
+  mute: "Désactiver le micro",
   keypad: "Clavier",
   hold: "Mettre en attente",
   onHold: "En attente",
@@ -9,10 +9,10 @@ export default {
   record: "Enregistrer",
   add: "Ajouter",
   transfer: "Transférer",
-  flip: "Renvoi",
+  flip: "Basculer",
   more: "Actions d’appel",
   mergeToConference: "Fusionner",
-  end: "Fin",
+  end: "Terminer",
   completeTransfer: "Exécuter\nle transfert"
 };
 

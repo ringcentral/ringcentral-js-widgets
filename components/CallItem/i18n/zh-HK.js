@@ -1,29 +1,27 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 var _default = {
-  logging: "登入中...",
+  logging: "記錄中...",
   logCall: "記錄通話",
   editLog: "編輯記錄",
   select: "選擇相符的記錄",
-  OnHold: "等待接通",
-  Ringing: "鈴響",
-  CallConnected: "已連線通話",
+  OnHold: "保留",
+  Ringing: "響鈴",
+  CallConnected: "通話已連線",
   unknownUser: "未知的使用者",
   unknownNumber: "匿名",
-  unavailable: "不可用",
+  unavailable: "無法接聽通話",
   viewDetails: "檢視詳細資訊",
   addEntity: "建立",
   addLog: "記錄",
-  text: "簡訊",
+  text: "文字",
   call: "通話",
   missedCall: "未接",
-  inboundCall: "撥入電話",
+  inboundCall: "撥入",
   outboundCall: "撥出電話"
 }; // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
 // @key: @#@"logCall"@#@ @source: @#@"Log Call"@#@
@@ -43,6 +41,5 @@ var _default = {
 // @key: @#@"missedCall"@#@ @source: @#@"Missed"@#@
 // @key: @#@"inboundCall"@#@ @source: @#@"Inbound"@#@
 // @key: @#@"outboundCall"@#@ @source: @#@"Outbound"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=zh-HK.js.map

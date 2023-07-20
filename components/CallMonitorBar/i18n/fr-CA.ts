@@ -5,9 +5,9 @@ export default {
   incomingCall: "{numberOf} appel entrant",
   incomingCalls: "{numberOf} appels entrants",
   callOnHold: "{numberOf} appel en attente",
-  callsOnHold: "{numberOf} appels en attente",
-  otherDeviceCall: "{numberOf}appel sur d’autres appareils",
-  otherDeviceCalls: "{numberOf}appels sur d’autres appareils"
+  callsOnHold: "{numberOf} appels en attente",
+  otherDeviceCall: "{numberOf} appel sur d’autres appareils",
+  otherDeviceCalls: "{numberOf} appels sur d’autres appareils"
 };
 
 // @key: @#@"currentCall"@#@ @source: @#@"Current Call"@#@

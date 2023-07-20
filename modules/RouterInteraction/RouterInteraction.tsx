@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { createMemoryHistory, useRouterHistory } from 'react-router';
 import {
   LOCATION_CHANGE,
@@ -7,10 +8,11 @@ import {
 
 import moduleStatuses from '@ringcentral-integration/commons/enums/moduleStatuses';
 import { Module } from '@ringcentral-integration/commons/lib/di';
-import proxify from '@ringcentral-integration/commons/lib/proxy/proxify';
+import { proxify } from '@ringcentral-integration/commons/lib/proxy/proxify';
 import RcModule from '@ringcentral-integration/commons/lib/RcModule';
 
 function getDefaultHistory() {
+  // eslint-disable-next-line react-hooks/rules-of-hooks
   return useRouterHistory(createMemoryHistory)();
 }
 /**

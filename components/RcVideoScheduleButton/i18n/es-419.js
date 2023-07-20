@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -13,6 +11,5 @@ var _default = {
 }; // @key: @#@"schedule"@#@ @source: @#@"Schedule Meeting"@#@
 // @key: @#@"prompt"@#@ @source: @#@"Please authorize RingCentral to access your account information."@#@
 // @key: @#@"saveAsDefault"@#@ @source: @#@"Save as default"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=es-419.js.map

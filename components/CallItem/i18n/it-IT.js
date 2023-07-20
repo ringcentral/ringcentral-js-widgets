@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -12,7 +10,7 @@ var _default = {
   editLog: "Modifica registro",
   select: "Seleziona un record corrispondente",
   OnHold: "In attesa",
-  Ringing: "Squillo",
+  Ringing: "Chiamata in corso",
   CallConnected: "Chiamata connessa",
   unknownUser: "Utente sconosciuto",
   unknownNumber: "Anonimo",
@@ -22,7 +20,7 @@ var _default = {
   addLog: "Registro",
   text: "SMS",
   call: "Chiamata",
-  missedCall: "Perse",
+  missedCall: "Persa",
   inboundCall: "In entrata",
   outboundCall: "In uscita"
 }; // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
@@ -43,6 +41,5 @@ var _default = {
 // @key: @#@"missedCall"@#@ @source: @#@"Missed"@#@
 // @key: @#@"inboundCall"@#@ @source: @#@"Inbound"@#@
 // @key: @#@"outboundCall"@#@ @source: @#@"Outbound"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=it-IT.js.map

@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -9,7 +7,7 @@ exports["default"] = void 0;
 var _default = {
   title: "Región",
   NAOnlyMessage: "Defina su código de área. Se utilizará para la marcación local.",
-  MultiWithNAMessage: "Defina el país y código de área para su región. Se utilizará para la marcación local y el formato de número de teléfono.",
+  MultiWithNAMessage: "Defina el país y el prefijo de su región. Se utilizará para la marcación local y el formato de número de teléfono.",
   MultiWithoutNAMessage: "Seleccioné el país en el que se encuentra. Esto se utilizará para la marcación local y el formato de número de teléfono.",
   country: "País",
   areaCode: "Código de área",
@@ -21,6 +19,5 @@ var _default = {
 // @key: @#@"country"@#@ @source: @#@"Country"@#@
 // @key: @#@"areaCode"@#@ @source: @#@"Area Code"@#@
 // @key: @#@"areaCodePlaceholder"@#@ @source: @#@"Enter Area Code"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=es-ES.js.map

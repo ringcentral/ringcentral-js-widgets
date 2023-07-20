@@ -28,9 +28,9 @@ class Channel {
 
   broadcast(packet: Packet) {
     const promises: Promise<any>[] = [];
-    chrome.tabs.query({}, (tabs) => {
+    chrome.tabs.query({}, (tabs: any) => {
       if (!tabs.length) return;
-      tabs.forEach((tab) => {
+      tabs.forEach((tab: any) => {
         promises.push(
           new Promise((resolve) => {
             chrome.tabs.sendMessage(
@@ -46,22 +46,24 @@ class Channel {
   }
 
   _make() {
-    chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-      const { type, action } = request;
-      if (type === this._type) {
-        const handler = this._mux[action];
-        if (typeof handler === 'function') {
-          Promise.resolve(handler(request, sender))
-            .then((retval) => {
-              sendResponse(retval);
-            })
-            .catch((err) => console.error(err));
-          // Async
-          return true;
+    chrome.runtime.onMessage.addListener(
+      (request: any, sender: any, sendResponse: any) => {
+        const { type, action } = request;
+        if (type === this._type) {
+          const handler = this._mux[action];
+          if (typeof handler === 'function') {
+            Promise.resolve(handler(request, sender))
+              .then((retval) => {
+                sendResponse(retval);
+              })
+              .catch((err) => console.error(err));
+            // Async
+            return true;
+          }
         }
-      }
-      return false;
-    });
+        return false;
+      },
+    );
   }
 }
 

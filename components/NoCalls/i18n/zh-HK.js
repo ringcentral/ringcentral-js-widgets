@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -11,6 +9,5 @@ var _default = {
   noRecords: "找不到結果。"
 }; // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@
 // @key: @#@"noRecords"@#@ @source: @#@"No results found."@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=zh-HK.js.map

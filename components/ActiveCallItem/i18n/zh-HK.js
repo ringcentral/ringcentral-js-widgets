@@ -1,49 +1,47 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 var _default = {
-  logging: "登入中...",
+  logging: "記錄中...",
   logCall: "記錄通話",
   editLog: "編輯記錄",
   select: "選擇相符的記錄",
-  OnHold: "等待接通",
-  Ringing: "鈴響",
-  CallConnected: "已連線通話",
+  OnHold: "保留",
+  Ringing: "響鈴",
+  CallConnected: "通話已連線",
   unknownUser: "未知的使用者",
   unknownNumber: "匿名",
-  unavailable: "不可用",
+  unavailable: "無法接聽通話",
   viewDetails: "檢視詳細資訊",
   addEntity: "建立",
   addLog: "記錄",
-  text: "簡訊",
+  text: "文字",
   call: "通話",
   addContact: "新增連絡人",
   missedCall: "未接",
   inboundCall: "撥入電話",
   outboundCall: "撥出電話",
   from: "來自",
-  to: "至",
+  to: "撥給",
   hangup: "掛斷",
-  accept: "接聽",
-  toVoicemail: "轉語音訊息",
+  accept: "回答",
+  toVoicemail: "至語音信箱",
   anonymous: "匿名",
   mergeToConference: "合併",
   hold: "通話保留",
-  unhold: "取消通話保留",
+  unhold: "取消保留",
   transfer: "轉接",
-  reject: "繼絕",
+  reject: "拒絕",
   switchCall: "將通話切換至這個應用程式",
   callSwitch: "通話切換",
   comfirmContext: "您目前正使用 {displayName} 通話。您要繼續在此裝置上通話嗎？",
   comfirmCancelButton: "取消",
   comfirmOKButton: "切換",
   ignore: "忽略",
-  holdAndAnswer: "等候並回答"
+  holdAndAnswer: "保留通話並接聽"
 }; // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
 // @key: @#@"logCall"@#@ @source: @#@"Log Call"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
@@ -81,6 +79,5 @@ var _default = {
 // @key: @#@"comfirmOKButton"@#@ @source: @#@"Switch"@#@
 // @key: @#@"ignore"@#@ @source: @#@"Ignore"@#@
 // @key: @#@"holdAndAnswer"@#@ @source: @#@"Hold & Answer"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=zh-HK.js.map

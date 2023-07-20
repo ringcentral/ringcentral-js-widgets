@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -10,13 +8,12 @@ var _default = {
   from: "De",
   to: "À",
   enterNameOrNumber: "Saisir le numéro ou le nom",
-  typeMessage: "Entrer le message...",
+  typeMessage: "Entrez le message…",
   send: "Envoyer"
 }; // @key: @#@"from"@#@ @source: @#@"From"@#@
 // @key: @#@"to"@#@ @source: @#@"To"@#@
 // @key: @#@"enterNameOrNumber"@#@ @source: @#@"Enter Number or Name..."@#@
 // @key: @#@"typeMessage"@#@ @source: @#@"Type message..."@#@
 // @key: @#@"send"@#@ @source: @#@"Send"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=fr-CA.js.map

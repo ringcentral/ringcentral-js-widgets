@@ -1,6 +1,6 @@
 export default {
   region: "地域",
-  calling: "通話",
+  calling: "発信中",
   logout: "ログアウト",
   version: "バージョン",
   settings: "設定",
@@ -13,13 +13,14 @@ export default {
   clickToSMS: "クリックSMS",
   logSMSContent: "SMSコンテンツの記録",
   clickToDialSMS: "クリックダイヤル/SMS",
-  audio: "オーディオ",
+  audio: "音声",
   language: "言語",
   feedback: "フィードバック",
   userGuide: "新着情報",
   quickAccess: "クイックアクセスの設定",
   report: "分析レポート",
-  shareIdea: "アイデアの共有"
+  shareIdea: "アイデアを共有",
+  reportIssue: "問題を報告"
 };
 
 // @key: @#@"region"@#@ @source: @#@"Region"@#@
@@ -43,3 +44,4 @@ export default {
 // @key: @#@"quickAccess"@#@ @source: @#@"Quick Access Setting"@#@
 // @key: @#@"report"@#@ @source: @#@"Analytics Report"@#@
 // @key: @#@"shareIdea"@#@ @source: @#@"Share idea"@#@
+// @key: @#@"reportIssue"@#@ @source: @#@"Report issue"@#@

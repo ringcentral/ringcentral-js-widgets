@@ -1,20 +1,18 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 var _default = {
   topic: "Argomento",
-  when: "Quando",
+  when: "Data/Ora",
   duration: "Durata",
   recurringMeeting: "Riunione ricorrente",
-  recurringDescribe: "Ricorda di verificare la ricorrenza o la ripetizione dell'invito sul calendario ai tuoi partecipanti.",
+  recurringDescribe: "Ricorda di verificare che l'invito sia ricorrente o ripetuto sul calendario dei partecipanti.",
   video: "Video",
-  videoDescribe: "Quando si accede a una riunione",
-  host: "Video moderatore attivato",
+  videoDescribe: "All'accesso a una riunione",
+  host: "Video host attivato",
   participants: "Video partecipante attivato",
   audioOptions: "Opzioni audio",
   voIPOnly: "Solo VoIP",
@@ -23,16 +21,16 @@ var _default = {
   requirePassword: "Richiedi password riunione",
   password: "Password",
   rcmPasswordHintText: "La password deve avere 1-10 caratteri, deve contenere numeri e non può contenere simboli, tranne @, * o -",
-  passwordEmptyError: "Password riunione obbligatoria",
+  passwordEmptyError: "La password per la riunione è obbligatoria",
   rcmPasswordInvalidError: "La password deve avere 1-10 caratteri, deve contenere numeri e non può contenere simboli, tranne @, * o -",
   enableJoinBeforeHost: "Consenti ingresso prima del moderatore",
   telephonyOnly: "Solo telefonia",
-  hostVideoOn: "Video moderatore attivato",
+  hostVideoOn: "Video host attivato",
   participantVideoOn: "Video partecipante attivato",
   recurringEvery: "Ogni",
   recurrenceType: "Tipo di ricorrenza",
   recurrenceEndDate: "Data di fine",
-  currentLocale: "Giorno/i",
+  currentLocale: "Giorni",
   meetingId: "ID riunione",
   generateAutomatically: "Genera automaticamente",
   usePmi: "ID riunione personale (PMI): {meetingId}",
@@ -71,6 +69,5 @@ var _default = {
 // @key: @#@"pmiChangeConfirm"@#@ @source: @#@"If you want to make changes for your personal meeting, "@#@
 // @key: @#@"changePmiSettings"@#@ @source: @#@"change PMI settings"@#@
 // @key: @#@"pmiSettingChangeAlert"@#@ @source: @#@"If you change the settings and schedule this meeting, all of meetings with Personal Meeting ID will use the same latest settings."@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=it-IT.js.map

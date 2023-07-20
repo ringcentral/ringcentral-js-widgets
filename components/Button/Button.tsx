@@ -1,8 +1,10 @@
-import React, { FunctionComponent, useState } from 'react';
+import type { FunctionComponent } from 'react';
+import React, { useState } from 'react';
 
 import classnames from 'classnames';
 
-import { useIsMounted } from '../../react-hooks/useIsMounted';
+import { useMountState } from '@ringcentral/juno';
+
 import styles from './styles.scss';
 
 export interface ButtonProps {
@@ -16,14 +18,14 @@ export interface ButtonProps {
 
 export const Button: FunctionComponent<ButtonProps> = ({
   className,
-  disabled,
   children,
   tooltip,
   dataSign,
   onClick,
-  tabIndex,
+  tabIndex = 0,
+  disabled = false,
 }) => {
-  const isMounted = useIsMounted();
+  const isMountedRef = useMountState();
   const [isWaiting, setIsWaiting] = useState(false);
   const disableButton = disabled || isWaiting;
   return (
@@ -35,12 +37,13 @@ export const Button: FunctionComponent<ButtonProps> = ({
         className,
       )}
       role="button"
+      aria-disabled={disableButton}
       tabIndex={tabIndex}
       onClick={async (e) => {
         if (typeof onClick === 'function' && !disableButton) {
           setIsWaiting(true);
           await onClick(e);
-          if (isMounted.current) {
+          if (isMountedRef.current) {
             setIsWaiting(false);
           }
         }
@@ -50,9 +53,4 @@ export const Button: FunctionComponent<ButtonProps> = ({
       {children}
     </div>
   );
-};
-
-Button.defaultProps = {
-  tabIndex: 0,
-  disabled: false,
 };

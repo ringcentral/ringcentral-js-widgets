@@ -2,7 +2,7 @@ import React from 'react';
 
 import { RcLink } from '@ringcentral/juno';
 
-import { EulaProps } from './Eula.interface';
+import type { EulaProps } from './Eula.interface';
 import i18n from './i18n';
 
 export const Eula: React.FC<EulaProps> = ({
@@ -15,6 +15,7 @@ export const Eula: React.FC<EulaProps> = ({
   useShortLabel,
 }) => {
   const onClickHandler = React.useMemo<React.MouseEventHandler>(
+    // @ts-expect-error TS(2322): Type '((e: MouseEvent<Element, MouseEvent>) => voi... Remove this comment to see the full error message
     () => (onClick ? (e) => onClick(e, link) : null),
     [onClick, link],
   );

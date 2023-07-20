@@ -1,8 +1,7 @@
-import messageSenderMessages from '@ringcentral-integration/commons/modules/MessageSender/messageSenderMessages';
-import messageSenderMessagesV2 from '@ringcentral-integration/commons/modules/MessageSenderV2/messageSenderMessages';
+import { messageSenderMessages } from '@ringcentral-integration/commons/modules/MessageSender';
 export default {
   [messageSenderMessages.sendSuccess]: "Enviar éxito.",
-  [messageSenderMessages.sendError]: "Ha ocurrido un error al enviar el mensaje.",
+  [messageSenderMessages.sendError]: "Ocurrió un error al enviar el mensaje.",
   [messageSenderMessages.numberValidateError]: "Error de validación del número de teléfono.",
   [messageSenderMessages.textEmpty]: "Introduzca el mensaje a enviar.",
   [messageSenderMessages.noPermission]: "No tiene permiso para enviar el mensaje.",
@@ -13,21 +12,22 @@ export default {
   [messageSenderMessages.multipartTextTooLong]: "El mensaje es demasiado largo, máximo 5000",
   [messageSenderMessages.recipientNumberInvalids]: "Ingrese un número de teléfono válido.",
   [messageSenderMessages.noAreaCode]: "Establezca {areaCodeLink} para utilizar números de teléfono locales de 7 dígitos.",
-  [messageSenderMessages.specialNumber]: "No se admite el envío de mensajes de texto a números de servicios de emergencia o especiales.",
-  [messageSenderMessages.connectFailed]: "Error de conexión. Vuelva a intentarlo más tarde.",
-  [messageSenderMessages.internalError]: "Se produjo un error en la conexión. Vuelva a intentarlo más tarde.",
+  [messageSenderMessages.specialNumber]: "No se admite el envío de mensajes a números de emergencia/servicios especiales.",
+  [messageSenderMessages.connectFailed]: "Error de conexión. Inténtelo de nuevo más tarde.",
+  [messageSenderMessages.internalError]: "Se produjo un error en la conexión. Inténtelo de nuevo más tarde.",
   [messageSenderMessages.notAnExtension]: "El número de extensión no existe.",
-  [messageSenderMessages.networkError]: "No se puede conectar debido a problemas de red. Vuelva a intentarlo más tarde.",
+  [messageSenderMessages.networkError]: "No se puede conectar debido a problemas de red. Inténtelo de nuevo más tarde.",
   [messageSenderMessages.senderNumberInvalid]: "Se requiere un número de teléfono válido para enviar mensajes de texto a destinatarios fuera de su empresa. Comuníquese con su administrador para agregar un número directo a su cuenta.",
   [messageSenderMessages.notSmsToExtension]: "No se puede enviar a un número de extensión con número de teléfono principal. Si desea enviar a un número de extensión, solo ingrese el número de extensión.",
   [messageSenderMessages.internationalSMSNotSupported]: "No se admite el envío de SMS a números de teléfono internacionales.",
   [messageSenderMessages.noInternalSMSPermission]: "No tiene permiso para enviar mensajes. Comuníquese con su administrador de cuentas de {brand} para conseguir esta función.",
-  [messageSenderMessages.noSMSPermission]: "No tiene permiso para enviar mensajes a destinatarios que no pertenecen a su organización.",
-  [messageSenderMessagesV2.attachmentCountLimitation]: "Máx. 10 adjuntos",
-  [messageSenderMessagesV2.attachmentSizeLimitation]: "El tamaño de adjuntos se limita a 1,5M bytes.",
-  [messageSenderMessagesV2.noAttachmentToExtension]: "No se admite enviar MMS a una extensión.",
+  [messageSenderMessages.noSMSPermission]: "No tiene permiso para enviar mensajes a destinatarios fuera de su organización.",
+  [messageSenderMessages.attachmentCountLimitation]: "Máx. 10 adjuntos",
+  [messageSenderMessages.attachmentSizeLimitation]: "El tamaño de adjuntos se limita a 1,5 M bytes.",
+  [messageSenderMessages.noAttachmentToExtension]: "No se admite enviar MMS a una extensión.",
   areaCode: "código de área",
-  [messageSenderMessages.sending]: "Enviando mensaje... Esta acción puede tardar algunos minutos."
+  [messageSenderMessages.sending]: "Enviando mensaje... Esta acción puede tardar algunos minutos.",
+  [messageSenderMessages.shortNumbersNotAvailable]: "No se pueden enviar SMS a números cortos."
 };
 
 // @key: @#@"[messageSenderMessages.sendSuccess]"@#@ @source: @#@"Send Success."@#@
@@ -48,12 +48,13 @@ export default {
 // @key: @#@"[messageSenderMessages.notAnExtension]"@#@ @source: @#@"The extension number does not exist."@#@
 // @key: @#@"[messageSenderMessages.networkError]"@#@ @source: @#@"Cannot connect due to network issues. Please try again later."@#@
 // @key: @#@"[messageSenderMessages.senderNumberInvalid]"@#@ @source: @#@"A valid Phone Number is required to send text message to recipients outside of your company, Please contact your Administrator to add a direct number to your account."@#@
-// @key: @#@"[messageSenderMessages.notSmsToExtension]"@#@ @source: @#@"Cannot send To a extension number with main phone number. If you want to sent to a extension Number, please just enter extension Number."@#@
+// @key: @#@"[messageSenderMessages.notSmsToExtension]"@#@ @source: @#@"Cannot send to an extension number with main phone number. If you want to send to an extension number, please just enter extension number."@#@
 // @key: @#@"[messageSenderMessages.internationalSMSNotSupported]"@#@ @source: @#@"Sending SMS to international phone number is not supported."@#@
 // @key: @#@"[messageSenderMessages.noInternalSMSPermission]"@#@ @source: @#@"You don't have permission to send messages. Please contact your {brand} account administrator for upgrade."@#@
 // @key: @#@"[messageSenderMessages.noSMSPermission]"@#@ @source: @#@"You don't have permission to send messages to recipients outside of your organization."@#@
-// @key: @#@"[messageSenderMessagesV2.attachmentCountLimitation]"@#@ @source: @#@"Maximum 10 attachments."@#@
-// @key: @#@"[messageSenderMessagesV2.attachmentSizeLimitation]"@#@ @source: @#@"Attachments size is limited to 1.5M bytes."@#@
-// @key: @#@"[messageSenderMessagesV2.noAttachmentToExtension]"@#@ @source: @#@"It isn't supported to send MMS to an extension."@#@
+// @key: @#@"[messageSenderMessages.attachmentCountLimitation]"@#@ @source: @#@"Maximum 10 attachments."@#@
+// @key: @#@"[messageSenderMessages.attachmentSizeLimitation]"@#@ @source: @#@"Attachments size is limited to 1.5M bytes."@#@
+// @key: @#@"[messageSenderMessages.noAttachmentToExtension]"@#@ @source: @#@"It isn't supported to send MMS to an extension."@#@
 // @key: @#@"areaCode"@#@ @source: @#@"area code"@#@
 // @key: @#@"[messageSenderMessages.sending]"@#@ @source: @#@"Message being sent…It may take a couple of minutes to complete."@#@
+// @key: @#@"[messageSenderMessages.shortNumbersNotAvailable]"@#@ @source: @#@"Sending SMS to short numbers is not available."@#@

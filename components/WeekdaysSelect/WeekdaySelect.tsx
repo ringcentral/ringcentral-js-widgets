@@ -1,10 +1,11 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import classNames from 'classnames';
 
-import i18n from './i18n';
+import i18n, { I18nKey } from './i18n';
 import styles from './styles.scss';
-import { WeekdaysSelectProps } from './WeekdaysSelect.interface';
+import type { WeekdaysSelectProps } from './WeekdaysSelect.interface';
 
 const WeekdaysSelect: FunctionComponent<WeekdaysSelectProps> = ({
   selected,
@@ -12,7 +13,7 @@ const WeekdaysSelect: FunctionComponent<WeekdaysSelectProps> = ({
   multiple,
   currentLocale,
 }) => {
-  const onClick = (e) => {
+  const onClick = (e: any) => {
     e.preventDefault();
     const _selected = selected.slice(0);
     const maxLength = multiple ? 7 : 1;
@@ -52,7 +53,7 @@ const WeekdaysSelect: FunctionComponent<WeekdaysSelectProps> = ({
           [styles.active]: isActive,
         })}
       >
-        {i18n.getString(weekday.toLowerCase(), currentLocale)}
+        {i18n.getString(weekday.toLowerCase() as I18nKey, currentLocale)}
       </li>
     );
   });

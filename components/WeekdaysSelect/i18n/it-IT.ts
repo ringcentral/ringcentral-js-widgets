@@ -4,8 +4,8 @@ export default {
   wednesday: "M",
   thursday: "G",
   friday: "V",
-  saturday: "S",
-  sunday: "D"
+  saturday: "D",
+  sunday: "S"
 };
 
 // @key: @#@"monday"@#@ @source: @#@"M"@#@

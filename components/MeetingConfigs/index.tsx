@@ -3,10 +3,11 @@ import 'react-widgets/dist/css/react-widgets.css';
 import React, { Component } from 'react';
 
 import Moment from 'moment';
+// @ts-expect-error TS(7016): Could not find a declaration file for module 'reac... Remove this comment to see the full error message
 import momentLocalizer from 'react-widgets-moment';
 
-import { isRecurringMeeting } from '@ringcentral-integration/commons/modules/Meeting';
-import { RcMMeetingModel } from '@ringcentral-integration/commons/modules/MeetingV2';
+import { isRecurringMeeting } from '@ringcentral-integration/commons/helpers/meetingHelper';
+import type { RcMMeetingModel } from '@ringcentral-integration/commons/modules/Meeting';
 
 import i18n from './i18n';
 import { MeetingDate } from './MeetingDate';
@@ -73,10 +74,12 @@ class MeetingConfig extends Component<
     momentLocalizer();
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   componentDidMount() {
     const { meeting, showWhen } = this.props;
     setTimeout(() => {
       if (showWhen) {
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         this.displayFormat(meeting.schedule.startTime);
       }
     });
@@ -93,6 +96,7 @@ class MeetingConfig extends Component<
     }
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   UNSAFE_componentWillReceiveProps(nextProps: MeetingConfigsProps) {
     const { meeting } = this.props;
     if (meeting.topic !== nextProps.meeting.topic) {
@@ -109,6 +113,7 @@ class MeetingConfig extends Component<
       nextProps.meeting.schedule &&
       meeting.schedule.startTime !== nextProps.meeting.schedule.startTime
     ) {
+      // @ts-expect-error TS(2345): Argument of type 'string | number | undefined' is ... Remove this comment to see the full error message
       this.displayFormat(nextProps.meeting.schedule.startTime);
     }
   }
@@ -117,6 +122,7 @@ class MeetingConfig extends Component<
     this.setState({ isChangePmiConfirmed });
   };
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     const { isChangePmiConfirmed } = this.state;
     const {
@@ -144,13 +150,18 @@ class MeetingConfig extends Component<
       return null;
     }
 
-    const onToggle = (type) => {
+    const onToggle = (type: any) => {
+      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       const isToggle = !this[`${type}Blur`];
       if (isToggle) {
+        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         if (this[type]._values.open) {
+          // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
           this[type].inner.close();
         } else {
+          // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
           this[type].focus();
+          // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
           this[type].inner.toggle();
         }
       }
@@ -212,6 +223,7 @@ class MeetingConfig extends Component<
             that={this}
             onToggle={onToggle}
             minTime={minTime}
+            // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
             useTimePicker={useTimePicker}
           />
         ) : null}
@@ -242,6 +254,7 @@ class MeetingConfig extends Component<
           currentLocale={currentLocale}
           meeting={meeting}
           update={update}
+          // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
           audioOptionToggle={audioOptionToggle}
           disabled={isOptionDisabled}
         />
@@ -250,7 +263,9 @@ class MeetingConfig extends Component<
           meeting={meeting}
           that={this}
           update={update}
+          // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
           meetingOptionToggle={meetingOptionToggle}
+          // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
           passwordPlaceholderEnable={passwordPlaceholderEnable}
           disabled={isOptionDisabled}
         />

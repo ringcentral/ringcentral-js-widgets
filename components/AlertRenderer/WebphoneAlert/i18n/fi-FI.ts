@@ -7,21 +7,21 @@ export default {
   [webphoneErrors.webphoneCountOverLimit]: "Voin rekisteröidä enintään 5 verkkopuhelinta.",
   [webphoneErrors.checkDLError]: "Puhelun soittaminen epäonnistui. Ota yhteyttä tukeen ({brandName}), jos näet tämän virheilmoituksen uudelleen.",
   [webphoneErrors.noOutboundCallWithoutDL]: "Alanumerostasi ei voi tällä hetkellä soittaa puheluita selaimella. Pyydä päivitystä tilisi järjestelmänvalvojalta.",
-  [webphoneErrors.provisionUpdate]: "Jotakin meni vikaan palvelimellamme. Yritämme muodostaa yhteyden automaattisesti hetken kuluttua.",
+  [webphoneErrors.provisionUpdate]: "Jokin meni vikaan palvelimellamme. Yritämme muodostaa yhteyden automaattisesti hetken kuluttua.",
   [webphoneErrors.serverConnecting]: "Puhelinpalvelinyhteydessä on ongelmia.",
   [webphoneErrors.toVoiceMailError]: "Puhelun lähettäminen vastaajaan epäonnistui sisäisen virheen vuoksi",
   [webphoneErrors.muteError]: "Puhelua ei voi mykistää tällä hetkellä.",
   [webphoneErrors.holdError]: "Puhelua ei voi asettaa pitoon tällä hetkellä.",
   [webphoneErrors.flipError]: "Puhelua ei voi kääntää. Yritä myöhemmin uudelleen.",
   [webphoneErrors.recordError]: "Puhelua ei voi tallentaa tällä hetkellä. Virhekoodi: {errorCode}",
-  [webphoneErrors.pauseRecordError]: "Puhelun tallentamisen pysäyttäminen epäonnistui. Yritä myöhemmin uudelleen.",
+  [webphoneErrors.pauseRecordError]: "Puhelun tallentamisen lopettaminen epäonnistui. Yritä myöhemmin uudelleen.",
   [webphoneErrors.recordDisabled]: "Puheluiden tallennus ei ole käytössä tililläsi. Ota yhteyttä tilisi järjestelmänvalvojaan.",
   [webphoneErrors.transferError]: "Soitonsiirto epäonnistui. Yritä myöhemmin uudelleen.",
   [webphoneMessages.parked]: "Puhelusi on siirretty säilytykseen tänne: {parkedNumber}",
   failWithStatusCode: "Tapahtui virhe: {errorCode}. Jos ongelma ei ratkea, ilmoita virheestä palvelun {brandName} tukeen.",
-  registeringWithStatusCode: "Jotakin meni vikaan. Yritetään yhdistää uudelleen. Jos ongelma ei ratkea, ilmoita virheestä palvelun {brandName} tukeen. Virhekoodi: {errorCode}.",
-  failWithoutStatusCode: "Jotakin meni vikaan palvelimellamme. Jos virhe ei korjaannu, ilmoita virheestä palvelun {brandName} tukeen.",
-  registeringWithoutStatusCode: "Jotakin meni vikaan. Yritetään yhdistää uudelleen. Jos ongelma ei ratkea, ilmoita virheestä palvelun {brandName} tukeen."
+  registeringWithStatusCode: "Jokin meni vikaan. Yritetään yhdistää uudelleen. Jos ongelma ei ratkea, ilmoita virheestä palvelun {brandName} tukeen. Virhekoodi: {errorCode}.",
+  failWithoutStatusCode: "Jokin meni vikaan palvelimellamme. Jos virhe ei korjaannu, ilmoita virheestä palvelun {brandName} tukeen.",
+  registeringWithoutStatusCode: "Jokin meni vikaan. Yritetään yhdistää uudelleen. Jos ongelma ei ratkea, ilmoita virheestä palvelun {brandName} tukeen."
 };
 
 // @key: @#@"[webphoneErrors.connectFailed]"@#@ @source: @#@"Sorry, phone features are currently unavailable. Please retry later. "@#@

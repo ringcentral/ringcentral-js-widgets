@@ -1,15 +1,13 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 var _default = {
-  removeParticipant: "参加者の削除",
-  confirmStr1: "この通話から",
-  confirmStr2: "を削除してもよろしいですか？",
+  removeParticipant: "参加者を削除",
+  confirmStr1: "この通話から削除しても",
+  confirmStr2: "よろしいですか？",
   remove: "削除",
   cancel: "キャンセル",
   participants: "参加者",
@@ -25,6 +23,5 @@ var _default = {
 // @key: @#@"participant"@#@ @source: @#@"Participant"@#@
 // @key: @#@"conferenceCall"@#@ @source: @#@"Conference Call"@#@
 // @key: @#@"unknownNumber"@#@ @source: @#@"Anonymous"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=ja-JP.js.map

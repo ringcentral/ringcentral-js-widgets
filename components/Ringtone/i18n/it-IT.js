@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -11,7 +9,7 @@ var _default = {
   incomingRingtone: "Suoneria chiamata in entrata",
   outgoingRingtone: "Suoneria chiamata in uscita",
   play: "Riproduci",
-  stop: "Stop",
+  stop: "Interrompi",
   upload: "Carica",
   reset: "Reimposta",
   save: "Salva"
@@ -23,6 +21,5 @@ var _default = {
 // @key: @#@"upload"@#@ @source: @#@"Upload"@#@
 // @key: @#@"reset"@#@ @source: @#@"Reset"@#@
 // @key: @#@"save"@#@ @source: @#@"Save"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=it-IT.js.map

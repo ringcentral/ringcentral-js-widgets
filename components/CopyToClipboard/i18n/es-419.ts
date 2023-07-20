@@ -1,5 +1,5 @@
 export default {
-  copyToClipboard: "Copiar al portapapeles"
+  copyToClipboard: "Copiar en el Portapapeles"
 };
 
 // @key: @#@"copyToClipboard"@#@ @source: @#@"Copy to Clipboard"@#@

@@ -1,1 +1,1 @@
-{"version":3,"sources":["components/SaveButton/i18n/zh-TW.ts"],"names":["save"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,IAAI,EAAE;AADO,C,EAIf","sourcesContent":["export default {\n  save: \"儲存\"\n};\n\n// @key: @#@\"save\"@#@ @source: @#@\"Save\"@#@\n"],"file":"zh-TW.js"}
+{"version":3,"file":"zh-TW.js","names":["save","exports","_default"],"sources":["components/SaveButton/i18n/zh-TW.ts"],"sourcesContent":["export default {\n  save: \"儲存\"\n};\n\n// @key: @#@\"save\"@#@ @source: @#@\"Save\"@#@\n"],"mappings":";;;;;;eAAe;EACbA,IAAI,EAAE;AACR,CAAC,EAED;AAAAC,OAAA,cAAAC,QAAA"}

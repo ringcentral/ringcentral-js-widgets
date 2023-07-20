@@ -1,11 +1,15 @@
 export default {
+  Inbound: "Entrant",
+  Outbound: "Sortant",
   log: "Journal",
   save: "Enregistrer et nouveau",
   discard: "Ignorer et nouveau",
   hangup: "Raccrocher",
-  reject: "Vers messag."
+  reject: "Vers la messagerie vocale"
 };
 
+// @key: @#@"Inbound"@#@ @source: @#@"Inbound"@#@
+// @key: @#@"Outbound"@#@ @source: @#@"Outbound"@#@
 // @key: @#@"log"@#@ @source: @#@"Log"@#@
 // @key: @#@"save"@#@ @source: @#@"Save and new"@#@
 // @key: @#@"discard"@#@ @source: @#@"Discard and new"@#@

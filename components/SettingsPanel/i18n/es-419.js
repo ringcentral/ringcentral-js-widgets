@@ -1,23 +1,21 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 var _default = {
   region: "Región",
-  calling: "Llamadas",
+  calling: "Llamando",
   logout: "Cerrar sesión",
   version: "Versión",
   settings: "Configuración",
   clickToDial: "Haga clic para marcar",
   autoCreateLog: "Crear registro de llamadas automáticamente",
   autoCreateSMSLog: "Crear registro de mensajes automáticamente",
-  autoLogCalls: "Llamadas con registro automático",
+  autoLogCalls: "Registrar llamadas automáticamente",
   autoLogNotes: "Registrar notas automáticamente",
-  autoLogSMS: "SMS con registro automático",
+  autoLogSMS: "Registrar SMS automáticamente",
   clickToSMS: "Haga clic para enviar SMS",
   logSMSContent: "Registrar contenido SMS",
   clickToDialSMS: "Haga clic para marcar/enviar SMS",
@@ -27,7 +25,8 @@ var _default = {
   userGuide: "Novedades",
   quickAccess: "Configuración de acceso rápido",
   report: "Informe de análisis",
-  shareIdea: "Compartir una idea"
+  shareIdea: "Compartir una idea",
+  reportIssue: "Informar problema"
 }; // @key: @#@"region"@#@ @source: @#@"Region"@#@
 // @key: @#@"calling"@#@ @source: @#@"Calling"@#@
 // @key: @#@"logout"@#@ @source: @#@"Logout"@#@
@@ -49,6 +48,6 @@ var _default = {
 // @key: @#@"quickAccess"@#@ @source: @#@"Quick Access Setting"@#@
 // @key: @#@"report"@#@ @source: @#@"Analytics Report"@#@
 // @key: @#@"shareIdea"@#@ @source: @#@"Share idea"@#@
-
+// @key: @#@"reportIssue"@#@ @source: @#@"Report issue"@#@
 exports["default"] = _default;
 //# sourceMappingURL=es-419.js.map

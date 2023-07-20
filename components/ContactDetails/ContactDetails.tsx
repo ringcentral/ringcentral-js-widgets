@@ -1,12 +1,14 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
-import { ContactModel } from '@ringcentral-integration/commons/interfaces/Contact.model';
+import type { ContactModel } from '@ringcentral-integration/commons/interfaces/Contact.model';
 
+import type { GetPresenceFn } from '../../react-hooks/usePresence';
 import { CompanyInfo } from './components/CompanyInfo';
 import { Emails } from './components/Emails';
 import { PhoneSection } from './components/PhoneSection';
 import { Profile } from './components/Profile';
-import {
+import type {
   clickToDial,
   clickToSMS,
   formatNumber,
@@ -26,6 +28,7 @@ interface ContactDetailsProps
   disableLinks: boolean;
   isMultipleSiteEnabled: boolean;
   isCallButtonDisabled: boolean;
+  getPresence: GetPresenceFn;
 }
 
 export const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
@@ -41,10 +44,12 @@ export const ContactDetails: FunctionComponent<ContactDetailsProps> = ({
   onClickToDial,
   onClickToSMS,
   sourceNodeRenderer,
+  getPresence,
 }) => {
   return (
     <div className={styles.root} role="main">
       <Profile
+        getPresence={getPresence}
         contact={contact}
         sourceNodeRenderer={sourceNodeRenderer}
         currentLocale={currentLocale}

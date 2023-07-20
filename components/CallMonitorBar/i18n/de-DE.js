@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -10,8 +8,8 @@ var _default = {
   currentCall: "Aktueller Anruf",
   viewCalls: "Anzeigen",
   view: "Anzeigen",
-  incomingCall: "{numberOf} eingehender Anruf",
-  incomingCalls: "{numberOf} eingehende Anrufe",
+  incomingCall: "{numberOf} eingeh. Anruf",
+  incomingCalls: "{numberOf} eingeh. Anrufe",
   callOnHold: "{numberOf} Anruf wird gehalten",
   callsOnHold: "{numberOf} Anrufe werden gehalten",
   otherDeviceCall: "{numberOf} Anruf auf anderen Geräten",
@@ -25,6 +23,5 @@ var _default = {
 // @key: @#@"callsOnHold"@#@ @source: @#@"{numberOf} Calls On Hold"@#@
 // @key: @#@"otherDeviceCall"@#@ @source: @#@"{numberOf} Call on other devices"@#@
 // @key: @#@"otherDeviceCalls"@#@ @source: @#@"{numberOf} Calls on other devices"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=de-DE.js.map

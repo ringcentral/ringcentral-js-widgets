@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -11,8 +9,8 @@ var _default = {
   logCall: "Anruf protokollieren",
   editLog: "Protokoll bearbeiten",
   select: "Übereinstimmenden Datensatz auswählen",
-  OnHold: "Gehalten",
-  Ringing: "Es wird angerufen",
+  OnHold: "Wird gehalten",
+  Ringing: "Läutet",
   CallConnected: "Anruf verbunden",
   unknownUser: "Unbekannter Benutzer",
   unknownNumber: "Anonym",
@@ -20,9 +18,9 @@ var _default = {
   viewDetails: "Details anzeigen",
   addEntity: "Neu erstellen",
   addLog: "Protokoll",
-  text: "Textn.",
+  text: "Text",
   call: "Anruf",
-  missedCall: "Verpasst",
+  missedCall: "Verpasste",
   inboundCall: "Eingehend",
   outboundCall: "Ausgehend"
 }; // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
@@ -43,6 +41,5 @@ var _default = {
 // @key: @#@"missedCall"@#@ @source: @#@"Missed"@#@
 // @key: @#@"inboundCall"@#@ @source: @#@"Inbound"@#@
 // @key: @#@"outboundCall"@#@ @source: @#@"Outbound"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=de-DE.js.map

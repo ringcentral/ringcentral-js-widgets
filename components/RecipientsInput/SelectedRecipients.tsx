@@ -1,4 +1,5 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import classnames from 'classnames';
 
@@ -27,7 +28,10 @@ export const SelectedRecipients: FunctionComponent<SelectedRecipientsProps> = ({
 }) => {
   if (multiple && recipients.length) {
     return (
-      <ul className={classnames(className, styles.selectReceivers)}>
+      <ul
+        data-sign="recipientsList"
+        className={classnames(className, styles.selectReceivers)}
+      >
         {recipients.map((item) => (
           <SelectedRecipientItem
             {...item}

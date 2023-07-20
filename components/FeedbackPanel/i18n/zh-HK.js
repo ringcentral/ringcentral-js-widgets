@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -14,15 +12,15 @@ var _default = {
   fillForm: "請填寫以下表格並按一下 ",
   useMailBox: " 或直接使用您的信箱，將要求寄至 ",
   email: "您的電子郵件地址",
-  reply: "（以便我們聯絡您）",
+  reply: "（以便我們連絡您）",
   emailPlaceHolder: "ronald.app@ringcentral.com",
-  feedbackTopic: "意見回饋主旨",
+  feedbackTopic: "意見回饋主題",
   topicPlaceHolder: "請選擇一個選項",
-  bugReport: "程式錯誤回報",
+  bugReport: "錯誤回報",
   featureRequest: "功能要求",
   others: "其他",
   subject: "主旨",
-  subjectPlaceHolder: "讓我們知道可以如何為您提供協助",
+  subjectPlaceHolder: "讓我們知道如何為您提供協助",
   description: "完整說明",
   descriptionPlaceHolder: "請盡可能列出最多資訊",
   send: "傳送您的意見回饋"
@@ -45,6 +43,5 @@ var _default = {
 // @key: @#@"description"@#@ @source: @#@"Full description"@#@
 // @key: @#@"descriptionPlaceHolder"@#@ @source: @#@"Please include as much information as possible"@#@
 // @key: @#@"send"@#@ @source: @#@"Send Your Feedback"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=zh-HK.js.map

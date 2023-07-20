@@ -38,7 +38,7 @@
   height: 1px;
   :global .rc-tooltip {
     opacity: 1;
-    left: 0!important;
+    left: 0 !important;
   }
 }
 
@@ -50,7 +50,6 @@
 .select {
   border: 1px solid #a6a6a6;
   border-radius: 2px;
-  height: 100%;
 }
 
 .locationSelect ul {
@@ -62,4 +61,9 @@
   position: relative;
   top: 2px;
   left: 5px;
+}
+
+.overWidth {
+  left: -1px;
+  width: calc(100% + 2px)
 }

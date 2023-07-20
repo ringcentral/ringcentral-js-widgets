@@ -9,7 +9,7 @@ import i18n from './i18n';
 import styles from './styles.scss';
 
 const cleanRegex = /[^\d*#]/g;
-const filter = (value) => value.replace(cleanRegex, '');
+const filter = (value: any) => value.replace(cleanRegex, '');
 const MAX_PASTE_LENGTH = 15;
 type ActiveCallDialPadProps = {
   onChange: (...args: any[]) => any;
@@ -24,7 +24,14 @@ class ActiveCallDialPad extends Component<
   ActiveCallDialPadProps,
   ActiveCallDialPadState
 > {
-  constructor(props) {
+  audio: any;
+  onButtonOutput: any;
+  onChange: any;
+  onKeyDown: any;
+  onPaste: any;
+  playAudio: any;
+  sendDTMFKeys: any;
+  constructor(props: any) {
     super(props);
     this.state = {
       value: '',
@@ -32,7 +39,7 @@ class ActiveCallDialPad extends Component<
     if (typeof document !== 'undefined' && document.createElement) {
       this.audio = document.createElement('audio');
     }
-    this.playAudio = (value) => {
+    this.playAudio = (value: any) => {
       if (
         this.audio &&
         this.audio.canPlayType('audio/ogg') !== '' &&
@@ -46,35 +53,35 @@ class ActiveCallDialPad extends Component<
         this.audio.play();
       }
     };
-    this.onButtonOutput = (key) => {
+    this.onButtonOutput = (key: any) => {
       this.setState((preState) => {
         const value = preState.value + key;
         this.props.onChange(key);
         return { value };
       });
     };
-    this.sendDTMFKeys = (keys) => {
+    this.sendDTMFKeys = (keys: any) => {
       if (keys === '') {
         return;
       }
       this.props.onChange(keys);
-      keys.split('').forEach((key, index) => {
+      keys.split('').forEach((key: any, index: any) => {
         setTimeout(() => {
           this.playAudio(key);
         }, 100 * index);
       });
     };
-    this.onChange = (e) => {
+    this.onChange = (e: any) => {
       const value = filter(e.currentTarget.value);
       this.setState({ value });
     };
-    this.onKeyDown = (e) => {
+    this.onKeyDown = (e: any) => {
       const value = filter(e.key);
       this.sendDTMFKeys(value);
     };
-    this.onPaste = (e) => {
+    this.onPaste = (e: any) => {
       const item = e.clipboardData.items[0];
-      item.getAsString((data) => {
+      item.getAsString((data: any) => {
         const value = filter(data.replace(/<[^>]*>/g, '')); // remove HTML tag in firefox
         let keys = value;
         if (value.length > MAX_PASTE_LENGTH) {
@@ -89,12 +96,14 @@ class ActiveCallDialPad extends Component<
       });
     };
   }
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   componentWillUnmount() {
     if (this.audio) {
       this.audio.remove();
       this.audio = null;
     }
   }
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     return (
       <div data-sign="activeCallDialPad" className={styles.root}>

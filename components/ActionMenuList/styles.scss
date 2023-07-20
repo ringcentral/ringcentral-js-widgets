@@ -62,7 +62,6 @@
       cursor: not-allowed;
     }
   }
-  
 }
 .unmarked {
   path {
@@ -80,7 +79,7 @@
   }
 }
 
-.clickToSmsButton,.clickToDialButton {
+.clickToSmsButton,
+.clickToDialButton {
   font-size: 16px;
 }
-

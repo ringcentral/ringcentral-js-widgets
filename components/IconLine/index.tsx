@@ -30,7 +30,9 @@ const IconLine: React.SFC<IconLineProps> = (props) => {
   );
 };
 IconLine.defaultProps = {
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   dataSign: null,
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   title: null,
 };
 export default IconLine;

@@ -1,7 +1,7 @@
 export default {
   region: "Região",
   calling: "Chamadas",
-  logout: "Sair",
+  logout: "Fazer logout",
   version: "Versão",
   settings: "Configurações",
   clickToDial: "Clique para discar",
@@ -10,16 +10,17 @@ export default {
   autoLogCalls: "Registrar chamadas automaticamente",
   autoLogNotes: "Registrar notas automaticamente",
   autoLogSMS: "Registrar SMS automaticamente",
-  clickToSMS: "Clicar para enviar mensagem de texto",
+  clickToSMS: "Clicar para enviar SMS",
   logSMSContent: "Registrar conteúdo de SMS",
-  clickToDialSMS: "Clique para discar/enviar mensagem de texto",
+  clickToDialSMS: "Clique para discar/enviar SMS",
   audio: "Áudio",
   language: "Idioma",
   feedback: "Comentários",
   userGuide: "Novidades",
   quickAccess: "Configuração de acesso rápido",
-  report: "Relatório de análise",
-  shareIdea: "Compartilhar ideia"
+  report: "Relatório do Analytics",
+  shareIdea: "Compartilhar ideia",
+  reportIssue: "Relatar problema"
 };
 
 // @key: @#@"region"@#@ @source: @#@"Region"@#@
@@ -43,3 +44,4 @@ export default {
 // @key: @#@"quickAccess"@#@ @source: @#@"Quick Access Setting"@#@
 // @key: @#@"report"@#@ @source: @#@"Analytics Report"@#@
 // @key: @#@"shareIdea"@#@ @source: @#@"Share idea"@#@
+// @key: @#@"reportIssue"@#@ @source: @#@"Report issue"@#@

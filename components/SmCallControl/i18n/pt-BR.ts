@@ -1,6 +1,6 @@
 export default {
-  mute: "Mudo",
-  unmute: "Ativar som",
+  mute: "Ativar mudo",
+  unmute: "Desativar mudo",
   hangup: "Desligar",
   reject: "Rejeitar"
 };

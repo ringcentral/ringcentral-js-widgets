@@ -3,25 +3,25 @@ import webphoneMessages from '@ringcentral-integration/commons/modules/Webphone/
 export default {
   [webphoneErrors.connectFailed]: "抱歉，電話功能目前不可用。請稍後再試一次。 ",
   [webphoneErrors.connected]: "網路電話已註冊。",
-  [webphoneErrors.browserNotSupported]: "抱歉，使用此瀏覽器進行通話不受支援。",
+  [webphoneErrors.browserNotSupported]: "抱歉，不支援使用此瀏覽器撥打電話。",
   [webphoneErrors.webphoneCountOverLimit]: "可註冊最多 5 支網路電話。",
   [webphoneErrors.checkDLError]: "無法撥出電話。如果此錯誤持續發生，請聯絡 {brandName} 尋求支援。",
   [webphoneErrors.noOutboundCallWithoutDL]: "您的分機目前不允許使用瀏覽器撥出電話，請聯絡您的帳戶代表進行升級。",
-  [webphoneErrors.provisionUpdate]: "抱歉，我們這邊出了一些問題。我們很快就會自動嘗試重新連線。",
+  [webphoneErrors.provisionUpdate]: "抱歉，系統發生錯誤。我們很快就會自動嘗試重新連線。",
   [webphoneErrors.serverConnecting]: "抱歉，連線至電話伺服器時發生問題。",
   [webphoneErrors.toVoiceMailError]: "因為發生內部錯誤，無法將通話轉至語音信箱",
   [webphoneErrors.muteError]: "目前無法靜音。",
-  [webphoneErrors.holdError]: "目前無法保留。",
-  [webphoneErrors.flipError]: "無法轉接通話。請稍後再試一次。",
+  [webphoneErrors.holdError]: "目前無法保留通話。",
+  [webphoneErrors.flipError]: "無法轉接通話。請稍後再試。",
   [webphoneErrors.recordError]: "目前無法對通話進行錄音。錯誤代碼：{errorCode}",
-  [webphoneErrors.pauseRecordError]: "抱歉，無法停止錄製通話。請稍後再試。",
+  [webphoneErrors.pauseRecordError]: "抱歉，我們無法停止通話錄音。請稍後再試一次。",
   [webphoneErrors.recordDisabled]: "抱歉，您的帳戶並不具進行通話錄音的功能。請聯絡您的帳戶管理員。",
-  [webphoneErrors.transferError]: "無法轉接通話。請稍後再試一次。",
+  [webphoneErrors.transferError]: "無法轉接通話。請稍後再試。",
   [webphoneMessages.parked]: "您的通話寄存位置為：{parkedNumber}",
   failWithStatusCode: "抱歉，我們遇到了錯誤：{errorCode}。如果問題仍然存在，請向 {brandName} 支援人員回報此錯誤。",
-  registeringWithStatusCode: "抱歉，出了一些問題。我們正在嘗試重新連線。如果問題仍然存在，請向 {brandName} 支援人員回報此錯誤。錯誤代碼：{errorCode}。",
-  failWithoutStatusCode: "抱歉，我們這邊出了一些問題。如果錯誤仍然存在，請向 {brandName} 支援人員回報此錯誤。",
-  registeringWithoutStatusCode: "抱歉，出了一些問題。我們正在嘗試重新連線。如果問題仍然存在，請向 {brandName} 支援人員回報此錯誤。"
+  registeringWithStatusCode: "抱歉，發生錯誤。我們正在嘗試重新連線。如果問題仍然存在，請向 {brandName} 支援人員回報此錯誤。錯誤代碼：{errorCode}。",
+  failWithoutStatusCode: "抱歉，系統發生錯誤。如果錯誤仍然存在，請向 {brandName} 支援人員回報此錯誤。",
+  registeringWithoutStatusCode: "抱歉，發生錯誤。我們正在嘗試重新連線。如果問題仍然存在，請向 {brandName} 支援人員回報此錯誤。"
 };
 
 // @key: @#@"[webphoneErrors.connectFailed]"@#@ @source: @#@"Sorry, phone features are currently unavailable. Please retry later. "@#@

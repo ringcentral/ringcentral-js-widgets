@@ -1,4 +1,4 @@
-import { ASSISTED_USERS_MYSELF } from '@ringcentral-integration/commons/modules/RcVideo/constants';
+import { ASSISTED_USERS_MYSELF } from '@ringcentral-integration/commons/modules/RcVideo';
 export default {
   topic: "Título de la reunión",
   date: "Fecha",
@@ -20,7 +20,7 @@ export default {
   turnOffCamera: "Desactivar cámara de participantes",
   requirePassword: "Solicitar contraseña",
   useE2ee: "Usar cifrado de extremo a extremo",
-  e2eeTooltip: "Las reuniones con cifrado de extremo a extremo tienen el mayor nivel de privacidad, pero no están disponibles algunas funciones como unirse por teléfono, subtítulos (CC) y grabación.",
+  e2eeTooltip: "Las reuniones cifradas de extremo a extremo son las más privadas, pero las funciones como unirse por teléfono, los subtítulos (CC) y grabar no están disponibles.",
   setPassword: "Configurar contraseña *",
   setPasswordNotSymbol: "Configurar contraseña",
   passwordEmptyError: "Se requiere la contraseña de la reunión",
@@ -32,7 +32,7 @@ export default {
   signedInUsers: "Usuarios que han iniciado sesión",
   signedInCoWorkers: "Compañeros que han iniciado sesión",
   limitScreenSharing: "Solo el host y los moderadores pueden compartir pantalla",
-  lockTooltip: "Esta configuración es gestionada por el administrador de su empresa",
+  lockTooltip: "Esta configuración la gestiona el administrador de su empresa",
   pmiSettingAlert: "Esta configuración se aplicará para todas las reuniones creadas con el PMI",
   today: "Hoy",
   scheduleForGuidance: "¿Está programando para alguien más?\n1. Asegúrese de que está en su calendario de Outlook.\n2. En el menú desplegable, seleccione la persona para la cual está programando.\n",
@@ -78,5 +78,5 @@ export default {
 // @key: @#@"today"@#@ @source: @#@"Today"@#@
 // @key: @#@"scheduleForGuidance"@#@ @source: @#@"Scheduling for someone else?\n1. Make sure you're on their Outlook calendar.\n2. From the dropdown, select the person you're scheduling for.\n"@#@
 // @key: @#@"scheduleForGuidanceMore"@#@ @source: @#@"Learn details"@#@
-// @key: @#@"changePmiSettings"@#@ @source: @#@"Change Personal meeting settings"@#@
+// @key: @#@"changePmiSettings"@#@ @source: @#@"Change Personal Meeting settings"@#@
 // @key: @#@"ieSupportAlert"@#@ @source: @#@"Please note that {appName} won't work with Internet Explorer 11 after Feb 16, 2022. We recommend switching to Microsoft Edge or updating to Outlook 2016 or above."@#@

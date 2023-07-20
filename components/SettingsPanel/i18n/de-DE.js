@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -24,10 +22,11 @@ var _default = {
   audio: "Audio",
   language: "Sprache",
   feedback: "Feedback",
-  userGuide: "Neuigkeiten",
+  userGuide: "Was gibt's Neues",
   quickAccess: "Einstellung für Schnellzugriff",
   report: "Analysebericht",
-  shareIdea: "Idee teilen"
+  shareIdea: "Idee teilen",
+  reportIssue: "Problem melden"
 }; // @key: @#@"region"@#@ @source: @#@"Region"@#@
 // @key: @#@"calling"@#@ @source: @#@"Calling"@#@
 // @key: @#@"logout"@#@ @source: @#@"Logout"@#@
@@ -49,6 +48,6 @@ var _default = {
 // @key: @#@"quickAccess"@#@ @source: @#@"Quick Access Setting"@#@
 // @key: @#@"report"@#@ @source: @#@"Analytics Report"@#@
 // @key: @#@"shareIdea"@#@ @source: @#@"Share idea"@#@
-
+// @key: @#@"reportIssue"@#@ @source: @#@"Report issue"@#@
 exports["default"] = _default;
 //# sourceMappingURL=de-DE.js.map

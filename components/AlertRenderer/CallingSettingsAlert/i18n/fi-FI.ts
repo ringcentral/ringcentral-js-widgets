@@ -1,4 +1,4 @@
-import { callingSettingsMessages } from '@ringcentral-integration/commons/modules/CallingSettingsV2/callingSettingsMessages';
+import { callingSettingsMessages } from '@ringcentral-integration/commons/modules/CallingSettings';
 export default {
   [callingSettingsMessages.saveSuccess]: "Asetukset tallennettu.",
   [callingSettingsMessages.saveSuccessWithSoftphone]: "Asetukset tallennettu. Varmista, että olet asentanut sovelluksen {brand} tietokoneellesi.",

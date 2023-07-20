@@ -1,4 +1,4 @@
-import callingOptions from '@ringcentral-integration/commons/modules/CallingSettings/callingOptions';
+import { callingOptions } from '@ringcentral-integration/commons/modules/CallingSettings';
 export default {
   title: "Bellen",
   [callingOptions.softphone]: "{brand} voor desktop",

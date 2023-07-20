@@ -1,11 +1,8 @@
 import { Module } from '@ringcentral-integration/commons/lib/di';
-import {
-  RcUIModuleV2,
-  UIFunctions,
-  UIProps,
-} from '@ringcentral-integration/core';
+import type { UIFunctions, UIProps } from '@ringcentral-integration/core';
+import { RcUIModuleV2, computed } from '@ringcentral-integration/core';
 
-import {
+import type {
   CallBadgeContainerProps,
   CallBadgePanelProps,
   Deps,
@@ -20,21 +17,26 @@ class CallBadgeUI extends RcUIModuleV2<Deps> {
     super({ deps });
   }
 
+  @computed((that: CallBadgeUI) => [
+    that._deps.webphone.activeSession,
+    that._deps.webphone.ringSession,
+  ])
+  get currentSession() {
+    return (
+      this._deps.webphone.activeSession || this._deps.webphone.ringSession || {}
+    );
+  }
+
   getUIProps({
     hidden,
     defaultOffsetX = 0,
     defaultOffsetY = 0,
   }: CallBadgeContainerProps): UIProps<CallBadgePanelProps> {
-    const currentSession =
-      this._deps.webphone.activeSession ||
-      this._deps.webphone.ringSession ||
-      {};
-
     return {
       hidden,
       defaultOffsetX,
       defaultOffsetY,
-      session: currentSession,
+      session: this.currentSession,
       currentLocale: this._deps.locale.currentLocale,
     };
   }

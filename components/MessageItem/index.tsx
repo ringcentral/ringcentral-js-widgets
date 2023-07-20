@@ -1,31 +1,32 @@
+import type { ReactNode } from 'react';
 import React, { Component } from 'react';
 
 import classnames from 'classnames';
-import formatMessage from 'format-message';
 
 import { extensionTypes } from '@ringcentral-integration/commons/enums/extensionTypes';
 import messageDirection from '@ringcentral-integration/commons/enums/messageDirection';
 import messageTypes from '@ringcentral-integration/commons/enums/messageTypes';
-import { Message } from '@ringcentral-integration/commons/interfaces/MessageStore.model';
+import type { Message } from '@ringcentral-integration/commons/interfaces/MessageStore.model';
 import {
   messageIsFax,
   messageIsTextMessage,
 } from '@ringcentral-integration/commons/lib/messageHelper';
+import { formatDuration } from '@ringcentral-integration/commons/lib/formatDuration';
 import parseNumber from '@ringcentral-integration/commons/lib/parseNumber';
+import { format } from '@ringcentral-integration/utils';
 
 import { checkShouldHideContactUser } from '../../lib/checkShouldHideContactUser';
 import { checkShouldHidePhoneNumber } from '../../lib/checkShouldHidePhoneNumber';
-import formatDuration from '../../lib/formatDuration';
 import ActionMenuList from '../ActionMenuList';
 import ContactDisplay from '../ContactDisplay';
-import { ContactDisplayItemProps } from '../ContactDisplay/ContactDisplayItem';
+import type { ContactDisplayItemProps } from '../ContactDisplay/ContactDisplayItem';
 import SlideMenu from '../SlideMenu';
 import VoicemailPlayer from '../VoicemailPlayer';
 import { ConversationIcon } from './ConversationIcon';
 import i18n from './i18n';
 import styles from './styles.scss';
 
-type MessageItemProps = {
+export type MessageItemProps = {
   conversation: Message;
   areaCode: string;
   brand: string;
@@ -68,6 +69,12 @@ type MessageItemProps = {
   renderContactList?: (...args: any[]) => any;
   dropdownClassName?: string;
   enableCDC?: boolean;
+  maxExtensionNumberLength?: number;
+  renderContactName?: (...args: any[]) => JSX.Element;
+  externalViewEntity?: (conversation: Message) => any;
+  externalHasEntity?: (conversation: Message) => boolean;
+  formatPhone: (phoneNumber: string) => string | undefined;
+  renderActionMenuExtraButton: (conversation: Message) => ReactNode;
 };
 
 type MessageItemState = {
@@ -97,8 +104,10 @@ class MessageItem extends Component<MessageItemProps, MessageItemState> {
     outboundSmsPermission: true,
     showChooseEntityModal: true,
     shouldLogSelectRecord: false,
+    // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
     dropdownClassName: null,
     enableCDC: false,
+    maxExtensionNumberLength: 6,
   };
 
   constructor(props: MessageItemProps) {
@@ -121,10 +130,12 @@ class MessageItem extends Component<MessageItemProps, MessageItemState> {
     }));
   };
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   componentDidMount() {
     this._mounted = true;
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   UNSAFE_componentWillReceiveProps(nextProps: MessageItemProps) {
     if (
       !this._userSelection &&
@@ -139,6 +150,7 @@ class MessageItem extends Component<MessageItemProps, MessageItemState> {
     }
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   componentWillUnmount() {
     this._mounted = false;
   }
@@ -179,6 +191,7 @@ class MessageItem extends Component<MessageItemProps, MessageItemState> {
     const { correspondentMatches, lastMatchedCorrespondentEntity } =
       nextProps.conversation;
     if (lastMatchedCorrespondentEntity) {
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       const index = correspondentMatches.findIndex(
         (contact) => contact.id === lastMatchedCorrespondentEntity.id,
       );
@@ -190,7 +203,9 @@ class MessageItem extends Component<MessageItemProps, MessageItemState> {
   getSelectedContact = (selected = this.state.selected) => {
     const contactMatches = this.props.conversation.correspondentMatches;
     return (
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       (selected > -1 && contactMatches[selected]) ||
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       (contactMatches.length === 1 && contactMatches[0]) ||
       null
     );
@@ -208,8 +223,11 @@ class MessageItem extends Component<MessageItemProps, MessageItemState> {
   getPhoneNumber() {
     const { correspondents } = this.props.conversation;
     return (
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       (correspondents.length === 1 &&
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         correspondents[0] &&
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         (correspondents[0].phoneNumber || correspondents[0].extensionNumber)) ||
       undefined
     );
@@ -218,8 +236,10 @@ class MessageItem extends Component<MessageItemProps, MessageItemState> {
   getGroupPhoneNumbers() {
     const { correspondents } = this.props.conversation;
     const groupNumbers =
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       correspondents.length > 1
-        ? correspondents.map(
+        ? // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+          correspondents.map(
             (correspondent) =>
               correspondent.extensionNumber ||
               correspondent.phoneNumber ||
@@ -231,6 +251,7 @@ class MessageItem extends Component<MessageItemProps, MessageItemState> {
 
   getFallbackContactName() {
     const { correspondents } = this.props.conversation;
+    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     return (correspondents.length === 1 && correspondents[0].name) || undefined;
   }
 
@@ -326,6 +347,7 @@ class MessageItem extends Component<MessageItemProps, MessageItemState> {
       const phoneNumber = this.getPhoneNumber();
 
       if (phoneNumber) {
+        // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
         this.props.updateTypeFilter(messageTypes.text);
         this.props.onClickToSms({
           ...contact,
@@ -353,6 +375,7 @@ class MessageItem extends Component<MessageItemProps, MessageItemState> {
   };
 
   onPlayVoicemail = () => {
+    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     if (this.props.conversation.unreadCounts > 0) {
       this.props.readMessage(this.props.conversation.conversationId);
     }
@@ -365,12 +388,14 @@ class MessageItem extends Component<MessageItemProps, MessageItemState> {
   };
 
   onUnmarkMessage = () => {
+    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     if (this.props.conversation.unreadCounts > 0) {
       this.props.unmarkMessage(this.props.conversation.conversationId);
     }
   };
 
   onPreviewFax = (uri: string) => {
+    // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
     this.props.previewFaxMessages(uri, this.props.conversation.conversationId);
   };
 
@@ -385,14 +410,11 @@ class MessageItem extends Component<MessageItemProps, MessageItemState> {
           (m) => m.contentType.indexOf('image') > -1,
         ).length;
         if (imageCount > 0) {
-          return formatMessage(
-            i18n.getString('imageAttachment', currentLocale),
-            {
-              count: imageCount,
-            },
-          );
+          return format(i18n.getString('imageAttachment', currentLocale), {
+            count: imageCount,
+          });
         }
-        return formatMessage(i18n.getString('fileAttachment', currentLocale), {
+        return format(i18n.getString('fileAttachment', currentLocale), {
           count: conversation.mmsAttachments.length,
         });
       }
@@ -406,6 +428,7 @@ class MessageItem extends Component<MessageItemProps, MessageItemState> {
       )} (${formatDuration(duration)})`;
     }
     if (messageIsFax(conversation)) {
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       const pageCount = +conversation.faxPageCount;
       const nameKey = pageCount === 1 ? 'page' : 'pages';
       if (conversation.direction === messageDirection.inbound) {
@@ -423,10 +446,16 @@ class MessageItem extends Component<MessageItemProps, MessageItemState> {
   }
 
   onDeleteMessage = () => {
+    // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
     this.props.deleteMessage(this.props.conversation.conversationId);
   };
 
-  dateTimeFormatter(creationTime: number) {
+  externalViewEntity = () => {
+    const { externalViewEntity, conversation } = this.props;
+    return externalViewEntity?.(conversation);
+  };
+
+  dateTimeFormatter(creationTime?: number) {
     try {
       return this.props.dateTimeFormatter({ utcTimestamp: creationTime });
     } catch (e) {
@@ -442,19 +471,23 @@ class MessageItem extends Component<MessageItemProps, MessageItemState> {
       onClickToSms,
       internalSmsPermission,
       outboundSmsPermission,
+      maxExtensionNumberLength,
     } = this.props;
     const phoneNumber = this.getPhoneNumber();
     let disableClickToSms = false;
     if (phoneNumber) {
       const parsedInfo = parseNumber({
         phoneNumber,
+        // @ts-expect-error TS(2322): Type 'string' is not assignable to type 'CountryCo... Remove this comment to see the full error message
         countryCode,
         areaCode,
+        maxExtensionLength: maxExtensionNumberLength,
       });
       const isExtension =
         !parsedInfo.hasPlus &&
         parsedInfo.number &&
-        parsedInfo.number.length <= 6;
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+        parsedInfo.number.length <= maxExtensionNumberLength;
       disableClickToSms = !(
         onClickToSms &&
         (isExtension ? internalSmsPermission : outboundSmsPermission)
@@ -463,6 +496,7 @@ class MessageItem extends Component<MessageItemProps, MessageItemState> {
     return disableClickToSms;
   };
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     const {
       areaCode,
@@ -501,11 +535,17 @@ class MessageItem extends Component<MessageItemProps, MessageItemState> {
       phoneSourceNameRenderer,
       showGroupNumberName,
       renderExtraButton,
+      renderActionMenuExtraButton,
       onFaxDownload,
       showChooseEntityModal,
       renderContactList,
       dropdownClassName,
       enableCDC,
+      renderContactName,
+      externalHasEntity,
+      externalViewEntity,
+      formatPhone,
+      conversation,
     } = this.props;
     let disableLinks = parentDisableLinks;
     const isVoicemail = type === messageTypes.voiceMail;
@@ -526,8 +566,10 @@ class MessageItem extends Component<MessageItemProps, MessageItemState> {
      */
     const shouldHideNumber =
       enableCDC &&
+      // @ts-expect-error TS(2345): Argument of type 'any[] | undefined' is not assign... Remove this comment to see the full error message
       checkShouldHidePhoneNumber(phoneNumber, correspondentMatches);
     const isContactMatchesHidden =
+      // @ts-expect-error TS(2345): Argument of type 'any[] | undefined' is not assign... Remove this comment to see the full error message
       enableCDC && checkShouldHideContactUser(correspondentMatches);
     const fallbackName = this.getFallbackContactName();
     const detail = this.getDetail();
@@ -548,12 +590,55 @@ class MessageItem extends Component<MessageItemProps, MessageItemState> {
       slideMenuHeight = 88;
     }
     const extraButton = renderExtraButton
-      ? renderExtraButton(this.props.conversation, {
+      ? renderExtraButton(conversation, {
           logConversation: this.logConversation,
           isLogging: isLogging || this.state.isLogging,
         })
       : null;
     const msgItem = `${type}MessageItem`;
+
+    const defaultContactDisplay = (
+      <ContactDisplay
+        formatPhone={formatPhone}
+        reference={(ref) => {
+          this.contactDisplay = ref;
+        }}
+        className={classnames(
+          styles.contactDisplay,
+          unreadCounts && styles.unread,
+        )}
+        unread={!!unreadCounts}
+        selectedClassName={styles.selectedValue}
+        selectClassName={styles.dropdownSelect}
+        brand={brand}
+        // @ts-expect-error TS(2322): Type 'any[] | undefined' is not assignable to type... Remove this comment to see the full error message
+        contactMatches={correspondentMatches}
+        selected={this.state.selected}
+        onSelectContact={this.onSelectContact}
+        disabled={disableLinks}
+        isLogging={isLogging || this.state.isLogging}
+        fallBackName={fallbackName}
+        areaCode={areaCode}
+        countryCode={countryCode}
+        phoneNumber={shouldHideNumber ? null : phoneNumber}
+        // @ts-expect-error TS(2322): Type 'any[] | null' is not assignable to type 'str... Remove this comment to see the full error message
+        groupNumbers={groupNumbers}
+        showGroupNumberName={showGroupNumberName}
+        currentLocale={currentLocale}
+        currentSiteCode={currentSiteCode}
+        isMultipleSiteEnabled={isMultipleSiteEnabled}
+        enableContactFallback={enableContactFallback}
+        stopPropagation={false}
+        showType={false}
+        showPlaceholder={showContactDisplayPlaceholder}
+        placeholder={contactPlaceholder}
+        sourceIcons={sourceIcons}
+        phoneTypeRenderer={phoneTypeRenderer}
+        phoneSourceNameRenderer={phoneSourceNameRenderer}
+        dropdownRenderFunction={renderContactList}
+        dropdownClassName={dropdownClassName}
+      />
+    );
 
     return (
       <div
@@ -568,7 +653,7 @@ class MessageItem extends Component<MessageItemProps, MessageItemState> {
           onClick={this.onClickWrapper}
         >
           <ConversationIcon
-            group={correspondents.length > 1}
+            group={correspondents && correspondents.length > 1}
             type={type}
             currentLocale={currentLocale}
             direction={direction}
@@ -579,43 +664,14 @@ class MessageItem extends Component<MessageItemProps, MessageItemState> {
               !extraButton && styles.embellishInfoWrapper,
             )}
           >
-            <ContactDisplay
-              reference={(ref) => {
-                this.contactDisplay = ref;
-              }}
-              className={classnames(
-                styles.contactDisplay,
-                unreadCounts && styles.unread,
-              )}
-              unread={!!unreadCounts}
-              selectedClassName={styles.selectedValue}
-              selectClassName={styles.dropdownSelect}
-              brand={brand}
-              contactMatches={correspondentMatches}
-              selected={this.state.selected}
-              onSelectContact={this.onSelectContact}
-              disabled={disableLinks}
-              isLogging={isLogging || this.state.isLogging}
-              fallBackName={fallbackName}
-              areaCode={areaCode}
-              countryCode={countryCode}
-              phoneNumber={shouldHideNumber ? null : phoneNumber}
-              groupNumbers={groupNumbers}
-              showGroupNumberName={showGroupNumberName}
-              currentLocale={currentLocale}
-              currentSiteCode={currentSiteCode}
-              isMultipleSiteEnabled={isMultipleSiteEnabled}
-              enableContactFallback={enableContactFallback}
-              stopPropagation={false}
-              showType={false}
-              showPlaceholder={showContactDisplayPlaceholder}
-              placeholder={contactPlaceholder}
-              sourceIcons={sourceIcons}
-              phoneTypeRenderer={phoneTypeRenderer}
-              phoneSourceNameRenderer={phoneSourceNameRenderer}
-              dropdownRenderFunction={renderContactList}
-              dropdownClassName={dropdownClassName}
-            />
+            {renderContactName
+              ? renderContactName({
+                  conversation,
+                  phoneNumber,
+                  unread: !!unreadCounts,
+                  defaultContactDisplay,
+                })
+              : defaultContactDisplay}
             <div className={styles.detailsWithTime}>
               <div
                 data-sign="msgDetail"
@@ -633,6 +689,7 @@ class MessageItem extends Component<MessageItemProps, MessageItemState> {
           {extraButton}
         </div>
         <SlideMenu
+          // @ts-expect-error TS(2322): Type '{ children: Element[]; extended: boolean; on... Remove this comment to see the full error message
           extended={this.state.extended}
           onToggle={this.toggleExtended}
           extendIconClassName={styles.extendIcon}
@@ -647,6 +704,7 @@ class MessageItem extends Component<MessageItemProps, MessageItemState> {
             {player}
           </div>
           <ActionMenuList
+            // @ts-expect-error TS(2322): Type '{ shouldHideEntityButton: boolean | undefine... Remove this comment to see the full error message
             shouldHideEntityButton={isContactMatchesHidden}
             className={styles.actionMenuList}
             type={type}
@@ -660,7 +718,9 @@ class MessageItem extends Component<MessageItemProps, MessageItemState> {
             onCreateEntity={onCreateContact && this.createSelectedContact}
             createEntityTypes={createEntityTypes}
             hasEntity={
+              // @ts-expect-error TS(2532): Object is possibly 'undefined'.
               correspondents.length === 1 &&
+              // @ts-expect-error TS(2532): Object is possibly 'undefined'.
               !!correspondentMatches.length &&
               (this.getSelectedContact()?.type ?? '') !== extensionTypes.ivrMenu
             }
@@ -676,6 +736,7 @@ class MessageItem extends Component<MessageItemProps, MessageItemState> {
             disableCallButton={disableCallButton}
             disableClickToDial={disableClickToDial}
             isLogging={isLogging || this.state.isLogging}
+            // @ts-expect-error TS(2532): Object is possibly 'undefined'.
             isLogged={conversationMatches.length > 0}
             isCreating={this.state.isCreating}
             addLogTitle={i18n.getString('addLog', currentLocale)}
@@ -687,6 +748,7 @@ class MessageItem extends Component<MessageItemProps, MessageItemState> {
             stopPropagation={false}
             onDelete={isVoicemail || isFax ? this.onDeleteMessage : undefined}
             deleteTitle={i18n.getString('delete', currentLocale)}
+            // @ts-expect-error TS(2532): Object is possibly 'undefined'.
             marked={unreadCounts > 0}
             onMark={
               isVoicemail || (isFax && direction === messageDirection.inbound)
@@ -706,6 +768,9 @@ class MessageItem extends Component<MessageItemProps, MessageItemState> {
             downloadTitle={i18n.getString('download', currentLocale)}
             onFaxDownload={onFaxDownload}
             showChooseEntityModal={showChooseEntityModal}
+            externalViewEntity={externalViewEntity && this.externalViewEntity}
+            externalHasEntity={externalHasEntity?.(conversation)}
+            extraButton={renderActionMenuExtraButton?.(conversation)}
           />
         </SlideMenu>
       </div>

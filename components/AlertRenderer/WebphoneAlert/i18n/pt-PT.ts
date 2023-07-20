@@ -9,7 +9,7 @@ export default {
   [webphoneErrors.noOutboundCallWithoutDL]: "De momento, a sua extensão não tem permissão para efetuar chamadas através do browser. Contacte o representante da conta para obter uma atualização.",
   [webphoneErrors.provisionUpdate]: "Lamentamos, mas ocorreu um erro do nosso lado. Tentaremos restabelecer automaticamente a ligação em breve.",
   [webphoneErrors.serverConnecting]: "Lamentamos, mas estamos com problemas em ligar ao servidor de telefones.",
-  [webphoneErrors.toVoiceMailError]: "Não é possível enviar chamada para o correio de voz devido a um erro interno",
+  [webphoneErrors.toVoiceMailError]: "Não é possível enviar a chamada para o correio de voz devido a um erro interno",
   [webphoneErrors.muteError]: "De momento, não é possível desativar o som da chamada.",
   [webphoneErrors.holdError]: "De momento, não é possível colocar a chamada em espera.",
   [webphoneErrors.flipError]: "Não é possível transferir a chamada. Tente novamente mais tarde.",

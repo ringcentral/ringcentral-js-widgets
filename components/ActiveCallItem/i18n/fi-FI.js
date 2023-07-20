@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -20,20 +18,20 @@ var _default = {
   viewDetails: "Näytä tiedot",
   addEntity: "Luo uusi",
   addLog: "Loki",
-  text: "Teksti",
+  text: "Tekstiviesti",
   call: "Puhelu",
   addContact: "Lisää yhteystieto",
   missedCall: "Vastaamaton",
-  inboundCall: "Tuleva",
-  outboundCall: "Lähtevä",
-  from: "Alkaen",
-  to: "Päättyen",
+  inboundCall: "Saapuva",
+  outboundCall: "Lähtevät",
+  from: "Lähettäjä",
+  to: "Vastaanottaja",
   hangup: "Lopeta puhelu",
   accept: "Vastaa",
-  toVoicemail: "Puhelinvastaajaan",
+  toVoicemail: "Vastaajaan",
   anonymous: "Nimetön",
   mergeToConference: "Yhdistä",
-  hold: "Aseta pitoon",
+  hold: "Pito",
   unhold: "Poista pidosta",
   transfer: "Siirrä",
   reject: "Hylkää",
@@ -81,6 +79,5 @@ var _default = {
 // @key: @#@"comfirmOKButton"@#@ @source: @#@"Switch"@#@
 // @key: @#@"ignore"@#@ @source: @#@"Ignore"@#@
 // @key: @#@"holdAndAnswer"@#@ @source: @#@"Hold & Answer"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=fi-FI.js.map

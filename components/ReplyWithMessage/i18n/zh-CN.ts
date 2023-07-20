@@ -4,8 +4,8 @@ export default {
   onMyWay: "在路上",
   customMessage: "自定义消息",
   callMeBackIn: "请稍后再打给我",
-  willCallYouBackIn: "将在以下时间后给您回电",
-  min: "分钟",
+  willCallYouBackIn: "稍后回电给您",
+  min: "分",
   hours: "小时",
   days: "天"
 };

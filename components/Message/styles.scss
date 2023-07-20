@@ -1,3 +1,5 @@
+@import '../../lib/commonStyles/colors';
+
 .alertHolder {
   position: relative;
   box-sizing: border-box !important;
@@ -18,14 +20,14 @@
   font-weight: 100;
   font-size: 0.81em;
   line-height: 1.3em;
-  color: #FFFFFF;
+  color: #ffffff;
   word-wrap: break-word;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
   z-index: 100;
   box-sizing: border-box !important;
   a {
     text-decoration: none;
-    color: #066FAC;
+    color: #066fac;
   }
 
   a:hover {
@@ -52,7 +54,9 @@
 }
 
 .info {
-  composes: success;
+  composes: alert;
+  background-color: $darkgray;
+  border-color: $darkgray;
 }
 
 .warning {

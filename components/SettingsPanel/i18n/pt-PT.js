@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -27,7 +25,8 @@ var _default = {
   userGuide: "Novidades",
   quickAccess: "Definição de acesso rápido",
   report: "Relatório de análise",
-  shareIdea: "Partilhar ideia"
+  shareIdea: "Partilhar ideia",
+  reportIssue: "Comunicar problema"
 }; // @key: @#@"region"@#@ @source: @#@"Region"@#@
 // @key: @#@"calling"@#@ @source: @#@"Calling"@#@
 // @key: @#@"logout"@#@ @source: @#@"Logout"@#@
@@ -49,6 +48,6 @@ var _default = {
 // @key: @#@"quickAccess"@#@ @source: @#@"Quick Access Setting"@#@
 // @key: @#@"report"@#@ @source: @#@"Analytics Report"@#@
 // @key: @#@"shareIdea"@#@ @source: @#@"Share idea"@#@
-
+// @key: @#@"reportIssue"@#@ @source: @#@"Report issue"@#@
 exports["default"] = _default;
 //# sourceMappingURL=pt-PT.js.map

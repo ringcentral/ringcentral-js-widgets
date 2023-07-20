@@ -1,7 +1,9 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import classNames from 'classnames';
-import formatMessage from 'format-message';
+
+import { format } from '@ringcentral-integration/utils';
 
 import Loglink from './assets/loglink.svg';
 import i18n from './i18n';
@@ -18,14 +20,14 @@ const LogLinkButton: FunctionComponent<LogLinkButtonProps> = ({
   onClick,
   disabled,
 }) => {
-  const onClickFunc = (e) => {
+  const onClickFunc = (e: any) => {
     e.stopPropagation();
     if (disabled) {
       return;
     }
     onClick();
   };
-  const toolTip = formatMessage(i18n.getString('toolTip'), {
+  const toolTip = format(i18n.getString('toolTip'), {
     crmName,
   });
   return (
@@ -33,6 +35,7 @@ const LogLinkButton: FunctionComponent<LogLinkButtonProps> = ({
       className={classNames(styles.logLink, disabled ? styles.disabled : null)}
       onClick={onClickFunc}
       title={toolTip}
+      data-sign="ViewLogBtn"
     >
       <Loglink />
     </div>

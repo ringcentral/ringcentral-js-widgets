@@ -1,18 +1,21 @@
 "use strict";
 
+require("core-js/modules/es.symbol");
+require("core-js/modules/es.symbol.description");
+require("core-js/modules/es.symbol.to-primitive");
+require("core-js/modules/es.date.to-primitive");
+require("core-js/modules/es.number.constructor");
+require("core-js/modules/es.object.to-string");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-
-require("core-js/modules/es6.object.define-property");
-
 var _Meeting = require("@ringcentral-integration/commons/modules/Meeting");
-
 var _date$time$hours$minu;
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 var _default = (_date$time$hours$minu = {
   date: "日付",
   time: "時間",
@@ -20,7 +23,7 @@ var _default = (_date$time$hours$minu = {
   minutes: "{howMany}分",
   today: "今日",
   duration: "期間",
-  topic: "会議のタイトル",
+  topic: "会議タイトル",
   voIPOnly: "インターネット音声のみ",
   telephonyOnly: "電話のみ",
   both: "電話とインターネットの音声",
@@ -30,7 +33,7 @@ var _default = (_date$time$hours$minu = {
   video: "ビデオ",
   audio: "音声",
   scheduleFor: "次のユーザーに代わってスケジュールする"
-}, _defineProperty(_date$time$hours$minu, _Meeting.ASSISTED_USERS_MYSELF, "自分"), _defineProperty(_date$time$hours$minu, "meetingOptions", "会議オプション"), _defineProperty(_date$time$hours$minu, "meetingSettings", "会議設定"), _defineProperty(_date$time$hours$minu, "rcMeetingSettings", "ビデオ会議の設定"), _defineProperty(_date$time$hours$minu, "audioOptions", "音声オプション"), _defineProperty(_date$time$hours$minu, "recurringMeeting", "定例会議"), _defineProperty(_date$time$hours$minu, "recurringNote", "注意：「反復」を選択する場合はこのオプションを有効にします"), _defineProperty(_date$time$hours$minu, "joinBeforeHost", "ホストより早く参加者が参加することを許可する"), _defineProperty(_date$time$hours$minu, "turnOffCamera", "参加者のカメラをオフにする"), _defineProperty(_date$time$hours$minu, "turnOffHostCamera", "会議への参加時にホストのカメラをオフにする"), _defineProperty(_date$time$hours$minu, "requirePassword", "パスワードを必須にする"), _defineProperty(_date$time$hours$minu, "enterPassword", "パスワードを入力"), _defineProperty(_date$time$hours$minu, "setPassword", "パスワードを設定*"), _defineProperty(_date$time$hours$minu, "passwordEmptyError", "会議パスワードが必要です"), _defineProperty(_date$time$hours$minu, "rcmPasswordInvalidError", "パスワードは1～10文字で英数字と@*-のみ使用できます"), _defineProperty(_date$time$hours$minu, "rcmPasswordHintText", "パスワードは1～10文字で英数字と@*-のみ使用できます"), _defineProperty(_date$time$hours$minu, "usePersonalMeetingId", "個人会議IDを使用"), _defineProperty(_date$time$hours$minu, "pmiChangeConfirm", "個人会議に変更を加える場合は、 "), _defineProperty(_date$time$hours$minu, "changePmiSettings", "PMI設定を変更します"), _defineProperty(_date$time$hours$minu, "pmiSettingChangeAlert", "設定を変更してこの会議をスケジュールする場合は、個人会議IDのある会議すべてで同じ最新の設定が使用されます。"), _defineProperty(_date$time$hours$minu, "lockedTooltip", "この設定は会社の管理者により管理されています"), _defineProperty(_date$time$hours$minu, "when", "日時"), _defineProperty(_date$time$hours$minu, "recurringDescribe", "カレンダーの出席依頼で、参加者に定期的または繰り返し確認することを忘れないようにしてください。"), _defineProperty(_date$time$hours$minu, "ieSupportAlert", "2022年2月16日以降、Internet Explorer 11では{appName}が機能しないことにご注意ください。Microsoft Edgeを代わりに使用するか、Outlook 2016以降に更新することをお勧めします。"), _date$time$hours$minu); // @key: @#@"date"@#@ @source: @#@"Date"@#@
+}, _defineProperty(_date$time$hours$minu, _Meeting.ASSISTED_USERS_MYSELF, "自分"), _defineProperty(_date$time$hours$minu, "meetingOptions", "会議オプション"), _defineProperty(_date$time$hours$minu, "meetingSettings", "会議設定"), _defineProperty(_date$time$hours$minu, "rcMeetingSettings", "ビデオ会議の設定"), _defineProperty(_date$time$hours$minu, "audioOptions", "音声オプション"), _defineProperty(_date$time$hours$minu, "recurringMeeting", "定例会議"), _defineProperty(_date$time$hours$minu, "recurringNote", "注意：「反復」を選択する場合はこのオプションを有効にします"), _defineProperty(_date$time$hours$minu, "joinBeforeHost", "ホストより早く参加者が参加することを許可する"), _defineProperty(_date$time$hours$minu, "turnOffCamera", "参加者のカメラをオフにする"), _defineProperty(_date$time$hours$minu, "turnOffHostCamera", "会議への参加時にホストのカメラをオフにする"), _defineProperty(_date$time$hours$minu, "requirePassword", "パスワードが必要です"), _defineProperty(_date$time$hours$minu, "enterPassword", "パスワードを入力"), _defineProperty(_date$time$hours$minu, "setPassword", "パスワードを設定*"), _defineProperty(_date$time$hours$minu, "passwordEmptyError", "会議パスワードが必要です"), _defineProperty(_date$time$hours$minu, "rcmPasswordInvalidError", "パスワードは1～10文字で英数字と@*-のみ使用できます"), _defineProperty(_date$time$hours$minu, "rcmPasswordHintText", "パスワードは1～10文字で英数字と@*-のみ使用できます"), _defineProperty(_date$time$hours$minu, "usePersonalMeetingId", "個人会議IDを使用"), _defineProperty(_date$time$hours$minu, "pmiChangeConfirm", "個人会議に変更を加える場合は、 "), _defineProperty(_date$time$hours$minu, "changePmiSettings", "PMI設定を変更します"), _defineProperty(_date$time$hours$minu, "pmiSettingChangeAlert", "設定を変更してこの会議をスケジュールする場合は、個人会議IDのある会議すべてで同じ最新の設定が使用されます。"), _defineProperty(_date$time$hours$minu, "lockedTooltip", "この設定は会社の管理者により管理されています"), _defineProperty(_date$time$hours$minu, "when", "日時"), _defineProperty(_date$time$hours$minu, "recurringDescribe", "出席者に対するカレンダーの招待で、会議が定期的に、または繰り返し設定されていることを確認してください。"), _defineProperty(_date$time$hours$minu, "ieSupportAlert", "2022年2月16日以降、Internet Explorer 11では{appName}が機能しないことにご注意ください。Microsoft Edgeを代わりに使用するか、Outlook 2016以降に更新することをお勧めします。"), _date$time$hours$minu); // @key: @#@"date"@#@ @source: @#@"Date"@#@
 // @key: @#@"time"@#@ @source: @#@"Time"@#@
 // @key: @#@"hours"@#@ @source: @#@"{howMany} hr"@#@
 // @key: @#@"minutes"@#@ @source: @#@"{howMany} min"@#@
@@ -70,7 +73,5 @@ var _default = (_date$time$hours$minu = {
 // @key: @#@"when"@#@ @source: @#@"When"@#@
 // @key: @#@"recurringDescribe"@#@ @source: @#@"Please remember to check recurrence or repeat in your calendar invitation to your attendees."@#@
 // @key: @#@"ieSupportAlert"@#@ @source: @#@"Please note that {appName} won't work with Internet Explorer 11 after Feb 16, 2022. We recommend switching to Microsoft Edge or updating to Outlook 2016 or above."@#@
-
-
 exports["default"] = _default;
 //# sourceMappingURL=ja-JP.js.map

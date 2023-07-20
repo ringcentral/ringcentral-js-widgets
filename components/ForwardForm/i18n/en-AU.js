@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -13,6 +11,5 @@ var _default = {
 }; // @key: @#@"forward"@#@ @source: @#@"Forward"@#@
 // @key: @#@"cancel"@#@ @source: @#@"Cancel"@#@
 // @key: @#@"customNumber"@#@ @source: @#@"Custom number"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=en-AU.js.map

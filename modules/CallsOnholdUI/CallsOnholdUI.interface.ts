@@ -1,11 +1,11 @@
-import { Call } from '@ringcentral-integration/commons/interfaces/Call.interface';
+import type { Call } from '@ringcentral-integration/commons/interfaces/Call.interface';
 
-import {
+import type {
   ActiveCallsContainerProps,
   ActiveCallsPanelProps,
   Deps as BaseDeps,
 } from '../ActiveCallsUI';
-import { RouterInteraction } from '../RouterInteraction';
+import type { RouterInteraction } from '../RouterInteraction';
 
 export interface Deps extends BaseDeps {
   routerInteraction: RouterInteraction;

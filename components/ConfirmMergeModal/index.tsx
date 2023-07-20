@@ -21,9 +21,11 @@ const ConfirmMergeModal: React.SFC<ConfirmMergeModalProps> = ({
   onCancel,
   partyProfiles,
 }) => {
+  // @ts-expect-error TS(2532): Object is possibly 'undefined'.
   const avatarUrls = partyProfiles.map((profile) => profile.avatarUrl);
   return (
     <Modal
+      // @ts-expect-error TS(2322): Type '{ children: Element[]; show: boolean; header... Remove this comment to see the full error message
       show={show}
       headerClassName={styles.header}
       currentLocale={currentLocale}
@@ -57,6 +59,7 @@ const ConfirmMergeModal: React.SFC<ConfirmMergeModalProps> = ({
             className={styles.mergeButton}
             onClick={(e) => {
               e.stopPropagation();
+              // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
               onMerge();
             }}
             iconWidth={260}

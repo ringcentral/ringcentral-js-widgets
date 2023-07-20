@@ -1,17 +1,14 @@
 import callDirections from '@ringcentral-integration/commons/enums/callDirections';
+import { trackEvents } from '@ringcentral-integration/commons/enums/trackEvents';
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import { proxify } from '@ringcentral-integration/commons/lib/proxy/proxify';
-import { trackEvents } from '@ringcentral-integration/commons/modules/Analytics';
-import {
-  RcUIModuleV2,
-  track,
-  UIFunctions,
-  UIProps,
-} from '@ringcentral-integration/core';
+import type { UIFunctions, UIProps } from '@ringcentral-integration/core';
+import { RcUIModuleV2, track } from '@ringcentral-integration/core';
 
-import { getTabs, GetTabsOptions, trackTabsMap } from './getTabs';
+import type { GetTabsOptions } from './getTabs';
+import { getTabs, trackTabsMap } from './getTabs';
 import i18n from './i18n';
-import {
+import type {
   Deps,
   RecentActivityContainerProps,
   RecentActivityPanelProps,
@@ -64,6 +61,7 @@ export class RecentActivityUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
     currentLocale = this._deps.locale.currentLocale,
     navigateTo,
     dateTimeFormatter = (...args) =>
+      // @ts-expect-error TS(2322): Type 'string | null' is not assignable to type 'st... Remove this comment to see the full error message
       this._deps.dateTimeFormat.formatDateTime(...args),
     getSession,
     useContact = false,
@@ -73,6 +71,7 @@ export class RecentActivityUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
     showFax = true,
     showVoiceMails = true,
   }: RecentActivityContainerProps): UIProps<RecentActivityPanelProps> {
+    // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string'.
     let sessionId: string = null;
     let currentContact = getContact?.();
     let ready =
@@ -104,6 +103,7 @@ export class RecentActivityUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
         this._deps.locale.currentLocale,
       ),
       showSpinner: !ready,
+      // @ts-expect-error TS(2322): Type 'Entity | undefined' is not assignable to typ... Remove this comment to see the full error message
       currentContact,
       calls: this._deps.recentCalls.calls ?? {},
       tabs: this.getTabs({
@@ -111,6 +111,7 @@ export class RecentActivityUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
         currentLocale,
         dateTimeFormatter,
         navigateTo,
+        // @ts-expect-error TS(2322): Type 'Entity | undefined' is not assignable to typ... Remove this comment to see the full error message
         currentContact,
         recentMessages: this._deps.recentMessages,
         recentCalls: this._deps.recentCalls,

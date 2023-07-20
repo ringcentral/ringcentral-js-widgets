@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -20,13 +18,15 @@ var _default = {
   showKeypad: "Teclado",
   hideKeypad: "Ocultar teclado",
   unHold: "Retomar",
-  forward: "Reencam.",
+  forward: "Reenc.",
   ignore: "Ignorar",
-  voicemail: "Para Correio de voz",
+  voicemail: "Para correio de voz",
   custom: "Personalizado",
   answerAndEnd: "Atender e terminar",
   answerAndHold: "Atender e em espera",
-  answer: "Atender"
+  answer: "Atender",
+  completeTransfer: "Concluir transferência",
+  reply: "Resp."
 }; // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
 // @key: @#@"hangup"@#@ @source: @#@"Hang up"@#@
@@ -47,6 +47,7 @@ var _default = {
 // @key: @#@"answerAndEnd"@#@ @source: @#@"Answer & End"@#@
 // @key: @#@"answerAndHold"@#@ @source: @#@"Answer & Hold"@#@
 // @key: @#@"answer"@#@ @source: @#@"Answer"@#@
-
+// @key: @#@"completeTransfer"@#@ @source: @#@"Complete transfer"@#@
+// @key: @#@"reply"@#@ @source: @#@"Reply"@#@
 exports["default"] = _default;
 //# sourceMappingURL=pt-PT.js.map

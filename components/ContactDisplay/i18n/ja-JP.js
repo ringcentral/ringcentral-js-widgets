@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -13,10 +11,10 @@ var _default = {
   select: "レコードを選択",
   OnHold: "保留中",
   Ringing: "呼び出し中",
-  CallConnected: "通話接続済み",
+  CallConnected: "通話を接続済み",
   unknownUser: "不明なユーザー",
   unknownNumber: "匿名",
-  unavailable: "利用不可",
+  unavailable: "連絡不可",
   viewDetails: "詳細の表示",
   conferenceCall: "電話会議"
 }; // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
@@ -31,6 +29,5 @@ var _default = {
 // @key: @#@"unavailable"@#@ @source: @#@"Unavailable"@#@
 // @key: @#@"viewDetails"@#@ @source: @#@"View Details"@#@
 // @key: @#@"conferenceCall"@#@ @source: @#@"Conference Call"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=ja-JP.js.map

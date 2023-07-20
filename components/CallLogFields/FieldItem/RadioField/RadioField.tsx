@@ -1,11 +1,8 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
-import {
-  RcFormControlLabel,
-  RcRadio,
-  RcRadioGroup,
-  RcRadioGroupProps,
-} from '@ringcentral/juno';
+import type { RcRadioGroupProps } from '@ringcentral/juno';
+import { RcFormControlLabel, RcRadio, RcRadioGroup } from '@ringcentral/juno';
 
 export type RadioFieldProps = {
   options: {

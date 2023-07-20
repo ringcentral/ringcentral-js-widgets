@@ -1,4 +1,4 @@
-import { Block, BlockItem } from '../Block';
+import type { Block, BlockItem } from '../Block';
 
 export interface Deps {
   block: Block;

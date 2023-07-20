@@ -2,6 +2,7 @@
 @import '../../lib/commonStyles/full-size';
 @import '../../lib/commonStyles/layout';
 @import '../../lib/commonStyles/fonts';
+@import '../../lib/commonStyles/text-ellipsis.scss';
 
 $tabBar-height: 35px;
 
@@ -24,7 +25,7 @@ $tabBar-height: 35px;
   height: calc(100% - #{$header-height} - #{$tabBar-height});
 }
 
-.composeText{
+.composeText {
   display: inline-block;
   height: 20px;
   padding-right: 15px;
@@ -42,6 +43,7 @@ $tabBar-height: 35px;
 
 .tabTitle {
   @include secondary-font;
+  @include text-ellipsis;
   color: $night;
 }
 

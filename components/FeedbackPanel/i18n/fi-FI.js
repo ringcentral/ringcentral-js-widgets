@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -20,7 +18,7 @@ var _default = {
   topicPlaceHolder: "Valitse vaihtoehto",
   bugReport: "Virheraportti",
   featureRequest: "Ominaisuusehdotus",
-  others: "Muu",
+  others: "Muut",
   subject: "Aihe",
   subjectPlaceHolder: "Kerro, miten voimme auttaa",
   description: "Täysi kuvaus",
@@ -45,6 +43,5 @@ var _default = {
 // @key: @#@"description"@#@ @source: @#@"Full description"@#@
 // @key: @#@"descriptionPlaceHolder"@#@ @source: @#@"Please include as much information as possible"@#@
 // @key: @#@"send"@#@ @source: @#@"Send Your Feedback"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=fi-FI.js.map

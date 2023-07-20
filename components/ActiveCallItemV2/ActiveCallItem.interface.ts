@@ -1,9 +1,9 @@
-import {
+import type {
   Session,
   WebPhoneSession,
-} from '@ringcentral-integration/commons/modules/ActiveCallControlV2';
+} from '@ringcentral-integration/commons/modules/ActiveCallControl';
 
-import { ConfirmModalOptions } from '../../modules/ModalUI/ModalUI.interface';
+import type { ConfirmModalOptions } from '../../modules/ModalUI/ModalUI.interface';
 
 export interface ModalContentProps {
   currentLocale: string;
@@ -163,6 +163,8 @@ export interface ActiveCallItemProps {
   showIgnoreBtn?: boolean;
   clickSwitchTrack?: () => any;
   isWide?: boolean;
+  formatPhone?: (phoneNumber: string) => string;
+  warmTransferRole?: string;
 }
 
 export interface ActiveCallItemState {

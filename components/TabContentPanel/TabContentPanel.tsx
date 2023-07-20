@@ -3,7 +3,7 @@ import React from 'react';
 import classnames from 'classnames';
 
 import { MessageTabButton } from '../MessageTabButton';
-import NavigationBar from '../NavigationBar';
+import { NavigationBar } from '../NavigationBar';
 import styles from './styles.scss';
 import { TabTitle } from './TabTitle';
 
@@ -58,22 +58,14 @@ const TabContentPanel: React.FC<TabContentPanelProps> = ({
     <div className={styles.root}>
       <NavigationBar
         button={MessageTabButton}
-        className={classnames({
-          [styles.tabBar]: true,
-          [navClassName]: !!navClassName,
-        })}
+        className={classnames(styles.tabBar, navClassName)}
         currentPath=""
         goTo={goTo}
         tabs={formattedTabs}
         fullSizeInk={false}
         tooltipForceHide={tooltipForceHide}
       />
-      <div
-        className={classnames({
-          [styles.content]: true,
-          [tabContentClassName]: !!tabContentClassName,
-        })}
-      >
+      <div className={classnames(styles.content, tabContentClassName)}>
         {renderChildren()}
       </div>
     </div>
@@ -82,8 +74,6 @@ const TabContentPanel: React.FC<TabContentPanelProps> = ({
 
 TabContentPanel.defaultProps = {
   showTabs: false,
-  navClassName: null,
-  tabContentClassName: null,
 };
 
 export default TabContentPanel;

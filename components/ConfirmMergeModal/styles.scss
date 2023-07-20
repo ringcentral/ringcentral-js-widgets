@@ -7,12 +7,12 @@ $avatarMargin: 10px;
   .contentText {
     font-weight: bold;
 
-    span{
+    span {
       font-weight: normal;
     }
   }
 
-  .footer{
+  .footer {
     display: none;
 
     .cancelBtn,
@@ -21,7 +21,7 @@ $avatarMargin: 10px;
     }
   }
 
-  .content{
+  .content {
     overflow: hidden;
     display: flex;
     flex-direction: row;
@@ -30,11 +30,11 @@ $avatarMargin: 10px;
     align-items: center;
     margin: 5px 0;
 
-    .avatar{
+    .avatar {
       width: $avatarWidth;
       margin-right: $avatarMargin;
     }
-    .contentText{
+    .contentText {
       flex-grow: 1;
       display: flex;
       flex-direction: row;
@@ -42,12 +42,12 @@ $avatarMargin: 10px;
       justify-content: flex-start;
       align-items: center;
       overflow: hidden;
-  
-      svg{
+
+      svg {
         width: 100%;
       }
 
-      span{
+      span {
         font-weight: normal;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -55,7 +55,7 @@ $avatarMargin: 10px;
       }
     }
 
-    .webphoneButton{
+    .webphoneButton {
       .mergeButton {
         width: 26px;
         circle {
@@ -70,7 +70,7 @@ $avatarMargin: 10px;
       }
     }
 
-    &::after{
+    &::after {
       clear: both;
     }
   }

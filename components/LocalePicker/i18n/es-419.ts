@@ -2,13 +2,14 @@ export default {
   en: "Inglés",
   ja: "Japonés",
   fr: "Francés",
-  de: "Danés",
+  de: "Alemán",
   es: "Español",
   it: "Italiano",
   pt: "Portugués",
   zh: "Chino",
   nl: "Holandés",
-  ko: "Coreano"
+  ko: "Coreano",
+  fi: "Finés (Suomi)"
 };
 
 // @key: @#@"en"@#@ @source: @#@"English"@#@
@@ -21,3 +22,4 @@ export default {
 // @key: @#@"zh"@#@ @source: @#@"Chinese"@#@
 // @key: @#@"nl"@#@ @source: @#@"Dutch"@#@
 // @key: @#@"ko"@#@ @source: @#@"Korean"@#@
+// @key: @#@"fi"@#@ @source: @#@"Suomi"@#@

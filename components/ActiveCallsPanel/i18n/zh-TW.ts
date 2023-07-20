@@ -1,9 +1,9 @@
 export default {
-  noActiveCalls: "無使用中通話",
+  noActiveCalls: "沒有正在進行的通話",
   currentCall: "目前通話",
   ringCall: "撥打中通話",
-  onHoldCall: "通話等待接通",
-  otherDeviceCall: "我的其他裝置上仍有進行中通話",
+  onHoldCall: "通話保留",
+  otherDeviceCall: "我的其他裝置上仍有通話",
   confirmation: "確認",
   confirmMergeToConference: "添加至電話會議？",
   mergeToConference: "合併",

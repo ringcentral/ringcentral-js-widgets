@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -12,7 +10,7 @@ var _default = {
   wednesday: "수",
   thursday: "목",
   friday: "금",
-  saturday: "토",
+  saturday: "일",
   sunday: "일"
 }; // @key: @#@"monday"@#@ @source: @#@"M"@#@
 // @key: @#@"tuesday"@#@ @source: @#@"T"@#@
@@ -21,6 +19,5 @@ var _default = {
 // @key: @#@"friday"@#@ @source: @#@"F"@#@
 // @key: @#@"saturday"@#@ @source: @#@"S"@#@
 // @key: @#@"sunday"@#@ @source: @#@"S"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=ko-KR.js.map

@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -23,6 +21,5 @@ var _default = {
 // @key: @#@"historyCalls"@#@ @source: @#@"Past Calls"@#@
 // @key: @#@"otherDeviceCall"@#@ @source: @#@"Ongoing calls on my other devices"@#@
 // @key: @#@"searchPlaceholder"@#@ @source: @#@"Search..."@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=ko-KR.js.map

@@ -2,10 +2,10 @@ export default {
   forward: "Desviar",
   reply: "Responder",
   ignore: "Ignorar",
-  toVoicemail: "A buzón de voz",
+  toVoicemail: "Al buzón de voz",
   answer: "Responder",
-  answerAndEnd: "Atender y salir",
-  answerAndHold: "Atender y retener"
+  answerAndEnd: "Responder y finalizar",
+  answerAndHold: "Responder y poner en espera"
 };
 
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@

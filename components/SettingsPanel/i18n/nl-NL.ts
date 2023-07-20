@@ -19,7 +19,8 @@ export default {
   userGuide: "Nieuw",
   quickAccess: "Instelling snelle toegang",
   report: "Analyserapport",
-  shareIdea: "Een idee delen"
+  shareIdea: "Een idee delen",
+  reportIssue: "Probleem melden"
 };
 
 // @key: @#@"region"@#@ @source: @#@"Region"@#@
@@ -43,3 +44,4 @@ export default {
 // @key: @#@"quickAccess"@#@ @source: @#@"Quick Access Setting"@#@
 // @key: @#@"report"@#@ @source: @#@"Analytics Report"@#@
 // @key: @#@"shareIdea"@#@ @source: @#@"Share idea"@#@
+// @key: @#@"reportIssue"@#@ @source: @#@"Report issue"@#@

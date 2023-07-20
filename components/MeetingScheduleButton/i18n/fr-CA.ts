@@ -1,7 +1,7 @@
 export default {
   schedule: "Planifier une réunion",
-  prompt: "Veuillez autoriser RingCentral à avoir accès aux renseignements sur votre compte.",
-  saveAsDefault: "Enregistrer comme valeur par défaut",
+  prompt: "Veuillez autoriser RingCentral à accéder aux renseignements de votre compte.",
+  saveAsDefault: "Enregistrer par défaut",
   launchMeeting: "Lancer la réunion"
 };
 

@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -20,11 +18,11 @@ var _default = {
   viewDetails: "Näytä tiedot",
   addEntity: "Luo uusi",
   addLog: "Loki",
-  text: "Teksti",
+  text: "Tekstiviesti",
   call: "Puhelu",
   missedCall: "Vastaamaton",
-  inboundCall: "Tuleva",
-  outboundCall: "Lähtevä"
+  inboundCall: "Saapuva",
+  outboundCall: "Lähtevät"
 }; // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
 // @key: @#@"logCall"@#@ @source: @#@"Log Call"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
@@ -43,6 +41,5 @@ var _default = {
 // @key: @#@"missedCall"@#@ @source: @#@"Missed"@#@
 // @key: @#@"inboundCall"@#@ @source: @#@"Inbound"@#@
 // @key: @#@"outboundCall"@#@ @source: @#@"Outbound"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=fi-FI.js.map

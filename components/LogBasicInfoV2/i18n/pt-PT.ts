@@ -1,16 +1,16 @@
+import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 import callResults from '@ringcentral-integration/commons/enums/callResults';
 import telephonyStatuses from '@ringcentral-integration/commons/enums/telephonyStatus';
-import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 export default {
-  [callDirections.inbound]: "Recebidas",
-  [callDirections.outbound]: "Efetuadas",
+  [callDirections.inbound]: "Recebida",
+  [callDirections.outbound]: "Efetuada",
   status: "Estado:",
   InboundNumber: "ID do autor da chamada:",
   OutboundNumber: "Marcado:",
   InboundDirection: "Recebida de:",
   OutboundDirection: "Efetuada para:",
-  [telephonyStatuses.noCall]: "Desligado",
-  [telephonyStatuses.callConnected]: "Ligado",
+  [telephonyStatuses.noCall]: "Terminada",
+  [telephonyStatuses.callConnected]: "Ligada",
   [telephonyStatuses.ringing]: "A chamar",
   [telephonyStatuses.onHold]: "Em espera",
   [telephonyStatuses.parkedCall]: "Ponto de espera",
@@ -21,7 +21,7 @@ export default {
   [callResults.voicemail]: "Correio de voz",
   [callResults.rejected]: "Recusada",
   [callResults.reply]: "Responder",
-  [callResults.received]: "Recebido",
+  [callResults.received]: "Recebida",
   [callResults.faxReceiptError]: "Erro de receção de fax",
   [callResults.faxOnDemand]: "Fax por subscrição",
   [callResults.partialReceive]: "Receção parcial",
@@ -37,15 +37,16 @@ export default {
   [callResults.IPPhoneOffline]: "Telefone IP offline",
   [callResults.restrictedNumber]: "Número restrito",
   [callResults.wrongNumber]: "Número errado",
-  [callResults.stopped]: "Parado",
+  [callResults.stopped]: "Parada",
   [callResults.suspendedAccount]: "Conta suspensa",
   [callResults.hangUp]: "Desligada",
   [callResults.HangUp]: "Desligada",
   [callResults.abandoned]: "Abandonada",
   [callResults.declined]: "Recusada",
   [callResults.faxReceipt]: "Recibo de fax",
-  [callResults.disconnected]: "Desligado",
-  [callResults.notAllowed]: "Não permitido"
+  [callResults.disconnected]: "Terminada",
+  [callResults.notAllowed]: "Não permitida",
+  warmTransferSwitchCall: "Mudar de chamada"
 };
 
 // @key: @#@"[callDirections.inbound]"@#@ @source: @#@"Inbound"@#@
@@ -92,3 +93,4 @@ export default {
 // @key: @#@"[callResults.faxReceipt]"@#@ @source: @#@"Fax Receipt"@#@
 // @key: @#@"[callResults.disconnected]"@#@ @source: @#@"Disconnected"@#@
 // @key: @#@"[callResults.notAllowed]"@#@ @source: @#@"Not Allowed"@#@
+// @key: @#@"warmTransferSwitchCall"@#@ @source: @#@"Switch calls"@#@

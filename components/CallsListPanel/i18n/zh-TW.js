@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -11,7 +9,7 @@ var _default = {
   noCalls: "找不到結果。",
   currentCall: "目前通話",
   ringCall: "撥打中通話",
-  onHoldCall: "通話等待接通",
+  onHoldCall: "通話保留",
   historyCalls: "過去的通話",
   otherDeviceCall: "我的其他裝置上仍有進行中通話",
   searchPlaceholder: "搜尋..."
@@ -23,6 +21,5 @@ var _default = {
 // @key: @#@"historyCalls"@#@ @source: @#@"Past Calls"@#@
 // @key: @#@"otherDeviceCall"@#@ @source: @#@"Ongoing calls on my other devices"@#@
 // @key: @#@"searchPlaceholder"@#@ @source: @#@"Search..."@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=zh-TW.js.map

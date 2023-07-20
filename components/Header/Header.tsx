@@ -1,9 +1,11 @@
-import React, { FunctionComponent, ReactNode } from 'react';
+import type { FunctionComponent, ReactNode } from 'react';
+import React from 'react';
 
 import classnames from 'classnames';
 import { addIndex, reduce } from 'ramda';
 
-import { Button, ButtonProps } from '../Button';
+import type { ButtonProps } from '../Button';
+import { Button } from '../Button';
 import styles from './styles.scss';
 
 export interface ButtonDefinition extends ButtonProps {
@@ -29,12 +31,6 @@ export const Header: FunctionComponent<HeaderProps> = ({
   buttons,
   children,
 }) => {
-  const label = children ? (
-    <div className={styles.label} data-sign="headerTitle">
-      {children}
-    </div>
-  ) : null;
-
   const { leftButtons, rightButtons } = addIndex<
     ButtonDefinition,
     RenderButtons
@@ -65,13 +61,18 @@ export const Header: FunctionComponent<HeaderProps> = ({
     },
     buttons,
   );
+
   return (
     <header
       className={classnames(styles.root, className)}
       onClick={onClick}
       data-sign="header"
     >
-      {label}
+      {children ? (
+        <div className={styles.label} data-sign="headerTitle">
+          {children}
+        </div>
+      ) : null}
       {leftButtons.length ? (
         <div className={classnames(styles.buttonGroup, styles.leftButtons)}>
           {leftButtons}

@@ -1,9 +1,10 @@
-import { styled, RcText, spacing, RcListItemText } from '@ringcentral/juno';
+import { RcListItemText, RcText, spacing, styled } from '@ringcentral/juno';
 
-export const HelpTextSectionWrapper = styled.div`
+export const HelpTextSectionWrapper = styled.div<{ isLoading: boolean }>`
   display: flex;
   flex-direction: column;
-  margin-top: ${spacing(2)};
+  margin: ${spacing(3)} 0;
+  text-align: ${({ isLoading }) => (isLoading ? 'center' : 'left')}; ;
 `;
 
 export const StyledHintsTitle = styled(RcText)`

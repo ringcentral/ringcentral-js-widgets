@@ -1,5 +1,5 @@
 export default {
-  createCallLog: "Crear registro de llamadas",
+  createCallLog: "Crear reg. llamadas",
   viewInSalesforce: "Ver en Salesforce",
   createLog: "Crear registro"
 };

@@ -1,5 +1,5 @@
 export default {
-  inviteMeetingContent: "{accountName} le invita a una reunión de {brandName}.\n\nÚnase desde PC, Mac, iOS o Android: {joinUri}{passwordTpl}\n\nO desde iPhone con tan solo pulsar una vez:\n    {mobileDialingNumberTpl}\n\nO desde un teléfono:\n    Marque: {phoneDialingNumberTpl}\n     ID de la reunión: {meetingId}\n    Números internacionales disponibles: {teleconference} ",
+  inviteMeetingContent: "{accountName} le está invitando a una reunión de {brandName}.\n\nÚnase desde PC, Mac, iOS o Android: {joinUri}{passwordTpl}\n\nO desde iPhone con tan solo pulsar una vez:\n    {mobileDialingNumberTpl}\n\nO desde un teléfono:\n    Marque: {phoneDialingNumberTpl}\n     ID de la reunión: {meetingId}\n    Números internacionales disponibles: {teleconference} ",
   rcvE2EEInviteMeetingContent: "{accountName} le ha invitado a una reunión cifrada de extremo a extremo de {rcvProductName}.\n\nÚnase mediante este enlace. Tenga en cuenta que primero necesitará iniciar sesión en la aplicación {brandName}:\n{joinUri}\n\nLa marcación no está disponible para esta reunión.\n\n{e2EESupportLinkText}\n{rcvE2EESupportUrl}",
   e2EESupportLinkText: "Obtenga más información sobre el cifrado de extremo a extremo de {brandName}.",
   rcvInviteMeetingContentDial: "\n\nUn toque para unirse al audio solo desde un teléfono inteligente:\n    {smartphones}\n\nO marcación:\n    Marcar: {dialNumber}\n    Código de acceso/ID de reunión: {pinNumber} ",
@@ -10,7 +10,7 @@ export default {
   rcvSipContentNoPwd: "\n    {meetingId}@sip.rcv.com\n",
   doNotModify: "---------------------------------- No modificar ----------------------------------",
   password: "\n\nContraseña",
-  passwordPstn: "\n\nContraseña de marcación:"
+  passwordPstn: "Contraseña de marcación: \n\n"
 };
 
 // @key: @#@"inviteMeetingContent"@#@ @source: @#@"{accountName} is inviting you to a {brandName} meeting.\n\nJoin from PC, Mac, iOS or Android: {joinUri}{passwordTpl}\n\nOr iPhone one-tap:\n    {mobileDialingNumberTpl}\n\nOr Telephone:\n    Dial: {phoneDialingNumberTpl}\n    Meeting ID: {meetingId}\n    International numbers available: {teleconference} "@#@

@@ -1,16 +1,17 @@
-import { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures';
-import { Call } from '@ringcentral-integration/commons/modules/CallV2';
-import { ComposeText } from '@ringcentral-integration/commons/modules/ComposeTextV2';
-import { ContactSearch } from '@ringcentral-integration/commons/modules/ContactSearchV2';
-import { Contacts } from '@ringcentral-integration/commons/modules/ContactsV2';
-import { ExtensionInfo } from '@ringcentral-integration/commons/modules/ExtensionInfoV2';
-import { Locale } from '@ringcentral-integration/commons/modules/Locale';
-import { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiterV2';
-import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
+import type { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures';
+import type { Call } from '@ringcentral-integration/commons/modules/Call';
+import type { ComposeText } from '@ringcentral-integration/commons/modules/ComposeText';
+import type { ContactSearch } from '@ringcentral-integration/commons/modules/ContactSearch';
+import type { Contacts } from '@ringcentral-integration/commons/modules/Contacts';
+import type { ExtensionInfo } from '@ringcentral-integration/commons/modules/ExtensionInfo';
+import type { Locale } from '@ringcentral-integration/commons/modules/Locale';
+import type { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiter';
+import type { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
+import type { AccountInfo } from '@ringcentral-integration/commons/modules/AccountInfo';
 
-import { ConnectivityManager } from '../ConnectivityManager';
-import { DialerUI } from '../DialerUI';
-import { RouterInteraction } from '../RouterInteraction';
+import type { ConnectivityManager } from '../ConnectivityManager';
+import type { DialerUI } from '../DialerUI';
+import type { RouterInteraction } from '../RouterInteraction';
 
 export interface ContactDetailsUIOptions {
   composeTextRoute?: string;
@@ -31,6 +32,7 @@ export interface Deps {
   dialerUI: DialerUI;
   composeText: ComposeText;
   contactDetailsUIOptions?: ContactDetailsUIOptions;
+  accountInfo?: AccountInfo;
 }
 
 export interface RouteParams {

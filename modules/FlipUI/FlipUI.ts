@@ -1,13 +1,9 @@
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import { formatNumber } from '@ringcentral-integration/commons/lib/formatNumber';
-import {
-  computed,
-  RcUIModuleV2,
-  UIFunctions,
-  UIProps,
-} from '@ringcentral-integration/core';
+import type { UIFunctions, UIProps } from '@ringcentral-integration/core';
+import { computed, RcUIModuleV2 } from '@ringcentral-integration/core';
 
-import {
+import type {
   Deps,
   FlipUIContainerProps,
   FlipUIPanelProps,
@@ -21,6 +17,7 @@ import {
     'ForwardingNumber',
     'RegionSettings',
     'RouterInteraction',
+    'AccountInfo',
     { dep: 'FlipUIOptions', optional: true },
   ],
 })
@@ -48,9 +45,11 @@ export class FlipUI extends RcUIModuleV2<Deps> {
 
     return {
       sessionId,
+      // @ts-expect-error TS(2339): Property 'isOnFlip' does not exist on type '"" | N... Remove this comment to see the full error message
       isOnFlip: this.session?.isOnFlip,
       currentLocale: this._deps.locale.currentLocale,
       flipNumbers: this._deps.forwardingNumber.flipNumbers,
+      // @ts-expect-error TS(2322): Type '"" | NormalizedSession | null | undefined' i... Remove this comment to see the full error message
       session: this.session,
     };
   }
@@ -62,10 +61,12 @@ export class FlipUI extends RcUIModuleV2<Deps> {
       onBack: () => this._deps.routerInteraction.goBack(),
       onCallEnd: () => this._deps.routerInteraction.replace('/dialer'),
       formatPhone: (phoneNumber) =>
+        // @ts-expect-error TS(2322): Type 'string | null | undefined' is not assignable... Remove this comment to see the full error message
         formatNumber({
           phoneNumber,
           areaCode: this._deps.regionSettings.areaCode,
           countryCode: this._deps.regionSettings.countryCode,
+          maxExtensionLength: this._deps.accountInfo.maxExtensionNumberLength,
         }),
     };
   }

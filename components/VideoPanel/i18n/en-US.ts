@@ -1,4 +1,4 @@
-import { ASSISTED_USERS_MYSELF } from '@ringcentral-integration/commons/modules/RcVideo/constants';
+import { ASSISTED_USERS_MYSELF } from '@ringcentral-integration/commons/modules/RcVideo';
 
 export default {
   topic: 'Meeting title',
@@ -42,7 +42,7 @@ export default {
   scheduleForGuidance:
     "Scheduling for someone else?\n1. Make sure you're on their Outlook calendar.\n2. From the dropdown, select the person you're scheduling for.\n",
   scheduleForGuidanceMore: 'Learn details',
-  changePmiSettings: 'Change Personal meeting settings',
+  changePmiSettings: 'Change Personal Meeting settings',
   ieSupportAlert:
     "Please note that {appName} won't work with Internet Explorer 11 after Feb 16, 2022. We recommend switching to Microsoft Edge or updating to Outlook 2016 or above.",
 };

@@ -1,14 +1,12 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 var _default = {
   currentCall: "Llamada actual",
-  viewCalls: "Ver",
+  viewCalls: "Ver llamadas",
   view: "Ver",
   incomingCall: "{numberOf} llamada entrante",
   incomingCalls: "{numberOf} llamadas entrantes",
@@ -25,6 +23,5 @@ var _default = {
 // @key: @#@"callsOnHold"@#@ @source: @#@"{numberOf} Calls On Hold"@#@
 // @key: @#@"otherDeviceCall"@#@ @source: @#@"{numberOf} Call on other devices"@#@
 // @key: @#@"otherDeviceCalls"@#@ @source: @#@"{numberOf} Calls on other devices"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=es-419.js.map

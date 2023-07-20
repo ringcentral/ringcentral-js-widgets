@@ -1,4 +1,4 @@
-import { ASSISTED_USERS_MYSELF } from '@ringcentral-integration/commons/modules/RcVideo/constants';
+import { ASSISTED_USERS_MYSELF } from '@ringcentral-integration/commons/modules/RcVideo';
 export default {
   topic: "모임 제목",
   date: "날짜",
@@ -8,19 +8,19 @@ export default {
   meetingSettings: "모임 설정",
   [ASSISTED_USERS_MYSELF]: "나",
   joinBeforeHost: "참가자가 호스트보다 먼저 참가하도록 허용",
-  enableWaitingRoom: "대기실 사용",
-  waitingRoom: "다음 사람을 위해 대기실 허용",
+  enableWaitingRoom: "대기실 사용하도록 설정",
+  waitingRoom: "다음 사람을 위해 대기실 사용하도록 설정",
   waitingRoomNotCoworker: "회사 외부의 사람",
   waitingRoomGuest: "로그인하지 않은 사람",
   waitingRoomAll: "모두",
   enterPassword: "비밀번호 입력",
-  onlyJoinAfterMe: "참가자는 내가 참가한 이후에만 참가할 수 있습니다.",
+  onlyJoinAfterMe: "참가자는 내가 참가한 이후에만 참가 가능",
   onlyJoinAfterHost: "참가자는 호스트가 참가한 이후에만 참가할 수 있습니다.",
-  muteAudio: "참가자의 오디오 음소거",
-  turnOffCamera: "참가자의 카메라 끄기",
-  requirePassword: "비밀번호가 필요함",
-  useE2ee: "E2EE(End-to-End Encryption) 사용",
-  e2eeTooltip: "E2EE(End-to-End Encryption) 모임이 가장 사생활이 보장되지만 전화로 참여, 자막, 녹음과 같은 기능은 사용할 수 없습니다.",
+  muteAudio: "참가자 오디오 음소거",
+  turnOffCamera: "참가자 카메라 끄기",
+  requirePassword: "비밀번호 필요",
+  useE2ee: "엔드투엔드 암호화 사용",
+  e2eeTooltip: "엔드투엔드 모임이 가장 사생활이 보장되지만 전화로 참여, 자막, 녹음과 같은 기능은 사용할 수 없습니다.",
   setPassword: "비밀번호 설정 *",
   setPasswordNotSymbol: "비밀번호 설정",
   passwordEmptyError: "모임 비밀번호 필요",
@@ -31,7 +31,7 @@ export default {
   onlyAuthUserJoin: "인증된 사용자만 참가할 수 있습니다.",
   signedInUsers: "로그인한 사용자",
   signedInCoWorkers: "로그인한 동료",
-  limitScreenSharing: "호스트 및 중재자만 화면을 공유할 수 있습니다.",
+  limitScreenSharing: "호스트 및 중재자만 화면 공유 가능",
   lockTooltip: "이 설정은 회사 관리자가 관리합니다.",
   pmiSettingAlert: "이 설정은 PMI로 생성된 모든 모임에 적용됩니다.",
   today: "오늘",
@@ -78,5 +78,5 @@ export default {
 // @key: @#@"today"@#@ @source: @#@"Today"@#@
 // @key: @#@"scheduleForGuidance"@#@ @source: @#@"Scheduling for someone else?\n1. Make sure you're on their Outlook calendar.\n2. From the dropdown, select the person you're scheduling for.\n"@#@
 // @key: @#@"scheduleForGuidanceMore"@#@ @source: @#@"Learn details"@#@
-// @key: @#@"changePmiSettings"@#@ @source: @#@"Change Personal meeting settings"@#@
+// @key: @#@"changePmiSettings"@#@ @source: @#@"Change Personal Meeting settings"@#@
 // @key: @#@"ieSupportAlert"@#@ @source: @#@"Please note that {appName} won't work with Internet Explorer 11 after Feb 16, 2022. We recommend switching to Microsoft Edge or updating to Outlook 2016 or above."@#@

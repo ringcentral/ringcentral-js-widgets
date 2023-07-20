@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -11,6 +9,5 @@ var _default = {
   refresh: "更新"
 }; // @key: @#@"searchPlaceholder"@#@ @source: @#@"Search..."@#@
 // @key: @#@"refresh"@#@ @source: @#@"Refresh"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=ja-JP.js.map

@@ -1,15 +1,15 @@
 export default {
-  logging: "Connexion en cours...",
+  logging: "Connexion…",
   logCall: "Journal des appels",
   editLog: "Modifier le journal",
-  select: "Sélectionner un enregistrement",
+  select: "Sélect. un enreg.",
   OnHold: "En attente",
   Ringing: "Sonnerie en cours",
   CallConnected: "Appel connecté",
   unknownUser: "Utilisateur inconnu",
   unknownNumber: "Anonyme",
   unavailable: "Non disponible",
-  viewDetails: "Afficher les détails",
+  viewDetails: "Afficher les renseignements",
   conferenceCall: "Téléconférence"
 };
 

@@ -2,13 +2,13 @@ import * as uuid from 'uuid';
 
 import background from '@ringcentral-integration/commons/lib/background';
 import { Module } from '@ringcentral-integration/commons/lib/di';
-import proxify from '@ringcentral-integration/commons/lib/proxy/proxify';
+import { proxify } from '@ringcentral-integration/commons/lib/proxy/proxify';
 import { watch } from '@ringcentral-integration/core';
 
-import { isElectron } from '../../lib/isElectron';
+import { isElectron } from '@ringcentral-integration/utils';
 import { OAuthBase } from '../../lib/OAuthBase';
 import { popWindow } from '../../lib/popWindow';
-import { Deps } from './OAuth.interface';
+import type { Deps } from './OAuth.interface';
 
 @Module({
   name: 'OAuth',
@@ -18,11 +18,11 @@ import { Deps } from './OAuth.interface';
     { dep: 'OAuthOptions', optional: true },
   ],
 })
-export class OAuth extends OAuthBase<Deps> {
+export class OAuth<T extends Deps = Deps> extends OAuthBase<T> {
   private _uuid = uuid.v4();
 
-  private _loginWindow: Window = null;
-  private _redirectCheckTimeout: ReturnType<typeof setTimeout> = null;
+  private _loginWindow: Window | null = null;
+  private _redirectCheckTimeout: ReturnType<typeof setTimeout> | null = null;
   private _isInElectron = isElectron();
 
   constructor({
@@ -34,6 +34,7 @@ export class OAuth extends OAuthBase<Deps> {
     } = {},
     ...deps
   }: Deps) {
+    // @ts-expect-error TS(2345): Argument of type '{ oAuthOptions: { prefix?: strin... Remove this comment to see the full error message
     super({
       ...deps,
       oAuthOptions: {
@@ -45,6 +46,7 @@ export class OAuth extends OAuthBase<Deps> {
     });
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   get name() {
     return 'OAuth';
   }
@@ -63,6 +65,7 @@ export class OAuth extends OAuthBase<Deps> {
       : true;
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   get authState() {
     return `${btoa(`${Date.now()}`)}-${this.prefix}-${encodeURIComponent(
       btoa(this._uuid),
@@ -73,7 +76,7 @@ export class OAuth extends OAuthBase<Deps> {
     return `${this.prefix}-${encodeURIComponent(btoa(this._uuid))}-callbackUri`;
   }
 
-  onInitOnce() {
+  override onInitOnce() {
     super.onInitOnce && super.onInitOnce();
     // close login window when unload and login window exist
     window.addEventListener('beforeunload', () => {
@@ -152,26 +155,17 @@ export class OAuth extends OAuthBase<Deps> {
   }
 
   @background
-  async destroyOAuth() {
+  override async destroyOAuth() {
     if (!this.oAuthReady) return;
-
+    // @ts-ignore
     window.oAuthCallback = null;
     this.setOAuthReady(false);
   }
 
   @proxify
-  async openOAuthPage() {
+  override async openOAuthPage() {
     if (!this.oAuthReady) return;
-
-    if (this._deps.client.service.platform().discovery()) {
-      await this._deps.client.service.platform().loginUrlWithDiscovery();
-    }
-
-    this._loginWindow = popWindow(this.oAuthUri, 'rc-oauth', 600, 600);
-
-    if (this.isRedirectUriSameOrigin) {
-      this._setupRedirectCheckTimeout();
-    }
+    await this.openOAuthPageInOtherRouter();
   }
 
   @proxify

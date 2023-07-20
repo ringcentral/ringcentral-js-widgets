@@ -1,58 +1,38 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
+require("core-js/modules/es.array.slice");
+require("core-js/modules/es.function.name");
+require("core-js/modules/es.object.define-properties");
+require("core-js/modules/es.object.freeze");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.CallHistoryItem = void 0;
-
-require("core-js/modules/es6.object.define-properties");
-
-require("core-js/modules/es6.object.freeze");
-
-require("core-js/modules/es6.array.slice");
-
-require("core-js/modules/es6.function.name");
-
 var _react = _interopRequireDefault(require("react"));
-
 var _classnames = _interopRequireDefault(require("classnames"));
-
 var _callDirections = require("@ringcentral-integration/commons/enums/callDirections");
-
 var _juno = require("@ringcentral/juno");
-
 var _CallHistoryActions = require("../CallHistoryActions");
-
 var _CallIcon = require("../CallIcon");
-
 var _styles = _interopRequireDefault(require("./styles.scss"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 function _templateObject() {
   var data = _taggedTemplateLiteral(["\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  height: 64px;\n  box-sizing: border-box;\n  padding: ", ";\n  border-bottom: 1px solid ", ";\n"]);
-
   _templateObject = function _templateObject() {
     return data;
   };
-
   return data;
 }
-
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
-
 var Item = _juno.styled.div(_templateObject(), function (_ref) {
   var isWide = _ref.isWide;
   return isWide ? (0, _juno.spacing)(3, 4) : (0, _juno.spacing)(3);
 }, (0, _juno.palette2)('neutral', 'l02'));
-
 var CallHistoryItem = function CallHistoryItem(_ref2) {
   var call = _ref2.call,
-      actionMenu = _ref2.actionMenu,
-      _ref2$isWide = _ref2.isWide,
-      isWide = _ref2$isWide === void 0 ? true : _ref2$isWide;
+    actionMenu = _ref2.actionMenu,
+    _ref2$isWide = _ref2.isWide,
+    isWide = _ref2$isWide === void 0 ? true : _ref2$isWide;
   var displayName = call.direction === _callDirections.callDirection.outbound ? call.toName : call.fromName;
   return /*#__PURE__*/_react["default"].createElement(Item, {
     isWide: isWide,
@@ -79,6 +59,5 @@ var CallHistoryItem = function CallHistoryItem(_ref2) {
     isWide: isWide
   })));
 };
-
 exports.CallHistoryItem = CallHistoryItem;
 //# sourceMappingURL=CallHistoryItem.js.map

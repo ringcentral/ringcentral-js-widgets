@@ -1,24 +1,26 @@
-import { presenceStatus } from '@ringcentral-integration/commons/enums/presenceStatus.enum';
-import dndStatus from '@ringcentral-integration/commons/modules/Presence/dndStatus';
 import { phoneTypes } from '@ringcentral-integration/commons/enums/phoneTypes';
+import { presenceStatus } from '@ringcentral-integration/commons/enums/presenceStatus.enum';
+import { dndStatus } from '@ringcentral-integration/commons/modules/Presence';
 export default {
   [phoneTypes.extension]: "内線",
-  [phoneTypes.direct]: "ダイレクト",
-  [phoneTypes.mobile]: "携帯電話",
-  [phoneTypes.contact]: "電話で連絡",
+  [phoneTypes.direct]: "直通",
+  [phoneTypes.mobile]: "モバイル",
+  [phoneTypes.contact]: "連絡先電話",
   [phoneTypes.home]: "自宅",
-  [phoneTypes.business]: "勤務先",
+  [phoneTypes.business]: "職場",
   [phoneTypes.fax]: "FAX",
+  // @ts-expect-error TS(2718): Duplicate property 'company'.
   [phoneTypes.company]: "会社",
   [phoneTypes.other]: "その他",
   emailLabel: "Eメール",
   call: "通話",
   text: "テキスト",
-  [presenceStatus.available]: "オンライン",
+  [presenceStatus.available]: "連絡可能",
   [presenceStatus.offline]: "非表示",
   [presenceStatus.busy]: "取り込み中",
   [dndStatus.doNotAcceptAnyCalls]: "応答不可",
   notActivated: "非アクティブ",
+  // @ts-expect-error TS(2733): Property 'company' was also declared here.
   company: "会社",
   jobTitle: "役職",
   site: "サイト"

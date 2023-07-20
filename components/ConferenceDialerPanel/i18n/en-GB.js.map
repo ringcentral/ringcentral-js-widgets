@@ -1,0 +1,1 @@
+{"version":3,"file":"en-GB.js","names":["activeCall","exports","_default"],"sources":["components/ConferenceDialerPanel/i18n/en-GB.ts"],"sourcesContent":["export default {\n  activeCall: \"Active Call\"\n};\n\n// @key: @#@\"activeCall\"@#@ @source: @#@\"Active Call\"@#@\n"],"mappings":";;;;;;eAAe;EACbA,UAAU,EAAE;AACd,CAAC,EAED;AAAAC,OAAA,cAAAC,QAAA"}

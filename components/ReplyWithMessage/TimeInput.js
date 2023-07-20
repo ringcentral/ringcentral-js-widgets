@@ -1,40 +1,25 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
+require("core-js/modules/es.array.slice");
+require("core-js/modules/es.object.define-properties");
+require("core-js/modules/es.object.freeze");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.TimeInput = exports.MINS = exports.HOURS = exports.DAYS = void 0;
-
-require("core-js/modules/es6.object.define-properties");
-
-require("core-js/modules/es6.object.freeze");
-
-require("core-js/modules/es6.array.slice");
-
 var _react = _interopRequireDefault(require("react"));
-
 var _juno = require("@ringcentral/juno");
-
 var _i18n = _interopRequireDefault(require("./i18n"));
-
 var _styles = _interopRequireDefault(require("./styles.scss"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 function _templateObject() {
   var data = _taggedTemplateLiteral(["\n  && {\n    box-shadow: none;\n  }\n"]);
-
   _templateObject = function _templateObject() {
     return data;
   };
-
   return data;
 }
-
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
-
 var MINS = 0;
 exports.MINS = MINS;
 var HOURS = 1;
@@ -47,20 +32,17 @@ TimeButton.defaultProps = {
   radius: 'round',
   keepElevation: false
 };
-
 var TimeInput = function TimeInput(_ref) {
   var timeValue = _ref.timeValue,
-      onTimeValueChange = _ref.onTimeValueChange,
-      inputRef = _ref.inputRef,
-      currentLocale = _ref.currentLocale,
-      timeUnit = _ref.timeUnit,
-      onSelectTimeUnit = _ref.onSelectTimeUnit;
-
+    onTimeValueChange = _ref.onTimeValueChange,
+    inputRef = _ref.inputRef,
+    currentLocale = _ref.currentLocale,
+    timeUnit = _ref.timeUnit,
+    onSelectTimeUnit = _ref.onSelectTimeUnit;
   var handleSelectTimeUnit = function handleSelectTimeUnit(e, unit) {
     e.stopPropagation();
     onSelectTimeUnit(unit);
   };
-
   var theme = (0, _juno.useTheme)();
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].timeInput
@@ -93,7 +75,6 @@ var TimeInput = function TimeInput(_ref) {
     }
   }, _i18n["default"].getString('days', currentLocale)));
 };
-
 exports.TimeInput = TimeInput;
 TimeInput.defaultProps = {
   timeValue: '',

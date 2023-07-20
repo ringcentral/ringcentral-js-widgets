@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -11,6 +9,5 @@ var _default = {
   eulaAbbr: "EULA"
 }; // @key: @#@"eula"@#@ @source: @#@"End User License Agreement"@#@
 // @key: @#@"eulaAbbr"@#@ @source: @#@"EULA"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=ko-KR.js.map

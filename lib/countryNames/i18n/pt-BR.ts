@@ -6,7 +6,7 @@ export default {
   BE: "Bélgica",
   BG: "Bulgária",
   BH: "Bahrein",
-  BJ: "Benim",
+  BJ: "Benin",
   BR: "Brasil",
   CA: "Canadá",
   CH: "Suíça",
@@ -40,11 +40,11 @@ export default {
   KR: "Coreia do Sul",
   LT: "Lituânia",
   LU: "Luxemburgo",
-  LV: "Látvia",
+  LV: "Letônia",
   MX: "México",
   MY: "Malásia",
   NG: "Nigéria",
-  NL: "Holanda",
+  NL: "Países Baixos",
   NO: "Noruega",
   NZ: "Nova Zelândia",
   PA: "Panamá",
@@ -56,7 +56,7 @@ export default {
   PT: "Portugal",
   RO: "Romênia",
   SE: "Suécia",
-  SG: "Cingapura",
+  SG: "Singapura",
   SI: "Eslovênia",
   SK: "Eslováquia",
   SV: "El Salvador",
@@ -129,7 +129,7 @@ export default {
 // @key: @#@"SI"@#@ @source: @#@"Slovenia"@#@
 // @key: @#@"SK"@#@ @source: @#@"Slovakia"@#@
 // @key: @#@"SV"@#@ @source: @#@"El Salvador"@#@
-// @key: @#@"TR"@#@ @source: @#@"Turkey"@#@
+// @key: @#@"TR"@#@ @source: @#@"Türkiye"@#@
 // @key: @#@"TW"@#@ @source: @#@"Taiwan"@#@
 // @key: @#@"UA"@#@ @source: @#@"Ukraine"@#@
 // @key: @#@"US"@#@ @source: @#@"United States"@#@

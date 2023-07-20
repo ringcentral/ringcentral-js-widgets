@@ -1,5 +1,4 @@
-import messageSenderMessages from '@ringcentral-integration/commons/modules/MessageSender/messageSenderMessages';
-import messageSenderMessagesV2 from '@ringcentral-integration/commons/modules/MessageSenderV2/messageSenderMessages';
+import { messageSenderMessages } from '@ringcentral-integration/commons/modules/MessageSender';
 export default {
   [messageSenderMessages.sendSuccess]: "Verzonden.",
   [messageSenderMessages.sendError]: "Er is iets fout gegaan bij het verzenden van het bericht.",
@@ -19,15 +18,16 @@ export default {
   [messageSenderMessages.notAnExtension]: "Het extensienummer bestaat niet.",
   [messageSenderMessages.networkError]: "Kan geen verbinding maken vanwege netwerkfouten. Probeer het later opnieuw.",
   [messageSenderMessages.senderNumberInvalid]: "Een geldig telefoonnummer is vereist om tekstberichten te verzenden naar ontvangers buiten uw bedrijf. Neem contact op met uw beheerder om een direct nummer toe te voegen aan uw account.",
-  [messageSenderMessages.notSmsToExtension]: "Kan niet verzenden naar een extensienummer vanaf een hoofdtelefoonnummer. Voer het extensienummer in om hiernaar te verzenden.",
+  [messageSenderMessages.notSmsToExtension]: "Kan niet verzenden naar een extensienummer met een hoofdtelefoonnummer. Voer het extensienummer in om hiernaar te verzenden.",
   [messageSenderMessages.internationalSMSNotSupported]: "Het verzenden van sms-berichten naar internationale telefoonnummers wordt niet ondersteund.",
   [messageSenderMessages.noInternalSMSPermission]: "U hebt geen machtigingen om berichten te verzenden. Neem contact op met uw {brand}-accountbeheerder voor een upgrade.",
   [messageSenderMessages.noSMSPermission]: "U hebt geen machtigingen om berichten te verzenden naar ontvangers buiten uw organisatie.",
-  [messageSenderMessagesV2.attachmentCountLimitation]: "Maximaal 10 bijlagen.",
-  [messageSenderMessagesV2.attachmentSizeLimitation]: "Bijlagen mogen niet groter zijn dan 1,5 MB.",
-  [messageSenderMessagesV2.noAttachmentToExtension]: "Het verzenden van mms naar een extensie wordt niet ondersteund.",
+  [messageSenderMessages.attachmentCountLimitation]: "Maximaal 10 bijlagen.",
+  [messageSenderMessages.attachmentSizeLimitation]: "Bijlagen mogen niet groter zijn dan 1,5 MB.",
+  [messageSenderMessages.noAttachmentToExtension]: "Het verzenden van mms naar een extensie wordt niet ondersteund.",
   areaCode: "netnummer",
-  [messageSenderMessages.sending]: "Bericht wordt verzonden. Het kan een paar minuten duren voordat dit voltooid is."
+  [messageSenderMessages.sending]: "Bericht wordt verzonden. Het kan een paar minuten duren voordat dit voltooid is.",
+  [messageSenderMessages.shortNumbersNotAvailable]: "Het verzenden van sms'jes naar korte nummers is niet beschikbaar."
 };
 
 // @key: @#@"[messageSenderMessages.sendSuccess]"@#@ @source: @#@"Send Success."@#@
@@ -48,12 +48,13 @@ export default {
 // @key: @#@"[messageSenderMessages.notAnExtension]"@#@ @source: @#@"The extension number does not exist."@#@
 // @key: @#@"[messageSenderMessages.networkError]"@#@ @source: @#@"Cannot connect due to network issues. Please try again later."@#@
 // @key: @#@"[messageSenderMessages.senderNumberInvalid]"@#@ @source: @#@"A valid Phone Number is required to send text message to recipients outside of your company, Please contact your Administrator to add a direct number to your account."@#@
-// @key: @#@"[messageSenderMessages.notSmsToExtension]"@#@ @source: @#@"Cannot send To a extension number with main phone number. If you want to sent to a extension Number, please just enter extension Number."@#@
+// @key: @#@"[messageSenderMessages.notSmsToExtension]"@#@ @source: @#@"Cannot send to an extension number with main phone number. If you want to send to an extension number, please just enter extension number."@#@
 // @key: @#@"[messageSenderMessages.internationalSMSNotSupported]"@#@ @source: @#@"Sending SMS to international phone number is not supported."@#@
 // @key: @#@"[messageSenderMessages.noInternalSMSPermission]"@#@ @source: @#@"You don't have permission to send messages. Please contact your {brand} account administrator for upgrade."@#@
 // @key: @#@"[messageSenderMessages.noSMSPermission]"@#@ @source: @#@"You don't have permission to send messages to recipients outside of your organization."@#@
-// @key: @#@"[messageSenderMessagesV2.attachmentCountLimitation]"@#@ @source: @#@"Maximum 10 attachments."@#@
-// @key: @#@"[messageSenderMessagesV2.attachmentSizeLimitation]"@#@ @source: @#@"Attachments size is limited to 1.5M bytes."@#@
-// @key: @#@"[messageSenderMessagesV2.noAttachmentToExtension]"@#@ @source: @#@"It isn't supported to send MMS to an extension."@#@
+// @key: @#@"[messageSenderMessages.attachmentCountLimitation]"@#@ @source: @#@"Maximum 10 attachments."@#@
+// @key: @#@"[messageSenderMessages.attachmentSizeLimitation]"@#@ @source: @#@"Attachments size is limited to 1.5M bytes."@#@
+// @key: @#@"[messageSenderMessages.noAttachmentToExtension]"@#@ @source: @#@"It isn't supported to send MMS to an extension."@#@
 // @key: @#@"areaCode"@#@ @source: @#@"area code"@#@
 // @key: @#@"[messageSenderMessages.sending]"@#@ @source: @#@"Message being sent…It may take a couple of minutes to complete."@#@
+// @key: @#@"[messageSenderMessages.shortNumbersNotAvailable]"@#@ @source: @#@"Sending SMS to short numbers is not available."@#@

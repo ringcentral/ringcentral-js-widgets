@@ -1,14 +1,12 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 var _default = {
   DirectNumber: "直撥",
-  MainCompanyNumber: "主",
+  MainCompanyNumber: "主要",
   CompanyNumber: "公司",
   CompanyFaxNumber: "傳真",
   Blocked: "已封鎖",
@@ -23,6 +21,5 @@ var _default = {
 // @key: @#@"AdditionalCompanyNumber"@#@ @source: @#@"Company"@#@
 // @key: @#@"ForwardedCompanyNumber"@#@ @source: @#@"Forwarded"@#@
 // @key: @#@"from"@#@ @source: @#@"From"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=zh-HK.js.map

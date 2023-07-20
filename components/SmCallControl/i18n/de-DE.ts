@@ -1,6 +1,6 @@
 export default {
-  mute: "Stummsch.",
-  unmute: "Stumm Ende",
+  mute: "Stummschalten",
+  unmute: "Stummschaltung aufheben",
   hangup: "Auflegen",
   reject: "Ablehnen"
 };

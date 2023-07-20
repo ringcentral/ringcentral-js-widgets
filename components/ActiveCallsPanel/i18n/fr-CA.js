@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -9,7 +7,7 @@ exports["default"] = void 0;
 var _default = {
   noActiveCalls: "Aucun appel actif",
   currentCall: "Appel en cours",
-  ringCall: "Acheminer un appel",
+  ringCall: "Appel entrant",
   onHoldCall: "Appel en attente",
   otherDeviceCall: "Appels en cours sur mes autres appareils",
   confirmation: "Confirmation",
@@ -25,6 +23,5 @@ var _default = {
 // @key: @#@"confirmMergeToConference"@#@ @source: @#@"Add to conference call?"@#@
 // @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
 // @key: @#@"conferenceCall"@#@ @source: @#@"Conference Call"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=fr-CA.js.map

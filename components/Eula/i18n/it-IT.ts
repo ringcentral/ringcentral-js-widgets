@@ -1,5 +1,5 @@
 export default {
-  eula: "Contratto di licenza dell'utente finale",
+  eula: "Contratto di licenza con l'utente finale",
   eulaAbbr: "EULA"
 };
 

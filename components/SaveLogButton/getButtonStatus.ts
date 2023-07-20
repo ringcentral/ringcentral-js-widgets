@@ -5,7 +5,7 @@ export function getButtonStatus({
   isAutoSave,
   isFailed,
   isCreated,
-}) {
+}: any) {
   const buttonDisabled =
     (isCreated && isAutoSave && !isFailed) ||
     isSaving ||

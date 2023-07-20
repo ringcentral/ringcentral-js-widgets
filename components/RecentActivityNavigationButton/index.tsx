@@ -34,6 +34,7 @@ const NavigationButton: React.FC<NavigationButtonProps> = ({
     <StyledTab
       onClick={onClick}
       className={classnames(styles.navigationButton)}
+      // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
       $active={active}
       style={{
         width,

@@ -1,10 +1,11 @@
 import 'react-widgets/dist/css/react-widgets.css';
 
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
-import { sleep } from '@ringcentral-integration/commons/lib/sleep';
+import { sleep } from '@ringcentral-integration/commons/utils';
+import { isSafari } from '@ringcentral-integration/utils';
 
-import isSafari from '../../lib/isSafari';
 import MeetingConfig from '../MeetingConfigs';
 import styles from './styles.scss';
 
@@ -42,6 +43,7 @@ const MeetingPanel: FunctionComponent<MeetingProps> = (props) => {
           update={update}
           init={init}
           meeting={meeting}
+          // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
           disabled={disabled}
           currentLocale={currentLocale}
           recipientsSection={recipientsSection}
@@ -51,6 +53,7 @@ const MeetingPanel: FunctionComponent<MeetingProps> = (props) => {
           meetingOptionToggle={meetingOptionToggle}
           passwordPlaceholderEnable={passwordPlaceholderEnable}
           audioOptionToggle={audioOptionToggle}
+          // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
           enablePersonalMeeting={enablePersonalMeeting}
           personalMeetingId={personalMeetingId}
           switchUsePersonalMeetingId={switchUsePersonalMeetingId}
@@ -59,9 +62,12 @@ const MeetingPanel: FunctionComponent<MeetingProps> = (props) => {
       {ScheduleButton && (
         <ScheduleButton
           currentLocale={currentLocale}
+          // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
           hidden={hidden}
+          // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
           disabled={disabled}
           meeting={meeting}
+          // @ts-expect-error TS(2322): Type '(() => any) | undefined' is not assignable t... Remove this comment to see the full error message
           onOK={onOK}
           onClick={async () => {
             if (!disabled) {
@@ -72,11 +78,14 @@ const MeetingPanel: FunctionComponent<MeetingProps> = (props) => {
                * https://stackoverflow.com/a/24327319
                */
               const opener = openNewWindow && isSafari() ? window.open() : null;
+              // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
               await invite(meeting, opener);
             }
           }}
           update={update}
+          // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
           showSaveAsDefault={showSaveAsDefault}
+          // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
           disableSaveAsDefault={disableSaveAsDefault}
           launchMeeting={launchMeeting}
         />

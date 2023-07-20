@@ -42,6 +42,7 @@ const ParticipantItem: React.SFC<ParticipantItemProps> = ({
             className={styles.rejectButton}
             onClick={(e) => {
               e.stopPropagation();
+              // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
               onRemove();
             }}
             iconWidth={260}
@@ -55,6 +56,7 @@ const ParticipantItem: React.SFC<ParticipantItemProps> = ({
   );
 };
 ParticipantItem.defaultProps = {
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   avatarUrl: null,
   onRemove: (i) => i,
 };

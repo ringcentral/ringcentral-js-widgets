@@ -1,11 +1,13 @@
-import callControlError from '@ringcentral-integration/commons/modules/ActiveCallControl/callControlError';
+import { callControlError } from '@ringcentral-integration/commons/modules/ActiveCallControl';
 const {
   holdConflictError,
   unHoldConflictError,
   muteConflictError,
   unMuteConflictError,
   generalError,
-  forwardSuccess
+  forwardSuccess,
+  transferCompleted,
+  replyCompleted
 } = callControlError;
 export default {
   [muteConflictError]: "Deze oproep is gedempt op een ander apparaat. Schakel het dempen van de oproep uit voordat u deze app bedient.",
@@ -13,7 +15,9 @@ export default {
   [unMuteConflictError]: "Dempen van deze oproep is uitgeschakeld op een ander apparaat. Demp de oproep voordat u deze app bedient.",
   [holdConflictError]: "Deze oproep is uit de wacht gehaald op een ander apparaat. Zet de oproep in de wacht voordat u deze app bedient.",
   [generalError]: "Onverwachte serverfout. Probeer het later opnieuw.",
-  [forwardSuccess]: "Oproep doorverbonden"
+  [forwardSuccess]: "Oproep doorverbonden",
+  [transferCompleted]: "Oproep doorverbonden",
+  [replyCompleted]: "Spraakbericht verzonden."
 };
 
 // @key: @#@"muteConflictError"@#@ @source: @#@"This call had been muted on other device. Please unmute the call before you control in this App."@#@
@@ -22,3 +26,5 @@ export default {
 // @key: @#@"holdConflictError"@#@ @source: @#@"This call had been unheld on other device. Please hold the call before you control in this App."@#@
 // @key: @#@"generalError"@#@ @source: @#@"Unexpected server error. Please try again later."@#@
 // @key: @#@"forwardSuccess"@#@ @source: @#@"Call forwarded"@#@
+// @key: @#@"transferCompleted"@#@ @source: @#@"Call transferred"@#@
+// @key: @#@"replyCompleted"@#@ @source: @#@"Voice message sent."@#@

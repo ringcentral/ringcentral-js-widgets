@@ -4,21 +4,23 @@ export default {
   hangup: "挂断",
   reject: "拒绝",
   hold: "保持",
-  onHold: "等候接听",
-  transfer: "转移",
+  onHold: "暂候",
+  transfer: "转接",
   more: "更多",
   stopRecord: "停止录制",
   record: "录制",
-  showKeypad: "拨号盘",
-  hideKeypad: "隐藏拨号盘",
+  showKeypad: "拨号键盘",
+  hideKeypad: "隐藏拨号键盘",
   unHold: "解除呼叫保持",
-  forward: "转移",
+  forward: "转接",
   ignore: "忽略",
-  voicemail: "转语音邮件",
+  voicemail: "到语音信箱",
   custom: "自定义",
   answerAndEnd: "接听并结束",
   answerAndHold: "接听并保持",
-  answer: "接听"
+  answer: "接听",
+  completeTransfer: "完成转接",
+  reply: "回复"
 };
 
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
@@ -41,3 +43,5 @@ export default {
 // @key: @#@"answerAndEnd"@#@ @source: @#@"Answer & End"@#@
 // @key: @#@"answerAndHold"@#@ @source: @#@"Answer & Hold"@#@
 // @key: @#@"answer"@#@ @source: @#@"Answer"@#@
+// @key: @#@"completeTransfer"@#@ @source: @#@"Complete transfer"@#@
+// @key: @#@"reply"@#@ @source: @#@"Reply"@#@

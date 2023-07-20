@@ -1,8 +1,7 @@
-import messageSenderMessages from '@ringcentral-integration/commons/modules/MessageSender/messageSenderMessages';
-import messageSenderMessagesV2 from '@ringcentral-integration/commons/modules/MessageSenderV2/messageSenderMessages';
+import { messageSenderMessages } from '@ringcentral-integration/commons/modules/MessageSender';
 export default {
   [messageSenderMessages.sendSuccess]: "Onnistui!",
-  [messageSenderMessages.sendError]: "Jotakin meni vikaan lähetettäessä viestiä.",
+  [messageSenderMessages.sendError]: "Jokin meni vikaan lähetettäessä viestiä.",
   [messageSenderMessages.numberValidateError]: "Puhelinnumeron vahvistusvirhe.",
   [messageSenderMessages.textEmpty]: "Anna lähetettävän viestin teksti.",
   [messageSenderMessages.noPermission]: "Sinulla ei ole lupaa lähettää viestiä.",
@@ -23,11 +22,12 @@ export default {
   [messageSenderMessages.internationalSMSNotSupported]: "Tekstiviestien lähettämistä kansainväliseen numeroon ei tueta.",
   [messageSenderMessages.noInternalSMSPermission]: "Sinulla ei ole lupaa lähettää viestejä. Pyydä päivitystä palvelun {brand} tilin järjestelmänvalvojalta.",
   [messageSenderMessages.noSMSPermission]: "Sinulla ei ole lupaa lähettää viestejä organisaatiosi ulkopuolisille vastaanottajille.",
-  [messageSenderMessagesV2.attachmentCountLimitation]: "Enintään 10 liitettä.",
-  [messageSenderMessagesV2.attachmentSizeLimitation]: "Liitteen koko voi olla enintään 1,5 Mt.",
-  [messageSenderMessagesV2.noAttachmentToExtension]: "Multimediaviestin lähettämistä alanumeroon ei tueta.",
+  [messageSenderMessages.attachmentCountLimitation]: "Enintään 10 liitettä.",
+  [messageSenderMessages.attachmentSizeLimitation]: "Liitteen koko voi olla enintään 1,5 Mt.",
+  [messageSenderMessages.noAttachmentToExtension]: "Multimediaviestin lähettämistä alanumeroon ei tueta.",
   areaCode: "suuntanumero",
-  [messageSenderMessages.sending]: "Viestiä lähetetään... Lähetys voi kestää muutaman minuutin."
+  [messageSenderMessages.sending]: "Viestiä lähetetään... Lähetys voi kestää muutaman minuutin.",
+  [messageSenderMessages.shortNumbersNotAvailable]: "SMS-viestien lähetys lyhytnumeroihin ei ole käytettävissä."
 };
 
 // @key: @#@"[messageSenderMessages.sendSuccess]"@#@ @source: @#@"Send Success."@#@
@@ -48,12 +48,13 @@ export default {
 // @key: @#@"[messageSenderMessages.notAnExtension]"@#@ @source: @#@"The extension number does not exist."@#@
 // @key: @#@"[messageSenderMessages.networkError]"@#@ @source: @#@"Cannot connect due to network issues. Please try again later."@#@
 // @key: @#@"[messageSenderMessages.senderNumberInvalid]"@#@ @source: @#@"A valid Phone Number is required to send text message to recipients outside of your company, Please contact your Administrator to add a direct number to your account."@#@
-// @key: @#@"[messageSenderMessages.notSmsToExtension]"@#@ @source: @#@"Cannot send To a extension number with main phone number. If you want to sent to a extension Number, please just enter extension Number."@#@
+// @key: @#@"[messageSenderMessages.notSmsToExtension]"@#@ @source: @#@"Cannot send to an extension number with main phone number. If you want to send to an extension number, please just enter extension number."@#@
 // @key: @#@"[messageSenderMessages.internationalSMSNotSupported]"@#@ @source: @#@"Sending SMS to international phone number is not supported."@#@
 // @key: @#@"[messageSenderMessages.noInternalSMSPermission]"@#@ @source: @#@"You don't have permission to send messages. Please contact your {brand} account administrator for upgrade."@#@
 // @key: @#@"[messageSenderMessages.noSMSPermission]"@#@ @source: @#@"You don't have permission to send messages to recipients outside of your organization."@#@
-// @key: @#@"[messageSenderMessagesV2.attachmentCountLimitation]"@#@ @source: @#@"Maximum 10 attachments."@#@
-// @key: @#@"[messageSenderMessagesV2.attachmentSizeLimitation]"@#@ @source: @#@"Attachments size is limited to 1.5M bytes."@#@
-// @key: @#@"[messageSenderMessagesV2.noAttachmentToExtension]"@#@ @source: @#@"It isn't supported to send MMS to an extension."@#@
+// @key: @#@"[messageSenderMessages.attachmentCountLimitation]"@#@ @source: @#@"Maximum 10 attachments."@#@
+// @key: @#@"[messageSenderMessages.attachmentSizeLimitation]"@#@ @source: @#@"Attachments size is limited to 1.5M bytes."@#@
+// @key: @#@"[messageSenderMessages.noAttachmentToExtension]"@#@ @source: @#@"It isn't supported to send MMS to an extension."@#@
 // @key: @#@"areaCode"@#@ @source: @#@"area code"@#@
 // @key: @#@"[messageSenderMessages.sending]"@#@ @source: @#@"Message being sent…It may take a couple of minutes to complete."@#@
+// @key: @#@"[messageSenderMessages.shortNumbersNotAvailable]"@#@ @source: @#@"Sending SMS to short numbers is not available."@#@

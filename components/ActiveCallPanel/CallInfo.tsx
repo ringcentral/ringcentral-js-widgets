@@ -27,6 +27,7 @@ const CallInfo: React.SFC<CallInfoProps> = (props) => {
   if (props.avatarUrl) {
     avatar = <CallAvatar avatarUrl={props.avatarUrl} />;
   } else {
+    // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
     avatar = <CallAvatar avatarUrl={null} />;
   }
   return (
@@ -39,6 +40,7 @@ const CallInfo: React.SFC<CallInfoProps> = (props) => {
       <div className={styles.userName}>
         {props.callQueueName}
         <ContactDisplay
+          formatPhone={props.formatPhone}
           className={styles.contactDisplay}
           selectClassName={styles.dropdown}
           contactMatches={props.nameMatches}
@@ -54,6 +56,7 @@ const CallInfo: React.SFC<CallInfoProps> = (props) => {
           enableContactFallback
           brand={props.brand}
           showPlaceholder={props.showContactDisplayPlaceholder}
+          // @ts-expect-error TS(2322): Type 'object | undefined' is not assignable to typ... Remove this comment to see the full error message
           sourceIcons={props.sourceIcons}
           phoneTypeRenderer={props.phoneTypeRenderer}
           phoneSourceNameRenderer={props.phoneSourceNameRenderer}
@@ -66,13 +69,16 @@ const CallInfo: React.SFC<CallInfoProps> = (props) => {
   );
 };
 CallInfo.defaultProps = {
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   phoneNumber: null,
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   avatarUrl: null,
   brand: 'RingCentral',
   showContactDisplayPlaceholder: true,
   sourceIcons: undefined,
   phoneTypeRenderer: undefined,
   phoneSourceNameRenderer: undefined,
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   callQueueName: null,
 };
 export default CallInfo;

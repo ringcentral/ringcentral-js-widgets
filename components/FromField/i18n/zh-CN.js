@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -11,9 +9,9 @@ var _default = {
   MainCompanyNumber: "主号码",
   CompanyNumber: "公司",
   CompanyFaxNumber: "传真",
-  Blocked: "已阻止",
+  Blocked: "阻止显示主叫信息",
   AdditionalCompanyNumber: "公司",
-  ForwardedCompanyNumber: "已转发",
+  ForwardedCompanyNumber: "已转接",
   from: "自"
 }; // @key: @#@"DirectNumber"@#@ @source: @#@"Direct"@#@
 // @key: @#@"MainCompanyNumber"@#@ @source: @#@"Main"@#@
@@ -23,6 +21,5 @@ var _default = {
 // @key: @#@"AdditionalCompanyNumber"@#@ @source: @#@"Company"@#@
 // @key: @#@"ForwardedCompanyNumber"@#@ @source: @#@"Forwarded"@#@
 // @key: @#@"from"@#@ @source: @#@"From"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=zh-CN.js.map

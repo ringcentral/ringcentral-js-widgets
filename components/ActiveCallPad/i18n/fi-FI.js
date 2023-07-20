@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -12,7 +10,7 @@ var _default = {
   keypad: "Näppäimistö",
   hold: "Pito",
   onHold: "Pidossa",
-  park: "Siirrä säilytykseen",
+  park: "Säilytyksessä",
   stopRecord: "Lopeta",
   record: "Tallenna",
   add: "Lisää",
@@ -20,7 +18,7 @@ var _default = {
   flip: "Käännä",
   more: "Puhelutoiminnot",
   mergeToConference: "Yhdistä",
-  end: "Päätä",
+  end: "Lopeta",
   completeTransfer: "Suorita\nsiirto"
 }; // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
@@ -37,6 +35,5 @@ var _default = {
 // @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
 // @key: @#@"end"@#@ @source: @#@"End"@#@
 // @key: @#@"completeTransfer"@#@ @source: @#@"Complete\nTransfer"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=fi-FI.js.map

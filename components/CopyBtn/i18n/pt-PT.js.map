@@ -1,1 +1,1 @@
-{"version":3,"sources":["components/CopyBtn/i18n/pt-PT.ts"],"names":["copy"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,IAAI,EAAE;AADO,C,EAIf","sourcesContent":["export default {\n  copy: \"Copiar\"\n};\n\n// @key: @#@\"copy\"@#@ @source: @#@\"Copy\"@#@\n"],"file":"pt-PT.js"}
+{"version":3,"file":"pt-PT.js","names":["copy","exports","_default"],"sources":["components/CopyBtn/i18n/pt-PT.ts"],"sourcesContent":["export default {\n  copy: \"Copiar\"\n};\n\n// @key: @#@\"copy\"@#@ @source: @#@\"Copy\"@#@\n"],"mappings":";;;;;;eAAe;EACbA,IAAI,EAAE;AACR,CAAC,EAED;AAAAC,OAAA,cAAAC,QAAA"}

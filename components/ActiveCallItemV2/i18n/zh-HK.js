@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -24,8 +22,8 @@ var _default = {
   // call: 'Call',
   // addContact: 'Add Contact',
   missedCall: "未接",
-  inboundCall: "撥入電話",
-  outboundCall: "撥出電話" // from: 'From',
+  inboundCall: "撥入",
+  outboundCall: "撥出" // from: 'From',
   // to: 'To',
   // hangup: 'Hangup',
   // accept: 'Accept',
@@ -34,10 +32,8 @@ var _default = {
   // mergeToConference: 'Merge',
   // hold: 'Hold',
   // unhold: 'Unhold',
-
 }; // @key: @#@"missedCall"@#@ @source: @#@"Missed"@#@
 // @key: @#@"inboundCall"@#@ @source: @#@"Inbound"@#@
 // @key: @#@"outboundCall"@#@ @source: @#@"Outbound"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=zh-HK.js.map

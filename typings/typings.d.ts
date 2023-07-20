@@ -9,6 +9,11 @@ declare module '*.json' {
   export default value;
 }
 
+declare module '*.ogg' {
+  const value: any;
+  export default value;
+}
+
 declare module '*.scss' {
   const styles: { [className: string]: string };
   export default styles;
@@ -25,5 +30,5 @@ declare module 'webpack-bundle-analyzer' {
 }
 
 interface Window {
-  oAuthCallback: (callbackUri: string) => void;
+  oAuthCallback?: ((callbackUri: string) => void) | null;
 }

@@ -34,7 +34,7 @@ export default {
   IE: "Irlanda",
   IL: "Israel",
   IN: "Índia",
-  IT: "Israel",
+  IT: "Itália",
   JP: "Japão",
   KE: "Quénia",
   KR: "Coreia do Sul",
@@ -129,7 +129,7 @@ export default {
 // @key: @#@"SI"@#@ @source: @#@"Slovenia"@#@
 // @key: @#@"SK"@#@ @source: @#@"Slovakia"@#@
 // @key: @#@"SV"@#@ @source: @#@"El Salvador"@#@
-// @key: @#@"TR"@#@ @source: @#@"Turkey"@#@
+// @key: @#@"TR"@#@ @source: @#@"Türkiye"@#@
 // @key: @#@"TW"@#@ @source: @#@"Taiwan"@#@
 // @key: @#@"UA"@#@ @source: @#@"Ukraine"@#@
 // @key: @#@"US"@#@ @source: @#@"United States"@#@

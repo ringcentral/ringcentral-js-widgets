@@ -1,11 +1,12 @@
 export default {
   forward: "Inoltra",
   ignore: "Ignora",
-  toVoicemail: "Alla segreteria",
+  toVoicemail: "Alla segreteria telefonica",
   answer: "Rispondi",
   endAndAnswer: "Termina e rispondi",
   holdAndAnswer: "Metti in attesa e rispondi",
-  custom: "Personalizzato"
+  custom: "Personalizzato",
+  more: "Altro"
 };
 
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@
@@ -15,3 +16,4 @@ export default {
 // @key: @#@"endAndAnswer"@#@ @source: @#@"End & Answer"@#@
 // @key: @#@"holdAndAnswer"@#@ @source: @#@"Hold & Answer"@#@
 // @key: @#@"custom"@#@ @source: @#@"Custom"@#@
+// @key: @#@"more"@#@ @source: @#@"More"@#@

@@ -1,14 +1,14 @@
 export default {
   region: "地区",
   calling: "呼叫",
-  logout: "注销",
+  logout: "退出登录",
   version: "版本",
   settings: "设置",
-  clickToDial: "点击打电话",
+  clickToDial: "点击拨号",
   autoCreateLog: "自动创建通话记录",
   autoCreateSMSLog: "自动创建短信记录",
   autoLogCalls: "自动记录通话",
-  autoLogNotes: "自动记录备注",
+  autoLogNotes: "自动记录笔记",
   autoLogSMS: "自动记录短信",
   clickToSMS: "点击发短信",
   logSMSContent: "记录短信内容",
@@ -19,7 +19,8 @@ export default {
   userGuide: "新功能",
   quickAccess: "快速访问设置",
   report: "分析报告",
-  shareIdea: "分享想法"
+  shareIdea: "分享想法",
+  reportIssue: "报告问题"
 };
 
 // @key: @#@"region"@#@ @source: @#@"Region"@#@
@@ -43,3 +44,4 @@ export default {
 // @key: @#@"quickAccess"@#@ @source: @#@"Quick Access Setting"@#@
 // @key: @#@"report"@#@ @source: @#@"Analytics Report"@#@
 // @key: @#@"shareIdea"@#@ @source: @#@"Share idea"@#@
+// @key: @#@"reportIssue"@#@ @source: @#@"Report issue"@#@

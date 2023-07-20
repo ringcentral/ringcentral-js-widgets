@@ -1,118 +1,71 @@
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
-require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.symbol");
-
-require("core-js/modules/web.dom.iterable");
-
-require("core-js/modules/es6.array.iterator");
-
-require("core-js/modules/es6.string.iterator");
-
-require("core-js/modules/es6.weak-map");
-
-require("core-js/modules/es6.promise");
-
-require("core-js/modules/es6.object.to-string");
-
-require("core-js/modules/es6.object.define-property");
-
-require("core-js/modules/es6.object.create");
-
-require("core-js/modules/es6.reflect.construct");
-
-require("core-js/modules/es6.object.set-prototype-of");
-
+require("core-js/modules/es.array.concat");
+require("core-js/modules/es.array.filter");
+require("core-js/modules/es.array.index-of");
+require("core-js/modules/es.array.map");
+require("core-js/modules/es.date.to-string");
+require("core-js/modules/es.function.bind");
+require("core-js/modules/es.function.name");
+require("core-js/modules/es.object.get-prototype-of");
+require("core-js/modules/es.object.set-prototype-of");
+require("core-js/modules/es.regexp.exec");
+require("core-js/modules/es.string.split");
+require("core-js/modules/es.string.big");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = exports.Message = void 0;
-
-require("core-js/modules/es6.function.name");
-
 require("regenerator-runtime/runtime");
-
-require("core-js/modules/es6.string.big");
-
-require("core-js/modules/es6.array.index-of");
-
-require("core-js/modules/es6.array.filter");
-
-require("core-js/modules/es6.array.map");
-
-require("core-js/modules/es6.regexp.split");
-
 var _react = _interopRequireWildcard(require("react"));
-
 var _classnames = _interopRequireDefault(require("classnames"));
-
 var _propTypes = _interopRequireDefault(require("prop-types"));
-
-var _isBlank = _interopRequireDefault(require("@ringcentral-integration/commons/lib/isBlank"));
-
+var _isBlank = require("@ringcentral-integration/commons/lib/isBlank");
 var _juno = require("@ringcentral/juno");
-
-var _icon = require("@ringcentral/juno/icon");
-
+var _junoIcon = require("@ringcentral/juno-icon");
 var _i18n = _interopRequireDefault(require("./i18n"));
-
 var _styles = _interopRequireDefault(require("./styles.scss"));
-
+var _SubjectRender = require("./SubjectRender");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
-
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
-
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 function getExtFromContentType(contentType) {
   var ext = contentType.split('/');
   return ext[1].split('+')[0];
 }
-
 var Message = function Message(_ref) {
   var subject = _ref.subject,
-      time = _ref.time,
-      direction = _ref.direction,
-      sender = _ref.sender,
-      SubjectRenderer = _ref.subjectRenderer,
-      mmsAttachments = _ref.mmsAttachments,
-      currentLocale = _ref.currentLocale,
-      onAttachmentDownload = _ref.onAttachmentDownload;
+    time = _ref.time,
+    direction = _ref.direction,
+    sender = _ref.sender,
+    SubjectRenderer = _ref.subjectRenderer,
+    mmsAttachments = _ref.mmsAttachments,
+    currentLocale = _ref.currentLocale,
+    onAttachmentDownload = _ref.onAttachmentDownload,
+    onLinkClick = _ref.onLinkClick;
   var subjectNode;
-
-  if (subject && !(0, _isBlank["default"])(subject)) {
-    subjectNode = SubjectRenderer ? /*#__PURE__*/_react["default"].createElement(SubjectRenderer, {
-      subject: subject
-    }) : subject;
+  if (subject && !(0, _isBlank.isBlank)(subject)) {
+    var SubjectComp = SubjectRenderer || _SubjectRender.SubjectRender;
+    subjectNode = /*#__PURE__*/_react["default"].createElement(SubjectComp, {
+      subject: subject,
+      onLinkClick: onLinkClick
+    });
   }
-
   var imageAttachments = mmsAttachments.filter(function (m) {
     return m.contentType.indexOf('image') > -1;
   }).map(function (attachment) {
@@ -133,7 +86,7 @@ var Message = function Message(_ref) {
       className: _styles["default"].file
     }, /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
       size: "small",
-      symbol: _icon.DefaultFile
+      symbol: _junoIcon.DefaultFile
     }), /*#__PURE__*/_react["default"].createElement("span", {
       className: _styles["default"].fileName
     }, fileName), /*#__PURE__*/_react["default"].createElement("a", {
@@ -149,7 +102,7 @@ var Message = function Message(_ref) {
       href: "".concat(attachment.uri, "&contentDisposition=Attachment")
     }, /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
       size: "small",
-      symbol: _icon.Download
+      symbol: _junoIcon.Download
     })));
   });
   return /*#__PURE__*/_react["default"].createElement("div", {
@@ -167,7 +120,6 @@ var Message = function Message(_ref) {
     className: _styles["default"].clear
   }));
 };
-
 exports.Message = Message;
 Message.propTypes = {
   direction: _propTypes["default"].string.isRequired,
@@ -177,7 +129,8 @@ Message.propTypes = {
   subjectRenderer: _propTypes["default"].func,
   mmsAttachments: _propTypes["default"].array,
   currentLocale: _propTypes["default"].string.isRequired,
-  onAttachmentDownload: _propTypes["default"].func
+  onAttachmentDownload: _propTypes["default"].func,
+  onLinkClick: _propTypes["default"].func
 };
 Message.defaultProps = {
   subject: '',
@@ -187,22 +140,20 @@ Message.defaultProps = {
   mmsAttachments: [],
   onAttachmentDownload: undefined
 };
-
 var ConversationMessageList = /*#__PURE__*/function (_Component) {
   _inherits(ConversationMessageList, _Component);
-
   var _super = _createSuper(ConversationMessageList);
-
   function ConversationMessageList() {
     var _this;
-
     _classCallCheck(this, ConversationMessageList);
-
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-
     _this = _super.call.apply(_super, [this].concat(args));
+    _this._listRef = void 0;
+    _this._scrollHeight = void 0;
+    _this._scrollTop = void 0;
+    _this._scrollUp = void 0;
     _this.onScroll = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
       var currentScrollTop, clientHeight;
       return regeneratorRuntime.wrap(function _callee$(_context) {
@@ -213,14 +164,11 @@ var ConversationMessageList = /*#__PURE__*/function (_Component) {
                 _context.next = 2;
                 break;
               }
-
               return _context.abrupt("return");
-
             case 2:
               currentScrollTop = _this._listRef.scrollTop;
               _this._scrollHeight = _this._listRef.scrollHeight;
               clientHeight = _this._listRef.clientHeight;
-
               if (currentScrollTop < _this._scrollTop) {
                 // user scroll up
                 _this._scrollUp = true;
@@ -228,13 +176,11 @@ var ConversationMessageList = /*#__PURE__*/function (_Component) {
                 // user scroll down to bottom
                 _this._scrollUp = false;
               }
-
               if (currentScrollTop < 20 && _this._scrollTop >= 20) {
+                // @ts-expect-error TS(2339): Property 'loadPreviousMessages' does not exist on ... Remove this comment to see the full error message
                 _this.props.loadPreviousMessages();
               }
-
               _this._scrollTop = currentScrollTop;
-
             case 8:
             case "end":
               return _context.stop();
@@ -242,28 +188,26 @@ var ConversationMessageList = /*#__PURE__*/function (_Component) {
         }
       }, _callee);
     }));
-
     _this.scrollToLastMessage = function () {
       if (_this._listRef) {
         _this._listRef.scrollTop = _this._listRef.scrollHeight;
       }
     };
-
     return _this;
   }
-
   _createClass(ConversationMessageList, [{
     key: "componentDidMount",
+    // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
     value: function componentDidMount() {
       this.scrollToLastMessage();
-    }
+    } // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate(previousProps) {
+      // @ts-expect-error TS(2339): Property 'messages' does not exist on type 'Readon... Remove this comment to see the full error message
       if (previousProps.messages.length === this.props.messages.length) {
         return;
       }
-
       if (!this._scrollUp) {
         this.scrollToLastMessage();
       } else if (this._listRef && this._scrollHeight !== this._listRef.scrollHeight) {
@@ -272,28 +216,34 @@ var ConversationMessageList = /*#__PURE__*/function (_Component) {
     }
   }, {
     key: "render",
+    // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
     value: function render() {
       var _this2 = this;
-
       var _this$props = this.props,
-          className = _this$props.className,
-          dateTimeFormatter = _this$props.dateTimeFormatter,
-          messages = _this$props.messages,
-          showSender = _this$props.showSender,
-          height = _this$props.height,
-          messageSubjectRenderer = _this$props.messageSubjectRenderer,
-          formatPhone = _this$props.formatPhone,
-          loadingNextPage = _this$props.loadingNextPage,
-          currentLocale = _this$props.currentLocale,
-          onAttachmentDownload = _this$props.onAttachmentDownload;
+        className = _this$props.className,
+        dateTimeFormatter = _this$props.dateTimeFormatter,
+        messages = _this$props.messages,
+        showSender = _this$props.showSender,
+        height = _this$props.height,
+        messageSubjectRenderer = _this$props.messageSubjectRenderer,
+        formatPhone = _this$props.formatPhone,
+        loadingNextPage = _this$props.loadingNextPage,
+        currentLocale = _this$props.currentLocale,
+        onAttachmentDownload = _this$props.onAttachmentDownload,
+        onLinkClick = _this$props.onLinkClick;
       var lastDate = 0;
       var messageList = messages.map(function (message) {
         var sender = showSender ? message.from.name || formatPhone(message.from.extensionNumber || message.from.phoneNumber) : null;
         var date = new Date(message.creationTime);
-        var time = date - lastDate < 60 * 60 * 1000 && date.getHours() === lastDate.getHours() ? null : dateTimeFormatter({
+        var time =
+        // @ts-expect-error TS(2362): The left-hand side of an arithmetic operation must... Remove this comment to see the full error message
+        date - lastDate < 60 * 60 * 1000 &&
+        // @ts-expect-error TS(2339): Property 'getHours' does not exist on type 'number... Remove this comment to see the full error message
+        date.getHours() === lastDate.getHours() ? null : dateTimeFormatter({
           utcTimestamp: message.creationTime,
           type: 'long'
         });
+        // @ts-expect-error TS(2322): Type 'Date' is not assignable to type 'number'.
         lastDate = date;
         return /*#__PURE__*/_react["default"].createElement(Message, {
           key: message.id,
@@ -304,7 +254,8 @@ var ConversationMessageList = /*#__PURE__*/function (_Component) {
           subjectRenderer: messageSubjectRenderer,
           mmsAttachments: message.mmsAttachments,
           currentLocale: currentLocale,
-          onAttachmentDownload: onAttachmentDownload
+          onAttachmentDownload: onAttachmentDownload,
+          onLinkClick: onLinkClick
         });
       });
       var loading = loadingNextPage ? /*#__PURE__*/_react["default"].createElement("div", {
@@ -322,10 +273,8 @@ var ConversationMessageList = /*#__PURE__*/function (_Component) {
       }, loading, messageList);
     }
   }]);
-
   return ConversationMessageList;
-}(_react.Component);
-
+}(_react.Component); // @ts-expect-error TS(2339): Property 'propTypes' does not exist on type 'typeo... Remove this comment to see the full error message
 ConversationMessageList.propTypes = {
   currentLocale: _propTypes["default"].string,
   messages: _propTypes["default"].arrayOf(_propTypes["default"].shape({
@@ -345,6 +294,8 @@ ConversationMessageList.propTypes = {
   height: _propTypes["default"].oneOfType([_propTypes["default"].number, _propTypes["default"].string]),
   onAttachmentDownload: _propTypes["default"].func
 };
+
+// @ts-expect-error TS(2339): Property 'defaultProps' does not exist on type 'ty... Remove this comment to see the full error message
 ConversationMessageList.defaultProps = {
   currentLocale: 'en-US',
   className: null,

@@ -1,13 +1,13 @@
+import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 import callResults from '@ringcentral-integration/commons/enums/callResults';
 import telephonyStatuses from '@ringcentral-integration/commons/enums/telephonyStatus';
-import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 export default {
-  [callDirections.inbound]: "Tuleva",
-  [callDirections.outbound]: "Lähtevä",
+  [callDirections.inbound]: "Saapuva",
+  [callDirections.outbound]: "Lähtevät",
   status: "Tila:",
   InboundNumber: "Soittajatunnus:",
   OutboundNumber: "Soitettiin:",
-  InboundDirection: "Saapuva puhelu paikasta:",
+  InboundDirection: "Saapuva puhelu kohteesta:",
   OutboundDirection: "Lähtevä puhelu kohteeseen:",
   [telephonyStatuses.noCall]: "Yhteys katkaistu",
   [telephonyStatuses.callConnected]: "Yhdistetty",
@@ -45,7 +45,8 @@ export default {
   [callResults.declined]: "Kieltäydytty",
   [callResults.faxReceipt]: "Faksin vastaanotto",
   [callResults.disconnected]: "Yhteys katkaistu",
-  [callResults.notAllowed]: "Ei sallittu"
+  [callResults.notAllowed]: "Ei sallittu",
+  warmTransferSwitchCall: "Vaihda puheluita"
 };
 
 // @key: @#@"[callDirections.inbound]"@#@ @source: @#@"Inbound"@#@
@@ -92,3 +93,4 @@ export default {
 // @key: @#@"[callResults.faxReceipt]"@#@ @source: @#@"Fax Receipt"@#@
 // @key: @#@"[callResults.disconnected]"@#@ @source: @#@"Disconnected"@#@
 // @key: @#@"[callResults.notAllowed]"@#@ @source: @#@"Not Allowed"@#@
+// @key: @#@"warmTransferSwitchCall"@#@ @source: @#@"Switch calls"@#@

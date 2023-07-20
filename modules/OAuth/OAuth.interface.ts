@@ -1,10 +1,10 @@
-import { RingCentralClient } from '@ringcentral-integration/commons/lib/RingCentralClient';
+import type { RingCentralClient } from '@ringcentral-integration/commons/lib/RingCentralClient';
 
-import {
+import type {
   Deps as BaseDeps,
   OAuthOptions as BaseOAuthOptions,
 } from '../../lib/OAuthBase';
-import { RouterInteraction } from '../RouterInteraction';
+import type { RouterInteraction } from '../RouterInteraction';
 
 export interface OAuthOptions extends BaseOAuthOptions {
   loginPath?: string;

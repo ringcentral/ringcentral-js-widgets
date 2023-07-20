@@ -1,7 +1,7 @@
 import { keys, reduce } from 'ramda';
 
-import { CssModuleVariable } from '@ringcentral-integration/commons/modules/Brand';
-import { RcTheme } from '@ringcentral/juno';
+import type { CssModuleVariable } from '@ringcentral-integration/commons/modules/Brand';
+import type { RcTheme } from '@ringcentral/juno';
 
 /**
  * get value from theme

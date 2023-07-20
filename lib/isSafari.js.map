@@ -1,1 +1,0 @@
-{"version":3,"sources":["lib/isSafari.ts"],"names":["isSafari","test","navigator","userAgent"],"mappings":";;;;;;;;;AAAe,SAASA,QAAT,GAAoB;AACjC,SAAO,iCAAiCC,IAAjC,CAAsCC,SAAS,CAACC,SAAhD,CAAP;AACD","sourcesContent":["export default function isSafari() {\n  return /^((?!chrome|android).)*safari/i.test(navigator.userAgent);\n}\n"],"file":"isSafari.js"}

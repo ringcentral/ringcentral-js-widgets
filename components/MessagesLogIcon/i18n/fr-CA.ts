@@ -1,5 +1,5 @@
 export default {
-  log: "Liste"
+  log: "Journal"
 };
 
 // @key: @#@"log"@#@ @source: @#@"Log"@#@

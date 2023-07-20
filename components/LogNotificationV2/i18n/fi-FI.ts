@@ -1,11 +1,15 @@
 export default {
+  Inbound: "Saapuvat",
+  Outbound: "Lähtevät",
   log: "Loki",
   save: "Tallenna ja uusi",
   discard: "Hylkää ja uusi",
   hangup: "Lopeta puhelu",
-  reject: "Puhelinvastaajaan"
+  reject: "Vastaajaan"
 };
 
+// @key: @#@"Inbound"@#@ @source: @#@"Inbound"@#@
+// @key: @#@"Outbound"@#@ @source: @#@"Outbound"@#@
 // @key: @#@"log"@#@ @source: @#@"Log"@#@
 // @key: @#@"save"@#@ @source: @#@"Save and new"@#@
 // @key: @#@"discard"@#@ @source: @#@"Discard and new"@#@

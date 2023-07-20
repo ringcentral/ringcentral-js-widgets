@@ -1,10 +1,11 @@
 import React from 'react';
 
 import { presenceStatus } from '@ringcentral-integration/commons/enums/presenceStatus.enum';
-import DndStatus from '@ringcentral-integration/commons/modules/Presence/dndStatus';
-import { RcPresenceType } from '@ringcentral/juno';
+import { dndStatus } from '@ringcentral-integration/commons/modules/Presence';
+import type { RcPresenceType } from '@ringcentral/juno';
 
-import { PresenceItem, PresenceItemProps } from '../PresenceItem';
+import type { PresenceItemProps } from '../PresenceItem';
+import { PresenceItem } from '../PresenceItem';
 
 type UsePresenceItemsParams = {
   onChange: (type: RcPresenceType) => void;
@@ -17,7 +18,7 @@ export const usePresenceItems = ({
   onChange,
   currentLocale,
   userStatus,
-  dndStatus,
+  dndStatus: dndStatusProp,
 }: UsePresenceItemsParams) => {
   const items: PresenceItemProps[] = [
     {
@@ -25,27 +26,27 @@ export const usePresenceItems = ({
       userStatus: presenceStatus.available,
       selected:
         userStatus === presenceStatus.available &&
-        dndStatus !== DndStatus.doNotAcceptAnyCalls,
+        dndStatusProp !== dndStatus.doNotAcceptAnyCalls,
     },
     {
       type: 'busy',
       userStatus: presenceStatus.busy,
       selected:
         userStatus === presenceStatus.busy &&
-        dndStatus !== DndStatus.doNotAcceptAnyCalls,
+        dndStatusProp !== dndStatus.doNotAcceptAnyCalls,
     },
     {
       type: 'DND',
       userStatus: presenceStatus.busy,
-      dndStatus: DndStatus.doNotAcceptAnyCalls,
-      selected: dndStatus === DndStatus.doNotAcceptAnyCalls,
+      dndStatus: dndStatus.doNotAcceptAnyCalls,
+      selected: dndStatusProp === dndStatus.doNotAcceptAnyCalls,
     },
     {
       type: 'offline',
       userStatus: presenceStatus.offline,
       selected:
         userStatus === presenceStatus.offline &&
-        dndStatus !== DndStatus.doNotAcceptAnyCalls,
+        dndStatusProp !== dndStatus.doNotAcceptAnyCalls,
     },
   ];
   let selectedItem: PresenceItemProps | undefined;
@@ -57,8 +58,9 @@ export const usePresenceItems = ({
     return (
       <PresenceItem
         key={key}
-        dndStatus={DndStatus.takeAllCalls}
+        dndStatus={dndStatus.takeAllCalls}
         currentLocale={currentLocale}
+        // @ts-expect-error TS(2345): Argument of type 'RcPresenceType | undefined' is n... Remove this comment to see the full error message
         onClick={() => onChange(item.type)}
         {...item}
       />

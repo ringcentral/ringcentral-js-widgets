@@ -1,24 +1,22 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 var _default = {
   mute: "Dempen",
-  unmute: "Dempen uit",
+  unmute: "Dempen uitschakelen",
   hangup: "Ophangen",
   reject: "Weigeren",
-  hold: "In de wacht",
+  hold: "Wacht",
   onHold: "In de wacht",
   transfer: "Doorschakelen",
   more: "Meer",
   stopRecord: "Opname stoppen",
   record: "Opnemen",
-  showKeypad: "Keypad",
-  hideKeypad: "Keypad verbergen",
+  showKeypad: "Toetsenblok",
+  hideKeypad: "Toetsenblok verbergen",
   unHold: "Uit de wacht",
   forward: "Doorverbinden",
   ignore: "Negeren",
@@ -26,7 +24,9 @@ var _default = {
   custom: "Aangepast",
   answerAndEnd: "Beantwoorden en beëindigen",
   answerAndHold: "Beantwoorden en in de wacht zetten",
-  answer: "Beantwoorden"
+  answer: "Beantwoorden",
+  completeTransfer: "Doorverbinden voltooien",
+  reply: "Beantwoorden"
 }; // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
 // @key: @#@"hangup"@#@ @source: @#@"Hang up"@#@
@@ -47,6 +47,7 @@ var _default = {
 // @key: @#@"answerAndEnd"@#@ @source: @#@"Answer & End"@#@
 // @key: @#@"answerAndHold"@#@ @source: @#@"Answer & Hold"@#@
 // @key: @#@"answer"@#@ @source: @#@"Answer"@#@
-
+// @key: @#@"completeTransfer"@#@ @source: @#@"Complete transfer"@#@
+// @key: @#@"reply"@#@ @source: @#@"Reply"@#@
 exports["default"] = _default;
 //# sourceMappingURL=nl-NL.js.map

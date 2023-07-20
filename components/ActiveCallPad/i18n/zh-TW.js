@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -10,15 +8,15 @@ var _default = {
   unmute: "取消靜音",
   mute: "靜音",
   keypad: "撥號盤",
-  hold: "通話保留",
-  onHold: "等待接通",
+  hold: "保留",
+  onHold: "保留",
   park: "寄存",
   stopRecord: "停止",
   record: "錄製",
   add: "新增",
   transfer: "轉接",
-  flip: "轉接",
-  more: "撥號動作",
+  flip: "切換",
+  more: "通話動作",
   mergeToConference: "合併",
   end: "結束",
   completeTransfer: "完成\n轉接"
@@ -37,6 +35,5 @@ var _default = {
 // @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
 // @key: @#@"end"@#@ @source: @#@"End"@#@
 // @key: @#@"completeTransfer"@#@ @source: @#@"Complete\nTransfer"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=zh-TW.js.map

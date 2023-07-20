@@ -2,7 +2,7 @@ import callLogMessages from '@ringcentral-integration/commons/enums/callLogMessa
 export default {
   [callLogMessages.logCallLogFailed]: "Impossible de charger le formulaire du journal des appels en raison d’une erreur inattendue. Veuillez actualiser la page et réessayer.",
   // New version of log failed message
-  [callLogMessages.logFailed]: "Désolé, nous n’avons pas réussi à enregistrer votre appel. Veuillez réessayer plus tard.",
+  [callLogMessages.logFailed]: "Désolés, nous n’avons pas réussi à enregistrer votre appel. Veuillez réessayer plus tard.",
   [callLogMessages.fieldRequired]: "Tous les champs obligatoires sont requis."
 };
 

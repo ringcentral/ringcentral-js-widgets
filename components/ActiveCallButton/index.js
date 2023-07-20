@@ -1,28 +1,19 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
+require("core-js/modules/es.array.map");
+require("core-js/modules/es.object.to-string");
+require("core-js/modules/es.regexp.exec");
+require("core-js/modules/es.string.replace");
+require("core-js/modules/es.string.split");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-
-require("core-js/modules/es6.regexp.replace");
-
-require("core-js/modules/es6.regexp.split");
-
-require("core-js/modules/es6.array.map");
-
 var _react = _interopRequireDefault(require("react"));
-
 var _classnames = _interopRequireDefault(require("classnames"));
-
 var _CircleButton = _interopRequireDefault(require("../CircleButton"));
-
 var _styles = _interopRequireDefault(require("./styles.scss"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 var ActiveCallButton = function ActiveCallButton(props) {
   var className = (0, _classnames["default"])(_styles["default"].btnSvg, props.className);
   var buttonClassName = (0, _classnames["default"])(_styles["default"].button, props.buttonClassName, props.active ? _styles["default"].buttonActive : null, props.disabled ? _styles["default"].buttonDisabled : null);
@@ -66,7 +57,6 @@ var ActiveCallButton = function ActiveCallButton(props) {
     textAnchor: "middle"
   }, text));
 };
-
 ActiveCallButton.defaultProps = {
   className: undefined,
   buttonClassName: undefined,

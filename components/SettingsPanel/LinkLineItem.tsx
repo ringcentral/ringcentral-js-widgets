@@ -1,8 +1,9 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import { LinkLine } from '../LinkLine';
 import i18n from './i18n';
-import { LinkLineItemProps } from './SettingsPanel.interface';
+import type { LinkLineItemProps } from './SettingsPanel.interface';
 
 export const LinkLineItem: FunctionComponent<LinkLineItemProps> = ({
   show,
@@ -20,11 +21,13 @@ export const LinkLineItem: FunctionComponent<LinkLineItemProps> = ({
   return (
     <LinkLine
       hideUnderline
+      // @ts-expect-error TS(2322): Type '(() => any) | undefined' is not assignable t... Remove this comment to see the full error message
       onClick={onClick}
       dataSign={dataSign}
       pendoSignName={pendoSignName}
       {...rest}
     >
+      {/* @ts-expect-error TS(2345): Argument of type 'string | undefined' is not */}
       {customTitle || i18n.getString(name, currentLocale)}
     </LinkLine>
   );

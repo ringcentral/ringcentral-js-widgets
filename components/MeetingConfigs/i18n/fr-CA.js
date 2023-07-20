@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -10,23 +8,23 @@ var _default = {
   topic: "Sujet",
   when: "Quand",
   duration: "Durée",
-  recurringMeeting: "Réunion récurrente",
+  recurringMeeting: "Réunion périodique",
   recurringDescribe: "N’oubliez pas de vérifier la périodicité ou la répétition dans l’invitation envoyée à vos participants.",
   video: "Vidéo",
-  videoDescribe: "Au moment de joindre une réunion",
+  videoDescribe: "Au moment de se joindre à une réunion",
   host: "Vidéo de l’animateur activée",
   participants: "Vidéo du participant activée",
   audioOptions: "Options du son",
-  voIPOnly: "VoIP seulement",
+  voIPOnly: "Voix sur IP uniquement",
   both: "Les deux",
-  meetingOptions: "Options de réunion",
+  meetingOptions: "Options de la réunion",
   requirePassword: "Exiger un mot de passe de réunion",
   password: "Mot de passe",
-  rcmPasswordHintText: "Votre mot de passe devrait contenir de 1 à 10 caractères, être composé de chiffres et ne peut pas comporter de symboles autres que @, * ou -",
-  passwordEmptyError: "Mot de passe de la réunion requis",
-  rcmPasswordInvalidError: "Votre mot de passe doit contenir de 1 à 10 caractères, être composé de chiffres et ne peut pas comporter de symboles autres que @, * ou -",
-  enableJoinBeforeHost: "Activer l’option permettant de joindre la réunion avant l’animateur",
-  telephonyOnly: "Téléphonie seulement",
+  rcmPasswordHintText: "Votre mot de passe devrait contenir de 1 à 10 caractères, être composé de chiffres et ne peut pas comporter de symboles autres que @, * ou -",
+  passwordEmptyError: "Mot de passe de la réunion obligatoire",
+  rcmPasswordInvalidError: "Votre mot de passe doit contenir de 1 à 10 caractères, être composé de chiffres et ne peut pas comporter de symboles autres que @, * ou -",
+  enableJoinBeforeHost: "Permettre de se joindre à la réunion avant l’animateur",
+  telephonyOnly: "Téléphonie uniquement",
   hostVideoOn: "Vidéo de l’animateur activée",
   participantVideoOn: "Vidéo du participant activée",
   recurringEvery: "Tout",
@@ -71,6 +69,5 @@ var _default = {
 // @key: @#@"pmiChangeConfirm"@#@ @source: @#@"If you want to make changes for your personal meeting, "@#@
 // @key: @#@"changePmiSettings"@#@ @source: @#@"change PMI settings"@#@
 // @key: @#@"pmiSettingChangeAlert"@#@ @source: @#@"If you change the settings and schedule this meeting, all of meetings with Personal Meeting ID will use the same latest settings."@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=fr-CA.js.map

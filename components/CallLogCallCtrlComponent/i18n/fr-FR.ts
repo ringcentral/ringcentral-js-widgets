@@ -1,6 +1,6 @@
 export default {
-  mute: "Muet",
-  unmute: "Désac. muet",
+  mute: "Désactiver le micro",
+  unmute: "Réactiver le micro",
   hangup: "Raccrocher",
   reject: "Rejeter",
   hold: "Mettre en attente",
@@ -12,13 +12,15 @@ export default {
   showKeypad: "Clavier",
   hideKeypad: "Cacher le clavier",
   unHold: "Reprendre l’appel",
-  forward: "Transférer",
+  forward: "Renvoyer",
   ignore: "Ignorer",
-  voicemail: "Vers messag. vocale",
-  custom: "Personnalisé",
+  voicemail: "Vers la messagerie vocale",
+  custom: "Personnaliser",
   answerAndEnd: "Répondre et terminer",
   answerAndHold: "Répondre et mettre en attente",
-  answer: "Répondre"
+  answer: "Répondre",
+  completeTransfer: "Effectuer le transfert",
+  reply: "Répondre"
 };
 
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
@@ -41,3 +43,5 @@ export default {
 // @key: @#@"answerAndEnd"@#@ @source: @#@"Answer & End"@#@
 // @key: @#@"answerAndHold"@#@ @source: @#@"Answer & Hold"@#@
 // @key: @#@"answer"@#@ @source: @#@"Answer"@#@
+// @key: @#@"completeTransfer"@#@ @source: @#@"Complete transfer"@#@
+// @key: @#@"reply"@#@ @source: @#@"Reply"@#@

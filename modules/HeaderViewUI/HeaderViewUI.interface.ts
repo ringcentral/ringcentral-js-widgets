@@ -1,13 +1,13 @@
-import { Auth } from '@ringcentral-integration/commons/modules/AuthV2';
-import { Brand } from '@ringcentral-integration/commons/modules/Brand';
-import { CallMonitor } from '@ringcentral-integration/commons/modules/CallMonitorV2';
-import { Locale } from '@ringcentral-integration/commons/modules/Locale';
-import { Presence } from '@ringcentral-integration/commons/modules/PresenceV2';
-import { QuickAccess } from '@ringcentral-integration/commons/modules/QuickAccessV2';
-import { UserGuide } from '@ringcentral-integration/commons/modules/UserGuideV2';
-import { Webphone } from '@ringcentral-integration/commons/modules/WebphoneV2';
+import type { Auth } from '@ringcentral-integration/commons/modules/Auth';
+import type { Brand } from '@ringcentral-integration/commons/modules/Brand';
+import type { CallMonitor } from '@ringcentral-integration/commons/modules/CallMonitor';
+import type { Locale } from '@ringcentral-integration/commons/modules/Locale';
+import type { Presence } from '@ringcentral-integration/commons/modules/Presence';
+import type { QuickAccess } from '@ringcentral-integration/commons/modules/QuickAccess';
+import type { UserGuide } from '@ringcentral-integration/commons/modules/UserGuide';
+import type { Webphone } from '@ringcentral-integration/commons/modules/Webphone';
 
-import { RouterInteraction } from '../RouterInteraction';
+import type { RouterInteraction } from '../RouterInteraction';
 
 export interface Deps {
   auth: Auth;

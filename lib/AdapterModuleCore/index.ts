@@ -1,27 +1,28 @@
-import formatMessage from 'format-message';
-import Presence from 'ringcentral-client/build/paths/Presence';
+// @ts-nocheck
+import type Presence from 'ringcentral-client/build/paths/Presence';
 
 import { presenceStatus } from '@ringcentral-integration/commons/enums/presenceStatus.enum';
 import { Module } from '@ringcentral-integration/commons/lib/di';
-import proxify from '@ringcentral-integration/commons/lib/proxy/proxify';
+import { proxify } from '@ringcentral-integration/commons/lib/proxy/proxify';
 import { selector } from '@ringcentral-integration/commons/lib/selector';
-import { ActiveCallControl } from '@ringcentral-integration/commons/modules/ActiveCallControlV2';
-import callingModes from '@ringcentral-integration/commons/modules/CallingSettings/callingModes';
-import { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettingsV2';
-import { CallMonitor } from '@ringcentral-integration/commons/modules/CallMonitorV2';
-import { GlobalStorage } from '@ringcentral-integration/commons/modules/GlobalStorageV2';
-import { Locale } from '@ringcentral-integration/commons/modules/Locale';
-import dndStatus from '@ringcentral-integration/commons/modules/Presence/dndStatus';
-import { QuickAccess } from '@ringcentral-integration/commons/modules/QuickAccessV2';
-import { UserGuide } from '@ringcentral-integration/commons/modules/UserGuideV2';
-import Webphone from '@ringcentral-integration/commons/modules/Webphone';
+import type { ActiveCallControl } from '@ringcentral-integration/commons/modules/ActiveCallControl';
+import type { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettings';
+import { callingModes } from '@ringcentral-integration/commons/modules/CallingSettings';
+import type { CallMonitor } from '@ringcentral-integration/commons/modules/CallMonitor';
+import type { GlobalStorage } from '@ringcentral-integration/commons/modules/GlobalStorage';
+import type { Locale } from '@ringcentral-integration/commons/modules/Locale';
+import { dndStatus } from '@ringcentral-integration/commons/modules/Presence';
+import type { QuickAccess } from '@ringcentral-integration/commons/modules/QuickAccess';
+import type { UserGuide } from '@ringcentral-integration/commons/modules/UserGuide';
+import type { Webphone } from '@ringcentral-integration/commons/modules/Webphone';
+import { format } from '@ringcentral-integration/utils';
 
-import presenceItemI18n from '../getPresenceStatusName/i18n';
 import headerI18n from '../../components/CallMonitorBar/i18n';
-import { CallLogSection } from '../../modules/CallLogSectionV2';
-import { RouterInteraction } from '../../modules/RouterInteraction';
+import type { CallLogSection } from '../../modules/CallLogSection';
+import type { RouterInteraction } from '../../modules/RouterInteraction';
 import AdapterModuleCoreBase from '../AdapterModuleCoreBase';
 import { baseActionTypes } from '../AdapterModuleCoreBase/baseActionTypes';
+import presenceItemI18n from '../getPresenceStatusName/i18n';
 import IframeMessageTransport from '../IframeMessageTransport';
 
 export const ALL_CALL_PATH = '/calls';
@@ -329,35 +330,28 @@ export default class AdapterModuleCore extends AdapterModuleCoreBase {
     ) => {
       const ringCallsInfo =
         ringingCallsLength === 1
-          ? formatMessage(headerI18n.getString('incomingCall', currentLocale), {
+          ? format(headerI18n.getString('incomingCall', currentLocale), {
               numberOf: ringingCallsLength,
             })
-          : formatMessage(
-              headerI18n.getString('incomingCalls', currentLocale),
-              { numberOf: ringingCallsLength },
-            );
+          : format(headerI18n.getString('incomingCalls', currentLocale), {
+              numberOf: ringingCallsLength,
+            });
       const onHoldCallsInfo =
         onHoldCallsLength === 1
-          ? formatMessage(headerI18n.getString('callOnHold', currentLocale), {
+          ? format(headerI18n.getString('callOnHold', currentLocale), {
               numberOf: onHoldCallsLength,
             })
-          : formatMessage(headerI18n.getString('callsOnHold', currentLocale), {
+          : format(headerI18n.getString('callsOnHold', currentLocale), {
               numberOf: onHoldCallsLength,
             });
       const otherDeviceCallsInfo =
         otherDeviceCallsLength === 1
-          ? formatMessage(
-              headerI18n.getString('otherDeviceCall', currentLocale),
-              {
-                numberOf: otherDeviceCallsLength,
-              },
-            )
-          : formatMessage(
-              headerI18n.getString('otherDeviceCalls', currentLocale),
-              {
-                numberOf: otherDeviceCallsLength,
-              },
-            );
+          ? format(headerI18n.getString('otherDeviceCall', currentLocale), {
+              numberOf: otherDeviceCallsLength,
+            })
+          : format(headerI18n.getString('otherDeviceCalls', currentLocale), {
+              numberOf: otherDeviceCallsLength,
+            });
       const availableBtn = presenceItemI18n.getString(
         presenceStatus.available,
         currentLocale,

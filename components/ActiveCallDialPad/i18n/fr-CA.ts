@@ -1,7 +1,7 @@
 export default {
   hide: "Masquer",
-  end: "Terminer",
-  keypad: "Pavé numérique"
+  end: "Raccrocher",
+  keypad: "Clavier téléphonique"
 };
 
 // @key: @#@"hide"@#@ @source: @#@"Hide"@#@

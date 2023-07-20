@@ -1,7 +1,7 @@
 import webphoneErrors from '@ringcentral-integration/commons/modules/Webphone/webphoneErrors';
 import webphoneMessages from '@ringcentral-integration/commons/modules/Webphone/webphoneMessages';
 export default {
-  [webphoneErrors.connectFailed]: "Leider sind Telefonfunktionen zurzeit nicht verfügbar. Bitte versuchen Sie es später erneut. ",
+  [webphoneErrors.connectFailed]: "Leider sind Telefonfunktionen zurzeit nicht verfügbar. Versuchen Sie es später erneut. ",
   [webphoneErrors.connected]: "Das Webtelefon wurde registriert.",
   [webphoneErrors.browserNotSupported]: "Das Tätigen von Anrufen mit diesem Browser wird leider nicht unterstützt.",
   [webphoneErrors.webphoneCountOverLimit]: "Maximal fünf Webtelefone können registriert werden.",
@@ -12,11 +12,11 @@ export default {
   [webphoneErrors.toVoiceMailError]: "Der Anruf konnte wegen eines internen Fehlers nicht an die Voicemail geleitet werden.",
   [webphoneErrors.muteError]: "Der Anruf kann im Moment nicht stummgeschaltet werden.",
   [webphoneErrors.holdError]: "Der Anruf kann im Moment nicht gehalten werden.",
-  [webphoneErrors.flipError]: "Der Anruf kann nicht umgelegt werden. Versuchen Sie es später erneut.",
+  [webphoneErrors.flipError]: "Der Anruf kann nicht umgelegt werden. Versuchen Sie es später noch einmal.",
   [webphoneErrors.recordError]: "Sie können den Anruf gegenwärtig nicht aufzeichnen. Fehlercode: {errorCode}",
-  [webphoneErrors.pauseRecordError]: "Leider konnten wir das Aufzeichnen des Anrufs nicht beenden. Versuchen Sie es später noch einmal.",
+  [webphoneErrors.pauseRecordError]: "Wir konnten die Aufzeichnung des Anrufs leider nicht beenden. Versuchen Sie es später noch einmal.",
   [webphoneErrors.recordDisabled]: "Ihr Konto verfügt über keine Funktion zum Aufzeichnen von Anrufen. Wenden Sie sich an Ihren Kontoadministrator.",
-  [webphoneErrors.transferError]: "Der Anruf kann nicht weitergeleitet werden. Versuchen Sie es später erneut.",
+  [webphoneErrors.transferError]: "Der Anruf kann nicht weitergeleitet werden. Versuchen Sie es später noch einmal.",
   [webphoneMessages.parked]: "Ihr Anruf ist an folgendem Ort geparkt: {parkedNumber}",
   failWithStatusCode: "Leider ist bei uns ein Fehler aufgetreten: {errorCode}. Sollte das Problem weiterhin bestehen, melden Sie es an den {brandName}-Kundendienst.",
   registeringWithStatusCode: "Leider ist ein Fehler aufgetreten. Wir versuchen, die Verbindung neu herzustellen. Sollte das Problem weiterhin bestehen, melden Sie es bitte an den {brandName}-Kundendienst. Fehlercode: {errorCode}.",

@@ -2,17 +2,19 @@ import React, { forwardRef, useEffect, useRef, useState } from 'react';
 
 import classNames from 'classnames';
 
+import type {
+  RcBaseProps,
+  RcIconButtonProps,
+  RcTextFieldProps,
+} from '@ringcentral/juno';
 import {
   combineProps,
-  RcBaseProps,
   RcIconButton,
-  RcIconButtonProps,
   RcTextField,
-  RcTextFieldProps,
   useEventCallback,
   useForkRef,
 } from '@ringcentral/juno';
-import { Deletenumber } from '@ringcentral/juno/icon';
+import { Deletenumber } from '@ringcentral/juno-icon';
 
 import i18n from './i18n';
 import styles from './styles.scss';
@@ -56,6 +58,7 @@ export const RecipientsInput = forwardRef<
     const innerRef = useRef<HTMLInputElement>();
 
     const inputRef = useForkRef(ref, innerRef);
+    // @ts-expect-error TS(2345): Argument of type 'null' is not assignable to param... Remove this comment to see the full error message
     const [mouseDownTime, setMouseDownTime] = useState<number>(null);
     const [timer, setTimer] = useState(null);
 
@@ -65,6 +68,7 @@ export const RecipientsInput = forwardRef<
       setMouseDownTime(+new Date());
 
       setTimer(
+        // @ts-expect-error TS(2345): Argument of type 'Timeout' is not assignable to pa... Remove this comment to see the full error message
         setTimeout(() => {
           onClear();
           setTimer(null);
@@ -78,6 +82,7 @@ export const RecipientsInput = forwardRef<
         return;
       }
 
+      // @ts-expect-error TS(2769): No overload matches this call.
       clearTimeout(timer);
       onDelete();
     });

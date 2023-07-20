@@ -1,7 +1,7 @@
 import React from 'react';
 
 import classnames from 'classnames';
-
+import { phoneSources } from '../../enums/phoneSources';
 import phoneSourceNames from '../../lib/phoneSourceNames';
 import { splitter } from './splitter';
 import styles from './styles.scss';
@@ -21,15 +21,21 @@ export const ContactInfo: React.FC<ContactInfoProps> = ({
   phoneSourceNameRenderer,
   doNotCall,
 }) => {
+  // align the type in contact search result so far temporarily,
+  // need pass brand info here if need to use phoneSources.rcContact.
+  // see also ringcentral-js-widgets/ringcentral-widgets/components/RecipientsInputV2/RecipientInfo.tsx
+  const type =
+    entityType === phoneSources.rcContact ? phoneSources.contact : entityType;
   const phoneSourceName = phoneSourceNameRenderer
-    ? phoneSourceNameRenderer(entityType)
-    : phoneSourceNames.getString(entityType);
+    ? phoneSourceNameRenderer(type)
+    : phoneSourceNames.getString(type);
   const nameTitle = `${name} ${splitter} ${phoneSourceName}`;
   return (
     <div
       className={classnames(styles.nameSection, {
         [styles.dncNameSection]: doNotCall,
       })}
+      // @ts-expect-error TS(2322): Type 'string | false | undefined' is not assignabl... Remove this comment to see the full error message
       title={titleEnabled && nameTitle}
       data-sign="contactNameSection"
     >

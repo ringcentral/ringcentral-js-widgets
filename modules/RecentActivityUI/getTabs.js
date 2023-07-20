@@ -1,70 +1,53 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
+require("core-js/modules/es.array.concat");
+require("core-js/modules/es.array.filter");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.trackTabsMap = exports.getTabs = void 0;
-
-require("core-js/modules/es6.array.filter");
-
 var _react = _interopRequireDefault(require("react"));
-
-var _Analytics = require("@ringcentral-integration/commons/modules/Analytics");
-
+var _trackEvents = require("@ringcentral-integration/commons/enums/trackEvents");
 var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
-
 var _Fax = _interopRequireDefault(require("../../assets/images/Fax.svg"));
-
 var _VoicemailIcon = _interopRequireDefault(require("../../assets/images/VoicemailIcon.svg"));
-
 var _RecentActivityCalls = _interopRequireDefault(require("../../components/RecentActivityCalls"));
-
 var _RecentActivityMessages = _interopRequireDefault(require("../../components/RecentActivityMessages"));
-
 var _i18n = _interopRequireDefault(require("./i18n"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 var trackTabsMap = {
-  recentCalls: _Analytics.trackEvents.clickRecentActivityCall,
-  faxes: _Analytics.trackEvents.clickRecentActivityFaxes,
-  recentMessages: _Analytics.trackEvents.clickRecentActivitySms,
-  voicemails: _Analytics.trackEvents.clickRecentActivityVoicemails
+  recentCalls: _trackEvents.trackEvents.clickRecentActivityCall,
+  faxes: _trackEvents.trackEvents.clickRecentActivityFaxes,
+  recentMessages: _trackEvents.trackEvents.clickRecentActivitySms,
+  voicemails: _trackEvents.trackEvents.clickRecentActivityVoicemails
 };
 exports.trackTabsMap = trackTabsMap;
-
 var getTabs = function getTabs(_ref) {
   var ready = _ref.ready,
-      currentLocale = _ref.currentLocale,
-      dateTimeFormatter = _ref.dateTimeFormatter,
-      navigateTo = _ref.navigateTo,
-      recentMessages = _ref.recentMessages,
-      recentCalls = _ref.recentCalls,
-      currentContact = _ref.currentContact,
-      sessionId = _ref.sessionId,
-      showRecentCalls = _ref.showRecentCalls,
-      showRecentMessage = _ref.showRecentMessage,
-      showFax = _ref.showFax,
-      showVoiceMails = _ref.showVoiceMails;
+    currentLocale = _ref.currentLocale,
+    dateTimeFormatter = _ref.dateTimeFormatter,
+    navigateTo = _ref.navigateTo,
+    recentMessages = _ref.recentMessages,
+    recentCalls = _ref.recentCalls,
+    currentContact = _ref.currentContact,
+    sessionId = _ref.sessionId,
+    showRecentCalls = _ref.showRecentCalls,
+    showRecentMessage = _ref.showRecentMessage,
+    showFax = _ref.showFax,
+    showVoiceMails = _ref.showVoiceMails;
   if (!ready) return [];
   var messages = [];
   var calls = [];
-
   if (currentContact && currentContact.id) {
     var contactId = currentContact.id;
     var activityCardId = sessionId ? "".concat(contactId, "-").concat(sessionId) : contactId;
-
     if (recentMessages.messages[activityCardId]) {
       messages = recentMessages.messages[activityCardId];
     }
-
     if (recentCalls.calls[activityCardId]) {
       calls = recentCalls.calls[activityCardId];
     }
   }
-
   return [showVoiceMails ? {
     icon: /*#__PURE__*/_react["default"].createElement(_VoicemailIcon["default"], {
       width: 21,
@@ -87,7 +70,9 @@ var getTabs = function getTabs(_ref) {
     isActive: function isActive(path) {
       return path === 'recentMessages';
     },
-    view: /*#__PURE__*/_react["default"].createElement(_RecentActivityMessages["default"], {
+    view: /*#__PURE__*/_react["default"].createElement(_RecentActivityMessages["default"]
+    // @ts-expect-error TS(2769): No overload matches this call.
+    , {
       messages: messages,
       navigateTo: navigateTo,
       dateTimeFormatter: dateTimeFormatter,
@@ -128,7 +113,9 @@ var getTabs = function getTabs(_ref) {
     isActive: function isActive(path) {
       return path === 'recentCalls';
     },
-    view: /*#__PURE__*/_react["default"].createElement(_RecentActivityCalls["default"], {
+    view: /*#__PURE__*/_react["default"].createElement(_RecentActivityCalls["default"]
+    // @ts-expect-error TS(2769): No overload matches this call.
+    , {
       calls: calls,
       dateTimeFormatter: dateTimeFormatter,
       currentLocale: currentLocale,
@@ -150,6 +137,5 @@ var getTabs = function getTabs(_ref) {
     return item !== null;
   });
 };
-
 exports.getTabs = getTabs;
 //# sourceMappingURL=getTabs.js.map

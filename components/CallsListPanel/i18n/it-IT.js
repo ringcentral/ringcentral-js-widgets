@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -10,11 +8,11 @@ var _default = {
   noActiveCalls: "Nessuna chiamata attiva",
   noCalls: "Nessun risultato trovato.",
   currentCall: "Chiamata corrente",
-  ringCall: "Squillo chiamata",
+  ringCall: "Chiamata in arrivo",
   onHoldCall: "Chiamata in attesa",
   historyCalls: "Chiamate passate",
-  otherDeviceCall: "Chiamate in corso sugli altri miei dispositivi",
-  searchPlaceholder: "Cerca..."
+  otherDeviceCall: "Chiamate in corso sugli altri dispositivi",
+  searchPlaceholder: "Ricerca..."
 }; // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@
 // @key: @#@"noCalls"@#@ @source: @#@"No results found."@#@
 // @key: @#@"currentCall"@#@ @source: @#@"Current Call"@#@
@@ -23,6 +21,5 @@ var _default = {
 // @key: @#@"historyCalls"@#@ @source: @#@"Past Calls"@#@
 // @key: @#@"otherDeviceCall"@#@ @source: @#@"Ongoing calls on my other devices"@#@
 // @key: @#@"searchPlaceholder"@#@ @source: @#@"Search..."@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=it-IT.js.map

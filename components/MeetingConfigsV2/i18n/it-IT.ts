@@ -16,7 +16,7 @@ export default {
   video: "Video",
   audio: "Audio",
   scheduleFor: "Programma per conto di",
-  [ASSISTED_USERS_MYSELF]: "Me stesso",
+  [ASSISTED_USERS_MYSELF]: "Me",
   meetingOptions: "Opzioni riunione",
   meetingSettings: "Impostazioni riunione",
   rcMeetingSettings: "Impostazioni riunioni video",
@@ -27,8 +27,8 @@ export default {
   turnOffCamera: "Spegni la videocamera per i partecipanti",
   turnOffHostCamera: "Spegni la videocamera per l'host durante l'accesso alla riunione",
   requirePassword: "Richiedi password",
-  enterPassword: "Inserisci password",
-  setPassword: "Imposta la password *",
+  enterPassword: "Immetti password",
+  setPassword: "Imposta password*",
   passwordEmptyError: "La password per la riunione è obbligatoria",
   rcmPasswordInvalidError: "La password deve avere 1-10 caratteri, deve contenere numeri e non può contenere simboli, tranne @, * o -",
   rcmPasswordHintText: "La password deve avere 1-10 caratteri, deve contenere numeri e non può contenere simboli, tranne @, * o -",
@@ -37,8 +37,8 @@ export default {
   changePmiSettings: "modifica le impostazioni del PMI",
   pmiSettingChangeAlert: "Se modifichi le impostazioni e programmi questa riunione, tutte le riunioni con ID riunione personale utilizzeranno le stesse impostazioni più recenti.",
   lockedTooltip: "L'impostazione è gestita dall'amministratore dell'azienda",
-  when: "Quando",
-  recurringDescribe: "Ricorda di verificare la ricorrenza o la ripetizione dell'invito sul calendario ai tuoi partecipanti.",
+  when: "Data/Ora",
+  recurringDescribe: "Ricorda di verificare che l'invito sia ricorrente o ripetuto sul calendario dei partecipanti.",
   ieSupportAlert: "Tieni presente che {appName} non funzionerà con Internet Explorer 11 dopo il 16 febbraio 2022. Consigliamo di passare a Microsoft Edge o di aggiornare a Outlook 2016 o versione successiva."
 };
 

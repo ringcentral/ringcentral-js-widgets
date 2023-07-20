@@ -1,116 +1,67 @@
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
-require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.object.define-properties");
-
-require("core-js/modules/es7.object.get-own-property-descriptors");
-
-require("core-js/modules/es6.array.filter");
-
-require("core-js/modules/es6.symbol");
-
-require("core-js/modules/es6.array.index-of");
-
-require("core-js/modules/es6.object.keys");
-
-require("core-js/modules/es6.reflect.get");
-
-require("core-js/modules/es6.object.define-property");
-
-require("core-js/modules/es6.object.create");
-
-require("core-js/modules/es6.reflect.construct");
-
+require("core-js/modules/es.array.every");
+require("core-js/modules/es.array.find-index");
+require("core-js/modules/es.array.for-each");
+require("core-js/modules/es.array.includes");
+require("core-js/modules/es.array.is-array");
+require("core-js/modules/es.array.iterator");
+require("core-js/modules/es.array.reverse");
+require("core-js/modules/es.function.bind");
+require("core-js/modules/es.object.get-prototype-of");
+require("core-js/modules/es.object.set-prototype-of");
+require("core-js/modules/es.object.to-string");
+require("core-js/modules/es.set");
+require("core-js/modules/es.string.includes");
+require("core-js/modules/es.string.iterator");
+require("core-js/modules/web.dom-collections.for-each");
+require("core-js/modules/web.dom-collections.iterator");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.StickyVirtualizedList = void 0;
-
-require("core-js/modules/es6.object.set-prototype-of");
-
-require("core-js/modules/web.dom.iterable");
-
-require("core-js/modules/es6.array.iterator");
-
-require("core-js/modules/es6.object.to-string");
-
-require("core-js/modules/es6.string.iterator");
-
-require("core-js/modules/es6.set");
-
-require("core-js/modules/es7.array.includes");
-
-require("core-js/modules/es6.string.includes");
-
-require("core-js/modules/es6.array.find-index");
-
-require("core-js/modules/es6.array.for-each");
-
-require("core-js/modules/es6.array.is-array");
-
-require("core-js/modules/es6.function.bind");
-
 var _react = _interopRequireDefault(require("react"));
-
 var _StickyVirtualizedList = require("./StickyVirtualizedList.interface");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-
 function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-
-function _get() { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(arguments.length < 3 ? target : receiver); } return desc.value; }; } return _get.apply(this, arguments); }
-
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+function _get() { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get.bind(); } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(arguments.length < 3 ? target : receiver); } return desc.value; }; } return _get.apply(this, arguments); }
 function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
-
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
-
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); } /* eslint-disable*/ // Original Library: react-virtualized-sticky-tree
+// Ref: https://github.com/marchaos/react-virtualized-sticky-tree
 var StickyVirtualizedList = /*#__PURE__*/function (_React$PureComponent) {
   _inherits(StickyVirtualizedList, _React$PureComponent);
-
   var _super = _createSuper(StickyVirtualizedList);
-
   function StickyVirtualizedList(props) {
     var _this;
-
     _classCallCheck(this, StickyVirtualizedList);
-
     _this = _super.call(this, props);
     _this.nodes = void 0;
     _this.getChildrenCache = void 0;
     _this.rowRenderCache = void 0;
     _this.rowRenderRange = void 0;
+    // @ts-expect-error TS(2564): Property 'structureChanged' has no initializer and... Remove this comment to see the full error message
     _this.structureChanged = void 0;
+    // @ts-expect-error TS(2564): Property 'elem' has no initializer and is not defi... Remove this comment to see the full error message
     _this.elem = void 0;
+    // @ts-expect-error TS(2564): Property 'pendingScrollTop' has no initializer and... Remove this comment to see the full error message
     _this.pendingScrollTop = void 0;
+    // @ts-expect-error TS(2564): Property 'treeToRender' has no initializer and is ... Remove this comment to see the full error message
     _this.treeToRender = void 0;
     _this.onScroll = _this.onScroll.bind(_assertThisInitialized(_this));
     _this.state = {
@@ -121,15 +72,14 @@ var StickyVirtualizedList = /*#__PURE__*/function (_React$PureComponent) {
     _this.nodes = [];
     _this.getChildrenCache = {};
     _this.rowRenderCache = {};
+    // @ts-expect-error TS(2322): Type 'undefined' is not assignable to type '{ star... Remove this comment to see the full error message
     _this.rowRenderRange = undefined;
     return _this;
   }
-
   _createClass(StickyVirtualizedList, [{
     key: "flattenTree",
     value: function flattenTree(node) {
       var _this2 = this;
-
       var props = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.props;
       var nodes = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : [];
       var isFirstChild = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : false;
@@ -141,16 +91,14 @@ var StickyVirtualizedList = /*#__PURE__*/function (_React$PureComponent) {
       var index = nodes.length;
       var height = node.height !== undefined ? node.height : props.defaultRowHeight;
       var parentInfo = nodes[parentIndex];
-
       var id = node.id,
-          _node$isSticky = node.isSticky,
-          isSticky = _node$isSticky === void 0 ? false : _node$isSticky,
-          _node$stickyTop = node.stickyTop,
-          stickyTop = _node$stickyTop === void 0 ? 0 : _node$stickyTop,
-          _node$zIndex = node.zIndex,
-          zIndex = _node$zIndex === void 0 ? 0 : _node$zIndex,
-          rest = _objectWithoutProperties(node, ["id", "isSticky", "stickyTop", "zIndex"]);
-
+        _node$isSticky = node.isSticky,
+        isSticky = _node$isSticky === void 0 ? false : _node$isSticky,
+        _node$stickyTop = node.stickyTop,
+        stickyTop = _node$stickyTop === void 0 ? 0 : _node$stickyTop,
+        _node$zIndex = node.zIndex,
+        zIndex = _node$zIndex === void 0 ? 0 : _node$zIndex,
+        rest = _objectWithoutProperties(node, ["id", "isSticky", "stickyTop", "zIndex"]);
       var nodeInfo = _objectSpread(_objectSpread({
         id: id,
         isSticky: isSticky,
@@ -160,6 +108,7 @@ var StickyVirtualizedList = /*#__PURE__*/function (_React$PureComponent) {
         top: context.totalHeight,
         parentIndex: parentIndex,
         parentInfo: parentInfo,
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         depth: parentIndex !== undefined ? parentInfo.depth + 1 : 0,
         height: height,
         index: index,
@@ -167,29 +116,32 @@ var StickyVirtualizedList = /*#__PURE__*/function (_React$PureComponent) {
         isLastChild: isLastChild
       });
 
+      // @ts-expect-error TS(2345): Argument of type '{ top: number; parentIndex: numb... Remove this comment to see the full error message
       nodes.push(nodeInfo);
-
       if (parentIndex !== undefined) {
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         parentInfo.children.push(index);
       }
 
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       context.totalHeight += height;
-      var children = props.getChildren(node.id, nodeInfo);
 
+      // @ts-expect-error TS(2345): Argument of type '{ top: number; parentIndex: numb... Remove this comment to see the full error message
+      var children = props.getChildren(node.id, nodeInfo);
       if (props.isModelImmutable) {
         // If children is undefined, then it is probably a leaf node, so we will have to render this since we don't know if the node
         // itself has changed.
         var oldChildren = this.getChildrenCache[node.id];
-
         if (children === undefined || oldChildren !== children) {
           delete this.rowRenderCache[node.id];
-          this.getChildrenCache[node.id] = children; // Check for structure changes...
+          this.getChildrenCache[node.id] = children;
 
+          // Check for structure changes...
           if (children && oldChildren && (children.length !== oldChildren.length || !children.every(function (child, i) {
             return child.id === oldChildren[i].id;
           }))) {
-            this.structureChanged = true; // We need to update the entire branch if the structure has changed.
-
+            this.structureChanged = true;
+            // We need to update the entire branch if the structure has changed.
             this.getBranchChildrenIds(children).forEach(function (id) {
               return delete _this2.rowRenderCache[id];
             });
@@ -198,17 +150,14 @@ var StickyVirtualizedList = /*#__PURE__*/function (_React$PureComponent) {
       } else {
         this.structureChanged = true;
       }
-
       if (Array.isArray(children)) {
         nodeInfo.children = [];
-
         for (var i = 0; i < children.length; i++) {
           // Need to reset parentIndex here as we are recursive.
           var child = children[i];
           this.flattenTree(child, props, nodes, i === 0, i === children.length - 1, index, context);
         }
       }
-
       nodeInfo.totalHeight = context.totalHeight - nodeInfo.top;
       return nodes;
     }
@@ -216,20 +165,16 @@ var StickyVirtualizedList = /*#__PURE__*/function (_React$PureComponent) {
     key: "getBranchChildrenIds",
     value: function getBranchChildrenIds(children) {
       var _this3 = this;
-
       var arr = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
-
       if (!children) {
         return arr;
       }
-
       children.forEach(function (child) {
         arr.push(child.id);
-
         _this3.getBranchChildrenIds(_this3.getChildrenCache[child.id], arr);
       });
       return arr;
-    }
+    } // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   }, {
     key: "UNSAFE_componentWillMount",
     value: function UNSAFE_componentWillMount() {
@@ -240,7 +185,7 @@ var StickyVirtualizedList = /*#__PURE__*/function (_React$PureComponent) {
     key: "treeDataUpdated",
     value: function treeDataUpdated(newProps) {
       return newProps.root !== this.props.root || newProps.getChildren !== this.props.getChildren || newProps.defaultRowHeight !== this.props.defaultRowHeight;
-    }
+    } // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   }, {
     key: "UNSAFE_componentWillReceiveProps",
     value: function UNSAFE_componentWillReceiveProps(newProps) {
@@ -248,11 +193,10 @@ var StickyVirtualizedList = /*#__PURE__*/function (_React$PureComponent) {
       if (this.treeDataUpdated(newProps)) {
         this.refreshCachedMetadata(newProps);
       }
-
       if (newProps.scrollIndex !== undefined && newProps.scrollIndex >= 0) {
         this.scrollIndexIntoView(newProps.scrollIndex);
       }
-    }
+    } // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   }, {
     key: "UNSAFE_componentWillUpdate",
     value: function UNSAFE_componentWillUpdate(newProps, newState) {
@@ -266,7 +210,6 @@ var StickyVirtualizedList = /*#__PURE__*/function (_React$PureComponent) {
      * @param nodeId The node index to get the index for.
      * @returns {number}
      */
-
   }, {
     key: "getNodeIndex",
     value: function getNodeIndex(nodeId) {
@@ -279,20 +222,16 @@ var StickyVirtualizedList = /*#__PURE__*/function (_React$PureComponent) {
      * @param nodeId The node to get the previous node of.
      * @returns {*}
      */
-
   }, {
     key: "getPreviousNodeId",
     value: function getPreviousNodeId(nodeId) {
       var index = this.getNodeIndex(nodeId);
-
       if (index !== -1) {
         var node = this.nodes[index - 1];
-
         if (node) {
           return node.id;
         }
       }
-
       return undefined;
     }
     /**
@@ -300,20 +239,16 @@ var StickyVirtualizedList = /*#__PURE__*/function (_React$PureComponent) {
      * @param nodeId The node to get the next node of.
      * @returns {*}
      */
-
   }, {
     key: "getNextNodeId",
     value: function getNextNodeId(nodeId) {
       var index = this.getNodeIndex(nodeId);
-
       if (index !== -1) {
         var node = this.nodes[index + 1];
-
         if (node) {
           return node.id;
         }
       }
-
       return undefined;
     }
     /**
@@ -324,7 +259,6 @@ var StickyVirtualizedList = /*#__PURE__*/function (_React$PureComponent) {
      * @param includeObscured if true, this method will return true for partially visible nodes.
      * @returns {boolean}
      */
-
   }, {
     key: "isNodeVisible",
     value: function isNodeVisible(nodeId) {
@@ -339,50 +273,54 @@ var StickyVirtualizedList = /*#__PURE__*/function (_React$PureComponent) {
      * @param includeObscured if true, this method will return true for partially visible nodes.
      * @returns {boolean}
      */
-
   }, {
     key: "isIndexVisible",
     value: function isIndexVisible(index) {
       var includeObscured = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
       var inView;
       var node = this.nodes[index];
-
       if (!node) {
         return false;
       }
-
       if (node.isSticky && index === this.state.currNodePos || this.getParentPath(this.state.currNodePos).includes(this.nodes[index])) {
         return true;
       }
-
       if (!includeObscured) {
         inView = this.isIndexInViewport(index);
       } else {
-        inView = this.elem.scrollTop <= node.top + node.height - node.stickyTop && this.elem.scrollTop + this.props.height >= node.top;
+        inView =
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+        this.elem.scrollTop <= node.top + node.height - node.stickyTop &&
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+        this.elem.scrollTop + this.props.height >= node.top;
       }
-
       if (inView) {
-        var path = this.getParentPath(index, false); // If this node is in view, new need to check to see if it is obscured by a sticky parent.
+        var path = this.getParentPath(index, false);
+        // If this node is in view, new need to check to see if it is obscured by a sticky parent.
         // Note that this does not handle weird scenarios where the node's parent has a sticky top which is less than other ancestors.
         // Or any z-index weirdness.
-
         for (var i = 0; i < path.length; i++) {
-          var ancestor = path[i]; // If the ancestor is sticky and the node is in view, then it must be stuck to the top
-
+          var ancestor = path[i];
+          // If the ancestor is sticky and the node is in view, then it must be stuck to the top
           if (ancestor.isSticky) {
-            if (!includeObscured && ancestor.stickyTop + ancestor.height > node.top - this.elem.scrollTop) {
+            if (!includeObscured &&
+            // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+            ancestor.stickyTop + ancestor.height >
+            // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+            node.top - this.elem.scrollTop) {
               return false;
             }
-
-            if (includeObscured && ancestor.stickyTop + ancestor.height > node.top + node.height - this.elem.scrollTop) {
+            if (includeObscured &&
+            // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+            ancestor.stickyTop + ancestor.height >
+            // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+            node.top + node.height - this.elem.scrollTop) {
               return false;
             }
           }
         }
-
         return true;
       }
-
       return false;
     }
   }, {
@@ -394,12 +332,15 @@ var StickyVirtualizedList = /*#__PURE__*/function (_React$PureComponent) {
     key: "isIndexInViewport",
     value: function isIndexInViewport(index) {
       var node = this.nodes[index];
-
       if (!node || !this.elem) {
         return false;
       }
-
-      return this.elem.scrollTop <= node.top - node.stickyTop && this.elem.scrollTop + this.props.height >= node.top + node.height;
+      return (
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+        this.elem.scrollTop <= node.top - node.stickyTop &&
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+        this.elem.scrollTop + this.props.height >= node.top + node.height
+      );
     }
   }, {
     key: "getNodeTop",
@@ -435,37 +376,35 @@ var StickyVirtualizedList = /*#__PURE__*/function (_React$PureComponent) {
     value: function scrollIndexIntoView(index) {
       var alignToTop = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
       var node = this.nodes[index];
-
       if (node !== undefined) {
         var scrollTop;
-
         if (alignToTop) {
           if (node.isSticky) {
+            // @ts-expect-error TS(2532): Object is possibly 'undefined'.
             scrollTop = node.top - node.stickyTop;
           } else {
             var path = this.getParentPath(index, false);
-
             for (var i = 0; i < path.length; i++) {
               var ancestor = path[i];
-
               if (ancestor.isSticky) {
+                // @ts-expect-error TS(2532): Object is possibly 'undefined'.
                 scrollTop = node.top - ancestor.stickyTop - ancestor.height;
                 break;
               }
             }
-
             if (scrollTop === undefined) {
               // Fallback if nothing is sticky.
               scrollTop = node.top;
             }
           }
         } else {
+          // @ts-expect-error TS(2532): Object is possibly 'undefined'.
           scrollTop = node.top - this.props.height + node.height;
         }
-
+        // @ts-expect-error TS(2345): Argument of type 'number | undefined' is not assig... Remove this comment to see the full error message
         this.setScrollTop(scrollTop);
       }
-    }
+    } // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   }, {
     key: "componentDidUpdate",
     value: function componentDidUpdate(prevProps, prevState) {
@@ -474,7 +413,6 @@ var StickyVirtualizedList = /*#__PURE__*/function (_React$PureComponent) {
           this.elem.scrollTop = this.state.scrollTop;
         }
       }
-
       if (this.props.onRowsRendered !== undefined && (prevState.currNodePos !== this.state.currNodePos || this.treeDataUpdated(prevProps))) {
         var range = this.rowRenderRange;
         var visibleStartInfo = this.nodes[range.visibleStart];
@@ -495,7 +433,6 @@ var StickyVirtualizedList = /*#__PURE__*/function (_React$PureComponent) {
     value: function refreshCachedMetadata(props) {
       this.structureChanged = false;
       this.nodes = this.flattenTree(props.root, props);
-
       if (this.structureChanged) {
         // Need to re-render as the curr node may not be in view
         if (this.elem) {
@@ -517,33 +454,33 @@ var StickyVirtualizedList = /*#__PURE__*/function (_React$PureComponent) {
     key: "storeRenderTree",
     value: function storeRenderTree(props, state) {
       this.treeToRender = this.renderParentTree(props, state);
-    }
+    } // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   }, {
     key: "forceUpdate",
     value: function forceUpdate() {
       this.getChildrenCache = {};
       this.rowRenderCache = {};
       this.storeRenderTree(this.props, this.state);
-
       _get(_getPrototypeOf(StickyVirtualizedList.prototype), "forceUpdate", this).call(this);
     }
   }, {
     key: "renderParentTree",
     value: function renderParentTree(props, state) {
       this.rowRenderRange = this.getRenderRowRange(props, state);
-      var path = this.getParentPath(this.rowRenderRange.start); // Parent nodes to the current range.
+      var path = this.getParentPath(this.rowRenderRange.start);
 
+      // Parent nodes to the current range.
       var indexesToRender = new Set();
-
       for (var i = 0; i < path.length; i++) {
+        // @ts-expect-error TS(2345): Argument of type 'number | undefined' is not assig... Remove this comment to see the full error message
         indexesToRender.add(path[i].index);
-      } // The rest of the nodes within the range.
-
-
-      for (var _i = this.rowRenderRange.start; _i <= this.rowRenderRange.end; _i++) {
-        indexesToRender.add(this.nodes[_i].index);
       }
 
+      // The rest of the nodes within the range.
+      for (var _i = this.rowRenderRange.start; _i <= this.rowRenderRange.end; _i++) {
+        // @ts-expect-error TS(2345): Argument of type 'number | undefined' is not assig... Remove this comment to see the full error message
+        indexesToRender.add(this.nodes[_i].index);
+      }
       if (this.props.renderRoot) {
         return /*#__PURE__*/_react["default"].createElement("div", {
           className: "rv-sticky-node-list",
@@ -554,7 +491,6 @@ var StickyVirtualizedList = /*#__PURE__*/function (_React$PureComponent) {
           }
         }, this.renderChildWithChildren(props, state, this.nodes[0], 0, indexesToRender));
       }
-
       return this.renderParentContainer(props, state, this.nodes[0], indexesToRender);
     }
   }, {
@@ -565,6 +501,7 @@ var StickyVirtualizedList = /*#__PURE__*/function (_React$PureComponent) {
         style: {
           position: 'absolute',
           width: '100%',
+          // @ts-expect-error TS(2532): Object is possibly 'undefined'.
           height: parent.totalHeight - parent.height
         }
       }, this.renderChildren(props, state, parent, indexesToRender));
@@ -594,13 +531,11 @@ var StickyVirtualizedList = /*#__PURE__*/function (_React$PureComponent) {
       var style = {
         height: node.height
       };
-
       if (node.isSticky) {
         style.position = 'sticky';
         style.top = node.stickyTop;
         style.zIndex = node.zIndex;
       }
-
       return style;
     }
   }, {
@@ -617,12 +552,11 @@ var StickyVirtualizedList = /*#__PURE__*/function (_React$PureComponent) {
     key: "renderChildren",
     value: function renderChildren(props, state, parent, indexesToRender) {
       var _this4 = this;
-
       var nodes = [];
       var top = 0;
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       parent.children.forEach(function (index) {
         var child = _this4.nodes[index];
-
         if (indexesToRender.has(index)) {
           if (child.children && child.children.length > 0) {
             nodes.push(_this4.renderChildWithChildren(props, state, child, top, indexesToRender));
@@ -639,10 +573,10 @@ var StickyVirtualizedList = /*#__PURE__*/function (_React$PureComponent) {
               nodes.push(_this4.renderNode(props, state, child, _this4.getClientLeafNodeStyle(child, top)));
             }
           }
-        } // Needs to be on the outside so that we add the the top even if
+        }
+        // Needs to be on the outside so that we add the the top even if
         // this node is not visible
-
-
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         top += child.totalHeight;
       });
       return nodes;
@@ -655,46 +589,45 @@ var StickyVirtualizedList = /*#__PURE__*/function (_React$PureComponent) {
         return this.rowRenderCache[nodeInfo.id];
       }
 
+      // @ts-expect-error TS(2322): Type 'CSSProperties | undefined' is not assignable... Remove this comment to see the full error message
       var renderedRow = props.rowRenderer({
         id: nodeInfo.id,
         nodeInfo: nodeInfo,
         style: style
       });
-
       if (props.isModelImmutable) {
         this.rowRenderCache[nodeInfo.id] = renderedRow;
       }
-
       return renderedRow;
     }
     /**
      * Determines the start and end number of the range to be rendered.
      * @returns {{start: number, end: number}} Indexes within nodes
      */
-
   }, {
     key: "getRenderRowRange",
     value: function getRenderRowRange(props, state) {
       // Needs to be at least 1
-      var overscanRowCount = props.overscanRowCount > 0 ? props.overscanRowCount : 1;
+      var overscanRowCount =
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+      props.overscanRowCount > 0 ? props.overscanRowCount : 1;
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       var start = state.currNodePos - overscanRowCount;
-
       if (start < 0) {
         start = 0;
       }
-
       var visibleEnd = state.currNodePos + 1;
-
-      while (this.nodes[visibleEnd] && this.nodes[visibleEnd].top < state.scrollTop + props.height) {
+      while (this.nodes[visibleEnd] &&
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+      this.nodes[visibleEnd].top < state.scrollTop + props.height) {
         visibleEnd++;
       }
 
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       var end = visibleEnd + overscanRowCount;
-
       if (end > this.nodes.length - 1) {
         end = this.nodes.length - 1;
       }
-
       return {
         start: start,
         end: end,
@@ -708,72 +641,63 @@ var StickyVirtualizedList = /*#__PURE__*/function (_React$PureComponent) {
       var topDownOrder = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : true;
       var currNode = this.nodes[nodeIndex];
       var path = [];
-
       while (currNode) {
+        // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
         currNode = this.nodes[currNode.parentIndex];
-
         if (currNode) {
           path.push(currNode);
         }
       }
-
       return topDownOrder ? path.reverse() : path;
     }
   }, {
     key: "forwardSearch",
     value: function forwardSearch(scrollTop, searchPos) {
       var nodes = this.nodes;
-
       for (var i = searchPos; i < nodes.length; i++) {
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         if (nodes[i].top >= scrollTop) {
           return i;
         }
       }
-
       return nodes.length - 1;
     }
   }, {
     key: "backwardSearch",
     value: function backwardSearch(scrollTop, searchPos) {
       var nodes = this.nodes;
-
       for (var i = Math.min(searchPos, Math.max(nodes.length - 1, 0)); i >= 0; i--) {
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         if (nodes[i].top <= scrollTop) {
           return i;
         }
       }
-
       return 0;
     }
   }, {
     key: "setScrollTopAndClosestNode",
     value: function setScrollTopAndClosestNode(scrollTop, currNodePos, scrollReason) {
       var _this5 = this;
-
       if (scrollTop === this.state.scrollTop) {
         return;
       }
-
       if (scrollTop >= this.elem.scrollHeight - this.elem.offsetHeight) {
         scrollTop = this.elem.scrollHeight - this.elem.offsetHeight;
       }
-
       var pos;
-
       if (scrollTop > this.state.scrollTop || currNodePos === 0) {
         pos = this.forwardSearch(scrollTop, currNodePos);
       }
-
       if (scrollTop < this.state.scrollTop && pos === undefined) {
         pos = this.backwardSearch(scrollTop, currNodePos);
       }
-
       this.pendingScrollTop = scrollTop;
       this.setState({
         currNodePos: pos ? pos : 0,
         scrollTop: scrollTop,
         scrollReason: scrollReason
       }, function () {
+        // @ts-expect-error TS(2322): Type 'undefined' is not assignable to type 'number... Remove this comment to see the full error message
         _this5.pendingScrollTop = undefined;
       });
     }
@@ -781,11 +705,10 @@ var StickyVirtualizedList = /*#__PURE__*/function (_React$PureComponent) {
     key: "onScroll",
     value: function onScroll(e) {
       var _ref = e.target,
-          scrollTop = _ref.scrollTop,
-          scrollLeft = _ref.scrollLeft;
+        scrollTop = _ref.scrollTop,
+        scrollLeft = _ref.scrollLeft;
       var scrollReason = this.state.scrollReason || _StickyVirtualizedList.scrollReasons.requested;
       this.setScrollTopAndClosestNode(scrollTop, this.state.currNodePos, scrollReason);
-
       if (this.props.onScroll !== undefined) {
         this.props.onScroll({
           scrollTop: scrollTop,
@@ -793,31 +716,27 @@ var StickyVirtualizedList = /*#__PURE__*/function (_React$PureComponent) {
           scrollReason: scrollReason
         });
       }
-
       this.setState({
         scrollTick: !this.state.scrollTick,
         scrollReason: undefined
       });
-    }
+    } // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   }, {
     key: "render",
     value: function render() {
       var _this6 = this;
-
       var style = {
         overflow: 'auto',
         position: 'relative'
       };
-
       if (this.props.width) {
         style.width = this.props.width;
       }
-
       if (this.props.height) {
         style.height = this.props.height;
       }
-
       return /*#__PURE__*/_react["default"].createElement("div", {
+        // @ts-expect-error TS(2322): Type 'HTMLDivElement | null' is not assignable to ... Remove this comment to see the full error message
         ref: function ref(elem) {
           return _this6.elem = elem;
         },
@@ -827,10 +746,8 @@ var StickyVirtualizedList = /*#__PURE__*/function (_React$PureComponent) {
       }, this.treeToRender);
     }
   }]);
-
   return StickyVirtualizedList;
 }(_react["default"].PureComponent);
-
 exports.StickyVirtualizedList = StickyVirtualizedList;
 StickyVirtualizedList.defaultProps = {
   overscanRowCount: 10,

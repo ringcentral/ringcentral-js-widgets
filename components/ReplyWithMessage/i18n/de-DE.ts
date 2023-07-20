@@ -1,8 +1,8 @@
 export default {
   cancel: "Abbrechen",
-  reply: "Antworten",
+  reply: "Antwort",
   onMyWay: "Bin unterwegs",
-  customMessage: "Benutzerdef. Nachricht",
+  customMessage: "Benutzerdefinierte Nachricht",
   callMeBackIn: "Rufen Sie mich zurück in",
   willCallYouBackIn: "Ich rufe Sie zurück in",
   min: "Min.",

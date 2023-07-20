@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -12,9 +10,9 @@ var _default = {
   keypad: "키패드",
   hold: "대기",
   onHold: "대기 중",
-  park: "통화 대기",
+  park: "대기 중",
   stopRecord: "중지",
-  record: "녹음",
+  record: "레코드",
   add: "추가",
   transfer: "전달",
   flip: "전환",
@@ -37,6 +35,5 @@ var _default = {
 // @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
 // @key: @#@"end"@#@ @source: @#@"End"@#@
 // @key: @#@"completeTransfer"@#@ @source: @#@"Complete\nTransfer"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=ko-KR.js.map

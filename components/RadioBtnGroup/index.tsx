@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import i18n from './i18n';
 import styles from './styles.scss';
 
-function RadioOption(props) {
+const RadioOption = (props: any) => {
   const {
     dataSign,
     currentIndex,
@@ -39,7 +39,7 @@ function RadioOption(props) {
       </span>
     </div>
   );
-}
+};
 RadioOption.propTypes = {
   currentIndex: PropTypes.number.isRequired,
   phoneNumber: PropTypes.string.isRequired,
@@ -55,14 +55,15 @@ RadioOption.defaultProps = {
 };
 
 class RadioButtonGroup extends Component {
-  constructor(props) {
+  chooseOption: any;
+  constructor(props: any) {
     super(props);
 
     const { disabled, onRadioSelect, radioOptions } = props;
     this.state = {
       selectedIndex: 0,
     };
-    this.chooseOption = (index) => {
+    this.chooseOption = (index: any) => {
       if (!disabled) {
         this.setState({
           selectedIndex: index,
@@ -72,14 +73,17 @@ class RadioButtonGroup extends Component {
     };
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
+    // @ts-expect-error TS(2339): Property 'dataSign' does not exist on type 'Readon... Remove this comment to see the full error message
     const { dataSign, className, radioOptions, formatPhone, currentLocale } =
       this.props;
 
+    // @ts-expect-error TS(2339): Property 'selectedIndex' does not exist on type 'R... Remove this comment to see the full error message
     const { selectedIndex } = this.state;
     return (
       <div className={classnames(styles.root, className)}>
-        {radioOptions.map((number, idx) => (
+        {radioOptions.map((number: any, idx: any) => (
           <RadioOption
             dataSign={dataSign}
             currentIndex={idx}
@@ -96,6 +100,7 @@ class RadioButtonGroup extends Component {
   }
 }
 
+// @ts-expect-error TS(2339): Property 'propTypes' does not exist on type 'typeo... Remove this comment to see the full error message
 RadioButtonGroup.propTypes = {
   className: PropTypes.string.isRequired,
   radioOptions: PropTypes.array.isRequired,
@@ -105,6 +110,7 @@ RadioButtonGroup.propTypes = {
   currentLocale: PropTypes.string.isRequired,
   dataSign: PropTypes.string,
 };
+// @ts-expect-error TS(2339): Property 'defaultProps' does not exist on type 'ty... Remove this comment to see the full error message
 RadioButtonGroup.defaultProps = {
   dataSign: '',
 };

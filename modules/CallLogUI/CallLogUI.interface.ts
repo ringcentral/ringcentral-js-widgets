@@ -1,18 +1,18 @@
-import { ActiveCallControl } from '@ringcentral-integration/commons/modules/ActiveCallControlV2';
-import { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures';
-import { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettingsV2';
-import CallLogger from '@ringcentral-integration/commons/modules/CallLogger';
-import ConnectivityMonitor from '@ringcentral-integration/commons/modules/ConnectivityMonitor';
-import DateTimeFormat from '@ringcentral-integration/commons/modules/DateTimeFormat';
-import { ForwardingNumber } from '@ringcentral-integration/commons/modules/ForwardingNumberV2';
-import { Locale } from '@ringcentral-integration/commons/modules/Locale';
-import RateLimiter from '@ringcentral-integration/commons/modules/RateLimiter';
-import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
+import type { ActiveCallControl } from '@ringcentral-integration/commons/modules/ActiveCallControl';
+import type { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures';
+import type { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettings';
+import type { CallLogger } from '@ringcentral-integration/commons/modules/CallLogger';
+import type { ConnectivityMonitor } from '@ringcentral-integration/commons/modules/ConnectivityMonitor';
+import type { DateTimeFormat } from '@ringcentral-integration/commons/modules/DateTimeFormat';
+import type { ForwardingNumber } from '@ringcentral-integration/commons/modules/ForwardingNumber';
+import type { Locale } from '@ringcentral-integration/commons/modules/Locale';
+import type { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiter';
+import type { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
+import type { AccountInfo } from '@ringcentral-integration/commons/modules/AccountInfo';
 
-import { CallLogPanelProps } from '../../components/CallLogPanel';
-import CallLogSection from '../CallLogSection';
-import { CallLogSection as CallLogSectionV2 } from '../CallLogSectionV2';
-import { RouterInteraction } from '../RouterInteraction';
+import type { CallLogPanelProps } from '../../components/CallLogPanel';
+import type { CallLogSection } from '../CallLogSection';
+import type { RouterInteraction } from '../RouterInteraction';
 
 export interface State {}
 
@@ -26,7 +26,7 @@ export interface Deps {
   rateLimiter: RateLimiter;
   regionSettings: RegionSettings;
   dateTimeFormat: DateTimeFormat;
-  callLogSection: CallLogSection | CallLogSectionV2;
+  callLogSection: CallLogSection;
   routerInteraction: RouterInteraction;
   activeCallControl: ActiveCallControl;
   appFeatures: AppFeatures;
@@ -34,6 +34,7 @@ export interface Deps {
   callingSettings: CallingSettings;
   forwardingNumber: ForwardingNumber;
   callLogUIOptions: CallLogUIOptions;
+  accountInfo: AccountInfo;
 }
 
 export interface CallLogUIInterface extends State {

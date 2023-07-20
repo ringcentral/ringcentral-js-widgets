@@ -1,7 +1,7 @@
 export default {
-  start: "Faça um rápido tour",
-  skip: "Ignorar",
-  next: "Próximo",
+  start: "Faça um tour rápido",
+  skip: "Pular",
+  next: "Avançar",
   finish: "Finalizar"
 };
 

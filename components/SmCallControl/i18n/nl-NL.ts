@@ -1,6 +1,6 @@
 export default {
   mute: "Dempen",
-  unmute: "Dempen uit",
+  unmute: "Dempen uitschakelen",
   hangup: "Ophangen",
   reject: "Weigeren"
 };

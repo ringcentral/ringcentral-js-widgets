@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -24,7 +22,7 @@ var _default = {
   subject: "Oggetto",
   subjectPlaceHolder: "Facci sapere come possiamo aiutarti",
   description: "Descrizione completa",
-  descriptionPlaceHolder: "Includi tutte le informazioni che puoi",
+  descriptionPlaceHolder: "Includi tutte le informazioni disponibili",
   send: "Invia il tuo feedback"
 }; // @key: @#@"feedbackHeader"@#@ @source: @#@"Submit Feedback"@#@
 // @key: @#@"back"@#@ @source: @#@"Back"@#@
@@ -45,6 +43,5 @@ var _default = {
 // @key: @#@"description"@#@ @source: @#@"Full description"@#@
 // @key: @#@"descriptionPlaceHolder"@#@ @source: @#@"Please include as much information as possible"@#@
 // @key: @#@"send"@#@ @source: @#@"Send Your Feedback"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=it-IT.js.map

@@ -1,7 +1,7 @@
 export default {
   noRecords: "找不到最近的記錄。",
-  inBound: "撥入電話",
-  outBound: "撥出電話",
+  inBound: "撥入",
+  outBound: "撥出",
   missed: "未接電話"
 };
 

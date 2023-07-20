@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -10,7 +8,7 @@ var _default = {
   account: "Cuenta",
   contact: "Contacto",
   lead: "Posible cliente",
-  opportunity: "Candidato a cliente",
+  opportunity: "Oportunidad",
   "case": "Caso",
   chooseEntity: "Seleccionar tipo de entidad",
   create: "Crear"
@@ -21,6 +19,5 @@ var _default = {
 // @key: @#@"case"@#@ @source: @#@"Case"@#@
 // @key: @#@"chooseEntity"@#@ @source: @#@"Please select entity type"@#@
 // @key: @#@"create"@#@ @source: @#@"Create"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=es-ES.js.map

@@ -1,4 +1,5 @@
-import React, { FunctionComponent, ReactElement } from 'react';
+import type { FunctionComponent, ReactElement } from 'react';
+import React from 'react';
 
 import {
   RcAccordion,
@@ -6,7 +7,7 @@ import {
   RcAccordionSummary,
   RcFormGroup,
 } from '@ringcentral/juno';
-import { ArrowDown2 } from '@ringcentral/juno/icon';
+import { ArrowDown2 } from '@ringcentral/juno-icon';
 
 import styles from './styles.scss';
 
@@ -36,6 +37,7 @@ export const SettingGroup: FunctionComponent<SettingGroupProps> = ({
         <RcAccordionSummary
           classes={{
             root: styles.accordionSummary,
+            // @ts-expect-error TS(2322): Type 'string | null' is not assignable to type 'st... Remove this comment to see the full error message
             disabled: expandable ? null : styles.accordionSummaryDisabled,
           }}
           expandIcon={expandable ? ArrowDown2 : undefined}

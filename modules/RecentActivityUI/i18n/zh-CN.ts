@@ -3,7 +3,7 @@ export default {
   text: "短信",
   fax: "传真",
   voicemail: "语音邮件",
-  call: "呼叫"
+  call: "电话"
 };
 
 // @key: @#@"recentActivities"@#@ @source: @#@"Recent Activities"@#@

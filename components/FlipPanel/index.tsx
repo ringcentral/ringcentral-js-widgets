@@ -20,7 +20,7 @@ type FlipPanelProps = {
   onFlip: (...args: any[]) => any;
   onComplete: (...args: any[]) => any;
   onCallEnd: (...args: any[]) => any;
-  session?: object;
+  session?: object | null;
   sessionId: string;
 };
 type FlipPanelState = {
@@ -28,7 +28,7 @@ type FlipPanelState = {
   flipEnabled: boolean;
 };
 class FlipPanel extends Component<FlipPanelProps, FlipPanelState> {
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     this.state = {
       flipValue:
@@ -38,13 +38,14 @@ class FlipPanel extends Component<FlipPanelProps, FlipPanelState> {
       flipEnabled: !this.props.isOnFlip,
     };
   }
-  UNSAFE_componentWillReceiveProps(nextProps) {
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
+  UNSAFE_componentWillReceiveProps(nextProps: any) {
     const { session, onCallEnd } = this.props;
     if (session && !nextProps.session) {
       onCallEnd();
     }
   }
-  onRadioSelect = (value) => {
+  onRadioSelect = (value: any) => {
     this.setState({
       flipValue: value,
     });
@@ -58,6 +59,7 @@ class FlipPanel extends Component<FlipPanelProps, FlipPanelState> {
   onComplete = () => {
     this.props.onComplete(this.props.sessionId);
   };
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     const { isOnFlip, onBack, currentLocale, flipNumbers, formatPhone } =
       this.props;
@@ -65,6 +67,7 @@ class FlipPanel extends Component<FlipPanelProps, FlipPanelState> {
     return (
       <div className={styles.root} data-sign="flipPanel">
         <BackHeader
+          // @ts-expect-error TS(2322): Type '((...args: any[]) => any) | null' is not ass... Remove this comment to see the full error message
           onBackClick={isOnFlip ? null : onBack}
           backButton={<BackButton showIcon={!isOnFlip} />}
           className={styles.backHeader}
@@ -75,6 +78,7 @@ class FlipPanel extends Component<FlipPanelProps, FlipPanelState> {
         </BackHeader>
         <div className={styles.flipContainer}>
           <RadioButtonGroup
+            // @ts-expect-error TS(2322): Type '{ dataSign: string; className: string; radio... Remove this comment to see the full error message
             dataSign="flipNumber"
             className={styles.radioGroup}
             radioOptions={flipNumbers}
@@ -123,6 +127,7 @@ class FlipPanel extends Component<FlipPanelProps, FlipPanelState> {
     );
   }
 }
+// @ts-expect-error TS(2339): Property 'defaultProps' does not exist on type 'ty... Remove this comment to see the full error message
 FlipPanel.defaultProps = {
   session: null,
   isOnFlip: false,

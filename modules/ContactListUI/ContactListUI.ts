@@ -1,4 +1,4 @@
-import {
+import type {
   ContactPresence,
   IContact,
 } from '@ringcentral-integration/commons/interfaces/Contact.model';
@@ -10,7 +10,7 @@ import {
 } from '@ringcentral-integration/commons/lib/contactHelper';
 import { debounce } from '@ringcentral-integration/commons/lib/debounce-throttle';
 import { Module } from '@ringcentral-integration/commons/lib/di';
-import proxify from '@ringcentral-integration/commons/lib/proxy/proxify';
+import { proxify } from '@ringcentral-integration/commons/lib/proxy/proxify';
 import {
   action,
   computed,
@@ -19,8 +19,8 @@ import {
   watch,
 } from '@ringcentral-integration/core';
 
-import { RouteParams } from '../ContactDetailsUI';
-import {
+import type { RouteParams } from '../ContactDetailsUI';
+import type {
   ContactSourceLastStatus,
   Deps,
   FilterCriteria,
@@ -29,7 +29,7 @@ import {
   StampedFilterCriteria,
 } from './ContactListUI.interface';
 
-export const FILTER_THRESHOLD: number = 500;
+export const FILTER_THRESHOLD = 500;
 
 @Module({
   name: 'ContactListUI',
@@ -37,34 +37,36 @@ export const FILTER_THRESHOLD: number = 500;
     'Auth',
     'Locale',
     'ExtensionInfo',
-    'ContactSources',
+    'Contacts',
     { dep: 'ContactDetailsUI', optional: true },
   ],
 })
 export class ContactListUI extends RcUIModuleV2<Deps> {
   private _sourcesLastStatus: Map<string, ContactSourceLastStatus> = new Map();
-  private _sourcesUpdatedAt: number = 0;
+  private _sourcesUpdatedAt = 0;
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'StampedFilt... Remove this comment to see the full error message
   private _currentFilterCriteria: StampedFilterCriteria = null;
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'StampedFilt... Remove this comment to see the full error message
   private _nextFilterCriteria: StampedFilterCriteria = null;
 
   constructor(deps: Deps) {
     super({ deps });
   }
 
-  _shouldInit() {
+  override _shouldInit() {
     return (
       super._shouldInit() && this._deps.auth.loggedIn && this.allSourcesReady()
     );
   }
 
-  _shouldReset() {
+  override _shouldReset() {
     return (
       super._shouldReset() ||
       (this.ready && (this._deps.auth.notLoggedIn || !this.allSourcesReady()))
     );
   }
 
-  onInitOnce() {
+  override onInitOnce() {
     this.checkSourcesUpdated();
     watch(
       this,
@@ -77,11 +79,11 @@ export class ContactListUI extends RcUIModuleV2<Deps> {
     );
   }
 
-  onInitSuccess() {
+  override onInitSuccess() {
     this.applyFilters();
   }
 
-  onReset() {
+  override onReset() {
     this._resetFilters();
     this._clearFilteredContacts();
     if (this._debouncedFilterContactSources) {
@@ -89,9 +91,13 @@ export class ContactListUI extends RcUIModuleV2<Deps> {
     }
   }
 
+  get contactSources() {
+    return Array.from(this._deps.contacts.contactSources.values());
+  }
+
   allSourcesReady() {
     let ready = true;
-    for (const source of this._deps.contactSources) {
+    for (const source of this.contactSources) {
       if (!source.ready) {
         ready = false;
         break;
@@ -102,11 +108,11 @@ export class ContactListUI extends RcUIModuleV2<Deps> {
 
   checkSourcesUpdated() {
     let updated = false;
-    if (this._sourcesLastStatus.size !== this._deps.contactSources.length) {
+    if (this._sourcesLastStatus.size !== this.contactSources.length) {
       updated = true;
       this._sourcesLastStatus.clear();
     }
-    for (const source of this._deps.contactSources) {
+    for (const source of this.contactSources) {
       const lastStatus = this._sourcesLastStatus.get(source.sourceName);
       if (
         !lastStatus ||
@@ -131,20 +137,22 @@ export class ContactListUI extends RcUIModuleV2<Deps> {
   sourceFilter: string = AllContactSourceName;
 
   @state
-  searchFilter: string = '';
+  searchFilter = '';
 
   @state
-  filterStamp: number = 0;
+  filterStamp = 0;
 
   @state
-  isFiltering: boolean = false;
+  isFiltering = false;
 
   @state
   filteredContactsList: [string, string][] = [];
 
   @action
   private _updateFilters({ sourceFilter, searchFilter }: FilterCriteria) {
+    // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
     this.sourceFilter = sourceFilter;
+    // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
     this.searchFilter = searchFilter;
     this.filterStamp = Math.random();
   }
@@ -155,7 +163,9 @@ export class ContactListUI extends RcUIModuleV2<Deps> {
     this.searchFilter = '';
     this.filterStamp = 0;
     this.isFiltering = false;
+    // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'StampedFilt... Remove this comment to see the full error message
     this._currentFilterCriteria = null;
+    // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'StampedFilt... Remove this comment to see the full error message
     this._nextFilterCriteria = null;
   }
 
@@ -180,13 +190,11 @@ export class ContactListUI extends RcUIModuleV2<Deps> {
 
   @computed((that: ContactListUI) => [
     that.filteredContactsList,
-    ...Object.values(that._deps.contactSources).map(
-      (source) => source.contacts,
-    ),
+    ...Object.values(that.contactSources).map((source) => source.contacts),
   ])
   get filteredContacts() {
     const contactsMap: Record<string, Record<string, IContact>> = {};
-    this._deps.contactSources.forEach((source) => {
+    this.contactSources.forEach((source) => {
       contactsMap[source.sourceName] = {};
       source.contacts.forEach((contact) => {
         contactsMap[source.sourceName][contact.id] = contact;
@@ -194,7 +202,10 @@ export class ContactListUI extends RcUIModuleV2<Deps> {
     });
     const filteredContacts: IContact[] = [];
     this.filteredContactsList.forEach(([sourceName, id]) => {
-      filteredContacts.push(contactsMap[sourceName][id]);
+      const contact = contactsMap[sourceName][id];
+      if (contact) {
+        filteredContacts.push(contact);
+      }
     });
     return filteredContacts;
   }
@@ -212,7 +223,7 @@ export class ContactListUI extends RcUIModuleV2<Deps> {
     this._setIsFiltering(true);
     this._clearFilteredContacts();
     this._currentFilterCriteria = criteria;
-    const sources = this._deps.contactSources.filter(
+    const sources = this.contactSources.filter(
       (source) =>
         source.sourceReady &&
         typeof source.filterContacts === 'function' &&
@@ -222,6 +233,7 @@ export class ContactListUI extends RcUIModuleV2<Deps> {
     await Promise.all(
       sources.map((source) => {
         const promise = Promise.resolve(
+          // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
           source.filterContacts(criteria.searchFilter),
         );
         return promise
@@ -240,10 +252,12 @@ export class ContactListUI extends RcUIModuleV2<Deps> {
           });
       }),
     );
+    // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'StampedFilt... Remove this comment to see the full error message
     this._currentFilterCriteria = null;
     this._setIsFiltering(false);
     if (this._nextFilterCriteria) {
       const next = this._nextFilterCriteria;
+      // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'StampedFilt... Remove this comment to see the full error message
       this._nextFilterCriteria = null;
       this._filterContactSources(next);
     }
@@ -268,25 +282,16 @@ export class ContactListUI extends RcUIModuleV2<Deps> {
   @proxify
   async getPresence(
     contact: IContact,
-    useCache: boolean = true,
-  ): Promise<ContactPresence> {
-    const source = this._deps.contactSources.find(
-      (x) =>
-        x.sourceReady &&
-        typeof x.getPresence === 'function' &&
-        x.sourceName === (contact && contact.type),
-    );
-    if (source) {
-      const result = await source.getPresence(contact, useCache);
-      return result;
-    }
-    return null;
+    useCache = true,
+  ): Promise<ContactPresence | null> {
+    const presence = await this._deps.contacts.getPresence(contact, useCache);
+    return presence;
   }
 
   @computed((that: ContactListUI) => [that.checkSourcesUpdated()])
   get sourceNames() {
     const names = [AllContactSourceName];
-    for (const source of this._deps.contactSources) {
+    for (const source of this.contactSources) {
       if (source.sourceReady) {
         names.push(source.sourceName);
       }
@@ -296,16 +301,18 @@ export class ContactListUI extends RcUIModuleV2<Deps> {
 
   @computed((that: ContactListUI) => [that.filteredContacts])
   get contactGroups() {
-    return groupByFirstLetterOfName(
-      sortContactItemsByName(uniqueContactItems(this.filteredContacts)),
+    return (
+      groupByFirstLetterOfName(
+        sortContactItemsByName(uniqueContactItems(this.filteredContacts)),
+      ) ?? []
     );
   }
 
   getUIProps({ bottomNotice, bottomNoticeHeight }: GetUIProps) {
     return {
       currentLocale: this._deps.locale.currentLocale,
-      contactSourceNames: this.sourceNames || [],
-      contactGroups: this.contactGroups || [],
+      contactSourceNames: this.sourceNames,
+      contactGroups: this.contactGroups,
       searchSource: this.sourceFilter,
       searchString: this.searchFilter,
       isSearching: this.isFiltering,
@@ -321,6 +328,7 @@ export class ContactListUI extends RcUIModuleV2<Deps> {
   getUIFunctions({ onVisitPage, onRefresh, onItemSelect }: GetUIFunctions) {
     return {
       getAvatarUrl(): string {
+        // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string'.
         return null;
       },
       getPresence: (contact: IContact): Promise<any> => {

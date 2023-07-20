@@ -1,28 +1,30 @@
-import GetMessageInfoResponse from 'ringcentral-client/build/definitions/GetMessageInfoResponse';
-
-import { Entity } from '@ringcentral-integration/commons/interfaces/Entity.interface';
-import { Message } from '@ringcentral-integration/commons/interfaces/MessageStore.model';
-import { Correspondent } from '@ringcentral-integration/commons/lib/messageHelper';
-import { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures/AppFeatures';
-import { Brand } from '@ringcentral-integration/commons/modules/Brand';
-import { ConnectivityMonitor } from '@ringcentral-integration/commons/modules/ConnectivityMonitorV2';
-import { ContactMatcher } from '@ringcentral-integration/commons/modules/ContactMatcherV2';
-import { ConversationLogger } from '@ringcentral-integration/commons/modules/ConversationLoggerV2';
-import {
+import type GetMessageInfoResponse from 'ringcentral-client/build/definitions/GetMessageInfoResponse';
+import type { Entity } from '@ringcentral-integration/commons/interfaces/Entity.interface';
+import type { Message } from '@ringcentral-integration/commons/interfaces/MessageStore.model';
+import type { Correspondent } from '@ringcentral-integration/commons/lib/messageHelper';
+import type { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures/AppFeatures';
+import type { ExtensionInfo } from '@ringcentral-integration/commons/modules/ExtensionInfo';
+import type { Brand } from '@ringcentral-integration/commons/modules/Brand';
+import type { ConnectivityMonitor } from '@ringcentral-integration/commons/modules/ConnectivityMonitor';
+import type { ContactMatcher } from '@ringcentral-integration/commons/modules/ContactMatcher';
+import type { ConversationLogger } from '@ringcentral-integration/commons/modules/ConversationLogger';
+import type {
   Conversations,
   CurrentConversation,
-} from '@ringcentral-integration/commons/modules/ConversationsV2';
-import {
+} from '@ringcentral-integration/commons/modules/Conversations';
+import type {
   DateTimeFormat,
   FormatDateTimeOptions,
-} from '@ringcentral-integration/commons/modules/DateTimeFormatV2';
-import { Locale } from '@ringcentral-integration/commons/modules/Locale';
-import { Attachment } from '@ringcentral-integration/commons/modules/MessageSenderV2';
-import { MessageStore } from '@ringcentral-integration/commons/modules/MessageStoreV2';
-import { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiterV2';
-import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
+} from '@ringcentral-integration/commons/modules/DateTimeFormat';
+import type { Locale } from '@ringcentral-integration/commons/modules/Locale';
+import type { Attachment } from '@ringcentral-integration/commons/modules/MessageSender';
+import type { MessageStore } from '@ringcentral-integration/commons/modules/MessageStore';
+import type { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiter';
+import type { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
+import type { AccountInfo } from '@ringcentral-integration/commons/modules/AccountInfo';
 
-import { RouterInteraction } from '../RouterInteraction';
+import type { ReactNode } from 'react';
+import type { RouterInteraction } from '../RouterInteraction';
 
 export interface ConversationUIOptions {
   //
@@ -40,8 +42,10 @@ export interface Deps {
   connectivityMonitor: ConnectivityMonitor;
   messageStore: MessageStore;
   routerInteraction: RouterInteraction;
+  accountInfo: AccountInfo;
   contactMatcher?: ContactMatcher;
   conversationUIOptions?: ConversationUIOptions;
+  extensionInfo?: ExtensionInfo;
 }
 
 export interface OnLogConversationOptions {
@@ -106,6 +110,7 @@ export interface ConversationPanelProps {
   shouldLogSelectRecord?: boolean;
   contactPlaceholder?: string;
   dropdownClassName?: string;
+  isWide?: boolean;
   replyToReceivers: (
     text: string,
     attachments?: Attachment[],
@@ -131,5 +136,12 @@ export interface ConversationPanelProps {
   onSelectContact?(options: OnSelectContactOptions): Promise<void> | void;
   restrictSendMessage?(...args: any): boolean;
   renderContactList?: (entity: { name: string; labelType: string }) => any;
+  renderLogInfoSection?: (...args: any) => any;
   enableCDC: boolean;
+  maxExtensionNumberLength: number;
+  renderConversationTitle?(options: {
+    conversation: CurrentConversation;
+    phoneNumber: string;
+    defaultContactDisplay: JSX.Element;
+  }): ReactNode;
 }

@@ -1,4 +1,5 @@
-import React, { FunctionComponent, memo, useState } from 'react';
+import type { FunctionComponent } from 'react';
+import React, { memo, useState } from 'react';
 
 import {
   RcIcon,
@@ -8,7 +9,7 @@ import {
   RcSubMenu,
 } from '@ringcentral/juno';
 
-import { CallLogMenuItem } from '../CallHistoryPanel.interface';
+import type { CallLogMenuItem } from '../CallHistoryPanel.interface';
 
 export const MenuButton: FunctionComponent<CallLogMenuItem> = memo(
   ({ icon, label, disabled, subMenu, dataSign }) => {
@@ -78,6 +79,7 @@ export const MenuButton: FunctionComponent<CallLogMenuItem> = memo(
           open={Boolean(anchorEl)}
           onClose={handleClose}
         >
+          {/* @ts-expect-error TS(2532): Object is possibly 'undefined'. */}
           {subMenu.map(renderMenuItem)}
         </RcMenu>
       </>

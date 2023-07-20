@@ -1,14 +1,12 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 var _default = {
   topic: "Aihe",
-  when: "Kun",
+  when: "Aika",
   duration: "Kesto",
   recurringMeeting: "Toistuva tapaaminen",
   recurringDescribe: "Muista tarkistaa osallistujille lähetettävän kalenterikutsun toistuvuus.",
@@ -22,7 +20,7 @@ var _default = {
   meetingOptions: "Tapaamisasetukset",
   requirePassword: "Edellytä tapaamisen salasanaa",
   password: "Salasana",
-  rcmPasswordHintText: "Salasanasi tulee olla 1–10 merkkiä ja numeroa pitkä, eikä se saa sisältää muita symboleita kuin @, * tai -",
+  rcmPasswordHintText: "Salasanasi on oltava 1–10 merkkiä ja numeroa pitkä, eikä se saa sisältää muita symboleita kuin @, * tai -",
   passwordEmptyError: "Tapaamisen salasana vaaditaan",
   rcmPasswordInvalidError: "Salasanasi on oltava 1–10 merkkiä ja numeroa pitkä, eikä se saa sisältää muita symboleita kuin @, * tai -",
   enableJoinBeforeHost: "Ota käyttöön liittyminen ennen ylläpitäjää",
@@ -71,6 +69,5 @@ var _default = {
 // @key: @#@"pmiChangeConfirm"@#@ @source: @#@"If you want to make changes for your personal meeting, "@#@
 // @key: @#@"changePmiSettings"@#@ @source: @#@"change PMI settings"@#@
 // @key: @#@"pmiSettingChangeAlert"@#@ @source: @#@"If you change the settings and schedule this meeting, all of meetings with Personal Meeting ID will use the same latest settings."@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=fi-FI.js.map

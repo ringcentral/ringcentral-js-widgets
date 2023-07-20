@@ -16,7 +16,10 @@ type EntityModalState = {
   selected: any;
 };
 class EntityModal extends Component<EntityModalProps, EntityModalState> {
-  constructor(props) {
+  onCancel: any;
+  onCreate: any;
+  onRadioChange: any;
+  constructor(props: any) {
     super(props);
     this.state = {
       selected: props.entities[0],
@@ -31,16 +34,18 @@ class EntityModal extends Component<EntityModalProps, EntityModalState> {
         this.props.onCreate(this.state.selected);
       }
     };
-    this.onRadioChange = (e) => {
+    this.onRadioChange = (e: any) => {
       this.setState({
         selected: e.target.value,
       });
     };
   }
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     const { entities, show, currentLocale } = this.props;
     return (
       <Modal
+        // @ts-expect-error TS(2322): Type '{ children: Element[]; show: boolean | undef... Remove this comment to see the full error message
         show={show}
         title={i18n.getString('chooseEntity', currentLocale)}
         onConfirm={this.onCreate}
@@ -49,6 +54,7 @@ class EntityModal extends Component<EntityModalProps, EntityModalState> {
         currentLocale={currentLocale}
         clickOutToClose
       >
+        {/* @ts-expect-error TS(2532): Object is possibly 'undefined'. */}
         {entities.map((entityType, idx) => (
           <div className={styles.radio} key={idx}>
             <label>
@@ -58,7 +64,7 @@ class EntityModal extends Component<EntityModalProps, EntityModalState> {
                 checked={entityType === this.state.selected}
                 onChange={this.onRadioChange}
               />
-              {i18n.getString(`${entityType}`, currentLocale)}
+              {i18n.getString(entityType, currentLocale)}
             </label>
           </div>
         ))}
@@ -66,6 +72,7 @@ class EntityModal extends Component<EntityModalProps, EntityModalState> {
     );
   }
 }
+// @ts-expect-error TS(2339): Property 'defaultProps' does not exist on type 'ty... Remove this comment to see the full error message
 EntityModal.defaultProps = {
   show: false,
   entities: ['account', 'lead', 'contact'],

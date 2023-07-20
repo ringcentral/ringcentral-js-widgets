@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -13,7 +11,7 @@ var _default = {
   customMessage: "Mensagem personalizada",
   callMeBackIn: "Ligue de novo em",
   willCallYouBackIn: "Retornarei a chamada em",
-  min: "min.",
+  min: "min",
   hours: "horas",
   days: "dias"
 }; // @key: @#@"cancel"@#@ @source: @#@"Cancel"@#@
@@ -25,6 +23,5 @@ var _default = {
 // @key: @#@"min"@#@ @source: @#@"min"@#@
 // @key: @#@"hours"@#@ @source: @#@"hours"@#@
 // @key: @#@"days"@#@ @source: @#@"days"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=pt-BR.js.map

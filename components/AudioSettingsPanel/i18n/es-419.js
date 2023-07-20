@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -39,6 +37,5 @@ var _default = {
 // @key: @#@"noLabelTip"@#@ @source: @#@"Sorry, your current browser permissions aren't set to allow us to access your audio input devices."@#@
 // @key: @#@"clickHere"@#@ @source: @#@"Click here"@#@
 // @key: @#@"defaultOutputDevice"@#@ @source: @#@"Default output device"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=es-419.js.map

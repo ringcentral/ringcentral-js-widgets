@@ -1,0 +1,1 @@
+{"version":3,"file":"ja-JP.js","names":["activeCall","exports","_default"],"sources":["components/ConferenceDialerPanel/i18n/ja-JP.ts"],"sourcesContent":["export default {\n  activeCall: \"アクティブな通話\"\n};\n\n// @key: @#@\"activeCall\"@#@ @source: @#@\"Active Call\"@#@\n"],"mappings":";;;;;;eAAe;EACbA,UAAU,EAAE;AACd,CAAC,EAED;AAAAC,OAAA,cAAAC,QAAA"}

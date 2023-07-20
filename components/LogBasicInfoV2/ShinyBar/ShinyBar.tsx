@@ -1,8 +1,9 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import classnames from 'classnames';
 
-import { CallStatus } from '../../CallLogPanel/CallLog.interface';
+import type { CallStatus } from '../../CallLogPanel/CallLog.interface';
 import styles from './ShinyBar.scss';
 
 export type ShinyBarProps = {

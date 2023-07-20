@@ -1,7 +1,7 @@
 export default {
   hide: "Verbergen",
-  end: "Eindigen",
-  keypad: "Keypad"
+  end: "Beëindigen",
+  keypad: "Toetsenblok"
 };
 
 // @key: @#@"hide"@#@ @source: @#@"Hide"@#@

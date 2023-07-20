@@ -1,4 +1,4 @@
-import formatMessage from 'format-message';
+import { format } from '@ringcentral-integration/utils';
 
 import phoneSourceNames from '../../lib/phoneSourceNames';
 
@@ -23,7 +23,7 @@ export const displayFormatter = ({
   if (entityType) {
     typeName = phoneSourceNameRenderer
       ? phoneSourceNameRenderer(entityType)
-      : formatMessage(phoneSourceNames.getString(entityType, currentLocale), {
+      : format(phoneSourceNames.getString(entityType, currentLocale), {
           brand,
         });
   }

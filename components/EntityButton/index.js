@@ -1,35 +1,25 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-
 var _react = _interopRequireDefault(require("react"));
-
 var _classnames = _interopRequireDefault(require("classnames"));
-
 var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
-
 var _Button = require("../Button");
-
 var _Spinner = _interopRequireDefault(require("../Spinner"));
-
 var _styles = _interopRequireDefault(require("./styles.scss"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 var EntityButton = function EntityButton(_ref) {
   var className = _ref.className,
-      onViewEntity = _ref.onViewEntity,
-      onCreateEntity = _ref.onCreateEntity,
-      hasEntity = _ref.hasEntity,
-      isCreating = _ref.isCreating,
-      disableLinks = _ref.disableLinks,
-      viewEntityTitle = _ref.viewEntityTitle,
-      createEntityTitle = _ref.createEntityTitle;
+    onViewEntity = _ref.onViewEntity,
+    onCreateEntity = _ref.onCreateEntity,
+    hasEntity = _ref.hasEntity,
+    isCreating = _ref.isCreating,
+    disableLinks = _ref.disableLinks,
+    viewEntityTitle = _ref.viewEntityTitle,
+    createEntityTitle = _ref.createEntityTitle;
   // console.debug('isCreating', isCreating);
   var spinner = isCreating ? /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].spinnerContainer
@@ -49,7 +39,6 @@ var EntityButton = function EntityButton(_ref) {
     title: title
   }), spinner);
 };
-
 EntityButton.defaultProps = {
   className: undefined,
   onViewEntity: undefined,

@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -11,13 +9,13 @@ var _default = {
   when: "When",
   duration: "Duration",
   recurringMeeting: "Recurring Meeting",
-  recurringDescribe: "Please remember to check for recurrences or repeats in your calendar invitations to your attendees.",
+  recurringDescribe: "Please remember to check for recurrences or repeats in your calendar invitation to your attendees.",
   video: "Video",
   videoDescribe: "When joining a meeting",
   host: "Host video on",
   participants: "Participant video on",
   audioOptions: "Audio options",
-  voIPOnly: "VoIP only",
+  voIPOnly: "VoIP Only",
   both: "Both",
   meetingOptions: "Meeting options",
   requirePassword: "Require meeting password",
@@ -26,19 +24,19 @@ var _default = {
   passwordEmptyError: "Meeting password required",
   rcmPasswordInvalidError: "Your password must be 1–10 characters long, including letters and numbers, and cannot have symbols except for @, * or -",
   enableJoinBeforeHost: "Enable joining before host",
-  telephonyOnly: "Telephony only",
-  hostVideoOn: "Host video on",
+  telephonyOnly: "Telephony Only",
+  hostVideoOn: "Host Video On",
   participantVideoOn: "Participant video on",
   recurringEvery: "Every",
   recurrenceType: "Recurrence type",
-  recurrenceEndDate: "End date",
+  recurrenceEndDate: "End Date",
   currentLocale: "Day(s)",
   meetingId: "Meeting ID",
   generateAutomatically: "Generate Automatically",
   usePmi: "Personal Meeting ID (PMI): {meetingId}",
   pmiChangeConfirm: "If you want to make changes for your personal meeting, ",
   changePmiSettings: "change PMI settings",
-  pmiSettingChangeAlert: "If you change the settings and schedule this meeting, all of meetings with Personal Meeting ID will use the same latest settings."
+  pmiSettingChangeAlert: "If you change the settings and schedule this meeting, all meetings with Personal Meeting ID will use the same latest settings."
 }; // @key: @#@"topic"@#@ @source: @#@"Topic"@#@
 // @key: @#@"when"@#@ @source: @#@"When"@#@
 // @key: @#@"duration"@#@ @source: @#@"Duration"@#@
@@ -71,6 +69,5 @@ var _default = {
 // @key: @#@"pmiChangeConfirm"@#@ @source: @#@"If you want to make changes for your personal meeting, "@#@
 // @key: @#@"changePmiSettings"@#@ @source: @#@"change PMI settings"@#@
 // @key: @#@"pmiSettingChangeAlert"@#@ @source: @#@"If you change the settings and schedule this meeting, all of meetings with Personal Meeting ID will use the same latest settings."@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=en-GB.js.map

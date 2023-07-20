@@ -7,9 +7,9 @@ export default {
   [webphoneErrors.webphoneCountOverLimit]: "È possibile registrare fino a 5 telefoni web.",
   [webphoneErrors.checkDLError]: "Impossibile effettuare una chiamata in uscita. Se l'errore persiste, contatta {brandName} per assistenza.",
   [webphoneErrors.noOutboundCallWithoutDL]: "Con questo interno non è attualmente consentito effettuare chiamate in uscita con il browser. Contatta il rappresentante dell'account per un upgrade.",
-  [webphoneErrors.provisionUpdate]: "Spiacenti, si è verificato un problema. Tenteremo la riconnessione automatica a breve.",
+  [webphoneErrors.provisionUpdate]: "Si è verificato un problema nei nostri sistemi. Tenteremo la riconnessione automatica a breve.",
   [webphoneErrors.serverConnecting]: "Si è verificato un problema durante la connessione al server telefonico.",
-  [webphoneErrors.toVoiceMailError]: "Impossibile inviare la chiamata alla segreteria telefonica a causa di un errore interno",
+  [webphoneErrors.toVoiceMailError]: "Errore interno: impossibile inviare la chiamata alla segreteria telefonica",
   [webphoneErrors.muteError]: "Impossibile disattivare l'audio della chiamata in questo momento.",
   [webphoneErrors.holdError]: "Impossibile mettere in attesa la chiamata in questo momento.",
   [webphoneErrors.flipError]: "Impossibile commutare la chiamata. Riprova più tardi.",
@@ -20,7 +20,7 @@ export default {
   [webphoneMessages.parked]: "La tua chiamata è parcheggiata nella posizione: {parkedNumber}",
   failWithStatusCode: "Abbiamo riscontrato un errore: {errorCode}. Se il problema persiste, segnala l'errore all'assistenza {brandName}.",
   registeringWithStatusCode: "Si è verificato un problema. Tentativo di riconnessione. Se il problema persiste, segnala l'errore all'assistenza {brandName}. Codice errore: {errorCode}.",
-  failWithoutStatusCode: "Spiacenti, si è verificato un problema. Se l'errore persiste, segnala il problema all'assistenza {brandName}.",
+  failWithoutStatusCode: "Si è verificato un problema nei nostri sistemi. Se l'errore persiste, segnala il problema all'assistenza {brandName}.",
   registeringWithoutStatusCode: "Si è verificato un problema. Tentativo di riconnessione. Se il problema persiste, segnala l'errore all'assistenza {brandName}."
 };
 

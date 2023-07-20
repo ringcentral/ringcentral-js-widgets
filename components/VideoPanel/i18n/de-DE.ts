@@ -1,31 +1,31 @@
-import { ASSISTED_USERS_MYSELF } from '@ringcentral-integration/commons/modules/RcVideo/constants';
+import { ASSISTED_USERS_MYSELF } from '@ringcentral-integration/commons/modules/RcVideo';
 export default {
   topic: "Titel der Besprechung",
   date: "Datum",
   startTime: "Uhrzeit",
   duration: "Dauer",
   scheduleFor: "Ansetzen im Namen von",
-  meetingSettings: "Besprechungseinstellungen",
+  meetingSettings: "Einstellungen für Videokonferenzen",
   [ASSISTED_USERS_MYSELF]: "Mir",
   joinBeforeHost: "Teilnehmern erlauben, vor dem Gastgeber teilzunehmen",
   enableWaitingRoom: "Wartezimmer aktivieren",
   waitingRoom: "Wartezimmer aktivieren für",
   waitingRoomNotCoworker: "Jeder außerhalb meines Unternehmens",
   waitingRoomGuest: "Jeder, der nicht angemeldet ist",
-  waitingRoomAll: "Alle",
+  waitingRoomAll: "Jeden",
   enterPassword: "Kennwort eingeben",
   onlyJoinAfterMe: "Teilnehmer können erst nach mir teilnehmen",
-  onlyJoinAfterHost: "Teilnehmer können erst nach dem Gastgeber teilnehmen",
+  onlyJoinAfterHost: "Teilnehmer können erst nach dem Host beitreten",
   muteAudio: "Ton für Teilnehmer stummschalten",
-  turnOffCamera: "Kamera für Teilnehmer deaktivieren",
+  turnOffCamera: "Kamera für Teilnehmer ausschalten",
   requirePassword: "Kennwort erforderlich",
-  useE2ee: "Ende-zu-Ende-Verschlüsselung verwenden",
-  e2eeTooltip: "Besprechungen mit End-to-End-Verschlüsselung sind am privatesten, jedoch sind Funktionen wie der Beitritt per Telefon, Untertitel und die Aufzeichnung nicht verfügbar.",
-  setPassword: "Kennwort festlegen *",
+  useE2ee: "End-to-End-Verschlüsselung verwenden",
+  e2eeTooltip: "Besprechungen mit End-to-End-Verschlüsselung sind am privatesten, jedoch sind Funktionen wie der Beitritt per Telefon und die Aufzeichnung nicht verfügbar.",
+  setPassword: "Kennwort festlegen*",
   setPasswordNotSymbol: "Kennwort festlegen",
   passwordEmptyError: "Besprechungskennwort erforderlich",
   passwordInvalidError: "Ihr Kennwort muss 1–10 Buchstaben und Ziffern lang sein und darf keine Symbole enthalten",
-  passwordHintText: "Ihr Passwort sollte 1–10 Buchstaben und Ziffern lang sein und darf keine Symbole enthalten",
+  passwordHintText: "Ihr Kennwort muss 1–10 Buchstaben und Ziffern lang sein und darf keine Symbole enthalten",
   usePersonalMeetingId: "Persönliche Besprechungs-ID verwenden:",
   meetingSettingsSecurity: "Sicherheit",
   onlyAuthUserJoin: "Nur authentifizierte Benutzer können teilnehmen",
@@ -78,5 +78,5 @@ export default {
 // @key: @#@"today"@#@ @source: @#@"Today"@#@
 // @key: @#@"scheduleForGuidance"@#@ @source: @#@"Scheduling for someone else?\n1. Make sure you're on their Outlook calendar.\n2. From the dropdown, select the person you're scheduling for.\n"@#@
 // @key: @#@"scheduleForGuidanceMore"@#@ @source: @#@"Learn details"@#@
-// @key: @#@"changePmiSettings"@#@ @source: @#@"Change Personal meeting settings"@#@
+// @key: @#@"changePmiSettings"@#@ @source: @#@"Change Personal Meeting settings"@#@
 // @key: @#@"ieSupportAlert"@#@ @source: @#@"Please note that {appName} won't work with Internet Explorer 11 after Feb 16, 2022. We recommend switching to Microsoft Edge or updating to Outlook 2016 or above."@#@

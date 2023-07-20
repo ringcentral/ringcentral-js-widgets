@@ -1,63 +1,54 @@
 "use strict";
 
+require("core-js/modules/es.symbol");
+require("core-js/modules/es.symbol.description");
+require("core-js/modules/es.symbol.to-primitive");
+require("core-js/modules/es.date.to-primitive");
+require("core-js/modules/es.number.constructor");
+require("core-js/modules/es.object.to-string");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-
-require("core-js/modules/es6.object.define-property");
-
 var _react = _interopRequireDefault(require("react"));
-
 var _classnames2 = _interopRequireDefault(require("classnames"));
-
 var _callDirections = _interopRequireDefault(require("@ringcentral-integration/commons/enums/callDirections"));
-
 var _telephonyStatus = _interopRequireDefault(require("@ringcentral-integration/commons/enums/telephonyStatus"));
-
 var _End = _interopRequireDefault(require("../../assets/images/End.svg"));
-
 var _Button = require("../Button");
-
 var _CircleButton = _interopRequireDefault(require("../CircleButton"));
-
 var _LogBasicInfo = _interopRequireDefault(require("../LogBasicInfo"));
-
 var _i18n = _interopRequireDefault(require("../SmCallControl/i18n"));
-
 var _i18n2 = _interopRequireDefault(require("./i18n"));
-
 var _styles = _interopRequireDefault(require("./styles.scss"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 var LogNotification = function LogNotification(_ref) {
   var formatPhone = _ref.formatPhone,
-      currentLog = _ref.currentLog,
-      currentLocale = _ref.currentLocale,
-      showLogButton = _ref.showLogButton,
-      isExpand = _ref.isExpand,
-      onStay = _ref.onStay,
-      onDiscard = _ref.onDiscard,
-      onSave = _ref.onSave,
-      onExpand = _ref.onExpand,
-      currentSession = _ref.currentSession,
-      onReject = _ref.onReject,
-      onHangup = _ref.onHangup,
-      showEndButton = _ref.showEndButton,
-      disableLinks = _ref.disableLinks;
+    currentLog = _ref.currentLog,
+    currentLocale = _ref.currentLocale,
+    showLogButton = _ref.showLogButton,
+    isExpand = _ref.isExpand,
+    onStay = _ref.onStay,
+    onDiscard = _ref.onDiscard,
+    onSave = _ref.onSave,
+    onExpand = _ref.onExpand,
+    currentSession = _ref.currentSession,
+    onReject = _ref.onReject,
+    onHangup = _ref.onHangup,
+    showEndButton = _ref.showEndButton,
+    disableLinks = _ref.disableLinks;
   var extraButtons = null;
-
   if (showEndButton && showLogButton) {
     var endButton = null;
-
     if (currentSession) {
       var _classnames;
-
+      // @ts-expect-error TS(2339): Property 'callStatus' does not exist on type '{}'.
       var callStatus = currentSession.callStatus,
-          direction = currentSession.direction;
+        direction = currentSession.direction;
       var isInComingCall = _callDirections["default"].inbound === direction && _telephonyStatus["default"].ringing === callStatus;
       var endTitle = isInComingCall ? 'reject' : 'hangup';
       var endAction = isInComingCall ? onReject : onHangup;
@@ -72,13 +63,14 @@ var LogNotification = function LogNotification(_ref) {
         disabled: disableLinks
       }));
     }
-
     extraButtons = /*#__PURE__*/_react["default"].createElement("div", {
       className: _styles["default"].extraButtonBox
     }, endButton, /*#__PURE__*/_react["default"].createElement(_Button.Button, {
       tooltip: _i18n2["default"].getString('log', currentLocale),
       disabled: isExpand,
-      className: (0, _classnames2["default"])(_styles["default"].expandButtonWithEnd, isExpand && _styles["default"].expandDisableButton),
+      className: (0, _classnames2["default"])(_styles["default"].expandButtonWithEnd, isExpand && _styles["default"].expandDisableButton)
+      // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
+      ,
       onClick: function onClick() {
         return onExpand();
       }
@@ -86,13 +78,14 @@ var LogNotification = function LogNotification(_ref) {
   } else if (showLogButton) {
     extraButtons = /*#__PURE__*/_react["default"].createElement(_Button.Button, {
       disabled: isExpand,
-      className: (0, _classnames2["default"])(_styles["default"].expandButton, isExpand && _styles["default"].expandDisableButton),
+      className: (0, _classnames2["default"])(_styles["default"].expandButton, isExpand && _styles["default"].expandDisableButton)
+      // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
+      ,
       onClick: function onClick() {
         return onExpand();
       }
     }, _i18n2["default"].getString('log', currentLocale));
   }
-
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].container
   }, /*#__PURE__*/_react["default"].createElement("div", {
@@ -127,7 +120,6 @@ var LogNotification = function LogNotification(_ref) {
     }
   }, _i18n2["default"].getString('stay', currentLocale)) : null)) : null);
 };
-
 LogNotification.defaultProps = {
   showLogButton: true,
   currentLog: {},

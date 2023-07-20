@@ -26,7 +26,9 @@ const Badge: React.SFC<BadgeProps> = ({
   );
 };
 Badge.defaultProps = {
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   className: null,
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   name: null,
   onClick: () => null,
 };

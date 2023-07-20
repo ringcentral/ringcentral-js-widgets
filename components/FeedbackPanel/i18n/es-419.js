@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -13,7 +11,7 @@ var _default = {
   instruction: "Sus comentarios tienen mucho valor para nosotros. Si tiene problemas al utilizar la aplicación, quiere solicitar una función o informar de un problema, estaremos encantados de ayudarle.",
   fillForm: "Rellene el siguiente formulario y haga clic ",
   useMailBox: " o utilice directamente su buzón de correo y envíe su solicitud a ",
-  email: "Su dirección de correo electrónico",
+  email: "su dirección de correo electrónico",
   reply: "(para que podamos contestarle)",
   emailPlaceHolder: "ronald.app@ringcentral.com",
   feedbackTopic: "Tema del comentario",
@@ -45,6 +43,5 @@ var _default = {
 // @key: @#@"description"@#@ @source: @#@"Full description"@#@
 // @key: @#@"descriptionPlaceHolder"@#@ @source: @#@"Please include as much information as possible"@#@
 // @key: @#@"send"@#@ @source: @#@"Send Your Feedback"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=es-419.js.map

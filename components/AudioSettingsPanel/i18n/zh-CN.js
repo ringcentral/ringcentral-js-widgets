@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -17,7 +15,7 @@ var _default = {
   micPermission: "麦克风权限",
   noDevice: "无设备",
   checkMicPermission: "检查权限",
-  micNoPermissionMessage: "该应用没有权限使用麦克风",
+  micNoPermissionMessage: "该应用没有使用麦克风的权限",
   noLabel: "未知设备",
   notSetSinkIdTip: "抱歉，当前的浏览器权限未设置为允许访问音频输出设备。{clickHereLink}以查看如何设置。",
   noLabelTip: "抱歉，当前的浏览器权限未设置为允许访问音频输入设备。",
@@ -39,6 +37,5 @@ var _default = {
 // @key: @#@"noLabelTip"@#@ @source: @#@"Sorry, your current browser permissions aren't set to allow us to access your audio input devices."@#@
 // @key: @#@"clickHere"@#@ @source: @#@"Click here"@#@
 // @key: @#@"defaultOutputDevice"@#@ @source: @#@"Default output device"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=zh-CN.js.map

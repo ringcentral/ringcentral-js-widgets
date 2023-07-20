@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -19,6 +17,5 @@ var _default = {
 // @key: @#@"disconnected"@#@ @source: @#@"Disconnected"@#@
 // @key: @#@"loading"@#@ @source: @#@"Loading ..."@#@
 // @key: @#@"loadingTimeout"@#@ @source: @#@"Loading timeout."@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=fi-FI.js.map

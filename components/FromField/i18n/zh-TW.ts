@@ -1,6 +1,6 @@
 export default {
   DirectNumber: "直撥",
-  MainCompanyNumber: "主",
+  MainCompanyNumber: "主要",
   CompanyNumber: "公司",
   CompanyFaxNumber: "傳真",
   Blocked: "已封鎖",

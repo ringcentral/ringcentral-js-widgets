@@ -20,12 +20,14 @@ class MeetingSection extends Component<
   MeetingSectionProps,
   MeetingSectionState
 > {
-  constructor(...args) {
+  constructor(...args: any[]) {
+    // @ts-expect-error TS(2556): A spread argument must either have a tuple type or... Remove this comment to see the full error message
     super(...args);
     this.state = {
       toggle: this.props.toggle,
     };
   }
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     const {
       children,
@@ -40,7 +42,7 @@ class MeetingSection extends Component<
     };
     const Title = () =>
       title ? <span className={styles.title}>{title}</span> : null;
-    const DropDown = ({ isDropDown, onClick }) =>
+    const DropDown = ({ isDropDown, onClick }: any) =>
       withSwitch ? (
         <span
           className={classnames(isDropDown ? styles.dropDown : null)}
@@ -70,6 +72,7 @@ class MeetingSection extends Component<
     );
   }
 }
+// @ts-expect-error TS(2339): Property 'defaultProps' does not exist on type 'ty... Remove this comment to see the full error message
 MeetingSection.defaultProps = {
   className: null,
   title: null,

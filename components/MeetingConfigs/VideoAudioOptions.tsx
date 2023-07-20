@@ -1,6 +1,7 @@
 import 'react-widgets/dist/css/react-widgets.css';
 
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import classnames from 'classnames';
 
@@ -125,7 +126,7 @@ const AudioOptionsDropdown: FunctionComponent<AudioOptionsDropdownProps> = ({
     }}
     options={data}
     valueFunction={(option) => option.text}
-    renderValue={(value) => data.find((item) => item.key === value).text}
+    renderValue={(value) => data.find((item: any) => item.key === value).text}
     renderFunction={(option) => <div title={option.text}>{option.text}</div>}
     dropdownAlign="left"
     titleEnabled

@@ -1,17 +1,5 @@
 "use strict";
 
-require("core-js/modules/web.dom.iterable");
-
-require("core-js/modules/es6.array.iterator");
-
-require("core-js/modules/es6.object.to-string");
-
-require("core-js/modules/es6.object.keys");
-
-require("core-js/modules/es6.array.for-each");
-
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -22,9 +10,7 @@ Object.defineProperty(exports, "default", {
     return _RegionSettingsUI2.RegionSettingsUI;
   }
 });
-
 var _RegionSettingsUI = require("./RegionSettingsUI.interface");
-
 Object.keys(_RegionSettingsUI).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
@@ -36,9 +22,7 @@ Object.keys(_RegionSettingsUI).forEach(function (key) {
     }
   });
 });
-
 var _RegionSettingsUI2 = require("./RegionSettingsUI");
-
 Object.keys(_RegionSettingsUI2).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;

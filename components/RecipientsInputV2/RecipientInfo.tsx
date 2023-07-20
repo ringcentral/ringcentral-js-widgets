@@ -1,7 +1,9 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
+import { phoneSources } from '../../enums/phoneSources';
 
 import phoneSourceNames from '../../lib/phoneSourceNames';
-import { RecipientInfoProps } from './RecipientsInputV2.interface';
+import type { RecipientInfoProps } from './RecipientsInputV2.interface';
 import styles from './styles.scss';
 
 export const RecipientInfo: FunctionComponent<RecipientInfoProps> = ({
@@ -12,9 +14,17 @@ export const RecipientInfo: FunctionComponent<RecipientInfoProps> = ({
   phoneSourceNameRenderer,
   splitter,
 }) => {
+  // align the type in contact search result so far temporarily,
+  // need pass brand info here if need to use phoneSources.rcContact.
+  // see also ringcentral-js-widgets/ringcentral-widgets/components/ContactDropdownList/ContactInfo.tsx
+  const type =
+    entityType === phoneSources.rcContact ? phoneSources.contact : entityType;
+
   const phoneSourceName = phoneSourceNameRenderer
-    ? phoneSourceNameRenderer(entityType)
-    : phoneSourceNames.getString(entityType, currentLocale);
+    ? // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
+      phoneSourceNameRenderer(type)
+    : // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
+      phoneSourceNames.getString(type, currentLocale);
   const title = enableTitle
     ? `${name} ${splitter} ${phoneSourceName}`
     : undefined;

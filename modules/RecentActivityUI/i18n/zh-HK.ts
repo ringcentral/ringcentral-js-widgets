@@ -1,6 +1,6 @@
 export default {
   recentActivities: "最近活動",
-  text: "簡訊",
+  text: "文字訊息",
   fax: "傳真",
   voicemail: "語音訊息",
   call: "通話"

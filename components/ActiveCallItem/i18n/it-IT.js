@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -12,7 +10,7 @@ var _default = {
   editLog: "Modifica registro",
   select: "Seleziona un record corrispondente",
   OnHold: "In attesa",
-  Ringing: "Squillo",
+  Ringing: "Chiamata in corso",
   CallConnected: "Chiamata connessa",
   unknownUser: "Utente sconosciuto",
   unknownNumber: "Anonimo",
@@ -23,7 +21,7 @@ var _default = {
   text: "SMS",
   call: "Chiamata",
   addContact: "Aggiungi contatto",
-  missedCall: "Perse",
+  missedCall: "Persa",
   inboundCall: "In entrata",
   outboundCall: "In uscita",
   from: "Da",
@@ -33,8 +31,8 @@ var _default = {
   toVoicemail: "Alla segreteria telefonica",
   anonymous: "Anonimo",
   mergeToConference: "Unisci",
-  hold: "Attesa",
-  unhold: "Riprendi",
+  hold: "Metti in attesa",
+  unhold: "Interrompi l'attesa",
   transfer: "Trasferisci",
   reject: "Rifiuta",
   switchCall: "Passa chiamata su questa app",
@@ -81,6 +79,5 @@ var _default = {
 // @key: @#@"comfirmOKButton"@#@ @source: @#@"Switch"@#@
 // @key: @#@"ignore"@#@ @source: @#@"Ignore"@#@
 // @key: @#@"holdAndAnswer"@#@ @source: @#@"Hold & Answer"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=it-IT.js.map

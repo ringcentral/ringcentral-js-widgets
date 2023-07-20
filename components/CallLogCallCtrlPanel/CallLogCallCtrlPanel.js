@@ -1,53 +1,45 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
+require("core-js/modules/es.object.to-string");
+require("core-js/modules/es.promise");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.CallLogCallCtrlPanel = void 0;
-
-require("core-js/modules/es6.promise");
-
-require("core-js/modules/es6.object.to-string");
-
 require("regenerator-runtime/runtime");
-
 var _react = _interopRequireDefault(require("react"));
-
 var _CallLogCallCtrlComponent = _interopRequireDefault(require("../CallLogCallCtrlComponent"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 var CallLogCallCtrlPanel = function CallLogCallCtrlPanel(props) {
   var currentLocale = props.currentLocale,
-      telephonySessionId = props.telephonySessionId,
-      disableLinks = props.disableLinks,
-      isWide = props.isWide,
-      currentSession = props.currentSession,
-      transferRef = props.transferRef,
-      isOnTransfer = props.isOnTransfer,
-      isCurrentDeviceCall = props.isCurrentDeviceCall,
-      sendDTMF = props.sendDTMF,
-      forward = props.forward,
-      answer = props.answer,
-      ignore = props.ignore,
-      forwardingNumbers = props.forwardingNumbers,
-      otherActiveCalls = props.otherActiveCalls,
-      answerAndHold = props.answerAndHold,
-      answerAndEnd = props.answerAndEnd,
-      realOutboundCallStatus = props.realOutboundCallStatus,
-      dialpadToggleTrack = props.dialpadToggleTrack,
-      clickForwardTrack = props.clickForwardTrack;
-
+    telephonySessionId = props.telephonySessionId,
+    disableLinks = props.disableLinks,
+    isWide = props.isWide,
+    _props$enableReply = props.enableReply,
+    enableReply = _props$enableReply === void 0 ? false : _props$enableReply,
+    currentSession = props.currentSession,
+    transferRef = props.transferRef,
+    isOnTransfer = props.isOnTransfer,
+    isCurrentDeviceCall = props.isCurrentDeviceCall,
+    sendDTMF = props.sendDTMF,
+    forward = props.forward,
+    reply = props.reply,
+    answer = props.answer,
+    ignore = props.ignore,
+    forwardingNumbers = props.forwardingNumbers,
+    otherActiveCalls = props.otherActiveCalls,
+    answerAndHold = props.answerAndHold,
+    answerAndEnd = props.answerAndEnd,
+    realOutboundCallStatus = props.realOutboundCallStatus,
+    dialpadToggleTrack = props.dialpadToggleTrack,
+    clickForwardTrack = props.clickForwardTrack,
+    warmTransferActiveTelephonySessionId = props.warmTransferActiveTelephonySessionId,
+    allowPickupCall = props.allowPickupCall;
   if (!currentSession) {
     return null;
   }
-
   return /*#__PURE__*/_react["default"].createElement(_CallLogCallCtrlComponent["default"], {
     onMute: /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
       return regeneratorRuntime.wrap(function _callee$(_context) {
@@ -55,7 +47,6 @@ var CallLogCallCtrlPanel = function CallLogCallCtrlPanel(props) {
           switch (_context.prev = _context.next) {
             case 0:
               return _context.abrupt("return", props.mute(telephonySessionId));
-
             case 1:
             case "end":
               return _context.stop();
@@ -69,7 +60,6 @@ var CallLogCallCtrlPanel = function CallLogCallCtrlPanel(props) {
           switch (_context2.prev = _context2.next) {
             case 0:
               return _context2.abrupt("return", props.unmute(telephonySessionId));
-
             case 1:
             case "end":
               return _context2.stop();
@@ -83,7 +73,6 @@ var CallLogCallCtrlPanel = function CallLogCallCtrlPanel(props) {
           switch (_context3.prev = _context3.next) {
             case 0:
               return _context3.abrupt("return", props.hangUp(telephonySessionId));
-
             case 1:
             case "end":
               return _context3.stop();
@@ -97,7 +86,6 @@ var CallLogCallCtrlPanel = function CallLogCallCtrlPanel(props) {
           switch (_context4.prev = _context4.next) {
             case 0:
               return _context4.abrupt("return", props.reject(telephonySessionId));
-
             case 1:
             case "end":
               return _context4.stop();
@@ -108,13 +96,15 @@ var CallLogCallCtrlPanel = function CallLogCallCtrlPanel(props) {
     onTransfer: function onTransfer() {
       return props.onTransfer(telephonySessionId);
     },
+    onCompleteWarmTransfer: function onCompleteWarmTransfer() {
+      return props.onCompleteWarmTransfer(telephonySessionId);
+    },
     onHold: /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
       return regeneratorRuntime.wrap(function _callee5$(_context5) {
         while (1) {
           switch (_context5.prev = _context5.next) {
             case 0:
               return _context5.abrupt("return", props.onHold(telephonySessionId));
-
             case 1:
             case "end":
               return _context5.stop();
@@ -128,7 +118,6 @@ var CallLogCallCtrlPanel = function CallLogCallCtrlPanel(props) {
           switch (_context6.prev = _context6.next) {
             case 0:
               return _context6.abrupt("return", props.onUnHold(telephonySessionId));
-
             case 1:
             case "end":
               return _context6.stop();
@@ -142,7 +131,6 @@ var CallLogCallCtrlPanel = function CallLogCallCtrlPanel(props) {
           switch (_context7.prev = _context7.next) {
             case 0:
               return _context7.abrupt("return", props.startRecord(telephonySessionId));
-
             case 1:
             case "end":
               return _context7.stop();
@@ -156,7 +144,6 @@ var CallLogCallCtrlPanel = function CallLogCallCtrlPanel(props) {
           switch (_context8.prev = _context8.next) {
             case 0:
               return _context8.abrupt("return", props.stopRecord(telephonySessionId));
-
             case 1:
             case "end":
               return _context8.stop();
@@ -182,7 +169,6 @@ var CallLogCallCtrlPanel = function CallLogCallCtrlPanel(props) {
             switch (_context9.prev = _context9.next) {
               case 0:
                 return _context9.abrupt("return", sendDTMF(dtmfValue, telephonySessionId));
-
               case 1:
               case "end":
                 return _context9.stop();
@@ -190,7 +176,6 @@ var CallLogCallCtrlPanel = function CallLogCallCtrlPanel(props) {
           }
         }, _callee9);
       }));
-
       return function (_x) {
         return _ref9.apply(this, arguments);
       };
@@ -202,7 +187,6 @@ var CallLogCallCtrlPanel = function CallLogCallCtrlPanel(props) {
             switch (_context10.prev = _context10.next) {
               case 0:
                 return _context10.abrupt("return", forward(phoneNumber, telephonySessionId));
-
               case 1:
               case "end":
                 return _context10.stop();
@@ -210,7 +194,6 @@ var CallLogCallCtrlPanel = function CallLogCallCtrlPanel(props) {
           }
         }, _callee10);
       }));
-
       return function (_x2) {
         return _ref10.apply(this, arguments);
       };
@@ -221,7 +204,6 @@ var CallLogCallCtrlPanel = function CallLogCallCtrlPanel(props) {
           switch (_context11.prev = _context11.next) {
             case 0:
               return _context11.abrupt("return", answer(telephonySessionId));
-
             case 1:
             case "end":
               return _context11.stop();
@@ -236,7 +218,6 @@ var CallLogCallCtrlPanel = function CallLogCallCtrlPanel(props) {
           switch (_context12.prev = _context12.next) {
             case 0:
               return _context12.abrupt("return", ignore(telephonySessionId));
-
             case 1:
             case "end":
               return _context12.stop();
@@ -244,30 +225,27 @@ var CallLogCallCtrlPanel = function CallLogCallCtrlPanel(props) {
         }
       }, _callee12);
     })),
-    otherActiveCalls: otherActiveCalls,
-    answerAndHold: /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee13() {
+    reply: /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee13() {
       return regeneratorRuntime.wrap(function _callee13$(_context13) {
         while (1) {
           switch (_context13.prev = _context13.next) {
             case 0:
-              _context13.next = 2;
-              return answerAndHold(telephonySessionId);
-
-            case 2:
+              return _context13.abrupt("return", reply(telephonySessionId));
+            case 1:
             case "end":
               return _context13.stop();
           }
         }
       }, _callee13);
     })),
-    answerAndEnd: /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee14() {
+    otherActiveCalls: otherActiveCalls,
+    answerAndHold: /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee14() {
       return regeneratorRuntime.wrap(function _callee14$(_context14) {
         while (1) {
           switch (_context14.prev = _context14.next) {
             case 0:
               _context14.next = 2;
-              return answerAndEnd(telephonySessionId);
-
+              return answerAndHold(telephonySessionId);
             case 2:
             case "end":
               return _context14.stop();
@@ -275,12 +253,28 @@ var CallLogCallCtrlPanel = function CallLogCallCtrlPanel(props) {
         }
       }, _callee14);
     })),
+    answerAndEnd: /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee15() {
+      return regeneratorRuntime.wrap(function _callee15$(_context15) {
+        while (1) {
+          switch (_context15.prev = _context15.next) {
+            case 0:
+              _context15.next = 2;
+              return answerAndEnd(telephonySessionId);
+            case 2:
+            case "end":
+              return _context15.stop();
+          }
+        }
+      }, _callee15);
+    })),
     realOutboundCallStatus: realOutboundCallStatus,
     dialpadToggleTrack: dialpadToggleTrack,
-    clickForwardTrack: clickForwardTrack
+    clickForwardTrack: clickForwardTrack,
+    warmTransferActiveTelephonySessionId: warmTransferActiveTelephonySessionId,
+    enableReply: enableReply,
+    allowPickupCall: allowPickupCall
   });
 };
-
 exports.CallLogCallCtrlPanel = CallLogCallCtrlPanel;
 CallLogCallCtrlPanel.defaultProps = {
   currentLocale: 'en-US',
@@ -290,6 +284,7 @@ CallLogCallCtrlPanel.defaultProps = {
   isWide: true,
   transferRef: undefined,
   isOnTransfer: false,
-  realOutboundCallStatus: ''
+  realOutboundCallStatus: '',
+  enableReply: false
 };
 //# sourceMappingURL=CallLogCallCtrlPanel.js.map

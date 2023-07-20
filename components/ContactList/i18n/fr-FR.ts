@@ -1,5 +1,5 @@
 export default {
-  onSearching: "Chargement en cours...",
+  onSearching: "Chargement…",
   noContacts: "Aucun enregistrement trouvé."
 };
 

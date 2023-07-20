@@ -1,16 +1,11 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-
 var _GenericMeetingPanel = require("../../components/GenericMeetingPanel");
-
 var _phoneContext = require("../../lib/phoneContext");
-
 var GenericMeetingPage = (0, _phoneContext.connectModule)(function (phone) {
   return phone.genericMeetingUI;
 })(_GenericMeetingPanel.GenericMeetingPanel);

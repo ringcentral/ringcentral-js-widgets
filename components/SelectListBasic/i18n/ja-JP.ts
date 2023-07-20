@@ -1,5 +1,5 @@
 export default {
-  noResultFoundFor: "次の結果が見つかりませんでした:",
+  noResultFoundFor: "次の結果が見つかりませんでした：",
   foundFromServerHint: "{appName}でキーワードを入力し、Enterキーを押して検索します",
   notResultFoundFromServer: "結果が見つかりません",
   loading: "読み込み中..."

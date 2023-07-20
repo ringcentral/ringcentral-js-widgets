@@ -1,1 +1,1 @@
-{"version":3,"sources":[],"names":[],"mappings":"","sourcesContent":[],"file":"HandleMessage.interface.js"}
+{"version":3,"file":"HandleMessage.interface.js","names":[],"sources":["components/AlertRenderer/HandleMessage.interface.ts"],"sourcesContent":["import type { AlertItem } from '@ringcentral-integration/commons/modules/Alert';\n\nexport interface HandleMessage {\n  handleMessage: (message: AlertItem) => boolean;\n}\n"],"mappings":""}

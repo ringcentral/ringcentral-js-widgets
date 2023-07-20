@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -13,28 +11,28 @@ var _default = {
   select: "一致する記録の選択",
   OnHold: "保留中",
   Ringing: "呼び出し中",
-  CallConnected: "通話接続済み",
+  CallConnected: "通話を接続済み",
   unknownUser: "不明なユーザー",
   unknownNumber: "匿名",
-  unavailable: "利用不可",
-  viewDetails: "詳細の表示",
+  unavailable: "連絡不可",
+  viewDetails: "詳細を表示",
   addEntity: "新規作成",
   addLog: "ログ",
   text: "テキスト",
   call: "通話",
-  addContact: "連絡先の追加",
+  addContact: "連絡先を追加",
   missedCall: "不在",
   inboundCall: "着信",
   outboundCall: "発信",
   from: "発信元",
-  to: "宛先",
-  hangup: "通話終了",
+  to: "発信先",
+  hangup: "通話を終了",
   accept: "応答",
   toVoicemail: "ボイスメールへ",
   anonymous: "匿名",
-  mergeToConference: "マージ",
+  mergeToConference: "統合",
   hold: "保留",
-  unhold: "保留解除",
+  unhold: "保留を解除",
   transfer: "転送",
   reject: "拒否",
   switchCall: "このアプリに通話を切り替え",
@@ -43,7 +41,7 @@ var _default = {
   comfirmCancelButton: "キャンセル",
   comfirmOKButton: "切り替え",
   ignore: "無視",
-  holdAndAnswer: "保留/応答"
+  holdAndAnswer: "保留して応答"
 }; // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
 // @key: @#@"logCall"@#@ @source: @#@"Log Call"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
@@ -81,6 +79,5 @@ var _default = {
 // @key: @#@"comfirmOKButton"@#@ @source: @#@"Switch"@#@
 // @key: @#@"ignore"@#@ @source: @#@"Ignore"@#@
 // @key: @#@"holdAndAnswer"@#@ @source: @#@"Hold & Answer"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=ja-JP.js.map

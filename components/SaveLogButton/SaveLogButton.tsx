@@ -3,7 +3,7 @@ import React from 'react';
 import classnames from 'classnames';
 
 import { RcButton, RcCircularProgress, RcIcon } from '@ringcentral/juno';
-import { Check } from '@ringcentral/juno/icon';
+import { Check } from '@ringcentral/juno-icon';
 
 import { getButtonStatus } from './getButtonStatus';
 import i18n from './i18n';
@@ -26,9 +26,10 @@ const SaveLogButton: React.SFC<SaveLogButtonProps> = ({
   disabled,
 }) => {
   const { buttonDisabled, buttonContent } = getButtonStatus(
+    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     currentLog.currentLogCall,
   );
-  const getContent = (buttonContent) => (
+  const getContent = (buttonContent: any) => (
     <span>
       {buttonContent === 'saved' && (
         <RcIcon color="interactive.f01" symbol={Check} size="small" />
@@ -46,6 +47,7 @@ const SaveLogButton: React.SFC<SaveLogButtonProps> = ({
       disabled={buttonDisabled || loading || disabled}
       data-sign="saveCall"
       data-state={buttonContent}
+      // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
       onClick={() => onSaveCallLog(currentLog.call)}
     >
       {content}
@@ -53,7 +55,9 @@ const SaveLogButton: React.SFC<SaveLogButtonProps> = ({
   );
 };
 SaveLogButton.defaultProps = {
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'object | un... Remove this comment to see the full error message
   currentLog: null,
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   currentLocale: null,
   onSaveCallLog() {},
   loading: false,

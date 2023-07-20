@@ -6,7 +6,7 @@ import callDirections from '@ringcentral-integration/commons/enums/callDirection
 import {
   IncallBorder as InCall,
   OutcallBorder as OutCall,
-} from '@ringcentral/juno/icon';
+} from '@ringcentral/juno-icon';
 
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import CallAvatar from '../CallAvatar';
@@ -38,12 +38,14 @@ const CallIcon: React.SFC<CallIconProps> = ({
   isOnConferenceCall,
   showAvatar,
   avatarUrl,
+  // @ts-expect-error TS(2339): Property 'extraNum' does not exist on type 'PropsW... Remove this comment to see the full error message
   extraNum = 0,
   newCallIcon,
 }) => {
   const title =
     direction === callDirections.inbound ? inboundTitle : outboundTitle;
   let symbol;
+  // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
   const CallDirectionIco = newCallIconMap[direction];
   if (showAvatar) {
     symbol = (
@@ -72,6 +74,7 @@ const CallIcon: React.SFC<CallIconProps> = ({
       <div className={styles.callIcon}>
         <span
           className={classnames(
+            // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
             callIconMap[direction],
             styles.activeCall,
             ringing && styles.ringing,
@@ -90,6 +93,7 @@ CallIcon.defaultProps = {
   inboundTitle: undefined,
   outboundTitle: undefined,
   showAvatar: false,
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   avatarUrl: null,
   newCallIcon: false,
 };

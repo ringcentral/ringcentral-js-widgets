@@ -2,7 +2,7 @@ import { phoneTypes } from '@ringcentral-integration/commons/enums/phoneTypes';
 export default {
   [phoneTypes.business]: "商务电话",
   [phoneTypes.extension]: "分机号",
-  [phoneTypes.home]: "家庭号码",
+  [phoneTypes.home]: "住宅号码",
   [phoneTypes.mobile]: "移动电话",
   [phoneTypes.phone]: "电话",
   [phoneTypes.unknown]: "未知电话类型",

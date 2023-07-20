@@ -45,6 +45,7 @@ type ActionMenuProps = {
   shouldHideEntityButton?: boolean;
 };
 class ActionMenu extends Component<ActionMenuProps, {}> {
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     const {
       reference,
@@ -90,6 +91,7 @@ class ActionMenu extends Component<ActionMenuProps, {}> {
     return (
       <div ref={reference}>
         <SlideMenu
+          // @ts-expect-error TS(2322): Type '{ children: Element; extended: boolean | und... Remove this comment to see the full error message
           extended={extended}
           onToggle={onToggle}
           className={className}
@@ -99,6 +101,7 @@ class ActionMenu extends Component<ActionMenuProps, {}> {
           withAnimation={withAnimation}
         >
           <ActionMenuList
+            // @ts-expect-error TS(2322): Type '{ onLog: ((...args: any[]) => any) | undefin... Remove this comment to see the full error message
             onLog={onLog}
             isLogged={isLogged}
             isLogging={isLogging}
@@ -138,6 +141,7 @@ class ActionMenu extends Component<ActionMenuProps, {}> {
     );
   }
 }
+// @ts-expect-error TS(2339): Property 'defaultProps' does not exist on type 'ty... Remove this comment to see the full error message
 ActionMenu.defaultProps = {
   extended: undefined,
   onToggle: undefined,

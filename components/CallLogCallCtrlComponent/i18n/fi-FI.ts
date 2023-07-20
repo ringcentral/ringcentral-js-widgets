@@ -12,13 +12,15 @@ export default {
   showKeypad: "Näppäimistö",
   hideKeypad: "Piilota näppäimistö",
   unHold: "Poista pidosta",
-  forward: "Siirrä",
+  forward: "Lähetä edelleen",
   ignore: "Ohita",
   voicemail: "Vastaajaan",
   custom: "Mukautettu",
   answerAndEnd: "Vastaa ja lopeta",
   answerAndHold: "Vastaa ja aseta pitoon",
-  answer: "Vastaa"
+  answer: "Vastaa",
+  completeTransfer: "Suorita siirto",
+  reply: "Vastaa"
 };
 
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
@@ -41,3 +43,5 @@ export default {
 // @key: @#@"answerAndEnd"@#@ @source: @#@"Answer & End"@#@
 // @key: @#@"answerAndHold"@#@ @source: @#@"Answer & Hold"@#@
 // @key: @#@"answer"@#@ @source: @#@"Answer"@#@
+// @key: @#@"completeTransfer"@#@ @source: @#@"Complete transfer"@#@
+// @key: @#@"reply"@#@ @source: @#@"Reply"@#@

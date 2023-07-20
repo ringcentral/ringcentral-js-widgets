@@ -1,13 +1,11 @@
 import { Module } from '@ringcentral-integration/commons/lib/di';
-import formatNumber from '@ringcentral-integration/commons/lib/formatNumber';
-import {
-  computed,
-  RcUIModuleV2,
-  UIFunctions,
-  UIProps,
-} from '@ringcentral-integration/core';
+import { formatNumber } from '@ringcentral-integration/commons/lib/formatNumber';
+import webphoneErrors from '@ringcentral-integration/commons/modules/Webphone/webphoneErrors';
+import { callingOptions } from '@ringcentral-integration/commons/modules/CallingSettings';
+import type { UIFunctions, UIProps } from '@ringcentral-integration/core';
+import { computed, RcUIModuleV2 } from '@ringcentral-integration/core';
 
-import {
+import type {
   Deps,
   TransferUIContainerProps,
   TransferUIPanelProps,
@@ -19,15 +17,19 @@ import {
     'Locale',
     'RegionSettings',
     'RouterInteraction',
+    'AccountInfo',
+    'Alert',
+    'CallingSettings',
     { dep: 'ContactSearch', optional: true },
     { dep: 'Webphone', optional: true },
     { dep: 'ActiveCallControl', optional: true },
+    { dep: 'CompanyContacts', optional: true },
   ],
 })
-export class TransferUI extends RcUIModuleV2<Deps> {
+export class TransferUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
   private _params: TransferUIContainerProps['params'] = {};
 
-  constructor(deps: Deps) {
+  constructor(deps: T) {
     super({
       deps,
     });
@@ -60,16 +62,19 @@ export class TransferUI extends RcUIModuleV2<Deps> {
     enableWarmTransfer = false,
   }: TransferUIContainerProps): UIProps<TransferUIPanelProps> {
     this._params = params;
-    const { sessionId, type = 'active' } = params;
-
+    const { sessionId } = params;
     return {
+      companyContacts: this._deps.companyContacts?.data,
+      // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
       sessionId,
       currentLocale: this._deps.locale.currentLocale,
       searchContactList: this._deps.contactSearch?.sortedResult,
+      // @ts-expect-error TS(2322): Type 'Partial<ActiveSession> | NormalizedSession |... Remove this comment to see the full error message
       session: this.session,
       controlBusy: this._deps.activeCallControl?.busy || false,
       enableWarmTransfer:
-        enableWarmTransfer && type === 'webphone' && !!this._deps.webphone,
+        enableWarmTransfer &&
+        this._deps.callingSettings.callWith === callingOptions.browser,
     };
   }
 
@@ -92,8 +97,34 @@ export class TransferUI extends RcUIModuleV2<Deps> {
           this._deps.webphone?.transfer(transferNumber, sessionId);
         }
       },
+      onToVoicemail: (voicemailId, sessionId) => {
+        if (voicemailId) {
+          if (type === 'active') {
+            this._deps.activeCallControl?.toVoicemail(voicemailId, sessionId);
+            return;
+          }
+
+          if (type === 'webphone') {
+            this._deps.webphone?.toVoiceMail(sessionId);
+          }
+        } else {
+          this._deps.alert.warning({
+            message: webphoneErrors.toVoiceMailError,
+          });
+        }
+      },
       onWarmTransfer: (transferNumber, sessionId) => {
-        this._deps.webphone?.startWarmTransfer(transferNumber, sessionId);
+        if (type === 'active') {
+          this._deps.activeCallControl?.startWarmTransfer(
+            transferNumber,
+            sessionId,
+          );
+          return;
+        }
+
+        if (type === 'webphone') {
+          this._deps.webphone?.startWarmTransfer(transferNumber, sessionId);
+        }
       },
       onBack: () => {
         this._deps.routerInteraction.goBack();
@@ -104,10 +135,12 @@ export class TransferUI extends RcUIModuleV2<Deps> {
         );
       },
       formatPhone: (phoneNumber) =>
+        // @ts-expect-error TS(2322): Type 'string | null | undefined' is not assignable... Remove this comment to see the full error message
         formatNumber({
           phoneNumber,
           areaCode: this._deps.regionSettings.areaCode,
           countryCode: this._deps.regionSettings.countryCode,
+          maxExtensionLength: this._deps.accountInfo.maxExtensionNumberLength,
         }),
       searchContact: (searchString) => {
         this._deps.contactSearch?.debouncedSearch({ searchString });

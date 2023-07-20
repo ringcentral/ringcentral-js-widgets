@@ -1,35 +1,29 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-
 var _react = _interopRequireDefault(require("react"));
-
 var _classnames = _interopRequireDefault(require("classnames"));
-
 var _Modal = _interopRequireDefault(require("../Modal"));
-
 var _styles = _interopRequireDefault(require("./styles.scss"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 var InsideModal = function InsideModal(_ref) {
   var show = _ref.show,
-      onClose = _ref.onClose,
-      children = _ref.children,
-      title = _ref.title,
-      showTitle = _ref.showTitle,
-      showCloseBtn = _ref.showCloseBtn,
-      clickOutToClose = _ref.clickOutToClose,
-      containerStyles = _ref.containerStyles,
-      maskStyle = _ref.maskStyle,
-      modalStyles = _ref.modalStyles,
-      contentStyle = _ref.contentStyle;
-  return /*#__PURE__*/_react["default"].createElement(_Modal["default"], {
+    onClose = _ref.onClose,
+    children = _ref.children,
+    title = _ref.title,
+    showTitle = _ref.showTitle,
+    showCloseBtn = _ref.showCloseBtn,
+    clickOutToClose = _ref.clickOutToClose,
+    containerStyles = _ref.containerStyles,
+    maskStyle = _ref.maskStyle,
+    modalStyles = _ref.modalStyles,
+    contentStyle = _ref.contentStyle;
+  return /*#__PURE__*/_react["default"].createElement(_Modal["default"]
+  // @ts-expect-error TS(2322): Type '{ children: ReactNode; title: string | undef... Remove this comment to see the full error message
+  , {
     title: title,
     headerClassName: _styles["default"].title,
     className: (0, _classnames["default"])(_styles["default"].container, containerStyles),
@@ -43,7 +37,6 @@ var InsideModal = function InsideModal(_ref) {
     onCancel: onClose
   }, children);
 };
-
 InsideModal.defaultProps = {
   title: '',
   showTitle: true,
@@ -51,6 +44,7 @@ InsideModal.defaultProps = {
   clickOutToClose: true,
   show: undefined,
   onClose: undefined,
+  // @ts-expect-error TS(2322): Type '{ title: string; showTitle: true; showCloseB... Remove this comment to see the full error message
   children: undefined,
   containerStyles: undefined,
   maskStyle: undefined,

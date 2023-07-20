@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -11,7 +9,7 @@ var _default = {
   when: "Quando",
   duration: "Duração",
   recurringMeeting: "Reunião recorrente",
-  recurringDescribe: "Lembre-se de verificar a recorrência ou repetir no convite de calendário para os participantes.",
+  recurringDescribe: "Lembre-se de verificar a recorrência ou repetição no convite de calendário para os participantes.",
   video: "Vídeo",
   videoDescribe: "Ao participar de uma reunião",
   host: "Vídeo do organizador ativado",
@@ -23,9 +21,9 @@ var _default = {
   requirePassword: "Exigir senha da reunião",
   password: "Senha",
   rcmPasswordHintText: "Sua senha deve ter de 1 a 10 caracteres ou números e não pode conter símbolos, exceto @, * ou -",
-  passwordEmptyError: "Senha da reunião exigida",
+  passwordEmptyError: "Senha da reunião necessária",
   rcmPasswordInvalidError: "Sua senha deve ter de 1 a 10 caracteres ou números e não pode conter símbolos, exceto @, * ou -",
-  enableJoinBeforeHost: "Ativar participação antes de organizar",
+  enableJoinBeforeHost: "Ativar participação antes do organizador",
   telephonyOnly: "Somente telefonia",
   hostVideoOn: "Vídeo do organizador ativado",
   participantVideoOn: "Vídeo do participante ativado",
@@ -38,7 +36,7 @@ var _default = {
   usePmi: "ID da reunião pessoal (PMI): {meetingId}",
   pmiChangeConfirm: "Se quiser fazer alterações em sua reunião pessoal, ",
   changePmiSettings: "altere as configurações de PMI",
-  pmiSettingChangeAlert: "Se você alterar as configurações e agendar esta reunião, todas as reuniões com ID da reunião pessoal usarão essas mesmas configurações mais recentes."
+  pmiSettingChangeAlert: "Se você alterar as configurações e agendar esta reunião, todas as reuniões com ID da reunião pessoal usarão as mesmas configurações mais recentes."
 }; // @key: @#@"topic"@#@ @source: @#@"Topic"@#@
 // @key: @#@"when"@#@ @source: @#@"When"@#@
 // @key: @#@"duration"@#@ @source: @#@"Duration"@#@
@@ -71,6 +69,5 @@ var _default = {
 // @key: @#@"pmiChangeConfirm"@#@ @source: @#@"If you want to make changes for your personal meeting, "@#@
 // @key: @#@"changePmiSettings"@#@ @source: @#@"change PMI settings"@#@
 // @key: @#@"pmiSettingChangeAlert"@#@ @source: @#@"If you change the settings and schedule this meeting, all of meetings with Personal Meeting ID will use the same latest settings."@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=pt-BR.js.map

@@ -1,6 +1,6 @@
+import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 import callResults from '@ringcentral-integration/commons/enums/callResults';
 import telephonyStatuses from '@ringcentral-integration/commons/enums/telephonyStatus';
-import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 export default {
   [callDirections.inbound]: "Inkomend",
   [callDirections.outbound]: "Uitgaand",
@@ -41,11 +41,12 @@ export default {
   [callResults.suspendedAccount]: "Opgeheven account",
   [callResults.hangUp]: "Opgehangen",
   [callResults.HangUp]: "Opgehangen",
-  [callResults.abandoned]: "Verlaten",
+  [callResults.abandoned]: "Opgegeven",
   [callResults.declined]: "Geweigerd",
   [callResults.faxReceipt]: "Faxbewijs",
   [callResults.disconnected]: "Verbinding verbroken",
-  [callResults.notAllowed]: "Niet toegestaan"
+  [callResults.notAllowed]: "Niet toegestaan",
+  warmTransferSwitchCall: "Oproepen schakelen"
 };
 
 // @key: @#@"[callDirections.inbound]"@#@ @source: @#@"Inbound"@#@
@@ -92,3 +93,4 @@ export default {
 // @key: @#@"[callResults.faxReceipt]"@#@ @source: @#@"Fax Receipt"@#@
 // @key: @#@"[callResults.disconnected]"@#@ @source: @#@"Disconnected"@#@
 // @key: @#@"[callResults.notAllowed]"@#@ @source: @#@"Not Allowed"@#@
+// @key: @#@"warmTransferSwitchCall"@#@ @source: @#@"Switch calls"@#@

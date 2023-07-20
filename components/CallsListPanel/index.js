@@ -1,121 +1,84 @@
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
-require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.symbol");
-
-require("core-js/modules/es6.object.define-property");
-
-require("core-js/modules/es6.object.create");
-
-require("core-js/modules/es6.reflect.construct");
-
-require("core-js/modules/es6.object.set-prototype-of");
-
+require("core-js/modules/es.array.map");
+require("core-js/modules/es.function.bind");
+require("core-js/modules/es.object.get-prototype-of");
+require("core-js/modules/es.object.set-prototype-of");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-
-require("core-js/modules/es6.array.map");
-
 var _react = _interopRequireDefault(require("react"));
-
 var _classnames = _interopRequireDefault(require("classnames"));
-
 var _propTypes = _interopRequireDefault(require("prop-types"));
-
 var _debounce = _interopRequireDefault(require("@ringcentral-integration/commons/lib/debounce"));
-
 var _ActiveCallItem = _interopRequireDefault(require("../ActiveCallItem"));
-
 var _CallList = _interopRequireDefault(require("../CallList"));
-
 var _CallListV = _interopRequireDefault(require("../CallListV2"));
-
 var _InsideModal = _interopRequireDefault(require("../InsideModal"));
-
 var _LogNotification = _interopRequireDefault(require("../LogNotification"));
-
 var _LogSection = _interopRequireDefault(require("../LogSection"));
-
 var _SearchInput = require("../SearchInput");
-
 var _SpinnerOverlay = require("../SpinnerOverlay");
-
 var _i18n = _interopRequireDefault(require("./i18n"));
-
 var _styles = _interopRequireDefault(require("./styles.scss"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
-
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+// TODO: it is ActiveCallsPanel's function is the same, and remove ActiveCallsPanel after migration.
 
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-// TODO it is ActiveCallsPanel's function is the same, and remove ActiveCallsPanel after migration.
 var SEARCH_BAR_HEIGHT = 51;
-
 var ActiveCallList = function ActiveCallList(_ref) {
   var calls = _ref.calls,
-      className = _ref.className,
-      currentLocale = _ref.currentLocale,
-      areaCode = _ref.areaCode,
-      countryCode = _ref.countryCode,
-      brand = _ref.brand,
-      showContactDisplayPlaceholder = _ref.showContactDisplayPlaceholder,
-      formatPhone = _ref.formatPhone,
-      onClickToSms = _ref.onClickToSms,
-      onCreateContact = _ref.onCreateContact,
-      onViewContact = _ref.onViewContact,
-      createEntityTypes = _ref.createEntityTypes,
-      outboundSmsPermission = _ref.outboundSmsPermission,
-      internalSmsPermission = _ref.internalSmsPermission,
-      isLoggedContact = _ref.isLoggedContact,
-      onLogCall = _ref.onLogCall,
-      autoLog = _ref.autoLog,
-      loggingMap = _ref.loggingMap,
-      webphoneAnswer = _ref.webphoneAnswer,
-      webphoneReject = _ref.webphoneReject,
-      webphoneHangup = _ref.webphoneHangup,
-      webphoneResume = _ref.webphoneResume,
-      webphoneToVoicemail = _ref.webphoneToVoicemail,
-      enableContactFallback = _ref.enableContactFallback,
-      title = _ref.title,
-      sourceIcons = _ref.sourceIcons,
-      phoneTypeRenderer = _ref.phoneTypeRenderer,
-      phoneSourceNameRenderer = _ref.phoneSourceNameRenderer,
-      disableLinks = _ref.disableLinks,
-      renderContactName = _ref.renderContactName,
-      renderSubContactName = _ref.renderSubContactName,
-      renderExtraButton = _ref.renderExtraButton,
-      contactDisplayStyle = _ref.contactDisplayStyle,
-      externalViewEntity = _ref.externalViewEntity,
-      externalHasEntity = _ref.externalHasEntity,
-      readTextPermission = _ref.readTextPermission;
-
+    className = _ref.className,
+    currentLocale = _ref.currentLocale,
+    areaCode = _ref.areaCode,
+    countryCode = _ref.countryCode,
+    brand = _ref.brand,
+    showContactDisplayPlaceholder = _ref.showContactDisplayPlaceholder,
+    formatPhone = _ref.formatPhone,
+    onClickToSms = _ref.onClickToSms,
+    onCreateContact = _ref.onCreateContact,
+    onViewContact = _ref.onViewContact,
+    createEntityTypes = _ref.createEntityTypes,
+    outboundSmsPermission = _ref.outboundSmsPermission,
+    internalSmsPermission = _ref.internalSmsPermission,
+    isLoggedContact = _ref.isLoggedContact,
+    onLogCall = _ref.onLogCall,
+    autoLog = _ref.autoLog,
+    loggingMap = _ref.loggingMap,
+    webphoneAnswer = _ref.webphoneAnswer,
+    webphoneReject = _ref.webphoneReject,
+    webphoneHangup = _ref.webphoneHangup,
+    webphoneResume = _ref.webphoneResume,
+    webphoneToVoicemail = _ref.webphoneToVoicemail,
+    enableContactFallback = _ref.enableContactFallback,
+    title = _ref.title,
+    sourceIcons = _ref.sourceIcons,
+    phoneTypeRenderer = _ref.phoneTypeRenderer,
+    phoneSourceNameRenderer = _ref.phoneSourceNameRenderer,
+    disableLinks = _ref.disableLinks,
+    renderContactName = _ref.renderContactName,
+    renderSubContactName = _ref.renderSubContactName,
+    renderExtraButton = _ref.renderExtraButton,
+    contactDisplayStyle = _ref.contactDisplayStyle,
+    externalViewEntity = _ref.externalViewEntity,
+    externalHasEntity = _ref.externalHasEntity,
+    readTextPermission = _ref.readTextPermission;
   if (calls.length === 0) {
     return null;
   }
-
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].list, className),
     "data-sign": "callList"
@@ -123,7 +86,9 @@ var ActiveCallList = function ActiveCallList(_ref) {
     className: _styles["default"].listTitle,
     "data-sign": "callListTitle"
   }, title), calls.map(function (call) {
-    return /*#__PURE__*/_react["default"].createElement(_ActiveCallItem["default"], {
+    return /*#__PURE__*/_react["default"].createElement(_ActiveCallItem["default"]
+    // @ts-expect-error TS(2322): Type '{ call: any; key: any; currentLocale: any; a... Remove this comment to see the full error message
+    , {
       call: call,
       key: call.id,
       currentLocale: currentLocale,
@@ -162,7 +127,6 @@ var ActiveCallList = function ActiveCallList(_ref) {
     });
   }));
 };
-
 ActiveCallList.propTypes = {
   currentLocale: _propTypes["default"].string.isRequired,
   className: _propTypes["default"].string,
@@ -233,18 +197,16 @@ ActiveCallList.defaultProps = {
   externalHasEntity: undefined,
   readTextPermission: true
 };
-
 var CallsListPanel = /*#__PURE__*/function (_React$PureComponent) {
   _inherits(CallsListPanel, _React$PureComponent);
-
   var _super = _createSuper(CallsListPanel);
-
   function CallsListPanel(props) {
     var _this;
-
     _classCallCheck(this, CallsListPanel);
-
     _this = _super.call(this, props);
+    _this._listWrapper = void 0;
+    _this._mounted = void 0;
+    _this._root = void 0;
     _this._onResize = (0, _debounce["default"])(function () {
       if (_this._mounted) {
         _this._calculateContentSize();
@@ -259,24 +221,27 @@ var CallsListPanel = /*#__PURE__*/function (_React$PureComponent) {
     return _this;
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   _createClass(CallsListPanel, [{
     key: "componentDidMount",
     value: function componentDidMount() {
+      // @ts-expect-error TS(2339): Property 'adaptive' does not exist on type 'Readon... Remove this comment to see the full error message
       if (this.props.adaptive) {
         this._mounted = true;
-
         this._calculateContentSize();
-
         window.addEventListener('resize', this._onResize);
       }
-
-      if (!this.hasCalls(this.props) && typeof this.props.onCallsEmpty === 'function') {
+      if (!this.hasCalls(this.props) &&
+      // @ts-expect-error TS(2339): Property 'onCallsEmpty' does not exist on type 'Re... Remove this comment to see the full error message
+      typeof this.props.onCallsEmpty === 'function') {
+        // @ts-expect-error TS(2339): Property 'onCallsEmpty' does not exist on type 'Re... Remove this comment to see the full error message
         this.props.onCallsEmpty();
       }
-    }
+    } // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   }, {
     key: "componentWillUnmount",
     value: function componentWillUnmount() {
+      // @ts-expect-error TS(2339): Property 'adaptive' does not exist on type 'Readon... Remove this comment to see the full error message
       if (this.props.adaptive) {
         this._mounted = false;
         window.removeEventListener('resize', this._onResize);
@@ -287,7 +252,7 @@ var CallsListPanel = /*#__PURE__*/function (_React$PureComponent) {
     value: function _calculateContentSize() {
       if (this._listWrapper && this._listWrapper.current && this._listWrapper.current.getBoundingClientRect) {
         var react = this._listWrapper.current.getBoundingClientRect();
-
+        // @ts-expect-error TS(2339): Property 'onSearchInputChange' does not exist on t... Remove this comment to see the full error message
         var onSearchInputChange = this.props.onSearchInputChange;
         this.setState({
           contentHeight: react.bottom - react.top - (onSearchInputChange ? SEARCH_BAR_HEIGHT : 0),
@@ -295,16 +260,18 @@ var CallsListPanel = /*#__PURE__*/function (_React$PureComponent) {
         });
         return;
       }
-
       this.setState({
         contentHeight: 0,
         contentWidth: 0
       });
-    }
+    } // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   }, {
     key: "UNSAFE_componentWillReceiveProps",
     value: function UNSAFE_componentWillReceiveProps(nextProps) {
-      if (this.hasCalls(this.props) && !this.hasCalls(nextProps) && typeof this.props.onCallsEmpty === 'function') {
+      if (this.hasCalls(this.props) && !this.hasCalls(nextProps) &&
+      // @ts-expect-error TS(2339): Property 'onCallsEmpty' does not exist on type 'Re... Remove this comment to see the full error message
+      typeof this.props.onCallsEmpty === 'function') {
+        // @ts-expect-error TS(2339): Property 'onCallsEmpty' does not exist on type 'Re... Remove this comment to see the full error message
         this.props.onCallsEmpty();
       }
     }
@@ -312,32 +279,44 @@ var CallsListPanel = /*#__PURE__*/function (_React$PureComponent) {
     key: "hasCalls",
     value: function hasCalls() {
       var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.props;
-      return props.activeRingCalls.length > 0 || props.activeOnHoldCalls.length > 0 || props.activeCurrentCalls.length > 0 || props.otherDeviceCalls.length > 0 || props.calls.length > 0;
+      return (
+        // @ts-expect-error TS(2339): Property 'activeRingCalls' does not exist on type ... Remove this comment to see the full error message
+        props.activeRingCalls.length > 0 ||
+        // @ts-expect-error TS(2339): Property 'activeOnHoldCalls' does not exist on typ... Remove this comment to see the full error message
+        props.activeOnHoldCalls.length > 0 ||
+        // @ts-expect-error TS(2339): Property 'activeCurrentCalls' does not exist on ty... Remove this comment to see the full error message
+        props.activeCurrentCalls.length > 0 ||
+        // @ts-expect-error TS(2339): Property 'otherDeviceCalls' does not exist on type... Remove this comment to see the full error message
+        props.otherDeviceCalls.length > 0 ||
+        // @ts-expect-error TS(2339): Property 'calls' does not exist on type 'Readonly<... Remove this comment to see the full error message
+        props.calls.length > 0
+      );
     }
   }, {
     key: "renderLogSection",
     value: function renderLogSection() {
+      // @ts-expect-error TS(2339): Property 'currentLog' does not exist on type 'Read... Remove this comment to see the full error message
       if (!this.props.currentLog) return null;
       var _this$props = this.props,
-          formatPhone = _this$props.formatPhone,
-          currentLocale = _this$props.currentLocale,
-          currentLog = _this$props.currentLog,
-          sectionContainerStyles = _this$props.sectionContainerStyles,
-          sectionModalStyles = _this$props.sectionModalStyles,
-          additionalInfo = _this$props.additionalInfo,
-          showSaveLogBtn = _this$props.showSaveLogBtn,
-          renderEditLogSection = _this$props.renderEditLogSection,
-          renderSaveLogButton = _this$props.renderSaveLogButton,
-          onSaveCallLog = _this$props.onSaveCallLog,
-          onUpdateCallLog = _this$props.onUpdateCallLog,
-          onCloseLogSection = _this$props.onCloseLogSection,
-          logNotification = _this$props.logNotification,
-          showNotiLogButton = _this$props.showNotiLogButton,
-          onCloseNotification = _this$props.onCloseNotification,
-          onSaveNotification = _this$props.onSaveNotification,
-          onExpandNotification = _this$props.onExpandNotification,
-          onDiscardNotification = _this$props.onDiscardNotification,
-          notificationContainerStyles = _this$props.notificationContainerStyles;
+        formatPhone = _this$props.formatPhone,
+        currentLocale = _this$props.currentLocale,
+        currentLog = _this$props.currentLog,
+        sectionContainerStyles = _this$props.sectionContainerStyles,
+        sectionModalStyles = _this$props.sectionModalStyles,
+        additionalInfo = _this$props.additionalInfo,
+        showSaveLogBtn = _this$props.showSaveLogBtn,
+        renderEditLogSection = _this$props.renderEditLogSection,
+        renderSaveLogButton = _this$props.renderSaveLogButton,
+        onSaveCallLog = _this$props.onSaveCallLog,
+        onUpdateCallLog = _this$props.onUpdateCallLog,
+        onCloseLogSection = _this$props.onCloseLogSection,
+        logNotification = _this$props.logNotification,
+        showNotiLogButton = _this$props.showNotiLogButton,
+        onCloseNotification = _this$props.onCloseNotification,
+        onSaveNotification = _this$props.onSaveNotification,
+        onExpandNotification = _this$props.onExpandNotification,
+        onDiscardNotification = _this$props.onDiscardNotification,
+        notificationContainerStyles = _this$props.notificationContainerStyles;
       return /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement(_InsideModal["default"], {
         title: currentLog.title,
         show: currentLog.showLog,
@@ -346,7 +325,9 @@ var CallsListPanel = /*#__PURE__*/function (_React$PureComponent) {
         containerStyles: sectionContainerStyles,
         modalStyles: sectionModalStyles,
         maskStyle: _styles["default"].maskStyle
-      }, /*#__PURE__*/_react["default"].createElement(_LogSection["default"], {
+      }, /*#__PURE__*/_react["default"].createElement(_LogSection["default"]
+      // @ts-expect-error TS(2322): Type '{ currentLocale: any; currentLog: any; addit... Remove this comment to see the full error message
+      , {
         currentLocale: currentLocale,
         currentLog: currentLog,
         additionalInfo: additionalInfo,
@@ -375,93 +356,95 @@ var CallsListPanel = /*#__PURE__*/function (_React$PureComponent) {
         onDiscard: onDiscardNotification,
         onStay: onCloseNotification
       })) : null);
-    }
+    } // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   }, {
     key: "render",
     value: function render() {
       var _this$props2 = this.props,
-          useNewList = _this$props2.useNewList,
-          width = _this$props2.width,
-          height = _this$props2.height,
-          onlyHistory = _this$props2.onlyHistory,
-          activeRingCalls = _this$props2.activeRingCalls,
-          activeOnHoldCalls = _this$props2.activeOnHoldCalls,
-          activeCurrentCalls = _this$props2.activeCurrentCalls,
-          otherDeviceCalls = _this$props2.otherDeviceCalls,
-          showSpinner = _this$props2.showSpinner,
-          searchInput = _this$props2.searchInput,
-          onSearchInputChange = _this$props2.onSearchInputChange,
-          className = _this$props2.className,
-          currentLocale = _this$props2.currentLocale,
-          areaCode = _this$props2.areaCode,
-          countryCode = _this$props2.countryCode,
-          brand = _this$props2.brand,
-          showContactDisplayPlaceholder = _this$props2.showContactDisplayPlaceholder,
-          formatPhone = _this$props2.formatPhone,
-          onClickToSms = _this$props2.onClickToSms,
-          onCreateContact = _this$props2.onCreateContact,
-          createEntityTypes = _this$props2.createEntityTypes,
-          onViewContact = _this$props2.onViewContact,
-          outboundSmsPermission = _this$props2.outboundSmsPermission,
-          internalSmsPermission = _this$props2.internalSmsPermission,
-          isLoggedContact = _this$props2.isLoggedContact,
-          onLogCall = _this$props2.onLogCall,
-          autoLog = _this$props2.autoLog,
-          loggingMap = _this$props2.loggingMap,
-          webphoneAnswer = _this$props2.webphoneAnswer,
-          webphoneReject = _this$props2.webphoneReject,
-          webphoneHangup = _this$props2.webphoneHangup,
-          webphoneResume = _this$props2.webphoneResume,
-          enableContactFallback = _this$props2.enableContactFallback,
-          webphoneToVoicemail = _this$props2.webphoneToVoicemail,
-          sourceIcons = _this$props2.sourceIcons,
-          phoneTypeRenderer = _this$props2.phoneTypeRenderer,
-          phoneSourceNameRenderer = _this$props2.phoneSourceNameRenderer,
-          onClickToDial = _this$props2.onClickToDial,
-          disableLinks = _this$props2.disableLinks,
-          disableClickToDial = _this$props2.disableClickToDial,
-          dateTimeFormatter = _this$props2.dateTimeFormatter,
-          calls = _this$props2.calls,
-          active = _this$props2.active,
-          renderContactName = _this$props2.renderContactName,
-          renderSubContactName = _this$props2.renderSubContactName,
-          renderExtraButton = _this$props2.renderExtraButton,
-          contactDisplayStyle = _this$props2.contactDisplayStyle,
-          activeContactDisplayStyle = _this$props2.activeContactDisplayStyle,
-          currentLog = _this$props2.currentLog,
-          additionalInfo = _this$props2.additionalInfo,
-          onCloseLogSection = _this$props2.onCloseLogSection,
-          onUpdateCallLog = _this$props2.onUpdateCallLog,
-          onSaveCallLog = _this$props2.onSaveCallLog,
-          renderEditLogSection = _this$props2.renderEditLogSection,
-          renderSaveLogButton = _this$props2.renderSaveLogButton,
-          logNotification = _this$props2.logNotification,
-          onCloseNotification = _this$props2.onCloseNotification,
-          onDiscardNotification = _this$props2.onDiscardNotification,
-          onSaveNotification = _this$props2.onSaveNotification,
-          onExpandNotification = _this$props2.onExpandNotification,
-          showSaveLogBtn = _this$props2.showSaveLogBtn,
-          showNotiLogButton = _this$props2.showNotiLogButton,
-          sectionContainerStyles = _this$props2.sectionContainerStyles,
-          sectionModalStyles = _this$props2.sectionModalStyles,
-          notificationContainerStyles = _this$props2.notificationContainerStyles,
-          externalViewEntity = _this$props2.externalViewEntity,
-          externalHasEntity = _this$props2.externalHasEntity,
-          readTextPermission = _this$props2.readTextPermission,
-          children = _this$props2.children,
-          adaptive = _this$props2.adaptive,
-          showChooseEntityModal = _this$props2.showChooseEntityModal,
-          enableCDC = _this$props2.enableCDC;
+        useNewList = _this$props2.useNewList,
+        width = _this$props2.width,
+        height = _this$props2.height,
+        onlyHistory = _this$props2.onlyHistory,
+        activeRingCalls = _this$props2.activeRingCalls,
+        activeOnHoldCalls = _this$props2.activeOnHoldCalls,
+        activeCurrentCalls = _this$props2.activeCurrentCalls,
+        otherDeviceCalls = _this$props2.otherDeviceCalls,
+        showSpinner = _this$props2.showSpinner,
+        searchInput = _this$props2.searchInput,
+        onSearchInputChange = _this$props2.onSearchInputChange,
+        className = _this$props2.className,
+        currentLocale = _this$props2.currentLocale,
+        areaCode = _this$props2.areaCode,
+        countryCode = _this$props2.countryCode,
+        brand = _this$props2.brand,
+        showContactDisplayPlaceholder = _this$props2.showContactDisplayPlaceholder,
+        formatPhone = _this$props2.formatPhone,
+        onClickToSms = _this$props2.onClickToSms,
+        onCreateContact = _this$props2.onCreateContact,
+        createEntityTypes = _this$props2.createEntityTypes,
+        onViewContact = _this$props2.onViewContact,
+        outboundSmsPermission = _this$props2.outboundSmsPermission,
+        internalSmsPermission = _this$props2.internalSmsPermission,
+        isLoggedContact = _this$props2.isLoggedContact,
+        onLogCall = _this$props2.onLogCall,
+        autoLog = _this$props2.autoLog,
+        loggingMap = _this$props2.loggingMap,
+        webphoneAnswer = _this$props2.webphoneAnswer,
+        webphoneReject = _this$props2.webphoneReject,
+        webphoneHangup = _this$props2.webphoneHangup,
+        webphoneResume = _this$props2.webphoneResume,
+        enableContactFallback = _this$props2.enableContactFallback,
+        webphoneToVoicemail = _this$props2.webphoneToVoicemail,
+        sourceIcons = _this$props2.sourceIcons,
+        phoneTypeRenderer = _this$props2.phoneTypeRenderer,
+        phoneSourceNameRenderer = _this$props2.phoneSourceNameRenderer,
+        onClickToDial = _this$props2.onClickToDial,
+        disableLinks = _this$props2.disableLinks,
+        disableClickToDial = _this$props2.disableClickToDial,
+        dateTimeFormatter = _this$props2.dateTimeFormatter,
+        calls = _this$props2.calls,
+        active = _this$props2.active,
+        renderContactName = _this$props2.renderContactName,
+        renderSubContactName = _this$props2.renderSubContactName,
+        renderExtraButton = _this$props2.renderExtraButton,
+        contactDisplayStyle = _this$props2.contactDisplayStyle,
+        activeContactDisplayStyle = _this$props2.activeContactDisplayStyle,
+        currentLog = _this$props2.currentLog,
+        additionalInfo = _this$props2.additionalInfo,
+        onCloseLogSection = _this$props2.onCloseLogSection,
+        onUpdateCallLog = _this$props2.onUpdateCallLog,
+        onSaveCallLog = _this$props2.onSaveCallLog,
+        renderEditLogSection = _this$props2.renderEditLogSection,
+        renderSaveLogButton = _this$props2.renderSaveLogButton,
+        logNotification = _this$props2.logNotification,
+        onCloseNotification = _this$props2.onCloseNotification,
+        onDiscardNotification = _this$props2.onDiscardNotification,
+        onSaveNotification = _this$props2.onSaveNotification,
+        onExpandNotification = _this$props2.onExpandNotification,
+        showSaveLogBtn = _this$props2.showSaveLogBtn,
+        showNotiLogButton = _this$props2.showNotiLogButton,
+        sectionContainerStyles = _this$props2.sectionContainerStyles,
+        sectionModalStyles = _this$props2.sectionModalStyles,
+        notificationContainerStyles = _this$props2.notificationContainerStyles,
+        externalViewEntity = _this$props2.externalViewEntity,
+        externalHasEntity = _this$props2.externalHasEntity,
+        readTextPermission = _this$props2.readTextPermission,
+        children = _this$props2.children,
+        adaptive = _this$props2.adaptive,
+        showChooseEntityModal = _this$props2.showChooseEntityModal,
+        enableCDC = _this$props2.enableCDC,
+        maxExtensionLength = _this$props2.maxExtensionLength; // @ts-expect-error TS(2339): Property 'contentWidth' does not exist on type 'Re... Remove this comment to see the full error message
       var _this$state = this.state,
-          contentWidth = _this$state.contentWidth,
-          contentHeight = _this$state.contentHeight;
-
+        contentWidth = _this$state.contentWidth,
+        contentHeight = _this$state.contentHeight;
       if (showSpinner) {
         return /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, null);
       }
-
       var isShowMessageIcon = readTextPermission && !!onClickToSms;
-      var CallsListView = useNewList ? /*#__PURE__*/_react["default"].createElement(_CallListV["default"], {
+      var CallsListView = useNewList ?
+      /*#__PURE__*/
+      // @ts-expect-error TS(2741): Property 'formatPhone' is missing in type '{ width... Remove this comment to see the full error message
+      _react["default"].createElement(_CallListV["default"], {
         width: adaptive ? contentWidth : width,
         height: adaptive ? contentHeight : height,
         brand: brand,
@@ -481,6 +464,7 @@ var CallsListPanel = /*#__PURE__*/function (_React$PureComponent) {
         outboundSmsPermission: outboundSmsPermission,
         internalSmsPermission: internalSmsPermission,
         dateTimeFormatter: dateTimeFormatter,
+        maxExtensionNumberLength: maxExtensionLength,
         active: active,
         loggingMap: loggingMap,
         webphoneAnswer: webphoneAnswer,
@@ -532,7 +516,9 @@ var CallsListPanel = /*#__PURE__*/function (_React$PureComponent) {
         sourceIcons: sourceIcons,
         phoneTypeRenderer: phoneTypeRenderer,
         phoneSourceNameRenderer: phoneSourceNameRenderer,
-        renderContactName: renderContactName,
+        renderContactName: renderContactName
+        // @ts-expect-error TS(2769): No overload matches this call.
+        ,
         renderSubContactName: renderSubContactName,
         renderExtraButton: renderExtraButton,
         contactDisplayStyle: contactDisplayStyle,
@@ -551,7 +537,6 @@ var CallsListPanel = /*#__PURE__*/function (_React$PureComponent) {
         placeholder: _i18n["default"].getString('searchPlaceholder', currentLocale),
         disabled: disableLinks
       })) : null;
-
       var getCallList = function getCallList(calls, title) {
         return /*#__PURE__*/_react["default"].createElement(ActiveCallList, {
           title: title,
@@ -591,17 +576,14 @@ var CallsListPanel = /*#__PURE__*/function (_React$PureComponent) {
           readTextPermission: isShowMessageIcon
         });
       };
-
       var historyCall = showSpinner ? /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, null) : /*#__PURE__*/_react["default"].createElement("div", {
         className: (0, _classnames["default"])(_styles["default"].list, className)
       }, !onlyHistory && /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].listTitle
       }, _i18n["default"].getString('historyCalls', currentLocale)), CallsListView);
-
       var noCalls = otherDeviceCalls.length === 0 && /*#__PURE__*/_react["default"].createElement("p", {
         className: _styles["default"].noCalls
       }, _i18n["default"].getString('noCalls', currentLocale));
-
       return /*#__PURE__*/_react["default"].createElement("div", {
         className: (0, _classnames["default"])(_styles["default"].container, onSearchInputChange ? _styles["default"].containerWithSearch : null),
         ref: this._listWrapper
@@ -611,10 +593,8 @@ var CallsListPanel = /*#__PURE__*/function (_React$PureComponent) {
       }, onlyHistory || getCallList(activeRingCalls, _i18n["default"].getString('ringCall', currentLocale)), onlyHistory || getCallList(activeCurrentCalls, _i18n["default"].getString('currentCall', currentLocale)), onlyHistory || getCallList(activeOnHoldCalls, _i18n["default"].getString('onHoldCall', currentLocale)), onlyHistory || getCallList(otherDeviceCalls, _i18n["default"].getString('otherDeviceCall', currentLocale)), calls.length > 0 ? historyCall : noCalls), this.renderLogSection());
     }
   }]);
-
   return CallsListPanel;
-}(_react["default"].PureComponent);
-
+}(_react["default"].PureComponent); // @ts-expect-error TS(2339): Property 'propTypes' does not exist on type 'typeo... Remove this comment to see the full error message
 CallsListPanel.propTypes = {
   useNewList: _propTypes["default"].bool,
   width: _propTypes["default"].number,
@@ -690,6 +670,8 @@ CallsListPanel.propTypes = {
   showChooseEntityModal: _propTypes["default"].bool,
   enableCDC: _propTypes["default"].bool
 };
+
+// @ts-expect-error TS(2339): Property 'defaultProps' does not exist on type 'ty... Remove this comment to see the full error message
 CallsListPanel.defaultProps = {
   adaptive: false,
   useNewList: false,

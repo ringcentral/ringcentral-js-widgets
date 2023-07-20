@@ -1,46 +1,35 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.CallingSettingsAlert = void 0;
-
 var _react = _interopRequireDefault(require("react"));
-
-var _callingSettingsMessages = require("@ringcentral-integration/commons/modules/CallingSettingsV2/callingSettingsMessages");
-
+var _CallingSettings = require("@ringcentral-integration/commons/modules/CallingSettings");
 var _FormattedMessage = _interopRequireDefault(require("../../FormattedMessage"));
-
 var _i18n = _interopRequireDefault(require("./i18n"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 var CallingSettingsAlert = function CallingSettingsAlert(_ref) {
   var message = _ref.message.message,
-      currentLocale = _ref.currentLocale,
-      brandName = _ref.brandName,
-      jupiterAppName = _ref.jupiterAppName,
-      softphoneAppName = _ref.softphoneAppName,
-      onCallingSettingsLinkClick = _ref.onCallingSettingsLinkClick;
-
+    currentLocale = _ref.currentLocale,
+    brandName = _ref.brandName,
+    jupiterAppName = _ref.jupiterAppName,
+    softphoneAppName = _ref.softphoneAppName,
+    onCallingSettingsLinkClick = _ref.onCallingSettingsLinkClick;
   switch (message) {
-    case _callingSettingsMessages.callingSettingsMessages.saveSuccess:
-    case _callingSettingsMessages.callingSettingsMessages.saveSuccessWithSoftphone:
-    case _callingSettingsMessages.callingSettingsMessages.webphonePermissionRemoved:
-    case _callingSettingsMessages.callingSettingsMessages.emergencyCallingNotAvailable:
-    case _callingSettingsMessages.callingSettingsMessages.disableEmergencyInJapan:
-    case _callingSettingsMessages.callingSettingsMessages.saveSuccessWithJupiter:
+    case _CallingSettings.callingSettingsMessages.saveSuccess:
+    case _CallingSettings.callingSettingsMessages.saveSuccessWithSoftphone:
+    case _CallingSettings.callingSettingsMessages.webphonePermissionRemoved:
+    case _CallingSettings.callingSettingsMessages.emergencyCallingNotAvailable:
+    case _CallingSettings.callingSettingsMessages.disableEmergencyInJapan:
+    case _CallingSettings.callingSettingsMessages.saveSuccessWithJupiter:
       {
         var appName = brandName;
-
-        if (message === _callingSettingsMessages.callingSettingsMessages.saveSuccessWithJupiter) {
+        if (message === _CallingSettings.callingSettingsMessages.saveSuccessWithJupiter) {
           appName = jupiterAppName;
-        } else if (message === _callingSettingsMessages.callingSettingsMessages.saveSuccessWithSoftphone) {
+        } else if (message === _CallingSettings.callingSettingsMessages.saveSuccessWithSoftphone) {
           appName = softphoneAppName;
         }
-
         return /*#__PURE__*/_react["default"].createElement(_FormattedMessage["default"], {
           message: _i18n["default"].getString(message),
           values: {
@@ -48,9 +37,8 @@ var CallingSettingsAlert = function CallingSettingsAlert(_ref) {
           }
         });
       }
-
-    case _callingSettingsMessages.callingSettingsMessages.permissionChanged:
-    case _callingSettingsMessages.callingSettingsMessages.phoneNumberChanged:
+    case _CallingSettings.callingSettingsMessages.permissionChanged:
+    case _CallingSettings.callingSettingsMessages.phoneNumberChanged:
       {
         var link = onCallingSettingsLinkClick ? /*#__PURE__*/_react["default"].createElement("a", {
           onClick: function onClick(e) {
@@ -59,22 +47,21 @@ var CallingSettingsAlert = function CallingSettingsAlert(_ref) {
           }
         }, _i18n["default"].getString('link', currentLocale)) : _i18n["default"].getString('link', currentLocale);
         return /*#__PURE__*/_react["default"].createElement(_FormattedMessage["default"], {
-          message: _i18n["default"].getString(message, currentLocale),
+          message: _i18n["default"].getString(message, currentLocale)
+          // @ts-expect-error TS(2322): Type 'string | Element' is not assignable to type ... Remove this comment to see the full error message
+          ,
           values: {
             link: link
           }
         });
       }
-
     default:
       return null;
   }
 };
-
 exports.CallingSettingsAlert = CallingSettingsAlert;
-
 CallingSettingsAlert.handleMessage = function (_ref2) {
   var message = _ref2.message;
-  return message === _callingSettingsMessages.callingSettingsMessages.saveSuccess || message === _callingSettingsMessages.callingSettingsMessages.saveSuccessWithSoftphone || message === _callingSettingsMessages.callingSettingsMessages.permissionChanged || message === _callingSettingsMessages.callingSettingsMessages.webphonePermissionRemoved || message === _callingSettingsMessages.callingSettingsMessages.phoneNumberChanged || message === _callingSettingsMessages.callingSettingsMessages.emergencyCallingNotAvailable || message === _callingSettingsMessages.callingSettingsMessages.saveSuccessWithJupiter || message === _callingSettingsMessages.callingSettingsMessages.disableEmergencyInJapan;
+  return message === _CallingSettings.callingSettingsMessages.saveSuccess || message === _CallingSettings.callingSettingsMessages.saveSuccessWithSoftphone || message === _CallingSettings.callingSettingsMessages.permissionChanged || message === _CallingSettings.callingSettingsMessages.webphonePermissionRemoved || message === _CallingSettings.callingSettingsMessages.phoneNumberChanged || message === _CallingSettings.callingSettingsMessages.emergencyCallingNotAvailable || message === _CallingSettings.callingSettingsMessages.saveSuccessWithJupiter || message === _CallingSettings.callingSettingsMessages.disableEmergencyInJapan;
 };
 //# sourceMappingURL=CallingSettingsAlert.js.map

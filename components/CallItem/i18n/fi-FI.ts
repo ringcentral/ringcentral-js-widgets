@@ -12,11 +12,11 @@ export default {
   viewDetails: "Näytä tiedot",
   addEntity: "Luo uusi",
   addLog: "Loki",
-  text: "Teksti",
+  text: "Tekstiviesti",
   call: "Puhelu",
   missedCall: "Vastaamaton",
-  inboundCall: "Tuleva",
-  outboundCall: "Lähtevä"
+  inboundCall: "Saapuva",
+  outboundCall: "Lähtevät"
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@

@@ -1,11 +1,8 @@
 import Module from '@ringcentral-integration/commons/lib/di/decorators/module';
-import {
-  RcUIModuleV2,
-  UIProps,
-  UIFunctions,
-} from '@ringcentral-integration/core';
-import { Deps } from './ConnectivityBadgeUI.interface';
-import { ConnectivityBadgeProps } from '../../components/ConnectivityBadge';
+import type { UIProps, UIFunctions } from '@ringcentral-integration/core';
+import { RcUIModuleV2 } from '@ringcentral-integration/core';
+import type { ConnectivityBadgeProps } from '../../components/ConnectivityBadge';
+import type { Deps } from './ConnectivityBadgeUI.interface';
 
 @Module({
   name: 'ConnectivityBadgeUI',
@@ -23,6 +20,7 @@ export class ConnectivityBadgeUI extends RcUIModuleV2<Deps> {
   getUIProps(): UIProps<ConnectivityBadgeProps> {
     return {
       currentLocale: this._deps.locale.currentLocale,
+      // @ts-expect-error TS(2322): Type 'string | null' is not assignable to type 'st... Remove this comment to see the full error message
       mode:
         (this._deps.connectivityManager.ready &&
           this._deps.connectivityManager.mode) ||

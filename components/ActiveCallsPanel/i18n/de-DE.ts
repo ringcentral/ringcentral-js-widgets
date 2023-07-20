@@ -6,7 +6,7 @@ export default {
   otherDeviceCall: "Aktuelle Gespräche auf meinen anderen Geräten",
   confirmation: "Bestätigung",
   confirmMergeToConference: "Zur Telefonkonferenz hinzufügen?",
-  mergeToConference: "Zus.führen",
+  mergeToConference: "Zusammenführen",
   conferenceCall: "Telefonkonferenz"
 };
 

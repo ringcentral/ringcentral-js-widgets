@@ -1,32 +1,32 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 var _default = {
-  mute: "Stummsch.",
-  unmute: "Stumm Ende",
+  mute: "Stummschalten",
+  unmute: "Stummschaltung aufheben",
   hangup: "Auflegen",
   reject: "Ablehnen",
   hold: "Halten",
-  onHold: "Gehalten",
-  transfer: "Weiterleitung",
+  onHold: "Wird gehalten",
+  transfer: "Übertragen",
   more: "Mehr",
-  stopRecord: "Aufzeichnung beenden",
-  record: "Aufzeichnen",
+  stopRecord: "Aufz. beend.",
+  record: "Aufnehmen",
   showKeypad: "Wähltastatur",
   hideKeypad: "Wähltastatur ausblenden",
   unHold: "Wiederaufnehmen",
-  forward: "Weiterleiten",
+  forward: "Weiterl.",
   ignore: "Ignorieren",
   voicemail: "An Voicemail",
-  custom: "Benutzerdefiniert",
-  answerAndEnd: "Beantworten & beenden",
+  custom: "Individuell gestalten",
+  answerAndEnd: "Antw. u. beenden",
   answerAndHold: "Beantworten & halten",
-  answer: "Antworten"
+  answer: "Antworten",
+  completeTransfer: "Weiterleitung abschließen",
+  reply: "Antwort"
 }; // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
 // @key: @#@"hangup"@#@ @source: @#@"Hang up"@#@
@@ -47,6 +47,7 @@ var _default = {
 // @key: @#@"answerAndEnd"@#@ @source: @#@"Answer & End"@#@
 // @key: @#@"answerAndHold"@#@ @source: @#@"Answer & Hold"@#@
 // @key: @#@"answer"@#@ @source: @#@"Answer"@#@
-
+// @key: @#@"completeTransfer"@#@ @source: @#@"Complete transfer"@#@
+// @key: @#@"reply"@#@ @source: @#@"Reply"@#@
 exports["default"] = _default;
 //# sourceMappingURL=de-DE.js.map

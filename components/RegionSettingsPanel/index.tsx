@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 import classnames from 'classnames';
-import { contains } from 'ramda';
 
 import countryNames from '../../lib/countryNames';
 import BackHeader from '../BackHeader';
@@ -24,6 +23,7 @@ type RegionSettingsProps = {
   countryCode: string;
   areaCode: string;
   onSave?: (...args: any[]) => any;
+  canAreaCodeShow?: (currentCountryCode: string) => boolean;
 };
 type RegionSettingsState = {
   areaCodeValue: any;
@@ -33,14 +33,16 @@ class RegionSettings extends Component<
   RegionSettingsProps,
   RegionSettingsState
 > {
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     this.state = {
       countryCodeValue: props.countryCode,
       areaCodeValue: props.areaCode,
     };
   }
-  componentWillReceiveProps(nextProps) {
+
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
+  UNSAFE_componentWillReceiveProps(nextProps: any) {
     if (nextProps.areaCode !== this.props.areaCode) {
       this.setState({
         areaCodeValue: nextProps.areaCode,
@@ -52,17 +54,19 @@ class RegionSettings extends Component<
       });
     }
   }
-  onAreaCodeChange = (e) => {
+
+  onAreaCodeChange = (e: any) => {
     const value = e.currentTarget.value;
     this.setState({
       areaCodeValue: this.areaCodeInputFilter(value),
     });
   };
-  onCountryCodeChange = (option) => {
+  onCountryCodeChange = (option: any) => {
     const value = option.isoCode;
     if (value !== this.state.countryCodeValue) {
       this.setState({
         countryCodeValue: value,
+        areaCodeValue: '',
       });
     }
   };
@@ -74,9 +78,8 @@ class RegionSettings extends Component<
   };
   onSaveClick = () => {
     if (typeof this.props.onSave === 'function') {
-      const showAreaCode = contains(this.state.countryCodeValue, ['CA', 'US']);
       this.props.onSave({
-        areaCode: showAreaCode ? this.state.areaCodeValue : undefined,
+        areaCode: this.canAreaCodeShow() ? this.state.areaCodeValue : undefined,
         countryCode: this.state.countryCodeValue,
       });
     }
@@ -86,13 +89,20 @@ class RegionSettings extends Component<
       this.props.onBackButtonClick();
     }
   };
-  areaCodeInputFilter = (value) => value.replace(/[^\d]/g, '');
-  renderHandler = (option) =>
+
+  canAreaCodeShow = () => {
+    if (typeof this.props.canAreaCodeShow === 'function') {
+      return this.props.canAreaCodeShow(this.state.countryCodeValue);
+    }
+  };
+
+  areaCodeInputFilter = (value: any) => value.replace(/[^\d]/g, '');
+  renderHandler = (option: any) =>
     `(+${option.callingCode}) ${countryNames.getString(
       option.isoCode,
       this.props.currentLocale,
     )}`;
-  renderValue = (value) => {
+  renderValue = (value: any) => {
     const selectedOption = this.props.availableCountries.find(
       (country) => country.isoCode === value,
     );
@@ -100,10 +110,12 @@ class RegionSettings extends Component<
       return '';
     }
     return `(+${selectedOption.callingCode}) ${countryNames.getString(
+      // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
       selectedOption.isoCode,
       this.props.currentLocale,
     )}`;
   };
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     const hasChanges =
       this.state.areaCodeValue !== this.props.areaCode ||
@@ -121,16 +133,14 @@ class RegionSettings extends Component<
     } else if (hasNA) {
       messageId = 'NAOnlyMessage';
     }
-    const showAreaCode =
-      this.state.countryCodeValue === 'US' ||
-      this.state.countryCodeValue === 'CA';
     return (
       <div className={classnames(styles.root, this.props.className)}>
         <BackHeader buttons={[]} onBackClick={this.onBackClick}>
           {i18n.getString('title', this.props.currentLocale)}
         </BackHeader>
         <Panel className={styles.content}>
-          <div className={styles.hint}>
+          <div data-sign="countryCodeHint" className={styles.hint}>
+            {/* @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message */}
             {i18n.getString(messageId, this.props.currentLocale)}
           </div>
           <InputField
@@ -148,7 +158,7 @@ class RegionSettings extends Component<
               titleEnabled
             />
           </InputField>
-          {showAreaCode && (
+          {this.canAreaCodeShow() && (
             <InputField
               label={i18n.getString('areaCode', this.props.currentLocale)}
             >
@@ -157,7 +167,6 @@ class RegionSettings extends Component<
                   'areaCodePlaceholder',
                   this.props.currentLocale,
                 )}
-                maxLength={3}
                 filter={this.areaCodeInputFilter}
                 value={this.state.areaCodeValue}
                 onChange={this.onAreaCodeChange}
@@ -176,10 +185,12 @@ class RegionSettings extends Component<
     );
   }
 }
+// @ts-expect-error TS(2339): Property 'defaultProps' does not exist on type 'ty... Remove this comment to see the full error message
 RegionSettings.defaultProps = {
   className: undefined,
   children: undefined,
   onBackButtonClick: undefined,
+  canAreaCodeShow: undefined,
   onSave: undefined,
 };
 export default RegionSettings;

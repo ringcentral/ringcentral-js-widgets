@@ -1,6 +1,6 @@
 import React from 'react';
 
-import audioSettingsErrors from '@ringcentral-integration/commons/modules/AudioSettings/audioSettingsErrors';
+import { audioSettingsErrors } from '@ringcentral-integration/commons/modules/AudioSettings';
 
 import FormattedMessage from '../../FormattedMessage';
 import i18n from './i18n';
@@ -25,6 +25,7 @@ const AudioSettingsAlert: React.SFC<AudioSettingsAlertProps> = ({
   );
   return <span>{view}</span>;
 };
-AudioSettingsAlert.handleMessage = ({ message }) =>
+// @ts-expect-error TS(2339): Property 'handleMessage' does not exist on type 'S... Remove this comment to see the full error message
+AudioSettingsAlert.handleMessage = ({ message }: any) =>
   message === audioSettingsErrors.userMediaPermission;
 export default AudioSettingsAlert;

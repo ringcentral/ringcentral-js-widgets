@@ -16,7 +16,9 @@ export default {
   ignore: 'Ignore',
   voicemail: 'To Voicemail',
   custom: 'Custom',
-  answerAndEnd: "Answer & End",
+  answerAndEnd: 'Answer & End',
   answerAndHold: 'Answer & Hold',
-  answer: 'Answer'
+  answer: 'Answer',
+  completeTransfer: 'Complete transfer',
+  reply: 'Reply',
 };

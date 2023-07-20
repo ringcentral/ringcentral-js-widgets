@@ -1,5 +1,5 @@
 export default {
-  noActiveCalls: "无使用中通话",
+  noActiveCalls: "无进行中的通话",
   noRecords: "找不到结果。"
 };
 

@@ -1,125 +1,93 @@
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
-require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.symbol");
-
-require("core-js/modules/web.dom.iterable");
-
-require("core-js/modules/es6.array.iterator");
-
-require("core-js/modules/es6.object.to-string");
-
-require("core-js/modules/es6.string.iterator");
-
-require("core-js/modules/es6.weak-map");
-
-require("core-js/modules/es6.object.define-property");
-
-require("core-js/modules/es6.object.create");
-
-require("core-js/modules/es6.reflect.construct");
-
+require("core-js/modules/es.array.concat");
+require("core-js/modules/es.function.bind");
+require("core-js/modules/es.object.get-prototype-of");
+require("core-js/modules/es.object.set-prototype-of");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-
-require("core-js/modules/es6.object.set-prototype-of");
-
 var _react = _interopRequireWildcard(require("react"));
-
 var _classnames = _interopRequireDefault(require("classnames"));
-
 var _lib = require("../../lib");
-
 var _BackHeaderV = _interopRequireDefault(require("../BackHeaderV2"));
-
 var _LogBasicInfoV = _interopRequireDefault(require("../LogBasicInfoV2"));
-
 var _NotificationSection = _interopRequireDefault(require("../NotificationSection"));
-
 var _NotificationSectionV = _interopRequireDefault(require("../NotificationSectionV2"));
-
 var _SpinnerOverlay = require("../SpinnerOverlay");
-
 var _WebRTCNotificationSection = _interopRequireDefault(require("../WebRTCNotificationSection"));
-
 var _i18n = _interopRequireDefault(require("./i18n"));
-
 var _styles = _interopRequireDefault(require("./styles.scss"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
-
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
-
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); } /**
+                                                                                                                                                                                                                      * Call log enhancement
+                                                                                                                                                                                                                      */
+var getWarmTransferSession = function getWarmTransferSession(_ref) {
+  var _transferLog$call;
+  var mainLog = _ref.mainLog,
+    transferLog = _ref.transferLog,
+    activeTelephonySessionId = _ref.activeTelephonySessionId;
+  if (!transferLog || !(transferLog === null || transferLog === void 0 ? void 0 : transferLog.call) || (transferLog === null || transferLog === void 0 ? void 0 : (_transferLog$call = transferLog.call) === null || _transferLog$call === void 0 ? void 0 : _transferLog$call.telephonySessionId) !== activeTelephonySessionId) {
+    return {
+      activeLog: mainLog,
+      subLog: transferLog
+    };
+  }
+  return {
+    activeLog: transferLog,
+    subLog: mainLog
+  };
+};
 var CallLogPanel = /*#__PURE__*/function (_Component) {
   _inherits(CallLogPanel, _Component);
-
   var _super = _createSuper(CallLogPanel);
-
   function CallLogPanel() {
     var _this;
-
     _classCallCheck(this, CallLogPanel);
-
     for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
       args[_key] = arguments[_key];
     }
-
     _this = _super.call.apply(_super, [this].concat(args));
     _this.editSectionRef = /*#__PURE__*/_react["default"].createRef();
-
     _this.editSectionScrollBy = function (top) {
+      // @ts-expect-error TS(2531): Object is possibly 'null'.
       _this.editSectionRef.current.scrollBy({
         top: top,
         behavior: 'smooth'
       });
     };
-
     return _this;
   }
-
   _createClass(CallLogPanel, [{
     key: "componentWillMount",
     // TODO: use react function component to refactor with react hook
+    // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
     // eslint-disable-next-line react/no-deprecated
     value: function componentWillMount() {
       var pushLogPageStatus = this.props.pushLogPageStatus;
-
       if (pushLogPageStatus) {
         pushLogPageStatus(true);
       }
-    }
+    } // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   }, {
     key: "componentWillUnmount",
     value: function componentWillUnmount() {
       var pushLogPageStatus = this.props.pushLogPageStatus;
-
       if (pushLogPageStatus) {
         pushLogPageStatus(false);
       }
@@ -128,19 +96,17 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
     key: "renderLogSection",
     value: function renderLogSection() {
       var _this$props = this.props,
-          currentLog = _this$props.currentLog,
-          renderEditLogSection = _this$props.renderEditLogSection,
-          editSection = _this$props.classes.editSection,
-          renderKeypadPanel = _this$props.renderKeypadPanel;
+        currentLog = _this$props.currentLog,
+        renderEditLogSection = _this$props.renderEditLogSection,
+        editSection = _this$props.classes.editSection,
+        renderKeypadPanel = _this$props.renderKeypadPanel;
       if (!currentLog) return null;
       var showSpinner = this.props.showSpinner;
-
       if (currentLog.showSpinner || showSpinner) {
         return /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, {
           className: _styles["default"].spinner
         });
       }
-
       return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, this.renderLogNotification(), this.renderLogBasicInfo(), /*#__PURE__*/_react["default"].createElement("div", {
         ref: this.editSectionRef,
         className: (0, _classnames["default"])(_styles["default"].editSection, editSection)
@@ -150,46 +116,55 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
     key: "getCallControlButtons",
     value: function getCallControlButtons() {
       var _this$props2 = this.props,
-          currentLog = _this$props2.currentLog,
-          _this$props2$classes$ = _this$props2.classes.callLogCallControl,
-          callLogCallControl = _this$props2$classes$ === void 0 ? null : _this$props2$classes$,
-          callLogCallControlRef = _this$props2.refs.callLogCallControl,
-          renderCallLogCallControl = _this$props2.renderCallLogCallControl,
-          isWide = _this$props2.isWide,
-          showSmallCallControl = _this$props2.showSmallCallControl;
-      var call = currentLog.call;
+        currentLog = _this$props2.currentLog,
+        _this$props2$classes$ = _this$props2.classes.callLogCallControl,
+        callLogCallControl = _this$props2$classes$ === void 0 ? null : _this$props2$classes$,
+        callLogCallControlRef = _this$props2.refs.callLogCallControl,
+        renderCallLogCallControl = _this$props2.renderCallLogCallControl,
+        isWide = _this$props2.isWide,
+        enableReply = _this$props2.enableReply,
+        showSmallCallControl = _this$props2.showSmallCallControl,
+        warmTransferLog = _this$props2.warmTransferLog,
+        warmTransferActiveTelephonySessionId = _this$props2.warmTransferActiveTelephonySessionId;
+      var _getWarmTransferSessi = getWarmTransferSession({
+          mainLog: currentLog,
+          transferLog: warmTransferLog,
+          activeTelephonySessionId: warmTransferActiveTelephonySessionId
+        }),
+        activeLog = _getWarmTransferSessi.activeLog;
+      var call = activeLog.call; // @ts-expect-error TS(2339): Property 'telephonySessionId' does not exist on ty... Remove this comment to see the full error message
       var telephonySessionId = call.telephonySessionId,
-          webphoneSession = call.webphoneSession;
+        webphoneSession = call.webphoneSession;
       var isCurrentDeviceCall = !!webphoneSession;
-
       if (showSmallCallControl) {
         return /*#__PURE__*/_react["default"].createElement("div", {
           ref: callLogCallControlRef,
           className: (0, _classnames["default"])(_styles["default"].callControlRoot, callLogCallControl),
           "data-sign": "smallCallControl"
-        }, renderCallLogCallControl && renderCallLogCallControl(telephonySessionId, isWide, isCurrentDeviceCall));
+        }, renderCallLogCallControl && renderCallLogCallControl(telephonySessionId,
+        // @ts-expect-error TS(2345): Argument of type 'boolean | undefined' is not assi... Remove this comment to see the full error message
+        isWide, enableReply, isCurrentDeviceCall, warmTransferActiveTelephonySessionId));
       }
-
       return null;
     }
   }, {
     key: "getEditLogSection",
     value: function getEditLogSection() {
       var _this$props3 = this.props,
-          renderEditLogSection = _this$props3.renderEditLogSection,
-          currentLocale = _this$props3.currentLocale,
-          onSaveCallLog = _this$props3.onSaveCallLog,
-          onUpdateCallLog = _this$props3.onUpdateCallLog,
-          onSelectViewVisible = _this$props3.onSelectViewVisible,
-          currentLog = _this$props3.currentLog,
-          additionalInfo = _this$props3.additionalInfo,
-          subjectDropdownsTracker = _this$props3.subjectDropdownsTracker,
-          contactSearch = _this$props3.contactSearch,
-          showFoundFromServer = _this$props3.showFoundFromServer,
-          appName = _this$props3.appName,
-          isSearching = _this$props3.isSearching,
-          startAdornmentRender = _this$props3.startAdornmentRender,
-          objectTypeIconsMap = _this$props3.objectTypeIconsMap;
+        renderEditLogSection = _this$props3.renderEditLogSection,
+        currentLocale = _this$props3.currentLocale,
+        onSaveCallLog = _this$props3.onSaveCallLog,
+        onUpdateCallLog = _this$props3.onUpdateCallLog,
+        onSelectViewVisible = _this$props3.onSelectViewVisible,
+        currentLog = _this$props3.currentLog,
+        additionalInfo = _this$props3.additionalInfo,
+        subjectDropdownsTracker = _this$props3.subjectDropdownsTracker,
+        contactSearch = _this$props3.contactSearch,
+        showFoundFromServer = _this$props3.showFoundFromServer,
+        appName = _this$props3.appName,
+        isSearching = _this$props3.isSearching,
+        startAdornmentRender = _this$props3.startAdornmentRender,
+        objectTypeIconsMap = _this$props3.objectTypeIconsMap; // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
       return renderEditLogSection({
         currentLocale: currentLocale,
         onSaveCallLog: onSaveCallLog,
@@ -211,16 +186,18 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
     key: "renderLogBasicInfo",
     value: function renderLogBasicInfo() {
       var _this$props4 = this.props,
-          isWide = _this$props4.isWide,
-          currentLog = _this$props4.currentLog,
-          currentLocale = _this$props4.currentLocale,
-          formatPhone = _this$props4.formatPhone,
-          dateTimeFormatter = _this$props4.dateTimeFormatter,
-          renderBasicInfo = _this$props4.renderBasicInfo,
-          logBasicInfo = _this$props4.classes.logBasicInfo,
-          currentSession = _this$props4.currentSession,
-          showRecordingIndicator = _this$props4.showRecordingIndicator;
-
+        isWide = _this$props4.isWide,
+        currentLog = _this$props4.currentLog,
+        warmTransferLog = _this$props4.warmTransferLog,
+        currentLocale = _this$props4.currentLocale,
+        formatPhone = _this$props4.formatPhone,
+        dateTimeFormatter = _this$props4.dateTimeFormatter,
+        renderBasicInfo = _this$props4.renderBasicInfo,
+        logBasicInfo = _this$props4.classes.logBasicInfo,
+        showRecordingIndicator = _this$props4.showRecordingIndicator,
+        openEntityDetailLinkTrack = _this$props4.openEntityDetailLinkTrack,
+        warmTransferActiveTelephonySessionId = _this$props4.warmTransferActiveTelephonySessionId,
+        onSwitchWarmTransferSession = _this$props4.onSwitchWarmTransferSession;
       if (renderBasicInfo) {
         return renderBasicInfo({
           formatPhone: formatPhone,
@@ -228,29 +205,43 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
           currentLog: currentLog
         });
       }
-
+      var _getWarmTransferSessi2 = getWarmTransferSession({
+          mainLog: currentLog,
+          transferLog: warmTransferLog,
+          activeTelephonySessionId: warmTransferActiveTelephonySessionId
+        }),
+        activeLog = _getWarmTransferSessi2.activeLog,
+        subLog = _getWarmTransferSessi2.subLog;
       return /*#__PURE__*/_react["default"].createElement(_LogBasicInfoV["default"], {
         dataSign: "leftSectionInfo",
-        isWide: isWide,
-        currentLog: currentLog,
+        isWide: isWide
+        // @ts-expect-error TS(2322): Type 'CallLog' is not assignable to type 'ILogInfo... Remove this comment to see the full error message
+        ,
+        currentLog: activeLog
+        // @ts-expect-error TS(2322): Type 'CallLog | undefined' is not assignable to ty... Remove this comment to see the full error message
+        ,
+        subCallLog: subLog,
         currentLocale: currentLocale,
-        formatPhone: formatPhone,
+        formatPhone: formatPhone
+        // @ts-expect-error TS(2322): Type '(({ utcTimestamp, locale, type, }: DateTimeF... Remove this comment to see the full error message
+        ,
         dateTimeFormatter: dateTimeFormatter,
         className: logBasicInfo,
-        recordStatus: currentSession === null || currentSession === void 0 ? void 0 : currentSession.recordStatus,
-        showRecordingIndicator: showRecordingIndicator
+        showRecordingIndicator: showRecordingIndicator,
+        openEntityDetailLinkTrack: openEntityDetailLinkTrack,
+        onSwitchWarmTransferSession: onSwitchWarmTransferSession
       });
     }
   }, {
     key: "genSaveLogButtonV2",
     value: function genSaveLogButtonV2() {
       var _this$props5 = this.props,
-          renderSaveLogButton = _this$props5.renderSaveLogButton,
-          currentLocale = _this$props5.currentLocale,
-          onSaveCallLog = _this$props5.onSaveCallLog,
-          currentLog = _this$props5.currentLog,
-          isWide = _this$props5.isWide,
-          showSpinner = _this$props5.showSpinner;
+        renderSaveLogButton = _this$props5.renderSaveLogButton,
+        currentLocale = _this$props5.currentLocale,
+        onSaveCallLog = _this$props5.onSaveCallLog,
+        currentLog = _this$props5.currentLog,
+        isWide = _this$props5.isWide,
+        showSpinner = _this$props5.showSpinner;
       var loading = showSpinner || currentLog && currentLog.showSpinner;
       return renderSaveLogButton({
         currentLocale: currentLocale,
@@ -265,48 +256,51 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
     key: "renderLogNotification",
     value: function renderLogNotification() {
       var _this$props6 = this.props,
-          formatPhone = _this$props6.formatPhone,
-          currentLocale = _this$props6.currentLocale,
-          logNotification = _this$props6.logNotification,
-          onCloseNotification = _this$props6.onCloseNotification,
-          onSaveNotification = _this$props6.onSaveNotification,
-          onExpandNotification = _this$props6.onExpandNotification,
-          onDiscardNotification = _this$props6.onDiscardNotification,
-          currentNotificationIdentify = _this$props6.currentNotificationIdentify,
-          currentSession = _this$props6.currentSession,
-          activeSession = _this$props6.activeSession,
-          onReject = _this$props6.onReject,
-          onHangup = _this$props6.onHangup,
-          shrinkNotification = _this$props6.shrinkNotification,
-          disableLinks = _this$props6.disableLinks,
-          useNewNotification = _this$props6.useNewNotification,
-          showNotiLogButton = _this$props6.showNotiLogButton,
-          isWebRTC = _this$props6.isWebRTC,
-          isWide = _this$props6.isWide,
-          onIgnore = _this$props6.onIgnore,
-          onForward = _this$props6.onForward,
-          endAndAnswer = _this$props6.endAndAnswer,
-          holdAndAnswer = _this$props6.holdAndAnswer,
-          toVoicemail = _this$props6.toVoicemail,
-          forwardingNumbers = _this$props6.forwardingNumbers,
-          answer = _this$props6.answer,
-          clickForwardTrack = _this$props6.clickForwardTrack,
-          renderCallNotificationAvatar = _this$props6.renderCallNotificationAvatar,
-          getAvatarUrl = _this$props6.getAvatarUrl;
+        formatPhone = _this$props6.formatPhone,
+        currentLocale = _this$props6.currentLocale,
+        logNotification = _this$props6.logNotification,
+        onCloseNotification = _this$props6.onCloseNotification,
+        onSaveNotification = _this$props6.onSaveNotification,
+        onExpandNotification = _this$props6.onExpandNotification,
+        onDiscardNotification = _this$props6.onDiscardNotification,
+        currentNotificationIdentify = _this$props6.currentNotificationIdentify,
+        currentSession = _this$props6.currentSession,
+        activeSession = _this$props6.activeSession,
+        onReject = _this$props6.onReject,
+        onHangup = _this$props6.onHangup,
+        shrinkNotification = _this$props6.shrinkNotification,
+        disableLinks = _this$props6.disableLinks,
+        useNewNotification = _this$props6.useNewNotification,
+        showNotiLogButton = _this$props6.showNotiLogButton,
+        isWebRTC = _this$props6.isWebRTC,
+        isWide = _this$props6.isWide,
+        onIgnore = _this$props6.onIgnore,
+        onForward = _this$props6.onForward,
+        endAndAnswer = _this$props6.endAndAnswer,
+        holdAndAnswer = _this$props6.holdAndAnswer,
+        toVoicemail = _this$props6.toVoicemail,
+        forwardingNumbers = _this$props6.forwardingNumbers,
+        answer = _this$props6.answer,
+        clickForwardTrack = _this$props6.clickForwardTrack,
+        renderCallNotificationAvatar = _this$props6.renderCallNotificationAvatar,
+        getAvatarUrl = _this$props6.getAvatarUrl,
+        openEntityDetailLinkTrack = _this$props6.openEntityDetailLinkTrack,
+        enableReply = _this$props6.enableReply,
+        reply = _this$props6.reply;
       var showNotification = logNotification.showNotification,
-          call = logNotification.call,
-          logName = logNotification.logName,
-          subContactNameDisplay = logNotification.subContactNameDisplay,
-          displayEntity = logNotification.displayEntity,
-          entityType = logNotification.entityType,
-          entityDetailLink = logNotification.entityDetailLink;
-
+        call = logNotification.call,
+        logName = logNotification.logName,
+        subContactNameDisplay = logNotification.subContactNameDisplay,
+        displayEntity = logNotification.displayEntity,
+        entityType = logNotification.entityType,
+        entityDetailLink = logNotification.entityDetailLink;
       if (!showNotification) {
         return null;
       }
-
       if (isWebRTC) {
-        if (!call || !call.webphoneSession) return null;
+        if (!call || !call.webphoneSession || call.webphoneSession.callStatus !== 'webphone-session-connecting') {
+          return null;
+        }
         return /*#__PURE__*/_react["default"].createElement(_WebRTCNotificationSection["default"], {
           formatPhone: formatPhone,
           currentLocale: currentLocale,
@@ -315,9 +309,15 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
           subContactNameDisplay: subContactNameDisplay,
           displayEntity: displayEntity,
           entityType: entityType,
-          entityDetailLink: entityDetailLink,
-          onCloseNotification: onCloseNotification,
-          currentNotificationIdentify: currentNotificationIdentify,
+          entityDetailLink: entityDetailLink
+          // @ts-expect-error TS(2322): Type '((...args: any[]) => any) | undefined' is no... Remove this comment to see the full error message
+          ,
+          onCloseNotification: onCloseNotification
+          // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
+          ,
+          currentNotificationIdentify: currentNotificationIdentify
+          // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
+          ,
           isWide: isWide,
           onIgnore: onIgnore,
           onForward: onForward,
@@ -327,12 +327,19 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
           forwardingNumbers: forwardingNumbers,
           hasActiveSession: !!activeSession,
           answer: answer,
-          clickForwardTrack: clickForwardTrack,
-          renderCallNotificationAvatar: renderCallNotificationAvatar,
-          getAvatarUrl: getAvatarUrl
+          clickForwardTrack: clickForwardTrack
+          // @ts-expect-error TS(2322): Type '((contact: IContact, entityType: string) => ... Remove this comment to see the full error message
+          ,
+          renderCallNotificationAvatar: renderCallNotificationAvatar
+          // @ts-expect-error TS(2322): Type '((contact: IContact) => Promise<string>) | u... Remove this comment to see the full error message
+          ,
+          getAvatarUrl: getAvatarUrl,
+          openEntityDetailLinkTrack: openEntityDetailLinkTrack,
+          enableReply: enableReply,
+          disableLinks: disableLinks,
+          reply: reply
         });
       }
-
       if (useNewNotification) {
         return /*#__PURE__*/_react["default"].createElement(_NotificationSectionV["default"], {
           formatPhone: formatPhone,
@@ -350,7 +357,6 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
           shrinkNotification: shrinkNotification
         });
       }
-
       return /*#__PURE__*/_react["default"].createElement(_NotificationSection["default"], {
         formatPhone: formatPhone,
         currentLocale: currentLocale,
@@ -364,7 +370,8 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
         currentSession: currentSession,
         onReject: onReject,
         onHangup: onHangup,
-        disableLinks: disableLinks
+        disableLinks: disableLinks,
+        openEntityDetailLinkTrack: openEntityDetailLinkTrack
       });
     }
   }, {
@@ -372,26 +379,25 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
     value: function goBack() {
       var goBack = this.props.goBack;
       goBack();
-    }
+    } // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   }, {
     key: "render",
     value: function render() {
       var _this2 = this;
-
       var _this$props7 = this.props,
-          currentIdentify = _this$props7.currentIdentify,
-          currentLocale = _this$props7.currentLocale,
-          _this$props7$classes = _this$props7.classes,
-          root = _this$props7$classes.root,
-          backHeader = _this$props7$classes.backHeader,
-          rootRef = _this$props7.refs.root,
-          backIcon = _this$props7.backIcon,
-          header = _this$props7.header,
-          headerTitle = _this$props7.headerTitle,
-          isInTransferPage = _this$props7.isInTransferPage,
-          isWide = _this$props7.isWide,
-          children = _this$props7.children,
-          getRenderLogButton = _this$props7.getRenderLogButton;
+        currentIdentify = _this$props7.currentIdentify,
+        currentLocale = _this$props7.currentLocale,
+        _this$props7$classes = _this$props7.classes,
+        root = _this$props7$classes.root,
+        backHeader = _this$props7$classes.backHeader,
+        rootRef = _this$props7.refs.root,
+        backIcon = _this$props7.backIcon,
+        header = _this$props7.header,
+        headerTitle = _this$props7.headerTitle,
+        isInTransferPage = _this$props7.isInTransferPage,
+        isWide = _this$props7.isWide,
+        children = _this$props7.children,
+        getRenderLogButton = _this$props7.getRenderLogButton;
       if (!currentIdentify || isInTransferPage) return null;
       return /*#__PURE__*/_react["default"].createElement("div", {
         ref: rootRef,
@@ -400,7 +406,9 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
         currentLocale: currentLocale,
         backIcon: backIcon,
         isWide: isWide,
-        rightIcon: (getRenderLogButton === null || getRenderLogButton === void 0 ? void 0 : getRenderLogButton()) || this.genSaveLogButtonV2(),
+        rightIcon: (getRenderLogButton === null || getRenderLogButton === void 0 ? void 0 : getRenderLogButton()) || this.genSaveLogButtonV2()
+        // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
+        ,
         title: _i18n["default"].getString(headerTitle, currentLocale),
         className: (0, _classnames["default"])(_styles["default"].header, backHeader),
         onBackClick: function onBackClick() {
@@ -409,10 +417,8 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
       }), this.renderLogSection(), children);
     }
   }]);
-
   return CallLogPanel;
 }(_react.Component);
-
 exports["default"] = CallLogPanel;
 CallLogPanel.defaultProps = {
   currentLog: {
@@ -435,15 +441,19 @@ CallLogPanel.defaultProps = {
   isInTransferPage: false,
   showSpinner: true,
   isWide: true,
+  enableReply: false,
   showNotiLogButton: true,
   disableLinks: false,
   useNewNotification: false,
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type '(({ searchS... Remove this comment to see the full error message
   contactSearch: null,
   showFoundFromServer: false,
   isSearching: false,
   logNotification: {
     showNotification: false,
+    // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Call'.
     call: null,
+    // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string'.
     logName: null,
     notificationIsExpand: false,
     subContactNameDisplay: '',
@@ -452,9 +462,11 @@ CallLogPanel.defaultProps = {
     entityDetailLink: ''
   },
   showRecordingIndicator: false,
+  // @ts-expect-error TS(2322): Type '() => null' is not assignable to type '(cont... Remove this comment to see the full error message
   renderCallNotificationAvatar: function renderCallNotificationAvatar() {
     return null;
   },
+  // @ts-expect-error TS(2322): Type '() => null' is not assignable to type '(cont... Remove this comment to see the full error message
   getAvatarUrl: function getAvatarUrl() {
     return null;
   }

@@ -49,10 +49,16 @@ p {
 }
 
 .recordingIndicator {
-  position: absolute !important;
-  left: -3px;
-  top: 30px;
+  padding-left: 4px;
+  &:before {
+    display: none;
+  }
+  [sf-classic] & {
+    position: absolute;
+    right: 0px;
+  }
 }
+
 
 .callIcon {
   margin: 3px 12px 0 0;
@@ -171,3 +177,7 @@ p {
 .flex-fill {
   @include flex-fill;
 }
+
+// .transferIconColor {
+//   color: $primary-color;
+// }

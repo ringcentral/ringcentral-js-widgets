@@ -1,16 +1,16 @@
-import { ForwardingNumberInfo } from '@rc-ex/core/definitions';
-import {
+import type ForwardingNumberInfo from '@rc-ex/core/lib/definitions/ForwardingNumberInfo';
+import type {
   ActiveCallControl,
   ActiveSession,
-} from '@ringcentral-integration/commons/modules/ActiveCallControlV2';
-import { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettingsV2';
-import { CallMonitor } from '@ringcentral-integration/commons/modules/CallMonitorV2';
-import { ConnectivityMonitor } from '@ringcentral-integration/commons/modules/ConnectivityMonitorV2';
-import { ExtensionFeatures } from '@ringcentral-integration/commons/modules/ExtensionFeatures';
-import { ForwardingNumber } from '@ringcentral-integration/commons/modules/ForwardingNumberV2';
-import { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiterV2';
+} from '@ringcentral-integration/commons/modules/ActiveCallControl';
+import type { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettings';
+import type { CallMonitor } from '@ringcentral-integration/commons/modules/CallMonitor';
+import type { ConnectivityMonitor } from '@ringcentral-integration/commons/modules/ConnectivityMonitor';
+import type { ExtensionFeatures } from '@ringcentral-integration/commons/modules/ExtensionFeatures';
+import type { ForwardingNumber } from '@ringcentral-integration/commons/modules/ForwardingNumber';
+import type { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiter';
 
-import { RouterInteraction } from '../RouterInteraction';
+import type { RouterInteraction } from '../RouterInteraction';
 
 export interface Deps {
   activeCallControl: ActiveCallControl;
@@ -28,6 +28,7 @@ export interface CallLogCallCtrlContainerProps {
 }
 
 export interface CallLogCallCtrlPanelProps {
+  allowPickupCall?: boolean;
   isWebphone: boolean;
   currentSession: ActiveSession;
   disableLinks: boolean;
@@ -43,10 +44,12 @@ export interface CallLogCallCtrlPanelProps {
   onUnHold: ActiveCallControl['unhold'];
   startRecord: ActiveCallControl['startRecord'];
   stopRecord: ActiveCallControl['stopRecord'];
+  onCompleteWarmTransfer: ActiveCallControl['completeWarmTransfer'];
   onTransfer: (telephonySessionId: string) => Promise<void>;
   sendDTMF: (dtmfValue: string, telephonySessionId: string) => Promise<void>;
   answer: ActiveCallControl['answer'];
   forward: (phoneNumber: string, telephonySessionId: string) => void;
+  reply: (telephonySessionId: string) => void;
   ignore: ActiveCallControl['ignore'];
   answerAndHold: ActiveCallControl['answerAndHold'];
   answerAndEnd: ActiveCallControl['answerAndEnd'];

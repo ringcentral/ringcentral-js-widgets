@@ -1,14 +1,12 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 var _default = {
-  DirectNumber: "ダイレクト",
-  MainCompanyNumber: "代表",
+  DirectNumber: "直通",
+  MainCompanyNumber: "メイン",
   CompanyNumber: "会社",
   CompanyFaxNumber: "FAX",
   Blocked: "ブロック済み",
@@ -23,6 +21,5 @@ var _default = {
 // @key: @#@"AdditionalCompanyNumber"@#@ @source: @#@"Company"@#@
 // @key: @#@"ForwardedCompanyNumber"@#@ @source: @#@"Forwarded"@#@
 // @key: @#@"from"@#@ @source: @#@"From"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=ja-JP.js.map

@@ -1,20 +1,13 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
+require("core-js/modules/es.function.name");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getLastCallInfoFromWebphoneSession = getLastCallInfoFromWebphoneSession;
-
-require("core-js/modules/es6.function.name");
-
 var _callDirections = _interopRequireDefault(require("@ringcentral-integration/commons/enums/callDirections"));
-
 var _calleeTypes = _interopRequireDefault(require("@ringcentral-integration/commons/enums/calleeTypes"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 function getLastCallInfoFromWebphoneSession(webphoneSession) {
   var sessionNumber = webphoneSession.direction === _callDirections["default"].outbound ? webphoneSession.to : webphoneSession.from;
   var sessionStatus = webphoneSession.callStatus;

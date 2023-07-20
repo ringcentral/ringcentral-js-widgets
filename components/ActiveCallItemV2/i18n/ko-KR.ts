@@ -15,7 +15,7 @@ export default {
   // text: 'Text',
   // call: 'Call',
   // addContact: 'Add Contact',
-  missedCall: "부재중",
+  missedCall: "부재중 전화",
   inboundCall: "수신",
   outboundCall: "발신" // from: 'From',
   // to: 'To',

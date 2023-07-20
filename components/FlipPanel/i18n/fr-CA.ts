@@ -1,6 +1,6 @@
 export default {
-  flipHeader: "Renvoi instantané vers...",
-  flip: "Renvoi instantané",
+  flipHeader: "Renvoi instantané vers…",
+  flip: "Renvoi",
   complete: "Terminer le renvoi instantané"
 };
 

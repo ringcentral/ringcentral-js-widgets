@@ -1,18 +1,18 @@
-import callingOptions from '@ringcentral-integration/commons/modules/CallingSettings/callingOptions';
+import { callingOptions } from '@ringcentral-integration/commons/modules/CallingSettings';
 export default {
   title: "Appel",
-  [callingOptions.softphone]: "{brand} pour Desktop",
+  [callingOptions.softphone]: "{brand} pour ordinateur de bureau",
   [callingOptions.browser]: "Navigateur",
   [callingOptions.jupiter]: "{brand}",
-  makeCallsWith: "Effectuer mes appels sortants avec",
+  makeCallsWith: "Effectuer mes appels avec",
   ringoutHint: "Appeler d’abord à mon emplacement, puis connecter le destinataire.",
   myLocationLabel: "Mon emplacement",
   press1ToStartCallLabel: "Me demander de composer le 1 avant d’établir la connexion",
-  [`${callingOptions.browser}Tooltip`]: "Utilisez cette option pour faire et recevoir des appels au moyen du microphone et du haut-parleur de votre ordinateur.",
-  [`${callingOptions.softphone}Tooltip`]: "Utilisez cette option pour faire et recevoir des appels au moyen de votre {brand}.",
+  [`${callingOptions.browser}Tooltip`]: "Utilisez cette option pour passer et recevoir des appels au moyen du microphone et du haut-parleur de votre ordinateur.",
+  [`${callingOptions.softphone}Tooltip`]: "Utilisez cette option pour passer et recevoir des appels au moyen de votre {brand}.",
   [`${callingOptions.ringout}Tooltip`]: "Utilisez cette option pour passer des appels en utilisant le numéro de téléphone que vous avez sélectionné ou entré.",
   [`${callingOptions.ringout}Tooltip1`]: "Pour l’appel que vous passez, ce téléphone sonnera d’abord puis celui de la personne que vous avez appelée.",
-  [`${callingOptions.jupiter}Tooltip`]: "Utilisez cette option pour faire et recevoir des appels au moyen de votre {brand}."
+  [`${callingOptions.jupiter}Tooltip`]: "Utilisez cette option pour passer et recevoir des appels au moyen de votre {brand}."
 };
 
 // @key: @#@"title"@#@ @source: @#@"Calling"@#@

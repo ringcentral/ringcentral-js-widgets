@@ -1,7 +1,7 @@
 export default {
   unknown: "未知",
   anonymous: "匿名",
-  activeCall: "使用中通话"
+  activeCall: "进行中的通话"
 };
 
 // @key: @#@"unknown"@#@ @source: @#@"Unknown"@#@

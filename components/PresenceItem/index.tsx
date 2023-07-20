@@ -1,12 +1,7 @@
 import React, { forwardRef } from 'react';
 
-import {
-  RcListItem,
-  RcPresence,
-  RcPresenceProps,
-  spacing,
-  styled,
-} from '@ringcentral/juno';
+import type { RcPresenceProps } from '@ringcentral/juno';
+import { RcListItem, RcPresence, spacing, styled } from '@ringcentral/juno';
 
 import { getPresenceStatusName } from '../../lib/getPresenceStatusName';
 
@@ -41,6 +36,7 @@ export const PresenceItem = forwardRef<any, PresenceItemProps>(
     },
     ref,
   ) => {
+    // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
     const name = getPresenceStatusName(userStatus, dndStatus, currentLocale);
 
     return (

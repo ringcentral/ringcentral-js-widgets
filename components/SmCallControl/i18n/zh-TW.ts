@@ -2,7 +2,7 @@ export default {
   mute: "靜音",
   unmute: "取消靜音",
   hangup: "掛斷",
-  reject: "繼絕"
+  reject: "拒絕"
 };
 
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@

@@ -2,7 +2,7 @@ export default {
   logging: "Wordt gelogd...",
   logCall: "Oproep loggen",
   editLog: "Lijst bewerken",
-  select: "Record selecteren",
+  select: "Record select.",
   OnHold: "In de wacht",
   Ringing: "Gaat over",
   CallConnected: "Oproep verbonden",

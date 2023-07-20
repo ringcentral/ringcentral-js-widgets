@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -11,6 +9,5 @@ var _default = {
   confirm: "Confirmar"
 }; // @key: @#@"cancel"@#@ @source: @#@"Cancel"@#@
 // @key: @#@"confirm"@#@ @source: @#@"Confirm"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=pt-PT.js.map

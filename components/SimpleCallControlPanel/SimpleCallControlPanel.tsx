@@ -1,18 +1,13 @@
-import React, {
-  FunctionComponent,
-  useCallback,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import type { FunctionComponent } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 
-import formatNumber from '@ringcentral-integration/commons/lib/formatNumber';
+import { formatNumber } from '@ringcentral-integration/commons/lib/formatNumber';
 
 import callCtrlLayouts from '../../enums/callCtrlLayouts';
 import { ACTIONS_CTRL_MAP } from '../ActiveCallPad';
 import CallCtrlPanel from '../CallCtrlPanel';
 import i18n from './i18n';
-import { SimpleCallControlPanelProps } from './SimpleCallControlPanel.interface';
+import type { SimpleCallControlPanelProps } from './SimpleCallControlPanel.interface';
 
 const SimpleCallControlPanel: FunctionComponent<SimpleCallControlPanelProps> =
   ({
@@ -36,6 +31,7 @@ const SimpleCallControlPanel: FunctionComponent<SimpleCallControlPanelProps> =
     onUnhold,
     onHangup,
     onTransfer,
+    maxExtensionNumberLength = 6,
   }) => {
     const [selectedMatcherIndex, setSelectedMatcherIndex] = useState(0);
     const formatPhone = useCallback(
@@ -44,6 +40,7 @@ const SimpleCallControlPanel: FunctionComponent<SimpleCallControlPanelProps> =
           phoneNumber,
           areaCode,
           countryCode,
+          maxExtensionLength: maxExtensionNumberLength,
         }),
       [areaCode, countryCode],
     );
@@ -110,6 +107,7 @@ SimpleCallControlPanel.defaultProps = {
   setActiveSessionId() {},
   currentLocale: 'en-US',
   activeSession: null,
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   sessionId: null,
   nameMatches: [],
   fallBackName: '',

@@ -4,7 +4,7 @@ export default {
   editLog: "Modifica registro",
   select: "Seleziona un record corrispondente",
   OnHold: "In attesa",
-  Ringing: "Squillo",
+  Ringing: "Chiamata in corso",
   CallConnected: "Chiamata connessa",
   unknownUser: "Utente sconosciuto",
   unknownNumber: "Anonimo",
@@ -14,7 +14,7 @@ export default {
   addLog: "Registro",
   text: "SMS",
   call: "Chiamata",
-  missedCall: "Perse",
+  missedCall: "Persa",
   inboundCall: "In entrata",
   outboundCall: "In uscita"
 };

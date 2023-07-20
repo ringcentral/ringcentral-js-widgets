@@ -1,1 +1,1 @@
-{"version":3,"sources":["components/MessagesLogIcon/i18n/ja-JP.ts"],"names":["log"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,GAAG,EAAE;AADQ,C,EAIf","sourcesContent":["export default {\n  log: \"ログ\"\n};\n\n// @key: @#@\"log\"@#@ @source: @#@\"Log\"@#@\n"],"file":"ja-JP.js"}
+{"version":3,"file":"ja-JP.js","names":["log","exports","_default"],"sources":["components/MessagesLogIcon/i18n/ja-JP.ts"],"sourcesContent":["export default {\n  log: \"ログ\"\n};\n\n// @key: @#@\"log\"@#@ @source: @#@\"Log\"@#@\n"],"mappings":";;;;;;eAAe;EACbA,GAAG,EAAE;AACP,CAAC,EAED;AAAAC,OAAA,cAAAC,QAAA"}

@@ -1,17 +1,5 @@
 "use strict";
 
-require("core-js/modules/web.dom.iterable");
-
-require("core-js/modules/es6.array.iterator");
-
-require("core-js/modules/es6.object.to-string");
-
-require("core-js/modules/es6.object.keys");
-
-require("core-js/modules/es6.array.for-each");
-
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -22,9 +10,7 @@ Object.defineProperty(exports, "default", {
     return _DialerUI2.DialerUI;
   }
 });
-
 var _DialerUI = require("./DialerUI.interface");
-
 Object.keys(_DialerUI).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;
@@ -36,9 +22,7 @@ Object.keys(_DialerUI).forEach(function (key) {
     }
   });
 });
-
 var _DialerUI2 = require("./DialerUI");
-
 Object.keys(_DialerUI2).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (Object.prototype.hasOwnProperty.call(_exportNames, key)) return;

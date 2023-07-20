@@ -1,6 +1,6 @@
 export default {
-  forward: "Weiterleiten",
-  reply: "Antworten",
+  forward: "Weiterl.",
+  reply: "Antwort",
   ignore: "Ignorieren",
   toVoicemail: "An Voicemail",
   answer: "Antworten",

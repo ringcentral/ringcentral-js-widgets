@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -11,6 +9,5 @@ var _default = {
   callConnected: "通話を接続済み"
 }; // @key: @#@"ringing"@#@ @source: @#@"Incoming call"@#@
 // @key: @#@"callConnected"@#@ @source: @#@"Call connected"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=ja-JP.js.map

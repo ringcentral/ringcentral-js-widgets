@@ -40,6 +40,7 @@ export const RegionSettingsAlert: React.SFC<RegionSettingsAlertProps> = ({
         msg = (
           <FormattedMessage
             message={i18n.getString(message, currentLocale)}
+            // @ts-expect-error TS(2322): Type 'string | Element' is not assignable to type ... Remove this comment to see the full error message
             values={{ regionSettingsLink }}
           />
         );
@@ -54,7 +55,8 @@ export const RegionSettingsAlert: React.SFC<RegionSettingsAlertProps> = ({
 RegionSettingsAlert.defaultProps = {
   onRegionSettingsLinkClick: undefined,
 };
-RegionSettingsAlert.handleMessage = ({ message }) =>
+// @ts-expect-error TS(2339): Property 'handleMessage' does not exist on type 'S... Remove this comment to see the full error message
+RegionSettingsAlert.handleMessage = ({ message }: any) =>
   message === regionSettingsMessages.saveSuccess ||
   message === regionSettingsMessages.dialingPlansChanged ||
   message === regionSettingsMessages.areaCodeInvalid;

@@ -1,20 +1,13 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-
 var _react = _interopRequireDefault(require("react"));
-
 var _classnames = _interopRequireDefault(require("classnames"));
-
 var _styles = _interopRequireDefault(require("./styles.scss"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 var InputField = function InputField(props) {
   return /*#__PURE__*/_react["default"].createElement("div", {
     "data-sign": props.dataSign,
@@ -27,8 +20,8 @@ var InputField = function InputField(props) {
     className: _styles["default"].inputHolder
   }, props.children));
 };
-
 InputField.defaultProps = {
+  // @ts-expect-error TS(2322): Type '{ children: undefined; label: undefined; lab... Remove this comment to see the full error message
   children: undefined,
   label: undefined,
   labelHint: undefined,

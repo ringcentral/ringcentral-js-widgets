@@ -1,6 +1,6 @@
+import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 import callResults from '@ringcentral-integration/commons/enums/callResults';
 import telephonyStatuses from '@ringcentral-integration/commons/enums/telephonyStatus';
-import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 export default {
   [callDirections.inbound]: "Entrante",
   [callDirections.outbound]: "Saliente",
@@ -9,25 +9,25 @@ export default {
   OutboundNumber: "Llamada de:",
   InboundDirection: "Llamada entrante de:",
   OutboundDirection: "Saliente a:",
-  [telephonyStatuses.noCall]: "Desconectada",
+  [telephonyStatuses.noCall]: "Desconectado",
   [telephonyStatuses.callConnected]: "Conectada",
   [telephonyStatuses.ringing]: "Llamando",
   [telephonyStatuses.onHold]: "En espera",
-  [telephonyStatuses.parkedCall]: "Aparcada",
-  [callResults.unknown]: "Desconocida",
+  [telephonyStatuses.parkedCall]: "Estacionada",
+  [callResults.unknown]: "Desconocido",
   [callResults.missed]: "Perdida",
-  [callResults.callAccepted]: "Atendida",
-  [callResults.accepted]: "Atendida",
-  [callResults.voicemail]: "Mensaje de voz",
+  [callResults.callAccepted]: "Respondida",
+  [callResults.accepted]: "Respondida",
+  [callResults.voicemail]: "Buzón de voz",
   [callResults.rejected]: "Rechazada",
   [callResults.reply]: "Responder",
   [callResults.received]: "Recibida",
   [callResults.faxReceiptError]: "Error de recepción de fax",
   [callResults.faxOnDemand]: "Fax a petición",
   [callResults.partialReceive]: "Recepción parcial",
-  [callResults.blocked]: "Bloqueada",
+  [callResults.blocked]: "Bloqueado",
   [callResults.callConnected]: "Llamada conectada",
-  [callResults.noAnswer]: "No hay respuesta",
+  [callResults.noAnswer]: "Sin respuesta",
   [callResults.internationalDisabled]: "Internacional desactivado",
   [callResults.busy]: "Ocupado",
   [callResults.faxSendError]: "Error de envío de fax",
@@ -41,11 +41,12 @@ export default {
   [callResults.suspendedAccount]: "Cuenta suspendida",
   [callResults.hangUp]: "Colgada",
   [callResults.HangUp]: "Colgada",
-  [callResults.abandoned]: "Abandonada",
+  [callResults.abandoned]: "Abandonado",
   [callResults.declined]: "Rechazada",
   [callResults.faxReceipt]: "Fax recibido",
-  [callResults.disconnected]: "Desconectada",
-  [callResults.notAllowed]: "No permitido"
+  [callResults.disconnected]: "Desconectado",
+  [callResults.notAllowed]: "No permitida",
+  warmTransferSwitchCall: "Cambiar llamadas"
 };
 
 // @key: @#@"[callDirections.inbound]"@#@ @source: @#@"Inbound"@#@
@@ -92,3 +93,4 @@ export default {
 // @key: @#@"[callResults.faxReceipt]"@#@ @source: @#@"Fax Receipt"@#@
 // @key: @#@"[callResults.disconnected]"@#@ @source: @#@"Disconnected"@#@
 // @key: @#@"[callResults.notAllowed]"@#@ @source: @#@"Not Allowed"@#@
+// @key: @#@"warmTransferSwitchCall"@#@ @source: @#@"Switch calls"@#@

@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -13,6 +11,5 @@ var _default = {
 }; // @key: @#@"logged"@#@ @source: @#@"Logged"@#@
 // @key: @#@"unlogged"@#@ @source: @#@"Unworked"@#@
 // @key: @#@"faxNotSupported"@#@ @source: @#@"To log fax is not supported."@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=es-419.js.map

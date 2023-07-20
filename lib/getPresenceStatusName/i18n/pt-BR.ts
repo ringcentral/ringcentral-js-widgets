@@ -1,10 +1,10 @@
 import { presenceStatus } from '@ringcentral-integration/commons/enums/presenceStatus.enum';
-import dndStatus from '@ringcentral-integration/commons/modules/Presence/dndStatus';
+import { dndStatus } from '@ringcentral-integration/commons/modules/Presence';
 export default {
   [presenceStatus.available]: "Disponível",
   [presenceStatus.offline]: "Invisível",
   [presenceStatus.busy]: "Ocupado",
-  [dndStatus.doNotAcceptAnyCalls]: "Não perturbe"
+  [dndStatus.doNotAcceptAnyCalls]: "Não perturbar"
 };
 
 // @key: @#@"[presenceStatus.available]"@#@ @source: @#@"Available"@#@

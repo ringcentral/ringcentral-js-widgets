@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -23,27 +21,27 @@ var _default = {
   text: "Texto",
   call: "Chamada",
   addContact: "Adicionar contato",
-  missedCall: "Perdidas",
+  missedCall: "Perdida",
   inboundCall: "Entrada",
   outboundCall: "Saída",
   from: "De",
   to: "Para",
   hangup: "Desligar",
   accept: "Atender",
-  toVoicemail: "P/ cx. postal",
+  toVoicemail: "Para caixa postal",
   anonymous: "Anônimo",
   mergeToConference: "Mesclar",
-  hold: "Aguardar",
-  unhold: "Desbloquear",
+  hold: "Colocar em espera",
+  unhold: "Liberar",
   transfer: "Transferir",
   reject: "Rejeitar",
   switchCall: "Alternar chamada para este aplicativo",
-  callSwitch: "Trocar a chamada",
+  callSwitch: "Alternância de chamadas",
   comfirmContext: "Você está em uma chamada ativa com {displayName}. Você gostaria de continuar a chamada neste dispositivo?",
   comfirmCancelButton: "Cancelar",
-  comfirmOKButton: "Trocar",
+  comfirmOKButton: "Alternar",
   ignore: "Ignorar",
-  holdAndAnswer: "Esp. e resp."
+  holdAndAnswer: "Colocar em espera e atender"
 }; // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
 // @key: @#@"logCall"@#@ @source: @#@"Log Call"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
@@ -81,6 +79,5 @@ var _default = {
 // @key: @#@"comfirmOKButton"@#@ @source: @#@"Switch"@#@
 // @key: @#@"ignore"@#@ @source: @#@"Ignore"@#@
 // @key: @#@"holdAndAnswer"@#@ @source: @#@"Hold & Answer"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=pt-BR.js.map

@@ -2,11 +2,11 @@ export default {
   noActiveCalls: "Nessuna chiamata attiva",
   noCalls: "Nessun risultato trovato.",
   currentCall: "Chiamata corrente",
-  ringCall: "Squillo chiamata",
+  ringCall: "Chiamata in arrivo",
   onHoldCall: "Chiamata in attesa",
   historyCalls: "Chiamate passate",
-  otherDeviceCall: "Chiamate in corso sugli altri miei dispositivi",
-  searchPlaceholder: "Cerca..."
+  otherDeviceCall: "Chiamate in corso sugli altri dispositivi",
+  searchPlaceholder: "Ricerca..."
 };
 
 // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@

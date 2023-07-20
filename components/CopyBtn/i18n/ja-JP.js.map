@@ -1,1 +1,1 @@
-{"version":3,"sources":["components/CopyBtn/i18n/ja-JP.ts"],"names":["copy"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,IAAI,EAAE;AADO,C,EAIf","sourcesContent":["export default {\n  copy: \"コピー\"\n};\n\n// @key: @#@\"copy\"@#@ @source: @#@\"Copy\"@#@\n"],"file":"ja-JP.js"}
+{"version":3,"file":"ja-JP.js","names":["copy","exports","_default"],"sources":["components/CopyBtn/i18n/ja-JP.ts"],"sourcesContent":["export default {\n  copy: \"コピー\"\n};\n\n// @key: @#@\"copy\"@#@ @source: @#@\"Copy\"@#@\n"],"mappings":";;;;;;eAAe;EACbA,IAAI,EAAE;AACR,CAAC,EAED;AAAAC,OAAA,cAAAC,QAAA"}

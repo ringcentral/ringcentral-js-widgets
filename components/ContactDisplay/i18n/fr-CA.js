@@ -1,23 +1,21 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 var _default = {
-  logging: "Connexion en cours...",
+  logging: "Connexion…",
   logCall: "Journal des appels",
   editLog: "Modifier le journal",
-  select: "Sélectionner un enregistrement",
+  select: "Sélect. un enreg.",
   OnHold: "En attente",
   Ringing: "Sonnerie en cours",
   CallConnected: "Appel connecté",
   unknownUser: "Utilisateur inconnu",
   unknownNumber: "Anonyme",
   unavailable: "Non disponible",
-  viewDetails: "Afficher les détails",
+  viewDetails: "Afficher les renseignements",
   conferenceCall: "Téléconférence"
 }; // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
 // @key: @#@"logCall"@#@ @source: @#@"Log Call"@#@
@@ -31,6 +29,5 @@ var _default = {
 // @key: @#@"unavailable"@#@ @source: @#@"Unavailable"@#@
 // @key: @#@"viewDetails"@#@ @source: @#@"View Details"@#@
 // @key: @#@"conferenceCall"@#@ @source: @#@"Conference Call"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=fr-CA.js.map

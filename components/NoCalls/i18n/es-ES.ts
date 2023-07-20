@@ -1,5 +1,5 @@
 export default {
-  noActiveCalls: "No hay llamadas activas",
+  noActiveCalls: "No hay ninguna llamada activa",
   noRecords: "No hay resultados."
 };
 

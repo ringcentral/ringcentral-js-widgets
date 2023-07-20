@@ -1,12 +1,12 @@
 import React from 'react';
 
-import { RcMMeetingModel } from '@ringcentral-integration/commons/modules/MeetingV2';
+import type { RcMMeetingModel } from '@ringcentral-integration/commons/modules/Meeting';
 import { RcButton, RcCheckbox } from '@ringcentral/juno';
 
 import i18n from './i18n';
 import {
-  ScheduleButton,
   MeetingScheduleButtonWrapper,
+  ScheduleButton,
 } from './MeetingScheduleButtonWrapper';
 import styles from './styles.scss';
 
@@ -46,10 +46,7 @@ export class MeetingScheduleButton extends React.Component<Props, {}> {
     return i18n.getString('prompt');
   }
 
-  getI18nTermsString() {
-    return i18n.getString('terms');
-  }
-
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     const {
       hidden,
@@ -65,6 +62,7 @@ export class MeetingScheduleButton extends React.Component<Props, {}> {
       disabled,
     } = this.props;
     return (
+      // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
       <MeetingScheduleButtonWrapper $hidden={hidden}>
         {hidden ? (
           <div className={styles.actionPrompt}>
@@ -83,6 +81,7 @@ export class MeetingScheduleButton extends React.Component<Props, {}> {
               },
             }}
             onChange={() =>
+              // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
               update({
                 ...meeting,
                 saveAsDefault: !meeting?.saveAsDefault,
@@ -102,6 +101,7 @@ export class MeetingScheduleButton extends React.Component<Props, {}> {
         {showLaunchMeetingBtn ? (
           <RcButton
             className={styles.gutter}
+            // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
             onClick={() => launchMeeting(meeting)}
             data-sign="launchMeetingButton"
             variant="text"

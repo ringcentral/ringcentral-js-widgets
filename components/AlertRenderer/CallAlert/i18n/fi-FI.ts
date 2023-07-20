@@ -1,4 +1,4 @@
-import callErrors from '@ringcentral-integration/commons/modules/Call/callErrors';
+import { callErrors } from '@ringcentral-integration/commons/modules/Call';
 export default {
   [callErrors.emergencyNumber]: "Hätänumeroon soittaminen ei ole käytettävissä. Soita hätäkeskukseen toisella puhelimella",
   [callErrors.noToNumber]: "Anna kelvollinen puhelinnumero.",
@@ -9,6 +9,7 @@ export default {
   [callErrors.networkError]: "Ei voida yhdistää verkko-ongelmien takia. Yritä myöhemmin uudelleen.",
   [callErrors.noInternational]: "Sinulla ei ole lupaa soittaa kansainvälisiä puheluita. Pyydä päivitystä palvelun {brand} tilin järjestelmänvalvojalta.",
   [callErrors.noRingoutEnable]: "Alanumerostasi voi soittaa puheluita työpöytäsovelluksen kautta.\n    Jos haluat vaihtaa toiseen puheluvaihtoehtoon,\n     pyydä päivitystä tilisi järjestelmänvalvojalta.",
+  [callErrors.numberParseError]: "Järjestelmässämme ilmeni ongelma. Yritä myöhemmin uudelleen.",
   areaCode: "suuntanumero",
   telus911: "Hätäpuheluita ei tueta."
 };
@@ -22,5 +23,6 @@ export default {
 // @key: @#@"[callErrors.networkError]"@#@ @source: @#@"Cannot connect due to network issues. Please try again later."@#@
 // @key: @#@"[callErrors.noInternational]"@#@ @source: @#@"You don't have permissions to make international calls. Please contact your {brand} account administrator for an upgrade."@#@
 // @key: @#@"[callErrors.noRingoutEnable]"@#@ @source: @#@"Your extension is allowed to make calls with desktop app.\n    If you wish to switch to other calling options\n    please contact your account administrator for an upgrade."@#@
+// @key: @#@"[callErrors.numberParseError]"@#@ @source: @#@"Sorry, there was a problem on our end. Please try again later."@#@
 // @key: @#@"areaCode"@#@ @source: @#@"area code"@#@
 // @key: @#@"telus911"@#@ @source: @#@"Emergency dialing is not supported."@#@

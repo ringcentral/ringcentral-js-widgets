@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -11,6 +9,5 @@ var _default = {
   allCalls: "所有通話"
 }; // @key: @#@"dialer"@#@ @source: @#@"Dial Pad"@#@
 // @key: @#@"allCalls"@#@ @source: @#@"All Calls"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=zh-HK.js.map

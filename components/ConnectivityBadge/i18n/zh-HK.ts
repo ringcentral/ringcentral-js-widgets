@@ -2,9 +2,9 @@ import { connectivityTypes } from '../../../modules/ConnectivityManager';
 export default {
   [connectivityTypes.webphoneUnavailable]: "網路電話不可用",
   [connectivityTypes.offline]: "離線",
-  [connectivityTypes.voipOnly]: "僅網路電話",
+  [connectivityTypes.voipOnly]: "僅 VoIP",
   [connectivityTypes.survival]: "限制模式",
-  [connectivityTypes.connecting]: "正在連線"
+  [connectivityTypes.connecting]: "連線中"
 };
 
 // @key: @#@"[connectivityTypes.webphoneUnavailable]"@#@ @source: @#@"Web Phone Unavailable"@#@

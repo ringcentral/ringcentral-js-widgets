@@ -1,19 +1,17 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 var _default = {
-  logging: "正在记录...",
+  logging: "正在记录…",
   logCall: "记录通话",
   editLog: "编辑记录",
   select: "选择匹配记录",
-  OnHold: "等候接听",
+  OnHold: "暂候",
   Ringing: "正在振铃",
-  CallConnected: "通话已连接",
+  CallConnected: "呼叫已接通",
   unknownUser: "未知用户",
   unknownNumber: "匿名",
   unavailable: "不可用",
@@ -21,21 +19,21 @@ var _default = {
   addEntity: "新建",
   addLog: "记录",
   text: "短信",
-  call: "呼叫",
+  call: "电话",
   addContact: "添加联系人",
   missedCall: "未接",
-  inboundCall: "呼入",
+  inboundCall: "入站",
   outboundCall: "呼出",
   from: "自",
   to: "至",
   hangup: "挂断",
   accept: "接听",
-  toVoicemail: "转语音邮件",
+  toVoicemail: "到语音信箱",
   anonymous: "匿名",
   mergeToConference: "合并",
   hold: "保持",
-  unhold: "取消保持",
-  transfer: "转移",
+  unhold: "解除保持",
+  transfer: "转接",
   reject: "拒绝",
   switchCall: "将呼叫切换到此应用",
   callSwitch: "呼叫切换",
@@ -81,6 +79,5 @@ var _default = {
 // @key: @#@"comfirmOKButton"@#@ @source: @#@"Switch"@#@
 // @key: @#@"ignore"@#@ @source: @#@"Ignore"@#@
 // @key: @#@"holdAndAnswer"@#@ @source: @#@"Hold & Answer"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=zh-CN.js.map

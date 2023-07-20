@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -20,11 +18,11 @@ var _default = {
   viewDetails: "Ver detalhes",
   addEntity: "Criar novo",
   addLog: "Registo",
-  text: "Texto",
+  text: "SMS",
   call: "Ligar",
   missedCall: "Não atendida",
-  inboundCall: "Recebidas",
-  outboundCall: "Efetuadas"
+  inboundCall: "Recebida",
+  outboundCall: "Efetuada"
 }; // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
 // @key: @#@"logCall"@#@ @source: @#@"Log Call"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
@@ -43,6 +41,5 @@ var _default = {
 // @key: @#@"missedCall"@#@ @source: @#@"Missed"@#@
 // @key: @#@"inboundCall"@#@ @source: @#@"Inbound"@#@
 // @key: @#@"outboundCall"@#@ @source: @#@"Outbound"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=pt-PT.js.map

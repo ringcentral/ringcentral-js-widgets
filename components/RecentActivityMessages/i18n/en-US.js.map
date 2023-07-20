@@ -1,1 +1,1 @@
-{"version":3,"sources":["components/RecentActivityMessages/i18n/en-US.ts"],"names":["noRecords"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,SAAS,EAAE;AADE,C","sourcesContent":["export default {\n  noRecords: 'No recent records found.',\n};\n"],"file":"en-US.js"}
+{"version":3,"file":"en-US.js","names":["noRecords","exports","_default"],"sources":["components/RecentActivityMessages/i18n/en-US.ts"],"sourcesContent":["export default {\n  noRecords: 'No recent records found.',\n};\n"],"mappings":";;;;;;eAAe;EACbA,SAAS,EAAE;AACb,CAAC;AAAAC,OAAA,cAAAC,QAAA"}

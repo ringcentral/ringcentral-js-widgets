@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -21,7 +19,7 @@ var _default = {
   addEntity: "Crear nuevo",
   addLog: "Registro",
   text: "Mensaje",
-  call: "Llamar",
+  call: "Llamada",
   missedCall: "Perdida",
   inboundCall: "Entrante",
   outboundCall: "Saliente"
@@ -43,6 +41,5 @@ var _default = {
 // @key: @#@"missedCall"@#@ @source: @#@"Missed"@#@
 // @key: @#@"inboundCall"@#@ @source: @#@"Inbound"@#@
 // @key: @#@"outboundCall"@#@ @source: @#@"Outbound"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=es-419.js.map

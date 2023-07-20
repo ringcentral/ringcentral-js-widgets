@@ -1,6 +1,6 @@
 export default {
   region: "Région",
-  calling: "Appel",
+  calling: "Appel en cours",
   logout: "Déconnexion",
   version: "Version",
   settings: "Paramètres",
@@ -18,8 +18,9 @@ export default {
   feedback: "Commentaires",
   userGuide: "Nouveautés",
   quickAccess: "Paramètre d’accès rapide",
-  report: "Rapport analytique",
-  shareIdea: "Partager une idée"
+  report: "Rapport d’analyses",
+  shareIdea: "Partager une idée",
+  reportIssue: "Signaler un problème"
 };
 
 // @key: @#@"region"@#@ @source: @#@"Region"@#@
@@ -43,3 +44,4 @@ export default {
 // @key: @#@"quickAccess"@#@ @source: @#@"Quick Access Setting"@#@
 // @key: @#@"report"@#@ @source: @#@"Analytics Report"@#@
 // @key: @#@"shareIdea"@#@ @source: @#@"Share idea"@#@
+// @key: @#@"reportIssue"@#@ @source: @#@"Report issue"@#@

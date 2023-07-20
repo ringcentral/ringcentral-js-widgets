@@ -1,15 +1,13 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 var _default = {
   removeParticipant: "移除參與者",
-  confirmStr1: "是否確定要從這個通話中",
-  confirmStr2: "移除？",
+  confirmStr1: "確定要從此通話中",
+  confirmStr2: "移除嗎？",
   remove: "移除",
   cancel: "取消",
   participants: "參與者",
@@ -25,6 +23,5 @@ var _default = {
 // @key: @#@"participant"@#@ @source: @#@"Participant"@#@
 // @key: @#@"conferenceCall"@#@ @source: @#@"Conference Call"@#@
 // @key: @#@"unknownNumber"@#@ @source: @#@"Anonymous"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=zh-TW.js.map

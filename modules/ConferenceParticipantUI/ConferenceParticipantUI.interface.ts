@@ -1,13 +1,14 @@
-import {
+import type {
   ConferenceCall,
   Party,
   PartyState,
-} from '@ringcentral-integration/commons/modules/ConferenceCallV2';
-import { Locale } from '@ringcentral-integration/commons/modules/Locale';
-import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
-import { Webphone } from '@ringcentral-integration/commons/modules/WebphoneV2';
+} from '@ringcentral-integration/commons/modules/ConferenceCall';
+import type { Locale } from '@ringcentral-integration/commons/modules/Locale';
+import type { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
+import type { AccountInfo } from '@ringcentral-integration/commons/modules/AccountInfo';
+import type { Webphone } from '@ringcentral-integration/commons/modules/Webphone';
 
-import { RouterInteraction } from '../RouterInteraction';
+import type { RouterInteraction } from '../RouterInteraction';
 
 export interface ConferenceParticipantUIOptions {
   //
@@ -20,6 +21,7 @@ export interface Deps {
   regionSettings: RegionSettings;
   routerInteraction: RouterInteraction;
   conferenceParticipantUIOptions?: ConferenceParticipantUIOptions;
+  accountInfo: AccountInfo;
 }
 
 // TODO: move to ConferenceParticipantPanel

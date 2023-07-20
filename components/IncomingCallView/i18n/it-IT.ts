@@ -1,6 +1,6 @@
 export default {
   unknown: "Sconosciuto",
-  anonymous: "Anonimo",
+  anonymous: "Numero anonimo",
   activeCall: "Chiamata attiva"
 };
 

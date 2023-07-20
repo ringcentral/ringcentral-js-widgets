@@ -1,28 +1,17 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
+require("core-js/modules/es.array.includes");
+require("core-js/modules/es.string.includes");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.VideoSecuritySettingItem = void 0;
-
-require("core-js/modules/es7.array.includes");
-
-require("core-js/modules/es6.string.includes");
-
 var _react = _interopRequireDefault(require("react"));
-
 var _juno = require("@ringcentral/juno");
-
-var _icon = require("@ringcentral/juno/icon");
-
+var _junoIcon = require("@ringcentral/juno-icon");
 var _i18n = _interopRequireDefault(require("./i18n"));
-
 var _styles = _interopRequireDefault(require("./styles.scss"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 function generateLockIcon(isLock, currentLocale, hasScrollBar) {
   var isMac = navigator.platform.includes('Mac');
   return isLock ? /*#__PURE__*/_react["default"].createElement(_juno.RcTooltip, {
@@ -37,22 +26,21 @@ function generateLockIcon(isLock, currentLocale, hasScrollBar) {
     size: "small",
     color: "neutral.f04",
     className: _styles["default"].lockButton,
-    symbol: _icon.LockBorder
+    symbol: _junoIcon.LockBorder
   })) : null;
 }
-
 var VideoSecuritySettingItem = function VideoSecuritySettingItem(_ref) {
   var dataSign = _ref.dataSign,
-      label = _ref.label,
-      _ref$isLock = _ref.isLock,
-      isLock = _ref$isLock === void 0 ? false : _ref$isLock,
-      _ref$isDisabled = _ref.isDisabled,
-      isDisabled = _ref$isDisabled === void 0 ? false : _ref$isDisabled,
-      currentLocale = _ref.currentLocale,
-      children = _ref.children,
-      _ref$hasScrollBar = _ref.hasScrollBar,
-      hasScrollBar = _ref$hasScrollBar === void 0 ? false : _ref$hasScrollBar,
-      labelPlacement = _ref.labelPlacement;
+    label = _ref.label,
+    _ref$isLock = _ref.isLock,
+    isLock = _ref$isLock === void 0 ? false : _ref$isLock,
+    _ref$isDisabled = _ref.isDisabled,
+    isDisabled = _ref$isDisabled === void 0 ? false : _ref$isDisabled,
+    currentLocale = _ref.currentLocale,
+    children = _ref.children,
+    _ref$hasScrollBar = _ref.hasScrollBar,
+    hasScrollBar = _ref$hasScrollBar === void 0 ? false : _ref$hasScrollBar,
+    labelPlacement = _ref.labelPlacement;
   return /*#__PURE__*/_react["default"].createElement(_juno.RcFormControlLabel, {
     "data-sign": dataSign,
     disabled: isLock || isDisabled,
@@ -67,6 +55,5 @@ var VideoSecuritySettingItem = function VideoSecuritySettingItem(_ref) {
     }
   });
 };
-
 exports.VideoSecuritySettingItem = VideoSecuritySettingItem;
 //# sourceMappingURL=VideoSecuritySettingItem.js.map

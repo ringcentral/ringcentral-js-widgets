@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -13,7 +11,8 @@ var _default = {
   answer: 'Answer',
   endAndAnswer: 'End & Answer',
   holdAndAnswer: 'Hold & Answer',
-  custom: 'Custom'
+  custom: 'Custom',
+  more: 'More'
 };
 exports["default"] = _default;
 //# sourceMappingURL=en-US.js.map

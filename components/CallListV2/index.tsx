@@ -52,19 +52,23 @@ type CallListV2Props = {
   extendedRowHeight?: number;
   showChooseEntityModal?: boolean;
   enableCDC?: boolean;
+  maxExtensionNumberLength: number;
+  formatPhone: (phoneNumber: string) => string | undefined;
 };
 type CallListV2State = {
   extendedIndex: null;
 };
 class CallListV2 extends React.PureComponent<CallListV2Props, CallListV2State> {
-  constructor(props) {
+  _list: any;
+  constructor(props: any) {
     super(props);
     this.state = {
       extendedIndex: null,
     };
     this._list = React.createRef();
   }
-  UNSAFE_componentWillReceiveProps(nextProps) {
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
+  UNSAFE_componentWillReceiveProps(nextProps: any) {
     const { extendedIndex } = this.state;
     const { calls } = this.props;
     if (
@@ -74,7 +78,7 @@ class CallListV2 extends React.PureComponent<CallListV2Props, CallListV2State> {
       this._setExtendedIndex(null);
     }
   }
-  _setExtendedIndex = (extendedIndex) => {
+  _setExtendedIndex = (extendedIndex: any) => {
     this.setState(
       {
         extendedIndex,
@@ -86,7 +90,7 @@ class CallListV2 extends React.PureComponent<CallListV2Props, CallListV2State> {
       },
     );
   };
-  _onSizeChanged = (index) => {
+  _onSizeChanged = (index: any) => {
     const { extendedIndex } = this.state;
     if (extendedIndex === index) {
       this._setExtendedIndex(null);
@@ -94,16 +98,17 @@ class CallListV2 extends React.PureComponent<CallListV2Props, CallListV2State> {
       this._setExtendedIndex(index);
     }
   };
-  _renderRowHeight = ({ index }) => {
+  _renderRowHeight = ({ index }: any) => {
     // If we don't add extra height for the last item
     // the toggle button will be cut off
     const { calls, extendedRowHeight, rowHeight } = this.props;
     const { extendedIndex } = this.state;
     const margin = index === calls.length - 1 ? 15 : 0;
     const height = index === extendedIndex ? extendedRowHeight : rowHeight;
+    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     return height + margin;
   };
-  _rowRender = ({ index, key, style }) => {
+  _rowRender = ({ index, key, style }: any) => {
     const {
       className,
       brand,
@@ -147,12 +152,15 @@ class CallListV2 extends React.PureComponent<CallListV2Props, CallListV2State> {
       isMultipleSiteEnabled,
       showChooseEntityModal,
       enableCDC,
+      maxExtensionNumberLength,
+      formatPhone,
     } = this.props;
     const { extendedIndex } = this.state;
     let content;
     if (index >= calls.length) {
       content = (
         <div className={className}>
+          {/* @ts-expect-error TS(2322): Type 'boolean | undefined' is not */}
           <NoCalls currentLocale={currentLocale} active={active} />
         </div>
       );
@@ -160,6 +168,8 @@ class CallListV2 extends React.PureComponent<CallListV2Props, CallListV2State> {
       const call = calls[index];
       content = (
         <CallItem
+          // @ts-expect-error TS(2322): Type '{ formatPhone: (phoneNumber: string) => stri... Remove this comment to see the full error message
+          formatPhone={formatPhone}
           key={call.id}
           renderIndex={index}
           extended={extendedIndex === index}
@@ -185,6 +195,7 @@ class CallListV2 extends React.PureComponent<CallListV2Props, CallListV2State> {
           internalSmsPermission={internalSmsPermission}
           active={active}
           dateTimeFormatter={dateTimeFormatter}
+          // @ts-expect-error TS(2532): Object is possibly 'undefined'.
           isLogging={!!loggingMap[call.sessionId]}
           webphoneAnswer={webphoneAnswer}
           webphoneReject={webphoneReject}
@@ -208,6 +219,7 @@ class CallListV2 extends React.PureComponent<CallListV2Props, CallListV2State> {
           withAnimation={false}
           showChooseEntityModal={showChooseEntityModal}
           enableCDC={enableCDC}
+          maxExtensionNumberLength={maxExtensionNumberLength}
         />
       );
     }
@@ -219,8 +231,10 @@ class CallListV2 extends React.PureComponent<CallListV2Props, CallListV2State> {
   };
   noRowsRender = () => {
     const { currentLocale, active } = this.props;
+    // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
     return <NoCalls currentLocale={currentLocale} active={active} />;
   };
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     const { width, height, calls, className } = this.props;
     return (
@@ -242,6 +256,7 @@ class CallListV2 extends React.PureComponent<CallListV2Props, CallListV2State> {
     );
   }
 }
+// @ts-expect-error TS(2339): Property 'defaultProps' does not exist on type 'ty... Remove this comment to see the full error message
 CallListV2.defaultProps = {
   currentSiteCode: '',
   isMultipleSiteEnabled: false,

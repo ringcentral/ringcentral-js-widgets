@@ -1,32 +1,23 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.ClickToDial = void 0;
-
 var _react = _interopRequireDefault(require("react"));
-
 var _IconLine = _interopRequireDefault(require("../IconLine"));
-
 var _Switch = _interopRequireDefault(require("../Switch"));
-
 var _i18n = _interopRequireDefault(require("./i18n"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 var ClickToDial = function ClickToDial(_ref) {
   var currentLocale = _ref.currentLocale,
-      showClickToDial = _ref.showClickToDial,
-      outboundSMS = _ref.outboundSMS,
-      clickToDialPermissions = _ref.clickToDialPermissions,
-      clickToDialEnabled = _ref.clickToDialEnabled,
-      onClickToDialChange = _ref.onClickToDialChange,
-      clickToDialTitle = _ref.clickToDialTitle;
+    showClickToDial = _ref.showClickToDial,
+    outboundSMS = _ref.outboundSMS,
+    clickToDialPermissions = _ref.clickToDialPermissions,
+    clickToDialEnabled = _ref.clickToDialEnabled,
+    onClickToDialChange = _ref.onClickToDialChange,
+    clickToDialTitle = _ref.clickToDialTitle;
   var clickToDialText;
-
   if (outboundSMS && clickToDialPermissions) {
     clickToDialText = _i18n["default"].getString('clickToDialSMS', currentLocale);
   } else if (!outboundSMS && clickToDialPermissions) {
@@ -36,19 +27,18 @@ var ClickToDial = function ClickToDial(_ref) {
   } else {
     clickToDialText = '';
   }
-
   if (showClickToDial && (outboundSMS || clickToDialPermissions)) {
     return /*#__PURE__*/_react["default"].createElement(_IconLine["default"], {
+      dataSign: "clickToDialSMS",
       icon: /*#__PURE__*/_react["default"].createElement(_Switch["default"], {
+        dataSign: "switchClickToDialSMS",
         checked: clickToDialEnabled,
         onChange: onClickToDialChange
       }),
       title: clickToDialTitle
     }, clickToDialText);
   }
-
   return null;
 };
-
 exports.ClickToDial = ClickToDial;
 //# sourceMappingURL=ClickToDial.js.map

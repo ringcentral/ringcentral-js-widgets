@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -14,12 +12,12 @@ var _default = {
   onHold: "保留中",
   park: "パーク",
   stopRecord: "停止",
-  record: "録音",
+  record: "レコーディング",
   add: "追加",
   transfer: "転送",
   flip: "フリップ",
   more: "通話アクション",
-  mergeToConference: "マージ",
+  mergeToConference: "統合",
   end: "終了",
   completeTransfer: "転送を\n完了"
 }; // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
@@ -37,6 +35,5 @@ var _default = {
 // @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
 // @key: @#@"end"@#@ @source: @#@"End"@#@
 // @key: @#@"completeTransfer"@#@ @source: @#@"Complete\nTransfer"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=ja-JP.js.map

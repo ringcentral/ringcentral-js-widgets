@@ -1,14 +1,12 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 var _default = {
   title: "Son",
-  dialButtonVolume: "Volume du bouton pour composer un numéro",
+  dialButtonVolume: "Volume du bouton de numérotation",
   ringtoneVolume: "Volume de la sonnerie",
   callVolume: "Volume de l’appel",
   muteCalls: "Désactiver le son des appels",
@@ -16,11 +14,11 @@ var _default = {
   inputDevice: "Périphérique d’entrée",
   micPermission: "Autorisation de l’usage du microphone",
   noDevice: "Aucun appareil",
-  checkMicPermission: "Vérifiez votre permission",
-  micNoPermissionMessage: "L’application ne possède pas la permission d’utiliser le microphone",
+  checkMicPermission: "Vérifiez votre autorisation",
+  micNoPermissionMessage: "L’application n’a pas l’autorisation d’utiliser le microphone",
   noLabel: "Périphérique inconnu",
-  notSetSinkIdTip: "Désolé, les autorisations actuelles de votre navigateur ne sont pas configurées pour nous permettre d’accéder à vos périphériques de sortie audio. {clickHereLink} pour voir comment régler les paramètres.",
-  noLabelTip: "Désolé, les autorisations actuelles de votre navigateur ne sont pas configurées pour nous permettre d’accéder à vos périphériques d’entrée audio.",
+  notSetSinkIdTip: "Désolés, les autorisations actuelles dans votre navigateur ne sont pas définies de manière à nous autoriser l’accès à vos périphériques de sortie audio. {clickHereLink} pour voir comment régler les paramètres.",
+  noLabelTip: "Désolés, les autorisations actuelles dans votre navigateur ne sont pas définies de manière à nous autoriser l’accès à vos périphériques d’entrée audio.",
   clickHere: "Cliquez ici",
   defaultOutputDevice: "Périphérique de sortie par défaut"
 }; // @key: @#@"title"@#@ @source: @#@"Audio"@#@
@@ -39,6 +37,5 @@ var _default = {
 // @key: @#@"noLabelTip"@#@ @source: @#@"Sorry, your current browser permissions aren't set to allow us to access your audio input devices."@#@
 // @key: @#@"clickHere"@#@ @source: @#@"Click here"@#@
 // @key: @#@"defaultOutputDevice"@#@ @source: @#@"Default output device"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=fr-CA.js.map

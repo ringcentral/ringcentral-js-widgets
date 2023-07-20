@@ -1,9 +1,9 @@
 export default {
   recentActivities: "Atividades recentes",
-  text: "Texto",
+  text: "SMS",
   fax: "Fax",
   voicemail: "Correio de voz",
-  call: "Ligar"
+  call: "Chamada"
 };
 
 // @key: @#@"recentActivities"@#@ @source: @#@"Recent Activities"@#@

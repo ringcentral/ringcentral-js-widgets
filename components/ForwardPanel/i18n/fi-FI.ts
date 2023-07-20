@@ -1,5 +1,5 @@
 export default {
-  forward: "Siirrä"
+  forward: "Lähetä edelleen"
 };
 
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@

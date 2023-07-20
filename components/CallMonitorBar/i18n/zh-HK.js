@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -10,8 +8,8 @@ var _default = {
   currentCall: "目前通話",
   viewCalls: "檢視通話",
   view: "檢視",
-  incomingCall: "{numberOf} 通撥入電話",
-  incomingCalls: "{numberOf} 通撥入電話",
+  incomingCall: "{numberOf} 通來電",
+  incomingCalls: "{numberOf} 通來電",
   callOnHold: "{numberOf} 通電話等待接通",
   callsOnHold: "{numberOf} 通電話等待接通",
   otherDeviceCall: "{numberOf} 通在其他裝置的通話",
@@ -25,6 +23,5 @@ var _default = {
 // @key: @#@"callsOnHold"@#@ @source: @#@"{numberOf} Calls On Hold"@#@
 // @key: @#@"otherDeviceCall"@#@ @source: @#@"{numberOf} Call on other devices"@#@
 // @key: @#@"otherDeviceCalls"@#@ @source: @#@"{numberOf} Calls on other devices"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=zh-HK.js.map

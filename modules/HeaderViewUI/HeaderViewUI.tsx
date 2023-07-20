@@ -1,17 +1,11 @@
 import React from 'react';
 
 import { Module } from '@ringcentral-integration/commons/lib/di';
-import {
-  RcUIModuleV2,
-  UIFunctions,
-  UIProps,
-} from '@ringcentral-integration/core';
+import type { UIFunctions, UIProps } from '@ringcentral-integration/core';
+import { computed, RcUIModuleV2 } from '@ringcentral-integration/core';
 
-import {
-  HeaderViewProps,
-  HeaderContainerProps,
-} from '../../containers/HeaderView';
-import { Deps } from './HeaderViewUI.interface';
+import type { HeaderViewProps } from '../../components/HeaderView';
+import type { Deps } from './HeaderViewUI.interface';
 
 @Module({
   name: 'HeaderViewUI',
@@ -32,75 +26,100 @@ export class HeaderViewUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
     super({ deps });
   }
 
-  getUIProps({ standAlone }: HeaderContainerProps): UIProps<HeaderViewProps> {
-    const { auth, callMonitor, routerInteraction, locale, webphone, presence } =
-      this._deps;
+  @computed((that: HeaderViewUI) => [that._deps.callMonitor.activeRingCalls])
+  get ringingCalls() {
+    return this._deps.callMonitor.activeRingCalls ?? [];
+  }
 
+  @computed((that: HeaderViewUI) => [that._deps.callMonitor.activeOnHoldCalls])
+  get onHoldCalls() {
+    return this._deps.callMonitor.activeOnHoldCalls ?? [];
+  }
+
+  @computed((that: HeaderViewUI) => [that._deps.callMonitor.activeCurrentCalls])
+  get currentCalls() {
+    return this._deps.callMonitor.activeCurrentCalls ?? [];
+  }
+
+  getUIProps({
+    standAlone,
+  }: Partial<HeaderViewProps>): UIProps<HeaderViewProps> {
+    const logoUrl = this._deps.brand?.brandConfig.assets?.logo as string;
     return {
       standAlone,
-      userStatus: (auth.loggedIn && presence.userStatus) || undefined,
-      dndStatus: (auth.loggedIn && presence.dndStatus) || undefined,
-      ringingCalls: callMonitor.activeRingCalls || [],
-      onHoldCalls: callMonitor.activeOnHoldCalls || [],
-      currentCalls: callMonitor.activeCurrentCalls || [],
-      currentPath: routerInteraction.currentPath,
-      currentLocale: locale.currentLocale,
-      activeSessionId: webphone.activeSessionId || '',
+      logoUrl,
+      userStatus:
+        (this._deps.auth.loggedIn && this._deps.presence.userStatus) ||
+        undefined,
+      dndStatus:
+        (this._deps.auth.loggedIn && this._deps.presence.dndStatus) ||
+        undefined,
+      ringingCalls: this.ringingCalls,
+      onHoldCalls: this.onHoldCalls,
+      currentCalls: this.currentCalls,
+      currentPath: this._deps.routerInteraction.currentPath,
+      currentLocale: this._deps.locale.currentLocale,
+      activeSessionId: this._deps.webphone.activeSessionId || '',
       incomingCallPageMinimized:
-        !webphone.ringSession || webphone.ringSession.minimized,
-      presenceReady: presence.ready,
+        !this._deps.webphone.ringSession ||
+        this._deps.webphone.ringSession.minimized,
+      presenceReady: this._deps.presence.ready,
     };
   }
 
-  getUIFunctions({ logo }: HeaderContainerProps): UIFunctions<HeaderViewProps> {
-    const { routerInteraction, userGuide, quickAccess, webphone, presence } =
-      this._deps;
-
-    const logoUrl = this._deps.brand?.brandConfig.assets?.logo as string;
-
+  getUIFunctions({
+    logo,
+  }: Partial<HeaderViewProps>): UIFunctions<HeaderViewProps> {
     return {
-      logo: (logoUrl ? () => <img src={logoUrl} alt="" /> : undefined) || logo,
-      onCurrentCallBtnClick() {
-        if (routerInteraction.currentPath !== '/calls/active') {
-          routerInteraction.push('/calls/active');
+      logo,
+      onCurrentCallBtnClick: () => {
+        if (this._deps.routerInteraction.currentPath !== '/calls/active') {
+          this._deps.routerInteraction.push('/calls/active');
         }
-        if (userGuide) {
-          userGuide.dismiss();
+        if (this._deps.userGuide) {
+          this._deps.userGuide.dismiss();
         }
-        if (quickAccess) {
-          quickAccess.exit();
+        if (this._deps.quickAccess) {
+          this._deps.quickAccess.exit();
         }
-        // TODO: need to replace webphone with webphoneV2
+        // TODO: need to replace webphone with Webphone
         if (
-          webphone &&
-          webphone.ringSession &&
-          !webphone.ringSession.minimized
+          this._deps.webphone &&
+          this._deps.webphone.ringSession &&
+          !this._deps.webphone.ringSession.minimized
         ) {
-          webphone.toggleMinimized(webphone.ringSession.id);
+          this._deps.webphone.toggleMinimized(
+            this._deps.webphone.ringSession.id,
+          );
         }
       },
-      onViewCallBtnClick() {
-        if (routerInteraction.currentPath !== '/calls') {
-          routerInteraction.push('/calls');
+      onViewCallBtnClick: () => {
+        if (this._deps.routerInteraction.currentPath !== '/calls') {
+          this._deps.routerInteraction.push('/calls');
         }
-        if (userGuide) {
-          userGuide.dismiss();
+        if (this._deps.userGuide) {
+          this._deps.userGuide.dismiss();
         }
-        if (quickAccess) {
-          quickAccess.exit();
+        if (this._deps.quickAccess) {
+          this._deps.quickAccess.exit();
         }
         if (
-          webphone &&
-          webphone.ringSession &&
-          !webphone.ringSession.minimized
+          this._deps.webphone &&
+          this._deps.webphone.ringSession &&
+          !this._deps.webphone.ringSession.minimized
         ) {
-          webphone.toggleMinimized(webphone.ringSession.id);
+          this._deps.webphone.toggleMinimized(
+            this._deps.webphone.ringSession.id,
+          );
         }
       },
-      setAvailable: () => presence && presence.setAvailable(),
-      setBusy: () => presence && presence.setBusy(),
-      setDoNotDisturb: () => presence && presence.setDoNotDisturb(),
-      setInvisible: () => presence && presence.setInvisible(),
+      setAvailable: () =>
+        this._deps.presence && this._deps.presence.setAvailable(),
+      setBusy: () => this._deps.presence && this._deps.presence.setBusy(),
+      setDoNotDisturb: () =>
+        this._deps.presence && this._deps.presence.setDoNotDisturb(),
+      setInvisible: () =>
+        this._deps.presence && this._deps.presence.setInvisible(),
     };
   }
 }

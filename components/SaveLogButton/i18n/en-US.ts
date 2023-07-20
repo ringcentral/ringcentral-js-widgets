@@ -5,6 +5,5 @@ export default {
   saving: 'Saving',
   saved: 'Saved',
   creatingFailed: 'Creating failed.',
-  savingFailed: 'Saving failed.'
+  savingFailed: 'Saving failed.',
 };
-

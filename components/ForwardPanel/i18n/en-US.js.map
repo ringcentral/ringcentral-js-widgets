@@ -1,1 +1,1 @@
-{"version":3,"sources":["components/ForwardPanel/i18n/en-US.ts"],"names":["forward"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,OAAO,EAAE;AADI,C","sourcesContent":["export default {\n  forward: 'Forward',\n};\n"],"file":"en-US.js"}
+{"version":3,"file":"en-US.js","names":["forward","exports","_default"],"sources":["components/ForwardPanel/i18n/en-US.ts"],"sourcesContent":["export default {\n  forward: 'Forward',\n};\n"],"mappings":";;;;;;eAAe;EACbA,OAAO,EAAE;AACX,CAAC;AAAAC,OAAA,cAAAC,QAAA"}

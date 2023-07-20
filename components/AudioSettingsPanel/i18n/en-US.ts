@@ -11,8 +11,10 @@ export default {
   checkMicPermission: 'Check Permission',
   micNoPermissionMessage: 'The app does not have permission to use microphone',
   noLabel: 'Unknown device',
-  notSetSinkIdTip: "Sorry, your current browser permissions aren't set to allow us to access your audio output devices. {clickHereLink} to see how to set up.",
-  noLabelTip: "Sorry, your current browser permissions aren't set to allow us to access your audio input devices.",
+  notSetSinkIdTip:
+    "Sorry, your current browser permissions aren't set to allow us to access your audio output devices. {clickHereLink} to see how to set up.",
+  noLabelTip:
+    "Sorry, your current browser permissions aren't set to allow us to access your audio input devices.",
   clickHere: 'Click here',
-  defaultOutputDevice: 'Default output device'
+  defaultOutputDevice: 'Default output device',
 };

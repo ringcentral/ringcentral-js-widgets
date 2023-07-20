@@ -1,9 +1,10 @@
-import React, { FunctionComponent, useEffect } from 'react';
+import type { FunctionComponent } from 'react';
+import React, { useEffect } from 'react';
 
 import BackHeader from '../BackHeader';
 import { ContactDetails } from '../ContactDetails';
 import Panel from '../Panel';
-import {
+import type {
   ContactDetailsViewFunctionProps,
   ContactDetailsViewProps,
 } from './ContactDetailsView.interface';
@@ -37,16 +38,13 @@ export const ContactDetailsView: FunctionComponent<
   onClickToDial,
   onClickToSMS,
   sourceNodeRenderer,
+  getPresence,
 }) => {
   useEffect(() => {
-    if (typeof onVisitPage === 'function') {
-      onVisitPage();
-    }
-    return () => {
-      if (typeof onLeavingPage === 'function') {
-        onLeavingPage();
-      }
-    };
+    onVisitPage?.();
+
+    return onLeavingPage;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   let content = null;
   if (showSpinner) {
@@ -76,6 +74,7 @@ export const ContactDetailsView: FunctionComponent<
         onClickMailTo={onClickMailTo}
         formatNumber={formatNumber}
         sourceNodeRenderer={sourceNodeRenderer}
+        getPresence={getPresence}
       />
     );
   }

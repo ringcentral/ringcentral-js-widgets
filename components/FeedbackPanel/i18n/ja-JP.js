@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -11,10 +9,10 @@ var _default = {
   back: "戻る",
   revert: "元に戻す",
   instruction: "お客様のフィードバックは重要です。アプリの使用に関する問題、機能のリクエストやバグの報告など、いつでも喜んでサポートいたします。",
-  fillForm: "以下のフォームに記入し、次をクリックしてください ",
-  useMailBox: " またはメールボックスを利用して、次にリクエストをお寄せください ",
+  fillForm: "以下のフォームに記入し、クリックしてください。 ",
+  useMailBox: " または、メールボックスを使用して依頼内容を次の宛先まで送信してください： ",
   email: "Eメールアドレス",
-  reply: "（返信先）",
+  reply: "(こちらに返信が届きます)",
   emailPlaceHolder: "ronald.app@ringcentral.com",
   feedbackTopic: "フィードバックのトピック",
   topicPlaceHolder: "いずれかを選択してください",
@@ -22,7 +20,7 @@ var _default = {
   featureRequest: "機能に関するリクエスト",
   others: "その他",
   subject: "件名",
-  subjectPlaceHolder: "どんなサポートが必要ですか",
+  subjectPlaceHolder: "どのようなサポートが必要ですか",
   description: "詳細説明",
   descriptionPlaceHolder: "できるだけ詳しくご記入ください",
   send: "フィードバックを送信"
@@ -45,6 +43,5 @@ var _default = {
 // @key: @#@"description"@#@ @source: @#@"Full description"@#@
 // @key: @#@"descriptionPlaceHolder"@#@ @source: @#@"Please include as much information as possible"@#@
 // @key: @#@"send"@#@ @source: @#@"Send Your Feedback"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=ja-JP.js.map

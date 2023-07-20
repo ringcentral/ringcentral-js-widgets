@@ -1,7 +1,8 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import CallLogCallCtrlComponent from '../CallLogCallCtrlComponent';
-import { CallLogCallCtrlPanelProps } from './CallLogCallCtrlPanel.interface';
+import type { CallLogCallCtrlPanelProps } from './CallLogCallCtrlPanel.interface';
 
 export type CurrentSession = {
   isOnMute: boolean;
@@ -20,12 +21,14 @@ const CallLogCallCtrlPanel: FunctionComponent<CallLogCallCtrlPanelProps> = (
     telephonySessionId,
     disableLinks,
     isWide,
+    enableReply = false,
     currentSession,
     transferRef,
     isOnTransfer,
     isCurrentDeviceCall,
     sendDTMF,
     forward,
+    reply,
     answer,
     ignore,
     forwardingNumbers,
@@ -35,10 +38,14 @@ const CallLogCallCtrlPanel: FunctionComponent<CallLogCallCtrlPanelProps> = (
     realOutboundCallStatus,
     dialpadToggleTrack,
     clickForwardTrack,
+    warmTransferActiveTelephonySessionId,
+    allowPickupCall,
   } = props;
+
   if (!currentSession) {
     return null;
   }
+
   return (
     <CallLogCallCtrlComponent
       onMute={async () => props.mute(telephonySessionId)}
@@ -46,6 +53,9 @@ const CallLogCallCtrlPanel: FunctionComponent<CallLogCallCtrlPanelProps> = (
       onHangup={async () => props.hangUp(telephonySessionId)}
       onReject={async () => props.reject(telephonySessionId)}
       onTransfer={() => props.onTransfer(telephonySessionId)}
+      onCompleteWarmTransfer={() =>
+        props.onCompleteWarmTransfer(telephonySessionId)
+      }
       onHold={async () => props.onHold(telephonySessionId)}
       onUnHold={async () => props.onUnHold(telephonySessionId)}
       startRecord={async () => props.startRecord(telephonySessionId)}
@@ -66,6 +76,7 @@ const CallLogCallCtrlPanel: FunctionComponent<CallLogCallCtrlPanelProps> = (
       answer={async () => answer(telephonySessionId)}
       forwardingNumbers={forwardingNumbers}
       ignore={async () => ignore(telephonySessionId)}
+      reply={async () => reply(telephonySessionId)}
       otherActiveCalls={otherActiveCalls}
       answerAndHold={async () => {
         await answerAndHold(telephonySessionId);
@@ -76,6 +87,11 @@ const CallLogCallCtrlPanel: FunctionComponent<CallLogCallCtrlPanelProps> = (
       realOutboundCallStatus={realOutboundCallStatus}
       dialpadToggleTrack={dialpadToggleTrack}
       clickForwardTrack={clickForwardTrack}
+      warmTransferActiveTelephonySessionId={
+        warmTransferActiveTelephonySessionId
+      }
+      enableReply={enableReply}
+      allowPickupCall={allowPickupCall}
     />
   );
 };
@@ -89,6 +105,7 @@ CallLogCallCtrlPanel.defaultProps = {
   transferRef: undefined,
   isOnTransfer: false,
   realOutboundCallStatus: '',
+  enableReply: false,
 };
 
 export { CallLogCallCtrlPanel };

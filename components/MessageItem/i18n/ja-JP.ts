@@ -1,8 +1,8 @@
 import messageTypes from '@ringcentral-integration/commons/enums/messageTypes';
 export default {
   addLog: "ログ",
-  editLog: "ログの編集",
-  viewDetails: "詳細の表示",
+  editLog: "ログを編集",
+  viewDetails: "詳細を表示",
   addEntity: "新規作成",
   call: "通話",
   text: "テキスト",

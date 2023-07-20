@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -11,22 +9,24 @@ var _default = {
   unmute: "Activer le micro",
   hangup: "Raccrocher",
   reject: "Rejeter",
-  hold: "Mettre\nen attente",
+  hold: "Mettre en attente",
   onHold: "En attente",
   transfer: "Transférer",
   more: "Plus",
   stopRecord: "Arrêter l’enregistrement",
   record: "Enregistrer",
-  showKeypad: "Pavé numérique",
-  hideKeypad: "Masquer le pavé numérique",
-  unHold: "Reprendre l’appel",
-  forward: "Renvoyer",
+  showKeypad: "Clavier téléphonique",
+  hideKeypad: "Masquer le clavier téléphonique",
+  unHold: "Reprendre",
+  forward: "Transférer",
   ignore: "Ignorer",
-  voicemail: "Messagerie vocale",
-  custom: "Personnalisé",
-  answerAndEnd: "Répondre et\nraccrocher",
+  voicemail: "À la messagerie vocale",
+  custom: "Personnaliser",
+  answerAndEnd: "Répondre et raccrocher",
   answerAndHold: "Répondre et mettre en attente",
-  answer: "Répondre"
+  answer: "Répondre",
+  completeTransfer: "Exécuter le transfert",
+  reply: "Répondre"
 }; // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
 // @key: @#@"hangup"@#@ @source: @#@"Hang up"@#@
@@ -47,6 +47,7 @@ var _default = {
 // @key: @#@"answerAndEnd"@#@ @source: @#@"Answer & End"@#@
 // @key: @#@"answerAndHold"@#@ @source: @#@"Answer & Hold"@#@
 // @key: @#@"answer"@#@ @source: @#@"Answer"@#@
-
+// @key: @#@"completeTransfer"@#@ @source: @#@"Complete transfer"@#@
+// @key: @#@"reply"@#@ @source: @#@"Reply"@#@
 exports["default"] = _default;
 //# sourceMappingURL=fr-CA.js.map

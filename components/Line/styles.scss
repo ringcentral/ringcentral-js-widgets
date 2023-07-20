@@ -13,7 +13,7 @@
   border-top-width: 1px;
   border-bottom-width: 0px;
   border-color: $gray;
-  @include primary-font
+  @include primary-font;
 }
 
 .horizontal {

@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -18,9 +16,9 @@ var _default = {
   unknownNumber: "Anónimo",
   unavailable: "No disponible",
   viewDetails: "Ver detalles",
-  addEntity: "Crear nuevo",
+  addEntity: "Crear elemento nuevo",
   addLog: "Registro",
-  text: "Texto",
+  text: "Mensaje",
   call: "Llamada",
   addContact: "Añadir contacto",
   missedCall: "Perdida",
@@ -30,11 +28,11 @@ var _default = {
   to: "Para",
   hangup: "Colgar",
   accept: "Responder",
-  toVoicemail: "A buzón voz",
+  toVoicemail: "Al buzón de voz",
   anonymous: "Anónimo",
   mergeToConference: "Combinar",
-  hold: "Retener",
-  unhold: "Reanudar",
+  hold: "Poner en espera",
+  unhold: "Reanudar llamada",
   transfer: "Transferir",
   reject: "Rechazar",
   switchCall: "Cambiar llamada a esta aplicación",
@@ -81,6 +79,5 @@ var _default = {
 // @key: @#@"comfirmOKButton"@#@ @source: @#@"Switch"@#@
 // @key: @#@"ignore"@#@ @source: @#@"Ignore"@#@
 // @key: @#@"holdAndAnswer"@#@ @source: @#@"Hold & Answer"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=es-ES.js.map

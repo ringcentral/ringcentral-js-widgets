@@ -1,133 +1,65 @@
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
-require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.object.define-properties");
-
-require("core-js/modules/es7.object.get-own-property-descriptors");
-
-require("core-js/modules/es6.symbol");
-
-require("core-js/modules/es6.promise");
-
-require("core-js/modules/es6.object.create");
-
-require("core-js/modules/es6.reflect.construct");
-
-require("core-js/modules/es6.object.set-prototype-of");
-
-require("core-js/modules/es6.object.define-property");
-
-require("core-js/modules/es6.array.slice");
-
-require("core-js/modules/es6.array.reduce");
-
-require("core-js/modules/web.dom.iterable");
-
-require("core-js/modules/es6.array.iterator");
-
-require("core-js/modules/es6.object.to-string");
-
-require("core-js/modules/es6.object.keys");
-
-require("core-js/modules/es6.array.for-each");
-
+require("core-js/modules/es.array.concat");
+require("core-js/modules/es.array.filter");
+require("core-js/modules/es.object.get-own-property-descriptor");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.ContactDetailsUI = void 0;
-
-require("core-js/modules/es6.array.filter");
-
 require("regenerator-runtime/runtime");
-
 var _phoneTypes = require("@ringcentral-integration/commons/enums/phoneTypes");
-
 var _background = _interopRequireDefault(require("@ringcentral-integration/commons/lib/background"));
-
 var _di = require("@ringcentral-integration/commons/lib/di");
-
-var _proxify = _interopRequireDefault(require("@ringcentral-integration/commons/lib/proxy/proxify"));
-
+var _proxify = require("@ringcentral-integration/commons/lib/proxy/proxify");
 var _core = require("@ringcentral-integration/core");
-
 var _contactReadyStates = require("./contactReadyStates");
-
 var _helper = require("./helper");
-
 var _trackEvents = require("./trackEvents");
-
 var _dec, _dec2, _dec3, _class, _class2, _descriptor, _descriptor2;
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
-
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
-
-function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
-
+function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'transform-class-properties is enabled and runs after the decorators transform.'); }
 var DEFAULT_DIALER_ROUTE = '/dialer';
 var DEFAULT_COMPOSE_TEXT_ROUTE = '/composeText';
 var ContactDetailsUI = (_dec = (0, _di.Module)({
   name: 'ContactDetailsUI',
-  deps: ['Locale', 'RouterInteraction', 'ContactSearch', 'Contacts', 'ExtensionInfo', 'AppFeatures', 'RateLimiter', 'RegionSettings', 'ConnectivityManager', 'Call', 'DialerUI', 'ComposeText', {
+  deps: ['Locale', 'RouterInteraction', 'ContactSearch', 'Contacts', 'ExtensionInfo', 'AppFeatures', 'RateLimiter', 'RegionSettings', 'ConnectivityManager', 'Call', 'DialerUI', 'ComposeText', 'AccountInfo', {
     dep: 'ContactDetailsUIOptions',
     optional: true
   }]
 }), _dec2 = (0, _core.track)(_trackEvents.trackEvents.clickToCall), _dec3 = (0, _core.track)(_trackEvents.trackEvents.clickToSMS), _dec(_class = (_class2 = /*#__PURE__*/function (_RcUIModuleV) {
   _inherits(ContactDetailsUI, _RcUIModuleV);
-
   var _super = _createSuper(ContactDetailsUI);
-
   function ContactDetailsUI(deps) {
     var _this;
-
     _classCallCheck(this, ContactDetailsUI);
-
     _this = _super.call(this, {
       deps: deps
     });
-
     _initializerDefineProperty(_this, "currentContact", _descriptor, _assertThisInitialized(_this));
-
     _initializerDefineProperty(_this, "currentContactReadyState", _descriptor2, _assertThisInitialized(_this));
-
     return _this;
   }
-
   _createClass(ContactDetailsUI, [{
     key: "_setCurrentContact",
     value: function _setCurrentContact(readyState, contact) {
@@ -142,8 +74,8 @@ var ContactDetailsUI = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
+                // @ts-expect-error TS(2345): Argument of type 'null' is not assignable to param... Remove this comment to see the full error message
                 this._setCurrentContact(_contactReadyStates.contactReadyStates.pending, null);
-
               case 1:
               case "end":
                 return _context.stop();
@@ -151,11 +83,9 @@ var ContactDetailsUI = (_dec = (0, _di.Module)({
           }
         }, _callee, this);
       }));
-
       function resetCurrentContact() {
         return _resetCurrentContact.apply(this, arguments);
       }
-
       return resetCurrentContact;
     }()
   }, {
@@ -168,50 +98,40 @@ var ContactDetailsUI = (_dec = (0, _di.Module)({
             switch (_context2.prev = _context2.next) {
               case 0:
                 contactType = _ref.contactType, contactId = _ref.contactId;
-
                 if (!(this.currentContactReadyState !== _contactReadyStates.contactReadyStates.pending)) {
                   _context2.next = 3;
                   break;
                 }
-
                 return _context2.abrupt("return");
-
               case 3:
+                // @ts-expect-error TS(2345): Argument of type 'null' is not assignable to param... Remove this comment to see the full error message
                 this._setCurrentContact(_contactReadyStates.contactReadyStates.loading, null);
-
                 _context2.next = 6;
                 return this._deps.contacts.findContact({
                   sourceName: contactType,
                   contactId: contactId
                 });
-
               case 6:
                 contact = _context2.sent;
-
                 // hide hidden phone numbers when cdc is enabled
+                // @ts-expect-error TS(2533): Object is possibly 'null' or 'undefined'.
                 if (this._deps.appFeatures.isCDCEnabled && contact.phoneNumbers.length) {
+                  // @ts-expect-error TS(2533): Object is possibly 'null' or 'undefined'.
                   contact.phoneNumbers = contact.phoneNumbers.filter(function (phone) {
                     return !phone.hidden;
                   });
-                } // ignore result when it is reset during loading
-
-
+                }
+                // ignore result when it is reset during loading
                 if (!(this.currentContactReadyState !== _contactReadyStates.contactReadyStates.loading)) {
                   _context2.next = 10;
                   break;
                 }
-
                 return _context2.abrupt("return");
-
               case 10:
                 this._setCurrentContact(_contactReadyStates.contactReadyStates.loaded, contact);
-
                 if (contact) {
                   this._deps.contacts.getProfileImage(contact, false);
-
-                  this._deps.contacts.getPresence(contact, false);
                 }
-
               case 12:
               case "end":
                 return _context2.stop();
@@ -219,11 +139,9 @@ var ContactDetailsUI = (_dec = (0, _di.Module)({
           }
         }, _callee2, this);
       }));
-
       function initCurrentContact(_x) {
         return _initCurrentContact.apply(this, arguments);
       }
-
       return initCurrentContact;
     }()
   }, {
@@ -231,15 +149,12 @@ var ContactDetailsUI = (_dec = (0, _di.Module)({
     value: function () {
       var _showContactDetails = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(_ref2) {
         var id, type, _ref2$direct, direct;
-
         return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
                 id = _ref2.id, type = _ref2.type, _ref2$direct = _ref2.direct, direct = _ref2$direct === void 0 ? false : _ref2$direct;
-
                 this._deps.routerInteraction.push("/contacts/".concat(type, "/").concat(id).concat(direct ? '?direct=true' : ''));
-
               case 2:
               case "end":
                 return _context3.stop();
@@ -247,58 +162,42 @@ var ContactDetailsUI = (_dec = (0, _di.Module)({
           }
         }, _callee3, this);
       }));
-
       function showContactDetails(_x2) {
         return _showContactDetails.apply(this, arguments);
       }
-
       return showContactDetails;
     }()
   }, {
-    key: "handleClickToDial",
+    key: "getPresence",
     value: function () {
-      var _handleClickToDial = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(contact, phoneNumber) {
-        var recipient, _this$_deps$contactDe, _this$_deps$contactDe2;
-
+      var _getPresence = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(contact, useCache) {
+        var presence;
         return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
               case 0:
-                recipient = _objectSpread(_objectSpread({}, contact), {}, {
-                  phoneNumber: phoneNumber
-                });
-
-                if (this._deps.call.isIdle) {
-                  this._deps.routerInteraction.push((_this$_deps$contactDe = (_this$_deps$contactDe2 = this._deps.contactDetailsUIOptions) === null || _this$_deps$contactDe2 === void 0 ? void 0 : _this$_deps$contactDe2.dialerRoute) !== null && _this$_deps$contactDe !== void 0 ? _this$_deps$contactDe : DEFAULT_DIALER_ROUTE);
-
-                  this._deps.dialerUI.call({
-                    recipient: recipient
-                  });
-                }
-
-                this._trackClickToCall();
-
-              case 3:
+                _context4.next = 2;
+                return this._deps.contacts.getPresence(contact, useCache);
+              case 2:
+                presence = _context4.sent;
+                return _context4.abrupt("return", presence);
+              case 4:
               case "end":
                 return _context4.stop();
             }
           }
         }, _callee4, this);
       }));
-
-      function handleClickToDial(_x3, _x4) {
-        return _handleClickToDial.apply(this, arguments);
+      function getPresence(_x3, _x4) {
+        return _getPresence.apply(this, arguments);
       }
-
-      return handleClickToDial;
+      return getPresence;
     }()
   }, {
-    key: "handleClickToSMS",
+    key: "handleClickToDial",
     value: function () {
-      var _handleClickToSMS = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(contact, phoneNumber) {
-        var _this$_deps$contactDe3, _this$_deps$contactDe4;
-
-        var recipient;
+      var _handleClickToDial = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(contact, phoneNumber) {
+        var recipient, _this$_deps$contactDe, _this$_deps$contactDe2;
         return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
@@ -306,29 +205,54 @@ var ContactDetailsUI = (_dec = (0, _di.Module)({
                 recipient = _objectSpread(_objectSpread({}, contact), {}, {
                   phoneNumber: phoneNumber
                 });
-
-                this._deps.routerInteraction.push((_this$_deps$contactDe3 = (_this$_deps$contactDe4 = this._deps.contactDetailsUIOptions) === null || _this$_deps$contactDe4 === void 0 ? void 0 : _this$_deps$contactDe4.composeTextRoute) !== null && _this$_deps$contactDe3 !== void 0 ? _this$_deps$contactDe3 : DEFAULT_COMPOSE_TEXT_ROUTE);
-
-                this._deps.composeText.addToNumber(recipient);
-
-                if (this._deps.composeText.typingToNumber === recipient.phoneNumber) {
-                  this._deps.composeText.cleanTypingToNumber();
+                if (this._deps.call.isIdle) {
+                  this._deps.routerInteraction.push((_this$_deps$contactDe = (_this$_deps$contactDe2 = this._deps.contactDetailsUIOptions) === null || _this$_deps$contactDe2 === void 0 ? void 0 : _this$_deps$contactDe2.dialerRoute) !== null && _this$_deps$contactDe !== void 0 ? _this$_deps$contactDe : DEFAULT_DIALER_ROUTE);
+                  this._deps.dialerUI.call({
+                    recipient: recipient
+                  });
                 }
-
-                this._trackClickToSMS();
-
-              case 5:
+                this._trackClickToCall();
+              case 3:
               case "end":
                 return _context5.stop();
             }
           }
         }, _callee5, this);
       }));
-
-      function handleClickToSMS(_x5, _x6) {
+      function handleClickToDial(_x5, _x6) {
+        return _handleClickToDial.apply(this, arguments);
+      }
+      return handleClickToDial;
+    }()
+  }, {
+    key: "handleClickToSMS",
+    value: function () {
+      var _handleClickToSMS = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(contact, phoneNumber) {
+        var _this$_deps$contactDe3, _this$_deps$contactDe4;
+        var recipient;
+        return regeneratorRuntime.wrap(function _callee6$(_context6) {
+          while (1) {
+            switch (_context6.prev = _context6.next) {
+              case 0:
+                recipient = _objectSpread(_objectSpread({}, contact), {}, {
+                  phoneNumber: phoneNumber
+                });
+                this._deps.routerInteraction.push((_this$_deps$contactDe3 = (_this$_deps$contactDe4 = this._deps.contactDetailsUIOptions) === null || _this$_deps$contactDe4 === void 0 ? void 0 : _this$_deps$contactDe4.composeTextRoute) !== null && _this$_deps$contactDe3 !== void 0 ? _this$_deps$contactDe3 : DEFAULT_COMPOSE_TEXT_ROUTE);
+                this._deps.composeText.addToNumber(recipient);
+                if (this._deps.composeText.typingToNumber === recipient.phoneNumber) {
+                  this._deps.composeText.cleanTypingToNumber();
+                }
+                this._trackClickToSMS();
+              case 5:
+              case "end":
+                return _context6.stop();
+            }
+          }
+        }, _callee6, this);
+      }));
+      function handleClickToSMS(_x7, _x8) {
         return _handleClickToSMS.apply(this, arguments);
       }
-
       return handleClickToSMS;
     }()
   }, {
@@ -341,7 +265,6 @@ var ContactDetailsUI = (_dec = (0, _di.Module)({
     key: "getUIProps",
     value: function getUIProps() {
       var _this$_deps$extension, _this$_deps$connectiv, _this$_deps$connectiv2, _this$_deps$connectiv3, _this$_deps$rateLimit, _this$_deps$connectiv4, _this$_deps$connectiv5, _this$_deps$rateLimit2;
-
       return {
         currentLocale: this._deps.locale.currentLocale,
         contact: this.currentContact,
@@ -355,24 +278,55 @@ var ContactDetailsUI = (_dec = (0, _di.Module)({
     key: "getUIFunctions",
     value: function getUIFunctions(_ref3) {
       var _this2 = this;
-
       var params = _ref3.params;
       return {
+        // @ts-expect-error TS(2322): Type '(phoneNumber: string) => string | null | und... Remove this comment to see the full error message
         formatNumber: function formatNumber(phoneNumber) {
           var _this2$_deps$extensio;
-
-          return (0, _helper.formatContactPhoneNumber)(phoneNumber, _this2._deps.regionSettings.countryCode, _this2._deps.extensionInfo.isMultipleSiteEnabled, (_this2$_deps$extensio = _this2._deps.extensionInfo.site) === null || _this2$_deps$extensio === void 0 ? void 0 : _this2$_deps$extensio.code);
+          return (0, _helper.formatContactPhoneNumber)({
+            phoneNumber: phoneNumber,
+            countryCode: _this2._deps.regionSettings.countryCode,
+            isMultipleSiteEnabled: _this2._deps.extensionInfo.isMultipleSiteEnabled,
+            siteCode: (_this2$_deps$extensio = _this2._deps.extensionInfo.site) === null || _this2$_deps$extensio === void 0 ? void 0 : _this2$_deps$extensio.code,
+            maxExtensionNumberLength:
+            // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+            _this2._deps.accountInfo.maxExtensionNumberLength
+          });
         },
         onVisitPage: function onVisitPage() {
           _this2.initCurrentContact(params);
         },
+        getPresence: function () {
+          var _getPresence2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(contact, useCache) {
+            var result;
+            return regeneratorRuntime.wrap(function _callee7$(_context7) {
+              while (1) {
+                switch (_context7.prev = _context7.next) {
+                  case 0:
+                    _context7.next = 2;
+                    return _this2.getPresence(contact, useCache);
+                  case 2:
+                    result = _context7.sent;
+                    return _context7.abrupt("return", result);
+                  case 4:
+                  case "end":
+                    return _context7.stop();
+                }
+              }
+            }, _callee7);
+          }));
+          function getPresence(_x9, _x10) {
+            return _getPresence2.apply(this, arguments);
+          }
+          return getPresence;
+        }(),
         onLeavingPage: function onLeavingPage() {
           _this2.resetCurrentContact();
         },
         canTextButtonShow: function canTextButtonShow(phoneType) {
           var outboundSmsPermission = _this2._deps.appFeatures.hasOutboundSMSPermission;
-          var internalSmsPermission = _this2._deps.appFeatures.hasInternalSMSPermission; // guess this statement is to avoid exception
-
+          var internalSmsPermission = _this2._deps.appFeatures.hasInternalSMSPermission;
+          // guess this statement is to avoid exception
           var isClickToTextEnabled = !!_this2._deps.composeText;
           return isClickToTextEnabled && phoneType !== _phoneTypes.phoneTypes.fax && (phoneType === _phoneTypes.phoneTypes.extension ? internalSmsPermission : outboundSmsPermission);
         },
@@ -392,7 +346,6 @@ var ContactDetailsUI = (_dec = (0, _di.Module)({
       };
     }
   }]);
-
   return ContactDetailsUI;
 }(_core.RcUIModuleV2), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "currentContact", [_core.state], {
   configurable: true,
@@ -408,6 +361,6 @@ var ContactDetailsUI = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return _contactReadyStates.contactReadyStates.pending;
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "_setCurrentContact", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setCurrentContact"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resetCurrentContact", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "resetCurrentContact"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "initCurrentContact", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "initCurrentContact"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "showContactDetails", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "showContactDetails"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "handleClickToDial", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "handleClickToDial"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "handleClickToSMS", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "handleClickToSMS"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_trackClickToCall", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "_trackClickToCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_trackClickToSMS", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "_trackClickToSMS"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "_setCurrentContact", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setCurrentContact"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resetCurrentContact", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "resetCurrentContact"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "initCurrentContact", [_background["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "initCurrentContact"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "showContactDetails", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "showContactDetails"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getPresence", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "getPresence"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "handleClickToDial", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "handleClickToDial"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "handleClickToSMS", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "handleClickToSMS"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_trackClickToCall", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "_trackClickToCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_trackClickToSMS", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "_trackClickToSMS"), _class2.prototype)), _class2)) || _class);
 exports.ContactDetailsUI = ContactDetailsUI;
 //# sourceMappingURL=ContactDetailsUI.js.map

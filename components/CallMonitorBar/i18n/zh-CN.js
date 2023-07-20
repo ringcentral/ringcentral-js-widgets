@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -12,8 +10,8 @@ var _default = {
   view: "查看",
   incomingCall: "{numberOf} 个呼入电话",
   incomingCalls: "{numberOf} 个呼入电话",
-  callOnHold: "{numberOf} 个呼叫等候接听",
-  callsOnHold: "{numberOf} 个呼叫等候接听",
+  callOnHold: "{numberOf} 个呼叫暂候",
+  callsOnHold: "{numberOf} 个呼叫暂候",
   otherDeviceCall: "其他设备上有 {numberOf} 个呼叫",
   otherDeviceCalls: "其他设备上有 {numberOf} 个呼叫"
 }; // @key: @#@"currentCall"@#@ @source: @#@"Current Call"@#@
@@ -25,6 +23,5 @@ var _default = {
 // @key: @#@"callsOnHold"@#@ @source: @#@"{numberOf} Calls On Hold"@#@
 // @key: @#@"otherDeviceCall"@#@ @source: @#@"{numberOf} Call on other devices"@#@
 // @key: @#@"otherDeviceCalls"@#@ @source: @#@"{numberOf} Calls on other devices"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=zh-CN.js.map

@@ -1,9 +1,10 @@
-import React, { FunctionComponent, ReactNode } from 'react';
+import type { FunctionComponent, ReactNode } from 'react';
+import React from 'react';
 
 import classnames from 'classnames';
 import { addIndex, map } from 'ramda';
 
-import { onClickMailTo } from '../ContactDetails.interface';
+import type { onClickMailTo } from '../ContactDetails.interface';
 import i18n from '../i18n';
 import styles from '../styles.scss';
 
@@ -25,6 +26,7 @@ export const Emails: FunctionComponent<EmailsProps> = ({
         <li key={idx}>
           <a
             title={email}
+            // @ts-expect-error TS(2322): Type 'string | null' is not assignable to type 'st... Remove this comment to see the full error message
             className={onClickMailTo ? styles.underline : null}
             onClick={onClickMailTo && (() => onClickMailTo(email, contactType))}
           >

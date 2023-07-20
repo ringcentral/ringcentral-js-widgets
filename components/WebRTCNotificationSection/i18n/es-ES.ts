@@ -1,11 +1,12 @@
 export default {
   forward: "Desviar",
   ignore: "Ignorar",
-  toVoicemail: "A buzón de voz",
+  toVoicemail: "Al buzón de voz",
   answer: "Responder",
   endAndAnswer: "Final. y respon.",
   holdAndAnswer: "En espera y resp.",
-  custom: "Personalizado"
+  custom: "Personalizado",
+  more: "Más"
 };
 
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@
@@ -15,3 +16,4 @@ export default {
 // @key: @#@"endAndAnswer"@#@ @source: @#@"End & Answer"@#@
 // @key: @#@"holdAndAnswer"@#@ @source: @#@"Hold & Answer"@#@
 // @key: @#@"custom"@#@ @source: @#@"Custom"@#@
+// @key: @#@"more"@#@ @source: @#@"More"@#@

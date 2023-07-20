@@ -1,10 +1,10 @@
 import 'react-widgets/dist/css/react-widgets.css';
 
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
-import formatMessage from 'format-message';
-
-import { RcMMeetingModel } from '@ringcentral-integration/commons/modules/MeetingV2';
+import type { RcMMeetingModel } from '@ringcentral-integration/commons/modules/Meeting';
+import { format } from '@ringcentral-integration/utils';
 import { RcLink } from '@ringcentral/juno';
 
 import CheckBox from '../CheckBox';
@@ -32,7 +32,7 @@ export const MeetingIdSection: FunctionComponent<MeetingIdSectionProps> = ({
   const ID_SETTING_OPTIONS = [
     {
       key: true,
-      text: formatMessage(i18n.getString('usePmi', currentLocale), {
+      text: format(i18n.getString('usePmi', currentLocale), {
         meetingId: personalMeetingId,
       }),
     },

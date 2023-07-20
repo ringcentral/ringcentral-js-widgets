@@ -1,11 +1,12 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import classnames from 'classnames';
 
 import IconLine from '../IconLine';
 import Switch from '../Switch';
 import i18n from './i18n';
-import { SwitchLineItemProps } from './SettingsPanel.interface';
+import type { SwitchLineItemProps } from './SettingsPanel.interface';
 import styles from './styles.scss';
 
 export const SwitchLineItem: FunctionComponent<SwitchLineItemProps> = ({
@@ -35,6 +36,7 @@ export const SwitchLineItem: FunctionComponent<SwitchLineItemProps> = ({
       }
     >
       <span className={classnames(disabled && styles.disableText)}>
+        {/* @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message */}
         {customTitle || i18n.getString(name, currentLocale)}
       </span>
     </IconLine>

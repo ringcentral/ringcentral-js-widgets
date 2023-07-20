@@ -1,5 +1,5 @@
 export default {
-  conferenceCall: "Conference call",
+  conferenceCall: "Conference Call",
   onHold: "On Hold",
   unknown: "Unknown",
   disconnected: "Disconnected",

@@ -21,6 +21,7 @@ const ActiveCallBadge: React.SFC<ActiveCallBadgeProps> = (props) => {
       positionOffsetY={props.offsetY}
       updatePositionOffset={props.updatePositionOffset}
     >
+      {/* @ts-expect-error TS(2322): Type 'string | undefined' is not assignable */}
       <Badge className={styles.badge} name={props.title}>
         <span className={styles.activeIcon}>
           <i className={dynamicsFont.callHover} />

@@ -1,7 +1,8 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import phoneTypeNames from '../../lib/phoneTypeNames';
-import { RecipientPhoneProps } from './RecipientsInputV2.interface';
+import type { RecipientPhoneProps } from './RecipientsInputV2.interface';
 import styles from './styles.scss';
 
 export const RecipientPhone: FunctionComponent<RecipientPhoneProps> = ({
@@ -14,8 +15,10 @@ export const RecipientPhone: FunctionComponent<RecipientPhoneProps> = ({
   enableTitle,
 }) => {
   const phoneTypeName = phoneTypeRenderer
-    ? phoneTypeRenderer(phoneType)
-    : phoneTypeNames.getString(phoneType, currentLocale);
+    ? // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
+      phoneTypeRenderer(phoneType)
+    : // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
+      phoneTypeNames.getString(phoneType, currentLocale);
   const title = enableTitle
     ? `${formatContactPhone(phoneNumber)} ${splitter} ${phoneTypeName}`
     : undefined;

@@ -24,7 +24,6 @@ $smallIconColor: #9ca1a7;
   }
   .button {
     box-sizing: border-box;
-    padding: 2px;
     width: $width;
     height: $width;
   }
@@ -114,7 +113,8 @@ $smallIconColor: #9ca1a7;
 
 .smallDialpad {
   border-radius: 4px 4px 0px 0px;
-  box-shadow: inset 0px -2px 10px 0px rgba(101, 82, 82, 0.12);
+  box-shadow: 0 -2px 5px 0 rgba(0, 0, 0, 0.15);
+  z-index: 2;
 }
 
 .dialpadIconActive {
@@ -126,11 +126,24 @@ $smallIconColor: #9ca1a7;
   }
 }
 
+.endIcon {
+  box-sizing: border-box;
+  path {
+    fill: #ff4646;
+  }
+}
+
 .moreActionIcon {
   box-sizing: border-box;
 
   path {
     fill: $smallIconColor;
+  }
+}
+
+.moreActionIconActive {
+  path {
+    fill: $primary-color;
   }
 }
 

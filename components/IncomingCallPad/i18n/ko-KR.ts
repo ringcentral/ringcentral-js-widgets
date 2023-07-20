@@ -3,7 +3,7 @@ export default {
   reply: "회신",
   ignore: "무시",
   toVoicemail: "음성 사서함에 보내기",
-  answer: "답변",
+  answer: "응답",
   answerAndEnd: "응답 후 종료",
   answerAndHold: "응답 후 대기"
 };

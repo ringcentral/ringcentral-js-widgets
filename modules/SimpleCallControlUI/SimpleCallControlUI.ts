@@ -1,16 +1,13 @@
 import callDirections from '@ringcentral-integration/commons/enums/callDirections';
-import { Entity } from '@ringcentral-integration/commons/interfaces/Entity.interface';
+import type { Entity } from '@ringcentral-integration/commons/interfaces/Entity.interface';
 import { Module } from '@ringcentral-integration/commons/lib/di';
-import {
-  RcUIModuleV2,
-  UIFunctions,
-  UIProps,
-} from '@ringcentral-integration/core';
+import type { UIFunctions, UIProps } from '@ringcentral-integration/core';
+import { RcUIModuleV2 } from '@ringcentral-integration/core';
 
-import { SimpleCallControlPanelProps } from '../../components/SimpleCallControlPanel';
+import type { SimpleCallControlPanelProps } from '../../components/SimpleCallControlPanel';
 import i18n from '../../components/SimpleCallControlPanel/i18n';
 import { pickFallBackInfo } from '../../components/SimpleCallControlPanel/utils';
-import {
+import type {
   Deps,
   SimpleCallControlContainerProps,
 } from './SimpleCallControlUI.interface';
@@ -23,6 +20,7 @@ import {
     'Brand',
     'RegionSettings',
     'ActiveCallControl',
+    'AccountInfo',
     { dep: 'SimpleCallControlUIOptions', optional: true },
   ],
 })
@@ -37,48 +35,56 @@ export class SimpleCallControlUI extends RcUIModuleV2<Deps> {
     params: { sessionId },
     renderContactName,
   }: SimpleCallControlContainerProps): UIProps<SimpleCallControlPanelProps> {
-    const { activeCallControl, regionSettings, locale, brand } = this._deps;
-    const { activeSession } = activeCallControl;
+    const { activeSession } = this._deps.activeCallControl;
     let nameMatches: Entity[] = [];
     if (activeSession && !renderContactName) {
       // TODO: check activeSession type
       nameMatches =
         activeSession.direction === callDirections.outbound
-          ? activeSession.toMatches
-          : activeSession.fromMatches;
+          ? // @ts-expect-error TS(2339): Property 'toMatches' does not exist on type 'Parti... Remove this comment to see the full error message
+            activeSession.toMatches
+          : // @ts-expect-error TS(2339): Property 'fromMatches' does not exist on type 'Par... Remove this comment to see the full error message
+            activeSession.fromMatches;
     }
     let phoneNumber: string;
     if (activeSession) {
+      // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
       phoneNumber =
         activeSession.direction === callDirections.outbound
           ? activeSession.to
           : activeSession.from;
     }
-    let fallBackName = i18n.getString('Unknown', locale.currentLocale);
+    let fallBackName = i18n.getString(
+      'Unknown',
+      this._deps.locale.currentLocale,
+    );
     if (renderContactName) {
       const { fallBackName: fallBackNameFromThirdParty, fallBackNumber } =
         pickFallBackInfo(
           activeSession,
           renderContactName({
+            // @ts-expect-error TS(2322): Type 'string | null | undefined' is not assignable... Remove this comment to see the full error message
             sessionId: activeSession && activeSession.sessionId,
             telephonySessionId: sessionId,
           }),
-          locale.currentLocale,
+          this._deps.locale.currentLocale,
         );
       phoneNumber = fallBackNumber;
       fallBackName = fallBackNameFromThirdParty;
     }
     return {
-      currentLocale: locale.currentLocale,
+      currentLocale: this._deps.locale.currentLocale,
       activeSession,
       sessionId,
-      areaCode: regionSettings.areaCode,
-      countryCode: regionSettings.countryCode,
+      areaCode: this._deps.regionSettings.areaCode,
+      countryCode: this._deps.regionSettings.countryCode,
       nameMatches,
+      // @ts-expect-error TS(2454): Variable 'phoneNumber' is used before being assign... Remove this comment to see the full error message
       phoneNumber,
       fallBackName,
-      brandName: brand.name,
-      controlBusy: activeCallControl.busy,
+      brandName: this._deps.brand.name,
+      controlBusy: this._deps.activeCallControl.busy,
+      maxExtensionNumberLength: this._deps.accountInfo.maxExtensionNumberLength,
     };
   }
 

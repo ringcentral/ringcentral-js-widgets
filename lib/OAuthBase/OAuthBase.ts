@@ -1,13 +1,13 @@
 import url from 'url';
 
 import { Module } from '@ringcentral-integration/commons/lib/di';
-import proxify from '@ringcentral-integration/commons/lib/proxy/proxify';
+import { proxify } from '@ringcentral-integration/commons/lib/proxy/proxify';
 import required from '@ringcentral-integration/commons/lib/required';
-import authMessages from '@ringcentral-integration/commons/modules/Auth/authMessages';
+import { authMessages } from '@ringcentral-integration/commons/modules/Auth';
 import { action, RcModuleV2, state } from '@ringcentral-integration/core';
 
 import parseCallbackUri from '../parseCallbackUri';
-import { Deps } from './OAuthBase.interface';
+import type { Deps } from './OAuthBase.interface';
 
 const DEFAULT_UI_OPTIONS = ['hide_remember_me', 'hide_tos'];
 
@@ -44,7 +44,7 @@ export class OAuthBase<T extends Deps = Deps> extends RcModuleV2<T> {
   }
 
   @state
-  oAuthReady: boolean = false;
+  oAuthReady = false;
 
   @action
   setOAuthReady(val: boolean) {
@@ -54,6 +54,7 @@ export class OAuthBase<T extends Deps = Deps> extends RcModuleV2<T> {
   @required
   get name(): string {
     /* require implementation in descendent */
+    // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string'.
     return null;
   }
 
@@ -172,6 +173,7 @@ export class OAuthBase<T extends Deps = Deps> extends RcModuleV2<T> {
   }
 
   get redirectUri() {
+    // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
     return url.resolve(window.location.href, this._redirectUri);
   }
 }

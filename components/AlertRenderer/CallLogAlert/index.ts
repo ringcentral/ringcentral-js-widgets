@@ -4,7 +4,10 @@ import callLogMessages from '@ringcentral-integration/commons/enums/callLogMessa
 
 import i18n from './i18n';
 
-export default function CallLogAlert({ message: { message }, currentLocale }) {
+export default function CallLogAlert({
+  message: { message },
+  currentLocale,
+}: any) {
   return i18n.getString(message, currentLocale);
 }
 CallLogAlert.propTypes = {
@@ -13,7 +16,7 @@ CallLogAlert.propTypes = {
   }).isRequired,
   currentLocale: PropTypes.string.isRequired,
 };
-CallLogAlert.handleMessage = ({ message }) =>
+CallLogAlert.handleMessage = ({ message }: any) =>
   message === callLogMessages.logCallLogFailed ||
   message === callLogMessages.fieldRequired ||
   message === callLogMessages.logFailed;

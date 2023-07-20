@@ -1,9 +1,10 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import InputLine from '../InputLine';
 import LocalePicker from '../LocalePicker';
 import i18n from './i18n';
-import { LocaleProps } from './SettingsPanel.interface';
+import type { LocaleProps } from './SettingsPanel.interface';
 
 export const Locale: FunctionComponent<LocaleProps> = ({
   supportedLocales,
@@ -15,6 +16,7 @@ export const Locale: FunctionComponent<LocaleProps> = ({
     return (
       <InputLine label={i18n.getString('language', currentLocale)}>
         <LocalePicker
+          // @ts-expect-error TS(2769): No overload matches this call.
           value={savedLocale}
           onChange={saveLocale}
           options={supportedLocales}

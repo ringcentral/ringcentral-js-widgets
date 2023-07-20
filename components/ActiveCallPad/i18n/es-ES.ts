@@ -9,8 +9,8 @@ export default {
   record: "Grabar",
   add: "Añadir",
   transfer: "Transferir",
-  flip: "Traspasar",
-  more: "Acc. de llam.",
+  flip: "Transferir",
+  more: "Acciones de llamada",
   mergeToConference: "Combinar",
   end: "Finalizar",
   completeTransfer: "Completar\ntransferencia"

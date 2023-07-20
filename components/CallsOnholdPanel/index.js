@@ -1,55 +1,41 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
+require("core-js/modules/es.array.map");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-
-require("core-js/modules/es6.array.map");
-
 var _react = _interopRequireDefault(require("react"));
-
 var _Combine = _interopRequireDefault(require("../../assets/images/Combine.svg"));
-
 var _ActiveCallItemV = require("../ActiveCallItemV2");
-
 var _BackButton = _interopRequireDefault(require("../BackButton"));
-
 var _BackHeader = _interopRequireDefault(require("../BackHeader"));
-
 var _CircleButton = _interopRequireDefault(require("../CircleButton"));
-
 var _i18n = _interopRequireDefault(require("./i18n"));
-
 var _styles = _interopRequireDefault(require("./styles.scss"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 var CallsOnholdContainer = function CallsOnholdContainer(_ref) {
   var calls = _ref.calls,
-      currentLocale = _ref.currentLocale,
-      areaCode = _ref.areaCode,
-      countryCode = _ref.countryCode,
-      brand = _ref.brand,
-      showContactDisplayPlaceholder = _ref.showContactDisplayPlaceholder,
-      autoLog = _ref.autoLog,
-      webphoneAnswer = _ref.webphoneAnswer,
-      webphoneReject = _ref.webphoneReject,
-      webphoneHangup = _ref.webphoneHangup,
-      webphoneResume = _ref.webphoneResume,
-      webphoneToVoicemail = _ref.webphoneToVoicemail,
-      enableContactFallback = _ref.enableContactFallback,
-      sourceIcons = _ref.sourceIcons,
-      phoneTypeRenderer = _ref.phoneTypeRenderer,
-      phoneSourceNameRenderer = _ref.phoneSourceNameRenderer,
-      disableMerge = _ref.disableMerge,
-      onBackButtonClick = _ref.onBackButtonClick,
-      onMerge = _ref.onMerge,
-      onAdd = _ref.onAdd,
-      getAvatarUrl = _ref.getAvatarUrl;
-
+    currentLocale = _ref.currentLocale,
+    areaCode = _ref.areaCode,
+    countryCode = _ref.countryCode,
+    brand = _ref.brand,
+    showContactDisplayPlaceholder = _ref.showContactDisplayPlaceholder,
+    autoLog = _ref.autoLog,
+    webphoneAnswer = _ref.webphoneAnswer,
+    webphoneReject = _ref.webphoneReject,
+    webphoneHangup = _ref.webphoneHangup,
+    webphoneResume = _ref.webphoneResume,
+    webphoneToVoicemail = _ref.webphoneToVoicemail,
+    enableContactFallback = _ref.enableContactFallback,
+    sourceIcons = _ref.sourceIcons,
+    phoneTypeRenderer = _ref.phoneTypeRenderer,
+    phoneSourceNameRenderer = _ref.phoneSourceNameRenderer,
+    disableMerge = _ref.disableMerge,
+    onBackButtonClick = _ref.onBackButtonClick,
+    onMerge = _ref.onMerge,
+    onAdd = _ref.onAdd,
+    getAvatarUrl = _ref.getAvatarUrl;
   var backHeader = /*#__PURE__*/_react["default"].createElement(_BackHeader["default"], {
     className: _styles["default"].header,
     onBackClick: onBackButtonClick,
@@ -57,7 +43,6 @@ var CallsOnholdContainer = function CallsOnholdContainer(_ref) {
       label: _i18n["default"].getString('activeCall', currentLocale)
     })
   });
-
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].root
   }, backHeader, /*#__PURE__*/_react["default"].createElement("div", {
@@ -72,11 +57,21 @@ var CallsOnholdContainer = function CallsOnholdContainer(_ref) {
       countryCode: countryCode,
       brand: brand,
       showContactDisplayPlaceholder: showContactDisplayPlaceholder,
-      onMergeCall: onMerge,
-      webphoneAnswer: webphoneAnswer,
-      webphoneReject: webphoneReject,
-      webphoneHangup: webphoneHangup,
-      webphoneResume: webphoneResume,
+      onMergeCall: onMerge
+      // @ts-expect-error TS(2322): Type '((...args: any[]) => any) | undefined' is no... Remove this comment to see the full error message
+      ,
+      webphoneAnswer: webphoneAnswer
+      // @ts-expect-error TS(2322): Type '((...args: any[]) => any) | undefined' is no... Remove this comment to see the full error message
+      ,
+      webphoneReject: webphoneReject
+      // @ts-expect-error TS(2322): Type '((...args: any[]) => any) | undefined' is no... Remove this comment to see the full error message
+      ,
+      webphoneHangup: webphoneHangup
+      // @ts-expect-error TS(2322): Type '((...args: any[]) => any) | undefined' is no... Remove this comment to see the full error message
+      ,
+      webphoneResume: webphoneResume
+      // @ts-expect-error TS(2322): Type '((...args: any[]) => any) | undefined' is no... Remove this comment to see the full error message
+      ,
       webphoneToVoicemail: webphoneToVoicemail,
       enableContactFallback: enableContactFallback,
       autoLog: autoLog,
@@ -105,7 +100,6 @@ var CallsOnholdContainer = function CallsOnholdContainer(_ref) {
     onClick: onAdd
   })))));
 };
-
 CallsOnholdContainer.defaultProps = {
   brand: 'RingCentral',
   showContactDisplayPlaceholder: true,

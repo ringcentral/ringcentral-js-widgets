@@ -1,6 +1,6 @@
 export default {
   all: "Todos",
-  company: "Compañía",
+  company: "Empresa",
   personal: "Personal"
 };
 

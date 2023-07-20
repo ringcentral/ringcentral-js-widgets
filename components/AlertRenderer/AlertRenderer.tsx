@@ -21,12 +21,14 @@ export const AlertRenderer = ({
   brand,
   rateLimiter,
   softphone,
+
   /** router interaction when need push `regionSettingsUrl` or `callingSettingsUrl` */
   routerInteraction,
+
   callLogSection,
   regionSettingsUrl = '/settings/region',
   callingSettingsUrl = '/settings/calling',
-}) => {
+}: any) => {
   // TODO: refactor this like modalUI.registerRenderer.
   const onRegionSettingsLinkClick = ({ alertId = 'default' } = {}) => {
     routerInteraction.push(regionSettingsUrl);
@@ -40,12 +42,14 @@ export const AlertRenderer = ({
   const onCallingSettingsLinkClick = () => {
     routerInteraction.push(callingSettingsUrl);
   };
-  return (message) => {
+  return (message: any) => {
+    // @ts-expect-error TS(2339): Property 'handleMessage' does not exist on type 'S... Remove this comment to see the full error message
     if (AuthAlert.handleMessage(message)) {
       return AuthAlert;
     }
+    // @ts-expect-error TS(2339): Property 'handleMessage' does not exist on type 'S... Remove this comment to see the full error message
     if (CallAlert.handleMessage(message)) {
-      return (props) => (
+      return (props: any) => (
         <CallAlert
           {...props}
           brand={brand}
@@ -54,7 +58,7 @@ export const AlertRenderer = ({
       );
     }
     if (CallingSettingsAlert.handleMessage(message)) {
-      return (props) => (
+      return (props: any) => (
         <CallingSettingsAlert
           {...props}
           brandName={brand.name}
@@ -65,16 +69,18 @@ export const AlertRenderer = ({
       );
     }
 
+    // @ts-expect-error TS(2339): Property 'handleMessage' does not exist on type 'S... Remove this comment to see the full error message
     if (RegionSettingsAlert.handleMessage(message)) {
-      return (props) => (
+      return (props: any) => (
         <RegionSettingsAlert
           {...props}
           onRegionSettingsLinkClick={onRegionSettingsLinkClick}
         />
       );
     }
+    // @ts-expect-error TS(2339): Property 'handleMessage' does not exist on type 'F... Remove this comment to see the full error message
     if (MessageSenderAlert.handleMessage(message)) {
-      return (props) => (
+      return (props: any) => (
         <MessageSenderAlert
           {...props}
           brand={brand.name}
@@ -83,12 +89,14 @@ export const AlertRenderer = ({
       );
     }
 
+    // @ts-expect-error TS(2339): Property 'handleMessage' does not exist on type 'S... Remove this comment to see the full error message
     if (MessageStoreAlert.handleMessage(message)) {
       return MessageStoreAlert;
     }
 
+    // @ts-expect-error TS(2339): Property 'handleMessage' does not exist on type 't... Remove this comment to see the full error message
     if (RateExceededAlert.handleMessage(message) && rateLimiter?.timestamp) {
-      return (props) => (
+      return (props: any) => (
         <RateExceededAlert
           {...props}
           timestamp={rateLimiter.timestamp}
@@ -97,18 +105,24 @@ export const AlertRenderer = ({
       );
     }
 
+    // @ts-expect-error TS(2339): Property 'handleMessage' does not exist on type 'S... Remove this comment to see the full error message
     if (ConnectivityAlert.handleMessage(message)) {
       return ConnectivityAlert;
     }
 
+    // @ts-expect-error TS(2339): Property 'handleMessage' does not exist on type 'S... Remove this comment to see the full error message
     if (WebphoneAlert.handleMessage(message)) {
-      return (props) => <WebphoneAlert {...props} brand={brand} />;
+      return (props: any) => <WebphoneAlert {...props} brand={brand} />;
     }
+    // @ts-expect-error TS(2339): Property 'handleMessage' does not exist on type 'S... Remove this comment to see the full error message
     if (MeetingAlert.handleMessage(message)) {
-      return (props) => <MeetingAlert {...props} application={brand.appName} />;
+      return (props: any) => (
+        <MeetingAlert {...props} application={brand.appName} />
+      );
     }
+    // @ts-expect-error TS(2339): Property 'handleMessage' does not exist on type 'S... Remove this comment to see the full error message
     if (PermissionsAlert.handleMessage(message)) {
-      return (props) => (
+      return (props: any) => (
         <PermissionsAlert
           {...props}
           brand={brand.name}
@@ -117,21 +131,25 @@ export const AlertRenderer = ({
       );
     }
 
+    // @ts-expect-error TS(2339): Property 'handleMessage' does not exist on type 'S... Remove this comment to see the full error message
     if (ConferenceCallAlert.handleMessage(message)) {
       return ConferenceCallAlert;
     }
 
+    // @ts-expect-error TS(2339): Property 'handleMessage' does not exist on type 'S... Remove this comment to see the full error message
     if (AudioSettingsAlert.handleMessage(message)) {
-      return (props) => (
+      return (props: any) => (
         <AudioSettingsAlert {...props} application={brand.appName} />
       );
     }
 
     if (CallLogAlert.handleMessage(message)) {
-      return (props) => <CallLogAlert {...props} />;
+      // @ts-expect-error TS(2786): 'CallLogAlert' cannot be used as a JSX component.
+      return (props: any) => <CallLogAlert {...props} />;
     }
     if (CallControlAlert.handleMessage(message)) {
-      return (props) => <CallControlAlert {...props} />;
+      // @ts-expect-error TS(2786): 'CallControlAlert' cannot be used as a JSX compone... Remove this comment to see the full error message
+      return (props: any) => <CallControlAlert {...props} />;
     }
 
     return undefined;

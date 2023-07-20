@@ -1,4 +1,4 @@
-import { ASSISTED_USERS_MYSELF } from '@ringcentral-integration/commons/modules/RcVideo/constants';
+import { ASSISTED_USERS_MYSELF } from '@ringcentral-integration/commons/modules/RcVideo';
 export default {
   topic: "Título da reunião",
   date: "Data",
@@ -14,10 +14,10 @@ export default {
   waitingRoomGuest: "Qq pessoa s/ ses. iniciada",
   waitingRoomAll: "Todos",
   enterPassword: "Introduzir palavra-passe",
-  onlyJoinAfterMe: "Os participantes apenas podem entrar depois de mim",
+  onlyJoinAfterMe: "Os participantes só podem entrar depois de mim",
   onlyJoinAfterHost: "Os participantes só podem entrar depois do anfitrião",
-  muteAudio: "Desativar som dos participantes",
-  turnOffCamera: "Desligar a câmara dos participantes",
+  muteAudio: "Desativar o som dos participantes",
+  turnOffCamera: "Desativar a câmara dos participantes",
   requirePassword: "Exigir palavra-passe",
   useE2ee: "Utilizar encriptação ponto a ponto",
   e2eeTooltip: "As reuniões com encriptação ponto a ponto são as mais privadas, mas certas funcionalidades, como entrar através do telemóvel, as legendas e a gravação, não estão disponíveis.",
@@ -26,9 +26,9 @@ export default {
   passwordEmptyError: "Palavra-passe da reunião obrigatória",
   passwordInvalidError: "A palavra-passe deve ter 1 a 10 letras e números e não pode conter símbolos",
   passwordHintText: "A palavra-passe deve ter 1 a 10 letras e números, mas não pode conter símbolos",
-  usePersonalMeetingId: "Utilizar ID de reunião pessoal",
+  usePersonalMeetingId: "Utilizar ID da reunião pessoal",
   meetingSettingsSecurity: "Segurança",
-  onlyAuthUserJoin: "Apenas utilizadores autenticados podem participar",
+  onlyAuthUserJoin: "Apenas os utilizadores autenticados podem entrar",
   signedInUsers: "Utilizadores com sessão iniciada",
   signedInCoWorkers: "Colegas com sessão iniciada",
   limitScreenSharing: "Apenas o anfitrião e os moderadores podem partilhar o ecrã",
@@ -37,7 +37,7 @@ export default {
   today: "Hoje",
   scheduleForGuidance: "Está a agendar para outra pessoa?\n1. Certifique-se de que se encontra no Calendário do Outlook dessa pessoa.\n2. No menu pendente, selecione a pessoa para a qual está a agendar.\n",
   scheduleForGuidanceMore: "Obter detalhes",
-  changePmiSettings: "Alterar definições da reunião pessoal",
+  changePmiSettings: "Alterar as definições da reunião pessoal",
   ieSupportAlert: "Tenha em atenção que o {appName} não irá funcionar com o Internet Explorer 11 depois de 16 de fevereiro de 2022. Recomendamos que mude para o Microsoft Edge ou atualize para o Outlook 2016 ou superior."
 };
 
@@ -78,5 +78,5 @@ export default {
 // @key: @#@"today"@#@ @source: @#@"Today"@#@
 // @key: @#@"scheduleForGuidance"@#@ @source: @#@"Scheduling for someone else?\n1. Make sure you're on their Outlook calendar.\n2. From the dropdown, select the person you're scheduling for.\n"@#@
 // @key: @#@"scheduleForGuidanceMore"@#@ @source: @#@"Learn details"@#@
-// @key: @#@"changePmiSettings"@#@ @source: @#@"Change Personal meeting settings"@#@
+// @key: @#@"changePmiSettings"@#@ @source: @#@"Change Personal Meeting settings"@#@
 // @key: @#@"ieSupportAlert"@#@ @source: @#@"Please note that {appName} won't work with Internet Explorer 11 after Feb 16, 2022. We recommend switching to Microsoft Edge or updating to Outlook 2016 or above."@#@

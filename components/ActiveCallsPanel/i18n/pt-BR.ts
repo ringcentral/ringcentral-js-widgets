@@ -1,5 +1,5 @@
 export default {
-  noActiveCalls: "Sem chamadas ativas",
+  noActiveCalls: "Nenhuma chamada ativa",
   currentCall: "Chamada atual",
   ringCall: "Chamada sonora",
   onHoldCall: "Chamada em espera",

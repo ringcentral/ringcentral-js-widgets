@@ -23,9 +23,10 @@ const MoreActionItem: React.SFC<MoreActionItemProps> = ({
     disabled ? styles.buttonDisabled : styles.buttonActive,
   );
   return (
+    // @ts-expect-error TS(2322): Type '((...args: any[]) => any) | null' is not ass... Remove this comment to see the full error message
     <div className={styles.buttonItem} onClick={disabled ? null : onClick}>
       <div className={iconClassName} data-sign={dataSign}>
-        {<Icon />}
+        <Icon />
       </div>
       <div className={styles.buttonName}>{title}</div>
     </div>

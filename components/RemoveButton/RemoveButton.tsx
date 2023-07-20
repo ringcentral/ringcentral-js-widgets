@@ -1,4 +1,5 @@
-import React, { FunctionComponent, MouseEvent } from 'react';
+import type { FunctionComponent, MouseEvent } from 'react';
+import React from 'react';
 
 import classnames from 'classnames';
 
@@ -27,6 +28,7 @@ export const RemoveButton: FunctionComponent<RemoveButtonProps> = ({
         className,
         !visibility && styles.hideRemoveButton,
       )}
+      // @ts-expect-error TS(2322): Type '((ev: MouseEvent<Element, MouseEvent>) => vo... Remove this comment to see the full error message
       onClick={visibility ? onClick : null}
     >
       {showWarningIcon ? (
@@ -39,6 +41,7 @@ export const RemoveButton: FunctionComponent<RemoveButtonProps> = ({
 };
 
 RemoveButton.defaultProps = {
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   className: null,
   visibility: true,
 };

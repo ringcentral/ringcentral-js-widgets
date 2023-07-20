@@ -1,4 +1,5 @@
-import React, { FunctionComponent, useState } from 'react';
+import type { FunctionComponent } from 'react';
+import React, { useState } from 'react';
 
 import { RcMenu, RcPresence, spacing, styled } from '@ringcentral/juno';
 
@@ -79,6 +80,7 @@ export const PresenceDropdown: FunctionComponent<PresenceDropdownProps> = ({
     return null;
   }
 
+  // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
   const title = getPresenceStatusName(userStatus, dndStatus, currentLocale);
 
   return (

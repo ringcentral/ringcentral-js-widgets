@@ -4,12 +4,21 @@ import {
   parseIncompletePhoneNumber,
 } from '@ringcentral-integration/phone-number';
 
-export const formatContactPhoneNumber = (
-  phoneNumber: string = '',
-  countryCode: string,
-  isMultipleSiteEnabled: boolean,
-  siteCode?: string,
-) => {
+interface FormatContactPhoneNumberParam {
+  phoneNumber: string;
+  countryCode: string;
+  isMultipleSiteEnabled: boolean;
+  siteCode?: string;
+  maxExtensionNumberLength?: number;
+}
+
+export const formatContactPhoneNumber = ({
+  phoneNumber = '',
+  countryCode,
+  isMultipleSiteEnabled,
+  siteCode,
+  maxExtensionNumberLength = 6,
+}: FormatContactPhoneNumberParam) => {
   if (!phoneNumber) {
     return phoneNumber;
   }
@@ -21,6 +30,7 @@ export const formatContactPhoneNumber = (
     const formattedNumber = formatNumber({
       phoneNumber,
       countryCode,
+      maxExtensionLength: maxExtensionNumberLength,
     });
     return formattedNumber;
   }
@@ -31,6 +41,7 @@ export const formatContactPhoneNumber = (
       countryCode,
       siteCode,
       isMultipleSiteEnabled,
+      maxExtensionLength: maxExtensionNumberLength,
     });
     return formattedNumber;
   }

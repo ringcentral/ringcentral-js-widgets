@@ -14,8 +14,9 @@ type SlideoutBarProps = {
   onClose?: (...args: any[]) => any;
 };
 class SlideoutBar extends React.Component<SlideoutBarProps, {}> {
-  _onClose = (evt) => {
+  _onClose = (evt: any) => {
     evt.stopPropagation();
+    // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
     this.props.onClose();
   };
   _renderCloseButton() {
@@ -25,6 +26,7 @@ class SlideoutBar extends React.Component<SlideoutBarProps, {}> {
       </i>
     );
   }
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     const { offset, onClick, slideout, className, closable, children } =
       this.props;
@@ -39,6 +41,7 @@ class SlideoutBar extends React.Component<SlideoutBarProps, {}> {
     );
   }
 }
+// @ts-expect-error TS(2339): Property 'defaultProps' does not exist on type 'ty... Remove this comment to see the full error message
 SlideoutBar.defaultProps = {
   closable: true,
   className: undefined,

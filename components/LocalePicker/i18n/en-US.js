@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -16,7 +14,8 @@ var _default = {
   pt: 'Portuguese',
   zh: 'Chinese',
   nl: 'Dutch',
-  ko: 'Korean'
+  ko: 'Korean',
+  fi: 'Suomi'
 };
 exports["default"] = _default;
 //# sourceMappingURL=en-US.js.map

@@ -1,297 +1,288 @@
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
-require("core-js/modules/es6.weak-map");
-
-require("core-js/modules/es6.object.assign");
-
-require("core-js/modules/es6.array.index-of");
-
-require("core-js/modules/web.dom.iterable");
-
-require("core-js/modules/es6.array.iterator");
-
-require("core-js/modules/es6.object.keys");
-
-require("core-js/modules/es6.promise");
-
-require("core-js/modules/es6.object.define-property");
-
-require("core-js/modules/es6.string.iterator");
-
-require("core-js/modules/es6.array.from");
-
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.date.to-string");
-
-require("core-js/modules/es6.object.to-string");
-
-require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.symbol");
-
-require("core-js/modules/es6.array.is-array");
-
+require("core-js/modules/es.array.concat");
+require("core-js/modules/es.array.filter");
+require("core-js/modules/es.array.is-array");
+require("core-js/modules/es.array.map");
+require("core-js/modules/es.function.name");
+require("core-js/modules/es.regexp.exec");
+require("core-js/modules/es.string.split");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.FullSizeWrapper = exports.ContactSearchPanel = void 0;
-
-require("core-js/modules/es6.object.define-properties");
-
-require("core-js/modules/es6.object.freeze");
-
-require("core-js/modules/es6.array.slice");
-
-require("core-js/modules/es6.function.name");
-
-require("core-js/modules/es6.array.map");
-
-require("regenerator-runtime/runtime");
-
+exports.ContactSearchPanel = void 0;
 var _react = _interopRequireWildcard(require("react"));
-
-var _juno = require("@ringcentral/juno");
-
 var _phoneTypes = require("@ringcentral-integration/commons/enums/phoneTypes");
-
+var _juno = require("@ringcentral/juno");
+var _junoIcon = require("@ringcentral/juno-icon");
 var _contexts = require("../../contexts");
-
+var _ContactSearchHelper = require("../../modules/ContactSearchUI/ContactSearchHelper");
+var _usePresence = require("../../react-hooks/usePresence");
+var _helper = require("../CommunicationSetupPanel/helper");
+var _Tooltip = require("../Rcui/Tooltip");
+var _TextWithHighlight = require("../TextWithHighlight/TextWithHighlight");
 var _ContactSearchPanelEnum = require("./ContactSearchPanelEnum");
-
+var _DoNotCallIndicator = require("./DoNotCallIndicator");
 var _HelpTextSection = require("./HelpTextSection");
-
 var _i18n = _interopRequireDefault(require("./i18n"));
-
+var _ContactSearchPanel = require("./styles/ContactSearchPanel");
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
-
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
-function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
-
+function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-
 function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
-
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
-function _iterableToArrayLimit(arr, i) { var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"]; if (_i == null) return; var _arr = []; var _n = true; var _d = false; var _s, _e; try { for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"] != null) _i["return"](); } finally { if (_d) throw _e; } } return _arr; }
-
+function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0) { ; } } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
 function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-
-function _templateObject2() {
-  var data = _taggedTemplateLiteral(["\n  display: flex;\n  flex-direction: column;\n  flex: 1 1 auto;\n"]);
-
-  _templateObject2 = function _templateObject2() {
-    return data;
-  };
-
-  return data;
-}
-
-function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n  position: relative;\n  background: #fff;\n  display: flex;\n  flex-direction: column;\n  width: 100%;\n  height: 100%;\n"]);
-
-  _templateObject = function _templateObject() {
-    return data;
-  };
-
-  return data;
-}
-
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
-
-var StyledContactSearchPanel = _juno.styled.div(_templateObject());
-
-var FullSizeWrapper = _juno.styled.div(_templateObject2());
-
-exports.FullSizeWrapper = FullSizeWrapper;
-
-var ContactSearchPanel = function ContactSearchPanel(_ref) {
-  var _optionsMap;
-
-  var companyContacts = _ref.companyContacts,
-      personalContacts = _ref.personalContacts,
-      _ref$thirdPartyContac = _ref.thirdPartyContacts,
-      thirdPartyContacts = _ref$thirdPartyContac === void 0 ? [] : _ref$thirdPartyContac,
-      optionClickHandler = _ref.optionClickHandler,
-      userInput = _ref.userInput,
-      searchHandler = _ref.searchHandler,
-      inputRef = _ref.inputRef,
-      setFilterString = _ref.setFilterString,
-      thirdPartySourceName = _ref.thirdPartySourceName,
-      currentLocale = _ref.currentLocale,
-      formatPhone = _ref.formatPhone;
-
-  var _useState = (0, _react.useState)(_ContactSearchPanelEnum.TabsEnum.thirdParty),
-      _useState2 = _slicedToArray(_useState, 2),
-      activeTab = _useState2[0],
-      setActiveTab = _useState2[1];
-
-  var _useState3 = (0, _react.useState)(false),
-      _useState4 = _slicedToArray(_useState3, 2),
-      isSearching = _useState4[0],
-      setIsSearching = _useState4[1];
-
-  var _useState5 = (0, _react.useState)(false),
-      _useState6 = _slicedToArray(_useState5, 2),
-      showSearchResult = _useState6[0],
-      setShowSearchResult = _useState6[1];
-
-  var _useState7 = (0, _react.useState)([]),
-      _useState8 = _slicedToArray(_useState7, 2),
-      searchResult = _useState8[0],
-      setSearchResult = _useState8[1];
-
+var getCountsRes = function getCountsRes(counts) {
+  return counts > 99 ? "99+" : counts;
+};
+var PrimaryAvatar = function PrimaryAvatar(_ref) {
+  var isDirectlyProceed = _ref.isDirectlyProceed,
+    inThirdPartyTab = _ref.inThirdPartyTab,
+    ThirdPartyAvatar = _ref.ThirdPartyAvatar,
+    profileImageUrl = _ref.profileImageUrl,
+    type = _ref.type,
+    name = _ref.name,
+    getPresence = _ref.getPresence,
+    needFetchPresence = _ref.needFetchPresence,
+    contact = _ref.contact;
+  var _ref2 = (name === null || name === void 0 ? void 0 : name.split(/\s+/)) || [],
+    _ref3 = _slicedToArray(_ref2, 2),
+    firstName = _ref3[0],
+    lastName = _ref3[1];
+  var presentAvatarName = (0, _juno.useAvatarShortName)({
+    firstName: firstName,
+    lastName: lastName
+  });
+  var presence = (0, _usePresence.usePresence)(contact, {
+    fetch: needFetchPresence ? getPresence : undefined
+  });
+  var presentAvatarcolor = (0, _juno.useAvatarColorToken)(name);
+  if (isDirectlyProceed) return /*#__PURE__*/_react["default"].createElement(_ContactSearchPanel.DefaultIcon, {
+    size: "xxlarge",
+    color: "neutral.f01",
+    symbol: _junoIcon.UserDefault,
+    "data-sign": "directlyProceedAvatar"
+  });
+  if (inThirdPartyTab && ThirdPartyAvatar) return /*#__PURE__*/_react["default"].createElement(ThirdPartyAvatar, {
+    type: type
+  });
+  var presenceProps = presence ? {
+    type: (0, _ContactSearchHelper.getPresenceStatus)(presence)
+  } : undefined;
+  return /*#__PURE__*/_react["default"].createElement(_juno.RcAvatar, {
+    presenceProps: presenceProps,
+    color: presentAvatarcolor,
+    size: "xsmall"
+  }, profileImageUrl ? /*#__PURE__*/_react["default"].createElement("img", {
+    src: profileImageUrl,
+    alt: name
+  }) : presentAvatarName);
+};
+var companyPhoneTypeMap = {
+  mobile: 'MobileNumber',
+  contact: 'ContactNumber',
+  direct: 'DirectNumber',
+  extension: 'extension'
+};
+var ContactSearchPanel = function ContactSearchPanel(_ref4) {
+  var companyContacts = _ref4.companyContacts,
+    personalContacts = _ref4.personalContacts,
+    _ref4$thirdPartyConta = _ref4.thirdPartyContacts,
+    thirdPartyContacts = _ref4$thirdPartyConta === void 0 ? [] : _ref4$thirdPartyConta,
+    optionClickHandler = _ref4.optionClickHandler,
+    userInput = _ref4.userInput,
+    isThirdPartySearching = _ref4.isThirdPartySearching,
+    inputRef = _ref4.inputRef,
+    centered = _ref4.centered,
+    setFilterString = _ref4.setFilterString,
+    thirdPartySourceName = _ref4.thirdPartySourceName,
+    currentLocale = _ref4.currentLocale,
+    formatPhone = _ref4.formatPhone,
+    ThirdPartyAvatar = _ref4.ThirdPartyAvatar,
+    _ref4$minimumSearchLe = _ref4.minimumSearchLength,
+    minimumSearchLength = _ref4$minimumSearchLe === void 0 ? 0 : _ref4$minimumSearchLe,
+    directlyProceedText = _ref4.directlyProceedText,
+    getCompanyExtraInfoByIds = _ref4.getCompanyExtraInfoByIds,
+    changeTabTrack = _ref4.changeTabTrack,
+    getPresence = _ref4.getPresence,
+    _ref4$defaultTab = _ref4.defaultTab,
+    defaultTab = _ref4$defaultTab === void 0 ? _ContactSearchPanelEnum.TabsEnum.thirdParty : _ref4$defaultTab;
   var previousUserInput = (0, _juno.usePrevious)(function () {
     return userInput;
   });
-  var optionsMap = (_optionsMap = {}, _defineProperty(_optionsMap, _ContactSearchPanelEnum.TabsEnum.thirdParty, thirdPartyContacts), _defineProperty(_optionsMap, _ContactSearchPanelEnum.TabsEnum.company, companyContacts), _defineProperty(_optionsMap, _ContactSearchPanelEnum.TabsEnum.personal, personalContacts), _optionsMap);
-  var tabs = [{
-    label: thirdPartySourceName,
-    value: _ContactSearchPanelEnum.TabsEnum.thirdParty
-  }, {
-    label: _i18n["default"].getString('companyTabTitle', currentLocale),
-    value: _ContactSearchPanelEnum.TabsEnum.company
-  }, {
-    label: _i18n["default"].getString('personalTabTitle', currentLocale),
-    value: _ContactSearchPanelEnum.TabsEnum.personal
-  }];
+  var isAbleToSearch = userInput.length >= minimumSearchLength;
+  var getPrimaryCount = function getPrimaryCount(items) {
+    var count = items === null || items === void 0 ? void 0 : items.filter(function (i) {
+      return i.isPrimary;
+    }).length;
+    return getCountsRes(count);
+  };
+  var _useMemo = (0, _react.useMemo)(function () {
+      var _optionsMap2;
+      var _optionsMap = (_optionsMap2 = {}, _defineProperty(_optionsMap2, _ContactSearchPanelEnum.TabsEnum.thirdParty, !isAbleToSearch ? [] : thirdPartyContacts), _defineProperty(_optionsMap2, _ContactSearchPanelEnum.TabsEnum.company, companyContacts), _defineProperty(_optionsMap2, _ContactSearchPanelEnum.TabsEnum.personal, personalContacts), _optionsMap2);
+      return {
+        optionsMap: _optionsMap,
+        tabItemsMap: [{
+          label: thirdPartySourceName,
+          value: _ContactSearchPanelEnum.TabsEnum.thirdParty,
+          count: getPrimaryCount(_optionsMap[_ContactSearchPanelEnum.TabsEnum.thirdParty])
+        }, {
+          label: _i18n["default"].getString('companyTabTitle', currentLocale),
+          value: _ContactSearchPanelEnum.TabsEnum.company,
+          count: getPrimaryCount(_optionsMap[_ContactSearchPanelEnum.TabsEnum.company])
+        }, {
+          label: _i18n["default"].getString('personalTabTitle', currentLocale),
+          value: _ContactSearchPanelEnum.TabsEnum.personal,
+          count: getPrimaryCount(_optionsMap[_ContactSearchPanelEnum.TabsEnum.personal])
+        }]
+      };
+    }, [isAbleToSearch, thirdPartyContacts, companyContacts, personalContacts, thirdPartySourceName, currentLocale]),
+    optionsMap = _useMemo.optionsMap,
+    tabItemsMap = _useMemo.tabItemsMap;
+  var _useState = (0, _react.useState)(defaultTab),
+    _useState2 = _slicedToArray(_useState, 2),
+    activeTab = _useState2[0],
+    setActiveTab = _useState2[1];
   (0, _react.useEffect)(function () {
     if (userInput !== previousUserInput) {
       setFilterString(userInput);
     }
-
-    if (userInput === '') {
-      setShowSearchResult(false);
-    }
   }, [previousUserInput, userInput, setFilterString]);
-
-  var searchContacts = /*#__PURE__*/function () {
-    var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-      var res;
-      return regeneratorRuntime.wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              setIsSearching(true);
-              _context.next = 3;
-              return searchHandler(userInput);
-
-            case 3:
-              res = _context.sent;
-              setSearchResult(res);
-              setShowSearchResult(true);
-              setIsSearching(false);
-              inputRef === null || inputRef === void 0 ? void 0 : inputRef.current.focus();
-
-            case 8:
-            case "end":
-              return _context.stop();
-          }
-        }
-      }, _callee);
-    }));
-
-    return function searchContacts() {
-      return _ref2.apply(this, arguments);
-    };
-  }();
-
   var inThirdPartyTab = activeTab === _ContactSearchPanelEnum.TabsEnum.thirdParty;
-  var isLoading = inThirdPartyTab && isSearching;
-  var options = showSearchResult && inThirdPartyTab ? searchResult : optionsMap[activeTab];
-  console.log('list item', options.length);
-
+  var isLoading = inThirdPartyTab && isAbleToSearch && isThirdPartySearching;
+  var options = optionsMap[activeTab];
+  var showDirectlyItem = (0, _helper.validateValidChars)(userInput);
+  var finialOptions = (0, _react.useMemo)(function () {
+    return showDirectlyItem ? [{
+      isPrimary: true,
+      isDirectlyProceed: true,
+      name: directlyProceedText,
+      phoneNumber: userInput
+    }].concat(_toConsumableArray(options)) : options;
+  }, [userInput, options, showDirectlyItem, directlyProceedText]);
+  var setIndexHandlerRef = (0, _react.useRef)(null);
   var _useSuggestionList = (0, _juno.useSuggestionList)({
-    inputValue: userInput,
-    options: options,
-    inputRef: inputRef,
-    onSelect: function onSelect(e, option) {
-      optionClickHandler(option);
+      inputValue: userInput,
+      options: finialOptions,
+      inputRef: inputRef,
+      onSelect: function onSelect(e, option) {
+        var item = _objectSpread({}, option);
+        if (option.isDirectlyProceed) {
+          item.name = item.phoneNumber;
+        }
+        optionClickHandler(item);
+      }
+    }),
+    optionItems = _useSuggestionList.optionItems,
+    inputValue = _useSuggestionList.inputValue,
+    getMenuProps = _useSuggestionList.getMenuProps,
+    getItemProps = _useSuggestionList.getItemProps,
+    highlightedIndex = _useSuggestionList.highlightedIndex,
+    getInputProps = _useSuggestionList.getInputProps,
+    getInputAriaProps = _useSuggestionList.getInputAriaProps,
+    changeHighlightedIndexReason = _useSuggestionList.changeHighlightedIndexReason,
+    setHighlightedIndex = _useSuggestionList.setHighlightedIndex;
+  (0, _react.useImperativeHandle)(setIndexHandlerRef, function () {
+    return setHighlightedIndex;
+  });
+  (0, _react.useEffect)(function () {
+    if (finialOptions.length) {
+      setIndexHandlerRef === null || setIndexHandlerRef === void 0 ? void 0 : setIndexHandlerRef.current(0, {
+        reason: 'mouse',
+        reRender: true
+      });
     }
-  }),
-      optionItems = _useSuggestionList.optionItems,
-      inputValue = _useSuggestionList.inputValue,
-      getMenuProps = _useSuggestionList.getMenuProps,
-      getItemProps = _useSuggestionList.getItemProps,
-      highlightedIndex = _useSuggestionList.highlightedIndex,
-      getInputProps = _useSuggestionList.getInputProps,
-      getInputAriaProps = _useSuggestionList.getInputAriaProps,
-      changeHighlightedIndexReason = _useSuggestionList.changeHighlightedIndexReason;
-
+  }, [finialOptions]);
   var _useCommunicationSetu = (0, _contexts.useCommunicationSetupContext)(),
-      inputAriaPropsRef = _useCommunicationSetu.inputAriaPropsRef,
-      inputPropsRef = _useCommunicationSetu.inputPropsRef;
-
+    inputAriaPropsRef = _useCommunicationSetu.inputAriaPropsRef,
+    inputPropsRef = _useCommunicationSetu.inputPropsRef;
   (0, _react.useImperativeHandle)(inputPropsRef, function () {
     return getInputProps();
   });
   (0, _react.useImperativeHandle)(inputAriaPropsRef, function () {
     return getInputAriaProps();
   });
-  var getFormattedLabel = (0, _react.useCallback)(function (_ref3) {
-    var type = _ref3.type,
-        phoneType = _ref3.phoneType,
-        phoneNumber = _ref3.phoneNumber;
-    var formattedPhoneType = type === _ContactSearchPanelEnum.TabsEnum.company || type === _ContactSearchPanelEnum.TabsEnum.personal ? _i18n["default"].getString(phoneType, currentLocale) : phoneType;
-
+  var getFormattedLabel = (0, _react.useCallback)(function (_ref5) {
+    var type = _ref5.type,
+      phoneType = _ref5.phoneType,
+      phoneNumber = _ref5.phoneNumber;
+    var formattedPhoneType = phoneType;
+    if (type === _ContactSearchPanelEnum.TabsEnum.personal) {
+      formattedPhoneType = _i18n["default"].getString(phoneType, currentLocale);
+    } else if (type === _ContactSearchPanelEnum.TabsEnum.company) {
+      formattedPhoneType = _i18n["default"].getString(companyPhoneTypeMap[phoneType] || phoneType, currentLocale);
+    }
     if (type === _ContactSearchPanelEnum.TabsEnum.company && phoneType === _phoneTypes.phoneTypes.extension) {
       return "".concat(formattedPhoneType, ". ").concat(phoneNumber);
     }
-
     return "".concat(formatPhone(phoneNumber), " - ").concat(formattedPhoneType);
   }, [currentLocale, formatPhone]);
-  return /*#__PURE__*/_react["default"].createElement(StyledContactSearchPanel, {
+
+  //! code will not to package into prod env.
+  var additionProps = {};
+  if (process.env.NODE_ENV === 'test') {
+    additionProps.initialItemCount = optionItems.length;
+    additionProps.key = optionItems.length;
+  }
+  return /*#__PURE__*/_react["default"].createElement(_ContactSearchPanel.StyledContactSearchPanel, {
     "data-sign": "contactSearchPanel"
-  }, /*#__PURE__*/_react["default"].createElement(_juno.RcPaper, {
-    square: true
-  }, /*#__PURE__*/_react["default"].createElement(_juno.RcTabs, {
+  }, /*#__PURE__*/_react["default"].createElement(_ContactSearchPanel.StyledTabsWrapper, null, /*#__PURE__*/_react["default"].createElement(_juno.RcTabs, {
+    "data-sign": "contactTabsTitle",
     value: activeTab,
     onChange: function onChange(e, v) {
-      inputRef === null || inputRef === void 0 ? void 0 : inputRef.current.focus();
+      var _inputRef$current;
+      (_inputRef$current = inputRef.current) === null || _inputRef$current === void 0 ? void 0 : _inputRef$current.focus();
       setActiveTab(v);
+      changeTabTrack(v === 'thirdParty' ? thirdPartySourceName.toLocaleLowerCase() : v);
     },
-    variant: "fullWidth",
-    centered: true
-  }, tabs.map(function (_ref4) {
-    var label = _ref4.label,
-        value = _ref4.value;
+    variant: "moreMenu",
+    centered: centered,
+    MoreButtonProps: {
+      datatype: 'moreMenu',
+      MenuProps: {
+        marginThreshold: 6
+      }
+    }
+  }, tabItemsMap.map(function (_ref6) {
+    var label = _ref6.label,
+      count = _ref6.count,
+      value = _ref6.value;
+    var tabName = "".concat(label, " (").concat(count, ")");
     return /*#__PURE__*/_react["default"].createElement(_juno.RcTab, {
       key: label,
       "data-sign": "".concat(value, "ContactSearchResult"),
-      label: /*#__PURE__*/_react["default"].createElement(_juno.RcText, {
-        variant: "caption1"
-      }, "".concat(label)),
+      label: /*#__PURE__*/_react["default"].createElement(_Tooltip.Tooltip, {
+        title: tabName
+      }, /*#__PURE__*/_react["default"].createElement(_ContactSearchPanel.TabText, {
+        "data-sign": "".concat(value, "ContactTabName")
+      }, tabName)),
       value: value
     });
-  }))), /*#__PURE__*/_react["default"].createElement(FullSizeWrapper, null, /*#__PURE__*/_react["default"].createElement(_juno.RcLoading, {
-    loading: isLoading
-  }, /*#__PURE__*/_react["default"].createElement(_HelpTextSection.HelpTextSection, {
-    showSearchResult: showSearchResult,
+  }))), /*#__PURE__*/_react["default"].createElement(_ContactSearchPanel.FullSizeWrapper, null, /*#__PURE__*/_react["default"].createElement(_HelpTextSection.HelpTextSection, {
     sourceName: thirdPartySourceName,
     currentLocale: currentLocale,
     inputLength: userInput.length,
+    isLoading: isLoading,
     activeTab: activeTab,
     hasRecords: !!optionItems.length,
-    onClick: searchContacts
-  }), /*#__PURE__*/_react["default"].createElement(_juno.RcSuggestionList, {
+    searchMinimumLength: minimumSearchLength
+  }), optionItems.length > 0 && /*#__PURE__*/_react["default"].createElement(_juno.RcSuggestionList, _extends({
     "data-sign": "contactSearchDropdown",
     tabIndex: -1,
     highlightedIndex: highlightedIndex,
@@ -299,49 +290,86 @@ var ContactSearchPanel = function ContactSearchPanel(_ref) {
     options: optionItems,
     inputValue: inputValue,
     getMenuProps: getMenuProps,
-    getItemProps: getItemProps,
-    renderOption: function renderOption(_ref5, state) {
-      var name = _ref5.name,
-          phoneNumber = _ref5.phoneNumber,
-          phoneType = _ref5.phoneType,
-          isPrimary = _ref5.isPrimary,
-          type = _ref5.type,
-          resourceType = _ref5.resourceType,
-          doNotCall = _ref5.doNotCall,
-          entityType = _ref5.entityType,
-          restProps = _objectWithoutProperties(_ref5, ["name", "phoneNumber", "phoneType", "isPrimary", "type", "resourceType", "doNotCall", "entityType"]);
-
+    getItemProps: getItemProps
+  }, additionProps, {
+    renderOption: function renderOption(props, state) {
+      var name = props.name,
+        phoneNumber = props.phoneNumber,
+        phoneType = props.phoneType,
+        isPrimary = props.isPrimary,
+        type = props.type,
+        doNotCall = props.doNotCall,
+        _props$isDirectlyProc = props.isDirectlyProceed,
+        isDirectlyProceed = _props$isDirectlyProc === void 0 ? false : _props$isDirectlyProc,
+        _props$profileImageUr = props.profileImageUrl,
+        profileImageUrl = _props$profileImageUr === void 0 ? '' : _props$profileImageUr,
+        contact = props.contact,
+        presenceStatus = props.presenceStatus,
+        restProps = _objectWithoutProperties(props, ["name", "phoneNumber", "phoneType", "isPrimary", "type", "doNotCall", "isDirectlyProceed", "profileImageUrl", "contact", "presenceStatus"]);
+      var needFetchPresence = !!(activeTab === _ContactSearchPanelEnum.TabsEnum.company && isPrimary && (contact === null || contact === void 0 ? void 0 : contact.id));
+      var content = getFormattedLabel({
+        phoneType: phoneType,
+        type: type,
+        phoneNumber: phoneNumber
+      });
       return isPrimary ? /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, _extends({
-        selected: state.selected,
-        "data-sign": "contactSearchSelectMenuItem",
-        avatar: /*#__PURE__*/_react["default"].createElement(_juno.RcAvatar, {
-          color: "interactive.b02",
-          size: "xsmall"
-        }, name.slice(0, 1).toUpperCase())
-      }, restProps), /*#__PURE__*/_react["default"].createElement(_juno.RcListItemText, {
-        primary: name,
-        secondary: getFormattedLabel({
-          phoneType: phoneType,
+        focused: state.highlighted,
+        "data-sign": isDirectlyProceed ? 'directlyProceedEntrance' : 'contactSearchSelectMenuItem',
+        avatar: /*#__PURE__*/_react["default"].createElement(PrimaryAvatar, {
+          contact: contact,
+          needFetchPresence: needFetchPresence,
+          getPresence: getPresence,
+          isDirectlyProceed: isDirectlyProceed,
           type: type,
-          phoneNumber: phoneNumber
+          ThirdPartyAvatar: ThirdPartyAvatar,
+          name: name,
+          inThirdPartyTab: inThirdPartyTab,
+          profileImageUrl: profileImageUrl
         })
-      })) : /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, _extends({
+      }, restProps), /*#__PURE__*/_react["default"].createElement(_juno.RcListItemText, {
+        primary: /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_ContactSearchPanel.ContactName, {
+          "data-sign": isDirectlyProceed ? 'DirectlyProceedTitle' : 'contactSearchItem'
+        }, /*#__PURE__*/_react["default"].createElement(_TextWithHighlight.TextWithHighlight, {
+          highLightText: inputValue,
+          text: name
+        })), doNotCall && /*#__PURE__*/_react["default"].createElement(_DoNotCallIndicator.DoNotCallIndicator, {
+          currentLocale: currentLocale
+        })),
+        secondary: isDirectlyProceed ? /*#__PURE__*/_react["default"].createElement("span", {
+          title: phoneNumber,
+          "data-sign": "directlyProceedNumber"
+        }, phoneNumber) : /*#__PURE__*/_react["default"].createElement("span", {
+          title: content
+        }, content)
+      }), isDirectlyProceed && /*#__PURE__*/_react["default"].createElement(_juno.RcListItemSecondaryAction, {
+        "data-sign": "dialIcon"
+      }, /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
+        color: "action.primary",
+        symbol: _junoIcon.Dial
+      }))) : /*#__PURE__*/_react["default"].createElement(_juno.RcMenuItem, _extends({
         selected: state.selected,
         "data-sign": "contactSearchSelectMenuItem",
         avatar: /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null)
-      }, restProps), /*#__PURE__*/_react["default"].createElement(_juno.RcListItemText, {
-        style: {
-          marginLeft: '32px'
-        },
-        secondary: getFormattedLabel({
-          phoneType: phoneType,
-          type: type,
-          phoneNumber: phoneNumber
-        })
+      }, restProps), /*#__PURE__*/_react["default"].createElement(_ContactSearchPanel.StyledListItemText, {
+        title: content,
+        secondary: content,
+        inset: inThirdPartyTab
       }));
+    },
+    itemsRendered: function itemsRendered(items) {
+      if (activeTab !== _ContactSearchPanelEnum.TabsEnum.company) return;
+      var ids = items.filter(function (_ref7) {
+        var data = _ref7.data;
+        return data && data.isPrimary && data.id;
+      }).map(function (_ref8) {
+        var data = _ref8.data;
+        return data.id;
+      });
+      if (ids.length > 0) {
+        getCompanyExtraInfoByIds(ids);
+      }
     }
   }))));
 };
-
 exports.ContactSearchPanel = ContactSearchPanel;
 //# sourceMappingURL=ContactSearchPanel.js.map

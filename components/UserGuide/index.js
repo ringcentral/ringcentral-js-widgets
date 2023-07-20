@@ -1,149 +1,89 @@
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
-require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.object.define-properties");
-
-require("core-js/modules/es7.object.get-own-property-descriptors");
-
-require("core-js/modules/es6.array.for-each");
-
-require("core-js/modules/es6.array.filter");
-
-require("core-js/modules/es6.symbol");
-
-require("core-js/modules/web.dom.iterable");
-
-require("core-js/modules/es6.array.iterator");
-
-require("core-js/modules/es6.object.to-string");
-
-require("core-js/modules/es6.object.keys");
-
-require("core-js/modules/es6.object.define-property");
-
-require("core-js/modules/es6.object.create");
-
-require("core-js/modules/es6.reflect.construct");
-
+require("core-js/modules/es.array.map");
+require("core-js/modules/es.array.slice");
+require("core-js/modules/es.function.bind");
+require("core-js/modules/es.object.get-prototype-of");
+require("core-js/modules/es.object.set-prototype-of");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-
-require("core-js/modules/es6.object.set-prototype-of");
-
-require("core-js/modules/es6.array.map");
-
-require("core-js/modules/es6.array.slice");
-
 var _react = _interopRequireDefault(require("react"));
-
 var _classnames = _interopRequireDefault(require("classnames"));
-
 var _reactTransitionGroup = require("react-transition-group");
-
 var _Button = require("../Button");
-
 var _SpinnerOverlay = require("../SpinnerOverlay");
-
 var _i18n = _interopRequireDefault(require("./i18n"));
-
 var _styles = _interopRequireDefault(require("./styles.scss"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
-
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 var controlStyles = {
   entered: {
     transform: 'translateY(0)'
   }
 };
-
 var UserGuide = /*#__PURE__*/function (_React$Component) {
   _inherits(UserGuide, _React$Component);
-
   var _super = _createSuper(UserGuide);
-
   function UserGuide(props) {
     var _this;
-
     _classCallCheck(this, UserGuide);
-
     _this = _super.call(this, props);
-
     _this.slideTo = function (idx) {
       if (idx > _this.props.guides.length - 1) {
         _this.exit();
-
         return;
       }
-
       _this.setState({
         curIdx: idx
       });
-
+      // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
       _this.props.updateCarousel({
         curIdx: idx,
         entered: _this.state.entered,
         playing: _this.state.playing
       });
     };
-
     _this.exit = function () {
       if (_this.props.quickAccessEnter && _this.props.firstLogin) {
         _this.setState({
           playing: false
         });
-
+        // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
         _this.props.updateCarousel({
           curIdx: _this.state.curIdx,
           entered: _this.state.entered,
           playing: false
         });
-
         _this.props.quickAccessEnter();
       } else {
         _this.setState({
           playing: false
         });
-
         _this.onExited();
       }
     };
-
     _this.onExited = function () {
       _this.setState({
         entered: false
       });
-
+      // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
       _this.props.updateCarousel({
         curIdx: 0,
         entered: false,
@@ -151,7 +91,6 @@ var UserGuide = /*#__PURE__*/function (_React$Component) {
         firstLogin: false
       });
     };
-
     _this.state = {
       curIdx: props.curIdx || 0,
       entered: props.entered || false,
@@ -159,26 +98,23 @@ var UserGuide = /*#__PURE__*/function (_React$Component) {
     };
     return _this;
   }
-
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   _createClass(UserGuide, [{
-    key: "componentWillReceiveProps",
-    value: function componentWillReceiveProps(nextProps) {
+    key: "UNSAFE_componentWillReceiveProps",
+    value: function UNSAFE_componentWillReceiveProps(nextProps) {
       var curIdx = nextProps.curIdx,
-          entered = nextProps.entered,
-          playing = nextProps.playing;
-
+        entered = nextProps.entered,
+        playing = nextProps.playing;
       if (this.state.curIdx !== curIdx) {
         this.setState({
           curIdx: curIdx
         });
       }
-
       if (this.state.entered !== entered) {
         this.setState({
           entered: entered
         });
       }
-
       if (this.state.playing !== playing) {
         this.setState({
           playing: playing
@@ -189,7 +125,6 @@ var UserGuide = /*#__PURE__*/function (_React$Component) {
     key: "getIntroView",
     value: function getIntroView() {
       var _this2 = this;
-
       return /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].intro,
         "data-sign": "userGuide"
@@ -216,7 +151,6 @@ var UserGuide = /*#__PURE__*/function (_React$Component) {
     key: "getCarouselView",
     value: function getCarouselView() {
       var _this3 = this;
-
       var guides = this.props.guides.slice(1, this.props.guides.length);
       var imageView = guides.map(function (guide, i) {
         return /*#__PURE__*/_react["default"].createElement("div", {
@@ -248,26 +182,27 @@ var UserGuide = /*#__PURE__*/function (_React$Component) {
         className: (0, _classnames["default"])(_styles["default"].secondaryButton),
         dataSign: "skipButton"
       }, _i18n["default"].getString('skip', this.props.currentLocale));
-
       var nextButton = /*#__PURE__*/_react["default"].createElement(_Button.Button, {
         onClick: function onClick() {
           _this3.slideTo(_this3.state.curIdx + 1);
         },
         className: (0, _classnames["default"])(_styles["default"].primaryButton)
       }, onLastPage ? _i18n["default"].getString('finish', this.props.currentLocale) : _i18n["default"].getString('next', this.props.currentLocale));
-
       var controlView = /*#__PURE__*/_react["default"].createElement(_reactTransitionGroup.Transition, {
         "in": this.state.curIdx > 0,
         timeout: 300
       }, function (state) {
-        return /*#__PURE__*/_react["default"].createElement("div", {
-          className: _styles["default"].control,
-          style: _objectSpread({}, controlStyles[state])
-        }, skipButton, /*#__PURE__*/_react["default"].createElement("ul", {
-          className: _styles["default"].indicator
-        }, indicatorView), nextButton);
+        return (
+          /*#__PURE__*/
+          // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+          _react["default"].createElement("div", {
+            className: _styles["default"].control,
+            style: _objectSpread({}, controlStyles[state])
+          }, skipButton, /*#__PURE__*/_react["default"].createElement("ul", {
+            className: _styles["default"].indicator
+          }, indicatorView), nextButton)
+        );
       });
-
       var carouselClassName = this.props.carouselClassName;
       return /*#__PURE__*/_react["default"].createElement("div", {
         className: (0, _classnames["default"])(_styles["default"].carousel, carouselClassName)
@@ -277,16 +212,14 @@ var UserGuide = /*#__PURE__*/function (_React$Component) {
           transform: "translateX(-".concat(this.state.curIdx * 100, "vw)")
         }
       }, this.getIntroView(), imageView), controlView);
-    }
+    } // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   }, {
     key: "render",
     value: function render() {
       if (!this.props.guides || this.props.guides.length === 0 || !this.state.entered) return null;
-
       if (this.props.showSpinner) {
         return /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, null);
       }
-
       var view = this.getCarouselView();
       return /*#__PURE__*/_react["default"].createElement(_reactTransitionGroup.CSSTransition, {
         "in": this.state.playing,
@@ -304,10 +237,8 @@ var UserGuide = /*#__PURE__*/function (_React$Component) {
       }, view));
     }
   }]);
-
   return UserGuide;
-}(_react["default"].Component);
-
+}(_react["default"].Component); // @ts-expect-error TS(2339): Property 'defaultProps' does not exist on type 'ty... Remove this comment to see the full error message
 UserGuide.defaultProps = {
   curIdx: 0,
   entered: false,

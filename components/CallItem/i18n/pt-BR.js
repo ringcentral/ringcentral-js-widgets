@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -22,7 +20,7 @@ var _default = {
   addLog: "Log",
   text: "Texto",
   call: "Chamada",
-  missedCall: "Perdidas",
+  missedCall: "Perdida",
   inboundCall: "Entrada",
   outboundCall: "Saída"
 }; // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
@@ -43,6 +41,5 @@ var _default = {
 // @key: @#@"missedCall"@#@ @source: @#@"Missed"@#@
 // @key: @#@"inboundCall"@#@ @source: @#@"Inbound"@#@
 // @key: @#@"outboundCall"@#@ @source: @#@"Outbound"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=pt-BR.js.map

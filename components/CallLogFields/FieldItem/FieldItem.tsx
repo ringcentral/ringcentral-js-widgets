@@ -4,8 +4,11 @@ import { RcDatePicker, RcTypography } from '@ringcentral/juno';
 
 import { getDateFromUTCDay, setUTCTime } from '../../../lib/timeFormatHelper';
 import InputSelect from '../../InputSelect';
-import { CallLogFieldsProps, FieldMetadata } from '../CallLogFields.interface';
-import {
+import type {
+  CallLogFieldsProps,
+  FieldMetadata,
+} from '../CallLogFields.interface';
+import type {
   FieldItemOption,
   FieldsMap,
   PickListOption,
@@ -16,7 +19,7 @@ import { RadioField } from './RadioField';
 import { SelectField } from './SelectField';
 import styles from './styles.scss';
 
-const DEFAULT_FINDER = {
+export const DEFAULT_FINDER = {
   getValue: (item: any) => (typeof item === 'object' ? item.id : item) || null,
   searchOption: (option: any, text: string) =>
     option.name && option.name.toLowerCase().includes(text.toLowerCase()),
@@ -38,6 +41,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
       fieldOption: { value },
     } = this.props;
     const {
+      // @ts-expect-error TS(2339): Property 'task' does not exist on type 'CallLog | ... Remove this comment to see the full error message
       currentLog: { task },
     } = this.props;
     return (task as any)[value];
@@ -68,6 +72,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
       currentLocale,
       disabled,
     } = this.props;
+    // @ts-expect-error TS(2339): Property 'task' does not exist on type 'CallLog | ... Remove this comment to see the full error message
     const { task, currentLogCall: { phoneNumber } = {} } = currentLog;
     const referenceFieldOption = referenceFieldOptions[value];
     if (!referenceFieldOption) {
@@ -97,22 +102,27 @@ export class FieldItem extends Component<FieldItemProps, {}> {
       backHeaderClassName,
       multiple,
     } = referenceFieldOption;
+    // @ts-expect-error TS(2345): Argument of type 'CallLog | undefined' is not assi... Remove this comment to see the full error message
     const matchedEntities = matchedEntitiesGetter(currentLog);
     if (onlyShowInMultipleMatches && matchedEntities.length <= 1) {
       return;
     }
+    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     const otherEntities = otherEntitiesGetter(currentLog);
 
     const foundFromServerEntities =
       typeof foundFromServerEntityGetter === 'function'
-        ? foundFromServerEntityGetter(currentLog)
+        ? // @ts-expect-error TS(2345): Argument of type 'CallLog | undefined' is not assi... Remove this comment to see the full error message
+          foundFromServerEntityGetter(currentLog)
         : [];
     const showAssociatedSection = shouldShowAssociatedSection
-      ? shouldShowAssociatedSection(currentLog)
+      ? // @ts-expect-error TS(2345): Argument of type 'CallLog | undefined' is not assi... Remove this comment to see the full error message
+        shouldShowAssociatedSection(currentLog)
       : false;
     const associatedEntities =
       showAssociatedSection && associatedEntitiesGetter
-        ? associatedEntitiesGetter(currentLog)
+        ? // @ts-expect-error TS(2345): Argument of type 'CallLog | undefined' is not assi... Remove this comment to see the full error message
+          associatedEntitiesGetter(currentLog)
         : [];
     const getValue = _getValue || DEFAULT_FINDER.getValue;
     const searchOptionFinder =
@@ -144,6 +154,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
       <FullSelectField
         {...this.props}
         backHeaderClassName={backHeaderClassName}
+        // @ts-expect-error TS(2322): Type '(() => void) | undefined' is not assignable ... Remove this comment to see the full error message
         onBackClick={onBackClick}
         title={title}
         rightIcon={rightIcon}
@@ -262,6 +273,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
 
   private renderSubjectField = () => {
     const {
+      // @ts-expect-error TS(2339): Property 'task' does not exist on type 'CallLog | ... Remove this comment to see the full error message
       currentLog: { task, subjectPicklist },
       subjectDropdownsTracker,
       timeout,
@@ -310,6 +322,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
       if (item instanceof Object) {
         value = item.value;
         label = item.label;
+        // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
         disabled = item.disabled;
         title = item?.title;
       }
@@ -335,7 +348,13 @@ export class FieldItem extends Component<FieldItemProps, {}> {
         label={label}
         value={this.currentValue}
         onChange={async ({ target: { value } }) => {
-          if ((picklistOptions as any)[value]) {
+          if (
+            Object.prototype.toString.call(picklistOptions) ===
+              '[object Object]' &&
+            // @ts-expect-error TS(2538): Type 'unknown' cannot be used as an index type.
+            (picklistOptions as any)[value]
+          ) {
+            // @ts-expect-error TS(2538): Type 'unknown' cannot be used as an index type.
             value = (picklistOptions as any)[value].value;
           }
           await this.onInputSelectChange(fieldValue)(value);
@@ -354,15 +373,20 @@ export class FieldItem extends Component<FieldItemProps, {}> {
       currentLog,
       disabled: disableAllFields,
     } = this.props;
+    // @ts-expect-error TS(2339): Property 'task' does not exist on type 'CallLog | ... Remove this comment to see the full error message
     const { task, disableSaveLog } = currentLog;
     const options = [
       {
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         value: (picklistOptions[0] as PickListOption).value,
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         label: (picklistOptions[0] as PickListOption).label,
         disabled: disableAllFields || disableSaveLog,
       },
       {
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         value: (picklistOptions[1] as PickListOption).value,
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         label: (picklistOptions[1] as PickListOption).label,
         disabled: !!(
           !task.tickets ||
@@ -373,6 +397,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
       },
     ];
     const defaultOption =
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       task.option || (picklistOptions[0] as PickListOption).value;
     return (
       <>
@@ -401,7 +426,9 @@ export class FieldItem extends Component<FieldItemProps, {}> {
     value: string,
   ) => {
     const { currentLog, onUpdateCallLog } = this.props;
+    // @ts-expect-error TS(2339): Property 'currentSessionId' does not exist on type... Remove this comment to see the full error message
     const { currentSessionId, task = {} } = currentLog;
+    // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
     await onUpdateCallLog(
       {
         ...currentLog,
@@ -419,6 +446,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
   private renderTicketSelectList = () => {
     const { currentLog, fieldOption, disabled } = this.props;
     const { renderCondition, label } = fieldOption;
+    // @ts-expect-error TS(2339): Property 'task' does not exist on type 'CallLog | ... Remove this comment to see the full error message
     const { task } = currentLog;
     // TODO: consider move this logic to zendesk
     if (task.option !== renderCondition || task.tickets?.length === 0) {
@@ -456,7 +484,9 @@ export class FieldItem extends Component<FieldItemProps, {}> {
   ) => {
     const { value } = event.target;
     const { currentLog, onUpdateCallLog } = this.props;
+    // @ts-expect-error TS(2339): Property 'currentSessionId' does not exist on type... Remove this comment to see the full error message
     const { currentSessionId, task = {} } = currentLog;
+    // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
     onUpdateCallLog(
       { ...currentLog, task: { ...task, ticketId: value } },
       currentSessionId,
@@ -465,6 +495,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
 
   private onInputSelectChange = (value: string) => async (item: any) => {
     const {
+      // @ts-expect-error TS(2339): Property 'currentSessionId' does not exist on type... Remove this comment to see the full error message
       currentLog: { currentSessionId, task = {} },
       onUpdateCallLog,
       customInputDataStruct,
@@ -484,6 +515,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
           currentSessionId,
         })) ||
       defaultLogData;
+    // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
     await onUpdateCallLog(logData, currentSessionId);
   };
 
@@ -494,6 +526,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
   }
 
   private fieldsRenderMap: FieldsMap = {
+    // @ts-expect-error TS(2322): Type '() => JSX.Element | undefined' is not assign... Remove this comment to see the full error message
     reference: this.renderReference,
     picklist: this.renderSelectMenu,
     textarea: this.renderTextArea,
@@ -504,9 +537,11 @@ export class FieldItem extends Component<FieldItemProps, {}> {
     long: this.renderInput,
     combobox: this.renderSubjectField,
     radio: this.renderRadio,
+    // @ts-expect-error TS(2322): Type '() => JSX.Element | null' is not assignable ... Remove this comment to see the full error message
     ticketSelectList: this.renderTicketSelectList,
   };
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     const {
       fieldOption: { value, type, error, enableScrollError },
@@ -514,6 +549,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
     } = this.props;
     if (this.fieldsRenderMap[type] && this.fieldsRenderMap[type]()) {
       if (error && enableScrollError && this.fieldItemRef.current) {
+        // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
         editSectionScrollBy(this.fieldItemRef.current.offsetTop);
       }
       return (

@@ -9,12 +9,8 @@ export const TabsEnum = ObjectMap.fromKeys([
 export type TabsEnumType = keyof typeof TabsEnum;
 
 export const HintsType = ObjectMap.fromKeys([
-  'thirdPartyRecordsTitle',
-  'thirdPartyNoRecordsTitle',
   'thirdPartyNoRecordsContent',
-  'personalNoRecordsTitle',
-  'personalNoRecordsContent',
   'noFilterOrSearchRecordsTitle',
   'noFilterOrSearchRecordsContent',
-  'searchBarContent',
+  'searching',
 ]);

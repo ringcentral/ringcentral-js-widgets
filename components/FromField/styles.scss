@@ -12,6 +12,9 @@
     color: $grey-light;
     font-size: 12px;
     width: 46px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
   button {
     margin-left: 0;

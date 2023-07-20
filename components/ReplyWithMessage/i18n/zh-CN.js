@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -12,8 +10,8 @@ var _default = {
   onMyWay: "在路上",
   customMessage: "自定义消息",
   callMeBackIn: "请稍后再打给我",
-  willCallYouBackIn: "将在以下时间后给您回电",
-  min: "分钟",
+  willCallYouBackIn: "稍后回电给您",
+  min: "分",
   hours: "小时",
   days: "天"
 }; // @key: @#@"cancel"@#@ @source: @#@"Cancel"@#@
@@ -25,6 +23,5 @@ var _default = {
 // @key: @#@"min"@#@ @source: @#@"min"@#@
 // @key: @#@"hours"@#@ @source: @#@"hours"@#@
 // @key: @#@"days"@#@ @source: @#@"days"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=zh-CN.js.map

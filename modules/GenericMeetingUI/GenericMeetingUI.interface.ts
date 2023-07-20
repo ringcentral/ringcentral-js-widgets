@@ -1,14 +1,14 @@
-import { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
 
-import { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures';
-import { ConnectivityMonitor } from '@ringcentral-integration/commons/modules/ConnectivityMonitorV2';
-import { GenericMeeting } from '@ringcentral-integration/commons/modules/GenericMeetingV2';
-import { Locale } from '@ringcentral-integration/commons/modules/Locale';
-import { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiterV2';
-import { RcDatePickerSize, RcTimePickerSize } from '@ringcentral/juno';
-import { Brand } from '@ringcentral-integration/commons/modules/Brand';
+import type { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures';
+import type { ConnectivityMonitor } from '@ringcentral-integration/commons/modules/ConnectivityMonitor';
+import type { GenericMeeting } from '@ringcentral-integration/commons/modules/GenericMeeting';
+import type { Locale } from '@ringcentral-integration/commons/modules/Locale';
+import type { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiter';
+import type { RcDatePickerSize, RcTimePickerSize } from '@ringcentral/juno';
+import type { Brand } from '@ringcentral-integration/commons/modules/Brand';
 
-import { ModalUI } from '../ModalUI';
+import type { ModalUI } from '../ModalUI';
 
 export interface Deps {
   appFeatures: AppFeatures;

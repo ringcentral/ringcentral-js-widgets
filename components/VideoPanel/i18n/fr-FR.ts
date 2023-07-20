@@ -1,34 +1,34 @@
-import { ASSISTED_USERS_MYSELF } from '@ringcentral-integration/commons/modules/RcVideo/constants';
+import { ASSISTED_USERS_MYSELF } from '@ringcentral-integration/commons/modules/RcVideo';
 export default {
   topic: "Titre de la réunion",
   date: "Date",
   startTime: "Heure",
   duration: "Durée",
-  scheduleFor: "Programme défini par",
+  scheduleFor: "Planifier au nom de",
   meetingSettings: "Paramètres de la réunion",
   [ASSISTED_USERS_MYSELF]: "Moi-même",
   joinBeforeHost: "Autoriser les participants à se connecter avant l’hôte",
   enableWaitingRoom: "Activer la salle d’attente",
   waitingRoom: "Mettre en place une salle d’attente pour",
-  waitingRoomNotCoworker: "Util. extérieur à mon entreprise",
-  waitingRoomGuest: "Util. non connecté",
+  waitingRoomNotCoworker: "Toute personne hors entreprise",
+  waitingRoomGuest: "Toute personne non inscrite",
   waitingRoomAll: "Tout le monde",
-  enterPassword: "Entrer le mot de passe",
+  enterPassword: "Saisir le mot de passe",
   onlyJoinAfterMe: "Les participants ne peuvent rejoindre la réunion qu’après moi",
-  onlyJoinAfterHost: "Les participants ne peuvent rejoindre la réunion qu’après l’hôte",
+  onlyJoinAfterHost: "Les participants peuvent uniquement rejoindre la réunion après l’hôte",
   muteAudio: "Désactiver l’audio pour les participants",
   turnOffCamera: "Désactiver la caméra pour les participants",
   requirePassword: "Exiger un mot de passe",
   useE2ee: "Utiliser le chiffrement de bout en bout",
-  e2eeTooltip: "Les réunions chiffrées de bout en bout sont les réunions les plus privées possibles, mais les fonctionnalités comme Rejoindre via téléphone, les sous-titres et l’enregistrement ne sont pas disponibles.",
+  e2eeTooltip: "Les réunions chiffrées de bout en bout sont les plus privées, mais des fonctions telles que rejoindre une réunion par téléphone, les sous-titres et l’enregistrement ne sont pas disponibles.",
   setPassword: "Définir un mot de passe *",
   setPasswordNotSymbol: "Définir un mot de passe",
   passwordEmptyError: "Mot de passe de la réunion requis",
   passwordInvalidError: "Votre mot de passe doit être composé de 1 à 10 lettres et chiffres et ne peut pas comporter de symboles",
-  passwordHintText: "Votre mot de passe doit être composé de 1 à 10 lettres et chiffres et ne peut pas comporter de symboles",
+  passwordHintText: "Votre mot de passe doit être composé de 1 à 10 lettres et chiffres, mais ne doit pas contenir de symboles.",
   usePersonalMeetingId: "Utiliser l’ID de réunion personnel",
   meetingSettingsSecurity: "Sécurité",
-  onlyAuthUserJoin: "Seuls les utilisateurs authentifiés peuvent rejoindre la réunion",
+  onlyAuthUserJoin: "Seuls les utilisateurs authentifiés peuvent participer",
   signedInUsers: "Utilisateurs connectés",
   signedInCoWorkers: "Collaborateurs connectés",
   limitScreenSharing: "Seuls l’hôte et les modérateurs peuvent partager l’écran",
@@ -78,5 +78,5 @@ export default {
 // @key: @#@"today"@#@ @source: @#@"Today"@#@
 // @key: @#@"scheduleForGuidance"@#@ @source: @#@"Scheduling for someone else?\n1. Make sure you're on their Outlook calendar.\n2. From the dropdown, select the person you're scheduling for.\n"@#@
 // @key: @#@"scheduleForGuidanceMore"@#@ @source: @#@"Learn details"@#@
-// @key: @#@"changePmiSettings"@#@ @source: @#@"Change Personal meeting settings"@#@
+// @key: @#@"changePmiSettings"@#@ @source: @#@"Change Personal Meeting settings"@#@
 // @key: @#@"ieSupportAlert"@#@ @source: @#@"Please note that {appName} won't work with Internet Explorer 11 after Feb 16, 2022. We recommend switching to Microsoft Edge or updating to Outlook 2016 or above."@#@

@@ -1,5 +1,5 @@
 export default {
-  Home: "Koti",
+  Home: "Etusivu",
   Mobile: "Mobiili",
   Work: "Työ"
 };

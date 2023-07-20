@@ -1,18 +1,16 @@
-import {
-  ContactSource,
-  IContact,
-} from '@ringcentral-integration/commons/interfaces/Contact.model';
-import { Auth } from '@ringcentral-integration/commons/modules/AuthV2';
-import { ExtensionInfo } from '@ringcentral-integration/commons/modules/ExtensionInfoV2';
-import { Locale } from '@ringcentral-integration/commons/modules/Locale';
+import type { IContact } from '@ringcentral-integration/commons/interfaces/Contact.model';
+import type { Auth } from '@ringcentral-integration/commons/modules/Auth';
+import type { Contacts } from '@ringcentral-integration/commons/modules/Contacts';
+import type { ExtensionInfo } from '@ringcentral-integration/commons/modules/ExtensionInfo';
+import type { Locale } from '@ringcentral-integration/commons/modules/Locale';
 
-import { ContactDetailsUI, RouteParams } from '../ContactDetailsUI';
+import type { ContactDetailsUI, RouteParams } from '../ContactDetailsUI';
 
 export interface Deps {
   auth: Auth;
   locale: Locale;
   extensionInfo: ExtensionInfo;
-  contactSources: ContactSource[];
+  contacts: Contacts;
   contactDetailsUI?: ContactDetailsUI;
 }
 

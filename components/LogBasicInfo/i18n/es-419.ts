@@ -1,6 +1,6 @@
+import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 import callResults from '@ringcentral-integration/commons/enums/callResults';
 import telephonyStatuses from '@ringcentral-integration/commons/enums/telephonyStatus';
-import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 export default {
   [callDirections.inbound]: "Entrante",
   [callDirections.outbound]: "Saliente",
@@ -9,32 +9,32 @@ export default {
   OutboundNumber: "Llamada de:",
   InboundDirection: "Llamada entrante de:",
   OutboundDirection: "Llamada saliente a:",
-  [telephonyStatuses.noCall]: "Desconectada",
-  [telephonyStatuses.callConnected]: "Conectada",
+  [telephonyStatuses.noCall]: "Desconectado",
+  [telephonyStatuses.callConnected]: "Conectado",
   [telephonyStatuses.ringing]: "Llamando",
   [telephonyStatuses.onHold]: "En espera",
-  [telephonyStatuses.parkedCall]: "Aparcada",
+  [telephonyStatuses.parkedCall]: "Estacionada",
   [callResults.unknown]: "Desconocido",
   [callResults.missed]: "Perdida",
-  [callResults.callAccepted]: "Atendida",
-  [callResults.accepted]: "Atendida",
+  [callResults.callAccepted]: "Respondida",
+  [callResults.accepted]: "Respondida",
   [callResults.voicemail]: "Buzón de voz",
   [callResults.rejected]: "Rechazada",
   [callResults.reply]: "Responder",
-  [callResults.received]: "Recibida",
+  [callResults.received]: "Recibido",
   [callResults.faxReceiptError]: "Error de recepción de fax",
   [callResults.faxOnDemand]: "Fax a pedido",
   [callResults.partialReceive]: "Recepción parcial",
-  [callResults.blocked]: "Bloqueada",
+  [callResults.blocked]: "Bloqueado",
   [callResults.callConnected]: "Llamada conectada",
   [callResults.noAnswer]: "No responde",
   [callResults.internationalDisabled]: "Internacional desactivada",
   [callResults.busy]: "Ocupado",
   [callResults.faxSendError]: "Error de envío de fax",
   [callResults.sent]: "Enviado",
-  [callResults.callFailed]: "Error en la llamada",
+  [callResults.callFailed]: "Error de llamada",
   [callResults.internalError]: "Error interno",
-  [callResults.IPPhoneOffline]: "Teléfono IP sin conexión",
+  [callResults.IPPhoneOffline]: " IP del teléfono sin conexión",
   [callResults.restrictedNumber]: "Número restringido",
   [callResults.wrongNumber]: "Número incorrecto",
   [callResults.stopped]: "Detenido",
@@ -44,7 +44,7 @@ export default {
   [callResults.abandoned]: "Abandonada",
   [callResults.declined]: "Rechazada",
   [callResults.faxReceipt]: "Fax recibido",
-  [callResults.disconnected]: "Desconectada",
+  [callResults.disconnected]: "Desconectado",
   [callResults.notAllowed]: "No permitido"
 };
 

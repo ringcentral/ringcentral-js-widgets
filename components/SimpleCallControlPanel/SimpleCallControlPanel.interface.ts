@@ -1,9 +1,9 @@
-import { Entity } from '@ringcentral-integration/commons/interfaces/Entity.interface';
-import { ActiveSession } from '@ringcentral-integration/commons/modules/ActiveCallControlV2';
+import type { Entity } from '@ringcentral-integration/commons/interfaces/Entity.interface';
+import type { ActiveSession } from '@ringcentral-integration/commons/modules/ActiveCallControl';
 
 export interface SimpleCallControlPanelProps {
   currentLocale: string;
-  activeSession: ActiveSession;
+  activeSession: Partial<ActiveSession> | null;
   sessionId: string;
   areaCode: string;
   countryCode: string;
@@ -22,4 +22,5 @@ export interface SimpleCallControlPanelProps {
   onHold: () => void;
   onUnhold: () => void;
   onHangup: () => void;
+  maxExtensionNumberLength?: number;
 }

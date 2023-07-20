@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -14,7 +12,7 @@ var _default = {
   Blocked: "Bloqueado",
   AdditionalCompanyNumber: "Empresa",
   ForwardedCompanyNumber: "Reenviado",
-  from: "De"
+  from: "Desde"
 }; // @key: @#@"DirectNumber"@#@ @source: @#@"Direct"@#@
 // @key: @#@"MainCompanyNumber"@#@ @source: @#@"Main"@#@
 // @key: @#@"CompanyNumber"@#@ @source: @#@"Company"@#@
@@ -23,6 +21,5 @@ var _default = {
 // @key: @#@"AdditionalCompanyNumber"@#@ @source: @#@"Company"@#@
 // @key: @#@"ForwardedCompanyNumber"@#@ @source: @#@"Forwarded"@#@
 // @key: @#@"from"@#@ @source: @#@"From"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=es-419.js.map

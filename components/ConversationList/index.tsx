@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 
 import classnames from 'classnames';
 
+import type { MessageItemProps } from '../MessageItem';
 import MessageItem from '../MessageItem';
 import i18n from './i18n';
 import styles from './styles.scss';
 
-type ConversationListProps = {
+export type ConversationListProps = {
   brand: string;
   currentLocale: string;
   currentSiteCode?: string;
@@ -36,13 +37,18 @@ type ConversationListProps = {
   loadingNextPage?: boolean;
   renderExtraButton?: (...args: any[]) => any;
   enableCDC?: boolean;
-};
+  maxExtensionNumberLength: number;
+  formatPhone?: (formatPhone: string) => string | undefined;
+} & Omit<MessageItemProps, 'conversation'>;
 class ConversationList extends Component<ConversationListProps, {}> {
-  constructor(props) {
+  _scrollTop: any;
+  messagesListBody: any;
+  constructor(props: any) {
     super(props);
     this._scrollTop = 0;
   }
-  componentDidUpdate(prevProps) {
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
+  componentDidUpdate(prevProps: any) {
     if (this.props.typeFilter === prevProps.typeFilter) {
       return;
     }
@@ -65,6 +71,7 @@ class ConversationList extends Component<ConversationListProps, {}> {
     }
     this._scrollTop = currentScrollTop;
   };
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     const {
       className,
@@ -77,6 +84,8 @@ class ConversationList extends Component<ConversationListProps, {}> {
       disableCallButton,
       placeholder,
       loadingNextPage,
+      formatPhone,
+      renderActionMenuExtraButton,
       ...childProps
     } = this.props;
     let content;
@@ -84,6 +93,7 @@ class ConversationList extends Component<ConversationListProps, {}> {
       content = conversations.map((item) => (
         <MessageItem
           {...childProps}
+          formatPhone={formatPhone}
           conversation={item}
           currentLocale={currentLocale}
           currentSiteCode={currentSiteCode}
@@ -91,6 +101,7 @@ class ConversationList extends Component<ConversationListProps, {}> {
           key={item.id}
           disableLinks={disableLinks}
           disableCallButton={disableCallButton}
+          renderActionMenuExtraButton={renderActionMenuExtraButton}
         />
       ));
     }
@@ -102,6 +113,7 @@ class ConversationList extends Component<ConversationListProps, {}> {
     return (
       <div
         className={classnames(styles.root, className)}
+        data-sign="conversationList"
         onScroll={this.onScroll}
         ref={(list) => {
           this.messagesListBody = list;
@@ -113,6 +125,7 @@ class ConversationList extends Component<ConversationListProps, {}> {
     );
   }
 }
+// @ts-expect-error TS(2339): Property 'defaultProps' does not exist on type 'ty... Remove this comment to see the full error message
 ConversationList.defaultProps = {
   currentSiteCode: '',
   isMultipleSiteEnabled: false,

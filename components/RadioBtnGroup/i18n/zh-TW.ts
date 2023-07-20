@@ -1,7 +1,7 @@
 export default {
-  Home: "家用",
-  Mobile: "行動",
-  Work: "工作"
+  Home: "住家",
+  Mobile: "行動電話",
+  Work: "公司"
 };
 
 // @key: @#@"Home"@#@ @source: @#@"Home"@#@

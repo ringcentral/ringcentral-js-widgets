@@ -26,8 +26,6 @@ $fixed-icon-width: 21px;
   @include secondary-font;
 }
 
-
-
 .infoWrapper {
   display: flex;
   flex-direction: column;
@@ -37,7 +35,8 @@ $fixed-icon-width: 21px;
   max-width: calc(100% - #{$fixed-icon-width});
   padding-left: 6px;
   padding-right: 8px;
-  box-sizing: border-box; // Add bellow style if you have calllog button on callitem
+  box-sizing: border-box;
+  // Add below style if you have calllog button on callitem
   // max-width: calc(100% - 23px - 21px);
   overflow: hidden;
   text-overflow: ellipsis;
@@ -91,7 +90,7 @@ $fixed-icon-width: 21px;
 .webphoneButtons {
   text-align: right;
   white-space: nowrap;
-  .webphoneButton+.webphoneButton {
+  .webphoneButton + .webphoneButton {
     margin-left: 5px;
   }
 }

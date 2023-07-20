@@ -1,14 +1,13 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 var _default = {
-  removeMeetingWarning: "Tenha em atenção que a funcionalidade de reunião não irá funcionar após 31 de maio de 2022. Recomendamos que mude para o {app}."
-}; // @key: @#@"removeMeetingWarning"@#@ @source: @#@"Please note that the meeting feature won't work after May 31, 2022. We recommend switching to the {app}."@#@
-
+  removeMeetingWarning: "Mude para o {app} para continuar a utilizar a funcionalidade de reunião.",
+  scheduleMeetingTips: "Tenha em atenção que removemos as reuniões desta aplicação. Para usufruir de reuniões, recomendamos o {app}."
+}; // @key: @#@"removeMeetingWarning"@#@ @source: @#@"Please switch to the {app} to continue using the meeting feature."@#@
+// @key: @#@"scheduleMeetingTips"@#@ @source: @#@"Please note that we removed meetings from this app. To use meetings, we recommend the {app}."@#@
 exports["default"] = _default;
 //# sourceMappingURL=pt-PT.js.map

@@ -1,1 +1,1 @@
-{"version":3,"sources":["components/LogSection/i18n/en-US.ts"],"names":["saveLog"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,OAAO,EAAE;AADI,C","sourcesContent":["export default {\n  saveLog: 'Save',\n};\n\n"],"file":"en-US.js"}
+{"version":3,"file":"en-US.js","names":["saveLog","exports","_default"],"sources":["components/LogSection/i18n/en-US.ts"],"sourcesContent":["export default {\n  saveLog: 'Save',\n};\n"],"mappings":";;;;;;eAAe;EACbA,OAAO,EAAE;AACX,CAAC;AAAAC,OAAA,cAAAC,QAAA"}

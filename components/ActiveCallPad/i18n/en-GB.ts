@@ -10,7 +10,7 @@ export default {
   add: "Add",
   transfer: "Transfer",
   flip: "Flip",
-  more: "Call actions",
+  more: "Call Actions",
   mergeToConference: "Merge",
   end: "End",
   completeTransfer: "Complete\nTransfer"

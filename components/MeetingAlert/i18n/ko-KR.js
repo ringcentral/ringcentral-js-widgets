@@ -1,14 +1,13 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 var _default = {
-  removeMeetingWarning: "2022년 5월 31일 이후에는 모임 기능이 작동하지 않습니다. {app} 앱으로 전환하는 것이 좋습니다."
-}; // @key: @#@"removeMeetingWarning"@#@ @source: @#@"Please note that the meeting feature won't work after May 31, 2022. We recommend switching to the {app}."@#@
-
+  removeMeetingWarning: "모임 기능을 계속 사용하려면 {app}로 전환하세요.",
+  scheduleMeetingTips: "이 앱에서 모임을 제거했습니다. 모임을 사용하려면 {app} 앱을 사용하는 것이 좋습니다."
+}; // @key: @#@"removeMeetingWarning"@#@ @source: @#@"Please switch to the {app} to continue using the meeting feature."@#@
+// @key: @#@"scheduleMeetingTips"@#@ @source: @#@"Please note that we removed meetings from this app. To use meetings, we recommend the {app}."@#@
 exports["default"] = _default;
 //# sourceMappingURL=ko-KR.js.map

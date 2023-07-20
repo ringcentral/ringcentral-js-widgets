@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -17,8 +15,8 @@ var _default = {
   record: "Grabar",
   add: "Añadir",
   transfer: "Transferir",
-  flip: "Traspasar",
-  more: "Acc. de llam.",
+  flip: "Transferir",
+  more: "Acciones de llamada",
   mergeToConference: "Combinar",
   end: "Finalizar",
   completeTransfer: "Completar\ntransferencia"
@@ -37,6 +35,5 @@ var _default = {
 // @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
 // @key: @#@"end"@#@ @source: @#@"End"@#@
 // @key: @#@"completeTransfer"@#@ @source: @#@"Complete\nTransfer"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=es-ES.js.map

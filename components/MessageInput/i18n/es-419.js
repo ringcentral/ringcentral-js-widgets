@@ -1,14 +1,12 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 var _default = {
-  from: "De",
-  to: "A",
+  from: "Desde",
+  to: "Para",
   enterNameOrNumber: "Ingresar número o nombre...",
   typeMessage: "Escribir mensaje...",
   send: "Enviar"
@@ -17,6 +15,5 @@ var _default = {
 // @key: @#@"enterNameOrNumber"@#@ @source: @#@"Enter Number or Name..."@#@
 // @key: @#@"typeMessage"@#@ @source: @#@"Type message..."@#@
 // @key: @#@"send"@#@ @source: @#@"Send"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=es-419.js.map

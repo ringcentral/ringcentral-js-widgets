@@ -1,5 +1,5 @@
 export default {
-  logging: "Connexion en cours...",
+  logging: "Connexion…",
   logCall: "Journal des appels",
   editLog: "Modifier le journal",
   select: "Sélectionner un enregistrement correspondant",
@@ -9,7 +9,7 @@ export default {
   unknownUser: "Utilisateur inconnu",
   unknownNumber: "Anonyme",
   unavailable: "Non disponible",
-  viewDetails: "Afficher les détails",
+  viewDetails: "Afficher les renseignements",
   addEntity: "Créer",
   addLog: "Liste",
   text: "Texto",

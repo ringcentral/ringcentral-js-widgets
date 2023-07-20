@@ -22,8 +22,8 @@ export default {
   ES: "Spanien",
   FI: "Finnland",
   FR: "Frankreich",
-  GB: "Großbritannien",
-  GE: "Georgien",
+  GB: "Vereinigtes Königreich",
+  GE: "Georgia",
   GH: "Ghana",
   GN: "Guinea",
   GR: "Griechenland",
@@ -129,7 +129,7 @@ export default {
 // @key: @#@"SI"@#@ @source: @#@"Slovenia"@#@
 // @key: @#@"SK"@#@ @source: @#@"Slovakia"@#@
 // @key: @#@"SV"@#@ @source: @#@"El Salvador"@#@
-// @key: @#@"TR"@#@ @source: @#@"Turkey"@#@
+// @key: @#@"TR"@#@ @source: @#@"Türkiye"@#@
 // @key: @#@"TW"@#@ @source: @#@"Taiwan"@#@
 // @key: @#@"UA"@#@ @source: @#@"Ukraine"@#@
 // @key: @#@"US"@#@ @source: @#@"United States"@#@

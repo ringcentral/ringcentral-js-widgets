@@ -1,4 +1,6 @@
 export default {
+  Inbound: "Recebidas",
+  Outbound: "Efetuadas",
   log: "Registo",
   save: "Guardar e nova",
   discard: "Rejeitar e nova",
@@ -6,6 +8,8 @@ export default {
   reject: "Para correio de voz"
 };
 
+// @key: @#@"Inbound"@#@ @source: @#@"Inbound"@#@
+// @key: @#@"Outbound"@#@ @source: @#@"Outbound"@#@
 // @key: @#@"log"@#@ @source: @#@"Log"@#@
 // @key: @#@"save"@#@ @source: @#@"Save and new"@#@
 // @key: @#@"discard"@#@ @source: @#@"Discard and new"@#@

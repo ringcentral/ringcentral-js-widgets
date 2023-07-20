@@ -1,22 +1,20 @@
-import React, {
-  FunctionComponent,
-  MutableRefObject,
-  useEffect,
-  useState,
-} from 'react';
+import type { FunctionComponent, MutableRefObject } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import classNames from 'classnames';
 
-import { RcIconButton, px } from '@ringcentral/juno';
+import { px, RcIconButton } from '@ringcentral/juno';
 import {
   ChevronLeft as chevronLeftSvg,
   ChevronRight as chevronRight,
-} from '@ringcentral/juno/icon';
+} from '@ringcentral/juno-icon';
 
 import { AnimationPanel } from '../AnimationPanel';
-import { ShinyBar, ShinyBarProps } from '../LogBasicInfoV2/ShinyBar';
-import { BasicCallInfoMain, BasicCallInfoMainProps } from './BasicCallInfoMain';
-import { CallInfoProps } from './CallInfo';
+import type { ShinyBarProps } from '../LogBasicInfoV2/ShinyBar';
+import { ShinyBar } from '../LogBasicInfoV2/ShinyBar';
+import type { BasicCallInfoMainProps } from './BasicCallInfoMain';
+import { BasicCallInfoMain } from './BasicCallInfoMain';
+import type { CallInfoProps } from './CallInfo';
 import { CallInfoList } from './CallInfoList';
 import styles from './styles.scss';
 
@@ -39,6 +37,7 @@ export const BasicCallInfo: FunctionComponent<BasicCallInfoProps> = ({
   isRinging,
   followInfos,
   callInfos,
+  // @ts-expect-error TS(2339): Property 'panel' does not exist on type '{ panel?:... Remove this comment to see the full error message
   classes: { panel: panelClass },
   status,
   callControlRef,
@@ -120,6 +119,7 @@ export const BasicCallInfo: FunctionComponent<BasicCallInfoProps> = ({
               subject={subject}
               isInbound={isInbound}
               followInfos={followInfos}
+              // @ts-expect-error TS(2322): Type 'string | false' is not assignable to type 's... Remove this comment to see the full error message
               className={open && styles.infoMain}
             />
             <CallInfoList

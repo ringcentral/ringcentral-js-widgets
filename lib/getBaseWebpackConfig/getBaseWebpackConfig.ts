@@ -1,6 +1,6 @@
-import autoprefixer from 'autoprefixer';
 import crypto from 'crypto';
 import path from 'path';
+import autoprefixer from 'autoprefixer';
 import { warmup } from 'thread-loader';
 import type {
   Configuration,
@@ -33,12 +33,18 @@ export interface BaseWebpackConfigOptions {
   sourceMapLoaderExcludes?: RuleSetRule['exclude'];
   babelLoaderExcludes?: RuleSetRule['exclude'];
   sassLoaderExcludes?: (string | RegExp)[];
+  /**
+   * enable chunk mode, also can use function when you need custom chunk with different language
+   *
+   * @default true
+   */
+  chunk?: boolean | ((locale: string) => boolean);
 }
 
 export const getBaseWebpackConfig = ({
   analyzeBundle = false,
   cacheDirectory = false,
-  fontFileSizeLimit = 15000,
+  fontFileSizeLimit = 30000,
   imageFileSizeLimit = 20000,
   enableHash = true,
   hashPrefix = '',
@@ -53,6 +59,7 @@ export const getBaseWebpackConfig = ({
   sourceMapLoaderExcludes = /node_modules/,
   babelLoaderExcludes = /node_modules/,
   sassLoaderExcludes = [],
+  chunk = true,
 }: BaseWebpackConfigOptions): Configuration => {
   const devtool = useDevtool ? preferredDevtool : false;
   const threadLoader: RuleSetUseItem[] = [];
@@ -78,8 +85,14 @@ export const getBaseWebpackConfig = ({
       'process.env.NODE_ENV': JSON.stringify(mode),
     }),
   ];
+
   if (analyzeBundle) {
-    plugins.push(new BundleAnalyzerPlugin());
+    plugins.push(
+      new BundleAnalyzerPlugin({
+        analyzerMode: 'static',
+        openAnalyzer: true,
+      }),
+    );
   }
 
   const rules: RuleSetRule[] = [
@@ -128,6 +141,7 @@ export const getBaseWebpackConfig = ({
         loader: '@ringcentral-integration/locale-loader',
         options: {
           supportedLocales,
+          chunk,
         },
       },
       ...threadLoader,

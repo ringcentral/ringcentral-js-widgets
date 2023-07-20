@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -9,9 +7,9 @@ exports["default"] = void 0;
 var _default = {
   noActiveCalls: "No active calls",
   noCalls: "No results found.",
-  currentCall: "Current call",
+  currentCall: "Current Call",
   ringCall: "Ringing call",
-  onHoldCall: "Call on hold",
+  onHoldCall: "Call on Hold",
   historyCalls: "Past calls",
   otherDeviceCall: "Ongoing calls on my other devices",
   searchPlaceholder: "Search..."
@@ -23,6 +21,5 @@ var _default = {
 // @key: @#@"historyCalls"@#@ @source: @#@"Past Calls"@#@
 // @key: @#@"otherDeviceCall"@#@ @source: @#@"Ongoing calls on my other devices"@#@
 // @key: @#@"searchPlaceholder"@#@ @source: @#@"Search..."@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=en-GB.js.map

@@ -1,9 +1,10 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import classnames from 'classnames';
 
-import { RcDialPad, RcDialPadProps } from '@ringcentral/juno';
-import RcDialerPadSounds from '@ringcentral/juno/RcDialerPadSounds.json';
+import type { RcDialPadProps } from '@ringcentral/juno';
+import { RcDialerPadSounds, RcDialPad } from '@ringcentral/juno';
 
 import styles from './styles.scss';
 
@@ -19,6 +20,7 @@ export const DialPad: FunctionComponent<DialPadProps> = ({
   ...rest
 }) => {
   const handleChange = (e: string) => {
+    // @ts-expect-error TS(2554): Expected 2 arguments, but got 1.
     return onChange && onChange(e);
   };
 

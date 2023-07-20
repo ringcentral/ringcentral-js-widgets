@@ -1,10 +1,10 @@
 import React from 'react';
 
-import { AlertItem } from '@ringcentral-integration/commons/modules/Alert';
-import { callingSettingsMessages } from '@ringcentral-integration/commons/modules/CallingSettingsV2/callingSettingsMessages';
+import type { AlertItem } from '@ringcentral-integration/commons/modules/Alert';
+import { callingSettingsMessages } from '@ringcentral-integration/commons/modules/CallingSettings';
 
 import FormattedMessage from '../../FormattedMessage';
-import { HandleMessage } from '../HandleMessage.interface';
+import type { HandleMessage } from '../HandleMessage.interface';
 import i18n from './i18n';
 
 export interface CallingSettingsAlertProps {
@@ -62,6 +62,7 @@ export const CallingSettingsAlert: React.FC<CallingSettingsAlertProps> &
       return (
         <FormattedMessage
           message={i18n.getString(message, currentLocale)}
+          // @ts-expect-error TS(2322): Type 'string | Element' is not assignable to type ... Remove this comment to see the full error message
           values={{ link }}
         />
       );

@@ -1,7 +1,7 @@
 export default {
   removeParticipant: "Teilnehmer entfernen",
-  confirmStr1: "Möchten Sie",
-  confirmStr2: "wirklich aus diesem Anruf entfernen?",
+  confirmStr1: "Möchten Sie wirklich",
+  confirmStr2: "aus diesem Anruf entfernen?",
   remove: "Entfernen",
   cancel: "Abbrechen",
   participants: "Teilnehmer",

@@ -1,13 +1,11 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 var _default = {
-  logging: "Connexion en cours...",
+  logging: "Connexion en cours…",
   logCall: "Journal des appels",
   editLog: "Modifier le journal",
   select: "Sélectionner une correspondance de registre",
@@ -21,7 +19,7 @@ var _default = {
   addEntity: "Créer nouveau",
   addLog: "Journal",
   text: "SMS",
-  call: "Appeler",
+  call: "Appel",
   addContact: "Ajouter un contact",
   missedCall: "Manqué",
   inboundCall: "Entrant",
@@ -81,6 +79,5 @@ var _default = {
 // @key: @#@"comfirmOKButton"@#@ @source: @#@"Switch"@#@
 // @key: @#@"ignore"@#@ @source: @#@"Ignore"@#@
 // @key: @#@"holdAndAnswer"@#@ @source: @#@"Hold & Answer"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=fr-FR.js.map

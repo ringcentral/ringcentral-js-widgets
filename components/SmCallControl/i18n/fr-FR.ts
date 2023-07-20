@@ -1,6 +1,6 @@
 export default {
-  mute: "Muet",
-  unmute: "Désac. muet",
+  mute: "Désactiver le micro",
+  unmute: "Réactiver le micro",
   hangup: "Raccrocher",
   reject: "Rejeter"
 };

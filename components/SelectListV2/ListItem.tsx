@@ -1,4 +1,5 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import classNames from 'classnames';
 
@@ -46,6 +47,7 @@ export const ListItem: FunctionComponent<ListItemProps> = ({
       }}
       onClick={(e) => {
         e.preventDefault();
+        // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
         onClick();
       }}
       {...rest}

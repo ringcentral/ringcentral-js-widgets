@@ -1,11 +1,9 @@
 import { Module } from '@ringcentral-integration/commons/lib/di';
-import {
-  RcUIModuleV2,
-  UIFunctions,
-  UIProps,
-} from '@ringcentral-integration/core';
+import { formatNumber } from '@ringcentral-integration/commons/lib/formatNumber';
+import type { UIFunctions, UIProps } from '@ringcentral-integration/core';
+import { RcUIModuleV2 } from '@ringcentral-integration/core';
 
-import {
+import type {
   ConversationsContainerProps,
   ConversationsPanelProps,
   Deps,
@@ -20,7 +18,6 @@ import {
     'DateTimeFormat',
     'RegionSettings',
     'AppFeatures',
-    'Call',
     'ConnectivityMonitor',
     'RateLimiter',
     'MessageStore',
@@ -29,6 +26,8 @@ import {
     'RouterInteraction',
     'ComposeText',
     'ContactSearch',
+    'AccountInfo',
+    { dep: 'Call', optional: true },
     { dep: 'DialerUI', optional: true },
     { dep: 'ContactDetailsUI', optional: true },
     { dep: 'ContactMatcher', optional: true },
@@ -36,8 +35,8 @@ import {
     { dep: 'ConversationsUIOptions', optional: true },
   ],
 })
-export class ConversationsUI<T> extends RcUIModuleV2<Deps & T> {
-  constructor(deps: Deps & T) {
+export class ConversationsUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
+  constructor(deps: T) {
     super({
       deps,
     });
@@ -48,70 +47,60 @@ export class ConversationsUI<T> extends RcUIModuleV2<Deps & T> {
     enableContactFallback = false,
     showGroupNumberName = false,
   }: ConversationsContainerProps): UIProps<ConversationsPanelProps> {
-    const {
-      brand,
-      locale,
-      conversations,
-      contactMatcher,
-      dateTimeFormat,
-      regionSettings,
-      appFeatures,
-      call,
-      conversationLogger,
-      connectivityMonitor,
-      rateLimiter,
-      messageStore,
-      connectivityManager,
-      extensionInfo,
-    } = this._deps;
     return {
       showTitle,
       enableContactFallback,
       showGroupNumberName,
-      brand: brand.name,
-      currentLocale: locale.currentLocale,
-      currentSiteCode: extensionInfo?.site?.code ?? '',
-      isMultipleSiteEnabled: extensionInfo?.isMultipleSiteEnabled ?? false,
-      conversations: conversations.pagingConversations,
-      areaCode: regionSettings.areaCode,
-      countryCode: regionSettings.countryCode,
+      brand: this._deps.brand.name,
+      currentLocale: this._deps.locale.currentLocale,
+      currentSiteCode: this._deps.extensionInfo?.site?.code ?? '',
+      isMultipleSiteEnabled:
+        this._deps.extensionInfo?.isMultipleSiteEnabled ?? false,
+      conversations: this._deps.conversations.pagingConversations,
+      areaCode: this._deps.regionSettings.areaCode,
+      countryCode: this._deps.regionSettings.countryCode,
       disableLinks:
-        connectivityManager.isOfflineMode ||
-        connectivityManager.isVoipOnlyMode ||
-        rateLimiter.throttling,
+        this._deps.connectivityManager.isOfflineMode ||
+        this._deps.connectivityManager.isVoipOnlyMode ||
+        this._deps.rateLimiter.throttling,
       disableCallButton:
-        connectivityManager.isOfflineMode ||
-        connectivityManager.isWebphoneUnavailableMode ||
-        connectivityManager.isWebphoneInitializing ||
-        rateLimiter.throttling,
-      disableClickToDial: !(call && call.isIdle),
-      outboundSmsPermission: appFeatures.hasOutboundSMSPermission,
-      internalSmsPermission: appFeatures.hasInternalSMSPermission,
-      composeTextPermission: appFeatures.hasComposeTextPermission,
-      loggingMap: conversationLogger && conversationLogger.loggingMap,
+        this._deps.connectivityManager.isOfflineMode ||
+        this._deps.connectivityManager.isWebphoneUnavailableMode ||
+        this._deps.connectivityManager.isWebphoneInitializing ||
+        this._deps.rateLimiter.throttling,
+      disableClickToDial: !(this._deps.call && this._deps.call.isIdle),
+      outboundSmsPermission: this._deps.appFeatures.hasOutboundSMSPermission,
+      internalSmsPermission: this._deps.appFeatures.hasInternalSMSPermission,
+      composeTextPermission: this._deps.appFeatures.hasComposeTextPermission,
+      loggingMap:
+        this._deps.conversationLogger &&
+        this._deps.conversationLogger.loggingMap,
       showSpinner: !(
-        locale.ready &&
-        conversations.ready &&
-        (!contactMatcher || contactMatcher.ready) &&
-        dateTimeFormat.ready &&
-        regionSettings.ready &&
-        appFeatures.ready &&
-        connectivityMonitor.ready &&
-        rateLimiter.ready &&
-        (!call || call.ready) &&
-        (!conversationLogger || conversationLogger.ready)
+        this._deps.locale.ready &&
+        this._deps.conversations.ready &&
+        (!this._deps.contactMatcher || this._deps.contactMatcher.ready) &&
+        this._deps.dateTimeFormat.ready &&
+        this._deps.regionSettings.ready &&
+        this._deps.appFeatures.ready &&
+        this._deps.connectivityMonitor.ready &&
+        this._deps.rateLimiter.ready &&
+        (!this._deps.call || this._deps.call.ready) &&
+        (!this._deps.conversationLogger || this._deps.conversationLogger.ready)
       ),
-      searchInput: conversations.searchInput,
-      autoLog: !!(conversationLogger && conversationLogger.autoLog),
-      typeFilter: conversations.typeFilter,
-      textUnreadCounts: messageStore.textUnreadCounts,
-      voiceUnreadCounts: messageStore.voiceUnreadCounts,
-      faxUnreadCounts: messageStore.faxUnreadCounts,
-      readTextPermission: appFeatures.hasReadTextPermission,
-      readVoicemailPermission: appFeatures.hasVoicemailPermission,
-      readFaxPermission: appFeatures.hasReadFaxPermission,
-      loadingNextPage: conversations.loadingOldConversations,
-      enableCDC: appFeatures.isCDCEnabled,
+      searchInput: this._deps.conversations.searchInput,
+      autoLog: !!(
+        this._deps.conversationLogger && this._deps.conversationLogger.autoLog
+      ),
+      typeFilter: this._deps.conversations.typeFilter,
+      textUnreadCounts: this._deps.messageStore.textUnreadCounts,
+      voiceUnreadCounts: this._deps.messageStore.voiceUnreadCounts,
+      faxUnreadCounts: this._deps.messageStore.faxUnreadCounts,
+      readTextPermission: this._deps.appFeatures.hasReadTextPermission,
+      readVoicemailPermission: this._deps.appFeatures.hasVoicemailPermission,
+      readFaxPermission: this._deps.appFeatures.hasReadFaxPermission,
+      loadingNextPage: this._deps.conversations.loadingOldConversations,
+      enableCDC: this._deps.appFeatures.isCDCEnabled,
+      maxExtensionNumberLength: this._deps.accountInfo.maxExtensionNumberLength,
     };
   }
 
@@ -127,124 +116,135 @@ export class ConversationsUI<T> extends RcUIModuleV2<Deps & T> {
     previewFaxMessages,
     onFaxDownload,
   }: ConversationsContainerProps): UIFunctions<ConversationsPanelProps> {
-    const {
-      dateTimeFormat,
-      conversations,
-      messageStore,
-      conversationLogger,
-      contactMatcher,
-      call,
-      dialerUI,
-      routerInteraction,
-      contactDetailsUI,
-      composeText,
-      contactSearch,
-      appFeatures,
-    } = this._deps;
-
     return {
+      formatPhone: (phoneNumber: string) =>
+        formatNumber({
+          phoneNumber,
+          areaCode: this._deps.regionSettings.areaCode,
+          countryCode: this._deps.regionSettings.countryCode,
+          maxExtensionLength: this._deps.accountInfo.maxExtensionNumberLength,
+          isMultipleSiteEnabled: this._deps.extensionInfo.isMultipleSiteEnabled,
+          siteCode: this._deps.extensionInfo.site?.code,
+        }),
+      // @ts-expect-error TS(2322): Type '(options: Partial<FormatDateTimeOptions>) =>... Remove this comment to see the full error message
       dateTimeFormatter:
         dateTimeFormatter ??
-        ((...args) => dateTimeFormat.formatDateTime(...args)),
+        ((...args) => this._deps.dateTimeFormat.formatDateTime(...args)),
+      // @ts-expect-error TS(2322): Type '((options: OnViewContactOptions) => void) | ... Remove this comment to see the full error message
       onViewContact: showViewContact
         ? onViewContact ||
           (({ contact: { id, type } }) => {
-            if (contactDetailsUI) {
-              contactDetailsUI.showContactDetails({ id, type, direct: true });
+            if (this._deps.contactDetailsUI) {
+              this._deps.contactDetailsUI.showContactDetails({
+                id,
+                type,
+                direct: true,
+              });
             }
           })
         : null,
+      // @ts-expect-error TS(2322): Type '(({ phoneNumber, name, entityType }: OnCreat... Remove this comment to see the full error message
       onCreateContact: onCreateContact
         ? async ({ phoneNumber, name, entityType }) => {
-            const hasMatchNumber = await contactMatcher.hasMatchNumber({
-              phoneNumber,
-              ignoreCache: true,
-            });
+            const hasMatchNumber =
+              await this._deps.contactMatcher.hasMatchNumber({
+                phoneNumber,
+                ignoreCache: true,
+              });
             // console.debug('confirm hasMatchNumber:', hasMatchNumber);
             if (!hasMatchNumber) {
               await onCreateContact({ phoneNumber, name, entityType });
-              await contactMatcher.forceMatchNumber({ phoneNumber });
+              await this._deps.contactMatcher.forceMatchNumber({ phoneNumber });
             }
           }
         : undefined,
       onClickToDial:
-        dialerUI && appFeatures.isCallingEnabled
+        this._deps.dialerUI && this._deps.appFeatures.isCallingEnabled
           ? (recipient) => {
-              if (call.isIdle) {
-                routerInteraction.push(dialerRoute);
+              if (this._deps.call.isIdle) {
+                this._deps.routerInteraction.push(dialerRoute);
                 // for track router
-                messageStore.onClickToCall({ fromType: recipient.fromType });
-                dialerUI.call({ recipient });
+                this._deps.messageStore.onClickToCall({
+                  fromType: recipient.fromType,
+                });
+                this._deps.dialerUI.call({
+                  recipient,
+                });
               }
             }
           : undefined,
-      onClickToSms: appFeatures.hasComposeTextPermission
+      onClickToSms: this._deps.appFeatures.hasComposeTextPermission
         ? (contact, isDummyContact = false) => {
-            if (routerInteraction) {
-              routerInteraction.push(composeTextRoute);
+            if (this._deps.routerInteraction) {
+              this._deps.routerInteraction.push(composeTextRoute);
             }
             // if contact autocomplete, if no match fill the number only
             if (contact.name && contact.phoneNumber && isDummyContact) {
-              composeText.updateTypingToNumber(contact.name);
-              contactSearch.search({ searchString: contact.name });
+              this._deps.composeText.updateTypingToNumber(contact.name);
+              this._deps.contactSearch.search({ searchString: contact.name });
             } else {
-              composeText.addToNumber(contact);
-              if (composeText.typingToNumber === contact.phoneNumber) {
-                composeText.cleanTypingToNumber();
+              this._deps.composeText.addToNumber(contact);
+              if (
+                this._deps.composeText.typingToNumber === contact.phoneNumber
+              ) {
+                this._deps.composeText.cleanTypingToNumber();
               }
             }
             // for track
-            messageStore.onClickToSMS();
+            this._deps.messageStore.onClickToSMS();
           }
         : undefined,
       onLogConversation:
         onLogConversation ||
-        (conversationLogger &&
+        (this._deps.conversationLogger &&
           (async ({ redirect = true, ...options }) => {
-            await conversationLogger.logConversation({
+            await this._deps.conversationLogger.logConversation({
               ...options,
               redirect,
             });
           })),
-      onSearchInputChange(e) {
-        conversations.updateSearchInput(e.currentTarget.value);
+      onSearchInputChange: (e) => {
+        this._deps.conversations.updateSearchInput(e.currentTarget.value);
       },
-      showConversationDetail(conversationId) {
-        routerInteraction.push(
+      showConversationDetail: (conversationId) => {
+        this._deps.routerInteraction.push(
           conversationDetailRoute.replace('{conversationId}', conversationId),
         );
       },
-      readMessage(conversationId) {
-        messageStore.readMessages(conversationId);
+      readMessage: (conversationId) => {
+        this._deps.messageStore.readMessages(conversationId);
       },
-      markMessage(conversationId) {
-        messageStore.unreadMessage(conversationId);
+      markMessage: (conversationId) => {
+        this._deps.messageStore.unreadMessage(conversationId);
       },
-      unmarkMessage(conversationId) {
-        messageStore.readMessages(conversationId);
-        messageStore.onUnmarkMessages();
+      unmarkMessage: (conversationId) => {
+        this._deps.messageStore.readMessages(conversationId);
+        this._deps.messageStore.onUnmarkMessages();
       },
-      goToComposeText: () => routerInteraction.push(composeTextRoute),
-      updateTypeFilter: (type) => conversations.updateTypeFilter(type),
-      deleteMessage(conversationId) {
-        conversations.deleteConversation(conversationId);
+      goToComposeText: () =>
+        this._deps.routerInteraction.push(composeTextRoute),
+      updateTypeFilter: (type) =>
+        this._deps.conversations.updateTypeFilter(type),
+      deleteMessage: (conversationId) => {
+        this._deps.conversations.deleteConversation(conversationId);
       },
-      previewFaxMessages(uri, conversationId) {
+      previewFaxMessages: (uri, conversationId) => {
         if (!previewFaxMessages) {
           window.open(uri);
         } else {
           previewFaxMessages(uri);
         }
-        messageStore.readMessages(conversationId);
+        this._deps.messageStore.readMessages(conversationId);
       },
-      async loadNextPage() {
-        await conversations.loadNextPage();
+      loadNextPage: async () => {
+        await this._deps.conversations.loadNextPage();
       },
-      onUnmount() {
-        if (conversations.currentPage > 2) {
-          conversations.resetCurrentPage();
+      onUnmount: () => {
+        if (this._deps.conversations.currentPage > 2) {
+          this._deps.conversations.resetCurrentPage();
         }
       },
+      // @ts-expect-error TS(2322): Type '((options: { uri: string; }) => void) | unde... Remove this comment to see the full error message
       onFaxDownload,
     };
   }

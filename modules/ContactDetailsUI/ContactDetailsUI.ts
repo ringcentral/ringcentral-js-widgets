@@ -1,8 +1,11 @@
 import { phoneTypes } from '@ringcentral-integration/commons/enums/phoneTypes';
-import { ContactModel } from '@ringcentral-integration/commons/interfaces/Contact.model';
+import type {
+  ContactModel,
+  IContact,
+} from '@ringcentral-integration/commons/interfaces/Contact.model';
 import background from '@ringcentral-integration/commons/lib/background';
 import { Module } from '@ringcentral-integration/commons/lib/di';
-import proxify from '@ringcentral-integration/commons/lib/proxy/proxify';
+import { proxify } from '@ringcentral-integration/commons/lib/proxy/proxify';
 import {
   action,
   RcUIModuleV2,
@@ -10,17 +13,18 @@ import {
   track,
 } from '@ringcentral-integration/core';
 
-import {
+import type {
   ContactDetailsViewFunctionProps,
   ContactDetailsViewProps,
 } from '../../components/ContactDetailsView/ContactDetailsView.interface';
-import {
+import type {
   Deps,
   GetUIFunctions,
   InitParams,
   RouteParams,
 } from './ContactDetailsUI.interface';
-import { ContactReadyState, contactReadyStates } from './contactReadyStates';
+import type { ContactReadyState } from './contactReadyStates';
+import { contactReadyStates } from './contactReadyStates';
 import { formatContactPhoneNumber } from './helper';
 import { trackEvents } from './trackEvents';
 
@@ -42,18 +46,20 @@ const DEFAULT_COMPOSE_TEXT_ROUTE = '/composeText';
     'Call',
     'DialerUI',
     'ComposeText',
+    'AccountInfo',
     {
       dep: 'ContactDetailsUIOptions',
       optional: true,
     },
   ],
 })
-export class ContactDetailsUI extends RcUIModuleV2<Deps> {
+export class ContactDetailsUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
   constructor(deps: Deps) {
     super({ deps });
   }
 
   @state
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'ContactMode... Remove this comment to see the full error message
   currentContact: ContactModel = null;
 
   @state
@@ -70,6 +76,7 @@ export class ContactDetailsUI extends RcUIModuleV2<Deps> {
 
   @background
   async resetCurrentContact() {
+    // @ts-expect-error TS(2345): Argument of type 'null' is not assignable to param... Remove this comment to see the full error message
     this._setCurrentContact(contactReadyStates.pending, null);
   }
 
@@ -78,6 +85,7 @@ export class ContactDetailsUI extends RcUIModuleV2<Deps> {
     if (this.currentContactReadyState !== contactReadyStates.pending) {
       return;
     }
+    // @ts-expect-error TS(2345): Argument of type 'null' is not assignable to param... Remove this comment to see the full error message
     this._setCurrentContact(contactReadyStates.loading, null);
     const contact = await this._deps.contacts.findContact({
       sourceName: contactType,
@@ -85,7 +93,9 @@ export class ContactDetailsUI extends RcUIModuleV2<Deps> {
     });
 
     // hide hidden phone numbers when cdc is enabled
+    // @ts-expect-error TS(2533): Object is possibly 'null' or 'undefined'.
     if (this._deps.appFeatures.isCDCEnabled && contact.phoneNumbers.length) {
+      // @ts-expect-error TS(2533): Object is possibly 'null' or 'undefined'.
       contact.phoneNumbers = contact.phoneNumbers.filter(
         (phone) => !phone.hidden,
       );
@@ -94,10 +104,10 @@ export class ContactDetailsUI extends RcUIModuleV2<Deps> {
     if (this.currentContactReadyState !== contactReadyStates.loading) {
       return;
     }
+
     this._setCurrentContact(contactReadyStates.loaded, contact as ContactModel);
     if (contact) {
       this._deps.contacts.getProfileImage(contact, false);
-      this._deps.contacts.getPresence(contact, false);
     }
   }
 
@@ -106,6 +116,12 @@ export class ContactDetailsUI extends RcUIModuleV2<Deps> {
     this._deps.routerInteraction.push(
       `/contacts/${type}/${id}${direct ? '?direct=true' : ''}`,
     );
+  }
+
+  @proxify
+  async getPresence(contact: IContact, useCache: boolean) {
+    const presence = await this._deps.contacts.getPresence(contact, useCache);
+    return presence;
   }
 
   @proxify
@@ -174,15 +190,23 @@ export class ContactDetailsUI extends RcUIModuleV2<Deps> {
 
   getUIFunctions({ params }: GetUIFunctions): ContactDetailsViewFunctionProps {
     return {
+      // @ts-expect-error TS(2322): Type '(phoneNumber: string) => string | null | und... Remove this comment to see the full error message
       formatNumber: (phoneNumber: string) =>
-        formatContactPhoneNumber(
+        formatContactPhoneNumber({
           phoneNumber,
-          this._deps.regionSettings.countryCode,
-          this._deps.extensionInfo.isMultipleSiteEnabled,
-          this._deps.extensionInfo.site?.code,
-        ),
+          countryCode: this._deps.regionSettings.countryCode,
+          isMultipleSiteEnabled: this._deps.extensionInfo.isMultipleSiteEnabled,
+          siteCode: this._deps.extensionInfo.site?.code,
+          maxExtensionNumberLength:
+            // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+            this._deps.accountInfo.maxExtensionNumberLength,
+        }),
       onVisitPage: () => {
         this.initCurrentContact(params);
+      },
+      getPresence: async (contact: IContact, useCache: boolean) => {
+        const result = await this.getPresence(contact, useCache);
+        return result;
       },
       onLeavingPage: () => {
         this.resetCurrentContact();

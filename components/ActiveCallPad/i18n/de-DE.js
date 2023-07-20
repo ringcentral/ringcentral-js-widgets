@@ -1,25 +1,23 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 var _default = {
-  unmute: "Stumm Ende",
-  mute: "Stummsch.",
-  keypad: "Wählfeld",
+  unmute: "Stummschaltung aufheben",
+  mute: "Stummschalten",
+  keypad: "Wähltastatur",
   hold: "Halten",
-  onHold: "Gehalten",
+  onHold: "Wird gehalten",
   park: "Parken",
   stopRecord: "Stoppen",
-  record: "Aufzeichnen",
+  record: "Aufnehmen",
   add: "Hinzufügen",
-  transfer: "Weiterleitung",
+  transfer: "Übertragen",
   flip: "Umlegen",
   more: "Anrufaktionen",
-  mergeToConference: "Zus.führen",
+  mergeToConference: "Zusammenführen",
   end: "Beenden",
   completeTransfer: "Übergabe\nabschließen"
 }; // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
@@ -37,6 +35,5 @@ var _default = {
 // @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
 // @key: @#@"end"@#@ @source: @#@"End"@#@
 // @key: @#@"completeTransfer"@#@ @source: @#@"Complete\nTransfer"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=de-DE.js.map

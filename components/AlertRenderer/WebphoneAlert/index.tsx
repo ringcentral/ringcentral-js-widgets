@@ -43,6 +43,7 @@ const WebphoneAlert: React.SFC<WebphoneAlertProps> = (props) => {
   let view = <span>{i18n.getString(message, props.currentLocale)}</span>;
   // Handle call record error
   if (message === webphoneErrors.recordError) {
+    // @ts-expect-error TS(2339): Property 'payload' does not exist on type '{ messa... Remove this comment to see the full error message
     const { payload: { errorCode } = {} } = props.message;
     view = (
       <FormattedMessage
@@ -58,6 +59,7 @@ const WebphoneAlert: React.SFC<WebphoneAlertProps> = (props) => {
     message === webphoneErrors.internalServerError ||
     message === webphoneErrors.unknownError
   ) {
+    // @ts-expect-error TS(2339): Property 'payload' does not exist on type '{ messa... Remove this comment to see the full error message
     const { payload: { statusCode, isConnecting = false } = {} } =
       props.message;
     // sipProvisionError does not have statusCode
@@ -68,6 +70,7 @@ const WebphoneAlert: React.SFC<WebphoneAlertProps> = (props) => {
             'registeringWithStatusCode',
             props.currentLocale,
           )}
+          // @ts-expect-error TS(2339): Property 'name' does not exist on type 'object'.
           values={{ errorCode: statusCode, brandName: props.brand.name }}
         />
       );
@@ -75,6 +78,7 @@ const WebphoneAlert: React.SFC<WebphoneAlertProps> = (props) => {
       view = (
         <FormattedMessage
           message={i18n.getString('failWithStatusCode', props.currentLocale)}
+          // @ts-expect-error TS(2339): Property 'name' does not exist on type 'object'.
           values={{ errorCode: statusCode, brandName: props.brand.name }}
         />
       );
@@ -85,6 +89,7 @@ const WebphoneAlert: React.SFC<WebphoneAlertProps> = (props) => {
             'registeringWithoutStatusCode',
             props.currentLocale,
           )}
+          // @ts-expect-error TS(2339): Property 'name' does not exist on type 'object'.
           values={{ brandName: props.brand.name }}
         />
       );
@@ -92,6 +97,7 @@ const WebphoneAlert: React.SFC<WebphoneAlertProps> = (props) => {
       view = (
         <FormattedMessage
           message={i18n.getString('failWithoutStatusCode', props.currentLocale)}
+          // @ts-expect-error TS(2339): Property 'name' does not exist on type 'object'.
           values={{ brandName: props.brand.name }}
         />
       );
@@ -100,10 +106,12 @@ const WebphoneAlert: React.SFC<WebphoneAlertProps> = (props) => {
     view = (
       <FormattedMessage
         message={i18n.getString(message, props.currentLocale)}
+        // @ts-expect-error TS(2339): Property 'name' does not exist on type 'object'.
         values={{ brandName: props.brand.name }}
       />
     );
   } else if (message === webphoneMessages.parked) {
+    // @ts-expect-error TS(2339): Property 'payload' does not exist on type '{ messa... Remove this comment to see the full error message
     const { payload: { parkedNumber } = {} } = props.message;
     view = (
       <FormattedMessage
@@ -114,6 +122,7 @@ const WebphoneAlert: React.SFC<WebphoneAlertProps> = (props) => {
   }
   return view;
 };
-WebphoneAlert.handleMessage = ({ message }) =>
+// @ts-expect-error TS(2339): Property 'handleMessage' does not exist on type 'S... Remove this comment to see the full error message
+WebphoneAlert.handleMessage = ({ message }: any) =>
   webphoneMessageList.filter((err) => err === message).length > 0;
 export default WebphoneAlert;

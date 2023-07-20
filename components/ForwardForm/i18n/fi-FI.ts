@@ -1,5 +1,5 @@
 export default {
-  forward: "Siirrä",
+  forward: "Lähetä edelleen",
   cancel: "Peruuta",
   customNumber: "Mukautettu numero"
 };

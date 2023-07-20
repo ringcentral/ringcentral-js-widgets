@@ -1,73 +1,51 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
+require("core-js/modules/es.array.slice");
+require("core-js/modules/es.function.name");
+require("core-js/modules/es.object.define-properties");
+require("core-js/modules/es.object.freeze");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.ContactItem = void 0;
-
-require("core-js/modules/es6.object.define-properties");
-
-require("core-js/modules/es6.object.freeze");
-
-require("core-js/modules/es6.array.slice");
-
-require("core-js/modules/es6.function.name");
-
 var _react = _interopRequireDefault(require("react"));
-
 var _juno = require("@ringcentral/juno");
-
 var _ContactInfo = require("./ContactInfo");
-
 var _ContactPhone = require("./ContactPhone");
-
 var _DoNotCallIndicator = require("./DoNotCallIndicator");
-
 var _styles = _interopRequireDefault(require("./styles.scss"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 function _templateObject() {
   var data = _taggedTemplateLiteral(["\n  color: ", ";\n  font-size: 13px;\n"]);
-
   _templateObject = function _templateObject() {
     return data;
   };
-
   return data;
 }
-
 function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
-
 var StyledListItem = (0, _juno.styled)(_juno.RcListItem)(_templateObject(), (0, _juno.palette2)('neutral', 'f04'));
-
 var ContactItem = function ContactItem(_ref) {
   var currentLocale = _ref.currentLocale,
-      active = _ref.active,
-      onHover = _ref.onHover,
-      onClick = _ref.onClick,
-      name = _ref.name,
-      entityType = _ref.entityType,
-      phoneType = _ref.phoneType,
-      phoneNumber = _ref.phoneNumber,
-      formatContactPhone = _ref.formatContactPhone,
-      titleEnabled = _ref.titleEnabled,
-      doNotCall = _ref.doNotCall,
-      phoneTypeRenderer = _ref.phoneTypeRenderer,
-      phoneSourceNameRenderer = _ref.phoneSourceNameRenderer,
-      ContactInfoRenderer = _ref.contactInfoRenderer,
-      ContactPhoneRenderer = _ref.contactPhoneRenderer;
-
+    active = _ref.active,
+    onHover = _ref.onHover,
+    onClick = _ref.onClick,
+    name = _ref.name,
+    entityType = _ref.entityType,
+    phoneType = _ref.phoneType,
+    phoneNumber = _ref.phoneNumber,
+    formatContactPhone = _ref.formatContactPhone,
+    titleEnabled = _ref.titleEnabled,
+    doNotCall = _ref.doNotCall,
+    phoneTypeRenderer = _ref.phoneTypeRenderer,
+    phoneSourceNameRenderer = _ref.phoneSourceNameRenderer,
+    ContactInfoRenderer = _ref.contactInfoRenderer,
+    ContactPhoneRenderer = _ref.contactPhoneRenderer;
   if (!ContactInfoRenderer) {
     ContactInfoRenderer = _ContactInfo.ContactInfo;
   }
-
   if (!ContactPhoneRenderer) {
     ContactPhoneRenderer = _ContactPhone.ContactPhone;
   }
-
   return /*#__PURE__*/_react["default"].createElement(StyledListItem, {
     className: _styles["default"].contactItem,
     onMouseOver: onHover,
@@ -102,7 +80,6 @@ var ContactItem = function ContactItem(_ref) {
     titleEnabled: titleEnabled
   })));
 };
-
 exports.ContactItem = ContactItem;
 ContactItem.defaultProps = {
   titleEnabled: undefined,

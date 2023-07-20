@@ -44,8 +44,10 @@ type CallListProps = {
   externalHasEntity?: (...args: any[]) => any;
   readTextPermission?: boolean;
   enableCDC?: boolean;
+  maxExtensionNumberLength: number;
 };
 class CallList extends PureComponent<CallListProps, {}> {
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     const {
       className,
@@ -88,6 +90,7 @@ class CallList extends PureComponent<CallListProps, {}> {
       externalHasEntity,
       readTextPermission,
       enableCDC,
+      maxExtensionNumberLength,
     } = this.props;
     if (calls && calls.length) {
       return (
@@ -95,6 +98,7 @@ class CallList extends PureComponent<CallListProps, {}> {
           {calls.map((call, index) => (
             <CallItem
               key={call.id}
+              // @ts-expect-error TS(2322): Type '{ key: any; call: any; renderIndex: number; ... Remove this comment to see the full error message
               call={call}
               renderIndex={index}
               currentLocale={currentLocale}
@@ -117,6 +121,7 @@ class CallList extends PureComponent<CallListProps, {}> {
               internalSmsPermission={internalSmsPermission}
               active={active}
               dateTimeFormatter={dateTimeFormatter}
+              // @ts-expect-error TS(2532): Object is possibly 'undefined'.
               isLogging={!!loggingMap[call.sessionId]}
               webphoneAnswer={webphoneAnswer}
               webphoneReject={webphoneReject}
@@ -135,6 +140,7 @@ class CallList extends PureComponent<CallListProps, {}> {
               externalHasEntity={externalHasEntity}
               readTextPermission={readTextPermission}
               enableCDC={enableCDC}
+              maxExtensionNumberLength={maxExtensionNumberLength}
             />
           ))}
         </div>
@@ -142,11 +148,13 @@ class CallList extends PureComponent<CallListProps, {}> {
     }
     return (
       <div className={className}>
+        {/* @ts-expect-error TS(2322): Type 'boolean | undefined' is not */}
         <NoCalls currentLocale={currentLocale} active={active} />
       </div>
     );
   }
 }
+// @ts-expect-error TS(2339): Property 'defaultProps' does not exist on type 'ty... Remove this comment to see the full error message
 CallList.defaultProps = {
   currentSiteCode: '',
   isMultipleSiteEnabled: false,

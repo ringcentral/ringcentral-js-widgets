@@ -1,9 +1,11 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import { combineProps, RcCircularProgress } from '@ringcentral/juno';
 
-import { BlockItem } from '../../modules/Block';
-import { SpinnerOverlay, SpinnerOverlayProps } from '../SpinnerOverlay';
+import type { BlockItem } from '../../modules/Block';
+import type { SpinnerOverlayProps } from '../SpinnerOverlay';
+import { SpinnerOverlay } from '../SpinnerOverlay';
 import styles from './styles.scss';
 
 export type BlockPanelProps = {

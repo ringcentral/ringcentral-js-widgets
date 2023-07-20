@@ -1,1 +1,1 @@
-{"version":3,"sources":["lib/environment.ts"],"names":["environment","defaultLocale"],"mappings":";;;;;;;;AAAO,IAAMA,WAAW,GAAG;AACzBC,EAAAA,aAAa,EAAE;AADU,CAApB","sourcesContent":["export const environment = {\n  defaultLocale: 'en-US',\n};\n"],"file":"environment.js"}
+{"version":3,"file":"environment.js","names":["environment","defaultLocale","exports"],"sources":["lib/environment.ts"],"sourcesContent":["export const environment = {\n  defaultLocale: 'en-US',\n};\n"],"mappings":";;;;;;AAAO,IAAMA,WAAW,GAAG;EACzBC,aAAa,EAAE;AACjB,CAAC;AAACC,OAAA,CAAAF,WAAA,GAAAA,WAAA"}

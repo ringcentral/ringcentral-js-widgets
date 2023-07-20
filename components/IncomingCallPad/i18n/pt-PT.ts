@@ -1,8 +1,8 @@
 export default {
-  forward: "Reencam.",
+  forward: "Reenc.",
   reply: "Responder",
   ignore: "Ignorar",
-  toVoicemail: "P/ correio voz",
+  toVoicemail: "Para correio de voz",
   answer: "Atender",
   answerAndEnd: "Atender e terminar",
   answerAndHold: "Atender e em espera"

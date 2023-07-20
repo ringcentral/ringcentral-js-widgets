@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -13,12 +11,12 @@ var _default = {
   select: "Select a matching record",
   OnHold: "On Hold",
   Ringing: "Ringing",
-  CallConnected: "Call connected",
+  CallConnected: "Call Connected",
   unknownUser: "Unknown user",
   unknownNumber: "Anonymous",
   unavailable: "Unavailable",
-  viewDetails: "View details",
-  addEntity: "Create new",
+  viewDetails: "View Details",
+  addEntity: "Create New",
   addLog: "Log",
   text: "Text",
   call: "Call",
@@ -43,6 +41,5 @@ var _default = {
 // @key: @#@"missedCall"@#@ @source: @#@"Missed"@#@
 // @key: @#@"inboundCall"@#@ @source: @#@"Inbound"@#@
 // @key: @#@"outboundCall"@#@ @source: @#@"Outbound"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=en-AU.js.map

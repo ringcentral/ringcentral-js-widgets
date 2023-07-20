@@ -1,6 +1,6 @@
 export default {
   Home: "自宅",
-  Mobile: "携帯電話",
+  Mobile: "モバイル",
   Work: "職場"
 };
 

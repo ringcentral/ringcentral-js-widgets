@@ -1,19 +1,22 @@
 import { any, find } from 'ramda';
-
-import { RcVMeetingModel } from '@ringcentral-integration/commons/interfaces/Rcv.model';
+import type { UIProps, UIFunctions } from '@ringcentral-integration/core';
+import { RcUIModuleV2, action, state } from '@ringcentral-integration/core';
+import type { RcVMeetingModel } from '@ringcentral-integration/commons/interfaces/Rcv.model';
 import { Module } from '@ringcentral-integration/commons/lib/di';
-import { RcMMeetingModel } from '@ringcentral-integration/commons/modules/MeetingV2';
+import type { RcMMeetingModel } from '@ringcentral-integration/commons/modules/Meeting';
+import type {
+  DisableE2eeWhenRelatedOptionMatch,
+  RcvDelegator,
+} from '@ringcentral-integration/commons/modules/RcVideo';
 import {
   AUTH_USER_TYPE,
   DISABLE_E2EE_WHEN_RELATED_OPTION_MATCH,
-  DisableE2eeWhenRelatedOptionMatch,
   JBH_LABEL,
   RCV_WAITING_ROOM_MODE,
-  RcvDelegator,
-} from '@ringcentral-integration/commons/modules/RcVideoV2';
-import { RcUIModuleV2, action, state } from '@ringcentral-integration/core';
+} from '@ringcentral-integration/commons/modules/RcVideo';
 
-import {
+import type { GenericMeetingPanelProps } from '../../components/GenericMeetingPanel';
+import type {
   Deps,
   GenericMeetingContainerProps,
 } from './GenericMeetingUI.interface';
@@ -59,6 +62,7 @@ export class GenericMeetingUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
       (item) => item.extensionId === meeting.extensionId,
       delegators,
     );
+    // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
     isDelegator = user && !user.isLoginUser;
 
     const enableWaitingRoom =
@@ -81,9 +85,11 @@ export class GenericMeetingUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
     const isE2EEDisabled =
       showE2EE &&
       ((this._deps.appFeatures.ready && !this._deps.appFeatures.hasVideoE2EE) ||
+        // @ts-expect-error TS(2339): Property 'e2ee' does not exist on type '{}'.
         settingLock.e2ee ||
         any(
           (key: DisableE2eeWhenRelatedOptionMatch) =>
+            // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
             settingLock[key] &&
             meeting[key] === DISABLE_E2EE_WHEN_RELATED_OPTION_MATCH[key],
         )(
@@ -162,7 +168,9 @@ export class GenericMeetingUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
     };
   }
 
-  getUIProps(props: GenericMeetingContainerProps) {
+  getUIProps(
+    props: GenericMeetingContainerProps,
+  ): UIProps<GenericMeetingPanelProps> {
     const {
       useRcmV2,
       disabled,
@@ -192,11 +200,13 @@ export class GenericMeetingUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
       (this._deps.rateLimiter && this._deps.rateLimiter.throttling)
     );
 
+    // @ts-expect-error TS(2345): Argument of type 'GenericMeetingContainerProps' is... Remove this comment to see the full error message
     const config = isRCM ? this.getRcmConfig(props) : this.getRcvConfig(props);
 
     return {
       isRCV,
       isRCM,
+      // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
       useRcmV2,
       showWhen,
       showTopic,
@@ -209,6 +219,7 @@ export class GenericMeetingUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
       showRcvAdminLock,
       showPmiConfirm,
       showRemoveMeetingWarning,
+      // @ts-expect-error TS(2322): Type '{ id: string; code: string; name: string; sh... Remove this comment to see the full error message
       brandConfig: this._deps.brand.brandConfig,
       recurringMeetingPosition,
       meeting: this.meeting,
@@ -220,7 +231,7 @@ export class GenericMeetingUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
         this._deps.genericMeeting.ready &&
         this._deps.genericMeeting.showSaveAsDefault,
       // Need to add this back when we back to this ticket
-      // https://jira.ringcentral.com/browse/RCINT-15031
+      // https://jira_domain/browse/RCINT-15031
       // disableSaveAsDefault:
       //   this._deps.genericMeeting.ready &&
       //   !this._deps.genericMeeting.isPreferencesChanged,
@@ -231,6 +242,7 @@ export class GenericMeetingUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
       enablePersonalMeeting:
         this._deps.genericMeeting.ready &&
         this._deps.genericMeeting.enablePersonalMeeting,
+      // @ts-expect-error TS(2322): Type 'string | false' is not assignable to type 's... Remove this comment to see the full error message
       personalMeetingId:
         this._deps.genericMeeting.ready &&
         this._deps.genericMeeting.personalMeetingId,
@@ -254,7 +266,7 @@ export class GenericMeetingUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
     };
   }
 
-  getUIFunctions({ schedule }: any) {
+  getUIFunctions({ schedule }: any): UIFunctions<GenericMeetingPanelProps> {
     return {
       switchUsePersonalMeetingId: (usePersonalMeetingId: boolean) => {
         this._deps.genericMeeting.switchUsePersonalMeetingId(
@@ -299,6 +311,7 @@ export class GenericMeetingUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
             e2ee: e2eeValue,
           } as RcVMeetingModel);
           // when user turn on e2ee option in pmi meeting, should switch to non-pmi meeting
+          // @ts-expect-error TS(2531): Object is possibly 'null'.
         } else if (this._deps.genericMeeting.meeting.usePersonalMeetingId) {
           this._deps.genericMeeting.switchUsePersonalMeetingId(false);
           this._deps.genericMeeting.turnOnE2ee();

@@ -1,7 +1,9 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
-import { RcIconButton, RcIconButtonProps } from '@ringcentral/juno';
-import { ArrowRight1 } from '@ringcentral/juno/icon';
+import type { RcIconButtonProps } from '@ringcentral/juno';
+import { RcIconButton } from '@ringcentral/juno';
+import { ArrowRight1 } from '@ringcentral/juno-icon';
 
 type CustomArrowButtonProps = {} & RcIconButtonProps;
 

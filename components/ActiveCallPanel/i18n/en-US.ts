@@ -4,5 +4,5 @@ export default {
   unknown: 'Unknown',
   disconnected: 'Disconnected',
   loading: 'Loading ...',
-  loadingTimeout: 'Loading timeout.'
+  loadingTimeout: 'Loading timeout.',
 };

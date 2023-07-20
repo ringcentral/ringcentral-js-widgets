@@ -1,25 +1,26 @@
 export default {
   region: "地區",
-  calling: "撥號",
+  calling: "通話",
   logout: "登出",
   version: "版本",
   settings: "設定",
-  clickToDial: "按一下撥號",
+  clickToDial: "點擊撥號",
   autoCreateLog: "自動建立通話記錄",
   autoCreateSMSLog: "自動建立簡訊記錄",
   autoLogCalls: "自動記錄通話",
   autoLogNotes: "自動記錄筆記",
   autoLogSMS: "自動記錄簡訊",
-  clickToSMS: "按一下傳送簡訊",
+  clickToSMS: "點擊傳送簡訊",
   logSMSContent: "記錄簡訊內容",
-  clickToDialSMS: "按一下撥號/傳送簡訊",
+  clickToDialSMS: "點擊撥號/傳送簡訊",
   audio: "音訊",
   language: "語言",
   feedback: "意見回饋",
   userGuide: "新功能",
   quickAccess: "快速存取設定",
   report: "分析報告",
-  shareIdea: "分享意見"
+  shareIdea: "分享意見",
+  reportIssue: "回報問題"
 };
 
 // @key: @#@"region"@#@ @source: @#@"Region"@#@
@@ -43,3 +44,4 @@ export default {
 // @key: @#@"quickAccess"@#@ @source: @#@"Quick Access Setting"@#@
 // @key: @#@"report"@#@ @source: @#@"Analytics Report"@#@
 // @key: @#@"shareIdea"@#@ @source: @#@"Share idea"@#@
+// @key: @#@"reportIssue"@#@ @source: @#@"Report issue"@#@

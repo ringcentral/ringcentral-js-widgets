@@ -1,11 +1,6 @@
-import { FunctionComponent, MouseEvent, ReactNode } from 'react';
+import type { FunctionComponent, MouseEvent, ReactNode } from 'react';
 
-export interface Recipient {
-  name: string;
-  entityType?: string;
-  phoneType?: string;
-  phoneNumber: string;
-}
+import type { ToNumber as Recipient } from '@ringcentral-integration/commons/modules/ComposeText';
 
 export interface BaseRecipientsInputProps {
   enableTitle: boolean;

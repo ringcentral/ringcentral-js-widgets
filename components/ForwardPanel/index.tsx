@@ -21,20 +21,22 @@ type ForwardPanelState = {
 };
 class ForwardPanel extends PureComponent<ForwardPanelProps, ForwardPanelState> {
   _mounted = false;
-  constructor(props) {
+  constructor(props: any) {
     super(props);
     this.state = {
       toNumber: '',
       forwarding: false,
     };
   }
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   componentDidMount() {
     this._mounted = true;
   }
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   componentWillUnmount() {
     this._mounted = false;
   }
-  onButtonOutput = (key) => {
+  onButtonOutput = (key: any) => {
     this.setState((preState) => {
       const value = preState.toNumber + key;
       return { toNumber: value };
@@ -52,12 +54,13 @@ class ForwardPanel extends PureComponent<ForwardPanelProps, ForwardPanelState> {
       forwarding: false,
     });
   };
-  onToNumberChange = (event) => {
+  onToNumberChange = (event: any) => {
     const toNumber = event.currentTarget.value;
     this.setState({
       toNumber,
     });
   };
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     const { onBackClick, currentLocale, children } = this.props;
     const { forwarding } = this.state;

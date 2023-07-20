@@ -1,24 +1,15 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
+require("core-js/modules/es.array.map");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-
-require("core-js/modules/es6.array.map");
-
 var _react = _interopRequireDefault(require("react"));
-
 var _classnames = _interopRequireDefault(require("classnames"));
-
 var _DialButton = _interopRequireDefault(require("../DialButton"));
-
 var _styles = _interopRequireDefault(require("./styles.scss"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 var keyConfig = [[{
   value: '1',
   text: ''
@@ -66,16 +57,15 @@ var keyConfig = [[{
   value: '#',
   text: ''
 }]];
-
 var DialPad = function DialPad(_ref) {
   var className = _ref.className,
-      hideSpecial = _ref.hideSpecial,
-      onButtonPress = _ref.onButtonPress,
-      onButtonOutput = _ref.onButtonOutput,
-      alternativeTimeout = _ref.alternativeTimeout,
-      dialButtonVolume = _ref.dialButtonVolume,
-      dialButtonMuted = _ref.dialButtonMuted,
-      dataSign = _ref.dataSign;
+    hideSpecial = _ref.hideSpecial,
+    onButtonPress = _ref.onButtonPress,
+    onButtonOutput = _ref.onButtonOutput,
+    alternativeTimeout = _ref.alternativeTimeout,
+    dialButtonVolume = _ref.dialButtonVolume,
+    dialButtonMuted = _ref.dialButtonMuted,
+    dataSign = _ref.dataSign;
   dataSign = typeof dataSign !== 'undefined' ? dataSign : '';
   return /*#__PURE__*/_react["default"].createElement("div", {
     "data-sign": "".concat(dataSign, "DialPad"),
@@ -91,7 +81,6 @@ var DialPad = function DialPad(_ref) {
           className: _styles["default"].btnPlaceholder
         });
       }
-
       return /*#__PURE__*/_react["default"].createElement(_DialButton["default"], {
         key: btn.value,
         btn: btn,
@@ -105,7 +94,6 @@ var DialPad = function DialPad(_ref) {
     }));
   }));
 };
-
 DialPad.defaultProps = {
   className: undefined,
   hideSpecial: false,

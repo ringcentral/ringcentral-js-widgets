@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -21,6 +19,5 @@ var _default = {
 // @key: @#@"case"@#@ @source: @#@"Case"@#@
 // @key: @#@"chooseEntity"@#@ @source: @#@"Please select entity type"@#@
 // @key: @#@"create"@#@ @source: @#@"Create"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=fr-FR.js.map

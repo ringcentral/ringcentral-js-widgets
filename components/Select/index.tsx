@@ -38,8 +38,10 @@ const Select: React.SFC<SelectProps> = ({
         onChange={onChange}
       >
         {options.map((option, idx) => (
+          // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
           // eslint-disable-next-line react/no-array-index-key
           <option key={idx} value={valueFunction(option, idx)}>
+            {/* @ts-expect-error TS(2722): Cannot invoke an object which is */}
             {renderFunction(option, idx)}
           </option>
         ))}

@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -10,7 +8,7 @@ var _default = {
   cancel: "Cancel",
   reply: "Reply",
   onMyWay: "On my way",
-  customMessage: "Custom message",
+  customMessage: "Custom Message",
   callMeBackIn: "Call me back in",
   willCallYouBackIn: "Will call you back in",
   min: "min",
@@ -25,6 +23,5 @@ var _default = {
 // @key: @#@"min"@#@ @source: @#@"min"@#@
 // @key: @#@"hours"@#@ @source: @#@"hours"@#@
 // @key: @#@"days"@#@ @source: @#@"days"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=en-GB.js.map

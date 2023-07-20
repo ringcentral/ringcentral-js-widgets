@@ -1,99 +1,102 @@
-import React, { PureComponent } from 'react';
-
-import PropTypes from 'prop-types';
+import type { FunctionComponent } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { formatSameSiteExtension } from '@ringcentral-integration/phone-number/lib/format';
+import { useSleep } from '@ringcentral/juno';
 
 import DefaultAvatar from '../../assets/images/DefaultAvatar.svg';
 import PlaceholderImage from '../PlaceholderImage';
 import PresenceStatusIcon from '../PresenceStatusIcon';
+import type { GetPresenceFn } from '../../react-hooks/usePresence';
+import { usePresence } from '../../react-hooks/usePresence';
 import i18n from './i18n';
 import styles from './styles.scss';
 
-function AvatarNode({ name, avatarUrl, isInactive }) {
+interface AvatarNodeProps {
+  name: string;
+  avatarUrl: string;
+  isInactive: boolean;
+}
+
+const AvatarNode: FunctionComponent<AvatarNodeProps> = ({
+  name,
+  avatarUrl,
+  isInactive,
+}) => {
   const avatarStyle = isInactive
     ? styles.inactiveAvatarNode
     : styles.avatarNode;
   return (
     <PlaceholderImage
+      // @ts-expect-error TS(2322): Type '{ className: string; alt: any; src: any; pla... Remove this comment to see the full error message
       className={avatarStyle}
       alt={name}
       src={avatarUrl}
-      placeholder={<DefaultAvatar className={avatarStyle} />}
+      placeholder={
+        <DefaultAvatar
+          data-sign="profile"
+          data-inactive={isInactive}
+          className={avatarStyle}
+        />
+      }
     />
   );
+};
+
+interface ContactItemProps {
+  currentLocale: string;
+  currentSiteCode: string;
+  isMultipleSiteEnabled: boolean;
+  contact: {
+    id: string;
+    type: string;
+    name: string;
+    extensionNumber: string;
+    email: string;
+    profileImageUrl: string;
+    presence: any;
+    contactStatus: string;
+  };
+  getAvatarUrl: Function;
+  getPresence: GetPresenceFn;
+  onSelect: Function;
+  sourceNodeRenderer: Function;
 }
 
-AvatarNode.propTypes = {
-  name: PropTypes.string,
-  avatarUrl: PropTypes.string,
-  isInactive: PropTypes.bool,
-};
-AvatarNode.defaultProps = {
-  name: undefined,
-  avatarUrl: undefined,
-  isInactive: false,
-};
+const defaultSourceNodeRenderer = () => null;
+export const ContactItem: FunctionComponent<ContactItemProps> = ({
+  contact,
+  currentLocale,
+  getPresence,
+  getAvatarUrl,
+  onSelect,
+  currentSiteCode = '',
+  isMultipleSiteEnabled = false,
+  sourceNodeRenderer = defaultSourceNodeRenderer,
+}) => {
+  const [loading, setLoading] = useState(true);
 
-class ContactItem extends PureComponent {
-  constructor(props) {
-    super(props);
-    this.state = {
-      loading: true,
-    };
-    this.onItemSelected = this.onItemSelected.bind(this);
-  }
+  const { sleep: sleepForLoading } = useSleep();
+  const { sleep: sleepForGettingInfo } = useSleep();
 
-  componentDidMount() {
-    this._mounted = true;
-    this._loadingTimeout = setTimeout(() => {
-      if (this._mounted) {
-        this.setState({
-          loading: false,
-        });
-      }
-    }, 3);
-    setTimeout(() => {
-      if (this._mounted) {
-        this.props.getAvatarUrl(this.props.contact);
-        this.props.getPresence(this.props.contact);
-      }
-    }, 500);
-  }
+  const presence = usePresence(contact, { fetch: getPresence, timeout: 500 });
 
-  componentWillUnmount() {
-    this._mounted = false;
-    if (this._loadingTimeout) {
-      clearTimeout(this._loadingTimeout);
+  const onItemSelected = () => {
+    if (onSelect) {
+      onSelect(contact);
     }
-  }
-
-  onItemSelected() {
-    const func = this.props.onSelect;
-    if (func) {
-      func(this.props.contact);
-    }
-  }
-
-  renderPresence = (contact) => {
-    const { presence, contactStatus } = contact;
-    if (contactStatus === 'NotActivated') {
-      return null;
-    }
-
-    return presence ? (
-      <div className={styles.presenceNodeContainer}>
-        <PresenceStatusIcon className={styles.presenceNode} {...presence} />
-      </div>
-    ) : null;
   };
 
-  renderMiddle = (contact, currentLocale) => {
+  const renderMiddle = () => {
     const { name, contactStatus } = contact;
     if (contactStatus === 'NotActivated') {
       return (
         <div className={styles.infoWrapper}>
-          <div className={styles.inactiveContactName} title={name}>
+          <div
+            className={styles.inactiveContactName}
+            data-inactive
+            title={name}
+          >
             {name}
           </div>
           <div className={styles.inactiveText}>
@@ -102,7 +105,6 @@ class ContactItem extends PureComponent {
         </div>
       );
     }
-
     return (
       <div className={styles.contactName} title={name}>
         {name}
@@ -110,79 +112,63 @@ class ContactItem extends PureComponent {
     );
   };
 
-  render() {
-    if (this.state.loading) {
-      return <div className={styles.root} />;
-    }
-    const { contact, currentLocale, currentSiteCode, isMultipleSiteEnabled } =
-      this.props;
-    const { name, extensionNumber, type, profileImageUrl, contactStatus } =
-      contact;
+  useEffect(() => {
+    // TODO: should know why need 3s delay
+    sleepForLoading(3).then(() => {
+      setLoading(false);
+    });
 
-    let displayingNumber = extensionNumber;
+    sleepForGettingInfo(500).then(async () => {
+      getAvatarUrl(contact);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
-    if (isMultipleSiteEnabled) {
-      displayingNumber = formatSameSiteExtension({
-        currentSiteCode,
-        extension: extensionNumber,
-      });
-    }
-
-    const { sourceNodeRenderer } = this.props;
-    const sourceNode = sourceNodeRenderer({ sourceType: type });
-    return (
-      <div
-        className={styles.root}
-        onClick={this.onItemSelected}
-        data-sign="contactItem"
-      >
-        <div className={styles.contactProfile}>
-          <div className={styles.avatarNodeContainer}>
-            <AvatarNode
-              name={name}
-              avatarUrl={profileImageUrl}
-              isInactive={contactStatus === 'NotActivated'}
-            />
-          </div>
-          {sourceNode ? (
-            <div className={styles.sourceNodeContainer}>{sourceNode}</div>
-          ) : null}
-          {this.renderPresence(this.props.contact)}
-        </div>
-        {this.renderMiddle(contact, currentLocale)}
-        <div className={styles.phoneNumber} title={displayingNumber}>
-          {displayingNumber}
-        </div>
-      </div>
-    );
+  if (loading) {
+    return <div className={styles.root} />;
   }
-}
 
-ContactItem.propTypes = {
-  currentLocale: PropTypes.string.isRequired,
-  currentSiteCode: PropTypes.string,
-  isMultipleSiteEnabled: PropTypes.bool,
-  contact: PropTypes.shape({
-    id: PropTypes.string,
-    type: PropTypes.string,
-    name: PropTypes.string,
-    extensionNumber: PropTypes.string,
-    email: PropTypes.string,
-    profileImageUrl: PropTypes.string,
-    presence: PropTypes.object,
-    contactStatus: PropTypes.string,
-  }).isRequired,
-  getAvatarUrl: PropTypes.func.isRequired,
-  getPresence: PropTypes.func.isRequired,
-  onSelect: PropTypes.func,
-  sourceNodeRenderer: PropTypes.func,
-};
+  const { name, extensionNumber, type, profileImageUrl, contactStatus } =
+    contact;
 
-ContactItem.defaultProps = {
-  onSelect: undefined,
-  currentSiteCode: '',
-  isMultipleSiteEnabled: false,
-  sourceNodeRenderer: () => null,
+  let displayingNumber = extensionNumber;
+  if (isMultipleSiteEnabled) {
+    displayingNumber = formatSameSiteExtension({
+      currentSiteCode,
+      extension: extensionNumber,
+    });
+  }
+  const sourceNode = sourceNodeRenderer({ sourceType: type });
+
+  return (
+    <div
+      className={styles.root}
+      onClick={onItemSelected}
+      data-sign="contactItem"
+    >
+      <div className={styles.contactProfile}>
+        <div className={styles.avatarNodeContainer}>
+          <AvatarNode
+            name={name}
+            avatarUrl={profileImageUrl}
+            isInactive={contactStatus === 'NotActivated'}
+          />
+        </div>
+        {sourceNode ? (
+          <div className={styles.sourceNodeContainer}>{sourceNode}</div>
+        ) : null}
+        {contactStatus !== 'NotActivated' && presence ? (
+          <div className={styles.presenceNodeContainer}>
+            <PresenceStatusIcon className={styles.presenceNode} {...presence} />
+          </div>
+        ) : null}
+      </div>
+      {renderMiddle()}
+      <div className={styles.phoneNumber} title={displayingNumber}>
+        {displayingNumber}
+      </div>
+    </div>
+  );
 };
 
 export default ContactItem;

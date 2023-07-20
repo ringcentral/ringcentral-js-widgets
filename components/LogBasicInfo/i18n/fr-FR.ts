@@ -1,6 +1,6 @@
+import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 import callResults from '@ringcentral-integration/commons/enums/callResults';
 import telephonyStatuses from '@ringcentral-integration/commons/enums/telephonyStatus';
-import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 export default {
   [callDirections.inbound]: "Entrant",
   [callDirections.outbound]: "Sortant",
@@ -16,8 +16,8 @@ export default {
   [telephonyStatuses.parkedCall]: "Parqué",
   [callResults.unknown]: "Inconnu",
   [callResults.missed]: "Manqué",
-  [callResults.callAccepted]: "Réponse obtenue",
-  [callResults.accepted]: "Réponse obtenue",
+  [callResults.callAccepted]: "Répondu",
+  [callResults.accepted]: "Répondu",
   [callResults.voicemail]: "Messagerie vocale",
   [callResults.rejected]: "Refusé",
   [callResults.reply]: "Répondre",
@@ -26,10 +26,10 @@ export default {
   [callResults.faxOnDemand]: "Fax à la demande",
   [callResults.partialReceive]: "Réception partielle",
   [callResults.blocked]: "Bloqué",
-  [callResults.callConnected]: "Appel connecté",
+  [callResults.callConnected]: "Appel établi",
   [callResults.noAnswer]: "Aucune réponse",
   [callResults.internationalDisabled]: "Appels à l’international désactivés",
-  [callResults.busy]: "Occupé(e)",
+  [callResults.busy]: "Occupé",
   [callResults.faxSendError]: "Erreur d’envoi du fax",
   [callResults.sent]: "Envoyé",
   [callResults.callFailed]: "L’appel a échoué",

@@ -1,16 +1,19 @@
 import React, { Component } from 'react';
+import { RcLink } from '@ringcentral/juno';
 
 import classnames from 'classnames';
 
+import { formatDuration } from '@ringcentral-integration/commons/lib/formatDuration';
 import DownloadIcon from '../../assets/images/Download.svg';
 import PauseIcon from '../../assets/images/Pause.svg';
 import PlayIcon from '../../assets/images/Play.svg';
-import formatDuration from '../../lib/formatDuration';
 import { Button } from '../Button';
 import i18n from './i18n';
 import styles from './styles.scss';
 
 const audiosMap = {};
+const isFirefox = navigator.userAgent.indexOf('Firefox') > 0;
+
 type VoicemailPlayerProps = {
   duration?: number;
   uri: string;
@@ -28,7 +31,12 @@ class VoicemailPlayer extends Component<
   VoicemailPlayerProps,
   VoicemailPlayerState
 > {
-  constructor(props) {
+  _audio: any;
+  _id: any;
+  _mounted: any;
+  _pauseAudio: any;
+  _playAudio: any;
+  constructor(props: any) {
     super(props);
     this.state = {
       playing: false,
@@ -41,6 +49,7 @@ class VoicemailPlayer extends Component<
     this._audio = new Audio();
     this._audio.preload = false;
     this._audio.volume = 1;
+    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     audiosMap[this._id] = this._audio;
     this._audio.addEventListener('timeupdate', () => {
       if (!this._mounted) {
@@ -109,17 +118,26 @@ class VoicemailPlayer extends Component<
         });
       }
     };
-    this._onDownloadClick = (e) => {
-      if (this.props.disabled) {
-        e.preventDefault();
-      }
-    };
   }
+
+  _onDownloadClick = (
+    e: React.MouseEvent<HTMLAnchorElement, MouseEvent>,
+    downloadUri: string,
+  ) => {
+    /**
+     * target="_blank" doesn't work on firefox, so we need to use window.open
+     */
+    if (isFirefox) {
+      window.open(downloadUri);
+    }
+  };
+
   _pauseOtherAudios() {
     Object.keys(audiosMap).forEach((id) => {
       if (id === this._id) {
         return;
       }
+      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       const otherAudio = audiosMap[id];
       if (otherAudio.isPlaying && otherAudio._playPromise) {
         otherAudio._playPromise.then(() => {
@@ -128,17 +146,21 @@ class VoicemailPlayer extends Component<
       }
     });
   }
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   componentDidMount() {
     this._mounted = true;
   }
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   componentWillUnmount() {
     this._mounted = false;
     if (!Number.isNaN(this._audio.duration)) {
       this._audio.currentTime = 0;
     }
     this._audio.pause();
+    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     delete audiosMap[this._id];
   }
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     const { className, duration, uri, disabled, currentLocale } = this.props;
     let icon;
@@ -160,34 +182,39 @@ class VoicemailPlayer extends Component<
           className={classnames(styles.play, disabled ? styles.disabled : null)}
           onClick={this._playAudio}
           disabled={disabled}
+          dataSign="play"
         >
-          <span title={i18n.getString('play', currentLocale)} data-sign="play">
+          <span title={i18n.getString('play', currentLocale)}>
             <PlayIcon width={18} height={18} />
           </span>
         </Button>
       );
     }
     const currentTime =
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       this._audio.currentTime < duration ? this._audio.currentTime : duration;
     const downloadUri = `${uri}&contentDisposition=Attachment`;
     return (
       <div className={classnames(styles.root, className)}>
         {icon}
         <span className={styles.startTime}>{formatDuration(currentTime)}</span>
-        <a
+        <RcLink
           className={classnames(
             styles.download,
             disabled ? styles.disabled : null,
           )}
           target="_blank"
           download
+          disabled={disabled}
           data-sign="download"
           title={i18n.getString('download', currentLocale)}
-          href={downloadUri}
-          onClick={this._onDownloadClick}
+          href={isFirefox ? '#' : downloadUri}
+          onClick={(e) => {
+            this._onDownloadClick(e, downloadUri);
+          }}
         >
           <DownloadIcon width={18} height={18} />
-        </a>
+        </RcLink>
         <span className={styles.endTime}>{formatDuration(duration)}</span>
         <div className={styles.progress}>
           <div className={styles.all} />
@@ -204,6 +231,7 @@ class VoicemailPlayer extends Component<
     );
   }
 }
+// @ts-expect-error TS(2339): Property 'defaultProps' does not exist on type 'ty... Remove this comment to see the full error message
 VoicemailPlayer.defaultProps = {
   duration: 0,
   className: undefined,

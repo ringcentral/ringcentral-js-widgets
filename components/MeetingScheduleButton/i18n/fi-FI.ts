@@ -1,7 +1,7 @@
 export default {
   schedule: "Ajoita tapaaminen",
   prompt: "Anna RingCentralille tilitietojesi käyttöoikeus.",
-  saveAsDefault: "Tallenna oletuksena",
+  saveAsDefault: "Tallenna oletukseksi",
   launchMeeting: "Käynnistä tapaaminen"
 };
 

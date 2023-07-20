@@ -17,6 +17,7 @@ type CheckBoxProps = {
   checked?: boolean;
   disabled?: boolean;
 };
+// @ts-expect-error TS(2322): Type '{ ({ data, selected, onSelect, valueField, t... Remove this comment to see the full error message
 const CheckBox: React.SFC<CheckBoxProps> = ({
   data,
   selected,
@@ -37,10 +38,12 @@ const CheckBox: React.SFC<CheckBoxProps> = ({
     case 'radio': {
       return (
         <div className={className} data-sign={dataSign}>
+          {/* @ts-expect-error TS(2532): Object is possibly 'undefined'. */}
           {data.map((item, key) => {
             const isSelected =
               selected === (isListObject ? item[valueField] : item);
             const checkStyle = isSelected ? styles.selectedCheckButton : null;
+            // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
             const onClick = () => (disabled ? undefined : onSelect(item));
             const extraInfo =
               typeof item.renderExtraInfo === 'function' && isSelected
@@ -103,8 +106,11 @@ const CheckBox: React.SFC<CheckBoxProps> = ({
   }
 };
 CheckBox.defaultProps = {
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   textField: null,
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   valueField: null,
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   className: null,
   dataSign: undefined,
   type: 'radio',

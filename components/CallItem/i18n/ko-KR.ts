@@ -13,8 +13,8 @@ export default {
   addEntity: "새로 만들기",
   addLog: "기록",
   text: "문자",
-  call: "통화",
-  missedCall: "부재중",
+  call: "전화",
+  missedCall: "부재중 전화",
   inboundCall: "수신",
   outboundCall: "발신"
 };

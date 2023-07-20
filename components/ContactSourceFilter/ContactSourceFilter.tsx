@@ -6,7 +6,7 @@ import { RcListItem, RcMenuList, spacing, styled } from '@ringcentral/juno';
 
 import ContactFilterIcon from '../../assets/images/ContactFilter.svg';
 import ContactFilterSolidIcon from '../../assets/images/ContactFilterSolid.svg';
-import i18n from './i18n';
+import i18n, { I18nKey } from './i18n';
 import styles from './styles.scss';
 
 const StyledListItem = styled(RcListItem)`
@@ -41,10 +41,12 @@ export class ContactSourceFilter extends Component<
       unfold,
     };
   }
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   componentDidMount() {
     this._mounted = true;
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   componentWillUnmount() {
     this._mounted = false;
     if (!this.state.unfold) {
@@ -52,7 +54,7 @@ export class ContactSourceFilter extends Component<
     }
   }
 
-  getString(key: string, locale: string) {
+  getString(key: I18nKey, locale: string) {
     return i18n.getString(key, locale);
   }
 
@@ -95,6 +97,7 @@ export class ContactSourceFilter extends Component<
     this.hideList();
   };
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     const { className, currentLocale, contactSourceNames, selectedSourceName } =
       this.props;
@@ -108,6 +111,7 @@ export class ContactSourceFilter extends Component<
         <div
           data-sign="filterIconContainer"
           className={styles.filterIconContainer}
+          // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
           title={this.getString(selectedSourceName, currentLocale)}
         >
           {isAllSource ? (
@@ -134,7 +138,7 @@ export class ContactSourceFilter extends Component<
                 selected={sourceName === selectedSourceName}
                 disableGutters
               >
-                {this.getString(sourceName, currentLocale)}
+                {this.getString(sourceName as I18nKey, currentLocale)}
               </StyledListItem>
             ))}
           </RcMenuList>

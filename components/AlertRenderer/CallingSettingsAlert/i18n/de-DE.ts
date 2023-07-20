@@ -1,13 +1,13 @@
-import { callingSettingsMessages } from '@ringcentral-integration/commons/modules/CallingSettingsV2/callingSettingsMessages';
+import { callingSettingsMessages } from '@ringcentral-integration/commons/modules/CallingSettings';
 export default {
   [callingSettingsMessages.saveSuccess]: "Einstellungen wurden erfolgreich gespeichert.",
-  [callingSettingsMessages.saveSuccessWithSoftphone]: "Die Einstellungen wurden erfolgreich gespeichert. Stellen Sie sicher, dass Sie {brand} auf Ihrem Computer installiert haben.",
+  [callingSettingsMessages.saveSuccessWithSoftphone]: "Einstellungen wurden erfolgreich gespeichert. Stellen Sie sicher, dass Sie {brand} auf Ihrem Computer installiert haben.",
   [callingSettingsMessages.permissionChanged]: "Ihre Berechtigungen wurden kürzlich geändert. Navigieren Sie zu {link}, um Ihre Anrufoptionen zu überprüfen.",
   [callingSettingsMessages.phoneNumberChanged]: "Ihre Telefonnummerninformationen wurden kürzlich geändert. Navigieren Sie zu {link}, um Ihre Anrufoptionen zu überprüfen.",
   link: "Einstellungen > Anrufen",
   [callingSettingsMessages.webphonePermissionRemoved]: "Ihre Berechtigungen wurden geändert und Sie können über den Browser keine Anrufe tätigen. Wenden Sie sich an Ihren Kontoadministrator, wenn Sie Details benötigen.",
   [callingSettingsMessages.emergencyCallingNotAvailable]: "Das Anrufen des Notrufs oder bestimmter Servicenummern wird nicht unterstützt. Verwenden Sie für Notfallanrufe Ihr Festnetz- oder Ihr Mobiltelefon.",
-  [callingSettingsMessages.saveSuccessWithJupiter]: "Die Einstellungen wurden erfolgreich gespeichert. Stellen Sie sicher, dass Sie {brand} auf Ihrem Computer installiert haben.",
+  [callingSettingsMessages.saveSuccessWithJupiter]: "Einstellungen wurden erfolgreich gespeichert. Stellen Sie sicher, dass Sie {brand} auf Ihrem Computer installiert haben.",
   [callingSettingsMessages.disableEmergencyInJapan]: "Der Notrufdienst ist in Japan nicht verfügbar."
 };
 

@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -11,9 +9,9 @@ var _default = {
   reply: "返信",
   ignore: "無視",
   toVoicemail: "ボイスメールへ",
-  answer: "電話に出る",
+  answer: "応答",
   answerAndEnd: "応答して終了",
-  answerAndHold: "応答して保留"
+  answerAndHold: "応答/保留"
 }; // @key: @#@"forward"@#@ @source: @#@"Forward"@#@
 // @key: @#@"reply"@#@ @source: @#@"Reply"@#@
 // @key: @#@"ignore"@#@ @source: @#@"Ignore"@#@
@@ -21,6 +19,5 @@ var _default = {
 // @key: @#@"answer"@#@ @source: @#@"Answer"@#@
 // @key: @#@"answerAndEnd"@#@ @source: @#@"Answer & End"@#@
 // @key: @#@"answerAndHold"@#@ @source: @#@"Answer & Hold"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=ja-JP.js.map

@@ -66,7 +66,7 @@
   &:before {
     z-index: 0;
     position: absolute;
-    content: "";
+    content: '';
     width: 25px;
     height: 25px;
     bottom: 0px;
@@ -79,7 +79,7 @@
   &:after {
     z-index: 0;
     position: absolute;
-    content: "";
+    content: '';
     width: 30px;
     height: 30px;
     bottom: -1px;
@@ -90,14 +90,14 @@
   }
 }
 
-.messageBody.outbound  {
+.messageBody.outbound {
   float: right;
   clear: both;
   border-bottom-right-radius: 10px;
   &:before {
     z-index: 0;
     position: absolute;
-    content: "";
+    content: '';
     width: 25px;
     height: 25px;
     bottom: -2px;
@@ -110,7 +110,7 @@
   &:after {
     z-index: 0;
     position: absolute;
-    content: "";
+    content: '';
     width: 30px;
     height: 30px;
     bottom: 3px;

@@ -1,0 +1,1 @@
+{"version":3,"file":"it-IT.js","names":["activeCall","exports","_default"],"sources":["components/ConferenceDialerPanel/i18n/it-IT.ts"],"sourcesContent":["export default {\n  activeCall: \"Chiamata attiva\"\n};\n\n// @key: @#@\"activeCall\"@#@ @source: @#@\"Active Call\"@#@\n"],"mappings":";;;;;;eAAe;EACbA,UAAU,EAAE;AACd,CAAC,EAED;AAAAC,OAAA,cAAAC,QAAA"}

@@ -40,27 +40,33 @@ type ComboBoxState = {
   open: any;
 };
 class ComboBox extends Component<ComboBoxProps, ComboBoxState> {
+  dropdownMenu: any;
+  wrapper: any;
   inputRef = createRef();
-  saveContent;
-  constructor(props) {
+  saveContent: any;
+  constructor(props: any) {
     super(props);
     this.state = {
       open: this.props.open,
       filter: null,
     };
   }
-  _toggleShowDropdown = (e) => {
+  _toggleShowDropdown = (e: any) => {
     const { searchOption, stopPropagation, disabled, onToggle } = this.props;
     if (!this.state.open) {
       window.addEventListener('click', this._handleDocumentClick, false);
       if (searchOption) {
+        // @ts-expect-error TS(2571): Object is of type 'unknown'.
         this.saveContent = this.inputRef.current.textContent;
+        // @ts-expect-error TS(2571): Object is of type 'unknown'.
         this.inputRef.current.focus();
+        // @ts-expect-error TS(2345): Argument of type 'null' is not assignable to param... Remove this comment to see the full error message
         document.execCommand('selectAll', false, null);
       }
     } else {
       window.removeEventListener('click', this._handleDocumentClick, false);
       if (searchOption) {
+        // @ts-expect-error TS(2531): Object is possibly 'null'.
         document.getSelection().removeAllRanges();
       }
     }
@@ -70,6 +76,7 @@ class ComboBox extends Component<ComboBoxProps, ComboBoxState> {
     if (disabled) {
       return;
     }
+    // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
     onToggle(!this.state.open);
     if (searchOption) {
       this._reSetBoxValue();
@@ -78,32 +85,37 @@ class ComboBox extends Component<ComboBoxProps, ComboBoxState> {
       open: !preState.open,
     }));
   };
-  onChange = (e, option, idx) => {
+  onChange = (e: any, option: any, idx: any) => {
     e.stopPropagation();
     if (!(this.props.placeholder && idx === 0)) {
+      // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
       this.props.onChange(option, idx);
     }
+    // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
     this._toggleShowDropdown();
   };
-  _handleDocumentClick = (e) => {
+  _handleDocumentClick = (e: any) => {
     if (this.wrapper && this.wrapper.contains(e.target)) {
       return;
     }
     if (this.dropdownMenu && this.dropdownMenu.contains(e.target)) {
       return;
     }
+    // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
     this._toggleShowDropdown();
   };
-  _textChangeEmit = (e) => {
+  _textChangeEmit = (e: any) => {
     this.setState({ filter: e.target.textContent });
   };
-  _textPasteEmit = (e) => {
+  _textPasteEmit = (e: any) => {
     e.preventDefault();
     const text = e.clipboardData.getData('text/plain');
     document.execCommand('insertHTML', false, text);
   };
   _reSetBoxValue() {
+    // @ts-expect-error TS(2571): Object is of type 'unknown'.
     if (this.inputRef.current.textContent !== this.saveContent) {
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       this.inputRef.current.textContent = this.saveContent;
       this.setState({ filter: null });
     }
@@ -111,22 +123,29 @@ class ComboBox extends Component<ComboBoxProps, ComboBoxState> {
   _bindInputListener() {
     if (this.props.searchOption) {
       const inputElm = this.inputRef.current;
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       inputElm.setAttribute('contenteditable', 'true');
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       inputElm.addEventListener('input', this._textChangeEmit, false);
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       inputElm.addEventListener('paste', this._textPasteEmit, false);
     }
   }
   _removeInputListener() {
     if (this.props.searchOption) {
       const inputElm = this.inputRef.current;
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       inputElm.removeEventListener('input', this._textChangeEmit, false);
+      // @ts-expect-error TS(2571): Object is of type 'unknown'.
       inputElm.removeEventListener('paste', this._textPasteEmit, false);
     }
   }
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   componentDidMount() {
     this._bindInputListener();
   }
-  componentDidUpdate(prevProps, prevState) {
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
+  componentDidUpdate(prevProps: any, prevState: any) {
     const { renderDropdownMenu, open } = this.props;
     if (prevState.open !== open) {
       if (renderDropdownMenu && this.wrapper) {
@@ -136,35 +155,41 @@ class ComboBox extends Component<ComboBoxProps, ComboBoxState> {
       }
     }
   }
-  componentWillReceiveProps(nextProps) {
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
+  UNSAFE_componentWillReceiveProps(nextProps: any) {
     if (nextProps.open !== undefined && nextProps.open !== this.props.open) {
       this.setState({
         open: nextProps.open,
       });
     }
   }
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   componentWillUnmount() {
     this._removeInputListener();
   }
-  valueFunction(_, idx) {
+  valueFunction(_: any, idx: any) {
+    // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
     return this.props.valueFunction(
       _,
       this.props.placeholder ? `${idx - 1}` : idx,
     );
   }
-  renderFunction(option, idx) {
+  renderFunction(option: any, idx: any) {
     const { placeholder, renderFunction } = this.props;
+    // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
     return placeholder && idx === 0 ? placeholder : renderFunction(option, idx);
   }
-  renderValue(value) {
+  renderValue(value: any) {
     const { placeholder, renderValue } = this.props;
     if (placeholder) {
       value = parseInt(value, 10) + 1;
+      // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
       return value === 0 ? placeholder : renderValue(value - 1);
     }
+    // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
     return renderValue(value);
   }
-  renderTitle(selectedOption, defaultTitle) {
+  renderTitle(selectedOption: any, defaultTitle: any) {
     const { titleEnabled, renderTitle } = this.props;
     if (titleEnabled) {
       return typeof renderTitle === 'function'
@@ -214,6 +239,7 @@ class ComboBox extends Component<ComboBoxProps, ComboBoxState> {
               key={currentValue || idx}
               className={classnames(
                 className,
+                // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
                 styles[dropdownAlign],
                 ellipsis && styles.ellipsis,
                 placeholder && styles.placeholder,
@@ -229,6 +255,7 @@ class ComboBox extends Component<ComboBoxProps, ComboBoxState> {
       </ul>
     );
   }
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     const {
       reference,
@@ -277,13 +304,16 @@ class ComboBox extends Component<ComboBoxProps, ComboBoxState> {
         }}
       >
         <div
+          // @ts-expect-error TS(2322): Type '{ children: (Element | null)[]; type: string... Remove this comment to see the full error message
           type="button"
           className={classnames(buttonClassName, buttonStyle)}
           onClick={this._toggleShowDropdown}
+          // @ts-expect-error TS(2538): Type 'object' cannot be used as an index type.
           title={this.renderTitle(options[value], renderValue)}
         >
           {currentLabel}
           <span
+            // @ts-expect-error TS(2322): Type 'RefObject<unknown>' is not assignable to typ... Remove this comment to see the full error message
             ref={this.inputRef}
             data-sign="selectedItem"
             className={classnames(
@@ -303,6 +333,7 @@ class ComboBox extends Component<ComboBoxProps, ComboBoxState> {
     );
   }
 }
+// @ts-expect-error TS(2339): Property 'defaultProps' does not exist on type 'ty... Remove this comment to see the full error message
 ComboBox.defaultProps = {
   icon: undefined,
   reference: undefined,
@@ -316,9 +347,9 @@ ComboBox.defaultProps = {
   disabled: false,
   renderDropdownMenu: undefined,
   renderTitle: undefined,
-  valueFunction: (_, idx) => idx,
-  renderFunction: (option) => option,
-  renderValue: (option) => option,
+  valueFunction: (_: any, idx: any) => idx,
+  renderFunction: (option: any) => option,
+  renderValue: (option: any) => option,
   dropdownAlign: 'center',
   titleEnabled: undefined,
   stopPropagation: false,

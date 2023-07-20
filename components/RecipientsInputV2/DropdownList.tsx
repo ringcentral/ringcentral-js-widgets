@@ -3,7 +3,7 @@ import React, { forwardRef, useImperativeHandle, useRef } from 'react';
 import classnames from 'classnames';
 
 import { RecipientOption } from './RecipientOption';
-import {
+import type {
   DropdownListHandles,
   DropdownListProps,
 } from './RecipientsInputV2.interface';
@@ -32,16 +32,21 @@ export const DropdownList = forwardRef<DropdownListHandles, DropdownListProps>(
     useImperativeHandle(ref, () => ({
       scrollUp() {
         if (listEl.current) {
+          // @ts-expect-error TS(2339): Property 'scrollTop' does not exist on type 'never... Remove this comment to see the full error message
           listEl.current.scrollTop = Math.floor(
+            // @ts-expect-error TS(2339): Property 'scrollTop' does not exist on type 'never... Remove this comment to see the full error message
             Math.max(listEl.current.scrollTop - 53, 0),
           );
         }
       },
       scrollDown() {
         if (listEl.current) {
+          // @ts-expect-error TS(2339): Property 'scrollTop' does not exist on type 'never... Remove this comment to see the full error message
           listEl.current.scrollTop = Math.floor(
             Math.min(
+              // @ts-expect-error TS(2339): Property 'scrollTop' does not exist on type 'never... Remove this comment to see the full error message
               listEl.current.scrollTop + 53,
+              // @ts-expect-error TS(2339): Property 'scrollHeight' does not exist on type 'ne... Remove this comment to see the full error message
               listEl.current.scrollHeight,
             ),
           );
@@ -49,6 +54,7 @@ export const DropdownList = forwardRef<DropdownListHandles, DropdownListProps>(
       },
       setScrollPosition(scrollTop) {
         if (listEl.current) {
+          // @ts-expect-error TS(2339): Property 'scrollTop' does not exist on type 'never... Remove this comment to see the full error message
           listEl.current.scrollTop = Math.floor(scrollTop);
         }
       },

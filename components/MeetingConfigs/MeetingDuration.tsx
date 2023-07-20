@@ -1,6 +1,7 @@
 import 'react-widgets/dist/css/react-widgets.css';
 
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import classnames from 'classnames';
 import DropdownList from 'react-widgets/lib/DropdownList';
@@ -36,9 +37,11 @@ const MeetingDuration: FunctionComponent<MeetingDurationProps> = ({
               data={hoursList}
               valueField="value"
               textField="text"
+              // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
               value={parseInt(meeting.schedule.durationInMinutes / 60, 10)}
               onChange={({ value }) => {
                 let restMinutes = meeting.schedule.durationInMinutes % 60;
+                // @ts-expect-error TS(2339): Property 'value' does not exist on type 'never'.
                 const isMax = value === hoursList.slice(-1)[0].value;
                 restMinutes = isMax ? 0 : restMinutes;
                 const durationInMinutes = value * 60 + restMinutes;
@@ -62,9 +65,11 @@ const MeetingDuration: FunctionComponent<MeetingDurationProps> = ({
               value={meeting.schedule.durationInMinutes % 60 || 0}
               onChange={({ value }) => {
                 const restHours = parseInt(
+                  // @ts-expect-error TS(2345): Argument of type 'number' is not assignable to par... Remove this comment to see the full error message
                   meeting.schedule.durationInMinutes / 60,
                   10,
                 );
+                // @ts-expect-error TS(2339): Property 'value' does not exist on type 'never'.
                 const isMax = restHours === hoursList.slice(-1)[0].value;
                 const minutes = isMax ? 0 : value;
                 const durationInMinutes = restHours * 60 + minutes;

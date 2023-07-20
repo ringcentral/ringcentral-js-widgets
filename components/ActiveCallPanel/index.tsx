@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { isArray } from '@ringcentral-integration/commons/lib/di/utils/is_type';
-
 import callCtrlLayouts from '../../enums/callCtrlLayouts';
 import ActiveCallPad from '../ActiveCallPad';
 import BackButton from '../BackButton';
@@ -15,7 +13,7 @@ import styles from './styles.scss';
 
 type ActiveCallPanelProps = {
   phoneNumber?: string;
-  nameMatches: object[];
+  nameMatches: { name: string }[];
   fallBackName: string;
   currentLocale: string;
   startTime?: number;
@@ -99,6 +97,7 @@ const ActiveCallPanel: React.SFC<ActiveCallPanelProps> = ({
   onAdd,
   onMerge,
   onFlip,
+  // @ts-expect-error TS(2339): Property 'onTransfer' does not exist on type 'Prop... Remove this comment to see the full error message
   onTransfer,
   gotoParticipantsCtrl,
   children,
@@ -140,10 +139,9 @@ const ActiveCallPanel: React.SFC<ActiveCallPanelProps> = ({
       )}
     </div>
   );
-  const currentCallTitle =
-    isArray(nameMatches) && nameMatches.length
-      ? nameMatches[0].name
-      : formatPhone(phoneNumber);
+  const currentCallTitle = nameMatches?.length
+    ? nameMatches[0].name
+    : formatPhone(phoneNumber);
   let callInfo;
   switch (layout) {
     case callCtrlLayouts.completeTransferCtrl:
@@ -177,6 +175,7 @@ const ActiveCallPanel: React.SFC<ActiveCallPanelProps> = ({
           fallBackName={fallBackName}
           phoneNumber={phoneNumber}
           formatPhone={formatPhone}
+          // @ts-expect-error TS(2322): Type '{ currentLocale: string; nameMatches: { name... Remove this comment to see the full error message
           startTime={startTime}
           areaCode={areaCode}
           countryCode={countryCode}
@@ -219,8 +218,10 @@ const ActiveCallPanel: React.SFC<ActiveCallPanelProps> = ({
           onAdd={onAdd}
           onMerge={onMerge}
           onTransfer={onTransfer}
+          // @ts-expect-error TS(2322): Type '((...args: any[]) => any) | undefined' is no... Remove this comment to see the full error message
           onFlip={onFlip}
           disableFlip={disableFlip}
+          // @ts-expect-error TS(2322): Type '((...args: any[]) => any) | undefined' is no... Remove this comment to see the full error message
           onPark={onPark}
           showPark={showPark}
           layout={layout}
@@ -233,6 +234,7 @@ const ActiveCallPanel: React.SFC<ActiveCallPanelProps> = ({
           controlBusy={controlBusy}
           isOnTransfer={isOnTransfer}
           isOnWaitingTransfer={isOnWaitingTransfer}
+          // @ts-expect-error TS(2322): Type '((...args: any[]) => any) | undefined' is no... Remove this comment to see the full error message
           onCompleteTransfer={onCompleteTransfer}
         />
         {children}
@@ -241,15 +243,19 @@ const ActiveCallPanel: React.SFC<ActiveCallPanelProps> = ({
   );
 };
 ActiveCallPanel.defaultProps = {
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'number | un... Remove this comment to see the full error message
   startTime: null,
   startTimeOffset: 0,
   isOnMute: false,
   isOnHold: false,
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   phoneNumber: null,
   children: undefined,
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   avatarUrl: null,
   showBackButton: false,
   backButtonLabel: 'Active Calls',
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type '((...args: ... Remove this comment to see the full error message
   onBackButtonClick: null,
   brand: 'RingCentral',
   showContactDisplayPlaceholder: true,
@@ -264,6 +270,7 @@ ActiveCallPanel.defaultProps = {
   sourceIcons: undefined,
   phoneTypeRenderer: undefined,
   phoneSourceNameRenderer: undefined,
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   direction: null,
   addDisabled: false,
   mergeDisabled: false,
@@ -274,6 +281,7 @@ ActiveCallPanel.defaultProps = {
   getAvatarUrl: () => null,
   actions: [],
   controlBusy: false,
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   callQueueName: null,
   isOnWaitingTransfer: false,
   isOnTransfer: false,

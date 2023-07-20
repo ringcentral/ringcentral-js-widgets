@@ -1,8 +1,10 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import classnames from 'classnames';
 
-import { AlertLevelType } from '@ringcentral-integration/commons/modules/Alert/alertLevels';
+import type { AlertLevelType } from '@ringcentral-integration/commons/modules/Alert/alertLevels';
+import { emptyArray, emptyFn } from '@ringcentral-integration/utils';
 
 import Message from '../Message';
 import styles from './styles.scss';
@@ -27,14 +29,15 @@ export type AlertDisplayProps = {
   // animation?: string;
   // duration?: number;
 };
+
 const AlertDisplay: FunctionComponent<AlertDisplayProps> = ({
-  component: RendererMessage,
+  getRenderer = emptyFn,
+  brand = 'RingCentral',
+  component: RendererMessage = Message,
   className,
-  messages,
+  messages = emptyArray,
   dismiss,
   currentLocale,
-  brand,
-  getRenderer,
 }) => {
   return (
     <div className={classnames(styles.root, className)}>
@@ -62,12 +65,6 @@ const AlertDisplay: FunctionComponent<AlertDisplayProps> = ({
       })}
     </div>
   );
-};
-
-AlertDisplay.defaultProps = {
-  getRenderer: () => undefined,
-  component: Message,
-  brand: 'RingCentral',
 };
 
 export default AlertDisplay;

@@ -1,34 +1,21 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
+require("core-js/modules/es.array.map");
+require("core-js/modules/es.regexp.exec");
+require("core-js/modules/es.string.replace");
+require("core-js/modules/es.string.split");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-
-require("core-js/modules/es6.regexp.replace");
-
-require("core-js/modules/es6.regexp.split");
-
-require("core-js/modules/es6.array.map");
-
 var _react = _interopRequireDefault(require("react"));
-
 var _classnames = _interopRequireDefault(require("classnames"));
-
 var _Answer = _interopRequireDefault(require("../../assets/images/Answer.svg"));
-
 var _End = _interopRequireDefault(require("../../assets/images/End.svg"));
-
 var _Hold = _interopRequireDefault(require("../../assets/images/Hold.svg"));
-
 var _CircleButton = _interopRequireDefault(require("../CircleButton"));
-
 var _styles = _interopRequireDefault(require("./styles.scss"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 var MultiCallAnswerButton = function MultiCallAnswerButton(props) {
   var Icon = props.isEndOtherCall ? _End["default"] : _Hold["default"];
   var iconClassName = (0, _classnames["default"])(_styles["default"].button, props.isEndOtherCall ? _styles["default"].endButton : '');
@@ -63,7 +50,9 @@ var MultiCallAnswerButton = function MultiCallAnswerButton(props) {
     className: (0, _classnames["default"])(_styles["default"].button, _styles["default"].answer),
     showBorder: false,
     onClick: props.onClick,
-    icon: _Answer["default"],
+    icon: _Answer["default"]
+    // @ts-expect-error TS(2339): Property 'dataSign' does not exist on type 'PropsW... Remove this comment to see the full error message
+    ,
     dataSign: props.dataSign
   }), /*#__PURE__*/_react["default"].createElement("text", {
     className: _styles["default"].buttonTitle,
@@ -72,8 +61,8 @@ var MultiCallAnswerButton = function MultiCallAnswerButton(props) {
     textAnchor: "middle"
   }, text));
 };
-
 MultiCallAnswerButton.defaultProps = {
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   className: null,
   isEndOtherCall: true,
   width: '100%',

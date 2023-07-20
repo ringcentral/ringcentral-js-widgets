@@ -1,7 +1,7 @@
 export default {
   all: "Kaikki",
-  company: "Yhtiö",
-  personal: "Omat"
+  company: "Yritys",
+  personal: "Henkilökohtainen"
 };
 
 // @key: @#@"all"@#@ @source: @#@"All"@#@

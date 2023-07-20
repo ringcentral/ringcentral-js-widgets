@@ -3,7 +3,7 @@ export default {
   to: "수신자",
   enterNameOrNumber: "번호 또는 이름 입력...",
   typeMessage: "메시지 입력...",
-  send: "보내기"
+  send: "전송"
 };
 
 // @key: @#@"from"@#@ @source: @#@"From"@#@

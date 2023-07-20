@@ -1,7 +1,7 @@
 export default {
   to: "至：",
-  transferTo: "转移至",
-  blindTransfer: "转移",
+  transferTo: "转接至",
+  blindTransfer: "转接",
   warmTransfer: "首先询问",
   enterNameOrNumber: "输入号码"
 };

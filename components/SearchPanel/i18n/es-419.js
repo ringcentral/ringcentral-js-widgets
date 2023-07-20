@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -11,6 +9,5 @@ var _default = {
   search: "Buscar"
 }; // @key: @#@"noResultFoundFor"@#@ @source: @#@"No result found for"@#@
 // @key: @#@"search"@#@ @source: @#@"Search"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=es-419.js.map

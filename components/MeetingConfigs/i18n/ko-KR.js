@@ -1,14 +1,12 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 var _default = {
   topic: "주제",
-  when: "일시",
+  when: "시점",
   duration: "지속 시간",
   recurringMeeting: "되풀이 모임",
   recurringDescribe: "참석자에게 보낸 일정 초대장에서 되풀이 또는 반복 일정을 확인하세요.",
@@ -18,14 +16,14 @@ var _default = {
   participants: "참가자 비디오 켜기",
   audioOptions: "오디오 옵션",
   voIPOnly: "VoIP만",
-  both: "둘 다",
+  both: "모두",
   meetingOptions: "모임 옵션",
   requirePassword: "모임 비밀번호가 필요함",
   password: "비밀번호",
   rcmPasswordHintText: "비밀번호는 1~10자의 문자 및 숫자여야 하며 기호(@, *, -)를 제외한 기호는 포함하지 않아야 합니다.",
   passwordEmptyError: "모임 비밀번호 필요",
-  rcmPasswordInvalidError: "비밀번호는 1~10자의 문자 및 숫자여야 하며 기호(@, *, -)를 제외한 기호는 포함하지 않아야 합니다.",
-  enableJoinBeforeHost: "호스트보다 먼저 참가 사용",
+  rcmPasswordInvalidError: "비밀번호는 1~10자 길이의 문자, 숫자여야 하며 @, * or -를 제외한 기호를 포함할 수 없습니다.",
+  enableJoinBeforeHost: "호스트보다 먼저 참가할 수 있도록 설정",
   telephonyOnly: "전화 통신만",
   hostVideoOn: "호스트 비디오 켜기",
   participantVideoOn: "참가자 비디오 켜기",
@@ -71,6 +69,5 @@ var _default = {
 // @key: @#@"pmiChangeConfirm"@#@ @source: @#@"If you want to make changes for your personal meeting, "@#@
 // @key: @#@"changePmiSettings"@#@ @source: @#@"change PMI settings"@#@
 // @key: @#@"pmiSettingChangeAlert"@#@ @source: @#@"If you change the settings and schedule this meeting, all of meetings with Personal Meeting ID will use the same latest settings."@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=ko-KR.js.map

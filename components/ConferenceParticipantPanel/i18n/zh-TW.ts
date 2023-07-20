@@ -1,7 +1,7 @@
 export default {
   removeParticipant: "移除參與者",
-  confirmStr1: "是否確定要從這個通話中",
-  confirmStr2: "移除？",
+  confirmStr1: "確定要從此通話中",
+  confirmStr2: "移除嗎？",
   remove: "移除",
   cancel: "取消",
   participants: "參與者",

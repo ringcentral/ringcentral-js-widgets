@@ -1,4 +1,4 @@
-export function bindDebounce(instance, time = 500) {
+export function bindDebounce(instance: any, time = 500) {
   return (cb: Function, time2?: number) => {
     clearTimeout(instance.changeTimeout);
 

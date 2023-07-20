@@ -1,8 +1,8 @@
 export default {
   title: "Alue",
   NAOnlyMessage: "Anna suuntanumerosi. Sitä käytetään paikallispuheluissa.",
-  MultiWithNAMessage: "Anna alueesi maakoodi ja suuntanumero. Niitä käytetään paikallispuheluissa ja puhelinnumeron muotoilussa.",
-  MultiWithoutNAMessage: "Valitse maa, jossa oleskelet. Niitä käytetään paikallispuheluissa ja puhelinnumeron muotoilussa.",
+  MultiWithNAMessage: "Anna alueesi maakoodi ja suuntanumero. Tätä käytetään paikallispuheluihin sekä puhelinnumeron muotoiluun.",
+  MultiWithoutNAMessage: "Valitse maa, jossa oleskelet. Tätä käytetään paikallispuheluihin sekä puhelinnumeron muotoiluun.",
   country: "Maa",
   areaCode: "Suuntanumero",
   areaCodePlaceholder: "Anna suuntanumero"

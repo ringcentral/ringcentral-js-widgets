@@ -1,40 +1,28 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.MeetingIdSection = void 0;
-
 require("react-widgets/dist/css/react-widgets.css");
-
 var _react = _interopRequireDefault(require("react"));
-
-var _formatMessage = _interopRequireDefault(require("format-message"));
-
+var _utils = require("@ringcentral-integration/utils");
 var _juno = require("@ringcentral/juno");
-
 var _CheckBox = _interopRequireDefault(require("../CheckBox"));
-
 var _MeetingSection = _interopRequireDefault(require("../MeetingSection"));
-
 var _i18n = _interopRequireDefault(require("./i18n"));
-
 var _styles = _interopRequireDefault(require("./styles.scss"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 var MeetingIdSection = function MeetingIdSection(_ref) {
   var handlePmiConfirmed = _ref.handlePmiConfirmed,
-      personalMeetingId = _ref.personalMeetingId,
-      currentLocale = _ref.currentLocale,
-      switchUsePersonalMeetingId = _ref.switchUsePersonalMeetingId,
-      meeting = _ref.meeting,
-      isChangePmiConfirmed = _ref.isChangePmiConfirmed;
+    personalMeetingId = _ref.personalMeetingId,
+    currentLocale = _ref.currentLocale,
+    switchUsePersonalMeetingId = _ref.switchUsePersonalMeetingId,
+    meeting = _ref.meeting,
+    isChangePmiConfirmed = _ref.isChangePmiConfirmed;
   var ID_SETTING_OPTIONS = [{
     key: true,
-    text: (0, _formatMessage["default"])(_i18n["default"].getString('usePmi', currentLocale), {
+    text: (0, _utils.format)(_i18n["default"].getString('usePmi', currentLocale), {
       meetingId: personalMeetingId
     })
   }, {
@@ -47,11 +35,9 @@ var MeetingIdSection = function MeetingIdSection(_ref) {
   }, /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(_CheckBox["default"], {
     onSelect: function onSelect(_ref2) {
       var key = _ref2.key;
-
       if (key) {
         handlePmiConfirmed(false);
       }
-
       switchUsePersonalMeetingId(key);
     },
     valueField: "key",
@@ -68,6 +54,5 @@ var MeetingIdSection = function MeetingIdSection(_ref) {
     }
   }, _i18n["default"].getString('changePmiSettings', currentLocale)), ".") : null));
 };
-
 exports.MeetingIdSection = MeetingIdSection;
 //# sourceMappingURL=MeetingIdSection.js.map

@@ -1,9 +1,10 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import IconLine from '../IconLine';
 import Switch from '../Switch';
 import i18n from './i18n';
-import { ClickToDialProps } from './SettingsPanel.interface';
+import type { ClickToDialProps } from './SettingsPanel.interface';
 
 export const ClickToDial: FunctionComponent<ClickToDialProps> = ({
   currentLocale,
@@ -27,8 +28,13 @@ export const ClickToDial: FunctionComponent<ClickToDialProps> = ({
   if (showClickToDial && (outboundSMS || clickToDialPermissions)) {
     return (
       <IconLine
+        dataSign="clickToDialSMS"
         icon={
-          <Switch checked={clickToDialEnabled} onChange={onClickToDialChange} />
+          <Switch
+            dataSign="switchClickToDialSMS"
+            checked={clickToDialEnabled}
+            onChange={onClickToDialChange}
+          />
         }
         title={clickToDialTitle}
       >

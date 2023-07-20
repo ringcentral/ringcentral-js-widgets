@@ -1,13 +1,15 @@
-import React, { FunctionComponent, useContext, useState } from 'react';
+import type { FunctionComponent } from 'react';
+import React, { useContext, useState } from 'react';
 
 import classNames from 'classnames';
 
 import { RcIcon, RcTextField } from '@ringcentral/juno';
-import { Search } from '@ringcentral/juno/icon';
+import { Search } from '@ringcentral/juno-icon';
 
 import { SelectListContext } from '../../contexts';
 import i18n from './i18n';
-import { SearchResult, SearchResultProps } from './SearchResult';
+import type { SearchResultProps } from './SearchResult';
+import { SearchResult } from './SearchResult';
 import styles from './styles.scss';
 
 interface SearchPanelClasses {
@@ -32,7 +34,7 @@ export const SearchPanel: FunctionComponent<SearchPanelProps> = ({
   currentLocale,
   renderListItem,
   renderList,
-  classes,
+  classes = {},
 }) => {
   const [filter, setFilter] = useState('');
   const { scrollElmRef } = useContext(SelectListContext);
@@ -88,8 +90,4 @@ export const SearchPanel: FunctionComponent<SearchPanelProps> = ({
       </div>
     </div>
   );
-};
-
-SearchPanel.defaultProps = {
-  classes: {},
 };

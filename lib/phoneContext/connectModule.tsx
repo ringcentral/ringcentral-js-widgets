@@ -1,4 +1,5 @@
-import React, { ComponentType, FunctionComponent } from 'react';
+import type { ComponentType, FunctionComponent } from 'react';
+import React from 'react';
 
 import { connect } from 'react-redux';
 

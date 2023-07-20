@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -18,15 +16,17 @@ var _default = {
   stopRecord: "Detener grabación",
   record: "Grabar",
   showKeypad: "Teclado",
-  hideKeypad: "Ocultar teclado",
-  unHold: "Reanudar",
-  forward: "Reenviar",
+  hideKeypad: "Ocultar teclado de marcación",
+  unHold: "Reanudar llamada",
+  forward: "Desviar",
   ignore: "Ignorar",
-  voicemail: "A buzón de voz",
+  voicemail: "Al buzón de voz",
   custom: "Personalizado",
   answerAndEnd: "Responder y finalizar",
   answerAndHold: "Responder y poner en espera",
-  answer: "Responder"
+  answer: "Responder",
+  completeTransfer: "Completar transferencia",
+  reply: "Responder"
 }; // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
 // @key: @#@"hangup"@#@ @source: @#@"Hang up"@#@
@@ -47,6 +47,7 @@ var _default = {
 // @key: @#@"answerAndEnd"@#@ @source: @#@"Answer & End"@#@
 // @key: @#@"answerAndHold"@#@ @source: @#@"Answer & Hold"@#@
 // @key: @#@"answer"@#@ @source: @#@"Answer"@#@
-
+// @key: @#@"completeTransfer"@#@ @source: @#@"Complete transfer"@#@
+// @key: @#@"reply"@#@ @source: @#@"Reply"@#@
 exports["default"] = _default;
 //# sourceMappingURL=es-ES.js.map

@@ -1,33 +1,23 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.BasicCallInfoMain = void 0;
-
 var _react = _interopRequireDefault(require("react"));
-
 var _classnames = _interopRequireDefault(require("classnames"));
-
 var _CallIcon = require("../CallIcon");
-
 var _CallSubject = require("../CallSubject");
-
 var _FollowInfo = require("../FollowInfo");
-
 var _styles = _interopRequireDefault(require("../styles.scss"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 var BasicCallInfoMain = function BasicCallInfoMain(_ref) {
   var onClick = _ref.onClick,
-      children = _ref.children,
-      isInbound = _ref.isInbound,
-      subject = _ref.subject,
-      followInfos = _ref.followInfos,
-      className = _ref.className;
+    children = _ref.children,
+    isInbound = _ref.isInbound,
+    subject = _ref.subject,
+    followInfos = _ref.followInfos,
+    className = _ref.className;
   return /*#__PURE__*/_react["default"].createElement("div", {
     onClick: onClick,
     className: (0, _classnames["default"])(_styles["default"].root, className)
@@ -42,6 +32,5 @@ var BasicCallInfoMain = function BasicCallInfoMain(_ref) {
     splitSign: "|"
   })), children);
 };
-
 exports.BasicCallInfoMain = BasicCallInfoMain;
 //# sourceMappingURL=BasicCallInfoMain.js.map

@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -11,12 +9,11 @@ var _default = {
   log: "Log",
   save: "Save and work on new",
   discard: "Discard and work on new",
-  stay: "Stay on previous work"
+  stay: "Stay on Previous Work"
 }; // @key: @#@"confirmationInfo"@#@ @source: @#@"Your unsaved edits on the previous call will be lost, are you sure you want to work on the new call?"@#@
 // @key: @#@"log"@#@ @source: @#@"Log"@#@
 // @key: @#@"save"@#@ @source: @#@"Save & Work on New"@#@
 // @key: @#@"discard"@#@ @source: @#@"Discard & Work on New"@#@
 // @key: @#@"stay"@#@ @source: @#@"Stay on Previous Work"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=en-AU.js.map

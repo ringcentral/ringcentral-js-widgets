@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -10,7 +8,6 @@ var _default = {
   to: "Vastaanottaja",
   enterNameOrNumber: "Anna nimi tai numero"
 }; // @key: @#@"to"@#@ @source: @#@"To"@#@
-// @key: @#@"enterNameOrNumber"@#@ @source: @#@"Enter Name or Number"@#@
-
+// @key: @#@"enterNameOrNumber"@#@ @source: @#@"Enter name or number"@#@
 exports["default"] = _default;
 //# sourceMappingURL=fi-FI.js.map

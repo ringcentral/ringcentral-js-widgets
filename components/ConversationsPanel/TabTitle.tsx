@@ -2,11 +2,11 @@ import React from 'react';
 
 import { palette2, styled } from '@ringcentral/juno';
 
-import i18n from './i18n';
+import i18n, { I18nKey } from './i18n';
 import styles from './styles.scss';
 
 type TabTitleProps = {
-  type: string;
+  type: I18nKey;
   currentLocale: string;
   active?: boolean;
 };
@@ -22,6 +22,7 @@ export const TabTitle: React.FC<TabTitleProps> = ({
   active,
 }) => {
   return (
+    // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
     <StyledTitle $active={active} className={styles.tabTitle}>
       {i18n.getString(type, currentLocale)}
     </StyledTitle>

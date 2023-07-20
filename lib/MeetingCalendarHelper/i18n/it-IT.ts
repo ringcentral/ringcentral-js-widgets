@@ -10,7 +10,7 @@ export default {
   rcvSipContentNoPwd: "\n    {meetingId}@sip.rcv.com\n",
   doNotModify: "------------- Non modificare --------------",
   password: "\n\nPassword",
-  passwordPstn: "\n\nPassword di accesso:"
+  passwordPstn: "Password accesso diretto: \n\n"
 };
 
 // @key: @#@"inviteMeetingContent"@#@ @source: @#@"{accountName} is inviting you to a {brandName} meeting.\n\nJoin from PC, Mac, iOS or Android: {joinUri}{passwordTpl}\n\nOr iPhone one-tap:\n    {mobileDialingNumberTpl}\n\nOr Telephone:\n    Dial: {phoneDialingNumberTpl}\n    Meeting ID: {meetingId}\n    International numbers available: {teleconference} "@#@

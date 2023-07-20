@@ -1,11 +1,11 @@
 export default {
-  matched: "Combinado",
-  other: "Outros",
+  matched: "Correspondência",
+  other: "Outro",
   associated: "Associado",
-  foundFromServer: "Fundação de {appName}"
+  foundFromServer: "Encontrado em {appName}"
 };
 
 // @key: @#@"matched"@#@ @source: @#@"Matched"@#@
 // @key: @#@"other"@#@ @source: @#@"Other"@#@
 // @key: @#@"associated"@#@ @source: @#@"Associated"@#@
-// @key: @#@"foundFromServer"@#@ @source: @#@"Founds from {appName}"@#@
+// @key: @#@"foundFromServer"@#@ @source: @#@"Found from {appName}"@#@

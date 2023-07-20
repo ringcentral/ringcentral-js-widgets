@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -20,10 +18,10 @@ var _default = {
   viewDetails: "세부 정보 보기",
   addEntity: "새로 만들기",
   addLog: "기록",
-  text: "문자",
-  call: "통화",
+  text: "텍스트",
+  call: "전화",
   addContact: "연락처 추가",
-  missedCall: "부재중",
+  missedCall: "부재중 전화",
   inboundCall: "수신",
   outboundCall: "발신",
   from: "발신자",
@@ -34,7 +32,7 @@ var _default = {
   anonymous: "익명",
   mergeToConference: "병합",
   hold: "대기",
-  unhold: "대기 해제",
+  unhold: "보류 해제",
   transfer: "전달",
   reject: "거부",
   switchCall: "이 앱으로 통화 전환",
@@ -81,6 +79,5 @@ var _default = {
 // @key: @#@"comfirmOKButton"@#@ @source: @#@"Switch"@#@
 // @key: @#@"ignore"@#@ @source: @#@"Ignore"@#@
 // @key: @#@"holdAndAnswer"@#@ @source: @#@"Hold & Answer"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=ko-KR.js.map

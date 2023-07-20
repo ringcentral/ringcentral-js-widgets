@@ -1,6 +1,6 @@
 export default {
   account: "계정",
-  contact: "연락처",
+  contact: "문의하기",
   lead: "잠재 고객",
   opportunity: "기회",
   case: "사례",

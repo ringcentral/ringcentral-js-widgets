@@ -1,14 +1,10 @@
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import { proxify } from '@ringcentral-integration/commons/lib/proxy/proxify';
-import {
-  action,
-  state,
-  UIFunctions,
-  UIProps,
-} from '@ringcentral-integration/core';
+import type { UIFunctions, UIProps } from '@ringcentral-integration/core';
+import { action, state } from '@ringcentral-integration/core';
 
 import { DialerUI } from '../DialerUI';
-import {
+import type {
   ConferenceDialerUIContainerProps,
   ConferenceDialerUIPanelProps,
   Deps,
@@ -29,7 +25,7 @@ export class ConferenceDialerUI extends DialerUI<Deps> {
   }
 
   @state
-  lastSessionId: string = '';
+  lastSessionId = '';
 
   @action
   _setLastSessionId(val: string) {
@@ -46,8 +42,9 @@ export class ConferenceDialerUI extends DialerUI<Deps> {
     this._setLastSessionId(sessionId);
   }
 
-  _onBeforeCall(fromSessionId: string) {
+  override _onBeforeCall(fromSessionId: string) {
     if (
+      this._deps.conferenceCall &&
       fromSessionId &&
       !this._deps.conferenceCall.mergingPair?.fromSessionId
     ) {
@@ -58,7 +55,7 @@ export class ConferenceDialerUI extends DialerUI<Deps> {
     }
   }
 
-  getUIProps(): UIProps<ConferenceDialerUIPanelProps> {
+  override getUIProps(): UIProps<ConferenceDialerUIPanelProps> {
     return {
       ...super.getUIProps(),
       inConference: true,
@@ -66,7 +63,7 @@ export class ConferenceDialerUI extends DialerUI<Deps> {
     };
   }
 
-  getUIFunctions(
+  override getUIFunctions(
     props: ConferenceDialerUIContainerProps,
   ): UIFunctions<ConferenceDialerUIPanelProps> {
     const {
@@ -75,7 +72,7 @@ export class ConferenceDialerUI extends DialerUI<Deps> {
     return {
       ...super.getUIFunctions(props),
       onBack: () => this._deps.routerInteraction.push(this._backURL),
-      setLastSessionId: () => this.setLastSessionId(fromSessionId),
+      setLastSessionId: () => this.setLastSessionId(fromSessionId!),
       onCallButtonClick: () =>
         this.onCallButtonClick({ fromNumber, fromSessionId }),
     };

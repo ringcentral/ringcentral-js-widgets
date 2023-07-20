@@ -1,7 +1,7 @@
 export default {
   noResultFoundFor: "Ei tuloksia haulla",
-  foundFromServerHint: "Tee haku sovelluksessa {appName} kirjoittamalla avainsana ja painamalla Enteriä",
-  notResultFoundFromServer: "Hakutuloksia ei löytynyt.",
+  foundFromServerHint: "Tee haku sovelluksessa {appName} kirjoittamalla\navainsana ja painamalla Enteriä",
+  notResultFoundFromServer: "Tuloksia ei löytynyt",
   loading: "ladataan..."
 };
 

@@ -1,18 +1,21 @@
 "use strict";
 
+require("core-js/modules/es.symbol");
+require("core-js/modules/es.symbol.description");
+require("core-js/modules/es.symbol.to-primitive");
+require("core-js/modules/es.date.to-primitive");
+require("core-js/modules/es.number.constructor");
+require("core-js/modules/es.object.to-string");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-
-require("core-js/modules/es6.object.define-property");
-
 var _Meeting = require("@ringcentral-integration/commons/modules/Meeting");
-
 var _date$time$hours$minu;
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 var _default = (_date$time$hours$minu = {
   date: "Date",
   time: "Heure",
@@ -29,8 +32,8 @@ var _default = (_date$time$hours$minu = {
   password: "Mot de passe",
   video: "Vidéo",
   audio: "Audio",
-  scheduleFor: "Programme défini par"
-}, _defineProperty(_date$time$hours$minu, _Meeting.ASSISTED_USERS_MYSELF, "Moi-même"), _defineProperty(_date$time$hours$minu, "meetingOptions", "Options de réunion"), _defineProperty(_date$time$hours$minu, "meetingSettings", "Paramètres de la réunion"), _defineProperty(_date$time$hours$minu, "rcMeetingSettings", "Paramètres de la vidéoconférence"), _defineProperty(_date$time$hours$minu, "audioOptions", "Options audio"), _defineProperty(_date$time$hours$minu, "recurringMeeting", "Réunion récurrente"), _defineProperty(_date$time$hours$minu, "recurringNote", "Remarque : activez celle-ci lorsque vous sélectionnez « Récurrence »."), _defineProperty(_date$time$hours$minu, "joinBeforeHost", "Autoriser les participants à se connecter avant l’hôte"), _defineProperty(_date$time$hours$minu, "turnOffCamera", "Désactiver la caméra pour les participants"), _defineProperty(_date$time$hours$minu, "turnOffHostCamera", "Désactiver la caméra pour l’hôte lorsque vous rejoignez une réunion"), _defineProperty(_date$time$hours$minu, "requirePassword", "Exiger un mot de passe"), _defineProperty(_date$time$hours$minu, "enterPassword", "Entrer le mot de passe"), _defineProperty(_date$time$hours$minu, "setPassword", "Définir un mot de passe *"), _defineProperty(_date$time$hours$minu, "passwordEmptyError", "Mot de passe de la réunion requis"), _defineProperty(_date$time$hours$minu, "rcmPasswordInvalidError", "Votre mot de passe doit être composé de 1 à 10 lettres et chiffres et ne peut pas comporter de symboles autres que @, * ou -"), _defineProperty(_date$time$hours$minu, "rcmPasswordHintText", "Votre mot de passe doit être composé de 1 à 10 lettres et chiffres et ne peut pas comporter de symboles autres que @, * ou -"), _defineProperty(_date$time$hours$minu, "usePersonalMeetingId", "Utiliser l’ID de réunion personnel"), _defineProperty(_date$time$hours$minu, "pmiChangeConfirm", "Si vous souhaitez apporter des modifications à votre réunion personnelle, "), _defineProperty(_date$time$hours$minu, "changePmiSettings", "modifiez les paramètres PMI"), _defineProperty(_date$time$hours$minu, "pmiSettingChangeAlert", "Si vous modifiez les paramètres et programmez la réunion, toutes les réunions avec ID personnel de réunion utiliseront ces mêmes paramètres."), _defineProperty(_date$time$hours$minu, "lockedTooltip", "Ce paramètre est géré par l’administrateur de votre entreprise"), _defineProperty(_date$time$hours$minu, "when", "Date"), _defineProperty(_date$time$hours$minu, "recurringDescribe", "N’oubliez pas de vérifier la récurrence ou de renouveler votre invitation aux participants."), _defineProperty(_date$time$hours$minu, "ieSupportAlert", "Veuillez noter que {appName} ne fonctionnera plus avec Internet Explorer 11 après le 16 février 2022. Nous vous recommandons d’utiliser Microsoft Edge ou de passer à Outlook 2016 ou version ultérieure."), _date$time$hours$minu); // @key: @#@"date"@#@ @source: @#@"Date"@#@
+  scheduleFor: "Planifier au nom de"
+}, _defineProperty(_date$time$hours$minu, _Meeting.ASSISTED_USERS_MYSELF, "Moi-même"), _defineProperty(_date$time$hours$minu, "meetingOptions", "Options de réunion"), _defineProperty(_date$time$hours$minu, "meetingSettings", "Paramètres de la réunion"), _defineProperty(_date$time$hours$minu, "rcMeetingSettings", "Paramètres de la visioconférence"), _defineProperty(_date$time$hours$minu, "audioOptions", "Options audio"), _defineProperty(_date$time$hours$minu, "recurringMeeting", "Réunion périodique"), _defineProperty(_date$time$hours$minu, "recurringNote", "Remarque : activez celle-ci lorsque vous sélectionnez « Récurrence »."), _defineProperty(_date$time$hours$minu, "joinBeforeHost", "Autoriser les participants à se connecter avant l’hôte"), _defineProperty(_date$time$hours$minu, "turnOffCamera", "Désactiver la caméra pour les participants"), _defineProperty(_date$time$hours$minu, "turnOffHostCamera", "Désactiver la caméra pour l’hôte lorsque vous rejoignez une réunion"), _defineProperty(_date$time$hours$minu, "requirePassword", "Exiger un mot de passe"), _defineProperty(_date$time$hours$minu, "enterPassword", "Entrer le mot de passe"), _defineProperty(_date$time$hours$minu, "setPassword", "Définir un mot de passe *"), _defineProperty(_date$time$hours$minu, "passwordEmptyError", "Mot de passe de la réunion requis"), _defineProperty(_date$time$hours$minu, "rcmPasswordInvalidError", "Votre mot de passe doit être composé de 1 à 10 lettres et chiffres et ne peut pas comporter de symboles autres que @, * ou -"), _defineProperty(_date$time$hours$minu, "rcmPasswordHintText", "Votre mot de passe doit être composé de 1 à 10 lettres et chiffres et ne peut pas comporter de symboles autres que @, * ou -"), _defineProperty(_date$time$hours$minu, "usePersonalMeetingId", "Utiliser l’ID de réunion personnel"), _defineProperty(_date$time$hours$minu, "pmiChangeConfirm", "Si vous souhaitez apporter des modifications à votre réunion personnelle, "), _defineProperty(_date$time$hours$minu, "changePmiSettings", "modifiez les paramètres PMI"), _defineProperty(_date$time$hours$minu, "pmiSettingChangeAlert", "Si vous modifiez les paramètres et programmez la réunion, toutes les réunions avec ID personnel de réunion utiliseront ces mêmes paramètres."), _defineProperty(_date$time$hours$minu, "lockedTooltip", "Ce paramètre est géré par l’administrateur de votre entreprise"), _defineProperty(_date$time$hours$minu, "when", "Date"), _defineProperty(_date$time$hours$minu, "recurringDescribe", "N’oubliez pas de vérifier dans votre calendrier la périodicité ou les répétitions de vos invitations envoyées aux participants."), _defineProperty(_date$time$hours$minu, "ieSupportAlert", "Veuillez noter que {appName} ne fonctionnera plus avec Internet Explorer 11 après le 16 février 2022. Nous vous recommandons d’utiliser Microsoft Edge ou de passer à Outlook 2016 ou version ultérieure."), _date$time$hours$minu); // @key: @#@"date"@#@ @source: @#@"Date"@#@
 // @key: @#@"time"@#@ @source: @#@"Time"@#@
 // @key: @#@"hours"@#@ @source: @#@"{howMany} hr"@#@
 // @key: @#@"minutes"@#@ @source: @#@"{howMany} min"@#@
@@ -70,7 +73,5 @@ var _default = (_date$time$hours$minu = {
 // @key: @#@"when"@#@ @source: @#@"When"@#@
 // @key: @#@"recurringDescribe"@#@ @source: @#@"Please remember to check recurrence or repeat in your calendar invitation to your attendees."@#@
 // @key: @#@"ieSupportAlert"@#@ @source: @#@"Please note that {appName} won't work with Internet Explorer 11 after Feb 16, 2022. We recommend switching to Microsoft Edge or updating to Outlook 2016 or above."@#@
-
-
 exports["default"] = _default;
 //# sourceMappingURL=fr-FR.js.map

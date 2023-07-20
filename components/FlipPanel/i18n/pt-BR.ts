@@ -1,7 +1,7 @@
 export default {
   flipHeader: "Transferir chamada para...",
-  flip: "Mover",
-  complete: "Transferência concluída"
+  flip: "Transferência dinâmica",
+  complete: "Transferência dinâmica concluída"
 };
 
 // @key: @#@"flipHeader"@#@ @source: @#@"Flip Call to..."@#@

@@ -1,14 +1,12 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 var _default = {
   recentActivities: "最近活動",
-  text: "簡訊",
+  text: "文字訊息",
   fax: "傳真",
   voicemail: "語音訊息",
   call: "通話"
@@ -17,6 +15,5 @@ var _default = {
 // @key: @#@"fax"@#@ @source: @#@"Fax"@#@
 // @key: @#@"voicemail"@#@ @source: @#@"Voicemail"@#@
 // @key: @#@"call"@#@ @source: @#@"Call"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=zh-TW.js.map

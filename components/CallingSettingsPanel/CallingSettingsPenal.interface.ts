@@ -1,6 +1,6 @@
-import { MutableRefObject, ReactNode } from 'react';
+import type { MutableRefObject, ReactNode } from 'react';
 
-import { RingtoneBaseProps } from '../Ringtone/Ringtone.interface';
+import type { RingtoneBaseProps } from '../Ringtone/Ringtone.interface';
 
 export interface SaveFunctionProps {
   callWith: string;

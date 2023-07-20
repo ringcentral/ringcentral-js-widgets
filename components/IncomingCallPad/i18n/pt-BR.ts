@@ -2,10 +2,10 @@ export default {
   forward: "Encaminhar",
   reply: "Responder",
   ignore: "Ignorar",
-  toVoicemail: "P/ caixa postal",
+  toVoicemail: "Para caixa postal",
   answer: "Atender",
-  answerAndEnd: "Atender e enc.",
-  answerAndHold: "Atender e em espera"
+  answerAndEnd: "Atender e terminar",
+  answerAndHold: "Atender e colocar em espera"
 };
 
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@

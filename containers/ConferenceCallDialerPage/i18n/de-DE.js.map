@@ -1,1 +1,0 @@
-{"version":3,"sources":["containers/ConferenceCallDialerPage/i18n/de-DE.ts"],"names":["activeCall"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,UAAU,EAAE;AADC,C,EAIf","sourcesContent":["export default {\n  activeCall: \"Aktiver Anruf\"\n};\n\n// @key: @#@\"activeCall\"@#@ @source: @#@\"Active Call\"@#@\n"],"file":"de-DE.js"}

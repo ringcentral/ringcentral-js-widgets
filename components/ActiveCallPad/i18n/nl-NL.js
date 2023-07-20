@@ -1,16 +1,14 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 var _default = {
-  unmute: "Dempen uit",
+  unmute: "Dempen uitschakelen",
   mute: "Dempen",
-  keypad: "Keypad",
-  hold: "In de wacht",
+  keypad: "Toetsenblok",
+  hold: "Wacht",
   onHold: "In de wacht",
   park: "Parkeren",
   stopRecord: "Stoppen",
@@ -37,6 +35,5 @@ var _default = {
 // @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
 // @key: @#@"end"@#@ @source: @#@"End"@#@
 // @key: @#@"completeTransfer"@#@ @source: @#@"Complete\nTransfer"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=nl-NL.js.map

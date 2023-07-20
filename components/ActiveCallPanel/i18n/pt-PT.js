@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -10,8 +8,8 @@ var _default = {
   conferenceCall: "Chamada de conferência",
   onHold: "Em espera",
   unknown: "Desconhecido",
-  disconnected: "Desligado",
-  loading: "A carregar...",
+  disconnected: "Terminada",
+  loading: "A carregar…",
   loadingTimeout: "Tempo limite de carregamento."
 }; // @key: @#@"conferenceCall"@#@ @source: @#@"Conference Call"@#@
 // @key: @#@"onHold"@#@ @source: @#@"On Hold"@#@
@@ -19,6 +17,5 @@ var _default = {
 // @key: @#@"disconnected"@#@ @source: @#@"Disconnected"@#@
 // @key: @#@"loading"@#@ @source: @#@"Loading ..."@#@
 // @key: @#@"loadingTimeout"@#@ @source: @#@"Loading timeout."@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=pt-PT.js.map

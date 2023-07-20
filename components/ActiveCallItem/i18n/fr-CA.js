@@ -1,13 +1,11 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 var _default = {
-  logging: "Connexion en cours...",
+  logging: "Connexion…",
   logCall: "Journal des appels",
   editLog: "Modifier le journal",
   select: "Sélectionner un enregistrement correspondant",
@@ -17,7 +15,7 @@ var _default = {
   unknownUser: "Utilisateur inconnu",
   unknownNumber: "Anonyme",
   unavailable: "Non disponible",
-  viewDetails: "Afficher les détails",
+  viewDetails: "Afficher les renseignements",
   addEntity: "Créer",
   addLog: "Liste",
   text: "Texto",
@@ -30,18 +28,18 @@ var _default = {
   to: "À",
   hangup: "Raccrocher",
   accept: "Répondre",
-  toVoicemail: "Vers la msg vocale",
+  toVoicemail: "À la msg vocale",
   anonymous: "Anonyme",
   mergeToConference: "Fusionner",
   hold: "Mettre en attente",
-  unhold: "Reprendre l’appel",
+  unhold: "Reprendre",
   transfer: "Transférer",
   reject: "Rejeter",
   switchCall: "Transférer l’appel à cette application",
   callSwitch: "Commutation d’appel",
   comfirmContext: "Vous avez un appel en cours avec {displayName}. Voulez-vous poursuivre l’appel sur un autre appareil?",
   comfirmCancelButton: "Annuler",
-  comfirmOKButton: "Commuter",
+  comfirmOKButton: "Changer",
   ignore: "Ignorer",
   holdAndAnswer: "Mettre en attente et répondre"
 }; // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
@@ -81,6 +79,5 @@ var _default = {
 // @key: @#@"comfirmOKButton"@#@ @source: @#@"Switch"@#@
 // @key: @#@"ignore"@#@ @source: @#@"Ignore"@#@
 // @key: @#@"holdAndAnswer"@#@ @source: @#@"Hold & Answer"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=fr-CA.js.map

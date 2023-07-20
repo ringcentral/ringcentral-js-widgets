@@ -1,26 +1,19 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 Object.defineProperty(exports, "CallCtrlContainer", {
   enumerable: true,
   get: function get() {
-    return _CallCtrlContainer["default"];
+    return _CallCtrlContainer.CallCtrlContainer;
   }
 });
 exports["default"] = void 0;
-
 var _phoneContext = require("../../lib/phoneContext");
-
-var _CallCtrlContainer = _interopRequireDefault(require("./CallCtrlContainer"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
+var _CallCtrlContainer = require("../../components/CallCtrlContainer");
 var CallCtrlPage = (0, _phoneContext.connectModule)(function (phone) {
   return phone.callControlUI;
-})(_CallCtrlContainer["default"]);
+})(_CallCtrlContainer.CallCtrlContainer);
 exports["default"] = CallCtrlPage;
 //# sourceMappingURL=index.js.map

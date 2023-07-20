@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -10,7 +8,7 @@ var _default = {
   title: "地区",
   NAOnlyMessage: "请设置您的区号。此信息将用于本地拨号。",
   MultiWithNAMessage: "请为您的地区设置国家代码和区号。此信息将用于本地拨号和电话号码格式。",
-  MultiWithoutNAMessage: "请选择您所在的国家/地区。此信息将用于本地拨号和电话号码格式。",
+  MultiWithoutNAMessage: "请选择您所在的国家/地区。此信息将用于本地拨号和电话号码格式设置。",
   country: "国家/地区",
   areaCode: "区号",
   areaCodePlaceholder: "输入区号"
@@ -21,6 +19,5 @@ var _default = {
 // @key: @#@"country"@#@ @source: @#@"Country"@#@
 // @key: @#@"areaCode"@#@ @source: @#@"Area Code"@#@
 // @key: @#@"areaCodePlaceholder"@#@ @source: @#@"Enter Area Code"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=zh-CN.js.map

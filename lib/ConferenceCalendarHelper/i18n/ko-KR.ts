@@ -11,9 +11,10 @@ export default {
   inviteText_rc: "{brandName} 전화 회의에 참가하세요.\n\n전화 접속 번호: {formattedDialInNumber} \n{additionalNumbersSection} \n참가자 액세스: {participantCode} \n\n국제 전화 접속 전화번호가 필요하신가요? {dialInNumbersLink}을(를) 방문하세요. \n\n이 전화 회의는 {brandName} 전화 회의에서 제공됩니다",
   inviteText_telus: "{brandName} 전화 회의에 참가하세요.\n\n전화 접속 번호: {formattedDialInNumber} \n{additionalNumbersSection} \n참가자 액세스: {participantCode} \n\n추가 전화 접속 번호{dialInNumbersLink} ",
   conferenceCall: "{brandName} 전화 회의",
-  videoCall: "{brandName} 영상 통화",
-  addConferencingDetails: "회의 세부 정보 추가",
-  updateConferencingDetails: "회의 세부 정보 업데이트",
+  videoCall: "{brandName} Video Call",
+  addConferencingDetails: "전화 회의 세부 정보 추가",
+  updateConferencingDetails: "전화 회의 세부 정보 업데이트",
+  // @ts-expect-error TS(1117): An object literal cannot have multiple properties ... Remove this comment to see the full error message
   scheduleError: "죄송합니다. 문제가 발생했습니다. 다시 시도하세요.",
   deleteBtn: "삭제",
   settingsBtn: "설정",
@@ -22,13 +23,14 @@ export default {
   done: "완료",
   update: "업데이트",
   conferenceSettingsTitle: "{brand} 전화 회의 설정",
-  videoSettingsTitle: "{brand} Meetings 설정",
+  videoSettingsTitle: "{brand} 모임 설정",
   password: "비밀번호",
   failedToRetrieveMeeting: "네트워크 연결이 끊어졌습니다. 이 모임을 삭제하고 나중에 다시 시도하세요.",
-  meetingSettingsTitle: "{brand} Meetings - 설정",
+  meetingSettingsTitle: "{brand} 모임 - 설정",
   recurringMeeting: "되풀이 모임",
   meetingOptions: "모임 옵션",
   schedule: "예약",
+  // @ts-expect-error TS(1117): An object literal cannot have multiple properties ... Remove this comment to see the full error message
   settingsBtn: "설정"
 };
 

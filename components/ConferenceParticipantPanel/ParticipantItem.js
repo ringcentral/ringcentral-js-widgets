@@ -1,33 +1,22 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-
 var _react = _interopRequireDefault(require("react"));
-
 var _End = _interopRequireDefault(require("../../assets/images/End.svg"));
-
 var _CallAvatar = _interopRequireDefault(require("../CallAvatar"));
-
 var _CircleButton = _interopRequireDefault(require("../CircleButton"));
-
 var _MediaObject = _interopRequireDefault(require("../MediaObject"));
-
 var _i18n = _interopRequireDefault(require("./i18n"));
-
 var _styles = _interopRequireDefault(require("./styles.scss"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 var ParticipantItem = function ParticipantItem(_ref) {
   var detail = _ref.detail,
-      avatarUrl = _ref.avatarUrl,
-      onRemove = _ref.onRemove,
-      currentLocale = _ref.currentLocale;
+    avatarUrl = _ref.avatarUrl,
+    onRemove = _ref.onRemove,
+    currentLocale = _ref.currentLocale;
   return /*#__PURE__*/_react["default"].createElement(_MediaObject["default"], {
     containerCls: _styles["default"].participantItem,
     bodyCls: _styles["default"].mediaBodyCls,
@@ -48,6 +37,7 @@ var ParticipantItem = function ParticipantItem(_ref) {
       className: _styles["default"].rejectButton,
       onClick: function onClick(e) {
         e.stopPropagation();
+        // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
         onRemove();
       },
       iconWidth: 260,
@@ -57,8 +47,8 @@ var ParticipantItem = function ParticipantItem(_ref) {
     }))
   });
 };
-
 ParticipantItem.defaultProps = {
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   avatarUrl: null,
   onRemove: function onRemove(i) {
     return i;

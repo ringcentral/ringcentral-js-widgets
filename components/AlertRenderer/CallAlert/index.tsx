@@ -1,6 +1,6 @@
 import React from 'react';
 
-import callErrors from '@ringcentral-integration/commons/modules/Call/callErrors';
+import { callErrors } from '@ringcentral-integration/commons/modules/Call';
 
 import FormattedMessage from '../../FormattedMessage';
 import i18n from './i18n';
@@ -41,6 +41,7 @@ export const CallAlert: React.SFC<CallAlertProps> = ({
     return (
       <FormattedMessage
         message={i18n.getString(message, currentLocale)}
+        // @ts-expect-error TS(2322): Type 'string | Element' is not assignable to type ... Remove this comment to see the full error message
         values={{ areaCodeLink }}
       />
     );
@@ -49,6 +50,7 @@ export const CallAlert: React.SFC<CallAlertProps> = ({
     return (
       <FormattedMessage
         message={i18n.getString(message, currentLocale)}
+        // @ts-expect-error TS(2339): Property 'name' does not exist on type 'object'.
         values={{ brand: brand.name }}
       />
     );
@@ -58,7 +60,8 @@ export const CallAlert: React.SFC<CallAlertProps> = ({
 CallAlert.defaultProps = {
   onAreaCodeLinkClick: undefined,
 };
-CallAlert.handleMessage = ({ message }) =>
+// @ts-expect-error TS(2339): Property 'handleMessage' does not exist on type 'S... Remove this comment to see the full error message
+CallAlert.handleMessage = ({ message }: any) =>
   message === callErrors.emergencyNumber ||
   message === callErrors.noToNumber ||
   message === callErrors.noAreaCode ||
@@ -67,5 +70,6 @@ CallAlert.handleMessage = ({ message }) =>
   message === callErrors.notAnExtension ||
   message === callErrors.networkError ||
   message === callErrors.noInternational ||
-  message === callErrors.noRingoutEnable;
+  message === callErrors.noRingoutEnable ||
+  message === callErrors.numberParseError;
 export default CallAlert;

@@ -2,7 +2,7 @@ import messageTypes from '@ringcentral-integration/commons/enums/messageTypes';
 export default {
   title: "メッセージ",
   search: "検索...",
-  composeText: "テキストの作成",
+  composeText: "テキストを作成",
   noMessages: "メッセージなし",
   noSearchResults: "一致する記録が見つかりません",
   [messageTypes.all]: "すべて",

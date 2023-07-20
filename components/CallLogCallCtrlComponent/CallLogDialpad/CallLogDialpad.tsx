@@ -1,15 +1,19 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import classnames from 'classnames';
 
 import CloseDialpadIcon from '../../../assets/images/CloseDialpad.svg';
 import { audios } from '../../DialButton/audios';
 import DialPad from '../../DialPad';
-import { CallLogDialpadProps, DtmfValue } from './CallLogDialpad.interface';
+import type {
+  CallLogDialpadProps,
+  DtmfValue,
+} from './CallLogDialpad.interface';
 import styles from './styles.scss';
 
 const cleanRegex = /[^\d*#]/g;
-const filter = (value) => value.replace(cleanRegex, '');
+const filter = (value: any) => value.replace(cleanRegex, '');
 
 const MAX_PASTE_LENGTH = 15;
 
@@ -23,11 +27,13 @@ const CallLogDialpad: FunctionComponent<CallLogDialpadProps> = ({
   const audioRef = React.useRef<HTMLAudioElement>(null);
   React.useEffect(() => {
     if (typeof document !== 'undefined' && document.createElement) {
+      // @ts-expect-error TS(2540): Cannot assign to 'current' because it is a read-on... Remove this comment to see the full error message
       audioRef.current = document.createElement('audio');
     }
     return () => {
       if (audioRef.current) {
         audioRef.current.remove();
+        // @ts-expect-error TS(2540): Cannot assign to 'current' because it is a read-on... Remove this comment to see the full error message
         audioRef.current = null;
       }
     };
@@ -54,18 +60,20 @@ const CallLogDialpad: FunctionComponent<CallLogDialpadProps> = ({
   };
 
   const sendDTMFKeys = (keys: DtmfValue) => {
+    // @ts-expect-error TS(2367): This condition will always return 'false' since th... Remove this comment to see the full error message
     if (keys === '') {
       return;
     }
     onChange(keys);
     keys.split('').forEach((key, index) => {
       setTimeout(() => {
+        // @ts-expect-error TS(2345): Argument of type 'string' is not assignable to par... Remove this comment to see the full error message
         playAudio(key);
       }, 100 * index);
     });
   };
 
-  const onInputChange = (e) => {
+  const onInputChange = (e: any) => {
     const value = filter(e.currentTarget.value);
     setValue(value);
   };
@@ -77,7 +85,7 @@ const CallLogDialpad: FunctionComponent<CallLogDialpadProps> = ({
 
   const onPaste = (e: any) => {
     const item = e.clipboardData.items[0];
-    item.getAsString((data) => {
+    item.getAsString((data: any) => {
       const filteredValue = filter(data.replace(/<[^>]*>/g, '')); // remove HTML tag in firefox
       let keys = filteredValue;
       if (filteredValue.length > MAX_PASTE_LENGTH) {

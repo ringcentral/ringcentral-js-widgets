@@ -1,129 +1,87 @@
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
-require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.string.iterator");
-
-require("core-js/modules/es6.weak-map");
-
-require("core-js/modules/es6.object.define-properties");
-
-require("core-js/modules/es7.object.get-own-property-descriptors");
-
-require("core-js/modules/es6.array.for-each");
-
-require("core-js/modules/es6.array.filter");
-
-require("core-js/modules/es6.symbol");
-
-require("core-js/modules/web.dom.iterable");
-
-require("core-js/modules/es6.array.iterator");
-
-require("core-js/modules/es6.object.keys");
-
-require("core-js/modules/es6.object.define-property");
-
-require("core-js/modules/es6.promise");
-
-require("core-js/modules/es6.object.to-string");
-
+require("core-js/modules/es.function.name");
+require("core-js/modules/es.object.to-string");
+require("core-js/modules/es.promise");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.VideoPanel = void 0;
-
 require("regenerator-runtime/runtime");
-
-require("core-js/modules/es6.function.name");
-
 var _react = _interopRequireWildcard(require("react"));
-
-var _sleep = require("@ringcentral-integration/commons/lib/sleep");
-
-var _isSafari = _interopRequireDefault(require("../../lib/isSafari"));
-
+var _utils = require("@ringcentral-integration/commons/utils");
+var _utils2 = require("@ringcentral-integration/utils");
 var _InnerTopic = require("../InnerTopic");
-
 var _styles = _interopRequireDefault(require("./styles.scss"));
-
 var _VideoConfig = require("./VideoConfig");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
-
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 /** @deprecated */
 var VideoPanel = function VideoPanel(_ref) {
   var ScheduleButton = _ref.scheduleButton,
-      datePickerSize = _ref.datePickerSize,
-      timePickerSize = _ref.timePickerSize,
-      checkboxSize = _ref.checkboxSize,
-      meeting = _ref.meeting,
-      hidden = _ref.hidden,
-      currentLocale = _ref.currentLocale,
-      onOK = _ref.onOK,
-      showSaveAsDefault = _ref.showSaveAsDefault,
-      disableSaveAsDefault = _ref.disableSaveAsDefault,
-      disabled = _ref.disabled,
-      openNewWindow = _ref.openNewWindow,
-      schedule = _ref.schedule,
-      updateMeetingSettings = _ref.updateMeetingSettings,
-      init = _ref.init,
-      recipientsSection = _ref.recipientsSection,
-      showWhen = _ref.showWhen,
-      showDuration = _ref.showDuration,
-      brandName = _ref.brandName,
-      showRcvAdminLock = _ref.showRcvAdminLock,
-      showPmiConfirm = _ref.showPmiConfirm,
-      isPmiChangeConfirmed = _ref.isPmiChangeConfirmed,
-      onPmiChangeClick = _ref.onPmiChangeClick,
-      showWaitingRoom = _ref.showWaitingRoom,
-      showE2EE = _ref.showE2EE,
-      isE2EEDisabled = _ref.isE2EEDisabled,
-      enablePersonalMeeting = _ref.enablePersonalMeeting,
-      enableJoinAfterMeCopy = _ref.enableJoinAfterMeCopy,
-      personalMeetingId = _ref.personalMeetingId,
-      isPersonalMeetingDisabled = _ref.isPersonalMeetingDisabled,
-      configDisabled = _ref.configDisabled,
-      labelPlacement = _ref.labelPlacement,
-      switchUsePersonalMeetingId = _ref.switchUsePersonalMeetingId,
-      trackSettingChanges = _ref.trackSettingChanges,
-      e2eeInteractFunc = _ref.e2eeInteractFunc,
-      updateScheduleFor = _ref.updateScheduleFor,
-      delegators = _ref.delegators,
-      joinBeforeHostLabel = _ref.joinBeforeHostLabel,
-      authUserTypeValue = _ref.authUserTypeValue,
-      isJoinBeforeHostDisabled = _ref.isJoinBeforeHostDisabled,
-      isMuteAudioDisabled = _ref.isMuteAudioDisabled,
-      isTurnOffCameraDisabled = _ref.isTurnOffCameraDisabled,
-      isAllowScreenSharingDisabled = _ref.isAllowScreenSharingDisabled,
-      isAuthenticatedCanJoinDisabled = _ref.isAuthenticatedCanJoinDisabled,
-      isAuthUserTypeDisabled = _ref.isAuthUserTypeDisabled,
-      isWaitingRoomTypeDisabled = _ref.isWaitingRoomTypeDisabled,
-      isSignedInUsersDisabled = _ref.isSignedInUsersDisabled,
-      isSignedInCoWorkersDisabled = _ref.isSignedInCoWorkersDisabled,
-      isWaitingRoomNotCoworkerDisabled = _ref.isWaitingRoomNotCoworkerDisabled,
-      isWaitingRoomGuestDisabled = _ref.isWaitingRoomGuestDisabled,
-      isWaitingRoomAllDisabled = _ref.isWaitingRoomAllDisabled,
-      isWaitingRoomDisabled = _ref.isWaitingRoomDisabled,
-      isRequirePasswordDisabled = _ref.isRequirePasswordDisabled,
-      showScheduleOnBehalf = _ref.showScheduleOnBehalf,
-      showSpinnerInConfigPanel = _ref.showSpinnerInConfigPanel;
+    datePickerSize = _ref.datePickerSize,
+    timePickerSize = _ref.timePickerSize,
+    checkboxSize = _ref.checkboxSize,
+    meeting = _ref.meeting,
+    hidden = _ref.hidden,
+    currentLocale = _ref.currentLocale,
+    onOK = _ref.onOK,
+    showSaveAsDefault = _ref.showSaveAsDefault,
+    disableSaveAsDefault = _ref.disableSaveAsDefault,
+    disabled = _ref.disabled,
+    openNewWindow = _ref.openNewWindow,
+    schedule = _ref.schedule,
+    updateMeetingSettings = _ref.updateMeetingSettings,
+    init = _ref.init,
+    recipientsSection = _ref.recipientsSection,
+    showWhen = _ref.showWhen,
+    showDuration = _ref.showDuration,
+    brandName = _ref.brandName,
+    showRcvAdminLock = _ref.showRcvAdminLock,
+    showPmiConfirm = _ref.showPmiConfirm,
+    isPmiChangeConfirmed = _ref.isPmiChangeConfirmed,
+    onPmiChangeClick = _ref.onPmiChangeClick,
+    showWaitingRoom = _ref.showWaitingRoom,
+    showE2EE = _ref.showE2EE,
+    isE2EEDisabled = _ref.isE2EEDisabled,
+    enablePersonalMeeting = _ref.enablePersonalMeeting,
+    enableJoinAfterMeCopy = _ref.enableJoinAfterMeCopy,
+    personalMeetingId = _ref.personalMeetingId,
+    isPersonalMeetingDisabled = _ref.isPersonalMeetingDisabled,
+    configDisabled = _ref.configDisabled,
+    labelPlacement = _ref.labelPlacement,
+    switchUsePersonalMeetingId = _ref.switchUsePersonalMeetingId,
+    trackSettingChanges = _ref.trackSettingChanges,
+    e2eeInteractFunc = _ref.e2eeInteractFunc,
+    updateScheduleFor = _ref.updateScheduleFor,
+    delegators = _ref.delegators,
+    joinBeforeHostLabel = _ref.joinBeforeHostLabel,
+    authUserTypeValue = _ref.authUserTypeValue,
+    isJoinBeforeHostDisabled = _ref.isJoinBeforeHostDisabled,
+    isMuteAudioDisabled = _ref.isMuteAudioDisabled,
+    isTurnOffCameraDisabled = _ref.isTurnOffCameraDisabled,
+    isAllowScreenSharingDisabled = _ref.isAllowScreenSharingDisabled,
+    isAuthenticatedCanJoinDisabled = _ref.isAuthenticatedCanJoinDisabled,
+    isAuthUserTypeDisabled = _ref.isAuthUserTypeDisabled,
+    isWaitingRoomTypeDisabled = _ref.isWaitingRoomTypeDisabled,
+    isSignedInUsersDisabled = _ref.isSignedInUsersDisabled,
+    isSignedInCoWorkersDisabled = _ref.isSignedInCoWorkersDisabled,
+    isWaitingRoomNotCoworkerDisabled = _ref.isWaitingRoomNotCoworkerDisabled,
+    isWaitingRoomGuestDisabled = _ref.isWaitingRoomGuestDisabled,
+    isWaitingRoomAllDisabled = _ref.isWaitingRoomAllDisabled,
+    isWaitingRoomDisabled = _ref.isWaitingRoomDisabled,
+    isRequirePasswordDisabled = _ref.isRequirePasswordDisabled,
+    showScheduleOnBehalf = _ref.showScheduleOnBehalf,
+    showSpinnerInConfigPanel = _ref.showSpinnerInConfigPanel;
   var topicRef = (0, _react.useRef)(null);
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].videoPanel
@@ -146,7 +104,9 @@ var VideoPanel = function VideoPanel(_ref) {
     personalMeetingId: personalMeetingId,
     switchUsePersonalMeetingId: switchUsePersonalMeetingId,
     trackSettingChanges: trackSettingChanges,
-    disabled: configDisabled,
+    disabled: configDisabled
+    // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
+    ,
     isPersonalMeetingDisabled: isPersonalMeetingDisabled,
     isPmiChangeConfirmed: isPmiChangeConfirmed,
     labelPlacement: labelPlacement,
@@ -192,7 +152,6 @@ var VideoPanel = function VideoPanel(_ref) {
     onOK: onOK,
     onClick: /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
       var _opener;
-
       return regeneratorRuntime.wrap(function _callee$(_context) {
         while (1) {
           switch (_context.prev = _context.next) {
@@ -201,17 +160,17 @@ var VideoPanel = function VideoPanel(_ref) {
                 _context.next = 6;
                 break;
               }
-
               _context.next = 3;
-              return (0, _sleep.sleep)(100);
-
+              return (0, _utils.sleep)(100);
             case 3:
-              _opener = openNewWindow && (0, _isSafari["default"])() ? window.open() : null;
+              _opener = openNewWindow && (0, _utils2.isSafari)() ? window.open() : null;
               _context.next = 6;
               return schedule(_objectSpread(_objectSpread({}, meeting), {}, {
+                // @ts-expect-error TS(2531): Object is possibly 'null'.
                 name: topicRef.current.value
-              }), _opener);
-
+              }),
+              // @ts-expect-error TS(2345): Argument of type 'Window | null' is not assignable... Remove this comment to see the full error message
+              _opener);
             case 6:
             case "end":
               return _context.stop();
@@ -224,6 +183,5 @@ var VideoPanel = function VideoPanel(_ref) {
     disableSaveAsDefault: disableSaveAsDefault
   }) : null);
 };
-
 exports.VideoPanel = VideoPanel;
 //# sourceMappingURL=VideoPanel.js.map

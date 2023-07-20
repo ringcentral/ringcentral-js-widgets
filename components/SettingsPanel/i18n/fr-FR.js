@@ -1,14 +1,12 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 var _default = {
   region: "Région",
-  calling: "Appel",
+  calling: "Appel en cours",
   logout: "Déconnexion",
   version: "Version",
   settings: "Paramètres",
@@ -26,8 +24,9 @@ var _default = {
   feedback: "Commentaires",
   userGuide: "Nouveautés",
   quickAccess: "Paramètre d’accès rapide",
-  report: "Rapport analytique",
-  shareIdea: "Partager une idée"
+  report: "Rapport d’analyses",
+  shareIdea: "Partager une idée",
+  reportIssue: "Signaler un problème"
 }; // @key: @#@"region"@#@ @source: @#@"Region"@#@
 // @key: @#@"calling"@#@ @source: @#@"Calling"@#@
 // @key: @#@"logout"@#@ @source: @#@"Logout"@#@
@@ -49,6 +48,6 @@ var _default = {
 // @key: @#@"quickAccess"@#@ @source: @#@"Quick Access Setting"@#@
 // @key: @#@"report"@#@ @source: @#@"Analytics Report"@#@
 // @key: @#@"shareIdea"@#@ @source: @#@"Share idea"@#@
-
+// @key: @#@"reportIssue"@#@ @source: @#@"Report issue"@#@
 exports["default"] = _default;
 //# sourceMappingURL=fr-FR.js.map

@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -13,6 +11,5 @@ var _default = {
 }; // @key: @#@"createCallLog"@#@ @source: @#@"Create call log"@#@
 // @key: @#@"viewInSalesforce"@#@ @source: @#@"View in Salesforce"@#@
 // @key: @#@"createLog"@#@ @source: @#@"Create log"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=es-419.js.map

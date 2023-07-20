@@ -1,41 +1,29 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-
 var _react = _interopRequireDefault(require("react"));
-
 var _classnames = _interopRequireDefault(require("classnames"));
-
 var _propTypes = _interopRequireDefault(require("prop-types"));
-
 var _CloseIcon = _interopRequireDefault(require("../../assets/images/CloseIcon.svg"));
-
 var _Button = require("../Button");
-
 var _i18n = _interopRequireDefault(require("./i18n"));
-
 var _styles = _interopRequireDefault(require("./styles.scss"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function FlatButton(_ref) {
+var FlatButton = function FlatButton(_ref) {
   var className = _ref.className,
-      disabled = _ref.disabled,
-      onClick = _ref.onClick,
-      children = _ref.children,
-      dataSign = _ref.dataSign;
+    disabled = _ref.disabled,
+    onClick = _ref.onClick,
+    children = _ref.children,
+    dataSign = _ref.dataSign;
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(className, _styles["default"].flatBtn, _styles["default"].text, disabled && _styles["default"].disabled),
     "data-sign": dataSign,
     onClick: !disabled && onClick
   }, children);
-}
-
+};
 FlatButton.propTypes = {
   className: _propTypes["default"].string,
   disabled: _propTypes["default"].bool,
@@ -50,23 +38,22 @@ FlatButton.defaultProps = {
   children: undefined,
   dataSign: ''
 };
-
-function Dialog(_ref2) {
+var Dialog = function Dialog(_ref2) {
   var children = _ref2.children,
-      title = _ref2.title,
-      onConfirm = _ref2.onConfirm,
-      onCancel = _ref2.onCancel,
-      textConfirm = _ref2.textConfirm,
-      textCancel = _ref2.textCancel,
-      currentLocale = _ref2.currentLocale,
-      className = _ref2.className,
-      cancelBtnClassName = _ref2.cancelBtnClassName,
-      confirmBtnClassName = _ref2.confirmBtnClassName,
-      showTitle = _ref2.showTitle,
-      showCloseBtn = _ref2.showCloseBtn,
-      headerClassName = _ref2.headerClassName,
-      contentClassName = _ref2.contentClassName,
-      footerClassName = _ref2.footerClassName;
+    title = _ref2.title,
+    onConfirm = _ref2.onConfirm,
+    onCancel = _ref2.onCancel,
+    textConfirm = _ref2.textConfirm,
+    textCancel = _ref2.textCancel,
+    currentLocale = _ref2.currentLocale,
+    className = _ref2.className,
+    cancelBtnClassName = _ref2.cancelBtnClassName,
+    confirmBtnClassName = _ref2.confirmBtnClassName,
+    showTitle = _ref2.showTitle,
+    showCloseBtn = _ref2.showCloseBtn,
+    headerClassName = _ref2.headerClassName,
+    contentClassName = _ref2.contentClassName,
+    footerClassName = _ref2.footerClassName;
   var footer = !currentLocale || !onCancel && !onConfirm ? null : /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].footer, footerClassName)
   }, onCancel ? /*#__PURE__*/_react["default"].createElement(FlatButton, {
@@ -93,8 +80,7 @@ function Dialog(_ref2) {
   }, /*#__PURE__*/_react["default"].createElement(_CloseIcon["default"], null)) : null, /*#__PURE__*/_react["default"].createElement("div", {
     className: (0, _classnames["default"])(_styles["default"].content, contentClassName)
   }, children), footer);
-}
-
+};
 Dialog.propTypes = {
   className: _propTypes["default"].string,
   cancelBtnClassName: _propTypes["default"].string,

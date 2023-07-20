@@ -1,8 +1,9 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import classNames from 'classnames';
 
-import { OptionsInterface } from './optionInterface';
+import type { OptionsInterface } from './optionInterface';
 import styles from './styles.scss';
 
 const Option: FunctionComponent<OptionsInterface> = ({

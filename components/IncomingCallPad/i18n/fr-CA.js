@@ -1,18 +1,16 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 var _default = {
-  forward: "Renvoyer",
+  forward: "Transférer",
   reply: "Répondre",
   ignore: "Ignorer",
-  toVoicemail: "Messagerie vocale",
+  toVoicemail: "À la messagerie vocale",
   answer: "Répondre",
-  answerAndEnd: "Répondre et\nraccrocher",
+  answerAndEnd: "Répondre et raccrocher",
   answerAndHold: "Répondre et mettre en attente"
 }; // @key: @#@"forward"@#@ @source: @#@"Forward"@#@
 // @key: @#@"reply"@#@ @source: @#@"Reply"@#@
@@ -21,6 +19,5 @@ var _default = {
 // @key: @#@"answer"@#@ @source: @#@"Answer"@#@
 // @key: @#@"answerAndEnd"@#@ @source: @#@"Answer & End"@#@
 // @key: @#@"answerAndHold"@#@ @source: @#@"Answer & Hold"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=fr-CA.js.map

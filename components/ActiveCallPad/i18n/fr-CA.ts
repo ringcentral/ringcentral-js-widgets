@@ -1,19 +1,19 @@
 export default {
   unmute: "Activer le micro",
   mute: "Désactiver le micro",
-  keypad: "Pavé numérique",
-  hold: "Mettre\nen attente",
+  keypad: "Clavier téléphonique",
+  hold: "Mettre en attente",
   onHold: "En attente",
-  park: "Mise\nen garde",
+  park: "Garde",
   stopRecord: "Arrêter",
   record: "Enregistrer",
   add: "Ajouter",
   transfer: "Transférer",
-  flip: "Renvoi\ninstantané",
+  flip: "Renvoi",
   more: "Actions d’appel",
   mergeToConference: "Fusionner",
-  end: "Terminer",
-  completeTransfer: "Exécuter\nle transfert"
+  end: "Raccrocher",
+  completeTransfer: "Effectuer\nle transfert"
 };
 
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@

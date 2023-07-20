@@ -3,7 +3,7 @@ export default {
   transferTo: "Trasferisci a",
   blindTransfer: "Trasferisci",
   warmTransfer: "Chiedi prima",
-  enterNameOrNumber: "Inserisci numero"
+  enterNameOrNumber: "Immetti numero"
 };
 
 // @key: @#@"to"@#@ @source: @#@"To:"@#@

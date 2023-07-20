@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -10,23 +8,25 @@ var _default = {
   mute: "靜音",
   unmute: "取消靜音",
   hangup: "掛斷",
-  reject: "繼絕",
-  hold: "通話保留",
-  onHold: "等待接通",
+  reject: "拒絕",
+  hold: "保留",
+  onHold: "保留",
   transfer: "轉接",
   more: "更多",
-  stopRecord: "停止記錄",
-  record: "記錄",
+  stopRecord: "停止錄製",
+  record: "錄製",
   showKeypad: "撥號盤",
   hideKeypad: "隱藏撥號盤",
-  unHold: "取消通話保留",
+  unHold: "取消保留",
   forward: "轉接",
   ignore: "忽略",
-  voicemail: "轉語音訊息",
+  voicemail: "至語音信箱",
   custom: "自訂",
-  answerAndEnd: "回答並結束",
-  answerAndHold: "回答並等候",
-  answer: "接聽"
+  answerAndEnd: "接聽並結束",
+  answerAndHold: "接聽並保留",
+  answer: "接聽",
+  completeTransfer: "完成轉接",
+  reply: "回覆"
 }; // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
 // @key: @#@"hangup"@#@ @source: @#@"Hang up"@#@
@@ -47,6 +47,7 @@ var _default = {
 // @key: @#@"answerAndEnd"@#@ @source: @#@"Answer & End"@#@
 // @key: @#@"answerAndHold"@#@ @source: @#@"Answer & Hold"@#@
 // @key: @#@"answer"@#@ @source: @#@"Answer"@#@
-
+// @key: @#@"completeTransfer"@#@ @source: @#@"Complete transfer"@#@
+// @key: @#@"reply"@#@ @source: @#@"Reply"@#@
 exports["default"] = _default;
 //# sourceMappingURL=zh-TW.js.map

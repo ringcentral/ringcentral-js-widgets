@@ -1,31 +1,29 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 var _default = {
   feedbackHeader: "Envoyer le commentaire",
-  back: "Retour",
+  back: "Revenir",
   revert: "Rétablir",
   instruction: "Vos commentaires sont très importants pour nous. Si vous rencontrez des difficultés pendant votre utilisation de l’application, si vous souhaitez faire la demande d’une fonctionnalité ou signaler un bogue, nous sommes toujours heureux de vous aider.",
   fillForm: "Veuillez remplir le formulaire ci-dessous et cliquer sur ",
   useMailBox: " ou veuillez utiliser votre messagerie pour envoyer votre requête à ",
-  email: "Adresse de courriel",
+  email: "Votre adresse courriel",
   reply: "(pour que nous puissions vous répondre)",
   emailPlaceHolder: "ronald.app@ringcentral.com",
   feedbackTopic: "Sujet des commentaires",
   topicPlaceHolder: "Veuillez choisir une option",
-  bugReport: "Rapport sur le bogue",
-  featureRequest: "Requête pour une fonctionnalité",
+  bugReport: "Signalement de bogue",
+  featureRequest: "Demande de fonctionnalité",
   others: "Autres",
   subject: "Objet",
   subjectPlaceHolder: "Veuillez nous indiquer comment nous pouvons vous aider",
-  description: "Description détaillée",
+  description: "Description complète",
   descriptionPlaceHolder: "Veuillez écrire le plus d’informations possible",
-  send: "Envoyer les commentaires"
+  send: "Envoyer vos commentaires"
 }; // @key: @#@"feedbackHeader"@#@ @source: @#@"Submit Feedback"@#@
 // @key: @#@"back"@#@ @source: @#@"Back"@#@
 // @key: @#@"revert"@#@ @source: @#@"Revert"@#@
@@ -45,6 +43,5 @@ var _default = {
 // @key: @#@"description"@#@ @source: @#@"Full description"@#@
 // @key: @#@"descriptionPlaceHolder"@#@ @source: @#@"Please include as much information as possible"@#@
 // @key: @#@"send"@#@ @source: @#@"Send Your Feedback"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=fr-CA.js.map

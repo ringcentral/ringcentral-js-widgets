@@ -1,154 +1,78 @@
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
-require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.string.iterator");
-
-require("core-js/modules/es6.weak-map");
-
-require("core-js/modules/es6.promise");
-
-require("core-js/modules/es6.object.define-properties");
-
-require("core-js/modules/es7.object.get-own-property-descriptors");
-
-require("core-js/modules/es6.array.for-each");
-
-require("core-js/modules/es6.array.filter");
-
-require("core-js/modules/es6.symbol");
-
-require("core-js/modules/web.dom.iterable");
-
-require("core-js/modules/es6.array.iterator");
-
-require("core-js/modules/es6.object.to-string");
-
-require("core-js/modules/es6.object.keys");
-
-require("core-js/modules/es6.object.define-property");
-
-require("core-js/modules/es6.object.create");
-
-require("core-js/modules/es6.reflect.construct");
-
+require("core-js/modules/es.array.find-index");
+require("core-js/modules/es.function.bind");
+require("core-js/modules/es.function.name");
+require("core-js/modules/es.object.get-prototype-of");
+require("core-js/modules/es.object.set-prototype-of");
+require("core-js/modules/es.regexp.exec");
+require("core-js/modules/es.string.split");
+require("core-js/modules/web.timers");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-
-require("core-js/modules/es6.object.set-prototype-of");
-
-require("core-js/modules/es6.regexp.split");
-
-require("core-js/modules/es6.function.name");
-
-require("core-js/modules/es6.function.bind");
-
 require("regenerator-runtime/runtime");
-
-require("core-js/modules/es6.array.find-index");
-
 var _react = _interopRequireWildcard(require("react"));
-
 var _classnames = _interopRequireDefault(require("classnames"));
-
 var _propTypes = _interopRequireDefault(require("prop-types"));
-
 var _callDirections = _interopRequireDefault(require("@ringcentral-integration/commons/enums/callDirections"));
-
 var _callLogHelpers = require("@ringcentral-integration/commons/lib/callLogHelpers");
-
 var _parseNumber = _interopRequireDefault(require("@ringcentral-integration/commons/lib/parseNumber"));
-
 var _sessionStatus = _interopRequireDefault(require("@ringcentral-integration/commons/modules/Webphone/sessionStatus"));
-
 var _Answer = _interopRequireDefault(require("../../assets/images/Answer.svg"));
-
 var _End = _interopRequireDefault(require("../../assets/images/End.svg"));
-
 var _Voicemail = _interopRequireDefault(require("../../assets/images/Voicemail.svg"));
-
 var _ActionMenu = _interopRequireDefault(require("../ActionMenu"));
-
 var _CallIcon = _interopRequireDefault(require("../CallIcon"));
-
 var _CircleButton = _interopRequireDefault(require("../CircleButton"));
-
 var _ContactDisplay = _interopRequireDefault(require("../ContactDisplay"));
-
 var _DurationCounter = _interopRequireDefault(require("../DurationCounter"));
-
 var _i18n = _interopRequireDefault(require("./i18n"));
-
 var _styles = _interopRequireDefault(require("./styles.scss"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
-
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
-
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function WebphoneButtons(_ref) {
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+var WebphoneButtons = function WebphoneButtons(_ref) {
   var currentLocale = _ref.currentLocale,
-      session = _ref.session,
-      webphoneAnswer = _ref.webphoneAnswer,
-      webphoneReject = _ref.webphoneReject,
-      webphoneHangup = _ref.webphoneHangup,
-      webphoneResume = _ref.webphoneResume,
-      showAnswer = _ref.showAnswer;
-
+    session = _ref.session,
+    webphoneAnswer = _ref.webphoneAnswer,
+    webphoneReject = _ref.webphoneReject,
+    webphoneHangup = _ref.webphoneHangup,
+    webphoneResume = _ref.webphoneResume,
+    showAnswer = _ref.showAnswer;
   if (!session || !webphoneAnswer || !webphoneHangup) {
     return null;
   }
-
   var hangupFunc = webphoneHangup;
   var resumeFunc = webphoneResume;
   var endIcon = _End["default"];
-
   var rejectTitle = _i18n["default"].getString('hangup', currentLocale);
-
   var acceptTitle = _i18n["default"].getString('accept', currentLocale);
-
   if (session.direction === _callDirections["default"].inbound && session.callStatus === _sessionStatus["default"].connecting) {
     hangupFunc = webphoneReject;
     resumeFunc = webphoneAnswer;
     endIcon = _Voicemail["default"];
     rejectTitle = _i18n["default"].getString('toVoicemail', currentLocale);
   }
-
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].webphoneButtons
   }, /*#__PURE__*/_react["default"].createElement("span", {
@@ -176,8 +100,7 @@ function WebphoneButtons(_ref) {
     icon: _Answer["default"],
     showBorder: false
   })) : null);
-}
-
+};
 WebphoneButtons.propTypes = {
   currentLocale: _propTypes["default"].string.isRequired,
   session: _propTypes["default"].object,
@@ -195,31 +118,29 @@ WebphoneButtons.defaultProps = {
   webphoneResume: undefined,
   showAnswer: true
 };
-
 var ActiveCallItem = /*#__PURE__*/function (_Component) {
   _inherits(ActiveCallItem, _Component);
-
   var _super = _createSuper(ActiveCallItem);
-
   function ActiveCallItem(props) {
     var _this;
-
     _classCallCheck(this, ActiveCallItem);
-
     _this = _super.call(this, props);
-
+    _this._mounted = void 0;
+    _this._userSelection = void 0;
+    _this.contactDisplay = void 0;
+    _this.toVoicemailTimeout = void 0;
+    _this.toggleExtended = void 0;
+    _this.webphoneToVoicemail = void 0;
     _this.onSelectContact = function (value) {
       var nameMatches = _this.getContactMatches();
-
       var selected = nameMatches.findIndex(function (match) {
         return match.id === value.id;
       });
       _this._userSelection = true;
-
       _this.setState({
         selected: selected
       });
-
+      // @ts-expect-error TS(2339): Property 'call' does not exist on type 'Readonly<{... Remove this comment to see the full error message
       if (_this.props.call.activityMatches.length > 0 && _this.props.autoLog) {
         _this.logCall({
           redirect: false,
@@ -227,36 +148,34 @@ var ActiveCallItem = /*#__PURE__*/function (_Component) {
         });
       }
     };
-
+    // @ts-expect-error TS(2339): Property 'selected' does not exist on type 'Readon... Remove this comment to see the full error message
     _this.getSelectedContact = function () {
       var selected = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _this.state.selected;
-
       var contactMatches = _this.getContactMatches();
-
       return selected > -1 && contactMatches[selected] || contactMatches.length === 1 && contactMatches[0] || null;
     };
-
     _this.clickToSms = function () {
+      // @ts-expect-error TS(2339): Property 'onClickToSms' does not exist on type 'Re... Remove this comment to see the full error message
       if (_this.props.onClickToSms) {
         var phoneNumber = _this.getPhoneNumber();
-
         var contact = _this.getSelectedContact();
-
         if (contact) {
+          // @ts-expect-error TS(2339): Property 'onClickToSms' does not exist on type 'Re... Remove this comment to see the full error message
           _this.props.onClickToSms(_objectSpread(_objectSpread({}, contact), {}, {
             phoneNumber: phoneNumber
           }));
         } else {
+          // @ts-expect-error TS(2339): Property 'formatPhone' does not exist on type 'Rea... Remove this comment to see the full error message
           var formatted = _this.props.formatPhone(phoneNumber);
-
+          // @ts-expect-error TS(2339): Property 'onClickToSms' does not exist on type 'Re... Remove this comment to see the full error message
           _this.props.onClickToSms({
+            // @ts-expect-error TS(2339): Property 'enableContactFallback' does not exist on... Remove this comment to see the full error message
             name: _this.props.enableContactFallback ? _this.getFallbackContactName() : formatted,
             phoneNumber: phoneNumber
           }, true);
         }
       }
     };
-
     _this.createSelectedContact = /*#__PURE__*/function () {
       var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(entityType) {
         var phoneNumber;
@@ -264,32 +183,33 @@ var ActiveCallItem = /*#__PURE__*/function (_Component) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
-                if (!(typeof _this.props.onCreateContact === 'function' && _this._mounted && !_this.state.isCreating)) {
+                if (!(
+                // @ts-expect-error TS(2339): Property 'onCreateContact' does not exist on type ... Remove this comment to see the full error message
+                typeof _this.props.onCreateContact === 'function' && _this._mounted &&
+                // @ts-expect-error TS(2339): Property 'isCreating' does not exist on type 'Read... Remove this comment to see the full error message
+                !_this.state.isCreating)) {
                   _context.next = 6;
                   break;
                 }
-
                 _this.setState({
                   isCreating: true
-                }); // console.log('start to create: isCreating...', this.state.isCreating);
-
-
-                phoneNumber = _this.getPhoneNumber();
+                });
+                // console.log('start to create: isCreating...', this.state.isCreating);
+                phoneNumber = _this.getPhoneNumber(); // @ts-expect-error TS(2339): Property 'onCreateContact' does not exist on type ... Remove this comment to see the full error message
                 _context.next = 5;
                 return _this.props.onCreateContact({
                   phoneNumber: phoneNumber,
+                  // @ts-expect-error TS(2339): Property 'enableContactFallback' does not exist on... Remove this comment to see the full error message
                   name: _this.props.enableContactFallback ? _this.getFallbackContactName() : '',
                   entityType: entityType
                 });
-
               case 5:
                 if (_this._mounted) {
                   _this.setState({
                     isCreating: false
-                  }); // console.log('created: isCreating...', this.state.isCreating);
-
+                  });
+                  // console.log('created: isCreating...', this.state.isCreating);
                 }
-
               case 6:
               case "end":
                 return _context.stop();
@@ -297,26 +217,25 @@ var ActiveCallItem = /*#__PURE__*/function (_Component) {
           }
         }, _callee);
       }));
-
       return function (_x) {
         return _ref2.apply(this, arguments);
       };
     }();
-
     _this.viewSelectedContact = function () {
+      // @ts-expect-error TS(2339): Property 'onViewContact' does not exist on type 'R... Remove this comment to see the full error message
       if (typeof _this.props.onViewContact === 'function') {
+        // @ts-expect-error TS(2339): Property 'onViewContact' does not exist on type 'R... Remove this comment to see the full error message
         _this.props.onViewContact({
           contact: _this.getSelectedContact()
         });
       }
     };
-
+    // @ts-expect-error TS(2300): Duplicate identifier 'logCall'.
     _this.logCall = _this.logCall.bind(_assertThisInitialized(_this));
-
+    // @ts-expect-error TS(2339): Property 'externalViewEntity' does not exist on ty... Remove this comment to see the full error message
     _this.externalViewEntity = function () {
       return _this.props.externalViewEntity(_this.props.call);
     };
-
     _this.state = {
       selected: 0,
       isLogging: false,
@@ -325,48 +244,46 @@ var ActiveCallItem = /*#__PURE__*/function (_Component) {
     };
     _this._userSelection = false;
     _this.contactDisplay = null;
-
     _this.toggleExtended = function (e) {
+      // @ts-expect-error TS(2339): Property 'isOnConferenceCall' does not exist on ty... Remove this comment to see the full error message
       if (_this.props.isOnConferenceCall) {
         return;
       }
-
       if (_this.contactDisplay && _this.contactDisplay.contains(e.target)) {
         return;
       }
-
       _this.setState(function (preState) {
         return {
+          // @ts-expect-error TS(2339): Property 'extended' does not exist on type 'Readon... Remove this comment to see the full error message
           extended: !preState.extended
         };
       });
     };
-
     _this.webphoneToVoicemail = function (sessionId) {
+      // @ts-expect-error TS(2339): Property 'webphoneToVoicemail' does not exist on t... Remove this comment to see the full error message
       if (typeof _this.props.webphoneToVoicemail !== 'function') {
         return;
       }
-
+      // @ts-expect-error TS(2339): Property 'webphoneToVoicemail' does not exist on t... Remove this comment to see the full error message
       _this.props.webphoneToVoicemail(sessionId);
-
       _this.toVoicemailTimeout = setTimeout(function () {
+        // @ts-expect-error TS(2339): Property 'webphoneReject' does not exist on type '... Remove this comment to see the full error message
         _this.props.webphoneReject(sessionId);
       }, 3000);
     };
-
     return _this;
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   _createClass(ActiveCallItem, [{
     key: "componentDidMount",
     value: function componentDidMount() {
       this._mounted = true;
-    }
+    } // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   }, {
     key: "componentWillUnmount",
     value: function componentWillUnmount() {
       this._mounted = false;
-
       if (this.toVoicemailTimeout) {
         clearTimeout(this.toVoicemailTimeout);
         this.toVoicemailTimeout = null;
@@ -375,44 +292,63 @@ var ActiveCallItem = /*#__PURE__*/function (_Component) {
   }, {
     key: "getFallbackContactName",
     value: function getFallbackContactName() {
-      return (0, _callLogHelpers.isInbound)(this.props.call) ? this.props.call.from.name : this.props.call.to.name;
+      // @ts-expect-error TS(2339): Property 'call' does not exist on type 'Readonly<{... Remove this comment to see the full error message
+      return (0, _callLogHelpers.isInbound)(this.props.call) ?
+      // @ts-expect-error TS(2339): Property 'call' does not exist on type 'Readonly<{... Remove this comment to see the full error message
+      this.props.call.from.name :
+      // @ts-expect-error TS(2339): Property 'call' does not exist on type 'Readonly<{... Remove this comment to see the full error message
+      this.props.call.to.name;
     }
   }, {
     key: "getContactMatches",
     value: function getContactMatches() {
       var nextProps = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : this.props;
-      return (0, _callLogHelpers.isInbound)(nextProps.call) ? nextProps.call.fromMatches : nextProps.call.toMatches;
+      // @ts-expect-error TS(2339): Property 'call' does not exist on type 'Readonly<{... Remove this comment to see the full error message
+      return (0, _callLogHelpers.isInbound)(nextProps.call) ?
+      // @ts-expect-error TS(2339): Property 'call' does not exist on type 'Readonly<{... Remove this comment to see the full error message
+      nextProps.call.fromMatches :
+      // @ts-expect-error TS(2339): Property 'call' does not exist on type 'Readonly<{... Remove this comment to see the full error message
+      nextProps.call.toMatches;
     }
   }, {
     key: "getPhoneNumber",
     value: function getPhoneNumber() {
-      return (0, _callLogHelpers.isInbound)(this.props.call) ? this.props.call.from.phoneNumber || this.props.call.from.extensionNumber : this.props.call.to.phoneNumber || this.props.call.to.extensionNumber;
+      // @ts-expect-error TS(2339): Property 'call' does not exist on type 'Readonly<{... Remove this comment to see the full error message
+      return (0, _callLogHelpers.isInbound)(this.props.call) ?
+      // @ts-expect-error TS(2339): Property 'call' does not exist on type 'Readonly<{... Remove this comment to see the full error message
+      this.props.call.from.phoneNumber || this.props.call.from.extensionNumber :
+      // @ts-expect-error TS(2339): Property 'call' does not exist on type 'Readonly<{... Remove this comment to see the full error message
+      this.props.call.to.phoneNumber || this.props.call.to.extensionNumber;
     }
   }, {
     key: "getMyPhoneNumber",
     value: function getMyPhoneNumber() {
-      return (0, _callLogHelpers.isInbound)(this.props.call) ? this.props.call.to.phoneNumber || this.props.call.to.extensionNumber : this.props.call.from.phoneNumber || this.props.call.from.extensionNumber;
+      // @ts-expect-error TS(2339): Property 'call' does not exist on type 'Readonly<{... Remove this comment to see the full error message
+      return (0, _callLogHelpers.isInbound)(this.props.call) ?
+      // @ts-expect-error TS(2339): Property 'call' does not exist on type 'Readonly<{... Remove this comment to see the full error message
+      this.props.call.to.phoneNumber || this.props.call.to.extensionNumber :
+      // @ts-expect-error TS(2339): Property 'call' does not exist on type 'Readonly<{... Remove this comment to see the full error message
+      this.props.call.from.phoneNumber ||
+      // @ts-expect-error TS(2339): Property 'call' does not exist on type 'Readonly<{... Remove this comment to see the full error message
+      this.props.call.from.extensionNumber;
     }
   }, {
     key: "getCallInfo",
     value: function getCallInfo() {
       var _this$props = this.props,
-          _this$props$call = _this$props.call,
-          telephonyStatus = _this$props$call.telephonyStatus,
-          startTime = _this$props$call.startTime,
-          webphoneSession = _this$props$call.webphoneSession,
-          offset = _this$props$call.offset,
-          disableLinks = _this$props.disableLinks,
-          currentLocale = _this$props.currentLocale,
-          formatPhone = _this$props.formatPhone,
-          showCallDetail = _this$props.showCallDetail;
-
+        _this$props$call = _this$props.call,
+        telephonyStatus = _this$props$call.telephonyStatus,
+        startTime = _this$props$call.startTime,
+        webphoneSession = _this$props$call.webphoneSession,
+        offset = _this$props$call.offset,
+        disableLinks = _this$props.disableLinks,
+        currentLocale = _this$props.currentLocale,
+        formatPhone = _this$props.formatPhone,
+        showCallDetail = _this$props.showCallDetail;
       if (!showCallDetail) {
         return null;
       }
-
       var myPhoneNumber = this.getMyPhoneNumber();
-
       if (webphoneSession) {
         return /*#__PURE__*/_react["default"].createElement("div", {
           className: _styles["default"].callDetail
@@ -420,9 +356,7 @@ var ActiveCallItem = /*#__PURE__*/function (_Component) {
           className: _styles["default"].label
         }, (0, _callLogHelpers.isInbound)(this.props.call) ? _i18n["default"].getString('to', currentLocale) : _i18n["default"].getString('from', currentLocale), ":"), myPhoneNumber ? formatPhone(myPhoneNumber) : _i18n["default"].getString('anonymous', currentLocale));
       }
-
       var telephonyStatusInfo = _i18n["default"].getString(telephonyStatus, currentLocale);
-
       return /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].callDetail
       }, disableLinks ? _i18n["default"].getString('unavailable', currentLocale) : /*#__PURE__*/_react["default"].createElement(_DurationCounter["default"], {
@@ -439,35 +373,36 @@ var ActiveCallItem = /*#__PURE__*/function (_Component) {
     value: function () {
       var _logCall = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(_ref3) {
         var _ref3$redirect, redirect, selected;
-
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
                 _ref3$redirect = _ref3.redirect, redirect = _ref3$redirect === void 0 ? true : _ref3$redirect, selected = _ref3.selected;
-
-                if (!(typeof this.props.onLogCall === 'function' && this._mounted && !this.state.isLogging)) {
+                if (!(
+                // @ts-expect-error TS(2339): Property 'onLogCall' does not exist on type 'Reado... Remove this comment to see the full error message
+                typeof this.props.onLogCall === 'function' && this._mounted &&
+                // @ts-expect-error TS(2339): Property 'isLogging' does not exist on type 'Reado... Remove this comment to see the full error message
+                !this.state.isLogging)) {
                   _context2.next = 6;
                   break;
                 }
-
                 this.setState({
                   isLogging: true
                 });
+                // @ts-expect-error TS(2339): Property 'onLogCall' does not exist on type 'Reado... Remove this comment to see the full error message
                 _context2.next = 5;
                 return this.props.onLogCall({
                   contact: this.getSelectedContact(selected),
+                  // @ts-expect-error TS(2339): Property 'call' does not exist on type 'Readonly<{... Remove this comment to see the full error message
                   call: this.props.call,
                   redirect: redirect
                 });
-
               case 5:
                 if (this._mounted) {
                   this.setState({
                     isLogging: false
                   });
                 }
-
               case 6:
               case "end":
                 return _context2.stop();
@@ -475,55 +410,54 @@ var ActiveCallItem = /*#__PURE__*/function (_Component) {
           }
         }, _callee2, this);
       }));
-
       function logCall(_x2) {
         return _logCall.apply(this, arguments);
       }
-
       return logCall;
     }()
   }, {
     key: "render",
+    // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
     value: function render() {
       var _this2 = this;
-
       var _this$props2 = this.props,
-          _this$props2$call = _this$props2.call,
-          direction = _this$props2$call.direction,
-          activityMatches = _this$props2$call.activityMatches,
-          webphoneSession = _this$props2$call.webphoneSession,
-          disableLinks = _this$props2.disableLinks,
-          currentLocale = _this$props2.currentLocale,
-          areaCode = _this$props2.areaCode,
-          countryCode = _this$props2.countryCode,
-          outboundSmsPermission = _this$props2.outboundSmsPermission,
-          internalSmsPermission = _this$props2.internalSmsPermission,
-          enableContactFallback = _this$props2.enableContactFallback,
-          isLogging = _this$props2.isLogging,
-          brand = _this$props2.brand,
-          showContactDisplayPlaceholder = _this$props2.showContactDisplayPlaceholder,
-          onClickToSms = _this$props2.onClickToSms,
-          onViewContact = _this$props2.onViewContact,
-          onCreateContact = _this$props2.onCreateContact,
-          createEntityTypes = _this$props2.createEntityTypes,
-          onLogCall = _this$props2.onLogCall,
-          webphoneAnswer = _this$props2.webphoneAnswer,
-          webphoneHangup = _this$props2.webphoneHangup,
-          webphoneResume = _this$props2.webphoneResume,
-          sourceIcons = _this$props2.sourceIcons,
-          phoneTypeRenderer = _this$props2.phoneTypeRenderer,
-          phoneSourceNameRenderer = _this$props2.phoneSourceNameRenderer,
-          renderContactName = _this$props2.renderContactName,
-          renderExtraButton = _this$props2.renderExtraButton,
-          contactDisplayStyle = _this$props2.contactDisplayStyle,
-          externalViewEntity = _this$props2.externalViewEntity,
-          externalHasEntity = _this$props2.externalHasEntity,
-          readTextPermission = _this$props2.readTextPermission,
-          isOnConferenceCall = _this$props2.isOnConferenceCall,
-          hasActionMenu = _this$props2.hasActionMenu,
-          showAnswer = _this$props2.showAnswer,
-          avatarUrl = _this$props2.avatarUrl,
-          showAvatar = _this$props2.showAvatar;
+        _this$props2$call = _this$props2.call,
+        direction = _this$props2$call.direction,
+        activityMatches = _this$props2$call.activityMatches,
+        webphoneSession = _this$props2$call.webphoneSession,
+        disableLinks = _this$props2.disableLinks,
+        currentLocale = _this$props2.currentLocale,
+        areaCode = _this$props2.areaCode,
+        countryCode = _this$props2.countryCode,
+        outboundSmsPermission = _this$props2.outboundSmsPermission,
+        internalSmsPermission = _this$props2.internalSmsPermission,
+        enableContactFallback = _this$props2.enableContactFallback,
+        isLogging = _this$props2.isLogging,
+        brand = _this$props2.brand,
+        showContactDisplayPlaceholder = _this$props2.showContactDisplayPlaceholder,
+        onClickToSms = _this$props2.onClickToSms,
+        onViewContact = _this$props2.onViewContact,
+        onCreateContact = _this$props2.onCreateContact,
+        createEntityTypes = _this$props2.createEntityTypes,
+        onLogCall = _this$props2.onLogCall,
+        webphoneAnswer = _this$props2.webphoneAnswer,
+        webphoneHangup = _this$props2.webphoneHangup,
+        webphoneResume = _this$props2.webphoneResume,
+        sourceIcons = _this$props2.sourceIcons,
+        phoneTypeRenderer = _this$props2.phoneTypeRenderer,
+        phoneSourceNameRenderer = _this$props2.phoneSourceNameRenderer,
+        renderContactName = _this$props2.renderContactName,
+        renderExtraButton = _this$props2.renderExtraButton,
+        contactDisplayStyle = _this$props2.contactDisplayStyle,
+        externalViewEntity = _this$props2.externalViewEntity,
+        externalHasEntity = _this$props2.externalHasEntity,
+        readTextPermission = _this$props2.readTextPermission,
+        isOnConferenceCall = _this$props2.isOnConferenceCall,
+        hasActionMenu = _this$props2.hasActionMenu,
+        showAnswer = _this$props2.showAnswer,
+        avatarUrl = _this$props2.avatarUrl,
+        showAvatar = _this$props2.showAvatar,
+        formatPhone = _this$props2.formatPhone;
       var phoneNumber = this.getPhoneNumber();
       var parsedInfo = (0, _parseNumber["default"])({
         phoneNumber: phoneNumber,
@@ -534,10 +468,15 @@ var ActiveCallItem = /*#__PURE__*/function (_Component) {
       var disableClickToSms = !(onClickToSms && (isExtension ? internalSmsPermission : outboundSmsPermission));
       var contactMatches = this.getContactMatches();
       var fallbackContactName = this.getFallbackContactName();
+      // @ts-expect-error TS(2339): Property 'call' does not exist on type 'Readonly<{... Remove this comment to see the full error message
       var ringing = (0, _callLogHelpers.isRinging)(this.props.call);
       var callDetail = this.getCallInfo();
-      var contactName = typeof renderContactName === 'function' ? renderContactName(this.props.call) : undefined;
-      var extraButton = typeof renderExtraButton === 'function' ? renderExtraButton(this.props.call) : undefined;
+      var contactName = typeof renderContactName === 'function' ?
+      // @ts-expect-error TS(2339): Property 'call' does not exist on type 'Readonly<{... Remove this comment to see the full error message
+      renderContactName(this.props.call) : undefined;
+      var extraButton = typeof renderExtraButton === 'function' ?
+      // @ts-expect-error TS(2339): Property 'call' does not exist on type 'Readonly<{... Remove this comment to see the full error message
+      renderExtraButton(this.props.call) : undefined;
       return /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].root,
         onClick: this.toggleExtended
@@ -545,7 +484,9 @@ var ActiveCallItem = /*#__PURE__*/function (_Component) {
         className: _styles["default"].wrapper
       }, /*#__PURE__*/_react["default"].createElement(_CallIcon["default"], {
         direction: direction,
-        ringing: ringing,
+        ringing: ringing
+        // @ts-expect-error TS(2322): Type '{ direction: any; ringing: boolean; active: ... Remove this comment to see the full error message
+        ,
         active: true,
         missed: false,
         inboundTitle: _i18n["default"].getString('inboundCall', currentLocale),
@@ -557,13 +498,18 @@ var ActiveCallItem = /*#__PURE__*/function (_Component) {
       }), /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].infoWrapper
       }, /*#__PURE__*/_react["default"].createElement(_ContactDisplay["default"], {
+        formatPhone: formatPhone,
         isOnConferenceCall: isOnConferenceCall,
         contactName: contactName,
         className: isOnConferenceCall ? (0, _classnames["default"])(_styles["default"].conferenceContactDisplay) : (0, _classnames["default"])(_styles["default"].contactDisplay, contactDisplayStyle),
-        contactMatches: contactMatches,
+        contactMatches: contactMatches
+        // @ts-expect-error TS(2339): Property 'selected' does not exist on type 'Readon... Remove this comment to see the full error message
+        ,
         selected: this.state.selected,
         onSelectContact: this.onSelectContact,
-        disabled: disableLinks,
+        disabled: disableLinks
+        // @ts-expect-error TS(2339): Property 'isLogging' does not exist on type 'Reado... Remove this comment to see the full error message
+        ,
         isLogging: isLogging || this.state.isLogging,
         fallBackName: fallbackContactName,
         enableContactFallback: enableContactFallback,
@@ -574,7 +520,9 @@ var ActiveCallItem = /*#__PURE__*/function (_Component) {
         brand: brand,
         showPlaceholder: showContactDisplayPlaceholder,
         showType: false,
-        sourceIcons: sourceIcons,
+        sourceIcons: sourceIcons
+        // @ts-expect-error TS(2322): Type '{ formatPhone: any; isOnConferenceCall: any;... Remove this comment to see the full error message
+        ,
         phoneTypeRenderer: phoneTypeRenderer,
         phoneSourceNameRenderer: phoneSourceNameRenderer,
         stopPropagation: true
@@ -586,13 +534,17 @@ var ActiveCallItem = /*#__PURE__*/function (_Component) {
         webphoneResume: webphoneResume,
         currentLocale: currentLocale,
         showAnswer: showAnswer
-      }), extraButton), hasActionMenu ? /*#__PURE__*/_react["default"].createElement(_ActionMenu["default"], {
+      }), extraButton), hasActionMenu ? /*#__PURE__*/_react["default"].createElement(_ActionMenu["default"]
+      // @ts-expect-error TS(2339): Property 'extended' does not exist on type 'Readon... Remove this comment to see the full error message
+      , {
         extended: this.state.extended,
         onToggle: this.toggleExtended,
         currentLocale: currentLocale,
         disableLinks: disableLinks,
         phoneNumber: phoneNumber,
-        onClickToSms: readTextPermission ? function () {
+        onClickToSms: readTextPermission ?
+        // @ts-expect-error TS(2554): Expected 0 arguments, but got 1.
+        function () {
           return _this2.clickToSms({
             countryCode: countryCode,
             areaCode: areaCode
@@ -603,24 +555,28 @@ var ActiveCallItem = /*#__PURE__*/function (_Component) {
         onCreateEntity: onCreateContact && this.createSelectedContact,
         createEntityTypes: createEntityTypes,
         textTitle: _i18n["default"].getString('text', currentLocale),
-        onLog: onLogCall,
+        onLog: onLogCall
+        // @ts-expect-error TS(2339): Property 'isLogging' does not exist on type 'Reado... Remove this comment to see the full error message
+        ,
         isLogging: isLogging || this.state.isLogging,
-        isLogged: activityMatches.length > 0,
+        isLogged: activityMatches.length > 0
+        // @ts-expect-error TS(2339): Property 'isCreating' does not exist on type 'Read... Remove this comment to see the full error message
+        ,
         isCreating: this.state.isCreating,
         addLogTitle: _i18n["default"].getString('addLog', currentLocale),
         editLogTitle: _i18n["default"].getString('editLog', currentLocale),
         createEntityTitle: _i18n["default"].getString('addEntity', currentLocale),
         viewEntityTitle: _i18n["default"].getString('viewDetails', currentLocale),
         externalViewEntity: externalViewEntity && this.externalViewEntity,
-        externalHasEntity: externalHasEntity && externalHasEntity(this.props.call),
+        externalHasEntity:
+        // @ts-expect-error TS(2339): Property 'call' does not exist on type 'Readonly<{... Remove this comment to see the full error message
+        externalHasEntity && externalHasEntity(this.props.call),
         disableClickToSms: disableClickToSms
       }) : null);
     }
   }]);
-
   return ActiveCallItem;
-}(_react.Component);
-
+}(_react.Component); // @ts-expect-error TS(2339): Property 'propTypes' does not exist on type 'typeo... Remove this comment to see the full error message
 ActiveCallItem.propTypes = {
   call: _propTypes["default"].shape({
     direction: _propTypes["default"].string.isRequired,
@@ -679,6 +635,8 @@ ActiveCallItem.propTypes = {
   showAvatar: _propTypes["default"].bool,
   showCallDetail: _propTypes["default"].bool
 };
+
+// @ts-expect-error TS(2339): Property 'defaultProps' does not exist on type 'ty... Remove this comment to see the full error message
 ActiveCallItem.defaultProps = {
   onLogCall: undefined,
   onClickToSms: undefined,

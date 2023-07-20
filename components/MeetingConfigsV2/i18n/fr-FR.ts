@@ -15,13 +15,13 @@ export default {
   password: "Mot de passe",
   video: "Vidéo",
   audio: "Audio",
-  scheduleFor: "Programme défini par",
+  scheduleFor: "Planifier au nom de",
   [ASSISTED_USERS_MYSELF]: "Moi-même",
   meetingOptions: "Options de réunion",
   meetingSettings: "Paramètres de la réunion",
-  rcMeetingSettings: "Paramètres de la vidéoconférence",
+  rcMeetingSettings: "Paramètres de la visioconférence",
   audioOptions: "Options audio",
-  recurringMeeting: "Réunion récurrente",
+  recurringMeeting: "Réunion périodique",
   recurringNote: "Remarque : activez celle-ci lorsque vous sélectionnez « Récurrence ».",
   joinBeforeHost: "Autoriser les participants à se connecter avant l’hôte",
   turnOffCamera: "Désactiver la caméra pour les participants",
@@ -38,7 +38,7 @@ export default {
   pmiSettingChangeAlert: "Si vous modifiez les paramètres et programmez la réunion, toutes les réunions avec ID personnel de réunion utiliseront ces mêmes paramètres.",
   lockedTooltip: "Ce paramètre est géré par l’administrateur de votre entreprise",
   when: "Date",
-  recurringDescribe: "N’oubliez pas de vérifier la récurrence ou de renouveler votre invitation aux participants.",
+  recurringDescribe: "N’oubliez pas de vérifier dans votre calendrier la périodicité ou les répétitions de vos invitations envoyées aux participants.",
   ieSupportAlert: "Veuillez noter que {appName} ne fonctionnera plus avec Internet Explorer 11 après le 16 février 2022. Nous vous recommandons d’utiliser Microsoft Edge ou de passer à Outlook 2016 ou version ultérieure."
 };
 

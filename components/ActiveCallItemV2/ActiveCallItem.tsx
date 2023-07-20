@@ -1,16 +1,17 @@
-import React, { Component, FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React, { Component } from 'react';
 
 import classnames from 'classnames';
-import formatMessage from 'format-message';
 
 import { telephonySessionStatus } from '@ringcentral-integration/commons/enums/telephonySessionStatus';
 import {
   isInbound,
   isRinging,
 } from '@ringcentral-integration/commons/lib/callLogHelpers';
-import { isHolding as isTelephonySessionOnHold } from '@ringcentral-integration/commons/modules/ActiveCallControlV2/helpers';
+import { isHolding as isTelephonySessionOnHold } from '@ringcentral-integration/commons/modules/ActiveCallControl';
 import sessionStatus from '@ringcentral-integration/commons/modules/Webphone/sessionStatus';
 import { isOnHold } from '@ringcentral-integration/commons/modules/Webphone/webphoneHelper';
+import { format } from '@ringcentral-integration/utils';
 
 import AnswerIcon from '../../assets/images/Answer.svg';
 import EndIcon from '../../assets/images/End.svg';
@@ -28,7 +29,7 @@ import CircleButton from '../CircleButton';
 import ContactDisplay from '../ContactDisplay';
 import DurationCounter from '../DurationCounter';
 import MediaObject from '../MediaObject';
-import {
+import type {
   ActiveCallControlButtonsProps,
   ActiveCallItemProps,
   ActiveCallItemState,
@@ -47,7 +48,7 @@ export const ModalContent: FunctionComponent<ModalContentProps> = ({
         <SwitchImage width="116" height="69" />
       </div>
       <div className={styles.switchDialogContent}>
-        {formatMessage(i18n.getString('comfirmContext', currentLocale), {
+        {format(i18n.getString('comfirmContext', currentLocale), {
           // displayName: activeCall.name,
           displayName: contactName,
         })}
@@ -84,6 +85,7 @@ const WebphoneButtons: FunctionComponent<WebphoneButtonsProps> = ({
   let ignoreBtn;
   let endBtn;
 
+  // @ts-expect-error TS(2345): Argument of type 'WebPhoneSession' is not assignab... Remove this comment to see the full error message
   if (isInbound(session) && session.callStatus === sessionStatus.connecting) {
     showHold = false;
     answerBtn = (
@@ -153,6 +155,7 @@ const WebphoneButtons: FunctionComponent<WebphoneButtonsProps> = ({
             })}
             onClick={(e) => {
               e.stopPropagation();
+              // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
               webphoneIgnore(telephonySessionId);
             }}
             iconWidth={260}
@@ -317,6 +320,7 @@ const ActiveCallControlButtons: FunctionComponent<ActiveCallControlButtonsProps>
               e.stopPropagation();
               if (!disabled) {
                 clickSwitchTrack();
+                // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
                 onClickSwitchBtn();
               }
             }}
@@ -381,6 +385,7 @@ const ActiveCallControlButtons: FunctionComponent<ActiveCallControlButtonsProps>
 
       const disabled = disableLinks || isConnecting || ringing;
       if (session) {
+        // @ts-expect-error TS(2345): Argument of type 'object' is not assignable to par... Remove this comment to see the full error message
         if (isTelephonySessionOnHold(session)) {
           holdBtn = (
             <span
@@ -394,6 +399,7 @@ const ActiveCallControlButtons: FunctionComponent<ActiveCallControlButtonsProps>
                 })}
                 onClick={(e) => {
                   e.stopPropagation();
+                  // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
                   webphoneResume('', telephonySessionId);
                 }}
                 iconWidth={260}
@@ -417,6 +423,7 @@ const ActiveCallControlButtons: FunctionComponent<ActiveCallControlButtonsProps>
                 })}
                 onClick={(e) => {
                   e.stopPropagation();
+                  // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
                   webphoneHold('', telephonySessionId);
                 }}
                 iconWidth={260}
@@ -494,9 +501,9 @@ export class ActiveCallItem extends Component<
     showMergeCall: false,
     showHold: true,
     disableMerge: false,
-    onMergeCall: (i) => i,
+    onMergeCall: (i: any) => i,
     showCallDetail: false,
-    updateSessionMatchedContact: (i) => i,
+    updateSessionMatchedContact: (i: any) => i,
     showRingoutCallControl: false,
     showMultipleMatch: false,
     showSwitchCall: false,
@@ -506,9 +513,12 @@ export class ActiveCallItem extends Component<
   };
 
   _userSelection: boolean;
+  // @ts-expect-error TS(2564): Property 'toVoicemailTimeout' has no initializer a... Remove this comment to see the full error message
   toVoicemailTimeout: number;
+  // @ts-expect-error TS(2564): Property '_mounted' has no initializer and is not ... Remove this comment to see the full error message
   _mounted: boolean;
   webphoneToVoicemail: (sessionId: string, telephonySessionId: string) => any;
+  // @ts-expect-error TS(2564): Property 'modalId' has no initializer and is not d... Remove this comment to see the full error message
   modalId: string;
 
   constructor(props: ActiveCallItemProps) {
@@ -516,6 +526,7 @@ export class ActiveCallItem extends Component<
     this.state = {
       selected: 0,
       isLogging: false,
+      // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string'.
       avatarUrl: null,
       extraNum: 0,
     };
@@ -550,25 +561,30 @@ export class ActiveCallItem extends Component<
     const selected = this.getSelectedContactIdx(nextProps);
     this.onSelectContact(
       this.getSelectedContact(selected, nextProps),
+      // @ts-expect-error TS(2345): Argument of type 'number | null' is not assignable... Remove this comment to see the full error message
       selected,
     );
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   componentDidMount() {
     this._mounted = true;
     this.setContact();
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   UNSAFE_componentWillReceiveProps(nextProps: ActiveCallItemProps) {
     if (this.getContactMatches(nextProps) !== this.getContactMatches()) {
       this.setContact(nextProps);
     }
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   componentWillUnmount() {
     this._mounted = false;
     if (this.toVoicemailTimeout) {
       window.clearTimeout(this.toVoicemailTimeout);
+      // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'number'.
       this.toVoicemailTimeout = null;
     }
     if (this.modalId) {
@@ -589,6 +605,7 @@ export class ActiveCallItem extends Component<
       return null;
     }
 
+    // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
     const telephonyStatusInfo = i18n.getString(telephonyStatus, currentLocale);
     const callStatusComp = (
       <>
@@ -618,7 +635,8 @@ export class ActiveCallItem extends Component<
   getFallbackContactName() {
     return isInbound(this.props.call)
       ? this.props.call.from.name
-      : this.props.call.to.name;
+      : // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+        this.props.call.to.name;
   }
 
   onSelectContact = (value: any, idx: number) => {
@@ -637,6 +655,7 @@ export class ActiveCallItem extends Component<
         }
       });
       if (this.props.call.webphoneSession) {
+        // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
         this.props.updateSessionMatchedContact(
           this.props.call.webphoneSession.id,
           value,
@@ -652,6 +671,7 @@ export class ActiveCallItem extends Component<
     if (!nextProps.call.webphoneSession) {
       selected = 0;
     } else if (contactMatches && contactMatches.length) {
+      // @ts-expect-error TS(2339): Property 'contactMatch' does not exist on type 'We... Remove this comment to see the full error message
       const contact = nextProps.call.webphoneSession.contactMatch;
       if (contact) {
         selected = contactMatches.findIndex((match) => match.id === contact.id);
@@ -668,6 +688,7 @@ export class ActiveCallItem extends Component<
     nextProps = this.props,
   ) => {
     const contactMatches = this.getContactMatches(nextProps);
+    // @ts-expect-error TS(2538): Type 'null' cannot be used as an index type.
     return (contactMatches && contactMatches[selected]) || null;
   };
 
@@ -680,7 +701,8 @@ export class ActiveCallItem extends Component<
   getPhoneNumber() {
     return isInbound(this.props.call)
       ? this.props.call.from.phoneNumber || this.props.call.from.extensionNumber
-      : this.props.call.to.phoneNumber || this.props.call.to.extensionNumber;
+      : // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+        this.props.call.to.phoneNumber || this.props.call.to.extensionNumber;
   }
 
   onClickSwitchBtn = () => {
@@ -703,22 +725,27 @@ export class ActiveCallItem extends Component<
       title: i18n.getString('callSwitch', currentLocale),
       className: styles.switchDialog,
       contentProps: {
+        // @ts-expect-error TS(2339): Property 'title' does not exist on type 'string'.
         contactName: contactName?.title || contactName || this.getPhoneNumber(),
       },
       confirmButtonText: i18n.getString('comfirmOKButton', currentLocale),
       cancelButtonText: i18n.getString('comfirmCancelButton', currentLocale),
       onConfirm: () => {
         webphoneSwitchCall(call);
+        // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string'.
         this.modalId = null;
       },
       onCancel: () => {
+        // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string'.
         this.modalId = null;
       },
     });
   };
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     const {
+      warmTransferRole,
       call: {
         direction,
         webphoneSession,
@@ -766,12 +793,14 @@ export class ActiveCallItem extends Component<
       showHoldAnswerBtn,
       showIgnoreBtn,
       clickSwitchTrack,
+      formatPhone,
     } = this.props;
 
     const { avatarUrl, extraNum } = this.state;
     const phoneNumber = this.getPhoneNumber();
     const contactMatches = this.getContactMatches();
     const fallbackContactName = this.getFallbackContactName();
+    // @ts-expect-error TS(2345): Argument of type 'Call' is not assignable to param... Remove this comment to see the full error message
     const ringing = isRinging(this.props.call);
     const inbound = isInbound(this.props.call);
     const contactName =
@@ -798,6 +827,7 @@ export class ActiveCallItem extends Component<
     const isConnecting =
       telephonySession?.otherParties[0]?.status?.code ===
       telephonySessionStatus.proceeding;
+
     return (
       <div data-sign="callItem" className={styles.callItemContainer}>
         <MediaObject
@@ -814,10 +844,12 @@ export class ActiveCallItem extends Component<
             [styles.disabled]: hasCallControl && disableLinks,
           })}
           mediaLeft={
+            // @ts-expect-error TS(2322): Type '((...args: any[]) => any) | null' is not ass... Remove this comment to see the full error message
             <div onClick={hasCallControl && onClick ? onClick : null}>
               <CallIcon
                 direction={direction}
                 ringing={ringing}
+                // @ts-expect-error TS(2322): Type '{ direction: "Inbound" | "Outbound"; ringing... Remove this comment to see the full error message
                 active
                 missed={false}
                 inboundTitle={i18n.getString('inboundCall', currentLocale)}
@@ -833,10 +865,13 @@ export class ActiveCallItem extends Component<
           }
           mediaBody={
             <div
-              onClick={hasCallControl && onClick ? onClick : null}
+              data-sign="callNameAndDurationWrap"
+              onClick={hasCallControl && onClick ? onClick : undefined}
               className={styles.strechVertical}
             >
               <ContactDisplay
+                warmTransferRole={warmTransferRole}
+                formatPhone={formatPhone}
                 isOnConferenceCall={isOnConferenceCall}
                 contactName={showMultipleMatch ? undefined : contactName}
                 subContactName={subContactName}
@@ -861,6 +896,7 @@ export class ActiveCallItem extends Component<
                 brand={brand}
                 showPlaceholder={showContactDisplayPlaceholder}
                 showType={false}
+                // @ts-expect-error TS(2322): Type 'object | undefined' is not assignable to typ... Remove this comment to see the full error message
                 sourceIcons={sourceIcons}
                 phoneTypeRenderer={phoneTypeRenderer}
                 phoneSourceNameRenderer={phoneSourceNameRenderer}
@@ -874,6 +910,7 @@ export class ActiveCallItem extends Component<
                 <WebphoneButtons
                   session={webphoneSession}
                   isConnecting={isConnecting}
+                  // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
                   telephonySessionId={telephonySessionId}
                   webphoneReject={this.webphoneToVoicemail}
                   webphoneHangup={webphoneHangup}
@@ -885,6 +922,7 @@ export class ActiveCallItem extends Component<
                   disableMerge={disableMerge}
                   onMergeCall={onMergeCall}
                   webphoneAnswer={webphoneAnswer}
+                  // @ts-expect-error TS(2322): Type '((session: object) => boolean) | undefined' ... Remove this comment to see the full error message
                   isOnHold={isOnHold}
                   webphoneIgnore={webphoneIgnore}
                   showIgnoreBtn={showIgnoreBtn}
@@ -893,9 +931,12 @@ export class ActiveCallItem extends Component<
               ) : (
                 <ActiveCallControlButtons
                   session={telephonySession}
+                  // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
                   showSwitchCall={!webphoneSession && showSwitchCall}
                   onClickSwitchBtn={this.onClickSwitchBtn}
+                  // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
                   showRingoutCallControl={showRingoutCallControl}
+                  // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
                   telephonySessionId={telephonySessionId}
                   disableLinks={disableLinks}
                   currentLocale={currentLocale}
@@ -904,7 +945,9 @@ export class ActiveCallItem extends Component<
                   ringoutReject={ringoutReject}
                   ringoutHangup={ringoutHangup}
                   ringoutTransfer={ringoutTransfer}
+                  // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
                   showTransferCall={showTransferCall}
+                  // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
                   showHoldOnOtherDevice={showHoldOnOtherDevice}
                   webphoneResume={webphoneResume}
                   webphoneHold={webphoneHold}

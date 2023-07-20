@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -11,21 +9,21 @@ var _default = {
   when: "日時",
   duration: "期間",
   recurringMeeting: "定期的な会議",
-  recurringDescribe: "カレンダーの出席依頼で、参加者に定期的または繰り返し確認することを忘れないようにしてください。",
+  recurringDescribe: "出席者に対するカレンダーの招待で、会議が定期的に、または繰り返し設定されていることを確認してください。",
   video: "ビデオ",
-  videoDescribe: "会議に参加する場合",
+  videoDescribe: "会議参加時",
   host: "ホストビデオオン",
   participants: "参加者ビデオオン",
-  audioOptions: "オーディオオプション",
+  audioOptions: "音声オプション",
   voIPOnly: "VoIPのみ",
   both: "両方",
   meetingOptions: "会議のオプション",
   requirePassword: "会議のパスワードを要求する",
   password: "パスワード",
   rcmPasswordHintText: "パスワードは1～10文字で英数字と@*-のみ使用できます",
-  passwordEmptyError: "会議パスワードを必須にする",
+  passwordEmptyError: "会議パスワードが必要です",
   rcmPasswordInvalidError: "パスワードは1～10文字で英数字と@*-のみ使用できます",
-  enableJoinBeforeHost: "ホストより前の参加を可能にする",
+  enableJoinBeforeHost: "ホストより早く参加者が参加することを許可",
   telephonyOnly: "電話通信のみ",
   hostVideoOn: "ホストビデオオン",
   participantVideoOn: "参加者ビデオオン",
@@ -71,6 +69,5 @@ var _default = {
 // @key: @#@"pmiChangeConfirm"@#@ @source: @#@"If you want to make changes for your personal meeting, "@#@
 // @key: @#@"changePmiSettings"@#@ @source: @#@"change PMI settings"@#@
 // @key: @#@"pmiSettingChangeAlert"@#@ @source: @#@"If you change the settings and schedule this meeting, all of meetings with Personal Meeting ID will use the same latest settings."@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=ja-JP.js.map

@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -21,8 +19,8 @@ var _default = {
   addEntity: "새로 만들기",
   addLog: "기록",
   text: "문자",
-  call: "통화",
-  missedCall: "부재중",
+  call: "전화",
+  missedCall: "부재중 전화",
   inboundCall: "수신",
   outboundCall: "발신"
 }; // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
@@ -43,6 +41,5 @@ var _default = {
 // @key: @#@"missedCall"@#@ @source: @#@"Missed"@#@
 // @key: @#@"inboundCall"@#@ @source: @#@"Inbound"@#@
 // @key: @#@"outboundCall"@#@ @source: @#@"Outbound"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=ko-KR.js.map

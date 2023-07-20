@@ -1,13 +1,11 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 var _default = {
-  logging: "Connexion en cours...",
+  logging: "Connexion…",
   logCall: "Journal des appels",
   editLog: "Modifier le journal",
   select: "Sélectionner un enregistrement correspondant",
@@ -17,7 +15,7 @@ var _default = {
   unknownUser: "Utilisateur inconnu",
   unknownNumber: "Anonyme",
   unavailable: "Non disponible",
-  viewDetails: "Afficher les détails",
+  viewDetails: "Afficher les renseignements",
   addEntity: "Créer",
   addLog: "Liste",
   text: "Texto",
@@ -43,6 +41,5 @@ var _default = {
 // @key: @#@"missedCall"@#@ @source: @#@"Missed"@#@
 // @key: @#@"inboundCall"@#@ @source: @#@"Inbound"@#@
 // @key: @#@"outboundCall"@#@ @source: @#@"Outbound"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=fr-CA.js.map

@@ -1,4 +1,5 @@
-import React, { FunctionComponent, ReactNode } from 'react';
+import type { FunctionComponent, ReactNode } from 'react';
+import React from 'react';
 
 import classnames from 'classnames';
 
@@ -29,10 +30,17 @@ export const Avatar: FunctionComponent<AvatarProps> = ({
   return (
     <div className={styles.avatar}>
       <PlaceholderImage
+        // @ts-expect-error TS(2322): Type '{ className: string; alt: string; src: strin... Remove this comment to see the full error message
         className={imageClassName}
         alt={name}
         src={avatarUrl}
-        placeholder={<DefaultAvatar className={imageClassName} />}
+        placeholder={
+          <DefaultAvatar
+            data-sign="profile"
+            data-inactive={inactive}
+            className={imageClassName}
+          />
+        }
       />
       {sourceNode}
     </div>

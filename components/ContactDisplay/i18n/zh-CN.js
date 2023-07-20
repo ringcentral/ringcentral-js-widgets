@@ -1,19 +1,17 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
 var _default = {
-  logging: "正在记录...",
+  logging: "正在记录…",
   logCall: "记录通话",
   editLog: "编辑记录",
   select: "选择记录",
-  OnHold: "等候接听",
+  OnHold: "暂候",
   Ringing: "正在振铃",
-  CallConnected: "通话已连接",
+  CallConnected: "呼叫已接通",
   unknownUser: "未知用户",
   unknownNumber: "匿名",
   unavailable: "不可用",
@@ -31,6 +29,5 @@ var _default = {
 // @key: @#@"unavailable"@#@ @source: @#@"Unavailable"@#@
 // @key: @#@"viewDetails"@#@ @source: @#@"View Details"@#@
 // @key: @#@"conferenceCall"@#@ @source: @#@"Conference Call"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=zh-CN.js.map

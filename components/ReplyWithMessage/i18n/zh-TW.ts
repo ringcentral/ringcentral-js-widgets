@@ -3,10 +3,10 @@ export default {
   reply: "回覆",
   onMyWay: "在路上",
   customMessage: "自訂訊息",
-  callMeBackIn: "請在以下時間回電",
-  willCallYouBackIn: "將於以下時間回電",
-  min: "分",
-  hours: "小時",
+  callMeBackIn: "請於以下時間過後回電：",
+  willCallYouBackIn: "將於以下時間過後回電：",
+  min: "分鐘",
+  hours: "時",
   days: "天"
 };
 

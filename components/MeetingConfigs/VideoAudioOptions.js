@@ -1,65 +1,40 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-properties");
-
-require("core-js/modules/es7.object.get-own-property-descriptors");
-
-require("core-js/modules/es6.array.for-each");
-
-require("core-js/modules/es6.array.filter");
-
-require("core-js/modules/es6.symbol");
-
-require("core-js/modules/web.dom.iterable");
-
-require("core-js/modules/es6.array.iterator");
-
-require("core-js/modules/es6.object.to-string");
-
-require("core-js/modules/es6.object.keys");
-
+require("core-js/modules/es.symbol");
+require("core-js/modules/es.symbol.description");
+require("core-js/modules/es.symbol.to-primitive");
+require("core-js/modules/es.array.find");
+require("core-js/modules/es.array.join");
+require("core-js/modules/es.date.to-primitive");
+require("core-js/modules/es.number.constructor");
+require("core-js/modules/es.object.to-string");
+require("core-js/modules/es.regexp.exec");
+require("core-js/modules/es.string.split");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.Video = exports.AudioOptionsDropdown = exports.AudioOptionsCheckbox = exports.AudioOptions = void 0;
-
-require("core-js/modules/es6.object.define-property");
-
-require("core-js/modules/es6.array.find");
-
-require("core-js/modules/es6.regexp.split");
-
 require("react-widgets/dist/css/react-widgets.css");
-
 var _react = _interopRequireDefault(require("react"));
-
 var _classnames = _interopRequireDefault(require("classnames"));
-
 var _CheckBox = _interopRequireDefault(require("../CheckBox"));
-
 var _DropdownSelect = _interopRequireDefault(require("../DropdownSelect"));
-
 var _MeetingSection = _interopRequireDefault(require("../MeetingSection"));
-
 var _Switch = _interopRequireDefault(require("../Switch"));
-
 var _i18n = _interopRequireDefault(require("./i18n"));
-
 var _styles = _interopRequireDefault(require("./styles.scss"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 var Video = function Video(_ref) {
   var disabled = _ref.disabled,
-      currentLocale = _ref.currentLocale,
-      meeting = _ref.meeting,
-      update = _ref.update;
+    currentLocale = _ref.currentLocale,
+    meeting = _ref.meeting,
+    update = _ref.update;
   return /*#__PURE__*/_react["default"].createElement(_MeetingSection["default"], {
     title: _i18n["default"].getString('video', currentLocale),
     withSwitch: true
@@ -95,14 +70,12 @@ var Video = function Video(_ref) {
     dataSign: "videoParticipantToggle"
   }))));
 };
-
 exports.Video = Video;
-
 var AudioOptionsCheckbox = function AudioOptionsCheckbox(_ref2) {
   var disabled = _ref2.disabled,
-      update = _ref2.update,
-      meeting = _ref2.meeting,
-      data = _ref2.data;
+    update = _ref2.update,
+    meeting = _ref2.meeting,
+    data = _ref2.data;
   return /*#__PURE__*/_react["default"].createElement(_CheckBox["default"], {
     disabled: disabled,
     onSelect: function onSelect(_ref3) {
@@ -118,14 +91,12 @@ var AudioOptionsCheckbox = function AudioOptionsCheckbox(_ref2) {
     data: data
   });
 };
-
 exports.AudioOptionsCheckbox = AudioOptionsCheckbox;
-
 var AudioOptionsDropdown = function AudioOptionsDropdown(_ref4) {
   var disabled = _ref4.disabled,
-      update = _ref4.update,
-      meeting = _ref4.meeting,
-      data = _ref4.data;
+    update = _ref4.update,
+    meeting = _ref4.meeting,
+    data = _ref4.data;
   return /*#__PURE__*/_react["default"].createElement(_DropdownSelect["default"], {
     disabled: disabled,
     className: (0, _classnames["default"])(_styles["default"].dropdownSelect),
@@ -155,16 +126,14 @@ var AudioOptionsDropdown = function AudioOptionsDropdown(_ref4) {
     titleEnabled: true
   });
 };
-
 exports.AudioOptionsDropdown = AudioOptionsDropdown;
-
 var AudioOptions = function AudioOptions(_ref6) {
   var disabled = _ref6.disabled,
-      currentLocale = _ref6.currentLocale,
-      update = _ref6.update,
-      meeting = _ref6.meeting,
-      data = _ref6.data,
-      audioOptionToggle = _ref6.audioOptionToggle;
+    currentLocale = _ref6.currentLocale,
+    update = _ref6.update,
+    meeting = _ref6.meeting,
+    data = _ref6.data,
+    audioOptionToggle = _ref6.audioOptionToggle;
   var audioOptions = audioOptionToggle ? /*#__PURE__*/_react["default"].createElement(AudioOptionsDropdown, {
     disabled: disabled,
     update: update,
@@ -181,6 +150,5 @@ var AudioOptions = function AudioOptions(_ref6) {
     withSwitch: true
   }, audioOptions);
 };
-
 exports.AudioOptions = AudioOptions;
 //# sourceMappingURL=VideoAudioOptions.js.map

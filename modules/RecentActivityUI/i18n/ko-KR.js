@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -11,12 +9,11 @@ var _default = {
   text: "문자",
   fax: "팩스",
   voicemail: "음성 사서함",
-  call: "통화"
+  call: "전화"
 }; // @key: @#@"recentActivities"@#@ @source: @#@"Recent Activities"@#@
 // @key: @#@"text"@#@ @source: @#@"Text"@#@
 // @key: @#@"fax"@#@ @source: @#@"Fax"@#@
 // @key: @#@"voicemail"@#@ @source: @#@"Voicemail"@#@
 // @key: @#@"call"@#@ @source: @#@"Call"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=ko-KR.js.map

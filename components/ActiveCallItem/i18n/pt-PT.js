@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -20,11 +18,11 @@ var _default = {
   viewDetails: "Ver detalhes",
   addEntity: "Criar novo",
   addLog: "Registo",
-  text: "Texto",
+  text: "SMS",
   call: "Ligar",
   addContact: "Adicionar contacto",
   missedCall: "Não atendida",
-  inboundCall: "Recebidas",
+  inboundCall: "Recebida",
   outboundCall: "Efetuadas",
   from: "De",
   to: "Para",
@@ -81,6 +79,5 @@ var _default = {
 // @key: @#@"comfirmOKButton"@#@ @source: @#@"Switch"@#@
 // @key: @#@"ignore"@#@ @source: @#@"Ignore"@#@
 // @key: @#@"holdAndAnswer"@#@ @source: @#@"Hold & Answer"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=pt-PT.js.map

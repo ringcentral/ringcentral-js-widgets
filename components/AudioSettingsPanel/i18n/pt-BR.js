@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -11,7 +9,7 @@ var _default = {
   dialButtonVolume: "Volume do botão de discagem",
   ringtoneVolume: "Volume do toque",
   callVolume: "Volume da chamada",
-  muteCalls: "Colocar chamadas no mudo",
+  muteCalls: "Ativar mudo de chamadas",
   outputDevice: "Dispositivo de saída",
   inputDevice: "Dispositivo de entrada",
   micPermission: "Permissão de microfone",
@@ -39,6 +37,5 @@ var _default = {
 // @key: @#@"noLabelTip"@#@ @source: @#@"Sorry, your current browser permissions aren't set to allow us to access your audio input devices."@#@
 // @key: @#@"clickHere"@#@ @source: @#@"Click here"@#@
 // @key: @#@"defaultOutputDevice"@#@ @source: @#@"Default output device"@#@
-
 exports["default"] = _default;
 //# sourceMappingURL=pt-BR.js.map

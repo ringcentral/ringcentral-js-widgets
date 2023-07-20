@@ -1,0 +1,1 @@
+{"version":3,"file":"zh-TW.js","names":["activeCall","exports","_default"],"sources":["components/ConferenceDialerPanel/i18n/zh-TW.ts"],"sourcesContent":["export default {\n  activeCall: \"進行中的通話\"\n};\n\n// @key: @#@\"activeCall\"@#@ @source: @#@\"Active Call\"@#@\n"],"mappings":";;;;;;eAAe;EACbA,UAAU,EAAE;AACd,CAAC,EAED;AAAAC,OAAA,cAAAC,QAAA"}

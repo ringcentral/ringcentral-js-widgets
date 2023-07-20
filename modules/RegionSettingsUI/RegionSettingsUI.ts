@@ -1,11 +1,12 @@
 import { Module } from '@ringcentral-integration/commons/lib/di';
-import {
-  RcUIModuleV2,
-  UIFunctions,
-  UIProps,
-} from '@ringcentral-integration/core';
+import type { UIFunctions, UIProps } from '@ringcentral-integration/core';
+import { RcUIModuleV2 } from '@ringcentral-integration/core';
+import { includes } from 'ramda';
 
-import { Deps, RegionSettingsUIPanelProps } from './RegionSettingsUI.interface';
+import type {
+  Deps,
+  RegionSettingsUIPanelProps,
+} from './RegionSettingsUI.interface';
 
 @Module({
   name: 'RegionSettingsUI',
@@ -14,6 +15,7 @@ import { Deps, RegionSettingsUIPanelProps } from './RegionSettingsUI.interface';
     'Locale',
     'RegionSettings',
     'RouterInteraction',
+    'AppFeatures',
     { dep: 'RegionSettingsUIOptions', optional: true },
   ],
 })
@@ -37,6 +39,13 @@ export class RegionSettingsUI extends RcUIModuleV2<Deps> {
       onBackButtonClick: () => this._deps.routerInteraction.goBack(),
       onSave: (...args) => this._deps.regionSettings.setData(...args),
       onLogoutButtonClick: () => this._deps.auth.logout(),
+      canAreaCodeShow: (currentCountryCode) => {
+        const isEDPEnabled = this._deps.appFeatures.isEDPEnabled;
+        if (isEDPEnabled) {
+          return !includes(currentCountryCode, ['US', 'PR', 'CA']);
+        }
+        return includes(currentCountryCode, ['CA', 'US']);
+      },
     };
   }
 }

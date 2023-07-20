@@ -1,7 +1,5 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
@@ -10,7 +8,6 @@ var _default = {
   to: "An",
   enterNameOrNumber: "Name/Nr. eingeben"
 }; // @key: @#@"to"@#@ @source: @#@"To"@#@
-// @key: @#@"enterNameOrNumber"@#@ @source: @#@"Enter Name or Number"@#@
-
+// @key: @#@"enterNameOrNumber"@#@ @source: @#@"Enter name or number"@#@
 exports["default"] = _default;
 //# sourceMappingURL=de-DE.js.map
