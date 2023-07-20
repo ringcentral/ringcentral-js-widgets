@@ -6,6 +6,29 @@ on:
       - "**.**.**"
 
 jobs:
+  utils-npm-release:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+      - name: Setup Node.js
+        uses: actions/setup-node@v1
+        with:
+          node-version: '14.x'
+          registry-url: 'https://registry.npmjs.org'
+      - name: Get the version
+        id: get_version
+        run: echo ::set-output name=SOURCE_TAG::${GITHUB_REF#refs/tags/}
+      - run: yarn
+      - run: yarn workspace @ringcentral-integration/utils release
+        env:
+          TRAVIS_TAG: ${{ steps.get_version.outputs.SOURCE_TAG }}
+      - run: npm publish
+        working-directory: release/utils
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
   core-npm-release:
     runs-on: ubuntu-latest
     steps:
@@ -98,23 +121,3 @@ jobs:
         working-directory: release/engage-voice-widgets
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-  widgets-docs-release:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-        with:
-          persist-credentials: false
-      - name: Setup Node.js
-        uses: actions/setup-node@v1
-        with:
-          node-version: '14.x'
-      - run: yarn
-      - run: yarn workspace ringcentral-widgets-docs build
-      - name: Widgets Docs Release
-        uses: JamesIves/github-pages-deploy-action@3.7.1
-        with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          BRANCH: gh-pages
-          FOLDER: packages/ringcentral-widgets-docs/gh-pages
-          CLEAN: true
