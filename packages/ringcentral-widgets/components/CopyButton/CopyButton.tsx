@@ -1,4 +1,5 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import { RcIconButton } from '@ringcentral/juno';
 import { Copy as copyIconSvg } from '@ringcentral/juno-icon';

@@ -1,23 +1,46 @@
-import gulp from 'gulp';
 import path from 'path';
+import cp from 'child_process';
+import gulp from 'gulp';
 import fs from 'fs-extra';
 import babel from 'gulp-babel';
 import sourcemaps from 'gulp-sourcemaps';
-import cp from 'child_process';
+import yargs from 'yargs';
 
-const BUILD_PATH = path.resolve(__dirname, '../../build/utils');
+const DEFAULT_BUILD_PATH = path.resolve(__dirname, '../../build/utils');
+const DEFAULT_BABEL_CONFIG = 'babel.config.js';
+const SUPPORTED_BABEL_CONFIGS = [
+  DEFAULT_BABEL_CONFIG,
+  'electron-babel.config.js',
+];
+
+const { argv } = yargs
+  .alias({
+    buildPath: 'build-path',
+    babelConfig: 'babel-config',
+  })
+  .default('buildPath', DEFAULT_BUILD_PATH)
+  .default('babelConfig', DEFAULT_BABEL_CONFIG)
+  .choices('babelConfig', SUPPORTED_BABEL_CONFIGS);
+
+const { buildPath, babelConfig } = argv;
+
 export function clean() {
-  return fs.remove(BUILD_PATH);
+  return fs.remove(buildPath);
 }
+
 export function compile() {
+  const configFile = path.resolve(__dirname, babelConfig);
+  if (!fs.existsSync(configFile)) {
+    throw new Error(`Not found babel config ${configFile}`);
+  }
   return gulp
     .src(['./src/**/*.ts', './index.ts'], {
       base: './',
     })
     .pipe(sourcemaps.init())
-    .pipe(babel())
+    .pipe(babel({ configFile }))
     .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest(BUILD_PATH));
+    .pipe(gulp.dest(buildPath));
 }
 
 export const build = gulp.series(clean, compile);
@@ -65,7 +88,7 @@ export async function releaseClean() {
 
 export function releaseCopy() {
   return gulp
-    .src([`${BUILD_PATH}/**`, `${__dirname}/README.md`, `${__dirname}/LICENSE`])
+    .src([`${buildPath}/**`, `${__dirname}/README.md`, `${__dirname}/LICENSE`])
     .pipe(gulp.dest(RELEASE_PATH));
 }
 

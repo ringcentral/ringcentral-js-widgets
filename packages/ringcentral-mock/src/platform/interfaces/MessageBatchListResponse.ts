@@ -1,5 +1,5 @@
-import { MessageBatchInfo } from './MessageBatchInfo';
-import { PagingResource } from './PagingResource';
+import type { MessageBatchInfo } from './MessageBatchInfo';
+import type { PagingResource } from './PagingResource';
 
 export interface MessageBatchListResponse {
   /**

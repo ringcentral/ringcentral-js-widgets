@@ -1,8 +1,8 @@
 import type GetMessageInfoResponse from '@rc-ex/core/lib/definitions/GetMessageInfoResponse';
 
-import { Entity } from '../../interfaces/Entity.interface';
-import { Message } from '../../interfaces/MessageStore.model';
-import { MessageStore } from '../MessageStore';
+import type { Entity } from '../../interfaces/Entity.interface';
+import type { Message } from '../../interfaces/MessageStore.model';
+import type { MessageStore } from '../MessageStore';
 
 export interface Deps {
   client: any;

@@ -18,8 +18,8 @@ import {
   EV_AGENT_SCRIPT_PAGE_KEY,
   EV_APP_PAGE_KEY,
 } from '../../enums';
-import { EvCallData } from '../../interfaces/EvData.interface';
-import {
+import type { EvCallData } from '../../interfaces/EvData.interface';
+import type {
   EvAgentScriptData,
   EvAgentScriptResult,
   EvAgentScriptResultModel,
@@ -27,7 +27,7 @@ import {
   EvCallDispositionItem,
   EvScriptResponseJSON,
 } from '../../lib/EvClient';
-import {
+import type {
   AgentScript,
   Deps,
   EvCallScriptResultMapping,
@@ -229,7 +229,7 @@ class EvAgentScript<T extends Deps = Deps>
   async getScript(
     scriptId: string,
     version: string = null,
-    type: string = 'CALL',
+    type = 'CALL',
     uii: string = null,
   ) {
     const response = await this._deps.evClient.getScript(scriptId, version);

@@ -1,6 +1,6 @@
-import { NetworkInfo } from './NetworkInfo';
-import { ProvisioningNavigationInfo } from './ProvisioningNavigationInfo';
-import { ProvisioningPagingInfo } from './ProvisioningPagingInfo';
+import type { NetworkInfo } from './NetworkInfo';
+import type { ProvisioningNavigationInfo } from './ProvisioningNavigationInfo';
+import type { ProvisioningPagingInfo } from './ProvisioningPagingInfo';
 
 export interface NetworksList {
   /**

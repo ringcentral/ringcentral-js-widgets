@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-const fs = require('fs-extra');
 const path = require('path');
+const fs = require('fs-extra');
 const execa = require('execa');
 
 const { name } = fs.readJsonSync(path.resolve(__dirname, '../package.json'));

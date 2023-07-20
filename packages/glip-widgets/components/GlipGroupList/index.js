@@ -2,9 +2,8 @@ import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import { List } from 'react-virtualized';
 
-import styles from './styles.scss';
-
 import GlipGroupItem from '../GlipGroupItem';
+import styles from './styles.scss';
 
 export default class GlipGroupList extends PureComponent {
   constructor(props) {

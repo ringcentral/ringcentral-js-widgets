@@ -92,5 +92,6 @@ MessageSenderAlert.handleMessage = ({ message }: any) =>
   message === messageSenderMessages.attachmentCountLimitation ||
   message === messageSenderMessages.attachmentSizeLimitation ||
   message === messageSenderMessages.noAttachmentToExtension ||
-  message === messageSenderMessages.sending;
+  message === messageSenderMessages.sending ||
+  message === messageSenderMessages.shortNumbersNotAvailable;
 export default MessageSenderAlert;

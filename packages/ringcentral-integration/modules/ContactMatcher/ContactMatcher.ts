@@ -1,8 +1,8 @@
-import { Entity } from '../../interfaces/Entity.interface';
+import type { Entity } from '../../interfaces/Entity.interface';
 import { DataMatcher } from '../../lib/DataMatcherV2';
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
-import {
+import type {
   Deps,
   ForceMatchBatchNumbersOptions,
   ForceMatchNumberOptions,

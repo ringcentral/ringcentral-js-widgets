@@ -1,10 +1,10 @@
+import path from 'path';
 import dedent from 'dedent';
 import execa from 'execa';
 import fs from 'fs-extra';
 import gulp from 'gulp';
 import babel from 'gulp-babel';
 import sourcemaps from 'gulp-sourcemaps';
-import path from 'path';
 
 import consolidateLocale from '@ringcentral-integration/locale-loader/lib/consolidateLocale';
 import exportLocale from '@ringcentral-integration/locale-loader/lib/exportLocale';

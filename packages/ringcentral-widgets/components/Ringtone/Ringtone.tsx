@@ -2,12 +2,13 @@
 
 // TODO: that component still not completely yet, view in calling settings, layout style issue, still in Technical Preview
 
-import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
+import type { FunctionComponent } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { useAudio, useMountState } from '@ringcentral/juno';
 
 import i18n from './i18n';
-import { AudioFileReaderProps, RingtoneProps } from './Ringtone.interface';
+import type { AudioFileReaderProps, RingtoneProps } from './Ringtone.interface';
 import styles from './styles.scss';
 
 const AudioFileReader: FunctionComponent<AudioFileReaderProps> = ({

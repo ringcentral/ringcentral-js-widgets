@@ -1,6 +1,6 @@
 /**
  * RCI-4399: EDP enable and dialed with other call option
- * https://test_id_domain/test-cases/RCI-4399
+ * https://test_it_domain/test-cases/RCI-4399
  * Preconditions:
  * CTI app is integrated,
  * User is logged-in to 3rd party
@@ -35,9 +35,9 @@ import {
   title,
   When,
 } from '@ringcentral-integration/test-utils';
-import { Context } from '../../../../../interfaces';
+import type { Context } from '../../../../../interfaces';
 
-import { StepProp } from '../../../../../lib/step';
+import type { StepProp } from '../../../../../lib/step';
 import {
   CheckConferenceCallControlPage,
   CheckIncomingCallPageExist,
@@ -59,6 +59,7 @@ import { CheckIsCRM } from '../../../../../steps/IDB';
 import {
   MockAccountInfo,
   MockCallLogs,
+  MockExtensionInfo,
   MockExtensionsList,
   mockExtensionsListData,
   MockMessageSync,
@@ -75,7 +76,7 @@ import { SetAreaCode } from '../../../../../steps/Settings';
 export class EDPEnabledAndTransfer extends Step {
   Login: StepProp = CommonLogin;
   CreateMock: StepProp | null = null;
-  appName: string = 'common';
+  appName = 'common';
   transferFn: any;
 
   @examples(`
@@ -208,16 +209,6 @@ export class EDPEnabledAndAddCall extends Step {
         ]}
       >
         <Given desc="login App" action={Login} />
-        <And
-          desc="set area code"
-          action={({ areaCode }: any) => (
-            <>
-              <NavigateTo path="/settings/region" />,
-              <SetAreaCode areaCode={areaCode} />,
-              <NavigateTo path="/dialer" />
-            </>
-          )}
-        />
         <When
           desc="> Follow the {Entry}> Input{dialing text}in 'To' filed
                       > Click call button
@@ -244,7 +235,7 @@ export class EDPEnabledAndAddCall extends Step {
 export class EDPEnabledAndForward extends Step {
   Login: StepProp = CommonLogin;
   CreateMock: StepProp | null = null;
-  appName: string = 'common';
+  appName = 'common';
 
   @examples(`
     | maxExtensionLength | areaCode | phoneNumber | e164            |
@@ -272,6 +263,18 @@ export class EDPEnabledAndForward extends Step {
               mockData.results[0].formats[0] = {
                 ...mockData.results[0].formats[0],
                 e164Extended: e164,
+              };
+              return mockData;
+            }}
+          />,
+          <MockExtensionInfo
+            handle={(mockData) => {
+              mockData.regionalSettings.homeCountry = {
+                uri: 'https://api-rcapps-xmnup.rclabenv.com/restapi/v1.0/dictionary/country/75',
+                id: '75',
+                name: 'France',
+                isoCode: 'FR',
+                callingCode: '33',
               };
               return mockData;
             }}

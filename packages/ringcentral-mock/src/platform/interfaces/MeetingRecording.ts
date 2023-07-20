@@ -1,5 +1,5 @@
-import { MeetingInfo } from './MeetingInfo';
-import { MeetingRecordingInfo } from './MeetingRecordingInfo';
+import type { MeetingInfo } from './MeetingInfo';
+import type { MeetingRecordingInfo } from './MeetingRecordingInfo';
 
 export interface MeetingRecording {
   /**

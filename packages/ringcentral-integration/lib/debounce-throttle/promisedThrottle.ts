@@ -1,5 +1,5 @@
 import { promisedDebounce } from './promisedDebounce';
-import { ThrottleOptions } from './throttle';
+import type { ThrottleOptions } from './throttle';
 
 export function promisedThrottle<F extends (...args: any) => any>(
   options: ThrottleOptions<F>,

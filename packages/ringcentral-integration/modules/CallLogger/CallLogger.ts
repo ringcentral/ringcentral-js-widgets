@@ -8,12 +8,10 @@ import {
   watch,
 } from '@ringcentral-integration/core';
 
-import {
-  CallLoggerTriggerType,
-  callLoggerTriggerTypes,
-} from '../../enums/callLoggerTriggerTypes';
-import { Call } from '../../interfaces/Call.interface';
-import { ActiveCall } from '../../interfaces/Presence.model';
+import type { CallLoggerTriggerType } from '../../enums/callLoggerTriggerTypes';
+import { callLoggerTriggerTypes } from '../../enums/callLoggerTriggerTypes';
+import type { Call } from '../../interfaces/Call.interface';
+import type { ActiveCall } from '../../interfaces/Presence.model';
 import {
   isInbound,
   isRinging,
@@ -22,9 +20,9 @@ import {
 import { Module } from '../../lib/di';
 import { LoggerBase } from '../../lib/LoggerBase';
 import proxify from '../../lib/proxy/proxify';
-import { HistoryCall } from '../CallHistory';
-import { CallLogRecord } from '../CallLog';
-import {
+import type { HistoryCall } from '../CallHistory';
+import type { CallLogRecord } from '../CallLog';
+import type {
   AutoLogCallOptions,
   Deps,
   Hook,

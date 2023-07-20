@@ -1,5 +1,5 @@
 import { screen, waitFor } from '@testing-library/react';
-import { StepFunction } from '../../../lib/step';
+import type { StepFunction } from '../../../lib/step';
 
 interface CheckAnswerAndEndProps {
   hungUpCallId: string;
@@ -12,7 +12,7 @@ export const CheckAnswerAndEndBehavior: StepFunction<CheckAnswerAndEndProps> =
       (item) => item.to === answerCallNumber,
     );
     // The secondCall was answered
-    expect(phone.webphone.answer).toBeCalledWith(secondCall.id, undefined);
+    expect(phone.webphone.answer).toBeCalledWith(secondCall.id);
     expect(phone.webphone._onAccepted).toBeCalledWith(
       expect.objectContaining({
         id: secondCall?.id,

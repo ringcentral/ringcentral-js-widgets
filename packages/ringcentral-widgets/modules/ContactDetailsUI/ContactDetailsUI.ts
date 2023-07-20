@@ -1,11 +1,11 @@
 import { phoneTypes } from '@ringcentral-integration/commons/enums/phoneTypes';
-import {
+import type {
   ContactModel,
   IContact,
 } from '@ringcentral-integration/commons/interfaces/Contact.model';
 import background from '@ringcentral-integration/commons/lib/background';
 import { Module } from '@ringcentral-integration/commons/lib/di';
-import proxify from '@ringcentral-integration/commons/lib/proxy/proxify';
+import { proxify } from '@ringcentral-integration/commons/lib/proxy/proxify';
 import {
   action,
   RcUIModuleV2,
@@ -13,17 +13,18 @@ import {
   track,
 } from '@ringcentral-integration/core';
 
-import {
+import type {
   ContactDetailsViewFunctionProps,
   ContactDetailsViewProps,
 } from '../../components/ContactDetailsView/ContactDetailsView.interface';
-import {
+import type {
   Deps,
   GetUIFunctions,
   InitParams,
   RouteParams,
 } from './ContactDetailsUI.interface';
-import { ContactReadyState, contactReadyStates } from './contactReadyStates';
+import type { ContactReadyState } from './contactReadyStates';
+import { contactReadyStates } from './contactReadyStates';
 import { formatContactPhoneNumber } from './helper';
 import { trackEvents } from './trackEvents';
 
@@ -52,7 +53,7 @@ const DEFAULT_COMPOSE_TEXT_ROUTE = '/composeText';
     },
   ],
 })
-export class ContactDetailsUI extends RcUIModuleV2<Deps> {
+export class ContactDetailsUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
   constructor(deps: Deps) {
     super({ deps });
   }
@@ -124,11 +125,7 @@ export class ContactDetailsUI extends RcUIModuleV2<Deps> {
   }
 
   @proxify
-  async handleClickToDial(
-    contact: ContactModel,
-    phoneNumber: string,
-    isStandAlone?: boolean,
-  ) {
+  async handleClickToDial(contact: ContactModel, phoneNumber: string) {
     const recipient = {
       ...contact,
       phoneNumber,
@@ -137,7 +134,7 @@ export class ContactDetailsUI extends RcUIModuleV2<Deps> {
       this._deps.routerInteraction.push(
         this._deps.contactDetailsUIOptions?.dialerRoute ?? DEFAULT_DIALER_ROUTE,
       );
-      this._deps.dialerUI.call({ recipient, isStandAlone });
+      this._deps.dialerUI.call({ recipient });
     }
     this._trackClickToCall();
   }
@@ -239,11 +236,7 @@ export class ContactDetailsUI extends RcUIModuleV2<Deps> {
         this._deps.routerInteraction.goBack();
       },
       onClickToDial: (contact: ContactModel, phoneNumber: string) =>
-        this.handleClickToDial(
-          contact,
-          phoneNumber,
-          window?.runner?._standAlone,
-        ),
+        this.handleClickToDial(contact, phoneNumber),
       onClickToSMS: (contact: ContactModel, phoneNumber: string) =>
         this.handleClickToSMS(contact, phoneNumber),
     };

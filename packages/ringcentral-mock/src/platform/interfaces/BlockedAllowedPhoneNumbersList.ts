@@ -1,6 +1,6 @@
-import { BlockedAllowedPhoneNumberInfo } from './BlockedAllowedPhoneNumberInfo';
-import { CallHandlingNavigationInfo } from './CallHandlingNavigationInfo';
-import { CallHandlingPagingInfo } from './CallHandlingPagingInfo';
+import type { BlockedAllowedPhoneNumberInfo } from './BlockedAllowedPhoneNumberInfo';
+import type { CallHandlingNavigationInfo } from './CallHandlingNavigationInfo';
+import type { CallHandlingPagingInfo } from './CallHandlingPagingInfo';
 
 // List of blocked or allowed phone numbers
 export interface BlockedAllowedPhoneNumbersList {

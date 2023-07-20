@@ -1,9 +1,9 @@
-import type GlipCompanyType from '@rc-ex/core/lib/definitions/GlipCompany';
+import type GlipCompanyType from 'ringcentral-client/build/definitions/GlipCompany';
 import { computed } from '@ringcentral-integration/core';
 
 import { Module } from '../../lib/di';
 import { DataFetcherV2Consumer, DataSource } from '../DataFetcherV2';
-import { Deps } from './GlipCompany.interface';
+import type { Deps } from './GlipCompany.interface';
 
 @Module({
   name: 'GlipCompany',

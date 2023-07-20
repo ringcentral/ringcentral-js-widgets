@@ -1,6 +1,6 @@
 /**
  * RCI-3561: JBH still keep the status when open E2EE
- * https://test_id_domain/test-cases/RCI-3561
+ * https://test_it_domain/test-cases/RCI-3561
  * Preconditions:
  * RC CTI app is installed and enabled
  * The 'Use end-to-end encryption by default for new meetings' option is unlocked in SW Admin
@@ -39,7 +39,7 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
-import { StepProp } from '../../../../../../../lib/step';
+import type { StepProp } from '../../../../../../../lib/step';
 import { CommonLogin } from '../../../../../../../steps/CommonLogin';
 import {
   CheckboxIsChecked,

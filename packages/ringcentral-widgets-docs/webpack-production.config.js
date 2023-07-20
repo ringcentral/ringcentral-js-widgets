@@ -1,7 +1,7 @@
 require('@ringcentral-integration/babel-settings/lib/register.js');
 
-const webpack = require('webpack');
 const path = require('path');
+const webpack = require('webpack');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
 const autoprefixer = require('autoprefixer');
 

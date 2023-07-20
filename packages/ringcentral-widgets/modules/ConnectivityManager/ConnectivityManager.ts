@@ -2,7 +2,7 @@ import { Module } from '@ringcentral-integration/commons/lib/di';
 import { proxify } from '@ringcentral-integration/commons/lib/proxy/proxify';
 import { computed, RcModuleV2, watch } from '@ringcentral-integration/core';
 
-import { Deps } from './ConnectivityManager.interface';
+import type { Deps } from './ConnectivityManager.interface';
 import { connectivityTypes } from './connectivityTypes';
 
 @Module({

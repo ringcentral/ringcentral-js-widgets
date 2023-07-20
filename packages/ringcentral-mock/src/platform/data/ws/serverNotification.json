@@ -3,7 +3,9 @@
     "type": "ServerNotification",
     "messageId": "5745390252954738247",
     "status": 200,
-    "headers": { "RCRequestId": "8d38dba2-8a4d-11ec-ac15-005056be0c18" }
+    "headers": {
+      "RCRequestId": "8d38dba2-8a4d-11ec-ac15-005056be0c18"
+    }
   },
   {
     "uuid": "5745390252954738247",

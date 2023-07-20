@@ -9,14 +9,14 @@ import {
 
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
-import {
+import type {
   AlertItem,
-  AlertLevel,
   AllowDuplicates,
   Deps,
   Options,
 } from './Alert.interface';
-import { alertLevels, AlertLevelType } from './alertLevels';
+import type { AlertLevelType } from './alertLevels';
+import { alertLevels } from './alertLevels';
 
 @Module({
   name: 'Alert',
@@ -91,7 +91,7 @@ export class Alert extends RcModuleV2<Deps> {
     classes,
     onBackdropClick,
     action = this._deps.alertOptions?.action,
-  }: Options & AlertLevel) {
+  }: Options) {
     const id = uuid.v4();
     this._alert({
       message,

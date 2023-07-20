@@ -10,13 +10,10 @@ import {
   track,
 } from '@ringcentral-integration/core';
 
-import {
-  dialoutStatuses,
-  DialoutStatusesType,
-  messageTypes,
-} from '../../enums';
+import type { DialoutStatusesType } from '../../enums';
+import { dialoutStatuses, messageTypes } from '../../enums';
 import { EvCallbackTypes } from '../../lib/EvClient/enums/callbackTypes';
-import {
+import type {
   EvAddSessionNotification,
   EvAgentRecording,
   EvBaseCall,
@@ -28,7 +25,7 @@ import {
   EvOffhookTermResponse,
 } from '../../lib/EvClient/interfaces';
 import { trackEvents } from '../../lib/trackEvents';
-import { Deps, Presence } from './EvPresence.interface';
+import type { Deps, Presence } from './EvPresence.interface';
 
 @Module({
   name: 'EvPresence',

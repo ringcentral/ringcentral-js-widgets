@@ -1,8 +1,8 @@
 import { waitUntilTo } from '@ringcentral-integration/utils';
 import { screen } from '@testing-library/react';
-import { UserAgent } from '@ringcentral-integration/mock/src/webphone/Webphone';
+import type { UserAgent } from '@ringcentral-integration/mock/src/webphone/Webphone';
 
-import { StepFunction } from '../../../../lib/step';
+import type { StepFunction } from '../../../../lib/step';
 
 export const CheckConferenceInfoPage: StepFunction = async (_, { phone }) => {
   await waitUntilTo(() => {

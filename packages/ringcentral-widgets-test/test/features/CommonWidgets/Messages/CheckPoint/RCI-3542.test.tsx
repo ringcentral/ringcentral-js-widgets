@@ -1,3 +1,4 @@
+import type { StepFunction } from '../../../../lib/step';
 import {
   p2,
   it,
@@ -9,7 +10,6 @@ import {
   Then,
   title,
   When,
-  StepFunction,
   And,
 } from '../../../../lib/step';
 import {

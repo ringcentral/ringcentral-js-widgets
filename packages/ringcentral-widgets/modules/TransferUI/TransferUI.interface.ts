@@ -1,18 +1,18 @@
-import { NormalizedSession } from '@ringcentral-integration/commons/interfaces/Webphone.interface';
-import {
+import type { NormalizedSession } from '@ringcentral-integration/commons/interfaces/Webphone.interface';
+import type {
   ActiveCallControl,
   ActiveSession,
 } from '@ringcentral-integration/commons/modules/ActiveCallControl';
-import { ContactSearch } from '@ringcentral-integration/commons/modules/ContactSearch';
-import { Locale } from '@ringcentral-integration/commons/modules/Locale';
-import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
-import { Webphone } from '@ringcentral-integration/commons/modules/Webphone';
-import { AccountInfo } from '@ringcentral-integration/commons/modules/AccountInfo';
+import type { ContactSearch } from '@ringcentral-integration/commons/modules/ContactSearch';
+import type { Locale } from '@ringcentral-integration/commons/modules/Locale';
+import type { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
+import type { Webphone } from '@ringcentral-integration/commons/modules/Webphone';
+import type { AccountInfo } from '@ringcentral-integration/commons/modules/AccountInfo';
 
-import { Alert } from '@ringcentral-integration/commons/modules/Alert';
-import { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettings';
-import { CompanyContacts } from '@ringcentral-integration/commons/modules/CompanyContacts';
-import { RouterInteraction } from '../RouterInteraction';
+import type { Alert } from '@ringcentral-integration/commons/modules/Alert';
+import type { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettings';
+import type { CompanyContacts } from '@ringcentral-integration/commons/modules/CompanyContacts';
+import type { RouterInteraction } from '../RouterInteraction';
 
 export interface TransferUIOptions {}
 

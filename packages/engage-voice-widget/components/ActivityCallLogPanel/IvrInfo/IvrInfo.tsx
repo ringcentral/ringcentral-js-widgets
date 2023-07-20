@@ -1,4 +1,5 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import type { FunctionComponent } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import classNames from 'classnames';
 
@@ -9,7 +10,7 @@ import {
 } from '@ringcentral/juno';
 import { ArrowDown2 } from '@ringcentral/juno-icon';
 
-import {
+import type {
   EvActivityCallUIFunctions,
   EvActivityCallUIProps,
 } from '../../../interfaces';

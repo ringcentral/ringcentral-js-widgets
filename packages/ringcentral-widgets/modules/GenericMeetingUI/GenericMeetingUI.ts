@@ -1,29 +1,26 @@
 import { any, find } from 'ramda';
-import {
-  RcUIModuleV2,
-  action,
-  state,
-  UIProps,
-  UIFunctions,
-} from '@ringcentral-integration/core';
-import { RcVMeetingModel } from '@ringcentral-integration/commons/interfaces/Rcv.model';
+import type { UIProps, UIFunctions } from '@ringcentral-integration/core';
+import { RcUIModuleV2, action, state } from '@ringcentral-integration/core';
+import type { RcVMeetingModel } from '@ringcentral-integration/commons/interfaces/Rcv.model';
 import { Module } from '@ringcentral-integration/commons/lib/di';
-import { RcMMeetingModel } from '@ringcentral-integration/commons/modules/Meeting';
+import type { RcMMeetingModel } from '@ringcentral-integration/commons/modules/Meeting';
+import type {
+  DisableE2eeWhenRelatedOptionMatch,
+  RcvDelegator,
+} from '@ringcentral-integration/commons/modules/RcVideo';
 import {
   AUTH_USER_TYPE,
   DISABLE_E2EE_WHEN_RELATED_OPTION_MATCH,
-  DisableE2eeWhenRelatedOptionMatch,
   JBH_LABEL,
   RCV_WAITING_ROOM_MODE,
-  RcvDelegator,
 } from '@ringcentral-integration/commons/modules/RcVideo';
 
-import {
+import type { GenericMeetingPanelProps } from '../../components/GenericMeetingPanel';
+import type {
   Deps,
   GenericMeetingContainerProps,
 } from './GenericMeetingUI.interface';
 import i18n from './i18n';
-import { GenericMeetingPanelProps } from '../../components/GenericMeetingPanel';
 
 @Module({
   name: 'GenericMeetingUI',
@@ -234,7 +231,7 @@ export class GenericMeetingUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
         this._deps.genericMeeting.ready &&
         this._deps.genericMeeting.showSaveAsDefault,
       // Need to add this back when we back to this ticket
-      // https://jira.ringcentral.com/browse/RCINT-15031
+      // https://jira_domain/browse/RCINT-15031
       // disableSaveAsDefault:
       //   this._deps.genericMeeting.ready &&
       //   !this._deps.genericMeeting.isPreferencesChanged,

@@ -1,4 +1,4 @@
-import { CustomFieldResource } from './CustomFieldResource';
+import type { CustomFieldResource } from './CustomFieldResource';
 
 export interface CustomFieldsResource {
   /**

@@ -1,7 +1,7 @@
 import { waitUntilTo } from '@ringcentral-integration/utils';
 import { screen, waitForElementToBeRemoved } from '@testing-library/react';
-import { StepFunction } from '../../lib/step';
-import { CreateInstanceProps } from '../CreateInstance';
+import type { StepFunction } from '../../lib/step';
+import type { CreateInstanceProps } from '../CreateInstance';
 
 export interface LoginProps extends CreateInstanceProps {
   username?: string;
@@ -40,6 +40,11 @@ export const CommonLogin: StepFunction<LoginProps> = async (
           { timeout: 9000 },
         );
         expect(phone.auth.loggedIn).toBeTruthy();
+        await waitUntilTo(() => {
+          if (phone.activeCallControl) {
+            expect(phone.activeCallControl.ready).toBeTruthy();
+          }
+        });
       }}
     </>
   );

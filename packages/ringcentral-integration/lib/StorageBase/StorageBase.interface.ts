@@ -1,11 +1,11 @@
-import { EventEmitter } from 'events';
+import type { EventEmitter } from 'events';
 
-import {
+import type {
   AsyncStorage,
   GenericStorage,
 } from '../../interfaces/GenericStorage.interface';
-import { LocalForageStorage } from '../LocalForageStorage';
-import { SynchronizedStorage } from '../SynchronizedStorage';
+import type { LocalForageStorage } from '../LocalForageStorage';
+import type { SynchronizedStorage } from '../SynchronizedStorage';
 
 export type IStorage =
   | (EventEmitter & GenericStorage)

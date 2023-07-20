@@ -12,7 +12,7 @@ export default {
   showKeypad: "Tastiera",
   hideKeypad: "Nascondi tastiera",
   unHold: "Interrompi l'attesa",
-  forward: "Trasferisci",
+  forward: "Inoltra",
   ignore: "Ignora",
   voicemail: "Alla segreteria telefonica",
   custom: "Personalizza",

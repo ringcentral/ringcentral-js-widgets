@@ -1,24 +1,36 @@
 import { getByTestId, screen } from '@testing-library/react';
-import { StepFunction } from '../../../../lib/step';
-
+import type { StepFunction } from '../../../../lib/step';
+type ButtonKey =
+  | 'hold'
+  | 'onHold'
+  | 'record'
+  | 'mute'
+  | 'hangup'
+  | 'showKeypad'
+  | 'forward'
+  | 'toVoiceMail'
+  | 'answer'
+  | 'ignore';
 export const CheckSmallControlButton: StepFunction<{
-  callButtonBehaviorType:
-    | 'hold'
-    | 'onHold'
-    | 'record'
-    | 'mute'
-    | 'hangup'
-    | 'showKeypad';
+  callButtonBehaviorTypes?: ButtonKey[];
+  callButtonBehaviorType?: ButtonKey;
   disabled?: boolean;
-}> = async ({ callButtonBehaviorType, disabled }) => {
+}> = async ({ callButtonBehaviorTypes, callButtonBehaviorType, disabled }) => {
   const smallControlControlPanel = screen.getByTestId('smallCallControl');
-  expect(
-    getByTestId(smallControlControlPanel, callButtonBehaviorType),
-  ).toBeInTheDocument();
-  if (disabled) {
+  if (callButtonBehaviorTypes) {
+    callButtonBehaviorTypes.forEach((key) => {
+      expect(getByTestId(smallControlControlPanel, key)).toBeInTheDocument();
+    });
+  }
+  if (callButtonBehaviorType) {
     expect(
-      getByTestId(smallControlControlPanel, callButtonBehaviorType).classList
-        .value,
-    ).toContain('buttonDisabled');
+      getByTestId(smallControlControlPanel, callButtonBehaviorType),
+    ).toBeInTheDocument();
+    if (disabled) {
+      expect(
+        getByTestId(smallControlControlPanel, callButtonBehaviorType).classList
+          .value,
+      ).toContain('buttonDisabled');
+    }
   }
 };

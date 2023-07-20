@@ -1,5 +1,5 @@
 export default {
-  forward: "Siirrä",
+  forward: "Lähetä edelleen",
   ignore: "Ohita",
   toVoicemail: "Vastaajaan",
   answer: "Vastaa",

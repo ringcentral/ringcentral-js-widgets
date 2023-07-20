@@ -26,7 +26,8 @@ export default {
   [messageSenderMessages.attachmentSizeLimitation]: "附件大小不可超過 1.5MB。",
   [messageSenderMessages.noAttachmentToExtension]: "不支援傳送多媒體訊息至分機。",
   areaCode: "區碼",
-  [messageSenderMessages.sending]: "訊息傳送中…可能需要一些時間才會完成。"
+  [messageSenderMessages.sending]: "訊息傳送中…可能需要一些時間才會完成。",
+  [messageSenderMessages.shortNumbersNotAvailable]: "無法向短號碼傳送簡訊。"
 };
 
 // @key: @#@"[messageSenderMessages.sendSuccess]"@#@ @source: @#@"Send Success."@#@
@@ -56,3 +57,4 @@ export default {
 // @key: @#@"[messageSenderMessages.noAttachmentToExtension]"@#@ @source: @#@"It isn't supported to send MMS to an extension."@#@
 // @key: @#@"areaCode"@#@ @source: @#@"area code"@#@
 // @key: @#@"[messageSenderMessages.sending]"@#@ @source: @#@"Message being sent…It may take a couple of minutes to complete."@#@
+// @key: @#@"[messageSenderMessages.shortNumbersNotAvailable]"@#@ @source: @#@"Sending SMS to short numbers is not available."@#@

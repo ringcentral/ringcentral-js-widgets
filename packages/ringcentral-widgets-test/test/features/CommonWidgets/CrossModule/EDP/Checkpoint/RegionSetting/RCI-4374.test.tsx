@@ -1,6 +1,6 @@
 /**
  * RCI-4374: Input area code on region page
- * https://test_id_domain/test-cases/RCI-4374
+ * https://test_it_domain/test-cases/RCI-4374
  * Preconditions:
  * CTI app is integrated
  * The user has logged in to the CTI app with RC brand
@@ -21,8 +21,9 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
-import { StepProp } from '../../../../../../lib/step';
+import type { StepProp } from '../../../../../../lib/step';
 import { CommonLogin } from '../../../../../../steps/CommonLogin';
+import { MockExtensionInfo } from '../../../../../../steps/Mock';
 import { NavigateTo } from '../../../../../../steps/Router';
 import { SetAreaCode } from '../../../../../../steps/Settings';
 
@@ -46,7 +47,22 @@ export class RegionPage extends Step {
     return (
       <Scenario
         desc="Input area code on region page"
-        action={[CreateMock, Login]}
+        action={[
+          CreateMock,
+          <MockExtensionInfo
+            handle={(mockData) => {
+              mockData.regionalSettings.homeCountry = {
+                uri: 'https://api-rcapps-xmnup.rclabenv.com/restapi/v1.0/dictionary/country/75',
+                id: '75',
+                name: 'France',
+                isoCode: 'FR',
+                callingCode: '33',
+              };
+              return mockData;
+            }}
+          />,
+          Login,
+        ]}
       >
         <When
           desc="navigate to region settings"

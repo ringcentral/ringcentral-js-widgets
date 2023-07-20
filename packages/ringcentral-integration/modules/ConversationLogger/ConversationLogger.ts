@@ -7,17 +7,14 @@ import {
 import { sleep } from '@ringcentral-integration/utils';
 
 import { messageTypes } from '../../enums/messageTypes';
-import { Entity } from '../../interfaces/Entity.interface';
-import { Message } from '../../interfaces/MessageStore.model';
+import type { Entity } from '../../interfaces/Entity.interface';
+import type { Message } from '../../interfaces/MessageStore.model';
 import { Module } from '../../lib/di';
 import { LoggerBase } from '../../lib/LoggerBase';
-import {
-  Correspondent,
-  getNumbersFromMessage,
-  sortByDate,
-} from '../../lib/messageHelper';
+import type { Correspondent } from '../../lib/messageHelper';
+import { getNumbersFromMessage, sortByDate } from '../../lib/messageHelper';
 import { proxify } from '../../lib/proxy/proxify';
-import {
+import type {
   ConversationLogItem,
   ConversationLogMap,
   Deps,

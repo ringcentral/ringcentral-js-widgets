@@ -1,4 +1,4 @@
-import { CallQueuePresenceEventBody } from './CallQueuePresenceEventBody';
+import type { CallQueuePresenceEventBody } from './CallQueuePresenceEventBody';
 
 export interface CallQueuePresenceEvent {
   /**

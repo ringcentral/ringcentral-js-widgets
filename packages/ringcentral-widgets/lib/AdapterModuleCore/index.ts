@@ -1,27 +1,25 @@
 // @ts-nocheck
-import Presence from 'ringcentral-client/build/paths/Presence';
+import type Presence from 'ringcentral-client/build/paths/Presence';
 
 import { presenceStatus } from '@ringcentral-integration/commons/enums/presenceStatus.enum';
 import { Module } from '@ringcentral-integration/commons/lib/di';
-import proxify from '@ringcentral-integration/commons/lib/proxy/proxify';
+import { proxify } from '@ringcentral-integration/commons/lib/proxy/proxify';
 import { selector } from '@ringcentral-integration/commons/lib/selector';
-import { ActiveCallControl } from '@ringcentral-integration/commons/modules/ActiveCallControl';
-import {
-  callingModes,
-  CallingSettings,
-} from '@ringcentral-integration/commons/modules/CallingSettings';
-import { CallMonitor } from '@ringcentral-integration/commons/modules/CallMonitor';
-import { GlobalStorage } from '@ringcentral-integration/commons/modules/GlobalStorage';
-import { Locale } from '@ringcentral-integration/commons/modules/Locale';
+import type { ActiveCallControl } from '@ringcentral-integration/commons/modules/ActiveCallControl';
+import type { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettings';
+import { callingModes } from '@ringcentral-integration/commons/modules/CallingSettings';
+import type { CallMonitor } from '@ringcentral-integration/commons/modules/CallMonitor';
+import type { GlobalStorage } from '@ringcentral-integration/commons/modules/GlobalStorage';
+import type { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import { dndStatus } from '@ringcentral-integration/commons/modules/Presence';
-import { QuickAccess } from '@ringcentral-integration/commons/modules/QuickAccess';
-import { UserGuide } from '@ringcentral-integration/commons/modules/UserGuide';
-import { Webphone } from '@ringcentral-integration/commons/modules/Webphone';
+import type { QuickAccess } from '@ringcentral-integration/commons/modules/QuickAccess';
+import type { UserGuide } from '@ringcentral-integration/commons/modules/UserGuide';
+import type { Webphone } from '@ringcentral-integration/commons/modules/Webphone';
 import { format } from '@ringcentral-integration/utils';
 
 import headerI18n from '../../components/CallMonitorBar/i18n';
-import { CallLogSection } from '../../modules/CallLogSection';
-import { RouterInteraction } from '../../modules/RouterInteraction';
+import type { CallLogSection } from '../../modules/CallLogSection';
+import type { RouterInteraction } from '../../modules/RouterInteraction';
 import AdapterModuleCoreBase from '../AdapterModuleCoreBase';
 import { baseActionTypes } from '../AdapterModuleCoreBase/baseActionTypes';
 import presenceItemI18n from '../getPresenceStatusName/i18n';

@@ -1,10 +1,10 @@
 import type GetMessageInfoResponse from '@rc-ex/core/lib/definitions/GetMessageInfoResponse';
 import type GetMessageList from '@rc-ex/core/lib/definitions/GetMessageList';
 
-import { Entity } from '../../interfaces/Entity.interface';
-import { Message } from '../../interfaces/MessageStore.model';
-import { MessageStoreItem } from '../MessageStore';
-import { RecentMessage } from './RecentMessages.interface';
+import type { Entity } from '../../interfaces/Entity.interface';
+import type { Message } from '../../interfaces/MessageStore.model';
+import type { MessageStoreItem } from '../MessageStore';
+import type { RecentMessage } from './RecentMessages.interface';
 
 export const filterPhoneNumber = (message: MessageStoreItem) => {
   return ({ phoneNumber }: Entity['phoneNumbers'][number]) =>

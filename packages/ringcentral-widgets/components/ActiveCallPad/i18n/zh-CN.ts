@@ -3,7 +3,7 @@ export default {
   mute: "静音",
   keypad: "拨号键盘",
   hold: "保持",
-  onHold: "保持",
+  onHold: "暂候",
   park: "寄存",
   stopRecord: "停止",
   record: "录制",

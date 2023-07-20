@@ -1,11 +1,11 @@
 import type GetRingOutStatusResponse from '@rc-ex/core/lib/definitions/GetRingOutStatusResponse';
-import RestException from '@rc-ex/core/lib/RestException';
+import type RestException from '@rc-ex/core/lib/RestException';
 import { action, RcModuleV2, state } from '@ringcentral-integration/core';
 import { sleep } from '@ringcentral-integration/utils';
 
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
-import { Deps, MakeCallOptions } from './Ringout.interface';
+import type { Deps, MakeCallOptions } from './Ringout.interface';
 import { ringoutErrors } from './ringoutErrors';
 import { ringoutStatus } from './ringoutStatus';
 

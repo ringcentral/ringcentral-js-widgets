@@ -5,7 +5,7 @@ import { computed } from '@ringcentral-integration/core';
 import { Module } from '../../lib/di';
 import fetchList from '../../lib/fetchList';
 import { DataFetcherV2Consumer, DataSource } from '../DataFetcherV2';
-import { Deps } from './ForwardingNumber.interface';
+import type { Deps } from './ForwardingNumber.interface';
 
 @Module({
   name: 'ForwardingNumber',

@@ -6,10 +6,13 @@ import {
   storage,
 } from '@ringcentral-integration/core';
 import { sleep } from '@ringcentral-integration/utils';
-import { ApiError } from '@ringcentral/sdk';
+import type { ApiError } from '@ringcentral/sdk';
 import { availabilityTypes } from '../../enums/availabilityTypes';
 import { phoneSources } from '../../enums/phoneSources';
-import { ContactModel, ContactSource } from '../../interfaces/Contact.model';
+import type {
+  ContactModel,
+  ContactSource,
+} from '../../interfaces/Contact.model';
 import {
   addPhoneToContact,
   getFilterContacts,
@@ -19,7 +22,7 @@ import {
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
 import { DataFetcherV2Consumer, DataSource } from '../DataFetcherV2';
-import {
+import type {
   AddressBookData,
   Deps,
   PersonalContactResource,

@@ -1,12 +1,9 @@
 import { Module } from '@ringcentral-integration/commons/lib/di';
-import formatNumber from '@ringcentral-integration/commons/lib/formatNumber';
-import {
-  RcUIModuleV2,
-  UIFunctions,
-  UIProps,
-} from '@ringcentral-integration/core';
+import { formatNumber } from '@ringcentral-integration/commons/lib/formatNumber';
+import type { UIFunctions, UIProps } from '@ringcentral-integration/core';
+import { RcUIModuleV2 } from '@ringcentral-integration/core';
 
-import {
+import type {
   ConversationsContainerProps,
   ConversationsPanelProps,
   Deps,
@@ -21,7 +18,6 @@ import {
     'DateTimeFormat',
     'RegionSettings',
     'AppFeatures',
-    'Call',
     'ConnectivityMonitor',
     'RateLimiter',
     'MessageStore',
@@ -31,6 +27,7 @@ import {
     'ComposeText',
     'ContactSearch',
     'AccountInfo',
+    { dep: 'Call', optional: true },
     { dep: 'DialerUI', optional: true },
     { dep: 'ContactDetailsUI', optional: true },
     { dep: 'ContactMatcher', optional: true },
@@ -172,7 +169,6 @@ export class ConversationsUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
                 });
                 this._deps.dialerUI.call({
                   recipient,
-                  isStandAlone: window?.runner?._standAlone,
                 });
               }
             }

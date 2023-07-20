@@ -5,7 +5,7 @@ import sessionStatus from '@ringcentral-integration/commons/modules/Webphone/ses
 
 import ActiveCallBadge from '../ActiveCallBadge';
 import i18n from './i18n';
-import { CallBadgeProps, CallBadgeState } from './types';
+import type { CallBadgeProps, CallBadgeState } from './types';
 
 export default class CallBadge extends Component<
   CallBadgeProps,

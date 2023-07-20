@@ -12,8 +12,8 @@ export default {
   inviteText_telus: "{brandName} 전화 회의에 참가하세요.\n\n전화 접속 번호: {formattedDialInNumber} \n{additionalNumbersSection} \n참가자 액세스: {participantCode} \n\n추가 전화 접속 번호{dialInNumbersLink} ",
   conferenceCall: "{brandName} 전화 회의",
   videoCall: "{brandName} Video Call",
-  addConferencingDetails: "회의 세부 정보 추가",
-  updateConferencingDetails: "회의 세부 정보 업데이트",
+  addConferencingDetails: "전화 회의 세부 정보 추가",
+  updateConferencingDetails: "전화 회의 세부 정보 업데이트",
   // @ts-expect-error TS(1117): An object literal cannot have multiple properties ... Remove this comment to see the full error message
   scheduleError: "죄송합니다. 문제가 발생했습니다. 다시 시도하세요.",
   deleteBtn: "삭제",

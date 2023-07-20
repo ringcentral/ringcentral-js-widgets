@@ -1,4 +1,5 @@
-import React, { FunctionComponent, useState } from 'react';
+import type { FunctionComponent } from 'react';
+import React, { useState } from 'react';
 
 import classnames from 'classnames';
 
@@ -13,9 +14,9 @@ import {
 import MoreIcon from '../../../assets/images/MoreIcon.svg';
 import CircleButton from '../../CircleButton';
 import i18n from '../i18n';
-import { MoreActionWithIncomingCallProps } from './MoreActionWithIncomingCall.interface';
-import styles from './styles.scss';
 import rootStyles from '../styles.scss';
+import type { MoreActionWithIncomingCallProps } from './MoreActionWithIncomingCall.interface';
+import styles from './styles.scss';
 import {
   StyledArrowIcon,
   StyledActionIcon,
@@ -35,6 +36,7 @@ const MoreActionWithIncomingCall: FunctionComponent<MoreActionWithIncomingCallPr
       clickForwardTrack,
       enableReply,
       isWebRTCNotification = false,
+      disableIgnore,
     } = props;
     const [anchorEl, setAnchorEl] = useState(null);
     const [forwardListEl, setForwardListEl] = useState(null);
@@ -146,7 +148,11 @@ const MoreActionWithIncomingCall: FunctionComponent<MoreActionWithIncomingCallPr
               </RcMenuItem>
             )}
             {ignore && (
-              <RcMenuItem onClick={ignore} data-sign="ignore">
+              <RcMenuItem
+                disabled={disableIgnore}
+                onClick={ignore}
+                data-sign="ignore"
+              >
                 <StyledActionIcon
                   symbol={IgnoreIcon}
                   color="neutral.l04"
@@ -181,23 +187,25 @@ const MoreActionWithIncomingCall: FunctionComponent<MoreActionWithIncomingCallPr
                 label: i18n.getString('custom', currentLocale),
               },
             ].map((item) => {
+              const isCustomOption = item.phoneNumber === 'custom';
               return (
                 <RcMenuItem
                   // @ts-expect-error TS(2322): Type '(event: React.MouseEvent<HTMLButtonElement>)... Remove this comment to see the full error message
                   onClick={onForward}
-                  // @ts-expect-error TS(2339): Property 'phoneNumber' does not exist on type 'obj... Remove this comment to see the full error message
                   key={item.phoneNumber}
-                  // @ts-expect-error TS(2339): Property 'phoneNumber' does not exist on type 'obj... Remove this comment to see the full error message
                   data-value={item.phoneNumber}
-                  // @ts-expect-error TS(2339): Property 'phoneNumber' does not exist on type 'obj... Remove this comment to see the full error message
                   data-sign={item.phoneNumber}
                 >
                   <div className={styles.forwardNumberItem}>
-                    {/* @ts-expect-error TS(2339): Property 'label' does not exist */}
                     <span className={styles.actionText}>{item.label}</span>
-                    {/* @ts-expect-error TS(2339): Property 'phoneNumber' does not */}
-                    {item.phoneNumber !== 'custom' && (
-                      // @ts-expect-error TS(2339): Property 'phoneNumber' does not exist on type 'obj... Remove this comment to see the full error message
+                    {isCustomOption ? (
+                      <StyledArrowIcon
+                        color="neutral.l04"
+                        size="medium"
+                        symbol={ArrowRight}
+                        variant="plain"
+                      />
+                    ) : (
                       <span className={styles.subText}>{item.phoneNumber}</span>
                     )}
                   </div>

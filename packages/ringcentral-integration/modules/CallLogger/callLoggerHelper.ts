@@ -1,4 +1,4 @@
-import { HistoryCall } from '../CallHistory';
+import type { HistoryCall } from '../CallHistory';
 
 /**
  * Identity function for calls.

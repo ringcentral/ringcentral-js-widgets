@@ -1,4 +1,4 @@
-import {
+import type {
   GetLocationDeletionMultiResponse,
   ScimErrorResponse,
 } from '../interfaces';

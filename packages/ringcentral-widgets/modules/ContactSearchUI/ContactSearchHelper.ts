@@ -1,10 +1,10 @@
-import {
+import type {
   Contact,
   Presence,
 } from '@ringcentral-integration/commons/modules/AccountContacts';
-import { RcPresenceType } from '@ringcentral/juno';
+import type { RcPresenceType } from '@ringcentral/juno';
 
-import { IContactSearchItem } from './ContactSearchUI.interface';
+import type { IContactSearchItem } from './ContactSearchUI.interface';
 
 const MaximizeDisplayLength = 100;
 

@@ -1,14 +1,11 @@
 import { Module } from '@ringcentral-integration/commons/lib/di';
-import formatNumber from '@ringcentral-integration/commons/lib/formatNumber';
+import { formatNumber } from '@ringcentral-integration/commons/lib/formatNumber';
 import { loginStatus } from '@ringcentral-integration/commons/modules/Auth';
-import {
-  RcUIModuleV2,
-  UIFunctions,
-  UIProps,
-} from '@ringcentral-integration/core';
+import type { UIFunctions, UIProps } from '@ringcentral-integration/core';
+import { RcUIModuleV2 } from '@ringcentral-integration/core';
 
-import { SettingsPanelProps } from '../../components/SettingsPanel/SettingsPanel.interface';
-import { Deps, SettingsContainerProps } from './SettingUI.interface';
+import type { SettingsPanelProps } from '../../components/SettingsPanel/SettingsPanel.interface';
+import type { Deps, SettingsContainerProps } from './SettingUI.interface';
 
 const DEFAULT_REGION_SETTINGS_URL = '/settings/region';
 const DEFAULT_CALLING_SETTINGS_URL = '/settings/calling';
@@ -198,15 +195,13 @@ export class SettingsUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
         this._deps.routerInteraction.push(feedbackSettingsUrl);
       },
       onUserGuideClick: () => {
-        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
-        this._deps.userGuide.start();
+        this._deps.userGuide?.start();
       },
       onReportIssueClick: () => {
-        this._deps.cPRClientUI.openCPRDialog();
+        this._deps.cPRClientUI?.openCPRDialog();
       },
       onQuickAccessLinkClick: () => {
-        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
-        this._deps.quickAccess.enter();
+        this._deps.quickAccess?.enter();
       },
       setAvailable: () => this._deps.presence?.setAvailable(),
       setBusy: () => this._deps.presence?.setBusy(),
@@ -217,8 +212,7 @@ export class SettingsUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
       // @ts-expect-error TS(2322): Type '((locale: string) => Promise<void>) | undefi... Remove this comment to see the full error message
       saveLocale:
         this._deps.localeSettings &&
-        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
-        ((locale: string) => this._deps.localeSettings.saveLocale(locale)),
+        ((locale) => this._deps.localeSettings?.saveLocale(locale)),
     };
   }
 }

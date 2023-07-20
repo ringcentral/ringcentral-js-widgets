@@ -1,10 +1,8 @@
 import { includes } from 'ramda';
-import { WebPhoneUserAgent } from 'ringcentral-web-phone/lib/userAgent';
+import type { WebPhoneUserAgent } from 'ringcentral-web-phone/lib/userAgent';
 
-import {
-  telephonyStatus as telephonyStatuses,
-  TelephonyStatus,
-} from '@ringcentral-integration/commons/enums/telephonyStatus';
+import type { TelephonyStatus } from '@ringcentral-integration/commons/enums/telephonyStatus';
+import { telephonyStatus as telephonyStatuses } from '@ringcentral-integration/commons/enums/telephonyStatus';
 import { recordStatus } from '@ringcentral-integration/commons/modules/Webphone/recordStatus';
 import { sessionStatus } from '@ringcentral-integration/commons/modules/Webphone/sessionStatus';
 import {

@@ -1,8 +1,8 @@
-import {
+import type {
   GetMessageInfoResponse,
   GetMessageSyncResponse,
 } from '@ringcentral-integration/mock';
-import { StepFunction } from '../../../lib/step';
+import type { StepFunction } from '../../../lib/step';
 
 type ReceiveOneNewSmsProps = {
   direction?: 'Inbound' | 'Outbound';

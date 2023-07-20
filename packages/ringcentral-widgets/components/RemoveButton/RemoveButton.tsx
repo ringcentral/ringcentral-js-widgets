@@ -1,4 +1,5 @@
-import React, { FunctionComponent, MouseEvent } from 'react';
+import type { FunctionComponent, MouseEvent } from 'react';
+import React from 'react';
 
 import classnames from 'classnames';
 

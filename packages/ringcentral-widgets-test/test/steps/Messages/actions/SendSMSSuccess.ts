@@ -1,7 +1,7 @@
 import { waitFor } from '@testing-library/react';
-import { StepFunction } from '../../../lib/step';
+import type { StepFunction } from '../../../lib/step';
 import { generateMessageRecord, mockMessageListData } from '../../../__mock__';
-import { MessageProps } from './MessageProps.interface';
+import type { MessageProps } from './MessageProps.interface';
 import { SendSMS } from './SendSMS';
 
 interface SendSMSSuccessProps extends MessageProps {
@@ -16,17 +16,15 @@ interface SendSMSSuccessProps extends MessageProps {
  * mock post sms API and
  * mock an outbound sms notification
  *
- * remember to add
+ * remember to delete default init mock before login
  *
- *  * ```ts
- * this.context.rcMock.defaultInitMocks.delete(
- *   this.context.rcMock.postSms,
- * );
+ * ```ts
+ * action={ClearSMSMock}
  * ```
  * before Entry if postSms is in rcMock defaultInitMock
  */
 export const SendSMSSuccess: StepFunction<SendSMSSuccessProps> = async (
-  props,
+  { phoneNumber, textMessage, conversationId, skipCheck },
   context,
 ) => {
   const messageId = Date.now();
@@ -35,26 +33,34 @@ export const SendSMSSuccess: StepFunction<SendSMSSuccessProps> = async (
     generateMessageRecord({
       id: messageId,
       direction: 'Outbound',
-      toNumber: props.phoneNumber,
-      subject: props.textMessage,
+      toNumber: phoneNumber,
+      subject: textMessage,
       type: 'SMS',
     }),
   );
-  await SendSMS(props, context);
+
+  await SendSMS(
+    {
+      phoneNumber,
+      textMessage,
+    },
+    context,
+  );
+
   const mockMessageParam = {
     id: messageId,
     direction: 'Outbound',
-    toNumber: props.phoneNumber,
-    subject: props.textMessage,
+    toNumber: phoneNumber,
+    subject: textMessage,
     messageType: 'SMS',
-    conversationId: props.conversationId,
+    conversationId,
   };
   await rcMock.receiveMessage({}, (mockData) => ({
     ...mockData,
     ...mockMessageListData(mockMessageParam),
   }));
 
-  if (!props.skipCheck) {
+  if (!skipCheck) {
     await waitFor(() =>
       expect(phone.routerInteraction.currentPath).toContain('/conversations/'),
     );

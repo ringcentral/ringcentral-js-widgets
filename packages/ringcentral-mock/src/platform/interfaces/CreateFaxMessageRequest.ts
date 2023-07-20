@@ -1,5 +1,5 @@
-import { MessageStoreCalleeInfoRequest } from './MessageStoreCalleeInfoRequest';
-import { Attachment } from './Attachment';
+import type { MessageStoreCalleeInfoRequest } from './MessageStoreCalleeInfoRequest';
+import type { Attachment } from './Attachment';
 
 // Request body for operation createFaxMessage
 export interface CreateFaxMessageRequest {

@@ -1,4 +1,5 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import classnames from 'classnames';
 
@@ -7,7 +8,7 @@ import Panel from '../Panel';
 import { SpinnerOverlay } from '../SpinnerOverlay';
 import { Footer } from './Footer';
 import i18n from './i18n';
-import { BasePanelProps } from './SettingsPanel.interface';
+import type { BasePanelProps } from './SettingsPanel.interface';
 import styles from './styles.scss';
 
 export const BasePanel: FunctionComponent<BasePanelProps> = ({

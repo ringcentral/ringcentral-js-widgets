@@ -12,7 +12,7 @@ export default {
   showKeypad: "Wähltastatur",
   hideKeypad: "Wähltastatur ausblenden",
   unHold: "Wiederaufnehmen",
-  forward: "Weiterleiten",
+  forward: "Weiterl.",
   ignore: "Ignorieren",
   voicemail: "An Voicemail",
   custom: "Individuell gestalten",

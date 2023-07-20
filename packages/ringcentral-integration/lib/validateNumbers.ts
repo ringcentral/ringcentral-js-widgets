@@ -1,4 +1,4 @@
-import { CountryCode } from '@ringcentral-integration/phone-number';
+import type { CountryCode } from '@ringcentral-integration/phone-number';
 
 import { hasNoAreaCode } from './hasNoAreaCode';
 import { isValidNumber } from './isValidNumber';

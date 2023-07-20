@@ -1,5 +1,5 @@
-import { CompanyCallLogRecord } from './CompanyCallLogRecord';
-import { CompanyCallLogSyncInfo } from './CompanyCallLogSyncInfo';
+import type { CompanyCallLogRecord } from './CompanyCallLogRecord';
+import type { CompanyCallLogSyncInfo } from './CompanyCallLogSyncInfo';
 
 export interface AccountCallLogSyncResponse {
   /**

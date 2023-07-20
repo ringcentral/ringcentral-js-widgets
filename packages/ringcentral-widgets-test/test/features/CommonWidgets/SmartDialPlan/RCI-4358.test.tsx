@@ -1,6 +1,6 @@
 /**
  * RCI-4358: SDP enable and dialed invalid pstn number
- * https://test_id_domain/test-cases/RCI-4358
+ * https://test_it_domain/test-cases/RCI-4358
  * Preconditions:
  * CTI app is integrated,
  * User is logged-in into 3rd party
@@ -36,8 +36,9 @@ import {
   title,
   When,
 } from '@ringcentral-integration/test-utils';
+import { screen } from '@testing-library/react';
 
-import { StepProp } from '../../../lib/step';
+import type { StepProp } from '../../../lib/step';
 import {
   CheckCallControlPage as BaseCheckCallControlPage,
   MakeCall,
@@ -52,22 +53,63 @@ import {
 import { NavigateTo } from '../../../steps/Router/action';
 import { SetAreaCode } from '../../../steps/Settings';
 
+// country code should in RegionSettings.availableCountries,
+// come from dialingPlan ringcentral-js-widgets/ringcentral-mock/src/platform/data/dialingPlan.json
+
 @autorun(test.skip)
 @it
 @p2
-@title('SDP enable and dialed invalid pstn number')
+@title('SDP enable and dialed invalid pstn number when EDP be enabled')
 export class RCI4358 extends Step {
   Login: StepProp = CommonLogin;
   CreateMock: StepProp | null = null;
   CheckCallControlPage: typeof BaseCheckCallControlPage =
     BaseCheckCallControlPage;
   @examples(`
-  | country | maxExtensionNumberLength | areaCode | phoneNumber    | parsedNumber     |
-  | 'CA'    | 8                        | '205'    |  '233456'      | '233456'         |
-  | 'UK'    | 7                        | '20'     |  '2334567'     | '2334567'        |
-    `)
+    | country | maxExtensionNumberLength | areaCode | phoneNumber | parsedNumber |
+    | 'CA'    | 8                        | '205'    | '233456'    | '233456'     |
+    | 'FR'    | 7                        | '20'     | '2334567'   | '2334567'    |
+    | 'US'    | 7                        | '20'     | '2334567'   | '2334567'    |
+    | 'PR'    | 7                        | '20'     | '2334567'   | '2334567'    |
+  `)
   run() {
     const { Login, CreateMock, CheckCallControlPage } = this;
+
+    const { country } = this.example;
+
+    const thenActions = ['US', 'PR', 'CA'].includes(country) ? (
+      <>
+        <When
+          desc="navigate to region setting page"
+          action={[<NavigateTo path="/settings/region" />]}
+        />
+        <Then
+          desc="set areaCode not be there"
+          action={() => {
+            expect(
+              screen.queryByTestId('areaCodeInputField'),
+            ).not.toBeInTheDocument();
+          }}
+        />
+      </>
+    ) : (
+      <>
+        <And
+          desc="1. navigate to region setting page
+                     2. set area code"
+          action={[<NavigateTo path="/settings/region" />, SetAreaCode]}
+        />
+        <When
+          desc="Make an outbound call"
+          action={[<NavigateTo path="/dialer" />, MakeCall]}
+        />
+        <Then
+          desc="Checked the dialing number on call control page is ${parsedNumber}"
+          action={CheckCallControlPage}
+        />
+      </>
+    );
+
     return (
       <Scenario
         desc="SDP enable and dialed invalid pstn number"
@@ -103,26 +145,15 @@ export class RCI4358 extends Step {
             isDefaultInit={false}
             handler={(mockData) => {
               mockData.results[0].category = Category.Extension;
-              mockData.results[0].numberDetails.extensionNumber = phoneNumber;
+              (mockData.results[0].numberDetails as any).extensionNumber =
+                phoneNumber;
               return mockData;
             }}
           />,
         ]}
       >
         <Given desc="Login APP" action={Login} />
-        <And
-          desc="1. navigate to region setting page
-                     2. set area code"
-          action={[<NavigateTo path="/settings/region" />, SetAreaCode]}
-        />
-        <When
-          desc="Make an outbound call"
-          action={[<NavigateTo path="/dialer" />, MakeCall]}
-        />
-        <Then
-          desc="Checked the dialing number on call control page is ${parsedNumber}"
-          action={CheckCallControlPage}
-        />
+        {thenActions}
       </Scenario>
     );
   }

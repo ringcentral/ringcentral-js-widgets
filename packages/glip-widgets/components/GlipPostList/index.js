@@ -1,9 +1,8 @@
 import React, { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
-import styles from './styles.scss';
-
 import GlipPostItem from '../GlipPostItem';
+import styles from './styles.scss';
 
 export default class GlipPostList extends PureComponent {
   constructor(props) {

@@ -1,7 +1,7 @@
-import { CallSegmentFilter } from './CallSegmentFilter';
-import { CallActionFilter } from './CallActionFilter';
-import { PerformanceCallsFilterByLength } from './PerformanceCallsFilterByLength';
-import { PerformanceCallsFilterTimeSpentByMailbox } from './PerformanceCallsFilterTimeSpentByMailbox';
+import type { CallSegmentFilter } from './CallSegmentFilter';
+import type { CallActionFilter } from './CallActionFilter';
+import type { PerformanceCallsFilterByLength } from './PerformanceCallsFilterByLength';
+import type { PerformanceCallsFilterTimeSpentByMailbox } from './PerformanceCallsFilterTimeSpentByMailbox';
 
 // Optional filters that limit the scope of calls to be aggregated (joined via AND)
 export interface PerformanceCallsFilters {

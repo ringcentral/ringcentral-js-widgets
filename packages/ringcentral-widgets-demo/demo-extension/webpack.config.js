@@ -21,8 +21,7 @@ const base = {
       },
       {
         test: /\.woff|\.woff2|.eot|\.ttf/,
-        use:
-          'url-loader?limit=15000&publicPath=./&name=fonts/[name]_[hash].[ext]',
+        use: 'url-loader?limit=15000&publicPath=./&name=fonts/[name]_[hash].[ext]',
       },
       {
         test: /\.svg/,
@@ -46,8 +45,7 @@ const base = {
       },
       {
         test: /\.png|\.jpg|\.gif|\.svg/,
-        use:
-          'url-loader?limit=20000&publicPath=./&name=images/[name]_[hash].[ext]',
+        use: 'url-loader?limit=20000&publicPath=./&name=images/[name]_[hash].[ext]',
         exclude: [
           /assets(\/|\\)images(\/|\\).+\.svg/,
           /dev-server(\/|\\).+\.svg/,

@@ -1,0 +1,19 @@
+{
+  "name": "crius-logger",
+  "version": "1.2.0",
+  "description": "A logger plugin for Crius Test",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "unadlib",
+  "license": "MIT",
+  "dependencies": {
+    "crius-test": "^1.2.0"
+  },
+  "peerDependencies": {
+    "crius-test": "^1.0.0-alpha.1"
+  }
+}

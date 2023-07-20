@@ -1,4 +1,4 @@
-import { AutomaticLocationUpdatesPhoneNumberInfo } from './AutomaticLocationUpdatesPhoneNumberInfo';
+import type { AutomaticLocationUpdatesPhoneNumberInfo } from './AutomaticLocationUpdatesPhoneNumberInfo';
 
 export interface AutomaticLocationUpdatesPhoneLine {
   /**

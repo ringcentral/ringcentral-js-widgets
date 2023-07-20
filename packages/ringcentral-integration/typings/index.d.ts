@@ -10,7 +10,4 @@ declare interface Navigator {
 
 interface Window {
   mixpanel: any;
-  runner?: {
-    _standAlone?: boolean;
-  };
 }

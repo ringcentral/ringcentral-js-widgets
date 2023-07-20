@@ -1,12 +1,13 @@
-import React, { FunctionComponent, useState } from 'react';
+import type { FunctionComponent } from 'react';
+import React, { useState } from 'react';
 
 import { Tooltip } from '@ringcentral-integration/widgets/components/Rcui/Tooltip';
 import { TOOLTIP_LONG_DELAY_TIME } from '@ringcentral-integration/widgets/lib/toolTipDelayTime';
 import { RcButton } from '@ringcentral/juno';
 
-import { EvGate } from '../../../../lib/EvClient';
+import type { EvGate } from '../../../../lib/EvClient';
 import { ListItem, SelectList } from '../../../SelectList';
-import { RequeueCallGroupPanelProps } from '../RequeueCallGroupPanel';
+import type { RequeueCallGroupPanelProps } from '../RequeueCallGroupPanel';
 import styles from '../styles.scss';
 import i18n from './i18n';
 

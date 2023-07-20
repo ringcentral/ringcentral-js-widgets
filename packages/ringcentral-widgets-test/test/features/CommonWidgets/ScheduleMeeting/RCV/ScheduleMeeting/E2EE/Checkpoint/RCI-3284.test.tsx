@@ -1,6 +1,6 @@
 /**
  * RCI-3284: E2EE option should be disabled
- * https://test_id_domain/test-cases/RCI-3284
+ * https://test_it_domain/test-cases/RCI-3284
  * Preconditions:
  * The user has logged in to RC CTI with the RCV provider
  * Extension type(/s):
@@ -69,7 +69,7 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
-import { StepProp } from '../../../../../../../lib/step';
+import type { StepProp } from '../../../../../../../lib/step';
 import { Login as CommonLogin } from '../../../../../../../steps/Login';
 import {
   CheckboxIsChecked,

@@ -1,3 +1,4 @@
+import { MockBroadcastChannel } from '@ringcentral-integration/test-utils';
 import { waitUntilTo } from '@ringcentral-integration/utils';
 
 import { TabLife } from '../../lib/tabLife';
@@ -11,7 +12,6 @@ import {
   title,
   When,
 } from '../steps';
-import { MockBroadcastChannel } from '../steps/MockBroadcastChannel';
 
 @autorun(test)
 @title('TabLife should work correctly, when many tab exist')

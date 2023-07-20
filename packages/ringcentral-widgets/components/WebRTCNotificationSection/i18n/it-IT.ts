@@ -1,11 +1,11 @@
 export default {
-  forward: "Trasferisci",
+  forward: "Inoltra",
   ignore: "Ignora",
   toVoicemail: "Alla segreteria telefonica",
   answer: "Rispondi",
   endAndAnswer: "Termina e rispondi",
   holdAndAnswer: "Metti in attesa e rispondi",
-  custom: "Personalizza",
+  custom: "Personalizzato",
   more: "Altro"
 };
 

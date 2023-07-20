@@ -1,8 +1,8 @@
-import { CallStatusInfo } from './CallStatusInfo';
-import { ParkInfo } from './ParkInfo';
-import { PartyInfo } from './PartyInfo';
-import { OwnerInfo } from './OwnerInfo';
-import { RecordingInfo } from './RecordingInfo';
+import type { CallStatusInfo } from './CallStatusInfo';
+import type { ParkInfo } from './ParkInfo';
+import type { PartyInfo } from './PartyInfo';
+import type { OwnerInfo } from './OwnerInfo';
+import type { RecordingInfo } from './RecordingInfo';
 
 // Information on a party of a call session
 export interface CallParty {

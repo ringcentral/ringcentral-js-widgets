@@ -1,5 +1,5 @@
 export default {
-  noResultFoundFor: "Nessun risultato trovato per",
+  noResultFoundFor: "Nessun risultato per",
   search: "Cerca"
 };
 

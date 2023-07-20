@@ -1,6 +1,6 @@
 import { computed, RcModuleV2 } from '@ringcentral-integration/core';
 
-import {
+import type {
   ContactSource,
   IContact,
   TypedContact,
@@ -8,7 +8,7 @@ import {
 } from '../../interfaces/Contact.model';
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
-import { Deps } from './Contacts.interface';
+import type { Deps } from './Contacts.interface';
 
 @Module({
   name: 'Contacts',

@@ -1,6 +1,6 @@
-import { WirelessPointInfo } from './WirelessPointInfo';
-import { ProvisioningNavigationInfo } from './ProvisioningNavigationInfo';
-import { ProvisioningPagingInfo } from './ProvisioningPagingInfo';
+import type { WirelessPointInfo } from './WirelessPointInfo';
+import type { ProvisioningNavigationInfo } from './ProvisioningNavigationInfo';
+import type { ProvisioningPagingInfo } from './ProvisioningPagingInfo';
 
 export interface WirelessPointsList {
   /**

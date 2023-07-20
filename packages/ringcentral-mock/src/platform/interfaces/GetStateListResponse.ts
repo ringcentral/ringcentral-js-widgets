@@ -1,6 +1,6 @@
-import { GetStateInfoResponse } from './GetStateInfoResponse';
-import { ProvisioningNavigationInfo } from './ProvisioningNavigationInfo';
-import { ProvisioningPagingInfo } from './ProvisioningPagingInfo';
+import type { GetStateInfoResponse } from './GetStateInfoResponse';
+import type { ProvisioningNavigationInfo } from './ProvisioningNavigationInfo';
+import type { ProvisioningPagingInfo } from './ProvisioningPagingInfo';
 
 export interface GetStateListResponse {
   /**

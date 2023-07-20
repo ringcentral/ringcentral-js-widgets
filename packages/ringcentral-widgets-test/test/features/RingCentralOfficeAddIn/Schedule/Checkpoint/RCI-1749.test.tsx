@@ -1,6 +1,6 @@
 /**
  * RCI-1749: Schedule a meeting with custom or default Subject
- * https://test_id_domain/test-cases/RCI-1749
+ * https://test_it_domain/test-cases/RCI-1749
  * Preconditions:
  * Already installed and logged in RingCentral Outlook Add-Ins
  * Login RCV account
@@ -10,6 +10,7 @@
  */
 
 import { trackEvents } from '@ringcentral-integration/commons/enums/trackEvents';
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p2,
   it,
@@ -17,7 +18,6 @@ import {
   examples,
   And,
   Scenario,
-  StepFunction,
   Step,
   Given,
   Then,

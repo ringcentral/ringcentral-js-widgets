@@ -1,6 +1,6 @@
 import phoneNumberBody from '@ringcentral-integration/mock/src/platform/data/phoneNumber.json';
-import { GetExtensionPhoneNumbersResponse } from '@ringcentral-integration/mock';
-import { StepFunction } from '../../lib/step';
+import type { GetExtensionPhoneNumbersResponse } from '@ringcentral-integration/mock';
+import type { StepFunction } from '../../lib/step';
 
 export interface MockGetPhoneNumberProps {
   getPhoneNumberData?: (

@@ -4,12 +4,12 @@ import classnames from 'classnames';
 
 import { SpinnerOverlay } from '@ringcentral-integration/widgets/components/SpinnerOverlay';
 
-import styles from './styles.scss';
 import leftArrow from '../../assets/images/left_arrow.png';
 
 import GlipPostList from '../GlipPostList';
 import GlipChatForm from '../GlipChatForm';
 import GlipGroupName from '../GlipGroupName';
+import styles from './styles.scss';
 
 export default class GlipChatPage extends Component {
   constructor(props) {
@@ -72,8 +72,9 @@ export default class GlipChatPage extends Component {
         <div
           className={styles.content}
           style={{
-            height: `calc(100% - ${this.state.inputHeight +
-              this.state.headerHeight}px)`,
+            height: `calc(100% - ${
+              this.state.inputHeight + this.state.headerHeight
+            }px)`,
           }}
         >
           <GlipPostList

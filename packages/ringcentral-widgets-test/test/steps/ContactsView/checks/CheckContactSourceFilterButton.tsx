@@ -1,6 +1,6 @@
 import { fireEvent, screen } from '@testing-library/react';
 
-import { StepFunction } from '../../../lib/step';
+import type { StepFunction } from '../../../lib/step';
 
 export const CheckContactSourceFilterButton: StepFunction<{
   tooltip: string;
@@ -13,6 +13,11 @@ export const CheckContactSourceFilterButton: StepFunction<{
     expect(container.querySelector('svg')).not.toHaveAttribute(
       'class',
       'iconNoneFill',
+    );
+  } else if (showSelectedFilter === false) {
+    expect(container.querySelector('svg')).toHaveAttribute(
+      'class',
+      'filterIconNode iconNoneFill',
     );
   }
 };

@@ -14,7 +14,7 @@ export default {
   [phoneTypes.other]: "Outro",
   emailLabel: "E-mail",
   call: "Ligar",
-  text: "Enviar SMS",
+  text: "SMS",
   [presenceStatus.available]: "Disponível",
   [presenceStatus.offline]: "Invisível",
   [presenceStatus.busy]: "Ocupado",

@@ -1,5 +1,5 @@
 import { filter, find } from 'ramda';
-import { Unsubscribe } from 'redux';
+import type { Unsubscribe } from 'redux';
 import type ExtensionInfoEvent from '@rc-ex/core/lib/definitions/ExtensionInfoEvent';
 import type UserPhoneNumberInfo from '@rc-ex/core/lib/definitions/UserPhoneNumberInfo';
 import { computed, watch } from '@ringcentral-integration/core';
@@ -10,7 +10,7 @@ import { usageTypes } from '../../enums/usageTypes';
 import { Module } from '../../lib/di';
 import fetchList from '../../lib/fetchList';
 import { DataFetcherV2Consumer, DataSource } from '../DataFetcherV2';
-import { Deps } from './ExtensionPhoneNumber.interface';
+import type { Deps } from './ExtensionPhoneNumber.interface';
 
 @Module({
   name: 'ExtensionPhoneNumber',

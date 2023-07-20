@@ -1,4 +1,4 @@
-import { ErrorBody } from './ErrorBody';
+import type { ErrorBody } from './ErrorBody';
 
 export interface LoginToExtensionRequiredErrorResponse {
   /**

@@ -1,7 +1,5 @@
-import {
-  ObjectMap,
-  ObjectMapValue,
-} from '@ringcentral-integration/core/lib/ObjectMap';
+import type { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
 import { entityTypes } from './entityTypes';
 

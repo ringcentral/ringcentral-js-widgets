@@ -1,9 +1,9 @@
-import { Auth } from '@ringcentral-integration/commons/modules/Auth';
-import { ConnectivityMonitor } from '@ringcentral-integration/commons/modules/ConnectivityMonitor';
-import { Locale } from '@ringcentral-integration/commons/modules/Locale';
-import { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiter';
+import type { Auth } from '@ringcentral-integration/commons/modules/Auth';
+import type { ConnectivityMonitor } from '@ringcentral-integration/commons/modules/ConnectivityMonitor';
+import type { Locale } from '@ringcentral-integration/commons/modules/Locale';
+import type { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiter';
 
-import { OAuth } from '../OAuth';
+import type { OAuth } from '../OAuth';
 
 export interface LoginUIOptions {}
 

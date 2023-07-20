@@ -3,11 +3,11 @@ import * as uuid from 'uuid';
 
 import background from '@ringcentral-integration/commons/lib/background';
 import { Module } from '@ringcentral-integration/commons/lib/di';
-import proxify from '@ringcentral-integration/commons/lib/proxy/proxify';
+import { proxify } from '@ringcentral-integration/commons/lib/proxy/proxify';
 import { action, state, watch } from '@ringcentral-integration/core';
 
 import { OAuthBase } from '../../lib/OAuthBase';
-import { Deps } from './ProxyFrameOAuth.interface';
+import type { Deps } from './ProxyFrameOAuth.interface';
 
 const DEFAULT_PROXY_RETRY = 5000;
 
@@ -146,7 +146,7 @@ export class ProxyFrameOAuth<T extends Deps = Deps> extends OAuthBase<T> {
   }
 
   @state
-  proxyRetryCount: number = 0;
+  proxyRetryCount = 0;
 
   @action
   setProxyRetryCount(val: number) {
@@ -154,8 +154,7 @@ export class ProxyFrameOAuth<T extends Deps = Deps> extends OAuthBase<T> {
   }
 
   @action
-  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
-  setOAuthReady(val: boolean) {
+  override setOAuthReady(val: boolean) {
     super.setOAuthReady(val);
     this.setProxyRetryCount(0);
   }

@@ -1,6 +1,6 @@
 /**
  * RCI-3565: Total message unread count
- * https://test_id_domain/test-cases/RCI-3565
+ * https://test_it_domain/test-cases/RCI-3565
  * Preconditions:
  * The user has logged into the CTI app
  * The user has fax and SMS permission
@@ -18,6 +18,7 @@
 import { getNodeText, screen } from '@testing-library/react';
 import messageSyncBody from '@ringcentral-integration/mock/src/platform/data/messageSync.json';
 import { Login as CommonLogin } from '../../../../steps/Login';
+import type { StepFunction } from '../../../../lib/step';
 import {
   p2,
   it,
@@ -29,7 +30,6 @@ import {
   Then,
   title,
   When,
-  StepFunction,
 } from '../../../../lib/step';
 import {
   CreateMock as CommonCreateMock,

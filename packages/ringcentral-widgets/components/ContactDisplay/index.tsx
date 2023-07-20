@@ -1,8 +1,9 @@
-import React, { FunctionComponent, useState } from 'react';
+import type { FunctionComponent } from 'react';
+import React, { useState } from 'react';
 
 import classnames from 'classnames';
 
-import formatNumber from '@ringcentral-integration/commons/lib/formatNumber';
+import { formatNumber } from '@ringcentral-integration/commons/lib/formatNumber';
 import {
   ellipsis,
   flexWidth,
@@ -17,12 +18,10 @@ import {
 } from '@ringcentral/juno';
 import { ArrowDown2, ArrowUp2 } from '@ringcentral/juno-icon';
 
-import {
-  ContactDisplayItem,
-  ContactDisplayItemProps,
-} from './ContactDisplayItem';
+import type { ContactDisplayItemProps } from './ContactDisplayItem';
+import { ContactDisplayItem } from './ContactDisplayItem';
 import { displayFormatter } from './displayFormatter';
-import { Entity } from './Entity.interface';
+import type { Entity } from './Entity.interface';
 import i18n from './i18n';
 import styles from './styles.scss';
 

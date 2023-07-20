@@ -1,7 +1,7 @@
-import { waitForRenderReady } from '@ringcentral-integration/test-utils/lib/test-utils';
+import { waitForRenderReady } from '@ringcentral-integration/test-utils';
 import { fireEvent, screen } from '@testing-library/react';
 
-import { StepFunction } from '../../../lib/step';
+import type { StepFunction } from '../../../lib/step';
 
 export const NavigateToSettings: StepFunction = async () => {
   const showSettings = screen.queryByTestId('Settings');

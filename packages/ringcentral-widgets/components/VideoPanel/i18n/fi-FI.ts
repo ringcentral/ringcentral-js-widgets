@@ -9,7 +9,7 @@ export default {
   [ASSISTED_USERS_MYSELF]: "Minä itse",
   joinBeforeHost: "Salli osallistujien liittyä ennen ylläpitäjää",
   enableWaitingRoom: "Ota odotushuone käyttöön",
-  waitingRoom: "Ota odotushuone käyttöön seuraaville:",
+  waitingRoom: "Ota odotushuone käyttöön kohteelle",
   waitingRoomNotCoworker: "Kuka tahansa yritykseni ulkopuolinen",
   waitingRoomGuest: "Kuka tahansa, joka ei ole kirjautunut",
   waitingRoomAll: "Kaikki",

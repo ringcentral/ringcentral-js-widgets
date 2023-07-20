@@ -1,5 +1,5 @@
-import { DetailedCallInfo } from './DetailedCallInfo';
-import { CallInfoCQ } from './CallInfoCQ';
+import type { DetailedCallInfo } from './DetailedCallInfo';
+import type { CallInfoCQ } from './CallInfoCQ';
 
 export interface ActiveCallInfo {
   /**

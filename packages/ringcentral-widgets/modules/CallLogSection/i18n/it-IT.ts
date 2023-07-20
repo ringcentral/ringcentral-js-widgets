@@ -1,8 +1,8 @@
 export default {
   unknown: "Sconosciuto",
   multipleMatches: "Corrispondenze multiple",
-  anonymous: "Numero anonimo",
-  none: "Nessuna"
+  anonymous: "Anonimo",
+  none: "Nessuno"
 };
 
 // @key: @#@"unknown"@#@ @source: @#@"Unknown"@#@

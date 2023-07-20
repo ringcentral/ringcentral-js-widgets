@@ -1,4 +1,5 @@
-import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
+import type { FunctionComponent } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import classnames from 'classnames';
 import { v4 as uuidV4 } from 'uuid';

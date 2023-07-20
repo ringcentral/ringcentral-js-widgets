@@ -2,13 +2,15 @@ import React, { forwardRef, useEffect, useRef, useState } from 'react';
 
 import classNames from 'classnames';
 
+import type {
+  RcBaseProps,
+  RcIconButtonProps,
+  RcTextFieldProps,
+} from '@ringcentral/juno';
 import {
   combineProps,
-  RcBaseProps,
   RcIconButton,
-  RcIconButtonProps,
   RcTextField,
-  RcTextFieldProps,
   useEventCallback,
   useForkRef,
 } from '@ringcentral/juno';

@@ -1,6 +1,6 @@
 /**
  * RCI-3908: Restrict users from logging different brands
- * https://test_id_domain/test-cases/RCI-3908
+ * https://test_it_domain/test-cases/RCI-3908
  * Preconditions:
  * User login to 3rd party
  * User install CTI
@@ -9,7 +9,7 @@
   | Brand |Brand name |
   |  Avaya | Avaya Cloud Office |
 	| Telus |TELUS Business Connect |
-	| AT&T |AT&T Office@Hand |
+	| AT&T |Office@Hand |
 
  * Entry point(/s):
  *
@@ -23,11 +23,11 @@
  * User tries to log in {Partner brandBrand} for {Project}
  */
 
+import type { StepProp } from '@ringcentral-integration/test-utils';
 import {
   p1,
   it,
   autorun,
-  StepProp,
   Scenario,
   Step,
   Then,
@@ -35,8 +35,8 @@ import {
   title,
   When,
   common,
+  waitForRenderReady,
 } from '@ringcentral-integration/test-utils';
-import { waitForRenderReady } from '@ringcentral-integration/test-utils/lib/test-utils';
 
 import { CheckRouterNavigation } from '../../../../steps/Navigate';
 import { CommonLogin } from '../../../../steps/CommonLogin';
@@ -73,13 +73,19 @@ export class RCI3908 extends Step {
                 Title:Please try again
                 Text:The information you entered doesn't match our records.Use your {Brand name}account to sign in.
                 [L10N][Update Release_22.3.10]"
-          action={async ({ brandName }: any) => {
+          action={async ({ brandName, brand }: any) => {
             await waitForRenderReady();
+
+            // when brand be bt that default locale to be en-GB so need use ’ as quote
+            const quote = brand === 'bt' ? '’' : "'";
+
+            const content = `The information you entered doesn${quote}t match our records. Use your ${brandName} account to sign in.`;
+
             return (
               <CheckModalValue
                 confirmButtonText="Close"
                 title="Please try again"
-                childrenContent={`The information you entered doesn't match our records. Use your ${brandName} account to sign in.`}
+                childrenContent={content}
               />
             );
           }}

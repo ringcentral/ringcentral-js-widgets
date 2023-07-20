@@ -1,6 +1,6 @@
 import { fireEvent, screen, waitFor, within } from '@testing-library/react';
-import { StepFunction } from '../../../lib/step';
-import { DropdownDataSign } from '../interface';
+import type { StepFunction } from '../../../lib/step';
+import type { DropdownDataSign } from '../interface';
 
 export const CheckDropDownList: StepFunction<{
   options?: Array<{

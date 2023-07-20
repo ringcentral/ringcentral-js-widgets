@@ -1,12 +1,12 @@
-import { Alert } from '@ringcentral-integration/commons/modules/Alert';
-import { Auth as RcAuth } from '@ringcentral-integration/commons/modules/Auth';
-import { Locale } from '@ringcentral-integration/commons/modules/Locale';
-import { Block } from '@ringcentral-integration/widgets/modules/Block';
-import RouterInteraction from '@ringcentral-integration/widgets/modules/RouterInteraction';
+import type { Alert } from '@ringcentral-integration/commons/modules/Alert';
+import type { Auth as RcAuth } from '@ringcentral-integration/commons/modules/Auth';
+import type { Locale } from '@ringcentral-integration/commons/modules/Locale';
+import type { Block } from '@ringcentral-integration/widgets/modules/Block';
+import type RouterInteraction from '@ringcentral-integration/widgets/modules/RouterInteraction';
 
-import { EvAgentData, EvClient, EvTokenType } from '../../lib/EvClient';
-import { EvSubscription } from '../EvSubscription';
-import { EvTabManager } from '../EvTabManager';
+import type { EvAgentData, EvClient, EvTokenType } from '../../lib/EvClient';
+import type { EvSubscription } from '../EvSubscription';
+import type { EvTabManager } from '../EvTabManager';
 
 export interface EvAuthOptions {
   //

@@ -1,17 +1,17 @@
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import { computed, RcUIModuleV2 } from '@ringcentral-integration/core';
 
-import { QueueLabelProps } from '../../components/ManualDialSettingsPanel/QueueLabel';
-import {
+import type { QueueLabelProps } from '../../components/ManualDialSettingsPanel/QueueLabel';
+import type {
   EvManualDialSettingsUIFunctions,
   EvManualDialSettingsUIProps,
 } from '../../interfaces/EvManualDialSettingsUI.interface';
-import {
+import type {
   EvAvailableCountry,
   EvAvailableQueue,
   EvCallerId,
 } from '../../lib/EvClient';
-import {
+import type {
   Deps,
   EvManualDialSettingsRenderProps,
   ManualDialSettingsUI,

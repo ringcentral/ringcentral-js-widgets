@@ -1,10 +1,10 @@
-import type CountryInfo from '@rc-ex/core/lib/definitions/CountryInfo';
+import type CountryInfoShortModel from '@rc-ex/core/lib/definitions/CountryInfoShortModel';
 import { computed } from '@ringcentral-integration/core';
-
+import { renameTurkeyCountries } from '../../helpers/renameTurkey';
 import { Module } from '../../lib/di';
 import fetchList from '../../lib/fetchList';
 import { DataFetcherV2Consumer, DataSource } from '../DataFetcherV2';
-import { Deps } from './DialingPlan.interface';
+import type { Deps } from './DialingPlan.interface';
 
 @Module({
   name: 'DialingPlan',
@@ -17,7 +17,7 @@ import { Deps } from './DialingPlan.interface';
 })
 export class DialingPlan<T extends Deps = Deps> extends DataFetcherV2Consumer<
   T,
-  CountryInfo[]
+  CountryInfoShortModel[]
 > {
   constructor(deps: T) {
     super({
@@ -39,7 +39,7 @@ export class DialingPlan<T extends Deps = Deps> extends DataFetcherV2Consumer<
 
   @computed(({ data }: DialingPlan) => [data])
   get plans() {
-    return this.data ?? [];
+    return renameTurkeyCountries(this.data ?? []);
   }
 
   fetchFunction() {

@@ -1,14 +1,14 @@
-import { Call } from '../../interfaces/Call.interface';
-import { Entity } from '../../interfaces/Entity.interface';
-import { ActiveCall } from '../../interfaces/Presence.model';
-import { AccountInfo } from '../AccountInfo';
-import { ActivityMatcher } from '../ActivityMatcher';
-import { CallLog } from '../CallLog';
-import { CallMonitor } from '../CallMonitor';
-import { ContactMatcher } from '../ContactMatcher';
-import { Locale } from '../Locale';
-import { Storage } from '../Storage';
-import { TabManager } from '../TabManager';
+import type { Call } from '../../interfaces/Call.interface';
+import type { Entity } from '../../interfaces/Entity.interface';
+import type { ActiveCall } from '../../interfaces/Presence.model';
+import type { AccountInfo } from '../AccountInfo';
+import type { ActivityMatcher } from '../ActivityMatcher';
+import type { CallLog } from '../CallLog';
+import type { CallMonitor } from '../CallMonitor';
+import type { ContactMatcher } from '../ContactMatcher';
+import type { Locale } from '../Locale';
+import type { Storage } from '../Storage';
+import type { TabManager } from '../TabManager';
 
 export interface CallHistoryOptions {
   /**

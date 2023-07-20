@@ -5,14 +5,15 @@ import {
   RcModuleV2,
   state,
   track,
+  watch,
 } from '@ringcentral-integration/core';
-import { ApiError } from '@ringcentral/sdk';
+import type { ApiError } from '@ringcentral/sdk';
 
 import { trackEvents } from '../../enums/trackEvents';
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
 import validateIsOffline from '../../lib/validateIsOffline';
-import {
+import type {
   Deps,
   LoginOptions,
   LoginUrlOptions,
@@ -23,6 +24,7 @@ import { authMessages } from './authMessages';
 import { loginStatus } from './loginStatus';
 
 export const LoginStatusChangeEvent = 'loginStatusChange';
+export const TriggerSyncTokenEvent = 'triggerSyncTokenEvent';
 
 @Module({
   name: 'Auth',
@@ -41,7 +43,7 @@ class Auth extends RcModuleV2<Deps> {
   _beforeLogoutHandlers: Set<Function> = new Set();
   _afterLoggedInHandlers: Set<() => any> = new Set();
   _unbindEvents?: () => void;
-  _lastEnvironmentCounter: number = 0;
+  _lastEnvironmentCounter = 0;
   _proxyUri?: string;
   _redirectUri?: string;
 
@@ -60,6 +62,23 @@ class Auth extends RcModuleV2<Deps> {
   @state
   token: Token = {};
 
+  @state
+  protected _triggerSyncToken = false;
+
+  @action
+  _setToken(token: TokenInfo, triggerSyncToken = true) {
+    this.token = {
+      ownerId: token.owner_id,
+      endpointId: token.endpoint_id,
+      accessToken: token.access_token,
+      tokenType: token.token_type,
+      expireTime: token.expire_time,
+      expiresIn: token.expires_in,
+      scope: token.scope,
+    };
+    this._triggerSyncToken = triggerSyncToken;
+  }
+
   @track(() => (analytics) => {
     // @ts-expect-error
     analytics.setUserId();
@@ -68,48 +87,34 @@ class Auth extends RcModuleV2<Deps> {
   @action
   setLoginSuccess(token: TokenInfo) {
     this.loginStatus = loginStatus.loggedIn;
-    this.token = {
-      ownerId: token.owner_id,
-      endpointId: token.endpoint_id,
-      accessToken: token.access_token,
-      expireTime: token.expire_time,
-      expiresIn: token.expires_in,
-      scope: token.scope,
-    };
+    this._setToken(token);
   }
 
   @action
   setLoginError() {
     this.loginStatus = loginStatus.notLoggedIn;
-    this.token = {};
+    this._setToken({});
     this.isFreshLogin = null;
   }
 
   @action
   setLogoutSuccess() {
     this.loginStatus = loginStatus.notLoggedIn;
-    this.token = {};
+    this._setToken({});
     this.isFreshLogin = null;
   }
 
   @action
   setRefreshSuccess(token: TokenInfo) {
     this.loginStatus = loginStatus.loggedIn;
-    this.token = {
-      ownerId: token.owner_id,
-      endpointId: token.endpoint_id,
-      accessToken: token.access_token,
-      expireTime: token.expire_time,
-      expiresIn: token.expires_in,
-      scope: token.scope,
-    };
+    this._setToken(token);
   }
 
   @action
   setRefreshError(refreshTokenValid: boolean) {
     this.isFreshLogin = null;
     if (!refreshTokenValid) {
-      this.token = {};
+      this._setToken({});
       this.loginStatus = loginStatus.notLoggedIn;
     }
   }
@@ -117,7 +122,7 @@ class Auth extends RcModuleV2<Deps> {
   @action
   setLogoutError() {
     this.loginStatus = loginStatus.notLoggedIn;
-    this.token = {};
+    this._setToken({});
     this.isFreshLogin = null;
   }
 
@@ -149,16 +154,7 @@ class Auth extends RcModuleV2<Deps> {
       ? loginStatus.loggedIn
       : loginStatus.notLoggedIn;
     this.isFreshLogin = loggedIn ? false : null;
-    this.token = token
-      ? {
-          ownerId: token.owner_id,
-          endpointId: token.endpoint_id,
-          accessToken: token.access_token,
-          expireTime: token.expire_time,
-          expiresIn: token.expires_in,
-          scope: token.scope,
-        }
-      : {};
+    this._setToken(token ?? {}, false);
   }
 
   _bindEvents() {
@@ -206,23 +202,23 @@ class Auth extends RcModuleV2<Deps> {
       const token: TokenInfo = await platform.auth().data();
       this.setRefreshSuccess(token);
     };
-    // TODO: fix `error` type.
-    const onRefreshError = async (error: any) => {
+    const onRefreshError = async (error: ApiError) => {
       // user is still considered logged in if the refreshToken is still valid
       const isOffline = validateIsOffline(error.message);
+      const resStatus = Number(error.response?.status);
 
-      const resStatus = (error.response && error.response.status) || null;
-      const refreshTokenValid =
+      const refreshTokenValid = Boolean(
         (isOffline || resStatus >= 500) &&
-        (await platform.auth().refreshTokenValid());
+          (await platform.auth().refreshTokenValid()),
+      );
+
       this.setRefreshError(refreshTokenValid);
-      let isAARError = false;
-      if (error.response?.status === 403) {
-        const { errors = [] } = (await error.response?.clone().json()) || {};
-        isAARError = errors.some(
+
+      const isAARError =
+        resStatus === 403 &&
+        (await error.response?.clone().json())?.error?.some(
           ({ errorCode = '' } = {}) => errorCode === 'OAU-167',
         );
-      }
 
       if (
         !isAARError &&
@@ -236,6 +232,7 @@ class Auth extends RcModuleV2<Deps> {
         });
         // clean the cache so the error doesn't show again
         platform._cache.clean();
+        return;
       }
     };
     platform.addListener(platform.events.loginSuccess, onLoginSuccess);
@@ -297,6 +294,24 @@ class Auth extends RcModuleV2<Deps> {
     const platform = this._deps.client.service.platform();
     this._loggedIn = await platform.loggedIn();
     this._bindEvents();
+    watch(
+      this,
+      () => [this.token, this._triggerSyncToken],
+      () => {
+        if (this._triggerSyncToken) {
+          this._deps.tabManager?.send(TriggerSyncTokenEvent);
+        }
+      },
+    );
+    watch(
+      this,
+      () => this._deps.tabManager?.event,
+      () => {
+        if (this._deps.tabManager?.event?.name === TriggerSyncTokenEvent) {
+          this.fetchToken();
+        }
+      },
+    );
   }
 
   async fetchToken() {
@@ -393,10 +408,8 @@ class Auth extends RcModuleV2<Deps> {
 
   @proxify
   async refreshToken() {
-    const token = await this._deps.client.service
-      .platform()
-      .refresh()
-      .then((response: any) => response.json());
+    const resp = await this._deps.client.service.platform().refresh();
+    const token = await resp.json();
     return token;
   }
 
@@ -426,7 +439,7 @@ class Auth extends RcModuleV2<Deps> {
   async logout({ dismissAllAlert = true } = {}) {
     this.setBeforeLogout();
     if (dismissAllAlert) {
-      // fix bug [https://jira.ringcentral.com/browse/RCINT-17381]
+      // fix bug [https://jira_domain/browse/RCINT-17381]
       this._deps.alert.dismissAllExpectSpecified({
         specifiedAlertIds: [this._deps.rateLimiter?.rateLimitAlertId!],
       });

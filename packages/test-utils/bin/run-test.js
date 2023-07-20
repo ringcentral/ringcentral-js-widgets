@@ -1,13 +1,13 @@
 #!/usr/bin/env node
-const fs = require('fs-extra');
 const path = require('path');
+const fs = require('fs-extra');
 const execa = require('execa');
 
 const __CI__ = process.argv.includes('--ci');
 const currentDir = process.cwd();
 const debugMode = process.env.DEBUG;
 const rootDir = path.resolve(__dirname, '../../../');
-const { testPaths = ['.'] } = fs.readJsonSync('package.json');
+const { testPaths = ['.'], testMaxWorkers } = fs.readJsonSync('package.json');
 const projectPaths = testPaths
   .map((testPath) => path.relative(rootDir, path.resolve(currentDir, testPath)))
   .join(' ');
@@ -34,7 +34,11 @@ if (debugMode === 'preview') {
       process.exit();
     });
 }
-const workerArgv = __CI__ ? ' --maxWorkers=70%' : '';
+const workerArgv = __CI__
+  ? testMaxWorkers
+    ? ` --maxWorkers=${testMaxWorkers}`
+    : ' --maxWorkers=1'
+  : '';
 const command = `yarn jest ${workerArgv} ${argv}`;
 
 // in ci use sync run for get error

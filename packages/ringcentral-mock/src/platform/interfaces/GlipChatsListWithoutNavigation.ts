@@ -1,4 +1,4 @@
-import { GlipChatInfo } from './GlipChatInfo';
+import type { GlipChatInfo } from './GlipChatInfo';
 
 export interface GlipChatsListWithoutNavigation {
   /**

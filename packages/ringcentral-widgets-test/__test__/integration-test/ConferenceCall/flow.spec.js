@@ -22,7 +22,7 @@ import { initPhoneWrapper, tearDownWrapper } from '../shared';
 import deviceBody from './data/device.json';
 
 beforeEach(async () => {
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 64000;
+  jest.setTimeout(64000);
 });
 
 async function enterToNumber(domInput, number) {
@@ -55,6 +55,11 @@ async function dialAnotherOutboundCall(phone, wrapper) {
   const callButton = wrapper.find(DialerPanel).find('.callBtn').first();
   callButton.find(CircleButton).find('g').simulate('click');
   await sleep(100);
+  const webphoneSession =
+    phone.webphone._webphone.userAgent.sessions[
+      phone.webphone.activeSession.id
+    ];
+  webphoneSession.trigger('accepted', {});
   /* pubnub push message */
   await updateCallMonitorCalls(phone);
   wrapper.update();
@@ -123,7 +128,7 @@ async function clickMergeButtonIn(wrapper, phone, pageName) {
 describe.skip('Merge Call Flow: Conference Call Ctrl -> click Merge -> on hold list', () => {
   test('RCINT-8377 Active Conference Call when merged(onheld outbound + active conference):', async () => {
     const { wrapper, phone } = await initPhoneWrapper();
-    await makeCall(phone);
+    await makeCall(phone, undefined, 'connected');
     await mockConferenceCallEnv(phone);
     wrapper.update();
     // Click Add
@@ -146,7 +151,7 @@ describe.skip('Merge Call Flow: Conference Call Ctrl -> click Merge -> on hold l
   test('RCINT-8377 Active Conference Call when merged(onheld outbound + onheld conference):', async () => {
     const { wrapper, phone } = await initPhoneWrapper();
     let holdButton = null;
-    await makeCall(phone);
+    await makeCall(phone, undefined, 'connected');
     await mockConferenceCallEnv(phone);
     wrapper.update();
     // Click Hold
@@ -282,7 +287,7 @@ describe('Merge Call Flow: Normal Call Ctrl -> click Merge -> popup', () => {
 describe('Add Call Flow: Normal Call Ctrl -> click Add -> dialer', () => {
   test('RCINT-8377 Active Conference Call when merged(onheld outbound + active outbound):', async () => {
     const { wrapper, phone } = await initPhoneWrapper();
-    await makeCall(phone);
+    await makeCall(phone, undefined, 'connected');
     wrapper.update();
     // Click Add
     const addButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(3);
@@ -309,7 +314,7 @@ describe('Add Call Flow: Normal Call Ctrl -> click Add -> dialer', () => {
   test('RCINT-8377 Active Conference Call when merged(onheld outbound + onheld outbound)-1', async () => {
     const { wrapper, phone } = await initPhoneWrapper();
     let holdButton = null;
-    const sessionA = await makeCall(phone);
+    await makeCall(phone, undefined, 'connected');
     wrapper.update();
     // Click Add
     const addButton = wrapper.find(ActiveCallPad).find(ActiveCallButton).at(3);

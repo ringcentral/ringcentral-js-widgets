@@ -1,6 +1,6 @@
-import { GetPresenceInfo } from './GetPresenceInfo';
-import { PresenceNavigationInfo } from './PresenceNavigationInfo';
-import { PresencePagingInfo } from './PresencePagingInfo';
+import type { GetPresenceInfo } from './GetPresenceInfo';
+import type { PresenceNavigationInfo } from './PresenceNavigationInfo';
+import type { PresencePagingInfo } from './PresencePagingInfo';
 
 export interface AccountPresenceInfo {
   /**

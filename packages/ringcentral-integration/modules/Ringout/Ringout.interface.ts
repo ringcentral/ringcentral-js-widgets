@@ -1,5 +1,5 @@
-import { Auth } from '../Auth';
-import { ContactMatcher } from '../ContactMatcher';
+import type { Auth } from '../Auth';
+import type { ContactMatcher } from '../ContactMatcher';
 
 export interface MakeCallOptions {
   fromNumber: string;

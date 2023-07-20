@@ -2,7 +2,7 @@ import { filter, map, omit, pick, pipe, toPairs } from 'ramda';
 
 import { format } from '@ringcentral-integration/utils';
 
-import {
+import type {
   MeetingProviderTypesProps,
   RcVDialInNumberObj,
   RcvGSuiteMeetingModel,
@@ -25,7 +25,7 @@ import {
   RCV_WAITING_ROOM_MODE_REVERSE,
 } from './constants';
 import i18n from './i18n';
-import { RcvInvitationRequestV2, TopicProps } from './RcVideo.interface';
+import type { RcvInvitationRequestV2, TopicProps } from './RcVideo.interface';
 
 /* TODO: this meetingProviderTypes is only used for calender-addon
  * if you want to use meetingProviderTypes
@@ -116,7 +116,7 @@ function validateRandomPassword(pwd: string): boolean {
   return /^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])[A-Za-z0-9]*$/.test(pwd);
 }
 
-function generateRandomPassword(length: number = 10): string {
+function generateRandomPassword(length = 10): string {
   const charset = getDefaultChars();
   const charLen = charset.length;
   let retVal = '';
@@ -393,7 +393,7 @@ function getAvaliableWaitingRoomOpions(
 function patchWaitingRoomRelated(
   settings: RcVMeetingModel,
   { waitingRoomMode }: RcVPreferences,
-  isUpdatingMode: boolean = false,
+  isUpdatingMode = false,
 ): Partial<RcVMeetingModel> {
   const processedSettings: Partial<RcVMeetingModel> = {};
   if (settings.isOnlyAuthUserJoin) {

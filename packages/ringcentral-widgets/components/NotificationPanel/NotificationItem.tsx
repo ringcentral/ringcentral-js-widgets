@@ -1,16 +1,17 @@
-import React, { FunctionComponent, memo, useMemo } from 'react';
+import type { FunctionComponent } from 'react';
+import React, { memo, useMemo } from 'react';
 
 import classNames from 'classnames';
 
+import type { RcSnackbarContentType } from '@ringcentral/juno';
 import {
   combineProps,
   RcSnackbarAction,
   RcSnackbarContent,
-  RcSnackbarContentType,
 } from '@ringcentral/juno';
 import { Close as closeSvg } from '@ringcentral/juno-icon';
 
-import {
+import type {
   NotificationItemProps,
   NotificationMessage,
 } from './NotificationPanel.interface';
@@ -110,7 +111,7 @@ export const NotificationItem: FunctionComponent<NotificationItemProps> = memo(
             />
           }
           action={
-            action ?? (
+            action === undefined ? (
               <RcSnackbarAction
                 variant="icon"
                 symbol={closeSvg}
@@ -119,6 +120,8 @@ export const NotificationItem: FunctionComponent<NotificationItemProps> = memo(
                   dismiss(id);
                 }}
               />
+            ) : (
+              action
             )
           }
         />

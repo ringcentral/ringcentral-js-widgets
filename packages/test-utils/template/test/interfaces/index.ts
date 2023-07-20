@@ -1,5 +1,5 @@
 export interface Context {
   payload: {
     //
-  }
+  };
 }

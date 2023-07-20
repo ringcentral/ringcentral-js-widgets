@@ -1,4 +1,4 @@
-import { CallsByResult } from './CallsByResult';
+import type { CallsByResult } from './CallsByResult';
 
 export interface PerformanceCallsByResult {
   /**

@@ -1,4 +1,5 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import classnames from 'classnames';
 
@@ -7,7 +8,7 @@ import { Eula } from '../Eula';
 import IconLine from '../IconLine';
 import Line from '../Line';
 import i18n from './i18n';
-import { FooterProps } from './SettingsPanel.interface';
+import type { FooterProps } from './SettingsPanel.interface';
 import styles from './styles.scss';
 
 export const Footer: FunctionComponent<FooterProps> = ({

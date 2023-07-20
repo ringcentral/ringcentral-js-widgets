@@ -1,6 +1,6 @@
 /**
  * RCI-859: Second Incoming Call_Answer and Hold
- * https://test_id_domain/test-cases/RCI-859
+ * https://test_it_domain/test-cases/RCI-859
  * Preconditions:
  *
  * Entry point(/s):
@@ -8,6 +8,7 @@
  * 2. Make a outbound call, and make another incoming call
  */
 
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p1,
   it,
@@ -19,7 +20,6 @@ import {
   title,
   When,
   And,
-  StepFunction,
 } from '@ringcentral-integration/test-utils';
 
 import {
@@ -34,7 +34,10 @@ import {
 } from '../../../../../../../steps/Call';
 import { CommonLoginEntry } from '../../../../../../../steps/CommonLogin';
 
-import { TriggerActiveCallChanged } from '../../../../../../../steps/Mock';
+import {
+  TriggerActiveCallChanged,
+  MockActiveCall,
+} from '../../../../../../../steps/Mock';
 
 @autorun(test)
 @it
@@ -60,6 +63,7 @@ export class RCI859 extends Step {
               jest.spyOn(phone.webphone, '_onAccepted');
               jest.spyOn(phone.webphone, 'hold');
             },
+            <MockActiveCall repeat={0} />,
             <MakeCall
               useUserAgentSession
               direction={direction}

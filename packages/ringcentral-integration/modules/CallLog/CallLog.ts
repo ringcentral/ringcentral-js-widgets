@@ -12,7 +12,8 @@ import { sleep } from '@ringcentral-integration/utils';
 import { callActions } from '../../enums/callActions';
 import { callResults } from '../../enums/callResults';
 import { subscriptionFilters } from '../../enums/subscriptionFilters';
-import { SyncType, syncTypes } from '../../enums/syncTypes';
+import type { SyncType } from '../../enums/syncTypes';
+import { syncTypes } from '../../enums/syncTypes';
 import {
   hasEndedCalls,
   isOutbound,
@@ -24,7 +25,7 @@ import { Module } from '../../lib/di';
 import fetchList from '../../lib/fetchList';
 import getDateFrom from '../../lib/getDateFrom';
 import { proxify } from '../../lib/proxy/proxify';
-import {
+import type {
   CallLogData,
   CallLogRecords,
   CallLogSyncData,
@@ -38,6 +39,7 @@ import {
   processData,
   processRecords,
 } from './helper';
+import { ActiveCall } from '../../interfaces/Presence.model';
 
 const DEFAULT_TTL = 5 * 60 * 1000;
 // Lock fetching on app refresh if lst fetch happened less than this time span
@@ -66,14 +68,11 @@ const presenceRegExp = /\/presence\?detailedTelephonyState=true/;
   ],
 })
 export class CallLog extends RcModuleV2<Deps> {
-  // @ts-expect-error
-  protected _promise: Promise<void> = null;
+  protected _promise: Promise<void> | null = null;
 
-  // @ts-expect-error
-  protected _queueSync: Promise<void> = null;
+  protected _queueSync: Promise<void> | null = null;
 
-  // @ts-expect-error
-  protected _timeoutId: NodeJS.Timeout = null;
+  protected _timeoutId: NodeJS.Timeout | null = null;
 
   protected _handleSyncApiError: ((error?: Error) => Promise<void>) | null =
     null;
@@ -91,9 +90,7 @@ export class CallLog extends RcModuleV2<Deps> {
   data: CallLogData = {
     list: [],
     map: {},
-    // @ts-expect-error
     token: null,
-    // @ts-expect-error
     timestamp: null,
   };
 
@@ -102,18 +99,14 @@ export class CallLog extends RcModuleV2<Deps> {
     this.data = {
       list: [],
       map: {},
-      // @ts-expect-error
       token: null,
-      // @ts-expect-error
       timestamp: null,
     };
   }
 
   @action
   clearToken() {
-    // @ts-expect-error
     this.data.token = null;
-    // @ts-expect-error
     this.data.timestamp = null;
   }
 
@@ -256,7 +249,6 @@ export class CallLog extends RcModuleV2<Deps> {
 
   override onReset() {
     this._clearTimeout();
-    // @ts-expect-error
     this._promise = null;
     this.resetData();
   }
@@ -344,7 +336,7 @@ export class CallLog extends RcModuleV2<Deps> {
             // @ts-ignore
             call.result !== callResults.faxReceipt,
         ),
-      ),
+      ) as ActiveCall[],
     )
       .map((call) => {
         // [RCINT-7364] Call presence is incorrect when make ringout call from a DL number.
@@ -542,7 +534,6 @@ export class CallLog extends RcModuleV2<Deps> {
         }
       }
     }
-    // @ts-expect-error
     this._promise = null;
   }
 
@@ -559,7 +550,6 @@ export class CallLog extends RcModuleV2<Deps> {
           await sleep(300);
           return this._sync(syncType);
         })();
-        // @ts-expect-error
         this._queueSync = null;
         return this._promise;
       })();
@@ -587,10 +577,11 @@ export class CallLog extends RcModuleV2<Deps> {
     if (this._timeoutId) clearTimeout(this._timeoutId);
   }
 
-  _startPolling(t = this.timestamp + this.pollingInterval + 10 - Date.now()) {
+  _startPolling(
+    t = (this.timestamp ?? 0) + this.pollingInterval + 10 - Date.now(),
+  ) {
     this._clearTimeout();
     this._timeoutId = setTimeout(() => {
-      // @ts-expect-error
       this._timeoutId = null;
       if (!this._deps.tabManager || this._deps.tabManager.active) {
         if (!this.timestamp || Date.now() - this.timestamp > this.ttl) {
@@ -609,7 +600,6 @@ export class CallLog extends RcModuleV2<Deps> {
   _retry(t = this.timeToRetry) {
     this._clearTimeout();
     this._timeoutId = setTimeout(() => {
-      // @ts-expect-error
       this._timeoutId = null;
       if (!this.timestamp || Date.now() - this.timestamp > this.ttl) {
         if (!this._deps.tabManager || this._deps.tabManager.active) {

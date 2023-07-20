@@ -1,4 +1,4 @@
-import { BulkTaskInfoSwUpdate } from './BulkTaskInfoSwUpdate';
+import type { BulkTaskInfoSwUpdate } from './BulkTaskInfoSwUpdate';
 
 export interface UpdateMultipleSwitchesResponse {
   /**

@@ -1,4 +1,4 @@
-import { LocationDeletionInfo } from './LocationDeletionInfo';
+import type { LocationDeletionInfo } from './LocationDeletionInfo';
 
 export interface GetLocationDeletionMultiResponse {
   /**

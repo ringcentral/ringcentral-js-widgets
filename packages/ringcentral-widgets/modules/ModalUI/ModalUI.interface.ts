@@ -1,8 +1,8 @@
-import { Locale } from '@ringcentral-integration/commons/modules/Locale';
-import { RcBaseProps } from '@ringcentral/juno';
-import React from 'react';
+import type { Locale } from '@ringcentral-integration/commons/modules/Locale';
+import type { RcBaseProps } from '@ringcentral/juno';
+import type React from 'react';
 
-import { ModalProps } from '../../components/ModalV2/interface';
+import type { ModalProps } from '../../components/ModalV2/interface';
 
 export interface Deps {
   locale: Locale;

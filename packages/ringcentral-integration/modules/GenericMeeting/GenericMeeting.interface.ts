@@ -1,9 +1,9 @@
-import { RcVMeetingModel } from '../../interfaces/Rcv.model';
-import { Brand } from '../Brand';
-import { ExtensionInfo } from '../ExtensionInfo';
-import { Meeting, MeetingDelegator, RcMMeetingModel } from '../Meeting';
-import { RcVideo } from '../RcVideo';
-import {
+import type { RcVMeetingModel } from '../../interfaces/Rcv.model';
+import type { Brand } from '../Brand';
+import type { ExtensionInfo } from '../ExtensionInfo';
+import type { Meeting, MeetingDelegator, RcMMeetingModel } from '../Meeting';
+import type { RcVideo } from '../RcVideo';
+import type {
   meetingProviderTypesProps,
   VideoConfiguration,
 } from '../VideoConfiguration';
@@ -101,6 +101,7 @@ export type RCMeeting = {
 };
 
 export type RCVideo = {
+  scheduleOriginalInfo?: RcVMeetingModel;
   extensionInfo: ExtensionInfoData;
   dialInNumber: string;
   meeting: RCVideoResponse; // TODO: add RCVideoScheduleModel?

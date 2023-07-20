@@ -1,7 +1,8 @@
 // @ts-nocheck
 import { Module } from '../../lib/di';
-import { IStorage, StorageBase } from '../../lib/StorageBase';
-import { Deps } from './GlobalStorage.interface';
+import type { IStorage } from '../../lib/StorageBase';
+import { StorageBase } from '../../lib/StorageBase';
+import type { Deps } from './GlobalStorage.interface';
 
 @Module({
   name: 'GlobalStorage',

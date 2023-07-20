@@ -1,12 +1,13 @@
 import type ParsePhoneNumberResponse from '@rc-ex/core/lib/definitions/ParsePhoneNumberResponse';
 import { RcModuleV2 } from '@ringcentral-integration/core';
-import { parse } from '@ringcentral-integration/phone-number';
+import type { CountryCode } from '@ringcentral-integration/phone-number';
+import { parse, isUSOrCAOrPR } from '@ringcentral-integration/phone-number';
 
-import {
-  Category,
+import type {
   NumberParserAPIResponse,
   ParsePhoneNumberResultsItem,
 } from '../../interfaces/NumberParserResponse.interface';
+import { Category } from '../../interfaces/NumberParserResponse.interface';
 import cleanNumber from '../../lib/cleanNumber';
 import { isAnExtension, isExtensionExist } from '../../lib/contactHelper';
 import { Module } from '../../lib/di';
@@ -14,6 +15,7 @@ import { hasNoAreaCode } from '../../lib/hasNoAreaCode';
 import { isBlank } from '../../lib/isBlank';
 import { normalizeNumber } from '../../lib/normalizeNumber';
 import { proxify } from '../../lib/proxy/proxify';
+import { callErrors } from '../Call/callErrors';
 import type {
   Deps,
   ParsePhoneNumberAPIParam,
@@ -27,7 +29,6 @@ import type {
   ValidateResult,
 } from './NumberValidate.interface';
 import { contextSourceOption } from './NumberValidate.interface';
-import { callErrors } from '../Call/callErrors';
 
 @Module({
   name: 'NumberValidate',
@@ -82,14 +83,13 @@ export class NumberValidate extends RcModuleV2<Deps> {
    * @param {*} extensionNumber
    * @returns {String} extensionNumber | null
    */
-  getAvailableExtension(
-    extensionNumber: string,
-    maxExtensionNumberLength: number = 6,
-  ) {
+  getAvailableExtension(extensionNumber: string, maxExtensionNumberLength = 6) {
     if (!isAnExtension(extensionNumber, maxExtensionNumberLength)) {
       return null;
     }
-    // @ts-expect-error
+    if (!this._deps.extensionInfo) {
+      return null;
+    }
     const { isMultipleSiteEnabled, site } = this._deps.extensionInfo;
     const { filteredContacts, ivrContacts } = this._deps.companyContacts;
     const contacts = filteredContacts.concat(ivrContacts);
@@ -97,8 +97,7 @@ export class NumberValidate extends RcModuleV2<Deps> {
       contacts.find((item) =>
         isExtensionExist({
           extensionNumber,
-          // @ts-expect-error
-          extensionFromContacts: item.extensionNumber,
+          extensionFromContacts: item.extensionNumber ?? '',
           options: {
             isMultipleSiteEnabled,
             siteCode: site?.code,
@@ -163,25 +162,30 @@ export class NumberValidate extends RcModuleV2<Deps> {
   async validateWithNumberParser(
     phoneNumbers: string[],
   ): Promise<ValidateParsingResult> {
+    const maxExtensionNumberLength =
+      this._deps.accountInfo.maxExtensionNumberLength;
     const parsedNumbers = await this._numberParser(phoneNumbers);
     const errors: ValidateParsedError = [];
     const validatedPhoneNumbers: ValidatedPhoneNumbers = [];
     parsedNumbers.map((phoneNumber) => {
-      if (this._isSpecial(phoneNumber)) {
-        errors.push({
-          // @ts-expect-error
-          phoneNumber: phoneNumber.originalString,
-          type: 'specialNumber',
-        });
-        return null;
-      }
-      let extensionObj = {};
-      if (!this._deps.companyContacts?.enableCompanyPublicApi) {
-        const number = phoneNumber.originalString;
-        // @ts-expect-error
-        const availableExtension = this.getAvailableExtension(number);
-        // @ts-expect-error
-        if (isAnExtension(number) && !availableExtension) {
+      const isSpecial = this._isSpecial(phoneNumber);
+      const number = phoneNumber.originalString;
+
+      const isAnExtensionNumber =
+        !isSpecial && isAnExtension(number!, maxExtensionNumberLength);
+      const extensionObj: {
+        availableExtension?: string;
+        isAnExtension?: boolean;
+      } = { isAnExtension: isAnExtensionNumber };
+      if (
+        !this._deps.companyContacts?.enableCompanyPublicApi &&
+        isAnExtensionNumber
+      ) {
+        const availableExtension = this.getAvailableExtension(
+          number!,
+          maxExtensionNumberLength,
+        );
+        if (!availableExtension) {
           errors.push({
             // @ts-expect-error
             phoneNumber: phoneNumber.originalString,
@@ -189,7 +193,8 @@ export class NumberValidate extends RcModuleV2<Deps> {
           });
           return null;
         }
-        extensionObj = availableExtension ? { availableExtension } : {};
+
+        extensionObj.availableExtension = availableExtension;
       }
       validatedPhoneNumbers.push({ ...phoneNumber, ...extensionObj });
 
@@ -264,7 +269,7 @@ export class NumberValidate extends RcModuleV2<Deps> {
 
   @proxify
   async parseNumbers(inputs: string[]): Promise<ParseResult | void> {
-    const { countryCode, defaultAreaCode = null } = this._deps.regionSettings;
+    const { countryCode, defaultAreaCode } = this._deps.regionSettings;
     const brandId = this._deps.brand.brandConfig.id;
     const phoneNumbers = inputs.map((input: string) => cleanNumber(input));
     const data: ParsePhoneNumberAPIParam = {
@@ -405,26 +410,13 @@ export class NumberValidate extends RcModuleV2<Deps> {
   }
 
   private isInternational(resultItem: ParsePhoneNumberResultsItem): boolean {
-    const phoneNumberISOCode = resultItem.numberDetails?.country?.isoCode;
+    const phoneNumberISOCode = resultItem.numberDetails?.country?.isoCode ?? '';
     const regionSettingsCountryCode = this._deps.regionSettings.countryCode;
 
-    const ISOCode_US = 'US';
-    const ISOCode_CA = 'CA';
-
-    // Allow CA customer to call US phone numbers
-    // Check RCINT-25922 for more details
+    // The call between us/ca/pr should not be considered to be the international call, check RCINT-25922/RCINT-26726 for more details
     if (
-      regionSettingsCountryCode === ISOCode_CA &&
-      phoneNumberISOCode === ISOCode_US
-    ) {
-      return false;
-    }
-
-    // Allow US customer to call CA phone numbers
-    // Check RCINT-25922 for more details
-    if (
-      regionSettingsCountryCode === ISOCode_US &&
-      phoneNumberISOCode === ISOCode_CA
+      isUSOrCAOrPR(regionSettingsCountryCode) &&
+      isUSOrCAOrPR(phoneNumberISOCode as CountryCode)
     ) {
       return false;
     }

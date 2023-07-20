@@ -1,6 +1,6 @@
 /**
  * RCI-1850: Check call/sms to short ext begin with 0
- * https://test_id_domain/test-cases/RCI-1850
+ * https://test_it_domain/test-cases/RCI-1850
  * Preconditions:
  * User has logged into 3rd party.
  * User has logged into RC CTI App
@@ -30,7 +30,7 @@ import {
 } from '@ringcentral-integration/test-utils';
 import accountInfoBody from '@ringcentral-integration/mock/src/platform/data/accountInfo.json';
 
-import { StepProp } from '../../../../../lib/step';
+import type { StepProp } from '../../../../../lib/step';
 import { CommonLogin } from '../../../../../steps/CommonLogin';
 import {
   CreateMock,

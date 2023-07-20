@@ -1,5 +1,5 @@
-import { Auth } from '../Auth';
-import { Webphone } from '../Webphone';
+import type { Auth } from '../Auth';
+import type { Webphone } from '../Webphone';
 
 export interface QuickAccessOptions {
   //

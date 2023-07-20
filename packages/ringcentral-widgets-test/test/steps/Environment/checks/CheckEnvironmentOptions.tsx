@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react';
 
-import { Context } from '../../../interfaces';
-import { StepFunction } from '../../../lib/step';
+import type { Context } from '../../../interfaces';
+import type { StepFunction } from '../../../lib/step';
 
 export const CheckEnvironmentOptions: StepFunction<{
   server?: string;

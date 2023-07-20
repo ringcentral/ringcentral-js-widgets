@@ -1,6 +1,6 @@
 /**
  * RCI-1969: Schedule on behalf - no delegates
- * https://test_id_domain/test-cases/RCI-1969
+ * https://test_it_domain/test-cases/RCI-1969
  * Preconditions:
  * User has RCV permission
  * Already installed and logged in CTI app
@@ -21,7 +21,7 @@ import {
 } from '@ringcentral-integration/test-utils';
 import { screen } from '@testing-library/react';
 
-import { StepProp } from '../../../../../../lib/step';
+import type { StepProp } from '../../../../../../lib/step';
 import { CommonLogin } from '../../../../../../steps/CommonLogin';
 import { CheckRCVPageDisplay } from '../../../../../../steps/Meeting';
 

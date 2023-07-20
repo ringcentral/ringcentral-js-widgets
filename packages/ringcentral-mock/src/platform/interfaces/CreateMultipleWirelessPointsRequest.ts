@@ -1,4 +1,4 @@
-import { CreateWirelessPoint } from './CreateWirelessPoint';
+import type { CreateWirelessPoint } from './CreateWirelessPoint';
 
 export interface CreateMultipleWirelessPointsRequest {
   /**

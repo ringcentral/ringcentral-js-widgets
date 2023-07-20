@@ -1,4 +1,4 @@
-import { BulkTaskInfoWiCreate } from './BulkTaskInfoWiCreate';
+import type { BulkTaskInfoWiCreate } from './BulkTaskInfoWiCreate';
 
 export interface CreateMultipleWirelessPointsResponse {
   /**

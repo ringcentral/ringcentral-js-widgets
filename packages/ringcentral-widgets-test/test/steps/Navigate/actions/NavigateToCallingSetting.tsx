@@ -1,7 +1,6 @@
 import { fireEvent, screen, waitFor } from '@testing-library/react';
+import type { StepFunction } from '../../../lib/step';
 import { NavigateToSettings } from './NavigateToSettings';
-
-import { StepFunction } from '../../../lib/step';
 
 const GoToCallingSetting: StepFunction = async () => {
   expect(screen.getByText('Calling')).toBeInTheDocument();

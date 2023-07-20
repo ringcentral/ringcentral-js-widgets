@@ -1,11 +1,12 @@
 import type ActiveCallInfo from '@rc-ex/core/lib/definitions/ActiveCallInfo';
-import type CallLogCallerInfo from '@rc-ex/core/lib/definitions/CallLogCallerInfo';
+import type CallLogFromParty from '@rc-ex/core/lib/definitions/CallLogFromParty';
+import type CallLogToParty from '@rc-ex/core/lib/definitions/CallLogToParty';
 import type GetPresenceInfo from '@rc-ex/core/lib/definitions/GetPresenceInfo';
-import type UserCallLogRecord from '@rc-ex/core/lib/definitions/UserCallLogRecord';
-import { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
+import type CallLogRecord from '@rc-ex/core/lib/definitions/CallLogRecord';
+import type { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
 
-import { dndStatus } from '../enums/dndStatus';
-import { presenceStatus } from '../enums/presenceStatus.enum';
+import type { dndStatus } from '../enums/dndStatus';
+import type { presenceStatus } from '../enums/presenceStatus.enum';
 
 export interface PresenceModel {
   dndStatus: string;
@@ -19,10 +20,10 @@ export type ActiveCall = Pick<
   ActiveCallInfo,
   Exclude<keyof ActiveCallInfo, 'to' | 'from' | 'startTime'>
 > & {
-  to: CallLogCallerInfo;
-  from?: CallLogCallerInfo;
-  action?: UserCallLogRecord['action'];
-  result?: UserCallLogRecord['result'];
+  to: CallLogToParty;
+  from?: CallLogFromParty;
+  action?: CallLogRecord['action'];
+  result?: CallLogRecord['result'];
   // normalize StartTime in CallLog/Presence/ActiveCalls
   startTime?: number;
   duration?: number;
@@ -30,11 +31,10 @@ export type ActiveCall = Pick<
 
 export interface PresenceInfoModel {
   activeCalls?: ActiveCall[];
-  dndStatus?: ObjectMapValue<typeof dndStatus>;
-  meetingStatus?: GetPresenceInfo['meetingStatus'];
-  presenceStatus?: ObjectMapValue<typeof presenceStatus>;
-  telephonyStatus?: GetPresenceInfo['telephonyStatus'];
-  userStatus?: GetPresenceInfo['userStatus'];
-  lastDndStatus?: ObjectMapValue<typeof dndStatus>;
+  dndStatus?: ObjectMapValue<typeof dndStatus> | null;
+  meetingStatus?: GetPresenceInfo['meetingStatus'] | null;
+  presenceStatus?: ObjectMapValue<typeof presenceStatus> | null;
+  telephonyStatus?: GetPresenceInfo['telephonyStatus'] | null;
+  userStatus?: GetPresenceInfo['userStatus'] | null;
   sequence?: number;
 }

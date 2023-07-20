@@ -2,13 +2,11 @@ import React from 'react';
 
 import { mount } from 'enzyme';
 
-import { StepFunction } from '@ringcentral-integration/test-utils';
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 import { RcThemeProvider } from '@ringcentral/juno';
 
-import {
-  SessionUpdatePanel,
-  SessionUpdatePanelProps,
-} from './SessionUpdatePanel';
+import type { SessionUpdatePanelProps } from './SessionUpdatePanel';
+import { SessionUpdatePanel } from './SessionUpdatePanel';
 
 let wrapper;
 const defaultSkillProfileList = [

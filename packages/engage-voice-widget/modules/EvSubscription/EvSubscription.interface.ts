@@ -1,5 +1,5 @@
-import { EvClient } from '../../lib/EvClient';
-import { EvTabManager } from '../EvTabManager';
+import type { EvClient } from '../../lib/EvClient';
+import type { EvTabManager } from '../EvTabManager';
 
 export interface State {
   //

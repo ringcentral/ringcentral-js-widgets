@@ -1,7 +1,7 @@
 import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 import { ModuleFactory } from '@ringcentral-integration/commons/lib/di';
 import { LocalForageStorage } from '@ringcentral-integration/commons/lib/LocalForageStorage';
-import normalizeNumber from '@ringcentral-integration/commons/lib/normalizeNumber';
+import { normalizeNumber } from '@ringcentral-integration/commons/lib/normalizeNumber';
 import RcModule from '@ringcentral-integration/commons/lib/RcModule';
 import { RingCentralClient } from '@ringcentral-integration/commons/lib/RingCentralClient';
 import '@ringcentral-integration/commons/lib/TabFreezePrevention';
@@ -327,7 +327,7 @@ const history =
       },
     },
     { provide: 'AuthOptions', useValue: { usePKCE: true } },
-    { provide: 'CRMCheck', useClass: TierChecker },
+    { provide: 'TierChecker', useClass: TierChecker },
     { provide: 'GenericMeeting', useClass: GenericMeeting },
     { provide: 'GenericMeetingUI', useClass: GenericMeetingUI },
   ],

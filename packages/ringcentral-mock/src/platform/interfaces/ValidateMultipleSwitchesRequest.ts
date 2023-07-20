@@ -1,4 +1,4 @@
-import { SwitchInfo } from './SwitchInfo';
+import type { SwitchInfo } from './SwitchInfo';
 
 export interface ValidateMultipleSwitchesRequest {
   /**

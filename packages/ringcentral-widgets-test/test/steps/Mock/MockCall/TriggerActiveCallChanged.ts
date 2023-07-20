@@ -1,6 +1,6 @@
-import { NormalizedSession } from '@ringcentral-integration/commons/interfaces/Webphone.interface';
-import { GetPresenceInfo } from '@ringcentral-integration/mock';
-import { StepFunction } from '../../../lib/step';
+import type { NormalizedSession } from '@ringcentral-integration/commons/interfaces/Webphone.interface';
+import type { GetPresenceInfo } from '@ringcentral-integration/mock';
+import type { StepFunction } from '../../../lib/step';
 
 interface TriggerActiveCallChangedProps {
   handler?: (eventData: GetPresenceInfo) => GetPresenceInfo;

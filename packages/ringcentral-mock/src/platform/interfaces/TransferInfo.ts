@@ -1,4 +1,4 @@
-import { TransferExtensionInfo } from './TransferExtensionInfo';
+import type { TransferExtensionInfo } from './TransferExtensionInfo';
 
 export interface TransferInfo {
   /**

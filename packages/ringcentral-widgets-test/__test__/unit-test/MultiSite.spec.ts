@@ -1,4 +1,4 @@
-import { IContact } from '@ringcentral-integration/commons/interfaces/Contact.model';
+import type { IContact } from '@ringcentral-integration/commons/interfaces/Contact.model';
 import { phoneTypes } from '@ringcentral-integration/commons/enums/phoneTypes';
 import { getSearchForPhoneNumbers } from '@ringcentral-integration/commons/lib/contactHelper';
 

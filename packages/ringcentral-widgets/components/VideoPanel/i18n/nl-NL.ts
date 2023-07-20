@@ -19,7 +19,7 @@ export default {
   muteAudio: "Audio dempen voor deelnemers",
   turnOffCamera: "Camera uitschakelen voor deelnemers",
   requirePassword: "Wachtwoord vereisen",
-  useE2ee: "Gebruik end-to-end-codering",
+  useE2ee: "End-to-end-versleuteling gebruiken",
   e2eeTooltip: "Meetings die end-to-end versleuteld zijn, zijn het meest privé, maar functies als inbellen, ondertitels en opnemen zijn dan niet beschikbaar.",
   setPassword: "Wachtwoord instellen *",
   setPasswordNotSymbol: "Wachtwoord instellen",

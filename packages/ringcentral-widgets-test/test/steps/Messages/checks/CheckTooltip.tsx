@@ -1,4 +1,4 @@
-import { StepFunction } from '@ringcentral-integration/test-utils';
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 import { act, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 

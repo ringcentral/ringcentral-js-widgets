@@ -1,6 +1,6 @@
 /**
  * RCI-4348: EDP enable and send to message incorrect number
- * https://test_id_domain/test-cases/RCI-4348
+ * https://test_it_domain/test-cases/RCI-4348
  * Preconditions:
  * CTI app is integrated,
  * User is logged-in into 3rd party
@@ -33,7 +33,7 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
-import { StepProp } from '../../../../../../lib/step';
+import type { StepProp } from '../../../../../../lib/step';
 import { CommonLogin } from '../../../../../../steps/CommonLogin';
 import {
   CheckInvalidSmsPrompt,
@@ -64,7 +64,7 @@ export class MessageIncorrectNumber extends Step {
     return (
       <Scenario
         desc="EDP enable and send to message incorrect number"
-        action={({ maxExtensionLength }: any) => [
+        action={({ maxExtensionLength, parsedNumber }: any) => [
           CreateMock,
           <MockAccountInfo
             handler={(mockData) => {
@@ -78,6 +78,14 @@ export class MessageIncorrectNumber extends Step {
             responseCode={400}
           />,
           MockGetPhoneNumber,
+          <MockNumberParserV2
+            isDefaultInit={true}
+            handler={(mockData) => {
+              mockData.results[0].category = Category.Extension;
+              mockData.results[0].numberDetails.extensionNumber = parsedNumber;
+              return mockData;
+            }}
+          />,
         ]}
       >
         <Given desc="Login APP" action={Login} />
@@ -91,18 +99,7 @@ export class MessageIncorrectNumber extends Step {
           desc="> Input {dialing text} in 'To' filed
 										> Input test text in text box
 										> Click send button"
-          action={[
-            <MockNumberParserV2
-              isDefaultInit={false}
-              handler={(mockData) => {
-                mockData.results[0].category = Category.Extension;
-                mockData.results[0].numberDetails.extensionNumber =
-                  this.context.example.parsedNumber;
-                return mockData;
-              }}
-            />,
-            SendSMS,
-          ]}
+          action={[SendSMS]}
         />
         <Then
           desc="Check on the conversation page would prompt an error message : 'Please enter a valid phone number.'"

@@ -1,4 +1,5 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import { TOOLTIP_LONG_DELAY_TIME } from '../../../lib/toolTipDelayTime';
 import { Tooltip } from '../../Rcui/Tooltip';

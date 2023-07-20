@@ -3,8 +3,8 @@ import { EventEmitter } from 'events';
 import { RcModuleV2, watch } from '@ringcentral-integration/core';
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-import { DataFetcherV2ConsumerBaseDeps } from './DataFetcherV2Consumer.interface';
-import { DataSource } from './DataSource';
+import type { DataFetcherV2ConsumerBaseDeps } from './DataFetcherV2Consumer.interface';
+import type { DataSource } from './DataSource';
 import { sourceStatus } from './sourceStatus';
 
 export const baseEvents = ObjectMap.fromKeys(['dataReady']);

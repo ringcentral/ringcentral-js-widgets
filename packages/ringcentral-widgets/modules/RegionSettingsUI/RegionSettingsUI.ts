@@ -1,12 +1,12 @@
 import { Module } from '@ringcentral-integration/commons/lib/di';
-import {
-  RcUIModuleV2,
-  UIFunctions,
-  UIProps,
-} from '@ringcentral-integration/core';
+import type { UIFunctions, UIProps } from '@ringcentral-integration/core';
+import { RcUIModuleV2 } from '@ringcentral-integration/core';
 import { includes } from 'ramda';
 
-import { Deps, RegionSettingsUIPanelProps } from './RegionSettingsUI.interface';
+import type {
+  Deps,
+  RegionSettingsUIPanelProps,
+} from './RegionSettingsUI.interface';
 
 @Module({
   name: 'RegionSettingsUI',
@@ -42,7 +42,7 @@ export class RegionSettingsUI extends RcUIModuleV2<Deps> {
       canAreaCodeShow: (currentCountryCode) => {
         const isEDPEnabled = this._deps.appFeatures.isEDPEnabled;
         if (isEDPEnabled) {
-          return !includes(currentCountryCode, ['US', 'PR']);
+          return !includes(currentCountryCode, ['US', 'PR', 'CA']);
         }
         return includes(currentCountryCode, ['CA', 'US']);
       },

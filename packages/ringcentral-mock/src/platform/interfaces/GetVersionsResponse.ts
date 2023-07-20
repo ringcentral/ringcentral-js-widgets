@@ -1,4 +1,4 @@
-import { VersionInfo } from './VersionInfo';
+import type { VersionInfo } from './VersionInfo';
 
 export interface GetVersionsResponse {
   /**

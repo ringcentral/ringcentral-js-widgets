@@ -1,19 +1,21 @@
-import React, { FunctionComponent, useCallback, useRef } from 'react';
+import type { FunctionComponent } from 'react';
+import React, { useCallback, useRef } from 'react';
 
 import classNames from 'classnames';
 
 import { BasicCallInfo } from '@ringcentral-integration/widgets/components/BasicCallInfo';
-import CallLogPanel, {
-  CallLogPanelProps,
-} from '@ringcentral-integration/widgets/components/CallLogPanel';
-import { CallLogTitle } from '@ringcentral-integration/widgets/components/CallLogPanel/CallLog.interface';
+import type { CallLogPanelProps } from '@ringcentral-integration/widgets/components/CallLogPanel';
+import CallLogPanel from '@ringcentral-integration/widgets/components/CallLogPanel';
+import type { CallLogTitle } from '@ringcentral-integration/widgets/components/CallLogPanel/CallLog.interface';
 import { RcButton } from '@ringcentral/juno';
 
-import {
-  callLogMethods,
+import type {
   CallLogMethods,
   EvActivityCallUIFunctions,
   EvActivityCallUIProps,
+} from '../../interfaces/EvActivityCallUI.interface';
+import {
+  callLogMethods,
   saveStatus as saveStatusValue,
 } from '../../interfaces/EvActivityCallUI.interface';
 import { IvrInfo } from '../ActivityCallLogPanel/IvrInfo';

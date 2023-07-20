@@ -1,6 +1,6 @@
-import { GlipMessageAttachmentAuthorInfo } from './GlipMessageAttachmentAuthorInfo';
-import { GlipMessageAttachmentFieldsInfo } from './GlipMessageAttachmentFieldsInfo';
-import { GlipMessageAttachmentFootnoteInfo } from './GlipMessageAttachmentFootnoteInfo';
+import type { GlipMessageAttachmentAuthorInfo } from './GlipMessageAttachmentAuthorInfo';
+import type { GlipMessageAttachmentFieldsInfo } from './GlipMessageAttachmentFieldsInfo';
+import type { GlipMessageAttachmentFootnoteInfo } from './GlipMessageAttachmentFootnoteInfo';
 
 export interface GlipMessageAttachmentInfo {
   /**

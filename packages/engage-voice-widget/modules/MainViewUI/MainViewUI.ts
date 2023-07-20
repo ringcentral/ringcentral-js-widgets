@@ -2,12 +2,12 @@ import { Module } from '@ringcentral-integration/commons/lib/di';
 import { computed, RcUIModuleV2 } from '@ringcentral-integration/core';
 
 import { agentStatesColors } from '../../enums';
-import {
+import type {
   EvMainViewUIFunctions,
   EvMainViewUIProps,
 } from '../../interfaces/EvMainViewUI.interface';
 import { getClockByTimestamp } from '../../lib/getClockByTimestamp';
-import { Deps, MainView } from './MainViewUI.interface';
+import type { Deps, MainView } from './MainViewUI.interface';
 
 @Module({
   name: 'MainViewUI',

@@ -72,12 +72,18 @@ export default function init() {
 
   // Define a method to load Analytics.js from our CDN,
   // and that will be sure to only ever load it once.
-  analytics.load = function (key: string, options: any) {
+  analytics.load = function (
+    key: string,
+    options: any,
+    useLocalAnalyticsJS?: boolean,
+  ) {
     // Create an async script element based on your key.
     const script = document.createElement('script');
     script.type = 'text/javascript';
     script.async = true;
-    script.src = `https://cdn.segment.com/analytics.js/v1/${key}/analytics.min.js`;
+    script.src = useLocalAnalyticsJS
+      ? './analytics.min.js'
+      : `https://cdn.segment.com/analytics.js/v1/${key}/analytics.min.js`;
 
     // Insert our script next to the first script element.
     const first = document.getElementsByTagName('meta')[0];

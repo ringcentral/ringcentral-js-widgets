@@ -1,4 +1,4 @@
-import { PartyUpdateInfo } from './PartyUpdateInfo';
+import type { PartyUpdateInfo } from './PartyUpdateInfo';
 
 export interface PartyUpdateRequest {
   /**

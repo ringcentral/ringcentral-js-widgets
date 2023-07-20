@@ -1,4 +1,4 @@
-import { TaskResultInfo } from './TaskResultInfo';
+import type { TaskResultInfo } from './TaskResultInfo';
 
 export interface AutomaticLocationUpdatesTaskInfo {
   /**

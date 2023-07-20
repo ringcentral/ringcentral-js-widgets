@@ -1,6 +1,6 @@
 import { lighten, palette2, setOpacity } from '@ringcentral/juno';
 
-import { CssModuleVariable } from '../Brand';
+import type { CssModuleVariable } from '../Brand';
 
 const mainColor = palette2('nav', 'menuBg');
 

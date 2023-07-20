@@ -5,7 +5,8 @@ import { act } from 'react-dom/test-utils';
 
 import { RcThemeProvider } from '@ringcentral/juno';
 
-import { ManualEntryPanel, ManualEntryPanelProps } from './ManualEntryPanel';
+import type { ManualEntryPanelProps } from './ManualEntryPanel';
+import { ManualEntryPanel } from './ManualEntryPanel';
 
 let wrapper;
 const currentLocale = 'en-US';

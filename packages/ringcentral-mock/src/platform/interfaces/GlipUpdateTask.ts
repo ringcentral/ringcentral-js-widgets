@@ -1,6 +1,6 @@
-import { AssigneeInfo } from './AssigneeInfo';
-import { GlipTaskRecurrenceInfo } from './GlipTaskRecurrenceInfo';
-import { GlipAttachmentInfoRequest } from './GlipAttachmentInfoRequest';
+import type { AssigneeInfo } from './AssigneeInfo';
+import type { GlipTaskRecurrenceInfo } from './GlipTaskRecurrenceInfo';
+import type { GlipAttachmentInfoRequest } from './GlipAttachmentInfoRequest';
 
 export interface GlipUpdateTask {
   /**

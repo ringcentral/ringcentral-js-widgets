@@ -14,7 +14,7 @@ export default {
   [webphoneErrors.holdError]: "No se puede poner la llamada en espera en este momento.",
   [webphoneErrors.flipError]: "No se puede traspasar la llamada. Inténtelo de nuevo más tarde.",
   [webphoneErrors.recordError]: "No puede grabar la llamada en este momento. Código de error: {errorCode}.",
-  [webphoneErrors.pauseRecordError]: "Lo sentimos, no pudimos dejar de grabar la llamada. Inténtelo de nuevo más tarde.",
+  [webphoneErrors.pauseRecordError]: "Lo sentimos, no pudimos dejar de grabar la llamada. Vuelva a intentarlo más tarde.",
   [webphoneErrors.recordDisabled]: "Su cuenta no incluye la función para grabar llamadas. Póngase en contacto con el administrador de su cuenta.",
   [webphoneErrors.transferError]: "No se puede transferir la llamada. Inténtelo de nuevo más tarde.",
   [webphoneMessages.parked]: "Su llamada se ha puesto en espera en la ubicación siguiente: {parkedNumber}",

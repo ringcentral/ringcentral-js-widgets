@@ -4,9 +4,8 @@ import classnames from 'classnames';
 import status from '@ringcentral-integration/commons/modules/GlipPosts/status';
 
 import defaultAvatar from '../../assets/images/default_avatar.png';
-import styles from './styles.scss';
-
 import GlipPostContent from '../GlipPostContent';
+import styles from './styles.scss';
 
 function PostAvatar({ creator, viewProfile }) {
   if (!creator) {

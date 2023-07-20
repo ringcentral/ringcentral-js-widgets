@@ -1,5 +1,5 @@
 export default {
-  title: "Mit Sprachnachricht antworten",
+  title: "Mit Sprachnachr. antworten",
   customMessage: "Benutzerdefinierte Nachricht",
   customMessagePlaceholder: "Benutzerdefinierte Nachricht eingeben"
 };

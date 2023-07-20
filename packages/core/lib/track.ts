@@ -1,4 +1,5 @@
-import { Descriptor, identifierKey, RcModuleV2 } from './RcModule';
+import type { Descriptor, RcModuleV2 } from './RcModule';
+import { identifierKey } from './RcModule';
 
 export interface IAnalytics {
   track(event: string, data?: any): void;

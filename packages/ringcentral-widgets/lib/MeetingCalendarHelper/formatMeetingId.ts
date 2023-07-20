@@ -5,7 +5,7 @@ function f1(str: string): Array<string> {
   return [str.slice(0, 4), str.slice(4)];
 }
 
-function formatMeetingId(str: string, delimiter: string = ' '): string {
+function formatMeetingId(str: string, delimiter = ' '): string {
   if (!str) {
     return '';
   }

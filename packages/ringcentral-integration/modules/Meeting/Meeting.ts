@@ -1,5 +1,7 @@
-import moment from 'moment';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
 import { filter, find, isEmpty, pick } from 'ramda';
+
 import type MeetingServiceInfoResource from '@rc-ex/core/lib/definitions/MeetingServiceInfoResource';
 import {
   action,
@@ -11,6 +13,7 @@ import {
 } from '@ringcentral-integration/core';
 import { DEFAULT_LOCALE } from '@ringcentral-integration/i18n';
 
+import { trackEvents } from '../../enums/trackEvents';
 import {
   comparePreferences,
   generateRandomPassword,
@@ -23,12 +26,12 @@ import {
   prunePreferencesObject,
   UTC_TIMEZONE_ID,
 } from '../../helpers/meetingHelper';
-import { IMeeting } from '../../interfaces/Meeting.interface';
+import { renameTurkey } from '../../helpers/renameTurkey';
+import type { IMeeting } from '../../interfaces/Meeting.interface';
 import background from '../../lib/background';
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
-import { trackEvents } from '../../enums/trackEvents';
-import { Analytics } from '../AnalyticsV2';
+import type { Analytics } from '../AnalyticsV2';
 import {
   ASSISTED_USERS_MYSELF,
   COMMON_SETTINGS,
@@ -71,6 +74,8 @@ import type {
 import { MeetingErrors } from './meetingErrors';
 import { meetingStatus } from './meetingStatus';
 
+dayjs.extend(utc);
+
 @Module({
   name: 'Meeting',
   deps: [
@@ -105,7 +110,7 @@ export class Meeting<T extends Deps = Deps>
   meeting: RcMMeetingModel | null = null;
 
   @state
-  isScheduling: boolean = false;
+  isScheduling = false;
 
   @state
   // including meetingId whose are in updating status
@@ -136,7 +141,7 @@ export class Meeting<T extends Deps = Deps>
   preferences: Partial<Preferences> = {};
 
   @state
-  isPreferencesChanged: boolean = false;
+  isPreferencesChanged = false;
 
   get extensionName(): string {
     // @ts-expect-error
@@ -872,7 +877,7 @@ export class Meeting<T extends Deps = Deps>
   }
 
   @proxify
-  async getExtensionInfo(extensionId: string = `${this.extensionId}`) {
+  async getExtensionInfo(extensionId = `${this.extensionId}`) {
     if (Number(extensionId) === this.extensionId) {
       return this._deps.extensionInfo.info;
     }
@@ -1096,7 +1101,7 @@ export class Meeting<T extends Deps = Deps>
         );
       const { invitation } = await apiResponse.json();
       return {
-        invitation,
+        invitation: renameTurkey(invitation),
       };
     } catch (ex) {
       console.warn('failed to get invitation', ex);
@@ -1204,14 +1209,12 @@ export class Meeting<T extends Deps = Deps>
         _schedule.startTime = this.enableCustomTimezone
           ? // @ts-expect-error
             schedule.startTime
-          : // @ts-expect-error
-            moment.utc(schedule.startTime).format();
+          : dayjs.utc(schedule?.startTime).format();
       }
       formatted.schedule = _schedule;
 
-      if (recurrence && recurrence.until) {
-        // @ts-expect-error
-        formatted.recurrence.until = moment.utc(recurrence.until).format();
+      if (recurrence && recurrence.until && formatted.recurrence) {
+        formatted.recurrence.until = dayjs.utc(recurrence.until).format();
       }
     }
 

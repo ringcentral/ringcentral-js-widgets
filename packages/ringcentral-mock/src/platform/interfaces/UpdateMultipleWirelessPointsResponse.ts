@@ -1,4 +1,4 @@
-import { BulkTaskInfoWiUpdate } from './BulkTaskInfoWiUpdate';
+import type { BulkTaskInfoWiUpdate } from './BulkTaskInfoWiUpdate';
 
 export interface UpdateMultipleWirelessPointsResponse {
   /**

@@ -1,13 +1,13 @@
 /**
  * RCI-3389: Outbound call - from ${BrandName} App(Jupiter)
- * https://test_id_domain/test-cases/RCI-3389
+ * https://test_it_domain/test-cases/RCI-3389
  * Preconditions:
  * User is logged-in into 3rd party
  * CTI app is integrated,
  * The user has logged in CTI app
  * User has installed {BrandNameApp}
  * RC: 'RingCentral App'
- * AT&T: 'AT&T Office@Hand'
+ * AT&T: 'Office@Hand'
  * BT:BT Cloud Work App
  * TELUS: TELUS Business Connect App
  * Avaya: Avaya Cloud APP
@@ -15,7 +15,7 @@
  *
   | Brand |Brand Name |Link |
   | RC |'RingCentral App' |'rcapp://r/call?number={phoneNumber}' |
-	| AT&T |'AT&T Office@Hand App' |'https://app.officeathand.att.com/r/call?number={phoneNumber}' |
+	| AT&T |'Office@Hand App' |'https://app.officeathand.att.com/r/call?number={phoneNumber}' |
 	| BT |'BT Cloud Work App' |'https://app.cloudwork.bt.com/r/call?number={phoneNumber}' |
 	| Telus |'Business Connect App' |'https://app.businessconnect.telus.com/r/call?number={phoneNumber}' |
 	| Avaya |'Avaya Cloud Office' |'https://app.cloudoffice.avaya.com/r/call?number={phoneNumber}' |
@@ -23,12 +23,12 @@
  * Settings > Calling > Make my calls with > {BrandName App }
  */
 
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p0,
   it,
   autorun,
   examples,
-  StepFunction,
   Scenario,
   Step,
   Then,
@@ -56,7 +56,9 @@ import {
   CreateMock,
   MockNumberParserV2,
   MockGetPhoneNumber,
+  MockDialingPlan,
 } from '../../../../../../../steps/Mock';
+import { generateDialPlanData } from '../../../../../../../__mock__/generateDialPlanData';
 
 const brandData = [
   {
@@ -66,7 +68,7 @@ const brandData = [
   },
   {
     brand: 'att',
-    brandName: 'AT&T Office@Hand App',
+    brandName: 'Office@Hand App',
     link: /https:\/\/app\.officeathand\.att\.com\/r\/call\?number=.+/,
   },
   {
@@ -179,17 +181,6 @@ export class RCI3389 extends Step {
               <SelectCallingSetting settingName={brandName} />,
               ClickSaveButton,
             ];
-          }}
-        />
-        <And
-          desc="when enter local number, need to set area code"
-          action={async ({ areaCode }: any) => {
-            return !areaCode ? null : (
-              <>
-                <NavigateTo path="/settings/region" />
-                <SetAreaCode areaCode={areaCode} />
-              </>
-            );
           }}
         />
         <And

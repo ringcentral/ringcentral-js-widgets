@@ -1,5 +1,5 @@
-import { GlipAPSInfo } from './GlipAPSInfo';
-import { GlipUnreadMessageCountInfo } from './GlipUnreadMessageCountInfo';
+import type { GlipAPSInfo } from './GlipAPSInfo';
+import type { GlipUnreadMessageCountInfo } from './GlipUnreadMessageCountInfo';
 
 // Apple notification data
 export interface GlipAPNSInfo {

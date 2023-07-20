@@ -1,7 +1,7 @@
 import { waitUntilTo } from '@ringcentral-integration/utils';
 import { screen } from '@testing-library/react';
 
-import { StepFunction } from '../../../../lib/step';
+import type { StepFunction } from '../../../../lib/step';
 
 const CheckBothCallRecording: StepFunction = async () => {
   expect(screen.queryByTestId('stopRecord')).toBeInTheDocument();

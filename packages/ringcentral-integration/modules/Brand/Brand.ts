@@ -8,8 +8,8 @@ import { DEFAULT_LOCALE } from '@ringcentral-integration/i18n';
 
 import { Module } from '../../lib/di';
 import { processI18n } from '../../lib/processI18n';
-import { Deps } from './Brand.interface';
-import { BrandConfig } from './BrandConfig.interface';
+import type { Deps } from './Brand.interface';
+import type { BrandConfig } from './BrandConfig.interface';
 import { processAssets } from './helpers';
 
 @Module({

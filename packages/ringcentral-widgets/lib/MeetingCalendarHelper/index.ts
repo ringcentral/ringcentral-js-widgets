@@ -1,9 +1,9 @@
-import { RcVDialInNumberObj } from '@ringcentral-integration/commons/interfaces/Rcv.model';
+import type { RcVDialInNumberObj } from '@ringcentral-integration/commons/interfaces/Rcv.model';
 import { format } from '@ringcentral-integration/utils';
 
 import { formatMeetingId } from './formatMeetingId';
 import i18n from './i18n';
-import {
+import type {
   CommonBrand,
   DialInSectionParams,
   FormatToHtmlOptions,
@@ -90,7 +90,7 @@ function replaceTextLinksToAnchors(input: string): string {
    */
   // https://stackoverflow.com/questions/19060460/url-replace-with-anchor-not-replacing-existing-anchors
 
-  const pattern: RegExp =
+  const pattern =
     /(?:(?:ht|f)tps?:\/\/|www)[^<>\]]+(?!\s*<\/a>)(?!"[^>]*>)(?=[\s!,?\]<]|$)/gim;
 
   return input.replace(pattern, ($0: string): string => {
@@ -98,8 +98,8 @@ function replaceTextLinksToAnchors(input: string): string {
   });
 }
 
-const htmlNewLine: string = '<br>';
-const htmlIndentation: string = '&nbsp;';
+const htmlNewLine = '<br>';
+const htmlIndentation = '&nbsp;';
 const htmlTabIndentation: string = htmlIndentation.repeat(4);
 
 function formatTextToHtml(
@@ -134,15 +134,12 @@ function formatTextToHtml(
   links.forEach((link) => {
     if (link) {
       const isPlantLink = typeof link === 'string';
-      const uri = isPlantLink ? (link as string) : (link as ParcelledLink).uri;
-      const text = isPlantLink
-        ? (link as string)
-        : (link as ParcelledLink).text;
-
-      if (uri && text) {
+      const uri = isPlantLink ? link : link.uri;
+      const text = isPlantLink ? link : link.text;
+      if (uri) {
         htmlContent = htmlContent.replace(
           uri,
-          `<a target="_blank" href="${uri}">${text}</a>`,
+          `<a target="_blank" href="${uri}">${text || uri}</a>`,
         );
       }
     }
@@ -180,7 +177,7 @@ function getBaseRcmTpl(
   const mobileDialingNumberTpl = serviceInfo.mobileDialingNumberTpl;
   const phoneDialingNumberTpl = serviceInfo.phoneDialingNumberTpl;
   const passwordTpl = getPasswordTpl(password, currentLocale);
-  const teleconference = brand.brandConfig.teleconference;
+  const teleconference = brand.brandConfig.teleconference?.toString() ?? '';
 
   const prefix = addNoModifyAlert
     ? `${i18n.getString('doNotModify', currentLocale)}\n`
@@ -207,7 +204,6 @@ function getBaseRcmTpl(
     formattedMsg: `${prefix}${formattedMsg}`,
     links: {
       joinUri,
-      // @ts-expect-error TS(2322): Type 'URL | undefined' is not assignable to type '... Remove this comment to see the full error message
       teleconference,
     },
   };

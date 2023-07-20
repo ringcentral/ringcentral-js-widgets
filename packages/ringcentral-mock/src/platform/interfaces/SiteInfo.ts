@@ -1,6 +1,6 @@
-import { ContactBusinessAddressInfo } from './ContactBusinessAddressInfo';
-import { RegionalSettings } from './RegionalSettings';
-import { OperatorInfo } from './OperatorInfo';
+import type { ContactBusinessAddressInfo } from './ContactBusinessAddressInfo';
+import type { RegionalSettings } from './RegionalSettings';
+import type { OperatorInfo } from './OperatorInfo';
 
 export interface SiteInfo {
   /**

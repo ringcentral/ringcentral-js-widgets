@@ -1,4 +1,4 @@
-import { UpdateWirelessPoint } from './UpdateWirelessPoint';
+import type { UpdateWirelessPoint } from './UpdateWirelessPoint';
 
 export interface UpdateMultipleWirelessPointsRequest {
   /**

@@ -1,3 +1,4 @@
+import type { StepProp } from '@ringcentral-integration/test-utils';
 import {
   p2,
   it,
@@ -8,7 +9,6 @@ import {
   Then,
   title,
   When,
-  StepProp,
 } from '@ringcentral-integration/test-utils';
 import { MockMessageSync, MockMessageList } from '../../../../../steps/Mock';
 import { TypeCharacter } from '../../../../../steps/Messages/actions/TypeCharacter';
@@ -23,7 +23,7 @@ import {
 } from '../../../../../__mock__/mockMessageListData';
 import { ForceContactMatch } from '../../../../../steps/ContactMatch';
 import { CheckMessageNumbers } from '../../../../../steps/Conversation/CheckMessageNumbers';
-import { Context } from '../../../../../interfaces';
+import type { Context } from '../../../../../interfaces';
 
 const faxList = [
   {
@@ -65,7 +65,7 @@ export class FaxContactMatchAndSearch3238 extends Step {
   CustomEntry: StepProp | null = null;
   CustomLogin: StepProp | null = null;
   CustomContactMatch: StepProp | null = null;
-  messageTabDataSign: string = 'Messages';
+  messageTabDataSign = 'Messages';
   defaultQueryType: 'title' | 'text' = 'title';
   @examples(`
     | phoneNumber    | contactMatch | currentName      | searchText   | searchResult                                                       |

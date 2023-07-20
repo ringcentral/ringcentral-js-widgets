@@ -4,7 +4,7 @@ export default {
   [phoneTypes.extension]: "Alanumero",
   [phoneTypes.home]: "Kotinumero",
   [phoneTypes.mobile]: "Matkapuhelin",
-  [phoneTypes.phone]: "puhelimelle",
+  [phoneTypes.phone]: "Puhelin",
   [phoneTypes.unknown]: "Tuntematon puhelintyyppi",
   [phoneTypes.company]: "Yrityksen numero",
   [phoneTypes.direct]: "Suora numero",

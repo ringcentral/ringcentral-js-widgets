@@ -3,7 +3,7 @@ export default {
   logCall: "记录通话",
   editLog: "编辑记录",
   select: "选择匹配记录",
-  OnHold: "保持",
+  OnHold: "暂候",
   Ringing: "正在振铃",
   CallConnected: "呼叫已接通",
   unknownUser: "未知用户",

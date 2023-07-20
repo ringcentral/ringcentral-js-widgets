@@ -1,8 +1,8 @@
 export default {
   title: "Região",
   NAOnlyMessage: "Defina o indicativo de zona. Este será utilizado para marcação local.",
-  MultiWithNAMessage: "Defina o país e o indicativo de zona da sua região. Estes serão utilizados para marcação local e para a formatação do número de telefone.",
-  MultiWithoutNAMessage: "Selecione o país onde se encontra. Este será utilizado para marcação local e para a formatação do número de telefone.",
+  MultiWithNAMessage: "Defina o país e o indicativo de zona da sua região. Será utilizado para a marcação local e para a formatação do número de telefone.",
+  MultiWithoutNAMessage: "Selecione o país onde se encontra. Será utilizado para a marcação local e para a formatação do número de telefone.",
   country: "País",
   areaCode: "Indicativo de zona",
   areaCodePlaceholder: "Introduzir indicativo de zona"

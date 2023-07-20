@@ -1,7 +1,7 @@
-import { AuthenticationScheme } from './AuthenticationScheme';
-import { BulkSupported } from './BulkSupported';
-import { Supported } from './Supported';
-import { FilterSupported } from './FilterSupported';
+import type { AuthenticationScheme } from './AuthenticationScheme';
+import type { BulkSupported } from './BulkSupported';
+import type { Supported } from './Supported';
+import type { FilterSupported } from './FilterSupported';
 
 export interface ServiceProviderConfig {
   /**

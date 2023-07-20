@@ -9,7 +9,8 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
-import { Call, callStatus, Recipient } from '../../modules/Call';
+import type { Recipient } from '../../modules/Call';
+import { Call, callStatus } from '../../modules/Call';
 import { mockModuleGenerator } from '../lib/mockModule';
 
 const getMockModule = () =>

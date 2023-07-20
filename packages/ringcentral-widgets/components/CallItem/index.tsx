@@ -12,7 +12,8 @@ import {
   isMissed,
   isRinging,
 } from '@ringcentral-integration/commons/lib/callLogHelpers';
-import formatNumber from '@ringcentral-integration/commons/lib/formatNumber';
+import { formatDuration } from '@ringcentral-integration/commons/lib/formatDuration';
+import { formatNumber } from '@ringcentral-integration/commons/lib/formatNumber';
 import parseNumber from '@ringcentral-integration/commons/lib/parseNumber';
 
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
@@ -20,7 +21,6 @@ import FaxInboundIcon from '../../assets/images/FaxInbound.svg';
 import FaxOutboundIcon from '../../assets/images/FaxOutbound.svg';
 import { checkShouldHideContactUser } from '../../lib/checkShouldHideContactUser';
 import { checkShouldHidePhoneNumber } from '../../lib/checkShouldHidePhoneNumber';
-import formatDuration from '../../lib/formatDuration';
 import ActionMenu from '../ActionMenu';
 import ContactDisplay from '../ContactDisplay';
 import DurationCounter from '../DurationCounter';

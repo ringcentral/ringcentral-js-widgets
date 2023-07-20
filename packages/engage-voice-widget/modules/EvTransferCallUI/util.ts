@@ -1,4 +1,4 @@
-import { EvDirectAgentListItem } from '../../lib/EvClient';
+import type { EvDirectAgentListItem } from '../../lib/EvClient';
 
 export const getInternalTransferName = ({
   firstName,

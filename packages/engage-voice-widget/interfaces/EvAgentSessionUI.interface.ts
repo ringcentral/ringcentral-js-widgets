@@ -1,6 +1,6 @@
-import { LoginTypes } from '../enums';
-import { EvAgent, EvAvailableSkillProfile } from '../lib/EvClient';
-import { AvailableQueue } from './SelectableQueue.interface';
+import type { LoginTypes } from '../enums';
+import type { EvAgent, EvAvailableSkillProfile } from '../lib/EvClient';
+import type { AvailableQueue } from './SelectableQueue.interface';
 
 export interface SkillProfile {
   label: string;

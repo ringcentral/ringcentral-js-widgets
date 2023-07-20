@@ -2,9 +2,10 @@ import React from 'react';
 
 import { presenceStatus } from '@ringcentral-integration/commons/enums/presenceStatus.enum';
 import { dndStatus } from '@ringcentral-integration/commons/modules/Presence';
-import { RcPresenceType } from '@ringcentral/juno';
+import type { RcPresenceType } from '@ringcentral/juno';
 
-import { PresenceItem, PresenceItemProps } from '../PresenceItem';
+import type { PresenceItemProps } from '../PresenceItem';
+import { PresenceItem } from '../PresenceItem';
 
 type UsePresenceItemsParams = {
   onChange: (type: RcPresenceType) => void;

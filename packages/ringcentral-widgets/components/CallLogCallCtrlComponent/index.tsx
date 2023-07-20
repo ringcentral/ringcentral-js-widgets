@@ -77,6 +77,7 @@ type CallLogCallCtrlComponentProps = {
   clickForwardTrack: (...args: any[]) => any;
   realOutboundCallStatus?: string;
   enableReply?: boolean;
+  allowPickupCall?: boolean;
 };
 const CallLogCallCtrlComponent: React.SFC<CallLogCallCtrlComponentProps> = (
   props,
@@ -117,6 +118,7 @@ const CallLogCallCtrlComponent: React.SFC<CallLogCallCtrlComponentProps> = (
     clickForwardTrack,
     warmTransferActiveTelephonySessionId,
     enableReply,
+    allowPickupCall,
   } = props;
 
   // reject conditions: call direction is inbound & call status is ringing
@@ -409,7 +411,11 @@ const CallLogCallCtrlComponent: React.SFC<CallLogCallCtrlComponentProps> = (
       </>
     );
   }
-  if (isWebRTCCall && isInComingCall && !onGoingActiveCalls) {
+  if (
+    (allowPickupCall || isWebRTCCall) &&
+    isInComingCall &&
+    !onGoingActiveCalls
+  ) {
     const forwardTitle = i18n.getString('forward', currentLocale);
     const onForward = (e: any) => {
       e.stopPropagation();
@@ -485,8 +491,9 @@ const CallLogCallCtrlComponent: React.SFC<CallLogCallCtrlComponentProps> = (
             iconY={125}
             className={classnames({
               [styles.button]: true,
+              [styles.buttonDisabled]: disableLinks || !isWebRTCCall,
             })}
-            disabled={disableLinks}
+            disabled={disableLinks || !isWebRTCCall}
             onClick={ignore}
           />
         </span>
@@ -525,10 +532,15 @@ const CallLogCallCtrlComponent: React.SFC<CallLogCallCtrlComponentProps> = (
       </div>
     );
   }
-  if (isWebRTCCall && onGoingActiveCalls && isInComingCall) {
+  if (
+    (allowPickupCall || isWebRTCCall) &&
+    isInComingCall &&
+    onGoingActiveCalls
+  ) {
     return (
       <div className={classnames(!isWide ? styles.classic : null, styles.root)}>
         <MoreActionWithIncomingCall
+          disableIgnore={!isWebRTCCall}
           // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
           currentLocale={currentLocale}
           // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message

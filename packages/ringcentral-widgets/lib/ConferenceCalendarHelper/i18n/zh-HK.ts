@@ -29,7 +29,7 @@ export default {
   meetingSettingsTitle: "{brand} Meetings - 設定",
   recurringMeeting: "定期會議",
   meetingOptions: "會議選項",
-  schedule: "安排時間",
+  schedule: "排程",
   // @ts-expect-error TS(1117): An object literal cannot have multiple properties ... Remove this comment to see the full error message
   settingsBtn: "設定"
 };

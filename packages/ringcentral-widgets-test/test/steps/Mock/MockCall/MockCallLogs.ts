@@ -1,4 +1,4 @@
-import { StepFunction } from '../../../lib/step';
+import type { StepFunction } from '../../../lib/step';
 
 interface MockCallLogProps {
   handler?: (callLog: any) => any;

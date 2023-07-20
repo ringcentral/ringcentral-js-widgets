@@ -1,4 +1,4 @@
-import { AgentSession } from './EvAgentSession.interface';
+import type { AgentSession } from './EvAgentSession.interface';
 
 export function tabManagerEnabled() {
   return function (target: any, key: string, descriptor: any) {

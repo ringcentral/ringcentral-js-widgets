@@ -1,5 +1,5 @@
+import type { FunctionComponent } from 'react';
 import React, {
-  FunctionComponent,
   useCallback,
   useEffect,
   useImperativeHandle,
@@ -9,6 +9,10 @@ import React, {
 } from 'react';
 
 import { phoneTypes } from '@ringcentral-integration/commons/enums/phoneTypes';
+import type {
+  ContactPresence,
+  IContact,
+} from '@ringcentral-integration/commons/interfaces/Contact.model';
 import {
   RcAvatar,
   RcIcon,
@@ -25,25 +29,22 @@ import {
 } from '@ringcentral/juno';
 import { Dial, UserDefault } from '@ringcentral/juno-icon';
 
-import {
-  ContactPresence,
-  IContact,
-} from '@ringcentral-integration/commons/interfaces/Contact.model';
-
 import { useCommunicationSetupContext } from '../../contexts';
-import {
+import type {
   ContactSearchPanelProps,
   IContactSearchItem,
 } from '../../modules/ContactSearchUI';
 import { getPresenceStatus } from '../../modules/ContactSearchUI/ContactSearchHelper';
-
+import type { GetPresenceFn } from '../../react-hooks/usePresence';
+import { usePresence } from '../../react-hooks/usePresence';
 import { validateValidChars } from '../CommunicationSetupPanel/helper';
 import { Tooltip } from '../Rcui/Tooltip';
 import { TextWithHighlight } from '../TextWithHighlight/TextWithHighlight';
-import { TabsEnum, TabsEnumType } from './ContactSearchPanelEnum';
+import type { TabsEnumType } from './ContactSearchPanelEnum';
+import { TabsEnum } from './ContactSearchPanelEnum';
 import { DoNotCallIndicator } from './DoNotCallIndicator';
 import { HelpTextSection } from './HelpTextSection';
-import i18n from './i18n';
+import i18n, { I18nKey } from './i18n';
 import {
   ContactName,
   DefaultIcon,
@@ -53,8 +54,6 @@ import {
   StyledTabsWrapper,
   TabText,
 } from './styles/ContactSearchPanel';
-
-import { GetPresenceFn, usePresence } from '../../react-hooks/usePresence';
 
 const getCountsRes = (counts: number) => (counts > 99 ? `99+` : counts);
 
@@ -78,7 +77,7 @@ const PrimaryAvatar = ({
   contact: IContact & { presence?: ContactPresence };
   needFetchPresence: boolean;
 }) => {
-  const [firstName, lastName] = name?.split(/\s+/);
+  const [firstName, lastName] = name?.split(/\s+/) || [];
   const presentAvatarName = useAvatarShortName({
     firstName,
     lastName,
@@ -270,10 +269,13 @@ export const ContactSearchPanel: FunctionComponent<ContactSearchPanelProps> = ({
     }: Pick<IContactSearchItem, 'phoneType' | 'phoneNumber' | 'type'>) => {
       let formattedPhoneType = phoneType;
       if (type === TabsEnum.personal) {
-        formattedPhoneType = i18n.getString(phoneType, currentLocale);
+        formattedPhoneType = i18n.getString(
+          phoneType as I18nKey,
+          currentLocale,
+        );
       } else if (type === TabsEnum.company) {
         formattedPhoneType = i18n.getString(
-          companyPhoneTypeMap[phoneType] || phoneType,
+          (companyPhoneTypeMap[phoneType] || phoneType) as I18nKey,
           currentLocale,
         );
       }

@@ -1,4 +1,5 @@
-import React, { Component, FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React, { Component } from 'react';
 
 import classnames from 'classnames';
 
@@ -28,7 +29,7 @@ import CircleButton from '../CircleButton';
 import ContactDisplay from '../ContactDisplay';
 import DurationCounter from '../DurationCounter';
 import MediaObject from '../MediaObject';
-import {
+import type {
   ActiveCallControlButtonsProps,
   ActiveCallItemProps,
   ActiveCallItemState,

@@ -1,9 +1,5 @@
-import React, {
-  ElementType,
-  FunctionComponent,
-  isValidElement,
-  useMemo,
-} from 'react';
+import type { ElementType, FunctionComponent } from 'react';
+import React, { isValidElement, useMemo } from 'react';
 
 import { format } from '@ringcentral-integration/utils';
 

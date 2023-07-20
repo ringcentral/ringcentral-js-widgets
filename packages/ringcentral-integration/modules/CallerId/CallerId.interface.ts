@@ -1,4 +1,4 @@
-import {
+import type {
   DataFetcherV2ConsumerBaseDeps,
   DataSourceBaseProps,
 } from '../DataFetcherV2';

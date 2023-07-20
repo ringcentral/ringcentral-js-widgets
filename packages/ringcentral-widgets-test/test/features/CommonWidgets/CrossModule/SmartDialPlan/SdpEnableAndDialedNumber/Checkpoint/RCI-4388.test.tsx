@@ -1,6 +1,6 @@
 /**
  * RCI-4388: Can call PSTN when dialed number match valid PSTN (DT>MEL)
- * https://test_id_domain/test-cases/RCI-4388
+ * https://test_it_domain/test-cases/RCI-4388
  * Preconditions:
  * CTI app is integrated,
  * User is logged-in to 3rd party
@@ -41,7 +41,7 @@ import {
   title,
   When,
 } from '@ringcentral-integration/test-utils';
-import { StepFunction } from '../../../../../../lib/step';
+import type { StepFunction } from '../../../../../../lib/step';
 import {
   CheckCallControlPage as BaseCheckCallControlPage,
   MakeCall,

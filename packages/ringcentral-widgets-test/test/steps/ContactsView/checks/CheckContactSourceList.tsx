@@ -1,16 +1,14 @@
 import { screen, within } from '@testing-library/react';
-import { StepFunction } from '../../../lib/step';
+import type { StepFunction } from '../../../lib/step';
+
+const DEFAULT_CONTACT_FILTER_OPTIONS = ['All', 'Company', 'Personal'];
 
 export const CheckContactSourceList: StepFunction<{
-  thirdPartyOption?: string;
+  options?: string[];
   selectedOption?: string;
-}> = async ({ thirdPartyOption, selectedOption }) => {
+}> = async ({ selectedOption, options = DEFAULT_CONTACT_FILTER_OPTIONS }) => {
   const contactSourceList = screen.getByTestId('contactSourceList');
   expect(contactSourceList).toBeInTheDocument();
-
-  expect(within(contactSourceList).getByText('All')).toBeInTheDocument();
-  expect(within(contactSourceList).getByText('Company')).toBeInTheDocument();
-  expect(within(contactSourceList).getByText('Personal')).toBeInTheDocument();
 
   if (selectedOption) {
     const container = screen.getByTestId('filterIconContainer');
@@ -21,9 +19,7 @@ export const CheckContactSourceList: StepFunction<{
     );
   }
 
-  if (thirdPartyOption) {
-    expect(
-      within(contactSourceList).getByText(thirdPartyOption),
-    ).toBeInTheDocument();
-  }
+  options.forEach((option) => {
+    expect(within(contactSourceList).getByText(option)).toBeInTheDocument();
+  });
 };

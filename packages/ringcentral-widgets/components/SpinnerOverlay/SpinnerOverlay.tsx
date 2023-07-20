@@ -1,4 +1,5 @@
-import React, { ComponentType, FunctionComponent, memo } from 'react';
+import type { ComponentType, FunctionComponent } from 'react';
+import React, { memo } from 'react';
 
 import classNames from 'classnames';
 

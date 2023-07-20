@@ -1,4 +1,4 @@
-import { Environment } from '../Environment';
+import type { Environment } from '../Environment';
 
 export interface ConnectivityMonitorOptions {
   /**

@@ -1,4 +1,4 @@
-// https://test_id_domain/test-cases/RCI-4591
+// https://test_it_domain/test-cases/RCI-4591
 
 import React from 'react';
 

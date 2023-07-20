@@ -1,13 +1,13 @@
-import { CallLoggerTriggerType } from '../../enums/callLoggerTriggerTypes';
-import { Entity } from '../../interfaces/Entity.interface';
-import { ActiveCall } from '../../interfaces/Presence.model';
-import { LogOptions as BaseLogOptions } from '../../lib/LoggerBase';
-import { ActivityMatcher } from '../ActivityMatcher';
-import { CallHistory, HistoryCall } from '../CallHistory';
-import { CallMonitor } from '../CallMonitor';
-import { ContactMatcher } from '../ContactMatcher';
-import { Storage } from '../Storage';
-import { TabManager } from '../TabManager';
+import type { CallLoggerTriggerType } from '../../enums/callLoggerTriggerTypes';
+import type { Entity } from '../../interfaces/Entity.interface';
+import type { ActiveCall } from '../../interfaces/Presence.model';
+import type { LogOptions as BaseLogOptions } from '../../lib/LoggerBase';
+import type { ActivityMatcher } from '../ActivityMatcher';
+import type { CallHistory, HistoryCall } from '../CallHistory';
+import type { CallMonitor } from '../CallMonitor';
+import type { ContactMatcher } from '../ContactMatcher';
+import type { Storage } from '../Storage';
+import type { TabManager } from '../TabManager';
 
 export interface CallLoggerOptions {
   autoLog?: boolean;

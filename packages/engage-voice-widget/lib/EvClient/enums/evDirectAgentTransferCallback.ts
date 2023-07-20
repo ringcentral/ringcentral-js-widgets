@@ -1,4 +1,4 @@
-import { EvDirectAgentTransferResponse } from '../interfaces';
+import type { EvDirectAgentTransferResponse } from '../interfaces';
 
 export type EvDirectAgentTransferCallback = (
   data: EvDirectAgentTransferResponse,

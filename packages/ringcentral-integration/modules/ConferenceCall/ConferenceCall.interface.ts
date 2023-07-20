@@ -1,18 +1,18 @@
 import type CallParty from '@rc-ex/core/lib/definitions/CallParty';
-import { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
+import type { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
 
-import calleeTypes from '../../enums/calleeTypes';
-import { NormalizedCall } from '../../interfaces/Call.interface';
-import { Entity } from '../../interfaces/Entity.interface';
-import { Alert } from '../Alert';
-import { AppFeatures } from '../AppFeatures';
-import { Auth } from '../Auth';
-import { AvailabilityMonitor } from '../AvailabilityMonitor';
-import { CallingSettings } from '../CallingSettings';
-import { Call } from '../Call';
-import { ConnectivityMonitor } from '../ConnectivityMonitor';
-import { ContactMatcher } from '../ContactMatcher';
-import { sessionStatus, Webphone } from '../Webphone';
+import type calleeTypes from '../../enums/calleeTypes';
+import type { NormalizedCall } from '../../interfaces/Call.interface';
+import type { Entity } from '../../interfaces/Entity.interface';
+import type { Alert } from '../Alert';
+import type { AppFeatures } from '../AppFeatures';
+import type { Auth } from '../Auth';
+import type { AvailabilityMonitor } from '../AvailabilityMonitor';
+import type { CallingSettings } from '../CallingSettings';
+import type { Call } from '../Call';
+import type { ConnectivityMonitor } from '../ConnectivityMonitor';
+import type { ContactMatcher } from '../ContactMatcher';
+import type { sessionStatus, Webphone } from '../Webphone';
 
 interface ConferenceCallOptions {
   pulling?: boolean;

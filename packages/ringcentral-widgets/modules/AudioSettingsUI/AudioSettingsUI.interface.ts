@@ -1,10 +1,10 @@
-import { AudioSettings } from '@ringcentral-integration/commons/modules/AudioSettings';
-import { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettings';
-import { CallMonitor } from '@ringcentral-integration/commons/modules/CallMonitor';
-import { Locale } from '@ringcentral-integration/commons/modules/Locale';
-import { Webphone } from '@ringcentral-integration/commons/modules/Webphone';
+import type { AudioSettings } from '@ringcentral-integration/commons/modules/AudioSettings';
+import type { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettings';
+import type { CallMonitor } from '@ringcentral-integration/commons/modules/CallMonitor';
+import type { Locale } from '@ringcentral-integration/commons/modules/Locale';
+import type { Webphone } from '@ringcentral-integration/commons/modules/Webphone';
 
-import { RouterInteraction } from '../RouterInteraction';
+import type { RouterInteraction } from '../RouterInteraction';
 
 export interface AudioSettingsUIOptions {
   //

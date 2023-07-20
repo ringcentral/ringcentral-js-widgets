@@ -1,12 +1,9 @@
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import { loginStatus } from '@ringcentral-integration/commons/modules/Auth';
-import {
-  RcUIModuleV2,
-  UIProps,
-  UIFunctions,
-} from '@ringcentral-integration/core';
+import type { UIProps, UIFunctions } from '@ringcentral-integration/core';
+import { RcUIModuleV2 } from '@ringcentral-integration/core';
 
-import {
+import type {
   Deps,
   LoginContainerProps,
   LoginUIPanelProps,

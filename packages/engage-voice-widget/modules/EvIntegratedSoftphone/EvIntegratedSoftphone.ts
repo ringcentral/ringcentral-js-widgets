@@ -9,17 +9,17 @@ import {
   storage,
 } from '@ringcentral-integration/core';
 import { format } from '@ringcentral-integration/utils';
-import { CustomRenderer } from '@ringcentral-integration/widgets/modules/ModalUI/ModalUI.interface';
+import type { CustomRenderer } from '@ringcentral-integration/widgets/modules/ModalUI/ModalUI.interface';
 
 import {
   dialoutStatuses,
   EvSoftphoneEvents,
   tabManagerEvents,
 } from '../../enums';
-import { EvSipRingingData } from '../../lib/EvClient';
+import type { EvSipRingingData } from '../../lib/EvClient';
 import { EvCallbackTypes } from '../../lib/EvClient/enums';
 import { audios } from './audios';
-import {
+import type {
   Deps,
   IntegratedSoftphone,
   ShowRingingModalProps,
@@ -345,7 +345,7 @@ class EvIntegratedSoftphone
     this._eventEmitter.on(EvCallbackTypes.SIP_RINGING, callback);
   }
 
-  async askAudioPermission(showMask: boolean = true) {
+  async askAudioPermission(showMask = true) {
     console.log('askAudioPermission~~', showMask);
     try {
       if (showMask) {

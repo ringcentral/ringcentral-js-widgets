@@ -1,8 +1,5 @@
-import {
-  applyPatches,
-  RcModuleV2,
-  usmAction,
-} from '@ringcentral-integration/core';
+import type { RcModuleV2 } from '@ringcentral-integration/core';
+import { applyPatches, usmAction } from '@ringcentral-integration/core';
 
 export const dropStates = (action: any) => {
   // In `_state`/`params`/`_inversePatches`, there may be a large amount of data that needs to be serialized from server to client.

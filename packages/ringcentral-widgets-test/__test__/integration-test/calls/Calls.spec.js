@@ -4,11 +4,11 @@ import ActiveCallList from '@ringcentral-integration/widgets/components/ActiveCa
 import { ActiveCallItem as ActiveCallItemV2 } from '@ringcentral-integration/widgets/components/ActiveCallItemV2';
 import ActiveCallsPanel from '@ringcentral-integration/widgets/components/ActiveCallsPanel';
 
-import { mockMultiActiveCalls } from './helper';
 import { initPhoneWrapper, tearDownWrapper } from '../shared';
+import { mockMultiActiveCalls } from './helper';
 
 beforeEach(async () => {
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 64000;
+  jest.setTimeout(64000);
 });
 
 describe('history', () => {

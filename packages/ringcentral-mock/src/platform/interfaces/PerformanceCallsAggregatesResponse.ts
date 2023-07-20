@@ -1,5 +1,5 @@
-import { ResponsePaging } from './ResponsePaging';
-import { PerformanceCallsData } from './PerformanceCallsData';
+import type { ResponsePaging } from './ResponsePaging';
+import type { PerformanceCallsData } from './PerformanceCallsData';
 
 export interface PerformanceCallsAggregatesResponse {
   /**

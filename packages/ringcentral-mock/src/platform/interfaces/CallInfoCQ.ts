@@ -1,5 +1,5 @@
-import { PrimaryCQInfo } from './PrimaryCQInfo';
-import { AdditionalCQInfo } from './AdditionalCQInfo';
+import type { PrimaryCQInfo } from './PrimaryCQInfo';
+import type { AdditionalCQInfo } from './AdditionalCQInfo';
 
 // Primary/additional CQ information
 export interface CallInfoCQ {

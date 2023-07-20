@@ -1,7 +1,7 @@
 import { DataMatcher } from '../../lib/DataMatcherV2';
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
-import { Deps } from './ActivityMatcher.interface';
+import type { Deps } from './ActivityMatcher.interface';
 
 @Module({
   name: 'ActivityMatcher',

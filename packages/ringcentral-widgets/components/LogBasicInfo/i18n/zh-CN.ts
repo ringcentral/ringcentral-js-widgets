@@ -12,7 +12,7 @@ export default {
   [telephonyStatuses.noCall]: "已断开连接",
   [telephonyStatuses.callConnected]: "已接通",
   [telephonyStatuses.ringing]: "正在振铃",
-  [telephonyStatuses.onHold]: "保持",
+  [telephonyStatuses.onHold]: "暂候",
   [telephonyStatuses.parkedCall]: "已寄存",
   [callResults.unknown]: "未知",
   [callResults.missed]: "未接",

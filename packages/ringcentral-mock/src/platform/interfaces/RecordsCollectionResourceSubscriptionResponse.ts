@@ -1,4 +1,4 @@
-import { SubscriptionInfo } from './SubscriptionInfo';
+import type { SubscriptionInfo } from './SubscriptionInfo';
 
 export interface RecordsCollectionResourceSubscriptionResponse {
   /**

@@ -7,32 +7,31 @@
     "type": "git",
     "url": "https://github.com/ringcentral/ringcentral-js-widget.git"
   },
-  "engines": {
-    "node": ">=8"
-  },
   "scripts": {
-    "gulp": "gulp --require @ringcentral-integration/babel-settings/lib/register.js",
-    "start": "yarn gulp devServer",
-    "dev-server": "yarn gulp devServer",
     "build-extension": "yarn gulp demoExtension",
-    "copy-config": "yarn gulp copyConfig"
+    "copy-config": "yarn gulp copyConfig",
+    "dev-server": "yarn gulp devServer",
+    "gulp": "gulp --require @ringcentral-integration/babel-settings/lib/register.js",
+    "start": "yarn gulp devServer"
   },
   "dependencies": {
-    "@rc-ex/core": "^0.14.0",
+    "@rc-ex/core": "^1.2.1",
+    "@ringcentral-integration/babel-settings": "*",
     "@ringcentral-integration/commons": "*",
     "@ringcentral-integration/core": "*",
-    "@ringcentral-integration/babel-settings": "*",
     "@ringcentral-integration/i18n": "*",
     "@ringcentral-integration/locale-loader": "*",
     "@ringcentral-integration/phone-number": "*",
     "@ringcentral-integration/utils": "*",
+    "@ringcentral-integration/widgets": "*",
     "@ringcentral/sdk": "^4.7.2",
     "@ringcentral/subscriptions": "^4.6.0",
     "autoprefixer": "^9.8.4",
     "babel-istanbul": "^0.12.1",
-    "babel-loader": "^8.2.2",
+    "babel-loader": "^9.1.2",
     "coveralls": "^3.0.4",
     "css-loader": "^2.1.1",
+    "dayjs": "^1.11.7",
     "file-loader": "^6.2.0",
     "fs-extra": "^10.1.0",
     "gulp": "^4.0.2",
@@ -41,10 +40,9 @@
     "gulp-sourcemaps": "^2.6.5",
     "identity-obj-proxy": "^3.0.0",
     "json-loader": "^0.5.7",
-    "sass": "^1.43.4",
-    "normalize-css": "^2.3.1",
-    "prop-types": "^15.7.2",
+    "moment": "^2.29.1",
     "postcss-loader": "^3.0.0",
+    "prop-types": "^15.7.2",
     "pubnub": "^4.29.11",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
@@ -53,11 +51,11 @@
     "react-router-redux": "^4.0.8",
     "react-svg-loader": "^3.0.3",
     "react-test-renderer": "^17.0.2",
-    "redux": "^4.0.5",
+    "redux": "^4.2.0",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
     "ringcentral-client": "^1.0.0-beta.2",
-    "@ringcentral-integration/widgets": "*",
+    "sass": "^1.43.4",
     "sass-loader": "^7.1.0",
     "source-map-loader": "^3.0.0",
     "style-loader": "^0.23.1",
@@ -67,5 +65,8 @@
     "webpack-dev-server": "^4.3.1",
     "yargs": "^17.1.1"
   },
-  "peerDependencies": {}
+  "peerDependencies": {},
+  "engines": {
+    "node": ">=14"
+  }
 }

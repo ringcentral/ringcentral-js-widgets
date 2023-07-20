@@ -1,8 +1,6 @@
-import {
-  CountryCode,
-  getCountryCallingCode,
-  parsePhoneNumber,
-} from 'libphonenumber-js';
+import type CountryInfoShortModel from '@rc-ex/core/lib/definitions/CountryInfoShortModel';
+import type { CountryCode } from 'libphonenumber-js';
+import { getCountryCallingCode, parsePhoneNumber } from 'libphonenumber-js';
 import { find, includes } from 'ramda';
 
 import {
@@ -17,7 +15,7 @@ import {
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
 import validateAreaCode from '../../lib/validateAreaCode';
-import { Deps, RegionSettingsData } from './RegionSettings.interface';
+import type { Deps, RegionSettingsData } from './RegionSettings.interface';
 import { regionSettingsMessages } from './regionSettingsMessages';
 
 @Module({
@@ -97,7 +95,7 @@ export class RegionSettings extends RcModuleV2<Deps> {
     that._deps.dialingPlan.plans,
     that._deps.extensionInfo.country,
   ])
-  get availableCountries() {
+  get availableCountries(): CountryInfoShortModel[] {
     const plans = this._deps.dialingPlan.plans;
     const country = this._deps.extensionInfo.country;
     if (plans && plans.length > 0) {
@@ -140,6 +138,13 @@ export class RegionSettings extends RcModuleV2<Deps> {
 
       this._setData({
         countryCode: country?.isoCode,
+        areaCode: '',
+      });
+    }
+
+    const isEDPEnabled = this._deps.appFeatures.isEDPEnabled;
+    if (isEDPEnabled && includes(this.countryCode, ['US', 'PR', 'CA'])) {
+      this._setData({
         areaCode: '',
       });
     }
@@ -209,16 +214,16 @@ export class RegionSettings extends RcModuleV2<Deps> {
     that._deps.appFeatures.isEDPEnabled,
     that._deps.extensionNumberAreaCode?.defaultAreaCode,
   ])
-  get defaultAreaCode(): string | null {
+  get defaultAreaCode() {
     const isEDPEnabled = this._deps.appFeatures.isEDPEnabled;
-    if (isEDPEnabled && includes(this.countryCode, ['US', 'PR'])) {
-      return null;
+    if (isEDPEnabled && includes(this.countryCode, ['US', 'PR', 'CA'])) {
+      return;
     }
 
-    if (this.areaCode) return this.areaCode;
+    if (this.areaCode) {
+      return this.areaCode;
+    }
 
-    const extensionAreaCode =
-      this._deps.extensionNumberAreaCode?.defaultAreaCode;
     const callingCode = getCountryCallingCode(this.countryCode as CountryCode);
     const { primaryNumber, mainCompanyNumber } =
       this._deps.extensionPhoneNumber;
@@ -233,6 +238,8 @@ export class RegionSettings extends RcModuleV2<Deps> {
     const canUseExtensionAreaCode =
       primaryNumberCallingCode === callingCode ||
       mainNumberCallingCode === callingCode;
-    return (canUseExtensionAreaCode && extensionAreaCode) || null;
+    if (canUseExtensionAreaCode) {
+      return this._deps.extensionNumberAreaCode?.defaultAreaCode;
+    }
   }
 }

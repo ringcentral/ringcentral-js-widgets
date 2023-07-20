@@ -1,6 +1,6 @@
 import extensionsListBody from '@ringcentral-integration/mock/src/platform/data/extensions.json';
 
-import { StepFunction } from '../../../lib/step';
+import type { StepFunction } from '../../../lib/step';
 
 interface MockExtensionsListProps {
   handler?: (extensionList: any) => any;

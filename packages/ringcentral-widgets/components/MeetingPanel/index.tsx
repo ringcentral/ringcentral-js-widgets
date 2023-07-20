@@ -1,10 +1,11 @@
 import 'react-widgets/dist/css/react-widgets.css';
 
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import { sleep } from '@ringcentral-integration/commons/utils';
+import { isSafari } from '@ringcentral-integration/utils';
 
-import isSafari from '../../lib/isSafari';
 import MeetingConfig from '../MeetingConfigs';
 import styles from './styles.scss';
 

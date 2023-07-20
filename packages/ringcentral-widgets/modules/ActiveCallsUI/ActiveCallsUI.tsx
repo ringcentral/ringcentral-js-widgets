@@ -3,22 +3,17 @@ import React from 'react';
 import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 import { isRingingInboundCall } from '@ringcentral-integration/commons/lib/callLogHelpers';
 import { Module } from '@ringcentral-integration/commons/lib/di';
-import formatNumber from '@ringcentral-integration/commons/lib/formatNumber';
-import {
-  ActiveSession,
-  isHolding,
-} from '@ringcentral-integration/commons/modules/ActiveCallControl';
+import { formatNumber } from '@ringcentral-integration/commons/lib/formatNumber';
+import type { ActiveSession } from '@ringcentral-integration/commons/modules/ActiveCallControl';
+import { isHolding } from '@ringcentral-integration/commons/modules/ActiveCallControl';
 import { callingModes } from '@ringcentral-integration/commons/modules/CallingSettings';
-import { SwitchCallActiveCallParams } from '@ringcentral-integration/commons/modules/Webphone';
+import type { SwitchCallActiveCallParams } from '@ringcentral-integration/commons/modules/Webphone';
 import { isOnHold } from '@ringcentral-integration/commons/modules/Webphone/webphoneHelper';
-import {
-  RcUIModuleV2,
-  UIFunctions,
-  UIProps,
-} from '@ringcentral-integration/core';
+import type { UIFunctions, UIProps } from '@ringcentral-integration/core';
+import { RcUIModuleV2 } from '@ringcentral-integration/core';
 
 import { ModalContent } from '../../components/ActiveCallItemV2';
-import {
+import type {
   ActiveCallsContainerProps,
   ActiveCallsPanelProps,
   Deps,
@@ -188,7 +183,7 @@ export class ActiveCallsUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
             this._deps.conferenceCall.closeMergingPair();
           }
 
-          this._deps.webphone.answer(sessionId, window?.runner?._standAlone);
+          this._deps.webphone.answer(sessionId);
         }
       },
       // @ts-expect-error TS(2322): Type '(sessionId: string, telephonySessionId: stri... Remove this comment to see the full error message

@@ -1,4 +1,4 @@
-import { ForwardingNumberInfoRulesCreateRuleRequest } from './ForwardingNumberInfoRulesCreateRuleRequest';
+import type { ForwardingNumberInfoRulesCreateRuleRequest } from './ForwardingNumberInfoRulesCreateRuleRequest';
 
 export interface RuleInfoCreateRuleRequest {
   /**

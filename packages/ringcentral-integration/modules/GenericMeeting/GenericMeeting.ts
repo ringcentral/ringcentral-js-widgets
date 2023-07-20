@@ -2,18 +2,23 @@ import { EventEmitter } from 'events';
 
 import { action, RcModuleV2, state } from '@ringcentral-integration/core';
 
-import { RcVideoAPI, RcVMeetingModel } from '../../interfaces/Rcv.model';
+import type { RcVideoAPI, RcVMeetingModel } from '../../interfaces/Rcv.model';
 import background from '../../lib/background';
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
-import { Meeting, RcMMeetingModel, ScheduleMeetingResponse } from '../Meeting';
-import { generateRandomPassword, RcVideo, RcVideoResponse } from '../RcVideo';
-import {
+import type {
+  Meeting,
+  RcMMeetingModel,
+  ScheduleMeetingResponse,
+} from '../Meeting';
+import type { RcVideo, RcVideoResponse } from '../RcVideo';
+import { generateRandomPassword } from '../RcVideo';
+import type {
   Deps,
-  MeetingEvents,
   ScheduledCallback,
   ScheduleModel,
 } from './GenericMeeting.interface';
+import { MeetingEvents } from './GenericMeeting.interface';
 import { genericMeetingStatus } from './genericMeetingStatus';
 
 @Module({
@@ -95,7 +100,7 @@ export class GenericMeeting<T extends Deps = Deps> extends RcModuleV2<T> {
   }
 
   @proxify
-  async updateMeetingSettings(meeting: ScheduleModel, patch: boolean = true) {
+  async updateMeetingSettings(meeting: ScheduleModel, patch = true) {
     if (this.isRCM) {
       this._deps.meeting.update(meeting as RcMMeetingModel);
     }
@@ -113,7 +118,9 @@ export class GenericMeeting<T extends Deps = Deps> extends RcModuleV2<T> {
     config?: { isAlertSuccess?: boolean },
     opener?: Window,
   ) {
-    let result: ScheduleMeetingResponse | RcVideoResponse;
+    let result: (ScheduleMeetingResponse | RcVideoResponse) & {
+      scheduleOriginalInfo: ScheduleModel;
+    };
     if (this.isRCM) {
       result = await this._deps.meeting.schedule(
         meeting as RcMMeetingModel,
@@ -138,6 +145,7 @@ export class GenericMeeting<T extends Deps = Deps> extends RcModuleV2<T> {
       return;
     }
     if (result) {
+      result.scheduleOriginalInfo = meeting;
       this._eventEmitter.emit(MeetingEvents.afterSchedule, result, opener);
     } else if (opener && opener.close) {
       opener.close();

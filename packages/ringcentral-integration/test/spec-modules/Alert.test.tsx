@@ -9,7 +9,8 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
-import { Alert, AlertItem, AlertOptions } from '../../modules/Alert';
+import type { AlertItem, AlertOptions } from '../../modules/Alert';
+import { Alert } from '../../modules/Alert';
 import { mockModuleGenerator } from '../lib/mockModule';
 
 const getMockModule = (instance: Alert) =>

@@ -1,17 +1,14 @@
 import { Module } from '@ringcentral-integration/commons/lib/di';
-import {
-  RcUIModuleV2,
-  UIFunctions,
-  UIProps,
-} from '@ringcentral-integration/core';
+import type { UIFunctions, UIProps } from '@ringcentral-integration/core';
+import { RcUIModuleV2 } from '@ringcentral-integration/core';
 
 import { AlertRenderer } from '../../components/AlertRenderer';
-import {
+import type {
   NotificationMessage,
   NotificationPanelProps,
 } from '../../components/NotificationPanel/NotificationPanel.interface';
-import { NotificationContainerProps } from '../../containers/NotificationContainer/NotificationContainer.interface';
-import { Deps } from './AlertUI.interface';
+import type { NotificationContainerProps } from '../../containers/NotificationContainer/NotificationContainer.interface';
+import type { Deps } from './AlertUI.interface';
 
 @Module({
   name: 'AlertUI',

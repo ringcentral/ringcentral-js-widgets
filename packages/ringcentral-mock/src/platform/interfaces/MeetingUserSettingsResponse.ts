@@ -1,6 +1,6 @@
-import { UserMeetingRecordingSetting } from './UserMeetingRecordingSetting';
-import { ScheduleUserMeetingInfo } from './ScheduleUserMeetingInfo';
-import { TelephonyUserMeetingSettings } from './TelephonyUserMeetingSettings';
+import type { UserMeetingRecordingSetting } from './UserMeetingRecordingSetting';
+import type { ScheduleUserMeetingInfo } from './ScheduleUserMeetingInfo';
+import type { TelephonyUserMeetingSettings } from './TelephonyUserMeetingSettings';
 
 export interface MeetingUserSettingsResponse {
   /**

@@ -1,6 +1,6 @@
-import { StepFunction } from '@ringcentral-integration/test-utils';
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 import { screen, fireEvent } from '@testing-library/react';
-import { render } from '@ringcentral-integration/test-utils/lib/test-utils';
+import { render } from '@ringcentral-integration/test-utils';
 import React from 'react';
 import { PresenceSettingSection } from '../../../components/PresenceSettingSection';
 

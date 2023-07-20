@@ -1,5 +1,5 @@
-import { DeviceInfoRequest } from './DeviceInfoRequest';
-import { SIPInfoRequest } from './SIPInfoRequest';
+import type { DeviceInfoRequest } from './DeviceInfoRequest';
+import type { SIPInfoRequest } from './SIPInfoRequest';
 
 export interface CreateSipRegistrationRequest {
   /**

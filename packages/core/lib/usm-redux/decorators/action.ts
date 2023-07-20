@@ -1,6 +1,7 @@
 /* eslint-disable func-names */
-import { produceWithPatches, produce, Patch } from 'immer';
-import { Service, Action } from '../interface';
+import type { Patch } from 'immer';
+import { produceWithPatches, produce } from 'immer';
+import type { Service, Action } from '../interface';
 import { storeKey, identifierKey, usm } from '../constant';
 import { getPatchesToggle } from '../createStore';
 import { getStagedState, setStagedState } from '../utils/index';

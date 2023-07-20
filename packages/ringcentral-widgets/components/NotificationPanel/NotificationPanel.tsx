@@ -1,14 +1,15 @@
 // TODO: should use juno animation to do that
 import 'animate.css/animate.min.css';
 
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import type { FunctionComponent } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import classNames from 'classnames';
 
 import { useSleep } from '@ringcentral/juno';
 
 import { NotificationItem } from './NotificationItem';
-import {
+import type {
   NotificationMessage,
   NotificationPanelProps,
 } from './NotificationPanel.interface';

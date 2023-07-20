@@ -1,4 +1,4 @@
-import { ValidationError } from './ValidationError';
+import type { ValidationError } from './ValidationError';
 
 export interface SwitchValidated {
   /**

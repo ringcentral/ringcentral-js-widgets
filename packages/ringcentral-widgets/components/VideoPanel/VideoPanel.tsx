@@ -1,20 +1,22 @@
-import React, { FunctionComponent, useRef } from 'react';
+import type { FunctionComponent } from 'react';
+import React, { useRef } from 'react';
 
-import { RcVMeetingModel } from '@ringcentral-integration/commons/interfaces/Rcv.model';
-import {
+import type { RcVMeetingModel } from '@ringcentral-integration/commons/interfaces/Rcv.model';
+import type {
   AUTH_USER,
   RcvDelegator,
   RcvItemType,
 } from '@ringcentral-integration/commons/modules/RcVideo';
 import { sleep } from '@ringcentral-integration/commons/utils';
-import {
+import { isSafari } from '@ringcentral-integration/utils';
+import type {
   RcCheckboxProps,
   RcDatePickerSize,
   RcTimePickerSize,
 } from '@ringcentral/juno';
 
-import isSafari from '../../lib/isSafari';
-import { Topic, TopicRef } from '../InnerTopic';
+import type { TopicRef } from '../InnerTopic';
+import { Topic } from '../InnerTopic';
 import styles from './styles.scss';
 import { VideoConfig } from './VideoConfig';
 

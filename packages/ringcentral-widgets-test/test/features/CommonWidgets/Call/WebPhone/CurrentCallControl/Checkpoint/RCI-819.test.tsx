@@ -1,6 +1,6 @@
 /**
  * RCI-819: Current call control_hangup
- * https://test_id_domain/test-cases/RCI-819
+ * https://test_it_domain/test-cases/RCI-819
  * Preconditions:
  *
  * Entry point(/s):
@@ -8,6 +8,7 @@
  * 2. Make an outbound calland keep in active call page
  */
 
+import type { StepProp } from '@ringcentral-integration/test-utils';
 import {
   p0,
   it,
@@ -19,7 +20,6 @@ import {
   Then,
   title,
   When,
-  StepProp,
 } from '@ringcentral-integration/test-utils';
 
 import {

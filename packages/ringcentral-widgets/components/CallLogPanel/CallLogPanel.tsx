@@ -12,8 +12,8 @@ import NotificationSection from '../NotificationSection';
 import NotificationSectionV2 from '../NotificationSectionV2';
 import { SpinnerOverlay } from '../SpinnerOverlay';
 import WebRTCNotificationSection from '../WebRTCNotificationSection';
-import { CallLog } from './CallLog.interface';
-import { CallLogPanelProps } from './CallLogPanel.interface';
+import type { CallLog } from './CallLog.interface';
+import type { CallLogPanelProps } from './CallLogPanel.interface';
 import i18n from './i18n';
 import styles from './styles.scss';
 
@@ -352,7 +352,13 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
       return null;
     }
     if (isWebRTC) {
-      if (!call || !call.webphoneSession) return null;
+      if (
+        !call ||
+        !call.webphoneSession ||
+        call.webphoneSession.callStatus !== 'webphone-session-connecting'
+      ) {
+        return null;
+      }
       return (
         <WebRTCNotificationSection
           formatPhone={formatPhone}

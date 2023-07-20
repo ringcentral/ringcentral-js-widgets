@@ -4,7 +4,7 @@ export default {
   hangup: "挂断",
   reject: "拒绝",
   hold: "保持",
-  onHold: "保持",
+  onHold: "暂候",
   transfer: "转接",
   more: "更多",
   stopRecord: "停止录制",

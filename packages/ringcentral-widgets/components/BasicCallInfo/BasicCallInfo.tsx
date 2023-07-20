@@ -1,9 +1,5 @@
-import React, {
-  FunctionComponent,
-  MutableRefObject,
-  useEffect,
-  useState,
-} from 'react';
+import type { FunctionComponent, MutableRefObject } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import classNames from 'classnames';
 
@@ -14,9 +10,11 @@ import {
 } from '@ringcentral/juno-icon';
 
 import { AnimationPanel } from '../AnimationPanel';
-import { ShinyBar, ShinyBarProps } from '../LogBasicInfoV2/ShinyBar';
-import { BasicCallInfoMain, BasicCallInfoMainProps } from './BasicCallInfoMain';
-import { CallInfoProps } from './CallInfo';
+import type { ShinyBarProps } from '../LogBasicInfoV2/ShinyBar';
+import { ShinyBar } from '../LogBasicInfoV2/ShinyBar';
+import type { BasicCallInfoMainProps } from './BasicCallInfoMain';
+import { BasicCallInfoMain } from './BasicCallInfoMain';
+import type { CallInfoProps } from './CallInfo';
 import { CallInfoList } from './CallInfoList';
 import styles from './styles.scss';
 

@@ -1,6 +1,6 @@
 /**
  * RCI-4031: Check instructions for Schedule on Behalf
- * https://test_id_domain/test-cases/RCI-4031
+ * https://test_it_domain/test-cases/RCI-4031
  * Preconditions:
  * UserA has RCV permission
  * UserA Already installed and logged in CTI app
@@ -27,7 +27,7 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
-import { StepProp } from '../../../../../../lib/step';
+import type { StepProp } from '../../../../../../lib/step';
 import { CommonLogin } from '../../../../../../steps/CommonLogin';
 import {
   CheckRCVPageDisplay,

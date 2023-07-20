@@ -1,6 +1,6 @@
 import dedent from 'dedent';
-import parseLocaleFile from '.';
 import extractAnnotations from '../extractAnnotations';
+import parseLocaleFile from '.';
 
 describe('parseLocaleFile', () => {
   const source = dedent`

@@ -1,4 +1,5 @@
-import React, { FunctionComponent, useEffect, useRef } from 'react';
+import type { FunctionComponent } from 'react';
+import React, { useEffect, useRef } from 'react';
 
 import { emptyFn } from '@ringcentral-integration/utils';
 import { RcCheckbox, RcListItem, RcListItemText } from '@ringcentral/juno';

@@ -1,4 +1,4 @@
-import { ContactBusinessAddressInfo } from './ContactBusinessAddressInfo';
+import type { ContactBusinessAddressInfo } from './ContactBusinessAddressInfo';
 
 export interface AccountBusinessAddressResource {
   /**

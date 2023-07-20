@@ -1,9 +1,9 @@
-import { AccountOperatorInfo } from './AccountOperatorInfo';
-import { ServiceInfo } from './ServiceInfo';
-import { SignupInfoResource } from './SignupInfoResource';
-import { AccountStatusInfo } from './AccountStatusInfo';
-import { AccountRegionalSettings } from './AccountRegionalSettings';
-import { AccountLimits } from './AccountLimits';
+import type { AccountOperatorInfo } from './AccountOperatorInfo';
+import type { ServiceInfo } from './ServiceInfo';
+import type { SignupInfoResource } from './SignupInfoResource';
+import type { AccountStatusInfo } from './AccountStatusInfo';
+import type { AccountRegionalSettings } from './AccountRegionalSettings';
+import type { AccountLimits } from './AccountLimits';
 
 export interface GetAccountInfoResponse {
   /**

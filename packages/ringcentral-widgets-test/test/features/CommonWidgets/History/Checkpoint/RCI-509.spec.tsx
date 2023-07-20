@@ -1,6 +1,6 @@
 /**
  * RCI-509: Check call history section without calls
- * https://test_id_domain/test-cases/RCI-509
+ * https://test_it_domain/test-cases/RCI-509
  * Preconditions:
  * 1. RC CTI app was installed and enabled
  * 2. User has logged in to 3rd party
@@ -12,13 +12,13 @@
  *
  */
 import { screen } from '@testing-library/react';
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   autorun,
   Given,
   p2,
   Scenario,
   Step,
-  StepFunction,
   Then,
   title,
   When,

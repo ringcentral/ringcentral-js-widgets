@@ -2,10 +2,11 @@ import React from 'react';
 
 import { mount } from 'enzyme';
 
-import { StepFunction } from '@ringcentral-integration/test-utils';
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 import { RcThemeProvider } from '@ringcentral/juno';
 
-import { SettingsPanel, SettingsPanelProps } from '.';
+import type { SettingsPanelProps } from '.';
+import { SettingsPanel } from '.';
 
 let wrapper;
 const defaultSessionInfo = [

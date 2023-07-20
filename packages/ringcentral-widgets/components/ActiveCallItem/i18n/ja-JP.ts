@@ -8,7 +8,7 @@ export default {
   CallConnected: "通話を接続済み",
   unknownUser: "不明なユーザー",
   unknownNumber: "匿名",
-  unavailable: "利用不可",
+  unavailable: "連絡不可",
   viewDetails: "詳細を表示",
   addEntity: "新規作成",
   addLog: "ログ",

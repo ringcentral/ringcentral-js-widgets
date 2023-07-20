@@ -1,4 +1,4 @@
-import { APSInfo } from './APSInfo';
+import type { APSInfo } from './APSInfo';
 
 export interface IncomingCallEvent {
   /**

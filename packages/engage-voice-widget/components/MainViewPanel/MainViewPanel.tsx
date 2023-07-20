@@ -1,11 +1,13 @@
-import React, { FunctionComponent, useMemo } from 'react';
+import type { FunctionComponent } from 'react';
+import React, { useMemo } from 'react';
 
 import classNames from 'classnames';
 
-import { TabPropTypes } from '@ringcentral-integration/widgets/components/NavigationBar';
+import type { TabPropTypes } from '@ringcentral-integration/widgets/components/NavigationBar';
 import { Tooltip } from '@ringcentral-integration/widgets/components/Rcui/Tooltip';
 import TabNavigationView from '@ringcentral-integration/widgets/components/TabNavigationView';
-import { RcIcon, RcIconProps } from '@ringcentral/juno';
+import type { RcIconProps } from '@ringcentral/juno';
+import { RcIcon } from '@ringcentral/juno';
 import {
   Phone as phoneSvg,
   PhoneBorder as phoneBorderSvg,
@@ -20,7 +22,7 @@ import offHookSvgDisabled from '../../assets/icons/icon-pvc-disabled.svg';
 import offHookSvgDisconnecting from '../../assets/icons/icon-pvc-disconnecting.svg';
 import offHookSvgOff from '../../assets/icons/icon-pvc-off.svg';
 import offHookSvgOn from '../../assets/icons/icon-pvc-on.svg';
-import {
+import type {
   EvMainViewUIFunctions,
   EvMainViewUIProps,
 } from '../../interfaces/EvMainViewUI.interface';

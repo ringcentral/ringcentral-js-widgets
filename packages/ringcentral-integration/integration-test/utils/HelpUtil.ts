@@ -1,4 +1,4 @@
-import { Auth } from '../../modules/Auth';
+import type { Auth } from '../../modules/Auth';
 import { waitUntilTo } from '../../utils';
 
 export function containsErrorMessage(errorArray, errorMessageString) {

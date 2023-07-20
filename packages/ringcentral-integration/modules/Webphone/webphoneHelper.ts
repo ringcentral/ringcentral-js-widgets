@@ -1,5 +1,5 @@
 import callDirections from '../../enums/callDirections';
-import {
+import type {
   NormalizedSession,
   PartyData,
   WebphoneSession,
@@ -7,7 +7,7 @@ import {
 import { camelize } from '../../lib/di/utils/utils';
 import { recordStatus } from './recordStatus';
 import { sessionStatus } from './sessionStatus';
-import { WebphoneSessionRequestHeaders } from './Webphone.interface';
+import type { WebphoneSessionRequestHeaders } from './Webphone.interface';
 
 let environment: Window & typeof globalThis;
 if (typeof window !== 'undefined') {

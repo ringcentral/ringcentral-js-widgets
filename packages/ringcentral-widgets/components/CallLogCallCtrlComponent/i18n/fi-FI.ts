@@ -12,7 +12,7 @@ export default {
   showKeypad: "Näppäimistö",
   hideKeypad: "Piilota näppäimistö",
   unHold: "Poista pidosta",
-  forward: "Siirrä",
+  forward: "Lähetä edelleen",
   ignore: "Ohita",
   voicemail: "Vastaajaan",
   custom: "Mukautettu",

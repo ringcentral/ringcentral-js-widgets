@@ -1,5 +1,5 @@
-import { StepFunction } from '@ringcentral-integration/test-utils';
-import { waitForRenderReady } from '@ringcentral-integration/test-utils/lib/test-utils';
+import type { StepFunction } from '@ringcentral-integration/test-utils';
+import { waitForRenderReady } from '@ringcentral-integration/test-utils';
 import { screen } from '@testing-library/react';
 
 interface CheckActionMenuProps {
@@ -21,7 +21,6 @@ export const CheckActionMenu: StepFunction<CheckActionMenuProps> = async ({
   } else {
     expect(entityButton).not.toBeInTheDocument();
   }
-
   const callButton = screen.queryByTestId('Call');
   if (expectShowCallButton) {
     expect(callButton).toBeInTheDocument();

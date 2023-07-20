@@ -1,10 +1,10 @@
-import {
+import type {
   DataFetcherV2ConsumerBaseDeps,
   DataSourceBaseProps,
 } from '../DataFetcherV2';
-import { ExtensionFeatures } from '../ExtensionFeatures';
-import { Subscription } from '../Subscription';
-import { TabManager } from '../TabManager';
+import type { ExtensionFeatures } from '../ExtensionFeatures';
+import type { Subscription } from '../Subscription';
+import type { TabManager } from '../TabManager';
 
 export interface ExtensionPhoneNumberOptions extends DataSourceBaseProps {}
 

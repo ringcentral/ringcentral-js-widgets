@@ -18,7 +18,7 @@ export default {
   custom: "自訂",
   answerAndEnd: "接聽並結束",
   answerAndHold: "接聽並保留",
-  answer: "回答",
+  answer: "接聽",
   completeTransfer: "完成轉接",
   reply: "回覆"
 };

@@ -1,10 +1,7 @@
 import { Module } from '@ringcentral-integration/commons/lib/di';
-import {
-  RcUIModuleV2,
-  UIFunctions,
-  UIProps,
-} from '@ringcentral-integration/core';
-import { Deps, UserGuidePanelProps } from './UserGuideUI.interface';
+import type { UIFunctions, UIProps } from '@ringcentral-integration/core';
+import { RcUIModuleV2 } from '@ringcentral-integration/core';
+import type { Deps, UserGuidePanelProps } from './UserGuideUI.interface';
 
 @Module({
   name: 'UserGuideUI',

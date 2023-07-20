@@ -1,4 +1,5 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import classnames from 'classnames';
 
@@ -12,7 +13,7 @@ import {
 } from '@ringcentral/juno';
 
 import { CallHistoryActions } from '../CallHistoryActions';
-import { CallLog, CallLogMenu } from '../CallHistoryPanel.interface';
+import type { CallLog, CallLogMenu } from '../CallHistoryPanel.interface';
 import { CallIcon } from '../CallIcon';
 import styles from './styles.scss';
 

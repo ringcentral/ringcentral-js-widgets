@@ -1,19 +1,19 @@
-import { ComponentType } from 'react';
+import type { ComponentType } from 'react';
 
-import { AccountContacts } from '@ringcentral-integration/commons/modules/AccountContacts';
-import { AddressBook } from '@ringcentral-integration/commons/modules/AddressBook';
-import { ContactSearch } from '@ringcentral-integration/commons/modules/ContactSearch';
-import { AccountInfo } from '@ringcentral-integration/commons/modules/AccountInfo';
-import { Locale } from '@ringcentral-integration/commons/modules/Locale';
-import {
+import type { AccountContacts } from '@ringcentral-integration/commons/modules/AccountContacts';
+import type { AddressBook } from '@ringcentral-integration/commons/modules/AddressBook';
+import type { ContactSearch } from '@ringcentral-integration/commons/modules/ContactSearch';
+import type { AccountInfo } from '@ringcentral-integration/commons/modules/AccountInfo';
+import type { Locale } from '@ringcentral-integration/commons/modules/Locale';
+import type {
   ContactPresence,
   IContact,
 } from '@ringcentral-integration/commons/interfaces/Contact.model';
-import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
-import { Contacts } from '@ringcentral-integration/commons/modules/Contacts';
-import { RouterInteraction } from '../RouterInteraction';
-import { TabsEnumType } from '../../components/ContactSearchPanel/ContactSearchPanelEnum';
-import { GetPresenceFn } from '../../react-hooks/usePresence';
+import type { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
+import type { Contacts } from '@ringcentral-integration/commons/modules/Contacts';
+import type { RouterInteraction } from '../RouterInteraction';
+import type { TabsEnumType } from '../../components/ContactSearchPanel/ContactSearchPanelEnum';
+import type { GetPresenceFn } from '../../react-hooks/usePresence';
 
 export interface ContactSearchUIOptions {
   centered?: boolean;

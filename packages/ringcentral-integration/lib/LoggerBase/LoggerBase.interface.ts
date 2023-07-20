@@ -7,4 +7,6 @@ export interface Options {
   enableCache?: boolean;
 }
 
-export interface Deps {}
+export interface Deps {
+  //
+}

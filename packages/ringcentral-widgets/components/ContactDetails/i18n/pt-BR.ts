@@ -5,7 +5,7 @@ export default {
   [phoneTypes.extension]: "Ramal",
   [phoneTypes.direct]: "Direto",
   [phoneTypes.mobile]: "Dispositivo móvel",
-  [phoneTypes.contact]: "Tel. de cont.",
+  [phoneTypes.contact]: "Telefone de contato",
   [phoneTypes.home]: "Casa",
   [phoneTypes.business]: "Comercial",
   [phoneTypes.fax]: "Fax",
@@ -18,7 +18,7 @@ export default {
   [presenceStatus.available]: "Disponível",
   [presenceStatus.offline]: "Invisível",
   [presenceStatus.busy]: "Ocupado",
-  [dndStatus.doNotAcceptAnyCalls]: "Não perturbe",
+  [dndStatus.doNotAcceptAnyCalls]: "Não perturbar",
   notActivated: "Inativo",
   // @ts-expect-error TS(2733): Property 'company' was also declared here.
   company: "Empresa",

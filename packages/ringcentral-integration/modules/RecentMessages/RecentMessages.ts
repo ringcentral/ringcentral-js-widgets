@@ -7,16 +7,16 @@ import {
   watch,
 } from '@ringcentral-integration/core';
 
-import { Entity } from '../../interfaces/Entity.interface';
-import { Message, Messages } from '../../interfaces/MessageStore.model';
+import type { Entity } from '../../interfaces/Entity.interface';
+import type { Message, Messages } from '../../interfaces/MessageStore.model';
 import concurrentExecute from '../../lib/concurrentExecute';
 import { Module } from '../../lib/di';
 import getDateFrom from '../../lib/getDateFrom';
 import { sortByDate } from '../../lib/messageHelper';
 import { proxify } from '../../lib/proxy/proxify';
-import { MessageStoreConversations } from '../MessageStore';
+import type { MessageStoreConversations } from '../MessageStore';
 import { MessageStatus } from './messageStatus';
-import {
+import type {
   CleanUpMessagesOptions,
   Deps,
   FetchMessageListOptions,

@@ -1,6 +1,6 @@
-import { Alert } from '../Alert';
-import { Environment } from '../Environment';
-import { GlobalStorage } from '../GlobalStorage';
+import type { Alert } from '../Alert';
+import type { Environment } from '../Environment';
+import type { GlobalStorage } from '../GlobalStorage';
 
 export interface RateLimiterOptions {
   /**

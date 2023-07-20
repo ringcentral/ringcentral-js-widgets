@@ -26,7 +26,8 @@ export default {
   [messageSenderMessages.attachmentSizeLimitation]: "Bijlagen mogen niet groter zijn dan 1,5 MB.",
   [messageSenderMessages.noAttachmentToExtension]: "Het verzenden van mms naar een extensie wordt niet ondersteund.",
   areaCode: "netnummer",
-  [messageSenderMessages.sending]: "Bericht wordt verzonden. Het kan een paar minuten duren voordat dit voltooid is."
+  [messageSenderMessages.sending]: "Bericht wordt verzonden. Het kan een paar minuten duren voordat dit voltooid is.",
+  [messageSenderMessages.shortNumbersNotAvailable]: "Het verzenden van sms'jes naar korte nummers is niet beschikbaar."
 };
 
 // @key: @#@"[messageSenderMessages.sendSuccess]"@#@ @source: @#@"Send Success."@#@
@@ -56,3 +57,4 @@ export default {
 // @key: @#@"[messageSenderMessages.noAttachmentToExtension]"@#@ @source: @#@"It isn't supported to send MMS to an extension."@#@
 // @key: @#@"areaCode"@#@ @source: @#@"area code"@#@
 // @key: @#@"[messageSenderMessages.sending]"@#@ @source: @#@"Message being sent…It may take a couple of minutes to complete."@#@
+// @key: @#@"[messageSenderMessages.shortNumbersNotAvailable]"@#@ @source: @#@"Sending SMS to short numbers is not available."@#@

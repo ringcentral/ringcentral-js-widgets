@@ -1,13 +1,13 @@
-import type CountryInfo from '@rc-ex/core/lib/definitions/CountryInfo';
-import { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures';
-import { Auth } from '@ringcentral-integration/commons/modules/Auth';
-import { Locale } from '@ringcentral-integration/commons/modules/Locale';
-import {
+import type CountryInfoShortModel from '@rc-ex/core/lib/definitions/CountryInfoShortModel';
+import type { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures';
+import type { Auth } from '@ringcentral-integration/commons/modules/Auth';
+import type { Locale } from '@ringcentral-integration/commons/modules/Locale';
+import type {
   RegionSettings,
   RegionSettingsData,
 } from '@ringcentral-integration/commons/modules/RegionSettings';
 
-import { RouterInteraction } from '../RouterInteraction';
+import type { RouterInteraction } from '../RouterInteraction';
 
 export interface RegionSettingsUIOptions {}
 
@@ -22,7 +22,7 @@ export interface Deps {
 
 export interface RegionSettingsUIPanelProps {
   availableCountries: (
-    | CountryInfo
+    | CountryInfoShortModel
     | {
         id: string;
         isoCode: string;

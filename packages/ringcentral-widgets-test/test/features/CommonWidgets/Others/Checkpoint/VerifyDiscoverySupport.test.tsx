@@ -1,17 +1,17 @@
 import { fireEvent, screen, waitFor } from '@testing-library/react';
 
+import type { StepProp } from '../../../../lib/step';
 import {
   And,
   autorun,
   Given,
   Scenario,
   Step,
-  StepProp,
   Then,
   title,
   When,
 } from '../../../../lib/step';
-import { Context } from '../../../../interfaces';
+import type { Context } from '../../../../interfaces';
 import { CommonLogin } from '../../../../steps/CommonLogin';
 import { CreateInstance } from '../../../../steps/CreateInstance';
 import { CreateMock } from '../../../../steps/Mock';
@@ -57,7 +57,7 @@ export class VerifyDiscoverySupport extends Step {
           desc="Check Discovery External API has been called"
           action={async () => {
             expect(this.context.rcMock.fetchMock).toHaveFetched(
-              'http://platform.devtest.ringcentral.com/.well-known/entry-points/external',
+              'https://platform.devtest.ringcentral.com/.well-known/entry-points/external',
             );
           }}
         />

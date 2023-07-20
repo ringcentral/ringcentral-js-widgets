@@ -1,4 +1,4 @@
-import { UpdateDevicePhoneInfo } from './UpdateDevicePhoneInfo';
+import type { UpdateDevicePhoneInfo } from './UpdateDevicePhoneInfo';
 
 // Information on phone lines added to a device
 export interface DeviceUpdatePhoneLinesInfo {

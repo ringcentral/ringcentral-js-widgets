@@ -1,4 +1,5 @@
-import React, { FunctionComponent, useEffect, useRef, useState } from 'react';
+import type { FunctionComponent } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import classNames from 'classnames';
 
@@ -16,7 +17,7 @@ import { AnimationPanel } from '../AnimationPanel';
 import BackHeader from '../BackHeaderV2';
 import { Tooltip } from '../Rcui/Tooltip';
 import selectListI18n from '../SelectList/i18n';
-import { ListViewProps } from '../SelectList/ListView';
+import type { ListViewProps } from '../SelectList/ListView';
 import i18n from './i18n';
 import styles from './styles.scss';
 

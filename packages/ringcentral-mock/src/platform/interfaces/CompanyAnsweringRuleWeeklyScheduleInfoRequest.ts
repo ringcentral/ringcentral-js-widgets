@@ -1,4 +1,4 @@
-import { CompanyAnsweringRuleTimeIntervalRequest } from './CompanyAnsweringRuleTimeIntervalRequest';
+import type { CompanyAnsweringRuleTimeIntervalRequest } from './CompanyAnsweringRuleTimeIntervalRequest';
 
 // Weekly schedule. If specified, ranges cannot be specified
 export interface CompanyAnsweringRuleWeeklyScheduleInfoRequest {

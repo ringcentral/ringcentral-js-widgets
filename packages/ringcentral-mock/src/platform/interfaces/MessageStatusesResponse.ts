@@ -1,4 +1,4 @@
-import { MessageStatusCounts } from './MessageStatusCounts';
+import type { MessageStatusCounts } from './MessageStatusCounts';
 
 export interface MessageStatusesResponse {
   /**

@@ -1,5 +1,5 @@
-import qs from 'qs';
 import url from 'url';
+import qs from 'qs';
 
 /**
  * @function

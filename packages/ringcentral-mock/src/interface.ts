@@ -1,9 +1,10 @@
-import callDirections from '@ringcentral-integration/commons/enums/callDirections';
-import {
+import type callDirections from '@ringcentral-integration/commons/enums/callDirections';
+import type {
   NumberData,
   PartyStatusCode,
 } from '@ringcentral-integration/commons/integration-test/mock/telephonySessionBuilder';
-import { OpenAPIV3 } from 'openapi-types';
+import type { OpenAPIV3 } from 'openapi-types';
+import type { GetMessageInfoResponse } from './platform/interfaces';
 
 interface RedefinedSchema {
   additionalProperties?: boolean | SchemaObject;
@@ -64,4 +65,12 @@ export interface MessageProps {
   availability?: string;
   repeat?: number;
   conversationId?: string;
+  query?: MessageSyncQuery;
+  syncType?: 'ISync' | 'FSync';
+}
+
+export type SupportMessageType = GetMessageInfoResponse['type'];
+
+export interface MessageSyncQuery {
+  messageType?: SupportMessageType[] | SupportMessageType;
 }

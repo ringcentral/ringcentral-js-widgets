@@ -1,4 +1,4 @@
-import { GetCountryInfoConferencing } from './GetCountryInfoConferencing';
+import type { GetCountryInfoConferencing } from './GetCountryInfoConferencing';
 
 export interface PhoneNumberInfoConferencing {
   /**

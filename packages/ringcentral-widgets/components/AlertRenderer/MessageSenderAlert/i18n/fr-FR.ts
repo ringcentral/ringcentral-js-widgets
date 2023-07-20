@@ -26,7 +26,8 @@ export default {
   [messageSenderMessages.attachmentSizeLimitation]: "La taille des pièces jointes est limitée à 1,5 Mo.",
   [messageSenderMessages.noAttachmentToExtension]: "L’envoi de MMS à une extension n’est pas pris en charge.",
   areaCode: "indicatif",
-  [messageSenderMessages.sending]: "Message en cours d’envoi… Cela peut prendre quelques minutes."
+  [messageSenderMessages.sending]: "Message en cours d’envoi… Cela peut prendre quelques minutes.",
+  [messageSenderMessages.shortNumbersNotAvailable]: "L’envoi de SMS à des numéros courts n’est pas disponible."
 };
 
 // @key: @#@"[messageSenderMessages.sendSuccess]"@#@ @source: @#@"Send Success."@#@
@@ -56,3 +57,4 @@ export default {
 // @key: @#@"[messageSenderMessages.noAttachmentToExtension]"@#@ @source: @#@"It isn't supported to send MMS to an extension."@#@
 // @key: @#@"areaCode"@#@ @source: @#@"area code"@#@
 // @key: @#@"[messageSenderMessages.sending]"@#@ @source: @#@"Message being sent…It may take a couple of minutes to complete."@#@
+// @key: @#@"[messageSenderMessages.shortNumbersNotAvailable]"@#@ @source: @#@"Sending SMS to short numbers is not available."@#@

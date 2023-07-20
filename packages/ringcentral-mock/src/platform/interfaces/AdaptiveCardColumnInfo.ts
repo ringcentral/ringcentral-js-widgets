@@ -1,4 +1,4 @@
-import { AdaptiveCardColumnItemInfo } from './AdaptiveCardColumnItemInfo';
+import type { AdaptiveCardColumnItemInfo } from './AdaptiveCardColumnItemInfo';
 
 export interface AdaptiveCardColumnInfo {
   /**

@@ -1,6 +1,6 @@
-import { UserCallLogRecord } from './UserCallLogRecord';
-import { CallLogNavigationInfo } from './CallLogNavigationInfo';
-import { CallLogPagingInfo } from './CallLogPagingInfo';
+import type { UserCallLogRecord } from './UserCallLogRecord';
+import type { CallLogNavigationInfo } from './CallLogNavigationInfo';
+import type { CallLogPagingInfo } from './CallLogPagingInfo';
 
 export interface UserActiveCallsResponse {
   /**

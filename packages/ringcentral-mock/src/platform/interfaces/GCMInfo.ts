@@ -1,4 +1,4 @@
-import { GCMData } from './GCMData';
+import type { GCMData } from './GCMData';
 
 // GCM data
 export interface GCMInfo {

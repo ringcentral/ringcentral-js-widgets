@@ -1,8 +1,8 @@
-import {
+import type {
   DataFetcherV2ConsumerBaseDeps,
   DataSourceBaseProps,
 } from '../DataFetcherV2';
-import { ExtensionFeatures } from '../ExtensionFeatures';
+import type { ExtensionFeatures } from '../ExtensionFeatures';
 
 export interface DialingPlanOptions extends DataSourceBaseProps {}
 

@@ -1,6 +1,8 @@
-import React, { ComponentType } from 'react';
+import type { ComponentType } from 'react';
+import React from 'react';
 import { RcThemeProvider } from '@ringcentral/juno';
-import { render, RenderResult } from '@testing-library/react';
+import type { RenderResult } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import preview from 'jest-preview';
 
 type ReRender = (ui: React.ReactElement) => RenderResult;
@@ -38,15 +40,21 @@ type RenderComponent = <T>(
 export const renderComponent: RenderComponent = (
   Component,
   props,
-  { disableAutoThemeProvider = false } = {},
+  {
+    disableAutoThemeProvider = false,
+    container,
+  }: {
+    disableAutoThemeProvider?: boolean;
+    container?: HTMLElement;
+  } = {},
 ) => {
   const element = <Component {...props} />;
   let app: RenderResult;
-
+  const options = container ? { container } : {};
   if (disableAutoThemeProvider) {
-    app = render(element);
+    app = render(element, options);
   } else {
-    app = render(<RcThemeProvider>{element}</RcThemeProvider>);
+    app = render(<RcThemeProvider>{element}</RcThemeProvider>, options);
   }
   if (process.env.DEBUG === 'preview') {
     preview.debug();

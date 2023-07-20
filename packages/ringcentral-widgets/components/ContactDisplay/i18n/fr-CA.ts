@@ -1,5 +1,5 @@
 export default {
-  logging: "Connexion...",
+  logging: "Connexion…",
   logCall: "Journal des appels",
   editLog: "Modifier le journal",
   select: "Sélect. un enreg.",

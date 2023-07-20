@@ -1,12 +1,15 @@
-import React, { FC, useEffect, useMemo } from 'react';
+import type { FC } from 'react';
+import React, { useEffect, useMemo } from 'react';
 
 import classnames from 'classnames';
 
 import messageTypes from '@ringcentral-integration/commons/enums/messageTypes';
 
 import ComposeText from '../../assets/images/ComposeText.svg';
-import ConversationList, { ConversationListProps } from '../ConversationList';
-import { ButtonDefinition, Header } from '../Header';
+import type { ConversationListProps } from '../ConversationList';
+import ConversationList from '../ConversationList';
+import type { ButtonDefinition } from '../Header';
+import { Header } from '../Header';
 import { MessageTabButton } from '../MessageTabButton';
 import { NavigationBar } from '../NavigationBar';
 import { SpinnerOverlay } from '../SpinnerOverlay';

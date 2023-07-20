@@ -1,5 +1,5 @@
 import { phoneTypes } from '@ringcentral-integration/commons/enums/phoneTypes';
-import { IContact } from '@ringcentral-integration/commons/interfaces/Contact.model';
+import type { IContact } from '@ringcentral-integration/commons/interfaces/Contact.model';
 import { getFilterContacts } from '@ringcentral-integration/commons/lib/contactHelper';
 
 const contact1: IContact = {

@@ -1,7 +1,7 @@
 import { screen } from '@testing-library/react';
 
-import { StepFunction } from '../../../lib/step';
-import { RcvCheckboxDataSign } from '../../Meeting/Meeting.interface';
+import type { StepFunction } from '../../../lib/step';
+import type { RcvCheckboxDataSign } from '../../Meeting/Meeting.interface';
 
 export const TurnOnToggle: StepFunction<{
   dataSign: RcvCheckboxDataSign | string;

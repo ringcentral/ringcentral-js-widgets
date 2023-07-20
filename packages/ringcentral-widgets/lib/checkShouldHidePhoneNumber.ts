@@ -1,6 +1,6 @@
 import { filter, reduce } from 'ramda';
 
-import {
+import type {
   Entity,
   EntityPhoneNumberItem,
 } from '@ringcentral-integration/commons/interfaces/Entity.interface';

@@ -36,10 +36,7 @@ function mapToFunctions(_, { phone: { routerInteraction } }) {
 }
 
 const MainView = withPhone(
-  connect(
-    mapToProps,
-    mapToFunctions,
-  )(TabNavigationView),
+  connect(mapToProps, mapToFunctions)(TabNavigationView),
 );
 
 export default MainView;

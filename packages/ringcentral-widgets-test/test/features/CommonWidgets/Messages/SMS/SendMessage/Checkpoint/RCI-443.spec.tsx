@@ -1,6 +1,6 @@
 /**
  * RCI-443: Prompt user to enter area code if it isn't set before sending SMS to local number
- * https://test_id_domain/test-cases/RCI-443
+ * https://test_it_domain/test-cases/RCI-443
  * Preconditions:
  * User is logged in to the 3-rd party
  * CTI app is installed
@@ -22,6 +22,7 @@
 
 import { fireEvent, screen } from '@testing-library/react';
 
+import type { StepFunction, StepProp } from '../../../../../../lib/step';
 import {
   autorun,
   common,
@@ -31,8 +32,6 @@ import {
   p2,
   Scenario,
   Step,
-  StepFunction,
-  StepProp,
   Then,
   title,
   When,

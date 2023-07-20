@@ -1,6 +1,6 @@
 /**
  * RCI-820: Current call control_mute/unmute
- * https://test_id_domain/test-cases/RCI-820
+ * https://test_it_domain/test-cases/RCI-820
  * Preconditions:
  *
  * Entry point(/s):
@@ -8,6 +8,7 @@
  * 2. Make an outbound calland keep in active call page
  */
 
+import type { StepProp } from '@ringcentral-integration/test-utils';
 import {
   p1,
   it,
@@ -18,7 +19,6 @@ import {
   title,
   When,
   examples,
-  StepProp,
 } from '@ringcentral-integration/test-utils';
 import {
   MakeCall,

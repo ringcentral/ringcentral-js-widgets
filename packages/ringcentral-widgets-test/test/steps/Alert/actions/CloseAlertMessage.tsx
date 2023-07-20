@@ -1,4 +1,4 @@
-import { waitForRenderReady } from '@ringcentral-integration/test-utils/lib/test-utils';
+import { waitForRenderReady } from '@ringcentral-integration/test-utils';
 import {
   screen,
   waitFor,
@@ -6,7 +6,7 @@ import {
   queryByTestId,
   prettyDOM,
 } from '@testing-library/react';
-import { StepFunction } from '../../../lib/step';
+import type { StepFunction } from '../../../lib/step';
 
 export const CloseAlertMessage: StepFunction<{
   message?: string;

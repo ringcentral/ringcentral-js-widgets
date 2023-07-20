@@ -1,6 +1,6 @@
 /**
  * RCI-4318: Download fax
- * https://test_id_domain/test-cases/RCI-4318
+ * https://test_it_domain/test-cases/RCI-4318
  * Preconditions:
  * The user has logged into the CTI app with AI CDC off
  * The user has authorized 3rd party
@@ -24,7 +24,7 @@ import {
   title,
   When,
 } from '@ringcentral-integration/test-utils';
-import { StepProp } from '../../../../../../lib/step';
+import type { StepProp } from '../../../../../../lib/step';
 import { CommonLogin } from '../../../../../../steps/CommonLogin';
 import {
   CheckElementTitleById,
@@ -70,11 +70,12 @@ export class RCI4318 extends Step {
             <>
               <CreateMock />
               <MockMessageList
+                isDefaultInit
                 handler={(mockData) => ({
                   ...mockMessageListData(null),
                 })}
+                repeat={0}
               />
-              ,
               <MockMessageSync
                 useFaker
                 handler={() =>

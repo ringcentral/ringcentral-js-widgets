@@ -4,10 +4,9 @@ import classnames from 'classnames';
 
 import { getPostAbstract } from '../../lib/formatPost';
 
-import styles from './styles.scss';
-
 import GlipGroupAvatar from '../GlipGroupAvatar';
 import GlipGroupName from '../GlipGroupName';
+import styles from './styles.scss';
 
 function LatestPost({ latestPost, members }) {
   const isGroup = members.length > 2;

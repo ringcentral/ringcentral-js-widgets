@@ -20,7 +20,7 @@ export default {
   settingsBtn: "Configuración",
   saveAsDefaultAndNotShowAgain: "Guardar como predeterminado y no mostrar de nuevo",
   saveAsDefault: "Guardar como predeterminado",
-  done: "Finalizado",
+  done: "Listo",
   update: "Actualizar",
   conferenceSettingsTitle: "Configuración del servicio de conferencias de {brand}",
   videoSettingsTitle: "Configuración de {brand} Meetings",

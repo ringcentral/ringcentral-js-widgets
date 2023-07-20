@@ -1,4 +1,4 @@
-import { UserAnsweringRuleListNavigationPage } from './UserAnsweringRuleListNavigationPage';
+import type { UserAnsweringRuleListNavigationPage } from './UserAnsweringRuleListNavigationPage';
 
 export interface UserAnsweringRuleListNavigation {
   /**

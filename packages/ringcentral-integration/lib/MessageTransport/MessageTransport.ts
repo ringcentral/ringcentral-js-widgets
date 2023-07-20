@@ -1,13 +1,13 @@
 import * as uuid from 'uuid';
 
 import TransportBase from '../TransportBase';
-import { TransportBaseProps } from '../TransportBase/TransportBase';
-import { TransportResponseData } from '../TransportInteractionBase';
+import type { TransportBaseProps } from '../TransportBase/TransportBase';
+import type { TransportResponseData } from '../TransportInteractionBase';
+import type { TransporterDirection } from './MessageTransporters';
 import {
   EventEmitterTransporter,
   PostMessageTransporter,
   TRANSPORTER_DIRECTION,
-  TransporterDirection,
 } from './MessageTransporters';
 
 type MessageTransportListener<T = any, K = {}> = (params: {

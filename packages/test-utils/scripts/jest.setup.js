@@ -1,7 +1,7 @@
 /* global jest, __CI__ */
+import { URL } from 'url';
 import debug from 'debug';
 import preview from 'jest-preview';
-import { URL } from 'url';
 
 window.HTMLMediaElement.prototype.pause = () => {};
 window.HTMLMediaElement.prototype.play = async () => {};
@@ -18,7 +18,7 @@ Element.prototype.scrollIntoView = () => {};
   const fn = console[key];
   jest
     .spyOn(console, key)
-    .mockImplementation(__CI__ || process.env.DEBUG === 'log' ? () => {} : fn);
+    .mockImplementation(__CI__ || process.env.DEBUG ? () => {} : fn);
 });
 
 process.on('unhandledRejection', (error) => {
@@ -28,3 +28,13 @@ process.on('unhandledRejection', (error) => {
 global.log = debug('log');
 
 global.debugPreview = preview.debug;
+
+// mock performance optimization
+global.performance.mark = jest.fn();
+global.performance.measure = jest.fn().mockReturnValue({ duration: '' });
+
+global.ResizeObserver = jest.fn().mockImplementation(() => ({
+  observe: jest.fn(),
+  unobserve: jest.fn(),
+  disconnect: jest.fn(),
+}));

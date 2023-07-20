@@ -1,13 +1,13 @@
 import Module from '@ringcentral-integration/commons/lib/di/decorators/module';
-import formatNumber from '@ringcentral-integration/commons/lib/formatNumber';
-import {
-  RcUIModuleV2,
-  UIFunctions,
-  UIProps,
-} from '@ringcentral-integration/core';
+import { formatNumber } from '@ringcentral-integration/commons/lib/formatNumber';
+import type { UIFunctions, UIProps } from '@ringcentral-integration/core';
+import { RcUIModuleV2 } from '@ringcentral-integration/core';
 
-import { ComposeTextPanelProps } from '../../components/ComposeTextPanel';
-import { ComposeTextUIComponentProps, Deps } from './ComposeTextUI.interface';
+import type { ComposeTextPanelProps } from '../../components/ComposeTextPanel';
+import type {
+  ComposeTextUIComponentProps,
+  Deps,
+} from './ComposeTextUI.interface';
 
 /**
  * TODO: check type correctness after migrating to @rx-ex for client

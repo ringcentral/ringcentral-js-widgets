@@ -1,8 +1,9 @@
 /**
  * RCI-585: Search on the Messages list
- * https://test_id_domain/test-cases/RCI-585
+ * https://test_it_domain/test-cases/RCI-585
  */
 import { Login as CommonLogin } from '../../../../../steps/Login';
+import type { StepFunction } from '../../../../../lib/step';
 import {
   p2,
   autorun,
@@ -14,7 +15,6 @@ import {
   title,
   When,
   And,
-  StepFunction,
 } from '../../../../../lib/step';
 import {
   CreateMock as CommonCreateMock,

@@ -1,9 +1,10 @@
 /**
  * RCI-3564: Message unread count
- * https://test_id_domain/test-cases/RCI-3564
+ * https://test_it_domain/test-cases/RCI-3564
  */
 import { fireEvent, screen } from '@testing-library/react';
 import { Login as CommonLogin } from '../../../../steps/Login';
+import type { StepFunction } from '../../../../lib/step';
 import {
   p2,
   autorun,
@@ -15,7 +16,6 @@ import {
   title,
   When,
   And,
-  StepFunction,
 } from '../../../../lib/step';
 import {
   CreateMock as CommonCreateMock,
@@ -34,7 +34,7 @@ import {
   ClickMessageItemAndBack,
   ExpandTheActionMenu,
 } from '../../../../steps/Messages';
-import { Context } from '../../../../interfaces';
+import type { Context } from '../../../../interfaces';
 
 @autorun(test.skip)
 @p2

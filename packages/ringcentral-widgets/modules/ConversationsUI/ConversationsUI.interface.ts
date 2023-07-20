@@ -1,34 +1,34 @@
-import messageTypes from '@ringcentral-integration/commons/enums/messageTypes';
-import { Entity } from '@ringcentral-integration/commons/interfaces/Entity.interface';
-import { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures';
-import { Brand } from '@ringcentral-integration/commons/modules/Brand';
-import { Call } from '@ringcentral-integration/commons/modules/Call';
-import { ComposeText } from '@ringcentral-integration/commons/modules/ComposeText';
-import { ConnectivityMonitor } from '@ringcentral-integration/commons/modules/ConnectivityMonitor';
-import { ContactMatcher } from '@ringcentral-integration/commons/modules/ContactMatcher';
-import { ContactSearch } from '@ringcentral-integration/commons/modules/ContactSearch';
-import { ConversationLogger } from '@ringcentral-integration/commons/modules/ConversationLogger';
-import {
+import type messageTypes from '@ringcentral-integration/commons/enums/messageTypes';
+import type { Entity } from '@ringcentral-integration/commons/interfaces/Entity.interface';
+import type { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures';
+import type { Brand } from '@ringcentral-integration/commons/modules/Brand';
+import type { Call } from '@ringcentral-integration/commons/modules/Call';
+import type { ComposeText } from '@ringcentral-integration/commons/modules/ComposeText';
+import type { ConnectivityMonitor } from '@ringcentral-integration/commons/modules/ConnectivityMonitor';
+import type { ContactMatcher } from '@ringcentral-integration/commons/modules/ContactMatcher';
+import type { ContactSearch } from '@ringcentral-integration/commons/modules/ContactSearch';
+import type { ConversationLogger } from '@ringcentral-integration/commons/modules/ConversationLogger';
+import type {
   Conversations,
   CurrentConversation,
   FilteredConversation,
 } from '@ringcentral-integration/commons/modules/Conversations';
-import {
+import type {
   DateTimeFormat,
   FormatDateTimeOptions,
 } from '@ringcentral-integration/commons/modules/DateTimeFormat';
-import { ExtensionInfo } from '@ringcentral-integration/commons/modules/ExtensionInfo';
-import { Locale } from '@ringcentral-integration/commons/modules/Locale';
-import { MessageStore } from '@ringcentral-integration/commons/modules/MessageStore';
-import { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiter';
-import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
-import { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
-import { AccountInfo } from '@ringcentral-integration/commons/modules/AccountInfo';
-import { Message } from '@ringcentral-integration/commons/interfaces/MessageStore.model';
+import type { ExtensionInfo } from '@ringcentral-integration/commons/modules/ExtensionInfo';
+import type { Locale } from '@ringcentral-integration/commons/modules/Locale';
+import type { MessageStore } from '@ringcentral-integration/commons/modules/MessageStore';
+import type { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiter';
+import type { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
+import type { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
+import type { AccountInfo } from '@ringcentral-integration/commons/modules/AccountInfo';
+import type { Message } from '@ringcentral-integration/commons/interfaces/MessageStore.model';
 
-import { ReactNode } from 'react';
-import { ContactDetailsUI } from '../ContactDetailsUI';
-import { RouterInteraction } from '../RouterInteraction';
+import type { ReactNode } from 'react';
+import type { ContactDetailsUI } from '../ContactDetailsUI';
+import type { RouterInteraction } from '../RouterInteraction';
 
 export interface ConversationsUIOptions {
   //

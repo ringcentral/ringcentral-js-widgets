@@ -1,6 +1,6 @@
+import { wrap } from 'module';
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-import { wrap } from 'module';
 import FeedbackPanel from '@ringcentral-integration/widgets/components/FeedbackPanel';
 import { SettingsPanel } from '@ringcentral-integration/widgets/components/SettingsPanel';
 import NavigationBar from '@ringcentral-integration/widgets/components/NavigationBar';
@@ -14,7 +14,7 @@ describe('<FeedbackPanel />', () => {
   let wrapper = null;
   let panel = null;
   beforeEach(async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 64000;
+    jest.setTimeout(64000);
     wrapper = await getWrapper();
     const navigationBar = wrapper.find(NavigationBar).first();
     await navigationBar.props().goTo('/settings/feedback');

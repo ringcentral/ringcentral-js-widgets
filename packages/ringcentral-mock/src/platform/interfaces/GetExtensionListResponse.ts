@@ -1,6 +1,6 @@
-import { GetExtensionListInfoResponse } from './GetExtensionListInfoResponse';
-import { ProvisioningNavigationInfo } from './ProvisioningNavigationInfo';
-import { ProvisioningPagingInfo } from './ProvisioningPagingInfo';
+import type { GetExtensionListInfoResponse } from './GetExtensionListInfoResponse';
+import type { ProvisioningNavigationInfo } from './ProvisioningNavigationInfo';
+import type { ProvisioningPagingInfo } from './ProvisioningPagingInfo';
 
 export interface GetExtensionListResponse {
   /**

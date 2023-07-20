@@ -1,4 +1,5 @@
-import { createContext, MutableRefObject } from 'react';
+import type { MutableRefObject } from 'react';
+import { createContext } from 'react';
 
 export type SelectListContextValue = {
   scrollElmRef: MutableRefObject<any>;

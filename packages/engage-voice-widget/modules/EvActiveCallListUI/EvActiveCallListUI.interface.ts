@@ -1,13 +1,13 @@
-import { Locale } from '@ringcentral-integration/commons/modules/Locale';
-import RouterInteraction from '@ringcentral-integration/widgets/modules/RouterInteraction';
+import type { Locale } from '@ringcentral-integration/commons/modules/Locale';
+import type RouterInteraction from '@ringcentral-integration/widgets/modules/RouterInteraction';
 
-import { EvClient } from '../../lib/EvClient';
-import { EvActiveCallControl } from '../EvActiveCallControl';
-import { EvAgentSession } from '../EvAgentSession';
-import { EvAuth } from '../EvAuth';
-import { EvCall } from '../EvCall';
-import { EvCallMonitor } from '../EvCallMonitor';
-import { EvIntegratedSoftphone } from '../EvIntegratedSoftphone';
+import type { EvClient } from '../../lib/EvClient';
+import type { EvActiveCallControl } from '../EvActiveCallControl';
+import type { EvAgentSession } from '../EvAgentSession';
+import type { EvAuth } from '../EvAuth';
+import type { EvCall } from '../EvCall';
+import type { EvCallMonitor } from '../EvCallMonitor';
+import type { EvIntegratedSoftphone } from '../EvIntegratedSoftphone';
 
 interface State {
   //

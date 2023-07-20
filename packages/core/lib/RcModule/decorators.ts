@@ -1,10 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import {
-  storageStateKey,
-  globalStorageStateKey,
-  RcModuleV2,
-  stateKey,
-} from './RcModule';
+import type { RcModuleV2 } from './RcModule';
+import { storageStateKey, globalStorageStateKey, stateKey } from './RcModule';
 
 export interface Descriptor<T> extends TypedPropertyDescriptor<T> {
   initializer?(): T;

@@ -1,5 +1,5 @@
-import { GlipPostInfo } from './GlipPostInfo';
-import { GlipNavigationInfo } from './GlipNavigationInfo';
+import type { GlipPostInfo } from './GlipPostInfo';
+import type { GlipNavigationInfo } from './GlipNavigationInfo';
 
 export interface GlipPostsList {
   /**

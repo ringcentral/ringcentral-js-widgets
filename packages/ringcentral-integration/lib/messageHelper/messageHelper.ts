@@ -1,9 +1,11 @@
 import type GetMessageInfoResponse from '@rc-ex/core/lib/definitions/GetMessageInfoResponse';
 import type MessageAttachmentInfo from '@rc-ex/core/lib/definitions/MessageAttachmentInfo';
+import type MessageStoreCallerInfoResponseFrom from '@rc-ex/core/lib/definitions/MessageStoreCallerInfoResponseFrom';
+import type MessageStoreCallerInfoResponseTo from '@rc-ex/core/lib/definitions/MessageStoreCallerInfoResponseTo';
 
 import { messageTypes } from '../../enums/messageTypes';
-import { Message } from '../../interfaces/MessageStore.model';
-import {
+import type { Message } from '../../interfaces/MessageStore.model';
+import type {
   Correspondent,
   FaxAttachment,
   SortEntity,
@@ -70,7 +72,7 @@ export function getMyNumberFromMessage({
   message,
   myExtensionNumber,
 }: {
-  message: Message;
+  message: Pick<Message, 'direction' | 'from' | 'to' | 'type'>;
   myExtensionNumber: string;
 }) {
   if (!message) {
@@ -88,7 +90,13 @@ export function getMyNumberFromMessage({
     }
     return { extensionNumber: myExtensionNumber };
   }
-  return message.to && message.to.length >= 0 && message.to[0];
+
+  // Sometimes the target sender is not the 1st item of `to` filed in the message.
+  const targetToField = message.to;
+  if (targetToField && targetToField.length > 1) {
+    return targetToField.find((to) => to.target);
+  }
+  return (targetToField && targetToField[0]) || null;
 }
 
 export function uniqueRecipients(
@@ -105,21 +113,32 @@ export function uniqueRecipients(
   return Object.values(recipientMap);
 }
 
+type RecipientNumbers = MessageStoreCallerInfoResponseTo[] &
+  MessageStoreCallerInfoResponseFrom[];
 export function getRecipientNumbersFromMessage({
   message,
   myNumber,
 }: {
-  message: Message;
+  message: Pick<Message, 'direction' | 'from' | 'to' | 'type'>;
   myNumber: Correspondent;
-}) {
+}): RecipientNumbers {
   if (!message) {
     return [];
   }
+
   const fromRecipients = (message.from && [message.from]) || [];
+  const toRecipients = message.to || [];
+
   if (message.type === messageTypes.sms) {
     if (message.direction === 'Outbound') {
-      return message.to;
+      return toRecipients;
     }
+
+    if (toRecipients.length > 1) {
+      const toFieldWithoutMyNumber = filterNumbers(toRecipients, myNumber);
+      return [...toFieldWithoutMyNumber, ...fromRecipients];
+    }
+
     return fromRecipients;
   }
   const allRecipients = fromRecipients.concat(message.to!);
@@ -198,9 +217,23 @@ export function getNumbersFromMessage({
     (message.to && (Array.isArray(message.to) ? message.to : [message.to])) ||
     [];
   if (inbound) {
+    const targetToField =
+      toField.length > 1 ? toField.find((to) => to.target) : toField[0];
     return {
-      self: toField[0],
-      correspondents: fromField,
+      self: targetToField,
+      correspondents: [
+        // support group sms
+        ...fromField,
+        ...toField.filter(
+          (it) =>
+            (it.phoneNumber &&
+              targetToField?.phoneNumber &&
+              it.phoneNumber !== targetToField?.phoneNumber) ||
+            (targetToField?.extensionNumber &&
+              it.extensionNumber &&
+              it.extensionNumber !== targetToField.extensionNumber),
+        ),
+      ],
     };
   }
   return {
@@ -267,7 +300,7 @@ export function getMMSAttachments(
   return attachments.map((attachment) => {
     const uri = `${attachment.uri}?access_token=${decodeURIComponent(
       accessToken,
-    )}`;
+    )}&shouldCache=true`;
     return {
       ...attachment,
       uri,
@@ -281,12 +314,18 @@ export function getConversationId(record: GetMessageInfoResponse) {
   return conversationId?.toString();
 }
 
-export function sortByCreationTime<T extends { creationTime: number }>(
+export function sortByCreationTime<T extends { creationTime?: number }>(
   a: T,
   b: T,
 ) {
   if (a.creationTime === b.creationTime) return 0;
-  return a.creationTime > b.creationTime ? -1 : 1;
+
+  return a.creationTime &&
+    b.creationTime &&
+    // make sure creationTime exist
+    a.creationTime > b.creationTime
+    ? -1
+    : 1;
 }
 
 export function normalizeRecord(record: GetMessageInfoResponse): Message {
@@ -311,6 +350,15 @@ export function messageIsUnread(message: Message) {
   return (
     message.direction === 'Inbound' &&
     message.readStatus !== 'Read' &&
+    !messageIsDeleted(message)
+  );
+}
+
+export function directionlessMessageIsUnread(
+  message: Message & { preUpdateReadStatus?: Pick<Message, 'readStatus'> },
+) {
+  return (
+    (message.preUpdateReadStatus || message.readStatus) !== 'Read' &&
     !messageIsDeleted(message)
   );
 }

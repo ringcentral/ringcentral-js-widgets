@@ -1,8 +1,9 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import { RcIconButton } from '@ringcentral/juno';
 
-import { CallLogActionButton } from '../CallHistoryPanel.interface';
+import type { CallLogActionButton } from '../CallHistoryPanel.interface';
 
 export const ActionButton: FunctionComponent<CallLogActionButton> = ({
   icon,

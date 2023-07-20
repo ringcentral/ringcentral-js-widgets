@@ -1,10 +1,10 @@
+import path from 'path';
 import generate from '@babel/generator';
 import { parse } from '@babel/parser';
 import formatLocale from '@ringcentral-integration/i18n/lib/formatLocale';
 import chalk from 'chalk';
 import fs from 'fs-extra';
 import inquirer from 'inquirer';
-import path from 'path';
 import { filter, find, forEach, reduce } from 'ramda';
 
 import asyncForEach from '../asyncForEach';
@@ -16,26 +16,39 @@ import readXlfData from '../readXlfData';
 
 const prompt = inquirer.createPromptModule();
 
-function writeFiles({ localeData, sourceFolder, sourceLocale }) {
+const getAnnotations = (source) => {
+  const annotations = reduce(
+    (result, [key, value]) => {
+      result.push(
+        `// @key: @#@${JSON.stringify(key)}@#@ @source: @#@${JSON.stringify(
+          value,
+        )}@#@`,
+      );
+      return result;
+    },
+    [],
+    source,
+  ).join('\n');
+
+  return annotations;
+};
+
+function writeFiles({
+  localeData,
+  sourceFolder,
+  sourceLocale,
+  disableEslint = true,
+}) {
+  const eslint = disableEslint ? '/* eslint-disable */\n' : '';
   forEach((folderPath) => {
     forEach((locale) => {
       if (locale !== sourceLocale) {
         // write file
         const targetData = localeData[folderPath].files[locale];
         const { code } = generate(targetData.ast);
-        const annotations = reduce(
-          (result, [key, value]) => {
-            result.push(
-              `// @key: @#@${JSON.stringify(
-                key,
-              )}@#@ @source: @#@${JSON.stringify(value)}@#@`,
-            );
-            return result;
-          },
-          [],
-          targetData.annotations,
-        ).join('\n');
-        const output = `${code}\n\n${annotations}\n`;
+        const annotations = getAnnotations(targetData.annotations);
+
+        const output = `${eslint}${code}\n\n${annotations}\n`;
         fs.writeFileSync(
           path.resolve(sourceFolder, folderPath, targetData.file),
           output,
@@ -260,6 +273,7 @@ export default async function importLocale({
   interactive = defaultConfig.interactive,
   silent = defaultConfig.silent,
   json = false,
+  disableEslint = true,
   rawData,
 } = {}) {
   if (!supportedLocales) {
@@ -293,5 +307,6 @@ export default async function importLocale({
     localeData: mergedData,
     sourceFolder,
     sourceLocale,
+    disableEslint,
   });
 }

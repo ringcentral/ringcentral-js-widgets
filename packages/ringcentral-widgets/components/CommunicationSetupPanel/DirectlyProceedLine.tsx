@@ -1,4 +1,5 @@
-import React, { FunctionComponent, memo } from 'react';
+import type { FunctionComponent } from 'react';
+import React, { memo } from 'react';
 
 import {
   RcAvatar,

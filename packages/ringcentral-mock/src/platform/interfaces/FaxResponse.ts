@@ -1,6 +1,6 @@
-import { CallerInfoFrom } from './CallerInfoFrom';
-import { CallerInfoTo } from './CallerInfoTo';
-import { MessageAttachmentInfoIntId } from './MessageAttachmentInfoIntId';
+import type { CallerInfoFrom } from './CallerInfoFrom';
+import type { CallerInfoTo } from './CallerInfoTo';
+import type { MessageAttachmentInfoIntId } from './MessageAttachmentInfoIntId';
 
 export interface FaxResponse {
   /**

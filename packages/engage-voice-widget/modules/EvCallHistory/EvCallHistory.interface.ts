@@ -1,10 +1,10 @@
-import { ActivityMatcher } from '@ringcentral-integration/commons/modules/ActivityMatcher';
-import { ContactMatcher } from '@ringcentral-integration/commons/modules/ContactMatcher';
-import { Locale } from '@ringcentral-integration/commons/modules/Locale';
+import type { ActivityMatcher } from '@ringcentral-integration/commons/modules/ActivityMatcher';
+import type { ContactMatcher } from '@ringcentral-integration/commons/modules/ContactMatcher';
+import type { Locale } from '@ringcentral-integration/commons/modules/Locale';
 
-import { EvAgentSession } from '../EvAgentSession';
-import { EvCallMonitor } from '../EvCallMonitor';
-import { EvSubscription } from '../EvSubscription';
+import type { EvAgentSession } from '../EvAgentSession';
+import type { EvCallMonitor } from '../EvCallMonitor';
+import type { EvSubscription } from '../EvSubscription';
 
 export interface State {
   //

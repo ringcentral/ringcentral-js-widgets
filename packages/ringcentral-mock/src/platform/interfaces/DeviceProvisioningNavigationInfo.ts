@@ -1,4 +1,4 @@
-import { DeviceProvisioningNavigationInfoUri } from './DeviceProvisioningNavigationInfoUri';
+import type { DeviceProvisioningNavigationInfoUri } from './DeviceProvisioningNavigationInfoUri';
 
 // Information on navigation
 export interface DeviceProvisioningNavigationInfo {

@@ -1,6 +1,6 @@
 /**
  * RCI-4450: Another call when there is a conference call ongoing
- * https://test_id_domain/test-cases/RCI-4450
+ * https://test_it_domain/test-cases/RCI-4450
  * Preconditions:
  * The user has logged into 3rd party.
  * The user has logged into RC CTI App
@@ -15,12 +15,12 @@
 
  */
 
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p2,
   it,
   autorun,
   examples,
-  StepFunction,
   And,
   Scenario,
   Step,
@@ -28,6 +28,7 @@ import {
   title,
   When,
 } from '@ringcentral-integration/test-utils';
+import { waitForRenderReady } from '@ringcentral-integration/test-utils';
 
 import { CommonLogin } from '../../../../../../steps/CommonLogin';
 import {
@@ -40,6 +41,7 @@ import {
   MockNumberParserV2,
   MockGetTelephonyState,
   MockMessageSync,
+  MockGetPhoneNumber,
 } from '../../../../../../steps/Mock';
 import {
   ClickCallItemByLabel,
@@ -80,6 +82,7 @@ export class RCI4450 extends Step {
             MockNumberParserV2,
             MockGetTelephonyState,
             MockMessageSync,
+            MockGetPhoneNumber,
             Login,
             (_: any, { phone }: any) => {
               jest.spyOn(phone.webphone, 'answer');
@@ -123,9 +126,10 @@ export class RCI4450 extends Step {
             direction === 'Inbound' ? (
               <CallItemButtonBehavior callButtonBehaviorType="answerAndHold" />
             ) : (
-              () => {}
+              () => ({})
             ),
             TriggerActiveCallChanged,
+            waitForRenderReady,
           ]}
         />
         <Then

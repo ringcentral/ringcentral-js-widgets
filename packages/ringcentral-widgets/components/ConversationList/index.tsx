@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 
 import classnames from 'classnames';
 
-import MessageItem, { MessageItemProps } from '../MessageItem';
+import type { MessageItemProps } from '../MessageItem';
+import MessageItem from '../MessageItem';
 import i18n from './i18n';
 import styles from './styles.scss';
 

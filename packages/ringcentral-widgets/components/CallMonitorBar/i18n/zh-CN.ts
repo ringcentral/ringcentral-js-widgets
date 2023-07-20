@@ -4,8 +4,8 @@ export default {
   view: "查看",
   incomingCall: "{numberOf} 个呼入电话",
   incomingCalls: "{numberOf} 个呼入电话",
-  callOnHold: "{numberOf} 个呼叫等候接听",
-  callsOnHold: "{numberOf} 个呼叫等候接听",
+  callOnHold: "{numberOf} 个呼叫暂候",
+  callsOnHold: "{numberOf} 个呼叫暂候",
   otherDeviceCall: "其他设备上有 {numberOf} 个呼叫",
   otherDeviceCalls: "其他设备上有 {numberOf} 个呼叫"
 };

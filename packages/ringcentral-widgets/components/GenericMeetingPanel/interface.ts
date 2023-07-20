@@ -1,17 +1,17 @@
-import { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
 
-import { RcVMeetingModel } from '@ringcentral-integration/commons/interfaces/Rcv.model';
-import { BrandConfig } from '@ringcentral-integration/commons/modules/Brand';
-import {
+import type { RcVMeetingModel } from '@ringcentral-integration/commons/interfaces/Rcv.model';
+import type { BrandConfig } from '@ringcentral-integration/commons/modules/Brand';
+import type {
   RcmItemType,
   RcMMeetingModel,
 } from '@ringcentral-integration/commons/modules/Meeting';
-import {
+import type {
   AUTH_USER,
   RcvDelegator,
   RcvItemType,
 } from '@ringcentral-integration/commons/modules/RcVideo';
-import {
+import type {
   RcCheckboxProps,
   RcDatePickerSize,
   RcTimePickerSize,

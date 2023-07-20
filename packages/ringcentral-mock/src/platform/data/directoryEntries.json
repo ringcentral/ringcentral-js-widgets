@@ -8,7 +8,9 @@
       "lastName": "New",
       "email": "something+1646619921964-4284@kamino1646619920985.com",
       "extensionNumber": "101",
-      "account": { "id": "386516004" },
+      "account": {
+        "id": "386516004"
+      },
       "phoneNumbers": [
         {
           "phoneNumber": "+12055641589",
@@ -38,7 +40,9 @@
       "lastName": "RCV",
       "email": "rcv.rcv@kamino1646619920985.com",
       "extensionNumber": "102",
-      "account": { "id": "386516004" },
+      "account": {
+        "id": "386516004"
+      },
       "phoneNumbers": [
         {
           "phoneNumber": "+12055641612",
@@ -63,7 +67,9 @@
       "lastName": "RCV_ext3",
       "email": "rcv.rcv_ext3@kamino1646619920985.com",
       "extensionNumber": "103",
-      "account": { "id": "386516004" },
+      "account": {
+        "id": "386516004"
+      },
       "phoneNumbers": [
         {
           "phoneNumber": "+12055641648",

@@ -1,7 +1,8 @@
 import messageListBody from '@ringcentral-integration/commons/integration-test/mock/data/messageList.json';
-import {
+import type {
   GetMessageSyncResponse,
   GetMessageInfoResponse,
+  GetSMSMessageInfoResponse,
 } from '@ringcentral-integration/mock';
 import { v4 as uuidV4 } from 'uuid';
 
@@ -16,7 +17,11 @@ export type MessageListData = {
 export type IGenerateMessageRecordProps = Partial<GetMessageInfoResponse> & {
   toNumber?: string;
   toName?: string;
+  /** extension number */
+  fromExtNumber?: string;
+  /** @deprecated extension number, should use fromExtNumber instead */
   fromNumber?: string;
+  fromPhoneNumber?: string;
   fromName?: string;
   toNumbers?: string[];
 };
@@ -32,7 +37,9 @@ export const generateMessageRecord = (
     direction = 'Inbound',
     toNumber = '101',
     toName = 'ac New11',
-    fromNumber = '101',
+    fromExtNumber = '101',
+    fromNumber = fromExtNumber,
+    fromPhoneNumber = undefined,
     fromName = 'Something1 New1',
     conversationId,
     toNumbers,
@@ -60,6 +67,7 @@ export const generateMessageRecord = (
     to,
     from: {
       extensionNumber: fromNumber,
+      phoneNumber: fromPhoneNumber,
       name: fromName,
     },
     type,
@@ -72,7 +80,7 @@ export const generateMessageRecord = (
     messageStatus: direction === 'Inbound' ? 'Received' : 'Sent',
     creationTime: creationTime || new Date().toISOString(),
     lastModifiedTime: new Date().toISOString(),
-  };
+  } as GetSMSMessageInfoResponse;
 };
 
 export const mockMessageListData = (
@@ -80,7 +88,7 @@ export const mockMessageListData = (
 ) => {
   if (item === null) {
     return {
-      records: {},
+      records: [],
     };
   }
 
@@ -89,7 +97,7 @@ export const mockMessageListData = (
       generateMessageRecord({
         ...val,
         id: val.id ? val.id : new Date().getTime() + index,
-      }),
+      } as any),
     );
     return {
       records,

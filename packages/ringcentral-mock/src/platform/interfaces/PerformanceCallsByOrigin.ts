@@ -1,4 +1,4 @@
-import { CallsByOrigin } from './CallsByOrigin';
+import type { CallsByOrigin } from './CallsByOrigin';
 
 export interface PerformanceCallsByOrigin {
   /**

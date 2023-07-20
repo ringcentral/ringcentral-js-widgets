@@ -1,9 +1,9 @@
-import { Brand } from '@ringcentral-integration/commons/modules/Brand';
-import { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettings';
-import { Locale } from '@ringcentral-integration/commons/modules/Locale';
-import { Webphone } from '@ringcentral-integration/commons/modules/Webphone';
+import type { Brand } from '@ringcentral-integration/commons/modules/Brand';
+import type { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettings';
+import type { Locale } from '@ringcentral-integration/commons/modules/Locale';
+import type { Webphone } from '@ringcentral-integration/commons/modules/Webphone';
 
-import { RouterInteraction } from '../RouterInteraction';
+import type { RouterInteraction } from '../RouterInteraction';
 
 export interface CallingSettingsUIOptions {
   /**

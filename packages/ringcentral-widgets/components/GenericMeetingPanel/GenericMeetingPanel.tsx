@@ -1,16 +1,17 @@
 import React, { useRef } from 'react';
 
-import { RcVMeetingModel } from '@ringcentral-integration/commons/interfaces/Rcv.model';
-import { RcMMeetingModel } from '@ringcentral-integration/commons/modules/Meeting';
+import type { RcVMeetingModel } from '@ringcentral-integration/commons/interfaces/Rcv.model';
+import type { RcMMeetingModel } from '@ringcentral-integration/commons/modules/Meeting';
 import { sleep } from '@ringcentral-integration/commons/utils';
+import { isSafari } from '@ringcentral-integration/utils';
 
-import isSafari from '../../lib/isSafari';
-import { Topic, TopicRef } from '../InnerTopic';
+import type { TopicRef } from '../InnerTopic';
+import { Topic } from '../InnerTopic';
 import MeetingConfigs from '../MeetingConfigs';
 import { MeetingConfigs as MeetingConfigsV2 } from '../MeetingConfigsV2';
 import { SpinnerOverlay } from '../SpinnerOverlay';
 import { VideoConfig } from '../VideoPanel/VideoConfig';
-import { GenericMeetingPanelProps } from './interface';
+import type { GenericMeetingPanelProps } from './interface';
 import styles from './styles.scss';
 
 const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
@@ -251,7 +252,6 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
             if (!disabled) {
               await sleep(100);
               const opener = openNewWindow && isSafari() ? window.open() : null;
-
               const meetingSetting = isRCM
                 ? {
                     ...meeting,

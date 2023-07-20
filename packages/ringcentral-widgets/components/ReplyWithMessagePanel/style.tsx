@@ -33,7 +33,6 @@ export const ReplyOptionItem = styled(RcListItem)`
   }
 `;
 
-
 export const StyledCustomMessage = styled(RcTextarea)`
   padding: ${spacing(0, 4, 8, 4)};
   margin-top: ${spacing(14)};

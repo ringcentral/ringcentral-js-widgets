@@ -1,5 +1,5 @@
-import { MeetingResponseResource } from '@ringcentral-integration/mock';
-import { StepFunction } from '../../../lib/step';
+import type { MeetingResponseResource } from '@ringcentral-integration/mock';
+import type { StepFunction } from '../../../lib/step';
 
 type MeetingResponseResourceKey = keyof MeetingResponseResource;
 

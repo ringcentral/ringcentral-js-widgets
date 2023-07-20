@@ -1,6 +1,6 @@
-import { CallHistory } from '@ringcentral-integration/commons/modules/CallHistory';
-import { CallMonitor } from '@ringcentral-integration/commons/modules/CallMonitor';
-import { Storage } from '@ringcentral-integration/commons/modules/Storage';
+import type { CallHistory } from '@ringcentral-integration/commons/modules/CallHistory';
+import type { CallMonitor } from '@ringcentral-integration/commons/modules/CallMonitor';
+import type { Storage } from '@ringcentral-integration/commons/modules/Storage';
 
 export interface CallLogSectionCallStatus {
   isEdited: boolean;

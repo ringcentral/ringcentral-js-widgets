@@ -13,7 +13,7 @@ import {
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
 import { trackEvents } from '../../enums/trackEvents';
-import {
+import type {
   CarouselOptions,
   CarouselState,
   Deps,

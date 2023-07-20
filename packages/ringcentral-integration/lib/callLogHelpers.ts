@@ -1,4 +1,4 @@
-import moment from 'moment';
+import dayjs from 'dayjs';
 import { find, isEmpty, reduce } from 'ramda';
 
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
@@ -6,14 +6,16 @@ import {
   isSameLocalNumber,
   isValidNumber,
 } from '@ringcentral-integration/phone-number';
+import type ActiveCallInfoWithoutSIP from '@rc-ex/core/lib/definitions/ActiveCallInfoWithoutSIP';
 
 import { callActions } from '../enums/callActions';
 import callDirections from '../enums/callDirections';
-import { callResults, CallResultsKey } from '../enums/callResults';
+import type { CallResultsKey } from '../enums/callResults';
+import { callResults } from '../enums/callResults';
 import telephonyStatuses from '../enums/telephonyStatus';
 import { terminationTypes } from '../enums/terminationTypes';
-import { Call } from '../interfaces/Call.interface';
-import { ActiveCall } from '../interfaces/Presence.model';
+import type { Call } from '../interfaces/Call.interface';
+import type { ActiveCall } from '../interfaces/Presence.model';
 
 // import i18n from './i18n';
 
@@ -95,7 +97,7 @@ export function isOnHold(call: { telephonyStatus?: string } = {}) {
   return call.telephonyStatus === telephonyStatuses.onHold;
 }
 
-export function isIntermediateCall(call: Partial<ActiveCall> = {}) {
+export function isIntermediateCall(call: ActiveCallInfoWithoutSIP) {
   return call.terminationType === terminationTypes.intermediate;
 }
 
@@ -135,13 +137,13 @@ export function normalizeStartTime<T extends { startTime?: number | string }>(
     // Fix: Safari doesn't support timezone offset
     // `startTime` might switch between `2019-10-18T08:18:47.972+0000`
     // and `2019-10-18T08:18:47.972Z`
-    // moment construction using a non-iso string is deprecated
-    result.startTime = moment(new Date(item.startTime)).valueOf();
+    // dayjs construction using a non-iso string is deprecated
+    result.startTime = dayjs(new Date(item.startTime)).valueOf();
   }
   return result;
 }
 
-export function normalizeFromTo(call: ActiveCall) {
+export function normalizeFromTo(call: ActiveCallInfoWithoutSIP) {
   return {
     ...call,
     from:
@@ -233,7 +235,7 @@ export function removeInboundRingOutLegs(calls: ActiveCall[]) {
           inboundLeg: inbound,
         };
         // Handle inboundLeg.from is '+19072028624', but outboundLeg.to is '9072028624'
-        // https://jira.ringcentral.com/browse/RCINT-3127
+        // https://jira_domain/browse/RCINT-3127
         if (
           inbound.from &&
           // TODO: should confirm that type, not met
@@ -264,8 +266,10 @@ export function removeInboundRingOutLegs(calls: ActiveCall[]) {
   return output.concat(outbounds);
 }
 
-export function removeDuplicateIntermediateCalls(calls: ActiveCall[]) {
-  const resultCalls: ActiveCall[] = [];
+export function removeDuplicateIntermediateCalls(
+  calls: ActiveCallInfoWithoutSIP[],
+) {
+  const resultCalls: ActiveCallInfoWithoutSIP[] = [];
   const indexMap: Record<
     string,
     {

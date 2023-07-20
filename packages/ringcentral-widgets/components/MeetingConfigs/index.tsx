@@ -7,7 +7,7 @@ import Moment from 'moment';
 import momentLocalizer from 'react-widgets-moment';
 
 import { isRecurringMeeting } from '@ringcentral-integration/commons/helpers/meetingHelper';
-import { RcMMeetingModel } from '@ringcentral-integration/commons/modules/Meeting';
+import type { RcMMeetingModel } from '@ringcentral-integration/commons/modules/Meeting';
 
 import i18n from './i18n';
 import { MeetingDate } from './MeetingDate';

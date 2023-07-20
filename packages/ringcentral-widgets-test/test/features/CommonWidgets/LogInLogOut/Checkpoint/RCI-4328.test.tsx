@@ -1,6 +1,6 @@
 /**
  * RCI-4328: Check Account Access Restriction
- * https://test_id_domain/test-cases/RCI-4328
+ * https://test_it_domain/test-cases/RCI-4328
  * Preconditions:
  * The user has logged into 3rd party
  * The user hasn't login CTI app
@@ -8,8 +8,8 @@
  * (Enable AAR settings: AW > Click 'Login to Account' > More > Security and Compliance >Account Access Restriction)
  * 1.Login to SW > More > Security and Compliance >Account Access Restriction >Input the Realm ID> Click Save
  */
+import type { StepProp } from '@ringcentral-integration/test-utils';
 import {
-  StepProp,
   it,
   autorun,
   examples,
@@ -24,7 +24,7 @@ import {
 } from '@ringcentral-integration/test-utils';
 import { CommonLogin } from '../../../../steps/CommonLogin';
 import { CheckAlertMessage } from '../../../../steps/Alert';
-import { StepFunction } from '../../../../lib/step';
+import type { StepFunction } from '../../../../lib/step';
 import { MockPostOauthToken } from '../../../../steps/Mock/MockPostOauthToken';
 import {
   CreateMock,
@@ -32,7 +32,7 @@ import {
   MockGetPhoneNumber,
 } from '../../../../steps/Mock';
 import { CreateInstance } from '../../../../steps/CreateInstance';
-import { Context } from '../../../../interfaces';
+import type { Context } from '../../../../interfaces';
 
 export const AARRefresh: StepFunction = async (_, { rcMock, phone }) => {
   try {

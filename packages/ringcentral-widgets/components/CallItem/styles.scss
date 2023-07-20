@@ -36,7 +36,8 @@
   ); // temporary fix the issue, waiting for refacotring
   padding-left: 6px;
   padding-right: 8px;
-  box-sizing: border-box; // Add bellow style if you have calllog button on callitem
+  box-sizing: border-box;
+  // Add below style if you have calllog button on callitem
   // max-width: calc(100% - 23px - 21px);
   overflow: hidden;
   text-overflow: ellipsis;

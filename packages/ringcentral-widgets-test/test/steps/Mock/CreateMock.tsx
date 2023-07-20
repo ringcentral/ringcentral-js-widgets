@@ -1,6 +1,6 @@
 import { RcMock, PubnubMock } from '@ringcentral-integration/mock';
 
-import { StepFunction } from '../../lib/step';
+import type { StepFunction } from '../../lib/step';
 
 interface CreateMockProps {
   autoLogout?: boolean;

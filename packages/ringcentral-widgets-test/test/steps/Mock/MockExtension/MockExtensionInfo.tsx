@@ -1,6 +1,6 @@
-import { GetExtensionInfoResponse } from '@ringcentral-integration/mock';
+import type { GetExtensionInfoResponse } from '@ringcentral-integration/mock';
 import extensionInfoBody from '@ringcentral-integration/mock/src/platform/data/extensionInfo.json';
-import { StepFunction } from '../../../lib/step';
+import type { StepFunction } from '../../../lib/step';
 
 interface MockExtensionInfoProps {
   handle?: (features: GetExtensionInfoResponse) => GetExtensionInfoResponse;

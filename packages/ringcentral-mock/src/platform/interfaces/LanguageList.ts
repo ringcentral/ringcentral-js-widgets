@@ -1,6 +1,6 @@
-import { LanguageInfo } from './LanguageInfo';
-import { ProvisioningNavigationInfo } from './ProvisioningNavigationInfo';
-import { ProvisioningPagingInfo } from './ProvisioningPagingInfo';
+import type { LanguageInfo } from './LanguageInfo';
+import type { ProvisioningNavigationInfo } from './ProvisioningNavigationInfo';
+import type { ProvisioningPagingInfo } from './ProvisioningPagingInfo';
 
 export interface LanguageList {
   /**

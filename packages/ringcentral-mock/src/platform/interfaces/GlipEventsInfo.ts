@@ -1,5 +1,5 @@
-import { GlipEventInfo } from './GlipEventInfo';
-import { GlipNavigationInfo } from './GlipNavigationInfo';
+import type { GlipEventInfo } from './GlipEventInfo';
+import type { GlipNavigationInfo } from './GlipNavigationInfo';
 
 export interface GlipEventsInfo {
   /**

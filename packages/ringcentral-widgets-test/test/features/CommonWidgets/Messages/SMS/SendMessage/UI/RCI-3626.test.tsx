@@ -1,4 +1,5 @@
 import { fireEvent, screen } from '@testing-library/react';
+import type { StepFunction } from '../../../../../../lib/step';
 import {
   p2,
   autorun,
@@ -8,7 +9,6 @@ import {
   Then,
   title,
   When,
-  StepFunction,
 } from '../../../../../../lib/step';
 import { MockMessageList, MockMessageSync } from '../../../../../../steps/Mock';
 import { NavigateToMessagesTab } from '../../../../../../steps/Navigate';

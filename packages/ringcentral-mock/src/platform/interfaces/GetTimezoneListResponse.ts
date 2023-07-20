@@ -1,6 +1,6 @@
-import { GetTimezoneInfoResponse } from './GetTimezoneInfoResponse';
-import { ProvisioningNavigationInfo } from './ProvisioningNavigationInfo';
-import { ProvisioningPagingInfo } from './ProvisioningPagingInfo';
+import type { GetTimezoneInfoResponse } from './GetTimezoneInfoResponse';
+import type { ProvisioningNavigationInfo } from './ProvisioningNavigationInfo';
+import type { ProvisioningPagingInfo } from './ProvisioningPagingInfo';
 
 export interface GetTimezoneListResponse {
   /**

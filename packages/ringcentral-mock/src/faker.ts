@@ -1,7 +1,7 @@
 /* eslint-disable global-require */
-import jsf, { JSONSchemaFakerOptions } from 'json-schema-faker';
+import type { JSONSchemaFakerOptions } from 'json-schema-faker';
+import jsf from 'json-schema-faker';
 import faker from '@faker-js/faker';
-
 
 export type Generate = typeof jsf.generate;
 

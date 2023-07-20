@@ -1,4 +1,4 @@
-import { Call } from '@ringcentral-integration/commons/interfaces/Call.interface';
+import type { Call } from '@ringcentral-integration/commons/interfaces/Call.interface';
 
 export interface HeaderViewProps {
   userStatus?: string;
@@ -19,4 +19,8 @@ export interface HeaderViewProps {
   setDoNotDisturb: () => void;
   setInvisible: () => void;
   logo?: (...args: any[]) => JSX.Element;
+  logoUrl?: string;
+  shouldDisplayCurrentCallBtn?: boolean;
+  shouldDisplayViewCallsBtn?: boolean;
+  shouldHideRingingCallStatus?: boolean;
 }

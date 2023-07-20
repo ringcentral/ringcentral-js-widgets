@@ -1,6 +1,6 @@
-import { DataExportTask } from './DataExportTask';
-import { GlipDataExportNavigationInfo } from './GlipDataExportNavigationInfo';
-import { GlipDataExportPagingInfo } from './GlipDataExportPagingInfo';
+import type { DataExportTask } from './DataExportTask';
+import type { GlipDataExportNavigationInfo } from './GlipDataExportNavigationInfo';
+import type { GlipDataExportPagingInfo } from './GlipDataExportPagingInfo';
 
 export interface DataExportTaskList {
   /**

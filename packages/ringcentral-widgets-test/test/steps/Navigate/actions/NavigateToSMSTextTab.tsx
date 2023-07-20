@@ -1,6 +1,6 @@
 import { fireEvent, screen } from '@testing-library/react';
 
-import { StepFunction } from '../../../lib/step';
+import type { StepFunction } from '../../../lib/step';
 import { NavigateToMessagesTab } from './NavigateToMessages';
 
 export const NavigateToSMSTextTab: StepFunction = async (props, context) => {

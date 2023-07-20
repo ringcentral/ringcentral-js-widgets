@@ -1,6 +1,6 @@
 /**
  * RCI-1881: Inbound/Outbound with  different types contact call info on call control page
- * https://test_id_domain/test-cases/RCI-1881
+ * https://test_it_domain/test-cases/RCI-1881
  * Preconditions:
  *
   |               | RC company     |RC personal      |    3rd partye.gGooglecontact |not matched withanycontact       |
@@ -14,13 +14,13 @@
  *
  */
 
+import type { StepProp } from '@ringcentral-integration/test-utils';
 import {
   p1,
   it,
   autorun,
   examples,
   Given,
-  StepProp,
   Scenario,
   Step,
   Then,
@@ -56,7 +56,7 @@ import {
 import { NavigateTo } from '../../../../../../../steps/Router/action';
 
 const IMAGE_URL =
-  'http://platform.devtest.ringcentral.com/restapi/v1.0/account/129836006/extension/206745006/profile-image';
+  'https://platform.devtest.ringcentral.com/restapi/v1.0/account/129836006/extension/206745006/profile-image';
 
 global.Image = class extends Image {
   constructor() {
@@ -78,7 +78,7 @@ export class CallInformation extends Step {
     <CommonLogin {...props} CreateInstance={CreateInstance} />
   );
   CreateMock: StepProp = CreateMock;
-  userPhoneNumber: string = '';
+  userPhoneNumber = '';
   @examples(`
     | direction  | phoneNumber    | parsedNumber     | contactName | contactType | avatarType |
     | 'Inbound'  | '+17604215511' | '(760) 421-5511' | 'Contact X' | 'company'  | 'custom'    |

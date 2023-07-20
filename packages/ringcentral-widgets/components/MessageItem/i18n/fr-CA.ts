@@ -5,7 +5,7 @@ export default {
   viewDetails: "Afficher les renseignements",
   addEntity: "Créer",
   call: "Appeler",
-  text: "Texter",
+  text: "Texto",
   conversation: "Discussion",
   groupConversation: "Discussion de groupe",
   voiceMessage: "Message vocal",
@@ -17,11 +17,11 @@ export default {
   faxSent: "Fax envoyé",
   faxReceived: "Fax reçu",
   pages: "pages",
-  page: "page",
+  page: "Téléavertir",
   preview: "Afficher",
   download: "Télécharger",
-  imageAttachment: "Pièce jointe : Image {count}",
-  fileAttachment: "Pièce jointe : {count} fichier"
+  imageAttachment: "Pièce jointe : Image {count}",
+  fileAttachment: "Pièce jointe : {count} fichier"
 };
 
 // @key: @#@"addLog"@#@ @source: @#@"Log"@#@

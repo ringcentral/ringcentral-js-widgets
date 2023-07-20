@@ -1,10 +1,11 @@
-import { DebugOptions } from '@rc-ex/debug';
-import { WebSocketOptions } from '@rc-ex/ws/lib/types';
+import type { DebugOptions } from '@rc-ex/debug';
+import type { WebSocketOptions } from '@rc-ex/ws/lib/types';
 
-import { RingCentralClient } from '../../lib/RingCentralClient';
-import { Auth } from '../Auth';
-import { SleepDetector } from '../SleepDetector';
-import { TabManager } from '../TabManager';
+import type { RingCentralClient } from '../../lib/RingCentralClient';
+import type { Auth } from '../Auth';
+import type { SleepDetector } from '../SleepDetector';
+import type { TabManager } from '../TabManager';
+import type { AvailabilityMonitor } from '../AvailabilityMonitor';
 
 export interface RingCentralExtensionsOptions {
   debugMode?: boolean;
@@ -18,5 +19,6 @@ export interface Deps {
   client: RingCentralClient;
   sleepDetector?: SleepDetector;
   tabManager?: TabManager;
+  availabilityMonitor?: AvailabilityMonitor;
   ringCentralExtensionsOptions?: RingCentralExtensionsOptions;
 }

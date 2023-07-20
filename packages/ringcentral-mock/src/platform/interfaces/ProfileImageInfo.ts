@@ -1,4 +1,4 @@
-import { ProfileImageInfoURI } from './ProfileImageInfoURI';
+import type { ProfileImageInfoURI } from './ProfileImageInfoURI';
 
 // Information on profile image
 export interface ProfileImageInfo {

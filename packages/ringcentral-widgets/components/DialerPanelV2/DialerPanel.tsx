@@ -1,6 +1,7 @@
-import React, { FunctionComponent, useCallback } from 'react';
+import type { FunctionComponent } from 'react';
+import React, { useCallback } from 'react';
 
-import { ToNumber as Recipient } from '@ringcentral-integration/commons/modules/ComposeText';
+import type { ToNumber as Recipient } from '@ringcentral-integration/commons/modules/ComposeText';
 import {
   flexCenterStyle,
   palette2,

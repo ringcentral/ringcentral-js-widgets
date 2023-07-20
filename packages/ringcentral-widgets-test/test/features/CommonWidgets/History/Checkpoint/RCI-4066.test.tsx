@@ -1,6 +1,6 @@
 /**
  * RCI-4066: Action icons of anonymous call in History should be disabled
- * https://test_id_domain/test-cases/RCI-4066
+ * https://test_it_domain/test-cases/RCI-4066
  * Preconditions:
  * RC CTI app was installed and enabled
  * The user has logged in to 3rd party
@@ -9,6 +9,7 @@
  *
  */
 
+import type { StepFunction } from '../../../../lib/step';
 import {
   p2,
   it,
@@ -20,7 +21,6 @@ import {
   Then,
   title,
   When,
-  StepFunction,
   common,
 } from '../../../../lib/step';
 import { MockCallPresence } from '../../../../steps/Mock';

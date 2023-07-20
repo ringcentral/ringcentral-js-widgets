@@ -1,6 +1,6 @@
 import { createContext, useContext } from 'react';
 
-import { RcTextFieldProps } from '@ringcentral/juno';
+import type { RcTextFieldProps } from '@ringcentral/juno';
 
 type CommunicationSetupContextValue = {
   inputPropsRef?: React.RefObject<RcTextFieldProps['InputProps']>;

@@ -29,7 +29,7 @@
   "subject": "123",
   "messageStatus": "Delivered",
   "smsSendingAttemptsCount": 1,
-  "conversationId": 3237561336559605395,
+  "conversationId": 3237561336559605000,
   "conversation": {
     "id": "3237561336559605395",
     "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/conversation/3237561336559605395"

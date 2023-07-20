@@ -9,10 +9,12 @@ import {
   track,
   watch,
 } from '@ringcentral-integration/core';
+import CallLogFromParty from '@rc-ex/core/lib/definitions/CallLogFromParty';
+import CallLogToParty from '@rc-ex/core/lib/definitions/CallLogToParty';
 
-import { Call } from '../../interfaces/Call.interface';
-import { Entity } from '../../interfaces/Entity.interface';
-import { ActiveCall } from '../../interfaces/Presence.model';
+import type { Call } from '../../interfaces/Call.interface';
+import type { Entity } from '../../interfaces/Entity.interface';
+import type { ActiveCall } from '../../interfaces/Presence.model';
 import {
   getPhoneNumberMatches,
   sortByStartTime,
@@ -23,7 +25,7 @@ import { normalizeNumber } from '../../lib/normalizeNumber';
 import { proxify } from '../../lib/proxy/proxify';
 import { trackEvents } from '../../enums/trackEvents';
 import { callingModes } from '../CallingSettings';
-import { Deps, HistoryCall } from './CallHistory.interface';
+import type { Deps, HistoryCall } from './CallHistory.interface';
 import {
   addNumbersFromCall,
   pickFullPhoneNumber,
@@ -268,7 +270,9 @@ export class CallHistory<T extends Deps = Deps> extends RcModuleV2<T> {
   // for track click to sms in call history
   @proxify
   @track(trackEvents.clickToSMSCallHistory)
-  async onClickToSMS() {}
+  async onClickToSMS() {
+    // track holder
+  }
 
   // TODO: move to UI module
   // for track click to call in call history
@@ -279,7 +283,9 @@ export class CallHistory<T extends Deps = Deps> extends RcModuleV2<T> {
       ? trackEvents.clickToDialCallHistoryWithRingOut
       : trackEvents.clickToDialCallHistory,
   ])
-  async onClickToCall() {}
+  async onClickToCall() {
+    // track holder
+  }
 
   @proxify
   async updateSearchInput(input: string) {
@@ -293,7 +299,7 @@ export class CallHistory<T extends Deps = Deps> extends RcModuleV2<T> {
   get normalizedCalls(): ActiveCall[] {
     return this._deps.callLog.calls
       .map((call) => {
-        const callFrom = {
+        const callFrom: CallLogFromParty = {
           ...call.from,
         };
         if (callFrom.phoneNumber) {
@@ -303,7 +309,7 @@ export class CallHistory<T extends Deps = Deps> extends RcModuleV2<T> {
             maxExtensionLength: this._deps.accountInfo.maxExtensionNumberLength,
           });
         }
-        const callTo = {
+        const callTo: CallLogToParty = {
           ...call.to,
         };
         if (callTo.phoneNumber) {

@@ -1,4 +1,4 @@
-import { CallQueueServiceLevelSettings } from './CallQueueServiceLevelSettings';
+import type { CallQueueServiceLevelSettings } from './CallQueueServiceLevelSettings';
 
 export interface CallQueueUpdateDetails {
   /**

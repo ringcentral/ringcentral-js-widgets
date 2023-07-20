@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 
 import classnames from 'classnames';
 
-import { RcTextField, RcTextFieldProps } from '@ringcentral/juno';
+import type { RcTextFieldProps } from '@ringcentral/juno';
+import { RcTextField } from '@ringcentral/juno';
 
 import { bindDebounce } from '../../../../lib/bindDebounce';
 import { bindNextPropsUpdate } from '../../../../lib/bindNextPropsUpdate';

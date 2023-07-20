@@ -1,11 +1,15 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import classnames from 'classnames';
 
 import CloseDialpadIcon from '../../../assets/images/CloseDialpad.svg';
 import { audios } from '../../DialButton/audios';
 import DialPad from '../../DialPad';
-import { CallLogDialpadProps, DtmfValue } from './CallLogDialpad.interface';
+import type {
+  CallLogDialpadProps,
+  DtmfValue,
+} from './CallLogDialpad.interface';
 import styles from './styles.scss';
 
 const cleanRegex = /[^\d*#]/g;

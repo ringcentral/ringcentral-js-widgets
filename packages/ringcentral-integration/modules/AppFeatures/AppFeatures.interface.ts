@@ -1,6 +1,6 @@
-import { Auth } from '../Auth';
-import { Brand } from '../Brand';
-import { ExtensionFeatures } from '../ExtensionFeatures';
+import type { Auth } from '../Auth';
+import type { Brand } from '../Brand';
+import type { ExtensionFeatures } from '../ExtensionFeatures';
 
 export interface AppFeaturesOptions {
   /* reserved */

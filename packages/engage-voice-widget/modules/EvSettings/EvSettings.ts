@@ -1,7 +1,7 @@
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import { computed, RcModuleV2 } from '@ringcentral-integration/core';
 
-import { Deps, Settings } from './EvSettings.interface';
+import type { Deps, Settings } from './EvSettings.interface';
 
 @Module({
   name: 'EvSettings',

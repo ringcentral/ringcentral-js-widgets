@@ -1,10 +1,12 @@
-import React, { FunctionComponent, memo } from 'react';
+import type { FunctionComponent } from 'react';
+import React, { memo } from 'react';
 
 import { format } from '@ringcentral-integration/utils';
 import { RcText } from '@ringcentral/juno';
 
-import { HintsType, TabsEnum, TabsEnumType } from './ContactSearchPanelEnum';
-import i18n from './i18n';
+import type { TabsEnumType } from './ContactSearchPanelEnum';
+import { HintsType, TabsEnum } from './ContactSearchPanelEnum';
+import i18n, { I18nKey } from './i18n';
 import {
   HelpTextSectionWrapper,
   HintsWrapper,
@@ -36,7 +38,7 @@ export const HelpTextSection: FunctionComponent<HelpTextSectionProps> = memo(
     searchMinimumLength = 3,
     isLoading,
   }) => {
-    let hintTitleKey;
+    let hintTitleKey!: I18nKey;
     let hintContentKey;
     const isThirdPartyTab = activeTab === TabsEnum.thirdParty;
 

@@ -5,7 +5,7 @@ export default {
   customMessage: "自訂訊息",
   callMeBackIn: "請於以下時間過後回電：",
   willCallYouBackIn: "將於以下時間過後回電：",
-  min: "分",
+  min: "分鐘",
   hours: "時",
   days: "天"
 };

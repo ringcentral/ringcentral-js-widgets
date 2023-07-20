@@ -20,13 +20,13 @@ import {
   watch,
 } from '@ringcentral-integration/core';
 
-import {
+import type {
   Call,
   NormalizedCall,
   NormalizedCalls,
 } from '../../interfaces/Call.interface';
-import { ActiveCall } from '../../interfaces/Presence.model';
-import { NormalizedSession } from '../../interfaces/Webphone.interface';
+import type { ActiveCall } from '../../interfaces/Presence.model';
+import type { NormalizedSession } from '../../interfaces/Webphone.interface';
 import {
   hasRingingCalls,
   isInbound,
@@ -46,7 +46,7 @@ import {
   isFaxSession,
 } from '../ActiveCallControl';
 import { trackEvents } from '../../enums/trackEvents';
-import { ToNumberMatched } from '../Call';
+import type { ToNumberMatched } from '../Call';
 import {
   isConferenceSession,
   isOnHold,
@@ -54,7 +54,7 @@ import {
   sortByLastActiveTimeDesc,
 } from '../Webphone/webphoneHelper';
 import { callEvents } from './callEvents';
-import { CallEventCallback, Deps } from './CallMonitor.interface';
+import type { CallEventCallback, Deps } from './CallMonitor.interface';
 import {
   isCurrentDeviceEndCall,
   matchWephoneSessionWithAcitveCall,

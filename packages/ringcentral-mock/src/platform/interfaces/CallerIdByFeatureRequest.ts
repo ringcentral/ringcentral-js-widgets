@@ -1,4 +1,4 @@
-import { CallerIdByFeatureInfoRequest } from './CallerIdByFeatureInfoRequest';
+import type { CallerIdByFeatureInfoRequest } from './CallerIdByFeatureInfoRequest';
 
 // Caller ID settings by feature
 export interface CallerIdByFeatureRequest {

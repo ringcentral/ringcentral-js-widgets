@@ -1,8 +1,8 @@
-import fs from 'fs-extra';
 import path from 'path';
+import fs from 'fs-extra';
 import { transformSync } from '@babel/core';
-import importLocale from '.';
 import exportLocale from '../exportLocale';
+import importLocale from '.';
 
 const sourceFolder = './testData/importLocale';
 const localizationFolder = './localization/importLocale';

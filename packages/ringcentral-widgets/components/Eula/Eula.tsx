@@ -2,7 +2,7 @@ import React from 'react';
 
 import { RcLink } from '@ringcentral/juno';
 
-import { EulaProps } from './Eula.interface';
+import type { EulaProps } from './Eula.interface';
 import i18n from './i18n';
 
 export const Eula: React.FC<EulaProps> = ({

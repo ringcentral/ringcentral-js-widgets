@@ -5,7 +5,7 @@ import { getWrapper } from '../shared';
 let originalPhone = null;
 let wrapper = null;
 beforeEach(async () => {
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 64000;
+  jest.setTimeout(64000);
   wrapper = await getWrapper();
   originalPhone = wrapper.props().phone;
 });

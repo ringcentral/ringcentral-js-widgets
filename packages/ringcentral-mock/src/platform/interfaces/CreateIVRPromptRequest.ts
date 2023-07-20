@@ -1,4 +1,4 @@
-import { Attachment } from './Attachment';
+import type { Attachment } from './Attachment';
 
 // Request body for operation createIVRPrompt
 export interface CreateIVRPromptRequest {

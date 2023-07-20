@@ -1,9 +1,9 @@
-import { CountryInfo } from './CountryInfo';
-import { TimezoneInfo } from './TimezoneInfo';
-import { RegionalLanguageInfo } from './RegionalLanguageInfo';
-import { GreetingLanguageInfo } from './GreetingLanguageInfo';
-import { FormattingLocaleInfo } from './FormattingLocaleInfo';
-import { CurrencyInfo } from './CurrencyInfo';
+import type { CountryInfo } from './CountryInfo';
+import type { TimezoneInfo } from './TimezoneInfo';
+import type { RegionalLanguageInfo } from './RegionalLanguageInfo';
+import type { GreetingLanguageInfo } from './GreetingLanguageInfo';
+import type { FormattingLocaleInfo } from './FormattingLocaleInfo';
+import type { CurrencyInfo } from './CurrencyInfo';
 
 // Account level region data (web service Auto-Receptionist settings)
 export interface AccountRegionalSettings {

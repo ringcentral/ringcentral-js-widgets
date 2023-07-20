@@ -1,4 +1,4 @@
-import { Step } from '../step';
+import type { Step } from '../step';
 
 /**
  * Mark the case as a common case

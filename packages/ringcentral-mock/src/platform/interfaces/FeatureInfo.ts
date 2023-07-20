@@ -1,5 +1,5 @@
-import { ParamsInfo } from './ParamsInfo';
-import { ReasonInfo } from './ReasonInfo';
+import type { ParamsInfo } from './ParamsInfo';
+import type { ReasonInfo } from './ReasonInfo';
 
 export interface FeatureInfo {
   /**

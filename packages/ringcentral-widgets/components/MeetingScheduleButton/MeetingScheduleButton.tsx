@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { RcMMeetingModel } from '@ringcentral-integration/commons/modules/Meeting';
+import type { RcMMeetingModel } from '@ringcentral-integration/commons/modules/Meeting';
 import { RcButton, RcCheckbox } from '@ringcentral/juno';
 
 import i18n from './i18n';
@@ -44,10 +44,6 @@ export class MeetingScheduleButton extends React.Component<Props, {}> {
 
   getI18nPromptString() {
     return i18n.getString('prompt');
-  }
-
-  getI18nTermsString() {
-    return i18n.getString('terms');
   }
 
   // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message

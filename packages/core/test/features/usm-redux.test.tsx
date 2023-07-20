@@ -9,6 +9,7 @@ import {
 } from '@ringcentral-integration/test-utils';
 import { applyPatches } from 'immer';
 import { applyMiddleware } from 'redux';
+import type { Store } from '../../lib/usm-redux/index';
 import {
   createStore,
   action,
@@ -16,7 +17,6 @@ import {
   computed,
   watch,
   subscribe,
-  Store,
 } from '../../lib/usm-redux/index';
 
 @autorun(test)

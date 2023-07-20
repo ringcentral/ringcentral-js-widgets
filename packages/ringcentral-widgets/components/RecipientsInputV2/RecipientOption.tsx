@@ -1,10 +1,11 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import classnames from 'classnames';
 
 import { RecipientInfo } from './RecipientInfo';
 import { RecipientPhone } from './RecipientPhone';
-import { RecipientOptionProps } from './RecipientsInputV2.interface';
+import type { RecipientOptionProps } from './RecipientsInputV2.interface';
 import styles from './styles.scss';
 
 export const RecipientOption: FunctionComponent<RecipientOptionProps> = ({

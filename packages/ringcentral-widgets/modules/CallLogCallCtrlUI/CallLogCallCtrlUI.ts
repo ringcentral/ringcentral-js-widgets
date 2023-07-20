@@ -1,14 +1,10 @@
 import { trackEvents } from '@ringcentral-integration/commons/enums/trackEvents';
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import { callingModes } from '@ringcentral-integration/commons/modules/CallingSettings';
-import {
-  RcUIModuleV2,
-  track,
-  UIFunctions,
-  UIProps,
-} from '@ringcentral-integration/core';
+import type { UIFunctions, UIProps } from '@ringcentral-integration/core';
+import { RcUIModuleV2, track } from '@ringcentral-integration/core';
 
-import {
+import type {
   CallLogCallCtrlContainerProps,
   CallLogCallCtrlPanelProps,
   Deps,
@@ -52,6 +48,9 @@ class CallLogCallCtrlUI extends RcUIModuleV2<Deps> {
         ?.otherParties[0]?.status?.code;
     const { activeOnHoldCalls, activeCurrentCalls } = this._deps.callMonitor;
     const controlBusy = this._deps.activeCallControl?.busy || false;
+    const isEnablePickup =
+      !!this._deps.activeCallControl.pickUpCallDataMap[telephonySessionId];
+    const allowPickupCall = isEnablePickup && isWebphone;
 
     const otherActiveCalls =
       currentSession &&
@@ -73,6 +72,7 @@ class CallLogCallCtrlUI extends RcUIModuleV2<Deps> {
       // @ts-expect-error TS(2322): Type 'boolean | null' is not assignable to type 'b... Remove this comment to see the full error message
       otherActiveCalls,
       realOutboundCallStatus,
+      allowPickupCall,
     };
   }
 

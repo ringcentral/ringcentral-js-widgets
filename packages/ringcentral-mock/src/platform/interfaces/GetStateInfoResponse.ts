@@ -1,4 +1,4 @@
-import { GetCountryInfoState } from './GetCountryInfoState';
+import type { GetCountryInfoState } from './GetCountryInfoState';
 
 export interface GetStateInfoResponse {
   /**

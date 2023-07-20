@@ -1,5 +1,5 @@
 import { screen, fireEvent } from '@testing-library/react';
-import { StepFunction } from '../../../lib/step';
+import type { StepFunction } from '../../../lib/step';
 
 interface ITypeCharacter {
   searchText: string;

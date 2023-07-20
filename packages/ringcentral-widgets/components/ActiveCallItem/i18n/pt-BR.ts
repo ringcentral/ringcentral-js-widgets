@@ -30,7 +30,7 @@ export default {
   transfer: "Transferir",
   reject: "Rejeitar",
   switchCall: "Alternar chamada para este aplicativo",
-  callSwitch: "Trocar a chamada",
+  callSwitch: "Alternância de chamadas",
   comfirmContext: "Você está em uma chamada ativa com {displayName}. Você gostaria de continuar a chamada neste dispositivo?",
   comfirmCancelButton: "Cancelar",
   comfirmOKButton: "Alternar",

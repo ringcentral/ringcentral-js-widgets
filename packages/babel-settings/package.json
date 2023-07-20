@@ -1,18 +1,15 @@
 {
   "name": "@ringcentral-integration/babel-settings",
   "version": "0.1.0",
-  "main": "index.js",
   "description": "RingCentral Integration shared babel settings",
   "repository": {
     "type": "git",
     "url": "https://github.com/ringcentral/ringcentral-js-widget.git"
   },
-  "engines": {
-    "node": ">=8"
-  },
+  "main": "index.js",
   "scripts": {},
   "dependencies": {
-    "@babel/core": "^7.15.8",
+    "@babel/core": "^7.20.12",
     "@babel/node": "^7.15.8",
     "@babel/plugin-proposal-class-properties": "^7.10.4",
     "@babel/plugin-proposal-decorators": "^7.10.5",
@@ -21,18 +18,23 @@
     "@babel/plugin-proposal-nullish-coalescing-operator": "^7.10.4",
     "@babel/plugin-proposal-object-rest-spread": "^7.11.0",
     "@babel/plugin-proposal-optional-chaining": "^7.11.0",
+    "@babel/plugin-transform-typescript": "^7.20.13",
     "@babel/preset-env": "^7.11.0",
     "@babel/preset-react": "^7.10.4",
     "@babel/preset-typescript": "^7.18.6",
     "@babel/register": "^7.15.3",
     "babel-plugin-const-enum": "^1.0.1",
-    "core-js": "^3.9.1",
+    "babel-plugin-direct-import": "^1.0.0",
     "babel-plugin-transform-typescript-metadata": "^0.3.2",
-    "typescript": "^4.7.4"
+    "core-js": "^3.9.1",
+    "typescript": "^4.9.4"
   },
   "peerDependencies": {
     "@babel/polyfill": "^7.10.4",
     "babel-jest": "^27.4.6"
+  },
+  "engines": {
+    "node": ">=14"
   },
   "ci": {
     "ringcentral-widgets-test": "**"

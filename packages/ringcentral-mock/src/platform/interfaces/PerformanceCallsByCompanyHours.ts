@@ -1,4 +1,4 @@
-import { CallsByCompanyHours } from './CallsByCompanyHours';
+import type { CallsByCompanyHours } from './CallsByCompanyHours';
 
 export interface PerformanceCallsByCompanyHours {
   /**

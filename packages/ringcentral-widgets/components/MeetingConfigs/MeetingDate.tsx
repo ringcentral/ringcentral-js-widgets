@@ -1,9 +1,10 @@
 import 'react-widgets/dist/css/react-widgets.css';
 
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import classnames from 'classnames';
-import Moment from 'moment';
+import dayjs from 'dayjs';
 import DateTimePicker from 'react-widgets/lib/DateTimePicker';
 
 import DateIcon from '../../assets/images/Date.svg';
@@ -116,13 +117,10 @@ const MeetingDate: FunctionComponent<MeetingDateProps> = ({
   };
   let minMinute;
   if (meeting.schedule && meeting.schedule.startTime && useTimePicker) {
-    const isToday = Moment(meeting.schedule.startTime).isSame(
-      new Date(),
-      'day',
-    );
+    const isToday = dayjs(meeting.schedule.startTime).isSame(new Date(), 'day');
     if (isToday) {
-      const currentMinute = +Moment().format('mm');
-      const nearlest = Moment()
+      const currentMinute = +dayjs().format('mm');
+      const nearlest = dayjs()
         .set('minute', Math.ceil(currentMinute / 15) * 15)
         .toDate();
       minMinute = nearlest;
@@ -180,7 +178,7 @@ const MeetingDate: FunctionComponent<MeetingDateProps> = ({
               data-sign="dateText"
               className={classnames(styles.dateTimeText, styles.dateText)}
             >
-              {Moment(meeting.schedule.startTime).format('MM/DD/YY')}
+              {dayjs(meeting.schedule.startTime).format('MM/DD/YY')}
             </div>
           </div>
           <div
@@ -247,7 +245,7 @@ const MeetingDate: FunctionComponent<MeetingDateProps> = ({
                 }}
                 data-sign="timeInputHour"
                 className={styles.timeInput}
-                defaultValue={Moment(meeting.schedule.startTime).format(
+                defaultValue={dayjs(meeting.schedule.startTime).format(
                   useTimePicker ? 'hh' : 'HH',
                 )}
                 onChange={({ target }) => {
@@ -281,7 +279,7 @@ const MeetingDate: FunctionComponent<MeetingDateProps> = ({
                 }}
                 data-sign="timeInputMinute"
                 className={styles.timeInput}
-                defaultValue={Moment(meeting.schedule.startTime).format('mm')}
+                defaultValue={dayjs(meeting.schedule.startTime).format('mm')}
                 onKeyDown={(event) => {
                   const isDelKey = event.keyCode === 8;
                   const isLeftKey = event.keyCode === 37;
@@ -305,7 +303,7 @@ const MeetingDate: FunctionComponent<MeetingDateProps> = ({
               />
               {useTimePicker && (
                 <div className={styles.colon}>
-                  {Moment(meeting.schedule.startTime).locale('en').format('A')}
+                  {dayjs(meeting.schedule.startTime).locale('en').format('A')}
                 </div>
               )}
             </div>

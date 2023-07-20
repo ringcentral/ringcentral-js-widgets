@@ -1,4 +1,4 @@
-import { UnifiedPresence } from './UnifiedPresence';
+import type { UnifiedPresence } from './UnifiedPresence';
 
 export interface UnifiedPresenceListEntry {
   /**

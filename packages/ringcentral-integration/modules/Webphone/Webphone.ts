@@ -1,13 +1,19 @@
 import { filter, find } from 'ramda';
-import { InviteOptions } from 'ringcentral-web-phone/lib/userAgent';
+import type { InviteOptions } from 'ringcentral-web-phone/lib/userAgent';
 
-import { action, computed, state, track } from '@ringcentral-integration/core';
-import { ObjectMapKey } from '@ringcentral-integration/core/lib/ObjectMap';
+import {
+  action,
+  computed,
+  state,
+  track,
+  watch,
+} from '@ringcentral-integration/core';
+import type { ObjectMapKey } from '@ringcentral-integration/core/lib/ObjectMap';
 import { sleep } from '@ringcentral-integration/utils';
 
 import callDirections from '../../enums/callDirections';
 import { extendedControlStatus } from '../../enums/extendedControlStatus';
-import {
+import type {
   NormalizedSession,
   WebphoneSession,
 } from '../../interfaces/Webphone.interface';
@@ -20,7 +26,7 @@ import { EVENTS } from './events';
 import { NumberValidError } from './numberValidError';
 import { recordStatus } from './recordStatus';
 import { sessionStatus } from './sessionStatus';
-import {
+import type {
   BeforeCallEndHandler,
   BeforeCallResumeHandler,
   CallEndHandler,
@@ -33,6 +39,7 @@ import {
   OffEventHandler,
   SessionReplyOptions,
   SwitchCallActiveCallParams,
+  TPickupInboundCall,
 } from './Webphone.interface';
 import { WebphoneBase } from './WebphoneBase';
 import { webphoneErrors } from './webphoneErrors';
@@ -44,7 +51,6 @@ import {
   sortByLastActiveTimeDesc,
 } from './webphoneHelper';
 import { webphoneMessages } from './webphoneMessages';
-import { trackWindowType } from '../../lib/Analytics';
 
 export const INCOMING_CALL_INVALID_STATE_ERROR_CODE = 2;
 
@@ -59,10 +65,8 @@ export const INCOMING_CALL_INVALID_STATE_ERROR_CODE = 2;
 export class Webphone extends WebphoneBase {
   protected _activeWebphoneActiveCallKey: string;
   protected _permissionCheck: boolean;
-
   constructor(deps: Deps) {
     super(deps);
-
     this._activeWebphoneActiveCallKey = `${deps.prefix}-active-webphone-active-call-key`;
     this._permissionCheck = this._deps.webphoneOptions?.permissionCheck ?? true;
 
@@ -105,6 +109,7 @@ export class Webphone extends WebphoneBase {
 
     this._reconnectAfterSessionEnd = null;
     this._disconnectInactiveAfterSessionEnd = false;
+
     const enableContactMatchWhenNewCall =
       this._deps.webphoneOptions?.enableContactMatchWhenNewCall ?? true;
     if (enableContactMatchWhenNewCall && this._deps.contactMatcher) {
@@ -112,6 +117,22 @@ export class Webphone extends WebphoneBase {
         getQueriesFn: () => this.sessionPhoneNumbers,
         readyCheckFn: () => this.ready,
       });
+    }
+
+    if (this._deps.availabilityMonitor && this._deps.tabManager) {
+      watch(
+        this,
+        () => this.sessions?.length,
+        () => {
+          if (!this._sipInstanceId || !this.sessions) {
+            return;
+          }
+          const key = `sip-${this._deps.tabManager!.id}`;
+          this._deps.availabilityMonitor!.setSharedState(key, {
+            hasCallSession: this.sessions.length > 0,
+          });
+        },
+      );
     }
   }
 
@@ -325,7 +346,6 @@ export class Webphone extends WebphoneBase {
     });
     this._onCallRing(session);
   }
-
   async _playExtendedControls(session: WebphoneSession) {
     session.__rc_extendedControlStatus = extendedControlStatus.playing;
     const controls = session.__rc_extendedControls!.slice();
@@ -350,16 +370,8 @@ export class Webphone extends WebphoneBase {
     //
   }
 
-  @track(trackWindowType(trackEvents.clickAnswerCallButton))
-  protected _trackAnswerCallButton(isStandAlone?: boolean) {
-    //
-  }
-
   @proxify
-  async answer(sessionId: string, isStandAlone?: boolean) {
-    if (window.runner) {
-      this._trackAnswerCallButton(isStandAlone);
-    }
+  async answer(sessionId: string) {
     const sipSession = this.originalSessions[sessionId];
     const session = this.sessions.find((session) => session.id === sessionId);
     if (!session || !isRing(session)) {
@@ -932,7 +944,7 @@ export class Webphone extends WebphoneBase {
       inviteOptions,
     ) as WebphoneSession;
     session.__rc_direction = callDirections.outbound;
-    session.__rc_callStatus = sessionStatus.connecting;
+    session.__rc_callStatus = sessionStatus.setup;
     session.__rc_creationTime = Date.now();
     session.__rc_lastActiveTime = Date.now();
     session.__rc_fromNumber = inviteOptions.fromNumber!;
@@ -1000,6 +1012,27 @@ export class Webphone extends WebphoneBase {
         this.acceptOptions.sessionDescriptionHandlerOptions,
       fromNumber,
       homeCountryId,
+      extraHeaders,
+    };
+    const session = await this._invite(toNumber, {
+      inviteOptions,
+    });
+    return session;
+  }
+
+  async pickupInboundCall({
+    sessionId,
+    toNumber,
+    fromNumber,
+    serverId,
+  }: TPickupInboundCall) {
+    const extraHeaders = [
+      `RC-call-type: inbound-pickup; session-id: ${sessionId}; server-id: ${serverId}`,
+    ];
+    const inviteOptions = {
+      sessionDescriptionHandlerOptions:
+        this.acceptOptions.sessionDescriptionHandlerOptions,
+      fromNumber,
       extraHeaders,
     };
     const session = await this._invite(toNumber, {

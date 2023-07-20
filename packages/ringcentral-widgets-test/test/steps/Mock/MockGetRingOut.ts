@@ -1,5 +1,5 @@
-import { RcMock } from '@ringcentral-integration/mock';
-import { StepFunction } from '../../lib/step';
+import type { RcMock } from '@ringcentral-integration/mock';
+import type { StepFunction } from '../../lib/step';
 
 interface MockGetRingOutProps {
   handler?: Parameters<RcMock['ringOutUpdate']>[0];

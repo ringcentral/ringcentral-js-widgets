@@ -1,5 +1,5 @@
-import fs from 'fs-extra';
 import path from 'path';
+import fs from 'fs-extra';
 import { forEach } from 'ramda';
 import compileLocaleData from '../compileLocaleData';
 import defaultConfig from '../defaultConfig';

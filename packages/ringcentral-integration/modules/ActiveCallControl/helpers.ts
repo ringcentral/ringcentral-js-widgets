@@ -1,11 +1,15 @@
 // eslint-disable-next-line import/no-named-as-default
 import { find } from 'ramda';
-import {
+import type {
   Party,
-  PartyStatusCode,
   Session as TelephonySession,
+  ReplyWithTextParams,
 } from 'ringcentral-call-control/lib/Session';
-import { Session } from 'ringcentral-call/lib/Session';
+import {
+  PartyStatusCode,
+  ReplyWithPattern,
+} from 'ringcentral-call-control/lib/Session';
+import type { Session } from 'ringcentral-call/lib/Session';
 import type CallRecording from '@rc-ex/core/lib/definitions/CallRecording';
 
 // eslint-disable-next-line import/no-named-as-default
@@ -14,8 +18,8 @@ import callDirections, { callDirection } from '../../enums/callDirections';
 // eslint-disable-next-line import/no-named-as-default
 import callResults from '../../enums/callResults';
 import { recordStatus } from '../Webphone/recordStatus';
-import { ActiveCallControlSessionData } from './ActiveCallControl.interface';
 import { telephonyStatus } from '../../enums/telephonyStatus';
+import type { ActiveCallControlSessionData } from './ActiveCallControl.interface';
 
 // telephony session status match presence telephonyStatus
 export function mapTelephonyStatus(telephonySessionStatus: PartyStatusCode) {
@@ -223,5 +227,51 @@ export function normalizeTelephonySession(
     serverId: session.serverId,
     sessionId: session.sessionId,
     voiceCallToken: session.voiceCallToken,
+  };
+}
+
+// fix call control api issue.
+export const WEBPHONE_REPLY_TIME_UNIT = {
+  Minute: '0',
+  Hour: '1',
+  Day: '2',
+};
+
+export const WEBPHONE_REPLY_TYPE = {
+  customMessage: 0,
+  callBack: 1,
+  onMyWay: 2,
+  inAMeeting: 5,
+};
+
+export function getWebphoneReplyMessageOption(params: ReplyWithTextParams) {
+  if (params.replyWithText) {
+    return {
+      replyType: WEBPHONE_REPLY_TYPE.customMessage,
+      replyText: params.replyWithText,
+    };
+  }
+  if (params.replyWithPattern?.pattern === ReplyWithPattern.onMyWay) {
+    return {
+      replyType: WEBPHONE_REPLY_TYPE.onMyWay,
+    };
+  }
+  if (params.replyWithPattern?.pattern === ReplyWithPattern.inAMeeting) {
+    return {
+      replyType: WEBPHONE_REPLY_TYPE.inAMeeting,
+    };
+  }
+  const replyType = WEBPHONE_REPLY_TYPE.callBack;
+  let callbackDirection;
+  if (params.replyWithPattern?.pattern.includes('CallMe')) {
+    callbackDirection = `1`;
+  } else {
+    callbackDirection = `0`;
+  }
+  return {
+    replyType,
+    timeValue: params.replyWithPattern?.time || '',
+    timeUnits: WEBPHONE_REPLY_TIME_UNIT[params.replyWithPattern!.timeUnit!],
+    callbackDirection,
   };
 }

@@ -1,4 +1,4 @@
-import { CallsActions } from './CallsActions';
+import type { CallsActions } from './CallsActions';
 
 export interface PerformanceCallsActions {
   /**

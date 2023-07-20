@@ -1,12 +1,12 @@
-import { ActivityMatcher } from '@ringcentral-integration/commons/modules/ActivityMatcher';
-import { ContactMatcher } from '@ringcentral-integration/commons/modules/ContactMatcher';
-import { Beforeunload } from '@ringcentral-integration/widgets/modules/Beforeunload';
+import type { ActivityMatcher } from '@ringcentral-integration/commons/modules/ActivityMatcher';
+import type { ContactMatcher } from '@ringcentral-integration/commons/modules/ContactMatcher';
+import type { Beforeunload } from '@ringcentral-integration/widgets/modules/Beforeunload';
 
-import { EvClient } from '../../lib/EvClient';
-import { EvAgentSession } from '../EvAgentSession';
-import { EvCallDataSource } from '../EvCallDataSource';
-import { EvIntegratedSoftphone } from '../EvIntegratedSoftphone';
-import { EvPresence } from '../EvPresence';
+import type { EvClient } from '../../lib/EvClient';
+import type { EvAgentSession } from '../EvAgentSession';
+import type { EvCallDataSource } from '../EvCallDataSource';
+import type { EvIntegratedSoftphone } from '../EvIntegratedSoftphone';
+import type { EvPresence } from '../EvPresence';
 
 export interface State {
   //

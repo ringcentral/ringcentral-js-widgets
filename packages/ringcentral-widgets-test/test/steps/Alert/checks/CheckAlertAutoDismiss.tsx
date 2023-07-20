@@ -3,7 +3,7 @@ import {
   waitFor,
   waitForElementToBeRemoved,
 } from '@testing-library/react';
-import { StepFunction } from '../../../lib/step';
+import type { StepFunction } from '../../../lib/step';
 
 // TODO: find better implementation
 export const CheckAlertAutoDismiss: StepFunction<{ ttl?: number }> = async ({

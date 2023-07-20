@@ -1,8 +1,9 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import { LinkLine } from '../LinkLine';
 import i18n from './i18n';
-import { LinkLineItemProps } from './SettingsPanel.interface';
+import type { LinkLineItemProps } from './SettingsPanel.interface';
 
 export const LinkLineItem: FunctionComponent<LinkLineItemProps> = ({
   show,

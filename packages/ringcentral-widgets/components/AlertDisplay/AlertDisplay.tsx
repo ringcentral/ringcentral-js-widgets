@@ -1,8 +1,9 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import classnames from 'classnames';
 
-import { AlertLevelType } from '@ringcentral-integration/commons/modules/Alert/alertLevels';
+import type { AlertLevelType } from '@ringcentral-integration/commons/modules/Alert/alertLevels';
 import { emptyArray, emptyFn } from '@ringcentral-integration/utils';
 
 import Message from '../Message';

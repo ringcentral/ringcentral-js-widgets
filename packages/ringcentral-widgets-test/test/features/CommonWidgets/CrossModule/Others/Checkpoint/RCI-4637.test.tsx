@@ -1,6 +1,6 @@
 /**
  * RCI-4637: Show error message when number parser API not responding
- * https://test_id_domain/test-cases/RCI-4637
+ * https://test_it_domain/test-cases/RCI-4637
  * Preconditions:
  * CTI app is integrated,
  * The user is logged-in to 3rd party
@@ -13,12 +13,13 @@
 
  */
 
+import type { StepProp } from '@ringcentral-integration/test-utils';
 import {
+  common,
   p3,
   it,
   autorun,
   Given,
-  StepProp,
   Scenario,
   Step,
   Then,
@@ -36,6 +37,7 @@ import { NavigateToComposeText } from '../../../../../steps/Navigate';
 import { SendSMS } from '../../../../../steps/Messages';
 
 @autorun(test)
+@common
 @it
 @p3
 @title('Show error message when make call but number parser API not responding')
@@ -75,6 +77,7 @@ export class MakeCallWhenParseAPIFailed extends Step {
 }
 
 @autorun(test)
+@common
 @it
 @p3
 @title(

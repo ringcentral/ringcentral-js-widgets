@@ -1,4 +1,4 @@
-import { CreateGlipMember } from './CreateGlipMember';
+import type { CreateGlipMember } from './CreateGlipMember';
 
 export interface GlipPostTeamBody {
   /**

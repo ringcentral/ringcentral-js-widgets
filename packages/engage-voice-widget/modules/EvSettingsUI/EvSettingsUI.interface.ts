@@ -1,11 +1,11 @@
-import { Locale } from '@ringcentral-integration/commons/modules/Locale';
-import RouterInteraction from '@ringcentral-integration/widgets/modules/RouterInteraction';
+import type { Locale } from '@ringcentral-integration/commons/modules/Locale';
+import type RouterInteraction from '@ringcentral-integration/widgets/modules/RouterInteraction';
 
-import { EvClient } from '../../lib/EvClient';
-import { EvAgentSession } from '../EvAgentSession';
-import { EvAuth } from '../EvAuth';
-import { EvCallMonitor } from '../EvCallMonitor';
-import { EvSettings } from '../EvSettings';
+import type { EvClient } from '../../lib/EvClient';
+import type { EvAgentSession } from '../EvAgentSession';
+import type { EvAuth } from '../EvAuth';
+import type { EvCallMonitor } from '../EvCallMonitor';
+import type { EvSettings } from '../EvSettings';
 
 export interface Deps {
   locale: Locale;

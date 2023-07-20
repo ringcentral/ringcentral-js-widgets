@@ -1,4 +1,4 @@
-import { IVRMenuExtensionInfo } from './IVRMenuExtensionInfo';
+import type { IVRMenuExtensionInfo } from './IVRMenuExtensionInfo';
 
 export interface IVRMenuActionsInfo {
   /**

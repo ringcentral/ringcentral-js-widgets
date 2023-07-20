@@ -1,24 +1,30 @@
 {
   "name": "@ringcentral-integration/phone-number",
   "version": "1.0.7",
+  "private": false,
   "description": "Wrapper around libphonenumber-js to provide RingCentral specific phone handling.",
-  "main": "index.js",
+  "homepage": "https://github.com/ringcentral/ringcentral-js-widgets#readme",
+  "bugs": {
+    "url": "https://github.com/ringcentral/ringcentral-js-widgets/issues"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ringcentral/ringcentral-js-widgets.git"
   },
-  "author": "RingCentral Integrations",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/ringcentral/ringcentral-js-widgets/issues"
+  "author": "RingCentral Integrations",
+  "main": "index.js",
+  "scripts": {
+    "build": "yarn gulp build",
+    "gulp": "gulp --require @ringcentral-integration/babel-settings/lib/register.js",
+    "release": "yarn gulp release",
+    "test": "yarn run-test",
+    "watch": "jest --watch"
   },
-  "homepage": "https://github.com/ringcentral/ringcentral-js-widgets#readme",
-  "private": false,
   "dependencies": {
     "libphonenumber-js": "^1.9.48",
-    "ramda": "^0.27.1"
+    "ramda": "^0.28.0"
   },
-  "peerDependencies": {},
   "devDependencies": {
     "@ringcentral-integration/babel-settings": "*",
     "babel-jest": "^27.4.6",
@@ -29,13 +35,8 @@
     "jest": "^27.4.7",
     "jest-html-reporters": "^3.0.8"
   },
-  "scripts": {
-    "gulp": "gulp --require @ringcentral-integration/babel-settings/lib/register.js",
-    "build": "yarn gulp build",
-    "release": "yarn gulp release",
-    "test": "yarn run-test",
-    "watch": "jest --watch"
-  },
+  "peerDependencies": {},
+  "common": true,
   "ci": {
     "@ringcentral-integration/phone-number": "**"
   }

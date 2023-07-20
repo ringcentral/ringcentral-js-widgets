@@ -1,6 +1,6 @@
 /**
  * RCI-4483: Verify the record for the user who no permission to manual record
- * https://test_id_domain/test-cases/RCI-4483
+ * https://test_it_domain/test-cases/RCI-4483
  * Preconditions:
  * <ol><li>The user has logged into 3rd party.</li><li>The user who has no permission to make his own manual recording <span style='background-color: transparent;'>has logged into RC CTI App</span></li><li>WebPhone is enabled and 'Browser'  is selected in Settings > Calling > Make my calls with</li></ol>
 <p><strong><span style='color:#669966'>
@@ -8,6 +8,7 @@
  * ntry point(/s): </span></strong></p><p>> Make an<span style='font-weight: bolder;'> </span>inbound call to CTI</p><p style='margin-bottom: 5px;'>> Answer the inbound call</p>
  */
 
+import type { StepProp } from '@ringcentral-integration/test-utils';
 import {
   p2,
   it,
@@ -19,9 +20,8 @@ import {
   Then,
   title,
   When,
-  StepProp,
 } from '@ringcentral-integration/test-utils';
-import { Context } from '../../../../../../interfaces';
+import type { Context } from '../../../../../../interfaces';
 import {
   CallButtonBehavior,
   CheckButtonExist,

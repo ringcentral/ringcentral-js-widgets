@@ -1,6 +1,6 @@
 /**
  * RCI-1112: Transfer pop up page
- * https://test_id_domain/test-cases/RCI-1112
+ * https://test_it_domain/test-cases/RCI-1112
  * Preconditions:
  * 1. RC CTI app was installed and enabled
  * 2. User has logged in to 3rd party
@@ -25,7 +25,7 @@ import {
   title,
   When,
 } from '@ringcentral-integration/test-utils';
-import { StepFunction } from '../../lib/step';
+import type { StepFunction } from '../../lib/step';
 import {
   AnswerCall,
   CallButtonBehavior,

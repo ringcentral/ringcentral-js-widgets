@@ -1,0 +1,17 @@
+{
+  "name": "crius",
+  "version": "1.2.0",
+  "description": "A concise JavaScript library for building step processes",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "step",
+    "processes"
+  ],
+  "author": "unadlib",
+  "license": "MIT"
+}

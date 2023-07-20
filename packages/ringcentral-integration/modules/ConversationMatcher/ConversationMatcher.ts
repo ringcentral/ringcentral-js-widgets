@@ -1,7 +1,8 @@
-import { Entity } from '../../interfaces/Entity.interface';
-import { DataMatcher, DataMatcherOptions } from '../../lib/DataMatcherV2';
+import type { Entity } from '../../interfaces/Entity.interface';
+import type { DataMatcherOptions } from '../../lib/DataMatcherV2';
+import { DataMatcher } from '../../lib/DataMatcherV2';
 import { Module } from '../../lib/di';
-import { Deps } from './ConversationMatcher.interface';
+import type { Deps } from './ConversationMatcher.interface';
 
 @Module({
   name: 'ConversationMatcher',

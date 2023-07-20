@@ -1,4 +1,4 @@
-import { CallRecordingExtensionResource } from './CallRecordingExtensionResource';
+import type { CallRecordingExtensionResource } from './CallRecordingExtensionResource';
 
 export interface BulkAccountCallRecordingsResource {
   /**

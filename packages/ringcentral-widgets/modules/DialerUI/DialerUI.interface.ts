@@ -1,17 +1,20 @@
 import type UserPhoneNumberInfo from '@rc-ex/core/lib/definitions/UserPhoneNumberInfo';
-import { Alert } from '@ringcentral-integration/commons/modules/Alert';
-import { AudioSettings } from '@ringcentral-integration/commons/modules/AudioSettings';
-import { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettings';
-import { Call, Recipient } from '@ringcentral-integration/commons/modules/Call';
-import { ConferenceCall } from '@ringcentral-integration/commons/modules/ConferenceCall';
-import { ContactSearch } from '@ringcentral-integration/commons/modules/ContactSearch';
-import { ExtensionFeatures } from '@ringcentral-integration/commons/modules/ExtensionFeatures';
-import { Locale } from '@ringcentral-integration/commons/modules/Locale';
-import { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiter';
-import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
-import { AccountInfo } from '@ringcentral-integration/commons/modules/AccountInfo';
+import type { Alert } from '@ringcentral-integration/commons/modules/Alert';
+import type { AudioSettings } from '@ringcentral-integration/commons/modules/AudioSettings';
+import type { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettings';
+import type {
+  Call,
+  Recipient,
+} from '@ringcentral-integration/commons/modules/Call';
+import type { ConferenceCall } from '@ringcentral-integration/commons/modules/ConferenceCall';
+import type { ContactSearch } from '@ringcentral-integration/commons/modules/ContactSearch';
+import type { ExtensionFeatures } from '@ringcentral-integration/commons/modules/ExtensionFeatures';
+import type { Locale } from '@ringcentral-integration/commons/modules/Locale';
+import type { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiter';
+import type { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
+import type { AccountInfo } from '@ringcentral-integration/commons/modules/AccountInfo';
 
-import { ConnectivityManager } from '../ConnectivityManager';
+import type { ConnectivityManager } from '../ConnectivityManager';
 
 export interface DialerUIOptions {
   useV2: boolean;
@@ -72,5 +75,4 @@ export interface OnCallButtonClickOptions {
   fromNumber?: string;
   fromSessionId?: string;
   clickDialerToCall?: boolean;
-  isStandAlone?: boolean;
 }

@@ -1,10 +1,9 @@
 import { RcModuleV2 } from '@ringcentral-integration/core';
 
 import { Module } from '../../lib/di';
-import getIntlDateTimeFormatter, {
-  DateTimeFormatter,
-} from '../../lib/getIntlDateTimeFormatter';
-import {
+import type { DateTimeFormatter } from '../../lib/getIntlDateTimeFormatter';
+import getIntlDateTimeFormatter from '../../lib/getIntlDateTimeFormatter';
+import type {
   AddFormatterOptions,
   Deps,
   FormatDateTimeOptions,

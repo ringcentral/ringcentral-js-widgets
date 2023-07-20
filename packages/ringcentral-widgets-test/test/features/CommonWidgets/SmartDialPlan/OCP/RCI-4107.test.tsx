@@ -1,6 +1,6 @@
 /**
  * RCI-4107: OCP with site code
- * https://test_id_domain/test-cases/RCI-4107
+ * https://test_it_domain/test-cases/RCI-4107
  * Preconditions:
  * CTI app is integrated
  * User is logged-in into 3rd party
@@ -73,7 +73,7 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
-import { StepProp } from '../../../../lib/step';
+import type { StepProp } from '../../../../lib/step';
 import { CheckCallControlPage, MakeOutboundCall } from '../../../../steps/Call';
 import { CommonLogin } from '../../../../steps/CommonLogin';
 import {

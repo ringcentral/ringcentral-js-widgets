@@ -1,6 +1,6 @@
 /**
  * RCI-4354: Send text to call ext. when match (DT<=MEL)
- * https://test_id_domain/test-cases/RCI-4354
+ * https://test_it_domain/test-cases/RCI-4354
  * Preconditions:
  * CTI app is integrated,
  * User is logged-in into 3rd party
@@ -47,7 +47,7 @@ import {
 } from '@ringcentral-integration/test-utils';
 import { screen } from '@testing-library/react';
 
-import { StepProp } from '../../../../../../lib/step';
+import type { StepProp } from '../../../../../../lib/step';
 import { CommonLogin } from '../../../../../../steps/CommonLogin';
 import { CreateInstance } from '../../../../../../steps/CreateInstance';
 import { SendSMS } from '../../../../../../steps/Messages';
@@ -59,6 +59,7 @@ import {
   mockExtensionsListData,
   MockGetPhoneNumber,
   MockMessageSync,
+  MockMessageList,
   MockNumberParserV2,
   MockPermission,
 } from '../../../../../../steps/Mock';
@@ -85,7 +86,12 @@ export class SendMessageSDPEnabled extends Step {
     return (
       <Scenario
         desc="SDP enabled and send message"
-        action={({ maxExtensionLength, name, phoneNumber }: any) => [
+        action={({
+          maxExtensionLength,
+          name,
+          phoneNumber,
+          parsedNumber,
+        }: any) => [
           CreateMock,
           <MockAccountInfo
             handler={(mockData) => {
@@ -106,6 +112,14 @@ export class SendMessageSDPEnabled extends Step {
             }}
           />,
           <MockMessageSync repeat={0} />,
+          <MockMessageList
+            handler={(mockData) => ({
+              ...mockData,
+              records: [],
+            })}
+            repeat={0}
+            isDefaultInit
+          />,
           <MockExtensionsList
             handler={(mockData) => {
               return {
@@ -120,22 +134,21 @@ export class SendMessageSDPEnabled extends Step {
           />,
           MockGetPhoneNumber,
           <MockPresence repeat={0} />,
+          <MockNumberParserV2
+            isDefaultInit={true}
+            handler={(mockData) => {
+              mockData.results[0].category = Category.Extension;
+              mockData.results[0].numberDetails.extensionNumber = parsedNumber;
+              mockData.results = [mockData.results[0]];
+              return mockData;
+            }}
+          />,
         ]}
       >
         <Given desc="login App" action={Login} />
         <When
           desc="Mock parse extension number"
           action={({ parsedNumber, phoneNumber }: any) => [
-            <MockNumberParserV2
-              isDefaultInit={false}
-              handler={(mockData) => {
-                mockData.results[0].category = Category.Extension;
-                mockData.results[0].numberDetails.extensionNumber =
-                  parsedNumber;
-                mockData.results = [mockData.results[0]];
-                return mockData;
-              }}
-            />,
             <NavigateTo path="/composeText" />,
             <MockCompanyPager
               isDefaultInit={false}

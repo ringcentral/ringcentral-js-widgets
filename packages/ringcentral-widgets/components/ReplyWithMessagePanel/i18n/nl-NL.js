@@ -1,5 +1,5 @@
 export default {
-  title: "Antwoorden met Voice-bericht",
+  title: "Spraakbericht sturen",
   customMessage: "Aangepast bericht",
   customMessagePlaceholder: "Een aangepast bericht invoeren"
 };

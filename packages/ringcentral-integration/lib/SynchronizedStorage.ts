@@ -2,7 +2,7 @@
 import { EventEmitter } from 'events';
 import * as uuid from 'uuid';
 
-import {
+import type {
   GenericStorage,
   StorageItem,
 } from '../interfaces/GenericStorage.interface';

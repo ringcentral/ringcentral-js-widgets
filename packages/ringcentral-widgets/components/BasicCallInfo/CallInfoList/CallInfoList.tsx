@@ -1,4 +1,5 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import classnames from 'classnames';
 
@@ -6,7 +7,8 @@ import { RcList, RcListItem } from '@ringcentral/juno';
 
 import copyButton from '../../CopyButton/CopyButton';
 import CopyToClipboard from '../../CopyToClipboard';
-import { CallInfo, CallInfoProps } from '../CallInfo';
+import type { CallInfoProps } from '../CallInfo';
+import { CallInfo } from '../CallInfo';
 import styles from './styles.scss';
 
 export interface CallInfoListProps {

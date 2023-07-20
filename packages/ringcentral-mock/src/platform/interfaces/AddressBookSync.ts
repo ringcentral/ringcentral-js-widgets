@@ -1,5 +1,5 @@
-import { PersonalContactResource } from './PersonalContactResource';
-import { SyncInfo } from './SyncInfo';
+import type { PersonalContactResource } from './PersonalContactResource';
+import type { SyncInfo } from './SyncInfo';
 
 export interface AddressBookSync {
   /**

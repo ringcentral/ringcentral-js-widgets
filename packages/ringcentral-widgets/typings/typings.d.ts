@@ -30,8 +30,5 @@ declare module 'webpack-bundle-analyzer' {
 }
 
 interface Window {
-  oAuthCallback: (callbackUri: string) => void;
-  runner?: {
-    _standAlone?: boolean;
-  };
+  oAuthCallback?: ((callbackUri: string) => void) | null;
 }

@@ -1,8 +1,10 @@
-import React, { FC, useEffect } from 'react';
+import type { FC } from 'react';
+import React, { useEffect } from 'react';
 
 import BackButton from '../BackButton';
 import BackHeader from '../BackHeader';
-import { DialerPanel, DialerPanelProps } from '../DialerPanel';
+import type { DialerPanelProps } from '../DialerPanel';
+import { DialerPanel } from '../DialerPanel';
 import i18n from './i18n';
 
 type ConferenceDialerPanelProps = {

@@ -1,9 +1,9 @@
-import { BillingInfo } from './BillingInfo';
-import { CallLogDelegateInfo } from './CallLogDelegateInfo';
-import { ExtensionInfoCallLog } from './ExtensionInfoCallLog';
-import { CallLogCallerInfo } from './CallLogCallerInfo';
-import { CallLogRecordingInfo } from './CallLogRecordingInfo';
-import { CallLogRecordMessage } from './CallLogRecordMessage';
+import type { BillingInfo } from './BillingInfo';
+import type { CallLogDelegateInfo } from './CallLogDelegateInfo';
+import type { ExtensionInfoCallLog } from './ExtensionInfoCallLog';
+import type { CallLogCallerInfo } from './CallLogCallerInfo';
+import type { CallLogRecordingInfo } from './CallLogRecordingInfo';
+import type { CallLogRecordMessage } from './CallLogRecordMessage';
 
 export interface CallLogRecordLegInfo {
   /**

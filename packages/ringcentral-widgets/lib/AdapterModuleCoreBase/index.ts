@@ -4,7 +4,7 @@ import moduleStatuses from '@ringcentral-integration/commons/enums/moduleStatuse
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import ensureExist from '@ringcentral-integration/commons/lib/ensureExist';
 import { getModuleStatusReducer } from '@ringcentral-integration/commons/lib/getModuleStatusReducer';
-import proxify from '@ringcentral-integration/commons/lib/proxy/proxify';
+import { proxify } from '@ringcentral-integration/commons/lib/proxy/proxify';
 import RcModule from '@ringcentral-integration/commons/lib/RcModule';
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 

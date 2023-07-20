@@ -1,20 +1,20 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import classnames from 'classnames';
 import { isEmpty } from 'ramda';
 
 import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 import callResults from '@ringcentral-integration/commons/enums/callResults';
-import telephonyStatuses, {
-  TelephonyStatus,
-} from '@ringcentral-integration/commons/enums/telephonyStatus';
-import { Call } from '@ringcentral-integration/commons/interfaces/Call.interface';
+import type { TelephonyStatus } from '@ringcentral-integration/commons/enums/telephonyStatus';
+import telephonyStatuses from '@ringcentral-integration/commons/enums/telephonyStatus';
+import type { Call } from '@ringcentral-integration/commons/interfaces/Call.interface';
 import { isMissed } from '@ringcentral-integration/commons/lib/callLogHelpers';
+import { formatDuration } from '@ringcentral-integration/commons/lib/formatDuration';
 import { RcIcon, RcLink, RcText } from '@ringcentral/juno';
 import { Hold, ResendFax } from '@ringcentral/juno-icon';
 
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
-import formatDuration from '../../lib/formatDuration';
 import DurationCounter from '../DurationCounter';
 import { RecordingIndicator } from '../RecordingIndicator';
 import { CallIcon } from './CallIcon';
@@ -94,7 +94,9 @@ const SubCallInfoSection: FunctionComponent<CallInfoProps> = ({
     let durationElement = null;
     if (typeof duration === 'undefined') {
       durationElement = disableLinks ? (
-        i18n.getString('unavailable', currentLocale)
+        // TODO: should find what is that key, this unavailable is not exist
+        // i18n.getString('unavailable', currentLocale)
+        'unavailable'
       ) : (
         // @ts-expect-error TS(2322): Type 'number | undefined' is not assignable to typ... Remove this comment to see the full error message
         <DurationCounter startTime={startTime} offset={offset} />
@@ -217,7 +219,9 @@ const ActiveCallInfoSection: FunctionComponent<CallInfoProps> = ({
     let durationElement = null;
     if (typeof duration === 'undefined') {
       durationElement = disableLinks ? (
-        i18n.getString('unavailable', currentLocale)
+        // TODO: should find what is that key, this unavailable is not exist
+        // i18n.getString('unavailable', currentLocale)
+        'unavailable'
       ) : (
         // @ts-expect-error TS(2322): Type 'number | undefined' is not assignable to typ... Remove this comment to see the full error message
         <DurationCounter startTime={startTime} offset={offset} />

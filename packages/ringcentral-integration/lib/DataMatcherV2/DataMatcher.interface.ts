@@ -1,4 +1,4 @@
-import { Storage } from '../../modules/Storage';
+import type { Storage } from '../../modules/Storage';
 
 export interface Deps {
   storage?: Storage;

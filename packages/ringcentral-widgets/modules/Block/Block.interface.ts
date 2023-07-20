@@ -1,4 +1,4 @@
-import { SpinnerOverlayProps } from '../../components/SpinnerOverlay';
+import type { SpinnerOverlayProps } from '../../components/SpinnerOverlay';
 
 export type BlockItem = {} & SpinnerOverlayProps;
 

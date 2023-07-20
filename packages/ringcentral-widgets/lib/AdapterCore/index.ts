@@ -4,9 +4,9 @@ import { presenceStatus } from '@ringcentral-integration/commons/enums/presenceS
 import debounce from '@ringcentral-integration/commons/lib/debounce';
 import ensureExist from '@ringcentral-integration/commons/lib/ensureExist';
 import { dndStatus } from '@ringcentral-integration/commons/modules/Presence';
+import { formatDuration } from '@ringcentral-integration/commons/lib/formatDuration';
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
-import formatDuration from '../formatDuration';
 import { baseMessageTypes } from './baseMessageTypes';
 
 const SANDBOX_ATTRIBUTE_VALUE = [

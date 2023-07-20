@@ -7,7 +7,8 @@ import {
   title,
 } from '@ringcentral-integration/test-utils';
 
-import { Auth, loginStatus, Token } from '../../modules/Auth';
+import type { Token } from '../../modules/Auth';
+import { Auth, loginStatus } from '../../modules/Auth';
 import { mockModuleGenerator } from '../lib/mockModule';
 
 const getMockModule = () =>
@@ -15,6 +16,7 @@ const getMockModule = () =>
     loginStatus: null as string,
     isFreshLogin: null as boolean,
     token: {} as Token,
+    _setToken: Auth.prototype._setToken,
   });
 
 @autorun(test)

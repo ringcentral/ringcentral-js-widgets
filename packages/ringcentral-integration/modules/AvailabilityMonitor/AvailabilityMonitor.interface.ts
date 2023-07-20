@@ -1,5 +1,6 @@
-import { Auth } from '../Auth';
-import { Environment } from '../Environment';
+import type { Auth } from '../Auth';
+import type { Environment } from '../Environment';
+import type { TabManager } from '../TabManager';
 
 export interface AvailabilityMonitorOptions {
   /**
@@ -11,10 +12,19 @@ export interface AvailabilityMonitorOptions {
 export interface Deps {
   auth: Auth;
   client: any;
+  prefix?: string;
+  tabManager?: TabManager;
   environment?: Environment;
   availabilityMonitorOptions?: AvailabilityMonitorOptions;
 }
 
 export interface ErrorMessages {
   _json: { errorCode: string }[];
+}
+
+export interface SharedState {
+  timestamp: number;
+  tabId?: string;
+  hasCallSession?: boolean;
+  webSocketReady?: boolean;
 }

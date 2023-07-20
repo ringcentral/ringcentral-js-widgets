@@ -1,12 +1,10 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import classnames from 'classnames';
 
-import {
-  RcDialerPadSounds,
-  RcDialPad,
-  RcDialPadProps,
-} from '@ringcentral/juno';
+import type { RcDialPadProps } from '@ringcentral/juno';
+import { RcDialerPadSounds, RcDialPad } from '@ringcentral/juno';
 
 import styles from './styles.scss';
 

@@ -33,7 +33,7 @@ export type ObjectMapValue<D> = D extends ObjectMap<infer D, infer K, infer V> &
   ? V
   : never;
 
-export function prefixString(str: string, prefix: string = ''): string {
+export function prefixString(str: string, prefix = ''): string {
   return prefix === '' ? str : `${prefix}-${str}`;
 }
 
@@ -87,7 +87,7 @@ export class ObjectMap<
   }
 
   @factory
-  static prefixKeys<K extends string>(keys: K[], prefix: string = '') {
+  static prefixKeys<K extends string>(keys: K[], prefix = '') {
     const definition = {} as Record<K, string>;
     for (const key of keys) {
       definition[key] = prefixString(key, prefix);
@@ -99,55 +99,70 @@ export class ObjectMap<
     > & { [V in K]: string };
   }
 
-  static getKey<D, K extends keyof D, V extends D[K]>(
-    instance: ObjectMap<D, K, V> & D,
-    value: V,
-  ): K | null {
+  static getKey<
+    D extends Record<string | number, any>,
+    K extends keyof D,
+    V extends D[K],
+  >(instance: ObjectMap<D, K, V> & D, value: V): K | null {
     const [key = null] =
       find<[K, V]>(([, v]) => v === value, [...ObjectMap.entries(instance)]) ||
       [];
     return key;
   }
 
-  static entries<D, K extends keyof D, V extends D[K]>(
-    instance: ObjectMap<D, K, V> & D,
-  ): IterableIterator<[K, V]> {
+  static entries<
+    D extends Record<string | number, any>,
+    K extends keyof D,
+    V extends D[K],
+  >(instance: ObjectMap<D, K, V> & D): IterableIterator<[K, V]> {
     return instance[sDefinition].entries();
   }
 
-  static size<K extends keyof D, V extends D[K], D>(
-    instance: ObjectMap<D, K, V> & D,
-  ): number {
+  static size<
+    K extends keyof D,
+    V extends D[K],
+    D extends Record<string | number, any>,
+  >(instance: ObjectMap<D, K, V> & D): number {
     return instance[sDefinition].size;
   }
 
-  static has<K extends keyof D, V extends D[K], D>(
-    instance: ObjectMap<D, K, V> & D,
-    key: K,
-  ): boolean {
+  static has<
+    K extends keyof D,
+    V extends D[K],
+    D extends Record<string | number, any>,
+  >(instance: ObjectMap<D, K, V> & D, key: K): boolean {
     return instance[sDefinition].has(key);
   }
 
-  static hasValue<D, K extends keyof D, V extends D[K]>(
-    instance: ObjectMap<D, K, V> & D,
-    value: V,
-  ): boolean {
+  static hasValue<
+    D extends Record<string | number, any>,
+    K extends keyof D,
+    V extends D[K],
+  >(instance: ObjectMap<D, K, V> & D, value: V): boolean {
     return !!ObjectMap.getKey(instance, value);
   }
 
-  static keys<D, K extends keyof D, V extends D[K]>(
-    instance: ObjectMap<D, K, V> & D,
-  ): IterableIterator<K> {
+  static keys<
+    D extends Record<string | number, any>,
+    K extends keyof D,
+    V extends D[K],
+  >(instance: ObjectMap<D, K, V> & D): IterableIterator<K> {
     return instance[sDefinition].keys();
   }
 
-  static values<D, K extends keyof D, V extends D[K]>(
-    instance: ObjectMap<D, K, V> & D,
-  ): IterableIterator<V> {
+  static values<
+    D extends Record<string | number, any>,
+    K extends keyof D,
+    V extends D[K],
+  >(instance: ObjectMap<D, K, V> & D): IterableIterator<V> {
     return instance[sDefinition].values();
   }
 
-  static forEach<D, K extends keyof D, V extends D[K]>(
+  static forEach<
+    D extends Record<string | number, any>,
+    K extends keyof D,
+    V extends D[K],
+  >(
     fn: (value: V, key: K, map: ObjectMap<D, K, V> & D) => void,
     instance: ObjectMap<D, K, V> & D,
   ): void {

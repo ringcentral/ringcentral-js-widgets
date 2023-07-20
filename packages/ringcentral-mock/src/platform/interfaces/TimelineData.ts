@@ -1,5 +1,5 @@
-import { KeyInfo } from './KeyInfo';
-import { TimelineDataPoint } from './TimelineDataPoint';
+import type { KeyInfo } from './KeyInfo';
+import type { TimelineDataPoint } from './TimelineDataPoint';
 
 export interface TimelineData {
   /**

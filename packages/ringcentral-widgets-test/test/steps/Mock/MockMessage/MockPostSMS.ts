@@ -1,11 +1,11 @@
-import { GetSMSMessageInfoResponse } from '@ringcentral-integration/mock';
-import { StepFunction } from '../../../lib/step';
+import type { GetSMSMessageInfoResponse } from '@ringcentral-integration/mock';
+import type { StepFunction } from '../../../lib/step';
 
 interface MockPostSMSProps {
   handler?: (mockData: GetSMSMessageInfoResponse) => GetSMSMessageInfoResponse;
   isDefaultInit?: boolean;
   repeat?: number;
-  status?: 200 | 401;
+  status?: 200 | 401 | 400 | 500 | 503;
 }
 
 export const MockPostSMS: StepFunction<MockPostSMSProps> = async (

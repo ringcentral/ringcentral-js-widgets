@@ -1,4 +1,4 @@
-import { FixedOrderAgentsExtensionInfo } from './FixedOrderAgentsExtensionInfo';
+import type { FixedOrderAgentsExtensionInfo } from './FixedOrderAgentsExtensionInfo';
 
 export interface FixedOrderAgents {
   /**

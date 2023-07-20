@@ -1,4 +1,4 @@
-import { PhoneNumberInfoConferencing } from './PhoneNumberInfoConferencing';
+import type { PhoneNumberInfoConferencing } from './PhoneNumberInfoConferencing';
 
 export interface GetConferencingInfoResponse {
   /**

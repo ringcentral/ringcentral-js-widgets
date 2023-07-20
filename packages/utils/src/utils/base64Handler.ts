@@ -12,3 +12,51 @@ export function decodeBase64DataUrl(dataURL: string) {
 
   return '';
 }
+
+export const fileToBase64 = (file: File | Blob) => {
+  return new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      resolve(e.target!.result as string);
+    };
+
+    reader.onerror = (err) => {
+      reject(err);
+    };
+
+    reader.readAsDataURL(file);
+  });
+};
+
+export const fileToBinary = (file: File | Blob) => {
+  return new Promise<string>((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      resolve(e.target!.result as string);
+    };
+
+    reader.onerror = (err) => {
+      reject(err);
+    };
+
+    reader.readAsBinaryString(file);
+  });
+};
+
+export function base64ToBlob(base64Image: string) {
+  const split = base64Image.split(',');
+  const type = split[0].replace('data:', '').replace(';base64', '');
+  const byteString = atob(split[1]);
+  const ab = new ArrayBuffer(byteString.length);
+  const ia = new Uint8Array(ab);
+  for (let i = 0; i < byteString.length; i += 1) {
+    ia[i] = byteString.charCodeAt(i);
+  }
+  return new Blob([ab], { type });
+}
+
+export function base64ToFile(base64Image: string, filename: string) {
+  const blob = base64ToBlob(base64Image);
+
+  return new File([blob], filename);
+}

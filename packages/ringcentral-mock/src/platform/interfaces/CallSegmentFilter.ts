@@ -1,4 +1,4 @@
-import { PerformanceCallsCallSegmentLengthFilter } from './PerformanceCallsCallSegmentLengthFilter';
+import type { PerformanceCallsCallSegmentLengthFilter } from './PerformanceCallsCallSegmentLengthFilter';
 
 export interface CallSegmentFilter {
   /**

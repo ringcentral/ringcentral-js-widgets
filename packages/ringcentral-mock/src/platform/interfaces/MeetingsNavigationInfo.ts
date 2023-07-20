@@ -1,4 +1,4 @@
-import { MeetingsNavigationInfoUri } from './MeetingsNavigationInfoUri';
+import type { MeetingsNavigationInfoUri } from './MeetingsNavigationInfoUri';
 
 export interface MeetingsNavigationInfo {
   /**

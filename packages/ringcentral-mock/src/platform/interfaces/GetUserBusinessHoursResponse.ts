@@ -1,4 +1,4 @@
-import { ScheduleInfoUserBusinessHours } from './ScheduleInfoUserBusinessHours';
+import type { ScheduleInfoUserBusinessHours } from './ScheduleInfoUserBusinessHours';
 
 export interface GetUserBusinessHoursResponse {
   /**

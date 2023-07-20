@@ -1,6 +1,6 @@
 export default {
-  Inbound: "撥入電話",
-  Outbound: "撥出電話",
+  Inbound: "撥入",
+  Outbound: "撥出",
   log: "記錄",
   save: "儲存並建立",
   discard: "捨棄並建立",

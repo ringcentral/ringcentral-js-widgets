@@ -1,7 +1,7 @@
-import { EmergencyServiceAddressResourceRequest } from './EmergencyServiceAddressResourceRequest';
-import { DeviceEmergencyInfo } from './DeviceEmergencyInfo';
-import { DeviceUpdateExtensionInfo } from './DeviceUpdateExtensionInfo';
-import { DeviceUpdatePhoneLinesInfo } from './DeviceUpdatePhoneLinesInfo';
+import type { EmergencyServiceAddressResourceRequest } from './EmergencyServiceAddressResourceRequest';
+import type { DeviceEmergencyInfo } from './DeviceEmergencyInfo';
+import type { DeviceUpdateExtensionInfo } from './DeviceUpdateExtensionInfo';
+import type { DeviceUpdatePhoneLinesInfo } from './DeviceUpdatePhoneLinesInfo';
 
 export interface AccountDeviceUpdate {
   /**

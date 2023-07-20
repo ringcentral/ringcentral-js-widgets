@@ -1,8 +1,9 @@
-import React, { FunctionComponent, useEffect } from 'react';
+import type { FunctionComponent } from 'react';
+import React, { useEffect } from 'react';
 
 import { RcButton, RcTextField } from '@ringcentral/juno';
 
-import {
+import type {
   EvManualDialSettingsUIFunctions,
   EvManualDialSettingsUIProps,
 } from '../../interfaces/EvManualDialSettingsUI.interface';

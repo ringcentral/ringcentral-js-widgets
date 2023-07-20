@@ -1,4 +1,4 @@
-import { StepFunction } from '../../../../lib/step';
+import type { StepFunction } from '../../../../lib/step';
 import { CallButtonBehavior } from './CallButtonBehavior';
 
 export const IgnoreCall: StepFunction = async (props, context) => {

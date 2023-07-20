@@ -19,7 +19,7 @@ export default {
   car: "Auto",
   fax: "Fax",
   assistant: "Assistant",
-  callback: "Terugbellen",
+  callback: "Call-back",
   MobileNumber: "Mobiel nummer",
   ContactNumber: "Nummer contactpersoon",
   DirectNumber: "Direct nummer",

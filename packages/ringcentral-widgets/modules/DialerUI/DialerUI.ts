@@ -1,25 +1,19 @@
-import { trackEvents } from '@ringcentral-integration/commons/enums/trackEvents';
-import { trackWindowType } from '@ringcentral-integration/commons/lib/Analytics';
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import { formatNumber } from '@ringcentral-integration/commons/lib/formatNumber';
 import { normalizeNumber } from '@ringcentral-integration/commons/lib/normalizeNumber';
-import proxify from '@ringcentral-integration/commons/lib/proxy/proxify';
-import {
-  callErrors,
-  Recipient,
-} from '@ringcentral-integration/commons/modules/Call';
+import { proxify } from '@ringcentral-integration/commons/lib/proxy/proxify';
+import type { Recipient } from '@ringcentral-integration/commons/modules/Call';
+import { callErrors } from '@ringcentral-integration/commons/modules/Call';
+import type { UIFunctions, UIProps } from '@ringcentral-integration/core';
 import {
   action,
   computed,
   RcUIModuleV2,
   state,
-  track,
-  UIFunctions,
-  UIProps,
 } from '@ringcentral-integration/core';
 import { parse } from '@ringcentral-integration/phone-number';
 
-import {
+import type {
   Deps,
   DialerUIPanelProps,
   OnCallButtonClickOptions,
@@ -32,7 +26,6 @@ export type DialerUICallParams<T = Recipient> = {
   recipient?: T;
   fromNumber?: string;
   clickDialerToCall?: boolean;
-  isStandAlone?: boolean;
 };
 
 @Module({
@@ -54,8 +47,8 @@ export type DialerUICallParams<T = Recipient> = {
   ],
 })
 export class DialerUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
-  _latestCallTime: number = 0;
-  _lastSearchInput: string = '';
+  _latestCallTime = 0;
+  _lastSearchInput = '';
 
   _callHooks: ((params: DialerUICallParams) => Promise<void>)[] = [];
 
@@ -250,11 +243,7 @@ export class DialerUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
     // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string'.
     fromNumber = null,
     clickDialerToCall = false,
-    isStandAlone,
   }: DialerUICallParams) {
-    if (window.runner) {
-      this._trackClickOutbound(isStandAlone);
-    }
     if (phoneNumber || recipient) {
       this._latestCallTime = Date.now();
       this.resetState({
@@ -315,17 +304,11 @@ export class DialerUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
     this._loadLastPhoneNumberAction();
   }
 
-  @track(trackWindowType(trackEvents.clickOutboundButton))
-  protected _trackClickOutbound(isStandAlone?: boolean) {
-    //
-  }
-
   @proxify
   async onCallButtonClick({
     fromNumber,
     fromSessionId,
     clickDialerToCall,
-    isStandAlone,
   }: OnCallButtonClickOptions = {}) {
     if (`${this.toNumberField}`.trim().length === 0 && !this.recipient) {
       this._loadLastPhoneNumber();
@@ -337,7 +320,6 @@ export class DialerUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
         recipient: this.recipient,
         fromNumber,
         clickDialerToCall,
-        isStandAlone,
       });
     }
   }
@@ -414,11 +396,7 @@ export class DialerUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
     return {
       onToNumberChange: (...args) => this.setToNumberField(...args),
       clearToNumber: () => this.clearToNumberField(),
-      onCallButtonClick: (options: OnCallButtonClickOptions) =>
-        this.onCallButtonClick({
-          ...options,
-          isStandAlone: window?.runner?._standAlone,
-        }),
+      onCallButtonClick: (...args) => this.onCallButtonClick(...args),
       changeFromNumber: (...args) =>
         this._deps.callingSettings.updateFromNumber(...args),
       formatPhone: (phoneNumber) =>

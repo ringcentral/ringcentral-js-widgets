@@ -1,7 +1,7 @@
 import messageTypes from '@ringcentral-integration/commons/enums/messageTypes';
 export default {
   title: "Messages",
-  search: "Recherche...",
+  search: "Recherche…",
   composeText: "Rédiger le texto",
   noMessages: "Aucun message",
   noSearchResults: "Aucun enregistrement correspondant trouvé",

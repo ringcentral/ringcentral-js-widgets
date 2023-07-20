@@ -1,16 +1,16 @@
 import type ForwardingNumberInfo from '@rc-ex/core/lib/definitions/ForwardingNumberInfo';
-import {
+import type {
   ActiveCallControl,
   ActiveSession,
 } from '@ringcentral-integration/commons/modules/ActiveCallControl';
-import { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettings';
-import { CallMonitor } from '@ringcentral-integration/commons/modules/CallMonitor';
-import { ConnectivityMonitor } from '@ringcentral-integration/commons/modules/ConnectivityMonitor';
-import { ExtensionFeatures } from '@ringcentral-integration/commons/modules/ExtensionFeatures';
-import { ForwardingNumber } from '@ringcentral-integration/commons/modules/ForwardingNumber';
-import { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiter';
+import type { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettings';
+import type { CallMonitor } from '@ringcentral-integration/commons/modules/CallMonitor';
+import type { ConnectivityMonitor } from '@ringcentral-integration/commons/modules/ConnectivityMonitor';
+import type { ExtensionFeatures } from '@ringcentral-integration/commons/modules/ExtensionFeatures';
+import type { ForwardingNumber } from '@ringcentral-integration/commons/modules/ForwardingNumber';
+import type { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiter';
 
-import { RouterInteraction } from '../RouterInteraction';
+import type { RouterInteraction } from '../RouterInteraction';
 
 export interface Deps {
   activeCallControl: ActiveCallControl;
@@ -28,6 +28,7 @@ export interface CallLogCallCtrlContainerProps {
 }
 
 export interface CallLogCallCtrlPanelProps {
+  allowPickupCall?: boolean;
   isWebphone: boolean;
   currentSession: ActiveSession;
   disableLinks: boolean;

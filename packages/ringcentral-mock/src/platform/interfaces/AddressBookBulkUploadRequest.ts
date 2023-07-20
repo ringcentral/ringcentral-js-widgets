@@ -1,4 +1,4 @@
-import { AddressBookBulkUploadResource } from './AddressBookBulkUploadResource';
+import type { AddressBookBulkUploadResource } from './AddressBookBulkUploadResource';
 
 export interface AddressBookBulkUploadRequest {
   /**

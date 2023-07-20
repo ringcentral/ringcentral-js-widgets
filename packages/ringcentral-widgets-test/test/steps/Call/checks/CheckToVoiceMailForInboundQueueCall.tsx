@@ -1,6 +1,6 @@
-import { RcMock } from '@ringcentral-integration/mock';
+import type { RcMock } from '@ringcentral-integration/mock';
 import userEvent from '@testing-library/user-event';
-import { StepFunction } from '../../../lib/step';
+import type { StepFunction } from '../../../lib/step';
 import { ClickBackButton } from '../actions';
 
 interface CheckToVoiceMailForInboundQueueCallProps {

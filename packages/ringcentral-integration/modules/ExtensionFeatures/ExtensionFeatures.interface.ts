@@ -1,11 +1,11 @@
-import { Alert } from '../Alert';
-import { Auth } from '../Auth';
-import {
+import type { Alert } from '../Alert';
+import type { Auth } from '../Auth';
+import type {
   DataFetcherV2ConsumerBaseDeps,
   DataSourceBaseProps,
 } from '../DataFetcherV2';
-import { Subscription } from '../Subscription';
-import { TabManager } from '../TabManager';
+import type { Subscription } from '../Subscription';
+import type { TabManager } from '../TabManager';
 
 export interface ExtensionFeaturesOptions extends DataSourceBaseProps {
   CRMFlag?: string;

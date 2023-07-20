@@ -1,11 +1,10 @@
-import React, { FunctionComponent, useState } from 'react';
+import type { FunctionComponent } from 'react';
+import React, { useState } from 'react';
 
 import classnames from 'classnames';
 
-import {
-  dndStatus,
-  DNDStatusValueType,
-} from '@ringcentral-integration/commons/modules/Presence';
+import type { DNDStatusValueType } from '@ringcentral-integration/commons/modules/Presence';
+import { dndStatus } from '@ringcentral-integration/commons/modules/Presence';
 import {
   flexCenterStyle,
   palette2,
@@ -56,105 +55,106 @@ type PresenceSettingSectionProps = {
   showPresenceSettings: boolean;
 };
 
-export const PresenceSettingSection: FunctionComponent<PresenceSettingSectionProps> =
-  ({
-    showPresenceSettings = false,
-    toggleAcceptCallQueueCalls,
-    isCallQueueMember,
-    dndStatus: dndStatusProp,
-    userStatus,
-    currentLocale,
-    setAvailable,
-    setBusy,
-    setDoNotDisturb,
-    setInvisible,
-  }) => {
-    const [showSelects, setShowSelects] = useState(showPresenceSettings);
+export const PresenceSettingSection: FunctionComponent<
+  PresenceSettingSectionProps
+> = ({
+  showPresenceSettings = false,
+  toggleAcceptCallQueueCalls,
+  isCallQueueMember,
+  dndStatus: dndStatusProp,
+  userStatus,
+  currentLocale,
+  setAvailable,
+  setBusy,
+  setDoNotDisturb,
+  setInvisible,
+}) => {
+  const [showSelects, setShowSelects] = useState(showPresenceSettings);
 
-    const toggleShow = () => {
-      setShowSelects((prev) => !prev);
-    };
-
-    const onCallQueueChange = () => {
-      toggleAcceptCallQueueCalls();
-    };
-
-    const sectionClass = classnames(
-      styles.section,
-      showSelects ? styles.showDropdown : null,
-    );
-    const acceptQueueCalls = isCallQueueMember ? (
-      <IconLine
-        dataSign="acceptQueueSwitch"
-        icon={
-          <Switch
-            disable={dndStatusProp === dndStatus.doNotAcceptAnyCalls}
-            checked={dndStatusProp === dndStatus.takeAllCalls}
-            onChange={onCallQueueChange}
-          />
-        }
-      >
-        {i18n.getString('acceptQueueCalls', currentLocale)}
-      </IconLine>
-    ) : null;
-    const currentStatus = getPresenceStatusName(
-      userStatus,
-      dndStatusProp,
-      currentLocale,
-    );
-
-    const { elements: presenceElements, selectedItem } = usePresenceItems({
-      currentLocale,
-      userStatus,
-      dndStatus: dndStatusProp,
-      onChange: (type) => {
-        switch (type) {
-          case 'available':
-            setAvailable();
-            break;
-          case 'busy':
-            setBusy();
-            break;
-          case 'DND':
-            setDoNotDisturb();
-            break;
-          case 'offline':
-            setInvisible();
-            break;
-          default:
-            break;
-        }
-      },
-    });
-
-    return (
-      <section className={sectionClass}>
-        <IconLine
-          dataSign="statusToggleShow"
-          icon={
-            <span className={styles.dropdownIcon}>
-              <i className={dynamicsFont.arrow} />
-            </span>
-          }
-          onClick={toggleShow}
-          className={styles.iconLine}
-        >
-          <StyledPresenceWrap>
-            <div data-sign="status">
-              {i18n.getString('status', currentLocale)}
-            </div>
-            <RcBox flex="1 1 auto" />
-            <RcPresence size="medium" type={selectedItem?.type} />
-            <span>{currentStatus}</span>
-          </StyledPresenceWrap>
-        </IconLine>
-        <StyledList className={styles.presenceList}>
-          {presenceElements}
-        </StyledList>
-        {acceptQueueCalls}
-      </section>
-    );
+  const toggleShow = () => {
+    setShowSelects((prev) => !prev);
   };
+
+  const onCallQueueChange = () => {
+    toggleAcceptCallQueueCalls();
+  };
+
+  const sectionClass = classnames(
+    styles.section,
+    showSelects ? styles.showDropdown : null,
+  );
+  const acceptQueueCalls = isCallQueueMember ? (
+    <IconLine
+      dataSign="acceptQueueSwitch"
+      icon={
+        <Switch
+          disable={dndStatusProp === dndStatus.doNotAcceptAnyCalls}
+          checked={dndStatusProp === dndStatus.takeAllCalls}
+          onChange={onCallQueueChange}
+        />
+      }
+    >
+      {i18n.getString('acceptQueueCalls', currentLocale)}
+    </IconLine>
+  ) : null;
+  const currentStatus = getPresenceStatusName(
+    userStatus as any,
+    dndStatusProp as any,
+    currentLocale,
+  );
+
+  const { elements: presenceElements, selectedItem } = usePresenceItems({
+    currentLocale,
+    userStatus,
+    dndStatus: dndStatusProp,
+    onChange: (type) => {
+      switch (type) {
+        case 'available':
+          setAvailable();
+          break;
+        case 'busy':
+          setBusy();
+          break;
+        case 'DND':
+          setDoNotDisturb();
+          break;
+        case 'offline':
+          setInvisible();
+          break;
+        default:
+          break;
+      }
+    },
+  });
+
+  return (
+    <section className={sectionClass}>
+      <IconLine
+        dataSign="statusToggleShow"
+        icon={
+          <span className={styles.dropdownIcon}>
+            <i className={dynamicsFont.arrow} />
+          </span>
+        }
+        onClick={toggleShow}
+        className={styles.iconLine}
+      >
+        <StyledPresenceWrap>
+          <div data-sign="status">
+            {i18n.getString('status', currentLocale)}
+          </div>
+          <RcBox flex="1 1 auto" />
+          <RcPresence size="medium" type={selectedItem?.type} />
+          <span>{currentStatus}</span>
+        </StyledPresenceWrap>
+      </IconLine>
+      <StyledList className={styles.presenceList}>
+        {presenceElements}
+      </StyledList>
+      {acceptQueueCalls}
+    </section>
+  );
+};
 
 // export default class PresenceSettingSection extends Component<
 //   PresenceSettingSectionProps,

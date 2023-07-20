@@ -1,14 +1,10 @@
 import { Module } from '@ringcentral-integration/commons/lib/di';
-import {
-  computed,
-  RcUIModuleV2,
-  UIFunctions,
-  UIProps,
-} from '@ringcentral-integration/core';
+import type { UIFunctions, UIProps } from '@ringcentral-integration/core';
+import { computed, RcUIModuleV2 } from '@ringcentral-integration/core';
 
-import { TabContentViewProps } from '../../components/TabContentView/TabContentView';
+import type { TabContentViewProps } from '../../components/TabContentView/TabContentView';
 import { hasActiveCalls } from '../../lib/hasActiveCalls';
-import {
+import type {
   Deps,
   DialerAndCallsTabContainerProps,
 } from './DialerAndCallsTabUI.interface';

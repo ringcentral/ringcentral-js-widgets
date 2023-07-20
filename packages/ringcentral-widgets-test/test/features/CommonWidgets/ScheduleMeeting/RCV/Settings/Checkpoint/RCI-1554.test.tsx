@@ -1,6 +1,6 @@
 /**
  * RCI-1554: RCV - Support Meeting Password
- * https://test_id_domain/test-cases/RCI-1554
+ * https://test_it_domain/test-cases/RCI-1554
  * Preconditions:
  * RC CTI app is installed and enabled
  * User has logged in to RC CTI with RCV provider
@@ -11,6 +11,7 @@
  * Office Add-in: Login
  */
 
+import type { StepFunction } from '../../../../../../lib/step';
 import {
   p2,
   it,
@@ -22,7 +23,6 @@ import {
   Then,
   title,
   When,
-  StepFunction,
   common,
 } from '../../../../../../lib/step';
 import { Login as CommonLogin } from '../../../../../../steps/Login';

@@ -44,6 +44,10 @@ $width: 30px;
   margin-top: 24px;
 }
 
+.control ul {
+  padding-inline-start: 0;
+}
+
 .buttonsGroup {
   display: flex;
   align-items: flex-start;

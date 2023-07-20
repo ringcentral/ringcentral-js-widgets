@@ -1,6 +1,6 @@
-import { EmergencyLocationInfo } from './EmergencyLocationInfo';
-import { ProvisioningNavigationInfo } from './ProvisioningNavigationInfo';
-import { ProvisioningPagingInfo } from './ProvisioningPagingInfo';
+import type { EmergencyLocationInfo } from './EmergencyLocationInfo';
+import type { ProvisioningNavigationInfo } from './ProvisioningNavigationInfo';
+import type { ProvisioningPagingInfo } from './ProvisioningPagingInfo';
 
 export interface EmergencyLocationList {
   /**

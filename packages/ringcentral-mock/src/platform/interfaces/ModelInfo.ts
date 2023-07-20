@@ -1,4 +1,4 @@
-import { AddonInfo } from './AddonInfo';
+import type { AddonInfo } from './AddonInfo';
 
 // HardPhone model information
 export interface ModelInfo {

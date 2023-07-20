@@ -1,7 +1,10 @@
 import callLogBody from '@ringcentral-integration/commons/integration-test/mock/data/callLog.json';
 import { v4 as uuidV4 } from 'uuid';
 import { mergeDeepRight, mergeRight } from 'ramda';
-import { CallLogSync, UserCallLogRecord } from '@ringcentral-integration/mock';
+import type {
+  CallLogSync,
+  UserCallLogRecord,
+} from '@ringcentral-integration/mock';
 import { getISODateFrom } from '@ringcentral-integration/commons/modules/CallLog';
 
 const callLogItem = callLogBody.records[0];

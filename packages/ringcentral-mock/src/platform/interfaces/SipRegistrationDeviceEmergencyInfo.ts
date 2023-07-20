@@ -1,5 +1,5 @@
-import { DeviceEmergencyServiceAddressResource } from './DeviceEmergencyServiceAddressResource';
-import { SipRegistrationDeviceLocationInfo } from './SipRegistrationDeviceLocationInfo';
+import type { DeviceEmergencyServiceAddressResource } from './DeviceEmergencyServiceAddressResource';
+import type { SipRegistrationDeviceLocationInfo } from './SipRegistrationDeviceLocationInfo';
 
 // Emergency response location settings of a device
 export interface SipRegistrationDeviceEmergencyInfo {

@@ -1,5 +1,5 @@
 export default {
-  forward: "Weiterleiten",
+  forward: "Weiterl.",
   cancel: "Abbrechen",
   customNumber: "Benutzerdefinierte Nummer"
 };

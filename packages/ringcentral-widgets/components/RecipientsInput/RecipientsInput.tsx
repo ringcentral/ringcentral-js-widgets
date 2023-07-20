@@ -1,4 +1,5 @@
-import React, { ClipboardEvent, Component } from 'react';
+import type { ClipboardEvent } from 'react';
+import React, { Component } from 'react';
 
 import classnames from 'classnames';
 
@@ -206,7 +207,7 @@ class RecipientsInput extends Component<
 
   onPaste = async (ev: ClipboardEvent) => {
     if (
-      // @ts-expect-error TS(2774): This condition will always return true since this ... Remove this comment to see the full error message
+      // @ts-ignore
       this.props.detectPhoneNumbers &&
       ev.clipboardData &&
       ev.clipboardData.getData

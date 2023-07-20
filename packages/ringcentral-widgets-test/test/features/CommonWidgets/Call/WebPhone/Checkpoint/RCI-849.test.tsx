@@ -1,18 +1,18 @@
 /**
  * RCI-849: Multiple calls incoming_End current call
- * https://test_id_domain/test-cases/RCI-849
+ * https://test_it_domain/test-cases/RCI-849
  * Preconditions:
  * 2. User has logged into RC CTI App
  * Entry point(/s):
  * Make a call and keep in call control page
  */
 
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p1,
   it,
   autorun,
   Given,
-  StepFunction,
   Scenario,
   Step,
   And,
@@ -44,7 +44,7 @@ import {
 export class RCI849 extends Step {
   Login: StepFunction<any, any> = () => CommonLogin;
   CreateMock: StepFunction<any, any> = CommonCreateMock;
-  currentCallId: string = '';
+  currentCallId = '';
   run() {
     const { Login, CreateMock } = this;
     return (

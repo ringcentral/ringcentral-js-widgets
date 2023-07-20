@@ -1,4 +1,4 @@
-import { PhoneNumberResource } from './PhoneNumberResource';
+import type { PhoneNumberResource } from './PhoneNumberResource';
 
 export interface AccountResource {
   /**

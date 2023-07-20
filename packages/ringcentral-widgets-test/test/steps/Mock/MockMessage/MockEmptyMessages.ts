@@ -1,4 +1,4 @@
-import { StepFunction } from '../../../lib/step';
+import type { StepFunction } from '../../../lib/step';
 
 export const MockEmptyMessages: StepFunction = async (props, { rcMock }) => {
   rcMock.defaultInitMocks.delete(rcMock.getMessageSync);

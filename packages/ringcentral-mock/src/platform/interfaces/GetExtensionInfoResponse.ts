@@ -1,16 +1,16 @@
-import { GetExtensionAccountInfo } from './GetExtensionAccountInfo';
-import { ContactInfo } from './ContactInfo';
-import { CustomFieldInfo } from './CustomFieldInfo';
-import { DepartmentInfo } from './DepartmentInfo';
-import { ExtensionPermissions } from './ExtensionPermissions';
-import { ProfileImageInfo } from './ProfileImageInfo';
-import { ReferenceInfo } from './ReferenceInfo';
-import { Roles } from './Roles';
-import { RegionalSettings } from './RegionalSettings';
-import { ExtensionServiceFeatureInfo } from './ExtensionServiceFeatureInfo';
-import { ExtensionStatusInfo } from './ExtensionStatusInfo';
-import { CallQueueExtensionInfo } from './CallQueueExtensionInfo';
-import { AutomaticLocationUpdatesSiteInfo } from './AutomaticLocationUpdatesSiteInfo';
+import type { GetExtensionAccountInfo } from './GetExtensionAccountInfo';
+import type { ContactInfo } from './ContactInfo';
+import type { CustomFieldInfo } from './CustomFieldInfo';
+import type { DepartmentInfo } from './DepartmentInfo';
+import type { ExtensionPermissions } from './ExtensionPermissions';
+import type { ProfileImageInfo } from './ProfileImageInfo';
+import type { ReferenceInfo } from './ReferenceInfo';
+import type { Roles } from './Roles';
+import type { RegionalSettings } from './RegionalSettings';
+import type { ExtensionServiceFeatureInfo } from './ExtensionServiceFeatureInfo';
+import type { ExtensionStatusInfo } from './ExtensionStatusInfo';
+import type { CallQueueExtensionInfo } from './CallQueueExtensionInfo';
+import type { AutomaticLocationUpdatesSiteInfo } from './AutomaticLocationUpdatesSiteInfo';
 
 export interface GetExtensionInfoResponse {
   /**

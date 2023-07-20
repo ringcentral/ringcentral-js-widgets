@@ -1,4 +1,4 @@
-import { GlipAttachmentInfoRequest } from './GlipAttachmentInfoRequest';
+import type { GlipAttachmentInfoRequest } from './GlipAttachmentInfoRequest';
 
 // Post data. At least one attribute should be provided (text or attachments)
 export interface GlipPostPostBody {

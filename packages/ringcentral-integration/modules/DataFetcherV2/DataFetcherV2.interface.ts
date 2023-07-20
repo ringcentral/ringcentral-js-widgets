@@ -1,7 +1,7 @@
-import { Auth } from '../Auth';
-import { SleepDetector } from '../SleepDetector';
-import { Storage } from '../Storage';
-import { TabManager } from '../TabManager';
+import type { Auth } from '../Auth';
+import type { SleepDetector } from '../SleepDetector';
+import type { Storage } from '../Storage';
+import type { TabManager } from '../TabManager';
 
 export interface DataFetcherV2Options {
   //

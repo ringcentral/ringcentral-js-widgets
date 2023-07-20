@@ -3,7 +3,7 @@ import { RcModuleV2, watch } from '@ringcentral-integration/core';
 import { permissionsMessages } from '../../enums/permissionsMessages';
 import { Module } from '../../lib/di';
 import { loginStatus } from '../Auth';
-import { Deps } from './TierChecker.interface';
+import type { Deps } from './TierChecker.interface';
 
 @Module({
   name: 'TierChecker',

@@ -1538,19 +1538,11 @@
     },
     {
       "id": "CallQueuePresence",
-      "available": false,
-      "reason": {
-        "code": "AccountLimitation",
-        "message": "The feature is turned off for the current account"
-      }
+      "available": true
     },
     {
       "id": "EditCallQueuePresence",
-      "available": false,
-      "reason": {
-        "code": "AccountLimitation",
-        "message": "The feature is turned off for the current account"
-      }
+      "available": true
     },
     {
       "id": "EditEnhancedCallQueueSettings",

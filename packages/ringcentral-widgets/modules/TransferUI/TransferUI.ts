@@ -1,15 +1,11 @@
 import { Module } from '@ringcentral-integration/commons/lib/di';
-import formatNumber from '@ringcentral-integration/commons/lib/formatNumber';
+import { formatNumber } from '@ringcentral-integration/commons/lib/formatNumber';
 import webphoneErrors from '@ringcentral-integration/commons/modules/Webphone/webphoneErrors';
 import { callingOptions } from '@ringcentral-integration/commons/modules/CallingSettings';
-import {
-  computed,
-  RcUIModuleV2,
-  UIFunctions,
-  UIProps,
-} from '@ringcentral-integration/core';
+import type { UIFunctions, UIProps } from '@ringcentral-integration/core';
+import { computed, RcUIModuleV2 } from '@ringcentral-integration/core';
 
-import {
+import type {
   Deps,
   TransferUIContainerProps,
   TransferUIPanelProps,

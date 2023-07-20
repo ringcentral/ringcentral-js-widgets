@@ -1,4 +1,5 @@
-import { Context } from '../../../../interfaces';
+import type { Context } from '../../../../interfaces';
+import type { StepFunction } from '../../../../lib/step';
 import {
   And,
   autorun,
@@ -6,7 +7,6 @@ import {
   Given,
   Scenario,
   Step,
-  StepFunction,
   Then,
   title,
   When,
@@ -18,10 +18,10 @@ import { NavigateToCallingSetting } from '../../../../steps/Navigate';
 import { CheckCallWithSoftphoneOptionDisplay } from '../../../../steps/Settings';
 
 @autorun(test.skip)
-@common
 @title(
   'Verify ${brandName} brand call with softphone option on calling settings',
 )
+@common
 export class CheckCallWithSoftphoneOption extends Step {
   CustomLogin?: StepFunction<any, any>;
   CustomCreateMock?: StepFunction<any, any>;
@@ -29,10 +29,10 @@ export class CheckCallWithSoftphoneOption extends Step {
   @examples(`
     | brandId | brandName   | spartanName                    | showSoftphoneOption |
     | '1210'  | 'rc'        | 'RingCentral Phone'            | true                |
-    | '3420'  | 'att'       | 'AT&T Office@Hand Phone'       | true                |
+    | '3420'  | 'att'       | 'Office@Hand Phone'       | true                |
     | '7710'  | 'bt'        | 'BT Cloud Work Phone'          | true                |
     | '7310'  | 'telus'     | 'TELUS Business Connect Phone' | true                |
-    | '6010'  | 'avaya'     | 'N.A.'                         | false               |
+    | '6010'  | 'avaya'     | 'Avaya Cloud Office Phone'     | true                |
     | '2020'  | 'atos'      | 'Unify Office Phone'           | true                |
     | '2110'  | 'rainbow'   | 'Rainbow Office Phone'         | true                |
     | '2210'  | 'verizon'   | 'RingCentral Phone'            | true                |

@@ -17,7 +17,7 @@ export default {
   rcmPasswordHintText: "비밀번호는 1~10자의 문자 및 숫자여야 하며 기호(@, *, -)를 제외한 기호는 포함하지 않아야 합니다.",
   passwordEmptyError: "모임 비밀번호 필요",
   rcmPasswordInvalidError: "비밀번호는 1~10자 길이의 문자, 숫자여야 하며 @, * or -를 제외한 기호를 포함할 수 없습니다.",
-  enableJoinBeforeHost: "호스트보다 먼저 참가 사용",
+  enableJoinBeforeHost: "호스트보다 먼저 참가할 수 있도록 설정",
   telephonyOnly: "전화 통신만",
   hostVideoOn: "호스트 비디오 켜기",
   participantVideoOn: "참가자 비디오 켜기",

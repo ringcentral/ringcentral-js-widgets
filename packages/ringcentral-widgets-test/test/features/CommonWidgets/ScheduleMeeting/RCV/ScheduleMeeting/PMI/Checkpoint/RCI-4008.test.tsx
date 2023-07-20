@@ -1,6 +1,6 @@
 /**
  * RCI-4008: RCV - Schedule PMI meeting - check the meeting title
- * https://test_id_domain/test-cases/RCI-4008
+ * https://test_it_domain/test-cases/RCI-4008
  * Preconditions:
  * <ol><li style='user-select: auto;'> RC CTI app is installed and enabled</li><li style='user-select: auto;'>User has logged in to 3rd party</li><li style='user-select: auto;'>For office add-in :  Have no meeting invitation and meeting title in email page</li></ol><table class='table table-bordered'><tbody><tr><td><b>User Name</b></td><td><b>First name</b></td><td><b>Last name</b></td></tr><tr><td>Lexie.Lin</td><td>Lexie</td><td>Lin</td></tr></tbody></table><p style='user-select: auto;'><br></p>
 <p style='user-select: auto;'><strong style='user-select: auto;'><span style='color: rgb(102, 153, 102); user-select: auto;'>
@@ -10,6 +10,7 @@
 <ol><li style='user-select: auto;'>User log in to RC CTI app > schedule video meeting page >  Select 'Use Personal Meeting ID XXX-XXX-XXX<span data-sign='personalMeetingId' style='background-color: transparent;'>' > lnvite with XXX Calendar</span></li><li style='user-select: auto;'>Outlook > New Event > office add-in > User log in to RC CTI app  > meeting setting page > Select 'Use Personal Meeting ID XXX-XXX-XXX<span data-sign='personalMeetingId'>' > Update meeting </span></li></ol>
  */
 
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p2,
   it,
@@ -21,7 +22,6 @@ import {
   title,
   When,
   And,
-  StepFunction,
 } from '@ringcentral-integration/test-utils';
 
 import {

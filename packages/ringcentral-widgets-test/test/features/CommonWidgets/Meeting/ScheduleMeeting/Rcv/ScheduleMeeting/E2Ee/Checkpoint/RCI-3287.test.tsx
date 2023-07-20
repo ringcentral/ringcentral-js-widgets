@@ -1,6 +1,6 @@
 /**
  * RCI-3287: Check invitation should be empty when E2EE is on but API fail to return
- * https://test_id_domain/test-cases/RCI-3287
+ * https://test_it_domain/test-cases/RCI-3287
  * Preconditions:
  * RC CTI app is installed and enabled
  * Turnonthe 'RingCentral Video E2EE Availability'flag on theAdmin web
@@ -15,6 +15,7 @@
  * Outlook Appointment:ClickSchedulebutton > And the APIfailedto return the value ofinvitation Info
  */
 
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   autorun,
   Given,
@@ -22,14 +23,13 @@ import {
   p1,
   Scenario,
   Step,
-  StepFunction,
   Then,
   title,
   When,
   And,
 } from '@ringcentral-integration/test-utils';
 
-import { StepProp } from '../../../../../../../../lib/step';
+import type { StepProp } from '../../../../../../../../lib/step';
 import { CommonLogin } from '../../../../../../../../steps/CommonLogin';
 import {
   CheckRCVPageDisplay,

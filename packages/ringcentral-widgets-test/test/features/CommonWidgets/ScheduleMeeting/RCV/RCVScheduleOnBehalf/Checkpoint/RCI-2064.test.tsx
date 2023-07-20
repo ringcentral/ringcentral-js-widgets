@@ -1,6 +1,6 @@
 /**
  * RCI-2064: Schedule on behalf - Update PMI meeting
- * https://test_id_domain/test-cases/RCI-2064
+ * https://test_it_domain/test-cases/RCI-2064
  * Preconditions:
  * The user hasRCVpermission.
  * Already installed and logged in app
@@ -9,7 +9,7 @@
  * Outlook appointment:Login to Outlook: > New Meeting/Appointment > RingCentral for outlook> meeting setting page > Mark on 'Use Personal Meeting ID XXX-XXX-XXX'> Click 'Change Personal Meeting settings' > show a pop-up window>Click'Change'
  */
 
-import { RcVideoAPI } from '@ringcentral-integration/commons/interfaces/Rcv.model';
+import type { RcVideoAPI } from '@ringcentral-integration/commons/interfaces/Rcv.model';
 import {
   autorun,
   it,
@@ -21,7 +21,7 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
-import { StepProp } from '../../../../../../lib/step';
+import type { StepProp } from '../../../../../../lib/step';
 import { CommonLogin } from '../../../../../../steps/CommonLogin';
 import {
   CheckPatchMeetingParams,

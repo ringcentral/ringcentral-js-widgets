@@ -1,10 +1,10 @@
-import { Alert } from '@ringcentral-integration/commons/modules/Alert';
+import type { Alert } from '@ringcentral-integration/commons/modules/Alert';
 
-import { EvClient } from '../../lib/EvClient';
-import { EvActiveCallControl } from '../EvActiveCallControl';
-import { EvAuth } from '../EvAuth';
-import { EvCall } from '../EvCall';
-import { EvStorage } from '../EvStorage';
+import type { EvClient } from '../../lib/EvClient';
+import type { EvActiveCallControl } from '../EvActiveCallControl';
+import type { EvAuth } from '../EvAuth';
+import type { EvCall } from '../EvCall';
+import type { EvStorage } from '../EvStorage';
 
 export interface State {
   requeuing: boolean;

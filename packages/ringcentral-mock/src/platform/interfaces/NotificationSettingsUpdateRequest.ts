@@ -1,8 +1,8 @@
-import { VoicemailsInfo } from './VoicemailsInfo';
-import { InboundFaxesInfo } from './InboundFaxesInfo';
-import { OutboundFaxesInfo } from './OutboundFaxesInfo';
-import { InboundTextsInfo } from './InboundTextsInfo';
-import { MissedCallsInfo } from './MissedCallsInfo';
+import type { VoicemailsInfo } from './VoicemailsInfo';
+import type { InboundFaxesInfo } from './InboundFaxesInfo';
+import type { OutboundFaxesInfo } from './OutboundFaxesInfo';
+import type { InboundTextsInfo } from './InboundTextsInfo';
+import type { MissedCallsInfo } from './MissedCallsInfo';
 
 export interface NotificationSettingsUpdateRequest {
   /**

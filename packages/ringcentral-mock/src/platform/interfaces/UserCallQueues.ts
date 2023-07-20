@@ -1,4 +1,4 @@
-import { QueueShortInfoResource } from './QueueShortInfoResource';
+import type { QueueShortInfoResource } from './QueueShortInfoResource';
 
 export interface UserCallQueues {
   /**

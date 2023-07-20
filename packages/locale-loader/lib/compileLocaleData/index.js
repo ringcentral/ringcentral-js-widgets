@@ -1,5 +1,5 @@
-import fs from 'fs-extra';
 import path from 'path';
+import fs from 'fs-extra';
 import { filter, reduce } from 'ramda';
 import formatLocale from '@ringcentral-integration/i18n/lib/formatLocale';
 import isLocaleFile from '../isLocaleFile';

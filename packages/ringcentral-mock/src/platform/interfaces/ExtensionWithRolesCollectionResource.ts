@@ -1,4 +1,4 @@
-import { ExtensionWithRolesResource } from './ExtensionWithRolesResource';
+import type { ExtensionWithRolesResource } from './ExtensionWithRolesResource';
 
 export interface ExtensionWithRolesCollectionResource {
   /**

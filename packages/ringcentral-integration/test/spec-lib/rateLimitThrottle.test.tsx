@@ -9,8 +9,8 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
-import { rateLimitThrottle } from '../../lib/rateLimitThrottle';
 import { sleep } from '@ringcentral-integration/utils';
+import { rateLimitThrottle } from '../../lib/rateLimitThrottle';
 
 @autorun(test)
 @title('rateLimitThrottle::basics')

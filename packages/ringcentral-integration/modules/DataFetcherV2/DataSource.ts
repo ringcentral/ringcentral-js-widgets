@@ -1,4 +1,4 @@
-import { DataSourceProps } from './DataFetcherV2.interface';
+import type { DataSourceProps } from './DataFetcherV2.interface';
 
 export const DEFAULT_TTL = 30 * 60 * 1000;
 export const DEFAULT_RETRY = 62 * 1000;

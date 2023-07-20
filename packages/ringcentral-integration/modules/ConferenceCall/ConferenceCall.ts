@@ -12,7 +12,7 @@ import {
 import callDirections from '../../enums/callDirections';
 import calleeTypes from '../../enums/calleeTypes';
 import { permissionsMessages } from '../../enums/permissionsMessages';
-import {
+import type {
   NormalizedSession,
   WebphoneSession,
 } from '../../interfaces/Webphone.interface';
@@ -22,7 +22,7 @@ import { trackEvents } from '../../enums/trackEvents';
 import { callingModes } from '../CallingSettings';
 import sessionStatusEnum from '../Webphone/sessionStatus';
 import { isConferenceSession, isRecording } from '../Webphone/webphoneHelper';
-import {
+import type {
   Conference,
   ConferencesState,
   ConferenceState,
@@ -258,7 +258,7 @@ export class ConferenceCall extends RcModuleV2<Deps> {
   async bringInToConference(
     id: string,
     webphoneSession: NormalizedSession,
-    propagate: boolean = false,
+    propagate = false,
   ) {
     const conferenceState = this.conferences[id];
     if (

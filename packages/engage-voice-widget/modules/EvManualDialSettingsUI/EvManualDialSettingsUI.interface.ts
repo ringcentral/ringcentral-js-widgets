@@ -1,10 +1,10 @@
-import { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
 
-import { Locale } from '@ringcentral-integration/commons/modules/Locale';
-import RouterInteraction from '@ringcentral-integration/widgets/modules/RouterInteraction';
+import type { Locale } from '@ringcentral-integration/commons/modules/Locale';
+import type RouterInteraction from '@ringcentral-integration/widgets/modules/RouterInteraction';
 
-import { EvAuth } from '../EvAuth';
-import { EvCall } from '../EvCall';
+import type { EvAuth } from '../EvAuth';
+import type { EvCall } from '../EvCall';
 
 interface State {
   //

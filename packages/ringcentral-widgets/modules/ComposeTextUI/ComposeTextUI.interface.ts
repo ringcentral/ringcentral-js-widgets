@@ -1,17 +1,17 @@
-import { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures';
-import { Brand } from '@ringcentral-integration/commons/modules/Brand';
-import { ComposeText } from '@ringcentral-integration/commons/modules/ComposeText';
-import { ConnectivityMonitor } from '@ringcentral-integration/commons/modules/ConnectivityMonitor';
-import { ContactSearch } from '@ringcentral-integration/commons/modules/ContactSearch';
-import { Conversations } from '@ringcentral-integration/commons/modules/Conversations';
-import { Locale } from '@ringcentral-integration/commons/modules/Locale';
-import { MessageSender } from '@ringcentral-integration/commons/modules/MessageSender';
-import { MessageStore } from '@ringcentral-integration/commons/modules/MessageStore';
-import { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiter';
-import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
-import { AccountInfo } from '@ringcentral-integration/commons/modules/AccountInfo';
+import type { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures';
+import type { Brand } from '@ringcentral-integration/commons/modules/Brand';
+import type { ComposeText } from '@ringcentral-integration/commons/modules/ComposeText';
+import type { ConnectivityMonitor } from '@ringcentral-integration/commons/modules/ConnectivityMonitor';
+import type { ContactSearch } from '@ringcentral-integration/commons/modules/ContactSearch';
+import type { Conversations } from '@ringcentral-integration/commons/modules/Conversations';
+import type { Locale } from '@ringcentral-integration/commons/modules/Locale';
+import type { MessageSender } from '@ringcentral-integration/commons/modules/MessageSender';
+import type { MessageStore } from '@ringcentral-integration/commons/modules/MessageStore';
+import type { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiter';
+import type { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
+import type { AccountInfo } from '@ringcentral-integration/commons/modules/AccountInfo';
 
-import { RouterInteraction } from '../RouterInteraction';
+import type { RouterInteraction } from '../RouterInteraction';
 
 export interface Deps {
   brand: Brand;

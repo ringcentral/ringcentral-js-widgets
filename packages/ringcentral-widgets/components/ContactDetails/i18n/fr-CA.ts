@@ -14,7 +14,7 @@ export default {
   [phoneTypes.other]: "Autre",
   emailLabel: "Adresse courriel",
   call: "Appeler",
-  text: "Texter",
+  text: "Texto",
   [presenceStatus.available]: "Disponible",
   [presenceStatus.offline]: "Invisible",
   [presenceStatus.busy]: "Occupé",

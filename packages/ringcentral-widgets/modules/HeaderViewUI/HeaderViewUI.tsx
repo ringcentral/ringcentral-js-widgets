@@ -1,15 +1,11 @@
 import React from 'react';
 
 import { Module } from '@ringcentral-integration/commons/lib/di';
-import {
-  computed,
-  RcUIModuleV2,
-  UIFunctions,
-  UIProps,
-} from '@ringcentral-integration/core';
+import type { UIFunctions, UIProps } from '@ringcentral-integration/core';
+import { computed, RcUIModuleV2 } from '@ringcentral-integration/core';
 
-import { HeaderViewProps } from '../../components/HeaderView';
-import { Deps } from './HeaderViewUI.interface';
+import type { HeaderViewProps } from '../../components/HeaderView';
+import type { Deps } from './HeaderViewUI.interface';
 
 @Module({
   name: 'HeaderViewUI',
@@ -48,8 +44,10 @@ export class HeaderViewUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
   getUIProps({
     standAlone,
   }: Partial<HeaderViewProps>): UIProps<HeaderViewProps> {
+    const logoUrl = this._deps.brand?.brandConfig.assets?.logo as string;
     return {
       standAlone,
+      logoUrl,
       userStatus:
         (this._deps.auth.loggedIn && this._deps.presence.userStatus) ||
         undefined,
@@ -72,10 +70,8 @@ export class HeaderViewUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
   getUIFunctions({
     logo,
   }: Partial<HeaderViewProps>): UIFunctions<HeaderViewProps> {
-    const logoUrl = this._deps.brand?.brandConfig.assets?.logo as string;
-
     return {
-      logo: (logoUrl ? () => <img src={logoUrl} alt="" /> : undefined) || logo,
+      logo,
       onCurrentCallBtnClick: () => {
         if (this._deps.routerInteraction.currentPath !== '/calls/active') {
           this._deps.routerInteraction.push('/calls/active');

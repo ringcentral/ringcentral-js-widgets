@@ -1,16 +1,17 @@
 import { includes } from 'ramda';
-import { Unsubscribe } from 'redux';
+import type { Unsubscribe } from 'redux';
 import type ExtensionInfoEvent from '@rc-ex/core/lib/definitions/ExtensionInfoEvent';
 import type UserVideoConfiguration from '@rc-ex/core/lib/definitions/UserVideoConfiguration';
 import { watch } from '@ringcentral-integration/core';
 
 import { subscriptionFilters } from '../../enums/subscriptionFilters';
 import { subscriptionHints } from '../../enums/subscriptionHints';
-import { debounce, DebouncedFunction } from '../../lib/debounce-throttle';
+import type { DebouncedFunction } from '../../lib/debounce-throttle';
+import { debounce } from '../../lib/debounce-throttle';
 import { Module } from '../../lib/di';
 import { DataFetcherV2Consumer, DataSource } from '../DataFetcherV2';
-import { UserLicenseType } from './userLicenseType';
-import { Deps } from './VideoConfiguration.interface';
+import type { UserLicenseType } from './userLicenseType';
+import type { Deps } from './VideoConfiguration.interface';
 import { videoProviders } from './videoProviders';
 
 const DEFAULT_FETCH_DELAY = 5 * 1000;
@@ -74,7 +75,7 @@ export class VideoConfiguration extends DataFetcherV2Consumer<
       message?.body?.hints?.includes(subscriptionHints.videoConfiguration) &&
       (this._source.disableCache || (this._deps.tabManager?.active ?? true))
     ) {
-      // https://jira.ringcentral.com/browse/ENV-67087
+      // https://jira_domain/browse/ENV-67087
       // the video configuration api may return the old value
       // when we try to query immediately right after got the push notification
       // here we wait for seconds as a workaround to solve the issue

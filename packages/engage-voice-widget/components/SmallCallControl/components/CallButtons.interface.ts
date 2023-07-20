@@ -1,4 +1,4 @@
-import { RcIconButtonProps } from '@ringcentral/juno';
+import type { RcIconButtonProps } from '@ringcentral/juno';
 
 export type CallButtonsProps = {
   currentLocale?: string;

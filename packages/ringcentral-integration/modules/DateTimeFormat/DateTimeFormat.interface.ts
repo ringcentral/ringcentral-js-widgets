@@ -1,8 +1,8 @@
-import {
+import type {
   DateTimeFormatter,
   DateTimeFormatterParams,
 } from '../../lib/getIntlDateTimeFormatter';
-import { Locale } from '../Locale';
+import type { Locale } from '../Locale';
 
 interface NameOptions {
   name?: string;

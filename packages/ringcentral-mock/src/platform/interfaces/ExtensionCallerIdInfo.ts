@@ -1,5 +1,5 @@
-import { CallerIdByDevice } from './CallerIdByDevice';
-import { CallerIdByFeature } from './CallerIdByFeature';
+import type { CallerIdByDevice } from './CallerIdByDevice';
+import type { CallerIdByFeature } from './CallerIdByFeature';
 
 export interface ExtensionCallerIdInfo {
   /**

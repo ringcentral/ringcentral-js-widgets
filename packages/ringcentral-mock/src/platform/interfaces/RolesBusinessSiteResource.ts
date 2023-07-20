@@ -1,6 +1,6 @@
-import { BasicExtensionInfoResource } from './BasicExtensionInfoResource';
-import { RolesRegionalSettingsResource } from './RolesRegionalSettingsResource';
-import { ContactAddressInfoResource } from './ContactAddressInfoResource';
+import type { BasicExtensionInfoResource } from './BasicExtensionInfoResource';
+import type { RolesRegionalSettingsResource } from './RolesRegionalSettingsResource';
+import type { ContactAddressInfoResource } from './ContactAddressInfoResource';
 
 export interface RolesBusinessSiteResource {
   /**

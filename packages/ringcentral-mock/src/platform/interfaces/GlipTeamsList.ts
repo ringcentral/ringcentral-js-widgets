@@ -1,5 +1,5 @@
-import { GlipTeamInfo } from './GlipTeamInfo';
-import { GlipNavigationInfo } from './GlipNavigationInfo';
+import type { GlipTeamInfo } from './GlipTeamInfo';
+import type { GlipNavigationInfo } from './GlipNavigationInfo';
 
 export interface GlipTeamsList {
   /**

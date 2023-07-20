@@ -1,0 +1,20 @@
+{
+  "context": {
+    "brandId": "3610",
+    "country": { "isoCode": "CA", "name": "Canada", "callingCode": "1" },
+    "vanityPhoneNumbersAllowed": true,
+    "maxExtensionNumberLength": 5,
+    "shortCodesAllowed": true,
+    "shortExtensionNumberLength": 5,
+    "maskedPhoneNumbersAllowed": false,
+    "conflictHandling": "Client"
+  },
+  "results": [
+    {
+      "originalString": "988",
+      "category": "Extension",
+      "numberDetails": { "extensionNumber": "988" },
+      "formats": [{ "dialable": "988", "dialableExtended": "988" }]
+    }
+  ]
+}

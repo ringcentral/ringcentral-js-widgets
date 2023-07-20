@@ -2,16 +2,21 @@ import { pathOr } from 'ramda';
 
 import {
   action,
+  computed,
   RcModuleV2,
   state,
   watch,
 } from '@ringcentral-integration/core';
-import { ApiError } from '@ringcentral/sdk';
+import type { ApiError } from '@ringcentral/sdk';
 
 import { promisedThrottle } from '../../lib/debounce-throttle';
 import { Module } from '../../lib/di';
 import validateIsOffline from '../../lib/validateIsOffline';
-import { Deps, ErrorMessages } from './AvailabilityMonitor.interface';
+import type {
+  Deps,
+  ErrorMessages,
+  SharedState,
+} from './AvailabilityMonitor.interface';
 import {
   extractUrl,
   generateRandomNumber,
@@ -23,12 +28,15 @@ import { errorMessages } from './errorMessages';
 export const HEALTH_CHECK_INTERVAL = 60 * 1000;
 export const STATUS_END_POINT = '/restapi/v1.0/status';
 const DEFAULT_TIME = 0;
+const SHARED_STATE_EXPIRATION = 12 * 60 * 60 * 1000;
 
 @Module({
   name: 'AvailabilityMonitor',
   deps: [
     'Auth',
     'Client',
+    { dep: 'Prefix', optional: true },
+    { dep: 'TabManager', optional: true },
     { dep: 'Environment', optional: true },
     { dep: 'AvailabilityMonitorOptions', optional: true },
   ],
@@ -98,6 +106,7 @@ export class AvailabilityMonitor extends RcModuleV2<Deps> {
   }
 
   override onInitOnce() {
+    this._initLocalStorage();
     watch(
       this,
       () => this._deps.environment?.changeCounter,
@@ -417,5 +426,136 @@ export class AvailabilityMonitor extends RcModuleV2<Deps> {
    */
   get isLimitedAvailabilityMode() {
     return this.isLimitedMode || this.isVoIPOnlyMode;
+  }
+
+  /**
+   * Custom storage with localStorage in synchronous way
+   * ! Be aware that these states are shared across multiple tabs !
+   */
+  @state
+  sharedStates: Record<string, SharedState> = {};
+
+  @computed((that: AvailabilityMonitor) => [that.sharedStates])
+  get hasCallSession() {
+    return Object.keys(this.sharedStates).some(
+      (key) => this.sharedStates[key].hasCallSession,
+    );
+  }
+
+  @computed((that: AvailabilityMonitor) => [that.sharedStates])
+  get hasWebSocketReady() {
+    return Object.keys(this.sharedStates).some(
+      (key) => this.sharedStates[key].webSocketReady,
+    );
+  }
+
+  _sharedStatesKey!: string;
+  _currentTabKeys: string[] = [];
+
+  _writeSharedStates() {
+    const json = JSON.stringify(this.sharedStates);
+    localStorage.setItem(this._sharedStatesKey, json);
+  }
+
+  @action
+  _retrieveSharedStates() {
+    const json = localStorage.getItem(this._sharedStatesKey);
+    this.sharedStates = JSON.parse(json ?? '{}');
+  }
+
+  _initLocalStorage() {
+    this._sharedStatesKey = `${this._deps.prefix}-AvailabilityMonitor-sharedStates`;
+    this._retrieveSharedStates();
+    let isUnloading: boolean | undefined;
+    window.addEventListener('storage', (ev) => {
+      if (!isUnloading && ev.key === this._sharedStatesKey) {
+        this._retrieveSharedStates();
+      }
+    });
+    window.addEventListener('unload', () => {
+      isUnloading = true;
+      this._unloadSharedStates();
+    });
+  }
+
+  @action
+  _unloadSharedStates() {
+    let states: Record<string, SharedState> = {
+      ...this.sharedStates,
+    };
+
+    // unload base on cached keys
+    this._currentTabKeys.forEach((key) => {
+      delete states[key];
+    });
+    this._currentTabKeys = [];
+
+    // unload base on tabId
+    if (this._deps.tabManager) {
+      Object.keys(states).forEach((key) => {
+        if (states[key].tabId === this._deps.tabManager!.id) {
+          delete states[key];
+        }
+      });
+    }
+
+    // clean
+    states = this._cleanSharedStates(states);
+
+    // write
+    this.sharedStates = states;
+    this._writeSharedStates();
+  }
+
+  _cleanSharedStates(states: Record<string, SharedState>) {
+    Object.keys(states).forEach((key) => {
+      const state = states[key];
+      if (
+        // timestamp expired
+        Date.now() - state.timestamp > SHARED_STATE_EXPIRATION ||
+        // tabs expired/closed
+        (state.tabId &&
+          this._deps.tabManager &&
+          !this._deps.tabManager.actualTabIds.includes(state.tabId))
+      ) {
+        delete states[key];
+      }
+    });
+    return states;
+  }
+
+  @action
+  setSharedState(
+    key: string,
+    state?: Omit<SharedState, 'tabId' | 'timestamp'>,
+  ) {
+    let states: Record<string, SharedState> = {
+      ...this.sharedStates,
+    };
+
+    // update
+    if (state) {
+      const current = states[key];
+      states[key] = {
+        ...current,
+        ...state,
+        timestamp: Date.now(),
+        tabId: this._deps.tabManager?.id,
+      };
+    } else {
+      delete states[key];
+    }
+
+    // clean
+    states = this._cleanSharedStates(states);
+
+    // write storage
+    this.sharedStates = states;
+    this._writeSharedStates();
+
+    // cache keys
+    if (!this._currentTabKeys.includes(key)) {
+      this._currentTabKeys.push(key);
+    }
   }
 }

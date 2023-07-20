@@ -1,6 +1,6 @@
 /**
  * RCI-1977: Enable waiting room - linkage "Participants can only join after me"
- * https://test_id_domain/test-cases/RCI-1977
+ * https://test_it_domain/test-cases/RCI-1977
  * Preconditions:
  * 1. RC CTI app is installed and enabled
  * 2. User has logged in to 3rd party
@@ -12,11 +12,11 @@
  * 2.Microsoft 365/Google:More>Schedule Video Meeting>Security>'Enable wating room '
  */
 
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p2,
   it,
   autorun,
-  StepFunction,
   Given,
   Scenario,
   Step,

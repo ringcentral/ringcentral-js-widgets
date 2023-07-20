@@ -7,7 +7,7 @@ export default {
   Ringing: "Chiamata in corso",
   CallConnected: "Chiamata connessa",
   unknownUser: "Utente sconosciuto",
-  unknownNumber: "Numero anonimo",
+  unknownNumber: "Anonimo",
   unavailable: "Non disponibile",
   viewDetails: "Visualizza dettagli",
   conferenceCall: "Conferenza telefonica"

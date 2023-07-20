@@ -1,6 +1,6 @@
 /**
  * RCI-3567: Cancel deletion of voice message
- * https://test_id_domain/test-cases/RCI-3567
+ * https://test_it_domain/test-cases/RCI-3567
  * Preconditions:
  * RC CTI app is installed and enabled
  * User must have login 3rd party
@@ -24,7 +24,7 @@ import {
 } from '@ringcentral-integration/test-utils';
 
 import { mockMessageListData } from '../../../../../../__mock__';
-import { StepProp } from '../../../../../../lib/step';
+import type { StepProp } from '../../../../../../lib/step';
 import {
   ClickCancelOnPopup,
   ClickCloseOnPopup,
@@ -60,6 +60,8 @@ export class CancelDeletionOfVoiceMessage extends Step {
               ...mockData,
               ...mockMessageListData(null),
             })}
+            repeat={0}
+            isDefaultInit
           />,
           <MockMessageSync
             handler={(mockData) => ({

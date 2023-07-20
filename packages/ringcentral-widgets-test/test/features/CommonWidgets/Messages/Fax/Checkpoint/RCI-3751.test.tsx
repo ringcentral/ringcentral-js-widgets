@@ -1,6 +1,6 @@
 /**
  * RCI-3751: Check Fax page number
- * https://test_id_domain/test-cases/RCI-3751
+ * https://test_it_domain/test-cases/RCI-3751
  * Preconditions:
  * User must be logged into 3rd party
  * User has logged intoRC CTI App
@@ -25,7 +25,7 @@ import {
   When,
   Given,
 } from '@ringcentral-integration/test-utils';
-import { StepFunction } from '../../../../../lib/step';
+import type { StepFunction } from '../../../../../lib/step';
 import { MockMessageList, MockMessageSync } from '../../../../../steps/Mock';
 import { CheckFaxPageCount } from '../../../../../steps/Conversation/CheckConversations';
 import { NavigateToMessageHistory } from '../../../../../steps/Navigate/actions/NavigateToMessageHistory';

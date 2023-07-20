@@ -1,14 +1,14 @@
 /**
  * RCI-4499: "Ignore" button for inbound Queue calls
- * https://test_id_domain/test-cases/RCI-4499
+ * https://test_it_domain/test-cases/RCI-4499
  */
 
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p2,
   it,
   autorun,
   Given,
-  StepFunction,
   Scenario,
   Step,
   And,

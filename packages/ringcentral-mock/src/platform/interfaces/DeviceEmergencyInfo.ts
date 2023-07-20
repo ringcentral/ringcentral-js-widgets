@@ -1,5 +1,5 @@
-import { DeviceEmergencyAddress } from './DeviceEmergencyAddress';
-import { DeviceEmergencyLocationInfo } from './DeviceEmergencyLocationInfo';
+import type { DeviceEmergencyAddress } from './DeviceEmergencyAddress';
+import type { DeviceEmergencyLocationInfo } from './DeviceEmergencyLocationInfo';
 
 // Device emergency settings
 export interface DeviceEmergencyInfo {

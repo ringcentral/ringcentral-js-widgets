@@ -1,5 +1,5 @@
-import { GlobalStorage } from '../GlobalStorage';
-import { Locale } from '../Locale';
+import type { GlobalStorage } from '../GlobalStorage';
+import type { Locale } from '../Locale';
 
 export interface LocaleSettingsOptions {
   /**

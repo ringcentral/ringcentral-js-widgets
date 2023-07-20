@@ -1,0 +1,16 @@
+{
+  "name": "crius-is",
+  "version": "1.2.0",
+  "description": "A tool for checking Crius element types",
+  "main": "dist/index.js",
+  "module": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "crius": "^1.2.0"
+  },
+  "author": "unadlib",
+  "license": "MIT"
+}

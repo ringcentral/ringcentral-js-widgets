@@ -1,5 +1,5 @@
-import { PhoneNumberInfoIntId } from './PhoneNumberInfoIntId';
-import { EmergencyAddress } from './EmergencyAddress';
+import type { PhoneNumberInfoIntId } from './PhoneNumberInfoIntId';
+import type { EmergencyAddress } from './EmergencyAddress';
 
 export interface PhoneLinesInfo {
   /**

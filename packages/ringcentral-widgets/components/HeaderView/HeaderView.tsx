@@ -1,4 +1,5 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import {
   createGlobalStyle,
@@ -10,7 +11,7 @@ import {
 import { fullSizeStyle, noSelectStyle } from '../../lib/commonStyles';
 import { CallMonitorBar } from '../CallMonitorBar';
 import { PresenceDropdown } from '../PresenceDropdown';
-import { HeaderViewProps } from './HeaderView.interface';
+import type { HeaderViewProps } from './HeaderView.interface';
 import { headerViewHeight } from './utils';
 
 const ALL_CALL_PATH = '/calls';
@@ -56,6 +57,7 @@ const Main = styled.main`
 
 export const HeaderView: FunctionComponent<HeaderViewProps> = ({
   logo: Logo,
+  logoUrl,
   userStatus,
   dndStatus,
   currentLocale,
@@ -72,6 +74,8 @@ export const HeaderView: FunctionComponent<HeaderViewProps> = ({
   activeSessionId,
   incomingCallPageMinimized,
   presenceReady,
+  shouldDisplayCurrentCallBtn,
+  shouldDisplayViewCallsBtn,
   ...props
 }) => {
   if (!standAlone) {
@@ -104,19 +108,27 @@ export const HeaderView: FunctionComponent<HeaderViewProps> = ({
             onHoldCalls={onHoldCalls}
             currentCalls={currentCalls}
             shouldDisplayCurrentCallBtn={
-              currentPath !== ACTIVE_CALL_PATH &&
-              currentPath !== `${ACTIVE_CALL_PATH}/${activeSessionId}`
+              shouldDisplayCurrentCallBtn ??
+              (currentPath !== ACTIVE_CALL_PATH &&
+                currentPath !== `${ACTIVE_CALL_PATH}/${activeSessionId}`)
             }
             shouldDisplayViewCallsBtn={
-              !incomingCallPageMinimized || currentPath !== ALL_CALL_PATH
+              shouldDisplayViewCallsBtn ??
+              (!incomingCallPageMinimized || currentPath !== ALL_CALL_PATH)
             }
             {...props}
           />
         ) : (
-          <LogoWrapper>{Logo && <Logo />}</LogoWrapper>
+          <LogoWrapper>
+            {logoUrl ? <LogoComp logoUrl={logoUrl} /> : Logo && <Logo />}
+          </LogoWrapper>
         )}
       </Header>
       <Main>{children}</Main>
     </Wrapper>
   );
 };
+
+const LogoComp = React.memo(({ logoUrl }: { logoUrl: string }) => (
+  <img src={logoUrl} alt="" />
+));

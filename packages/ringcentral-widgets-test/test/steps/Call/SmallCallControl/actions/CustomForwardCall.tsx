@@ -1,6 +1,6 @@
 import { waitUntilTo } from '@ringcentral-integration/commons/utils';
 import { fireEvent, screen } from '@testing-library/react';
-import { StepFunction } from '../../../../lib/step';
+import type { StepFunction } from '../../../../lib/step';
 import { CallButtonBehavior } from './CallButtonBehavior';
 
 export const CustomForwardCall: StepFunction = async (props, context) => {

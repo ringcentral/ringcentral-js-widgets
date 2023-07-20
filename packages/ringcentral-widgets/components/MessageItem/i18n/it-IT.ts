@@ -16,7 +16,7 @@ export default {
   delete: "Elimina",
   faxSent: "Fax inviato",
   faxReceived: "Fax ricevuto",
-  pages: "pagine",
+  pages: " pagine",
   page: "pagina",
   preview: "Visualizza",
   download: "Scarica",

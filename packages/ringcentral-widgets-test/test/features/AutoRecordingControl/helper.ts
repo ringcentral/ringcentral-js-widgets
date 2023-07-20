@@ -1,5 +1,5 @@
 import featuresBody from '@ringcentral-integration/commons/integration-test/mock/data/features.json';
-import {
+import type {
   FeaturesData,
   Record,
 } from '@ringcentral-integration/commons/integration-test/mock';

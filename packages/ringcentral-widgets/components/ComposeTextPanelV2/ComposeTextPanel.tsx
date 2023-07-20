@@ -1,4 +1,5 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import { CommunicationSetupPanel } from '../CommunicationSetupPanel';
 // TODO: Re implement this component by function component

@@ -1,6 +1,6 @@
 import { mockModuleGenerator } from '@ringcentral-integration/commons/test/lib/mockModule';
 import { HeaderViewUI } from '../../../modules/HeaderViewUI';
-import { Deps } from '../../../modules/HeaderViewUI/HeaderViewUI.interface';
+import type { Deps } from '../../../modules/HeaderViewUI/HeaderViewUI.interface';
 
 describe('HeaderViewUI', () => {
   it('onCurrentCallBtnClick', async () => {

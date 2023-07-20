@@ -3,11 +3,13 @@ import type DialInNumberResource from '@rc-ex/core/lib/definitions/DialInNumberR
 import formatPhoneNumber, {
   formatTypes,
 } from '@ringcentral-integration/phone-number/lib/format';
+import type { CountryCode } from '@ringcentral-integration/phone-number';
 import { format } from '@ringcentral-integration/utils';
 
 import i18n from '../modules/Meeting/i18n';
 import type { RcMMeetingModel } from '../modules/Meeting/Meeting.interface';
-import { MeetingType, MeetingTypeV } from './meetingHelper.interface';
+import type { MeetingTypeV } from './meetingHelper.interface';
+import { MeetingType } from './meetingHelper.interface';
 
 function getMobileDialingNumberTpl(
   dialInNumbers: DialInNumberResource[],
@@ -26,8 +28,8 @@ function getPhoneDialingNumberTpl(dialInNumbers: DialInNumberResource[]) {
   return dialInNumbers
     .map(({ phoneNumber, location = '', country }) => {
       const filterFormattedNumber = formatPhoneNumber({
-        phoneNumber,
-        countryCode: country?.isoCode,
+        phoneNumber: phoneNumber as string,
+        countryCode: country?.isoCode as CountryCode,
         type: formatTypes.international,
       });
       return location
@@ -46,10 +48,7 @@ function isRecurringMeeting(meetingType: MeetingTypeV) {
   );
 }
 
-function getDefaultTopic(
-  extensionName: string,
-  currentLocale: string = 'en-US',
-) {
+function getDefaultTopic(extensionName: string, currentLocale = 'en-US') {
   return format(i18n.getString('meetingTitle', currentLocale), {
     extensionName,
   });
@@ -58,7 +57,7 @@ function getDefaultTopic(
 // Basic default meeting type information
 function getDefaultMeetingSettings(
   extensionName: string,
-  currentLocale: string = 'en-US',
+  currentLocale = 'en-US',
   startTime: number,
   hostId?: string,
 ): Partial<RcMMeetingModel> {
@@ -122,7 +121,7 @@ function comparePreferences(
   return preferencesChanged;
 }
 
-function generateRandomPassword(length: number = 6): string {
+function generateRandomPassword(length = 6): string {
   const charset = '0123456789';
   const charLen = charset.length;
   let retVal = '';

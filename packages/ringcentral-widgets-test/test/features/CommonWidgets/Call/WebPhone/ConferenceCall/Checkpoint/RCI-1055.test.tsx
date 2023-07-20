@@ -1,6 +1,6 @@
 /**
  * RCI-1055: Current conference call control_Hold/unhold
- * https://test_id_domain/test-cases/RCI-1055
+ * https://test_it_domain/test-cases/RCI-1055
  * Preconditions:
  * The user has logged into 3rd party.
  * The user has logged into RC CTI App
@@ -11,13 +11,13 @@
  *
  */
 
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p1,
   it,
   autorun,
   Given,
   And,
-  StepFunction,
   Scenario,
   Step,
   Then,

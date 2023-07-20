@@ -1,9 +1,11 @@
-import React, { FunctionComponent, ReactNode } from 'react';
+import type { FunctionComponent, ReactNode } from 'react';
+import React from 'react';
 
 import classnames from 'classnames';
 
 import DropdownNavigationView from '../DropdownNavigationView';
-import { NavigationBar, NavigationBarProps } from '../NavigationBar';
+import type { NavigationBarProps } from '../NavigationBar';
+import { NavigationBar } from '../NavigationBar';
 import { SpinnerOverlay } from '../SpinnerOverlay';
 import TabNavigationButton from '../TabNavigationButton';
 import styles from './styles.scss';

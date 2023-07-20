@@ -1,10 +1,5 @@
-import React, {
-  FunctionComponent,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import type { FunctionComponent } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import classnames from 'classnames';
 
@@ -15,27 +10,31 @@ import {
   updateFullTime,
   updateFullYear,
 } from '@ringcentral-integration/commons/helpers/meetingHelper';
-import {
-  ASSISTED_USERS_MYSELF,
+import type {
   MeetingDelegator,
-  RCM_ITEM_NAME,
   RcmItemType,
   RcMMeetingModel,
 } from '@ringcentral-integration/commons/modules/Meeting';
+import {
+  ASSISTED_USERS_MYSELF,
+  RCM_ITEM_NAME,
+} from '@ringcentral-integration/commons/modules/Meeting';
 import { format } from '@ringcentral-integration/utils';
+import type {
+  RcCheckboxProps,
+  RcDatePickerProps,
+  RcTimePickerProps,
+} from '@ringcentral/juno';
 import {
   RcAlert,
   RcCheckbox,
-  RcCheckboxProps,
   RcDatePicker,
-  RcDatePickerProps,
   RcIcon,
   RcLink,
   RcMenuItem,
   RcSelect,
   RcTextField,
   RcTimePicker,
-  RcTimePickerProps,
   RcTypography,
   spacing,
   styled,
@@ -52,7 +51,7 @@ import {
 import { MeetingAlert, RemoveMeetingWarn } from '../MeetingAlert';
 import { SpinnerOverlay } from '../SpinnerOverlay';
 import { ExtendedTooltip as MeetingOptionLocked } from './ExtendedTooltip';
-import i18n from './i18n';
+import i18n, { I18nKey } from './i18n';
 import styles from './styles.scss';
 import { VideoSettingGroup } from './VideoSettingGroup';
 
@@ -759,7 +758,7 @@ export const MeetingConfigs: FunctionComponent<MeetingConfigsProps> = ({
                       meeting.settingLock?.audioOptions)
                   }
                   title={i18n.getString(
-                    audioHelpTextMap[audioOptions],
+                    audioHelpTextMap[audioOptions] as I18nKey,
                     currentLocale,
                   )}
                   classes={{

@@ -1,5 +1,5 @@
-import { ArraySchemaObject } from '@ringcentral-integration/mock/src/interface';
-import { StepFunction } from '@ringcentral-integration/test-utils';
+import type { ArraySchemaObject } from '@ringcentral-integration/mock/src/interface';
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 
 interface MockAddressBookSyncProps {
   handler?: (personalUsers: any) => any;

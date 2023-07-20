@@ -1,4 +1,4 @@
-import { PresetInfo } from './PresetInfo';
+import type { PresetInfo } from './PresetInfo';
 
 export interface BlockedCallerGreetingInfo {
   /**

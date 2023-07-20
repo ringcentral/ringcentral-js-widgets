@@ -1,26 +1,26 @@
 import { filter, find, values } from 'ramda';
 
 import callDirections from '@ringcentral-integration/commons/enums/callDirections';
-import { NormalizedSession } from '@ringcentral-integration/commons/interfaces/Webphone.interface';
+import type { NormalizedSession } from '@ringcentral-integration/commons/interfaces/Webphone.interface';
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import { formatNumber } from '@ringcentral-integration/commons/lib/formatNumber';
 import { callingModes } from '@ringcentral-integration/commons/modules/CallingSettings';
-import {
+import type {
   ConferenceCall,
   LastCallInfo,
 } from '@ringcentral-integration/commons/modules/ConferenceCall';
 import { sessionStatus } from '@ringcentral-integration/commons/modules/Webphone/sessionStatus';
-import { Webphone } from '@ringcentral-integration/commons/modules/Webphone';
+import type { Webphone } from '@ringcentral-integration/commons/modules/Webphone';
 import { RcUIModuleV2, computed } from '@ringcentral-integration/core';
-import { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
+import type { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
 
 import callCtrlLayouts from '../../enums/callCtrlLayouts';
 import { checkShouldHidePhoneNumber } from '../../lib/checkShouldHidePhoneNumber';
-import {
+import type {
   CallControlComponentProps,
   Deps,
-  getLastCallInfoFromWebphoneSession,
 } from './CallControlUI.interface';
+import { getLastCallInfoFromWebphoneSession } from './CallControlUI.interface';
 
 @Module({
   name: 'CallControlUI',
@@ -144,8 +144,9 @@ export class CallControlUI extends RcUIModuleV2<Deps> {
       conferenceCallEquipped &&
       !isInboundCall &&
       fromSessionId &&
-      fromSessionId !== this.currentSession.id;
-    lastCallInfo && lastCallInfo.status !== sessionStatus.finished;
+      fromSessionId !== this.currentSession.id &&
+      lastCallInfo &&
+      lastCallInfo.status !== sessionStatus.finished;
 
     if (this.currentSession.warmTransferSessionId) {
       const warmTransferSession = this._deps.webphone.sessions.find(
@@ -199,6 +200,7 @@ export class CallControlUI extends RcUIModuleV2<Deps> {
       disableFlip: this._deps.forwardingNumber.flipNumbers.length === 0,
       showCallQueueName,
       showPark,
+      controlBusy: this.currentSession.callStatus === sessionStatus.setup,
     };
   }
 
@@ -277,6 +279,7 @@ export class CallControlUI extends RcUIModuleV2<Deps> {
           siteCode: this._deps.extensionInfo?.site?.code ?? '',
           isMultipleSiteEnabled: this._deps.extensionInfo.isMultipleSiteEnabled,
           maxExtensionLength: this._deps.accountInfo.maxExtensionNumberLength,
+          isEDPEnabled: this._deps.appFeatures.isEDPEnabled,
         }),
       onHangup: (
         sessionId: string,

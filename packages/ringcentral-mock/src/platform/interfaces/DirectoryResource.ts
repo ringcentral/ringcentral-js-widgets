@@ -1,5 +1,5 @@
-import { CompanyContactsPagingInfo } from './CompanyContactsPagingInfo';
-import { ContactResource } from './ContactResource';
+import type { CompanyContactsPagingInfo } from './CompanyContactsPagingInfo';
+import type { ContactResource } from './ContactResource';
 
 export interface DirectoryResource {
   /**

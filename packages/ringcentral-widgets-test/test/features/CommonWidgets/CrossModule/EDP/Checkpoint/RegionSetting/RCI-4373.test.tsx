@@ -1,6 +1,6 @@
 /**
  * RCI-4373: Open Area code for all country
- * https://test_id_domain/test-cases/RCI-4373
+ * https://test_it_domain/test-cases/RCI-4373
  * Preconditions:
  * CTI app is integrated
  * The user has logged in to the CTI app with RC brand
@@ -23,7 +23,7 @@ import {
 } from '@ringcentral-integration/test-utils';
 import { screen } from '@testing-library/react';
 
-import { StepProp } from '../../../../../../lib/step';
+import type { StepProp } from '../../../../../../lib/step';
 import { CommonLogin } from '../../../../../../steps/CommonLogin';
 import { MockDialingPlan } from '../../../../../../steps/Mock';
 import { NavigateTo } from '../../../../../../steps/Router';

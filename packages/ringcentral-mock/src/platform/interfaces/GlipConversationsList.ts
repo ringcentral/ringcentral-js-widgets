@@ -1,5 +1,5 @@
-import { GlipConversationInfo } from './GlipConversationInfo';
-import { GlipNavigationInfo } from './GlipNavigationInfo';
+import type { GlipConversationInfo } from './GlipConversationInfo';
+import type { GlipNavigationInfo } from './GlipNavigationInfo';
 
 export interface GlipConversationsList {
   /**

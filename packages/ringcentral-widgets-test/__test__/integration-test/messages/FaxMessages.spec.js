@@ -29,7 +29,7 @@ let phone = null;
 
 describe('fax messages', () => {
   beforeEach(async () => {
-    jasmine.DEFAULT_TIMEOUT_INTERVAL = 64000;
+    jest.setTimeout(64000);
   });
   afterEach(async () => {
     await tearDownWrapper(wrapper);
@@ -111,6 +111,7 @@ describe('fax messages', () => {
       });
       await waitUntilTo(() => {
         expect(phone.conversations.ready).toBeTruthy();
+        expect(phone.activeCallControl.ready).toBeTruthy();
       });
       wrapper.setProps({ phone });
       wrapper.update();
@@ -153,6 +154,7 @@ describe('fax messages', () => {
       });
       await waitUntilTo(() => {
         expect(phone.conversations.ready).toBeTruthy();
+        expect(phone.activeCallControl.ready).toBeTruthy();
       });
       wrapper.setProps({ phone });
       navigationBar = wrapper.find(NavigationBar).first();
@@ -198,6 +200,7 @@ describe('fax messages', () => {
       });
       await waitUntilTo(() => {
         expect(phone.conversations.ready).toBeTruthy();
+        expect(phone.activeCallControl.ready).toBeTruthy();
       });
       wrapper.setProps({ phone });
       navigationBar = wrapper.find(NavigationBar).first();
@@ -243,6 +246,7 @@ describe('fax messages', () => {
       });
       await waitUntilTo(() => {
         expect(phone.conversations.ready).toBeTruthy();
+        expect(phone.activeCallControl.ready).toBeTruthy();
       });
       wrapper.setProps({ phone });
       navigationBar = wrapper.find(NavigationBar).first();
@@ -325,6 +329,7 @@ describe('fax messages', () => {
       });
       await waitUntilTo(() => {
         expect(phone.conversations.ready).toBeTruthy();
+        expect(phone.activeCallControl.ready).toBeTruthy();
       });
       wrapper.setProps({ phone });
       wrapper.update();
@@ -368,6 +373,7 @@ describe('fax messages', () => {
       });
       await waitUntilTo(() => {
         expect(phone.conversations.ready).toBeTruthy();
+        expect(phone.activeCallControl.ready).toBeTruthy();
       });
       wrapper.setProps({ phone });
       wrapper.update();
@@ -406,6 +412,7 @@ describe('fax messages', () => {
       });
       await waitUntilTo(() => {
         expect(phone.conversations.ready).toBeTruthy();
+        expect(phone.activeCallControl.ready).toBeTruthy();
       });
       wrapper.setProps({ phone });
       wrapper.update();
@@ -443,6 +450,7 @@ describe('fax messages', () => {
       });
       await waitUntilTo(() => {
         expect(phone.conversations.ready).toBeTruthy();
+        expect(phone.activeCallControl.ready).toBeTruthy();
       });
       wrapper.setProps({ phone });
       wrapper.update();
@@ -479,6 +487,7 @@ describe('fax messages', () => {
       });
       await waitUntilTo(() => {
         expect(phone.conversations.ready).toBeTruthy();
+        expect(phone.activeCallControl.ready).toBeTruthy();
       });
       wrapper.setProps({ phone });
       wrapper.update();
@@ -516,6 +525,7 @@ describe('fax messages', () => {
       });
       await waitUntilTo(() => {
         expect(phone.conversations.ready).toBeTruthy();
+        expect(phone.activeCallControl.ready).toBeTruthy();
       });
       wrapper.setProps({ phone });
       wrapper.update();
@@ -570,6 +580,7 @@ describe('fax messages', () => {
       });
       await waitUntilTo(() => {
         expect(phone.conversations.ready).toBeTruthy();
+        expect(phone.activeCallControl.ready).toBeTruthy();
       });
       // Object.defineProperty(phone.contactMatcher, 'ready', {
       //   value: true,
@@ -629,6 +640,7 @@ describe('fax messages', () => {
       });
       await waitUntilTo(() => {
         expect(phone.conversations.ready).toBeTruthy();
+        expect(phone.activeCallControl.ready).toBeTruthy();
       });
       await sleep(100);
       mockUpdateMessageStatusApi({
@@ -693,6 +705,7 @@ describe('fax messages', () => {
       });
       await waitUntilTo(() => {
         expect(phone.conversations.ready).toBeTruthy();
+        expect(phone.activeCallControl.ready).toBeTruthy();
       });
       mockUpdateMessageStatusApi({
         id: 1,

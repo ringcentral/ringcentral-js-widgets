@@ -1,6 +1,6 @@
 /**
  * RCI-1056: Current conference call control_mute/muted
- * https://test_id_domain/test-cases/RCI-1056
+ * https://test_it_domain/test-cases/RCI-1056
  * Preconditions:
  * Account type(/s):RC US/CA/UK/EU/AU, TELUS, BT, AT&T
  * Extension type(/s):
@@ -8,12 +8,12 @@
  *
  */
 
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p1,
   it,
   autorun,
   Given,
-  StepFunction,
   Scenario,
   Step,
   Then,
@@ -27,6 +27,8 @@ import {
   MockConferenceCall,
   MockTelephonySession,
   MockBringInToConference,
+  MockMessageList,
+  MockMessageSync,
 } from '../../../../../../steps/Mock';
 import { NavigateTo } from '../../../../../../steps/Router/action';
 import {
@@ -52,12 +54,17 @@ import { NavigateToDialer } from '../../../../../../steps/Navigate';
 @title('Current conference call control_mute/muted')
 export class RCI1056 extends Step {
   Login: StepFunction<any, any> = CommonLogin;
+  useRcMock?: boolean = false;
   run() {
     const { Login } = this;
     return (
       <Scenario
         desc="Current conference call control_mute/muted"
-        action={Login}
+        action={[
+          Login,
+          this.useRcMock && <MockMessageList repeat={0} />,
+          this.useRcMock && <MockMessageSync repeat={3} />,
+        ]}
       >
         <Given
           desc="Navigate To CallingSetting, Web Phone is enabled and 'Browser'  is selected in Settings > Calling > Make my calls with"

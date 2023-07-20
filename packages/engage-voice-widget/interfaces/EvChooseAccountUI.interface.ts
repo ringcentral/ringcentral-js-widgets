@@ -1,4 +1,4 @@
-import { EvAgents } from '../lib/EvClient/interfaces';
+import type { EvAgents } from '../lib/EvClient/interfaces';
 
 export type EvChooseAccountUIProps = {
   agents: EvAgents;

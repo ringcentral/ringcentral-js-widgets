@@ -12,16 +12,22 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
-import { StepProp } from '../../../../lib/step';
+import type { StepProp } from '../../../../lib/step';
 import {
   CheckParseApiCalledWithParams,
   MakeCall,
 } from '../../../../steps/Call';
 import { CommonLogin } from '../../../../steps/CommonLogin';
 import { SendSMS } from '../../../../steps/Messages/actions';
-import { MockAccountInfo, MockPermission } from '../../../../steps/Mock';
+import {
+  MockAccountInfo,
+  MockDialingPlan,
+  MockExtensionInfo,
+  MockPermission,
+} from '../../../../steps/Mock';
 import { NavigateTo } from '../../../../steps/Router/action';
 import { SetAreaCode } from '../../../../steps/Settings';
+import { generateDialPlanData } from '../../../../__mock__/generateDialPlanData';
 
 @autorun(test.skip)
 @it
@@ -31,13 +37,13 @@ export class RCI4103 extends Step {
   Login: StepProp = CommonLogin;
   CreateMock: StepProp | null = null;
   @examples(`
-      | maxExtensionNumberLength | areaCode | phoneNumber    | outboundCallPrefix |
-      | 7                        | '205'    | '+12053135003' | null               |
-      | 7                        | '205'    | '92430001'     | 9                  |
-      | 7                        | '205'    | '2430001'      | null               |
-      | 8                        |  null    | '92430001'     | 9                  |
-      | 8                        | '205'    | '2630002'      | 9                  |
-    `)
+    | country | maxExtensionNumberLength | areaCode | phoneNumber    | outboundCallPrefix |
+    | 'US'    | 7                        | null     | '+12053135003' | null               |
+    | 'US'    | 7                        | null     | '92430001'     | 9                  |
+    | 'SG'    | 7                        | '205'    | '2430001'      | null               |
+    | 'SG'    | 8                        | '205'    | '92430001'     | 9                  |
+    | 'US'    | 8                        | null     | '2630002'      | 9                  |
+  `)
   run() {
     const { Login, CreateMock } = this;
     return (
@@ -70,6 +76,17 @@ export class RCI4103 extends Step {
                   },
                 ]);
               return permission;
+            }}
+          />,
+          <MockExtensionInfo
+            handle={(mockData) => {
+              mockData.regionalSettings.homeCountry.isoCode = 'FR';
+              return mockData;
+            }}
+          />,
+          <MockDialingPlan
+            handler={() => {
+              return [generateDialPlanData('33', '44', 'France', 'FR')];
             }}
           />,
         ]}

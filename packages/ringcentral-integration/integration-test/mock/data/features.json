@@ -1,1337 +1,1597 @@
 {
-  "records" : [ {
-    "id" : "CallScreening",
-    "available" : true
-  }, {
-    "id" : "EditCallScreening",
-    "available" : true
-  }, {
-    "id" : "SimultaneousRingingMode",
-    "available" : true
-  }, {
-    "id" : "EditSimultaneousRingingMode",
-    "available" : true
-  }, {
-    "id" : "RingGroups",
-    "available" : true
-  }, {
-    "id" : "EditRingGroups",
-    "available" : true
-  }, {
-    "id" : "ExternalForwarding",
-    "available" : true
-  }, {
-    "id" : "EditExternalForwarding",
-    "available" : true
-  }, {
-    "id" : "CallFlip",
-    "available" : true
-  }, {
-    "id" : "EditCallFlip",
-    "available" : true
-  }, {
-    "id" : "CallSwitch",
-    "available" : true
-  }, {
-    "id" : "InboundCnam",
-    "available" : false,
-    "reason" : {
-      "code" : "ServicePlanLimitation",
-      "message" : "The feature is unavailable for the current service plan"
-    }
-  }, {
-    "id" : "AutoInboundCallRecording",
-    "available" : false,
-    "reason" : {
-      "code" : "AccountLimitation",
-      "message" : "The feature is turned off for the current account"
-    }
-  }, {
-    "id" : "EditAutoInboundCallRecording",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No CompanyInfo permission granted",
-      "permission" : "CompanyInfo"
-    }
-  }, {
-    "id" : "AutoOutboundCallRecording",
-    "available" : false,
-    "reason" : {
-      "code" : "AccountLimitation",
-      "message" : "The feature is turned off for the current account"
-    }
-  }, {
-    "id" : "AutoOutboundCallRecordingSetup",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No CompanyInfo permission granted",
-      "permission" : "CompanyInfo"
-    }
-  }, {
-    "id" : "AutoCallRecordingMute",
-    "available" : false,
-    "reason" : {
-      "code" : "AccountLimitation",
-      "message" : "The feature is turned off for the current account"
-    }
-  }, {
-    "id" : "OnDemandCallRecording",
-    "available" : true
-  }, {
-    "id" : "EditOnDemandCallRecording",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No CompanyInfo permission granted",
-      "permission" : "CompanyInfo"
-    }
-  }, {
-    "id" : "RingOut",
-    "available" : true
-  }, {
-    "id" : "RingMe",
-    "available" : true
-  }, {
-    "id" : "EditRingMe",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No Users permission granted",
-      "permission" : "Users"
-    }
-  }, {
-    "id" : "CallMonitoring",
-    "available" : true
-  }, {
-    "id" : "EditCallMonitoringGroups",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No Groups permission granted",
-      "permission" : "Groups"
-    }
-  }, {
-    "id" : "BLF",
-    "available" : true
-  }, {
-    "id" : "EditBlfSettings",
-    "available" : true,
-    "params" : [ {
-      "name" : "limitMax",
-      "value" : "100"
-    } ]
-  }, {
-    "id" : "BLFPickup",
-    "available" : true
-  }, {
-    "id" : "EditBlfVisibility",
-    "available" : true
-  }, {
-    "id" : "EditBlfPickupPermissions",
-    "available" : true
-  }, {
-    "id" : "CallAssistance",
-    "available" : true
-  }, {
-    "id" : "CallDelegation",
-    "available" : true
-  }, {
-    "id" : "FaxSending",
-    "available" : true
-  }, {
-    "id" : "EditFaxSettings",
-    "available" : true
-  }, {
-    "id" : "FaxReceiving",
-    "available" : true
-  }, {
-    "id" : "VoicemailToText",
-    "available" : true
-  }, {
-    "id" : "EditVoicemailToText",
-    "available" : true
-  }, {
-    "id" : "HardPhones",
-    "available" : true
-  }, {
-    "id" : "EditHardPhones",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No PhonesAndDevices permission granted",
-      "permission" : "PhonesAndDevices"
-    }
-  }, {
-    "id" : "SoftPhones",
-    "available" : true
-  }, {
-    "id" : "EditSoftPhones",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No PhonesAndDevices permission granted",
-      "permission" : "PhonesAndDevices"
-    }
-  }, {
-    "id" : "RCPhoneDesktop",
-    "available" : true
-  }, {
-    "id" : "RCPhoneMobile",
-    "available" : true
-  }, {
-    "id" : "RCAppDesktop",
-    "available" : true,
-    "params" : [ {
-      "name" : "primaryApp",
-      "value" : "New"
-    } ]
-  }, {
-    "id" : "RCAppMobile",
-    "available" : true
-  }, {
-    "id" : "Glip",
-    "available" : true,
-    "params" : [ {
-      "name" : "tabPosition",
-      "value" : "First"
-    } ]
-  }, {
-    "id" : "RCIntegrationApps",
-    "available" : true
-  }, {
-    "id" : "ThirdPartyApps",
-    "available" : true
-  }, {
-    "id" : "CommonPhone",
-    "available" : true
-  }, {
-    "id" : "HardPhoneRequired",
-    "available" : false,
-    "reason" : {
-      "code" : "ExtensionLimitation",
-      "message" : "The feature is not available for the current extension"
-    }
-  }, {
-    "id" : "Conferencing",
-    "available" : true
-  }, {
-    "id" : "EditConferencing",
-    "available" : true
-  }, {
-    "id" : "Meetings",
-    "available" : true
-  }, {
-    "id" : "EditMeetings",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No MeetingsSettings permission granted",
-      "permission" : "MeetingsSettings"
-    }
-  }, {
-    "id" : "UserGroupManagement",
-    "available" : true
-  }, {
-    "id" : "EditUserGroupManager",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No UserGroups permission granted",
-      "permission" : "UserGroups"
-    }
-  }, {
-    "id" : "EditUserGroups",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No UserGroups permission granted",
-      "permission" : "UserGroups"
-    }
-  }, {
-    "id" : "DevPortalAccess",
-    "available" : true
-  }, {
-    "id" : "EditServiceStatusNotifications",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No Users permission granted",
-      "permission" : "Users"
-    }
-  }, {
-    "id" : "Archiver",
-    "available" : true
-  }, {
-    "id" : "BlockedMessageForwarding",
-    "available" : false,
-    "reason" : {
-      "code" : "AccountLimitation",
-      "message" : "The feature is turned off for the current account"
-    }
-  }, {
-    "id" : "EncryptionAtRest",
-    "available" : false,
-    "reason" : {
-      "code" : "AccountLimitation",
-      "message" : "The feature is turned off for the current account"
-    }
-  }, {
-    "id" : "Calendar",
-    "available" : true
-  }, {
-    "id" : "CallerIdControl",
-    "available" : false,
-    "reason" : {
-      "code" : "AccountLimitation",
-      "message" : "The feature is turned off for the current account"
-    }
-  }, {
-    "id" : "CallForwarding",
-    "available" : true
-  }, {
-    "id" : "CallPark",
-    "available" : true
-  }, {
-    "id" : "CallParkLocations",
-    "available" : true
-  }, {
-    "id" : "DND",
-    "available" : true
-  }, {
-    "id" : "DynamicConferencing",
-    "available" : false,
-    "reason" : {
-      "code" : "AccountLimitation",
-      "message" : "The feature is turned off for the current account"
-    }
-  }, {
-    "id" : "SoftPhoneAutoLocationUpdate",
-    "available" : false,
-    "reason" : {
-      "code" : "AccountLimitation",
-      "message" : "The feature is turned off for the current account"
-    }
-  }, {
-    "id" : "HardPhoneAutoLocationUpdate",
-    "available" : false,
-    "reason" : {
-      "code" : "AccountLimitation",
-      "message" : "The feature is turned off for the current account"
-    }
-  }, {
-    "id" : "EmergencyCalling",
-    "available" : false,
-    "reason" : {
-      "code" : "AccountLimitation",
-      "message" : "The feature is turned off for the current account"
-    }
-  }, {
-    "id" : "ExternalAuth",
-    "available" : true
-  }, {
-    "id" : "ExternalDirectoryIntegration",
-    "available" : true
-  }, {
-    "id" : "FreeSoftPhones",
-    "available" : true,
-    "params" : [ {
-      "name" : "limitMax",
-      "value" : "4"
-    } ]
-  }, {
-    "id" : "HDVoice",
-    "available" : true
-  }, {
-    "id" : "HipaaCompliance",
-    "available" : false,
-    "reason" : {
-      "code" : "AccountLimitation",
-      "message" : "The feature is turned off for the current account"
-    }
-  }, {
-    "id" : "Intercom",
-    "available" : true
-  }, {
-    "id" : "InternationalCalling",
-    "available" : true
-  }, {
-    "id" : "MMSSending",
-    "available" : true
-  }, {
-    "id" : "EmergencyVoipCallingOnMobile",
-    "available" : false,
-    "reason" : {
-      "code" : "AccountLimitation",
-      "message" : "The feature is turned off for the current account"
-    }
-  }, {
-    "id" : "PagesSending",
-    "available" : true
-  }, {
-    "id" : "PagesReceiving",
-    "available" : true
-  }, {
-    "id" : "Paging",
-    "available" : true
-  }, {
-    "id" : "SalesForce",
-    "available" : true
-  }, {
-    "id" : "SharedLines",
-    "available" : true
-  }, {
-    "id" : "SingleExtensionUI",
-    "available" : false,
-    "reason" : {
-      "code" : "AccountLimitation",
-      "message" : "The feature is turned off for the current account"
-    }
-  }, {
-    "id" : "SiteCodes",
-    "available" : false,
-    "reason" : {
-      "code" : "AccountLimitation",
-      "message" : "The feature is turned off for the current account"
-    }
-  }, {
-    "id" : "SMSSending",
-    "available" : true
-  }, {
-    "id" : "SMSReceiving",
-    "available" : true
-  }, {
-    "id" : "UserManagement",
-    "available" : true
-  }, {
-    "id" : "Voicemail",
-    "available" : true
-  }, {
-    "id" : "VoipCalling",
-    "available" : true
-  }, {
-    "id" : "WebPhone",
-    "available" : true
-  }, {
-    "id" : "SoftPhoneUpdate",
-    "available" : true
-  }, {
-    "id" : "CallQualitySurvey",
-    "available" : false,
-    "reason" : {
-      "code" : "AccountLimitation",
-      "message" : "The feature is turned off for the current account"
-    }
-  }, {
-    "id" : "LinkedSoftphoneLines",
-    "available" : false,
-    "reason" : {
-      "code" : "ServicePlanLimitation",
-      "message" : "The feature is unavailable for the current service plan"
-    }
-  }, {
-    "id" : "PromoMessage",
-    "available" : true
-  }, {
-    "id" : "InternationalSMS",
-    "available" : true
-  }, {
-    "id" : "VoipCallingOnMobile",
-    "available" : true
-  }, {
-    "id" : "ConferencingNumber",
-    "available" : true
-  }, {
-    "id" : "EditSoftPhoneAutoLocationUpdate",
-    "available" : false,
-    "reason" : {
-      "code" : "AccountLimitation",
-      "message" : "The feature is turned off for the current account"
-    }
-  }, {
-    "id" : "EditHardPhoneAutoLocationUpdate",
-    "available" : false,
-    "reason" : {
-      "code" : "AccountLimitation",
-      "message" : "The feature is turned off for the current account"
-    }
-  }, {
-    "id" : "MaskedNumbers",
-    "available" : false,
-    "reason" : {
-      "code" : "AccountLimitation",
-      "message" : "The feature is turned off for the current account"
-    }
-  }, {
-    "id" : "AccountAdministration",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No AccountAdministration permission granted",
-      "permission" : "AccountAdministration"
-    }
-  }, {
-    "id" : "EditAccountFederation",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No AccountFederation permission granted",
-      "permission" : "AccountFederation"
-    }
-  }, {
-    "id" : "EditServiceWebAppearance",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No Appearance permission granted",
-      "permission" : "Appearance"
-    }
-  }, {
-    "id" : "EditCompanyInfo",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No CompanyInfo permission granted",
-      "permission" : "CompanyInfo"
-    }
-  }, {
-    "id" : "ReadCompanyInfo",
-    "available" : true
-  }, {
-    "id" : "MultipleAccountAccess",
-    "available" : false,
-    "reason" : {
-      "code" : "AccountLimitation",
-      "message" : "The feature is turned off for the current account"
-    }
-  }, {
-    "id" : "AccountValidation",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No AccountValidation permission granted",
-      "permission" : "AccountValidation"
-    }
-  }, {
-    "id" : "EditSites",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No Sites permission granted",
-      "permission" : "Sites"
-    }
-  }, {
-    "id" : "DeviceStatusReports",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No DeviceStatusReport permission granted",
-      "permission" : "DeviceStatusReport"
-    }
-  }, {
-    "id" : "DeviceStatusReportAlerts",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No DeviceStatusReportAlerts permission granted",
-      "permission" : "DeviceStatusReportAlerts"
-    }
-  }, {
-    "id" : "EditLiveReports",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No EditLiveReports permission granted",
-      "permission" : "EditLiveReports"
-    }
-  }, {
-    "id" : "ReadLiveReports",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No ReadLiveReports permission granted",
-      "permission" : "ReadLiveReports"
-    }
-  }, {
-    "id" : "ReadExtensionGrants",
-    "available" : true
-  }, {
-    "id" : "MeetingsAnalytics",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No MeetingsAnalytics permission granted",
-      "permission" : "MeetingsAnalytics"
-    }
-  }, {
-    "id" : "EditAssignedRoles",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No EditAssignedRoles permission granted",
-      "permission" : "EditAssignedRoles"
-    }
-  }, {
-    "id" : "MeetingsDashboard",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No MeetingsDashboard permission granted",
-      "permission" : "MeetingsDashboard"
-    }
-  }, {
-    "id" : "PerformanceReports",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No Reports permission granted",
-      "permission" : "Reports"
-    }
-  }, {
-    "id" : "ReadAssignedRoles",
-    "available" : true
-  }, {
-    "id" : "CompanyNumbersReports",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No Reports permission granted",
-      "permission" : "Reports"
-    }
-  }, {
-    "id" : "EditReportSettings",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No EditReportSettings permission granted",
-      "permission" : "EditReportSettings"
-    }
-  }, {
-    "id" : "QoSReports",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No QoSReports permission granted",
-      "permission" : "QoSReports"
-    }
-  }, {
-    "id" : "QoSReportsAlerts",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No QoSReportsAlerts permission granted",
-      "permission" : "QoSReportsAlerts"
-    }
-  }, {
-    "id" : "UsageReports",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No UsageReports permission granted",
-      "permission" : "UsageReports"
-    }
-  }, {
-    "id" : "ReadBillingInfo",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No BillingInfo permission granted",
-      "permission" : "BillingInfo"
-    }
-  }, {
-    "id" : "CallCenterInterconnectLicenses",
-    "available" : false,
-    "reason" : {
-      "code" : "AccountLimitation",
-      "message" : "The feature is turned off for the current account"
-    }
-  }, {
-    "id" : "CloudConnectLicenses",
-    "available" : false,
-    "reason" : {
-      "code" : "AccountLimitation",
-      "message" : "The feature is turned off for the current account"
-    }
-  }, {
-    "id" : "CostCenterManagement",
-    "available" : false,
-    "reason" : {
-      "code" : "AccountLimitation",
-      "message" : "The feature is turned off for the current account"
-    }
-  }, {
-    "id" : "ReadAccountPhoneNumbers",
-    "available" : true
-  }, {
-    "id" : "EditDeviceOrders",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No DeviceOrdering permission granted",
-      "permission" : "DeviceOrdering"
-    }
-  }, {
-    "id" : "EditInternationalDestinations",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No InternationalCalling permission granted",
-      "permission" : "InternationalCalling"
-    }
-  }, {
-    "id" : "LiveReportsLicenses",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No LiveReportsLicense permission granted",
-      "permission" : "LiveReportsLicense"
-    }
-  }, {
-    "id" : "MeetingsLicenses",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No MeetingsPlan permission granted",
-      "permission" : "MeetingsPlan"
-    }
-  }, {
-    "id" : "EditPaymentMethod",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No PaymentMethod permission granted",
-      "permission" : "PaymentMethod"
-    }
-  }, {
-    "id" : "ReadPaymentMethod",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No ReadPaymentMethod permission granted",
-      "permission" : "ReadPaymentMethod"
-    }
-  }, {
-    "id" : "ProductPurchase",
-    "available" : false,
-    "reason" : {
-      "code" : "AccountLimitation",
-      "message" : "The feature is turned off for the current account"
-    }
-  }, {
-    "id" : "EditServicePlan",
-    "available" : false,
-    "reason" : {
-      "code" : "AccountLimitation",
-      "message" : "The feature is turned off for the current account"
-    }
-  }, {
-    "id" : "EditExtensionGrants",
-    "available" : true
-  }, {
-    "id" : "ReadServicePlan",
-    "available" : true
-  }, {
-    "id" : "ReadUsageInfo",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No UsageInfo permission granted",
-      "permission" : "UsageInfo"
-    }
-  }, {
-    "id" : "EditAccountDevices",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No PhonesAndDevices permission granted",
-      "permission" : "PhonesAndDevices"
-    }
-  }, {
-    "id" : "ReadAccountDevices",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No ReadCompanyDevices permission granted",
-      "permission" : "ReadCompanyDevices"
-    }
-  }, {
-    "id" : "EditExtensionDevices",
-    "available" : true
-  }, {
-    "id" : "ReadExtensionDevices",
-    "available" : true
-  }, {
-    "id" : "EditAccountPhoneNumbers",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No CompanyNumbers permission granted",
-      "permission" : "CompanyNumbers"
-    }
-  }, {
-    "id" : "AddRemovePhoneNumbers",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No AddRemovePhoneNumbers permission granted",
-      "permission" : "AddRemovePhoneNumbers"
-    }
-  }, {
-    "id" : "ReadExtensionPhoneNumbers",
-    "available" : true
-  }, {
-    "id" : "EditDirectoryAssistance",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No DirectoryAssistance permission granted",
-      "permission" : "DirectoryAssistance"
-    }
-  }, {
-    "id" : "EditGroups",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No Groups permission granted",
-      "permission" : "Groups"
-    }
-  }, {
-    "id" : "EditOutboundCallPrefix",
-    "available" : false,
-    "reason" : {
-      "code" : "AccountLimitation",
-      "message" : "The feature is turned off for the current account"
-    }
-  }, {
-    "id" : "EditUsers",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No Users permission granted",
-      "permission" : "Users"
-    }
-  }, {
-    "id" : "EditRoles",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No Roles permission granted",
-      "permission" : "Roles"
-    }
-  }, {
-    "id" : "ReadRoles",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No ReadUserRoles permission granted",
-      "permission" : "ReadUserRoles"
-    }
-  }, {
-    "id" : "EditTemplates",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No EditUserTemplates permission granted",
-      "permission" : "EditUserTemplates"
-    }
-  }, {
-    "id" : "ApplyTemplates",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No ApplyUserTemplates permission granted",
-      "permission" : "ApplyUserTemplates"
-    }
-  }, {
-    "id" : "ReadTemplates",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No ReadUserTemplates permission granted",
-      "permission" : "ReadUserTemplates"
-    }
-  }, {
-    "id" : "ReadExtensions",
-    "available" : true
-  }, {
-    "id" : "EditExtensionInfo",
-    "available" : true
-  }, {
-    "id" : "ReadExtensionInfo",
-    "available" : true
-  }, {
-    "id" : "EditUserHours",
-    "available" : true
-  }, {
-    "id" : "EditCredentials",
-    "available" : true
-  }, {
-    "id" : "EditMessageAndNotificationSettings",
-    "available" : true
-  }, {
-    "id" : "ReadMessageAndNotificationSettings",
-    "available" : true
-  }, {
-    "id" : "ReadOutboundCallerId",
-    "available" : true
-  }, {
-    "id" : "EditExtensionPhonesAndNumbers",
-    "available" : true
-  }, {
-    "id" : "EditPersonalContacts",
-    "available" : true
-  }, {
-    "id" : "ReadPersonalContacts",
-    "available" : true
-  }, {
-    "id" : "DomesticCalling",
-    "available" : true
-  }, {
-    "id" : "InternalCalling",
-    "available" : true,
-    "params" : [ {
-      "name" : "extensionNumberLengthMax",
-      "value" : "5"
-    } ]
-  }, {
-    "id" : "EditAutoReceptionist",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No AutoReceptionist permission granted",
-      "permission" : "AutoReceptionist"
-    }
-  }, {
-    "id" : "EditAdvancedIVR",
-    "available" : false,
-    "reason" : {
-      "code" : "ServicePlanLimitation",
-      "message" : "The feature is unavailable for the current service plan"
-    }
-  }, {
-    "id" : "EditAccountAnsweringRules",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No EditCompanyAnsweringRules permission granted",
-      "permission" : "EditCompanyAnsweringRules"
-    }
-  }, {
-    "id" : "EditExtensionPhoneNumbers",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No EditUserPhoneNumbers permission granted",
-      "permission" : "EditUserPhoneNumbers"
-    }
-  }, {
-    "id" : "EditOutboundCallerId",
-    "available" : true
-  }, {
-    "id" : "ReadAccountAnsweringRules",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No ReadCompanyAnsweringRules permission granted",
-      "permission" : "ReadCompanyAnsweringRules"
-    }
-  }, {
-    "id" : "EditAccountGreetings",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No EditCompanyGreetings permission granted",
-      "permission" : "EditCompanyGreetings"
-    }
-  }, {
-    "id" : "ReadAccountGreetings",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No ReadCompanyGreetings permission granted",
-      "permission" : "ReadCompanyGreetings"
-    }
-  }, {
-    "id" : "EditCallScreeningAndGreetings",
-    "available" : true
-  }, {
-    "id" : "ReadCallScreeningAndGreetings",
-    "available" : true
-  }, {
-    "id" : "EditExtensionAnsweringRules",
-    "available" : true
-  }, {
-    "id" : "ReadExtensionAnsweringRules",
-    "available" : true
-  }, {
-    "id" : "EditIncomingCallInfo",
-    "available" : true
-  }, {
-    "id" : "CallTransfer",
-    "available" : true
-  }, {
-    "id" : "Hold",
-    "available" : true
-  }, {
-    "id" : "EditIntercom",
-    "available" : true
-  }, {
-    "id" : "EditBlockedNumbers",
-    "available" : true
-  }, {
-    "id" : "ReadBlockedNumbers",
-    "available" : true
-  }, {
-    "id" : "ReadAccountCallRecordings",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No ReadCompanyCallRecordings permission granted",
-      "permission" : "ReadCompanyCallRecordings"
-    }
-  }, {
-    "id" : "ReadExtensionCallRecordings",
-    "available" : true
-  }, {
-    "id" : "ReadAccountCallLog",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No ReadCompanyCallLog permission granted",
-      "permission" : "ReadCompanyCallLog"
-    }
-  }, {
-    "id" : "EditAccountCallLogDelivery",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No EditCompanyCallLogDelivery permission granted",
-      "permission" : "EditCompanyCallLogDelivery"
-    }
-  }, {
-    "id" : "EditAccountCallLog",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No CompanyCallLog permission granted",
-      "permission" : "CompanyCallLog"
-    }
-  }, {
-    "id" : "EditSiteCallLog",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No SiteCallLog permission granted",
-      "permission" : "SiteCallLog"
-    }
-  }, {
-    "id" : "ReadSiteCallLog",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No SiteCallLog permission granted",
-      "permission" : "SiteCallLog"
-    }
-  }, {
-    "id" : "ReadExtensionCallLog",
-    "available" : true
-  }, {
-    "id" : "EditExtensionCallLog",
-    "available" : true
-  }, {
-    "id" : "ReadBlfSettings",
-    "available" : true
-  }, {
-    "id" : "EditExtensionCallLogDelivery",
-    "available" : true
-  }, {
-    "id" : "HUD",
-    "available" : true,
-    "params" : [ {
-      "name" : "limitMax",
-      "value" : "100"
-    } ]
-  }, {
-    "id" : "EditPresenceStatus",
-    "available" : true
-  }, {
-    "id" : "ReadPresenceStatus",
-    "available" : true
-  }, {
-    "id" : "EditCallDelegation",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No ConfigureDelegates permission granted",
-      "permission" : "ConfigureDelegates"
-    }
-  }, {
-    "id" : "ReadMessages",
-    "available" : true
-  }, {
-    "id" : "EditMessages",
-    "available" : true
-  }, {
-    "id" : "ReadFaxSettings",
-    "available" : true
-  }, {
-    "id" : "VoicemailBroadcasting",
-    "available" : false,
-    "reason" : {
-      "code" : "ServicePlanLimitation",
-      "message" : "The feature is unavailable for the current service plan"
-    }
-  }, {
-    "id" : "GlipAdministration",
-    "available" : false,
-    "reason" : {
-      "code" : "AccountLimitation",
-      "message" : "The feature is turned off for the current account"
-    }
-  }, {
-    "id" : "BotInstall",
-    "available" : true
-  }, {
-    "id" : "BotUninstall",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No BotUninstall permission granted",
-      "permission" : "BotUninstall"
-    }
-  }, {
-    "id" : "Rooms",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No MeetingsConfiguration permission granted",
-      "permission" : "MeetingsConfiguration"
-    }
-  }, {
-    "id" : "EditRooms",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No RoomsSettings permission granted",
-      "permission" : "RoomsSettings"
-    }
-  }, {
-    "id" : "MeetingsReports",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No MeetingsReports permission granted",
-      "permission" : "MeetingsReports"
-    }
-  }, {
-    "id" : "EditWebinars",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No WebinarSettings permission granted",
-      "permission" : "WebinarSettings"
-    }
-  }, {
-    "id" : "AuditTrail",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No AuditTrail permission granted",
-      "permission" : "AuditTrail"
-    }
-  }, {
-    "id" : "MeetingsPersonalRecordings",
-    "available" : true
-  }, {
-    "id" : "Sites",
-    "available" : false,
-    "reason" : {
-      "code" : "AccountLimitation",
-      "message" : "The feature is turned off for the current account"
-    }
-  }, {
-    "id" : "ExpressUserActivation",
-    "available" : false,
-    "reason" : {
-      "code" : "AccountLimitation",
-      "message" : "The feature is turned off for the current account"
-    }
-  }, {
-    "id" : "SecurityQuestion",
-    "available" : false,
-    "reason" : {
-      "code" : "AccountLimitation",
-      "message" : "The feature is turned off for the current account"
-    }
-  }, {
-    "id" : "ServiceWebAccess",
-    "available" : true
-  }, {
-    "id" : "MeetingsCompanyRecordings",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No MeetingsCompanyRecordings permission granted",
-      "permission" : "MeetingsCompanyRecordings"
-    }
-  }, {
-    "id" : "ReassignPhoneNumbers",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No ReassignPhoneNumbers permission granted",
-      "permission" : "ReassignPhoneNumbers"
-    }
-  }, {
-    "id" : "JoinLeaveCallQueue",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No JoinLeaveCallQueue permission granted",
-      "permission" : "JoinLeaveCallQueue"
-    }
-  }, {
-    "id" : "ReadCallQueueManagers",
-    "available" : true
-  }, {
-    "id" : "EditCallQueueManagers",
-    "available" : false,
-    "reason" : {
-      "code" : "ExtensionTypeLimitation",
-      "message" : "The feature is not available for the current extension type"
-    }
-  }, {
-    "id" : "EditCallQueueMembers",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No EditCallQueueMembers permission granted",
-      "permission" : "EditCallQueueMembers"
-    }
-  }, {
-    "id" : "AddRemoveDevices",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No AddRemoveDevices permission granted",
-      "permission" : "AddRemoveDevices"
-    }
-  }, {
-    "id" : "EditRoomConnector",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No RoomConnectorSettings permission granted",
-      "permission" : "RoomConnectorSettings"
-    }
-  }, {
-    "id" : "FederatedAccount",
-    "available" : true
-  }, {
-    "id" : "OutboundCallPrefix",
-    "available" : false,
-    "reason" : {
-      "code" : "AccountLimitation",
-      "message" : "The feature is turned off for the current account"
-    }
-  }, {
-    "id" : "LearningManagementSystem",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No Users permission granted",
-      "permission" : "Users"
-    }
-  }, {
-    "id" : "ReadEmergencyLocations",
-    "available" : false,
-    "reason" : {
-      "code" : "AccountLimitation",
-      "message" : "The feature is turned off for the current account"
-    }
-  }, {
-    "id" : "EditEmergencyLocations",
-    "available" : false,
-    "reason" : {
-      "code" : "AccountLimitation",
-      "message" : "The feature is turned off for the current account"
-    }
-  }, {
-    "id" : "ReadExtensionEmergencyLocations",
-    "available" : false,
-    "reason" : {
-      "code" : "AccountLimitation",
-      "message" : "The feature is turned off for the current account"
-    }
-  }, {
-    "id" : "EmergencyLocations",
-    "available" : false,
-    "reason" : {
-      "code" : "AccountLimitation",
-      "message" : "The feature is turned off for the current account"
-    }
-  }, {
-    "id" : "CallQueuePresence",
-    "available" : false,
-    "reason" : {
-      "code" : "AccountLimitation",
-      "message" : "The feature is turned off for the current account"
-    }
-  }, {
-    "id" : "EditCallQueuePresence",
-    "available" : false,
-    "reason" : {
-      "code" : "AccountLimitation",
-      "message" : "The feature is turned off for the current account"
-    }
-  }, {
-    "id" : "EditEnhancedCallQueueSettings",
-    "available" : false,
-    "reason" : {
-      "code" : "AccountLimitation",
-      "message" : "The feature is turned off for the current account"
-    }
-  }, {
-    "id" : "EditCallQueueRoutingOptions",
-    "available" : false,
-    "reason" : {
-      "code" : "AccountLimitation",
-      "message" : "The feature is turned off for the current account"
-    }
-  }, {
-    "id" : "EditCallQueueExtensionRouting",
-    "available" : false,
-    "reason" : {
-      "code" : "AccountLimitation",
-      "message" : "The feature is turned off for the current account"
-    }
-  }, {
-    "id" : "EditEmailNotificationAppearance",
-    "available" : false,
-    "reason" : {
-      "code" : "InsufficientPermissions",
-      "message" : "No Appearance permission granted",
-      "permission" : "Appearance"
-    }
-  }, {
-    "id" : "ReadEmailNotificationAppearance",
-    "available" : true
-  }, {
-    "id" : "EditMeetingsProvider",
-    "available" : true
-  }, {
-    "id" : "EmergencyCallNotification",
-    "available" : true
-  }, {
-    "id" : "RCMeetingApps",
-    "available" : true
-  }, {
-    "id" : "IMS",
-    "available" : false,
-    "reason" : {
-      "code" : "ServicePlanLimitation",
-      "message" : "The feature is unavailable for the current service plan"
-    }
-  } ]
+  "records": [
+    {
+      "id": "CallScreening",
+      "available": true
+    },
+    {
+      "id": "EditCallScreening",
+      "available": true
+    },
+    {
+      "id": "SimultaneousRingingMode",
+      "available": true
+    },
+    {
+      "id": "EditSimultaneousRingingMode",
+      "available": true
+    },
+    {
+      "id": "RingGroups",
+      "available": true
+    },
+    {
+      "id": "EditRingGroups",
+      "available": true
+    },
+    {
+      "id": "ExternalForwarding",
+      "available": true
+    },
+    {
+      "id": "EditExternalForwarding",
+      "available": true
+    },
+    {
+      "id": "CallFlip",
+      "available": true
+    },
+    {
+      "id": "EditCallFlip",
+      "available": true
+    },
+    {
+      "id": "CallSwitch",
+      "available": true
+    },
+    {
+      "id": "InboundCnam",
+      "available": false,
+      "reason": {
+        "code": "ServicePlanLimitation",
+        "message": "The feature is unavailable for the current service plan"
+      }
+    },
+    {
+      "id": "AutoInboundCallRecording",
+      "available": false,
+      "reason": {
+        "code": "AccountLimitation",
+        "message": "The feature is turned off for the current account"
+      }
+    },
+    {
+      "id": "EditAutoInboundCallRecording",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No CompanyInfo permission granted",
+        "permission": "CompanyInfo"
+      }
+    },
+    {
+      "id": "AutoOutboundCallRecording",
+      "available": false,
+      "reason": {
+        "code": "AccountLimitation",
+        "message": "The feature is turned off for the current account"
+      }
+    },
+    {
+      "id": "AutoOutboundCallRecordingSetup",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No CompanyInfo permission granted",
+        "permission": "CompanyInfo"
+      }
+    },
+    {
+      "id": "AutoCallRecordingMute",
+      "available": false,
+      "reason": {
+        "code": "AccountLimitation",
+        "message": "The feature is turned off for the current account"
+      }
+    },
+    {
+      "id": "OnDemandCallRecording",
+      "available": true
+    },
+    {
+      "id": "EditOnDemandCallRecording",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No CompanyInfo permission granted",
+        "permission": "CompanyInfo"
+      }
+    },
+    {
+      "id": "RingOut",
+      "available": true
+    },
+    {
+      "id": "RingMe",
+      "available": true
+    },
+    {
+      "id": "EditRingMe",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No Users permission granted",
+        "permission": "Users"
+      }
+    },
+    {
+      "id": "CallMonitoring",
+      "available": true
+    },
+    {
+      "id": "EditCallMonitoringGroups",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No Groups permission granted",
+        "permission": "Groups"
+      }
+    },
+    {
+      "id": "BLF",
+      "available": true
+    },
+    {
+      "id": "EditBlfSettings",
+      "available": true,
+      "params": [
+        {
+          "name": "limitMax",
+          "value": "100"
+        }
+      ]
+    },
+    {
+      "id": "BLFPickup",
+      "available": true
+    },
+    {
+      "id": "EditBlfVisibility",
+      "available": true
+    },
+    {
+      "id": "EditBlfPickupPermissions",
+      "available": true
+    },
+    {
+      "id": "CallAssistance",
+      "available": true
+    },
+    {
+      "id": "CallDelegation",
+      "available": true
+    },
+    {
+      "id": "FaxSending",
+      "available": true
+    },
+    {
+      "id": "EditFaxSettings",
+      "available": true
+    },
+    {
+      "id": "FaxReceiving",
+      "available": true
+    },
+    {
+      "id": "VoicemailToText",
+      "available": true
+    },
+    {
+      "id": "EditVoicemailToText",
+      "available": true
+    },
+    {
+      "id": "HardPhones",
+      "available": true
+    },
+    {
+      "id": "EditHardPhones",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No PhonesAndDevices permission granted",
+        "permission": "PhonesAndDevices"
+      }
+    },
+    {
+      "id": "SoftPhones",
+      "available": true
+    },
+    {
+      "id": "EditSoftPhones",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No PhonesAndDevices permission granted",
+        "permission": "PhonesAndDevices"
+      }
+    },
+    {
+      "id": "RCPhoneDesktop",
+      "available": true
+    },
+    {
+      "id": "RCPhoneMobile",
+      "available": true
+    },
+    {
+      "id": "RCAppDesktop",
+      "available": true,
+      "params": [
+        {
+          "name": "primaryApp",
+          "value": "New"
+        }
+      ]
+    },
+    {
+      "id": "RCAppMobile",
+      "available": true
+    },
+    {
+      "id": "Glip",
+      "available": true,
+      "params": [
+        {
+          "name": "tabPosition",
+          "value": "First"
+        }
+      ]
+    },
+    {
+      "id": "RCIntegrationApps",
+      "available": true
+    },
+    {
+      "id": "ThirdPartyApps",
+      "available": true
+    },
+    {
+      "id": "CommonPhone",
+      "available": true
+    },
+    {
+      "id": "HardPhoneRequired",
+      "available": false,
+      "reason": {
+        "code": "ExtensionLimitation",
+        "message": "The feature is not available for the current extension"
+      }
+    },
+    {
+      "id": "Conferencing",
+      "available": true
+    },
+    {
+      "id": "EditConferencing",
+      "available": true
+    },
+    {
+      "id": "Meetings",
+      "available": true
+    },
+    {
+      "id": "EditMeetings",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No MeetingsSettings permission granted",
+        "permission": "MeetingsSettings"
+      }
+    },
+    {
+      "id": "UserGroupManagement",
+      "available": true
+    },
+    {
+      "id": "EditUserGroupManager",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No UserGroups permission granted",
+        "permission": "UserGroups"
+      }
+    },
+    {
+      "id": "EditUserGroups",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No UserGroups permission granted",
+        "permission": "UserGroups"
+      }
+    },
+    {
+      "id": "DevPortalAccess",
+      "available": true
+    },
+    {
+      "id": "EditServiceStatusNotifications",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No Users permission granted",
+        "permission": "Users"
+      }
+    },
+    {
+      "id": "Archiver",
+      "available": true
+    },
+    {
+      "id": "BlockedMessageForwarding",
+      "available": false,
+      "reason": {
+        "code": "AccountLimitation",
+        "message": "The feature is turned off for the current account"
+      }
+    },
+    {
+      "id": "EncryptionAtRest",
+      "available": false,
+      "reason": {
+        "code": "AccountLimitation",
+        "message": "The feature is turned off for the current account"
+      }
+    },
+    {
+      "id": "Calendar",
+      "available": true
+    },
+    {
+      "id": "CallerIdControl",
+      "available": false,
+      "reason": {
+        "code": "AccountLimitation",
+        "message": "The feature is turned off for the current account"
+      }
+    },
+    {
+      "id": "CallForwarding",
+      "available": true
+    },
+    {
+      "id": "CallPark",
+      "available": true
+    },
+    {
+      "id": "CallParkLocations",
+      "available": true
+    },
+    {
+      "id": "DND",
+      "available": true
+    },
+    {
+      "id": "DynamicConferencing",
+      "available": false,
+      "reason": {
+        "code": "AccountLimitation",
+        "message": "The feature is turned off for the current account"
+      }
+    },
+    {
+      "id": "SoftPhoneAutoLocationUpdate",
+      "available": false,
+      "reason": {
+        "code": "AccountLimitation",
+        "message": "The feature is turned off for the current account"
+      }
+    },
+    {
+      "id": "HardPhoneAutoLocationUpdate",
+      "available": false,
+      "reason": {
+        "code": "AccountLimitation",
+        "message": "The feature is turned off for the current account"
+      }
+    },
+    {
+      "id": "EmergencyCalling",
+      "available": false,
+      "reason": {
+        "code": "AccountLimitation",
+        "message": "The feature is turned off for the current account"
+      }
+    },
+    {
+      "id": "ExternalAuth",
+      "available": true
+    },
+    {
+      "id": "ExternalDirectoryIntegration",
+      "available": true
+    },
+    {
+      "id": "FreeSoftPhones",
+      "available": true,
+      "params": [
+        {
+          "name": "limitMax",
+          "value": "4"
+        }
+      ]
+    },
+    {
+      "id": "HDVoice",
+      "available": true
+    },
+    {
+      "id": "HipaaCompliance",
+      "available": false,
+      "reason": {
+        "code": "AccountLimitation",
+        "message": "The feature is turned off for the current account"
+      }
+    },
+    {
+      "id": "Intercom",
+      "available": true
+    },
+    {
+      "id": "InternationalCalling",
+      "available": true
+    },
+    {
+      "id": "MMSSending",
+      "available": true
+    },
+    {
+      "id": "EmergencyVoipCallingOnMobile",
+      "available": false,
+      "reason": {
+        "code": "AccountLimitation",
+        "message": "The feature is turned off for the current account"
+      }
+    },
+    {
+      "id": "PagesSending",
+      "available": true
+    },
+    {
+      "id": "PagesReceiving",
+      "available": true
+    },
+    {
+      "id": "Paging",
+      "available": true
+    },
+    {
+      "id": "SalesForce",
+      "available": true
+    },
+    {
+      "id": "SharedLines",
+      "available": true
+    },
+    {
+      "id": "SingleExtensionUI",
+      "available": false,
+      "reason": {
+        "code": "AccountLimitation",
+        "message": "The feature is turned off for the current account"
+      }
+    },
+    {
+      "id": "SiteCodes",
+      "available": false,
+      "reason": {
+        "code": "AccountLimitation",
+        "message": "The feature is turned off for the current account"
+      }
+    },
+    {
+      "id": "SMSSending",
+      "available": true
+    },
+    {
+      "id": "SMSReceiving",
+      "available": true
+    },
+    {
+      "id": "UserManagement",
+      "available": true
+    },
+    {
+      "id": "Voicemail",
+      "available": true
+    },
+    {
+      "id": "VoipCalling",
+      "available": true
+    },
+    {
+      "id": "WebPhone",
+      "available": true
+    },
+    {
+      "id": "SoftPhoneUpdate",
+      "available": true
+    },
+    {
+      "id": "CallQualitySurvey",
+      "available": false,
+      "reason": {
+        "code": "AccountLimitation",
+        "message": "The feature is turned off for the current account"
+      }
+    },
+    {
+      "id": "LinkedSoftphoneLines",
+      "available": false,
+      "reason": {
+        "code": "ServicePlanLimitation",
+        "message": "The feature is unavailable for the current service plan"
+      }
+    },
+    {
+      "id": "PromoMessage",
+      "available": true
+    },
+    {
+      "id": "InternationalSMS",
+      "available": true
+    },
+    {
+      "id": "VoipCallingOnMobile",
+      "available": true
+    },
+    {
+      "id": "ConferencingNumber",
+      "available": true
+    },
+    {
+      "id": "EditSoftPhoneAutoLocationUpdate",
+      "available": false,
+      "reason": {
+        "code": "AccountLimitation",
+        "message": "The feature is turned off for the current account"
+      }
+    },
+    {
+      "id": "EditHardPhoneAutoLocationUpdate",
+      "available": false,
+      "reason": {
+        "code": "AccountLimitation",
+        "message": "The feature is turned off for the current account"
+      }
+    },
+    {
+      "id": "MaskedNumbers",
+      "available": false,
+      "reason": {
+        "code": "AccountLimitation",
+        "message": "The feature is turned off for the current account"
+      }
+    },
+    {
+      "id": "AccountAdministration",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No AccountAdministration permission granted",
+        "permission": "AccountAdministration"
+      }
+    },
+    {
+      "id": "EditAccountFederation",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No AccountFederation permission granted",
+        "permission": "AccountFederation"
+      }
+    },
+    {
+      "id": "EditServiceWebAppearance",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No Appearance permission granted",
+        "permission": "Appearance"
+      }
+    },
+    {
+      "id": "EditCompanyInfo",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No CompanyInfo permission granted",
+        "permission": "CompanyInfo"
+      }
+    },
+    {
+      "id": "ReadCompanyInfo",
+      "available": true
+    },
+    {
+      "id": "MultipleAccountAccess",
+      "available": false,
+      "reason": {
+        "code": "AccountLimitation",
+        "message": "The feature is turned off for the current account"
+      }
+    },
+    {
+      "id": "AccountValidation",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No AccountValidation permission granted",
+        "permission": "AccountValidation"
+      }
+    },
+    {
+      "id": "EditSites",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No Sites permission granted",
+        "permission": "Sites"
+      }
+    },
+    {
+      "id": "DeviceStatusReports",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No DeviceStatusReport permission granted",
+        "permission": "DeviceStatusReport"
+      }
+    },
+    {
+      "id": "DeviceStatusReportAlerts",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No DeviceStatusReportAlerts permission granted",
+        "permission": "DeviceStatusReportAlerts"
+      }
+    },
+    {
+      "id": "EditLiveReports",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No EditLiveReports permission granted",
+        "permission": "EditLiveReports"
+      }
+    },
+    {
+      "id": "ReadLiveReports",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No ReadLiveReports permission granted",
+        "permission": "ReadLiveReports"
+      }
+    },
+    {
+      "id": "ReadExtensionGrants",
+      "available": true
+    },
+    {
+      "id": "MeetingsAnalytics",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No MeetingsAnalytics permission granted",
+        "permission": "MeetingsAnalytics"
+      }
+    },
+    {
+      "id": "EditAssignedRoles",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No EditAssignedRoles permission granted",
+        "permission": "EditAssignedRoles"
+      }
+    },
+    {
+      "id": "MeetingsDashboard",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No MeetingsDashboard permission granted",
+        "permission": "MeetingsDashboard"
+      }
+    },
+    {
+      "id": "PerformanceReports",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No Reports permission granted",
+        "permission": "Reports"
+      }
+    },
+    {
+      "id": "ReadAssignedRoles",
+      "available": true
+    },
+    {
+      "id": "CompanyNumbersReports",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No Reports permission granted",
+        "permission": "Reports"
+      }
+    },
+    {
+      "id": "EditReportSettings",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No EditReportSettings permission granted",
+        "permission": "EditReportSettings"
+      }
+    },
+    {
+      "id": "QoSReports",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No QoSReports permission granted",
+        "permission": "QoSReports"
+      }
+    },
+    {
+      "id": "QoSReportsAlerts",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No QoSReportsAlerts permission granted",
+        "permission": "QoSReportsAlerts"
+      }
+    },
+    {
+      "id": "UsageReports",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No UsageReports permission granted",
+        "permission": "UsageReports"
+      }
+    },
+    {
+      "id": "ReadBillingInfo",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No BillingInfo permission granted",
+        "permission": "BillingInfo"
+      }
+    },
+    {
+      "id": "CallCenterInterconnectLicenses",
+      "available": false,
+      "reason": {
+        "code": "AccountLimitation",
+        "message": "The feature is turned off for the current account"
+      }
+    },
+    {
+      "id": "CloudConnectLicenses",
+      "available": false,
+      "reason": {
+        "code": "AccountLimitation",
+        "message": "The feature is turned off for the current account"
+      }
+    },
+    {
+      "id": "CostCenterManagement",
+      "available": false,
+      "reason": {
+        "code": "AccountLimitation",
+        "message": "The feature is turned off for the current account"
+      }
+    },
+    {
+      "id": "ReadAccountPhoneNumbers",
+      "available": true
+    },
+    {
+      "id": "EditDeviceOrders",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No DeviceOrdering permission granted",
+        "permission": "DeviceOrdering"
+      }
+    },
+    {
+      "id": "EditInternationalDestinations",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No InternationalCalling permission granted",
+        "permission": "InternationalCalling"
+      }
+    },
+    {
+      "id": "LiveReportsLicenses",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No LiveReportsLicense permission granted",
+        "permission": "LiveReportsLicense"
+      }
+    },
+    {
+      "id": "MeetingsLicenses",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No MeetingsPlan permission granted",
+        "permission": "MeetingsPlan"
+      }
+    },
+    {
+      "id": "EditPaymentMethod",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No PaymentMethod permission granted",
+        "permission": "PaymentMethod"
+      }
+    },
+    {
+      "id": "ReadPaymentMethod",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No ReadPaymentMethod permission granted",
+        "permission": "ReadPaymentMethod"
+      }
+    },
+    {
+      "id": "ProductPurchase",
+      "available": false,
+      "reason": {
+        "code": "AccountLimitation",
+        "message": "The feature is turned off for the current account"
+      }
+    },
+    {
+      "id": "EditServicePlan",
+      "available": false,
+      "reason": {
+        "code": "AccountLimitation",
+        "message": "The feature is turned off for the current account"
+      }
+    },
+    {
+      "id": "EditExtensionGrants",
+      "available": true
+    },
+    {
+      "id": "ReadServicePlan",
+      "available": true
+    },
+    {
+      "id": "ReadUsageInfo",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No UsageInfo permission granted",
+        "permission": "UsageInfo"
+      }
+    },
+    {
+      "id": "EditAccountDevices",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No PhonesAndDevices permission granted",
+        "permission": "PhonesAndDevices"
+      }
+    },
+    {
+      "id": "ReadAccountDevices",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No ReadCompanyDevices permission granted",
+        "permission": "ReadCompanyDevices"
+      }
+    },
+    {
+      "id": "EditExtensionDevices",
+      "available": true
+    },
+    {
+      "id": "ReadExtensionDevices",
+      "available": true
+    },
+    {
+      "id": "EditAccountPhoneNumbers",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No CompanyNumbers permission granted",
+        "permission": "CompanyNumbers"
+      }
+    },
+    {
+      "id": "AddRemovePhoneNumbers",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No AddRemovePhoneNumbers permission granted",
+        "permission": "AddRemovePhoneNumbers"
+      }
+    },
+    {
+      "id": "ReadExtensionPhoneNumbers",
+      "available": true
+    },
+    {
+      "id": "EditDirectoryAssistance",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No DirectoryAssistance permission granted",
+        "permission": "DirectoryAssistance"
+      }
+    },
+    {
+      "id": "EditGroups",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No Groups permission granted",
+        "permission": "Groups"
+      }
+    },
+    {
+      "id": "EditOutboundCallPrefix",
+      "available": false,
+      "reason": {
+        "code": "AccountLimitation",
+        "message": "The feature is turned off for the current account"
+      }
+    },
+    {
+      "id": "EditUsers",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No Users permission granted",
+        "permission": "Users"
+      }
+    },
+    {
+      "id": "EditRoles",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No Roles permission granted",
+        "permission": "Roles"
+      }
+    },
+    {
+      "id": "ReadRoles",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No ReadUserRoles permission granted",
+        "permission": "ReadUserRoles"
+      }
+    },
+    {
+      "id": "EditTemplates",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No EditUserTemplates permission granted",
+        "permission": "EditUserTemplates"
+      }
+    },
+    {
+      "id": "ApplyTemplates",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No ApplyUserTemplates permission granted",
+        "permission": "ApplyUserTemplates"
+      }
+    },
+    {
+      "id": "ReadTemplates",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No ReadUserTemplates permission granted",
+        "permission": "ReadUserTemplates"
+      }
+    },
+    {
+      "id": "ReadExtensions",
+      "available": true
+    },
+    {
+      "id": "EditExtensionInfo",
+      "available": true
+    },
+    {
+      "id": "ReadExtensionInfo",
+      "available": true
+    },
+    {
+      "id": "EditUserHours",
+      "available": true
+    },
+    {
+      "id": "EditCredentials",
+      "available": true
+    },
+    {
+      "id": "EditMessageAndNotificationSettings",
+      "available": true
+    },
+    {
+      "id": "ReadMessageAndNotificationSettings",
+      "available": true
+    },
+    {
+      "id": "ReadOutboundCallerId",
+      "available": true
+    },
+    {
+      "id": "EditExtensionPhonesAndNumbers",
+      "available": true
+    },
+    {
+      "id": "EditPersonalContacts",
+      "available": true
+    },
+    {
+      "id": "ReadPersonalContacts",
+      "available": true
+    },
+    {
+      "id": "DomesticCalling",
+      "available": true
+    },
+    {
+      "id": "InternalCalling",
+      "available": true,
+      "params": [
+        {
+          "name": "extensionNumberLengthMax",
+          "value": "5"
+        }
+      ]
+    },
+    {
+      "id": "EditAutoReceptionist",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No AutoReceptionist permission granted",
+        "permission": "AutoReceptionist"
+      }
+    },
+    {
+      "id": "EditAdvancedIVR",
+      "available": false,
+      "reason": {
+        "code": "ServicePlanLimitation",
+        "message": "The feature is unavailable for the current service plan"
+      }
+    },
+    {
+      "id": "EditAccountAnsweringRules",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No EditCompanyAnsweringRules permission granted",
+        "permission": "EditCompanyAnsweringRules"
+      }
+    },
+    {
+      "id": "EditExtensionPhoneNumbers",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No EditUserPhoneNumbers permission granted",
+        "permission": "EditUserPhoneNumbers"
+      }
+    },
+    {
+      "id": "EditOutboundCallerId",
+      "available": true
+    },
+    {
+      "id": "ReadAccountAnsweringRules",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No ReadCompanyAnsweringRules permission granted",
+        "permission": "ReadCompanyAnsweringRules"
+      }
+    },
+    {
+      "id": "EditAccountGreetings",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No EditCompanyGreetings permission granted",
+        "permission": "EditCompanyGreetings"
+      }
+    },
+    {
+      "id": "ReadAccountGreetings",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No ReadCompanyGreetings permission granted",
+        "permission": "ReadCompanyGreetings"
+      }
+    },
+    {
+      "id": "EditCallScreeningAndGreetings",
+      "available": true
+    },
+    {
+      "id": "ReadCallScreeningAndGreetings",
+      "available": true
+    },
+    {
+      "id": "EditExtensionAnsweringRules",
+      "available": true
+    },
+    {
+      "id": "ReadExtensionAnsweringRules",
+      "available": true
+    },
+    {
+      "id": "EditIncomingCallInfo",
+      "available": true
+    },
+    {
+      "id": "CallTransfer",
+      "available": true
+    },
+    {
+      "id": "Hold",
+      "available": true
+    },
+    {
+      "id": "EditIntercom",
+      "available": true
+    },
+    {
+      "id": "EditBlockedNumbers",
+      "available": true
+    },
+    {
+      "id": "ReadBlockedNumbers",
+      "available": true
+    },
+    {
+      "id": "ReadAccountCallRecordings",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No ReadCompanyCallRecordings permission granted",
+        "permission": "ReadCompanyCallRecordings"
+      }
+    },
+    {
+      "id": "ReadExtensionCallRecordings",
+      "available": true
+    },
+    {
+      "id": "ReadAccountCallLog",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No ReadCompanyCallLog permission granted",
+        "permission": "ReadCompanyCallLog"
+      }
+    },
+    {
+      "id": "EditAccountCallLogDelivery",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No EditCompanyCallLogDelivery permission granted",
+        "permission": "EditCompanyCallLogDelivery"
+      }
+    },
+    {
+      "id": "EditAccountCallLog",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No CompanyCallLog permission granted",
+        "permission": "CompanyCallLog"
+      }
+    },
+    {
+      "id": "EditSiteCallLog",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No SiteCallLog permission granted",
+        "permission": "SiteCallLog"
+      }
+    },
+    {
+      "id": "ReadSiteCallLog",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No SiteCallLog permission granted",
+        "permission": "SiteCallLog"
+      }
+    },
+    {
+      "id": "ReadExtensionCallLog",
+      "available": true
+    },
+    {
+      "id": "EditExtensionCallLog",
+      "available": true
+    },
+    {
+      "id": "ReadBlfSettings",
+      "available": true
+    },
+    {
+      "id": "EditExtensionCallLogDelivery",
+      "available": true
+    },
+    {
+      "id": "HUD",
+      "available": true,
+      "params": [
+        {
+          "name": "limitMax",
+          "value": "100"
+        }
+      ]
+    },
+    {
+      "id": "EditPresenceStatus",
+      "available": true
+    },
+    {
+      "id": "ReadPresenceStatus",
+      "available": true
+    },
+    {
+      "id": "EditCallDelegation",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No ConfigureDelegates permission granted",
+        "permission": "ConfigureDelegates"
+      }
+    },
+    {
+      "id": "ReadMessages",
+      "available": true
+    },
+    {
+      "id": "EditMessages",
+      "available": true
+    },
+    {
+      "id": "ReadFaxSettings",
+      "available": true
+    },
+    {
+      "id": "VoicemailBroadcasting",
+      "available": false,
+      "reason": {
+        "code": "ServicePlanLimitation",
+        "message": "The feature is unavailable for the current service plan"
+      }
+    },
+    {
+      "id": "GlipAdministration",
+      "available": false,
+      "reason": {
+        "code": "AccountLimitation",
+        "message": "The feature is turned off for the current account"
+      }
+    },
+    {
+      "id": "BotInstall",
+      "available": true
+    },
+    {
+      "id": "BotUninstall",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No BotUninstall permission granted",
+        "permission": "BotUninstall"
+      }
+    },
+    {
+      "id": "Rooms",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No MeetingsConfiguration permission granted",
+        "permission": "MeetingsConfiguration"
+      }
+    },
+    {
+      "id": "EditRooms",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No RoomsSettings permission granted",
+        "permission": "RoomsSettings"
+      }
+    },
+    {
+      "id": "MeetingsReports",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No MeetingsReports permission granted",
+        "permission": "MeetingsReports"
+      }
+    },
+    {
+      "id": "EditWebinars",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No WebinarSettings permission granted",
+        "permission": "WebinarSettings"
+      }
+    },
+    {
+      "id": "AuditTrail",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No AuditTrail permission granted",
+        "permission": "AuditTrail"
+      }
+    },
+    {
+      "id": "MeetingsPersonalRecordings",
+      "available": true
+    },
+    {
+      "id": "Sites",
+      "available": false,
+      "reason": {
+        "code": "AccountLimitation",
+        "message": "The feature is turned off for the current account"
+      }
+    },
+    {
+      "id": "ExpressUserActivation",
+      "available": false,
+      "reason": {
+        "code": "AccountLimitation",
+        "message": "The feature is turned off for the current account"
+      }
+    },
+    {
+      "id": "SecurityQuestion",
+      "available": false,
+      "reason": {
+        "code": "AccountLimitation",
+        "message": "The feature is turned off for the current account"
+      }
+    },
+    {
+      "id": "ServiceWebAccess",
+      "available": true
+    },
+    {
+      "id": "MeetingsCompanyRecordings",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No MeetingsCompanyRecordings permission granted",
+        "permission": "MeetingsCompanyRecordings"
+      }
+    },
+    {
+      "id": "ReassignPhoneNumbers",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No ReassignPhoneNumbers permission granted",
+        "permission": "ReassignPhoneNumbers"
+      }
+    },
+    {
+      "id": "JoinLeaveCallQueue",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No JoinLeaveCallQueue permission granted",
+        "permission": "JoinLeaveCallQueue"
+      }
+    },
+    {
+      "id": "ReadCallQueueManagers",
+      "available": true
+    },
+    {
+      "id": "EditCallQueueManagers",
+      "available": false,
+      "reason": {
+        "code": "ExtensionTypeLimitation",
+        "message": "The feature is not available for the current extension type"
+      }
+    },
+    {
+      "id": "EditCallQueueMembers",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No EditCallQueueMembers permission granted",
+        "permission": "EditCallQueueMembers"
+      }
+    },
+    {
+      "id": "AddRemoveDevices",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No AddRemoveDevices permission granted",
+        "permission": "AddRemoveDevices"
+      }
+    },
+    {
+      "id": "EditRoomConnector",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No RoomConnectorSettings permission granted",
+        "permission": "RoomConnectorSettings"
+      }
+    },
+    {
+      "id": "FederatedAccount",
+      "available": true
+    },
+    {
+      "id": "OutboundCallPrefix",
+      "available": false,
+      "reason": {
+        "code": "AccountLimitation",
+        "message": "The feature is turned off for the current account"
+      }
+    },
+    {
+      "id": "LearningManagementSystem",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No Users permission granted",
+        "permission": "Users"
+      }
+    },
+    {
+      "id": "ReadEmergencyLocations",
+      "available": false,
+      "reason": {
+        "code": "AccountLimitation",
+        "message": "The feature is turned off for the current account"
+      }
+    },
+    {
+      "id": "EditEmergencyLocations",
+      "available": false,
+      "reason": {
+        "code": "AccountLimitation",
+        "message": "The feature is turned off for the current account"
+      }
+    },
+    {
+      "id": "ReadExtensionEmergencyLocations",
+      "available": false,
+      "reason": {
+        "code": "AccountLimitation",
+        "message": "The feature is turned off for the current account"
+      }
+    },
+    {
+      "id": "EmergencyLocations",
+      "available": false,
+      "reason": {
+        "code": "AccountLimitation",
+        "message": "The feature is turned off for the current account"
+      }
+    },
+    {
+      "id": "CallQueuePresence",
+      "available": false,
+      "reason": {
+        "code": "AccountLimitation",
+        "message": "The feature is turned off for the current account"
+      }
+    },
+    {
+      "id": "EditCallQueuePresence",
+      "available": false,
+      "reason": {
+        "code": "AccountLimitation",
+        "message": "The feature is turned off for the current account"
+      }
+    },
+    {
+      "id": "EditEnhancedCallQueueSettings",
+      "available": false,
+      "reason": {
+        "code": "AccountLimitation",
+        "message": "The feature is turned off for the current account"
+      }
+    },
+    {
+      "id": "EditCallQueueRoutingOptions",
+      "available": false,
+      "reason": {
+        "code": "AccountLimitation",
+        "message": "The feature is turned off for the current account"
+      }
+    },
+    {
+      "id": "EditCallQueueExtensionRouting",
+      "available": false,
+      "reason": {
+        "code": "AccountLimitation",
+        "message": "The feature is turned off for the current account"
+      }
+    },
+    {
+      "id": "EditEmailNotificationAppearance",
+      "available": false,
+      "reason": {
+        "code": "InsufficientPermissions",
+        "message": "No Appearance permission granted",
+        "permission": "Appearance"
+      }
+    },
+    {
+      "id": "ReadEmailNotificationAppearance",
+      "available": true
+    },
+    {
+      "id": "EditMeetingsProvider",
+      "available": true
+    },
+    {
+      "id": "EmergencyCallNotification",
+      "available": true
+    },
+    {
+      "id": "RCMeetingApps",
+      "available": true
+    },
+    {
+      "id": "IMS",
+      "available": false,
+      "reason": {
+        "code": "ServicePlanLimitation",
+        "message": "The feature is unavailable for the current service plan"
+      }
+    }
+  ]
 }

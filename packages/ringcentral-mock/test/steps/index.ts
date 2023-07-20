@@ -1,9 +1,7 @@
-import {
-  BaseStep,
-  StepFunction as BaseStepFunction,
-} from '@ringcentral-integration/test-utils';
+import type { StepFunction as BaseStepFunction } from '@ringcentral-integration/test-utils';
+import { BaseStep } from '@ringcentral-integration/test-utils';
 
-import { Context } from '../interfaces';
+import type { Context } from '../interfaces';
 
 export {
   And,

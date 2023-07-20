@@ -1,4 +1,4 @@
-import { FederatedAccountResource } from './FederatedAccountResource';
+import type { FederatedAccountResource } from './FederatedAccountResource';
 
 export interface FederationResource {
   /**

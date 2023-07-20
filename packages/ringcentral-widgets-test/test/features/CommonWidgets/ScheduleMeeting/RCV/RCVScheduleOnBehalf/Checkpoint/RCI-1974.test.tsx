@@ -1,6 +1,6 @@
 /**
  * RCI-1974: RCV - Schedule on behalf - Add PMI meeting
- * https://test_id_domain/test-cases/RCI-1974
+ * https://test_it_domain/test-cases/RCI-1974
  * Preconditions:
  * The user hasRCVpermission.
  * Already installed and logged in app
@@ -20,7 +20,7 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
-import { StepFunction, StepProp } from '../../../../../../lib/step';
+import type { StepFunction, StepProp } from '../../../../../../lib/step';
 import { SelectOptionFromDropDown } from '../../../../../../steps/Common';
 import { CommonLogin } from '../../../../../../steps/CommonLogin';
 import {
@@ -84,7 +84,7 @@ export class RCI1974 extends Step {
 										[L10N]"
           action={[
             CheckInjection,
-            <CheckPatchMeetingParams name="TestAccountA's video meeting" />,
+            <CheckPatchMeetingParams name="RingCentral Video Meeting" />,
           ]}
         />
       </Scenario>

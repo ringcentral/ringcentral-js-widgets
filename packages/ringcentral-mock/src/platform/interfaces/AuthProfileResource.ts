@@ -1,4 +1,4 @@
-import { ActivePermissionResource } from './ActivePermissionResource';
+import type { ActivePermissionResource } from './ActivePermissionResource';
 
 export interface AuthProfileResource {
   /**

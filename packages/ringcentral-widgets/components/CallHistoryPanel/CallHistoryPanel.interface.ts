@@ -1,5 +1,5 @@
-import { Call } from '@ringcentral-integration/commons/interfaces/Call.interface';
-import { SvgSymbol } from '@ringcentral/juno';
+import type { Call } from '@ringcentral-integration/commons/interfaces/Call.interface';
+import type { SvgSymbol } from '@ringcentral/juno';
 
 export interface CallLog extends Call {
   callTime?: string;

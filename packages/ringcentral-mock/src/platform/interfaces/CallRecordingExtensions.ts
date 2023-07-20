@@ -1,6 +1,6 @@
-import { CallRecordingExtensionInfo } from './CallRecordingExtensionInfo';
-import { CallHandlingNavigationInfo } from './CallHandlingNavigationInfo';
-import { CallHandlingPagingInfo } from './CallHandlingPagingInfo';
+import type { CallRecordingExtensionInfo } from './CallRecordingExtensionInfo';
+import type { CallHandlingNavigationInfo } from './CallHandlingNavigationInfo';
+import type { CallHandlingPagingInfo } from './CallHandlingPagingInfo';
 
 export interface CallRecordingExtensions {
   /**

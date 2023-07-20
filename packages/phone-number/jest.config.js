@@ -1,17 +1,6 @@
-module.exports = {
-  transform: {
-    '^.+\\.(j|t)sx?$':
-      '@ringcentral-integration/babel-settings/lib/jestTransform.js',
-  },
-  reporters: [
-    'default',
-    [
-      'jest-html-reporters',
-      {
-        publicPath: './html-report',
-        filename: 'jest-report.html',
-        expand: true,
-      },
-    ],
-  ],
-};
+const merge = require('@ringcentral-integration/test-utils/lib/merge');
+const {
+  getBaseJestConfig,
+} = require('@ringcentral-integration/test-utils/config/getBaseJestConfig');
+
+module.exports = merge(getBaseJestConfig(), {});

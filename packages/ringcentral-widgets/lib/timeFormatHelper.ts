@@ -1,4 +1,7 @@
-import moment from 'moment';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+
+dayjs.extend(utc);
 
 export function setUTCTime(time: number | Date = Date.now()) {
   const _time = new Date(time);
@@ -9,5 +12,5 @@ export function setUTCTime(time: number | Date = Date.now()) {
 }
 
 export function getDateFromUTCDay(timeStamp: any) {
-  return new Date(moment.utc(timeStamp).format('MM/DD/YYYY'));
+  return new Date(dayjs.utc(timeStamp).format('MM/DD/YYYY'));
 }

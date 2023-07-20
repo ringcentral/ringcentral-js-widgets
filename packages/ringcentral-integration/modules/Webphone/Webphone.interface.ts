@@ -1,19 +1,19 @@
-import { WebPhoneOptions } from 'ringcentral-web-phone';
+import type { WebPhoneOptions } from 'ringcentral-web-phone';
 
-import { NormalizedSession } from '../../interfaces/Webphone.interface';
-import { RingCentralClient } from '../../lib/RingCentralClient';
-import { Alert } from '../Alert';
-import { AppFeatures } from '../AppFeatures';
-import { AudioSettings } from '../AudioSettings';
-import { Auth } from '../Auth';
-import { AvailabilityMonitor } from '../AvailabilityMonitor';
-import { Brand } from '../Brand';
-import { ContactMatcher } from '../ContactMatcher';
-import { ExtensionFeatures } from '../ExtensionFeatures';
-import { NumberValidate } from '../NumberValidate';
-import { RegionSettings } from '../RegionSettings';
-import { Storage } from '../Storage';
-import { TabManager } from '../TabManager';
+import type { NormalizedSession } from '../../interfaces/Webphone.interface';
+import type { RingCentralClient } from '../../lib/RingCentralClient';
+import type { Alert } from '../Alert';
+import type { AppFeatures } from '../AppFeatures';
+import type { AudioSettings } from '../AudioSettings';
+import type { Auth } from '../Auth';
+import type { AvailabilityMonitor } from '../AvailabilityMonitor';
+import type { Brand } from '../Brand';
+import type { ContactMatcher } from '../ContactMatcher';
+import type { ExtensionFeatures } from '../ExtensionFeatures';
+import type { NumberValidate } from '../NumberValidate';
+import type { RegionSettings } from '../RegionSettings';
+import type { Storage } from '../Storage';
+import type { TabManager } from '../TabManager';
 
 export interface Deps {
   prefix: string;
@@ -112,4 +112,11 @@ export type WebphoneSessionRequestHeader = {
 };
 export type WebphoneSessionRequestHeaders = {
   [name: string]: Array<WebphoneSessionRequestHeader>;
+};
+export type TPickupInboundCall = {
+  sessionId: string;
+  toNumber: string;
+  fromNumber: string;
+  serverId: string;
+  telephonySessionId: string;
 };

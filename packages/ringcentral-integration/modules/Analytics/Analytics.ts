@@ -1,14 +1,15 @@
 import { sleep } from '@ringcentral-integration/utils';
 
-import RouterInteraction from '../../../ringcentral-widgets/modules/RouterInteraction';
+import type RouterInteraction from '../../../ringcentral-widgets/modules/RouterInteraction';
 import moduleStatuses from '../../enums/moduleStatuses';
 import { Pendo, Segment } from '../../lib/Analytics';
 import { Module } from '../../lib/di';
 import RcModule from '../../lib/RcModule';
 import saveBlob from '../../lib/saveBlob';
 import { callingModes } from '../CallingSettings/callingModes';
-import { ExtensionInfo } from '../ExtensionInfo';
-import { analyticsActionTypes, AnalyticsActionTypes } from './actionTypes';
+import type { ExtensionInfo } from '../ExtensionInfo';
+import type { AnalyticsActionTypes } from './actionTypes';
+import { analyticsActionTypes } from './actionTypes';
 import getAnalyticsReducer from './getAnalyticsReducer';
 
 export interface TrackProps {
@@ -191,9 +192,10 @@ export class Analytics extends RcModule<
   private _waitPendoCount: number;
   private _pendoTimeout: ReturnType<typeof setTimeout>;
   private _env: string;
+  private _useLocalPendoJS: any;
 
   constructor({
-    // AnalyticsOptions
+    analyticsOptions,
     analyticsKey,
     pendoApiKey,
     appName,
@@ -278,10 +280,15 @@ export class Analytics extends RcModule<
     this._waitPendoCount = 0;
     this._pendoTimeout = null;
     this._env = env;
+    this._useLocalPendoJS = analyticsOptions?.useLocalPendoJS ?? false;
     if (this._enablePendo && this._pendoApiKey) {
-      Pendo.init(this._pendoApiKey, (pendoInstance: any) => {
-        this._pendo = pendoInstance;
-      });
+      Pendo.init(
+        this._pendoApiKey,
+        this._useLocalPendoJS,
+        (pendoInstance: any) => {
+          this._pendo = pendoInstance;
+        },
+      );
     }
   }
 

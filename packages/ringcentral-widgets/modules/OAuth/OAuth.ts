@@ -2,13 +2,13 @@ import * as uuid from 'uuid';
 
 import background from '@ringcentral-integration/commons/lib/background';
 import { Module } from '@ringcentral-integration/commons/lib/di';
-import proxify from '@ringcentral-integration/commons/lib/proxy/proxify';
+import { proxify } from '@ringcentral-integration/commons/lib/proxy/proxify';
 import { watch } from '@ringcentral-integration/core';
 
-import { isElectron } from '../../lib/isElectron';
+import { isElectron } from '@ringcentral-integration/utils';
 import { OAuthBase } from '../../lib/OAuthBase';
 import { popWindow } from '../../lib/popWindow';
-import { Deps } from './OAuth.interface';
+import type { Deps } from './OAuth.interface';
 
 @Module({
   name: 'OAuth',
@@ -155,11 +155,9 @@ export class OAuth<T extends Deps = Deps> extends OAuthBase<T> {
   }
 
   @background
-  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
-  async destroyOAuth() {
+  override async destroyOAuth() {
     if (!this.oAuthReady) return;
-
-    // @ts-expect-error TS(2322): Type 'null' is not assignable to type '(callbackUr... Remove this comment to see the full error message
+    // @ts-ignore
     window.oAuthCallback = null;
     this.setOAuthReady(false);
   }

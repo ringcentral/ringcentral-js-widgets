@@ -1,15 +1,14 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import { RcButton } from '@ringcentral/juno';
 
-import {
+import type {
   EvAgentSessionUIFunctions,
   EvAgentSessionUIProps,
 } from '../../interfaces/EvAgentSessionUI.interface';
-import {
-  BasicSessionPanel,
-  BasicSessionPanelProps,
-} from '../BasicSessionPanel';
+import type { BasicSessionPanelProps } from '../BasicSessionPanel';
+import { BasicSessionPanel } from '../BasicSessionPanel';
 import { BackHeader } from '../SelectList';
 import i18n from './i18n';
 import styles from './styles.scss';

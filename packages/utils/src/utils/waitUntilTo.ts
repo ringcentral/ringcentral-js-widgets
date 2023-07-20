@@ -1,4 +1,5 @@
-import { waitUntil, WaitUntilOption } from './waitUntil';
+import type { WaitUntilOption } from './waitUntil';
+import { waitUntil } from './waitUntil';
 
 export interface WaitUntilToPromise<T> extends Promise<T> {
   /** cancel wailUntilTo timer */

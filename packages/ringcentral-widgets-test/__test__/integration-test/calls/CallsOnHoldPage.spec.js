@@ -12,14 +12,14 @@ import DialerPanel from '@ringcentral-integration/widgets/components/DialerPanel
 import NavigationBar from '@ringcentral-integration/widgets/components/NavigationBar';
 import { mockConferenceCallEnv } from '../CallCtrlPage/helper';
 import { makeCall } from '../../support/callHelper';
-import { mockMultiOutboundCalls } from './helper';
 import { initPhoneWrapper, tearDownWrapper } from '../shared';
+import { mockMultiOutboundCalls } from './helper';
 
 let panel = null;
 const SESSIONS_COUNT = 4;
 
 beforeEach(async () => {
-  jasmine.DEFAUL_INTERVAL = 64000;
+  jest.setTimeout(64000);
 });
 
 async function initialize(count = SESSIONS_COUNT) {

@@ -1,22 +1,25 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
+import type { SmallCallControlProps } from '../SmallCallControl';
 import {
   HangUpButton,
   HoldCallButton,
   MuteCallButton,
   SmallCallControl,
-  SmallCallControlProps,
   TransferCallButton,
 } from '../SmallCallControl';
+import type {
+  ActiveCallButtonProps,
+  CountDownButtonProps,
+  RecordControlButtonProps,
+  RecordingButtonProps,
+} from './components';
 import {
   ActiveCallButton,
-  ActiveCallButtonProps,
   CountDownButton,
-  CountDownButtonProps,
   RecordControlButton,
-  RecordControlButtonProps,
   RecordingButton,
-  RecordingButtonProps,
 } from './components';
 
 export type EvSmallCallControlProps = ActiveCallButtonProps &

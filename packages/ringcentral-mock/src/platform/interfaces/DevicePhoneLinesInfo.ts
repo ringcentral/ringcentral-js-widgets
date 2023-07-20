@@ -1,5 +1,5 @@
-import { DevicePhoneLinesEmergencyAddressInfo } from './DevicePhoneLinesEmergencyAddressInfo';
-import { DevicePhoneNumberInfo } from './DevicePhoneNumberInfo';
+import type { DevicePhoneLinesEmergencyAddressInfo } from './DevicePhoneLinesEmergencyAddressInfo';
+import type { DevicePhoneNumberInfo } from './DevicePhoneNumberInfo';
 
 export interface DevicePhoneLinesInfo {
   /**

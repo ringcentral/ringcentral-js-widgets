@@ -1,20 +1,19 @@
-import React, {
-  FunctionComponent,
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-} from 'react';
+import type { FunctionComponent } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef } from 'react';
 
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 import { palette2, styled, typography } from '@ringcentral/juno';
 
 import { CallHistoryItem } from './CallHistoryItem';
-import { CallLog, CallLogMenu, CallsTree } from './CallHistoryPanel.interface';
-import i18n from './i18n';
+import type {
+  CallLog,
+  CallLogMenu,
+  CallsTree,
+} from './CallHistoryPanel.interface';
+import i18n, { I18nKey } from './i18n';
 import { StickyVirtualizedList } from './StickyVirtualizedList';
-import { RowRendererProps } from './StickyVirtualizedList/StickyVirtualizedList.interface';
+import type { RowRendererProps } from './StickyVirtualizedList/StickyVirtualizedList.interface';
 import styles from './styles.scss';
 
 export type CallHistoryPanelProps = {
@@ -36,11 +35,11 @@ const ROOT_NODE = {
 };
 
 function formatCallDate(timestamp: number) {
-  const now = moment();
+  const now = dayjs();
   const today = now.clone().startOf('day');
   const yesterday = now.clone().subtract(1, 'days').startOf('day');
 
-  const mTimestamp = moment(timestamp);
+  const mTimestamp = dayjs(timestamp);
   if (mTimestamp.isSame(today, 'd')) {
     return 'today';
   }
@@ -51,7 +50,7 @@ function formatCallDate(timestamp: number) {
 }
 
 function formatCallTime(timestamp: number) {
-  return moment(timestamp).format('h:mm A');
+  return dayjs(timestamp).format('h:mm A');
 }
 
 const DateText = styled.div`
@@ -177,7 +176,7 @@ export const CallHistoryPanel: FunctionComponent<CallHistoryPanelProps> = ({
       if (node.children) {
         return (
           <DateText data-sign="dateText" style={style} key={node.name}>
-            {i18n.getString(node.name, currentLocale)}
+            {i18n.getString(node.name as I18nKey, currentLocale)}
           </DateText>
         );
       }

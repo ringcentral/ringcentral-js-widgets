@@ -1,7 +1,7 @@
-import { Locale } from '@ringcentral-integration/commons/modules/Locale';
-import { ActiveCallControl } from '@ringcentral-integration/commons/modules/ActiveCallControl';
-import { Webphone } from '@ringcentral-integration/commons/modules/Webphone';
-import { RouterInteraction } from '../RouterInteraction';
+import type { Locale } from '@ringcentral-integration/commons/modules/Locale';
+import type { ActiveCallControl } from '@ringcentral-integration/commons/modules/ActiveCallControl';
+import type { Webphone } from '@ringcentral-integration/commons/modules/Webphone';
+import type { RouterInteraction } from '../RouterInteraction';
 
 export enum ReplyWithPattern {
   willCallYouBack = 'WillCallYouBack',

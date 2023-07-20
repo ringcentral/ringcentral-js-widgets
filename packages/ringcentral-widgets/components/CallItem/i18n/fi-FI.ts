@@ -16,7 +16,7 @@ export default {
   call: "Puhelu",
   missedCall: "Vastaamaton",
   inboundCall: "Saapuva",
-  outboundCall: "Lähtevä"
+  outboundCall: "Lähtevät"
 };
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@

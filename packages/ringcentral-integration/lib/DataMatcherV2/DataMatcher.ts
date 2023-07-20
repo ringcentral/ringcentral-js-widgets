@@ -10,7 +10,7 @@ import {
 
 import { Library } from '../di';
 import proxify from '../proxy/proxify';
-import {
+import type {
   DataMatcherOptions,
   Deps,
   FetchMatchResultOptions,

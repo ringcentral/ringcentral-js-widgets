@@ -1,4 +1,4 @@
-import { TaskResultRecordErrorsInfo } from './TaskResultRecordErrorsInfo';
+import type { TaskResultRecordErrorsInfo } from './TaskResultRecordErrorsInfo';
 
 export interface TaskResultRecord {
   /**

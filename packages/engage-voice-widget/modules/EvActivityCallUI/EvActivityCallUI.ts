@@ -1,5 +1,5 @@
 import { keys } from 'ramda';
-import { Unsubscribe } from 'redux';
+import type { Unsubscribe } from 'redux';
 
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import {
@@ -10,33 +10,34 @@ import {
   storage,
   watch,
 } from '@ringcentral-integration/core';
-import { CallLogPanelProps } from '@ringcentral-integration/widgets/components/CallLogPanel';
+import type { CallLogPanelProps } from '@ringcentral-integration/widgets/components/CallLogPanel';
 
+import type { EvTransferType, MessageTypes } from '../../enums';
 import {
   dialoutStatuses,
-  EvTransferType,
   logTypes,
   messageTypes,
-  MessageTypes,
   tabManagerEvents,
   transferTypes,
 } from '../../enums';
-import {
-  callLogMethods,
+import type {
   CallLogMethods,
   EvActivityCallUIFunctions,
   EvActivityCallUIProps,
   EvCurrentLog,
-  saveStatus,
   SaveStatus,
 } from '../../interfaces/EvActivityCallUI.interface';
 import {
+  callLogMethods,
+  saveStatus,
+} from '../../interfaces/EvActivityCallUI.interface';
+import type {
   EvAgentScriptData,
   EvCallData,
   EvIvrData,
 } from '../../interfaces/EvData.interface';
-import { EvBaggage } from '../../lib/EvClient';
-import { ActivityCallUI, Deps } from './EvActivityCallUI.interface';
+import type { EvBaggage } from '../../lib/EvClient';
+import type { ActivityCallUI, Deps } from './EvActivityCallUI.interface';
 import i18n from './i18n';
 
 type FormState = {
@@ -119,11 +120,11 @@ class EvActivityCallUI<T extends Deps = Deps>
 
   @storage
   @state
-  isKeypadOpen: boolean = false;
+  isKeypadOpen = false;
 
   @storage
   @state
-  keypadValue: string = '';
+  keypadValue = '';
 
   @action
   setKeypadValue(value: string) {
@@ -606,7 +607,7 @@ class EvActivityCallUI<T extends Deps = Deps>
     this._redirectTransferCall(`/transferCall/${type}`);
   }
 
-  private _redirectTransferCall(url: string = '') {
+  private _redirectTransferCall(url = '') {
     this._deps.routerInteraction.push(`/activityCallLog/${this.callId}${url}`);
   }
 

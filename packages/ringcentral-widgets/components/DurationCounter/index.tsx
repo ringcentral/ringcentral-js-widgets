@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 
-import formatDuration from '../../lib/formatDuration';
+import { formatDuration } from '@ringcentral-integration/commons/lib/formatDuration';
 
 type DurationCounterProps = {
   className?: string;

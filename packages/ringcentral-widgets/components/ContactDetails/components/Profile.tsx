@@ -1,20 +1,22 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import classnames from 'classnames';
 
 import { extensionStatusTypes } from '@ringcentral-integration/commons/enums/extensionStatusTypes';
-import {
+import type {
   ContactModel,
   ContactPresence,
 } from '@ringcentral-integration/commons/interfaces/Contact.model';
 
 import { getPresenceStatusName } from '../../../lib/getPresenceStatusName';
 import PresenceStatusIcon from '../../PresenceStatusIcon';
-import { sourceNodeRenderer } from '../ContactDetails.interface';
+import type { sourceNodeRenderer } from '../ContactDetails.interface';
 import i18n from '../i18n';
 import styles from '../styles.scss';
+import type { GetPresenceFn } from '../../../react-hooks/usePresence';
+import { usePresence } from '../../../react-hooks/usePresence';
 import { Avatar } from './Avatar';
-import { GetPresenceFn, usePresence } from '../../../react-hooks/usePresence';
 
 interface StatusProps {
   inactive: boolean;
@@ -41,8 +43,8 @@ const Status: FunctionComponent<StatusProps> = ({
   if (presence) {
     const { presenceStatus = '', dndStatus = '' } = presence;
     const presenceName = getPresenceStatusName(
-      presenceStatus,
-      dndStatus,
+      presenceStatus as any,
+      dndStatus as any,
       currentLocale,
     );
     return (
@@ -109,6 +111,7 @@ export const Profile: FunctionComponent<ProfileProps> = ({
   getPresence,
 }) => {
   const { name, profileImageUrl, status, site, type } = contact;
+  // @ts-ignore
   const presence = usePresence(contact, { fetch: getPresence });
   const inactive = status === extensionStatusTypes.notActivated;
   return (

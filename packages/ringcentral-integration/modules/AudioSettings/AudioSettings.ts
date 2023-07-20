@@ -10,7 +10,7 @@ import {
 
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
-import { AudioSettingsData, Deps } from './AudioSettings.interface';
+import type { AudioSettingsData, Deps } from './AudioSettings.interface';
 import { audioSettingsErrors } from './audioSettingsErrors';
 
 function polyfillGetUserMedia() {

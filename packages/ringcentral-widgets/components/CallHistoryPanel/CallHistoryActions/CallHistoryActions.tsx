@@ -1,8 +1,9 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import classnames from 'classnames';
 
-import { CallLogMenu } from '../CallHistoryPanel.interface';
+import type { CallLogMenu } from '../CallHistoryPanel.interface';
 import { ActionButton } from './ActionButton';
 import { MenuButton } from './MenuButton';
 import styles from './styles.scss';

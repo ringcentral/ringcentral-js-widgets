@@ -1,14 +1,14 @@
-import type CallLogSync from '@rc-ex/core/lib/definitions/CallLogSync';
-import type UserCallLogRecord from '@rc-ex/core/lib/definitions/UserCallLogRecord';
-import type UserCallLogResponse from '@rc-ex/core/lib/definitions/UserCallLogResponse';
+import type CallLogSyncResponse from '@rc-ex/core/lib/definitions/CallLogSyncResponse';
+import type UserCallLogRecord from '@rc-ex/core/lib/definitions/CallLogRecord';
+import type UserCallLogResponse from '@rc-ex/core/lib/definitions/CallLogResponse';
 
-import { AppFeatures } from '../AppFeatures';
-import { Auth } from '../Auth';
-import { ExtensionInfo } from '../ExtensionInfo';
-import { ExtensionPhoneNumber } from '../ExtensionPhoneNumber';
-import { Storage } from '../Storage';
-import { Subscription } from '../Subscription';
-import { TabManager } from '../TabManager';
+import type { AppFeatures } from '../AppFeatures';
+import type { Auth } from '../Auth';
+import type { ExtensionInfo } from '../ExtensionInfo';
+import type { ExtensionPhoneNumber } from '../ExtensionPhoneNumber';
+import type { Storage } from '../Storage';
+import type { Subscription } from '../Subscription';
+import type { TabManager } from '../TabManager';
 
 export interface CallLogOptions {
   /**
@@ -73,7 +73,7 @@ export type CallLogRecord = Pick<
   UserCallLogRecord,
   Exclude<keyof UserCallLogRecord, 'startTime'>
 > & {
-  // TODO: fix type issue in 'UserCallLogRecord' in '@rc-ex/core/lib/definitions/UserCallLogRecord'
+  // TODO: fix type issue in 'CallLogRecord' in '@rc-ex/core/lib/definitions'
   startTime: number;
 };
 
@@ -82,7 +82,7 @@ export type CallLogItem = Pick<
   Exclude<keyof UserCallLogRecord, 'uri'>
 >;
 
-export type CallLogSyncData = Pick<CallLogSync, 'syncInfo' | 'uri'> & {
+export type CallLogSyncData = Pick<CallLogSyncResponse, 'syncInfo' | 'uri'> & {
   records: CallLogList;
 };
 
@@ -94,15 +94,15 @@ export type UserCallLogResponseData = Pick<
   UserCallLogResponse,
   Exclude<keyof UserCallLogResponse, 'records'>
 > & {
-  // TODO: fix type issue in 'UserCallLogRecord' in '@rc-ex/core/lib/definitions/UserCallLogRecord'
+  // TODO: fix type issue in 'CallLogResponse' in '@rc-ex/core/lib/definitions'
   records: CallLogRecords;
 };
 
 export interface CallLogData {
   list: string[];
   map: Record<string, CallLogRecord>;
-  token: string;
-  timestamp: number;
+  token: string | null;
+  timestamp: number | null;
 }
 
 export interface SyncSuccessOptions {

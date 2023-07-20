@@ -28,7 +28,7 @@ export default {
   passwordHintText: "A palavra-passe deve ter 1 a 10 letras e números, mas não pode conter símbolos",
   usePersonalMeetingId: "Utilizar ID da reunião pessoal",
   meetingSettingsSecurity: "Segurança",
-  onlyAuthUserJoin: "Apenas utilizadores autenticados podem participar",
+  onlyAuthUserJoin: "Apenas os utilizadores autenticados podem entrar",
   signedInUsers: "Utilizadores com sessão iniciada",
   signedInCoWorkers: "Colegas com sessão iniciada",
   limitScreenSharing: "Apenas o anfitrião e os moderadores podem partilhar o ecrã",

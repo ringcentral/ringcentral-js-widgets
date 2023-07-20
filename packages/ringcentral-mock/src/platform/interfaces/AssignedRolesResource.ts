@@ -1,4 +1,4 @@
-import { AssignedRoleResource } from './AssignedRoleResource';
+import type { AssignedRoleResource } from './AssignedRoleResource';
 
 export interface AssignedRolesResource {
   /**

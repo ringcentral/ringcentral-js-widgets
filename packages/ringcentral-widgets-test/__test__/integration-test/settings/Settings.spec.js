@@ -10,7 +10,7 @@ import NavigationBar from '@ringcentral-integration/widgets/components/Navigatio
 import { getWrapper } from '../shared';
 
 const setupWrapper = async () => {
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 64000;
+  jest.setTimeout(64000);
   const wrapper = await getWrapper();
   const navigationBar = wrapper.find(NavigationBar).first();
   await navigationBar.props().goTo('/settings');

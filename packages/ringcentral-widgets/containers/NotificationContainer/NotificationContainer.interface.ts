@@ -1,4 +1,4 @@
-import { NotificationPanelProps } from '../../components/NotificationPanel/NotificationPanel.interface';
+import type { NotificationPanelProps } from '../../components/NotificationPanel/NotificationPanel.interface';
 
 export type NotificationContainerProps = {
   regionSettingsUrl?: string;

@@ -1,6 +1,6 @@
 export default {
   forward: "Trasferisci",
-  reply: "Rispondi",
+  reply: "Risposta",
   ignore: "Ignora",
   toVoicemail: "Alla segreteria telefonica",
   answer: "Rispondi",

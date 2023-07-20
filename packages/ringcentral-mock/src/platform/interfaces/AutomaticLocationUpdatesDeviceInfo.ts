@@ -1,6 +1,6 @@
-import { AutomaticLocationUpdatesModelInfo } from './AutomaticLocationUpdatesModelInfo';
-import { AutomaticLocationUpdatesSiteInfo } from './AutomaticLocationUpdatesSiteInfo';
-import { AutomaticLocationUpdatesPhoneLine } from './AutomaticLocationUpdatesPhoneLine';
+import type { AutomaticLocationUpdatesModelInfo } from './AutomaticLocationUpdatesModelInfo';
+import type { AutomaticLocationUpdatesSiteInfo } from './AutomaticLocationUpdatesSiteInfo';
+import type { AutomaticLocationUpdatesPhoneLine } from './AutomaticLocationUpdatesPhoneLine';
 
 export interface AutomaticLocationUpdatesDeviceInfo {
   /**

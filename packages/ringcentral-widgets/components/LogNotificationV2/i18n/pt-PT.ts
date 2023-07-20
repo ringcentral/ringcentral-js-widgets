@@ -1,6 +1,6 @@
 export default {
-  Inbound: "Recebida",
-  Outbound: "Efetuada",
+  Inbound: "Recebidas",
+  Outbound: "Efetuadas",
   log: "Registo",
   save: "Guardar e nova",
   discard: "Rejeitar e nova",

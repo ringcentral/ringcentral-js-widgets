@@ -1,7 +1,9 @@
-import React, { FunctionComponent, useMemo } from 'react';
+import type { FunctionComponent } from 'react';
+import React, { useMemo } from 'react';
 
 import { callDirection } from '@ringcentral-integration/commons/enums/callDirections';
-import { RcIcon, RcPaletteKeys } from '@ringcentral/juno';
+import type { RcPaletteKeys } from '@ringcentral/juno';
+import { RcIcon } from '@ringcentral/juno';
 import {
   IncallBorder,
   MissedcallBorder,

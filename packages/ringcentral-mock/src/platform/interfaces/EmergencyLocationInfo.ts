@@ -1,6 +1,6 @@
-import { EmergencyLocationAddressInfo } from './EmergencyLocationAddressInfo';
-import { ShortSiteInfo } from './ShortSiteInfo';
-import { LocationOwnerInfo } from './LocationOwnerInfo';
+import type { EmergencyLocationAddressInfo } from './EmergencyLocationAddressInfo';
+import type { ShortSiteInfo } from './ShortSiteInfo';
+import type { LocationOwnerInfo } from './LocationOwnerInfo';
 
 // Company emergency response location details
 export interface EmergencyLocationInfo {

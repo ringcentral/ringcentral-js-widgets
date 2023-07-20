@@ -1,50 +1,50 @@
-import { ComponentType } from 'react';
+import type { ComponentType } from 'react';
 
-import { Call } from '@ringcentral-integration/commons/interfaces/Call.interface';
-import { Entity } from '@ringcentral-integration/commons/interfaces/Entity.interface';
-import { ActiveCall } from '@ringcentral-integration/commons/interfaces/Presence.model';
-import {
+import type { Call } from '@ringcentral-integration/commons/interfaces/Call.interface';
+import type { Entity } from '@ringcentral-integration/commons/interfaces/Entity.interface';
+import type { ActiveCall } from '@ringcentral-integration/commons/interfaces/Presence.model';
+import type {
   NormalizedSession,
   WebphoneSession,
 } from '@ringcentral-integration/commons/interfaces/Webphone.interface';
-import {
+import type {
   ActiveCallControl,
   ActiveSession,
 } from '@ringcentral-integration/commons/modules/ActiveCallControl';
-import { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures';
-import { Brand } from '@ringcentral-integration/commons/modules/Brand';
-import { HistoryCall } from '@ringcentral-integration/commons/modules/CallHistory';
-import { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettings';
-import { CallLogger } from '@ringcentral-integration/commons/modules/CallLogger';
-import { CallMonitor } from '@ringcentral-integration/commons/modules/CallMonitor';
-import {
+import type { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures';
+import type { Brand } from '@ringcentral-integration/commons/modules/Brand';
+import type { HistoryCall } from '@ringcentral-integration/commons/modules/CallHistory';
+import type { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettings';
+import type { CallLogger } from '@ringcentral-integration/commons/modules/CallLogger';
+import type { CallMonitor } from '@ringcentral-integration/commons/modules/CallMonitor';
+import type {
   ComposeText,
   ToNumber,
 } from '@ringcentral-integration/commons/modules/ComposeText';
-import {
+import type {
   ConferenceCall,
   Party,
   PartyState,
 } from '@ringcentral-integration/commons/modules/ConferenceCall';
-import { ConnectivityMonitor } from '@ringcentral-integration/commons/modules/ConnectivityMonitor';
-import { ContactMatcher } from '@ringcentral-integration/commons/modules/ContactMatcher';
-import { ContactSearch } from '@ringcentral-integration/commons/modules/ContactSearch';
-import { Locale } from '@ringcentral-integration/commons/modules/Locale';
-import { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiter';
-import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
-import { AccountInfo } from '@ringcentral-integration/commons/modules/AccountInfo';
-import { ExtensionInfo } from '@ringcentral-integration/commons/modules/ExtensionInfo';
+import type { ConnectivityMonitor } from '@ringcentral-integration/commons/modules/ConnectivityMonitor';
+import type { ContactMatcher } from '@ringcentral-integration/commons/modules/ContactMatcher';
+import type { ContactSearch } from '@ringcentral-integration/commons/modules/ContactSearch';
+import type { Locale } from '@ringcentral-integration/commons/modules/Locale';
+import type { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiter';
+import type { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
+import type { AccountInfo } from '@ringcentral-integration/commons/modules/AccountInfo';
+import type { ExtensionInfo } from '@ringcentral-integration/commons/modules/ExtensionInfo';
 
-import {
+import type {
   SwitchCallActiveCallParams,
   Webphone,
 } from '@ringcentral-integration/commons/modules/Webphone';
 
-import { OnCreateContactOptions } from '../CallsListUI';
-import { ContactDetailsUI, RouteParams } from '../ContactDetailsUI';
-import { ModalUI } from '../ModalUI';
-import { ConfirmModalOptions } from '../ModalUI/ModalUI.interface';
-import { RouterInteraction } from '../RouterInteraction';
+import type { OnCreateContactOptions } from '../CallsListUI';
+import type { ContactDetailsUI, RouteParams } from '../ContactDetailsUI';
+import type { ModalUI } from '../ModalUI';
+import type { ConfirmModalOptions } from '../ModalUI/ModalUI.interface';
+import type { RouterInteraction } from '../RouterInteraction';
 
 export interface Deps {
   brand: Brand;

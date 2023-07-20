@@ -1,4 +1,4 @@
-import { APNSInfo } from './APNSInfo';
+import type { APNSInfo } from './APNSInfo';
 
 export interface MissedCallEvent {
   /**

@@ -1,7 +1,7 @@
-import { Alert } from '../Alert';
-import { AppFeatures } from '../AppFeatures';
-import { Auth } from '../Auth';
-import { Storage } from '../Storage';
+import type { Alert } from '../Alert';
+import type { AppFeatures } from '../AppFeatures';
+import type { Auth } from '../Auth';
+import type { Storage } from '../Storage';
 
 export interface AudioSettingsData {
   dialButtonVolume: number;

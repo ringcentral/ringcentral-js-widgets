@@ -1,4 +1,4 @@
-import { IContact } from '@ringcentral-integration/commons/interfaces/Contact.model';
+import type { IContact } from '@ringcentral-integration/commons/interfaces/Contact.model';
 
 export interface WebRTCNotificationProps {
   formatPhone: (...args: any[]) => any;

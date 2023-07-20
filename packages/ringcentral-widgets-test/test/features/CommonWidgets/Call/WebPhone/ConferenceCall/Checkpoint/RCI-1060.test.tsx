@@ -1,6 +1,6 @@
 /**
  * RCI-1060: Call control_hang up
- * https://test_id_domain/test-cases/RCI-1060
+ * https://test_it_domain/test-cases/RCI-1060
  * Preconditions:
  * 2. User has logged into RC CTI App
  * 3. There is an active Conference Call
@@ -11,12 +11,12 @@
  * Conference Call call contorl page
  */
 
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p1,
   it,
   autorun,
   examples,
-  StepFunction,
   And,
   Scenario,
   Step,
@@ -51,7 +51,7 @@ import {
 @title('Call control_hang up')
 export class RCI1060 extends Step {
   Login: StepFunction<any, any> = CommonLogin;
-  conferenceCallId: string = '';
+  conferenceCallId = '';
   run() {
     const { Login } = this;
     return (

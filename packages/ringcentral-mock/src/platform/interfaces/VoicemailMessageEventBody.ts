@@ -1,6 +1,6 @@
-import { NotificationRecipientInfo } from './NotificationRecipientInfo';
-import { SenderInfo } from './SenderInfo';
-import { MessageAttachmentInfo } from './MessageAttachmentInfo';
+import type { NotificationRecipientInfo } from './NotificationRecipientInfo';
+import type { SenderInfo } from './SenderInfo';
+import type { MessageAttachmentInfo } from './MessageAttachmentInfo';
 
 // Notification payload body
 export interface VoicemailMessageEventBody {

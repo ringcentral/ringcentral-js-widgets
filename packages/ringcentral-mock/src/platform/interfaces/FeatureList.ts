@@ -1,4 +1,4 @@
-import { FeatureInfo } from './FeatureInfo';
+import type { FeatureInfo } from './FeatureInfo';
 
 export interface FeatureList {
   /**

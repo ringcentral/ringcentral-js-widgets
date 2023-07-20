@@ -1,4 +1,4 @@
-import { VoicemailMessageEventBody } from './VoicemailMessageEventBody';
+import type { VoicemailMessageEventBody } from './VoicemailMessageEventBody';
 
 export interface VoicemailMessageEvent {
   /**

@@ -1,6 +1,6 @@
-import { KeyInfo } from './KeyInfo';
-import { PerformanceCallsTimers } from './PerformanceCallsTimers';
-import { PerformanceCallsCounters } from './PerformanceCallsCounters';
+import type { KeyInfo } from './KeyInfo';
+import type { PerformanceCallsTimers } from './PerformanceCallsTimers';
+import type { PerformanceCallsCounters } from './PerformanceCallsCounters';
 
 export interface PerformanceCallsData {
   /**

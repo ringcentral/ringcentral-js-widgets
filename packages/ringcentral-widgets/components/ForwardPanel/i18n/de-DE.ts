@@ -1,5 +1,5 @@
 export default {
-  forward: "Weiterleiten"
+  forward: "Weiterl."
 };
 
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@

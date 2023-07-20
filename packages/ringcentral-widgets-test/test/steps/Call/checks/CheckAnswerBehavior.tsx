@@ -1,4 +1,4 @@
-import { StepFunction } from '../../../lib/step';
+import type { StepFunction } from '../../../lib/step';
 
 interface CheckAnswerBehaviorProps {
   answerCallPNumber?: string;
@@ -11,10 +11,7 @@ export const CheckAnswerBehavior: StepFunction<CheckAnswerBehaviorProps> =
       answerCallFinder?.(phone.webphone.sessions) ||
       phone.webphone.sessions.find((item) => item.to === answerCallPNumber);
     // The call should be answered
-    expect(phone.webphone.answer).toBeCalledWith(
-      answerCallSession.id,
-      undefined,
-    );
+    expect(phone.webphone.answer).toBeCalledWith(answerCallSession.id);
     expect(phone.webphone._onAccepted).toBeCalledWith(
       expect.objectContaining({
         id: answerCallSession?.id,

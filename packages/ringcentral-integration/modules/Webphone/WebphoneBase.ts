@@ -1,9 +1,9 @@
 import { EventEmitter } from 'events';
-import PhoneLinesInfo from 'ringcentral-client/build/definitions/PhoneLinesInfo';
+import type PhoneLinesInfo from 'ringcentral-client/build/definitions/PhoneLinesInfo';
 import RingCentralWebphone from 'ringcentral-web-phone';
 import defaultIncomingAudio from 'ringcentral-web-phone/audio/incoming.ogg';
 import defaultOutgoingAudio from 'ringcentral-web-phone/audio/outgoing.ogg';
-import { WebPhoneUserAgent } from 'ringcentral-web-phone/lib/userAgent';
+import type { WebPhoneUserAgent } from 'ringcentral-web-phone/lib/userAgent';
 
 import type CreateSipRegistrationResponse from '@rc-ex/core/lib/definitions/CreateSipRegistrationResponse';
 import type SipRegistrationDeviceInfo from '@rc-ex/core/lib/definitions/SipRegistrationDeviceInfo';
@@ -16,17 +16,17 @@ import {
   track,
   watch,
 } from '@ringcentral-integration/core';
-import { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
+import type { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
 import { sleep } from '@ringcentral-integration/utils';
 
 import { trackEvents } from '../../enums/trackEvents';
-import { WebphoneSession } from '../../interfaces/Webphone.interface';
+import type { WebphoneSession } from '../../interfaces/Webphone.interface';
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
 import { SipInstanceManager } from '../../lib/SipInstanceManager';
 import { connectionStatus } from './connectionStatus';
 import { EVENTS } from './events';
-import { Deps } from './Webphone.interface';
+import type { Deps } from './Webphone.interface';
 import { webphoneErrors } from './webphoneErrors';
 import {
   isBrowserSupport,
@@ -47,6 +47,7 @@ const AUTO_RETRIES_DELAY = [
   30 * 60 * 1000,
 ];
 
+const RECOVER_DEBOUNCE_THRESHOLD = 1000;
 const INACTIVE_SLEEP_DELAY = 1000;
 
 const registerErrors = [
@@ -101,13 +102,13 @@ export class WebphoneBase extends RcModuleV2<Deps> {
   protected _sipInstanceId?: string | null;
 
   protected _connectTimeout?: NodeJS.Timeout | null = null;
-  protected _isFirstRegister: boolean = true;
+  protected _isFirstRegister = true;
   protected _reconnectAfterSessionEnd?: { reason?: string | null } | null =
     null;
-  protected _disconnectInactiveAfterSessionEnd: boolean = false;
+  protected _disconnectInactiveAfterSessionEnd = false;
   protected _eventEmitter = new EventEmitter();
   protected _stopWebphoneUserAgentPromise?: Promise<unknown> | null = null;
-  protected _removedWebphoneAtBeforeUnload: boolean = false;
+  protected _removedWebphoneAtBeforeUnload = false;
 
   constructor(deps: Deps) {
     super({
@@ -129,7 +130,7 @@ export class WebphoneBase extends RcModuleV2<Deps> {
     connectionStatus.disconnected;
 
   @state
-  connectRetryCounts: number = 0;
+  connectRetryCounts = 0;
 
   @state
   errorCode?: string | null = null;
@@ -1046,7 +1047,7 @@ export class WebphoneBase extends RcModuleV2<Deps> {
       this._setCurrentInstanceAsActiveWebphone();
       return;
     }
-    await sleep(500);
+    await sleep(RECOVER_DEBOUNCE_THRESHOLD);
     if (!this._deps.tabManager!.active) {
       return;
     }

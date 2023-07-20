@@ -1,5 +1,5 @@
-import dialingPlanBody from '@ringcentral-integration/mock/src/platform/data/dialingPlan.json';
-import { StepFunction } from '../lib/step';
+import type dialingPlanBody from '@ringcentral-integration/mock/src/platform/data/dialingPlan.json';
+import type { StepFunction } from '../lib/step';
 
 interface MockDialingPlanProps {
   handler?: (permissions: typeof dialingPlanBody) => typeof dialingPlanBody;

@@ -1,7 +1,7 @@
-import { CallStatusInfo } from './CallStatusInfo';
-import { ParkInfo } from './ParkInfo';
-import { PartyInfo } from './PartyInfo';
-import { OwnerInfo } from './OwnerInfo';
+import type { CallStatusInfo } from './CallStatusInfo';
+import type { ParkInfo } from './ParkInfo';
+import type { PartyInfo } from './PartyInfo';
+import type { OwnerInfo } from './OwnerInfo';
 
 export interface ReplyParty {
   /**

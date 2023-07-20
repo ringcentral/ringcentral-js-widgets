@@ -10,7 +10,7 @@ import {
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
 import type { Deps } from './DataFetcherV2.interface';
-import { DataSource } from './DataSource';
+import type { DataSource } from './DataSource';
 import { sourceStatus } from './sourceStatus';
 import type { SourceStatusType } from './sourceStatus';
 

@@ -1,8 +1,8 @@
 import { waitInSeconds } from '@ringcentral-integration/commons/integration-test/utils/WaitUtil';
-import { waitForRenderReady } from '@ringcentral-integration/test-utils/lib/test-utils';
+import { waitForRenderReady } from '@ringcentral-integration/test-utils';
 import { screen, waitFor } from '@testing-library/react';
 
-import { StepFunction } from '../../../lib/step';
+import type { StepFunction } from '../../../lib/step';
 
 const getSearchOptions = () => {
   const searchSections = screen.queryAllByTestId('recipientOption');

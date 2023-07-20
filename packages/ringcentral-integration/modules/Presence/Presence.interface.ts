@@ -1,16 +1,16 @@
 import type GetPresenceInfo from '@rc-ex/core/lib/definitions/GetPresenceInfo';
-import { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
+import type { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
 
-import { Auth } from '../Auth';
-import { ConnectivityMonitor } from '../ConnectivityMonitor';
-import {
+import type { Auth } from '../Auth';
+import type { ConnectivityMonitor } from '../ConnectivityMonitor';
+import type {
   DataFetcherV2ConsumerBaseDeps,
   DataSourceBaseProps,
 } from '../DataFetcherV2';
-import { ExtensionFeatures } from '../ExtensionFeatures';
-import { Subscription } from '../Subscription';
-import { TabManager } from '../TabManager';
-import { dndStatus } from './dndStatus';
+import type { ExtensionFeatures } from '../ExtensionFeatures';
+import type { Subscription } from '../Subscription';
+import type { TabManager } from '../TabManager';
+import type { dndStatus } from './dndStatus';
 
 export interface Deps extends DataFetcherV2ConsumerBaseDeps {
   auth: Auth;

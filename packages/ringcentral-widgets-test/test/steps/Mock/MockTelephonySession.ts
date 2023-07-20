@@ -1,6 +1,6 @@
-import telephonySessionResponse from '@ringcentral-integration/mock/src/platform/data/telephonySession.json';
+import type telephonySessionResponse from '@ringcentral-integration/mock/src/platform/data/telephonySession.json';
 
-import { StepFunction } from '../../lib/step';
+import type { StepFunction } from '../../lib/step';
 
 interface MockTelephonySessionProps {
   handler?: (

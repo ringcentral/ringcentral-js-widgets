@@ -1,31 +1,32 @@
-import { Direction } from 'ringcentral-call-control/lib/Session';
+import type { Direction } from 'ringcentral-call-control/lib/Session';
 import { Session } from 'ringcentral-call/lib/Session';
 import { WebPhoneSession } from 'ringcentral-web-phone/lib/session';
+import type { IPickUpCallParams as OriginalPickUpCallParams } from 'ringcentral-call';
 
-import { RouterInteraction } from '../../../ringcentral-widgets/modules/RouterInteraction';
-import { TelephonyStatus } from '../../enums/telephonyStatus';
-import { NormalizedSession } from '../../interfaces/Webphone.interface';
-import {
+import type { RouterInteraction } from '../../../ringcentral-widgets/modules/RouterInteraction';
+import type { TelephonyStatus } from '../../enums/telephonyStatus';
+import type { NormalizedSession } from '../../interfaces/Webphone.interface';
+import type {
   IWarmTransferInfo,
   ActiveCallControlSessionData,
 } from '../../interfaces/ActiveSession.interface';
-import { RingCentralClient } from '../../lib/RingCentralClient';
-import { AccountInfo } from '../AccountInfo';
-import { Alert } from '../Alert';
-import { AppFeatures } from '../AppFeatures';
-import { AudioSettings } from '../AudioSettings';
-import { Auth } from '../Auth';
-import { AvailabilityMonitor } from '../AvailabilityMonitor';
-import { Brand } from '../Brand';
-import { ConnectivityMonitor } from '../ConnectivityMonitor';
-import { ExtensionInfo } from '../ExtensionInfo';
-import { NumberValidate } from '../NumberValidate';
-import { Presence } from '../Presence';
-import { RegionSettings } from '../RegionSettings';
-import { Storage } from '../Storage';
-import { Subscription } from '../Subscription';
-import { TabManager } from '../TabManager';
-import { Webphone } from '../Webphone';
+import type { RingCentralClient } from '../../lib/RingCentralClient';
+import type { AccountInfo } from '../AccountInfo';
+import type { Alert } from '../Alert';
+import type { AppFeatures } from '../AppFeatures';
+import type { AudioSettings } from '../AudioSettings';
+import type { Auth } from '../Auth';
+import type { AvailabilityMonitor } from '../AvailabilityMonitor';
+import type { Brand } from '../Brand';
+import type { ConnectivityMonitor } from '../ConnectivityMonitor';
+import type { ExtensionInfo } from '../ExtensionInfo';
+import type { NumberValidate } from '../NumberValidate';
+import type { Presence } from '../Presence';
+import type { RegionSettings } from '../RegionSettings';
+import type { Storage } from '../Storage';
+import type { Subscription } from '../Subscription';
+import type { TabManager } from '../TabManager';
+import type { Webphone } from '../Webphone';
 
 export interface ActiveCallControlOptions {
   polling?: boolean;
@@ -106,3 +107,10 @@ export interface ITransferCallSessionMapping {
 
 export { Session, WebPhoneSession };
 export type { ActiveCallControlSessionData };
+
+export type IPickUpCallParams = Omit<
+  OriginalPickUpCallParams,
+  'sessionDescriptionHandlerOptions'
+>;
+
+export type IPickUpCallDataMap = Record<string, IPickUpCallParams>;

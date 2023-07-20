@@ -1,14 +1,9 @@
-import React, {
-  FunctionComponent,
-  MutableRefObject,
-  useEffect,
-  useRef,
-} from 'react';
+import type { FunctionComponent, MutableRefObject } from 'react';
+import React, { useEffect, useRef } from 'react';
 
-import CallLogFields, {
-  CallLogFieldsProps,
-} from '@ringcentral-integration/widgets/components/CallLogFields';
-import { CallLogPanelProps } from '@ringcentral-integration/widgets/components/CallLogPanel';
+import type { CallLogFieldsProps } from '@ringcentral-integration/widgets/components/CallLogFields';
+import CallLogFields from '@ringcentral-integration/widgets/components/CallLogFields';
+import type { CallLogPanelProps } from '@ringcentral-integration/widgets/components/CallLogPanel';
 
 import styles from './styles.scss';
 

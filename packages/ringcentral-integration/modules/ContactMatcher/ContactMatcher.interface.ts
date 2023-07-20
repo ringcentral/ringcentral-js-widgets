@@ -1,4 +1,7 @@
-import { DataMatcherOptions, Deps as BaseDeps } from '../../lib/DataMatcherV2';
+import type {
+  DataMatcherOptions,
+  Deps as BaseDeps,
+} from '../../lib/DataMatcherV2';
 
 export interface Deps extends BaseDeps {
   contactMatcherOptions?: ContactMatcherOptions;

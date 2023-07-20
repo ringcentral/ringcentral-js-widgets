@@ -1,6 +1,6 @@
 /**
  * RCI-811: Single Incoming Call_ Cover and navigate back
- * https://test_id_domain/test-cases/RCI-811
+ * https://test_it_domain/test-cases/RCI-811
  * Preconditions:
  *
  * Entry point(/s):
@@ -19,7 +19,7 @@ import {
   title,
   When,
 } from '@ringcentral-integration/test-utils';
-import { StepFunction } from '../../../../../../lib/step';
+import type { StepFunction } from '../../../../../../lib/step';
 import {
   CheckIncomingCallPageExist,
   ClickBackButton,

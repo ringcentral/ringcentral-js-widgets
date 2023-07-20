@@ -1,6 +1,6 @@
 /**
  * RCI-2741: PMI waiting room options when AuthCanJoin is unlocked
- * https://test_id_domain/test-cases/RCI-2741
+ * https://test_it_domain/test-cases/RCI-2741
  * Preconditions:
  * RC CTI app is installed and enabled
  * User has logged in to 3rd party
@@ -13,12 +13,12 @@
  * Settings:
  */
 
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p2,
   it,
   autorun,
   examples,
-  StepFunction,
   And,
   Scenario,
   Step,

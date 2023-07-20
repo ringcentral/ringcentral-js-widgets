@@ -1,4 +1,4 @@
-import { CallsByDirection } from './CallsByDirection';
+import type { CallsByDirection } from './CallsByDirection';
 
 export interface PerformanceCallsByDirection {
   /**

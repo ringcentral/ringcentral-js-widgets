@@ -1,4 +1,4 @@
-import { InviteOptions } from 'ringcentral-web-phone/lib/userAgent';
+import type { InviteOptions } from 'ringcentral-web-phone/lib/userAgent';
 
 import { FakeSession as Session } from './Session';
 

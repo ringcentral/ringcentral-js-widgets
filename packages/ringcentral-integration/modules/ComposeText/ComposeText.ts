@@ -5,17 +5,17 @@ import {
   storage,
   watch,
 } from '@ringcentral-integration/core';
-import { ObjectMapKey } from '@ringcentral-integration/core/lib/ObjectMap';
+import type { ObjectMapKey } from '@ringcentral-integration/core/lib/ObjectMap';
 
 import { Module } from '../../lib/di';
 import { isBlank } from '../../lib/isBlank';
 import { proxify } from '../../lib/proxy/proxify';
+import type { Attachment } from '../MessageSender';
 import {
-  Attachment,
   ATTACHMENT_SIZE_LIMITATION,
   messageSenderMessages,
 } from '../MessageSender';
-import { Deps, ToNumber } from './ComposeText.interface';
+import type { Deps, ToNumber } from './ComposeText.interface';
 
 /**
  * @class
@@ -43,7 +43,7 @@ export class ComposeText<T extends Deps = Deps> extends RcModuleV2<T> {
   }: {
     toNumbers: ToNumber[];
     typingToNumber: string;
-  }) => Promise<Boolean>;
+  }) => Promise<boolean>;
 
   constructor(deps: T) {
     super({
@@ -73,7 +73,7 @@ export class ComposeText<T extends Deps = Deps> extends RcModuleV2<T> {
   attachments: Attachment[] = [];
 
   @action
-  _setSenderNumber(number: string = '') {
+  _setSenderNumber(number = '') {
     this.senderNumber = number;
   }
 
@@ -275,7 +275,6 @@ export class ComposeText<T extends Deps = Deps> extends RcModuleV2<T> {
     const [{ isAnExtension }] = (await this._deps.numberValidate.parseNumbers([
       phoneNumber,
     ])) || [{}];
-
     if (
       phoneNumber.length >= 7 &&
       !isAnExtension &&

@@ -1,12 +1,12 @@
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import { computed, RcUIModuleV2 } from '@ringcentral-integration/core';
 
-import {
+import type {
   EvActiveCallListUIFunctions,
   EvActiveCallListUIProps,
 } from '../../interfaces/EvActiveCallListUI.interface';
-import { EvCallData } from '../../interfaces/EvData.interface';
-import { ActiveCallListUI, Deps } from './EvActiveCallListUI.interface';
+import type { EvCallData } from '../../interfaces/EvData.interface';
+import type { ActiveCallListUI, Deps } from './EvActiveCallListUI.interface';
 
 @Module({
   name: 'EvActiveCallListUI',

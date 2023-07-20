@@ -1,9 +1,9 @@
-import { AppFeatures } from '../AppFeatures';
-import { Auth } from '../Auth';
-import { Brand } from '../Brand';
-import { Locale } from '../Locale';
-import { Storage } from '../Storage';
-import { Webphone } from '../Webphone';
+import type { AppFeatures } from '../AppFeatures';
+import type { Auth } from '../Auth';
+import type { Brand } from '../Brand';
+import type { Locale } from '../Locale';
+import type { Storage } from '../Storage';
+import type { Webphone } from '../Webphone';
 
 export interface UserGuideOptions {
   // TODO: fix type with `@types/webpack-env` - `RequireContext`

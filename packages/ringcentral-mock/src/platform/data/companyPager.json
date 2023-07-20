@@ -1,35 +1,39 @@
 {
-  "uri" : "https://platform.devtest.ringcentral.com/restapi/v1.0/account/634142004/extension/634160004/message-store/1266141004",
-  "id" : 1266141004,
-  "to" : [ {
-    "extensionNumber" : "301",
-    "extensionId" : "634142004",
-    "name" : "System New"
-  } ],
-  "from" : {
-    "extensionNumber" : "1000102",
-    "extensionId" : "634160004",
-    "name" : "John Doe701"
+  "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/634142004/extension/634160004/message-store/1266141004",
+  "id": 1266141004,
+  "to": [
+    {
+      "extensionNumber": "301",
+      "extensionId": "634142004",
+      "name": "System New"
+    }
+  ],
+  "from": {
+    "extensionNumber": "1000102",
+    "extensionId": "634160004",
+    "name": "John Doe701"
   },
-  "type" : "Pager",
-  "creationTime" : "2022-04-25T03:06:48.000Z",
-  "readStatus" : "Read",
-  "priority" : "Normal",
-  "attachments" : [ {
-    "id" : 1266141004,
-    "uri" : "https://platform.devtest.ringcentral.com/restapi/v1.0/account/634142004/extension/634160004/message-store/1266141004/content/1266141004",
-    "type" : "Text",
-    "contentType" : "text/plain"
-  } ],
-  "direction" : "Outbound",
-  "availability" : "Alive",
-  "subject" : "123",
-  "messageStatus" : "Sent",
-  "conversationId" : 3510015765243852565,
-  "conversation" : {
-    "id" : "3510015765243852565",
-    "uri" : "https://platform.devtest.ringcentral.com/restapi/v1.0/conversation/3510015765243852565"
+  "type": "Pager",
+  "creationTime": "2022-04-25T03:06:48.000Z",
+  "readStatus": "Read",
+  "priority": "Normal",
+  "attachments": [
+    {
+      "id": 1266141004,
+      "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/634142004/extension/634160004/message-store/1266141004/content/1266141004",
+      "type": "Text",
+      "contentType": "text/plain"
+    }
+  ],
+  "direction": "Outbound",
+  "availability": "Alive",
+  "subject": "123",
+  "messageStatus": "Sent",
+  "conversationId": 3510015765243853000,
+  "conversation": {
+    "id": "3510015765243852565",
+    "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/conversation/3510015765243852565"
   },
-  "lastModifiedTime" : "2022-04-25T03:06:48.188Z",
-  "pgToDepartment" : false
+  "lastModifiedTime": "2022-04-25T03:06:48.188Z",
+  "pgToDepartment": false
 }

@@ -1,6 +1,6 @@
 /**
  * RCI-4183: No Messages should show when there is no fax record
- * https://test_id_domain/test-cases/RCI-4183
+ * https://test_it_domain/test-cases/RCI-4183
  * Preconditions:
  * UserAhas logged into the 3rd party
  * CTI app is installed
@@ -9,12 +9,12 @@
  *
  */
 
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p2,
   it,
   autorun,
   examples,
-  StepFunction,
   Scenario,
   Step,
   Then,
@@ -25,7 +25,7 @@ import {
 import { CheckNoMessagesDisplay } from '../../../../../steps/Messages';
 import { Login } from '../../../../../steps/Login';
 import { NavigateToFax } from '../../../../../steps/Navigate';
-import { MockMessageSync } from '../../../../../steps/Mock';
+import { MockMessageSync, MockMessageList } from '../../../../../steps/Mock';
 
 @autorun(test)
 @common
@@ -45,6 +45,7 @@ export class NoMessagesForFax extends Step {
 										> Go to Fax tab"
           action={() => [
             this.Login ?? Login,
+            this.useRcMock && <MockMessageList repeat={0} />,
             this.useRcMock && <MockMessageSync repeat={3} />,
             NavigateToFax,
           ]}

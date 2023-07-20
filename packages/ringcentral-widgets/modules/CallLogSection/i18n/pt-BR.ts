@@ -1,5 +1,5 @@
 export default {
-  unknown: "Desconhecida",
+  unknown: "Desconhecido",
   multipleMatches: "Várias correspondências",
   anonymous: "Anônimo",
   none: "Nenhum"

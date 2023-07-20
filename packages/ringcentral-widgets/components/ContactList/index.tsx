@@ -47,10 +47,9 @@ class ContactList extends Component {
               // @ts-expect-error
               nextState.captionRows[nextState.rowCount] = group.caption;
             }
-            nextState.groups.push({
+            (nextState.groups as any).push({
               // @ts-expect-error
               ...group,
-              // @ts-expect-error
               startIndex: nextState.rowCount + rowOffset,
             });
             // @ts-expect-error

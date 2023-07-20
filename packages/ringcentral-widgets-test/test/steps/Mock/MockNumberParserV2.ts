@@ -1,5 +1,5 @@
-import numberParserInfoBody from '@ringcentral-integration/mock/src/platform/data/numberParserV2.json';
-import { StepFunction } from '../../lib/step';
+import type numberParserInfoBody from '@ringcentral-integration/mock/src/platform/data/numberParserV2.json';
+import type { StepFunction } from '../../lib/step';
 
 interface MockNumberParserProps {
   handler?: (res: typeof numberParserInfoBody) => typeof numberParserInfoBody;

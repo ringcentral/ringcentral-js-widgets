@@ -1,24 +1,24 @@
-import { ReactNode } from 'react';
+import type { ReactNode } from 'react';
 
 import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 import calleeTypes from '@ringcentral-integration/commons/enums/calleeTypes';
-import { NormalizedSession } from '@ringcentral-integration/commons/interfaces/Webphone.interface';
-import { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures/AppFeatures';
-import { Brand } from '@ringcentral-integration/commons/modules/Brand';
-import { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettings';
-import { CallMonitor } from '@ringcentral-integration/commons/modules/CallMonitor';
-import { ConferenceCall } from '@ringcentral-integration/commons/modules/ConferenceCall';
-import { ContactMatcher } from '@ringcentral-integration/commons/modules/ContactMatcher';
-import { ContactSearch } from '@ringcentral-integration/commons/modules/ContactSearch';
-import { ExtensionInfo } from '@ringcentral-integration/commons/modules/ExtensionInfo';
-import { ForwardingNumber } from '@ringcentral-integration/commons/modules/ForwardingNumber';
-import { Locale } from '@ringcentral-integration/commons/modules/Locale';
-import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
-import { Webphone } from '@ringcentral-integration/commons/modules/Webphone';
-import { AccountInfo } from '@ringcentral-integration/commons/modules/AccountInfo';
+import type { NormalizedSession } from '@ringcentral-integration/commons/interfaces/Webphone.interface';
+import type { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures/AppFeatures';
+import type { Brand } from '@ringcentral-integration/commons/modules/Brand';
+import type { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettings';
+import type { CallMonitor } from '@ringcentral-integration/commons/modules/CallMonitor';
+import type { ConferenceCall } from '@ringcentral-integration/commons/modules/ConferenceCall';
+import type { ContactMatcher } from '@ringcentral-integration/commons/modules/ContactMatcher';
+import type { ContactSearch } from '@ringcentral-integration/commons/modules/ContactSearch';
+import type { ExtensionInfo } from '@ringcentral-integration/commons/modules/ExtensionInfo';
+import type { ForwardingNumber } from '@ringcentral-integration/commons/modules/ForwardingNumber';
+import type { Locale } from '@ringcentral-integration/commons/modules/Locale';
+import type { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
+import type { Webphone } from '@ringcentral-integration/commons/modules/Webphone';
+import type { AccountInfo } from '@ringcentral-integration/commons/modules/AccountInfo';
 
-import { ConnectivityManager } from '../ConnectivityManager';
-import { RouterInteraction } from '../RouterInteraction';
+import type { ConnectivityManager } from '../ConnectivityManager';
+import type { RouterInteraction } from '../RouterInteraction';
 
 export interface CallControlUIOptions {}
 

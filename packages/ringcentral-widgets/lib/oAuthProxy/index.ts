@@ -15,7 +15,7 @@ const {
  * @description oAuthCallback allows redirect to call via window.opener.oAuthCallback if window.opener is not blocked.
  * @param {String} callbackUri
  */
-window.oAuthCallback = (callbackUri) => {
+window.oAuthCallback = (callbackUri: string) => {
   window.parent.postMessage(
     {
       callbackUri,

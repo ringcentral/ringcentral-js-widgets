@@ -6,11 +6,11 @@ export default {
   [messageSenderMessages.textEmpty]: "Escriba el texto para enviar.",
   [messageSenderMessages.noPermission]: "No tiene permiso para enviar el mensaje.",
   [messageSenderMessages.senderEmpty]: "Debe seleccionar un número de sus números de teléfono para enviar",
-  [messageSenderMessages.noToNumber]: "Introduzca un número de teléfono válido.",
+  [messageSenderMessages.noToNumber]: "Indique un número de teléfono válido.",
   [messageSenderMessages.recipientsEmpty]: "Escriba un número de destinatario válido.",
   [messageSenderMessages.textTooLong]: "El mensaje es demasiado largo, limitado a 1000",
   [messageSenderMessages.multipartTextTooLong]: "El mensaje es demasiado largo, limitado a 5000",
-  [messageSenderMessages.recipientNumberInvalids]: "Introduzca un número de teléfono válido.",
+  [messageSenderMessages.recipientNumberInvalids]: "Indique un número de teléfono válido.",
   [messageSenderMessages.noAreaCode]: "Establezca {areaCodeLink} para usar los números de teléfono locales de 7 dígitos.",
   [messageSenderMessages.specialNumber]: "No se admite el envío de mensajes de texto a números de servicios de emergencia o especiales.",
   [messageSenderMessages.connectFailed]: "Error de conexión. Inténtelo de nuevo más tarde.",
@@ -26,7 +26,8 @@ export default {
   [messageSenderMessages.attachmentSizeLimitation]: "El tamaño de los archivos adjuntos está limitado a 1,5 MB.",
   [messageSenderMessages.noAttachmentToExtension]: "No es posible enviar MMS a una extensión.",
   areaCode: "prefijo",
-  [messageSenderMessages.sending]: "Enviando mensaje... Esta acción puede tardar algunos minutos."
+  [messageSenderMessages.sending]: "Enviando mensaje... Esta acción puede tardar algunos minutos.",
+  [messageSenderMessages.shortNumbersNotAvailable]: "El envío de SMS a números cortos no está disponible."
 };
 
 // @key: @#@"[messageSenderMessages.sendSuccess]"@#@ @source: @#@"Send Success."@#@
@@ -56,3 +57,4 @@ export default {
 // @key: @#@"[messageSenderMessages.noAttachmentToExtension]"@#@ @source: @#@"It isn't supported to send MMS to an extension."@#@
 // @key: @#@"areaCode"@#@ @source: @#@"area code"@#@
 // @key: @#@"[messageSenderMessages.sending]"@#@ @source: @#@"Message being sent…It may take a couple of minutes to complete."@#@
+// @key: @#@"[messageSenderMessages.shortNumbersNotAvailable]"@#@ @source: @#@"Sending SMS to short numbers is not available."@#@

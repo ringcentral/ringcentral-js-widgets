@@ -1,6 +1,6 @@
 /**
  * RCI-4178: Update meeting password
- * https://test_id_domain/test-cases/RCI-4178
+ * https://test_it_domain/test-cases/RCI-4178
  * Preconditions:
  * RC CTI app is installed and enabled
  * User has logged in to RC CTI with RCV provider
@@ -18,6 +18,7 @@ import {
   TurnOnToggle,
   CheckPatchMeetingParams,
 } from '../../../../../../steps/Meeting';
+import type { StepFunction } from '../../../../../../lib/step';
 import {
   common,
   it,
@@ -27,7 +28,6 @@ import {
   Then,
   title,
   When,
-  StepFunction,
   p2,
 } from '../../../../../../lib/step';
 import { Login as CommonLogin } from '../../../../../../steps/Login';

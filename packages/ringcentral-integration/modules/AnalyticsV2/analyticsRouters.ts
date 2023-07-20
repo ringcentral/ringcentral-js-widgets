@@ -1,4 +1,4 @@
-import { TrackRouter } from './Analytics.interface';
+import type { TrackRouter } from './Analytics.interface';
 
 export const trackRouters: TrackRouter[] = [
   {

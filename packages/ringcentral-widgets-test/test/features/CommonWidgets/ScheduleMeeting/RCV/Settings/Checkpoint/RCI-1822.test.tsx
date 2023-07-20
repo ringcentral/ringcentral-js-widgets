@@ -1,6 +1,6 @@
 /**
  * RCI-1822: RCV - Restrict screen sharing to host & moderators
- * https://test_id_domain/test-cases/RCI-1822
+ * https://test_it_domain/test-cases/RCI-1822
  * Preconditions:
  * RC for Google/O365 app is installed and enabled
  * Users have an RCV account that is usable.

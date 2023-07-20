@@ -13,7 +13,7 @@ import formatLocale from '@ringcentral-integration/i18n/lib/formatLocale';
 import detectBrowserLocale from '../../lib/detectBrowserLocale';
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
-import { Deps } from './Locale.interface';
+import type { Deps } from './Locale.interface';
 
 @Module({
   name: 'Locale',

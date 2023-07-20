@@ -11,19 +11,17 @@ import {
 } from '@ringcentral-integration/core';
 
 import { messageTypes } from '../../enums';
-import {
-  dialoutStatuses,
-  DialoutStatusesType,
-} from '../../enums/dialoutStatus';
+import type { DialoutStatusesType } from '../../enums/dialoutStatus';
+import { dialoutStatuses } from '../../enums/dialoutStatus';
 import { checkCountryCode } from '../../lib/checkCountryCode';
-import {
+import type {
   EvClientManualOutdialParams,
   EvOffhookInitResponse,
 } from '../../lib/EvClient';
 import { EvCallbackTypes } from '../../lib/EvClient/enums/callbackTypes';
 import { parseNumber } from '../../lib/parseNumber';
 import { trackEvents } from '../../lib/trackEvents';
-import { Call, Deps, State } from './EvCall.interface';
+import type { Call, Deps, State } from './EvCall.interface';
 
 const DEFAULT_OUTBOUND_SETTING = {
   dialoutCallerId: '-1',

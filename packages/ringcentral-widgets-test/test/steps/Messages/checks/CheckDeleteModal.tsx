@@ -1,4 +1,4 @@
-import { StepFunction } from '@ringcentral-integration/test-utils';
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 import { act, screen } from '@testing-library/react';
 
 export const CheckDeleteModalClosed: StepFunction = () => {

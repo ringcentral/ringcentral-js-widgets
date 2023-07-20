@@ -1,6 +1,6 @@
-import { SipRegistrationDeviceInfo } from './SipRegistrationDeviceInfo';
-import { SIPInfoResponse } from './SIPInfoResponse';
-import { SIPFlagsResponse } from './SIPFlagsResponse';
+import type { SipRegistrationDeviceInfo } from './SipRegistrationDeviceInfo';
+import type { SIPInfoResponse } from './SIPInfoResponse';
+import type { SIPFlagsResponse } from './SIPFlagsResponse';
 
 export interface CreateSipRegistrationResponse {
   /**

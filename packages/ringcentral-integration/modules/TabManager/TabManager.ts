@@ -14,7 +14,7 @@ import {
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
 import { Tabbie } from '../../lib/Tabbie';
-import { Deps, TabEvent } from './TabManager.interface';
+import type { Deps, TabEvent } from './TabManager.interface';
 
 @Module({
   name: 'TabManager',
@@ -135,6 +135,10 @@ export class TabManager<T extends Deps = Deps> extends RcModuleV2<T> {
 
   get tabs() {
     return this.tabbie?.tabs ?? [];
+  }
+
+  get actualTabIds() {
+    return this.tabbie.actualTabIds;
   }
 
   get isFirstTab() {

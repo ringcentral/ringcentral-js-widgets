@@ -1,4 +1,4 @@
-import { ExtensionListEventBody } from './ExtensionListEventBody';
+import type { ExtensionListEventBody } from './ExtensionListEventBody';
 
 export interface ExtensionListEvent {
   /**

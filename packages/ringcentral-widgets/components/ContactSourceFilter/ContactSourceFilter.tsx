@@ -6,7 +6,7 @@ import { RcListItem, RcMenuList, spacing, styled } from '@ringcentral/juno';
 
 import ContactFilterIcon from '../../assets/images/ContactFilter.svg';
 import ContactFilterSolidIcon from '../../assets/images/ContactFilterSolid.svg';
-import i18n from './i18n';
+import i18n, { I18nKey } from './i18n';
 import styles from './styles.scss';
 
 const StyledListItem = styled(RcListItem)`
@@ -54,7 +54,7 @@ export class ContactSourceFilter extends Component<
     }
   }
 
-  getString(key: string, locale: string) {
+  getString(key: I18nKey, locale: string) {
     return i18n.getString(key, locale);
   }
 
@@ -138,7 +138,7 @@ export class ContactSourceFilter extends Component<
                 selected={sourceName === selectedSourceName}
                 disableGutters
               >
-                {this.getString(sourceName, currentLocale)}
+                {this.getString(sourceName as I18nKey, currentLocale)}
               </StyledListItem>
             ))}
           </RcMenuList>

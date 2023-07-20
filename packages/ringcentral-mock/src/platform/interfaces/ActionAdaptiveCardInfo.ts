@@ -1,4 +1,4 @@
-import { ActionCardBody } from './ActionCardBody';
+import type { ActionCardBody } from './ActionCardBody';
 
 export interface ActionAdaptiveCardInfo {
   /**

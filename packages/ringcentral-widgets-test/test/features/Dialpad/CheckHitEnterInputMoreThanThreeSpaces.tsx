@@ -1,12 +1,13 @@
 /**
  * RCI-4071: Limit inputing only more than three spaces in dial pad
- * https://test_id_domain/test-cases/RCI-4071
+ * https://test_it_domain/test-cases/RCI-4071
  * Preconditions:
  * 1. It have already installed CTI.
  * 2. CTI has been logged in.
  * Entry point(/s):
  * > Go to dial pad tab
  */
+import type { StepFunction } from '../../lib/step';
 import {
   autorun,
   Given,
@@ -17,7 +18,6 @@ import {
   title,
   When,
   it,
-  StepFunction,
 } from '../../lib/step';
 import {
   InputToField,

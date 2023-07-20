@@ -2,7 +2,7 @@ export default {
   to: "撥給：",
   transferTo: "轉接至",
   blindTransfer: "轉接",
-  warmTransfer: "首先詢問",
+  warmTransfer: "先詢問",
   enterNameOrNumber: "輸入號碼"
 };
 

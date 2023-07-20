@@ -1,7 +1,7 @@
 import { screen, within } from '@testing-library/react';
 
-import { StepFunction } from '../../../lib/step';
-import { ContactDetailsProps } from './ContactDetailsProps.interface';
+import type { StepFunction } from '../../../lib/step';
+import type { ContactDetailsProps } from './ContactDetailsProps.interface';
 
 interface CheckContactItemExistInListProps extends ContactDetailsProps {}
 

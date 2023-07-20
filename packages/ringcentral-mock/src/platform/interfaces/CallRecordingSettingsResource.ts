@@ -1,6 +1,6 @@
-import { OnDemandResource } from './OnDemandResource';
-import { AutomaticRecordingResource } from './AutomaticRecordingResource';
-import { GreetingResource } from './GreetingResource';
+import type { OnDemandResource } from './OnDemandResource';
+import type { AutomaticRecordingResource } from './AutomaticRecordingResource';
+import type { GreetingResource } from './GreetingResource';
 
 export interface CallRecordingSettingsResource {
   /**

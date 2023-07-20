@@ -4,7 +4,8 @@ import { mount } from 'enzyme';
 
 import { RcThemeProvider } from '@ringcentral/juno';
 
-import { BasicSessionPanel, BasicSessionPanelProps } from './BasicSessionPanel';
+import type { BasicSessionPanelProps } from './BasicSessionPanel';
+import { BasicSessionPanel } from './BasicSessionPanel';
 
 let wrapper: ReturnType<typeof mount>;
 const currentLocale = 'en-US';

@@ -1,11 +1,11 @@
 import { RcModuleV2, watch } from '@ringcentral-integration/core';
-import { IAnalytics } from '@ringcentral-integration/core/lib/track';
+import type { IAnalytics } from '@ringcentral-integration/core/lib/track';
 
 import { Pendo, Segment } from '../../lib/Analytics';
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
 import saveBlob from '../../lib/saveBlob';
-import {
+import type {
   Deps,
   IdentifyOptions,
   IExtendedProps,
@@ -63,6 +63,8 @@ export class Analytics<T extends Deps = Deps>
   private _eventExtendedPropsMap = new Map<string, IExtendedProps>();
   private _useLocalPendoJS =
     this._deps.analyticsOptions.useLocalPendoJS ?? false;
+  private _useLocalAnalyticsJS =
+    this._deps.analyticsOptions.useLocalAnalyticsJS ?? false;
 
   constructor(deps: T) {
     super({
@@ -82,12 +84,16 @@ export class Analytics<T extends Deps = Deps>
 
   override onInitOnce() {
     if (this._deps.analyticsOptions.analyticsKey && this._segment) {
-      this._segment.load(this._deps.analyticsOptions.analyticsKey, {
-        integrations: {
-          All: true,
-          Mixpanel: true,
+      this._segment.load(
+        this._deps.analyticsOptions.analyticsKey,
+        {
+          integrations: {
+            All: true,
+            Mixpanel: true,
+          },
         },
-      });
+        this._useLocalAnalyticsJS,
+      );
     }
     if (this._deps.routerInteraction) {
       // make sure that track if refresh app
@@ -130,28 +136,13 @@ export class Analytics<T extends Deps = Deps>
   }
 
   protected _identify({ userId, ...props }: IdentifyOptions) {
-    if (this.analytics) {
-      this.analytics.ready(() => {
-        // According to EU policy, we had to disable mixpanel to upload IP addresses
-        if (typeof window.mixpanel !== 'undefined') {
-          window.mixpanel.set_config({
-            ...window.mixpanel.config,
-            ip: false,
-          });
-        } else {
-          console.error(
-            'Mixpanel is not defined, and failure to disable IP address upload',
-          );
-        }
-      });
-      this.analytics.identify(userId, props, {
-        integrations: {
-          All: true,
-          Mixpanel: true,
-          Pendo: this._enablePendo,
-        },
-      });
-    }
+    this.analytics?.identify(userId, props, {
+      integrations: {
+        All: true,
+        Mixpanel: true,
+        Pendo: this._enablePendo,
+      },
+    });
     if (this._enablePendo && this._pendoApiKey) {
       this._pendoInitialize({ userId, ...props, env: this._env });
     }

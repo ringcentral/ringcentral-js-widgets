@@ -1,9 +1,11 @@
-import React, { FunctionComponent, ReactNode } from 'react';
+import type { FunctionComponent, ReactNode } from 'react';
+import React from 'react';
 
 import classnames from 'classnames';
 import { addIndex, reduce } from 'ramda';
 
-import { Button, ButtonProps } from '../Button';
+import type { ButtonProps } from '../Button';
+import { Button } from '../Button';
 import styles from './styles.scss';
 
 export interface ButtonDefinition extends ButtonProps {
@@ -29,7 +31,6 @@ export const Header: FunctionComponent<HeaderProps> = ({
   buttons,
   children,
 }) => {
-  // @ts-expect-error TS(2339): Property 'leftButtons' does not exist on type 'Cur... Remove this comment to see the full error message
   const { leftButtons, rightButtons } = addIndex<
     ButtonDefinition,
     RenderButtons
@@ -58,7 +59,6 @@ export const Header: FunctionComponent<HeaderProps> = ({
       leftButtons: [],
       rightButtons: [],
     },
-    // @ts-expect-error TS(2345): Argument of type 'ButtonDefinition[] | undefined' ... Remove this comment to see the full error message
     buttons,
   );
 

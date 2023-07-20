@@ -1,6 +1,6 @@
 /**
  * RCI-3384: Check the contact search result
- * https://test_id_domain/test-cases/RCI-3384
+ * https://test_it_domain/test-cases/RCI-3384
  * Preconditions:
  * RC CTI app is installed and enabled
  * The user has logged in to the CTI app
@@ -31,7 +31,7 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 import { waitFor } from '@testing-library/react';
-import { StepProp } from '../../../../../lib/step';
+import type { StepProp } from '../../../../../lib/step';
 import { CommonLogin } from '../../../../../steps/CommonLogin';
 import {
   CheckContactGroupCaption,

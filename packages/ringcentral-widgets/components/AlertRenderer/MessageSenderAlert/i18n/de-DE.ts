@@ -26,7 +26,8 @@ export default {
   [messageSenderMessages.attachmentSizeLimitation]: "Anhanggröße ist begrenzt auf 1,5 MBytes.",
   [messageSenderMessages.noAttachmentToExtension]: "Versenden von MMS an Durchwahlen wird nicht unterstützt.",
   areaCode: "Vorwahl",
-  [messageSenderMessages.sending]: "Nachricht wird versendet… Dies kann einige Minuten dauern."
+  [messageSenderMessages.sending]: "Nachricht wird versendet… Dies kann einige Minuten dauern.",
+  [messageSenderMessages.shortNumbersNotAvailable]: "Das Senden von SMS an Kurznummern ist nicht verfügbar."
 };
 
 // @key: @#@"[messageSenderMessages.sendSuccess]"@#@ @source: @#@"Send Success."@#@
@@ -56,3 +57,4 @@ export default {
 // @key: @#@"[messageSenderMessages.noAttachmentToExtension]"@#@ @source: @#@"It isn't supported to send MMS to an extension."@#@
 // @key: @#@"areaCode"@#@ @source: @#@"area code"@#@
 // @key: @#@"[messageSenderMessages.sending]"@#@ @source: @#@"Message being sent…It may take a couple of minutes to complete."@#@
+// @key: @#@"[messageSenderMessages.shortNumbersNotAvailable]"@#@ @source: @#@"Sending SMS to short numbers is not available."@#@

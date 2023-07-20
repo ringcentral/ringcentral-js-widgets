@@ -1,5 +1,5 @@
 import { contextSourceOption } from '@ringcentral-integration/commons/modules/NumberValidate';
-import { StepFunction } from '../../../lib/step';
+import type { StepFunction } from '../../../lib/step';
 
 export const CheckParseApiCalledWithParams: StepFunction<{
   maxExtensionNumberLength: number;

@@ -1,5 +1,5 @@
-import { Locale } from '../Locale';
-import { BrandConfig } from './BrandConfig.interface';
+import type { Locale } from '../Locale';
+import type { BrandConfig } from './BrandConfig.interface';
 
 export interface BrandConfigOptions {
   /**

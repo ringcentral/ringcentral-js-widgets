@@ -20,7 +20,7 @@ export default {
   turnOffCamera: "Desactivar cámara de participantes",
   requirePassword: "Solicitar contraseña",
   useE2ee: "Usar cifrado de extremo a extremo",
-  e2eeTooltip: "Las reuniones con cifrado de extremo a extremo tienen el mayor nivel de privacidad, pero no están disponibles algunas funciones como unirse por teléfono, subtítulos (CC) y grabación.",
+  e2eeTooltip: "Las reuniones cifradas de extremo a extremo son las más privadas, pero las funciones como unirse por teléfono, los subtítulos (CC) y grabar no están disponibles.",
   setPassword: "Configurar contraseña *",
   setPasswordNotSymbol: "Configurar contraseña",
   passwordEmptyError: "Se requiere la contraseña de la reunión",

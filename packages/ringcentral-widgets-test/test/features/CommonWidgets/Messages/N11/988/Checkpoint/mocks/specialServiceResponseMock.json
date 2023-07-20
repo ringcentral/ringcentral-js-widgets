@@ -1,0 +1,43 @@
+{
+  "context": {
+    "brandId": "3610",
+    "country": {
+      "isoCode": "US",
+      "name": "United States of America",
+      "callingCode": "1"
+    },
+    "vanityPhoneNumbersAllowed": true,
+    "maxExtensionNumberLength": 5,
+    "shortCodesAllowed": true,
+    "shortExtensionNumberLength": 5,
+    "maskedPhoneNumbersAllowed": false,
+    "conflictHandling": "Client"
+  },
+  "results": [
+    {
+      "originalString": "988",
+      "category": "SpecialService",
+      "numberDetails": {
+        "specialService": { "type": "NonEmergencyMedical", "pattern": "988" },
+        "country": {
+          "isoCode": "US",
+          "name": "United States of America",
+          "callingCode": "1"
+        },
+        "subscriberNumber": "988"
+      },
+      "formats": [
+        {
+          "e164": "+1988",
+          "e164Extended": "+1988",
+          "national": "988",
+          "nationalExtended": "988",
+          "international": "988",
+          "internationalExtended": "+1 1988",
+          "dialable": "988",
+          "dialableExtended": "988"
+        }
+      ]
+    }
+  ]
+}

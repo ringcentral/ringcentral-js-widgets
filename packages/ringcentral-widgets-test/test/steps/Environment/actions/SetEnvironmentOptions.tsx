@@ -1,10 +1,10 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
-import { SDKConfig } from '@ringcentral-integration/commons/lib/createSdkConfig';
+import type { SDKConfig } from '@ringcentral-integration/commons/lib/createSdkConfig';
 
-import { Context } from '../../../interfaces';
-import { StepFunction } from '../../../lib/step';
+import type { Context } from '../../../interfaces';
+import type { StepFunction } from '../../../lib/step';
 
 export const SetEnvironmentOptions: StepFunction<{
   server?: string;

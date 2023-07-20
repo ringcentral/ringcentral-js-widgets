@@ -1,12 +1,13 @@
-import React, { ReactElement } from 'react';
+import type { ReactElement } from 'react';
+import React from 'react';
 
 import { trackEvents } from '@ringcentral-integration/commons/enums/trackEvents';
-import { Entity } from '@ringcentral-integration/commons/interfaces/Entity.interface';
-import { Message } from '@ringcentral-integration/commons/interfaces/MessageStore.model';
-import { HistoryCall } from '@ringcentral-integration/commons/modules/CallHistory';
-import { FormatDateTimeOptions } from '@ringcentral-integration/commons/modules/DateTimeFormat';
-import { RecentCalls } from '@ringcentral-integration/commons/modules/RecentCalls';
-import {
+import type { Entity } from '@ringcentral-integration/commons/interfaces/Entity.interface';
+import type { Message } from '@ringcentral-integration/commons/interfaces/MessageStore.model';
+import type { HistoryCall } from '@ringcentral-integration/commons/modules/CallHistory';
+import type { FormatDateTimeOptions } from '@ringcentral-integration/commons/modules/DateTimeFormat';
+import type { RecentCalls } from '@ringcentral-integration/commons/modules/RecentCalls';
+import type {
   RecentMessage,
   RecentMessages,
 } from '@ringcentral-integration/commons/modules/RecentMessages';

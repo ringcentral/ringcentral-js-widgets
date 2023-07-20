@@ -1,13 +1,9 @@
 import { filter, find, forEach, isEmpty } from 'ramda';
-import {
-  ActiveCallInfo,
-  events as callEvents,
-  MakeCallParams,
-  RingCentralCall,
-} from 'ringcentral-call';
+import type { ActiveCallInfo, MakeCallParams } from 'ringcentral-call';
+import { events as callEvents, RingCentralCall } from 'ringcentral-call';
+import type { ReplyWithTextParams } from 'ringcentral-call-control/lib/Session';
 import {
   PartyStatusCode,
-  ReplyWithTextParams,
   ReplyWithPattern,
 } from 'ringcentral-call-control/lib/Session';
 import { events as eventsEnum } from 'ringcentral-call/lib/Session';
@@ -28,13 +24,16 @@ import { callDirection } from '../../enums/callDirections';
 // eslint-disable-next-line import/no-named-as-default
 import subscriptionFilters from '../../enums/subscriptionFilters';
 import { trackEvents } from '../../enums/trackEvents';
-import { Session, WebphoneSession } from '../../interfaces/Webphone.interface';
+import type {
+  Session,
+  WebphoneSession,
+} from '../../interfaces/Webphone.interface';
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
 import { validateNumbers } from '../../lib/validateNumbers';
 // TODO: should move that callErrors to enums
 import { callErrors } from '../Call/callErrors';
-import { MessageBase } from '../Subscription';
+import type { MessageBase } from '../Subscription';
 import { sessionStatus } from '../Webphone/sessionStatus';
 import { webphoneErrors } from '../Webphone/webphoneErrors';
 import { normalizeSession as normalizeWebphoneSession } from '../Webphone/webphoneHelper';
@@ -45,6 +44,8 @@ import type {
   ICurrentDeviceCallsMap,
   ITransferCallSessionMapping,
   ModuleMakeCallParams,
+  IPickUpCallDataMap,
+  IPickUpCallParams,
 } from './ActiveCallControl.interface';
 import { callControlError } from './callControlError';
 import {
@@ -57,6 +58,7 @@ import {
   isRinging,
   normalizeSession,
   normalizeTelephonySession,
+  getWebphoneReplyMessageOption,
 } from './helpers';
 
 const DEFAULT_TTL = 30 * 60 * 1000;
@@ -93,7 +95,7 @@ const subscribeEvent = subscriptionFilters.telephonySessions;
 export class ActiveCallControl extends RcModuleV2<Deps> {
   private _onCallEndFunc?: () => void;
   private _onCallSwitchedFunc?: (sessionId: string) => void;
-
+  onCallIgnoreFunc?: (partyId: string) => void;
   private _connectivity = false;
   private _timeoutId: ReturnType<typeof setTimeout> | null = null;
   private _lastSubscriptionMessage: MessageBase | null = null;
@@ -112,6 +114,9 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
   private _autoMergeSignCallIdKey = `${this._deps.prefix}-auto-merge-sign-call-id-key`;
   private _autoMergeCallsKey = `${this._deps.prefix}-auto-merge-calls-key`;
   private _autoMergeWebphoneSessionsMap = new Map<WebphoneSession, boolean>();
+
+  @state
+  pickUpCallDataMap: IPickUpCallDataMap = {};
 
   constructor(deps: Deps) {
     super({
@@ -304,7 +309,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
   override async onInit() {
     if (!this.hasPermission) return;
 
-    this._deps.subscription.subscribe([subscribeEvent]);
+    await this._deps.subscription.subscribe([subscribeEvent]);
     this._rcCall = this._initRcCall();
 
     if (this._shouldFetch()) {
@@ -357,6 +362,21 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
   }
 
   override onInitOnce() {
+    if (this._deps.availabilityMonitor && this._deps.tabManager) {
+      watch(
+        this,
+        () => this.currentDeviceCallsMap,
+        () => {
+          const hasCallSession = Object.values(this.currentDeviceCallsMap).some(
+            (webphoneSession) => !!webphoneSession,
+          );
+          const key = `acc-${this._deps.tabManager!.id}`;
+          this._deps.availabilityMonitor!.setSharedState(key, {
+            hasCallSession,
+          });
+        },
+      );
+    }
     if (this._deps.webphone) {
       watch(
         this,
@@ -424,7 +444,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
     }
   }
 
-  // TODO: workaround of PLA bug: https://jira.ringcentral.com/browse/PLA-52742, remove these code after PLA
+  // TODO: workaround of PLA bug: https://jira_domain/browse/PLA-52742, remove these code after PLA
   // fixed this bug
   private _checkRingOutCallDirection(message: ExtensionTelephonySessionsEvent) {
     const { body } = message;
@@ -788,7 +808,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
         await session.unmute();
       }
     } catch (error: any /** TODO: confirm with instanceof */) {
-      // https://jira.ringcentral.com/browse/NTP-1308
+      // https://jira_domain/browse/NTP-1308
       // Unmute before transfer due to we can not sync the mute status after transfer.
     }
   }
@@ -1044,7 +1064,9 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
       if (!session) {
         return false;
       }
-      await session.replyWithMessage(params);
+      // await session.replyWithMessage(params);
+      const webphoneReplyOption = getWebphoneReplyMessageOption(params) as any;
+      await session.webphoneSession.replyWithMessage(webphoneReplyOption);
       this.clearCallControlBusyTimestamp();
       this._deps.alert.success({ message: callControlError.replyCompleted });
     } catch (error: any /** TODO: confirm with instanceof */) {
@@ -1142,7 +1164,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
 
       if (!validatedResult.result) {
         validatedResult.errors.forEach(async (error) => {
-          const isHAError: boolean =
+          const isHAError =
             // @ts-expect-error
             !!(await this._deps.availabilityMonitor?.checkIfHAError(error));
           if (!isHAError) {
@@ -1210,8 +1232,8 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
       let validPhoneNumber;
       if (!this._permissionCheck) {
         validatedResult = validateNumbers({
-          // @ts-expect-error
-          allowRegionSettings: this._deps.brand.brandConfig.allowRegionSettings,
+          allowRegionSettings:
+            !!this._deps.brand.brandConfig.allowRegionSettings,
           areaCode: this._deps.regionSettings.areaCode,
           countryCode: this._deps.regionSettings.countryCode,
           phoneNumbers: [forwardNumber],
@@ -1388,22 +1410,45 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
     await Promise.all(holdOtherSessions);
   }
 
+  @action
+  setPickUpCallData(data: IPickUpCallDataMap) {
+    this.pickUpCallDataMap = { ...data };
+  }
+
   @proxify
   private async _answer(telephonySessionId: string) {
-    this._triggerAutoMergeEvent(telephonySessionId);
-    this.setCallControlBusyTimestamp();
-    const session = this._getSessionById(telephonySessionId);
+    try {
+      this._triggerAutoMergeEvent(telephonySessionId);
+      this.setCallControlBusyTimestamp();
+      const session = this._getSessionById(telephonySessionId);
 
-    this._activeSession = session;
-    await this._holdOtherCalls(telephonySessionId);
-    const { webphoneSession } = session;
-    const deviceId = this._deps.webphone?.device?.id;
-    await session.answer({ deviceId });
-    this._trackWebRTCCallAnswer();
-    if (webphoneSession && webphoneSession.__rc_callStatus) {
-      webphoneSession.__rc_callStatus = sessionStatus.connected;
+      this._activeSession = session;
+      await this._holdOtherCalls(telephonySessionId);
+      const { webphoneSession } = session;
+      const deviceId = this._deps.webphone?.device?.id;
+      if (webphoneSession) {
+        await session.answer({ deviceId });
+      } else {
+        await this.pickUpCall({
+          ...this.pickUpCallDataMap[telephonySessionId],
+        });
+      }
+      this._trackWebRTCCallAnswer();
+      if (webphoneSession && webphoneSession.__rc_callStatus) {
+        webphoneSession.__rc_callStatus = sessionStatus.connected;
+      }
+    } finally {
+      this.clearCallControlBusyTimestamp();
     }
-    this.clearCallControlBusyTimestamp();
+  }
+
+  public async pickUpCall(data: IPickUpCallParams) {
+    const { telephonySessionId } = data;
+    await this._rcCall?.pickupInboundCall({
+      ...this.pickUpCallDataMap[telephonySessionId],
+      ...data,
+      ...this.acceptOptions,
+    });
   }
 
   @track((that: ActiveCallControl) => [
@@ -1447,12 +1492,13 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
       this.setCallControlBusyTimestamp();
       const session = this._getSessionById(telephonySessionId);
       const { webphoneSession } = session;
-      await webphoneSession.reject();
+      await webphoneSession?.reject();
       // hack for update sessions, then incoming call log page can re-render
       setTimeout(() => this.updateActiveSessions(), 0);
       this.clearCallControlBusyTimestamp();
+      this.onCallIgnoreFunc?.(session.party.id);
     } catch (error: any /** TODO: confirm with instanceof */) {
-      console.log('ignore failed.', error);
+      console.log('===ignore failed.', error);
     }
   }
 
@@ -1477,7 +1523,13 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
         await s.hangup();
       }
       const deviceId = this._deps.webphone?.device?.id;
-      await session.answer({ deviceId });
+      if (session.webphoneSession) {
+        await session.answer({ deviceId });
+      } else {
+        await this.pickUpCall({
+          ...this.pickUpCallDataMap[telephonySessionId],
+        });
+      }
       this._trackWebRTCCallAnswer();
       const { webphoneSession } = session;
       if (webphoneSession && webphoneSession.__rc_callStatus) {
@@ -1735,23 +1787,33 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
   }
 
   @track(trackEvents.inboundWebRTCCallConnected)
-  _trackWebRTCCallAnswer() {}
+  _trackWebRTCCallAnswer() {
+    //
+  }
 
   @track(trackEvents.dialpadOpen)
-  dialpadOpenTrack() {}
+  dialpadOpenTrack() {
+    //
+  }
 
   @track(trackEvents.dialpadClose)
-  dialpadCloseTrack() {}
+  dialpadCloseTrack() {
+    //
+  }
 
   @track((that: ActiveCallControl) => [
     that._getTrackEventName(trackEvents.clickTransfer),
   ])
-  clickTransferTrack() {}
+  clickTransferTrack() {
+    //
+  }
 
   @track((that: ActiveCallControl) => [
     that._getTrackEventName(trackEvents.forward),
   ])
-  clickForwardTrack() {}
+  clickForwardTrack() {
+    //
+  }
 
   @track((that: ActiveCallControl, path: string) => {
     return (analytics) => {
@@ -1763,12 +1825,16 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
       ];
     };
   })
-  openEntityDetailLinkTrack(path: string) {}
+  openEntityDetailLinkTrack(path: string) {
+    //
+  }
 
   @track((that: ActiveCallControl) => [
     that._getTrackEventName(trackEvents.switch),
   ])
-  clickSwitchTrack() {}
+  clickSwitchTrack() {
+    //
+  }
 
   private _getSessionById(sessionId: string) {
     const session = this._rcCall!.sessions.find((s) => s.id === sessionId);

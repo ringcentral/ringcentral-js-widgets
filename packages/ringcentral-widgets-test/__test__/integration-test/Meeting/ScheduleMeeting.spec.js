@@ -7,7 +7,7 @@ import { getWrapper } from '../shared';
 
 let app = null;
 beforeAll(async () => {
-  jasmine.DEFAULT_TIMEOUT_INTERVAL = 64000;
+  jest.setTimeout(64000);
   app = await getWrapper();
   // Nav to Meeting page
   const navigationBar = app.find(NavigationBar).first();

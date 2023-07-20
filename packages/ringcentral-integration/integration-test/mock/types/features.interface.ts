@@ -1,4 +1,4 @@
-import features from '../data/features.json';
+import type features from '../data/features.json';
 
 export type FeaturesData = typeof features;
 

@@ -14,7 +14,7 @@ import { validateNumbers } from '../../lib/validateNumbers';
 import { trackEvents } from '../../enums/trackEvents';
 import { callingModes } from '../CallingSettings';
 import { ringoutErrors } from '../Ringout';
-import { Deps, Recipient, ToNumberMatched } from './Call.interface';
+import type { Deps, Recipient, ToNumberMatched } from './Call.interface';
 import { callErrors } from './callErrors';
 import { callStatus } from './callStatus';
 
@@ -406,8 +406,7 @@ export class Call<
     if (waitingValidateNumbers.length) {
       const numbers = waitingValidateNumbers.map((x) => x.number);
       const validatedResult = validateNumbers({
-        // @ts-expect-error
-        allowRegionSettings: this._deps.brand.brandConfig.allowRegionSettings,
+        allowRegionSettings: !!this._deps.brand.brandConfig.allowRegionSettings,
         areaCode: this._deps.regionSettings.areaCode,
         countryCode: this._deps.regionSettings.countryCode,
         phoneNumbers: numbers,

@@ -1,4 +1,4 @@
-import { Transport } from 'data-transport';
+import type { Transport } from 'data-transport';
 import { forEachObjIndexed } from 'ramda';
 
 export * from 'data-transport';
@@ -42,9 +42,9 @@ const listen = (
  *
   ```ts
 
-  class Adapter implements ToInternal, ToExternal {
+  class Adapter implements ToExternal {
 
-    transport?: Transport<ToInternal, ToExternal>;
+    transport?: Transport<{ emit: ToInternal; listen: ToExternal }>;
 
     constructor(){
       this.transport = createTransport('IFrameMain', {
@@ -60,7 +60,7 @@ const listen = (
   }
  * ```
  */
-const bindListeners = (instance: object, transport: Transport<any, any>) => {
+const bindListeners = (instance: object, transport: Transport<any>) => {
   forEachObjIndexed(
     (func, name) => {
       transport.listen(name, func.bind(instance));

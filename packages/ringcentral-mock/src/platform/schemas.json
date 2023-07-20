@@ -6065,7 +6065,7 @@
           "phoneNumber": {
             "type": "string",
             "faker": {
-              "phone.phoneNumberFormat": 1
+              "phone.phoneNumber": "+1##########"
             }
           },
           "type": {
@@ -6184,7 +6184,7 @@
             "type": "string",
             "description": "Extension phone number in E.164 format",
             "faker": {
-              "phone.phoneNumberFormat": 1
+              "phone.phoneNumber": "+1##########"
             }
           },
           "type": {
@@ -6566,7 +6566,7 @@
             "type": "string",
             "description": "Phone number to which the call is forwarded. In addition to common [E.164](https://www.itu.int/rec/T-REC-E.164-201011-I) format,  the following number patterns are supported: 11xxxxxxxxxxx, 444xxxxxxxxxxx, 616xxxxxxxxxxx, 1700yyyy; where `xxxxxxxxxxx` is a phone number in  e.164 format (without '+' sign) and `yyyy` is an external short extension number. Maximum number of digits is 15",
             "faker": {
-              "phone.phoneNumberFormat": 1
+              "phone.phoneNumber": "+1##########"
             }
           }
         }
@@ -6692,7 +6692,7 @@
             "type": "string",
             "description": "Called phone number",
             "faker": {
-              "phone.phoneNumberFormat": 1
+              "phone.phoneNumber": "+1##########"
             }
           }
         }
@@ -6735,7 +6735,7 @@
             "type": "string",
             "description": "Phone number of a callee",
             "faker": {
-              "phone.phoneNumberFormat": 1
+              "phone.phoneNumber": "+1##########"
             }
           }
         }
@@ -6752,7 +6752,7 @@
             "type": "string",
             "description": "Phone number of a callee",
             "faker": {
-              "phone.phoneNumberFormat": 1
+              "phone.phoneNumber": "+1##########"
             }
           }
         }
@@ -7272,7 +7272,7 @@
             "type": "string",
             "description": "Forwarding/Call flip phone number",
             "faker": {
-              "phone.phoneNumberFormat": 1
+              "phone.phoneNumber": "+1##########"
             }
           },
           "label": {
@@ -7616,7 +7616,7 @@
             "type": "string",
             "description": "Forwarding/Call flip phone number",
             "faker": {
-              "phone.phoneNumberFormat": 1
+              "phone.phoneNumber": "+1##########"
             }
           },
           "label": {
@@ -7671,7 +7671,7 @@
             "type": "string",
             "description": "Forwarding/Call flip phone number",
             "faker": {
-              "phone.phoneNumberFormat": 1
+              "phone.phoneNumber": "+1##########"
             }
           },
           "label": {
@@ -7725,7 +7725,7 @@
             "type": "string",
             "description": "Forwarding/Call flip phone number",
             "faker": {
-              "phone.phoneNumberFormat": 1
+              "phone.phoneNumber": "+1##########"
             }
           },
           "label": {
@@ -7872,7 +7872,7 @@
             "type": "string",
             "description": "For 'Transfer' action only. PSTN number in E.164 format",
             "faker": {
-              "phone.phoneNumberFormat": 1
+              "phone.phoneNumber": "+1##########"
             }
           }
         }
@@ -8419,7 +8419,7 @@
             "type": "string",
             "description": "Phone number to which the call is forwarded. In addition to common e.164 format, the following number patterns are supported: 11xxxxxxxxxxx, 444xxxxxxxxxxx, 616xxxxxxxxxxx, 1700yyyy; where xxxxxxxxxxx is a phone number in e.164 format (without '+' sign) and yyyy is an external short extension number. Max number of digits is 15",
             "faker": {
-              "phone.phoneNumberFormat": 1
+              "phone.phoneNumber": "+1##########"
             }
           },
           "action": {
@@ -8524,7 +8524,7 @@
             "type": "string",
             "description": "Forwarding/Call flip phone number",
             "faker": {
-              "phone.phoneNumberFormat": 1
+              "phone.phoneNumber": "+1##########"
             }
           },
           "label": {
@@ -8949,7 +8949,7 @@
             "type": "string",
             "description": "A blocked/allowed phone number in [E.164](https://www.itu.int/rec/T-REC-E.164-201011-I) format",
             "faker": {
-              "phone.phoneNumberFormat": 1
+              "phone.phoneNumber": "+1##########"
             }
           },
           "label": {
@@ -8971,7 +8971,7 @@
             "type": "string",
             "description": "A blocked/allowed phone number in [E.164](https://www.itu.int/rec/T-REC-E.164-201011-I) format",
             "faker": {
-              "phone.phoneNumberFormat": 1
+              "phone.phoneNumber": "+1##########"
             }
           },
           "label": {
@@ -10412,7 +10412,7 @@
             "type": "string",
             "description": "Phone number of a party. Usually it is a plain number including country and area code like 18661234567. But sometimes it could be returned from database with some formatting applied, for example (866)123-4567. This property is filled in all cases where parties communicate by means of global phone numbers, for example when calling to direct numbers or sending/receiving SMS",
             "faker": {
-              "phone.phoneNumberFormat": 1
+              "phone.phoneNumber": "+1##########"
             }
           },
           "extensionNumber": {
@@ -11592,7 +11592,7 @@
             "type": "string",
             "description": "Phone number",
             "faker": {
-              "phone.phoneNumberFormat": 1
+              "phone.phoneNumber": "+1##########"
             }
           },
           "usageType": {
@@ -12370,7 +12370,7 @@
             "type": "string",
             "description": "Phone number",
             "faker": {
-              "phone.phoneNumberFormat": 1
+              "phone.phoneNumber": "+1##########"
             }
           },
           "status": {
@@ -13355,7 +13355,7 @@
           "phoneNumber": {
             "type": "string",
             "faker": {
-              "phone.phoneNumberFormat": 1
+              "phone.phoneNumber": "+1##########"
             }
           },
           "formattedNumber": {
@@ -14254,7 +14254,7 @@
             "type": "string",
             "description": "Phone number of a party. Usually it is a plain number including country and area code like 18661234567. But sometimes it could be returned from database with some formatting applied, for example (866)123-4567. This property is filled in all cases where parties communicate by means of global phone numbers, for example when calling to direct numbers or sending/receiving SMS",
             "faker": {
-              "phone.phoneNumberFormat": 1
+              "phone.phoneNumber": "+1##########"
             }
           }
         }
@@ -14282,7 +14282,7 @@
             "type": "string",
             "description": "Phone number of a party. Usually it is a plain number including country and area code like 18661234567. But sometimes it could be returned from database with some formatting applied, for example (866)123-4567. This property is filled in all cases where parties communicate by means of global phone numbers, for example when calling to direct numbers or sending/receiving SMS",
             "faker": {
-              "phone.phoneNumberFormat": 1
+              "phone.phoneNumber": "+1##########"
             }
           }
         },
@@ -14430,7 +14430,7 @@
             "type": "string",
             "description": "Phone number in E.164 format",
             "faker": {
-              "phone.phoneNumberFormat": 1
+              "phone.phoneNumber": "+1##########"
             }
           }
         },
@@ -14588,7 +14588,7 @@
           "phoneNumber": {
             "type": "string",
             "faker": {
-              "phone.phoneNumberFormat": 1
+              "phone.phoneNumber": "+1##########"
             }
           },
           "name": {
@@ -14606,7 +14606,7 @@
           "phoneNumber": {
             "type": "string",
             "faker": {
-              "phone.phoneNumberFormat": 1
+              "phone.phoneNumber": "+1##########"
             }
           },
           "name": {
@@ -14983,7 +14983,7 @@
             "type": "string",
             "description": "Phone number in E.164 (with '+' sign) format",
             "faker": {
-              "phone.phoneNumberFormat": 1
+              "phone.phoneNumber": "+1##########"
             }
           },
           "extensionNumber": {
@@ -15011,7 +15011,7 @@
             "type": "string",
             "description": "Phone number in E.164 (with '+' sign) format",
             "faker": {
-              "phone.phoneNumberFormat": 1
+              "phone.phoneNumber": "+1##########"
             }
           },
           "extensionNumber": {
@@ -15985,7 +15985,7 @@
             "type": "string",
             "description": "Phone number",
             "faker": {
-              "phone.phoneNumberFormat": 1
+              "phone.phoneNumber": "+1##########"
             }
           },
           "primary": {
@@ -16080,7 +16080,7 @@
             "type": "string",
             "description": "Phone number",
             "faker": {
-              "phone.phoneNumberFormat": 1
+              "phone.phoneNumber": "+1##########"
             }
           },
           "status": {
@@ -16151,7 +16151,7 @@
             "type": "string",
             "description": "Temporary phone number in [E.164](https://www.itu.int/rec/T-REC-E.164-201011-I) (with '+' sign) format",
             "faker": {
-              "phone.phoneNumberFormat": 1
+              "phone.phoneNumber": "+1##########"
             }
           }
         },
@@ -17822,7 +17822,7 @@
             "type": "string",
             "description": "Phone number in [E.164](https://www.itu.int/rec/T-REC-E.164-201011-I) (with '+' sign) format",
             "faker": {
-              "phone.phoneNumberFormat": 1
+              "phone.phoneNumber": "+1##########"
             }
           }
         }
@@ -17865,7 +17865,7 @@
             "type": "string",
             "description": "Primary conference phone number for user's home country returned in [E.164](https://www.itu.int/rec/T-REC-E.164-201011-I) format",
             "faker": {
-              "phone.phoneNumberFormat": 1
+              "phone.phoneNumber": "+1##########"
             }
           },
           "tapToJoinUri": {
@@ -17903,7 +17903,7 @@
             "type": "string",
             "description": "Dial-in phone number to connect to a conference",
             "faker": {
-              "phone.phoneNumberFormat": 1
+              "phone.phoneNumber": "+1##########"
             }
           },
           "premium": {
@@ -18078,7 +18078,7 @@
             "type": "string",
             "description": "Dial-in phone number to connect to a conference",
             "faker": {
-              "phone.phoneNumberFormat": 1
+              "phone.phoneNumber": "+1##########"
             }
           },
           "default": {
@@ -20841,7 +20841,7 @@
             "type": "string",
             "description": "Phone number",
             "faker": {
-              "phone.phoneNumberFormat": 1
+              "phone.phoneNumber": "+1##########"
             }
           }
         }
@@ -22511,7 +22511,7 @@
             "type": "string",
             "description": "Phone number in E.164 format",
             "faker": {
-              "phone.phoneNumberFormat": 1
+              "phone.phoneNumber": "+1##########"
             }
           },
           "forwardingNumberId": {
@@ -22528,7 +22528,7 @@
             "type": "string",
             "description": "Phone number in E.164 format",
             "faker": {
-              "phone.phoneNumberFormat": 1
+              "phone.phoneNumber": "+1##########"
             }
           }
         },
@@ -22541,7 +22541,7 @@
             "type": "string",
             "description": "Phone number in E.164 format",
             "faker": {
-              "phone.phoneNumberFormat": 1
+              "phone.phoneNumber": "+1##########"
             }
           }
         },
@@ -23476,7 +23476,7 @@
             "type": "string",
             "description": "Phone number of a party",
             "faker": {
-              "phone.phoneNumberFormat": 1
+              "phone.phoneNumber": "+1##########"
             }
           },
           "name": {
@@ -23501,7 +23501,7 @@
             "type": "string",
             "description": "Phone number of a party",
             "faker": {
-              "phone.phoneNumberFormat": 1
+              "phone.phoneNumber": "+1##########"
             }
           },
           "name": {
@@ -23526,7 +23526,7 @@
             "type": "string",
             "description": "Phone number of a party",
             "faker": {
-              "phone.phoneNumberFormat": 1
+              "phone.phoneNumber": "+1##########"
             }
           },
           "name": {
@@ -23623,7 +23623,7 @@
             "type": "string",
             "description": "Phone number",
             "faker": {
-              "phone.phoneNumberFormat": 1
+              "phone.phoneNumber": "+1##########"
             }
           },
           "voicemail": {
@@ -23644,7 +23644,7 @@
             "type": "string",
             "description": "Phone number",
             "faker": {
-              "phone.phoneNumberFormat": 1
+              "phone.phoneNumber": "+1##########"
             }
           },
           "voicemail": {
@@ -23754,7 +23754,7 @@
             "type": "string",
             "description": "Phone number in E.164 format",
             "faker": {
-              "phone.phoneNumberFormat": 1
+              "phone.phoneNumber": "+1##########"
             },
             "examples": [16502223366]
           },
@@ -24029,7 +24029,7 @@
             "type": "string",
             "description": "Call party phone number in [E.164](https://www.itu.int/rec/T-REC-E.164-201011-I)(with '+' sign) format",
             "faker": {
-              "phone.phoneNumberFormat": 1
+              "phone.phoneNumber": "+1##########"
             }
           },
           "name": {
@@ -24097,7 +24097,7 @@
             "type": "string",
             "description": "Phone number in E.164 format",
             "faker": {
-              "phone.phoneNumberFormat": 1
+              "phone.phoneNumber": "+1##########"
             }
           },
           "name": {

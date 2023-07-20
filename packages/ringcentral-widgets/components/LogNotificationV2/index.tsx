@@ -13,7 +13,6 @@ import LogClickIcon from '../../assets/images/LogClick.svg';
 import LogUnclickIcon from '../../assets/images/LogUnclick.svg';
 import VoicemailRed from '../../assets/images/VoicemailRed.svg';
 import { Button } from '../Button';
-import callControlI18n from '../SmCallControl/i18n';
 import i18n from './i18n';
 import styles from './styles.scss';
 
@@ -65,7 +64,7 @@ const LogNotification = ({
           const isRinging = telephonyStatuses.ringing === callStatus;
           return (
             <Button
-              tooltip={callControlI18n.getString(endTitle, currentLocale)}
+              tooltip={endTitle}
               onClick={endAction}
               className={classnames(styles.endBtn, styles.actionItem)}
             >

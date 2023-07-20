@@ -9,13 +9,13 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
+import { sleep } from '@ringcentral-integration/utils';
 import {
   debounce,
   DEFAULT_THRESHOLD,
   promisedDebounce,
   throttle,
 } from '../../lib/debounce-throttle';
-import { sleep } from '@ringcentral-integration/utils';
 
 @autorun(test)
 @title('Debounce::basic')

@@ -1,4 +1,4 @@
-import { PatchOperation } from './PatchOperation';
+import type { PatchOperation } from './PatchOperation';
 
 export interface UserPatch {
   /**

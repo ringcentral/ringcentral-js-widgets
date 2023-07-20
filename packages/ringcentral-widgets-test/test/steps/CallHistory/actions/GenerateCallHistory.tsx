@@ -1,8 +1,6 @@
 import callLogBody from '@ringcentral-integration/commons/integration-test/mock/data/callLog.json';
-import {
-  CallLogRecord as BaseCallLogRecord,
-  getISODateFrom,
-} from '@ringcentral-integration/commons/modules/CallLog';
+import type { CallLogRecord as BaseCallLogRecord } from '@ringcentral-integration/commons/modules/CallLog';
+import { getISODateFrom } from '@ringcentral-integration/commons/modules/CallLog';
 
 interface CallLogRecord extends Omit<BaseCallLogRecord, 'startTime'> {
   startTime?: string;

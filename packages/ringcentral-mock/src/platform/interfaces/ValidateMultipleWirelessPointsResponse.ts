@@ -1,4 +1,4 @@
-import { WirelessPointValidated } from './WirelessPointValidated';
+import type { WirelessPointValidated } from './WirelessPointValidated';
 
 export interface ValidateMultipleWirelessPointsResponse {
   /**

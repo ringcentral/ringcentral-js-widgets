@@ -2,11 +2,11 @@ import React from 'react';
 
 import { palette2, styled } from '@ringcentral/juno';
 
-import i18n from './i18n';
+import i18n, { I18nKey } from './i18n';
 import styles from './styles.scss';
 
 type TabTitleProps = {
-  type: string;
+  type: I18nKey;
   currentLocale: string;
   active?: boolean;
 };

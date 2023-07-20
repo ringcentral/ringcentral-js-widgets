@@ -1,28 +1,28 @@
-import { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures';
-import { AccountInfo } from '@ringcentral-integration/commons/modules/AccountInfo';
-import { Brand } from '@ringcentral-integration/commons/modules/Brand';
-import { CallHistory } from '@ringcentral-integration/commons/modules/CallHistory';
-import { CallLogger } from '@ringcentral-integration/commons/modules/CallLogger';
-import { Call } from '@ringcentral-integration/commons/modules/Call';
-import { ComposeText } from '@ringcentral-integration/commons/modules/ComposeText';
-import { ConnectivityMonitor } from '@ringcentral-integration/commons/modules/ConnectivityMonitor';
-import { ContactMatcher } from '@ringcentral-integration/commons/modules/ContactMatcher';
-import { ContactSearch } from '@ringcentral-integration/commons/modules/ContactSearch';
-import { DateTimeFormat } from '@ringcentral-integration/commons/modules/DateTimeFormat';
-import { ExtensionInfo } from '@ringcentral-integration/commons/modules/ExtensionInfo';
-import { Locale } from '@ringcentral-integration/commons/modules/Locale';
-import { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiter';
-import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
+import type { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures';
+import type { AccountInfo } from '@ringcentral-integration/commons/modules/AccountInfo';
+import type { Brand } from '@ringcentral-integration/commons/modules/Brand';
+import type { CallHistory } from '@ringcentral-integration/commons/modules/CallHistory';
+import type { CallLogger } from '@ringcentral-integration/commons/modules/CallLogger';
+import type { Call } from '@ringcentral-integration/commons/modules/Call';
+import type { ComposeText } from '@ringcentral-integration/commons/modules/ComposeText';
+import type { ConnectivityMonitor } from '@ringcentral-integration/commons/modules/ConnectivityMonitor';
+import type { ContactMatcher } from '@ringcentral-integration/commons/modules/ContactMatcher';
+import type { ContactSearch } from '@ringcentral-integration/commons/modules/ContactSearch';
+import type { DateTimeFormat } from '@ringcentral-integration/commons/modules/DateTimeFormat';
+import type { ExtensionInfo } from '@ringcentral-integration/commons/modules/ExtensionInfo';
+import type { Locale } from '@ringcentral-integration/commons/modules/Locale';
+import type { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiter';
+import type { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
 
-import {
+import type {
   OnCreateContactOptions,
   OnLogCallOptions,
 } from '../CallsListUI/CallsListUI.interface';
-import { ConnectivityManager } from '../ConnectivityManager';
-import { ContactDetailsUI } from '../ContactDetailsUI';
-import { OnViewContactOptions } from '../ConversationsUI';
-import { DialerUI } from '../DialerUI';
-import { RouterInteraction } from '../RouterInteraction';
+import type { ConnectivityManager } from '../ConnectivityManager';
+import type { ContactDetailsUI } from '../ContactDetailsUI';
+import type { OnViewContactOptions } from '../ConversationsUI';
+import type { DialerUI } from '../DialerUI';
+import type { RouterInteraction } from '../RouterInteraction';
 
 export interface Deps {
   locale: Locale;

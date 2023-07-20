@@ -31,6 +31,9 @@
     ],
     "expirationTime": "2021-07-03T13:04:51.695Z",
     "expiresIn": 86399,
-    "deliveryMode": { "transportType": "WebSocket", "encryption": false }
+    "deliveryMode": {
+      "transportType": "WebSocket",
+      "encryption": false
+    }
   }
 ]

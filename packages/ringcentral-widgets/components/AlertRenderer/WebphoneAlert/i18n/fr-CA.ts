@@ -13,13 +13,13 @@ export default {
   [webphoneErrors.muteError]: "Le son de l’appel ne peut être désactivé pour le moment.",
   [webphoneErrors.holdError]: "L’appel ne peut être mis en attente pour le moment.",
   [webphoneErrors.flipError]: "Impossible de renvoyer l’appel. Veuillez réessayer plus tard.",
-  [webphoneErrors.recordError]: "Vous ne pouvez pas enregistrer l’appel pour le moment. Code d’erreur : {errorCode}",
+  [webphoneErrors.recordError]: "Vous ne pouvez pas enregistrer l’appel pour le moment. Code d’erreur : {errorCode}",
   [webphoneErrors.pauseRecordError]: "Désolés, nous n’avons pas pu arrêter l’enregistrement de l’appel. Réessayez plus tard.",
   [webphoneErrors.recordDisabled]: "Désolés, votre compte ne possède pas la fonctionnalité pour enregistrer un appel. Veuillez communiquer avec votre administrateur de compte.",
   [webphoneErrors.transferError]: "Impossible de transférer l’appel. Veuillez réessayer plus tard.",
-  [webphoneMessages.parked]: "Votre appel est parqué à : {parkedNumber}",
-  failWithStatusCode: "Désolés, nous avons rencontré une erreur : {errorCode}. Si le problème persiste, signalez au service de soutien de {brandName}.",
-  registeringWithStatusCode: "Désolés, une erreur s’est produite. Nous essayons de vous reconnecter. Si le problème persiste, veuillez le signaler au service de soutien de {brandName}. Code d’erreur : {errorCode}.",
+  [webphoneMessages.parked]: "Votre appel est parqué à : {parkedNumber}",
+  failWithStatusCode: "Désolés, nous avons rencontré une erreur : {errorCode}. Si le problème persiste, signalez au service de soutien de {brandName}.",
+  registeringWithStatusCode: "Désolés, une erreur s’est produite. Nous essayons de vous reconnecter. Si le problème persiste, veuillez le signaler au service de soutien de {brandName}. Code d’erreur : {errorCode}.",
   failWithoutStatusCode: "Désolés, une erreur s’est produite de notre côté. Si l’erreur persiste, veuillez la signaler au service de soutien de {brandName}.",
   registeringWithoutStatusCode: "Désolés, une erreur s’est produite. Nous essayons de vous reconnecter. Si le problème persiste, veuillez le signaler au service de soutien de {brandName}."
 };

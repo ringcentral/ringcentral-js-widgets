@@ -1,6 +1,6 @@
-import { PermissionCategoryResource } from './PermissionCategoryResource';
-import { RNPPagingInfo } from './RNPPagingInfo';
-import { RNPNavigationInfo } from './RNPNavigationInfo';
+import type { PermissionCategoryResource } from './PermissionCategoryResource';
+import type { RNPPagingInfo } from './RNPPagingInfo';
+import type { RNPNavigationInfo } from './RNPNavigationInfo';
 
 export interface PermissionCategoryCollectionResource {
   /**

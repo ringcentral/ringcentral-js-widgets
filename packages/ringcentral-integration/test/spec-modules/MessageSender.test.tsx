@@ -59,11 +59,17 @@ class MockClient {
 }
 
 class MockNumberValidate {
+  _isAnExtension?: boolean;
+
+  constructor({ isAnExtension }: { isAnExtension?: boolean } = {}) {
+    this._isAnExtension = isAnExtension;
+  }
   validateNumbers(numbers: any) {
     return {
       result: true,
       numbers: numbers.map((n: string) => ({
         e164: n,
+        isAnExtension: this._isAnExtension,
       })),
     };
   }
@@ -390,7 +396,9 @@ export class SendPagerSuccessfully extends Step {
               client: new MockClient() as any,
               extensionInfo: {} as any,
               extensionPhoneNumber: {} as any,
-              numberValidate: new MockNumberValidate() as any,
+              numberValidate: new MockNumberValidate({
+                isAnExtension: true,
+              }) as any,
               availabilityMonitor: {
                 checkIfHAError() {
                   return false;

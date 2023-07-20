@@ -1,7 +1,7 @@
-import execa from 'execa';
 import fs from 'fs';
-import { OpenAPIV3 } from 'openapi-types';
 import path from 'path';
+import execa from 'execa';
+import type { OpenAPIV3 } from 'openapi-types';
 import { uniq } from 'ramda';
 
 import { generateIndex } from './generateIndex';

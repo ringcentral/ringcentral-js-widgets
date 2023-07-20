@@ -1,4 +1,4 @@
-import { ExtensionBulkUpdateInfo } from './ExtensionBulkUpdateInfo';
+import type { ExtensionBulkUpdateInfo } from './ExtensionBulkUpdateInfo';
 
 // List of extensions to be updated
 export interface ExtensionBulkUpdateRequest {

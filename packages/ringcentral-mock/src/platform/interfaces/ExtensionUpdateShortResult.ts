@@ -1,4 +1,4 @@
-import { ErrorEntity } from './ErrorEntity';
+import type { ErrorEntity } from './ErrorEntity';
 
 export interface ExtensionUpdateShortResult {
   /**

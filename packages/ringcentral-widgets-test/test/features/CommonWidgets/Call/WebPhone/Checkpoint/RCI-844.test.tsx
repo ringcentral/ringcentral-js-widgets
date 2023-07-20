@@ -1,6 +1,6 @@
 /**
  * RCI-844: Multiple calls_resume current call
- * https://test_id_domain/test-cases/RCI-844
+ * https://test_it_domain/test-cases/RCI-844
  * Preconditions:
  *
  * Entry point(/s):
@@ -16,8 +16,8 @@ import {
   title,
   When,
 } from '@ringcentral-integration/test-utils';
-import { Context } from '../../../../../interfaces';
-import { StepFunction } from '../../../../../lib/step';
+import type { Context } from '../../../../../interfaces';
+import type { StepFunction } from '../../../../../lib/step';
 import {
   CallButtonBehavior,
   CallItemButtonBehavior,

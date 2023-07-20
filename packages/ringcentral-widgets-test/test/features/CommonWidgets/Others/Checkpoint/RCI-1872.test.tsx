@@ -1,6 +1,6 @@
 /**
  * RCI-1872: Check microphone permission
- * https://test_id_domain/test-cases/RCI-1872
+ * https://test_it_domain/test-cases/RCI-1872
  * Preconditions:
  * 3. The microphone settings in Chrome:chrome://settings/content/microphone
  * Entry point(/s):
@@ -11,8 +11,8 @@ import { mockDevice } from '@ringcentral-integration/commons/integration-test/ut
 import { connectionStatus } from '@ringcentral-integration/commons/modules/Webphone';
 import { fireEvent, screen } from '@testing-library/react';
 import { brandConfig } from '@ringcentral-integration/widgets-demo/dev-server/brandConfig';
+import type { StepFunction } from '../../../../lib/step';
 import {
-  StepFunction,
   p1,
   it,
   autorun,

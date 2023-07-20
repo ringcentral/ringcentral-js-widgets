@@ -5,7 +5,7 @@ export default {
   answer: "Responder",
   endAndAnswer: "Final. y respon.",
   holdAndAnswer: "En espera y resp.",
-  custom: "Personalizar",
+  custom: "Personalizado",
   more: "Más"
 };
 

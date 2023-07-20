@@ -1,6 +1,6 @@
-import { CompanyPhoneNumberInfo } from './CompanyPhoneNumberInfo';
-import { ProvisioningNavigationInfo } from './ProvisioningNavigationInfo';
-import { ProvisioningPagingInfo } from './ProvisioningPagingInfo';
+import type { CompanyPhoneNumberInfo } from './CompanyPhoneNumberInfo';
+import type { ProvisioningNavigationInfo } from './ProvisioningNavigationInfo';
+import type { ProvisioningPagingInfo } from './ProvisioningPagingInfo';
 
 export interface AccountPhoneNumbers {
   /**

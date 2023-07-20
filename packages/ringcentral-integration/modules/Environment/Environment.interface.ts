@@ -1,6 +1,6 @@
-import { SDKConfig } from '../../lib/createSdkConfig';
-import { RingCentralClient } from '../../lib/RingCentralClient';
-import { GlobalStorage } from '../GlobalStorage';
+import type { SDKConfig } from '../../lib/createSdkConfig';
+import type { RingCentralClient } from '../../lib/RingCentralClient';
+import type { GlobalStorage } from '../GlobalStorage';
 
 export interface EnvironmentOptions {
   defaultRecordingHost?: string;

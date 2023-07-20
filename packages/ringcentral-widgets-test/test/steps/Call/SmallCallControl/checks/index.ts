@@ -9,3 +9,4 @@ export * from './CheckOnlySubCallRecording';
 export * from './CheckOnlyActiveCallRecording';
 export * from './CheckBothCallRecording';
 export * from './CheckSmallControlButton';
+export * from './CheckSmallControl';

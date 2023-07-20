@@ -1,5 +1,6 @@
 // @ts-nocheck
-import { debounce, DebouncedFunction, DebounceOptions } from './debounce';
+import type { DebouncedFunction, DebounceOptions } from './debounce';
+import { debounce } from './debounce';
 
 export interface PromisedDebounceFunction<
   F extends (this: any, ...args: any) => any,

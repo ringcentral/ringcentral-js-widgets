@@ -1,6 +1,6 @@
 import { screen } from '@testing-library/react';
-import { waitForRenderReady } from '@ringcentral-integration/test-utils/lib/test-utils';
-import { StepFunction } from '@ringcentral-integration/test-utils';
+import { waitForRenderReady } from '@ringcentral-integration/test-utils';
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 
 export const ClickChangePMIAlert: StepFunction = async () => {
   screen.getByTestId('setPmiConfirm').click();

@@ -1,21 +1,24 @@
 {
   "name": "@ringcentral-integration/i18n",
   "version": "2.1.1",
+  "private": false,
   "description": "A simple I18n implementation used in RingCentral Integration projects.",
-  "main": "index.js",
+  "homepage": "https://github.com/ringcentral/ringcentral-js-widgets#readme",
+  "bugs": {
+    "url": "https://github.com/ringcentral/ringcentral-js-widgets/issues"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ringcentral/ringcentral-js-widgets.git"
   },
-  "author": "RingCentral Integrations",
-  "bugs": {
-    "url": "https://github.com/ringcentral/ringcentral-js-widgets/issues"
-  },
-  "homepage": "https://github.com/ringcentral/ringcentral-js-widgets#readme",
   "license": "MIT",
-  "private": false,
-  "peerDependencies": {
-    "@babel/polyfill": "^7.10.4"
+  "author": "RingCentral Integrations",
+  "main": "index.js",
+  "scripts": {
+    "build": "yarn gulp build",
+    "gulp": "gulp --require @ringcentral-integration/babel-settings/lib/register.js",
+    "release": "yarn gulp release",
+    "test": "yarn run-test"
   },
   "devDependencies": {
     "@faker-js/faker": "^5.5.3",
@@ -25,14 +28,13 @@
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "gulp-sourcemaps": "^2.6.5",
-    "jest": "^27.4.7"
+    "jest": "^27.4.7",
+    "yargs": "^17.1.1"
   },
-  "scripts": {
-    "test": "yarn run-test",
-    "gulp": "gulp --require @ringcentral-integration/babel-settings/lib/register.js",
-    "build": "yarn gulp build",
-    "release": "yarn gulp release"
+  "peerDependencies": {
+    "@babel/polyfill": "^7.10.4"
   },
+  "common": true,
   "ci": {
     "@ringcentral-integration/i18n": "**"
   }

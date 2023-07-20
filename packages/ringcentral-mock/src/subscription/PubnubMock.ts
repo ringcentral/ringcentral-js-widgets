@@ -1,5 +1,5 @@
 import { sleep, waitUntilTo } from '@ringcentral-integration/commons/utils';
-import { SubscriptionMock } from './interface';
+import type { SubscriptionMock } from './interface';
 
 const RealPubnub = jest.requireActual('pubnub');
 

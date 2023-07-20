@@ -1,4 +1,4 @@
-import { StepFunction } from '../../../lib/step';
+import type { StepFunction } from '../../../lib/step';
 
 export const WaitForInitMeeting: StepFunction<any> = async (props, context) => {
   const { phone } = context;

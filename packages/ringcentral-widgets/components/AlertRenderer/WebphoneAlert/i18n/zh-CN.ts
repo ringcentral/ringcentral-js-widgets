@@ -14,7 +14,7 @@ export default {
   [webphoneErrors.holdError]: "暂时无法将通话置于保持状态。",
   [webphoneErrors.flipError]: "无法切换通话。请稍后重试。",
   [webphoneErrors.recordError]: "当前无法录音通话。错误代码：{errorCode}。",
-  [webphoneErrors.pauseRecordError]: "抱歉，无法停止录制通话。请稍后重试。",
+  [webphoneErrors.pauseRecordError]: "抱歉，无法停止对该通话进行录音。请稍后重试。",
   [webphoneErrors.recordDisabled]: "抱歉，您的帐户没有通话录音功能。请联系您的帐户管理员。",
   [webphoneErrors.transferError]: "无法转移通话。请稍后重试。",
   [webphoneMessages.parked]: "您的呼叫寄存在以下号码：{parkedNumber}",

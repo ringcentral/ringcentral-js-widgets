@@ -1,6 +1,6 @@
 /**
  * RCI-1101: Search inactive user
- * https://test_id_domain/test-cases/RCI-1101
+ * https://test_it_domain/test-cases/RCI-1101
  * Preconditions:
  * 1. RC CTI app is installed and enabled
  * 2. User has logged in to 3rd party

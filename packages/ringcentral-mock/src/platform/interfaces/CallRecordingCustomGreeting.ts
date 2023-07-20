@@ -1,5 +1,5 @@
-import { CallRecordingCustomGreetingData } from './CallRecordingCustomGreetingData';
-import { CallRecordingCustomGreetingLanguage } from './CallRecordingCustomGreetingLanguage';
+import type { CallRecordingCustomGreetingData } from './CallRecordingCustomGreetingData';
+import type { CallRecordingCustomGreetingLanguage } from './CallRecordingCustomGreetingLanguage';
 
 export interface CallRecordingCustomGreeting {
   /**

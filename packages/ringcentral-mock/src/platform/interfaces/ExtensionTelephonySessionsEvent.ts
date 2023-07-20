@@ -1,4 +1,4 @@
-import { TelephonySessionsEventBody } from './TelephonySessionsEventBody';
+import type { TelephonySessionsEventBody } from './TelephonySessionsEventBody';
 
 export interface ExtensionTelephonySessionsEvent {
   /**
