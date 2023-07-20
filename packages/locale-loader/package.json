@@ -28,7 +28,7 @@
     "fs-extra": "^10.1.0",
     "glob": "^7.1.2",
     "inquirer": "^6.0.0",
-    "loader-utils": "^1.1.0",
+    "loader-utils": "^2.0.4",
     "ramda": "^0.28.0",
     "through2": "^2.0.5",
     "xml-js": "^1.6.2"
