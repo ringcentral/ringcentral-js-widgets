@@ -1,33 +1,20 @@
 "use strict";
 
-require("core-js/modules/es6.promise");
-
-require("core-js/modules/es6.object.to-string");
-
-require("core-js/modules/es6.number.constructor");
-
-require("core-js/modules/es6.array.find");
-
+require("core-js/modules/es.array.find");
+require("core-js/modules/es.date.now");
+require("core-js/modules/es.date.to-string");
+require("core-js/modules/es.number.constructor");
+require("core-js/modules/es.object.to-string");
+require("core-js/modules/es.promise");
 require("regenerator-runtime/runtime");
-
-require("core-js/modules/es6.date.now");
-
 var _react = _interopRequireDefault(require("react"));
-
 var _enzyme = require("enzyme");
-
 var _testUtils = require("react-dom/test-utils");
-
 var _juno = require("@ringcentral/juno");
-
 var _WorkingStateSelect = require("./WorkingStateSelect");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 var wrapper;
 var agentStates = [{
   agentAuxState: 'Available',
@@ -80,30 +67,28 @@ var agentStates = [{
   rank: '41',
   color: 'yellow'
 }];
-
 function setup() {
   var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-      _ref$getStateColor = _ref.getStateColor,
-      getStateColor = _ref$getStateColor === void 0 ? function () {
-    return '';
-  } : _ref$getStateColor,
-      _ref$handleWithInterv = _ref.handleWithIntervalTime,
-      handleWithIntervalTime = _ref$handleWithInterv === void 0 ? function () {} : _ref$handleWithInterv,
-      _ref$stateText = _ref.stateText,
-      stateText = _ref$stateText === void 0 ? 'Available' : _ref$stateText,
-      _ref$time = _ref.time,
-      time = _ref$time === void 0 ? Date.now() : _ref$time,
-      _ref$currentStateInde = _ref.currentStateIndex,
-      currentStateIndex = _ref$currentStateInde === void 0 ? 0 : _ref$currentStateInde,
-      _ref$getTimerText = _ref.getTimerText,
-      getTimerText = _ref$getTimerText === void 0 ? function (time) {
-    return time;
-  } : _ref$getTimerText,
-      _ref$changeWorkingSta = _ref.changeWorkingState,
-      changeWorkingState = _ref$changeWorkingSta === void 0 ? function () {} : _ref$changeWorkingSta,
-      _ref$disabled = _ref.disabled,
-      disabled = _ref$disabled === void 0 ? false : _ref$disabled;
-
+    _ref$getStateColor = _ref.getStateColor,
+    getStateColor = _ref$getStateColor === void 0 ? function () {
+      return '';
+    } : _ref$getStateColor,
+    _ref$handleWithInterv = _ref.handleWithIntervalTime,
+    handleWithIntervalTime = _ref$handleWithInterv === void 0 ? function () {} : _ref$handleWithInterv,
+    _ref$stateText = _ref.stateText,
+    stateText = _ref$stateText === void 0 ? 'Available' : _ref$stateText,
+    _ref$time = _ref.time,
+    time = _ref$time === void 0 ? Date.now() : _ref$time,
+    _ref$currentStateInde = _ref.currentStateIndex,
+    currentStateIndex = _ref$currentStateInde === void 0 ? 0 : _ref$currentStateInde,
+    _ref$getTimerText = _ref.getTimerText,
+    getTimerText = _ref$getTimerText === void 0 ? function (time) {
+      return time;
+    } : _ref$getTimerText,
+    _ref$changeWorkingSta = _ref.changeWorkingState,
+    changeWorkingState = _ref$changeWorkingSta === void 0 ? function () {} : _ref$changeWorkingSta,
+    _ref$disabled = _ref.disabled,
+    disabled = _ref$disabled === void 0 ? false : _ref$disabled;
   return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_WorkingStateSelect.WorkingStateSelect, {
     agentStates: agentStates,
     getStateColor: getStateColor,
@@ -116,14 +101,12 @@ function setup() {
     disabled: disabled
   })));
 }
-
 afterEach( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
   return regeneratorRuntime.wrap(function _callee$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
           wrapper.unmount();
-
         case 1:
         case "end":
           return _context.stop();
@@ -131,7 +114,6 @@ afterEach( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(
     }
   }, _callee);
 })));
-
 var getAgentStateButton = function getAgentStateButton() {
   var RcButtonBase = wrapper.find('RcButtonBase').at(0);
   return {
@@ -142,15 +124,12 @@ var getAgentStateButton = function getAgentStateButton() {
     text: RcButtonBase.find('[data-sign="stateName"]').text()
   };
 };
-
 var getAgentStateList = function getAgentStateList() {
   return wrapper.find('RcMenu').at(0).find('RcMenuItem');
 };
-
 function getSelectedItem() {
   return getAgentStateList().find('li.Mui-selected');
 }
-
 describe('<WorkingStateSelect />', function () {
   it('when no initiative agent state', function () {
     var stateText = null;
@@ -200,7 +179,6 @@ describe('<WorkingStateSelect />', function () {
             getAgentStateList().at(currentStateIndex).simulate('click');
             currentState = agentStates[currentStateIndex];
             expect(changeWorkingState).toBeCalledWith(currentState);
-
           case 9:
           case "end":
             return _context2.stop();
@@ -236,7 +214,6 @@ describe('<WorkingStateSelect />', function () {
             calledIntervalTime3 = Number(timer.text());
             expect(calledIntervalTime2).toBeGreaterThan(calledIntervalTime1);
             expect(calledIntervalTime3).toBeGreaterThan(calledIntervalTime2);
-
           case 13:
           case "end":
             return _context3.stop();
@@ -258,7 +235,6 @@ describe('<WorkingStateSelect />', function () {
             expect(agentStateButton.button.prop('disabled')).toBe(true);
             agentStateButton.click();
             expect(getAgentStateList()).toHaveLength(0);
-
           case 6:
           case "end":
             return _context4.stop();

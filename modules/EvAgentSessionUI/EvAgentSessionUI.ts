@@ -7,20 +7,16 @@ import {
   storage,
 } from '@ringcentral-integration/core';
 
-import {
-  dropDownOptions,
-  loginTypes,
-  LoginTypes,
-  tabManagerEvents,
-} from '../../enums';
-import {
+import type { LoginTypes } from '../../enums';
+import { dropDownOptions, loginTypes, tabManagerEvents } from '../../enums';
+import type {
   ChangeQueueStateFn,
   EvAgentSessionUIFunctions,
   EvAgentSessionUIProps,
 } from '../../interfaces/EvAgentSessionUI.interface';
-import { AvailableQueue } from '../../interfaces/SelectableQueue.interface';
+import type { AvailableQueue } from '../../interfaces/SelectableQueue.interface';
 import { sortByName } from '../../lib/sortByName';
-import { Deps, SessionConfigUI } from './EvAgentSessionUI.interface';
+import type { Deps, SessionConfigUI } from './EvAgentSessionUI.interface';
 import i18n from './i18n';
 
 @Module({
@@ -50,7 +46,7 @@ class EvAgentSessionUI extends RcUIModuleV2<Deps> implements SessionConfigUI {
     });
   }
 
-  async onStateChange() {
+  override async onStateChange() {
     if (
       this.ready &&
       this._deps.tabManager.ready &&
@@ -108,7 +104,7 @@ class EvAgentSessionUI extends RcUIModuleV2<Deps> implements SessionConfigUI {
     this.isLoading = isLoading;
   }
 
-  onInit() {
+  override onInit() {
     this.setIsLoading(false);
   }
 

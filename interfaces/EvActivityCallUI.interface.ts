@@ -1,14 +1,18 @@
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
-import { BasicCallInfoProps } from '@ringcentral-integration/widgets/components/BasicCallInfo';
-import { CallLogFieldsProps } from '@ringcentral-integration/widgets/components/CallLogFields';
-import {
+import type { BasicCallInfoProps } from '@ringcentral-integration/widgets/components/BasicCallInfo';
+import type { CallLogFieldsProps } from '@ringcentral-integration/widgets/components/CallLogFields';
+import type {
   CallLogPanelProps,
   CallStatus,
 } from '@ringcentral-integration/widgets/components/CallLogPanel';
 
-import { EvSmallCallControlProps } from '../components/EvSmallCallControl';
-import { EvTransferType } from '../enums';
-import { EvAgentScriptData, EvCallData, EvIvrData } from './EvData.interface';
+import type { EvSmallCallControlProps } from '../components/EvSmallCallControl';
+import type { EvTransferType } from '../enums';
+import type {
+  EvAgentScriptData,
+  EvCallData,
+  EvIvrData,
+} from './EvData.interface';
 
 type CallLogPanelCurrentLog = CallLogPanelProps['currentLog'];
 

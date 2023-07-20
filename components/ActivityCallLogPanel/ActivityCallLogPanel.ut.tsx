@@ -1,4 +1,4 @@
-import { StepFunction } from '@ringcentral-integration/test-utils';
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 
 import { ActivityCallLogPage } from '../../containers/ActivityCallLogPage';
 import { getCurrentRouteId, moduleUIPageMount } from '../../test/utils';

@@ -1,17 +1,20 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import classNames from 'classnames';
 
-import {
+import type {
   CallButtonsProps,
-  HangUpButton,
   HangUpButtonProps,
-  HoldCallButton,
   HoldCallButtonProps,
-  MuteCallButton,
   MuteCallButtonProps,
-  TransferCallButton,
   TransferCallButtonProps,
+} from './components';
+import {
+  HangUpButton,
+  HoldCallButton,
+  MuteCallButton,
+  TransferCallButton,
 } from './components';
 import styles from './styles.scss';
 

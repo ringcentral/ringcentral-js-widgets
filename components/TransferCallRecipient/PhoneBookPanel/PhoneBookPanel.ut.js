@@ -1,46 +1,26 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
-require("core-js/modules/es6.promise");
-
-require("core-js/modules/es6.object.to-string");
-
+require("core-js/modules/es.array.find");
+require("core-js/modules/es.array.includes");
+require("core-js/modules/es.array.is-array");
+require("core-js/modules/es.array.map");
+require("core-js/modules/es.function.name");
+require("core-js/modules/es.object.to-string");
+require("core-js/modules/es.promise");
+require("core-js/modules/es.string.includes");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.UTPhoneBookListSearchNoResultCases = exports.UTPhoneBookListSearchCases = exports.UTPhoneBookListSearch = exports.UTPhoneBookContactListDisplayAndHighlight = exports.UTPhoneBookContactCanBeClicked = exports.UTPhoneBookCheckBackButton = exports.UTCheckPhoneBookPanelRender = void 0;
-
 require("regenerator-runtime/runtime");
-
-require("core-js/modules/es6.array.is-array");
-
-require("core-js/modules/es6.array.map");
-
-require("core-js/modules/es6.array.find");
-
-require("core-js/modules/es7.array.includes");
-
-require("core-js/modules/es6.string.includes");
-
-require("core-js/modules/es6.function.name");
-
 var _react = _interopRequireDefault(require("react"));
-
 var _enzyme = require("enzyme");
-
 var _phoneNumber = require("@ringcentral-integration/phone-number");
-
 var _juno = require("@ringcentral/juno");
-
 var _PhoneBookPanel = require("./PhoneBookPanel");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 var wrapper;
 var currentLocale = 'en-US';
 var defaultTransferCountryOptions = [{
@@ -86,24 +66,21 @@ var defaultTransferPhoneBook = [{
   destination: '345345345',
   name: 'amy li'
 }];
-
 var defaultSearchPhoneBook = function defaultSearchPhoneBook(option, text) {
   var _option$name, _option$destination;
-
   return text && ((_option$name = option.name) === null || _option$name === void 0 ? void 0 : _option$name.toLowerCase().includes(text.toLowerCase())) || ((_option$destination = option.destination) === null || _option$destination === void 0 ? void 0 : _option$destination.toLowerCase().includes(text.toLowerCase()));
 };
-
 function setup(_ref) {
   var _ref$goBack = _ref.goBack,
-      goBack = _ref$goBack === void 0 ? function () {} : _ref$goBack,
-      _ref$searchPhoneBook = _ref.searchPhoneBook,
-      searchPhoneBook = _ref$searchPhoneBook === void 0 ? function () {} : _ref$searchPhoneBook,
-      _ref$transferPhoneBoo = _ref.transferPhoneBookSelectedIndex,
-      transferPhoneBookSelectedIndex = _ref$transferPhoneBoo === void 0 ? defaultSearchPhoneBook : _ref$transferPhoneBoo,
-      _ref$changeTransferPh = _ref.changeTransferPhoneBookSelected,
-      changeTransferPhoneBookSelected = _ref$changeTransferPh === void 0 ? function () {} : _ref$changeTransferPh,
-      _ref$transferPhoneBoo2 = _ref.transferPhoneBook,
-      transferPhoneBook = _ref$transferPhoneBoo2 === void 0 ? defaultTransferPhoneBook : _ref$transferPhoneBoo2;
+    goBack = _ref$goBack === void 0 ? function () {} : _ref$goBack,
+    _ref$searchPhoneBook = _ref.searchPhoneBook,
+    searchPhoneBook = _ref$searchPhoneBook === void 0 ? function () {} : _ref$searchPhoneBook,
+    _ref$transferPhoneBoo = _ref.transferPhoneBookSelectedIndex,
+    transferPhoneBookSelectedIndex = _ref$transferPhoneBoo === void 0 ? defaultSearchPhoneBook : _ref$transferPhoneBoo,
+    _ref$changeTransferPh = _ref.changeTransferPhoneBookSelected,
+    changeTransferPhoneBookSelected = _ref$changeTransferPh === void 0 ? function () {} : _ref$changeTransferPh,
+    _ref$transferPhoneBoo2 = _ref.transferPhoneBook,
+    transferPhoneBook = _ref$transferPhoneBoo2 === void 0 ? defaultTransferPhoneBook : _ref$transferPhoneBoo2;
   return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_PhoneBookPanel.PhoneBookPanel, {
     currentLocale: currentLocale,
     goBack: goBack,
@@ -114,15 +91,12 @@ function setup(_ref) {
     transferCountryOptions: defaultTransferCountryOptions
   })));
 }
-
 var getPhoneContacts = function getPhoneContacts() {
   return wrapper.find('RcList').at(0).find('div[data-sign="phoneContact"]');
 };
-
 var getSearchInput = function getSearchInput() {
   return wrapper.find('RcTextField').at(0).find('input');
 };
-
 var UTPhoneBookCheckBackButton = function UTPhoneBookCheckBackButton() {
   var goBack = jest.fn(function () {});
   wrapper = setup({
@@ -131,9 +105,7 @@ var UTPhoneBookCheckBackButton = function UTPhoneBookCheckBackButton() {
   wrapper.find('[data-sign="backButton"]').at(0).find('button').simulate('click');
   expect(goBack).toBeCalled();
 };
-
 exports.UTPhoneBookCheckBackButton = UTPhoneBookCheckBackButton;
-
 var UTPhoneBookContactListDisplayAndHighlight = function UTPhoneBookContactListDisplayAndHighlight() {
   var transferPhoneBookSelectedIndex = 1;
   wrapper = setup({
@@ -143,9 +115,7 @@ var UTPhoneBookContactListDisplayAndHighlight = function UTPhoneBookContactListD
   expect(phoneContacts.length).toBe(defaultTransferPhoneBook.length);
   expect(phoneContacts.at(transferPhoneBookSelectedIndex).render().attr('class')).toMatch(/Mui-selected/g);
 };
-
 exports.UTPhoneBookContactListDisplayAndHighlight = UTPhoneBookContactListDisplayAndHighlight;
-
 var UTPhoneBookContactCanBeClicked = function UTPhoneBookContactCanBeClicked() {
   var changeTransferPhoneBookSelected = jest.fn(function () {});
   wrapper = setup({
@@ -155,7 +125,6 @@ var UTPhoneBookContactCanBeClicked = function UTPhoneBookContactCanBeClicked() {
   getPhoneContacts().at(selectIndex).find('[role="button"]').at(0).simulate('click');
   expect(changeTransferPhoneBookSelected).toBeCalled();
 };
-
 exports.UTPhoneBookContactCanBeClicked = UTPhoneBookContactCanBeClicked;
 var UTPhoneBookListSearchCases = [{
   title: 'PhoneBook can be searched',
@@ -201,7 +170,8 @@ var UTPhoneBookListSearchCases = [{
   }],
   searchText: '6509807',
   matchedResult: [1]
-}, // { //skip this for it's a bug waiting to be fixed.
+},
+// { //skip this for it's a bug waiting to be fixed.
 //   title: 'PhoneBook can be searched',
 //   phoneBookList: [
 //     { name: 'DukeTest1', number: '6509807610' },
@@ -245,17 +215,16 @@ var UTPhoneBookListSearchNoResultCases = [{
   matchedResult: 'No result found for "AA"'
 }];
 exports.UTPhoneBookListSearchNoResultCases = UTPhoneBookListSearchNoResultCases;
-
 var UTPhoneBookListSearch = function UTPhoneBookListSearch(_ref2) {
   var phoneBookList = _ref2.phoneBookList,
-      searchText = _ref2.searchText,
-      matchedResult = _ref2.matchedResult;
+    searchText = _ref2.searchText,
+    matchedResult = _ref2.matchedResult;
   var searchPhoneBook = jest.fn(defaultSearchPhoneBook);
   wrapper = setup({
     searchPhoneBook: searchPhoneBook,
     transferPhoneBook: phoneBookList.map(function (_ref3) {
       var name = _ref3.name,
-          number = _ref3.number;
+        number = _ref3.number;
       return {
         name: name,
         destination: number,
@@ -270,7 +239,6 @@ var UTPhoneBookListSearch = function UTPhoneBookListSearch(_ref2) {
   };
   getSearchInput().simulate('change', eventObj);
   var phoneContacts = getPhoneContacts();
-
   if (Array.isArray(matchedResult)) {
     expect(phoneContacts).toHaveLength(matchedResult.length);
     var resultItems = phoneContacts.map(function (el) {
@@ -287,9 +255,7 @@ var UTPhoneBookListSearch = function UTPhoneBookListSearch(_ref2) {
     expect(wrapper.find('[data-sign="searchResult"]').text()).toBe("No result found for \"".concat(searchText, "\""));
   }
 };
-
 exports.UTPhoneBookListSearch = UTPhoneBookListSearch;
-
 var UTCheckPhoneBookPanelRender = /*#__PURE__*/function () {
   var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(_ref4) {
     var internalOptions, wrapper, dataSign;
@@ -304,7 +270,6 @@ var UTCheckPhoneBookPanelRender = /*#__PURE__*/function () {
               'Phone Book recipient list with numbers': 'searchResult'
             };
             expect(wrapper.find("[data-sign=\"".concat(dataSign[internalOptions], "\"]"))).not.toBeUndefined();
-
           case 4:
           case "end":
             return _context.stop();
@@ -312,11 +277,9 @@ var UTCheckPhoneBookPanelRender = /*#__PURE__*/function () {
       }
     }, _callee);
   }));
-
   return function UTCheckPhoneBookPanelRender(_x) {
     return _ref5.apply(this, arguments);
   };
 }();
-
 exports.UTCheckPhoneBookPanelRender = UTCheckPhoneBookPanelRender;
 //# sourceMappingURL=PhoneBookPanel.ut.js.map

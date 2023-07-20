@@ -1,8 +1,8 @@
-import { ReactWrapper } from 'enzyme';
+import type { ReactWrapper } from 'enzyme';
 
 import { RcDialTextField } from '@ringcentral/juno';
 
-import { DialoutStatusesType } from '../../../enums/dialoutStatus';
+import type { DialoutStatusesType } from '../../../enums/dialoutStatus';
 import { createDialerPanel } from './createDialerPanel';
 
 const mockAudio = () => {
@@ -66,7 +66,7 @@ describe('<DialerPanel />', () => {
 
   it('Check Disabled Allow Manual Calls', () => {
     /* RCI-3899: Check Disabled Allow Manual Calls
-      https://testit.ringcentral.com/test-cases/RCI-3899
+      https://test_it_domain/test-cases/RCI-3899
     */
     wrapper = createDialerPanel({ hasDialer: true });
     const manualDialSettings = wrapper

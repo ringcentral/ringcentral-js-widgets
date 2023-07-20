@@ -1,4 +1,4 @@
-import { Environment } from '@ringcentral-integration/commons/modules/EnvironmentV2';
+import type { Environment } from '@ringcentral-integration/commons/modules/Environment';
 
 export type EvEnvironment = Environment & {
   view: { mode: string };

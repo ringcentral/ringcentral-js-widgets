@@ -1,4 +1,4 @@
-import { IntegratedSoftphone } from './EvIntegratedSoftphone.interface';
+import type { IntegratedSoftphone } from './EvIntegratedSoftphone.interface';
 
 export function runInActivityWebRTCTab() {
   return function (target: any, key: string, descriptor: any) {

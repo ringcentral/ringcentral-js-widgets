@@ -1,4 +1,5 @@
-import React, { FunctionComponent, useCallback, useEffect } from 'react';
+import type { FunctionComponent } from 'react';
+import React, { useCallback, useEffect } from 'react';
 
 import { CustomArrowButton } from '@ringcentral-integration/widgets/components/Rcui/CustomArrowButton';
 import {
@@ -8,9 +9,9 @@ import {
   RcSnackbarAction,
   RcTextField,
 } from '@ringcentral/juno';
-import { Dialer as dialerSvg } from '@ringcentral/juno/icon';
+import { Dialer as dialerSvg } from '@ringcentral/juno-icon';
 
-import {
+import type {
   EvTransferCallUIFunctions,
   EvTransferCallUIProps,
 } from '../../interfaces';

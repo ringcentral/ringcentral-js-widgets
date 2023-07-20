@@ -1,11 +1,12 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import { connect } from 'react-redux';
 
-import Environment from '@ringcentral-integration/widgets/components/Environment';
+import { EnvironmentPanel } from '@ringcentral-integration/widgets/components/EnvironmentPanel';
 import withPhone from '@ringcentral-integration/widgets/lib/withPhone';
 
-import { EvPhone } from '../../interfaces';
+import type { EvPhone } from '../../interfaces';
 import styles from './styles.scss';
 
 interface AppViewProps {
@@ -47,7 +48,7 @@ const AppViewPanel: FunctionComponent<AppViewProps> = ({
   return (
     <div className={styles.root}>
       {children}
-      <Environment
+      <EnvironmentPanel
         server={server}
         enabled={enabled}
         onSetData={onSetData}

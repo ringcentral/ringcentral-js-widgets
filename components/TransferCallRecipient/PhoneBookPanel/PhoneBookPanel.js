@@ -1,41 +1,27 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.PhoneBookPanel = void 0;
-
 var _react = _interopRequireDefault(require("react"));
-
 var _classnames = _interopRequireDefault(require("classnames"));
-
 var _Tooltip = require("@ringcentral-integration/widgets/components/Rcui/Tooltip");
-
 var _toolTipDelayTime = require("@ringcentral-integration/widgets/lib/toolTipDelayTime");
-
 var _FormatPhoneNumber = require("../../../lib/FormatPhoneNumber");
-
 var _SelectList = require("../../SelectList");
-
 var _i18n = _interopRequireDefault(require("../i18n"));
-
 var _styles = _interopRequireDefault(require("../styles.scss"));
-
 var _i18n2 = _interopRequireDefault(require("./i18n"));
-
 var _styles2 = _interopRequireDefault(require("./styles.scss"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 var PhoneBookPanel = function PhoneBookPanel(_ref) {
   var currentLocale = _ref.currentLocale,
-      goBack = _ref.goBack,
-      transferPhoneBook = _ref.transferPhoneBook,
-      transferPhoneBookSelectedIndex = _ref.transferPhoneBookSelectedIndex,
-      changeTransferPhoneBookSelected = _ref.changeTransferPhoneBookSelected,
-      searchPhoneBook = _ref.searchPhoneBook;
+    goBack = _ref.goBack,
+    transferPhoneBook = _ref.transferPhoneBook,
+    transferPhoneBookSelectedIndex = _ref.transferPhoneBookSelectedIndex,
+    changeTransferPhoneBookSelected = _ref.changeTransferPhoneBookSelected,
+    searchPhoneBook = _ref.searchPhoneBook;
   return /*#__PURE__*/_react["default"].createElement(_SelectList.SelectList, {
     onBackClick: goBack,
     title: _i18n2["default"].getString('phoneBookTransfer', currentLocale),
@@ -45,10 +31,10 @@ var PhoneBookPanel = function PhoneBookPanel(_ref) {
     currentLocale: currentLocale,
     renderListItem: function renderListItem(_ref2) {
       var option = _ref2.option,
-          i = _ref2.index;
+        i = _ref2.index;
       var destination = option.destination,
-          phoneBookName = option.phoneBookName,
-          phoneBookItemIndex = option.phoneBookItemIndex;
+        phoneBookName = option.phoneBookName,
+        phoneBookItemIndex = option.phoneBookItemIndex;
       return /*#__PURE__*/_react["default"].createElement(_SelectList.ListItem, {
         onClick: function onClick() {
           return changeTransferPhoneBookSelected(phoneBookItemIndex);
@@ -75,6 +61,5 @@ var PhoneBookPanel = function PhoneBookPanel(_ref) {
     }
   });
 };
-
 exports.PhoneBookPanel = PhoneBookPanel;
 //# sourceMappingURL=PhoneBookPanel.js.map

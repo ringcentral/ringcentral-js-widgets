@@ -5,7 +5,7 @@ import { act } from 'react-dom/test-utils';
 
 import { RcThemeProvider } from '@ringcentral/juno';
 
-import { EvCustomAvailableAgentState } from '../../../interfaces/EvMainViewUI.interface';
+import type { EvCustomAvailableAgentState } from '../../../interfaces/EvMainViewUI.interface';
 import { WorkingStateSelect } from './WorkingStateSelect';
 
 let wrapper;

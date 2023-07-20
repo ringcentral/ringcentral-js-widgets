@@ -1,14 +1,14 @@
-import { Alert } from '@ringcentral-integration/commons/modules/Alert';
-import { Auth } from '@ringcentral-integration/commons/modules/AuthV2';
+import type { Alert } from '@ringcentral-integration/commons/modules/Alert';
+import type { Auth } from '@ringcentral-integration/commons/modules/Auth';
 
-import { EvAgentState, EvClient } from '../../lib/EvClient';
-import { EvAgentSession } from '../EvAgentSession';
-import { EvAuth } from '../EvAuth';
-import { EvCallMonitor } from '../EvCallMonitor';
-import { EvPresence } from '../EvPresence';
-import { EvStorage } from '../EvStorage';
-import { EvSubscription } from '../EvSubscription';
-import { EvTabManager } from '../EvTabManager';
+import type { EvAgentState, EvClient } from '../../lib/EvClient';
+import type { EvAgentSession } from '../EvAgentSession';
+import type { EvAuth } from '../EvAuth';
+import type { EvCallMonitor } from '../EvCallMonitor';
+import type { EvPresence } from '../EvPresence';
+import type { EvStorage } from '../EvStorage';
+import type { EvSubscription } from '../EvSubscription';
+import type { EvTabManager } from '../EvTabManager';
 
 export interface State {
   agentState: EvAgentState;

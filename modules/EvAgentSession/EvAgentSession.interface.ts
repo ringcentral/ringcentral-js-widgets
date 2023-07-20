@@ -1,18 +1,18 @@
-import { Alert } from '@ringcentral-integration/commons/modules/Alert';
-import { Auth } from '@ringcentral-integration/commons/modules/AuthV2';
-import { Locale } from '@ringcentral-integration/commons/modules/Locale';
-import { Beforeunload } from '@ringcentral-integration/widgets/modules/Beforeunload';
-import { Block } from '@ringcentral-integration/widgets/modules/Block';
-import { ModalUI } from '@ringcentral-integration/widgets/modules/ModalUI';
-import RouterInteraction from '@ringcentral-integration/widgets/modules/RouterInteraction';
+import type { Alert } from '@ringcentral-integration/commons/modules/Alert';
+import type { Auth } from '@ringcentral-integration/commons/modules/Auth';
+import type { Locale } from '@ringcentral-integration/commons/modules/Locale';
+import type { Beforeunload } from '@ringcentral-integration/widgets/modules/Beforeunload';
+import type { Block } from '@ringcentral-integration/widgets/modules/Block';
+import type { ModalUI } from '@ringcentral-integration/widgets/modules/ModalUI';
+import type RouterInteraction from '@ringcentral-integration/widgets/modules/RouterInteraction';
 
-import { LoginTypes } from '../../enums';
-import { EvClient } from '../../lib/EvClient';
-import { EvAuth } from '../EvAuth';
-import { EvCallDataSource } from '../EvCallDataSource';
-import { EvPresence } from '../EvPresence';
-import { EvStorage } from '../EvStorage';
-import { EvTabManager } from '../EvTabManager';
+import type { LoginTypes } from '../../enums';
+import type { EvClient } from '../../lib/EvClient';
+import type { EvAuth } from '../EvAuth';
+import type { EvCallDataSource } from '../EvCallDataSource';
+import type { EvPresence } from '../EvPresence';
+import type { EvStorage } from '../EvStorage';
+import type { EvTabManager } from '../EvTabManager';
 
 export interface EvAgentSessionOptions {}
 

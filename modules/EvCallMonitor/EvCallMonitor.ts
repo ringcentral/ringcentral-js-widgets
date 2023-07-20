@@ -1,13 +1,13 @@
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import { computed, RcModuleV2 } from '@ringcentral-integration/core';
-import { Mapping } from '@ringcentral-integration/widgets/typings';
+import type { Mapping } from '@ringcentral-integration/widgets/typings';
 
 import { callStatus } from '../../enums';
-import { EvCallData } from '../../interfaces/EvData.interface';
+import type { EvCallData } from '../../interfaces/EvData.interface';
 import { makeCallsUniqueIdentifies } from '../../lib/callUniqueIdentifies';
 import { contactMatchIdentifyEncode } from '../../lib/contactMatchIdentify';
-import { EvAddSessionNotification } from '../../lib/EvClient/interfaces';
-import { CallMonitor, Deps } from './EvCallMonitor.interface';
+import type { EvAddSessionNotification } from '../../lib/EvClient/interfaces';
+import type { CallMonitor, Deps } from './EvCallMonitor.interface';
 
 @Module({
   name: 'EvCallMonitor',
@@ -125,7 +125,7 @@ class EvCallMonitor extends RcModuleV2<Deps> implements CallMonitor {
             ...call,
             recordingUrl,
             agentName,
-            // TODO confirm about using `toMatches` & `fromMatches`?
+            // TODO: confirm about using `toMatches` & `fromMatches`?
             contactMatches: contactMatches[contactMatchIdentify] || [],
             activityMatches:
               id && activityMatches[id] ? activityMatches[id] : [],
@@ -154,7 +154,7 @@ class EvCallMonitor extends RcModuleV2<Deps> implements CallMonitor {
     return this._deps.evCallDataSource.limitCalls();
   }
 
-  onStateChange() {
+  override onStateChange() {
     if (this._deps.evAgentSession.configSuccess) {
       if (this.calls.length > this._oldCalls.length) {
         const currentCall = this.calls[0];

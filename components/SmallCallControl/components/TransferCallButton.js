@@ -1,32 +1,23 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.TransferCallButton = void 0;
-
 var _react = _interopRequireDefault(require("react"));
-
 var _juno = require("@ringcentral/juno");
-
-var _icon = require("@ringcentral/juno/icon");
-
+var _junoIcon = require("@ringcentral/juno-icon");
 var _i18n = _interopRequireDefault(require("../i18n"));
-
 var _getIconColor = require("./getIconColor");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 var TransferCallButton = function TransferCallButton(_ref) {
   var currentLocale = _ref.currentLocale,
-      onTransfer = _ref.onTransfer,
-      transferRef = _ref.transferRef,
-      disableTransfer = _ref.disableTransfer,
-      size = _ref.size,
-      className = _ref.className,
-      dataSign = _ref.dataSign;
+    onTransfer = _ref.onTransfer,
+    transferRef = _ref.transferRef,
+    disableTransfer = _ref.disableTransfer,
+    size = _ref.size,
+    className = _ref.className,
+    dataSign = _ref.dataSign;
   var color = (0, _getIconColor.getIconColor)({
     active: false,
     disable: disableTransfer
@@ -35,7 +26,7 @@ var TransferCallButton = function TransferCallButton(_ref) {
     ref: transferRef,
     size: size,
     onClick: onTransfer,
-    symbol: _icon.TransferCall,
+    symbol: _junoIcon.TransferCall,
     disabled: disableTransfer,
     "data-sign": dataSign,
     "data-icon": "transfer-call",
@@ -45,7 +36,6 @@ var TransferCallButton = function TransferCallButton(_ref) {
     shouldPersistBg: disableTransfer
   });
 };
-
 exports.TransferCallButton = TransferCallButton;
 TransferCallButton.defaultProps = {
   onTransfer: function onTransfer() {},

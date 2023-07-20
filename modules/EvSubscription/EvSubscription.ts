@@ -3,11 +3,11 @@ import { EventEmitter } from 'events';
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import { RcModuleV2 } from '@ringcentral-integration/core';
 
-import {
+import type {
   EvClientCallBackValueType,
   EvClientCallMapping,
 } from '../../lib/EvClient/interfaces';
-import { Deps, Subscription } from './EvSubscription.interface';
+import type { Deps, Subscription } from './EvSubscription.interface';
 
 @Module({
   name: 'EvSubscription',

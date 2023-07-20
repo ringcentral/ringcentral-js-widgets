@@ -1,16 +1,16 @@
-import React, { FunctionComponent, useCallback, useRef, useState } from 'react';
+import type { FunctionComponent } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 
 import classNames from 'classnames';
 
 import { BasicCallInfo } from '@ringcentral-integration/widgets/components/BasicCallInfo';
-import CallLogPanel, {
-  CallLogPanelProps,
-} from '@ringcentral-integration/widgets/components/CallLogPanel';
+import type { CallLogPanelProps } from '@ringcentral-integration/widgets/components/CallLogPanel';
+import CallLogPanel from '@ringcentral-integration/widgets/components/CallLogPanel';
 import { RcButton, RcIconButton, RcMenu, RcMenuItem } from '@ringcentral/juno';
-import { Transcription } from '@ringcentral/juno/icon';
+import { Transcription } from '@ringcentral/juno-icon';
 
 import { transferTypes } from '../../enums';
-import {
+import type {
   EvActivityCallUIFunctions,
   EvActivityCallUIProps,
 } from '../../interfaces/EvActivityCallUI.interface';

@@ -1,1 +1,1 @@
-{"version":3,"sources":[],"names":[],"mappings":"","sourcesContent":[],"file":"Environment.interface.js"}
+{"version":3,"file":"Environment.interface.js","names":[],"sources":["interfaces/Environment.interface.ts"],"sourcesContent":["import type { Environment } from '@ringcentral-integration/commons/modules/Environment';\n\nexport type EvEnvironment = Environment & {\n  view: { mode: string };\n  isWide: boolean;\n};\n"],"mappings":""}

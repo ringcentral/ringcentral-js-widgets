@@ -6,7 +6,7 @@ import {
   storage,
 } from '@ringcentral-integration/core';
 
-import {
+import type {
   CallDisposition,
   Deps,
   EvCallDispositionMapping,
@@ -57,7 +57,7 @@ class EvCallDisposition extends RcModuleV2<Deps> implements CallDisposition {
     this.dispositionStateMapping[id] = disposed;
   }
 
-  onInitOnce() {
+  override onInitOnce() {
     this._deps.evCallMonitor.onCallAnswered((call) => {
       if (call.outdialDispositions) {
         const disposition = call.outdialDispositions.dispositions.find(

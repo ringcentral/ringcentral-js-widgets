@@ -1,4 +1,9 @@
-export const handleToClockTime = (time: number, { useCeil = false } = {}) => {
+// TODO: refactor with juno methods
+/**
+ * get clock time from timestamp
+ * @returns 10:00:00
+ */
+export const getClockByTimestamp = (time: number, { useCeil = false } = {}) => {
   const number = time / 1000;
   const int = useCeil ? Math.ceil(number) : Math.floor(number);
   const hour = parseInt(`${(int / 60 / 60) % 24}`, 10);

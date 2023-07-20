@@ -1,9 +1,9 @@
 import { Module } from '@ringcentral-integration/commons/lib/di';
-import loginStatus from '@ringcentral-integration/commons/modules/Auth/loginStatus';
-import { Storage } from '@ringcentral-integration/commons/modules/StorageV2';
+import { loginStatus } from '@ringcentral-integration/commons/modules/Auth';
+import { Storage } from '@ringcentral-integration/commons/modules/Storage';
 
 import { loginStatus as evLoginStatus } from '../../enums/loginStatus';
-import { Deps } from './EvStorage.interface';
+import type { Deps } from './EvStorage.interface';
 
 @Module({
   name: 'Storage',
@@ -21,7 +21,7 @@ export class EvStorage extends Storage<Deps> {
       this._deps.storageOptions?.disableInactiveTabsWrite ?? true;
   }
 
-  _shouldInit() {
+  override _shouldInit() {
     return (
       this._deps.auth.loginStatus === loginStatus.loggedIn &&
       (!this._deps.tabManager || this._deps.tabManager.ready) &&
@@ -30,7 +30,7 @@ export class EvStorage extends Storage<Deps> {
     );
   }
 
-  _shouldReset() {
+  override _shouldReset() {
     return (
       super._shouldReset() ||
       (this.ready && this._deps.evAuth.loginStatus === evLoginStatus.NOT_AUTH)

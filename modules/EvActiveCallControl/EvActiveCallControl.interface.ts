@@ -1,10 +1,10 @@
-import { EvClient } from '../../lib/EvClient';
-import { EvAgentSession } from '../EvAgentSession';
-import { EvCallMonitor } from '../EvCallMonitor';
-import { EvIntegratedSoftphone } from '../EvIntegratedSoftphone';
-import { EvPresence } from '../EvPresence';
-import { EvSettings } from '../EvSettings';
-import { EvTabManager } from '../EvTabManager';
+import type { EvClient } from '../../lib/EvClient';
+import type { EvAgentSession } from '../EvAgentSession';
+import type { EvCallMonitor } from '../EvCallMonitor';
+import type { EvIntegratedSoftphone } from '../EvIntegratedSoftphone';
+import type { EvPresence } from '../EvPresence';
+import type { EvSettings } from '../EvSettings';
+import type { EvTabManager } from '../EvTabManager';
 
 interface State {
   //

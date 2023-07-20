@@ -1,8 +1,9 @@
-import React, { FunctionComponent, useState } from 'react';
+import type { FunctionComponent } from 'react';
+import React, { useState } from 'react';
 
 import { RcButton } from '@ringcentral/juno';
 
-import {
+import type {
   EvTransferCallUIFunctions,
   EvTransferCallUIProps,
 } from '../../../interfaces';

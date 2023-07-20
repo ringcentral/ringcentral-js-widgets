@@ -1,6 +1,6 @@
-import { ActivityCallLogPanelProps } from '../../components/ActivityCallLogPanel';
+import type { ActivityCallLogPanelProps } from '../../components/ActivityCallLogPanel';
 import { CallHistoryCallLogPanel } from '../../components/CallHistoryCallLogPanel';
-import { CallLogMethods } from '../../interfaces/EvActivityCallUI.interface';
+import type { CallLogMethods } from '../../interfaces/EvActivityCallUI.interface';
 import { connectModule } from '../../lib/connectModule';
 
 export type CallHistoryCallLogPageProps = {

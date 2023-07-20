@@ -1,29 +1,19 @@
 "use strict";
 
-require("core-js/modules/es6.array.find");
-
-require("core-js/modules/es7.array.includes");
-
-require("core-js/modules/es6.string.includes");
-
+require("core-js/modules/es.array.find");
+require("core-js/modules/es.array.includes");
+require("core-js/modules/es.string.includes");
 var _react = _interopRequireDefault(require("react"));
-
 var _enzyme = require("enzyme");
-
 var _juno = require("@ringcentral/juno");
-
 var _RequeueCallGroupPanel = require("./RequeueCallGroupPanel");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 var wrapper;
 var currentLocale = 'en-US';
-
 var searchGroup = function searchGroup(_ref, text) {
   var groupName = _ref.groupName;
   return groupName && text && groupName.toLowerCase().includes(text.toLowerCase());
 };
-
 var defaultQueueGroups = [{
   gateGroupId: '50520',
   groupName: 'DukeTest1'
@@ -34,18 +24,16 @@ var defaultQueueGroups = [{
   gateGroupId: '50522',
   groupName: 'EVdemo'
 }];
-
 function setup() {
   var _ref2 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-      _ref2$queueGroups = _ref2.queueGroups,
-      queueGroups = _ref2$queueGroups === void 0 ? defaultQueueGroups : _ref2$queueGroups,
-      _ref2$selectedQueueGr = _ref2.selectedQueueGroupIndex,
-      selectedQueueGroupIndex = _ref2$selectedQueueGr === void 0 ? 0 : _ref2$selectedQueueGr,
-      _ref2$goToRequeueGrou = _ref2.goToRequeueGroupDetailPage,
-      goToRequeueGroupDetailPage = _ref2$goToRequeueGrou === void 0 ? function () {} : _ref2$goToRequeueGrou,
-      _ref2$goToRequeueCall = _ref2.goToRequeueCallPage,
-      goToRequeueCallPage = _ref2$goToRequeueCall === void 0 ? function () {} : _ref2$goToRequeueCall;
-
+    _ref2$queueGroups = _ref2.queueGroups,
+    queueGroups = _ref2$queueGroups === void 0 ? defaultQueueGroups : _ref2$queueGroups,
+    _ref2$selectedQueueGr = _ref2.selectedQueueGroupIndex,
+    selectedQueueGroupIndex = _ref2$selectedQueueGr === void 0 ? 0 : _ref2$selectedQueueGr,
+    _ref2$goToRequeueGrou = _ref2.goToRequeueGroupDetailPage,
+    goToRequeueGroupDetailPage = _ref2$goToRequeueGrou === void 0 ? function () {} : _ref2$goToRequeueGrou,
+    _ref2$goToRequeueCall = _ref2.goToRequeueCallPage,
+    goToRequeueCallPage = _ref2$goToRequeueCall === void 0 ? function () {} : _ref2$goToRequeueCall;
   var selectedQueueGroupId = queueGroups[selectedQueueGroupIndex] ? queueGroups[selectedQueueGroupIndex].gateGroupId : '';
   return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_RequeueCallGroupPanel.RequeueCallGroupPanel, {
     currentLocale: currentLocale,
@@ -56,15 +44,12 @@ function setup() {
     goToRequeueGroupDetailPage: goToRequeueGroupDetailPage
   })));
 }
-
 var getGroupItems = function getGroupItems() {
   return wrapper.find('[data-sign="searchResult"]').at(0).find('RcList').at(0).find('RcListItem');
 };
-
 var getSearchInput = function getSearchInput() {
   return wrapper.find('RcTextField').at(0).find('input');
 };
-
 describe('<RequeueCallGroupPanel />', function () {
   it('Has no available Requeue Group', function () {
     wrapper = setup({

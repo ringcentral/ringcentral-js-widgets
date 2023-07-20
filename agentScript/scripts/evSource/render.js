@@ -1,13 +1,15 @@
 "use strict";
 
+require("core-js/modules/es.date.to-string");
 (function () {
   'use strict';
 
   setGlobalStateHelper.$inject = ['GlobalStateHelperProvider', 'stateHelperProvider'];
   var module = angular.module('scriptingStudio.app.render', []);
   module.config(setGlobalStateHelper);
-  module.provider('GlobalStateHelper', GlobalStateHelper); // set the state helper in a config block
+  module.provider('GlobalStateHelper', GlobalStateHelper);
 
+  // set the state helper in a config block
   function setGlobalStateHelper(GlobalStateHelperProvider, stateHelperProvider) {
     var globalHelper = GlobalStateHelperProvider.$get();
     globalHelper.setGlobalStateHelper(stateHelperProvider);
@@ -44,31 +46,24 @@
               getKnowledgeBaseArticles: getKnowledgeBaseArticles,
               changeScript: changeScript
             };
-
             function setScriptResult() {
               return true;
             }
-
             function setRecordingState(state) {
               return _returnPromise(state);
             }
-
             function setHoldState(state) {
               return _returnPromise(state);
             }
-
             function requestColdRequeue() {
               return _returnPromise(true);
             }
-
             function requestWarmRequeue() {
               return _returnPromise(true);
             }
-
             function requestHangup() {
               return _returnPromise(true);
             }
-
             function getCallData() {
               return _returnPromise({
                 model: {},
@@ -76,35 +71,27 @@
                 lead: {}
               });
             }
-
             function requestColdTransfer() {
               return _returnPromise(true);
             }
-
             function requestWarmTransfer() {
               return _returnPromise(true);
             }
-
             function requestDisposition() {
               return _returnPromise(true);
             }
-
             function getKnowledgeBaseArticles(kbGroupIds) {
               return ApiKbGroupSvc.getGroupsWithChildren(kbGroupIds);
             }
-
             function allowSendKbArticle() {
               return true;
             }
-
             function sendKbArticle(uii, content) {
               return [uii, content];
             }
-
             function changeScript(scriptId) {
               return true;
             }
-
             function _returnPromise(result) {
               var defer = $q.defer();
               defer.resolve(result);
@@ -134,22 +121,18 @@
       },
       pageTitle: 'Script'
     });
-  } // service that holds the state provider, can get and set it to use outside of config
+  }
 
-
+  // service that holds the state provider, can get and set it to use outside of config
   function GlobalStateHelper() {
     var that = this;
-
     that.$get = function () {
       return that;
     };
-
     that.$stateProviderGlobal = null;
-
     that.setGlobalStateHelper = function (helper) {
       that.$stateProviderGlobal = helper;
     };
-
     that.getGlobalStateHelper = function () {
       return that.$stateProviderGlobal;
     };

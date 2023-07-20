@@ -1,13 +1,12 @@
 "use strict";
 
-require("core-js/modules/es6.date.now");
-
+require("core-js/modules/es.date.now");
+require("core-js/modules/es.date.to-string");
 (function () {
   'use strict';
 
   var module = angular.module('agent_ui.factories.localeLoader', []);
   module.factory('localeLoader', Loader);
-
   function Loader($q, $http) {
     var deferred;
     return function (options) {
@@ -16,15 +15,14 @@ require("core-js/modules/es6.date.now");
         var url = window.__settings.assetsUrl;
         url += 'assets/languages/locale-';
         url += options.key;
-        url += '.json?v='; // TODO: here should update from ev side.
+        url += '.json?v=';
+        // TODO: here should update from ev side.
         // url += uuid.v4();
-
         url += Date.now();
         $http.get(url).success(function (data) {
           deferred.resolve(data);
         });
       }
-
       return deferred.promise;
     };
   }

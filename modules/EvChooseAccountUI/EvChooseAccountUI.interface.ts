@@ -1,9 +1,9 @@
-import { Locale } from '@ringcentral-integration/commons/modules/Locale';
-import { Block } from '@ringcentral-integration/widgets/modules/Block';
-import RouterInteraction from '@ringcentral-integration/widgets/modules/RouterInteraction';
+import type { Locale } from '@ringcentral-integration/commons/modules/Locale';
+import type { Block } from '@ringcentral-integration/widgets/modules/Block';
+import type RouterInteraction from '@ringcentral-integration/widgets/modules/RouterInteraction';
 
-import { EvClient } from '../../lib/EvClient';
-import { EvAuth } from '../EvAuth';
+import type { EvClient } from '../../lib/EvClient';
+import type { EvAuth } from '../EvAuth';
 
 export interface Deps {
   locale: Locale;

@@ -7,16 +7,16 @@ import {
   storage,
 } from '@ringcentral-integration/core';
 
+import type { DefaultAgentStateTexts } from '../../enums';
 import {
   agentStateTypes,
   defaultAgentStateTexts,
-  DefaultAgentStateTexts,
   messageTypes,
   tabManagerEvents,
 } from '../../enums';
-import { EvAgentState, EvAvailableAgentState } from '../../lib/EvClient';
+import type { EvAgentState, EvAvailableAgentState } from '../../lib/EvClient';
 import { EvCallbackTypes } from '../../lib/EvClient/enums/callbackTypes';
-import { Deps, State, WorkingState } from './EvWorkingState.interface';
+import type { Deps, State, WorkingState } from './EvWorkingState.interface';
 
 const PendingDisposition: EvAvailableAgentState = {
   // TODO: here seems need i18n
@@ -187,7 +187,7 @@ class EvWorkingState extends RcModuleV2<Deps> implements WorkingState {
     this.time = time;
   }
 
-  onInitOnce() {
+  override onInitOnce() {
     this._deps.evCallMonitor.onCallEnded(() => {
       this.setIsPendingDisposition(true);
     });
@@ -208,7 +208,7 @@ class EvWorkingState extends RcModuleV2<Deps> implements WorkingState {
     );
   }
 
-  async onStateChange() {
+  override async onStateChange() {
     if (this.ready && this.tabManagerEnabled && this._deps.tabManager.ready) {
       const { event } = this._deps.tabManager;
       if (event) {

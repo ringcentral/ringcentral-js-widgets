@@ -1,8 +1,8 @@
 import { EventEmitter } from 'events';
-import { Unsubscribe } from 'redux';
+import type { Unsubscribe } from 'redux';
 
 import { Module } from '@ringcentral-integration/commons/lib/di';
-import { sleep } from '@ringcentral-integration/commons/lib/sleep';
+import { sleep } from '@ringcentral-integration/commons/utils';
 import {
   action,
   computed,
@@ -14,12 +14,12 @@ import {
 import format from '@ringcentral-integration/phone-number/lib/format';
 
 import { loginStatus, messageTypes, tabManagerEvents } from '../../enums';
-import { EvAgentConfig, EvAgentData } from '../../lib/EvClient';
+import type { EvAgentConfig, EvAgentData } from '../../lib/EvClient';
 import { EvCallbackTypes } from '../../lib/EvClient/enums';
 import { EvTypeError } from '../../lib/EvTypeError';
 import { sortByName } from '../../lib/sortByName';
 import { trackEvents } from '../../lib/trackEvents';
-import {
+import type {
   Auth,
   AuthenticateWithTokenType,
   Deps,
@@ -260,11 +260,11 @@ class EvAuth extends RcModuleV2<Deps> implements Auth {
     }
   }
 
-  _shouldInit() {
+  override _shouldInit() {
     return super._shouldInit() && this._deps.auth.loggedIn && this.connected;
   }
 
-  onInitOnce() {
+  override onInitOnce() {
     this._deps.evSubscription.subscribe(EvCallbackTypes.LOGOUT, async () => {
       this._emitLogoutBefore();
 
@@ -282,7 +282,7 @@ class EvAuth extends RcModuleV2<Deps> implements Auth {
     });
   }
 
-  async onStateChange() {
+  override async onStateChange() {
     // here not need check this.ready, because that should work when not login
     if (this.tabManagerEnabled && this._deps.tabManager.ready) {
       await this._checkTabManagerEvent();
@@ -348,7 +348,7 @@ class EvAuth extends RcModuleV2<Deps> implements Auth {
     this._eventEmitter.on(loginStatus.LOGOUT_BEFORE, callback);
   }
 
-  newReconnect(isBlock: boolean = true) {
+  newReconnect(isBlock = true) {
     this._deps.evClient.closeSocket();
 
     const fn = this.loginAgent;

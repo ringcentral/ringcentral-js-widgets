@@ -1,39 +1,23 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
-require("core-js/modules/es6.promise");
-
-require("core-js/modules/es6.object.to-string");
-
-require("core-js/modules/es6.array.map");
-
-require("core-js/modules/es6.array.find");
-
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+require("core-js/modules/es.array.concat");
+require("core-js/modules/es.array.find");
+require("core-js/modules/es.array.map");
+require("core-js/modules/es.object.to-string");
+require("core-js/modules/es.promise");
 require("regenerator-runtime/runtime");
-
 var _react = _interopRequireDefault(require("react"));
-
 var _enzyme = require("enzyme");
-
 var _juno = require("@ringcentral/juno");
-
-var _Accordion = require("@ringcentral/juno/components/Accordion");
-
-var _AccordionSummary = require("@ringcentral/juno/components/Accordion/AccordionSummary");
-
 var _i18n = _interopRequireDefault(require("../SmallCallControl/i18n"));
-
 var _ActivityCallLogPanel = require("./ActivityCallLogPanel");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 var wrapper;
 var currentLocale = 'en-US';
 var defaultCurrentEvCall = {
@@ -69,76 +53,74 @@ var defaultIVRAlertData = [{
   subject: 'I am subject 3',
   body: 'I am body 3'
 }];
-
 function setup() {
   var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-      _ref$currentEvCall = _ref.currentEvCall,
-      currentEvCall = _ref$currentEvCall === void 0 ? defaultCurrentEvCall : _ref$currentEvCall,
-      _ref$currentLog = _ref.currentLog,
-      currentLog = _ref$currentLog === void 0 ? defaultCurrentLog : _ref$currentLog,
-      _ref$disposeCall = _ref.disposeCall,
-      disposeCall = _ref$disposeCall === void 0 ? function () {
-    return null;
-  } : _ref$disposeCall,
-      _ref$status = _ref.status,
-      status = _ref$status === void 0 ? 'active' : _ref$status,
-      _ref$saveStatus = _ref.saveStatus,
-      saveStatus = _ref$saveStatus === void 0 ? 'submit' : _ref$saveStatus,
-      _ref$goToRequeueCallP = _ref.goToRequeueCallPage,
-      goToRequeueCallPage = _ref$goToRequeueCallP === void 0 ? function () {} : _ref$goToRequeueCallP,
-      _ref$goToTransferCall = _ref.goToTransferCallPage,
-      goToTransferCallPage = _ref$goToTransferCall === void 0 ? function () {} : _ref$goToTransferCall,
-      _ref$onMute = _ref.onMute,
-      onMute = _ref$onMute === void 0 ? function () {} : _ref$onMute,
-      _ref$onUnmute = _ref.onUnmute,
-      onUnmute = _ref$onUnmute === void 0 ? function () {} : _ref$onUnmute,
-      _ref$onHangup = _ref.onHangup,
-      onHangup = _ref$onHangup === void 0 ? function () {} : _ref$onHangup,
-      _ref$onReject = _ref.onReject,
-      onReject = _ref$onReject === void 0 ? function () {} : _ref$onReject,
-      _ref$onHold = _ref.onHold,
-      onHold = _ref$onHold === void 0 ? function () {} : _ref$onHold,
-      _ref$onUnHold = _ref.onUnHold,
-      onUnHold = _ref$onUnHold === void 0 ? function () {} : _ref$onUnHold,
-      _ref$isOnMute = _ref.isOnMute,
-      isOnMute = _ref$isOnMute === void 0 ? false : _ref$isOnMute,
-      _ref$isOnHold = _ref.isOnHold,
-      isOnHold = _ref$isOnHold === void 0 ? false : _ref$isOnHold,
-      _ref$smallCallControl = _ref.smallCallControlSize,
-      smallCallControlSize = _ref$smallCallControl === void 0 ? 'medium' : _ref$smallCallControl,
-      _ref$isInComingCall = _ref.isInComingCall,
-      isInComingCall = _ref$isInComingCall === void 0 ? false : _ref$isInComingCall,
-      _ref$disableDispose = _ref.disableDispose,
-      disableDispose = _ref$disableDispose === void 0 ? false : _ref$disableDispose,
-      _ref$disableHold = _ref.disableHold,
-      disableHold = _ref$disableHold === void 0 ? false : _ref$disableHold,
-      _ref$disableHangup = _ref.disableHangup,
-      disableHangup = _ref$disableHangup === void 0 ? false : _ref$disableHangup,
-      _ref$disableMute = _ref.disableMute,
-      disableMute = _ref$disableMute === void 0 ? false : _ref$disableMute,
-      _ref$disableActive = _ref.disableActive,
-      disableActive = _ref$disableActive === void 0 ? false : _ref$disableActive,
-      _ref$disableTransfer = _ref.disableTransfer,
-      disableTransfer = _ref$disableTransfer === void 0 ? false : _ref$disableTransfer,
-      _ref$currentCallContr = _ref.currentCallControlPermission;
-
+    _ref$currentEvCall = _ref.currentEvCall,
+    currentEvCall = _ref$currentEvCall === void 0 ? defaultCurrentEvCall : _ref$currentEvCall,
+    _ref$currentLog = _ref.currentLog,
+    currentLog = _ref$currentLog === void 0 ? defaultCurrentLog : _ref$currentLog,
+    _ref$disposeCall = _ref.disposeCall,
+    disposeCall = _ref$disposeCall === void 0 ? function () {
+      return null;
+    } : _ref$disposeCall,
+    _ref$status = _ref.status,
+    status = _ref$status === void 0 ? 'active' : _ref$status,
+    _ref$saveStatus = _ref.saveStatus,
+    saveStatus = _ref$saveStatus === void 0 ? 'submit' : _ref$saveStatus,
+    _ref$goToRequeueCallP = _ref.goToRequeueCallPage,
+    goToRequeueCallPage = _ref$goToRequeueCallP === void 0 ? function () {} : _ref$goToRequeueCallP,
+    _ref$goToTransferCall = _ref.goToTransferCallPage,
+    goToTransferCallPage = _ref$goToTransferCall === void 0 ? function () {} : _ref$goToTransferCall,
+    _ref$onMute = _ref.onMute,
+    onMute = _ref$onMute === void 0 ? function () {} : _ref$onMute,
+    _ref$onUnmute = _ref.onUnmute,
+    onUnmute = _ref$onUnmute === void 0 ? function () {} : _ref$onUnmute,
+    _ref$onHangup = _ref.onHangup,
+    onHangup = _ref$onHangup === void 0 ? function () {} : _ref$onHangup,
+    _ref$onReject = _ref.onReject,
+    onReject = _ref$onReject === void 0 ? function () {} : _ref$onReject,
+    _ref$onHold = _ref.onHold,
+    onHold = _ref$onHold === void 0 ? function () {} : _ref$onHold,
+    _ref$onUnHold = _ref.onUnHold,
+    onUnHold = _ref$onUnHold === void 0 ? function () {} : _ref$onUnHold,
+    _ref$isOnMute = _ref.isOnMute,
+    isOnMute = _ref$isOnMute === void 0 ? false : _ref$isOnMute,
+    _ref$isOnHold = _ref.isOnHold,
+    isOnHold = _ref$isOnHold === void 0 ? false : _ref$isOnHold,
+    _ref$smallCallControl = _ref.smallCallControlSize,
+    smallCallControlSize = _ref$smallCallControl === void 0 ? 'medium' : _ref$smallCallControl,
+    _ref$isInComingCall = _ref.isInComingCall,
+    isInComingCall = _ref$isInComingCall === void 0 ? false : _ref$isInComingCall,
+    _ref$disableDispose = _ref.disableDispose,
+    disableDispose = _ref$disableDispose === void 0 ? false : _ref$disableDispose,
+    _ref$disableHold = _ref.disableHold,
+    disableHold = _ref$disableHold === void 0 ? false : _ref$disableHold,
+    _ref$disableHangup = _ref.disableHangup,
+    disableHangup = _ref$disableHangup === void 0 ? false : _ref$disableHangup,
+    _ref$disableMute = _ref.disableMute,
+    disableMute = _ref$disableMute === void 0 ? false : _ref$disableMute,
+    _ref$disableActive = _ref.disableActive,
+    disableActive = _ref$disableActive === void 0 ? false : _ref$disableActive,
+    _ref$disableTransfer = _ref.disableTransfer,
+    disableTransfer = _ref$disableTransfer === void 0 ? false : _ref$disableTransfer,
+    _ref$currentCallContr = _ref.currentCallControlPermission;
   _ref$currentCallContr = _ref$currentCallContr === void 0 ? {} : _ref$currentCallContr;
   var _ref$currentCallContr2 = _ref$currentCallContr.allowTransferCall,
-      allowTransferCall = _ref$currentCallContr2 === void 0 ? true : _ref$currentCallContr2,
-      _ref$currentCallContr3 = _ref$currentCallContr.allowRequeueCall,
-      allowRequeueCall = _ref$currentCallContr3 === void 0 ? true : _ref$currentCallContr3,
-      _ref$isOnActive = _ref.isOnActive,
-      isOnActive = _ref$isOnActive === void 0 ? false : _ref$isOnActive,
-      _ref$disableInternalT = _ref.disableInternalTransfer,
-      disableInternalTransfer = _ref$disableInternalT === void 0 ? false : _ref$disableInternalT,
-      _ref$onActive = _ref.onActive,
-      onActive = _ref$onActive === void 0 ? function () {} : _ref$onActive,
-      _ref$showMuteButton = _ref.showMuteButton,
-      showMuteButton = _ref$showMuteButton === void 0 ? false : _ref$showMuteButton,
-      _ref$ivrAlertData = _ref.ivrAlertData,
-      ivrAlertData = _ref$ivrAlertData === void 0 ? defaultIVRAlertData : _ref$ivrAlertData,
-      _ref$showSmallCallCon = _ref.showSmallCallControl,
-      showSmallCallControl = _ref$showSmallCallCon === void 0 ? true : _ref$showSmallCallCon;
+    allowTransferCall = _ref$currentCallContr2 === void 0 ? true : _ref$currentCallContr2,
+    _ref$currentCallContr3 = _ref$currentCallContr.allowRequeueCall,
+    allowRequeueCall = _ref$currentCallContr3 === void 0 ? true : _ref$currentCallContr3,
+    _ref$isOnActive = _ref.isOnActive,
+    isOnActive = _ref$isOnActive === void 0 ? false : _ref$isOnActive,
+    _ref$disableInternalT = _ref.disableInternalTransfer,
+    disableInternalTransfer = _ref$disableInternalT === void 0 ? false : _ref$disableInternalT,
+    _ref$onActive = _ref.onActive,
+    onActive = _ref$onActive === void 0 ? function () {} : _ref$onActive,
+    _ref$showMuteButton = _ref.showMuteButton,
+    showMuteButton = _ref$showMuteButton === void 0 ? false : _ref$showMuteButton,
+    _ref$ivrAlertData = _ref.ivrAlertData,
+    ivrAlertData = _ref$ivrAlertData === void 0 ? defaultIVRAlertData : _ref$ivrAlertData,
+    _ref$showSmallCallCon = _ref.showSmallCallControl,
+    showSmallCallControl = _ref$showSmallCallCon === void 0 ? true : _ref$showSmallCallCon;
   return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_ActivityCallLogPanel.ActivityCallLogPanel, {
     isInbound: true,
     currentLocale: currentLocale,
@@ -179,14 +161,12 @@ function setup() {
     showSmallCallControl: showSmallCallControl
   })));
 }
-
 afterEach( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
   return regeneratorRuntime.wrap(function _callee$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
           wrapper.unmount();
-
         case 1:
         case "end":
           return _context.stop();
@@ -194,7 +174,6 @@ afterEach( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(
     }
   }, _callee);
 })));
-
 var getDispositionButton = function getDispositionButton() {
   var button = wrapper.find('RcButton[data-sign="submit"]');
   var isExist = button.length > 0;
@@ -207,7 +186,6 @@ var getDispositionButton = function getDispositionButton() {
     isDisabled: isExist && button.prop('disabled')
   };
 };
-
 var getControlButton = function getControlButton(type) {
   var button = wrapper.find(type);
   var isExist = button.length > 0;
@@ -220,7 +198,6 @@ var getControlButton = function getControlButton(type) {
     isDisabled: isExist && !!button.find('button').render().attr('disabled')
   };
 };
-
 describe('<ActivityCallLogPanel />:: Call Disposition', function () {
   var status = 'callEnd';
   it('When call is ended, user will on disposition page and can dispose the call', function () {
@@ -316,7 +293,7 @@ describe('<ActivityCallLogPanel />', function () {
     muteCallButtonNumber: 0
   }].map(function (_ref3) {
     var isIntegratedSoftphone = _ref3.isIntegratedSoftphone,
-        muteCallButtonNumber = _ref3.muteCallButtonNumber;
+      muteCallButtonNumber = _ref3.muteCallButtonNumber;
     return it("When the call is IntegratedSoftphone is ".concat(isIntegratedSoftphone, ", can see ").concat(muteCallButtonNumber, " mute button"), function () {
       wrapper = setup({
         showMuteButton: isIntegratedSoftphone
@@ -391,8 +368,10 @@ describe('<ActivityCallLogPanel />', function () {
       }
     });
     getControlButton('TransferCallButton').click();
-    expect(wrapper.find('RcMenuItem[data-sign="transferItem-queueTransfer"]').prop('disabled')).toBe(true); // for simulate issue: https://github.com/enzymejs/enzyme/issues/386
+    expect(wrapper.find('RcMenuItem[data-sign="transferItem-queueTransfer"]').prop('disabled')).toBe(true);
+    // for simulate issue: https://github.com/enzymejs/enzyme/issues/386
   });
+
   it('when user not allow to Transfer a Call', function () {
     wrapper = setup({
       status: 'active',
@@ -402,8 +381,10 @@ describe('<ActivityCallLogPanel />', function () {
       }
     });
     getControlButton('TransferCallButton').click();
-    expect(wrapper.find('RcMenuItem[data-sign="transferItem-internalTransfer"]').prop('disabled')).toBe(true); // for simulate issue: https://github.com/enzymejs/enzyme/issues/386
+    expect(wrapper.find('RcMenuItem[data-sign="transferItem-internalTransfer"]').prop('disabled')).toBe(true);
+    // for simulate issue: https://github.com/enzymejs/enzyme/issues/386
   });
+
   it('When user has multiple calls, display ActiveCallButton, not HangUpButton', function () {
     var onActive = jest.fn();
     wrapper = setup({
@@ -457,10 +438,9 @@ describe('<ActivityCallLogPanel />', function () {
     domTag: 'ActiveCallButton'
   }].map(function (_ref4) {
     var disableControl = _ref4.disableControl,
-        domTag = _ref4.domTag;
+      domTag = _ref4.domTag;
     return it("Verify permission of ".concat(disableControl), function () {
       var _setup;
-
       wrapper = setup((_setup = {
         status: 'active',
         saveStatus: 'submit'
@@ -499,17 +479,15 @@ describe('<ActivityCallLogPanel />', function () {
     subject: 'I am subject 1 +2'
   }].map(function (_ref5) {
     var ivrAlertData = _ref5.ivrAlertData,
-        subject = _ref5.subject;
+      subject = _ref5.subject;
     it("Verify ivr panel display of ".concat(subject), function () {
       wrapper = setup({
         ivrAlertData: ivrAlertData
       });
-
       if (ivrAlertData.length === 0) {
         expect(wrapper.find('.ivrPanel').exists()).toBeFalsy();
       } else {
         var item = wrapper.find('.item');
-
         for (var i = 0; i < ivrAlertData.length; i++) {
           if (i !== 0) {
             expect(item.at(i).find('.subject').text()).toBe(ivrAlertData[i].subject);
@@ -518,22 +496,21 @@ describe('<ActivityCallLogPanel />', function () {
             expect(item.at(0).find('.body').text()).toBe(ivrAlertData[0].body);
           }
         }
-
-        expect(wrapper.find(_AccordionSummary.RcAccordionSummary).text()).toBe(subject);
+        expect(wrapper.find(_juno.RcAccordionSummary).text()).toBe(subject);
       }
     });
     it('When the call is end, ivr panel should be shrunk', function () {
       wrapper = setup({
         status: 'active'
       });
-      wrapper.find(_AccordionSummary.RcAccordionSummary).find('RcIcon').simulate('click');
+      wrapper.find(_juno.RcAccordionSummary).find('RcIcon').simulate('click');
       wrapper.update();
-      expect(wrapper.find(_Accordion.RcAccordion).find('.expanded').exists()).toBeTruthy();
+      expect(wrapper.find(_juno.RcAccordion).find('.expanded').exists()).toBeTruthy();
       wrapper = setup({
         status: 'callEnd'
       });
       wrapper.update();
-      expect(wrapper.find(_Accordion.RcAccordion).find('.expanded').exists()).toBeFalsy();
+      expect(wrapper.find(_juno.RcAccordion).find('.expanded').exists()).toBeFalsy();
     });
     return null;
   });

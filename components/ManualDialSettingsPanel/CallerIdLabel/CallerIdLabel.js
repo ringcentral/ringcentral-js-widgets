@@ -1,25 +1,19 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
+require("core-js/modules/es.symbol");
+require("core-js/modules/es.symbol.description");
+require("core-js/modules/es.string.sub");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.CallerIdLabel = void 0;
-
-require("core-js/modules/es6.string.sub");
-
 var _react = _interopRequireDefault(require("react"));
-
 var _juno = require("@ringcentral/juno");
-
 var _styles = _interopRequireDefault(require("./styles.scss"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 var CallerIdLabel = function CallerIdLabel(_ref) {
   var description = _ref.description,
-      number = _ref.number;
+    number = _ref.number;
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].item
   }, /*#__PURE__*/_react["default"].createElement(_juno.RcText, {
@@ -32,6 +26,5 @@ var CallerIdLabel = function CallerIdLabel(_ref) {
     className: _styles["default"].sub
   }, number));
 };
-
 exports.CallerIdLabel = CallerIdLabel;
 //# sourceMappingURL=CallerIdLabel.js.map

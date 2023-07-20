@@ -1,29 +1,19 @@
 "use strict";
 
-require("core-js/modules/es6.array.find");
-
-require("core-js/modules/es7.array.includes");
-
-require("core-js/modules/es6.string.includes");
-
+require("core-js/modules/es.array.find");
+require("core-js/modules/es.array.includes");
+require("core-js/modules/es.string.includes");
 var _react = _interopRequireDefault(require("react"));
-
 var _enzyme = require("enzyme");
-
 var _juno = require("@ringcentral/juno");
-
 var _RequeueCallGroupDetailPanel = require("./RequeueCallGroupDetailPanel");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 var wrapper;
 var currentLocale = 'en-US';
-
 var searchGate = function searchGate(_ref, text) {
   var gateName = _ref.gateName;
   return gateName && text && gateName.toLowerCase().includes(text.toLowerCase());
 };
-
 var defalutSelectedQueueGroup = {
   groupName: 'group3432',
   gates: [{
@@ -37,18 +27,16 @@ var defalutSelectedQueueGroup = {
     gateName: 'EVdemo'
   }]
 };
-
 function setup() {
   var _ref2 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-      _ref2$goBack = _ref2.goBack,
-      goBack = _ref2$goBack === void 0 ? function () {} : _ref2$goBack,
-      _ref2$selectedQueueGr = _ref2.selectedQueueGroup,
-      selectedQueueGroup = _ref2$selectedQueueGr === void 0 ? defalutSelectedQueueGroup : _ref2$selectedQueueGr,
-      _ref2$selectedGateInd = _ref2.selectedGateIndex,
-      selectedGateIndex = _ref2$selectedGateInd === void 0 ? 0 : _ref2$selectedGateInd,
-      _ref2$submitSelection = _ref2.submitSelection,
-      submitSelection = _ref2$submitSelection === void 0 ? function () {} : _ref2$submitSelection;
-
+    _ref2$goBack = _ref2.goBack,
+    goBack = _ref2$goBack === void 0 ? function () {} : _ref2$goBack,
+    _ref2$selectedQueueGr = _ref2.selectedQueueGroup,
+    selectedQueueGroup = _ref2$selectedQueueGr === void 0 ? defalutSelectedQueueGroup : _ref2$selectedQueueGr,
+    _ref2$selectedGateInd = _ref2.selectedGateIndex,
+    selectedGateIndex = _ref2$selectedGateInd === void 0 ? 0 : _ref2$selectedGateInd,
+    _ref2$submitSelection = _ref2.submitSelection,
+    submitSelection = _ref2$submitSelection === void 0 ? function () {} : _ref2$submitSelection;
   var selectedGateId = defalutSelectedQueueGroup.gates[selectedGateIndex] ? defalutSelectedQueueGroup.gates[selectedGateIndex].gateId : '';
   return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_RequeueCallGroupDetailPanel.RequeueCallGroupDetailPanel, {
     currentLocale: currentLocale,
@@ -59,19 +47,15 @@ function setup() {
     submitSelection: submitSelection
   })));
 }
-
 var getSearchInput = function getSearchInput() {
   return wrapper.find('RcTextField').at(0).find('input');
 };
-
 var getDetailItems = function getDetailItems() {
   return wrapper.find('RcList').at(0).find('RcListItem');
 };
-
 var getSubmitButton = function getSubmitButton() {
   return wrapper.find('RcButton[data-sign="select-group-item"]').at(0).find('button');
 };
-
 describe('<RequeueCallGroupPanel />', function () {
   it('Can display selected Queue Group Name and all the Queues', function () {
     wrapper = setup({});

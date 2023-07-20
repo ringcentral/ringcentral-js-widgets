@@ -1,23 +1,9 @@
 "use strict";
 
-require("core-js/modules/web.dom.iterable");
-
-require("core-js/modules/es6.array.iterator");
-
-require("core-js/modules/es6.object.to-string");
-
-require("core-js/modules/es6.object.keys");
-
-require("core-js/modules/es6.array.for-each");
-
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
 var _agentScriptEvents = require("./agentScriptEvents");
-
 Object.keys(_agentScriptEvents).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (key in exports && exports[key] === _agentScriptEvents[key]) return;
@@ -28,9 +14,7 @@ Object.keys(_agentScriptEvents).forEach(function (key) {
     }
   });
 });
-
 var _agentSessionEvents = require("./agentSessionEvents");
-
 Object.keys(_agentSessionEvents).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (key in exports && exports[key] === _agentSessionEvents[key]) return;
@@ -41,9 +25,7 @@ Object.keys(_agentSessionEvents).forEach(function (key) {
     }
   });
 });
-
 var _agentStateTypes = require("./agentStateTypes");
-
 Object.keys(_agentStateTypes).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (key in exports && exports[key] === _agentStateTypes[key]) return;
@@ -54,9 +36,7 @@ Object.keys(_agentStateTypes).forEach(function (key) {
     }
   });
 });
-
 var _agentStatesColors = require("./agentStatesColors");
-
 Object.keys(_agentStatesColors).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (key in exports && exports[key] === _agentStatesColors[key]) return;
@@ -67,9 +47,7 @@ Object.keys(_agentStatesColors).forEach(function (key) {
     }
   });
 });
-
 var _agentStatesTexts = require("./agentStatesTexts");
-
 Object.keys(_agentStatesTexts).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (key in exports && exports[key] === _agentStatesTexts[key]) return;
@@ -80,9 +58,7 @@ Object.keys(_agentStatesTexts).forEach(function (key) {
     }
   });
 });
-
 var _loginStatus = require("./loginStatus");
-
 Object.keys(_loginStatus).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (key in exports && exports[key] === _loginStatus[key]) return;
@@ -93,9 +69,7 @@ Object.keys(_loginStatus).forEach(function (key) {
     }
   });
 });
-
 var _callStatus = require("./callStatus");
-
 Object.keys(_callStatus).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (key in exports && exports[key] === _callStatus[key]) return;
@@ -106,9 +80,7 @@ Object.keys(_callStatus).forEach(function (key) {
     }
   });
 });
-
 var _dialoutStatus = require("./dialoutStatus");
-
 Object.keys(_dialoutStatus).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (key in exports && exports[key] === _dialoutStatus[key]) return;
@@ -119,9 +91,7 @@ Object.keys(_dialoutStatus).forEach(function (key) {
     }
   });
 });
-
 var _directTransferNotificationTypes = require("./directTransferNotificationTypes");
-
 Object.keys(_directTransferNotificationTypes).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (key in exports && exports[key] === _directTransferNotificationTypes[key]) return;
@@ -132,9 +102,7 @@ Object.keys(_directTransferNotificationTypes).forEach(function (key) {
     }
   });
 });
-
 var _directTransferStatues = require("./directTransferStatues");
-
 Object.keys(_directTransferStatues).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (key in exports && exports[key] === _directTransferStatues[key]) return;
@@ -145,9 +113,7 @@ Object.keys(_directTransferStatues).forEach(function (key) {
     }
   });
 });
-
 var _directTransferTypes = require("./directTransferTypes");
-
 Object.keys(_directTransferTypes).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (key in exports && exports[key] === _directTransferTypes[key]) return;
@@ -158,9 +124,7 @@ Object.keys(_directTransferTypes).forEach(function (key) {
     }
   });
 });
-
 var _dropDownOptions = require("./dropDownOptions");
-
 Object.keys(_dropDownOptions).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (key in exports && exports[key] === _dropDownOptions[key]) return;
@@ -171,9 +135,7 @@ Object.keys(_dropDownOptions).forEach(function (key) {
     }
   });
 });
-
 var _logTypes = require("./logTypes");
-
 Object.keys(_logTypes).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (key in exports && exports[key] === _logTypes[key]) return;
@@ -184,9 +146,7 @@ Object.keys(_logTypes).forEach(function (key) {
     }
   });
 });
-
 var _loginTypes = require("./loginTypes");
-
 Object.keys(_loginTypes).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (key in exports && exports[key] === _loginTypes[key]) return;
@@ -197,9 +157,7 @@ Object.keys(_loginTypes).forEach(function (key) {
     }
   });
 });
-
 var _messageTypes = require("./messageTypes");
-
 Object.keys(_messageTypes).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (key in exports && exports[key] === _messageTypes[key]) return;
@@ -210,9 +168,7 @@ Object.keys(_messageTypes).forEach(function (key) {
     }
   });
 });
-
 var _requeueEvents = require("./requeueEvents");
-
 Object.keys(_requeueEvents).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (key in exports && exports[key] === _requeueEvents[key]) return;
@@ -223,9 +179,7 @@ Object.keys(_requeueEvents).forEach(function (key) {
     }
   });
 });
-
 var _sfSearchTypes = require("./sfSearchTypes");
-
 Object.keys(_sfSearchTypes).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (key in exports && exports[key] === _sfSearchTypes[key]) return;
@@ -236,9 +190,7 @@ Object.keys(_sfSearchTypes).forEach(function (key) {
     }
   });
 });
-
 var _softphoneEvents = require("./softphoneEvents");
-
 Object.keys(_softphoneEvents).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (key in exports && exports[key] === _softphoneEvents[key]) return;
@@ -249,9 +201,7 @@ Object.keys(_softphoneEvents).forEach(function (key) {
     }
   });
 });
-
 var _tabManagerEvents = require("./tabManagerEvents");
-
 Object.keys(_tabManagerEvents).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (key in exports && exports[key] === _tabManagerEvents[key]) return;
@@ -262,9 +212,7 @@ Object.keys(_tabManagerEvents).forEach(function (key) {
     }
   });
 });
-
 var _transferErrors = require("./transferErrors");
-
 Object.keys(_transferErrors).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (key in exports && exports[key] === _transferErrors[key]) return;
@@ -275,9 +223,7 @@ Object.keys(_transferErrors).forEach(function (key) {
     }
   });
 });
-
 var _transferEvents = require("./transferEvents");
-
 Object.keys(_transferEvents).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (key in exports && exports[key] === _transferEvents[key]) return;
@@ -288,9 +234,7 @@ Object.keys(_transferEvents).forEach(function (key) {
     }
   });
 });
-
 var _transferStatuses = require("./transferStatuses");
-
 Object.keys(_transferStatuses).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (key in exports && exports[key] === _transferStatuses[key]) return;
@@ -301,9 +245,7 @@ Object.keys(_transferStatuses).forEach(function (key) {
     }
   });
 });
-
 var _transferSuccesses = require("./transferSuccesses");
-
 Object.keys(_transferSuccesses).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (key in exports && exports[key] === _transferSuccesses[key]) return;
@@ -314,9 +256,7 @@ Object.keys(_transferSuccesses).forEach(function (key) {
     }
   });
 });
-
 var _transferTypes = require("./transferTypes");
-
 Object.keys(_transferTypes).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (key in exports && exports[key] === _transferTypes[key]) return;
@@ -327,9 +267,7 @@ Object.keys(_transferTypes).forEach(function (key) {
     }
   });
 });
-
 var _agentTypes = require("./agentTypes");
-
 Object.keys(_agentTypes).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (key in exports && exports[key] === _agentTypes[key]) return;

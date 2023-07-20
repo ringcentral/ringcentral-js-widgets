@@ -1,82 +1,35 @@
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
-require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.symbol");
-
-require("core-js/modules/es6.promise");
-
-require("core-js/modules/es6.object.create");
-
-require("core-js/modules/es6.reflect.construct");
-
-require("core-js/modules/es6.object.set-prototype-of");
-
-require("core-js/modules/es6.object.define-property");
-
-require("core-js/modules/es6.array.slice");
-
-require("core-js/modules/es6.array.reduce");
-
-require("core-js/modules/web.dom.iterable");
-
-require("core-js/modules/es6.array.iterator");
-
-require("core-js/modules/es6.object.to-string");
-
-require("core-js/modules/es6.object.keys");
-
-require("core-js/modules/es6.array.for-each");
-
+require("core-js/modules/es.date.now");
+require("core-js/modules/es.date.to-string");
+require("core-js/modules/es.object.get-own-property-descriptor");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.EvActiveCallControl = void 0;
-
 require("regenerator-runtime/runtime");
-
-require("core-js/modules/es6.date.now");
-
 var _di = require("@ringcentral-integration/commons/lib/di");
-
 var _core = require("@ringcentral-integration/core");
-
 var _enums = require("../../enums");
-
 var _dec, _class, _class2, _descriptor, _descriptor2;
-
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
-
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
-
-function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
-
+function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'transform-class-properties is enabled and runs after the decorators transform.'); }
 var EvActiveCallControl = (_dec = (0, _di.Module)({
   name: 'EvActiveCallControl',
   deps: ['EvClient', 'EvSettings', 'Presence', 'EvIntegratedSoftphone', 'EvAgentSession', 'Storage', 'EvCallMonitor', {
@@ -86,38 +39,28 @@ var EvActiveCallControl = (_dec = (0, _di.Module)({
     dep: 'EvActiveCallControlOptions',
     optional: true
   }]
-}), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModuleV) {
-  _inherits(EvActiveCallControl, _RcModuleV);
-
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_ref) {
+  _inherits(EvActiveCallControl, _ref);
   var _super = _createSuper(EvActiveCallControl);
-
   _createClass(EvActiveCallControl, [{
     key: "tabManagerEnabled",
     get: function get() {
       var _this$_deps$tabManage;
-
       return (_this$_deps$tabManage = this._deps.tabManager) === null || _this$_deps$tabManage === void 0 ? void 0 : _this$_deps$tabManage.enable;
     }
   }]);
-
   function EvActiveCallControl(deps) {
     var _this;
-
     _classCallCheck(this, EvActiveCallControl);
-
     _this = _super.call(this, {
       deps: deps,
       enableCache: true,
       storageKey: 'EvActiveCallControl'
     });
-
     _initializerDefineProperty(_this, "isRecording", _descriptor, _assertThisInitialized(_this));
-
     _initializerDefineProperty(_this, "timeStamp", _descriptor2, _assertThisInitialized(_this));
-
     return _this;
   }
-
   _createClass(EvActiveCallControl, [{
     key: "setIsRecording",
     value: function setIsRecording(isRecording) {
@@ -134,31 +77,25 @@ var EvActiveCallControl = (_dec = (0, _di.Module)({
     value: function () {
       var _record = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
         var _yield$this$_deps$evC, state, message;
-
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
                 return this._deps.evClient.record(true);
-
               case 2:
                 _yield$this$_deps$evC = _context.sent;
                 state = _yield$this$_deps$evC.state;
                 message = _yield$this$_deps$evC.message;
-
                 if (!(state === 'RECORDING')) {
                   _context.next = 9;
                   break;
                 }
-
                 this.setIsRecording(true);
                 _context.next = 10;
                 break;
-
               case 9:
                 throw new Error(message);
-
               case 10:
               case "end":
                 return _context.stop();
@@ -166,11 +103,9 @@ var EvActiveCallControl = (_dec = (0, _di.Module)({
           }
         }, _callee, this);
       }));
-
       function record() {
         return _record.apply(this, arguments);
       }
-
       return record;
     }()
   }, {
@@ -178,31 +113,25 @@ var EvActiveCallControl = (_dec = (0, _di.Module)({
     value: function () {
       var _stopRecord = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
         var _yield$this$_deps$evC2, state, message;
-
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
                 _context2.next = 2;
                 return this._deps.evClient.record(false);
-
               case 2:
                 _yield$this$_deps$evC2 = _context2.sent;
                 state = _yield$this$_deps$evC2.state;
                 message = _yield$this$_deps$evC2.message;
-
                 if (!(state === 'STOPPED')) {
                   _context2.next = 9;
                   break;
                 }
-
                 this.setIsRecording(false);
                 _context2.next = 10;
                 break;
-
               case 9:
                 throw new Error(message);
-
               case 10:
               case "end":
                 return _context2.stop();
@@ -210,11 +139,9 @@ var EvActiveCallControl = (_dec = (0, _di.Module)({
           }
         }, _callee2, this);
       }));
-
       function stopRecord() {
         return _stopRecord.apply(this, arguments);
       }
-
       return stopRecord;
     }()
   }, {
@@ -227,31 +154,25 @@ var EvActiveCallControl = (_dec = (0, _di.Module)({
     value: function () {
       var _pauseRecord = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
         var _yield$this$_deps$evC3, state, message;
-
         return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
             switch (_context3.prev = _context3.next) {
               case 0:
                 _context3.next = 2;
                 return this._deps.evClient.pauseRecord(false);
-
               case 2:
                 _yield$this$_deps$evC3 = _context3.sent;
                 state = _yield$this$_deps$evC3.state;
                 message = _yield$this$_deps$evC3.message;
-
                 if (!(state === 'PAUSED')) {
                   _context3.next = 9;
                   break;
                 }
-
                 this.pauseRecordAction();
                 _context3.next = 10;
                 break;
-
               case 9:
                 throw new Error(message);
-
               case 10:
               case "end":
                 return _context3.stop();
@@ -259,11 +180,9 @@ var EvActiveCallControl = (_dec = (0, _di.Module)({
           }
         }, _callee3, this);
       }));
-
       function pauseRecord() {
         return _pauseRecord.apply(this, arguments);
       }
-
       return pauseRecord;
     }()
   }, {
@@ -306,19 +225,17 @@ var EvActiveCallControl = (_dec = (0, _di.Module)({
     }
   }, {
     key: "hangupSession",
-    value: function hangupSession(_ref) {
-      var sessionId = _ref.sessionId;
-
+    value: function hangupSession(_ref2) {
+      var sessionId = _ref2.sessionId;
       this._deps.evClient.hangup({
         sessionId: sessionId
       });
     }
   }, {
     key: "holdSession",
-    value: function holdSession(_ref2) {
-      var sessionId = _ref2.sessionId,
-          state = _ref2.state;
-
+    value: function holdSession(_ref3) {
+      var sessionId = _ref3.sessionId,
+        state = _ref3.state;
       this._deps.evClient.holdSession({
         state: state,
         sessionId: sessionId
@@ -328,7 +245,6 @@ var EvActiveCallControl = (_dec = (0, _di.Module)({
     key: "getMainCall",
     value: function getMainCall(uii) {
       var id = this._deps.evClient.getMainId(uii);
-
       return this._deps.presence.callsMapping[id];
     }
   }, {
@@ -343,12 +259,10 @@ var EvActiveCallControl = (_dec = (0, _di.Module)({
         if (this.tabManagerEnabled) {
           this._deps.tabManager.send(_enums.tabManagerEvents.MUTE, state);
         }
-
         this._deps.evIntegratedSoftphone.sipToggleMute(state);
       }
     }
   }]);
-
   return EvActiveCallControl;
 }(_core.RcModuleV2), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "isRecording", [_core.storage, _core.state], {
   configurable: true,

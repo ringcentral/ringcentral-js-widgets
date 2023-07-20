@@ -1,12 +1,13 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import { CustomArrowButton } from '@ringcentral-integration/widgets/components/Rcui/CustomArrowButton';
 
-import {
+import type {
   EvTransferCallUIFunctions,
   EvTransferCallUIProps,
 } from '../../../interfaces';
-import { EvAvailableRequeueQueue } from '../../../lib/EvClient';
+import type { EvAvailableRequeueQueue } from '../../../lib/EvClient';
 import { ListItem, SelectList } from '../../SelectList';
 import i18n from './i18n';
 

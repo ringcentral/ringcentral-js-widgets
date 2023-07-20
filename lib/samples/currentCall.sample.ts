@@ -1,4 +1,4 @@
-import { EvCallData } from '../../interfaces/EvData.interface';
+import type { EvCallData } from '../../interfaces/EvData.interface';
 
 export const currentCallSample = {
   uii: '201910162213030139010000000016',

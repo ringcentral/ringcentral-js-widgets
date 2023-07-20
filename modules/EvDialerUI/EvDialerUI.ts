@@ -9,11 +9,11 @@ import {
 } from '@ringcentral-integration/core';
 
 import { saveStatus } from '../../interfaces/EvActivityCallUI.interface';
-import {
+import type {
   EvDialerUIFunctions,
   EvDialerUIProps,
 } from '../../interfaces/EvDialerUI.interface';
-import { Deps, DialerUI } from './EvDialerUI.interface';
+import type { Deps, DialerUI } from './EvDialerUI.interface';
 
 @Module({
   name: 'EvDialerUI',
@@ -74,7 +74,7 @@ class EvDialerUI extends RcUIModuleV2<Deps> implements DialerUI {
     return !!this._deps.evIntegratedSoftphone.connectingAlertId;
   }
 
-  onInitOnce() {
+  override onInitOnce() {
     this._deps.evAuth.beforeAgentLogout(() => {
       // * if that logout is not from update session
       if (!this._deps.evAgentSession.isAgentUpdating) {

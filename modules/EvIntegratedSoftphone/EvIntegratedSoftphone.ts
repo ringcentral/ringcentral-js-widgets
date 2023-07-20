@@ -1,26 +1,25 @@
 import { EventEmitter } from 'events';
-import formatMessage from 'format-message';
 
 import { Module } from '@ringcentral-integration/commons/lib/di';
-import { raceTimeout } from '@ringcentral-integration/commons/lib/raceTimeout';
-import { sleep } from '@ringcentral-integration/commons/lib/sleep';
+import { sleep, waitUntilTo } from '@ringcentral-integration/commons/utils';
 import {
   action,
   RcModuleV2,
   state,
   storage,
 } from '@ringcentral-integration/core';
-import { CustomRenderer } from '@ringcentral-integration/widgets/modules/ModalUI/ModalUI.interface';
+import { format } from '@ringcentral-integration/utils';
+import type { CustomRenderer } from '@ringcentral-integration/widgets/modules/ModalUI/ModalUI.interface';
 
 import {
   dialoutStatuses,
   EvSoftphoneEvents,
   tabManagerEvents,
 } from '../../enums';
-import { EvSipRingingData } from '../../lib/EvClient';
+import type { EvSipRingingData } from '../../lib/EvClient';
 import { EvCallbackTypes } from '../../lib/EvClient/enums';
 import { audios } from './audios';
-import {
+import type {
   Deps,
   IntegratedSoftphone,
   ShowRingingModalProps,
@@ -191,7 +190,7 @@ class EvIntegratedSoftphone
     this.sipRegistering = state;
   }
 
-  onInitOnce() {
+  override onInitOnce() {
     this._initAudio();
 
     this._bindingIntegratedSoftphone();
@@ -225,7 +224,7 @@ class EvIntegratedSoftphone
     });
   }
 
-  onReset() {
+  override onReset() {
     try {
       console.log('onReset in EvIntegratedSoftphone~');
       this._resetAllState();
@@ -249,7 +248,7 @@ class EvIntegratedSoftphone
     );
   }
 
-  async onStateChange() {
+  override async onStateChange() {
     if (
       this.ready &&
       this._deps.tabManager.enable &&
@@ -346,7 +345,7 @@ class EvIntegratedSoftphone
     this._eventEmitter.on(EvCallbackTypes.SIP_RINGING, callback);
   }
 
-  async askAudioPermission(showMask: boolean = true) {
+  async askAudioPermission(showMask = true) {
     console.log('askAudioPermission~~', showMask);
     try {
       if (showMask) {
@@ -619,25 +618,19 @@ class EvIntegratedSoftphone
       contentProps: {
         isInbound,
         inboundTextProps: queueName && {
-          incomingText: formatMessage(
-            i18n.getString('incomingText', currentLocale),
-            {
-              displayName,
-            },
-          ),
-          queueNameText: formatMessage(
+          incomingText: format(i18n.getString('incomingText', currentLocale), {
+            displayName,
+          }),
+          queueNameText: format(
             i18n.getString('queueNameText', currentLocale),
             {
               queueName,
             },
           ),
         },
-        outboundText: formatMessage(
-          i18n.getString('outboundText', currentLocale),
-          {
-            displayName,
-          },
-        ),
+        outboundText: format(i18n.getString('outboundText', currentLocale), {
+          displayName,
+        }),
       },
       confirmButtonText: i18n.getString('inviteModalAnswer', currentLocale),
       cancelButtonText: i18n.getString('inviteModalReject', currentLocale),
@@ -672,32 +665,36 @@ class EvIntegratedSoftphone
     this.removeBeforeunload();
   }
 
-  onceRegistered() {
-    let _resolve: (value?: unknown) => void;
-    let _reject: (value?: unknown) => void;
+  async onceRegistered() {
+    let _resolve: (value: boolean) => void;
+    const resolveTrue = () => _resolve(true);
+    const resolveFalse = () => _resolve(false);
 
-    return raceTimeout(
-      new Promise((resolve, reject) => {
-        _resolve = resolve;
-        _reject = reject;
-        this._eventEmitter.once(EvSoftphoneEvents.REGISTERED, _resolve);
+    try {
+      const success = await waitUntilTo(
+        () => {
+          return new Promise<boolean>((resolve) => {
+            _resolve = resolve;
 
-        // when reset sip also need reject that
-        this._eventEmitter.once(EvSoftphoneEvents.RESET, _reject);
-      }),
-      {
-        timeout: SIP_MAX_CONNECTING_TIME,
-        onTimeout: (res, rej) => {
-          this._emitRegistrationFailed();
-          rej('connected integratedSoftphone fail');
+            this._eventEmitter.once(EvSoftphoneEvents.REGISTERED, resolveTrue);
+            // when reset sip also need reject that
+            this._eventEmitter.once(EvSoftphoneEvents.RESET, resolveFalse);
+          });
         },
-        finalize: () => {
-          _resolve();
-          this._eventEmitter.off(EvSoftphoneEvents.REGISTERED, _resolve);
-          this._eventEmitter.off(EvSoftphoneEvents.RESET, _reject);
+        {
+          timeout: SIP_MAX_CONNECTING_TIME,
         },
-      },
-    );
+      );
+
+      if (!success) {
+        this._emitRegistrationFailed();
+      }
+    } catch (error) {
+      this._emitRegistrationFailed();
+    }
+
+    this._eventEmitter.off(EvSoftphoneEvents.REGISTERED, resolveTrue);
+    this._eventEmitter.off(EvSoftphoneEvents.RESET, resolveFalse);
   }
 
   private _closeRingingModal() {
@@ -768,30 +765,28 @@ class EvIntegratedSoftphone
 
   private async _sipAnswer() {
     if (this._isFirefox) {
-      await raceTimeout(
-        navigator.mediaDevices.getUserMedia({
-          audio: true,
-        }),
-        {
-          timeout: 2000,
-          onTimeout: (resolve, reject) => {
-            this._sendTabManager(
-              tabManagerEvents.NOTIFY_ACTIVE_TAB_CALL_ACTIVE,
-            );
-            if (
-              // eslint-disable-next-line no-alert
-              window.confirm(
-                i18n.getString(
-                  'activeCallTip',
-                  this._deps.locale.currentLocale,
-                ),
-              )
-            ) {
-              resolve(null);
+      try {
+        await waitUntilTo(
+          async () => {
+            try {
+              await navigator.mediaDevices.getUserMedia({
+                audio: true,
+              });
+            } catch (error) {
+              // ignore
             }
           },
-        },
-      );
+          {
+            timeout: 2000,
+          },
+        );
+      } catch (error) {
+        this._sendTabManager(tabManagerEvents.NOTIFY_ACTIVE_TAB_CALL_ACTIVE);
+        // eslint-disable-next-line no-alert
+        window.confirm(
+          i18n.getString('activeCallTip', this._deps.locale.currentLocale),
+        );
+      }
     }
     this._deps.evClient.sipAnswer();
   }

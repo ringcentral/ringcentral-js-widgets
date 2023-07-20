@@ -1,10 +1,10 @@
-import React, { FunctionComponent, useState } from 'react';
+import type { FunctionComponent } from 'react';
+import React, { useState } from 'react';
 
-import formatMessage from 'format-message';
-
+import { format } from '@ringcentral-integration/utils';
 import { RcButton, RcCheckbox, RcListItem } from '@ringcentral/juno';
 
-import {
+import type {
   AvailableQueue,
   EvAgentSessionUIFunctions,
   EvAgentSessionUIProps,
@@ -115,7 +115,7 @@ const InboundQueuesPanel: FunctionComponent<InboundQueuesPanelProps> = ({
             indeterminate={!!assignedInboundQueuesNumber && !allAssign}
           />
           <div className={styles.selectedTips} data-sign="selectedTips">
-            {formatMessage(i18n.getString('selectedTips', currentLocale), {
+            {format(i18n.getString('selectedTips', currentLocale), {
               totalInboundQueuesNumber: inboundQueueSource.length,
               assignedInboundQueuesNumber,
             })}

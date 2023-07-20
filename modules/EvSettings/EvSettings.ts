@@ -1,7 +1,7 @@
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import { computed, RcModuleV2 } from '@ringcentral-integration/core';
 
-import { Deps, Settings } from './EvSettings.interface';
+import type { Deps, Settings } from './EvSettings.interface';
 
 @Module({
   name: 'EvSettings',
@@ -48,7 +48,7 @@ class EvSettings extends RcModuleV2<Deps> implements Settings {
     return this.isOffhook ? 'connected' : 'disconnected';
   }
 
-  onInitOnce() {
+  override onInitOnce() {
     this._deps.evAgentSession.onTriggerConfig(async () => {
       this._deps.presence.setOffhookTerm();
     });

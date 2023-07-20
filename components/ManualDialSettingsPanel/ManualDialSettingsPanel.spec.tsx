@@ -5,10 +5,8 @@ import { mount } from 'enzyme';
 import { RcThemeProvider } from '@ringcentral/juno';
 
 import i18n from '../../modules/EvManualDialSettingsUI/i18n';
-import {
-  ManualDialSettingsPanel,
-  ManualDialSettingsPanelProps,
-} from './ManualDialSettingsPanel';
+import type { ManualDialSettingsPanelProps } from './ManualDialSettingsPanel';
+import { ManualDialSettingsPanel } from './ManualDialSettingsPanel';
 
 let wrapper;
 const currentLocale = 'en-US';

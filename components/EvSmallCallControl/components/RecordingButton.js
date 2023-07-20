@@ -1,28 +1,19 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.RecordingButton = void 0;
-
 var _react = _interopRequireDefault(require("react"));
-
 var _juno = require("@ringcentral/juno");
-
 var _iconRecording = _interopRequireDefault(require("../../../assets/icons/icon-recording.svg"));
-
 var _i18n = _interopRequireDefault(require("../i18n"));
-
 var _styles = _interopRequireDefault(require("./styles.scss"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 var RecordingButton = function RecordingButton(_ref) {
   var currentLocale = _ref.currentLocale,
-      disabled = _ref.disabled,
-      size = _ref.size;
+    disabled = _ref.disabled,
+    size = _ref.size;
   return /*#__PURE__*/_react["default"].createElement(_juno.RcIconButton, {
     "data-sign": "Recording",
     color: "danger.f02",
@@ -40,7 +31,6 @@ var RecordingButton = function RecordingButton(_ref) {
     size: size
   });
 };
-
 exports.RecordingButton = RecordingButton;
 RecordingButton.defaultProps = {
   disabled: true,

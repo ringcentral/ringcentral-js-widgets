@@ -1,14 +1,15 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import classnames from 'classnames';
 
 import { RcIconButton } from '@ringcentral/juno';
-import { HandUp } from '@ringcentral/juno/icon';
+import { HandUp } from '@ringcentral/juno-icon';
 
 import { getCircleIconButtonTitle } from '../help';
 import i18n from '../i18n';
 import styles from '../styles.scss';
-import { CallButtonsProps } from './CallButtons.interface';
+import type { CallButtonsProps } from './CallButtons.interface';
 
 export type HangUpButtonProps = CallButtonsProps & {
   onReject?(): void | Promise<void>;

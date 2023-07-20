@@ -1,48 +1,32 @@
 "use strict";
 
-require("core-js/modules/es6.array.sort");
-
-require("core-js/modules/es6.number.constructor");
-
-require("core-js/modules/es6.array.map");
-
-require("core-js/modules/es6.array.filter");
-
-require("core-js/modules/es6.array.find-index");
-
-require("core-js/modules/web.dom.iterable");
-
-require("core-js/modules/es6.array.iterator");
-
-require("core-js/modules/es6.regexp.replace");
-
-require("core-js/modules/es6.string.trim");
-
-require("core-js/modules/es6.array.some");
-
-require("core-js/modules/es6.regexp.split");
-
-require("core-js/modules/es6.regexp.match");
-
-require("core-js/modules/es6.array.index-of");
-
-require("core-js/modules/es6.regexp.constructor");
-
-require("core-js/modules/es6.array.find");
-
-require("core-js/modules/es6.function.name");
-
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.date.to-string");
-
-require("core-js/modules/es6.object.to-string");
-
+require("core-js/modules/es.array.concat");
+require("core-js/modules/es.array.filter");
+require("core-js/modules/es.array.find");
+require("core-js/modules/es.array.find-index");
+require("core-js/modules/es.array.index-of");
+require("core-js/modules/es.array.iterator");
+require("core-js/modules/es.array.join");
+require("core-js/modules/es.array.map");
+require("core-js/modules/es.array.some");
+require("core-js/modules/es.array.sort");
+require("core-js/modules/es.array.splice");
+require("core-js/modules/es.date.to-string");
+require("core-js/modules/es.function.name");
+require("core-js/modules/es.number.constructor");
+require("core-js/modules/es.object.to-string");
+require("core-js/modules/es.regexp.constructor");
+require("core-js/modules/es.regexp.exec");
+require("core-js/modules/es.regexp.to-string");
+require("core-js/modules/es.string.match");
+require("core-js/modules/es.string.replace");
+require("core-js/modules/es.string.split");
+require("core-js/modules/es.string.trim");
+require("core-js/modules/web.dom-collections.iterator");
 (function () {
   'use strict';
 
   angular.module('scriptingStudio.render', []).directive('scriptRender', Directive);
-
   function Directive() {
     return {
       restrict: 'E',
@@ -55,21 +39,18 @@ require("core-js/modules/es6.object.to-string");
       link: function link(scope, element, attrs) {},
       controller: function controller($scope, $element, $timeout, Render_ScriptSvc, Router, NavSvc, htmlElementFactory, RENDER_TOOL_TYPES) {
         _init();
-
         function _init() {
           for (var key in RENDER_TOOL_TYPES) {
             Router.when(RENDER_TOOL_TYPES[key].type, RENDER_TOOL_TYPES[key]);
           }
-
           if (uiiListener) {
             uiiListener();
           }
-
           if ($scope.uii) {
             $scope.uii = $scope.uii.toString();
-          } // don't load the directive until we have a script object
+          }
 
-
+          // don't load the directive until we have a script object
           var uiiListener = $scope.$watch('uii', function (newUii, oldUii) {
             if (newUii && $scope.config) {
               NavSvc.reset(newUii);
@@ -79,8 +60,9 @@ require("core-js/modules/es6.object.to-string");
               $scope.scriptName = $scope.config.name;
               $scope.callbacks.getScriptData().then(function (initialModel) {
                 $scope.model = $scope.config.scriptResult || initialModel;
-                $scope.config.scriptResult = $scope.model; //$scope.config.navPosition = $scope.config.navPosition || 'start';
+                $scope.config.scriptResult = $scope.model;
 
+                //$scope.config.navPosition = $scope.config.navPosition || 'start';
                 $scope.config.navPosition = 'start';
                 Render_ScriptSvc.setConfig($scope.config, $scope.callbacks);
                 NavSvc.lookupGoTo($scope.config.navPosition, false);
@@ -92,15 +74,12 @@ require("core-js/modules/es6.object.to-string");
             Router.removeUii($scope.uii);
             Render_ScriptSvc.removeUii($scope.uii);
           });
-
           function _trackNav(toRoute, fromRoute, params) {
             if (params && params.node) {
               var nodeId = params.node.id;
-
               if (params.parentId) {
                 nodeId = [params.parentId, nodeId].join('.');
               }
-
               $scope.model.renderFormValid = true;
               Render_ScriptSvc.setScriptResult($scope.model);
               $scope.config.navPosition = nodeId;
@@ -111,7 +90,6 @@ require("core-js/modules/es6.object.to-string");
     };
   }
 })();
-
 angular.module('scriptingStudio.render').run(['$templateCache', function ($templateCache) {
   $templateCache.put('scriptRender/render.tpl.html', '<div id="renderMain" class="container-fluid">\n\t<div class="render-router-view" render-router-view></div>\n</div>\n');
   $templateCache.put('scriptRender/tools/executing.tpl.html', '<div class="container-fluid">\n\t<md-progress-linear md-mode="indeterminate"></md-progress-linear>\n\n\t<h4 class="executing-node text-center">\n\t\texecuting {{ node.label }}...\n\t</h4>\n</div>\n');
@@ -120,7 +98,6 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
   $templateCache.put('scriptRender/tools/recording/recording.tpl.html', '<div class="container-fluid recording">\n\t<h3>\n\t\t<i class="fa fa-circle fa-fw" ng-class="{ \'active\':status, \'connecting\':connecting }"></i>\n\t\tRecording\n\n\t\t<small>\n\t\t\tStatus: {{ status ? \'Recording\' : \'Not Recording\' }}\n\t\t</small>\n\t</h3>\n</div>\n');
   $templateCache.put('scriptRender/tools/startScript/StartScript.tpl.html', '<div class="container-fluid">\n\tloading...\n</div>\n');
 }]);
-
 (function () {
   'use strict';
 
@@ -131,7 +108,6 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
     'FIELD': 'FIELD'
   });
 })();
-
 (function () {
   'use strict';
 
@@ -188,12 +164,10 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
     }
   });
 })();
-
 (function () {
   'use strict';
 
   angular.module('scriptingStudio.render').directive('bindHtmlUnsafe', bindHtmlUnsafe);
-
   function bindHtmlUnsafe($compile) {
     return {
       restrict: 'A',
@@ -212,7 +186,6 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
             _compile(newVal);
           }
         });
-
         function _compile(newHTML) {
           newHTML = $compile(newHTML)(scope);
           element.html(newHTML);
@@ -221,12 +194,10 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
     };
   }
 })();
-
 (function () {
   'use strict';
 
   angular.module('scriptingStudio.render').directive('cfValidator', Directive);
-
   function Directive() {
     return {
       require: 'ngModel',
@@ -235,6 +206,7 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
       },
       link: function link(scope, element, attrs, modelCtrl) {
         // modelCtrl = ngModel
+
         scope.$watch(function () {
           if (angular.isDefined(modelCtrl.$modelValue)) {
             return modelCtrl.$modelValue.length;
@@ -250,12 +222,10 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
     };
   }
 })();
-
 (function () {
   'use strict';
 
   angular.module('scriptingStudio.render').directive('renderDatePicker', Directive);
-
   function Directive() {
     return {
       restrict: 'A',
@@ -266,11 +236,9 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
       link: function link(scope, element, attrs, controller) {
         element.attr('id', new Date().getTime());
         scope.format = 'MM/DD/YYYY';
-
         if (attrs.timePicker) {
           scope.format += ' hh:mm a';
         }
-
         element.datetimepicker({
           format: scope.format,
           keepInvalid: true,
@@ -285,7 +253,6 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
     };
   }
 })();
-
 (function () {
   'use strict';
 
@@ -294,29 +261,24 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
     "CHANGE": "CHANGE",
     "CLICK": "CLICK"
   });
-
   function Directive($timeout, Render_javascriptExecutor, INPUT_JAVASCRIPT_TRIGGER_TYPES) {
     return {
       restrict: 'A',
       require: "?ngModel",
       link: function link(scope, element, attrs, ngModelCtrl) {
         var script = scope.options && scope.options.data && scope.options.data.javascript && scope.options.data.javascript.script;
-
         if (script && script.length > 0) {
           $timeout(function () {
             var input = element.parent().find(':input');
-
             if (input && !input[0]) {
               input = element;
             }
-
             switch (scope.options.data.javascript.trigger) {
               case INPUT_JAVASCRIPT_TRIGGER_TYPES.BLUR:
                 input.on('blur', function () {
                   _evalScript();
                 });
                 break;
-
               case INPUT_JAVASCRIPT_TRIGGER_TYPES.CHANGE:
                 if (ngModelCtrl) {
                   scope.$watch(function () {
@@ -335,9 +297,7 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
                     _evalScript();
                   }, scope.options.data.javascript.delay));
                 }
-
                 break;
-
               case INPUT_JAVASCRIPT_TRIGGER_TYPES.CLICK:
                 input.on('click', function () {
                   _evalScript();
@@ -346,7 +306,6 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
             }
           });
         }
-
         function _evalScript() {
           Render_javascriptExecutor.execute(scope, scope.options.data.javascript.script);
         }
@@ -354,40 +313,31 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
     };
   }
 })();
-
 (function () {
   'use strict';
 
   angular.module('scriptingStudio.render').factory('JavascriptBuilder', JavascriptBuilder);
-
   function JavascriptBuilder() {
     var goTo = 'goTo',
-        getData = 'getData',
-        putData = 'putData';
-
+      getData = 'getData',
+      putData = 'putData';
     function generateJavascript(connections) {
       var result = '\n\n',
-          conn;
-
+        conn;
       if (connections.length > 0) {
         conn = connections[0];
       }
-
       if (conn) {
         result += _buildGoTo(conn.target);
         result += '\n';
       }
-
       return result;
     }
-
     function generateSwitch(tool) {
       var result = '';
-
       if (tool.properties) {
         _.each(tool.properties.switchCases, function (sc) {
           result += 'if(';
-
           _.each(sc.comparisons, function (comp, index) {
             if (comp.modelAttr && comp.value) {
               if (index > 0) {
@@ -395,44 +345,36 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
                 result += comp.join;
                 result += ' ';
               }
-
               result += _buildGetData(comp.modelAttr);
               result += comp.comparator;
               result += ' ';
               result += _buildGetData(comp.value);
             }
           });
-
           result += ') {\n\t';
           result += _buildGoTo(sc.action);
           result += '\n}\n\n';
         });
       }
-
       return result;
     }
-
     function generateDataBuilder(tool) {
       var result = '',
-          conn;
+        conn;
       result += putData;
       result += '("';
       result += tool.label;
       result += '", ';
       result += JSON.stringify(tool.properties.data);
       result += ');\n';
-
       if (tool.connections.length > 0) {
         conn = tool.connections[0];
       }
-
       if (conn) {
         result += _buildGoTo(conn.target);
       }
-
       return result;
     }
-
     function _buildGoTo(dest) {
       var result = 'return ';
       result += goTo;
@@ -441,7 +383,6 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
       result += '");\n';
       return result;
     }
-
     function _buildGetData(attr) {
       var result = '';
       result += getData;
@@ -450,7 +391,6 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
       result += '") ';
       return result;
     }
-
     return {
       generateJavascript: generateJavascript,
       generateSwitch: generateSwitch,
@@ -458,110 +398,88 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
     };
   }
 })();
-
 (function () {
   'use strict';
 
   angular.module('scriptingStudio.render').factory('Render_javascriptExecutor', Factory);
-
   function Factory(Render_ScriptSvc, Render_objectSvc, NavSvc) {
     var utils = {
       execute: execute
     };
-
     function execute(scope, script) {
       _jsClosure(scope, script);
     }
-
     function _jsClosure(scope, script) {
       var $scope = scope,
-          callbacks = Render_ScriptSvc.getCallbacks(),
-          model = scope.model,
-          brackets = new RegExp(/({{).*(}})/g);
-
+        callbacks = Render_ScriptSvc.getCallbacks(),
+        model = scope.model,
+        brackets = new RegExp(/({{).*(}})/g);
       function getData(name) {
         if (name.indexOf("model.") === 0 && !name.match(brackets)) {
           name = '{{' + name + '}}'; // byString expects braces
         }
 
         var result = Render_objectSvc.byString(scope, name);
-
         try {
           var parsed = JSON.parse(result);
           result = parsed;
-        } catch (e) {// do nothing
+        } catch (e) {
+          // do nothing
         }
-
         return result;
       }
-
       function putData(attr, data) {
         scope.model['model'][attr] = data;
       }
-
       function startRecording() {
         callbacks.setRecordingState(true);
       }
-
       function stopRecording() {
         callbacks.setRecordingState(false);
       }
-
       function holdCall() {
         callbacks.setHoldState(true);
       }
-
       function resumeCall() {
         callbacks.setHoldState(false);
       }
-
       function coldRequeue(gateId, skillId) {
         callbacks.requestColdRequeue(gateId, skillId);
       }
-
       function warmRequeue(gateId, skillId) {
         callbacks.requestWarmRequeue(gateId, skillId);
       }
-
       function hangup() {
         callbacks.requestHangup();
       }
-
       function coldTransfer(dialDest, callerId) {
         callbacks.requestColdTransfer(dialDest, callerId);
       }
-
       function warmTransfer(dialDest, callerId) {
         callbacks.requestWarmTransfer(dialDest, callerId);
       }
-
       function dispositionCall(disposition, notes, isCallback, contactForwardNum, callbackDts) {
         // look up dispositions
         var disps = scope.model.call.dispositions,
-            uii = scope.model.call.uii;
-
+          uii = scope.model.call.uii;
         var disp = _.find(disps, function (d) {
           return d.disposition.toUpperCase() === disposition.toUpperCase();
         });
-
         if (disp) {
           callbacks.requestDisposition(uii, disp, notes, isCallback, contactForwardNum, callbackDts);
         } else {
           console.error('disposition doesnt exist', disposition, disps);
         }
       }
-
       function changeScript(scriptId) {
         callbacks.changeScript(scope.model.call.uii, scriptId);
       }
-
       function goTo(state) {
         NavSvc.goTo({
           id: state,
           label: state
         });
       }
-
       try {
         // execute the saved script
         var scriptWrapper = '(function() {';
@@ -572,138 +490,111 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
         console.error("error in eval javascript", error);
       }
     }
-
     return utils;
   }
 })();
-
 (function () {
   'use strict';
 
   angular.module('scriptingStudio.render').factory('NavSvc', Service);
-
   function Service(RENDER_TOOL_TYPES, Render_ScriptSvc, Router) {
     var isFirstPage = true;
-
     Service.lookupGoTo = function (toolId, trackHistory) {
       var goToId = toolId,
-          params = {};
-
+        params = {};
       if (toolId && toolId.indexOf('.') > -1) {
         var parts = toolId.split('.');
         goToId = parts[0];
         params.forwardNode = parts[1];
         params.trackHistory = trackHistory;
       }
-
       Service.goTo(Service.asId(goToId), params, trackHistory);
     };
-
     Service.current = function () {
       return Router.getCurrent();
     };
-
     Service.next = function () {
       // get connected node, explictly go to it
       var curr = Service.current(),
-          conn = curr && curr.resolve.node.connections[0],
-          isActive = conn && conn.type.length > 0;
-
+        conn = curr && curr.resolve.node.connections[0],
+        isActive = conn && conn.type.length > 0;
       if (angular.isDefined(conn) && isActive && angular.isDefined(conn.target)) {
         Service.goTo(Service.asId(conn.target));
       }
     };
-
     Service.prev = function () {
       Router.goBack();
     };
-
     Service.goTo = function (tool, params, trackHistory) {
       var next = _findTool(tool);
-
       if (angular.isDefined(next)) {
         params = params || {};
         params.node = next;
         var current = Service.current(),
-            currNode = current && current.resolve && current.resolve.node,
-            conn = currNode && currNode.connections && currNode.connections[0];
-        params.isNestedView = angular.isDefined(params.isNestedView) && params.isNestedView || conn && conn.type.indexOf('nestedPage') > -1; // init the first page of type to disable nav
+          currNode = current && current.resolve && current.resolve.node,
+          conn = currNode && currNode.connections && currNode.connections[0];
+        params.isNestedView = angular.isDefined(params.isNestedView) && params.isNestedView || conn && conn.type.indexOf('nestedPage') > -1;
 
+        // init the first page of type to disable nav
         if (next.type === RENDER_TOOL_TYPES.PAGE.type && isFirstPage) {
           params.isFirstPage = true;
           isFirstPage = false;
         }
-
         if (params.isNestedView) {
           params.parentId = Service.current().resolve.node.id;
         } else if (current && current.resolve && current.resolve.isNestedView) {
           params.parentId = current.resolve.parentId;
         }
-
         Router.go(next.type, params, trackHistory);
       }
     };
-
     Service.reset = function (uii) {
       Router.setNestedView(false); // reset for now
-
       Router.setCurrentRoute(null); // don't track where we were
+
       // set the first page tracker
-
       var history = Router.getHistory()[uii];
-
       if (history) {
         // see if there are any pages with the param isFirstPage
         var firstPageInHistory = _.some(history, function (p) {
           return p.resolve && p.resolve.isFirstPage;
         });
-
         isFirstPage = !firstPageInHistory;
       } else {
         isFirstPage = true;
       }
     };
-
     Service.setIsFirstPage = function (state) {
       isFirstPage = state;
     };
-
     Service.getIsFirstPage = function () {
       return isFirstPage;
     };
-
     function _findTool(tool) {
       var found = _.find(Render_ScriptSvc.getScript().data.tools, function (s) {
         return s.id === tool.id || tool.label === s.label;
       });
-
       return found;
     }
-
     Service.asId = function (str) {
       return {
         id: str
       };
     };
-
     return Service;
   }
 })();
-
 (function () {
   'use strict';
 
   angular.module('scriptingStudio.render').service('Render_objectSvc', ObjectService);
-
   function ObjectService(DATA_TYPES, $interpolate) {
     ObjectService.byString = function (scope, string, allOrNothing) {
       if (string && angular.isString(string)) {
         string = string.trim();
-
         if (string.indexOf('model.') === 0 && string.indexOf("{{") === -1 && string.indexOf("}}") === -1) {
           string = '{{' + string + '}}';
         }
-
         if (allOrNothing) {
           return $interpolate(string, false, null, true)(scope);
         } else {
@@ -711,7 +602,6 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
         }
       }
     };
-
     ObjectService.getType = function (obj) {
       if (angular.isArray(obj)) {
         return DATA_TYPES.ARRAY;
@@ -721,51 +611,43 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
         return DATA_TYPES.CONSTANT;
       }
     };
-
     return ObjectService;
   }
 })();
-
 (function () {
   // http://plnkr.co/edit/u03zden3OtK1LFK25bSP?p=preview
+
   'use strict';
 
   angular.module('scriptingStudio.render').provider('Router', Provider);
-
   function Provider() {
     var callbackStack = {},
-        routes = {},
-        history = {},
-        currentRoute = {},
-        isNestedView = false,
-        stateParams;
+      routes = {},
+      history = {},
+      currentRoute = {},
+      isNestedView = false,
+      stateParams;
     this.when = setPath;
-
     this.setCurrent = function (path) {
       currentRoute[stateParams.uii] = routes[path];
     };
-
     function setPath(path, config) {
       config.path = path;
       routes[path] = config;
       return this;
     }
-
     function triggerChange(toRoute, fromRoute, params, trackHistory) {
       params = params || {};
       params.isNestedView = isNestedView;
       toRoute.resolve = params;
       currentRoute[stateParams.uii] = toRoute;
-
       if (trackHistory && fromRoute && fromRoute.controller !== 'JavascriptCtrl' && fromRoute.controller !== 'RecordingCtrl' && fromRoute.controller !== 'WwwCtrl') {
         history[stateParams.uii].push(fromRoute);
       }
-
       for (var key in callbackStack[stateParams.uii]) {
         callbackStack[stateParams.uii][key](toRoute, fromRoute, params);
       }
     }
-
     this.$get = function ($stateParams) {
       stateParams = $stateParams;
       return {
@@ -773,39 +655,32 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
           if (!callbackStack[stateParams.uii]) {
             callbackStack[stateParams.uii] = {};
           }
-
           callbackStack[stateParams.uii][key] = callback;
         },
         go: function go(path, params, trackHistory) {
           if (!path || !routes[path]) {
             return currentRoute[stateParams.uii];
           }
-
           if (angular.isDefined(params) && params.isNestedView) {
             isNestedView = params.isNestedView;
           }
-
           trackHistory = angular.isDefined(trackHistory) ? trackHistory : true;
           triggerChange(angular.copy(routes[path]), angular.copy(currentRoute[stateParams.uii]), params, trackHistory);
         },
         goBack: function goBack() {
           var lastRoute = history[stateParams.uii].length > 0 && history[stateParams.uii].pop() || null;
-
           if (lastRoute && !lastRoute.path) {
             return currentRoute[stateParams.uii];
           }
-
           triggerChange(lastRoute, currentRoute[stateParams.uii], lastRoute.resolve);
         },
         init: function init(renderUii) {
           if (!history[renderUii]) {
             history[renderUii] = [];
           }
-
           if (!currentRoute[renderUii]) {
             currentRoute[renderUii] = {};
           }
-
           if (!callbackStack[renderUii]) {
             callbackStack[renderUii] = {};
           }
@@ -834,12 +709,10 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
     };
   }
 })();
-
 (function () {
   'use strict';
 
   angular.module('scriptingStudio.render').directive('renderRouterView', Directive);
-
   function Directive($compile, $controller, $templateCache, Router) {
     return {
       priority: 1,
@@ -851,7 +724,6 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
       link: function link(scope, element, attrs) {
         scope.compile = compile;
         Router.onRouteChange('updateView', _trackView);
-
         function compile(newRoute) {
           var params = {
             $scope: scope
@@ -863,12 +735,10 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
           $controller(newRoute.controller, params);
           $compile(foundElement.contents())(scope);
         }
-
         function _trackView(newRoute, oldRoute, newParams) {
           for (var key in newParams) {
             scope[key] = newParams[key];
           }
-
           if (scope.compile) {
             scope.compile(newRoute);
           }
@@ -877,106 +747,81 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
     };
   }
 })();
-
 (function () {
   'use strict';
 
   angular.module('scriptingStudio.render').factory('Render_ScriptSvc', Service);
-
   function Service($stateParams, Render_objectSvc) {
     var script = {},
-        callbacks = {};
-
+      callbacks = {};
     Service.setConfig = function (config, agentCallbacks) {
       script[$stateParams.uii] = config;
       callbacks[$stateParams.uii] = agentCallbacks;
-
       if (!angular.isDefined(callbacks[$stateParams.uii].setScriptResult)) {
         console.warn('setScriptResult not defined');
       }
-
       if (!angular.isDefined(callbacks[$stateParams.uii].setRecordingState)) {
         console.warn('setRecordingState not defined');
       }
-
       if (!angular.isDefined(callbacks[$stateParams.uii].setHoldState)) {
         console.warn('setHoldState not defined');
       }
-
       if (!angular.isDefined(callbacks[$stateParams.uii].requestColdRequeue)) {
         console.warn('requestColdRequeue not defined');
       }
-
       if (!angular.isDefined(callbacks[$stateParams.uii].requestWarmRequeue)) {
         console.warn('requestWarmRequeue not defined');
       }
-
       if (!angular.isDefined(callbacks[$stateParams.uii].requestHangup)) {
         console.warn('requestHangup not defined');
       }
-
       if (!angular.isDefined(callbacks[$stateParams.uii].getScriptData)) {
         console.warn('getScriptData not defined');
       }
-
       if (!angular.isDefined(callbacks[$stateParams.uii].requestColdTransfer)) {
         console.warn('requestColdTransfer not defined');
       }
-
       if (!angular.isDefined(callbacks[$stateParams.uii].requestWarmTransfer)) {
         console.warn('requestWarmTransfer not defined');
       }
-
       if (!angular.isDefined(callbacks[$stateParams.uii].requestDisposition)) {
         console.warn('requestDisposition not defined');
       }
-
       if (!angular.isDefined(callbacks[$stateParams.uii].changeScript)) {
         console.warn('changeScript not defined');
       }
-
       if (!angular.isDefined(callbacks[$stateParams.uii].allowSendKbArticle)) {
         console.warn('allowSendKbArticle not defined');
       }
-
       if (!angular.isDefined(callbacks[$stateParams.uii].sendKbArticle)) {
         console.warn('sendKbArticle not defined');
       }
-
       if (!angular.isDefined(callbacks[$stateParams.uii].getKnowledgeBaseArticles)) {
         console.warn('getKnowledgeBaseArticles not defined');
       }
     };
-
     Service.removeUii = function (uii) {
       delete script[uii];
     };
-
     Service.getScript = function () {
       return script[$stateParams.uii];
     };
-
     Service.getCallbacks = function () {
       return callbacks[$stateParams.uii];
     };
-
     Service.setScriptResult = function (scope) {
       var modelCopy = angular.copy(scope);
-
       if (modelCopy.dataMaps) {
         var flattened = {};
-
         _.each(modelCopy.dataMaps, function (map) {
           _.each(map, function (value, key) {
             value.key = key;
             flattened[value.reportAs] = value;
           });
         });
-
         for (var key in flattened) {
           var value = flattened[key],
-              modelVal = Render_objectSvc.byString(modelCopy, '{{model.' + value.key + '}}', true);
-
+            modelVal = Render_objectSvc.byString(modelCopy, '{{model.' + value.key + '}}', true);
           if (value.report && angular.isDefined(modelVal)) {
             var reportKey = value.reportAs;
             modelCopy.model[reportKey] = {
@@ -994,34 +839,29 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
           };
         });
       }
-
       return Service.getCallbacks().setScriptResult(modelCopy);
     };
-
     return Service;
   }
 })();
-
 (function () {
   'use strict';
 
   angular.module('scriptingStudio.render').service('SortSvc', Service);
-
   function Service() {
     var utils = {
       byLayout: byLayout
     };
-    return utils; // order by layout.y, if on the same y, order by layout.x
+    return utils;
 
+    // order by layout.y, if on the same y, order by layout.x
     function byLayout(a, b) {
       if (a.data.layout.y > b.data.layout.y) {
         return 1;
       }
-
       if (a.data.layout.y < b.data.layout.y) {
         return -1;
       }
-
       if (a.data.layout.y === b.data.layout.y) {
         if (a.data.layout.x > b.data.layout.x) {
           return 1;
@@ -1029,20 +869,16 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
           return -1;
         }
       }
-
       return 0;
     }
   }
 })();
-
 (function () {
   'use strict';
 
   angular.module('scriptingStudio.render').service('Render_wwwRequestSvc', Service);
-
   function Service($q, Render_objectSvc) {
     var executing = false; // limit execution to just 1 at a time
-
     Service.execute = function (props, scope) {
       var defer = $q.defer();
       var opts = {
@@ -1061,155 +897,127 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
           executing = false;
         }
       };
-
       if ((props.method === 'PUT' || props.method === 'POST' || props.method === 'PATCH') && props.bodyType) {
         var type = '';
-
         switch (props.bodyType) {
           case 'FORM':
             type = 'application/x-www-form-urlencoded';
             opts.type = false;
             opts['data'] = _getFormBody();
             break;
-
           case 'JSON':
             type = 'application/json';
             opts['data'] = _getBody();
             break;
-
           case 'XML':
             type = 'text/xml';
             opts['data'] = _getBody();
             break;
-
           case 'TEXT':
             type = 'text/plain';
             opts['data'] = _getBody();
             break;
-
           default:
             console.warn('invalid body type requested');
         }
-
         opts['headers']['Content-Type'] = type;
       }
-
       if (props.params) {
         _.each(props.params, function (p) {
           opts.url = opts.url.replace(':' + p.name, _getValue(p));
         });
       }
-
       if (props.headers.length) {
         _.each(props.headers, function (h, index) {
           opts['headers'][h.name] = _getValue(h);
         });
       }
-
       function _getFormBody() {
         var form = {};
-
         _.each(props.variables, function (variable) {
           form[variable.name] = _getValue(variable);
         });
-
         return form;
       }
-
       function _getBody() {
         var result = angular.copy(props.body),
-            brackets = new RegExp(/\{{2}.*?\}{2}/g),
-            tag,
-            mockValue = {
-          value: undefined
-        };
-
+          brackets = new RegExp(/\{{2}.*?\}{2}/g),
+          tag,
+          mockValue = {
+            value: undefined
+          };
         while (tag = brackets.exec(props.body)) {
           mockValue.value = tag[0];
           result = result.replace(new RegExp(tag[0], 'g'), _getValue(mockValue));
         }
-
         return result;
       }
-
       function _getValue(val) {
         var modelVal = Render_objectSvc.byString(scope, val.value),
-            result = modelVal;
-
+          result = modelVal;
         if (angular.isDefined(modelVal) && _.isObject(modelVal) && 'data' in modelVal) {
           // modelVal exists, check for 'data' key
+
           result = modelVal.data;
         }
-
         return result;
       }
-
       if (!executing) {
         executing = true;
         jQuery.ajax(opts);
       }
-
       return defer.promise;
     };
-
     return Service;
   }
 })();
-
 (function () {
   // https://github.com/formly-js/angular-formly-templates-bootstrap
   'use strict';
 
   angular.module('scriptingStudio.render').factory('htmlElementFactory', Factory);
-
   function Factory(formlyConfig, $timeout) {
     var utils = {
-      getAvailableHtml: getAvailableHtml,
-      getConfigs: getConfigs
-    },
-        that = this;
+        getAvailableHtml: getAvailableHtml,
+        getConfigs: getConfigs
+      },
+      that = this;
+
     /**
      * filters all available types and removes any we don't want the user to see
      *
      * @returns  object with available formly types
      */
-
     function getAvailableHtml() {
       var allTypes = formlyConfig.getTypes();
       var blockedTypes = ['multiCheckbox', 'select'];
       var resultObj = {};
-
       _.each(allTypes, function (value, key) {
         if (blockedTypes.indexOf(key) === -1) {
           resultObj[key] = value;
         }
       });
-
       return resultObj;
     }
-
     function getConfigs(type) {
       type = type || '';
       var configs = {
-        hasKey: true,
-        hasLabel: true
-      },
-          configFunc = type.concat('Configs'),
-          typeConfigs = {};
-
+          hasKey: true,
+          hasLabel: true
+        },
+        configFunc = type.concat('Configs'),
+        typeConfigs = {};
       if (angular.isDefined(type) && angular.isDefined(that[configFunc])) {
         typeConfigs = that[configFunc]();
       }
-
       return angular.extend({}, configs, typeConfigs);
     }
+
     /**
      *  Configs for all formly types.
      *  We use these to display the correct
      *  fields on the edit form
      */
-
-
     this.checkboxConfigs = function () {
       return {
         hasSource: true,
@@ -1220,7 +1028,6 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
         hasScripting: true
       };
     };
-
     this.inputConfigs = function () {
       return {
         hasPlaceholder: true,
@@ -1231,36 +1038,30 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
         hasScripting: true
       };
     };
-
     this.hrConfigs = function () {
       return {
         hasKey: false,
         hasLabel: false
       };
     };
-
     this.emailConfigs = function () {
       return this.inputConfigs();
     };
-
     this.phoneConfigs = function () {
       var configs = this.inputConfigs();
       configs.hasMaxLength = false;
       return configs;
     };
-
     this.numberConfigs = function () {
       var configs = this.inputConfigs();
       configs.hasMaxLength = false;
       return configs;
     };
-
     this.customConfigs = function () {
       var configs = this.inputConfigs();
       configs.hasMaskInput = true;
       return configs;
     };
-
     this.dateConfigs = function () {
       var configs = this.inputConfigs();
       configs.hasInputTypes = false;
@@ -1268,7 +1069,6 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
       configs.hasMaskInput = false;
       return configs;
     };
-
     this.linkConfigs = function () {
       return {
         hasLabel: true,
@@ -1277,13 +1077,11 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
         hasScripting: true
       };
     };
-
     this.imageConfigs = function () {
       var link = this.linkConfigs();
       link.hasScripting = false;
       return link;
     };
-
     this.iFrameConfigs = function () {
       var link = this.linkConfigs();
       link.hasHref = false;
@@ -1291,7 +1089,6 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
       link.hasScripting = false;
       return link;
     };
-
     this.radioConfigs = function () {
       return {
         hasSource: true,
@@ -1302,7 +1099,6 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
         hasScripting: true
       };
     };
-
     this.selectConfigs = function () {
       return {
         hasSource: true,
@@ -1311,7 +1107,6 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
         hasScripting: true
       };
     };
-
     this.selectBoxConfigs = function () {
       return {
         hasSource: true,
@@ -1322,7 +1117,6 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
         hasScripting: true
       };
     };
-
     this.multipleSelectBoxConfigs = function () {
       return {
         hasSource: true,
@@ -1333,7 +1127,6 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
         hasScripting: true
       };
     };
-
     this.textareaConfigs = function () {
       return {
         hasPlaceholder: true,
@@ -1343,7 +1136,6 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
         hasScripting: true
       };
     };
-
     this.buttonConfigs = function () {
       return {
         hasKey: false,
@@ -1353,7 +1145,6 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
         hasScripting: true
       };
     };
-
     this.navigationConfigs = function () {
       return {
         hasKey: false,
@@ -1361,14 +1152,12 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
         hasNavigationLabel: true
       };
     };
-
     this.pageBreakConfigs = function () {
       return {
         hasLabel: false,
         hasKey: false
       };
     };
-
     this.viewConfigs = function () {
       return {
         hasViewConfig: true,
@@ -1376,7 +1165,6 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
         hasKey: false
       };
     };
-
     this.textConfigs = function () {
       return {
         hasLabel: false,
@@ -1384,7 +1172,6 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
         hasRichText: true
       };
     };
-
     this.tableConfigs = function () {
       return {
         hasLabel: false,
@@ -1393,7 +1180,6 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
         hasTableConfig: true
       };
     };
-
     this.dispositionsConfigs = function () {
       return {
         hasKey: false,
@@ -1405,7 +1191,6 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
         hasDispositionDisplayType: true
       };
     };
-
     this.knowledgeBaseConfigs = function () {
       return {
         hasLabel: false,
@@ -1418,7 +1203,6 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
         hasKnowledgeBase: true
       };
     };
-
     function init() {
       // config custom formly fields
       formlyConfig.setType({
@@ -1464,40 +1248,31 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
             scope.toggleCheckbox = toggleCheckbox;
             scope.isChecked = isChecked;
             var keys;
-
             _init();
-
             function _init() {
               if (scope.options && scope.options.key) {
                 scope.keys = scope.options.key.split('.');
                 keys = scope.keys;
                 var modelArray = scope.model[keys[0]][keys[1]];
-
                 if (!modelArray || !angular.isArray(modelArray)) {
                   scope.model[keys[0]][keys[1]] = [];
                 }
               }
             }
-
             function isChecked(val) {
               var result = false,
-                  index = -1;
-
+                index = -1;
               if (angular.isDefined(keys)) {
                 index = _isInModel(scope.model[keys[0]][keys[1]], val);
-
                 if (index > -1) {
                   result = true;
                 }
               }
-
               return result;
             }
-
             function toggleCheckbox(val) {
               if (angular.isDefined(keys)) {
                 var index = _isInModel(scope.model[keys[0]][keys[1]], val);
-
                 if (index > -1) {
                   scope.model[keys[0]][keys[1]].splice(index, 1);
                 } else {
@@ -1505,12 +1280,10 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
                 }
               }
             }
-
             function _isInModel(model, val) {
               var index = _.findIndex(model, function (v) {
                 return v === val;
               });
-
               return index;
             }
           }
@@ -1550,6 +1323,7 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
           }
         }
       });
+
       /**
        *      type: 'button',
        *      data: {
@@ -1560,7 +1334,6 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
        *          className: 'btn-default'
        *      }
        **/
-
       formlyConfig.setType({
         name: 'button',
         template: '<button scripting-input-javascript ng-click="takeAction()" class="btn" ng-class="getClass()" ng-disabled="isDisabled()">{{ to.label | translate }}</button>',
@@ -1598,19 +1371,15 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
             $scope.prev = prev;
             $scope.isFirstPage = isFirstPage;
             $scope.isDisabled = isDisabled;
-
             function next() {
               NavSvc.next();
             }
-
             function prev() {
               NavSvc.prev();
             }
-
             function isFirstPage() {
               return angular.isDefined(NavSvc.current()) && angular.isDefined(NavSvc.current().resolve) && NavSvc.current().resolve.isFirstPage || false;
             }
-
             function isDisabled() {
               if ($scope.options.data.action) {
                 var disableInvalid = $scope.options.data.action.disableInvalid && !$scope.model.renderFormValid;
@@ -1715,6 +1484,7 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
           }
         }
       });
+
       /**
        *      type: 'view'
        *      templateOptions: {
@@ -1733,9 +1503,8 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
             $scope.uii = $stateParams.uii;
             $timeout(function () {
               var curr = NavSvc.current(),
-                  forward,
-                  track;
-
+                forward,
+                track;
               if (curr) {
                 if (curr.resolve.forwardNode) {
                   forward = curr.resolve.forwardNode;
@@ -1745,7 +1514,6 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
                   track = curr.params.trackHistory;
                 }
               }
-
               if (forward) {
                 NavSvc.goTo(NavSvc.asId(forward), {
                   isNestedView: true
@@ -1757,6 +1525,7 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
           }
         }
       });
+
       /**
        *      type: 'text'
        *      data: {
@@ -1844,11 +1613,9 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
           controller: function controller($scope, Render_objectSvc) {
             $scope.getTableData = function () {
               var result = [];
-
               if ($scope.options.data.dataSource) {
                 try {
                   var data = Render_objectSvc.byString($scope, $scope.options.data.dataSource);
-
                   if (data) {
                     var parsed = JSON.parse(data);
                     result = parsed;
@@ -1857,20 +1624,16 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
                   console.error(e);
                 }
               }
-
               return result;
             };
           },
           link: function link(scope, element, attrs) {
             element.attr('id', new Date().getTime());
-
             if (!angular.isDefined(scope.model)) {
               return;
             }
-
             var table = element.find('table.table');
             var cols = [];
-
             _.each(scope.options.data.columns, function (c) {
               cols.push({
                 title: c.title,
@@ -1878,7 +1641,6 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
                 visible: c.visible
               });
             });
-
             if (cols.length > 0) {
               table.DataTable({
                 searching: scope.options.data.searchable,
@@ -1896,11 +1658,9 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
                 columns: cols
               }).on('select', function (e, dt, type, indexes) {
                 var rowData = dt.rows(indexes).data().toArray();
-
                 _setModel(rowData);
               });
             }
-
             function _setModel(val) {
               var key = scope.options.key.replace('model.', '');
               scope.model.model[key] = scope.model.model[key] || [];
@@ -1936,41 +1696,40 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
             callbacks.getKnowledgeBaseArticles($scope.options.data.kbGroups).then(function (result) {
               _.each(result, function (group) {
                 group.knowledgeBaseCategories = _.filter(group.knowledgeBaseCategories, 'active');
-
                 _.each(group.knowledgeBaseCategories, function (category) {
                   category.knowledgeBaseArticles = _.filter(category.knowledgeBaseArticles, 'active');
                 });
               });
-
-              $scope.kb = result; // initiate kb
-
+              $scope.kb = result;
+              // initiate kb
               updateKb();
             });
-
             function updateKb() {
               var cpy = angular.copy($scope.kb),
-                  str = angular.copy($scope.kbSearch); //var start = (new Date).getTime();
-
+                str = angular.copy($scope.kbSearch);
+              //var start = (new Date).getTime();
               _.each(cpy, function (group) {
                 _.each(group.knowledgeBaseCategories, function (category) {
                   // filter articles
                   category.knowledgeBaseArticles = _.filter(category.knowledgeBaseArticles, function (article) {
                     return !str || str && article.labels && article.labels.toLowerCase().indexOf(str.toLowerCase()) > -1;
                   });
-                }); // if any are left, add the category
+                });
 
-
+                // if any are left, add the category
                 group.knowledgeBaseCategories = _.filter(group.knowledgeBaseCategories, function (category) {
                   return category.knowledgeBaseArticles.length > 0;
                 });
-              }); // if any categories have articles, leave the group
+              });
 
-
+              // if any categories have articles, leave the group
               cpy = _.filter(cpy, function (group) {
                 return group.knowledgeBaseCategories.length > 0;
-              }); // set on model
+              });
 
-              $scope.filteredKb = cpy; //var end = (new Date).getTime();
+              // set on model
+              $scope.filteredKb = cpy;
+              //var end = (new Date).getTime();
               //TODO: debug for filter times
               //console.log('filtered', start, end, end-start);
             }
@@ -1978,12 +1737,10 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
             function send(event, article) {
               // TODO: interpolate labels?
               event.stopPropagation();
-
               if ($scope.allowSendArticle) {
                 callbacks.sendKbArticle($scope.model.call.uii, article.title, article.content, article.contentPlain);
               }
             }
-
             function toggle(item) {
               item.collapse = !item.collapse;
             }
@@ -1994,41 +1751,35 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
       formlyConfig.setWrapper([{
         template: ['<div class="field-wrapper" ng-style="options.data.style.css">', '<formly-transclude></formly-transclude>', '</div>'].join(' ')
       }]);
-    } // startup the formly types
+    }
 
-
+    // startup the formly types
     init();
     return utils;
   }
 })();
-
 (function () {
   'use strict';
 
   angular.module('scriptingStudio.render').controller('InputType_buttonCtrl', buttonCtrl);
-
   function buttonCtrl($scope, $parse, NavSvc, Render_ScriptSvc, Render_objectSvc, growl) {
     $scope.isDisabled = isDisabled;
     $scope.origLabel = angular.copy($scope.to.label);
     var callbacks = Render_ScriptSvc.getCallbacks(),
-        isNavButton = $scope.options.data.action.type === 'navigation';
-
+      isNavButton = $scope.options.data.action.type === 'navigation';
     function isDisabled() {
       var disableInvalid = $scope.options.data.action.disableInvalid && !$scope.model.renderFormValid;
       var prop = $scope.options.expressionProperties && $scope.options.expressionProperties['templateOptions.disabled'];
       var isFirstPageBack = isNavButton && angular.isDefined(NavSvc.current()) && NavSvc.current().resolve.isFirstPage && $scope.options.data.action.location === 'prev';
       return isFirstPageBack || disableInvalid || prop && $parse(prop)($scope);
     }
-
     $scope.takeAction = function () {
       var actionResult; // used for tracking promises for tests
-
       if (isNavButton) {
         var payload = {
           view: $scope.options.data.action.view,
           location: $scope.options.data.action.location
         };
-
         _navigate(payload);
       } else if ($scope.options.data.action.type === 'call') {
         switch ($scope.options.data.action.callAction) {
@@ -2036,7 +1787,6 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
             actionResult = callbacks.setHoldState(!$scope.holdState).then(function (result) {
               $scope.to.label = result ? $scope.to.label_alt : $scope.origLabel;
               $scope.holdState = result;
-
               if (result) {
                 if (_showGrowl()) {
                   growl.info('SCRIPTING.TOOLS.PAGE.CONFIG.ACTIONS.CALL_CONTROLS.MESSAGES.HOLD_START');
@@ -2048,27 +1798,21 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
               }
             });
             break;
-
           case 'hangup':
             actionResult = callbacks.requestHangup().then(function () {});
             break;
-
           case 'warmXfer':
             var xferTo = Render_objectSvc.byString($scope, $scope.options.data.action.transferTo),
-                callerId = Render_objectSvc.byString($scope, $scope.options.data.action.transferCallerId),
-                xfer_header = _buildXferHeader();
-
+              callerId = Render_objectSvc.byString($scope, $scope.options.data.action.transferCallerId),
+              xfer_header = _buildXferHeader();
             actionResult = callbacks.requestWarmTransfer(xferTo, callerId, xfer_header);
             break;
-
           case 'coldXfer':
             var xferTo = Render_objectSvc.byString($scope, $scope.options.data.action.transferTo),
-                callerId = Render_objectSvc.byString($scope, $scope.options.data.action.transferCallerId),
-                xfer_header = _buildXferHeader();
-
+              callerId = Render_objectSvc.byString($scope, $scope.options.data.action.transferCallerId),
+              xfer_header = _buildXferHeader();
             actionResult = callbacks.requestColdTransfer(xferTo, callerId, xfer_header);
             break;
-
           case 'record':
             actionResult = callbacks.setRecordingState(true).then(function () {
               if (_showGrowl()) {
@@ -2076,7 +1820,6 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
               }
             });
             break;
-
           case 'pauseRecord':
             actionResult = callbacks.setRecordingState(false).then(function () {
               if (_showGrowl()) {
@@ -2084,68 +1827,52 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
               }
             });
             break;
-
           case 'warmRequeue':
             actionResult = _handleRequeue(true);
             break;
-
           case 'coldRequeue':
             actionResult = _handleRequeue(false);
             break;
-
           case 'dispositionCall':
-            var disp = Render_objectSvc.byString($scope, $scope.options.data.action.disposition); // look up dispositions
-
+            var disp = Render_objectSvc.byString($scope, $scope.options.data.action.disposition);
+            // look up dispositions
             var disps = $scope.model.call.dispositions;
-
             var disposition = _.find(disps, function (d) {
               return d.disposition.toUpperCase() === disp.toUpperCase();
             });
-
             if (disposition) {
               actionResult = callbacks.requestDisposition($scope.model.call.uii, disposition, Render_objectSvc.byString($scope, $scope.options.data.action.notes), Render_objectSvc.byString($scope, $scope.options.data.action.callback), Render_objectSvc.byString($scope, $scope.options.data.action.forwardNum), Render_objectSvc.byString($scope, $scope.options.data.action.callbackDts));
             }
-
             break;
-
           case 'changeScript':
             actionResult = callbacks.changeScript($scope.model.call.uii, $scope.options.data.action.newScriptId);
             break;
-
           default:
             console.warn('call control action was not found, please check button actions configuration');
         }
       }
-
       return actionResult;
     };
-
     function _buildXferHeader() {
       if ($scope.options.data.action.xfer_header) {
         _.each($scope.options.data.action.xfer_header, function (header) {
           header.value = Render_objectSvc.byString($scope, header.value);
         });
       }
-
       return $scope.options.data.action.xfer_header;
     }
-
     function _handleRequeue(isWarm) {
       var gateId = $scope.options.data.action.requeueTo;
       var skillId = $scope.options.data.action.requeueSkill;
-
       if (!$scope.options.data.action.requeueToGate) {
         gateId = Render_objectSvc.byString($scope, gateId);
       }
-
       var promise;
-
       if (isWarm) {
         promise = callbacks.requestWarmRequeue(gateId, skillId);
       } else {
         promise = callbacks.requestColdRequeue(gateId, skillId);
       }
-
       promise.then(function () {
         if (_showGrowl()) {
           growl.success('GENERICS.MESSAGES.SUCCESS');
@@ -2153,9 +1880,8 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
       });
       return promise;
     }
-
     function _showGrowl() {
-      return false; // TODO since we don't have translate set up yet, don't show growl
+      return false; // TODO: since we don't have translate set up yet, don't show growl
       //return $scope.options.data.action.showMessages;
     }
 
@@ -2170,12 +1896,10 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
     }
   }
 })();
-
 (function () {
   'use strict';
 
   angular.module('scriptingStudio.render').controller('InputType_dispositionCtrl', dispositionCtrl).service('InputType_dispositionSvc', dispositionSvc);
-
   function dispositionCtrl($scope, Render_ScriptSvc, InputType_dispositionSvc) {
     var callbacks = Render_ScriptSvc.getCallbacks();
     $scope.sendDisp = sendDisp;
@@ -2203,21 +1927,17 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
       value: "US/Hawaii",
       label: "Hawaii"
     }];
-
     _init();
-
     function _init() {
       if ($scope.disposition && !$scope.disposition.leadTimezone) {
         $scope.disposition.leadTimezone = $scope.timezones[0].value;
       }
-
       if ($scope.disposition && !$scope.disposition.leadDate && !$scope.disposition.leadTime) {
         // default timeout for callback, 120 min.
         var nowPlusTimeout = moment().add('minutes', 120);
         $scope.disposition.leadDate = nowPlusTimeout.format();
         $scope.disposition.leadTime = nowPlusTimeout.format();
       }
-
       var dispWatch = $scope.$watch('disposition', function (disp) {
         if (disp && disp.leadTimezone && disp.leadDate && disp.leadTime) {
           var date = moment(disp.leadDate);
@@ -2237,66 +1957,57 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
         }
       });
     }
-
     function sendDisp() {
       var disp = angular.copy($scope.disposition);
-
       if (disp && disp.disp && disp.disp.dispositionId) {
         InputType_dispositionSvc.reset();
         return callbacks.requestDisposition($scope.model.call.uii, disp.disp, disp.notes, disp.isCallback, disp.contactForwardNum, disp.leadDts);
       }
     }
-  } // this is only used to hold the state of the disposition
+  }
 
-
+  // this is only used to hold the state of the disposition
   function dispositionSvc() {
     var self = this,
-        defaultDisp = {
-      disp: {},
-      contactForwardNum: '',
-      callback: {},
-      notes: '',
-      isCallback: false
-    };
-
+      defaultDisp = {
+        disp: {},
+        contactForwardNum: '',
+        callback: {},
+        notes: '',
+        isCallback: false
+      };
     self.reset = function () {
       self.currDisp = angular.copy(defaultDisp);
     };
-
     self.reset();
     return self;
   }
 })();
-
 (function () {
   'use strict';
 
   angular.module('scriptingStudio.render').controller('externalSourceUrlCtrl', ExternalSourceUrlCtrl);
-
   function ExternalSourceUrlCtrl($scope, $sce, Render_objectSvc) {
     var comp = Render_objectSvc.byString($scope, $scope.options.data.url);
     var fullUrl = $scope.options.data.urlPrefix + comp;
     $scope.trustedUrl = $sce.trustAsResourceUrl(fullUrl);
   }
 })();
-
 (function () {
   'use strict';
 
   angular.module('scriptingStudio.render').controller('optionCtrl', OptionCtrl);
-
   function OptionCtrl($scope, Render_objectSvc) {
     if (angular.isDefined($scope.model) && angular.isDefined($scope.options.data) && angular.isDefined($scope.options.data.dataSource) && $scope.options.data.dataSource !== '') {
       var opts = Render_objectSvc.byString($scope, $scope.options.data.dataSource),
-          newVal = {};
+        newVal = {};
       var result;
-
       try {
         result = JSON.parse(opts);
         opts = result;
-      } catch (e) {// not json...
+      } catch (e) {
+        // not json...
       }
-
       $scope.options.templateOptions.options = _.map(opts, function (o) {
         newVal = {
           name: o[$scope.options.data.name],
@@ -2305,25 +2016,23 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
         return newVal;
       });
     }
-
     if (angular.isDefined($scope.model) && angular.isDefined($scope.options.templateOptions) && angular.isDefined($scope.options.templateOptions.placeholder)) {
       $scope.options.templateOptions.placeholder = Render_objectSvc.byString($scope, $scope.options.templateOptions.placeholder);
     }
-
     if (angular.isDefined($scope.model) && angular.isDefined($scope.options.defaultValue)) {
       var keys = $scope.options.key.split('.'),
-          currentModel = $scope.model[keys[0]][keys[1]],
-          parsedModelVal = Render_objectSvc.byString($scope, $scope.options.defaultValue),
-          bracketRegex = new RegExp('(\{{2}.*\}{2})', 'g'),
-          replaceModel = currentModel && angular.isString(currentModel) && currentModel.match(bracketRegex),
-          isNumericInput = $scope.options.type === 'number'; // check uii here
+        currentModel = $scope.model[keys[0]][keys[1]],
+        parsedModelVal = Render_objectSvc.byString($scope, $scope.options.defaultValue),
+        bracketRegex = new RegExp('(\{{2}.*\}{2})', 'g'),
+        replaceModel = currentModel && angular.isString(currentModel) && currentModel.match(bracketRegex),
+        isNumericInput = $scope.options.type === 'number';
 
+      // check uii here
       if (parsedModelVal && !isNaN(parsedModelVal) && parsedModelVal.length !== 30) {
         // uii length will be 30
         // this is a number, set that on the model
         parsedModelVal = Number(parsedModelVal);
       }
-
       if (replaceModel) {
         $scope.model[keys[0]][keys[1]] = parsedModelVal;
       } else if (isNumericInput && !isNaN(currentModel)) {
@@ -2332,64 +2041,52 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
     }
   }
 })();
-
 (function () {
   'use strict';
 
   angular.module('scriptingStudio.render').controller('EndScriptCtrl', Controller);
-
   function Controller($scope, Render_ScriptSvc) {
     console.log('script end', $scope.model);
-
     if ($scope.model) {
       $scope.model.scriptComplete = true;
       Render_ScriptSvc.setScriptResult($scope.model);
     }
   }
 })();
-
 (function () {
   'use strict';
 
   angular.module('scriptingStudio.render').controller('JavascriptCtrl', Controller);
-
   function Controller($scope, Render_javascriptExecutor, JavascriptBuilder, RENDER_TOOL_TYPES) {
     var script = $scope.node.properties && $scope.node.properties.javascript;
-
     if ($scope.node.type === RENDER_TOOL_TYPES.SWITCH.type && !$scope.node.properties.advancedMode) {
       script = JavascriptBuilder.generateSwitch($scope.node);
     } else if ($scope.node.type === RENDER_TOOL_TYPES.DATA_BUILDER.type) {
       script = JavascriptBuilder.generateDataBuilder($scope.node);
     }
-
     Render_javascriptExecutor.execute($scope, script);
   }
 })();
-
 (function () {
   'use strict';
 
   angular.module('scriptingStudio.render').controller('MappingCtrl', Controller);
-
   function Controller($scope, NavSvc) {
     $scope.model.dataMaps = $scope.model.dataMaps || [];
     $scope.model.dataMaps.push($scope.node.properties.dataMap);
     NavSvc.next();
   }
 })();
-
 (function () {
   'use strict';
 
   angular.module('scriptingStudio.render').controller('PageCtrl', Controller).directive('cfGridstackLayout', Directive);
-
   function Controller($scope, $timeout, $stateParams, Render_ScriptSvc, Render_objectSvc, SortSvc) {
     $scope.$on('$destroy', function () {
       if (modelWatch) {
         modelWatch();
         modelWatch = null;
       }
-
       if (validWatch) {
         validWatch();
         validWatch = null;
@@ -2398,14 +2095,14 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
     $scope.getValue = getValue;
     $scope.uii = $stateParams.uii.toString();
     $scope.renderForm = {};
-    $scope.fields = $scope.node && $scope.node.properties && $scope.node.properties.pageData || []; // order fields by y, then x asc
+    $scope.fields = $scope.node && $scope.node.properties && $scope.node.properties.pageData || [];
+    // order fields by y, then x asc
+    $scope.fields = $scope.fields && $scope.fields.sort(SortSvc.byLayout) || $scope.fields;
 
-    $scope.fields = $scope.fields && $scope.fields.sort(SortSvc.byLayout) || $scope.fields; // need to set this on the field so it can track the model changes
-
+    // need to set this on the field so it can track the model changes
     _.each($scope.fields, function (f) {
       f.model = $scope.model;
     });
-
     $scope.options = {
       cellHeight: 5,
       verticalMargin: 5
@@ -2431,12 +2128,10 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
         });
       });
     });
-
     function getValue(key) {
       return Render_objectSvc.byString($scope, key);
     }
   }
-
   function Directive($interpolate) {
     return {
       restrict: 'A',
@@ -2447,7 +2142,6 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
             $scope.watcher();
             $scope.watcher = null;
           }
-
           if ($scope.parentWatcher) {
             $scope.parentWatcher();
             $scope.parentWatcher = null;
@@ -2459,7 +2153,6 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
       },
       link: function link(scope, element, attrs) {
         scope.field.runExpressions = angular.noop;
-
         if (scope.field.hideExpression) {
           scope.visible = false;
           scope.parentWatcher = scope.$watch(function () {
@@ -2469,7 +2162,6 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
               if (scope.parentWatcher) {
                 scope.parentWatcher();
               }
-
               if (!scope.watcher) {
                 _initHiddenWatcher();
               }
@@ -2478,13 +2170,11 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
         } else {
           scope.visible = true;
         }
-
         function _initHiddenWatcher() {
           scope.watcher = scope.$watch(function () {
             return $interpolate('{{' + scope.field.hideExpression + '}}')(scope.$parent);
           }, function (newVal, oldVal) {
             var grid = scope.$parent.gridstack;
-
             if (newVal === 'false') {
               // add to grid
               grid.update(element, null, null, null, scope.field.data.layout.h);
@@ -2500,22 +2190,18 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
     };
   }
 })();
-
 (function () {
   'use strict';
 
   angular.module('scriptingStudio.render').controller('StartScriptCtrl', Controller);
-
   function Controller($scope, NavSvc) {
     NavSvc.lookupGoTo($scope.node.connections[0].target);
   }
 })();
-
 (function () {
   'use strict';
 
   angular.module('scriptingStudio.render').controller('RecordingCtrl', Controller);
-
   function Controller($scope, RENDER_TOOL_TYPES, NavSvc, Render_ScriptSvc) {
     var callbacks = Render_ScriptSvc.getCallbacks();
     var startRecording = $scope.node.type === RENDER_TOOL_TYPES.START_REC.type;
@@ -2529,12 +2215,10 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
     }, function (error) {});
   }
 })();
-
 (function () {
   'use strict';
 
   angular.module('scriptingStudio.render').controller('WwwCtrl', Controller);
-
   function Controller($scope, NavSvc, Render_wwwRequestSvc) {
     var tool = $scope.node;
     Render_wwwRequestSvc.execute(tool.properties, $scope).then(function (result) {
@@ -2548,12 +2232,10 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
     });
   }
 })();
-
 (function () {
   'use strict';
 
   angular.module('scriptingStudio.render').controller('StartScriptCtrl', Controller);
-
   function Controller($scope, NavSvc) {
     NavSvc.lookupGoTo($scope.node.connections[0].target);
   }

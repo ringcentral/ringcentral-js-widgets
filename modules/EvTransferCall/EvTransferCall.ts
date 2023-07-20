@@ -1,7 +1,7 @@
 import { alpha3ToAlpha2 } from 'i18n-iso-countries';
 
 import { Module } from '@ringcentral-integration/commons/lib/di';
-import callErrors from '@ringcentral-integration/commons/modules/Call/callErrors';
+import { callErrors } from '@ringcentral-integration/commons/modules/Call';
 import {
   action,
   computed,
@@ -11,26 +11,28 @@ import {
 } from '@ringcentral-integration/core';
 import { format, formatTypes } from '@ringcentral-integration/phone-number';
 
+import type {
+  DirectTransferNotificationTypes,
+  DirectTransferStatues,
+  EvTransferType,
+  TransferStatus,
+} from '../../enums';
 import {
   directTransferNotificationTypes,
-  DirectTransferNotificationTypes,
   directTransferStatues,
-  DirectTransferStatues,
   directTransferTypes,
-  EvTransferType,
   messageTypes,
   transferErrors,
   transferEvents,
-  TransferStatus,
   transferStatuses,
   transferSuccesses,
   transferTypes,
 } from '../../enums';
-import { Handler } from '../../interfaces/Common.interface';
-import { EvTransferViewPhoneBookItem } from '../../interfaces/EvTransferCallUI.interface';
+import type { Handler } from '../../interfaces/Common.interface';
+import type { EvTransferViewPhoneBookItem } from '../../interfaces/EvTransferCallUI.interface';
 import { AsyncEventEmitter } from '../../lib/asyncEventEmitter';
 import { checkCountryCode } from '../../lib/checkCountryCode';
-import {
+import type {
   EvClientTransferParams,
   EvDirectAgentListItem,
   EvDirectAgentTransferResponse,
@@ -39,7 +41,7 @@ import {
 import { EvCallbackTypes } from '../../lib/EvClient/enums/callbackTypes';
 import { EvTypeError } from '../../lib/EvTypeError';
 import { parseNumber } from '../../lib/parseNumber';
-import {
+import type {
   Deps,
   EvTransferFailHandler,
   InternalTransferCallbacks,
@@ -280,7 +282,7 @@ class EvTransferCall extends RcModuleV2<Deps> implements TransferCall {
     ).available;
   }
 
-  onInitOnce() {
+  override onInitOnce() {
     this._deps.evAgentSession.onTriggerConfig(async () => {
       this.setTransferStatus(transferStatuses.idle);
     });
@@ -701,7 +703,7 @@ class EvTransferCall extends RcModuleV2<Deps> implements TransferCall {
           countryId,
         });
       } else {
-        // TODO handle to ban transferring international call
+        // TODO: handle to ban transferring international call
       }
     } else {
       await this.evClient.coldTransferCall({ dialDest });

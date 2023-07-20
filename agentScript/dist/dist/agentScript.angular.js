@@ -1,5 +1,6 @@
 "use strict";
 
+require("core-js/modules/web.timers");
 /* eslint-disable no-use-before-define */
 var app = window.app;
 var initDebounceTime = 1000;
@@ -7,19 +8,19 @@ var eventKeys = app.eventKeys;
 window.__settings = {
   assetsUrl: 'agentScript/'
 };
-
 function StateParams() {
   this.$get = function () {
     return {
       uii: '1'
     };
   };
-} // eslint-disable-next-line no-undef
+}
 
-
+// eslint-disable-next-line no-undef
 angular.module('render', ['ui.select', 'ngSanitize', 'angular-growl', 'pascalprecht.translate', 'formly', 'formlyBootstrap', 'gridstack-angular', 'ngAnimate', 'ngMaterial', 'scriptingStudio.render', 'agent_ui.factories.localeLoader']).config(function ($mdThemingProvider, $translateProvider) {
-  $mdThemingProvider.theme('default').primaryPalette('blue-grey').accentPalette('blue'); // setup translation file loader factory
+  $mdThemingProvider.theme('default').primaryPalette('blue-grey').accentPalette('blue');
 
+  // setup translation file loader factory
   $translateProvider.useSanitizeValueStrategy('sanitize');
   $translateProvider.preferredLanguage('us');
   $translateProvider.fallbackLanguage('us');
@@ -28,11 +29,9 @@ angular.module('render', ['ui.select', 'ngSanitize', 'angular-growl', 'pascalpre
   function bindAppEvent(key, cb) {
     app.eventEmitter.on(app.toAngularKey + key, cb);
   }
-
   function sendToOurApp(key, message) {
     app.eventEmitter.emit(app.fromAngularKey + key, message);
   }
-
   function requestToOurApp(key, message) {
     // return new Promise((resolve) => {
     // that $q is like promise in angular scope
@@ -44,10 +43,8 @@ angular.module('render', ['ui.select', 'ngSanitize', 'angular-growl', 'pascalpre
       });
     });
   }
-
   bindAppEvent(eventKeys.updateScript, function (data) {
     console.log('setScript', data);
-
     _updateScript(data);
   });
   app.init();
@@ -75,7 +72,6 @@ angular.module('render', ['ui.select', 'ngSanitize', 'angular-growl', 'pascalpre
     sendKbArticle: sendKbArticle,
     getKnowledgeBaseArticles: getKnowledgeBaseArticles
   };
-
   function _updateScript(data) {
     $scope.$apply(function () {
       // console.log(JSON.stringify(data));
@@ -84,43 +80,35 @@ angular.module('render', ['ui.select', 'ngSanitize', 'angular-growl', 'pascalpre
       $scope.call = data.call;
     });
   }
-
   function _returnPromise(result) {
     var defer = $q.defer();
     defer.resolve(result);
     return defer.promise;
   }
-
   function setScriptResult(e) {
     sendToOurApp(eventKeys.setScriptResult, e);
     return true;
   }
-
   function setRecordingState(state) {
     console.log(state);
     return _returnPromise(state);
   }
-
   function setHoldState(state) {
     console.log(state);
     return _returnPromise(state);
   }
-
   function requestColdRequeue() {
     console.log('ColdRequeue');
     return _returnPromise(true);
   }
-
   function requestWarmRequeue() {
     console.log('WarmRequeue');
     return _returnPromise(true);
   }
-
   function requestHangup() {
     console.log('Hangup');
     return _returnPromise(true);
   }
-
   function getScriptData() {
     return _returnPromise({
       model: {},
@@ -131,17 +119,14 @@ angular.module('render', ['ui.select', 'ngSanitize', 'angular-growl', 'pascalpre
       }
     });
   }
-
   function requestColdTransfer() {
     console.log('ColdTransfer');
     return _returnPromise(true);
   }
-
   function requestWarmTransfer() {
     console.log('WarmTransfer');
     return _returnPromise(true);
   }
-
   function requestDisposition(uii, disp, notes, isCallback, contactForwardNum, callbackDts) {
     // console.log(
     //   'Disposition',
@@ -158,19 +143,14 @@ angular.module('render', ['ui.select', 'ngSanitize', 'angular-growl', 'pascalpre
     });
     return _returnPromise(true);
   }
-
   function changeScript(e) {
     console.log('!!change', e);
   }
-
   function allowSendKbArticle() {}
-
   function sendKbArticle() {}
-
   function getKnowledgeBaseArticles(kbGroupIds) {
     return requestToOurApp(eventKeys.getKnowledgeBaseArticles, kbGroupIds);
   }
-
   window.updateScript = function () {
     return _updateScript({
       scriptId: '2967',

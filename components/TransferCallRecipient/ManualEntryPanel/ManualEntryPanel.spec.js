@@ -1,27 +1,16 @@
 "use strict";
 
-require("core-js/modules/es6.promise");
-
-require("core-js/modules/es6.object.to-string");
-
-require("core-js/modules/es6.array.find");
-
+require("core-js/modules/es.array.find");
+require("core-js/modules/es.object.to-string");
+require("core-js/modules/es.promise");
 require("regenerator-runtime/runtime");
-
 var _react = _interopRequireDefault(require("react"));
-
 var _enzyme = require("enzyme");
-
 var _juno = require("@ringcentral/juno");
-
 var _ManualEntryPanel = require("./ManualEntryPanel");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 var wrapper;
 var currentLocale = 'en-US';
 var defaultTransferCountryOptions = [{
@@ -46,20 +35,19 @@ var defaultTransferCountryOptions = [{
   countryId: 'USX',
   countryName: 'US Extended'
 }];
-
 function setup(_ref) {
   var _ref$goBack = _ref.goBack,
-      goBack = _ref$goBack === void 0 ? function () {} : _ref$goBack,
-      _ref$transferRecipien = _ref.transferRecipientCountryId,
-      transferRecipientCountryId = _ref$transferRecipien === void 0 ? 'USA' : _ref$transferRecipien,
-      _ref$changeRecipientN = _ref.changeRecipientNumber,
-      changeRecipientNumber = _ref$changeRecipientN === void 0 ? function () {} : _ref$changeRecipientN,
-      _ref$changeRecipientC = _ref.changeRecipientCountryId,
-      changeRecipientCountryId = _ref$changeRecipientC === void 0 ? function () {} : _ref$changeRecipientC,
-      _ref$transferRecipien2 = _ref.transferRecipientNumber,
-      transferRecipientNumber = _ref$transferRecipien2 === void 0 ? '6508653454' : _ref$transferRecipien2,
-      _ref$allowManualInter = _ref.allowManualInternationalTransfer,
-      allowManualInternationalTransfer = _ref$allowManualInter === void 0 ? false : _ref$allowManualInter;
+    goBack = _ref$goBack === void 0 ? function () {} : _ref$goBack,
+    _ref$transferRecipien = _ref.transferRecipientCountryId,
+    transferRecipientCountryId = _ref$transferRecipien === void 0 ? 'USA' : _ref$transferRecipien,
+    _ref$changeRecipientN = _ref.changeRecipientNumber,
+    changeRecipientNumber = _ref$changeRecipientN === void 0 ? function () {} : _ref$changeRecipientN,
+    _ref$changeRecipientC = _ref.changeRecipientCountryId,
+    changeRecipientCountryId = _ref$changeRecipientC === void 0 ? function () {} : _ref$changeRecipientC,
+    _ref$transferRecipien2 = _ref.transferRecipientNumber,
+    transferRecipientNumber = _ref$transferRecipien2 === void 0 ? '6508653454' : _ref$transferRecipien2,
+    _ref$allowManualInter = _ref.allowManualInternationalTransfer,
+    allowManualInternationalTransfer = _ref$allowManualInter === void 0 ? false : _ref$allowManualInter;
   return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_ManualEntryPanel.ManualEntryPanel, {
     currentLocale: currentLocale,
     goBack: goBack,
@@ -71,14 +59,12 @@ function setup(_ref) {
     allowManualInternationalTransfer: allowManualInternationalTransfer
   })));
 }
-
 afterEach( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
   return regeneratorRuntime.wrap(function _callee$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
           wrapper.unmount();
-
         case 1:
         case "end":
           return _context.stop();

@@ -1,5 +1,5 @@
 import { keys } from 'ramda';
-import { Unsubscribe } from 'redux';
+import type { Unsubscribe } from 'redux';
 
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import {
@@ -10,33 +10,34 @@ import {
   storage,
   watch,
 } from '@ringcentral-integration/core';
-import { CallLogPanelProps } from '@ringcentral-integration/widgets/components/CallLogPanel';
+import type { CallLogPanelProps } from '@ringcentral-integration/widgets/components/CallLogPanel';
 
+import type { EvTransferType, MessageTypes } from '../../enums';
 import {
   dialoutStatuses,
-  EvTransferType,
   logTypes,
   messageTypes,
-  MessageTypes,
   tabManagerEvents,
   transferTypes,
 } from '../../enums';
-import {
-  callLogMethods,
+import type {
   CallLogMethods,
   EvActivityCallUIFunctions,
   EvActivityCallUIProps,
   EvCurrentLog,
-  saveStatus,
   SaveStatus,
 } from '../../interfaces/EvActivityCallUI.interface';
 import {
+  callLogMethods,
+  saveStatus,
+} from '../../interfaces/EvActivityCallUI.interface';
+import type {
   EvAgentScriptData,
   EvCallData,
   EvIvrData,
 } from '../../interfaces/EvData.interface';
-import { EvBaggage } from '../../lib/EvClient';
-import { ActivityCallUI, Deps } from './EvActivityCallUI.interface';
+import type { EvBaggage } from '../../lib/EvClient';
+import type { ActivityCallUI, Deps } from './EvActivityCallUI.interface';
 import i18n from './i18n';
 
 type FormState = {
@@ -70,8 +71,8 @@ type FormState = {
     { dep: 'EvActivityCallUIOptions', optional: true },
   ],
 })
-class EvActivityCallUI<T = {}>
-  extends RcUIModuleV2<Deps & T>
+class EvActivityCallUI<T extends Deps = Deps>
+  extends RcUIModuleV2<T>
   implements ActivityCallUI
 {
   public isFirstTimeHandled = false;
@@ -84,7 +85,7 @@ class EvActivityCallUI<T = {}>
     console.warn('this should be implement in extend module');
   }
 
-  constructor(deps: Deps & T) {
+  constructor(deps: T) {
     super({
       deps,
       enableCache: true,
@@ -119,11 +120,11 @@ class EvActivityCallUI<T = {}>
 
   @storage
   @state
-  isKeypadOpen: boolean = false;
+  isKeypadOpen = false;
 
   @storage
   @state
-  keypadValue: string = '';
+  keypadValue = '';
 
   @action
   setKeypadValue(value: string) {
@@ -150,7 +151,7 @@ class EvActivityCallUI<T = {}>
     this.isKeypadOpen = false;
   }
 
-  onInitOnce() {
+  override onInitOnce() {
     this.resetKeypadStatus();
 
     this._deps.evCallMonitor.onCallRinging(() => {
@@ -274,7 +275,7 @@ class EvActivityCallUI<T = {}>
     );
   }
 
-  // TODO add `callDisposition` in CallLog
+  // TODO: add `callDisposition` in CallLog
   @computed((that: EvActivityCallUI) => [
     that.callId,
     that.currentEvCall,
@@ -301,9 +302,9 @@ class EvActivityCallUI<T = {}>
     }
     const { callType, dnis, uii, ani, queueDts, agentId } = currentCall;
 
-    // TODO confirm about  dialDest or dnis?
+    // TODO: confirm about  dialDest or dnis?
     const fromNumber = callType === 'OUTBOUND' ? dnis : ani;
-    // TODO confirm about  dialDest or dnis?
+    // TODO: confirm about  dialDest or dnis?
     const toNumber = callType === 'OUTBOUND' ? ani : dnis;
     const { dispositionId, notes } = callDisposition || {};
 
@@ -323,7 +324,7 @@ class EvActivityCallUI<T = {}>
           phoneNumber: toNumber,
           name: toNumber,
         },
-        telephonyStatus: 'CallConnected', // TODO handle with call state and agent state
+        telephonyStatus: 'CallConnected', // TODO: handle with call state and agent state
         sessionId: currentCall.session.sessionId,
         telephonySessionId: uii,
         partyId: agentId,
@@ -549,7 +550,7 @@ class EvActivityCallUI<T = {}>
     this.resetKeypadStatus();
   }
 
-  onStateChange() {
+  override onStateChange() {
     if (this.ready && this.tabManagerEnabled && this._deps.tabManager.ready) {
       this._checkTabManagerEvent();
 
@@ -606,7 +607,7 @@ class EvActivityCallUI<T = {}>
     this._redirectTransferCall(`/transferCall/${type}`);
   }
 
-  private _redirectTransferCall(url: string = '') {
+  private _redirectTransferCall(url = '') {
     this._deps.routerInteraction.push(`/activityCallLog/${this.callId}${url}`);
   }
 

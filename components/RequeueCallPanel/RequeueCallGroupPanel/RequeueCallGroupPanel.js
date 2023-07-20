@@ -1,29 +1,21 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.RequeueCallGroupPanel = void 0;
-
 var _react = _interopRequireDefault(require("react"));
-
 var _CustomArrowButton = require("@ringcentral-integration/widgets/components/Rcui/CustomArrowButton");
-
 var _SelectList = require("../../SelectList");
-
 var _i18n = _interopRequireDefault(require("./i18n"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 var RequeueCallGroupPanel = function RequeueCallGroupPanel(_ref) {
   var currentLocale = _ref.currentLocale,
-      goToRequeueCallPage = _ref.goToRequeueCallPage,
-      searchGroup = _ref.searchGroup,
-      queueGroups = _ref.queueGroups,
-      selectedQueueGroupId = _ref.selectedQueueGroupId,
-      goToRequeueGroupDetailPage = _ref.goToRequeueGroupDetailPage;
+    goToRequeueCallPage = _ref.goToRequeueCallPage,
+    searchGroup = _ref.searchGroup,
+    queueGroups = _ref.queueGroups,
+    selectedQueueGroupId = _ref.selectedQueueGroupId,
+    goToRequeueGroupDetailPage = _ref.goToRequeueGroupDetailPage;
   return /*#__PURE__*/_react["default"].createElement(_SelectList.SelectList, {
     searchOption: searchGroup,
     currentLocale: currentLocale,
@@ -32,7 +24,7 @@ var RequeueCallGroupPanel = function RequeueCallGroupPanel(_ref) {
     options: queueGroups,
     renderListItem: function renderListItem(_ref2) {
       var option = _ref2.option,
-          index = _ref2.index;
+        index = _ref2.index;
       return /*#__PURE__*/_react["default"].createElement(_SelectList.ListItem, {
         onClick: function onClick() {
           return goToRequeueGroupDetailPage({
@@ -45,6 +37,5 @@ var RequeueCallGroupPanel = function RequeueCallGroupPanel(_ref) {
     }
   });
 };
-
 exports.RequeueCallGroupPanel = RequeueCallGroupPanel;
 //# sourceMappingURL=RequeueCallGroupPanel.js.map

@@ -1,4 +1,4 @@
-import { contains } from 'ramda';
+import { includes } from 'ramda';
 
 import { messageTypes } from '../../../enums';
 import i18n from './i18n';
@@ -18,7 +18,7 @@ export default function EvAuthAlert({
 }
 
 EvAuthAlert.handleMessage = ({ message }: { message: string }) =>
-  contains(message, [
+  includes(message, [
     messageTypes.NO_AGENT,
     messageTypes.CONNECT_ERROR,
     messageTypes.UNEXPECTED_AGENT,

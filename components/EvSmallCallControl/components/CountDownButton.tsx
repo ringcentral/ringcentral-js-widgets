@@ -1,9 +1,10 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import type { FunctionComponent } from 'react';
+import React, { useEffect, useState } from 'react';
 
-import { sleep } from '@ringcentral-integration/commons/lib/sleep';
+import { sleep } from '@ringcentral-integration/commons/utils';
 import { RcIconButton, RcText } from '@ringcentral/juno';
 
-import { CallButtonsProps } from '../../SmallCallControl';
+import type { CallButtonsProps } from '../../SmallCallControl';
 import i18n from '../i18n';
 
 type CountDownProps = {

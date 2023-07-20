@@ -1,21 +1,13 @@
 "use strict";
 
+require("core-js/modules/es.array.find");
+require("core-js/modules/es.object.to-string");
+require("core-js/modules/es.promise");
 require("regenerator-runtime/runtime");
-
-require("core-js/modules/es6.array.find");
-
-require("core-js/modules/es6.promise");
-
-require("core-js/modules/es6.object.to-string");
-
 var _juno = require("@ringcentral/juno");
-
 var _createDialerPanel = require("./createDialerPanel");
-
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 var mockAudio = function mockAudio() {
   window.HTMLMediaElement.prototype.play = function () {
     return new Promise(function (resolve) {
@@ -23,26 +15,21 @@ var mockAudio = function mockAudio() {
     });
   };
 };
-
 mockAudio();
 describe('<DialerPanel />', function () {
   var wrapper;
-
   var getCallButton = function getCallButton() {
     return wrapper.find('[data-sign="callButton"]').at(0);
   };
-
   var getDeleteButton = function getDeleteButton() {
     return wrapper.find('button[data-sign="deleteButton"]').last();
   };
-
   afterEach( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
     return regeneratorRuntime.wrap(function _callee$(_context) {
       while (1) {
         switch (_context.prev = _context.next) {
           case 0:
             wrapper.unmount();
-
           case 1:
           case "end":
             return _context.stop();
@@ -70,7 +57,6 @@ describe('<DialerPanel />', function () {
             };
             recipientsInput.find('input').at(0).simulate('change', eventObj);
             expect(setToNumber).toBeCalledWith('1243');
-
           case 7:
           case "end":
             return _context2.stop();
@@ -94,7 +80,6 @@ describe('<DialerPanel />', function () {
             });
             deleteButton = getDeleteButton();
             expect(deleteButton.exists()).toBeTruthy();
-
           case 6:
           case "end":
             return _context3.stop();
@@ -119,7 +104,6 @@ describe('<DialerPanel />', function () {
             callButton = getCallButton();
             callButton.simulate('click');
             expect(dialout).not.toBeCalled();
-
           case 7:
           case "end":
             return _context4.stop();
@@ -138,7 +122,7 @@ describe('<DialerPanel />', function () {
   });
   it('Check Disabled Allow Manual Calls', function () {
     /* RCI-3899: Check Disabled Allow Manual Calls
-      https://testit.ringcentral.com/test-cases/RCI-3899
+      https://test_it_domain/test-cases/RCI-3899
     */
     wrapper = (0, _createDialerPanel.createDialerPanel)({
       hasDialer: true

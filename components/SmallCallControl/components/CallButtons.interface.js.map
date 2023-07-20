@@ -1,1 +1,1 @@
-{"version":3,"sources":[],"names":[],"mappings":"","sourcesContent":[],"file":"CallButtons.interface.js"}
+{"version":3,"file":"CallButtons.interface.js","names":[],"sources":["components/SmallCallControl/components/CallButtons.interface.ts"],"sourcesContent":["import type { RcIconButtonProps } from '@ringcentral/juno';\n\nexport type CallButtonsProps = {\n  currentLocale?: string;\n  dataSign?: string;\n} & RcIconButtonProps;\n"],"mappings":""}

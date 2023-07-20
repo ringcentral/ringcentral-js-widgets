@@ -3,11 +3,12 @@ import React from 'react';
 import { mount } from 'enzyme';
 
 import { format } from '@ringcentral-integration/phone-number';
-import { StepFunction } from '@ringcentral-integration/test-utils';
+import type { StepFunction } from '@ringcentral-integration/test-utils';
 import { RcThemeProvider } from '@ringcentral/juno';
 
-import { EvTransferPhoneBookItem } from '../../../lib/EvClient';
-import { PhoneBookPanel, PhoneBookPanelProps } from './PhoneBookPanel';
+import type { EvTransferPhoneBookItem } from '../../../lib/EvClient';
+import type { PhoneBookPanelProps } from './PhoneBookPanel';
+import { PhoneBookPanel } from './PhoneBookPanel';
 
 let wrapper;
 const currentLocale = 'en-US';

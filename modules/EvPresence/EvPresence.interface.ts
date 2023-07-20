@@ -1,13 +1,13 @@
-import { Alert } from '@ringcentral-integration/commons/modules/Alert';
-import { Beforeunload } from '@ringcentral-integration/widgets/modules/Beforeunload';
-import { Mapping } from '@ringcentral-integration/widgets/typings';
+import type { Alert } from '@ringcentral-integration/commons/modules/Alert';
+import type { Beforeunload } from '@ringcentral-integration/widgets/modules/Beforeunload';
+import type { Mapping } from '@ringcentral-integration/widgets/typings';
 
-import { DialoutStatusesType } from '../../enums';
-import { EvCallData } from '../../interfaces/EvData.interface';
-import { EvClient } from '../../lib/EvClient';
-import { EvCallDataSource } from '../EvCallDataSource';
-import { EvStorage } from '../EvStorage';
-import { EvSubscription } from '../EvSubscription';
+import type { DialoutStatusesType } from '../../enums';
+import type { EvCallData } from '../../interfaces/EvData.interface';
+import type { EvClient } from '../../lib/EvClient';
+import type { EvCallDataSource } from '../EvCallDataSource';
+import type { EvStorage } from '../EvStorage';
+import type { EvSubscription } from '../EvSubscription';
 
 export interface State {
   isOffhook: boolean;

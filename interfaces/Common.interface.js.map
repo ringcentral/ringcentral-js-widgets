@@ -1,1 +1,1 @@
-{"version":3,"sources":[],"names":[],"mappings":"","sourcesContent":[],"file":"Common.interface.js"}
+{"version":3,"file":"Common.interface.js","names":[],"sources":["interfaces/Common.interface.ts"],"sourcesContent":["export interface I18n {\n  getString(name: string, currentLocale: string): string;\n}\n\nexport type Handler = (...args: any[]) => void;\n"],"mappings":""}

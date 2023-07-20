@@ -1,15 +1,15 @@
-import moment from 'moment';
+import dayjs from 'dayjs';
 
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import { computed, RcUIModuleV2 } from '@ringcentral-integration/core';
 
-import {
+import type {
   EvSettingsUIFunctions,
   EvSettingsUIProps,
   SessionInfo,
 } from '../../interfaces/EvSettingsUI.interface';
 import { formatPhoneNumber } from '../../lib/FormatPhoneNumber';
-import { Deps, SettingsUI } from './EvSettingsUI.interface';
+import type { Deps, SettingsUI } from './EvSettingsUI.interface';
 import i18n from './i18n';
 
 const LOGIN_TYPE = {
@@ -58,7 +58,7 @@ class EvSettingsUI extends RcUIModuleV2<Deps> implements SettingsUI {
       currentLocale: this._deps.locale.currentLocale,
     });
 
-    const loginTime = moment(loginDTS).format('M/DD/YY h:mm A');
+    const loginTime = dayjs(loginDTS).format('M/DD/YY h:mm A');
 
     const getLocalString = (name: string) =>
       i18n.getString(name, this._deps.locale.currentLocale);

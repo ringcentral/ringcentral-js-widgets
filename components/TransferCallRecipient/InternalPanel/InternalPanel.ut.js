@@ -1,70 +1,39 @@
 "use strict";
 
-require("core-js/modules/es6.promise");
-
-require("core-js/modules/es6.object.define-properties");
-
-require("core-js/modules/es7.object.get-own-property-descriptors");
-
-require("core-js/modules/es6.array.for-each");
-
-require("core-js/modules/es6.array.filter");
-
-require("core-js/modules/es6.symbol");
-
-require("core-js/modules/web.dom.iterable");
-
-require("core-js/modules/es6.array.iterator");
-
-require("core-js/modules/es6.object.to-string");
-
-require("core-js/modules/es6.object.keys");
-
+require("core-js/modules/es.symbol");
+require("core-js/modules/es.symbol.description");
+require("core-js/modules/es.symbol.to-primitive");
+require("core-js/modules/es.array.concat");
+require("core-js/modules/es.array.find");
+require("core-js/modules/es.array.find-index");
+require("core-js/modules/es.array.includes");
+require("core-js/modules/es.array.is-array");
+require("core-js/modules/es.array.map");
+require("core-js/modules/es.date.to-primitive");
+require("core-js/modules/es.number.constructor");
+require("core-js/modules/es.object.to-string");
+require("core-js/modules/es.regexp.exec");
+require("core-js/modules/es.string.includes");
+require("core-js/modules/es.string.replace");
+require("core-js/modules/es.string.trim");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.UTCheckTransferAgentSelectCases = exports.UTCheckTransferAgentSelect = exports.UTCheckInternalPanelRender = exports.UTCheckAgentListRenderCases = exports.UTCheckAgentListRender = exports.UTAgentListSearchCases = exports.UTAgentListSearch = exports.UTAgentListDisplayAndHighlight = exports.UTAgentListCheckBackButton = exports.UTAgentListAutoSync = void 0;
-
-require("core-js/modules/es6.object.define-property");
-
 require("regenerator-runtime/runtime");
-
-require("core-js/modules/es6.string.trim");
-
-require("core-js/modules/es6.array.is-array");
-
-require("core-js/modules/es6.array.map");
-
-require("core-js/modules/es6.array.find-index");
-
-require("core-js/modules/es6.array.find");
-
-require("core-js/modules/es7.array.includes");
-
-require("core-js/modules/es6.string.includes");
-
-require("core-js/modules/es6.regexp.replace");
-
 var _react = _interopRequireDefault(require("react"));
-
 var _enzyme = require("enzyme");
-
 var _juno = require("@ringcentral/juno");
-
 var _InternalPanel = require("./InternalPanel");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 var wrapper;
 var currentLocale = 'en-US';
 var transferAgent = {
@@ -103,32 +72,29 @@ var defaultTransferAgentList = [_objectSpread(_objectSpread({}, transferAgent), 
   firstName: 'amy',
   lastName: 'liu'
 })];
-
 var defaultSearchAgent = function defaultSearchAgent(options, text) {
   var _options$firstName, _options$lastName;
-
   var firstName = (_options$firstName = options.firstName) !== null && _options$firstName !== void 0 ? _options$firstName : '';
   var lastName = (_options$lastName = options.lastName) !== null && _options$lastName !== void 0 ? _options$lastName : '';
   var blankRegex = /\s+/g;
   var name = "".concat(firstName).concat(lastName).replace(blankRegex, '').toLowerCase();
   return text && name.includes(text.replace(blankRegex, '').toLowerCase());
 };
-
 function setup(_ref) {
   var _ref$goBack = _ref.goBack,
-      goBack = _ref$goBack === void 0 ? function () {} : _ref$goBack,
-      _ref$transferAgentLis = _ref.transferAgentListUpdateTTL,
-      transferAgentListUpdateTTL = _ref$transferAgentLis === void 0 ? 100 : _ref$transferAgentLis,
-      _ref$fetchAgentList = _ref.fetchAgentList,
-      fetchAgentList = _ref$fetchAgentList === void 0 ? function () {} : _ref$fetchAgentList,
-      _ref$transferAgentId = _ref.transferAgentId,
-      transferAgentId = _ref$transferAgentId === void 0 ? '' : _ref$transferAgentId,
-      _ref$changeTransferAg = _ref.changeTransferAgentId,
-      changeTransferAgentId = _ref$changeTransferAg === void 0 ? function () {} : _ref$changeTransferAg,
-      _ref$searchAgent = _ref.searchAgent,
-      searchAgent = _ref$searchAgent === void 0 ? defaultSearchAgent : _ref$searchAgent,
-      _ref$transferAgentLis2 = _ref.transferAgentList,
-      transferAgentList = _ref$transferAgentLis2 === void 0 ? defaultTransferAgentList : _ref$transferAgentLis2;
+    goBack = _ref$goBack === void 0 ? function () {} : _ref$goBack,
+    _ref$transferAgentLis = _ref.transferAgentListUpdateTTL,
+    transferAgentListUpdateTTL = _ref$transferAgentLis === void 0 ? 100 : _ref$transferAgentLis,
+    _ref$fetchAgentList = _ref.fetchAgentList,
+    fetchAgentList = _ref$fetchAgentList === void 0 ? function () {} : _ref$fetchAgentList,
+    _ref$transferAgentId = _ref.transferAgentId,
+    transferAgentId = _ref$transferAgentId === void 0 ? '' : _ref$transferAgentId,
+    _ref$changeTransferAg = _ref.changeTransferAgentId,
+    changeTransferAgentId = _ref$changeTransferAg === void 0 ? function () {} : _ref$changeTransferAg,
+    _ref$searchAgent = _ref.searchAgent,
+    searchAgent = _ref$searchAgent === void 0 ? defaultSearchAgent : _ref$searchAgent,
+    _ref$transferAgentLis2 = _ref.transferAgentList,
+    transferAgentList = _ref$transferAgentLis2 === void 0 ? defaultTransferAgentList : _ref$transferAgentLis2;
   return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_InternalPanel.InternalPanel, {
     currentLocale: currentLocale,
     goBack: goBack,
@@ -140,15 +106,12 @@ function setup(_ref) {
     searchAgent: searchAgent
   })));
 }
-
 var getAgentItems = function getAgentItems() {
   return wrapper.find('RcList').at(0).find('div[data-sign="agentItem"]');
 };
-
 var getSearchInput = function getSearchInput() {
   return wrapper.find('RcTextField').at(0).find('input');
 };
-
 var UTAgentListCheckBackButton = function UTAgentListCheckBackButton() {
   var goBack = jest.fn(function () {});
   wrapper = setup({
@@ -157,9 +120,7 @@ var UTAgentListCheckBackButton = function UTAgentListCheckBackButton() {
   wrapper.find('[data-sign="backButton"]').at(0).find('button').simulate('click');
   expect(goBack).toBeCalled();
 };
-
 exports.UTAgentListCheckBackButton = UTAgentListCheckBackButton;
-
 var UTAgentListAutoSync = function UTAgentListAutoSync() {
   jest.useFakeTimers();
   var fetchAgentList = jest.fn(function () {});
@@ -172,9 +133,7 @@ var UTAgentListAutoSync = function UTAgentListAutoSync() {
   expect(fetchAgentList).toHaveBeenCalledTimes(2);
   jest.useRealTimers();
 };
-
 exports.UTAgentListAutoSync = UTAgentListAutoSync;
-
 var UTAgentListDisplayAndHighlight = function UTAgentListDisplayAndHighlight() {
   var transferAgentId = '10003';
   wrapper = setup({
@@ -187,7 +146,6 @@ var UTAgentListDisplayAndHighlight = function UTAgentListDisplayAndHighlight() {
   });
   expect(agentItems.at(selectedIndex).render().attr('class')).toMatch(/Mui-selected/g);
 };
-
 exports.UTAgentListDisplayAndHighlight = UTAgentListDisplayAndHighlight;
 var UTAgentListSearchCases = [{
   internalList: ['DukeTest1', 'DukeTest2', 'EV demo'],
@@ -203,11 +161,10 @@ var UTAgentListSearchCases = [{
   matchedResult: 'No result found for "AA"'
 }];
 exports.UTAgentListSearchCases = UTAgentListSearchCases;
-
 var UTAgentListSearch = function UTAgentListSearch(_ref2) {
   var internalList = _ref2.internalList,
-      searchText = _ref2.searchText,
-      matchedResult = _ref2.matchedResult;
+    searchText = _ref2.searchText,
+    matchedResult = _ref2.matchedResult;
   var searchAgent = jest.fn(defaultSearchAgent);
   wrapper = setup({
     searchAgent: searchAgent,
@@ -225,7 +182,6 @@ var UTAgentListSearch = function UTAgentListSearch(_ref2) {
   };
   getSearchInput().simulate('change', eventObj);
   var agentItems = getAgentItems();
-
   if (Array.isArray(matchedResult)) {
     expect(agentItems).toHaveLength(matchedResult.length);
     var resultItems = agentItems.map(function (el) {
@@ -237,9 +193,7 @@ var UTAgentListSearch = function UTAgentListSearch(_ref2) {
     expect(wrapper.find('[data-sign="searchResult"]').text()).toBe("No result found for \"".concat(searchText, "\""));
   }
 };
-
 exports.UTAgentListSearch = UTAgentListSearch;
-
 var UTCheckInternalPanelRender = /*#__PURE__*/function () {
   var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(_ref3) {
     var internalOptions, wrapper, dataSign;
@@ -254,7 +208,6 @@ var UTCheckInternalPanelRender = /*#__PURE__*/function () {
               'internal recipient list': 'searchResult'
             };
             expect(wrapper.find("[data-sign=\"".concat(dataSign[internalOptions], "\"]"))).not.toBeUndefined();
-
           case 4:
           case "end":
             return _context.stop();
@@ -262,12 +215,10 @@ var UTCheckInternalPanelRender = /*#__PURE__*/function () {
       }
     }, _callee);
   }));
-
   return function UTCheckInternalPanelRender(_x) {
     return _ref4.apply(this, arguments);
   };
 }();
-
 exports.UTCheckInternalPanelRender = UTCheckInternalPanelRender;
 var UTCheckTransferAgentSelectCases = [{
   title: 'User can select available agent to transfer',
@@ -281,7 +232,6 @@ var UTCheckTransferAgentSelectCases = [{
   recipientDisplay: 'DukeTest2'
 }];
 exports.UTCheckTransferAgentSelectCases = UTCheckTransferAgentSelectCases;
-
 var UTCheckTransferAgentSelect = /*#__PURE__*/function () {
   var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(_ref5) {
     var internalItem, available, recipientDisplay, changeTransferAgentId, agentId, selectIndex, agentItems;
@@ -305,7 +255,6 @@ var UTCheckTransferAgentSelect = /*#__PURE__*/function () {
             agentItems = getAgentItems();
             agentItems.at(selectIndex).find('[role="button"]').at(0).simulate('click');
             expect(changeTransferAgentId).toBeCalledWith(agentId);
-
           case 8:
           case "end":
             return _context2.stop();
@@ -313,12 +262,10 @@ var UTCheckTransferAgentSelect = /*#__PURE__*/function () {
       }
     }, _callee2);
   }));
-
   return function UTCheckTransferAgentSelect(_x2) {
     return _ref6.apply(this, arguments);
   };
 }();
-
 exports.UTCheckTransferAgentSelect = UTCheckTransferAgentSelect;
 var UTCheckAgentListRenderCases = [{
   title: 'internal recipient status',
@@ -386,7 +333,6 @@ var UTCheckAgentListRenderCases = [{
   statusColor: 'gray'
 }];
 exports.UTCheckAgentListRenderCases = UTCheckAgentListRenderCases;
-
 var UTCheckAgentListRender = /*#__PURE__*/function () {
   var _ref8 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(_ref7) {
     var agentState, available, recipient, availableStatus, statusColor, wrapper, agentItem;
@@ -406,13 +352,11 @@ var UTCheckAgentListRender = /*#__PURE__*/function () {
             agentItem = wrapper.find('[data-sign="agentItem"]');
             expect(agentItem.find('.agentName').text().trim()).toBe(recipient);
             expect(agentItem.find('.statusText').text().trim()).toBe(availableStatus);
-
             if (statusColor === 'green') {
               expect(agentItem.find('.available')).toHaveLength(1);
             } else if (statusColor === 'gray') {
               expect(agentItem.find('.unavailable')).toHaveLength(1);
             }
-
           case 6:
           case "end":
             return _context3.stop();
@@ -420,11 +364,9 @@ var UTCheckAgentListRender = /*#__PURE__*/function () {
       }
     }, _callee3);
   }));
-
   return function UTCheckAgentListRender(_x3) {
     return _ref8.apply(this, arguments);
   };
 }();
-
 exports.UTCheckAgentListRender = UTCheckAgentListRender;
 //# sourceMappingURL=InternalPanel.ut.js.map

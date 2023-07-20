@@ -7,7 +7,7 @@ import { makeCallsUniqueIdentifies } from '../../lib/callUniqueIdentifies';
 import { contactMatchIdentifyEncode } from '../../lib/contactMatchIdentify';
 import { EvCallbackTypes } from '../../lib/EvClient/enums/callbackTypes';
 import { formatPhoneNumber } from '../../lib/FormatPhoneNumber';
-import { CallHistory, Deps } from './EvCallHistory.interface';
+import type { CallHistory, Deps } from './EvCallHistory.interface';
 
 @Module({
   name: 'EvCallHistory',
@@ -127,12 +127,12 @@ class EvCallHistory extends RcModuleV2<Deps> implements CallHistory {
     return makeCallsUniqueIdentifies(this.rawCalls);
   }
 
-  onInitOnce() {
+  override onInitOnce() {
     this._deps.evSubscription.subscribe(
       EvCallbackTypes.DIRECT_AGENT_TRANSFER_NOTIF,
       (data) => {
         if (data.status === directTransferNotificationTypes.VOICEMAIL) {
-          // TODO add `data` for list and alert message about 'Direct Transfer: data.ani, Click to view call detail.'
+          // TODO: add `data` for list and alert message about 'Direct Transfer: data.ani, Click to view call detail.'
         }
       },
     );

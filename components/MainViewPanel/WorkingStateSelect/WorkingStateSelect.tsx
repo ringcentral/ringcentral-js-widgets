@@ -1,8 +1,9 @@
-import React, { FunctionComponent, useEffect, useState } from 'react';
+import type { FunctionComponent } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import classNames from 'classnames';
 
-import {
+import type {
   EvMainViewUIFunctions,
   EvMainViewUIProps,
 } from '../../../interfaces/EvMainViewUI.interface';

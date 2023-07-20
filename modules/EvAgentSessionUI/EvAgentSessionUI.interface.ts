@@ -1,15 +1,15 @@
-import { Locale } from '@ringcentral-integration/commons/modules/Locale';
-import { Block } from '@ringcentral-integration/widgets/modules/Block';
-import { ModalUI } from '@ringcentral-integration/widgets/modules/ModalUI';
-import RouterInteraction from '@ringcentral-integration/widgets/modules/RouterInteraction';
+import type { Locale } from '@ringcentral-integration/commons/modules/Locale';
+import type { Block } from '@ringcentral-integration/widgets/modules/Block';
+import type { ModalUI } from '@ringcentral-integration/widgets/modules/ModalUI';
+import type RouterInteraction from '@ringcentral-integration/widgets/modules/RouterInteraction';
 
-import { EvClient } from '../../lib/EvClient';
-import { EvAgentSession } from '../EvAgentSession';
-import { EvAuth } from '../EvAuth';
-import { EvSettings } from '../EvSettings';
-import { EvStorage } from '../EvStorage';
-import { EvTabManager } from '../EvTabManager';
-import { EvWorkingState } from '../EvWorkingState';
+import type { EvClient } from '../../lib/EvClient';
+import type { EvAgentSession } from '../EvAgentSession';
+import type { EvAuth } from '../EvAuth';
+import type { EvSettings } from '../EvSettings';
+import type { EvStorage } from '../EvStorage';
+import type { EvTabManager } from '../EvTabManager';
+import type { EvWorkingState } from '../EvWorkingState';
 
 export interface State {
   isLoading: boolean;

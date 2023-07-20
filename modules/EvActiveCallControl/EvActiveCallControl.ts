@@ -7,11 +7,11 @@ import {
 } from '@ringcentral-integration/core';
 
 import { tabManagerEvents } from '../../enums';
-import {
+import type {
   EvClientHandUpParams,
   EvClientHoldSessionParams,
 } from '../../lib/EvClient';
-import { ActiveCallControl, Deps } from './EvActiveCallControl.interface';
+import type { ActiveCallControl, Deps } from './EvActiveCallControl.interface';
 
 @Module({
   name: 'EvActiveCallControl',
@@ -45,7 +45,7 @@ class EvActiveCallControl
 
   @storage
   @state
-  isRecording: boolean = null;
+  isRecording: boolean | null = null;
 
   @action
   setIsRecording(isRecording: boolean) {

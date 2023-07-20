@@ -1,4 +1,5 @@
-import React, { FunctionComponent, MouseEventHandler, useState } from 'react';
+import type { FunctionComponent, MouseEventHandler } from 'react';
+import React, { useState } from 'react';
 
 import classNames from 'classnames';
 
@@ -8,9 +9,9 @@ import { RcButtonBase, RcIcon, RcMenu, RcMenuItem } from '@ringcentral/juno';
 import {
   ArrowDown as arrowDownSvg,
   ArrowUp as arrowUpSvg,
-} from '@ringcentral/juno/icon';
+} from '@ringcentral/juno-icon';
 
-import { EvCustomAvailableAgentState } from '../../../../interfaces/EvMainViewUI.interface';
+import type { EvCustomAvailableAgentState } from '../../../../interfaces/EvMainViewUI.interface';
 import styles from './styles.scss';
 
 export interface WorkingStateButtonProps {

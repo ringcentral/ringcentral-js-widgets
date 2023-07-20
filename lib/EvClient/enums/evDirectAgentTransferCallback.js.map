@@ -1,1 +1,1 @@
-{"version":3,"sources":[],"names":[],"mappings":"","sourcesContent":[],"file":"evDirectAgentTransferCallback.js"}
+{"version":3,"file":"evDirectAgentTransferCallback.js","names":[],"sources":["lib/EvClient/enums/evDirectAgentTransferCallback.ts"],"sourcesContent":["import type { EvDirectAgentTransferResponse } from '../interfaces';\n\nexport type EvDirectAgentTransferCallback = (\n  data: EvDirectAgentTransferResponse,\n) => void;\n"],"mappings":""}

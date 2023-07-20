@@ -2,12 +2,12 @@ import { Module } from '@ringcentral-integration/commons/lib/di';
 import { computed, RcUIModuleV2 } from '@ringcentral-integration/core';
 
 import { agentStatesColors } from '../../enums';
-import {
+import type {
   EvMainViewUIFunctions,
   EvMainViewUIProps,
 } from '../../interfaces/EvMainViewUI.interface';
-import { handleToClockTime } from '../../lib/time';
-import { Deps, MainView } from './MainViewUI.interface';
+import { getClockByTimestamp } from '../../lib/getClockByTimestamp';
+import type { Deps, MainView } from './MainViewUI.interface';
 
 @Module({
   name: 'MainViewUI',
@@ -108,18 +108,18 @@ class MainViewUI extends RcUIModuleV2<Deps> implements MainView {
 
   getTimerText(intervalTime: number) {
     if (this._checkOverTime(intervalTime)) {
-      return `-${handleToClockTime(intervalTime - this.maxBreakTime)}`;
+      return `-${getClockByTimestamp(intervalTime - this.maxBreakTime)}`;
     }
     if (this.isBreak && this.maxBreakTime > 0) {
       intervalTime = parseInt(`${this.maxBreakTime - intervalTime}`, 10);
-      return handleToClockTime(intervalTime, { useCeil: true });
+      return getClockByTimestamp(intervalTime, { useCeil: true });
     }
-    return handleToClockTime(intervalTime);
+    return getClockByTimestamp(intervalTime);
   }
 
   handleWithIntervalTime(intervalTime: number) {
     const isOverOneMinute = this._checkOverTime(intervalTime);
-    // TODO think about when browser is block.
+    // TODO: think about when browser is block.
     if (
       this.oldIntervalTime < this.maxBreakTime &&
       isOverOneMinute &&

@@ -1,36 +1,21 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
-require("core-js/modules/es6.promise");
-
-require("core-js/modules/es6.object.to-string");
-
+require("core-js/modules/es.array.find");
+require("core-js/modules/es.object.to-string");
+require("core-js/modules/es.promise");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.wrapperUnmount = exports.UTUnholdRender = exports.UTUnMuteRender = exports.UTNoCall = exports.UTMuteRender = exports.UTHoldRender = exports.UTHangUpRender = exports.UTGoBackPage = void 0;
-
 require("regenerator-runtime/runtime");
-
-require("core-js/modules/es6.array.find");
-
 var _react = _interopRequireDefault(require("react"));
-
 var _enzyme = require("enzyme");
-
 var _juno = require("@ringcentral/juno");
-
 var _i18n = _interopRequireDefault(require("../SmallCallControl/i18n"));
-
 var _ActiveCallListPanel = require("./ActiveCallListPanel");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 var wrapper;
 var currentLocale = 'en-US';
 var defaultCallList = [{
@@ -49,32 +34,30 @@ var defaultCallList = [{
   },
   isHold: false
 }];
-
 function setup() {
   var _ref = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-      _ref$goBack = _ref.goBack,
-      goBack = _ref$goBack === void 0 ? function () {} : _ref$goBack,
-      _ref$callList = _ref.callList,
-      callList = _ref$callList === void 0 ? defaultCallList : _ref$callList,
-      _ref$onHangup = _ref.onHangup,
-      onHangup = _ref$onHangup === void 0 ? function () {} : _ref$onHangup,
-      _ref$onUnHold = _ref.onUnHold,
-      onUnHold = _ref$onUnHold === void 0 ? function () {} : _ref$onUnHold,
-      _ref$onHold = _ref.onHold,
-      onHold = _ref$onHold === void 0 ? function () {} : _ref$onHold,
-      _ref$onMute = _ref.onMute,
-      onMute = _ref$onMute === void 0 ? function () {} : _ref$onMute,
-      _ref$onUnmute = _ref.onUnmute,
-      onUnmute = _ref$onUnmute === void 0 ? function () {} : _ref$onUnmute,
-      _ref$isOnMute = _ref.isOnMute,
-      isOnMute = _ref$isOnMute === void 0 ? false : _ref$isOnMute,
-      _ref$showMuteButton = _ref.showMuteButton,
-      showMuteButton = _ref$showMuteButton === void 0 ? true : _ref$showMuteButton,
-      _ref$userName = _ref.userName,
-      userName = _ref$userName === void 0 ? '' : _ref$userName,
-      _ref$isInbound = _ref.isInbound,
-      isInbound = _ref$isInbound === void 0 ? false : _ref$isInbound;
-
+    _ref$goBack = _ref.goBack,
+    goBack = _ref$goBack === void 0 ? function () {} : _ref$goBack,
+    _ref$callList = _ref.callList,
+    callList = _ref$callList === void 0 ? defaultCallList : _ref$callList,
+    _ref$onHangup = _ref.onHangup,
+    onHangup = _ref$onHangup === void 0 ? function () {} : _ref$onHangup,
+    _ref$onUnHold = _ref.onUnHold,
+    onUnHold = _ref$onUnHold === void 0 ? function () {} : _ref$onUnHold,
+    _ref$onHold = _ref.onHold,
+    onHold = _ref$onHold === void 0 ? function () {} : _ref$onHold,
+    _ref$onMute = _ref.onMute,
+    onMute = _ref$onMute === void 0 ? function () {} : _ref$onMute,
+    _ref$onUnmute = _ref.onUnmute,
+    onUnmute = _ref$onUnmute === void 0 ? function () {} : _ref$onUnmute,
+    _ref$isOnMute = _ref.isOnMute,
+    isOnMute = _ref$isOnMute === void 0 ? false : _ref$isOnMute,
+    _ref$showMuteButton = _ref.showMuteButton,
+    showMuteButton = _ref$showMuteButton === void 0 ? true : _ref$showMuteButton,
+    _ref$userName = _ref.userName,
+    userName = _ref$userName === void 0 ? '' : _ref$userName,
+    _ref$isInbound = _ref.isInbound,
+    isInbound = _ref$isInbound === void 0 ? false : _ref$isInbound;
   return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_ActiveCallListPanel.ActiveCallListPanel, {
     currentLocale: currentLocale,
     goBack: goBack,
@@ -90,17 +73,14 @@ function setup() {
     isInbound: isInbound
   })));
 }
-
 var wrapperUnmount = function wrapperUnmount() {
   wrapper.unmount();
 };
-
 exports.wrapperUnmount = wrapperUnmount;
-
 var getControlButton = function getControlButton(_ref2) {
   var itemIndex = _ref2.itemIndex,
-      buttonType = _ref2.buttonType,
-      dataIcon = _ref2.dataIcon;
+    buttonType = _ref2.buttonType,
+    dataIcon = _ref2.dataIcon;
   var callItem = wrapper.find('[data-sign="callItem"]').at(itemIndex);
   var button = callItem.find(buttonType).find('button');
   return {
@@ -110,7 +90,6 @@ var getControlButton = function getControlButton(_ref2) {
     }
   };
 };
-
 var UTGoBackPage = /*#__PURE__*/function () {
   var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
     var goBack;
@@ -125,7 +104,6 @@ var UTGoBackPage = /*#__PURE__*/function () {
             wrapper.find('[data-sign="backButton"]').at(0).find('button').simulate('click');
             expect(goBack).toBeCalled();
             wrapperUnmount();
-
           case 5:
           case "end":
             return _context.stop();
@@ -133,14 +111,11 @@ var UTGoBackPage = /*#__PURE__*/function () {
       }
     }, _callee);
   }));
-
   return function UTGoBackPage() {
     return _ref3.apply(this, arguments);
   };
 }();
-
 exports.UTGoBackPage = UTGoBackPage;
-
 var UTNoCall = function UTNoCall() {
   var callList = [];
   wrapper = setup({
@@ -149,9 +124,7 @@ var UTNoCall = function UTNoCall() {
   expect(wrapper.find('[data-sign="callList"]').text()).toBe('');
   wrapperUnmount();
 };
-
 exports.UTNoCall = UTNoCall;
-
 var UTHoldRender = function UTHoldRender() {
   var onHold = jest.fn();
   var onUnHold = jest.fn();
@@ -171,9 +144,7 @@ var UTHoldRender = function UTHoldRender() {
   expect(onUnHold).toBeCalledWith(defaultCallList[itemIndex]);
   wrapperUnmount();
 };
-
 exports.UTHoldRender = UTHoldRender;
-
 var UTUnholdRender = function UTUnholdRender() {
   var onHold = jest.fn();
   var onUnHold = jest.fn();
@@ -193,9 +164,7 @@ var UTUnholdRender = function UTUnholdRender() {
   expect(onUnHold).not.toBeCalled();
   wrapperUnmount();
 };
-
 exports.UTUnholdRender = UTUnholdRender;
-
 var UTHangUpRender = function UTHangUpRender() {
   var onHangup = jest.fn();
   var itemIndex = 0;
@@ -212,9 +181,7 @@ var UTHangUpRender = function UTHangUpRender() {
   expect(onHangup).toBeCalledWith(defaultCallList[itemIndex]);
   wrapperUnmount();
 };
-
 exports.UTHangUpRender = UTHangUpRender;
-
 var UTMuteRender = function UTMuteRender() {
   var onMute = jest.fn();
   wrapper = setup({
@@ -232,9 +199,7 @@ var UTMuteRender = function UTMuteRender() {
   expect(onMute).toBeCalledTimes(1);
   wrapperUnmount();
 };
-
 exports.UTMuteRender = UTMuteRender;
-
 var UTUnMuteRender = function UTUnMuteRender() {
   var onUnmute = jest.fn();
   wrapper = setup({
@@ -252,6 +217,5 @@ var UTUnMuteRender = function UTUnMuteRender() {
   expect(onUnmute).toBeCalledTimes(1);
   wrapperUnmount();
 };
-
 exports.UTUnMuteRender = UTUnMuteRender;
 //# sourceMappingURL=ActiveCallListPanel.ut.js.map

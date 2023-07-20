@@ -2,10 +2,11 @@ import React from 'react';
 
 import { mount } from 'enzyme';
 
-import { StepFunction } from '@ringcentral-integration/test-utils';
-import { DeepPartial, RcThemeProvider } from '@ringcentral/juno';
+import type { StepFunction } from '@ringcentral-integration/test-utils';
+import type { DeepPartial } from '@ringcentral/juno';
+import { RcThemeProvider } from '@ringcentral/juno';
 
-import { EvCallData } from '../../interfaces';
+import type { EvCallData } from '../../interfaces';
 import i18n from '../SmallCallControl/i18n';
 import { ActiveCallListPanel } from './ActiveCallListPanel';
 

@@ -1,8 +1,8 @@
-import React, { FunctionComponent } from 'react';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
-import BasicBackHeader, {
-  BackHeaderProps,
-} from '@ringcentral-integration/widgets/components/BackHeaderV2';
+import type { BackHeaderProps } from '@ringcentral-integration/widgets/components/BackHeaderV2';
+import BasicBackHeader from '@ringcentral-integration/widgets/components/BackHeaderV2';
 
 import styles from '../styles.scss';
 

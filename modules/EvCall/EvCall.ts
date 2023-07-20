@@ -1,5 +1,5 @@
 import { Module } from '@ringcentral-integration/commons/lib/di';
-import callErrors from '@ringcentral-integration/commons/modules/Call/callErrors';
+import { callErrors } from '@ringcentral-integration/commons/modules/Call';
 import {
   action,
   computed,
@@ -11,19 +11,17 @@ import {
 } from '@ringcentral-integration/core';
 
 import { messageTypes } from '../../enums';
-import {
-  dialoutStatuses,
-  DialoutStatusesType,
-} from '../../enums/dialoutStatus';
+import type { DialoutStatusesType } from '../../enums/dialoutStatus';
+import { dialoutStatuses } from '../../enums/dialoutStatus';
 import { checkCountryCode } from '../../lib/checkCountryCode';
-import {
+import type {
   EvClientManualOutdialParams,
   EvOffhookInitResponse,
 } from '../../lib/EvClient';
 import { EvCallbackTypes } from '../../lib/EvClient/enums/callbackTypes';
 import { parseNumber } from '../../lib/parseNumber';
 import { trackEvents } from '../../lib/trackEvents';
-import { Call, Deps, State } from './EvCall.interface';
+import type { Call, Deps, State } from './EvCall.interface';
 
 const DEFAULT_OUTBOUND_SETTING = {
   dialoutCallerId: '-1',
@@ -167,7 +165,7 @@ class EvCall extends RcModuleV2<Deps> implements Call {
     return this.ready && this._deps.evAuth.isEvLogged;
   }
 
-  onInitOnce() {
+  override onInitOnce() {
     watch(
       this,
       () => this.isOnLoginSuccess,
@@ -187,7 +185,7 @@ class EvCall extends RcModuleV2<Deps> implements Call {
       (data) => {
         if (['INTERCEPT', 'BUSY', 'NOANSWER'].includes(data.leadState)) {
           // TCPA_SAFE_LEAD_STATE -> BUSY
-          // TODO alert message info about busy call.
+          // TODO: alert message info about busy call.
           if (!this._deps.evSettings.isManualOffhook && this._isTabActive) {
             this._deps.evClient.offhookTerm();
           }
@@ -206,7 +204,7 @@ class EvCall extends RcModuleV2<Deps> implements Call {
     });
   }
 
-  onInit() {
+  override onInit() {
     if (this._deps.evAuth.isFreshLogin) {
       this.resetOutBoundDialSetting();
     }

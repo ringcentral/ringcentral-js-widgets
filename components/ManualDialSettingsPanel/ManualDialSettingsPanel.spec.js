@@ -1,29 +1,17 @@
 "use strict";
 
-require("core-js/modules/es6.promise");
-
-require("core-js/modules/es6.object.to-string");
-
-require("core-js/modules/es6.array.find");
-
+require("core-js/modules/es.array.find");
+require("core-js/modules/es.object.to-string");
+require("core-js/modules/es.promise");
 require("regenerator-runtime/runtime");
-
 var _react = _interopRequireDefault(require("react"));
-
 var _enzyme = require("enzyme");
-
 var _juno = require("@ringcentral/juno");
-
 var _i18n = _interopRequireDefault(require("../../modules/EvManualDialSettingsUI/i18n"));
-
 var _ManualDialSettingsPanel = require("./ManualDialSettingsPanel");
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 var wrapper;
 var currentLocale = 'en-US';
 var pickListItems = [{
@@ -61,12 +49,11 @@ var defaultSettingFields = [{
     placeholder: 'input holder'
   }
 }];
-
 function setup(_ref) {
   var _ref$goBack = _ref.goBack,
-      goBack = _ref$goBack === void 0 ? function () {} : _ref$goBack,
-      _ref$settingFields = _ref.settingFields,
-      settingFields = _ref$settingFields === void 0 ? defaultSettingFields : _ref$settingFields;
+    goBack = _ref$goBack === void 0 ? function () {} : _ref$goBack,
+    _ref$settingFields = _ref.settingFields,
+    settingFields = _ref$settingFields === void 0 ? defaultSettingFields : _ref$settingFields;
   return (0, _enzyme.mount)( /*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_ManualDialSettingsPanel.ManualDialSettingsPanel, {
     currentLocale: currentLocale,
     goBack: goBack,
@@ -75,14 +62,12 @@ function setup(_ref) {
     save: function save() {}
   })));
 }
-
 afterEach( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
   return regeneratorRuntime.wrap(function _callee$(_context) {
     while (1) {
       switch (_context.prev = _context.next) {
         case 0:
           wrapper.unmount();
-
         case 1:
         case "end":
           return _context.stop();
@@ -99,7 +84,10 @@ describe('<ManualDialSettingsPanel />', function () {
     expect(wrapper.find('.title').text()).toBe(_i18n["default"].getString('manualDialSettings', currentLocale));
     wrapper.find('[data-sign="backButton"]').at(0).find('button').simulate('click');
     expect(goBack).toBeCalled();
-  }); // Declan: I thinks that is not need, that is too detail about render, just using snapshot is ok
+  });
+
+  // Declan: I thinks that is not need, that is too detail about render, just using snapshot is ok
+
   // it('Can render select, input list respectively', () => {
   //   wrapper = setup({});
   //   defaultSettingFields.forEach((field) => {
@@ -123,6 +111,7 @@ describe('<ManualDialSettingsPanel />', function () {
   //     }
   //   });
   // });
+
   // it('Check PickList from settingFields can render correctly', () => {
   //   const customSelect = {
   //     dataSign: 'callerId',
@@ -140,6 +129,7 @@ describe('<ManualDialSettingsPanel />', function () {
   //       renderItem: jest.fn((item) => item.wholeName),
   //     },
   //   };
+
   //   wrapper = setup({
   //     settingFields: [customSelect],
   //   });

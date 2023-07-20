@@ -4,7 +4,8 @@ import { mount } from 'enzyme';
 
 import { RcThemeProvider } from '@ringcentral/juno';
 
-import { PickList, PickListProps } from './PickList';
+import type { PickListProps } from './PickList';
+import { PickList } from './PickList';
 
 let wrapper;
 const defaultOptions = [

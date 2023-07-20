@@ -1,4 +1,4 @@
-import { contains } from 'ramda';
+import { includes } from 'ramda';
 
 import { messageTypes } from '../../../enums';
 import i18n from './i18n';
@@ -26,7 +26,7 @@ export default function EvSessionConfigAlert({
 }
 
 EvSessionConfigAlert.handleMessage = ({ message }: HandleMessage): boolean =>
-  contains(message, [
+  includes(message, [
     messageTypes.INVALID_PHONE_NUMBER,
     messageTypes.AGENT_CONFIG_ERROR,
     messageTypes.AGENT_CONFIG_DETAIL_ERROR,
