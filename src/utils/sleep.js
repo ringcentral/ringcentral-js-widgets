@@ -1,16 +1,12 @@
 "use strict";
 
 require("core-js/modules/es.object.to-string");
-
 require("core-js/modules/es.promise");
-
 require("core-js/modules/web.timers");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.sleep = void 0;
-
 /**
  * sleep for ms
  * @param ms what ms to sleep
@@ -42,14 +38,11 @@ var sleep = function sleep(ms) {
     rejector = reject;
     timer = setTimeout(resolve, ms);
   });
-
   promise.cancel = function () {
     rejector(new Error('Async sleep has been cancelled'));
     clearTimeout(timer);
   };
-
   return promise;
 };
-
 exports.sleep = sleep;
 //# sourceMappingURL=sleep.js.map

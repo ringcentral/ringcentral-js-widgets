@@ -9,8 +9,6 @@ Object.defineProperty(exports, "format", {
     return _stringTemplate["default"];
   }
 });
-
 var _stringTemplate = _interopRequireDefault(require("string-template"));
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 //# sourceMappingURL=format.js.map

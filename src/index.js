@@ -3,9 +3,7 @@
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-
 var _decorators = require("./decorators");
-
 Object.keys(_decorators).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (key in exports && exports[key] === _decorators[key]) return;
@@ -16,9 +14,7 @@ Object.keys(_decorators).forEach(function (key) {
     }
   });
 });
-
 var _utils = require("./utils");
-
 Object.keys(_utils).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
   if (key in exports && exports[key] === _utils[key]) return;
