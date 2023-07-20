@@ -1,20 +1,19 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = void 0;
-
+exports.callingModes = void 0;
 var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
-
-var _default = _ObjectMap.ObjectMap.prefixKeys(['softphone', // ringcentral phone
-'ringout', // branding rc..
-'webphone', // webrtc
-'jupiter', // ringcentral (jupiter app)
+var callingModes = _ObjectMap.ObjectMap.prefixKeys(['softphone',
+// ringcentral phone
+'ringout',
+// branding rc..
+'webphone',
+// webrtc
+'jupiter',
+// ringcentral (jupiter app)
 'jupiterUniversalLink' // ringcentral (jupiter web)
 ], 'callingModes');
-
-exports["default"] = _default;
+exports.callingModes = callingModes;
 //# sourceMappingURL=callingModes.js.map

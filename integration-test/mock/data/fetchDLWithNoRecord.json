@@ -1,20 +1,20 @@
 {
-    "uri" : "https://api-xmnup.lab.nordigy.ru/restapi/v1.0/account/129832006/extension/129832006/device?page=1&perPage=100",
-    "records" : [],
-    "paging" : {
-      "page" : 1,
-      "totalPages" : 1,
-      "perPage" : 100,
-      "totalElements" : 4,
-      "pageStart" : 0,
-      "pageEnd" : 3
+  "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/129832006/extension/129832006/device?page=1&perPage=100",
+  "records": [],
+  "paging": {
+    "page": 1,
+    "totalPages": 1,
+    "perPage": 100,
+    "totalElements": 4,
+    "pageStart": 0,
+    "pageEnd": 3
+  },
+  "navigation": {
+    "firstPage": {
+      "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/129832006/extension/129832006/device?page=1&perPage=100"
     },
-    "navigation" : {
-      "firstPage" : {
-        "uri" : "https://api-xmnup.lab.nordigy.ru/restapi/v1.0/account/129832006/extension/129832006/device?page=1&perPage=100"
-      },
-      "lastPage" : {
-        "uri" : "https://api-xmnup.lab.nordigy.ru/restapi/v1.0/account/129832006/extension/129832006/device?page=1&perPage=100"
-      }
+    "lastPage": {
+      "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/129832006/extension/129832006/device?page=1&perPage=100"
     }
   }
+}

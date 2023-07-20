@@ -1,1 +1,0 @@
-{"version":3,"sources":["modules/MeetingV2/i18n/de-DE.ts"],"names":["meetingTitle"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,YAAY,EAAE;AADD,C,EAIf","sourcesContent":["export default {\n  meetingTitle: \"Besprechung von {extensionName}\"\n};\n\n// @key: @#@\"meetingTitle\"@#@ @source: @#@\"{extensionName}'s Meeting\"@#@\n"],"file":"de-DE.js"}

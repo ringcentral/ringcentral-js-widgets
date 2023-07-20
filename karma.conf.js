@@ -1,12 +1,9 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-
 // Karma configuration
 // Generated on Wed Nov 23 2016 15:54:23 GMT+0800 (CST)
 var _default = function _default(config) {
@@ -17,12 +14,17 @@ var _default = function _default(config) {
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
     frameworks: ['mocha', 'chai', 'expect'],
     // list of files / patterns to load in the browser
-    files: [// 'modules/**/availabilityMonitorHelper.test.js',
-    'modules/AvailabilityMonitor/*.test.js' // 'integration-test/**/*spec.js',
+    files: [
+    // 'modules/**/availabilityMonitorHelper.test.js',
+    'modules/AvailabilityMonitor/*.test.js'
+    // 'integration-test/**/*spec.js',
     ],
+
     // list of files to exclude
-    exclude: ['enums/**/*.test.js', 'lib/**/*.test.js' // 'modules/**/*.test.js'
+    exclude: ['enums/**/*.test.js', 'lib/**/*.test.js'
+    // 'modules/**/*.test.js'
     ],
+
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
@@ -38,6 +40,7 @@ var _default = function _default(config) {
     //   'karma-commonjs',
     //   'karma-chrome-launcher'
     // ],
+
     webpack: {
       resolve: {
         extensions: ['.js', '.ts']
@@ -81,12 +84,13 @@ var _default = function _default(config) {
       // simply replaces spaces with _ for files/dirs
       reportName: 'report',
       // report summary filename; browser info by default
+
       // experimental
       preserveDescribeNesting: false,
       // folded suites stay folded
       foldAll: false // reports start folded (only with preserveDescribeNesting)
-
     },
+
     junitReporter: {
       outputDir: 'junit',
       // results will be saved as $outputDir/$browserName.xml
@@ -101,8 +105,8 @@ var _default = function _default(config) {
       classNameFormatter: undefined,
       // function (browser, result) to customize the classname attribute in xml testcase element
       properties: {} // key value pair of properties to add to the <properties> section of the report
-
     },
+
     // web server port
     port: 9876,
     // enable / disable colors in the output (reporters and logs)
@@ -132,6 +136,5 @@ var _default = function _default(config) {
     concurrency: Infinity
   });
 };
-
 exports["default"] = _default;
 //# sourceMappingURL=karma.conf.js.map

@@ -1,16 +1,13 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = void 0;
-
+exports.highAvailabilityAPI = void 0;
 var _availabilityStatus = require("./availabilityStatus");
-
 // TODO: Store as JSON, and can be requested from backend server
-var _default = [{
+
+var highAvailabilityAPI = [{
   reg: /\/restapi\/v1.0\/account$/,
   POST: _availabilityStatus.availability.LIMITED
 }, {
@@ -994,5 +991,5 @@ var _default = [{
   reg: /\/restapi\/v1.0\/account\/[a-z0-9~,]+\/directory\/contacts\/[a-z0-9~,]+$/,
   GET: _availabilityStatus.availability.HIGH
 }];
-exports["default"] = _default;
+exports.highAvailabilityAPI = highAvailabilityAPI;
 //# sourceMappingURL=highAvailabilityAPI.js.map

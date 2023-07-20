@@ -1,1 +1,0 @@
-{"version":3,"sources":["modules/RecentMessagesV2/messageStatus.ts"],"names":["MessageStatus"],"mappings":";;;;;;;;IAAkBA,a;;;WAAAA,a;AAAAA,EAAAA,a;AAAAA,EAAAA,a;GAAAA,a,6BAAAA,a","sourcesContent":["export const enum MessageStatus {\n  loading = 'loading',\n  loaded = 'loaded',\n}\n"],"file":"messageStatus.js"}

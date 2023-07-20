@@ -1,0 +1,1 @@
+{"version":3,"file":"en-US.js","names":["meetingTitle","exports","_default"],"sources":["modules/Meeting/i18n/en-US.ts"],"sourcesContent":["export default {\n  meetingTitle: \"{extensionName}'s Meeting\",\n};\n"],"mappings":";;;;;;eAAe;EACbA,YAAY,EAAE;AAChB,CAAC;AAAAC,OAAA,cAAAC,QAAA"}

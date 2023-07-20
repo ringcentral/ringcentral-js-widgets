@@ -1,146 +1,72 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
-require("core-js/modules/es6.weak-map");
-
-require("core-js/modules/es6.promise");
-
-require("core-js/modules/es6.object.create");
-
-require("core-js/modules/es6.reflect.construct");
-
-require("core-js/modules/es6.object.set-prototype-of");
-
-require("core-js/modules/es6.array.is-array");
-
-require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.string.iterator");
-
-require("core-js/modules/es6.array.from");
-
-require("core-js/modules/es6.regexp.to-string");
-
-require("core-js/modules/es6.date.to-string");
-
-require("core-js/modules/es6.object.define-properties");
-
-require("core-js/modules/es7.object.get-own-property-descriptors");
-
-require("core-js/modules/es6.symbol");
-
-require("core-js/modules/web.dom.iterable");
-
-require("core-js/modules/es6.array.iterator");
-
-require("core-js/modules/es6.object.to-string");
-
-require("core-js/modules/es6.object.keys");
-
-require("core-js/modules/es6.object.define-property");
-
+require("core-js/modules/es.symbol");
+require("core-js/modules/es.symbol.description");
+require("core-js/modules/es.symbol.to-primitive");
+require("core-js/modules/es.array.concat");
+require("core-js/modules/es.array.filter");
+require("core-js/modules/es.array.find");
+require("core-js/modules/es.array.for-each");
+require("core-js/modules/es.array.index-of");
+require("core-js/modules/es.array.join");
+require("core-js/modules/es.array.map");
+require("core-js/modules/es.array.reduce");
+require("core-js/modules/es.array.reverse");
+require("core-js/modules/es.array.slice");
+require("core-js/modules/es.array.sort");
+require("core-js/modules/es.date.now");
+require("core-js/modules/es.date.to-primitive");
+require("core-js/modules/es.date.to-string");
+require("core-js/modules/es.function.name");
+require("core-js/modules/es.number.constructor");
+require("core-js/modules/es.object.get-own-property-descriptor");
+require("core-js/modules/es.object.to-string");
+require("core-js/modules/web.dom-collections.for-each");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-
-require("core-js/modules/es6.array.reduce");
-
-require("core-js/modules/es6.array.find");
-
-require("core-js/modules/es6.array.sort");
-
-require("core-js/modules/es6.array.filter");
-
-require("core-js/modules/es6.date.now");
-
-require("core-js/modules/es6.array.slice");
-
 require("regenerator-runtime/runtime");
-
-require("core-js/modules/es6.function.name");
-
-require("core-js/modules/es6.array.map");
-
-require("core-js/modules/es6.array.index-of");
-
-require("core-js/modules/es6.array.for-each");
-
+var _utils = require("@ringcentral-integration/utils");
 var _moduleStatuses = _interopRequireDefault(require("../../enums/moduleStatuses"));
-
 var _di = require("../../lib/di");
-
 var _ensureExist = _interopRequireDefault(require("../../lib/ensureExist"));
-
-var _isBlank = _interopRequireDefault(require("../../lib/isBlank"));
-
+var _isBlank = require("../../lib/isBlank");
 var _Pollable2 = _interopRequireDefault(require("../../lib/Pollable"));
-
 var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
-
 var _selector = require("../../lib/selector");
-
-var _sleep = require("../../lib/sleep");
-
 var _actionTypes = require("./actionTypes");
-
 var _getReducer = _interopRequireWildcard(require("./getReducer"));
-
 var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8, _descriptor9;
-
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
-
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
-
 function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-
 function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
-
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
-
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'transform-class-properties is enabled and runs after the decorators transform.'); }
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
-
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
-
 function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-
 function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 var glipGroupRegExp = /glip\/groups$/;
 var subscriptionFilter = '/restapi/v1.0/glip/groups';
 var DEFAULT_PER_PAGE = 20;
@@ -148,17 +74,13 @@ var DEFAULT_TTL = 30 * 60 * 1000;
 var DEFAULT_RETRY = 62 * 1000;
 var DEFAULT_RECORD_COUNT_PER_REQ = 250;
 var DEFAULT_PRELOAD_POSTS_DELAY_TTL = 800;
-
 function formatGroup(group, personsMap) {
   var postsMap = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
   var ownerId = arguments.length > 3 ? arguments[3] : undefined;
-
   if (!group || !group.id) {
     return {};
   }
-
   var detailMembers = [];
-
   if (group.members) {
     group.members.forEach(function (memberId) {
       if (personsMap[memberId]) {
@@ -168,28 +90,22 @@ function formatGroup(group, personsMap) {
       }
     });
   }
-
   var newGroup = _objectSpread(_objectSpread({}, group), {}, {
     detailMembers: detailMembers,
     updatedTime: new Date(group.lastModifiedTime).getTime()
   });
-
   var latestPost = postsMap[group.id] && postsMap[group.id][0];
-
   if (latestPost) {
     newGroup.latestPost = _objectSpread(_objectSpread({}, latestPost), {}, {
       creator: personsMap[latestPost.creatorId]
     });
     var postCreationTime = new Date(latestPost.creationTime).getTime();
-
     if (postCreationTime > newGroup.updatedTime) {
       newGroup.updatedTime = postCreationTime;
     }
   }
-
   return newGroup;
 }
-
 function getUniqueMemberIds(groups) {
   var memberIds = [];
   var memberIdsMap = {};
@@ -198,34 +114,27 @@ function getUniqueMemberIds(groups) {
       if (memberIdsMap[memberId]) {
         return;
       }
-
       memberIdsMap[memberId] = true;
       memberIds.push(memberId);
     });
   });
   return memberIds;
 }
-
 function searchPosts(searchFilter, posts) {
   var result = false;
-
   var _iterator = _createForOfIteratorHelper(posts),
-      _step;
-
+    _step;
   try {
     for (_iterator.s(); !(_step = _iterator.n()).done;) {
       var post = _step.value;
-
       if (post.text && post.text.toLowerCase().indexOf(searchFilter) > -1) {
         result = true;
         break;
       }
-
       if (post.mentions && post.mentions.length > 0) {
         var mentionNames = post.mentions.map(function (m) {
           return m.name;
         }).join(' ').toLowerCase();
-
         if (mentionNames.indexOf(searchFilter) > -1) {
           result = true;
           break;
@@ -237,15 +146,13 @@ function searchPosts(searchFilter, posts) {
   } finally {
     _iterator.f();
   }
-
   return result;
 }
+
 /**
  * @class
  * @description Accound info managing module.
  */
-
-
 var GlipGroups = (_dec = (0, _di.Module)({
   deps: ['Auth', 'Client', 'Subscription', 'AppFeatures', {
     dep: 'ConnectivityMonitor',
@@ -268,63 +175,48 @@ var GlipGroups = (_dec = (0, _di.Module)({
   }]
 }), _dec(_class = (_class2 = /*#__PURE__*/function (_Pollable) {
   _inherits(GlipGroups, _Pollable);
-
   var _super = _createSuper(GlipGroups);
-
   function GlipGroups(_ref) {
     var _this;
-
     var auth = _ref.auth,
-        subscription = _ref.subscription,
-        client = _ref.client,
-        tabManager = _ref.tabManager,
-        glipPersons = _ref.glipPersons,
-        glipPosts = _ref.glipPosts,
-        storage = _ref.storage,
-        appFeatures = _ref.appFeatures,
-        connectivityMonitor = _ref.connectivityMonitor,
-        _ref$timeToRetry = _ref.timeToRetry,
-        timeToRetry = _ref$timeToRetry === void 0 ? DEFAULT_RETRY : _ref$timeToRetry,
-        _ref$ttl = _ref.ttl,
-        ttl = _ref$ttl === void 0 ? DEFAULT_TTL : _ref$ttl,
-        _ref$polling = _ref.polling,
-        polling = _ref$polling === void 0 ? false : _ref$polling,
-        _ref$disableCache = _ref.disableCache,
-        disableCache = _ref$disableCache === void 0 ? false : _ref$disableCache,
-        _ref$perPage = _ref.perPage,
-        perPage = _ref$perPage === void 0 ? DEFAULT_PER_PAGE : _ref$perPage,
-        _ref$recordCountPerRe = _ref.recordCountPerReq,
-        recordCountPerReq = _ref$recordCountPerRe === void 0 ? DEFAULT_RECORD_COUNT_PER_REQ : _ref$recordCountPerRe,
-        _ref$preloadPosts = _ref.preloadPosts,
-        preloadPosts = _ref$preloadPosts === void 0 ? true : _ref$preloadPosts,
-        _ref$preloadPostsDela = _ref.preloadPostsDelayTtl,
-        preloadPostsDelayTtl = _ref$preloadPostsDela === void 0 ? DEFAULT_PRELOAD_POSTS_DELAY_TTL : _ref$preloadPostsDela,
-        options = _objectWithoutProperties(_ref, ["auth", "subscription", "client", "tabManager", "glipPersons", "glipPosts", "storage", "appFeatures", "connectivityMonitor", "timeToRetry", "ttl", "polling", "disableCache", "perPage", "recordCountPerReq", "preloadPosts", "preloadPostsDelayTtl"]);
-
+      subscription = _ref.subscription,
+      client = _ref.client,
+      tabManager = _ref.tabManager,
+      glipPersons = _ref.glipPersons,
+      glipPosts = _ref.glipPosts,
+      storage = _ref.storage,
+      appFeatures = _ref.appFeatures,
+      connectivityMonitor = _ref.connectivityMonitor,
+      _ref$timeToRetry = _ref.timeToRetry,
+      timeToRetry = _ref$timeToRetry === void 0 ? DEFAULT_RETRY : _ref$timeToRetry,
+      _ref$ttl = _ref.ttl,
+      ttl = _ref$ttl === void 0 ? DEFAULT_TTL : _ref$ttl,
+      _ref$polling = _ref.polling,
+      polling = _ref$polling === void 0 ? false : _ref$polling,
+      _ref$disableCache = _ref.disableCache,
+      disableCache = _ref$disableCache === void 0 ? false : _ref$disableCache,
+      _ref$perPage = _ref.perPage,
+      perPage = _ref$perPage === void 0 ? DEFAULT_PER_PAGE : _ref$perPage,
+      _ref$recordCountPerRe = _ref.recordCountPerReq,
+      recordCountPerReq = _ref$recordCountPerRe === void 0 ? DEFAULT_RECORD_COUNT_PER_REQ : _ref$recordCountPerRe,
+      _ref$preloadPosts = _ref.preloadPosts,
+      preloadPosts = _ref$preloadPosts === void 0 ? true : _ref$preloadPosts,
+      _ref$preloadPostsDela = _ref.preloadPostsDelayTtl,
+      preloadPostsDelayTtl = _ref$preloadPostsDela === void 0 ? DEFAULT_PRELOAD_POSTS_DELAY_TTL : _ref$preloadPostsDela,
+      options = _objectWithoutProperties(_ref, ["auth", "subscription", "client", "tabManager", "glipPersons", "glipPosts", "storage", "appFeatures", "connectivityMonitor", "timeToRetry", "ttl", "polling", "disableCache", "perPage", "recordCountPerReq", "preloadPosts", "preloadPostsDelayTtl"]);
     _classCallCheck(this, GlipGroups);
-
     _this = _super.call(this, _objectSpread(_objectSpread({}, options), {}, {
       actionTypes: _actionTypes.actionTypes
     }));
-
     _initializerDefineProperty(_this, "allGroups", _descriptor, _assertThisInitialized(_this));
-
     _initializerDefineProperty(_this, "filteredGroups", _descriptor2, _assertThisInitialized(_this));
-
     _initializerDefineProperty(_this, "groups", _descriptor3, _assertThisInitialized(_this));
-
     _initializerDefineProperty(_this, "uniqueMemberIds", _descriptor4, _assertThisInitialized(_this));
-
     _initializerDefineProperty(_this, "groupMemberIds", _descriptor5, _assertThisInitialized(_this));
-
     _initializerDefineProperty(_this, "currentGroup", _descriptor6, _assertThisInitialized(_this));
-
     _initializerDefineProperty(_this, "currentGroupPosts", _descriptor7, _assertThisInitialized(_this));
-
     _initializerDefineProperty(_this, "groupsWithUnread", _descriptor8, _assertThisInitialized(_this));
-
     _initializerDefineProperty(_this, "unreadCounts", _descriptor9, _assertThisInitialized(_this));
-
     _this._auth = _ensureExist["default"].call(_assertThisInitialized(_this), auth, 'auth');
     _this._client = _ensureExist["default"].call(_assertThisInitialized(_this), client, 'client');
     _this._subscription = _ensureExist["default"].call(_assertThisInitialized(_this), subscription, 'subscription');
@@ -344,22 +236,17 @@ var GlipGroups = (_dec = (0, _di.Module)({
     _this._promise = null;
     _this._lastMessage = null;
     _this._subscriptionFilters = [subscriptionFilter];
-
     if (!disableCache) {
       _this._storage = storage;
     }
-
     _this._dataStorageKey = 'glipGroupsData';
     _this._timestampStorageKey = 'glipGroupsTimestamp';
-
     if (_this._storage) {
       _this._reducer = (0, _getReducer["default"])(_this.actionTypes);
-
       _this._storage.registerReducer({
         key: _this._dataStorageKey,
         reducer: (0, _getReducer.getDataReducer)(_this.actionTypes)
       });
-
       _this._storage.registerReducer({
         key: _this._timestampStorageKey,
         reducer: (0, _getReducer.getTimestampReducer)(_this.actionTypes)
@@ -370,21 +257,17 @@ var GlipGroups = (_dec = (0, _di.Module)({
         data: (0, _getReducer.getDataReducer)(_this.actionTypes)
       });
     }
-
     if (_this._glipPosts) {
       _this._glipPosts.addNewPostListener(function (post) {
         return _this.onNewPost(post);
       });
     }
-
     return _this;
   }
-
   _createClass(GlipGroups, [{
     key: "initialize",
     value: function initialize() {
       var _this2 = this;
-
       this.store.subscribe(function () {
         return _this2._onStateChange();
       });
@@ -401,84 +284,64 @@ var GlipGroups = (_dec = (0, _di.Module)({
                   _context.next = 6;
                   break;
                 }
-
                 this.store.dispatch({
                   type: this.actionTypes.init
                 });
                 _context.next = 4;
                 return this._init();
-
               case 4:
                 _context.next = 28;
                 break;
-
               case 6:
                 if (!this._isDataReady()) {
                   _context.next = 11;
                   break;
                 }
-
                 this.store.dispatch({
                   type: this.actionTypes.initSuccess
                 });
-
                 this._onDataReady();
-
                 _context.next = 28;
                 break;
-
               case 11:
                 if (!this._shouldReset()) {
                   _context.next = 17;
                   break;
                 }
-
                 this._clearTimeout();
-
                 this._promise = null;
                 this.store.dispatch({
                   type: this.actionTypes.resetSuccess
                 });
                 _context.next = 28;
                 break;
-
               case 17:
                 if (!this._shouldHandleSubscriptionMessage()) {
                   _context.next = 21;
                   break;
                 }
-
                 this._processSubscription();
-
                 _context.next = 28;
                 break;
-
               case 21:
                 if (!(this.ready && this._connectivityMonitor && this._connectivityMonitor.ready && this._connectivity !== this._connectivityMonitor.connectivity)) {
                   _context.next = 28;
                   break;
                 }
-
                 this._connectivity = this._connectivityMonitor.connectivity;
-
                 if (this._connectivity) {
                   _context.next = 25;
                   break;
                 }
-
                 return _context.abrupt("return");
-
               case 25:
                 _context.next = 27;
                 return this.fetchData();
-
               case 27:
                 if (this._preloadPosts) {
                   this._preloadedPosts = {};
-
                   this._preloadGroupPosts(true);
                 }
-
               case 28:
               case "end":
                 return _context.stop();
@@ -486,11 +349,9 @@ var GlipGroups = (_dec = (0, _di.Module)({
           }
         }, _callee, this);
       }));
-
       function _onStateChange() {
         return _onStateChange2.apply(this, arguments);
       }
-
       return _onStateChange;
     }()
   }, {
@@ -514,10 +375,8 @@ var GlipGroups = (_dec = (0, _di.Module)({
       if (this._glipPersons) {
         this._glipPersons.loadPersons(this.groupMemberIds);
       }
-
       if (this._preloadPosts) {
         this._preloadedPosts = {};
-
         this._preloadGroupPosts();
       }
     }
@@ -526,7 +385,6 @@ var GlipGroups = (_dec = (0, _di.Module)({
     value: function () {
       var _subscriptionHandleFn2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(message) {
         var _message$body, eventType, group;
-
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -535,40 +393,31 @@ var GlipGroups = (_dec = (0, _di.Module)({
                   _context2.next = 10;
                   break;
                 }
-
                 _message$body = message.body, eventType = _message$body.eventType, group = _objectWithoutProperties(_message$body, ["eventType"]);
-
                 if (!(eventType.indexOf('Group') !== 0)) {
                   _context2.next = 4;
                   break;
                 }
-
                 return _context2.abrupt("return");
-
               case 4:
                 if (!(eventType === 'GroupLeft')) {
                   _context2.next = 7;
                   break;
                 }
-
                 this.store.dispatch({
                   type: this.actionTypes.removeGroup,
                   group: group
                 });
                 return _context2.abrupt("return");
-
               case 7:
                 this.store.dispatch({
                   type: this.actionTypes.updateGroup,
                   group: group
                 });
-
                 if (this._glipPersons) {
                   this._glipPersons.loadPersons(group.members);
                 }
-
                 this._glipPosts.loadPosts(group.id);
-
               case 10:
               case "end":
                 return _context2.stop();
@@ -576,11 +425,9 @@ var GlipGroups = (_dec = (0, _di.Module)({
           }
         }, _callee2, this);
       }));
-
       function _subscriptionHandleFn(_x) {
         return _subscriptionHandleFn2.apply(this, arguments);
       }
-
       return _subscriptionHandleFn;
     }()
   }, {
@@ -605,50 +452,39 @@ var GlipGroups = (_dec = (0, _di.Module)({
                   _context3.next = 2;
                   break;
                 }
-
                 return _context3.abrupt("return");
-
               case 2:
                 if (!this._shouldFetch()) {
                   _context3.next = 14;
                   break;
                 }
-
                 _context3.prev = 3;
                 _context3.next = 6;
                 return this.fetchData();
-
               case 6:
                 _context3.next = 12;
                 break;
-
               case 8:
                 _context3.prev = 8;
                 _context3.t0 = _context3["catch"](3);
                 console.error('fetchData error:', _context3.t0);
-
                 this._retry();
-
               case 12:
                 _context3.next = 15;
                 break;
-
               case 14:
                 if (this._polling) {
                   this._startPolling();
                 } else {
                   this._retry();
                 }
-
               case 15:
                 if (this._subscription && this._subscriptionFilters) {
                   this._subscription.subscribe(this._subscriptionFilters);
                 }
-
                 if (this._connectivityMonitor) {
                   this._connectivity = this._connectivityMonitor.connectivity;
                 }
-
               case 17:
               case "end":
                 return _context3.stop();
@@ -656,18 +492,15 @@ var GlipGroups = (_dec = (0, _di.Module)({
           }
         }, _callee3, this, [[3, 8]]);
       }));
-
       function _init() {
         return _init2.apply(this, arguments);
       }
-
       return _init;
     }()
   }, {
     key: "_processSubscription",
     value: function _processSubscription() {
       this._lastMessage = this._subscription.message;
-
       this._subscriptionHandleFn(this._lastMessage);
     }
   }, {
@@ -675,7 +508,6 @@ var GlipGroups = (_dec = (0, _di.Module)({
     value: function () {
       var _preloadGroupPosts2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(force) {
         var groups, _iterator2, _step2, group;
-
         return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
             switch (_context4.prev = _context4.next) {
@@ -683,75 +515,55 @@ var GlipGroups = (_dec = (0, _di.Module)({
                 groups = this.groups.slice(0, 20);
                 _iterator2 = _createForOfIteratorHelper(groups);
                 _context4.prev = 2;
-
                 _iterator2.s();
-
               case 4:
                 if ((_step2 = _iterator2.n()).done) {
                   _context4.next = 19;
                   break;
                 }
-
                 group = _step2.value;
-
                 if (this._glipPosts) {
                   _context4.next = 8;
                   break;
                 }
-
                 return _context4.abrupt("return");
-
               case 8:
                 if (this._preloadedPosts[group.id]) {
                   _context4.next = 17;
                   break;
                 }
-
                 this._preloadedPosts[group.id] = true;
-
                 if (!(!this._glipPosts.postsMap[group.id] || force)) {
                   _context4.next = 16;
                   break;
                 }
-
                 _context4.next = 13;
-                return (0, _sleep.sleep)(this._preloadPostsDelayTtl);
-
+                return (0, _utils.sleep)(this._preloadPostsDelayTtl);
               case 13:
                 if (!(!this._glipPosts.postsMap[group.id] || force)) {
                   _context4.next = 16;
                   break;
                 }
-
                 _context4.next = 16;
                 return this._glipPosts.fetchPosts(group.id);
-
               case 16:
                 if (!this._glipPosts.readTimeMap[group.id]) {
                   this._glipPosts.updateReadTime(group.id, Date.now() - 1000 * 3600 * 2);
                 }
-
               case 17:
                 _context4.next = 4;
                 break;
-
               case 19:
                 _context4.next = 24;
                 break;
-
               case 21:
                 _context4.prev = 21;
                 _context4.t0 = _context4["catch"](2);
-
                 _iterator2.e(_context4.t0);
-
               case 24:
                 _context4.prev = 24;
-
                 _iterator2.f();
-
                 return _context4.finish(24);
-
               case 27:
               case "end":
                 return _context4.stop();
@@ -759,24 +571,21 @@ var GlipGroups = (_dec = (0, _di.Module)({
           }
         }, _callee4, this, [[2, 21, 24, 27]]);
       }));
-
       function _preloadGroupPosts(_x2) {
         return _preloadGroupPosts2.apply(this, arguments);
       }
-
       return _preloadGroupPosts;
     }()
   }, {
     key: "updateFilter",
     value: function updateFilter(_ref2) {
       var searchFilter = _ref2.searchFilter,
-          pageNumber = _ref2.pageNumber;
+        pageNumber = _ref2.pageNumber;
       this.store.dispatch({
         type: this.actionTypes.updateFilter,
         searchFilter: searchFilter,
         pageNumber: pageNumber
       });
-
       if (this._preloadPosts && this.groups.length <= this._perPage * 2) {
         this._preloadGroupPosts();
       }
@@ -787,28 +596,22 @@ var GlipGroups = (_dec = (0, _di.Module)({
       if (!groupId) {
         return;
       }
-
       var lastGroupId = this.currentGroupId;
       var lastGroupPosts = this.currentGroupPosts;
       this.store.dispatch({
         type: this.actionTypes.updateCurrentGroupId,
         groupId: groupId
       });
-
       if (this._glipPersons) {
         this._glipPersons.loadPersons(this.currentGroup && this.currentGroup.members);
       }
-
       if (!this._glipPosts) {
         return;
       }
-
       if (lastGroupPosts.length > 20) {
         this._glipPosts.fetchPosts(lastGroupId);
       }
-
       this._glipPosts.loadPosts(groupId);
-
       this._glipPosts.updateReadTime(groupId);
     }
   }, {
@@ -824,11 +627,9 @@ var GlipGroups = (_dec = (0, _di.Module)({
                 return this._client.glip().groups().list({
                   recordCount: this._recordCountPerReq
                 });
-
               case 2:
                 result = _context5.sent;
                 return _context5.abrupt("return", result);
-
               case 4:
               case "end":
                 return _context5.stop();
@@ -836,11 +637,9 @@ var GlipGroups = (_dec = (0, _di.Module)({
           }
         }, _callee5, this);
       }));
-
       function _fetchFunction() {
         return _fetchFunction2.apply(this, arguments);
       }
-
       return _fetchFunction;
     }()
   }, {
@@ -859,50 +658,39 @@ var GlipGroups = (_dec = (0, _di.Module)({
                 _context6.prev = 2;
                 _context6.next = 5;
                 return this._fetchFunction();
-
               case 5:
                 data = _context6.sent;
-
                 if (this._auth.ownerId === ownerId) {
                   this.store.dispatch({
                     type: this.actionTypes.fetchSuccess,
                     data: data,
                     timestamp: Date.now()
                   });
-
                   if (this._polling) {
                     this._startPolling();
                   }
-
                   this._promise = null;
                 }
-
                 _context6.next = 16;
                 break;
-
               case 9:
                 _context6.prev = 9;
                 _context6.t0 = _context6["catch"](2);
-
                 if (!(this._auth.ownerId === ownerId)) {
                   _context6.next = 16;
                   break;
                 }
-
                 this._promise = null;
                 this.store.dispatch({
                   type: this.actionTypes.fetchError,
                   error: _context6.t0
                 });
-
                 if (this._polling) {
                   this._startPolling(this.timeToRetry);
                 } else {
                   this._retry();
                 }
-
                 throw _context6.t0;
-
               case 16:
               case "end":
                 return _context6.stop();
@@ -910,11 +698,9 @@ var GlipGroups = (_dec = (0, _di.Module)({
           }
         }, _callee6, this, [[2, 9]]);
       }));
-
       function _fetchData() {
         return _fetchData2.apply(this, arguments);
       }
-
       return _fetchData;
     }()
   }, {
@@ -928,9 +714,7 @@ var GlipGroups = (_dec = (0, _di.Module)({
                 if (!this._promise) {
                   this._promise = this._fetchData();
                 }
-
                 return _context7.abrupt("return", this._promise);
-
               case 2:
               case "end":
                 return _context7.stop();
@@ -938,11 +722,9 @@ var GlipGroups = (_dec = (0, _di.Module)({
           }
         }, _callee7, this);
       }));
-
       function fetchData() {
         return _fetchData3.apply(this, arguments);
       }
-
       return fetchData;
     }()
   }, {
@@ -960,7 +742,6 @@ var GlipGroups = (_dec = (0, _di.Module)({
                   type: 'PrivateChat',
                   members: [this._auth.ownerId, personId]
                 });
-
               case 3:
                 group = _context8.sent;
                 group.lastModifiedTime = Date.now();
@@ -973,15 +754,12 @@ var GlipGroups = (_dec = (0, _di.Module)({
                   groupId: group.id
                 });
                 return _context8.abrupt("return", group);
-
               case 10:
                 _context8.prev = 10;
                 _context8.t0 = _context8["catch"](0);
                 console.error(_context8.t0);
-
               case 13:
                 return _context8.abrupt("return", null);
-
               case 14:
               case "end":
                 return _context8.stop();
@@ -989,11 +767,9 @@ var GlipGroups = (_dec = (0, _di.Module)({
           }
         }, _callee8, this, [[0, 10]]);
       }));
-
       function startChat(_x3) {
         return _startChat.apply(this, arguments);
       }
-
       return startChat;
     }()
   }, {
@@ -1008,8 +784,8 @@ var GlipGroups = (_dec = (0, _di.Module)({
     value: function () {
       var _createTeam = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9(name, members) {
         var type,
-            group,
-            _args9 = arguments;
+          group,
+          _args9 = arguments;
         return regeneratorRuntime.wrap(function _callee9$(_context9) {
           while (1) {
             switch (_context9.prev = _context9.next) {
@@ -1023,11 +799,9 @@ var GlipGroups = (_dec = (0, _di.Module)({
                   isPublic: true,
                   description: ''
                 });
-
               case 3:
                 group = _context9.sent;
                 return _context9.abrupt("return", group.id);
-
               case 5:
               case "end":
                 return _context9.stop();
@@ -1035,11 +809,9 @@ var GlipGroups = (_dec = (0, _di.Module)({
           }
         }, _callee9, this);
       }));
-
       function createTeam(_x4, _x5) {
         return _createTeam.apply(this, arguments);
       }
-
       return createTeam;
     }()
   }, {
@@ -1093,7 +865,6 @@ var GlipGroups = (_dec = (0, _di.Module)({
       return !!this._appFeatures.hasGlipPermission;
     }
   }]);
-
   return GlipGroups;
 }(_Pollable2["default"]), (_applyDecoratedDescriptor(_class2.prototype, "updateFilter", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateFilter"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "updateCurrentGroupId", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "updateCurrentGroupId"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "fetchData", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "fetchData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "startChat", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "startChat"), _class2.prototype), _descriptor = _applyDecoratedDescriptor(_class2.prototype, "allGroups", [_selector.selector], {
   configurable: true,
@@ -1101,7 +872,6 @@ var GlipGroups = (_dec = (0, _di.Module)({
   writable: true,
   initializer: function initializer() {
     var _this3 = this;
-
     return [function () {
       return _this3.data;
     }, function () {
@@ -1125,7 +895,6 @@ var GlipGroups = (_dec = (0, _di.Module)({
   writable: true,
   initializer: function initializer() {
     var _this4 = this;
-
     return [function () {
       return _this4.allGroups;
     }, function () {
@@ -1134,29 +903,23 @@ var GlipGroups = (_dec = (0, _di.Module)({
       return _this4._glipPosts && _this4._glipPosts.postsMap;
     }, function (allGroups, searchFilter) {
       var postsMap = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : {};
-
-      if ((0, _isBlank["default"])(searchFilter)) {
+      if ((0, _isBlank.isBlank)(searchFilter)) {
         return allGroups;
       }
-
       var filterString = searchFilter.toLowerCase();
       return allGroups.filter(function (group) {
         var name = group.name && group.name.toLowerCase();
-
         if (name && name.indexOf(filterString) > -1) {
           return true;
         }
-
         if (!name) {
           var groupUsernames = group.detailMembers.map(function (m) {
             return "".concat(m.firstName, " ").concat(m.lastName);
           }).join(' ').toLowerCase();
-
           if (groupUsernames && groupUsernames.indexOf(filterString) > -1) {
             return true;
           }
         }
-
         var result = searchPosts(filterString, postsMap[group.id] || []);
         return result;
       });
@@ -1168,7 +931,6 @@ var GlipGroups = (_dec = (0, _di.Module)({
   writable: true,
   initializer: function initializer() {
     var _this5 = this;
-
     return [function () {
       return _this5.filteredGroups;
     }, function (filteredGroups) {
@@ -1185,7 +947,6 @@ var GlipGroups = (_dec = (0, _di.Module)({
   writable: true,
   initializer: function initializer() {
     var _this6 = this;
-
     return [function () {
       return _this6.allGroups;
     }, getUniqueMemberIds];
@@ -1196,7 +957,6 @@ var GlipGroups = (_dec = (0, _di.Module)({
   writable: true,
   initializer: function initializer() {
     var _this7 = this;
-
     return [function () {
       return _this7.allGroups;
     }, function (groups) {
@@ -1212,7 +972,6 @@ var GlipGroups = (_dec = (0, _di.Module)({
   writable: true,
   initializer: function initializer() {
     var _this8 = this;
-
     return [function () {
       return _this8.allGroups;
     }, function () {
@@ -1232,7 +991,6 @@ var GlipGroups = (_dec = (0, _di.Module)({
   writable: true,
   initializer: function initializer() {
     var _this9 = this;
-
     return [function () {
       var postsMap = _this9._glipPosts && _this9._glipPosts.postsMap || {};
       return postsMap[_this9.currentGroupId];
@@ -1256,7 +1014,6 @@ var GlipGroups = (_dec = (0, _di.Module)({
   writable: true,
   initializer: function initializer() {
     var _this10 = this;
-
     return [function () {
       return _this10.groups;
     }, function () {
@@ -1281,7 +1038,6 @@ var GlipGroups = (_dec = (0, _di.Module)({
   writable: true,
   initializer: function initializer() {
     var _this11 = this;
-
     return [function () {
       return _this11.groupsWithUnread;
     }, function (groups) {

@@ -1,100 +1,49 @@
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
-require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.symbol");
-
-require("core-js/modules/es6.promise");
-
-require("core-js/modules/es6.reflect.get");
-
-require("core-js/modules/es6.object.create");
-
-require("core-js/modules/es6.reflect.construct");
-
-require("core-js/modules/es6.object.set-prototype-of");
-
-require("core-js/modules/es6.object.define-property");
-
-require("core-js/modules/es6.array.slice");
-
-require("core-js/modules/es6.array.reduce");
-
-require("core-js/modules/es6.object.keys");
-
+require("core-js/modules/es.array.for-each");
+require("core-js/modules/es.array.from");
+require("core-js/modules/es.array.iterator");
+require("core-js/modules/es.date.now");
+require("core-js/modules/es.date.to-string");
+require("core-js/modules/es.map");
+require("core-js/modules/es.object.get-own-property-descriptor");
+require("core-js/modules/es.object.to-string");
+require("core-js/modules/es.set");
+require("core-js/modules/es.string.iterator");
+require("core-js/modules/web.dom-collections.for-each");
+require("core-js/modules/web.dom-collections.iterator");
+require("core-js/modules/web.timers");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.DataFetcherV2 = void 0;
-
-require("core-js/modules/es6.array.for-each");
-
-require("core-js/modules/es6.array.from");
-
 require("regenerator-runtime/runtime");
-
-require("core-js/modules/es6.date.now");
-
-require("core-js/modules/es6.map");
-
-require("core-js/modules/web.dom.iterable");
-
-require("core-js/modules/es6.array.iterator");
-
-require("core-js/modules/es6.object.to-string");
-
-require("core-js/modules/es6.string.iterator");
-
-require("core-js/modules/es6.set");
-
 var _ramda = require("ramda");
-
 var _core = require("@ringcentral-integration/core");
-
 var _di = require("../../lib/di");
-
 var _proxify = require("../../lib/proxy/proxify");
-
 var _sourceStatus = require("./sourceStatus");
-
 var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5;
-
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-
-function _get() { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(arguments.length < 3 ? target : receiver); } return desc.value; }; } return _get.apply(this, arguments); }
-
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+function _get() { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get.bind(); } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(arguments.length < 3 ? target : receiver); } return desc.value; }; } return _get.apply(this, arguments); }
 function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
-
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
-
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
-
-function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
-
+function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'transform-class-properties is enabled and runs after the decorators transform.'); }
 var DataFetcherV2 = (_dec = (0, _di.Module)({
   name: 'DataFetcherV2',
   deps: ['Auth', 'Storage', 'SleepDetector', {
@@ -106,14 +55,10 @@ var DataFetcherV2 = (_dec = (0, _di.Module)({
   }]
 }), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModuleV) {
   _inherits(DataFetcherV2, _RcModuleV);
-
   var _super = _createSuper(DataFetcherV2);
-
   function DataFetcherV2(deps) {
     var _this;
-
     _classCallCheck(this, DataFetcherV2);
-
     _this = _super.call(this, {
       storageKey: 'dataFetcherV2',
       enableCache: true,
@@ -122,24 +67,16 @@ var DataFetcherV2 = (_dec = (0, _di.Module)({
     _this._sources = new Set();
     _this._timeoutIds = new Map();
     _this._promises = new Map();
-
     _initializerDefineProperty(_this, "sourceStatus", _descriptor, _assertThisInitialized(_this));
-
     _initializerDefineProperty(_this, "storageData", _descriptor2, _assertThisInitialized(_this));
-
     _initializerDefineProperty(_this, "data", _descriptor3, _assertThisInitialized(_this));
-
     _initializerDefineProperty(_this, "timestamps", _descriptor4, _assertThisInitialized(_this));
-
     _initializerDefineProperty(_this, "isFetching", _descriptor5, _assertThisInitialized(_this));
-
     _this._deps.sleepDetector.on(_this._deps.sleepDetector.events.detected, function () {
       return _this._handleSleepDetected();
     });
-
     return _this;
   }
-
   _createClass(DataFetcherV2, [{
     key: "_shouldInit",
     value: function _shouldInit() {
@@ -164,7 +101,6 @@ var DataFetcherV2 = (_dec = (0, _di.Module)({
     key: "_setData",
     value: function _setData(key, disableCache, data) {
       var timestamp = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : Date.now();
-
       if (disableCache) {
         this.data[key] = data;
         this.timestamps[key] = timestamp;
@@ -188,51 +124,37 @@ var DataFetcherV2 = (_dec = (0, _di.Module)({
             switch (_context.prev = _context.next) {
               case 0:
                 this._setFetching(source.key, true);
-
                 ownerId = this._deps.auth.ownerId;
                 _context.prev = 2;
                 _context.next = 5;
                 return source.fetchFunction();
-
               case 5:
                 data = _context.sent;
-
                 if (this._deps.auth.ownerId === ownerId) {
                   this._setData(source.key, source.disableCache, data, Date.now());
-
                   this._setFetching(source.key, false);
-
                   if (source.polling) {
                     this._startPolling(source);
                   }
-
                   this._promises["delete"](source.key);
                 }
-
                 _context.next = 16;
                 break;
-
               case 9:
                 _context.prev = 9;
                 _context.t0 = _context["catch"](2);
-
                 if (!(this._deps.auth.ownerId === ownerId)) {
                   _context.next = 16;
                   break;
                 }
-
                 this._promises["delete"](source.key);
-
                 this._setFetching(source.key, false);
-
                 if (source.polling) {
                   this._startPolling(source, source.timeToRetry);
                 } else {
                   this._retry(source);
                 }
-
                 throw _context.t0;
-
               case 16:
               case "end":
                 return _context.stop();
@@ -240,11 +162,9 @@ var DataFetcherV2 = (_dec = (0, _di.Module)({
           }
         }, _callee, this, [[2, 9]]);
       }));
-
       function _fetchData(_x) {
         return _fetchData2.apply(this, arguments);
       }
-
       return _fetchData;
     }()
   }, {
@@ -252,7 +172,6 @@ var DataFetcherV2 = (_dec = (0, _di.Module)({
     value: function _clearTimeout(source) {
       if (this._timeoutIds.has(source.key)) {
         clearTimeout(this._timeoutIds.get(source.key));
-
         this._timeoutIds["delete"](source.key);
       }
     }
@@ -260,14 +179,10 @@ var DataFetcherV2 = (_dec = (0, _di.Module)({
     key: "_startPolling",
     value: function _startPolling(source) {
       var _this2 = this;
-
       var t = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : this.getTimestamp(source) + source.pollingInterval + 10 - Date.now();
-
       this._clearTimeout(source);
-
       this._timeoutIds.set(source.key, setTimeout(function () {
         _this2._timeoutIds["delete"](source.key);
-
         if (_this2.ready && _this2._checkIsActiveTab(source) && source.readyCheckFunction() && source.permissionCheckFunction()) {
           if (_this2._expired(source)) {
             _this2.fetchData(source);
@@ -285,11 +200,8 @@ var DataFetcherV2 = (_dec = (0, _di.Module)({
     key: "_retry",
     value: function _retry(source) {
       var _this3 = this;
-
       var t = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : source.timeToRetry;
-
       this._clearTimeout(source);
-
       this._timeoutIds.set(source.key, setTimeout(function () {
         if (_this3._expired(source)) {
           if (_this3.ready && _this3._checkIsActiveTab(source) && source.readyCheckFunction() && source.permissionCheckFunction()) {
@@ -311,9 +223,7 @@ var DataFetcherV2 = (_dec = (0, _di.Module)({
                 if (!this._promises.get(source.key)) {
                   this._promises.set(source.key, this._fetchData(source));
                 }
-
                 return _context2.abrupt("return", this._promises.get(source.key));
-
               case 2:
               case "end":
                 return _context2.stop();
@@ -321,11 +231,9 @@ var DataFetcherV2 = (_dec = (0, _di.Module)({
           }
         }, _callee2, this);
       }));
-
       function fetchData(_x2) {
         return _fetchData3.apply(this, arguments);
       }
-
       return fetchData;
     }()
   }, {
@@ -334,12 +242,12 @@ var DataFetcherV2 = (_dec = (0, _di.Module)({
       if (source.disableCache) {
         return this.timestamps[source.key] || null;
       }
-
       return this.cachedTimestamps[source.key] || null;
     }
   }, {
     key: "_expired",
     value: function _expired(source) {
+      // @ts-expect-error
       return Date.now() - this.getTimestamp(source) > source.ttl;
     }
   }, {
@@ -367,47 +275,36 @@ var DataFetcherV2 = (_dec = (0, _di.Module)({
                   _context3.next = 15;
                   break;
                 }
-
                 this._setSourceStatus(source.key, _sourceStatus.sourceStatus.initializing);
-
                 if (!this._shouldFetch(source)) {
                   _context3.next = 13;
                   break;
                 }
-
                 _context3.prev = 3;
                 _context3.next = 6;
                 return this.fetchData(source);
-
               case 6:
                 _context3.next = 11;
                 break;
-
               case 8:
                 _context3.prev = 8;
                 _context3.t0 = _context3["catch"](3);
-
                 this._retry(source);
-
               case 11:
                 _context3.next = 14;
                 break;
-
               case 13:
                 if (source.polling) {
                   this._startPolling(source);
                 } else {
                   this._retry(source);
                 }
-
               case 14:
                 return _context3.abrupt("return");
-
               case 15:
                 if (this.getData(source) !== null && this.getTimestamp(source) !== null) {
                   this._setSourceStatus(source.key, _sourceStatus.sourceStatus.ready);
                 }
-
               case 16:
               case "end":
                 return _context3.stop();
@@ -415,11 +312,9 @@ var DataFetcherV2 = (_dec = (0, _di.Module)({
           }
         }, _callee3, this, [[3, 8]]);
       }));
-
       function _tryInitializeSource(_x3) {
         return _tryInitializeSource2.apply(this, arguments);
       }
-
       return _tryInitializeSource;
     }()
   }, {
@@ -436,24 +331,19 @@ var DataFetcherV2 = (_dec = (0, _di.Module)({
     key: "_processSources",
     value: function _processSources() {
       var _this4 = this;
-
       if (this.ready) {
         (0, _ramda.forEach)(function (source) {
           if (!_this4.getSourceStatus(source)) {
             _this4._setSourceStatus(source.key, _sourceStatus.sourceStatus.pending);
           }
-
           var status = _this4.getSourceStatus(source);
-
           var readyCheck = _this4.ready && source.readyCheckFunction();
           var permissionCheck = readyCheck && source.permissionCheckFunction();
-
           if (readyCheck) {
             if (status === _sourceStatus.sourceStatus.pending || status === _sourceStatus.sourceStatus.initializing) {
               // if user has no permission to fetch data, bypass the initialization process
               if (!permissionCheck) {
                 _this4._setSourceStatus(source.key, _sourceStatus.sourceStatus.ready);
-
                 _this4._setData(source.key, source.disableCache, null, 0);
               } else {
                 _this4._tryInitializeSource(source);
@@ -471,8 +361,8 @@ var DataFetcherV2 = (_dec = (0, _di.Module)({
             }
           } else if (status === _sourceStatus.sourceStatus.ready) {
             _this4._setSourceStatus(source.key, _sourceStatus.sourceStatus.pending);
-
             if (source.cleanOnReset) {
+              // @ts-expect-error
               _this4._setData(source.key, source.disableCache, null, null);
             }
           }
@@ -483,7 +373,6 @@ var DataFetcherV2 = (_dec = (0, _di.Module)({
     key: "_handleSleepDetected",
     value: function _handleSleepDetected() {
       var _this5 = this;
-
       (0, _ramda.forEach)(function (source) {
         if (_this5.ready && _this5._shouldFetch(source)) {
           _this5.fetchData(source);
@@ -494,39 +383,32 @@ var DataFetcherV2 = (_dec = (0, _di.Module)({
     key: "_getRegisteredKeys",
     value: function _getRegisteredKeys() {
       var keys = new Set();
-
       this._sources.forEach(function (source) {
         keys.add(source.key);
       });
-
       return keys;
     }
   }, {
     key: "_getInvalidCachedKeys",
     value: function _getInvalidCachedKeys() {
       var registeredKeys = this._getRegisteredKeys();
-
       var keys = new Set();
-
       for (var k in this.cachedData) {
         if (Object.prototype.hasOwnProperty.call(this.cachedData, k) && !registeredKeys.has(k)) {
           keys.add(k);
         }
       }
-
       for (var _k in this.cachedTimestamps) {
         if (Object.prototype.hasOwnProperty.call(this.cachedTimestamps, _k) && !registeredKeys.has(_k)) {
           keys.add(_k);
         }
       }
-
       return keys;
     }
   }, {
     key: "_deleteKeys",
     value: function _deleteKeys(keys) {
       var _this6 = this;
-
       keys.forEach(function (k) {
         delete _this6.cachedData[k];
         delete _this6.cachedTimestamps[k];
@@ -547,22 +429,18 @@ var DataFetcherV2 = (_dec = (0, _di.Module)({
     key: "onReset",
     value: function onReset() {
       var _this7 = this;
-
       (0, _ramda.forEach)(function (source) {
         // clear all pollings or retries
-        _this7._clearTimeout(source); // clear all pending requests
-
-
-        _this7._promises["delete"](source.key); // reset isFetching
-
-
+        _this7._clearTimeout(source);
+        // clear all pending requests
+        _this7._promises["delete"](source.key);
+        // reset isFetching
         _this7._setFetching(source.key, false);
-
         if (_this7.getSourceStatus(source) !== _sourceStatus.sourceStatus.pending) {
           _this7._setSourceStatus(source.key, _sourceStatus.sourceStatus.pending);
         }
-
         if (source.cleanOnReset && _this7.getData(source) !== null && _this7.getTimestamp(source) !== null) {
+          // @ts-expect-error
           _this7._setData(source.key, source.disableCache, null, null);
         }
       }, Array.from(this._sources));
@@ -584,10 +462,9 @@ var DataFetcherV2 = (_dec = (0, _di.Module)({
         if (source.disableCache) {
           return this.data[source.key] || null;
         }
-
         return this.cachedData[source.key] || null;
       }
-
+      // @ts-expect-error
       return null;
     }
   }, {
@@ -606,7 +483,6 @@ var DataFetcherV2 = (_dec = (0, _di.Module)({
       return this._sources;
     }
   }]);
-
   return DataFetcherV2;
 }(_core.RcModuleV2), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "sourceStatus", [_core.state], {
   configurable: true,

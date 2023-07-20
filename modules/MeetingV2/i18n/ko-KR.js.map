@@ -1,1 +1,0 @@
-{"version":3,"sources":["modules/MeetingV2/i18n/ko-KR.ts"],"names":["meetingTitle"],"mappings":";;;;;;;;eAAe;AACbA,EAAAA,YAAY,EAAE;AADD,C,EAIf","sourcesContent":["export default {\n  meetingTitle: \"{extensionName}님의 모임\"\n};\n\n// @key: @#@\"meetingTitle\"@#@ @source: @#@\"{extensionName}'s Meeting\"@#@\n"],"file":"ko-KR.js"}

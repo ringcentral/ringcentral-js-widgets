@@ -1,223 +1,236 @@
 {
-    "uri" : "https://api-xmnup.lab.nordigy.ru/restapi/v1.0/account/129832006/extension/129832006/device?page=1&perPage=100",
-    "records" : [ {
-      "uri" : "https://api-xmnup.lab.nordigy.ru/restapi/v1.0/account/129832006/device/71401006",
-      "id" : "71401006",
-      "type" : "HardPhone",
-      "sku" : "HP-52",
-      "model" : {
-        "id" : "52",
-        "name" : "Cisco SPA-122 ATA",
-        "lineCount" : 2,
-        "addons" : [ ]
+  "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/129832006/extension/129832006/device?page=1&perPage=100",
+  "records": [
+    {
+      "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/129832006/device/71401006",
+      "id": "71401006",
+      "type": "HardPhone",
+      "sku": "HP-52",
+      "model": {
+        "id": "52",
+        "name": "Cisco SPA-122 ATA",
+        "lineCount": 2,
+        "addons": []
       },
-      "name" : "Something1 New1 Cisco SPA-122 ATA",
-      "status" : "Offline",
-      "extension" : {
-        "uri" : "https://api-xmnup.lab.nordigy.ru/restapi/v1.0/account/129832006/extension/129832006",
-        "id" : 129832006,
-        "extensionNumber" : "101"
+      "name": "Something1 New1 Cisco SPA-122 ATA",
+      "status": "Offline",
+      "extension": {
+        "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/129832006/extension/129832006",
+        "id": 129832006,
+        "extensionNumber": "101"
       },
-      "phoneLines" : [ {
-        "lineType" : "Standalone",
-        "emergencyAddress" : {
-          "required" : true,
-          "localOnly" : false
-        },
-        "phoneInfo" : {
-          "id" : 356651006,
-          "phoneNumber" : "+441161008581",
-          "paymentType" : "Local",
-          "type" : "VoiceFax",
-          "usageType" : "DirectNumber",
-          "country" : {
-            "uri" : "https://api-xmnup.lab.nordigy.ru/restapi/v1.0/dictionary/country/224",
-            "id" : "224",
-            "name" : "United Kingdom"
+      "phoneLines": [
+        {
+          "lineType": "Standalone",
+          "emergencyAddress": {
+            "required": true,
+            "localOnly": false
+          },
+          "phoneInfo": {
+            "id": 356651006,
+            "phoneNumber": "+441161008581",
+            "paymentType": "Local",
+            "type": "VoiceFax",
+            "usageType": "DirectNumber",
+            "country": {
+              "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/224",
+              "id": "224",
+              "name": "United Kingdom"
+            }
           }
         }
-      } ],
-      "emergencyServiceAddress" : {
-        "street" : "App.734 13 Elm Street",
-        "city" : "Foster City",
-        "state" : "CA",
-        "stateId" : "16",
-        "stateIsoCode" : "CA",
-        "stateName" : "California",
-        "country" : "US",
-        "countryId" : "1",
-        "countryIsoCode" : "US",
-        "countryName" : "United States",
-        "zip" : "94404",
-        "customerName" : "John Doe"
+      ],
+      "emergencyServiceAddress": {
+        "street": "App.734 13 Elm Street",
+        "city": "Foster City",
+        "state": "CA",
+        "stateId": "16",
+        "stateIsoCode": "CA",
+        "stateName": "California",
+        "country": "US",
+        "countryId": "1",
+        "countryIsoCode": "US",
+        "countryName": "United States",
+        "zip": "94404",
+        "customerName": "John Doe"
       },
-      "shipping" : {
-        "address" : {
-          "street" : "lala land",
-          "city" : "newriver",
-          "country" : "GB",
-          "countryId" : "224",
-          "countryIsoCode" : "GB",
-          "countryName" : "United Kingdom",
-          "zip" : "L16 JB",
-          "customerName" : "Amy liu"
+      "shipping": {
+        "address": {
+          "street": "lala land",
+          "city": "newriver",
+          "country": "GB",
+          "countryId": "224",
+          "countryIsoCode": "GB",
+          "countryName": "United Kingdom",
+          "zip": "L16 JB",
+          "customerName": "Amy liu"
         },
-        "method" : {
-          "id" : "1",
-          "name" : "Ground"
+        "method": {
+          "id": "1",
+          "name": "Ground"
         },
-        "status" : "Accepted"
+        "status": "Accepted"
       },
-      "linePooling" : "Host"
-    }, {
-      "uri" : "https://api-xmnup.lab.nordigy.ru/restapi/v1.0/account/129832006/device/71402006",
-      "id" : "71402006",
-      "type" : "HardPhone",
-      "sku" : "HP-52",
-      "model" : {
-        "id" : "52",
-        "name" : "Cisco SPA-122 ATA",
-        "lineCount" : 2,
-        "addons" : [ ]
-      },
-      "name" : "Something1 New1 Cisco SPA-122 ATA",
-      "status" : "Offline",
-      "extension" : {
-        "uri" : "https://api-xmnup.lab.nordigy.ru/restapi/v1.0/account/129832006/extension/129832006",
-        "id" : 129832006,
-        "extensionNumber" : "101"
-      },
-      "phoneLines" : [ {
-        "lineType" : "Standalone",
-        "emergencyAddress" : {
-          "required" : true,
-          "localOnly" : true
-        },
-        "phoneInfo" : {
-          "id" : 356652006,
-          "phoneNumber" : "+6442001092",
-          "paymentType" : "Local",
-          "type" : "VoiceFax",
-          "usageType" : "DirectNumber",
-          "country" : {
-            "uri" : "https://api-xmnup.lab.nordigy.ru/restapi/v1.0/dictionary/country/160",
-            "id" : "160",
-            "name" : "New Zealand"
-          }
-        }
-      } ],
-      "emergencyServiceAddress" : {
-        "street" : "21 riverland",
-        "city" : "newdd",
-        "state" : "1",
-        "country" : "NZ",
-        "countryId" : "160",
-        "countryIsoCode" : "NZ",
-        "countryName" : "New Zealand",
-        "zip" : "4413",
-        "customerName" : "Mr liu"
-      },
-      "shipping" : {
-        "address" : {
-          "street" : "21 riverland",
-          "city" : "newdd",
-          "country" : "NZ",
-          "countryId" : "160",
-          "countryIsoCode" : "NZ",
-          "countryName" : "New Zealand",
-          "zip" : "4413",
-          "customerName" : "Mr liu"
-        },
-        "method" : {
-          "id" : "1",
-          "name" : "Ground"
-        },
-        "status" : "Accepted"
-      },
-      "linePooling" : "Host"
-    }, {
-      "uri" : "https://api-xmnup.lab.nordigy.ru/restapi/v1.0/account/129832006/device/803423325020",
-      "id" : "803423325020",
-      "type" : "SoftPhone",
-      "sku" : "DV-1",
-      "name" : "Something1 New1 RingCentral Phone app",
-      "serial" : "LMXMN208",
-      "computerName" : "LMXMN208",
-      "status" : "Offline",
-      "extension" : {
-        "uri" : "https://api-xmnup.lab.nordigy.ru/restapi/v1.0/account/129832006/extension/129832006",
-        "id" : 129832006,
-        "extensionNumber" : "101"
-      },
-      "phoneLines" : [ {
-        "lineType" : "StandaloneFree",
-        "emergencyAddress" : {
-          "required" : true,
-          "localOnly" : true
-        },
-        "phoneInfo" : {
-          "id" : 418827006,
-          "phoneNumber" : "+6442001441",
-          "paymentType" : "Local",
-          "type" : "VoiceFax",
-          "usageType" : "DirectNumber",
-          "country" : {
-            "uri" : "https://api-xmnup.lab.nordigy.ru/restapi/v1.0/dictionary/country/160",
-            "id" : "160",
-            "name" : "New Zealand"
-          }
-        }
-      } ],
-      "linePooling" : "None"
-    }, {
-      "uri" : "https://api-xmnup.lab.nordigy.ru/restapi/v1.0/account/129832006/device/803464455020",
-      "id" : "803464455020",
-      "type" : "SoftPhone",
-      "sku" : "DV-1",
-      "name" : "SoftPhone",
-      "serial" : "LMXMN046",
-      "computerName" : "LMXMN046",
-      "status" : "Offline",
-      "extension" : {
-        "uri" : "https://api-xmnup.lab.nordigy.ru/restapi/v1.0/account/129832006/extension/129832006",
-        "id" : 129832006,
-        "extensionNumber" : "101"
-      },
-      "phoneLines" : [ {
-        "lineType" : "StandaloneFree",
-        "emergencyAddress" : {
-          "required" : true,
-          "localOnly" : true
-        },
-        "phoneInfo" : {
-          "id" : 418127006,
-          "phoneNumber" : "+6442001420",
-          "paymentType" : "Local",
-          "type" : "VoiceFax",
-          "usageType" : "DirectNumber",
-          "country" : {
-            "uri" : "https://api-xmnup.lab.nordigy.ru/restapi/v1.0/dictionary/country/160",
-            "id" : "160",
-            "name" : "New Zealand"
-          }
-        }
-      } ],
-      "linePooling" : "None"
-    } ],
-    "paging" : {
-      "page" : 1,
-      "totalPages" : 1,
-      "perPage" : 100,
-      "totalElements" : 4,
-      "pageStart" : 0,
-      "pageEnd" : 3
+      "linePooling": "Host"
     },
-    "navigation" : {
-      "firstPage" : {
-        "uri" : "https://api-xmnup.lab.nordigy.ru/restapi/v1.0/account/129832006/extension/129832006/device?page=1&perPage=100"
+    {
+      "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/129832006/device/71402006",
+      "id": "71402006",
+      "type": "HardPhone",
+      "sku": "HP-52",
+      "model": {
+        "id": "52",
+        "name": "Cisco SPA-122 ATA",
+        "lineCount": 2,
+        "addons": []
       },
-      "lastPage" : {
-        "uri" : "https://api-xmnup.lab.nordigy.ru/restapi/v1.0/account/129832006/extension/129832006/device?page=1&perPage=100"
-      }
+      "name": "Something1 New1 Cisco SPA-122 ATA",
+      "status": "Offline",
+      "extension": {
+        "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/129832006/extension/129832006",
+        "id": 129832006,
+        "extensionNumber": "101"
+      },
+      "phoneLines": [
+        {
+          "lineType": "Standalone",
+          "emergencyAddress": {
+            "required": true,
+            "localOnly": true
+          },
+          "phoneInfo": {
+            "id": 356652006,
+            "phoneNumber": "+6442001092",
+            "paymentType": "Local",
+            "type": "VoiceFax",
+            "usageType": "DirectNumber",
+            "country": {
+              "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/160",
+              "id": "160",
+              "name": "New Zealand"
+            }
+          }
+        }
+      ],
+      "emergencyServiceAddress": {
+        "street": "21 riverland",
+        "city": "newdd",
+        "state": "1",
+        "country": "NZ",
+        "countryId": "160",
+        "countryIsoCode": "NZ",
+        "countryName": "New Zealand",
+        "zip": "4413",
+        "customerName": "Mr liu"
+      },
+      "shipping": {
+        "address": {
+          "street": "21 riverland",
+          "city": "newdd",
+          "country": "NZ",
+          "countryId": "160",
+          "countryIsoCode": "NZ",
+          "countryName": "New Zealand",
+          "zip": "4413",
+          "customerName": "Mr liu"
+        },
+        "method": {
+          "id": "1",
+          "name": "Ground"
+        },
+        "status": "Accepted"
+      },
+      "linePooling": "Host"
+    },
+    {
+      "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/129832006/device/803423325020",
+      "id": "803423325020",
+      "type": "SoftPhone",
+      "sku": "DV-1",
+      "name": "Something1 New1 RingCentral Phone app",
+      "serial": "LMXMN208",
+      "computerName": "LMXMN208",
+      "status": "Offline",
+      "extension": {
+        "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/129832006/extension/129832006",
+        "id": 129832006,
+        "extensionNumber": "101"
+      },
+      "phoneLines": [
+        {
+          "lineType": "StandaloneFree",
+          "emergencyAddress": {
+            "required": true,
+            "localOnly": true
+          },
+          "phoneInfo": {
+            "id": 418827006,
+            "phoneNumber": "+6442001441",
+            "paymentType": "Local",
+            "type": "VoiceFax",
+            "usageType": "DirectNumber",
+            "country": {
+              "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/160",
+              "id": "160",
+              "name": "New Zealand"
+            }
+          }
+        }
+      ],
+      "linePooling": "None"
+    },
+    {
+      "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/129832006/device/803464455020",
+      "id": "803464455020",
+      "type": "SoftPhone",
+      "sku": "DV-1",
+      "name": "SoftPhone",
+      "serial": "LMXMN046",
+      "computerName": "LMXMN046",
+      "status": "Offline",
+      "extension": {
+        "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/129832006/extension/129832006",
+        "id": 129832006,
+        "extensionNumber": "101"
+      },
+      "phoneLines": [
+        {
+          "lineType": "StandaloneFree",
+          "emergencyAddress": {
+            "required": true,
+            "localOnly": true
+          },
+          "phoneInfo": {
+            "id": 418127006,
+            "phoneNumber": "+6442001420",
+            "paymentType": "Local",
+            "type": "VoiceFax",
+            "usageType": "DirectNumber",
+            "country": {
+              "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/160",
+              "id": "160",
+              "name": "New Zealand"
+            }
+          }
+        }
+      ],
+      "linePooling": "None"
+    }
+  ],
+  "paging": {
+    "page": 1,
+    "totalPages": 1,
+    "perPage": 100,
+    "totalElements": 4,
+    "pageStart": 0,
+    "pageEnd": 3
+  },
+  "navigation": {
+    "firstPage": {
+      "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/129832006/extension/129832006/device?page=1&perPage=100"
+    },
+    "lastPage": {
+      "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/129832006/extension/129832006/device?page=1&perPage=100"
     }
   }
+}

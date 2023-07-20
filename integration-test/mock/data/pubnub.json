@@ -13,10 +13,12 @@
     "allowSeeMyPresence": true,
     "ringOnMonitoredCall": false,
     "pickUpCallsOnHold": false,
-    "changes": [{
-      "newCount": 0,
-      "type": "SMS",
-      "updatedCount": 1
-    }]
+    "changes": [
+      {
+        "newCount": 0,
+        "type": "SMS",
+        "updatedCount": 1
+      }
+    ]
   }
 }

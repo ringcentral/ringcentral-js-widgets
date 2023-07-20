@@ -1,98 +1,43 @@
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
-require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.symbol");
-
-require("core-js/modules/es6.promise");
-
-require("core-js/modules/es6.object.create");
-
-require("core-js/modules/es6.reflect.construct");
-
-require("core-js/modules/es6.object.set-prototype-of");
-
-require("core-js/modules/es6.object.define-property");
-
-require("core-js/modules/es6.array.slice");
-
-require("core-js/modules/es6.array.reduce");
-
-require("core-js/modules/web.dom.iterable");
-
-require("core-js/modules/es6.array.iterator");
-
-require("core-js/modules/es6.object.to-string");
-
-require("core-js/modules/es6.object.keys");
-
-require("core-js/modules/es6.array.for-each");
-
+require("core-js/modules/es.array.concat");
+require("core-js/modules/es.array.includes");
+require("core-js/modules/es.function.name");
+require("core-js/modules/es.object.get-own-property-descriptor");
+require("core-js/modules/es.string.includes");
+require("core-js/modules/es.string.link");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.Softphone = void 0;
-
-require("core-js/modules/es6.function.name");
-
-require("core-js/modules/es6.string.link");
-
 require("regenerator-runtime/runtime");
-
-require("core-js/modules/es7.array.includes");
-
-require("core-js/modules/es6.string.includes");
-
 var _bowser = _interopRequireDefault(require("bowser"));
-
 var _core = require("@ringcentral-integration/core");
-
+var _utils = require("@ringcentral-integration/utils");
 var _di = require("../../lib/di");
-
 var _proxify = require("../../lib/proxy/proxify");
-
-var _sleep = require("../../lib/sleep");
-
-var _callingModes = _interopRequireDefault(require("../CallingSettings/callingModes"));
-
+var _callingModes = require("../CallingSettings/callingModes");
 var _softphoneStatus = require("./softphoneStatus");
-
 var _dec, _class, _class2, _descriptor, _descriptor2;
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
-
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
-
-function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'proposal-class-properties is enabled and runs after the decorators transform.'); }
-
+function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'transform-class-properties is enabled and runs after the decorators transform.'); }
 /**
  * @class
  * @description Softphone module to call softphone
@@ -108,33 +53,25 @@ var Softphone = (_dec = (0, _di.Module)({
   }]
 }), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModuleV) {
   _inherits(Softphone, _RcModuleV);
-
   var _super = _createSuper(Softphone);
-
   function Softphone(deps) {
     var _this$_deps$softphone, _this$_deps$softphone2, _this$_deps$softphone3;
-
     var _this;
-
     _classCallCheck(this, Softphone);
-
     _this = _super.call(this, {
       deps: deps
     });
+    // @ts-expect-error
     _this._callHandler = void 0;
     _this._extensionMode = void 0;
-
     _initializerDefineProperty(_this, "connectingPhoneNumber", _descriptor, _assertThisInitialized(_this));
-
     _initializerDefineProperty(_this, "softphoneStatus", _descriptor2, _assertThisInitialized(_this));
-
     _this._ignoreModuleReadiness(deps.contactMatcher);
-
     _this._extensionMode = (_this$_deps$softphone = (_this$_deps$softphone2 = _this._deps.softphoneOptions) === null || _this$_deps$softphone2 === void 0 ? void 0 : _this$_deps$softphone2.extensionMode) !== null && _this$_deps$softphone !== void 0 ? _this$_deps$softphone : false;
+    // @ts-expect-error
     _this._callHandler = (_this$_deps$softphone3 = _this._deps.softphoneOptions) === null || _this$_deps$softphone3 === void 0 ? void 0 : _this$_deps$softphone3.callHandler;
     return _this;
   }
-
   _createClass(Softphone, [{
     key: "startToConnect",
     value: function startToConnect(phoneNumber) {
@@ -145,6 +82,7 @@ var Softphone = (_dec = (0, _di.Module)({
     key: "connectComplete",
     value: function connectComplete() {
       this.softphoneStatus = _softphoneStatus.softphoneStatus.idle;
+      // @ts-expect-error
       this.connectingPhoneNumber = null;
     }
   }, {
@@ -158,17 +96,17 @@ var Softphone = (_dec = (0, _di.Module)({
       // spartan
       var command = "call?number=".concat(encodeURIComponent(phoneNumber));
       var protocol = this.spartanProtocol;
-      var isJupiterUniversalLink = false; // jupiter
-
-      var isCallWithJupiter = [_callingModes["default"].jupiter, _callingModes["default"].jupiterUniversalLink].includes(callingMode);
-
+      var isJupiterUniversalLink = false;
+      // jupiter
+      var isCallWithJupiter = [_callingModes.callingModes.jupiter, _callingModes.callingModes.jupiterUniversalLink].includes(callingMode);
       if (isCallWithJupiter) {
         // jupiter doesn't recognize encoded string for now
         command = "r/call?number=".concat(phoneNumber);
+        // @ts-expect-error
         isJupiterUniversalLink = this._useJupiterUniversalLink(callingMode);
+        // @ts-expect-error
         protocol = isJupiterUniversalLink ? this.jupiterUniversalLink : this.jupiterProtocol;
       }
-
       return {
         command: command,
         protocol: protocol,
@@ -180,14 +118,12 @@ var Softphone = (_dec = (0, _di.Module)({
     key: "_useJupiterUniversalLink",
     value: function _useJupiterUniversalLink(callingMode) {
       var _this$_deps$softphone4, _this$_deps$softphone5;
-
       // rc brand: call with jupiter, use scheme
       // rc brand: call with jupiter web, use universal link
       // partner brand: use universal link
-      if (callingMode === _callingModes["default"].jupiterUniversalLink) {
+      if (callingMode === _callingModes.callingModes.jupiterUniversalLink) {
         return true;
       }
-
       return (_this$_deps$softphone4 = (_this$_deps$softphone5 = this._deps.softphoneOptions) === null || _this$_deps$softphone5 === void 0 ? void 0 : _this$_deps$softphone5.useJupiterUniversalLink) !== null && _this$_deps$softphone4 !== void 0 ? _this$_deps$softphone4 : this._deps.brand.brandConfig.allowJupiterUniversalLink;
     }
   }, {
@@ -195,19 +131,16 @@ var Softphone = (_dec = (0, _di.Module)({
     value: function () {
       var _makeCall = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(phoneNumber, callingMode) {
         var _this$getMakeCallUri, protocol, command, uri, isJupiterUniversalLink, openLink, frame;
-
         return regeneratorRuntime.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 this.startToConnect(phoneNumber);
                 _this$getMakeCallUri = this.getMakeCallUri(phoneNumber, callingMode), protocol = _this$getMakeCallUri.protocol, command = _this$getMakeCallUri.command, uri = _this$getMakeCallUri.uri, isJupiterUniversalLink = _this$getMakeCallUri.isJupiterUniversalLink;
-
                 if (!this._callHandler) {
                   _context.next = 6;
                   break;
                 }
-
                 this._callHandler({
                   callingMode: callingMode,
                   protocol: protocol,
@@ -216,10 +149,8 @@ var Softphone = (_dec = (0, _di.Module)({
                   isJupiterUniversalLink: isJupiterUniversalLink,
                   phoneNumber: phoneNumber
                 });
-
                 _context.next = 24;
                 break;
-
               case 6:
                 /**
                  * 1. Use window.open in extension background scripts to avoid crashing Browsers
@@ -228,57 +159,49 @@ var Softphone = (_dec = (0, _di.Module)({
                  * 4. for Jupiter universal link, should open link directly
                  */
                 openLink = isJupiterUniversalLink || this._extensionMode || this.detectPlatform() !== 'desktop' || window.ActiveXObject || 'ActiveXObject' in window;
-
                 if (!openLink) {
                   _context.next = 11;
                   break;
                 }
-
                 window.open(uri);
+                // @ts-expect-error
                 _context.next = 24;
                 break;
-
               case 11:
                 if (!window.navigator.msLaunchUri) {
                   _context.next = 15;
                   break;
                 }
-
                 // to support ie to start the service
+                // @ts-expect-error
                 window.navigator.msLaunchUri(uri);
                 _context.next = 24;
                 break;
-
               case 15:
                 // open via iframe
                 frame = document.createElement('iframe');
                 frame.style.display = 'none';
                 document.body.appendChild(frame);
                 _context.next = 20;
-                return (0, _sleep.sleep)(100);
-
+                return (0, _utils.sleep)(100);
               case 20:
+                // @ts-expect-error
                 frame.contentWindow.location.href = uri;
                 _context.next = 23;
-                return (0, _sleep.sleep)(300);
-
+                return (0, _utils.sleep)(300);
               case 23:
                 document.body.removeChild(frame);
-
               case 24:
                 if (!this._deps.contactMatcher) {
                   _context.next = 27;
                   break;
                 }
-
                 _context.next = 27;
                 return this._deps.contactMatcher.forceMatchNumber({
                   phoneNumber: phoneNumber
                 });
-
               case 27:
                 this.connectComplete();
-
               case 28:
               case "end":
                 return _context.stop();
@@ -286,43 +209,36 @@ var Softphone = (_dec = (0, _di.Module)({
           }
         }, _callee, this);
       }));
-
       function makeCall(_x, _x2) {
         return _makeCall.apply(this, arguments);
       }
-
       return makeCall;
     }()
   }, {
     key: "spartanProtocol",
     get: function get() {
+      // @ts-expect-error
       return this._deps.brand.brandConfig.callWithSoftphone.protocol;
     } // currently we only have RingCentral App(rc brand)'s & AT&T universal link
-
   }, {
     key: "jupiterUniversalLink",
     get: function get() {
       var _this$_deps$brand$bra;
-
       return (_this$_deps$brand$bra = this._deps.brand.brandConfig.callWithJupiter) === null || _this$_deps$brand$bra === void 0 ? void 0 : _this$_deps$brand$bra.link;
     }
   }, {
     key: "jupiterAppName",
     get: function get() {
       var _this$_deps$brand$bra2;
-
       return (_this$_deps$brand$bra2 = this._deps.brand.brandConfig.callWithJupiter) === null || _this$_deps$brand$bra2 === void 0 ? void 0 : _this$_deps$brand$bra2.name;
     } // currently we don't have Bt brand uri scheme
-
   }, {
     key: "jupiterProtocol",
     get: function get() {
       var _this$_deps$brand$bra3;
-
       return (_this$_deps$brand$bra3 = this._deps.brand.brandConfig.callWithJupiter) === null || _this$_deps$brand$bra3 === void 0 ? void 0 : _this$_deps$brand$bra3.protocol;
     }
   }]);
-
   return Softphone;
 }(_core.RcModuleV2), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "connectingPhoneNumber", [_core.state], {
   configurable: true,

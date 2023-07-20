@@ -1,0 +1,1 @@
+{"version":3,"file":"pt-BR.js","names":["meetingTitle","exports","_default"],"sources":["modules/Meeting/i18n/pt-BR.ts"],"sourcesContent":["export default {\n  meetingTitle: \"Reunião de {extensionName}\"\n};\n\n// @key: @#@\"meetingTitle\"@#@ @source: @#@\"{extensionName}'s Meeting\"@#@\n"],"mappings":";;;;;;eAAe;EACbA,YAAY,EAAE;AAChB,CAAC,EAED;AAAAC,OAAA,cAAAC,QAAA"}

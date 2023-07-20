@@ -1,0 +1,218 @@
+"use strict";
+
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+require("core-js/modules/es.array.concat");
+require("core-js/modules/es.array.iterator");
+require("core-js/modules/es.object.to-string");
+require("core-js/modules/web.dom-collections.iterator");
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.Storage = void 0;
+require("regenerator-runtime/runtime");
+var _di = require("../../lib/di");
+var _StorageBase2 = require("../../lib/StorageBase");
+var _Auth = require("../Auth");
+var _dec, _class; // @ts-nocheck
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+var dataFetcherKey = 'dataFetcherV2-storageData';
+var Storage = (_dec = (0, _di.Module)({
+  name: 'Storage',
+  deps: ['Auth', {
+    dep: 'TabManager',
+    optional: true
+  }, {
+    dep: 'StorageOptions',
+    optional: true
+  }]
+}), _dec(_class = /*#__PURE__*/function (_StorageBase) {
+  _inherits(Storage, _StorageBase);
+  var _super = _createSuper(Storage);
+  function Storage(deps) {
+    var _deps$storageOptions, _this$_deps$storageOp, _this$_deps$storageOp2;
+    var _this;
+    _classCallCheck(this, Storage);
+    _this = _super.call(this, deps, {
+      name: 'storage',
+      StorageProvider: (_deps$storageOptions = deps.storageOptions) === null || _deps$storageOptions === void 0 ? void 0 : _deps$storageOptions.StorageProvider
+    });
+    _this._disableInactiveTabsWrite = void 0;
+    _this._storage = void 0;
+    _this._storageHandler = null;
+    _this.storedData = {};
+    _this._disableInactiveTabsWrite = (_this$_deps$storageOp = (_this$_deps$storageOp2 = _this._deps.storageOptions) === null || _this$_deps$storageOp2 === void 0 ? void 0 : _this$_deps$storageOp2.disableInactiveTabsWrite) !== null && _this$_deps$storageOp !== void 0 ? _this$_deps$storageOp : true;
+    return _this;
+  }
+  _createClass(Storage, [{
+    key: "onStateChange",
+    value: function onStateChange() {
+      if (this.ready && this.storageWritable) {
+        var currentData = this.data;
+        // save new data to storage when changed
+        for (var key in currentData) {
+          if (key !== dataFetcherKey) {
+            if (this.storedData[key] !== currentData[key]) {
+              this._storage.setItem(key, currentData[key]);
+              this.storedData[key] = currentData[key];
+            }
+          } else {
+            var _currentData$dataFetc;
+            var currentFetcherData = (_currentData$dataFetc = currentData[dataFetcherKey]) !== null && _currentData$dataFetc !== void 0 ? _currentData$dataFetc : {};
+            if (!this.storedData[dataFetcherKey]) {
+              this.storedData[dataFetcherKey] = {};
+            }
+            var storedFetcherData = this.storedData[dataFetcherKey];
+            var needToSave = false;
+            // initial state has no cachedTimestamps and need to save
+            if (!storedFetcherData.cachedTimestamps) {
+              needToSave = true;
+              this.storedData[dataFetcherKey] = currentFetcherData;
+            } else {
+              // if cachedTimestamps changed, cachedData should be changed too
+              // And an action only updates one data
+              for (var _key in currentFetcherData.cachedTimestamps) {
+                if (storedFetcherData.cachedTimestamps[_key] !== currentFetcherData.cachedTimestamps[_key]) {
+                  needToSave = true;
+                  storedFetcherData.cachedTimestamps[_key] = currentFetcherData.cachedTimestamps[_key];
+                  storedFetcherData.cachedData[_key] = currentFetcherData.cachedData[_key];
+                }
+              }
+            }
+            if (needToSave) {
+              this._storage.setItem(dataFetcherKey, this.storedData[dataFetcherKey]);
+            }
+          }
+        }
+      }
+    }
+  }, {
+    key: "onInit",
+    value: function () {
+      var _onInit = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        var _this$_deps$storageOp3;
+        var key, currentData, _key2;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                this._storage = new this._StorageProvider({
+                  storageKey: this.storageKey
+                });
+                _context.next = 3;
+                return this._storage.getData();
+              case 3:
+                this.storedData = _context.sent;
+                if ((_this$_deps$storageOp3 = this._deps.storageOptions) === null || _this$_deps$storageOp3 === void 0 ? void 0 : _this$_deps$storageOp3.disableClearUnused) {
+                  _context.next = 14;
+                  break;
+                }
+                _context.t0 = regeneratorRuntime.keys(this.storedData);
+              case 6:
+                if ((_context.t1 = _context.t0()).done) {
+                  _context.next = 14;
+                  break;
+                }
+                key = _context.t1.value;
+                if (this._storageReducers[key]) {
+                  _context.next = 12;
+                  break;
+                }
+                delete this.storedData[key];
+                _context.next = 12;
+                return this._storage.removeItem(key);
+              case 12:
+                _context.next = 6;
+                break;
+              case 14:
+                this.setData(_objectSpread(_objectSpread({}, this.data), this.storedData));
+                currentData = this.data;
+                for (_key2 in currentData) {
+                  if (!Object.prototype.hasOwnProperty.call(this.storedData, _key2) && this.storageWritable) {
+                    this._storage.setItem(_key2, currentData[_key2]);
+                  }
+                }
+              case 17:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+      function onInit() {
+        return _onInit.apply(this, arguments);
+      }
+      return onInit;
+    }()
+  }, {
+    key: "onInitSuccess",
+    value: function onInitSuccess() {
+      var _this2 = this;
+      this._storageHandler = function (_ref) {
+        var key = _ref.key,
+          value = _ref.value;
+        if (_this2.ready) {
+          _this2.storedData[key] = value;
+          _this2.syncData(key, value);
+        }
+      };
+      this._storage.on('storage', this._storageHandler);
+    }
+  }, {
+    key: "_shouldInit",
+    value: function _shouldInit() {
+      return this._deps.auth.loginStatus === _Auth.loginStatus.loggedIn && (!this._deps.tabManager || this._deps.tabManager.ready) && this.pending;
+    }
+  }, {
+    key: "_shouldReset",
+    value: function _shouldReset() {
+      return (!!this._deps.tabManager && !this._deps.tabManager.ready || this._deps.auth.notLoggedIn) && this.ready;
+    }
+  }, {
+    key: "onReset",
+    value: function onReset() {
+      if (this._storageHandler) {
+        if (this._storage.off) {
+          this._storage.off('storage', this._storageHandler);
+        } else if (this._storage.removeListener) {
+          this._storage.removeListener('storage', this._storageHandler);
+        }
+        this._storageHandler = null;
+      }
+      if (this._storage) {
+        this._storage.destroy();
+        this._storage = null;
+      }
+      this.resetData();
+    }
+  }, {
+    key: "storageWritable",
+    get: function get() {
+      return !this._disableInactiveTabsWrite || !this._deps.tabManager || this._deps.tabManager.active;
+    }
+  }, {
+    key: "storageKey",
+    get: function get() {
+      var prefix = this.prefix ? "".concat(this.prefix, "-") : '';
+      return "".concat(prefix, "storage-").concat(this._deps.auth.ownerId);
+    }
+  }]);
+  return Storage;
+}(_StorageBase2.StorageBase)) || _class);
+exports.Storage = Storage;
+//# sourceMappingURL=Storage.js.map

@@ -1,0 +1,1 @@
+{"version":3,"file":"Timezone.interface.js","names":[],"sources":["modules/Timezone/Timezone.interface.ts"],"sourcesContent":["import type { Storage } from '../Storage';\n\nexport interface TimezoneOptions {}\n\nexport interface Deps {\n  client: any;\n  storage: Storage;\n  timezoneOptions?: TimezoneOptions;\n}\n"],"mappings":""}

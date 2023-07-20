@@ -1,1 +1,1 @@
-{"version":3,"sources":[],"names":[],"mappings":"","sourcesContent":[],"file":"CallErrors.interface.js"}
+{"version":3,"file":"CallErrors.interface.js","names":[],"sources":["interfaces/CallErrors.interface.ts"],"sourcesContent":["import type { callErrors } from '../modules/Call';\n\nexport type CallErrorsKeys = keyof typeof callErrors;\nexport type CallErrorsType = typeof callErrors[CallErrorsKeys];\n"],"mappings":""}

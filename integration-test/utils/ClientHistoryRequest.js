@@ -1,50 +1,42 @@
 "use strict";
 
-require("core-js/modules/es6.promise");
-
-require("core-js/modules/es6.object.to-string");
-
+require("core-js/modules/es.symbol");
+require("core-js/modules/es.symbol.description");
+require("core-js/modules/es.symbol.to-primitive");
+require("core-js/modules/es.array.concat");
+require("core-js/modules/es.array.for-each");
+require("core-js/modules/es.array.index-of");
+require("core-js/modules/es.date.to-primitive");
+require("core-js/modules/es.number.constructor");
+require("core-js/modules/es.object.to-string");
+require("core-js/modules/web.dom-collections.for-each");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-
-require("core-js/modules/es6.object.define-property");
-
-require("core-js/modules/es6.array.index-of");
-
-require("core-js/modules/es6.array.for-each");
-
 require("regenerator-runtime/runtime");
-
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 var ClientHistoryRequest = /*#__PURE__*/function () {
   function ClientHistoryRequest(requestContainer, client) {
     _classCallCheck(this, ClientHistoryRequest);
-
     this._requestContainer = requestContainer;
     this._client = client.service.client();
     this.init();
   }
-
   _createClass(ClientHistoryRequest, [{
     key: "init",
     value: function init() {
       var _this = this;
-
       this._client.on(this._client.events.beforeRequest, function (request) {
         _this._requestContainer.set(request.url, null);
       });
-
       this._client.on(this._client.events.requestSuccess, /*#__PURE__*/function () {
         var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(response) {
           var res;
@@ -57,12 +49,9 @@ var ClientHistoryRequest = /*#__PURE__*/function () {
                   _context.t1 = res.url;
                   _context.next = 5;
                   return res.json();
-
                 case 5:
                   _context.t2 = _context.sent;
-
                   _context.t0.set.call(_context.t0, _context.t1, _context.t2);
-
                 case 7:
                 case "end":
                   return _context.stop();
@@ -70,12 +59,10 @@ var ClientHistoryRequest = /*#__PURE__*/function () {
             }
           }, _callee);
         }));
-
         return function (_x) {
           return _ref.apply(this, arguments);
         };
       }());
-
       this._client.on(this._client.events.requestError, /*#__PURE__*/function () {
         var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(error) {
           return regeneratorRuntime.wrap(function _callee2$(_context2) {
@@ -85,25 +72,18 @@ var ClientHistoryRequest = /*#__PURE__*/function () {
                   console.error(error.request && error.request.url);
                   _context2.t0 = console;
                   _context2.t1 = error.response;
-
                   if (!_context2.t1) {
                     _context2.next = 7;
                     break;
                   }
-
                   _context2.next = 6;
                   return error.response.clone().json();
-
                 case 6:
                   _context2.t1 = _context2.sent;
-
                 case 7:
                   _context2.t2 = _context2.t1;
-
                   _context2.t0.error.call(_context2.t0, _context2.t2);
-
                   console.error(error.response && error.response.status);
-
                 case 10:
                 case "end":
                   return _context2.stop();
@@ -111,7 +91,6 @@ var ClientHistoryRequest = /*#__PURE__*/function () {
             }
           }, _callee2);
         }));
-
         return function (_x2) {
           return _ref2.apply(this, arguments);
         };
@@ -121,13 +100,11 @@ var ClientHistoryRequest = /*#__PURE__*/function () {
     key: "getRawResponse",
     value: function getRawResponse(endPoint) {
       var rawResponse = null;
-
       this._requestContainer.forEach(function (value, key) {
         if (key.indexOf(endPoint) > -1) {
           rawResponse = value;
         }
       });
-
       if (rawResponse == null) {
         throw new Error("Cannot find rawResponse from endPoint:'".concat(endPoint, "'"));
       } else {
@@ -147,10 +124,8 @@ var ClientHistoryRequest = /*#__PURE__*/function () {
       return this._requestContainer;
     }
   }]);
-
   return ClientHistoryRequest;
 }();
-
 exports["default"] = ClientHistoryRequest;
 ClientHistoryRequest.endPoints = {
   callLog: '/restapi/v1.0/account/~/extension/~/call-log',

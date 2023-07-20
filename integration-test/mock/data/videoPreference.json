@@ -186,10 +186,10 @@
     "canModifyAccess": true
   },
   {
-    "id" : "e2ee",
-    "value" : false,
-    "readOnly" : false,
-    "canModifyAccess" : true
+    "id": "e2ee",
+    "value": false,
+    "readOnly": false,
+    "canModifyAccess": true
   },
   {
     "id": "controls",

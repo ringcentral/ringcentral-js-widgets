@@ -1,0 +1,1 @@
+{"version":3,"file":"fr-FR.js","names":["tollFree","exports","_default"],"sources":["modules/RcVideo/i18n/fr-FR.js"],"sourcesContent":["export default {\n  tollFree: \"Gratuit\"\n};\n\n// @key: @#@\"tollFree\"@#@ @source: @#@\"Toll-Free\"@#@\n"],"mappings":";;;;;;eAAe;EACbA,QAAQ,EAAE;AACZ,CAAC,EAED;AAAAC,OAAA,cAAAC,QAAA"}

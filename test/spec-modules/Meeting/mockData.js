@@ -1,14 +1,10 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.SAVED_DEFAULT_MEETING_SETTING = exports.MOCK_TURN_OFF_3RD_PARTY_AUDIO = exports.MOCK_PERSONAL_MEETING = exports.LAST_MEETING_SETTING = exports.EXPECT_SAVE_AS_DEFAULT_SETTING = exports.EXPECT_PMI_DEFAULT_SETTING_WITH_SW_SETTING = exports.EXPECT_LAST_MEETING_SETTING = exports.EXPECT_GENERAL_DEFAULT_SETTING_WITH_SW_SETTING = void 0;
-
 var _meetingHelper = require("../../../helpers/meetingHelper");
-
 var MOCK_TURN_OFF_3RD_PARTY_AUDIO = {
   audioConferenceInfo: '',
   thirdPartyAudio: false
@@ -26,7 +22,7 @@ var MOCK_PERSONAL_MEETING = {
     }
   },
   host: {
-    uri: 'http://api-xmnup.lab.nordigy.ru/restapi/v1.0/account/270956004/extension/270963004',
+    uri: 'https://platform.devtest.ringcentral.com/restapi/v1.0/account/270956004/extension/270963004',
     id: '270963004'
   },
   allowJoinBeforeHost: true,
@@ -46,7 +42,7 @@ var MOCK_PERSONAL_MEETING = {
     startParticipantsVideo: false
   },
   _pmiPassword: '',
-  uri: 'http://api-xmnup.lab.nordigy.ru/restapi/v1.0/account/270956004/extension/270963004/meeting/1482870071',
+  uri: 'https://platform.devtest.ringcentral.com/restapi/v1.0/account/270956004/extension/270963004/meeting/1482870071',
   uuid: 't90EAKqnQNO6vQ+EmItDcQ==',
   id: '1482870071',
   pmi: '6993012426',

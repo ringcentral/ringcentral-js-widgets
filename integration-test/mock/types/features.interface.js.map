@@ -1,1 +1,1 @@
-{"version":3,"sources":[],"names":[],"mappings":"","sourcesContent":[],"file":"features.interface.js"}
+{"version":3,"file":"features.interface.js","names":[],"sources":["integration-test/mock/types/features.interface.ts"],"sourcesContent":["import type features from '../data/features.json';\n\nexport type FeaturesData = typeof features;\n\nexport type Record = FeaturesData['records'][0];\n"],"mappings":""}

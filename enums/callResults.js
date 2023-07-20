@@ -1,14 +1,10 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = exports.callResults = void 0;
-
 var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
-
 var callResults = _ObjectMap.ObjectMap.fromObject({
   IPPhoneOffline: 'IP Phone Offline',
   abandoned: 'Abandoned',
@@ -55,7 +51,6 @@ var callResults = _ObjectMap.ObjectMap.fromObject({
   disconnected: 'Disconnected',
   notAllowed: 'Not Allowed'
 });
-
 exports.callResults = callResults;
 var _default = callResults;
 exports["default"] = _default;

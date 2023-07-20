@@ -1,1 +1,1 @@
-{"version":3,"sources":[],"names":[],"mappings":"","sourcesContent":[],"file":"Site.model.js"}
+{"version":3,"file":"Site.model.js","names":[],"sources":["interfaces/Site.model.ts"],"sourcesContent":["export interface Site {\n  id: string;\n  name: string;\n  code: string;\n}\n"],"mappings":""}

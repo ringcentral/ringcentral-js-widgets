@@ -1,1 +1,0 @@
-{"version":3,"sources":["lib/detectBrowser.ts"],"names":["isSafari","test","navigator","userAgent"],"mappings":";;;;;;;;;AAAO,IAAMA,QAAQ,GAAG,SAAXA,QAAW;AAAA,SACtB,iCAAiCC,IAAjC,CAAsCC,SAAS,CAACC,SAAhD,CADsB;AAAA,CAAjB","sourcesContent":["export const isSafari = () =>\n  /^((?!chrome|android).)*safari/i.test(navigator.userAgent);\n"],"file":"detectBrowser.js"}

@@ -1,14 +1,10 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = exports.callActions = void 0;
-
 var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
-
 var callActions = _ObjectMap.ObjectMap.fromObject({
   '411Info': '411 Info',
   acceptCall: 'Accept Call',
@@ -32,7 +28,6 @@ var callActions = _ObjectMap.ObjectMap.fromObject({
   unknown: 'Unknown',
   voIPCall: 'VoIP Call'
 });
-
 exports.callActions = callActions;
 var _default = callActions;
 exports["default"] = _default;

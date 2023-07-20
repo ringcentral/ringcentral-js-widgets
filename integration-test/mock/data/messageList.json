@@ -2,7 +2,7 @@
   "uri": "https.../restapi/v1.0/account/400371259008/extension/400371259008/message-store?availability=Alive&dateFrom=2015-11-17T14:40:00.000Z&distinctConversations=true&page=1&perPage=3",
   "records": [
     {
-      "uri": "https://api-rcapps-xmnup.lab.nordigy.ru/restapi/v1.0/account/1587148004/extension/1587148004/message-store/3628750004",
+      "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/1587148004/extension/1587148004/message-store/3628750004",
       "id": 3628750004,
       "to": [
         {
@@ -23,7 +23,7 @@
       "attachments": [
         {
           "id": 3628750004,
-          "uri": "https://api-rcapps-xmnup.lab.nordigy.ru/restapi/v1.0/account/1587148004/extension/1587148004/message-store/3628750004/content/3628750004",
+          "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/account/1587148004/extension/1587148004/message-store/3628750004/content/3628750004",
           "type": "Text",
           "contentType": "text/plain"
         }
@@ -36,7 +36,7 @@
       "conversationId": 4534173861163921400,
       "conversation": {
         "id": "4534173861163921426",
-        "uri": "https://api-rcapps-xmnup.lab.nordigy.ru/restapi/v1.0/conversation/4534173861163921426"
+        "uri": "https://platform.devtest.ringcentral.com/restapi/v1.0/conversation/4534173861163921426"
       },
       "lastModifiedTime": "2021-09-22T08:41:27.448Z"
     }

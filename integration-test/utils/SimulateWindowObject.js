@@ -1,15 +1,11 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
+require("core-js/modules/es.object.define-properties");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = SimulateWindowObject;
 exports.mockDevice = mockDevice;
-
-require("core-js/modules/es6.object.define-properties");
-
 var defaultDevices = [{
   deviceId: 'default',
   kind: 'audioinput',
@@ -21,7 +17,6 @@ var defaultDevices = [{
   label: 'Internal Microphone (Built-in)',
   groupId: '2303aeba3eb3b5b69d8712798dc9f41b1f1a526f23d032cf53353248d9f6ba83'
 }];
-
 function mockDevice() {
   var devices = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : defaultDevices;
   Object.defineProperties(window.navigator.mediaDevices, {
@@ -39,7 +34,6 @@ function mockDevice() {
     }
   });
 }
-
 function SimulateWindowObject() {
   var isMockDevices = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
   Object.defineProperties(window.navigator, {
@@ -56,7 +50,6 @@ function SimulateWindowObject() {
     }
   });
   mockDevice(isMockDevices ? defaultDevices : []);
-
   if (!HTMLMediaElement.prototype || !HTMLMediaElement.prototype.setSinkId) {
     Object.defineProperties(HTMLMediaElement.prototype, {
       setSinkId: {
@@ -66,7 +59,6 @@ function SimulateWindowObject() {
       }
     });
   }
-
   return true;
 }
 //# sourceMappingURL=SimulateWindowObject.js.map

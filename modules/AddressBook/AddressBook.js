@@ -1,0 +1,404 @@
+"use strict";
+
+function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+require("core-js/modules/es.array.concat");
+require("core-js/modules/es.array.find");
+require("core-js/modules/es.array.for-each");
+require("core-js/modules/es.date.now");
+require("core-js/modules/es.date.to-string");
+require("core-js/modules/es.object.get-own-property-descriptor");
+require("core-js/modules/es.object.keys");
+require("core-js/modules/web.dom-collections.for-each");
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.DEFAULT_FETCH_INTERVAL = exports.DEFAULT_CONTACTS_PER_PAGE = exports.AddressBook = void 0;
+require("regenerator-runtime/runtime");
+var _ramda = require("ramda");
+var _core = require("@ringcentral-integration/core");
+var _utils = require("@ringcentral-integration/utils");
+var _availabilityTypes = require("../../enums/availabilityTypes");
+var _phoneSources = require("../../enums/phoneSources");
+var _contactHelper = require("../../lib/contactHelper");
+var _di = require("../../lib/di");
+var _proxify = require("../../lib/proxy/proxify");
+var _DataFetcherV = require("../DataFetcherV2");
+var _helpers = require("./helpers");
+var _dec, _dec2, _dec3, _dec4, _class, _class2, _descriptor;
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
+function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'transform-class-properties is enabled and runs after the decorators transform.'); }
+var DEFAULT_FETCH_INTERVAL = 1000;
+exports.DEFAULT_FETCH_INTERVAL = DEFAULT_FETCH_INTERVAL;
+var DEFAULT_CONTACTS_PER_PAGE = 250;
+exports.DEFAULT_CONTACTS_PER_PAGE = DEFAULT_CONTACTS_PER_PAGE;
+var AddressBook = (_dec = (0, _di.Module)({
+  name: 'AddressBook',
+  deps: ['Client', 'ExtensionFeatures', 'DataFetcherV2', 'Storage', {
+    dep: 'AddressBookOptions',
+    optional: true
+  }]
+}), _dec2 = (0, _core.computed)(function (_ref) {
+  var data = _ref.data;
+  return [data];
+}), _dec3 = (0, _core.computed)(function (_ref2) {
+  var data = _ref2.data;
+  return [data];
+}), _dec4 = (0, _core.computed)(function (that) {
+  return [that.contacts];
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_ref3) {
+  _inherits(AddressBook, _ref3);
+  var _super = _createSuper(AddressBook);
+  function AddressBook(deps) {
+    var _deps$addressBookOpti, _deps$addressBookOpti2, _this$_deps$addressBo;
+    var _this;
+    _classCallCheck(this, AddressBook);
+    _this = _super.call(this, {
+      deps: deps,
+      enableCache: !((_deps$addressBookOpti = (_deps$addressBookOpti2 = deps.addressBookOptions) === null || _deps$addressBookOpti2 === void 0 ? void 0 : _deps$addressBookOpti2.disableCache) !== null && _deps$addressBookOpti !== void 0 ? _deps$addressBookOpti : false),
+      storageKey: 'AddressBook'
+    });
+    _initializerDefineProperty(_this, "addressBookData", _descriptor, _assertThisInitialized(_this));
+    var _ref4 = (_this$_deps$addressBo = _this._deps.addressBookOptions) !== null && _this$_deps$addressBo !== void 0 ? _this$_deps$addressBo : {},
+      _ref4$polling = _ref4.polling,
+      polling = _ref4$polling === void 0 ? true : _ref4$polling;
+    _this._source = new _DataFetcherV.DataSource(_objectSpread(_objectSpread({}, _this._deps.addressBookOptions), {}, {
+      key: 'addressBook',
+      polling: polling,
+      cleanOnReset: true,
+      permissionCheckFunction: function permissionCheckFunction() {
+        var _this$_deps$extension, _this$_deps$extension2, _this$_deps$extension3;
+        return (_this$_deps$extension = (_this$_deps$extension2 = _this._deps.extensionFeatures.features) === null || _this$_deps$extension2 === void 0 ? void 0 : (_this$_deps$extension3 = _this$_deps$extension2.ReadPersonalContacts) === null || _this$_deps$extension3 === void 0 ? void 0 : _this$_deps$extension3.available) !== null && _this$_deps$extension !== void 0 ? _this$_deps$extension : false;
+      },
+      readyCheckFunction: function readyCheckFunction() {
+        return _this._deps.extensionFeatures.ready;
+      },
+      fetchFunction: function () {
+        var _fetchFunction = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+          var data;
+          return regeneratorRuntime.wrap(function _callee$(_context) {
+            while (1) {
+              switch (_context.prev = _context.next) {
+                case 0:
+                  _context.next = 2;
+                  return _this._sync();
+                case 2:
+                  data = _context.sent;
+                  _this.setAddressBookData(data);
+                  return _context.abrupt("return", {});
+                case 5:
+                case "end":
+                  return _context.stop();
+              }
+            }
+          }, _callee);
+        }));
+        function fetchFunction() {
+          return _fetchFunction.apply(this, arguments);
+        }
+        return fetchFunction;
+      }()
+    }));
+    _this._deps.dataFetcherV2.register(_this._source);
+    return _this;
+  }
+  _createClass(AddressBook, [{
+    key: "setAddressBookData",
+    value: function setAddressBookData(data) {
+      this.addressBookData = data;
+    }
+  }, {
+    key: "onInit",
+    value: function onInit() {
+      // for compatibility with old version cache
+      var data = this._deps.dataFetcherV2.getData(this._source);
+      if (data === null || data === void 0 ? void 0 : data.syncToken) {
+        this._deps.dataFetcherV2.updateData(this._source, {}, Date.now());
+        this.setAddressBookData(data);
+      }
+    } // just a workaround for the update performance issue
+    // TODO: refactor with type
+  }, {
+    key: "_fetch",
+    value: function () {
+      var _fetch2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(perPage, syncToken, pageId) {
+        var params;
+        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                params = (0, _helpers.getSyncParams)({
+                  perPage: perPage,
+                  syncToken: syncToken,
+                  pageId: pageId
+                });
+                _context2.t0 = _helpers.processAddressBookResponse;
+                _context2.next = 4;
+                return this._deps.client.account().extension().addressBookSync().list(params);
+              case 4:
+                _context2.t1 = _context2.sent;
+                return _context2.abrupt("return", (0, _context2.t0)(_context2.t1));
+              case 6:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+      function _fetch(_x, _x2, _x3) {
+        return _fetch2.apply(this, arguments);
+      }
+      return _fetch;
+    }()
+  }, {
+    key: "_processISyncData",
+    value: function _processISyncData(records) {
+      if ((records === null || records === void 0 ? void 0 : records.length) > 0) {
+        var _this$data$records, _this$data;
+        var updatedRecords = [];
+        // @ts-expect-error
+        var processedIDMap = {};
+        (0, _ramda.forEach)(function (record) {
+          if (record.availability === _availabilityTypes.availabilityTypes.alive) {
+            // Only keep entries that is 'alive', omit 'purged' and 'deleted'
+            updatedRecords.push(record);
+          }
+          // @ts-expect-error
+          processedIDMap[record.id] = true;
+        }, records);
+        (0, _ramda.forEach)(function (record) {
+          // @ts-expect-error
+          if (!processedIDMap[record.id]) {
+            // record has no updates
+            updatedRecords.push(record);
+          }
+        }, (_this$data$records = (_this$data = this.data) === null || _this$data === void 0 ? void 0 : _this$data.records) !== null && _this$data$records !== void 0 ? _this$data$records : []);
+        return updatedRecords;
+      }
+      return this.data.records;
+    }
+  }, {
+    key: "_sync",
+    value: function () {
+      var _sync2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+        var _response$records, syncToken, perPage, records, response, _response$records2, _response;
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+          while (1) {
+            switch (_context3.prev = _context3.next) {
+              case 0:
+                _context3.prev = 0;
+                syncToken = this.syncToken;
+                perPage = this._perPage;
+                records = []; // @ts-expect-error
+                _context3.next = 6;
+                return this._fetch(perPage, syncToken);
+              case 6:
+                response = _context3.sent;
+                records = records.concat((_response$records = response.records) !== null && _response$records !== void 0 ? _response$records : []);
+              case 8:
+                if (!response.nextPageId) {
+                  _context3.next = 17;
+                  break;
+                }
+                _context3.next = 11;
+                return (0, _utils.sleep)(this._fetchInterval);
+              case 11:
+                _context3.next = 13;
+                return this._fetch(perPage, syncToken, response.nextPageId);
+              case 13:
+                response = _context3.sent;
+                records = records.concat((_response$records2 = response.records) !== null && _response$records2 !== void 0 ? _response$records2 : []);
+                _context3.next = 8;
+                break;
+              case 17:
+                if (response.syncInfo.syncType === 'ISync') {
+                  // @ts-expect-error
+                  records = this._processISyncData(records);
+                }
+                return _context3.abrupt("return", {
+                  syncToken: response.syncInfo.syncToken,
+                  records: records
+                });
+              case 21:
+                _context3.prev = 21;
+                _context3.t0 = _context3["catch"](0);
+                if (!((_context3.t0 === null || _context3.t0 === void 0 ? void 0 : (_response = _context3.t0.response) === null || _response === void 0 ? void 0 : _response.status) === 403)) {
+                  _context3.next = 25;
+                  break;
+                }
+                return _context3.abrupt("return", {});
+              case 25:
+                throw _context3.t0;
+              case 26:
+              case "end":
+                return _context3.stop();
+            }
+          }
+        }, _callee3, this, [[0, 21]]);
+      }));
+      function _sync() {
+        return _sync2.apply(this, arguments);
+      }
+      return _sync;
+    }() // interface of ContactSource
+  }, {
+    key: "sync",
+    value: function () {
+      var _sync3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+          while (1) {
+            switch (_context4.prev = _context4.next) {
+              case 0:
+                _context4.next = 2;
+                return this._deps.dataFetcherV2.fetchData(this._source);
+              case 2:
+              case "end":
+                return _context4.stop();
+            }
+          }
+        }, _callee4, this);
+      }));
+      function sync() {
+        return _sync3.apply(this, arguments);
+      }
+      return sync;
+    }() // interface of ContactSource
+  }, {
+    key: "findContact",
+    value: function findContact(contactId) {
+      return this.contacts.find(function (x) {
+        return x.id === contactId;
+      });
+    } // interface of ContactSource
+  }, {
+    key: "filterContacts",
+    value: function filterContacts(searchFilter) {
+      return (0, _contactHelper.getFilterContacts)(this.contacts, searchFilter);
+    } // interface of ContactSource
+  }, {
+    key: "searchForPhoneNumbers",
+    value: function searchForPhoneNumbers(searchString) {
+      return (0, _contactHelper.getSearchForPhoneNumbers)({
+        contacts: this.contacts,
+        searchString: searchString,
+        entityType: _phoneSources.phoneSources.contact
+      });
+    } // interface of ContactSource
+  }, {
+    key: "matchContactsByPhoneNumber",
+    value: function matchContactsByPhoneNumber(phoneNumber) {
+      return (0, _contactHelper.getMatchContactsByPhoneNumber)({
+        contacts: this.contacts,
+        phoneNumber: phoneNumber,
+        entityType: _phoneSources.phoneSources.rcContact
+      });
+    } // interface of ContactSource
+  }, {
+    key: "data",
+    get: function get() {
+      return this.addressBookData;
+    }
+  }, {
+    key: "_fetchInterval",
+    get: function get() {
+      var _this$_deps$addressBo2, _this$_deps$addressBo3;
+      return (_this$_deps$addressBo2 = (_this$_deps$addressBo3 = this._deps.addressBookOptions) === null || _this$_deps$addressBo3 === void 0 ? void 0 : _this$_deps$addressBo3.fetchInterval) !== null && _this$_deps$addressBo2 !== void 0 ? _this$_deps$addressBo2 : DEFAULT_FETCH_INTERVAL;
+    }
+  }, {
+    key: "_perPage",
+    get: function get() {
+      var _this$_deps$addressBo4, _this$_deps$addressBo5;
+      return (_this$_deps$addressBo4 = (_this$_deps$addressBo5 = this._deps.addressBookOptions) === null || _this$_deps$addressBo5 === void 0 ? void 0 : _this$_deps$addressBo5.perPage) !== null && _this$_deps$addressBo4 !== void 0 ? _this$_deps$addressBo4 : DEFAULT_CONTACTS_PER_PAGE;
+    }
+  }, {
+    key: "syncToken",
+    get: function get() {
+      var _this$data2;
+      return (_this$data2 = this.data) === null || _this$data2 === void 0 ? void 0 : _this$data2.syncToken;
+    }
+  }, {
+    key: "sourceName",
+    get: function get() {
+      return 'personal';
+    } // interface of ContactSource
+  }, {
+    key: "contacts",
+    get: function get() {
+      var _this2 = this,
+        _this$data$records2,
+        _this$data3;
+      return (0, _ramda.map)(function (rawContact) {
+        var _rawContact$firstName, _rawContact$lastName;
+        var contact = _objectSpread(_objectSpread({}, rawContact), {}, {
+          type: _this2.sourceName,
+          phoneNumbers: [],
+          emails: [],
+          id: "".concat(rawContact.id),
+          name: "".concat((_rawContact$firstName = rawContact.firstName) !== null && _rawContact$firstName !== void 0 ? _rawContact$firstName : '', " ").concat((_rawContact$lastName = rawContact.lastName) !== null && _rawContact$lastName !== void 0 ? _rawContact$lastName : '')
+        });
+        if (rawContact.email) {
+          contact.emails.push(rawContact.email);
+        }
+        if (rawContact.email2) {
+          contact.emails.push(rawContact.email2);
+        }
+        if (rawContact.email3) {
+          contact.emails.push(rawContact.email3);
+        }
+        (0, _ramda.forEach)(function (key) {
+          if (/Phone|Fax/.test(key) && typeof contact[key] === 'string') {
+            (0, _contactHelper.addPhoneToContact)(contact, contact[key], key);
+          }
+        }, Object.keys(contact));
+        return contact;
+      }, (_this$data$records2 = (_this$data3 = this.data) === null || _this$data3 === void 0 ? void 0 : _this$data3.records) !== null && _this$data$records2 !== void 0 ? _this$data$records2 : []);
+    } // interface of ContactSource
+  }, {
+    key: "rawContacts",
+    get: function get() {
+      var _this$data$records3, _this$data4;
+      return (_this$data$records3 = (_this$data4 = this.data) === null || _this$data4 === void 0 ? void 0 : _this$data4.records) !== null && _this$data$records3 !== void 0 ? _this$data$records3 : [];
+    }
+  }, {
+    key: "rcPersonalMapping",
+    get: function get() {
+      var rcPersonalMapping = {};
+      this.contacts.forEach(function (item) {
+        rcPersonalMapping[item.id] = item;
+      });
+      return rcPersonalMapping;
+    } // interface of ContactSource
+  }, {
+    key: "sourceReady",
+    get: function get() {
+      return this.ready;
+    }
+  }]);
+  return AddressBook;
+}(_DataFetcherV.DataFetcherV2Consumer), (_descriptor = _applyDecoratedDescriptor(_class2.prototype, "addressBookData", [_core.storage, _core.state], {
+  configurable: true,
+  enumerable: true,
+  writable: true,
+  initializer: function initializer() {
+    return {};
+  }
+}), _applyDecoratedDescriptor(_class2.prototype, "setAddressBookData", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "setAddressBookData"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "sync", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "sync"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "contacts", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "contacts"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "rawContacts", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "rawContacts"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "rcPersonalMapping", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "rcPersonalMapping"), _class2.prototype)), _class2)) || _class);
+exports.AddressBook = AddressBook;
+//# sourceMappingURL=AddressBook.js.map

@@ -1,0 +1,1 @@
+{"version":3,"file":"Feedback.interface.js","names":[],"sources":["modules/Feedback/Feedback.interface.ts"],"sourcesContent":["import type { Storage } from '../Storage';\n\ninterface FeedbackOptions {}\n\nexport interface Deps {\n  storage: Storage;\n  feedbackOptions?: FeedbackOptions;\n}\n"],"mappings":""}

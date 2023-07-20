@@ -1,1 +1,1 @@
-{"version":3,"sources":[],"names":[],"mappings":"","sourcesContent":[],"file":"ClientResponse.js"}
+{"version":3,"file":"ClientResponse.js","names":[],"sources":["interfaces/ClientResponse.ts"],"sourcesContent":["interface JSONResponse {\n  errorCode?: string;\n  errors?: string;\n}\n\ninterface ErrorResponse extends Response {\n  _json?: JSONResponse;\n  _text?: string;\n}\n\nexport interface ClientError {\n  response?: ErrorResponse;\n  message?: string;\n  retryAfter?: number;\n}\n"],"mappings":""}

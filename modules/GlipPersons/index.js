@@ -1,118 +1,56 @@
 "use strict";
 
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-
-require("core-js/modules/es7.symbol.async-iterator");
-
-require("core-js/modules/es6.weak-map");
-
-require("core-js/modules/es6.object.define-properties");
-
-require("core-js/modules/es7.object.get-own-property-descriptors");
-
-require("core-js/modules/es6.symbol");
-
-require("core-js/modules/es6.array.index-of");
-
-require("core-js/modules/es6.object.create");
-
-require("core-js/modules/es6.reflect.construct");
-
-require("core-js/modules/es6.object.set-prototype-of");
-
-require("core-js/modules/es6.object.define-property");
-
-require("core-js/modules/es6.array.reduce");
-
-require("core-js/modules/es6.object.keys");
-
+require("core-js/modules/es.array.filter");
+require("core-js/modules/es.array.for-each");
+require("core-js/modules/es.array.iterator");
+require("core-js/modules/es.array.join");
+require("core-js/modules/es.array.map");
+require("core-js/modules/es.array.slice");
+require("core-js/modules/es.object.get-own-property-descriptor");
+require("core-js/modules/es.object.to-string");
+require("core-js/modules/es.promise");
+require("core-js/modules/es.string.iterator");
+require("core-js/modules/web.dom-collections.for-each");
+require("core-js/modules/web.dom-collections.iterator");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-
-require("core-js/modules/es6.array.filter");
-
-require("core-js/modules/es6.array.map");
-
-require("core-js/modules/es6.promise");
-
-require("core-js/modules/web.dom.iterable");
-
-require("core-js/modules/es6.array.iterator");
-
-require("core-js/modules/es6.object.to-string");
-
-require("core-js/modules/es6.string.iterator");
-
-require("core-js/modules/es6.array.slice");
-
-require("core-js/modules/es6.array.for-each");
-
 require("regenerator-runtime/runtime");
-
+var _utils = require("@ringcentral-integration/utils");
 var _moduleStatuses = _interopRequireDefault(require("../../enums/moduleStatuses"));
-
 var _batchApiHelper = require("../../lib/batchApiHelper");
-
 var _di = require("../../lib/di");
-
 var _ensureExist = _interopRequireDefault(require("../../lib/ensureExist"));
-
 var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
-
 var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
-
-var _sleep = require("../../lib/sleep");
-
 var _actionTypes = require("./actionTypes");
-
 var _getReducer = _interopRequireWildcard(require("./getReducer"));
-
 var _dec, _class, _class2;
-
 function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
-
 function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
+function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-
 function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-
+function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
+function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
-
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-
 function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
-
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
-
 var MaximumBatchGetPersons = 30;
 var DEFAULT_BATCH_FETCH_DELAY = 500;
 var GlipPersons = (_dec = (0, _di.Module)({
@@ -128,23 +66,18 @@ var GlipPersons = (_dec = (0, _di.Module)({
   }]
 }), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModule) {
   _inherits(GlipPersons, _RcModule);
-
   var _super = _createSuper(GlipPersons);
-
   function GlipPersons(_ref) {
     var _this;
-
     var client = _ref.client,
-        auth = _ref.auth,
-        storage = _ref.storage,
-        tabManager = _ref.tabManager,
-        appFeatures = _ref.appFeatures,
-        _ref$batchFetchDelay = _ref.batchFetchDelay,
-        batchFetchDelay = _ref$batchFetchDelay === void 0 ? DEFAULT_BATCH_FETCH_DELAY : _ref$batchFetchDelay,
-        options = _objectWithoutProperties(_ref, ["client", "auth", "storage", "tabManager", "appFeatures", "batchFetchDelay"]);
-
+      auth = _ref.auth,
+      storage = _ref.storage,
+      tabManager = _ref.tabManager,
+      appFeatures = _ref.appFeatures,
+      _ref$batchFetchDelay = _ref.batchFetchDelay,
+      batchFetchDelay = _ref$batchFetchDelay === void 0 ? DEFAULT_BATCH_FETCH_DELAY : _ref$batchFetchDelay,
+      options = _objectWithoutProperties(_ref, ["client", "auth", "storage", "tabManager", "appFeatures", "batchFetchDelay"]);
     _classCallCheck(this, GlipPersons);
-
     _this = _super.call(this, _objectSpread(_objectSpread({}, options), {}, {
       actionTypes: _actionTypes.actionTypes
     }));
@@ -156,10 +89,8 @@ var GlipPersons = (_dec = (0, _di.Module)({
     _this._fetchingIds = {};
     _this._batchFetchDelay = batchFetchDelay;
     _this._dataStorageKey = 'glipPersonsData';
-
     if (_this._storage) {
       _this._reducer = (0, _getReducer["default"])(_this.actionTypes);
-
       _this._storage.registerReducer({
         key: _this._dataStorageKey,
         reducer: (0, _getReducer.getGlipPersonStoreReducer)(_this.actionTypes)
@@ -169,15 +100,12 @@ var GlipPersons = (_dec = (0, _di.Module)({
         glipPersonStore: (0, _getReducer.getGlipPersonStoreReducer)(_this.actionTypes)
       });
     }
-
     return _this;
   }
-
   _createClass(GlipPersons, [{
     key: "initialize",
     value: function initialize() {
       var _this2 = this;
-
       this.store.subscribe(function () {
         return _this2._onStateChange();
       });
@@ -194,42 +122,34 @@ var GlipPersons = (_dec = (0, _di.Module)({
                   _context.next = 10;
                   break;
                 }
-
                 this.store.dispatch({
                   type: this.actionTypes.init
                 });
-
                 if (this._auth.isFreshLogin) {
                   this.store.dispatch({
                     type: this.actionTypes.cleanUp
                   });
                 }
-
                 if (this._hasPermission) {
                   _context.next = 5;
                   break;
                 }
-
                 return _context.abrupt("return");
-
               case 5:
                 _context.next = 7;
                 return this.loadMe();
-
               case 7:
                 this.store.dispatch({
                   type: this.actionTypes.initSuccess
                 });
                 _context.next = 11;
                 break;
-
               case 10:
                 if (this._shouldReset()) {
                   this.store.dispatch({
                     type: this.actionTypes.resetSuccess
                   });
                 }
-
               case 11:
               case "end":
                 return _context.stop();
@@ -237,11 +157,9 @@ var GlipPersons = (_dec = (0, _di.Module)({
           }
         }, _callee, this);
       }));
-
       function _onStateChange() {
         return _onStateChange2.apply(this, arguments);
       }
-
       return _onStateChange;
     }()
   }, {
@@ -264,7 +182,6 @@ var GlipPersons = (_dec = (0, _di.Module)({
               case 0:
                 _context2.next = 2;
                 return this.loadPerson(this._auth.ownerId);
-
               case 2:
               case "end":
                 return _context2.stop();
@@ -272,11 +189,9 @@ var GlipPersons = (_dec = (0, _di.Module)({
           }
         }, _callee2, this);
       }));
-
       function loadMe() {
         return _loadMe.apply(this, arguments);
       }
-
       return loadMe;
     }()
   }, {
@@ -294,7 +209,6 @@ var GlipPersons = (_dec = (0, _di.Module)({
                 });
                 _context3.next = 4;
                 return this._client.glip().persons(id).get();
-
               case 4:
                 person = _context3.sent;
                 this.store.dispatch({
@@ -303,14 +217,12 @@ var GlipPersons = (_dec = (0, _di.Module)({
                 });
                 _context3.next = 11;
                 break;
-
               case 8:
                 _context3.prev = 8;
                 _context3.t0 = _context3["catch"](0);
                 this.store.dispatch({
                   type: this.actionTypes.fetchError
                 });
-
               case 11:
               case "end":
                 return _context3.stop();
@@ -318,11 +230,9 @@ var GlipPersons = (_dec = (0, _di.Module)({
           }
         }, _callee3, this, [[0, 8]]);
       }));
-
       function loadPerson(_x) {
         return _loadPerson.apply(this, arguments);
       }
-
       return loadPerson;
     }()
   }, {
@@ -330,7 +240,6 @@ var GlipPersons = (_dec = (0, _di.Module)({
     value: function () {
       var _loadPersons = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(personIds) {
         var _this3 = this;
-
         var ownerId, newPersonIds, ids, persons, lastIds;
         return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
@@ -340,17 +249,13 @@ var GlipPersons = (_dec = (0, _di.Module)({
                   _context4.next = 2;
                   break;
                 }
-
                 return _context4.abrupt("return");
-
               case 2:
                 if (personIds) {
                   _context4.next = 4;
                   break;
                 }
-
                 return _context4.abrupt("return");
-
               case 4:
                 ownerId = this._auth.ownerId;
                 newPersonIds = [];
@@ -359,14 +264,11 @@ var GlipPersons = (_dec = (0, _di.Module)({
                     newPersonIds.push(id);
                   }
                 });
-
                 if (!(newPersonIds.length === 0)) {
                   _context4.next = 9;
                   break;
                 }
-
                 return _context4.abrupt("return");
-
               case 9:
                 ids = newPersonIds.slice(0, MaximumBatchGetPersons);
                 ids.forEach(function (id) {
@@ -378,7 +280,6 @@ var GlipPersons = (_dec = (0, _di.Module)({
                 });
                 _context4.next = 15;
                 return this._batchGetPersons(ids);
-
               case 15:
                 persons = _context4.sent;
                 this.store.dispatch({
@@ -390,7 +291,6 @@ var GlipPersons = (_dec = (0, _di.Module)({
                 });
                 _context4.next = 24;
                 break;
-
               case 20:
                 _context4.prev = 20;
                 _context4.t0 = _context4["catch"](11);
@@ -400,30 +300,23 @@ var GlipPersons = (_dec = (0, _di.Module)({
                 ids.forEach(function (id) {
                   delete _this3._fetchingIds[id];
                 });
-
               case 24:
                 if (!(ownerId !== this._auth.ownerId)) {
                   _context4.next = 26;
                   break;
                 }
-
                 return _context4.abrupt("return");
-
               case 26:
                 lastIds = newPersonIds.slice(MaximumBatchGetPersons);
-
                 if (!(lastIds.length > 0)) {
                   _context4.next = 32;
                   break;
                 }
-
                 _context4.next = 30;
-                return (0, _sleep.sleep)(this._batchFetchDelay);
-
+                return (0, _utils.sleep)(this._batchFetchDelay);
               case 30:
                 _context4.next = 32;
                 return this.loadPersons(lastIds);
-
               case 32:
               case "end":
                 return _context4.stop();
@@ -431,11 +324,9 @@ var GlipPersons = (_dec = (0, _di.Module)({
           }
         }, _callee4, this, [[11, 20]]);
       }));
-
       function loadPersons(_x2) {
         return _loadPersons.apply(this, arguments);
       }
-
       return loadPersons;
     }()
   }, {
@@ -451,22 +342,17 @@ var GlipPersons = (_dec = (0, _di.Module)({
                   _context5.next = 2;
                   break;
                 }
-
                 return _context5.abrupt("return", []);
-
               case 2:
                 if (!(personIds.length === 1)) {
                   _context5.next = 7;
                   break;
                 }
-
                 _context5.next = 5;
                 return this._client.glip().persons(personIds[0]).get();
-
               case 5:
                 response = _context5.sent;
                 return _context5.abrupt("return", [response]);
-
               case 7:
                 ids = personIds.join(',');
                 _context5.next = 10;
@@ -474,7 +360,6 @@ var GlipPersons = (_dec = (0, _di.Module)({
                   platform: this._client.service.platform(),
                   url: "/restapi/v1.0/glip/persons/".concat(ids)
                 });
-
               case 10:
                 multipartResponse = _context5.sent;
                 _context5.next = 13;
@@ -483,11 +368,9 @@ var GlipPersons = (_dec = (0, _di.Module)({
                 }).map(function (x) {
                   return x.json();
                 }));
-
               case 13:
                 responses = _context5.sent;
                 return _context5.abrupt("return", responses);
-
               case 15:
               case "end":
                 return _context5.stop();
@@ -495,11 +378,9 @@ var GlipPersons = (_dec = (0, _di.Module)({
           }
         }, _callee5, this);
       }));
-
       function _batchGetPersons(_x3) {
         return _batchGetPersons2.apply(this, arguments);
       }
-
       return _batchGetPersons;
     }()
   }, {
@@ -513,7 +394,6 @@ var GlipPersons = (_dec = (0, _di.Module)({
       if (this._storage) {
         return this._storage.getItem(this._dataStorageKey) || {};
       }
-
       return this.state.glipPersonStore;
     }
   }, {
@@ -537,7 +417,6 @@ var GlipPersons = (_dec = (0, _di.Module)({
       return !!this._appFeatures.hasGlipPermission;
     }
   }]);
-
   return GlipPersons;
 }(_RcModule2["default"]), (_applyDecoratedDescriptor(_class2.prototype, "loadMe", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "loadMe"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "loadPerson", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "loadPerson"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "loadPersons", [_proxify["default"]], Object.getOwnPropertyDescriptor(_class2.prototype, "loadPersons"), _class2.prototype)), _class2)) || _class);
 exports["default"] = GlipPersons;

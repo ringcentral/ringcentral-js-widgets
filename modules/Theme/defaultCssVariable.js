@@ -1,14 +1,10 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.defaultCssVariable = void 0;
-
 var _juno = require("@ringcentral/juno");
-
 var mainColor = (0, _juno.palette2)('nav', 'menuBg');
 var defaultCssVariable = {
   rcBlue: mainColor,

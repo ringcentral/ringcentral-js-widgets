@@ -1,34 +1,23 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports["default"] = mapOptionToMode;
-
-var _callingModes = _interopRequireDefault(require("./callingModes"));
-
-var _callingOptions = _interopRequireDefault(require("./callingOptions"));
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-
+exports.mapOptionToMode = mapOptionToMode;
+var _callingModes = require("./callingModes");
+var _callingOptions = require("./callingOptions");
 function mapOptionToMode(callWith) {
   switch (callWith) {
-    case _callingOptions["default"].softphone:
-      return _callingModes["default"].softphone;
-
-    case _callingOptions["default"].ringout:
-      return _callingModes["default"].ringout;
-
-    case _callingOptions["default"].browser:
-      return _callingModes["default"].webphone;
-
-    case _callingOptions["default"].jupiter:
-      return _callingModes["default"].jupiter;
-
+    case _callingOptions.callingOptions.softphone:
+      return _callingModes.callingModes.softphone;
+    case _callingOptions.callingOptions.ringout:
+      return _callingModes.callingModes.ringout;
+    case _callingOptions.callingOptions.browser:
+      return _callingModes.callingModes.webphone;
+    case _callingOptions.callingOptions.jupiter:
+      return _callingModes.callingModes.jupiter;
     default:
-      return _callingModes["default"].softphone;
+      return null;
   }
 }
 //# sourceMappingURL=mapOptionToMode.js.map

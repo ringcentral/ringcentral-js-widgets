@@ -1,14 +1,13 @@
 "use strict";
 
-require("core-js/modules/es6.object.define-property");
-
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.trackEvents = void 0;
-
 var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
-
+/**
+ * @deprecated should use `@ringcentral-integration/commons/enums/trackEvents` instead
+ */
 var trackEvents = _ObjectMap.ObjectMap.fromObject({
   outbound: 'Outbound Call',
   mute: 'Call Control: Mute',
@@ -94,8 +93,10 @@ var trackEvents = _ObjectMap.ObjectMap.fromObject({
   clickRecentActivityFaxes: 'Recent Activity: Faxes',
   clickRecentActivityVoicemails: 'Recent Activity: Voicemails',
   clickSaveLogSection: 'Click Save Call Log',
-  clickCloseLogNotification: 'Click Stay or Close Notification'
+  clickCloseLogNotification: 'Click Stay or Close Notification',
+  changeDailerDirectoryTab: 'Click to navigate in dialer search result pages',
+  changeSMSDirectoryTab: 'Click to navigate in compose SMS search result pages',
+  openEntityDetailLink: 'Click hyperlink to view record'
 });
-
 exports.trackEvents = trackEvents;
 //# sourceMappingURL=trackEvents.js.map
