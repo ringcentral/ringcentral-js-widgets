@@ -131,6 +131,8 @@ export function compile() {
       '!./karma{/**,}',
       '!./junit{/**,}',
       '!./node_modules{/**,}',
+      '!./**/*.min.js',
+      '!./**/pendo.xhr.js',
     ])
     .pipe(
       transformLoader({
@@ -143,7 +145,18 @@ export function compile() {
     .pipe(gulp.dest(BUILD_PATH));
 }
 
-export const build = gulp.series(clean, compile);
+export function minifiedFileCopy() {
+  const localAnalyticFilePath = path.resolve(
+    __dirname,
+    './lib/Analytics',
+  );
+  const destPath = path.resolve(BUILD_PATH, './lib/Analytics');
+  return gulp
+    .src([`${localAnalyticFilePath}/*.min.js`, `${localAnalyticFilePath}/pendo.xhr.js`])
+    .pipe(gulp.dest(destPath));
+}
+
+export const build = gulp.series(clean, compile, minifiedFileCopy);
 
 async function exec(command) {
   return new Promise((resolve, reject) => {

@@ -1,6 +1,6 @@
 {
   "name": "@ringcentral-integration/engage-voice-widgets",
-  "version": "0.13.0",
+  "version": "0.14.0",
   "description": "RingCentral Engage Voice Integration Widget Library",
   "homepage": "https://github.com/ringcentral/ringcentral-js-widgets/tree/master/packages/engage-voice-widgets#readme",
   "bugs": {
@@ -68,11 +68,11 @@
     "jest-html-reporters": "^3.0.8"
   },
   "peerDependencies": {
-    "@ringcentral-integration/commons": "^0.13.0",
-    "@ringcentral-integration/core": "^0.13.0",
+    "@ringcentral-integration/commons": "^0.14.0",
+    "@ringcentral-integration/core": "^0.14.0",
     "@ringcentral-integration/phone-number": "^1.0.4",
-    "@ringcentral-integration/utils": "^0.0.1",
-    "@ringcentral-integration/widgets": "^0.13.0",
+    "@ringcentral-integration/utils": "^0.14.0",
+    "@ringcentral-integration/widgets": "^0.14.0",
     "@ringcentral/juno": "^2.35.2",
     "@ringcentral/juno-icon": "^1.42.0"
   },
