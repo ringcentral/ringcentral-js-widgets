@@ -1,6 +1,6 @@
 {
   "name": "@ringcentral-integration/i18n",
-  "version": "2.1.1",
+  "version": "2.2.0",
   "private": false,
   "description": "A simple I18n implementation used in RingCentral Integration projects.",
   "homepage": "https://github.com/ringcentral/ringcentral-js-widgets#readme",
