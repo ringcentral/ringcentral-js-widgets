@@ -1,6 +1,6 @@
 {
   "name": "ringcentral-widgets-cli",
-  "version": "0.2.0",
+  "version": "0.5.1",
   "description": "CLI tool for RingCentral Widgets",
   "homepage": "https://github.com/ringcentral/ringcentral-js-widgets/tree/master/packages/ringcentral-widgets-cli#readme",
   "bugs": {

@@ -18,13 +18,16 @@ import { DialingPlan } from '@ringcentral-integration/commons/modules/DialingPla
 import { Environment } from '@ringcentral-integration/commons/modules/Environment';
 import { ExtensionFeatures } from '@ringcentral-integration/commons/modules/ExtensionFeatures';
 import { ExtensionInfo } from '@ringcentral-integration/commons/modules/ExtensionInfo';
+import { ExtensionPhoneNumber } from '@ringcentral-integration/commons/modules/ExtensionPhoneNumber';
 import { GlobalStorage } from '@ringcentral-integration/commons/modules/GlobalStorage';
 import { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiter';
 import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
 import { Storage } from '@ringcentral-integration/commons/modules/Storage';
 import { SleepDetector } from '@ringcentral-integration/commons/modules/SleepDetector';
-import { Subscription } from '@ringcentral-integration/commons/modules/Subscription';
+import { TabManager } from '@ringcentral-integration/commons/modules/TabManager';
+import { RingCentralExtensions } from '@ringcentral-integration/commons/modules/RingCentralExtensions';
+import { WebSocketSubscription as Subscription } from '@ringcentral-integration/commons/modules/WebSocketSubscription';
 import { ConnectivityBadgeUI } from '@ringcentral-integration/widgets/modules/ConnectivityBadgeUI';
 import { ConnectivityManager } from '@ringcentral-integration/widgets/modules/ConnectivityManager';
 import { LoginUI } from '@ringcentral-integration/widgets/modules/LoginUI';
@@ -62,6 +65,12 @@ import { SettingsUI } from '@ringcentral-integration/widgets/modules/SettingsUI'
       },
     },
     { provide: 'RateLimiter', useClass: RateLimiter },
+    { provide: 'TabManager', useClass: TabManager},
+    { provide: 'RingCentralExtensions', useClass: RingCentralExtensions },
+    {
+      provide: 'RingCentralExtensionsOptions',
+      useValue: { disconnectOnInactive: true },
+    },
     { provide: 'Subscription', useClass: Subscription },
     { provide: 'DateTimeFormat', useClass: DateTimeFormat },
     { provide: 'RouterInteraction', useClass: RouterInteraction },
@@ -71,6 +80,7 @@ import { SettingsUI } from '@ringcentral-integration/widgets/modules/SettingsUI'
     { provide: 'ExtensionFeatures', useClass: ExtensionFeatures },
     { provide: 'AppFeatures', useClass: AppFeatures },
     { provide: 'ExtensionInfo', useClass: ExtensionInfo },
+    { provide: 'ExtensionPhoneNumber', useClass: ExtensionPhoneNumber },
     { provide: 'DialingPlan', useClass: DialingPlan },
     {
       provide: 'Client',
