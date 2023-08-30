@@ -14,7 +14,15 @@ export function clean() {
 export function compile() {
   return gulp
     .src(
-      ['./lib/**/*.js', '!./lib/**/*.test.js', './*.js', '!./gulpfile*.js'],
+      [
+        './lib/**/*.js',
+        './lib/**/*.ts',
+        '!./lib/**/*.test.js',
+        '!./lib/**/*.test.ts',
+        './*.js',
+        './*.ts',
+        '!./gulpfile*.js',
+      ],
       {
         base: './',
       },
