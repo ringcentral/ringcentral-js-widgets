@@ -93,6 +93,8 @@ jobs:
     needs: tests
     if: ${{ github.ref == 'refs/heads/master' && github.event_name == 'push' }}
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout
         uses: actions/checkout@v2

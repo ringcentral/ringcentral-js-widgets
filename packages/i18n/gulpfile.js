@@ -34,9 +34,18 @@ export function compile() {
     throw new Error(`Not found babel config ${configFile}`);
   }
   return gulp
-    .src(['./lib/**/*.js', '!./lib/**/*.test.js', './index.js'], {
-      base: './',
-    })
+    .src(
+      [
+        './lib/**/*.js',
+        './lib/**/*.ts',
+        '!./lib/**/*.test.js',
+        './index.js',
+        './*.ts',
+      ],
+      {
+        base: './',
+      },
+    )
     .pipe(sourcemaps.init())
     .pipe(babel({ configFile }))
     .pipe(sourcemaps.write('.'))
