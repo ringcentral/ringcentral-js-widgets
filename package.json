@@ -1,6 +1,6 @@
 {
   "name": "@ringcentral-integration/locale-loader",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "description": "Locale Loader for webpack",
   "homepage": "https://github.com/ringcentral/ringcentral-js-widgets#readme",
   "bugs": {
