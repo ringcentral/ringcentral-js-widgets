@@ -37,10 +37,8 @@ export function compile() {
     .src(
       [
         './lib/**/*.js',
-        './lib/**/*.ts',
         '!./lib/**/*.test.js',
         './index.js',
-        './*.ts',
       ],
       {
         base: './',
