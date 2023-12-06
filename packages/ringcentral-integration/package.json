@@ -39,7 +39,7 @@
     "libphonenumber-js": "^1.9.48",
     "localforage": "^1.10.0",
     "prettier": "^2.8.3",
-    "pubnub": "^4.29.11",
+    "pubnub": "^7.4.0",
     "ramda": "^0.28.0",
     "redux": "^4.2.0",
     "reselect": "^2.5.4",
