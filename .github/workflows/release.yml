@@ -20,7 +20,7 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       - name: Get the version
         id: get_version
-        run: echo ::set-output name=SOURCE_TAG::${GITHUB_REF#refs/tags/}
+        run: echo "SOURCE_TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
       - run: yarn
       - run: yarn workspace @ringcentral-integration/utils release
         env:
@@ -43,7 +43,7 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       - name: Get the version
         id: get_version
-        run: echo ::set-output name=SOURCE_TAG::${GITHUB_REF#refs/tags/}
+        run: echo "SOURCE_TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
       - run: yarn
       - run: yarn workspace @ringcentral-integration/core release
         env:
@@ -66,7 +66,7 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       - name: Get the version
         id: get_version
-        run: echo ::set-output name=SOURCE_TAG::${GITHUB_REF#refs/tags/}
+        run: echo "SOURCE_TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
       - run: yarn
       - run: yarn workspace @ringcentral-integration/commons release
         env:
@@ -89,7 +89,7 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       - name: Get the version
         id: get_version
-        run: echo ::set-output name=SOURCE_TAG::${GITHUB_REF#refs/tags/}
+        run: echo "SOURCE_TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
       - run: yarn
       - run: yarn workspace @ringcentral-integration/widgets release
         env:
@@ -112,7 +112,7 @@ jobs:
           registry-url: 'https://registry.npmjs.org'
       - name: Get the version
         id: get_version
-        run: echo ::set-output name=SOURCE_TAG::${GITHUB_REF#refs/tags/}
+        run: echo "SOURCE_TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
       - run: yarn
       - run: yarn workspace @ringcentral-integration/engage-voice-widgets release
         env:
