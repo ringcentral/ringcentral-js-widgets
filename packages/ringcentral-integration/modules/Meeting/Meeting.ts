@@ -1,7 +1,3 @@
-import dayjs from 'dayjs';
-import utc from 'dayjs/plugin/utc';
-import { filter, find, isEmpty, pick } from 'ramda';
-
 import type MeetingServiceInfoResource from '@rc-ex/core/lib/definitions/MeetingServiceInfoResource';
 import {
   action,
@@ -12,6 +8,9 @@ import {
   track,
 } from '@ringcentral-integration/core';
 import { DEFAULT_LOCALE } from '@ringcentral-integration/i18n';
+import dayjs from 'dayjs';
+import utc from 'dayjs/plugin/utc';
+import { filter, find, isEmpty, pick } from 'ramda';
 
 import { trackEvents } from '../../enums/trackEvents';
 import {
@@ -32,21 +31,7 @@ import background from '../../lib/background';
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
 import type { Analytics } from '../AnalyticsV2';
-import {
-  ASSISTED_USERS_MYSELF,
-  COMMON_SETTINGS,
-  DEFAULT_LOCK_SETTINGS,
-  LAST_MEETING_SETTINGS,
-  PMIRequirePassword,
-  RCM_PASSWORD_REGEX,
-  SAVED_DEFAULT_MEETING_SETTINGS,
-} from './constants';
-import {
-  getExtensionName,
-  getHostId,
-  getRcmUriRegExp,
-  getRcvUriRegExp,
-} from './helper';
+
 import type {
   CommonPersonalMeetingSettings,
   DefaultScheduleLockedSettings,
@@ -71,6 +56,21 @@ import type {
   UserSettings,
   UserTelephonySettingResponse,
 } from './Meeting.interface';
+import {
+  ASSISTED_USERS_MYSELF,
+  COMMON_SETTINGS,
+  DEFAULT_LOCK_SETTINGS,
+  LAST_MEETING_SETTINGS,
+  PMIRequirePassword,
+  RCM_PASSWORD_REGEX,
+  SAVED_DEFAULT_MEETING_SETTINGS,
+} from './constants';
+import {
+  getExtensionName,
+  getHostId,
+  getRcmUriRegExp,
+  getRcvUriRegExp,
+} from './helper';
 import { MeetingErrors } from './meetingErrors';
 import { meetingStatus } from './meetingStatus';
 
@@ -94,15 +94,15 @@ export class Meeting<T extends Deps = Deps>
   extends RcModuleV2<T>
   implements IMeeting
 {
-  // @ts-expect-error
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Timeout'.
   protected _fetchDelegatorsTimeout: NodeJS.Timeout = null;
-  // @ts-expect-error
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Timeout'.
   private _fetchPersonMeetingTimeout: NodeJS.Timeout = null;
-  // @ts-expect-error
+  // @ts-expect-error TS(2564): Property '_createMeetingPromise' has no initialize... Remove this comment to see the full error message
   private _createMeetingPromise: Promise<ScheduleMeetingResponse>;
 
   constructor(deps: Deps) {
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type 'Deps' is not assignable to type 'T & { stora... Remove this comment to see the full error message
     super({ deps, enableCache: true, storageKey: 'Meeting' });
   }
 
@@ -144,7 +144,7 @@ export class Meeting<T extends Deps = Deps>
   isPreferencesChanged = false;
 
   get extensionName(): string {
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
     return this._deps.extensionInfo.info?.name;
   }
 
@@ -172,7 +172,7 @@ export class Meeting<T extends Deps = Deps>
     that.scheduleUserSettings.usePmiForScheduledMeetings,
   ])
   get usePmiDefaultFromSW(): boolean {
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
     return (
       this.enablePersonalMeeting &&
       this.enableServiceWebSettings &&
@@ -234,7 +234,7 @@ export class Meeting<T extends Deps = Deps>
 
   get pmiDefaultSettings(): RcMMeetingModel {
     if (!this.enableServiceWebSettings) {
-      // @ts-expect-error
+      // @ts-expect-error TS(2322): Type 'RcMMeetingModel | null' is not assignable to... Remove this comment to see the full error message
       return this.personalMeeting;
     }
 
@@ -304,17 +304,17 @@ export class Meeting<T extends Deps = Deps>
   getInitialMeetingSetting() {
     const meetingName = getExtensionName({
       extensionInfo: this.extensionInfo,
-      // @ts-expect-error
+      // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
       enableScheduleOnBehalf: this.enableScheduleOnBehalf,
-      // @ts-expect-error
+      // @ts-expect-error TS(2322): Type 'RcMMeetingModel | null' is not assignable to... Remove this comment to see the full error message
       meeting: this.meeting,
       delegators: this.delegators,
     });
     const startTime = getInitializedStartTime();
     const hostId = getHostId({
-      // @ts-expect-error
+      // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
       enableScheduleOnBehalf: this.enableScheduleOnBehalf,
-      // @ts-expect-error
+      // @ts-expect-error TS(2322): Type 'RcMMeetingModel | null' is not assignable to... Remove this comment to see the full error message
       meeting: this.meeting,
       extensionInfo: this.extensionInfo,
     });
@@ -335,7 +335,7 @@ export class Meeting<T extends Deps = Deps>
   }
 
   get initialMeetingSetting(): RcMMeetingModel {
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type 'Partial<RcMMeetingModel>' is not assignable ... Remove this comment to see the full error message
     return this.getInitialMeetingSetting();
   }
 
@@ -364,7 +364,7 @@ export class Meeting<T extends Deps = Deps>
   }
 
   // will follow dynamic brand config
-  // @ts-expect-error
+  // @ts-expect-error TS(2416): Property 'enableScheduleOnBehalf' in type 'Meeting... Remove this comment to see the full error message
   get enableScheduleOnBehalf() {
     return (
       this._deps.brand.brandConfig?.enableRcmScheduleOnBehalf ??
@@ -428,7 +428,7 @@ export class Meeting<T extends Deps = Deps>
     this.savedDefaultMeetingSetting = savedDefaultMeetingSetting;
   }
 
-  // @ts-expect-error
+  // @ts-expect-error TS(2345): Argument of type '(that: Meeting, isScheduling: bo... Remove this comment to see the full error message
   @track((that: Meeting, isScheduling: boolean) => {
     if (!isScheduling) return;
     return (analytics: Analytics) => {
@@ -446,7 +446,7 @@ export class Meeting<T extends Deps = Deps>
     this.isScheduling = isScheduling;
   }
 
-  // @ts-expect-error
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   protected async onInit() {
     await this._init();
   }
@@ -526,7 +526,7 @@ export class Meeting<T extends Deps = Deps>
       },
     });
 
-    // @ts-expect-error
+    // @ts-expect-error TS(2345): Argument of type 'RcMMeetingModel | null' is not a... Remove this comment to see the full error message
     this.updatePreferences(prunePreferencesObject(this.meeting));
   }
 
@@ -559,7 +559,7 @@ export class Meeting<T extends Deps = Deps>
 
   private _comparePreferences(meeting: RcMMeetingModel) {
     this.updateIsPreferencesChanged(
-      // @ts-expect-error
+      // @ts-expect-error TS(2345): Argument of type 'Partial<Preferences>' is not ass... Remove this comment to see the full error message
       comparePreferences(this.preferences, meeting),
     );
   }
@@ -614,7 +614,7 @@ export class Meeting<T extends Deps = Deps>
     }
     try {
       const meetingInfoResponse = await this.fetchPersonalMeeting(extensionId);
-      // @ts-expect-error
+      // @ts-expect-error TS(2345): Argument of type '{ _requireMeetingPassword: boole... Remove this comment to see the full error message
       const meeting = this.formatPersonalMeeting(meetingInfoResponse);
       this.updatePersonalMeeting(meeting);
     } catch (e: any /** TODO: confirm with instanceof */) {
@@ -640,7 +640,7 @@ export class Meeting<T extends Deps = Deps>
         this.getLockedSettings(),
       ]);
       this.updateUserSettings(userSettings);
-      // @ts-expect-error
+      // @ts-expect-error TS(2345): Argument of type '{ recording: any; scheduleMeetin... Remove this comment to see the full error message
       this.updateLockedSettings(lockedSettings);
     } catch (e: any /** TODO: confirm with instanceof */) {
       console.error('error:', e);
@@ -661,7 +661,7 @@ export class Meeting<T extends Deps = Deps>
     const formattedMeeting = this._format(meeting);
     this.updateSavedDefaultMeetingSetting({
       ...formattedMeeting,
-      // @ts-expect-error
+      // @ts-expect-error TS(2339): Property 'notShowAgain' does not exist on type 'Rc... Remove this comment to see the full error message
       _saved: meeting.notShowAgain,
       _requireMeetingPassword: meeting._requireMeetingPassword,
     });
@@ -673,35 +673,35 @@ export class Meeting<T extends Deps = Deps>
     { isAlertSuccess = true }: { isAlertSuccess?: boolean } = {},
   ): Promise<ScheduleMeetingResponse> {
     try {
-      // @ts-expect-error
+      // @ts-expect-error TS(2322): Type 'RcMMeetingModel | null' is not assignable to... Remove this comment to see the full error message
       meeting = meeting || this.meeting;
       this.updateIsScheduling(true);
       // Validate meeting
-      // @ts-expect-error
+      // @ts-expect-error TS(2345): Argument of type 'RcMMeetingModel | undefined' is ... Remove this comment to see the full error message
       this._validate(meeting);
-      // @ts-expect-error
+      // @ts-expect-error TS(2345): Argument of type 'RcMMeetingModel | undefined' is ... Remove this comment to see the full error message
       const formattedMeeting = this._format(meeting);
 
-      // @ts-expect-error
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       if (this.showSaveAsDefault && meeting.saveAsDefault) {
-        // @ts-expect-error
+        // @ts-expect-error TS(2345): Argument of type 'RcMMeetingModel | undefined' is ... Remove this comment to see the full error message
         this.saveAsDefaultSetting(meeting);
       }
 
       const [resp, serviceInfo] = await Promise.all([
         this.postMeeting(formattedMeeting),
-        // @ts-expect-error
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         this.getMeetingServiceInfo(meeting.host?.id),
       ]);
 
       const invitationInfo = await this.getMeetingInvitation(
-        // @ts-expect-error
+        // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
         resp.id,
         this.currentLocale,
       );
       this.updateLastMeetingSetting({
         ...formattedMeeting,
-        // @ts-expect-error
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         _saved: meeting._saved,
       });
 
@@ -717,18 +717,18 @@ export class Meeting<T extends Deps = Deps>
       }
 
       // Update personal meeting setting
-      // @ts-expect-error
+      // @ts-expect-error TS(2339): Property 'usePersonalMeetingId' does not exist on ... Remove this comment to see the full error message
       if (this.enablePersonalMeeting && resp.usePersonalMeetingId) {
         this.updatePersonalMeeting(
           this.formatPersonalMeeting(
-            // @ts-expect-error
+            // @ts-expect-error TS(2345): Argument of type 'MeetingResponseResource' is not ... Remove this comment to see the full error message
             resp,
-            // @ts-expect-error
+            // @ts-expect-error TS(2532): Object is possibly 'undefined'.
             serviceInfo.externalUserInfo.personalMeetingId,
           ),
         );
         if (this.enableServiceWebSettings) {
-          // @ts-expect-error
+          // @ts-expect-error TS(2345): Argument of type '{ _pmiPassword: string | undefin... Remove this comment to see the full error message
           this.update({
             ...this.meeting,
             _pmiPassword: resp.password,
@@ -744,11 +744,11 @@ export class Meeting<T extends Deps = Deps>
           });
         }, 50);
       }
-      // @ts-expect-error
+      // @ts-expect-error TS(2322): Type '{ meeting: any; serviceInfo: { mobileDialing... Remove this comment to see the full error message
       return result;
     } catch (errors) {
       await this._errorHandle(errors);
-      // @ts-expect-error
+      // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'ScheduleMee... Remove this comment to see the full error message
       return null;
     } finally {
       this.updateIsScheduling(false);
@@ -767,7 +767,7 @@ export class Meeting<T extends Deps = Deps>
     });
 
     const result = await this._createMeetingPromise;
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Promise<Sch... Remove this comment to see the full error message
     this._createMeetingPromise = null;
     return result;
   }
@@ -793,7 +793,7 @@ export class Meeting<T extends Deps = Deps>
 
       (this.updateMeeting as any)._promise = Promise.all([
         this.putMeeting(meetingId, formattedMeeting),
-        // @ts-expect-error
+        // @ts-expect-error TS(2345): Argument of type 'string | null' is not assignable... Remove this comment to see the full error message
         this.getMeetingServiceInfo(meeting.host?.id),
       ]);
 
@@ -824,7 +824,7 @@ export class Meeting<T extends Deps = Deps>
           ),
         );
         if (this.enableServiceWebSettings) {
-          // @ts-expect-error
+          // @ts-expect-error TS(2345): Argument of type '{ _pmiPassword: any; allowJoinBe... Remove this comment to see the full error message
           this.update({
             ...this.meeting,
             _pmiPassword: resp.password,
@@ -906,7 +906,7 @@ export class Meeting<T extends Deps = Deps>
 
   @proxify
   async resetPersonalMeeting() {
-    // @ts-expect-error
+    // @ts-expect-error TS(2345): Argument of type 'null' is not assignable to param... Remove this comment to see the full error message
     this._updatePersonalMeeting(null);
   }
 
@@ -952,7 +952,7 @@ export class Meeting<T extends Deps = Deps>
   @proxify
   private async fetchPersonalMeeting(extensionId?: string) {
     const serviceInfo = await this.getMeetingServiceInfo(extensionId);
-    // @ts-expect-error
+    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     const personalMeetingId = serviceInfo.externalUserInfo.personalMeetingId;
     const meetingInfoResponse = await this.getMeeting(personalMeetingId);
     if (!meetingInfoResponse) {
@@ -980,7 +980,7 @@ export class Meeting<T extends Deps = Deps>
         .account()
         .extension()
         .meeting()
-        // @ts-expect-error
+        // @ts-expect-error TS(2345): Argument of type 'RcMMeetingModel' is not assignab... Remove this comment to see the full error message
         .post(formattedMeeting)
     );
   }
@@ -992,7 +992,7 @@ export class Meeting<T extends Deps = Deps>
         .account()
         .extension()
         .meeting(meetingId)
-        // @ts-expect-error
+        // @ts-expect-error TS(2345): Argument of type 'RcMMeetingModel' is not assignab... Remove this comment to see the full error message
         .put(formattedMeeting)
     );
   }
@@ -1050,7 +1050,7 @@ export class Meeting<T extends Deps = Deps>
       return apiResponse.json();
     } catch (e: any /** TODO: confirm with instanceof */) {
       console.warn('failed to get user setting', e);
-      // @ts-expect-error
+      // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'UserSetting... Remove this comment to see the full error message
       return null;
     }
   }
@@ -1110,7 +1110,7 @@ export class Meeting<T extends Deps = Deps>
           message: meetingStatus.renderInviteError,
         });
       }
-      // @ts-expect-error
+      // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'RcmInvitati... Remove this comment to see the full error message
       return null;
     }
   }
@@ -1149,7 +1149,7 @@ export class Meeting<T extends Deps = Deps>
       errors.push(meetingStatus.noPassword);
     }
     if (schedule) {
-      // @ts-expect-error
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       if (schedule.durationInMinutes < 0) {
         errors.push(meetingStatus.durationIncorrect);
       }
@@ -1193,21 +1193,21 @@ export class Meeting<T extends Deps = Deps>
     // Recurring meetings do not have schedule info
     if (meetingType !== MeetingType.RECURRING) {
       const _schedule: MeetingScheduleResource = {
-        // @ts-expect-error
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         durationInMinutes: schedule.durationInMinutes,
         timeZone: {
           id: this.enableCustomTimezone
-            ? // @ts-expect-error
+            ? // @ts-expect-error TS(2532): Object is possibly 'undefined'.
               schedule.timeZone.id
             : UTC_TIMEZONE_ID,
         },
       };
-      // @ts-expect-error
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       if (schedule.startTime) {
         // Format selected startTime to utc standard time
         // Timezone information is not included here
         _schedule.startTime = this.enableCustomTimezone
-          ? // @ts-expect-error
+          ? // @ts-expect-error TS(2532): Object is possibly 'undefined'.
             schedule.startTime
           : dayjs.utc(schedule?.startTime).format();
       }
@@ -1237,12 +1237,12 @@ export class Meeting<T extends Deps = Deps>
       serviceInfo: {
         ...serviceInfo,
         mobileDialingNumberTpl: getMobileDialingNumberTpl(
-          // @ts-expect-error
+          // @ts-expect-error TS(2345): Argument of type 'DialInNumberResource[] | undefin... Remove this comment to see the full error message
           serviceInfo.dialInNumbers,
           resp.id,
         ),
         phoneDialingNumberTpl: getPhoneDialingNumberTpl(
-          // @ts-expect-error
+          // @ts-expect-error TS(2345): Argument of type 'DialInNumberResource[] | undefin... Remove this comment to see the full error message
           serviceInfo.dialInNumbers,
         ),
       },
@@ -1350,7 +1350,7 @@ export class Meeting<T extends Deps = Deps>
     if (usePmi) {
       this.enforcePmiPassword(
         processedMeeting,
-        // @ts-expect-error
+        // @ts-expect-error TS(2345): Argument of type 'RequirePwdTypeForPMI | undefined... Remove this comment to see the full error message
         requirePwdForPMI,
         requirePwdIsLockedForPMI,
       );
@@ -1381,7 +1381,7 @@ export class Meeting<T extends Deps = Deps>
   }
 
   get extensionId(): number {
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type 'number | undefined' is not assignable to typ... Remove this comment to see the full error message
     return this._deps.extensionInfo.info.id;
   }
 
@@ -1389,7 +1389,7 @@ export class Meeting<T extends Deps = Deps>
     return !!this._deps.client.service.platform().discovery();
   }
 
-  // @ts-expect-error
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string'.
   rcvBaseWebUri: string = null;
 
   async fetchDiscoveryConfig() {
@@ -1405,7 +1405,7 @@ export class Meeting<T extends Deps = Deps>
   }
 
   override onReset() {
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string'.
     this.rcvBaseWebUri = null;
   }
 

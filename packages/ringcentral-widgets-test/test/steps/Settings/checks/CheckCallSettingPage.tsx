@@ -2,26 +2,44 @@ import { fireEvent, screen } from '@testing-library/react';
 
 import type { StepFunction } from '../../../lib/step';
 
-export const CheckInfoTooltip: StepFunction<{
-  tooltipContent: string | RegExp;
-}> = ({ tooltipContent }) => {
-  // check if i icon show in the calling setting page
-  const infoIcon = document.querySelector(
-    '[data-sign="callSettingInfo"] span',
-  )!;
-  expect(infoIcon).toBeInTheDocument();
+interface CheckCallSettingPageProps {
+  tooltipContent?: string | RegExp;
+  infoIcon?: boolean;
+  titleContent?: string;
+}
 
-  jest.useFakeTimers();
+export const CheckCallSettingPage: StepFunction<CheckCallSettingPageProps> = ({
+  titleContent,
+  infoIcon,
+  tooltipContent,
+}) => {
+  // check in the calling setting page
+  const callSettingInfoElement = screen.getByTestId('callSettingInfo');
+  expect(callSettingInfoElement).toBeInTheDocument();
 
-  fireEvent.mouseEnter(infoIcon);
-  jest.advanceTimersByTime(1000);
+  // check label "Make my calls with"
+  if (titleContent) {
+    expect(callSettingInfoElement).toHaveTextContent(titleContent);
+  }
 
-  expect(screen.getByRole('tooltip')).toHaveTextContent(tooltipContent);
+  // check has icon "i"
+  if (infoIcon || tooltipContent) {
+    const infoIconElement = callSettingInfoElement.querySelector('span')!;
+    expect(infoIconElement).toBeInTheDocument();
 
-  fireEvent.mouseLeave(infoIcon);
-  jest.advanceTimersByTime(1000);
+    // check tooltip content of "i" icon
+    if (tooltipContent) {
+      jest.useFakeTimers();
+      fireEvent.mouseEnter(infoIconElement);
+      jest.advanceTimersByTime(1000);
 
-  expect(screen.queryByRole('tooltip')).toBeNull();
+      expect(screen.getByRole('tooltip')).toHaveTextContent(tooltipContent);
 
-  jest.useRealTimers();
+      fireEvent.mouseLeave(infoIconElement);
+      jest.advanceTimersByTime(1000);
+      jest.useRealTimers();
+
+      expect(screen.queryByRole('tooltip')).toBeNull();
+    }
+  }
 };

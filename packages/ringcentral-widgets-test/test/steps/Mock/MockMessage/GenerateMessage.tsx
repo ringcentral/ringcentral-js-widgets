@@ -1,10 +1,10 @@
 import type messageSyncBody from '@ringcentral-integration/mock/src/platform/data/messageSync.json';
 
 import fax from './MockMessageRecords/fax.json';
-import voiceMail from './MockMessageRecords/voicemail.json';
 import sms from './MockMessageRecords/sms.json';
+import voiceMail from './MockMessageRecords/voicemail.json';
 
-type MessageRecord = typeof messageSyncBody.records[0];
+type MessageRecord = (typeof messageSyncBody.records)[0];
 
 const message = {
   Fax: fax,

@@ -54,7 +54,10 @@ export default function getIntlDateTimeFormatter({
     type = isToday(utcTimestamp) ? 'time' : 'date',
   }: DateTimeFormatterParams) => {
     if (!utcTimestamp) {
-      console.warn('timestamp should not be empty');
+      // Too much helpless message. Ignore it for test env.
+      if (process.env.NODE_ENV !== 'test') {
+        console.warn('timestamp should not be empty');
+      }
       return null;
     }
     switch (type) {

@@ -1,12 +1,9 @@
 // TODO: should use juno animation to do that
+import { useSleep } from '@ringcentral/juno';
 import 'animate.css/animate.min.css';
-
+import clsx from 'clsx';
 import type { FunctionComponent } from 'react';
 import React, { useEffect, useState } from 'react';
-
-import classNames from 'classnames';
-
-import { useSleep } from '@ringcentral/juno';
 
 import { NotificationItem } from './NotificationItem';
 import type {
@@ -66,7 +63,7 @@ export const NotificationPanel: FunctionComponent<NotificationPanelProps> = ({
   }, [messages]);
 
   return (
-    <div className={classNames(styles.root, className)}>
+    <div className={clsx(styles.root, className)}>
       {currentMessages.map((data, i) => {
         return (
           <NotificationItem

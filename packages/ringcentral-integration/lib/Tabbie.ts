@@ -1,8 +1,7 @@
 // @ts-nocheck
+import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 import { EventEmitter } from 'events';
 import * as uuid from 'uuid';
-
-import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
 const HEART_BEAT_INTERVAL = 1000;
 // heartbeat older than HEART_BEAT_EXPIRE will be gc'ed
@@ -180,7 +179,7 @@ export class Tabbie {
   }
 
   private _bindUnloadListener() {
-    window.addEventListener('unload', () => {
+    window.addEventListener('pagehide', () => {
       clearInterval(this._gcIntervalId);
       clearInterval(this._heartBeatIntervalId);
       localStorage.removeItem(this._heartBeatKey);
@@ -191,7 +190,7 @@ export class Tabbie {
   }
 
   send(event: string, ...args: any[]) {
-    if (!this.enabled) {
+    if (!window.document || !this.enabled) {
       return;
     }
 

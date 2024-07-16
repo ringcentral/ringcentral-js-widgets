@@ -1,4 +1,5 @@
 import { ContactDetailsUI } from '../../../modules/ContactDetailsUI/ContactDetailsUI';
+
 import { phone } from './testSetup';
 
 const defaultPropsParams = {

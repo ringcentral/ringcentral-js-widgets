@@ -1,11 +1,11 @@
+import clsx from 'clsx';
 import React, { Component } from 'react';
-
-import classnames from 'classnames';
 
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import { Button } from '../Button';
 import EntityButton from '../EntityButton';
 import LogButton from '../LogButton';
+
 import styles from './styles.scss';
 
 type ActiveCallActionMenuProps = {
@@ -60,7 +60,7 @@ class ActiveCallActionMenu extends Component<ActiveCallActionMenuProps, {}> {
     } = this.props;
     const smsButton = onClickToSms ? (
       <Button
-        className={classnames(styles.actionButton, styles.sms)}
+        className={clsx(styles.actionButton, styles.sms)}
         onClick={onClickToSms}
         disabled={disableLinks || !phoneNumber}
       >
@@ -69,7 +69,7 @@ class ActiveCallActionMenu extends Component<ActiveCallActionMenuProps, {}> {
     ) : null;
     const logButton = onLog ? (
       <LogButton
-        className={classnames(styles.actionButton, styles.log)}
+        className={clsx(styles.actionButton, styles.log)}
         onLog={onLog}
         disableLinks={disableLinks}
         isLogged={isLogged}
@@ -84,7 +84,7 @@ class ActiveCallActionMenu extends Component<ActiveCallActionMenuProps, {}> {
     if (hasEntity && onViewEntity) {
       entityButton = (
         <EntityButton
-          className={classnames(styles.actionButton, styles.entity)}
+          className={clsx(styles.actionButton, styles.entity)}
           onViewEntity={onViewEntity}
           hasEntity={hasEntity}
           disableLinks={disableLinks}
@@ -94,7 +94,7 @@ class ActiveCallActionMenu extends Component<ActiveCallActionMenuProps, {}> {
     } else if (!hasEntity && phoneNumber && onCreateEntity) {
       entityButton = (
         <Button
-          className={classnames(styles.actionButton, styles.addContact)}
+          className={clsx(styles.actionButton, styles.addContact)}
           onClick={onCreateEntity}
           disabled={disableLinks || !phoneNumber}
         >
@@ -105,10 +105,7 @@ class ActiveCallActionMenu extends Component<ActiveCallActionMenuProps, {}> {
       entityButton = null;
     }
     return (
-      <div
-        className={classnames(styles.root, className)}
-        onClick={this.captureClick}
-      >
+      <div className={clsx(styles.root, className)} onClick={this.captureClick}>
         {smsButton}
         {entityButton}
         {logButton}

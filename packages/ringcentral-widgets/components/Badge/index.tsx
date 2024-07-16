@@ -1,6 +1,5 @@
+import clsx from 'clsx';
 import React from 'react';
-
-import classnames from 'classnames';
 
 import styles from './styles.scss';
 
@@ -8,17 +7,20 @@ type BadgeProps = {
   onClick?: (...args: any[]) => any;
   className?: string;
   name: string;
+  dataSign?: string;
 };
-const Badge: React.SFC<BadgeProps> = ({
+const Badge: React.FC<BadgeProps> = ({
   className,
   name,
   children,
   onClick,
+  dataSign,
 }) => {
   return (
     <div
+      data-sign={dataSign}
       title={name}
-      className={classnames(styles.root, className)}
+      className={clsx(styles.root, className)}
       onClick={onClick}
     >
       {children}

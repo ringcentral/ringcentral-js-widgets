@@ -8,7 +8,7 @@ import concurrentExecute from '../../lib/concurrentExecute';
 import { Module } from '../../lib/di';
 import getDateFrom from '../../lib/getDateFrom';
 import type { HistoryCall } from '../CallHistory';
-import { callStatus } from './callStatus';
+
 import type {
   CleanUpCallsOptions,
   Deps,
@@ -22,6 +22,7 @@ import {
   flattenToRecords,
   sortByTime,
 } from './RecentCallsHelper';
+import { callStatus } from './callStatus';
 
 @Module({
   name: 'RecentCalls',
@@ -149,9 +150,11 @@ export class RecentCalls extends RcModuleV2<Deps> {
     // Get all calls related to this contact
     return calls.reduce((acc, call) => {
       if (call && call.to && call.from) {
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         const matches = phoneNumbers.find(filterPhoneNumber(call));
 
         // Check if calls is within certain days
+        // @ts-expect-error TS(2769): No overload matches this call.
         if (!!matches && new Date(call.startTime) > dateFrom) {
           return acc.concat(call);
         }
@@ -175,6 +178,7 @@ export class RecentCalls extends RcModuleV2<Deps> {
     };
 
     // CallLog API doesn't support plus sign in phoneNumber
+    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     const recentCallsPromises = phoneNumbers.reduce(
       (acc, { phoneType, phoneNumber }) => {
         phoneNumber = phoneNumber.replace('+', '');

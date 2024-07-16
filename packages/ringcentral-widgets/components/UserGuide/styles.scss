@@ -48,13 +48,13 @@
 }
 
 .primaryButton {
-  @include big-submit-button;  
+  @include big-submit-button;
   height: 35px;
   line-height: 35px;
 }
 
 .secondaryButton {
-  @include big-submit-button;  
+  @include big-submit-button;
   height: 35px;
   line-height: 35px;
   color: $primary-color !important;

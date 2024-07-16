@@ -1,6 +1,3 @@
-import { identity, sortBy } from 'ramda';
-import * as uuid from 'uuid';
-
 import {
   action,
   computed,
@@ -8,10 +5,13 @@ import {
   state,
   storage,
 } from '@ringcentral-integration/core';
+import { identity, sortBy } from 'ramda';
+import * as uuid from 'uuid';
 
 import { debounce } from '../../lib/debounce-throttle';
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
+
 import type {
   ContactSearchState,
   Deps,
@@ -68,7 +68,7 @@ export class ContactSearch extends RcModuleV2<Deps> {
 
   protected _debouncedSearchFn = debounce({ fn: this.search, threshold: 800 });
 
-  // @ts-expect-error
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Timeout'.
   protected _timeoutId: NodeJS.Timeout = null;
 
   constructor(deps: Deps) {
@@ -92,6 +92,15 @@ export class ContactSearch extends RcModuleV2<Deps> {
   @action
   setSearchStatus(searchStatus: string) {
     this.searchStatus = searchStatus;
+  }
+
+  @action
+  clearAndReset() {
+    this.cleanUp();
+    this.searchStatus = contactSearchStatus.idle;
+    if (this._debouncedSearchFn) {
+      this._debouncedSearchFn.cancel();
+    }
   }
 
   @action
@@ -252,7 +261,7 @@ export class ContactSearch extends RcModuleV2<Deps> {
     this._clearTimeout();
     this._timeoutId = setTimeout(async () => {
       const searching = { ...this.searching };
-      // @ts-expect-error
+      // @ts-expect-error TS(2322): Type 'undefined' is not assignable to type 'string... Remove this comment to see the full error message
       await this.search({ searchString: undefined });
       await this.search(searching);
     }, this._ttl);
@@ -285,9 +294,9 @@ export class ContactSearch extends RcModuleV2<Deps> {
     this.setSearchStatus(contactSearchStatus.searching);
     try {
       // search cache
-      // @ts-expect-error
+      // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Entities'.
       let entities: Entities = null;
-      // @ts-expect-error
+      // @ts-expect-error TS(2322): Type 'Entities | null' is not assignable to type '... Remove this comment to see the full error message
       entities = this._searchFromCache({ sourceName, searchString });
       if (entities) {
         this._loadSearching({ searchOnSources, searchString, entities });
@@ -295,11 +304,11 @@ export class ContactSearch extends RcModuleV2<Deps> {
       }
       // search source
       const searchFn = this._searchSources.get(sourceName);
-      // @ts-expect-error
+      // @ts-expect-error TS(2322): Type 'Entities | null' is not assignable to type '... Remove this comment to see the full error message
       entities = await searchFn({ searchString });
       // format result
       const formatFn = this._searchSourcesFormat.get(sourceName);
-      // @ts-expect-error
+      // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
       entities = formatFn(entities);
       // save result
       this._saveSearching({ sourceName, searchString, entities });
@@ -323,7 +332,7 @@ export class ContactSearch extends RcModuleV2<Deps> {
 
   _readyCheck() {
     for (const sourceName of this._searchSourcesCheck.keys()) {
-      // @ts-expect-error
+      // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
       if (!this._searchSourcesCheck.get(sourceName)()) {
         return false;
       }

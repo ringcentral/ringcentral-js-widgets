@@ -29,9 +29,7 @@
 	| RC-US |7 |7 |313 5033 |Not Match extbut valid PSTN |205 |(205) 248 2217 |PSTN |(205) 248 2217 |
 
  */
-
 import { Category } from '@ringcentral-integration/commons/interfaces/NumberParserResponse.interface';
-import { waitUntilTo } from '@ringcentral-integration/utils';
 import {
   autorun,
   common,
@@ -45,6 +43,7 @@ import {
   title,
   When,
 } from '@ringcentral-integration/test-utils';
+import { waitUntilTo } from '@ringcentral-integration/utils';
 import { screen } from '@testing-library/react';
 
 import { mockMessageListData } from '../../../../../../__mock__';

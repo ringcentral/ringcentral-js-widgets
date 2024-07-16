@@ -1,13 +1,14 @@
-import { pick } from 'ramda';
 import type DialInNumberResource from '@rc-ex/core/lib/definitions/DialInNumberResource';
+import type { CountryCode } from '@ringcentral-integration/phone-number';
 import formatPhoneNumber, {
   formatTypes,
 } from '@ringcentral-integration/phone-number/lib/format';
-import type { CountryCode } from '@ringcentral-integration/phone-number';
 import { format } from '@ringcentral-integration/utils';
+import { pick } from 'ramda';
 
-import i18n from '../modules/Meeting/i18n';
 import type { RcMMeetingModel } from '../modules/Meeting/Meeting.interface';
+import i18n from '../modules/Meeting/i18n';
+
 import type { MeetingTypeV } from './meetingHelper.interface';
 import { MeetingType } from './meetingHelper.interface';
 

@@ -1,3 +1,12 @@
+import {
+  action,
+  computed,
+  RcModuleV2,
+  state,
+  storage,
+  track,
+  watch,
+} from '@ringcentral-integration/core';
 import { EventEmitter } from 'events';
 import {
   difference,
@@ -10,16 +19,7 @@ import {
   sort,
 } from 'ramda';
 
-import {
-  action,
-  computed,
-  RcModuleV2,
-  state,
-  storage,
-  track,
-  watch,
-} from '@ringcentral-integration/core';
-
+import { trackEvents } from '../../enums/trackEvents';
 import type {
   Call,
   NormalizedCall,
@@ -45,7 +45,6 @@ import {
   mapTelephonyStatus,
   isFaxSession,
 } from '../ActiveCallControl';
-import { trackEvents } from '../../enums/trackEvents';
 import type { ToNumberMatched } from '../Call';
 import {
   isConferenceSession,
@@ -53,11 +52,12 @@ import {
   isRing,
   sortByLastActiveTimeDesc,
 } from '../Webphone/webphoneHelper';
-import { callEvents } from './callEvents';
+
 import type { CallEventCallback, Deps } from './CallMonitor.interface';
+import { callEvents } from './callEvents';
 import {
   isCurrentDeviceEndCall,
-  matchWephoneSessionWithAcitveCall,
+  matchWebphoneSessionWithActiveCall,
 } from './callMonitorHelper';
 
 @Module({
@@ -83,7 +83,7 @@ export class CallMonitor extends RcModuleV2<Deps> {
   protected _useTelephonySession =
     this._deps.callMonitorOptions?.useTelephonySession ?? false;
 
-  // @ts-expect-error
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'NormalizedC... Remove this comment to see the full error message
   protected _normalizedCalls: NormalizedCalls = null;
   private _enableContactMatchWhenNewCall: boolean =
     this._deps.callMonitorOptions?.enableContactMatchWhenNewCall ?? true;
@@ -232,7 +232,7 @@ export class CallMonitor extends RcModuleV2<Deps> {
       );
       if (oldCallIndex === -1) {
         this._eventEmitter.emit(callEvents.newCall, call);
-        // loop to execut the onRinging handlers
+        // loop to execute the onRinging handlers
         if (isRinging(call)) {
           this._eventEmitter.emit(callEvents.callRinging, call);
         }
@@ -258,7 +258,7 @@ export class CallMonitor extends RcModuleV2<Deps> {
         const index = entities.indexOf(entity);
         const toEntity =
           entity &&
-          // @ts-expect-error
+          // @ts-expect-error TS(2345): Argument of type 'Entity[] | undefined' is not ass... Remove this comment to see the full error message
           find((toMatch) => toMatch.id === entity.entityId, call.toMatches);
         if (toEntity !== undefined) {
           this._removeMatched(index, entities);
@@ -276,9 +276,7 @@ export class CallMonitor extends RcModuleV2<Deps> {
   }
 
   _removeMatched(index: number, entities: ToNumberMatched[]) {
-    console.log('removeMatched:', index);
     entities.splice(index, 1);
-    console.log('entities after splice:', entities);
     return entities;
   }
 
@@ -307,7 +305,7 @@ export class CallMonitor extends RcModuleV2<Deps> {
   mergeControlClickHangupTrack() {}
 
   @track((that: CallMonitor) => [
-    // @ts-expect-error
+    // @ts-expect-error TS(2341): Property 'state' is private and only accessible wi... Remove this comment to see the full error message
     Object.values(that._deps.conferenceCall?.state.mergingPair ?? {}).length
       ? trackEvents.clickMergeCallControl
       : trackEvents.clickMergeMergeCallControl,
@@ -367,8 +365,9 @@ export class CallMonitor extends RcModuleV2<Deps> {
   }
 
   @computed((that: CallMonitor) => [
-    that.normalizedCallsFromPresence,
-    that.normalizedCallsFromTelephonySessions,
+    // Use "null" to avoid triggering get property unnecessarily that may cause issues
+    that.useTelephonySession ? null : that.normalizedCallsFromPresence,
+    that.useTelephonySession ? that.normalizedCallsFromTelephonySessions : null,
     that.useTelephonySession,
   ])
   get normalizedCalls() {
@@ -413,26 +412,26 @@ export class CallMonitor extends RcModuleV2<Deps> {
 
     // mapping and sort
     let theSessions = this._deps.webphone?.sessions ?? [];
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type '({ from: { phoneNumber: string; }; to: { pho... Remove this comment to see the full error message
     this._normalizedCalls = sort(
-      // @ts-expect-error
+      // @ts-expect-error TS(2345): Argument of type 'NormalizedSession | undefined' i... Remove this comment to see the full error message
       (l, r) => sortByLastActiveTimeDesc(l.webphoneSession, r.webphoneSession),
-      // @ts-expect-error
+      // @ts-expect-error TS(2345): Argument of type '({ from: { phoneNumber: string; ... Remove this comment to see the full error message
       map((callItem) => {
         // use account countryCode to normalize number due to API issues [RCINT-3419]
         const fromNumber = normalizeNumber({
-          // @ts-expect-error
+          // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
           phoneNumber: callItem.from && callItem.from.phoneNumber,
           countryCode: this._deps.accountInfo.countryCode,
           maxExtensionLength: this._deps.accountInfo.maxExtensionNumberLength,
         });
         const toNumber = normalizeNumber({
-          // @ts-expect-error
+          // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
           phoneNumber: callItem.to && callItem.to.phoneNumber,
           countryCode: this._deps.accountInfo.countryCode,
           maxExtensionLength: this._deps.accountInfo.maxExtensionNumberLength,
         });
-        const webphoneSession = matchWephoneSessionWithAcitveCall(
+        const webphoneSession = matchWebphoneSessionWithActiveCall(
           theSessions,
           callItem,
         );
@@ -463,16 +462,29 @@ export class CallMonitor extends RcModuleV2<Deps> {
     that._deps.presence.calls,
   ])
   get normalizedCallsFromTelephonySessions() {
-    // TODO: match cached calls when there are conference merging calls, refer to `normalizedCallsFromPresence` function
-    if (!this._deps.activeCallControl?.sessions) return [];
-    const combinedCalls = [...this._deps.activeCallControl?.sessions]; // clone
+    if (!this._deps.activeCallControl?.sessions) {
+      return [];
+    }
+
+    // Match cached calls at the very beginning
+    let cachedCalls: NormalizedCalls = [];
+    if (this._normalizedCalls && this._deps.webphone?.cachedSessions?.length) {
+      cachedCalls = this._normalizedCalls.filter((x) =>
+        this._deps.webphone?.cachedSessions.some(
+          (i) => i.partyData?.sessionId === x.telephonySessionId,
+        ),
+      );
+    }
+
+    const combinedCalls = [...this._deps.activeCallControl!.sessions]; // clone
     const { currentDeviceCallsMap, transferCallMapping } =
       this._deps.activeCallControl;
+
     // mapping and sort
-    // @ts-expect-error
+    // @ts-ignore
     this._normalizedCalls = sort(
-      // @ts-expect-error
-      (l, r) => sortByLastActiveTimeDesc(l.webphoneSession, r.webphoneSession),
+      (l, r) =>
+        sortByLastActiveTimeDesc(l!.webphoneSession, r!.webphoneSession),
       map((callItem) => {
         // sessionId arrives when telephony session event push and it's a required
         // reference https://github.com/ringcentral/ringcentral-call-js/blob/master/src/Session.ts
@@ -502,7 +514,7 @@ export class CallMonitor extends RcModuleV2<Deps> {
           const presenceCall = this._deps.presence.calls.find(
             (presenceCall) => presenceCall.telephonySessionId === callItem.id,
           );
-          // @ts-expect-error
+          // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
           id = presenceCall?.id;
         }
         const fromNumber = normalizeNumber({
@@ -518,7 +530,7 @@ export class CallMonitor extends RcModuleV2<Deps> {
         const toName = to?.name;
         const fromName = from?.name;
         const partyId = party?.id;
-        // @ts-expect-error
+        // @ts-expect-error TS(2345): Argument of type 'PartyStatusCode | undefined' is ... Remove this comment to see the full error message
         const telephonyStatus = mapTelephonyStatus(party?.status?.code);
 
         // TODO: add sipData here
@@ -548,6 +560,16 @@ export class CallMonitor extends RcModuleV2<Deps> {
         };
       }, combinedCalls).filter((x) => !!x),
     );
+
+    // Keep the cached calls in the list
+    if (this._normalizedCalls) {
+      cachedCalls.forEach((cachedCall) => {
+        if (!this._normalizedCalls!.find((x) => x.id === cachedCall.id)) {
+          this._normalizedCalls!.push(cachedCall);
+        }
+      });
+    }
+
     return this._normalizedCalls;
   }
 
@@ -557,9 +579,8 @@ export class CallMonitor extends RcModuleV2<Deps> {
   ])
   get calls() {
     return filter((callItem) => {
-      // filtering out the conferece during merging
+      // filtering out the conference during merging
       if (this._deps.conferenceCall?.isMerging) {
-        // @ts-expect-error
         return !isConferenceSession(callItem.webphoneSession);
       }
       return true;
@@ -568,13 +589,13 @@ export class CallMonitor extends RcModuleV2<Deps> {
 
   @computed((that: CallMonitor) => [that.calls, that.useTelephonySession])
   get activeRingCalls() {
-    // @ts-expect-error
+    // @ts-expect-error TS(2769): No overload matches this call.
     return filter((callItem) => {
       if (this.useTelephonySession) {
         return (
           callItem.webphoneSession &&
           callItem.telephonySession &&
-          // @ts-expect-error
+          // @ts-expect-error TS(2345): Argument of type '{ status: string; id: string; di... Remove this comment to see the full error message
           isProceeding(callItem.telephonySession)
         );
       }
@@ -587,17 +608,17 @@ export class CallMonitor extends RcModuleV2<Deps> {
     if (this.useTelephonySession) {
       return filter(
         (callItem) =>
-          // @ts-expect-error
+          // @ts-expect-error TS(2769): No overload matches this call.
           callItem.webphoneSession &&
           callItem.telephonySession &&
-          // @ts-expect-error
+          // @ts-expect-error TS(2345): Argument of type '{ status: string; id: string; di... Remove this comment to see the full error message
           isHolding(callItem.telephonySession),
         this.calls,
       );
     }
     return filter(
       (callItem) =>
-        // @ts-expect-error
+        // @ts-expect-error TS(2769): No overload matches this call.
         callItem.webphoneSession && isOnHold(callItem.webphoneSession),
       this.calls,
     );
@@ -605,15 +626,15 @@ export class CallMonitor extends RcModuleV2<Deps> {
 
   @computed((that: CallMonitor) => [that.calls, that.useTelephonySession])
   get _activeCurrentCalls() {
-    // @ts-expect-error
+    // @ts-expect-error TS(2769): No overload matches this call.
     return filter((callItem) => {
       if (this.useTelephonySession) {
         return (
           callItem.webphoneSession &&
           callItem.telephonySession &&
-          // @ts-expect-error
+          // @ts-expect-error TS(2345): Argument of type '{ status: string; id: string; di... Remove this comment to see the full error message
           !isProceeding(callItem.telephonySession) &&
-          // @ts-expect-error
+          // @ts-expect-error TS(2345): Argument of type '{ status: string; id: string; di... Remove this comment to see the full error message
           !isHolding(callItem.telephonySession)
         );
       }
@@ -669,13 +690,13 @@ export class CallMonitor extends RcModuleV2<Deps> {
           };
         }
         // TODO: refactor
-        // @ts-expect-error
+        // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'boolean | N... Remove this comment to see the full error message
         let endCall: boolean | NormalizedSession = null;
         if (this.useTelephonySession) {
           endCall = isCurrentDeviceEndCall(sessionsCache as string[], callItem);
         } else {
-          // @ts-expect-error
-          endCall = matchWephoneSessionWithAcitveCall(
+          // @ts-expect-error TS(2322): Type 'NormalizedSession | undefined' is not assign... Remove this comment to see the full error message
+          endCall = matchWebphoneSessionWithActiveCall(
             sessionsCache as NormalizedSession[],
             callItem,
           );

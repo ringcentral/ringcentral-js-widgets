@@ -37,8 +37,7 @@ export default {
   today: "Tänään",
   scheduleForGuidance: "Aikataulutatko jonkun muun puolesta?\n1. Varmista, että olet hänen Outlook-kalenterissaan.\n2. Valitse avattavasta valikosta henkilö, jonka puolesta teet aikataulua.\n",
   scheduleForGuidanceMore: "Katso lisätiedot",
-  changePmiSettings: "Muuta henkilökohtaisen tapaamisen asetuksia",
-  ieSupportAlert: "Huomaa, että {appName} ei toimi Internet Explorer 11:llä 16. helmikuuta 2022 jälkeen. Suosittelemme vaihtamaan Microsoft Edgeen tai päivittämään Outlook 2016:een tai uudempaan."
+  changePmiSettings: "Muuta henkilökohtaisen tapaamisen asetuksia"
 };
 
 // @key: @#@"topic"@#@ @source: @#@"Meeting title"@#@
@@ -79,4 +78,3 @@ export default {
 // @key: @#@"scheduleForGuidance"@#@ @source: @#@"Scheduling for someone else?\n1. Make sure you're on their Outlook calendar.\n2. From the dropdown, select the person you're scheduling for.\n"@#@
 // @key: @#@"scheduleForGuidanceMore"@#@ @source: @#@"Learn details"@#@
 // @key: @#@"changePmiSettings"@#@ @source: @#@"Change Personal Meeting settings"@#@
-// @key: @#@"ieSupportAlert"@#@ @source: @#@"Please note that {appName} won't work with Internet Explorer 11 after Feb 16, 2022. We recommend switching to Microsoft Edge or updating to Outlook 2016 or above."@#@

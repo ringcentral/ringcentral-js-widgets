@@ -1,6 +1,3 @@
-import { keys } from 'ramda';
-import type { Unsubscribe } from 'redux';
-
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import {
   action,
@@ -11,6 +8,8 @@ import {
   watch,
 } from '@ringcentral-integration/core';
 import type { CallLogPanelProps } from '@ringcentral-integration/widgets/components/CallLogPanel';
+import { keys } from 'ramda';
+import type { Unsubscribe } from 'redux';
 
 import type { EvTransferType, MessageTypes } from '../../enums';
 import {
@@ -37,6 +36,7 @@ import type {
   EvIvrData,
 } from '../../interfaces/EvData.interface';
 import type { EvBaggage } from '../../lib/EvClient';
+
 import type { ActivityCallUI, Deps } from './EvActivityCallUI.interface';
 import i18n from './i18n';
 

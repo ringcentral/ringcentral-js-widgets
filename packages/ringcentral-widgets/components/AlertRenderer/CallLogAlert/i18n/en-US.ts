@@ -7,4 +7,4 @@ export default {
   [callLogMessages.logFailed]:
     "Sorry, we've failed to log your call. Please try again later.",
   [callLogMessages.fieldRequired]: 'Mandatory fields are required.',
-};
+} as const;

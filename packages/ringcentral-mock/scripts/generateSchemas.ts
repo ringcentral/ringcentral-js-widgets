@@ -1,7 +1,7 @@
-import fs from 'fs';
-import path from 'path';
 import execa from 'execa';
+import fs from 'fs';
 import type { OpenAPIV3 } from 'openapi-types';
+import path from 'path';
 import { clone } from 'ramda';
 
 type PropertyWithFaker = OpenAPIV3.NonArraySchemaObject & {

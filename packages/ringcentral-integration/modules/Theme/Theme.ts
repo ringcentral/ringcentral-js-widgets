@@ -6,12 +6,14 @@ import {
   state,
   watch,
 } from '@ringcentral-integration/core';
-import type { RcTheme } from '@ringcentral/juno';
+import { createTheme, type RcTheme } from '@ringcentral/juno';
 
 import { Module } from '../../lib/di';
+import type { BrandThemeMap } from '../Brand/Brand.interface';
 import type { CssModuleVariable } from '../Brand/BrandConfig.interface';
-import { defaultCssVariable } from './defaultCssVariable';
+
 import type { Deps } from './Theme.interface';
+import { defaultCssVariable } from './defaultCssVariable';
 
 @Module({
   name: 'Theme',
@@ -24,6 +26,15 @@ export class Theme extends RcModuleV2<Deps> {
       enableGlobalCache: true,
       storageKey: 'Theme',
     });
+  }
+
+  @globalStorage
+  @state
+  themeId: string | null = null;
+
+  @action
+  setThemeId(val: string | null) {
+    this.themeId = val;
   }
 
   @globalStorage
@@ -48,18 +59,33 @@ export class Theme extends RcModuleV2<Deps> {
         const newDefaultThemeType = newValue?.defaultTheme;
 
         if (newDefaultThemeType && newDefaultThemeType !== this.themeType) {
-          this.setThemeType(newValue.defaultTheme);
+          this.setThemeType(newDefaultThemeType);
         }
       },
     );
   }
 
+  @computed((that: Theme) => [
+    that.themeType,
+    that._deps.brand.themeMap,
+    that._deps.brand.brandConfig.theme?.themeMap,
+    that._deps.brand.defaultConfig.theme?.themeMap,
+  ])
   get theme() {
-    const curr = this._deps.brand.brandConfig.theme?.themeMap?.[
-      this.themeType
-    ] as any;
+    const themeType = this.themeType as keyof BrandThemeMap;
 
-    return curr as RcTheme;
+    // when themeType not be set, use light as default theme to find correct theme
+    const targetThemeType = themeType || 'light';
+    const curr = (this._deps.brand.brandConfig.theme?.themeMap?.[
+      targetThemeType
+    ] ||
+      this._deps.brand.defaultConfig.theme?.themeMap?.[targetThemeType] ||
+      // when still not found, use default juno theme
+      // we must have default theme, that will use in c2d variable
+      createTheme()) as RcTheme;
+
+    const processTheme = this._deps.themeOptions?.processTheme;
+    return processTheme ? processTheme(targetThemeType, curr) : curr;
   }
 
   @computed((that: Theme) => [that._deps.brand.brandConfig.theme?.variable])

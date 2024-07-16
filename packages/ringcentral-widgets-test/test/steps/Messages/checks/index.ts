@@ -34,3 +34,4 @@ export * from './CheckCurrentName';
 export * from './CheckMessageToFieldValue';
 export * from './CheckInputToRecipients';
 export * from './CheckConversationHistory';
+export * from './CheckConversationPageHyperLink';

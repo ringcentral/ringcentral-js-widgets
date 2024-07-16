@@ -1,5 +1,6 @@
-import type { StepFunction } from '../../lib/step';
 import type { Context } from '../../interfaces';
+import type { StepFunction } from '../../lib/step';
+
 import { CheckModalValue } from './CheckModalValue';
 
 export const CheckRemoveMeetingModal: StepFunction = async (

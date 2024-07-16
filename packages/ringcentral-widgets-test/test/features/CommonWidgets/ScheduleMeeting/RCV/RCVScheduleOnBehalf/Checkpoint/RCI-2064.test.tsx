@@ -8,7 +8,6 @@
  * Scheduler:Outlook > New Event > office add-in > meeting setting page > Mark on 'Use Personal Meeting ID XXX-XXX-XXX' > Click 'Change Personal Meeting settings' > show a pop-up window >Click'Change'
  * Outlook appointment:Login to Outlook: > New Meeting/Appointment > RingCentral for outlook> meeting setting page > Mark on 'Use Personal Meeting ID XXX-XXX-XXX'> Click 'Change Personal Meeting settings' > show a pop-up window>Click'Change'
  */
-
 import type { RcVideoAPI } from '@ringcentral-integration/commons/interfaces/Rcv.model';
 import {
   autorun,

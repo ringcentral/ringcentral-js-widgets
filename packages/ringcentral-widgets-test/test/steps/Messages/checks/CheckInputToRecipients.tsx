@@ -1,6 +1,6 @@
 import { waitForRenderReady } from '@ringcentral-integration/test-utils';
-import { screen, within, waitFor } from '@testing-library/react';
 import type { StepFunction } from '@ringcentral-integration/test-utils';
+import { screen, within, waitFor } from '@testing-library/react';
 
 export const CheckInputToRecipients: StepFunction<{
   recipients: string[];

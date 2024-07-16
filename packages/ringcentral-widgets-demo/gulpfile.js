@@ -1,11 +1,14 @@
 import path from 'path';
-import gulp from 'gulp';
 import fs from 'fs-extra';
 import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
 import yargs from 'yargs';
 import { devServerConfig, port } from './dev-server/webpack.config';
-import demoExtensionConfig from './demo-extension/webpack.config';
+
+import {
+  getWebpackConfig as getWebpackExtConfig,
+  port as extPort,
+} from './browser-extension/webpack.config';
 
 const {
   argv: { file },
@@ -30,6 +33,13 @@ export async function devServer() {
         publicPath: '/',
       },
       port,
+      client: {
+        overlay: {
+          errors: true,
+          warnings: false,
+          runtimeErrors: true,
+        },
+      },
     },
     compiler,
   );
@@ -37,31 +47,58 @@ export async function devServer() {
   console.log(`server listening to ${port}...`);
 }
 
-export function demoExtensionClean() {
-  return fs.remove('demo-extension-build');
-}
-
-export function demoExtensionWebpack() {
-  return new Promise((resolve, reject) => {
-    webpack(demoExtensionConfig, (err, stats) => {
-      if (err || stats.hasErrors()) {
-        reject(err || new Error(stats.toJson().errors));
-        return;
-      }
-      resolve();
-    });
+export async function devExtensionServer() {
+  const devExtensionServerConfig = getWebpackExtConfig({
+    mode: 'development',
   });
-}
-export function demoExtensionCopy() {
-  return gulp
-    .src(['demo-extension/**/*', '!demo-extension/**/*.js'])
-    .pipe(gulp.dest('demo-extension-build'));
-}
+  const excludeEntriesToHotReload = ['background'];
 
-export const demoExtension = gulp.series(
-  demoExtensionClean,
-  gulp.parallel(demoExtensionWebpack, demoExtensionCopy),
-);
+  for (const entryName in devExtensionServerConfig.entry) {
+    if (excludeEntriesToHotReload.indexOf(entryName) === -1) {
+      devExtensionServerConfig.entry[entryName] = [
+        'webpack/hot/dev-server',
+        `webpack-dev-server/client?hot=true&hostname=localhost&port=${extPort}`,
+      ].concat(devExtensionServerConfig.entry[entryName]);
+    }
+  }
+
+  devExtensionServerConfig.plugins = [
+    new webpack.HotModuleReplacementPlugin(),
+  ].concat(devExtensionServerConfig.plugins || []);
+
+  devExtensionServerConfig.devtool = 'cheap-module-source-map';
+
+  const compiler = webpack(devExtensionServerConfig);
+
+  const server = new WebpackDevServer(
+    {
+      https: false,
+      hot: false,
+      client: false,
+      host: 'localhost',
+      port: extPort,
+      static: {
+        directory: path.join(__dirname, '../build'),
+      },
+      devMiddleware: {
+        publicPath: `http://localhost:${extPort}/`,
+        writeToDisk: true,
+      },
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+      },
+      allowedHosts: 'all',
+    },
+    compiler,
+  );
+
+  if (module.hot) {
+    module.hot.accept();
+  }
+
+  await server.start();
+  console.log(`server listening to ${extPort}...`);
+}
 
 export async function copyConfig() {
   if (!(await fs.exists(file))) {

@@ -1,5 +1,5 @@
 export default {
-  logging: "Iniciando sesión...",
+  logging: "Iniciando sesión…",
   logCall: "Registrar llamada",
   editLog: "Editar registro",
   select: "Seleccionar una grabación que coincida",
@@ -13,7 +13,7 @@ export default {
   addEntity: "Crear nuevo",
   addLog: "Registro",
   text: "Mensaje",
-  call: "Llamada",
+  call: "Llamar",
   addContact: "Agregar contacto",
   missedCall: "Perdida",
   inboundCall: "Entrante",
@@ -24,14 +24,14 @@ export default {
   accept: "Responder",
   toVoicemail: "Enviar al buzón de voz",
   anonymous: "Anónimo",
-  mergeToConference: "Combinar",
+  mergeToConference: "Combinar con la llamada activa",
   hold: "Retener",
   unhold: "Salir de espera",
   transfer: "Transferir",
   reject: "Rechazar",
   switchCall: "Cambiar llamada a esta aplicación",
-  callSwitch: "Cambio de llamada",
-  comfirmContext: "Está en una llamada activa con {displayName}. ¿Quiere continuar la llamada en este dispositivo?",
+  callSwitch: "Cambiar llamada",
+  comfirmContext: "Está en una llamada activa con {displayName}. ¿Desear continuar con la llamada en este dispositivo?",
   comfirmCancelButton: "Cancelar",
   comfirmOKButton: "Cambiar",
   ignore: "Ignorar",
@@ -63,7 +63,7 @@ export default {
 // @key: @#@"accept"@#@ @source: @#@"Answer"@#@
 // @key: @#@"toVoicemail"@#@ @source: @#@"To Voicemail"@#@
 // @key: @#@"anonymous"@#@ @source: @#@"Anonymous"@#@
-// @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
+// @key: @#@"mergeToConference"@#@ @source: @#@"Merge with active call"@#@
 // @key: @#@"hold"@#@ @source: @#@"Hold"@#@
 // @key: @#@"unhold"@#@ @source: @#@"Unhold"@#@
 // @key: @#@"transfer"@#@ @source: @#@"Transfer"@#@

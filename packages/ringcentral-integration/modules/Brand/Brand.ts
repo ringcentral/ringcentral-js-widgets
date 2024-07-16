@@ -3,14 +3,16 @@ import {
   computed,
   RcModuleV2,
   state,
+  watch,
 } from '@ringcentral-integration/core';
 import { DEFAULT_LOCALE } from '@ringcentral-integration/i18n';
 
 import { Module } from '../../lib/di';
 import { processI18n } from '../../lib/processI18n';
-import type { Deps } from './Brand.interface';
+
+import type { BrandThemeMap, Deps } from './Brand.interface';
 import type { BrandConfig } from './BrandConfig.interface';
-import { processAssets } from './helpers';
+import { processAssets } from './processAssets';
 
 @Module({
   name: 'Brand',
@@ -33,6 +35,8 @@ export class Brand<
     this._prefix = `${this._deps.brandConfig.code}-${
       this._deps.brandConfig.application ?? ''
     }`;
+
+    this.bindUpdateDocumentVariables();
   }
 
   @state
@@ -43,6 +47,46 @@ export class Brand<
     this._dynamicConfig = config;
   }
 
+  @state
+  themeMap: BrandThemeMap = {
+    default: [],
+    light: [],
+    dark: [],
+    contrast: [],
+  };
+
+  @action
+  setThemeMap(val: BrandThemeMap) {
+    this.themeMap = val;
+  }
+
+  private bindUpdateDocumentVariables() {
+    if (!global.document) return;
+
+    const updateDocumentVariables = () => {
+      const check = () => JSON.stringify(this.brandConfig.styleVariable);
+      let updateVal = check();
+      this.updateDocumentVariables();
+
+      watch(this, check, (val) => {
+        if (val === updateVal) return;
+        updateVal = val;
+        this.updateDocumentVariables();
+      });
+    };
+
+    // * in old arch chrome extension content page, need to wait a tick, otherwise the watch event will not get any update
+    Promise.resolve().then(updateDocumentVariables);
+  }
+
+  private updateDocumentVariables() {
+    // apply that style variable to global css variable
+    Object.entries(this.brandConfig.styleVariable ?? {}).forEach(
+      ([key, value]) => {
+        document.documentElement.style.setProperty(`--${key}`, `${value}`);
+      },
+    );
+  }
   /**
    * dynamic brand config with i18n processed with currentLocale
    */

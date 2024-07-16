@@ -10,7 +10,6 @@
  * SfB: Login > Meeting
  * Office Add-in: Login
  */
-
 import type { StepFunction } from '../../../../../../lib/step';
 import {
   p2,

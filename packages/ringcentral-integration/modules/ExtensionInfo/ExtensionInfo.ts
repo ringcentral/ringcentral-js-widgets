@@ -1,13 +1,15 @@
-import type { Unsubscribe } from 'redux';
 import type ExtensionInfoEvent from '@rc-ex/core/lib/definitions/ExtensionInfoEvent';
 import type GetExtensionInfoResponse from '@rc-ex/core/lib/definitions/GetExtensionInfoResponse';
 import { computed, watch } from '@ringcentral-integration/core';
-import { renameTurkeyCountry } from '../../helpers/renameTurkey';
+import type { Unsubscribe } from 'redux';
+
 import { permissionsMessages } from '../../enums/permissionsMessages';
 import { subscriptionFilters } from '../../enums/subscriptionFilters';
 import { subscriptionHints } from '../../enums/subscriptionHints';
+import { renameTurkeyCountry } from '../../helpers/renameTurkey';
 import { Module } from '../../lib/di';
 import { DataFetcherV2Consumer, DataSource } from '../DataFetcherV2';
+
 import type { Deps } from './ExtensionInfo.interface';
 
 const extensionRegExp = /.*\/extension\/\d+$/;
@@ -34,7 +36,7 @@ export class ExtensionInfo extends DataFetcherV2Consumer<
   Deps,
   GetExtensionInfoResponse
 > {
-  // @ts-expect-error
+  // @ts-expect-error TS(2564): Property '_stopWatching' has no initializer and is... Remove this comment to see the full error message
   protected _stopWatching: Unsubscribe;
   constructor(deps: Deps) {
     super({
@@ -75,7 +77,7 @@ export class ExtensionInfo extends DataFetcherV2Consumer<
     if (
       this.ready &&
       (this._source.disableCache || (this._deps.tabManager?.active ?? true)) &&
-      // @ts-expect-error
+      // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
       extensionRegExp.test(message?.event) &&
       !(
         message.body?.hints?.includes(subscriptionHints.companyNumbers) ||
@@ -102,7 +104,7 @@ export class ExtensionInfo extends DataFetcherV2Consumer<
 
   override onReset() {
     this._stopWatching?.();
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Unsubscribe... Remove this comment to see the full error message
     this._stopWatching = null;
   }
 

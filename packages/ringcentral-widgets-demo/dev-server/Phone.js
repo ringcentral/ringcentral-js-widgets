@@ -1,10 +1,10 @@
-import callDirections from '@ringcentral-integration/commons/enums/callDirections';
-import { ModuleFactory } from '@ringcentral-integration/commons/lib/di';
+import { callDirection } from '@ringcentral-integration/commons/enums/callDirections';
 import { LocalForageStorage } from '@ringcentral-integration/commons/lib/LocalForageStorage';
-import { normalizeNumber } from '@ringcentral-integration/commons/lib/normalizeNumber';
 import RcModule from '@ringcentral-integration/commons/lib/RcModule';
 import { RingCentralClient } from '@ringcentral-integration/commons/lib/RingCentralClient';
 import '@ringcentral-integration/commons/lib/TabFreezePrevention';
+import { ModuleFactory } from '@ringcentral-integration/commons/lib/di';
+import { normalizeNumber } from '@ringcentral-integration/commons/lib/normalizeNumber';
 import { AccountContacts } from '@ringcentral-integration/commons/modules/AccountContacts';
 import { AccountInfo } from '@ringcentral-integration/commons/modules/AccountInfo';
 import { ActiveCallControl } from '@ringcentral-integration/commons/modules/ActiveCallControl';
@@ -17,16 +17,16 @@ import { AudioSettings } from '@ringcentral-integration/commons/modules/AudioSet
 import { Auth } from '@ringcentral-integration/commons/modules/Auth';
 import { AvailabilityMonitor } from '@ringcentral-integration/commons/modules/AvailabilityMonitor';
 import { Brand } from '@ringcentral-integration/commons/modules/Brand';
-import { CallerId } from '@ringcentral-integration/commons/modules/CallerId';
+import { Call } from '@ringcentral-integration/commons/modules/Call';
 import { CallHistory } from '@ringcentral-integration/commons/modules/CallHistory';
+import { CallLog } from '@ringcentral-integration/commons/modules/CallLog';
+import { CallMonitor } from '@ringcentral-integration/commons/modules/CallMonitor';
+import { CallerId } from '@ringcentral-integration/commons/modules/CallerId';
 import {
   CallingSettings,
   callingModes,
   callingOptions,
 } from '@ringcentral-integration/commons/modules/CallingSettings';
-import { CallLog } from '@ringcentral-integration/commons/modules/CallLog';
-import { CallMonitor } from '@ringcentral-integration/commons/modules/CallMonitor';
-import { Call } from '@ringcentral-integration/commons/modules/Call';
 import { CompanyContacts } from '@ringcentral-integration/commons/modules/CompanyContacts';
 import { ComposeText } from '@ringcentral-integration/commons/modules/ComposeText';
 import { ConferenceCall } from '@ringcentral-integration/commons/modules/ConferenceCall';
@@ -45,11 +45,11 @@ import { ExtensionInfo } from '@ringcentral-integration/commons/modules/Extensio
 import { ExtensionPhoneNumber } from '@ringcentral-integration/commons/modules/ExtensionPhoneNumber';
 import { Feedback } from '@ringcentral-integration/commons/modules/Feedback';
 import { ForwardingNumber } from '@ringcentral-integration/commons/modules/ForwardingNumber';
+import { GenericMeeting } from '@ringcentral-integration/commons/modules/GenericMeeting';
 import { GlobalStorage } from '@ringcentral-integration/commons/modules/GlobalStorage';
 import { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import { LocaleSettings } from '@ringcentral-integration/commons/modules/LocaleSettings';
 import { Meeting } from '@ringcentral-integration/commons/modules/Meeting';
-import { RcVideo } from '@ringcentral-integration/commons/modules/RcVideo';
 import { MessageSender } from '@ringcentral-integration/commons/modules/MessageSender';
 import { MessageStore } from '@ringcentral-integration/commons/modules/MessageStore';
 import { NumberValidate } from '@ringcentral-integration/commons/modules/NumberValidate';
@@ -57,6 +57,7 @@ import { Presence } from '@ringcentral-integration/commons/modules/Presence';
 // import ConferenceCall from '@ringcentral-integration/commons/modules/ConferenceCall';
 import { QuickAccess } from '@ringcentral-integration/commons/modules/QuickAccess';
 import { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiter';
+import { RcVideo } from '@ringcentral-integration/commons/modules/RcVideo';
 import { RecentCalls } from '@ringcentral-integration/commons/modules/RecentCalls';
 import { RecentMessages } from '@ringcentral-integration/commons/modules/RecentMessages';
 import { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
@@ -72,11 +73,11 @@ import {
 import { Storage } from '@ringcentral-integration/commons/modules/Storage';
 import { Subscription } from '@ringcentral-integration/commons/modules/Subscription';
 import { TabManager } from '@ringcentral-integration/commons/modules/TabManager';
+import { ExtensionNumberAreaCode } from '@ringcentral-integration/commons/modules/ExtensionNumberAreaCode';
 import { TierChecker } from '@ringcentral-integration/commons/modules/TierChecker';
 import { UserGuide } from '@ringcentral-integration/commons/modules/UserGuide';
 import { VideoConfiguration } from '@ringcentral-integration/commons/modules/VideoConfiguration';
 import { Webphone } from '@ringcentral-integration/commons/modules/Webphone';
-import { GenericMeeting } from '@ringcentral-integration/commons/modules/GenericMeeting';
 import hasActiveCalls from '@ringcentral-integration/widgets/lib/hasActiveCalls';
 import { ActiveCallsUI } from '@ringcentral-integration/widgets/modules/ActiveCallsUI';
 import { AlertUI } from '@ringcentral-integration/widgets/modules/AlertUI';
@@ -94,12 +95,13 @@ import { ConnectivityBadgeUI } from '@ringcentral-integration/widgets/modules/Co
 import { ConnectivityManager } from '@ringcentral-integration/widgets/modules/ConnectivityManager';
 import { ContactDetailsUI } from '@ringcentral-integration/widgets/modules/ContactDetailsUI';
 import { ContactListUI } from '@ringcentral-integration/widgets/modules/ContactListUI';
-import { ConversationsUI } from '@ringcentral-integration/widgets/modules/ConversationsUI';
 import { ConversationUI } from '@ringcentral-integration/widgets/modules/ConversationUI';
+import { ConversationsUI } from '@ringcentral-integration/widgets/modules/ConversationsUI';
 import { DialerAndCallsTabUI } from '@ringcentral-integration/widgets/modules/DialerAndCallsTabUI';
 import { DialerUI } from '@ringcentral-integration/widgets/modules/DialerUI';
 import { FeedbackUI } from '@ringcentral-integration/widgets/modules/FeedbackUI';
 import { FlipUI } from '@ringcentral-integration/widgets/modules/FlipUI';
+import { GenericMeetingUI } from '@ringcentral-integration/widgets/modules/GenericMeetingUI';
 import { IncomingCallUI } from '@ringcentral-integration/widgets/modules/IncomingCallUI';
 import { LoginUI } from '@ringcentral-integration/widgets/modules/LoginUI';
 import { ModalUI } from '@ringcentral-integration/widgets/modules/ModalUI';
@@ -111,7 +113,6 @@ import { SettingsUI } from '@ringcentral-integration/widgets/modules/SettingsUI'
 import { SimpleCallControlUI } from '@ringcentral-integration/widgets/modules/SimpleCallControlUI';
 import { TransferUI } from '@ringcentral-integration/widgets/modules/TransferUI';
 import { UserGuideUI } from '@ringcentral-integration/widgets/modules/UserGuideUI';
-import { GenericMeetingUI } from '@ringcentral-integration/widgets/modules/GenericMeetingUI';
 import { SDK } from '@ringcentral/sdk';
 import { hashHistory } from 'react-router';
 import url from 'url';
@@ -207,6 +208,7 @@ const history =
     { provide: 'Meeting', useClass: Meeting },
     { provide: 'VideoConfiguration', useClass: VideoConfiguration },
     { provide: 'Webphone', useClass: Webphone },
+    { provide: 'ExtensionNumberAreaCode', useClass: ExtensionNumberAreaCode },
     { provide: 'ContactSearch', useClass: ContactSearch },
     { provide: 'CallMonitor', useClass: CallMonitor },
     { provide: 'DialerUI', useClass: DialerUI },
@@ -239,6 +241,9 @@ const history =
       provide: 'RcVideoOptions',
       useValue: {
         showSaveAsDefault: false,
+        enableInvitationApi: true,
+        enableInvitationBridgesApi: true,
+        enableInvitationApiFailedToast: true,
       },
     },
     {
@@ -282,8 +287,9 @@ const history =
     {
       provide: 'EnvironmentOptions',
       useValue: {
+        useDataTrackingSetting: true,
         defaultRecordingHost:
-          'https://apps.ringcentral.com/integrations/recording/dev/rc/index.html',
+          'https://cdn.integration.ringcentral.com/integration/recording/dev/rc/index.html',
       },
     },
     // {
@@ -311,14 +317,6 @@ const history =
     {
       provide: 'Analytics',
       useClass: Analytics,
-    },
-    {
-      provide: 'AnalyticsOptions',
-      useValue: {
-        analyticsKey: '',
-        appVersion: '',
-        useLog: true,
-      },
     },
     {
       provide: 'ExtensionInfoOptions',
@@ -445,7 +443,7 @@ export default class BasePhone extends RcModule {
     });
 
     webphone.onCallStart((session) => {
-      if (session.direction === callDirections.outbound) {
+      if (session.direction === callDirection.outbound) {
         return;
       }
       const path = `/calls/active/${session.id}`;
@@ -604,6 +602,7 @@ export function createPhone({
   apiConfig,
   brandConfig,
   clientService,
+  analyticsKey = '',
   enableDiscovery = true,
 }) {
   @ModuleFactory({
@@ -613,6 +612,15 @@ export function createPhone({
         useFactory: ({ sdkConfig }) =>
           new RingCentralClient(clientService || new SDK(sdkConfig)),
         deps: [{ dep: 'SdkConfig', useParam: true }],
+      },
+      {
+        provide: 'AnalyticsOptions',
+        useValue: {
+          analyticsKey,
+          appVersion: '',
+          useLog: true,
+          enableMixpanel: true,
+        },
       },
       {
         provide: 'SdkConfig',
@@ -627,7 +635,7 @@ export function createPhone({
           clearCacheOnRefreshError: false,
           clientId: apiConfig.clientId || apiConfig.appKey,
           clientSecret: apiConfig.clientSecret || apiConfig.appSecret,
-          redirectUri: url.resolve(window.location.href, './redirect.html'),
+          redirectUri: new URL('./redirect.html', window.location.href).href,
         },
       },
       {

@@ -1,8 +1,7 @@
-import type { FunctionComponent } from 'react';
-import React from 'react';
-
 import { emptyFn } from '@ringcentral-integration/utils';
 import { RcList } from '@ringcentral/juno';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import i18n from './i18n';
 

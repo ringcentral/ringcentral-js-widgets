@@ -1,6 +1,7 @@
 import { find } from 'ramda';
 
 import type { ExtensionInfo } from '../ExtensionInfo';
+
 import type { MeetingDelegator, RcMMeetingModel } from './Meeting.interface';
 
 export function getExtensionName({

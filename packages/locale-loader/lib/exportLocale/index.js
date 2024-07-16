@@ -1,9 +1,10 @@
-import path from 'path';
 import fs from 'fs-extra';
+import path from 'path';
 import { forEach } from 'ramda';
+
 import compileLocaleData from '../compileLocaleData';
 import defaultConfig from '../defaultConfig';
-import { generateXlfData, generateJsonData } from '../generateData';
+import { generateJsonData, generateXlfData } from '../generateData';
 
 export function writeData({ localizationFolder, data, ext }) {
   fs.ensureDirSync(localizationFolder);
@@ -16,6 +17,26 @@ export function writeData({ localizationFolder, data, ext }) {
   }, Object.keys(data));
 }
 
+/**
+ * Exports the locale data based on the provided options.
+ *
+ * by default, it will export the data in `xlf` format.
+ *
+ * if the --json flag is provided, it will export the data in `json` format.
+ *
+ * @param {Object} options - The options for exporting the locale data.
+ * @param {string} [options.sourceFolder] - The source folder path.
+ * @param {string} [options.localizationFolder] - The localization folder path.
+ * @param {string} [options.sourceLocale] - The source locale.
+ * @param {*} options.supportedLocales - The supported locales.
+ * @param {*} [options.translationLocales] - The translation locales.
+ * @param {string} [options.exportType='diff'] - The export type.
+ * @param {boolean} [options.fillEmptyWithSource=true] - Whether to fill empty translations with the source text.
+ * @param {boolean} [options.json] - Whether to export the data in JSON format.
+ * @param {boolean} [options.writeFile=true] - Whether to write the data to a file.
+ * @returns {Promise<string|Object>} - The exported data or a promise that resolves with the exported data.
+ * @throws {Error} - If options.supportedLocales is missing.
+ */
 export default function exportLocale({
   sourceFolder = defaultConfig.sourceFolder,
   localizationFolder = defaultConfig.localizationFolder,
@@ -24,7 +45,7 @@ export default function exportLocale({
   translationLocales = supportedLocales,
   exportType = 'diff',
   fillEmptyWithSource = true,
-  json = false,
+  json = process.argv.includes('--json'),
   writeFile = true,
 } = {}) {
   if (!supportedLocales) {

@@ -1,9 +1,9 @@
-import type { WebPhoneSession as WebphoneSessionBase } from 'ringcentral-web-phone/lib/session';
-import type { Session as SessionBase } from 'ringcentral-call/lib/Session';
-
 import type { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
+import type { Session as SessionBase } from 'ringcentral-call/lib/Session';
+import type { WebPhoneSession as WebphoneSessionBase } from 'ringcentral-web-phone/lib/session';
 
 import type { extendedControlStatus } from '../enums/extendedControlStatus';
+
 import type { Entity } from './Entity.interface';
 
 export interface PartyData {
@@ -37,7 +37,7 @@ export interface WebphoneSession extends WebphoneSessionBase {
   __rc_lastActiveTime: number;
   __rc_extendedControls?: string[];
   __rc_extendedControlStatus: ObjectMapValue<typeof extendedControlStatus>;
-  __rc_transferSessionId: string;
+  __rc_transferSessionId?: string;
 }
 
 export interface NormalizedSession {
@@ -64,7 +64,7 @@ export interface NormalizedSession {
   recordStatus: string;
   contactMatch: Entity;
   minimized: boolean;
-  partyData: PartyData;
+  partyData: PartyData | null;
   lastActiveTime: number;
   cached: boolean;
   removed: boolean;

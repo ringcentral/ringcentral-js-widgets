@@ -11,4 +11,4 @@ export default {
   unavailable: 'Unavailable',
   viewDetails: 'View Details',
   conferenceCall: 'Conference Call',
-};
+} as const;

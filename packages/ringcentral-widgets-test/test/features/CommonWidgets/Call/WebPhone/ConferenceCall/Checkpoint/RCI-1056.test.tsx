@@ -7,7 +7,6 @@
  * Entry point(/s):
  *
  */
-
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p1,
@@ -22,20 +21,6 @@ import {
   And,
 } from '@ringcentral-integration/test-utils';
 
-import { CommonLogin } from '../../../../../../steps/CommonLogin';
-import {
-  MockConferenceCall,
-  MockTelephonySession,
-  MockBringInToConference,
-  MockMessageList,
-  MockMessageSync,
-} from '../../../../../../steps/Mock';
-import { NavigateTo } from '../../../../../../steps/Router/action';
-import {
-  ClickSaveButton,
-  ExpandDropdown,
-  SelectCallingSetting,
-} from '../../../../../../steps/Settings';
 import {
   CheckMuteButton,
   CheckUnmuteButton,
@@ -46,7 +31,21 @@ import {
   CheckConferenceCallControlPage,
   CheckConferenceInfoPage,
 } from '../../../../../../steps/Call';
+import { CommonLogin } from '../../../../../../steps/CommonLogin';
+import {
+  MockConferenceCall,
+  MockTelephonySession,
+  MockBringInToConference,
+  MockMessageList,
+  MockMessageSync,
+} from '../../../../../../steps/Mock';
 import { NavigateToDialer } from '../../../../../../steps/Navigate';
+import { NavigateTo } from '../../../../../../steps/Router';
+import {
+  ClickSaveButton,
+  ExpandCallingSettingDropdown,
+  SelectCallingSetting,
+} from '../../../../../../steps/Settings';
 
 @autorun(test.skip)
 @it
@@ -70,7 +69,7 @@ export class RCI1056 extends Step {
           desc="Navigate To CallingSetting, Web Phone is enabled and 'Browser'  is selected in Settings > Calling > Make my calls with"
           action={[
             <NavigateTo path="/settings/calling" />,
-            ExpandDropdown,
+            ExpandCallingSettingDropdown,
             <SelectCallingSetting settingName="Browser" />,
             ClickSaveButton,
           ]}

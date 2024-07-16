@@ -1,12 +1,11 @@
-import type { ReactNode } from 'react';
-
 import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 import calleeTypes from '@ringcentral-integration/commons/enums/calleeTypes';
 import type { NormalizedSession } from '@ringcentral-integration/commons/interfaces/Webphone.interface';
+import type { AccountInfo } from '@ringcentral-integration/commons/modules/AccountInfo';
 import type { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures/AppFeatures';
 import type { Brand } from '@ringcentral-integration/commons/modules/Brand';
-import type { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettings';
 import type { CallMonitor } from '@ringcentral-integration/commons/modules/CallMonitor';
+import type { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettings';
 import type { ConferenceCall } from '@ringcentral-integration/commons/modules/ConferenceCall';
 import type { ContactMatcher } from '@ringcentral-integration/commons/modules/ContactMatcher';
 import type { ContactSearch } from '@ringcentral-integration/commons/modules/ContactSearch';
@@ -15,7 +14,7 @@ import type { ForwardingNumber } from '@ringcentral-integration/commons/modules/
 import type { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import type { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
 import type { Webphone } from '@ringcentral-integration/commons/modules/Webphone';
-import type { AccountInfo } from '@ringcentral-integration/commons/modules/AccountInfo';
+import type { ReactNode } from 'react';
 
 import type { ConnectivityManager } from '../ConnectivityManager';
 import type { RouterInteraction } from '../RouterInteraction';
@@ -55,19 +54,27 @@ export interface Deps {
 }
 export function getLastCallInfoFromWebphoneSession(
   webphoneSession: NormalizedSession,
+  contactMapping?: any,
 ) {
   const sessionNumber =
     webphoneSession.direction === callDirections.outbound
       ? webphoneSession.to
       : webphoneSession.from;
   const sessionStatus = webphoneSession.callStatus;
-  const matchedContact = webphoneSession.contactMatch;
+  let matchedContact = webphoneSession.contactMatch;
+  if (!matchedContact && contactMapping) {
+    const matches = contactMapping[sessionNumber];
+    if (matches?.length) {
+      matchedContact = matches[0];
+    }
+  }
   const calleeType = matchedContact
     ? calleeTypes.contacts
     : calleeTypes.unknown;
   return {
     calleeType,
     avatarUrl: matchedContact && matchedContact.profileImageUrl,
+    lastCallContact: matchedContact,
     name: matchedContact && matchedContact.name,
     status: sessionStatus,
     phoneNumber: sessionNumber,

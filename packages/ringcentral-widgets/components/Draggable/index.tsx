@@ -1,6 +1,5 @@
+import clsx from 'clsx';
 import React, { Component } from 'react';
-
-import classnames from 'classnames';
 
 import styles from './styles.scss';
 
@@ -152,7 +151,7 @@ class Draggable extends Component<DraggableProps, DraggableState> {
           this.draggableDom = draggableDom;
         }}
         style={style}
-        className={classnames(styles.root, className)}
+        className={clsx(styles.root, className)}
         onClick={this._onClick}
       >
         {children}

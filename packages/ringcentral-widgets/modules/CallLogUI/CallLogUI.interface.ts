@@ -1,14 +1,14 @@
+import type { AccountInfo } from '@ringcentral-integration/commons/modules/AccountInfo';
 import type { ActiveCallControl } from '@ringcentral-integration/commons/modules/ActiveCallControl';
 import type { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures';
-import type { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettings';
 import type { CallLogger } from '@ringcentral-integration/commons/modules/CallLogger';
+import type { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettings';
 import type { ConnectivityMonitor } from '@ringcentral-integration/commons/modules/ConnectivityMonitor';
 import type { DateTimeFormat } from '@ringcentral-integration/commons/modules/DateTimeFormat';
 import type { ForwardingNumber } from '@ringcentral-integration/commons/modules/ForwardingNumber';
 import type { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import type { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiter';
 import type { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
-import type { AccountInfo } from '@ringcentral-integration/commons/modules/AccountInfo';
 
 import type { CallLogPanelProps } from '../../components/CallLogPanel';
 import type { CallLogSection } from '../CallLogSection';

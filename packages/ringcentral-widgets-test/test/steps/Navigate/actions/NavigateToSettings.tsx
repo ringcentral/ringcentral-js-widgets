@@ -4,17 +4,20 @@ import { fireEvent, screen } from '@testing-library/react';
 import type { StepFunction } from '../../../lib/step';
 
 export const NavigateToSettings: StepFunction = async () => {
-  const showSettings = screen.queryByTestId('Settings');
+  const showSettings = screen.queryByTestId('settingsTab');
   if (showSettings) {
-    fireEvent.click(screen.getByTestId('Settings'));
+    fireEvent.click(showSettings);
     return;
   }
 
-  if (screen.queryByTestId('moreMenu')) {
-    fireEvent.click(screen.getByTestId('moreMenu'));
+  const moreMenu = screen.queryByTestId('moreMenu');
+  if (moreMenu) {
+    fireEvent.click(moreMenu);
     await waitForRenderReady();
   }
 
   fireEvent.click(screen.getByTestId('settingsTab'));
+  await waitForRenderReady();
+
   expect(screen.getByTestId('version')).toBeInTheDocument();
 };

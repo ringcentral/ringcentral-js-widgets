@@ -1,12 +1,12 @@
+import clsx from 'clsx';
 import type { FunctionComponent } from 'react';
 import React, { memo } from 'react';
-
-import classnames from 'classnames';
 
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import { CallAvatar } from '../CallAvatar';
 import ContactDisplay from '../ContactDisplay';
 import IncomingCallPad from '../IncomingCallPad';
+
 import styles from './styles.scss';
 
 // TODO: fix that props type when full refactor ready
@@ -33,8 +33,8 @@ const UserInfo: FunctionComponent<any> = ({
     <div className={styles.userInfo}>
       <div className={styles.avatarContainer}>
         <div className={styles.avatarHolder}>
-          <div className={classnames(styles.ringOutside, styles.ringing)} />
-          <div className={classnames(styles.ringInner, styles.ringing)} />
+          <div className={clsx(styles.ringOutside, styles.ringing)} />
+          <div className={clsx(styles.ringInner, styles.ringing)} />
           <div className={styles.avatar} data-sign="avatar">
             <CallAvatar avatarUrl={avatarUrl} />
           </div>
@@ -107,16 +107,13 @@ const IncomingCallPanel: FunctionComponent<any> = ({
   name,
 }) => {
   return (
-    <div
-      data-sign="IncomingCallPanel"
-      className={classnames(styles.root, className)}
-    >
+    <div data-sign="IncomingCallPanel" className={clsx(styles.root, className)}>
       <span
         data-sign="backButton"
         className={styles.backButton}
         onClick={onBackButtonClick}
       >
-        <i className={classnames(dynamicsFont.arrow, styles.backIcon)} />
+        <i className={clsx(dynamicsFont.arrow, styles.backIcon)} />
       </span>
       <UserInfo
         name={name}

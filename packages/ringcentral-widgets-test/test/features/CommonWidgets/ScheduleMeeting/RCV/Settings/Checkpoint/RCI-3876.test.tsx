@@ -13,13 +13,6 @@
 	| Of |
 
  */
-
-import {
-  CheckPostMeetingParams,
-  ClickScheduleButton,
-  CheckRCVPageDisplay,
-  SwitchToggleTo,
-} from '../../../../../../steps/Meeting';
 import type { StepFunction } from '../../../../../../lib/step';
 import {
   common,
@@ -34,6 +27,12 @@ import {
   p1,
 } from '../../../../../../lib/step';
 import { Login as CommonLogin } from '../../../../../../steps/Login';
+import {
+  CheckPostMeetingParams,
+  ClickScheduleButton,
+  CheckRCVPageDisplay,
+  SwitchToggleTo,
+} from '../../../../../../steps/Meeting';
 
 @autorun(test.skip)
 @common

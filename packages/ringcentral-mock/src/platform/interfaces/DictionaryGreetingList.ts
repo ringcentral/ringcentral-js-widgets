@@ -1,6 +1,6 @@
-import type { DictionaryGreetingInfo } from './DictionaryGreetingInfo';
 import type { CallHandlingNavigationInfo } from './CallHandlingNavigationInfo';
 import type { CallHandlingPagingInfo } from './CallHandlingPagingInfo';
+import type { DictionaryGreetingInfo } from './DictionaryGreetingInfo';
 
 export interface DictionaryGreetingList {
   /**

@@ -1,6 +1,5 @@
-import { pathOr } from 'ramda';
-
 import type { ApiError } from '@ringcentral/sdk';
+import { pathOr } from 'ramda';
 
 import type { ErrorMessages } from './AvailabilityMonitor.interface';
 import { availability } from './availabilityStatus';

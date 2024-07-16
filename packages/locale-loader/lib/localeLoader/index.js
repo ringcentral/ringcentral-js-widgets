@@ -1,8 +1,9 @@
 import fs from 'fs-extra';
 import loaderUtils from 'loader-utils';
+
 import generateLoaderContent from '../generateLoaderContent';
-import isLocaleFile, { localeFilter } from '../isLocaleFile';
 import isLoaderFile, { noChunks } from '../isLoaderFile';
+import isLocaleFile, { localeFilter } from '../isLocaleFile';
 
 /**
  *

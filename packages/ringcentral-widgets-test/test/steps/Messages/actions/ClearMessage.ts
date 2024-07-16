@@ -1,6 +1,7 @@
 import { waitForRenderReady } from '@ringcentral-integration/test-utils';
 import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+
 import { runInFakeTimer } from '../../../lib/runInFakeTimer';
 import type { StepFunction } from '../../../lib/step';
 

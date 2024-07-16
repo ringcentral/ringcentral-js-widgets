@@ -1,9 +1,9 @@
+import clsx from 'clsx';
 import type { FunctionComponent, MouseEvent } from 'react';
 import React from 'react';
 
-import classnames from 'classnames';
-
 import { RemoveButton } from '../RemoveButton';
+
 import styles from './styles.scss';
 
 export interface RecipientProps {
@@ -58,7 +58,7 @@ export const SelectedRecipients: FunctionComponent<SelectedRecipientsProps> = ({
     return (
       <ul
         data-sign="recipientsList"
-        className={classnames(className, styles.selectReceivers)}
+        className={clsx(className, styles.selectReceivers)}
       >
         {recipients.map((item) => (
           <Recipient

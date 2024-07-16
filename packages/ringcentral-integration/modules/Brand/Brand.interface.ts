@@ -1,4 +1,7 @@
+import type { RcThemeInput } from '@ringcentral/juno';
+
 import type { Locale } from '../Locale';
+
 import type { BrandConfig } from './BrandConfig.interface';
 
 export interface BrandConfigOptions {
@@ -14,4 +17,16 @@ export interface Deps<T extends BrandConfig = BrandConfig> {
   locale?: Locale;
   prefix?: string;
   brandConfigOptions?: BrandConfigOptions;
+}
+
+export type ThemeInfo = {
+  id: string;
+  theme: RcThemeInput;
+};
+
+export interface BrandThemeMap {
+  default: ThemeInfo[];
+  light: ThemeInfo[];
+  dark: ThemeInfo[];
+  contrast: ThemeInfo[];
 }

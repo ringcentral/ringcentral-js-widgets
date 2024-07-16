@@ -8,11 +8,13 @@ import I18n, {
   DEFAULT_LOCALE,
   PSEUDO_LOCALE,
 } from '@ringcentral-integration/i18n';
+import { setDayjsLocale } from '@ringcentral-integration/i18n-dayjs';
 import formatLocale from '@ringcentral-integration/i18n/lib/formatLocale';
 
 import detectBrowserLocale from '../../lib/detectBrowserLocale';
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
+
 import type { Deps } from './Locale.interface';
 
 @Module({
@@ -129,7 +131,9 @@ export class Locale extends RcModuleV2<Deps> {
   }
 
   protected async _setLocale(locale: string | null) {
-    await I18n.setLocale(locale);
+    const toLocale = locale || this.defaultLocale;
+    await I18n.setLocale(toLocale);
+    setDayjsLocale(toLocale);
   }
 
   normalizeLocale(inputLocale: string) {

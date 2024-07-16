@@ -1,11 +1,15 @@
 import { waitUntilTo } from '@ringcentral-integration/commons/utils';
 import { fireEvent, screen } from '@testing-library/react';
+
 import type { StepFunction } from '../../../../lib/step';
+
 import { CallButtonBehavior } from './CallButtonBehavior';
 
-export const CustomForwardCall: StepFunction = async (props, context) => {
+export const CustomForwardCall: StepFunction<{
+  customSelector?: string;
+}> = async ({ customSelector = 'custom' }, context) => {
   await CallButtonBehavior({ callButtonBehaviorType: 'forward' }, context);
-  const customEle = screen.getByTestId('custom');
+  const customEle = screen.getByTestId(customSelector);
   fireEvent.click(customEle);
   await waitUntilTo(() => {
     expect(screen.getByTestId('forwardPage')).toBeInTheDocument();

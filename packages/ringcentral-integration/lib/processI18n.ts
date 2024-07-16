@@ -1,5 +1,3 @@
-import { keys, map, reduce } from 'ramda';
-
 import I18n, {
   DEFAULT_LOCALE,
   PSEUDO_LOCALE,
@@ -7,6 +5,7 @@ import I18n, {
 import { getLanguageFromLocale } from '@ringcentral-integration/i18n/lib/getLanguageFromLocale';
 import toPseudoString from '@ringcentral-integration/i18n/lib/toPseudoString';
 import type { LocaleCode } from '@ringcentral-integration/locale-settings';
+import { keys, map, reduce } from 'ramda';
 
 import type { I18nStrings } from '../modules/Brand/BrandConfig.interface';
 import { I18nFlag } from '../modules/Brand/BrandConfig.interface';

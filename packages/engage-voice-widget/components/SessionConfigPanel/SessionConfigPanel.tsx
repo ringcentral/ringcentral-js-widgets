@@ -1,6 +1,3 @@
-import type { FunctionComponent } from 'react';
-import React from 'react';
-
 import {
   palette2,
   RcButton,
@@ -9,6 +6,8 @@ import {
   styled,
 } from '@ringcentral/juno';
 import { ArrowLeft2 as arrowLeftSvg } from '@ringcentral/juno-icon';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import type {
   EvAgentSessionUIFunctions,
@@ -17,6 +16,7 @@ import type {
 import type { BasicSessionPanelProps } from '../BasicSessionPanel';
 import { BasicSessionPanel } from '../BasicSessionPanel';
 import { EvLoginHeader } from '../EvLoginHeader';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 

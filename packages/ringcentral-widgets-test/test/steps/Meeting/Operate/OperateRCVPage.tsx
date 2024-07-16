@@ -1,11 +1,14 @@
+import { whenStateChange } from '@ringcentral-integration/core/test';
+import postRcvBridgesBody from '@ringcentral-integration/mock/src/platform/data/postRcvBridges.json';
+import { waitForRenderReady } from '@ringcentral-integration/test-utils';
 import { screen, fireEvent, getByText } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { waitForRenderReady } from '@ringcentral-integration/test-utils';
-import postRcvBridgesBody from '@ringcentral-integration/mock/src/platform/data/postRcvBridges.json';
-import type { RcvCheckboxDataSign } from '../Meeting.interface';
-import { SelectOptionFromDropDown } from '../../Common';
+
 import type { Context } from '../../../interfaces';
 import type { StepFunction } from '../../../lib/step';
+import { SelectOptionFromDropDown } from '../../Common';
+import type { RcvCheckboxDataSign } from '../Meeting.interface';
+
 import { EnterRandomPassword } from './OperatePasswordField';
 
 export const ClickCancelOnPopup: StepFunction = async () => {
@@ -23,31 +26,37 @@ export const SwitchUsePersonalMeetingId: StepFunction = async () => {
 export const SwitchToggle: StepFunction<{
   dataSign: RcvCheckboxDataSign;
 }> = async ({ dataSign }) => {
-  screen.getByTestId(dataSign).click();
+  await whenStateChange(() => {
+    screen.getByTestId(dataSign).click();
+  });
 };
 
 export const TurnOnToggle: StepFunction<{
   dataSign: RcvCheckboxDataSign;
 }> = async ({ dataSign }) => {
-  const checkbox = screen
-    .getByTestId(dataSign)
-    .getElementsByTagName('input')[0];
+  await whenStateChange(() => {
+    const checkbox = screen
+      .getByTestId(dataSign)
+      .getElementsByTagName('input')[0];
 
-  if (!checkbox.checked) {
-    screen.getByTestId(dataSign).click();
-  }
+    if (!checkbox.checked) {
+      screen.getByTestId(dataSign).click();
+    }
+  });
 };
 
 export const TurnOffToggle: StepFunction<{
   dataSign: RcvCheckboxDataSign;
 }> = async ({ dataSign }) => {
-  const checkbox = screen
-    .getByTestId(dataSign)
-    .getElementsByTagName('input')[0];
+  await whenStateChange(() => {
+    const checkbox = screen
+      .getByTestId(dataSign)
+      .getElementsByTagName('input')[0];
 
-  if (checkbox.checked) {
-    screen.getByTestId(dataSign).click();
-  }
+    if (checkbox.checked) {
+      screen.getByTestId(dataSign).click();
+    }
+  });
 };
 
 export const SwitchToggleTo: StepFunction<{

@@ -10,12 +10,15 @@
     "test": "jest"
   },
   "dependencies": {
-    "babel-jest": "^27.4.6",
+    "babel-jest": "^29.7.0",
     "crius-is": "*",
     "crius-test": "*"
   },
   "common": true,
   "ci": {
     "@ringcentral-integration/crius": "**"
+  },
+  "nx": {
+    "tags": ["scope:ci-group-1"]
   }
 }

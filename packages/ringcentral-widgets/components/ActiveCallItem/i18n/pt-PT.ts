@@ -17,14 +17,14 @@ export default {
   addContact: "Adicionar contacto",
   missedCall: "Não atendida",
   inboundCall: "Recebida",
-  outboundCall: "Efetuadas",
+  outboundCall: "Efetuada",
   from: "De",
   to: "Para",
   hangup: "Desligar",
   accept: "Atender",
   toVoicemail: "Para Correio de voz",
   anonymous: "Anónimo",
-  mergeToConference: "Unir",
+  mergeToConference: "Unir com chamada ativa",
   hold: "Em espera",
   unhold: "Retomar",
   transfer: "Transferir",
@@ -63,7 +63,7 @@ export default {
 // @key: @#@"accept"@#@ @source: @#@"Answer"@#@
 // @key: @#@"toVoicemail"@#@ @source: @#@"To Voicemail"@#@
 // @key: @#@"anonymous"@#@ @source: @#@"Anonymous"@#@
-// @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
+// @key: @#@"mergeToConference"@#@ @source: @#@"Merge with active call"@#@
 // @key: @#@"hold"@#@ @source: @#@"Hold"@#@
 // @key: @#@"unhold"@#@ @source: @#@"Unhold"@#@
 // @key: @#@"transfer"@#@ @source: @#@"Transfer"@#@

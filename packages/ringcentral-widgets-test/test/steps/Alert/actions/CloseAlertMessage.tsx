@@ -6,6 +6,7 @@ import {
   queryByTestId,
   prettyDOM,
 } from '@testing-library/react';
+
 import type { StepFunction } from '../../../lib/step';
 
 export const CloseAlertMessage: StepFunction<{

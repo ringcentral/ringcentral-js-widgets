@@ -1,6 +1,6 @@
 import type { GlipCreatorInfo } from './GlipCreatorInfo';
-import type { TaskAssigneeInfo } from './TaskAssigneeInfo';
 import type { GlipTaskRecurrenceInfo } from './GlipTaskRecurrenceInfo';
+import type { TaskAssigneeInfo } from './TaskAssigneeInfo';
 import type { TaskAttachment } from './TaskAttachment';
 
 export interface GlipTaskInfo {

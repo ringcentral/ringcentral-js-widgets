@@ -1,4 +1,5 @@
 import { contextSourceOption } from '@ringcentral-integration/commons/modules/NumberValidate';
+
 import type { StepFunction } from '../../../lib/step';
 
 export const CheckParseApiCalledWithParams: StepFunction<{

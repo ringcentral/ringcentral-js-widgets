@@ -1,7 +1,6 @@
+import clsx from 'clsx';
 import type { FunctionComponent } from 'react';
 import React, { useEffect } from 'react';
-
-import classNames from 'classnames';
 
 import type {
   EvTransferCallUIFunctions,
@@ -11,6 +10,7 @@ import { getInternalTransferName } from '../../../modules/EvTransferCallUI';
 import { ListItem, SelectList } from '../../SelectList';
 import transferCallI18n from '../i18n';
 import transferCallStyles from '../styles.scss';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 
@@ -73,10 +73,10 @@ const InternalPanel: FunctionComponent<InternalPanelProps> = ({
             data-sign="agentItem"
           >
             <div className={styles.agentItem}>
-              <div className={classNames(styles.dot, styles[status])} />
+              <div className={clsx(styles.dot, styles[status])} />
               <div className={isWide ? styles.content : undefined}>
                 <p
-                  className={classNames(
+                  className={clsx(
                     styles.agentName,
                     transferCallStyles.ellipsis,
                   )}

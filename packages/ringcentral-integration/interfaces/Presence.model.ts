@@ -1,8 +1,8 @@
 import type ActiveCallInfo from '@rc-ex/core/lib/definitions/ActiveCallInfo';
 import type CallLogFromParty from '@rc-ex/core/lib/definitions/CallLogFromParty';
+import type CallLogRecord from '@rc-ex/core/lib/definitions/CallLogRecord';
 import type CallLogToParty from '@rc-ex/core/lib/definitions/CallLogToParty';
 import type GetPresenceInfo from '@rc-ex/core/lib/definitions/GetPresenceInfo';
-import type CallLogRecord from '@rc-ex/core/lib/definitions/CallLogRecord';
 import type { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
 
 import type { dndStatus } from '../enums/dndStatus';
@@ -31,10 +31,10 @@ export type ActiveCall = Pick<
 
 export interface PresenceInfoModel {
   activeCalls?: ActiveCall[];
-  dndStatus?: ObjectMapValue<typeof dndStatus> | null;
-  meetingStatus?: GetPresenceInfo['meetingStatus'] | null;
-  presenceStatus?: ObjectMapValue<typeof presenceStatus> | null;
-  telephonyStatus?: GetPresenceInfo['telephonyStatus'] | null;
-  userStatus?: GetPresenceInfo['userStatus'] | null;
+  dndStatus?: ObjectMapValue<typeof dndStatus>;
+  meetingStatus?: GetPresenceInfo['meetingStatus'];
+  presenceStatus?: ObjectMapValue<typeof presenceStatus>;
+  telephonyStatus?: GetPresenceInfo['telephonyStatus'];
+  userStatus?: GetPresenceInfo['userStatus'];
   sequence?: number;
 }

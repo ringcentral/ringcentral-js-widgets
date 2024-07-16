@@ -18,7 +18,7 @@ interface RcmMeeting {
   links: { joinUri: string };
 }
 
-interface RcvMeeting {
+export interface RcvMeeting {
   id: string;
   name: string;
   startTime: Date | string;
@@ -63,7 +63,7 @@ export interface RcvMainParams {
   meeting: RcvMeeting;
   extensionInfo: CommonExtensionInfo;
   dialInNumber: string | RcVDialInNumberObj[];
-  hasRoomConnectorBeta: boolean;
+  hasRoomConnectorBeta?: boolean;
   /**
    * provide this as the alternative invitation result, e.g. from rcv api
    */

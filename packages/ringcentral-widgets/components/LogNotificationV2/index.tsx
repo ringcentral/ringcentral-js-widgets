@@ -1,11 +1,14 @@
-import React from 'react';
-
-import classnames from 'classnames';
-import PropTypes from 'prop-types';
-
 import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 import telephonyStatuses from '@ringcentral-integration/commons/enums/telephonyStatus';
-import { RcMenuItem, RcMenuList, RcPopover } from '@ringcentral/juno';
+import {
+  RcMenuItem,
+  RcMenuList,
+  RcPopover,
+  useResultRef,
+} from '@ringcentral/juno';
+import clsx from 'clsx';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import EndIcon from '../../assets/images/Hangup.svg';
@@ -13,21 +16,22 @@ import LogClickIcon from '../../assets/images/LogClick.svg';
 import LogUnclickIcon from '../../assets/images/LogUnclick.svg';
 import VoicemailRed from '../../assets/images/VoicemailRed.svg';
 import { Button } from '../Button';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 
-const viewport = document.querySelector('div#viewport');
 const CallIcon = ({ title, iconClassName }: any) => (
-  <span className={classnames(iconClassName, styles.iconSize)} title={title} />
+  <span className={clsx(iconClassName, styles.iconSize)} title={title} />
 );
 
 CallIcon.propTypes = {
   title: PropTypes.string,
-  iconClassName: PropTypes.string.isRequired,
+  iconClassName: PropTypes.string,
 };
 
 CallIcon.defaultProps = {
   title: '',
+  iconClassName: '',
 };
 
 const callIconMap = {
@@ -48,8 +52,11 @@ const LogNotification = ({
   onHangup,
   showEndButton = true,
   shrinkNotification,
+  showLogOptions = true,
 }: any) => {
   const anchorEl = React.useRef(null);
+  const viewport = useResultRef(() => document.querySelector('div#viewport'));
+
   const renderEndButton =
     showEndButton && currentSession
       ? () => {
@@ -66,7 +73,7 @@ const LogNotification = ({
             <Button
               tooltip={endTitle}
               onClick={endAction}
-              className={classnames(styles.endBtn, styles.actionItem)}
+              className={clsx(styles.endBtn, styles.actionItem)}
             >
               {isRinging ? <VoicemailRed /> : <EndIcon />}
             </Button>
@@ -75,50 +82,67 @@ const LogNotification = ({
       : null;
   const renderLogButton = showLogButton
     ? () => {
-        return (
-          <>
-            <div ref={anchorEl}>
-              <Button
-                tooltip={i18n.getString('log', currentLocale)}
-                disabled={isExpand}
-                onClick={() => onExpand()}
-                className={classnames(styles.logBtn, styles.actionItem)}
+        if (showLogOptions) {
+          return (
+            <>
+              <div ref={anchorEl}>
+                <Button
+                  tooltip={i18n.getString('log', currentLocale)}
+                  disabled={isExpand}
+                  onClick={() => onExpand()}
+                  className={clsx(styles.logBtn, styles.actionItem)}
+                >
+                  {!isExpand ? <LogUnclickIcon /> : <LogClickIcon />}
+                </Button>
+              </div>
+              <RcPopover
+                open={!!anchorEl.current && isExpand}
+                anchorEl={anchorEl.current}
+                onClose={() => shrinkNotification()}
+                anchorOrigin={{
+                  vertical: 'bottom',
+                  horizontal: 'right',
+                }}
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                closeAfterTransition
+                container={viewport.current}
+                className={styles.modalAnimation}
               >
-                {!isExpand ? <LogUnclickIcon /> : <LogClickIcon />}
-              </Button>
-            </div>
-            <RcPopover
-              open={!!anchorEl.current && isExpand}
-              anchorEl={anchorEl.current}
-              onClose={() => shrinkNotification()}
-              anchorOrigin={{
-                vertical: 'bottom',
-                horizontal: 'right',
-              }}
-              transformOrigin={{
-                vertical: 'top',
-                horizontal: 'right',
-              }}
-              closeAfterTransition
-              container={viewport}
-              className={styles.modalAnimation}
+                <RcMenuList>
+                  <RcMenuItem
+                    onClick={() => onSave()}
+                    className={styles.menuItem}
+                  >
+                    {i18n.getString('save', currentLocale)}
+                  </RcMenuItem>
+                  <RcMenuItem
+                    onClick={() => onDiscard()}
+                    className={styles.menuItem}
+                  >
+                    {i18n.getString('discard', currentLocale)}
+                  </RcMenuItem>
+                </RcMenuList>
+              </RcPopover>
+            </>
+          );
+        }
+        return (
+          <div ref={anchorEl}>
+            <Button
+              tooltip={i18n.getString(
+                'saveDraftAndCreateNewLog',
+                currentLocale,
+              )}
+              onClick={() => onDiscard()}
+              className={clsx(styles.logBtn, styles.actionItem)}
+              dataSign="saveDraftAndCreateNewLog"
             >
-              <RcMenuList>
-                <RcMenuItem
-                  onClick={() => onSave()}
-                  className={styles.menuItem}
-                >
-                  {i18n.getString('save', currentLocale)}
-                </RcMenuItem>
-                <RcMenuItem
-                  onClick={() => onDiscard()}
-                  className={styles.menuItem}
-                >
-                  {i18n.getString('discard', currentLocale)}
-                </RcMenuItem>
-              </RcMenuList>
-            </RcPopover>
-          </>
+              <LogUnclickIcon />
+            </Button>
+          </div>
         );
       }
     : null;
@@ -145,8 +169,13 @@ const LogNotification = ({
           />
         </div>
         <div className={styles.contactInfo}>
-          <p className={styles.contactName}>{logName}</p>
-          <p className={styles.phoneNumber}>{formatNumber}</p>
+          <p className={styles.contactName} data-sign="logNotificationContactName">{logName}</p>
+          <p
+            className={styles.phoneNumber}
+            data-sign="logNotificationPhoneNumber"
+          >
+            {formatNumber}
+          </p>
         </div>
         <div className={styles.callActions}>
           {renderLogButton && renderLogButton()}
@@ -171,6 +200,7 @@ LogNotification.propTypes = {
   onHangup: PropTypes.func,
   showEndButton: PropTypes.bool,
   shrinkNotification: PropTypes.func,
+  showLogOptions: PropTypes.bool,
 };
 
 LogNotification.defaultProps = {

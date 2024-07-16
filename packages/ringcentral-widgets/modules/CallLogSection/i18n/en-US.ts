@@ -3,4 +3,4 @@ export default {
   multipleMatches: 'Multiple matches',
   anonymous: 'Anonymous',
   none: 'None',
-};
+} as const;

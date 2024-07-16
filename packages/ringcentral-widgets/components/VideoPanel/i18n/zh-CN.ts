@@ -37,8 +37,7 @@ export default {
   today: "今天",
   scheduleForGuidance: "要为其他人安排会议？\n1. 请确保您在他们的 Outlook 日历中。\n2. 从下拉列表中选择您要为其安排会议的人。\n",
   scheduleForGuidanceMore: "了解详情",
-  changePmiSettings: "更改个人会议设置",
-  ieSupportAlert: "请注意，2022 年 2 月 16 日之后，{appName} 将无法再在 Internet Explorer 11 中使用。我们建议您改用 Microsoft Edge，或者更新到 Outlook 2016 或更高版本。"
+  changePmiSettings: "更改个人会议设置"
 };
 
 // @key: @#@"topic"@#@ @source: @#@"Meeting title"@#@
@@ -79,4 +78,3 @@ export default {
 // @key: @#@"scheduleForGuidance"@#@ @source: @#@"Scheduling for someone else?\n1. Make sure you're on their Outlook calendar.\n2. From the dropdown, select the person you're scheduling for.\n"@#@
 // @key: @#@"scheduleForGuidanceMore"@#@ @source: @#@"Learn details"@#@
 // @key: @#@"changePmiSettings"@#@ @source: @#@"Change Personal Meeting settings"@#@
-// @key: @#@"ieSupportAlert"@#@ @source: @#@"Please note that {appName} won't work with Internet Explorer 11 after Feb 16, 2022. We recommend switching to Microsoft Edge or updating to Outlook 2016 or above."@#@

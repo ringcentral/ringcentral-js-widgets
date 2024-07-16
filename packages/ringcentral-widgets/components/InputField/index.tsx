@@ -1,6 +1,5 @@
+import clsx from 'clsx';
 import React from 'react';
-
-import classnames from 'classnames';
 
 import styles from './styles.scss';
 
@@ -9,12 +8,13 @@ type InputFieldProps = {
   labelHint?: React.ReactNode;
   className?: string;
   dataSign?: string;
+  noBorder?: boolean;
 };
-const InputField: React.SFC<InputFieldProps> = (props) => {
+const InputField: React.FC<InputFieldProps> = (props) => {
   return (
     <div
       data-sign={props.dataSign}
-      className={classnames(styles.root, props.className)}
+      className={clsx(styles.root, props.className)}
     >
       <div className={styles.label}>
         {props.label}

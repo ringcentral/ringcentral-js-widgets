@@ -1,11 +1,11 @@
-import bowser from 'bowser';
-
 import { action, RcModuleV2, state } from '@ringcentral-integration/core';
-import { sleep } from '@ringcentral-integration/utils';
+import { sleep, normalizeUniversalLink } from '@ringcentral-integration/utils';
+import bowser from 'bowser';
 
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
 import { callingModes } from '../CallingSettings/callingModes';
+
 import type {
   CallHandlerContext,
   CallUriInfo,
@@ -33,15 +33,15 @@ export class Softphone<T extends Deps = Deps> extends RcModuleV2<T> {
     super({
       deps,
     });
-    // @ts-expect-error
+    // @ts-expect-error TS(2345): Argument of type 'ContactMatcher<Entity, Deps> | u... Remove this comment to see the full error message
     this._ignoreModuleReadiness(deps.contactMatcher);
     this._extensionMode = this._deps.softphoneOptions?.extensionMode ?? false;
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type '((context: CallHandlerContext) => any) | und... Remove this comment to see the full error message
     this._callHandler = this._deps.softphoneOptions?.callHandler;
   }
 
   @state
-  // @ts-expect-error
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string'.
   connectingPhoneNumber: string = null;
 
   @state
@@ -56,7 +56,7 @@ export class Softphone<T extends Deps = Deps> extends RcModuleV2<T> {
   @action
   connectComplete() {
     this.softphoneStatus = softphoneStatus.idle;
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string'.
     this.connectingPhoneNumber = null;
   }
 
@@ -67,7 +67,7 @@ export class Softphone<T extends Deps = Deps> extends RcModuleV2<T> {
   }
 
   get spartanProtocol() {
-    // @ts-expect-error
+    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     return this._deps.brand.brandConfig.callWithSoftphone.protocol;
   }
 
@@ -90,6 +90,7 @@ export class Softphone<T extends Deps = Deps> extends RcModuleV2<T> {
     let command = `call?number=${encodeURIComponent(phoneNumber)}`;
     let protocol = this.spartanProtocol;
     let isJupiterUniversalLink = false;
+
     // jupiter
     const isCallWithJupiter = [
       callingModes.jupiter,
@@ -98,11 +99,11 @@ export class Softphone<T extends Deps = Deps> extends RcModuleV2<T> {
     if (isCallWithJupiter) {
       // jupiter doesn't recognize encoded string for now
       command = `r/call?number=${phoneNumber}`;
-      // @ts-expect-error
+      // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
       isJupiterUniversalLink = this._useJupiterUniversalLink(callingMode);
-      // @ts-expect-error
+      // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
       protocol = isJupiterUniversalLink
-        ? this.jupiterUniversalLink
+        ? normalizeUniversalLink(this.jupiterUniversalLink!)
         : this.jupiterProtocol;
     }
     return {
@@ -158,10 +159,10 @@ export class Softphone<T extends Deps = Deps> extends RcModuleV2<T> {
 
       if (openLink) {
         window.open(uri);
-        // @ts-expect-error
+        // @ts-expect-error TS(2339): Property 'msLaunchUri' does not exist on type 'Nav... Remove this comment to see the full error message
       } else if (window.navigator.msLaunchUri) {
         // to support ie to start the service
-        // @ts-expect-error
+        // @ts-expect-error TS(2339): Property 'msLaunchUri' does not exist on type 'Nav... Remove this comment to see the full error message
         window.navigator.msLaunchUri(uri);
       } else {
         // open via iframe
@@ -169,7 +170,7 @@ export class Softphone<T extends Deps = Deps> extends RcModuleV2<T> {
         frame.style.display = 'none';
         document.body.appendChild(frame);
         await sleep(100);
-        // @ts-expect-error
+        // @ts-expect-error TS(2531): Object is possibly 'null'.
         frame.contentWindow.location.href = uri;
         await sleep(300);
         document.body.removeChild(frame);

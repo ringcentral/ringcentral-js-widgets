@@ -1,5 +1,5 @@
-import type Client from 'ringcentral-client';
 import type TimezoneInfo from '@rc-ex/core/lib/definitions/TimezoneInfo';
+import type Client from 'ringcentral-client';
 
 import type { MeetingTypeV } from '../../helpers/meetingHelper.interface';
 import type { Alert } from '../Alert';

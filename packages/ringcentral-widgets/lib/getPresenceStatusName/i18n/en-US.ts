@@ -6,4 +6,4 @@ export default {
   [presenceStatus.offline]: 'Invisible',
   [presenceStatus.busy]: 'Busy',
   [dndStatus.doNotAcceptAnyCalls]: 'Do not Disturb',
-};
+} as const;

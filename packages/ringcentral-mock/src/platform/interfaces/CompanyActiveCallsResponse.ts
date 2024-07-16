@@ -1,6 +1,6 @@
-import type { CompanyCallLogRecord } from './CompanyCallLogRecord';
 import type { CallLogNavigationInfo } from './CallLogNavigationInfo';
 import type { CallLogPagingInfo } from './CallLogPagingInfo';
+import type { CompanyCallLogRecord } from './CompanyCallLogRecord';
 
 export interface CompanyActiveCallsResponse {
   /**

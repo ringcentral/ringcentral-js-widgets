@@ -7,7 +7,7 @@ export default function getProxyServerReducer({
   moduleReducer,
   transport,
   prefix,
-}) {
+}: any) {
   const actionTypes = ObjectMap.prefixValues(baseActionTypes, prefix);
   return (
     state = {
@@ -17,7 +17,7 @@ export default function getProxyServerReducer({
       lastAction: null,
       actionNumber: -1,
     },
-    action,
+    action: any,
   ) => {
     if (!action) return state;
     const nextActionNumber = state.actionNumber + 1;

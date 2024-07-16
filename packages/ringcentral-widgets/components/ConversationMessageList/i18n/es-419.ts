@@ -1,5 +1,5 @@
 export default {
-  loading: "Cargando...",
+  loading: "Cargando…",
   download: "Descargar"
 };
 

@@ -1,5 +1,6 @@
 import { forEach } from 'ramda';
-import isLoaderFile from '.';
+
+import isLoaderFile from './';
 
 const validFiles = [
   '/* loadLocale */',

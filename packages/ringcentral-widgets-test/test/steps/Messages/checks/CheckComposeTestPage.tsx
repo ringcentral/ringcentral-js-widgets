@@ -19,7 +19,11 @@ export const CheckComposeTestPage: StepFunction = async () => {
   );
 
   const selector = screen.getAllByTestId('phoneNumber')[0].querySelector('div');
-  if (selector) userEvent.click(selector);
+  if (selector) {
+    userEvent.click(selector);
+  } else {
+    userEvent.click(screen.getAllByTestId('phoneNumber')[0]);
+  }
 
   await waitFor(() =>
     expect(screen.queryAllByTestId('selectMenuItem')).not.toBeNull(),

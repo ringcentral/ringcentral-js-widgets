@@ -2,7 +2,7 @@
  * RCI-4154: Check action buttons when offline
  * https://test_it_domain/test-cases/RCI-4154
  */
-import { Login as CommonLogin } from '../../../../steps/Login';
+import { mockMessageListData } from '../../../../__mock__';
 import type { StepFunction } from '../../../../lib/step';
 import {
   p2,
@@ -16,8 +16,15 @@ import {
   When,
   And,
 } from '../../../../lib/step';
+import { CommonLogin } from '../../../../steps/CommonLogin';
+import { CreateInstance } from '../../../../steps/CreateInstance';
+import {
+  CheckAllActionButtonsStatusWhenOffline,
+  ExpandTheActionMenu,
+} from '../../../../steps/Messages';
 import {
   CreateMock as CommonCreateMock,
+  MockAddressBookSync,
   MockMessageList,
   MockMessageSync,
 } from '../../../../steps/Mock';
@@ -25,18 +32,15 @@ import {
   NavigateToMessagesTab,
   NavigateToTypeTabUnderMessage,
 } from '../../../../steps/Navigate';
-import { mockMessageListData } from '../../../../__mock__';
-import {
-  CheckAllActionButtonsStatusWhenOffline,
-  ExpandTheActionMenu,
-} from '../../../../steps/Messages';
 
-@autorun(test.skip)
+@autorun(test)
 @p2
 @title('Check action buttons in ${type} when offline')
 export class MessageActionButtonWhenOffline extends Step {
-  CustomLogin?: StepFunction<any, any>;
-  CustomCreateMock?: StepFunction<any, any>;
+  CustomLogin: StepFunction<any, any> = (props) => (
+    <CommonLogin {...props} CreateInstance={CreateInstance} />
+  );
+  CustomCreateMock: StepFunction<any, any> = CommonCreateMock;
 
   @examples(`
     | actionButtons                                                          | type    | number         |
@@ -47,8 +51,7 @@ export class MessageActionButtonWhenOffline extends Step {
   run() {
     const { type, actionButtons, number } = this.context.example;
 
-    const { CustomLogin = CommonLogin, CustomCreateMock = CommonCreateMock } =
-      this;
+    const { CustomLogin, CustomCreateMock } = this;
 
     return (
       <Scenario
@@ -63,6 +66,13 @@ export class MessageActionButtonWhenOffline extends Step {
                 ...mockData,
                 ...mockMessageListData(null),
               })}
+            />,
+            <MockAddressBookSync
+              page={1}
+              handler={(personalUsers) => {
+                personalUsers[0].homePhone = number;
+                return personalUsers;
+              }}
             />,
             <MockMessageSync
               handler={(mockData) => ({

@@ -16,10 +16,10 @@ import { isBlank } from '../../lib/isBlank';
 import { normalizeNumber } from '../../lib/normalizeNumber';
 import { proxify } from '../../lib/proxy/proxify';
 import { callErrors } from '../Call/callErrors';
+
 import type {
   Deps,
   ParsePhoneNumberAPIParam,
-  ParseResult,
   ParseResultItem,
   ValidatedPhoneNumbers,
   ValidateFormattedError,
@@ -167,7 +167,7 @@ export class NumberValidate extends RcModuleV2<Deps> {
     const parsedNumbers = await this._numberParser(phoneNumbers);
     const errors: ValidateParsedError = [];
     const validatedPhoneNumbers: ValidatedPhoneNumbers = [];
-    parsedNumbers.map((phoneNumber) => {
+    parsedNumbers.forEach((phoneNumber) => {
       const isSpecial = this._isSpecial(phoneNumber);
       const number = phoneNumber.originalString;
 
@@ -187,18 +187,16 @@ export class NumberValidate extends RcModuleV2<Deps> {
         );
         if (!availableExtension) {
           errors.push({
-            // @ts-expect-error
+            // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
             phoneNumber: phoneNumber.originalString,
             type: 'notAnExtension',
           });
-          return null;
+          return;
         }
 
         extensionObj.availableExtension = availableExtension;
       }
       validatedPhoneNumbers.push({ ...phoneNumber, ...extensionObj });
-
-      return null;
     });
     return {
       result: errors.length === 0,
@@ -218,12 +216,12 @@ export class NumberValidate extends RcModuleV2<Deps> {
       normalizedNumbers,
       homeCountry,
     );
-    // @ts-expect-error
+    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     return response.phoneNumbers.map((phoneNumber) => ({
       ...phoneNumber,
       international:
         !!phoneNumber.country &&
-        // @ts-expect-error
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         phoneNumber.country.callingCode !== response.homeCountry.callingCode,
     }));
   }
@@ -268,9 +266,12 @@ export class NumberValidate extends RcModuleV2<Deps> {
   }
 
   @proxify
-  async parseNumbers(inputs: string[]): Promise<ParseResult | void> {
+  async parseNumbers(inputs: string[]): Promise<ParseResultItem[] | void> {
     const { countryCode, defaultAreaCode } = this._deps.regionSettings;
-    const brandId = this._deps.brand.brandConfig.id;
+    // TODO: API has not supported sub-brand. As a workaround, we use brandId instead of uBrandId here
+    const brandId =
+      this._deps.accountInfo.serviceInfo?.brand?.id ||
+      this._deps.brand.brandConfig.id;
     const phoneNumbers = inputs.map((input: string) => cleanNumber(input));
     const data: ParsePhoneNumberAPIParam = {
       originalStrings: phoneNumbers,
@@ -293,7 +294,9 @@ export class NumberValidate extends RcModuleV2<Deps> {
     return response?.results.map((result) => this.handleResult(result));
   }
 
-  // whether the number is an empty string or contains invalid characters
+  /**
+   * Whether the number is an empty string or contains invalid characters
+   */
   validate(numbers: string[]): ValidateFormattingResult {
     const errors: ValidateFormattedError = [];
     numbers.forEach((phoneNumber) => {

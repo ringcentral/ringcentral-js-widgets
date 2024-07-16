@@ -1,6 +1,3 @@
-import { EventEmitter } from 'events';
-import { equals } from 'ramda';
-
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import { sleep } from '@ringcentral-integration/commons/utils';
 import {
@@ -13,6 +10,8 @@ import {
   watch,
 } from '@ringcentral-integration/core';
 import { format, parse } from '@ringcentral-integration/phone-number';
+import { EventEmitter } from 'events';
+import { equals } from 'ramda';
 
 import type { LoginTypes } from '../../enums';
 import {
@@ -32,6 +31,7 @@ import type {
 import { evStatus } from '../../lib/EvClient/enums';
 import { TabLife } from '../../lib/tabLife';
 import { trackEvents } from '../../lib/trackEvents';
+
 import type { AgentSession, Deps, FormGroup } from './EvAgentSession.interface';
 import i18n from './i18n';
 import { tabManagerEnabled } from './tabManagerEnabled.decorator';

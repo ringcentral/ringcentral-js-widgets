@@ -3,4 +3,5 @@ const baseConfig = require('@ringcentral-integration/test-utils/config/jest.conf
 
 module.exports = merge(baseConfig, {
   roots: ['<rootDir>/lib'],
+  setupFiles: ['<rootDir>/test/jest.setup.ts'],
 });

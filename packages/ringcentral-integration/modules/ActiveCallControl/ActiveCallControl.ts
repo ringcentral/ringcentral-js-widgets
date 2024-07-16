@@ -1,13 +1,3 @@
-import { filter, find, forEach, isEmpty } from 'ramda';
-import type { ActiveCallInfo, MakeCallParams } from 'ringcentral-call';
-import { events as callEvents, RingCentralCall } from 'ringcentral-call';
-import type { ReplyWithTextParams } from 'ringcentral-call-control/lib/Session';
-import {
-  PartyStatusCode,
-  ReplyWithPattern,
-} from 'ringcentral-call-control/lib/Session';
-import { events as eventsEnum } from 'ringcentral-call/lib/Session';
-import { v4 as uuidV4 } from 'uuid';
 import type ExtensionTelephonySessionsEvent from '@rc-ex/core/lib/definitions/ExtensionTelephonySessionsEvent';
 import {
   action,
@@ -19,6 +9,16 @@ import {
   watch,
 } from '@ringcentral-integration/core';
 import { sleep } from '@ringcentral-integration/utils';
+import { filter, find, forEach, isEmpty } from 'ramda';
+import type { ActiveCallInfo, MakeCallParams } from 'ringcentral-call';
+import { events as callEvents, RingCentralCall } from 'ringcentral-call';
+import type { ReplyWithTextParams } from 'ringcentral-call-control/lib/Session';
+import {
+  PartyStatusCode,
+  ReplyWithPattern,
+} from 'ringcentral-call-control/lib/Session';
+import { events as eventsEnum } from 'ringcentral-call/lib/Session';
+import { v4 as uuidV4 } from 'uuid';
 
 import { callDirection } from '../../enums/callDirections';
 // eslint-disable-next-line import/no-named-as-default
@@ -36,7 +36,11 @@ import { callErrors } from '../Call/callErrors';
 import type { MessageBase } from '../Subscription';
 import { sessionStatus } from '../Webphone/sessionStatus';
 import { webphoneErrors } from '../Webphone/webphoneErrors';
-import { normalizeSession as normalizeWebphoneSession } from '../Webphone/webphoneHelper';
+import {
+  extractHeadersData,
+  normalizeSession as normalizeWebphoneSession,
+} from '../Webphone/webphoneHelper';
+
 import type {
   ActiveCallControlSessionData,
   ActiveSession,
@@ -59,6 +63,7 @@ import {
   normalizeSession,
   normalizeTelephonySession,
   getWebphoneReplyMessageOption,
+  isGoneSession,
 } from './helpers';
 
 const DEFAULT_TTL = 30 * 60 * 1000;
@@ -336,7 +341,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
         extensionInfo: {
           ...this._deps.extensionInfo.info,
           // TODO: add info type in 'AccountInfo'
-          // @ts-ignore
+          // @ts-expect-error TS(2322): Type 'GetAccountInfoResponse' is not assignable to... Remove this comment to see the full error message
           account: this._deps.accountInfo.info,
         },
       },
@@ -353,7 +358,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
     );
     // TODO: workaround of bug:
     // WebRTC outbound call with wrong sequences of telephony sessions then call log section will not show
-    // @ts-ignore
+    // @ts-expect-error TS(2341): Property '_callControl' is private and only access... Remove this comment to see the full error message
     rcCall._callControl?.on('new', (session: Session) =>
       this._onNewCall(session),
     );
@@ -595,9 +600,9 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
     const callControlSessions = (this._rcCall?.sessions || [])
       .filter((session) => filterDisconnectedCalls(session))
       .map((session) => {
-        // @ts-expect-error
+        // @ts-expect-error TS(2322): Type 'NormalizedSession | undefined' is not assign... Remove this comment to see the full error message
         currentDeviceCallsMap[session.telephonySessionId] =
-          // @ts-expect-error
+          // @ts-expect-error TS(2345): Argument of type 'WebPhoneSession' is not assignab... Remove this comment to see the full error message
           normalizeWebphoneSession(session.webphoneSession);
 
         return {
@@ -616,9 +621,12 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
           telephonySessionId: session.telephonySessionId,
           telephonySession: normalizeTelephonySession(session.telephonySession),
           to: session.to,
-        };
+        } as ActiveCallControlSessionData;
       });
-    this._updateActiveSessions(currentDeviceCallsMap, callControlSessions);
+    this._updateActiveSessions(
+      currentDeviceCallsMap,
+      callControlSessions.filter((x) => !isGoneSession(x)),
+    );
   }
 
   @action
@@ -679,18 +687,18 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
      */
     const normalizedWebphoneSession = normalizeWebphoneSession(session);
     if (
-      // @ts-expect-error
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       !normalizedWebphoneSession.startTime &&
-      // @ts-expect-error
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       !normalizedWebphoneSession.isToVoicemail &&
-      // @ts-expect-error
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       !normalizedWebphoneSession.isForwarded &&
-      // @ts-expect-error
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       !normalizedWebphoneSession.isReplied
     ) {
       return;
     }
-    // @ts-expect-error
+    // @ts-expect-error TS(2339): Property 'partyData' does not exist on type 'Norma... Remove this comment to see the full error message
     const { partyData } = normalizedWebphoneSession;
     if (!partyData) return;
     if (this.lastEndedSessionIds.indexOf(partyData.sessionId) === -1) {
@@ -808,7 +816,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
         await session.unmute();
       }
     } catch (error: any /** TODO: confirm with instanceof */) {
-      // https://jira_domain/browse/NTP-1308
+      // https://jira_domainTP-1308
       // Unmute before transfer due to we can not sync the mute status after transfer.
     }
   }
@@ -1165,7 +1173,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
       if (!validatedResult.result) {
         validatedResult.errors.forEach(async (error) => {
           const isHAError =
-            // @ts-expect-error
+            // @ts-expect-error TS(2345): Argument of type '{ phoneNumber: string; type: "sp... Remove this comment to see the full error message
             !!(await this._deps.availabilityMonitor?.checkIfHAError(error));
           if (!isHAError) {
             // TODO: fix `callErrors` type
@@ -1284,7 +1292,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
     } catch (e: any /** TODO: confirm with instanceof */) {
       console.error(e);
       this._deps.alert.warning({
-        message: webphoneErrors.forwardError,
+        message: webphoneErrors.unknownError,
       });
       return false;
     }
@@ -1427,6 +1435,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
       const { webphoneSession } = session;
       const deviceId = this._deps.webphone?.device?.id;
       if (webphoneSession) {
+        this._deps.webphone?.initWebphoneSessionEvents(webphoneSession);
         await session.answer({ deviceId });
       } else {
         await this.pickUpCall({
@@ -1621,7 +1630,8 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
         sdkMakeCallParams,
       )) as Session;
       this._activeSession = session;
-      session.webphoneSession.on('progress', () => {
+      this._deps.webphone?.initWebphoneSessionEvents(session.webphoneSession);
+      session.webphoneSession.on('progress', (incomingResponse) => {
         if (
           session.telephonySessionId &&
           this.activeSessionId !== session.telephonySessionId
@@ -1817,7 +1827,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
 
   @track((that: ActiveCallControl, path: string) => {
     return (analytics) => {
-      // @ts-expect-error
+      // @ts-expect-error TS(2339): Property 'getTrackTarget' does not exist on type '... Remove this comment to see the full error message
       const target = analytics.getTrackTarget();
       return [
         trackEvents.openEntityDetailLink,

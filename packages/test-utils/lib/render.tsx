@@ -1,9 +1,9 @@
-import type { ComponentType } from 'react';
-import React from 'react';
 import { RcThemeProvider } from '@ringcentral/juno';
 import type { RenderResult } from '@testing-library/react';
 import { render } from '@testing-library/react';
 import preview from 'jest-preview';
+import type { ComponentType } from 'react';
+import React from 'react';
 
 type ReRender = (ui: React.ReactElement) => RenderResult;
 type Render = typeof render;
@@ -48,6 +48,7 @@ export const renderComponent: RenderComponent = (
     container?: HTMLElement;
   } = {},
 ) => {
+  // @ts-ignore
   const element = <Component {...props} />;
   let app: RenderResult;
   const options = container ? { container } : {};
@@ -56,24 +57,31 @@ export const renderComponent: RenderComponent = (
   } else {
     app = render(<RcThemeProvider>{element}</RcThemeProvider>, options);
   }
-  if (process.env.DEBUG === 'preview') {
+  if (process.env.DEBUG?.split(',').includes('preview')) {
     preview.debug();
   }
   return app;
 };
+
+type RerenderComponent = <T>(
+  rerender: ReRender,
+  Component: ComponentType<T>,
+  props: T,
+  options?: { disableAutoThemeProvider?: boolean },
+) => RenderResult;
 
 /**
  * rerender Render React component with `@testing-library/react`.
  *
  * default will wrap the component with `RcThemeProvider`
  */
-export const rerenderComponent = <T,>(
-  rerender: ReRender,
-  Component: ComponentType<T>,
-  props: T,
+export const rerenderComponent: RerenderComponent = (
+  rerender,
+  Component,
+  props,
   { disableAutoThemeProvider = false } = {},
 ) => {
-  const element = <Component {...props} />;
+  const element = <Component {...(props as any)} />;
   let app: RenderResult;
   if (disableAutoThemeProvider) {
     app = rerender(element);

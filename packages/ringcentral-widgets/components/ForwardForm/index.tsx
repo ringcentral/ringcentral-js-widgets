@@ -1,12 +1,11 @@
-import React, { Component } from 'react';
-
-import classnames from 'classnames';
-import PropTypes from 'prop-types';
-
 import { isBlank } from '@ringcentral-integration/commons/lib/isBlank';
+import clsx from 'clsx';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 
 import { Button } from '../Button';
 import RecipientsInput from '../RecipientsInput';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 
@@ -19,7 +18,7 @@ const ForwardNumbers = ({ numbers, onSelect, selected, formatPhone }: any) => {
         <div
           key={number.id}
           data-sign={`forward-number-${number.label.toLowerCase()}`}
-          className={classnames(
+          className={clsx(
             styles.number,
             index === selected ? styles.active : null,
           )}
@@ -181,10 +180,7 @@ class ForwardForm extends Component {
     // @ts-expect-error TS(2339): Property 'handling' does not exist on type 'Readon... Remove this comment to see the full error message
     const disableButton = isBlank(value) || this.state.handling;
     return (
-      <div
-        data-sign="forwardPage"
-        className={classnames(styles.root, className)}
-      >
+      <div data-sign="forwardPage" className={clsx(styles.root, className)}>
         <ForwardNumbers
           formatPhone={formatPhone}
           numbers={forwardingNumbers}
@@ -194,7 +190,7 @@ class ForwardForm extends Component {
         />
         <div
           data-sign="customNumber"
-          className={classnames(
+          className={clsx(
             styles.custromNumber,
             // @ts-expect-error TS(2339): Property 'selectedIndex' does not exist on type 'R... Remove this comment to see the full error message
             this.state.selectedIndex === forwardingNumbers.length
@@ -241,7 +237,7 @@ class ForwardForm extends Component {
           </Button>
           <Button
             dataSign="forwardCall"
-            className={classnames(
+            className={clsx(
               styles.forwardButton,
               disableButton ? styles.disabled : null,
             )}

@@ -1,5 +1,5 @@
-import { fireEvent, screen } from '@testing-library/react';
 import type { RouterInteraction } from '@ringcentral-integration/widgets/modules/RouterInteraction';
+import { fireEvent, screen } from '@testing-library/react';
 
 import type { StepFunction } from '../../../lib/step';
 
@@ -10,7 +10,7 @@ export const NavigateToHistory: StepFunction<
       routerInteraction: RouterInteraction;
     };
   }
-> = ({ testId = 'History' }, context) => {
+> = ({ testId = 'historyTab' }, context) => {
   /**
    *
    * Note:

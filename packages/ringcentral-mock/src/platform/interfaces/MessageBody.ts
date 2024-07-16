@@ -1,7 +1,7 @@
-import type { MessageAttachmentInfo } from './MessageAttachmentInfo';
 import type { ConversationInfo } from './ConversationInfo';
-import type { MessageSenderInfo } from './MessageSenderInfo';
+import type { MessageAttachmentInfo } from './MessageAttachmentInfo';
 import type { MessageRecipientInfo } from './MessageRecipientInfo';
+import type { MessageSenderInfo } from './MessageSenderInfo';
 
 export interface MessageBody {
   /**

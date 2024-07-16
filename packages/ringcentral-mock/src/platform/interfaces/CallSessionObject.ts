@@ -1,5 +1,5 @@
-import type { OriginInfo } from './OriginInfo';
 import type { CallParty } from './CallParty';
+import type { OriginInfo } from './OriginInfo';
 
 // Call session information
 export interface CallSessionObject {

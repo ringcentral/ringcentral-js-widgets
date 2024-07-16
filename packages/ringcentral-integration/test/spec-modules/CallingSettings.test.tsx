@@ -258,7 +258,7 @@ export class JapanEmergencyNotification extends Step {
         <Then
           desc="check the alert params"
           action={(_: any, context: any) => {
-            expect(context.mockFn).toBeCalledWith({
+            expect(context.mockFn).toHaveBeenCalledWith({
               message: 'callingSettingsMessages-disableEmergencyInJapan',
               ttl: 0,
             });
@@ -277,7 +277,7 @@ export class JapanEmergencyNotification extends Step {
         <Then
           desc="alert should not be called again"
           action={(_: any, context: any) => {
-            expect(context.mockFn).not.toBeCalledWith();
+            expect(context.mockFn).not.toHaveBeenCalledWith();
             expect(context.mockModule.acknowledgeJPMessage).toEqual(true);
           }}
         />

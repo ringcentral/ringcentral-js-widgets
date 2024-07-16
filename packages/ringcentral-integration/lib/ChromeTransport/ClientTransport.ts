@@ -1,31 +1,65 @@
 import * as uuid from 'uuid';
 
-import TransportBase from '../TransportBase';
+import {
+  TransportBase,
+  type BaseEventEnum,
+  type TransportBaseProps,
+} from '../TransportBase';
+
+import { CONNECT_PORT_NAME, TRANSPORT_NAME } from './constants';
 
 /* global chrome */
 
+export interface ClientTransportProps
+  extends Omit<TransportBaseProps, 'name'> {}
+
+type PromiseCallback = {
+  resolve: (result: any) => void;
+  reject: (reason: any) => void;
+};
+
 export class ClientTransport extends TransportBase {
-  constructor(options) {
+  _port: chrome.runtime.Port;
+  _requests = new Map<string, PromiseCallback>();
+
+  constructor(options: ClientTransportProps = {}) {
     super({
       ...options,
-      name: 'ChromeTransport',
+      name: TRANSPORT_NAME,
     });
-    this._requests = new Map();
-    this._port = chrome.runtime.connect({ name: 'transport' });
+
+    this._port = chrome.runtime.connect({ name: CONNECT_PORT_NAME });
     this._port.onMessage.addListener(
-      ({ type, payload, requestId, result, error }) => {
+      ({
+        type,
+        payload,
+        requestId,
+        result,
+        error,
+      }: {
+        type: keyof BaseEventEnum;
+        payload: unknown;
+        requestId: string;
+        result?: unknown;
+        error?: string;
+      }) => {
         switch (type) {
           case this._events.push:
-            if (payload) {
-              this.emit(this._events.push, payload);
+            {
+              if (payload) {
+                this.emit(this._events.push, payload);
+              }
             }
             break;
           case this._events.response:
-            if (requestId && this._requests.has(requestId)) {
-              if (error) {
-                this._requests.get(requestId).reject(new Error(error));
-              } else {
-                this._requests.get(requestId).resolve(result);
+            {
+              const callback = this._requests.get(requestId);
+              if (callback) {
+                if (error) {
+                  callback.reject(new Error(error));
+                } else {
+                  callback.resolve(result);
+                }
               }
             }
             break;
@@ -36,7 +70,7 @@ export class ClientTransport extends TransportBase {
     );
   }
 
-  async request({ payload }) {
+  async request({ payload }: { payload: unknown }) {
     const requestId = uuid.v4();
     let promise = new Promise((resolve, reject) => {
       this._requests.set(requestId, {
@@ -49,9 +83,12 @@ export class ClientTransport extends TransportBase {
         payload,
       });
     });
-    let timeout = setTimeout(() => {
+    let timeout: NodeJS.Timeout | null = setTimeout(() => {
       timeout = null;
-      this._requests.get(requestId).reject(new Error(this._events.timeout));
+      const callback = this._requests.get(requestId);
+      if (callback) {
+        callback.reject(new Error(this._events.timeout));
+      }
     }, this._timeout);
     promise = promise
       .then((result) => {
@@ -63,6 +100,7 @@ export class ClientTransport extends TransportBase {
         if (timeout) clearTimeout(timeout);
         this._requests.delete(requestId);
         return Promise.reject(
+          // @ts-expect-error TS(2571): Object is of type 'unknown'.
           new Error(`${payload.functionPath}: ${error.message}`),
         );
       });

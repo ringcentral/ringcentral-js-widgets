@@ -12,16 +12,17 @@ import {
   When,
   common,
 } from '@ringcentral-integration/test-utils';
+
+import { generateDialPlanData } from '../../../../../__mock__/generateDialPlanData';
 import type { StepFunction } from '../../../../../lib/step';
+import { Login } from '../../../../../steps/Login';
 import {
   MockDialingPlan,
   CreateMock as CommonCreateMock,
 } from '../../../../../steps/Mock';
-import { generateDialPlanData } from '../../../../../__mock__/generateDialPlanData';
 import { NavigateToRegionSettings } from '../../../../../steps/Navigate';
-import { CheckAreaCodeField, SetAreaCode } from '../../../../../steps/Settings';
-import { Login } from '../../../../../steps/Login';
 import { NavigateTo } from '../../../../../steps/Router';
+import { CheckAreaCodeField, SetAreaCode } from '../../../../../steps/Settings';
 
 @autorun(test.skip)
 @common

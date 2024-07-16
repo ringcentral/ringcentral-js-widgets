@@ -13,7 +13,7 @@ export default {
   addEntity: "Luo uusi",
   addLog: "Loki",
   text: "Tekstiviesti",
-  call: "Puhelu",
+  call: "Soita",
   missedCall: "Vastaamaton",
   inboundCall: "Saapuva",
   outboundCall: "Lähtevät"

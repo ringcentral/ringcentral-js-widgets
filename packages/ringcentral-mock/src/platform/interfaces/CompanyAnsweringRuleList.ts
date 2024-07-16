@@ -1,6 +1,6 @@
-import type { ListCompanyAnsweringRuleInfo } from './ListCompanyAnsweringRuleInfo';
-import type { CallHandlingPagingInfo } from './CallHandlingPagingInfo';
 import type { CallHandlingNavigationInfo } from './CallHandlingNavigationInfo';
+import type { CallHandlingPagingInfo } from './CallHandlingPagingInfo';
+import type { ListCompanyAnsweringRuleInfo } from './ListCompanyAnsweringRuleInfo';
 
 export interface CompanyAnsweringRuleList {
   /**

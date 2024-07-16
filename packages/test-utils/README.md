@@ -68,7 +68,11 @@ test('', () => {
 We have hijacked console(`debug`, `info`, `warn`, `log`, `error`, `time`, `timeEnd`) by default, and when running tests with `--ci`, console will be silenced. These methods in console support parameter assertions.
 
 ```ts
-expect(console.log).toBeCalledWith(result);
+beforeEach(() => {
+  mockAllLogs();
+});
+
+expect(console.log).toHaveBeenCalledWith(result);
 ```
 
 ## Retry
@@ -84,6 +88,9 @@ DEBUG=log yarn test
 ```
 
 and call `log()` on the code that needs to be debugged.
+
+1. in `DEBUG=log`, that will just show log when called
+2. in `--ci`, that log will print at after each once, with that way, we can keep log be log one by one, otherwise in ci with multiple test run at once, the log info will be messy with different file.
 
 > In debugging mode, all `console` printing will be blocked.
 

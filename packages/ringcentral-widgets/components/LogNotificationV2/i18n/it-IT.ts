@@ -5,7 +5,8 @@ export default {
   save: "Salva e crea nuovo",
   discard: "Elimina e crea nuovo",
   hangup: "Riaggancia",
-  reject: "Alla segreteria telefonica"
+  reject: "Alla segreteria telefonica",
+  saveDraftAndCreateNewLog: "Salva la bozza e crea un nuovo registro chiamate"
 };
 
 // @key: @#@"Inbound"@#@ @source: @#@"Inbound"@#@
@@ -15,3 +16,4 @@ export default {
 // @key: @#@"discard"@#@ @source: @#@"Discard and new"@#@
 // @key: @#@"hangup"@#@ @source: @#@"Hangup"@#@
 // @key: @#@"reject"@#@ @source: @#@"To Voicemail"@#@
+// @key: @#@"saveDraftAndCreateNewLog"@#@ @source: @#@"Save draft and create new call log"@#@

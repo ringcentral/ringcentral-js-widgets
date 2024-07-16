@@ -1,9 +1,9 @@
-import type { UserAddress } from './UserAddress';
 import type { Email } from './Email';
+import type { EnterpriseUser } from './EnterpriseUser';
 import type { Name } from './Name';
 import type { PhoneNumber } from './PhoneNumber';
 import type { Photo } from './Photo';
-import type { EnterpriseUser } from './EnterpriseUser';
+import type { UserAddress } from './UserAddress';
 
 export interface User {
   /**

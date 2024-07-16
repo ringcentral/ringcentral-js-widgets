@@ -1,4 +1,3 @@
-import { forEach, map } from 'ramda';
 import {
   action,
   computed,
@@ -7,6 +6,8 @@ import {
 } from '@ringcentral-integration/core';
 import { sleep } from '@ringcentral-integration/utils';
 import type { ApiError } from '@ringcentral/sdk';
+import { forEach, map } from 'ramda';
+
 import { availabilityTypes } from '../../enums/availabilityTypes';
 import { phoneSources } from '../../enums/phoneSources';
 import type {
@@ -22,6 +23,7 @@ import {
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
 import { DataFetcherV2Consumer, DataSource } from '../DataFetcherV2';
+
 import type {
   AddressBookData,
   Deps,
@@ -31,6 +33,12 @@ import { getSyncParams, processAddressBookResponse } from './helpers';
 
 export const DEFAULT_FETCH_INTERVAL = 1000;
 export const DEFAULT_CONTACTS_PER_PAGE = 250;
+
+// reference: https://developers.ringcentral.com/api-reference/External-Contacts/syncAddressBook
+const INVALID_TOKEN_ERROR_CODES = [
+  // 400 CMN-101 Parameter [${parameterName}] value is invalid.
+  'CMN-101',
+];
 
 @Module({
   name: 'AddressBook',
@@ -109,7 +117,7 @@ export class AddressBook
     return this.data?.syncToken;
   }
 
-  protected async _fetch(perPage: number, syncToken: string, pageId?: number) {
+  protected async _fetch(perPage: number, syncToken?: string, pageId?: number) {
     const params = getSyncParams({
       perPage,
       syncToken,
@@ -127,18 +135,18 @@ export class AddressBook
   protected _processISyncData(records: PersonalContactResource[]) {
     if (records?.length > 0) {
       const updatedRecords: PersonalContactResource[] = [];
-      // @ts-expect-error
+      // @ts-expect-error TS(2344): Type 'number | undefined' does not satisfy the con... Remove this comment to see the full error message
       const processedIDMap: Record<PersonalContactResource['id'], true> = {};
       forEach((record) => {
         if (record.availability === availabilityTypes.alive) {
           // Only keep entries that is 'alive', omit 'purged' and 'deleted'
           updatedRecords.push(record);
         }
-        // @ts-expect-error
+        // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
         processedIDMap[record.id] = true;
       }, records);
       forEach((record) => {
-        // @ts-expect-error
+        // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
         if (!processedIDMap[record.id]) {
           // record has no updates
           updatedRecords.push(record);
@@ -149,32 +157,51 @@ export class AddressBook
     return this.data.records;
   }
 
+  protected async _fetchAll(syncToken?: string) {
+    const perPage = this._perPage;
+    let records: PersonalContactResource[] = [];
+    let response = await this._fetch(perPage, syncToken);
+    records = records.concat(response.records ?? []);
+    while (response.nextPageId) {
+      await sleep(this._fetchInterval);
+      response = await this._fetch(perPage, syncToken, response.nextPageId);
+      records = records.concat(response.records ?? []);
+    }
+    if (response.syncInfo!.syncType === 'ISync') {
+      // @ts-expect-error TS(2322): Type 'PersonalContactResource[] | undefined' is no... Remove this comment to see the full error message
+      records = this._processISyncData(records);
+    }
+    return {
+      syncToken: response.syncInfo!.syncToken,
+      records,
+    };
+  }
+
   protected async _sync(): Promise<AddressBookData> {
     try {
-      const syncToken = this.syncToken;
-      const perPage = this._perPage;
-      let records: PersonalContactResource[] = [];
-      // @ts-expect-error
-      let response = await this._fetch(perPage, syncToken);
-      records = records.concat(response.records ?? []);
-      while (response.nextPageId) {
-        await sleep(this._fetchInterval);
-        // @ts-expect-error
-        response = await this._fetch(perPage, syncToken, response.nextPageId);
-        records = records.concat(response.records ?? []);
-      }
-      if (response.syncInfo!.syncType === 'ISync') {
-        // @ts-expect-error
-        records = this._processISyncData(records);
-      }
-      return {
-        syncToken: response.syncInfo!.syncToken,
-        records,
-      };
-    } catch (error: any /** TODO: confirm with instanceof */) {
-      if ((error as ApiError)?.response?.status === 403) {
+      const data = await this._fetchAll(this.syncToken);
+      return data;
+    } catch (e: unknown) {
+      const error = e as ApiError;
+
+      // 403 Forbidden
+      if (error.response?.status === 403) {
         return {} as AddressBookData;
       }
+
+      // try Full Sync
+      const responseResult = await error.response?.clone().json();
+      if (
+        responseResult?.errors?.some(({ errorCode = '' } = {}) =>
+          INVALID_TOKEN_ERROR_CODES.includes(errorCode),
+        )
+      ) {
+        const data = await this._fetchAll();
+        return data;
+      }
+
+      // exception
+      console.error('[AddressBook] > _sync', error.response?.status, error);
       throw error;
     }
   }

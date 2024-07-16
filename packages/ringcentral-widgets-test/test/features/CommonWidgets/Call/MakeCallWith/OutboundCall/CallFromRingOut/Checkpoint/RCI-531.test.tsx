@@ -9,7 +9,9 @@
 <ol>
 <li class='u'>Settings > Calling > Make my calls with >RingOut</li></ol>
  */
-
+import type { GetExtensionPhoneNumbersResponse } from '@ringcentral-integration/mock';
+import deviceBody from '@ringcentral-integration/mock/src/platform/data/device.json';
+import phoneNumberBody from '@ringcentral-integration/mock/src/platform/data/phoneNumber.json';
 import type { StepProp } from '@ringcentral-integration/test-utils';
 import {
   p2,
@@ -25,31 +27,28 @@ import {
   When,
   common,
 } from '@ringcentral-integration/test-utils';
-import deviceBody from '@ringcentral-integration/mock/src/platform/data/device.json';
-import phoneNumberBody from '@ringcentral-integration/mock/src/platform/data/phoneNumber.json';
-import type { GetExtensionPhoneNumbersResponse } from '@ringcentral-integration/mock';
 
 import {
   CheckAlertMessage,
   CloseAlertMessage,
 } from '../../../../../../../steps/Alert';
+import { MakeOutboundCall } from '../../../../../../../steps/Call';
 import { CommonLogin } from '../../../../../../../steps/CommonLogin';
+import { CreateInstance } from '../../../../../../../steps/CreateInstance';
 import {
   CreateMock,
   MockGetPhoneNumber,
   MockGetRingOut,
 } from '../../../../../../../steps/Mock';
-import { CreateInstance } from '../../../../../../../steps/CreateInstance';
+import { NavigateToDialer } from '../../../../../../../steps/Navigate';
+import { NavigateTo } from '../../../../../../../steps/Router';
 import {
   ClickSaveButton,
-  ExpandDropdown,
+  ExpandCallingSettingDropdown,
   SelectCallingSetting,
   ExpandRingOutDropdown,
   SelectRingOutOption,
 } from '../../../../../../../steps/Settings';
-import { MakeOutboundCall } from '../../../../../../../steps/Call';
-import { NavigateTo } from '../../../../../../../steps/Router/action';
-import { NavigateToDialer } from '../../../../../../../steps/Navigate';
 
 @autorun(test)
 @it
@@ -100,7 +99,7 @@ export class RCI531 extends Step {
           desc="Settings > Calling > Make my calls with >RingOut"
           action={[
             <NavigateTo path="/settings/calling" />,
-            ExpandDropdown,
+            ExpandCallingSettingDropdown,
             <SelectCallingSetting settingName="RingOut" />,
           ]}
         />

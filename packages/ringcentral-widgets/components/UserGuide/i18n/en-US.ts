@@ -3,4 +3,4 @@ export default {
   skip: 'Skip',
   next: 'Next',
   finish: 'Finish',
-};
+} as const;

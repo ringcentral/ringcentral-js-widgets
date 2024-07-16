@@ -96,6 +96,7 @@ export interface Put {
        * OK
        */
       200: PresenceInfoResponse;
+      503: any;
     };
   };
   '/restapi/v1.0/account/:accountId/call-queues/:groupId/presence': {

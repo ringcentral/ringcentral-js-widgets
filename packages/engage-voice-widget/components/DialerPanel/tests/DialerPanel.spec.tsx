@@ -1,8 +1,8 @@
+import { RcDialTextField } from '@ringcentral/juno';
 import type { ReactWrapper } from 'enzyme';
 
-import { RcDialTextField } from '@ringcentral/juno';
-
 import type { DialoutStatusesType } from '../../../enums/dialoutStatus';
+
 import { createDialerPanel } from './createDialerPanel';
 
 const mockAudio = () => {
@@ -32,7 +32,7 @@ describe('<DialerPanel />', () => {
     const recipientsInput = wrapper.find(RcDialTextField).at(0);
     const eventObj = { target: { value: '1243' } };
     recipientsInput.find('input').at(0).simulate('change', eventObj);
-    expect(setToNumber).toBeCalledWith('1243');
+    expect(setToNumber).toHaveBeenCalledWith('1243');
   });
 
   it('Delete button show switch', async () => {
@@ -51,7 +51,7 @@ describe('<DialerPanel />', () => {
     wrapper = createDialerPanel({ toNumber, dialout, dialoutStatus });
     const callButton = getCallButton();
     callButton.simulate('click');
-    expect(dialout).not.toBeCalled();
+    expect(dialout).not.toHaveBeenCalled();
   });
 
   it('User clicks manualDialSettings', () => {
@@ -61,7 +61,7 @@ describe('<DialerPanel />', () => {
       .find('[data-sign="manualDialSettings"]')
       .at(0);
     manualDialSettings.simulate('click');
-    expect(goToManualDialSettings).toBeCalled();
+    expect(goToManualDialSettings).toHaveBeenCalled();
   });
 
   it('Check Disabled Allow Manual Calls', () => {

@@ -20,7 +20,8 @@ export default {
   quickAccess: "快速存取設定",
   report: "分析報告",
   shareIdea: "分享意見",
-  reportIssue: "回報問題"
+  reportIssue: "回報問題",
+  havingIssues: "有問題嗎？"
 };
 
 // @key: @#@"region"@#@ @source: @#@"Region"@#@
@@ -45,3 +46,4 @@ export default {
 // @key: @#@"report"@#@ @source: @#@"Analytics Report"@#@
 // @key: @#@"shareIdea"@#@ @source: @#@"Share idea"@#@
 // @key: @#@"reportIssue"@#@ @source: @#@"Report issue"@#@
+// @key: @#@"havingIssues"@#@ @source: @#@"Having issues?"@#@

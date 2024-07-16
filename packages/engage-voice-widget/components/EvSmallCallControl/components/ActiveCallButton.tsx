@@ -1,8 +1,7 @@
-import type { FunctionComponent } from 'react';
-import React from 'react';
-
 import { RcIconButton } from '@ringcentral/juno';
 import { ActiveCall } from '@ringcentral/juno-icon';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import type { CallButtonsProps } from '../../SmallCallControl';
 import i18n from '../i18n';

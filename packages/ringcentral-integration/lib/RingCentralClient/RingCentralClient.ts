@@ -1,13 +1,12 @@
+import type { SDK } from '@ringcentral/sdk';
 import { Client } from 'ringcentral-client';
+import PathSegment from 'ringcentral-client/build/PathSegment';
 import Account from 'ringcentral-client/build/paths/Account';
 import ClientInfo from 'ringcentral-client/build/paths/ClientInfo';
 import Dictionary from 'ringcentral-client/build/paths/Dictionary';
 import Glip from 'ringcentral-client/build/paths/Glip';
 import NumberParser from 'ringcentral-client/build/paths/NumberParser';
 import Subscription from 'ringcentral-client/build/paths/Subscription';
-import PathSegment from 'ringcentral-client/build/PathSegment';
-
-import type { SDK } from '@ringcentral/sdk';
 
 // TODO: make 'ringcentral-client' support JS SDK v4 or replace it
 class RestPrefix extends PathSegment {

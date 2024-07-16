@@ -10,7 +10,6 @@ export default {
   [phoneTypes.home]: 'Home',
   [phoneTypes.business]: 'Business',
   [phoneTypes.fax]: 'Fax',
-  // @ts-expect-error TS(2718): Duplicate property 'company'.
   [phoneTypes.company]: 'Company',
   [phoneTypes.other]: 'Other',
   emailLabel: 'Email',
@@ -21,8 +20,6 @@ export default {
   [presenceStatus.busy]: 'Busy',
   [dndStatus.doNotAcceptAnyCalls]: 'Do not Disturb',
   notActivated: 'Inactive',
-  // @ts-expect-error TS(2733): Property 'company' was also declared here.
-  company: 'Company',
   jobTitle: 'Title',
   site: 'Site',
-};
+} as const;

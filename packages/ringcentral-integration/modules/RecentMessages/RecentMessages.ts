@@ -15,7 +15,7 @@ import getDateFrom from '../../lib/getDateFrom';
 import { sortByDate } from '../../lib/messageHelper';
 import { proxify } from '../../lib/proxy/proxify';
 import type { MessageStoreConversations } from '../MessageStore';
-import { MessageStatus } from './messageStatus';
+
 import type {
   CleanUpMessagesOptions,
   Deps,
@@ -25,6 +25,7 @@ import type {
   LoadSuccessOptions,
   RecentMessage,
 } from './RecentMessages.interface';
+import { MessageStatus } from './messageStatus';
 import {
   dedup,
   filterPhoneNumber,
@@ -56,6 +57,7 @@ export class RecentMessages extends RcModuleV2<Deps> {
           for (const key of Object.keys(this.contacts)) {
             this.getMessages({
               currentContact: this.contacts[key],
+              // @ts-expect-error TS(2322): Type 'string | null' is not assignable to type 'st... Remove this comment to see the full error message
               sessionId: key.indexOf('-') > -1 ? key.split('-')[1] : null,
               fromLocal: false,
               forceUpdate: true,
@@ -73,6 +75,7 @@ export class RecentMessages extends RcModuleV2<Deps> {
   messages: Record<string, (Message | RecentMessage)[]> = {};
 
   @state
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'MessageStat... Remove this comment to see the full error message
   messageStatus: MessageStatus = null;
 
   @action
@@ -115,6 +118,7 @@ export class RecentMessages extends RcModuleV2<Deps> {
   @proxify
   async getMessages({
     currentContact,
+    // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string'.
     sessionId = null,
     fromLocal = false,
     forceUpdate = false,
@@ -143,6 +147,7 @@ export class RecentMessages extends RcModuleV2<Deps> {
     });
   }
 
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string'.
   cleanUpMessages({ contact, sessionId = null }: CleanUpMessagesOptions) {
     this.loadReset({
       contact,
@@ -181,7 +186,8 @@ export class RecentMessages extends RcModuleV2<Deps> {
     if (!fromLocal && recentMessages.length < length) {
       const dateTo =
         recentMessages.length > 0
-          ? new Date(recentMessages[recentMessages.length - 1].creationTime)
+          ? // @ts-expect-error TS(2769): No overload matches this call.
+            new Date(recentMessages[recentMessages.length - 1].creationTime)
           : undefined;
 
       try {
@@ -221,10 +227,13 @@ export class RecentMessages extends RcModuleV2<Deps> {
       const conversation = conversations[i];
       const messageList =
         this._deps.messageStore.conversationStore[
+          // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
           conversation.conversationId
         ] || [];
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       matches = phoneNumbers.find(filterPhoneNumber(conversation));
       // Check if message is within certain days
+      // @ts-expect-error TS(2769): No overload matches this call.
       if (!!matches && new Date(conversation.creationTime) > dateFrom) {
         recentMessages = recentMessages.concat(messageList);
       }
@@ -248,6 +257,7 @@ export class RecentMessages extends RcModuleV2<Deps> {
       messageType: ['SMS', 'Text', 'Pager'],
       perPage: length,
     };
+    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     const recentMessagesPromise = phoneNumbers.reduce(
       (acc, { phoneNumber }) => {
         if (phoneNumber) {

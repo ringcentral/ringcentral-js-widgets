@@ -1,18 +1,18 @@
 import type UserPhoneNumberInfo from '@rc-ex/core/lib/definitions/UserPhoneNumberInfo';
+import type { AccountInfo } from '@ringcentral-integration/commons/modules/AccountInfo';
 import type { Alert } from '@ringcentral-integration/commons/modules/Alert';
 import type { AudioSettings } from '@ringcentral-integration/commons/modules/AudioSettings';
-import type { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettings';
 import type {
   Call,
   Recipient,
 } from '@ringcentral-integration/commons/modules/Call';
+import type { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettings';
 import type { ConferenceCall } from '@ringcentral-integration/commons/modules/ConferenceCall';
 import type { ContactSearch } from '@ringcentral-integration/commons/modules/ContactSearch';
 import type { ExtensionFeatures } from '@ringcentral-integration/commons/modules/ExtensionFeatures';
 import type { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import type { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiter';
 import type { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
-import type { AccountInfo } from '@ringcentral-integration/commons/modules/AccountInfo';
 
 import type { ConnectivityManager } from '../ConnectivityManager';
 
@@ -36,6 +36,10 @@ export interface Deps {
   accountInfo: AccountInfo;
 }
 
+export interface DialerUIContainerProps {
+  autoFocusToField?: boolean;
+}
+
 export interface DialerUIPanelProps {
   currentLocale: string;
   callingMode: string;
@@ -52,12 +56,13 @@ export interface DialerUIPanelProps {
     phoneNumber: string;
   }[];
   showSpinner: boolean;
-  dialButtonVolume: number;
-  dialButtonMuted: boolean;
+  callVolume: number;
+  outputDeviceId: string;
   isLastInputFromDialpad: boolean;
   disableFromField: boolean;
   useV2: boolean;
   showAnonymous: boolean;
+  autoFocus?: boolean;
   onToNumberChange: (
     phoneNumber: string,
     fromDialPad?: boolean,

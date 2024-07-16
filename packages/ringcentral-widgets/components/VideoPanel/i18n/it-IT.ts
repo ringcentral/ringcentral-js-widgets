@@ -17,7 +17,7 @@ export default {
   onlyJoinAfterMe: "I partecipanti possono accedere solo dopo di me",
   onlyJoinAfterHost: "I partecipanti possono accedere solo dopo l'host",
   muteAudio: "Disattiva l'audio per i partecipanti",
-  turnOffCamera: "Disattiva videocamera per i partecipanti",
+  turnOffCamera: "Disattiva la videocamera per i partecipanti",
   requirePassword: "Richiedi password",
   useE2ee: "Utilizza la codifica end-to-end",
   e2eeTooltip: "Le riunioni con crittografia end-to-end sono le più private, ma non offrono funzionalità come la partecipazione tramite telefono, i sottotitoli e la registrazione.",
@@ -37,8 +37,7 @@ export default {
   today: "Oggi",
   scheduleForGuidance: "Stai pianificando per qualcun altro?\n1. Assicurati di essere nel loro calendario di Outlook.\n2. Dall'elenco a discesa, seleziona la persona per la quale stai pianificando.\n",
   scheduleForGuidanceMore: "Scopri i dettagli",
-  changePmiSettings: "Modifica impostazioni riunione personale",
-  ieSupportAlert: "Tieni presente che {appName} non funzionerà con Internet Explorer 11 dopo il 16 febbraio 2022. Consigliamo di passare a Microsoft Edge o di aggiornare a Outlook 2016 o versione successiva."
+  changePmiSettings: "Modifica impostazioni riunione personale"
 };
 
 // @key: @#@"topic"@#@ @source: @#@"Meeting title"@#@
@@ -79,4 +78,3 @@ export default {
 // @key: @#@"scheduleForGuidance"@#@ @source: @#@"Scheduling for someone else?\n1. Make sure you're on their Outlook calendar.\n2. From the dropdown, select the person you're scheduling for.\n"@#@
 // @key: @#@"scheduleForGuidanceMore"@#@ @source: @#@"Learn details"@#@
 // @key: @#@"changePmiSettings"@#@ @source: @#@"Change Personal Meeting settings"@#@
-// @key: @#@"ieSupportAlert"@#@ @source: @#@"Please note that {appName} won't work with Internet Explorer 11 after Feb 16, 2022. We recommend switching to Microsoft Edge or updating to Outlook 2016 or above."@#@

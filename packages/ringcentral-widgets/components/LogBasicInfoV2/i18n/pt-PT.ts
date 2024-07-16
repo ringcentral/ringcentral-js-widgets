@@ -46,7 +46,9 @@ export default {
   [callResults.faxReceipt]: "Recibo de fax",
   [callResults.disconnected]: "Terminada",
   [callResults.notAllowed]: "Não permitida",
-  warmTransferSwitchCall: "Mudar de chamada"
+  warmTransferSwitchCall: "Mudar de chamada",
+  conferenceCall: "Chamada de conferência",
+  participants: "Participantes"
 };
 
 // @key: @#@"[callDirections.inbound]"@#@ @source: @#@"Inbound"@#@
@@ -94,3 +96,5 @@ export default {
 // @key: @#@"[callResults.disconnected]"@#@ @source: @#@"Disconnected"@#@
 // @key: @#@"[callResults.notAllowed]"@#@ @source: @#@"Not Allowed"@#@
 // @key: @#@"warmTransferSwitchCall"@#@ @source: @#@"Switch calls"@#@
+// @key: @#@"conferenceCall"@#@ @source: @#@"Conference Call"@#@
+// @key: @#@"participants"@#@ @source: @#@"Participants"@#@

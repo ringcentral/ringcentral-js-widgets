@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import type { PropertyDescriptor, Service } from '../interface';
 import { stateKey } from '../constant';
+import type { PropertyDescriptor, Service } from '../interface';
 
 export const state = (
   target: object,

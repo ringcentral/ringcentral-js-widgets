@@ -7,7 +7,6 @@
  * 1. Answer an inbound call, and make another incoming call
  * 2. Make a outbound call, and make another incoming call
  */
-
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p1,
@@ -23,7 +22,7 @@ import {
 } from '@ringcentral-integration/test-utils';
 
 import {
-  CallItemButtonBehavior,
+  AnswerAndHoldCall,
   CheckAnswerAndHoldBehavior,
   CheckAllCallsListPage,
   MakeInboundCall,
@@ -33,7 +32,6 @@ import {
   MakeCall,
 } from '../../../../../../../steps/Call';
 import { CommonLoginEntry } from '../../../../../../../steps/CommonLogin';
-
 import {
   TriggerActiveCallChanged,
   MockActiveCall,
@@ -81,9 +79,7 @@ export class RCI859 extends Step {
         />
         <Then
           desc="Check there should be an Answer & Hold button and click it"
-          action={
-            <CallItemButtonBehavior callButtonBehaviorType="answerAndHold" />
-          }
+          action={<AnswerAndHoldCall />}
         />
         <And
           desc="1. The second call should be answered

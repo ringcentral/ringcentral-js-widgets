@@ -1,4 +1,5 @@
 import { syncTypes } from '../../enums/syncTypes';
+
 import type { SyncFunctionOptions } from './MessageStore.interface';
 
 type GetSyncParamsOptions = Pick<

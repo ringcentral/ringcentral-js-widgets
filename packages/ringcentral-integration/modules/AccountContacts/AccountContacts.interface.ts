@@ -54,6 +54,7 @@ export type Presences = Record<string, Presence>;
 export interface Contact extends IContact {
   presence?: Presence['presence'];
   contactStatus?: string;
+  isCallQueueNumber?: boolean;
 }
 
 export interface DirectoryContacts {

@@ -2,14 +2,16 @@ import { combineReducers } from 'redux';
 
 import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
 
-export function getDataReducer(types) {
-  return (state = [], { type, data, group }) => {
+export function getDataReducer(types: any) {
+  return (state = [], { type, data, group }: any) => {
     switch (type) {
       case types.fetchSuccess:
         return data && data.records;
       case types.updateGroup:
+        // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
         return [group].concat(state.filter((g) => g.id !== group.id));
       case types.removeGroup:
+        // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
         return state.filter((g) => g.id !== group.id);
       case types.resetSuccess:
         return [];
@@ -19,8 +21,8 @@ export function getDataReducer(types) {
   };
 }
 
-export function getSearchFilterReducer(types) {
-  return (state = '', { type, searchFilter }) => {
+export function getSearchFilterReducer(types: any) {
+  return (state = '', { type, searchFilter }: any) => {
     switch (type) {
       case types.updateFilter:
         if (searchFilter !== null && searchFilter !== undefined) {
@@ -33,8 +35,8 @@ export function getSearchFilterReducer(types) {
   };
 }
 
-export function getCurrentGroupIdReducer(types) {
-  return (state = null, { type, groupId }) => {
+export function getCurrentGroupIdReducer(types: any) {
+  return (state = null, { type, groupId }: any) => {
     switch (type) {
       case types.updateCurrentGroupId:
         return groupId;
@@ -44,8 +46,8 @@ export function getCurrentGroupIdReducer(types) {
   };
 }
 
-export function getTimestampReducer(types) {
-  return (state = null, { type, timestamp }) => {
+export function getTimestampReducer(types: any) {
+  return (state = null, { type, timestamp }: any) => {
     switch (type) {
       case types.fetchSuccess:
         return timestamp;
@@ -57,7 +59,7 @@ export function getTimestampReducer(types) {
   };
 }
 
-export default function getReducer(types, reducers = {}) {
+export default function getReducer(types: any, reducers = {}) {
   return combineReducers({
     ...reducers,
     status: getModuleStatusReducer(types),

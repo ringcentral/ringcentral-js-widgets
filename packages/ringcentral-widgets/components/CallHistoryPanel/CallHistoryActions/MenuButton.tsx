@@ -1,6 +1,3 @@
-import type { FunctionComponent } from 'react';
-import React, { memo, useState } from 'react';
-
 import {
   RcIcon,
   RcIconButton,
@@ -8,6 +5,8 @@ import {
   RcMenuItem,
   RcSubMenu,
 } from '@ringcentral/juno';
+import type { FunctionComponent } from 'react';
+import React, { memo, useState } from 'react';
 
 import type { CallLogMenuItem } from '../CallHistoryPanel.interface';
 

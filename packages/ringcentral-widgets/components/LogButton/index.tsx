@@ -1,10 +1,10 @@
+import clsx from 'clsx';
 import React from 'react';
-
-import classnames from 'classnames';
 
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import { Button } from '../Button';
 import Spinner from '../Spinner';
+
 import styles from './styles.scss';
 
 type LogButtonProps = {
@@ -16,7 +16,7 @@ type LogButtonProps = {
   addTitle?: string;
   editTitle?: string;
 };
-const LogButton: React.SFC<LogButtonProps> = ({
+const LogButton: React.FC<LogButtonProps> = ({
   className,
   onLog,
   isLogged,
@@ -30,7 +30,7 @@ const LogButton: React.SFC<LogButtonProps> = ({
   ) : null;
   return (
     <Button
-      className={classnames(styles.log, className)}
+      className={clsx(styles.log, className)}
       onClick={onLog}
       disabled={disableLinks || isLogging}
     >

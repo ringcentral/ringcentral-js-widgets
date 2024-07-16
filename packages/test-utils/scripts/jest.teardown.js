@@ -1,7 +1,21 @@
 /* eslint-disable no-undef */
 import { WS } from 'jest-websocket-mock';
 
+import { jestFakeTimersAreEnabled } from '../lib/jestFakeTimersAreEnabled';
+
+import { createTimerHandler } from './utils/teardownTimer';
+
+const timerHandler = createTimerHandler();
+beforeEach(() => {
+  timerHandler.start();
+});
+
 afterEach(async () => {
+  // always reset fake timer to real timer to avoid jest not throw error
+  if (jestFakeTimersAreEnabled()) {
+    jest.useRealTimers();
+  }
+
   if (global.instance) {
     const { phone = {}, app, rcMock, autoLogout = true } = global.instance;
 
@@ -27,8 +41,11 @@ afterEach(async () => {
     window.analytics.invoked = false;
   }
 
-  // TODO: remove it after removing `ringcentral-integration/integration-test`
-  WS.clean();
+  if (!window.wsCleanDisabled) {
+    WS.clean();
+  }
+
+  timerHandler.clear();
 
   global.instance = {};
 });

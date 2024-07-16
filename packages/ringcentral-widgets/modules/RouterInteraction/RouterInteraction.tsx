@@ -1,15 +1,14 @@
 // @ts-nocheck
+import moduleStatuses from '@ringcentral-integration/commons/enums/moduleStatuses';
+import RcModule from '@ringcentral-integration/commons/lib/RcModule';
+import { Module } from '@ringcentral-integration/commons/lib/di';
+import { proxify } from '@ringcentral-integration/commons/lib/proxy/proxify';
 import { createMemoryHistory, useRouterHistory } from 'react-router';
 import {
   LOCATION_CHANGE,
   routerReducer,
   syncHistoryWithStore,
 } from 'react-router-redux';
-
-import moduleStatuses from '@ringcentral-integration/commons/enums/moduleStatuses';
-import { Module } from '@ringcentral-integration/commons/lib/di';
-import { proxify } from '@ringcentral-integration/commons/lib/proxy/proxify';
-import RcModule from '@ringcentral-integration/commons/lib/RcModule';
 
 function getDefaultHistory() {
   // eslint-disable-next-line react-hooks/rules-of-hooks
@@ -56,7 +55,8 @@ export default class RouterInteraction extends RcModule {
   }
 
   get currentPath(): string {
-    return this.state.locationBeforeTransitions.pathname;
+    // according to sentry, locationBeforeTransitions can be null
+    return this.state.locationBeforeTransitions?.pathname ?? '/';
   }
 
   get status() {

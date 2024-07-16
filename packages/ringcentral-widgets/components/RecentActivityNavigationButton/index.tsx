@@ -1,8 +1,8 @@
+import clsx from 'clsx';
 import React from 'react';
 
-import classnames from 'classnames';
-
 import { StyledTab } from '../MessageTabButton/MessageTabButton';
+
 import styles from './styles.scss';
 
 type NavigationButtonProps = {
@@ -33,7 +33,7 @@ const NavigationButton: React.FC<NavigationButtonProps> = ({
   return (
     <StyledTab
       onClick={onClick}
-      className={classnames(styles.navigationButton)}
+      className={clsx(styles.navigationButton)}
       // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
       $active={active}
       style={{

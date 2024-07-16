@@ -1,10 +1,12 @@
+import type { Call as NormalizedCall } from '@ringcentral-integration/commons/interfaces/Call.interface';
 import type { HistoryCall } from '@ringcentral-integration/commons/modules/CallHistory';
+import type { NormalizedSession } from '@ringcentral-integration/commons/interfaces/Webphone.interface';
 
 import type { FieldItemOption } from '../CallLogFields/FieldItem/FieldItem.interface';
 
 // This interface will change folder in the future
 export interface CallLog {
-  call?: Call | HistoryCall;
+  call?: NormalizedCall & Call & HistoryCall;
   currentSessionId?: string;
   // TODO: remove sf call log interface
   nameEntities?: SfEntity[];
@@ -21,10 +23,13 @@ export interface CallLog {
   logName?: string;
   customLogFields?: FieldItemOption[];
   disableSaveLog?: boolean;
+  disableUpdateLog?: boolean;
   foundFromServerEntities?: {
     name: SfEntity[];
     relatedTo: SfEntity[];
   };
+  disabled?: boolean;
+  shouldPromoteAlert?: boolean;
 }
 
 export interface Call {
@@ -48,7 +53,7 @@ export interface Call {
 
   partyId: string;
   offset: number;
-  webphoneSession?: object;
+  webphoneSession?: NormalizedSession;
 }
 
 export interface SfEntity {
@@ -109,9 +114,10 @@ export interface CurrentLogCall {
   isCreated?: boolean;
 }
 
+// TODO: remove SF specific interface from here
 export interface Task {
-  matches?: any;
-  tickets?: any;
+  matches?: unknown;
+  tickets?: unknown;
   option?: string;
   ticketId?: string;
   id?: string;
@@ -132,6 +138,7 @@ export interface Task {
   recording_information__c?: string;
   isEdited?: boolean;
   isLogged?: boolean;
+  [fieldName: string]: unknown;
 }
 
 export interface NavigateToEntities {

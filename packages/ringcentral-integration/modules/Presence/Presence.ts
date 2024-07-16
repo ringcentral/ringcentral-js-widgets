@@ -1,5 +1,3 @@
-import { filter, map } from 'ramda';
-import type { Unsubscribe } from 'redux';
 import type DetailedExtensionPresenceEvent from '@rc-ex/core/lib/definitions/DetailedExtensionPresenceEvent';
 import type GetPresenceInfo from '@rc-ex/core/lib/definitions/GetPresenceInfo';
 import type PresenceInfoResponse from '@rc-ex/core/lib/definitions/PresenceInfoResponse';
@@ -11,6 +9,8 @@ import {
   storage,
 } from '@ringcentral-integration/core';
 import type { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
+import { filter, map } from 'ramda';
+import type { Unsubscribe } from 'redux';
 
 import { presenceStatus } from '../../enums/presenceStatus.enum';
 import { subscriptionFilters } from '../../enums/subscriptionFilters';
@@ -26,8 +26,9 @@ import { debounce } from '../../lib/debounce-throttle';
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
 import { DataFetcherV2Consumer, DataSource } from '../DataFetcherV2';
-import { dndStatus } from './dndStatus';
+
 import type { Deps, UpdatePresenceParams } from './Presence.interface';
+import { dndStatus } from './dndStatus';
 import { removeIntermediateCall } from './removeIntermediateCall';
 
 export const DEFAULT_TTL = 62 * 1000;
@@ -61,9 +62,9 @@ const acceptCallQueueToggles = [
 export class Presence extends DataFetcherV2Consumer<Deps, PresenceInfoModel> {
   protected _debouncedFetchData: DebouncedFunction<Presence['fetchData']>;
 
-  // @ts-expect-error
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Unsubscribe... Remove this comment to see the full error message
   protected _stopWatchingConnectivity: Unsubscribe = null;
-  // @ts-expect-error
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Unsubscribe... Remove this comment to see the full error message
   protected _stopWatchingSubscription: Unsubscribe = null;
 
   constructor(deps: Deps) {
@@ -100,7 +101,7 @@ export class Presence extends DataFetcherV2Consumer<Deps, PresenceInfoModel> {
         );
         return {
           sequence: this._sequence,
-          // @ts-expect-error
+          // @ts-expect-error TS(2322): Type 'unknown[]' is not assignable to type 'Active... Remove this comment to see the full error message
           activeCalls,
           dndStatus,
           meetingStatus,
@@ -174,10 +175,10 @@ export class Presence extends DataFetcherV2Consumer<Deps, PresenceInfoModel> {
     if (activeCalls.length < totalActiveCalls) {
       return this.activeCalls;
     }
-    // @ts-expect-error
+    // @ts-expect-error TS(2769): No overload matches this call.
     return map((activeCall) => {
       const existingCall = this.activeCalls.find(
-        // @ts-expect-error
+        // @ts-expect-error TS(2339): Property 'sessionId' does not exist on type 'never... Remove this comment to see the full error message
         (call) => call.sessionId === activeCall.sessionId,
       );
       if (!existingCall) {
@@ -194,7 +195,7 @@ export class Presence extends DataFetcherV2Consumer<Deps, PresenceInfoModel> {
         ...existingCall,
         ...normalizeStartTime(normalizeFromTo(activeCall)),
       };
-      // @ts-expect-error
+      // @ts-expect-error TS(2345): Argument of type 'ActiveCallInfo[]' is not assigna... Remove this comment to see the full error message
     }, removeIntermediateCall([], activeCalls));
   }
 
@@ -203,7 +204,7 @@ export class Presence extends DataFetcherV2Consumer<Deps, PresenceInfoModel> {
     if (
       this.ready &&
       (this._source.disableCache || (this._deps.tabManager?.active ?? true)) &&
-      // @ts-expect-error
+      // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
       regExp.test(message.event) &&
       message.body
     ) {
@@ -228,7 +229,7 @@ export class Presence extends DataFetcherV2Consumer<Deps, PresenceInfoModel> {
       this._updateData(
         {
           sequence,
-          // @ts-expect-error
+          // @ts-expect-error TS(2322): Type 'unknown[]' is not assignable to type 'Active... Remove this comment to see the full error message
           activeCalls,
           dndStatus,
           meetingStatus,
@@ -278,10 +279,10 @@ export class Presence extends DataFetcherV2Consumer<Deps, PresenceInfoModel> {
 
   override onReset() {
     this._stopWatchingConnectivity?.();
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Unsubscribe... Remove this comment to see the full error message
     this._stopWatchingConnectivity = null;
     this._stopWatchingSubscription?.();
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Unsubscribe... Remove this comment to see the full error message
     this._stopWatchingSubscription = null;
     this._debouncedFetchData.cancel();
   }
@@ -314,26 +315,33 @@ export class Presence extends DataFetcherV2Consumer<Deps, PresenceInfoModel> {
 
   @proxify
   async _update(params: UpdatePresenceParams) {
-    if (!this._deps.extensionFeatures.features?.EditPresenceStatus?.available) {
-      return;
-    }
-    const ownerId = this._deps.auth.ownerId;
-    const response = await this._deps.client.service
-      .platform()
-      .put('/restapi/v1.0/account/~/extension/~/presence', params);
-    const data: PresenceInfoResponse = await response.json();
+    try {
+      if (
+        !this._deps.extensionFeatures.features?.EditPresenceStatus?.available
+      ) {
+        return;
+      }
+      const ownerId = this._deps.auth.ownerId;
+      const response = await this._deps.client.service
+        .platform()
+        .put('/restapi/v1.0/account/~/extension/~/presence', params);
+      const data: PresenceInfoResponse = await response?.json();
 
-    if (ownerId === this._deps.auth.ownerId) {
-      const newDndStatus = ((data.dndStatus !== 'Unknown' && data.dndStatus) ??
-        this.data.dndStatus) as ObjectMapValue<typeof dndStatus>;
-      this._setLastDndStatus(this._calculateLastDndStatus(newDndStatus));
-      this._updateData({
-        presenceStatus: data.presenceStatus,
-        userStatus: data.userStatus,
-        telephonyStatus: data.telephonyStatus,
-        dndStatus: newDndStatus,
-        meetingStatus: data.meetingStatus,
-      });
+      if (ownerId === this._deps.auth.ownerId) {
+        const newDndStatus = ((data.dndStatus !== 'Unknown' &&
+          data.dndStatus) ??
+          this.data.dndStatus) as ObjectMapValue<typeof dndStatus>;
+        this._setLastDndStatus(this._calculateLastDndStatus(newDndStatus));
+        this._updateData({
+          presenceStatus: data.presenceStatus,
+          userStatus: data.userStatus,
+          telephonyStatus: data.telephonyStatus,
+          dndStatus: newDndStatus,
+          meetingStatus: data.meetingStatus,
+        });
+      }
+    } catch (e) {
+      console.error('put presence failed', e);
     }
   }
 
@@ -351,7 +359,6 @@ export class Presence extends DataFetcherV2Consumer<Deps, PresenceInfoModel> {
 
   _getUpdateStatusParams(userStatus: GetPresenceInfo['userStatus']) {
     const params: UpdatePresenceParams = {
-      // @ts-expect-error
       dndStatus: this.dndStatus,
       userStatus,
     };
@@ -447,23 +454,23 @@ export class Presence extends DataFetcherV2Consumer<Deps, PresenceInfoModel> {
   }
 
   get telephonyStatus() {
-    return this.data?.telephonyStatus ?? null;
+    return this.data?.telephonyStatus;
   }
 
   get dndStatus() {
-    return this.data?.dndStatus ?? null;
+    return this.data?.dndStatus;
   }
 
   get userStatus() {
-    return this.data?.userStatus ?? null;
+    return this.data?.userStatus;
   }
 
   get presenceStatus() {
-    return this.data?.presenceStatus ?? null;
+    return this.data?.presenceStatus;
   }
 
   get meetingStatus() {
-    return this.data?.meetingStatus ?? null;
+    return this.data?.meetingStatus;
   }
 
   get presenceOption() {
@@ -486,7 +493,7 @@ export class Presence extends DataFetcherV2Consumer<Deps, PresenceInfoModel> {
     return presenceStatus.available;
   }
 
-  // @ts-expect-error
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   async fetchData() {
     this._debouncedFetchData.cancel();
     return this._deps.dataFetcherV2.fetchData(this._source);

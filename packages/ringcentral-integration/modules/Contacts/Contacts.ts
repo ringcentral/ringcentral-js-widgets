@@ -8,6 +8,7 @@ import type {
 } from '../../interfaces/Contact.model';
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
+
 import type { Deps } from './Contacts.interface';
 
 @Module({

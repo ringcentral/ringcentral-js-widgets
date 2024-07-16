@@ -26,7 +26,7 @@ describe('detectPhoneNumbers', () => {
     // @ts-expect-error TS(2304): Cannot find name 'expect'.
     expect(result).toBe(false);
     // @ts-expect-error TS(2304): Cannot find name 'expect'.
-    expect(phone.composeText.addToNumber).not.toBeCalled();
+    expect(phone.composeText.addToNumber).not.toHaveBeenCalled();
   });
 
   // @ts-expect-error TS(2582): Cannot find name 'test'. Do you need to install ty... Remove this comment to see the full error message
@@ -37,9 +37,9 @@ describe('detectPhoneNumbers', () => {
     // @ts-expect-error TS(2304): Cannot find name 'expect'.
     expect(result).toBe(true);
     // @ts-expect-error TS(2304): Cannot find name 'expect'.
-    expect(phone.composeText.addToNumber).toBeCalledTimes(1);
+    expect(phone.composeText.addToNumber).toHaveBeenCalledTimes(1);
     // @ts-expect-error TS(2304): Cannot find name 'expect'.
-    expect(phone.composeText.addToNumber).toBeCalledWith({
+    expect(phone.composeText.addToNumber).toHaveBeenCalledWith({
       phoneNumber: '123444',
     });
   });
@@ -52,9 +52,9 @@ describe('detectPhoneNumbers', () => {
     // @ts-expect-error TS(2304): Cannot find name 'expect'.
     expect(result).toBe(true);
     // @ts-expect-error TS(2304): Cannot find name 'expect'.
-    expect(phone.composeText.addToNumber).toBeCalledTimes(1);
+    expect(phone.composeText.addToNumber).toHaveBeenCalledTimes(1);
     // @ts-expect-error TS(2304): Cannot find name 'expect'.
-    expect(phone.composeText.addToNumber).toBeCalledWith({
+    expect(phone.composeText.addToNumber).toHaveBeenCalledWith({
       phoneNumber: '1234',
     });
   });
@@ -67,7 +67,7 @@ describe('detectPhoneNumbers', () => {
     // @ts-expect-error TS(2304): Cannot find name 'expect'.
     expect(result).toBe(true);
     // @ts-expect-error TS(2304): Cannot find name 'expect'.
-    expect(phone.composeText.addToNumber).toBeCalledTimes(2);
+    expect(phone.composeText.addToNumber).toHaveBeenCalledTimes(2);
     // @ts-expect-error TS(2304): Cannot find name 'expect'.
     expect(phone.composeText.addToNumber).toHaveBeenNthCalledWith(1, {
       phoneNumber: '1234',

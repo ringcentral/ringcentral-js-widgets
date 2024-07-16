@@ -1,5 +1,5 @@
-import type { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettings';
 import type { CallMonitor } from '@ringcentral-integration/commons/modules/CallMonitor';
+import type { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettings';
 import type { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import type { Webphone } from '@ringcentral-integration/commons/modules/Webphone';
 

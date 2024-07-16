@@ -1,8 +1,8 @@
+import clsx from 'clsx';
 import React from 'react';
 
-import classnames from 'classnames';
-
 import Modal from '../Modal';
+
 import styles from './styles.scss';
 
 type InsideModalProps = {
@@ -17,7 +17,7 @@ type InsideModalProps = {
   modalStyles?: string;
   contentStyle?: string;
 };
-const InsideModal: React.SFC<InsideModalProps> = ({
+const InsideModal: React.FC<InsideModalProps> = ({
   show,
   onClose,
   children,
@@ -35,10 +35,10 @@ const InsideModal: React.SFC<InsideModalProps> = ({
       // @ts-expect-error TS(2322): Type '{ children: ReactNode; title: string | undef... Remove this comment to see the full error message
       title={title}
       headerClassName={styles.title}
-      className={classnames(styles.container, containerStyles)}
-      maskClassName={classnames(styles.mask, maskStyle)}
-      modalClassName={classnames(styles.modal, modalStyles)}
-      contentClassName={classnames(styles.content, contentStyle)}
+      className={clsx(styles.container, containerStyles)}
+      maskClassName={clsx(styles.mask, maskStyle)}
+      modalClassName={clsx(styles.modal, modalStyles)}
+      contentClassName={clsx(styles.content, contentStyle)}
       show={show}
       showTitle={showTitle}
       showCloseBtn={showCloseBtn}

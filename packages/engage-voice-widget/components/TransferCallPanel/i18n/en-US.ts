@@ -4,4 +4,4 @@ export default {
   transfer: 'Transfer',
   cancel: 'Cancel',
   transferModalTitle: 'Call transfer failed',
-};
+} as const;

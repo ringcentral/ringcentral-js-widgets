@@ -1,12 +1,11 @@
-import React, { Component } from 'react';
-
-import classnames from 'classnames';
-
 import calleeTypes from '@ringcentral-integration/commons/enums/calleeTypes';
 import sessionStatus from '@ringcentral-integration/commons/modules/Webphone/sessionStatus';
+import clsx from 'clsx';
+import React, { Component } from 'react';
 
 import { CallAvatar } from '../CallAvatar';
-import i18n from './i18n';
+
+import i18n, { I18nKey } from './i18n';
 import styles from './styles.scss';
 
 type MergeInfoProps = {
@@ -99,7 +98,7 @@ class MergeInfo extends Component<MergeInfoProps, MergeInfoState> {
     const isLastCallEnded =
       // @ts-expect-error TS(2339): Property 'status' does not exist on type 'object'.
       lastCallInfo && lastCallInfo.status === sessionStatus.finished;
-    const statusClasses = classnames({
+    const statusClasses = clsx({
       [styles.callee_status]: true,
       [styles.callee_status_disconnected]: !!isLastCallEnded,
     });
@@ -120,6 +119,22 @@ class MergeInfo extends Component<MergeInfoProps, MergeInfoState> {
     const loadingTimeoutText = i18n.getString('loadingTimeout');
     const showSpinner =
       !lastCallInfoTimeout && !isLastCallInfoReady && !isOnConferenceCall;
+
+    // in conference layout, call would show 'on hold' or 'disconnected'
+    // in transfer layout, if the call is ongoing status, should show 'Ongoing'
+    let callStatus: I18nKey =
+      // @ts-expect-error TS(2339): Property 'status' does not exist on type 'object'.
+      lastCallInfo.status === sessionStatus.finished
+        ? 'disconnected'
+        : 'onHold';
+    if (
+      !isOnConferenceCall &&
+      // @ts-expect-error TS(2339): Property 'status' does not exist on type 'object'.
+      lastCallInfo.status === sessionStatus.connected
+    ) {
+      callStatus = 'ongoing';
+    }
+
     return (
       <div className={styles.mergeInfo} data-sign="mergeInfo">
         <div className={styles.merge_item}>
@@ -165,10 +180,7 @@ class MergeInfo extends Component<MergeInfoProps, MergeInfoState> {
           {(isLastCallInfoReady ||
             (!isLastCallInfoReady && isOnConferenceCall)) && (
             <div className={statusClasses}>
-              {/* @ts-expect-error TS(2339): Property 'status' does not exist on */}
-              {lastCallInfo.status === sessionStatus.finished
-                ? i18n.getString('disconnected', currentLocale)
-                : i18n.getString('onHold', currentLocale)}
+              {i18n.getString(callStatus, currentLocale)}
             </div>
           )}
         </div>

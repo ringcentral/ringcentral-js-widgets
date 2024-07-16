@@ -2,7 +2,6 @@
  * RCI-4499: "Ignore" button for inbound Queue calls
  * https://test_it_domain/test-cases/RCI-4499
  */
-
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p2,
@@ -17,11 +16,11 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
+import { CheckToVoiceMailForInboundQueueCall } from '../../../../steps/Call';
+import { OpenCallLog } from '../../../../steps/CallHistory';
 import { CommonLogin } from '../../../../steps/CommonLogin';
 import { CreateMock as CommonCreateMock } from '../../../../steps/Mock';
-import { CheckToVoiceMailForInboundQueueCall } from '../../../../steps/Call';
 import { NavigateToHistory } from '../../../../steps/Navigate';
-import { OpenCallLog } from '../../../../steps/CallHistory';
 
 @autorun(test.skip)
 @it

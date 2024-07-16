@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
-
 import { messageSenderMessages } from '@ringcentral-integration/commons/modules/MessageSender';
+import React, { Component } from 'react';
 
 import AlertDisplay from '../AlertDisplay';
 import MessageSenderAlert from '../AlertRenderer/MessageSenderAlert';

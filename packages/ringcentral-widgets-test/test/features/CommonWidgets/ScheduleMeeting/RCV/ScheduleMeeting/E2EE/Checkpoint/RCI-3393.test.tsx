@@ -62,7 +62,6 @@
  * >Office Add-in > New Event > Schedule with RingCentral
  * Note(/s):
  */
-
 import {
   autorun,
   examples,

@@ -1,8 +1,8 @@
+import { messageStoreErrors } from '@ringcentral-integration/commons/modules/MessageStore';
 import React from 'react';
 
-import { messageStoreErrors } from '@ringcentral-integration/commons/modules/MessageStore';
-
 import FormattedMessage from '../../FormattedMessage';
+
 import i18n from './i18n';
 
 type MessageStoreAlertProps = {
@@ -11,7 +11,7 @@ type MessageStoreAlertProps = {
     message: string;
   };
 };
-const MessageStoreAlert: React.SFC<MessageStoreAlertProps> = (props) => {
+const MessageStoreAlert: React.FC<MessageStoreAlertProps> = (props) => {
   const { message } = props.message;
   let view = <span>{i18n.getString(message, props.currentLocale)}</span>;
   // Handle call record error

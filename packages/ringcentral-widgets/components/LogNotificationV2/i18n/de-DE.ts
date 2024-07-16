@@ -5,7 +5,8 @@ export default {
   save: "Speichern und neu",
   discard: "Verwerfen und neu",
   hangup: "Auflegen",
-  reject: "An Voicemail"
+  reject: "An Voicemail",
+  saveDraftAndCreateNewLog: "Entwurf speichern und neues Anrufprotokoll erstellen"
 };
 
 // @key: @#@"Inbound"@#@ @source: @#@"Inbound"@#@
@@ -15,3 +16,4 @@ export default {
 // @key: @#@"discard"@#@ @source: @#@"Discard and new"@#@
 // @key: @#@"hangup"@#@ @source: @#@"Hangup"@#@
 // @key: @#@"reject"@#@ @source: @#@"To Voicemail"@#@
+// @key: @#@"saveDraftAndCreateNewLog"@#@ @source: @#@"Save draft and create new call log"@#@

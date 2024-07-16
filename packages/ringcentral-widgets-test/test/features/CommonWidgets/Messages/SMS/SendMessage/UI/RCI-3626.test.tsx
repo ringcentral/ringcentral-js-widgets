@@ -1,4 +1,6 @@
 import { fireEvent, screen } from '@testing-library/react';
+
+import { mockMessageListData } from '../../../../../../__mock__';
 import type { StepFunction } from '../../../../../../lib/step';
 import {
   p2,
@@ -12,7 +14,6 @@ import {
 } from '../../../../../../lib/step';
 import { MockMessageList, MockMessageSync } from '../../../../../../steps/Mock';
 import { NavigateToMessagesTab } from '../../../../../../steps/Navigate';
-import { mockMessageListData } from '../../../../../../__mock__';
 
 const mockMessage = {
   direction: 'Outbound',

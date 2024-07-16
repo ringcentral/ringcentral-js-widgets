@@ -1,8 +1,8 @@
+import clsx from 'clsx';
 import React from 'react';
 
-import classnames from 'classnames';
-
 import MessagesLog from '../../assets/images/MessagesLog.svg';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 
@@ -20,10 +20,7 @@ const MessagesLogIcon: React.FC<MessagesLogIconProps> = ({
   const tooltip = i18n.getString('log', currentLocale);
   return (
     <div
-      className={classnames(
-        styles.messageLog,
-        disabled && styles.disabledMessageLog,
-      )}
+      className={clsx(styles.messageLog, disabled && styles.disabledMessageLog)}
       onClick={(e) => {
         e.stopPropagation();
         // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message

@@ -26,7 +26,6 @@
   | RC-UK |6 |8 |3135 0033 |Match valid PSTN |12 |(12) 3135 0033 |PSTN |(12) 3135 0033 |
 
  */
-
 import { Category } from '@ringcentral-integration/commons/interfaces/NumberParserResponse.interface';
 import {
   autorun,
@@ -41,6 +40,7 @@ import {
   title,
   When,
 } from '@ringcentral-integration/test-utils';
+
 import type { StepFunction } from '../../../../../../lib/step';
 import {
   CheckCallControlPage as BaseCheckCallControlPage,

@@ -1,0 +1,29 @@
+{
+  "accountId": "1028960004",
+  "attributes": {},
+  "brandId": "1210",
+  "direction": "Inbound",
+  "extensionId": "1028960004",
+  "from": {
+    "deviceId": "624886004",
+    "extensionId": "1394474004",
+    "name": "test klay",
+    "phoneNumber": "102"
+  },
+  "id": "p-a4a0d810f4c5cz18bada3b816z5d487a0000-2",
+  "muted": false,
+  "owner": {
+    "accountId": "1028960004",
+    "brandId": "1210",
+    "extensionId": "1028960004"
+  },
+  "standAlone": false,
+  "status": {
+    "code": "Hold"
+  },
+  "to": {
+    "extensionId": "1028960004",
+    "name": "admin user",
+    "phoneNumber": "101"
+  }
+}

@@ -8,7 +8,6 @@
  * Entry point(/s):
  *
  */
-
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p2,
@@ -22,10 +21,11 @@ import {
   When,
   common,
 } from '@ringcentral-integration/test-utils';
-import { CheckNoMessagesDisplay } from '../../../../../steps/Messages';
+
 import { Login } from '../../../../../steps/Login';
-import { NavigateToFax } from '../../../../../steps/Navigate';
+import { CheckNoMessagesDisplay } from '../../../../../steps/Messages';
 import { MockMessageSync, MockMessageList } from '../../../../../steps/Mock';
+import { NavigateToFax } from '../../../../../steps/Navigate';
 
 @autorun(test)
 @common

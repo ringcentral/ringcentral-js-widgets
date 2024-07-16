@@ -6,12 +6,12 @@ import type {
   ResultFormattedItem,
 } from '../../interfaces/NumberParserResponse.interface';
 import type { AccountInfo } from '../AccountInfo';
+import type { Alert } from '../Alert';
 import type { AppFeatures } from '../AppFeatures';
 import type { Brand } from '../Brand';
 import type { CompanyContacts } from '../CompanyContacts';
 import type { ExtensionInfo } from '../ExtensionInfo';
 import type { RegionSettings } from '../RegionSettings';
-import type { Alert } from '../Alert';
 
 export interface NumberValidateOptions {
   //
@@ -94,5 +94,3 @@ export interface ParseResultItem extends ResultFormattedItem {
   parsedNumber?: string;
   availableExtension?: string | null;
 }
-
-export type ParseResult = Array<ParseResultItem>;

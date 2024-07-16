@@ -19,4 +19,4 @@ export default {
     'For the call you make, this phone will ring first then the party you called.',
   [`${callingOptions.jupiter}Tooltip`]:
     'Use this option to make and receive calls using your {brand}.',
-};
+} as const;

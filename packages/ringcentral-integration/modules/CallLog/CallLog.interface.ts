@@ -1,6 +1,6 @@
-import type CallLogSyncResponse from '@rc-ex/core/lib/definitions/CallLogSyncResponse';
 import type UserCallLogRecord from '@rc-ex/core/lib/definitions/CallLogRecord';
 import type UserCallLogResponse from '@rc-ex/core/lib/definitions/CallLogResponse';
+import type CallLogSyncResponse from '@rc-ex/core/lib/definitions/CallLogSyncResponse';
 
 import type { AppFeatures } from '../AppFeatures';
 import type { Auth } from '../Auth';

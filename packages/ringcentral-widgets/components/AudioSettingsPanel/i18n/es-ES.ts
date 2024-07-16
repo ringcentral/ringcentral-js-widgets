@@ -9,7 +9,7 @@ export default {
   micPermission: "Permiso para el micrófono",
   noDevice: "Sin dispositivo",
   checkMicPermission: "Comprobar permiso",
-  micNoPermissionMessage: "La aplicación no tiene permiso para utilizar el micrófono",
+  micNoPermissionMessage: "La app no tiene permiso para utilizar el micrófono",
   noLabel: "Dispositivo desconocido",
   notSetSinkIdTip: "Los permisos de su navegador actual no están configurados para que podamos acceder a sus dispositivos de salida de audio. {clickHereLink} para ver cómo configurarlos.",
   noLabelTip: "Los permisos de su navegador actual no están configurados para que podamos acceder a sus dispositivos de entrada de audio.",

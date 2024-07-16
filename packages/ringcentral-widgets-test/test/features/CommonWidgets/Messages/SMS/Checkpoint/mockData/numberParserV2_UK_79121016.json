@@ -1,0 +1,48 @@
+{
+  "context": {
+    "brandId": "7710",
+    "country": {
+      "isoCode": "GB",
+      "name": "United Kingdom of Great Britain and Northern Ireland",
+      "callingCode": "44"
+    },
+    "defaultAreaCode": "28",
+    "vanityPhoneNumbersAllowed": true,
+    "maxExtensionNumberLength": 5,
+    "shortCodesAllowed": true,
+    "shortExtensionNumberLength": 5,
+    "maskedPhoneNumbersAllowed": false,
+    "conflictHandling": "Client"
+  },
+  "results": [
+    {
+      "originalString": "79121016",
+      "category": "Regular",
+      "numberDetails": {
+        "country": {
+          "isoCode": "GB",
+          "name": "United Kingdom of Great Britain and Northern Ireland",
+          "callingCode": "44"
+        },
+        "nationalDestinationCode": "28",
+        "areaCode": "28",
+        "regionalDestinationCode": "79",
+        "allocationBlockCode": "2879",
+        "subscriberNumber": "79121016",
+        "status": "Valid"
+      },
+      "formats": [
+        {
+          "e164": "+442879121016",
+          "e164Extended": "+442879121016",
+          "national": "028 7912 1016",
+          "nationalExtended": "028 7912 1016",
+          "international": "+44 (28) 79121016",
+          "internationalExtended": "+44 28 7912 1016",
+          "dialable": "02879121016",
+          "dialableExtended": "02879121016"
+        }
+      ]
+    }
+  ]
+}

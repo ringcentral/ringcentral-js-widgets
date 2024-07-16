@@ -2,8 +2,8 @@ import { combineReducers } from 'redux';
 
 import { dropStates } from './handleProxyAction';
 
-export function getLastActionReducer({ types }) {
-  return (state = null, { type, action, lastAction }) => {
+export function getLastActionReducer({ types }: any) {
+  return (state = null, { type, action, lastAction }: any) => {
     switch (type) {
       case types.action:
         return dropStates(action);
@@ -14,8 +14,8 @@ export function getLastActionReducer({ types }) {
     }
   };
 }
-export function getActionNumberReducer({ types }) {
-  return (state = -1, { type, actionNumber }) => {
+export function getActionNumberReducer({ types }: any) {
+  return (state = -1, { type, actionNumber }: any) => {
     switch (type) {
       case types.action:
       case types.sync:
@@ -25,10 +25,10 @@ export function getActionNumberReducer({ types }) {
     }
   };
 }
-export function getTargetReducer({ targetReducer, types }) {
+export function getTargetReducer({ targetReducer, types }: any) {
   return (
     state = targetReducer(undefined, { type: types.initModule }),
-    { type, target, action },
+    { type, target, action }: any,
   ) => {
     switch (type) {
       case types.action:
@@ -45,7 +45,7 @@ export default function getProxyClientReducer({
   targetReducer,
   proxyReducer,
   types,
-}) {
+}: any) {
   return combineReducers({
     target: getTargetReducer({ targetReducer, types }),
     proxy: proxyReducer,

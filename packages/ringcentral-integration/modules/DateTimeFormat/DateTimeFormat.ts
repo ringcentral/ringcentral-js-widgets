@@ -3,6 +3,7 @@ import { RcModuleV2 } from '@ringcentral-integration/core';
 import { Module } from '../../lib/di';
 import type { DateTimeFormatter } from '../../lib/getIntlDateTimeFormatter';
 import getIntlDateTimeFormatter from '../../lib/getIntlDateTimeFormatter';
+
 import type {
   AddFormatterOptions,
   Deps,
@@ -34,6 +35,7 @@ export class DateTimeFormat extends RcModuleV2<Deps> {
     this.setDefaultFormatter();
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   initializeProxy() {
     this.store.subscribe(() => {
       this.setDefaultFormatter();
@@ -72,6 +74,7 @@ export class DateTimeFormat extends RcModuleV2<Deps> {
         type,
       });
     }
+    // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
     return this._defaultFormatter({
       utcTimestamp,
       locale,

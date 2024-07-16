@@ -1,4 +1,5 @@
 /* eslint-disable no-console */
+import { SOCKET_MOCK_URL } from '@ringcentral-integration/test-utils/lib/socketMockUrl';
 import { WS } from 'jest-websocket-mock';
 import type { Client } from 'mock-socket';
 import {
@@ -16,17 +17,24 @@ import wsConnectionDetailsBody from '../platform/data/ws/connectionDetails.json'
 import wsHeartbeatResponse from '../platform/data/ws/heartbeatResponse.json';
 import serverNotification from '../platform/data/ws/serverNotification.json';
 import wsSubscriptionResponse from '../platform/data/ws/subscriptionResponse.json';
+
 import type { SubscriptionMock } from './interface';
 
 const subscriptionId = wsSubscriptionResponse[1].id;
 export class WebSocketMock implements SubscriptionMock {
   private connected$ = new BehaviorSubject(false);
+
   get connected() {
     return this.connected$.value;
   }
   server?: WS;
 
-  constructor(public url = 'ws://whatever') {
+  constructor(
+    /**
+     * add random
+     */
+    public url = SOCKET_MOCK_URL,
+  ) {
     this.subscribe();
   }
 

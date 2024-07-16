@@ -12,7 +12,7 @@
   | Text |1 |5 |Read |0 |
 
  */
-import type { StepFunction } from '../../../../lib/step';
+// import type { StepFunction } from '../../../../lib/step';
 import {
   p2,
   autorun,
@@ -23,30 +23,36 @@ import {
   Then,
   title,
   When,
-} from '../../../../lib/step';
-import {
-  CreateMock as CommonCreateMock,
-  generateMessage,
-  MockMessageList,
-  MockMessageSync,
-  MockMessagePut,
-} from '../../../../steps/Mock';
+  StepProp,
+} from '@ringcentral-integration/test-utils';
+
+import { mockMessageListData } from '../../../../__mock__';
+import { CommonLogin } from '../../../../steps/CommonLogin';
+import { CreateInstance } from '../../../../steps/CreateInstance';
 import {
   CheckUnreadCounts,
   ClickMessageItemAndBack,
 } from '../../../../steps/Messages';
 import {
+  generateMessage,
+  MockMessageList,
+  MockMessageSync,
+  MockMessagePut,
+  CreateMock,
+} from '../../../../steps/Mock';
+import {
   NavigateToMessagesTab,
   NavigateToTypeTabUnderMessage,
 } from '../../../../steps/Navigate';
-import { mockMessageListData } from '../../../../__mock__';
 
-@autorun(test.skip)
+@autorun(test)
 @p2
 @title('Conversation unread count')
 export class ConversationUnread extends Step {
-  CustomLogin?: StepFunction<any, any>;
-  CustomCreateMock?: StepFunction<any, any>;
+  CustomLogin: StepProp = (props) => (
+    <CommonLogin {...props} CreateInstance={CreateInstance} />
+  );
+  CustomCreateMock: StepProp = CreateMock;
 
   @examples(`
     | unreadConversationCount | unreadTextMessageCount | countAfterAction |
@@ -77,7 +83,8 @@ export class ConversationUnread extends Step {
               })}
             />,
             <MockMessageSync
-              handler={() => ({
+              handler={(mockData) => ({
+                ...mockData,
                 ...mockMsgData,
               })}
             />,

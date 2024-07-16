@@ -1,7 +1,6 @@
+import clsx from 'clsx';
 import type { FunctionComponent } from 'react';
 import React from 'react';
-
-import classNames from 'classnames';
 
 import type {
   CallButtonsProps,
@@ -35,7 +34,7 @@ export const SmallCallControl: FunctionComponent<SmallCallControlProps> = ({
 }) => {
   return (
     <div
-      className={classNames(styles.root, classes?.root)}
+      className={clsx(styles.root, classes?.root)}
       data-sign="smallCallControl"
     >
       {children || (

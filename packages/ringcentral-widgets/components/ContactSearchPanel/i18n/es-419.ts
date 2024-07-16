@@ -3,7 +3,7 @@ export default {
   [HintsType.thirdPartyNoRecordsContent]: "Ingrese al menos {minimumLength} caracteres o dígitos para buscar todos los registros de {sourceName}.",
   [HintsType.noFilterOrSearchRecordsTitle]: "No hay resultados",
   [HintsType.noFilterOrSearchRecordsContent]: "Verifique los resultados desde otras fuentes o cambie la palabra clave.",
-  [HintsType.searching]: "Buscando...",
+  [HintsType.searching]: "Buscando…",
   companyTabTitle: "Empresa",
   personalTabTitle: "Personal",
   direct: "Directo",

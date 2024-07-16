@@ -5,6 +5,7 @@ import { ActiveCallItem } from '../ActiveCallItemV2';
 import BackButton from '../BackButton';
 import BackHeader from '../BackHeader';
 import CircleButton from '../CircleButton';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 
@@ -31,7 +32,7 @@ type CallsOnholdContainerProps = {
   onAdd?: (...args: any[]) => any;
   getAvatarUrl?: (...args: any[]) => any;
 };
-const CallsOnholdContainer: React.SFC<CallsOnholdContainerProps> = ({
+const CallsOnholdContainer: React.FC<CallsOnholdContainerProps> = ({
   calls,
   currentLocale,
   areaCode,

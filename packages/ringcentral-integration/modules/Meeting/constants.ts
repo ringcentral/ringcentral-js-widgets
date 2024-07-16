@@ -50,4 +50,4 @@ export const RCM_ITEM_NAME = {
   _requireMeetingPassword: '_requireMeetingPassword',
 } as const;
 
-export type RcmItemType = typeof RCM_ITEM_NAME[keyof typeof RCM_ITEM_NAME];
+export type RcmItemType = (typeof RCM_ITEM_NAME)[keyof typeof RCM_ITEM_NAME];

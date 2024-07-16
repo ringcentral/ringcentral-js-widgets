@@ -2,6 +2,7 @@ import type { Entity } from '../../interfaces/Entity.interface';
 import { DataMatcher } from '../../lib/DataMatcherV2';
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
+
 import type {
   Deps,
   ForceMatchBatchNumbersOptions,
@@ -21,7 +22,7 @@ class ContactMatcher<T = Entity, D extends Deps = Deps> extends DataMatcher<
     super(deps, 'ContactMatcher', deps.contactMatcherOptions?.disableCache);
   }
 
-  // @ts-expect-error
+  // @ts-expect-error TS(2416): Property 'dataMatcherOptions' in type 'ContactMatc... Remove this comment to see the full error message
   get dataMatcherOptions() {
     return this._deps.contactMatcherOptions;
   }

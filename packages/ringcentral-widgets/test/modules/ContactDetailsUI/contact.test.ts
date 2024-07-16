@@ -1,4 +1,5 @@
 import { ContactDetailsUI } from '../../../modules/ContactDetailsUI/ContactDetailsUI';
+
 import { phone } from './testSetup';
 
 // TODO: prefer IT
@@ -32,7 +33,10 @@ describe.skip('use contactId and contactType to get the specific contact', () =>
       const { contact } = contactDetailsUI.getUIProps({
         params: { contactId, contactType },
       });
-      expect(mockFind).toBeCalledWith({ id: contactId, type: contactType });
+      expect(mockFind).toHaveBeenCalledWith({
+        id: contactId,
+        type: contactType,
+      });
       shouldMatch
         ? expect(contact).toMatchObject(expectedContact)
         : expect(contact).toBeNull();

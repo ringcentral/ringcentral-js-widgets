@@ -1,10 +1,10 @@
+import callDirections from '@ringcentral-integration/commons/enums/callDirections';
+import { useMountState } from '@ringcentral/juno';
 import type { FunctionComponent } from 'react';
 import React, { useEffect, useState } from 'react';
 
-import callDirections from '@ringcentral-integration/commons/enums/callDirections';
-import { useMountState } from '@ringcentral/juno';
-
 import IncomingCallPanel from '../IncomingCallPanel';
+
 import i18n from './i18n';
 
 export type IncomingCallViewProps = {

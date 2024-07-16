@@ -1,6 +1,6 @@
+import type { MakeRingOutCallerIdInfo } from './MakeRingOutCallerIdInfo';
 import type { MakeRingOutCallerInfoRequestFrom } from './MakeRingOutCallerInfoRequestFrom';
 import type { MakeRingOutCallerInfoRequestTo } from './MakeRingOutCallerInfoRequestTo';
-import type { MakeRingOutCallerIdInfo } from './MakeRingOutCallerIdInfo';
 import type { MakeRingOutCoutryInfo } from './MakeRingOutCoutryInfo';
 
 export interface MakeRingOutRequest {

@@ -29,9 +29,7 @@
 	| RC-US |8 |8 |35351101 |Match ext |205 |35351101 |Ext |Lexie |
 
  */
-
 import { Category } from '@ringcentral-integration/commons/interfaces/NumberParserResponse.interface';
-import { waitUntilTo } from '@ringcentral-integration/utils';
 import {
   autorun,
   common,
@@ -45,6 +43,7 @@ import {
   title,
   When,
 } from '@ringcentral-integration/test-utils';
+import { waitUntilTo } from '@ringcentral-integration/utils';
 import { screen } from '@testing-library/react';
 
 import type { StepProp } from '../../../../../../lib/step';

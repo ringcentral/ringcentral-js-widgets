@@ -1,5 +1,5 @@
 export default {
-  createCallLog: "Anrufliste anlegen",
+  createCallLog: "Anrufprotokoll anlegen",
   viewInSalesforce: "In Salesforce anzeigen",
   createLog: "Protokoll erstell."
 };

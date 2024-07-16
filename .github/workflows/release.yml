@@ -16,7 +16,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: '14.x'
+          node-version: '20.x'
           registry-url: 'https://registry.npmjs.org'
       - name: Get the version
         id: get_version
@@ -39,7 +39,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: '14.x'
+          node-version: '20.x'
           registry-url: 'https://registry.npmjs.org'
       - name: Get the version
         id: get_version
@@ -62,7 +62,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: '14.x'
+          node-version: '20.x'
           registry-url: 'https://registry.npmjs.org'
       - name: Get the version
         id: get_version
@@ -85,7 +85,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: '14.x'
+          node-version: '20.x'
           registry-url: 'https://registry.npmjs.org'
       - name: Get the version
         id: get_version
@@ -108,7 +108,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v1
         with:
-          node-version: '14.x'
+          node-version: '20.x'
           registry-url: 'https://registry.npmjs.org'
       - name: Get the version
         id: get_version

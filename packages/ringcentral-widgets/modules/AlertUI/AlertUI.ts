@@ -8,6 +8,7 @@ import type {
   NotificationPanelProps,
 } from '../../components/NotificationPanel/NotificationPanel.interface';
 import type { NotificationContainerProps } from '../../containers/NotificationContainer/NotificationContainer.interface';
+
 import type { Deps } from './AlertUI.interface';
 
 @Module({
@@ -31,8 +32,8 @@ import type { Deps } from './AlertUI.interface';
     },
   ],
 })
-export class AlertUI extends RcUIModuleV2<Deps> {
-  constructor(deps: Deps) {
+export class AlertUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
+  constructor(deps: T) {
     super({ deps });
   }
 

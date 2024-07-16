@@ -1,6 +1,6 @@
 import callLogMessages from '@ringcentral-integration/commons/enums/callLogMessages';
 export default {
-  [callLogMessages.logCallLogFailed]: "Fehler beim Laden des Anruflistenformulars aufgrund eines unerwarteten Fehlers. Bitte aktualisieren Sie die Seite und versuchen Sie es erneut.",
+  [callLogMessages.logCallLogFailed]: "Fehler beim Laden des Anrufprotokollformulars aufgrund eines unerwarteten Fehlers. Bitte aktualisieren Sie die Seite und versuchen Sie es erneut.",
   // New version of log failed message
   [callLogMessages.logFailed]: "Entschuldigung, Ihr Anruf konnte nicht protokolliert werden. Versuchen Sie es später noch einmal.",
   [callLogMessages.fieldRequired]: "Pflichtfelder sind erforderlich."

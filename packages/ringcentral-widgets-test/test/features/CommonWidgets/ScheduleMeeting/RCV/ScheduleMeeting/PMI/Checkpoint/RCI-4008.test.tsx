@@ -9,7 +9,6 @@
 
 <ol><li style='user-select: auto;'>User log in to RC CTI app > schedule video meeting page >  Select 'Use Personal Meeting ID XXX-XXX-XXX<span data-sign='personalMeetingId' style='background-color: transparent;'>' > lnvite with XXX Calendar</span></li><li style='user-select: auto;'>Outlook > New Event > office add-in > User log in to RC CTI app  > meeting setting page > Select 'Use Personal Meeting ID XXX-XXX-XXX<span data-sign='personalMeetingId'>' > Update meeting </span></li></ol>
  */
-
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p2,
@@ -24,14 +23,15 @@ import {
   And,
 } from '@ringcentral-integration/test-utils';
 
+import { Login as CommonLogin } from '../../../../../../../steps/Login';
 import {
   CheckboxIsChecked,
   SwitchUsePersonalMeetingId,
   ClickScheduleButton,
   CheckRCVPageDisplay,
   CheckMeetingTitle,
+  CheckPatchMeetingParams,
 } from '../../../../../../../steps/Meeting';
-import { Login as CommonLogin } from '../../../../../../../steps/Login';
 
 @autorun(test.skip)
 @it
@@ -65,7 +65,7 @@ export class RCI4008 extends Step {
         <And desc="Schedule Meeting" action={ClickScheduleButton} />
         <Then
           desc="Check the meeting title would show: {userName}'s video meeting"
-          action={CheckMeetingTitle}
+          action={<CheckPatchMeetingParams name={`Jean.Wu's video meeting`} />}
         />
       </Scenario>
     );

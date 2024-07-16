@@ -3,7 +3,7 @@ import messageSyncBody from '@ringcentral-integration/mock/src/platform/data/mes
 import type { StepFunction } from '../../../lib/step';
 
 interface MockMessageSyncProps {
-  handler?: (messageSync: any) => any;
+  handler?: (messageSync: typeof messageSyncBody) => typeof messageSyncBody;
   isDefaultInit?: boolean;
   useFaker?: boolean;
   repeat?: number;
@@ -55,4 +55,43 @@ export const MockReadMessage: StepFunction<{
       response: responseFunc,
     },
   );
+};
+
+interface MockMessageErrorProps {
+  repeat?: number;
+  errorCode?: string;
+  message?: string;
+}
+
+export const MockMessageError: StepFunction<MockMessageErrorProps> = (
+  {
+    repeat = 1,
+    message = 'CMN-101',
+    errorCode = 'Parameter [syncToken] value is invalid.',
+  },
+  { rcMock },
+) => {
+  const mock = () =>
+    rcMock.get(
+      '/restapi/v1.0/account/:accountId/extension/:extensionId/message-sync',
+      400,
+      {
+        response: () => {
+          return {
+            body: {
+              errorCode,
+              message,
+              errors: [{ errorCode, message }],
+            },
+          };
+        },
+        repeat,
+      },
+    );
+  if (rcMock.initialized) {
+    return mock();
+  }
+  rcMock.defaultInitMocks.delete(rcMock.getMessageSync);
+  rcMock.defaultInitMocks.add(mock);
+  rcMock.defaultInitMocks.add(rcMock.getMessageSync);
 };

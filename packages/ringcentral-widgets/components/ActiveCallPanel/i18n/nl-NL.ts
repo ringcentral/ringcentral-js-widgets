@@ -1,6 +1,7 @@
 export default {
   conferenceCall: "Conference call",
   onHold: "In de wacht",
+  ongoing: "Lopend",
   unknown: "Onbekend",
   disconnected: "Verbinding verbroken",
   loading: "Laden...",
@@ -9,6 +10,7 @@ export default {
 
 // @key: @#@"conferenceCall"@#@ @source: @#@"Conference Call"@#@
 // @key: @#@"onHold"@#@ @source: @#@"On Hold"@#@
+// @key: @#@"ongoing"@#@ @source: @#@"Ongoing"@#@
 // @key: @#@"unknown"@#@ @source: @#@"Unknown"@#@
 // @key: @#@"disconnected"@#@ @source: @#@"Disconnected"@#@
 // @key: @#@"loading"@#@ @source: @#@"Loading ..."@#@

@@ -1,5 +1,5 @@
 export default {
-  logging: "Iniciando sesión...",
+  logging: "Iniciando sesión…",
   logCall: "Registrar llamada",
   editLog: "Editar registro",
   select: "Seleccionar una grabación que coincida",
@@ -13,7 +13,7 @@ export default {
   addEntity: "Crear nuevo",
   addLog: "Registro",
   text: "Mensaje",
-  call: "Llamada",
+  call: "Llamar",
   missedCall: "Perdida",
   inboundCall: "Entrante",
   outboundCall: "Saliente"

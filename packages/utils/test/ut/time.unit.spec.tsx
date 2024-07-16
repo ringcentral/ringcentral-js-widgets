@@ -1,14 +1,20 @@
+import { mockAllLogs } from '@ringcentral-integration/test-utils';
+
 import { time } from '../../src/decorators/time';
 
+beforeEach(() => {
+  mockAllLogs();
+});
+
 describe('check decorator time functionality', () => {
-  test('test decorator time when value and initializer are not function type', () => {
+  test('decorator time when value and initializer are not function type', () => {
     const resFunc = time('test');
-    expect(() => {
-      resFunc(null, 'test', { value: null, initializer: null });
-    }).toThrowError("@time decorated 'test' is not a method");
+    expect(() =>
+      resFunc(null, 'test', { value: null, initializer: null }),
+    ).toThrow("@time decorated 'test' is not a method");
   });
 
-  test('test decorator time when initializer is not function type', async () => {
+  test('decorator time when initializer is not function type', async () => {
     const resFunc = time('test');
     const decoratedFunc = resFunc(null, 'test', {
       value: null,
@@ -26,20 +32,21 @@ describe('check decorator time functionality', () => {
     }
   });
 
-  test('test decorator time when descriptor is correct', async () => {
-    const resFunc = time('test');
-    const decoratedFunc = resFunc(null, 'test', {
-      value: () => {
-        console.log('decorated function runs');
-      },
-      initializer: () => {
-        console.log('initializer function runs');
-      },
-    });
-
+  test('decorator time when descriptor is correct', async () => {
     expect(async () => {
-      await decoratedFunc.value();
-    }).not.toThrowError();
+      const resFunc = time('test');
+      const decoratedFunc = resFunc(null, 'test', {
+        value: () => {
+          console.log('decorated function runs');
+        },
+        initializer: () => {
+          console.log('initializer function runs');
+          return () => {};
+        },
+      });
+
+      return await decoratedFunc.value();
+    }).not.toThrow();
 
     expect(console.log).toHaveBeenCalledWith('initializer function runs');
   });

@@ -1,7 +1,6 @@
+import clsx from 'clsx';
 import type { FunctionComponent } from 'react';
 import React from 'react';
-
-import classnames from 'classnames';
 
 import styles from './styles.scss';
 
@@ -18,7 +17,7 @@ export const TabTitle: FunctionComponent<TabTitleProps> = ({
   return (
     <span
       {...rest}
-      className={classnames(styles.tabTitle, isActive() ? styles.active : null)}
+      className={clsx(styles.tabTitle, isActive() ? styles.active : null)}
     >
       {label}
     </span>

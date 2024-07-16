@@ -3,4 +3,4 @@ import { messageStoreErrors } from '@ringcentral-integration/commons/modules/Mes
 export default {
   [messageStoreErrors.deleteFailed]:
     'Cannot delete the voicemail due to internal server error.',
-};
+} as const;

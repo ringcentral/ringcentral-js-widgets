@@ -1,13 +1,34 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import type I18n from '@ringcentral-integration/i18n';
-import type { GetI18nKey } from '@ringcentral-integration/i18n';
 import { RUNTIME } from '@ringcentral-integration/i18n';
 
 import { format } from './format';
 
-// TODO: that second object can be inject from string-template
+type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (
+  k: infer I,
+) => void
+  ? I
+  : never;
 
-export interface Format<T> {
+type ExtractBraces<S extends string> =
+  S extends `${infer _Start}{${infer Param}}${infer Rest}`
+    ?
+        | {
+            [K in Param]: string | number;
+          }
+        | ExtractBraces<Rest>
+    : never;
+type UnwrapI18n<T> = T extends I18n<infer U> ? U : never;
+type MergeTypes<T, U> = T & U;
+
+export type MergeI18nArray<Types extends any[]> = Types extends [
+  infer First,
+  ...infer Rest,
+]
+  ? MergeTypes<UnwrapI18n<First>, MergeI18nArray<Rest>>
+  : unknown;
+
+export interface Format<T extends Record<string, string>> {
   /**
    * i18n method `t`
    * Format using an object hash with keys matching [0-9a-zA-Z]+
@@ -18,7 +39,10 @@ export interface Format<T> {
    * const message2 = t('showMessageWithSlot', { hello: 'Hello world' }); // => 'Hello world Show message'
    * ```
    */
-  (string: T, object: any): string;
+  <K extends keyof T>(
+    string: K,
+    object: UnionToIntersection<ExtractBraces<T[K]>>,
+  ): string;
   /**
    * i18n method `t`
    * Format using a number indexed array
@@ -29,18 +53,7 @@ export interface Format<T> {
    * const message3 = t('showMessageWithArraySlot', [1, 2]); // => '1 Show message 2'
    * ```
    */
-  (string: T, array: Array<any>): string;
-  /**
-   * i18n method `t`
-   * Format using optional arguments
-   *
-   * ```ts
-   * showMessageWithArraySlot => '{0} Show message {1}'
-   *
-   * const message4 = t('showMessageWithArraySlot', 1, 2); // => '1 Show message 2'
-   * ```
-   */
-  (string: T, ...array: Array<any>): string;
+  <K extends keyof T>(string: K, array: Array<any>): string;
   /**
    * i18n method `t`
    * Escape {} pairs by using double {{}}
@@ -56,17 +69,17 @@ export interface Format<T> {
    * const message4 = t('showMessageWithArraySlot', 1, 2); // => '1 Show message 2'
    * ```
    */
-  (string: T): string;
+  <K extends keyof T>(string: K): string;
 }
 /**
  * provide method to work translate and format string
  */
 export const getTranslateFn = <
-  T extends I18n[],
-  K = GetI18nKey<T extends I18n[] ? T[number] : T>,
+  T extends Array<I18n<any>>,
+  P extends Record<string, string> = MergeI18nArray<T>,
 >(
   ...i18nInput: T
-): Format<K> => {
+): Format<P> => {
   const i18nInstances = Array.isArray(i18nInput) ? i18nInput : [i18nInput];
 
   if (process.env.NODE_ENV !== 'production') {
@@ -106,7 +119,7 @@ export const getTranslateFn = <
     }
   }
 
-  return (key: K, ...options: any[]) => {
+  return (key: any, ...options: any[]) => {
     let i18nString = key as string;
 
     i18nInstances.some((i18nInstance) => {

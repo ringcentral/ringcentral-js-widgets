@@ -17,7 +17,6 @@
  * > Select{Waiting room option in SW}
  * > Then lock 'Require participants to enter a waiting room before joining the meeting'
  */
-
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p2,

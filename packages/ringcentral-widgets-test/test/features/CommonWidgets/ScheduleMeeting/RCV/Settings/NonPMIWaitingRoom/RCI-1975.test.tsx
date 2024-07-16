@@ -10,7 +10,6 @@
  * 1.Login to Outlook: Calendar -> New Event > RCV Add-in App
  * 2.Microsoft 365/Google:More>Schedule Video Meeting>Security>'Enable wating room '
  */
-
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p2,
@@ -24,6 +23,10 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
+import {
+  SelectOptionFromDropDown,
+  CheckDropDownList,
+} from '../../../../../../steps/Common';
 import { Login as CommonLogin } from '../../../../../../steps/Login';
 import {
   CheckItemLabel,
@@ -32,10 +35,6 @@ import {
   TurnOffToggle,
   TurnOnToggle,
 } from '../../../../../../steps/Meeting';
-import {
-  SelectOptionFromDropDown,
-  CheckDropDownList,
-} from '../../../../../../steps/Common';
 
 @autorun(test.skip)
 @it

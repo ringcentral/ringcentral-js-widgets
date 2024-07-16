@@ -5,7 +5,8 @@ export default {
   save: "Tallenna ja uusi",
   discard: "Hylkää ja uusi",
   hangup: "Lopeta puhelu",
-  reject: "Vastaajaan"
+  reject: "Vastaajaan",
+  saveDraftAndCreateNewLog: "Tallenna luonnos ja luo uusi puheluloki"
 };
 
 // @key: @#@"Inbound"@#@ @source: @#@"Inbound"@#@
@@ -15,3 +16,4 @@ export default {
 // @key: @#@"discard"@#@ @source: @#@"Discard and new"@#@
 // @key: @#@"hangup"@#@ @source: @#@"Hangup"@#@
 // @key: @#@"reject"@#@ @source: @#@"To Voicemail"@#@
+// @key: @#@"saveDraftAndCreateNewLog"@#@ @source: @#@"Save draft and create new call log"@#@

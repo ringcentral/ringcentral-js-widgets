@@ -24,7 +24,6 @@
  * Entry point(/s):
  *
  */
-
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   autorun,
@@ -38,6 +37,7 @@ import {
   title,
   When,
 } from '@ringcentral-integration/test-utils';
+
 import { mockMessageListData } from '../../__mock__';
 import {
   ExpandTheActionMenu,

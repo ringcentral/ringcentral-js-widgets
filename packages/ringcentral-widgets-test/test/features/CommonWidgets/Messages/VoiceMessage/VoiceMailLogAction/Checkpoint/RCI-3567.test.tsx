@@ -10,7 +10,6 @@
  * Entry point(/s):
  * Messages > All/Voice tab > Expand VM1
  */
-
 import {
   autorun,
   Given,

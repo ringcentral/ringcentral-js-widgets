@@ -1,5 +1,3 @@
-import React from 'react';
-
 import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 import { isRingingInboundCall } from '@ringcentral-integration/commons/lib/callLogHelpers';
 import { Module } from '@ringcentral-integration/commons/lib/di';
@@ -11,8 +9,10 @@ import type { SwitchCallActiveCallParams } from '@ringcentral-integration/common
 import { isOnHold } from '@ringcentral-integration/commons/modules/Webphone/webphoneHelper';
 import type { UIFunctions, UIProps } from '@ringcentral-integration/core';
 import { RcUIModuleV2 } from '@ringcentral-integration/core';
+import React from 'react';
 
 import { ModalContent } from '../../components/ActiveCallItemV2';
+
 import type {
   ActiveCallsContainerProps,
   ActiveCallsPanelProps,
@@ -65,6 +65,7 @@ export class ActiveCallsUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
     showTransferCall = true,
     showHoldOnOtherDevice = false,
     useV2,
+    showMergeCall,
     useCallControl,
   }: ActiveCallsContainerProps): UIProps<ActiveCallsPanelProps> {
     const isWebRTC =
@@ -97,6 +98,7 @@ export class ActiveCallsUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
         ? this._deps.conferenceCall.partyProfiles
         : null,
       useV2,
+      showMergeCall,
       disableLinks:
         !this._deps.connectivityMonitor.connectivity ||
         this._deps.rateLimiter.throttling ||
@@ -155,6 +157,7 @@ export class ActiveCallsUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
           siteCode: this._deps.extensionInfo.site?.code,
           isMultipleSiteEnabled: this._deps.extensionInfo.isMultipleSiteEnabled,
         }),
+      onMergeCall: undefined,
       webphoneAnswer: async (
         sessionId,
         telephonySessionId,

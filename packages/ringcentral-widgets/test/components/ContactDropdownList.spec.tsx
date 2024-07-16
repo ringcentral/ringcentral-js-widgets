@@ -1,8 +1,7 @@
-import React from 'react';
-
 import { phoneSources } from '@ringcentral-integration/commons/enums/phoneSources';
 import { phoneTypes } from '@ringcentral-integration/commons/enums/phoneTypes';
 import { render } from '@testing-library/react';
+import React from 'react';
 
 import { ContactDropdownList } from '../../components/ContactDropdownList';
 

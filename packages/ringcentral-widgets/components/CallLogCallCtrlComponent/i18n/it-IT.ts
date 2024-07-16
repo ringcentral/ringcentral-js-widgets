@@ -1,5 +1,5 @@
 export default {
-  mute: "Disattiva audio",
+  mute: "Disatt. audio",
   unmute: "Riattiva audio",
   hangup: "Riaggancia",
   reject: "Rifiuta",
@@ -20,7 +20,9 @@ export default {
   answerAndHold: "Rispondi e attesa",
   answer: "Rispondi",
   completeTransfer: "Completa trasferimento",
-  reply: "Rispondi"
+  reply: "Rispondi",
+  add: "Aggiungi",
+  mergeCall: "Unisci a chiamata attiva"
 };
 
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
@@ -45,3 +47,5 @@ export default {
 // @key: @#@"answer"@#@ @source: @#@"Answer"@#@
 // @key: @#@"completeTransfer"@#@ @source: @#@"Complete transfer"@#@
 // @key: @#@"reply"@#@ @source: @#@"Reply"@#@
+// @key: @#@"add"@#@ @source: @#@"Add"@#@
+// @key: @#@"mergeCall"@#@ @source: @#@"Merge with active call"@#@

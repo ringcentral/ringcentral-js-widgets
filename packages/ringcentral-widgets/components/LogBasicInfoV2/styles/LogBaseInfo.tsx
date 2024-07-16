@@ -1,7 +1,9 @@
 import {
-  palette2,
+  RcButton,
+  RcIcon,
   RcIconButton,
   RcText,
+  palette2,
   spacing,
   styled,
 } from '@ringcentral/juno';
@@ -35,7 +37,7 @@ export const StyledSide = styled.div`
   display: flex;
   line-height: 16px;
   justify-content: flex-end;
-  margin-bottom: 6px;
+  margin-bottom: ${spacing(2)};
 `;
 
 export const StyleSubBox = styled.div`
@@ -52,4 +54,21 @@ export const StyledSubSide = styled.div`
 
 export const StyledSubRecordingIndicator = styled.div`
   padding-left: ${spacing(1)};
+`;
+
+export const StyledParticipantsButton = styled(RcButton)`
+  && {
+    font-size: 12px;
+    margin-left: ${spacing(1)};
+    padding: ${spacing(0, 2)};
+    min-height: 22px;
+    background-color: #ffffff;
+    :hover {
+      background-color: #ffffff;
+    }
+
+    ${RcIcon} {
+      margin-right: ${spacing(1)};
+    }
+  }
 `;

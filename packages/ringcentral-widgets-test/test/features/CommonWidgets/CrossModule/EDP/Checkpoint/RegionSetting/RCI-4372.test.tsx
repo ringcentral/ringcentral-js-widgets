@@ -8,9 +8,9 @@
  * Entry point(/s):
  * Open CTI
  */
-
 import {
   autorun,
+  common,
   examples,
   Given,
   it,
@@ -32,6 +32,7 @@ import { NavigateTo } from '../../../../../../steps/Router';
 @autorun(test.skip)
 @it
 @p2
+@common
 @title('Open region setting for all RC brand')
 export class ShowRegionSettings extends Step {
   Login: StepProp = CommonLogin;

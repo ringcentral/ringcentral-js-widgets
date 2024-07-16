@@ -104,7 +104,7 @@ export class SetGuides extends Step {
         <Then
           desc="Check value should be expected"
           action={(_: any, context: any) => {
-            expect(startFn).toBeCalledTimes(1);
+            expect(startFn).toHaveBeenCalledTimes(1);
             expect(startFn.mock.calls[0][0]).toEqual({ firstLogin: true });
             expect(context.mockModule.allGuides[brandCode]).toBe(
               context.guides,

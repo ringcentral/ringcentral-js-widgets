@@ -1,4 +1,5 @@
 import { fireEvent, screen } from '@testing-library/react';
+
 import type { StepFunction } from '../../../lib/step';
 
 export const NavigateToContacts: StepFunction = async (_, context) => {
@@ -19,8 +20,6 @@ export const NavigateToContacts: StepFunction = async (_, context) => {
   let element;
   if (screen.queryByTestId('contactsTab')) {
     element = screen.getByTestId('contactsTab');
-  } else if (screen.queryByTestId('Contacts')) {
-    element = screen.getByTestId('Contacts');
   }
 
   expect(element).toBeInTheDocument();

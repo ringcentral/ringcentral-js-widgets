@@ -1,17 +1,23 @@
-import { getNodeText, screen, waitFor } from '@testing-library/react';
+import { screen } from '@testing-library/react';
 
 import type { StepFunction } from '../../../lib/step';
 
-export const CheckAreaCodeField: StepFunction<{
+interface CheckAreaCodeFieldProps {
   exist?: boolean;
   value?: string;
-}> = async ({ exist = true, value = '' }) => {
+}
+
+export const CheckAreaCodeField: StepFunction<
+  CheckAreaCodeFieldProps
+> = async ({ exist = true, value }) => {
+  const areaCodeInputField =
+    screen.queryByTestId<HTMLInputElement>('areaCodeInputField');
   if (exist) {
-    expect(screen.queryByTestId('areaCodeInputField')).toBeInTheDocument();
-    expect(
-      screen.queryByTestId<HTMLInputElement>('areaCodeInputField')?.value,
-    ).toBe(value);
+    expect(areaCodeInputField).toBeInTheDocument();
+    if (typeof value === 'string') {
+      expect(areaCodeInputField?.value).toBe(value);
+    }
   } else {
-    expect(screen.queryByTestId('areaCodeInputField')).not.toBeInTheDocument();
+    expect(areaCodeInputField).not.toBeInTheDocument();
   }
 };

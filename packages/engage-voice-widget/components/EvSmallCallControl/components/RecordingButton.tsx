@@ -1,11 +1,11 @@
+import { RcIconButton } from '@ringcentral/juno';
 import type { FunctionComponent } from 'react';
 import React from 'react';
-
-import { RcIconButton } from '@ringcentral/juno';
 
 import RecordingSvg from '../../../assets/icons/icon-recording.svg';
 import type { CallButtonsProps } from '../../SmallCallControl';
 import i18n from '../i18n';
+
 import styles from './styles.scss';
 
 export type RecordingButtonProps = CallButtonsProps & {

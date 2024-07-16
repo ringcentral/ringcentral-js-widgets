@@ -1,14 +1,13 @@
-import React from 'react';
-
-import classnames from 'classnames';
-
 import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 import telephonyStatuses from '@ringcentral-integration/commons/enums/telephonyStatus';
+import clsx from 'clsx';
+import React from 'react';
 
 import EndIcon from '../../assets/images/End.svg';
 import MuteIcon from '../../assets/images/Mute.svg';
 import UnmuteIcon from '../../assets/images/Unmute.svg';
 import CircleButton from '../CircleButton';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 
@@ -22,7 +21,7 @@ type SmCallControlProps = {
   currentLocale?: string;
   callDirection: string;
 };
-const SmCallControl: React.SFC<SmCallControlProps> = (props) => {
+const SmCallControl: React.FC<SmCallControlProps> = (props) => {
   const {
     onMute,
     onUnmute,
@@ -53,7 +52,7 @@ const SmCallControl: React.SFC<SmCallControlProps> = (props) => {
           dataSign={muteTitle}
           icon={muteIcon}
           onClick={muteAction}
-          className={classnames(
+          className={clsx(
             styles.button,
             disabledCtrl ? styles.buttonDisabled : null,
           )}
@@ -66,7 +65,7 @@ const SmCallControl: React.SFC<SmCallControlProps> = (props) => {
           showBorder={false}
           icon={EndIcon}
           onClick={endAction}
-          className={classnames(styles.hangup, styles.button)}
+          className={clsx(styles.hangup, styles.button)}
         />
       </span>
     </div>

@@ -21,4 +21,6 @@ export interface Entity {
   jobTitle?: string;
   email?: string;
   hidden?: boolean;
+  resourceType?: string;
+  isCallQueueNumber?: boolean;
 }

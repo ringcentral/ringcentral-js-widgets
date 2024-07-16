@@ -1,4 +1,9 @@
-import { callControlError } from '@ringcentral-integration/commons/modules/ActiveCallControl';
+import { callControlAlerts, callControlError } from '@ringcentral-integration/commons/modules/ActiveCallControl';
+const {
+  callsMerged,
+  somethingWentWrong,
+  tooManyParticipants
+} = callControlAlerts;
 const {
   holdConflictError,
   unHoldConflictError,
@@ -10,6 +15,9 @@ const {
   replyCompleted
 } = callControlError;
 export default {
+  [callsMerged]: "통화 병합됨",
+  [somethingWentWrong]: "문제가 발생했습니다. 다시 시도하세요.",
+  [tooManyParticipants]: "최대 참가자 수에 도달했습니다.",
   [muteConflictError]: "이 통화는 다른 디바이스에서 음소거되었습니다. 이 앱에서 컨트롤하기 전에 통화 음소거를 해제하세요.",
   [unHoldConflictError]: "이 통화는 다른 디바이스에서 대기되었습니다. 이 앱에서 컨트롤하기 전에 통화 대기를 해제하세요.",
   [unMuteConflictError]: "이 통화는 다른 디바이스에서 음소거 해제되었습니다. 이 앱에서 컨트롤하기 전에 통화를 음소거하세요.",
@@ -20,6 +28,9 @@ export default {
   [replyCompleted]: "음성 메시지를 보냈습니다."
 };
 
+// @key: @#@"callsMerged"@#@ @source: @#@"Calls merged"@#@
+// @key: @#@"somethingWentWrong"@#@ @source: @#@"Something went wrong. Please try again."@#@
+// @key: @#@"tooManyParticipants"@#@ @source: @#@"Maximum number of participants is reached."@#@
 // @key: @#@"muteConflictError"@#@ @source: @#@"This call had been muted on other device. Please unmute the call before you control in this App."@#@
 // @key: @#@"unHoldConflictError"@#@ @source: @#@"This call had been held on other device. Please unhold the call before you control in this App."@#@
 // @key: @#@"unMuteConflictError"@#@ @source: @#@"This call had been unmuted on other device. Please mute the call before you control in this App."@#@

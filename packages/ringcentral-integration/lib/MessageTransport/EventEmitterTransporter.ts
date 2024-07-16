@@ -14,7 +14,7 @@ export const TRANSPORTER_DIRECTION = {
 } as const;
 
 export type TransporterDirection =
-  typeof TRANSPORTER_DIRECTION[keyof typeof TRANSPORTER_DIRECTION];
+  (typeof TRANSPORTER_DIRECTION)[keyof typeof TRANSPORTER_DIRECTION];
 
 /**
  * @param direction if direction is 'toExternal', meaning this instance is created in internal adapter, need in eventEmitter

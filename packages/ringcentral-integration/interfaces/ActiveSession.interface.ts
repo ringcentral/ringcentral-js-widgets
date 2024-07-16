@@ -21,5 +21,13 @@ export interface ActiveCallControlSessionData extends SessionData {
   from: any;
   to: any;
   startTime: number;
-  isRecording: boolean;
+  isRecording?: boolean;
+  isConferenceCall: boolean;
+  conferenceParticipants: {
+    sessionId: string;
+    telephonySessionId: string;
+    partyId: string;
+    isHost?: boolean;
+    sessionName: string;
+  }[];
 }

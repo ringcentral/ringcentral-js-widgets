@@ -5,14 +5,14 @@ export default {
   version: "Version",
   settings: "Einstellungen",
   clickToDial: "Zum Wählen klicken",
-  autoCreateLog: "Automatisch Anrufliste erstellen",
+  autoCreateLog: "Automatisch Anrufprotokoll erstellen",
   autoCreateSMSLog: "Automatisch SMS-Protokoll erstellen",
   autoLogCalls: "Anrufe automatisch protokollieren",
   autoLogNotes: "Anmerkungen automatisch protokollieren",
   autoLogSMS: "SMS automatisch protokollieren",
-  clickToSMS: "Zum SMS senden klicken",
+  clickToSMS: "Zum Senden von SMS klicken",
   logSMSContent: "SMS-Inhalt protokollieren",
-  clickToDialSMS: "Zum Wählen/SMS senden klicken",
+  clickToDialSMS: "Zum Wählen/Senden von SMS klicken",
   audio: "Audio",
   language: "Sprache",
   feedback: "Feedback",
@@ -20,7 +20,8 @@ export default {
   quickAccess: "Einstellung für Schnellzugriff",
   report: "Analysebericht",
   shareIdea: "Idee teilen",
-  reportIssue: "Problem melden"
+  reportIssue: "Problem melden",
+  havingIssues: "Treten Probleme auf?"
 };
 
 // @key: @#@"region"@#@ @source: @#@"Region"@#@
@@ -45,3 +46,4 @@ export default {
 // @key: @#@"report"@#@ @source: @#@"Analytics Report"@#@
 // @key: @#@"shareIdea"@#@ @source: @#@"Share idea"@#@
 // @key: @#@"reportIssue"@#@ @source: @#@"Report issue"@#@
+// @key: @#@"havingIssues"@#@ @source: @#@"Having issues?"@#@

@@ -43,6 +43,4 @@ export default {
     "Scheduling for someone else?\n1. Make sure you're on their Outlook calendar.\n2. From the dropdown, select the person you're scheduling for.\n",
   scheduleForGuidanceMore: 'Learn details',
   changePmiSettings: 'Change Personal Meeting settings',
-  ieSupportAlert:
-    "Please note that {appName} won't work with Internet Explorer 11 after Feb 16, 2022. We recommend switching to Microsoft Edge or updating to Outlook 2016 or above.",
-};
+} as const;

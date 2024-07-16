@@ -16,4 +16,4 @@ export default {
     'You have an incoming call. Switch to the browser tab with the blue flashing dot to answer the call',
 
   // Attempt to dequeue call to agent failed! Outdial to destination [16503990023*106] failed after [2] seconds with disposition [INTERCEPT]
-};
+} as const;

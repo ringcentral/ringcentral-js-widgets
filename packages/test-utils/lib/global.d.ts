@@ -17,6 +17,10 @@ declare global {
 
   interface Window {
     analytics: any;
+    /**
+     * by default after each will clean up all the websocket connections, if you want to keep it, set this to `true`
+     */
+    wsCleanDisabled: boolean;
   }
 
   var URL: {
@@ -32,5 +36,13 @@ declare global {
       //
     };
     autoLogout?: boolean;
+    /**
+     * auto purge all the data after each test
+     */
+    autoPurge?: boolean;
+    /**
+     * make sure all storage be write done be for each test
+     */
+    autoFlush?: boolean;
   };
 }

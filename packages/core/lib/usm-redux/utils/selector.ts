@@ -1,4 +1,5 @@
 /* eslint-disable func-names */
+
 /* eslint-disable prefer-rest-params */
 import { areShallowEqualWithArray } from './isEqual';
 

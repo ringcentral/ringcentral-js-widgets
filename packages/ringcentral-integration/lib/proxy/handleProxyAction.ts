@@ -15,9 +15,11 @@ export const pushStates = (target: RcModuleV2, action: any) => {
   if (action._usm === usmAction) {
     // restore changes states for reduction of serialized data from `patches`
     const _state = applyPatches(
+      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       target[action.type]._getLastState(),
       action._patches,
     );
+    // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
     target[action.type]._handleState(_state);
     return {
       ...action,

@@ -4,6 +4,7 @@ import EndIcon from '../../assets/images/End.svg';
 import CallAvatar from '../CallAvatar';
 import CircleButton from '../CircleButton';
 import MediaObject from '../MediaObject';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 
@@ -13,7 +14,7 @@ type ParticipantItemProps = {
   onRemove?: (...args: any[]) => any;
   currentLocale: string;
 };
-const ParticipantItem: React.SFC<ParticipantItemProps> = ({
+const ParticipantItem: React.FC<ParticipantItemProps> = ({
   detail,
   avatarUrl,
   onRemove,

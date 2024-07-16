@@ -1,6 +1,5 @@
-import PropTypes from 'prop-types';
-
 import callLogMessages from '@ringcentral-integration/commons/enums/callLogMessages';
+import PropTypes from 'prop-types';
 
 import i18n from './i18n';
 

@@ -5,14 +5,14 @@ import { proxify } from '@ringcentral-integration/commons/lib/proxy/proxify';
 import type { UIFunctions, UIProps } from '@ringcentral-integration/core';
 import { RcUIModuleV2, track } from '@ringcentral-integration/core';
 
-import type { GetTabsOptions } from './getTabs';
-import { getTabs, trackTabsMap } from './getTabs';
-import i18n from './i18n';
 import type {
   Deps,
   RecentActivityContainerProps,
   RecentActivityPanelProps,
 } from './RecentActivityUI.interface';
+import type { GetTabsOptions } from './getTabs';
+import { getTabs, trackTabsMap } from './getTabs';
+import i18n from './i18n';
 
 @Module({
   name: 'RecentActivityUI',

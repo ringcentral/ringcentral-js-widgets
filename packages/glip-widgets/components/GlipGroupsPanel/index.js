@@ -1,9 +1,9 @@
-import React, { PureComponent } from 'react';
-import PropTypes from 'prop-types';
-import classnames from 'classnames';
+import debounce from '@ringcentral-integration/commons/lib/debounce';
 import { SearchInput } from '@ringcentral-integration/widgets/components/SearchInput';
 import { SpinnerOverlay } from '@ringcentral-integration/widgets/components/SpinnerOverlay';
-import debounce from '@ringcentral-integration/commons/lib/debounce';
+import clsx from 'clsx';
+import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react';
 
 import GlipGroupList from '../GlipGroupList';
 import GlipTeamCreationModal from '../GlipTeamCreation';
@@ -87,7 +87,7 @@ export default class GlipGroupsPanel extends PureComponent {
     const spinner = showSpinner ? <SpinnerOverlay /> : null;
     // TODO: update searching with i18n
     return (
-      <div className={classnames(styles.root, className)}>
+      <div className={clsx(styles.root, className)}>
         <div className={styles.header}>
           <SearchInput
             className={styles.searchInput}

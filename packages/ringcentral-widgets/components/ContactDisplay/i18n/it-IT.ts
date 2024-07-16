@@ -4,10 +4,10 @@ export default {
   editLog: "Modifica registro",
   select: "Selez. record",
   OnHold: "In attesa",
-  Ringing: "Chiamata in corso",
+  Ringing: "Chiamata in arrivo",
   CallConnected: "Chiamata connessa",
   unknownUser: "Utente sconosciuto",
-  unknownNumber: "Anonimo",
+  unknownNumber: "Numero anonimo",
   unavailable: "Non disponibile",
   viewDetails: "Visualizza dettagli",
   conferenceCall: "Conferenza telefonica"

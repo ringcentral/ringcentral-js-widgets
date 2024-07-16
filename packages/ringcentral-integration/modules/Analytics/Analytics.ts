@@ -1,88 +1,36 @@
-import { sleep } from '@ringcentral-integration/utils';
+import { computed } from '@ringcentral-integration/core';
+import { sleep, getOsInfo } from '@ringcentral-integration/utils';
+import mixpanel from 'mixpanel-browser';
 
-import type RouterInteraction from '../../../ringcentral-widgets/modules/RouterInteraction';
+import type { RouterInteraction } from '../../../ringcentral-widgets/modules/RouterInteraction';
 import moduleStatuses from '../../enums/moduleStatuses';
 import { Pendo, Segment } from '../../lib/Analytics';
-import { Module } from '../../lib/di';
 import RcModule from '../../lib/RcModule';
+import { Module } from '../../lib/di';
 import saveBlob from '../../lib/saveBlob';
 import { callingModes } from '../CallingSettings/callingModes';
+import { Environment } from '../Environment';
 import type { ExtensionInfo } from '../ExtensionInfo';
+
+import {
+  TrackProps,
+  TrackTarget,
+  TrackAction,
+  TrackLog,
+  TrackImpl,
+  TrackItem,
+  PendoAgent,
+  IdentifyOptions,
+} from './Analytics.interface';
 import type { AnalyticsActionTypes } from './actionTypes';
 import { analyticsActionTypes } from './actionTypes';
 import getAnalyticsReducer from './getAnalyticsReducer';
-
-export interface TrackProps {
-  appName: string;
-  appVersion: string;
-  brand: string;
-  'App Language': string;
-  'Browser Language': string;
-  'Extension Type': string;
-}
-
-export interface TrackTarget {
-  eventPostfix: string;
-  router: string;
-}
-
-export interface TrackPayload {
-  pathname: string;
-}
-
-export interface TrackAction {
-  type: string;
-  payload?: TrackPayload;
-  curIdx?: number;
-  playing?: boolean;
-  fromType?: string;
-  callSettingMode?: string;
-  phoneNumber?: string;
-  recipient?: any;
-}
-
-export interface TrackLog {
-  timeStamp: string;
-  event: string;
-  trackProps: TrackProps;
-}
-
-export interface TrackImpl {
-  (action: TrackAction): void;
-}
-
-export interface TrackItem {
-  tagName: string;
-  funcName: string;
-  funcImpl: TrackImpl;
-}
-
-export interface PendoAgent {
-  visitor: {
-    id: string;
-    appName: string;
-    appVersion: string;
-    appBrand: string;
-    plaBrand: string;
-    countryCode: string;
-    [key: string]: string;
-  };
-  account: {
-    id: string;
-    [key: string]: string;
-  };
-}
-
-interface IdentifyOptions {
-  userId: string;
-  [K: string]: any;
-}
 
 function warn() {
   console.warn('Do NOT call this directly.');
 }
 
-const TRACK_LIST: TrackItem[] = [];
+export const TRACK_LIST: TrackItem[] = [];
 
 export function track(tagName: string) {
   return function _track(
@@ -109,7 +57,6 @@ export function track(tagName: string) {
 export const DEFAULT_TAG_NAME = 'default';
 export const tracking = track(DEFAULT_TAG_NAME);
 
-// TODO: refactoring the module against `https://docs.google.com/spreadsheets/d/1xufV6-C-RJR6OJgwFYHYzNQwhIdN4BXXCo8ABs7RT-8/edit#gid=1480480736`
 /**
  * @class
  * @description Analytics module.
@@ -123,6 +70,7 @@ export const tracking = track(DEFAULT_TAG_NAME);
     { dep: 'Call', optional: true },
     { dep: 'CallingSettings', optional: true },
     { dep: 'AccountInfo', optional: true },
+    { dep: 'Environment', optional: true },
     { dep: 'ExtensionInfo', optional: true },
     { dep: 'CallHistory', optional: true },
     { dep: 'CallMonitor', optional: true },
@@ -141,12 +89,15 @@ export const tracking = track(DEFAULT_TAG_NAME);
     { dep: 'ActiveCallControl', optional: true },
     { dep: 'DialerUI', optional: true },
     { dep: 'TierChecker', optional: true },
+    { dep: 'Brand', optional: true },
+    { dep: 'ExtensionFeatures', optional: true },
   ],
 })
 export class Analytics extends RcModule<
   Record<string, any>,
   AnalyticsActionTypes
 > {
+  appInitTime = Date.now();
   // TODO: add state interface
   // AnalyticsOptions
   private _analyticsKey: string;
@@ -161,6 +112,7 @@ export class Analytics extends RcModule<
   protected _callingSettings: any;
   protected _accountInfo: any;
   protected _extensionInfo: ExtensionInfo;
+  protected _environment: Environment;
   protected _callHistory: any;
   protected _callMonitor: any;
   protected _conference: any;
@@ -175,6 +127,8 @@ export class Analytics extends RcModule<
   protected _meeting: any;
   protected _rcVideo: any;
   protected _tierChecker: any;
+  protected _brand: any;
+  protected _extensionFeatures: any;
   private _dialerUI: any;
 
   private _segment: any;
@@ -184,15 +138,20 @@ export class Analytics extends RcModule<
   private _logs: TrackLog[] = [];
   private _lingerThreshold: number;
 
-  private _lingerTimeout?: NodeJS.Timeout = null;
+  private _lingerTimeout?: NodeJS.Timeout;
   private _promise?: Promise<void>;
   private _callLogSection: any;
   private _activeCallControl: any;
   private _enablePendo: boolean;
+  private _enableMixpanel: boolean;
   private _waitPendoCount: number;
-  private _pendoTimeout: ReturnType<typeof setTimeout>;
+  private _pendoTimeout?: ReturnType<typeof setTimeout>;
   private _env: string;
   private _useLocalPendoJS: any;
+  private _OSInfo: {
+    OS: string;
+    Device: string;
+  };
 
   constructor({
     analyticsOptions,
@@ -220,15 +179,19 @@ export class Analytics extends RcModule<
     webphone,
     locale,
     meeting,
+    environment,
     rcVideo,
     dialerUI,
     tierChecker,
-    // settinigs
+    brand,
+    extensionFeatures,
+    // settings
     useLog = false,
     lingerThreshold = 1000,
     callLogSection,
     activeCallControl,
     enablePendo = false,
+    enableMixpanel = false,
     env = 'dev',
     ...options
   }: Record<string, any>) {
@@ -237,6 +200,8 @@ export class Analytics extends RcModule<
       ...options,
       actionTypes: analyticsActionTypes,
     });
+
+    this._OSInfo = getOsInfo();
 
     // config
     this._analyticsKey = analyticsKey;
@@ -252,6 +217,7 @@ export class Analytics extends RcModule<
     this._callingSettings = callingSettings;
     this._accountInfo = accountInfo;
     this._extensionInfo = extensionInfo;
+    this._environment = environment;
     this._callHistory = callHistory;
     this._callMonitor = callMonitor;
     this._conference = conference;
@@ -269,18 +235,29 @@ export class Analytics extends RcModule<
     this._activeCallControl = activeCallControl;
     this._dialerUI = dialerUI;
     this._tierChecker = tierChecker;
+    this._brand = brand;
+    this._extensionFeatures = extensionFeatures;
     // init
     this._reducer = getAnalyticsReducer(this.actionTypes);
-    this._segment = Segment();
     this._trackList = [...TRACK_LIST];
     this._useLog = useLog;
     this._lingerThreshold = lingerThreshold;
     this._enablePendo = enablePendo;
     this._pendo = null;
     this._waitPendoCount = 0;
-    this._pendoTimeout = null;
     this._env = env;
+    this._analyticsKey = analyticsKey;
     this._useLocalPendoJS = analyticsOptions?.useLocalPendoJS ?? false;
+    this._enableMixpanel = !!(enableMixpanel && analyticsKey);
+    this._segment = this._enableMixpanel ? null : Segment();
+    if (this.enableMixpanel) {
+      mixpanel.init(this._analyticsKey);
+      // According to EU policy, we had to disable mixpanel to upload IP addresses
+      mixpanel.set_config({ ip: false });
+      // ready
+      this.onAnalyticsReady();
+    }
+
     if (this._enablePendo && this._pendoApiKey) {
       Pendo.init(
         this._pendoApiKey,
@@ -292,24 +269,35 @@ export class Analytics extends RcModule<
     }
   }
 
+  /** Hook to be override by subclass */
+  protected onAnalyticsReady() {}
+
   identify(options: IdentifyOptions) {
     this._identify(options);
   }
 
   protected _identify({ userId, ...props }: IdentifyOptions) {
-    if (this.analytics) {
+    if (this.enableMixpanel) {
+      // @ts-expect-error TS(2345): Argument of type '{ env: string; userId: string; }... Remove this comment to see the full error message
+      this._mixpanelInitialize({ userId, ...props, env: this._env });
+    } else if (this.analytics) {
       this.analytics.ready(() => {
         // According to EU policy, we had to disable mixpanel to upload IP addresses
+        // @ts-expect-error TS(2339): Property 'mixpanel' does not exist on type 'Window... Remove this comment to see the full error message
         if (typeof window.mixpanel !== 'undefined') {
+          // @ts-expect-error TS(2339): Property 'mixpanel' does not exist on type 'Window... Remove this comment to see the full error message
           window.mixpanel.set_config({
+            // @ts-expect-error TS(2339): Property 'mixpanel' does not exist on type 'Window... Remove this comment to see the full error message
             ...window.mixpanel.config,
             ip: false,
           });
         } else {
           console.error(
-            'Mixpanel is not defined, and failure to disable IP address upload',
+            'mixpanel is not defined, and failure to disable IP address upload',
           );
         }
+        // ready
+        this.onAnalyticsReady();
       });
       this.analytics.identify(userId, props, {
         integrations: {
@@ -323,6 +311,14 @@ export class Analytics extends RcModule<
     }
   }
 
+  protected _mixpanelInitialize({ userId }: { userId: string }) {
+    if (!userId || mixpanel.get_distinct_id?.() === userId) {
+      return;
+    }
+    console.log('mixpanel identify');
+    mixpanel.identify(userId);
+  }
+
   protected _pendoInitialize({
     userId,
     ...props
@@ -332,6 +328,7 @@ export class Analytics extends RcModule<
     }
     if (this._pendoTimeout) {
       clearTimeout(this._pendoTimeout);
+      this._pendoTimeout = undefined;
     }
     if (this._waitPendoCount > 3) {
       return;
@@ -367,7 +364,7 @@ export class Analytics extends RcModule<
   }
 
   track(event: string, properties: any = {}) {
-    if (!this.analytics) {
+    if (!this.analytics && !this.enableMixpanel) {
       return;
     }
 
@@ -376,12 +373,23 @@ export class Analytics extends RcModule<
       ...properties,
     };
 
-    this.analytics.track(event, trackProps, {
-      integrations: {
-        All: true,
-        Mixpanel: true,
-      },
-    });
+    if (this.enableMixpanel) {
+      // NOTE: Data tracking has been migrated from Segment to Mixpanel.
+      // Add id to identify in Mixpanel, so the usage data can be filtered same as before.
+      if (this._auth?.ownerId) {
+        trackProps.id = this._auth.ownerId;
+      }
+      mixpanel.track(event, trackProps);
+    }
+
+    if (this.analytics) {
+      this.analytics.track(event, trackProps, {
+        integrations: {
+          All: true,
+          Mixpanel: true,
+        },
+      });
+    }
 
     if (this._useLog) {
       this._logs.push({
@@ -438,7 +446,7 @@ export class Analytics extends RcModule<
     this.track('Meeting: Click Schedule/Meeting schedule page', trackProps);
   }
 
-  async _onStateChange() {
+  override async _onStateChange() {
     if (this.pending) {
       this.store.dispatch({
         type: this.actionTypes.init,
@@ -469,6 +477,7 @@ export class Analytics extends RcModule<
       this.store.dispatch({
         type: this.actionTypes.clear,
       });
+      // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Promise<voi... Remove this comment to see the full error message
       this._promise = null;
     }
   }
@@ -644,7 +653,7 @@ export class Analytics extends RcModule<
         clearTimeout(this._lingerTimeout);
       }
       this._lingerTimeout = setTimeout(() => {
-        this._lingerTimeout = null;
+        this._lingerTimeout = undefined;
         if (target && this._routerInteraction.currentPath === path) {
           this.trackLinger(target);
         }
@@ -656,16 +665,6 @@ export class Analytics extends RcModule<
   private _inboundCall(action: TrackAction) {
     if (this._webphone?.actionTypes.callAnswer === action.type) {
       this.track('Inbound WebRTC Call Connected');
-    }
-  }
-
-  @tracking
-  private _coldTransfer(action: TrackAction) {
-    if (
-      this._webphone?.isOnTransfer === true &&
-      this._webphone?.actionTypes.updateSessions === action.type
-    ) {
-      this.track('Cold Transfer Call');
     }
   }
 
@@ -945,10 +944,12 @@ export class Analytics extends RcModule<
 
   getTrackTarget(path = this._routerInteraction?.currentPath): TrackTarget {
     if (!path) {
+      // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'TrackTarget... Remove this comment to see the full error message
       return null;
     }
 
     const routes = path.split('/');
+    // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string'.
     let formatRoute: string = null;
     const needMatchSecondRoutes = ['calls'];
     if (routes.length >= 3 && needMatchSecondRoutes.indexOf(routes[1]) !== -1) {
@@ -1017,6 +1018,7 @@ export class Analytics extends RcModule<
     ];
 
     const target = targets.find((target) => formatRoute === target.router);
+    // @ts-expect-error TS(2322): Type 'TrackTarget | undefined' is not assignable t... Remove this comment to see the full error message
     return target;
   }
 
@@ -1172,6 +1174,7 @@ export class Analytics extends RcModule<
   private _dialerPlaceRingOutCall(action: TrackAction) {
     if (
       this._dialerUI?.actionTypes.call === action.type &&
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       (action.phoneNumber?.length > 0 || action.recipient) &&
       this._callingSettings.callingMode !== callingModes.webphone
     ) {
@@ -1181,8 +1184,16 @@ export class Analytics extends RcModule<
     }
   }
 
+  toggleDebug() {
+    this.mixpanel.set_config({ debug: !this.mixpanel.get_config('debug') });
+  }
+
   get trackList(): TrackItem[] {
     return this._trackList;
+  }
+
+  get mixpanel() {
+    return mixpanel;
   }
 
   get analytics() {
@@ -1193,26 +1204,79 @@ export class Analytics extends RcModule<
     return this.state.lastActions;
   }
 
+  // @ts-expect-error TS(2416): Property 'status' in type 'Analytics' is not assig... Remove this comment to see the full error message
   get status(): string {
     return this.state.status;
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   get ready(): boolean {
     return this.status === moduleStatuses.ready;
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   get pending(): boolean {
     return this.status === moduleStatuses.pending;
   }
 
+  @computed((that: Analytics) => [
+    that._brand.brandConfig,
+    that._accountInfo?.id,
+    that._extensionInfo?.country,
+    that._extensionFeatures?.features,
+  ])
+  private get trackedUserInfo(): TrackProps {
+    const userInfo: Record<string, any> = {
+      BrandId: this._brand.brandConfig.id,
+      AccountID: this._accountInfo?.id,
+      BrandName: this._brand.brandConfig.name,
+      CRMEnabled: this._accountInfo?.isCRMEnabled,
+      servicePlanId: this._accountInfo?.servicePlan.id,
+      edition: this._accountInfo?.servicePlan.edition,
+    };
+
+    const features = this._extensionFeatures?.features;
+    const isCallingEnabled =
+      features?.RingOut?.available || features?.WebPhone?.available;
+    const hasSmsPermission =
+      features?.PagesReceiving?.available || features?.SMSReceiving?.available;
+    const hasFaxPermission = features?.FaxReceiving?.available;
+    const hasGlipPermission = features?.Glip?.available;
+
+    const properties = [
+      { name: 'PhoneService', value: isCallingEnabled },
+      { name: 'SMSService', value: hasSmsPermission },
+      { name: 'FaxService', value: hasFaxPermission },
+      { name: 'MessageService', value: hasGlipPermission },
+    ];
+
+    properties.forEach(({ name, value }) => {
+      if (value !== undefined) {
+        userInfo[name] = value ? 'ON' : 'OFF';
+      }
+    });
+
+    return userInfo as TrackProps;
+  }
+
   get trackProps(): TrackProps {
     return {
+      ...this.trackedUserInfo,
+      ...this._OSInfo,
       appName: this._appName,
       appVersion: this._appVersion,
       brand: this._brandCode,
       'App Language': this._locale?.currentLocale || '',
       'Browser Language': this._locale?.browserLocale || '',
       'Extension Type': this._extensionInfo?.info.type || '',
+      'App Init Time': this.appInitTime,
     };
+  }
+
+  get enableMixpanel() {
+    return !!(
+      this._enableMixpanel &&
+      (!this._environment || this._environment.allowDataTracking)
+    );
   }
 }

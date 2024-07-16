@@ -1,5 +1,7 @@
-import callDirection from '@ringcentral-integration/commons/enums/callDirections';
-import type { CallDirection } from '@ringcentral-integration/commons/modules/ConferenceCall';
+import {
+  callDirection,
+  type CallDirection,
+} from '@ringcentral-integration/commons/enums/callDirections';
 import { PartyStatusCode } from '@ringcentral-integration/commons/integration-test/mock/telephonySessionBuilder';
 
 import type { StepFunction } from '../../../lib/step';

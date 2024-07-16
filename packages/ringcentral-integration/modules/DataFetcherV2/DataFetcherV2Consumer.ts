@@ -1,7 +1,6 @@
-import { EventEmitter } from 'events';
-
 import { RcModuleV2, watch } from '@ringcentral-integration/core';
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
+import { EventEmitter } from 'events';
 
 import type { DataFetcherV2ConsumerBaseDeps } from './DataFetcherV2Consumer.interface';
 import type { DataSource } from './DataSource';
@@ -13,7 +12,7 @@ export abstract class DataFetcherV2Consumer<
   D extends DataFetcherV2ConsumerBaseDeps,
   T,
 > extends RcModuleV2<D> {
-  // @ts-expect-error
+  // @ts-expect-error TS(2564): Property '_source' has no initializer and is not d... Remove this comment to see the full error message
   protected _source: DataSource<T>;
   protected _emitter = new EventEmitter();
 

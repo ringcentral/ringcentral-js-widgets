@@ -1,24 +1,26 @@
-import callDirections from '@ringcentral-integration/commons/enums/callDirections';
+import {
+  callDirection,
+  type CallDirection,
+} from '@ringcentral-integration/commons/enums/callDirections';
 import type { NumberData } from '@ringcentral-integration/commons/integration-test/mock/telephonySessionBuilder';
 import {
   createTelephonySession,
+  makeTelephonySessionId,
+  makeWebphoneSessionId,
   PartyStatusCode,
   telephonySessionBuildersCache,
 } from '@ringcentral-integration/commons/integration-test/mock/telephonySessionBuilder';
 import { sleep } from '@ringcentral-integration/utils';
+
 import WebphoneSessionMock from './WebphoneSessionMock';
 import { mockPubnub, mockWebphone } from './callHelper';
 
 type normalStatus = 'ring' | 'connected';
 
-type CallDirectionsKeys = keyof typeof callDirections;
-
-type CallDirections = typeof callDirections[CallDirectionsKeys];
-
 export interface InitACallProps {
   phoneNumber?: string;
   isWebRTC?: boolean;
-  direction?: CallDirections;
+  direction?: CallDirection;
   telephonySessionId?: string;
   sessionId?: string;
   status?: normalStatus;
@@ -34,12 +36,12 @@ interface InitACallFunc {
   (initParams: InitACallProps): any;
 }
 
-const initACall: InitACallFunc = async ({
+export const initACall: InitACallFunc = async ({
   phoneNumber,
   isWebRTC = true,
-  direction = callDirections.outbound,
-  telephonySessionId = new Date().getTime().toString(),
-  sessionId = new Date().getTime().toString(),
+  direction = callDirection.outbound,
+  telephonySessionId = makeTelephonySessionId(),
+  sessionId = makeWebphoneSessionId(),
   status = 'ring',
   fromNumberData,
   toNumberData,
@@ -61,8 +63,6 @@ const initACall: InitACallFunc = async ({
     ...props,
   });
 
-  const telephoneSessionId = telephonySessionBuilder.telephoneSessionId;
-
   if (tempSocketMockServer) {
     // temp solution for introduce wsg, will remove soon after introduce `rc mock`;
     await tempSocketMockServer.trigger(telephonySessionBuilder.done());
@@ -72,13 +72,17 @@ const initACall: InitACallFunc = async ({
   }
 
   if (isWebRTC) {
-    const webSession = new WebphoneSessionMock(telephoneSessionId);
+    const webSession = new WebphoneSessionMock(
+      telephonySessionBuilder.getTelephonySessionId(),
+      telephonySessionBuilder.getPartyId(),
+      telephonySessionBuilder.getSessionId(),
+    );
     const callEvent =
-      direction === callDirections.inbound ? 'invite' : 'inviteSent';
+      direction === callDirection.inbound ? 'invite' : 'inviteSent';
     await mockWebphone(callEvent, webSession);
   }
 
-  return telephoneSessionId;
+  return telephonySessionBuilder;
 };
 
 function getLastTelephonySessionBuilder() {
@@ -87,7 +91,7 @@ function getLastTelephonySessionBuilder() {
   ];
 }
 
-const connectLatestCall = async (
+export const connectLatestCall = async (
   tempSocketMockServer?: InitACallProps['tempSocketMockServer'],
 ) => {
   const telephonySessionBuilder = getLastTelephonySessionBuilder();
@@ -100,7 +104,7 @@ const connectLatestCall = async (
   }
 };
 
-const disConnectLatestCall = async (
+export const disConnectLatestCall = async (
   tempSocketMockServer?: InitACallProps['tempSocketMockServer'],
 ) => {
   const telephonySessionBuilder = getLastTelephonySessionBuilder();
@@ -113,12 +117,12 @@ const disConnectLatestCall = async (
   }
 };
 
-const holdCall = async (
+export const holdCall = async (
   telephonySessionId: string,
   tempSocketMockServer?: InitACallProps['tempSocketMockServer'],
 ) => {
   const telephonySessionBuilder = telephonySessionBuildersCache.find(
-    (s: any) => s.data.body.telephonySessionId === telephonySessionId,
+    (s) => s.getTelephonySessionId() === telephonySessionId,
   );
   telephonySessionBuilder?.setHoldCall();
   const data = telephonySessionBuilder?.done();
@@ -129,5 +133,3 @@ const holdCall = async (
     await mockPubnub(data);
   }
 };
-
-export { initACall, connectLatestCall, disConnectLatestCall, holdCall };

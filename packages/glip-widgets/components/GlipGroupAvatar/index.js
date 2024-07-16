@@ -1,7 +1,9 @@
-import React from 'react';
+import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
+import React from 'react';
+
 import defaultAvatar from '../../assets/images/default_avatar.png';
+
 import styles from './styles.scss';
 
 function GroupAvatar({ persons, className, unread }) {
@@ -37,7 +39,7 @@ function GroupAvatar({ persons, className, unread }) {
     );
   }
   return (
-    <div className={classnames(styles.root, className)}>
+    <div className={clsx(styles.root, className)}>
       {image}
       {unreadEl}
     </div>

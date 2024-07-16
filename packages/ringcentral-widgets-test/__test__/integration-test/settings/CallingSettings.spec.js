@@ -23,9 +23,9 @@ beforeEach(async () => {
 
 describe('calling settings', () => {
   test('check the title is correct', () => {
-    expect(callingSettings.find('div.label').first().props().children).toEqual(
-      'Calling',
-    );
+    expect(
+      callingSettings.find('[data-sign="headerTitle"]').first().text(),
+    ).toEqual('Calling');
   });
 
   test('check button state with when select different option', async () => {

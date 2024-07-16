@@ -1,15 +1,14 @@
-import React from 'react';
-
-import { mount } from 'enzyme';
-
 import {
   RcAccordion,
   RcAccordionSummary,
   RcThemeProvider,
 } from '@ringcentral/juno';
+import { mount } from 'enzyme';
+import React from 'react';
 
 import type { EvCallData, EvCurrentLog, EvIvrData } from '../../interfaces';
 import i18n from '../SmallCallControl/i18n';
+
 import type { ActivityCallLogPanelProps } from './ActivityCallLogPanel';
 import { ActivityCallLogPanel } from './ActivityCallLogPanel';
 
@@ -153,7 +152,7 @@ describe('<ActivityCallLogPanel />:: Call Disposition', () => {
     const dispositionButton = getDispositionButton();
     expect(dispositionButton.isExist).toBe(true);
     dispositionButton.click();
-    expect(disposeCall).toBeCalled();
+    expect(disposeCall).toHaveBeenCalled();
   });
 
   it('When User click the Disposition Button, Submit Button is in loading status and cannot be clicked', () => {
@@ -168,7 +167,7 @@ describe('<ActivityCallLogPanel />:: Call Disposition', () => {
     expect(dispositionButton.isInLoadingStatus).toBe(true);
     expect(dispositionButton.isDisabled).toBe(true);
     dispositionButton.click();
-    expect(disposeCall).not.toBeCalled();
+    expect(disposeCall).not.toHaveBeenCalled();
   });
 
   it('When disposition is saved, Submit Button is back in normal state: enabled and can be clicked', () => {
@@ -182,7 +181,7 @@ describe('<ActivityCallLogPanel />:: Call Disposition', () => {
     expect(dispositionButton.isInLoadingStatus).toBe(false);
     expect(dispositionButton.isDisabled).toBe(false);
     dispositionButton.click();
-    expect(disposeCall).toBeCalled();
+    expect(disposeCall).toHaveBeenCalled();
   });
 
   it('When disableDispose, Disposition Button should be disabled and cannot be clicked', () => {
@@ -195,7 +194,7 @@ describe('<ActivityCallLogPanel />:: Call Disposition', () => {
     const dispositionButton = getDispositionButton();
     expect(dispositionButton.isDisabled).toBe(true);
     dispositionButton.click();
-    expect(disposeCall).not.toBeCalled();
+    expect(disposeCall).not.toHaveBeenCalled();
   });
 });
 
@@ -213,8 +212,8 @@ describe('<ActivityCallLogPanel />', () => {
     const holdButton = getControlButton('HoldCallButton');
     holdButton.click();
     expect(holdButton.title).toBe(i18n.getString('onHold'));
-    expect(onUnHold).toBeCalled();
-    expect(onHold).not.toBeCalled();
+    expect(onUnHold).toHaveBeenCalled();
+    expect(onHold).not.toHaveBeenCalled();
   });
 
   it('When call is unHold, HoldCallButton should display and work correctly', () => {
@@ -231,8 +230,8 @@ describe('<ActivityCallLogPanel />', () => {
     holdButton.click();
 
     expect(holdButton.title).toBe(i18n.getString('hold'));
-    expect(onUnHold).not.toBeCalled();
-    expect(onHold).toBeCalled();
+    expect(onUnHold).not.toHaveBeenCalled();
+    expect(onHold).toHaveBeenCalled();
   });
 
   [
@@ -268,8 +267,8 @@ describe('<ActivityCallLogPanel />', () => {
     muteButton.click();
 
     expect(muteButton.title).toBe(i18n.getString('unmute'));
-    expect(onUnmute).toBeCalled();
-    expect(onMute).not.toBeCalled();
+    expect(onUnmute).toHaveBeenCalled();
+    expect(onMute).not.toHaveBeenCalled();
   });
 
   it('When call is unMute, MuteCallButton should display and work correctly', () => {
@@ -286,8 +285,8 @@ describe('<ActivityCallLogPanel />', () => {
     const muteButton = getControlButton('MuteCallButton');
     muteButton.click();
     expect(muteButton.title).toBe(i18n.getString('mute'));
-    expect(onUnmute).not.toBeCalled();
-    expect(onMute).toBeCalled();
+    expect(onUnmute).not.toHaveBeenCalled();
+    expect(onMute).toHaveBeenCalled();
   });
 
   it('User can transfer an Call', () => {
@@ -364,7 +363,7 @@ describe('<ActivityCallLogPanel />', () => {
     expect(getControlButton('HangUpButton').isExist).toBe(false);
 
     wrapper.find('ActiveCallButton').find('button').simulate('click');
-    expect(onActive).toBeCalled();
+    expect(onActive).toHaveBeenCalled();
   });
 
   it('When user on the InComing Call, can see the Reject Button', () => {
@@ -378,7 +377,7 @@ describe('<ActivityCallLogPanel />', () => {
     const hangupButton = getControlButton('HangUpButton');
     expect(hangupButton.title).toBe(i18n.getString('reject'));
     hangupButton.click();
-    expect(onReject).toBeCalled();
+    expect(onReject).toHaveBeenCalled();
   });
 
   it('When the call is not InComing Call, can see the Hangup button', () => {
@@ -392,7 +391,7 @@ describe('<ActivityCallLogPanel />', () => {
     const hangupButton = getControlButton('HangUpButton');
     expect(hangupButton.title).toBe(i18n.getString('hangup'));
     hangupButton.click();
-    expect(onHangup).toBeCalled();
+    expect(onHangup).toHaveBeenCalled();
   });
 
   [

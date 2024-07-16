@@ -1,7 +1,6 @@
+import { RcText } from '@ringcentral/juno';
 import type { FunctionComponent } from 'react';
 import React from 'react';
-
-import { RcText } from '@ringcentral/juno';
 
 import styles from './styles.scss';
 

@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-
 import PropTypes from 'prop-types';
 import { find, findIndex, reduce } from 'ramda';
+import React, { Component } from 'react';
 import { Column, Table } from 'react-virtualized';
 
 import { ContactItem } from '../ContactItem';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 

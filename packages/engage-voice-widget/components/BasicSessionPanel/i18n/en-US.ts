@@ -8,4 +8,4 @@ export default {
   continue: 'Continue',
   enterYourPhoneNumber: 'Enter your phone number',
   warning: 'It may take a while to update the change.',
-};
+} as const;

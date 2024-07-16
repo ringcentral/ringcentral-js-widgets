@@ -11,7 +11,6 @@
  * Note:
  * Failed to add a meeting Some scenarios such as poor network connection
  */
-
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p2,
@@ -27,9 +26,9 @@ import {
   examples,
 } from '@ringcentral-integration/test-utils';
 
+import { CheckAlertToBeCallWith } from '../../../../../steps/Alert';
 import { Login as CommonLogin } from '../../../../../steps/Login';
 import { CheckRCVPageDisplay } from '../../../../../steps/Meeting';
-import { CheckAlertToBeCallWith } from '../../../../../steps/Alert';
 
 @autorun(test.skip)
 @it

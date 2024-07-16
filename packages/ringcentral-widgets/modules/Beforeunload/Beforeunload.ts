@@ -1,5 +1,6 @@
-import { RcModuleV2 } from '@ringcentral-integration/core';
 import { Module } from '@ringcentral-integration/commons/lib/di';
+import { RcModuleV2 } from '@ringcentral-integration/core';
+
 import type { Deps } from './Beforeunload.interface';
 
 const UNLOAD_EVENT_NAME = 'beforeunload';
@@ -26,7 +27,7 @@ export class Beforeunload extends RcModuleV2<Deps> {
         this._beforeunloadHandler,
       );
       // TODO: binding event here, that will not emit when close tab, not sure why
-      // this._window.removeEventListener('unload', this._onAfterUnload);
+      // this._window.removeEventListener('pagehide', this._onAfterUnload);
       this._bindState = false;
     } else if (!this._bindState && this._list.length > 0) {
       this._window.addEventListener(
@@ -34,7 +35,7 @@ export class Beforeunload extends RcModuleV2<Deps> {
         this._beforeunloadHandler,
       );
       // TODO: binding event here, that will not emit when close tab, not sure why
-      // this._window.addEventListener('unload', this._onAfterUnload);
+      // this._window.addEventListener('pagehide', this._onAfterUnload);
       this._bindState = true;
     }
   }
@@ -102,7 +103,7 @@ export class Beforeunload extends RcModuleV2<Deps> {
    * that method will trigger after check not leave success
    */
   onAfterUnload(cb: () => void, notNeedCheck = false) {
-    this._window.addEventListener('unload', () => {
+    this._window.addEventListener('pagehide', () => {
       if (notNeedCheck || this.checkShouldBlock()) {
         cb();
       }
@@ -111,7 +112,7 @@ export class Beforeunload extends RcModuleV2<Deps> {
 
   removeAfterUnloadListener(cb: () => void) {
     console.log('removeAfterUnloadListener~~');
-    this._window.removeEventListener('unload', cb);
+    this._window.removeEventListener('pagehide', cb);
   }
 
   private _removeItem(i: number) {

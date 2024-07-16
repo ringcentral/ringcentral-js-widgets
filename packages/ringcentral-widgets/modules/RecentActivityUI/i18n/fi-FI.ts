@@ -3,7 +3,7 @@ export default {
   text: "Tekstiviesti",
   fax: "Faksi",
   voicemail: "Puhelinvastaaja",
-  call: "Puhelu"
+  call: "Soita"
 };
 
 // @key: @#@"recentActivities"@#@ @source: @#@"Recent Activities"@#@

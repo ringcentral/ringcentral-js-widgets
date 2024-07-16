@@ -7,15 +7,17 @@
  *
  */
 import {
-  p1,
-  it,
-  autorun,
   Scenario,
   Step,
   Then,
-  title,
   When,
+  autorun,
+  common,
+  it,
+  p1,
+  title,
 } from '@ringcentral-integration/test-utils';
+
 import type { Context } from '../../../../../interfaces';
 import type { StepFunction } from '../../../../../lib/step';
 import {
@@ -27,7 +29,7 @@ import {
   CheckCallCtrlButton,
   MakeCall,
 } from '../../../../../steps/Call';
-import { CommonLogin } from '../../../../../steps/CommonLogin';
+import { CommonLoginEntry } from '../../../../../steps/CommonLogin';
 import {
   CreateMock as CommonCreateMock,
   MockCallPresence,
@@ -35,13 +37,13 @@ import {
 } from '../../../../../steps/Mock';
 import { NavigateTo } from '../../../../../steps/Router';
 
-@autorun(test.skip)
+@autorun(test)
 @it
 @p1
+@common
 @title('Multiple calls_resume current call')
 export class ResumeCurrentCall extends Step {
-  Login: StepFunction<any, any> = CommonLogin;
-  CreateMock: StepFunction<any, any> = CommonCreateMock;
+  Login: StepFunction<any, any> = CommonLoginEntry;
   run() {
     const { Login } = this;
     let SESSION_ID = '';
@@ -117,7 +119,7 @@ export class ResumeCurrentCall extends Step {
           desc="The call should be hold"
           action={[
             (_, { phone }: Context) => {
-              expect(phone.webphone.hold).toBeCalledWith(SESSION_ID);
+              expect(phone.webphone.hold).toHaveBeenCalledWith(SESSION_ID);
             },
             <CheckCallCtrlButton callButtonBehaviorType="onHold" />,
           ]}
@@ -130,7 +132,7 @@ export class ResumeCurrentCall extends Step {
           desc="The call should be Unhold"
           action={[
             (_, { phone }: Context) => {
-              expect(phone.webphone.unhold).toBeCalledWith(SESSION_ID);
+              expect(phone.webphone.unhold).toHaveBeenCalledWith(SESSION_ID);
             },
             <CheckCallCtrlButton callButtonBehaviorType="hold" />,
           ]}

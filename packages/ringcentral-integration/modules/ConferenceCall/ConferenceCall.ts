@@ -1,6 +1,3 @@
-import { EventEmitter } from 'events';
-import { filter, find, is, map, values } from 'ramda';
-
 import {
   action,
   computed,
@@ -8,20 +5,23 @@ import {
   state,
   track,
 } from '@ringcentral-integration/core';
+import { EventEmitter } from 'events';
+import { filter, find, is, map, values } from 'ramda';
 
 import callDirections from '../../enums/callDirections';
 import calleeTypes from '../../enums/calleeTypes';
 import { permissionsMessages } from '../../enums/permissionsMessages';
+import { trackEvents } from '../../enums/trackEvents';
 import type {
   NormalizedSession,
   WebphoneSession,
 } from '../../interfaces/Webphone.interface';
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
-import { trackEvents } from '../../enums/trackEvents';
 import { callingModes } from '../CallingSettings';
 import sessionStatusEnum from '../Webphone/sessionStatus';
 import { isConferenceSession, isRecording } from '../Webphone/webphoneHelper';
+
 import type {
   Conference,
   ConferencesState,
@@ -61,12 +61,12 @@ import {
   ],
 })
 export class ConferenceCall extends RcModuleV2<Deps> {
-  private _eventEmitter = new EventEmitter();
+  _eventEmitter = new EventEmitter();
   private _timers: {
     [key: string]: number;
   } = {};
 
-  // @ts-expect-error
+  // @ts-expect-error TS(2564): Property '_fromSessionId' has no initializer and i... Remove this comment to see the full error message
   private _fromSessionId: string;
   private _ttl: number = DEFAULT_TTL;
   private _timeout: number =
@@ -75,7 +75,7 @@ export class ConferenceCall extends RcModuleV2<Deps> {
     this._deps.conferenceCallOptions?.capacity ?? MAXIMUM_CAPACITY;
   protected _pulling: boolean =
     this._deps.conferenceCallOptions?.pulling ?? true;
-  // @ts-expect-error
+  // @ts-expect-error TS(2564): Property '_lastCallInfo' has no initializer and is... Remove this comment to see the full error message
   private _lastCallInfo: {
     calleeType: string;
     extraNum: number;
@@ -96,7 +96,7 @@ export class ConferenceCall extends RcModuleV2<Deps> {
   mergingPair: MergingPair = {};
 
   @state
-  // @ts-expect-error
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string'.
   currentConferenceId: string = null;
 
   @state
@@ -182,10 +182,10 @@ export class ConferenceCall extends RcModuleV2<Deps> {
     if (this.isMerging && !res) {
       const session = find(
         (session) => session.id === sessionId,
-        // @ts-expect-error
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         this._deps.webphone.sessions,
       );
-      // @ts-expect-error
+
       res = isConferenceSession(session);
     }
 
@@ -275,7 +275,6 @@ export class ConferenceCall extends RcModuleV2<Deps> {
       return null;
     }
     const { sessionId } = conferenceState;
-    let { conference } = conferenceState;
     this.setConferenceCallStatus(conferenceCallStatus.requesting);
 
     try {
@@ -287,14 +286,14 @@ export class ConferenceCall extends RcModuleV2<Deps> {
           webphoneSession.partyData,
         );
       const newConference = await this.updateConferenceStatus(id);
-      conference = newConference.conference;
+      const conference = newConference.conference;
 
       if (partyProfile) {
         const conferenceState = this.conferences[id];
         const newParties = ascendSortParties(
           conferenceState.conference.parties,
         );
-        // @ts-expect-error
+        // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
         (partyProfile as PartyState).id = newParties[newParties.length - 1].id;
         this.bringInParty(conference, sessionId, partyProfile as PartyState);
       }
@@ -357,7 +356,7 @@ export class ConferenceCall extends RcModuleV2<Deps> {
 
       return null;
     }
-    if (!(this._deps.callingSettings.callingMode === callingModes.webphone)) {
+    if (this._deps.callingSettings.callingMode !== callingModes.webphone) {
       if (!propagate) {
         this._deps.alert.danger({
           message: conferenceCallErrors.modeError,
@@ -390,102 +389,66 @@ export class ConferenceCall extends RcModuleV2<Deps> {
       });
       return;
     }
+
     this.setIsMerging(true);
-    let sipInstances;
-    let conferenceId = null;
 
-    if (this._deps.webphone) {
-      /**
-       * Because the concurrency behaviour of the server,
-       * we cannot sure the merging process is over when
-       * the function's procedure has finshed.
-       */
-      sipInstances = map(
-        (webphoneSession) =>
-          // @ts-expect-error
-          this._deps.webphone._sessions.get(webphoneSession.id),
-        webphoneSessions,
-      );
-      /**
-       * HACK: we need to preserve the merging session in prevent the glitch of
-       * the call control page.
-       */
-      const sessionIds = map((x) => x.id, webphoneSessions);
-      this._deps.webphone.setSessionCaching(sessionIds);
+    /**
+     * Because the concurrency behavior of the server,
+     * we cannot sure the merging process is over when
+     * the function's procedure has finished.
+     */
+    const sipInstances = map(
+      (webphoneSession) =>
+        this._deps.webphone?._sessions.get(webphoneSession.id),
+      webphoneSessions,
+    ).filter((x) => !!x);
 
-      const pSips = map((instance) => {
-        const p = new Promise((resolve) => {
-          // @ts-expect-error
-          instance.on('terminated', () => {
-            resolve(null);
-          });
+    /**
+     * HACK: we need to preserve the merging session in prevent the glitch of
+     * the call control page.
+     */
+    const sessionIds = map((x) => x.id, webphoneSessions);
+    this._deps.webphone?.setSessionCaching(sessionIds);
+
+    const pSips = map((instance) => {
+      const p = new Promise((resolve) => {
+        instance!.on('terminated', () => {
+          resolve(null);
         });
-        return p;
-      }, sipInstances);
+      });
+      return p;
+    }, sipInstances);
 
-      await Promise.all([
-        this._mergeToConference(webphoneSessions),
-        ...pSips,
-      ]).then(
-        () => {
-          this.setIsMerging(false);
-          this.setMergingPair({});
-          const conferenceState = Object.values(this.conferences)[0];
-
-          this._eventEmitter.emit(mergeEvents.mergeSucceeded, conferenceState);
-        },
-        (e) => {
-          console.error(e);
-          const conferenceState = Object.values(this.conferences)[0];
-
-          /**
-           * if create conference successfully but failed to bring-in,
-           *  then terminate the conference.
-           */
-          if (conferenceState && conferenceState.profiles.length < 1) {
-            this.terminateConference(conferenceState.conference.id);
-          }
-          this._deps.alert.warning({
-            message: conferenceCallErrors.bringInFailed,
-          });
-          this.setIsMerging(false);
-        },
-      );
-      this._deps.webphone.clearSessionCaching();
-    } else {
-      try {
-        conferenceId = await this._mergeToConference(webphoneSessions);
-
+    await Promise.all([
+      this._mergeToConference(webphoneSessions),
+      ...pSips,
+    ]).then(
+      () => {
         this.setIsMerging(false);
         this.setMergingPair({});
-        this._eventEmitter.emit(mergeEvents.mergeSucceeded);
-      } catch (e: any /** TODO: confirm with instanceof */) {
         const conferenceState = Object.values(this.conferences)[0];
+
+        this._eventEmitter.emit(mergeEvents.mergeSucceeded, conferenceState);
+      },
+      (e) => {
+        console.error(e);
+        const conferenceState = Object.values(this.conferences)[0];
+
         /**
          * if create conference successfully but failed to bring-in,
          *  then terminate the conference.
          */
-        if (
-          conferenceState &&
-          conferenceState?.conference?.parties?.length < 1
-        ) {
+        if (conferenceState && conferenceState.profiles.length < 1) {
           this.terminateConference(conferenceState.conference.id);
         }
-
-        if (
-          !this._deps.availabilityMonitor ||
-          !(await this._deps.availabilityMonitor.checkIfHAError(e))
-        ) {
-          this._deps.alert.warning({
-            message: conferenceCallErrors.bringInFailed,
-          });
-        }
-      }
-
-      if (!sipInstances || conferenceId === null) {
+        this._deps.alert.warning({
+          message: conferenceCallErrors.bringInFailed,
+        });
         this.setIsMerging(false);
-      }
-    }
+      },
+    );
+
+    this._deps.webphone?.clearSessionCaching();
   }
 
   @proxify
@@ -518,7 +481,7 @@ export class ConferenceCall extends RcModuleV2<Deps> {
     const conferenceData = this.conferences[id];
 
     if (!conferenceData) {
-      // @ts-expect-error
+      // @ts-expect-error TS(2322): Type 'null' is not assignable to type '(Party & Pa... Remove this comment to see the full error message
       return null;
     }
 
@@ -528,13 +491,13 @@ export class ConferenceCall extends RcModuleV2<Deps> {
           party?.status?.code.toLowerCase() !== partyStatusCode.disconnected
         ) {
           // 0 position is the host
-          // @ts-expect-error
+          // @ts-expect-error TS(2322): Type 'number' is not assignable to type 'never'.
           accum.push({ idx, party });
         }
         return accum;
       }, [])
       .map(({ idx, party }) => ({
-        // @ts-expect-error
+        // @ts-expect-error TS(2698): Spread types may only be created from object types... Remove this comment to see the full error message
         ...party,
         ...conferenceData.profiles[idx],
       }))
@@ -554,12 +517,12 @@ export class ConferenceCall extends RcModuleV2<Deps> {
 
   countOnlineParties(id: string) {
     const res = this.getOnlineParties(id);
-    // @ts-expect-error
+    // @ts-expect-error TS(2531): Object is possibly 'null'.
     return is(Array, res) ? res.length : null;
   }
 
   isOverload(id: string) {
-    // @ts-expect-error
+    // @ts-expect-error TS(2531): Object is possibly 'null'.
     return this.countOnlineParties(id) >= this._capacity;
   }
 
@@ -584,39 +547,7 @@ export class ConferenceCall extends RcModuleV2<Deps> {
     delete this._timers[id];
   }
 
-  openPulling() {
-    this._pulling = true;
-  }
-
-  closePulling() {
-    this._pulling = false;
-  }
-
-  togglePulling() {
-    this._pulling = !this._pulling;
-  }
-
-  setCapacity(capacity = MAXIMUM_CAPACITY) {
-    if (typeof capacity !== 'number') {
-      throw new Error('The capcity must be a number');
-    }
-    this._capacity = capacity;
-    return capacity;
-  }
-
-  setTimeout(timeout: number = DEFAULT_TIMEOUT) {
-    if (typeof timeout !== 'number') {
-      throw new Error('The timeout must be a number');
-    }
-    this._timeout = timeout;
-    return timeout;
-  }
-
-  onMergeSuccess(func: (...args: any[]) => void, isOnce?: boolean) {
-    if (isOnce) {
-      this._eventEmitter.once(mergeEvents.mergeSucceeded, func);
-      return;
-    }
+  onMergeSuccess(func: (...args: any[]) => void) {
     this._eventEmitter.on(mergeEvents.mergeSucceeded, func);
   }
 
@@ -685,29 +616,29 @@ export class ConferenceCall extends RcModuleV2<Deps> {
       this.startPollingConferenceStatus(conferenceId);
       return conferenceId;
     }
-    // @ts-expect-error
+    // @ts-expect-error TS(2339): Property 'id' does not exist on type 'Conference |... Remove this comment to see the full error message
     const { id } = await this.makeConference(true);
     let conferenceAccepted = false;
     await Promise.race([
       new Promise((resolve, reject) => {
-        // @ts-expect-error
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         const sipSession = this._deps.webphone._sessions.get(
           this.conferences[id].sessionId,
         );
-        // @ts-expect-error
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         sipSession.on('accepted', () => {
           conferenceAccepted = true;
           resolve(null);
         });
-        // @ts-expect-error
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         sipSession.on('cancel', () => reject(new Error('conferencing cancel')));
-        // @ts-expect-error
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         sipSession.on('failed', () => reject(new Error('conferencing failed')));
-        // @ts-expect-error
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         sipSession.on('rejected', () =>
           reject(new Error('conferencing rejected')),
         );
-        // @ts-expect-error
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         sipSession.on('terminated', () =>
           reject(new Error('conferencing terminated')),
         );
@@ -775,7 +706,7 @@ export class ConferenceCall extends RcModuleV2<Deps> {
   private _getProfile(sessionId: string) {
     const session = find(
       (session) => session.id === sessionId,
-      // @ts-expect-error
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       this._deps.webphone.sessions,
     );
 
@@ -783,17 +714,17 @@ export class ConferenceCall extends RcModuleV2<Deps> {
     let avatarUrl;
     let calleeType = calleeTypes.unknown;
     let partyName =
-      // @ts-expect-error
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       session.direction === callDirections.outbound
-        ? // @ts-expect-error
+        ? // @ts-expect-error TS(2532): Object is possibly 'undefined'.
           session.toUserName
-        : // @ts-expect-error
+        : // @ts-expect-error TS(2532): Object is possibly 'undefined'.
           session.fromUserName;
     const partyNumber =
-      // @ts-expect-error
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       session.direction === callDirections.outbound ? session.to : session.from;
 
-    // @ts-expect-error
+    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     let matchedContact = session.contactMatch;
     if (!matchedContact && this._deps.contactMatcher) {
       const nameMatches = this._deps.contactMatcher.dataMapping[partyNumber];
@@ -828,13 +759,13 @@ export class ConferenceCall extends RcModuleV2<Deps> {
   }) {
     const session = find(
       (x) => x.id === sessionId,
-      // @ts-expect-error
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       this._deps.webphone.sessions,
     );
 
     const sessionToMergeWith = find(
       (x) => x.id === (sessionIdToMergeWith || this.mergingPair.fromSessionId),
-      // @ts-expect-error
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       this._deps.webphone.sessions,
     );
 
@@ -843,7 +774,7 @@ export class ConferenceCall extends RcModuleV2<Deps> {
       : [session];
 
     for (const session of webphoneSessions) {
-      // @ts-expect-error
+      // @ts-expect-error TS(2345): Argument of type 'NormalizedSession | undefined' i... Remove this comment to see the full error message
       if (!this.validateCallRecording(session)) {
         return null;
       }
@@ -853,10 +784,10 @@ export class ConferenceCall extends RcModuleV2<Deps> {
     if (conferenceState) {
       const conferenceSession = find(
         (x) => x.id === conferenceState.sessionId,
-        // @ts-expect-error
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         this._deps.webphone.sessions,
       );
-      // @ts-expect-error
+      // @ts-expect-error TS(2345): Argument of type 'NormalizedSession | undefined' i... Remove this comment to see the full error message
       if (!this.validateCallRecording(conferenceSession)) {
         return null;
       }
@@ -886,20 +817,20 @@ export class ConferenceCall extends RcModuleV2<Deps> {
 
     const conferenceData = Object.values(this.conferences)[0];
     if (!conferenceData) {
-      // @ts-expect-error
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       await this._deps.webphone.resume(session.id);
       return null;
     }
     const currentConferenceSession = find(
       (x) => x.id === conferenceData.sessionId,
-      // @ts-expect-error
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       this._deps.webphone.sessions,
     );
-    // @ts-expect-error
+    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     const isCurrentConferenceOnHold = currentConferenceSession.isOnHold;
 
     if (isCurrentConferenceOnHold) {
-      // @ts-expect-error
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       this._deps.webphone.resume(conferenceData.sessionId);
     }
 
@@ -920,7 +851,7 @@ export class ConferenceCall extends RcModuleV2<Deps> {
   resetSuccess() {
     this.setIsMerging(false);
     this.setMergingPair({});
-    // @ts-expect-error
+    // @ts-expect-error TS(2345): Argument of type 'null' is not assignable to param... Remove this comment to see the full error message
     this.setCurrentConferenceId(null);
     this.conferenceCallStatus = conferenceCallStatus.idle as any;
     this.conferences = {};
@@ -930,13 +861,19 @@ export class ConferenceCall extends RcModuleV2<Deps> {
    * User action track dispatchs
    * */
   @track(trackEvents.clickHangupParticipantList)
-  participantListClickHangupTrack() {}
+  participantListClickHangupTrack() {
+    //
+  }
 
   @track(trackEvents.cancelRemoveRemoveParticipantsModal)
-  removeParticipantClickCancelTrack() {}
+  removeParticipantClickCancelTrack() {
+    //
+  }
 
   @track(trackEvents.clickRemoveRemoveParticipantsModal)
-  removeParticipantClickRemoveTrack() {}
+  removeParticipantClickRemoveTrack() {
+    //
+  }
 
   override _shouldInit() {
     return this._deps.auth.loggedIn && super._shouldInit();
@@ -947,20 +884,20 @@ export class ConferenceCall extends RcModuleV2<Deps> {
   }
 
   @computed((that: ConferenceCall) => [
-    // @ts-expect-error
+    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     that._deps.webphone.sessions,
     that.mergingPair.fromSessionId,
     that.partyProfiles,
   ])
   get lastCallInfo(): LastCallInfo {
-    // @ts-expect-error
+    // @ts-expect-error TS(2339): Property 'sessions' does not exist on type 'Webpho... Remove this comment to see the full error message
     const { sessions } = this._deps.webphone;
     const {
       partyProfiles,
       mergingPair: { fromSessionId },
     } = this;
     if (!fromSessionId) {
-      // @ts-expect-error
+      // @ts-expect-error TS(2322): Type 'null' is not assignable to type '{ calleeTyp... Remove this comment to see the full error message
       this._lastCallInfo = null;
       return this._lastCallInfo;
     }
@@ -970,8 +907,7 @@ export class ConferenceCall extends RcModuleV2<Deps> {
     let sessionStatus;
     let matchedContact;
     const fromSession = sessions.find(
-      // @ts-expect-error
-      (session) => session.id === fromSessionId,
+      (session: any) => session.id === fromSessionId,
     );
     if (fromSession) {
       sessionName =
@@ -1028,13 +964,13 @@ export class ConferenceCall extends RcModuleV2<Deps> {
       case calleeTypes.conference:
         this._lastCallInfo = {
           calleeType: calleeTypes.conference,
-          // @ts-expect-error
+          // @ts-expect-error TS(2531): Object is possibly 'null'.
           avatarUrl: partiesAvatarUrls[0],
-          // @ts-expect-error
+          // @ts-expect-error TS(2531): Object is possibly 'null'.
           extraNum: partiesAvatarUrls.length - 1,
-          // @ts-expect-error
+          // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
           name: null,
-          // @ts-expect-error
+          // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
           phoneNumber: null,
           status: sessionStatus,
           lastCallContact: null,
@@ -1054,7 +990,7 @@ export class ConferenceCall extends RcModuleV2<Deps> {
       default:
         this._lastCallInfo = {
           calleeType: calleeTypes.unknown,
-          // @ts-expect-error
+          // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
           avatarUrl: null,
           name: sessionName,
           status: sessionStatus,

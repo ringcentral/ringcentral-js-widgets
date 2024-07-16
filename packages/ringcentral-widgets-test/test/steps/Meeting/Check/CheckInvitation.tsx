@@ -1,4 +1,5 @@
 import type dialInNumbersBody from '@ringcentral-integration/mock/src/platform/data/dialInNumbers.json';
+
 import type { StepFunction } from '../../../lib/step';
 
 export const CheckInvitation: StepFunction = async (_, { phone, rcMock }) => {
@@ -11,7 +12,7 @@ export const CheckInvitation: StepFunction = async (_, { phone, rcMock }) => {
   const rcvMeeting = await rcMock.fetchMock
     ?.lastResponse(new RegExp('.*/rcvideo/v1/bridges'), 'POST')
     ?.json();
-  expect(phone.rcVideo.getMeetingInvitation).toBeCalledWith({
+  expect(phone.rcVideo.getMeetingInvitation).toHaveBeenCalledWith({
     brandId: phone.brand.id,
     brandName: phone.brand.name,
     currentLocale: phone.locale.currentLocale,

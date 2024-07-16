@@ -1,4 +1,5 @@
 import type { GetSMSMessageInfoResponse } from '@ringcentral-integration/mock';
+
 import type { StepFunction } from '../../../lib/step';
 
 interface MockPostSMSProps {

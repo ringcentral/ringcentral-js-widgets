@@ -37,8 +37,7 @@ export default {
   today: "Today",
   scheduleForGuidance: "Scheduling for someone else?\n1. Make sure you’re on their Outlook calendar.\n2. From the dropdown, select the person you’re scheduling for.\n",
   scheduleForGuidanceMore: "Learn details",
-  changePmiSettings: "Change Personal Meeting settings",
-  ieSupportAlert: "Please note that {appName} won’t work with Internet Explorer 11 after 16th Feb 2022. We recommend switching to Microsoft Edge or updating to Outlook 2016 or above."
+  changePmiSettings: "Change Personal Meeting settings"
 };
 
 // @key: @#@"topic"@#@ @source: @#@"Meeting title"@#@
@@ -79,4 +78,3 @@ export default {
 // @key: @#@"scheduleForGuidance"@#@ @source: @#@"Scheduling for someone else?\n1. Make sure you're on their Outlook calendar.\n2. From the dropdown, select the person you're scheduling for.\n"@#@
 // @key: @#@"scheduleForGuidanceMore"@#@ @source: @#@"Learn details"@#@
 // @key: @#@"changePmiSettings"@#@ @source: @#@"Change Personal Meeting settings"@#@
-// @key: @#@"ieSupportAlert"@#@ @source: @#@"Please note that {appName} won't work with Internet Explorer 11 after Feb 16, 2022. We recommend switching to Microsoft Edge or updating to Outlook 2016 or above."@#@

@@ -32,7 +32,6 @@
     "test": "yarn run-test"
   },
   "dependencies": {
-    "classnames": "^2.2.6",
     "i18n-iso-countries": "^4.3.1",
     "prop-types": "^15.7.2",
     "ramda": "^0.28.0",
@@ -53,9 +52,9 @@
     "@ringcentral-integration/test-utils": "*",
     "@ringcentral-integration/utils": "*",
     "@ringcentral-integration/widgets": "*",
-    "@ringcentral/juno": "^2.35.2",
-    "@ringcentral/juno-icon": "^1.43.0",
-    "@testing-library/react": "^12.1.4",
+    "@ringcentral/juno": "^2.42.0",
+    "@ringcentral/juno-icon": "^1.68.0",
+    "@testing-library/react": "^12.1.5",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.3",
     "dotenv": "^6.2.0",
     "enzyme": "^3.7.0",
@@ -65,7 +64,7 @@
     "gulp-babel": "^8.0.0",
     "gulp-istanbul": "^1.1.1",
     "gulp-sourcemaps": "^2.6.5",
-    "jest-html-reporters": "^3.0.8"
+    "jest-html-reporters": "^3.1.7"
   },
   "peerDependencies": {
     "@ringcentral-integration/commons": "^0.14.0",
@@ -73,10 +72,10 @@
     "@ringcentral-integration/phone-number": "^1.0.4",
     "@ringcentral-integration/utils": "^0.14.0",
     "@ringcentral-integration/widgets": "^0.14.0",
-    "@ringcentral/juno": "^2.35.2",
-    "@ringcentral/juno-icon": "^1.42.0"
+    "@ringcentral/juno": "^2.42.0",
+    "@ringcentral/juno-icon": "^1.68.0"
   },
-  "ci": {
-    "@ringcentral-integration/engage-voice-widgets": "**"
+  "nx": {
+    "tags": ["scope:coverage-ignore"]
   }
 }

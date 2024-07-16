@@ -1,6 +1,6 @@
-import type { UserPhoneNumberInfo } from './UserPhoneNumberInfo';
 import type { ProvisioningNavigationInfo } from './ProvisioningNavigationInfo';
 import type { ProvisioningPagingInfo } from './ProvisioningPagingInfo';
+import type { UserPhoneNumberInfo } from './UserPhoneNumberInfo';
 
 export interface GetExtensionPhoneNumbersResponse {
   /**

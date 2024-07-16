@@ -1,5 +1,4 @@
 // import { jestFakeTimersAreEnabled } from '@ringcentral-integration/test-utils/lib/jestFakeTimersAreEnabled';
-
 import { sleep } from './sleep';
 
 export interface PollingPromise extends Promise<void> {

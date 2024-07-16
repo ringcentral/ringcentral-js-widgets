@@ -1,6 +1,8 @@
 import { screen } from '@testing-library/react';
+
 import type { StepFunction } from '../../../lib/step';
 import { CheckRouterNavigation } from '../../Navigate';
+
 import { CheckAppVersionDisplay } from './CheckAppVersionDisplay';
 
 export const CheckRegionDisplay: StepFunction = async (props, context) => {

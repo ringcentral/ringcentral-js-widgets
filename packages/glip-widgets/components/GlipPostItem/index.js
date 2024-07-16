@@ -1,10 +1,11 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import classnames from 'classnames';
 import status from '@ringcentral-integration/commons/modules/GlipPosts/status';
+import clsx from 'clsx';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 import defaultAvatar from '../../assets/images/default_avatar.png';
 import GlipPostContent from '../GlipPostContent';
+
 import styles from './styles.scss';
 
 function PostAvatar({ creator, viewProfile }) {
@@ -103,7 +104,7 @@ export default function GlipPost({
   }
   // TODO: update joining status with i18n
   return (
-    <div className={classnames(styles.root, className)}>
+    <div className={clsx(styles.root, className)}>
       <PostTime creationTime={creationTime} />
       <div className={styles.avatar}>
         <PostAvatar creator={post.creator} viewProfile={viewProfile} />

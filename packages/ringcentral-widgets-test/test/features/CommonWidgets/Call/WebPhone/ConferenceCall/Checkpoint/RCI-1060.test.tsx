@@ -10,47 +10,49 @@
  * Entry point(/s):
  * Conference Call call contorl page
  */
-
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
-  p1,
-  it,
-  autorun,
-  examples,
   And,
   Scenario,
   Step,
   Then,
-  title,
   When,
+  autorun,
+  common,
+  examples,
+  it,
+  p1,
+  title,
 } from '@ringcentral-integration/test-utils';
 
-import { CommonLogin } from '../../../../../../steps/CommonLogin';
 import {
-  MockConferenceCall,
-  MockTelephonySession,
-  MockBringInToConference,
-} from '../../../../../../steps/Mock';
-import {
-  CheckActiveCallHidden,
   CallButtonBehavior,
+  CheckActiveCallHidden,
+  CheckConferenceCallControlPage,
+  CheckConferenceInfoPage,
   ClickAddButton,
   ClickMergeButton,
   MakeCall,
-  CheckConferenceCallControlPage,
-  CheckConferenceInfoPage,
 } from '../../../../../../steps/Call';
+import { CommonLoginEntry } from '../../../../../../steps/CommonLogin';
 import {
-  NavigateToDialer,
+  MockBringInToConference,
+  MockConferenceCall,
+  MockMessageSync,
+  MockTelephonySession,
+} from '../../../../../../steps/Mock';
+import {
   CheckRouterNavigation,
+  NavigateToDialer,
 } from '../../../../../../steps/Navigate';
 
-@autorun(test.skip)
+@autorun(test)
 @it
 @p1
+@common
 @title('Call control_hang up')
 export class RCI1060 extends Step {
-  Login: StepFunction<any, any> = CommonLogin;
+  Login: StepFunction<any, any> = CommonLoginEntry;
   conferenceCallId = '';
   run() {
     const { Login } = this;
@@ -59,7 +61,8 @@ export class RCI1060 extends Step {
         <When
           desc="Log in CTI"
           action={[
-            Login,
+            <Login />,
+            <MockMessageSync />,
             (_: any, { phone }: any) => {
               jest.spyOn(phone.webphone, 'hangup');
             },
@@ -109,7 +112,7 @@ export class RCI1060 extends Step {
             <CheckRouterNavigation toPage="Dialer" />,
             (_: any, { phone }: any) => {
               // The conference call is ended
-              expect(phone.webphone.hangup).toBeCalledWith(
+              expect(phone.webphone.hangup).toHaveBeenCalledWith(
                 this.conferenceCallId,
               );
             },

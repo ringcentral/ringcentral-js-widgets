@@ -1,6 +1,7 @@
-import type { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import type { ActiveCallControl } from '@ringcentral-integration/commons/modules/ActiveCallControl';
+import type { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import type { Webphone } from '@ringcentral-integration/commons/modules/Webphone';
+
 import type { RouterInteraction } from '../RouterInteraction';
 
 export enum ReplyWithPattern {

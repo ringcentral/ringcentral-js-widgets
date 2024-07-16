@@ -1,9 +1,11 @@
 import type CountryInfoShortModel from '@rc-ex/core/lib/definitions/CountryInfoShortModel';
 import { computed } from '@ringcentral-integration/core';
+
 import { renameTurkeyCountries } from '../../helpers/renameTurkey';
 import { Module } from '../../lib/di';
 import fetchList from '../../lib/fetchList';
 import { DataFetcherV2Consumer, DataSource } from '../DataFetcherV2';
+
 import type { Deps } from './DialingPlan.interface';
 
 @Module({
@@ -24,7 +26,7 @@ export class DialingPlan<T extends Deps = Deps> extends DataFetcherV2Consumer<
       deps,
     });
     const { polling = true } = deps.dialingPlanOptions ?? {};
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type 'DataSource<unknown[]>' is not assignable to ... Remove this comment to see the full error message
     this._source = new DataSource({
       ...deps.dialingPlanOptions,
       key: 'dialingPlan',

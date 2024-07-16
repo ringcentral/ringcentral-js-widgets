@@ -1,4 +1,5 @@
 import { mockModuleGenerator } from '@ringcentral-integration/commons/test/lib/mockModule';
+
 import { HeaderViewUI } from '../../../modules/HeaderViewUI';
 import type { Deps } from '../../../modules/HeaderViewUI/HeaderViewUI.interface';
 
@@ -35,10 +36,10 @@ describe('HeaderViewUI', () => {
     const instance = mockModuleGenerator(new HeaderViewUI(deps));
     instance.getUIFunctions({} as any).onCurrentCallBtnClick();
 
-    expect(routerPushMock).toBeCalledWith('/calls/active');
-    expect(userGuideMock).toBeCalledWith();
-    expect(quickAccessMock).toBeCalledWith();
-    expect(webphoneMock).toBeCalledWith('testActiveId');
+    expect(routerPushMock).toHaveBeenCalledWith('/calls/active');
+    expect(userGuideMock).toHaveBeenCalledWith();
+    expect(quickAccessMock).toHaveBeenCalledWith();
+    expect(webphoneMock).toHaveBeenCalledWith('testActiveId');
   });
 
   it('onViewCallBtnClick', async () => {
@@ -73,9 +74,9 @@ describe('HeaderViewUI', () => {
     const instance = mockModuleGenerator(new HeaderViewUI(deps));
     instance.getUIFunctions({} as any).onViewCallBtnClick();
 
-    expect(routerPushMock).toBeCalledWith('/calls');
-    expect(userGuideMock).toBeCalledWith();
-    expect(quickAccessMock).toBeCalledWith();
-    expect(webphoneMock).toBeCalledWith('testActiveId');
+    expect(routerPushMock).toHaveBeenCalledWith('/calls');
+    expect(userGuideMock).toHaveBeenCalledWith();
+    expect(quickAccessMock).toHaveBeenCalledWith();
+    expect(webphoneMock).toHaveBeenCalledWith('testActiveId');
   });
 });

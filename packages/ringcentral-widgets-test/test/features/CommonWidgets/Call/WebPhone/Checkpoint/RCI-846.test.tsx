@@ -6,7 +6,6 @@
  * Entry point(/s):
  * Make a call and keep in call control page
  */
-
 import {
   p1,
   it,
@@ -18,6 +17,7 @@ import {
   When,
   Given,
 } from '@ringcentral-integration/test-utils';
+
 import type { StepFunction } from '../../../../../lib/step';
 import {
   CallItemButtonBehavior,
@@ -94,16 +94,16 @@ export class RCI846 extends Step {
                   item.callStatus === 'webphone-session-connecting',
               );
               // The new call is answered
-              expect(phone.webphone.answer).toBeCalledWith(
+              expect(phone.webphone.answer).toHaveBeenCalledWith(
                 firstIncomingCall.id,
               );
-              expect(phone.webphone._onAccepted).toBeCalledWith(
+              expect(phone.webphone._onAccepted).toHaveBeenCalledWith(
                 expect.objectContaining({
                   id: firstIncomingCall.id,
                 }),
               );
               // other call would be held
-              expect(phone.webphone._holdOtherSession).toBeCalledWith(
+              expect(phone.webphone._holdOtherSession).toHaveBeenCalledWith(
                 firstIncomingCall.id,
               );
             },

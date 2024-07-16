@@ -17,7 +17,6 @@
  * Entry point(/s):
  * > Go to Contacts tab
  */
-
 import {
   p2,
   it,
@@ -31,6 +30,7 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 import { waitFor } from '@testing-library/react';
+
 import type { StepProp } from '../../../../../lib/step';
 import { CommonLogin } from '../../../../../steps/CommonLogin';
 import {

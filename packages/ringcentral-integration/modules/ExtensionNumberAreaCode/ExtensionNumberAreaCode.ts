@@ -1,10 +1,10 @@
-import type { Unsubscribe } from 'redux';
-
 import { computed, watch } from '@ringcentral-integration/core';
+import type { Unsubscribe } from 'redux';
 
 import type { NumberParserAPIResponse } from '../../interfaces/NumberParserResponse.interface';
 import { Module } from '../../lib/di';
 import { DataFetcherV2Consumer, DataSource } from '../DataFetcherV2';
+
 import type { Deps } from './ExtensionNumberAreaCode.interface';
 
 @Module({

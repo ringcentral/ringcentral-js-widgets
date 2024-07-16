@@ -20,3 +20,7 @@ export * from './MockActiveCall';
 export * from './MockGetRingOut';
 export * from './MockErrorRcvInvitation';
 export * from './MockPersonalMeetingSettings';
+export * from './MockFeaturePermission';
+export * from './MockPostOauthToken';
+export * from './MockGetStatus';
+export * from './MockLimitedPutPresence';

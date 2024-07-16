@@ -2,6 +2,7 @@ import React from 'react';
 
 import CallAvatar from '../CallAvatar';
 import ContactDisplay from '../ContactDisplay';
+
 import styles from './styles.scss';
 
 type CallInfoProps = {
@@ -22,7 +23,7 @@ type CallInfoProps = {
   phoneSourceNameRenderer?: (...args: any[]) => any;
   callQueueName?: string;
 };
-const CallInfo: React.SFC<CallInfoProps> = (props) => {
+const CallInfo: React.FC<CallInfoProps> = (props) => {
   let avatar;
   if (props.avatarUrl) {
     avatar = <CallAvatar avatarUrl={props.avatarUrl} />;
@@ -69,16 +70,7 @@ const CallInfo: React.SFC<CallInfoProps> = (props) => {
   );
 };
 CallInfo.defaultProps = {
-  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
-  phoneNumber: null,
-  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
-  avatarUrl: null,
   brand: 'RingCentral',
   showContactDisplayPlaceholder: true,
-  sourceIcons: undefined,
-  phoneTypeRenderer: undefined,
-  phoneSourceNameRenderer: undefined,
-  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
-  callQueueName: null,
 };
 export default CallInfo;

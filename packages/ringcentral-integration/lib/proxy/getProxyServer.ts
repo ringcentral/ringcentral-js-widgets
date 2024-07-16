@@ -1,16 +1,20 @@
-import ensureExist from '../ensureExist';
 import RcModule from '../RcModule';
+import ensureExist from '../ensureExist';
+
 import baseActionTypes from './baseActionTypes';
 import getProxyServerReducer from './getProxyServerReducer';
 
-const defaultVerifyModuleFunc = (module) => module instanceof RcModule;
+const defaultVerifyModuleFunc = (module: any) => module instanceof RcModule;
 
+// @ts-expect-error TS(4094): Property '_getState' of exported class expression ... Remove this comment to see the full error message
 export default function getProxyServer(
-  createTarget,
+  createTarget: any,
   verifyModuleFunc = defaultVerifyModuleFunc,
 ) {
   return class extends RcModule {
-    constructor({ transport, ...options }) {
+    _target: any;
+    _transport: any;
+    constructor({ transport, ...options }: any) {
       super({
         ...options,
         actionTypes: baseActionTypes,
@@ -31,10 +35,13 @@ export default function getProxyServer(
               return this._target[subModule];
             },
           });
-          this[subModule]._getStateV2 = (state, key) => state.target[key];
+          // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+          this[subModule]._getStateV2 = (state: any, key: any) =>
+            state.target[key];
         }
       }
 
+      // @ts-expect-error TS(2345): Argument of type 'string' is not assignable to par... Remove this comment to see the full error message
       this._transport = ensureExist.call(this, transport, 'transport');
       this._reducer = getProxyServerReducer({
         moduleReducer: this._target.reducer,
@@ -47,14 +54,14 @@ export default function getProxyServer(
         async ({
           requestId,
           payload: { type, functionPath, args, actionNumber },
-        }) => {
+        }: any) => {
           switch (type) {
             case this.actionTypes.execute:
               {
                 const [...pathTokens] = functionPath.split('.').slice(1);
                 const fnName = pathTokens.pop();
                 let target = this._target;
-                pathTokens.forEach((token) => {
+                pathTokens.forEach((token: any) => {
                   target = target[token];
                 });
                 try {

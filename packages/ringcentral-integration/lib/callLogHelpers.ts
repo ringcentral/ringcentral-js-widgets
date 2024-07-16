@@ -1,12 +1,11 @@
-import dayjs from 'dayjs';
-import { find, isEmpty, reduce } from 'ramda';
-
+import type ActiveCallInfoWithoutSIP from '@rc-ex/core/lib/definitions/ActiveCallInfoWithoutSIP';
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 import {
   isSameLocalNumber,
   isValidNumber,
 } from '@ringcentral-integration/phone-number';
-import type ActiveCallInfoWithoutSIP from '@rc-ex/core/lib/definitions/ActiveCallInfoWithoutSIP';
+import dayjs from 'dayjs';
+import { find, isEmpty, reduce } from 'ramda';
 
 import { callActions } from '../enums/callActions';
 import callDirections from '../enums/callDirections';
@@ -74,7 +73,7 @@ const callResultsToMissedMap = ObjectMap.fromObject(
   ),
 );
 
-export function isMissed(call: Partial<ActiveCall> = {}) {
+export function isMissed(call: Pick<Call, 'result'> = {}) {
   return !!callResultsToMissedMap[call.result!];
 }
 
@@ -239,7 +238,7 @@ export function removeInboundRingOutLegs(calls: ActiveCall[]) {
         if (
           inbound.from &&
           // TODO: should confirm that type, not met
-          // @ts-expect-error ts-migrate(2306) FIXME: type not match
+          // @ts-expect-error TS(2769): No overload matches this call.
           isValidNumber(inbound.from?.phoneNumber) &&
           isSameLocalNumber(
             inbound.from.phoneNumber,

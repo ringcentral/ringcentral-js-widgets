@@ -1,3 +1,4 @@
+import { mockMessageListData } from '../../../../../__mock__';
 import type { StepFunction } from '../../../../../lib/step';
 import {
   p2,
@@ -20,7 +21,6 @@ import {
 } from '../../../../../steps/Messages';
 import { MockMessageList, MockMessageSync } from '../../../../../steps/Mock';
 import { NavigateToMessagesTab } from '../../../../../steps/Navigate';
-import { mockMessageListData } from '../../../../../__mock__';
 
 @autorun(test.skip)
 @p2

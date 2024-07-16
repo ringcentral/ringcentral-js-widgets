@@ -5,6 +5,7 @@ import {
   transferEvents,
   transferSuccesses,
 } from '../../../enums';
+
 import i18n from './i18n';
 
 interface EvTransferCallAlertProps {

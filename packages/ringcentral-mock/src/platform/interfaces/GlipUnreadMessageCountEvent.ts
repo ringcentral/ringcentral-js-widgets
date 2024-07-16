@@ -1,5 +1,5 @@
-import type { GlipAPNSInfo } from './GlipAPNSInfo';
 import type { GCMInfo } from './GCMInfo';
+import type { GlipAPNSInfo } from './GlipAPNSInfo';
 
 export interface GlipUnreadMessageCountEvent {
   /**

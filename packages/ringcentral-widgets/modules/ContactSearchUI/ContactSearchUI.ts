@@ -1,3 +1,4 @@
+import { phoneTypes } from '@ringcentral-integration/commons/enums/phoneTypes';
 import { trackEvents } from '@ringcentral-integration/commons/enums/trackEvents';
 import type {
   ContactPresence,
@@ -41,6 +42,7 @@ import type {
 })
 export class ContactSearchUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
   private _companyContactsCache: Record<string, IContactSearchItem[]> = {};
+  private _otherContactsCache: Record<string, IContactSearchItem[]> = {};
   private _personalContactsCache: Record<string, IContactSearchItem[]> = {};
   private _minimumSearchLength?: number;
   private _companyContacts;
@@ -73,18 +75,41 @@ export class ContactSearchUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
 
   getFilteredCompanyContacts(searchFilter = '') {
     const lowCaseString = searchFilter.toLowerCase();
-    if (this._companyContacts !== this._deps.accountContacts.contacts) {
-      this._companyContacts = this._deps.accountContacts.contacts;
+    const accountContacts = this._deps.accountContacts.contacts;
+    if (this._companyContacts !== accountContacts) {
+      this._companyContacts = accountContacts;
     } else if (this._companyContactsCache[lowCaseString]) {
       return this._companyContactsCache[lowCaseString];
     }
 
+    const contacts = this._deps.contactSearchUIOptions?.filterCallQueueNumber
+      ? accountContacts.filter((contact) => !contact.isCallQueueNumber)
+      : accountContacts;
     const result = getRcFilteredContacts({
       lowCaseString,
-      contacts: this._deps.accountContacts.contacts,
+      contacts,
     });
 
     this._companyContactsCache[lowCaseString] = result;
+    return result;
+  }
+
+  getFilteredCallQueueContacts(searchFilter = '') {
+    const lowCaseString = searchFilter.toLowerCase();
+    if (this._companyContacts !== this._deps.accountContacts.contacts) {
+      this._companyContacts = this._deps.accountContacts.contacts;
+    } else if (this._otherContactsCache[lowCaseString]) {
+      return this._otherContactsCache[lowCaseString];
+    }
+
+    const result = getRcFilteredContacts({
+      lowCaseString,
+      contacts: this._deps.accountContacts.contacts.filter(
+        (contact) => contact.isCallQueueNumber,
+      ),
+    });
+
+    this._otherContactsCache[lowCaseString] = result;
     return result;
   }
 
@@ -113,6 +138,30 @@ export class ContactSearchUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
 
   @computed((that: ContactSearchUI) => [
     that.filterString,
+    that._deps.accountContacts.contacts,
+  ])
+  get otherContacts() {
+    if (this._deps.contactSearchUIOptions?.filterCallQueueNumber)
+      return this.getFilteredCallQueueContacts(this.filterString);
+
+    return [];
+  }
+
+  @computed((that: ContactSearchUI) => [that.otherContacts])
+  get filterCallQueueExtContacts() {
+    return (
+      this.otherContacts
+        .filter((contact) => contact.phoneType !== phoneTypes.extension)
+        // need to set isPrimary to true to show the phone number in the contact search panel
+        .map((contact) => ({
+          ...contact,
+          isPrimary: true,
+        }))
+    );
+  }
+
+  @computed((that: ContactSearchUI) => [
+    that.filterString,
     that._deps.addressBook.contacts,
   ])
   get personalContacts() {
@@ -130,7 +179,9 @@ export class ContactSearchUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
       : trackEvents.changeSMSDirectoryTab,
     { tab },
   ])
-  changeTabTrack(tab: string) {}
+  changeTabTrack(tab: string) {
+    //
+  }
 
   override onInitOnce() {
     watch(
@@ -146,6 +197,7 @@ export class ContactSearchUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
       () => this._deps.accountContacts.contacts,
       () => {
         this._companyContactsCache = {};
+        this._otherContactsCache = {};
       },
     );
   }
@@ -181,15 +233,21 @@ export class ContactSearchUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
     userInput,
     inputRef,
     directlyProceedText,
+    filterCallQueueExtension,
   }: PageProps): UIProps<ContactSearchPanelProps> {
     // @ts-expect-error TS(2741): Property 'thirdPartySourceName' is missing in type... Remove this comment to see the full error message
     return {
       currentLocale: this._deps.locale.currentLocale,
       companyContacts: this.companyContacts,
+      otherContacts: filterCallQueueExtension
+        ? this.filterCallQueueExtContacts
+        : this.otherContacts,
       personalContacts: this.personalContacts,
       userInput,
       inputRef,
       centered: this._deps.contactSearchUIOptions?.centered ?? false,
+      showOtherContacts:
+        this._deps.contactSearchUIOptions?.filterCallQueueNumber ?? false,
       minimumSearchLength: this._minimumSearchLength,
       thirdPartyContacts: this.searchContactList as IContactSearchItem[],
       isThirdPartySearching: !this._deps.contactSearch?.isIdle,
@@ -199,9 +257,11 @@ export class ContactSearchUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
 
   getUIFunctions({
     optionClickHandler,
+    triggerEventTracking,
   }: PageProps): UIFunctions<ContactSearchPanelProps> {
     return {
       optionClickHandler,
+      triggerEventTracking,
       searchHandler: async (searchString) => {
         await this._deps.contactSearch?.debouncedSearch({ searchString });
       },
@@ -217,7 +277,6 @@ export class ContactSearchUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
           });
         }
       },
-      // @ts-expect-error TS(2322): Type '(phoneNumber: string) => string | null | und... Remove this comment to see the full error message
       formatPhone: this.formatPhone,
       changeTabTrack: (v) => {
         this.changeTabTrack(v);

@@ -1,5 +1,5 @@
-import type Client from 'ringcentral-client';
 import type GetExtensionInfoResponse from '@rc-ex/core/lib/definitions/GetExtensionInfoResponse';
+import type Client from 'ringcentral-client';
 
 import type { RcVDialInNumberObj } from '../../interfaces/Rcv.model';
 import type { AccountInfo } from '../AccountInfo';
@@ -11,6 +11,7 @@ import type { ExtensionInfo } from '../ExtensionInfo';
 import type { Locale } from '../Locale';
 import type { Storage } from '../Storage';
 import type { VideoConfiguration } from '../VideoConfiguration';
+
 import type { DISABLE_E2EE_WHEN_RELATED_OPTION_MATCH } from './constants';
 
 export type DisableE2eeWhenRelatedOptionMatch =

@@ -8,7 +8,6 @@
  * Entry point(/s):
  * More -> Contacts
  */
-
 import {
   p2,
   it,
@@ -22,6 +21,7 @@ import {
   When,
   common,
 } from '@ringcentral-integration/test-utils';
+
 import type { StepProp } from '../../../../lib/step';
 import { CommonLogin } from '../../../../steps/CommonLogin';
 import {

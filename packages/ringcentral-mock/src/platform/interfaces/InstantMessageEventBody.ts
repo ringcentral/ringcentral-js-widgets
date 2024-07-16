@@ -1,7 +1,7 @@
+import type { ConversationInfo } from './ConversationInfo';
+import type { MessageAttachmentInfo } from './MessageAttachmentInfo';
 import type { NotificationRecipientInfo } from './NotificationRecipientInfo';
 import type { SenderInfo } from './SenderInfo';
-import type { MessageAttachmentInfo } from './MessageAttachmentInfo';
-import type { ConversationInfo } from './ConversationInfo';
 
 // Notification payload body
 export interface InstantMessageEventBody {

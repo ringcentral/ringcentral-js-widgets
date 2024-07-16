@@ -1,5 +1,3 @@
-import type { Reducer } from 'redux';
-
 import { usmAction } from '@ringcentral-integration/core';
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 import {
@@ -11,6 +9,7 @@ import {
   title,
   When,
 } from '@ringcentral-integration/test-utils';
+import type { Reducer } from 'redux';
 
 import { actionTypesBase, getDataReducer } from '../../lib/StorageBase';
 

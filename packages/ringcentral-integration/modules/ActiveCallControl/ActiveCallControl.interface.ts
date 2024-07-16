@@ -1,15 +1,15 @@
+import type { IPickUpCallParams as OriginalPickUpCallParams } from 'ringcentral-call';
 import type { Direction } from 'ringcentral-call-control/lib/Session';
 import { Session } from 'ringcentral-call/lib/Session';
 import { WebPhoneSession } from 'ringcentral-web-phone/lib/session';
-import type { IPickUpCallParams as OriginalPickUpCallParams } from 'ringcentral-call';
 
 import type { RouterInteraction } from '../../../ringcentral-widgets/modules/RouterInteraction';
 import type { TelephonyStatus } from '../../enums/telephonyStatus';
-import type { NormalizedSession } from '../../interfaces/Webphone.interface';
 import type {
   IWarmTransferInfo,
   ActiveCallControlSessionData,
 } from '../../interfaces/ActiveSession.interface';
+import type { NormalizedSession } from '../../interfaces/Webphone.interface';
 import type { RingCentralClient } from '../../lib/RingCentralClient';
 import type { AccountInfo } from '../AccountInfo';
 import type { Alert } from '../Alert';

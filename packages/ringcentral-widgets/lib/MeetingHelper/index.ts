@@ -1,6 +1,5 @@
-import { reduce } from 'ramda';
-
 import { format } from '@ringcentral-integration/utils';
+import { reduce } from 'ramda';
 
 import i18n from '../../components/MeetingConfigsV2/i18n';
 

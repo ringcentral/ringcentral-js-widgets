@@ -1,8 +1,8 @@
+import { errorMessages } from '@ringcentral-integration/commons/modules/RateLimiter';
 import React, { Component } from 'react';
 
-import { errorMessages } from '@ringcentral-integration/commons/modules/RateLimiter';
-
 import FormattedMessage from '../../FormattedMessage';
+
 import i18n from './i18n';
 
 function calculateState(duration: any, timestamp: any) {
@@ -46,7 +46,6 @@ class RequestRateExceededAlert extends Component<
     return (
       <FormattedMessage
         message={i18n.getString('rateExceeded', this.props.currentLocale)}
-        // @ts-expect-error TS(2322): Type 'number' is not assignable to type 'string'.
         values={{ ttl: this.state.ttl }}
       />
     );

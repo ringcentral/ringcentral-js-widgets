@@ -1,6 +1,3 @@
-import { EventEmitter } from 'events';
-import dayjs from 'dayjs';
-
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import {
   action,
@@ -9,6 +6,8 @@ import {
   storage,
 } from '@ringcentral-integration/core';
 import type { Mapping } from '@ringcentral-integration/widgets/typings';
+import dayjs from 'dayjs';
+import { EventEmitter } from 'events';
 
 import { callStatus } from '../../enums';
 import type {
@@ -22,6 +21,7 @@ import type {
   EvEndedCall,
   EvHoldResponse,
 } from '../../lib/EvClient';
+
 import type { CallDataSource, Deps } from './EvCallDataSource.interface';
 import { getTimeStamp } from './helper';
 

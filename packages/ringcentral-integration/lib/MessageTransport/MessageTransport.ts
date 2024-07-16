@@ -1,8 +1,8 @@
 import * as uuid from 'uuid';
 
-import TransportBase from '../TransportBase';
-import type { TransportBaseProps } from '../TransportBase/TransportBase';
+import { TransportBase, type TransportBaseProps } from '../TransportBase';
 import type { TransportResponseData } from '../TransportInteractionBase';
+
 import type { TransporterDirection } from './MessageTransporters';
 import {
   EventEmitterTransporter,
@@ -36,7 +36,7 @@ export const TRANSPORTER_TYPES = {
 } as const;
 
 export type TransporterTypes =
-  typeof TRANSPORTER_TYPES[keyof typeof TRANSPORTER_TYPES];
+  (typeof TRANSPORTER_TYPES)[keyof typeof TRANSPORTER_TYPES];
 
 export interface MessageTransportProps {
   transporterDirection?: TransporterDirection;
@@ -55,7 +55,7 @@ export default class MessageTransport extends TransportBase {
   private _addReceiver: Transporter['addReceiver'];
   private _createEmitter: Transporter['createEmitter'];
   private _targetWindow: Window;
-  private _origin: string;
+  private _origin?: string;
   private _myRequests: Map<any, any>;
   private _othersRequests: Map<any, any>;
   private _postMessage: any;
@@ -175,6 +175,7 @@ export default class MessageTransport extends TransportBase {
     });
 
     let timeout = setTimeout(() => {
+      // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Timeout'.
       timeout = null;
       this._myRequests
         .get(requestId)

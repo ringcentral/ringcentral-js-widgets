@@ -7,7 +7,6 @@
  * 1. Login Standalone
  * 2. Login floating window
  */
-
 import {
   p2,
   it,
@@ -20,6 +19,7 @@ import {
   common,
 } from '@ringcentral-integration/test-utils';
 import { screen } from '@testing-library/react';
+
 import type { StepFunction } from '../../../../../lib/step';
 import {
   CheckIncomingCallPageExist,

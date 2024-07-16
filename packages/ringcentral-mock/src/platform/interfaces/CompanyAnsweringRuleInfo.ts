@@ -1,7 +1,7 @@
-import type { CompanyAnsweringRuleCallersInfoRequest } from './CompanyAnsweringRuleCallersInfoRequest';
 import type { CompanyAnsweringRuleCalledNumberInfoRequest } from './CompanyAnsweringRuleCalledNumberInfoRequest';
-import type { CompanyAnsweringRuleScheduleInfo } from './CompanyAnsweringRuleScheduleInfo';
+import type { CompanyAnsweringRuleCallersInfoRequest } from './CompanyAnsweringRuleCallersInfoRequest';
 import type { CompanyAnsweringRuleExtensionInfoRequest } from './CompanyAnsweringRuleExtensionInfoRequest';
+import type { CompanyAnsweringRuleScheduleInfo } from './CompanyAnsweringRuleScheduleInfo';
 import type { GreetingInfo } from './GreetingInfo';
 
 export interface CompanyAnsweringRuleInfo {

@@ -1,9 +1,10 @@
+import fs from 'fs-extra';
 import path from 'path';
 import through from 'through2';
-import fs from 'fs-extra';
+
 import generateLoaderContent from '../generateLoaderContent';
-import isLocaleFile from '../isLocaleFile';
 import isLoaderFile, { noChunks } from '../isLoaderFile';
+import isLocaleFile from '../isLocaleFile';
 
 /**
  * - `supportedLocales` to support locales

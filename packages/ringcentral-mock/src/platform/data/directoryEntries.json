@@ -85,6 +85,38 @@
           "usageType": "DirectNumber"
         }
       ]
+    },
+    {
+      "id": "1737838004",
+      "type": "Department",
+      "status": "Enabled",
+      "name": "Tech Support",
+      "extensionNumber": "10092",
+      "account": {
+        "id": "1737819004"
+      },
+      "phoneNumbers": [
+        {
+          "phoneNumber": "+17204084360",
+          "type": "VoiceFax",
+          "formattedPhoneNumber": "+1(720)408-4360",
+          "usageType": "DirectNumber"
+        },
+        {
+          "phoneNumber": "+18553242201",
+          "type": "VoiceFax",
+          "formattedPhoneNumber": "+1(855)324-2201",
+          "usageType": "DirectNumber"
+        }
+      ]
+    },
+    {
+      "id": "2279689004",
+      "type": "Department",
+      "status": "Enabled",
+      "name": "callQueue2",
+      "extensionNumber": "10093",
+      "account": { "id": "1737819004" }
     }
   ],
   "paging": {

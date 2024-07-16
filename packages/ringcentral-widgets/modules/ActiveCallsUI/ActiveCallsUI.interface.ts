@@ -1,5 +1,3 @@
-import type { ComponentType } from 'react';
-
 import type { Call } from '@ringcentral-integration/commons/interfaces/Call.interface';
 import type { Entity } from '@ringcentral-integration/commons/interfaces/Entity.interface';
 import type { ActiveCall } from '@ringcentral-integration/commons/interfaces/Presence.model';
@@ -7,6 +5,7 @@ import type {
   NormalizedSession,
   WebphoneSession,
 } from '@ringcentral-integration/commons/interfaces/Webphone.interface';
+import type { AccountInfo } from '@ringcentral-integration/commons/modules/AccountInfo';
 import type {
   ActiveCallControl,
   ActiveSession,
@@ -14,9 +13,9 @@ import type {
 import type { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures';
 import type { Brand } from '@ringcentral-integration/commons/modules/Brand';
 import type { HistoryCall } from '@ringcentral-integration/commons/modules/CallHistory';
-import type { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettings';
 import type { CallLogger } from '@ringcentral-integration/commons/modules/CallLogger';
 import type { CallMonitor } from '@ringcentral-integration/commons/modules/CallMonitor';
+import type { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettings';
 import type {
   ComposeText,
   ToNumber,
@@ -29,16 +28,15 @@ import type {
 import type { ConnectivityMonitor } from '@ringcentral-integration/commons/modules/ConnectivityMonitor';
 import type { ContactMatcher } from '@ringcentral-integration/commons/modules/ContactMatcher';
 import type { ContactSearch } from '@ringcentral-integration/commons/modules/ContactSearch';
+import type { ExtensionInfo } from '@ringcentral-integration/commons/modules/ExtensionInfo';
 import type { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import type { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiter';
 import type { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
-import type { AccountInfo } from '@ringcentral-integration/commons/modules/AccountInfo';
-import type { ExtensionInfo } from '@ringcentral-integration/commons/modules/ExtensionInfo';
-
 import type {
   SwitchCallActiveCallParams,
   Webphone,
 } from '@ringcentral-integration/commons/modules/Webphone';
+import type { ComponentType } from 'react';
 
 import type { OnCreateContactOptions } from '../CallsListUI';
 import type { ContactDetailsUI, RouteParams } from '../ContactDetailsUI';
@@ -90,6 +88,7 @@ export interface ActiveCallsContainerProps {
   onViewContact: (options: { contact: RouteParams }) => void;
   showViewContact?: boolean;
   getAvatarUrl: (...args: any) => string;
+  showMergeCall?: boolean;
 }
 
 // TODO: move to new ActiveCallsPanel component
@@ -118,6 +117,7 @@ export interface ActiveCallsPanelProps {
     contact: Entity;
     redirect?: boolean;
   }) => void;
+  onMergeCall?: (webphoneSessionId: string) => any;
   webphoneAnswer: (
     sessionId: string,
     telephonySessionId: string,
@@ -195,6 +195,7 @@ export interface ActiveCallsPanelProps {
   onLogBasicInfoClick?: () => void;
   renderSmallCallContrl?: () => void;
   // customization
+  showMergeCall?: boolean;
   showCallDetail?: boolean;
   showIgnoreBtn?: boolean;
   showHoldAnswerBtn?: boolean;

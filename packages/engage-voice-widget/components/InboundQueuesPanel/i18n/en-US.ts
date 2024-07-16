@@ -9,4 +9,4 @@ export default {
   selectedTips:
     '{assignedInboundQueuesNumber} of {totalInboundQueuesNumber} Selected',
   selectAll: 'Select all',
-};
+} as const;

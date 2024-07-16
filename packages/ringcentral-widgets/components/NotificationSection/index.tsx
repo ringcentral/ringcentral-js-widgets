@@ -1,10 +1,10 @@
+import clsx from 'clsx';
 import React, { Component } from 'react';
-
-import classnames from 'classnames';
 
 import CloseIcon from '../../assets/images/CloseIcon.svg';
 import { Button } from '../Button';
 import LogNotification from '../LogNotification';
+
 import styles from './styles.scss';
 
 type NotificationSectionProps = {
@@ -57,13 +57,13 @@ class NotificationSection extends Component<NotificationSectionProps, {}> {
     } = this.props;
     return (
       <div
-        className={classnames(
+        className={clsx(
           styles.root,
           // @ts-expect-error TS(2532): Object is possibly 'undefined'.
           logNotification.notificationIsExpand ? styles.cover : null,
         )}
       >
-        <div className={styles.notificationModal}>
+        <div className={styles.notificationModal} data-sign="notificationModal">
           <Button
             dataSign="closeButton"
             className={styles.closeBtn}

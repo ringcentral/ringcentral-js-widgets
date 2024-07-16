@@ -11,7 +11,6 @@
  * Entry point(/s):
  * Scheduler:Login to Outlook: Calendar -> New Event > RingCentral Scheduler AppOutlook appointment :Login to Outlook: > New Meeting/Appointment > RingCentral for outlook
  */
-
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p2,
@@ -27,6 +26,7 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
+import { SelectOptionFromDropDown } from '../../../../steps/Common';
 import { Login as CommonLogin } from '../../../../steps/Login';
 import {
   CheckRCVPageDisplay,
@@ -36,7 +36,6 @@ import {
   CheckScheduleButton,
   CheckRemoveButton,
 } from '../../../../steps/Meeting';
-import { SelectOptionFromDropDown } from '../../../../steps/Common';
 
 // could not mock relogin in single case, will separate into 2 cases.
 @autorun(test.skip)

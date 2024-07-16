@@ -11,4 +11,4 @@ export const callingOptions = ObjectMap.prefixKeys(
 );
 
 export type CallingOptionsKeys = keyof typeof callingOptions;
-export type CallingOptionsType = typeof callingOptions[CallingOptionsKeys];
+export type CallingOptionsType = (typeof callingOptions)[CallingOptionsKeys];

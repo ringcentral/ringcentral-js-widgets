@@ -1,6 +1,6 @@
 {
   "name": "@ringcentral-integration/i18n",
-  "version": "2.2.0",
+  "version": "2.2.1",
   "private": false,
   "description": "A simple I18n implementation used in RingCentral Integration projects.",
   "homepage": "https://github.com/ringcentral/ringcentral-js-widgets#readme",
@@ -13,9 +13,8 @@
   },
   "license": "MIT",
   "author": "RingCentral Integrations",
-  "main": "index.js",
   "scripts": {
-    "build": "yarn gulp build",
+    "build": "tsc",
     "gulp": "gulp --require @ringcentral-integration/babel-settings/lib/register.js",
     "release": "yarn gulp release",
     "test": "yarn run-test"
@@ -23,12 +22,12 @@
   "devDependencies": {
     "@faker-js/faker": "^5.5.3",
     "@ringcentral-integration/babel-settings": "*",
-    "babel-jest": "^27.4.6",
+    "babel-jest": "^29.7.0",
     "fs-extra": "^10.1.0",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "gulp-sourcemaps": "^2.6.5",
-    "jest": "^27.4.7",
+    "jest": "^29.7.0",
     "yargs": "^17.1.1"
   },
   "peerDependencies": {
@@ -37,5 +36,10 @@
   "common": true,
   "ci": {
     "@ringcentral-integration/i18n": "**"
+  },
+  "nx": {
+    "tags": [
+      "scope:ci-group-1"
+    ]
   }
 }

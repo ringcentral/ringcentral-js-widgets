@@ -1,6 +1,7 @@
 import { act, fireEvent, screen, waitFor } from '@testing-library/react';
 
 import type { StepFunction } from '../../../lib/step';
+
 import type { MessageProps } from './MessageProps.interface';
 
 interface InputSMSProps extends MessageProps {}

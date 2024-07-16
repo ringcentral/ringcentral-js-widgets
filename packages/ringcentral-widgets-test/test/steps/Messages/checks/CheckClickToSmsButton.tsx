@@ -1,7 +1,8 @@
 import { waitForRenderReady } from '@ringcentral-integration/test-utils';
 import { fireEvent, screen } from '@testing-library/react';
-import type { StepFunction } from '../../../lib/step';
+
 import type { Context } from '../../../interfaces';
+import type { StepFunction } from '../../../lib/step';
 
 export const CheckClickToSmsButton: StepFunction<{
   phoneNumber: string;
@@ -18,7 +19,7 @@ export const CheckClickToSmsButton: StepFunction<{
   await waitForRenderReady();
 
   const recipientsChip = screen
-    .queryByTestId('recipientsChip')
+    .queryByTestId('recipientItem')
     ?.querySelector('span');
   expect(recipientsChip?.innerHTML).toEqual(phoneNumber);
 };

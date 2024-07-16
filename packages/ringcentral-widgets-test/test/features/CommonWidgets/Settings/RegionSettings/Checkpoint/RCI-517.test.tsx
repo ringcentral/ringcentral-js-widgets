@@ -15,7 +15,6 @@
  * > Go to the 'Settings' page
  * > Clickthe 'Region' setting option
  */
-
 import type { StepProp } from '@ringcentral-integration/test-utils';
 import {
   p2,
@@ -29,28 +28,28 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
+import { generateDialPlanData } from '../../../../../__mock__/generateDialPlanData';
+import {
+  CheckActiveCallExist,
+  MakeCall,
+  CheckCallControlPage,
+} from '../../../../../steps/Call';
 import { CommonLogin } from '../../../../../steps/CommonLogin';
+import { CreateInstance } from '../../../../../steps/CreateInstance';
 import {
   CreateMock,
   MockExtensionInfo,
   MockGetPhoneNumber,
   MockDialingPlan,
 } from '../../../../../steps/Mock';
-import { CreateInstance } from '../../../../../steps/CreateInstance';
+import { NavigateTo } from '../../../../../steps/Router';
 import {
   ClickSaveButton,
   CheckCountryCodeField,
   CheckCountryCodeHint,
   CheckAreaCodeField,
-  SelectCountryCode,
+  SetCountryCode,
 } from '../../../../../steps/Settings';
-import {
-  CheckActiveCallExist,
-  MakeCall,
-  CheckCallControlPage,
-} from '../../../../../steps/Call';
-import { NavigateTo } from '../../../../../steps/Router/action';
-import { generateDialPlanData } from '../../../../../__mock__/generateDialPlanData';
 
 @autorun(test)
 @it
@@ -99,15 +98,17 @@ export class RegionSettingForMultipleDialingPlan extends Step {
             <NavigateTo path="/settings/region" />,
             <CheckCountryCodeHint hint="Please select the country you locate in. This will be used for local dialing and phone number formatting." />,
             <CheckCountryCodeField
-              countryCode={`(+${callingMode}) ${countryName}`}
+              countryCallingCode={callingMode}
+              countryName={countryName}
             />,
           ]}
         />
         <When
           desc="Select the {Country} in the {Dialing plan} of region setting"
           action={async ({ callingMode, countryName }: any) => (
-            <SelectCountryCode
-              countryCode={`(+${callingMode}) ${countryName}`}
+            <SetCountryCode
+              countryCallingCode={callingMode}
+              countryName={countryName}
             />
           )}
         />
@@ -115,7 +116,8 @@ export class RegionSettingForMultipleDialingPlan extends Step {
           desc="The country name and country code show up"
           action={async ({ callingMode, countryName }: any) => [
             <CheckCountryCodeField
-              countryCode={`(+${callingMode}) ${countryName}`}
+              countryCallingCode={callingMode}
+              countryName={countryName}
             />,
             <CheckAreaCodeField value="" />,
           ]}

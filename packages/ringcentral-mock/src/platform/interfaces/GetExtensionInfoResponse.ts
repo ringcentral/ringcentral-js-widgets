@@ -1,16 +1,16 @@
-import type { GetExtensionAccountInfo } from './GetExtensionAccountInfo';
+import type { AutomaticLocationUpdatesSiteInfo } from './AutomaticLocationUpdatesSiteInfo';
+import type { CallQueueExtensionInfo } from './CallQueueExtensionInfo';
 import type { ContactInfo } from './ContactInfo';
 import type { CustomFieldInfo } from './CustomFieldInfo';
 import type { DepartmentInfo } from './DepartmentInfo';
 import type { ExtensionPermissions } from './ExtensionPermissions';
-import type { ProfileImageInfo } from './ProfileImageInfo';
-import type { ReferenceInfo } from './ReferenceInfo';
-import type { Roles } from './Roles';
-import type { RegionalSettings } from './RegionalSettings';
 import type { ExtensionServiceFeatureInfo } from './ExtensionServiceFeatureInfo';
 import type { ExtensionStatusInfo } from './ExtensionStatusInfo';
-import type { CallQueueExtensionInfo } from './CallQueueExtensionInfo';
-import type { AutomaticLocationUpdatesSiteInfo } from './AutomaticLocationUpdatesSiteInfo';
+import type { GetExtensionAccountInfo } from './GetExtensionAccountInfo';
+import type { ProfileImageInfo } from './ProfileImageInfo';
+import type { ReferenceInfo } from './ReferenceInfo';
+import type { RegionalSettings } from './RegionalSettings';
+import type { Roles } from './Roles';
 
 export interface GetExtensionInfoResponse {
   /**

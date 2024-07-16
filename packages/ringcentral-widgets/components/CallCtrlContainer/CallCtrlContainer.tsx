@@ -1,13 +1,13 @@
+import callDirections from '@ringcentral-integration/commons/enums/callDirections';
+import calleeTypes from '@ringcentral-integration/commons/enums/calleeTypes';
+import { sessionStatus } from '@ringcentral-integration/commons/modules/Webphone/sessionStatus';
+import { sleep } from '@ringcentral-integration/commons/utils';
 import type { PropsWithChildren } from 'react';
 import React, { Component } from 'react';
 
-import callDirections from '@ringcentral-integration/commons/enums/callDirections';
-import calleeTypes from '@ringcentral-integration/commons/enums/calleeTypes';
-import { sleep } from '@ringcentral-integration/commons/utils';
-import sessionStatus from '@ringcentral-integration/commons/modules/Webphone/sessionStatus';
-
-import CallCtrlPanel from '../CallCtrlPanel';
 import { callCtrlLayouts } from '../../enums/callCtrlLayouts';
+import CallCtrlPanel from '../CallCtrlPanel';
+
 import i18n from './i18n';
 
 export type CallCtrlContainerProps = PropsWithChildren<{
@@ -163,8 +163,7 @@ export class CallCtrlContainer extends Component<
   static isLastCallEnded({ lastCallInfo }: any) {
     return !!(lastCallInfo && lastCallInfo.status === sessionStatus.finished);
   }
-  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
-  componentDidMount() {
+  override componentDidMount() {
     this._mounted = true;
     this._updateAvatarAndMatchIndex(this.props);
     this._updateCurrentConferenceCall(this.props);
@@ -227,14 +226,25 @@ export class CallCtrlContainer extends Component<
   UNSAFE_componentWillReceiveProps(nextProps: any, nextState: any) {
     this._updateMergingPairToSessionId(nextProps, nextState);
     let layout = this.state.layout;
-    if (nextProps.session.id !== this.props.session.id) {
+    const sessionIdChanged = nextProps.session.id !== this.props.session.id;
+
+    if (
+      sessionIdChanged ||
+      // FIX: RCINT-38564, when previous call end, layout should be updated
+      (layout === callCtrlLayouts.completeTransferCtrl &&
+        !nextProps.session.warmTransferSessionId)
+    ) {
       layout = this.getLayout(this.props, nextProps);
       this.setState({
         layout,
       });
-      if (layout === callCtrlLayouts.normalCtrl) {
-        this._updateAvatarAndMatchIndex(nextProps);
-      }
+    }
+
+    const beNormalCtrl = layout === callCtrlLayouts.normalCtrl;
+    const nameMatchesChanged = nextProps.nameMatches !== this.props.nameMatches;
+
+    if (beNormalCtrl && (nameMatchesChanged || sessionIdChanged)) {
+      this._updateAvatarAndMatchIndex(nextProps);
     } else if (
       layout === callCtrlLayouts.mergeCtrl &&
       CallCtrlContainer.isLastCallEnded(this.props) === false &&

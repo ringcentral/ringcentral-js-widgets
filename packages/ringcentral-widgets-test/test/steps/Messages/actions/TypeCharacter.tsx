@@ -1,4 +1,5 @@
 import { screen, fireEvent } from '@testing-library/react';
+
 import type { StepFunction } from '../../../lib/step';
 
 interface ITypeCharacter {

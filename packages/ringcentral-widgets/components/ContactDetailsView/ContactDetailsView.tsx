@@ -1,9 +1,15 @@
 import type { FunctionComponent } from 'react';
 import React, { useEffect } from 'react';
 
-import BackHeader from '../BackHeader';
+import {
+  PageHeader,
+  PageHeaderBack,
+  PageHeaderRemain,
+  PageHeaderTitle,
+} from '../BackHeader/PageHeader';
 import { ContactDetails } from '../ContactDetails';
 import Panel from '../Panel';
+
 import type {
   ContactDetailsViewFunctionProps,
   ContactDetailsViewProps,
@@ -81,9 +87,13 @@ export const ContactDetailsView: FunctionComponent<
 
   return (
     <div className={styles.root}>
-      <BackHeader onBackClick={onBackClick} className={styles.header}>
-        {i18n.getString('contactDetails', currentLocale)}
-      </BackHeader>
+      <PageHeader>
+        <PageHeaderBack onClick={onBackClick} className={styles.header} />
+        <PageHeaderTitle>
+          {i18n.getString('contactDetails', currentLocale)}
+        </PageHeaderTitle>
+        <PageHeaderRemain />
+      </PageHeader>
       <Panel className={styles.content}>
         {content}
         {children}

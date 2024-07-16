@@ -1,8 +1,8 @@
-import { includes } from 'ramda';
-import type { Unsubscribe } from 'redux';
 import type ExtensionInfoEvent from '@rc-ex/core/lib/definitions/ExtensionInfoEvent';
 import type UserVideoConfiguration from '@rc-ex/core/lib/definitions/UserVideoConfiguration';
 import { watch } from '@ringcentral-integration/core';
+import { includes } from 'ramda';
+import type { Unsubscribe } from 'redux';
 
 import { subscriptionFilters } from '../../enums/subscriptionFilters';
 import { subscriptionHints } from '../../enums/subscriptionHints';
@@ -10,8 +10,9 @@ import type { DebouncedFunction } from '../../lib/debounce-throttle';
 import { debounce } from '../../lib/debounce-throttle';
 import { Module } from '../../lib/di';
 import { DataFetcherV2Consumer, DataSource } from '../DataFetcherV2';
-import type { UserLicenseType } from './userLicenseType';
+
 import type { Deps } from './VideoConfiguration.interface';
+import type { UserLicenseType } from './userLicenseType';
 import { videoProviders } from './videoProviders';
 
 const DEFAULT_FETCH_DELAY = 5 * 1000;
@@ -115,7 +116,7 @@ export class VideoConfiguration extends DataFetcherV2Consumer<
 
   get userLicenseType(): UserLicenseType {
     // TODO: fix UserVideoConfiguration type in @rc-ex/core/definitions
-    // @ts-ignore
+    // @ts-expect-error TS(2322): Type '"Free" | "Paid" | null' is not assignable to... Remove this comment to see the full error message
     return this.data?.userLicenseType || null;
   }
 

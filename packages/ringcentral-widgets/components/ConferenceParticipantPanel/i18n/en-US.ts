@@ -8,4 +8,4 @@ export default {
   participant: 'Participant',
   conferenceCall: 'Conference Call',
   unknownNumber: 'Anonymous',
-};
+} as const;

@@ -1,10 +1,13 @@
-import { RcModuleV2, watch } from '@ringcentral-integration/core';
+import { computed, RcModuleV2, watch } from '@ringcentral-integration/core';
 import type { IAnalytics } from '@ringcentral-integration/core/lib/track';
+import { getOsInfo } from '@ringcentral-integration/utils';
+import mixpanel from 'mixpanel-browser';
 
 import { Pendo, Segment } from '../../lib/Analytics';
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
 import saveBlob from '../../lib/saveBlob';
+
 import type {
   Deps,
   IdentifyOptions,
@@ -16,14 +19,15 @@ import type {
 } from './Analytics.interface';
 import { trackRouters } from './analyticsRouters';
 
-// TODO: refactoring the module against `https://docs.google.com/spreadsheets/d/1xufV6-C-RJR6OJgwFYHYzNQwhIdN4BXXCo8ABs7RT-8/edit#gid=1480480736`
 // TODO: if use `dialerUI`/`callLogSection`/`adapter`, make sure they should all be RcModuleV2
 @Module({
   name: 'Analytics',
   deps: [
     'Auth',
     'Brand',
+    'ExtensionFeatures',
     'AnalyticsOptions',
+    { dep: 'Environment', optional: true },
     { dep: 'AccountInfo', optional: true },
     { dep: 'ExtensionInfo', optional: true },
     { dep: 'RouterInteraction', optional: true },
@@ -34,12 +38,18 @@ export class Analytics<T extends Deps = Deps>
   extends RcModuleV2<T>
   implements IAnalytics
 {
+  appInitTime = Date.now();
+
   protected _useLog = this._deps.analyticsOptions.useLog ?? false;
 
   protected _lingerThreshold =
     this._deps.analyticsOptions.lingerThreshold ?? 1000;
 
   protected _enablePendo = this._deps.analyticsOptions.enablePendo ?? false;
+
+  protected _analyticsKey = this._deps.analyticsOptions.analyticsKey;
+  protected _enableMixpanel =
+    this._deps.analyticsOptions.enableMixpanel ?? false;
 
   protected _pendoApiKey = this._deps.analyticsOptions.pendoApiKey ?? '';
 
@@ -65,12 +75,24 @@ export class Analytics<T extends Deps = Deps>
     this._deps.analyticsOptions.useLocalPendoJS ?? false;
   private _useLocalAnalyticsJS =
     this._deps.analyticsOptions.useLocalAnalyticsJS ?? false;
+  protected _identifyMixpanelPromise: Promise<void> | undefined;
+  protected _identifyMixpanelResolve?: () => void;
+
+  private _OSInfo: { OS: string; Device: string };
 
   constructor(deps: T) {
     super({
       deps,
     });
-    this._segment = Segment();
+    this._OSInfo = getOsInfo();
+    this._segment =
+      this._enableMixpanel && this._analyticsKey ? null : Segment();
+    if (this.enableMixpanel) {
+      mixpanel.init(this._analyticsKey);
+      // According to EU policy, we had to disable mixpanel to upload IP addresses
+      mixpanel.set_config({ ip: false });
+      console.log('mixpanel init');
+    }
     if (this._enablePendo && this._pendoApiKey) {
       Pendo.init(
         this._pendoApiKey,
@@ -83,9 +105,12 @@ export class Analytics<T extends Deps = Deps>
   }
 
   override onInitOnce() {
-    if (this._deps.analyticsOptions.analyticsKey && this._segment) {
+    this._identifyMixpanelPromise = new Promise((resolve) => {
+      this._identifyMixpanelResolve = resolve;
+    });
+    if (this._analyticsKey && this._segment) {
       this._segment.load(
-        this._deps.analyticsOptions.analyticsKey,
+        this._analyticsKey,
         {
           integrations: {
             All: true,
@@ -96,8 +121,6 @@ export class Analytics<T extends Deps = Deps>
       );
     }
     if (this._deps.routerInteraction) {
-      // make sure that track if refresh app
-      this.trackRouter();
       watch(
         this,
         () => this._deps.routerInteraction!.currentPath,
@@ -108,7 +131,10 @@ export class Analytics<T extends Deps = Deps>
     }
   }
 
-  trackRouter(currentPath = this._deps.routerInteraction?.currentPath) {
+  async trackRouter(currentPath = this._deps.routerInteraction?.currentPath) {
+    if (this.enableMixpanel) {
+      await this._identifyMixpanelPromise;
+    }
     const target = this.getTrackTarget(currentPath);
     if (target) {
       this.trackNavigation(target);
@@ -136,16 +162,29 @@ export class Analytics<T extends Deps = Deps>
   }
 
   protected _identify({ userId, ...props }: IdentifyOptions) {
-    this.analytics?.identify(userId, props, {
-      integrations: {
-        All: true,
-        Mixpanel: true,
-        Pendo: this._enablePendo,
-      },
-    });
+    if (this.enableMixpanel) {
+      this._mixpanelInitialize({ userId });
+    } else if (this.analytics) {
+      this.analytics.identify(userId, props, {
+        integrations: {
+          All: true,
+          Mixpanel: true,
+          Pendo: this._enablePendo,
+        },
+      });
+    }
     if (this._enablePendo && this._pendoApiKey) {
       this._pendoInitialize({ userId, ...props, env: this._env });
     }
+  }
+
+  protected _mixpanelInitialize({ userId }: { userId: string }) {
+    if (!userId || mixpanel.get_distinct_id?.() === userId) {
+      return;
+    }
+    console.log('mixpanel identify');
+    mixpanel.identify(userId);
+    this._identifyMixpanelResolve?.();
   }
 
   pendoIdentify({
@@ -200,7 +239,7 @@ export class Analytics<T extends Deps = Deps>
 
   @proxify
   async track(event: string, properties: any = {}) {
-    if (!this.analytics) {
+    if (!this.analytics && !this.enableMixpanel) {
       return;
     }
 
@@ -209,14 +248,24 @@ export class Analytics<T extends Deps = Deps>
       ...properties,
       ...this.extendedProps.get(event),
     };
+    if (this.enableMixpanel) {
+      // NOTE: Data tracking has been migrated from Segment to Mixpanel.
+      // Add id to identify in Mixpanel, so the usage data can be filtered same as before.
+      if (this._deps.auth?.ownerId) {
+        trackProps.id = this._deps.auth.ownerId;
+      }
+      mixpanel.track(event, trackProps);
+    }
 
-    this.analytics.track(event, trackProps, {
-      integrations: {
-        All: true,
-        Mixpanel: true,
-        Pendo: this._enablePendo,
-      },
-    });
+    if (this.analytics) {
+      this.analytics.track(event, trackProps, {
+        integrations: {
+          All: true,
+          Mixpanel: true,
+          Pendo: this._enablePendo,
+        },
+      });
+    }
 
     if (this._useLog) {
       this._logs.push({
@@ -304,6 +353,10 @@ export class Analytics<T extends Deps = Deps>
     });
   }
 
+  toggleDebug() {
+    this.mixpanel.set_config({ debug: !this.mixpanel.get_config('debug') });
+  }
+
   get extendedProps() {
     return this._eventExtendedPropsMap;
   }
@@ -312,18 +365,73 @@ export class Analytics<T extends Deps = Deps>
     return (global as any).analytics;
   }
 
+  get mixpanel() {
+    return mixpanel;
+  }
+
+  @computed((that: Analytics) => [
+    that._deps.brand.brandConfig,
+    that._deps.accountInfo?.id,
+    that._deps.extensionInfo?.country,
+    that._deps.extensionFeatures?.features,
+  ])
+  private get trackedUserInfo(): TrackProps {
+    const userInfo: Record<string, any> = {
+      BrandId: this._deps.brand.brandConfig.id,
+      AccountID: this._deps.accountInfo?.id,
+      BrandName: this._deps.brand.brandConfig.name,
+      CRMEnabled: this._deps.accountInfo?.isCRMEnabled,
+      servicePlanId: this._deps.accountInfo?.servicePlan.id,
+      edition: this._deps.accountInfo?.servicePlan.edition,
+    };
+
+    const features = this._deps.extensionFeatures?.features;
+    const isCallingEnabled =
+      features?.RingOut?.available || features?.WebPhone?.available;
+    const hasSmsPermission =
+      features?.PagesReceiving?.available || features?.SMSReceiving?.available;
+    const hasFaxPermission = features?.FaxReceiving?.available;
+    const hasGlipPermission = features?.Glip?.available;
+
+    const properties = [
+      { name: 'PhoneService', value: isCallingEnabled },
+      { name: 'SMSService', value: hasSmsPermission },
+      { name: 'FaxService', value: hasFaxPermission },
+      { name: 'MessageService', value: hasGlipPermission },
+    ];
+
+    properties.forEach(({ name, value }) => {
+      if (value !== undefined) {
+        userInfo[name] = value ? 'ON' : 'OFF';
+      }
+    });
+
+    return userInfo as TrackProps;
+  }
+
   get trackProps(): TrackProps {
     return {
+      ...this.trackedUserInfo,
+      ...this._OSInfo,
       appName: this._deps.brand.defaultConfig.appName,
       appVersion: this._deps.analyticsOptions.appVersion,
       brand: this._deps.brand.defaultConfig.code,
       'App Language': this._deps.locale?.currentLocale || '',
       'Browser Language': this._deps.locale?.browserLocale || '',
       'Extension Type': this._deps.extensionInfo?.info.type || '',
+      'App Init Time': this.appInitTime,
     };
   }
 
   get pendo() {
     return this._pendo;
+  }
+
+  get enableMixpanel() {
+    return !!(
+      this._enableMixpanel &&
+      this._analyticsKey &&
+      (!this._deps.environment || this._deps.environment.allowDataTracking)
+    );
   }
 }

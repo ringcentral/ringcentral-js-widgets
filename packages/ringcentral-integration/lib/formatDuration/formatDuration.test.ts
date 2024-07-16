@@ -1,6 +1,5 @@
-import { expect } from 'chai';
-
 import { formatDuration } from '.';
+import { expect } from 'chai';
 
 describe('formatDuration', () => {
   it('should be a function', () => {

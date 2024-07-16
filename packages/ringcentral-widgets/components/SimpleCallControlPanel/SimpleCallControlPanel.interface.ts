@@ -3,7 +3,7 @@ import type { ActiveSession } from '@ringcentral-integration/commons/modules/Act
 
 export interface SimpleCallControlPanelProps {
   currentLocale: string;
-  activeSession: Partial<ActiveSession> | null;
+  activeSession: Partial<ActiveSession> | undefined | null;
   sessionId: string;
   areaCode: string;
   countryCode: string;
@@ -15,7 +15,7 @@ export interface SimpleCallControlPanelProps {
   showContactDisplayPlaceholder?: boolean;
   nameMatches: Entity[];
   onBackButtonClick: () => void;
-  setActiveSessionId: (sessionId: string) => void;
+  setActiveSessionId?: (sessionId: string) => void;
   onTransfer: (sessionId: string) => void;
   onMute: () => void;
   onUnmute: () => void;

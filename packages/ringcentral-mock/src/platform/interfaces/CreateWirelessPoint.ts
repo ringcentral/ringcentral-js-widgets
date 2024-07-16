@@ -1,6 +1,6 @@
 import type { AutomaticLocationUpdatesSiteInfo } from './AutomaticLocationUpdatesSiteInfo';
-import type { LocationUpdatesEmergencyAddressInfoRequest } from './LocationUpdatesEmergencyAddressInfoRequest';
 import type { ERLLocationInfo } from './ERLLocationInfo';
+import type { LocationUpdatesEmergencyAddressInfoRequest } from './LocationUpdatesEmergencyAddressInfoRequest';
 
 export interface CreateWirelessPoint {
   /**

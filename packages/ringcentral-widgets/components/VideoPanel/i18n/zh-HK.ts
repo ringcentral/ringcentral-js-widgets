@@ -14,7 +14,7 @@ export default {
   waitingRoomGuest: "未登入的任何人",
   waitingRoomAll: "所有人",
   enterPassword: "輸入密碼",
-  onlyJoinAfterMe: "參與者只能在我之後加入",
+  onlyJoinAfterMe: "參加者僅能在我之後加入",
   onlyJoinAfterHost: "參加者僅能在主持人之後加入",
   muteAudio: "靜音參與者的音訊",
   turnOffCamera: "關閉參與者的攝影機",
@@ -37,8 +37,7 @@ export default {
   today: "今日",
   scheduleForGuidance: "要為其他人排程嗎？\n1. 請確認您在他們的 Outlook 行事曆中。\n2. 從下拉選單中選取您要幫助其排程的人員。\n",
   scheduleForGuidanceMore: "瞭解詳細資訊",
-  changePmiSettings: "變更個人會議設定",
-  ieSupportAlert: "請注意，2022 年 2 月 16 日以後，{appName} 將無法再在 Internet Explorer 11 中使用。我們推薦您切換到 Microsoft Edge 或更新至 Outlook 2016 或以上版本。"
+  changePmiSettings: "變更個人會議設定"
 };
 
 // @key: @#@"topic"@#@ @source: @#@"Meeting title"@#@
@@ -79,4 +78,3 @@ export default {
 // @key: @#@"scheduleForGuidance"@#@ @source: @#@"Scheduling for someone else?\n1. Make sure you're on their Outlook calendar.\n2. From the dropdown, select the person you're scheduling for.\n"@#@
 // @key: @#@"scheduleForGuidanceMore"@#@ @source: @#@"Learn details"@#@
 // @key: @#@"changePmiSettings"@#@ @source: @#@"Change Personal Meeting settings"@#@
-// @key: @#@"ieSupportAlert"@#@ @source: @#@"Please note that {appName} won't work with Internet Explorer 11 after Feb 16, 2022. We recommend switching to Microsoft Edge or updating to Outlook 2016 or above."@#@

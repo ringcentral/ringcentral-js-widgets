@@ -1,6 +1,5 @@
+import clsx from 'clsx';
 import React, { Component } from 'react';
-
-import classnames from 'classnames';
 
 import { ContactItem } from './ContactItem';
 import styles from './styles.scss';
@@ -78,7 +77,7 @@ export class ContactDropdownList extends Component<
     }
     return (
       <ul
-        className={classnames(styles.dropdownList, className)}
+        className={clsx(styles.dropdownList, className)}
         ref={(c) => {
           this.node = c;
           if (typeof listRef === 'function') {

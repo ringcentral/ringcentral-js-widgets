@@ -1,7 +1,6 @@
+import clsx from 'clsx';
 import type { FunctionComponent } from 'react';
 import React from 'react';
-
-import classNames from 'classnames';
 
 import type {
   EvActiveCallListUIFunctions,
@@ -14,6 +13,7 @@ import {
   HoldCallButton,
   MuteCallButton,
 } from '../SmallCallControl';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 
@@ -53,7 +53,7 @@ const ActiveCallListPanel: FunctionComponent<ActiveCallListPanelProps> = ({
           </div>
         </div>
         <div className={styles.item} data-sign="callItem">
-          <span className={classNames(styles.otherCallInfo, styles.children)}>
+          <span className={clsx(styles.otherCallInfo, styles.children)}>
             {formatPhoneNumber({
               phoneNumber: everyoneCaller.session.phone,
               currentLocale,
@@ -81,9 +81,7 @@ const ActiveCallListPanel: FunctionComponent<ActiveCallListPanelProps> = ({
           </div>
         </div>
         <div className={styles.item} data-sign="callItem">
-          <span
-            className={classNames(styles.emphasisCallInfo, styles.children)}
-          >
+          <span className={clsx(styles.emphasisCallInfo, styles.children)}>
             {`${ownCall.agentName || userName || ''}(${i18n.getString(
               'me',
               currentLocale,
@@ -114,9 +112,7 @@ const ActiveCallListPanel: FunctionComponent<ActiveCallListPanelProps> = ({
               ?.destination;
           return (
             <div className={styles.item} data-sign="callItem" key={key}>
-              <span
-                className={classNames(styles.otherCallInfo, styles.children)}
-              >
+              <span className={clsx(styles.otherCallInfo, styles.children)}>
                 {formatPhoneNumber({
                   phoneNumber: destination,
                   currentLocale,

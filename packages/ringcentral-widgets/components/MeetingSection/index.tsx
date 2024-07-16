@@ -1,8 +1,8 @@
+import clsx from 'clsx';
 import React, { Component } from 'react';
 
-import classnames from 'classnames';
-
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
+
 import styles from './styles.scss';
 
 type MeetingSectionProps = {
@@ -45,16 +45,16 @@ class MeetingSection extends Component<
     const DropDown = ({ isDropDown, onClick }: any) =>
       withSwitch ? (
         <span
-          className={classnames(isDropDown ? styles.dropDown : null)}
+          className={clsx(isDropDown ? styles.dropDown : null)}
           onClick={onClick}
         >
-          <i className={classnames(dynamicsFont.arrow, styles.arrow)} />
+          <i className={clsx(dynamicsFont.arrow, styles.arrow)} />
         </span>
       ) : null;
     const topBorderLine = hideTopBorderLine ? styles.hiddenTopBorder : null;
     return (
       <div
-        className={classnames(
+        className={clsx(
           styles.section,
           topBorderLine,
           useRCUI ? styles.rcuiStyle : null,

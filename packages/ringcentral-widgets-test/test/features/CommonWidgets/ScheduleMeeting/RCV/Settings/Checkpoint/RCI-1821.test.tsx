@@ -9,7 +9,6 @@
  * Salesforce/RingCentral for Google/O365 Settings:More Menu > schedule video meeting > Security
  * LTI:Click the Schedule' button on the Home/Recents meeting list page
  */
-
 import type { StepFunction } from '../../../../../../lib/step';
 import {
   p2,
@@ -22,6 +21,10 @@ import {
   When,
   common,
 } from '../../../../../../lib/step';
+import {
+  SelectOptionFromDropDown,
+  CheckDropDownList,
+} from '../../../../../../steps/Common';
 import { Login as CommonLogin } from '../../../../../../steps/Login';
 import {
   TurnOnToggle,
@@ -30,10 +33,6 @@ import {
   CheckPatchMeetingParams,
   CheckRCVPageDisplay,
 } from '../../../../../../steps/Meeting';
-import {
-  SelectOptionFromDropDown,
-  CheckDropDownList,
-} from '../../../../../../steps/Common';
 
 @autorun(test.skip)
 @common

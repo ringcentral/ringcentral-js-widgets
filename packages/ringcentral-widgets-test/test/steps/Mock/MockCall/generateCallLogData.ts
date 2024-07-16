@@ -1,11 +1,11 @@
 import callLogBody from '@ringcentral-integration/commons/integration-test/mock/data/callLog.json';
-import { v4 as uuidV4 } from 'uuid';
-import { mergeDeepRight, mergeRight } from 'ramda';
+import { getISODateFrom } from '@ringcentral-integration/commons/modules/CallLog';
 import type {
   CallLogSync,
   UserCallLogRecord,
 } from '@ringcentral-integration/mock';
-import { getISODateFrom } from '@ringcentral-integration/commons/modules/CallLog';
+import { mergeDeepRight, mergeRight } from 'ramda';
+import { v4 as uuidV4 } from 'uuid';
 
 const callLogItem = callLogBody.records[0];
 const DEFAULT_DAY_SPAN = 7;

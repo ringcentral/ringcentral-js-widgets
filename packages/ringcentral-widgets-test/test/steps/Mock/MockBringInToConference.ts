@@ -9,7 +9,8 @@ interface MockBringInToConferenceProps {
   repeat?: number;
 }
 
-export const MockBringInToConference: StepFunction<MockBringInToConferenceProps> =
-  async ({ handler, repeat }, { rcMock }) => {
-    rcMock.bringInToConference(handler, repeat);
-  };
+export const MockBringInToConference: StepFunction<
+  MockBringInToConferenceProps
+> = async ({ handler, repeat }, { rcMock }) => {
+  rcMock.bringInToConference(handler, repeat);
+};

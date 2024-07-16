@@ -1,7 +1,8 @@
-import { forEach } from 'ramda';
 import type AddressBookSync from '@rc-ex/core/lib/definitions/AddressBookSync';
+import { forEach } from 'ramda';
 
 import { syncTypes } from '../../enums/syncTypes';
+
 import type { SyncParameters } from './AddressBook.interface';
 
 const REGX_DECODE = /&\w+;/g;

@@ -122,17 +122,16 @@ export function compile() {
     .src([
       './**/*.js',
       './**/*.ts',
+      '!./**/*.min.js',
+      '!./**/*/pendo.xhr.js',
       '!./**/*.d.ts',
       '!./**/*.test.js',
       '!./**/*.test.ts',
       '!./*.js',
       '!./coverage{/**,}',
       '!./docs{/**,}',
-      '!./karma{/**,}',
       '!./junit{/**,}',
       '!./node_modules{/**,}',
-      '!./**/*.min.js',
-      '!./**/pendo.xhr.js',
     ])
     .pipe(
       transformLoader({
@@ -146,13 +145,13 @@ export function compile() {
 }
 
 export function minifiedFileCopy() {
-  const localAnalyticFilePath = path.resolve(
-    __dirname,
-    './lib/Analytics',
-  );
+  const localAnalyticFilePath = path.resolve(__dirname, './lib/Analytics');
   const destPath = path.resolve(BUILD_PATH, './lib/Analytics');
   return gulp
-    .src([`${localAnalyticFilePath}/*.min.js`, `${localAnalyticFilePath}/pendo.xhr.js`])
+    .src([
+      `${localAnalyticFilePath}/*.min.js`,
+      `${localAnalyticFilePath}/pendo.xhr.js`,
+    ])
     .pipe(gulp.dest(destPath));
 }
 

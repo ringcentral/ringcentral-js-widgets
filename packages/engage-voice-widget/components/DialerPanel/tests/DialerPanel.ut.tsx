@@ -1,6 +1,7 @@
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 
 import { Dialer } from '../Dialer';
+
 import { createDialerPanel } from './createDialerPanel';
 
 interface DialerPanelProps {

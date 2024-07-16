@@ -1,3 +1,4 @@
+import { isCriusNode } from 'crius-is';
 import type { StepFunction as BaseStepFunction } from 'crius-test';
 import {
   Step as BaseStep,
@@ -10,7 +11,7 @@ import {
   And as BaseAnd,
   examples,
 } from 'crius-test';
-import { isCriusNode } from 'crius-is';
+
 import { combine } from './combine';
 import type { TestType } from './constant';
 import { testTypes } from './constant';

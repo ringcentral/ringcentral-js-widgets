@@ -1,9 +1,9 @@
-import React from 'react';
-
 import webphoneErrors from '@ringcentral-integration/commons/modules/Webphone/webphoneErrors';
 import webphoneMessages from '@ringcentral-integration/commons/modules/Webphone/webphoneMessages';
+import React from 'react';
 
 import FormattedMessage from '../../FormattedMessage';
+
 import i18n from './i18n';
 
 const webphoneMessageList = [
@@ -38,7 +38,7 @@ type WebphoneAlertProps = {
     message: string;
   };
 };
-const WebphoneAlert: React.SFC<WebphoneAlertProps> = (props) => {
+const WebphoneAlert: React.FC<WebphoneAlertProps> = (props) => {
   const { message } = props.message;
   let view = <span>{i18n.getString(message, props.currentLocale)}</span>;
   // Handle call record error

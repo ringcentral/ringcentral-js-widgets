@@ -1,10 +1,9 @@
-import React from 'react';
-
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import type { UIFunctions, UIProps } from '@ringcentral-integration/core';
 import { computed, RcUIModuleV2 } from '@ringcentral-integration/core';
 
 import type { HeaderViewProps } from '../../components/HeaderView';
+
 import type { Deps } from './HeaderViewUI.interface';
 
 @Module({
@@ -67,11 +66,8 @@ export class HeaderViewUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
     };
   }
 
-  getUIFunctions({
-    logo,
-  }: Partial<HeaderViewProps>): UIFunctions<HeaderViewProps> {
+  getUIFunctions(_: Partial<HeaderViewProps>): UIFunctions<HeaderViewProps> {
     return {
-      logo,
       onCurrentCallBtnClick: () => {
         if (this._deps.routerInteraction.currentPath !== '/calls/active') {
           this._deps.routerInteraction.push('/calls/active');

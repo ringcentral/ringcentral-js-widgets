@@ -4,4 +4,4 @@ export default {
   enterNameOrNumber: 'Enter Number or Name...',
   typeMessage: 'Type message...',
   send: 'Send',
-};
+} as const;

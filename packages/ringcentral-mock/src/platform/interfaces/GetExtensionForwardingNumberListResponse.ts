@@ -1,6 +1,6 @@
-import type { ForwardingNumberInfo } from './ForwardingNumberInfo';
 import type { CallHandlingNavigationInfo } from './CallHandlingNavigationInfo';
 import type { CallHandlingPagingInfo } from './CallHandlingPagingInfo';
+import type { ForwardingNumberInfo } from './ForwardingNumberInfo';
 
 export interface GetExtensionForwardingNumberListResponse {
   /**

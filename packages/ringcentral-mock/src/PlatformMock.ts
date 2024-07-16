@@ -1,18 +1,18 @@
-import { URL, URLSearchParams } from 'url';
+import $RefParser from '@apidevtools/json-schema-ref-parser';
 import Ajv from 'ajv';
 import type { MockOptions, MockRequest } from 'fetch-mock';
 import fetchMock from 'fetch-mock-jest';
 import type { JSONSchemaFakerOptions } from 'json-schema-faker';
 import type { OpenAPIV3 } from 'openapi-types';
 import { match } from 'path-to-regexp';
-import $RefParser from '@apidevtools/json-schema-ref-parser';
+
 import type { Debugger } from './debugger';
 import { createDebugger } from './debugger';
 import type { Generate } from './faker';
 import { fake } from './faker';
+import type { SchemaObject } from './interface';
 import type { Delete, Get, Patch, Post, Put } from './platform/apis';
 import schemas from './platform/schemas.json';
-import type { SchemaObject } from './interface';
 
 interface ResponseBody<T> {
   /**
@@ -227,6 +227,7 @@ export class PlatformMock {
         : createDebugger({ verbose: options?.verbose });
     this.fetchMock.catch((url, request) => {
       this.debugger?.({ url, mock: false, request });
+      return new Response('ok', { status: 200 });
     });
     return this;
   }
@@ -247,9 +248,10 @@ export class PlatformMock {
       response: async (url: string, request: MockRequest = {}) => {
         let schema: OpenAPIV3.SchemaObject | null = null;
         let methodSchema: MethodSchema | null = null;
-        if (this.schemas.paths[matcher]) {
+        const schemaItem = this.schemas.paths[matcher as never];
+        if (schemaItem) {
           try {
-            methodSchema = this.schemas.paths[matcher][method.toLowerCase()];
+            methodSchema = schemaItem[method.toLowerCase()] as MethodSchema;
             schema =
               methodSchema!.responses?.[status] ??
               (methodSchema!.responses as DefaultSchemas)?.default;

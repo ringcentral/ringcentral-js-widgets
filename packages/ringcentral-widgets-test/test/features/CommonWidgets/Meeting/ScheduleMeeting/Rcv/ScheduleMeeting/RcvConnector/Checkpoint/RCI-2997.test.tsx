@@ -16,42 +16,51 @@
  * Note(/s):
  * 793123 is the dial-in password
  */
-
 import type { StepProp } from '@ringcentral-integration/test-utils';
 import {
-  p3,
-  it,
-  autorun,
-  examples,
-  Given,
   And,
+  Given,
   Scenario,
   Step,
   Then,
-  title,
   When,
+  autorun,
+  common,
+  examples,
+  it,
+  p3,
+  title,
 } from '@ringcentral-integration/test-utils';
 
-import { CommonLogin } from '../../../../../../../../steps/CommonLogin';
-import {
-  CreateMock,
-  MockErrorRcvInvitation,
-  MockPermission,
-  MockGetTelephonyState,
-  MockMessageSync,
-  MockCallLogSync,
-} from '../../../../../../../../steps/Mock';
-import { CreateInstance } from '../../../../../../../../steps/CreateInstance';
+import type { Context } from '../../../../../../../../interfaces';
 import { CheckAlertMessage } from '../../../../../../../../steps/Alert';
+import { CommonLogin } from '../../../../../../../../steps/CommonLogin';
+import { CreateInstance } from '../../../../../../../../steps/CreateInstance';
 import {
   CheckRCVPageDisplay,
-  TurnOnToggle,
-  TurnOffToggle,
-  EnterPassword,
   ClickScheduleButton,
+  EnterPassword,
+  MockPostBridges,
+  TurnOffToggle,
+  TurnOnToggle,
 } from '../../../../../../../../steps/Meeting';
+import {
+  CreateMock,
+  MockCallLogSync,
+  MockErrorRcvInvitation,
+  MockGetTelephonyState,
+  MockMessageSync,
+  MockPermission,
+} from '../../../../../../../../steps/Mock';
+import { NavigateTo } from '../../../../../../../../steps/Router';
 
-@autorun(test.skip)
+interface ExampleItem {
+  isMeetingSecret: boolean;
+  meetingPassword: string;
+}
+
+@autorun(test)
+@common
 @it
 @p3
 @title(
@@ -79,6 +88,7 @@ export class RCVConnector extends Step {
         <Given
           desc="The API failed to return the value of invitation Info"
           action={[
+            MockPostBridges,
             MockErrorRcvInvitation,
             MockCallLogSync,
             MockMessageSync,
@@ -95,11 +105,14 @@ export class RCVConnector extends Step {
             />,
           ]}
         />
-        <When desc="Go to Entry points" action={Login} />
+        <When
+          desc="Go to Entry points"
+          action={() => [Login, <NavigateTo path="/meeting" />]}
+        />
         <Then desc="RCV meeting page displays" action={CheckRCVPage} />
         <And
           desc="&gt; Turn PasswordStatus {isMeetingSecret}&gt; Input {meetingPassword}&gt; Schedule a new meeting"
-          action={({ isMeetingSecret, meetingPassword }: any) => {
+          action={({ isMeetingSecret, meetingPassword }: ExampleItem) => {
             if (isMeetingSecret) {
               return [
                 <TurnOnToggle dataSign="requirePassword" />,
@@ -123,12 +136,18 @@ export class RCVConnector extends Step {
         <And
           desc="Show error message: 'Sorry, there was a problem on our end and we couldn't add the meeting invitation. Please try again later.'
                 [L10N]"
-          action={
-            <CheckAlertMessage
-              dataSign="meeting-alert"
-              message="Sorry, there was a problem on our end and we couldn't add the meeting invitation. Please try again later."
-            />
-          }
+          action={(_: ExampleItem, context: Context) => {
+            const rcVideo = context.phone.rcVideo;
+            expect(rcVideo).toBeDefined();
+            return rcVideo._enableInvitationApiFailedToast
+              ? [
+                  <CheckAlertMessage
+                    dataSign="meeting-alert"
+                    message="Sorry, there was a problem on our end and we couldn't add the meeting invitation. Please try again later."
+                  />,
+                ]
+              : [];
+          }}
         />
       </Scenario>
     );

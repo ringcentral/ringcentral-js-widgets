@@ -1,8 +1,6 @@
-import React from 'react';
-
-import { includes } from 'ramda';
-
 import { authMessages } from '@ringcentral-integration/commons/modules/Auth';
+import { includes } from 'ramda';
+import React from 'react';
 
 import i18n from './i18n';
 
@@ -12,7 +10,7 @@ type AuthAlertProps = {
     message: string;
   };
 };
-const AuthAlert: React.SFC<AuthAlertProps> = (props) => {
+const AuthAlert: React.FC<AuthAlertProps> = (props) => {
   const msg = i18n.getString(props.message.message, props.currentLocale);
   return <span>{msg}</span>;
 };

@@ -1,5 +1,5 @@
-import type { IContact } from '@ringcentral-integration/commons/interfaces/Contact.model';
 import { phoneTypes } from '@ringcentral-integration/commons/enums/phoneTypes';
+import type { IContact } from '@ringcentral-integration/commons/interfaces/Contact.model';
 import { getSearchForPhoneNumbers } from '@ringcentral-integration/commons/lib/contactHelper';
 
 const currentSite = { name: 'US', code: '22' };

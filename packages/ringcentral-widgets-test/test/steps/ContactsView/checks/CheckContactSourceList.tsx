@@ -1,4 +1,5 @@
 import { screen, within } from '@testing-library/react';
+
 import type { StepFunction } from '../../../lib/step';
 
 const DEFAULT_CONTACT_FILTER_OPTIONS = ['All', 'Company', 'Personal'];

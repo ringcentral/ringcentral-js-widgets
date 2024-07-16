@@ -1,4 +1,7 @@
-import { callControlError } from '@ringcentral-integration/commons/modules/ActiveCallControl';
+import {
+  callControlAlerts,
+  callControlError,
+} from '@ringcentral-integration/commons/modules/ActiveCallControl';
 
 import i18n from './i18n';
 
@@ -10,6 +13,8 @@ export default function CallControlAlert({
 }
 
 CallControlAlert.handleMessage = ({ message }: any) => {
+  const { callsMerged, somethingWentWrong, tooManyParticipants } =
+    callControlAlerts;
   const {
     holdConflictError,
     unHoldConflictError,
@@ -21,6 +26,9 @@ CallControlAlert.handleMessage = ({ message }: any) => {
     replyCompleted,
   } = callControlError;
   return (
+    message === callsMerged ||
+    message === somethingWentWrong ||
+    message === tooManyParticipants ||
     message === holdConflictError ||
     message === unHoldConflictError ||
     message === muteConflictError ||

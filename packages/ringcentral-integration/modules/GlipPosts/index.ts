@@ -1,9 +1,10 @@
 import moduleStatuses from '../../enums/moduleStatuses';
+import RcModule from '../../lib/RcModule';
 import { Module } from '../../lib/di';
 import ensureExist from '../../lib/ensureExist';
 import { isBlank } from '../../lib/isBlank';
 import proxify from '../../lib/proxy/proxify';
-import RcModule from '../../lib/RcModule';
+
 import { actionTypes } from './actionTypes';
 import getReducer, { getGlipPostsReadTimeReducer } from './getReducer';
 import { status } from './status';
@@ -25,7 +26,18 @@ const DEFAULT_LOAD_TTL = 30 * 60 * 1000;
     { dep: 'GlipPostsOptions', optional: true },
   ],
 })
+// @ts-expect-error TS(2415): Class 'GlipPosts' incorrectly extends base class '... Remove this comment to see the full error message
 export default class GlipPosts extends RcModule {
+  _auth: any;
+  _client: any;
+  _extensionFeatures: any;
+  _fetchPromises: any;
+  _lastMessage: any;
+  _loadTtl: any;
+  _newPostListeners: any;
+  _readTimeStorageKey: any;
+  _storage: any;
+  _subscription: any;
   constructor({
     client,
     auth,
@@ -34,16 +46,19 @@ export default class GlipPosts extends RcModule {
     extensionFeatures,
     loadTtl = DEFAULT_LOAD_TTL,
     ...options
-  }) {
+  }: any) {
     super({
       ...options,
       actionTypes,
     });
     this._reducer = getReducer(this.actionTypes);
 
+    // @ts-expect-error TS(2345): Argument of type 'string' is not assignable to par... Remove this comment to see the full error message
     this._client = ensureExist.call(this, client, 'client');
+    // @ts-expect-error TS(2345): Argument of type 'string' is not assignable to par... Remove this comment to see the full error message
     this._auth = ensureExist.call(this, auth, 'auth');
     this._extensionFeatures = extensionFeatures;
+    // @ts-expect-error TS(2345): Argument of type 'string' is not assignable to par... Remove this comment to see the full error message
     this._subscription = ensureExist.call(this, subscription, 'subscription');
     this._fetchPromises = {};
     this._lastMessage = null;
@@ -58,16 +73,18 @@ export default class GlipPosts extends RcModule {
     this._newPostListeners = [];
   }
 
-  addNewPostListener(listen) {
+  addNewPostListener(listen: any) {
     if (typeof listen === 'function') {
       this._newPostListeners.push(listen);
     }
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   initialize() {
     this.store.subscribe(() => this._onStateChange());
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   async _onStateChange() {
     if (this._shouldInit()) {
       this.store.dispatch({
@@ -88,6 +105,7 @@ export default class GlipPosts extends RcModule {
     }
   }
 
+  // @ts-expect-error TS(4113): This member cannot have an 'override' modifier bec... Remove this comment to see the full error message
   override _shouldInit() {
     return (
       this._auth.loggedIn &&
@@ -97,6 +115,7 @@ export default class GlipPosts extends RcModule {
     );
   }
 
+  // @ts-expect-error TS(4113): This member cannot have an 'override' modifier bec... Remove this comment to see the full error message
   override _shouldReset() {
     return (
       (!this._auth.loggedIn ||
@@ -141,7 +160,7 @@ export default class GlipPosts extends RcModule {
           post.creatorId === this._auth.ownerId && eventType === 'PostAdded',
       });
       if (eventType === 'PostAdded' && post.creatorId !== this._auth.ownerId) {
-        this._newPostListeners.forEach((listen) => {
+        this._newPostListeners.forEach((listen: any) => {
           listen(post);
         });
       }
@@ -149,17 +168,18 @@ export default class GlipPosts extends RcModule {
   }
 
   @proxify
-  async loadPosts(groupId, recordCount = 20) {
+  async loadPosts(groupId: any, recordCount = 20) {
     const lastPosts = this.postsMap[groupId];
     const fetchTime = this.fetchTimeMap[groupId];
     if (lastPosts && fetchTime && Date.now() - fetchTime < this._loadTtl) {
       return;
     }
+    // @ts-expect-error TS(2554): Expected 3 arguments, but got 2.
     await this.fetchPosts(groupId, recordCount);
   }
 
   @proxify
-  async fetchPosts(groupId, recordCount = 20, pageToken) {
+  async fetchPosts(groupId: any, recordCount = 20, pageToken: any) {
     if (!groupId) {
       return;
     }
@@ -171,6 +191,7 @@ export default class GlipPosts extends RcModule {
           });
           const params = { recordCount };
           if (pageToken) {
+            // @ts-expect-error TS(2339): Property 'pageToken' does not exist on type '{ rec... Remove this comment to see the full error message
             params.pageToken = pageToken;
           }
           const response = await this._client
@@ -198,7 +219,7 @@ export default class GlipPosts extends RcModule {
   }
 
   @proxify
-  async loadNextPage(groupId, recordCount) {
+  async loadNextPage(groupId: any, recordCount: any) {
     const pageInfo = this.pageInfos[groupId];
     const pageToken = pageInfo && pageInfo.prevPageToken;
     if (!pageToken) {
@@ -208,7 +229,7 @@ export default class GlipPosts extends RcModule {
   }
 
   @proxify
-  async create({ groupId }) {
+  async create({ groupId }: any) {
     let text = this.postInputs[groupId] && this.postInputs[groupId].text;
     const mentions =
       this.postInputs[groupId] && this.postInputs[groupId].mentions;
@@ -216,7 +237,7 @@ export default class GlipPosts extends RcModule {
       return;
     }
     if (mentions && mentions.length > 0) {
-      mentions.forEach((mention) => {
+      mentions.forEach((mention: any) => {
         if (!mention.matcherId) {
           return;
         }
@@ -253,6 +274,7 @@ export default class GlipPosts extends RcModule {
         oldRecordId: fakeId,
       });
     } catch (e: any /** TODO: confirm with instanceof */) {
+      // @ts-expect-error TS(2339): Property 'createError' does not exist on type 'Obj... Remove this comment to see the full error message
       fakeRecord.sendStatus = status.createError;
       this.store.dispatch({
         type: this.actionTypes.createError,
@@ -265,7 +287,7 @@ export default class GlipPosts extends RcModule {
   }
 
   @proxify
-  async sendFile({ fileName, groupId, rawFile }) {
+  async sendFile({ fileName, groupId, rawFile }: any) {
     try {
       const platform = this._client.service.platform();
       const body = rawFile;
@@ -286,8 +308,9 @@ export default class GlipPosts extends RcModule {
     return null;
   }
 
+  // @ts-expect-error TS(2345): Argument of type 'TypedPropertyDescriptor<(groupId... Remove this comment to see the full error message
   @proxify
-  updateReadTime(groupId, time) {
+  updateReadTime(groupId: any, time: any) {
     this.store.dispatch({
       type: this.actionTypes.updateReadTime,
       groupId,
@@ -295,8 +318,9 @@ export default class GlipPosts extends RcModule {
     });
   }
 
+  // @ts-expect-error TS(2345): Argument of type 'TypedPropertyDescriptor<({ text,... Remove this comment to see the full error message
   @proxify
-  updatePostInput({ text, groupId, mentions }) {
+  updatePostInput({ text, groupId, mentions }: any) {
     this.store.dispatch({
       type: this.actionTypes.updatePostInput,
       groupId,
@@ -309,10 +333,12 @@ export default class GlipPosts extends RcModule {
     return this.state.glipPostsStore;
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   get status() {
     return this.state.status;
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   get ready() {
     return this.status === moduleStatuses.ready;
   }

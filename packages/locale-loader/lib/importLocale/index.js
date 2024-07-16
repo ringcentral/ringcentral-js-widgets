@@ -1,10 +1,10 @@
-import path from 'path';
 import generate from '@babel/generator';
 import { parse } from '@babel/parser';
 import formatLocale from '@ringcentral-integration/i18n/lib/formatLocale';
 import chalk from 'chalk';
 import fs from 'fs-extra';
 import inquirer from 'inquirer';
+import path from 'path';
 import { filter, find, forEach, reduce } from 'ramda';
 
 import asyncForEach from '../asyncForEach';
@@ -274,7 +274,7 @@ export default async function importLocale({
   silent = defaultConfig.silent,
   json = false,
   disableEslint = true,
-  rawData,
+  rawData = undefined,
 } = {}) {
   if (!supportedLocales) {
     throw new Error('options.supportedLocales is missing');

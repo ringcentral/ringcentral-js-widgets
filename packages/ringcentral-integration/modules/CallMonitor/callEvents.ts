@@ -5,4 +5,4 @@ export const callEvents = {
   callUpdated: 'CallUpdated',
 } as const;
 
-export type CallEvent = typeof callEvents[keyof typeof callEvents];
+export type CallEvent = (typeof callEvents)[keyof typeof callEvents];

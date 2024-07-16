@@ -1,5 +1,3 @@
-import { concat, equals, map, uniq } from 'ramda';
-
 import {
   action,
   RcModuleV2,
@@ -10,6 +8,7 @@ import type { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap
 import type { ApiError } from '@ringcentral/sdk';
 import Subscriptions from '@ringcentral/subscriptions';
 import type { SubscriptionData } from '@ringcentral/subscriptions/src/subscription/Subscription';
+import { concat, equals, map, uniq } from 'ramda';
 
 import type { subscriptionFilters } from '../../enums/subscriptionFilters';
 import type {
@@ -19,8 +18,9 @@ import type {
 import { debounce, promisedDebounce } from '../../lib/debounce-throttle';
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
-import { normalizeEventFilter } from './normalizeEventFilter';
+
 import type { Deps, MessageBase } from './Subscription.interface';
+import { normalizeEventFilter } from './normalizeEventFilter';
 import { subscriptionStatus } from './subscriptionStatus';
 
 const DEFAULT_TIME_TO_RETRY = 20 * 1000;
@@ -38,11 +38,11 @@ const SUBSCRIPTION_LOCK_KEY = 'subscription-creating-lock';
   ],
 })
 export class Subscription extends RcModuleV2<Deps> {
-  // @ts-expect-error
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Subscriptio... Remove this comment to see the full error message
   protected _subscription: ReturnType<Subscriptions['createSubscription']> =
     null;
 
-  // @ts-expect-error
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Timeout'.
   protected _retryTimeoutId: NodeJS.Timeout = null;
 
   protected _debouncedRegister: PromisedDebounceFunction<
@@ -74,7 +74,7 @@ export class Subscription extends RcModuleV2<Deps> {
   }
 
   @state
-  // @ts-expect-error
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'MessageBase... Remove this comment to see the full error message
   message: MessageBase = null;
 
   @state
@@ -86,7 +86,7 @@ export class Subscription extends RcModuleV2<Deps> {
 
   @storage
   @state
-  // @ts-expect-error
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Subscriptio... Remove this comment to see the full error message
   cachedSubscription: SubscriptionData = null;
 
   @state
@@ -158,7 +158,7 @@ export class Subscription extends RcModuleV2<Deps> {
   override async onReset() {
     this._setStates({
       filters: [],
-      // @ts-expect-error
+      // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'MessageBase... Remove this comment to see the full error message
       message: null,
       status: subscriptionStatus.notSubscribed,
     });
@@ -172,7 +172,7 @@ export class Subscription extends RcModuleV2<Deps> {
     if (this._subscription) {
       this._subscription.reset();
       this._subscription.removeAllListeners();
-      // @ts-expect-error
+      // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Subscriptio... Remove this comment to see the full error message
       this._subscription = null;
     }
   }
@@ -180,7 +180,7 @@ export class Subscription extends RcModuleV2<Deps> {
   protected _onRemoveSuccess() {
     this._setStates({
       status: subscriptionStatus.notSubscribed,
-      // @ts-expect-error
+      // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Subscriptio... Remove this comment to see the full error message
       cachedSubscription: null,
     });
   }
@@ -188,7 +188,7 @@ export class Subscription extends RcModuleV2<Deps> {
   protected _onRemoveError(error: ApiError | Error) {
     this._setStates({
       status: subscriptionStatus.notSubscribed,
-      // @ts-expect-error
+      // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Subscriptio... Remove this comment to see the full error message
       cachedSubscription: null,
     });
   }
@@ -206,12 +206,12 @@ export class Subscription extends RcModuleV2<Deps> {
     if (this._subscription) {
       this._subscription.reset();
       this._subscription.removeAllListeners();
-      // @ts-expect-error
+      // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Subscriptio... Remove this comment to see the full error message
       this._subscription = null;
     }
     this._setStates({
       status: subscriptionStatus.notSubscribed,
-      // @ts-expect-error
+      // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Subscriptio... Remove this comment to see the full error message
       cachedSubscription: null,
     });
     if (this.ready) {
@@ -233,7 +233,7 @@ export class Subscription extends RcModuleV2<Deps> {
   protected _onSubscribeError(error: ApiError | Error) {
     this._setStates({
       status: subscriptionStatus.notSubscribed,
-      // @ts-expect-error
+      // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Subscriptio... Remove this comment to see the full error message
       cachedSubscription: null,
     });
     if (this.ready) {
@@ -338,7 +338,7 @@ export class Subscription extends RcModuleV2<Deps> {
       if (this._subscription) {
         this._subscription.reset();
         this._subscription.removeAllListeners();
-        // @ts-expect-error
+        // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Subscriptio... Remove this comment to see the full error message
         this._subscription = null;
       }
       this._setStates({
@@ -352,7 +352,7 @@ export class Subscription extends RcModuleV2<Deps> {
     if (this.ready) {
       const oldFiltersCount = this._subscription?.eventFilters().length ?? 0;
       // use [].concat for potential compatibility issue
-      // @ts-expect-error
+      // @ts-expect-error TS(2769): No overload matches this call.
       this._addFilters([].concat(events));
       if (oldFiltersCount !== this.filters.length) {
         await this._createSubscriptionWithLock();

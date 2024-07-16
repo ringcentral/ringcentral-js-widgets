@@ -11,14 +11,30 @@
   left: 0;
   background-color: #fff;
   z-index: 30;
+  flex-direction: column;
+  display: flex;
+}
+
+.main {
+  flex: 1 1 auto;
+  overflow: auto;
+}
+
+.saveButtonLine {
+  padding-bottom: 20px;
+  flex: none;
 }
 
 .saveButton {
   display: block;
-  margin-top: 20px;
   @include big-submit-button;
 
   &.disabled {
     @include big-submit-button-disabled;
   }
+}
+
+.comment {
+  padding: 0 20px 20px;
+  color: red;
 }

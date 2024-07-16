@@ -1,6 +1,5 @@
+import clsx from 'clsx';
 import React from 'react';
-
-import classnames from 'classnames';
 
 import styles from './styles.scss';
 
@@ -18,7 +17,7 @@ type CheckBoxProps = {
   disabled?: boolean;
 };
 // @ts-expect-error TS(2322): Type '{ ({ data, selected, onSelect, valueField, t... Remove this comment to see the full error message
-const CheckBox: React.SFC<CheckBoxProps> = ({
+const CheckBox: React.FC<CheckBoxProps> = ({
   data,
   selected,
   onSelect,
@@ -55,15 +54,16 @@ const CheckBox: React.SFC<CheckBoxProps> = ({
                 data-sign={isSelected ? 'selectedItem' : undefined}
               >
                 <div
+                  data-sign={`checkbox-option-${item.value}`}
                   onClick={onClick}
-                  className={classnames(
+                  className={clsx(
                     styles.item,
                     disabled || (item && item.disabled)
                       ? styles.disabled
                       : null,
                   )}
                 >
-                  <div className={classnames(styles.checkButton, checkStyle)} />
+                  <div className={clsx(styles.checkButton, checkStyle)} />
                   <div className={styles.text} data-sign="text">
                     {isListObject ? item[textField] : item}
                   </div>
@@ -76,12 +76,12 @@ const CheckBox: React.SFC<CheckBoxProps> = ({
       );
     }
     case 'checkbox': {
-      const checkboxWrapperClassNames = classnames(
+      const checkboxWrapperClassNames = clsx(
         styles.checkboxWrapper,
         disabled ? styles.wrapperDisabled : '',
         className,
       );
-      const checkboxClassName = classnames(
+      const checkboxClassName = clsx(
         styles.checkbox,
         checked ? styles.checked : '',
         disabled ? styles.checkboxDisabled : '',

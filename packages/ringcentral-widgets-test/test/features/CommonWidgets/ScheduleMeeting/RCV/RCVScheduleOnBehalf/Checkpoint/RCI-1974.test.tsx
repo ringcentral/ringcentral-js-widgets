@@ -8,7 +8,6 @@
  * Scheduler:Login to Outlook: Calendar -> New Event > RingCentral Scheduler
  * Outlook appointment: Login to Outlook > CalendarNew Meeting > RingCentral for Outlook
  */
-
 import {
   autorun,
   it,
@@ -84,7 +83,7 @@ export class RCI1974 extends Step {
 										[L10N]"
           action={[
             CheckInjection,
-            <CheckPatchMeetingParams name="RingCentral Video Meeting" />,
+            <CheckPatchMeetingParams name="TestAccountA's video meeting" />,
           ]}
         />
       </Scenario>

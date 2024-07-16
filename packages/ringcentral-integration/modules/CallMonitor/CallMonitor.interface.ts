@@ -1,4 +1,3 @@
-import type { ExtensionInfo } from '../ExtensionInfo';
 import type { Call as ICall } from '../../interfaces/Call.interface';
 import type { AccountInfo } from '../AccountInfo';
 import type { ActiveCallControl } from '../ActiveCallControl';
@@ -6,6 +5,7 @@ import type { ActivityMatcher } from '../ActivityMatcher';
 import type { Call } from '../Call';
 import type { ConferenceCall } from '../ConferenceCall';
 import type { ContactMatcher } from '../ContactMatcher';
+import type { ExtensionInfo } from '../ExtensionInfo';
 import type { Presence } from '../Presence';
 import type { Storage } from '../Storage';
 import type { TabManager } from '../TabManager';

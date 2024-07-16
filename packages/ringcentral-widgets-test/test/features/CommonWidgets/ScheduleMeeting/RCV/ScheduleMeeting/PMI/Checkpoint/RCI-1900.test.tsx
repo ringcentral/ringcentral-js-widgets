@@ -16,7 +16,6 @@
  * Scheduler:Outlook > New Event > office add-in > meeting setting page > Mark on 'Use Personal Meeting ID XXX-XXX-XXX' > Click 'Change Personal Meeting settings' > show a pop-up window >Click'Change'
  * Outlook appointment:Login to Outlook: > New Meeting/Appointment > RingCentral for outlook> meeting setting page > Mark on 'Use Personal Meeting ID XXX-XXX-XXX'> Click 'Change Personal Meeting settings' > show a pop-up window>Click'Change'
  */
-
 import {
   p2,
   it,
@@ -32,6 +31,8 @@ import {
   common,
 } from '@ringcentral-integration/test-utils';
 
+import type { StepProp } from '../../../../../../../lib/step';
+import { SelectOptionFromDropDown } from '../../../../../../../steps/Common';
 import { Login as CommonLogin } from '../../../../../../../steps/Login';
 import {
   TurnOnToggle,
@@ -45,12 +46,10 @@ import {
   ChangeMeetingOptionToOtherValue,
   ClickScheduleButton,
 } from '../../../../../../../steps/Meeting';
-import { SelectOptionFromDropDown } from '../../../../../../../steps/Common';
 import {
   CheckModalExist,
   ClickConfirmInModal,
 } from '../../../../../../../steps/Modal';
-import type { StepProp } from '../../../../../../../lib/step';
 
 @autorun(test.skip)
 @common

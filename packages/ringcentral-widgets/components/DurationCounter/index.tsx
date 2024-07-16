@@ -1,6 +1,5 @@
-import React, { Component } from 'react';
-
 import { formatDuration } from '@ringcentral-integration/commons/lib/formatDuration';
+import React, { Component } from 'react';
 
 type DurationCounterProps = {
   className?: string;
@@ -39,7 +38,7 @@ class DurationCounter extends Component<
   // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     return (
-      <span className={this.props.className}>
+      <span className={this.props.className} data-sign="duration">
         {formatDuration(this.state.duration)}
       </span>
     );

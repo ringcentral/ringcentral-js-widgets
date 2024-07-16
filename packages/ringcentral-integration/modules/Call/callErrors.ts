@@ -12,6 +12,7 @@ export const callErrors = ObjectMap.prefixKeys(
     'noInternational',
     'emergencyNumber',
     'numberParseError',
+    'fromAndToNumberIsSame',
   ],
   'callErrors',
 );

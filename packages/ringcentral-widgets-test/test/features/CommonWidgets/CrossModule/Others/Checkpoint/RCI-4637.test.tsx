@@ -12,7 +12,6 @@
 	| Send a message |The message should not be sent out |
 
  */
-
 import type { StepProp } from '@ringcentral-integration/test-utils';
 import {
   common,
@@ -28,13 +27,13 @@ import {
   And,
 } from '@ringcentral-integration/test-utils';
 
-import { CommonLogin } from '../../../../../steps/CommonLogin';
-import { CreateMock, MockNumberParserV2 } from '../../../../../steps/Mock';
 import { CheckAlertMessage } from '../../../../../steps/Alert';
-import { CreateInstance } from '../../../../../steps/CreateInstance';
 import { MakeCall, CheckActiveCallHidden } from '../../../../../steps/Call';
-import { NavigateToComposeText } from '../../../../../steps/Navigate';
+import { CommonLogin } from '../../../../../steps/CommonLogin';
+import { CreateInstance } from '../../../../../steps/CreateInstance';
 import { SendSMS } from '../../../../../steps/Messages';
+import { CreateMock, MockNumberParserV2 } from '../../../../../steps/Mock';
+import { NavigateToComposeText } from '../../../../../steps/Navigate';
 
 @autorun(test)
 @common

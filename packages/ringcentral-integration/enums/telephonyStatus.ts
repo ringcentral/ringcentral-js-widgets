@@ -9,6 +9,6 @@ export const telephonyStatus = ObjectMap.fromObject({
 } as const);
 
 export type TelephonyStatus =
-  typeof telephonyStatus[keyof typeof telephonyStatus];
+  (typeof telephonyStatus)[keyof typeof telephonyStatus];
 
 export default telephonyStatus;

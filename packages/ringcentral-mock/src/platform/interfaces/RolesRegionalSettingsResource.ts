@@ -1,7 +1,7 @@
-import type { RolesTimezoneResource } from './RolesTimezoneResource';
+import type { CurrencyResource } from './CurrencyResource';
 import type { RolesCountryResource } from './RolesCountryResource';
 import type { RolesLanguageResource } from './RolesLanguageResource';
-import type { CurrencyResource } from './CurrencyResource';
+import type { RolesTimezoneResource } from './RolesTimezoneResource';
 
 export interface RolesRegionalSettingsResource {
   /**

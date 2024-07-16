@@ -1,12 +1,12 @@
-import countries from 'i18n-iso-countries';
-
 import {
   isE164,
   parse,
   parseIncompletePhoneNumber,
 } from '@ringcentral-integration/phone-number';
+import countries from 'i18n-iso-countries';
 
 import { messageTypes } from '../enums';
+
 import { EvTypeError } from './EvTypeError';
 
 export const checkCountryCode = (input: string) => {

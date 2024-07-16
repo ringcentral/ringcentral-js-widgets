@@ -18,7 +18,6 @@ export interface HeaderViewProps {
   setBusy: () => void;
   setDoNotDisturb: () => void;
   setInvisible: () => void;
-  logo?: (...args: any[]) => JSX.Element;
   logoUrl?: string;
   shouldDisplayCurrentCallBtn?: boolean;
   shouldDisplayViewCallsBtn?: boolean;

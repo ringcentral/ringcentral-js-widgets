@@ -4,6 +4,7 @@ import { computed, RcUIModuleV2 } from '@ringcentral-integration/core';
 
 import type { TabContentViewProps } from '../../components/TabContentView/TabContentView';
 import { hasActiveCalls } from '../../lib/hasActiveCalls';
+
 import type {
   Deps,
   DialerAndCallsTabContainerProps,

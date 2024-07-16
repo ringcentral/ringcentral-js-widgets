@@ -13,14 +13,15 @@ import {
 import { messageTypes } from '../../enums';
 import type { DialoutStatusesType } from '../../enums/dialoutStatus';
 import { dialoutStatuses } from '../../enums/dialoutStatus';
-import { checkCountryCode } from '../../lib/checkCountryCode';
 import type {
   EvClientManualOutdialParams,
   EvOffhookInitResponse,
 } from '../../lib/EvClient';
 import { EvCallbackTypes } from '../../lib/EvClient/enums/callbackTypes';
+import { checkCountryCode } from '../../lib/checkCountryCode';
 import { parseNumber } from '../../lib/parseNumber';
 import { trackEvents } from '../../lib/trackEvents';
+
 import type { Call, Deps, State } from './EvCall.interface';
 
 const DEFAULT_OUTBOUND_SETTING = {

@@ -3,6 +3,7 @@ import {
   waitFor,
   waitForElementToBeRemoved,
 } from '@testing-library/react';
+
 import type { StepFunction } from '../../../lib/step';
 
 // TODO: find better implementation

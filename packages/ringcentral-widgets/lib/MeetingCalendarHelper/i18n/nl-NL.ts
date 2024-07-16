@@ -1,7 +1,7 @@
 export default {
   inviteMeetingContent: "{accountName} nodigt u uit voor een {brandName}-meeting.\n\nNeem deel via pc, Mac, iOS of Android: {joinUri}{passwordTpl}\n\nOf iPhone one-tap:\n    {mobileDialingNumberTpl}\n\nOf telefoon:\n    Bel: {phoneDialingNumberTpl}\n    Meeting-ID: {meetingId}\n    Beschikbare internationale nummers: {teleconference} ",
-  rcvE2EEInviteMeetingContent: "{accountName} heeft u uitgenodigd voor een end-to-end-versleutelde {rcvProductName}-meeting.\n\nNeem deel via deze link. Let op: u moet u eerst aanmelden bij de {brandName}-app:\n{joinUri}\n\nInbellen is niet mogelijk voor deze meeting.\n\n{e2EESupportLinkText}\n{rcvE2EESupportUrl}",
-  e2EESupportLinkText: "Meer informatie over de end-to-end-versleuteling van {brandName}.",
+  rcvE2EEInviteMeetingContent: "{accountName} heeft u uitgenodigd voor een end-to-end gecodeerde {rcvProductName}-meeting.\n\nNeem deel via deze link. Let op: u moet u eerst aanmelden bij de {brandName}-app:\n{joinUri}\n\nInbellen is niet mogelijk voor deze meeting.\n\n{e2EESupportLinkText}\n{rcvE2EESupportUrl}",
+  e2EESupportLinkText: "Meer informatie over de end-to-end codering van {brandName}.",
   rcvInviteMeetingContentDial: "\n\nTik één keer om deel te nemen met alleen audio vanaf een smartphone:\n    {smartphones}\n\nOf kies:\n    Kies: {dialNumber}\n    Toegangscode/meeting-ID: {pinNumber} ",
   rcvInviteMeetingContentCountryDial: "\n\nTik één keer om deel te nemen met alleen audio vanaf een smartphone:\n    {smartphones}\n\nOf kies:\n    {dialNumber}\n    Toegangscode/meeting-ID: {pinNumber} ",
   rcvTeleconference: "\n\nBeschikbare internationale nummers: {teleconference} ",

@@ -1,11 +1,11 @@
+import { emptyArray, emptyFn, format } from '@ringcentral-integration/utils';
 import type { FunctionComponent } from 'react';
 import React, { useState } from 'react';
-
-import { emptyArray, emptyFn, format } from '@ringcentral-integration/utils';
 
 import { Button } from '../Button';
 import CarrouselBar from '../CarrouselBar';
 import DurationCounter from '../DurationCounter';
+
 import { CallInfoBar } from './CallInfoBar';
 import i18n from './i18n';
 import styles from './styles.scss';

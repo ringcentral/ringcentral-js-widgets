@@ -10,6 +10,7 @@ import type {
 import type { ExtensionFeatures } from '../ExtensionFeatures';
 import type { Subscription } from '../Subscription';
 import type { TabManager } from '../TabManager';
+
 import type { dndStatus } from './dndStatus';
 
 export interface Deps extends DataFetcherV2ConsumerBaseDeps {

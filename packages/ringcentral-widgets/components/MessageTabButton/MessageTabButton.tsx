@@ -1,9 +1,7 @@
+import { css, palette2, styled } from '@ringcentral/juno';
+import clsx from 'clsx';
 import type { FunctionComponent } from 'react';
 import React from 'react';
-
-import classnames from 'classnames';
-
-import { css, palette2, styled } from '@ringcentral/juno';
 
 import styles from './styles.scss';
 
@@ -59,7 +57,7 @@ const NavigationButton: FunctionComponent<NavigationButtonProps> = ({
   return (
     <StyledTab
       onClick={onClick}
-      className={classnames(
+      className={clsx(
         styles.navigationButton,
         active && styles.active,
         fullSizeInk ? null : styles.linearBorder,

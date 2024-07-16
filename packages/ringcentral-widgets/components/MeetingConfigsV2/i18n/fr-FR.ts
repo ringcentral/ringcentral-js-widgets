@@ -38,8 +38,7 @@ export default {
   pmiSettingChangeAlert: "Si vous modifiez les paramètres et programmez la réunion, toutes les réunions avec ID personnel de réunion utiliseront ces mêmes paramètres.",
   lockedTooltip: "Ce paramètre est géré par l’administrateur de votre entreprise",
   when: "Date",
-  recurringDescribe: "N’oubliez pas de vérifier dans votre calendrier la périodicité ou les répétitions de vos invitations envoyées aux participants.",
-  ieSupportAlert: "Veuillez noter que {appName} ne fonctionnera plus avec Internet Explorer 11 après le 16 février 2022. Nous vous recommandons d’utiliser Microsoft Edge ou de passer à Outlook 2016 ou version ultérieure."
+  recurringDescribe: "N’oubliez pas de vérifier dans votre calendrier la périodicité ou les répétitions de vos invitations envoyées aux participants."
 };
 
 // @key: @#@"date"@#@ @source: @#@"Date"@#@
@@ -81,4 +80,3 @@ export default {
 // @key: @#@"lockedTooltip"@#@ @source: @#@"This setting is managed by your company admin"@#@
 // @key: @#@"when"@#@ @source: @#@"When"@#@
 // @key: @#@"recurringDescribe"@#@ @source: @#@"Please remember to check recurrence or repeat in your calendar invitation to your attendees."@#@
-// @key: @#@"ieSupportAlert"@#@ @source: @#@"Please note that {appName} won't work with Internet Explorer 11 after Feb 16, 2022. We recommend switching to Microsoft Edge or updating to Outlook 2016 or above."@#@

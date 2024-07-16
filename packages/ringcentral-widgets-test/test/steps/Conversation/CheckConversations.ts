@@ -1,5 +1,6 @@
 import { waitUntilTo } from '@ringcentral-integration/utils';
 import { screen, within } from '@testing-library/react';
+
 import type { StepFunction } from '../../lib/step';
 
 interface CheckFaxPageCountProps {
@@ -24,21 +25,22 @@ interface CheckConversationsProps {
   testId: string;
 }
 
-export const CheckConversations: StepFunction<CheckConversationsProps> =
-  async ({ parsedNumber, name, testId }) => {
-    await waitUntilTo(() => {
-      expect(screen.getByTestId(testId)).toBeInTheDocument();
-      if (name) {
-        expect(screen.getByText(name)).toBeInTheDocument();
-        expect(
-          within(screen.getByTestId(testId)).getByTitle(
-            `${name} | RingCentral ${parsedNumber}`,
-          ),
-        ).toBeInTheDocument();
-      } else {
-        expect(
-          within(screen.getByTestId(testId)).getByTitle(parsedNumber),
-        ).toBeVisible();
-      }
-    });
-  };
+export const CheckConversations: StepFunction<
+  CheckConversationsProps
+> = async ({ parsedNumber, name, testId }) => {
+  await waitUntilTo(() => {
+    expect(screen.getByTestId(testId)).toBeInTheDocument();
+    if (name) {
+      expect(screen.getByText(name)).toBeInTheDocument();
+      expect(
+        within(screen.getByTestId(testId)).getByTitle(
+          `${name} | RingCentral ${parsedNumber}`,
+        ),
+      ).toBeInTheDocument();
+    } else {
+      expect(
+        within(screen.getByTestId(testId)).getByTitle(parsedNumber),
+      ).toBeVisible();
+    }
+  });
+};

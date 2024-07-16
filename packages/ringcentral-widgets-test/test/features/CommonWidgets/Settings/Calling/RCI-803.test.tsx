@@ -1,106 +1,160 @@
-import type { StepFunction } from '../../../../lib/step';
+/**
+ * RCI-803: Calling settings(Tooltips)
+ * https://test_it_domain/test-cases/RCI-803
+ * Preconditions:
+ * 1. User is logged into 3rd party
+ * 2. User has installed and logged into CTI app
+ * RC: RingCentral Phone
+ * AT&T: Office@Hand Phone
+ * BT: -BT Cloud Work
+ * TELUS: TELUS Business Connect Phone
+ * Entry point(/s):
+ *
+ */
 import {
-  autorun,
-  title,
-  Scenario,
-  Given,
-  When,
   And,
-  Then,
+  Given,
+  Scenario,
   Step,
-  it,
+  Then,
+  When,
+  autorun,
   common,
-} from '../../../../lib/step';
-import { NavigateTo } from '../../../../steps/Router/action';
-import { ClickLogoutButton } from '../../../../steps/Settings';
-import {
-  ExpandDropdown,
-  SelectCallingSetting,
-} from '../../../../steps/Settings/actions/SetCallSetting';
-import { CheckInfoTooltip } from '../../../../steps/Settings/checks/CheckCallSettingPage';
+  examples,
+  it,
+  p2,
+  title,
+} from '@ringcentral-integration/test-utils';
+
+import type { Context } from '../../../../interfaces';
+import type { StepFunction } from '../../../../lib/step';
 import { Login as CommonLogin } from '../../../../steps/Login';
+import { NavigateTo } from '../../../../steps/Router';
+import {
+  CheckCallSettingPage,
+  ExpandCallingSettingDropdown,
+  SelectCallingSetting,
+} from '../../../../steps/Settings';
+
+interface ExampleItem {
+  brand: string;
+  jupiterAppName: string;
+  softphoneAppName: string;
+}
 
 @autorun(test)
-@common
 @it
-@title('Check Calling Settings tooltip')
+@p2
+@title('Calling settings(Tooltips)')
+@common
 export class CheckCallingSettingsTooltip extends Step {
-  expectedJupiterName?: string;
-  expectedPhoneName?: string;
   Login?: StepFunction<any, any>;
 
+  @examples(`
+    | brand   | jupiterAppName               | softphoneAppName               |
+    | 'att'   | 'AT&T Office@Hand App'       | 'AT&T Office@Hand Phone'       |
+    | 'bt'    | 'BT Cloud Work App'          | 'BT Cloud Work Phone'          |
+    | 'rc'    | 'RingCentral App'            | 'RingCentral Phone'            |
+    | 'telus' | 'TELUS Business Connect App' | 'TELUS Business Connect Phone' |
+  `)
   run() {
-    const {
-      expectedJupiterName = 'RingCentral App',
-      expectedPhoneName = 'RingCentral Phone',
-      Login = CommonLogin,
-    } = this;
+    const { Login = CommonLogin } = this;
     return (
-      <Scenario desc="Create phone instance and login">
+      <Scenario desc="Calling settings(Tooltips)">
         <Given desc="Create phone instance and login" action={Login} />
+        <And
+          desc="Mock brand config"
+          action={async (
+            { jupiterAppName, softphoneAppName }: ExampleItem,
+            { phone }: Context,
+          ) => {
+            // Set locale to en-US
+            await phone.locale.setLocale('en-US');
+            // Mock names
+            phone.brand.setDynamicConfig({
+              ...phone.brand.brandConfig,
+              callWithJupiter: {
+                ...phone.brand.brandConfig.callWithJupiter,
+                name: jupiterAppName,
+              },
+              callWithSoftphone: {
+                ...phone.brand.brandConfig.callWithSoftphone,
+                name: softphoneAppName,
+              },
+            });
+          }}
+        />
         <When
-          desc="App navigate to calling setting page"
+          desc="Navigate to Settings tab, click 'Calling'"
           action={<NavigateTo path="/settings/calling" />}
         />
-        <And
-          desc="App expand calling setting dropdown selection"
-          action={ExpandDropdown}
-        />
-        <And
-          desc="select Browser in make call with dropdown menu"
-          action={<SelectCallingSetting settingName="Browser" />}
-        />
         <Then
-          desc="Tooltip should read 'Use this option to make and receive calls using your computer’s microphone and speaker.'"
+          desc="There should be an 'i' button near the label 'Make my calls with'"
           action={
-            <CheckInfoTooltip tooltipContent="Use this option to make and receive calls using your computer’s microphone and speaker." />
-          }
-        />
-        <And
-          desc="App expand calling setting dropdown selection"
-          action={ExpandDropdown}
-        />
-        <When
-          desc="select {expectedJupiterName} in make call with dropdown menu"
-          action={<SelectCallingSetting settingName={expectedJupiterName} />}
-        />
-        <Then
-          desc="Tooltip should read 'Use this option to make and receive calls using your {expectedJupiterName}.'"
-          action={
-            <CheckInfoTooltip
-              tooltipContent={`Use this option to make and receive calls using your ${expectedJupiterName}.`}
+            <CheckCallSettingPage
+              titleContent="Make my calls with"
+              infoIcon={true}
             />
           }
         />
-        <And
-          desc="App expand calling setting dropdown selection"
-          action={ExpandDropdown}
-        />
         <When
-          desc="select {expectedPhoneName} in make call with dropdown menu"
-          action={<SelectCallingSetting settingName={expectedPhoneName} />}
+          desc="Select 'Browser' in 'Make my calls with', then clicks on the 'i' button(Not applicable to Zendesk 2.0)"
+          action={[
+            ExpandCallingSettingDropdown,
+            <SelectCallingSetting settingName="Browser" />,
+          ]}
         />
         <Then
-          desc="Tooltip should read 'Use this option to make and receive calls using your {expectedPhoneName}."
+          desc="Tooltip should read 'Use this option to make and receive calls using your computers microphone and speaker.'"
           action={
-            <CheckInfoTooltip
-              tooltipContent={`Use this option to make and receive calls using your ${expectedPhoneName}.`}
-            />
+            <CheckCallSettingPage tooltipContent="Use this option to make and receive calls using your computer’s microphone and speaker." />
           }
         />
-        <And
-          desc="App expand calling setting dropdown selection"
-          action={ExpandDropdown}
+        <When
+          desc="Select '{BrandName} App' in 'Make my calls with', then clicks on the 'i' button
+										(Only RC brand)"
+          action={({ jupiterAppName }: ExampleItem) => [
+            ExpandCallingSettingDropdown,
+            <SelectCallingSetting settingName={jupiterAppName} />,
+          ]}
+        />
+        <Then
+          desc="The tooltip should read 'Use this option to make and receive calls using your{BrandName} App.'
+										[L10N]"
+          action={({ jupiterAppName }: ExampleItem) => [
+            <CheckCallSettingPage
+              tooltipContent={`Use this option to make and receive calls using your ${jupiterAppName}.`}
+            />,
+          ]}
         />
         <When
-          desc="select RingOut in make call with dropdown menu"
-          action={<SelectCallingSetting settingName="RingOut" />}
+          desc="Select '[BrandName Phone]' in 'Make my calls with', then clicks on the 'i' button"
+          action={({ softphoneAppName }: ExampleItem) => [
+            ExpandCallingSettingDropdown,
+            <SelectCallingSetting settingName={softphoneAppName} />,
+          ]}
+        />
+        <Then
+          desc="Tooltip should read 'Use this option to make and receive calls using your [BrandName].'
+										[L10N]"
+          action={({ softphoneAppName }: ExampleItem) => [
+            <CheckCallSettingPage
+              tooltipContent={`Use this option to make and receive calls using your ${softphoneAppName}.`}
+            />,
+          ]}
+        />
+        <When
+          desc="Select 'RingOut' in 'Make my calls with', then clicks on the 'i' button"
+          action={[
+            ExpandCallingSettingDropdown,
+            <SelectCallingSetting settingName="RingOut" />,
+          ]}
         />
         <Then
           desc="Tooltip should read 'Use this option to make calls using your selected or entered phone number. For the call you make, this phone will ring first then the party you called.'"
           action={[
-            <CheckInfoTooltip tooltipContent="Use this option to make calls using your selected or entered phone number." />,
-            <CheckInfoTooltip tooltipContent="For the call you make, this phone will ring first then the party you called." />,
+            <CheckCallSettingPage tooltipContent="Use this option to make calls using your selected or entered phone number." />,
+            <CheckCallSettingPage tooltipContent="For the call you make, this phone will ring first then the party you called." />,
           ]}
         />
       </Scenario>

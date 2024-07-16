@@ -48,4 +48,6 @@ export default {
   [callResults.disconnected]: 'Disconnected',
   [callResults.notAllowed]: 'Not Allowed',
   warmTransferSwitchCall: 'Switch calls',
-};
+  conferenceCall: 'Conference Call',
+  participants: 'Participants',
+} as const;

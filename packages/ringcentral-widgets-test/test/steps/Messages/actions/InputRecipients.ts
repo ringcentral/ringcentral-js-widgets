@@ -1,10 +1,16 @@
-import { screen } from '@testing-library/react';
+import { screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+
 import type { StepFunction } from '../../../lib/step';
 
-export const InputRecipients: StepFunction<{ content: string }> = async ({
-  content,
-}) => {
-  userEvent.type(screen.getByTestId('recipientsInput'), content);
-  expect(screen.getByTestId('recipientsInput')).toHaveValue(content);
+export const InputRecipients: StepFunction<{
+  content: string;
+  containerSelector?: string;
+}> = async ({ content, containerSelector }) => {
+  let container = screen;
+  if (containerSelector) {
+    container = within(screen.queryByTestId(containerSelector)!);
+  }
+  userEvent.type(container.getByTestId('recipientsInput'), content);
+  expect(container.getByTestId('recipientsInput')).toHaveValue(content);
 };

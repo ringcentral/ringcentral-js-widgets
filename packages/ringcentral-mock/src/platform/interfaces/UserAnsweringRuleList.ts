@@ -1,6 +1,6 @@
-import type { UserAnsweringRuleListRecord } from './UserAnsweringRuleListRecord';
-import type { UserAnsweringRuleListPaging } from './UserAnsweringRuleListPaging';
 import type { UserAnsweringRuleListNavigation } from './UserAnsweringRuleListNavigation';
+import type { UserAnsweringRuleListPaging } from './UserAnsweringRuleListPaging';
+import type { UserAnsweringRuleListRecord } from './UserAnsweringRuleListRecord';
 
 export interface UserAnsweringRuleList {
   /**

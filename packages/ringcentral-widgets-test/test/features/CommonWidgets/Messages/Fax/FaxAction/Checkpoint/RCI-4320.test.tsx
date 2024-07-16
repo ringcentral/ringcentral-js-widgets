@@ -10,7 +10,6 @@
  * Entry point(/s):
  * > Messages tab > All/Fax >Click expand fax action menu ofthe fax
  */
-
 import {
   p2,
   it,
@@ -23,6 +22,8 @@ import {
   title,
   When,
 } from '@ringcentral-integration/test-utils';
+
+import { mockMessageListData } from '../../../../../../__mock__';
 import type { StepFunction } from '../../../../../../lib/step';
 import { CommonLogin } from '../../../../../../steps/CommonLogin';
 import {
@@ -41,7 +42,6 @@ import {
   MockMessageSync,
 } from '../../../../../../steps/Mock';
 import { NavigateToFax } from '../../../../../../steps/Navigate';
-import { mockMessageListData } from '../../../../../../__mock__';
 
 @autorun(test.skip)
 @it

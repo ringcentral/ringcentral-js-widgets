@@ -4,7 +4,7 @@ export default {
   confirmStr2: "tästä puhelusta?",
   remove: "Poista",
   cancel: "Peruuta",
-  participants: "osallistujaa",
+  participants: "Osallistujat",
   participant: "osallistuja",
   conferenceCall: "Neuvottelupuhelu",
   unknownNumber: "Nimetön"

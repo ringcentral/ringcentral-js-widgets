@@ -22,9 +22,10 @@ interface ICheckVoiceMailActionDisable {
   itemName: string;
 }
 
-export const CheckVoiceMailActionDisable: StepFunction<ICheckVoiceMailActionDisable> =
-  async ({ itemName }) => {
-    const item = screen.queryByTestId(itemName);
-    const disable = item!.getAttribute('aria-disabled');
-    expect(disable).toBeTruthy();
-  };
+export const CheckVoiceMailActionDisable: StepFunction<
+  ICheckVoiceMailActionDisable
+> = async ({ itemName }) => {
+  const item = screen.queryByTestId(itemName);
+  const disable = item!.getAttribute('aria-disabled');
+  expect(disable).toBeTruthy();
+};

@@ -1,6 +1,5 @@
+import clsx from 'clsx';
 import React from 'react';
-
-import classnames from 'classnames';
 
 import styles from './styles.scss';
 
@@ -17,7 +16,7 @@ type DropdownNavigationItemProps = {
   dataSign?: string;
 };
 
-const DropdownNavigationItem: React.SFC<DropdownNavigationItemProps> = ({
+const DropdownNavigationItem: React.FC<DropdownNavigationItemProps> = ({
   icon,
   activeIcon,
   active,
@@ -43,13 +42,13 @@ const DropdownNavigationItem: React.SFC<DropdownNavigationItemProps> = ({
       title={title || label}
       data-sign={dataSign}
       onClick={onClick}
-      className={classnames(
+      className={clsx(
         styles.root,
         active && styles.active,
         isReverseFillIcon && styles.reverseFillIcon,
       )}
     >
-      <div className={classnames(styles.iconHolder, styleClass)}>
+      <div className={clsx(styles.iconHolder, styleClass)}>
         {active ? activeIcon : icon}
       </div>
       <div className={styles.labelHolder}>{label}</div>

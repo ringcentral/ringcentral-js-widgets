@@ -18,6 +18,7 @@ import type { RouterInteraction } from '../RouterInteraction';
 
 interface SettingsUIOptions {
   showRemoveMeetingWarning?: boolean;
+  showTrackingIssue?: boolean;
 }
 
 export interface CPRClient {

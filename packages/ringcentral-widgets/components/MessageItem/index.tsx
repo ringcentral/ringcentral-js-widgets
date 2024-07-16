@@ -1,19 +1,17 @@
-import type { ReactNode } from 'react';
-import React, { Component } from 'react';
-
-import classnames from 'classnames';
-
 import { extensionTypes } from '@ringcentral-integration/commons/enums/extensionTypes';
 import messageDirection from '@ringcentral-integration/commons/enums/messageDirection';
 import messageTypes from '@ringcentral-integration/commons/enums/messageTypes';
 import type { Message } from '@ringcentral-integration/commons/interfaces/MessageStore.model';
+import { formatDuration } from '@ringcentral-integration/commons/lib/formatDuration';
 import {
   messageIsFax,
   messageIsTextMessage,
 } from '@ringcentral-integration/commons/lib/messageHelper';
-import { formatDuration } from '@ringcentral-integration/commons/lib/formatDuration';
 import parseNumber from '@ringcentral-integration/commons/lib/parseNumber';
 import { format } from '@ringcentral-integration/utils';
+import clsx from 'clsx';
+import type { ReactNode } from 'react';
+import React, { Component } from 'react';
 
 import { checkShouldHideContactUser } from '../../lib/checkShouldHideContactUser';
 import { checkShouldHidePhoneNumber } from '../../lib/checkShouldHidePhoneNumber';
@@ -22,6 +20,7 @@ import ContactDisplay from '../ContactDisplay';
 import type { ContactDisplayItemProps } from '../ContactDisplay/ContactDisplayItem';
 import SlideMenu from '../SlideMenu';
 import VoicemailPlayer from '../VoicemailPlayer';
+
 import { ConversationIcon } from './ConversationIcon';
 import i18n from './i18n';
 import styles from './styles.scss';
@@ -37,6 +36,7 @@ export type MessageItemProps = {
   onLogConversation?: (...args: any[]) => any;
   onViewContact?: (...args: any[]) => any;
   onCreateContact?: (...args: any[]) => any;
+  shouldHideEntityButton?: (...args: any[]) => boolean;
   createEntityTypes?: any[];
   onClickToDial?: (...args: any[]) => any;
   onClickToSms?: (...args: any[]) => any;
@@ -526,6 +526,7 @@ class MessageItem extends Component<MessageItemProps, MessageItemState> {
       onLogConversation,
       onViewContact,
       onCreateContact,
+      shouldHideEntityButton,
       createEntityTypes,
       enableContactFallback,
       contactPlaceholder,
@@ -603,10 +604,7 @@ class MessageItem extends Component<MessageItemProps, MessageItemState> {
         reference={(ref) => {
           this.contactDisplay = ref;
         }}
-        className={classnames(
-          styles.contactDisplay,
-          unreadCounts && styles.unread,
-        )}
+        className={clsx(styles.contactDisplay, unreadCounts && styles.unread)}
         unread={!!unreadCounts}
         selectedClassName={styles.selectedValue}
         selectClassName={styles.dropdownSelect}
@@ -649,7 +647,7 @@ class MessageItem extends Component<MessageItemProps, MessageItemState> {
       >
         <div
           data-sign="unread"
-          className={classnames(styles.wrapper, unreadCounts && styles.unread)}
+          className={clsx(styles.wrapper, unreadCounts && styles.unread)}
           onClick={this.onClickWrapper}
         >
           <ConversationIcon
@@ -659,7 +657,7 @@ class MessageItem extends Component<MessageItemProps, MessageItemState> {
             direction={direction}
           />
           <div
-            className={classnames(
+            className={clsx(
               styles.infoWrapper,
               !extraButton && styles.embellishInfoWrapper,
             )}
@@ -705,7 +703,12 @@ class MessageItem extends Component<MessageItemProps, MessageItemState> {
           </div>
           <ActionMenuList
             // @ts-expect-error TS(2322): Type '{ shouldHideEntityButton: boolean | undefine... Remove this comment to see the full error message
-            shouldHideEntityButton={isContactMatchesHidden}
+            shouldHideEntityButton={() => {
+              if (shouldHideEntityButton) {
+                return shouldHideEntityButton(conversation);
+              }
+              return isContactMatchesHidden;
+            }}
             className={styles.actionMenuList}
             type={type}
             currentLocale={currentLocale}

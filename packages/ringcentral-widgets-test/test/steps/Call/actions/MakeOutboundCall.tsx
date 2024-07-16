@@ -1,7 +1,8 @@
-import { screen } from '@testing-library/react';
 import { waitForRenderReady } from '@ringcentral-integration/test-utils';
+import { fireEvent, screen } from '@testing-library/react';
+
 import type { StepFunction } from '../../../lib/step';
-import { ClickDialButton } from './ClickDialButton';
+
 import { ClickDialNumberButton } from './ClickDialNumberButton';
 
 export const MakeOutboundCall: StepFunction<{
@@ -42,16 +43,15 @@ export const MakeOutboundCall: StepFunction<{
       await ClickDialNumberButton(char);
     }
     expect(screen.getByTestId('recipientsInput')).toHaveValue(phoneNumber);
-    ClickDialButton();
-    // await make call successful
-    const {
-      phone: { callMonitor },
-    } = context;
-    await new Promise((resolve) => {
-      callMonitor.onNewCall(() => {
+
+    const promise = new Promise((resolve) => {
+      context.phone.callMonitor.onNewCall(() => {
         resolve(true);
       });
     });
+    fireEvent.click(document.querySelector('.callBtn circle')!);
+    // await make call successful
+    await promise;
     await waitForRenderReady();
   }
 };

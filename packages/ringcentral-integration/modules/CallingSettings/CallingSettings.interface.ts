@@ -16,7 +16,7 @@ export interface Deps {
   alert: Alert;
   brand: Brand;
   callerId?: CallerId;
-  extensionDevice?: ExtensionDevice;
+  extensionDevice: ExtensionDevice;
   appFeatures: AppFeatures;
   extensionInfo: ExtensionInfo;
   extensionPhoneNumber: ExtensionPhoneNumber;

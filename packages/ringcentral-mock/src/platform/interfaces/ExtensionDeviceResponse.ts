@@ -1,10 +1,10 @@
-import type { ModelInfo } from './ModelInfo';
-import type { ExtensionInfoIntId } from './ExtensionInfoIntId';
-import type { EmergencyServiceAddressResource } from './EmergencyServiceAddressResource';
 import type { DeviceEmergencyInfo } from './DeviceEmergencyInfo';
+import type { DeviceSiteInfo } from './DeviceSiteInfo';
+import type { EmergencyServiceAddressResource } from './EmergencyServiceAddressResource';
+import type { ExtensionInfoIntId } from './ExtensionInfoIntId';
+import type { ModelInfo } from './ModelInfo';
 import type { PhoneLinesInfo } from './PhoneLinesInfo';
 import type { ShippingInfo } from './ShippingInfo';
-import type { DeviceSiteInfo } from './DeviceSiteInfo';
 
 export interface ExtensionDeviceResponse {
   /**

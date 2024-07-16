@@ -1,5 +1,5 @@
-import type { AdaptiveCardInfoRequest } from './AdaptiveCardInfoRequest';
 import type { AdaptiveCardAction } from './AdaptiveCardAction';
+import type { AdaptiveCardInfoRequest } from './AdaptiveCardInfoRequest';
 import type { AdaptiveCardSelectAction } from './AdaptiveCardSelectAction';
 import type { BackgroundImage } from './BackgroundImage';
 

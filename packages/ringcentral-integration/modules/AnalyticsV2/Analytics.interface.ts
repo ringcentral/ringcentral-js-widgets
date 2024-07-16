@@ -1,5 +1,7 @@
 import type { AccountInfo } from '../AccountInfo';
 import type { Brand } from '../Brand';
+import { Environment } from '../Environment';
+import type { ExtensionFeatures } from '../ExtensionFeatures';
 import type { ExtensionInfo } from '../ExtensionInfo';
 import type { Locale } from '../Locale';
 
@@ -15,6 +17,8 @@ interface Auth {
 export interface Deps {
   auth: Auth;
   brand: Brand;
+  environment: Environment;
+  extensionFeatures: ExtensionFeatures;
   analyticsOptions: AnalyticsOptions;
   accountInfo?: AccountInfo;
   extensionInfo?: ExtensionInfo;
@@ -59,6 +63,8 @@ export interface AnalyticsOptions {
 
   /** Self-hosting Analytics js for applications with strict CSP (e.g. chrome extension mv3)  */
   useLocalAnalyticsJS?: boolean;
+  /** migrate to mixpanel */
+  enableMixpanel?: boolean;
 }
 
 export interface TrackProps {
@@ -68,6 +74,8 @@ export interface TrackProps {
   'App Language': string;
   'Browser Language': string;
   'Extension Type': string;
+  'App Init Time': number;
+  id?: string;
 }
 
 export type TrackRouter =

@@ -1,18 +1,18 @@
-import React, { Component } from 'react';
-
-import classnames from 'classnames';
-
 import type { ToNumber } from '@ringcentral-integration/commons/modules/ComposeText';
+import clsx from 'clsx';
+import React, { Component } from 'react';
 
 import FromField from '../FromField';
 import MessageInput from '../MessageInput';
 import RecipientsInput from '../RecipientsInput';
 import { RecipientsInputV2 } from '../RecipientsInputV2';
 import { SpinnerOverlay } from '../SpinnerOverlay';
+
 import NoSenderAlert from './NoSenderAlert';
 import styles from './styles.scss';
 
 export interface ComposeTextPanelProps {
+  triggerEventTracking: (eventName: string, contactType: string) => any;
   brand?: string;
   className?: string;
   send: (...args: any[]) => any;
@@ -178,7 +178,7 @@ class ComposeTextPanel extends Component<
         ? searchContactList
         : [];
     return (
-      <div className={classnames(styles.root, className)}>
+      <div className={clsx(styles.root, className)}>
         {showSpinner ? <SpinnerOverlay /> : null}
         <NoSenderAlert
           currentLocale={currentLocale}

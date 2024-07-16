@@ -17,7 +17,7 @@
  * Entry point(/s):
  *
  */
-
+import accountInfoBody from '@ringcentral-integration/mock/src/platform/data/accountInfo.json';
 import {
   p2,
   it,
@@ -28,18 +28,17 @@ import {
   title,
   When,
 } from '@ringcentral-integration/test-utils';
-import accountInfoBody from '@ringcentral-integration/mock/src/platform/data/accountInfo.json';
 
 import type { StepProp } from '../../../../../lib/step';
 import { CommonLogin } from '../../../../../steps/CommonLogin';
+import { CheckContactItemExistInList } from '../../../../../steps/ContactsView';
+import { CreateInstance } from '../../../../../steps/CreateInstance';
 import {
   CreateMock,
   MockExtensionInfo,
   MockExtensionsList,
 } from '../../../../../steps/Mock';
 import { NavigateToContacts } from '../../../../../steps/Navigate';
-import { CheckContactItemExistInList } from '../../../../../steps/ContactsView';
-import { CreateInstance } from '../../../../../steps/CreateInstance';
 
 @autorun(test)
 @it

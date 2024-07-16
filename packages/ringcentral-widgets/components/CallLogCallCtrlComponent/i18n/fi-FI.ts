@@ -20,7 +20,9 @@ export default {
   answerAndHold: "Vastaa ja aseta pitoon",
   answer: "Vastaa",
   completeTransfer: "Suorita siirto",
-  reply: "Vastaa"
+  reply: "Vastaa",
+  add: "Lisää",
+  mergeCall: "Yhdistä käynnissä olevaan puheluun"
 };
 
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
@@ -45,3 +47,5 @@ export default {
 // @key: @#@"answer"@#@ @source: @#@"Answer"@#@
 // @key: @#@"completeTransfer"@#@ @source: @#@"Complete transfer"@#@
 // @key: @#@"reply"@#@ @source: @#@"Reply"@#@
+// @key: @#@"add"@#@ @source: @#@"Add"@#@
+// @key: @#@"mergeCall"@#@ @source: @#@"Merge with active call"@#@

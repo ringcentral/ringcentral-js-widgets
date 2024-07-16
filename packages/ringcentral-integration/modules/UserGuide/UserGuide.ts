@@ -1,5 +1,3 @@
-import { includes } from 'ramda';
-
 import {
   action,
   computed,
@@ -9,10 +7,12 @@ import {
   track,
   watch,
 } from '@ringcentral-integration/core';
+import { includes } from 'ramda';
 
+import { trackEvents } from '../../enums/trackEvents';
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
-import { trackEvents } from '../../enums/trackEvents';
+
 import type {
   CarouselOptions,
   CarouselState,
@@ -183,31 +183,18 @@ export class UserGuide extends RcModuleV2<Deps> {
   async preLoadImage() {
     const url = this.guides[0];
     if (url) {
-      await this._preLoadImage(url);
+      try {
+        await this._preLoadImage(url);
+      } catch (ex) {
+        console.warn('[UserGuide] Preload image failed', ex);
+      }
     }
     this.setPreLoadImageStatus();
   }
 
-  /**
-   * Using webpack `require.context` to load guides files.
-   * Image files will be sorted by file name in ascending order.
-   */
   resolveGuides(): Record<string, string[]> {
-    let images =
+    const images =
       (this._deps.brand.brandConfig.assets?.guides as string[]) || [];
-
-    if (
-      images.length === 0 &&
-      typeof this._deps.userGuideOptions?.context === 'function'
-    ) {
-      images = this._deps.userGuideOptions.context
-        .keys()
-        .sort()
-        .map((key: string) => {
-          const value = this._deps.userGuideOptions!.context(key);
-          return typeof value === 'string' ? value : value?.default;
-        }) as string[];
-    }
 
     const locales = Object.keys(SUPPORTED_LOCALES);
     return images.reduce<Record<string, string[]>>((acc, curr: string) => {
@@ -295,7 +282,7 @@ export class UserGuide extends RcModuleV2<Deps> {
     that._deps.locale.currentLocale,
   ])
   get guides() {
-    if (!this._deps.locale.ready) {
+    if (!this._deps.locale.ready || !this._deps.auth.loggedIn) {
       return [];
     }
     const brandGuides = this.allGuides[this._deps.brand.code];

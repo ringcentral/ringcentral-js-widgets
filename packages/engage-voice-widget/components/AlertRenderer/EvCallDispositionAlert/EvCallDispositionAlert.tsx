@@ -1,6 +1,7 @@
 import { includes } from 'ramda';
 
 import { logTypes } from '../../../enums/logTypes';
+
 import i18n from './i18n';
 
 interface EvCallDispositionAlertProps {

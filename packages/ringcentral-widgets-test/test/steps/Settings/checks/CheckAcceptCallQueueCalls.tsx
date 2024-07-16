@@ -1,5 +1,6 @@
 import { waitForRenderReady } from '@ringcentral-integration/test-utils';
 import { screen } from '@testing-library/react';
+
 import type { StepFunction } from '../../../lib/step';
 
 interface CheckAcceptCallQueueCallsOptions {

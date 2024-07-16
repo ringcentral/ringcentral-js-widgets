@@ -58,7 +58,6 @@
 	| 7 |72230003 |(30) 223-0003 |- |
 
  */
-
 import { Category } from '@ringcentral-integration/commons/interfaces/NumberParserResponse.interface';
 import {
   autorun,

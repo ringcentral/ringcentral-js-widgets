@@ -14,4 +14,4 @@ export default {
   [transferTypes.phoneBook]: 'Phone book transfer',
   [transferTypes.manualEntry]: 'Enter a number',
   [transferTypes.queue]: 'Queue transfer',
-};
+} as const;

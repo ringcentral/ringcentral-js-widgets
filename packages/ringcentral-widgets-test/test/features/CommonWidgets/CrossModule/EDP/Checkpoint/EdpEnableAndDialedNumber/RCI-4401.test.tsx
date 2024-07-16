@@ -28,7 +28,6 @@
   | RC-UK |7 |8 |3135 0033 |Match valid PSTN |12 |(12) 3135 0033 |PSTN |(12) 3135 0033 |
 
  */
-
 import { Category } from '@ringcentral-integration/commons/interfaces/NumberParserResponse.interface';
 import {
   p1,
@@ -43,6 +42,8 @@ import {
   When,
   common,
 } from '@ringcentral-integration/test-utils';
+
+import { generateDialPlanData } from '../../../../../../__mock__/generateDialPlanData';
 import type { StepProp } from '../../../../../../lib/step';
 import { CheckCallControlPage, MakeCall } from '../../../../../../steps/Call';
 import { CheckLogBaseInfoActive } from '../../../../../../steps/CallLog';
@@ -57,7 +58,6 @@ import {
   MockGetPhoneNumber,
   MockNumberParserV2,
 } from '../../../../../../steps/Mock';
-import { generateDialPlanData } from '../../../../../../__mock__/generateDialPlanData';
 
 @autorun(test)
 @it

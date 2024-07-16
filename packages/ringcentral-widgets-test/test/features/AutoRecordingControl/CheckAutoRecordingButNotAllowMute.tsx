@@ -29,6 +29,7 @@ import {
   MakeOutboundCall,
   CheckRecordingIndicator,
 } from '../../steps/Call';
+
 import { generateFeaturesData } from './helper';
 
 const mockAutoInboundCallRecording = JSON.stringify({

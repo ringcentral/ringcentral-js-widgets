@@ -1,4 +1,5 @@
 // eslint-disable-next-line import/no-named-as-default
+import type CallRecording from '@rc-ex/core/lib/definitions/CallRecording';
 import { find } from 'ramda';
 import type {
   Party,
@@ -10,15 +11,15 @@ import {
   ReplyWithPattern,
 } from 'ringcentral-call-control/lib/Session';
 import type { Session } from 'ringcentral-call/lib/Session';
-import type CallRecording from '@rc-ex/core/lib/definitions/CallRecording';
 
 // eslint-disable-next-line import/no-named-as-default
 import activeCallControlStatus from '../../enums/activeCallControlStatus';
-import callDirections, { callDirection } from '../../enums/callDirections';
+import { callDirection } from '../../enums/callDirections';
 // eslint-disable-next-line import/no-named-as-default
 import callResults from '../../enums/callResults';
-import { recordStatus } from '../Webphone/recordStatus';
 import { telephonyStatus } from '../../enums/telephonyStatus';
+import { recordStatus } from '../Webphone/recordStatus';
+
 import type { ActiveCallControlSessionData } from './ActiveCallControl.interface';
 
 // telephony session status match presence telephonyStatus
@@ -50,7 +51,7 @@ export function isRejectCode({
   code: string;
 }) {
   return (
-    direction === callDirections.inbound &&
+    direction === callDirection.inbound &&
     (code === activeCallControlStatus.setUp ||
       code === activeCallControlStatus.proceeding)
   );
@@ -85,7 +86,7 @@ export function normalizeSession({
     toUserName: to?.name,
     id: session.id,
     sessionId,
-    // @ts-expect-error
+    // @ts-expect-error TS(2345): Argument of type 'PartyStatusCode | undefined' is ... Remove this comment to see the full error message
     callStatus: mapTelephonyStatus(status?.code),
     startTime: new Date(creationTime).getTime(),
     creationTime,
@@ -98,12 +99,12 @@ export function normalizeSession({
     isToVoicemail: false,
     lastHoldingTime: 0,
     minimized: false,
-    // @ts-expect-error
+    // @ts-expect-error TS(2345): Argument of type 'Recording[] | undefined' is not ... Remove this comment to see the full error message
     recordStatus: isOnRecording(recordings)
       ? recordStatus.recording
       : recordStatus.idle,
     removed: false,
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type 'import("/Users/declan.zou/Projects/rc/integr... Remove this comment to see the full error message
     isReject: isRejectCode({ direction, code: status?.code }),
   };
   return formatValue;
@@ -131,7 +132,7 @@ export function isRinging(
     telephonySession &&
     (telephonySession.status === PartyStatusCode.proceeding ||
       telephonySession.status === PartyStatusCode.setup) &&
-    telephonySession.direction === callDirections.inbound
+    telephonySession.direction === callDirection.inbound
   );
 }
 
@@ -141,7 +142,7 @@ export function isHolding(telephonySession: ActiveCallControlSessionData) {
 
 export function isRecording(session: ActiveCallControlSessionData) {
   const { party } = session;
-  // @ts-expect-error
+  // @ts-expect-error TS(2345): Argument of type 'Recording[] | undefined' is not ... Remove this comment to see the full error message
   return isOnRecording(party.recordings);
 }
 
@@ -162,7 +163,7 @@ export function isAtMainNumberPromptToneStage(session: Session) {
   if (!session) return false;
   const { otherParties = [], direction, status } = session;
   if (
-    direction === callDirections.outbound &&
+    direction === callDirection.outbound &&
     status === PartyStatusCode.answered &&
     !otherParties.length
   ) {
@@ -175,9 +176,9 @@ export function getInboundSwitchedParty(parties: Party[]) {
   if (!parties.length) return false;
   const result = find((party: Party) => {
     return (
-      party.direction === callDirections.inbound &&
+      party.direction === callDirection.inbound &&
       party.status?.code === PartyStatusCode.disconnected &&
-      // @ts-expect-error
+      // @ts-expect-error TS(2339): Property 'reason' does not exist on type 'PartySta... Remove this comment to see the full error message
       party.status?.reason === 'CallSwitch'
     );
   }, parties);
@@ -204,17 +205,21 @@ export function filterDisconnectedCalls(
   return session.status !== PartyStatusCode.disconnected;
 }
 
+export function isGoneSession(session: Session | ActiveCallControlSessionData) {
+  return session.status === PartyStatusCode.gone;
+}
+
 export function normalizeTelephonySession(
   session?: TelephonySession,
 ): ActiveCallControlSessionData {
   if (!session) {
-    // @ts-expect-error
+    // @ts-expect-error TS(2740): Type '{}' is missing the following properties from... Remove this comment to see the full error message
     return {};
   }
   return {
     accountId: session.accountId,
     creationTime: session.creationTime,
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type '{ accountId: any; creationTime: any; data: a... Remove this comment to see the full error message
     data: session.data,
     extensionId: session.extensionId,
     id: session.id,

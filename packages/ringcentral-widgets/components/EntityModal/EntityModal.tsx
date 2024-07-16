@@ -2,6 +2,7 @@
 import React, { Component } from 'react';
 
 import Modal from '../Modal';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 
@@ -9,7 +10,7 @@ type EntityModalProps = {
   show?: boolean;
   onCreate: (...args: any[]) => any;
   onCancel: (...args: any[]) => any;
-  entities?: any[];
+  entities: any[];
   currentLocale: string;
 };
 type EntityModalState = {
@@ -53,11 +54,11 @@ class EntityModal extends Component<EntityModalProps, EntityModalState> {
         textConfirm={i18n.getString('create', currentLocale)}
         currentLocale={currentLocale}
         clickOutToClose
+        dataSign="createEntityModal"
       >
-        {/* @ts-expect-error TS(2532): Object is possibly 'undefined'. */}
         {entities.map((entityType, idx) => (
           <div className={styles.radio} key={idx}>
-            <label>
+            <label data-sign={`entityOption-${entityType}`}>
               <input
                 type="radio"
                 value={entityType}

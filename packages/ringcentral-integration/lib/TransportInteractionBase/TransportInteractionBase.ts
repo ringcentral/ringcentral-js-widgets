@@ -8,6 +8,7 @@ import type {
 
 export default class TransportInteractionBase {
   _transportEvents: transportEvents = {};
+  // @ts-expect-error TS(2564): Property '_transport' has no initializer and is no... Remove this comment to see the full error message
   _transport: Transport;
 
   registerTransportEvent({ key, func }: TransportEvent) {
@@ -34,6 +35,7 @@ export default class TransportInteractionBase {
     const emitData: TransportResponseData = {
       requestId,
       result: null,
+      // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | Er... Remove this comment to see the full error message
       error: null,
     };
 

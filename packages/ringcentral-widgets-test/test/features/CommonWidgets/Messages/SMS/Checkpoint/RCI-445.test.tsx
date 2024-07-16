@@ -6,172 +6,153 @@
  * Entry point(/s):
  * ntry point(/s): </span></strong></p><p>> Go to the 'Setting'</p><p>> Click 'Region' option</p>
  */
-
-import type dialingPlanBody from '@ringcentral-integration/commons/integration-test/mock/data/dialingPlan.json';
 import { waitForRenderReady } from '@ringcentral-integration/test-utils';
-import { Login as CommonLogin } from '../../../../../steps/Login';
+
+import type { Context } from '../../../../../interfaces';
 import type { StepFunction } from '../../../../../lib/step';
 import {
-  p2,
-  it,
-  autorun,
-  examples,
+  And,
   Given,
   Scenario,
   Step,
   Then,
-  title,
   When,
+  autorun,
+  common,
+  examples,
+  it,
+  p2,
+  title,
 } from '../../../../../lib/step';
-import {
-  NavigateToSettings,
-  NavigateToRegionSettings,
-  NavigateToComposeText,
-} from '../../../../../steps/Navigate';
-import { SelectCountryCode, SetAreaCode } from '../../../../../steps/Settings';
+import { Login as CommonLogin } from '../../../../../steps/Login';
 import { SendSMS } from '../../../../../steps/Messages';
-import type { Context } from '../../../../../interfaces';
 import {
   CreateMock as CommonCreateMock,
+  MockDialingPlan,
   MockGetPhoneNumber,
+  MockMessageSync,
+  MockNumberParserV2,
 } from '../../../../../steps/Mock';
+import {
+  NavigateToComposeText,
+  NavigateToRegionSettings,
+  NavigateToSettings,
+} from '../../../../../steps/Navigate';
+import { SetAreaCode, SetCountryCode } from '../../../../../steps/Settings';
 
-interface LocalNumberFormattingProps {
-  country: string;
+import numberParserV2_AU_1014037 from './mockData/numberParserV2_AU_1014037.json';
+import numberParserV2_UK_79121016 from './mockData/numberParserV2_UK_79121016.json';
+
+const dialingPlansData = {
+  records: [
+    {
+      uri: 'https://api-rcapps-labs_domain/restapi/v1.0/dictionary/country/15',
+      id: '15',
+      name: 'Australia',
+      isoCode: 'AU',
+      callingCode: '61',
+    },
+    {
+      uri: 'https://api-rcapps-labs_domain/restapi/v1.0/dictionary/country/160',
+      id: '160',
+      name: 'New Zealand',
+      isoCode: 'NZ',
+      callingCode: '64',
+    },
+    {
+      uri: 'https://api-rcapps-labs_domain/restapi/v1.0/dictionary/country/224',
+      id: '224',
+      name: 'United Kingdom',
+      isoCode: 'GB',
+      callingCode: '44',
+    },
+  ],
+};
+
+interface ExampleItem {
+  countryCode: string;
+  countryName: string;
+  countryCallingCode: string;
+  areaCode: string;
   phoneNumber: string;
 }
 
-@autorun(test.skip)
+@autorun(test)
+@common
 @it
 @p2
 @title('Local number formatting')
 export class LocalNumberFormatting extends Step {
-  Login?: StepFunction<
-    {
-      mockParams: { dialingPlansData?: Partial<typeof dialingPlanBody> };
-    },
-    any
-  >;
-  CreateMock: StepFunction<any, any> = CommonCreateMock;
+  CreateMock?: StepFunction<any, any>;
+  Login?: StepFunction<any, any>;
+
   @examples(`
-    | country              | phoneNumber  |
-    | '(+1) United States' | '4091529'    |
-    | '(+1) Canada'        | '6504091529' |
+    | countryCode | countryName      | countryCallingCode | areaCode | phoneNumber |
+    | 'UK'        | 'United Kingdom' | '44'               | '8'      | '79121016'  |
+    | 'AU'        | 'Australia'      | '61'               | '117'    | '1014037'   |
   `)
   run() {
-    const { Login = CommonLogin, CreateMock } = this;
+    const {
+      CreateMock = CommonCreateMock,
+      Login = <CommonLogin skipCreateMock />,
+    } = this;
     return (
-      <Scenario desc="Local number formatting">
+      <Scenario desc="Local number formatting" action={CreateMock}>
+        <Given
+          desc="Mock data"
+          action={({ countryCode }: ExampleItem) => [
+            <MockGetPhoneNumber />,
+            <MockMessageSync />,
+            <MockNumberParserV2
+              handler={(mockData) => {
+                if (countryCode == 'AU') {
+                  return numberParserV2_AU_1014037;
+                }
+                if (countryCode === 'UK') {
+                  return numberParserV2_UK_79121016;
+                }
+                return mockData;
+              }}
+            />,
+            <MockDialingPlan handler={() => dialingPlansData.records} />,
+          ]}
+        />
+        <And desc="User is logged-in" action={Login} />
         <When
           desc="Go to entry points, set {Country} and enter area code, save
  Note(/s):For Salesforce 6.0, set{Country}in Salesforce, and enter area code in Region setting page in RC CTI APP."
-          action={[
-            CreateMock,
-            <MockGetPhoneNumber />,
-            (props: LocalNumberFormattingProps, { rcMock }: Context) => {
-              rcMock.defaultInitMocks.delete(rcMock.getMessageSync);
-              rcMock.defaultInitMocks.add(() =>
-                rcMock.getMessageSync({ repeat: 2 }),
-              );
-              rcMock.defaultInitMocks.add(() =>
-                rcMock.postParerPhoneNumbers((mockData) => {
-                  switch (props.country) {
-                    case '(+1) Canada':
-                      return {
-                        ...mockData,
-                        homeCountry: {
-                          uri: 'https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/39',
-                          id: '39',
-                          name: 'Canada',
-                          isoCode: 'CA',
-                          callingCode: '1',
-                        },
-                        phoneNumbers: [
-                          {
-                            originalString: '+16504091529',
-                            country: {
-                              uri: 'https://platform.devtest.ringcentral.com/restapi/v1.0/dictionary/country/1',
-                              id: '1',
-                              name: 'United States',
-                              isoCode: 'US',
-                              callingCode: '1',
-                            },
-                            areaCode: '650',
-                            subscriberNumber: '4091529',
-                            formattedNational: '(650) 409-1529',
-                            formattedInternational: '+1 (650) 4091529',
-                            dialable: '6504091529',
-                            e164: '+16504091529',
-                            special: false,
-                            normalized: '16504091529',
-                            tollFree: false,
-                          },
-                        ],
-                      };
-                    case '(+1) United States':
-                    default:
-                      return mockData;
-                  }
-                }, 2),
-              );
-            },
-            <Login
-              // need refactoring
-              mockParams={{
-                dialingPlansData: {
-                  records: [
-                    {
-                      uri: 'https://platform.ringcentral.com/restapi/v1.0/dictionary/country/1',
-                      id: '1',
-                      name: 'United States',
-                      isoCode: 'US',
-                      callingCode: '1',
-                    },
-                    {
-                      uri: 'https://platform.ringcentral.com/restapi/v1.0/dictionary/country/353',
-                      id: '353',
-                      name: 'Canada',
-                      isoCode: 'CA',
-                      callingCode: '1',
-                    },
-                  ],
-                },
-              }}
-            />,
+          action={({
+            areaCode,
+            countryCallingCode,
+            countryName,
+          }: ExampleItem) => [
             NavigateToSettings,
             NavigateToRegionSettings,
+            <SetCountryCode
+              countryCallingCode={countryCallingCode}
+              countryName={countryName}
+            />,
+            <SetAreaCode areaCode={areaCode} />,
           ]}
         />
-        <Then
-          desc="Settings are saved."
-          action={async ({ country }: LocalNumberFormattingProps) => [
-            <SelectCountryCode countryCode={country} />,
-            <SetAreaCode areaCode="205" />,
-          ]}
-        />
-        <When
+        <And
           desc="> Go to Compose Text, > Enter the following type of {Numbers}
    > Fill text 'Test sms'
    > Click 'Send'
    Note(/s):
    7 digit local number, e.g4091529
    local numebr, e.g6504091529"
-          action={[
+          action={({ phoneNumber }: ExampleItem) => [
             NavigateToComposeText,
-            async ({ phoneNumber }: LocalNumberFormattingProps) => (
-              <SendSMS phoneNumber={phoneNumber} />
-            ),
+            <SendSMS phoneNumber={phoneNumber} />,
           ]}
         />
         <Then
           desc="Message is sent."
-          action={async (
-            props: LocalNumberFormattingProps,
-            context: Context,
-          ) => {
+          action={async (_: ExampleItem, { rcMock }: Context) => {
             await waitForRenderReady();
             expect(
-              context.rcMock.fetchMock.called(
+              rcMock.fetchMock.called(
                 'express:/restapi/v1.0/account/~/extension/~/sms',
               ),
             ).toBeTruthy();

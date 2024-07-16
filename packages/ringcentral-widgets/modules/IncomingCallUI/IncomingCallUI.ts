@@ -7,6 +7,7 @@ import type { UIFunctions, UIProps } from '@ringcentral-integration/core';
 import { computed, RcUIModuleV2 } from '@ringcentral-integration/core';
 
 import { checkShouldHidePhoneNumber } from '../../lib/checkShouldHidePhoneNumber';
+
 import type {
   Deps,
   IncomingCallContainerProps,

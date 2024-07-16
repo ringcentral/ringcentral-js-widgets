@@ -38,8 +38,7 @@ export default {
   pmiSettingChangeAlert: "若您變更設定並排程此會議，相同的最新設定會套用至使用個人會議 ID 的所有會議。",
   lockedTooltip: "此設定由貴公司管理員管理",
   when: "時間",
-  recurringDescribe: "請記得確認傳送給列席者的行事曆邀請中的定期或重複會議。",
-  ieSupportAlert: "請注意 {appName} 在 2022 年二月 16 日以後將不再與 Internet Explorer 11 合作。我們推薦您切換到 Microsoft Edge 或更新至 Outlook 2016 或以上版本。"
+  recurringDescribe: "請記得確認傳送給列席者的行事曆邀請中的定期或重複會議。"
 };
 
 // @key: @#@"date"@#@ @source: @#@"Date"@#@
@@ -81,4 +80,3 @@ export default {
 // @key: @#@"lockedTooltip"@#@ @source: @#@"This setting is managed by your company admin"@#@
 // @key: @#@"when"@#@ @source: @#@"When"@#@
 // @key: @#@"recurringDescribe"@#@ @source: @#@"Please remember to check recurrence or repeat in your calendar invitation to your attendees."@#@
-// @key: @#@"ieSupportAlert"@#@ @source: @#@"Please note that {appName} won't work with Internet Explorer 11 after Feb 16, 2022. We recommend switching to Microsoft Edge or updating to Outlook 2016 or above."@#@

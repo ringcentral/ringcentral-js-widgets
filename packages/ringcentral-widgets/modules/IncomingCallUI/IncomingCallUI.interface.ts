@@ -1,4 +1,3 @@
-import type { ComponentType, ReactElement } from 'react';
 import type ForwardingNumberInfo from '@rc-ex/core/lib/definitions/ForwardingNumberInfo';
 import type { IContact } from '@ringcentral-integration/commons/interfaces/Contact.model';
 import type { Entity } from '@ringcentral-integration/commons/interfaces/Entity.interface';
@@ -14,6 +13,7 @@ import type { ForwardingNumber } from '@ringcentral-integration/commons/modules/
 import type { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import type { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
 import type { Webphone } from '@ringcentral-integration/commons/modules/Webphone';
+import type { ComponentType, ReactElement } from 'react';
 
 export interface IncomingCallUIOptions {
   //

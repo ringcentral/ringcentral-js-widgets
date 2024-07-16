@@ -1,9 +1,9 @@
+import { RcText } from '@ringcentral/juno';
 import type { FunctionComponent } from 'react';
 import React from 'react';
 
-import { RcText } from '@ringcentral/juno';
-
 import i18n from '../i18n';
+
 import styles from './styles.scss';
 
 export interface QueueLabelProps {

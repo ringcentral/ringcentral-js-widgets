@@ -4,4 +4,4 @@ export default {
   blindTransfer: 'Transfer',
   warmTransfer: 'Ask first',
   enterNameOrNumber: 'Enter Number',
-};
+} as const;

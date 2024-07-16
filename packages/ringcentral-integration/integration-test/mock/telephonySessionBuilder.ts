@@ -2,9 +2,23 @@ import dayjs from 'dayjs';
 import { PartyStatusCode } from 'ringcentral-call-control/lib/Session';
 import { v4 as uuidV4 } from 'uuid';
 
-import callDirections from '../../enums/callDirections';
+import { callDirection, type CallDirection } from '../../enums/callDirections';
+
 import extensionBody from './data/extensionInfo.json';
 import telephonySessionMessage from './data/telephonySessions.json';
+
+// "s-a4a012b34c545z18b6f423f7fzf4d9960000"
+export const makeTelephonySessionId = () => `s-${uuidV4()}`;
+
+// "p-a4a012b34c545z18b6f423f7fzf4d9960000-1"
+export const makePartyId = (telephonySessionId: string) =>
+  `p-${telephonySessionId.substring(2)}-1`;
+
+// "e5c8acd0-dcc2-4767-b445-b0029bd8b85210.74.1.43-5070-b30665b0-599a-49b9-b"
+export const makeWebphoneSessionId = () => uuidV4();
+
+// "conf_732d613461306438313238356331617a31376662656163336664377a3830633664303030304031302e37342e31332e3132393a35303730"
+export const makeVoiceCallToken = () => `conf_${uuidV4()}`;
 
 /**
  * Telephony session message boy //https://developers.ringcentral.com/api-reference/Extension-Telephony-Sessions-Event
@@ -20,29 +34,26 @@ export type PhoneNumber = {
   phoneNumber: string;
 };
 
-type CallDirectionsKeys = keyof typeof callDirections;
-
-type CallDirections = (typeof callDirections)[CallDirectionsKeys];
 type PartyStatusCodeKeys = keyof typeof PartyStatusCode;
 type recordingsProps = {
   id?: string;
   active?: boolean;
 };
 
+type ConferenceRole = 'Host' | 'Participant';
+
+interface PeerId {
+  telephonySessionId?: string;
+  partyId?: string;
+  sessionId?: string;
+}
+
 export type Party = {
   extensionId: string;
   id: string;
-  direction: CallDirections;
-  to: {
-    phoneNumber: string;
-    name: string;
-    extensionId: string;
-  };
-  from: {
-    phoneNumber: string;
-    name: string;
-    extensionId: string;
-  };
+  direction: CallDirection;
+  to: NumberData;
+  from: NumberData;
   status: {
     code: (typeof PartyStatusCode)[PartyStatusCodeKeys];
     reason: string;
@@ -53,12 +64,14 @@ export type Party = {
       srvLvl: string;
       srvLvlExt: string;
     };
+    peerId?: PeerId;
   };
   recordings: recordingsProps[];
   missedCall: boolean;
   standAlone: boolean;
   muted: boolean;
   queueCall: boolean;
+  conferenceRole?: ConferenceRole;
 };
 
 export type Origin = {
@@ -79,7 +92,7 @@ export type Body = {
 };
 
 let sequence = 10;
-const DEFAULT_DIRECTION = callDirections.outbound;
+const DEFAULT_DIRECTION = callDirection.outbound;
 const DEFAULT_RECORD_STATUS = false;
 export const DEFAULT_PHONE_NUMBER = '+16501234567';
 
@@ -95,16 +108,17 @@ export interface TelephonySessionInterface {
 }
 
 export interface NumberData {
-  phoneNumber: string;
-  name: string;
-  extensionId: string;
+  phoneNumber?: string;
+  name?: string;
+  extensionId?: string;
 }
 
 interface InitParams {
   telephonySessionId?: string;
-  phoneNumber?: string;
-  direction?: CallDirections;
+  partyId?: string;
   sessionId?: string;
+  phoneNumber?: string;
+  direction?: CallDirection;
   status?: PartyStatusCode;
   fromNumberData?: NumberData;
   toNumberData?: NumberData;
@@ -112,25 +126,34 @@ interface InitParams {
   isRecording?: boolean;
   muteStatus?: boolean;
   queueCall?: boolean;
+  reason?: string;
+  originType?: string;
+  peerId?: PeerId;
+  conferenceRole?: ConferenceRole;
 }
 
 export const telephonySessionBuildersCache: TelephonySessionBuilder[] = [];
+export const clearTelephonySessionBuilders = () => {
+  telephonySessionBuildersCache.length = 0; // clear
+};
 
 class TelephonySessionBuilder {
-  private _data: TelephonySessionInterface;
-  private _telephonySessionId: string;
-  private _phoneNumber: string;
-  private _direction: CallDirections;
-  private _sessionId: string;
-  private _partyStatus: PartyStatusCode;
-  private _partyReason: string;
-  private _partyId: string;
-  private _fromNumberData: NumberData;
-  private _toNumberData: NumberData;
-  private _startTime: string;
-  private _isRecording: boolean;
-  private _muteStatus: boolean;
-  private _queueCall: boolean;
+  private _telephonySessionId!: string;
+  private _phoneNumber!: string;
+  private _direction!: CallDirection;
+  private _sessionId!: string;
+  private _partyStatus!: PartyStatusCode;
+  private _partyReason!: string;
+  private _partyId!: string;
+  private _fromNumberData?: NumberData;
+  private _toNumberData?: NumberData;
+  private _startTime?: string;
+  private _isRecording!: boolean;
+  private _muteStatus!: boolean;
+  private _queueCall!: boolean;
+  private _originType!: string;
+  private _peerId?: PeerId;
+  private _conferenceRole?: ConferenceRole;
   relatedWebphoneSession: any;
 
   constructor(initParams: InitParams = {}) {
@@ -139,10 +162,11 @@ class TelephonySessionBuilder {
   }
 
   _init({
-    telephonySessionId = uuidV4(),
+    telephonySessionId = makeTelephonySessionId(),
+    partyId = makePartyId(telephonySessionId),
+    sessionId = makeWebphoneSessionId(),
     phoneNumber = DEFAULT_PHONE_NUMBER,
     direction = DEFAULT_DIRECTION,
-    sessionId,
     status = PartyStatusCode.proceeding,
     reason = 'AttendedTransfer',
     fromNumberData,
@@ -151,12 +175,15 @@ class TelephonySessionBuilder {
     isRecording = DEFAULT_RECORD_STATUS,
     muteStatus = false,
     queueCall = false,
+    originType = 'Call',
+    peerId,
+    conferenceRole,
   }: InitParams) {
     this._telephonySessionId = telephonySessionId;
-    this._sessionId = sessionId || telephonySessionId;
+    this._partyId = partyId;
+    this._sessionId = sessionId;
     this._phoneNumber = phoneNumber;
     this._direction = direction;
-    this._partyId = `${telephonySessionId}-1`;
     this._partyStatus = status;
     this._partyReason = reason;
     this._fromNumberData = fromNumberData;
@@ -165,13 +192,16 @@ class TelephonySessionBuilder {
     this._isRecording = isRecording;
     this._muteStatus = muteStatus;
     this._queueCall = queueCall;
+    this._originType = originType;
+    this._peerId = peerId;
+    this._conferenceRole = conferenceRole;
   }
 
   setRelatedWebphoneSession(webphoneSession: any) {
     this.relatedWebphoneSession = webphoneSession;
   }
 
-  direction(direction: CallDirections) {
+  direction(direction: CallDirection) {
     this._direction = direction;
     return this;
   }
@@ -251,12 +281,34 @@ class TelephonySessionBuilder {
     return this;
   }
 
+  setPeerId(peerId?: PeerId) {
+    this._peerId = peerId;
+    return this;
+  }
+
+  setConferenceRole(role: ConferenceRole) {
+    this._conferenceRole = role;
+    return this;
+  }
+
   done() {
     return this.data;
   }
 
-  get telephoneSessionId() {
+  getSessionId() {
+    return this._sessionId;
+  }
+
+  getPartyId() {
+    return this._partyId;
+  }
+
+  getTelephonySessionId() {
     return this._telephonySessionId;
+  }
+
+  getStatus() {
+    return this._partyStatus;
   }
 
   get numberData() {
@@ -308,17 +360,19 @@ class TelephonySessionBuilder {
                 srvLvl: '-149699523',
                 srvLvlExt: '390',
               },
+              peerId: this._peerId,
             },
             recordings: this.recordings,
             missedCall: false,
             standAlone: false,
             muted: this._muteStatus,
             queueCall: this._queueCall,
+            conferenceRole: this._conferenceRole,
           },
         ],
         recordings: this.recordings,
         origin: {
-          type: 'Call',
+          type: this._originType,
         },
       },
     };
@@ -328,4 +382,5 @@ class TelephonySessionBuilder {
 function createTelephonySession(initParams?: InitParams) {
   return new TelephonySessionBuilder(initParams);
 }
-export { createTelephonySession, PartyStatusCode, TelephonySessionBuilder };
+
+export { PartyStatusCode, TelephonySessionBuilder, createTelephonySession };

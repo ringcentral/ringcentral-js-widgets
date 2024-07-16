@@ -3,4 +3,4 @@ export default {
   unmute: 'Unmute',
   hangup: 'Hang up',
   reject: 'Reject',
-};
+} as const;

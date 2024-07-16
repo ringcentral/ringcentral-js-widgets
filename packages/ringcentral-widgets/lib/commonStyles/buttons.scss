@@ -7,7 +7,7 @@
   border-radius: 100px;
   background: $primary-color;
   line-height: 36px;
-  color: #ffffff!important;
+  color: #ffffff !important;
   text-align: center;
 }
 
@@ -15,5 +15,5 @@
   @include big-submit-button;
   background: #ffffff;
   border: solid 1px $silver;
-  color: $grey-light!important;
+  color: $grey-light !important;
 }

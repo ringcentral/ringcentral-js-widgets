@@ -2,10 +2,11 @@ export default {
   Inbound: "Entrada",
   Outbound: "Saída",
   log: "Log",
-  save: "Salvar e novo",
-  discard: "Descartar e novo",
+  save: "Salvar e abrir nova",
+  discard: "Descartar e abrir nova",
   hangup: "Desligar",
-  reject: "Para caixa postal"
+  reject: "Para caixa postal",
+  saveDraftAndCreateNewLog: "Salvar rascunho e criar novo log de chamadas"
 };
 
 // @key: @#@"Inbound"@#@ @source: @#@"Inbound"@#@
@@ -15,3 +16,4 @@ export default {
 // @key: @#@"discard"@#@ @source: @#@"Discard and new"@#@
 // @key: @#@"hangup"@#@ @source: @#@"Hangup"@#@
 // @key: @#@"reject"@#@ @source: @#@"To Voicemail"@#@
+// @key: @#@"saveDraftAndCreateNewLog"@#@ @source: @#@"Save draft and create new call log"@#@

@@ -1,9 +1,7 @@
+import type { ToNumber as Recipient } from '@ringcentral-integration/commons/modules/ComposeText';
+import clsx from 'clsx';
 import type { FunctionComponent } from 'react';
 import React, { useEffect, useRef } from 'react';
-
-import classnames from 'classnames';
-
-import type { ToNumber as Recipient } from '@ringcentral-integration/commons/modules/ComposeText';
 
 import AnswerIcon from '../../assets/images/Answer.svg';
 import CircleButton from '../CircleButton';
@@ -12,6 +10,7 @@ import FromField from '../FromField';
 import RecipientsInput from '../RecipientsInput';
 import { RecipientsInputV2 } from '../RecipientsInputV2';
 import { SpinnerOverlay } from '../SpinnerOverlay';
+
 import styles from './styles.scss';
 
 export interface DialerPanelProps {
@@ -31,8 +30,7 @@ export interface DialerPanelProps {
   changeFromNumber?: (...args: any[]) => any;
   formatPhone?: (...args: any[]) => any;
   showSpinner?: boolean;
-  dialButtonVolume?: number;
-  dialButtonMuted?: boolean;
+  callVolume?: number;
   searchContact: (...args: any[]) => any;
   searchContactList: {
     name: string;
@@ -72,8 +70,8 @@ const DialerPanel: FunctionComponent<DialerPanelProps> = ({
   formatPhone,
   isWebphoneMode,
   showSpinner,
-  dialButtonVolume,
-  dialButtonMuted,
+  // use to set dial button volume(dialButtonVolume)
+  callVolume,
   searchContact,
   searchContactList,
   recipients,
@@ -126,9 +124,7 @@ const DialerPanel: FunctionComponent<DialerPanelProps> = ({
       enableTitle
       // @ts-expect-error TS(2322): Type 'string | null' is not assignable to type 'st... Remove this comment to see the full error message
       className={
-        !showFromField
-          ? classnames(styles.inputField, styles.recipientsField)
-          : null
+        !showFromField ? clsx(styles.inputField, styles.recipientsField) : null
       }
     />
   ) : (
@@ -155,14 +151,12 @@ const DialerPanel: FunctionComponent<DialerPanelProps> = ({
       autoFocus={autoFocus}
       // @ts-expect-error TS(2322): Type 'string | null' is not assignable to type 'st... Remove this comment to see the full error message
       className={
-        !showFromField
-          ? classnames(styles.inputField, styles.recipientsField)
-          : null
+        !showFromField ? clsx(styles.inputField, styles.recipientsField) : null
       }
     />
   );
   return (
-    <div className={classnames(styles.root, className)}>
+    <div className={clsx(styles.root, className)}>
       {input}
       {showFromField ? (
         <div className={styles.inputField}>
@@ -183,7 +177,7 @@ const DialerPanel: FunctionComponent<DialerPanelProps> = ({
           />
         </div>
       ) : null}
-      <div className={classnames(styles.dialButtons, dialButtonsClassName)}>
+      <div className={clsx(styles.dialButtons, dialButtonsClassName)}>
         <DialPad
           className={styles.dialPad}
           onButtonOutput={(key) => {
@@ -194,11 +188,10 @@ const DialerPanel: FunctionComponent<DialerPanelProps> = ({
               inputEl.current.focus();
             }
           }}
-          dialButtonVolume={dialButtonVolume}
-          dialButtonMuted={dialButtonMuted}
+          dialButtonVolume={callVolume}
         />
         <div
-          className={classnames(
+          className={clsx(
             styles.callBtnRow,
             withTabs && styles.callBtnRowWithTabs,
             inConference && styles.callBtnRowInConference,
@@ -207,7 +200,7 @@ const DialerPanel: FunctionComponent<DialerPanelProps> = ({
           <div className={styles.callBtn}>
             <CircleButton
               dataSign="callButton"
-              className={classnames(
+              className={clsx(
                 styles.dialBtn,
                 callButtonDisabled && styles.disabled,
               )}
@@ -242,8 +235,7 @@ DialerPanel.defaultProps = {
   onToNumberChange: Empty,
   formatPhone: (phoneNumber) => phoneNumber,
   showSpinner: false,
-  dialButtonVolume: 1,
-  dialButtonMuted: false,
+  callVolume: 1,
   recipients: [],
   autoFocus: false,
   showFromField: true,

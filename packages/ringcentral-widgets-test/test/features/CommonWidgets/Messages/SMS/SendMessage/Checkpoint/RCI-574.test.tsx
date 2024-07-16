@@ -3,6 +3,7 @@
  * https://test_it_domain/test-cases/RCI-574
  */
 import phoneNumberData from '@ringcentral-integration/mock/src/platform/data/phoneNumber.json';
+
 import type { StepFunction } from '../../../../../../lib/step';
 import {
   p2,
@@ -14,25 +15,30 @@ import {
   title,
   When,
 } from '../../../../../../lib/step';
-import {
-  NavigateToComposeText,
-  NavigateToMessagesTab,
-} from '../../../../../../steps/Navigate';
+import { CommonLogin } from '../../../../../../steps/CommonLogin';
+import { CreateInstance } from '../../../../../../steps/CreateInstance';
 import {
   CheckComposeTestButton,
   CheckComposeTestPage,
   CheckMessageInput,
   CheckRecipientsInput,
+  CheckRecipientsInputRemoveButton,
   EntryTheLongestCharacter,
 } from '../../../../../../steps/Messages';
-import { MockPhoneNumber } from '../../../../../../steps/Mock';
+import { CreateMock, MockPhoneNumber } from '../../../../../../steps/Mock';
+import {
+  NavigateToComposeText,
+  NavigateToMessagesTab,
+} from '../../../../../../steps/Navigate';
 
-@autorun(test.skip)
+@autorun(test)
 @p2
 @title('Compose text page')
 export class ComposeTextPage extends Step {
-  CustomLogin?: StepFunction<any, any>;
-  CustomCreateMock?: StepFunction<any, any>;
+  CustomLogin?: StepFunction<any, any> = (props) => (
+    <CommonLogin {...props} CreateInstance={CreateInstance} />
+  );
+  CustomCreateMock?: StepFunction<any, any> = CreateMock;
   run() {
     return (
       <Scenario
@@ -70,7 +76,7 @@ export class ComposeTextPage extends Step {
         />
         <Then
           desc="User should see that ghost text disappears and The 'To' field maximum length is 30 characters, cannot enter any more "
-          action={CheckRecipientsInput}
+          action={[CheckRecipientsInput, CheckRecipientsInputRemoveButton]}
         />
         <Then
           desc="User entry an more than 100 characters value on text area"

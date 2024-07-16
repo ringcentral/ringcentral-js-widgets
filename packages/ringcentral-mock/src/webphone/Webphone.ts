@@ -1,15 +1,26 @@
+import { sessionStatus } from '@ringcentral-integration/commons/modules/Webphone/sessionStatus';
 import type { InviteOptions } from 'ringcentral-web-phone/lib/userAgent';
 
-import { FakeSession as Session } from './Session';
+import { FakeSession } from './Session';
 
-let webphone: FakeWebphone;
+let webphone: FakeWebphone | null = null;
 
 export class WebphoneSessionMock {
-  telephoneSessionId: string;
+  telephonySessionId: string;
+  partyId: string;
+  webphoneSessionId: string;
   _events: Record<string, ((...args: any) => void)[]> = {};
+  __rc_callStatus: string;
 
-  constructor(telephoneSessionId: string) {
-    this.telephoneSessionId = telephoneSessionId;
+  constructor(
+    telephonySessionId: string,
+    partyId: string,
+    webphoneSessionId: string,
+  ) {
+    this.telephonySessionId = telephonySessionId;
+    this.partyId = partyId;
+    this.webphoneSessionId = webphoneSessionId;
+    this.__rc_callStatus = sessionStatus.connecting;
   }
 
   on(event: string, cb: (...args: any) => void) {
@@ -19,7 +30,7 @@ export class WebphoneSessionMock {
     this._events[event].push(cb);
   }
 
-  trigger(event: string, ...args: []) {
+  trigger(event: string, ...args: any) {
     if (this._events[event]) {
       this._events[event].forEach((cb: (...args: any) => void) => {
         cb(...args);
@@ -27,11 +38,13 @@ export class WebphoneSessionMock {
     }
   }
 
-  removeListener() {}
+  removeListener() {
+    //
+  }
 
   get request() {
-    const pRcApiIdsRaw = `party-id=${this.telephoneSessionId};session-id=${this.telephoneSessionId}`;
-    const callIDRaw = this.telephoneSessionId;
+    const pRcApiIdsRaw = `party-id=${this.partyId};session-id=${this.telephonySessionId}`;
+    const callIDRaw = this.telephonySessionId;
     const request = {
       headers: {
         'P-Rc-Api-Ids': [{ raw: pRcApiIdsRaw }],
@@ -42,7 +55,7 @@ export class WebphoneSessionMock {
   }
 
   get id() {
-    return this.telephoneSessionId;
+    return this.webphoneSessionId;
   }
 
   get webphone() {
@@ -57,7 +70,35 @@ export class WebphoneSessionMock {
     this.trigger('terminated');
   }
 
-  addTrack() {}
+  addTrack() {
+    //
+  }
+
+  reject() {
+    this.trigger('rejected');
+    delete this.webphone?.userAgent.sessions[this.id];
+    this.__rc_callStatus = sessionStatus.finished;
+  }
+
+  toVoicemail() {
+    this.trigger('rejected');
+    this.__rc_callStatus = sessionStatus.finished;
+  }
+
+  replyWithMessage() {
+    this.reject();
+    this.trigger('terminated');
+  }
+
+  hold() {
+    this.trigger('hold');
+    this.__rc_callStatus = sessionStatus.onHold;
+  }
+
+  unhold() {
+    this.trigger('unhold');
+    this.__rc_callStatus = sessionStatus.connected;
+  }
 }
 
 class Transport {
@@ -67,7 +108,7 @@ class Transport {
     this._events = {};
   }
 
-  on(event, cb) {
+  on(event: string, cb: (...args: any) => void) {
     this._events[event] = cb;
   }
 
@@ -77,9 +118,13 @@ class Transport {
     }
   }
 
-  removeAllListeners() {}
+  removeAllListeners() {
+    //
+  }
 
-  disconnect() {}
+  disconnect() {
+    //
+  }
 
   isConnected() {
     return true;
@@ -94,15 +139,32 @@ class Transport {
   }
 }
 
+class AudioHelper {
+  setVolume() {
+    //
+  }
+  playIncoming() {
+    //
+  }
+  playOutgoing() {
+    //
+  }
+  loadAudio() {
+    //
+  }
+}
+
 export class UserAgent {
   _events: Record<string, ((...args: any) => void)[]> = {};
   transport: Transport;
-  sessions: Record<string, Session>;
+  sessions: Record<string, FakeSession>;
+  audioHelper: AudioHelper;
 
   constructor() {
     this._events = {};
     this.transport = new Transport();
     this.sessions = {};
+    this.audioHelper = new AudioHelper();
   }
 
   on(event: string, cb: (...args: any) => void) {
@@ -119,7 +181,7 @@ export class UserAgent {
     this._events[event].push(cb);
   }
 
-  trigger(event, ...args: any) {
+  trigger(event: string, ...args: any) {
     if (event === 'invite') {
       this.sessions[args[0].id] = args[0];
     }
@@ -132,7 +194,7 @@ export class UserAgent {
 
   invite(phoneNumber: string, inviteOptions: InviteOptions) {
     const sessionId = `${phoneNumber}-${Math.random().toString().slice(2, 10)}`;
-    const session = new Session(
+    const session = new FakeSession(
       {
         id: sessionId,
         direction: 'Outbound',
@@ -140,13 +202,17 @@ export class UserAgent {
         from: inviteOptions?.fromNumber || '',
         callId: `call-${sessionId}`,
       },
-      this,
+      this, // userAgent
     );
     this.sessions[session.id] = session;
     return session;
   }
 
-  acceptConference(options) {
+  accept(acceptOptions: any) {
+    this.trigger('accepted', acceptOptions);
+  }
+
+  acceptConference(options: any) {
     Object.keys(this.sessions).forEach((sessionKey) => {
       if (sessionKey.indexOf('conf') > -1) {
         this.sessions[sessionKey].accept(options);
@@ -172,15 +238,8 @@ export class UserAgent {
     this._events = {};
   }
 
-  removeListener() {}
-
-  get audioHelper() {
-    return {
-      setVolume() {},
-      playIncoming() {},
-      playOutgoing() {},
-      loadAudio() {},
-    };
+  removeListener() {
+    //
   }
 
   isRegistered() {
@@ -199,6 +258,7 @@ export class FakeWebphone {
 
   constructor() {
     this._userAgent = new UserAgent();
+    // eslint-disable-next-line @typescript-eslint/no-this-alias
     webphone = this;
   }
 

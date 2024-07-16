@@ -1,6 +1,7 @@
 import { includes } from 'ramda';
 
 import { messageTypes } from '../../../enums';
+
 import i18n from './i18n';
 
 interface EvSessionConfigAlertProps {

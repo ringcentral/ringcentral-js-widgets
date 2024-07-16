@@ -1,8 +1,8 @@
+import clsx from 'clsx';
 import React from 'react';
 
-import classnames from 'classnames';
-
 import DialButton from '../DialButton';
+
 import styles from './styles.scss';
 
 const keyConfig = [
@@ -39,24 +39,22 @@ type DialPadProps = {
   onButtonOutput?: (...args: any[]) => any;
   alternativeTimeout?: number;
   dialButtonVolume?: number;
-  dialButtonMuted?: boolean;
   dataSign?: string;
 };
-const DialPad: React.SFC<DialPadProps> = ({
+const DialPad: React.FC<DialPadProps> = ({
   className,
   hideSpecial,
   onButtonPress,
   onButtonOutput,
   alternativeTimeout,
   dialButtonVolume,
-  dialButtonMuted,
   dataSign,
 }) => {
   dataSign = typeof dataSign !== 'undefined' ? dataSign : '';
   return (
     <div
       data-sign={`${dataSign}DialPad`}
-      className={classnames(styles.root, className)}
+      className={clsx(styles.root, className)}
     >
       {keyConfig.map((row, rowIdx) => (
         <div key={rowIdx} className={styles.row}>
@@ -73,7 +71,6 @@ const DialPad: React.SFC<DialPadProps> = ({
                 onOutput={onButtonOutput}
                 alternativeTimeout={alternativeTimeout}
                 volume={dialButtonVolume}
-                muted={dialButtonMuted}
               />
             );
           })}
@@ -89,7 +86,6 @@ DialPad.defaultProps = {
   onButtonOutput: undefined,
   alternativeTimeout: undefined,
   dialButtonVolume: 1,
-  dialButtonMuted: false,
   dataSign: undefined,
 };
 export default DialPad;

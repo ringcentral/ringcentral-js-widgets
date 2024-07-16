@@ -1,5 +1,3 @@
-import React, { Component } from 'react';
-
 import {
   RcList,
   RcListItem,
@@ -7,10 +5,12 @@ import {
   RcTextField,
 } from '@ringcentral/juno';
 import { ArrowDown2 as arrowDownSvg } from '@ringcentral/juno-icon';
+import React, { Component } from 'react';
 
 import { bindDebounce } from '../../lib/bindDebounce';
 import { bindNextPropsUpdate } from '../../lib/bindNextPropsUpdate';
 import { CustomArrowButton } from '../Rcui/CustomArrowButton';
+
 import styles from './styles.scss';
 
 type InputSelectProps = {

@@ -14,4 +14,4 @@ export default {
   mergeToConference: 'Merge',
   end: 'End',
   completeTransfer: 'Complete\nTransfer',
-};
+} as const;

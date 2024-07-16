@@ -1,13 +1,13 @@
-import type { ScheduleInfo } from './ScheduleInfo';
 import type { CalledNumberInfo } from './CalledNumberInfo';
 import type { CallersInfo } from './CallersInfo';
 import type { ForwardingInfo } from './ForwardingInfo';
-import type { UnconditionalForwardingInfo } from './UnconditionalForwardingInfo';
-import type { QueueInfo } from './QueueInfo';
-import type { TransferredExtensionInfo } from './TransferredExtensionInfo';
-import type { VoicemailInfo } from './VoicemailInfo';
 import type { GreetingInfo } from './GreetingInfo';
+import type { QueueInfo } from './QueueInfo';
+import type { ScheduleInfo } from './ScheduleInfo';
 import type { SharedLinesInfo } from './SharedLinesInfo';
+import type { TransferredExtensionInfo } from './TransferredExtensionInfo';
+import type { UnconditionalForwardingInfo } from './UnconditionalForwardingInfo';
+import type { VoicemailInfo } from './VoicemailInfo';
 
 export interface CustomAnsweringRuleInfo {
   /**

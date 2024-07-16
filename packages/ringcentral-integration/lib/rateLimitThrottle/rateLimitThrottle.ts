@@ -8,6 +8,7 @@ export const rateLimitThrottle = <F extends (...args: any) => Promise<any>>({
   pool,
   poolWindow,
 }: RateLimitThrottleOptions & { fn: F }) => {
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Promise<voi... Remove this comment to see the full error message
   let resetPromise: Promise<void> = null;
   let count = 0;
 
@@ -15,6 +16,7 @@ export const rateLimitThrottle = <F extends (...args: any) => Promise<any>>({
     if (!resetPromise) {
       resetPromise = new Promise((resolve) => {
         setTimeout(() => {
+          // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Promise<voi... Remove this comment to see the full error message
           resetPromise = null;
           count = 0;
           resolve();

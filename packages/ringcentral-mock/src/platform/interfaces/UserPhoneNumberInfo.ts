@@ -1,5 +1,5 @@
-import type { CountryInfo } from './CountryInfo';
 import type { ContactCenterProvider } from './ContactCenterProvider';
+import type { CountryInfo } from './CountryInfo';
 import type { UserPhoneNumberExtensionInfo } from './UserPhoneNumberExtensionInfo';
 
 export interface UserPhoneNumberInfo {

@@ -1,14 +1,14 @@
-import { forEach } from 'ramda';
-
 import {
   action,
   RcModuleV2,
   state,
   storage,
 } from '@ringcentral-integration/core';
+import { forEach } from 'ramda';
 
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
+
 import type { Deps } from './DataFetcherV2.interface';
 import type { DataSource } from './DataSource';
 import { sourceStatus } from './sourceStatus';
@@ -35,9 +35,6 @@ export class DataFetcherV2 extends RcModuleV2<Deps> {
       enableCache: true,
       deps,
     });
-    this._deps.sleepDetector.on(this._deps.sleepDetector.events.detected, () =>
-      this._handleSleepDetected(),
-    );
   }
 
   override _shouldInit() {
@@ -147,7 +144,7 @@ export class DataFetcherV2 extends RcModuleV2<Deps> {
 
   protected _startPolling<T>(
     source: DataSource<T>,
-    // @ts-expect-error
+    // @ts-expect-error TS(2531): Object is possibly 'null'.
     t = this.getTimestamp(source) + source.pollingInterval + 10 - Date.now(),
   ) {
     this._clearTimeout(source);
@@ -162,7 +159,7 @@ export class DataFetcherV2 extends RcModuleV2<Deps> {
           source.permissionCheckFunction()
         ) {
           if (this._expired(source)) {
-            this.fetchData(source);
+            this.tryFetchData(source, '_startPolling');
           } else {
             this._startPolling(source);
           }
@@ -187,7 +184,7 @@ export class DataFetcherV2 extends RcModuleV2<Deps> {
             source.readyCheckFunction() &&
             source.permissionCheckFunction()
           ) {
-            this.fetchData(source);
+            this.tryFetchData(source, '_retry');
           } else {
             this._retry(source);
           }
@@ -197,7 +194,20 @@ export class DataFetcherV2 extends RcModuleV2<Deps> {
   }
 
   @proxify
-  async fetchData(source: DataSource<any>): Promise<void> {
+  async tryFetchData<T>(source: DataSource<T>, callerName: string) {
+    try {
+      await this.fetchData(source);
+    } catch (ex) {
+      console.error(
+        `[DataFetcherV2] > ${callerName} > fetchData`,
+        `source "${source.key}"`,
+        ex,
+      );
+    }
+  }
+
+  @proxify
+  async fetchData<T>(source: DataSource<T>): Promise<void> {
     if (!this._promises.get(source.key)) {
       this._promises.set(source.key, this._fetchData(source));
     }
@@ -216,7 +226,7 @@ export class DataFetcherV2 extends RcModuleV2<Deps> {
   }
 
   protected _expired<T>(source: DataSource<T>) {
-    // @ts-expect-error
+    // @ts-expect-error TS(2531): Object is possibly 'null'.
     return Date.now() - this.getTimestamp(source) > source.ttl;
   }
 
@@ -307,13 +317,13 @@ export class DataFetcherV2 extends RcModuleV2<Deps> {
             ) {
               // if the data set to null due to permission before
               // but now there is permission, then fetch data
-              this.fetchData(source);
+              this.tryFetchData(source, '_processSources');
             }
           }
         } else if (status === sourceStatus.ready) {
           this._setSourceStatus(source.key, sourceStatus.pending);
           if (source.cleanOnReset) {
-            // @ts-expect-error
+            // @ts-expect-error TS(2345): Argument of type 'null' is not assignable to param... Remove this comment to see the full error message
             this._setData(source.key, source.disableCache, null, null);
           }
         }
@@ -321,13 +331,13 @@ export class DataFetcherV2 extends RcModuleV2<Deps> {
     }
   }
 
-  protected _handleSleepDetected() {
+  protected _handleSleepDetected = () => {
     forEach((source) => {
       if (this.ready && this._shouldFetch(source)) {
-        this.fetchData(source);
+        this.tryFetchData(source, '_handleSleepDetected');
       }
     }, Array.from(this._sources));
-  }
+  };
 
   protected _getRegisteredKeys() {
     const keys = new Set<string>();
@@ -372,11 +382,19 @@ export class DataFetcherV2 extends RcModuleV2<Deps> {
   }
 
   override onInit() {
+    this._deps.sleepDetector.on(
+      this._deps.sleepDetector.events.detected,
+      this._handleSleepDetected,
+    );
     // clean up cached sources that are no longer exist
     this._cleanCache();
   }
 
   override onReset() {
+    this._deps.sleepDetector.off(
+      this._deps.sleepDetector.events.detected,
+      this._handleSleepDetected,
+    );
     forEach((source) => {
       // clear all pollings or retries
       this._clearTimeout(source);
@@ -392,7 +410,7 @@ export class DataFetcherV2 extends RcModuleV2<Deps> {
         this.getData(source) !== null &&
         this.getTimestamp(source) !== null
       ) {
-        // @ts-expect-error
+        // @ts-expect-error TS(2345): Argument of type 'null' is not assignable to param... Remove this comment to see the full error message
         this._setData(source.key, source.disableCache, null, null);
       }
     }, Array.from(this._sources));
@@ -413,7 +431,7 @@ export class DataFetcherV2 extends RcModuleV2<Deps> {
       }
       return this.cachedData[source.key] || null;
     }
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'T'.
     return null;
   }
 }

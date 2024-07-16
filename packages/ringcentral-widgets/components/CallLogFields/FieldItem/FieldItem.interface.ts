@@ -3,6 +3,7 @@ import type { RcTextFieldProps } from '@ringcentral/juno';
 export type PickListOption = {
   label: string;
   value: any;
+  validFor?: string[];
   disabled?: boolean;
   title?: string;
 };
@@ -30,6 +31,7 @@ export type FieldItemOption = {
   required?: boolean;
   maxLength?: number;
   picklistOptions?: (string | number | PickListOption)[];
+  controller?: string;
   enableScrollError?: boolean;
   referenceObjs?: string[];
   defaultValue?: string;

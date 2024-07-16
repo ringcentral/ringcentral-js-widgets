@@ -1,5 +1,5 @@
-import type { MessageAttachmentInfo } from './MessageAttachmentInfo';
 import type { ConversationInfo } from './ConversationInfo';
+import type { MessageAttachmentInfo } from './MessageAttachmentInfo';
 import type { MessageStoreCallerInfoResponseFrom } from './MessageStoreCallerInfoResponseFrom';
 import type { MessageStoreCallerInfoResponseTo } from './MessageStoreCallerInfoResponseTo';
 

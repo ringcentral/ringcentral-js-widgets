@@ -1,4 +1,1 @@
-import formatNumber from './formatNumber';
-
-export default formatNumber;
-export { formatNumber };
+export * from './formatNumber';

@@ -1,11 +1,23 @@
+import type BrandInfo from '@rc-ex/core/lib/definitions/BrandInfo';
 import type GetAccountInfoResponse from '@rc-ex/core/lib/definitions/GetAccountInfoResponse';
+import type ServiceInfo from '@rc-ex/core/lib/definitions/ServiceInfo';
 import { computed, track } from '@ringcentral-integration/core';
 
 import { permissionsMessages } from '../../enums/permissionsMessages';
 import { Module } from '../../lib/di';
 import { loginStatus } from '../Auth';
 import { DataFetcherV2Consumer, DataSource } from '../DataFetcherV2';
+
 import type { Deps } from './AccountInfo.interface';
+
+type ServiceInfoWithUBrand = ServiceInfo & { uBrand?: BrandInfo };
+
+export const subBrands = [
+  '3000.Zayo',
+  '3000.NWNC',
+  '2000.Optus',
+  '3000.Brightspeed',
+];
 
 @Module({
   name: 'AccountInfo',
@@ -58,7 +70,7 @@ export class AccountInfo extends DataFetcherV2Consumer<
   }
 
   @track((that: AccountInfo) => (analytics) => {
-    // @ts-ignore
+    // @ts-expect-error TS(2339): Property 'identify' does not exist on type 'IAnaly... Remove this comment to see the full error message
     analytics.identify?.({
       userId: that._deps.auth?.ownerId,
       accountId: that.id,
@@ -68,6 +80,10 @@ export class AccountInfo extends DataFetcherV2Consumer<
     });
   })
   override onInitSuccess() {}
+
+  get isCRMEnabled() {
+    return this._deps.tierChecker?.isCRMEnabled;
+  }
 
   @computed(({ data }: AccountInfo) => [data])
   get info() {
@@ -107,5 +123,16 @@ export class AccountInfo extends DataFetcherV2Consumer<
 
   get maxExtensionNumberLength() {
     return this.info.limits?.maxExtensionNumberLength ?? 6;
+  }
+
+  @computed(({ serviceInfo }: AccountInfo) => [serviceInfo])
+  get userBrandId() {
+    const serviceInfo = this.serviceInfo as ServiceInfoWithUBrand;
+    const uBrandId = serviceInfo.uBrand?.id;
+    const brandId =
+      uBrandId && subBrands.includes(uBrandId)
+        ? uBrandId
+        : serviceInfo.brand?.id;
+    return brandId;
   }
 }

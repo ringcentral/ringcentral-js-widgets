@@ -1,10 +1,12 @@
 import type GetMessageInfoResponse from '@rc-ex/core/lib/definitions/GetMessageInfoResponse';
+import type InstantMessageEvent from '@rc-ex/core/lib/definitions/InstantMessageEvent';
 import type MessageAttachmentInfo from '@rc-ex/core/lib/definitions/MessageAttachmentInfo';
 import type MessageStoreCallerInfoResponseFrom from '@rc-ex/core/lib/definitions/MessageStoreCallerInfoResponseFrom';
 import type MessageStoreCallerInfoResponseTo from '@rc-ex/core/lib/definitions/MessageStoreCallerInfoResponseTo';
 
 import { messageTypes } from '../../enums/messageTypes';
 import type { Message } from '../../interfaces/MessageStore.model';
+
 import type {
   Correspondent,
   FaxAttachment,
@@ -243,8 +245,8 @@ export function getNumbersFromMessage({
 }
 
 export function sortByDate(a: SortEntity, b: SortEntity) {
-  const ta = new Date(a.creationTime).getTime();
-  const tb = new Date(b.creationTime).getTime();
+  const ta = new Date(a.creationTime!).getTime();
+  const tb = new Date(b.creationTime!).getTime();
   return tb - ta;
 }
 
@@ -326,6 +328,18 @@ export function sortByCreationTime<T extends { creationTime?: number }>(
     a.creationTime > b.creationTime
     ? -1
     : 1;
+}
+
+export function normalizeInstantEvent(
+  event: InstantMessageEvent,
+): GetMessageInfoResponse {
+  const { id = '', conversationId = '', type, ...message } = event.body!;
+  return {
+    ...message,
+    id: Number(id),
+    conversationId: Number(conversationId),
+    type: type as any,
+  };
 }
 
 export function normalizeRecord(record: GetMessageInfoResponse): Message {

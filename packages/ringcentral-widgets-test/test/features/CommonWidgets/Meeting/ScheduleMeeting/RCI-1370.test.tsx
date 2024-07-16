@@ -10,7 +10,6 @@
  * 1.Login CTI with RCM provider account > More > Schedule meeting
  * 2.Login CTI with RCV provider account > More > Schedule meeting
  */
-
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p2,

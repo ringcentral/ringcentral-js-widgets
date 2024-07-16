@@ -51,7 +51,6 @@
 	| 2 |{Contacts}has a conversation with UserA > Send a message |Update the new message to the old conversation |
 
  */
-
 import type { StepProp } from '@ringcentral-integration/test-utils';
 import {
   p2,
@@ -65,7 +64,14 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
+import { mockMessageListData } from '../../../../../../__mock__';
 import { CommonLogin } from '../../../../../../steps/CommonLogin';
+import { CreateInstance } from '../../../../../../steps/CreateInstance';
+import {
+  SendSMS,
+  ClickMessageItem,
+  CheckConversationHistory,
+} from '../../../../../../steps/Messages';
 import {
   CreateMock,
   MockExtensionsList,
@@ -73,14 +79,7 @@ import {
   mockExtensionsListData,
   MockMessageList,
 } from '../../../../../../steps/Mock';
-import { mockMessageListData } from '../../../../../../__mock__';
-import { CreateInstance } from '../../../../../../steps/CreateInstance';
-import {
-  SendSMS,
-  ClickMessageItem,
-  CheckConversationHistory,
-} from '../../../../../../steps/Messages';
-import { NavigateTo } from '../../../../../../steps/Router/action';
+import { NavigateTo } from '../../../../../../steps/Router';
 
 const conversationId = 6185046919640017000;
 const oldComposeText = 'old message';

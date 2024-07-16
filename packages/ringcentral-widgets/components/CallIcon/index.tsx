@@ -1,15 +1,15 @@
-import React from 'react';
-
-import classnames from 'classnames';
-
 import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 import {
   IncallBorder as InCall,
   OutcallBorder as OutCall,
+  ConferenceBorder,
 } from '@ringcentral/juno-icon';
+import clsx from 'clsx';
+import React from 'react';
 
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import CallAvatar from '../CallAvatar';
+
 import styles from './styles.scss';
 
 const callIconMap = {
@@ -30,7 +30,7 @@ type CallIconProps = {
   avatarUrl?: string;
   newCallIcon?: boolean;
 };
-const CallIcon: React.SFC<CallIconProps> = ({
+const CallIcon: React.FC<CallIconProps> = ({
   direction,
   ringing,
   inboundTitle,
@@ -46,10 +46,10 @@ const CallIcon: React.SFC<CallIconProps> = ({
     direction === callDirections.inbound ? inboundTitle : outboundTitle;
   let symbol;
   // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
-  const CallDirectionIco = newCallIconMap[direction];
+  const CallDirectionIco = newCallIconMap[direction || callDirections.outbound];
   if (showAvatar) {
     symbol = (
-      <div className={classnames(styles.callIcon, styles.avatar)}>
+      <div className={clsx(styles.callIcon, styles.avatar)}>
         <CallAvatar
           isOnConferenceCall={isOnConferenceCall}
           avatarUrl={avatarUrl}
@@ -60,20 +60,26 @@ const CallIcon: React.SFC<CallIconProps> = ({
   } else if (newCallIcon) {
     symbol = (
       <div className={styles.newCallIcon}>
-        <span title={title} data-sign="callDirection">
-          <CallDirectionIco
-            className={classnames(styles.activeCall, {
-              [styles.newRinging]: ringing,
-            })}
-          />
-        </span>
+        {isOnConferenceCall ? (
+          <span data-sign="conferenceCall">
+            <ConferenceBorder className={styles.activeCall} />
+          </span>
+        ) : (
+          <span title={title} data-sign="callDirection">
+            <CallDirectionIco
+              className={clsx(styles.activeCall, {
+                [styles.newRinging]: ringing,
+              })}
+            />
+          </span>
+        )}
       </div>
     );
   } else {
     symbol = (
       <div className={styles.callIcon}>
         <span
-          className={classnames(
+          className={clsx(
             // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
             callIconMap[direction],
             styles.activeCall,

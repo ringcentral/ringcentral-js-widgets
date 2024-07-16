@@ -1,6 +1,3 @@
-import type { Action, Reducer, ReducersMapObject } from 'redux';
-import { combineReducers } from 'redux';
-
 import {
   action,
   RcModuleV2,
@@ -9,18 +6,21 @@ import {
   stateKey,
 } from '@ringcentral-integration/core';
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
+import type { Action, Reducer, ReducersMapObject } from 'redux';
+import { combineReducers } from 'redux';
 
-import { Module } from '../di';
 import { SynchronizedStorage } from '../SynchronizedStorage';
-import type { ActionTypesBase } from './actionTypesBase';
-import { actionTypesBase } from './actionTypesBase';
-import { getDataReducer } from './getStorageReducer';
+import { Module } from '../di';
+
 import type {
   Deps,
   IStorage,
   IStorageBaseOptions,
   StorageBaseOptions,
 } from './StorageBase.interface';
+import type { ActionTypesBase } from './actionTypesBase';
+import { actionTypesBase } from './actionTypesBase';
+import { getDataReducer } from './getStorageReducer';
 
 @Module({
   name: 'StorageBase',

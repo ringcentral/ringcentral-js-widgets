@@ -1,8 +1,9 @@
-import { screen } from '@testing-library/react';
 import { waitUntilTo } from '@ringcentral-integration/commons/utils';
+import { screen } from '@testing-library/react';
+
 import type { StepFunction } from '../../../lib/step';
-import type { RcvCheckboxDataSign } from '../Meeting.interface';
 import { WaitForSpinner } from '../../WaitForSpinner';
+import type { RcvCheckboxDataSign } from '../Meeting.interface';
 
 export const CheckChangePmiConfirmButton: StepFunction<{
   isShown: boolean;

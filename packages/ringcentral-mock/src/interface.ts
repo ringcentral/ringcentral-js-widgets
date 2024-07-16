@@ -1,9 +1,11 @@
-import type callDirections from '@ringcentral-integration/commons/enums/callDirections';
+import type { CallDirection } from '@ringcentral-integration/commons/enums/callDirections';
 import type {
   NumberData,
   PartyStatusCode,
+  Party,
 } from '@ringcentral-integration/commons/integration-test/mock/telephonySessionBuilder';
 import type { OpenAPIV3 } from 'openapi-types';
+
 import type { GetMessageInfoResponse } from './platform/interfaces';
 
 interface RedefinedSchema {
@@ -39,15 +41,11 @@ interface NonArraySchemaObject extends BaseSchemaObject {
 
 export type SchemaObject = ArraySchemaObject | NonArraySchemaObject;
 
-type CallDirectionsKeys = keyof typeof callDirections;
-
-type CallDirections = typeof callDirections[CallDirectionsKeys];
-
 export interface MakeCallProps {
   phoneNumber?: string;
   isWebRTC?: boolean;
   useUserAgentSession?: boolean;
-  direction?: CallDirections;
+  direction?: CallDirection;
   telephonySessionId?: string;
   sessionId?: string;
   fromNumberData?: NumberData;
@@ -56,6 +54,9 @@ export interface MakeCallProps {
   isRecording?: boolean;
   status?: PartyStatusCode;
   queueCall?: boolean;
+  originType?: string;
+  peerId?: Party['status']['peerId'];
+  reason?: string;
 }
 
 export interface MessageProps {

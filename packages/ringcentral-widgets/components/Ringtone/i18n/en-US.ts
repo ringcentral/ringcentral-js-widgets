@@ -7,4 +7,4 @@ export default {
   upload: 'Upload',
   reset: 'Reset',
   save: 'Save',
-};
+} as const;

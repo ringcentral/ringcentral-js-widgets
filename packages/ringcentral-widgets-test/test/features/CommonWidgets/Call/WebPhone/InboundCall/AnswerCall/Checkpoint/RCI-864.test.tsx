@@ -7,7 +7,6 @@
  * 1. Answer an inbound call, and make another incoming call
  * 2. Make a outbound call, and make another incoming call
  */
-
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p1,

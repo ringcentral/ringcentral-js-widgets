@@ -1,6 +1,5 @@
+import clsx from 'clsx';
 import React from 'react';
-
-import classnames from 'classnames';
 
 import styles from './styles.scss';
 
@@ -9,9 +8,9 @@ type IconFieldProps = {
   className?: string;
   title?: string;
 };
-const IconField: React.SFC<IconFieldProps> = (props) => {
+const IconField: React.FC<IconFieldProps> = (props) => {
   return (
-    <div className={classnames(styles.wrapper, props.className)}>
+    <div className={clsx(styles.wrapper, props.className)}>
       <div className={styles.content} title={props.title} data-sign="iconField">
         {props.children}
       </div>

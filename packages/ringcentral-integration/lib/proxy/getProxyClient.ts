@@ -1,19 +1,24 @@
 import * as uuid from 'uuid';
 
-import ensureExist from '../ensureExist';
 import RcModule from '../RcModule';
+import ensureExist from '../ensureExist';
+
 import baseActionTypes from './baseActionTypes';
 import getProxyClientReducer from './getProxyClientReducer';
 import { pushStates } from './handleProxyAction';
 
-const defaultVerifyModuleFunc = (module) => module instanceof RcModule;
+const defaultVerifyModuleFunc = (module: any) => module instanceof RcModule;
 
 export default function getProxyClient(
-  createTarget,
+  createTarget: any,
   verifyModuleFunc = defaultVerifyModuleFunc,
 ) {
   return class extends RcModule {
-    constructor({ transport, ...options }) {
+    _id: any;
+    _syncPromise: any;
+    _target: any;
+    _transport: any;
+    constructor({ transport, ...options }: any) {
       super({
         ...options,
         actionTypes: baseActionTypes,
@@ -31,6 +36,7 @@ export default function getProxyClient(
       //   getState: () => this.state.target,
       //   getProxyState: () => this.state.proxy,
       // });
+      // @ts-expect-error TS(2345): Argument of type 'string' is not assignable to par... Remove this comment to see the full error message
       this._transport = ensureExist.call(this, transport, 'transport');
       this._setTransport(this._target);
       for (const subModule in this._target) {
@@ -45,7 +51,9 @@ export default function getProxyClient(
               return this._target[subModule];
             },
           });
-          this[subModule]._getStateV2 = (state, key) => state.target[key];
+          // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
+          this[subModule]._getStateV2 = (state: any, key: any) =>
+            state.target[key];
         }
       }
 
@@ -57,7 +65,7 @@ export default function getProxyClient(
       });
     }
 
-    _setTransport(target) {
+    _setTransport(target: any) {
       target._transport = this._transport;
       target._proxyActionTypes = this.actionTypes;
       target._suppressInit = true;
@@ -98,7 +106,7 @@ export default function getProxyClient(
       return this._syncPromise;
     }
 
-    _initialize(target) {
+    _initialize(target: any) {
       if (
         typeof target.initializeProxy === 'function' &&
         !target._proxyInitialized
@@ -119,11 +127,12 @@ export default function getProxyClient(
       }
     }
 
+    // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
     async initialize() {
       // initialize the instance before sync to avoid history object from
       // becoming out of sync
       this._initialize(this._target);
-      this._transport.on(this._transport.events.push, async (payload) => {
+      this._transport.on(this._transport.events.push, async (payload: any) => {
         if (payload.type === this.actionTypes.action) {
           if (this._syncPromise) await this._syncPromise;
           if (payload.actionNumber === this.state.actionNumber + 1) {

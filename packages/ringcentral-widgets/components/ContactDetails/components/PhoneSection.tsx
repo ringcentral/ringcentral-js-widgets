@@ -1,15 +1,13 @@
-import type { FunctionComponent } from 'react';
-import React from 'react';
-
-import classnames from 'classnames';
-import { keys, map, reduce } from 'ramda';
-
 import type { PhoneType } from '@ringcentral-integration/commons/enums/phoneTypes';
 import type { ContactModel } from '@ringcentral-integration/commons/interfaces/Contact.model';
 import {
   filterByPhoneTypes,
   sortByPhoneTypes,
 } from '@ringcentral-integration/commons/lib/phoneTypeHelper';
+import clsx from 'clsx';
+import { keys, map, reduce } from 'ramda';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import dynamicsFont from '../../../assets/DynamicsFont/DynamicsFont.scss';
 import type {
@@ -79,7 +77,7 @@ const PhoneListItem: FunctionComponent<PhoneListItemProps> = ({
 
   return (
     <li className={styles.clearBoth}>
-      <div className={classnames(styles.text, styles.number)}>
+      <div className={clsx(styles.text, styles.number)}>
         <span
           data-sign="contactNumber"
           aria-label={phoneType}
@@ -93,7 +91,7 @@ const PhoneListItem: FunctionComponent<PhoneListItemProps> = ({
           <button
             type="button"
             data-sign="call"
-            className={classnames(isCallButtonDisabled && styles.disabled)}
+            className={clsx(isCallButtonDisabled && styles.disabled)}
             title={`${i18n.getString(
               'call',
               currentLocale,
@@ -107,7 +105,7 @@ const PhoneListItem: FunctionComponent<PhoneListItemProps> = ({
         {canTextButtonShow(phoneType) ? (
           <button
             type="button"
-            className={classnames(disableLinks && styles.disabled)}
+            className={clsx(disableLinks && styles.disabled)}
             data-sign="text"
             title={`${i18n.getString(
               'text',
@@ -171,7 +169,7 @@ export const PhoneSection: FunctionComponent<PhoneSectionProps> = ({
     ).map;
     return (
       <section
-        className={classnames(styles.section, styles.contacts)}
+        className={clsx(styles.section, styles.contacts)}
         aria-label="phone"
       >
         {map(

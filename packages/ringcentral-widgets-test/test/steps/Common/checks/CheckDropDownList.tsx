@@ -1,6 +1,6 @@
 import { fireEvent, screen, waitFor, within } from '@testing-library/react';
+
 import type { StepFunction } from '../../../lib/step';
-import type { DropdownDataSign } from '../interface';
 
 export const CheckDropDownList: StepFunction<{
   options?: Array<{
@@ -8,7 +8,7 @@ export const CheckDropDownList: StepFunction<{
     isDisabled?: boolean;
     isSelected?: boolean;
   }>;
-  dataSign: DropdownDataSign;
+  dataSign: string;
 }> = async ({ options = [], dataSign }) => {
   const inputNode = screen
     .getByTestId(dataSign)

@@ -1,6 +1,8 @@
 import { waitFor } from '@testing-library/react';
-import type { StepFunction } from '../../../lib/step';
+
 import { generateMessageRecord, mockMessageListData } from '../../../__mock__';
+import type { StepFunction } from '../../../lib/step';
+
 import type { MessageProps } from './MessageProps.interface';
 import { SendSMS } from './SendSMS';
 

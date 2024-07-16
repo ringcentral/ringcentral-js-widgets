@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-
 import calleeTypes from '@ringcentral-integration/commons/enums/calleeTypes';
+import React, { Component } from 'react';
 
 import BackButton from '../BackButton';
 import BackHeader from '../BackHeader';
+
 import ConfirmRemoveModal from './ConfirmRemoveModal';
-import i18n from './i18n';
 import ParticipantItem from './ParticipantItem';
+import i18n from './i18n';
 import styles from './styles.scss';
 
 type ParticipantsContainerProps = {
@@ -42,10 +42,9 @@ class ParticipantsContainer extends Component<
   }
   formatPrticipants(props = this.props) {
     const { participants, formatPhone } = props;
-    participants.map((participant) => {
+    participants.forEach((participant) => {
       // @ts-expect-error TS(2339): Property 'partyNumber' does not exist on type 'obj... Remove this comment to see the full error message
       participant.partyNumber = formatPhone(participant.partyNumber);
-      return participant;
     });
   }
   onRemoveBtnClick(participant: any) {

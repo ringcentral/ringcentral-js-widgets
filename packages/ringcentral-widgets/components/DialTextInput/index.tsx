@@ -1,9 +1,9 @@
+import clsx from 'clsx';
 import React from 'react';
-
-import classnames from 'classnames';
 
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import TextInput from '../TextInput';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 
@@ -27,13 +27,9 @@ const DialTextInput: React.FC<DialTextInputProps> = ({
     value === '' ? { display: 'none' } : { display: 'block' };
   return (
     <div
-      className={classnames(
-        styles.dialInput,
-        className,
-        invalid && styles.invalid,
-      )}
+      className={clsx(styles.dialInput, className, invalid && styles.invalid)}
     >
-      <span className={classnames(styles.to)}>{i18n.getString('to')}</span>
+      <span className={clsx(styles.to)}>{i18n.getString('to')}</span>
       <TextInput
         placeholder={i18n.getString('enterNameOrPhoneNumber')}
         className={styles.dial_Input}
@@ -43,7 +39,7 @@ const DialTextInput: React.FC<DialTextInputProps> = ({
       />
       <span
         style={deleteDisplay}
-        className={classnames(styles.delete, dynamicsFont.clear)}
+        className={clsx(styles.delete, dynamicsFont.clear)}
         onClick={onDelete}
       />
     </div>

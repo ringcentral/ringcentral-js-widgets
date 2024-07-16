@@ -6,4 +6,4 @@ export default {
   pauseRecording: 'Pause recording',
   stopRecording: 'Stop recording',
   recording: 'Recording',
-};
+} as const;

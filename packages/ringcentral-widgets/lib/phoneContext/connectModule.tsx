@@ -1,6 +1,5 @@
 import type { ComponentType, FunctionComponent } from 'react';
 import React from 'react';
-
 import { connect } from 'react-redux';
 
 import { PhoneContext } from './phoneContext';

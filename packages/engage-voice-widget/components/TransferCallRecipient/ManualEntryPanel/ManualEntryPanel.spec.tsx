@@ -1,9 +1,7 @@
-import React from 'react';
-
-import { mount } from 'enzyme';
-import { act } from 'react-dom/test-utils';
-
 import { RcThemeProvider } from '@ringcentral/juno';
+import { mount } from 'enzyme';
+import React from 'react';
+import { act } from 'react-dom/test-utils';
 
 import type { ManualEntryPanelProps } from './ManualEntryPanel';
 import { ManualEntryPanel } from './ManualEntryPanel';
@@ -57,7 +55,7 @@ describe('<ManualEntryPanel />', () => {
       .at(0)
       .find('button')
       .simulate('click');
-    expect(goBack).toBeCalled();
+    expect(goBack).toHaveBeenCalled();
   });
 
   it('Display Next Button and when user click it, function changeRecipientNumber will be called', () => {
@@ -75,6 +73,6 @@ describe('<ManualEntryPanel />', () => {
       .at(0)
       .find('button')
       .simulate('click');
-    expect(changeRecipientNumber).toBeCalledWith(userInput);
+    expect(changeRecipientNumber).toHaveBeenCalledWith(userInput);
   });
 });

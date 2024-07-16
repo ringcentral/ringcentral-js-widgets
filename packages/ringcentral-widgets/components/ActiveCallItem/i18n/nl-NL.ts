@@ -24,7 +24,7 @@ export default {
   accept: "Beantwoorden",
   toVoicemail: "Naar voicemail",
   anonymous: "Anoniem",
-  mergeToConference: "Samenvoegen",
+  mergeToConference: "Samenvoegen met actieve oproep",
   hold: "Wacht",
   unhold: "Uit de wacht",
   transfer: "Doorschakelen",
@@ -63,7 +63,7 @@ export default {
 // @key: @#@"accept"@#@ @source: @#@"Answer"@#@
 // @key: @#@"toVoicemail"@#@ @source: @#@"To Voicemail"@#@
 // @key: @#@"anonymous"@#@ @source: @#@"Anonymous"@#@
-// @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
+// @key: @#@"mergeToConference"@#@ @source: @#@"Merge with active call"@#@
 // @key: @#@"hold"@#@ @source: @#@"Hold"@#@
 // @key: @#@"unhold"@#@ @source: @#@"Unhold"@#@
 // @key: @#@"transfer"@#@ @source: @#@"Transfer"@#@

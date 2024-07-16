@@ -46,7 +46,9 @@ export default {
   [callResults.faxReceipt]: "Faksin vastaanotto",
   [callResults.disconnected]: "Yhteys katkaistu",
   [callResults.notAllowed]: "Ei sallittu",
-  warmTransferSwitchCall: "Vaihda puheluita"
+  warmTransferSwitchCall: "Vaihda puheluita",
+  conferenceCall: "Neuvottelupuhelu",
+  participants: "Osallistujat"
 };
 
 // @key: @#@"[callDirections.inbound]"@#@ @source: @#@"Inbound"@#@
@@ -94,3 +96,5 @@ export default {
 // @key: @#@"[callResults.disconnected]"@#@ @source: @#@"Disconnected"@#@
 // @key: @#@"[callResults.notAllowed]"@#@ @source: @#@"Not Allowed"@#@
 // @key: @#@"warmTransferSwitchCall"@#@ @source: @#@"Switch calls"@#@
+// @key: @#@"conferenceCall"@#@ @source: @#@"Conference Call"@#@
+// @key: @#@"participants"@#@ @source: @#@"Participants"@#@

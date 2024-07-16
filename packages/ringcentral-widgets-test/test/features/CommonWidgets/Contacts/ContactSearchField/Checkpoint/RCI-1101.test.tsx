@@ -10,9 +10,7 @@
  * Entry point(/s):
  *
  */
-
 import { extensionStatusTypes } from '@ringcentral-integration/commons/enums/extensionStatusTypes';
-import { screen } from '@testing-library/react';
 import {
   p2,
   it,
@@ -25,6 +23,15 @@ import {
   Given,
   examples,
 } from '@ringcentral-integration/test-utils';
+import { screen } from '@testing-library/react';
+
+import { mockMessageListData } from '../../../../../__mock__';
+import {
+  CheckContactDetailsProfile,
+  CheckContactItemExistInList,
+  SearchContacts,
+} from '../../../../../steps/ContactsView';
+import { InputRecipients } from '../../../../../steps/Messages/actions';
 import {
   MockExtensionsList,
   mockExtensionsListData,
@@ -34,23 +41,16 @@ import {
   MockPresence,
 } from '../../../../../steps/Mock';
 import {
-  CheckContactDetailsProfile,
-  CheckContactItemExistInList,
-  SearchContacts,
-} from '../../../../../steps/ContactsView';
-import {
   NavigateToComposeText,
   NavigateToContactDetails,
 } from '../../../../../steps/Navigate';
 import { NavigateToContacts } from '../../../../../steps/Navigate/actions/NavigateToContacts';
-import { InputRecipients } from '../../../../../steps/Messages/actions';
-import { mockMessageListData } from '../../../../../__mock__';
+import { NavigateToMessageHistory } from '../../../../../steps/Navigate/actions/NavigateToMessageHistory';
 import { NavigateToMessagesTab } from '../../../../../steps/Navigate/actions/NavigateToMessages';
 import {
   CheckContactDropdownList,
   Search,
 } from '../../../../../steps/SearchField';
-import { NavigateToMessageHistory } from '../../../../../steps/Navigate/actions/NavigateToMessageHistory';
 
 @autorun(test.skip)
 @it

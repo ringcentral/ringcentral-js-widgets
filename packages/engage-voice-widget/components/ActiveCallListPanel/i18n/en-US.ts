@@ -5,4 +5,4 @@ export default {
   caller: 'Caller',
   callee: 'Callee',
   unknown: 'Unknown',
-};
+} as const;

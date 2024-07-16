@@ -2,7 +2,7 @@ import React from 'react';
 import { mount } from 'enzyme';
 import { RcThemeProvider } from '@ringcentral/juno';
 import LogBasicInfoV2 from '@ringcentral-integration/widgets/components/LogBasicInfoV2';
-import callDirections from '@ringcentral-integration/commons/enums/callDirections';
+import { callDirection } from '@ringcentral-integration/commons/enums/callDirections';
 import getIntlDateTimeFormatter, {
   DEFAULT_TIME_OPTIONS,
 } from '@ringcentral-integration/commons/lib/getIntlDateTimeFormatter';
@@ -48,7 +48,7 @@ describe('<LogBasicLogInfoV2 />', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.inbound,
+        direction: callDirection.inbound,
         to: {
           phoneNumber: '+16509807435',
         },
@@ -77,7 +77,7 @@ describe('<LogBasicLogInfoV2 />', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.inbound,
+        direction: callDirection.inbound,
         to: {
           phoneNumber: '+16509807435',
         },
@@ -103,7 +103,7 @@ describe('<LogBasicLogInfoV2 />', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.inbound,
+        direction: callDirection.inbound,
         to: {
           phoneNumber: '+16509807435',
         },
@@ -129,7 +129,7 @@ describe('<LogBasicLogInfoV2 />', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.inbound,
+        direction: callDirection.inbound,
         to: {
           phoneNumber: '+16509807435',
         },
@@ -160,7 +160,7 @@ describe('<LogBasicLogInfoV2 />', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '+16509807435',
         },
@@ -190,7 +190,7 @@ describe('<LogBasicLogInfoV2 />', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '+16509807435',
         },

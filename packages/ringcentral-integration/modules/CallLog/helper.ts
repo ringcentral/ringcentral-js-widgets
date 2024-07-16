@@ -1,6 +1,7 @@
 import { callActions } from '../../enums/callActions';
 import { normalizeStartTime } from '../../lib/callLogHelpers';
 import getDateFrom from '../../lib/getDateFrom';
+
 import type {
   CallLogList,
   CallLogRecord,

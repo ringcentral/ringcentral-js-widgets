@@ -1,12 +1,12 @@
 import type MessageAttachmentInfo from '@rc-ex/core/lib/definitions/MessageAttachmentInfo';
 
 import type { Message } from '../../interfaces/MessageStore.model';
+import type { RingCentralClient } from '../../lib/RingCentralClient';
 import type {
   Correspondent,
   FaxAttachment,
   VoicemailAttachment,
 } from '../../lib/messageHelper';
-import type { RingCentralClient } from '../../lib/RingCentralClient';
 import type { Alert } from '../Alert';
 import type { AppFeatures } from '../AppFeatures';
 import type { Auth } from '../Auth';

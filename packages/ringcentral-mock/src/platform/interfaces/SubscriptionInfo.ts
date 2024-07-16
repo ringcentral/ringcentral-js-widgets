@@ -1,6 +1,6 @@
 import type { DisabledFilterInfo } from './DisabledFilterInfo';
-import type { NotificationDeliveryMode } from './NotificationDeliveryMode';
 import type { NotificationBlacklistedData } from './NotificationBlacklistedData';
+import type { NotificationDeliveryMode } from './NotificationDeliveryMode';
 
 export interface SubscriptionInfo {
   /**

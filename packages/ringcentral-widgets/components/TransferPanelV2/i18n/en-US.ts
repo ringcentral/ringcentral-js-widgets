@@ -5,4 +5,4 @@ export default {
   warmTransfer: 'Ask first',
   enterNameOrNumber: 'Enter Number',
   toVoicemail: 'To voicemail',
-};
+} as const;

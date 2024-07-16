@@ -45,7 +45,6 @@
  * Mark as Unread:Click the read first so the read button can change to unread
  * > Go to 'Messages' tab> Go to 'Voice' tab> Open the dropdown for one item
  */
-
 import type { StepProp } from '@ringcentral-integration/test-utils';
 import {
   autorun,

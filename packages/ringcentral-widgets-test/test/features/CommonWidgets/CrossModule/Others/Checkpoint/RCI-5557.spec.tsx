@@ -34,6 +34,8 @@ import {
   examples,
   StepProp,
 } from '@ringcentral-integration/test-utils';
+
+import { generateDialPlanData } from '../../../../../__mock__/generateDialPlanData';
 import {
   CheckCallControlPage as BaseCheckCallControlPage,
   CheckParseApiCalledWithParams,
@@ -41,7 +43,6 @@ import {
 } from '../../../../../steps/Call';
 import { CommonLogin } from '../../../../../steps/CommonLogin';
 import { CreateInstance } from '../../../../../steps/CreateInstance';
-
 import {
   MockAccountInfo,
   MockDialingPlan,
@@ -51,7 +52,6 @@ import {
   MockPermission,
 } from '../../../../../steps/Mock';
 import { NavigateTo } from '../../../../../steps/Router';
-import { generateDialPlanData } from '../../../../../__mock__/generateDialPlanData';
 
 @autorun(test.skip)
 @it

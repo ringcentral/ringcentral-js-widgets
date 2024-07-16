@@ -444,6 +444,7 @@ describe('Check Incoming Call Forward Button > ForwardForm', () => {
   });
   test('RCI-1712302 Main Flow - select one of the forward numbers', async (done) => {
     const { wrapper, phone } = await initPhoneWrapper();
+    mock.numberParserV2();
     await makeInbountCall(phone, wrapper, sid111);
     const buttonForward = wrapper
       .find(IncomingCallPad)
@@ -469,6 +470,7 @@ describe('Check Incoming Call Forward Button > ForwardForm', () => {
     // clear the forwardingNumbers
     mock.forwardingNumber(forwardingNumberBody);
     mock.numberParser();
+    mock.numberParserV2();
     await phone.forwardingNumber.fetchData();
     await makeInbountCall(phone, wrapper, sid111);
     const buttonForward = wrapper

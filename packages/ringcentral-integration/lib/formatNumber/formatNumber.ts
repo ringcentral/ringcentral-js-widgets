@@ -17,7 +17,7 @@ export type FormatNumberParams = {
  * @function
  * @description Format phone numbers
  */
-export default function formatNumber({
+export function formatNumber({
   phoneNumber,
   removeExtension = false,
   countryCode = 'US',

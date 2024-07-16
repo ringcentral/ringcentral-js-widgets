@@ -9,6 +9,7 @@ import {
 } from '@ringcentral-integration/test-utils';
 import { applyPatches } from 'immer';
 import { applyMiddleware } from 'redux';
+
 import type { Store } from '../../lib/usm-redux/index';
 import {
   createStore,
@@ -1082,6 +1083,76 @@ export class CreateStoreCross extends Step {
             expect(newState1.count).toEqual({ sum: 2 });
             expect(counter0.count).toEqual({ sum: 2 });
             expect(fn.mock.calls.length).toBe(1);
+          }}
+        />
+      </Scenario>
+    );
+  }
+}
+
+@autorun(test)
+@title('createStore::crossWithPath')
+export class CreateStoreCrossWithPath extends Step {
+  run() {
+    class Counter0 {
+      _modulePath = 'counter0';
+
+      @state
+      count = { sum: 0 };
+
+      @action
+      increase() {
+        this.count.sum += 2;
+      }
+    }
+
+    class Counter {
+      constructor(public counter: Counter0) {}
+
+      _modulePath = 'counter';
+
+      @state
+      count = { sum: 0 };
+
+      @state
+      list: number[] = [];
+
+      @action
+      increase() {
+        this.counter.increase();
+        this.count.sum += 1;
+        this.list.push(this.count.sum);
+      }
+    }
+    let counter0: Counter0;
+    let counter: Counter;
+    let store: Store;
+    const fn = jest.fn();
+    return (
+      <Scenario desc="">
+        <Given
+          desc="create instances and create store"
+          action={() => {
+            counter0 = new Counter0();
+            counter = new Counter(counter0);
+
+            store = createStore({
+              modules: [counter, counter0],
+            });
+
+            const oldState = Object.values(store.getState())[0] as Counter;
+            expect(oldState.count).toEqual({ sum: 0 });
+            store.subscribe(() => {
+              fn();
+            });
+          }}
+        />
+        <When
+          desc="call counter 'increase' with cross-action and cross-module"
+          action={() => {
+            expect(() => {
+              counter.increase();
+            }).toThrow();
           }}
         />
       </Scenario>

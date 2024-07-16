@@ -1,8 +1,8 @@
 import type {
-  Options,
   AlertLevelType,
+  Options,
 } from '@ringcentral-integration/commons/modules/Alert';
-import { waitForRenderReady } from '@ringcentral-integration/test-utils';
+import { whenStateOrTimerChange } from '@ringcentral-integration/core/test';
 
 import type { StepFunction } from '../../../lib/step';
 
@@ -13,10 +13,11 @@ export const CheckAlertToBeCallWith: StepFunction<Options> = async (
   const { children, level, ...data } = props;
   jest.useFakeTimers();
   jest.advanceTimersByTime(500);
-  await waitForRenderReady();
   jest.useRealTimers();
 
-  expect(phone.alert[level as AlertLevelType]).toBeCalledWith(
-    expect.objectContaining(data),
-  );
+  await whenStateOrTimerChange(() => {
+    expect(phone.alert[level as AlertLevelType]).toHaveBeenCalledWith(
+      expect.objectContaining(data),
+    );
+  });
 };

@@ -17,9 +17,7 @@
 	| RC-UK |> Make an inbound call>Navigate to the incoming call page> Click the 'Forward' button> Input{dialing text}in the 'Custom number' filed > Click the'Forward' button. |7 |8 |3135 0033 |Match valid PSTN |12 |(12) 3135 0033 |PSTN |(12) 3135 0033 |
 
  */
-
 import { Category } from '@ringcentral-integration/commons/interfaces/NumberParserResponse.interface';
-import { waitUntilTo } from '@ringcentral-integration/utils';
 import { forwardFn, transferFn } from '@ringcentral-integration/mock';
 import {
   And,
@@ -35,8 +33,9 @@ import {
   title,
   When,
 } from '@ringcentral-integration/test-utils';
-import type { Context } from '../../../../../interfaces';
+import { waitUntilTo } from '@ringcentral-integration/utils';
 
+import type { Context } from '../../../../../interfaces';
 import type { StepProp } from '../../../../../lib/step';
 import {
   CheckConferenceCallControlPage,
@@ -270,7 +269,7 @@ export class EDPEnabledAndForward extends Step {
           <MockExtensionInfo
             handle={(mockData) => {
               mockData.regionalSettings.homeCountry = {
-                uri: 'https://api-rcapps-xmnup.rclabenv.com/restapi/v1.0/dictionary/country/75',
+                uri: 'https://api-rcapps-xmnuplabs_domain/restapi/v1.0/dictionary/country/75',
                 id: '75',
                 name: 'France',
                 isoCode: 'FR',

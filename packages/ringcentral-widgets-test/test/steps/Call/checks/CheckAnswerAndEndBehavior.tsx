@@ -1,4 +1,5 @@
 import { screen, waitFor } from '@testing-library/react';
+
 import type { StepFunction } from '../../../lib/step';
 
 interface CheckAnswerAndEndProps {
@@ -6,18 +7,19 @@ interface CheckAnswerAndEndProps {
   answerCallNumber: string;
 }
 
-export const CheckAnswerAndEndBehavior: StepFunction<CheckAnswerAndEndProps> =
-  async ({ hungUpCallId, answerCallNumber }, { phone }) => {
-    const secondCall = phone.webphone.sessions.find(
-      (item) => item.to === answerCallNumber,
-    );
-    // The secondCall was answered
-    expect(phone.webphone.answer).toBeCalledWith(secondCall.id);
-    expect(phone.webphone._onAccepted).toBeCalledWith(
-      expect.objectContaining({
-        id: secondCall?.id,
-      }),
-    );
-    // The first call should be hangup
-    expect(phone.webphone.hangup).toBeCalledWith(hungUpCallId);
-  };
+export const CheckAnswerAndEndBehavior: StepFunction<
+  CheckAnswerAndEndProps
+> = async ({ hungUpCallId, answerCallNumber }, { phone }) => {
+  const secondCall = phone.webphone.sessions.find(
+    (item) => item.to === answerCallNumber,
+  );
+  // The secondCall was answered
+  expect(phone.webphone.answer).toHaveBeenCalledWith(secondCall.id);
+  expect(phone.webphone._onAccepted).toHaveBeenCalledWith(
+    expect.objectContaining({
+      id: secondCall?.id,
+    }),
+  );
+  // The first call should be hangup
+  expect(phone.webphone.hangup).toHaveBeenCalledWith(hungUpCallId);
+};

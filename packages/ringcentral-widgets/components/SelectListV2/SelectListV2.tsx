@@ -1,15 +1,14 @@
+import { emptyFn } from '@ringcentral-integration/utils';
+import clsx from 'clsx';
 import type { FunctionComponent } from 'react';
 import React, { useRef } from 'react';
-
-import classNames from 'classnames';
-
-import { emptyFn } from '@ringcentral-integration/utils';
 
 import { SelectListContext } from '../../contexts';
 import type { BackHeaderProps } from '../BackHeaderV2';
 import BackHeader from '../BackHeaderV2';
 import type { SearchPanelProps } from '../SearchPanel';
 import { SearchPanel } from '../SearchPanel';
+
 import styles from './styles.scss';
 
 export type SelectListV2Props = {
@@ -44,7 +43,7 @@ export const SelectListV2: FunctionComponent<SelectListV2Props> = ({
 
   return (
     <SelectListContext.Provider value={{ scrollElmRef }}>
-      <div className={classNames(styles.root, classes.root)}>
+      <div className={clsx(styles.root, classes.root)}>
         <BackHeader
           currentLocale={currentLocale}
           title={title}

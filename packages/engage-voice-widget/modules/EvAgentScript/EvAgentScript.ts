@@ -1,9 +1,6 @@
-import { EventEmitter } from 'events';
-import { clone, reduce } from 'ramda';
-
+import { SingleTabBroadcastChannel } from '@ringcentral-integration/commons/lib/SingleTabBroadcastChannel';
 import { debounce } from '@ringcentral-integration/commons/lib/debounce-throttle';
 import { Module } from '@ringcentral-integration/commons/lib/di';
-import { SingleTabBroadcastChannel } from '@ringcentral-integration/commons/lib/SingleTabBroadcastChannel';
 import {
   action,
   RcModuleV2,
@@ -11,6 +8,8 @@ import {
   storage,
   watch,
 } from '@ringcentral-integration/core';
+import { EventEmitter } from 'events';
+import { clone, reduce } from 'ramda';
 
 import {
   agentScriptEvents,
@@ -27,6 +26,7 @@ import type {
   EvCallDispositionItem,
   EvScriptResponseJSON,
 } from '../../lib/EvClient';
+
 import type {
   AgentScript,
   Deps,

@@ -1,5 +1,3 @@
-import { EventEmitter } from 'events';
-
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import {
   action,
@@ -9,6 +7,7 @@ import {
   storage,
   track,
 } from '@ringcentral-integration/core';
+import { EventEmitter } from 'events';
 
 import type { DialoutStatusesType } from '../../enums';
 import { dialoutStatuses, messageTypes } from '../../enums';
@@ -25,6 +24,7 @@ import type {
   EvOffhookTermResponse,
 } from '../../lib/EvClient/interfaces';
 import { trackEvents } from '../../lib/trackEvents';
+
 import type { Deps, Presence } from './EvPresence.interface';
 
 @Module({

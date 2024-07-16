@@ -1,8 +1,8 @@
+import { messageSenderMessages } from '@ringcentral-integration/commons/modules/MessageSender';
 import React from 'react';
 
-import { messageSenderMessages } from '@ringcentral-integration/commons/modules/MessageSender';
-
 import FormattedMessage from '../../FormattedMessage';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 
@@ -39,7 +39,6 @@ const MessageSenderAlert: React.FC<MessageSenderAlertProps> = ({
     return (
       <FormattedMessage
         message={i18n.getString(message, currentLocale)}
-        // @ts-expect-error TS(2322): Type 'string | Element' is not assignable to type ... Remove this comment to see the full error message
         values={{ areaCodeLink }}
       />
     );
@@ -54,7 +53,6 @@ const MessageSenderAlert: React.FC<MessageSenderAlertProps> = ({
     return (
       <FormattedMessage
         message={i18n.getString(message, currentLocale)}
-        // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
         values={{ brand }}
       />
     );

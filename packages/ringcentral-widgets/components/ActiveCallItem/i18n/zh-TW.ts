@@ -24,14 +24,14 @@ export default {
   accept: "回答",
   toVoicemail: "至語音信箱",
   anonymous: "匿名",
-  mergeToConference: "合併",
+  mergeToConference: "與進行中的通話合併",
   hold: "通話保留",
   unhold: "取消保留",
   transfer: "轉接",
   reject: "拒絕",
   switchCall: "將通話切換至這個應用程式",
   callSwitch: "通話切換",
-  comfirmContext: "您目前正使用 {displayName} 通話。您要繼續在此裝置上通話嗎？",
+  comfirmContext: "您目前正使用 {displayName} 通話。是否要在此裝置上繼續進行通話？",
   comfirmCancelButton: "取消",
   comfirmOKButton: "切換",
   ignore: "忽略",
@@ -63,7 +63,7 @@ export default {
 // @key: @#@"accept"@#@ @source: @#@"Answer"@#@
 // @key: @#@"toVoicemail"@#@ @source: @#@"To Voicemail"@#@
 // @key: @#@"anonymous"@#@ @source: @#@"Anonymous"@#@
-// @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
+// @key: @#@"mergeToConference"@#@ @source: @#@"Merge with active call"@#@
 // @key: @#@"hold"@#@ @source: @#@"Hold"@#@
 // @key: @#@"unhold"@#@ @source: @#@"Unhold"@#@
 // @key: @#@"transfer"@#@ @source: @#@"Transfer"@#@

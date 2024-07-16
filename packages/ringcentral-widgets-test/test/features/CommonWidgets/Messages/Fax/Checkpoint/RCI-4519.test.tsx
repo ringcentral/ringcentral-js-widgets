@@ -15,7 +15,6 @@
  * Entry point(/s):
  *
  */
-
 import type { StepProp } from '@ringcentral-integration/test-utils';
 import {
   p2,
@@ -28,11 +27,11 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
-import { CreateMock } from '../../../../../steps/Mock';
-import { CheckGetMessageSyncParams } from '../../../../../steps/Messages';
-import { NavigateToFax } from '../../../../../steps/Navigate/actions/NavigateToFax';
 import { CommonLogin } from '../../../../../steps/CommonLogin';
 import { CreateInstance } from '../../../../../steps/CreateInstance';
+import { CheckGetMessageSyncParams } from '../../../../../steps/Messages';
+import { CreateMock } from '../../../../../steps/Mock';
+import { NavigateToFax } from '../../../../../steps/Navigate/actions/NavigateToFax';
 
 const google_message_day_span = 90;
 const google_message_record_count = 400;

@@ -12,4 +12,4 @@ export default {
     'Sorry, something went wrong on our end. Try again.',
   [meetingStatus.renderInviteError]:
     "Sorry, there was a problem on our end and we couldn't add the meeting invitation. Please try again later.",
-};
+} as const;

@@ -1,19 +1,67 @@
-import type { MockRequest } from 'fetch-mock';
-import type { RcvDelegator } from '@ringcentral-integration/commons/modules/RcVideo';
-import type { NormalizedSession } from '@ringcentral-integration/commons/interfaces/Webphone.interface';
 import { callDirection } from '@ringcentral-integration/commons/enums/callDirections';
 import { telephonyStatus as telephonyStatuses } from '@ringcentral-integration/commons/enums/telephonyStatus';
-import { isConferenceSession } from '@ringcentral-integration/commons/modules/Webphone/webphoneHelper';
-import { includes } from 'ramda';
 import {
   createTelephonySession,
+  makeTelephonySessionId,
+  makeWebphoneSessionId,
   PartyStatusCode,
   telephonySessionBuildersCache,
+  clearTelephonySessionBuilders,
 } from '@ringcentral-integration/commons/integration-test/mock/telephonySessionBuilder';
+import type { NormalizedSession } from '@ringcentral-integration/commons/interfaces/Webphone.interface';
+import type { RcvDelegator } from '@ringcentral-integration/commons/modules/RcVideo';
+import { isConferenceSession } from '@ringcentral-integration/commons/modules/Webphone/webphoneHelper';
+import type { MockRequest } from 'fetch-mock';
+import { includes } from 'ramda';
+
 import type { PlatformMockOptions } from './PlatformMock';
 import { PlatformMock } from './PlatformMock';
-import type { PubnubMock, WebSocketMock } from './subscription';
+import type {
+  ArraySchemaObject,
+  MakeCallProps,
+  MessageProps,
+  SchemaObject,
+} from './interface';
 import { generateTelephonyState } from './lib/generateTelephonyState';
+import accountBody from './platform/data/accountInfo.json';
+import blockedNumberBody from './platform/data/blockedNumber.json';
+import bringInToConferenceResponse from './platform/data/bringInToConferenceRes.json';
+import clientInfoResponseBody from './platform/data/clientInfo.json';
+import companyPagerResponse from './platform/data/companyPager.json';
+import companyPagerInvalidResponse from './platform/data/companyPagerInvalid.json';
+import conferenceCallResponse from './platform/data/conferenceCall.json';
+import deviceBody from './platform/data/device.json';
+import dialInNumbersBody from './platform/data/dialInNumbers.json';
+import dialingPlanBody from './platform/data/dialingPlan.json';
+import directoryEntries from './platform/data/directoryEntries.json';
+import discoveryExternalBody from './platform/data/discoveryExternal.json';
+import discoveryInitialBody from './platform/data/discoveryInitial.json';
+import extensionInfoBody from './platform/data/extensionInfo.json';
+import extensionsListBody from './platform/data/extensions.json';
+import featuresBody from './platform/data/features.json';
+import forwardAllCallsBody from './platform/data/forwardAllCallsInfo.json';
+import generateCodeBody from './platform/data/generateCode.json';
+import invitationBridgesResponse from './platform/data/invitationBridges.json';
+import postMeetingBody from './platform/data/meeting.json';
+import meetingInvitation from './platform/data/meetingInvitation.json';
+import parerPhoneNumbersResponse from './platform/data/numberParser.json';
+import numberParserAPIResponse from './platform/data/numberParserV2.json';
+import partySuperviseResponse from './platform/data/partySupervise.json';
+import postRcvBridgesBody from './platform/data/postRcvBridges.json';
+import presenceBody from './platform/data/presence.json';
+import {
+  RCV_INVITATION_BODY,
+  RCV_INVITATION_START,
+  RCV_INVITATION_END,
+} from './platform/data/rcvInvitation';
+import rcvMeetingSettingsBody from './platform/data/rcvMeetingSettings.json';
+import ringOutBody from './platform/data/ringOut.json';
+import sipProvisionBody from './platform/data/sipProvision.json';
+import smsResponse from './platform/data/sms.json';
+import telephonySessionResponse from './platform/data/telephonySession.json';
+import videoPersonalSettingsBody from './platform/data/videoPersonalSettings.json';
+import videoPreferenceBody from './platform/data/videoPreference.json';
+import wsTokenBody from './platform/data/ws/wstoken.json';
 import type {
   AccountLockedSettingResponse,
   DetailedExtensionPresenceWithSIPEvent,
@@ -41,50 +89,12 @@ import type {
   TokenInfo,
   ExtensionCallQueuePresenceList,
   GetCallRecordingResponse,
+  PartySuperviseResponse,
+  CallStatusInfo,
+  ExtensionCallerIdInfo,
+  GetExtensionForwardingNumberListResponse,
 } from './platform/interfaces';
-import type {
-  ArraySchemaObject,
-  MakeCallProps,
-  MessageProps,
-  SchemaObject,
-} from './interface';
-import accountBody from './platform/data/accountInfo.json';
-import clientInfoResponseBody from './platform/data/clientInfo.json';
-import featuresBody from './platform/data/features.json';
-import blockedNumberBody from './platform/data/blockedNumber.json';
-import extensionsListBody from './platform/data/extensions.json';
-import directoryEntries from './platform/data/directoryEntries.json';
-import dialingPlanBody from './platform/data/dialingPlan.json';
-import discoveryExternalBody from './platform/data/discoveryExternal.json';
-import discoveryInitialBody from './platform/data/discoveryInitial.json';
-import videoPersonalSettingsBody from './platform/data/videoPersonalSettings.json';
-import rcvMeetingSettingsBody from './platform/data/rcvMeetingSettings.json';
-import dialInNumbersBody from './platform/data/dialInNumbers.json';
-import forwardAllCallsBody from './platform/data/forwardAllCallsInfo.json';
-import postRcvBridgesBody from './platform/data/postRcvBridges.json';
-import videoPreferenceBody from './platform/data/videoPreference.json';
-import extensionInfoBody from './platform/data/extensionInfo.json';
-import postMeetingBody from './platform/data/meeting.json';
-import presenceBody from './platform/data/presence.json';
-import meetingInvitation from './platform/data/meetingInvitation.json';
-import generateCodeBody from './platform/data/generateCode.json';
-import ringOutBody from './platform/data/ringOut.json';
-import wsTokenBody from './platform/data/ws/wstoken.json';
-import parerPhoneNumbersResponse from './platform/data/numberParser.json';
-import numberParserAPIResponse from './platform/data/numberParserV2.json';
-import smsResponse from './platform/data/sms.json';
-import conferenceCallResponse from './platform/data/conferenceCall.json';
-import bringInToConferenceResponse from './platform/data/bringInToConferenceRes.json';
-import telephonySessionResponse from './platform/data/telephonySession.json';
-import deviceBody from './platform/data/device.json';
-import companyPagerResponse from './platform/data/companyPager.json';
-import invitationBridgesResponse from './platform/data/invitationBridges.json';
-import companyPagerInvalidResponse from './platform/data/companyPagerInvalid.json';
-import {
-  RCV_INVITATION_BODY,
-  RCV_INVITATION_START,
-  RCV_INVITATION_END,
-} from './platform/data/rcvInvitation';
+import type { PubnubMock, WebSocketMock } from './subscription';
 import { WebphoneSessionMock } from './webphone';
 
 export interface RcMockOptions extends PlatformMockOptions {
@@ -106,7 +116,17 @@ export interface PostOauthTokenProps {
   failureCode?: 400 | 403 | 503;
 }
 
-type HttpStatusCode = 200 | 400 | 403 | 404 | 503 | 409 | 500;
+interface CreateConferenceResponse {
+  session: CallSessionObject;
+}
+
+type HttpStatusCode = 200 | 201 | 400 | 403 | 404 | 503 | 409 | 500;
+
+export type EventData<T> = {
+  event: string;
+  timestamp: string;
+  body: T;
+};
 
 /**
  * RcMock is a mock for Rc base business logic
@@ -223,11 +243,12 @@ export class RcMock extends PlatformMock {
   override reset() {
     this.subscription.remove();
     this.removeWebphone?.();
+    clearTelephonySessionBuilders();
     return super.reset();
   }
 
   getCheckPubsub() {
-    this.get('https://pubsub.pubnub.com/time/0' as any, 200, {
+    this.get('/time/0' as any, 200, {
       response: () => {
         return { body: '' };
       },
@@ -257,9 +278,20 @@ export class RcMock extends PlatformMock {
     this.post('/restapi/oauth/revoke');
   }
 
-  getCallerId() {
+  getCallerId(
+    handler?: (data: ExtensionCallerIdInfo) => ExtensionCallerIdInfo,
+  ) {
     this.get(
       '/restapi/v1.0/account/:accountId/extension/:extensionId/caller-id',
+      200,
+      {
+        repeat: 0,
+        response: ({ mockData }) => {
+          return {
+            body: handler?.(mockData as any) ?? mockData,
+          };
+        },
+      },
     );
   }
 
@@ -456,6 +488,11 @@ export class RcMock extends PlatformMock {
       {
         schema,
         response: ({ mockData }) => {
+          // make phone number have features that we always need
+          mockData.records[0].features = ['CallerId', 'SmsSender', 'MmsSender'];
+          // alway have main company number
+          mockData.records[0].usageType = 'MainCompanyNumber';
+
           return {
             body: handler?.(mockData) ?? mockData,
           };
@@ -464,9 +501,24 @@ export class RcMock extends PlatformMock {
     );
   }
 
-  getForwardingNumber() {
+  getForwardingNumber(
+    handler?: (
+      mockData: GetExtensionForwardingNumberListResponse,
+    ) => GetExtensionForwardingNumberListResponse,
+  ) {
     this.get(
       '/restapi/v1.0/account/:accountId/extension/:extensionId/forwarding-number',
+      200,
+      {
+        response: ({ mockData }) => {
+          // always give first number have all features
+          mockData.records[0].features = ['CallFlip', 'CallForwarding'];
+
+          return {
+            body: handler?.(mockData) ?? mockData,
+          };
+        },
+      },
     );
   }
 
@@ -517,7 +569,7 @@ export class RcMock extends PlatformMock {
   } = {}) {
     this.get('/restapi/v1.0/account/:accountId', 200, {
       repeat: repeat ?? 1,
-      response: ({ mockData }) => {
+      response: () => {
         accountBody.serviceInfo.brand.id = brandId ?? '1210';
         return {
           body: (handler?.(accountBody) ??
@@ -621,6 +673,14 @@ export class RcMock extends PlatformMock {
             mockData.records[0].subject = message;
             mockData.records[0].attachments.length = 0;
           }
+          for (const record of mockData.records) {
+            // when to field length > 1, it is group message
+            // 'True' specifies that message is sent exactly to this recipient
+            // at least one of to number list should be the target number in group message
+            if (record.direction === 'Inbound' && record.to.length > 1) {
+              record.to[0].target = true;
+            }
+          }
           return {
             body: handler?.(mockData) ?? mockData,
           };
@@ -705,6 +765,8 @@ export class RcMock extends PlatformMock {
       200,
       {
         response: ({ mockData }) => {
+          // * set default result always be "In Progress" to prevent not have any call in call history
+          mockData.records[0].result = 'In Progress';
           mockData.records.length = length;
           return { body: mockData };
         },
@@ -734,6 +796,24 @@ export class RcMock extends PlatformMock {
           };
           break;
         case 400:
+          body = {
+            error: 'invalid_grant',
+            errors: [
+              {
+                errorCode: 'OAU-211',
+                message: 'Token revoked',
+              },
+            ],
+            error_description: 'Token revoked',
+          };
+          break;
+        case 503:
+          body = {
+            message: 'Service Unavailable',
+            error: 'service_unavailable',
+            error_description: 'Service Unavailable',
+          };
+          break;
         default:
           body = {
             message: 'Wrong token',
@@ -742,7 +822,8 @@ export class RcMock extends PlatformMock {
           };
           break;
       }
-      this.post('/restapi/oauth/token', failure ? failureCode : 200, {
+      this.post('/restapi/oauth/token', failure ? failureCode : (200 as any), {
+        repeat,
         response: {
           body,
         },
@@ -779,6 +860,14 @@ export class RcMock extends PlatformMock {
           return schema;
         },
         response: ({ mockData }) => {
+          // * set default result always be "Call connected" to prevent not have any call in call history
+          mockData.records[0].result = 'Call connected';
+
+          // be default mock, always set that be Voice to make normal open call log can be opened(fax could not be opened)
+          mockData.records.forEach((x) => {
+            x.type = 'Voice';
+          });
+
           const body = handler?.(mockData) ?? mockData;
           return {
             body,
@@ -798,7 +887,11 @@ export class RcMock extends PlatformMock {
       {
         repeat,
         response: ({ mockData }) => {
+          // * set default result always be "In Progress" to prevent not have any call in call history
+          mockData.records[0].result = 'In Progress';
+
           const body = (handler?.(mockData) ?? mockData) as UserCallLogResponse;
+          // log('🐞 ~ body:', body);
           return {
             body,
           };
@@ -842,6 +935,14 @@ export class RcMock extends PlatformMock {
       {
         repeat,
         response: ({ mockData }) => {
+          for (const record of mockData.records) {
+            // when to field length > 1, it is group message
+            // 'True' specifies that message is sent exactly to this recipient
+            // at least one of to number list should be the target number in group message
+            if (record.direction === 'Inbound' && record.to.length > 1) {
+              record.to[0].target = true;
+            }
+          }
           return {
             body: handler?.(mockData) ?? mockData,
           };
@@ -868,8 +969,23 @@ export class RcMock extends PlatformMock {
     );
   }
 
-  postSipProvision() {
-    this.post('/restapi/v1.0/client-info/sip-provision');
+  postSipProvision(
+    handler?: (mockData: typeof sipProvisionBody) => typeof sipProvisionBody,
+    repeat?: number,
+    status = 200,
+  ) {
+    this.post('/restapi/v1.0/client-info/sip-provision', status as any, {
+      repeat,
+      response: ({ mockData }) => {
+        const data = {
+          ...sipProvisionBody,
+          ...mockData,
+        };
+        return {
+          body: handler?.(data) ?? data,
+        };
+      },
+    });
   }
 
   getClientInfo(handler?: () => any, repeat = 0) {
@@ -1075,12 +1191,13 @@ export class RcMock extends PlatformMock {
   }
 
   postBridges(
+    repeat = 0,
     handler?: (
       mockData: typeof postRcvBridgesBody,
     ) => typeof postRcvBridgesBody,
   ) {
     this.post('/rcvideo/v1/bridges' as any, 200, {
-      repeat: 0,
+      repeat,
       response: ({ body }) => {
         const responseData = {
           ...postRcvBridgesBody,
@@ -1405,33 +1522,52 @@ export class RcMock extends PlatformMock {
   }
 
   postConferenceCall(
-    handler?: (res: CallSessionObject) => CallSessionObject,
+    handler?: (res: CreateConferenceResponse) => CreateConferenceResponse,
     repeat?: number,
   ) {
-    const conferenceCallRes: CallSessionObject = {
-      ...conferenceCallResponse,
-      creationTime: new Date().getTime().toString(),
-    } as any;
     this.post('/restapi/v1.0/account/:accountId/telephony/conference', 201, {
-      response: {
-        body: handler?.(conferenceCallRes) ?? conferenceCallRes,
-      },
       repeat,
+      response: () => {
+        const conferenceCallRes: CreateConferenceResponse = {
+          ...conferenceCallResponse,
+          session: {
+            ...conferenceCallResponse.session,
+            creationTime: new Date().getTime().toString(),
+          } as any,
+        };
+        return {
+          body: handler?.(conferenceCallRes) ?? conferenceCallRes,
+        } as any;
+      },
     });
   }
 
   bringInToConference(
     handler?: (res: CallParty) => CallParty,
     repeat?: number,
+    status: HttpStatusCode = 201,
   ) {
     this.post(
       '/restapi/v1.0/account/:accountId/telephony/sessions/:telephonySessionId/parties/bring-in',
-      201,
+      status as any,
       {
         response: {
           body:
             handler?.(bringInToConferenceResponse as any) ??
             (bringInToConferenceResponse as any),
+        },
+        repeat,
+      },
+    );
+  }
+
+  removePartyFromConference(repeat?: number, status: HttpStatusCode = 201) {
+    this.post(
+      '/restapi/v1.0/account/:accountId/telephony/sessions/:telephonySessionId/parties/:partyId' as any,
+      status,
+      {
+        response: {
+          body: {},
         },
         repeat,
       },
@@ -1468,12 +1604,14 @@ export class RcMock extends PlatformMock {
     sessions,
   }: {
     sessions?: NormalizedSession[];
-    handler?: (eventData: GetPresenceInfo) => GetPresenceInfo;
+    handler?: (
+      eventData: EventData<GetPresenceInfo>,
+    ) => EventData<GetPresenceInfo>;
   }) {
     const activeCalls = sessions
       ? this.generateActiveCalls(sessions, [], sessions.map((i) => i.id) as any)
       : [];
-    const event = {
+    const event: EventData<GetPresenceInfo> = {
       event:
         '/restapi/v1.0/account/~/extension/~/presence?detailedTelephonyState=true&sipData=true&totalActiveCalls',
       timestamp: new Date().toISOString(),
@@ -1481,6 +1619,7 @@ export class RcMock extends PlatformMock {
         activeCalls,
         allowSeeMyPresence: true,
         dndStatus: 'TakeAllCalls',
+        // @ts-ignore
         extensionId: 160751006,
         meetingsStatus: 'Disconnected',
         pickUpCallsOnHold: false,
@@ -1491,9 +1630,9 @@ export class RcMock extends PlatformMock {
         totalActiveCalls: activeCalls.length,
         userStatus: 'Available',
         // TODO: fix type for miss `uri, extension, message, meetingStatus`
-      } as any as GetPresenceInfo,
+      },
     };
-    await this.subscription.trigger(handler?.(event as any) ?? event);
+    await this.subscription.trigger(handler?.(event) ?? event);
   }
 
   async receiveCall({
@@ -1524,8 +1663,8 @@ export class RcMock extends PlatformMock {
     isWebRTC = true,
     useUserAgentSession = false,
     direction = callDirection.outbound,
-    telephonySessionId = new Date().getTime().toString(),
-    sessionId = new Date().getTime().toString(),
+    telephonySessionId = makeTelephonySessionId(),
+    sessionId = makeWebphoneSessionId(),
     fromNumberData,
     toNumberData,
     startTime,
@@ -1544,14 +1683,16 @@ export class RcMock extends PlatformMock {
       ...props,
     });
 
-    const telephoneSessionId = telephonySessionBuilder.telephoneSessionId;
     const event = telephonySessionBuilder.done();
     await this.subscription.trigger(event);
     if (isWebRTC) {
-      const webSession = new WebphoneSessionMock(telephoneSessionId);
-      const callEvent =
-        direction === callDirection.inbound ? 'invite' : 'inviteSent';
-      const { webphone } = webSession;
+      const webSession = new WebphoneSessionMock(
+        telephonySessionBuilder.getTelephonySessionId(),
+        telephonySessionBuilder.getPartyId(),
+        telephonySessionBuilder.getSessionId(),
+      );
+      const callEvent = 'invite';
+      const webphone = webSession.webphone!;
       telephonySessionBuilder.setRelatedWebphoneSession(webSession);
 
       if (useUserAgentSession && direction === callDirection.inbound) {
@@ -1570,9 +1711,9 @@ export class RcMock extends PlatformMock {
       webphone.userAgent.trigger(callEvent, session);
 
       this.removeWebphone = () => webSession.remove();
-      await new Promise((r) => setTimeout(r, 1000));
     }
-    return telephoneSessionId;
+
+    return telephonySessionBuilder.getTelephonySessionId();
   }
 
   async connectLatestCall() {
@@ -1584,15 +1725,15 @@ export class RcMock extends PlatformMock {
 
   async disConnectLatestCall() {
     const [telephonySessionInstance] = telephonySessionBuildersCache.slice(-1);
-    telephonySessionInstance.setDisconnected();
-    const event = telephonySessionInstance.done();
+    telephonySessionInstance?.setDisconnected();
+    const event = telephonySessionInstance?.done();
     telephonySessionInstance?.relatedWebphoneSession?.terminate();
     await this.subscription.trigger(event);
   }
 
   async hangUp(telephonySessionId: string) {
     const telephonySessionInstance = telephonySessionBuildersCache.find(
-      (s: any) => s.telephoneSessionId === telephonySessionId,
+      (s) => s.getTelephonySessionId() === telephonySessionId,
     );
 
     if (telephonySessionInstance) {
@@ -1603,9 +1744,20 @@ export class RcMock extends PlatformMock {
     }
   }
 
+  async reject(telephonySessionId: string) {
+    const telephonySessionInstance = telephonySessionBuildersCache.find(
+      (s) => s.getTelephonySessionId() === telephonySessionId,
+    );
+    if (telephonySessionInstance) {
+      telephonySessionInstance.setDisconnected();
+      const event = telephonySessionInstance.done();
+      await this.subscription.trigger(event);
+    }
+  }
+
   async goneCall(telephonySessionId: string) {
     const telephonySessionInstance = telephonySessionBuildersCache.find(
-      (s: any) => s.telephoneSessionId === telephonySessionId,
+      (s) => s.getTelephonySessionId() === telephonySessionId,
     );
 
     if (telephonySessionInstance) {
@@ -1618,34 +1770,36 @@ export class RcMock extends PlatformMock {
 
   async answer(telephonySessionId: string) {
     const telephonySessionBuilder = telephonySessionBuildersCache.find(
-      (s: any) => s.telephoneSessionId === telephonySessionId,
+      (s) => s.getTelephonySessionId() === telephonySessionId,
     );
 
     if (telephonySessionBuilder) {
+      await this.holdOtherCalls(telephonySessionId);
       telephonySessionBuilder.setConnected();
       const event = telephonySessionBuilder.done();
       await this.subscription.trigger(event);
     }
   }
 
-  async unholdCall(telephonySessionId: string, otherIds: string[]) {
-    const telephonySessionBuilder = telephonySessionBuildersCache.find(
-      (s: any) => s.telephoneSessionId === telephonySessionId,
-    );
-
-    const otherSessions = telephonySessionBuildersCache.filter((s: any) =>
-      otherIds.includes(s.telephoneSessionId),
-    );
-
-    if (otherSessions.length) {
-      for (const item of otherSessions) {
-        item?.setHoldCall();
-        const event = item.done();
+  async holdOtherCalls(currentTelephonySessionId: string) {
+    for (const builder of telephonySessionBuildersCache) {
+      if (
+        builder.getTelephonySessionId() !== currentTelephonySessionId &&
+        builder.getStatus() !== PartyStatusCode.gone
+      ) {
+        builder.setHoldCall();
+        const event = builder.done();
         await this.subscription.trigger(event);
       }
     }
+  }
 
+  async unholdCall(telephonySessionId: string) {
+    const telephonySessionBuilder = telephonySessionBuildersCache.find(
+      (s) => s.getTelephonySessionId() === telephonySessionId,
+    );
     if (telephonySessionBuilder) {
+      this.holdOtherCalls(telephonySessionId);
       telephonySessionBuilder.setConnected();
       const event = telephonySessionBuilder.done();
       await this.subscription.trigger(event);
@@ -1654,7 +1808,7 @@ export class RcMock extends PlatformMock {
 
   async holdCall(telephonySessionId: string) {
     const telephonySessionBuilder = telephonySessionBuildersCache.find(
-      (s: any) => s.telephoneSessionId === telephonySessionId,
+      (s) => s.getTelephonySessionId() === telephonySessionId,
     );
     if (telephonySessionBuilder) {
       telephonySessionBuilder.setHoldCall();
@@ -1665,7 +1819,7 @@ export class RcMock extends PlatformMock {
 
   async muteCall(telephonySessionId: string) {
     const telephonySessionBuilder = telephonySessionBuildersCache.find(
-      (s: any) => s.telephoneSessionId === telephonySessionId,
+      (s) => s.getTelephonySessionId() === telephonySessionId,
     );
     if (telephonySessionBuilder) {
       telephonySessionBuilder.setMuteCall();
@@ -1676,7 +1830,7 @@ export class RcMock extends PlatformMock {
 
   async startRecord(telephonySessionId: string) {
     const telephonySessionBuilder = telephonySessionBuildersCache.find(
-      (s: any) => s.telephoneSessionId === telephonySessionId,
+      (s) => s.getTelephonySessionId() === telephonySessionId,
     );
     if (telephonySessionBuilder) {
       telephonySessionBuilder.startRecord();
@@ -1690,7 +1844,7 @@ export class RcMock extends PlatformMock {
       '/restapi/v1.0/account/:accountId/extension/:extensionId/presence',
       200,
       {
-        response: ({ mockData }) => {
+        response: () => {
           const activeCalls = this.generateActiveCalls(sessions);
           return {
             body: {
@@ -1714,7 +1868,7 @@ export class RcMock extends PlatformMock {
     );
   }
 
-  completeWarmTransfer(status: 200 | 409 | 503 = 200) {
+  completeWarmTransfer(status: 200 | 409 | 503 = 200, repeat = 0) {
     let body = {};
     switch (status) {
       case 200:
@@ -1742,7 +1896,7 @@ export class RcMock extends PlatformMock {
         response: {
           body,
         },
-        repeat: 0,
+        repeat,
       },
     );
   }
@@ -1849,7 +2003,7 @@ export class RcMock extends PlatformMock {
     }
     this.patch(
       '/restapi/v1.0/account/:accountId/telephony/sessions/:telephonySessionId/parties/:partyId/recordings/:recordingId',
-      status,
+      status as any,
       {
         response: {
           body,
@@ -1924,7 +2078,7 @@ export class RcMock extends PlatformMock {
   mute(status: HttpStatusCode = 200) {
     this.patch(
       '/restapi/v1.0/account/:accountId/telephony/sessions/:telephonySessionId/parties/:partyId',
-      status,
+      status as any,
       {
         body: {
           muted: true,
@@ -1936,7 +2090,7 @@ export class RcMock extends PlatformMock {
   unmute(status: HttpStatusCode = 200) {
     this.patch(
       '/restapi/v1.0/account/:accountId/telephony/sessions/:telephonySessionId/parties/:partyId',
-      status,
+      status as any,
       {
         body: {
           muted: false,
@@ -1980,6 +2134,68 @@ export class RcMock extends PlatformMock {
         repeat: 0,
       },
     );
+  }
+
+  partySupervise(
+    supervise: 'hold' | 'unhold',
+    status: HttpStatusCode = 200,
+    handler?: (
+      params: { partyId: string; telephonySessionId: string },
+      partyInfo: PartySuperviseResponse,
+    ) => PartySuperviseResponse,
+    repeat = 0,
+  ) {
+    let callStatus: Partial<CallStatusInfo>;
+    if (supervise === 'hold') {
+      callStatus = {
+        code: 'Hold',
+      };
+    } else if (supervise === 'unhold') {
+      callStatus = {
+        code: 'Answered',
+      };
+    } else {
+      throw new Error(`Unsupported supervise ${supervise}`);
+    }
+    this.post(
+      `/restapi/v1.0/account/~/telephony/sessions/:telephonySessionId/parties/:partyId/${supervise}` as any,
+      status,
+      {
+        repeat,
+        response: ({ params }) => {
+          const body: PartySuperviseResponse = {
+            ...partySuperviseResponse,
+            id: params.partyId,
+            status: callStatus,
+          } as any;
+          return {
+            body: handler?.(params, body) ?? body,
+          };
+        },
+      },
+    );
+  }
+
+  holdParty(
+    status: HttpStatusCode = 200,
+    handler?: (
+      params: { partyId: string; telephonySessionId: string },
+      partyInfo: PartySuperviseResponse,
+    ) => PartySuperviseResponse,
+    repeat = 0,
+  ) {
+    this.partySupervise('hold', status, handler, repeat);
+  }
+
+  unholdParty(
+    status: HttpStatusCode = 200,
+    handler?: (
+      params: { partyId: string; telephonySessionId: string },
+      partyInfo: PartySuperviseResponse,
+    ) => PartySuperviseResponse,
+    repeat = 0,
+  ) {
+    this.partySupervise('unhold', status, handler, repeat);
   }
 
   getCallRecordingData(

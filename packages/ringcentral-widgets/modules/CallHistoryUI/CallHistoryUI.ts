@@ -6,6 +6,7 @@ import type { DateTimeFormat } from '@ringcentral-integration/commons/modules/Da
 import { RcUIModuleV2 } from '@ringcentral-integration/core';
 
 import type { OnCreateContactOptions } from '../CallsListUI/CallsListUI.interface';
+
 import type {
   CallHistoryUIComponentProps,
   Deps,
@@ -151,6 +152,7 @@ export class CallHistoryUI extends RcUIModuleV2<Deps> {
                 // @ts-expect-error TS(2532): Object is possibly 'undefined'.
                 this._deps.dialerUI.call({
                   recipient,
+                  trackCallMadeFrom: 'Call history',
                 });
                 this._deps.callHistory.onClickToCall();
               }

@@ -47,8 +47,8 @@ describe('AdapterCore', () => {
       currentStartTime: Date.now(),
     });
 
-    expect(durationMock).toBeCalled();
-    expect(callBarMock).toBeCalled();
+    expect(durationMock).toHaveBeenCalled();
+    expect(callBarMock).toHaveBeenCalled();
   });
 
   it('when there are only ringing calls(no onhold or active calls only need to display incoming call icon', async () => {
@@ -62,8 +62,8 @@ describe('AdapterCore', () => {
       currentStartTime: 0,
     });
 
-    expect(ringCallsMock).toBeCalled();
-    expect(callBarMock).toBeCalled();
+    expect(ringCallsMock).toHaveBeenCalled();
+    expect(callBarMock).toHaveBeenCalled();
   });
 
   it('when there are OtherDevicesCalls should render OtherDevicesCalls', async () => {
@@ -80,8 +80,8 @@ describe('AdapterCore', () => {
       currentStartTime: 0,
     });
 
-    expect(otherDevicesCallsMock).toBeCalled();
-    expect(callBarMock).toBeCalled();
+    expect(otherDevicesCallsMock).toHaveBeenCalled();
+    expect(callBarMock).toHaveBeenCalled();
   });
 
   it('when multiple calls, should scroll with call info', async () => {
@@ -94,7 +94,7 @@ describe('AdapterCore', () => {
       currentStartTime: 0,
     });
 
-    expect(rotateCallInfoMock).toBeCalled();
+    expect(rotateCallInfoMock).toHaveBeenCalled();
   });
 
   it('should render string when push local', async () => {
@@ -105,6 +105,6 @@ describe('AdapterCore', () => {
       strings: {},
     });
 
-    expect(renderStringMock).toBeCalled();
+    expect(renderStringMock).toHaveBeenCalled();
   });
 });

@@ -1,5 +1,6 @@
 import { forEach } from 'ramda';
-import isLocaleFile from '.';
+
+import isLocaleFile from './';
 
 describe('isLocaleFile', () => {
   describe('Valid file names:', () => {

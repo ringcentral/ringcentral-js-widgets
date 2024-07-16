@@ -1,15 +1,23 @@
 /** @type {import('eslint').Linter.Config} */
 module.exports = {
-  plugins: ['@nrwl/nx', 'lodash'],
+  plugins: ['@typescript-eslint', 'lodash', 'jsx-a11y'],
   ignorePatterns: ['node_modules', 'dist', 'build', 'html-report', '*.json'],
+  env: {
+    es6: true,
+    node: true,
+    browser: true,
+  },
   overrides: [
     // js ts files
     {
       files: ['*.ts', '*.tsx', '*.js', '*.jsx'],
       extends: [
-        'plugin:@nrwl/nx/javascript',
+        'eslint:recommended',
+        'plugin:react/recommended',
+        'plugin:react-hooks/recommended',
         'plugin:import/recommended',
         'plugin:prettier/recommended',
+        'plugin:jsx-a11y/recommended',
       ],
       settings: {
         'import/resolver': {
@@ -17,50 +25,53 @@ module.exports = {
             extensions: ['.js', '.jsx', '.ts', '.tsx'],
           },
         },
+        react: {
+          version: 'detect', // React version. "detect" automatically picks the version you have installed.
+        },
       },
       rules: {
         'lodash/import-scope': 'error',
-        'react/no-array-index-key': 'warn',
+        'react/display-name': 'off',
+        'react/prop-types': 'off',
         'import/no-cycle': 'error',
-        'import/order': 'error',
         'import/no-duplicates': 'error',
         'import/named': 'off',
+        'no-undef': 'error',
+        // just use ts to verify that
+        'import/default': 'off',
         'no-console': 'warn',
         '@typescript-eslint/no-empty-function': 'off',
-        // for more detail view here https://nx.dev/structure/monorepo-tags
-        '@nrwl/nx/enforce-module-boundaries': [
-          'error',
-          {
-            enforceBuildableLibDependency: false,
-            allow: [],
-            depConstraints: [
-              {
-                sourceTag: '*',
-                onlyDependOnLibsWithTags: ['*'],
-              },
-            ],
-          },
-        ],
+      },
+      parserOptions: {
+        ecmaVersion: 2021,
+        sourceType: 'module',
       },
     },
     // js files
     {
       files: ['*.js', '*.jsx'],
-      extends: ['plugin:@nrwl/nx/javascript'],
-      rules: {
-        '@typescript-eslint/no-empty-function': 'off',
-      },
+      extends: [],
+      rules: {},
     },
     // ts files
     {
       files: ['*.ts', '*.tsx'],
-      extends: ['plugin:@nrwl/nx/typescript', 'plugin:import/typescript'],
+      extends: [
+        'plugin:@typescript-eslint/recommended',
+        'plugin:import/typescript',
+      ],
       rules: {
+        '@typescript-eslint/no-unused-vars': [
+          'warn',
+          {
+            argsIgnorePattern: '^_',
+          },
+        ],
         '@typescript-eslint/no-non-null-asserted-optional-chain': 'off',
         '@typescript-eslint/no-empty-interface': 'off',
         '@typescript-eslint/no-var-requires': 'warn',
-        '@typescript-eslint/no-unused-vars': 'off',
         '@typescript-eslint/no-non-null-assertion': 'off',
+        '@typescript-eslint/no-explicit-any': 'off',
         // * close that for current eslint still not support metadata https://github.com/typescript-eslint/typescript-eslint/issues/5468
         // '@typescript-eslint/consistent-type-imports': 'error',
         '@typescript-eslint/ban-types': [
@@ -79,26 +90,10 @@ module.exports = {
     // react files
     {
       files: ['*.jsx', '*.tsx'],
-      extends: ['plugin:@nrwl/nx/react'],
+      extends: [],
       rules: {
         // a11y still not need in our app
         'jsx-a11y/anchor-is-valid': 'off',
-      },
-    },
-    {
-      files: ['**/__stories__/**/*'],
-      extends: ['plugin:storybook/recommended'],
-      rules: {
-        'no-console': 'off',
-        '@nrwl/nx/enforce-module-boundaries': 'off',
-        'jest/no-disabled-tests': 'off',
-        'jest/valid-expect': 'error',
-        'jest/valid-expect-in-promise': 'error',
-        'jest/no-identical-title': 'warn',
-        'jsx-a11y/accessible-emoji': 'warn',
-        'react/button-has-type': 'off',
-        'jsx-a11y/label-has-associated-control': 'warn',
-        'no-alert': 'warn',
       },
     },
     // scripts related files
@@ -112,12 +107,12 @@ module.exports = {
         'import/default': 'off',
         'import/no-named-as-default-member': 'off',
         'import/no-cycle': 'off',
-        '@nrwl/nx/enforce-module-boundaries': 'off',
       },
     },
     // test files
     {
       files: [
+        'packages/script-weaver-e2e-test/**/*',
         '**/*.test.ts',
         '**/*.spec.ts',
         '**/*.spec.tsx',
@@ -128,10 +123,15 @@ module.exports = {
         '**/*.spec.jsx',
       ],
       plugins: ['jest'],
+      extends: ['plugin:jest/recommended'],
       rules: {
-        '@nrwl/nx/enforce-module-boundaries': 'off',
+        'no-console': 'off',
         'react-hooks/rules-of-hooks': 'off',
+        'react/jsx-key': 'off',
+        'jest/no-conditional-expect': 'off',
         'no-undef': 'off',
+        'jest/no-export': 'off',
+        'jest/no-standalone-expect': 'off',
       },
     },
     {
@@ -142,7 +142,7 @@ module.exports = {
     },
     // for next generation projects, we should install all dep in root folder, so there is no longer need that settings
     {
-      files: ['__next__/**'],
+      files: ['apps/**'],
       rules: {
         'import/no-extraneous-dependencies': 'off',
         // * close that for current eslint still not support metadata https://github.com/typescript-eslint/typescript-eslint/issues/5468

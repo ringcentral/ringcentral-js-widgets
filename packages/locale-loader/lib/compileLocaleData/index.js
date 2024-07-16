@@ -1,9 +1,10 @@
-import path from 'path';
-import fs from 'fs-extra';
-import { filter, reduce } from 'ramda';
 import formatLocale from '@ringcentral-integration/i18n/lib/formatLocale';
-import isLocaleFile from '../isLocaleFile';
+import fs from 'fs-extra';
+import path from 'path';
+import { filter, reduce } from 'ramda';
+
 import findLoaderFiles from '../findLoaderFiles';
+import isLocaleFile from '../isLocaleFile';
 import parseLocaleFile from '../parseLocaleFile';
 
 export function findLocaleFiles(folderPath) {

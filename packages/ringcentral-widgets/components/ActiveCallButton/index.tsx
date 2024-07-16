@@ -1,8 +1,8 @@
+import clsx from 'clsx';
 import React from 'react';
 
-import classnames from 'classnames';
-
 import CircleButton from '../CircleButton';
+
 import styles from './styles.scss';
 
 type ActiveCallButtonProps = {
@@ -25,9 +25,9 @@ type ActiveCallButtonProps = {
   showRipple?: boolean;
   dataSign?: string;
 };
-const ActiveCallButton: React.SFC<ActiveCallButtonProps> = (props) => {
-  const className = classnames(styles.btnSvg, props.className);
-  const buttonClassName = classnames(
+const ActiveCallButton: React.FC<ActiveCallButtonProps> = (props) => {
+  const className = clsx(styles.btnSvg, props.className);
+  const buttonClassName = clsx(
     styles.button,
     props.buttonClassName,
     props.active ? styles.buttonActive : null,

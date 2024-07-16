@@ -1,5 +1,7 @@
 import type messageTypes from '@ringcentral-integration/commons/enums/messageTypes';
 import type { Entity } from '@ringcentral-integration/commons/interfaces/Entity.interface';
+import type { Message } from '@ringcentral-integration/commons/interfaces/MessageStore.model';
+import type { AccountInfo } from '@ringcentral-integration/commons/modules/AccountInfo';
 import type { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures';
 import type { Brand } from '@ringcentral-integration/commons/modules/Brand';
 import type { Call } from '@ringcentral-integration/commons/modules/Call';
@@ -23,10 +25,8 @@ import type { MessageStore } from '@ringcentral-integration/commons/modules/Mess
 import type { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiter';
 import type { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
 import type { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
-import type { AccountInfo } from '@ringcentral-integration/commons/modules/AccountInfo';
-import type { Message } from '@ringcentral-integration/commons/interfaces/MessageStore.model';
-
 import type { ReactNode } from 'react';
+
 import type { ContactDetailsUI } from '../ContactDetailsUI';
 import type { RouterInteraction } from '../RouterInteraction';
 

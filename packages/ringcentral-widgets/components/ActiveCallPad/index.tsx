@@ -1,8 +1,6 @@
-import React, { Component, createRef } from 'react';
-
-import classnames from 'classnames';
-
 import { recordStatus as recordStatuses } from '@ringcentral-integration/commons/modules/Webphone/recordStatus';
+import clsx from 'clsx';
+import React, { Component, createRef } from 'react';
 
 import CombineIcon from '../../assets/images/Combine.svg';
 import KeypadIcon from '../../assets/images/Dialpad.svg';
@@ -21,8 +19,9 @@ import callCtrlLayouts from '../../enums/callCtrlLayouts';
 import ActiveCallButton from '../ActiveCallButton';
 import CircleButton from '../CircleButton';
 import Tooltip from '../Tooltip';
-import i18n from './i18n';
+
 import MoreActionItem from './MoreActionItem';
+import i18n from './i18n';
 import styles from './styles.scss';
 import { pickElements } from './utils';
 
@@ -338,7 +337,7 @@ class ActiveCallPad extends Component<ActiveCallPadProps, ActiveCallPadState> {
             onClick={this.toggleMore}
             title={i18n.getString('more', currentLocale)}
             active={this.state.expandMore}
-            className={classnames(styles.moreButton, styles.callButton)}
+            className={clsx(styles.moreButton, styles.callButton)}
             disabled={disableMoreButton}
             icon={MoreIcon}
             dataSign="callActions"
@@ -362,9 +361,9 @@ class ActiveCallPad extends Component<ActiveCallPadProps, ActiveCallPadState> {
     }
     const isLessBtn = buttons.length <= 3 && moreActions === null;
     return (
-      <div className={classnames(styles.root, className)}>
+      <div className={clsx(styles.root, className)}>
         <div
-          className={classnames(
+          className={clsx(
             styles.callCtrlButtonGroup,
             isLessBtn && styles.biggerButton,
           )}
@@ -382,10 +381,10 @@ class ActiveCallPad extends Component<ActiveCallPadProps, ActiveCallPadState> {
             {moreActions}
           </div>
         </div>
-        <div className={classnames(styles.buttonRow, styles.stopButtonGroup)}>
+        <div className={clsx(styles.buttonRow, styles.stopButtonGroup)}>
           <div className={styles.button}>
             <CircleButton
-              className={classnames(
+              className={clsx(
                 styles.stopButton,
                 controlBusy && styles.disabled,
               )}

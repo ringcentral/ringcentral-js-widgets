@@ -1,10 +1,8 @@
-import 'rc-tooltip/assets/bootstrap_white.css';
-
-import React, { Component } from 'react';
-
-import classnames from 'classnames';
+import clsx from 'clsx';
 // @ts-expect-error TS(7016): Could not find a declaration file for module 'rc-t... Remove this comment to see the full error message
 import Tooltip from 'rc-tooltip';
+import 'rc-tooltip/assets/bootstrap_white.css';
+import React, { Component } from 'react';
 
 import AnswerIcon from '../../assets/images/Answer.svg';
 import ForwardIcon from '../../assets/images/Forward.svg';
@@ -15,6 +13,7 @@ import ActiveCallButton from '../ActiveCallButton';
 import ForwardForm from '../ForwardForm';
 import MultiCallAnswerButton from '../MultiCallAnswerButton';
 import ReplyWithMessage from '../ReplyWithMessage';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 
@@ -152,9 +151,7 @@ class IncomingCallPad extends Component<
     } = this.props;
     // const isMultiCall = true;
     const multiCallButtons = (
-      <div
-        className={classnames(styles.buttonRow, styles.multiCallsButtonGroup)}
-      >
+      <div className={clsx(styles.buttonRow, styles.multiCallsButtonGroup)}>
         <MultiCallAnswerButton
           // @ts-expect-error TS(2322): Type '((...args: any[]) => any) | undefined' is no... Remove this comment to see the full error message
           onClick={answerAndEnd}
@@ -188,7 +185,7 @@ class IncomingCallPad extends Component<
       </div>
     );
     const singleCallButtons = (
-      <div className={classnames(styles.buttonRow, styles.answerButtonGroup)}>
+      <div className={clsx(styles.buttonRow, styles.answerButtonGroup)}>
         <ActiveCallButton
           onClick={this.toVoiceMail}
           title={i18n.getString('toVoicemail', currentLocale)}
@@ -215,7 +212,7 @@ class IncomingCallPad extends Component<
       </div>
     );
     return (
-      <div className={classnames(styles.root, className)}>
+      <div className={clsx(styles.root, className)}>
         <div
           className={styles.forwardContainner}
           ref={(containner) => {

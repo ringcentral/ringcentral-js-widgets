@@ -1,5 +1,5 @@
-import type { MessageStoreCallerInfoRequest } from './MessageStoreCallerInfoRequest';
 import type { MessageCountryInfo } from './MessageCountryInfo';
+import type { MessageStoreCallerInfoRequest } from './MessageStoreCallerInfoRequest';
 
 export interface CreateSMSMessage {
   /**

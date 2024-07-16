@@ -6,6 +6,7 @@ import BackButton from '../BackButton';
 import BackHeader from '../BackHeader';
 import DurationCounter from '../DurationCounter';
 import Panel from '../Panel';
+
 import CallInfo from './CallInfo';
 import ConferenceInfo from './ConferenceInfo';
 import MergeInfo from './MergeInfo';
@@ -66,7 +67,7 @@ type ActiveCallPanelProps = {
   onCompleteTransfer?: (...args: any[]) => any;
   isOnTransfer?: boolean;
 };
-const ActiveCallPanel: React.SFC<ActiveCallPanelProps> = ({
+const ActiveCallPanel: React.FC<ActiveCallPanelProps> = ({
   showBackButton,
   backButtonLabel,
   onBackButtonClick,
@@ -175,8 +176,6 @@ const ActiveCallPanel: React.SFC<ActiveCallPanelProps> = ({
           fallBackName={fallBackName}
           phoneNumber={phoneNumber}
           formatPhone={formatPhone}
-          // @ts-expect-error TS(2322): Type '{ currentLocale: string; nameMatches: { name... Remove this comment to see the full error message
-          startTime={startTime}
           areaCode={areaCode}
           countryCode={countryCode}
           selectedMatcherIndex={selectedMatcherIndex}

@@ -20,7 +20,8 @@ export default {
   quickAccess: "クイックアクセスの設定",
   report: "分析レポート",
   shareIdea: "アイデアを共有",
-  reportIssue: "問題を報告"
+  reportIssue: "問題を報告",
+  havingIssues: "問題がありますか？"
 };
 
 // @key: @#@"region"@#@ @source: @#@"Region"@#@
@@ -45,3 +46,4 @@ export default {
 // @key: @#@"report"@#@ @source: @#@"Analytics Report"@#@
 // @key: @#@"shareIdea"@#@ @source: @#@"Share idea"@#@
 // @key: @#@"reportIssue"@#@ @source: @#@"Report issue"@#@
+// @key: @#@"havingIssues"@#@ @source: @#@"Having issues?"@#@

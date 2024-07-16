@@ -1,4 +1,5 @@
 import type { StepFunction } from '../../../lib/step';
+
 import {
   CheckPasswordInputNotExist,
   CheckPasswordValue,

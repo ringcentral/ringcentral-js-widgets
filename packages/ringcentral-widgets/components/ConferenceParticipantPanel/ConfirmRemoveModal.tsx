@@ -1,8 +1,8 @@
+import calleeTypes from '@ringcentral-integration/commons/enums/calleeTypes';
 import React from 'react';
 
-import calleeTypes from '@ringcentral-integration/commons/enums/calleeTypes';
-
 import Modal from '../Modal';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 
@@ -13,7 +13,7 @@ type ConfirmRemoveModalProps = {
   onRemove?: (...args: any[]) => any;
   detail?: object;
 };
-const ConfirmRemoveModal: React.SFC<ConfirmRemoveModalProps> = ({
+const ConfirmRemoveModal: React.FC<ConfirmRemoveModalProps> = ({
   currentLocale,
   show,
   onRemove,

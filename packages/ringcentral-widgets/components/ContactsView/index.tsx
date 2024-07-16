@@ -1,10 +1,8 @@
-import React, { Component } from 'react';
-
-import classnames from 'classnames';
+import debounce from '@ringcentral-integration/commons/lib/debounce';
+import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { includes } from 'ramda';
-
-import debounce from '@ringcentral-integration/commons/lib/debounce';
+import React, { Component } from 'react';
 
 import AddContactIcon from '../../assets/images/ContactAdd.svg';
 import RefreshingIcon from '../../assets/images/OvalLoading.svg';
@@ -14,6 +12,7 @@ import { ContactSourceFilter } from '../ContactSourceFilter';
 import Panel from '../Panel';
 import { SearchInput } from '../SearchInput';
 import { SpinnerOverlay } from '../SpinnerOverlay';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 
@@ -60,7 +59,7 @@ const RefreshContacts = ({
   }
   return (
     <div
-      className={classnames(iconWrapClass, className)}
+      className={clsx(iconWrapClass, className)}
       onClick={onRefresh}
       title={i18n.getString('refresh', currentLocale)}
     >
@@ -297,7 +296,7 @@ class ContactsView extends Component {
         <div className={styles.actionBar}>
           <SearchInput
             dataSign="contactsSearchInput"
-            className={classnames(
+            className={clsx(
               styles.searchInput,
               showRefresh ? styles.withRefresh : '',
             )}

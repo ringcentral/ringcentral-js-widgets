@@ -1,10 +1,11 @@
-import { filter } from 'ramda';
 import type ForwardingNumberInfo from '@rc-ex/core/lib/definitions/ForwardingNumberInfo';
 import { computed } from '@ringcentral-integration/core';
+import { filter } from 'ramda';
 
 import { Module } from '../../lib/di';
 import fetchList from '../../lib/fetchList';
 import { DataFetcherV2Consumer, DataSource } from '../DataFetcherV2';
+
 import type { Deps } from './ForwardingNumber.interface';
 
 @Module({
@@ -37,7 +38,7 @@ export class ForwardingNumber extends DataFetcherV2Consumer<
               .forwardingNumber()
               .list(params),
           );
-          // @ts-expect-error
+          // @ts-expect-error TS(2322): Type 'unknown[]' is not assignable to type 'Forwar... Remove this comment to see the full error message
           return forwardingNumbers;
         } catch (error: any /** TODO: confirm with instanceof */) {
           if (error.response?.status === 403) {
@@ -64,8 +65,7 @@ export class ForwardingNumber extends DataFetcherV2Consumer<
     return filter(
       (phoneNumber) =>
         !!(
-          phoneNumber.features?.indexOf('CallFlip') !== -1 &&
-          phoneNumber.phoneNumber
+          phoneNumber.features?.includes('CallFlip') && phoneNumber.phoneNumber
         ),
       this.numbers,
     );
@@ -76,7 +76,7 @@ export class ForwardingNumber extends DataFetcherV2Consumer<
     return filter(
       (phoneNumber) =>
         !!(
-          phoneNumber.features?.indexOf('CallForwarding') !== -1 &&
+          phoneNumber.features?.includes('CallForwarding') &&
           phoneNumber.phoneNumber
         ),
       this.numbers,

@@ -1,53 +1,25 @@
-import path from 'path';
 import cp from 'child_process';
-import gulp from 'gulp';
 import fs from 'fs-extra';
-import babel from 'gulp-babel';
-import sourcemaps from 'gulp-sourcemaps';
+import gulp from 'gulp';
+import path from 'path';
 import yargs from 'yargs';
 
 const DEFAULT_BUILD_PATH = path.resolve(__dirname, '../../build/i18n');
-const DEFAULT_BABEL_CONFIG = 'babel.config.js';
-const SUPPORTED_BABEL_CONFIGS = [
-  DEFAULT_BABEL_CONFIG,
-  'electron-babel.config.js',
-];
 
 const { argv } = yargs
   .alias({
     buildPath: 'build-path',
-    babelConfig: 'babel-config',
   })
-  .default('buildPath', DEFAULT_BUILD_PATH)
-  .default('babelConfig', DEFAULT_BABEL_CONFIG)
-  .choices('babelConfig', SUPPORTED_BABEL_CONFIGS);
+  .default('buildPath', DEFAULT_BUILD_PATH);
 
-const { buildPath, babelConfig } = argv;
+const { buildPath } = argv;
 
 export function clean() {
   return fs.remove(buildPath);
 }
 
 export function compile() {
-  const configFile = path.resolve(__dirname, babelConfig);
-  if (!fs.existsSync(configFile)) {
-    throw new Error(`Not found babel config ${configFile}`);
-  }
-  return gulp
-    .src(
-      [
-        './lib/**/*.js',
-        '!./lib/**/*.test.js',
-        './index.js',
-      ],
-      {
-        base: './',
-      },
-    )
-    .pipe(sourcemaps.init())
-    .pipe(babel({ configFile }))
-    .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest(buildPath));
+  return exec('yarn build');
 }
 
 export const build = gulp.series(clean, compile);

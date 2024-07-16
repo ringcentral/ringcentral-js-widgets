@@ -10,4 +10,4 @@ export default {
   switchAccount: 'Switch account',
   agent: 'Agent',
   supervisor: 'Supervisor',
-};
+} as const;

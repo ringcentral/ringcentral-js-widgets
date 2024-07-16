@@ -1,7 +1,8 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { MockPutPresence } from '../../Mock';
+
 import type { StepFunction } from '../../../lib/step';
+import { MockPutPresence } from '../../Mock';
 
 interface SetAcceptCallQueueCallsOptions {
   isAccept: boolean;

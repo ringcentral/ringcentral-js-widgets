@@ -22,17 +22,19 @@ import {
   p1,
   common,
 } from '@ringcentral-integration/test-utils';
-import { CommonLogin } from '../../../../steps/CommonLogin';
-import { CheckAlertMessage } from '../../../../steps/Alert';
+import { waitUntilTo } from '@ringcentral-integration/utils';
+
+import type { Context } from '../../../../interfaces';
 import type { StepFunction } from '../../../../lib/step';
-import { MockPostOauthToken } from '../../../../steps/Mock/MockPostOauthToken';
+import { CheckAlertMessage } from '../../../../steps/Alert';
+import { CommonLogin } from '../../../../steps/CommonLogin';
+import { CreateInstance } from '../../../../steps/CreateInstance';
 import {
   CreateMock,
   MockExtensionInfo,
   MockGetPhoneNumber,
+  MockPostOauthToken,
 } from '../../../../steps/Mock';
-import { CreateInstance } from '../../../../steps/CreateInstance';
-import type { Context } from '../../../../interfaces';
 
 export const AARRefresh: StepFunction = async (_, { rcMock, phone }) => {
   try {
@@ -60,8 +62,10 @@ const CheckAARAlert: StepFunction<{
 export const CheckLogInResult: StepFunction<{
   loginFail?: boolean;
 }> = async (props, context) => {
-  const { loggedIn } = context.phone.auth;
-  expect(loggedIn).toBe(!props.loginFail);
+  await waitUntilTo(() => {
+    const { loggedIn } = context.phone.auth;
+    expect(loggedIn).toBe(!props.loginFail);
+  });
 };
 
 interface CheckAARProps {
@@ -69,7 +73,7 @@ interface CheckAARProps {
   CustomCreateMock: StepFunction<any>;
 }
 
-@autorun(test.skip)
+@autorun(test)
 @it
 @p1
 @common

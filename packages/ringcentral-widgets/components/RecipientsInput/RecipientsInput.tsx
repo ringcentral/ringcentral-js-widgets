@@ -1,13 +1,13 @@
+import clsx from 'clsx';
 import type { ClipboardEvent } from 'react';
 import React, { Component } from 'react';
 
-import classnames from 'classnames';
-
 import { ContactDropdownList } from '../ContactDropdownList';
 import { RemoveButton } from '../RemoveButton';
+
+import { SelectedRecipients } from './SelectedRecipients';
 import { focusCampo } from './focusCampo';
 import i18n from './i18n';
-import { SelectedRecipients } from './SelectedRecipients';
 import styles from './styles.scss';
 
 type RecipientsInputProps = {
@@ -69,8 +69,7 @@ class RecipientsInput extends Component<
   handleHotKey: (ev: React.KeyboardEvent<HTMLInputElement>) => void;
   listRef: any;
   inputRef: any;
-  // @ts-expect-error TS(2564): Property '_focusTimeout' has no initializer and is... Remove this comment to see the full error message
-  _focusTimeout: NodeJS.Timeout;
+  _focusTimeout?: NodeJS.Timeout;
 
   static defaultProps: Partial<RecipientsInputProps> = {
     recipients: [],
@@ -267,6 +266,10 @@ class RecipientsInput extends Component<
   // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   componentWillUnmount() {
     window.removeEventListener('click', this.clickHandler);
+    if (this._focusTimeout) {
+      clearTimeout(this._focusTimeout);
+      this._focusTimeout = undefined;
+    }
   }
 
   clickHandler = (ev: MouseEvent) => {
@@ -336,7 +339,7 @@ class RecipientsInput extends Component<
       !multiple && recipient ? null : (
         <div className={styles.inputWrapper}>
           <div
-            className={classnames(
+            className={clsx(
               styles.inputField,
               isFocusOnInput ? 'Mui-focused' : null,
               'MuiInput-underline',
@@ -370,7 +373,7 @@ class RecipientsInput extends Component<
       );
     return (
       <div
-        className={classnames(
+        className={clsx(
           styles.container,
           useRCUI ? styles.rcuiStyle : null,
           className,
@@ -379,7 +382,7 @@ class RecipientsInput extends Component<
       >
         {labelEl}
         <div
-          className={classnames(
+          className={clsx(
             useRCUI ? styles.rcuiStyle : null,
             label === undefined ? styles.rightPanel : '',
           )}

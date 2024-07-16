@@ -66,4 +66,4 @@ export default {
   US: 'United States',
   VN: 'Vietnam',
   ZA: 'South Africa',
-};
+} as const;

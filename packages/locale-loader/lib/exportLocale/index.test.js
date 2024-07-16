@@ -1,6 +1,7 @@
-import path from 'path';
 import fs from 'fs-extra';
-import exportLocale from '.';
+import path from 'path';
+
+import exportLocale from './';
 
 const sourceFolder = './testData/exportLocale';
 const localizationFolder = './localization/exportLocale';

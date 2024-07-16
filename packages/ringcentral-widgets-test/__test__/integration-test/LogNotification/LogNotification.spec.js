@@ -1,15 +1,13 @@
 import { shallow } from 'enzyme';
 import React from 'react';
-import callDirections from '@ringcentral-integration/commons/enums/callDirections';
-import callResults from '@ringcentral-integration/commons/enums/callResults';
-import telephonyStatuses from '@ringcentral-integration/commons/enums/telephonyStatus';
+import { callDirection } from '@ringcentral-integration/commons/enums/callDirections';
 import LogNotification from '@ringcentral-integration/widgets/components/LogNotification';
 import { Button } from '@ringcentral-integration/widgets/components/Button';
 
 const setup = (props) => {
   const currentLog = {
     call: {
-      direction: callDirections.inbound,
+      direction: callDirection.inbound,
       to: {
         phoneNumber: '+16509807435',
       },

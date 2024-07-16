@@ -1,6 +1,5 @@
+import clsx from 'clsx';
 import React from 'react';
-
-import classnames from 'classnames';
 
 import styles from './styles.scss';
 
@@ -23,7 +22,7 @@ const Line: React.FC<LineProps> = ({
   return (
     <div
       data-sign={dataSign}
-      className={classnames(
+      className={clsx(
         styles.root,
         className,
         onClick && styles.clickable,

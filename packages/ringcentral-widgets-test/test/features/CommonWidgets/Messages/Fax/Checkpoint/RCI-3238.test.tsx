@@ -10,20 +10,21 @@ import {
   title,
   When,
 } from '@ringcentral-integration/test-utils';
-import { MockMessageSync, MockMessageList } from '../../../../../steps/Mock';
+
+import {
+  mockMessageListData,
+  modifyMessageStatus,
+} from '../../../../../__mock__/mockMessageListData';
+import type { Context } from '../../../../../interfaces';
+import { ForceContactMatch } from '../../../../../steps/ContactMatch';
+import { CheckMessageNumbers } from '../../../../../steps/Conversation/CheckMessageNumbers';
 import { TypeCharacter } from '../../../../../steps/Messages/actions/TypeCharacter';
 import {
   CheckCurrentName,
   CheckSearchResult,
 } from '../../../../../steps/Messages/checks/CheckCurrentName';
+import { MockMessageSync, MockMessageList } from '../../../../../steps/Mock';
 import { NavigateToFax } from '../../../../../steps/Navigate/actions/NavigateToFax';
-import {
-  mockMessageListData,
-  modifyMessageStatus,
-} from '../../../../../__mock__/mockMessageListData';
-import { ForceContactMatch } from '../../../../../steps/ContactMatch';
-import { CheckMessageNumbers } from '../../../../../steps/Conversation/CheckMessageNumbers';
-import type { Context } from '../../../../../interfaces';
 
 const faxList = [
   {
@@ -65,7 +66,6 @@ export class FaxContactMatchAndSearch3238 extends Step {
   CustomEntry: StepProp | null = null;
   CustomLogin: StepProp | null = null;
   CustomContactMatch: StepProp | null = null;
-  messageTabDataSign = 'Messages';
   defaultQueryType: 'title' | 'text' = 'title';
   @examples(`
     | phoneNumber    | contactMatch | currentName      | searchText   | searchResult                                                       |
@@ -152,10 +152,7 @@ export class FaxContactMatchAndSearch3238 extends Step {
                 }),
               );
             },
-            <CheckMessageNumbers
-              count={2}
-              dataSign={this.messageTabDataSign}
-            />,
+            <CheckMessageNumbers count={2} />,
           ]}
         />
         <Then
@@ -175,10 +172,7 @@ export class FaxContactMatchAndSearch3238 extends Step {
                 }),
               );
             },
-            <CheckMessageNumbers
-              count={1}
-              dataSign={this.messageTabDataSign}
-            />,
+            <CheckMessageNumbers count={1} />,
           ]}
         />
       </Scenario>

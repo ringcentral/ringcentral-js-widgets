@@ -7,4 +7,4 @@ export default {
     'The previous region is no longer supported for your account.\n    Please verify your new {regionSettingsLink}.',
   regionSettings: 'region settings',
   [regionSettingsMessages.areaCodeInvalid]: 'Please enter a valid area code.',
-};
+} as const;

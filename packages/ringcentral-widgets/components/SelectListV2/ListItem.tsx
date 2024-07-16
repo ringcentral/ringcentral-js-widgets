@@ -1,11 +1,10 @@
+import { RcListItem } from '@ringcentral/juno';
+import clsx from 'clsx';
 import type { FunctionComponent } from 'react';
 import React from 'react';
 
-import classNames from 'classnames';
-
-import { RcListItem } from '@ringcentral/juno';
-
 import { useScrollIntoView } from '../../react-hooks/useScrollIntoView';
+
 import styles from './styles.scss';
 
 export interface ListItemProps {
@@ -43,7 +42,7 @@ export const ListItem: FunctionComponent<ListItemProps> = ({
       button
       selected={selected}
       classes={{
-        root: classNames(styles.listItem, className),
+        root: clsx(styles.listItem, className),
       }}
       onClick={(e) => {
         e.preventDefault();

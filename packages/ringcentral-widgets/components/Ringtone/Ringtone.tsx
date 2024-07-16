@@ -1,14 +1,11 @@
 /* istanbul ignore file */
-
 // TODO: that component still not completely yet, view in calling settings, layout style issue, still in Technical Preview
-
+import { useAudio, useMountState } from '@ringcentral/juno';
 import type { FunctionComponent } from 'react';
 import React, { useEffect, useRef, useState } from 'react';
 
-import { useAudio, useMountState } from '@ringcentral/juno';
-
-import i18n from './i18n';
 import type { AudioFileReaderProps, RingtoneProps } from './Ringtone.interface';
+import i18n from './i18n';
 import styles from './styles.scss';
 
 const AudioFileReader: FunctionComponent<AudioFileReaderProps> = ({

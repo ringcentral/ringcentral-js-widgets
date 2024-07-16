@@ -8,7 +8,7 @@ export default {
   InboundNumber: "ID de llamadas:",
   OutboundNumber: "Llamada de:",
   InboundDirection: "Llamada entrante de:",
-  OutboundDirection: "Saliente a:",
+  OutboundDirection: "Llamada saliente a:",
   [telephonyStatuses.noCall]: "Desconectado",
   [telephonyStatuses.callConnected]: "Conectada",
   [telephonyStatuses.ringing]: "Llamando",
@@ -46,7 +46,9 @@ export default {
   [callResults.faxReceipt]: "Fax recibido",
   [callResults.disconnected]: "Desconectado",
   [callResults.notAllowed]: "No permitida",
-  warmTransferSwitchCall: "Cambiar llamadas"
+  warmTransferSwitchCall: "Cambiar llamadas",
+  conferenceCall: "Llamada de conferencia",
+  participants: "Participantes"
 };
 
 // @key: @#@"[callDirections.inbound]"@#@ @source: @#@"Inbound"@#@
@@ -94,3 +96,5 @@ export default {
 // @key: @#@"[callResults.disconnected]"@#@ @source: @#@"Disconnected"@#@
 // @key: @#@"[callResults.notAllowed]"@#@ @source: @#@"Not Allowed"@#@
 // @key: @#@"warmTransferSwitchCall"@#@ @source: @#@"Switch calls"@#@
+// @key: @#@"conferenceCall"@#@ @source: @#@"Conference Call"@#@
+// @key: @#@"participants"@#@ @source: @#@"Participants"@#@

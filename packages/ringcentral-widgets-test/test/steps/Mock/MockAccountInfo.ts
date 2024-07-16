@@ -1,4 +1,5 @@
 import type accountBody from '@ringcentral-integration/mock/src/platform/data/accountInfo.json';
+
 import type { StepFunction } from '../../lib/step';
 
 interface MockAccountInfoProps {

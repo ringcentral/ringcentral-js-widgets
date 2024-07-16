@@ -5,12 +5,14 @@ import type { UIFunctions, UIProps } from '@ringcentral-integration/core';
 import { RcUIModuleV2 } from '@ringcentral-integration/core';
 
 import type { SettingsPanelProps } from '../../components/SettingsPanel/SettingsPanel.interface';
+
 import type { Deps, SettingsContainerProps } from './SettingUI.interface';
 
 const DEFAULT_REGION_SETTINGS_URL = '/settings/region';
 const DEFAULT_CALLING_SETTINGS_URL = '/settings/calling';
 const DEFAULT_AUDIO_SETTINGS_URL = '/settings/audio';
 const DEFAULT_FEEDBACK_SETTINGS_URL = '/settings/feedback';
+const DEFAULT_ISSUE_TACKING_SETTINGS_URL = '/settings/issuesTracking';
 
 @Module({
   name: 'SettingsUI',
@@ -169,6 +171,7 @@ export class SettingsUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
       brandConfig: this._deps.brand.brandConfig,
       showRemoveMeetingWarning:
         !!this._deps.settingsUIOptions?.showRemoveMeetingWarning,
+      showTrackingIssue: !!this._deps.settingsUIOptions?.showTrackingIssue,
     };
   }
 
@@ -213,6 +216,9 @@ export class SettingsUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
       saveLocale:
         this._deps.localeSettings &&
         ((locale) => this._deps.localeSettings?.saveLocale(locale)),
+      onTrackingClick: () => {
+        this._deps.routerInteraction.push(DEFAULT_ISSUE_TACKING_SETTINGS_URL);
+      },
     };
   }
 }

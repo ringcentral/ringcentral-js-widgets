@@ -1,14 +1,13 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
-import classnames from 'classnames';
-
 import { SpinnerOverlay } from '@ringcentral-integration/widgets/components/SpinnerOverlay';
+import clsx from 'clsx';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 
 import leftArrow from '../../assets/images/left_arrow.png';
-
-import GlipPostList from '../GlipPostList';
 import GlipChatForm from '../GlipChatForm';
 import GlipGroupName from '../GlipGroupName';
+import GlipPostList from '../GlipPostList';
+
 import styles from './styles.scss';
 
 export default class GlipChatPage extends Component {
@@ -58,7 +57,7 @@ export default class GlipChatPage extends Component {
       />
     ) : null;
     return (
-      <div className={classnames(styles.root, className)}>
+      <div className={clsx(styles.root, className)}>
         <div
           className={styles.header}
           style={{

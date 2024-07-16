@@ -9,11 +9,12 @@ import { sleep } from '@ringcentral-integration/utils';
 import { messageTypes } from '../../enums/messageTypes';
 import type { Entity } from '../../interfaces/Entity.interface';
 import type { Message } from '../../interfaces/MessageStore.model';
-import { Module } from '../../lib/di';
 import { LoggerBase } from '../../lib/LoggerBase';
+import { Module } from '../../lib/di';
 import type { Correspondent } from '../../lib/messageHelper';
 import { getNumbersFromMessage, sortByDate } from '../../lib/messageHelper';
 import { proxify } from '../../lib/proxy/proxify';
+
 import type {
   ConversationLogItem,
   ConversationLogMap,
@@ -224,7 +225,10 @@ export class ConversationLogger<T extends Deps = Deps> extends LoggerBase<T> {
           numberMap[number] = true;
         }
       }
-      addIfNotExist(conversation.self!);
+
+      const self = conversation.self;
+      if (self) addIfNotExist(self);
+
       conversation.correspondents!.forEach(addIfNotExist);
       await this._deps.contactMatcher.match({ queries: numbers });
       const selfNumber =
@@ -447,7 +451,7 @@ export class ConversationLogger<T extends Deps = Deps> extends LoggerBase<T> {
   get uniqueNumbers() {
     const output: string[] = [];
     const numberMap: Record<string, boolean> = {};
-    function addIfNotExist(contact: Correspondent = {}) {
+    function addIfNotExist(contact: Correspondent) {
       const number = contact.phoneNumber || contact.extensionNumber;
       if (number && !numberMap[number]) {
         output.push(number);
@@ -457,7 +461,10 @@ export class ConversationLogger<T extends Deps = Deps> extends LoggerBase<T> {
     Object.keys(this.conversationLogMap).forEach((conversationId) => {
       Object.keys(this.conversationLogMap[conversationId]).forEach((date) => {
         const conversation = this.conversationLogMap[conversationId][date];
-        addIfNotExist(conversation.self);
+
+        const self = conversation.self;
+        if (self) addIfNotExist(self);
+
         conversation.correspondents!.forEach(addIfNotExist);
       });
     });

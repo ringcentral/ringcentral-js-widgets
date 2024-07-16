@@ -8,8 +8,8 @@ import {
   Step,
   common,
 } from '../../lib/step';
-import { OAuthCheck } from '../../steps/OAuthCheck';
 import { Login as CommonLogin } from '../../steps/Login';
+import { OAuthCheck } from '../../steps/OAuthCheck';
 
 @autorun(test)
 @common

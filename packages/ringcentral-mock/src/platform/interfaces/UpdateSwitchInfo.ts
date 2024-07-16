@@ -1,6 +1,6 @@
-import type { SwitchSiteInfo } from './SwitchSiteInfo';
-import type { LocationUpdatesEmergencyAddressInfoRequest } from './LocationUpdatesEmergencyAddressInfoRequest';
 import type { ERLLocationInfo } from './ERLLocationInfo';
+import type { LocationUpdatesEmergencyAddressInfoRequest } from './LocationUpdatesEmergencyAddressInfoRequest';
+import type { SwitchSiteInfo } from './SwitchSiteInfo';
 
 export interface UpdateSwitchInfo {
   /**

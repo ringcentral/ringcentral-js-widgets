@@ -1,6 +1,3 @@
-import type { FunctionComponent } from 'react';
-import React from 'react';
-
 import type { RcDialTextFieldProps } from '@ringcentral/juno';
 import {
   RcDialDelete,
@@ -9,6 +6,8 @@ import {
   RcIconButton,
 } from '@ringcentral/juno';
 import { Deletenumber } from '@ringcentral/juno-icon';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import { DialerWrapper, TextFieldWrapper } from './styles';
 

@@ -38,6 +38,7 @@ import {
   ATTACHMENT_SIZE_LIMITATION,
   messageSenderMessages,
 } from '../MessageSender';
+
 import type {
   CorrespondentMatch,
   CorrespondentResponse,
@@ -54,10 +55,12 @@ function mergeMessages(messages: Message[], oldMessages: Message[]): Message[] {
   const currentMessages: Message[] = [];
   messages.forEach((element) => {
     currentMessages.push(element);
+    // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
     tmp[element.id] = 1;
   });
 
   oldMessages.forEach((element) => {
+    // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
     if (!tmp[element.id]) {
       currentMessages.push(element);
     }
@@ -68,6 +71,7 @@ function mergeMessages(messages: Message[], oldMessages: Message[]): Message[] {
 function getEarliestTime(messages: Message[]) {
   let newTime = Date.now();
   messages.forEach((message) => {
+    // @ts-expect-error TS(2769): No overload matches this call.
     const creationTime = new Date(message.creationTime).getTime();
     if (creationTime < newTime) {
       newTime = creationTime;
@@ -89,6 +93,7 @@ export function getUniqueNumbers(conversations: Message[]): string[] {
     if (message.from && message.direction === messageDirection.inbound) {
       const fromNumber =
         message.from.phoneNumber || message.from.extensionNumber;
+      // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
       addIfNotExist(fromNumber);
     }
     if (
@@ -101,6 +106,7 @@ export function getUniqueNumbers(conversations: Message[]): string[] {
           return;
         }
         const toPhoneNumber = toNumber.phoneNumber || toNumber.extensionNumber;
+        // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
         addIfNotExist(toPhoneNumber);
       });
     }
@@ -185,6 +191,7 @@ export class Conversations extends RcModuleV2<Deps> {
     conversationsStatus.idle;
 
   @state
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   currentConversationId?: string = null;
 
   @state
@@ -317,6 +324,7 @@ export class Conversations extends RcModuleV2<Deps> {
       (content) => content.conversationId === conversationId,
     );
     if (existedContent) {
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       existedContent.attachments = existedContent.attachments.filter(
         (f) => f.name !== attachment.name,
       );
@@ -382,6 +390,7 @@ export class Conversations extends RcModuleV2<Deps> {
     this.oldConversations = [];
     this.currentPage = 1;
     this.fetchConversationsStatus = conversationsStatus.idle;
+    // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
     this.currentConversationId = null;
     this.oldMessages = [];
     this.fetchMessagesStatus = conversationsStatus.idle;
@@ -515,11 +524,14 @@ export class Conversations extends RcModuleV2<Deps> {
       params.messageType = [typeFilter];
     }
     try {
+      // @ts-expect-error TS(2322): Type 'import("/Users/declan.zou/Projects/rc/integr... Remove this comment to see the full error message
       const { records }: GetMessageList = await this._deps.client
         .account()
         .extension()
         .messageStore()
+        // @ts-expect-error TS(2345): Argument of type 'ListMessagesParameters' is not a... Remove this comment to see the full error message
         .list(params);
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       const recordsLength = records.length;
       this._olderDataExisted = recordsLength === this._perPage;
       if (typeFilter === this.typeFilter && currentPage === this.currentPage) {
@@ -527,6 +539,7 @@ export class Conversations extends RcModuleV2<Deps> {
           recordsLength &&
           this._perPage * this.currentPage <
             recordsLength + this.filteredConversations.length;
+        // @ts-expect-error TS(2345): Argument of type 'GetMessageInfoResponse[] | undef... Remove this comment to see the full error message
         this._fetchOldConversationsSuccess(records, isIncreaseCurrentPage);
       }
     } catch (e: any /** TODO: confirm with instanceof */) {
@@ -567,6 +580,7 @@ export class Conversations extends RcModuleV2<Deps> {
 
   @proxify
   async unloadConversation() {
+    // @ts-expect-error TS(2345): Argument of type 'null' is not assignable to param... Remove this comment to see the full error message
     this._updateCurrentConversationId(null);
     this._olderMessagesExisted = true;
   }
@@ -604,13 +618,17 @@ export class Conversations extends RcModuleV2<Deps> {
       dateTo: dateTo.toISOString(),
     };
     try {
+      // @ts-expect-error TS(2322): Type 'import("/Users/declan.zou/Projects/rc/integr... Remove this comment to see the full error message
       const { records }: GetMessageList = await this._deps.client
         .account()
         .extension()
         .messageStore()
+        // @ts-expect-error TS(2345): Argument of type 'ListMessagesParameters' is not a... Remove this comment to see the full error message
         .list(params);
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       this._olderMessagesExisted = records.length === perPage;
       if (conversationId === this.currentConversationId) {
+        // @ts-expect-error TS(2345): Argument of type 'GetMessageInfoResponse[] | undef... Remove this comment to see the full error message
         this._fetchOldMessagesSuccess(records);
       }
     } catch (e: any /** TODO: confirm with instanceof */) {
@@ -638,16 +656,19 @@ export class Conversations extends RcModuleV2<Deps> {
     if (text.length > 1000) {
       return this._alertWarning(messageSenderMessages.textTooLong);
     }
+    // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
     this._updateMessageText(this.currentConversationId, text);
   }
 
   @proxify
   async addAttachment(attachment: Attachment) {
     const attachments = this.attachments;
+    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     if (attachments.length >= 10) {
       this._alertWarning(messageSenderMessages.attachmentCountLimitation);
       return;
     }
+    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     const size = attachments.reduce((prev, curr) => {
       return prev + curr.size;
     }, 0);
@@ -655,11 +676,13 @@ export class Conversations extends RcModuleV2<Deps> {
       this._alertWarning(messageSenderMessages.attachmentSizeLimitation);
       return;
     }
+    // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
     this._addAttachment(this.currentConversationId, attachment);
   }
 
   @proxify
   async removeAttachment(attachment: Attachment) {
+    // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
     this._removeAttachment(this.currentConversationId, attachment);
   }
 
@@ -668,15 +691,20 @@ export class Conversations extends RcModuleV2<Deps> {
     this._updateConversationStatus(conversationsStatus.pushing);
     try {
       const responses = await this._deps.messageSender.send({
+        // @ts-expect-error TS(2322): Type 'string | null | undefined' is not assignable... Remove this comment to see the full error message
         fromNumber: this._getFromNumber(),
+        // @ts-expect-error TS(2322): Type '(string | undefined)[]' is not assignable to... Remove this comment to see the full error message
         toNumbers: this._getToNumbers(),
         text,
         attachments,
+        // @ts-expect-error TS(2322): Type 'number | null' is not assignable to type 'nu... Remove this comment to see the full error message
         replyOnMessageId: this._getReplyOnMessageId(),
       });
       if (responses && responses[0]) {
+        // @ts-expect-error TS(2345): Argument of type 'import("/Users/declan.zou/Projec... Remove this comment to see the full error message
         this._deps.messageStore.pushMessage(responses[0]);
         this._updateConversationStatus(conversationsStatus.idle);
+        // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
         this._removeInputContent(this.currentConversationId);
         return responses[0];
       }
@@ -761,10 +789,12 @@ export class Conversations extends RcModuleV2<Deps> {
     const pushConversation = (c: Message) => {
       // use conversationId when available, use id for VoiceMail/Fax/etc..
       const cid = c.conversationId || c.id;
+      // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
       if (conversationMap[cid]) {
         return;
       }
       newConversations.push(c);
+      // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
       conversationMap[cid] = 1;
     };
     conversations.forEach(pushConversation);
@@ -840,13 +870,16 @@ export class Conversations extends RcModuleV2<Deps> {
         this._deps.conversationLogger.dataMapping) ||
       {};
     const accessToken = this._deps.auth.accessToken;
+    // @ts-expect-error TS(2322): Type '{ unreadCounts: number; self: any; selfMatch... Remove this comment to see the full error message
     return conversations.map((message) => {
       const { self, correspondents } = getNumbersFromMessage({
+        // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
         extensionNumber,
         message,
       });
       const selfNumber = self && (self.phoneNumber || self.extensionNumber);
       const selfMatches = (selfNumber && contactMapping[selfNumber]) || [];
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       const correspondentMatches: CorrespondentMatch[] = correspondents.reduce(
         (matches: CorrespondentMatch[], contact: Correspondent) => {
           const number =
@@ -864,13 +897,16 @@ export class Conversations extends RcModuleV2<Deps> {
         : null;
       const isLogging = !!(conversationLogId && loggingMap[conversationLogId]);
       const conversationMatches =
+        // @ts-expect-error TS(2538): Type 'null' cannot be used as an index type.
         conversationLogMapping[conversationLogId] || [];
       let voicemailAttachment = null;
       if (messageIsVoicemail(message)) {
+        // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
         voicemailAttachment = getVoicemailAttachment(message, accessToken);
       }
       let faxAttachment = null;
       if (messageIsFax(message)) {
+        // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
         faxAttachment = getFaxAttachment(message, accessToken);
       }
       let unreadCounts = message.unreadCounts;
@@ -879,6 +915,7 @@ export class Conversations extends RcModuleV2<Deps> {
       }
       let mmsAttachments: MessageAttachmentInfo[] = [];
       if (messageIsTextMessage(message) && this._showMMSAttachment) {
+        // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
         mmsAttachments = getMMSAttachments(message, accessToken);
       }
       return {
@@ -897,6 +934,7 @@ export class Conversations extends RcModuleV2<Deps> {
         lastMatchedCorrespondentEntity:
           (this._deps.conversationLogger &&
             this._deps.conversationLogger.getLastMatchedCorrespondentEntity(
+              // @ts-expect-error TS(2345): Argument of type 'Message' is not assignable to pa... Remove this comment to see the full error message
               message,
             )) ||
           null,
@@ -974,7 +1012,9 @@ export class Conversations extends RcModuleV2<Deps> {
         return;
       }
       const messageList: Message[] =
+        // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
         this._deps.messageStore.conversationStore[message.conversationId] || [];
+      // @ts-expect-error TS(2322): Type 'Message | undefined' is not assignable to ty... Remove this comment to see the full error message
       const matchedMessage: Message = messageList.find(
         (item) => (item.subject || '').toLowerCase().indexOf(searchString) > -1,
       );
@@ -1039,6 +1079,7 @@ export class Conversations extends RcModuleV2<Deps> {
       (c) => c.conversationId === conversationId,
     );
     const messages: Message[] = [].concat(
+      // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
       conversationStore[conversationId] || [],
     );
     const currentConversation = {
@@ -1048,6 +1089,7 @@ export class Conversations extends RcModuleV2<Deps> {
       if (!this._showMMSAttachment) {
         return m;
       }
+      // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
       const mmsAttachments = getMMSAttachments(m, accessToken);
       return {
         ...m,
@@ -1055,7 +1097,9 @@ export class Conversations extends RcModuleV2<Deps> {
       };
     });
     const { correspondents = [] } = getNumbersFromMessage({
+      // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
       extensionNumber,
+      // @ts-expect-error TS(2322): Type 'Message | undefined' is not assignable to ty... Remove this comment to see the full error message
       message: conversation,
     });
     const correspondentMatches: CorrespondentMatch[] = correspondents.reduce(
@@ -1069,29 +1113,38 @@ export class Conversations extends RcModuleV2<Deps> {
       [] as CorrespondentMatch[],
     );
     const conversationLogId = this._deps.conversationLogger
-      ? this._deps.conversationLogger.getConversationLogId(conversation)
+      ? // @ts-expect-error TS(2345): Argument of type 'Message | undefined' is not assi... Remove this comment to see the full error message
+        this._deps.conversationLogger.getConversationLogId(conversation)
       : null;
+    // @ts-expect-error TS(2538): Type 'null' cannot be used as an index type.
     const conversationMatches = conversationLogMapping[conversationLogId] || [];
+    // @ts-expect-error TS(2322): Type 'string | null | undefined' is not assignable... Remove this comment to see the full error message
     currentConversation.conversationLogId = conversationLogId;
     currentConversation.correspondents = correspondents;
     currentConversation.correspondentMatches = correspondentMatches;
     currentConversation.conversationMatches = conversationMatches;
     currentConversation.messages = allMessages.reverse();
+    // @ts-expect-error TS(2322): Type 'MessageStoreCallerInfoResponseFrom | null | ... Remove this comment to see the full error message
     currentConversation.senderNumber = getMyNumberFromMessage({
+      // @ts-expect-error TS(2322): Type 'Message | undefined' is not assignable to ty... Remove this comment to see the full error message
       message: conversation,
+      // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
       myExtensionNumber: this._deps.extensionInfo.extensionNumber,
     });
     currentConversation.recipients = getRecipientNumbersFromMessage({
+      // @ts-expect-error TS(2322): Type 'Message | undefined' is not assignable to ty... Remove this comment to see the full error message
       message: conversation,
       myNumber: currentConversation.senderNumber,
     });
     currentConversation.isLogging = !!(
       conversationLogId && loggingMap[conversationLogId]
     );
+    // @ts-expect-error TS(2322): Type 'Entity | null' is not assignable to type 'La... Remove this comment to see the full error message
     currentConversation.lastMatchedCorrespondentEntity =
       (this._deps.conversationLogger &&
         conversation &&
         this._deps.conversationLogger.getLastMatchedCorrespondentEntity(
+          // @ts-expect-error TS(2345): Argument of type 'Message' is not assignable to pa... Remove this comment to see the full error message
           conversation,
         )) ||
       null;
@@ -1166,6 +1219,7 @@ export class Conversations extends RcModuleV2<Deps> {
     const { countryCode, areaCode } = this._deps.regionSettings;
     const formattedCorrespondentMatch = this.correspondentMatch.map((item) => {
       const formatted = normalizeNumber({
+        // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
         phoneNumber: item.phoneNumber,
         countryCode,
         areaCode,
@@ -1179,7 +1233,9 @@ export class Conversations extends RcModuleV2<Deps> {
     formattedCorrespondentMatch.forEach((item) => {
       const { phoneNumber } = item;
       const conversationId = this.correspondentResponse[phoneNumber];
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       if (this._deps.conversationLogger.autoLog) {
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         this._deps.conversationLogger.logConversation({
           entity: item,
           conversationId,

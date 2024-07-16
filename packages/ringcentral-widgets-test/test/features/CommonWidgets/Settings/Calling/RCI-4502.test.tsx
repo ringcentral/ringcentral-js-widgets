@@ -27,24 +27,28 @@ export class CheckCallWithSoftphoneOption extends Step {
   CustomCreateMock?: StepFunction<any, any>;
 
   @examples(`
-    | brandId | brandName   | spartanName                    | showSoftphoneOption |
-    | '1210'  | 'rc'        | 'RingCentral Phone'            | true                |
-    | '3420'  | 'att'       | 'Office@Hand Phone'       | true                |
-    | '7710'  | 'bt'        | 'BT Cloud Work Phone'          | true                |
-    | '7310'  | 'telus'     | 'TELUS Business Connect Phone' | true                |
-    | '6010'  | 'avaya'     | 'Avaya Cloud Office Phone'     | true                |
-    | '2020'  | 'atos'      | 'Unify Office Phone'           | true                |
-    | '2110'  | 'rainbow'   | 'Rainbow Office Phone'         | true                |
-    | '2210'  | 'verizon'   | 'RingCentral Phone'            | true                |
-    | '7010'  | 'vodafone'  | 'RingCentral Phone'            | true                |
-    | '4210'  | 'ecotel'    | 'N.A.'                         | false               |
-    | '4810'  | 'mcm'       | 'N.A.'                         | false               |
-    | '4610'  | 'eastlink'  | 'N.A.'                         | false               |
-    | '4710'  | 'versatel'  | 'N.A.'                         | false               |
-    | '4910'  | 'frontier'  | 'N.A.'                         | false               |
-    | '2030'  | 'dttelekom' | 'N.A.'                         | false               |
-    | '2040'  | 'dtatos'    | 'N.A.'                         | false               |
-    | '2050'  | 'sunrise'   | 'N.A.'                         | false               |
+    | brandId | subBrandId         | brandName   | spartanName                    | showSoftphoneOption |
+    | '1210'  | undefined          | 'rc'        | 'RingCentral Phone'            | true                |
+    | '3420'  | undefined          | 'att'       | 'AT&T Office@Hand Phone'       | true                |
+    | '7710'  | undefined          | 'bt'        | 'BT Cloud Work Phone'          | true                |
+    | '7310'  | undefined          | 'telus'     | 'TELUS Business Connect Phone' | true                |
+    | '6010'  | undefined          | 'avaya'     | 'Avaya Cloud Office Phone'     | true                |
+    | '2020'  | undefined          | 'atos'      | 'Unify Office Phone'           | true                |
+    | '2110'  | undefined          | 'rainbow'   | 'Rainbow Office Phone'         | true                |
+    | '2210'  | undefined          | 'verizon'   | 'RingCentral Phone'            | true                |
+    | '7010'  | undefined          | 'vodafone'  | 'RingCentral Phone'            | true                |
+    | '4210'  | undefined          | 'ecotel'    | 'N.A.'                         | false               |
+    | '4810'  | undefined          | 'mcm'       | 'N.A.'                         | false               |
+    | '4610'  | undefined          | 'eastlink'  | 'N.A.'                         | false               |
+    | '4710'  | undefined          | 'versatel'  | 'N.A.'                         | false               |
+    | '4910'  | undefined          | 'frontier'  | 'N.A.'                         | false               |
+    | '2030'  | undefined          | 'dttelekom' | 'N.A.'                         | false               |
+    | '2040'  | undefined          | 'dtatos'    | 'N.A.'                         | false               |
+    | '2050'  | undefined          | 'sunrise'   | 'N.A.'                         | false               |
+    | '2000'  | '2000.Optus'       | 'sunrise'   | 'N.A.'                         | false               |
+    | '3000'  | '3000.Brightspeed' | 'sunrise'   | 'N.A.'                         | false               |
+    | '3000'  | '3000.NWNC'        | 'sunrise'   | 'N.A.'                         | false               |
+    | '3000'  | '3000.Zayo'        | 'sunrise'   | 'N.A.'                         | false               |
   `)
   run() {
     return (
@@ -52,10 +56,21 @@ export class CheckCallWithSoftphoneOption extends Step {
         desc="Verify ${brandName} brand call with softphone option on calling settings"
         action={[
           this.CustomCreateMock,
-          ({ brandId }: { brandId: string }) => (
+          ({
+            brandId,
+            subBrandId,
+          }: {
+            brandId: string;
+            subBrandId: string;
+          }) => (
             <MockAccountInfo
               handler={(mockData) => {
                 mockData.serviceInfo.brand.id = brandId;
+                if (subBrandId !== undefined) {
+                  mockData.serviceInfo.uBrand = {
+                    id: subBrandId,
+                  };
+                }
                 return mockData;
               }}
             />

@@ -1,3 +1,5 @@
+import type { StepFunction } from '../../lib/step';
+
 interface MockActiveCallProps {
   repeat: number;
 }

@@ -53,13 +53,13 @@ const RCV_ITEM_NAME = {
   allowScreenSharing: 'allowScreenSharing',
 } as const;
 
-type RcvItemType = typeof RCV_ITEM_NAME[keyof typeof RCV_ITEM_NAME];
+type RcvItemType = (typeof RCV_ITEM_NAME)[keyof typeof RCV_ITEM_NAME];
 
-type AUTH_USER = typeof AUTH_USER_TYPE[keyof typeof AUTH_USER_TYPE];
+type AUTH_USER = (typeof AUTH_USER_TYPE)[keyof typeof AUTH_USER_TYPE];
 
 // eslint-disable-next-line max-len
 type RcvWaitingRoomModeProps =
-  typeof RCV_WAITING_ROOM_MODE[keyof typeof RCV_WAITING_ROOM_MODE];
+  (typeof RCV_WAITING_ROOM_MODE)[keyof typeof RCV_WAITING_ROOM_MODE];
 
 // eslint-disable-next-line max-len
 type RcvWaitingRoomType = Exclude<keyof typeof RCV_WAITING_ROOM_MODE, 'off'>;

@@ -1,5 +1,5 @@
-import type { CallSegmentFilter } from './CallSegmentFilter';
 import type { CallActionFilter } from './CallActionFilter';
+import type { CallSegmentFilter } from './CallSegmentFilter';
 import type { PerformanceCallsFilterByLength } from './PerformanceCallsFilterByLength';
 import type { PerformanceCallsFilterTimeSpentByMailbox } from './PerformanceCallsFilterTimeSpentByMailbox';
 

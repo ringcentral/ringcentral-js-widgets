@@ -15,7 +15,6 @@
  * Entry point(/s):
  * Login SW by admin account
  */
-
 import { Category } from '@ringcentral-integration/commons/interfaces/NumberParserResponse.interface';
 import {
   And,
@@ -31,6 +30,7 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
+import { generateDialPlanData } from '../../../__mock__/generateDialPlanData';
 import type { StepProp } from '../../../lib/step';
 import { CheckCallControlPage, MakeCall } from '../../../steps/Call';
 import { CommonLogin } from '../../../steps/CommonLogin';
@@ -46,9 +46,8 @@ import {
   MockPermission,
   MockPresence,
 } from '../../../steps/Mock';
-import { NavigateTo } from '../../../steps/Router/action';
+import { NavigateTo } from '../../../steps/Router';
 import { SetAreaCode } from '../../../steps/Settings';
-import { generateDialPlanData } from '../../../__mock__/generateDialPlanData';
 
 @autorun(test.skip)
 @it

@@ -12,7 +12,6 @@
  * Entry point(/s):
  * CTI > contact page >search box
  */
-
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p2,
@@ -26,6 +25,7 @@ import {
   common,
 } from '@ringcentral-integration/test-utils';
 import { screen } from '@testing-library/react';
+
 import { CommonLogin } from '../../../../../steps/CommonLogin';
 import {
   CheckContactNotFoundTextExist,

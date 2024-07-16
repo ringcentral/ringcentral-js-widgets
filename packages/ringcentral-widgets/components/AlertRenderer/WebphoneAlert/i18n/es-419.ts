@@ -9,7 +9,7 @@ export default {
   [webphoneErrors.noOutboundCallWithoutDL]: "En este momento, su extensión no puede hacer llamadas salientes con navegador, comuníquese con su representante para acceder a la actualización.",
   [webphoneErrors.provisionUpdate]: "Se produjo un error en nuestro sistema. Intentaremos volver a conectar rápidamente.",
   [webphoneErrors.serverConnecting]: "Lo sentimos, tenemos un problema para conectar al servidor telefónico.",
-  [webphoneErrors.toVoiceMailError]: "No se puede enviar la llamada al buzón debido a un error interno",
+  [webphoneErrors.toVoiceMailError]: "No se puede enviar la llamada al buzón de voz debido a un error interno",
   [webphoneErrors.muteError]: "No se puede silenciar la llamada en este momento.",
   [webphoneErrors.holdError]: "No se puede poner la llamada en espera en este momento.",
   [webphoneErrors.flipError]: "No se puede voltear la llamada. Inténtelo de nuevo más tarde.",

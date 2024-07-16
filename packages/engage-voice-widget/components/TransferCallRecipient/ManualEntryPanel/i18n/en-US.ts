@@ -3,4 +3,4 @@ export default {
   dialPlaceholder: 'Enter number',
   next: 'Next',
   transferCountry: 'Country',
-};
+} as const;

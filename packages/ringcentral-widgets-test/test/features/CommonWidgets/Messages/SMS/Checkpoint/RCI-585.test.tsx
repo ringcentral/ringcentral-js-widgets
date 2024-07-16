@@ -2,7 +2,10 @@
  * RCI-585: Search on the Messages list
  * https://test_it_domain/test-cases/RCI-585
  */
-import { Login as CommonLogin } from '../../../../../steps/Login';
+import {
+  generateMessageRecords,
+  mockMessageListData,
+} from '../../../../../__mock__';
 import type { StepFunction } from '../../../../../lib/step';
 import {
   p2,
@@ -16,42 +19,43 @@ import {
   When,
   And,
 } from '../../../../../lib/step';
+import { CommonLogin } from '../../../../../steps/CommonLogin';
+import { CreateInstance } from '../../../../../steps/CreateInstance';
+import {
+  CheckActionsAfterSearch,
+  TypingWordingInSearch,
+} from '../../../../../steps/Messages';
 import {
   CreateMock as CommonCreateMock,
+  MockExtensionsList,
   MockMessageList,
   MockMessageSync,
+  mockExtensionsListData,
 } from '../../../../../steps/Mock';
 import {
   NavigateToMessagesTab,
   NavigateToTypeTabUnderMessage,
 } from '../../../../../steps/Navigate';
-import {
-  generateMessageRecords,
-  mockMessageListData,
-} from '../../../../../__mock__';
-import {
-  CheckActionsAfterSearch,
-  TypingWordingInSearch,
-} from '../../../../../steps/Messages';
 
-@autorun(test.skip)
+@autorun(test)
 @p2
 @title('Search phone number on the Messages list')
 export class SearchMessagesListNumber extends Step {
-  CustomLogin?: StepFunction<any, any>;
-  CustomCreateMock?: StepFunction<any, any>;
+  CustomLogin?: StepFunction<any, any> = (props) => (
+    <CommonLogin {...props} CreateInstance={CreateInstance} />
+  );
+  CustomCreateMock?: StepFunction<any, any> = CommonCreateMock;
 
   @examples(`
     | tabType | searchText     | isMatched | type  | matched                                          |
-    | 'Fax'   | '866'          | true      | 'Fax' | ['+18662105111', '+18662105112', '+18662105113'] |
+    | 'Fax'   | '866'          | true      | 'Fax' | ['(866) 210-5111', '(866) 210-5112', '(866) 210-5113'] |
     | 'All'   | 'test00000000' | false     | 'Fax' | []                                               |
   `)
   run() {
     const { type, searchText, isMatched, tabType, matched } =
       this.context.example;
 
-    const { CustomLogin = CommonLogin, CustomCreateMock = CommonCreateMock } =
-      this;
+    const { CustomLogin, CustomCreateMock } = this;
 
     const messageList = generateMessageRecords({
       direction: 'Inbound',
@@ -113,13 +117,14 @@ export class SearchMessagesListNumber extends Step {
   }
 }
 
-@autorun(test.skip)
+@autorun(test)
 @p2
 @title('Search name on the Messages list')
 export class SearchMessagesListName extends Step {
-  CustomLogin?: StepFunction<any, any>;
-  CustomCreateMock?: StepFunction<any, any>;
-
+  CustomLogin?: StepFunction<any, any> = (props) => (
+    <CommonLogin {...props} CreateInstance={CreateInstance} />
+  );
+  CustomCreateMock?: StepFunction<any, any> = CommonCreateMock;
   @examples(`
     | tabType | searchText | isMatched | type        | matched                   |
     | 'Voice' | 'cer'      | true      | 'VoiceMail' | ['cerrie1','Test cerrie'] |
@@ -128,8 +133,7 @@ export class SearchMessagesListName extends Step {
     const { type, searchText, isMatched, tabType, matched } =
       this.context.example;
 
-    const { CustomLogin = CommonLogin, CustomCreateMock = CommonCreateMock } =
-      this;
+    const { CustomLogin, CustomCreateMock } = this;
 
     const messageList = generateMessageRecords({
       direction: 'Inbound',
@@ -154,6 +158,31 @@ export class SearchMessagesListName extends Step {
             />,
             <MockMessageSync
               handler={() => mockMessageListData(messageList)}
+            />,
+            <MockExtensionsList
+              handler={(mockData) => ({
+                ...mockData,
+                ...mockExtensionsListData([
+                  {
+                    phoneNumber: '+18662105111',
+                    phoneNumberUsageType: 'ContactNumber',
+                    firstName: 'cerrie1',
+                    lastName: '',
+                  },
+                  {
+                    phoneNumber: '+18662105112',
+                    phoneNumberUsageType: 'ContactNumber',
+                    firstName: 'Test',
+                    lastName: 'cerrie',
+                  },
+                  {
+                    phoneNumber: '+18662105113',
+                    phoneNumberUsageType: 'ContactNumber',
+                    firstName: 'Hello',
+                    lastName: '',
+                  },
+                ]),
+              })}
             />,
           ]}
         />
@@ -203,23 +232,23 @@ export class SearchMessagesListName extends Step {
   }
 }
 
-@autorun(test.skip)
+@autorun(test)
 @p2
 @title('Search content on the Messages list')
 export class SearchMessagesListContent extends Step {
-  CustomLogin?: StepFunction<any, any>;
-  CustomCreateMock?: StepFunction<any, any>;
-
+  CustomLogin?: StepFunction<any, any> = (props) => (
+    <CommonLogin {...props} CreateInstance={CreateInstance} />
+  );
+  CustomCreateMock?: StepFunction<any, any> = CommonCreateMock;
   @examples(`
     | tabType | searchText | isMatched | type   | matched                                         |
-    | 'Text'  | 'test'     | true      | 'Text' | ["+18662105111","+18662105112", "+18662105113"] |
+    | 'Text'  | 'test'     | true      | 'Text' | ["(866) 210-5111","(866) 210-5112", "(866) 210-5113"] |
   `)
   run() {
     const { type, searchText, isMatched, tabType, matched } =
       this.context.example;
 
-    const { CustomLogin = CommonLogin, CustomCreateMock = CommonCreateMock } =
-      this;
+    const { CustomLogin, CustomCreateMock } = this;
 
     return (
       <Scenario

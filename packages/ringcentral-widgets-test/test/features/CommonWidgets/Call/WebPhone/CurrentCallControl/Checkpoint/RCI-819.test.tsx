@@ -7,7 +7,6 @@
  * 1. Answer an inbound call and keep in active call page
  * 2. Make an outbound calland keep in active call page
  */
-
 import type { StepProp } from '@ringcentral-integration/test-utils';
 import {
   p0,
@@ -30,8 +29,8 @@ import {
   CheckActiveCallHidden,
   AnswerCall,
 } from '../../../../../../steps/Call';
-import { CheckRouterNavigation } from '../../../../../../steps/Navigate';
 import { CommonLogin } from '../../../../../../steps/CommonLogin';
+import { CheckRouterNavigation } from '../../../../../../steps/Navigate';
 
 @autorun(test.skip)
 @it
