@@ -18,7 +18,7 @@ const UserInfo: FunctionComponent<any> = ({
   fallBackName,
   currentLocale,
   areaCode,
-  name,
+  callerIdName,
   countryCode,
   selectedMatcherIndex,
   onSelectMatcherName,
@@ -43,7 +43,7 @@ const UserInfo: FunctionComponent<any> = ({
       <div className={styles.userNameContainer}>
         {callQueueName}
         <ContactDisplay
-          name={name}
+          callerIdName={callerIdName}
           className={styles.userName}
           selectClassName={styles.dropdown}
           contactMatches={nameMatches}
@@ -104,7 +104,7 @@ const IncomingCallPanel: FunctionComponent<any> = ({
   searchContact,
   searchContactList,
   children,
-  name,
+  callerIdName,
 }) => {
   return (
     <div data-sign="IncomingCallPanel" className={clsx(styles.root, className)}>
@@ -116,7 +116,7 @@ const IncomingCallPanel: FunctionComponent<any> = ({
         <i className={clsx(dynamicsFont.arrow, styles.backIcon)} />
       </span>
       <UserInfo
-        name={name}
+        callerIdName={callerIdName}
         phoneNumber={phoneNumber}
         callQueueName={callQueueName}
         currentLocale={currentLocale}

@@ -73,6 +73,7 @@ export type CallCtrlContainerProps = PropsWithChildren<{
   phoneNumber?: string;
   showPark?: boolean;
   controlBusy?: boolean;
+  callerIdName?: string;
 }>;
 type CallCtrlContainerState = {
   layout: any;
@@ -397,6 +398,7 @@ export class CallCtrlContainer extends Component<
         afterConfirmMerge={this.props.afterConfirmMerge}
         afterOnMerge={this.props.afterOnMerge}
         controlBusy={this.props.controlBusy}
+        callerIdName={this.props.callerIdName}
       >
         {this.props.children}
       </CallCtrlPanel>
@@ -432,4 +434,5 @@ CallCtrlContainer.defaultProps = {
   phoneNumber: null,
   showPark: false,
   controlBusy: false,
+  callerIdName: undefined,
 };

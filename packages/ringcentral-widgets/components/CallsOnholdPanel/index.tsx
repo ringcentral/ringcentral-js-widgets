@@ -17,6 +17,7 @@ type CallsOnholdContainerProps = {
   countryCode: string;
   brand?: string;
   showContactDisplayPlaceholder?: boolean;
+  showCallerIdName?: boolean;
   webphoneAnswer?: (...args: any[]) => any;
   webphoneReject?: (...args: any[]) => any;
   webphoneHangup?: (...args: any[]) => any;
@@ -40,6 +41,7 @@ const CallsOnholdContainer: React.FC<CallsOnholdContainerProps> = ({
   brand,
   showContactDisplayPlaceholder,
   autoLog,
+  showCallerIdName,
   webphoneAnswer,
   webphoneReject,
   webphoneHangup,
@@ -78,6 +80,7 @@ const CallsOnholdContainer: React.FC<CallsOnholdContainerProps> = ({
               areaCode={areaCode}
               countryCode={countryCode}
               brand={brand}
+              showCallerIdName={showCallerIdName}
               showContactDisplayPlaceholder={showContactDisplayPlaceholder}
               onMergeCall={onMerge}
               // @ts-expect-error TS(2322): Type '((...args: any[]) => any) | undefined' is no... Remove this comment to see the full error message

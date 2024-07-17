@@ -2529,7 +2529,7 @@
     wait-for-async "^0.6.1"
     ws "^8.17.1"
 
-"@ringcentral/juno-icon@^1.68.0":
+"@ringcentral/juno-icon@^1.76.0":
   version "1.76.0"
   resolved "https://registry.yarnpkg.com/@ringcentral/juno-icon/-/juno-icon-1.76.0.tgz#6597cbc123b1b712274d438feee17d1f38d658fe"
   integrity sha512-R1OGnx7LHBh59QKqBadSuQvYQfrJ2CIGI7pDloxoDvCJzLNczo/tp/HQFybFwSVBK0eUISA7Yz4ovx4soSfYPA==

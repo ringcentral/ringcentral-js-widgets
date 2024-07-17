@@ -65,6 +65,7 @@ const _IssuesTrackingPanel: FunctionComponent<IssuesTrackingPanelProps> = ({
       <main {...rest}>
         <div>
           <RcSwitch
+            data-sign="issuesTrackingSwitch"
             formControlLabelProps={{
               labelPlacement: 'start',
             }}
@@ -85,6 +86,7 @@ const _IssuesTrackingPanel: FunctionComponent<IssuesTrackingPanelProps> = ({
             {i18n.getString('downloadTitle', currentLocale)}
           </RcTypography>
           <Tooltip
+            data-sign="downloadButtonTooltip"
             title={
               enabled
                 ? i18n.getString('needLeavePage', currentLocale)
@@ -95,6 +97,7 @@ const _IssuesTrackingPanel: FunctionComponent<IssuesTrackingPanelProps> = ({
             <div>
               <RcButton
                 fullWidth
+                data-sign="downloadButton"
                 disabled={downloadDisabled}
                 variant={downloadDisabled ? 'outlined' : 'contained'}
                 radius="round"
@@ -112,7 +115,11 @@ const _IssuesTrackingPanel: FunctionComponent<IssuesTrackingPanelProps> = ({
           <RcTypography color="action.grayDark" weight="bold">
             {i18n.getString('sendTitle', currentLocale)}
           </RcTypography>
-          <RcTypography color="action.grayDark" paragraph>
+          <RcTypography
+            color="action.grayDark"
+            paragraph
+            data-sign="createSupportTicketDesc"
+          >
             <RcLink
               href="https://support.ringcentral.com/new-case.html"
               target="_blank"
@@ -122,7 +129,11 @@ const _IssuesTrackingPanel: FunctionComponent<IssuesTrackingPanelProps> = ({
             </RcLink>
             {i18n.getString('sendDescription', currentLocale)}
           </RcTypography>
-          <RcTypography color="neutral.f03" variant="caption1">
+          <RcTypography
+            color="neutral.f03"
+            variant="caption1"
+            data-sign="privacyNoticeDesc"
+          >
             {i18n.getString('privacyNotice', currentLocale)}
             <RcLink
               href="https://www.ringcentral.com/legal/last-update-september-1-2023/eulatos.html"

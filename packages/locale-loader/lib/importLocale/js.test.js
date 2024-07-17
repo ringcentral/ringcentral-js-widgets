@@ -1,10 +1,9 @@
+import importLocale from '.';
 import { transformSync } from '@babel/core';
 import fs from 'fs-extra';
 import path from 'path';
 
 import exportLocale from '../exportLocale';
-
-import importLocale from './';
 
 const sourceFolder = './testData/importLocale';
 const localizationFolder = './localization/importLocale';
@@ -43,7 +42,7 @@ async function generateSource() {
       world\`,
       419: 'number as key',
       [\`\${obj.key}-copy\`]: 'template as key',
-    };
+    } as const;
   `,
   );
 }
@@ -200,7 +199,7 @@ describe('importLocale', () => {
         [obj.key]: 'testValue',
         'single-quote': 'Single Quote',
         "double-'quote'": "Double Quote",
-      };
+      } as const;
     `,
     );
     await importLocale({
@@ -241,7 +240,7 @@ describe('importLocale', () => {
         concat: 'item1' + 'item2',
         template: \`hello
         world\`,
-      };
+      } as const;
     `,
     );
     await importLocale(config);

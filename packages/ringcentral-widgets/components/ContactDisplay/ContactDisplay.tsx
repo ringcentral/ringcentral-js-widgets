@@ -8,10 +8,11 @@ import {
   RcIcon,
   RcMenu,
   RcMenuItem,
+  RcTooltip,
   spacing,
   styled,
 } from '@ringcentral/juno';
-import { ArrowDown2, ArrowUp2 } from '@ringcentral/juno-icon';
+import { ArrowDown2, ArrowUp2, IdBorder } from '@ringcentral/juno-icon';
 import clsx from 'clsx';
 import type { FunctionComponent } from 'react';
 import React, { useState } from 'react';
@@ -42,7 +43,8 @@ const MenuButton = styled(RcButton)`
 `;
 
 type ContactDisplayProps = {
-  name?: string;
+  showCallerIdIcon?: boolean;
+  callerIdName?: string | undefined | null;
   isOnConferenceCall?: boolean;
   reference?: (...args: any[]) => any;
   className?: string;
@@ -129,7 +131,8 @@ const StyledMenu = styled(RcMenu)`
 
 export const ContactDisplay: React.FC<ContactDisplayProps> = ({
   warmTransferRole,
-  name,
+  showCallerIdIcon,
+  callerIdName,
   reference,
   className,
   contactMatches,
@@ -257,13 +260,13 @@ export const ContactDisplay: React.FC<ContactDisplayProps> = ({
       const fallBackResult = enableContactFallback && fallBackName;
 
       const display =
-        name ||
+        callerIdName ||
         fallBackResult ||
         phoneNumberAfterFormat ||
         i18n.getString('unknownNumber', currentLocale);
 
-      const groupedNameTitle = name
-        ? `${name} | ${phoneNumberAfterFormat}`
+      const groupedNameTitle = callerIdName
+        ? `${callerIdName} | ${phoneNumberAfterFormat}`
         : undefined;
 
       const title =
@@ -274,10 +277,22 @@ export const ContactDisplay: React.FC<ContactDisplayProps> = ({
         undefined;
 
       return (
-        <Title title={title} unread={unread} missed={missed}>
-          {unreadDot}
-          {display}
-        </Title>
+        <div className={styles.currentNameContainer}>
+          <Title title={title} unread={unread} missed={missed}>
+            {unreadDot}
+            {display}
+          </Title>
+          {showCallerIdIcon && callerIdName && (
+            <RcTooltip title={i18n.getString('callerId', currentLocale)}>
+              <RcIcon
+                data-sign="caller-id-name"
+                symbol={IdBorder}
+                size="small"
+                color="neutral.f04"
+              />
+            </RcTooltip>
+          )}
+        </div>
       );
     }
 

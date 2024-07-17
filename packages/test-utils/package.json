@@ -26,7 +26,7 @@
     "@ringcentral-integration/babel-settings": "*",
     "@ringcentral-integration/crius": "*",
     "@ringcentral/juno": "^2.42.0",
-    "@ringcentral/juno-icon": "^1.68.0",
+    "@ringcentral/juno-icon": "^1.76.0",
     "@testing-library/jest-dom": "^6.1.6",
     "@testing-library/react": "^12.1.5",
     "@testing-library/react-hooks": "^8.0.1",

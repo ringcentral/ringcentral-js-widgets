@@ -51,7 +51,7 @@ export const CheckItemLabel: StepFunction<{
 };
 
 export const CheckboxIsChecked: StepFunction<{
-  dataSign: RcvCheckboxDataSign;
+  dataSign: string;
   isChecked: boolean;
 }> = async ({ dataSign, isChecked }) => {
   const checkbox = screen

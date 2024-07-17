@@ -26,6 +26,7 @@ export interface CallControlComponentProps {
     sessionId?: string;
   };
   showCallQueueName?: boolean;
+  showCallerIdName?: boolean;
   showPark?: boolean;
   getAvatarUrl?: () => string;
   onBackButtonClick?: () => any;

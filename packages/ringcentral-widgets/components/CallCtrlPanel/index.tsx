@@ -1,3 +1,4 @@
+import type { LastCallInfo } from '@ringcentral-integration/commons/modules/ConferenceCall';
 import React, { Component, memo } from 'react';
 
 import callCtrlLayouts from '../../enums/callCtrlLayouts';
@@ -53,7 +54,7 @@ type CallCtrlPanelProps = {
   mergeDisabled?: boolean;
   conferenceCallEquipped?: boolean;
   hasConferenceCall?: boolean;
-  lastCallInfo?: object;
+  lastCallInfo?: LastCallInfo;
   conferenceCallParties?: any[];
   getAvatarUrl?: (...args: any[]) => any;
   gotoParticipantsCtrl?: (...args: any[]) => any;
@@ -62,6 +63,7 @@ type CallCtrlPanelProps = {
   afterOnMerge?: (...args: any[]) => any;
   actions?: any[];
   controlBusy?: boolean;
+  callerIdName?: string;
   callQueueName?: string;
   showPark?: boolean;
   onCompleteTransfer?: (...args: any[]) => any;
@@ -174,6 +176,7 @@ class CallCtrlPanel extends Component<CallCtrlPanelProps, CallCtrlPanelState> {
       conferenceCallEquipped,
       conferenceCallParties,
       controlBusy,
+      callerIdName,
       countryCode,
       currentLocale,
       direction,
@@ -231,6 +234,7 @@ class CallCtrlPanel extends Component<CallCtrlPanelProps, CallCtrlPanelState> {
     }
     return (
       <ActiveCallPanel
+        callerIdName={callerIdName}
         showBackButton={showBackButton}
         backButtonLabel={backButtonLabel}
         onBackButtonClick={onBackButtonClick}
@@ -355,5 +359,6 @@ CallCtrlPanel.defaultProps = {
   showPark: false,
   isOnWaitingTransfer: false,
   isOnTransfer: false,
+  callerIdName: undefined,
 };
 export default memo(CallCtrlPanel);

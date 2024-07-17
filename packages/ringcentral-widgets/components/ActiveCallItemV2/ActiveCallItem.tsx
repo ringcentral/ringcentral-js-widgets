@@ -1,5 +1,6 @@
 import { telephonySessionStatus } from '@ringcentral-integration/commons/enums/telephonySessionStatus';
 import {
+  getWebphoneSessionDisplayName,
   isInbound,
   isRinging,
 } from '@ringcentral-integration/commons/lib/callLogHelpers';
@@ -801,6 +802,7 @@ export class ActiveCallItem extends Component<
       webphoneIgnore,
       showHoldAnswerBtn,
       showIgnoreBtn,
+      showCallerIdName,
       clickSwitchTrack,
       formatPhone,
     } = this.props;
@@ -836,6 +838,10 @@ export class ActiveCallItem extends Component<
     const isConnecting =
       telephonySession?.otherParties[0]?.status?.code ===
       telephonySessionStatus.proceeding;
+
+    const callerIdName = showCallerIdName
+      ? getWebphoneSessionDisplayName(this.props.call.webphoneSession as any)
+      : undefined;
 
     return (
       <div data-sign="callItem" className={styles.callItemContainer}>
@@ -880,6 +886,7 @@ export class ActiveCallItem extends Component<
             >
               <ContactDisplay
                 warmTransferRole={warmTransferRole}
+                callerIdName={callerIdName}
                 formatPhone={formatPhone}
                 isOnConferenceCall={isOnConferenceCall}
                 contactName={showMultipleMatch ? undefined : contactName}

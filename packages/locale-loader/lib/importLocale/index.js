@@ -1,3 +1,4 @@
+/* eslint-disable no-inner-declarations */
 import generate from '@babel/generator';
 import { parse } from '@babel/parser';
 import formatLocale from '@ringcentral-integration/i18n/lib/formatLocale';
@@ -5,7 +6,8 @@ import chalk from 'chalk';
 import fs from 'fs-extra';
 import inquirer from 'inquirer';
 import path from 'path';
-import { filter, find, forEach, reduce } from 'ramda';
+import prettier from 'prettier';
+import { forEach, reduce } from 'ramda';
 
 import asyncForEach from '../asyncForEach';
 import asyncReduce from '../asyncReduce';
@@ -48,7 +50,17 @@ function writeFiles({
         const { code } = generate(targetData.ast);
         const annotations = getAnnotations(targetData.annotations);
 
-        const output = `${eslint}${code}\n\n${annotations}\n`;
+        const output = prettier.format(`${eslint}${code}\n\n${annotations}\n`, {
+          parser: 'typescript',
+          // this copy from integration basic prettier config
+          // TODO: read prettier config by user's project
+          bracketSpacing: true,
+          singleQuote: true,
+          trailingComma: 'all',
+          arrowParens: 'always',
+          bracketSameLine: false,
+          endOfLine: 'auto',
+        });
         fs.writeFileSync(
           path.resolve(sourceFolder, folderPath, targetData.file),
           output,
@@ -148,15 +160,17 @@ async function mergeTranslationData({
     await asyncForEach(async (fileName) => {
       const filePath = path.resolve(sourceFolder, fileName);
       const folderPath = path.dirname(filePath);
+      const sourceLocaleFile =
+        localeData[folderPath] && localeData[folderPath].files[sourceLocale];
 
-      if (
-        localeData[folderPath] &&
-        localeData[folderPath].files[sourceLocale]
-      ) {
-        const sourceData = localeData[folderPath].files[sourceLocale].data;
+      if (sourceLocaleFile) {
+        const sourceData = sourceLocaleFile.data;
+
+        const ext = path.extname(sourceLocaleFile.file) || '.ts';
+
         if (!localeData[folderPath].files[locale]) {
           localeData[folderPath].files[locale] = {
-            file: `${formatLocale(locale)}.js`,
+            file: `${formatLocale(locale)}${ext}`,
           };
         }
         if (!localeData[folderPath].files[locale].data) {
@@ -227,37 +241,53 @@ async function mergeTranslationData({
       if (locale !== sourceLocale) {
         const targetData = localeData[folderPath].files[locale];
         const sourceData = localeData[folderPath].files[sourceLocale];
-        targetData.ast = parse(sourceData.content, { sourceType: 'module' });
+        targetData.ast = parse(sourceData.content, {
+          sourceType: 'module',
+          plugins: ['typescript'],
+        });
         targetData.annotations = new Map();
 
-        const defaultExport = find(
+        function getData(source) {
+          const properties = source.properties.filter((prop) => {
+            const wrapInBracket =
+              prop.key.type === 'MemberExpression' ||
+              prop.key.type === 'TemplateLiteral';
+            const key = wrapInBracket
+              ? `[${generate(prop.key).code}]`
+              : generate(prop.key).code;
+            const entry = targetData.data.get(key);
+            if (entry && entry.value) {
+              prop.value = {
+                type: 'StringLiteral',
+                value: entry.value,
+                extra: {
+                  // generate desired raw to by pass babel jsesc use
+                  raw: JSON.stringify(entry.value),
+                  rawValue: entry.value,
+                },
+              };
+              targetData.annotations.set(key, sourceData.data.get(key).value);
+              return true;
+            }
+            return false;
+          });
+          source.properties = properties;
+        }
+
+        const defaultExport = targetData.ast.program.body.find(
           (item) => item.type === 'ExportDefaultDeclaration',
-          targetData.ast.program.body,
         );
-        const properties = filter((prop) => {
-          const wrapInBracket =
-            prop.key.type === 'MemberExpression' ||
-            prop.key.type === 'TemplateLiteral';
-          const key = wrapInBracket
-            ? `[${generate(prop.key).code}]`
-            : generate(prop.key).code;
-          const entry = targetData.data.get(key);
-          if (entry && entry.value) {
-            prop.value = {
-              type: 'StringLiteral',
-              value: entry.value,
-              extra: {
-                // generate desired raw to by pass babel jsesc use
-                raw: JSON.stringify(entry.value),
-                rawValue: entry.value,
-              },
-            };
-            targetData.annotations.set(key, sourceData.data.get(key).value);
-            return true;
+
+        if (defaultExport) {
+          if (defaultExport.declaration.type === 'ObjectExpression') {
+            getData(defaultExport.declaration);
+          } else if (defaultExport.declaration.type === 'TSAsExpression') {
+            const nest = defaultExport.declaration.expression;
+            if (nest.type === 'ObjectExpression') {
+              getData(nest);
+            }
           }
-          return false;
-        }, defaultExport.declaration.properties);
-        defaultExport.declaration.properties = properties;
+        }
       }
     }, Object.keys(localeData[folderPath].files));
   }, Object.keys(localeData));

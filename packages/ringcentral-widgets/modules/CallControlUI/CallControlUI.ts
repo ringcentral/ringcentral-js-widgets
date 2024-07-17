@@ -1,5 +1,6 @@
 import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 import type { NormalizedSession } from '@ringcentral-integration/commons/interfaces/Webphone.interface';
+import { getWebphoneSessionDisplayName } from '@ringcentral-integration/commons/lib/callLogHelpers';
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import { formatNumber } from '@ringcentral-integration/commons/lib/formatNumber';
 import { callingModes } from '@ringcentral-integration/commons/modules/CallingSettings';
@@ -88,9 +89,14 @@ export class CallControlUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
     );
   }
 
+  get callerIdName() {
+    return getWebphoneSessionDisplayName(this.currentSession as any);
+  }
+
   getUIProps({
     params,
     showCallQueueName = false,
+    showCallerIdName = false,
     showPark = false,
     children,
   }: CallControlComponentProps) {
@@ -192,6 +198,7 @@ export class CallControlUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
       conferenceCallParties,
       conferenceCallId,
       lastCallInfo,
+      callerIdName: showCallerIdName ? this.callerIdName : undefined,
       // TODO: investigate whether it's better to just
       // use isMerging and let the component decide whether to display children
       children: hideChildren ? null : children,

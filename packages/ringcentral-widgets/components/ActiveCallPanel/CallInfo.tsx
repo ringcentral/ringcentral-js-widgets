@@ -22,6 +22,7 @@ type CallInfoProps = {
   phoneTypeRenderer?: (...args: any[]) => any;
   phoneSourceNameRenderer?: (...args: any[]) => any;
   callQueueName?: string;
+  callerIdName?: string;
 };
 const CallInfo: React.FC<CallInfoProps> = (props) => {
   let avatar;
@@ -43,6 +44,7 @@ const CallInfo: React.FC<CallInfoProps> = (props) => {
         <ContactDisplay
           formatPhone={props.formatPhone}
           className={styles.contactDisplay}
+          callerIdName={props.callerIdName}
           selectClassName={styles.dropdown}
           contactMatches={props.nameMatches}
           phoneNumber={props.phoneNumber}
@@ -72,5 +74,6 @@ const CallInfo: React.FC<CallInfoProps> = (props) => {
 CallInfo.defaultProps = {
   brand: 'RingCentral',
   showContactDisplayPlaceholder: true,
+  callerIdName: undefined,
 };
 export default CallInfo;

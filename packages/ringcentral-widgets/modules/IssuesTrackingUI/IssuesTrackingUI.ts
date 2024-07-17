@@ -48,8 +48,13 @@ export class IssuesTrackingUI extends RcUIModuleV2<Deps> {
   }
 
   @action
-  setOpen(val: boolean) {
+  _setOpen(val: boolean) {
     this.open = val;
+  }
+
+  @proxify
+  async setOpen(val: boolean) {
+    this._setOpen(val);
   }
 
   constructor(deps: Deps) {

@@ -71,6 +71,7 @@ export interface ActiveCallsContainerProps {
   showContactDisplayPlaceholder?: boolean;
   showRingoutCallControl?: boolean;
   showSwitchCall?: boolean;
+  showCallerIdName?: boolean;
   showTransferCall?: boolean;
   showHoldOnOtherDevice?: boolean;
   useV2: boolean;
@@ -103,6 +104,7 @@ export interface ActiveCallsPanelProps {
   countryCode: string;
   brand: string;
   showContactDisplayPlaceholder: boolean;
+  showCallerIdName?: boolean;
   formatPhone: (phoneNumber: string) => void;
   onClickToSms?: (
     contact: ToNumber | { name: string; phoneNumber: string },

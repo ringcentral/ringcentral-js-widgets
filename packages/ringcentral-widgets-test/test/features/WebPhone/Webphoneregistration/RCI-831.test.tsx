@@ -1,6 +1,6 @@
 /**
  * RCI-831: Web phone registration - display progressing icon and disable call button
- * https://test_it_domainses/RCI-831
+ * https://test_it_domain/test-cases/RCI-831
  * Preconditions:
  * Account's WebRTC is enabled
  * 'Browser' is selected in Setting > Calling > Make my calls with

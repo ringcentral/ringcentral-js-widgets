@@ -1,3 +1,4 @@
+import type { LastCallInfo } from '@ringcentral-integration/commons/modules/ConferenceCall';
 import React from 'react';
 
 import callCtrlLayouts from '../../enums/callCtrlLayouts';
@@ -58,7 +59,7 @@ type ActiveCallPanelProps = {
   conferenceCallParties?: any[];
   conferenceCallEquipped?: boolean;
   hasConferenceCall?: boolean;
-  lastCallInfo?: object;
+  lastCallInfo?: LastCallInfo;
   getAvatarUrl?: (...args: any[]) => any;
   actions?: any[];
   controlBusy?: boolean;
@@ -66,6 +67,7 @@ type ActiveCallPanelProps = {
   isOnWaitingTransfer?: boolean;
   onCompleteTransfer?: (...args: any[]) => any;
   isOnTransfer?: boolean;
+  callerIdName?: string;
 };
 const ActiveCallPanel: React.FC<ActiveCallPanelProps> = ({
   showBackButton,
@@ -120,6 +122,7 @@ const ActiveCallPanel: React.FC<ActiveCallPanelProps> = ({
   getAvatarUrl,
   actions,
   controlBusy,
+  callerIdName,
   callQueueName,
   isOnTransfer,
   isOnWaitingTransfer,
@@ -187,6 +190,7 @@ const ActiveCallPanel: React.FC<ActiveCallPanelProps> = ({
           phoneTypeRenderer={phoneTypeRenderer}
           phoneSourceNameRenderer={phoneSourceNameRenderer}
           callQueueName={callQueueName}
+          callerIdName={callerIdName}
         />
       );
       break;
@@ -280,6 +284,7 @@ ActiveCallPanel.defaultProps = {
   getAvatarUrl: () => null,
   actions: [],
   controlBusy: false,
+  callerIdName: undefined,
   // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   callQueueName: null,
   isOnWaitingTransfer: false,

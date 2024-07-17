@@ -123,7 +123,7 @@ export function compile() {
       './**/*.js',
       './**/*.ts',
       '!./**/*.min.js',
-      '!./**/*/pendo.xhr.js',
+      '!./**/pendo.xhr.js',
       '!./**/*.d.ts',
       '!./**/*.test.js',
       '!./**/*.test.ts',

@@ -11,7 +11,7 @@ import {
 } from '../../lib/step';
 
 // https://jira_domain/browse/RCINT-8190
-// https://jira_domainCINT-9547
+// https://jira_domain/browse/RCINT-9547
 @autorun(test.skip)
 @title('Call monitor status bar with no calls')
 class CallMonitorBarWithNoCall extends Step {

@@ -64,6 +64,7 @@ export class ActiveCallsUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
     showSwitchCall = false,
     showTransferCall = true,
     showHoldOnOtherDevice = false,
+    showCallerIdName = false,
     useV2,
     showMergeCall,
     useCallControl,
@@ -106,6 +107,7 @@ export class ActiveCallsUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
       useCallControl,
       isWide: this.isWide,
       allCalls: this._deps.callMonitor.calls,
+      showCallerIdName,
     };
   }
 

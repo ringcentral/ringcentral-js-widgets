@@ -1,6 +1,7 @@
 import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 import type { Call } from '@ringcentral-integration/commons/interfaces/Call.interface';
 import {
+  getTelephoneDisplayName,
   isInbound,
   isMissed,
   isRinging,
@@ -70,6 +71,7 @@ type CallItemProps = {
   withAnimation?: boolean;
   currentSiteCode?: string;
   isMultipleSiteEnabled?: boolean;
+  showCallerIdName?: boolean;
   showChooseEntityModal?: boolean;
   enableCDC?: boolean;
   maxExtensionNumberLength?: number;
@@ -89,6 +91,7 @@ export const CallItem: FunctionComponent<CallItemProps> = ({
   disableLinks = false,
   disableCallButton = false,
   showContactDisplayPlaceholder = true,
+  showCallerIdName = false,
   autoLog = false,
   readTextPermission = true,
   withAnimation = true,
@@ -372,6 +375,9 @@ export const CallItem: FunctionComponent<CallItemProps> = ({
 
   const menuExtended = extended;
   const selectedMatchContactType = getSelectedContact()?.type ?? '';
+  const callerIdName = showCallerIdName
+    ? getTelephoneDisplayName(call)
+    : undefined;
 
   return (
     <div
@@ -392,6 +398,8 @@ export const CallItem: FunctionComponent<CallItemProps> = ({
         />
         <div className={styles.infoWrapper}>
           <ContactDisplay
+            showCallerIdIcon
+            callerIdName={callerIdName}
             formatPhone={formatPhone}
             missed={missed}
             isOnConferenceCall={

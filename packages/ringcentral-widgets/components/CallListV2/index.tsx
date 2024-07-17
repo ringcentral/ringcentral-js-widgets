@@ -37,6 +37,7 @@ type CallListV2Props = {
   enableContactFallback?: boolean;
   autoLog?: boolean;
   showContactDisplayPlaceholder?: boolean;
+  showCallerIdName?: boolean;
   sourceIcons?: object;
   phoneTypeRenderer?: (...args: any[]) => any;
   phoneSourceNameRenderer?: (...args: any[]) => any;
@@ -157,6 +158,7 @@ class CallListV2 extends React.PureComponent<CallListV2Props, CallListV2State> {
       enableContactFallback,
       autoLog,
       showContactDisplayPlaceholder,
+      showCallerIdName,
       sourceIcons,
       phoneTypeRenderer,
       phoneSourceNameRenderer,
@@ -218,6 +220,7 @@ class CallListV2 extends React.PureComponent<CallListV2Props, CallListV2State> {
           enableContactFallback={enableContactFallback}
           autoLog={autoLog}
           showContactDisplayPlaceholder={showContactDisplayPlaceholder}
+          showCallerIdName={showCallerIdName}
           sourceIcons={sourceIcons}
           phoneTypeRenderer={phoneTypeRenderer}
           phoneSourceNameRenderer={phoneSourceNameRenderer}
@@ -300,6 +303,7 @@ CallListV2.defaultProps = {
   webphoneResume: undefined,
   enableContactFallback: undefined,
   showContactDisplayPlaceholder: true,
+  showCallerIdName: false,
   autoLog: false,
   sourceIcons: undefined,
   phoneTypeRenderer: undefined,

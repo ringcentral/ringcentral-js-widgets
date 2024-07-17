@@ -47,7 +47,7 @@ export type IncomingCallViewProps = {
   phoneTypeRenderer?: (...args: any[]) => any;
   phoneSourceNameRenderer?: (...args: any[]) => any;
   phoneNumber: string;
-  name: string;
+  callerIdName: string | null | undefined;
 };
 export const IncomingCallView: FunctionComponent<IncomingCallViewProps> = (
   props,
@@ -81,7 +81,7 @@ export const IncomingCallView: FunctionComponent<IncomingCallViewProps> = (
     updateSessionMatchedContact,
     phoneTypeRenderer,
     phoneSourceNameRenderer,
-    name,
+    callerIdName,
   } = props;
   const [selectedMatcherIndex, setSelectedMatcherIndex] = useState(0);
   const [avatarUrl, setAvatarUrl] = useState(null);
@@ -174,7 +174,7 @@ export const IncomingCallView: FunctionComponent<IncomingCallViewProps> = (
     <IncomingCallPanel
       currentLocale={currentLocale}
       nameMatches={nameMatches}
-      name={name}
+      callerIdName={callerIdName}
       fallBackName={fallbackUserName}
       callQueueName={showCallQueueName ? session.callQueueName : null}
       phoneNumber={phoneNumber}

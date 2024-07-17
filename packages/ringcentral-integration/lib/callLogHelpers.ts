@@ -27,18 +27,28 @@ export function isOutbound(call: { direction?: string } = {}) {
   return call.direction === callDirections.outbound;
 }
 
+// get caller id name for webphone session
 export function getWebphoneSessionDisplayName(
   currentSession: Call['webphoneSession'],
 ) {
-  // TODO: just return null temporary, wait check api can be use with platform
-  return null;
-  // if (!currentSession) {
-  //   return null;
-  // }
+  if (!currentSession) {
+    return null;
+  }
 
-  // return currentSession.direction === callDirections.inbound
-  //   ? currentSession.fromUserName
-  //   : currentSession.toUserName;
+  return currentSession.direction === callDirections.inbound
+    ? currentSession.fromUserName
+    : currentSession.toUserName;
+}
+
+// get caller id name for telephone
+export function getTelephoneDisplayName(call: Call) {
+  if (!call) {
+    return null;
+  }
+
+  return call.direction === callDirections.inbound
+    ? call.fromName
+    : call.toName;
 }
 
 /* status helpers */

@@ -816,7 +816,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
         await session.unmute();
       }
     } catch (error: any /** TODO: confirm with instanceof */) {
-      // https://jira_domainTP-1308
+      // https://jira_domain/browse/NTP-1308
       // Unmute before transfer due to we can not sync the mute status after transfer.
     }
   }

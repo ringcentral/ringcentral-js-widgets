@@ -49,6 +49,7 @@ export interface Deps {
 export interface CallHistoryUIComponentProps {
   enableContactFallback?: boolean;
   useNewList?: boolean;
+  showCallerIdName?: boolean;
   onCreateContact?: (options: OnCreateContactOptions) => any;
   dateTimeFormatter?: (
     ...args: Parameters<DateTimeFormat['formatDateTime']>

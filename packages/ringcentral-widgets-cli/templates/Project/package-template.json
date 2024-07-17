@@ -56,7 +56,7 @@
     "@ringcentral-integration/widgets": "^0.15.0",
     "@ringcentral-integration/utils": "^0.15.0",
     "@ringcentral/juno": "^2.42.0",
-    "@ringcentral/juno-icon": "^1.68.0",
+    "@ringcentral/juno-icon": "^1.76.0",
     "@ringcentral/sdk": "^4.7.2",
     "@ringcentral/subscriptions": "^4.7.2",
     "dayjs": "^1.11.7",

@@ -30,6 +30,7 @@ type CallListProps = {
   enableContactFallback?: boolean;
   autoLog?: boolean;
   showContactDisplayPlaceholder?: boolean;
+  showCallerIdName?: boolean;
   sourceIcons?: object;
   phoneTypeRenderer?: (...args: any[]) => any;
   phoneSourceNameRenderer?: (...args: any[]) => any;
@@ -61,6 +62,7 @@ const CallList: React.FC<CallListProps> = ({
   isLoggedContact,
   dateTimeFormatter,
   enableContactFallback,
+  showCallerIdName,
   sourceIcons,
   phoneTypeRenderer,
   phoneSourceNameRenderer,
@@ -100,6 +102,7 @@ const CallList: React.FC<CallListProps> = ({
             countryCode={countryCode}
             currentSiteCode={currentSiteCode}
             isMultipleSiteEnabled={isMultipleSiteEnabled}
+            showCallerIdName={showCallerIdName}
             onViewContact={onViewContact}
             onCreateContact={onCreateContact}
             createEntityTypes={createEntityTypes}

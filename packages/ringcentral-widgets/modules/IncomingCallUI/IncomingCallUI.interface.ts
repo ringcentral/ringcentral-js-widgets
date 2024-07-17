@@ -37,6 +37,7 @@ export interface Deps {
 export interface IncomingCallContainerProps
   extends Pick<IncomingCallUIPanelProps, 'getAvatarUrl'> {
   showContactDisplayPlaceholder?: boolean;
+  showCallerIdName?: boolean;
   phoneSourceNameRenderer?: (type: string) => string;
   showCallQueueName: boolean;
   sourceIcons?: Record<string, ComponentType>;
@@ -62,7 +63,7 @@ export interface IncomingCallUIPanelProps {
   /**
    * current call should should name if not match any contact
    */
-  name: string | undefined | null;
+  callerIdName: string | undefined | null;
   sourceIcons?: Record<string, ComponentType>;
   phoneTypeRenderer?: (type: string) => ReactElement;
   phoneSourceNameRenderer?: (type: string) => string;

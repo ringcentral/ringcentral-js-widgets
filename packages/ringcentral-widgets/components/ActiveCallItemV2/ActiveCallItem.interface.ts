@@ -146,6 +146,7 @@ export interface ActiveCallItemProps {
   ringoutHangup: (telephonySessionId: string) => any;
   ringoutTransfer: (telephonySessionId: string) => any;
   showRingoutCallControl?: boolean;
+  showCallerIdName?: boolean;
   ringoutReject: (telephonySessionId: string) => any;
   showMultipleMatch?: boolean;
   showSwitchCall?: boolean;

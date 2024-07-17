@@ -51,6 +51,7 @@ export class CallHistoryUI extends RcUIModuleV2<Deps> {
   getUIProps({
     enableContactFallback = false,
     useNewList = false,
+    showCallerIdName = false,
   }: CallHistoryUIComponentProps) {
     return {
       enableContactFallback,
@@ -91,6 +92,7 @@ export class CallHistoryUI extends RcUIModuleV2<Deps> {
       useNewList,
       enableCDC: this._deps.appFeatures.isCDCEnabled,
       maxExtensionNumberLength: this._deps.accountInfo.maxExtensionNumberLength,
+      showCallerIdName,
     };
   }
 

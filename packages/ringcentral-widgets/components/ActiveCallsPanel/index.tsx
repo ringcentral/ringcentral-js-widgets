@@ -96,6 +96,7 @@ type ActiveCallsPanelProps = {
   isWide?: boolean;
   allCalls: any[];
   showMergeCall?: boolean;
+  showCallerIdName?: boolean;
 };
 
 export const ActiveCallsPanel: React.FC<ActiveCallsPanelProps> = ({
@@ -109,6 +110,7 @@ export const ActiveCallsPanel: React.FC<ActiveCallsPanelProps> = ({
   countryCode,
   showMergeCall,
   showCallDetail,
+  showCallerIdName,
   allCalls,
   onCreateContact,
   onClickToSms,
@@ -276,6 +278,7 @@ export const ActiveCallsPanel: React.FC<ActiveCallsPanelProps> = ({
         currentLocale={currentLocale}
         areaCode={areaCode}
         countryCode={countryCode}
+        showCallerIdName={showCallerIdName}
         brand={brand}
         showContactDisplayPlaceholder={showContactDisplayPlaceholder}
         formatPhone={formatPhone}

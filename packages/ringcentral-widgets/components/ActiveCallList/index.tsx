@@ -72,6 +72,7 @@ type ActiveCallListProps = {
   showSwitchCall?: boolean;
   showTransferCall?: boolean;
   showHoldOnOtherDevice?: boolean;
+  showCallerIdName?: boolean;
   isOnHold?: (...args: any[]) => any;
   showIgnoreBtn?: boolean;
   showHoldAnswerBtn?: boolean;
@@ -90,6 +91,7 @@ const ActiveCallList: React.FC<ActiveCallListProps> = ({
   countryCode,
   brand,
   showContactDisplayPlaceholder,
+  showCallerIdName,
   formatPhone,
   onClickToSms,
   onCreateContact,
@@ -195,6 +197,7 @@ const ActiveCallList: React.FC<ActiveCallListProps> = ({
           <Component
             warmTransferRole={warmTransferRole}
             call={call}
+            showCallerIdName={showCallerIdName}
             key={call.id ?? call.sessionId ?? call.telephonySessionId}
             isOnConferenceCall={isOnConferenceCall}
             currentLocale={currentLocale}

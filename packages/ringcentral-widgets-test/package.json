@@ -32,7 +32,7 @@
     "@ringcentral-integration/widgets": "*",
     "@ringcentral-integration/widgets-demo": "*",
     "@ringcentral/juno": "^2.42.0",
-    "@ringcentral/juno-icon": "^1.68.0",
+    "@ringcentral/juno-icon": "^1.76.0",
     "@ringcentral/sdk": "^4.7.2",
     "@ringcentral/subscriptions": "^4.5.0",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.3",
@@ -74,8 +74,5 @@
   "ci": {
     "ringcentral-widgets-test": "**"
   },
-  "testPaths": [
-    ".",
-    "legacyTest.config.js"
-  ]
+  "testPaths": [".", "legacyTest.config.js"]
 }

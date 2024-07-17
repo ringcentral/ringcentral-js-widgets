@@ -53,7 +53,7 @@
     "@ringcentral-integration/utils": "*",
     "@ringcentral-integration/widgets": "*",
     "@ringcentral/juno": "^2.42.0",
-    "@ringcentral/juno-icon": "^1.68.0",
+    "@ringcentral/juno-icon": "^1.76.0",
     "@testing-library/react": "^12.1.5",
     "@wojtekmaj/enzyme-adapter-react-17": "^0.6.3",
     "dotenv": "^6.2.0",
@@ -73,7 +73,7 @@
     "@ringcentral-integration/utils": "^0.15.0",
     "@ringcentral-integration/widgets": "^0.15.0",
     "@ringcentral/juno": "^2.42.0",
-    "@ringcentral/juno-icon": "^1.68.0"
+    "@ringcentral/juno-icon": "^1.76.0"
   },
   "nx": {
     "tags": ["scope:coverage-ignore"]
