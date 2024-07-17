@@ -2,11 +2,8 @@
   "name": "crius-test",
   "version": "1.2.0",
   "description": "A new generation testing tools for BDD",
-  "main": "dist/index.js",
-  "module": "dist/index.js",
-  "typings": "dist/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\""
   },
   "engines": {
     "node": ">=0.8.0"
@@ -22,5 +19,10 @@
     "crius": "^1.2.0",
     "crius-is": "^1.2.0",
     "crius-runner": "^1.2.0"
+  },
+  "nx": {
+    "tags": [
+      "scope:coverage-ignore"
+    ]
   }
 }

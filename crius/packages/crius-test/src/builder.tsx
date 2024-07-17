@@ -1,5 +1,6 @@
-import { isCriusNode } from 'crius-is';
 import { StepType, CriusNode } from 'crius';
+import { isCriusNode } from 'crius-is';
+
 import { Step } from './step';
 import { compileString } from './utils';
 

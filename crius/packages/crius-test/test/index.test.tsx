@@ -234,11 +234,11 @@ class SendSMS1 extends Step {
     ]);
   }
 
-  @(examples`
+  @examples`
     | accountTag     | contactType   | smsMessage |
     | 'us'           | 'personal'    | 'aaa'      |
     | 'us_1'         | 'personal_1'  | 'aaa_1'    |
-  `)
+  `
   run() {
     return (
       <Scenario desc="user enter entrypoint" action={EntryPoint}>
@@ -316,10 +316,10 @@ const Login: StepFunction = (props, context) => {
 @autorun(test)
 @title('run pure AC text')
 class Test extends Step {
-  @(examples`
+  @examples`
     | smsMessage |
     | 'testFoo'  |
-  `)
+  `
   run() {
     return (
       <Scenario desc="user enter entrypoint">
@@ -342,10 +342,10 @@ autorun(test)(() => (
 @autorun(test)
 @title('run pure AC text')
 class TestSkip extends Step {
-  @(examples`
+  @examples`
     | smsMessage |
     | 'testFoo'  |
-  `)
+  `
   run() {
     return (
       <Scenario desc="user enter entrypoint">
@@ -385,10 +385,10 @@ const A1 = () => {
 @autorun(test)
 @title('test action with flow')
 class TestWithFlow extends Step {
-  @(examples`
+  @examples`
     | smsMessage   |
     | 777          |
-  `)
+  `
   run() {
     return (
       <Scenario
@@ -450,10 +450,10 @@ const Foo: StepFunction<{ s: string }, { inputText: string }> = (
 @autorun(test.skip)
 @title('run pure AC text')
 class Test1 extends Step {
-  @(examples`
+  @examples`
     | smsMessage |
     | 'testFoo'  |
-  `)
+  `
   run() {
     return (
       <Scenario desc="user enter entrypoint">

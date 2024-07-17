@@ -1,4 +1,5 @@
 import Crius from 'crius';
+
 import { run } from '../src';
 
 test('runner lifecycle with JSX', async () => {

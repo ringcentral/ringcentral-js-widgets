@@ -1,6 +1,7 @@
+import { Plugins, StepType, Step } from 'crius-test';
 import * as fs from 'fs';
 import * as path from 'path';
-import { Plugins, StepType, Step } from 'crius-test';
+
 interface Log {
   key: string;
   desc: string | undefined | null;

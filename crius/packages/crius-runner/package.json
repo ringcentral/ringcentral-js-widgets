@@ -2,11 +2,8 @@
   "name": "crius-runner",
   "version": "1.2.0",
   "description": "A Crius runner with Crius steps",
-  "main": "dist/index.js",
-  "module": "dist/index.js",
-  "typings": "dist/index.d.ts",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\""
   },
   "author": "unadlib",
   "license": "MIT",
@@ -16,5 +13,10 @@
   },
   "peerDependencies": {
     "crius": "^1.0.0-alpha.1"
+  },
+  "nx": {
+    "tags": [
+      "scope:coverage-ignore"
+    ]
   }
 }

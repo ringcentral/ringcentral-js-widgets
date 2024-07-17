@@ -1,4 +1,5 @@
 import { Step, StepFunction } from 'crius';
+
 import criusRunner from '../src';
 
 test('runner deep step with JSX', async () => {

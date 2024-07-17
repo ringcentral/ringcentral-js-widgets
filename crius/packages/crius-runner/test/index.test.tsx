@@ -1,4 +1,5 @@
 import Crius, { StepFunction } from 'crius';
+
 import { run } from '../src';
 
 test('runner with JSX', async () => {
@@ -172,11 +173,9 @@ test('runner deep step with function child', async () => {
             await new Promise((resolve) => setTimeout(resolve, 100));
             return <FooBar0 value="test" />;
           }}
-          {
-            await (async () => {
-              return <FooBar0 />;
-            })()
-          }
+          {await (async () => {
+            return <FooBar0 />;
+          })()}
           <FooBar fooBar="fooBar1" />
         </Foo>
       );
