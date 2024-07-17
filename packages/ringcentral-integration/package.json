@@ -1,6 +1,6 @@
 {
   "name": "@ringcentral-integration/commons",
-  "version": "0.14.0",
+  "version": "0.15.0",
   "description": "RingCentral Integration Common Javascript Core Library",
   "homepage": "https://github.com/ringcentral/ringcentral-js-widgets/tree/master/packages/ringcentral-integration#readme",
   "bugs": {
@@ -116,10 +116,11 @@
     "yargs": "^17.1.1"
   },
   "peerDependencies": {
-    "@ringcentral-integration/core": "^0.14.0",
+    "@ringcentral-integration/core": "^0.15.0",
     "@ringcentral-integration/i18n": "^2.1.1",
+    "@ringcentral-integration/i18n-dayjs": "^0.15.0",
     "@ringcentral-integration/phone-number": "^1.0.4",
-    "@ringcentral-integration/utils": "^0.14.0",
+    "@ringcentral-integration/utils": "^0.15.0",
     "@ringcentral/juno": "^2.42.0",
     "@ringcentral/juno-icon": "^1.68.0",
     "@ringcentral/sdk": "^4.7.2",

@@ -1,6 +1,6 @@
 {
   "name": "@ringcentral-integration/utils",
-  "version": "0.14.0",
+  "version": "0.15.0",
   "description": "Base utils package for RingCentral integration products.",
   "homepage": "https://github.com/ringcentral/ringcentral-js-widgets/tree/master/packages/core#readme",
   "bugs": {
