@@ -69,6 +69,7 @@
     "@types/chrome": "^0.0.260",
     "@types/mixpanel-browser": "^2.49.0",
     "@types/pendo-io-browser": "^2.17.1",
+    "@types/ramda": "^0.27.46",
     "assert": "^2.0.0",
     "babel-istanbul": "^0.12.1",
     "babelify": "^7.3.0",

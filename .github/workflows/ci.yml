@@ -66,6 +66,14 @@ jobs:
           path-to-lcov: ./packages/core/coverage/lcov.info
           flag-name: core
           parallel: true
+      - run: yarn workspace @ringcentral-integration/react-hooks test --coverage
+      - name: Core Coveralls
+        uses: coverallsapp/github-action@1.1.3
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: ./packages/react-hooks/coverage/lcov.info
+          flag-name: react-hooks
+          parallel: true
       - run: yarn workspace @ringcentral-integration/commons test --coverage
       - name: Commons Coveralls
         uses: coverallsapp/github-action@1.1.3
@@ -136,6 +144,22 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           BRANCH: i18n-release
           FOLDER: release/i18n
+          CLEAN: true
+      - run: yarn workspace @ringcentral-integration/i18n-dayjs release
+      - name: I18n Dayjs Branch Release
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: i18n-dayjs-release
+          FOLDER: release/i18n-dayjs
+          CLEAN: true
+      - run: yarn workspace @ringcentral-integration/react-hooks release
+      - name: React Hooks Branch Release
+        uses: JamesIves/github-pages-deploy-action@3.7.1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: react-hooks-release
+          FOLDER: release/react-hooks
           CLEAN: true
       - run: yarn workspace @ringcentral-integration/locale-loader release
       - name: Locale Loader Branch Release

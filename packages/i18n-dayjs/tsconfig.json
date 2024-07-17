@@ -1,0 +1,9 @@
+{
+  "extends": "../tsconfig.json",
+  "include": ["./**/*.ts", "./**/*.tsx", "./typings/**/*.d.ts"],
+  "compilerOptions": {
+    "outDir": "../../build/i18n-dayjs",
+    "noEmit": false,
+    "sourceMap": true
+  }
+}

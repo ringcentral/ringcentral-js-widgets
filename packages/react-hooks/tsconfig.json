@@ -1,0 +1,13 @@
+{
+  "extends": "../tsconfig.json",
+  "include": ["./**/*.ts", "./**/*.tsx"],
+  "exclude": ["./test/**/*", "./**/*.test.ts", "./**/*.test.tsx"],
+  "files": [
+    "../ringcentral-widgets/typings/react.d.ts"
+  ],
+  "compilerOptions": {
+    "outDir": "../../build/react-hooks",
+    "noEmit": false,
+    "sourceMap": true
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "name": "@ringcentral-integration/react-hooks",
+  "version": "0.0.1",
+  "license": "MIT",
+  "private": false,
+  "description": "RingCentral integration react hooks library",
+  "homepage": "https://github.com/ringcentral/ringcentral-js-widgets#readme",
+  "bugs": {
+    "url": "https://github.com/ringcentral/ringcentral-js-widgets/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ringcentral/ringcentral-js-widgets.git"
+  },
+  "author": "RingCentral Integrations",
+  "scripts": {
+    "build": "tsc",
+    "test": "yarn run-test",
+    "gulp": "gulp --require @ringcentral-integration/babel-settings/lib/register.js",
+    "release": "yarn gulp release",
+    "tsc-check": "yarn tsc --project tsconfig.lint.json --noEmit"
+  },
+  "peerDependencies": {
+    "@ringcentral/juno": "^2.42.0",
+    "react": "^17.0.2"
+  },
+  "devDependencies": {
+    "@ringcentral/juno": "^2.42.0",
+    "@types/hammerjs": "^2.0.41",
+    "react": "^17.0.2"
+  },
+  "dependencies": {
+    "copy-to-clipboard": "^3.3.3",
+    "hammerjs": "^2.0.8",
+    "react-use": "^17.5.0"
+  },
+  "ci": {
+    "@ringcentral-integration/react-hooks": "**"
+  },
+  "nx": {
+    "tags": [
+      "scope:ci-group-1"
+    ]
+  }
+}
