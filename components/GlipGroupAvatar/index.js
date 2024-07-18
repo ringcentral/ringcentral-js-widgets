@@ -9,12 +9,12 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-var _react = _interopRequireDefault(require("react"));
+var _clsx = _interopRequireDefault(require("clsx"));
 var _propTypes = _interopRequireDefault(require("prop-types"));
-var _classnames = _interopRequireDefault(require("classnames"));
+var _react = _interopRequireDefault(require("react"));
 var _default_avatar = _interopRequireDefault(require("../../assets/images/default_avatar.png"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 function GroupAvatar(_ref) {
   var persons = _ref.persons,
     className = _ref.className,
@@ -49,7 +49,7 @@ function GroupAvatar(_ref) {
     }, unread > 99 ? '99+' : unread);
   }
   return /*#__PURE__*/_react["default"].createElement("div", {
-    className: (0, _classnames["default"])(_styles["default"].root, className)
+    className: (0, _clsx["default"])(_styles["default"].root, className)
   }, image, unreadEl);
 }
 GroupAvatar.propTypes = {

@@ -6,14 +6,14 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = GlipPost;
-var _react = _interopRequireDefault(require("react"));
-var _propTypes = _interopRequireDefault(require("prop-types"));
-var _classnames = _interopRequireDefault(require("classnames"));
 var _status = _interopRequireDefault(require("@ringcentral-integration/commons/modules/GlipPosts/status"));
+var _clsx = _interopRequireDefault(require("clsx"));
+var _propTypes = _interopRequireDefault(require("prop-types"));
+var _react = _interopRequireDefault(require("react"));
 var _default_avatar = _interopRequireDefault(require("../../assets/images/default_avatar.png"));
 var _GlipPostContent = _interopRequireDefault(require("../GlipPostContent"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 function PostAvatar(_ref) {
   var creator = _ref.creator,
     viewProfile = _ref.viewProfile;
@@ -111,7 +111,7 @@ function GlipPost(_ref5) {
   }
   // TODO: update joining status with i18n
   return /*#__PURE__*/_react["default"].createElement("div", {
-    className: (0, _classnames["default"])(_styles["default"].root, className)
+    className: (0, _clsx["default"])(_styles["default"].root, className)
   }, /*#__PURE__*/_react["default"].createElement(PostTime, {
     creationTime: creationTime
   }), /*#__PURE__*/_react["default"].createElement("div", {

@@ -8,14 +8,14 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-var _react = _interopRequireDefault(require("react"));
-var _propTypes = _interopRequireDefault(require("prop-types"));
-var _classnames = _interopRequireDefault(require("classnames"));
 var _Download = _interopRequireDefault(require("@ringcentral-integration/widgets/assets/images/Download.svg"));
+var _clsx = _interopRequireDefault(require("clsx"));
+var _propTypes = _interopRequireDefault(require("prop-types"));
+var _react = _interopRequireDefault(require("react"));
 var _isPicture = _interopRequireDefault(require("../../lib/isPicture"));
 var _GlipMarkdown = _interopRequireDefault(require("../GlipMarkdown"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 function Attachments(_ref) {
   var attachments = _ref.attachments;
   var attachmentFiles = attachments.map(function (attachment) {
@@ -57,7 +57,7 @@ function PostContent(_ref2) {
     atRender = _ref2.atRender;
   if (!post.text && (!post.attachments || post.attachments.length === 0)) {
     return /*#__PURE__*/_react["default"].createElement("div", {
-      className: (0, _classnames["default"])(_styles["default"].root, className)
+      className: (0, _clsx["default"])(_styles["default"].root, className)
     }, "Unsupported message");
   }
   var text = post.text;
@@ -72,7 +72,7 @@ function PostContent(_ref2) {
     attachments: post.attachments
   }) : null;
   return /*#__PURE__*/_react["default"].createElement("div", {
-    className: (0, _classnames["default"])(_styles["default"].root, className)
+    className: (0, _clsx["default"])(_styles["default"].root, className)
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].content
   }, textContent, attachments));

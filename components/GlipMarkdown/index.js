@@ -11,15 +11,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-var _react = _interopRequireDefault(require("react"));
+var _clsx = _interopRequireDefault(require("clsx"));
 var _propTypes = _interopRequireDefault(require("prop-types"));
-var _classnames = _interopRequireDefault(require("classnames"));
-var _reactMarkdown = _interopRequireDefault(require("react-markdown"));
+var _react = _interopRequireDefault(require("react"));
 var _reactEmojione = _interopRequireDefault(require("react-emojione"));
+var _reactMarkdown = _interopRequireDefault(require("react-markdown"));
 var _emojione = _interopRequireDefault(require("../../assets/images/emojione.png"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
+function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) { ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } } return n; }, _extends.apply(null, arguments); }
 function ImageRender(props) {
   if (props.alt === ':Person' || props.alt === ':Team') {
     if (typeof props.atRender === 'function') {
@@ -99,7 +99,7 @@ function Markdown(_ref) {
     paragraph: TextRender
   };
   return /*#__PURE__*/_react["default"].createElement("div", {
-    className: (0, _classnames["default"])(_styles["default"].root, className)
+    className: (0, _clsx["default"])(_styles["default"].root, className)
   }, /*#__PURE__*/_react["default"].createElement(_reactMarkdown["default"], {
     className: _styles["default"]['markdown-body'],
     source: text,
@@ -107,7 +107,6 @@ function Markdown(_ref) {
   }));
   /* eslint-enable */
 }
-
 Markdown.propTypes = {
   className: _propTypes["default"].string,
   text: _propTypes["default"].string.isRequired,

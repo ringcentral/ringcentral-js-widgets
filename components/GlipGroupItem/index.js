@@ -5,14 +5,14 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = GlipGroup;
-var _react = _interopRequireDefault(require("react"));
+var _clsx = _interopRequireDefault(require("clsx"));
 var _propTypes = _interopRequireDefault(require("prop-types"));
-var _classnames = _interopRequireDefault(require("classnames"));
+var _react = _interopRequireDefault(require("react"));
 var _formatPost = require("../../lib/formatPost");
 var _GlipGroupAvatar = _interopRequireDefault(require("../GlipGroupAvatar"));
 var _GlipGroupName = _interopRequireDefault(require("../GlipGroupName"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 function LatestPost(_ref) {
   var latestPost = _ref.latestPost,
     members = _ref.members;
@@ -45,7 +45,7 @@ function GlipGroup(_ref2) {
     onSelectGroup = _ref2.onSelectGroup,
     active = _ref2.active;
   return /*#__PURE__*/_react["default"].createElement("div", {
-    className: (0, _classnames["default"])(_styles["default"].root, active ? _styles["default"].active : null, className),
+    className: (0, _clsx["default"])(_styles["default"].root, active ? _styles["default"].active : null, className),
     onClick: onSelectGroup
   }, /*#__PURE__*/_react["default"].createElement(_GlipGroupAvatar["default"], {
     persons: group.detailMembers,
