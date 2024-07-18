@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 require("core-js/modules/es.array.concat");
 require("core-js/modules/es.function.name");
 require("core-js/modules/es.object.get-own-property-descriptor");
@@ -9,41 +9,41 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.SyncTokensTabEventName = exports.RingCentralExtensions = exports.InactiveTabEventName = void 0;
 require("regenerator-runtime/runtime");
-var _isomorphicWs = _interopRequireDefault(require("isomorphic-ws"));
 var _core = _interopRequireDefault(require("@rc-ex/core"));
 var _debug = _interopRequireDefault(require("@rc-ex/debug"));
 var _rcsdk = _interopRequireDefault(require("@rc-ex/rcsdk"));
 var _ws = _interopRequireWildcard(require("@rc-ex/ws"));
 var _core2 = require("@ringcentral-integration/core");
+var _isomorphicWs = _interopRequireDefault(require("isomorphic-ws"));
 var _background = _interopRequireDefault(require("../../lib/background"));
 var _debounceThrottle = require("../../lib/debounce-throttle");
 var _di = require("../../lib/di");
 var _proxify = require("../../lib/proxy/proxify");
 var _webSocketReadyStates = require("./webSocketReadyStates");
 var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4;
-function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
-function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
-function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'transform-class-properties is enabled and runs after the decorators transform.'); }
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
+function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
+function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) { if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } } return n["default"] = e, t && t.set(e, n), n; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
+function _initializerWarningHelper(r, e) { throw Error("Decorating class property failed. Please ensure that transform-class-properties is enabled and runs after the decorators transform."); }
+function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
 var RECOVER_DEBOUNCE_THRESHOLD = process.env.NODE_ENV === 'test' ? 0 : 1000;
 var InactiveTabEventName = 'RingCentralExtensions-inactive';
 exports.InactiveTabEventName = InactiveTabEventName;
@@ -285,13 +285,13 @@ var RingCentralExtensions = (_dec = (0, _di.Module)({
   }, {
     key: "_bindEvents",
     value: function () {
-      var _bindEvents2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
+      var _bindEvents2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11() {
         var _this$_webSocketExten2,
           _this3 = this,
           _this$_deps$sleepDete;
-        return regeneratorRuntime.wrap(function _callee7$(_context7) {
+        return regeneratorRuntime.wrap(function _callee11$(_context11) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context11.prev = _context11.next) {
               case 0:
                 if ((_this$_webSocketExten2 = this._webSocketExtension.options.autoRecover) === null || _this$_webSocketExten2 === void 0 ? void 0 : _this$_webSocketExten2.enabled) {
                   this._webSocketExtension.eventEmitter.addListener(_ws.Events.autoRecoverSuccess, function () {
@@ -303,21 +303,77 @@ var RingCentralExtensions = (_dec = (0, _di.Module)({
                 }
 
                 // register SleepDetector
-                (_this$_deps$sleepDete = this._deps.sleepDetector) === null || _this$_deps$sleepDete === void 0 ? void 0 : _this$_deps$sleepDete.on('detected', function () {
-                  _this3.recoverWebSocketConnection();
-                });
+                (_this$_deps$sleepDete = this._deps.sleepDetector) === null || _this$_deps$sleepDete === void 0 ? void 0 : _this$_deps$sleepDete.on('detected', /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
+                  return regeneratorRuntime.wrap(function _callee6$(_context6) {
+                    while (1) {
+                      switch (_context6.prev = _context6.next) {
+                        case 0:
+                          _context6.next = 2;
+                          return _this3.recoverWebSocketConnection();
+                        case 2:
+                        case "end":
+                          return _context6.stop();
+                      }
+                    }
+                  }, _callee6);
+                })));
 
                 // hook auth events
-                this._deps.auth.addAfterLoggedInHandler(function () {
-                  _this3.recoverWebSocketConnection();
-                });
-                this._deps.auth.addBeforeLogoutHandler(function () {
-                  _this3.revokeWebSocketConnection();
-                });
+                this._deps.auth.addAfterLoggedInHandler( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
+                  return regeneratorRuntime.wrap(function _callee7$(_context7) {
+                    while (1) {
+                      switch (_context7.prev = _context7.next) {
+                        case 0:
+                          _context7.next = 2;
+                          return _this3.recoverWebSocketConnection();
+                        case 2:
+                        case "end":
+                          return _context7.stop();
+                      }
+                    }
+                  }, _callee7);
+                })));
+                this._deps.auth.addBeforeLogoutHandler( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
+                  return regeneratorRuntime.wrap(function _callee8$(_context8) {
+                    while (1) {
+                      switch (_context8.prev = _context8.next) {
+                        case 0:
+                          _context8.next = 2;
+                          return _this3.revokeWebSocketConnection();
+                        case 2:
+                        case "end":
+                          return _context8.stop();
+                      }
+                    }
+                  }, _callee8);
+                })));
+                this._deps.auth.addRefreshErrorHandler( /*#__PURE__*/function () {
+                  var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9(refreshTokenValid) {
+                    return regeneratorRuntime.wrap(function _callee9$(_context9) {
+                      while (1) {
+                        switch (_context9.prev = _context9.next) {
+                          case 0:
+                            if (refreshTokenValid) {
+                              _context9.next = 3;
+                              break;
+                            }
+                            _context9.next = 3;
+                            return _this3.revokeWebSocketConnection();
+                          case 3:
+                          case "end":
+                            return _context9.stop();
+                        }
+                      }
+                    }, _callee9);
+                  }));
+                  return function (_x2) {
+                    return _ref5.apply(this, arguments);
+                  };
+                }());
 
                 // multiple tabs support
                 if (!this.disconnectOnInactive) {
-                  _context7.next = 13;
+                  _context11.next = 14;
                   break;
                 }
                 this._setSharedState();
@@ -329,38 +385,37 @@ var RingCentralExtensions = (_dec = (0, _di.Module)({
                 (0, _core2.watch)(this, function () {
                   return _this3.isTabActive;
                 }, /*#__PURE__*/function () {
-                  var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(tabActive) {
-                    return regeneratorRuntime.wrap(function _callee6$(_context6) {
+                  var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10(tabActive) {
+                    return regeneratorRuntime.wrap(function _callee10$(_context10) {
                       while (1) {
-                        switch (_context6.prev = _context6.next) {
+                        switch (_context10.prev = _context10.next) {
                           case 0:
                             if (!tabActive) {
-                              _context6.next = 6;
+                              _context10.next = 6;
                               break;
                             }
                             if (process.env.NODE_ENV !== 'test') {
                               console.log('[RingCentralExtensions] > tab > active');
                             }
-                            _context6.next = 4;
+                            _context10.next = 4;
                             return _this3._debouncedOnTabActive();
                           case 4:
-                            _context6.next = 9;
+                            _context10.next = 8;
                             break;
                           case 6:
                             if (process.env.NODE_ENV !== 'test') {
                               console.log('[RingCentralExtensions] > tab > inactive');
                             }
-                            _context6.next = 9;
-                            return _this3._debouncedOnTabActive.cancel();
-                          case 9:
+                            _this3._debouncedOnTabActive.cancel();
+                          case 8:
                           case "end":
-                            return _context6.stop();
+                            return _context10.stop();
                         }
                       }
-                    }, _callee6);
+                    }, _callee10);
                   }));
-                  return function (_x2) {
-                    return _ref2.apply(this, arguments);
+                  return function (_x3) {
+                    return _ref6.apply(this, arguments);
                   };
                 }());
                 (0, _core2.watch)(this, function () {
@@ -376,17 +431,17 @@ var RingCentralExtensions = (_dec = (0, _di.Module)({
                   _this3._tabMessageHandler(event);
                 });
                 if (!this.isTabActive) {
-                  _context7.next = 13;
+                  _context11.next = 14;
                   break;
                 }
-                _context7.next = 13;
+                _context11.next = 14;
                 return this._inactiveOtherTabs();
-              case 13:
+              case 14:
               case "end":
-                return _context7.stop();
+                return _context11.stop();
             }
           }
-        }, _callee7, this);
+        }, _callee11, this);
       }));
       function _bindEvents() {
         return _bindEvents2.apply(this, arguments);
@@ -404,30 +459,40 @@ var RingCentralExtensions = (_dec = (0, _di.Module)({
       }
     }
   }, {
+    key: "_setWsAutoRecover",
+    value: function _setWsAutoRecover(enabled) {
+      var _this$_deps$ringCentr3, _this$_deps$ringCentr4, _this$_deps$ringCentr5;
+      // when auto recover is NOT configured as disabled (it is enabled by default)
+      if (this._webSocketExtension && ((_this$_deps$ringCentr3 = this._deps.ringCentralExtensionsOptions) === null || _this$_deps$ringCentr3 === void 0 ? void 0 : (_this$_deps$ringCentr4 = _this$_deps$ringCentr3.webSocketOptions) === null || _this$_deps$ringCentr4 === void 0 ? void 0 : (_this$_deps$ringCentr5 = _this$_deps$ringCentr4.autoRecover) === null || _this$_deps$ringCentr5 === void 0 ? void 0 : _this$_deps$ringCentr5.enabled) !== false) {
+        // enable/disable ws auto recover
+        this._webSocketExtension.options.autoRecover.enabled = enabled;
+      }
+    }
+  }, {
     key: "_onTabActive",
     value: function () {
-      var _onTabActive2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8() {
-        return regeneratorRuntime.wrap(function _callee8$(_context8) {
+      var _onTabActive2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12() {
+        return regeneratorRuntime.wrap(function _callee12$(_context12) {
           while (1) {
-            switch (_context8.prev = _context8.next) {
+            switch (_context12.prev = _context12.next) {
               case 0:
                 if (!(!this.ready || !this.isTabActive)) {
-                  _context8.next = 2;
+                  _context12.next = 2;
                   break;
                 }
-                return _context8.abrupt("return");
+                return _context12.abrupt("return");
               case 2:
-                _context8.next = 4;
+                _context12.next = 4;
                 return this._inactiveOtherTabs();
               case 4:
-                // recover WebSocket for current tab and other tabs will being disconnected automatically
-                this.recoverWebSocketConnection();
-              case 5:
+                _context12.next = 6;
+                return this.recoverWebSocketConnection();
+              case 6:
               case "end":
-                return _context8.stop();
+                return _context12.stop();
             }
           }
-        }, _callee8, this);
+        }, _callee12, this);
       }));
       function _onTabActive() {
         return _onTabActive2.apply(this, arguments);
@@ -442,7 +507,7 @@ var RingCentralExtensions = (_dec = (0, _di.Module)({
       }
       if (event.name === InactiveTabEventName) {
         // as an inactive tab, disable auto recover
-        this._webSocketExtension.options.autoRecover.enabled = false;
+        this._setWsAutoRecover(false);
       } else if (event.name === SyncTokensTabEventName) {
         // as an inactive tab, sync and use with tokens that are received from active tab
         this._setTokens(event.args[0], event.args[1], event.args[2]);
@@ -452,32 +517,29 @@ var RingCentralExtensions = (_dec = (0, _di.Module)({
   }, {
     key: "_inactiveOtherTabs",
     value: function () {
-      var _inactiveOtherTabs2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9() {
-        var _this$_deps$tabManage, _this$_deps$ringCentr3, _this$_deps$ringCentr4, _this$_deps$ringCentr5;
-        return regeneratorRuntime.wrap(function _callee9$(_context9) {
+      var _inactiveOtherTabs2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee13() {
+        var _this$_deps$tabManage;
+        return regeneratorRuntime.wrap(function _callee13$(_context13) {
           while (1) {
-            switch (_context9.prev = _context9.next) {
+            switch (_context13.prev = _context13.next) {
               case 0:
                 if (this.allowSwitchConnection) {
-                  _context9.next = 2;
+                  _context13.next = 2;
                   break;
                 }
-                return _context9.abrupt("return");
+                return _context13.abrupt("return");
               case 2:
-                _context9.next = 4;
+                _context13.next = 4;
                 return (_this$_deps$tabManage = this._deps.tabManager) === null || _this$_deps$tabManage === void 0 ? void 0 : _this$_deps$tabManage.send(InactiveTabEventName);
               case 4:
                 // when auto recover of active tab is NOT configured as disabled
-                if (((_this$_deps$ringCentr3 = this._deps.ringCentralExtensionsOptions) === null || _this$_deps$ringCentr3 === void 0 ? void 0 : (_this$_deps$ringCentr4 = _this$_deps$ringCentr3.webSocketOptions) === null || _this$_deps$ringCentr4 === void 0 ? void 0 : (_this$_deps$ringCentr5 = _this$_deps$ringCentr4.autoRecover) === null || _this$_deps$ringCentr5 === void 0 ? void 0 : _this$_deps$ringCentr5.enabled) !== false) {
-                  // enable auto recover
-                  this._webSocketExtension.options.autoRecover.enabled = true;
-                }
+                this._setWsAutoRecover(true);
               case 5:
               case "end":
-                return _context9.stop();
+                return _context13.stop();
             }
           }
-        }, _callee9, this);
+        }, _callee13, this);
       }));
       function _inactiveOtherTabs() {
         return _inactiveOtherTabs2.apply(this, arguments);
@@ -487,20 +549,20 @@ var RingCentralExtensions = (_dec = (0, _di.Module)({
   }, {
     key: "_syncTokensToOtherTabs",
     value: function () {
-      var _syncTokensToOtherTabs2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10() {
+      var _syncTokensToOtherTabs2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee14() {
         var _this$_deps$tabManage2;
-        return regeneratorRuntime.wrap(function _callee10$(_context10) {
+        return regeneratorRuntime.wrap(function _callee14$(_context14) {
           while (1) {
-            switch (_context10.prev = _context10.next) {
+            switch (_context14.prev = _context14.next) {
               case 0:
-                _context10.next = 2;
+                _context14.next = 2;
                 return (_this$_deps$tabManage2 = this._deps.tabManager) === null || _this$_deps$tabManage2 === void 0 ? void 0 : _this$_deps$tabManage2.send(SyncTokensTabEventName, this.wsToken, this.wsTokenExpiresAt, this.wscToken);
               case 2:
               case "end":
-                return _context10.stop();
+                return _context14.stop();
             }
           }
-        }, _callee10, this);
+        }, _callee14, this);
       }));
       function _syncTokensToOtherTabs() {
         return _syncTokensToOtherTabs2.apply(this, arguments);
@@ -540,55 +602,57 @@ var RingCentralExtensions = (_dec = (0, _di.Module)({
   }, {
     key: "recoverWebSocketConnection",
     value: function () {
-      var _recoverWebSocketConnection = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11() {
-        return regeneratorRuntime.wrap(function _callee11$(_context11) {
+      var _recoverWebSocketConnection = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee15() {
+        return regeneratorRuntime.wrap(function _callee15$(_context15) {
           while (1) {
-            switch (_context11.prev = _context11.next) {
+            switch (_context15.prev = _context15.next) {
               case 0:
                 if (this.ready) {
-                  _context11.next = 2;
+                  _context15.next = 2;
                   break;
                 }
-                return _context11.abrupt("return");
+                return _context15.abrupt("return");
               case 2:
                 if (this._deps.auth.loggedIn) {
-                  _context11.next = 4;
+                  _context15.next = 4;
                   break;
                 }
-                return _context11.abrupt("return");
+                return _context15.abrupt("return");
               case 4:
                 if (!(this.disconnectOnInactive && !this.isTabActive)) {
-                  _context11.next = 6;
+                  _context15.next = 6;
                   break;
                 }
-                return _context11.abrupt("return");
+                return _context15.abrupt("return");
               case 6:
                 if (this.allowSwitchConnection) {
-                  _context11.next = 8;
+                  _context15.next = 8;
                   break;
                 }
-                return _context11.abrupt("return");
+                return _context15.abrupt("return");
               case 8:
                 if (this._webSocketExtension.rc) {
-                  _context11.next = 13;
+                  _context15.next = 13;
                   break;
                 }
-                _context11.next = 11;
+                _context15.next = 11;
                 return this._installWebSocketExtension();
               case 11:
-                _context11.next = 15;
+                _context15.next = 16;
                 break;
               case 13:
-                _context11.next = 15;
+                _context15.next = 15;
                 return this._webSocketExtension.recover();
               case 15:
-                this._exposeConnectionEvents();
+                this._webSocketExtension.enable();
               case 16:
+                this._exposeConnectionEvents();
+              case 17:
               case "end":
-                return _context11.stop();
+                return _context15.stop();
             }
           }
-        }, _callee11, this);
+        }, _callee15, this);
       }));
       function recoverWebSocketConnection() {
         return _recoverWebSocketConnection.apply(this, arguments);
@@ -598,34 +662,34 @@ var RingCentralExtensions = (_dec = (0, _di.Module)({
   }, {
     key: "revokeWebSocketConnection",
     value: function () {
-      var _revokeWebSocketConnection = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12() {
-        return regeneratorRuntime.wrap(function _callee12$(_context12) {
+      var _revokeWebSocketConnection = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee16() {
+        return regeneratorRuntime.wrap(function _callee16$(_context16) {
           while (1) {
-            switch (_context12.prev = _context12.next) {
+            switch (_context16.prev = _context16.next) {
               case 0:
-                if (!(!this.ready || !this.isWebSocketReady)) {
-                  _context12.next = 2;
+                if (this.ready) {
+                  _context16.next = 2;
                   break;
                 }
-                return _context12.abrupt("return");
+                return _context16.abrupt("return");
               case 2:
                 if (!(this.disconnectOnInactive && !this.isTabActive)) {
-                  _context12.next = 4;
+                  _context16.next = 4;
                   break;
                 }
-                return _context12.abrupt("return");
+                return _context16.abrupt("return");
               case 4:
-                _context12.next = 6;
+                _context16.next = 6;
                 return this._webSocketExtension.revoke(true);
               case 6:
                 this._exposeConnectionEvents();
                 this._clearTokens();
               case 8:
               case "end":
-                return _context12.stop();
+                return _context16.stop();
             }
           }
-        }, _callee12, this);
+        }, _callee16, this);
       }));
       function revokeWebSocketConnection() {
         return _revokeWebSocketConnection.apply(this, arguments);

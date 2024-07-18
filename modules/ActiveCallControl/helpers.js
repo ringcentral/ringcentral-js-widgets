@@ -1,6 +1,5 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 require("core-js/modules/es.array.includes");
 require("core-js/modules/es.date.to-string");
 require("core-js/modules/es.function.name");
@@ -16,6 +15,7 @@ exports.getWebphoneReplyMessageOption = getWebphoneReplyMessageOption;
 exports.isAtMainNumberPromptToneStage = isAtMainNumberPromptToneStage;
 exports.isFaxSession = isFaxSession;
 exports.isForwardedToVoiceMail = isForwardedToVoiceMail;
+exports.isGoneSession = isGoneSession;
 exports.isHangUp = isHangUp;
 exports.isHolding = isHolding;
 exports.isOnRecording = isOnRecording;
@@ -29,13 +29,11 @@ exports.normalizeTelephonySession = normalizeTelephonySession;
 var _ramda = require("ramda");
 var _Session = require("ringcentral-call-control/lib/Session");
 var _activeCallControlStatus = _interopRequireDefault(require("../../enums/activeCallControlStatus"));
-var _callDirections = _interopRequireWildcard(require("../../enums/callDirections"));
+var _callDirections = require("../../enums/callDirections");
 var _callResults = _interopRequireDefault(require("../../enums/callResults"));
-var _recordStatus = require("../Webphone/recordStatus");
 var _telephonyStatus = require("../../enums/telephonyStatus");
-function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
-function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+var _recordStatus = require("../Webphone/recordStatus");
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 // eslint-disable-next-line import/no-named-as-default
 
 // eslint-disable-next-line import/no-named-as-default
@@ -64,7 +62,7 @@ function isHangUp(code) {
 function isRejectCode(_ref) {
   var direction = _ref.direction,
     code = _ref.code;
-  return direction === _callDirections["default"].inbound && (code === _activeCallControlStatus["default"].setUp || code === _activeCallControlStatus["default"].proceeding);
+  return direction === _callDirections.callDirection.inbound && (code === _activeCallControlStatus["default"].setUp || code === _activeCallControlStatus["default"].proceeding);
 }
 function isOnRecording(recordings) {
   if (!recordings || recordings.length === 0) {
@@ -99,7 +97,7 @@ function normalizeSession(_ref2) {
     toUserName: to === null || to === void 0 ? void 0 : to.name,
     id: session.id,
     sessionId: sessionId,
-    // @ts-expect-error
+    // @ts-expect-error TS(2345): Argument of type 'PartyStatusCode | undefined' is ... Remove this comment to see the full error message
     callStatus: mapTelephonyStatus(status === null || status === void 0 ? void 0 : status.code),
     startTime: new Date(creationTime).getTime(),
     creationTime: creationTime,
@@ -112,10 +110,10 @@ function normalizeSession(_ref2) {
     isToVoicemail: false,
     lastHoldingTime: 0,
     minimized: false,
-    // @ts-expect-error
+    // @ts-expect-error TS(2345): Argument of type 'Recording[] | undefined' is not ... Remove this comment to see the full error message
     recordStatus: isOnRecording(recordings) ? _recordStatus.recordStatus.recording : _recordStatus.recordStatus.idle,
     removed: false,
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type 'import("/Users/declan.zou/Projects/rc/integr... Remove this comment to see the full error message
     isReject: isRejectCode({
       direction: direction,
       code: status === null || status === void 0 ? void 0 : status.code
@@ -131,13 +129,13 @@ function conflictError(_ref3) {
   return conflictErrRgx.test(message) && conflictMsgRgx.test(response && response._text);
 }
 function isRinging(telephonySession) {
-  return telephonySession && (telephonySession.status === _Session.PartyStatusCode.proceeding || telephonySession.status === _Session.PartyStatusCode.setup) && telephonySession.direction === _callDirections["default"].inbound;
+  return telephonySession && (telephonySession.status === _Session.PartyStatusCode.proceeding || telephonySession.status === _Session.PartyStatusCode.setup) && telephonySession.direction === _callDirections.callDirection.inbound;
 }
 function isHolding(telephonySession) {
   return telephonySession.status === _Session.PartyStatusCode.hold;
 }
 function isRecording(session) {
-  var party = session.party; // @ts-expect-error
+  var party = session.party; // @ts-expect-error TS(2345): Argument of type 'Recording[] | undefined' is not ... Remove this comment to see the full error message
   return isOnRecording(party.recordings);
 }
 function isForwardedToVoiceMail(session) {
@@ -157,7 +155,7 @@ function isAtMainNumberPromptToneStage(session) {
     otherParties = _session$otherParties === void 0 ? [] : _session$otherParties,
     direction = session.direction,
     status = session.status;
-  if (direction === _callDirections["default"].outbound && status === _Session.PartyStatusCode.answered && !otherParties.length) {
+  if (direction === _callDirections.callDirection.outbound && status === _Session.PartyStatusCode.answered && !otherParties.length) {
     return true;
   }
   return false;
@@ -166,8 +164,8 @@ function getInboundSwitchedParty(parties) {
   if (!parties.length) return false;
   var result = (0, _ramda.find)(function (party) {
     var _party$status, _party$status2;
-    return party.direction === _callDirections["default"].inbound && ((_party$status = party.status) === null || _party$status === void 0 ? void 0 : _party$status.code) === _Session.PartyStatusCode.disconnected &&
-    // @ts-expect-error
+    return party.direction === _callDirections.callDirection.inbound && ((_party$status = party.status) === null || _party$status === void 0 ? void 0 : _party$status.code) === _Session.PartyStatusCode.disconnected &&
+    // @ts-expect-error TS(2339): Property 'reason' does not exist on type 'PartySta... Remove this comment to see the full error message
     ((_party$status2 = party.status) === null || _party$status2 === void 0 ? void 0 : _party$status2.reason) === 'CallSwitch';
   }, parties);
   return result;
@@ -189,15 +187,18 @@ function filterDisconnectedCalls(session) {
   }
   return session.status !== _Session.PartyStatusCode.disconnected;
 }
+function isGoneSession(session) {
+  return session.status === _Session.PartyStatusCode.gone;
+}
 function normalizeTelephonySession(session) {
   if (!session) {
-    // @ts-expect-error
+    // @ts-expect-error TS(2740): Type '{}' is missing the following properties from... Remove this comment to see the full error message
     return {};
   }
   return {
     accountId: session.accountId,
     creationTime: session.creationTime,
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type '{ accountId: any; creationTime: any; data: a... Remove this comment to see the full error message
     data: session.data,
     extensionId: session.extensionId,
     id: session.id,

@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 require("core-js/modules/es.array.find");
 require("core-js/modules/es.array.find-index");
 require("core-js/modules/es.date.now");
@@ -12,8 +12,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.presenceRegExp = exports.detailedPresenceRegExp = exports.Presence = exports.DEFAULT_TTL = exports.DEFAULT_POLLING_INTERVAL = exports.DEFAULT_MAX_FETCH_DELAY = exports.DEFAULT_FETCH_DELAY = void 0;
 require("regenerator-runtime/runtime");
-var _ramda = require("ramda");
 var _core = require("@ringcentral-integration/core");
+var _ramda = require("ramda");
 var _presenceStatus2 = require("../../enums/presenceStatus.enum");
 var _subscriptionFilters = require("../../enums/subscriptionFilters");
 var _callLogHelpers = require("../../lib/callLogHelpers");
@@ -24,26 +24,26 @@ var _DataFetcherV = require("../DataFetcherV2");
 var _dndStatus2 = require("./dndStatus");
 var _removeIntermediateCall = require("./removeIntermediateCall");
 var _dec, _dec2, _dec3, _dec4, _class, _class2, _descriptor;
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
-function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
-function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'transform-class-properties is enabled and runs after the decorators transform.'); }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
+function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
+function _initializerWarningHelper(r, e) { throw Error("Decorating class property failed. Please ensure that transform-class-properties is enabled and runs after the decorators transform."); }
 var DEFAULT_TTL = 62 * 1000;
 exports.DEFAULT_TTL = DEFAULT_TTL;
 var DEFAULT_POLLING_INTERVAL = 3 * 60 * 1000;
@@ -88,9 +88,9 @@ var Presence = (_dec = (0, _di.Module)({
       storageKey: 'Presence'
     });
     _this._debouncedFetchData = void 0;
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Unsubscribe... Remove this comment to see the full error message
     _this._stopWatchingConnectivity = null;
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Unsubscribe... Remove this comment to see the full error message
     _this._stopWatchingSubscription = null;
     _initializerDefineProperty(_this, "lastDndStatus", _descriptor, _assertThisInitialized(_this));
     var presenceOptions = (_deps$presenceOptions = deps.presenceOptions) !== null && _deps$presenceOptions !== void 0 ? _deps$presenceOptions : {};
@@ -122,7 +122,7 @@ var Presence = (_dec = (0, _di.Module)({
                   activeCalls = _this._processRawActiveCalls(data.activeCalls, data.totalActiveCalls, Date.now());
                   return _context.abrupt("return", {
                     sequence: _this._sequence,
-                    // @ts-expect-error
+                    // @ts-expect-error TS(2322): Type 'unknown[]' is not assignable to type 'Active... Remove this comment to see the full error message
                     activeCalls: activeCalls,
                     dndStatus: dndStatus,
                     meetingStatus: meetingStatus,
@@ -178,10 +178,10 @@ var Presence = (_dec = (0, _di.Module)({
       if (activeCalls.length < totalActiveCalls) {
         return this.activeCalls;
       }
-      // @ts-expect-error
+      // @ts-expect-error TS(2769): No overload matches this call.
       return (0, _ramda.map)(function (activeCall) {
         var existingCall = _this2.activeCalls.find(
-        // @ts-expect-error
+        // @ts-expect-error TS(2339): Property 'sessionId' does not exist on type 'never... Remove this comment to see the full error message
         function (call) {
           return call.sessionId === activeCall.sessionId;
         });
@@ -195,7 +195,7 @@ var Presence = (_dec = (0, _di.Module)({
           });
         }
         return _objectSpread(_objectSpread({}, existingCall), (0, _callLogHelpers.normalizeStartTime)((0, _callLogHelpers.normalizeFromTo)(activeCall)));
-        // @ts-expect-error
+        // @ts-expect-error TS(2345): Argument of type 'ActiveCallInfo[]' is not assigna... Remove this comment to see the full error message
       }, (0, _removeIntermediateCall.removeIntermediateCall)([], activeCalls));
     }
   }, {
@@ -204,7 +204,7 @@ var Presence = (_dec = (0, _di.Module)({
       var _this$_deps$tabManage, _this$_deps$tabManage2;
       var regExp = this._detailed ? detailedPresenceRegExp : presenceRegExp;
       if (this.ready && (this._source.disableCache || ((_this$_deps$tabManage = (_this$_deps$tabManage2 = this._deps.tabManager) === null || _this$_deps$tabManage2 === void 0 ? void 0 : _this$_deps$tabManage2.active) !== null && _this$_deps$tabManage !== void 0 ? _this$_deps$tabManage : true)) &&
-      // @ts-expect-error
+      // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
       regExp.test(message.event) && message.body) {
         var _message$body$activeC, _message$body$activeC2, _message$body$totalAc;
         if (message.body.sequence && message.body.sequence < this._sequence) {
@@ -228,7 +228,7 @@ var Presence = (_dec = (0, _di.Module)({
         var activeCalls = this._processRawActiveCalls(message.body.activeCalls, message.body.totalActiveCalls, timestamp);
         this._updateData({
           sequence: sequence,
-          // @ts-expect-error
+          // @ts-expect-error TS(2322): Type 'unknown[]' is not assignable to type 'Active... Remove this comment to see the full error message
           activeCalls: activeCalls,
           dndStatus: _dndStatus,
           meetingStatus: meetingStatus,
@@ -277,10 +277,10 @@ var Presence = (_dec = (0, _di.Module)({
     value: function onReset() {
       var _this$_stopWatchingCo, _this$_stopWatchingSu;
       (_this$_stopWatchingCo = this._stopWatchingConnectivity) === null || _this$_stopWatchingCo === void 0 ? void 0 : _this$_stopWatchingCo.call(this);
-      // @ts-expect-error
+      // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Unsubscribe... Remove this comment to see the full error message
       this._stopWatchingConnectivity = null;
       (_this$_stopWatchingSu = this._stopWatchingSubscription) === null || _this$_stopWatchingSu === void 0 ? void 0 : _this$_stopWatchingSu.call(this);
-      // @ts-expect-error
+      // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Unsubscribe... Remove this comment to see the full error message
       this._stopWatchingSubscription = null;
       this._debouncedFetchData.cancel();
     }
@@ -293,26 +293,26 @@ var Presence = (_dec = (0, _di.Module)({
     key: "_update",
     value: function () {
       var _update2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(params) {
-        var _this$_deps$extension4, _this$_deps$extension5;
-        var ownerId, response, data, _ref4, newDndStatus;
+        var _this$_deps$extension4, _this$_deps$extension5, ownerId, response, data, _ref4, newDndStatus;
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
+                _context2.prev = 0;
                 if ((_this$_deps$extension4 = this._deps.extensionFeatures.features) === null || _this$_deps$extension4 === void 0 ? void 0 : (_this$_deps$extension5 = _this$_deps$extension4.EditPresenceStatus) === null || _this$_deps$extension5 === void 0 ? void 0 : _this$_deps$extension5.available) {
-                  _context2.next = 2;
+                  _context2.next = 3;
                   break;
                 }
                 return _context2.abrupt("return");
-              case 2:
+              case 3:
                 ownerId = this._deps.auth.ownerId;
-                _context2.next = 5;
+                _context2.next = 6;
                 return this._deps.client.service.platform().put('/restapi/v1.0/account/~/extension/~/presence', params);
-              case 5:
+              case 6:
                 response = _context2.sent;
-                _context2.next = 8;
-                return response.json();
-              case 8:
+                _context2.next = 9;
+                return response === null || response === void 0 ? void 0 : response.json();
+              case 9:
                 data = _context2.sent;
                 if (ownerId === this._deps.auth.ownerId) {
                   newDndStatus = (_ref4 = data.dndStatus !== 'Unknown' && data.dndStatus) !== null && _ref4 !== void 0 ? _ref4 : this.data.dndStatus;
@@ -325,12 +325,18 @@ var Presence = (_dec = (0, _di.Module)({
                     meetingStatus: data.meetingStatus
                   });
                 }
-              case 10:
+                _context2.next = 16;
+                break;
+              case 13:
+                _context2.prev = 13;
+                _context2.t0 = _context2["catch"](0);
+                console.error('put presence failed', _context2.t0);
+              case 16:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, this);
+        }, _callee2, this, [[0, 13]]);
       }));
       function _update(_x) {
         return _update2.apply(this, arguments);
@@ -365,7 +371,6 @@ var Presence = (_dec = (0, _di.Module)({
     key: "_getUpdateStatusParams",
     value: function _getUpdateStatusParams(userStatus) {
       var params = {
-        // @ts-expect-error
         dndStatus: this.dndStatus,
         userStatus: userStatus
       };
@@ -579,7 +584,7 @@ var Presence = (_dec = (0, _di.Module)({
     }()
   }, {
     key: "fetchData",
-    // @ts-expect-error
+    // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
     value: function () {
       var _fetchData = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10() {
         return regeneratorRuntime.wrap(function _callee10$(_context10) {
@@ -652,32 +657,32 @@ var Presence = (_dec = (0, _di.Module)({
   }, {
     key: "telephonyStatus",
     get: function get() {
-      var _this$data$telephonyS, _this$data3;
-      return (_this$data$telephonyS = (_this$data3 = this.data) === null || _this$data3 === void 0 ? void 0 : _this$data3.telephonyStatus) !== null && _this$data$telephonyS !== void 0 ? _this$data$telephonyS : null;
+      var _this$data3;
+      return (_this$data3 = this.data) === null || _this$data3 === void 0 ? void 0 : _this$data3.telephonyStatus;
     }
   }, {
     key: "dndStatus",
     get: function get() {
-      var _this$data$dndStatus, _this$data4;
-      return (_this$data$dndStatus = (_this$data4 = this.data) === null || _this$data4 === void 0 ? void 0 : _this$data4.dndStatus) !== null && _this$data$dndStatus !== void 0 ? _this$data$dndStatus : null;
+      var _this$data4;
+      return (_this$data4 = this.data) === null || _this$data4 === void 0 ? void 0 : _this$data4.dndStatus;
     }
   }, {
     key: "userStatus",
     get: function get() {
-      var _this$data$userStatus, _this$data5;
-      return (_this$data$userStatus = (_this$data5 = this.data) === null || _this$data5 === void 0 ? void 0 : _this$data5.userStatus) !== null && _this$data$userStatus !== void 0 ? _this$data$userStatus : null;
+      var _this$data5;
+      return (_this$data5 = this.data) === null || _this$data5 === void 0 ? void 0 : _this$data5.userStatus;
     }
   }, {
     key: "presenceStatus",
     get: function get() {
-      var _this$data$presenceSt, _this$data6;
-      return (_this$data$presenceSt = (_this$data6 = this.data) === null || _this$data6 === void 0 ? void 0 : _this$data6.presenceStatus) !== null && _this$data$presenceSt !== void 0 ? _this$data$presenceSt : null;
+      var _this$data6;
+      return (_this$data6 = this.data) === null || _this$data6 === void 0 ? void 0 : _this$data6.presenceStatus;
     }
   }, {
     key: "meetingStatus",
     get: function get() {
-      var _this$data$meetingSta, _this$data7;
-      return (_this$data$meetingSta = (_this$data7 = this.data) === null || _this$data7 === void 0 ? void 0 : _this$data7.meetingStatus) !== null && _this$data$meetingSta !== void 0 ? _this$data$meetingSta : null;
+      var _this$data7;
+      return (_this$data7 = this.data) === null || _this$data7 === void 0 ? void 0 : _this$data7.meetingStatus;
     }
   }, {
     key: "presenceOption",

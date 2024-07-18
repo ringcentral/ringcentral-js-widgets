@@ -7,10 +7,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.isCurrentDeviceEndCall = isCurrentDeviceEndCall;
-exports.matchWephoneSessionWithAcitveCall = matchWephoneSessionWithAcitveCall;
+exports.matchWebphoneSessionWithActiveCall = matchWebphoneSessionWithActiveCall;
 exports.normalizeTelephonySession = normalizeTelephonySession;
 var _callDirections = _interopRequireDefault(require("../../enums/callDirections"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 function getSessionStartTime(session) {
   var webphoneStartTime;
   if (session.direction === _callDirections["default"].inbound) {
@@ -20,11 +20,12 @@ function getSessionStartTime(session) {
   }
   return webphoneStartTime;
 }
-function matchWephoneSessionWithAcitveCall(sessions, callItem) {
+function matchWebphoneSessionWithActiveCall(sessions, callItem) {
   if (!sessions || !callItem) {
     return undefined;
   }
   var matches = sessions.filter(function (session) {
+    var _sipData;
     // Strategy 1: use `P-Rc-Api-Ids` header of a webRTC session to match with `telephonySessionId`
     // and `partyId` of a call data from presence api.
     // when caller calls him self, the sessionId are the same, so we need the `partyId` to identify the participants.
@@ -63,23 +64,19 @@ function matchWephoneSessionWithAcitveCall(sessions, callItem) {
      * the `InviteClientContext`'s id will always begin with callItem's id.
      */
     if (callItem.toName && callItem.toName.toLowerCase() === 'conference') {
-      // @ts-expect-error
+      // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
       return session.id.indexOf(callItem.id) === 0;
     }
-    if (
-    // @ts-expect-error
-    !callItem.sipData.remoteUri ||
-    // @ts-expect-error
-    callItem.sipData.remoteUri === '') {
+    if (!((_sipData = callItem.sipData) === null || _sipData === void 0 ? void 0 : _sipData.remoteUri)) {
       return false;
     }
     if (session.direction === _callDirections["default"].inbound &&
-    // @ts-expect-error
+    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     callItem.sipData.remoteUri.indexOf(session.from) === -1) {
       return false;
     }
     if (session.direction === _callDirections["default"].outbound &&
-    // @ts-expect-error
+    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     callItem.sipData.remoteUri.indexOf(session.to) === -1) {
       return false;
     }
@@ -87,7 +84,7 @@ function matchWephoneSessionWithAcitveCall(sessions, callItem) {
     // 16000 is from experience in test.
     // there is delay bettween active call created and webphone session created
     // for example, the time delay is decided by when webphone get invite info
-    // @ts-expect-error
+    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     if (Math.abs(callItem.startTime - getSessionStartTime(session)) > 16000) {
       return false;
     }
@@ -96,9 +93,9 @@ function matchWephoneSessionWithAcitveCall(sessions, callItem) {
   if (matches.length > 1) {
     // order by the time gap asc
     matches.sort(function (x, y) {
-      // @ts-expect-error
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       var gapX = Math.abs(callItem.startTime - getSessionStartTime(x));
-      // @ts-expect-error
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       var gapY = Math.abs(callItem.startTime - getSessionStartTime(y));
       return gapX === gapY ? 0 : gapX - gapY;
     });
@@ -106,7 +103,7 @@ function matchWephoneSessionWithAcitveCall(sessions, callItem) {
   return matches[0];
 }
 function isCurrentDeviceEndCall(sessions, callItem) {
-  // @ts-expect-error
+  // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
   return sessions.indexOf(callItem.telephonySessionId) !== -1;
 }
 function normalizeTelephonySession(session) {

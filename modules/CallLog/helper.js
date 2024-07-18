@@ -1,11 +1,11 @@
 "use strict";
 
 require("core-js/modules/es.array.for-each");
-require("core-js/modules/es.array.index-of");
+require("core-js/modules/es.array.includes");
 require("core-js/modules/es.date.now");
 require("core-js/modules/es.date.to-iso-string");
 require("core-js/modules/es.date.to-string");
-require("core-js/modules/es.object.keys");
+require("core-js/modules/es.string.includes");
 require("core-js/modules/web.dom-collections.for-each");
 Object.defineProperty(exports, "__esModule", {
   value: true
@@ -17,9 +17,9 @@ exports.processRecords = processRecords;
 var _callActions = require("../../enums/callActions");
 var _callLogHelpers = require("../../lib/callLogHelpers");
 var _getDateFrom = _interopRequireDefault(require("../../lib/getDateFrom"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
+function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose(e, t); if (Object.getOwnPropertySymbols) { var s = Object.getOwnPropertySymbols(e); for (r = 0; r < s.length; r++) { o = s[r], t.includes(o) || {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } } return i; }
+function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t = {}; for (var n in r) { if ({}.hasOwnProperty.call(r, n)) { if (e.includes(n)) continue; t[n] = r[n]; } } return t; }
 function processData(data) {
   var _data$syncInfo;
   return {

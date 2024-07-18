@@ -14,6 +14,17 @@ Object.keys(_Analytics).forEach(function (key) {
     }
   });
 });
+var _Analytics2 = require("./Analytics.interface");
+Object.keys(_Analytics2).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _Analytics2[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _Analytics2[key];
+    }
+  });
+});
 var _trackEvents = require("./trackEvents");
 Object.keys(_trackEvents).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;

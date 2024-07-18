@@ -18,25 +18,48 @@ Object.defineProperty(exports, "PartyStatusCode", {
     return _Session.PartyStatusCode;
   }
 });
-exports.TelephonySessionBuilder = void 0;
+exports.clearTelephonySessionBuilders = exports.TelephonySessionBuilder = void 0;
 exports.createTelephonySession = createTelephonySession;
-exports.telephonySessionBuildersCache = void 0;
+exports.telephonySessionBuildersCache = exports.makeWebphoneSessionId = exports.makeVoiceCallToken = exports.makeTelephonySessionId = exports.makePartyId = void 0;
 var _dayjs = _interopRequireDefault(require("dayjs"));
 var _Session = require("ringcentral-call-control/lib/Session");
 var _uuid = require("uuid");
-var _callDirections = _interopRequireDefault(require("../../enums/callDirections"));
+var _callDirections = require("../../enums/callDirections");
 var _extensionInfo = _interopRequireDefault(require("./data/extensionInfo.json"));
 var _telephonySessions = _interopRequireDefault(require("./data/telephonySessions.json"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
-function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+// "s-a4a012b34c545z18b6f423f7fzf4d9960000"
+var makeTelephonySessionId = function makeTelephonySessionId() {
+  return "s-".concat((0, _uuid.v4)());
+};
+
+// "p-a4a012b34c545z18b6f423f7fzf4d9960000-1"
+exports.makeTelephonySessionId = makeTelephonySessionId;
+var makePartyId = function makePartyId(telephonySessionId) {
+  return "p-".concat(telephonySessionId.substring(2), "-1");
+};
+
+// "e5c8acd0-dcc2-4767-b445-b0029bd8b85210.74.1.43-5070-b30665b0-599a-49b9-b"
+exports.makePartyId = makePartyId;
+var makeWebphoneSessionId = function makeWebphoneSessionId() {
+  return (0, _uuid.v4)();
+};
+
+// "conf_732d613461306438313238356331617a31376662656163336664377a3830633664303030304031302e37342e31332e3132393a35303730"
+exports.makeWebphoneSessionId = makeWebphoneSessionId;
+var makeVoiceCallToken = function makeVoiceCallToken() {
+  return "conf_".concat((0, _uuid.v4)());
+};
+
 /**
  * Telephony session message boy //https://developers.ringcentral.com/api-reference/Extension-Telephony-Sessions-Event
  * supports:
@@ -46,20 +69,23 @@ function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input ==
  *
  * @class TelephonySession
  */
-
+exports.makeVoiceCallToken = makeVoiceCallToken;
 var sequence = 10;
-var DEFAULT_DIRECTION = _callDirections["default"].outbound;
+var DEFAULT_DIRECTION = _callDirections.callDirection.outbound;
 var DEFAULT_RECORD_STATUS = false;
 var DEFAULT_PHONE_NUMBER = '+16501234567';
 exports.DEFAULT_PHONE_NUMBER = DEFAULT_PHONE_NUMBER;
 var DEFAULT_EXTENSION_ID = _extensionInfo["default"].id.toString();
 var telephonySessionBuildersCache = [];
 exports.telephonySessionBuildersCache = telephonySessionBuildersCache;
+var clearTelephonySessionBuilders = function clearTelephonySessionBuilders() {
+  telephonySessionBuildersCache.length = 0; // clear
+};
+exports.clearTelephonySessionBuilders = clearTelephonySessionBuilders;
 var TelephonySessionBuilder = /*#__PURE__*/function () {
   function TelephonySessionBuilder() {
     var initParams = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
     _classCallCheck(this, TelephonySessionBuilder);
-    this._data = void 0;
     this._telephonySessionId = void 0;
     this._phoneNumber = void 0;
     this._direction = void 0;
@@ -73,6 +99,9 @@ var TelephonySessionBuilder = /*#__PURE__*/function () {
     this._isRecording = void 0;
     this._muteStatus = void 0;
     this._queueCall = void 0;
+    this._originType = void 0;
+    this._peerId = void 0;
+    this._conferenceRole = void 0;
     this.relatedWebphoneSession = void 0;
     this._init(initParams);
     telephonySessionBuildersCache.push(this);
@@ -81,12 +110,15 @@ var TelephonySessionBuilder = /*#__PURE__*/function () {
     key: "_init",
     value: function _init(_ref) {
       var _ref$telephonySession = _ref.telephonySessionId,
-        telephonySessionId = _ref$telephonySession === void 0 ? (0, _uuid.v4)() : _ref$telephonySession,
+        telephonySessionId = _ref$telephonySession === void 0 ? makeTelephonySessionId() : _ref$telephonySession,
+        _ref$partyId = _ref.partyId,
+        partyId = _ref$partyId === void 0 ? makePartyId(telephonySessionId) : _ref$partyId,
+        _ref$sessionId = _ref.sessionId,
+        sessionId = _ref$sessionId === void 0 ? makeWebphoneSessionId() : _ref$sessionId,
         _ref$phoneNumber = _ref.phoneNumber,
         phoneNumber = _ref$phoneNumber === void 0 ? DEFAULT_PHONE_NUMBER : _ref$phoneNumber,
         _ref$direction = _ref.direction,
         direction = _ref$direction === void 0 ? DEFAULT_DIRECTION : _ref$direction,
-        sessionId = _ref.sessionId,
         _ref$status = _ref.status,
         status = _ref$status === void 0 ? _Session.PartyStatusCode.proceeding : _ref$status,
         _ref$reason = _ref.reason,
@@ -99,12 +131,16 @@ var TelephonySessionBuilder = /*#__PURE__*/function () {
         _ref$muteStatus = _ref.muteStatus,
         muteStatus = _ref$muteStatus === void 0 ? false : _ref$muteStatus,
         _ref$queueCall = _ref.queueCall,
-        queueCall = _ref$queueCall === void 0 ? false : _ref$queueCall;
+        queueCall = _ref$queueCall === void 0 ? false : _ref$queueCall,
+        _ref$originType = _ref.originType,
+        originType = _ref$originType === void 0 ? 'Call' : _ref$originType,
+        peerId = _ref.peerId,
+        conferenceRole = _ref.conferenceRole;
       this._telephonySessionId = telephonySessionId;
-      this._sessionId = sessionId || telephonySessionId;
+      this._partyId = partyId;
+      this._sessionId = sessionId;
       this._phoneNumber = phoneNumber;
       this._direction = direction;
-      this._partyId = "".concat(telephonySessionId, "-1");
       this._partyStatus = status;
       this._partyReason = reason;
       this._fromNumberData = fromNumberData;
@@ -113,6 +149,9 @@ var TelephonySessionBuilder = /*#__PURE__*/function () {
       this._isRecording = isRecording;
       this._muteStatus = muteStatus;
       this._queueCall = queueCall;
+      this._originType = originType;
+      this._peerId = peerId;
+      this._conferenceRole = conferenceRole;
     }
   }, {
     key: "setRelatedWebphoneSession",
@@ -221,14 +260,41 @@ var TelephonySessionBuilder = /*#__PURE__*/function () {
       return this;
     }
   }, {
+    key: "setPeerId",
+    value: function setPeerId(peerId) {
+      this._peerId = peerId;
+      return this;
+    }
+  }, {
+    key: "setConferenceRole",
+    value: function setConferenceRole(role) {
+      this._conferenceRole = role;
+      return this;
+    }
+  }, {
     key: "done",
     value: function done() {
       return this.data;
     }
   }, {
-    key: "telephoneSessionId",
-    get: function get() {
+    key: "getSessionId",
+    value: function getSessionId() {
+      return this._sessionId;
+    }
+  }, {
+    key: "getPartyId",
+    value: function getPartyId() {
+      return this._partyId;
+    }
+  }, {
+    key: "getTelephonySessionId",
+    value: function getTelephonySessionId() {
       return this._telephonySessionId;
+    }
+  }, {
+    key: "getStatus",
+    value: function getStatus() {
+      return this._partyStatus;
     }
   }, {
     key: "numberData",
@@ -277,17 +343,19 @@ var TelephonySessionBuilder = /*#__PURE__*/function () {
                 sid: '402936472080',
                 srvLvl: '-149699523',
                 srvLvlExt: '390'
-              }
+              },
+              peerId: this._peerId
             },
             recordings: this.recordings,
             missedCall: false,
             standAlone: false,
             muted: this._muteStatus,
-            queueCall: this._queueCall
+            queueCall: this._queueCall,
+            conferenceRole: this._conferenceRole
           }],
           recordings: this.recordings,
           origin: {
-            type: 'Call'
+            type: this._originType
           }
         })
       });

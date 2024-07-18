@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 require("core-js/modules/es.array.concat");
 require("core-js/modules/es.array.find");
 require("core-js/modules/es.array.find-index");
@@ -17,46 +17,46 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.CallLogger = void 0;
 require("regenerator-runtime/runtime");
-var _ramda = require("ramda");
 var _core = require("@ringcentral-integration/core");
+var _ramda = require("ramda");
 var _callLoggerTriggerTypes = require("../../enums/callLoggerTriggerTypes");
+var _LoggerBase2 = require("../../lib/LoggerBase");
 var _callLogHelpers = require("../../lib/callLogHelpers");
 var _di = require("../../lib/di");
-var _LoggerBase2 = require("../../lib/LoggerBase");
 var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 var _callLoggerHelper = require("./callLoggerHelper");
 var _dec, _dec2, _class, _class2, _descriptor, _descriptor2, _descriptor3;
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose(e, t); if (Object.getOwnPropertySymbols) { var s = Object.getOwnPropertySymbols(e); for (r = 0; r < s.length; r++) { o = s[r], t.includes(o) || {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } } return i; }
+function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t = {}; for (var n in r) { if ({}.hasOwnProperty.call(r, n)) { if (e.includes(n)) continue; t[n] = r[n]; } } return t; }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
-function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _get() { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get.bind(); } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(arguments.length < 3 ? target : receiver); } return desc.value; }; } return _get.apply(this, arguments); }
-function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
-function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'transform-class-properties is enabled and runs after the decorators transform.'); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) { n[e] = r[e]; } return n; }
+function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _get() { return _get = "undefined" != typeof Reflect && Reflect.get ? Reflect.get.bind() : function (e, t, r) { var p = _superPropBase(e, t); if (p) { var n = Object.getOwnPropertyDescriptor(p, t); return n.get ? n.get.call(arguments.length < 3 ? e : r) : n.value; } }, _get.apply(null, arguments); }
+function _superPropBase(t, o) { for (; !{}.hasOwnProperty.call(t, o) && null !== (t = _getPrototypeOf(t));) { ; } return t; }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
+function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
+function _initializerWarningHelper(r, e) { throw Error("Decorating class property failed. Please ensure that transform-class-properties is enabled and runs after the decorators transform."); }
 var DEFAULT_OPACITY = 20;
 var CallLogger = (_dec = (0, _di.Module)({
   name: 'CallLogger',
@@ -83,6 +83,7 @@ var CallLogger = (_dec = (0, _di.Module)({
       storageKey: 'CallLogger'
     });
     _this._customMatcherHooks = [];
+    // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
     _this._identityFunction = _callLoggerHelper.callIdentityFunction;
     _this._logFunction = _this._deps.callLoggerOptions.logFunction;
     _this._readyCheckFunction = _this._deps.callLoggerOptions.readyCheckFunction;
@@ -207,11 +208,13 @@ var CallLogger = (_dec = (0, _di.Module)({
                 call = _ref3.call, contact = _ref3.contact, options = _objectWithoutProperties(_ref3, ["call", "contact"]);
                 inbound = (0, _callLogHelpers.isInbound)(call);
                 fromEntity = inbound && contact || null;
-                toEntity = !inbound && contact || null;
+                toEntity = !inbound && contact || null; // @ts-expect-error TS(2345): Argument of type 'Omit<LogCallOptions<T>, "call" |... Remove this comment to see the full error message
                 _context4.next = 6;
                 return this.log(_objectSpread(_objectSpread({}, options), {}, {
                   call: _objectSpread(_objectSpread({}, call), {}, {
-                    duration: Object.prototype.hasOwnProperty.call(call, 'duration') ? call.duration : Math.round((Date.now() - call.startTime) / 1000),
+                    duration: Object.prototype.hasOwnProperty.call(call, 'duration') ? call.duration :
+                    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+                    Math.round((Date.now() - call.startTime) / 1000),
                     result: call.result || call.telephonyStatus
                   }),
                   fromEntity: fromEntity,
@@ -248,7 +251,10 @@ var CallLogger = (_dec = (0, _di.Module)({
                 _context5.next = 5;
                 return this.log({
                   call: _objectSpread(_objectSpread({}, call), {}, {
-                    duration: Object.prototype.hasOwnProperty.call(call, 'duration') ? call.duration : Math.round((Date.now() - call.startTime) / 1000),
+                    // @ts-expect-error TS(2322): Type 'number | undefined' is not assignable to typ... Remove this comment to see the full error message
+                    duration: Object.prototype.hasOwnProperty.call(call, 'duration') ? call.duration :
+                    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+                    Math.round((Date.now() - call.startTime) / 1000),
                     result: call.result || call.telephonyStatus
                   }),
                   fromEntity: fromEntity,
@@ -270,7 +276,12 @@ var CallLogger = (_dec = (0, _di.Module)({
   }, {
     key: "_activityMatcherCheck",
     value: function _activityMatcherCheck(sessionId) {
-      return !this._deps.activityMatcher.dataMapping[sessionId] || !this._deps.activityMatcher.dataMapping[sessionId].length;
+      return (
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+        !this._deps.activityMatcher.dataMapping[sessionId] ||
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+        !this._deps.activityMatcher.dataMapping[sessionId].length
+      );
     }
   }, {
     key: "_customMatcherCheck",
@@ -314,8 +325,12 @@ var CallLogger = (_dec = (0, _di.Module)({
                 return this._deps.contactMatcher.triggerMatch();
               case 8:
                 toNumberEntity = call.toNumberEntity || '';
-                fromMatches = call.from && call.from.phoneNumber && this._deps.contactMatcher.dataMapping[call.from.phoneNumber] || [];
-                toMatches = call.to && call.to.phoneNumber && this._deps.contactMatcher.dataMapping[call.to.phoneNumber] || [];
+                fromMatches = call.from && call.from.phoneNumber &&
+                // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+                this._deps.contactMatcher.dataMapping[call.from.phoneNumber] || [];
+                toMatches = call.to && call.to.phoneNumber &&
+                // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+                this._deps.contactMatcher.dataMapping[call.to.phoneNumber] || [];
                 fromEntity = fromMatches && fromMatches.length === 1 && fromMatches[0] || null;
                 toEntity = null;
                 if (toMatches && toMatches.length === 1) {
@@ -329,7 +344,9 @@ var CallLogger = (_dec = (0, _di.Module)({
                 _context6.next = 16;
                 return this._autoLogCall({
                   call: call,
+                  // @ts-expect-error TS(2322): Type 'Entity | null' is not assignable to type 'En... Remove this comment to see the full error message
                   fromEntity: fromEntity,
+                  // @ts-expect-error TS(2322): Type 'Entity | null | undefined' is not assignable... Remove this comment to see the full error message
                   toEntity: toEntity,
                   triggerType: triggerType
                 });
@@ -380,7 +397,9 @@ var CallLogger = (_dec = (0, _di.Module)({
                 _context7.next = 8;
                 return this._deps.activityMatcher.triggerMatch();
               case 8:
-                activityMatches = this._deps.activityMatcher.dataMapping[call.sessionId] || [];
+                activityMatches =
+                // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+                this._deps.activityMatcher.dataMapping[call.sessionId] || [];
                 return _context7.abrupt("return", activityMatches.length > 0);
               case 10:
                 return _context7.abrupt("return", false);
@@ -457,19 +476,27 @@ var CallLogger = (_dec = (0, _di.Module)({
         if (_this2.ready) {
           var _oldCalls;
           oldCalls = ((_oldCalls = oldCalls) === null || _oldCalls === void 0 ? void 0 : _oldCalls.slice()) || [];
+          // @ts-expect-error TS(2345): Argument of type 'Call[]' is not assignable to par... Remove this comment to see the full error message
           (0, _callLogHelpers.removeDuplicateSelfCalls)(newCalls).forEach(function (call) {
             var oldCallIndex = oldCalls.findIndex(function (item) {
               return item.sessionId === call.sessionId;
             });
             if (oldCallIndex === -1) {
+              // @ts-expect-error TS(2345): Argument of type 'ActiveCall' is not assignable to... Remove this comment to see the full error message
               _this2._onNewCall(call, _callLoggerTriggerTypes.callLoggerTriggerTypes.presenceUpdate);
             } else {
               var oldCall = oldCalls[oldCallIndex];
               oldCalls.splice(oldCallIndex, 1);
               if (call.telephonyStatus !== oldCall.telephonyStatus) {
                 _this2._onCallUpdated(_objectSpread(_objectSpread({}, call), {}, {
-                  isTransferredCall: !!_this2.transferredCallsMap[call.sessionId],
-                  transferredMiddleNumber: _this2.transferredCallsMap[call.sessionId] ? _this2.transferredCallsMap[call.sessionId].transferredMiddleNumber : null
+                  isTransferredCall:
+                  // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
+                  !!_this2.transferredCallsMap[call.sessionId],
+                  transferredMiddleNumber: _this2.transferredCallsMap[
+                  // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
+                  call.sessionId] ?
+                  // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
+                  _this2.transferredCallsMap[call.sessionId].transferredMiddleNumber : null
                 }), _callLoggerTriggerTypes.callLoggerTriggerTypes.presenceUpdate);
                 if (oldCall.telephonyStatus === 'Ringing' && call.telephonyStatus === 'CallConnected') {
                   _this2._onCallAnswered(call);
@@ -477,9 +504,12 @@ var CallLogger = (_dec = (0, _di.Module)({
               }
               if ((call.from && call.from.phoneNumber) !== (oldCall.from && oldCall.from.phoneNumber)) {
                 var _oldCall$from;
-                _this2._addTransferredCall(call.sessionId, (_oldCall$from = oldCall.from) === null || _oldCall$from === void 0 ? void 0 : _oldCall$from.phoneNumber);
+                _this2._addTransferredCall(
+                // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
+                call.sessionId, (_oldCall$from = oldCall.from) === null || _oldCall$from === void 0 ? void 0 : _oldCall$from.phoneNumber);
                 _this2._onCallUpdated(_objectSpread(_objectSpread({}, call), {}, {
                   isTransferredCall: true,
+                  // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
                   transferredMiddleNumber: oldCall.from && oldCall.from.phoneNumber,
                   phoneNumberUpdated: true
                 }), _callLoggerTriggerTypes.callLoggerTriggerTypes.presenceUpdate);
@@ -489,6 +519,7 @@ var CallLogger = (_dec = (0, _di.Module)({
           oldCalls.forEach(function (call) {
             _this2._onCallUpdated(_objectSpread(_objectSpread({}, call), {}, {
               isTransferredCall: !!_this2.transferredCallsMap[call.sessionId],
+              // @ts-expect-error TS(2322): Type 'string | null' is not assignable to type 'st... Remove this comment to see the full error message
               transferredMiddleNumber: _this2.transferredCallsMap[call.sessionId] ? _this2.transferredCallsMap[call.sessionId].transferredMiddleNumber : null
             }), _callLoggerTriggerTypes.callLoggerTriggerTypes.presenceUpdate);
           });
@@ -512,7 +543,10 @@ var CallLogger = (_dec = (0, _di.Module)({
               });
               if (callInfo) {
                 _this2._onCallUpdated(_objectSpread(_objectSpread({}, callInfo), {}, {
-                  isTransferredCall: !!_this2.transferredCallsMap[callInfo.sessionId],
+                  isTransferredCall:
+                  // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
+                  !!_this2.transferredCallsMap[callInfo.sessionId],
+                  // @ts-expect-error TS(2322): Type 'string | null' is not assignable to type 'st... Remove this comment to see the full error message
                   transferredMiddleNumber: _this2.transferredCallsMap[call.sessionId] ? _this2.transferredCallsMap[call.sessionId].transferredMiddleNumber : null
                 }), _callLoggerTriggerTypes.callLoggerTriggerTypes.callLogSync);
               }

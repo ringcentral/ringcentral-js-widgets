@@ -1,16 +1,16 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 require("core-js/modules/es.array.concat");
 require("core-js/modules/es.array.find");
 require("core-js/modules/es.array.for-each");
 require("core-js/modules/es.array.includes");
 require("core-js/modules/es.array.index-of");
+require("core-js/modules/es.date.now");
 require("core-js/modules/es.date.to-iso-string");
 require("core-js/modules/es.date.to-string");
 require("core-js/modules/es.function.name");
 require("core-js/modules/es.object.get-own-property-descriptor");
-require("core-js/modules/es.object.keys");
 require("core-js/modules/es.object.values");
 require("core-js/modules/es.regexp.exec");
 require("core-js/modules/es.string.includes");
@@ -20,45 +20,48 @@ require("core-js/modules/web.timers");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.DEFAULT_TAG_NAME = exports.Analytics = void 0;
+exports.TRACK_LIST = exports.DEFAULT_TAG_NAME = exports.Analytics = void 0;
 exports.track = track;
 exports.tracking = void 0;
 require("regenerator-runtime/runtime");
+var _core = require("@ringcentral-integration/core");
 var _utils = require("@ringcentral-integration/utils");
+var _mixpanelBrowser = _interopRequireDefault(require("mixpanel-browser"));
 var _moduleStatuses = _interopRequireDefault(require("../../enums/moduleStatuses"));
 var _Analytics = require("../../lib/Analytics");
-var _di = require("../../lib/di");
 var _RcModule2 = _interopRequireDefault(require("../../lib/RcModule"));
+var _di = require("../../lib/di");
 var _saveBlob = _interopRequireDefault(require("../../lib/saveBlob"));
 var _callingModes = require("../CallingSettings/callingModes");
 var _actionTypes = require("./actionTypes");
 var _getAnalyticsReducer = _interopRequireDefault(require("./getAnalyticsReducer"));
-var _dec, _class, _class2;
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
-function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+var _dec, _dec2, _class, _class2;
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
+function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose(e, t); if (Object.getOwnPropertySymbols) { var s = Object.getOwnPropertySymbols(e); for (r = 0; r < s.length; r++) { o = s[r], t.includes(o) || {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } } return i; }
+function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t = {}; for (var n in r) { if ({}.hasOwnProperty.call(r, n)) { if (e.includes(n)) continue; t[n] = r[n]; } } return t; }
 function warn() {
   console.warn('Do NOT call this directly.');
 }
 var TRACK_LIST = [];
+exports.TRACK_LIST = TRACK_LIST;
 function track(tagName) {
   return function _track(prototype, property, descriptor) {
     var value = descriptor.value,
@@ -80,7 +83,6 @@ var DEFAULT_TAG_NAME = 'default';
 exports.DEFAULT_TAG_NAME = DEFAULT_TAG_NAME;
 var tracking = track(DEFAULT_TAG_NAME);
 
-// TODO: refactoring the module against `https://docs.google.com/spreadsheets/d/1xufV6-C-RJR6OJgwFYHYzNQwhIdN4BXXCo8ABs7RT-8/edit#gid=1480480736`
 /**
  * @class
  * @description Analytics module.
@@ -105,6 +107,9 @@ var Analytics = (_dec = (0, _di.Module)({
     optional: true
   }, {
     dep: 'AccountInfo',
+    optional: true
+  }, {
+    dep: 'Environment',
     optional: true
   }, {
     dep: 'ExtensionInfo',
@@ -160,7 +165,16 @@ var Analytics = (_dec = (0, _di.Module)({
   }, {
     dep: 'TierChecker',
     optional: true
+  }, {
+    dep: 'Brand',
+    optional: true
+  }, {
+    dep: 'ExtensionFeatures',
+    optional: true
   }]
+}), _dec2 = (0, _core.computed)(function (that) {
+  var _that$_accountInfo, _that$_extensionInfo, _that$_extensionFeatu;
+  return [that._brand.brandConfig, (_that$_accountInfo = that._accountInfo) === null || _that$_accountInfo === void 0 ? void 0 : _that$_accountInfo.id, (_that$_extensionInfo = that._extensionInfo) === null || _that$_extensionInfo === void 0 ? void 0 : _that$_extensionInfo.country, (_that$_extensionFeatu = that._extensionFeatures) === null || _that$_extensionFeatu === void 0 ? void 0 : _that$_extensionFeatu.features];
 }), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModule) {
   _inherits(Analytics, _RcModule);
   var _super = _createSuper(Analytics);
@@ -191,9 +205,12 @@ var Analytics = (_dec = (0, _di.Module)({
       webphone = _ref.webphone,
       locale = _ref.locale,
       meeting = _ref.meeting,
+      environment = _ref.environment,
       rcVideo = _ref.rcVideo,
       dialerUI = _ref.dialerUI,
       tierChecker = _ref.tierChecker,
+      brand = _ref.brand,
+      extensionFeatures = _ref.extensionFeatures,
       _ref$useLog = _ref.useLog,
       useLog = _ref$useLog === void 0 ? false : _ref$useLog,
       _ref$lingerThreshold = _ref.lingerThreshold,
@@ -202,16 +219,17 @@ var Analytics = (_dec = (0, _di.Module)({
       activeCallControl = _ref.activeCallControl,
       _ref$enablePendo = _ref.enablePendo,
       enablePendo = _ref$enablePendo === void 0 ? false : _ref$enablePendo,
+      _ref$enableMixpanel = _ref.enableMixpanel,
+      enableMixpanel = _ref$enableMixpanel === void 0 ? false : _ref$enableMixpanel,
       _ref$env = _ref.env,
       env = _ref$env === void 0 ? 'dev' : _ref$env,
-      options = _objectWithoutProperties(_ref, ["analyticsOptions", "analyticsKey", "pendoApiKey", "appName", "appVersion", "brandCode", "adapter", "auth", "call", "callingSettings", "accountInfo", "extensionInfo", "callHistory", "callMonitor", "conference", "conferenceCall", "contactDetailsUI", "messageSender", "messageStore", "routerInteraction", "userGuide", "webphone", "locale", "meeting", "rcVideo", "dialerUI", "tierChecker", "useLog", "lingerThreshold", "callLogSection", "activeCallControl", "enablePendo", "env"]);
+      options = _objectWithoutProperties(_ref, ["analyticsOptions", "analyticsKey", "pendoApiKey", "appName", "appVersion", "brandCode", "adapter", "auth", "call", "callingSettings", "accountInfo", "extensionInfo", "callHistory", "callMonitor", "conference", "conferenceCall", "contactDetailsUI", "messageSender", "messageStore", "routerInteraction", "userGuide", "webphone", "locale", "meeting", "environment", "rcVideo", "dialerUI", "tierChecker", "brand", "extensionFeatures", "useLog", "lingerThreshold", "callLogSection", "activeCallControl", "enablePendo", "enableMixpanel", "env"]);
     _classCallCheck(this, Analytics);
     // TODO: fix type from new modules based on RcModulesV2
     _this = _super.call(this, _objectSpread(_objectSpread({}, options), {}, {
       actionTypes: _actionTypes.analyticsActionTypes
     }));
-
-    // config
+    _this.appInitTime = Date.now();
     // TODO: add state interface
     // AnalyticsOptions
     _this._analyticsKey = void 0;
@@ -225,6 +243,7 @@ var Analytics = (_dec = (0, _di.Module)({
     _this._callingSettings = void 0;
     _this._accountInfo = void 0;
     _this._extensionInfo = void 0;
+    _this._environment = void 0;
     _this._callHistory = void 0;
     _this._callMonitor = void 0;
     _this._conference = void 0;
@@ -239,6 +258,8 @@ var Analytics = (_dec = (0, _di.Module)({
     _this._meeting = void 0;
     _this._rcVideo = void 0;
     _this._tierChecker = void 0;
+    _this._brand = void 0;
+    _this._extensionFeatures = void 0;
     _this._dialerUI = void 0;
     _this._segment = void 0;
     _this._pendo = void 0;
@@ -246,15 +267,20 @@ var Analytics = (_dec = (0, _di.Module)({
     _this._useLog = void 0;
     _this._logs = [];
     _this._lingerThreshold = void 0;
-    _this._lingerTimeout = null;
+    _this._lingerTimeout = void 0;
     _this._promise = void 0;
     _this._callLogSection = void 0;
     _this._activeCallControl = void 0;
     _this._enablePendo = void 0;
+    _this._enableMixpanel = void 0;
     _this._waitPendoCount = void 0;
     _this._pendoTimeout = void 0;
     _this._env = void 0;
     _this._useLocalPendoJS = void 0;
+    _this._OSInfo = void 0;
+    _this._OSInfo = (0, _utils.getOsInfo)();
+
+    // config
     _this._analyticsKey = analyticsKey;
     _this._pendoApiKey = pendoApiKey;
     _this._appName = appName;
@@ -268,6 +294,7 @@ var Analytics = (_dec = (0, _di.Module)({
     _this._callingSettings = callingSettings;
     _this._accountInfo = accountInfo;
     _this._extensionInfo = extensionInfo;
+    _this._environment = environment;
     _this._callHistory = callHistory;
     _this._callMonitor = callMonitor;
     _this._conference = conference;
@@ -285,18 +312,30 @@ var Analytics = (_dec = (0, _di.Module)({
     _this._activeCallControl = activeCallControl;
     _this._dialerUI = dialerUI;
     _this._tierChecker = tierChecker;
+    _this._brand = brand;
+    _this._extensionFeatures = extensionFeatures;
     // init
     _this._reducer = (0, _getAnalyticsReducer["default"])(_this.actionTypes);
-    _this._segment = (0, _Analytics.Segment)();
     _this._trackList = [].concat(TRACK_LIST);
     _this._useLog = useLog;
     _this._lingerThreshold = lingerThreshold;
     _this._enablePendo = enablePendo;
     _this._pendo = null;
     _this._waitPendoCount = 0;
-    _this._pendoTimeout = null;
     _this._env = env;
+    _this._analyticsKey = analyticsKey;
     _this._useLocalPendoJS = (_analyticsOptions$use = analyticsOptions === null || analyticsOptions === void 0 ? void 0 : analyticsOptions.useLocalPendoJS) !== null && _analyticsOptions$use !== void 0 ? _analyticsOptions$use : false;
+    _this._enableMixpanel = !!(enableMixpanel && analyticsKey);
+    _this._segment = _this._enableMixpanel ? null : (0, _Analytics.Segment)();
+    if (_this.enableMixpanel) {
+      _mixpanelBrowser["default"].init(_this._analyticsKey);
+      // According to EU policy, we had to disable mixpanel to upload IP addresses
+      _mixpanelBrowser["default"].set_config({
+        ip: false
+      });
+      // ready
+      _this.onAnalyticsReady();
+    }
     if (_this._enablePendo && _this._pendoApiKey) {
       _Analytics.Pendo.init(_this._pendoApiKey, _this._useLocalPendoJS, function (pendoInstance) {
         _this._pendo = pendoInstance;
@@ -304,7 +343,12 @@ var Analytics = (_dec = (0, _di.Module)({
     }
     return _this;
   }
+
+  /** Hook to be override by subclass */
   _createClass(Analytics, [{
+    key: "onAnalyticsReady",
+    value: function onAnalyticsReady() {}
+  }, {
     key: "identify",
     value: function identify(options) {
       this._identify(options);
@@ -312,18 +356,30 @@ var Analytics = (_dec = (0, _di.Module)({
   }, {
     key: "_identify",
     value: function _identify(_ref2) {
+      var _this2 = this;
       var userId = _ref2.userId,
         props = _objectWithoutProperties(_ref2, ["userId"]);
-      if (this.analytics) {
+      if (this.enableMixpanel) {
+        // @ts-expect-error TS(2345): Argument of type '{ env: string; userId: string; }... Remove this comment to see the full error message
+        this._mixpanelInitialize(_objectSpread(_objectSpread({
+          userId: userId
+        }, props), {}, {
+          env: this._env
+        }));
+      } else if (this.analytics) {
         this.analytics.ready(function () {
           // According to EU policy, we had to disable mixpanel to upload IP addresses
+          // @ts-expect-error TS(2339): Property 'mixpanel' does not exist on type 'Window... Remove this comment to see the full error message
           if (typeof window.mixpanel !== 'undefined') {
+            // @ts-expect-error TS(2339): Property 'mixpanel' does not exist on type 'Window... Remove this comment to see the full error message
             window.mixpanel.set_config(_objectSpread(_objectSpread({}, window.mixpanel.config), {}, {
               ip: false
             }));
           } else {
-            console.error('Mixpanel is not defined, and failure to disable IP address upload');
+            console.error('mixpanel is not defined, and failure to disable IP address upload');
           }
+          // ready
+          _this2.onAnalyticsReady();
         });
         this.analytics.identify(userId, props, {
           integrations: {
@@ -341,28 +397,40 @@ var Analytics = (_dec = (0, _di.Module)({
       }
     }
   }, {
+    key: "_mixpanelInitialize",
+    value: function _mixpanelInitialize(_ref3) {
+      var _mixpanel$get_distinc;
+      var userId = _ref3.userId;
+      if (!userId || ((_mixpanel$get_distinc = _mixpanelBrowser["default"].get_distinct_id) === null || _mixpanel$get_distinc === void 0 ? void 0 : _mixpanel$get_distinc.call(_mixpanelBrowser["default"])) === userId) {
+        return;
+      }
+      console.log('mixpanel identify');
+      _mixpanelBrowser["default"].identify(userId);
+    }
+  }, {
     key: "_pendoInitialize",
-    value: function _pendoInitialize(_ref3) {
-      var _this2 = this,
+    value: function _pendoInitialize(_ref4) {
+      var _this3 = this,
         _this$_accountInfo,
         _this$_accountInfo$se,
         _this$_accountInfo$se2,
         _this$_accountInfo2;
-      var userId = _ref3.userId,
-        props = _objectWithoutProperties(_ref3, ["userId"]);
+      var userId = _ref4.userId,
+        props = _objectWithoutProperties(_ref4, ["userId"]);
       if (!this._accountInfo || !this._accountInfo.id || !userId) {
         return;
       }
       if (this._pendoTimeout) {
         clearTimeout(this._pendoTimeout);
+        this._pendoTimeout = undefined;
       }
       if (this._waitPendoCount > 3) {
         return;
       }
       if (!this._pendo) {
         this._pendoTimeout = setTimeout(function () {
-          _this2._waitPendoCount += 1;
-          _this2._pendoInitialize(_objectSpread({
+          _this3._waitPendoCount += 1;
+          _this3._pendoInitialize(_objectSpread({
             userId: userId
           }, props));
         }, 5 * 1000);
@@ -390,16 +458,27 @@ var Analytics = (_dec = (0, _di.Module)({
     value: function track(event) {
       var _this$_pendo, _this$_pendo$isReady;
       var properties = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : {};
-      if (!this.analytics) {
+      if (!this.analytics && !this.enableMixpanel) {
         return;
       }
       var trackProps = _objectSpread(_objectSpread({}, this.trackProps), properties);
-      this.analytics.track(event, trackProps, {
-        integrations: {
-          All: true,
-          Mixpanel: true
+      if (this.enableMixpanel) {
+        var _this$_auth;
+        // NOTE: Data tracking has been migrated from Segment to Mixpanel.
+        // Add id to identify in Mixpanel, so the usage data can be filtered same as before.
+        if ((_this$_auth = this._auth) === null || _this$_auth === void 0 ? void 0 : _this$_auth.ownerId) {
+          trackProps.id = this._auth.ownerId;
         }
-      });
+        _mixpanelBrowser["default"].track(event, trackProps);
+      }
+      if (this.analytics) {
+        this.analytics.track(event, trackProps, {
+          integrations: {
+            All: true,
+            Mixpanel: true
+          }
+        });
+      }
       if (this._useLog) {
         this._logs.push({
           timeStamp: new Date().toISOString(),
@@ -424,9 +503,9 @@ var Analytics = (_dec = (0, _di.Module)({
     }
   }, {
     key: "trackNavigation",
-    value: function trackNavigation(_ref4) {
-      var router = _ref4.router,
-        eventPostfix = _ref4.eventPostfix;
+    value: function trackNavigation(_ref5) {
+      var router = _ref5.router,
+        eventPostfix = _ref5.eventPostfix;
       var trackProps = {
         router: router,
         appName: this._appName,
@@ -437,9 +516,9 @@ var Analytics = (_dec = (0, _di.Module)({
     }
   }, {
     key: "trackLinger",
-    value: function trackLinger(_ref5) {
-      var router = _ref5.router,
-        eventPostfix = _ref5.eventPostfix;
+    value: function trackLinger(_ref6) {
+      var router = _ref6.router,
+        eventPostfix = _ref6.eventPostfix;
       var trackProps = {
         router: router,
         appName: this._appName,
@@ -450,8 +529,8 @@ var Analytics = (_dec = (0, _di.Module)({
     }
   }, {
     key: "trackSchedule",
-    value: function trackSchedule(_ref6) {
-      var router = _ref6.router;
+    value: function trackSchedule(_ref7) {
+      var router = _ref7.router;
       var trackProps = {
         router: router,
         appName: this._appName,
@@ -503,7 +582,7 @@ var Analytics = (_dec = (0, _di.Module)({
     key: "_processActions",
     value: function () {
       var _processActions2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-        var _this3 = this;
+        var _this4 = this;
         return regeneratorRuntime.wrap(function _callee2$(_context2) {
           while (1) {
             switch (_context2.prev = _context2.next) {
@@ -516,11 +595,12 @@ var Analytics = (_dec = (0, _di.Module)({
                 return (0, _utils.sleep)(300);
               case 3:
                 this.lastActions.forEach(function (action) {
-                  _this3.processAction(action);
+                  _this4.processAction(action);
                 });
                 this.store.dispatch({
                   type: this.actionTypes.clear
                 });
+                // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Promise<voi... Remove this comment to see the full error message
                 this._promise = null;
               case 6:
               case "end":
@@ -537,19 +617,19 @@ var Analytics = (_dec = (0, _di.Module)({
   }, {
     key: "processAction",
     value: function processAction(action) {
-      var _this4 = this;
-      (this.trackList || []).forEach(function (_ref7) {
-        var funcImpl = _ref7.funcImpl;
+      var _this5 = this;
+      (this.trackList || []).forEach(function (_ref8) {
+        var funcImpl = _ref8.funcImpl;
         if (typeof funcImpl === 'function') {
-          funcImpl.call(_this4, action);
+          funcImpl.call(_this5, action);
         }
       });
     }
   }, {
     key: "_authentication",
     value: function _authentication(action) {
-      var _this$_auth;
-      if (((_this$_auth = this._auth) === null || _this$_auth === void 0 ? void 0 : _this$_auth.actionTypes.loginSuccess) === action.type) {
+      var _this$_auth2;
+      if (((_this$_auth2 = this._auth) === null || _this$_auth2 === void 0 ? void 0 : _this$_auth2.actionTypes.loginSuccess) === action.type) {
         this.setUserId();
         this.track('Authentication');
       }
@@ -557,8 +637,8 @@ var Analytics = (_dec = (0, _di.Module)({
   }, {
     key: "_logout",
     value: function _logout(action) {
-      var _this$_auth2;
-      if (((_this$_auth2 = this._auth) === null || _this$_auth2 === void 0 ? void 0 : _this$_auth2.actionTypes.logout) === action.type) {
+      var _this$_auth3;
+      if (((_this$_auth3 = this._auth) === null || _this$_auth3 === void 0 ? void 0 : _this$_auth3.actionTypes.logout) === action.type) {
         this.track('Logout');
       }
     }
@@ -567,9 +647,9 @@ var Analytics = (_dec = (0, _di.Module)({
     value: function _accountInfoReady(action) {
       var _this$_accountInfo3;
       if (((_this$_accountInfo3 = this._accountInfo) === null || _this$_accountInfo3 === void 0 ? void 0 : _this$_accountInfo3.actionTypes.initSuccess) === action.type) {
-        var _this$_auth3, _this$_tierChecker;
+        var _this$_auth4, _this$_tierChecker;
         this._identify({
-          userId: (_this$_auth3 = this._auth) === null || _this$_auth3 === void 0 ? void 0 : _this$_auth3.ownerId,
+          userId: (_this$_auth4 = this._auth) === null || _this$_auth4 === void 0 ? void 0 : _this$_auth4.ownerId,
           accountId: this._accountInfo.id,
           servicePlanId: this._accountInfo.servicePlan.id,
           edition: this._accountInfo.servicePlan.edition,
@@ -716,7 +796,7 @@ var Analytics = (_dec = (0, _di.Module)({
     key: "_navigate",
     value: function _navigate(action) {
       var _this$_routerInteract,
-        _this5 = this;
+        _this6 = this;
       if (((_this$_routerInteract = this._routerInteraction) === null || _this$_routerInteract === void 0 ? void 0 : _this$_routerInteract.actionTypes.locationChange) === action.type) {
         var path = action.payload && action.payload.pathname;
         var target = this.getTrackTarget(path);
@@ -727,9 +807,9 @@ var Analytics = (_dec = (0, _di.Module)({
           clearTimeout(this._lingerTimeout);
         }
         this._lingerTimeout = setTimeout(function () {
-          _this5._lingerTimeout = null;
-          if (target && _this5._routerInteraction.currentPath === path) {
-            _this5.trackLinger(target);
+          _this6._lingerTimeout = undefined;
+          if (target && _this6._routerInteraction.currentPath === path) {
+            _this6.trackLinger(target);
           }
         }, this._lingerThreshold);
       }
@@ -740,14 +820,6 @@ var Analytics = (_dec = (0, _di.Module)({
       var _this$_webphone2;
       if (((_this$_webphone2 = this._webphone) === null || _this$_webphone2 === void 0 ? void 0 : _this$_webphone2.actionTypes.callAnswer) === action.type) {
         this.track('Inbound WebRTC Call Connected');
-      }
-    }
-  }, {
-    key: "_coldTransfer",
-    value: function _coldTransfer(action) {
-      var _this$_webphone3, _this$_webphone4;
-      if (((_this$_webphone3 = this._webphone) === null || _this$_webphone3 === void 0 ? void 0 : _this$_webphone3.isOnTransfer) === true && ((_this$_webphone4 = this._webphone) === null || _this$_webphone4 === void 0 ? void 0 : _this$_webphone4.actionTypes.updateSessions) === action.type) {
-        this.track('Cold Transfer Call');
       }
     }
   }, {
@@ -1011,9 +1083,11 @@ var Analytics = (_dec = (0, _di.Module)({
       var _this$_routerInteract2;
       var path = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : (_this$_routerInteract2 = this._routerInteraction) === null || _this$_routerInteract2 === void 0 ? void 0 : _this$_routerInteract2.currentPath;
       if (!path) {
+        // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'TrackTarget... Remove this comment to see the full error message
         return null;
       }
       var routes = path.split('/');
+      // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string'.
       var formatRoute = null;
       var needMatchSecondRoutes = ['calls'];
       if (routes.length >= 3 && needMatchSecondRoutes.indexOf(routes[1]) !== -1) {
@@ -1067,6 +1141,7 @@ var Analytics = (_dec = (0, _di.Module)({
       var target = targets.find(function (target) {
         return formatRoute === target.router;
       });
+      // @ts-expect-error TS(2322): Type 'TrackTarget | undefined' is not assignable t... Remove this comment to see the full error message
       return target;
     }
   }, {
@@ -1203,7 +1278,9 @@ var Analytics = (_dec = (0, _di.Module)({
     key: "_dialerPlaceRingOutCall",
     value: function _dialerPlaceRingOutCall(action) {
       var _this$_dialerUI, _action$phoneNumber;
-      if (((_this$_dialerUI = this._dialerUI) === null || _this$_dialerUI === void 0 ? void 0 : _this$_dialerUI.actionTypes.call) === action.type && (((_action$phoneNumber = action.phoneNumber) === null || _action$phoneNumber === void 0 ? void 0 : _action$phoneNumber.length) > 0 || action.recipient) && this._callingSettings.callingMode !== _callingModes.callingModes.webphone) {
+      if (((_this$_dialerUI = this._dialerUI) === null || _this$_dialerUI === void 0 ? void 0 : _this$_dialerUI.actionTypes.call) === action.type && (
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+      ((_action$phoneNumber = action.phoneNumber) === null || _action$phoneNumber === void 0 ? void 0 : _action$phoneNumber.length) > 0 || action.recipient) && this._callingSettings.callingMode !== _callingModes.callingModes.webphone) {
         var _this$_callingSetting4;
         this.track('Call: Place RingOut call/Dialer', {
           'RingOut type': (_this$_callingSetting4 = this._callingSettings) === null || _this$_callingSetting4 === void 0 ? void 0 : _this$_callingSetting4.callWith
@@ -1211,9 +1288,21 @@ var Analytics = (_dec = (0, _di.Module)({
       }
     }
   }, {
+    key: "toggleDebug",
+    value: function toggleDebug() {
+      this.mixpanel.set_config({
+        debug: !this.mixpanel.get_config('debug')
+      });
+    }
+  }, {
     key: "trackList",
     get: function get() {
       return this._trackList;
+    }
+  }, {
+    key: "mixpanel",
+    get: function get() {
+      return _mixpanelBrowser["default"];
     }
   }, {
     key: "analytics",
@@ -1224,37 +1313,82 @@ var Analytics = (_dec = (0, _di.Module)({
     key: "lastActions",
     get: function get() {
       return this.state.lastActions;
-    }
+    } // @ts-expect-error TS(2416): Property 'status' in type 'Analytics' is not assig... Remove this comment to see the full error message
   }, {
     key: "status",
     get: function get() {
       return this.state.status;
-    }
+    } // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   }, {
     key: "ready",
     get: function get() {
       return this.status === _moduleStatuses["default"].ready;
-    }
+    } // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   }, {
     key: "pending",
     get: function get() {
       return this.status === _moduleStatuses["default"].pending;
     }
   }, {
+    key: "trackedUserInfo",
+    get: function get() {
+      var _this$_accountInfo4, _this$_accountInfo5, _this$_accountInfo6, _this$_accountInfo7, _this$_extensionFeatu, _features$RingOut, _features$WebPhone, _features$PagesReceiv, _features$SMSReceivin, _features$FaxReceivin, _features$Glip;
+      var userInfo = {
+        BrandId: this._brand.brandConfig.id,
+        AccountID: (_this$_accountInfo4 = this._accountInfo) === null || _this$_accountInfo4 === void 0 ? void 0 : _this$_accountInfo4.id,
+        BrandName: this._brand.brandConfig.name,
+        CRMEnabled: (_this$_accountInfo5 = this._accountInfo) === null || _this$_accountInfo5 === void 0 ? void 0 : _this$_accountInfo5.isCRMEnabled,
+        servicePlanId: (_this$_accountInfo6 = this._accountInfo) === null || _this$_accountInfo6 === void 0 ? void 0 : _this$_accountInfo6.servicePlan.id,
+        edition: (_this$_accountInfo7 = this._accountInfo) === null || _this$_accountInfo7 === void 0 ? void 0 : _this$_accountInfo7.servicePlan.edition
+      };
+      var features = (_this$_extensionFeatu = this._extensionFeatures) === null || _this$_extensionFeatu === void 0 ? void 0 : _this$_extensionFeatu.features;
+      var isCallingEnabled = (features === null || features === void 0 ? void 0 : (_features$RingOut = features.RingOut) === null || _features$RingOut === void 0 ? void 0 : _features$RingOut.available) || (features === null || features === void 0 ? void 0 : (_features$WebPhone = features.WebPhone) === null || _features$WebPhone === void 0 ? void 0 : _features$WebPhone.available);
+      var hasSmsPermission = (features === null || features === void 0 ? void 0 : (_features$PagesReceiv = features.PagesReceiving) === null || _features$PagesReceiv === void 0 ? void 0 : _features$PagesReceiv.available) || (features === null || features === void 0 ? void 0 : (_features$SMSReceivin = features.SMSReceiving) === null || _features$SMSReceivin === void 0 ? void 0 : _features$SMSReceivin.available);
+      var hasFaxPermission = features === null || features === void 0 ? void 0 : (_features$FaxReceivin = features.FaxReceiving) === null || _features$FaxReceivin === void 0 ? void 0 : _features$FaxReceivin.available;
+      var hasGlipPermission = features === null || features === void 0 ? void 0 : (_features$Glip = features.Glip) === null || _features$Glip === void 0 ? void 0 : _features$Glip.available;
+      var properties = [{
+        name: 'PhoneService',
+        value: isCallingEnabled
+      }, {
+        name: 'SMSService',
+        value: hasSmsPermission
+      }, {
+        name: 'FaxService',
+        value: hasFaxPermission
+      }, {
+        name: 'MessageService',
+        value: hasGlipPermission
+      }];
+      properties.forEach(function (_ref9) {
+        var name = _ref9.name,
+          value = _ref9.value;
+        if (value !== undefined) {
+          userInfo[name] = value ? 'ON' : 'OFF';
+        }
+      });
+      return userInfo;
+    }
+  }, {
     key: "trackProps",
     get: function get() {
       var _this$_locale, _this$_locale2, _this$_extensionInfo;
-      return {
+      return _objectSpread(_objectSpread(_objectSpread({}, this.trackedUserInfo), this._OSInfo), {}, {
         appName: this._appName,
         appVersion: this._appVersion,
         brand: this._brandCode,
         'App Language': ((_this$_locale = this._locale) === null || _this$_locale === void 0 ? void 0 : _this$_locale.currentLocale) || '',
         'Browser Language': ((_this$_locale2 = this._locale) === null || _this$_locale2 === void 0 ? void 0 : _this$_locale2.browserLocale) || '',
-        'Extension Type': ((_this$_extensionInfo = this._extensionInfo) === null || _this$_extensionInfo === void 0 ? void 0 : _this$_extensionInfo.info.type) || ''
-      };
+        'Extension Type': ((_this$_extensionInfo = this._extensionInfo) === null || _this$_extensionInfo === void 0 ? void 0 : _this$_extensionInfo.info.type) || '',
+        'App Init Time': this.appInitTime
+      });
+    }
+  }, {
+    key: "enableMixpanel",
+    get: function get() {
+      return !!(this._enableMixpanel && (!this._environment || this._environment.allowDataTracking));
     }
   }]);
   return Analytics;
-}(_RcModule2["default"]), (_applyDecoratedDescriptor(_class2.prototype, "_authentication", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_authentication"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_logout", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_logout"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_accountInfoReady", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_accountInfoReady"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_callAttempt", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_callAttempt"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_callConnected", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_callConnected"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_webRTCRegistration", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_webRTCRegistration"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_smsAttempt", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_smsAttempt"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_smsSentOver", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_smsSentOver"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_smsSentError", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_smsSentError"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_logCall", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_logCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_logSMS", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_logSMS"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_clickToDial", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_clickToDial"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_clickToDialPlaceRingOutCall", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_clickToDialPlaceRingOutCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_clickToSMS", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_clickToSMS"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_viewEntity", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_viewEntity"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_createEntity", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_createEntity"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_editCallLog", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_editCallLog"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_editSMSLog", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_editSMSLog"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_navigate", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_navigate"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_inboundCall", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_inboundCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_coldTransfer", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_coldTransfer"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_textClickToDial", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_textClickToDial"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_voicemailClickToDial", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_voicemailClickToDial"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_voicemailClickToSMS", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_voicemailClickToSMS"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_voicemailDelete", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_voicemailDelete"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_voicemailFlag", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_voicemailFlag"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_contactDetailClickToDial", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_contactDetailClickToDial"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_contactDetailClickToSMS", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_contactDetailClickToSMS"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_callHistoryClickToDial", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_callHistoryClickToDial"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_callHistoryClickToSMS", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_callHistoryClickToSMS"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_conferenceInviteWithText", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_conferenceInviteWithText"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_conferenceAddDialInNumber", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_conferenceAddDialInNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_conferenceJoinAsHost", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_conferenceJoinAsHost"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_showWhatsNew", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_showWhatsNew"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_allCallsClickHold", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_allCallsClickHold"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_allCallsClickHangup", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_allCallsClickHangup"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_allCallsCallItemClick", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_allCallsCallItemClick"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_callControlClickAdd", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_callControlClickAdd"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_callControlClickMerge", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_callControlClickMerge"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_mergeCallControlClickMerge", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_mergeCallControlClickMerge"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_mergeCallControlClickHangup", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_mergeCallControlClickHangup"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_inboundCallConnectedTrack", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_inboundCallConnectedTrack"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_outboundCallConnectedTrack", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_outboundCallConnectedTrack"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_callsOnHoldClickAdd", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_callsOnHoldClickAdd"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_callsOnHoldClickMerge", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_callsOnHoldClickMerge"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_confirmMergeClickClose", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_confirmMergeClickClose"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_confirmMergeClickMerge", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_confirmMergeClickMerge"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_removeParticipantClickRemove", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_removeParticipantClickRemove"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_removeParticipantClickCancel", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_removeParticipantClickCancel"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_participantListClickHangup", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_participantListClickHangup"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_callControlClickParticipantArea", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_callControlClickParticipantArea"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_callsOnHoldClickHangup", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_callsOnHoldClickHangup"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_schedule", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_schedule"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_viewCallLogPage", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_viewCallLogPage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_notificationClickLog", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_notificationClickLog"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_muteOnSimpleCallControl", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_muteOnSimpleCallControl"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_unmuteOnSimpleCallControl", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_unmuteOnSimpleCallControl"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_holdOnSimpleCallControl", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_holdOnSimpleCallControl"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_unholdOnSimpleCallControl", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_unholdOnSimpleCallControl"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_confirmTransfer", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_confirmTransfer"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_muteOnCallLogPage", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_muteOnCallLogPage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_unmuteOnCallLogPage", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_unmuteOnCallLogPage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_holdOnCallLogPage", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_holdOnCallLogPage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_unholdOnCallLogPage", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_unholdOnCallLogPage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_hangupOnCallLogPage", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_hangupOnCallLogPage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_smsHistoryPlaceRingOutCall", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_smsHistoryPlaceRingOutCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_callHistoryPlaceRingOutCall", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_callHistoryPlaceRingOutCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_dialerPlaceRingOutCall", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_dialerPlaceRingOutCall"), _class2.prototype)), _class2)) || _class);
+}(_RcModule2["default"]), (_applyDecoratedDescriptor(_class2.prototype, "_authentication", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_authentication"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_logout", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_logout"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_accountInfoReady", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_accountInfoReady"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_callAttempt", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_callAttempt"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_callConnected", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_callConnected"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_webRTCRegistration", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_webRTCRegistration"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_smsAttempt", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_smsAttempt"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_smsSentOver", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_smsSentOver"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_smsSentError", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_smsSentError"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_logCall", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_logCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_logSMS", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_logSMS"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_clickToDial", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_clickToDial"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_clickToDialPlaceRingOutCall", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_clickToDialPlaceRingOutCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_clickToSMS", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_clickToSMS"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_viewEntity", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_viewEntity"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_createEntity", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_createEntity"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_editCallLog", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_editCallLog"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_editSMSLog", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_editSMSLog"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_navigate", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_navigate"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_inboundCall", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_inboundCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_textClickToDial", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_textClickToDial"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_voicemailClickToDial", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_voicemailClickToDial"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_voicemailClickToSMS", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_voicemailClickToSMS"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_voicemailDelete", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_voicemailDelete"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_voicemailFlag", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_voicemailFlag"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_contactDetailClickToDial", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_contactDetailClickToDial"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_contactDetailClickToSMS", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_contactDetailClickToSMS"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_callHistoryClickToDial", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_callHistoryClickToDial"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_callHistoryClickToSMS", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_callHistoryClickToSMS"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_conferenceInviteWithText", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_conferenceInviteWithText"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_conferenceAddDialInNumber", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_conferenceAddDialInNumber"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_conferenceJoinAsHost", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_conferenceJoinAsHost"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_showWhatsNew", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_showWhatsNew"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_allCallsClickHold", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_allCallsClickHold"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_allCallsClickHangup", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_allCallsClickHangup"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_allCallsCallItemClick", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_allCallsCallItemClick"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_callControlClickAdd", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_callControlClickAdd"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_callControlClickMerge", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_callControlClickMerge"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_mergeCallControlClickMerge", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_mergeCallControlClickMerge"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_mergeCallControlClickHangup", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_mergeCallControlClickHangup"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_inboundCallConnectedTrack", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_inboundCallConnectedTrack"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_outboundCallConnectedTrack", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_outboundCallConnectedTrack"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_callsOnHoldClickAdd", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_callsOnHoldClickAdd"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_callsOnHoldClickMerge", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_callsOnHoldClickMerge"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_confirmMergeClickClose", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_confirmMergeClickClose"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_confirmMergeClickMerge", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_confirmMergeClickMerge"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_removeParticipantClickRemove", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_removeParticipantClickRemove"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_removeParticipantClickCancel", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_removeParticipantClickCancel"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_participantListClickHangup", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_participantListClickHangup"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_callControlClickParticipantArea", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_callControlClickParticipantArea"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_callsOnHoldClickHangup", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_callsOnHoldClickHangup"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_schedule", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_schedule"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_viewCallLogPage", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_viewCallLogPage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_notificationClickLog", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_notificationClickLog"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_muteOnSimpleCallControl", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_muteOnSimpleCallControl"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_unmuteOnSimpleCallControl", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_unmuteOnSimpleCallControl"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_holdOnSimpleCallControl", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_holdOnSimpleCallControl"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_unholdOnSimpleCallControl", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_unholdOnSimpleCallControl"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_confirmTransfer", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_confirmTransfer"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_muteOnCallLogPage", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_muteOnCallLogPage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_unmuteOnCallLogPage", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_unmuteOnCallLogPage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_holdOnCallLogPage", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_holdOnCallLogPage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_unholdOnCallLogPage", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_unholdOnCallLogPage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_hangupOnCallLogPage", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_hangupOnCallLogPage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_smsHistoryPlaceRingOutCall", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_smsHistoryPlaceRingOutCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_callHistoryPlaceRingOutCall", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_callHistoryPlaceRingOutCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_dialerPlaceRingOutCall", [tracking], Object.getOwnPropertyDescriptor(_class2.prototype, "_dialerPlaceRingOutCall"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "trackedUserInfo", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "trackedUserInfo"), _class2.prototype)), _class2)) || _class);
 exports.Analytics = Analytics;
 //# sourceMappingURL=Analytics.js.map

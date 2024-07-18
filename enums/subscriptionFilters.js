@@ -12,7 +12,10 @@ var subscriptionFilters = _ObjectMap.ObjectMap.fromObject({
   accountExtension: '/restapi/v1.0/account/~/extension',
   companyContacts: '/restapi/v1.0/account/~/directory/contacts',
   messageStore: '/restapi/v1.0/account/~/extension/~/message-store',
-  telephonySessions: '/restapi/v1.0/account/~/extension/~/telephony/sessions'
+  instantMessage: '/restapi/v1.0/account/~/extension/~/message-store/instant?type=SMS',
+  telephonySessions: '/restapi/v1.0/account/~/extension/~/telephony/sessions',
+  startRing: '/restapi/v1.0/account/~/extension/~/start-ring',
+  stopRing: '/restapi/v1.0/account/~/extension/~/stop-ring'
 });
 exports.subscriptionFilters = subscriptionFilters;
 var _default = subscriptionFilters;

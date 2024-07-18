@@ -1,57 +1,60 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 require("core-js/modules/es.array.concat");
 require("core-js/modules/es.array.filter");
 require("core-js/modules/es.array.find");
+require("core-js/modules/es.array.for-each");
 require("core-js/modules/es.array.index-of");
 require("core-js/modules/es.array.slice");
+require("core-js/modules/es.array.some");
 require("core-js/modules/es.array.splice");
 require("core-js/modules/es.function.name");
 require("core-js/modules/es.object.get-own-property-descriptor");
 require("core-js/modules/es.object.values");
 require("core-js/modules/es.regexp.exec");
 require("core-js/modules/es.string.match");
+require("core-js/modules/web.dom-collections.for-each");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.CallMonitor = void 0;
+var _core = require("@ringcentral-integration/core");
 var _events = require("events");
 var _ramda = require("ramda");
-var _core = require("@ringcentral-integration/core");
+var _trackEvents = require("../../enums/trackEvents");
 var _callLogHelpers = require("../../lib/callLogHelpers");
 var _di = require("../../lib/di");
 var _normalizeNumber = require("../../lib/normalizeNumber");
 var _ActiveCallControl = require("../ActiveCallControl");
-var _trackEvents = require("../../enums/trackEvents");
 var _webphoneHelper = require("../Webphone/webphoneHelper");
 var _callEvents = require("./callEvents");
 var _callMonitorHelper = require("./callMonitorHelper");
 var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _dec12, _dec13, _dec14, _dec15, _dec16, _dec17, _dec18, _dec19, _dec20, _dec21, _dec22, _dec23, _dec24, _dec25, _dec26, _dec27, _dec28, _dec29, _dec30, _dec31, _dec32, _class, _class2, _descriptor;
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
-function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
-function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'transform-class-properties is enabled and runs after the decorators transform.'); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) { n[e] = r[e]; } return n; }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
+function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
+function _initializerWarningHelper(r, e) { throw Error("Decorating class property failed. Please ensure that transform-class-properties is enabled and runs after the decorators transform."); }
 var CallMonitor = (_dec = (0, _di.Module)({
   name: 'CallMonitor',
   deps: ['AccountInfo', 'Storage', 'Presence', 'ExtensionInfo', {
@@ -82,13 +85,15 @@ var CallMonitor = (_dec = (0, _di.Module)({
 }), _dec2 = (0, _core.track)(_trackEvents.trackEvents.callInboundCallConnected), _dec3 = (0, _core.track)(_trackEvents.trackEvents.callOutboundRingOutCallConnected), _dec4 = (0, _core.track)(_trackEvents.trackEvents.clickCallItem), _dec5 = (0, _core.track)(_trackEvents.trackEvents.clickHoldAllCalls), _dec6 = (0, _core.track)(_trackEvents.trackEvents.clickHangupAllCalls), _dec7 = (0, _core.track)(_trackEvents.trackEvents.clickRejectAllCalls), _dec8 = (0, _core.track)(_trackEvents.trackEvents.clickAddCallControl), _dec9 = (0, _core.track)(_trackEvents.trackEvents.clickHangupMergeCallControl), _dec10 = (0, _core.track)(function (that) {
   var _that$_deps$conferenc, _that$_deps$conferenc2;
   return [
-  // @ts-expect-error
+  // @ts-expect-error TS(2341): Property 'state' is private and only accessible wi... Remove this comment to see the full error message
   Object.values((_that$_deps$conferenc = (_that$_deps$conferenc2 = that._deps.conferenceCall) === null || _that$_deps$conferenc2 === void 0 ? void 0 : _that$_deps$conferenc2.state.mergingPair) !== null && _that$_deps$conferenc !== void 0 ? _that$_deps$conferenc : {}).length ? _trackEvents.trackEvents.clickMergeCallControl : _trackEvents.trackEvents.clickMergeMergeCallControl];
 }), _dec11 = (0, _core.track)(_trackEvents.trackEvents.clickCloseConfirmMergeModal), _dec12 = (0, _core.track)(_trackEvents.trackEvents.clickMergeConfirmMergeModal), _dec13 = (0, _core.track)(_trackEvents.trackEvents.clickAddCallsOnHold), _dec14 = (0, _core.track)(_trackEvents.trackEvents.clickMergeCallsOnHold), _dec15 = (0, _core.track)(_trackEvents.trackEvents.clickHangupCallsOnHold), _dec16 = (0, _core.track)(_trackEvents.trackEvents.clickParticipantAreaCallControl), _dec17 = (0, _core.computed)(function (that) {
   var _that$_deps$contactMa, _that$_deps$activityM;
   return [that.normalizedCalls, (_that$_deps$contactMa = that._deps.contactMatcher) === null || _that$_deps$contactMa === void 0 ? void 0 : _that$_deps$contactMa.dataMapping, (_that$_deps$activityM = that._deps.activityMatcher) === null || _that$_deps$activityM === void 0 ? void 0 : _that$_deps$activityM.dataMapping, that.callMatched];
 }), _dec18 = (0, _core.computed)(function (that) {
-  return [that.normalizedCallsFromPresence, that.normalizedCallsFromTelephonySessions, that.useTelephonySession];
+  return [
+  // Use "null" to avoid triggering get property unnecessarily that may cause issues
+  that.useTelephonySession ? null : that.normalizedCallsFromPresence, that.useTelephonySession ? that.normalizedCallsFromTelephonySessions : null, that.useTelephonySession];
 }), _dec19 = (0, _core.computed)(function (that) {
   var _that$_deps$webphone, _that$_deps$webphone2;
   return [that._deps.presence.calls, that._deps.accountInfo.countryCode, (_that$_deps$webphone = that._deps.webphone) === null || _that$_deps$webphone === void 0 ? void 0 : _that$_deps$webphone.sessions, (_that$_deps$webphone2 = that._deps.webphone) === null || _that$_deps$webphone2 === void 0 ? void 0 : _that$_deps$webphone2.cachedSessions];
@@ -135,7 +140,7 @@ var CallMonitor = (_dec = (0, _di.Module)({
     });
     _this._eventEmitter = new _events.EventEmitter();
     _this._useTelephonySession = (_this$_deps$callMonit = (_this$_deps$callMonit2 = _this._deps.callMonitorOptions) === null || _this$_deps$callMonit2 === void 0 ? void 0 : _this$_deps$callMonit2.useTelephonySession) !== null && _this$_deps$callMonit !== void 0 ? _this$_deps$callMonit : false;
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'NormalizedC... Remove this comment to see the full error message
     _this._normalizedCalls = null;
     _this._enableContactMatchWhenNewCall = (_this$_deps$callMonit3 = (_this$_deps$callMonit4 = _this._deps.callMonitorOptions) === null || _this$_deps$callMonit4 === void 0 ? void 0 : _this$_deps$callMonit4.enableContactMatchWhenNewCall) !== null && _this$_deps$callMonit3 !== void 0 ? _this$_deps$callMonit3 : true;
     _initializerDefineProperty(_this, "callMatched", _descriptor, _assertThisInitialized(_this));
@@ -259,7 +264,7 @@ var CallMonitor = (_dec = (0, _di.Module)({
         }, oldCalls);
         if (oldCallIndex === -1) {
           _this3._eventEmitter.emit(_callEvents.callEvents.newCall, call);
-          // loop to execut the onRinging handlers
+          // loop to execute the onRinging handlers
           if ((0, _callLogHelpers.isRinging)(call)) {
             _this3._eventEmitter.emit(_callEvents.callEvents.callRinging, call);
           }
@@ -280,7 +285,7 @@ var CallMonitor = (_dec = (0, _di.Module)({
         (0, _ramda.forEach)(function (entity) {
           var index = entities.indexOf(entity);
           var toEntity = entity &&
-          // @ts-expect-error
+          // @ts-expect-error TS(2345): Argument of type 'Entity[] | undefined' is not ass... Remove this comment to see the full error message
           (0, _ramda.find)(function (toMatch) {
             return toMatch.id === entity.entityId;
           }, call.toMatches);
@@ -300,9 +305,7 @@ var CallMonitor = (_dec = (0, _di.Module)({
   }, {
     key: "_removeMatched",
     value: function _removeMatched(index, entities) {
-      console.log('removeMatched:', index);
       entities.splice(index, 1);
-      console.log('entities after splice:', entities);
       return entities;
     }
   }, {
@@ -425,28 +428,28 @@ var CallMonitor = (_dec = (0, _di.Module)({
 
       // mapping and sort
       var theSessions = (_this$_deps$webphone$2 = (_this$_deps$webphone2 = this._deps.webphone) === null || _this$_deps$webphone2 === void 0 ? void 0 : _this$_deps$webphone2.sessions) !== null && _this$_deps$webphone$2 !== void 0 ? _this$_deps$webphone$2 : [];
-      // @ts-expect-error
+      // @ts-expect-error TS(2322): Type '({ from: { phoneNumber: string; }; to: { pho... Remove this comment to see the full error message
       this._normalizedCalls = (0, _ramda.sort)(
-      // @ts-expect-error
+      // @ts-expect-error TS(2345): Argument of type 'NormalizedSession | undefined' i... Remove this comment to see the full error message
       function (l, r) {
         return (0, _webphoneHelper.sortByLastActiveTimeDesc)(l.webphoneSession, r.webphoneSession);
       },
-      // @ts-expect-error
+      // @ts-expect-error TS(2345): Argument of type '({ from: { phoneNumber: string; ... Remove this comment to see the full error message
       (0, _ramda.map)(function (callItem) {
         // use account countryCode to normalize number due to API issues [RCINT-3419]
         var fromNumber = (0, _normalizeNumber.normalizeNumber)({
-          // @ts-expect-error
+          // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
           phoneNumber: callItem.from && callItem.from.phoneNumber,
           countryCode: _this5._deps.accountInfo.countryCode,
           maxExtensionLength: _this5._deps.accountInfo.maxExtensionNumberLength
         });
         var toNumber = (0, _normalizeNumber.normalizeNumber)({
-          // @ts-expect-error
+          // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
           phoneNumber: callItem.to && callItem.to.phoneNumber,
           countryCode: _this5._deps.accountInfo.countryCode,
           maxExtensionLength: _this5._deps.accountInfo.maxExtensionNumberLength
         });
-        var webphoneSession = (0, _callMonitorHelper.matchWephoneSessionWithAcitveCall)(theSessions, callItem);
+        var webphoneSession = (0, _callMonitorHelper.matchWebphoneSessionWithActiveCall)(theSessions, callItem);
         theSessions = (0, _ramda.filter)(function (x) {
           return x !== webphoneSession;
         }, theSessions);
@@ -467,18 +470,30 @@ var CallMonitor = (_dec = (0, _di.Module)({
     key: "normalizedCallsFromTelephonySessions",
     get: function get() {
       var _this$_deps$activeCal,
-        _this$_deps$activeCal2,
+        _this$_deps$webphone3,
+        _this$_deps$webphone4,
         _this6 = this;
-      // TODO: match cached calls when there are conference merging calls, refer to `normalizedCallsFromPresence` function
-      if (!((_this$_deps$activeCal = this._deps.activeCallControl) === null || _this$_deps$activeCal === void 0 ? void 0 : _this$_deps$activeCal.sessions)) return [];
-      var combinedCalls = _toConsumableArray((_this$_deps$activeCal2 = this._deps.activeCallControl) === null || _this$_deps$activeCal2 === void 0 ? void 0 : _this$_deps$activeCal2.sessions); // clone
-      var _this$_deps$activeCal3 = this._deps.activeCallControl,
-        currentDeviceCallsMap = _this$_deps$activeCal3.currentDeviceCallsMap,
-        transferCallMapping = _this$_deps$activeCal3.transferCallMapping; // mapping and sort
-      // @ts-expect-error
-      this._normalizedCalls = (0, _ramda.sort)(
-      // @ts-expect-error
-      function (l, r) {
+      if (!((_this$_deps$activeCal = this._deps.activeCallControl) === null || _this$_deps$activeCal === void 0 ? void 0 : _this$_deps$activeCal.sessions)) {
+        return [];
+      }
+
+      // Match cached calls at the very beginning
+      var cachedCalls = [];
+      if (this._normalizedCalls && ((_this$_deps$webphone3 = this._deps.webphone) === null || _this$_deps$webphone3 === void 0 ? void 0 : (_this$_deps$webphone4 = _this$_deps$webphone3.cachedSessions) === null || _this$_deps$webphone4 === void 0 ? void 0 : _this$_deps$webphone4.length)) {
+        cachedCalls = this._normalizedCalls.filter(function (x) {
+          var _this6$_deps$webphone;
+          return (_this6$_deps$webphone = _this6._deps.webphone) === null || _this6$_deps$webphone === void 0 ? void 0 : _this6$_deps$webphone.cachedSessions.some(function (i) {
+            var _i$partyData;
+            return ((_i$partyData = i.partyData) === null || _i$partyData === void 0 ? void 0 : _i$partyData.sessionId) === x.telephonySessionId;
+          });
+        });
+      }
+      var combinedCalls = _toConsumableArray(this._deps.activeCallControl.sessions); // clone
+      var _this$_deps$activeCal2 = this._deps.activeCallControl,
+        currentDeviceCallsMap = _this$_deps$activeCal2.currentDeviceCallsMap,
+        transferCallMapping = _this$_deps$activeCal2.transferCallMapping; // mapping and sort
+      // @ts-ignore
+      this._normalizedCalls = (0, _ramda.sort)(function (l, r) {
         return (0, _webphoneHelper.sortByLastActiveTimeDesc)(l.webphoneSession, r.webphoneSession);
       }, (0, _ramda.map)(function (callItem) {
         var _party$status;
@@ -501,7 +516,7 @@ var CallMonitor = (_dec = (0, _di.Module)({
           var presenceCall = _this6._deps.presence.calls.find(function (presenceCall) {
             return presenceCall.telephonySessionId === callItem.id;
           });
-          // @ts-expect-error
+          // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
           id = presenceCall === null || presenceCall === void 0 ? void 0 : presenceCall.id;
         }
         var fromNumber = (0, _normalizeNumber.normalizeNumber)({
@@ -517,7 +532,7 @@ var CallMonitor = (_dec = (0, _di.Module)({
         var toName = to === null || to === void 0 ? void 0 : to.name;
         var fromName = from === null || from === void 0 ? void 0 : from.name;
         var partyId = party === null || party === void 0 ? void 0 : party.id;
-        // @ts-expect-error
+        // @ts-expect-error TS(2345): Argument of type 'PartyStatusCode | undefined' is ... Remove this comment to see the full error message
         var telephonyStatus = (0, _ActiveCallControl.mapTelephonyStatus)(party === null || party === void 0 ? void 0 : (_party$status = party.status) === null || _party$status === void 0 ? void 0 : _party$status.code);
 
         // TODO: add sipData here
@@ -546,6 +561,17 @@ var CallMonitor = (_dec = (0, _di.Module)({
       }, combinedCalls).filter(function (x) {
         return !!x;
       }));
+
+      // Keep the cached calls in the list
+      if (this._normalizedCalls) {
+        cachedCalls.forEach(function (cachedCall) {
+          if (!_this6._normalizedCalls.find(function (x) {
+            return x.id === cachedCall.id;
+          })) {
+            _this6._normalizedCalls.push(cachedCall);
+          }
+        });
+      }
       return this._normalizedCalls;
     }
   }, {
@@ -554,9 +580,8 @@ var CallMonitor = (_dec = (0, _di.Module)({
       var _this7 = this;
       return (0, _ramda.filter)(function (callItem) {
         var _this7$_deps$conferen;
-        // filtering out the conferece during merging
+        // filtering out the conference during merging
         if ((_this7$_deps$conferen = _this7._deps.conferenceCall) === null || _this7$_deps$conferen === void 0 ? void 0 : _this7$_deps$conferen.isMerging) {
-          // @ts-expect-error
           return !(0, _webphoneHelper.isConferenceSession)(callItem.webphoneSession);
         }
         return true;
@@ -566,11 +591,11 @@ var CallMonitor = (_dec = (0, _di.Module)({
     key: "activeRingCalls",
     get: function get() {
       var _this8 = this;
-      // @ts-expect-error
+      // @ts-expect-error TS(2769): No overload matches this call.
       return (0, _ramda.filter)(function (callItem) {
         if (_this8.useTelephonySession) {
           return callItem.webphoneSession && callItem.telephonySession &&
-          // @ts-expect-error
+          // @ts-expect-error TS(2345): Argument of type '{ status: string; id: string; di... Remove this comment to see the full error message
           (0, _ActiveCallControl.isRinging)(callItem.telephonySession);
         }
         return callItem.webphoneSession && (0, _webphoneHelper.isRing)(callItem.webphoneSession);
@@ -582,16 +607,16 @@ var CallMonitor = (_dec = (0, _di.Module)({
       if (this.useTelephonySession) {
         return (0, _ramda.filter)(function (callItem) {
           return (
-            // @ts-expect-error
+            // @ts-expect-error TS(2769): No overload matches this call.
             callItem.webphoneSession && callItem.telephonySession &&
-            // @ts-expect-error
+            // @ts-expect-error TS(2345): Argument of type '{ status: string; id: string; di... Remove this comment to see the full error message
             (0, _ActiveCallControl.isHolding)(callItem.telephonySession)
           );
         }, this.calls);
       }
       return (0, _ramda.filter)(function (callItem) {
         return (
-          // @ts-expect-error
+          // @ts-expect-error TS(2769): No overload matches this call.
           callItem.webphoneSession && (0, _webphoneHelper.isOnHold)(callItem.webphoneSession)
         );
       }, this.calls);
@@ -600,13 +625,13 @@ var CallMonitor = (_dec = (0, _di.Module)({
     key: "_activeCurrentCalls",
     get: function get() {
       var _this9 = this;
-      // @ts-expect-error
+      // @ts-expect-error TS(2769): No overload matches this call.
       return (0, _ramda.filter)(function (callItem) {
         if (_this9.useTelephonySession) {
           return callItem.webphoneSession && callItem.telephonySession &&
-          // @ts-expect-error
+          // @ts-expect-error TS(2345): Argument of type '{ status: string; id: string; di... Remove this comment to see the full error message
           !(0, _ActiveCallControl.isRinging)(callItem.telephonySession) &&
-          // @ts-expect-error
+          // @ts-expect-error TS(2345): Argument of type '{ status: string; id: string; di... Remove this comment to see the full error message
           !(0, _ActiveCallControl.isHolding)(callItem.telephonySession);
         }
         return callItem.webphoneSession && !(0, _webphoneHelper.isOnHold)(callItem.webphoneSession) && !(0, _webphoneHelper.isRing)(callItem.webphoneSession);
@@ -629,8 +654,8 @@ var CallMonitor = (_dec = (0, _di.Module)({
     key: "otherDeviceCalls",
     get: function get() {
       var _this10 = this,
-        _this$_deps$activeCal4,
-        _this$_deps$webphone3;
+        _this$_deps$activeCal3,
+        _this$_deps$webphone5;
       return (0, _ramda.reduce)(function (_ref2, callItem) {
         var sessionsCache = _ref2.sessionsCache,
           res = _ref2.res;
@@ -647,13 +672,13 @@ var CallMonitor = (_dec = (0, _di.Module)({
           };
         }
         // TODO: refactor
-        // @ts-expect-error
+        // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'boolean | N... Remove this comment to see the full error message
         var endCall = null;
         if (_this10.useTelephonySession) {
           endCall = (0, _callMonitorHelper.isCurrentDeviceEndCall)(sessionsCache, callItem);
         } else {
-          // @ts-expect-error
-          endCall = (0, _callMonitorHelper.matchWephoneSessionWithAcitveCall)(sessionsCache, callItem);
+          // @ts-expect-error TS(2322): Type 'NormalizedSession | undefined' is not assign... Remove this comment to see the full error message
+          endCall = (0, _callMonitorHelper.matchWebphoneSessionWithActiveCall)(sessionsCache, callItem);
         }
         return {
           sessionsCache: (0, _ramda.filter)(function (x) {
@@ -662,7 +687,7 @@ var CallMonitor = (_dec = (0, _di.Module)({
           res: endCall ? res : [].concat(_toConsumableArray(res), [callItem])
         };
       }, {
-        sessionsCache: this.useTelephonySession ? (_this$_deps$activeCal4 = this._deps.activeCallControl) === null || _this$_deps$activeCal4 === void 0 ? void 0 : _this$_deps$activeCal4.lastEndedSessionIds : (_this$_deps$webphone3 = this._deps.webphone) === null || _this$_deps$webphone3 === void 0 ? void 0 : _this$_deps$webphone3.lastEndedSessions,
+        sessionsCache: this.useTelephonySession ? (_this$_deps$activeCal3 = this._deps.activeCallControl) === null || _this$_deps$activeCal3 === void 0 ? void 0 : _this$_deps$activeCal3.lastEndedSessionIds : (_this$_deps$webphone5 = this._deps.webphone) === null || _this$_deps$webphone5 === void 0 ? void 0 : _this$_deps$webphone5.lastEndedSessions,
         res: []
       }, this.calls).res;
     }

@@ -5,7 +5,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  tollFree: "Maksuton"
+  tollFree: "Maksuton",
+  rcvPmiMeetingTitle: "{extensionName} – videotapaaminen"
 }; // @key: @#@"tollFree"@#@ @source: @#@"Toll-Free"@#@
+// @key: @#@"rcvPmiMeetingTitle"@#@ @source: @#@"{extensionName}'s video meeting"@#@
 exports["default"] = _default;
 //# sourceMappingURL=fi-FI.js.map

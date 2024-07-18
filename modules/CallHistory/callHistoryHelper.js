@@ -21,7 +21,7 @@ var pickPhoneNumber = function pickPhoneNumber(phoneNumber) {
   return phoneNumber;
 };
 
-// @ts-expect-error
+// @ts-expect-error TS(2322): Type '(phoneNumber: string, extension: string) => ... Remove this comment to see the full error message
 var pickPhoneOrExtensionNumber = function pickPhoneOrExtensionNumber(phoneNumber, extension) {
   return phoneNumber || extension;
 };
@@ -30,7 +30,7 @@ var formatExt = function formatExt(num) {
   return "".concat(RC_EXTENSION_DELIMITER).concat(num);
 };
 
-// @ts-expect-error
+// @ts-expect-error TS(2322): Type '(phoneNumber: string, extensionNumber: strin... Remove this comment to see the full error message
 var pickFullPhoneNumber = function pickFullPhoneNumber(phoneNumber, extensionNumber) {
   var number = phoneNumber;
   if (phoneNumber && extensionNumber) {

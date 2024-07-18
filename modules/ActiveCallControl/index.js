@@ -36,6 +36,17 @@ Object.keys(_ActiveCallControl2).forEach(function (key) {
     }
   });
 });
+var _callControlAlerts = require("./callControlAlerts");
+Object.keys(_callControlAlerts).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _callControlAlerts[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _callControlAlerts[key];
+    }
+  });
+});
 var _callControlError = require("./callControlError");
 Object.keys(_callControlError).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;

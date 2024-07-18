@@ -103,7 +103,31 @@ var trackEvents = _ObjectMap.ObjectMap.fromObject({
   clickReplyWithMessage: 'Call: Click Reply on Call Control',
   executionReplyWithMessage: 'Attempt to reply message on inbound call',
   clickToCallInContactDetails: 'Click To Dial (Contact Details)',
-  clickToSMSInContactDetails: 'Click To SMS (Contact Details)'
+  clickToSMSInContactDetails: 'Click To SMS (Contact Details)',
+  phoneConferenceCallMerge: 'Int_phone_conferenceCall_merge',
+  clickParticipantsIcon: 'Int_phone_conferenceCall_participantList',
+  clickRemoveParticipant: 'Int_phone_conferenceCall_removeParticipant',
+  clickConfirmRemoveParticipant: 'Int_phone_conferenceCall_removeParticipant_remove',
+  getContactSearch: 'Int_Phone_contactSearch',
+  searchedContactClicked: 'Int_Phone_searchedContactClicked',
+  callMade: 'Int_Phone_callMade',
+  transferAskFirst: 'Int_Phone_Transfer_askFirst',
+  transferSwitchOnholdCall: 'Int_Phone_Transfer_switchonholdCall',
+  transferToVoicemail: 'Int_Phone_Transfer_toVoicemail',
+  transferCompleteTransfer: 'Int_Phone_Transfer_completeTransfer',
+  toggleOnAutoLogTexts: 'Toggle on: auto SMS logging',
+  newLogAutomatically: 'Call Log: New log automatically',
+  newLogManually: 'Call Log: New log manually',
+  contactSearchFromDialPad: 'Call: Contact search from dial pad',
+  clickAddTextLogButton: 'Click Add text log button',
+  clickSaveOnAddTextLog: 'Click Save after click on Add text log when auto SMS log is on',
+  clickFeedback: 'Feedback: Click Feedback Button/Settings',
+  logSMSFromHistoryPage: 'SMS Log: Log SMS/Message history page',
+  logSMSFromConversationPage: 'SMS Log: Log SMS/SMS conversation page',
+  newSMSLogManually: 'SMS Log: New log manually',
+  viewLogFromCallHistory: 'Int_Phone_callHistory_viewLog',
+  uploadRingtone: 'Int_Audio_uploadRingtone',
+  deleteRingtone: 'Int_Audio_deleteRingtone'
 });
 exports.trackEvents = trackEvents;
 //# sourceMappingURL=trackEvents.js.map

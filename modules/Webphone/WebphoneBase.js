@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 require("core-js/modules/es.array.concat");
 require("core-js/modules/es.array.filter");
 require("core-js/modules/es.array.for-each");
@@ -22,44 +22,45 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.WebphoneBase = exports.DEFAULT_AUDIO = void 0;
 require("regenerator-runtime/runtime");
-var _events = require("events");
-var _ringcentralWebPhone = _interopRequireDefault(require("ringcentral-web-phone"));
-var _incoming = _interopRequireDefault(require("ringcentral-web-phone/audio/incoming.ogg"));
-var _outgoing = _interopRequireDefault(require("ringcentral-web-phone/audio/outgoing.ogg"));
 var _core = require("@ringcentral-integration/core");
 var _utils = require("@ringcentral-integration/utils");
+var _events = require("events");
+var _ringcentralWebPhone = _interopRequireDefault(require("ringcentral-web-phone"));
 var _trackEvents = require("../../enums/trackEvents");
+var _SipInstanceManager = require("../../lib/SipInstanceManager");
 var _di = require("../../lib/di");
 var _proxify = require("../../lib/proxy/proxify");
-var _SipInstanceManager = require("../../lib/SipInstanceManager");
+var _AudioHelper = require("./AudioHelper");
+var _incoming = _interopRequireDefault(require("./audio/incoming.mp3"));
+var _outgoing = _interopRequireDefault(require("./audio/outgoing.mp3"));
 var _connectionStatus = require("./connectionStatus");
 var _events2 = require("./events");
 var _webphoneErrors = require("./webphoneErrors");
 var _webphoneHelper = require("./webphoneHelper");
-var _dec, _dec2, _dec3, _dec4, _dec5, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6;
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
-function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _get() { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get.bind(); } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(arguments.length < 3 ? target : receiver); } return desc.value; }; } return _get.apply(this, arguments); }
-function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
-function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'transform-class-properties is enabled and runs after the decorators transform.'); }
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6;
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _get() { return _get = "undefined" != typeof Reflect && Reflect.get ? Reflect.get.bind() : function (e, t, r) { var p = _superPropBase(e, t); if (p) { var n = Object.getOwnPropertyDescriptor(p, t); return n.get ? n.get.call(arguments.length < 3 ? e : r) : n.value; } }, _get.apply(null, arguments); }
+function _superPropBase(t, o) { for (; !{}.hasOwnProperty.call(t, o) && null !== (t = _getPrototypeOf(t));) { ; } return t; }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
+function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
+function _initializerWarningHelper(r, e) { throw Error("Decorating class property failed. Please ensure that transform-class-properties is enabled and runs after the decorators transform."); }
 var DEFAULT_AUDIO = 'default';
 exports.DEFAULT_AUDIO = DEFAULT_AUDIO;
 var AUTO_RETRIES_DELAY = [0, 5 * 1000, 10 * 1000, 30 * 1000, 2 * 60 * 1000, 5 * 60 * 1000, 15 * 60 * 1000, 30 * 60 * 1000];
@@ -90,10 +91,12 @@ var WebphoneBase = (_dec = (0, _di.Module)({
     optional: true
   }]
 }), _dec2 = (0, _core.track)(_trackEvents.trackEvents.webRTCRegistration), _dec3 = (0, _core.computed)(function (that) {
-  return [that.ready, that._deps.audioSettings.ringtoneVolume, that._deps.audioSettings.ringtoneMuted];
+  return [that.ready, that._deps.audioSettings.ringtoneVolume];
 }), _dec4 = (0, _core.computed)(function (that) {
-  return [that.ready, that._deps.audioSettings.supportDevices, that._deps.audioSettings.outputDeviceId];
+  return [that.ready, that._deps.audioSettings.supportDevices, that._deps.audioSettings.ringtoneDeviceId];
 }), _dec5 = (0, _core.computed)(function (that) {
+  return [that.ready, that._deps.audioSettings.supportDevices, that._deps.audioSettings.outputDeviceId];
+}), _dec6 = (0, _core.computed)(function (that) {
   var _that$_deps$tabManage, _that$_deps$tabManage2;
   return [that.ready, (_that$_deps$tabManage = that._deps.tabManager) === null || _that$_deps$tabManage === void 0 ? void 0 : _that$_deps$tabManage.ready, (_that$_deps$tabManage2 = that._deps.tabManager) === null || _that$_deps$tabManage2 === void 0 ? void 0 : _that$_deps$tabManage2.active];
 }), _dec(_class = (_class2 = /*#__PURE__*/function (_RcModuleV) {
@@ -318,7 +321,7 @@ var WebphoneBase = (_dec = (0, _di.Module)({
                       });
                     }, 4000);
                   });
-                  window.addEventListener('unload', function () {
+                  window.addEventListener('pagehide', function () {
                     // mark current instance id as inactive, so app can reuse it after refresh
                     if (_this2._sipInstanceId) {
                       _this2._sipInstanceManager.setInstanceInactive(_this2._sipInstanceId, _this2._deps.auth.endpointId);
@@ -370,8 +373,7 @@ var WebphoneBase = (_dec = (0, _di.Module)({
         return _this3.shouldUpdateRingtoneVolume;
       }, function () {
         if (_this3.ready && _this3._webphone && _this3._webphone.userAgent) {
-          var ringtoneMuted = _this3._deps.audioSettings.ringtoneMuted;
-          _this3._webphone.userAgent.audioHelper.setVolume(ringtoneMuted ? 0 : _this3._deps.audioSettings.ringtoneVolume);
+          _this3._webphone.userAgent.audioHelper.setVolume(_this3._deps.audioSettings.ringtoneVolume);
         }
       });
       (0, _core.watch)(this, function () {
@@ -386,6 +388,16 @@ var WebphoneBase = (_dec = (0, _di.Module)({
       }, function () {
         if (_this3.ready && _this3._deps.audioSettings.supportDevices && _this3._remoteVideo && _this3._remoteVideo.setSinkId) {
           _this3._remoteVideo.setSinkId(_this3._deps.audioSettings.outputDeviceId);
+        }
+      });
+      (0, _core.watch)(this, function () {
+        return _this3.shouldSetRingtoneSinkId;
+      }, function () {
+        if (_this3.ready && _this3._deps.audioSettings.supportDevices && _this3._webphone && _this3._webphone.userAgent && _this3._webphone.userAgent.audioHelper &&
+        // @ts-expect-error
+        _this3._webphone.userAgent.audioHelper.setDeviceId) {
+          // @ts-expect-error
+          _this3._webphone.userAgent.audioHelper.setDeviceId(_this3._deps.audioSettings.ringtoneDeviceId);
         }
       });
       (0, _core.watch)(this, function () {
@@ -517,7 +529,6 @@ var WebphoneBase = (_dec = (0, _di.Module)({
                   console.error(e);
                   // ignore clean listener error
                 }
-
                 this._webphone = null;
               case 15:
               case "end":
@@ -573,7 +584,6 @@ var WebphoneBase = (_dec = (0, _di.Module)({
                   audioHelper: {
                     enabled: true // enables audio feedback when web phone is ringing or making a call
                   },
-
                   media: {
                     remote: this._remoteVideo,
                     local: this._localVideo
@@ -584,8 +594,12 @@ var WebphoneBase = (_dec = (0, _di.Module)({
                   // reuse sip instance id to avoid 603 issue at reconnection
                   autoStop: false
                 }, (_this$_deps$webphoneO2 = this._deps.webphoneOptions.webphoneSDKOptions) !== null && _this$_deps$webphoneO2 !== void 0 ? _this$_deps$webphoneO2 : {}));
+                // @ts-expect-error TS(2322): Type 'WebphoneAudioHelper' is not assignable to ty... Remove this comment to see the full error message
+                this._webphone.userAgent.audioHelper = new _AudioHelper.WebphoneAudioHelper({
+                  enabled: true
+                });
                 this.loadAudio();
-                this._webphone.userAgent.audioHelper.setVolume(this._deps.audioSettings.ringtoneMuted ? 0 : this._deps.audioSettings.ringtoneVolume);
+                this._webphone.userAgent.audioHelper.setVolume(this._deps.audioSettings.ringtoneVolume);
                 // Webphone userAgent registered event
                 this._webphone.userAgent.on('registered', function () {
                   if (!_this4.connected) {
@@ -629,6 +643,7 @@ var WebphoneBase = (_dec = (0, _di.Module)({
                   var statusCode = response ? response.statusCode || response.status_code : null;
                   switch (statusCode) {
                     // Webphone account over limit
+                    case 403:
                     case 603:
                       {
                         errorCode = _webphoneErrors.webphoneErrors.webphoneCountOverLimit;
@@ -667,7 +682,7 @@ var WebphoneBase = (_dec = (0, _di.Module)({
                 // });
                 // sip provision expired
                 // TODO: should check that type issue in ringcentral-web-phone
-                // @ts-ignore
+                // @ts-expect-error TS(2769): No overload matches this call.
                 this._webphone.userAgent.on('provisionUpdate', function () {
                   if (Object.keys(_this4.originalSessions).length === 0) {
                     _this4._deps.alert.warning({
@@ -730,7 +745,7 @@ var WebphoneBase = (_dec = (0, _di.Module)({
                     reason: null
                   };
                 });
-              case 16:
+              case 17:
               case "end":
                 return _context6.stop();
             }
@@ -842,7 +857,7 @@ var WebphoneBase = (_dec = (0, _di.Module)({
       }
       // do not connect if it is connecting
       // do not reconnect when user disconnected
-      if (this.connecting || this.disconnecting || this.inactiveDisconnecting) {
+      if (this.connecting || this.disconnecting || this.inactiveDisconnecting || this.reconnecting) {
         return false;
       }
       // do not connect when connected unless force
@@ -1402,6 +1417,8 @@ var WebphoneBase = (_dec = (0, _di.Module)({
           incoming: this.incomingAudio,
           outgoing: this.outgoingAudio
         });
+        // @ts-expect-error
+        this._webphone.userAgent.audioHelper.setDeviceId(this._deps.audioSettings.ringtoneDeviceId);
       }
     }
   }, {
@@ -1556,7 +1573,12 @@ var WebphoneBase = (_dec = (0, _di.Module)({
   }, {
     key: "shouldUpdateRingtoneVolume",
     get: function get() {
-      return [this.ready, this._deps.audioSettings.ringtoneVolume, this._deps.audioSettings.ringtoneMuted];
+      return [this.ready, this._deps.audioSettings.ringtoneVolume];
+    }
+  }, {
+    key: "shouldSetRingtoneSinkId",
+    get: function get() {
+      return [this.ready, this._deps.audioSettings.supportDevices, this._deps.audioSettings.ringtoneDeviceId];
     }
   }, {
     key: "shouldSetSinkId",
@@ -1642,6 +1664,10 @@ var WebphoneBase = (_dec = (0, _di.Module)({
   }, {
     key: "incomingAudio",
     get: function get() {
+      // support turn off ringtone
+      if (this.incomingAudioDataUrl === '') {
+        return '';
+      }
       return this.incomingAudioDataUrl || this.defaultIncomingAudio;
     }
   }, {
@@ -1718,6 +1744,6 @@ var WebphoneBase = (_dec = (0, _di.Module)({
       outgoingAudioDataUrl: null
     };
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "_setRingtoneIntoStorage", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setRingtoneIntoStorage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setIncomingAudioIntoStorage", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setIncomingAudioIntoStorage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_resetIncomingAudio", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_resetIncomingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setOutgoingAudioIntoStorage", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setOutgoingAudioIntoStorage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_resetOutgoingAudio", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_resetOutgoingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "shouldUpdateRingtoneVolume", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "shouldUpdateRingtoneVolume"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "shouldSetSinkId", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "shouldSetSinkId"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "shouldTriggerOnTabActive", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "shouldTriggerOnTabActive"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_sipProvision", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_sipProvision"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_connect", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_connect"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "connect", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "connect"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "disconnect", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "disconnect"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "showAlert", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "showAlert"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setOutgoingAudio", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "setOutgoingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resetOutgoingAudio", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "resetOutgoingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setIncomingAudio", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "setIncomingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resetIncomingAudio", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "resetIncomingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setRingtone", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "setRingtone"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "_setRingtoneIntoStorage", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setRingtoneIntoStorage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setIncomingAudioIntoStorage", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setIncomingAudioIntoStorage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_resetIncomingAudio", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_resetIncomingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_setOutgoingAudioIntoStorage", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setOutgoingAudioIntoStorage"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_resetOutgoingAudio", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_resetOutgoingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "shouldUpdateRingtoneVolume", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "shouldUpdateRingtoneVolume"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "shouldSetRingtoneSinkId", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "shouldSetRingtoneSinkId"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "shouldSetSinkId", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "shouldSetSinkId"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "shouldTriggerOnTabActive", [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, "shouldTriggerOnTabActive"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_sipProvision", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_sipProvision"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "_connect", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "_connect"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "connect", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "connect"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "disconnect", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "disconnect"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "showAlert", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "showAlert"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setOutgoingAudio", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "setOutgoingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resetOutgoingAudio", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "resetOutgoingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setIncomingAudio", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "setIncomingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "resetIncomingAudio", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "resetIncomingAudio"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "setRingtone", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "setRingtone"), _class2.prototype)), _class2)) || _class);
 exports.WebphoneBase = WebphoneBase;
 //# sourceMappingURL=WebphoneBase.js.map

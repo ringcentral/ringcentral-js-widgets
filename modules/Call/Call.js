@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 require("core-js/modules/es.array.find-index");
 require("core-js/modules/es.array.for-each");
 require("core-js/modules/es.array.includes");
@@ -18,37 +18,37 @@ exports.TO_NUMBER = exports.FROM_NUMBER = exports.Call = exports.ANONYMOUS = voi
 require("regenerator-runtime/runtime");
 var _core = require("@ringcentral-integration/core");
 var _extractControls2 = _interopRequireDefault(require("@ringcentral-integration/phone-number/lib/extractControls"));
+var _trackEvents = require("../../enums/trackEvents");
 var _di = require("../../lib/di");
 var _isBlank = require("../../lib/isBlank");
 var _proxify = require("../../lib/proxy/proxify");
 var _validateNumbers = require("../../lib/validateNumbers");
-var _trackEvents = require("../../enums/trackEvents");
 var _CallingSettings = require("../CallingSettings");
 var _Ringout = require("../Ringout");
 var _callErrors = require("./callErrors");
 var _callStatus = require("./callStatus");
 var _dec, _dec2, _dec3, _class, _class2, _descriptor, _descriptor2, _descriptor3;
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
-function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
-function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'transform-class-properties is enabled and runs after the decorators transform.'); }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
+function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
+function _initializerWarningHelper(r, e) { throw Error("Decorating class property failed. Please ensure that transform-class-properties is enabled and runs after the decorators transform."); }
 var TO_NUMBER = 'toNumber';
 exports.TO_NUMBER = TO_NUMBER;
 var FROM_NUMBER = 'fromNumber';
@@ -93,7 +93,7 @@ var Call = (_dec = (0, _di.Module)({
   _inherits(Call, _RcModuleV);
   var _super = _createSuper(Call);
   function Call(deps) {
-    var _this$_deps$callOptio, _this$_deps$callOptio2, _this$_deps$callOptio3, _this$_deps$callOptio4;
+    var _this$_deps$callOptio, _this$_deps$callOptio2;
     var _this;
     _classCallCheck(this, Call);
     _this = _super.call(this, {
@@ -101,15 +101,13 @@ var Call = (_dec = (0, _di.Module)({
       enableCache: true,
       storageKey: 'callData'
     });
-    _this._internationalCheck = void 0;
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string'.
     _this._callSettingMode = null;
     _this._useCallControlToMakeCall = void 0;
     _initializerDefineProperty(_this, "callStatus", _descriptor, _assertThisInitialized(_this));
     _initializerDefineProperty(_this, "toNumberEntities", _descriptor2, _assertThisInitialized(_this));
     _initializerDefineProperty(_this, "data", _descriptor3, _assertThisInitialized(_this));
-    _this._internationalCheck = (_this$_deps$callOptio = (_this$_deps$callOptio2 = _this._deps.callOptions) === null || _this$_deps$callOptio2 === void 0 ? void 0 : _this$_deps$callOptio2.internationalCheck) !== null && _this$_deps$callOptio !== void 0 ? _this$_deps$callOptio : true;
-    _this._useCallControlToMakeCall = (_this$_deps$callOptio3 = (_this$_deps$callOptio4 = _this._deps.callOptions) === null || _this$_deps$callOptio4 === void 0 ? void 0 : _this$_deps$callOptio4.useCallControlToMakeCall) !== null && _this$_deps$callOptio3 !== void 0 ? _this$_deps$callOptio3 : false;
+    _this._useCallControlToMakeCall = (_this$_deps$callOptio = (_this$_deps$callOptio2 = _this._deps.callOptions) === null || _this$_deps$callOptio2 === void 0 ? void 0 : _this$_deps$callOptio2.useCallControlToMakeCall) !== null && _this$_deps$callOptio !== void 0 ? _this$_deps$callOptio : false;
     return _this;
   }
   _createClass(Call, [{
@@ -200,7 +198,7 @@ var Call = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context2.prev = _context2.next) {
               case 0:
-                // @ts-expect-error
+                // @ts-expect-error TS(2322): Type 'string | null' is not assignable to type 'st... Remove this comment to see the full error message
                 this._callSettingMode = this._deps.callingSettings.callingMode;
                 if (!(this._callSettingMode === _CallingSettings.callingModes.webphone && this._deps.webphone)) {
                   _context2.next = 4;
@@ -223,7 +221,7 @@ var Call = (_dec = (0, _di.Module)({
   }, {
     key: "_resetCallModule",
     value: function _resetCallModule() {
-      // @ts-expect-error
+      // @ts-expect-error TS(2322): Type 'string | null' is not assignable to type 'st... Remove this comment to see the full error message
       this._callSettingMode = this._deps.callingSettings.callingMode;
       if (this._callSettingMode === _CallingSettings.callingModes.webphone && this._deps.webphone) {
         this._deps.webphone.disconnect();
@@ -243,7 +241,7 @@ var Call = (_dec = (0, _di.Module)({
                   _context3.next = 10;
                   break;
                 }
-                // @ts-expect-error
+                // @ts-expect-error TS(2322): Type 'string | null' is not assignable to type 'st... Remove this comment to see the full error message
                 this._callSettingMode = this._deps.callingSettings.callingMode;
                 if (!(oldCallSettingMode === _CallingSettings.callingModes.webphone)) {
                   _context3.next = 7;
@@ -314,17 +312,17 @@ var Call = (_dec = (0, _di.Module)({
                   isConference: isConference,
                   phoneNumber: phoneNumber,
                   recipient: recipient,
-                  // @ts-expect-error
+                  // @ts-expect-error TS(2339): Property 'type' does not exist on type 'NonNullabl... Remove this comment to see the full error message
                   contactResourceType: (recipient === null || recipient === void 0 ? void 0 : recipient.type) || null,
                   callSettingMode: this._callSettingMode,
-                  // @ts-expect-error
+                  // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
                   isValidNumber: isValidNumber,
-                  // @ts-expect-error
+                  // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
                   clickDialerToCall: clickDialerToCall
                 });
                 _context4.prev = 10;
                 if (fromNumber === 'undefined') {
-                  // @ts-expect-error
+                  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string'.
                   fromNumber = null;
                 }
                 if (!((_this$_deps$appFeatur = this._deps.appFeatures) === null || _this$_deps$appFeatur === void 0 ? void 0 : _this$_deps$appFeatur.isEDPEnabled)) {
@@ -353,7 +351,7 @@ var Call = (_dec = (0, _di.Module)({
                   break;
                 }
                 validatedNumbers.toNumber && this.setLastValidatedToNumber(validatedNumbers.toNumber);
-                // @ts-expect-error
+                // @ts-expect-error TS(2345): Argument of type '{ extendedControls: string[]; to... Remove this comment to see the full error message
                 _context4.next = 23;
                 return this._makeCall(_objectSpread(_objectSpread({}, validatedNumbers), {}, {
                   extendedControls: extendedControls
@@ -480,7 +478,6 @@ var Call = (_dec = (0, _di.Module)({
         }
         // TODO: should that need handle validated fail state?
       }
-
       if (isWebphone && theFromNumber === ANONYMOUS) {
         parsedFromNumber = ANONYMOUS;
       }
@@ -494,7 +491,7 @@ var Call = (_dec = (0, _di.Module)({
     value: function () {
       var _getValidatedNumbers2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(_ref7) {
         var _parsedToNumber, _parsedFromNumber;
-        var toNumber, fromNumber, isConference, isWebphone, theFromNumber, waitingValidateNumbers, parsedToNumber, parsedFromNumber, numbers, validResult, parsedNumbers, toNumberIndex, fromNumberIndex, _this$_deps$extension, _this$_deps$extension2, error, parsedToNumberE164, parsedFromNumberE164;
+        var toNumber, fromNumber, isConference, isWebphone, theFromNumber, waitingValidateNumbers, parsedToNumber, parsedFromNumber, numbers, validResult, parsedNumbers, toNumberIndex, fromNumberIndex, parsedToNumberE164, parsedFromNumberE164;
         return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
             switch (_context5.prev = _context5.next) {
@@ -572,20 +569,6 @@ var Call = (_dec = (0, _di.Module)({
                 parsedToNumber = parsedNumbers[toNumberIndex];
                 parsedFromNumber = parsedNumbers[fromNumberIndex];
               case 27:
-                if (!this._internationalCheck) {
-                  _context5.next = 31;
-                  break;
-                }
-                if (!(parsedToNumber && parsedToNumber.isInternational && !((_this$_deps$extension = this._deps.extensionFeatures.features) === null || _this$_deps$extension === void 0 ? void 0 : (_this$_deps$extension2 = _this$_deps$extension.InternationalCalling) === null || _this$_deps$extension2 === void 0 ? void 0 : _this$_deps$extension2.available))) {
-                  _context5.next = 31;
-                  break;
-                }
-                error = {
-                  phoneNumber: parsedToNumber.originalString,
-                  type: 'noInternational'
-                };
-                throw error;
-              case 31:
                 parsedToNumberE164 = (_parsedToNumber = parsedToNumber) === null || _parsedToNumber === void 0 ? void 0 : _parsedToNumber.parsedNumber;
                 parsedFromNumberE164 = (_parsedFromNumber = parsedFromNumber) === null || _parsedFromNumber === void 0 ? void 0 : _parsedFromNumber.parsedNumber;
                 if (isWebphone && theFromNumber === ANONYMOUS) {
@@ -595,7 +578,7 @@ var Call = (_dec = (0, _di.Module)({
                   toNumber: isConference ? parsedToNumberE164 || toNumber : parsedToNumberE164,
                   fromNumber: parsedFromNumberE164
                 });
-              case 35:
+              case 31:
               case "end":
                 return _context5.stop();
             }
@@ -636,7 +619,7 @@ var Call = (_dec = (0, _di.Module)({
                 session = _context6.sent;
                 return _context6.abrupt("break", 23);
               case 11:
-                if (!(this._deps.activeCallControl && this._useCallControlToMakeCall)) {
+                if (!this.isActiveCallControlApplicable) {
                   _context6.next = 17;
                   break;
                 }
@@ -697,6 +680,11 @@ var Call = (_dec = (0, _di.Module)({
     key: "lastValidatedToNumber",
     get: function get() {
       return this.data.lastValidatedToNumber;
+    }
+  }, {
+    key: "isActiveCallControlApplicable",
+    get: function get() {
+      return !!(this._deps.activeCallControl && this._useCallControlToMakeCall);
     }
   }, {
     key: "isIdle",

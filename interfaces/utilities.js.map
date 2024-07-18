@@ -1,0 +1,1 @@
+{"version":3,"file":"utilities.js","names":[],"sources":["interfaces/utilities.ts"],"sourcesContent":["export type PartialRequired<T, K extends keyof T> = Required<Pick<T, K>> &\n  Pick<T, Exclude<keyof T, K>>;\n"],"mappings":"","ignoreList":[]}

@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  meetingTitle: "Besprechung von {extensionName}"
+  meetingTitle: 'Besprechung von {extensionName}'
 }; // @key: @#@"meetingTitle"@#@ @source: @#@"{extensionName}'s Meeting"@#@
 exports["default"] = _default;
 //# sourceMappingURL=de-DE.js.map

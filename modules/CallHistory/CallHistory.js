@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 require("core-js/modules/es.array.concat");
 require("core-js/modules/es.array.filter");
 require("core-js/modules/es.array.find");
@@ -20,48 +20,48 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.CallHistory = void 0;
 require("regenerator-runtime/runtime");
-var _ramda = require("ramda");
 var _core = require("@ringcentral-integration/core");
+var _ramda = require("ramda");
+var _trackEvents = require("../../enums/trackEvents");
 var _callLogHelpers = require("../../lib/callLogHelpers");
 var _debounce = _interopRequireDefault(require("../../lib/debounce"));
 var _di = require("../../lib/di");
 var _normalizeNumber = require("../../lib/normalizeNumber");
 var _proxify = require("../../lib/proxy/proxify");
-var _trackEvents = require("../../enums/trackEvents");
 var _CallingSettings = require("../CallingSettings");
 var _callHistoryHelper = require("./callHistoryHelper");
 var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4;
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0) { ; } } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
-function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
-function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'transform-class-properties is enabled and runs after the decorators transform.'); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) { n[e] = r[e]; } return n; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0) { ; } } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
+function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
+function _initializerWarningHelper(r, e) { throw Error("Decorating class property failed. Please ensure that transform-class-properties is enabled and runs after the decorators transform."); }
 var DEFAULT_CLEAN_TIME = 24 * 60 * 60 * 1000; // 1 day
 var CallHistory = (_dec = (0, _di.Module)({
   name: 'CallHistory',
@@ -129,7 +129,6 @@ var CallHistory = (_dec = (0, _di.Module)({
       });
     }
     (_this$_deps$activityM = _this._deps.activityMatcher) === null || _this$_deps$activityM === void 0 ? void 0 : _this$_deps$activityM.addQuerySource({
-      // @ts-expect-error
       getQueriesFn: function getQueriesFn() {
         return _this.sessionIds;
       },
@@ -157,7 +156,7 @@ var CallHistory = (_dec = (0, _di.Module)({
       var _this2 = this;
       (0, _ramda.forEach)(function (call) {
         var callWithDuration = _objectSpread(_objectSpread({}, call), {}, {
-          // @ts-expect-error
+          // @ts-expect-error TS(2532): Object is possibly 'undefined'.
           duration: Math.floor((timestamp - call.startTime) / 1000)
         });
         var idx = (0, _ramda.findIndex)(function (item) {
@@ -180,7 +179,7 @@ var CallHistory = (_dec = (0, _di.Module)({
           return telephonySessionId === call.telephonySessionId;
         }) ||
         // clean current overdue ended call (default clean time: 1day).
-        // @ts-expect-error
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         Date.now() - call.startTime > DEFAULT_CLEAN_TIME);
       });
     }
@@ -210,9 +209,9 @@ var CallHistory = (_dec = (0, _di.Module)({
           return _this3.uniqueNumbers;
         }, function () {
           if (_this3.ready && (!_this3._deps.tabManager || _this3._deps.tabManager.active) &&
-          // @ts-expect-error
+          // @ts-expect-error TS(2532): Object is possibly 'undefined'.
           _this3._deps.contactMatcher.ready) {
-            // @ts-expect-error
+            // @ts-expect-error TS(2532): Object is possibly 'undefined'.
             _this3._deps.contactMatcher.triggerMatch();
           }
         });
@@ -222,9 +221,9 @@ var CallHistory = (_dec = (0, _di.Module)({
           return _this3.sessionIds;
         }, function () {
           if (_this3.ready && (!_this3._deps.tabManager || _this3._deps.tabManager.active) &&
-          // @ts-expect-error
+          // @ts-expect-error TS(2532): Object is possibly 'undefined'.
           _this3._deps.activityMatcher.ready) {
-            // @ts-expect-error
+            // @ts-expect-error TS(2532): Object is possibly 'undefined'.
             _this3._deps.activityMatcher.triggerMatch();
           }
         });
@@ -262,12 +261,12 @@ var CallHistory = (_dec = (0, _di.Module)({
           ready = _ref3[1];
         if (!ready) return;
         var ids = {};
-        // @ts-expect-error
+        // @ts-expect-error TS(2339): Property 'forEach' does not exist on type 'boolean... Remove this comment to see the full error message
         currentCalls.forEach(function (call) {
           ids[call.telephonySessionId] = true;
         });
         var shouldRemovedCalls = _this3.endedCalls.filter(
-        // @ts-expect-error
+        // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
         function (call) {
           return ids[call.telephonySessionId];
         });
@@ -352,7 +351,7 @@ var CallHistory = (_dec = (0, _di.Module)({
           }
         }, _callee3, this);
       }));
-      function updateSearchInput(_x2) {
+      function updateSearchInput(_x) {
         return _updateSearchInput.apply(this, arguments);
       }
       return updateSearchInput;
@@ -368,10 +367,10 @@ var CallHistory = (_dec = (0, _di.Module)({
     value: function findMatches(contactMapping, call) {
       var pickNumber = this.enableFullPhoneNumberMatch ? _callHistoryHelper.pickFullPhoneNumber : _callHistoryHelper.pickPhoneOrExtensionNumber;
       var fromNumber =
-      // @ts-expect-error
+      // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
       call.from && pickNumber(call.from.phoneNumber, call.from.extensionNumber);
       var toNumber =
-      // @ts-expect-error
+      // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
       call.to && pickNumber(call.to.phoneNumber, call.to.extensionNumber);
       var fromMatches = fromNumber && contactMapping[fromNumber] || [];
       var toMatches = toNumber && contactMapping[toNumber] || [];
@@ -428,10 +427,10 @@ var CallHistory = (_dec = (0, _di.Module)({
                 searchInput = this.searchInput;
                 effectSearchStr = searchInput.toLowerCase().trim();
                 data = calls.filter(function (call) {
-                  // @ts-expect-error
+                  // @ts-expect-error TS(2345): Argument of type 'HistoryCall' is not assignable t... Remove this comment to see the full error message
                   var _getPhoneNumberMatche = (0, _callLogHelpers.getPhoneNumberMatches)(call),
                     phoneNumber = _getPhoneNumberMatche.phoneNumber,
-                    matches = _getPhoneNumberMatche.matches; // @ts-expect-error
+                    matches = _getPhoneNumberMatche.matches; // @ts-expect-error TS(2533): Object is possibly 'null' or 'undefined'.
                   var matchesMatched = matches.some(function (entities) {
                     if (!entities || !entities.id) return false;
                     if (entities.name && entities.name.toLowerCase().indexOf(effectSearchStr) > -1) return true;
@@ -507,17 +506,17 @@ var CallHistory = (_dec = (0, _di.Module)({
       var callMatched = (_this$_deps$callMonit = (_this$_deps$callMonit2 = this._deps.callMonitor) === null || _this$_deps$callMonit2 === void 0 ? void 0 : _this$_deps$callMonit2.callMatched) !== null && _this$_deps$callMonit !== void 0 ? _this$_deps$callMonit : {};
       var telephonySessionIds = {};
       var calls = this.normalizedCalls.map(function (call) {
-        // @ts-expect-error
+        // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
         telephonySessionIds[call.telephonySessionId] = true;
-        // @ts-expect-error
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         var fromName = call.from.name || call.from.phoneNumber;
         var toName = call.to.name || call.to.phoneNumber;
-        // @ts-expect-error
+        // @ts-expect-error TS(2345): Argument of type 'ActiveCall' is not assignable to... Remove this comment to see the full error message
         var _this5$findMatches = _this5.findMatches(contactMapping, call),
           fromMatches = _this5$findMatches.fromMatches,
-          toMatches = _this5$findMatches.toMatches; // @ts-expect-error
+          toMatches = _this5$findMatches.toMatches; // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
         var activityMatches = activityMapping[call.sessionId] || [];
-        // @ts-expect-error
+        // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
         var matched = callMatched[call.sessionId];
         return _objectSpread(_objectSpread({}, call), {}, {
           fromName: fromName,
@@ -529,7 +528,7 @@ var CallHistory = (_dec = (0, _di.Module)({
         });
       });
       var filteredEndedCalls = this.endedCalls
-      // @ts-expect-error
+      // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
       .filter(function (call) {
         return !telephonySessionIds[call.telephonySessionId];
       }).map(function (call) {
@@ -556,7 +555,7 @@ var CallHistory = (_dec = (0, _di.Module)({
           var _this6$_deps$activity;
           return _objectSpread(_objectSpread({}, call), {}, {
             activityMatches:
-            // @ts-expect-error
+            // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
             ((_this6$_deps$activity = _this6._deps.activityMatcher) === null || _this6$_deps$activity === void 0 ? void 0 : _this6$_deps$activity.dataMapping[call.sessionId]) || []
           });
         });
@@ -570,7 +569,7 @@ var CallHistory = (_dec = (0, _di.Module)({
       var output = [];
       var numberMap = {};
       this.normalizedCalls.forEach(
-      // @ts-expect-error
+      // @ts-expect-error TS(2345): Argument of type '(call: Call) => void' is not ass... Remove this comment to see the full error message
       (0, _callHistoryHelper.addNumbersFromCall)(output, numberMap, this.enableFullPhoneNumberMatch));
       this.endedCalls.forEach((0, _callHistoryHelper.addNumbersFromCall)(output, numberMap, this.enableFullPhoneNumberMatch));
       return output;
@@ -580,7 +579,6 @@ var CallHistory = (_dec = (0, _di.Module)({
     get: function get() {
       var sessionIds = {};
       return this._deps.callLog.calls.map(function (call) {
-        // @ts-expect-error
         sessionIds[call.sessionId] = true;
         return call.sessionId;
       }).concat(this.endedCalls.filter(function (call) {

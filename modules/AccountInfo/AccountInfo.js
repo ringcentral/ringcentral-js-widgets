@@ -1,36 +1,39 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+require("core-js/modules/es.array.includes");
 require("core-js/modules/es.object.get-own-property-descriptor");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.AccountInfo = void 0;
+exports.subBrands = exports.AccountInfo = void 0;
 require("regenerator-runtime/runtime");
 var _core = require("@ringcentral-integration/core");
 var _permissionsMessages = require("../../enums/permissionsMessages");
 var _di = require("../../lib/di");
 var _Auth = require("../Auth");
 var _DataFetcherV = require("../DataFetcherV2");
-var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _class, _class2;
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
-function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _class, _class2;
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
+function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
+var subBrands = ['3000.Zayo', '3000.NWNC', '2000.Optus', '3000.Brightspeed'];
+exports.subBrands = subBrands;
 var AccountInfo = (_dec = (0, _di.Module)({
   name: 'AccountInfo',
   deps: ['Auth', 'Client', 'Alert', 'ExtensionFeatures', 'DataFetcherV2', {
@@ -43,7 +46,7 @@ var AccountInfo = (_dec = (0, _di.Module)({
 }), _dec2 = (0, _core.track)(function (that) {
   return function (analytics) {
     var _analytics$identify, _that$_deps$auth, _that$_deps$tierCheck;
-    // @ts-ignore
+    // @ts-expect-error TS(2339): Property 'identify' does not exist on type 'IAnaly... Remove this comment to see the full error message
     (_analytics$identify = analytics.identify) === null || _analytics$identify === void 0 ? void 0 : _analytics$identify.call(analytics, {
       userId: (_that$_deps$auth = that._deps.auth) === null || _that$_deps$auth === void 0 ? void 0 : _that$_deps$auth.ownerId,
       accountId: that.id,
@@ -63,6 +66,9 @@ var AccountInfo = (_dec = (0, _di.Module)({
   return [serviceInfo];
 }), _dec6 = (0, _core.computed)(function (_ref4) {
   var serviceInfo = _ref4.serviceInfo;
+  return [serviceInfo];
+}), _dec7 = (0, _core.computed)(function (_ref5) {
+  var serviceInfo = _ref5.serviceInfo;
   return [serviceInfo];
 }), _dec(_class = (_class2 = /*#__PURE__*/function (_DataFetcherV2Consume) {
   _inherits(AccountInfo, _DataFetcherV2Consume);
@@ -149,6 +155,12 @@ var AccountInfo = (_dec = (0, _di.Module)({
     key: "onInitSuccess",
     value: function onInitSuccess() {}
   }, {
+    key: "isCRMEnabled",
+    get: function get() {
+      var _this$_deps$tierCheck;
+      return (_this$_deps$tierCheck = this._deps.tierChecker) === null || _this$_deps$tierCheck === void 0 ? void 0 : _this$_deps$tierCheck.isCRMEnabled;
+    }
+  }, {
     key: "info",
     get: function get() {
       var _this$data;
@@ -200,8 +212,17 @@ var AccountInfo = (_dec = (0, _di.Module)({
       var _this$info$limits$max, _this$info$limits;
       return (_this$info$limits$max = (_this$info$limits = this.info.limits) === null || _this$info$limits === void 0 ? void 0 : _this$info$limits.maxExtensionNumberLength) !== null && _this$info$limits$max !== void 0 ? _this$info$limits$max : 6;
     }
+  }, {
+    key: "userBrandId",
+    get: function get() {
+      var _serviceInfo$uBrand, _serviceInfo$brand;
+      var serviceInfo = this.serviceInfo;
+      var uBrandId = (_serviceInfo$uBrand = serviceInfo.uBrand) === null || _serviceInfo$uBrand === void 0 ? void 0 : _serviceInfo$uBrand.id;
+      var brandId = uBrandId && subBrands.includes(uBrandId) ? uBrandId : (_serviceInfo$brand = serviceInfo.brand) === null || _serviceInfo$brand === void 0 ? void 0 : _serviceInfo$brand.id;
+      return brandId;
+    }
   }]);
   return AccountInfo;
-}(_DataFetcherV.DataFetcherV2Consumer), (_applyDecoratedDescriptor(_class2.prototype, "onInitSuccess", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "onInitSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "info", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "info"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "serviceInfo", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "serviceInfo"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "servicePlan", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "servicePlan"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "billingPlan", [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, "billingPlan"), _class2.prototype)), _class2)) || _class);
+}(_DataFetcherV.DataFetcherV2Consumer), (_applyDecoratedDescriptor(_class2.prototype, "onInitSuccess", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "onInitSuccess"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "info", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "info"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "serviceInfo", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "serviceInfo"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "servicePlan", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "servicePlan"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "billingPlan", [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, "billingPlan"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "userBrandId", [_dec7], Object.getOwnPropertyDescriptor(_class2.prototype, "userBrandId"), _class2.prototype)), _class2)) || _class);
 exports.AccountInfo = AccountInfo;
 //# sourceMappingURL=AccountInfo.js.map

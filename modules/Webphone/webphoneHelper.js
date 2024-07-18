@@ -8,7 +8,6 @@ require("core-js/modules/es.date.to-string");
 require("core-js/modules/es.object.keys");
 require("core-js/modules/es.parse-int");
 require("core-js/modules/es.regexp.exec");
-require("core-js/modules/es.string.ends-with");
 require("core-js/modules/es.string.match");
 require("core-js/modules/es.string.split");
 Object.defineProperty(exports, "__esModule", {
@@ -33,13 +32,13 @@ var _callDirections = _interopRequireDefault(require("../../enums/callDirections
 var _utils = require("../../lib/di/utils/utils");
 var _recordStatus = require("./recordStatus");
 var _sessionStatus = require("./sessionStatus");
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0) { ; } } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) { n[e] = r[e]; } return n; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0) { ; } } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 var environment;
 if (typeof window !== 'undefined') {
   environment = window;
@@ -114,16 +113,15 @@ function extractHeadersData(session, headers) {
 }
 function getCallQueueName(_ref3) {
   var direction = _ref3.direction,
-    toUserName = _ref3.toUserName,
-    fromUserName = _ref3.fromUserName;
-  if (direction === _callDirections["default"].outbound) {
+    headers = _ref3.headers;
+  if (direction === _callDirections["default"].outbound || !headers || !headers['P-Rc-Api-Call-Info'] || !headers['P-Rc-Api-Call-Info'][0] || !headers['P-Rc-Api-Call-Info'][0].raw || !headers['P-Asserted-Identity'] || !headers['P-Asserted-Identity'][0] || !headers['P-Asserted-Identity'][0].raw) {
     return null;
   }
-  var queueName = null;
-  if (toUserName && fromUserName === toUserName && toUserName.endsWith(' - ')) {
-    queueName = toUserName;
+  if (headers['P-Rc-Api-Call-Info'][0].raw.indexOf('queue-call') === -1) {
+    return null;
   }
-  return queueName;
+  var name = headers['P-Asserted-Identity'][0].raw.split('"')[1];
+  return name || null;
 }
 function normalizeSession(session) {
   var _session$request, _session$request$to, _session$request2, _session$request2$fro, _session$request3, _session$request3$to, _session$request3$to$, _session$request4, _session$request4$fro, _session$request4$fro2;
@@ -137,16 +135,16 @@ function normalizeSession(session) {
     callId: session.__rc_callId,
     direction: session.__rc_direction,
     callStatus: session.__rc_callStatus,
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
     to: (_session$request3 = session.request) === null || _session$request3 === void 0 ? void 0 : (_session$request3$to = _session$request3.to) === null || _session$request3$to === void 0 ? void 0 : (_session$request3$to$ = _session$request3$to.uri) === null || _session$request3$to$ === void 0 ? void 0 : _session$request3$to$.user,
     toUserName: toUserName,
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
     from: (_session$request4 = session.request) === null || _session$request4 === void 0 ? void 0 : (_session$request4$fro = _session$request4.from) === null || _session$request4$fro === void 0 ? void 0 : (_session$request4$fro2 = _session$request4$fro.uri) === null || _session$request4$fro2 === void 0 ? void 0 : _session$request4$fro2.user,
     fromNumber: session.__rc_fromNumber,
     fromUserName: fromUserName,
     fromTag: session.fromTag,
     toTag: session.toTag,
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type 'number | undefined' is not assignable to typ... Remove this comment to see the full error message
     startTime: session.startTime && new Date(session.startTime).getTime(),
     creationTime: session.__rc_creationTime,
     isOnHold: !!session.localHold,
@@ -157,21 +155,18 @@ function normalizeSession(session) {
     isForwarded: !!session.__rc_isForwarded,
     isReplied: !!session.__rc_isReplied,
     recordStatus: session.__rc_recordStatus || _recordStatus.recordStatus.idle,
-    // @ts-expect-error
+    // @ts-expect-error TS(2739): Type '{ id: string; }' is missing the following pr... Remove this comment to see the full error message
     contactMatch: session.__rc_contactMatch,
     minimized: !!session.__rc_minimized,
-    // @ts-expect-error
     partyData: session.__rc_partyData || null,
     lastActiveTime: session.__rc_lastActiveTime,
     cached: false,
     removed: false,
-    // @ts-expect-error
     callQueueName: getCallQueueName({
       direction: session.__rc_direction,
-      toUserName: toUserName,
-      fromUserName: fromUserName
+      headers: session.request && session.request.headers
     }),
-    warmTransferSessionId: session.__rc_transferSessionId
+    warmTransferSessionId: session.__rc_transferSessionId || ''
   };
 }
 function isRing(session) {
@@ -197,7 +192,8 @@ function sortByLastActiveTimeDesc(l, r) {
  * HACK: this function is not very reliable, only use it before the merging complete.
  */
 function isConferenceSession(session) {
-  return session && session.to && session.to.indexOf('conf_') === 0;
+  var _session$to;
+  return (session === null || session === void 0 ? void 0 : (_session$to = session.to) === null || _session$to === void 0 ? void 0 : _session$to.indexOf('conf_')) === 0;
 }
 function isRecording(session) {
   return !!(session && (session.recordStatus === _recordStatus.recordStatus.pending || session.recordStatus === _recordStatus.recordStatus.recording));

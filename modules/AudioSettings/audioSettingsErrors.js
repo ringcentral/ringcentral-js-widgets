@@ -5,6 +5,6 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.audioSettingsErrors = void 0;
 var _ObjectMap = require("@ringcentral-integration/core/lib/ObjectMap");
-var audioSettingsErrors = _ObjectMap.ObjectMap.prefixKeys(['userMediaPermission'], 'audioSettings');
+var audioSettingsErrors = _ObjectMap.ObjectMap.prefixKeys(['userMediaPermission', 'ringtoneSizeOverLimit', 'duplicateRingtone', 'uploadRingtoneFailed', 'deleteRingtoneFailed', 'checkMediaPermission'], 'audioSettings');
 exports.audioSettingsErrors = audioSettingsErrors;
 //# sourceMappingURL=audioSettingsErrors.js.map

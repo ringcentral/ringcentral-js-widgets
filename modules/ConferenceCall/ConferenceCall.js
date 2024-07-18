@@ -22,52 +22,52 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.ConferenceCall = void 0;
 require("regenerator-runtime/runtime");
+var _core = require("@ringcentral-integration/core");
 var _events = require("events");
 var _ramda = require("ramda");
-var _core = require("@ringcentral-integration/core");
 var _callDirections = _interopRequireDefault(require("../../enums/callDirections"));
 var _calleeTypes = _interopRequireDefault(require("../../enums/calleeTypes"));
 var _permissionsMessages = require("../../enums/permissionsMessages");
+var _trackEvents = require("../../enums/trackEvents");
 var _di = require("../../lib/di");
 var _proxify = require("../../lib/proxy/proxify");
-var _trackEvents = require("../../enums/trackEvents");
 var _CallingSettings = require("../CallingSettings");
 var _sessionStatus = _interopRequireDefault(require("../Webphone/sessionStatus"));
 var _webphoneHelper = require("../Webphone/webphoneHelper");
 var _conferenceCallErrors = require("./conferenceCallErrors");
 var _lib = require("./lib");
 var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5;
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _createForOfIteratorHelper(r, e) { var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (!t) { if (Array.isArray(r) || (t = _unsupportedIterableToArray(r)) || e && r && "number" == typeof r.length) { t && (r = t); var _n = 0, F = function F() {}; return { s: F, n: function n() { return _n >= r.length ? { done: !0 } : { done: !1, value: r[_n++] }; }, e: function e(r) { throw r; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var o, a = !0, u = !1; return { s: function s() { t = t.call(r); }, n: function n() { var r = t.next(); return a = r.done, r; }, e: function e(r) { u = !0, o = r; }, f: function f() { try { a || null == t["return"] || t["return"](); } finally { if (u) throw o; } } }; }
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
-function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _get() { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get.bind(); } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(arguments.length < 3 ? target : receiver); } return desc.value; }; } return _get.apply(this, arguments); }
-function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
-function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'transform-class-properties is enabled and runs after the decorators transform.'); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) { n[e] = r[e]; } return n; }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _get() { return _get = "undefined" != typeof Reflect && Reflect.get ? Reflect.get.bind() : function (e, t, r) { var p = _superPropBase(e, t); if (p) { var n = Object.getOwnPropertyDescriptor(p, t); return n.get ? n.get.call(arguments.length < 3 ? e : r) : n.value; } }, _get.apply(null, arguments); }
+function _superPropBase(t, o) { for (; !{}.hasOwnProperty.call(t, o) && null !== (t = _getPrototypeOf(t));) { ; } return t; }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
+function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
+function _initializerWarningHelper(r, e) { throw Error("Decorating class property failed. Please ensure that transform-class-properties is enabled and runs after the decorators transform."); }
 var ConferenceCall = (_dec = (0, _di.Module)({
   name: 'ConferenceCall',
   deps: ['Auth', 'Alert', 'Call', 'CallingSettings', 'ConnectivityMonitor', 'Client', 'AppFeatures', {
@@ -85,7 +85,7 @@ var ConferenceCall = (_dec = (0, _di.Module)({
   }]
 }), _dec2 = (0, _core.track)(_trackEvents.trackEvents.clickHangupParticipantList), _dec3 = (0, _core.track)(_trackEvents.trackEvents.cancelRemoveRemoveParticipantsModal), _dec4 = (0, _core.track)(_trackEvents.trackEvents.clickRemoveRemoveParticipantsModal), _dec5 = (0, _core.computed)(function (that) {
   return [
-  // @ts-expect-error
+  // @ts-expect-error TS(2532): Object is possibly 'undefined'.
   that._deps.webphone.sessions, that.mergingPair.fromSessionId, that.partyProfiles];
 }), _dec6 = (0, _core.computed)(function (that) {
   return [that.currentConferenceId, that.conferences];
@@ -101,13 +101,13 @@ var ConferenceCall = (_dec = (0, _di.Module)({
     });
     _this._eventEmitter = new _events.EventEmitter();
     _this._timers = {};
-    // @ts-expect-error
+    // @ts-expect-error TS(2564): Property '_fromSessionId' has no initializer and i... Remove this comment to see the full error message
     _this._fromSessionId = void 0;
     _this._ttl = _lib.DEFAULT_TTL;
     _this._timeout = (_this$_deps$conferenc = (_this$_deps$conferenc2 = _this._deps.conferenceCallOptions) === null || _this$_deps$conferenc2 === void 0 ? void 0 : _this$_deps$conferenc2.timeout) !== null && _this$_deps$conferenc !== void 0 ? _this$_deps$conferenc : _lib.DEFAULT_TIMEOUT;
     _this._capacity = (_this$_deps$conferenc3 = (_this$_deps$conferenc4 = _this._deps.conferenceCallOptions) === null || _this$_deps$conferenc4 === void 0 ? void 0 : _this$_deps$conferenc4.capacity) !== null && _this$_deps$conferenc3 !== void 0 ? _this$_deps$conferenc3 : _lib.MAXIMUM_CAPACITY;
     _this._pulling = (_this$_deps$conferenc5 = (_this$_deps$conferenc6 = _this._deps.conferenceCallOptions) === null || _this$_deps$conferenc6 === void 0 ? void 0 : _this$_deps$conferenc6.pulling) !== null && _this$_deps$conferenc5 !== void 0 ? _this$_deps$conferenc5 : true;
-    // @ts-expect-error
+    // @ts-expect-error TS(2564): Property '_lastCallInfo' has no initializer and is... Remove this comment to see the full error message
     _this._lastCallInfo = void 0;
     _initializerDefineProperty(_this, "conferences", _descriptor, _assertThisInitialized(_this));
     _initializerDefineProperty(_this, "conferenceCallStatus", _descriptor2, _assertThisInitialized(_this));
@@ -198,9 +198,8 @@ var ConferenceCall = (_dec = (0, _di.Module)({
         var session = (0, _ramda.find)(function (session) {
           return session.id === sessionId;
         },
-        // @ts-expect-error
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         this._deps.webphone.sessions);
-        // @ts-expect-error
         res = (0, _webphoneHelper.isConferenceSession)(session);
       }
       return res;
@@ -332,9 +331,9 @@ var ConferenceCall = (_dec = (0, _di.Module)({
         var propagate,
           conferenceState,
           sessionId,
-          conference,
           partyProfile,
           newConference,
+          conference,
           _conferenceState,
           newParties,
           _args4 = arguments;
@@ -355,46 +354,45 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                 return _context4.abrupt("return", null);
               case 5:
                 sessionId = conferenceState.sessionId;
-                conference = conferenceState.conference;
                 this.setConferenceCallStatus(_lib.conferenceCallStatus.requesting);
-                _context4.prev = 8;
+                _context4.prev = 7;
                 partyProfile = this._getProfile(webphoneSession.id);
-                _context4.next = 12;
+                _context4.next = 11;
                 return this._deps.client.service.platform().post("/restapi/v1.0/account/~/telephony/sessions/".concat(id, "/parties/bring-in"), webphoneSession.partyData);
-              case 12:
-                _context4.next = 14;
+              case 11:
+                _context4.next = 13;
                 return this.updateConferenceStatus(id);
-              case 14:
+              case 13:
                 newConference = _context4.sent;
                 conference = newConference.conference;
                 if (partyProfile) {
                   _conferenceState = this.conferences[id];
-                  newParties = (0, _lib.ascendSortParties)(_conferenceState.conference.parties); // @ts-expect-error
+                  newParties = (0, _lib.ascendSortParties)(_conferenceState.conference.parties); // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
                   partyProfile.id = newParties[newParties.length - 1].id;
                   this.bringInParty(conference, sessionId, partyProfile);
                 }
                 // else using BE push notification to get the new party data
                 return _context4.abrupt("return", id);
-              case 20:
-                _context4.prev = 20;
-                _context4.t0 = _context4["catch"](8);
+              case 19:
+                _context4.prev = 19;
+                _context4.t0 = _context4["catch"](7);
                 if (propagate) {
-                  _context4.next = 24;
+                  _context4.next = 23;
                   break;
                 }
                 return _context4.abrupt("return");
-              case 24:
+              case 23:
                 throw _context4.t0;
-              case 25:
-                _context4.prev = 25;
+              case 24:
+                _context4.prev = 24;
                 this.setConferenceCallStatus(_lib.conferenceCallStatus.idle);
-                return _context4.finish(25);
-              case 28:
+                return _context4.finish(24);
+              case 27:
               case "end":
                 return _context4.stop();
             }
           }
-        }, _callee4, this, [[8, 20, 25, 28]]);
+        }, _callee4, this, [[7, 19, 24, 27]]);
       }));
       function bringInToConference(_x5, _x6) {
         return _bringInToConference.apply(this, arguments);
@@ -491,7 +489,7 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                 }
                 return _context6.abrupt("return", null);
               case 7:
-                if (this._deps.callingSettings.callingMode === _CallingSettings.callingModes.webphone) {
+                if (!(this._deps.callingSettings.callingMode !== _CallingSettings.callingModes.webphone)) {
                   _context6.next = 10;
                   break;
                 }
@@ -530,15 +528,13 @@ var ConferenceCall = (_dec = (0, _di.Module)({
     key: "mergeToConference",
     value: function () {
       var _mergeToConference2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7() {
-        var _this2 = this;
+        var _this2 = this,
+          _this$_deps$webphone,
+          _this$_deps$webphone2;
         var webphoneSessions,
           sipInstances,
-          conferenceId,
           sessionIds,
           pSips,
-          _conferenceState$conf,
-          _conferenceState$conf2,
-          conferenceState,
           _args7 = arguments;
         return regeneratorRuntime.wrap(function _callee7$(_context7) {
           while (1) {
@@ -560,22 +556,18 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                 return _context7.abrupt("return");
               case 5:
                 this.setIsMerging(true);
-                conferenceId = null;
-                if (!this._deps.webphone) {
-                  _context7.next = 17;
-                  break;
-                }
+
                 /**
-                 * Because the concurrency behaviour of the server,
+                 * Because the concurrency behavior of the server,
                  * we cannot sure the merging process is over when
-                 * the function's procedure has finshed.
+                 * the function's procedure has finished.
                  */
                 sipInstances = (0, _ramda.map)(function (webphoneSession) {
-                  return (
-                    // @ts-expect-error
-                    _this2._deps.webphone._sessions.get(webphoneSession.id)
-                  );
-                }, webphoneSessions);
+                  var _this2$_deps$webphone;
+                  return (_this2$_deps$webphone = _this2._deps.webphone) === null || _this2$_deps$webphone === void 0 ? void 0 : _this2$_deps$webphone._sessions.get(webphoneSession.id);
+                }, webphoneSessions).filter(function (x) {
+                  return !!x;
+                });
                 /**
                  * HACK: we need to preserve the merging session in prevent the glitch of
                  * the call control page.
@@ -583,17 +575,16 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                 sessionIds = (0, _ramda.map)(function (x) {
                   return x.id;
                 }, webphoneSessions);
-                this._deps.webphone.setSessionCaching(sessionIds);
+                (_this$_deps$webphone = this._deps.webphone) === null || _this$_deps$webphone === void 0 ? void 0 : _this$_deps$webphone.setSessionCaching(sessionIds);
                 pSips = (0, _ramda.map)(function (instance) {
                   var p = new Promise(function (resolve) {
-                    // @ts-expect-error
                     instance.on('terminated', function () {
                       resolve(null);
                     });
                   });
                   return p;
                 }, sipInstances);
-                _context7.next = 14;
+                _context7.next = 12;
                 return Promise.all([this._mergeToConference(webphoneSessions)].concat(_toConsumableArray(pSips))).then(function () {
                   _this2.setIsMerging(false);
                   _this2.setMergingPair({});
@@ -615,59 +606,14 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                   });
                   _this2.setIsMerging(false);
                 });
-              case 14:
-                this._deps.webphone.clearSessionCaching();
-                _context7.next = 38;
-                break;
-              case 17:
-                _context7.prev = 17;
-                _context7.next = 20;
-                return this._mergeToConference(webphoneSessions);
-              case 20:
-                conferenceId = _context7.sent;
-                this.setIsMerging(false);
-                this.setMergingPair({});
-                this._eventEmitter.emit(_lib.mergeEvents.mergeSucceeded);
-                _context7.next = 37;
-                break;
-              case 26:
-                _context7.prev = 26;
-                _context7.t0 = _context7["catch"](17);
-                conferenceState = Object.values(this.conferences)[0];
-                /**
-                 * if create conference successfully but failed to bring-in,
-                 *  then terminate the conference.
-                 */
-                if (conferenceState && (conferenceState === null || conferenceState === void 0 ? void 0 : (_conferenceState$conf = conferenceState.conference) === null || _conferenceState$conf === void 0 ? void 0 : (_conferenceState$conf2 = _conferenceState$conf.parties) === null || _conferenceState$conf2 === void 0 ? void 0 : _conferenceState$conf2.length) < 1) {
-                  this.terminateConference(conferenceState.conference.id);
-                }
-                _context7.t1 = !this._deps.availabilityMonitor;
-                if (_context7.t1) {
-                  _context7.next = 35;
-                  break;
-                }
-                _context7.next = 34;
-                return this._deps.availabilityMonitor.checkIfHAError(_context7.t0);
-              case 34:
-                _context7.t1 = !_context7.sent;
-              case 35:
-                if (!_context7.t1) {
-                  _context7.next = 37;
-                  break;
-                }
-                this._deps.alert.warning({
-                  message: _conferenceCallErrors.conferenceCallErrors.bringInFailed
-                });
-              case 37:
-                if (!sipInstances || conferenceId === null) {
-                  this.setIsMerging(false);
-                }
-              case 38:
+              case 12:
+                (_this$_deps$webphone2 = this._deps.webphone) === null || _this$_deps$webphone2 === void 0 ? void 0 : _this$_deps$webphone2.clearSessionCaching();
+              case 13:
               case "end":
                 return _context7.stop();
             }
           }
-        }, _callee7, this, [[17, 26]]);
+        }, _callee7, this);
       }));
       function mergeToConference() {
         return _mergeToConference2.apply(this, arguments);
@@ -740,14 +686,14 @@ var ConferenceCall = (_dec = (0, _di.Module)({
     value: function getOnlinePartyProfiles(id) {
       var conferenceData = this.conferences[id];
       if (!conferenceData) {
-        // @ts-expect-error
+        // @ts-expect-error TS(2322): Type 'null' is not assignable to type '(Party & Pa... Remove this comment to see the full error message
         return null;
       }
       return (0, _lib.ascendSortParties)(conferenceData.conference.parties).reduce(function (accum, party, idx) {
         var _party$status;
         if ((party === null || party === void 0 ? void 0 : (_party$status = party.status) === null || _party$status === void 0 ? void 0 : _party$status.code.toLowerCase()) !== _lib.partyStatusCode.disconnected) {
           // 0 position is the host
-          // @ts-expect-error
+          // @ts-expect-error TS(2322): Type 'number' is not assignable to type 'never'.
           accum.push({
             idx: idx,
             party: party
@@ -778,13 +724,13 @@ var ConferenceCall = (_dec = (0, _di.Module)({
     key: "countOnlineParties",
     value: function countOnlineParties(id) {
       var res = this.getOnlineParties(id);
-      // @ts-expect-error
+      // @ts-expect-error TS(2531): Object is possibly 'null'.
       return (0, _ramda.is)(Array, res) ? res.length : null;
     }
   }, {
     key: "isOverload",
     value: function isOverload(id) {
-      // @ts-expect-error
+      // @ts-expect-error TS(2531): Object is possibly 'null'.
       return this.countOnlineParties(id) >= this._capacity;
     }
   }, {
@@ -843,47 +789,8 @@ var ConferenceCall = (_dec = (0, _di.Module)({
       delete this._timers[id];
     }
   }, {
-    key: "openPulling",
-    value: function openPulling() {
-      this._pulling = true;
-    }
-  }, {
-    key: "closePulling",
-    value: function closePulling() {
-      this._pulling = false;
-    }
-  }, {
-    key: "togglePulling",
-    value: function togglePulling() {
-      this._pulling = !this._pulling;
-    }
-  }, {
-    key: "setCapacity",
-    value: function setCapacity() {
-      var capacity = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _lib.MAXIMUM_CAPACITY;
-      if (typeof capacity !== 'number') {
-        throw new Error('The capcity must be a number');
-      }
-      this._capacity = capacity;
-      return capacity;
-    }
-  }, {
-    key: "setTimeout",
-    value: function setTimeout() {
-      var timeout = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : _lib.DEFAULT_TIMEOUT;
-      if (typeof timeout !== 'number') {
-        throw new Error('The timeout must be a number');
-      }
-      this._timeout = timeout;
-      return timeout;
-    }
-  }, {
     key: "onMergeSuccess",
-    value: function onMergeSuccess(func, isOnce) {
-      if (isOnce) {
-        this._eventEmitter.once(_lib.mergeEvents.mergeSucceeded, func);
-        return;
-      }
+    value: function onMergeSuccess(func) {
       this._eventEmitter.on(_lib.mergeEvents.mergeSucceeded, func);
     }
   }, {
@@ -1033,26 +940,26 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                 conferenceAccepted = false;
                 _context14.next = 33;
                 return Promise.race([new Promise(function (resolve, reject) {
-                  // @ts-expect-error
+                  // @ts-expect-error TS(2532): Object is possibly 'undefined'.
                   var sipSession = _this5._deps.webphone._sessions.get(_this5.conferences[id].sessionId);
-                  // @ts-expect-error
+                  // @ts-expect-error TS(2532): Object is possibly 'undefined'.
                   sipSession.on('accepted', function () {
                     conferenceAccepted = true;
                     resolve(null);
                   });
-                  // @ts-expect-error
+                  // @ts-expect-error TS(2532): Object is possibly 'undefined'.
                   sipSession.on('cancel', function () {
                     return reject(new Error('conferencing cancel'));
                   });
-                  // @ts-expect-error
+                  // @ts-expect-error TS(2532): Object is possibly 'undefined'.
                   sipSession.on('failed', function () {
                     return reject(new Error('conferencing failed'));
                   });
-                  // @ts-expect-error
+                  // @ts-expect-error TS(2532): Object is possibly 'undefined'.
                   sipSession.on('rejected', function () {
                     return reject(new Error('conferencing rejected'));
                   });
-                  // @ts-expect-error
+                  // @ts-expect-error TS(2532): Object is possibly 'undefined'.
                   sipSession.on('terminated', function () {
                     return reject(new Error('conferencing terminated'));
                   });
@@ -1164,23 +1071,23 @@ var ConferenceCall = (_dec = (0, _di.Module)({
       var session = (0, _ramda.find)(function (session) {
         return session.id === sessionId;
       },
-      // @ts-expect-error
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       this._deps.webphone.sessions);
       var rcId;
       var avatarUrl;
       var calleeType = _calleeTypes["default"].unknown;
       var partyName =
-      // @ts-expect-error
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       session.direction === _callDirections["default"].outbound ?
-      // @ts-expect-error
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       session.toUserName :
-      // @ts-expect-error
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       session.fromUserName;
       var partyNumber =
-      // @ts-expect-error
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       session.direction === _callDirections["default"].outbound ? session.to : session.from;
 
-      // @ts-expect-error
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       var matchedContact = session.contactMatch;
       if (!matchedContact && this._deps.contactMatcher) {
         var nameMatches = this._deps.contactMatcher.dataMapping[partyNumber];
@@ -1216,12 +1123,12 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                 session = (0, _ramda.find)(function (x) {
                   return x.id === sessionId;
                 },
-                // @ts-expect-error
+                // @ts-expect-error TS(2532): Object is possibly 'undefined'.
                 this._deps.webphone.sessions);
                 sessionToMergeWith = (0, _ramda.find)(function (x) {
                   return x.id === (sessionIdToMergeWith || _this6.mergingPair.fromSessionId);
                 },
-                // @ts-expect-error
+                // @ts-expect-error TS(2532): Object is possibly 'undefined'.
                 this._deps.webphone.sessions);
                 webphoneSessions = sessionToMergeWith ? [sessionToMergeWith, session] : [session];
                 _i = 0, _webphoneSessions = webphoneSessions;
@@ -1249,8 +1156,8 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                 conferenceSession = (0, _ramda.find)(function (x) {
                   return x.id === conferenceState.sessionId;
                 },
-                // @ts-expect-error
-                this._deps.webphone.sessions); // @ts-expect-error
+                // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+                this._deps.webphone.sessions); // @ts-expect-error TS(2345): Argument of type 'NormalizedSession | undefined' i... Remove this comment to see the full error message
                 if (this.validateCallRecording(conferenceSession)) {
                   _context16.next = 17;
                   break;
@@ -1303,11 +1210,11 @@ var ConferenceCall = (_dec = (0, _di.Module)({
                 currentConferenceSession = (0, _ramda.find)(function (x) {
                   return x.id === conferenceData.sessionId;
                 },
-                // @ts-expect-error
-                this._deps.webphone.sessions); // @ts-expect-error
+                // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+                this._deps.webphone.sessions); // @ts-expect-error TS(2532): Object is possibly 'undefined'.
                 isCurrentConferenceOnHold = currentConferenceSession.isOnHold;
                 if (isCurrentConferenceOnHold) {
-                  // @ts-expect-error
+                  // @ts-expect-error TS(2532): Object is possibly 'undefined'.
                   this._deps.webphone.resume(conferenceData.sessionId);
                 }
                 return _context17.abrupt("return", conferenceData);
@@ -1339,7 +1246,7 @@ var ConferenceCall = (_dec = (0, _di.Module)({
     value: function resetSuccess() {
       this.setIsMerging(false);
       this.setMergingPair({});
-      // @ts-expect-error
+      // @ts-expect-error TS(2345): Argument of type 'null' is not assignable to param... Remove this comment to see the full error message
       this.setCurrentConferenceId(null);
       this.conferenceCallStatus = _lib.conferenceCallStatus.idle;
       this.conferences = {};
@@ -1349,13 +1256,19 @@ var ConferenceCall = (_dec = (0, _di.Module)({
      * */
   }, {
     key: "participantListClickHangupTrack",
-    value: function participantListClickHangupTrack() {}
+    value: function participantListClickHangupTrack() {
+      //
+    }
   }, {
     key: "removeParticipantClickCancelTrack",
-    value: function removeParticipantClickCancelTrack() {}
+    value: function removeParticipantClickCancelTrack() {
+      //
+    }
   }, {
     key: "removeParticipantClickRemoveTrack",
-    value: function removeParticipantClickRemoveTrack() {}
+    value: function removeParticipantClickRemoveTrack() {
+      //
+    }
   }, {
     key: "_shouldInit",
     value: function _shouldInit() {
@@ -1374,12 +1287,12 @@ var ConferenceCall = (_dec = (0, _di.Module)({
   }, {
     key: "lastCallInfo",
     get: function get() {
-      // @ts-expect-error
+      // @ts-expect-error TS(2339): Property 'sessions' does not exist on type 'Webpho... Remove this comment to see the full error message
       var sessions = this._deps.webphone.sessions;
       var partyProfiles = this.partyProfiles,
         fromSessionId = this.mergingPair.fromSessionId;
       if (!fromSessionId) {
-        // @ts-expect-error
+        // @ts-expect-error TS(2322): Type 'null' is not assignable to type '{ calleeTyp... Remove this comment to see the full error message
         this._lastCallInfo = null;
         return this._lastCallInfo;
       }
@@ -1387,9 +1300,7 @@ var ConferenceCall = (_dec = (0, _di.Module)({
       var sessionNumber;
       var sessionStatus;
       var matchedContact;
-      var fromSession = sessions.find(
-      // @ts-expect-error
-      function (session) {
+      var fromSession = sessions.find(function (session) {
         return session.id === fromSessionId;
       });
       if (fromSession) {
@@ -1433,13 +1344,13 @@ var ConferenceCall = (_dec = (0, _di.Module)({
         case _calleeTypes["default"].conference:
           this._lastCallInfo = {
             calleeType: _calleeTypes["default"].conference,
-            // @ts-expect-error
+            // @ts-expect-error TS(2531): Object is possibly 'null'.
             avatarUrl: partiesAvatarUrls[0],
-            // @ts-expect-error
+            // @ts-expect-error TS(2531): Object is possibly 'null'.
             extraNum: partiesAvatarUrls.length - 1,
-            // @ts-expect-error
+            // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
             name: null,
-            // @ts-expect-error
+            // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
             phoneNumber: null,
             status: sessionStatus,
             lastCallContact: null
@@ -1459,7 +1370,7 @@ var ConferenceCall = (_dec = (0, _di.Module)({
         default:
           this._lastCallInfo = {
             calleeType: _calleeTypes["default"].unknown,
-            // @ts-expect-error
+            // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
             avatarUrl: null,
             name: sessionName,
             status: sessionStatus,

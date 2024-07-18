@@ -11,10 +11,7 @@ var _ramda = require("ramda");
 var _constants = require("./constants");
 function ascendSortParties(parties) {
   return (0, _ramda.sort)(function (last, next) {
-    return (
-      // @ts-expect-error
-      +last.id.split('-')[1] - +next.id.split('-')[1]
-    );
+    return +last.id.split('-')[1] - +next.id.split('-')[1];
   }, (0, _ramda.filter)(function (party) {
     return party.conferenceRole.toLowerCase() !== _constants.conferenceRole.host;
   }, parties));

@@ -47,4 +47,15 @@ Object.keys(_loginStatus).forEach(function (key) {
     }
   });
 });
+var _authErrors = require("./authErrors");
+Object.keys(_authErrors).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _authErrors[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _authErrors[key];
+    }
+  });
+});
 //# sourceMappingURL=index.js.map

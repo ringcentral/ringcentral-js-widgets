@@ -29,44 +29,44 @@ exports["default"] = void 0;
 require("regenerator-runtime/runtime");
 var _utils = require("@ringcentral-integration/utils");
 var _moduleStatuses = _interopRequireDefault(require("../../enums/moduleStatuses"));
+var _Pollable2 = _interopRequireDefault(require("../../lib/Pollable"));
 var _di = require("../../lib/di");
 var _ensureExist = _interopRequireDefault(require("../../lib/ensureExist"));
 var _isBlank = require("../../lib/isBlank");
-var _Pollable2 = _interopRequireDefault(require("../../lib/Pollable"));
 var _proxify = _interopRequireDefault(require("../../lib/proxy/proxify"));
 var _selector = require("../../lib/selector");
 var _actionTypes = require("./actionTypes");
 var _getReducer = _interopRequireWildcard(require("./getReducer"));
 var _dec, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8, _descriptor9;
-function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
-function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
-function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'transform-class-properties is enabled and runs after the decorators transform.'); }
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e) { throw _e; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e2) { didErr = true; err = _e2; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
-function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
+function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) { if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } } return n["default"] = e, t && t.set(e, n), n; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
+function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose(e, t); if (Object.getOwnPropertySymbols) { var s = Object.getOwnPropertySymbols(e); for (r = 0; r < s.length; r++) { o = s[r], t.includes(o) || {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } } return i; }
+function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t = {}; for (var n in r) { if ({}.hasOwnProperty.call(r, n)) { if (e.includes(n)) continue; t[n] = r[n]; } } return t; }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
+function _initializerWarningHelper(r, e) { throw Error("Decorating class property failed. Please ensure that transform-class-properties is enabled and runs after the decorators transform."); }
+function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _createForOfIteratorHelper(r, e) { var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (!t) { if (Array.isArray(r) || (t = _unsupportedIterableToArray(r)) || e && r && "number" == typeof r.length) { t && (r = t); var _n = 0, F = function F() {}; return { s: F, n: function n() { return _n >= r.length ? { done: !0 } : { done: !1, value: r[_n++] }; }, e: function e(r) { throw r; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var o, a = !0, u = !1; return { s: function s() { t = t.call(r); }, n: function n() { var r = t.next(); return a = r.done, r; }, e: function e(r) { u = !0, o = r; }, f: function f() { try { a || null == t["return"] || t["return"](); } finally { if (u) throw o; } } }; }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) { n[e] = r[e]; } return n; }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 var glipGroupRegExp = /glip\/groups$/;
 var subscriptionFilter = '/restapi/v1.0/glip/groups';
 var DEFAULT_PER_PAGE = 20;
@@ -94,6 +94,7 @@ function formatGroup(group, personsMap) {
     detailMembers: detailMembers,
     updatedTime: new Date(group.lastModifiedTime).getTime()
   });
+  // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
   var latestPost = postsMap[group.id] && postsMap[group.id][0];
   if (latestPost) {
     newGroup.latestPost = _objectSpread(_objectSpread({}, latestPost), {}, {
@@ -111,9 +112,11 @@ function getUniqueMemberIds(groups) {
   var memberIdsMap = {};
   groups.forEach(function (group) {
     group.members.forEach(function (memberId) {
+      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       if (memberIdsMap[memberId]) {
         return;
       }
+      // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
       memberIdsMap[memberId] = true;
       memberIds.push(memberId);
     });
@@ -208,17 +211,52 @@ var GlipGroups = (_dec = (0, _di.Module)({
     _this = _super.call(this, _objectSpread(_objectSpread({}, options), {}, {
       actionTypes: _actionTypes.actionTypes
     }));
+    // @ts-expect-error TS(2345): Argument of type 'string' is not assignable to par... Remove this comment to see the full error message
+    _this._appFeatures = void 0;
+    _this._auth = void 0;
+    _this._client = void 0;
+    _this._connectivity = void 0;
+    _this._connectivityMonitor = void 0;
+    _this._dataStorageKey = void 0;
+    _this._glipPersons = void 0;
+    _this._glipPosts = void 0;
+    _this._lastMessage = void 0;
+    _this._perPage = void 0;
+    _this._polling = void 0;
+    _this._preloadPosts = void 0;
+    _this._preloadPostsDelayTtl = void 0;
+    _this._preloadedPosts = void 0;
+    _this._promise = void 0;
+    _this._readyCheckFn = void 0;
+    _this._recordCountPerReq = void 0;
+    _this._storage = void 0;
+    _this._subscription = void 0;
+    _this._subscriptionFilters = void 0;
+    _this._timeToRetry = void 0;
+    _this._timestampStorageKey = void 0;
+    _this._ttl = void 0;
+    // @ts-expect-error TS(1240): Unable to resolve signature of property decorator ... Remove this comment to see the full error message
     _initializerDefineProperty(_this, "allGroups", _descriptor, _assertThisInitialized(_this));
+    // @ts-expect-error TS(1240): Unable to resolve signature of property decorator ... Remove this comment to see the full error message
     _initializerDefineProperty(_this, "filteredGroups", _descriptor2, _assertThisInitialized(_this));
+    // @ts-expect-error TS(1240): Unable to resolve signature of property decorator ... Remove this comment to see the full error message
     _initializerDefineProperty(_this, "groups", _descriptor3, _assertThisInitialized(_this));
+    // @ts-expect-error TS(1240): Unable to resolve signature of property decorator ... Remove this comment to see the full error message
     _initializerDefineProperty(_this, "uniqueMemberIds", _descriptor4, _assertThisInitialized(_this));
+    // @ts-expect-error TS(1240): Unable to resolve signature of property decorator ... Remove this comment to see the full error message
     _initializerDefineProperty(_this, "groupMemberIds", _descriptor5, _assertThisInitialized(_this));
+    // @ts-expect-error TS(1240): Unable to resolve signature of property decorator ... Remove this comment to see the full error message
     _initializerDefineProperty(_this, "currentGroup", _descriptor6, _assertThisInitialized(_this));
+    // @ts-expect-error TS(1240): Unable to resolve signature of property decorator ... Remove this comment to see the full error message
     _initializerDefineProperty(_this, "currentGroupPosts", _descriptor7, _assertThisInitialized(_this));
+    // @ts-expect-error TS(1240): Unable to resolve signature of property decorator ... Remove this comment to see the full error message
     _initializerDefineProperty(_this, "groupsWithUnread", _descriptor8, _assertThisInitialized(_this));
+    // @ts-expect-error TS(1240): Unable to resolve signature of property decorator ... Remove this comment to see the full error message
     _initializerDefineProperty(_this, "unreadCounts", _descriptor9, _assertThisInitialized(_this));
     _this._auth = _ensureExist["default"].call(_assertThisInitialized(_this), auth, 'auth');
+    // @ts-expect-error TS(2345): Argument of type 'string' is not assignable to par... Remove this comment to see the full error message
     _this._client = _ensureExist["default"].call(_assertThisInitialized(_this), client, 'client');
+    // @ts-expect-error TS(2345): Argument of type 'string' is not assignable to par... Remove this comment to see the full error message
     _this._subscription = _ensureExist["default"].call(_assertThisInitialized(_this), subscription, 'subscription');
     _this._appFeatures = appFeatures;
     _this._connectivityMonitor = connectivityMonitor;
@@ -264,6 +302,8 @@ var GlipGroups = (_dec = (0, _di.Module)({
     }
     return _this;
   }
+
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   _createClass(GlipGroups, [{
     key: "initialize",
     value: function initialize() {
@@ -271,7 +311,7 @@ var GlipGroups = (_dec = (0, _di.Module)({
       this.store.subscribe(function () {
         return _this2._onStateChange();
       });
-    }
+    } // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   }, {
     key: "_onStateChange",
     value: function () {
@@ -353,12 +393,12 @@ var GlipGroups = (_dec = (0, _di.Module)({
         return _onStateChange2.apply(this, arguments);
       }
       return _onStateChange;
-    }()
+    }() // @ts-expect-error TS(4113): This member cannot have an 'override' modifier bec... Remove this comment to see the full error message
   }, {
     key: "_shouldInit",
     value: function _shouldInit() {
       return !!(this._auth.loggedIn && this._appFeatures.ready && (!this._connectivityMonitor || this._connectivityMonitor.ready) && (!this._storage || this._storage.ready) && (!this._readyCheckFn || this._readyCheckFn()) && (!this._subscription || this._subscription.ready) && (!this._glipPosts || this._glipPosts.ready) && (!this._glipPersons || this._glipPersons.ready) && (!this._tabManager || this._tabManager.ready) && this.pending);
-    }
+    } // @ts-expect-error TS(4113): This member cannot have an 'override' modifier bec... Remove this comment to see the full error message
   }, {
     key: "_shouldReset",
     value: function _shouldReset() {
@@ -377,6 +417,7 @@ var GlipGroups = (_dec = (0, _di.Module)({
       }
       if (this._preloadPosts) {
         this._preloadedPosts = {};
+        // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
         this._preloadGroupPosts();
       }
     }
@@ -532,7 +573,9 @@ var GlipGroups = (_dec = (0, _di.Module)({
                   _context4.next = 17;
                   break;
                 }
+                // @ts-expect-error TS(2339): Property 'id' does not exist on type '(filteredGro... Remove this comment to see the full error message
                 this._preloadedPosts[group.id] = true;
+                // @ts-expect-error TS(2339): Property 'id' does not exist on type '(filteredGro... Remove this comment to see the full error message
                 if (!(!this._glipPosts.postsMap[group.id] || force)) {
                   _context4.next = 16;
                   break;
@@ -547,8 +590,11 @@ var GlipGroups = (_dec = (0, _di.Module)({
                 _context4.next = 16;
                 return this._glipPosts.fetchPosts(group.id);
               case 16:
+                // @ts-expect-error TS(2339): Property 'id' does not exist on type '(filteredGro... Remove this comment to see the full error message
                 if (!this._glipPosts.readTimeMap[group.id]) {
-                  this._glipPosts.updateReadTime(group.id, Date.now() - 1000 * 3600 * 2);
+                  this._glipPosts.updateReadTime(
+                  // @ts-expect-error TS(2339): Property 'id' does not exist on type '(filteredGro... Remove this comment to see the full error message
+                  group.id, Date.now() - 1000 * 3600 * 2);
                 }
               case 17:
                 _context4.next = 4;
@@ -575,7 +621,7 @@ var GlipGroups = (_dec = (0, _di.Module)({
         return _preloadGroupPosts2.apply(this, arguments);
       }
       return _preloadGroupPosts;
-    }()
+    }() // @ts-expect-error TS(2345): Argument of type 'TypedPropertyDescriptor<({ searc... Remove this comment to see the full error message
   }, {
     key: "updateFilter",
     value: function updateFilter(_ref2) {
@@ -587,9 +633,10 @@ var GlipGroups = (_dec = (0, _di.Module)({
         pageNumber: pageNumber
       });
       if (this._preloadPosts && this.groups.length <= this._perPage * 2) {
+        // @ts-expect-error TS(2554): Expected 1 arguments, but got 0.
         this._preloadGroupPosts();
       }
-    }
+    } // @ts-expect-error TS(2345): Argument of type 'TypedPropertyDescriptor<(groupId... Remove this comment to see the full error message
   }, {
     key: "updateCurrentGroupId",
     value: function updateCurrentGroupId(groupId) {
@@ -603,7 +650,9 @@ var GlipGroups = (_dec = (0, _di.Module)({
         groupId: groupId
       });
       if (this._glipPersons) {
-        this._glipPersons.loadPersons(this.currentGroup && this.currentGroup.members);
+        this._glipPersons.loadPersons(
+        // @ts-expect-error TS(2339): Property 'members' does not exist on type '((allGr... Remove this comment to see the full error message
+        this.currentGroup && this.currentGroup.members);
       }
       if (!this._glipPosts) {
         return;
@@ -823,7 +872,7 @@ var GlipGroups = (_dec = (0, _di.Module)({
     key: "data",
     get: function get() {
       return this._storage ? this._storage.getItem(this._dataStorageKey) : this.state.data;
-    }
+    } // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   }, {
     key: "timestamp",
     get: function get() {
@@ -833,27 +882,27 @@ var GlipGroups = (_dec = (0, _di.Module)({
     key: "currentGroupId",
     get: function get() {
       return this.state.currentGroupId;
-    }
+    } // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   }, {
     key: "status",
     get: function get() {
       return this.state.status;
-    }
+    } // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   }, {
     key: "ready",
     get: function get() {
       return this.status === _moduleStatuses["default"].ready;
-    }
+    } // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   }, {
     key: "pending",
     get: function get() {
       return this.status === _moduleStatuses["default"].pending;
-    }
+    } // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   }, {
     key: "ttl",
     get: function get() {
       return this._ttl;
-    }
+    } // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   }, {
     key: "timeToRetry",
     get: function get() {
@@ -920,6 +969,7 @@ var GlipGroups = (_dec = (0, _di.Module)({
             return true;
           }
         }
+        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         var result = searchPosts(filterString, postsMap[group.id] || []);
         return result;
       });

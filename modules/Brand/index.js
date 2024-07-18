@@ -58,4 +58,15 @@ Object.keys(_defaultBrandConfig).forEach(function (key) {
     }
   });
 });
+var _processAssets = require("./processAssets");
+Object.keys(_processAssets).forEach(function (key) {
+  if (key === "default" || key === "__esModule") return;
+  if (key in exports && exports[key] === _processAssets[key]) return;
+  Object.defineProperty(exports, key, {
+    enumerable: true,
+    get: function get() {
+      return _processAssets[key];
+    }
+  });
+});
 //# sourceMappingURL=index.js.map

@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 require("core-js/modules/es.array.concat");
 require("core-js/modules/es.array.filter");
 require("core-js/modules/es.array.find-index");
@@ -28,48 +28,48 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.MessageStore = void 0;
 require("regenerator-runtime/runtime");
-var _events = require("events");
 var _core = require("@ringcentral-integration/core");
 var _utils = require("@ringcentral-integration/utils");
+var _events = require("events");
 var _subscriptionFilters = require("../../enums/subscriptionFilters");
+var _trackEvents = require("../../enums/trackEvents");
 var _batchApiHelper = require("../../lib/batchApiHelper");
 var _debounceThrottle = require("../../lib/debounce-throttle");
 var _di = require("../../lib/di");
 var messageHelper = _interopRequireWildcard(require("../../lib/messageHelper"));
 var _proxify = require("../../lib/proxy/proxify");
-var _trackEvents = require("../../enums/trackEvents");
 var _CallingSettings = require("../CallingSettings");
 var _DataFetcherV = require("../DataFetcherV2");
 var _messageStoreErrors = require("./messageStoreErrors");
 var _messageStoreHelper = require("./messageStoreHelper");
 var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _dec12, _dec13, _dec14, _dec15, _class, _class2;
-function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
-function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-function _createForOfIteratorHelper(o, allowArrayLike) { var it = typeof Symbol !== "undefined" && o[Symbol.iterator] || o["@@iterator"]; if (!it) { if (Array.isArray(o) || (it = _unsupportedIterableToArray(o)) || allowArrayLike && o && typeof o.length === "number") { if (it) o = it; var i = 0; var F = function F() {}; return { s: F, n: function n() { if (i >= o.length) return { done: true }; return { done: false, value: o[i++] }; }, e: function e(_e2) { throw _e2; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var normalCompletion = true, didErr = false, err; return { s: function s() { it = it.call(o); }, n: function n() { var step = it.next(); normalCompletion = step.done; return step; }, e: function e(_e3) { didErr = true; err = _e3; }, f: function f() { try { if (!normalCompletion && it["return"] != null) it["return"](); } finally { if (didErr) throw err; } } }; }
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
-function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
+function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) { if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } } return n["default"] = e, t && t.set(e, n), n; }
+function _createForOfIteratorHelper(r, e) { var t = "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (!t) { if (Array.isArray(r) || (t = _unsupportedIterableToArray(r)) || e && r && "number" == typeof r.length) { t && (r = t); var _n = 0, F = function F() {}; return { s: F, n: function n() { return _n >= r.length ? { done: !0 } : { done: !1, value: r[_n++] }; }, e: function e(r) { throw r; }, f: F }; } throw new TypeError("Invalid attempt to iterate non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); } var o, a = !0, u = !1; return { s: function s() { t = t.call(r); }, n: function n() { var r = t.next(); return a = r.done, r; }, e: function e(r) { u = !0, o = r; }, f: function f() { try { a || null == t["return"] || t["return"](); } finally { if (u) throw o; } } }; }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
+function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0) { ; } } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) { n[e] = r[e]; } return n; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0) { ; } } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 var DEFAULT_CONVERSATIONS_LOAD_LENGTH = 10;
 var DEFAULT_CONVERSATION_LOAD_LENGTH = 100;
 var DEFAULT_POLLING_INTERVAL = 30 * 60 * 1000; // 30 min
@@ -104,7 +104,7 @@ var MessageStore = (_dec = (0, _di.Module)({
   }]
 }), _dec2 = (0, _core.track)(_trackEvents.trackEvents.flagVoicemail), _dec3 = (0, _core.track)(function (that, conversationId) {
   var _that$conversationSto;
-  // @ts-expect-error
+  // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
   var _ref = (_that$conversationSto = that.conversationStore[conversationId]) !== null && _that$conversationSto !== void 0 ? _that$conversationSto : [],
     _ref2 = _slicedToArray(_ref, 1),
     conversation = _ref2[0];
@@ -165,7 +165,7 @@ var MessageStore = (_dec = (0, _di.Module)({
     _this._daySpan = (_this$_deps$messageSt7 = (_this$_deps$messageSt8 = _this._deps.messageStoreOptions) === null || _this$_deps$messageSt8 === void 0 ? void 0 : _this$_deps$messageSt8.daySpan) !== null && _this$_deps$messageSt7 !== void 0 ? _this$_deps$messageSt7 : DEFAULT_DAY_SPAN;
     _this._eventEmitter = new _events.EventEmitter();
     _this._dispatchedMessageIds = [];
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'GetMessageI... Remove this comment to see the full error message
     _this._handledRecord = null;
     _this._debouncedSetConversationAsRead = (0, _debounceThrottle.debounce)({
       fn: _this._setConversationAsRead,
@@ -182,7 +182,7 @@ var MessageStore = (_dec = (0, _di.Module)({
       _ref3$pollingInterval = _ref3.pollingInterval,
       pollingInterval = _ref3$pollingInterval === void 0 ? DEFAULT_POLLING_INTERVAL : _ref3$pollingInterval,
       _ref3$ttl = _ref3.ttl,
-      ttl = _ref3$ttl === void 0 ? DEFAULT_TTL : _ref3$ttl; // @ts-expect-error
+      ttl = _ref3$ttl === void 0 ? DEFAULT_TTL : _ref3$ttl; // @ts-expect-error TS(2322): Type 'DataSource<{ conversationList: ConversationI... Remove this comment to see the full error message
     _this._source = new _DataFetcherV.DataSource(_objectSpread(_objectSpread({}, _this._deps.messageStoreOptions), {}, {
       key: 'messageStore',
       disableCache: disableCache,
@@ -224,7 +224,7 @@ var MessageStore = (_dec = (0, _di.Module)({
     key: "onInit",
     value: function onInit() {
       if (this._hasPermission) {
-        this._deps.subscription.subscribe([_subscriptionFilters.subscriptionFilters.messageStore]);
+        this._deps.subscription.subscribe([_subscriptionFilters.subscriptionFilters.messageStore, _subscriptionFilters.subscriptionFilters.instantMessage]);
       }
     }
   }, {
@@ -242,39 +242,75 @@ var MessageStore = (_dec = (0, _di.Module)({
       }
       (0, _core.watch)(this, function () {
         return _this2._deps.subscription.message;
-      }, function (newValue) {
-        var _newValue$body;
-        if (!_this2.ready || _this2._deps.tabManager && !_this2._deps.tabManager.active) {
-          return;
-        }
-        var accountExtensionEndPoint = /\/message-store$/;
-        if (newValue &&
-        // @ts-expect-error
-        accountExtensionEndPoint.test(newValue.event) && ((_newValue$body = newValue.body) === null || _newValue$body === void 0 ? void 0 : _newValue$body.changes)) {
-          _this2.fetchData({
-            passive: true
-          });
-        }
-      });
+      }, /*#__PURE__*/function () {
+        var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(newValue) {
+          var _newValue$body;
+          var messageStoreEvent, instantMessageEvent;
+          return regeneratorRuntime.wrap(function _callee2$(_context2) {
+            while (1) {
+              switch (_context2.prev = _context2.next) {
+                case 0:
+                  if (!(!_this2.ready || _this2._deps.tabManager && !_this2._deps.tabManager.active)) {
+                    _context2.next = 2;
+                    break;
+                  }
+                  return _context2.abrupt("return");
+                case 2:
+                  messageStoreEvent = /\/message-store$/;
+                  instantMessageEvent = /\/message-store\/instant\?type=SMS$/;
+                  if (!(messageStoreEvent.test(newValue === null || newValue === void 0 ? void 0 : newValue.event) && ((_newValue$body = newValue.body) === null || _newValue$body === void 0 ? void 0 : _newValue$body.changes))) {
+                    _context2.next = 15;
+                    break;
+                  }
+                  _context2.prev = 5;
+                  _context2.next = 8;
+                  return _this2.fetchData({
+                    passive: true
+                  });
+                case 8:
+                  _context2.next = 13;
+                  break;
+                case 10:
+                  _context2.prev = 10;
+                  _context2.t0 = _context2["catch"](5);
+                  console.error('[MessageStore] > subscription > fetchData', _context2.t0);
+                case 13:
+                  _context2.next = 16;
+                  break;
+                case 15:
+                  if (instantMessageEvent.test(newValue === null || newValue === void 0 ? void 0 : newValue.event)) {
+                    _this2.pushMessage(messageHelper.normalizeInstantEvent(newValue));
+                  }
+                case 16:
+                case "end":
+                  return _context2.stop();
+              }
+            }
+          }, _callee2, null, [[5, 10]]);
+        }));
+        return function (_x) {
+          return _ref4.apply(this, arguments);
+        };
+      }());
     }
   }, {
     key: "_updateData",
     value: function () {
-      var _updateData2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(data) {
+      var _updateData2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(data) {
         var timestamp,
-          _args2 = arguments;
-        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+          _args3 = arguments;
+        return regeneratorRuntime.wrap(function _callee3$(_context3) {
           while (1) {
-            switch (_context2.prev = _context2.next) {
+            switch (_context3.prev = _context3.next) {
               case 0:
-                timestamp = _args2.length > 1 && _args2[1] !== undefined ? _args2[1] : Date.now();
+                timestamp = _args3.length > 1 && _args3[1] !== undefined ? _args3[1] : Date.now();
                 this._deps.dataFetcherV2.updateData(this._source, data, timestamp);
               case 2:
               case "end":
-                return _context2.stop();
+                return _context3.stop();
             }
           }
-        }, _callee2, this);
+        }, _callee3, this);
       }));
       function _updateData(_x2) {
         return _updateData2.apply(this, arguments);
@@ -283,11 +319,11 @@ var MessageStore = (_dec = (0, _di.Module)({
     }()
   }, {
     key: "_processRawConversationList",
-    value: function _processRawConversationList(_ref4) {
+    value: function _processRawConversationList(_ref5) {
       var _this$data;
-      var records = _ref4.records,
-        conversationStore = _ref4.conversationStore,
-        isFSyncSuccess = _ref4.isFSyncSuccess;
+      var records = _ref5.records,
+        conversationStore = _ref5.conversationStore,
+        isFSyncSuccess = _ref5.isFSyncSuccess;
       var state = ((_this$data = this.data) === null || _this$data === void 0 ? void 0 : _this$data.conversationList) || [];
       var newState = [];
       var stateMap = {};
@@ -307,18 +343,18 @@ var MessageStore = (_dec = (0, _di.Module)({
         var id = message.conversationId;
         var newCreationTime = message.creationTime;
         var isDeleted = messageHelper.messageIsDeleted(message);
-        // @ts-expect-error
+        // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
         if (stateMap[id]) {
-          // @ts-expect-error
+          // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
           var oldConversation = newState[stateMap[id].index];
           var creationTime = oldConversation.creationTime;
-          // @ts-expect-error
+          // @ts-expect-error TS(2532): Object is possibly 'undefined'.
           if (creationTime < newCreationTime && !isDeleted) {
-            // @ts-expect-error
+            // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
             newState[stateMap[id].index] = {
-              // @ts-expect-error
+              // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
               id: id,
-              // @ts-expect-error
+              // @ts-expect-error TS(2322): Type 'number | undefined' is not assignable to typ... Remove this comment to see the full error message
               creationTime: newCreationTime,
               type: message.type,
               messageId: message.id
@@ -326,17 +362,15 @@ var MessageStore = (_dec = (0, _di.Module)({
           }
           // when user deleted a coversation message
           if (isDeleted && message.id === oldConversation.messageId) {
-            // @ts-expect-error
+            // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
             var oldMessageList = conversationStore[id] || [];
-            var exsitedMessageList = oldMessageList.filter(
-            // @ts-expect-error
-            function (m) {
+            var exsitedMessageList = oldMessageList.filter(function (m) {
               return m.id !== message.id;
             });
             if (exsitedMessageList.length > 0) {
-              // @ts-expect-error
+              // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
               newState[stateMap[id].index] = {
-                // @ts-expect-error
+                // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
                 id: id,
                 creationTime: exsitedMessageList[0].creationTime,
                 type: exsitedMessageList[0].type,
@@ -345,9 +379,9 @@ var MessageStore = (_dec = (0, _di.Module)({
               return;
             }
             // when user delete conversation
-            // @ts-expect-error
+            // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Conversatio... Remove this comment to see the full error message
             newState[stateMap[id].index] = null;
-            // @ts-expect-error
+            // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
             delete stateMap[id];
           }
           return;
@@ -356,14 +390,14 @@ var MessageStore = (_dec = (0, _di.Module)({
           return;
         }
         newState.push({
-          // @ts-expect-error
+          // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
           id: id,
-          // @ts-expect-error
+          // @ts-expect-error TS(2322): Type 'number | undefined' is not assignable to typ... Remove this comment to see the full error message
           creationTime: newCreationTime,
           type: message.type,
           messageId: message.id
         });
-        // @ts-expect-error
+        // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
         stateMap[id] = {
           index: newState.length - 1
         };
@@ -374,10 +408,10 @@ var MessageStore = (_dec = (0, _di.Module)({
     }
   }, {
     key: "_processRawConversationStore",
-    value: function _processRawConversationStore(_ref5) {
+    value: function _processRawConversationStore(_ref6) {
       var _this$data$conversati, _this$data2;
-      var records = _ref5.records,
-        isFSyncSuccess = _ref5.isFSyncSuccess;
+      var records = _ref6.records,
+        isFSyncSuccess = _ref6.isFSyncSuccess;
       var state = (_this$data$conversati = (_this$data2 = this.data) === null || _this$data2 === void 0 ? void 0 : _this$data2.conversationStore) !== null && _this$data$conversati !== void 0 ? _this$data$conversati : {};
       var newState = {};
       var updatedConversations = {};
@@ -390,40 +424,40 @@ var MessageStore = (_dec = (0, _di.Module)({
       records.forEach(function (record) {
         var message = messageHelper.normalizeRecord(record);
         var id = message.conversationId;
-        // @ts-expect-error
+        // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
         var newMessages = newState[id] ? [].concat(newState[id]) : [];
-        // @ts-expect-error
+        // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
         var oldMessageIndex = newMessages.findIndex(function (r) {
           return r.id === record.id;
         });
         if (messageHelper.messageIsDeleted(message)) {
-          // @ts-expect-error
+          // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
           newState[id] = newMessages.filter(function (m) {
             return m.id !== message.id;
           });
-          // @ts-expect-error
+          // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
           if (newState[id].length === 0) {
-            // @ts-expect-error
+            // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
             delete newState[id];
           }
           return;
         }
         if (oldMessageIndex > -1) {
           if (
-          // @ts-expect-error
+          // @ts-expect-error TS(2339): Property 'lastModifiedTime' does not exist on type... Remove this comment to see the full error message
           newMessages[oldMessageIndex].lastModifiedTime <
-          // @ts-expect-error
+          // @ts-expect-error TS(2532): Object is possibly 'undefined'.
           message.lastModifiedTime) {
-            // @ts-expect-error
+            // @ts-expect-error TS(2322): Type 'Message' is not assignable to type 'never'.
             newMessages[oldMessageIndex] = message;
           }
         } else if (messageHelper.messageIsAcceptable(message)) {
-          // @ts-expect-error
+          // @ts-expect-error TS(2345): Argument of type 'Message' is not assignable to pa... Remove this comment to see the full error message
           newMessages.push(message);
         }
-        // @ts-expect-error
+        // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
         updatedConversations[id] = 1;
-        // @ts-expect-error
+        // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
         newState[id] = newMessages;
       });
       Object.keys(updatedConversations).forEach(function (id) {
@@ -435,13 +469,13 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: "_syncFunction",
     value: function () {
-      var _syncFunction2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(_ref6) {
-        var recordCount, conversationLoadLength, dateFrom, dateTo, syncToken, _ref6$receivedRecords, receivedRecordsLength, params, _yield$this$_deps$cli, records, _yield$this$_deps$cli2, syncInfo, olderDateTo, olderRecordResult;
-        return regeneratorRuntime.wrap(function _callee3$(_context3) {
+      var _syncFunction2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(_ref7) {
+        var recordCount, conversationLoadLength, dateFrom, dateTo, syncToken, _ref7$receivedRecords, receivedRecordsLength, params, _yield$this$_deps$cli, records, _yield$this$_deps$cli2, syncInfo, olderDateTo, olderRecordResult;
+        return regeneratorRuntime.wrap(function _callee4$(_context4) {
           while (1) {
-            switch (_context3.prev = _context3.next) {
+            switch (_context4.prev = _context4.next) {
               case 0:
-                recordCount = _ref6.recordCount, conversationLoadLength = _ref6.conversationLoadLength, dateFrom = _ref6.dateFrom, dateTo = _ref6.dateTo, syncToken = _ref6.syncToken, _ref6$receivedRecords = _ref6.receivedRecordsLength, receivedRecordsLength = _ref6$receivedRecords === void 0 ? 0 : _ref6$receivedRecords;
+                recordCount = _ref7.recordCount, conversationLoadLength = _ref7.conversationLoadLength, dateFrom = _ref7.dateFrom, dateTo = _ref7.dateTo, syncToken = _ref7.syncToken, _ref7$receivedRecords = _ref7.receivedRecordsLength, receivedRecordsLength = _ref7$receivedRecords === void 0 ? 0 : _ref7$receivedRecords;
                 params = (0, _messageStoreHelper.getSyncParams)({
                   recordCount: recordCount,
                   conversationLoadLength: conversationLoadLength,
@@ -449,61 +483,61 @@ var MessageStore = (_dec = (0, _di.Module)({
                   dateTo: dateTo,
                   syncToken: syncToken
                 });
-                _context3.next = 4;
+                _context4.next = 4;
                 return this._deps.client.account().extension().messageSync().list(params);
               case 4:
-                _yield$this$_deps$cli = _context3.sent;
+                _yield$this$_deps$cli = _context4.sent;
                 records = _yield$this$_deps$cli.records;
                 _yield$this$_deps$cli2 = _yield$this$_deps$cli.syncInfo;
                 syncInfo = _yield$this$_deps$cli2 === void 0 ? {} : _yield$this$_deps$cli2;
                 receivedRecordsLength += records.length;
-                // @ts-expect-error
+                // @ts-expect-error TS(2532): Object is possibly 'undefined'.
                 if (!(!syncInfo.olderRecordsExist || receivedRecordsLength >= recordCount)) {
-                  _context3.next = 11;
+                  _context4.next = 11;
                   break;
                 }
-                return _context3.abrupt("return", {
+                return _context4.abrupt("return", {
                   records: records,
                   syncInfo: syncInfo
                 });
               case 11:
-                _context3.next = 13;
+                _context4.next = 13;
                 return (0, _utils.sleep)(500);
               case 13:
-                // @ts-expect-error
+                // @ts-expect-error TS(2769): No overload matches this call.
                 olderDateTo = new Date(records[records.length - 1].creationTime);
-                _context3.next = 16;
+                _context4.next = 16;
                 return this._syncFunction({
                   conversationLoadLength: conversationLoadLength,
                   dateFrom: dateFrom,
                   dateTo: olderDateTo
                 });
               case 16:
-                olderRecordResult = _context3.sent;
-                return _context3.abrupt("return", {
+                olderRecordResult = _context4.sent;
+                return _context4.abrupt("return", {
                   records: records.concat(olderRecordResult.records),
                   syncInfo: syncInfo
                 });
               case 18:
               case "end":
-                return _context3.stop();
+                return _context4.stop();
             }
           }
-        }, _callee3, this);
+        }, _callee4, this);
       }));
       function _syncFunction(_x3) {
         return _syncFunction2.apply(this, arguments);
       }
       return _syncFunction;
-    }() // @ts-expect-error
+    }() // @ts-expect-error TS(2352): Conversion of type 'null' to type 'Date' may be a ... Remove this comment to see the full error message
   }, {
     key: "_syncData",
     value: function () {
-      var _syncData2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4() {
-        var _ref7,
-          _ref7$dateTo,
+      var _syncData2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
+        var _ref8,
+          _ref8$dateTo,
           dateTo,
-          _ref7$passive,
+          _ref8$passive,
           passive,
           conversationsLoadLength,
           conversationLoadLength,
@@ -514,100 +548,73 @@ var MessageStore = (_dec = (0, _di.Module)({
           recordCount,
           data,
           _error$response,
-          _yield$error$response,
-          _yield$error$response2,
-          _error$response2,
+          _responseResult$error,
           error,
+          responseResult,
           records,
           isFSyncSuccess,
-          _args4 = arguments;
-        return regeneratorRuntime.wrap(function _callee4$(_context4) {
+          _args5 = arguments;
+        return regeneratorRuntime.wrap(function _callee5$(_context5) {
           while (1) {
-            switch (_context4.prev = _context4.next) {
+            switch (_context5.prev = _context5.next) {
               case 0:
-                _ref7 = _args4.length > 0 && _args4[0] !== undefined ? _args4[0] : {}, _ref7$dateTo = _ref7.dateTo, dateTo = _ref7$dateTo === void 0 ? null : _ref7$dateTo, _ref7$passive = _ref7.passive, passive = _ref7$passive === void 0 ? false : _ref7$passive;
+                _ref8 = _args5.length > 0 && _args5[0] !== undefined ? _args5[0] : {}, _ref8$dateTo = _ref8.dateTo, dateTo = _ref8$dateTo === void 0 ? null : _ref8$dateTo, _ref8$passive = _ref8.passive, passive = _ref8$passive === void 0 ? false : _ref8$passive;
                 conversationsLoadLength = this._conversationsLoadLength;
                 conversationLoadLength = this._conversationLoadLength;
                 ownerId = this._deps.auth.ownerId;
-                _context4.prev = 4;
+                _context5.prev = 4;
                 dateFrom = new Date();
                 dateFrom.setDate(dateFrom.getDate() - this._daySpan);
-                syncToken = dateTo ? null : (_this$syncInfo = this.syncInfo) === null || _this$syncInfo === void 0 ? void 0 : _this$syncInfo.syncToken;
+                syncToken = dateTo ? undefined : (_this$syncInfo = this.syncInfo) === null || _this$syncInfo === void 0 ? void 0 : _this$syncInfo.syncToken;
                 recordCount = conversationsLoadLength * conversationLoadLength;
-                _context4.prev = 9;
-                _context4.next = 12;
+                _context5.prev = 9;
+                _context5.next = 12;
                 return this._syncFunction({
                   recordCount: recordCount,
                   conversationLoadLength: conversationLoadLength,
                   dateFrom: dateFrom,
-                  // @ts-expect-error
                   syncToken: syncToken,
                   dateTo: dateTo
                 });
               case 12:
-                data = _context4.sent;
-                _context4.next = 40;
+                data = _context5.sent;
+                _context5.next = 29;
                 break;
               case 15:
-                _context4.prev = 15;
-                _context4.t0 = _context4["catch"](9);
-                error = _context4.t0;
-                _context4.t1 = ((_error$response = error.response) === null || _error$response === void 0 ? void 0 : _error$response.status) === 400;
-                if (!_context4.t1) {
-                  _context4.next = 32;
-                  break;
-                }
-                _context4.next = 22;
-                return (_error$response2 = error.response) === null || _error$response2 === void 0 ? void 0 : _error$response2.clone().json();
-              case 22:
-                _context4.t3 = _yield$error$response = _context4.sent;
-                _context4.t2 = _context4.t3 === null;
-                if (_context4.t2) {
-                  _context4.next = 26;
-                  break;
-                }
-                _context4.t2 = _yield$error$response === void 0;
-              case 26:
-                if (!_context4.t2) {
-                  _context4.next = 30;
-                  break;
-                }
-                _context4.t4 = void 0;
-                _context4.next = 31;
-                break;
-              case 30:
-                _context4.t4 = (_yield$error$response2 = _yield$error$response.error) === null || _yield$error$response2 === void 0 ? void 0 : _yield$error$response2.some(function () {
-                  var _ref8 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-                    _ref8$errorCode = _ref8.errorCode,
-                    errorCode = _ref8$errorCode === void 0 ? '' : _ref8$errorCode;
+                _context5.prev = 15;
+                _context5.t0 = _context5["catch"](9);
+                error = _context5.t0;
+                _context5.next = 20;
+                return (_error$response = error.response) === null || _error$response === void 0 ? void 0 : _error$response.clone().json();
+              case 20:
+                responseResult = _context5.sent;
+                if (!(responseResult === null || responseResult === void 0 ? void 0 : (_responseResult$error = responseResult.errors) === null || _responseResult$error === void 0 ? void 0 : _responseResult$error.some(function () {
+                  var _ref9 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+                    _ref9$errorCode = _ref9.errorCode,
+                    errorCode = _ref9$errorCode === void 0 ? '' : _ref9$errorCode;
                   return INVALID_TOKEN_ERROR_CODES.includes(errorCode);
-                });
-              case 31:
-                _context4.t1 = _context4.t4;
-              case 32:
-                if (!_context4.t1) {
-                  _context4.next = 39;
+                }))) {
+                  _context5.next = 28;
                   break;
                 }
-                _context4.next = 35;
+                _context5.next = 24;
                 return this._syncFunction({
                   recordCount: recordCount,
                   conversationLoadLength: conversationLoadLength,
                   dateFrom: dateFrom,
-                  // @ts-expect-error
-                  syncToken: null,
+                  syncToken: undefined,
                   dateTo: dateTo
                 });
-              case 35:
-                data = _context4.sent;
-                syncToken = null;
-                _context4.next = 40;
+              case 24:
+                data = _context5.sent;
+                syncToken = undefined;
+                _context5.next = 29;
                 break;
-              case 39:
+              case 28:
                 throw error;
-              case 40:
+              case 29:
                 if (!(this._deps.auth.ownerId === ownerId)) {
-                  _context4.next = 45;
+                  _context5.next = 34;
                   break;
                 }
                 records = this._messagesFilter(data.records);
@@ -615,7 +622,7 @@ var MessageStore = (_dec = (0, _di.Module)({
                 if (passive) {
                   this._handledRecord = records;
                 }
-                return _context4.abrupt("return", {
+                return _context5.abrupt("return", {
                   conversationList: this._processRawConversationList({
                     records: records,
                     conversationStore: this.conversationStore,
@@ -627,24 +634,24 @@ var MessageStore = (_dec = (0, _di.Module)({
                   }),
                   syncInfo: data.syncInfo
                 });
-              case 45:
-                _context4.next = 52;
+              case 34:
+                _context5.next = 41;
                 break;
-              case 47:
-                _context4.prev = 47;
-                _context4.t5 = _context4["catch"](4);
+              case 36:
+                _context5.prev = 36;
+                _context5.t1 = _context5["catch"](4);
                 if (!(this._deps.auth.ownerId === ownerId)) {
-                  _context4.next = 52;
+                  _context5.next = 41;
                   break;
                 }
-                console.error(_context4.t5);
-                throw _context4.t5;
-              case 52:
+                console.error('[MessageStore] > _syncData', _context5.t1);
+                throw _context5.t1;
+              case 41:
               case "end":
-                return _context4.stop();
+                return _context5.stop();
             }
           }
-        }, _callee4, this, [[4, 47], [9, 15]]);
+        }, _callee5, this, [[4, 36], [9, 15]]);
       }));
       function _syncData() {
         return _syncData2.apply(this, arguments);
@@ -654,35 +661,35 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: "fetchData",
     value: function () {
-      var _fetchData = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5() {
-        var _ref9,
-          _ref9$passive,
+      var _fetchData = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6() {
+        var _ref10,
+          _ref10$passive,
           passive,
           data,
-          _args5 = arguments;
-        return regeneratorRuntime.wrap(function _callee5$(_context5) {
+          _args6 = arguments;
+        return regeneratorRuntime.wrap(function _callee6$(_context6) {
           while (1) {
-            switch (_context5.prev = _context5.next) {
+            switch (_context6.prev = _context6.next) {
               case 0:
-                _ref9 = _args5.length > 0 && _args5[0] !== undefined ? _args5[0] : {}, _ref9$passive = _ref9.passive, passive = _ref9$passive === void 0 ? false : _ref9$passive;
-                _context5.next = 3;
+                _ref10 = _args6.length > 0 && _args6[0] !== undefined ? _args6[0] : {}, _ref10$passive = _ref10.passive, passive = _ref10$passive === void 0 ? false : _ref10$passive;
+                _context6.next = 3;
                 return this._syncData({
                   passive: passive
                 });
               case 3:
-                data = _context5.sent;
+                data = _context6.sent;
                 this._updateData(data);
                 if (passive && this._handledRecord) {
                   this._dispatchMessageHandlers(this._handledRecord);
-                  // @ts-expect-error
+                  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'GetMessageI... Remove this comment to see the full error message
                   this._handledRecord = null;
                 }
               case 6:
               case "end":
-                return _context5.stop();
+                return _context6.stop();
             }
           }
-        }, _callee5, this);
+        }, _callee6, this);
       }));
       function fetchData() {
         return _fetchData.apply(this, arguments);
@@ -712,9 +719,9 @@ var MessageStore = (_dec = (0, _di.Module)({
       // Sort all records by creation time
       records = records.slice().sort(function (a, b) {
         return (
-          // @ts-expect-error
+          // @ts-expect-error TS(2769): No overload matches this call.
           new Date(a.creationTime).getTime() -
-          // @ts-expect-error
+          // @ts-expect-error TS(2769): No overload matches this call.
           new Date(b.creationTime).getTime()
         );
       });
@@ -723,19 +730,19 @@ var MessageStore = (_dec = (0, _di.Module)({
       try {
         for (_iterator.s(); !(_step = _iterator.n()).done;) {
           var record = _step.value;
-          var _ref10 = record || {},
-            id = _ref10.id,
-            direction = _ref10.direction,
-            availability = _ref10.availability,
-            messageStatus = _ref10.messageStatus,
-            readStatus = _ref10.readStatus,
-            lastModifiedTime = _ref10.lastModifiedTime,
-            creationTime = _ref10.creationTime; // Notify when new message incoming
+          var _ref11 = record || {},
+            id = _ref11.id,
+            direction = _ref11.direction,
+            availability = _ref11.availability,
+            messageStatus = _ref11.messageStatus,
+            readStatus = _ref11.readStatus,
+            lastModifiedTime = _ref11.lastModifiedTime,
+            creationTime = _ref11.creationTime; // Notify when new message incoming
           // fix mix old messages and new messages logic error.
           if (!this._messageDispatched(record)) {
             // Mark last 10 messages that dispatched
             // To present dispatching same record twice
-            // @ts-expect-error
+            // @ts-expect-error TS(2322): Type '{ id: number | undefined; lastModifiedTime: ... Remove this comment to see the full error message
             this._dispatchedMessageIds = [{
               id: id,
               lastModifiedTime: lastModifiedTime
@@ -743,9 +750,9 @@ var MessageStore = (_dec = (0, _di.Module)({
             this._eventEmitter.emit('messageUpdated', record);
             // For new inbound message notification
             if (direction === 'Inbound' && readStatus === 'Unread' && messageStatus === 'Received' && availability === 'Alive' &&
-            // @ts-expect-error
+            // @ts-expect-error TS(2769): No overload matches this call.
             new Date(creationTime).getTime() >
-            // @ts-expect-error
+            // @ts-expect-error TS(2769): No overload matches this call.
             new Date(lastModifiedTime).getTime() - 600 * 1000) {
               this._eventEmitter.emit('newInboundMessageNotification', record);
             }
@@ -767,10 +774,10 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: "pushMessages",
     value: function () {
-      var _pushMessages = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee6(records) {
-        return regeneratorRuntime.wrap(function _callee6$(_context6) {
+      var _pushMessages = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(records) {
+        return regeneratorRuntime.wrap(function _callee7$(_context7) {
           while (1) {
-            switch (_context6.prev = _context6.next) {
+            switch (_context7.prev = _context7.next) {
               case 0:
                 this._deps.dataFetcherV2.updateData(this._source, _objectSpread(_objectSpread({}, this.data), {}, {
                   conversationList: this._processRawConversationList({
@@ -781,14 +788,14 @@ var MessageStore = (_dec = (0, _di.Module)({
                     records: records
                   })
                 }),
-                // @ts-expect-error
+                // @ts-expect-error TS(2345): Argument of type 'number | null' is not assignable... Remove this comment to see the full error message
                 this.timestamp);
               case 1:
               case "end":
-                return _context6.stop();
+                return _context7.stop();
             }
           }
-        }, _callee6, this);
+        }, _callee7, this);
       }));
       function pushMessages(_x4) {
         return _pushMessages.apply(this, arguments);
@@ -803,26 +810,26 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: "_updateMessageApi",
     value: function () {
-      var _updateMessageApi2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee7(messageId, status) {
+      var _updateMessageApi2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8(messageId, status) {
         var body, updateRequest;
-        return regeneratorRuntime.wrap(function _callee7$(_context7) {
+        return regeneratorRuntime.wrap(function _callee8$(_context8) {
           while (1) {
-            switch (_context7.prev = _context7.next) {
+            switch (_context8.prev = _context8.next) {
               case 0:
                 body = {
                   readStatus: status
                 };
-                _context7.next = 3;
+                _context8.next = 3;
                 return this._deps.client.account().extension().messageStore(messageId).put(body);
               case 3:
-                updateRequest = _context7.sent;
-                return _context7.abrupt("return", updateRequest);
+                updateRequest = _context8.sent;
+                return _context8.abrupt("return", updateRequest);
               case 5:
               case "end":
-                return _context7.stop();
+                return _context8.stop();
             }
           }
-        }, _callee7, this);
+        }, _callee8, this);
       }));
       function _updateMessageApi(_x5, _x6) {
         return _updateMessageApi2.apply(this, arguments);
@@ -832,23 +839,23 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: "deleteMessageApi",
     value: function () {
-      var _deleteMessageApi = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee8(messageId) {
+      var _deleteMessageApi = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9(messageId) {
         var response;
-        return regeneratorRuntime.wrap(function _callee8$(_context8) {
+        return regeneratorRuntime.wrap(function _callee9$(_context9) {
           while (1) {
-            switch (_context8.prev = _context8.next) {
+            switch (_context9.prev = _context9.next) {
               case 0:
-                _context8.next = 2;
+                _context9.next = 2;
                 return this._deps.client.account().extension().messageStore(messageId)["delete"]();
               case 2:
-                response = _context8.sent;
-                return _context8.abrupt("return", response);
+                response = _context9.sent;
+                return _context9.abrupt("return", response);
               case 4:
               case "end":
-                return _context8.stop();
+                return _context9.stop();
             }
           }
-        }, _callee8, this);
+        }, _callee9, this);
       }));
       function deleteMessageApi(_x7) {
         return _deleteMessageApi.apply(this, arguments);
@@ -868,14 +875,14 @@ var MessageStore = (_dec = (0, _di.Module)({
       var messageIds = this._messagesFilter(messages).map(function (item) {
         return item.id;
       });
-      var conversationList = ((_this$data$conversati2 = (_this$data3 = this.data) === null || _this$data3 === void 0 ? void 0 : _this$data3.conversationList) !== null && _this$data$conversati2 !== void 0 ? _this$data$conversati2 : []).filter(function (_ref11) {
-        var messageId = _ref11.messageId;
+      var conversationList = ((_this$data$conversati2 = (_this$data3 = this.data) === null || _this$data3 === void 0 ? void 0 : _this$data3.conversationList) !== null && _this$data$conversati2 !== void 0 ? _this$data$conversati2 : []).filter(function (_ref12) {
+        var messageId = _ref12.messageId;
         return messageIds.indexOf(messageId) > -1;
       });
       var conversationStore = Object.keys(this.conversationStore).reduce(function (acc, key) {
         var messages = _this3.conversationStore[key];
-        var persist = messages.filter(function (_ref12) {
-          var id = _ref12.id;
+        var persist = messages.filter(function (_ref13) {
+          var id = _ref13.id;
           return messageIds.indexOf(id) > -1;
         });
         if (!persist.length) {
@@ -888,7 +895,7 @@ var MessageStore = (_dec = (0, _di.Module)({
         conversationList: conversationList,
         conversationStore: conversationStore
       }),
-      // @ts-expect-error
+      // @ts-expect-error TS(2345): Argument of type 'number | null' is not assignable... Remove this comment to see the full error message
       this.timestamp);
     }
     /**
@@ -897,35 +904,35 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: "_batchUpdateMessagesApi",
     value: function () {
-      var _batchUpdateMessagesApi2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9(messageIds, body) {
+      var _batchUpdateMessagesApi2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10(messageIds, body) {
         var ids, platform, responses;
-        return regeneratorRuntime.wrap(function _callee9$(_context9) {
+        return regeneratorRuntime.wrap(function _callee10$(_context10) {
           while (1) {
-            switch (_context9.prev = _context9.next) {
+            switch (_context10.prev = _context10.next) {
               case 0:
                 if (!(!messageIds || messageIds.length === 0)) {
-                  _context9.next = 2;
+                  _context10.next = 2;
                   break;
                 }
-                return _context9.abrupt("return");
+                return _context10.abrupt("return");
               case 2:
                 ids = decodeURIComponent(messageIds.join(','));
                 platform = this._deps.client.service.platform();
-                _context9.next = 6;
+                _context10.next = 6;
                 return (0, _batchApiHelper.batchPutApi)({
                   platform: platform,
                   url: "/restapi/v1.0/account/~/extension/~/message-store/".concat(ids),
                   body: body
                 });
               case 6:
-                responses = _context9.sent;
-                return _context9.abrupt("return", responses);
+                responses = _context10.sent;
+                return _context10.abrupt("return", responses);
               case 8:
               case "end":
-                return _context9.stop();
+                return _context10.stop();
             }
           }
-        }, _callee9, this);
+        }, _callee10, this);
       }));
       function _batchUpdateMessagesApi(_x8, _x9) {
         return _batchUpdateMessagesApi2.apply(this, arguments);
@@ -940,18 +947,18 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: "_updateMessagesApi",
     value: function () {
-      var _updateMessagesApi2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11(messageIds, status) {
+      var _updateMessagesApi2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12(messageIds, status) {
         var allMessageIds, results, index, nextLength, result, leftIds, body, responses, ownerId;
-        return regeneratorRuntime.wrap(function _callee11$(_context11) {
+        return regeneratorRuntime.wrap(function _callee12$(_context12) {
           while (1) {
-            switch (_context11.prev = _context11.next) {
+            switch (_context12.prev = _context12.next) {
               case 0:
                 allMessageIds = messageIds;
                 if (!(!allMessageIds || allMessageIds.length === 0)) {
-                  _context11.next = 3;
+                  _context12.next = 3;
                   break;
                 }
-                return _context11.abrupt("return", []);
+                return _context12.abrupt("return", []);
               case 3:
                 results = [];
                 index = 0;
@@ -965,14 +972,14 @@ var MessageStore = (_dec = (0, _di.Module)({
 
                 // If there's only one message, use another api to update its status
                 if (!(nextLength === 1)) {
-                  _context11.next = 12;
+                  _context12.next = 12;
                   break;
                 }
-                _context11.next = 10;
+                _context12.next = 10;
                 return this._updateMessageApi(messageIds[0], status);
               case 10:
-                result = _context11.sent;
-                return _context11.abrupt("return", [result]);
+                result = _context12.sent;
+                return _context12.abrupt("return", [result]);
               case 12:
                 leftIds = allMessageIds.slice(index * UPDATE_MESSAGE_ONCE_COUNT, index * UPDATE_MESSAGE_ONCE_COUNT + nextLength);
                 body = leftIds.map(function () {
@@ -982,71 +989,71 @@ var MessageStore = (_dec = (0, _di.Module)({
                     }
                   };
                 });
-                _context11.next = 16;
+                _context12.next = 16;
                 return this._batchUpdateMessagesApi(leftIds, body);
               case 16:
-                responses = _context11.sent;
-                _context11.next = 19;
+                responses = _context12.sent;
+                _context12.next = 19;
                 return Promise.all(
-                // @ts-expect-error
+                // @ts-expect-error TS(2532): Object is possibly 'undefined'.
                 responses.map( /*#__PURE__*/function () {
-                  var _ref13 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10(res) {
+                  var _ref14 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11(res) {
                     var _result;
-                    return regeneratorRuntime.wrap(function _callee10$(_context10) {
+                    return regeneratorRuntime.wrap(function _callee11$(_context11) {
                       while (1) {
-                        switch (_context10.prev = _context10.next) {
+                        switch (_context11.prev = _context11.next) {
                           case 0:
                             if (!(res.status === 200)) {
-                              _context10.next = 5;
+                              _context11.next = 5;
                               break;
                             }
-                            _context10.next = 3;
+                            _context11.next = 3;
                             return res.json();
                           case 3:
-                            _result = _context10.sent;
+                            _result = _context11.sent;
                             results.push(_result);
                           case 5:
                           case "end":
-                            return _context10.stop();
+                            return _context11.stop();
                         }
                       }
-                    }, _callee10);
+                    }, _callee11);
                   }));
                   return function (_x12) {
-                    return _ref13.apply(this, arguments);
+                    return _ref14.apply(this, arguments);
                   };
                 }()));
               case 19:
                 ownerId = this._deps.auth.ownerId;
                 if (!(allMessageIds.length > (index + 1) * UPDATE_MESSAGE_ONCE_COUNT)) {
-                  _context11.next = 27;
+                  _context12.next = 27;
                   break;
                 }
-                _context11.next = 23;
+                _context12.next = 23;
                 return (0, _utils.sleep)(1300);
               case 23:
                 if (!(ownerId !== this._deps.auth.ownerId)) {
-                  _context11.next = 25;
+                  _context12.next = 25;
                   break;
                 }
-                return _context11.abrupt("return", []);
+                return _context12.abrupt("return", []);
               case 25:
-                _context11.next = 28;
+                _context12.next = 28;
                 break;
               case 27:
-                return _context11.abrupt("break", 31);
+                return _context12.abrupt("break", 31);
               case 28:
                 index++;
-                _context11.next = 5;
+                _context12.next = 5;
                 break;
               case 31:
-                return _context11.abrupt("return", results);
+                return _context12.abrupt("return", results);
               case 32:
               case "end":
-                return _context11.stop();
+                return _context12.stop();
             }
           }
-        }, _callee11, this);
+        }, _callee12, this);
       }));
       function _updateMessagesApi(_x10, _x11) {
         return _updateMessagesApi2.apply(this, arguments);
@@ -1059,18 +1066,18 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: "readMessages",
     value: function () {
-      var _readMessages = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee12(conversationId) {
-        return regeneratorRuntime.wrap(function _callee12$(_context12) {
+      var _readMessages = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee13(conversationId) {
+        return regeneratorRuntime.wrap(function _callee13$(_context13) {
           while (1) {
-            switch (_context12.prev = _context12.next) {
+            switch (_context13.prev = _context13.next) {
               case 0:
                 this._debouncedSetConversationAsRead(conversationId);
               case 1:
               case "end":
-                return _context12.stop();
+                return _context13.stop();
             }
           }
-        }, _callee12, this);
+        }, _callee13, this);
       }));
       function readMessages(_x13) {
         return _readMessages.apply(this, arguments);
@@ -1080,62 +1087,60 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: "_setConversationAsRead",
     value: function () {
-      var _setConversationAsRead2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee13(conversationId) {
+      var _setConversationAsRead2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee14(conversationId) {
         var messageList, unreadMessageIds, ownerId, updatedMessages;
-        return regeneratorRuntime.wrap(function _callee13$(_context13) {
+        return regeneratorRuntime.wrap(function _callee14$(_context14) {
           while (1) {
-            switch (_context13.prev = _context13.next) {
+            switch (_context14.prev = _context14.next) {
               case 0:
-                // @ts-expect-error
+                // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
                 messageList = this.conversationStore[conversationId];
                 if (!(!messageList || messageList.length === 0)) {
-                  _context13.next = 3;
+                  _context14.next = 3;
                   break;
                 }
-                return _context13.abrupt("return");
+                return _context14.abrupt("return");
               case 3:
-                unreadMessageIds = messageList.filter(messageHelper.messageIsUnread)
-                // @ts-expect-error
-                .map(function (m) {
+                unreadMessageIds = messageList.filter(messageHelper.messageIsUnread).map(function (m) {
                   return m.id;
                 });
                 if (!(unreadMessageIds.length === 0)) {
-                  _context13.next = 6;
+                  _context14.next = 6;
                   break;
                 }
-                return _context13.abrupt("return");
+                return _context14.abrupt("return");
               case 6:
-                _context13.prev = 6;
+                _context14.prev = 6;
                 ownerId = this._deps.auth.ownerId;
-                _context13.next = 10;
+                _context14.next = 10;
                 return this._updateMessagesApi(unreadMessageIds, 'Read');
               case 10:
-                updatedMessages = _context13.sent;
+                updatedMessages = _context14.sent;
                 if (!(ownerId !== this._deps.auth.ownerId)) {
-                  _context13.next = 13;
+                  _context14.next = 13;
                   break;
                 }
-                return _context13.abrupt("return");
+                return _context14.abrupt("return");
               case 13:
                 this.pushMessages(updatedMessages);
-                _context13.next = 26;
+                _context14.next = 26;
                 break;
               case 16:
-                _context13.prev = 16;
-                _context13.t0 = _context13["catch"](6);
-                console.error(_context13.t0);
-                _context13.t1 = !this._deps.availabilityMonitor;
-                if (_context13.t1) {
-                  _context13.next = 24;
+                _context14.prev = 16;
+                _context14.t0 = _context14["catch"](6);
+                console.error(_context14.t0);
+                _context14.t1 = !this._deps.availabilityMonitor;
+                if (_context14.t1) {
+                  _context14.next = 24;
                   break;
                 }
-                _context13.next = 23;
-                return this._deps.availabilityMonitor.checkIfHAError(_context13.t0);
+                _context14.next = 23;
+                return this._deps.availabilityMonitor.checkIfHAError(_context14.t0);
               case 23:
-                _context13.t1 = !_context13.sent;
+                _context14.t1 = !_context14.sent;
               case 24:
-                if (!_context13.t1) {
-                  _context13.next = 26;
+                if (!_context14.t1) {
+                  _context14.next = 26;
                   break;
                 }
                 this._deps.alert.warning({
@@ -1143,10 +1148,10 @@ var MessageStore = (_dec = (0, _di.Module)({
                 });
               case 26:
               case "end":
-                return _context13.stop();
+                return _context14.stop();
             }
           }
-        }, _callee13, this, [[6, 16]]);
+        }, _callee14, this, [[6, 16]]);
       }));
       function _setConversationAsRead(_x14) {
         return _setConversationAsRead2.apply(this, arguments);
@@ -1159,37 +1164,37 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: "unreadMessage",
     value: function () {
-      var _unreadMessage = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee14(messageId) {
+      var _unreadMessage = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee15(messageId) {
         var message;
-        return regeneratorRuntime.wrap(function _callee14$(_context14) {
+        return regeneratorRuntime.wrap(function _callee15$(_context15) {
           while (1) {
-            switch (_context14.prev = _context14.next) {
+            switch (_context15.prev = _context15.next) {
               case 0:
                 this.onUnmarkMessages();
-                _context14.prev = 1;
-                _context14.next = 4;
+                _context15.prev = 1;
+                _context15.next = 4;
                 return this._updateMessageApi(messageId, 'Unread');
               case 4:
-                message = _context14.sent;
+                message = _context15.sent;
                 this.pushMessage(message);
-                _context14.next = 18;
+                _context15.next = 18;
                 break;
               case 8:
-                _context14.prev = 8;
-                _context14.t0 = _context14["catch"](1);
-                console.error(_context14.t0);
-                _context14.t1 = !this._deps.availabilityMonitor;
-                if (_context14.t1) {
-                  _context14.next = 16;
+                _context15.prev = 8;
+                _context15.t0 = _context15["catch"](1);
+                console.error(_context15.t0);
+                _context15.t1 = !this._deps.availabilityMonitor;
+                if (_context15.t1) {
+                  _context15.next = 16;
                   break;
                 }
-                _context14.next = 15;
-                return this._deps.availabilityMonitor.checkIfHAError(_context14.t0);
+                _context15.next = 15;
+                return this._deps.availabilityMonitor.checkIfHAError(_context15.t0);
               case 15:
-                _context14.t1 = !_context14.sent;
+                _context15.t1 = !_context15.sent;
               case 16:
-                if (!_context14.t1) {
-                  _context14.next = 18;
+                if (!_context15.t1) {
+                  _context15.next = 18;
                   break;
                 }
                 this._deps.alert.warning({
@@ -1197,10 +1202,10 @@ var MessageStore = (_dec = (0, _di.Module)({
                 });
               case 18:
               case "end":
-                return _context14.stop();
+                return _context15.stop();
             }
           }
-        }, _callee14, this, [[1, 8]]);
+        }, _callee15, this, [[1, 8]]);
       }));
       function unreadMessage(_x15) {
         return _unreadMessage.apply(this, arguments);
@@ -1210,26 +1215,7 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: "onUnmarkMessages",
     value: function () {
-      var _onUnmarkMessages = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee15() {
-        return regeneratorRuntime.wrap(function _callee15$(_context15) {
-          while (1) {
-            switch (_context15.prev = _context15.next) {
-              case 0:
-              case "end":
-                return _context15.stop();
-            }
-          }
-        }, _callee15);
-      }));
-      function onUnmarkMessages() {
-        return _onUnmarkMessages.apply(this, arguments);
-      }
-      return onUnmarkMessages;
-    }()
-  }, {
-    key: "onDeleteConversation",
-    value: function () {
-      var _onDeleteConversation = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee16(conversationId) {
+      var _onUnmarkMessages = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee16() {
         return regeneratorRuntime.wrap(function _callee16$(_context16) {
           while (1) {
             switch (_context16.prev = _context16.next) {
@@ -1240,6 +1226,25 @@ var MessageStore = (_dec = (0, _di.Module)({
           }
         }, _callee16);
       }));
+      function onUnmarkMessages() {
+        return _onUnmarkMessages.apply(this, arguments);
+      }
+      return onUnmarkMessages;
+    }()
+  }, {
+    key: "onDeleteConversation",
+    value: function () {
+      var _onDeleteConversation = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee17(conversationId) {
+        return regeneratorRuntime.wrap(function _callee17$(_context17) {
+          while (1) {
+            switch (_context17.prev = _context17.next) {
+              case 0:
+              case "end":
+                return _context17.stop();
+            }
+          }
+        }, _callee17);
+      }));
       function onDeleteConversation(_x16) {
         return _onDeleteConversation.apply(this, arguments);
       }
@@ -1248,12 +1253,12 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: "_deleteConversationStore",
     value: function _deleteConversationStore(conversationId) {
-      // @ts-expect-error
+      // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
       if (!this.conversationStore[conversationId]) {
         return this.conversationStore;
       }
       var newState = _objectSpread({}, this.conversationStore);
-      // @ts-expect-error
+      // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
       delete newState[conversationId];
       return newState;
     }
@@ -1270,78 +1275,14 @@ var MessageStore = (_dec = (0, _di.Module)({
         conversationList: conversationList,
         conversationStore: conversationStore
       }),
-      // @ts-expect-error
+      // @ts-expect-error TS(2345): Argument of type 'number | null' is not assignable... Remove this comment to see the full error message
       this.timestamp);
     }
   }, {
     key: "deleteConversationMessages",
     value: function () {
-      var _deleteConversationMessages = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee17(conversationId) {
+      var _deleteConversationMessages = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee18(conversationId) {
         var messageList, messageId;
-        return regeneratorRuntime.wrap(function _callee17$(_context17) {
-          while (1) {
-            switch (_context17.prev = _context17.next) {
-              case 0:
-                if (conversationId) {
-                  _context17.next = 2;
-                  break;
-                }
-                return _context17.abrupt("return");
-              case 2:
-                messageList = this.conversationStore[conversationId];
-                if (!(!messageList || messageList.length === 0)) {
-                  _context17.next = 5;
-                  break;
-                }
-                return _context17.abrupt("return");
-              case 5:
-                messageId = messageList.map(function (m) {
-                  return m.id;
-                }).join(',');
-                _context17.prev = 6;
-                _context17.next = 9;
-                return this.deleteMessageApi(messageId);
-              case 9:
-                this._deleteConversation(conversationId);
-                _context17.next = 22;
-                break;
-              case 12:
-                _context17.prev = 12;
-                _context17.t0 = _context17["catch"](6);
-                console.error(_context17.t0);
-                _context17.t1 = !this._deps.availabilityMonitor;
-                if (_context17.t1) {
-                  _context17.next = 20;
-                  break;
-                }
-                _context17.next = 19;
-                return this._deps.availabilityMonitor.checkIfHAError(_context17.t0);
-              case 19:
-                _context17.t1 = !_context17.sent;
-              case 20:
-                if (!_context17.t1) {
-                  _context17.next = 22;
-                  break;
-                }
-                this._deps.alert.warning({
-                  message: _messageStoreErrors.messageStoreErrors.deleteFailed
-                });
-              case 22:
-              case "end":
-                return _context17.stop();
-            }
-          }
-        }, _callee17, this, [[6, 12]]);
-      }));
-      function deleteConversationMessages(_x17) {
-        return _deleteConversationMessages.apply(this, arguments);
-      }
-      return deleteConversationMessages;
-    }()
-  }, {
-    key: "deleteConversation",
-    value: function () {
-      var _deleteConversation2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee18(conversationId) {
         return regeneratorRuntime.wrap(function _callee18$(_context18) {
           while (1) {
             switch (_context18.prev = _context18.next) {
@@ -1352,31 +1293,95 @@ var MessageStore = (_dec = (0, _di.Module)({
                 }
                 return _context18.abrupt("return");
               case 2:
-                _context18.prev = 2;
-                _context18.next = 5;
+                messageList = this.conversationStore[conversationId];
+                if (!(!messageList || messageList.length === 0)) {
+                  _context18.next = 5;
+                  break;
+                }
+                return _context18.abrupt("return");
+              case 5:
+                messageId = messageList.map(function (m) {
+                  return m.id;
+                }).join(',');
+                _context18.prev = 6;
+                _context18.next = 9;
+                return this.deleteMessageApi(messageId);
+              case 9:
+                this._deleteConversation(conversationId);
+                _context18.next = 22;
+                break;
+              case 12:
+                _context18.prev = 12;
+                _context18.t0 = _context18["catch"](6);
+                console.error(_context18.t0);
+                _context18.t1 = !this._deps.availabilityMonitor;
+                if (_context18.t1) {
+                  _context18.next = 20;
+                  break;
+                }
+                _context18.next = 19;
+                return this._deps.availabilityMonitor.checkIfHAError(_context18.t0);
+              case 19:
+                _context18.t1 = !_context18.sent;
+              case 20:
+                if (!_context18.t1) {
+                  _context18.next = 22;
+                  break;
+                }
+                this._deps.alert.warning({
+                  message: _messageStoreErrors.messageStoreErrors.deleteFailed
+                });
+              case 22:
+              case "end":
+                return _context18.stop();
+            }
+          }
+        }, _callee18, this, [[6, 12]]);
+      }));
+      function deleteConversationMessages(_x17) {
+        return _deleteConversationMessages.apply(this, arguments);
+      }
+      return deleteConversationMessages;
+    }()
+  }, {
+    key: "deleteConversation",
+    value: function () {
+      var _deleteConversation2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee19(conversationId) {
+        return regeneratorRuntime.wrap(function _callee19$(_context19) {
+          while (1) {
+            switch (_context19.prev = _context19.next) {
+              case 0:
+                if (conversationId) {
+                  _context19.next = 2;
+                  break;
+                }
+                return _context19.abrupt("return");
+              case 2:
+                _context19.prev = 2;
+                _context19.next = 5;
                 return this._deps.client.account().extension().messageStore()["delete"]({
                   conversationId: conversationId
                 });
               case 5:
                 this._deleteConversation(conversationId);
-                _context18.next = 18;
+                _context19.next = 18;
                 break;
               case 8:
-                _context18.prev = 8;
-                _context18.t0 = _context18["catch"](2);
-                console.error(_context18.t0);
-                _context18.t1 = !this._deps.availabilityMonitor;
-                if (_context18.t1) {
-                  _context18.next = 16;
+                _context19.prev = 8;
+                _context19.t0 = _context19["catch"](2);
+                console.error(_context19.t0);
+                _context19.t1 = !this._deps.availabilityMonitor;
+                if (_context19.t1) {
+                  _context19.next = 16;
                   break;
                 }
-                _context18.next = 15;
-                return this._deps.availabilityMonitor.checkIfHAError(_context18.t0);
+                _context19.next = 15;
+                return this._deps.availabilityMonitor.checkIfHAError(_context19.t0);
               case 15:
-                _context18.t1 = !_context18.sent;
+                _context19.t1 = !_context19.sent;
               case 16:
-                if (!_context18.t1) {
-                  _context18.next = 18;
+                if (!_context19.t1) {
+                  _context19.next = 18;
                   break;
                 }
                 this._deps.alert.warning({
@@ -1384,10 +1389,10 @@ var MessageStore = (_dec = (0, _di.Module)({
                 });
               case 18:
               case "end":
-                return _context18.stop();
+                return _context19.stop();
             }
           }
-        }, _callee18, this, [[2, 8]]);
+        }, _callee19, this, [[2, 8]]);
       }));
       function deleteConversation(_x18) {
         return _deleteConversation2.apply(this, arguments);
@@ -1397,16 +1402,16 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: "onClickToSMS",
     value: function () {
-      var _onClickToSMS = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee19() {
-        return regeneratorRuntime.wrap(function _callee19$(_context19) {
+      var _onClickToSMS = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee20() {
+        return regeneratorRuntime.wrap(function _callee20$(_context20) {
           while (1) {
-            switch (_context19.prev = _context19.next) {
+            switch (_context20.prev = _context20.next) {
               case 0:
               case "end":
-                return _context19.stop();
+                return _context20.stop();
             }
           }
-        }, _callee19);
+        }, _callee20);
       }));
       function onClickToSMS() {
         return _onClickToSMS.apply(this, arguments);
@@ -1416,21 +1421,21 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: "onClickToCall",
     value: function () {
-      var _onClickToCall = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee20(_ref14) {
-        var _ref14$fromType, fromType;
-        return regeneratorRuntime.wrap(function _callee20$(_context20) {
+      var _onClickToCall = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee21(_ref15) {
+        var _ref15$fromType, fromType;
+        return regeneratorRuntime.wrap(function _callee21$(_context21) {
           while (1) {
-            switch (_context20.prev = _context20.next) {
+            switch (_context21.prev = _context21.next) {
               case 0:
-                _ref14$fromType = _ref14.fromType, fromType = _ref14$fromType === void 0 ? '' : _ref14$fromType;
+                _ref15$fromType = _ref15.fromType, fromType = _ref15$fromType === void 0 ? '' : _ref15$fromType;
                 // for track click to call in message list
                 this.onClickToCallWithRingout();
               case 2:
               case "end":
-                return _context20.stop();
+                return _context21.stop();
             }
           }
-        }, _callee20, this);
+        }, _callee21, this);
       }));
       function onClickToCall(_x19) {
         return _onClickToCall.apply(this, arguments);
@@ -1440,16 +1445,16 @@ var MessageStore = (_dec = (0, _di.Module)({
   }, {
     key: "onClickToCallWithRingout",
     value: function () {
-      var _onClickToCallWithRingout = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee21() {
-        return regeneratorRuntime.wrap(function _callee21$(_context21) {
+      var _onClickToCallWithRingout = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee22() {
+        return regeneratorRuntime.wrap(function _callee22$(_context22) {
           while (1) {
-            switch (_context21.prev = _context21.next) {
+            switch (_context22.prev = _context22.next) {
               case 0:
               case "end":
-                return _context21.stop();
+                return _context22.stop();
             }
           }
-        }, _callee21);
+        }, _callee22);
       }));
       function onClickToCallWithRingout() {
         return _onClickToCallWithRingout.apply(this, arguments);
@@ -1488,9 +1493,9 @@ var MessageStore = (_dec = (0, _di.Module)({
     get: function get() {
       var _this$data7,
         _this4 = this;
-      var _ref15 = (_this$data7 = this.data) !== null && _this$data7 !== void 0 ? _this$data7 : {},
-        _ref15$conversationLi = _ref15.conversationList,
-        conversationList = _ref15$conversationLi === void 0 ? [] : _ref15$conversationLi;
+      var _ref16 = (_this$data7 = this.data) !== null && _this$data7 !== void 0 ? _this$data7 : {},
+        _ref16$conversationLi = _ref16.conversationList,
+        conversationList = _ref16$conversationLi === void 0 ? [] : _ref16$conversationLi;
       return conversationList.map(function (conversationItem) {
         var messageList = _this4.conversationStore[conversationItem.id] || [];
         return _objectSpread(_objectSpread({}, messageList[0]), {}, {

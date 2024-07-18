@@ -1,1 +1,1 @@
-{"version":3,"file":"setup.js","names":["global","window"],"sources":["integration-test/setup.ts"],"sourcesContent":["global.window = {};\n"],"mappings":";;AAAAA,MAAM,CAACC,MAAM,GAAG,CAAC,CAAC"}
+{"version":3,"file":"setup.js","names":["global","window"],"sources":["integration-test/setup.ts"],"sourcesContent":["global.window = {};\n"],"mappings":";;AAAAA,MAAM,CAACC,MAAM,GAAG,CAAC,CAAC","ignoreList":[]}

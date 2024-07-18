@@ -35,44 +35,46 @@ var _proxify = require("../../lib/proxy/proxify");
 var _MessageSender = require("../MessageSender");
 var _conversationsStatus = require("./conversationsStatus");
 var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _dec8, _dec9, _dec10, _dec11, _dec12, _dec13, _dec14, _class, _class2, _descriptor, _descriptor2, _descriptor3, _descriptor4, _descriptor5, _descriptor6, _descriptor7, _descriptor8, _descriptor9, _descriptor10, _descriptor11, _descriptor12;
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
-function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _get() { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get.bind(); } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(arguments.length < 3 ? target : receiver); } return desc.value; }; } return _get.apply(this, arguments); }
-function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
-function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'transform-class-properties is enabled and runs after the decorators transform.'); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) { n[e] = r[e]; } return n; }
+function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _get() { return _get = "undefined" != typeof Reflect && Reflect.get ? Reflect.get.bind() : function (e, t, r) { var p = _superPropBase(e, t); if (p) { var n = Object.getOwnPropertyDescriptor(p, t); return n.get ? n.get.call(arguments.length < 3 ? e : r) : n.value; } }, _get.apply(null, arguments); }
+function _superPropBase(t, o) { for (; !{}.hasOwnProperty.call(t, o) && null !== (t = _getPrototypeOf(t));) { ; } return t; }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
+function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
+function _initializerWarningHelper(r, e) { throw Error("Decorating class property failed. Please ensure that transform-class-properties is enabled and runs after the decorators transform."); }
 function mergeMessages(messages, oldMessages) {
   var tmp = {};
   var currentMessages = [];
   messages.forEach(function (element) {
     currentMessages.push(element);
+    // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
     tmp[element.id] = 1;
   });
   oldMessages.forEach(function (element) {
+    // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
     if (!tmp[element.id]) {
       currentMessages.push(element);
     }
@@ -82,6 +84,7 @@ function mergeMessages(messages, oldMessages) {
 function getEarliestTime(messages) {
   var newTime = Date.now();
   messages.forEach(function (message) {
+    // @ts-expect-error TS(2769): No overload matches this call.
     var creationTime = new Date(message.creationTime).getTime();
     if (creationTime < newTime) {
       newTime = creationTime;
@@ -101,6 +104,7 @@ function getUniqueNumbers(conversations) {
   conversations.forEach(function (message) {
     if (message.from && message.direction === _messageDirection.messageDirection.inbound) {
       var fromNumber = message.from.phoneNumber || message.from.extensionNumber;
+      // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
       addIfNotExist(fromNumber);
     }
     if (message.to && message.to.length > 0 && message.direction === _messageDirection.messageDirection.outbound) {
@@ -109,6 +113,7 @@ function getUniqueNumbers(conversations) {
           return;
         }
         var toPhoneNumber = toNumber.phoneNumber || toNumber.extensionNumber;
+        // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
         addIfNotExist(toPhoneNumber);
       });
     }
@@ -340,6 +345,7 @@ var Conversations = (_dec = (0, _di.Module)({
         return content.conversationId === conversationId;
       });
       if (existedContent) {
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         existedContent.attachments = existedContent.attachments.filter(function (f) {
           return f.name !== attachment.name;
         });
@@ -397,6 +403,7 @@ var Conversations = (_dec = (0, _di.Module)({
       this.oldConversations = [];
       this.currentPage = 1;
       this.fetchConversationsStatus = _conversationsStatus.conversationsStatus.idle;
+      // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
       this.currentConversationId = null;
       this.oldMessages = [];
       this.fetchMessagesStatus = _conversationsStatus.conversationsStatus.idle;
@@ -554,14 +561,17 @@ var Conversations = (_dec = (0, _di.Module)({
                 }
                 _context3.prev = 13;
                 _context3.next = 16;
-                return this._deps.client.account().extension().messageStore().list(params);
+                return this._deps.client.account().extension().messageStore()
+                // @ts-expect-error TS(2345): Argument of type 'ListMessagesParameters' is not a... Remove this comment to see the full error message
+                .list(params);
               case 16:
                 _yield$this$_deps$cli = _context3.sent;
                 records = _yield$this$_deps$cli.records;
+                // @ts-expect-error TS(2532): Object is possibly 'undefined'.
                 recordsLength = records.length;
                 this._olderDataExisted = recordsLength === this._perPage;
                 if (typeFilter === this.typeFilter && currentPage === this.currentPage) {
-                  isIncreaseCurrentPage = recordsLength && this._perPage * this.currentPage < recordsLength + this.filteredConversations.length;
+                  isIncreaseCurrentPage = recordsLength && this._perPage * this.currentPage < recordsLength + this.filteredConversations.length; // @ts-expect-error TS(2345): Argument of type 'GetMessageInfoResponse[] | undef... Remove this comment to see the full error message
                   this._fetchOldConversationsSuccess(records, isIncreaseCurrentPage);
                 }
                 _context3.next = 26;
@@ -683,6 +693,7 @@ var Conversations = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context7.prev = _context7.next) {
               case 0:
+                // @ts-expect-error TS(2345): Argument of type 'null' is not assignable to param... Remove this comment to see the full error message
                 this._updateCurrentConversationId(null);
                 this._olderMessagesExisted = true;
               case 2:
@@ -762,12 +773,16 @@ var Conversations = (_dec = (0, _di.Module)({
                 };
                 _context8.prev = 19;
                 _context8.next = 22;
-                return this._deps.client.account().extension().messageStore().list(params);
+                return this._deps.client.account().extension().messageStore()
+                // @ts-expect-error TS(2345): Argument of type 'ListMessagesParameters' is not a... Remove this comment to see the full error message
+                .list(params);
               case 22:
                 _yield$this$_deps$cli2 = _context8.sent;
                 records = _yield$this$_deps$cli2.records;
+                // @ts-expect-error TS(2532): Object is possibly 'undefined'.
                 this._olderMessagesExisted = records.length === perPage;
                 if (conversationId === this.currentConversationId) {
+                  // @ts-expect-error TS(2345): Argument of type 'GetMessageInfoResponse[] | undef... Remove this comment to see the full error message
                   this._fetchOldMessagesSuccess(records);
                 }
                 _context8.next = 31;
@@ -818,6 +833,7 @@ var Conversations = (_dec = (0, _di.Module)({
                 }
                 return _context9.abrupt("return", this._alertWarning(_MessageSender.messageSenderMessages.textTooLong));
               case 2:
+                // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
                 this._updateMessageText(this.currentConversationId, text);
               case 3:
               case "end":
@@ -840,7 +856,7 @@ var Conversations = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context10.prev = _context10.next) {
               case 0:
-                attachments = this.attachments;
+                attachments = this.attachments; // @ts-expect-error TS(2532): Object is possibly 'undefined'.
                 if (!(attachments.length >= 10)) {
                   _context10.next = 4;
                   break;
@@ -848,6 +864,7 @@ var Conversations = (_dec = (0, _di.Module)({
                 this._alertWarning(_MessageSender.messageSenderMessages.attachmentCountLimitation);
                 return _context10.abrupt("return");
               case 4:
+                // @ts-expect-error TS(2532): Object is possibly 'undefined'.
                 size = attachments.reduce(function (prev, curr) {
                   return prev + curr.size;
                 }, 0);
@@ -858,6 +875,7 @@ var Conversations = (_dec = (0, _di.Module)({
                 this._alertWarning(_MessageSender.messageSenderMessages.attachmentSizeLimitation);
                 return _context10.abrupt("return");
               case 8:
+                // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
                 this._addAttachment(this.currentConversationId, attachment);
               case 9:
               case "end":
@@ -879,6 +897,7 @@ var Conversations = (_dec = (0, _di.Module)({
           while (1) {
             switch (_context11.prev = _context11.next) {
               case 0:
+                // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
                 this._removeAttachment(this.currentConversationId, attachment);
               case 1:
               case "end":
@@ -908,10 +927,13 @@ var Conversations = (_dec = (0, _di.Module)({
                 _context12.prev = 2;
                 _context12.next = 5;
                 return this._deps.messageSender.send({
+                  // @ts-expect-error TS(2322): Type 'string | null | undefined' is not assignable... Remove this comment to see the full error message
                   fromNumber: this._getFromNumber(),
+                  // @ts-expect-error TS(2322): Type '(string | undefined)[]' is not assignable to... Remove this comment to see the full error message
                   toNumbers: this._getToNumbers(),
                   text: text,
                   attachments: attachments,
+                  // @ts-expect-error TS(2322): Type 'number | null' is not assignable to type 'nu... Remove this comment to see the full error message
                   replyOnMessageId: this._getReplyOnMessageId()
                 });
               case 5:
@@ -920,8 +942,10 @@ var Conversations = (_dec = (0, _di.Module)({
                   _context12.next = 11;
                   break;
                 }
+                // @ts-expect-error TS(2345): Argument of type 'import("/Users/declan.zou/Projec... Remove this comment to see the full error message
                 this._deps.messageStore.pushMessage(responses[0]);
                 this._updateConversationStatus(_conversationsStatus.conversationsStatus.idle);
+                // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
                 this._removeInputContent(this.currentConversationId);
                 return _context12.abrupt("return", responses[0]);
               case 11:
@@ -1074,6 +1098,7 @@ var Conversations = (_dec = (0, _di.Module)({
         areaCode = _this$_deps$regionSet.areaCode;
       var formattedCorrespondentMatch = this.correspondentMatch.map(function (item) {
         var formatted = (0, _normalizeNumber.normalizeNumber)({
+          // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
           phoneNumber: item.phoneNumber,
           countryCode: countryCode,
           areaCode: areaCode,
@@ -1087,7 +1112,9 @@ var Conversations = (_dec = (0, _di.Module)({
       formattedCorrespondentMatch.forEach(function (item) {
         var phoneNumber = item.phoneNumber;
         var conversationId = _this3.correspondentResponse[phoneNumber];
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         if (_this3._deps.conversationLogger.autoLog) {
+          // @ts-expect-error TS(2532): Object is possibly 'undefined'.
           _this3._deps.conversationLogger.logConversation({
             entity: item,
             conversationId: conversationId
@@ -1115,10 +1142,12 @@ var Conversations = (_dec = (0, _di.Module)({
       var pushConversation = function pushConversation(c) {
         // use conversationId when available, use id for VoiceMail/Fax/etc..
         var cid = c.conversationId || c.id;
+        // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
         if (conversationMap[cid]) {
           return;
         }
         newConversations.push(c);
+        // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
         conversationMap[cid] = 1;
       };
       conversations.forEach(pushConversation);
@@ -1172,8 +1201,10 @@ var Conversations = (_dec = (0, _di.Module)({
       var loggingMap = this._deps.conversationLogger && this._deps.conversationLogger.loggingMap || {};
       var conversationLogMapping = this._deps.conversationLogger && this._deps.conversationLogger.dataMapping || {};
       var accessToken = this._deps.auth.accessToken;
+      // @ts-expect-error TS(2322): Type '{ unreadCounts: number; self: any; selfMatch... Remove this comment to see the full error message
       return conversations.map(function (message) {
         var _getNumbersFromMessag = (0, _messageHelper.getNumbersFromMessage)({
+            // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
             extensionNumber: extensionNumber,
             message: message
           }),
@@ -1181,19 +1212,24 @@ var Conversations = (_dec = (0, _di.Module)({
           correspondents = _getNumbersFromMessag.correspondents;
         var selfNumber = self && (self.phoneNumber || self.extensionNumber);
         var selfMatches = selfNumber && contactMapping[selfNumber] || [];
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         var correspondentMatches = correspondents.reduce(function (matches, contact) {
           var number = contact && (contact.phoneNumber || contact.extensionNumber);
           return number && contactMapping[number] && contactMapping[number].length ? matches.concat(contactMapping[number]) : matches;
         }, []);
         var conversationLogId = _this5._deps.conversationLogger ? _this5._deps.conversationLogger.getConversationLogId(message) : null;
         var isLogging = !!(conversationLogId && loggingMap[conversationLogId]);
-        var conversationMatches = conversationLogMapping[conversationLogId] || [];
+        var conversationMatches =
+        // @ts-expect-error TS(2538): Type 'null' cannot be used as an index type.
+        conversationLogMapping[conversationLogId] || [];
         var voicemailAttachment = null;
         if ((0, _messageHelper.messageIsVoicemail)(message)) {
+          // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
           voicemailAttachment = (0, _messageHelper.getVoicemailAttachment)(message, accessToken);
         }
         var faxAttachment = null;
         if ((0, _messageHelper.messageIsFax)(message)) {
+          // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
           faxAttachment = (0, _messageHelper.getFaxAttachment)(message, accessToken);
         }
         var unreadCounts = message.unreadCounts;
@@ -1202,6 +1238,7 @@ var Conversations = (_dec = (0, _di.Module)({
         }
         var mmsAttachments = [];
         if ((0, _messageHelper.messageIsTextMessage)(message) && _this5._showMMSAttachment) {
+          // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
           mmsAttachments = (0, _messageHelper.getMMSAttachments)(message, accessToken);
         }
         return _objectSpread(_objectSpread({}, message), {}, {
@@ -1216,7 +1253,9 @@ var Conversations = (_dec = (0, _di.Module)({
           voicemailAttachment: voicemailAttachment,
           faxAttachment: faxAttachment,
           mmsAttachments: mmsAttachments,
-          lastMatchedCorrespondentEntity: _this5._deps.conversationLogger && _this5._deps.conversationLogger.getLastMatchedCorrespondentEntity(message) || null
+          lastMatchedCorrespondentEntity: _this5._deps.conversationLogger && _this5._deps.conversationLogger.getLastMatchedCorrespondentEntity(
+          // @ts-expect-error TS(2345): Argument of type 'Message' is not assignable to pa... Remove this comment to see the full error message
+          message) || null
         });
       });
     }
@@ -1272,7 +1311,10 @@ var Conversations = (_dec = (0, _di.Module)({
           }));
           return;
         }
-        var messageList = _this6._deps.messageStore.conversationStore[message.conversationId] || [];
+        var messageList =
+        // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
+        _this6._deps.messageStore.conversationStore[message.conversationId] || [];
+        // @ts-expect-error TS(2322): Type 'Message | undefined' is not assignable to ty... Remove this comment to see the full error message
         var matchedMessage = messageList.find(function (item) {
           return (item.subject || '').toLowerCase().indexOf(searchString) > -1;
         });
@@ -1313,19 +1355,24 @@ var Conversations = (_dec = (0, _di.Module)({
       var conversation = conversations.find(function (c) {
         return c.conversationId === conversationId;
       });
-      var messages = [].concat(conversationStore[conversationId] || []);
+      var messages = [].concat(
+      // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
+      conversationStore[conversationId] || []);
       var currentConversation = _objectSpread({}, conversation);
       var allMessages = mergeMessages(messages, oldMessages).map(function (m) {
         if (!_this7._showMMSAttachment) {
           return m;
         }
+        // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
         var mmsAttachments = (0, _messageHelper.getMMSAttachments)(m, accessToken);
         return _objectSpread(_objectSpread({}, m), {}, {
           mmsAttachments: mmsAttachments
         });
       });
       var _getNumbersFromMessag2 = (0, _messageHelper.getNumbersFromMessage)({
+          // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
           extensionNumber: extensionNumber,
+          // @ts-expect-error TS(2322): Type 'Message | undefined' is not assignable to ty... Remove this comment to see the full error message
           message: conversation
         }),
         _getNumbersFromMessag3 = _getNumbersFromMessag2.correspondents,
@@ -1334,23 +1381,34 @@ var Conversations = (_dec = (0, _di.Module)({
         var number = contact && (contact.phoneNumber || contact.extensionNumber);
         return number && contactMapping[number] && contactMapping[number].length ? matches.concat(contactMapping[number]) : matches;
       }, []);
-      var conversationLogId = this._deps.conversationLogger ? this._deps.conversationLogger.getConversationLogId(conversation) : null;
+      var conversationLogId = this._deps.conversationLogger ?
+      // @ts-expect-error TS(2345): Argument of type 'Message | undefined' is not assi... Remove this comment to see the full error message
+      this._deps.conversationLogger.getConversationLogId(conversation) : null;
+      // @ts-expect-error TS(2538): Type 'null' cannot be used as an index type.
       var conversationMatches = conversationLogMapping[conversationLogId] || [];
+      // @ts-expect-error TS(2322): Type 'string | null | undefined' is not assignable... Remove this comment to see the full error message
       currentConversation.conversationLogId = conversationLogId;
       currentConversation.correspondents = correspondents;
       currentConversation.correspondentMatches = correspondentMatches;
       currentConversation.conversationMatches = conversationMatches;
       currentConversation.messages = allMessages.reverse();
+      // @ts-expect-error TS(2322): Type 'MessageStoreCallerInfoResponseFrom | null | ... Remove this comment to see the full error message
       currentConversation.senderNumber = (0, _messageHelper.getMyNumberFromMessage)({
+        // @ts-expect-error TS(2322): Type 'Message | undefined' is not assignable to ty... Remove this comment to see the full error message
         message: conversation,
+        // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
         myExtensionNumber: this._deps.extensionInfo.extensionNumber
       });
       currentConversation.recipients = (0, _messageHelper.getRecipientNumbersFromMessage)({
+        // @ts-expect-error TS(2322): Type 'Message | undefined' is not assignable to ty... Remove this comment to see the full error message
         message: conversation,
         myNumber: currentConversation.senderNumber
       });
       currentConversation.isLogging = !!(conversationLogId && loggingMap[conversationLogId]);
-      currentConversation.lastMatchedCorrespondentEntity = this._deps.conversationLogger && conversation && this._deps.conversationLogger.getLastMatchedCorrespondentEntity(conversation) || null;
+      // @ts-expect-error TS(2322): Type 'Entity | null' is not assignable to type 'La... Remove this comment to see the full error message
+      currentConversation.lastMatchedCorrespondentEntity = this._deps.conversationLogger && conversation && this._deps.conversationLogger.getLastMatchedCorrespondentEntity(
+      // @ts-expect-error TS(2345): Argument of type 'Message' is not assignable to pa... Remove this comment to see the full error message
+      conversation) || null;
       return currentConversation;
     }
   }, {
