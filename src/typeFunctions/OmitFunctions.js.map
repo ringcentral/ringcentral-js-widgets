@@ -1,0 +1,1 @@
+{"version":3,"file":"OmitFunctions.js","names":[],"sources":["src/typeFunctions/OmitFunctions.ts"],"sourcesContent":["import { PickFunctionKeys } from './PickFunctionKeys';\n\nexport type OmitFunctions<T extends Record<string, any>> = Omit<\n  T,\n  PickFunctionKeys<T>\n>;\n"],"mappings":"","ignoreList":[]}

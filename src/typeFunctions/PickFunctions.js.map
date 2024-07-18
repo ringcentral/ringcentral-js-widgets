@@ -1,0 +1,1 @@
+{"version":3,"file":"PickFunctions.js","names":[],"sources":["src/typeFunctions/PickFunctions.ts"],"sourcesContent":["import { PickFunctionKeys } from './PickFunctionKeys';\n\nexport type PickFunctions<T extends Record<string, any>> = Pick<\n  T,\n  PickFunctionKeys<T>\n>;\n"],"mappings":"","ignoreList":[]}

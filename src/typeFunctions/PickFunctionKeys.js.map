@@ -1,0 +1,1 @@
+{"version":3,"file":"PickFunctionKeys.js","names":[],"sources":["src/typeFunctions/PickFunctionKeys.ts"],"sourcesContent":["export type PickFunctionKeys<T extends Record<string, any>> = Exclude<\n  {\n    [K in keyof T]: Required<T> extends Record<K, (...args: any) => any>\n      ? K\n      : never;\n  }[keyof T],\n  undefined\n>;\n"],"mappings":"","ignoreList":[]}
