@@ -13,7 +13,7 @@ var _BackHeader = _interopRequireDefault(require("../BackHeader"));
 var _CircleButton = _interopRequireDefault(require("../CircleButton"));
 var _i18n = _interopRequireDefault(require("./i18n"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var CallsOnholdContainer = function CallsOnholdContainer(_ref) {
   var calls = _ref.calls,
     currentLocale = _ref.currentLocale,
@@ -22,6 +22,7 @@ var CallsOnholdContainer = function CallsOnholdContainer(_ref) {
     brand = _ref.brand,
     showContactDisplayPlaceholder = _ref.showContactDisplayPlaceholder,
     autoLog = _ref.autoLog,
+    showCallerIdName = _ref.showCallerIdName,
     webphoneAnswer = _ref.webphoneAnswer,
     webphoneReject = _ref.webphoneReject,
     webphoneHangup = _ref.webphoneHangup,
@@ -56,6 +57,7 @@ var CallsOnholdContainer = function CallsOnholdContainer(_ref) {
       areaCode: areaCode,
       countryCode: countryCode,
       brand: brand,
+      showCallerIdName: showCallerIdName,
       showContactDisplayPlaceholder: showContactDisplayPlaceholder,
       onMergeCall: onMerge
       // @ts-expect-error TS(2322): Type '((...args: any[]) => any) | undefined' is no... Remove this comment to see the full error message

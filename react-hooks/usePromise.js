@@ -8,7 +8,7 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 var _react = require("react");
 var _useMountedState = _interopRequireDefault(require("./useMountedState"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var usePromise = function usePromise() {
   var isMounted = (0, _useMountedState["default"])();
   return (0, _react.useCallback)(

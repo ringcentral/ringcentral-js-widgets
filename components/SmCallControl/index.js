@@ -4,17 +4,17 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-var _react = _interopRequireDefault(require("react"));
-var _classnames = _interopRequireDefault(require("classnames"));
 var _callDirections = _interopRequireDefault(require("@ringcentral-integration/commons/enums/callDirections"));
 var _telephonyStatus = _interopRequireDefault(require("@ringcentral-integration/commons/enums/telephonyStatus"));
+var _clsx = _interopRequireDefault(require("clsx"));
+var _react = _interopRequireDefault(require("react"));
 var _End = _interopRequireDefault(require("../../assets/images/End.svg"));
 var _Mute = _interopRequireDefault(require("../../assets/images/Mute.svg"));
 var _Unmute = _interopRequireDefault(require("../../assets/images/Unmute.svg"));
 var _CircleButton = _interopRequireDefault(require("../CircleButton"));
 var _i18n = _interopRequireDefault(require("./i18n"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var SmCallControl = function SmCallControl(props) {
   var onMute = props.onMute,
     onUnmute = props.onUnmute,
@@ -41,7 +41,7 @@ var SmCallControl = function SmCallControl(props) {
     dataSign: muteTitle,
     icon: muteIcon,
     onClick: muteAction,
-    className: (0, _classnames["default"])(_styles["default"].button, disabledCtrl ? _styles["default"].buttonDisabled : null),
+    className: (0, _clsx["default"])(_styles["default"].button, disabledCtrl ? _styles["default"].buttonDisabled : null),
     disabled: disabledCtrl
   })), /*#__PURE__*/_react["default"].createElement("span", {
     title: _i18n["default"].getString(endTitle, currentLocale)
@@ -50,7 +50,7 @@ var SmCallControl = function SmCallControl(props) {
     showBorder: false,
     icon: _End["default"],
     onClick: endAction,
-    className: (0, _classnames["default"])(_styles["default"].hangup, _styles["default"].button)
+    className: (0, _clsx["default"])(_styles["default"].hangup, _styles["default"].button)
   })));
 };
 SmCallControl.defaultProps = {

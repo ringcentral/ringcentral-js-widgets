@@ -1,9 +1,7 @@
-import React from 'react';
-
-import classnames from 'classnames';
-import PropTypes from 'prop-types';
-
 import debounce from '@ringcentral-integration/commons/lib/debounce';
+import clsx from 'clsx';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 import ActiveCallItem from '../ActiveCallItem';
 import CallList from '../CallList';
@@ -13,6 +11,7 @@ import LogNotification from '../LogNotification';
 import LogSection from '../LogSection';
 import { SearchInput } from '../SearchInput';
 import { SpinnerOverlay } from '../SpinnerOverlay';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 
@@ -62,7 +61,7 @@ const ActiveCallList = ({
     return null;
   }
   return (
-    <div className={classnames(styles.list, className)} data-sign="callList">
+    <div className={clsx(styles.list, className)} data-sign="callList">
       <div className={styles.listTitle} data-sign="callListTitle">
         {title}
       </div>
@@ -342,7 +341,6 @@ class CallsListPanel extends React.PureComponent {
           maskStyle={styles.maskStyle}
         >
           <LogSection
-            // @ts-expect-error TS(2322): Type '{ currentLocale: any; currentLog: any; addit... Remove this comment to see the full error message
             currentLocale={currentLocale}
             currentLog={currentLog}
             additionalInfo={additionalInfo}
@@ -361,7 +359,7 @@ class CallsListPanel extends React.PureComponent {
           <InsideModal
             show={logNotification.showNotification}
             showTitle={false}
-            containerStyles={classnames(
+            containerStyles={clsx(
               styles.notificationContainer,
               notificationContainerStyles,
             )}
@@ -521,6 +519,8 @@ class CallsListPanel extends React.PureComponent {
       notificationContainerStyles,
       // @ts-expect-error TS(2339): Property 'externalViewEntity' does not exist on ty... Remove this comment to see the full error message
       externalViewEntity,
+      // @ts-expect-error TS(2339): Property 'shouldHideEntityButton' does not exist o... Remove this comment to see the full error message
+      shouldHideEntityButton,
       // @ts-expect-error TS(2339): Property 'externalHasEntity' does not exist on typ... Remove this comment to see the full error message
       externalHasEntity,
       // @ts-expect-error TS(2339): Property 'readTextPermission' does not exist on ty... Remove this comment to see the full error message
@@ -534,6 +534,8 @@ class CallsListPanel extends React.PureComponent {
       enableCDC,
       // @ts-expect-error TS(2339): Property 'maxExtensionLength' does not exist on ty... Remove this comment to see the full error message
       maxExtensionLength,
+      // @ts-expect-error TS(2339): Property 'callsDelaySavingState' does not exist on ty... Remove this comment to see the full error message
+      callsDelaySavingState,
     } = this.props;
 
     // @ts-expect-error TS(2339): Property 'contentWidth' does not exist on type 'Re... Remove this comment to see the full error message
@@ -544,7 +546,7 @@ class CallsListPanel extends React.PureComponent {
     }
     const isShowMessageIcon = readTextPermission && !!onClickToSms;
     const CallsListView = useNewList ? (
-      // @ts-expect-error TS(2741): Property 'formatPhone' is missing in type '{ width... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339): Property 'contentWidth' does not exist on type 'Re... Remove this comment to see the full error message
       <CallListV2
         width={adaptive ? contentWidth : width}
         height={adaptive ? contentHeight : height}
@@ -554,6 +556,7 @@ class CallsListPanel extends React.PureComponent {
         areaCode={areaCode}
         countryCode={countryCode}
         onViewContact={onViewContact}
+        shouldHideEntityButton={shouldHideEntityButton}
         onCreateContact={onCreateContact}
         createEntityTypes={createEntityTypes}
         onLogCall={onLogCall}
@@ -587,6 +590,7 @@ class CallsListPanel extends React.PureComponent {
         readTextPermission={isShowMessageIcon}
         showChooseEntityModal={showChooseEntityModal}
         enableCDC={enableCDC}
+        callsDelaySavingState={callsDelaySavingState}
       />
     ) : (
       <CallList
@@ -596,6 +600,7 @@ class CallsListPanel extends React.PureComponent {
         areaCode={areaCode}
         countryCode={countryCode}
         onViewContact={onViewContact}
+        shouldHideEntityButton={shouldHideEntityButton}
         onCreateContact={onCreateContact}
         createEntityTypes={createEntityTypes}
         onLogCall={onLogCall}
@@ -609,10 +614,6 @@ class CallsListPanel extends React.PureComponent {
         dateTimeFormatter={dateTimeFormatter}
         active={active}
         loggingMap={loggingMap}
-        webphoneAnswer={webphoneAnswer}
-        webphoneReject={webphoneReject}
-        webphoneHangup={webphoneHangup}
-        webphoneResume={webphoneResume}
         enableContactFallback={enableContactFallback}
         autoLog={autoLog}
         showContactDisplayPlaceholder={showContactDisplayPlaceholder}
@@ -620,8 +621,6 @@ class CallsListPanel extends React.PureComponent {
         phoneTypeRenderer={phoneTypeRenderer}
         phoneSourceNameRenderer={phoneSourceNameRenderer}
         renderContactName={renderContactName}
-        // @ts-expect-error TS(2769): No overload matches this call.
-        renderSubContactName={renderSubContactName}
         renderExtraButton={renderExtraButton}
         contactDisplayStyle={contactDisplayStyle}
         externalViewEntity={externalViewEntity}
@@ -632,7 +631,7 @@ class CallsListPanel extends React.PureComponent {
     );
 
     const search = onSearchInputChange ? (
-      <div className={classnames(styles.searchContainer)}>
+      <div className={clsx(styles.searchContainer)}>
         <SearchInput
           key="100"
           className={styles.searchInput}
@@ -687,7 +686,7 @@ class CallsListPanel extends React.PureComponent {
     const historyCall = showSpinner ? (
       <SpinnerOverlay />
     ) : (
-      <div className={classnames(styles.list, className)}>
+      <div className={clsx(styles.list, className)}>
         {!onlyHistory && (
           <div className={styles.listTitle}>
             {i18n.getString('historyCalls', currentLocale)}
@@ -705,16 +704,17 @@ class CallsListPanel extends React.PureComponent {
 
     return (
       <div
-        className={classnames(
+        className={clsx(
           styles.container,
           onSearchInputChange ? styles.containerWithSearch : null,
         )}
+        data-sign="callsListPanel"
         ref={this._listWrapper}
       >
         {children}
         {search}
         <div
-          className={classnames(
+          className={clsx(
             styles.root,
             currentLog && currentLog.showLog ? styles.hiddenScroll : '',
             className,
@@ -782,6 +782,7 @@ CallsListPanel.propTypes = {
   webphoneToVoicemail: PropTypes.func,
   autoLog: PropTypes.bool,
   onViewContact: PropTypes.func,
+  shouldHideEntityButton: PropTypes.func,
   enableContactFallback: PropTypes.bool,
   loggingMap: PropTypes.object,
   onCallsEmpty: PropTypes.func,
@@ -824,6 +825,7 @@ CallsListPanel.propTypes = {
   adaptive: PropTypes.bool,
   showChooseEntityModal: PropTypes.bool,
   enableCDC: PropTypes.bool,
+  callsDelaySavingState: PropTypes.object,
 };
 
 // @ts-expect-error TS(2339): Property 'defaultProps' does not exist on type 'ty... Remove this comment to see the full error message
@@ -845,6 +847,7 @@ CallsListPanel.defaultProps = {
   searchInput: '',
   onLogCall: undefined,
   onViewContact: undefined,
+  shouldHideEntityButton: undefined,
   webphoneAnswer: undefined,
   webphoneReject: undefined,
   webphoneHangup: undefined,
@@ -889,6 +892,7 @@ CallsListPanel.defaultProps = {
   onlyHistory: false,
   showChooseEntityModal: true,
   enableCDC: false,
+  callsDelaySavingState: undefined,
 };
 
 export default CallsListPanel;

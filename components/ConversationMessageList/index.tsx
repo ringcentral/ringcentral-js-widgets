@@ -1,17 +1,16 @@
-import React, { Component } from 'react';
-import classnames from 'classnames';
-import PropTypes from 'prop-types';
-
 import { isBlank } from '@ringcentral-integration/commons/lib/isBlank';
 import { RcIcon } from '@ringcentral/juno';
 import {
   DefaultFile as fileSvg,
   Download as downloadSvg,
 } from '@ringcentral/juno-icon';
+import clsx from 'clsx';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 
+import { SubjectRender as DefaultRender } from './SubjectRender';
 import i18n from './i18n';
 import styles from './styles.scss';
-import { SubjectRender as DefaultRender } from './SubjectRender';
 
 function getExtFromContentType(contentType: any) {
   const ext = contentType.split('/');
@@ -85,7 +84,7 @@ export const Message = ({
       ) : null}
       <div
         data-sign={`${direction}Text`}
-        className={classnames(
+        className={clsx(
           styles.messageBody,
           direction === 'Outbound' ? styles.outbound : styles.inbound,
           subject && subject.length > 500 && styles.big,
@@ -243,7 +242,7 @@ class ConversationMessageList extends Component {
     ) : null;
     return (
       <div
-        className={classnames(styles.root, className)}
+        className={clsx(styles.root, className)}
         style={{ height }}
         ref={(body) => {
           this._listRef = body;

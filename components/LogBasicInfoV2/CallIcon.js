@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.CallIcon = void 0;
 var _react = _interopRequireDefault(require("react"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var CallIcon = function CallIcon(_ref) {
   var title = _ref.title,
     iconClassName = _ref.iconClassName;

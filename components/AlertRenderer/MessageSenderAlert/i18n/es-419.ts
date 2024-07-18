@@ -22,11 +22,11 @@ export default {
   [messageSenderMessages.internationalSMSNotSupported]: "No se admite el envío de SMS a números de teléfono internacionales.",
   [messageSenderMessages.noInternalSMSPermission]: "No tiene permiso para enviar mensajes. Comuníquese con su administrador de cuentas de {brand} para conseguir esta función.",
   [messageSenderMessages.noSMSPermission]: "No tiene permiso para enviar mensajes a destinatarios fuera de su organización.",
-  [messageSenderMessages.attachmentCountLimitation]: "Máx. 10 adjuntos",
+  [messageSenderMessages.attachmentCountLimitation]: "Máx. 10 adjuntos.",
   [messageSenderMessages.attachmentSizeLimitation]: "El tamaño de adjuntos se limita a 1,5 M bytes.",
   [messageSenderMessages.noAttachmentToExtension]: "No se admite enviar MMS a una extensión.",
   areaCode: "código de área",
-  [messageSenderMessages.sending]: "Enviando mensaje... Esta acción puede tardar algunos minutos.",
+  [messageSenderMessages.sending]: "Enviando mensaje… Esta acción puede tardar algunos minutos.",
   [messageSenderMessages.shortNumbersNotAvailable]: "No se pueden enviar SMS a números cortos."
 };
 

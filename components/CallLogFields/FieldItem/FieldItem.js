@@ -8,6 +8,7 @@ require("core-js/modules/es.array.find");
 require("core-js/modules/es.array.includes");
 require("core-js/modules/es.array.iterator");
 require("core-js/modules/es.array.map");
+require("core-js/modules/es.array.reduce");
 require("core-js/modules/es.date.to-string");
 require("core-js/modules/es.function.name");
 require("core-js/modules/es.object.to-string");
@@ -20,8 +21,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.FieldItem = exports.DEFAULT_FINDER = void 0;
 require("regenerator-runtime/runtime");
-var _react = _interopRequireWildcard(require("react"));
 var _juno = require("@ringcentral/juno");
+var _react = _interopRequireWildcard(require("react"));
 var _timeFormatHelper = require("../../../lib/timeFormatHelper");
 var _InputSelect = _interopRequireDefault(require("../../InputSelect"));
 var _FullSelectField = require("./FullSelectField");
@@ -29,34 +30,34 @@ var _LogFieldsInput = require("./LogFieldsInput");
 var _RadioField = require("./RadioField");
 var _SelectField = require("./SelectField");
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
-function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
+function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
+function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) { if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } } return n["default"] = e, t && t.set(e, n), n; }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) { ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } } return n; }, _extends.apply(null, arguments); }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
-function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) { n[e] = r[e]; } return n; }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 var DEFAULT_FINDER = {
   getValue: function getValue(item) {
     return (_typeof(item) === 'object' ? item.id : item) || null;
@@ -150,7 +151,7 @@ var FieldItem = /*#__PURE__*/function (_Component) {
       var getValue = _getValue || DEFAULT_FINDER.getValue;
       var searchOptionFinder = _searchOptionFinder || DEFAULT_FINDER.searchOption;
       var currentOption = [].concat(_toConsumableArray(matchedEntities), _toConsumableArray(otherEntities), _toConsumableArray(associatedEntities), _toConsumableArray(foundFromServerEntities)).find(currentOptionFinder(task));
-      var disabledReference = currentDisabled || shouldDisable(task) || disabled;
+      var disabledReference = currentDisabled || shouldDisable(task, currentLog === null || currentLog === void 0 ? void 0 : currentLog.call) || disabled;
       var title = metadata.title || label;
       var rightIcon = rightIconRender ? rightIconRender(phoneNumber) : undefined;
       var currentValue = getSelectedOptionLabel && getSelectedOptionLabel(currentOption, matchedEntities.length, currentLog) || getLabel(currentOption, matchedEntities.length, currentLog) || '';
@@ -170,7 +171,7 @@ var FieldItem = /*#__PURE__*/function (_Component) {
         startAdornment: startAdornmentRender,
         field: value,
         value: task[metadata.valueField] || '',
-        onChange: /*#__PURE__*/function () {
+        onChange: ( /*#__PURE__*/function () {
           var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(args) {
             return regeneratorRuntime.wrap(function _callee$(_context) {
               while (1) {
@@ -193,7 +194,7 @@ var FieldItem = /*#__PURE__*/function (_Component) {
           return function (_x) {
             return _ref.apply(this, arguments);
           };
-        }(),
+        }()),
         onSelectViewVisible: onSelectViewVisible,
         onFullSelectFieldClick: onFullSelectFieldClick,
         valueFunction: getValue,
@@ -278,7 +279,7 @@ var FieldItem = /*#__PURE__*/function (_Component) {
         required: required,
         label: label,
         value: date,
-        onChange: /*#__PURE__*/function () {
+        onChange: ( /*#__PURE__*/function () {
           var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(value) {
             var timeStamp;
             return regeneratorRuntime.wrap(function _callee2$(_context2) {
@@ -301,7 +302,7 @@ var FieldItem = /*#__PURE__*/function (_Component) {
           return function (_x2) {
             return _ref2.apply(this, arguments);
           };
-        }(),
+        }()),
         formatString: "MM/DD/YYYY"
       });
     };
@@ -341,10 +342,18 @@ var FieldItem = /*#__PURE__*/function (_Component) {
         _this$props7$fieldOpt2 = _this$props7$fieldOpt.disabled,
         propsDisabled = _this$props7$fieldOpt2 === void 0 ? false : _this$props7$fieldOpt2,
         placeholder = _this$props7$fieldOpt.placeholder,
+        controller = _this$props7$fieldOpt.controller,
+        currentLog = _this$props7.currentLog,
         onSave = _this$props7.onSave,
         _this$props7$onSelect = _this$props7.onSelectListOpen,
         onSelectListOpen = _this$props7$onSelect === void 0 ? function () {} : _this$props7$onSelect;
-      var selectList = (picklistOptions || []).map(function (item) {
+      var selectList = (picklistOptions || []).reduce(function (acc, item) {
+        if (item && _typeof(item) === 'object' && controller && (currentLog === null || currentLog === void 0 ? void 0 : currentLog.task) && item.validFor) {
+          // check for field dependency and filter out options that are not valid
+          if (!item.validFor.includes(currentLog.task[controller])) {
+            return acc;
+          }
+        }
         var value = item;
         var label = item !== null ? item : appDefaultValue;
         var disabled = false;
@@ -356,13 +365,14 @@ var FieldItem = /*#__PURE__*/function (_Component) {
           disabled = item.disabled;
           title = item === null || item === void 0 ? void 0 : item.title;
         }
-        return {
+        acc.push({
           label: label,
           value: value,
           disabled: disabled,
           title: title
-        };
-      });
+        });
+        return acc;
+      }, []);
       return /*#__PURE__*/_react["default"].createElement(_SelectField.SelectField, {
         "data-sign": fieldValue,
         labelClassName: _styles["default"].selectLabel,
@@ -374,7 +384,7 @@ var FieldItem = /*#__PURE__*/function (_Component) {
         required: required,
         label: label,
         value: _this.currentValue,
-        onChange: /*#__PURE__*/function () {
+        onChange: ( /*#__PURE__*/function () {
           var _ref4 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(_ref3) {
             var value;
             return regeneratorRuntime.wrap(function _callee3$(_context3) {
@@ -405,7 +415,7 @@ var FieldItem = /*#__PURE__*/function (_Component) {
           return function (_x3) {
             return _ref4.apply(this, arguments);
           };
-        }(),
+        }()),
         options: selectList,
         onOpen: function onOpen() {
           return onSelectListOpen(fieldValue);
@@ -421,7 +431,8 @@ var FieldItem = /*#__PURE__*/function (_Component) {
         currentLog = _this$props8.currentLog,
         disableAllFields = _this$props8.disabled; // @ts-expect-error TS(2339): Property 'task' does not exist on type 'CallLog | ... Remove this comment to see the full error message
       var task = currentLog.task,
-        disableSaveLog = currentLog.disableSaveLog;
+        disableSaveLog = currentLog.disableSaveLog,
+        disableUpdateLog = currentLog.disableUpdateLog;
       var options = [{
         // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         value: picklistOptions[0].value,
@@ -433,7 +444,7 @@ var FieldItem = /*#__PURE__*/function (_Component) {
         value: picklistOptions[1].value,
         // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         label: picklistOptions[1].label,
-        disabled: !!(!task.tickets || ((_task$tickets = task.tickets) === null || _task$tickets === void 0 ? void 0 : _task$tickets.length) === 0 || ((_task$matches = task.matches) === null || _task$matches === void 0 ? void 0 : _task$matches.length) > 1 && !task.whoid || disableAllFields)
+        disabled: !!(!task.tickets || ((_task$tickets = task.tickets) === null || _task$tickets === void 0 ? void 0 : _task$tickets.length) === 0 || ((_task$matches = task.matches) === null || _task$matches === void 0 ? void 0 : _task$matches.length) > 1 && !task.whoid || disableAllFields || disableUpdateLog)
       }];
       var defaultOption =
       // @ts-expect-error TS(2532): Object is possibly 'undefined'.
@@ -480,13 +491,24 @@ var FieldItem = /*#__PURE__*/function (_Component) {
         return _ref5.apply(this, arguments);
       };
     }();
+    _this.renderAlert = function () {
+      var _this$props10 = _this.props,
+        label = _this$props10.fieldOption.label,
+        currentLog = _this$props10.currentLog;
+      if (!(currentLog === null || currentLog === void 0 ? void 0 : currentLog.shouldPromoteAlert)) {
+        return;
+      }
+      return /*#__PURE__*/_react["default"].createElement(_juno.RcAlert, {
+        icon: true
+      }, label);
+    };
     // this is the dropdown to render ticket lists
     _this.renderTicketSelectList = function () {
       var _task$tickets2;
-      var _this$props10 = _this.props,
-        currentLog = _this$props10.currentLog,
-        fieldOption = _this$props10.fieldOption,
-        disabled = _this$props10.disabled;
+      var _this$props11 = _this.props,
+        currentLog = _this$props11.currentLog,
+        fieldOption = _this$props11.fieldOption,
+        disabled = _this$props11.disabled;
       var renderCondition = fieldOption.renderCondition,
         label = fieldOption.label; // @ts-expect-error TS(2339): Property 'task' does not exist on type 'CallLog | ... Remove this comment to see the full error message
       var task = currentLog.task; // TODO: consider move this logic to zendesk
@@ -506,7 +528,7 @@ var FieldItem = /*#__PURE__*/function (_Component) {
         labelClassName: _styles["default"].selectLabel,
         options: options,
         fullWidth: true,
-        disabled: options.length === 0 || disabled,
+        disabled: options.length === 0 || disabled || (currentLog === null || currentLog === void 0 ? void 0 : currentLog.disableUpdateLog),
         value: task.ticketId,
         label: label,
         onChange: function onChange(event) {
@@ -516,9 +538,9 @@ var FieldItem = /*#__PURE__*/function (_Component) {
     };
     _this.onSelectChange = function (event) {
       var value = event.target.value;
-      var _this$props11 = _this.props,
-        currentLog = _this$props11.currentLog,
-        onUpdateCallLog = _this$props11.onUpdateCallLog; // @ts-expect-error TS(2339): Property 'currentSessionId' does not exist on type... Remove this comment to see the full error message
+      var _this$props12 = _this.props,
+        currentLog = _this$props12.currentLog,
+        onUpdateCallLog = _this$props12.onUpdateCallLog; // @ts-expect-error TS(2339): Property 'currentSessionId' does not exist on type... Remove this comment to see the full error message
       var currentSessionId = currentLog.currentSessionId,
         _currentLog$task2 = currentLog.task,
         task = _currentLog$task2 === void 0 ? {} : _currentLog$task2; // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
@@ -531,12 +553,12 @@ var FieldItem = /*#__PURE__*/function (_Component) {
     _this.onInputSelectChange = function (value) {
       return /*#__PURE__*/function () {
         var _ref6 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee5(item) {
-          var _this$props12, _this$props12$current, currentSessionId, _this$props12$current2, task, onUpdateCallLog, customInputDataStruct, defaultLogData, logData;
+          var _this$props13, _this$props13$current, currentSessionId, _this$props13$current2, task, onUpdateCallLog, customInputDataStruct, defaultLogData, logData;
           return regeneratorRuntime.wrap(function _callee5$(_context5) {
             while (1) {
               switch (_context5.prev = _context5.next) {
                 case 0:
-                  _this$props12 = _this.props, _this$props12$current = _this$props12.currentLog, currentSessionId = _this$props12$current.currentSessionId, _this$props12$current2 = _this$props12$current.task, task = _this$props12$current2 === void 0 ? {} : _this$props12$current2, onUpdateCallLog = _this$props12.onUpdateCallLog, customInputDataStruct = _this$props12.customInputDataStruct;
+                  _this$props13 = _this.props, _this$props13$current = _this$props13.currentLog, currentSessionId = _this$props13$current.currentSessionId, _this$props13$current2 = _this$props13$current.task, task = _this$props13$current2 === void 0 ? {} : _this$props13$current2, onUpdateCallLog = _this$props13.onUpdateCallLog, customInputDataStruct = _this$props13.customInputDataStruct;
                   defaultLogData = {
                     isSaved: false,
                     task: _defineProperty({}, value, item)
@@ -573,6 +595,7 @@ var FieldItem = /*#__PURE__*/function (_Component) {
       "long": _this.renderInput,
       combobox: _this.renderSubjectField,
       radio: _this.renderRadio,
+      alert: _this.renderAlert,
       // @ts-expect-error TS(2322): Type '() => JSX.Element | null' is not assignable ... Remove this comment to see the full error message
       ticketSelectList: _this.renderTicketSelectList
     };
@@ -589,13 +612,13 @@ var FieldItem = /*#__PURE__*/function (_Component) {
     key: "render",
     // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
     value: function render() {
-      var _this$props13 = this.props,
-        _this$props13$fieldOp = _this$props13.fieldOption,
-        value = _this$props13$fieldOp.value,
-        type = _this$props13$fieldOp.type,
-        error = _this$props13$fieldOp.error,
-        enableScrollError = _this$props13$fieldOp.enableScrollError,
-        editSectionScrollBy = _this$props13.editSectionScrollBy;
+      var _this$props14 = this.props,
+        _this$props14$fieldOp = _this$props14.fieldOption,
+        value = _this$props14$fieldOp.value,
+        type = _this$props14$fieldOp.type,
+        error = _this$props14$fieldOp.error,
+        enableScrollError = _this$props14$fieldOp.enableScrollError,
+        editSectionScrollBy = _this$props14.editSectionScrollBy;
       if (this.fieldsRenderMap[type] && this.fieldsRenderMap[type]()) {
         if (error && enableScrollError && this.fieldItemRef.current) {
           // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message

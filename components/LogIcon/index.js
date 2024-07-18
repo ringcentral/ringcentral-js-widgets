@@ -4,13 +4,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+var _clsx = _interopRequireDefault(require("clsx"));
 var _react = _interopRequireDefault(require("react"));
-var _classnames = _interopRequireDefault(require("classnames"));
 var _LoggedIcon = _interopRequireDefault(require("../../assets/images/LoggedIcon.svg"));
 var _UnloggedIcon = _interopRequireDefault(require("../../assets/images/UnloggedIcon.svg"));
 var _i18n = _interopRequireDefault(require("./i18n"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var LogIcon = function LogIcon(_ref) {
   var sessionId = _ref.sessionId,
     id = _ref.id,
@@ -44,12 +44,13 @@ var LogIcon = function LogIcon(_ref) {
       id: id
     });
   };
-  var logIconClassName = (0, _classnames["default"])(_styles["default"].logIcon, isSaving ? _styles["default"].isSaving : null, disabled ? _styles["default"].disabled : null);
+  var logIconClassName = (0, _clsx["default"])(_styles["default"].logIcon, isSaving ? _styles["default"].isSaving : null, disabled ? _styles["default"].disabled : null);
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: logIconClassName,
     onClick: onClick,
     title: tooltip,
-    "data-sign": "log"
+    "data-sign": "log",
+    "aria-disabled": disabled ? 'true' : 'false'
   }, id ? loggedIcon : unLoggedIcon);
 };
 LogIcon.defaultProps = {

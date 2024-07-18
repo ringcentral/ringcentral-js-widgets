@@ -9,7 +9,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.pickFallBackInfo = exports.pickEleByProps = void 0;
 var _callDirections = _interopRequireDefault(require("@ringcentral-integration/commons/enums/callDirections"));
 var _i18n = _interopRequireDefault(require("./i18n"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var pickEleByProps = function pickEleByProps() {
   var props = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {};
   var list = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];

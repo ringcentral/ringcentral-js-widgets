@@ -1,9 +1,9 @@
+import clsx from 'clsx';
 import type { FunctionComponent } from 'react';
 import React, { ChangeEvent } from 'react';
 
-import classnames from 'classnames';
-
 import SearchIcon from '../../assets/images/Search.svg';
+
 import styles from './styles.scss';
 
 export interface SearchInputProps {
@@ -28,7 +28,7 @@ export const SearchInput: FunctionComponent<SearchInputProps> = ({
   onKeyUp,
 }) => {
   return (
-    <div className={classnames(styles.root, className)}>
+    <div className={clsx(styles.root, className)}>
       <SearchIcon data-sign="searchIcon" className={styles.icon} />
       <input
         data-sign={dataSign}

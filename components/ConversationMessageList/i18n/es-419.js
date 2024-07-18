@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  loading: "Cargando...",
+  loading: "Cargando…",
   download: "Descargar"
 }; // @key: @#@"loading"@#@ @source: @#@"Loading ..."@#@
 // @key: @#@"download"@#@ @source: @#@"Download"@#@

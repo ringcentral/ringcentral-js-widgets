@@ -5,6 +5,7 @@ import { ActiveCallItem } from '../ActiveCallItemV2';
 import BackButton from '../BackButton';
 import BackHeader from '../BackHeader';
 import CircleButton from '../CircleButton';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 
@@ -16,6 +17,7 @@ type CallsOnholdContainerProps = {
   countryCode: string;
   brand?: string;
   showContactDisplayPlaceholder?: boolean;
+  showCallerIdName?: boolean;
   webphoneAnswer?: (...args: any[]) => any;
   webphoneReject?: (...args: any[]) => any;
   webphoneHangup?: (...args: any[]) => any;
@@ -31,7 +33,7 @@ type CallsOnholdContainerProps = {
   onAdd?: (...args: any[]) => any;
   getAvatarUrl?: (...args: any[]) => any;
 };
-const CallsOnholdContainer: React.SFC<CallsOnholdContainerProps> = ({
+const CallsOnholdContainer: React.FC<CallsOnholdContainerProps> = ({
   calls,
   currentLocale,
   areaCode,
@@ -39,6 +41,7 @@ const CallsOnholdContainer: React.SFC<CallsOnholdContainerProps> = ({
   brand,
   showContactDisplayPlaceholder,
   autoLog,
+  showCallerIdName,
   webphoneAnswer,
   webphoneReject,
   webphoneHangup,
@@ -77,6 +80,7 @@ const CallsOnholdContainer: React.SFC<CallsOnholdContainerProps> = ({
               areaCode={areaCode}
               countryCode={countryCode}
               brand={brand}
+              showCallerIdName={showCallerIdName}
               showContactDisplayPlaceholder={showContactDisplayPlaceholder}
               onMergeCall={onMerge}
               // @ts-expect-error TS(2322): Type '((...args: any[]) => any) | undefined' is no... Remove this comment to see the full error message

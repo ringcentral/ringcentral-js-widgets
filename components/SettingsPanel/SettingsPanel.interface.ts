@@ -1,7 +1,6 @@
-import type { ReactNode } from 'react';
-
 import type { BrandConfig } from '@ringcentral-integration/commons/modules/Brand';
 import type { DNDStatusValueType } from '@ringcentral-integration/commons/modules/Presence';
+import type { ReactNode } from 'react';
 
 import type { EulaProps } from '../Eula/Eula.interface';
 
@@ -27,9 +26,8 @@ export interface LinkLineItemProps extends onLinkLineItemClick {
   pendoSignName?: string;
 }
 export interface LocaleProps {
-  currentLocale: string;
   supportedLocales?: string[];
-  savedLocale?: string;
+  savedLocale: string;
   saveLocale(locale: string): void;
 }
 
@@ -61,6 +59,13 @@ export interface AutoLogCallProps {
   onAutoLogChange?(checked: boolean): any;
 }
 
+export interface LogExtensionCallProps {
+  showLogExtCall?: boolean;
+  logExtCallTitle?: string;
+  logExtCallEnabled?: boolean;
+  onLogExtCallChange?(checked: boolean): any;
+}
+
 export interface AutoLogNotesProps {
   showAutoLogNotes?: boolean;
   disableAutoLogNotesEnabled?: boolean;
@@ -79,6 +84,7 @@ export interface AutoLogSMSProps {
   autoLogSMSTitle?: string;
   showAutoLogSMS?: boolean;
   autoLogSMSEnabled?: boolean;
+  disableAutoLogSMSEnabled?: boolean;
   onAutoLogSMSChange?(checked: boolean): any;
 }
 
@@ -107,11 +113,16 @@ export interface ReportIssueProps {
   onReportIssueClick?(): any;
 }
 
+export interface TrackingIssueProps {
+  showTrackingIssue?: boolean;
+  onTrackingClick?(): any;
+}
+
 export interface ClickToDialProps {
   currentLocale: string;
   showClickToDial?: boolean;
   outboundSMS?: boolean;
-  clickToDialPermissions?: boolean;
+  clickToCallPermission?: boolean;
   clickToDialEnabled?: boolean;
   clickToDialTitle?: string;
   onClickToDialChange?(enableClickToDial: boolean): any;
@@ -134,6 +145,8 @@ export interface FooterProps {
   eulaLink?: EulaProps['link'];
   eulaLabel?: EulaProps['label'];
   onEulaLinkClick?: EulaProps['onClick'];
+  privacyNoticeLabel?: EulaProps['link'];
+  privacyNoticeLink?: EulaProps['label'];
 }
 
 export interface BasePanelProps extends FooterProps {
@@ -154,6 +167,7 @@ export interface onSwitchLineItemChange {
 export interface SwitchLineItemProps extends onSwitchLineItemChange {
   name?: string;
   currentLocale?: string;
+  tooltip?: string;
   customTitle?: string;
   switchTitle?: string;
   show?: boolean;
@@ -172,12 +186,14 @@ export interface SettingsPanelProps
     AutoLogCallProps,
     AutoLogNotesProps,
     LogSMSContentProps,
+    LogExtensionCallProps,
     AutoLogSMSProps,
     ClickToDialProps,
     FeedbackProps,
     QuickAccessLinkProps,
     UserGuideProps,
     ReportIssueProps,
+    TrackingIssueProps,
     PresenceSettingProps,
     ShareIdeaProps {
   children?: ReactNode;

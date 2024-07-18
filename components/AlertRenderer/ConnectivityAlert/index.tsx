@@ -1,6 +1,7 @@
 import React from 'react';
 
 import { connectivityTypes } from '../../../modules/ConnectivityManager';
+
 import i18n from './i18n';
 
 type ConnectivityAlertProps = {
@@ -9,7 +10,7 @@ type ConnectivityAlertProps = {
   };
   currentLocale: string;
 };
-const ConnectivityAlert: React.SFC<ConnectivityAlertProps> = ({
+const ConnectivityAlert: React.FC<ConnectivityAlertProps> = ({
   message: { message },
   currentLocale,
 }) => {

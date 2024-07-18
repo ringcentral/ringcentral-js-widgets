@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  mute: "Disattiva audio",
+  mute: "Disatt. audio",
   unmute: "Riattiva audio",
   hangup: "Riaggancia",
   reject: "Rifiuta",
@@ -26,7 +26,9 @@ var _default = {
   answerAndHold: "Rispondi e attesa",
   answer: "Rispondi",
   completeTransfer: "Completa trasferimento",
-  reply: "Rispondi"
+  reply: "Rispondi",
+  add: "Aggiungi",
+  mergeCall: "Unisci a chiamata attiva"
 }; // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
 // @key: @#@"hangup"@#@ @source: @#@"Hang up"@#@
@@ -49,5 +51,7 @@ var _default = {
 // @key: @#@"answer"@#@ @source: @#@"Answer"@#@
 // @key: @#@"completeTransfer"@#@ @source: @#@"Complete transfer"@#@
 // @key: @#@"reply"@#@ @source: @#@"Reply"@#@
+// @key: @#@"add"@#@ @source: @#@"Add"@#@
+// @key: @#@"mergeCall"@#@ @source: @#@"Merge with active call"@#@
 exports["default"] = _default;
 //# sourceMappingURL=it-IT.js.map

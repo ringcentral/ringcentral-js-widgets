@@ -9,7 +9,7 @@ var _react = _interopRequireDefault(require("react"));
 var _phoneTypeNames = _interopRequireDefault(require("../../lib/phoneTypeNames"));
 var _splitter = require("./splitter");
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var ContactPhone = function ContactPhone(_ref) {
   var phoneType = _ref.phoneType,
     phoneNumber = _ref.phoneNumber,

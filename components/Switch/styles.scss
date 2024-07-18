@@ -18,7 +18,7 @@ $slider-size: #{$switch-height - 2 * $switch-padding};
 
 /* Hide default HTML checkbox */
 .switch input {
-  display:none;
+  display: none;
 }
 
 .slider {
@@ -29,21 +29,21 @@ $slider-size: #{$switch-height - 2 * $switch-padding};
   right: 0;
   bottom: 0;
   background-color: #ccc;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
   border-radius: $switch-height;
 }
 
 .slider:before {
   position: absolute;
-  content: "";
+  content: '';
   height: $slider-size;
   width: $slider-size;
   left: $switch-padding;
   bottom: $switch-padding;
   background-color: white;
-  -webkit-transition: .4s;
-  transition: .4s;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
   border-radius: 50%;
 }
 

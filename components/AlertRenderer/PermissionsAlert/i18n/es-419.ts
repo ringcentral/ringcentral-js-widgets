@@ -1,6 +1,6 @@
 import { permissionsMessages } from '@ringcentral-integration/commons/enums/permissionsMessages';
 export default {
-  [permissionsMessages.invalidTier]: "Esta edición no admite la integración con {application}. Llame a su representante de cuentas para actualizar su edición de {brand}.",
+  [permissionsMessages.invalidTier]: "Esta edición no admite la integración en {application}. Llame a su representante de cuentas para actualizar su edición de {brand}.",
   [permissionsMessages.insufficientPrivilege]: "Privilegios insuficientes. Comuníquese con su representante de cuenta para acceder a la actualización."
 };
 

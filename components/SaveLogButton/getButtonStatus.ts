@@ -1,3 +1,8 @@
+interface ButtonStatus {
+  buttonDisabled: boolean;
+  buttonContent: string;
+}
+
 export function getButtonStatus({
   isSucceed,
   isSaving,
@@ -5,10 +10,12 @@ export function getButtonStatus({
   isAutoSave,
   isFailed,
   isCreated,
-}: any) {
+  isSaveDelaying,
+}: any): ButtonStatus {
   const buttonDisabled =
     (isCreated && isAutoSave && !isFailed) ||
     isSaving ||
+    isSaveDelaying ||
     (!isEdited && isSucceed && isCreated);
   const unSavingText = isCreated && !isEdited && isSucceed ? 'saved' : 'save';
   const buttonContent = isSaving ? 'saving' : unSavingText;

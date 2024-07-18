@@ -5,7 +5,7 @@
 $section_height: 36px;
 .spinner {
   top: $section_height;
-  height: calc(100% - #{$section_height})
+  height: calc(100% - #{$section_height});
 }
 
 .buttonPanel {

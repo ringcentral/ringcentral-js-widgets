@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  forward: "Trasferisci",
+  forward: "Inoltra",
   reply: "Risposta",
   ignore: "Ignora",
   toVoicemail: "Alla segreteria telefonica",

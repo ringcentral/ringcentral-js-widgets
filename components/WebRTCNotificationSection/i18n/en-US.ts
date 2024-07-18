@@ -6,5 +6,5 @@ export default {
   endAndAnswer: 'End & Answer',
   holdAndAnswer: 'Hold & Answer',
   custom: 'Custom',
-  more: 'More'
-};
+  more: 'More',
+} as const;

@@ -19,7 +19,7 @@ export default {
   pages: " pagine",
   page: "pagina",
   preview: "Visualizza",
-  download: "Scarica",
+  download: "Download",
   imageAttachment: "Allegato: {count} immagine",
   fileAttachment: "Allegato: {count} file"
 };

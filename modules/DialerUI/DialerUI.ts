@@ -1,5 +1,7 @@
+import { trackEvents } from '@ringcentral-integration/commons/enums/trackEvents';
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import { formatNumber } from '@ringcentral-integration/commons/lib/formatNumber';
+import { getCallingOption } from '@ringcentral-integration/commons/lib/getCallingOption';
 import { normalizeNumber } from '@ringcentral-integration/commons/lib/normalizeNumber';
 import { proxify } from '@ringcentral-integration/commons/lib/proxy/proxify';
 import type { Recipient } from '@ringcentral-integration/commons/modules/Call';
@@ -10,11 +12,13 @@ import {
   computed,
   RcUIModuleV2,
   state,
+  track,
 } from '@ringcentral-integration/core';
 import { parse } from '@ringcentral-integration/phone-number';
 
 import type {
   Deps,
+  DialerUIContainerProps,
   DialerUIPanelProps,
   OnCallButtonClickOptions,
 } from './DialerUI.interface';
@@ -26,6 +30,7 @@ export type DialerUICallParams<T = Recipient> = {
   recipient?: T;
   fromNumber?: string;
   clickDialerToCall?: boolean;
+  trackCallMadeFrom?: string;
 };
 
 @Module({
@@ -177,6 +182,7 @@ export class DialerUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
   @proxify
   async clearToNumberField() {
     this._setToNumberField('');
+    await this._deps.contactSearch?.clearAndReset();
   }
 
   @proxify
@@ -192,6 +198,7 @@ export class DialerUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
         this._deps.dialerUIOptions?.useV2 &&
         this.toNumberField?.length >= 3
       ) {
+        await this._deps.contactSearch?.setPrepareSearch();
         this._deps.contactSearch?.debouncedSearch({
           searchString: this.toNumberField,
         });
@@ -235,6 +242,22 @@ export class DialerUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
     }
   }
 
+  @track((that: DialerUI, trackCallMadeFrom: string) => {
+    const callingOption = getCallingOption(
+      that._deps.callingSettings.callingMode,
+    );
+    return [
+      trackEvents.callMade,
+      {
+        callingOption,
+        Location: trackCallMadeFrom,
+      },
+    ];
+  })
+  trackCallMade(trackCallMadeFrom: string) {
+    //
+  }
+
   @proxify
   async call({
     phoneNumber = '',
@@ -242,8 +265,15 @@ export class DialerUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
     recipient = null,
     // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string'.
     fromNumber = null,
+    trackCallMadeFrom,
     clickDialerToCall = false,
   }: DialerUICallParams) {
+    if (phoneNumber) {
+      phoneNumber = phoneNumber.trim();
+    }
+    if (recipient?.phoneNumber) {
+      recipient.phoneNumber = recipient.phoneNumber.trim();
+    }
     if (phoneNumber || recipient) {
       this._latestCallTime = Date.now();
       this.resetState({
@@ -275,7 +305,9 @@ export class DialerUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
           clickDialerToCall,
           isValidNumber,
         });
-
+        if (trackCallMadeFrom) {
+          this.trackCallMade(trackCallMadeFrom);
+        }
         this.resetState();
       } catch (error) {
         console.log('[DialerUI] make call error', error);
@@ -320,6 +352,7 @@ export class DialerUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
         recipient: this.recipient,
         fromNumber,
         clickDialerToCall,
+        trackCallMadeFrom: 'Dialer',
       });
     }
   }
@@ -365,7 +398,16 @@ export class DialerUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
     return false;
   }
 
-  getUIProps(): UIProps<DialerUIPanelProps> {
+  @track((that: DialerUI, eventName: string, contactType: string) => {
+    return [eventName, { contactType, location: 'Dialpad' }];
+  })
+  async triggerEventTracking(eventName: string, contactType: string) {
+    //
+  }
+
+  getUIProps({
+    autoFocusToField,
+  }: DialerUIContainerProps = {}): UIProps<DialerUIPanelProps> {
     return {
       currentLocale: this._deps.locale.currentLocale,
       // @ts-expect-error TS(2322): Type 'string | null' is not assignable to type 'st... Remove this comment to see the full error message
@@ -380,20 +422,23 @@ export class DialerUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
       recipients: this.recipients,
       searchContactList: this.searchContactList,
       showSpinner: this.showSpinner,
-      dialButtonVolume: this._deps.audioSettings?.dialButtonVolume ?? 1,
-      dialButtonMuted: this._deps.audioSettings?.dialButtonMuted ?? false,
+      callVolume: this._deps.audioSettings?.callVolume ?? 1,
+      outputDeviceId: this._deps.audioSettings?.outputDeviceId ?? '',
       isLastInputFromDialpad: this.isLastInputFromDialpad,
       disableFromField: this.disableFromField,
       // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
       useV2: this._deps.dialerUIOptions?.useV2,
       // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
       showAnonymous: this.isShowAnonymous,
+      autoFocus: autoFocusToField,
     };
   }
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  getUIFunctions(props: any): UIFunctions<DialerUIPanelProps> {
+  getUIFunctions(): UIFunctions<DialerUIPanelProps> {
     return {
+      triggerEventTracking: (eventName: string, contactType: string) =>
+        this.triggerEventTracking(eventName, contactType),
       onToNumberChange: (...args) => this.setToNumberField(...args),
       clearToNumber: () => this.clearToNumberField(),
       onCallButtonClick: (...args) => this.onCallButtonClick(...args),

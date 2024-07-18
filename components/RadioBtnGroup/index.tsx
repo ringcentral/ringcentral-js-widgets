@@ -1,7 +1,6 @@
-import React, { Component } from 'react';
-
-import classnames from 'classnames';
+import clsx from 'clsx';
 import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 
 import i18n from './i18n';
 import styles from './styles.scss';
@@ -18,7 +17,7 @@ const RadioOption = (props: any) => {
   } = props;
   let btnClassName = '';
   if (currentIndex === selectedIndex) {
-    btnClassName = classnames(styles.radioBtn, styles.active);
+    btnClassName = clsx(styles.radioBtn, styles.active);
   } else {
     btnClassName = styles.radioBtn;
   }
@@ -82,7 +81,7 @@ class RadioButtonGroup extends Component {
     // @ts-expect-error TS(2339): Property 'selectedIndex' does not exist on type 'R... Remove this comment to see the full error message
     const { selectedIndex } = this.state;
     return (
-      <div className={classnames(styles.root, className)}>
+      <div className={clsx(styles.root, className)}>
         {radioOptions.map((number: any, idx: any) => (
           <RadioOption
             dataSign={dataSign}

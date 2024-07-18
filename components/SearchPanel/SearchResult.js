@@ -7,11 +7,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.SearchResult = void 0;
-var _react = _interopRequireDefault(require("react"));
 var _utils = require("@ringcentral-integration/utils");
 var _juno = require("@ringcentral/juno");
+var _react = _interopRequireDefault(require("react"));
 var _i18n = _interopRequireDefault(require("./i18n"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var SearchResult = function SearchResult(_ref) {
   var _ref$renderListItem = _ref.renderListItem,
     renderListItem = _ref$renderListItem === void 0 ? _utils.emptyFn : _ref$renderListItem,

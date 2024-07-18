@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  download: "Scarica",
+  download: "Download",
   play: "Riproduci",
   pause: "Metti in pausa"
 }; // @key: @#@"download"@#@ @source: @#@"Download"@#@

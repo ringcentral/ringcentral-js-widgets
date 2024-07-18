@@ -1,6 +1,3 @@
-import type { FunctionComponent } from 'react';
-import React, { useMemo } from 'react';
-
 import { callDirection } from '@ringcentral-integration/commons/enums/callDirections';
 import type { RcPaletteKeys } from '@ringcentral/juno';
 import { RcIcon } from '@ringcentral/juno';
@@ -9,6 +6,8 @@ import {
   MissedcallBorder,
   OutcallBorder,
 } from '@ringcentral/juno-icon';
+import type { FunctionComponent } from 'react';
+import React, { useMemo } from 'react';
 
 export type CallIconProps = {
   direction?: string;

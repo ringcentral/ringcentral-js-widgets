@@ -8,4 +8,4 @@ export default {
   min: 'min',
   hours: 'hours',
   days: 'days',
-};
+} as const;

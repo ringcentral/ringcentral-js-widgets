@@ -1,5 +1,5 @@
-import { connectModule } from '../../lib/phoneContext';
 import { CallCtrlContainer } from '../../components/CallCtrlContainer';
+import { connectModule } from '../../lib/phoneContext';
 
 const CallCtrlPage = connectModule((phone) => phone.callControlUI)(
   CallCtrlContainer,

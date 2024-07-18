@@ -11,7 +11,8 @@ var _default = {
   save: "Tallenna ja uusi",
   discard: "Hylkää ja uusi",
   hangup: "Lopeta puhelu",
-  reject: "Vastaajaan"
+  reject: "Vastaajaan",
+  saveDraftAndCreateNewLog: "Tallenna luonnos ja luo uusi puheluloki"
 }; // @key: @#@"Inbound"@#@ @source: @#@"Inbound"@#@
 // @key: @#@"Outbound"@#@ @source: @#@"Outbound"@#@
 // @key: @#@"log"@#@ @source: @#@"Log"@#@
@@ -19,5 +20,6 @@ var _default = {
 // @key: @#@"discard"@#@ @source: @#@"Discard and new"@#@
 // @key: @#@"hangup"@#@ @source: @#@"Hangup"@#@
 // @key: @#@"reject"@#@ @source: @#@"To Voicemail"@#@
+// @key: @#@"saveDraftAndCreateNewLog"@#@ @source: @#@"Save draft and create new call log"@#@
 exports["default"] = _default;
 //# sourceMappingURL=fi-FI.js.map

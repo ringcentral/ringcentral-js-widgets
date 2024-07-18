@@ -4,17 +4,17 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+var _clsx = _interopRequireDefault(require("clsx"));
 var _react = _interopRequireDefault(require("react"));
-var _classnames = _interopRequireDefault(require("classnames"));
 var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
 var _Header = require("../Header");
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var BackHeader = function BackHeader(props) {
   var buttons = props.buttons || [];
   var defaultBackButton = /*#__PURE__*/_react["default"].createElement("i", {
     "data-sign": "backButton",
-    className: (0, _classnames["default"])(_DynamicsFont["default"].arrow, _styles["default"].iconRotate)
+    className: (0, _clsx["default"])(_DynamicsFont["default"].arrow, _styles["default"].iconRotate)
   });
   buttons.push({
     label: props.backButton || defaultBackButton,

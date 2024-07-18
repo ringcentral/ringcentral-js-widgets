@@ -1,14 +1,14 @@
+import clsx from 'clsx';
 import type { FunctionComponent } from 'react';
 import React from 'react';
-
-import classnames from 'classnames';
 
 import { Header } from '../Header';
 import Panel from '../Panel';
 import { SpinnerOverlay } from '../SpinnerOverlay';
+
 import { Footer } from './Footer';
-import i18n from './i18n';
 import type { BasePanelProps } from './SettingsPanel.interface';
+import i18n from './i18n';
 import styles from './styles.scss';
 
 export const BasePanel: FunctionComponent<BasePanelProps> = ({
@@ -24,21 +24,20 @@ export const BasePanel: FunctionComponent<BasePanelProps> = ({
   onEulaLinkClick,
   version,
   versionContainer,
+  privacyNoticeLabel,
+  privacyNoticeLink,
 }) => {
   if (showSpinner) {
     return <SpinnerOverlay />;
   }
 
   return (
-    <div className={classnames(styles.root, className)}>
+    <div className={clsx(styles.root, className)}>
       {showHeader ? (
         <Header>{i18n.getString('settings', currentLocale)}</Header>
       ) : null}
       <Panel
-        className={classnames(
-          styles.content,
-          showHeader && styles.contentWithHeader,
-        )}
+        className={clsx(styles.content, showHeader && styles.contentWithHeader)}
       >
         {children}
         <Footer
@@ -48,6 +47,8 @@ export const BasePanel: FunctionComponent<BasePanelProps> = ({
             eulaLabel,
             eulaLink,
             onEulaLinkClick,
+            privacyNoticeLabel,
+            privacyNoticeLink,
             onLogoutButtonClick,
             version,
             versionContainer,

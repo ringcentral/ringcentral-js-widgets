@@ -10,8 +10,9 @@ function getButtonStatus(_ref) {
     isEdited = _ref.isEdited,
     isAutoSave = _ref.isAutoSave,
     isFailed = _ref.isFailed,
-    isCreated = _ref.isCreated;
-  var buttonDisabled = isCreated && isAutoSave && !isFailed || isSaving || !isEdited && isSucceed && isCreated;
+    isCreated = _ref.isCreated,
+    isSaveDelaying = _ref.isSaveDelaying;
+  var buttonDisabled = isCreated && isAutoSave && !isFailed || isSaving || isSaveDelaying || !isEdited && isSucceed && isCreated;
   var unSavingText = isCreated && !isEdited && isSucceed ? 'saved' : 'save';
   var buttonContent = isSaving ? 'saving' : unSavingText;
   return {

@@ -5,18 +5,18 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.Avatar = void 0;
+var _clsx = _interopRequireDefault(require("clsx"));
 var _react = _interopRequireDefault(require("react"));
-var _classnames = _interopRequireDefault(require("classnames"));
 var _DefaultAvatar = _interopRequireDefault(require("../../../assets/images/DefaultAvatar.svg"));
 var _PlaceholderImage = _interopRequireDefault(require("../../PlaceholderImage"));
 var _styles = _interopRequireDefault(require("../styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var Avatar = function Avatar(_ref) {
   var name = _ref.name,
     avatarUrl = _ref.avatarUrl,
     inactive = _ref.inactive,
     source = _ref.source;
-  var imageClassName = (0, _classnames["default"])(_styles["default"].avatarImage, inactive && _styles["default"].inactive);
+  var imageClassName = (0, _clsx["default"])(_styles["default"].avatarImage, inactive && _styles["default"].inactive);
   var sourceNode = source ? /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].sourceWrapper
   }, source) : null;

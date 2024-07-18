@@ -1,14 +1,13 @@
-import React, { Component } from 'react';
-
-import classnames from 'classnames';
-
 import { isBlank } from '@ringcentral-integration/commons/lib/isBlank';
 import { RcMenuItem, RcMenuList, styled } from '@ringcentral/juno';
+import clsx from 'clsx';
+import React, { Component } from 'react';
 
 import { Button } from '../Button';
+
+import { MINS, TimeInput } from './TimeInput';
 import i18n from './i18n';
 import styles from './styles.scss';
-import { MINS, TimeInput } from './TimeInput';
 
 const CALL_YOU = 0;
 const CALL_ME = 1;
@@ -160,7 +159,7 @@ class ReplyWithMessage extends Component<
     const { className, onCancel, currentLocale, disabled } = this.props;
     const disableButton = isBlank(this._getValue().replyText) || disabled;
     return (
-      <div className={classnames(styles.root, className)}>
+      <div className={clsx(styles.root, className)}>
         <RcMenuList className={styles.messages}>
           <StyledMenuItem
             onClick={() => {
@@ -169,7 +168,7 @@ class ReplyWithMessage extends Component<
                 this.callYouInputRef.focus();
               }, 100);
             }}
-            className={classnames(
+            className={clsx(
               styles.messageItem,
               this.state.type === CALL_YOU ? styles.active : null,
             )}
@@ -196,7 +195,7 @@ class ReplyWithMessage extends Component<
                 this.callMeInputRef.focus();
               }, 100);
             }}
-            className={classnames(
+            className={clsx(
               styles.messageItem,
               this.state.type === CALL_ME ? styles.active : null,
             )}
@@ -218,7 +217,7 @@ class ReplyWithMessage extends Component<
           </StyledMenuItem>
           <StyledMenuItem
             onClick={() => this.onSelectType(ON_MY_WAY)}
-            className={classnames(
+            className={clsx(
               styles.messageItem,
               this.state.type === ON_MY_WAY ? styles.active : null,
             )}
@@ -235,7 +234,7 @@ class ReplyWithMessage extends Component<
                 this.customValueInput.focus();
               }, 100);
             }}
-            className={classnames(
+            className={clsx(
               styles.messageItem,
               this.state.type === CUSTOM_MESSAGE ? styles.active : null,
             )}
@@ -265,7 +264,7 @@ class ReplyWithMessage extends Component<
             {i18n.getString('cancel', currentLocale)}
           </Button>
           <Button
-            className={classnames(
+            className={clsx(
               styles.replyButton,
               disableButton ? styles.disabled : null,
             )}

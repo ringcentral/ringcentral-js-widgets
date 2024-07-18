@@ -4,6 +4,7 @@ import type { UIFunctions, UIProps } from '@ringcentral-integration/core';
 import { action, state } from '@ringcentral-integration/core';
 
 import { DialerUI } from '../DialerUI';
+
 import type {
   ConferenceDialerUIContainerProps,
   ConferenceDialerUIPanelProps,

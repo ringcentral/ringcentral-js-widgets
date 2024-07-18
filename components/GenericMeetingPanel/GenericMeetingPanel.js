@@ -12,35 +12,27 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.GenericMeetingPanel = void 0;
 require("regenerator-runtime/runtime");
+var _utils = require("@ringcentral-integration/utils");
 var _react = _interopRequireWildcard(require("react"));
-var _utils = require("@ringcentral-integration/commons/utils");
-var _utils2 = require("@ringcentral-integration/utils");
 var _InnerTopic = require("../InnerTopic");
-var _MeetingConfigs = _interopRequireDefault(require("../MeetingConfigs"));
 var _MeetingConfigsV = require("../MeetingConfigsV2");
 var _SpinnerOverlay = require("../SpinnerOverlay");
 var _VideoConfig = require("../VideoPanel/VideoConfig");
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
-function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
-function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
+function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
+function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) { if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } } return n["default"] = e, t && t.set(e, n), n; }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 var GenericMeetingPanel = function GenericMeetingPanel(props) {
   var topicRef = (0, _react.useRef)(null);
-  var showCustom = props.showCustom,
-    CustomPanel = props.CustomPanel;
-  if (showCustom) {
-    return CustomPanel;
-  }
-  var useRcmV2 = props.useRcmV2,
-    meeting = props.meeting,
+  var meeting = props.meeting,
     disabled = props.disabled,
     configDisabled = props.configDisabled,
     currentLocale = props.currentLocale,
@@ -52,13 +44,13 @@ var GenericMeetingPanel = function GenericMeetingPanel(props) {
     showRecurringMeeting = props.showRecurringMeeting,
     openNewWindow = props.openNewWindow,
     meetingOptionToggle = props.meetingOptionToggle,
-    passwordPlaceholderEnable = props.passwordPlaceholderEnable,
     audioOptionToggle = props.audioOptionToggle,
     onOK = props.onOK,
     init = props.init,
     showSaveAsDefault = props.showSaveAsDefault,
     disableSaveAsDefault = props.disableSaveAsDefault,
     updateMeetingSettings = props.updateMeetingSettings,
+    onCloseMigrationAlert = props.onCloseMigrationAlert,
     isRCM = props.isRCM,
     isRCV = props.isRCV,
     datePickerSize = props.datePickerSize,
@@ -108,7 +100,7 @@ var GenericMeetingPanel = function GenericMeetingPanel(props) {
     recurringMeetingPosition = props.recurringMeetingPosition,
     defaultTopic = props.defaultTopic,
     isPersonalMeetingDisabled = props.isPersonalMeetingDisabled,
-    showIeSupportAlert = props.showIeSupportAlert,
+    showMigrationAlert = props.showMigrationAlert,
     showRemoveMeetingWarning = props.showRemoveMeetingWarning,
     brandConfig = props.brandConfig;
   if (showSpinner) {
@@ -116,29 +108,7 @@ var GenericMeetingPanel = function GenericMeetingPanel(props) {
   }
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].wrapper
-  }, isRCM && !useRcmV2 && /*#__PURE__*/_react["default"].createElement(_MeetingConfigs["default"], {
-    useTimePicker: true,
-    update: updateMeetingSettings,
-    init: init,
-    meeting: meeting
-    // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
-    ,
-    disabled: configDisabled,
-    currentLocale: currentLocale,
-    recipientsSection: recipientsSection,
-    showWhen: showWhen,
-    showTopic: showTopic,
-    showDuration: showDuration,
-    showRecurringMeeting: showRecurringMeeting,
-    meetingOptionToggle: meetingOptionToggle,
-    passwordPlaceholderEnable: passwordPlaceholderEnable,
-    audioOptionToggle: audioOptionToggle
-    // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
-    ,
-    enablePersonalMeeting: enablePersonalMeeting,
-    personalMeetingId: personalMeetingId,
-    switchUsePersonalMeetingId: switchUsePersonalMeetingId
-  }), isRCM && useRcmV2 && /*#__PURE__*/_react["default"].createElement(_MeetingConfigsV.MeetingConfigs
+  }, isRCM && /*#__PURE__*/_react["default"].createElement(_MeetingConfigsV.MeetingConfigs
   // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
   , {
     disabled: configDisabled,
@@ -147,6 +117,7 @@ var GenericMeetingPanel = function GenericMeetingPanel(props) {
     updateMeetingSettings: updateMeetingSettings,
     personalMeetingId: personalMeetingId,
     switchUsePersonalMeetingId: switchUsePersonalMeetingId,
+    onCloseMigrationAlert: onCloseMigrationAlert,
     init: init,
     labelPlacement: labelPlacement,
     meeting: meeting,
@@ -169,7 +140,7 @@ var GenericMeetingPanel = function GenericMeetingPanel(props) {
     datePickerSize: datePickerSize,
     timePickerSize: timePickerSize,
     checkboxSize: checkboxSize,
-    showIeSupportAlert: showIeSupportAlert,
+    showMigrationAlert: showMigrationAlert,
     showRemoveMeetingWarning: showRemoveMeetingWarning,
     brandConfig: brandConfig
   }, showTopic && /*#__PURE__*/_react["default"].createElement(_InnerTopic.Topic, {
@@ -193,6 +164,7 @@ var GenericMeetingPanel = function GenericMeetingPanel(props) {
     e2eeInteractFunc: e2eeInteractFunc,
     updateScheduleFor: updateScheduleFor,
     updateMeetingSettings: updateMeetingSettings,
+    onCloseMigrationAlert: onCloseMigrationAlert,
     recipientsSection: recipientsSection,
     showWhen: showWhen,
     showDuration: showDuration,
@@ -231,7 +203,7 @@ var GenericMeetingPanel = function GenericMeetingPanel(props) {
     isAuthenticatedCanJoinDisabled: isAuthenticatedCanJoinDisabled,
     isWaitingRoomDisabled: isWaitingRoomDisabled,
     isRequirePasswordDisabled: isRequirePasswordDisabled,
-    showIeSupportAlert: showIeSupportAlert,
+    showMigrationAlert: showMigrationAlert,
     showRemoveMeetingWarning: showRemoveMeetingWarning,
     brandConfig: brandConfig
   }, showTopic && /*#__PURE__*/_react["default"].createElement(_InnerTopic.Topic, {
@@ -258,22 +230,18 @@ var GenericMeetingPanel = function GenericMeetingPanel(props) {
           switch (_context.prev = _context.next) {
             case 0:
               if (disabled) {
-                _context.next = 7;
+                _context.next = 5;
                 break;
               }
-              _context.next = 3;
-              return (0, _utils.sleep)(100);
-            case 3:
-              opener = openNewWindow && (0, _utils2.isSafari)() ? window.open() : null;
+              opener = openNewWindow && (0, _utils.isSafari)() ? window.open() : null;
               meetingSetting = isRCM ? _objectSpread(_objectSpread({}, meeting), {}, {
-                // @ts-expect-error TS(2339): Property 'topic' does not exist on type 'RcMMeetin... Remove this comment to see the full error message
-                topic: useRcmV2 ? (_topicRef$current = topicRef.current) === null || _topicRef$current === void 0 ? void 0 : _topicRef$current.value : meeting.topic
+                topic: (_topicRef$current = topicRef.current) === null || _topicRef$current === void 0 ? void 0 : _topicRef$current.value
               }) : _objectSpread(_objectSpread({}, meeting), {}, {
                 name: (_topicRef$current2 = topicRef.current) === null || _topicRef$current2 === void 0 ? void 0 : _topicRef$current2.value
-              }); // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
-              _context.next = 7;
-              return schedule(meetingSetting, opener);
-            case 7:
+              });
+              _context.next = 5;
+              return schedule === null || schedule === void 0 ? void 0 : schedule(meetingSetting, opener);
+            case 5:
             case "end":
               return _context.stop();
           }
@@ -297,7 +265,9 @@ var GenericMeetingPanel = function GenericMeetingPanel(props) {
 };
 exports.GenericMeetingPanel = GenericMeetingPanel;
 GenericMeetingPanel.defaultProps = {
-  launchMeeting: function launchMeeting() {},
+  launchMeeting: function launchMeeting() {
+    //
+  },
   disabled: false,
   showWhen: true,
   showTopic: true,
@@ -305,7 +275,6 @@ GenericMeetingPanel.defaultProps = {
   showRecurringMeeting: true,
   openNewWindow: true,
   meetingOptionToggle: false,
-  passwordPlaceholderEnable: false,
   audioOptionToggle: false,
   onOK: undefined,
   scheduleButton: undefined,
@@ -325,13 +294,11 @@ GenericMeetingPanel.defaultProps = {
   isPmiChangeConfirmed: false,
   showSaveAsDefault: true,
   disableSaveAsDefault: false,
-  showCustom: false,
   showLaunchMeetingBtn: false,
   appCode: '',
   scheduleButtonLabel: '',
   personalMeetingId: undefined,
   showSpinner: false,
-  useRcmV2: false,
   labelPlacement: 'start',
   enableServiceWebSettings: false,
   recurringMeetingPosition: 'middle'

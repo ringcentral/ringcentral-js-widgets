@@ -10,7 +10,7 @@ var _Emails = require("./components/Emails");
 var _PhoneSection = require("./components/PhoneSection");
 var _Profile = require("./components/Profile");
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var ContactDetails = function ContactDetails(_ref) {
   var contact = _ref.contact,
     currentLocale = _ref.currentLocale,

@@ -6,7 +6,7 @@ export default {
   Blocked: "Estetty",
   AdditionalCompanyNumber: "Yritys",
   ForwardedCompanyNumber: "Siirretty",
-  from: "Lähettäjä"
+  from: "Läh."
 };
 
 // @key: @#@"DirectNumber"@#@ @source: @#@"Direct"@#@

@@ -1,10 +1,9 @@
-import React from 'react';
-
 import { RcIconButton, RcText, spacing, styled } from '@ringcentral/juno';
 import { Close as close } from '@ringcentral/juno-icon';
+import React from 'react';
 
-import i18n from '../i18n';
 import type { CustomRenderer } from '../ModalUI.interface';
+import i18n from '../i18n';
 
 export const defaultOKRendererID = 'ModalUI.defaultOKRendererID';
 export const defaultCancelRendererID = 'ModalUI.defaultCancelRendererID';

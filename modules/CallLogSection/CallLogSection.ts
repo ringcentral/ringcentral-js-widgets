@@ -1,3 +1,18 @@
+import { trackEvents } from '@ringcentral-integration/commons/enums/trackEvents';
+import type { Call } from '@ringcentral-integration/commons/interfaces/Call.interface';
+import { isOnHold } from '@ringcentral-integration/commons/lib/callLogHelpers';
+import { Module } from '@ringcentral-integration/commons/lib/di';
+import { proxify } from '@ringcentral-integration/commons/lib/proxy/proxify';
+import type { HistoryCall } from '@ringcentral-integration/commons/modules/CallHistory';
+import {
+  action,
+  computed,
+  RcModuleV2,
+  state,
+  storage,
+  track,
+  watch,
+} from '@ringcentral-integration/core';
 import {
   assoc,
   converge,
@@ -9,24 +24,8 @@ import {
   useWith,
 } from 'ramda';
 
-import { Module } from '@ringcentral-integration/commons/lib/di';
-import { proxify } from '@ringcentral-integration/commons/lib/proxy/proxify';
-import type { HistoryCall } from '@ringcentral-integration/commons/modules/CallHistory';
-import { trackEvents } from '@ringcentral-integration/commons/enums/trackEvents';
-import type { Call } from '@ringcentral-integration/commons/interfaces/Call.interface';
-import { isOnHold } from '@ringcentral-integration/commons/lib/callLogHelpers';
-
-import {
-  action,
-  computed,
-  RcModuleV2,
-  state,
-  storage,
-  track,
-  watch,
-} from '@ringcentral-integration/core';
-
 import type { Mapping } from '../../typings';
+
 import type {
   AddLogHandlerFunctions,
   CallLogSectionCallStatus,

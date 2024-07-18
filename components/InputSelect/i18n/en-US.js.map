@@ -1,1 +1,1 @@
-{"version":3,"file":"en-US.js","names":["exports","_default"],"sources":["components/InputSelect/i18n/en-US.ts"],"sourcesContent":["export default {};\n"],"mappings":";;;;;;eAAe,CAAC,CAAC;AAAAA,OAAA,cAAAC,QAAA"}
+{"version":3,"file":"en-US.js","names":["exports","_default"],"sources":["components/InputSelect/i18n/en-US.ts"],"sourcesContent":["export default {} as const;\n"],"mappings":";;;;;;eAAe,CAAC,CAAC;AAAAA,OAAA,cAAAC,QAAA","ignoreList":[]}

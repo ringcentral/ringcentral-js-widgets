@@ -19,7 +19,7 @@ var _default = {
   addEntity: "Crear elemento nuevo",
   addLog: "Registro",
   text: "Mensaje",
-  call: "Llamada",
+  call: "Llamar",
   addContact: "Añadir contacto",
   missedCall: "Perdida",
   inboundCall: "Entrante",
@@ -30,14 +30,14 @@ var _default = {
   accept: "Responder",
   toVoicemail: "Al buzón de voz",
   anonymous: "Anónimo",
-  mergeToConference: "Combinar",
-  hold: "Poner en espera",
+  mergeToConference: "Combinar con la llamada activa",
+  hold: "Retener",
   unhold: "Reanudar llamada",
   transfer: "Transferir",
   reject: "Rechazar",
-  switchCall: "Cambiar llamada a esta aplicación",
+  switchCall: "Cambiar llamada a esta app",
   callSwitch: "Cambio de llamada",
-  comfirmContext: "Está en una llamada activa con {displayName}. ¿Desea continuar la llamada en este dispositivo?",
+  comfirmContext: "Está en una llamada activa con {displayName}. ¿Desear continuar con la llamada en este dispositivo?",
   comfirmCancelButton: "Cancelar",
   comfirmOKButton: "Cambiar",
   ignore: "Ignorar",
@@ -67,7 +67,7 @@ var _default = {
 // @key: @#@"accept"@#@ @source: @#@"Answer"@#@
 // @key: @#@"toVoicemail"@#@ @source: @#@"To Voicemail"@#@
 // @key: @#@"anonymous"@#@ @source: @#@"Anonymous"@#@
-// @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
+// @key: @#@"mergeToConference"@#@ @source: @#@"Merge with active call"@#@
 // @key: @#@"hold"@#@ @source: @#@"Hold"@#@
 // @key: @#@"unhold"@#@ @source: @#@"Unhold"@#@
 // @key: @#@"transfer"@#@ @source: @#@"Transfer"@#@

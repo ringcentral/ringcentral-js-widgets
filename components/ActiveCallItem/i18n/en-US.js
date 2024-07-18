@@ -30,7 +30,7 @@ var _default = {
   accept: 'Answer',
   toVoicemail: 'To Voicemail',
   anonymous: 'Anonymous',
-  mergeToConference: 'Merge',
+  mergeToConference: 'Merge with active call',
   hold: 'Hold',
   unhold: 'Unhold',
   transfer: 'Transfer',

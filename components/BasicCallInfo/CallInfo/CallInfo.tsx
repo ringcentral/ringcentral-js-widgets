@@ -3,6 +3,7 @@ import React from 'react';
 
 import { TOOLTIP_LONG_DELAY_TIME } from '../../../lib/toolTipDelayTime';
 import { Tooltip } from '../../Rcui/Tooltip';
+
 import styles from './styles.scss';
 
 export interface CallInfoProps {

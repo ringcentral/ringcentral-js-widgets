@@ -6,10 +6,7 @@ type CallIconProps = {
   title?: string;
   iconClassName: string;
 };
-export const CallIcon: React.SFC<CallIconProps> = ({
-  title,
-  iconClassName,
-}) => (
+export const CallIcon: React.FC<CallIconProps> = ({ title, iconClassName }) => (
   <div className={styles.callIcon} title={title}>
     <span className={iconClassName} />
   </div>

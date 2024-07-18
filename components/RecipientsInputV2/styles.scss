@@ -2,7 +2,6 @@
 @import '../../lib/commonStyles/fonts';
 @import '../../lib/commonStyles/text-ellipsis';
 
-
 .container {
   @include primary-font;
   position: relative;
@@ -94,10 +93,6 @@
     @include text-ellipsis;
     padding: 5px 23px 5px 10px;
     margin-right: 5px;
-
-    span {
-      font-weight: 200;
-    }
   }
 
   .phoneNumber {
@@ -144,7 +139,7 @@
   background: #ffffff;
   border: 1px solid #efefef;
   border-radius: 4px;
-  box-shadow: 0 4px 12px rgba(0,0,0,.175);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.175);
   max-height: 265px;
   overflow-y: auto;
   overflow-x: hidden;

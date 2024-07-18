@@ -1,13 +1,9 @@
+import type { ContactModel } from '@ringcentral-integration/commons/interfaces/Contact.model';
 import type { FunctionComponent } from 'react';
 import React from 'react';
 
-import type { ContactModel } from '@ringcentral-integration/commons/interfaces/Contact.model';
-
 import type { GetPresenceFn } from '../../react-hooks/usePresence';
-import { CompanyInfo } from './components/CompanyInfo';
-import { Emails } from './components/Emails';
-import { PhoneSection } from './components/PhoneSection';
-import { Profile } from './components/Profile';
+
 import type {
   clickToDial,
   clickToSMS,
@@ -15,6 +11,10 @@ import type {
   onClickMailTo,
   sourceNodeRenderer,
 } from './ContactDetails.interface';
+import { CompanyInfo } from './components/CompanyInfo';
+import { Emails } from './components/Emails';
+import { PhoneSection } from './components/PhoneSection';
+import { Profile } from './components/Profile';
 import styles from './styles.scss';
 
 interface ContactDetailsProps

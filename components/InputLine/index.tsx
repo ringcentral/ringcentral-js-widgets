@@ -1,6 +1,7 @@
 import React from 'react';
 
 import Line from '../Line';
+
 import styles from './styles.scss';
 
 type InputLineProps = {
@@ -10,7 +11,7 @@ type InputLineProps = {
   onClick?: (...args: any[]) => any;
   noBorder?: boolean;
 };
-const InputLine: React.SFC<InputLineProps> = (props) => {
+const InputLine: React.FC<InputLineProps> = (props) => {
   return (
     <Line
       className={props.className}

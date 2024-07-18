@@ -20,7 +20,9 @@ export default {
   answerAndHold: "Beantwoorden en in de wacht zetten",
   answer: "Beantwoorden",
   completeTransfer: "Doorverbinden voltooien",
-  reply: "Beantwoorden"
+  reply: "Beantwoorden",
+  add: "Toevoegen",
+  mergeCall: "Samenvoegen met actieve oproep"
 };
 
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
@@ -45,3 +47,5 @@ export default {
 // @key: @#@"answer"@#@ @source: @#@"Answer"@#@
 // @key: @#@"completeTransfer"@#@ @source: @#@"Complete transfer"@#@
 // @key: @#@"reply"@#@ @source: @#@"Reply"@#@
+// @key: @#@"add"@#@ @source: @#@"Add"@#@
+// @key: @#@"mergeCall"@#@ @source: @#@"Merge with active call"@#@

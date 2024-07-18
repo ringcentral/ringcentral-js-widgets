@@ -4,11 +4,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-var _react = _interopRequireDefault(require("react"));
 var _Meeting = require("@ringcentral-integration/commons/modules/Meeting");
+var _react = _interopRequireDefault(require("react"));
 var _FormattedMessage = _interopRequireDefault(require("../../FormattedMessage"));
 var _i18n = _interopRequireDefault(require("./i18n"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var MeetingAlert = function MeetingAlert(_ref) {
   var _ref$message = _ref.message,
     message = _ref$message.message,
@@ -21,7 +21,6 @@ var MeetingAlert = function MeetingAlert(_ref) {
       msg = /*#__PURE__*/_react["default"].createElement(_FormattedMessage["default"], {
         message: _i18n["default"].getString(message, currentLocale),
         values: {
-          // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
           application: application,
           // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
           permissionName: payload.permissionName

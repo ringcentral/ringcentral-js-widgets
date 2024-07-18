@@ -7,6 +7,7 @@ import Select from '../DropdownSelect';
 import InputField from '../InputField';
 import Panel from '../Panel';
 import TextInput from '../TextInput';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 

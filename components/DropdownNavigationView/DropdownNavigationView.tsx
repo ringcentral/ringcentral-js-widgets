@@ -1,10 +1,10 @@
+import { useGlobalListener } from '@ringcentral/juno';
 import type { FunctionComponent } from 'react';
 import React, { useRef } from 'react';
 
-import { useGlobalListener } from '@ringcentral/juno';
-
 import DropdownNavigationItem from '../DropdownNavigationItem';
 import type { TabPropTypes } from '../NavigationBar';
+
 import styles from './styles.scss';
 
 export interface DropdownNavigationViewProps {
@@ -79,10 +79,11 @@ const DropdownNavigation: FunctionComponent<DropdownNavigationViewProps> = ({
 };
 
 // TODO: that check should move to outside
-export const DropdownNavigationView: FunctionComponent<DropdownNavigationViewProps> =
-  (props) => {
-    const { tabs } = props;
-    return tabs.length ? <DropdownNavigation {...props} /> : null;
-  };
+export const DropdownNavigationView: FunctionComponent<
+  DropdownNavigationViewProps
+> = (props) => {
+  const { tabs } = props;
+  return tabs.length ? <DropdownNavigation {...props} /> : null;
+};
 
 export default DropdownNavigationView;

@@ -26,7 +26,9 @@ var _default = {
   answerAndHold: "Answer & Hold",
   answer: "Answer",
   completeTransfer: "Complete transfer",
-  reply: "Reply"
+  reply: "Reply",
+  add: "Add",
+  mergeCall: "Merge with active call"
 }; // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
 // @key: @#@"hangup"@#@ @source: @#@"Hang up"@#@
@@ -49,5 +51,7 @@ var _default = {
 // @key: @#@"answer"@#@ @source: @#@"Answer"@#@
 // @key: @#@"completeTransfer"@#@ @source: @#@"Complete transfer"@#@
 // @key: @#@"reply"@#@ @source: @#@"Reply"@#@
+// @key: @#@"add"@#@ @source: @#@"Add"@#@
+// @key: @#@"mergeCall"@#@ @source: @#@"Merge with active call"@#@
 exports["default"] = _default;
 //# sourceMappingURL=en-GB.js.map

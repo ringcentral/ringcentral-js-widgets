@@ -1,14 +1,13 @@
-import type { MutableRefObject, ReactNode } from 'react';
-
-import type { ReactElementLike } from 'prop-types';
-
 import type { RcDatePickerProps } from '@ringcentral/juno';
+import type { ReactElementLike } from 'prop-types';
+import type { MutableRefObject, ReactNode } from 'react';
 
 import type { CallLog, Task } from '../CallLogPanel';
 
 export type CallLogFieldsProps = {
   currentLocale: string;
   currentLog?: CallLog;
+  currentDelaySavingState?: any;
   onUpdateCallLog?: (data: { task: Task }, id: string) => any;
   onSaveCallLog?: (...args: any[]) => any;
   onSelectViewVisible?: (visible: boolean, fieldName: string) => any;
@@ -57,7 +56,7 @@ export interface FieldOption {
   rightIconRender?: (item: any) => ReactElementLike;
   onBackClick?: () => void;
   backHeaderClassName?: string;
-  shouldDisable?: (task?: Task) => boolean;
+  shouldDisable?: (task?: Task, call?: CallLog['call']) => boolean;
   disableReason?: ReactNode | string;
   getValue?: (item: any) => any;
   foundFromServerEntityGetter?: (currentLog: CallLog) => any[];

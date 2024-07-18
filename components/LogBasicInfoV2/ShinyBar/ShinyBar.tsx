@@ -1,9 +1,9 @@
+import clsx from 'clsx';
 import type { FunctionComponent } from 'react';
 import React from 'react';
 
-import classnames from 'classnames';
-
 import type { CallStatus } from '../../CallLogPanel/CallLog.interface';
+
 import styles from './ShinyBar.scss';
 
 export type ShinyBarProps = {
@@ -18,7 +18,7 @@ export const ShinyBar: FunctionComponent<ShinyBarProps> = ({
   status = 'callEnd',
 }) => (
   <div
-    className={classnames(
+    className={clsx(
       styles.shinyBar,
       styles[status],
       isRinging && styles.ringing,

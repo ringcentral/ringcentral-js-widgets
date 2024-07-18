@@ -1,9 +1,9 @@
+import clsx from 'clsx';
 import type { FunctionComponent } from 'react';
 import React from 'react';
 
-import classnames from 'classnames';
-
 import type { CallLogMenu } from '../CallHistoryPanel.interface';
+
 import { ActionButton } from './ActionButton';
 import { MenuButton } from './MenuButton';
 import styles from './styles.scss';
@@ -22,7 +22,7 @@ export const CallHistoryActions: FunctionComponent<CallHistoryActionProps> = ({
 
   return (
     <div
-      className={classnames([styles.actions, !isWide && styles.classic])}
+      className={clsx([styles.actions, !isWide && styles.classic])}
       data-sign="callHistoryActions"
     >
       {displayedButtons.map(

@@ -1,8 +1,9 @@
+import { audioSettingsErrors } from '@ringcentral-integration/commons/modules/AudioSettings';
+import { includes } from 'ramda';
 import React from 'react';
 
-import { audioSettingsErrors } from '@ringcentral-integration/commons/modules/AudioSettings';
-
 import FormattedMessage from '../../FormattedMessage';
+
 import i18n from './i18n';
 
 type AudioSettingsAlertProps = {
@@ -12,11 +13,15 @@ type AudioSettingsAlertProps = {
     message: string;
   };
 };
-const AudioSettingsAlert: React.SFC<AudioSettingsAlertProps> = ({
+const AudioSettingsAlert: React.FC<AudioSettingsAlertProps> = ({
   application,
   currentLocale,
   message,
 }) => {
+  if (message.message === audioSettingsErrors.checkMediaPermission) {
+    return null;
+  }
+
   const view = (
     <FormattedMessage
       message={i18n.getString(message.message, currentLocale)}
@@ -27,5 +32,12 @@ const AudioSettingsAlert: React.SFC<AudioSettingsAlertProps> = ({
 };
 // @ts-expect-error TS(2339): Property 'handleMessage' does not exist on type 'S... Remove this comment to see the full error message
 AudioSettingsAlert.handleMessage = ({ message }: any) =>
-  message === audioSettingsErrors.userMediaPermission;
+  includes(message, [
+    audioSettingsErrors.userMediaPermission,
+    audioSettingsErrors.ringtoneSizeOverLimit,
+    audioSettingsErrors.duplicateRingtone,
+    audioSettingsErrors.uploadRingtoneFailed,
+    audioSettingsErrors.deleteRingtoneFailed,
+    audioSettingsErrors.checkMediaPermission,
+  ]);
 export default AudioSettingsAlert;

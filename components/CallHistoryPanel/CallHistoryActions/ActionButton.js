@@ -4,9 +4,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.ActionButton = void 0;
-var _react = _interopRequireDefault(require("react"));
 var _juno = require("@ringcentral/juno");
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+var _react = _interopRequireDefault(require("react"));
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var ActionButton = function ActionButton(_ref) {
   var icon = _ref.icon,
     label = _ref.label,

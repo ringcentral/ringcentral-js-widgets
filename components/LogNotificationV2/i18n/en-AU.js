@@ -11,7 +11,8 @@ var _default = {
   save: "Save and new",
   discard: "Discard and new",
   hangup: "Hang up",
-  reject: "To voicemail"
+  reject: "To voicemail",
+  saveDraftAndCreateNewLog: "Save draft and create new call log"
 }; // @key: @#@"Inbound"@#@ @source: @#@"Inbound"@#@
 // @key: @#@"Outbound"@#@ @source: @#@"Outbound"@#@
 // @key: @#@"log"@#@ @source: @#@"Log"@#@
@@ -19,5 +20,6 @@ var _default = {
 // @key: @#@"discard"@#@ @source: @#@"Discard and new"@#@
 // @key: @#@"hangup"@#@ @source: @#@"Hangup"@#@
 // @key: @#@"reject"@#@ @source: @#@"To Voicemail"@#@
+// @key: @#@"saveDraftAndCreateNewLog"@#@ @source: @#@"Save draft and create new call log"@#@
 exports["default"] = _default;
 //# sourceMappingURL=en-AU.js.map

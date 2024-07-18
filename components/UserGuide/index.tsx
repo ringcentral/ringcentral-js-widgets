@@ -1,10 +1,10 @@
+import clsx from 'clsx';
 import React from 'react';
-
-import classnames from 'classnames';
 import { CSSTransition, Transition } from 'react-transition-group';
 
 import { Button } from '../Button';
 import { SpinnerOverlay } from '../SpinnerOverlay';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 
@@ -141,7 +141,7 @@ class UserGuide extends React.Component<UserGuideProps, UserGuideState> {
       return (
         <li
           key={i}
-          className={classnames(styles.dot, highlight)}
+          className={clsx(styles.dot, highlight)}
           onClick={() => {
             this.slideTo(i + 1);
           }}
@@ -156,7 +156,7 @@ class UserGuide extends React.Component<UserGuideProps, UserGuideState> {
         onClick={() => {
           this.exit();
         }}
-        className={classnames(styles.secondaryButton)}
+        className={clsx(styles.secondaryButton)}
         dataSign="skipButton"
       >
         {i18n.getString('skip', this.props.currentLocale)}
@@ -167,7 +167,7 @@ class UserGuide extends React.Component<UserGuideProps, UserGuideState> {
         onClick={() => {
           this.slideTo(this.state.curIdx + 1);
         }}
-        className={classnames(styles.primaryButton)}
+        className={clsx(styles.primaryButton)}
       >
         {onLastPage
           ? i18n.getString('finish', this.props.currentLocale)
@@ -188,7 +188,7 @@ class UserGuide extends React.Component<UserGuideProps, UserGuideState> {
     );
     const { carouselClassName } = this.props;
     return (
-      <div className={classnames(styles.carousel, carouselClassName)}>
+      <div className={clsx(styles.carousel, carouselClassName)}>
         <div
           className={styles.carouselBox}
           style={{ transform: `translateX(-${this.state.curIdx * 100}vw)` }}

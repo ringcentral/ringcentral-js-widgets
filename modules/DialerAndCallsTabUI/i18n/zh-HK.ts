@@ -1,5 +1,5 @@
 export default {
-  dialer: "撥號鍵盤",
+  dialer: "撥號盤",
   allCalls: "所有通話"
 };
 

@@ -1,9 +1,7 @@
+import { useMountState } from '@ringcentral/juno';
+import clsx from 'clsx';
 import type { FunctionComponent } from 'react';
 import React, { useState } from 'react';
-
-import classnames from 'classnames';
-
-import { useMountState } from '@ringcentral/juno';
 
 import styles from './styles.scss';
 
@@ -31,11 +29,7 @@ export const Button: FunctionComponent<ButtonProps> = ({
   return (
     <div
       data-sign={dataSign}
-      className={classnames(
-        styles.root,
-        disableButton && styles.disabled,
-        className,
-      )}
+      className={clsx(styles.root, disableButton && styles.disabled, className)}
       role="button"
       aria-disabled={disableButton}
       tabIndex={tabIndex}

@@ -6,12 +6,12 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = exports.CallAlert = void 0;
-var _react = _interopRequireDefault(require("react"));
 var _Call = require("@ringcentral-integration/commons/modules/Call");
+var _react = _interopRequireDefault(require("react"));
 var _FormattedMessage = _interopRequireDefault(require("../../FormattedMessage"));
 var _i18n = _interopRequireDefault(require("./i18n"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var CallAlert = function CallAlert(_ref) {
   var _ref$message = _ref.message,
     id = _ref$message.id,
@@ -33,9 +33,7 @@ var CallAlert = function CallAlert(_ref) {
       "data-sign": "setAreaCode"
     }, areaCode) : areaCode;
     return /*#__PURE__*/_react["default"].createElement(_FormattedMessage["default"], {
-      message: _i18n["default"].getString(message, currentLocale)
-      // @ts-expect-error TS(2322): Type 'string | Element' is not assignable to type ... Remove this comment to see the full error message
-      ,
+      message: _i18n["default"].getString(message, currentLocale),
       values: {
         areaCodeLink: areaCodeLink
       }
@@ -60,7 +58,7 @@ CallAlert.defaultProps = {
 // @ts-expect-error TS(2339): Property 'handleMessage' does not exist on type 'S... Remove this comment to see the full error message
 CallAlert.handleMessage = function (_ref2) {
   var message = _ref2.message;
-  return message === _Call.callErrors.emergencyNumber || message === _Call.callErrors.noToNumber || message === _Call.callErrors.noAreaCode || message === _Call.callErrors.connectFailed || message === _Call.callErrors.internalError || message === _Call.callErrors.notAnExtension || message === _Call.callErrors.networkError || message === _Call.callErrors.noInternational || message === _Call.callErrors.noRingoutEnable || message === _Call.callErrors.numberParseError;
+  return message === _Call.callErrors.emergencyNumber || message === _Call.callErrors.noToNumber || message === _Call.callErrors.noAreaCode || message === _Call.callErrors.connectFailed || message === _Call.callErrors.internalError || message === _Call.callErrors.notAnExtension || message === _Call.callErrors.networkError || message === _Call.callErrors.noInternational || message === _Call.callErrors.noRingoutEnable || message === _Call.callErrors.numberParseError || message === _Call.callErrors.fromAndToNumberIsSame;
 };
 var _default = CallAlert;
 exports["default"] = _default;

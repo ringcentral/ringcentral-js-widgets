@@ -1,28 +1,26 @@
+import clsx from 'clsx';
 import React from 'react';
-
-import classnames from 'classnames';
 
 import AnswerIcon from '../../assets/images/Answer.svg';
 import EndIcon from '../../assets/images/End.svg';
 import HoldIcon from '../../assets/images/Hold.svg';
 import CircleButton from '../CircleButton';
+
 import styles from './styles.scss';
 
 type MultiCallAnswerButtonProps = {
   title: string;
   className?: string;
-  onClick: (...args: any[]) => any;
+  onClick: (...args: any[]) => void;
   isEndOtherCall?: boolean;
   width?: string;
   height?: string;
   x?: number;
   y?: number;
 };
-const MultiCallAnswerButton: React.SFC<MultiCallAnswerButtonProps> = (
-  props,
-) => {
+const MultiCallAnswerButton: React.FC<MultiCallAnswerButtonProps> = (props) => {
   const Icon = props.isEndOtherCall ? EndIcon : HoldIcon;
-  const iconClassName = classnames(
+  const iconClassName = clsx(
     styles.button,
     props.isEndOtherCall ? styles.endButton : '',
   );
@@ -59,7 +57,7 @@ const MultiCallAnswerButton: React.SFC<MultiCallAnswerButtonProps> = (
         height="250"
         x={200}
         y={110}
-        className={classnames(styles.button, styles.answer)}
+        className={clsx(styles.button, styles.answer)}
         showBorder={false}
         onClick={props.onClick}
         icon={AnswerIcon}

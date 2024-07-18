@@ -36,7 +36,7 @@ function _templateObject() {
   };
   return data;
 }
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+function _taggedTemplateLiteral(e, t) { return t || (t = e.slice(0)), Object.freeze(Object.defineProperties(e, { raw: { value: Object.freeze(t) } })); }
 var ScheduleButton = (0, _juno.styled)(_juno.RcButton)(_templateObject());
 exports.ScheduleButton = ScheduleButton;
 var MeetingScheduleButtonWrapper = _juno.styled.div(_templateObject2(), function (_ref) {

@@ -1,1 +1,1 @@
-{"version":3,"file":"en-US.js","names":["log","exports","_default"],"sources":["components/MessagesLogIcon/i18n/en-US.ts"],"sourcesContent":["export default {\n  log: 'Log',\n};\n"],"mappings":";;;;;;eAAe;EACbA,GAAG,EAAE;AACP,CAAC;AAAAC,OAAA,cAAAC,QAAA"}
+{"version":3,"file":"en-US.js","names":["log","exports","_default"],"sources":["components/MessagesLogIcon/i18n/en-US.ts"],"sourcesContent":["export default {\n  log: 'Log',\n} as const;\n"],"mappings":";;;;;;eAAe;EACbA,GAAG,EAAE;AACP,CAAC;AAAAC,OAAA,cAAAC,QAAA","ignoreList":[]}

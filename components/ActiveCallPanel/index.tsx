@@ -1,3 +1,4 @@
+import type { LastCallInfo } from '@ringcentral-integration/commons/modules/ConferenceCall';
 import React from 'react';
 
 import callCtrlLayouts from '../../enums/callCtrlLayouts';
@@ -6,6 +7,7 @@ import BackButton from '../BackButton';
 import BackHeader from '../BackHeader';
 import DurationCounter from '../DurationCounter';
 import Panel from '../Panel';
+
 import CallInfo from './CallInfo';
 import ConferenceInfo from './ConferenceInfo';
 import MergeInfo from './MergeInfo';
@@ -57,7 +59,7 @@ type ActiveCallPanelProps = {
   conferenceCallParties?: any[];
   conferenceCallEquipped?: boolean;
   hasConferenceCall?: boolean;
-  lastCallInfo?: object;
+  lastCallInfo?: LastCallInfo;
   getAvatarUrl?: (...args: any[]) => any;
   actions?: any[];
   controlBusy?: boolean;
@@ -65,8 +67,9 @@ type ActiveCallPanelProps = {
   isOnWaitingTransfer?: boolean;
   onCompleteTransfer?: (...args: any[]) => any;
   isOnTransfer?: boolean;
+  callerIdName?: string;
 };
-const ActiveCallPanel: React.SFC<ActiveCallPanelProps> = ({
+const ActiveCallPanel: React.FC<ActiveCallPanelProps> = ({
   showBackButton,
   backButtonLabel,
   onBackButtonClick,
@@ -119,6 +122,7 @@ const ActiveCallPanel: React.SFC<ActiveCallPanelProps> = ({
   getAvatarUrl,
   actions,
   controlBusy,
+  callerIdName,
   callQueueName,
   isOnTransfer,
   isOnWaitingTransfer,
@@ -175,8 +179,6 @@ const ActiveCallPanel: React.SFC<ActiveCallPanelProps> = ({
           fallBackName={fallBackName}
           phoneNumber={phoneNumber}
           formatPhone={formatPhone}
-          // @ts-expect-error TS(2322): Type '{ currentLocale: string; nameMatches: { name... Remove this comment to see the full error message
-          startTime={startTime}
           areaCode={areaCode}
           countryCode={countryCode}
           selectedMatcherIndex={selectedMatcherIndex}
@@ -188,6 +190,7 @@ const ActiveCallPanel: React.SFC<ActiveCallPanelProps> = ({
           phoneTypeRenderer={phoneTypeRenderer}
           phoneSourceNameRenderer={phoneSourceNameRenderer}
           callQueueName={callQueueName}
+          callerIdName={callerIdName}
         />
       );
       break;
@@ -281,6 +284,7 @@ ActiveCallPanel.defaultProps = {
   getAvatarUrl: () => null,
   actions: [],
   controlBusy: false,
+  callerIdName: undefined,
   // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   callQueueName: null,
   isOnWaitingTransfer: false,

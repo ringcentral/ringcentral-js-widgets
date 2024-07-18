@@ -1,6 +1,5 @@
+import { RcAlert, RcDatePicker, RcTypography } from '@ringcentral/juno';
 import React, { Component } from 'react';
-
-import { RcDatePicker, RcTypography } from '@ringcentral/juno';
 
 import { getDateFromUTCDay, setUTCTime } from '../../../lib/timeFormatHelper';
 import InputSelect from '../../InputSelect';
@@ -8,6 +7,7 @@ import type {
   CallLogFieldsProps,
   FieldMetadata,
 } from '../CallLogFields.interface';
+
 import type {
   FieldItemOption,
   FieldsMap,
@@ -134,7 +134,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
       ...foundFromServerEntities,
     ].find(currentOptionFinder(task));
     const disabledReference =
-      currentDisabled || shouldDisable(task) || disabled;
+      currentDisabled || shouldDisable(task, currentLog?.call) || disabled;
     const title = metadata.title || label;
     const rightIcon = rightIconRender
       ? rightIconRender(phoneNumber)
@@ -308,32 +308,51 @@ export class FieldItem extends Component<FieldItemProps, {}> {
         onChange,
         disabled: propsDisabled = false,
         placeholder,
+        controller,
       },
+      currentLog,
       onSave,
       onSelectListOpen = () => {},
     } = this.props;
 
-    const selectList = (picklistOptions || []).map((item) => {
-      let value: string = item as any;
-      let label = item !== null ? (item as any) : appDefaultValue;
-      let disabled = false;
-      let title;
+    const selectList = (picklistOptions || []).reduce<PickListOption[]>(
+      (acc, item) => {
+        if (
+          item &&
+          typeof item === 'object' &&
+          controller &&
+          currentLog?.task &&
+          item.validFor
+        ) {
+          // check for field dependency and filter out options that are not valid
+          if (!item.validFor.includes(currentLog.task[controller] as string)) {
+            return acc;
+          }
+        }
 
-      if (item instanceof Object) {
-        value = item.value;
-        label = item.label;
-        // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
-        disabled = item.disabled;
-        title = item?.title;
-      }
+        let value: string = item as any;
+        let label = item !== null ? (item as any) : appDefaultValue;
+        let disabled = false;
+        let title;
 
-      return {
-        label,
-        value,
-        disabled,
-        title,
-      };
-    });
+        if (item instanceof Object) {
+          value = item.value;
+          label = item.label;
+          // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
+          disabled = item.disabled;
+          title = item?.title;
+        }
+        acc.push({
+          label,
+          value,
+          disabled,
+          title,
+        });
+
+        return acc;
+      },
+      [],
+    );
 
     return (
       <SelectField
@@ -374,7 +393,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
       disabled: disableAllFields,
     } = this.props;
     // @ts-expect-error TS(2339): Property 'task' does not exist on type 'CallLog | ... Remove this comment to see the full error message
-    const { task, disableSaveLog } = currentLog;
+    const { task, disableSaveLog, disableUpdateLog } = currentLog;
     const options = [
       {
         // @ts-expect-error TS(2532): Object is possibly 'undefined'.
@@ -392,7 +411,8 @@ export class FieldItem extends Component<FieldItemProps, {}> {
           !task.tickets ||
           task.tickets?.length === 0 ||
           (task.matches?.length > 1 && !task.whoid) ||
-          disableAllFields
+          disableAllFields ||
+          disableUpdateLog
         ),
       },
     ];
@@ -442,6 +462,17 @@ export class FieldItem extends Component<FieldItemProps, {}> {
     );
   };
 
+  private renderAlert = () => {
+    const {
+      fieldOption: { label },
+      currentLog,
+    } = this.props;
+    if (!currentLog?.shouldPromoteAlert) {
+      return;
+    }
+    return <RcAlert icon>{label}</RcAlert>;
+  };
+
   // this is the dropdown to render ticket lists
   private renderTicketSelectList = () => {
     const { currentLog, fieldOption, disabled } = this.props;
@@ -468,7 +499,9 @@ export class FieldItem extends Component<FieldItemProps, {}> {
           labelClassName={styles.selectLabel}
           options={options}
           fullWidth
-          disabled={options.length === 0 || disabled}
+          disabled={
+            options.length === 0 || disabled || currentLog?.disableUpdateLog
+          }
           value={task.ticketId}
           label={label}
           onChange={(
@@ -537,6 +570,7 @@ export class FieldItem extends Component<FieldItemProps, {}> {
     long: this.renderInput,
     combobox: this.renderSubjectField,
     radio: this.renderRadio,
+    alert: this.renderAlert,
     // @ts-expect-error TS(2322): Type '() => JSX.Element | null' is not assignable ... Remove this comment to see the full error message
     ticketSelectList: this.renderTicketSelectList,
   };

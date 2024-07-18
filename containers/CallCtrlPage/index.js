@@ -10,8 +10,8 @@ Object.defineProperty(exports, "CallCtrlContainer", {
   }
 });
 exports["default"] = void 0;
-var _phoneContext = require("../../lib/phoneContext");
 var _CallCtrlContainer = require("../../components/CallCtrlContainer");
+var _phoneContext = require("../../lib/phoneContext");
 var CallCtrlPage = (0, _phoneContext.connectModule)(function (phone) {
   return phone.callControlUI;
 })(_CallCtrlContainer.CallCtrlContainer);

@@ -18,7 +18,7 @@ var _default = {
   showKeypad: "Teclado",
   hideKeypad: "Ocultar teclado de marcación",
   unHold: "Reanudar llamada",
-  forward: "Desviar",
+  forward: "Reenviar",
   ignore: "Ignorar",
   voicemail: "Al buzón de voz",
   custom: "Personalizado",
@@ -26,7 +26,9 @@ var _default = {
   answerAndHold: "Responder y poner en espera",
   answer: "Responder",
   completeTransfer: "Completar transferencia",
-  reply: "Responder"
+  reply: "Responder",
+  add: "Añadir",
+  mergeCall: "Combinar con la llamada activa"
 }; // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
 // @key: @#@"hangup"@#@ @source: @#@"Hang up"@#@
@@ -49,5 +51,7 @@ var _default = {
 // @key: @#@"answer"@#@ @source: @#@"Answer"@#@
 // @key: @#@"completeTransfer"@#@ @source: @#@"Complete transfer"@#@
 // @key: @#@"reply"@#@ @source: @#@"Reply"@#@
+// @key: @#@"add"@#@ @source: @#@"Add"@#@
+// @key: @#@"mergeCall"@#@ @source: @#@"Merge with active call"@#@
 exports["default"] = _default;
 //# sourceMappingURL=es-ES.js.map

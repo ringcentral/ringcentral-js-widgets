@@ -19,7 +19,7 @@ Notice: the media query(200px) is for salesforce classics mode
       font-size: 22px;
       color: #9e9e9e;
     }
-    @media screen and(max-width: 200px) {
+    @media screen and (max-width: 200px) {
       .callIcon {
         padding: 8px;
         > .iconSize {
@@ -49,7 +49,7 @@ Notice: the media query(200px) is for salesforce classics mode
       overflow: hidden;
       text-overflow: ellipsis;
     }
-    @media screen and(max-width: 200px) {
+    @media screen and (max-width: 200px) {
       .contactName {
         line-height: 16px;
         margin-bottom: 4px;
@@ -62,31 +62,32 @@ Notice: the media query(200px) is for salesforce classics mode
   .callActions {
     display: flex;
     margin-top: 12px;
-   .actionItem {
-     margin: 0 0 0 8px;
-   }
-   @media screen and (max-width: 200px) {
-     width: 100%;
-     // 33px = callIcon's size + callIcon's padding-right
-     margin-left: 33px;
-     .actionItem {
-       margin: 0 15px 0 0;
-     }
-     .logBtn > svg,.endBtn > svg {
-       width: 28px;
-       height: 28px;
-     }
-   }
+    .actionItem {
+      margin: 0 0 0 8px;
+    }
+    @media screen and (max-width: 200px) {
+      width: 100%;
+      // 33px = callIcon's size + callIcon's padding-right
+      margin-left: 33px;
+      .actionItem {
+        margin: 0 15px 0 0;
+      }
+      .logBtn > svg,
+      .endBtn > svg {
+        width: 28px;
+        height: 28px;
+      }
+    }
   }
 }
 
 .menuItem {
-  font-size: 14px!important;
-  line-height: 1.43!important;
-  letter-spacing: 0.15px!important;
-  color: #212121!important;
-  @media screen and (max-width: 200px){
-    font-size: 12px!important;
+  font-size: 14px !important;
+  line-height: 1.43 !important;
+  letter-spacing: 0.15px !important;
+  color: #212121 !important;
+  @media screen and (max-width: 200px) {
+    font-size: 12px !important;
     min-height: 35px;
   }
 }

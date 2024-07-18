@@ -13,6 +13,7 @@ export default {
   clickToSMS: 'Click to SMS',
   logSMSContent: 'Log SMS content',
   clickToDialSMS: 'Click to Dial/SMS',
+  logExtensionCall: 'Log extension calls',
   audio: 'Audio',
   language: 'Language',
   feedback: 'Feedback',
@@ -21,4 +22,7 @@ export default {
   report: 'Analytics Report',
   shareIdea: 'Share idea',
   reportIssue: 'Report issue',
-};
+  havingIssues: 'Having issues?',
+  selectToDialHint:
+    'For your better experience, select phone number to dial with RingCentral in large quantity phone number page.',
+} as const;

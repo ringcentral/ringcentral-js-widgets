@@ -11,7 +11,7 @@ Object.defineProperty(exports, "TabContentPanel", {
 });
 exports["default"] = void 0;
 var _TabContentPanel = _interopRequireDefault(require("./TabContentPanel"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var _default = _TabContentPanel["default"];
 exports["default"] = _default;
 //# sourceMappingURL=index.js.map

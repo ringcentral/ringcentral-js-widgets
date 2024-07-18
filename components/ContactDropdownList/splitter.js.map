@@ -1,1 +1,1 @@
-{"version":3,"file":"splitter.js","names":["splitter","exports"],"sources":["components/ContactDropdownList/splitter.ts"],"sourcesContent":["export const splitter = '|';\n"],"mappings":";;;;;;AAAO,IAAMA,QAAQ,GAAG,GAAG;AAACC,OAAA,CAAAD,QAAA,GAAAA,QAAA"}
+{"version":3,"file":"splitter.js","names":["splitter","exports"],"sources":["components/ContactDropdownList/splitter.ts"],"sourcesContent":["export const splitter = '|';\n"],"mappings":";;;;;;AAAO,IAAMA,QAAQ,GAAG,GAAG;AAACC,OAAA,CAAAD,QAAA,GAAAA,QAAA","ignoreList":[]}

@@ -37,8 +37,7 @@ export default {
   today: "Hoje",
   scheduleForGuidance: "Agendando para outra pessoa?\n1. Certifique-se de que você está no Calendário do Outlook dela.\n2. No menu suspenso, selecione a pessoa para quem você está agendando.\n",
   scheduleForGuidanceMore: "Ver detalhes",
-  changePmiSettings: "Alterar configurações da reunião pessoal",
-  ieSupportAlert: "Observação: a partir do dia 16 de fevereiro de 2022, o {appName} não funcionará mais com o Internet Explorer 11. Recomendamos alternar para o Microsoft Edge ou atualizar para o Outlook 2016 ou superior."
+  changePmiSettings: "Alterar configurações da reunião pessoal"
 };
 
 // @key: @#@"topic"@#@ @source: @#@"Meeting title"@#@
@@ -79,4 +78,3 @@ export default {
 // @key: @#@"scheduleForGuidance"@#@ @source: @#@"Scheduling for someone else?\n1. Make sure you're on their Outlook calendar.\n2. From the dropdown, select the person you're scheduling for.\n"@#@
 // @key: @#@"scheduleForGuidanceMore"@#@ @source: @#@"Learn details"@#@
 // @key: @#@"changePmiSettings"@#@ @source: @#@"Change Personal Meeting settings"@#@
-// @key: @#@"ieSupportAlert"@#@ @source: @#@"Please note that {appName} won't work with Internet Explorer 11 after Feb 16, 2022. We recommend switching to Microsoft Edge or updating to Outlook 2016 or above."@#@

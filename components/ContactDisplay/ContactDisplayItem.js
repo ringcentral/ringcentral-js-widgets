@@ -4,10 +4,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.ContactDisplayItem = void 0;
-var _react = _interopRequireDefault(require("react"));
 var _phoneSources = require("@ringcentral-integration/commons/enums/phoneSources");
+var _react = _interopRequireDefault(require("react"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var ContactDisplayItem = function ContactDisplayItem(_ref) {
   var entityName = _ref.entityName,
     entityType = _ref.entityType,

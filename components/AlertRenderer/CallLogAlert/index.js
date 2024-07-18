@@ -4,10 +4,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = CallLogAlert;
-var _propTypes = _interopRequireDefault(require("prop-types"));
 var _callLogMessages = _interopRequireDefault(require("@ringcentral-integration/commons/enums/callLogMessages"));
+var _propTypes = _interopRequireDefault(require("prop-types"));
 var _i18n = _interopRequireDefault(require("./i18n"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 function CallLogAlert(_ref) {
   var message = _ref.message.message,
     currentLocale = _ref.currentLocale;

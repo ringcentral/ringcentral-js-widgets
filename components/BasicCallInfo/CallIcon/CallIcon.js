@@ -8,7 +8,7 @@ var _react = _interopRequireDefault(require("react"));
 var _InboundCall = _interopRequireDefault(require("../../../assets/images/InboundCall.svg"));
 var _OutboundCall = _interopRequireDefault(require("../../../assets/images/OutboundCall.svg"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var CallIcon = function CallIcon(_ref) {
   var title = _ref.title,
     isInbound = _ref.isInbound;

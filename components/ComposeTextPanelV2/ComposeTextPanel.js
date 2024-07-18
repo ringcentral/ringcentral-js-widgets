@@ -14,9 +14,9 @@ var _NoSenderAlert = _interopRequireDefault(require("../ComposeTextPanel/NoSende
 var _MessageInput = _interopRequireDefault(require("../MessageInput"));
 var _SpinnerOverlay = require("../SpinnerOverlay");
 var _styles = require("./styles");
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; } // TODO: Re implement this component by function component
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; } // TODO: Re implement this component by function component
 var ComposeTextPanel = function ComposeTextPanel(_ref) {
   var showSpinner = _ref.showSpinner,
     currentLocale = _ref.currentLocale,
@@ -43,7 +43,9 @@ var ComposeTextPanel = function ComposeTextPanel(_ref) {
     updateSenderNumber = _ref.updateSenderNumber,
     cleanTypingToNumber = _ref.cleanTypingToNumber,
     removeToNumber = _ref.removeToNumber,
-    detectPhoneNumbers = _ref.detectPhoneNumbers;
+    detectPhoneNumbers = _ref.detectPhoneNumbers,
+    contactSearch = _ref.contactSearch,
+    triggerEventTracking = _ref.triggerEventTracking;
   var hasSenderNumbers = senderNumbers.length > 0;
   var hasPersonalRecipient = toNumbers.some(function (x) {
     return x && x.type !== 'company';
@@ -75,9 +77,10 @@ var ComposeTextPanel = function ComposeTextPanel(_ref) {
       return _ref2.apply(this, arguments);
     };
   }();
-  return /*#__PURE__*/_react["default"].createElement(_styles.Root, null, showSpinner && /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, null), /*#__PURE__*/_react["default"].createElement(_CommunicationSetupPanel.CommunicationSetupPanel
-  // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
-  , {
+  return /*#__PURE__*/_react["default"].createElement(_styles.Root, null, showSpinner && /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, null), /*#__PURE__*/_react["default"].createElement(_CommunicationSetupPanel.CommunicationSetupPanel, {
+    triggerEventTracking: triggerEventTracking
+    // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
+    ,
     toNumber: typingToNumber,
     onToNumberChange: updateTypingToNumber,
     directlyProceedType: "message",
@@ -96,7 +99,9 @@ var ComposeTextPanel = function ComposeTextPanel(_ref) {
     formatPhone: formatPhone,
     changeFromNumber: updateSenderNumber,
     showFromField: hasSenderNumbers,
-    inputFullWidth: !!hintInfo
+    inputFullWidth: !!hintInfo,
+    ContactSearch: contactSearch,
+    filterCallQueueExtension: true
   }, /*#__PURE__*/_react["default"].createElement(_NoSenderAlert["default"], {
     currentLocale: currentLocale,
     showAlert: showAlert,

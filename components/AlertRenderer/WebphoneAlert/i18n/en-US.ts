@@ -39,4 +39,4 @@ export default {
     'Sorry, something went wrong on our end. If the error persists, report this error to {brandName} support.',
   registeringWithoutStatusCode:
     'Sorry, something went wrong. We are trying to reconnect. If the problem persists, please report this error to {brandName} support.',
-};
+} as const;

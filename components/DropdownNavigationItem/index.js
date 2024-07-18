@@ -4,10 +4,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+var _clsx = _interopRequireDefault(require("clsx"));
 var _react = _interopRequireDefault(require("react"));
-var _classnames = _interopRequireDefault(require("classnames"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var DropdownNavigationItem = function DropdownNavigationItem(_ref) {
   var icon = _ref.icon,
     activeIcon = _ref.activeIcon,
@@ -36,9 +36,9 @@ var DropdownNavigationItem = function DropdownNavigationItem(_ref) {
     title: title || label,
     "data-sign": dataSign,
     onClick: onClick,
-    className: (0, _classnames["default"])(_styles["default"].root, active && _styles["default"].active, isReverseFillIcon && _styles["default"].reverseFillIcon)
+    className: (0, _clsx["default"])(_styles["default"].root, active && _styles["default"].active, isReverseFillIcon && _styles["default"].reverseFillIcon)
   }, /*#__PURE__*/_react["default"].createElement("div", {
-    className: (0, _classnames["default"])(_styles["default"].iconHolder, styleClass)
+    className: (0, _clsx["default"])(_styles["default"].iconHolder, styleClass)
   }, active ? activeIcon : icon), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].labelHolder
   }, label), notice);

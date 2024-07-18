@@ -1,13 +1,13 @@
+import clsx from 'clsx';
 import type { FunctionComponent } from 'react';
 import React from 'react';
-
-import classnames from 'classnames';
 
 import OvalLoading from '../../assets/images/OvalLoading.svg';
 import RetryIcon from '../../assets/images/RetryIcon.svg';
 import { connectivityTypes } from '../../modules/ConnectivityManager';
 import Badge from '../Badge';
 import Draggable from '../Draggable';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 
@@ -38,7 +38,8 @@ const ConnectivityBadge: FunctionComponent<ConnectivityBadgeProps> = ({
   if (isWebphoneConnecting) {
     view = (
       <Badge
-        className={classnames(className, styles.badge, styles.loading)}
+        dataSign={'ConnectivityBadge'}
+        className={clsx(className, styles.badge, styles.loading)}
         name={i18n.getString(mode, currentLocale)}
       >
         {i18n.getString(connectivityTypes.connecting, currentLocale)}
@@ -48,7 +49,8 @@ const ConnectivityBadge: FunctionComponent<ConnectivityBadgeProps> = ({
   } else {
     view = (
       <Badge
-        className={classnames(className, styles.badge, styles.result)}
+        dataSign={'ConnectivityBadge'}
+        className={clsx(className, styles.badge, styles.result)}
         name={i18n.getString(mode, currentLocale)}
       >
         {i18n.getString(mode, currentLocale)}

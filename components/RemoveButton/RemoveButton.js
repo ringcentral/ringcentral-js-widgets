@@ -4,12 +4,12 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.RemoveButton = void 0;
+var _clsx = _interopRequireDefault(require("clsx"));
 var _react = _interopRequireDefault(require("react"));
-var _classnames = _interopRequireDefault(require("classnames"));
 var _DeleteCircle = _interopRequireDefault(require("../../assets/images/DeleteCircle.svg"));
 var _RemoveIcon = _interopRequireDefault(require("../../assets/images/RemoveIcon.svg"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var RemoveButton = function RemoveButton(_ref) {
   var className = _ref.className,
     onClick = _ref.onClick,
@@ -18,7 +18,7 @@ var RemoveButton = function RemoveButton(_ref) {
     showWarningIcon = _ref$showWarningIcon === void 0 ? false : _ref$showWarningIcon;
   return /*#__PURE__*/_react["default"].createElement("span", {
     "data-sign": "removeBtn",
-    className: (0, _classnames["default"])(_styles["default"].container, className, !visibility && _styles["default"].hideRemoveButton)
+    className: (0, _clsx["default"])(_styles["default"].container, className, !visibility && _styles["default"].hideRemoveButton)
     // @ts-expect-error TS(2322): Type '((ev: MouseEvent<Element, MouseEvent>) => vo... Remove this comment to see the full error message
     ,
     onClick: visibility ? onClick : null

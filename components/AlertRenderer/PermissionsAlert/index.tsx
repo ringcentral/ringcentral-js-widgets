@@ -1,8 +1,8 @@
+import { permissionsMessages } from '@ringcentral-integration/commons/enums/permissionsMessages';
 import React from 'react';
 
-import { permissionsMessages } from '@ringcentral-integration/commons/enums/permissionsMessages';
-
 import FormattedMessage from '../../FormattedMessage';
+
 import i18n from './i18n';
 
 type PermissionsAlertProps = {
@@ -13,7 +13,7 @@ type PermissionsAlertProps = {
   application?: string;
   currentLocale: string;
 };
-export const PermissionsAlert: React.SFC<PermissionsAlertProps> = ({
+export const PermissionsAlert: React.FC<PermissionsAlertProps> = ({
   message: { message },
   currentLocale,
   brand,
@@ -25,7 +25,6 @@ export const PermissionsAlert: React.SFC<PermissionsAlertProps> = ({
       msg = (
         <FormattedMessage
           message={i18n.getString(message, currentLocale)}
-          // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
           values={{ brand, application }}
         />
       );

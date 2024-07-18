@@ -1,14 +1,14 @@
+import clsx from 'clsx';
 import type { FunctionComponent } from 'react';
 import React from 'react';
-
-import classnames from 'classnames';
 
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import { Eula } from '../Eula';
 import IconLine from '../IconLine';
 import Line from '../Line';
-import i18n from './i18n';
+
 import type { FooterProps } from './SettingsPanel.interface';
+import i18n from './i18n';
 import styles from './styles.scss';
 
 export const Footer: FunctionComponent<FooterProps> = ({
@@ -20,6 +20,8 @@ export const Footer: FunctionComponent<FooterProps> = ({
   eulaLabel,
   eulaLink,
   onEulaLinkClick,
+  privacyNoticeLabel,
+  privacyNoticeLink,
 }) => {
   const versionArea = versionContainer || (
     <div className={styles.versionContainer} data-sign="version">
@@ -39,6 +41,16 @@ export const Footer: FunctionComponent<FooterProps> = ({
             onClick={onEulaLinkClick}
           />
         </Line>
+        {privacyNoticeLink && privacyNoticeLabel && (
+          <Line noBorder>
+            <Eula
+              dataSign="privacyNotice"
+              currentLocale={currentLocale}
+              link={privacyNoticeLink}
+              label={privacyNoticeLabel}
+            />
+          </Line>
+        )}
       </section>
       <section className={styles.section}>
         <IconLine
@@ -46,9 +58,7 @@ export const Footer: FunctionComponent<FooterProps> = ({
           dataSign="logoutButton"
           onClick={onLogoutButtonClick}
           icon={
-            <span
-              className={classnames(styles.logoutIcon, dynamicsFont.logout)}
-            />
+            <span className={clsx(styles.logoutIcon, dynamicsFont.logout)} />
           }
         >
           <div style={{ display: 'inline-flex', flexDirection: 'column' }}>

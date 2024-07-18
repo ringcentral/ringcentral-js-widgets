@@ -1,7 +1,6 @@
+import { phoneSources } from '@ringcentral-integration/commons/enums/phoneSources';
 import type { ComponentType } from 'react';
 import React from 'react';
-
-import { phoneSources } from '@ringcentral-integration/commons/enums/phoneSources';
 
 import styles from './styles.scss';
 

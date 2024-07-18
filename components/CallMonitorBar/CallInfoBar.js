@@ -8,7 +8,7 @@ var _react = _interopRequireDefault(require("react"));
 var _Button = require("../Button");
 var _i18n = _interopRequireDefault(require("./i18n"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var CallInfoBar = function CallInfoBar(_ref) {
   var _ref$label = _ref.label,
     label = _ref$label === void 0 ? '' : _ref$label,

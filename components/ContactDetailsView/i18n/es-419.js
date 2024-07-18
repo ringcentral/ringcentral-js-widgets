@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 var _default = {
   contactDetails: "Detalles de contacto",
-  loadingContact: "Cargando contacto...",
+  loadingContact: "Cargando contacto…",
   contactNotFound: "No se pudo encontrar el contacto."
 }; // @key: @#@"contactDetails"@#@ @source: @#@"Contact Details"@#@
 // @key: @#@"loadingContact"@#@ @source: @#@"Loading contact..."@#@

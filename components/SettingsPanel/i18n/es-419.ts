@@ -6,7 +6,7 @@ export default {
   settings: "Configuración",
   clickToDial: "Haga clic para marcar",
   autoCreateLog: "Crear registro de llamadas automáticamente",
-  autoCreateSMSLog: "Crear registro de mensajes automáticamente",
+  autoCreateSMSLog: "Crear registro de SMS automáticamente",
   autoLogCalls: "Registrar llamadas automáticamente",
   autoLogNotes: "Registrar notas automáticamente",
   autoLogSMS: "Registrar SMS automáticamente",
@@ -20,7 +20,8 @@ export default {
   quickAccess: "Configuración de acceso rápido",
   report: "Informe de análisis",
   shareIdea: "Compartir una idea",
-  reportIssue: "Informar problema"
+  reportIssue: "Informar problema",
+  havingIssues: "¿Tiene problemas?"
 };
 
 // @key: @#@"region"@#@ @source: @#@"Region"@#@
@@ -45,3 +46,4 @@ export default {
 // @key: @#@"report"@#@ @source: @#@"Analytics Report"@#@
 // @key: @#@"shareIdea"@#@ @source: @#@"Share idea"@#@
 // @key: @#@"reportIssue"@#@ @source: @#@"Report issue"@#@
+// @key: @#@"havingIssues"@#@ @source: @#@"Having issues?"@#@

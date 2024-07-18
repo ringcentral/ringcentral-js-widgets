@@ -1,5 +1,5 @@
 export default {
-  download: "Scarica",
+  download: "Download",
   play: "Riproduci",
   pause: "Metti in pausa"
 };

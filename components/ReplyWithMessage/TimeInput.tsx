@@ -1,6 +1,5 @@
-import React from 'react';
-
 import { RcBox, RcButton, spacing, styled, useTheme } from '@ringcentral/juno';
+import React from 'react';
 
 import i18n from './i18n';
 import styles from './styles.scss';

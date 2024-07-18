@@ -10,4 +10,4 @@ export default {
   nl: 'Dutch',
   ko: 'Korean',
   fi: 'Suomi',
-};
+} as const;

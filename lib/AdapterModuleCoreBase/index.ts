@@ -1,15 +1,15 @@
 // @ts-nocheck TODO: should fixed that ts issues
-
 import moduleStatuses from '@ringcentral-integration/commons/enums/moduleStatuses';
+import RcModule from '@ringcentral-integration/commons/lib/RcModule';
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import ensureExist from '@ringcentral-integration/commons/lib/ensureExist';
 import { getModuleStatusReducer } from '@ringcentral-integration/commons/lib/getModuleStatusReducer';
 import { proxify } from '@ringcentral-integration/commons/lib/proxy/proxify';
-import RcModule from '@ringcentral-integration/commons/lib/RcModule';
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
 import { baseMessageTypes } from '../AdapterCore/baseMessageTypes';
 import IframeMessageTransport from '../IframeMessageTransport';
+
 import { baseActionTypes } from './baseActionTypes';
 import getDefaultGlobalStorageReducer from './getDefaultGlobalStorageReducer';
 

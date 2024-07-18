@@ -4,7 +4,7 @@ export const HelpTextSectionWrapper = styled.div<{ isLoading: boolean }>`
   display: flex;
   flex-direction: column;
   margin: ${spacing(3)} 0;
-  text-align: ${({ isLoading }) => (isLoading ? 'center' : 'left')}; ;
+  text-align: ${({ isLoading }) => (isLoading ? 'center' : 'left')};
 `;
 
 export const StyledHintsTitle = styled(RcText)`

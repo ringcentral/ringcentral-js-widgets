@@ -3,6 +3,7 @@ import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 export const TabsEnum = ObjectMap.fromKeys([
   'personal',
   'company',
+  'other',
   'thirdParty',
 ]);
 

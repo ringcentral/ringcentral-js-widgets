@@ -3,10 +3,11 @@ import React, { useEffect, useState } from 'react';
 
 import type { SelectListBasicProps } from '../SelectListBasic';
 import { SelectListBasic } from '../SelectListBasic';
+
 import type { ListViewProps } from './ListView';
 import { ListView } from './ListView';
-import styles from './styles.scss';
 import { WithScrollCheck } from './WithScrollCheck';
+import styles from './styles.scss';
 
 const SelectListBasicWithScrollCheck: FunctionComponent<SelectListBasicProps> =
   WithScrollCheck(SelectListBasic);

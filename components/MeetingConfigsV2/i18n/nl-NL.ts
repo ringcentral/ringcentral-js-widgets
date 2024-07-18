@@ -38,8 +38,7 @@ export default {
   pmiSettingChangeAlert: "Als u de instellingen wijzigt en deze meetings plant, gebruiken alle meetings met persoonlijke meeting-ID dezelfde nieuwe instellingen.",
   lockedTooltip: "Deze instelling wordt beheerd door uw bedrijfsbeheerder",
   when: "Wanneer",
-  recurringDescribe: "Vergeet niet om terugkeren of herhaling aan te vinken in uw agenda-uitnodiging voor uw bezoekers.",
-  ieSupportAlert: "Houd er rekening mee dat na 16 februari 2022 {appName} niet werkt met Internet Explorer 11. We raden aan over te schakelen naar Microsoft Edge of te updaten naar Outlook 2016 of hoger."
+  recurringDescribe: "Vergeet niet om terugkeren of herhaling aan te vinken in uw agenda-uitnodiging voor uw bezoekers."
 };
 
 // @key: @#@"date"@#@ @source: @#@"Date"@#@
@@ -81,4 +80,3 @@ export default {
 // @key: @#@"lockedTooltip"@#@ @source: @#@"This setting is managed by your company admin"@#@
 // @key: @#@"when"@#@ @source: @#@"When"@#@
 // @key: @#@"recurringDescribe"@#@ @source: @#@"Please remember to check recurrence or repeat in your calendar invitation to your attendees."@#@
-// @key: @#@"ieSupportAlert"@#@ @source: @#@"Please note that {appName} won't work with Internet Explorer 11 after Feb 16, 2022. We recommend switching to Microsoft Edge or updating to Outlook 2016 or above."@#@

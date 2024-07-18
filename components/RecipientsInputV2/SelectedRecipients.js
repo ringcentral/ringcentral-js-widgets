@@ -6,11 +6,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.SelectedRecipients = void 0;
+var _clsx = _interopRequireDefault(require("clsx"));
 var _react = _interopRequireDefault(require("react"));
-var _classnames = _interopRequireDefault(require("classnames"));
 var _RemoveButton = require("../RemoveButton");
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var Recipient = function Recipient(_ref) {
   var phoneNumber = _ref.phoneNumber,
     _ref$name = _ref.name,
@@ -40,7 +40,7 @@ var SelectedRecipients = function SelectedRecipients(_ref2) {
   if (recipients.length) {
     return /*#__PURE__*/_react["default"].createElement("ul", {
       "data-sign": "recipientsList",
-      className: (0, _classnames["default"])(className, _styles["default"].selectReceivers)
+      className: (0, _clsx["default"])(className, _styles["default"].selectReceivers)
     }, recipients.map(function (item) {
       return /*#__PURE__*/_react["default"].createElement(Recipient, {
         key: item.phoneNumber,

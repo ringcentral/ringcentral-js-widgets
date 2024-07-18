@@ -1,11 +1,10 @@
-import React, { Component } from 'react';
-
-import classnames from 'classnames';
-
 import debounce from '@ringcentral-integration/commons/lib/debounce';
+import clsx from 'clsx';
+import React, { Component } from 'react';
 
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import { CallAvatar } from '../CallAvatar';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 
@@ -158,7 +157,7 @@ class ConferenceInfo extends Component<
         {displayedProfiles.length || (avatarCount === 0 && remains > 0) ? (
           <div
             data-sign="conferenceInfo"
-            className={classnames(styles.avatarContainer, styles.clickable)}
+            className={clsx(styles.avatarContainer, styles.clickable)}
             onClick={(e) => {
               e.preventDefault();
               // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
@@ -173,7 +172,7 @@ class ConferenceInfo extends Component<
               ),
             )}
             {remains > 0 ? (
-              <div className={classnames(styles.avatar, styles.remains)}>
+              <div className={clsx(styles.avatar, styles.remains)}>
                 {`+${remains}`}
               </div>
             ) : null}
@@ -181,7 +180,7 @@ class ConferenceInfo extends Component<
         ) : (
           <div className={styles.avatarContainer}>
             <div className={styles.avatar} style={{ backgroundColor: '#fff' }}>
-              <i className={classnames(dynamicsFont.portrait, styles.icon)} />
+              <i className={clsx(dynamicsFont.portrait, styles.icon)} />
             </div>
           </div>
         )}

@@ -1,9 +1,9 @@
+import { RcMenu, RcPresence, spacing, styled } from '@ringcentral/juno';
 import type { FunctionComponent } from 'react';
 import React, { useState } from 'react';
 
-import { RcMenu, RcPresence, spacing, styled } from '@ringcentral/juno';
-
 import { getPresenceStatusName } from '../../lib/getPresenceStatusName';
+
 import { usePresenceItems } from './usePresenceItems';
 
 const Wrapper = styled.div`
@@ -14,6 +14,10 @@ const Wrapper = styled.div`
   padding-left: ${spacing(5)};
   z-index: 2;
   cursor: pointer;
+
+  ${RcPresence} {
+    box-sizing: content-box;
+  }
 `;
 
 export type PresenceDropdownProps = {

@@ -1,6 +1,3 @@
-import type { FunctionComponent } from 'react';
-import React, { useRef } from 'react';
-
 import type { RcVMeetingModel } from '@ringcentral-integration/commons/interfaces/Rcv.model';
 import type {
   AUTH_USER,
@@ -14,11 +11,14 @@ import type {
   RcDatePickerSize,
   RcTimePickerSize,
 } from '@ringcentral/juno';
+import type { FunctionComponent } from 'react';
+import React, { useRef } from 'react';
 
 import type { TopicRef } from '../InnerTopic';
 import { Topic } from '../InnerTopic';
-import styles from './styles.scss';
+
 import { VideoConfig } from './VideoConfig';
+import styles from './styles.scss';
 
 /** @deprecated */
 export const VideoPanel: FunctionComponent<VideoPanelProps> = ({

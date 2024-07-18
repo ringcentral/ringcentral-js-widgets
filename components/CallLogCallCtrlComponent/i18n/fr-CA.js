@@ -26,7 +26,9 @@ var _default = {
   answerAndHold: "Répondre et mettre en attente",
   answer: "Répondre",
   completeTransfer: "Exécuter le transfert",
-  reply: "Répondre"
+  reply: "Répondre",
+  add: "Ajouter",
+  mergeCall: "Fusionner avec l’appel en cours"
 }; // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
 // @key: @#@"hangup"@#@ @source: @#@"Hang up"@#@
@@ -49,5 +51,7 @@ var _default = {
 // @key: @#@"answer"@#@ @source: @#@"Answer"@#@
 // @key: @#@"completeTransfer"@#@ @source: @#@"Complete transfer"@#@
 // @key: @#@"reply"@#@ @source: @#@"Reply"@#@
+// @key: @#@"add"@#@ @source: @#@"Add"@#@
+// @key: @#@"mergeCall"@#@ @source: @#@"Merge with active call"@#@
 exports["default"] = _default;
 //# sourceMappingURL=fr-CA.js.map

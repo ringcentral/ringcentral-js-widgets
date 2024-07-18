@@ -1,8 +1,8 @@
+import clsx from 'clsx';
 import React from 'react';
 
-import classnames from 'classnames';
-
 import { Button } from '../Button';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 
@@ -12,16 +12,16 @@ type SaveButtonProps = {
   disabled?: boolean;
   onClick?: (...args: any[]) => any;
 };
-const SaveButton: React.SFC<SaveButtonProps> = ({
+export const SaveButton: React.FC<SaveButtonProps> = ({
   className,
   currentLocale,
-  disabled,
+  disabled = false,
   onClick,
 }) => {
   return (
     <Button
       dataSign="saveButton"
-      className={classnames(
+      className={clsx(
         styles.root,
         disabled ? styles.disabled : null,
         className,
@@ -33,9 +33,5 @@ const SaveButton: React.SFC<SaveButtonProps> = ({
     </Button>
   );
 };
-SaveButton.defaultProps = {
-  className: undefined,
-  disabled: false,
-  onClick: undefined,
-};
+
 export default SaveButton;

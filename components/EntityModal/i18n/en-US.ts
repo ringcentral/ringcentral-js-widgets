@@ -6,4 +6,4 @@ export default {
   case: 'Case',
   chooseEntity: 'Please select entity type',
   create: 'Create',
-};
+} as const;

@@ -1,9 +1,9 @@
+import clsx from 'clsx';
 import React, { Component } from 'react';
-
-import classnames from 'classnames';
 
 import { handleCopy } from '../../lib/handleCopy';
 import { Button } from '../Button';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 
@@ -47,7 +47,7 @@ class CopyToClipboard extends Component<CopyToClipboardProps, {}> {
       <Button
         disabled={disabled}
         dataSign="copyToClipboard"
-        className={classnames(styles.primaryButton, buttonClassName)}
+        className={clsx(styles.primaryButton, buttonClassName)}
         onClick={() => this.executeCopy()}
       >
         {buttonText || i18n.getString('copyToClipboard', currentLocale)}

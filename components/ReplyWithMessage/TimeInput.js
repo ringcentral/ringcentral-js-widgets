@@ -7,11 +7,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.TimeInput = exports.MINS = exports.HOURS = exports.DAYS = void 0;
-var _react = _interopRequireDefault(require("react"));
 var _juno = require("@ringcentral/juno");
+var _react = _interopRequireDefault(require("react"));
 var _i18n = _interopRequireDefault(require("./i18n"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 function _templateObject() {
   var data = _taggedTemplateLiteral(["\n  && {\n    box-shadow: none;\n  }\n"]);
   _templateObject = function _templateObject() {
@@ -19,7 +19,7 @@ function _templateObject() {
   };
   return data;
 }
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+function _taggedTemplateLiteral(e, t) { return t || (t = e.slice(0)), Object.freeze(Object.defineProperties(e, { raw: { value: Object.freeze(t) } })); }
 var MINS = 0;
 exports.MINS = MINS;
 var HOURS = 1;

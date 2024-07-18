@@ -13,8 +13,8 @@ Object.defineProperty(exports, "i18n", {
     return _i18n["default"];
   }
 });
-var _i18n = _interopRequireDefault(require("./i18n"));
 var _RecipientsInput = _interopRequireDefault(require("./RecipientsInput"));
+var _i18n = _interopRequireDefault(require("./i18n"));
 var _SelectedRecipientItem = require("./SelectedRecipientItem");
 Object.keys(_SelectedRecipientItem).forEach(function (key) {
   if (key === "default" || key === "__esModule") return;
@@ -51,7 +51,7 @@ Object.keys(_focusCampo).forEach(function (key) {
     }
   });
 });
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var _default = _RecipientsInput["default"];
 exports["default"] = _default;
 //# sourceMappingURL=index.js.map

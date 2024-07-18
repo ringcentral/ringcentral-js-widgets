@@ -12,10 +12,11 @@ var _AudioSettingsAlert = _interopRequireDefault(require("./AudioSettingsAlert")
 var _AuthAlert = _interopRequireDefault(require("./AuthAlert"));
 var _CallAlert = require("./CallAlert");
 var _CallControlAlert = _interopRequireDefault(require("./CallControlAlert"));
-var _CallingSettingsAlert = require("./CallingSettingsAlert");
 var _CallLogAlert = _interopRequireDefault(require("./CallLogAlert"));
+var _CallingSettingsAlert = require("./CallingSettingsAlert");
 var _ConferenceCallAlert = _interopRequireDefault(require("./ConferenceCallAlert"));
 var _ConnectivityAlert = _interopRequireDefault(require("./ConnectivityAlert"));
+var _IssueTrackingAlert = _interopRequireDefault(require("./IssueTrackingAlert"));
 var _MeetingAlert = _interopRequireDefault(require("./MeetingAlert"));
 var _MessageSenderAlert = _interopRequireDefault(require("./MessageSenderAlert"));
 var _MessageStoreAlert = _interopRequireDefault(require("./MessageStoreAlert"));
@@ -23,8 +24,8 @@ var _PermissionsAlert = require("./PermissionsAlert");
 var _RateExceededAlert = _interopRequireDefault(require("./RateExceededAlert"));
 var _RegionSettingsAlert = require("./RegionSettingsAlert");
 var _WebphoneAlert = _interopRequireDefault(require("./WebphoneAlert"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
+function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) { ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } } return n; }, _extends.apply(null, arguments); }
 var AlertRenderer = function AlertRenderer(_ref) {
   var alert = _ref.alert,
     brand = _ref.brand,
@@ -86,6 +87,15 @@ var AlertRenderer = function AlertRenderer(_ref) {
         }));
       };
     }
+    // @ts-expect-error TS(2339): Property 'handleMessage' does not exist on type 'F... Remove this comment to see the full error message
+    if (_IssueTrackingAlert["default"].handleMessage(message)) {
+      return function (props) {
+        return /*#__PURE__*/_react["default"].createElement(_IssueTrackingAlert["default"], _extends({}, props, {
+          brand: brand.name
+        }));
+      };
+    }
+
     // @ts-expect-error TS(2339): Property 'handleMessage' does not exist on type 'F... Remove this comment to see the full error message
     if (_MessageSenderAlert["default"].handleMessage(message)) {
       return function (props) {
@@ -167,7 +177,9 @@ var AlertRenderer = function AlertRenderer(_ref) {
         return /*#__PURE__*/_react["default"].createElement(_CallControlAlert["default"], props);
       };
     }
-    return undefined;
+    return function () {
+      return null;
+    };
   };
 };
 exports.AlertRenderer = AlertRenderer;

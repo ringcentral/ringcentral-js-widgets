@@ -1,7 +1,6 @@
-import { filter, find, values } from 'ramda';
-
 import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 import type { NormalizedSession } from '@ringcentral-integration/commons/interfaces/Webphone.interface';
+import { getWebphoneSessionDisplayName } from '@ringcentral-integration/commons/lib/callLogHelpers';
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import { formatNumber } from '@ringcentral-integration/commons/lib/formatNumber';
 import { callingModes } from '@ringcentral-integration/commons/modules/CallingSettings';
@@ -9,13 +8,15 @@ import type {
   ConferenceCall,
   LastCallInfo,
 } from '@ringcentral-integration/commons/modules/ConferenceCall';
-import { sessionStatus } from '@ringcentral-integration/commons/modules/Webphone/sessionStatus';
 import type { Webphone } from '@ringcentral-integration/commons/modules/Webphone';
+import { sessionStatus } from '@ringcentral-integration/commons/modules/Webphone/sessionStatus';
 import { RcUIModuleV2, computed } from '@ringcentral-integration/core';
 import type { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
+import { filter, find, values } from 'ramda';
 
 import callCtrlLayouts from '../../enums/callCtrlLayouts';
 import { checkShouldHidePhoneNumber } from '../../lib/checkShouldHidePhoneNumber';
+
 import type {
   CallControlComponentProps,
   Deps,
@@ -42,8 +43,8 @@ import { getLastCallInfoFromWebphoneSession } from './CallControlUI.interface';
     { dep: 'RouterInteraction', optional: true },
   ],
 })
-export class CallControlUI extends RcUIModuleV2<Deps> {
-  constructor(deps: Deps) {
+export class CallControlUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
+  constructor(deps: T) {
     super({
       deps,
     });
@@ -88,9 +89,14 @@ export class CallControlUI extends RcUIModuleV2<Deps> {
     );
   }
 
+  get callerIdName() {
+    return getWebphoneSessionDisplayName(this.currentSession as any);
+  }
+
   getUIProps({
     params,
     showCallQueueName = false,
+    showCallerIdName = false,
     showPark = false,
     children,
   }: CallControlComponentProps) {
@@ -152,8 +158,10 @@ export class CallControlUI extends RcUIModuleV2<Deps> {
       const warmTransferSession = this._deps.webphone.sessions.find(
         (session) => session.id === this.currentSession.warmTransferSessionId,
       );
-      // @ts-expect-error TS(2345): Argument of type 'NormalizedSession | undefined' i... Remove this comment to see the full error message
-      lastCallInfo = getLastCallInfoFromWebphoneSession(warmTransferSession);
+      lastCallInfo = getLastCallInfoFromWebphoneSession(
+        warmTransferSession!,
+        this._deps.contactMatcher.dataMapping,
+      );
     }
 
     const disableLinks = !!(
@@ -190,6 +198,7 @@ export class CallControlUI extends RcUIModuleV2<Deps> {
       conferenceCallParties,
       conferenceCallId,
       lastCallInfo,
+      callerIdName: showCallerIdName ? this.callerIdName : undefined,
       // TODO: investigate whether it's better to just
       // use isMerging and let the component decide whether to display children
       children: hideChildren ? null : children,

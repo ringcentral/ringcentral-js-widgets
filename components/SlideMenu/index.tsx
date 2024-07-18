@@ -1,25 +1,8 @@
+import clsx from 'clsx';
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
-import classnames from 'classnames';
-import PropTypes from 'prop-types';
-
 import styles from './styles.scss';
-
-const ExtendIcon = ({ onClick, extendIconClassName }: any) => (
-  <div data-sign="extendButton" className={styles.extendIcon} onClick={onClick}>
-    <div className={classnames(styles.extendInner, extendIconClassName)} />
-  </div>
-);
-
-ExtendIcon.propTypes = {
-  onClick: PropTypes.func,
-  extendIconClassName: PropTypes.string,
-};
-
-ExtendIcon.defaultProps = {
-  onClick() {},
-  extendIconClassName: undefined,
-};
 
 class SlideMenu extends Component {
   _mounted: any;
@@ -87,9 +70,9 @@ class SlideMenu extends Component {
     };
 
     return (
-      <div className={classnames(styles.root, className)}>
+      <div className={clsx(styles.root, className)}>
         <div
-          className={classnames(
+          className={clsx(
             styles.wrapper,
             withAnimation && styles.withAnimation,
           )}
@@ -97,12 +80,19 @@ class SlideMenu extends Component {
         >
           <div className={styles.content}>{children}</div>
         </div>
-        <ExtendIcon
-          extendIconClassName={
-            extended ? classnames(styles.extended, extendIconClassName) : null
-          }
+        <div
+          data-sign="extendButton"
+          className={styles.extendIcon}
+          aria-expanded={Boolean(extended)}
           onClick={this.onToggle}
-        />
+        >
+          <div
+            className={clsx(
+              styles.extendInner,
+              extended ? clsx(styles.extended, extendIconClassName) : null,
+            )}
+          />
+        </div>
       </div>
     );
   }

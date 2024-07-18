@@ -1,1 +1,1 @@
-{"version":3,"file":"mapping.js","names":[],"sources":["typings/mapping.ts"],"sourcesContent":["export type Mapping<T> = {\n  [key: string]: T;\n};\n"],"mappings":""}
+{"version":3,"file":"mapping.js","names":[],"sources":["typings/mapping.ts"],"sourcesContent":["export type Mapping<T> = {\n  [key: string]: T;\n};\n"],"mappings":"","ignoreList":[]}

@@ -30,14 +30,14 @@ var _default = {
   accept: "Atender",
   toVoicemail: "Para caixa postal",
   anonymous: "Anônimo",
-  mergeToConference: "Mesclar",
+  mergeToConference: "Mesclar com chamada ativa",
   hold: "Colocar em espera",
   unhold: "Liberar",
   transfer: "Transferir",
   reject: "Rejeitar",
   switchCall: "Alternar chamada para este aplicativo",
   callSwitch: "Alternância de chamadas",
-  comfirmContext: "Você está em uma chamada ativa com {displayName}. Você gostaria de continuar a chamada neste dispositivo?",
+  comfirmContext: "Você está em uma chamada ativa com {displayName}. Gostaria de continuar a chamada neste dispositivo?",
   comfirmCancelButton: "Cancelar",
   comfirmOKButton: "Alternar",
   ignore: "Ignorar",
@@ -67,7 +67,7 @@ var _default = {
 // @key: @#@"accept"@#@ @source: @#@"Answer"@#@
 // @key: @#@"toVoicemail"@#@ @source: @#@"To Voicemail"@#@
 // @key: @#@"anonymous"@#@ @source: @#@"Anonymous"@#@
-// @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
+// @key: @#@"mergeToConference"@#@ @source: @#@"Merge with active call"@#@
 // @key: @#@"hold"@#@ @source: @#@"Hold"@#@
 // @key: @#@"unhold"@#@ @source: @#@"Unhold"@#@
 // @key: @#@"transfer"@#@ @source: @#@"Transfer"@#@

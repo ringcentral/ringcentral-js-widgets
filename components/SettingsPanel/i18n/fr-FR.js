@@ -26,7 +26,8 @@ var _default = {
   quickAccess: "Paramètre d’accès rapide",
   report: "Rapport d’analyses",
   shareIdea: "Partager une idée",
-  reportIssue: "Signaler un problème"
+  reportIssue: "Signaler un problème",
+  havingIssues: "Vous rencontrez des problèmes ?"
 }; // @key: @#@"region"@#@ @source: @#@"Region"@#@
 // @key: @#@"calling"@#@ @source: @#@"Calling"@#@
 // @key: @#@"logout"@#@ @source: @#@"Logout"@#@
@@ -49,5 +50,6 @@ var _default = {
 // @key: @#@"report"@#@ @source: @#@"Analytics Report"@#@
 // @key: @#@"shareIdea"@#@ @source: @#@"Share idea"@#@
 // @key: @#@"reportIssue"@#@ @source: @#@"Report issue"@#@
+// @key: @#@"havingIssues"@#@ @source: @#@"Having issues?"@#@
 exports["default"] = _default;
 //# sourceMappingURL=fr-FR.js.map

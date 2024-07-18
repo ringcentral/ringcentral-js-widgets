@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { List } from 'react-virtualized';
 
 import CallItem from '../CallItem';
@@ -24,7 +23,7 @@ type CallListV2Props = {
   onClickToDial?: (...args: any[]) => any;
   onClickToSms?: (...args: any[]) => any;
   isLoggedContact?: (...args: any[]) => any;
-  loggingMap?: object;
+  loggingMap?: any;
   disableLinks?: boolean;
   disableCallButton?: boolean;
   disableClickToDial?: boolean;
@@ -38,6 +37,7 @@ type CallListV2Props = {
   enableContactFallback?: boolean;
   autoLog?: boolean;
   showContactDisplayPlaceholder?: boolean;
+  showCallerIdName?: boolean;
   sourceIcons?: object;
   phoneTypeRenderer?: (...args: any[]) => any;
   phoneSourceNameRenderer?: (...args: any[]) => any;
@@ -47,6 +47,7 @@ type CallListV2Props = {
   contactDisplayStyle?: string;
   externalViewEntity?: (...args: any[]) => any;
   externalHasEntity?: (...args: any[]) => any;
+  shouldHideEntityButton?: (...args: any[]) => boolean;
   readTextPermission?: boolean;
   rowHeight?: number;
   extendedRowHeight?: number;
@@ -54,10 +55,13 @@ type CallListV2Props = {
   enableCDC?: boolean;
   maxExtensionNumberLength: number;
   formatPhone: (phoneNumber: string) => string | undefined;
+  callsDelaySavingState: Record<string, any>;
 };
+
 type CallListV2State = {
-  extendedIndex: null;
+  extendedIndex: number | null;
 };
+
 class CallListV2 extends React.PureComponent<CallListV2Props, CallListV2State> {
   _list: any;
   constructor(props: any) {
@@ -73,20 +77,24 @@ class CallListV2 extends React.PureComponent<CallListV2Props, CallListV2State> {
     const { calls } = this.props;
     if (
       extendedIndex !== null &&
-      calls[extendedIndex] !== nextProps.calls[extendedIndex]
+      calls[extendedIndex].sessionId !==
+        nextProps.calls[extendedIndex].sessionId
     ) {
       this._setExtendedIndex(null);
     }
   }
+  _recomputeRowHeight = (index = 0) => {
+    if (this._list && this._list.current) {
+      this._list.current.recomputeRowHeights(index);
+    }
+  };
   _setExtendedIndex = (extendedIndex: any) => {
     this.setState(
       {
         extendedIndex,
       },
       () => {
-        if (this._list && this._list.current) {
-          this._list.current.recomputeRowHeights(0);
-        }
+        this._recomputeRowHeight(0);
       },
     );
   };
@@ -101,11 +109,23 @@ class CallListV2 extends React.PureComponent<CallListV2Props, CallListV2State> {
   _renderRowHeight = ({ index }: any) => {
     // If we don't add extra height for the last item
     // the toggle button will be cut off
-    const { calls, extendedRowHeight, rowHeight } = this.props;
+    const {
+      calls,
+      extendedRowHeight = 130,
+      rowHeight = 65,
+      callsDelaySavingState,
+    } = this.props;
+    const call = calls[index];
+    const isDelaySavingState =
+      callsDelaySavingState && callsDelaySavingState[call.sessionId];
     const { extendedIndex } = this.state;
+
     const margin = index === calls.length - 1 ? 15 : 0;
-    const height = index === extendedIndex ? extendedRowHeight : rowHeight;
-    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+    const delaySavingStateHeight = isDelaySavingState ? 13 : 0;
+    const height =
+      index === extendedIndex
+        ? extendedRowHeight
+        : rowHeight + delaySavingStateHeight;
     return height + margin;
   };
   _rowRender = ({ index, key, style }: any) => {
@@ -138,6 +158,7 @@ class CallListV2 extends React.PureComponent<CallListV2Props, CallListV2State> {
       enableContactFallback,
       autoLog,
       showContactDisplayPlaceholder,
+      showCallerIdName,
       sourceIcons,
       phoneTypeRenderer,
       phoneSourceNameRenderer,
@@ -147,6 +168,7 @@ class CallListV2 extends React.PureComponent<CallListV2Props, CallListV2State> {
       contactDisplayStyle,
       externalViewEntity,
       externalHasEntity,
+      shouldHideEntityButton,
       readTextPermission,
       currentSiteCode,
       isMultipleSiteEnabled,
@@ -154,6 +176,7 @@ class CallListV2 extends React.PureComponent<CallListV2Props, CallListV2State> {
       enableCDC,
       maxExtensionNumberLength,
       formatPhone,
+      callsDelaySavingState,
     } = this.props;
     const { extendedIndex } = this.state;
     let content;
@@ -168,12 +191,9 @@ class CallListV2 extends React.PureComponent<CallListV2Props, CallListV2State> {
       const call = calls[index];
       content = (
         <CallItem
-          // @ts-expect-error TS(2322): Type '{ formatPhone: (phoneNumber: string) => stri... Remove this comment to see the full error message
-          formatPhone={formatPhone}
           key={call.id}
           renderIndex={index}
           extended={extendedIndex === index}
-          style={style}
           call={call}
           currentLocale={currentLocale}
           currentSiteCode={currentSiteCode}
@@ -183,6 +203,7 @@ class CallListV2 extends React.PureComponent<CallListV2Props, CallListV2State> {
           countryCode={countryCode}
           onViewContact={onViewContact}
           onCreateContact={onCreateContact}
+          shouldHideEntityButton={shouldHideEntityButton}
           createEntityTypes={createEntityTypes}
           onLogCall={onLogCall}
           onClickToDial={onClickToDial}
@@ -193,17 +214,13 @@ class CallListV2 extends React.PureComponent<CallListV2Props, CallListV2State> {
           disableClickToDial={disableClickToDial}
           outboundSmsPermission={outboundSmsPermission}
           internalSmsPermission={internalSmsPermission}
-          active={active}
+          active={!!active}
           dateTimeFormatter={dateTimeFormatter}
-          // @ts-expect-error TS(2532): Object is possibly 'undefined'.
           isLogging={!!loggingMap[call.sessionId]}
-          webphoneAnswer={webphoneAnswer}
-          webphoneReject={webphoneReject}
-          webphoneHangup={webphoneHangup}
-          webphoneResume={webphoneResume}
           enableContactFallback={enableContactFallback}
           autoLog={autoLog}
           showContactDisplayPlaceholder={showContactDisplayPlaceholder}
+          showCallerIdName={showCallerIdName}
           sourceIcons={sourceIcons}
           phoneTypeRenderer={phoneTypeRenderer}
           phoneSourceNameRenderer={phoneSourceNameRenderer}
@@ -215,11 +232,16 @@ class CallListV2 extends React.PureComponent<CallListV2Props, CallListV2State> {
           externalHasEntity={externalHasEntity}
           readTextPermission={readTextPermission}
           onSizeChanged={this._onSizeChanged}
+          onItemHeightChanged={this._recomputeRowHeight}
           // disable animation when rendered with react-virtualized
           withAnimation={false}
           showChooseEntityModal={showChooseEntityModal}
           enableCDC={enableCDC}
           maxExtensionNumberLength={maxExtensionNumberLength}
+          formatPhone={formatPhone}
+          currentDelaySavingState={
+            callsDelaySavingState && callsDelaySavingState[call.sessionId]
+          }
         />
       );
     }
@@ -281,6 +303,7 @@ CallListV2.defaultProps = {
   webphoneResume: undefined,
   enableContactFallback: undefined,
   showContactDisplayPlaceholder: true,
+  showCallerIdName: false,
   autoLog: false,
   sourceIcons: undefined,
   phoneTypeRenderer: undefined,

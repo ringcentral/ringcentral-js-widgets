@@ -1,6 +1,5 @@
-import React from 'react';
-
 import { RcLink } from '@ringcentral/juno';
+import React from 'react';
 
 import type { EulaProps } from './Eula.interface';
 import i18n from './i18n';

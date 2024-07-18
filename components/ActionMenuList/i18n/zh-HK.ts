@@ -1,7 +1,7 @@
 export default {
   sureToDeleteVoiceMail: "確定要刪除此語音訊息嗎？",
-  sureToDeleteFax: "您確定要刪除此傳真嗎？",
-  doNotAskAgain: "不要再問我"
+  sureToDeleteFax: "確定要刪除此傳真嗎？",
+  doNotAskAgain: "不再詢問"
 };
 
 // @key: @#@"sureToDeleteVoiceMail"@#@ @source: @#@"Are you sure you want to delete this voicemail?"@#@

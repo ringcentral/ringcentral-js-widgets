@@ -3,8 +3,8 @@ export default {
   [phoneSources.account]: "Compte",
   [phoneSources.contact]: "Contact",
   [phoneSources.rcContact]: "{brand}",
-  [phoneSources.lead]: "Favori",
-  [phoneSources.opportunity]: "Occasion",
+  [phoneSources.lead]: "Piste",
+  [phoneSources.opportunity]: "Opportunité",
   [phoneSources.systemUser]: "Utilisateur système"
 };
 

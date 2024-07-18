@@ -1,4 +1,5 @@
 /* eslint-disable react/no-multi-comp */
+import clsx from 'clsx';
 import type { KeyboardEvent } from 'react';
 import React, {
   forwardRef,
@@ -8,9 +9,8 @@ import React, {
   useState,
 } from 'react';
 
-import classnames from 'classnames';
-
 import i18n from '../RecipientsInput/i18n';
+
 import { DropdownList } from './DropdownList';
 import { PhoneNumberInput } from './PhoneNumberInput';
 import type {
@@ -148,7 +148,7 @@ export const RecipientsInputV2 = forwardRef<
       );
     return (
       <div
-        className={classnames(
+        className={clsx(
           styles.container,
           useRCUI ? styles.rcuiStyle : null,
           className,
@@ -196,9 +196,7 @@ export const RecipientsInputV2 = forwardRef<
         }}
       >
         <span className={styles.label}>{label}</span>
-        <div
-          className={classnames(useRCUI && styles.rcuiStyle, styles.rightPanel)}
-        >
+        <div className={clsx(useRCUI && styles.rcuiStyle, styles.rightPanel)}>
           <SelectedRecipients
             recipients={recipients}
             onRemove={removeFromRecipients}

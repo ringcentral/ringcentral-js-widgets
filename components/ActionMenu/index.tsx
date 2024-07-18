@@ -42,7 +42,7 @@ type ActionMenuProps = {
   withAnimation?: boolean;
   selectedMatchContactType?: string;
   showChooseEntityModal?: boolean;
-  shouldHideEntityButton?: boolean;
+  shouldHideEntityButton?: (...args: any[]) => boolean;
 };
 class ActionMenu extends Component<ActionMenuProps, {}> {
   // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
@@ -180,6 +180,6 @@ ActionMenu.defaultProps = {
   withAnimation: true,
   selectedMatchContactType: '',
   showChooseEntityModal: true,
-  shouldHideEntityButton: false,
+  shouldHideEntityButton: () => false,
 };
 export default ActionMenu;

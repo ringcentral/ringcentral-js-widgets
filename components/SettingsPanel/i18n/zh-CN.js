@@ -26,7 +26,8 @@ var _default = {
   quickAccess: "快速访问设置",
   report: "分析报告",
   shareIdea: "分享想法",
-  reportIssue: "报告问题"
+  reportIssue: "报告问题",
+  havingIssues: "遇到问题？"
 }; // @key: @#@"region"@#@ @source: @#@"Region"@#@
 // @key: @#@"calling"@#@ @source: @#@"Calling"@#@
 // @key: @#@"logout"@#@ @source: @#@"Logout"@#@
@@ -49,5 +50,6 @@ var _default = {
 // @key: @#@"report"@#@ @source: @#@"Analytics Report"@#@
 // @key: @#@"shareIdea"@#@ @source: @#@"Share idea"@#@
 // @key: @#@"reportIssue"@#@ @source: @#@"Report issue"@#@
+// @key: @#@"havingIssues"@#@ @source: @#@"Having issues?"@#@
 exports["default"] = _default;
 //# sourceMappingURL=zh-CN.js.map

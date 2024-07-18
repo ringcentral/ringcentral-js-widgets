@@ -5,13 +5,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+var _clsx = _interopRequireDefault(require("clsx"));
 var _react = _interopRequireDefault(require("react"));
-var _classnames = _interopRequireDefault(require("classnames"));
 var _MessageTabButton = require("../MessageTabButton");
 var _NavigationBar = require("../NavigationBar");
-var _styles = _interopRequireDefault(require("./styles.scss"));
 var _TabTitle = require("./TabTitle");
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+var _styles = _interopRequireDefault(require("./styles.scss"));
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var TabContentPanel = function TabContentPanel(_ref) {
   var showTabs = _ref.showTabs,
     navClassName = _ref.navClassName,
@@ -47,14 +47,14 @@ var TabContentPanel = function TabContentPanel(_ref) {
     className: _styles["default"].root
   }, /*#__PURE__*/_react["default"].createElement(_NavigationBar.NavigationBar, {
     button: _MessageTabButton.MessageTabButton,
-    className: (0, _classnames["default"])(_styles["default"].tabBar, navClassName),
+    className: (0, _clsx["default"])(_styles["default"].tabBar, navClassName),
     currentPath: "",
     goTo: goTo,
     tabs: formattedTabs,
     fullSizeInk: false,
     tooltipForceHide: tooltipForceHide
   }), /*#__PURE__*/_react["default"].createElement("div", {
-    className: (0, _classnames["default"])(_styles["default"].content, tabContentClassName)
+    className: (0, _clsx["default"])(_styles["default"].content, tabContentClassName)
   }, renderChildren()));
 };
 TabContentPanel.defaultProps = {

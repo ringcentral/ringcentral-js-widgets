@@ -1,4 +1,10 @@
 /* eslint-disable */
+
+declare module '*.png' {
+  const content: any;
+  export default content;
+}
+
 declare module '*.svg' {
   const content: any;
   export default content;
@@ -10,6 +16,11 @@ declare module '*.json' {
 }
 
 declare module '*.ogg' {
+  const value: any;
+  export default value;
+}
+
+declare module '*.mp3' {
   const value: any;
   export default value;
 }

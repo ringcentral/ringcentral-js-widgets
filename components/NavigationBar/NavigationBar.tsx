@@ -1,11 +1,10 @@
+import { useEventCallback, useMountState } from '@ringcentral/juno';
+import clsx from 'clsx';
 import type { FunctionComponent } from 'react';
 import React, { useEffect, useState } from 'react';
 
-import classnames from 'classnames';
-
-import { useEventCallback, useMountState } from '@ringcentral/juno';
-
 import type { NavigationButtonIcon } from '../TabNavigationButton';
+
 import type {
   NavigationBarProps,
   TabPropTypes,
@@ -42,7 +41,9 @@ function getTabInfo({
       });
     }
 
-    const Icon = icon;
+    const Icon = icon as React.ComponentType<{
+      currentPath?: string;
+    }>;
 
     return tab.childTabs ? <Icon currentPath={currentPath} /> : <Icon />;
   }
@@ -125,7 +126,7 @@ export const NavigationBar: FunctionComponent<NavigationBarProps> = (props) => {
   }, [currentVirtualPath, setCurrentRouteState]);
 
   return (
-    <nav className={classnames(styles.root, className, directionClass)}>
+    <nav className={clsx(styles.root, className, directionClass)}>
       {tabs.map((tab, index) => {
         const { active, icon, activeIcon } = getTabInfo({
           tab,

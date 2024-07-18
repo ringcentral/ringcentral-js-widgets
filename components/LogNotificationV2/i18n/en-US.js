@@ -11,7 +11,8 @@ var _default = {
   save: 'Save and new',
   discard: 'Discard and new',
   hangup: 'Hangup',
-  reject: 'To Voicemail'
+  reject: 'To Voicemail',
+  saveDraftAndCreateNewLog: 'Save draft and create new call log'
 };
 exports["default"] = _default;
 //# sourceMappingURL=en-US.js.map

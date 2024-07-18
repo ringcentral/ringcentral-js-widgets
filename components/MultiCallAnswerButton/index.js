@@ -8,17 +8,17 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+var _clsx = _interopRequireDefault(require("clsx"));
 var _react = _interopRequireDefault(require("react"));
-var _classnames = _interopRequireDefault(require("classnames"));
 var _Answer = _interopRequireDefault(require("../../assets/images/Answer.svg"));
 var _End = _interopRequireDefault(require("../../assets/images/End.svg"));
 var _Hold = _interopRequireDefault(require("../../assets/images/Hold.svg"));
 var _CircleButton = _interopRequireDefault(require("../CircleButton"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var MultiCallAnswerButton = function MultiCallAnswerButton(props) {
   var Icon = props.isEndOtherCall ? _End["default"] : _Hold["default"];
-  var iconClassName = (0, _classnames["default"])(_styles["default"].button, props.isEndOtherCall ? _styles["default"].endButton : '');
+  var iconClassName = (0, _clsx["default"])(_styles["default"].button, props.isEndOtherCall ? _styles["default"].endButton : '');
   var text = props.title.split('\n').map(function (line, index) {
     return /*#__PURE__*/_react["default"].createElement("tspan", {
       dy: index ? '1.1em' : 0,
@@ -47,7 +47,7 @@ var MultiCallAnswerButton = function MultiCallAnswerButton(props) {
     height: "250",
     x: 200,
     y: 110,
-    className: (0, _classnames["default"])(_styles["default"].button, _styles["default"].answer),
+    className: (0, _clsx["default"])(_styles["default"].button, _styles["default"].answer),
     showBorder: false,
     onClick: props.onClick,
     icon: _Answer["default"]

@@ -26,7 +26,8 @@ var _default = {
   quickAccess: "Pikakäyttöasetukset",
   report: "Analytics-raportti",
   shareIdea: "Jaa idea",
-  reportIssue: "Ilmoita ongelmasta"
+  reportIssue: "Ilmoita ongelmasta",
+  havingIssues: "Onko ongelmia?"
 }; // @key: @#@"region"@#@ @source: @#@"Region"@#@
 // @key: @#@"calling"@#@ @source: @#@"Calling"@#@
 // @key: @#@"logout"@#@ @source: @#@"Logout"@#@
@@ -49,5 +50,6 @@ var _default = {
 // @key: @#@"report"@#@ @source: @#@"Analytics Report"@#@
 // @key: @#@"shareIdea"@#@ @source: @#@"Share idea"@#@
 // @key: @#@"reportIssue"@#@ @source: @#@"Report issue"@#@
+// @key: @#@"havingIssues"@#@ @source: @#@"Having issues?"@#@
 exports["default"] = _default;
 //# sourceMappingURL=fi-FI.js.map

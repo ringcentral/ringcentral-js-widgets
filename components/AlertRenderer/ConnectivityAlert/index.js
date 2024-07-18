@@ -7,7 +7,7 @@ exports["default"] = void 0;
 var _react = _interopRequireDefault(require("react"));
 var _ConnectivityManager = require("../../../modules/ConnectivityManager");
 var _i18n = _interopRequireDefault(require("./i18n"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var ConnectivityAlert = function ConnectivityAlert(_ref) {
   var message = _ref.message.message,
     currentLocale = _ref.currentLocale;

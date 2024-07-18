@@ -8,7 +8,7 @@ var _default = {
   feedbackHeader: "Enviar comentarios",
   back: "Atrás",
   revert: "Volver",
-  instruction: "Sus comentarios tienen mucho valor para nosotros. Si tiene problemas al utilizar la aplicación, quiere solicitar una función o informar de un problema, estaremos encantados de ayudarle.",
+  instruction: "Sus comentarios tienen mucho valor para nosotros. Si tiene problemas al utilizar la aplicación, quiere solicitar una función o informar de un problema, estaremos encantados de ayudarlo.",
   fillForm: "Rellene el siguiente formulario y haga clic ",
   useMailBox: " o utilice directamente su buzón de correo y envíe su solicitud a ",
   email: "su dirección de correo electrónico",
@@ -20,7 +20,7 @@ var _default = {
   featureRequest: "Solicitud de funciones",
   others: "Otros",
   subject: "Sujeto",
-  subjectPlaceHolder: "Ayúdenos a saber cómo podemos ayudarle",
+  subjectPlaceHolder: "Ayúdenos a saber cómo podemos ayudarlo",
   description: "Descripción detallada",
   descriptionPlaceHolder: "Incluya la máxima información posible",
   send: "Envíenos sus comentarios"

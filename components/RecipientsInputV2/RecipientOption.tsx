@@ -1,7 +1,6 @@
+import clsx from 'clsx';
 import type { FunctionComponent } from 'react';
 import React from 'react';
-
-import classnames from 'classnames';
 
 import { RecipientInfo } from './RecipientInfo';
 import { RecipientPhone } from './RecipientPhone';
@@ -16,7 +15,7 @@ export const RecipientOption: FunctionComponent<RecipientOptionProps> = ({
   onHover,
   ...baseProps
 }) => {
-  const className = classnames(styles.contactItem, active && styles.active);
+  const className = clsx(styles.contactItem, active && styles.active);
   return (
     <li className={className} onMouseOver={onHover} data-sign="recipientOption">
       <div className={styles.clickable} onClick={onClick}>

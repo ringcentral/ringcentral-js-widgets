@@ -1,10 +1,6 @@
-import type { FunctionComponent } from 'react';
-import React, { Component } from 'react';
-
-import classnames from 'classnames';
-
 import { telephonySessionStatus } from '@ringcentral-integration/commons/enums/telephonySessionStatus';
 import {
+  getWebphoneSessionDisplayName,
   isInbound,
   isRinging,
 } from '@ringcentral-integration/commons/lib/callLogHelpers';
@@ -12,23 +8,27 @@ import { isHolding as isTelephonySessionOnHold } from '@ringcentral-integration/
 import sessionStatus from '@ringcentral-integration/commons/modules/Webphone/sessionStatus';
 import { isOnHold } from '@ringcentral-integration/commons/modules/Webphone/webphoneHelper';
 import { format } from '@ringcentral-integration/utils';
+import clsx from 'clsx';
+import type { FunctionComponent } from 'react';
+import React, { Component } from 'react';
 
 import AnswerIcon from '../../assets/images/Answer.svg';
 import EndIcon from '../../assets/images/End.svg';
 import HoldIcon from '../../assets/images/Hold.svg';
 import HoldAnswerIcon from '../../assets/images/HoldAnswer.svg';
 import IgnoreIcon from '../../assets/images/Ignore.svg';
-import SwitchImage from '../../assets/images/img_call_switch.svg';
 import MergeIntoConferenceIcon from '../../assets/images/MergeIntoConferenceIcon.svg';
 import SwitchIcon from '../../assets/images/Switch.svg';
 import TransferIcon from '../../assets/images/Transfer.svg';
 import VoicemailIcon from '../../assets/images/Voicemail.svg';
-import i18n from '../ActiveCallItem/i18n';
+import SwitchImage from '../../assets/images/img_call_switch.svg';
+import i18n, { t } from '../ActiveCallItem/i18n';
 import CallIcon from '../CallIcon';
 import CircleButton from '../CircleButton';
 import ContactDisplay from '../ContactDisplay';
 import DurationCounter from '../DurationCounter';
 import MediaObject from '../MediaObject';
+
 import type {
   ActiveCallControlButtonsProps,
   ActiveCallItemProps,
@@ -39,8 +39,8 @@ import type {
 import styles from './styles.scss';
 
 export const ModalContent: FunctionComponent<ModalContentProps> = ({
-  currentLocale,
   contactName,
+  confirmContext,
 }) => {
   return (
     <div>
@@ -48,10 +48,10 @@ export const ModalContent: FunctionComponent<ModalContentProps> = ({
         <SwitchImage width="116" height="69" />
       </div>
       <div className={styles.switchDialogContent}>
-        {format(i18n.getString('comfirmContext', currentLocale), {
-          // displayName: activeCall.name,
-          displayName: contactName,
-        })}
+        {confirmContext ??
+          t('comfirmContext', {
+            displayName: contactName,
+          })}
       </div>
     </div>
   );
@@ -149,7 +149,7 @@ const WebphoneButtons: FunctionComponent<WebphoneButtonsProps> = ({
           data-sign="ignore"
         >
           <CircleButton
-            className={classnames({
+            className={clsx({
               [styles.mergeButton]: true,
               [styles.disabled]: disableLinks,
             })}
@@ -202,7 +202,7 @@ const WebphoneButtons: FunctionComponent<WebphoneButtonsProps> = ({
           data-sign="unhold"
         >
           <CircleButton
-            className={classnames(styles.holdButton, styles.active, {
+            className={clsx(styles.holdButton, styles.active, {
               [styles.disabled]: disableLinks || isConnecting,
             })}
             onClick={(e) => {
@@ -225,7 +225,7 @@ const WebphoneButtons: FunctionComponent<WebphoneButtonsProps> = ({
           data-sign="hold"
         >
           <CircleButton
-            className={classnames(styles.holdButton, {
+            className={clsx(styles.holdButton, {
               [styles.disabled]: disableLinks || isConnecting,
             })}
             onClick={(e) => {
@@ -248,16 +248,16 @@ const WebphoneButtons: FunctionComponent<WebphoneButtonsProps> = ({
       <span
         title={i18n.getString('mergeToConference', currentLocale)}
         className={styles.webphoneButton}
-        data-sign="merge"
       >
         <CircleButton
-          className={classnames({
+          className={clsx({
             [styles.mergeButton]: true,
-            [styles.disabled]: disableMerge,
+            [styles.disabled]: disableMerge || disableLinks,
           })}
+          dataSign="merge"
           onClick={(e) => {
             e.stopPropagation();
-            onMergeCall(session.id);
+            onMergeCall(session.id, telephonySessionId);
           }}
           iconWidth={260}
           iconX={120}
@@ -272,207 +272,208 @@ const WebphoneButtons: FunctionComponent<WebphoneButtonsProps> = ({
   return (
     <div className={styles.webphoneButtons}>
       {ignoreBtn}
-      {mergeBtn}
       {holdBtn}
+      {mergeBtn}
       {endBtn}
       {answerBtn}
     </div>
   );
 };
 
-const ActiveCallControlButtons: FunctionComponent<ActiveCallControlButtonsProps> =
-  ({
-    session = undefined,
-    showRingoutCallControl,
-    showSwitchCall,
-    showTransferCall,
-    showHoldOnOtherDevice,
-    currentLocale,
-    disableLinks = false,
-    telephonySessionId,
-    ringoutHangup,
-    ringoutReject,
-    ringoutTransfer = undefined,
-    ringing,
-    inbound,
-    onClickSwitchBtn = undefined,
-    webphoneResume = undefined,
-    webphoneHold = undefined,
-    isConnecting = false,
-    clickSwitchTrack = () => {},
-  }) => {
-    if (!showRingoutCallControl && !showSwitchCall) return null;
-    let switchCallButton;
-    if (showSwitchCall) {
-      const disabled = disableLinks || ringing;
-      switchCallButton = (
-        <span
-          title={i18n.getString('switchCall', currentLocale)}
-          className={classnames(styles.ringoutButton, styles.cursorPointer)}
-          data-sign="switchCall"
-        >
-          <SwitchIcon
-            className={classnames({
-              [styles.switchButton]: true,
-              [styles.disabled]: disabled,
-            })}
-            onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
-              e.stopPropagation();
-              if (!disabled) {
-                clickSwitchTrack();
+const ActiveCallControlButtons: FunctionComponent<
+  ActiveCallControlButtonsProps
+> = ({
+  session = undefined,
+  showRingoutCallControl,
+  showSwitchCall,
+  showTransferCall,
+  showHoldOnOtherDevice,
+  currentLocale,
+  disableLinks = false,
+  telephonySessionId,
+  ringoutHangup,
+  ringoutReject,
+  ringoutTransfer = undefined,
+  ringing,
+  inbound,
+  onClickSwitchBtn = undefined,
+  webphoneResume = undefined,
+  webphoneHold = undefined,
+  isConnecting = false,
+  clickSwitchTrack = () => {},
+}) => {
+  if (!showRingoutCallControl && !showSwitchCall) return null;
+  let switchCallButton;
+  if (showSwitchCall) {
+    const disabled = disableLinks || ringing;
+    switchCallButton = (
+      <span
+        title={i18n.getString('switchCall', currentLocale)}
+        className={clsx(styles.ringoutButton, styles.cursorPointer)}
+        data-sign="switchCall"
+      >
+        <SwitchIcon
+          className={clsx({
+            [styles.switchButton]: true,
+            [styles.disabled]: disabled,
+          })}
+          onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+            e.stopPropagation();
+            if (!disabled) {
+              clickSwitchTrack();
+              // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
+              onClickSwitchBtn();
+            }
+          }}
+        />
+      </span>
+    );
+  }
+
+  if (!showRingoutCallControl) {
+    return <div className={styles.ringoutButtons}>{switchCallButton}</div>;
+  }
+
+  let endBtn;
+  let holdBtn;
+
+  const inComingCall = inbound && ringing;
+  if (inComingCall) {
+    const rejectTitle = i18n.getString('reject', currentLocale);
+    endBtn = (
+      <span
+        title={rejectTitle}
+        className={styles.ringoutButton}
+        data-sign="hangup"
+      >
+        <CircleButton
+          disabled={disableLinks}
+          className={clsx({
+            [styles.endButton]: true,
+            [styles.disabled]: disableLinks,
+          })}
+          onClick={(e) => {
+            e.stopPropagation();
+            ringoutReject(telephonySessionId);
+          }}
+          icon={EndIcon}
+          showBorder={false}
+        />
+      </span>
+    );
+  } else {
+    endBtn = (
+      <span
+        title={i18n.getString('hangup', currentLocale)}
+        className={styles.ringoutButton}
+        data-sign="hangup"
+      >
+        <CircleButton
+          disabled={disableLinks}
+          className={clsx({
+            [styles.endButton]: true,
+            [styles.disabled]: disableLinks,
+          })}
+          onClick={(e) => {
+            e.stopPropagation();
+            ringoutHangup(telephonySessionId);
+          }}
+          icon={EndIcon}
+          showBorder={false}
+        />
+      </span>
+    );
+
+    const disabled = disableLinks || isConnecting || ringing;
+    if (session) {
+      // @ts-expect-error TS(2345): Argument of type 'object' is not assignable to par... Remove this comment to see the full error message
+      if (isTelephonySessionOnHold(session)) {
+        holdBtn = (
+          <span
+            title={i18n.getString('unhold', currentLocale)}
+            className={styles.webphoneButton}
+            data-sign="unhold"
+          >
+            <CircleButton
+              className={clsx(styles.holdButton, styles.active, {
+                [styles.disabled]: disabled,
+              })}
+              onClick={(e) => {
+                e.stopPropagation();
                 // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
-                onClickSwitchBtn();
-              }
-            }}
-          />
-        </span>
-      );
-    }
-
-    if (!showRingoutCallControl) {
-      return <div className={styles.ringoutButtons}>{switchCallButton}</div>;
-    }
-
-    let endBtn;
-    let holdBtn;
-
-    const inComingCall = inbound && ringing;
-    if (inComingCall) {
-      const rejectTitle = i18n.getString('reject', currentLocale);
-      endBtn = (
-        <span
-          title={rejectTitle}
-          className={styles.ringoutButton}
-          data-sign="hangup"
-        >
-          <CircleButton
-            disabled={disableLinks}
-            className={classnames({
-              [styles.endButton]: true,
-              [styles.disabled]: disableLinks,
-            })}
-            onClick={(e) => {
-              e.stopPropagation();
-              ringoutReject(telephonySessionId);
-            }}
-            icon={EndIcon}
-            showBorder={false}
-          />
-        </span>
-      );
-    } else {
-      endBtn = (
-        <span
-          title={i18n.getString('hangup', currentLocale)}
-          className={styles.ringoutButton}
-          data-sign="hangup"
-        >
-          <CircleButton
-            disabled={disableLinks}
-            className={classnames({
-              [styles.endButton]: true,
-              [styles.disabled]: disableLinks,
-            })}
-            onClick={(e) => {
-              e.stopPropagation();
-              ringoutHangup(telephonySessionId);
-            }}
-            icon={EndIcon}
-            showBorder={false}
-          />
-        </span>
-      );
-
-      const disabled = disableLinks || isConnecting || ringing;
-      if (session) {
-        // @ts-expect-error TS(2345): Argument of type 'object' is not assignable to par... Remove this comment to see the full error message
-        if (isTelephonySessionOnHold(session)) {
-          holdBtn = (
-            <span
-              title={i18n.getString('unhold', currentLocale)}
-              className={styles.webphoneButton}
-              data-sign="unhold"
-            >
-              <CircleButton
-                className={classnames(styles.holdButton, styles.active, {
-                  [styles.disabled]: disabled,
-                })}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
-                  webphoneResume('', telephonySessionId);
-                }}
-                iconWidth={260}
-                iconX={120}
-                icon={HoldIcon}
-                disabled={disabled}
-                showBorder
-              />
-            </span>
-          );
-        } else {
-          holdBtn = (
-            <span
-              title={i18n.getString('hold', currentLocale)}
-              className={classnames(styles.webphoneButton)}
-              data-sign="hold"
-            >
-              <CircleButton
-                className={classnames(styles.holdButton, {
-                  [styles.disabled]: disabled,
-                })}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
-                  webphoneHold('', telephonySessionId);
-                }}
-                iconWidth={260}
-                iconX={120}
-                icon={HoldIcon}
-                disabled={disabled}
-                showBorder
-              />
-            </span>
-          );
-        }
+                webphoneResume('', telephonySessionId);
+              }}
+              iconWidth={260}
+              iconX={120}
+              icon={HoldIcon}
+              disabled={disabled}
+              showBorder
+            />
+          </span>
+        );
+      } else {
+        holdBtn = (
+          <span
+            title={i18n.getString('hold', currentLocale)}
+            className={clsx(styles.webphoneButton)}
+            data-sign="hold"
+          >
+            <CircleButton
+              className={clsx(styles.holdButton, {
+                [styles.disabled]: disabled,
+              })}
+              onClick={(e) => {
+                e.stopPropagation();
+                // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
+                webphoneHold('', telephonySessionId);
+              }}
+              iconWidth={260}
+              iconX={120}
+              icon={HoldIcon}
+              disabled={disabled}
+              showBorder
+            />
+          </span>
+        );
       }
     }
+  }
 
-    let transferBtn;
-    if (ringoutTransfer && !inComingCall) {
-      const transferTitle = i18n.getString('transfer', currentLocale);
+  let transferBtn;
+  if (ringoutTransfer && !inComingCall) {
+    const transferTitle = i18n.getString('transfer', currentLocale);
 
-      transferBtn = (
-        <span
-          title={transferTitle}
-          className={styles.ringoutButton}
-          data-sign="transfer"
-        >
-          <CircleButton
-            disabled={disableLinks}
-            className={classnames({
-              [styles.transferButton]: true,
-              [styles.disabled]: disableLinks,
-            })}
-            onClick={(e) => {
-              e.stopPropagation();
-              ringoutTransfer(telephonySessionId);
-            }}
-            icon={TransferIcon}
-          />
-        </span>
-      );
-    }
-
-    return (
-      <div className={styles.ringoutButtons}>
-        {showHoldOnOtherDevice && holdBtn}
-        {showTransferCall && transferBtn}
-        {switchCallButton}
-        {endBtn}
-      </div>
+    transferBtn = (
+      <span
+        title={transferTitle}
+        className={styles.ringoutButton}
+        data-sign="transfer"
+      >
+        <CircleButton
+          disabled={disableLinks}
+          className={clsx({
+            [styles.transferButton]: true,
+            [styles.disabled]: disableLinks,
+          })}
+          onClick={(e) => {
+            e.stopPropagation();
+            ringoutTransfer(telephonySessionId);
+          }}
+          icon={TransferIcon}
+        />
+      </span>
     );
-  };
+  }
+
+  return (
+    <div className={styles.ringoutButtons}>
+      {showHoldOnOtherDevice && holdBtn}
+      {showTransferCall && transferBtn}
+      {switchCallButton}
+      {endBtn}
+    </div>
+  );
+};
 
 /**
  * TODO: Gradually replace <ActiveCallItem/> with this component
@@ -713,33 +714,42 @@ export class ActiveCallItem extends Component<
       isWide,
       currentLocale,
       webphoneSwitchCall,
+      onSwitchCall,
     } = this.props;
-    const contactName =
-      typeof renderContactName === 'function'
-        ? renderContactName(call)
-        : undefined;
     // !refactor
     // TODO: Consider refactoring modalConfirm out of UI components!!!!!!!!!!!!!!
-    this.modalId = modalConfirm({
-      childrenSize: isWide ? 'medium' : 'small',
-      title: i18n.getString('callSwitch', currentLocale),
-      className: styles.switchDialog,
-      contentProps: {
-        // @ts-expect-error TS(2339): Property 'title' does not exist on type 'string'.
-        contactName: contactName?.title || contactName || this.getPhoneNumber(),
-      },
-      confirmButtonText: i18n.getString('comfirmOKButton', currentLocale),
-      cancelButtonText: i18n.getString('comfirmCancelButton', currentLocale),
-      onConfirm: () => {
-        webphoneSwitchCall(call);
-        // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string'.
-        this.modalId = null;
-      },
-      onCancel: () => {
-        // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string'.
-        this.modalId = null;
-      },
-    });
+    // use modalConfirm for ActiveCallsUI module
+    if (onSwitchCall) {
+      onSwitchCall(call);
+      return;
+    }
+    if (modalConfirm) {
+      const contactName =
+        typeof renderContactName === 'function'
+          ? renderContactName(call)
+          : undefined;
+      this.modalId = modalConfirm({
+        childrenSize: isWide ? 'medium' : 'small',
+        title: i18n.getString('callSwitch', currentLocale),
+        className: styles.switchDialog,
+        contentProps: {
+          contactName:
+            // @ts-expect-error TS(2339): Property 'title' does not exist on type 'string'.
+            contactName?.title || contactName || this.getPhoneNumber(),
+        },
+        confirmButtonText: i18n.getString('comfirmOKButton', currentLocale),
+        cancelButtonText: i18n.getString('comfirmCancelButton', currentLocale),
+        onConfirm: () => {
+          webphoneSwitchCall(call);
+          // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string'.
+          this.modalId = null;
+        },
+        onCancel: () => {
+          // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string'.
+          this.modalId = null;
+        },
+      });
+    }
   };
 
   // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
@@ -792,6 +802,7 @@ export class ActiveCallItem extends Component<
       webphoneIgnore,
       showHoldAnswerBtn,
       showIgnoreBtn,
+      showCallerIdName,
       clickSwitchTrack,
       formatPhone,
     } = this.props;
@@ -828,17 +839,21 @@ export class ActiveCallItem extends Component<
       telephonySession?.otherParties[0]?.status?.code ===
       telephonySessionStatus.proceeding;
 
+    const callerIdName = showCallerIdName
+      ? getWebphoneSessionDisplayName(this.props.call.webphoneSession as any)
+      : undefined;
+
     return (
       <div data-sign="callItem" className={styles.callItemContainer}>
         <MediaObject
           containerCls={styles.wrapper}
-          bodyCls={classnames({
+          bodyCls={clsx({
             [styles.content]: true,
             [styles.cursorPointer]: cursorPointer,
             [styles.cursorUnset]: !cursorPointer,
             [styles.disabled]: hasCallControl && disableLinks,
           })}
-          leftCls={classnames({
+          leftCls={clsx({
             [styles.cursorPointer]: cursorPointer,
             [styles.cursorUnset]: !cursorPointer,
             [styles.disabled]: hasCallControl && disableLinks,
@@ -871,14 +886,12 @@ export class ActiveCallItem extends Component<
             >
               <ContactDisplay
                 warmTransferRole={warmTransferRole}
+                callerIdName={callerIdName}
                 formatPhone={formatPhone}
                 isOnConferenceCall={isOnConferenceCall}
                 contactName={showMultipleMatch ? undefined : contactName}
                 subContactName={subContactName}
-                className={classnames(
-                  styles.contactDisplay,
-                  contactDisplayStyle,
-                )}
+                className={clsx(styles.contactDisplay, contactDisplayStyle)}
                 contactMatches={contactMatches}
                 selected={this.state.selected}
                 onSelectContact={this.onSelectContact}
@@ -927,6 +940,7 @@ export class ActiveCallItem extends Component<
                   webphoneIgnore={webphoneIgnore}
                   showIgnoreBtn={showIgnoreBtn}
                   showHoldAnswerBtn={showHoldAnswerBtn}
+                  disableLinks={disableLinks}
                 />
               ) : (
                 <ActiveCallControlButtons

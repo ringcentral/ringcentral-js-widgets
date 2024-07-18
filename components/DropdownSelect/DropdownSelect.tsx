@@ -1,7 +1,3 @@
-import React, { Component, createRef } from 'react';
-
-import classnames from 'classnames';
-
 import {
   ellipsis,
   flexWidth,
@@ -12,8 +8,11 @@ import {
   spacing,
   styled,
 } from '@ringcentral/juno';
+import clsx from 'clsx';
+import React, { Component, createRef } from 'react';
 
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
+
 import styles from './styles.scss';
 
 const gutter = spacing(2.5);
@@ -396,7 +395,7 @@ class DropdownSelect extends Component<
     }
     return (
       <RcMenuList
-        className={classnames(styles.dropdown, dropdownClassName)}
+        className={clsx(styles.dropdown, dropdownClassName)}
         ref={(ref: any) => {
           this.dropdownMenu = ref;
         }}
@@ -412,7 +411,7 @@ class DropdownSelect extends Component<
               data-sign="selectMenuItem"
               key={currentValue || idx}
               selected={selected}
-              className={classnames(
+              className={clsx(
                 // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
                 styles[dropdownAlign],
                 ellipsis && styles.ellipsis,
@@ -425,7 +424,7 @@ class DropdownSelect extends Component<
                 }
               }}
             >
-              <RcListItemText>{display}</RcListItemText>
+              <RcListItemText data-sign={display}>{display}</RcListItemText>
             </StyledMenuItem>
           );
         })}
@@ -439,7 +438,7 @@ class DropdownSelect extends Component<
     return (
       <span
         data-sign="selectedLabel"
-        className={classnames(
+        className={clsx(
           styles.selectedOptionLabel,
           open ? styles.selectedOptionLabelHide : null,
         )}
@@ -476,19 +475,19 @@ class DropdownSelect extends Component<
         {label}
       </label>
     ) : null;
-    const currentIconClassName = classnames(
+    const currentIconClassName = clsx(
       styles.icon,
       open ? styles.iconUp : null,
       iconClassName,
     );
-    const containerClassName = classnames(
+    const containerClassName = clsx(
       styles.root,
       className,
       disabled ? styles.disabled : null,
       open ? styles.open : null,
       noPadding ? styles.noPadding : null,
     );
-    const buttonClassName = classnames(
+    const buttonClassName = clsx(
       styles.button,
       disabled ? styles.disabled : null,
     );
@@ -500,7 +499,7 @@ class DropdownSelect extends Component<
       <RcThemeProvider>
         <div
           data-sign={dataSign}
-          className={classnames(containerClassName, wrapperStyle)}
+          className={clsx(containerClassName, wrapperStyle)}
           ref={(ref) => {
             if (reference) reference(ref);
             this.wrapper = ref;
@@ -508,7 +507,7 @@ class DropdownSelect extends Component<
         >
           <div
             data-sign="selectRoot"
-            className={classnames(buttonClassName, buttonStyle)}
+            className={clsx(buttonClassName, buttonStyle)}
             onClick={this._toggleShowDropdown}
             title={this.renderTitle(options[value as number], renderValue)}
           >
@@ -517,7 +516,7 @@ class DropdownSelect extends Component<
               <input
                 ref={this.inputRef}
                 data-sign="selectedItem"
-                className={classnames(
+                className={clsx(
                   styles.customInput,
                   ellipsis && styles.ellipsis,
                   selectedClassName,
@@ -535,7 +534,7 @@ class DropdownSelect extends Component<
               <span
                 ref={this.inputRef}
                 data-sign="selectedItem"
-                className={classnames(
+                className={clsx(
                   styles.selectedValue,
                   ellipsis && styles.ellipsis,
                   selectedClassName,

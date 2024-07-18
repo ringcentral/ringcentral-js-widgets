@@ -4,7 +4,7 @@ export default {
   blindTransfer: "Transferir",
   warmTransfer: "Preguntar primero",
   enterNameOrNumber: "Ingresar número",
-  toVoicemail: "Al buzón de voz"
+  toVoicemail: "Enviar al buzón de voz"
 };
 
 // @key: @#@"to"@#@ @source: @#@"To:"@#@

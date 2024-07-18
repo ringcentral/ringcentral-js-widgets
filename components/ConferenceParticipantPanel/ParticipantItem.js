@@ -11,7 +11,7 @@ var _CircleButton = _interopRequireDefault(require("../CircleButton"));
 var _MediaObject = _interopRequireDefault(require("../MediaObject"));
 var _i18n = _interopRequireDefault(require("./i18n"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var ParticipantItem = function ParticipantItem(_ref) {
   var detail = _ref.detail,
     avatarUrl = _ref.avatarUrl,

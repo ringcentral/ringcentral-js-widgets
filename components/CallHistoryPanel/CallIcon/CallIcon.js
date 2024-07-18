@@ -4,11 +4,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.CallIcon = void 0;
-var _react = _interopRequireDefault(require("react"));
 var _callDirections = require("@ringcentral-integration/commons/enums/callDirections");
 var _juno = require("@ringcentral/juno");
 var _junoIcon = require("@ringcentral/juno-icon");
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+var _react = _interopRequireDefault(require("react"));
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var CallIcon = function CallIcon(_ref) {
   var direction = _ref.direction,
     active = _ref.active,

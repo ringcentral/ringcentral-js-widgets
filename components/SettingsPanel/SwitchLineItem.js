@@ -7,14 +7,17 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.SwitchLineItem = void 0;
+var _juno = require("@ringcentral/juno");
+var _junoIcon = require("@ringcentral/juno-icon");
+var _clsx = _interopRequireDefault(require("clsx"));
 var _react = _interopRequireDefault(require("react"));
-var _classnames = _interopRequireDefault(require("classnames"));
 var _IconLine = _interopRequireDefault(require("../IconLine"));
+var _Tooltip = require("../Rcui/Tooltip");
 var _Switch = _interopRequireDefault(require("../Switch"));
 var _i18n = _interopRequireDefault(require("./i18n"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
+function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) { ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } } return n; }, _extends.apply(null, arguments); }
 var SwitchLineItem = function SwitchLineItem(_ref) {
   var show = _ref.show,
     name = _ref.name,
@@ -24,7 +27,8 @@ var SwitchLineItem = function SwitchLineItem(_ref) {
     dataSign = _ref.dataSign,
     disabled = _ref.disabled,
     checked = _ref.checked,
-    onChange = _ref.onChange;
+    onChange = _ref.onChange,
+    tooltip = _ref.tooltip;
   if (!show) {
     return null;
   }
@@ -38,8 +42,16 @@ var SwitchLineItem = function SwitchLineItem(_ref) {
       onChange: onChange
     }))
   }, /*#__PURE__*/_react["default"].createElement("span", {
-    className: (0, _classnames["default"])(disabled && _styles["default"].disableText)
-  }, customTitle || _i18n["default"].getString(name, currentLocale)));
+    className: (0, _clsx["default"])(disabled && _styles["default"].disableText)
+  }, customTitle || _i18n["default"].getString(name, currentLocale), tooltip ? /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, "\xA0", /*#__PURE__*/_react["default"].createElement(_Tooltip.Tooltip, {
+    title: tooltip
+  }, /*#__PURE__*/_react["default"].createElement("span", {
+    "data-sign": "".concat(dataSign, "_tooltip")
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
+    size: "small",
+    symbol: _junoIcon.InfoBorder,
+    className: _styles["default"].tooltipIcon
+  })))) : null));
 };
 exports.SwitchLineItem = SwitchLineItem;
 //# sourceMappingURL=SwitchLineItem.js.map

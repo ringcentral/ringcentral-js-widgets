@@ -11,7 +11,7 @@ p {
 }
 
 .root {
-  padding: 12px 20px;
+  padding: 16px 20px;
   overflow: hidden;
   position: relative;
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.15);
@@ -59,7 +59,6 @@ p {
   }
 }
 
-
 .callIcon {
   margin: 3px 12px 0 0;
 }
@@ -74,9 +73,11 @@ p {
   font-size: 12px;
   @include display_flex;
   @include flex_fill;
+  flex-direction: row;
+  flex-wrap: wrap;
 
   .info {
-    max-width: 170px;
+    max-width: 145px;
   }
 
   .logName {
@@ -94,7 +95,7 @@ p {
     margin-top: 0.5em;
     text-align: right;
 
-    p+p {
+    p + p {
       margin-top: 0.5em;
 
       &::before {
@@ -105,7 +106,7 @@ p {
 }
 
 .follow {
-  *+* {
+  * + * {
     &::before {
       content: '|';
       margin: 0 5px;
@@ -121,11 +122,8 @@ p {
 
   .callDisplay {
     margin-top: 4px;
-    flex-direction: column;
     font-size: 11px;
     @include flex_width(85%);
-    @include display_flex;
-    @include flex_fill;
   }
 
   .callIcon {
@@ -138,6 +136,7 @@ p {
 
   .logName {
     font-size: 12px;
+    max-width: 100px;
     @include text-ellipsis;
   }
 
@@ -145,7 +144,7 @@ p {
     flex-direction: row;
     justify-content: flex-start;
 
-    p+p {
+    p + p {
       margin-top: 0;
 
       &::before {

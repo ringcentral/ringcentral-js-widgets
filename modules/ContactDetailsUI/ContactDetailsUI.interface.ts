@@ -1,3 +1,4 @@
+import type { AccountInfo } from '@ringcentral-integration/commons/modules/AccountInfo';
 import type { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures';
 import type { Call } from '@ringcentral-integration/commons/modules/Call';
 import type { ComposeText } from '@ringcentral-integration/commons/modules/ComposeText';
@@ -7,7 +8,6 @@ import type { ExtensionInfo } from '@ringcentral-integration/commons/modules/Ext
 import type { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import type { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiter';
 import type { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
-import type { AccountInfo } from '@ringcentral-integration/commons/modules/AccountInfo';
 
 import type { ConnectivityManager } from '../ConnectivityManager';
 import type { DialerUI } from '../DialerUI';

@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  forward: "Desviar",
+  forward: "Reenviar",
   cancel: "Cancelar",
   customNumber: "Número personalizado"
 }; // @key: @#@"forward"@#@ @source: @#@"Forward"@#@

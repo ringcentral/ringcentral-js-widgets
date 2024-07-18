@@ -4,10 +4,11 @@ import AudioSettingsAlert from './AudioSettingsAlert';
 import AuthAlert from './AuthAlert';
 import { CallAlert } from './CallAlert';
 import CallControlAlert from './CallControlAlert';
-import { CallingSettingsAlert } from './CallingSettingsAlert';
 import CallLogAlert from './CallLogAlert';
+import { CallingSettingsAlert } from './CallingSettingsAlert';
 import ConferenceCallAlert from './ConferenceCallAlert';
 import ConnectivityAlert from './ConnectivityAlert';
+import IssueTrackingAlert from './IssueTrackingAlert';
 import MeetingAlert from './MeetingAlert';
 import MessageSenderAlert from './MessageSenderAlert';
 import MessageStoreAlert from './MessageStoreAlert';
@@ -78,6 +79,13 @@ export const AlertRenderer = ({
         />
       );
     }
+    // @ts-expect-error TS(2339): Property 'handleMessage' does not exist on type 'F... Remove this comment to see the full error message
+    if (IssueTrackingAlert.handleMessage(message)) {
+      return (props: any) => (
+        <IssueTrackingAlert {...props} brand={brand.name} />
+      );
+    }
+
     // @ts-expect-error TS(2339): Property 'handleMessage' does not exist on type 'F... Remove this comment to see the full error message
     if (MessageSenderAlert.handleMessage(message)) {
       return (props: any) => (
@@ -152,6 +160,6 @@ export const AlertRenderer = ({
       return (props: any) => <CallControlAlert {...props} />;
     }
 
-    return undefined;
+    return () => null;
   };
 };

@@ -11,7 +11,7 @@ export default {
   [`${callingOptions.browser}Tooltip`]: "Utilice esta opción para hacer y recibir llamadas con el micrófono y los altavoces de su computadora.",
   [`${callingOptions.softphone}Tooltip`]: "Utilice esta opción para hacer y recibir llamadas usando su {brand}.",
   [`${callingOptions.ringout}Tooltip`]: "Use esta opción para hacer llamadas con su número de teléfono seleccionado o ingresado.",
-  [`${callingOptions.ringout}Tooltip1`]: "Para la llamada que hace, este teléfono sonará primero, y luego a quien llamó.",
+  [`${callingOptions.ringout}Tooltip1`]: "Para la llamada que hace, este teléfono sonará primero y, luego, a quien llamó.",
   [`${callingOptions.jupiter}Tooltip`]: "Utilice esta opción para hacer y recibir llamadas usando su {brand}."
 };
 

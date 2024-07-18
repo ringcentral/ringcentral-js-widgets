@@ -13,18 +13,18 @@ export default {
   addEntity: "Luo uusi",
   addLog: "Loki",
   text: "Tekstiviesti",
-  call: "Puhelu",
+  call: "Soita",
   addContact: "Lisää yhteystieto",
   missedCall: "Vastaamaton",
   inboundCall: "Saapuva",
   outboundCall: "Lähtevät",
-  from: "Lähettäjä",
+  from: "Läh.:",
   to: "Vastaanottaja",
   hangup: "Lopeta puhelu",
   accept: "Vastaa",
   toVoicemail: "Vastaajaan",
   anonymous: "Nimetön",
-  mergeToConference: "Yhdistä",
+  mergeToConference: "Yhdistä käynnissä olevaan puheluun",
   hold: "Pito",
   unhold: "Poista pidosta",
   transfer: "Siirrä",
@@ -63,7 +63,7 @@ export default {
 // @key: @#@"accept"@#@ @source: @#@"Answer"@#@
 // @key: @#@"toVoicemail"@#@ @source: @#@"To Voicemail"@#@
 // @key: @#@"anonymous"@#@ @source: @#@"Anonymous"@#@
-// @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
+// @key: @#@"mergeToConference"@#@ @source: @#@"Merge with active call"@#@
 // @key: @#@"hold"@#@ @source: @#@"Hold"@#@
 // @key: @#@"unhold"@#@ @source: @#@"Unhold"@#@
 // @key: @#@"transfer"@#@ @source: @#@"Transfer"@#@

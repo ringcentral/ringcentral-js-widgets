@@ -1,7 +1,6 @@
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import type { UIFunctions, UIProps } from '@ringcentral-integration/core';
 import { RcUIModuleV2 } from '@ringcentral-integration/core';
-import i18n from './i18n';
 
 import type {
   Deps,
@@ -9,6 +8,7 @@ import type {
   ReplyWithMessageUIContainerProps,
 } from './ReplyWithMessageUI.interface';
 import { ReplyWithPattern } from './ReplyWithMessageUI.interface';
+import i18n from './i18n';
 
 @Module({
   name: 'ReplyWithMessageUI',

@@ -1,3 +1,4 @@
+import { RcTextField } from '@ringcentral/juno';
 import React, {
   forwardRef,
   useEffect,
@@ -5,8 +6,6 @@ import React, {
   useRef,
   useState,
 } from 'react';
-
-import { RcTextField } from '@ringcentral/juno';
 
 import i18n from './i18n';
 import styles from './styles.scss';

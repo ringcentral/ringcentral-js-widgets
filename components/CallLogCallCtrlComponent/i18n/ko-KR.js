@@ -26,7 +26,9 @@ var _default = {
   answerAndHold: "응답 후 대기",
   answer: "응답",
   completeTransfer: "전달 완료",
-  reply: "회신"
+  reply: "회신",
+  add: "추가",
+  mergeCall: "진행 중인 통화와 병합"
 }; // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
 // @key: @#@"hangup"@#@ @source: @#@"Hang up"@#@
@@ -49,5 +51,7 @@ var _default = {
 // @key: @#@"answer"@#@ @source: @#@"Answer"@#@
 // @key: @#@"completeTransfer"@#@ @source: @#@"Complete transfer"@#@
 // @key: @#@"reply"@#@ @source: @#@"Reply"@#@
+// @key: @#@"add"@#@ @source: @#@"Add"@#@
+// @key: @#@"mergeCall"@#@ @source: @#@"Merge with active call"@#@
 exports["default"] = _default;
 //# sourceMappingURL=ko-KR.js.map

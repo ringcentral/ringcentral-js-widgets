@@ -1,6 +1,6 @@
 import { dndStatus } from '@ringcentral-integration/commons/modules/Presence';
 
-import i18n, { I18nKey } from './i18n';
+import i18n, { type I18nKey } from './i18n';
 
 export function getPresenceStatusName(
   currentUserStatus: I18nKey,

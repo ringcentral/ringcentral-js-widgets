@@ -30,7 +30,7 @@ var _default = {
   accept: "Answer",
   toVoicemail: "To voicemail",
   anonymous: "Anonymous",
-  mergeToConference: "Merge",
+  mergeToConference: "Merge with active call",
   hold: "Hold",
   unhold: "Unhold",
   transfer: "Transfer",
@@ -67,7 +67,7 @@ var _default = {
 // @key: @#@"accept"@#@ @source: @#@"Answer"@#@
 // @key: @#@"toVoicemail"@#@ @source: @#@"To Voicemail"@#@
 // @key: @#@"anonymous"@#@ @source: @#@"Anonymous"@#@
-// @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
+// @key: @#@"mergeToConference"@#@ @source: @#@"Merge with active call"@#@
 // @key: @#@"hold"@#@ @source: @#@"Hold"@#@
 // @key: @#@"unhold"@#@ @source: @#@"Unhold"@#@
 // @key: @#@"transfer"@#@ @source: @#@"Transfer"@#@

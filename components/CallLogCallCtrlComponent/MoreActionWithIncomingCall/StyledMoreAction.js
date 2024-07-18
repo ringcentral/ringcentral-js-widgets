@@ -36,7 +36,7 @@ function _templateObject() {
   };
   return data;
 }
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+function _taggedTemplateLiteral(e, t) { return t || (t = e.slice(0)), Object.freeze(Object.defineProperties(e, { raw: { value: Object.freeze(t) } })); }
 var StyledActionIcon = (0, _juno.styled)(_juno.RcIcon)(_templateObject(), (0, _juno.spacing)(2));
 exports.StyledActionIcon = StyledActionIcon;
 var StyledReplyIcon = (0, _juno.styled)(StyledActionIcon)(_templateObject2());

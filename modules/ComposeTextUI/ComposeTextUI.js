@@ -1,16 +1,18 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 require("core-js/modules/es.array.filter");
 require("core-js/modules/es.array.for-each");
 require("core-js/modules/es.array.iterator");
 require("core-js/modules/es.array.map");
 require("core-js/modules/es.function.name");
+require("core-js/modules/es.object.get-own-property-descriptor");
 require("core-js/modules/es.object.to-string");
 require("core-js/modules/es.promise");
 require("core-js/modules/es.regexp.exec");
 require("core-js/modules/es.string.iterator");
 require("core-js/modules/es.string.split");
+require("core-js/modules/es.string.trim");
 require("core-js/modules/web.dom-collections.for-each");
 require("core-js/modules/web.dom-collections.iterator");
 Object.defineProperty(exports, "__esModule", {
@@ -21,29 +23,35 @@ require("regenerator-runtime/runtime");
 var _module = _interopRequireDefault(require("@ringcentral-integration/commons/lib/di/decorators/module"));
 var _formatNumber = require("@ringcentral-integration/commons/lib/formatNumber");
 var _core = require("@ringcentral-integration/core");
-var _dec, _class;
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
-function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+var _dec, _dec2, _class, _class2;
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
+function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
 /**
  * TODO: check type correctness after migrating to @rx-ex for client
  */
 var ComposeTextUI = (_dec = (0, _module["default"])({
   name: 'ComposeTextUI',
   deps: ['Brand', 'ComposeText', 'ConnectivityMonitor', 'ContactSearch', 'Conversations', 'Locale', 'MessageSender', 'MessageStore', 'RateLimiter', 'RegionSettings', 'AppFeatures', 'RouterInteraction', 'AccountInfo']
-}), _dec(_class = /*#__PURE__*/function (_RcUIModuleV) {
+}), _dec2 = (0, _core.track)(function (that, eventName, contactType) {
+  return [eventName, {
+    contactType: contactType,
+    location: 'SMS compose'
+  }];
+}), _dec(_class = (_class2 = /*#__PURE__*/function (_RcUIModuleV) {
   _inherits(ComposeTextUI, _RcUIModuleV);
   var _super = _createSuper(ComposeTextUI);
   function ComposeTextUI(deps) {
@@ -53,12 +61,32 @@ var ComposeTextUI = (_dec = (0, _module["default"])({
     });
   }
   _createClass(ComposeTextUI, [{
+    key: "triggerEventTracking",
+    value: function () {
+      var _triggerEventTracking = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(eventName, contactType) {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }));
+      function triggerEventTracking(_x, _x2) {
+        return _triggerEventTracking.apply(this, arguments);
+      }
+      return triggerEventTracking;
+    }()
+  }, {
     key: "getUIProps",
     value: function getUIProps(_ref) {
       var inputExpandable = _ref.inputExpandable,
         supportAttachment = _ref.supportAttachment,
         _ref$useRecipientsInp = _ref.useRecipientsInputV2,
-        useRecipientsInputV2 = _ref$useRecipientsInp === void 0 ? false : _ref$useRecipientsInp;
+        useRecipientsInputV2 = _ref$useRecipientsInp === void 0 ? false : _ref$useRecipientsInp,
+        autoFocusToField = _ref.autoFocusToField;
       var isContentEmpty = this._deps.composeText.messageText.length === 0 && (!this._deps.composeText.attachments || this._deps.composeText.attachments.length === 0);
       return {
         brand: this._deps.brand.name,
@@ -76,7 +104,8 @@ var ComposeTextUI = (_dec = (0, _module["default"])({
         inputExpandable: inputExpandable,
         attachments: this._deps.composeText.attachments,
         supportAttachment: supportAttachment,
-        useRecipientsInputV2: useRecipientsInputV2
+        useRecipientsInputV2: useRecipientsInputV2,
+        autoFocus: autoFocusToField
       };
     }
   }, {
@@ -100,28 +129,31 @@ var ComposeTextUI = (_dec = (0, _module["default"])({
         recipientsContactInfoRenderer = _ref2.recipientsContactInfoRenderer,
         recipientsContactPhoneRenderer = _ref2.recipientsContactPhoneRenderer;
       return {
+        triggerEventTracking: function triggerEventTracking(eventName, contactType) {
+          return _this.triggerEventTracking(eventName, contactType);
+        },
         send: function () {
-          var _send = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(text, attachments) {
+          var _send = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(text, attachments) {
             var responses, conversationId;
-            return regeneratorRuntime.wrap(function _callee$(_context) {
+            return regeneratorRuntime.wrap(function _callee2$(_context2) {
               while (1) {
-                switch (_context.prev = _context.next) {
+                switch (_context2.prev = _context2.next) {
                   case 0:
-                    _context.prev = 0;
-                    _context.next = 3;
+                    _context2.prev = 0;
+                    _context2.next = 3;
                     return _this._deps.composeText.send(text, attachments);
                   case 3:
-                    responses = _context.sent;
+                    responses = _context2.sent;
                     if (!(!responses || responses.length === 0)) {
-                      _context.next = 6;
+                      _context2.next = 6;
                       break;
                     }
-                    return _context.abrupt("return");
+                    return _context2.abrupt("return");
                   case 6:
                     // @ts-expect-error TS(2345): Argument of type Remove this comment to see the full error message
                     _this._deps.messageStore.pushMessages(responses);
                     if (!(responses.length === 1)) {
-                      _context.next = 14;
+                      _context2.next = 14;
                       break;
                     }
                     conversationId = responses[0] &&
@@ -130,13 +162,13 @@ var ComposeTextUI = (_dec = (0, _module["default"])({
                     // @ts-expect-error TS(2551): Property 'conversation' does not exist on type 'Ge... Remove this comment to see the full error message
                     responses[0].conversation.id;
                     if (conversationId) {
-                      _context.next = 11;
+                      _context2.next = 11;
                       break;
                     }
-                    return _context.abrupt("return");
+                    return _context2.abrupt("return");
                   case 11:
                     _this._deps.routerInteraction.push("/conversations/".concat(conversationId));
-                    _context.next = 15;
+                    _context2.next = 15;
                     break;
                   case 14:
                     _this._deps.routerInteraction.push('/messages');
@@ -144,19 +176,19 @@ var ComposeTextUI = (_dec = (0, _module["default"])({
                     // @ts-expect-error TS(2345): Argument of type 'GetMessageInfoResponse[]' is not... Remove this comment to see the full error message
                     _this._deps.conversations.relateCorrespondentEntity(responses);
                     _this._deps.composeText.clean();
-                    return _context.abrupt("return");
+                    return _context2.abrupt("return");
                   case 20:
-                    _context.prev = 20;
-                    _context.t0 = _context["catch"](0);
-                    console.log(_context.t0);
+                    _context2.prev = 20;
+                    _context2.t0 = _context2["catch"](0);
+                    console.log(_context2.t0);
                   case 23:
                   case "end":
-                    return _context.stop();
+                    return _context2.stop();
                 }
               }
-            }, _callee, null, [[0, 20]]);
+            }, _callee2, null, [[0, 20]]);
           }));
-          function send(_x, _x2) {
+          function send(_x3, _x4) {
             return _send.apply(this, arguments);
           }
           return send;
@@ -164,39 +196,40 @@ var ComposeTextUI = (_dec = (0, _module["default"])({
         formatPhone: formatContactPhone,
         formatContactPhone: formatContactPhone,
         detectPhoneNumbers: function () {
-          var _detectPhoneNumbers = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(input) {
+          var _detectPhoneNumbers = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee4(input) {
             var promises, results, detectedNumbers;
-            return regeneratorRuntime.wrap(function _callee3$(_context3) {
+            return regeneratorRuntime.wrap(function _callee4$(_context4) {
               while (1) {
-                switch (_context3.prev = _context3.next) {
+                switch (_context4.prev = _context4.next) {
                   case 0:
                     promises = input.split(/,\s*/g).map( /*#__PURE__*/function () {
-                      var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(item) {
+                      var _ref3 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(item) {
                         var isValid;
-                        return regeneratorRuntime.wrap(function _callee2$(_context2) {
+                        return regeneratorRuntime.wrap(function _callee3$(_context3) {
                           while (1) {
-                            switch (_context2.prev = _context2.next) {
+                            switch (_context3.prev = _context3.next) {
                               case 0:
-                                _context2.next = 2;
+                                item = item.trim();
+                                _context3.next = 3;
                                 return _this._deps.composeText.validatePhoneNumber(item);
-                              case 2:
-                                isValid = _context2.sent;
-                                return _context2.abrupt("return", isValid ? item : undefined);
-                              case 4:
+                              case 3:
+                                isValid = _context3.sent;
+                                return _context3.abrupt("return", isValid ? item : '');
+                              case 5:
                               case "end":
-                                return _context2.stop();
+                                return _context3.stop();
                             }
                           }
-                        }, _callee2);
+                        }, _callee3);
                       }));
-                      return function (_x4) {
+                      return function (_x6) {
                         return _ref3.apply(this, arguments);
                       };
                     }());
-                    _context3.next = 3;
+                    _context4.next = 3;
                     return Promise.all(promises);
                   case 3:
-                    results = _context3.sent;
+                    results = _context4.sent;
                     detectedNumbers = results.filter(function (item) {
                       return !!item;
                     });
@@ -205,15 +238,15 @@ var ComposeTextUI = (_dec = (0, _module["default"])({
                         phoneNumber: phoneNumber
                       });
                     });
-                    return _context3.abrupt("return", detectedNumbers.length > 0);
+                    return _context4.abrupt("return", detectedNumbers.length > 0);
                   case 7:
                   case "end":
-                    return _context3.stop();
+                    return _context4.stop();
                 }
               }
-            }, _callee3);
+            }, _callee4);
           }));
-          function detectPhoneNumbers(_x3) {
+          function detectPhoneNumbers(_x5) {
             return _detectPhoneNumbers.apply(this, arguments);
           }
           return detectPhoneNumbers;
@@ -280,6 +313,6 @@ var ComposeTextUI = (_dec = (0, _module["default"])({
     }
   }]);
   return ComposeTextUI;
-}(_core.RcUIModuleV2)) || _class);
+}(_core.RcUIModuleV2), (_applyDecoratedDescriptor(_class2.prototype, "triggerEventTracking", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "triggerEventTracking"), _class2.prototype)), _class2)) || _class);
 exports.ComposeTextUI = ComposeTextUI;
 //# sourceMappingURL=ComposeTextUI.js.map

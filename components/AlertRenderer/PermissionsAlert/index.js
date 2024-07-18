@@ -4,11 +4,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = exports.PermissionsAlert = void 0;
-var _react = _interopRequireDefault(require("react"));
 var _permissionsMessages = require("@ringcentral-integration/commons/enums/permissionsMessages");
+var _react = _interopRequireDefault(require("react"));
 var _FormattedMessage = _interopRequireDefault(require("../../FormattedMessage"));
 var _i18n = _interopRequireDefault(require("./i18n"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var PermissionsAlert = function PermissionsAlert(_ref) {
   var message = _ref.message.message,
     currentLocale = _ref.currentLocale,
@@ -18,9 +18,7 @@ var PermissionsAlert = function PermissionsAlert(_ref) {
   switch (message) {
     case _permissionsMessages.permissionsMessages.invalidTier:
       msg = /*#__PURE__*/_react["default"].createElement(_FormattedMessage["default"], {
-        message: _i18n["default"].getString(message, currentLocale)
-        // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
-        ,
+        message: _i18n["default"].getString(message, currentLocale),
         values: {
           brand: brand,
           application: application

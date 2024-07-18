@@ -9,14 +9,14 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+var _clsx = _interopRequireDefault(require("clsx"));
 var _react = _interopRequireDefault(require("react"));
-var _classnames = _interopRequireDefault(require("classnames"));
 var _CircleButton = _interopRequireDefault(require("../CircleButton"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var ActiveCallButton = function ActiveCallButton(props) {
-  var className = (0, _classnames["default"])(_styles["default"].btnSvg, props.className);
-  var buttonClassName = (0, _classnames["default"])(_styles["default"].button, props.buttonClassName, props.active ? _styles["default"].buttonActive : null, props.disabled ? _styles["default"].buttonDisabled : null);
+  var className = (0, _clsx["default"])(_styles["default"].btnSvg, props.className);
+  var buttonClassName = (0, _clsx["default"])(_styles["default"].button, props.buttonClassName, props.active ? _styles["default"].buttonActive : null, props.disabled ? _styles["default"].buttonDisabled : null);
   var text = props.title && props.title.split('\n').map(function (line, index) {
     return /*#__PURE__*/_react["default"].createElement("tspan", {
       dy: index ? '1.1em' : 0,

@@ -7,7 +7,7 @@ exports["default"] = void 0;
 var _default = {
   confirmation: "確認",
   confirmMergeToConference: "電話会議に追加しますか?",
-  mergeToConference: "統合",
+  mergeToConference: "マージ",
   conferenceCall: "電話会議"
 }; // @key: @#@"confirmation"@#@ @source: @#@"Confirmation"@#@
 // @key: @#@"confirmMergeToConference"@#@ @source: @#@"Add to conference call?"@#@

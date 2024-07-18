@@ -11,34 +11,34 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-var _react = _interopRequireDefault(require("react"));
-var _classnames = _interopRequireDefault(require("classnames"));
-var _ramda = require("ramda");
 var _callDirections = _interopRequireDefault(require("@ringcentral-integration/commons/enums/callDirections"));
-var _callResults = _interopRequireDefault(require("@ringcentral-integration/commons/enums/callResults"));
+var _callResults = require("@ringcentral-integration/commons/enums/callResults");
 var _telephonyStatus = _interopRequireDefault(require("@ringcentral-integration/commons/enums/telephonyStatus"));
 var _callLogHelpers = require("@ringcentral-integration/commons/lib/callLogHelpers");
 var _formatDuration = require("@ringcentral-integration/commons/lib/formatDuration");
 var _juno = require("@ringcentral/juno");
 var _junoIcon = require("@ringcentral/juno-icon");
+var _clsx = _interopRequireDefault(require("clsx"));
+var _ramda = require("ramda");
+var _react = _interopRequireDefault(require("react"));
 var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
 var _DurationCounter = _interopRequireDefault(require("../DurationCounter"));
 var _RecordingIndicator = require("../RecordingIndicator");
 var _CallIcon = require("./CallIcon");
-var _i18n = _interopRequireDefault(require("./i18n"));
 var _ShinyBar = require("./ShinyBar");
+var _i18n = _interopRequireDefault(require("./i18n"));
 var _styles = require("./styles");
 var _styles2 = _interopRequireDefault(require("./styles.scss"));
 var _callIconMap;
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
-function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
-function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
-function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-var callIconMap = (_callIconMap = {}, _defineProperty(_callIconMap, _callResults["default"].missed, _DynamicsFont["default"].missed), _defineProperty(_callIconMap, _callDirections["default"].inbound, _DynamicsFont["default"].inbound), _defineProperty(_callIconMap, _callDirections["default"].outbound, _DynamicsFont["default"].outbound), _defineProperty(_callIconMap, _telephonyStatus["default"].ringing, _DynamicsFont["default"].callHover), _callIconMap);
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) { ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } } return n; }, _extends.apply(null, arguments); }
+function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose(e, t); if (Object.getOwnPropertySymbols) { var s = Object.getOwnPropertySymbols(e); for (r = 0; r < s.length; r++) { o = s[r], t.includes(o) || {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } } return i; }
+function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t = {}; for (var n in r) { if ({}.hasOwnProperty.call(r, n)) { if (e.includes(n)) continue; t[n] = r[n]; } } return t; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+var callIconMap = (_callIconMap = {}, _defineProperty(_callIconMap, _callResults.callResults.missed, _DynamicsFont["default"].missed), _defineProperty(_callIconMap, _callDirections["default"].inbound, _DynamicsFont["default"].inbound), _defineProperty(_callIconMap, _callDirections["default"].outbound, _DynamicsFont["default"].outbound), _defineProperty(_callIconMap, _telephonyStatus["default"].ringing, _DynamicsFont["default"].callHover), _defineProperty(_callIconMap, "conferenceCall", _DynamicsFont["default"].conference), _callIconMap);
 function getInfoStatus(status) {
   switch (status) {
     case _telephonyStatus["default"].onHold:
@@ -90,9 +90,10 @@ var SubCallInfoSection = function SubCallInfoSection(_ref) {
   }
   var durationElement = getDurationElm();
   var infoStatus = getInfoStatus(telephonyStatus);
+  var switchButtonDisabled = disableLinks || disabledSwitchButton;
   return /*#__PURE__*/_react["default"].createElement(_styles.StyleSubBox, null, /*#__PURE__*/_react["default"].createElement("div", {
     "data-sign": "subLogSection",
-    className: (0, _classnames["default"])(_styles2["default"].root, !isWide && _styles2["default"].classic, _styles2["default"][infoStatus])
+    className: (0, _clsx["default"])(_styles2["default"].root, !isWide && _styles2["default"].classic, _styles2["default"][infoStatus])
   }, /*#__PURE__*/_react["default"].createElement(_ShinyBar.ShinyBar, {
     className: _styles2["default"].top,
     status: infoStatus
@@ -120,16 +121,16 @@ var SubCallInfoSection = function SubCallInfoSection(_ref) {
   }, " ".concat(subContactNameDisplay))), /*#__PURE__*/_react["default"].createElement(_styles.StyledSubSide, null, /*#__PURE__*/_react["default"].createElement("p", {
     "data-sign": "subCallDuration"
   }, durationElement), showRecordingIndicator && isRecording && /*#__PURE__*/_react["default"].createElement(_styles.StyledSubRecordingIndicator, null, /*#__PURE__*/_react["default"].createElement(_RecordingIndicator.RecordingIndicator, {
-    customClass: _styles2["default"].subRecordingIndicator,
-    dataSign: "subRecordingIndicator"
+    className: _styles2["default"].subRecordingIndicator,
+    "data-sign": "subRecordingIndicator"
   }))))), /*#__PURE__*/_react["default"].createElement(_styles.StyledTransferSwitchButton, {
     "data-sign": "warmTransferSwitchCallButton",
     variant: "contained",
     color: "neutral.b01",
     size: "small",
     onClick: onSwitchWarmTransferSession,
-    title: _i18n["default"].getString('warmTransferSwitchCall', currentLocale),
-    disabled: disableLinks || disabledSwitchButton
+    title: switchButtonDisabled ? undefined : _i18n["default"].getString('warmTransferSwitchCall', currentLocale),
+    disabled: switchButtonDisabled
   }, /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
     color: "interactive.b02",
     size: "inherit",
@@ -150,7 +151,9 @@ var ActiveCallInfoSection = function ActiveCallInfoSection(_ref2) {
     isWide = _ref2.isWide,
     className = _ref2.className,
     showRecordingIndicator = _ref2.showRecordingIndicator,
-    openEntityDetailLinkTrack = _ref2.openEntityDetailLinkTrack;
+    openEntityDetailLinkTrack = _ref2.openEntityDetailLinkTrack,
+    toggleConference = _ref2.toggleConference,
+    conferenceParticipantsIsOpen = _ref2.conferenceParticipantsIsOpen;
   if (!call) return null;
   var direction = call.direction,
     to = call.to,
@@ -160,7 +163,9 @@ var ActiveCallInfoSection = function ActiveCallInfoSection(_ref2) {
     duration = call.duration,
     result = call.result,
     telephonyStatus = call.telephonyStatus,
-    isRecording = call.isRecording;
+    isRecording = call.isRecording,
+    isConferenceCall = call.isConferenceCall,
+    conferenceParticipants = call.conferenceParticipants;
   function getDurationElm() {
     var durationElement = null;
     if (typeof duration === 'undefined') {
@@ -181,7 +186,6 @@ var ActiveCallInfoSection = function ActiveCallInfoSection(_ref2) {
   }
   var number = direction === _callDirections["default"].outbound ? to && (to.phoneNumber || to.extensionNumber) : from && (from.phoneNumber || from.extensionNumber);
   var formatNumber = formatPhone === null || formatPhone === void 0 ? void 0 : formatPhone(number);
-  // @ts-expect-error TS(2345): Argument of type 'Call' is not assignable to param... Remove this comment to see the full error message
   var missed = (0, _callLogHelpers.isMissed)(call);
   var durationElement = getDurationElm();
   var status = result || telephonyStatus;
@@ -192,7 +196,7 @@ var ActiveCallInfoSection = function ActiveCallInfoSection(_ref2) {
   var infoStatus = getInfoStatus(status);
   return /*#__PURE__*/_react["default"].createElement("div", {
     "data-sign": "logSection",
-    className: (0, _classnames["default"])(_styles2["default"].root, !isWide && _styles2["default"].classic, _styles2["default"][infoStatus], className, _styles2["default"].logBasicInfo)
+    className: (0, _clsx["default"])(_styles2["default"].root, !isWide && _styles2["default"].classic, _styles2["default"][infoStatus], className, _styles2["default"].logBasicInfo)
   }, /*#__PURE__*/_react["default"].createElement(_ShinyBar.ShinyBar, {
     className: _styles2["default"].top,
     isRinging: isRinging,
@@ -201,12 +205,8 @@ var ActiveCallInfoSection = function ActiveCallInfoSection(_ref2) {
     "data-sign": dataSign,
     className: _styles2["default"].leftSectionInfo
   }, /*#__PURE__*/_react["default"].createElement(_CallIcon.CallIcon, {
-    title: missed ? _i18n["default"].getString(_callResults["default"].missed, currentLocale) :
-    // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
-    _i18n["default"].getString(direction, currentLocale),
-    iconClassName: (0, _classnames["default"])(_styles2["default"].icon,
-    // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
-    callIconMap[missed ? _callResults["default"].missed : direction])
+    title: missed ? _i18n["default"].getString(_callResults.callResults.missed, currentLocale) : isConferenceCall ? _i18n["default"].getString('conferenceCall', currentLocale) : _i18n["default"].getString(direction, currentLocale),
+    iconClassName: (0, _clsx["default"])(_styles2["default"].icon, callIconMap[missed ? _callResults.callResults.missed : isConferenceCall ? 'conferenceCall' : direction])
   }), /*#__PURE__*/_react["default"].createElement("ul", {
     className: _styles2["default"].callDisplay
   }, /*#__PURE__*/_react["default"].createElement("li", {
@@ -227,31 +227,47 @@ var ActiveCallInfoSection = function ActiveCallInfoSection(_ref2) {
     align: "center",
     variant: "caption1"
   }, " ".concat(subContactNameDisplay))), /*#__PURE__*/_react["default"].createElement("p", {
-    className: (0, _classnames["default"])(_styles2["default"].follow, _styles2["default"]['text-ellipsis'])
-  }, /*#__PURE__*/_react["default"].createElement("span", {
+    className: (0, _clsx["default"])(_styles2["default"].follow, _styles2["default"]['text-ellipsis'])
+  }, isConferenceCall ? null : /*#__PURE__*/_react["default"].createElement("span", {
     title: formatNumber,
     "data-sign": "phoneNumber"
   }, formatNumber), /*#__PURE__*/_react["default"].createElement("span", {
     "data-sign": "callStatus",
     title: statusI18n
-  }, statusI18n))), /*#__PURE__*/_react["default"].createElement("li", {
+  }, statusI18n))), !call.result && isConferenceCall && /*#__PURE__*/_react["default"].createElement("li", null, /*#__PURE__*/_react["default"].createElement(_juno.RcTooltip, {
+    title: "".concat(_i18n["default"].getString('participants', currentLocale), " (").concat(conferenceParticipants === null || conferenceParticipants === void 0 ? void 0 : conferenceParticipants.length, ")")
+  }, /*#__PURE__*/_react["default"].createElement(_styles.StyledParticipantsButton, {
+    "data-sign": "conferenceCallParticipantsIcon",
+    size: "xsmall",
+    radius: "round",
+    variant: "outlined",
+    color: conferenceParticipantsIsOpen ? 'action.primary' : 'action.grayLight',
+    onClick: function onClick() {
+      return toggleConference(true);
+    }
+  }, /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
+    size: "xsmall",
+    symbol: _junoIcon.Team
+  }), conferenceParticipants === null || conferenceParticipants === void 0 ? void 0 : conferenceParticipants.length))), /*#__PURE__*/_react["default"].createElement("li", {
     className: _styles2["default"]['flex-fill']
   }), isWide ? /*#__PURE__*/_react["default"].createElement("li", {
     className: _styles2["default"].time
   }, /*#__PURE__*/_react["default"].createElement(_styles.StyledSide, null, durationElement, showRecordingIndicator && isRecording && /*#__PURE__*/_react["default"].createElement(_RecordingIndicator.RecordingIndicator, {
-    customClass: _styles2["default"].recordingIndicator,
-    dataSign: "recordingIndicator"
-  })), /*#__PURE__*/_react["default"].createElement("p", null, dateTimeFormatter({
+    className: _styles2["default"].recordingIndicator,
+    "data-sign": "recordingIndicator"
+  })), /*#__PURE__*/_react["default"].createElement("p", {
+    "data-sign": "startTime"
+  }, dateTimeFormatter({
     utcTimestamp: startTime,
     locale: currentLocale
   }))) : /*#__PURE__*/_react["default"].createElement("li", {
-    className: (0, _classnames["default"])(_styles2["default"].follow, _styles2["default"].time)
+    className: (0, _clsx["default"])(_styles2["default"].follow, _styles2["default"].time)
   }, /*#__PURE__*/_react["default"].createElement("p", null, durationElement), /*#__PURE__*/_react["default"].createElement("p", null, dateTimeFormatter({
     utcTimestamp: startTime,
     locale: currentLocale
   })), showRecordingIndicator && isRecording && /*#__PURE__*/_react["default"].createElement(_RecordingIndicator.RecordingIndicator, {
-    customClass: _styles2["default"].recordingIndicator,
-    dataSign: "recordingIndicator"
+    className: _styles2["default"].recordingIndicator,
+    "data-sign": "recordingIndicator"
   })))));
 };
 var LogBasicInfo = /*#__PURE__*/_react["default"].memo(function (props) {

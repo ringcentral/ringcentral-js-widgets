@@ -24,13 +24,13 @@ export default {
   accept: "응답",
   toVoicemail: "음성 사서함에 보내기",
   anonymous: "익명",
-  mergeToConference: "병합",
+  mergeToConference: "진행 중인 통화와 병합",
   hold: "대기",
   unhold: "보류 해제",
   transfer: "전달",
   reject: "거부",
   switchCall: "이 앱으로 통화 전환",
-  callSwitch: "통화 넘기기",
+  callSwitch: "통화 전환",
   comfirmContext: "현재 {displayName}님과 통화 중입니다. 이 디바이스에서 통화를 계속하시겠습니까?",
   comfirmCancelButton: "취소",
   comfirmOKButton: "전환",
@@ -63,7 +63,7 @@ export default {
 // @key: @#@"accept"@#@ @source: @#@"Answer"@#@
 // @key: @#@"toVoicemail"@#@ @source: @#@"To Voicemail"@#@
 // @key: @#@"anonymous"@#@ @source: @#@"Anonymous"@#@
-// @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
+// @key: @#@"mergeToConference"@#@ @source: @#@"Merge with active call"@#@
 // @key: @#@"hold"@#@ @source: @#@"Hold"@#@
 // @key: @#@"unhold"@#@ @source: @#@"Unhold"@#@
 // @key: @#@"transfer"@#@ @source: @#@"Transfer"@#@

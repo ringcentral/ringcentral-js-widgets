@@ -1,7 +1,3 @@
-import React, { forwardRef, useEffect, useRef, useState } from 'react';
-
-import classNames from 'classnames';
-
 import type {
   RcBaseProps,
   RcIconButtonProps,
@@ -15,6 +11,8 @@ import {
   useForkRef,
 } from '@ringcentral/juno';
 import { Deletenumber } from '@ringcentral/juno-icon';
+import clsx from 'clsx';
+import React, { forwardRef, useEffect, useRef, useState } from 'react';
 
 import i18n from './i18n';
 import styles from './styles.scss';
@@ -92,12 +90,14 @@ export const RecipientsInput = forwardRef<
       // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [value]);
 
+    const placeholderText =
+      placeholder || i18n.getString('dialPlaceholder', currentLocale);
+
     return (
-      <div className={classNames(className, styles.inputRoot)}>
+      <div className={clsx(className, styles.inputRoot)}>
         <RcTextField
-          placeholder={
-            placeholder || i18n.getString('dialPlaceholder', currentLocale)
-          }
+          placeholder={placeholderText}
+          title={placeholderText}
           value={value}
           inputProps={{
             maxLength: 30,

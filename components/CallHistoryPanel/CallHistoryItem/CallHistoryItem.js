@@ -8,14 +8,14 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.CallHistoryItem = void 0;
-var _react = _interopRequireDefault(require("react"));
-var _classnames = _interopRequireDefault(require("classnames"));
 var _callDirections = require("@ringcentral-integration/commons/enums/callDirections");
 var _juno = require("@ringcentral/juno");
+var _clsx = _interopRequireDefault(require("clsx"));
+var _react = _interopRequireDefault(require("react"));
 var _CallHistoryActions = require("../CallHistoryActions");
 var _CallIcon = require("../CallIcon");
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 function _templateObject() {
   var data = _taggedTemplateLiteral(["\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n  height: 64px;\n  box-sizing: border-box;\n  padding: ", ";\n  border-bottom: 1px solid ", ";\n"]);
   _templateObject = function _templateObject() {
@@ -23,7 +23,7 @@ function _templateObject() {
   };
   return data;
 }
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+function _taggedTemplateLiteral(e, t) { return t || (t = e.slice(0)), Object.freeze(Object.defineProperties(e, { raw: { value: Object.freeze(t) } })); }
 var Item = _juno.styled.div(_templateObject(), function (_ref) {
   var isWide = _ref.isWide;
   return isWide ? (0, _juno.spacing)(3, 4) : (0, _juno.spacing)(3);
@@ -38,9 +38,9 @@ var CallHistoryItem = function CallHistoryItem(_ref2) {
     isWide: isWide,
     "data-sign": "callHistoryItem"
   }, /*#__PURE__*/_react["default"].createElement("div", {
-    className: (0, _classnames["default"])([_styles["default"].left, !isWide && _styles["default"].classic])
+    className: (0, _clsx["default"])([_styles["default"].left, !isWide && _styles["default"].classic])
   }, /*#__PURE__*/_react["default"].createElement(_CallIcon.CallIcon, call), /*#__PURE__*/_react["default"].createElement("div", {
-    className: (0, _classnames["default"])([_styles["default"].info, !isWide && _styles["default"].classic])
+    className: (0, _clsx["default"])([_styles["default"].info, !isWide && _styles["default"].classic])
   }, /*#__PURE__*/_react["default"].createElement(_juno.RcText, {
     variant: "body1",
     noWrap: true,

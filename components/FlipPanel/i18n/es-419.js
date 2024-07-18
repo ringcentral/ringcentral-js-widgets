@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  flipHeader: "Voltear llamada a...",
+  flipHeader: "Voltear llamada a…",
   flip: "Transferir",
   complete: "Completar Flip"
 }; // @key: @#@"flipHeader"@#@ @source: @#@"Flip Call to..."@#@

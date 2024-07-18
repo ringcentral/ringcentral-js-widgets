@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  logging: "Iniciando sesión...",
+  logging: "Iniciando sesión…",
   logCall: "Registrar llamada",
   editLog: "Editar registro",
   select: "Seleccionar una grabación que coincida",
@@ -19,7 +19,7 @@ var _default = {
   addEntity: "Crear nuevo",
   addLog: "Registro",
   text: "Mensaje",
-  call: "Llamada",
+  call: "Llamar",
   missedCall: "Perdida",
   inboundCall: "Entrante",
   outboundCall: "Saliente"

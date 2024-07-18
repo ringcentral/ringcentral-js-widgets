@@ -1,10 +1,10 @@
-import React, { PureComponent } from 'react';
-
 import PropTypes from 'prop-types';
+import React, { PureComponent } from 'react';
 
 import NavigationBar from '../NavigationBar';
 import RecentActivityNavigationButton from '../RecentActivityNavigationButton';
 import { SpinnerOverlay } from '../SpinnerOverlay';
+
 import styles from './styles.scss';
 
 class RecentActivityView extends PureComponent {

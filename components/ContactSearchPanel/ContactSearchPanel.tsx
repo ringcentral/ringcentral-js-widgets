@@ -1,14 +1,5 @@
-import type { FunctionComponent } from 'react';
-import React, {
-  useCallback,
-  useEffect,
-  useImperativeHandle,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
-
 import { phoneTypes } from '@ringcentral-integration/commons/enums/phoneTypes';
+import { trackEvents } from '@ringcentral-integration/commons/enums/trackEvents';
 import type {
   ContactPresence,
   IContact,
@@ -24,10 +15,26 @@ import {
   RcTabs,
   useAvatarColorToken,
   useAvatarShortName,
+  useDebounce,
   usePrevious,
   useSuggestionList,
 } from '@ringcentral/juno';
-import { Dial, UserDefault } from '@ringcentral/juno-icon';
+import {
+  Dial,
+  ArrowUp2,
+  ArrowDown2,
+  UserDefault,
+  CallQueue,
+} from '@ringcentral/juno-icon';
+import type { FunctionComponent } from 'react';
+import React, {
+  useCallback,
+  useEffect,
+  useImperativeHandle,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 
 import { useCommunicationSetupContext } from '../../contexts';
 import type {
@@ -40,12 +47,14 @@ import { usePresence } from '../../react-hooks/usePresence';
 import { validateValidChars } from '../CommunicationSetupPanel/helper';
 import { Tooltip } from '../Rcui/Tooltip';
 import { TextWithHighlight } from '../TextWithHighlight/TextWithHighlight';
+
 import type { TabsEnumType } from './ContactSearchPanelEnum';
 import { TabsEnum } from './ContactSearchPanelEnum';
 import { DoNotCallIndicator } from './DoNotCallIndicator';
 import { HelpTextSection } from './HelpTextSection';
-import i18n, { I18nKey } from './i18n';
+import i18n, { type I18nKey } from './i18n';
 import {
+  CallQueueIcon,
   ContactName,
   DefaultIcon,
   FullSizeWrapper,
@@ -58,6 +67,7 @@ import {
 const getCountsRes = (counts: number) => (counts > 99 ? `99+` : counts);
 
 const PrimaryAvatar = ({
+  inOtherTab,
   isDirectlyProceed,
   inThirdPartyTab,
   ThirdPartyAvatar,
@@ -68,6 +78,7 @@ const PrimaryAvatar = ({
   needFetchPresence,
   contact,
 }: Pick<ContactSearchPanelProps, 'ThirdPartyAvatar'> & {
+  inOtherTab: boolean;
   isDirectlyProceed: boolean;
   inThirdPartyTab: boolean;
   type: string;
@@ -97,6 +108,17 @@ const PrimaryAvatar = ({
         data-sign="directlyProceedAvatar"
       />
     );
+
+  if (inOtherTab) {
+    return (
+      <CallQueueIcon
+        symbol={CallQueue}
+        data-sign="callQueueAvatar"
+        size="xxlarge"
+        color="neutral.f01"
+      />
+    );
+  }
 
   if (inThirdPartyTab && ThirdPartyAvatar)
     return <ThirdPartyAvatar type={type} />;
@@ -132,6 +154,7 @@ const companyPhoneTypeMap: PhoneTypeMap = {
 };
 
 export const ContactSearchPanel: FunctionComponent<ContactSearchPanelProps> = ({
+  otherContacts,
   companyContacts,
   personalContacts,
   thirdPartyContacts = [],
@@ -151,9 +174,14 @@ export const ContactSearchPanel: FunctionComponent<ContactSearchPanelProps> = ({
   changeTabTrack,
   getPresence,
   defaultTab = TabsEnum.thirdParty,
+  showOtherContacts,
+  triggerEventTracking = () => {},
 }) => {
+  const [activeTab, setActiveTab] = useState<TabsEnumType>(defaultTab);
   const previousUserInput = usePrevious(() => userInput);
   const isAbleToSearch = userInput.length >= minimumSearchLength;
+  const inThirdPartyTab = activeTab === TabsEnum.thirdParty;
+  const isLoading = inThirdPartyTab && isAbleToSearch && isThirdPartySearching;
 
   const getPrimaryCount = (items: any) => {
     const count = items?.filter((i: any) => i.isPrimary).length;
@@ -161,42 +189,87 @@ export const ContactSearchPanel: FunctionComponent<ContactSearchPanelProps> = ({
   };
 
   const { optionsMap, tabItemsMap } = useMemo(() => {
-    const _optionsMap = {
-      [TabsEnum.thirdParty]: !isAbleToSearch ? [] : thirdPartyContacts,
-      [TabsEnum.company]: companyContacts,
-      [TabsEnum.personal]: personalContacts,
-    };
+    const _optionsMap = showOtherContacts
+      ? {
+          [TabsEnum.thirdParty]: !isAbleToSearch ? [] : thirdPartyContacts,
+          [TabsEnum.company]: companyContacts,
+          [TabsEnum.personal]: personalContacts,
+          [TabsEnum.other]: otherContacts,
+        }
+      : {
+          [TabsEnum.thirdParty]: !isAbleToSearch ? [] : thirdPartyContacts,
+          [TabsEnum.company]: companyContacts,
+          [TabsEnum.personal]: personalContacts,
+        };
+    const _tabItemsMap = [
+      {
+        label: thirdPartySourceName,
+        value: TabsEnum.thirdParty,
+        count: isLoading
+          ? 0
+          : getPrimaryCount(_optionsMap[TabsEnum.thirdParty]),
+      },
+      {
+        label: i18n.getString('companyTabTitle', currentLocale),
+        value: TabsEnum.company,
+        count: getPrimaryCount(_optionsMap[TabsEnum.company]),
+      },
+      {
+        label: i18n.getString('personalTabTitle', currentLocale),
+        value: TabsEnum.personal,
+        count: getPrimaryCount(_optionsMap[TabsEnum.personal]),
+      },
+      {
+        label: i18n.getString('other', currentLocale),
+        value: TabsEnum.other,
+        count: getPrimaryCount(_optionsMap[TabsEnum.other]),
+      },
+    ];
 
     return {
       optionsMap: _optionsMap,
-      tabItemsMap: [
-        {
-          label: thirdPartySourceName,
-          value: TabsEnum.thirdParty,
-          count: getPrimaryCount(_optionsMap[TabsEnum.thirdParty]),
-        },
-        {
-          label: i18n.getString('companyTabTitle', currentLocale),
-          value: TabsEnum.company,
-          count: getPrimaryCount(_optionsMap[TabsEnum.company]),
-        },
-        {
-          label: i18n.getString('personalTabTitle', currentLocale),
-          value: TabsEnum.personal,
-          count: getPrimaryCount(_optionsMap[TabsEnum.personal]),
-        },
-      ],
+      tabItemsMap: showOtherContacts ? _tabItemsMap : _tabItemsMap.slice(0, 2),
     };
   }, [
     isAbleToSearch,
     thirdPartyContacts,
     companyContacts,
     personalContacts,
+    otherContacts,
     thirdPartySourceName,
     currentLocale,
+    isLoading,
+    showOtherContacts,
   ]);
 
-  const [activeTab, setActiveTab] = useState<TabsEnumType>(defaultTab);
+  const tabLabels = tabItemsMap.reduce(
+    (acc, tab) => {
+      acc[tab.value] = tab.label;
+      return acc;
+    },
+    {} as {
+      [key in TabsEnumType]: string;
+    },
+  ) as {
+    [key in TabsEnumType]: string;
+  };
+
+  const debounceTracking = useDebounce((optionsMap, tabLabels) => {
+    const result = Object.keys(optionsMap)
+      .filter((key) => {
+        const map = optionsMap as { [x: string]: IContactSearchItem[] };
+        return map[key].length > 0;
+      })
+      .map((key) => (tabLabels as { [x: string]: string })[key]);
+
+    if (result && result.length > 0) {
+      triggerEventTracking(trackEvents.getContactSearch, result.join(', '));
+    }
+  }, 1000);
+
+  useEffect(() => {
+    debounceTracking(optionsMap, tabLabels);
+  }, [optionsMap, tabLabels, debounceTracking]);
 
   useEffect(() => {
     if (userInput !== previousUserInput) {
@@ -204,9 +277,8 @@ export const ContactSearchPanel: FunctionComponent<ContactSearchPanelProps> = ({
     }
   }, [previousUserInput, userInput, setFilterString]);
 
-  const inThirdPartyTab = activeTab === TabsEnum.thirdParty;
-  const isLoading = inThirdPartyTab && isAbleToSearch && isThirdPartySearching;
-  const options = optionsMap[activeTab];
+  const inOtherTab = activeTab === TabsEnum.other;
+  const options = optionsMap[activeTab] as IContactSearchItem[];
   const showDirectlyItem = validateValidChars(userInput);
   const finialOptions = useMemo(
     () =>
@@ -246,6 +318,10 @@ export const ContactSearchPanel: FunctionComponent<ContactSearchPanelProps> = ({
         item.name = item.phoneNumber;
       }
       optionClickHandler(item);
+      triggerEventTracking(
+        trackEvents.searchedContactClicked,
+        tabLabels[activeTab],
+      );
     },
   });
 
@@ -311,6 +387,17 @@ export const ContactSearchPanel: FunctionComponent<ContactSearchPanelProps> = ({
           centered={centered}
           MoreButtonProps={{
             datatype: 'moreMenu',
+            // @ts-ignore
+            'data-sign': 'moreMenu',
+            style: {
+              padding: 0,
+            },
+            MoreIcon: (isMenuOpen: boolean) =>
+              isMenuOpen ? (
+                <RcIcon symbol={ArrowUp2} />
+              ) : (
+                <RcIcon symbol={ArrowDown2} />
+              ),
             MenuProps: {
               marginThreshold: 6,
             },
@@ -320,6 +407,9 @@ export const ContactSearchPanel: FunctionComponent<ContactSearchPanelProps> = ({
             const tabName = `${label} (${count})`;
             return (
               <RcTab
+                style={{
+                  padding: '6px 8px',
+                }}
                 key={label}
                 data-sign={`${value}ContactSearchResult`}
                 label={
@@ -368,6 +458,10 @@ export const ContactSearchPanel: FunctionComponent<ContactSearchPanelProps> = ({
                 profileImageUrl = '',
                 contact,
                 presenceStatus,
+                // @ts-ignore
+                entityType,
+                // @ts-ignore
+                resourceType,
                 ...restProps
               } = props;
               const needFetchPresence = !!(
@@ -398,6 +492,7 @@ export const ContactSearchPanel: FunctionComponent<ContactSearchPanelProps> = ({
                       type={type}
                       ThirdPartyAvatar={ThirdPartyAvatar}
                       name={name}
+                      inOtherTab={inOtherTab}
                       inThirdPartyTab={inThirdPartyTab}
                       profileImageUrl={profileImageUrl}
                     />

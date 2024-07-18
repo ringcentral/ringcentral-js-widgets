@@ -1,12 +1,12 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+var _clsx = _interopRequireDefault(require("clsx"));
 var _react = _interopRequireWildcard(require("react"));
-var _classnames = _interopRequireDefault(require("classnames"));
 var _Answer = _interopRequireDefault(require("../../assets/images/Answer.svg"));
 var _CircleButton = _interopRequireDefault(require("../CircleButton"));
 var _DialPad = _interopRequireDefault(require("../DialPad"));
@@ -15,9 +15,9 @@ var _RecipientsInput = _interopRequireDefault(require("../RecipientsInput"));
 var _RecipientsInputV = require("../RecipientsInputV2");
 var _SpinnerOverlay = require("../SpinnerOverlay");
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
-function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
+function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
+function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) { if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } } return n["default"] = e, t && t.set(e, n), n; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var DialerPanel = function DialerPanel(_ref) {
   var currentLocale = _ref.currentLocale,
     callButtonDisabled = _ref.callButtonDisabled,
@@ -32,8 +32,7 @@ var DialerPanel = function DialerPanel(_ref) {
     formatPhone = _ref.formatPhone,
     isWebphoneMode = _ref.isWebphoneMode,
     showSpinner = _ref.showSpinner,
-    dialButtonVolume = _ref.dialButtonVolume,
-    dialButtonMuted = _ref.dialButtonMuted,
+    callVolume = _ref.callVolume,
     searchContact = _ref.searchContact,
     searchContactList = _ref.searchContactList,
     recipients = _ref.recipients,
@@ -89,7 +88,7 @@ var DialerPanel = function DialerPanel(_ref) {
     enableTitle: true
     // @ts-expect-error TS(2322): Type 'string | null' is not assignable to type 'st... Remove this comment to see the full error message
     ,
-    className: !showFromField ? (0, _classnames["default"])(_styles["default"].inputField, _styles["default"].recipientsField) : null
+    className: !showFromField ? (0, _clsx["default"])(_styles["default"].inputField, _styles["default"].recipientsField) : null
   }) : /*#__PURE__*/_react["default"].createElement(_RecipientsInput["default"], {
     inputRef: function inputRef(element) {
       inputEl.current = element;
@@ -113,10 +112,10 @@ var DialerPanel = function DialerPanel(_ref) {
     autoFocus: autoFocus
     // @ts-expect-error TS(2322): Type 'string | null' is not assignable to type 'st... Remove this comment to see the full error message
     ,
-    className: !showFromField ? (0, _classnames["default"])(_styles["default"].inputField, _styles["default"].recipientsField) : null
+    className: !showFromField ? (0, _clsx["default"])(_styles["default"].inputField, _styles["default"].recipientsField) : null
   });
   return /*#__PURE__*/_react["default"].createElement("div", {
-    className: (0, _classnames["default"])(_styles["default"].root, className)
+    className: (0, _clsx["default"])(_styles["default"].root, className)
   }, input, showFromField ? /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].inputField
   }, /*#__PURE__*/_react["default"].createElement(_FromField["default"]
@@ -139,7 +138,7 @@ var DialerPanel = function DialerPanel(_ref) {
     hidden: !isWebphoneMode,
     disabled: disableFromField
   })) : null, /*#__PURE__*/_react["default"].createElement("div", {
-    className: (0, _classnames["default"])(_styles["default"].dialButtons, dialButtonsClassName)
+    className: (0, _clsx["default"])(_styles["default"].dialButtons, dialButtonsClassName)
   }, /*#__PURE__*/_react["default"].createElement(_DialPad["default"], {
     className: _styles["default"].dialPad,
     onButtonOutput: function onButtonOutput(key) {
@@ -150,15 +149,14 @@ var DialerPanel = function DialerPanel(_ref) {
         inputEl.current.focus();
       }
     },
-    dialButtonVolume: dialButtonVolume,
-    dialButtonMuted: dialButtonMuted
+    dialButtonVolume: callVolume
   }), /*#__PURE__*/_react["default"].createElement("div", {
-    className: (0, _classnames["default"])(_styles["default"].callBtnRow, withTabs && _styles["default"].callBtnRowWithTabs, inConference && _styles["default"].callBtnRowInConference)
+    className: (0, _clsx["default"])(_styles["default"].callBtnRow, withTabs && _styles["default"].callBtnRowWithTabs, inConference && _styles["default"].callBtnRowInConference)
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].callBtn
   }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
     dataSign: "callButton",
-    className: (0, _classnames["default"])(_styles["default"].dialBtn, callButtonDisabled && _styles["default"].disabled),
+    className: (0, _clsx["default"])(_styles["default"].dialBtn, callButtonDisabled && _styles["default"].disabled),
     onClick: function onClick() {
       return onCallButtonClick({
         clickDialerToCall: true
@@ -189,8 +187,7 @@ DialerPanel.defaultProps = {
     return phoneNumber;
   },
   showSpinner: false,
-  dialButtonVolume: 1,
-  dialButtonMuted: false,
+  callVolume: 1,
   recipients: [],
   autoFocus: false,
   showFromField: true,

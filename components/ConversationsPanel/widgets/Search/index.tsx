@@ -1,13 +1,12 @@
-import React from 'react';
-
-import classnames from 'classnames';
-
 import messageTypes from '@ringcentral-integration/commons/enums/messageTypes';
+import clsx from 'clsx';
+import React from 'react';
 
 import NewComposeText from '../../../../assets/images/NewComposeText.svg';
 import NewComposeTextHover from '../../../../assets/images/NewComposeTextHover.svg';
 import { SearchInput } from '../../../SearchInput';
 import i18n from '../../i18n';
+
 import styles from './styles.scss';
 
 type SearchProps = {
@@ -39,7 +38,7 @@ const Search: React.FC<SearchProps> = ({
     (typeFilter === messageTypes.all || typeFilter === messageTypes.text);
   return (
     <div
-      className={classnames(
+      className={clsx(
         styles.searchContainer,
         showTextIcon ? null : styles.withoutTextIcon,
       )}

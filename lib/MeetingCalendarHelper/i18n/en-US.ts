@@ -18,4 +18,4 @@ export default {
     '---------------------------------- Do Not Modify ----------------------------------',
   password: '\n\nPassword',
   passwordPstn: '\n\nDial-in password:',
-};
+} as const;

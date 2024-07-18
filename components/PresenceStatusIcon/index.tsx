@@ -1,6 +1,5 @@
+import clsx from 'clsx';
 import React from 'react';
-
-import classnames from 'classnames';
 
 import styles from './styles.scss';
 
@@ -10,7 +9,7 @@ type PresenceStatusIconProps = {
   userStatus?: string;
   presenceStatus?: string;
 };
-const PresenceStatusIcon: React.SFC<PresenceStatusIconProps> = ({
+const PresenceStatusIcon: React.FC<PresenceStatusIconProps> = ({
   userStatus,
   dndStatus,
   presenceStatus,
@@ -18,7 +17,7 @@ const PresenceStatusIcon: React.SFC<PresenceStatusIconProps> = ({
 }) => {
   return (
     <div
-      className={classnames(
+      className={clsx(
         styles.presence,
         // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
         styles[presenceStatus || userStatus],

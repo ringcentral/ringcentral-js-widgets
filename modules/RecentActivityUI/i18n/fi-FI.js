@@ -9,7 +9,7 @@ var _default = {
   text: "Tekstiviesti",
   fax: "Faksi",
   voicemail: "Puhelinvastaaja",
-  call: "Puhelu"
+  call: "Soita"
 }; // @key: @#@"recentActivities"@#@ @source: @#@"Recent Activities"@#@
 // @key: @#@"text"@#@ @source: @#@"Text"@#@
 // @key: @#@"fax"@#@ @source: @#@"Fax"@#@

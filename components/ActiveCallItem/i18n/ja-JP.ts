@@ -24,14 +24,14 @@ export default {
   accept: "応答",
   toVoicemail: "ボイスメールへ",
   anonymous: "匿名",
-  mergeToConference: "統合",
+  mergeToConference: "アクティブな通話とマージ",
   hold: "保留",
   unhold: "保留を解除",
   transfer: "転送",
   reject: "拒否",
   switchCall: "このアプリに通話を切り替え",
   callSwitch: "通話の切り替え",
-  comfirmContext: "現在、{displayName}とのアクティブな通話中です。このデバイスで通話を続けますか？",
+  comfirmContext: "現在、{displayName}とのアクティブな通話中です。このデバイスで通話を続行しますか？",
   comfirmCancelButton: "キャンセル",
   comfirmOKButton: "切り替え",
   ignore: "無視",
@@ -63,7 +63,7 @@ export default {
 // @key: @#@"accept"@#@ @source: @#@"Answer"@#@
 // @key: @#@"toVoicemail"@#@ @source: @#@"To Voicemail"@#@
 // @key: @#@"anonymous"@#@ @source: @#@"Anonymous"@#@
-// @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
+// @key: @#@"mergeToConference"@#@ @source: @#@"Merge with active call"@#@
 // @key: @#@"hold"@#@ @source: @#@"Hold"@#@
 // @key: @#@"unhold"@#@ @source: @#@"Unhold"@#@
 // @key: @#@"transfer"@#@ @source: @#@"Transfer"@#@

@@ -9,6 +9,7 @@ export interface CallLogCallCtrlPanelProps {
   isWide?: boolean;
   enableReply?: boolean;
   isCurrentDeviceCall?: boolean;
+  isCurrentCall: boolean;
   warmTransferActiveTelephonySessionId?: string;
   transferRef?: React.RefObject<HTMLSpanElement>;
   isOnTransfer?: boolean;
@@ -30,6 +31,7 @@ export interface CallLogCallCtrlPanelProps {
   stopRecord: ActiveCallControl['stopRecord'];
   onCompleteWarmTransfer: ActiveCallControl['completeWarmTransfer'];
   onTransfer: (telephonySessionId: string) => Promise<void>;
+  onAddCall: () => Promise<void>;
   sendDTMF: (dtmfValue: string, telephonySessionId: string) => Promise<void>;
   answer: ActiveCallControl['answer'];
   forward: (phoneNumber: string, telephonySessionId: string) => void;
@@ -40,4 +42,6 @@ export interface CallLogCallCtrlPanelProps {
   dialpadToggleTrack: (open: boolean) => void;
   clickForwardTrack: ActiveCallControl['clickForwardTrack'];
   allowPickupCall: boolean;
+  showConferenceCall?: boolean;
+  onMergeCall: () => Promise<void>;
 }

@@ -1,8 +1,9 @@
 import type { FunctionComponent } from 'react';
 import React from 'react';
-import { phoneSources } from '../../enums/phoneSources';
 
+import { phoneSources } from '../../enums/phoneSources';
 import phoneSourceNames from '../../lib/phoneSourceNames';
+
 import type { RecipientInfoProps } from './RecipientsInputV2.interface';
 import styles from './styles.scss';
 

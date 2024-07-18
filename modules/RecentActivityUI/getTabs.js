@@ -6,15 +6,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.trackTabsMap = exports.getTabs = void 0;
-var _react = _interopRequireDefault(require("react"));
 var _trackEvents = require("@ringcentral-integration/commons/enums/trackEvents");
+var _react = _interopRequireDefault(require("react"));
 var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
 var _Fax = _interopRequireDefault(require("../../assets/images/Fax.svg"));
 var _VoicemailIcon = _interopRequireDefault(require("../../assets/images/VoicemailIcon.svg"));
 var _RecentActivityCalls = _interopRequireDefault(require("../../components/RecentActivityCalls"));
 var _RecentActivityMessages = _interopRequireDefault(require("../../components/RecentActivityMessages"));
 var _i18n = _interopRequireDefault(require("./i18n"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var trackTabsMap = {
   recentCalls: _trackEvents.trackEvents.clickRecentActivityCall,
   faxes: _trackEvents.trackEvents.clickRecentActivityFaxes,

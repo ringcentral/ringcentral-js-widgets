@@ -7,12 +7,12 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.LoginPanel = void 0;
-var _react = _interopRequireDefault(require("react"));
 var _juno = require("@ringcentral/juno");
+var _react = _interopRequireDefault(require("react"));
 var _HeaderViewUtils = require("../HeaderView/utils/HeaderViewUtils");
 var _SpinnerOverlay = require("../SpinnerOverlay");
 var _i18n = _interopRequireDefault(require("./i18n"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 function _templateObject4() {
   var data = _taggedTemplateLiteral(["\n  position: absolute;\n  bottom: 1%;\n  right: 1%;\n  ", ";\n  color: ", ";\n"]);
   _templateObject4 = function _templateObject4() {
@@ -41,7 +41,7 @@ function _templateObject() {
   };
   return data;
 }
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+function _taggedTemplateLiteral(e, t) { return t || (t = e.slice(0)), Object.freeze(Object.defineProperties(e, { raw: { value: Object.freeze(t) } })); }
 var CustomButton = (0, _juno.styled)(_juno.RcButton)(_templateObject(), (0, _juno.typography)('caption2'));
 var SignUpButton = (0, _juno.styled)(CustomButton)(_templateObject2());
 var LoginWrapper = _juno.styled.div(_templateObject3(), _juno.flexCenterStyle, (0, _juno.palette2)('neutral', 'b01'), _HeaderViewUtils.headerViewHeight);

@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 var _default = {
   loginButton: "Kirjaudu sisään",
-  signupButton: "Uusi käyttäjä? Rekisteröidy",
+  signupButton: "Oletko uusi käyttäjä? Rekisteröidy",
   version: "Versio"
 }; // @key: @#@"loginButton"@#@ @source: @#@"Sign In"@#@
 // @key: @#@"signupButton"@#@ @source: @#@"New user? Sign Up"@#@

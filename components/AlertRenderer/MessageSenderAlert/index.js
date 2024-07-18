@@ -6,12 +6,12 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-var _react = _interopRequireDefault(require("react"));
 var _MessageSender = require("@ringcentral-integration/commons/modules/MessageSender");
+var _react = _interopRequireDefault(require("react"));
 var _FormattedMessage = _interopRequireDefault(require("../../FormattedMessage"));
 var _i18n = _interopRequireDefault(require("./i18n"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var MessageSenderAlert = function MessageSenderAlert(_ref) {
   var currentLocale = _ref.currentLocale,
     _ref$message = _ref.message,
@@ -31,9 +31,7 @@ var MessageSenderAlert = function MessageSenderAlert(_ref) {
       }
     }, areaCode) : areaCode;
     return /*#__PURE__*/_react["default"].createElement(_FormattedMessage["default"], {
-      message: _i18n["default"].getString(message, currentLocale)
-      // @ts-expect-error TS(2322): Type 'string | Element' is not assignable to type ... Remove this comment to see the full error message
-      ,
+      message: _i18n["default"].getString(message, currentLocale),
       values: {
         areaCodeLink: areaCodeLink
       }
@@ -41,9 +39,7 @@ var MessageSenderAlert = function MessageSenderAlert(_ref) {
   }
   if ([_MessageSender.messageSenderMessages.noInternalSMSPermission, _MessageSender.messageSenderMessages.noSMSPermission].indexOf(message) !== -1) {
     return /*#__PURE__*/_react["default"].createElement(_FormattedMessage["default"], {
-      message: _i18n["default"].getString(message, currentLocale)
-      // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
-      ,
+      message: _i18n["default"].getString(message, currentLocale),
       values: {
         brand: brand
       }

@@ -7,4 +7,4 @@ export default {
   [authMessages.sessionExpired]: 'Session expired. Please sign in.',
   [authMessages.siteAccessForbidden]:
     'Sorry, use a different account to sign in. Please ask your IT admin for assistance.',
-};
+} as const;

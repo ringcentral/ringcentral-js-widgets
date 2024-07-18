@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports["default"] = void 0;
 var _default = {
   to: "Para",
-  enterNameOrNumber: "Escribir nombre o núm."
+  enterNameOrNumber: "Escribir nombre o número"
 }; // @key: @#@"to"@#@ @source: @#@"To"@#@
 // @key: @#@"enterNameOrNumber"@#@ @source: @#@"Enter name or number"@#@
 exports["default"] = _default;

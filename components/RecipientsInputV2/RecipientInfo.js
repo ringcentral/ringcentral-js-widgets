@@ -10,7 +10,7 @@ var _react = _interopRequireDefault(require("react"));
 var _phoneSources = require("../../enums/phoneSources");
 var _phoneSourceNames = _interopRequireDefault(require("../../lib/phoneSourceNames"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var RecipientInfo = function RecipientInfo(_ref) {
   var currentLocale = _ref.currentLocale,
     name = _ref.name,

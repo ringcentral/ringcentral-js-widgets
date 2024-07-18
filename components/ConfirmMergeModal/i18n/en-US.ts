@@ -3,4 +3,4 @@ export default {
   confirmMergeToConference: 'Add to conference call?',
   mergeToConference: 'Merge',
   conferenceCall: 'Conference Call',
-};
+} as const;

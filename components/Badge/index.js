@@ -5,18 +5,20 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+var _clsx = _interopRequireDefault(require("clsx"));
 var _react = _interopRequireDefault(require("react"));
-var _classnames = _interopRequireDefault(require("classnames"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var Badge = function Badge(_ref) {
   var className = _ref.className,
     name = _ref.name,
     children = _ref.children,
-    onClick = _ref.onClick;
+    onClick = _ref.onClick,
+    dataSign = _ref.dataSign;
   return /*#__PURE__*/_react["default"].createElement("div", {
+    "data-sign": dataSign,
     title: name,
-    className: (0, _classnames["default"])(_styles["default"].root, className),
+    className: (0, _clsx["default"])(_styles["default"].root, className),
     onClick: onClick
   }, children);
 };

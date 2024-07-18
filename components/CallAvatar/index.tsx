@@ -1,12 +1,11 @@
+import { isBase64DataUrl, loadImage } from '@ringcentral-integration/utils';
+import clsx from 'clsx';
 import type { FunctionComponent } from 'react';
 import React, { useEffect, useRef, useState } from 'react';
-
-import classnames from 'classnames';
 import { v4 as uuidV4 } from 'uuid';
 
-import { isBase64DataUrl, loadImage } from '@ringcentral-integration/utils';
-
 import SpinnerIcon from '../../assets/images/Spinner.svg';
+
 import styles from './styles.scss';
 
 export interface CallAvatarProps {
@@ -50,7 +49,7 @@ export const CallAvatar: FunctionComponent<CallAvatarProps> = ({
 }) => {
   const [avatarUrl, setAvatarUrl] = useState<string | null>(null);
 
-  const svgCls = classnames(
+  const svgCls = clsx(
     styles.callAvatar,
     onClick ? styles.autoPointerEvents : styles.disabledPointerEvents,
     className,

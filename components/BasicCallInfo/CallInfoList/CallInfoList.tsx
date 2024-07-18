@@ -1,14 +1,13 @@
+import { RcList, RcListItem } from '@ringcentral/juno';
+import clsx from 'clsx';
 import type { FunctionComponent } from 'react';
 import React from 'react';
-
-import classnames from 'classnames';
-
-import { RcList, RcListItem } from '@ringcentral/juno';
 
 import copyButton from '../../CopyButton/CopyButton';
 import CopyToClipboard from '../../CopyToClipboard';
 import type { CallInfoProps } from '../CallInfo';
 import { CallInfo } from '../CallInfo';
+
 import styles from './styles.scss';
 
 export interface CallInfoListProps {
@@ -30,11 +29,7 @@ export const CallInfoList: FunctionComponent<CallInfoListProps> = ({
     <div data-sign="infoList" className={className}>
       <RcList>
         {callInfos.map(({ attr, name, content, enableCopy }, i) => (
-          <RcListItem
-            key={i}
-            className={classnames(styles.listItem)}
-            button={false}
-          >
+          <RcListItem key={i} className={clsx(styles.listItem)} button={false}>
             <CallInfo name={name} content={content} />
             {enableCopy && (
               <div className={styles.copyBtn}>

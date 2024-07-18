@@ -1,8 +1,3 @@
-import type { FunctionComponent } from 'react';
-import React, { memo, useMemo } from 'react';
-
-import classNames from 'classnames';
-
 import type { RcSnackbarContentType } from '@ringcentral/juno';
 import {
   combineProps,
@@ -10,6 +5,9 @@ import {
   RcSnackbarContent,
 } from '@ringcentral/juno';
 import { Close as closeSvg } from '@ringcentral/juno-icon';
+import clsx from 'clsx';
+import type { FunctionComponent } from 'react';
+import React, { memo, useMemo } from 'react';
 
 import type {
   NotificationItemProps,
@@ -77,7 +75,7 @@ export const NotificationItem: FunctionComponent<NotificationItemProps> = memo(
       <div className={styles.container}>
         {backdrop && (
           <div
-            className={classNames(
+            className={clsx(
               styles.backdrop,
               backdropClass,
               classes.backdrop,
@@ -97,7 +95,7 @@ export const NotificationItem: FunctionComponent<NotificationItemProps> = memo(
           loading={loading}
           classes={combineProps(
             {
-              root: classNames('animated', styles.snackbar, animation),
+              root: clsx('animated', styles.snackbar, animation),
             },
             snackbarClass,
           )}
@@ -116,6 +114,7 @@ export const NotificationItem: FunctionComponent<NotificationItemProps> = memo(
                 variant="icon"
                 symbol={closeSvg}
                 size="small"
+                data-sign="snackbarActionClose"
                 onClick={() => {
                   dismiss(id);
                 }}

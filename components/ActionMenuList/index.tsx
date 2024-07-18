@@ -1,10 +1,8 @@
-import React, { Component } from 'react';
-
-import classnames from 'classnames';
-import PropTypes from 'prop-types';
-
 import { extensionTypes } from '@ringcentral-integration/commons/enums/extensionTypes';
 import messageTypes from '@ringcentral-integration/commons/enums/messageTypes';
+import clsx from 'clsx';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import DeleteMessageIcon from '../../assets/images/DeleteMessageIcon.svg';
@@ -17,6 +15,7 @@ import EntityButton from '../EntityButton';
 import EntityModal from '../EntityModal';
 import LogButton from '../LogButton';
 import Modal from '../Modal';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 
@@ -69,7 +68,7 @@ export const ClickToDialButton = ({
 }: any) => {
   return (
     <Button
-      className={classnames(styles.button, styles.clickToDialButton, className)}
+      className={clsx(styles.button, styles.clickToDialButton, className)}
       onClick={onClickToDial}
       dataSign={title}
       disabled={disableCallButton || disableClickToDial || !phoneNumber}
@@ -104,7 +103,7 @@ export const ClickToSmsButton = ({
 }: any) => {
   return (
     <Button
-      className={classnames(styles.button, styles.clickToSmsButton, className)}
+      className={clsx(styles.button, styles.clickToSmsButton, className)}
       onClick={onClickToSms}
       dataSign="clickToSms"
       disabled={disableLinks || !phoneNumber}
@@ -136,7 +135,7 @@ export const DeleteButton = ({
 }: any) => {
   return (
     <Button
-      className={classnames(styles.button, styles.svgBtn, className)}
+      className={clsx(styles.button, styles.svgBtn, className)}
       onClick={openDeleteModal}
       disabled={disabled}
       dataSign={title}
@@ -145,7 +144,7 @@ export const DeleteButton = ({
         <DeleteMessageIcon
           width={14}
           height={17}
-          className={classnames(
+          className={clsx(
             styles.svgFillIcon,
             disabled ? styles.disabled : null,
           )}
@@ -177,14 +176,14 @@ export const MarkButton = ({
 }: any) => {
   const Icon = marked ? UnmarkIcon : MarkIcon;
   const title = marked ? unmarkTitle : markTitle;
-  const classNames = classnames(
+  const classNames = clsx(
     styles.unmarked,
     marked ? styles.svgFillIcon : null,
     disabled ? styles.disabled : null,
   );
   return (
     <Button
-      className={classnames(styles.button, styles.svgBtn, className)}
+      className={clsx(styles.button, styles.svgBtn, className)}
       onClick={onClick}
       disabled={disabled}
       dataSign="mark"
@@ -213,14 +212,14 @@ MarkButton.defaultProps = {
 export const PreviewButton = ({ title, onClick, disabled, className }: any) => {
   return (
     <Button
-      className={classnames(styles.button, styles.svgBtn, className)}
+      className={clsx(styles.button, styles.svgBtn, className)}
       onClick={onClick}
       disabled={disabled}
       dataSign={title}
     >
       <span title={title}>
         <PreviewIcon
-          className={classnames(
+          className={clsx(
             styles.svgFillIcon,
             disabled ? styles.disabled : null,
           )}
@@ -376,7 +375,7 @@ class ActionMenuList extends Component {
       selectedMatchContactType,
     } = this.props;
 
-    if (shouldHideEntityButton) {
+    if (shouldHideEntityButton?.()) {
       return null;
     }
 
@@ -607,7 +606,7 @@ class ActionMenuList extends Component {
       faxAttachment && faxAttachment.uri ? (
         <div
           data-sign="download"
-          className={classnames(
+          className={clsx(
             styles.button,
             styles.svgBtn,
             styles.svgFillIcon,
@@ -622,6 +621,7 @@ class ActionMenuList extends Component {
             onClick={this._onDownloadClick}
             // @ts-expect-error TS(2322): Type '{ children: Element; target: "_blank"; downl... Remove this comment to see the full error message
             disabled={disableLinks}
+            rel="noreferrer"
           >
             <DownloadIcon width={18} height={18} />
           </a>
@@ -629,7 +629,7 @@ class ActionMenuList extends Component {
       ) : null;
     return (
       <div
-        className={classnames(styles.root, className)}
+        className={clsx(styles.root, className)}
         onClick={this.preventEventPropagating}
       >
         {clickToDialButton}
@@ -691,7 +691,7 @@ ActionMenuList.propTypes = {
   onFaxDownload: PropTypes.func,
   selectedMatchContactType: PropTypes.string,
   showChooseEntityModal: PropTypes.bool,
-  shouldHideEntityButton: PropTypes.bool,
+  shouldHideEntityButton: PropTypes.func,
   extraButton: PropTypes.element,
 };
 // @ts-expect-error TS(2339): Property 'defaultProps' does not exist on type 'ty... Remove this comment to see the full error message
@@ -734,7 +734,7 @@ ActionMenuList.defaultProps = {
   onFaxDownload: undefined,
   selectedMatchContactType: '',
   showChooseEntityModal: true,
-  shouldHideEntityButton: false,
+  shouldHideEntityButton: () => false,
   extraButton: undefined,
 };
 

@@ -1,17 +1,21 @@
+import clsx from 'clsx';
 import React, { PureComponent } from 'react';
 
-import classnames from 'classnames';
-
 import ForwardIcon from '../../assets/images/Forward_white.svg';
-import BackHeader from '../BackHeader';
+import {
+  PageHeader,
+  PageHeaderBack,
+  PageHeaderRemain,
+  PageHeaderTitle,
+} from '../BackHeader/PageHeader';
 import CircleButton from '../CircleButton';
 import DialPad from '../DialPad';
-import i18n from './i18n';
+
+import { t } from './i18n';
 import styles from './styles.scss';
 
 type ForwardPanelProps = {
   onForward: (...args: any[]) => any;
-  currentLocale: string;
   onBackClick: (...args: any[]) => any;
   telephonySessionId: string;
 };
@@ -62,14 +66,16 @@ class ForwardPanel extends PureComponent<ForwardPanelProps, ForwardPanelState> {
   };
   // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
-    const { onBackClick, currentLocale, children } = this.props;
+    const { onBackClick, children } = this.props;
     const { forwarding } = this.state;
     return (
       <div className={styles.root} data-sign="forwardPage">
-        <BackHeader onBackClick={onBackClick} className={styles.backHeader}>
-          {i18n.getString('forward', currentLocale)}
-        </BackHeader>
-        <div className={classnames(styles.dialInput)}>
+        <PageHeader>
+          <PageHeaderBack onClick={onBackClick} className={styles.backHeader} />
+          <PageHeaderTitle>{t('forward')}</PageHeaderTitle>
+          <PageHeaderRemain />
+        </PageHeader>
+        <div className={clsx(styles.dialInput)}>
           <input
             data-sign="input"
             className={styles.input}
@@ -90,7 +96,7 @@ class ForwardPanel extends PureComponent<ForwardPanelProps, ForwardPanelState> {
                 dataSign="forwardBtn"
                 onClick={this.onForward}
                 icon={ForwardIcon}
-                className={classnames(styles.forwardIcon, {
+                className={clsx(styles.forwardIcon, {
                   [styles.forwardIconDisable]: forwarding,
                 })}
               />

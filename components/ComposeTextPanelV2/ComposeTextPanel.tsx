@@ -6,6 +6,7 @@ import { CommunicationSetupPanel } from '../CommunicationSetupPanel';
 import NoSenderAlert from '../ComposeTextPanel/NoSenderAlert';
 import MessageInput from '../MessageInput';
 import { SpinnerOverlay } from '../SpinnerOverlay';
+
 import { Root } from './styles';
 
 export interface ComposeTextPanelProps {
@@ -15,6 +16,7 @@ export interface ComposeTextPanelProps {
     phoneNumber: string;
   }[];
   sendButtonDisabled: boolean;
+  triggerEventTracking: (eventName: string, contactType: string) => any;
   formatPhone: (...args: any[]) => any;
   detectPhoneNumbers: (...args: any[]) => any;
   currentLocale: string;
@@ -44,6 +46,8 @@ export interface ComposeTextPanelProps {
   addAttachment?: (...args: any[]) => any;
   removeAttachment?: (...args: any[]) => any;
   hintInfo?: JSX.Element;
+  // TODO: fix type
+  contactSearch?: any;
 }
 
 export const ComposeTextPanel: FunctionComponent<ComposeTextPanelProps> = ({
@@ -75,6 +79,8 @@ export const ComposeTextPanel: FunctionComponent<ComposeTextPanelProps> = ({
   cleanTypingToNumber,
   removeToNumber,
   detectPhoneNumbers,
+  contactSearch,
+  triggerEventTracking,
 }) => {
   const hasSenderNumbers = senderNumbers.length > 0;
   const hasPersonalRecipient = toNumbers.some((x) => x && x.type !== 'company');
@@ -96,6 +102,7 @@ export const ComposeTextPanel: FunctionComponent<ComposeTextPanelProps> = ({
     <Root>
       {showSpinner && <SpinnerOverlay />}
       <CommunicationSetupPanel
+        triggerEventTracking={triggerEventTracking}
         // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
         toNumber={typingToNumber}
         onToNumberChange={updateTypingToNumber}
@@ -115,6 +122,8 @@ export const ComposeTextPanel: FunctionComponent<ComposeTextPanelProps> = ({
         changeFromNumber={updateSenderNumber}
         showFromField={hasSenderNumbers}
         inputFullWidth={!!hintInfo}
+        ContactSearch={contactSearch}
+        filterCallQueueExtension
       >
         <NoSenderAlert
           currentLocale={currentLocale}

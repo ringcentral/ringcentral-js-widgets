@@ -30,7 +30,7 @@ var _default = {
   accept: "Répondre",
   toVoicemail: "Vers messag.",
   anonymous: "Anonyme",
-  mergeToConference: "Fusionner",
+  mergeToConference: "Fusionner avec l’appel actif",
   hold: "Mettre en attente",
   unhold: "Reprendre l’appel",
   transfer: "Transférer",
@@ -67,7 +67,7 @@ var _default = {
 // @key: @#@"accept"@#@ @source: @#@"Answer"@#@
 // @key: @#@"toVoicemail"@#@ @source: @#@"To Voicemail"@#@
 // @key: @#@"anonymous"@#@ @source: @#@"Anonymous"@#@
-// @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
+// @key: @#@"mergeToConference"@#@ @source: @#@"Merge with active call"@#@
 // @key: @#@"hold"@#@ @source: @#@"Hold"@#@
 // @key: @#@"unhold"@#@ @source: @#@"Unhold"@#@
 // @key: @#@"transfer"@#@ @source: @#@"Transfer"@#@

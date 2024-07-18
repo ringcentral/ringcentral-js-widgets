@@ -12,29 +12,30 @@ export type NavigationBarMoreMenuProps = Pick<
 > & {
   goTo: (tab: TabPropTypes) => void;
 };
-export const NavigationBarMoreMenu: FunctionComponent<NavigationBarMoreMenuProps> =
-  ({
-    tabs,
-    currentPath,
-    currentVirtualPath,
-    childNavigationView: ChildNavigationView,
-    goTo,
-  }) => {
-    const dropdownMenuTab = tabs.find(
-      (tab) =>
-        tab.childTabs &&
-        tab.isActive &&
-        tab.isActive(currentPath, currentVirtualPath),
-    );
+export const NavigationBarMoreMenu: FunctionComponent<
+  NavigationBarMoreMenuProps
+> = ({
+  tabs,
+  currentPath,
+  currentVirtualPath,
+  childNavigationView: ChildNavigationView,
+  goTo,
+}) => {
+  const dropdownMenuTab = tabs.find(
+    (tab) =>
+      tab.childTabs &&
+      tab.isActive &&
+      tab.isActive(currentPath, currentVirtualPath),
+  );
 
-    const dropdownMenu = dropdownMenuTab?.childTabs || [];
+  const dropdownMenu = dropdownMenuTab?.childTabs || [];
 
-    return dropdownMenu.length > 0 && ChildNavigationView ? (
-      <ChildNavigationView
-        tabs={dropdownMenu}
-        goTo={goTo}
-        currentPath={currentPath}
-        currentVirtualPath={currentVirtualPath}
-      />
-    ) : null;
-  };
+  return dropdownMenu.length > 0 && ChildNavigationView ? (
+    <ChildNavigationView
+      tabs={dropdownMenu}
+      goTo={goTo}
+      currentPath={currentPath}
+      currentVirtualPath={currentVirtualPath}
+    />
+  ) : null;
+};

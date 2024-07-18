@@ -30,13 +30,13 @@ function _templateObject2() {
   return data;
 }
 function _templateObject() {
-  var data = _taggedTemplateLiteral(["\n  display: flex;\n  flex-direction: column;\n  margin: ", " 0;\n  text-align: ", "; ;\n"]);
+  var data = _taggedTemplateLiteral(["\n  display: flex;\n  flex-direction: column;\n  margin: ", " 0;\n  text-align: ", ";\n"]);
   _templateObject = function _templateObject() {
     return data;
   };
   return data;
 }
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+function _taggedTemplateLiteral(e, t) { return t || (t = e.slice(0)), Object.freeze(Object.defineProperties(e, { raw: { value: Object.freeze(t) } })); }
 var HelpTextSectionWrapper = _juno.styled.div(_templateObject(), (0, _juno.spacing)(3), function (_ref) {
   var isLoading = _ref.isLoading;
   return isLoading ? 'center' : 'left';

@@ -11,11 +11,14 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _ActiveCallControl = require("@ringcentral-integration/commons/modules/ActiveCallControl");
-var _muteConflictError$un;
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
-function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+var _callsMerged$somethin;
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+var callsMerged = _ActiveCallControl.callControlAlerts.callsMerged,
+  somethingWentWrong = _ActiveCallControl.callControlAlerts.somethingWentWrong,
+  tooManyParticipants = _ActiveCallControl.callControlAlerts.tooManyParticipants;
 var holdConflictError = _ActiveCallControl.callControlError.holdConflictError,
   unHoldConflictError = _ActiveCallControl.callControlError.unHoldConflictError,
   muteConflictError = _ActiveCallControl.callControlError.muteConflictError,
@@ -24,6 +27,6 @@ var holdConflictError = _ActiveCallControl.callControlError.holdConflictError,
   forwardSuccess = _ActiveCallControl.callControlError.forwardSuccess,
   transferCompleted = _ActiveCallControl.callControlError.transferCompleted,
   replyCompleted = _ActiveCallControl.callControlError.replyCompleted;
-var _default = (_muteConflictError$un = {}, _defineProperty(_muteConflictError$un, muteConflictError, 'This call had been muted on other device. Please unmute the call before you control in this App.'), _defineProperty(_muteConflictError$un, unHoldConflictError, 'This call had been held on other device. Please unhold the call before you control in this App.'), _defineProperty(_muteConflictError$un, unMuteConflictError, 'This call had been unmuted on other device. Please mute the call before you control in this App.'), _defineProperty(_muteConflictError$un, holdConflictError, 'This call had been unheld on other device. Please hold the call before you control in this App.'), _defineProperty(_muteConflictError$un, generalError, 'Unexpected server error. Please try again later.'), _defineProperty(_muteConflictError$un, forwardSuccess, 'Call forwarded'), _defineProperty(_muteConflictError$un, transferCompleted, 'Call transferred'), _defineProperty(_muteConflictError$un, replyCompleted, 'Voice message sent.'), _muteConflictError$un);
+var _default = (_callsMerged$somethin = {}, _defineProperty(_callsMerged$somethin, callsMerged, 'Calls merged'), _defineProperty(_callsMerged$somethin, somethingWentWrong, 'Something went wrong. Please try again.'), _defineProperty(_callsMerged$somethin, tooManyParticipants, 'Maximum number of participants is reached.'), _defineProperty(_callsMerged$somethin, muteConflictError, 'This call had been muted on other device. Please unmute the call before you control in this App.'), _defineProperty(_callsMerged$somethin, unHoldConflictError, 'This call had been held on other device. Please unhold the call before you control in this App.'), _defineProperty(_callsMerged$somethin, unMuteConflictError, 'This call had been unmuted on other device. Please mute the call before you control in this App.'), _defineProperty(_callsMerged$somethin, holdConflictError, 'This call had been unheld on other device. Please hold the call before you control in this App.'), _defineProperty(_callsMerged$somethin, generalError, 'Unexpected server error. Please try again later.'), _defineProperty(_callsMerged$somethin, forwardSuccess, 'Call forwarded'), _defineProperty(_callsMerged$somethin, transferCompleted, 'Call transferred'), _defineProperty(_callsMerged$somethin, replyCompleted, 'Voice message sent.'), _callsMerged$somethin);
 exports["default"] = _default;
 //# sourceMappingURL=en-US.js.map

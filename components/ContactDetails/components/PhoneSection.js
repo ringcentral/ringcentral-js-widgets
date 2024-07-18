@@ -6,14 +6,14 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.PhoneSection = void 0;
-var _react = _interopRequireDefault(require("react"));
-var _classnames = _interopRequireDefault(require("classnames"));
-var _ramda = require("ramda");
 var _phoneTypeHelper = require("@ringcentral-integration/commons/lib/phoneTypeHelper");
+var _clsx = _interopRequireDefault(require("clsx"));
+var _ramda = require("ramda");
+var _react = _interopRequireDefault(require("react"));
 var _DynamicsFont = _interopRequireDefault(require("../../../assets/DynamicsFont/DynamicsFont.scss"));
 var _i18n = _interopRequireDefault(require("../i18n"));
 var _styles = _interopRequireDefault(require("../styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 /**
  * TODO
  * 1. Refactor phone type and phoneTypeOrder into modules
@@ -54,7 +54,7 @@ var PhoneListItem = function PhoneListItem(_ref2) {
   return /*#__PURE__*/_react["default"].createElement("li", {
     className: _styles["default"].clearBoth
   }, /*#__PURE__*/_react["default"].createElement("div", {
-    className: (0, _classnames["default"])(_styles["default"].text, _styles["default"].number)
+    className: (0, _clsx["default"])(_styles["default"].text, _styles["default"].number)
   }, /*#__PURE__*/_react["default"].createElement("span", {
     "data-sign": "contactNumber",
     "aria-label": phoneType,
@@ -64,7 +64,7 @@ var PhoneListItem = function PhoneListItem(_ref2) {
   }, canCallButtonShow(phoneType) ? /*#__PURE__*/_react["default"].createElement("button", {
     type: "button",
     "data-sign": "call",
-    className: (0, _classnames["default"])(isCallButtonDisabled && _styles["default"].disabled),
+    className: (0, _clsx["default"])(isCallButtonDisabled && _styles["default"].disabled),
     title: "".concat(_i18n["default"].getString('call', currentLocale), " ").concat(usedPhoneNumber),
     disabled: isCallButtonDisabled,
     onClick: function onClick() {
@@ -74,7 +74,7 @@ var PhoneListItem = function PhoneListItem(_ref2) {
     className: _DynamicsFont["default"].call
   })) : null, canTextButtonShow(phoneType) ? /*#__PURE__*/_react["default"].createElement("button", {
     type: "button",
-    className: (0, _classnames["default"])(disableLinks && _styles["default"].disabled),
+    className: (0, _clsx["default"])(disableLinks && _styles["default"].disabled),
     "data-sign": "text",
     title: "".concat(_i18n["default"].getString('text', currentLocale), " ").concat(usedPhoneNumber),
     disabled: disableLinks,
@@ -113,7 +113,7 @@ var PhoneSection = function PhoneSection(_ref3) {
       lastType: null
     }, sortedPhoneNumbers).map;
     return /*#__PURE__*/_react["default"].createElement("section", {
-      className: (0, _classnames["default"])(_styles["default"].section, _styles["default"].contacts),
+      className: (0, _clsx["default"])(_styles["default"].section, _styles["default"].contacts),
       "aria-label": "phone"
     }, (0, _ramda.map)(function (phoneType) {
       return /*#__PURE__*/_react["default"].createElement(PhoneList, {

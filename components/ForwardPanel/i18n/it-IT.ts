@@ -1,5 +1,5 @@
 export default {
-  forward: "Trasferisci"
+  forward: "Inoltra"
 };
 
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@

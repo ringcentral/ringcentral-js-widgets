@@ -23,14 +23,14 @@ var _default = {
   addContact: "Ajouter un contact",
   missedCall: "Manqué",
   inboundCall: "Entrant",
-  outboundCall: "Sortant",
+  outboundCall: "Sortants",
   from: "De",
   to: "À",
   hangup: "Raccrocher",
   accept: "Répondre",
   toVoicemail: "À la msg vocale",
   anonymous: "Anonyme",
-  mergeToConference: "Fusionner",
+  mergeToConference: "Fusionner avec l’appel en cours",
   hold: "Mettre en attente",
   unhold: "Reprendre",
   transfer: "Transférer",
@@ -67,7 +67,7 @@ var _default = {
 // @key: @#@"accept"@#@ @source: @#@"Answer"@#@
 // @key: @#@"toVoicemail"@#@ @source: @#@"To Voicemail"@#@
 // @key: @#@"anonymous"@#@ @source: @#@"Anonymous"@#@
-// @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
+// @key: @#@"mergeToConference"@#@ @source: @#@"Merge with active call"@#@
 // @key: @#@"hold"@#@ @source: @#@"Hold"@#@
 // @key: @#@"unhold"@#@ @source: @#@"Unhold"@#@
 // @key: @#@"transfer"@#@ @source: @#@"Transfer"@#@

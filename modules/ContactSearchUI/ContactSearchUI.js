@@ -1,6 +1,8 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+require("core-js/modules/es.array.filter");
+require("core-js/modules/es.array.map");
 require("core-js/modules/es.array.slice");
 require("core-js/modules/es.object.get-own-property-descriptor");
 Object.defineProperty(exports, "__esModule", {
@@ -8,6 +10,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.ContactSearchUI = void 0;
 require("regenerator-runtime/runtime");
+var _phoneTypes = require("@ringcentral-integration/commons/enums/phoneTypes");
 var _trackEvents = require("@ringcentral-integration/commons/enums/trackEvents");
 var _debounceThrottle = require("@ringcentral-integration/commons/lib/debounce-throttle");
 var _di = require("@ringcentral-integration/commons/lib/di");
@@ -15,24 +18,27 @@ var _formatNumber = require("@ringcentral-integration/commons/lib/formatNumber")
 var _proxify = require("@ringcentral-integration/commons/lib/proxy/proxify");
 var _core = require("@ringcentral-integration/core");
 var _ContactSearchHelper = require("./ContactSearchHelper");
-var _dec, _dec2, _dec3, _dec4, _dec5, _class, _class2, _descriptor;
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-function _initializerDefineProperty(target, property, descriptor, context) { if (!descriptor) return; Object.defineProperty(target, property, { enumerable: descriptor.enumerable, configurable: descriptor.configurable, writable: descriptor.writable, value: descriptor.initializer ? descriptor.initializer.call(context) : void 0 }); }
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
-function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) { var desc = {}; Object.keys(descriptor).forEach(function (key) { desc[key] = descriptor[key]; }); desc.enumerable = !!desc.enumerable; desc.configurable = !!desc.configurable; if ('value' in desc || desc.initializer) { desc.writable = true; } desc = decorators.slice().reverse().reduce(function (desc, decorator) { return decorator(target, property, desc) || desc; }, desc); if (context && desc.initializer !== void 0) { desc.value = desc.initializer ? desc.initializer.call(context) : void 0; desc.initializer = undefined; } if (desc.initializer === void 0) { Object.defineProperty(target, property, desc); desc = null; } return desc; }
-function _initializerWarningHelper(descriptor, context) { throw new Error('Decorating class property failed. Please ensure that ' + 'transform-class-properties is enabled and runs after the decorators transform.'); }
+var _dec, _dec2, _dec3, _dec4, _dec5, _dec6, _dec7, _class, _class2, _descriptor;
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+function _initializerDefineProperty(e, i, r, l) { r && Object.defineProperty(e, i, { enumerable: r.enumerable, configurable: r.configurable, writable: r.writable, value: r.initializer ? r.initializer.call(l) : void 0 }); }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
+function _applyDecoratedDescriptor(i, e, r, n, l) { var a = {}; return Object.keys(n).forEach(function (i) { a[i] = n[i]; }), a.enumerable = !!a.enumerable, a.configurable = !!a.configurable, ("value" in a || a.initializer) && (a.writable = !0), a = r.slice().reverse().reduce(function (r, n) { return n(i, e, r) || r; }, a), l && void 0 !== a.initializer && (a.value = a.initializer ? a.initializer.call(l) : void 0, a.initializer = void 0), void 0 === a.initializer ? (Object.defineProperty(i, e, a), null) : a; }
+function _initializerWarningHelper(r, e) { throw Error("Decorating class property failed. Please ensure that transform-class-properties is enabled and runs after the decorators transform."); }
 var ContactSearchUI = (_dec = (0, _di.Module)({
   name: 'ContactSearchUI',
   deps: ['Locale', 'AccountContacts', 'AddressBook', 'RegionSettings', 'AccountInfo', 'RouterInteraction', 'Contacts', {
@@ -45,11 +51,15 @@ var ContactSearchUI = (_dec = (0, _di.Module)({
 }), _dec2 = (0, _core.computed)(function (that) {
   return [that.filterString, that._deps.accountContacts.contacts];
 }), _dec3 = (0, _core.computed)(function (that) {
-  return [that.filterString, that._deps.addressBook.contacts];
+  return [that.filterString, that._deps.accountContacts.contacts];
 }), _dec4 = (0, _core.computed)(function (that) {
+  return [that.otherContacts];
+}), _dec5 = (0, _core.computed)(function (that) {
+  return [that.filterString, that._deps.addressBook.contacts];
+}), _dec6 = (0, _core.computed)(function (that) {
   var _that$_deps$contactSe;
   return [(_that$_deps$contactSe = that._deps.contactSearch) === null || _that$_deps$contactSe === void 0 ? void 0 : _that$_deps$contactSe.searchResult];
-}), _dec5 = (0, _core.track)(function (that, tab) {
+}), _dec7 = (0, _core.track)(function (that, tab) {
   return [that._deps.routerInteraction.currentPath === '/dialer' ? _trackEvents.trackEvents.changeDailerDirectoryTab : _trackEvents.trackEvents.changeSMSDirectoryTab, {
     tab: tab
   }];
@@ -64,6 +74,7 @@ var ContactSearchUI = (_dec = (0, _di.Module)({
       deps: deps
     });
     _this._companyContactsCache = {};
+    _this._otherContactsCache = {};
     _this._personalContactsCache = {};
     _this._minimumSearchLength = void 0;
     _this._companyContacts = void 0;
@@ -96,18 +107,42 @@ var ContactSearchUI = (_dec = (0, _di.Module)({
   }, {
     key: "getFilteredCompanyContacts",
     value: function getFilteredCompanyContacts() {
+      var _this$_deps$contactSe2;
+      var searchFilter = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
+      var lowCaseString = searchFilter.toLowerCase();
+      var accountContacts = this._deps.accountContacts.contacts;
+      if (this._companyContacts !== accountContacts) {
+        this._companyContacts = accountContacts;
+      } else if (this._companyContactsCache[lowCaseString]) {
+        return this._companyContactsCache[lowCaseString];
+      }
+      var contacts = ((_this$_deps$contactSe2 = this._deps.contactSearchUIOptions) === null || _this$_deps$contactSe2 === void 0 ? void 0 : _this$_deps$contactSe2.filterCallQueueNumber) ? accountContacts.filter(function (contact) {
+        return !contact.isCallQueueNumber;
+      }) : accountContacts;
+      var result = (0, _ContactSearchHelper.getRcFilteredContacts)({
+        lowCaseString: lowCaseString,
+        contacts: contacts
+      });
+      this._companyContactsCache[lowCaseString] = result;
+      return result;
+    }
+  }, {
+    key: "getFilteredCallQueueContacts",
+    value: function getFilteredCallQueueContacts() {
       var searchFilter = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : '';
       var lowCaseString = searchFilter.toLowerCase();
       if (this._companyContacts !== this._deps.accountContacts.contacts) {
         this._companyContacts = this._deps.accountContacts.contacts;
-      } else if (this._companyContactsCache[lowCaseString]) {
-        return this._companyContactsCache[lowCaseString];
+      } else if (this._otherContactsCache[lowCaseString]) {
+        return this._otherContactsCache[lowCaseString];
       }
       var result = (0, _ContactSearchHelper.getRcFilteredContacts)({
         lowCaseString: lowCaseString,
-        contacts: this._deps.accountContacts.contacts
+        contacts: this._deps.accountContacts.contacts.filter(function (contact) {
+          return contact.isCallQueueNumber;
+        })
       });
-      this._companyContactsCache[lowCaseString] = result;
+      this._otherContactsCache[lowCaseString] = result;
       return result;
     }
   }, {
@@ -127,7 +162,9 @@ var ContactSearchUI = (_dec = (0, _di.Module)({
     }
   }, {
     key: "changeTabTrack",
-    value: function changeTabTrack(tab) {}
+    value: function changeTabTrack(tab) {
+      //
+    }
   }, {
     key: "onInitOnce",
     value: function onInitOnce() {
@@ -141,6 +178,7 @@ var ContactSearchUI = (_dec = (0, _di.Module)({
         return _this2._deps.accountContacts.contacts;
       }, function () {
         _this2._companyContactsCache = {};
+        _this2._otherContactsCache = {};
       });
     }
   }, {
@@ -185,21 +223,24 @@ var ContactSearchUI = (_dec = (0, _di.Module)({
   }, {
     key: "getUIProps",
     value: function getUIProps(_ref) {
-      var _this$_deps$contactSe2, _this$_deps$contactSe3, _this$_deps$contactSe4;
+      var _this$_deps$contactSe3, _this$_deps$contactSe4, _this$_deps$contactSe5, _this$_deps$contactSe6, _this$_deps$contactSe7;
       var userInput = _ref.userInput,
         inputRef = _ref.inputRef,
-        directlyProceedText = _ref.directlyProceedText;
+        directlyProceedText = _ref.directlyProceedText,
+        filterCallQueueExtension = _ref.filterCallQueueExtension;
       // @ts-expect-error TS(2741): Property 'thirdPartySourceName' is missing in type... Remove this comment to see the full error message
       return {
         currentLocale: this._deps.locale.currentLocale,
         companyContacts: this.companyContacts,
+        otherContacts: filterCallQueueExtension ? this.filterCallQueueExtContacts : this.otherContacts,
         personalContacts: this.personalContacts,
         userInput: userInput,
         inputRef: inputRef,
-        centered: (_this$_deps$contactSe2 = (_this$_deps$contactSe3 = this._deps.contactSearchUIOptions) === null || _this$_deps$contactSe3 === void 0 ? void 0 : _this$_deps$contactSe3.centered) !== null && _this$_deps$contactSe2 !== void 0 ? _this$_deps$contactSe2 : false,
+        centered: (_this$_deps$contactSe3 = (_this$_deps$contactSe4 = this._deps.contactSearchUIOptions) === null || _this$_deps$contactSe4 === void 0 ? void 0 : _this$_deps$contactSe4.centered) !== null && _this$_deps$contactSe3 !== void 0 ? _this$_deps$contactSe3 : false,
+        showOtherContacts: (_this$_deps$contactSe5 = (_this$_deps$contactSe6 = this._deps.contactSearchUIOptions) === null || _this$_deps$contactSe6 === void 0 ? void 0 : _this$_deps$contactSe6.filterCallQueueNumber) !== null && _this$_deps$contactSe5 !== void 0 ? _this$_deps$contactSe5 : false,
         minimumSearchLength: this._minimumSearchLength,
         thirdPartyContacts: this.searchContactList,
-        isThirdPartySearching: !((_this$_deps$contactSe4 = this._deps.contactSearch) === null || _this$_deps$contactSe4 === void 0 ? void 0 : _this$_deps$contactSe4.isIdle),
+        isThirdPartySearching: !((_this$_deps$contactSe7 = this._deps.contactSearch) === null || _this$_deps$contactSe7 === void 0 ? void 0 : _this$_deps$contactSe7.isIdle),
         directlyProceedText: directlyProceedText
       };
     }
@@ -207,9 +248,11 @@ var ContactSearchUI = (_dec = (0, _di.Module)({
     key: "getUIFunctions",
     value: function getUIFunctions(_ref2) {
       var _this3 = this;
-      var optionClickHandler = _ref2.optionClickHandler;
+      var optionClickHandler = _ref2.optionClickHandler,
+        triggerEventTracking = _ref2.triggerEventTracking;
       return {
         optionClickHandler: optionClickHandler,
+        triggerEventTracking: triggerEventTracking,
         searchHandler: function () {
           var _searchHandler = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2(searchString) {
             var _this3$_deps$contactS;
@@ -243,7 +286,6 @@ var ContactSearchUI = (_dec = (0, _di.Module)({
             });
           }
         },
-        // @ts-expect-error TS(2322): Type '(phoneNumber: string) => string | null | und... Remove this comment to see the full error message
         formatPhone: this.formatPhone,
         changeTabTrack: function changeTabTrack(v) {
           _this3.changeTabTrack(v);
@@ -262,6 +304,26 @@ var ContactSearchUI = (_dec = (0, _di.Module)({
       return this.getFilteredCompanyContacts(this.filterString);
     }
   }, {
+    key: "otherContacts",
+    get: function get() {
+      var _this$_deps$contactSe8;
+      if ((_this$_deps$contactSe8 = this._deps.contactSearchUIOptions) === null || _this$_deps$contactSe8 === void 0 ? void 0 : _this$_deps$contactSe8.filterCallQueueNumber) return this.getFilteredCallQueueContacts(this.filterString);
+      return [];
+    }
+  }, {
+    key: "filterCallQueueExtContacts",
+    get: function get() {
+      return this.otherContacts.filter(function (contact) {
+        return contact.phoneType !== _phoneTypes.phoneTypes.extension;
+      })
+      // need to set isPrimary to true to show the phone number in the contact search panel
+      .map(function (contact) {
+        return _objectSpread(_objectSpread({}, contact), {}, {
+          isPrimary: true
+        });
+      });
+    }
+  }, {
     key: "personalContacts",
     get: function get() {
       return this.getFilteredPersonalContacts(this.filterString);
@@ -269,8 +331,8 @@ var ContactSearchUI = (_dec = (0, _di.Module)({
   }, {
     key: "searchContactList",
     get: function get() {
-      var _this$_deps$contactSe5;
-      return (_this$_deps$contactSe5 = this._deps.contactSearch) === null || _this$_deps$contactSe5 === void 0 ? void 0 : _this$_deps$contactSe5.searchResult.slice(0, 500);
+      var _this$_deps$contactSe9;
+      return (_this$_deps$contactSe9 = this._deps.contactSearch) === null || _this$_deps$contactSe9 === void 0 ? void 0 : _this$_deps$contactSe9.searchResult.slice(0, 500);
     }
   }]);
   return ContactSearchUI;
@@ -281,6 +343,6 @@ var ContactSearchUI = (_dec = (0, _di.Module)({
   initializer: function initializer() {
     return '';
   }
-}), _applyDecoratedDescriptor(_class2.prototype, "_setFilterString", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setFilterString"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "companyContacts", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "companyContacts"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "personalContacts", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "personalContacts"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "searchContactList", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "searchContactList"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "changeTabTrack", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "changeTabTrack"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getPresence", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "getPresence"), _class2.prototype)), _class2)) || _class);
+}), _applyDecoratedDescriptor(_class2.prototype, "_setFilterString", [_core.action], Object.getOwnPropertyDescriptor(_class2.prototype, "_setFilterString"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "companyContacts", [_dec2], Object.getOwnPropertyDescriptor(_class2.prototype, "companyContacts"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "otherContacts", [_dec3], Object.getOwnPropertyDescriptor(_class2.prototype, "otherContacts"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "filterCallQueueExtContacts", [_dec4], Object.getOwnPropertyDescriptor(_class2.prototype, "filterCallQueueExtContacts"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "personalContacts", [_dec5], Object.getOwnPropertyDescriptor(_class2.prototype, "personalContacts"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "searchContactList", [_dec6], Object.getOwnPropertyDescriptor(_class2.prototype, "searchContactList"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "changeTabTrack", [_dec7], Object.getOwnPropertyDescriptor(_class2.prototype, "changeTabTrack"), _class2.prototype), _applyDecoratedDescriptor(_class2.prototype, "getPresence", [_proxify.proxify], Object.getOwnPropertyDescriptor(_class2.prototype, "getPresence"), _class2.prototype)), _class2)) || _class);
 exports.ContactSearchUI = ContactSearchUI;
 //# sourceMappingURL=ContactSearchUI.js.map

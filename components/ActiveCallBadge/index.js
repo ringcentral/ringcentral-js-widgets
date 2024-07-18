@@ -9,7 +9,7 @@ var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/Dy
 var _Badge = _interopRequireDefault(require("../Badge"));
 var _Draggable = _interopRequireDefault(require("../Draggable"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var ActiveCallBadge = function ActiveCallBadge(props) {
   return /*#__PURE__*/_react["default"].createElement(_Draggable["default"], {
     className: _styles["default"].root,

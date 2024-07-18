@@ -1,10 +1,16 @@
+import { RcDialerPadSoundsMPEG } from '@ringcentral/juno';
 import React, { Component } from 'react';
 
 import EndIcon from '../../assets/images/End.svg';
-import BackHeader from '../BackHeader';
+import {
+  PageHeader,
+  PageHeaderBack,
+  PageHeaderRemain,
+  PageHeaderTitle,
+} from '../BackHeader/PageHeader';
 import CircleButton from '../CircleButton';
-import audios from '../DialButton/audios';
 import DialPad from '../DialPad';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 
@@ -40,17 +46,15 @@ class ActiveCallDialPad extends Component<
       this.audio = document.createElement('audio');
     }
     this.playAudio = (value: any) => {
-      if (
-        this.audio &&
-        this.audio.canPlayType('audio/ogg') !== '' &&
-        audios[value]
-      ) {
+      if (this.audio && RcDialerPadSoundsMPEG[value as never]) {
         if (!this.audio.paused) {
           this.audio.pause();
         }
-        this.audio.src = audios[value];
+        this.audio.src = RcDialerPadSoundsMPEG[value as never];
         this.audio.currentTime = 0;
-        this.audio.play();
+        this.audio.play().catch((error: any) => {
+          console.error('playAudio error:', error);
+        });
       }
     };
     this.onButtonOutput = (key: any) => {
@@ -107,9 +111,13 @@ class ActiveCallDialPad extends Component<
   render() {
     return (
       <div data-sign="activeCallDialPad" className={styles.root}>
-        <BackHeader onBackClick={this.props.hiddenDialPad}>
-          {i18n.getString('keypad', this.props.currentLocale)}
-        </BackHeader>
+        <PageHeader>
+          <PageHeaderBack onClick={this.props.hiddenDialPad} />
+          <PageHeaderTitle>
+            {i18n.getString('keypad', this.props.currentLocale)}
+          </PageHeaderTitle>
+          <PageHeaderRemain />
+        </PageHeader>
         <div className={styles.dialInput}>
           <input
             data-sign="input"

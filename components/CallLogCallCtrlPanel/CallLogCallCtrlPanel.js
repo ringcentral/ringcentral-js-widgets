@@ -9,9 +9,9 @@ exports.CallLogCallCtrlPanel = void 0;
 require("regenerator-runtime/runtime");
 var _react = _interopRequireDefault(require("react"));
 var _CallLogCallCtrlComponent = _interopRequireDefault(require("../CallLogCallCtrlComponent"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 var CallLogCallCtrlPanel = function CallLogCallCtrlPanel(props) {
   var currentLocale = props.currentLocale,
     telephonySessionId = props.telephonySessionId,
@@ -36,7 +36,10 @@ var CallLogCallCtrlPanel = function CallLogCallCtrlPanel(props) {
     dialpadToggleTrack = props.dialpadToggleTrack,
     clickForwardTrack = props.clickForwardTrack,
     warmTransferActiveTelephonySessionId = props.warmTransferActiveTelephonySessionId,
-    allowPickupCall = props.allowPickupCall;
+    allowPickupCall = props.allowPickupCall,
+    showConferenceCall = props.showConferenceCall,
+    isCurrentCall = props.isCurrentCall,
+    onMergeCall = props.onMergeCall;
   if (!currentSession) {
     return null;
   }
@@ -95,6 +98,9 @@ var CallLogCallCtrlPanel = function CallLogCallCtrlPanel(props) {
     })),
     onTransfer: function onTransfer() {
       return props.onTransfer(telephonySessionId);
+    },
+    onAddCall: function onAddCall() {
+      return props.onAddCall();
     },
     onCompleteWarmTransfer: function onCompleteWarmTransfer() {
       return props.onCompleteWarmTransfer(telephonySessionId);
@@ -162,7 +168,7 @@ var CallLogCallCtrlPanel = function CallLogCallCtrlPanel(props) {
     transferRef: transferRef,
     isOnTransfer: isOnTransfer,
     isCurrentDeviceCall: isCurrentDeviceCall,
-    sendDTMF: /*#__PURE__*/function () {
+    sendDTMF: ( /*#__PURE__*/function () {
       var _ref9 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee9(dtmfValue) {
         return regeneratorRuntime.wrap(function _callee9$(_context9) {
           while (1) {
@@ -179,8 +185,8 @@ var CallLogCallCtrlPanel = function CallLogCallCtrlPanel(props) {
       return function (_x) {
         return _ref9.apply(this, arguments);
       };
-    }(),
-    forward: /*#__PURE__*/function () {
+    }()),
+    forward: ( /*#__PURE__*/function () {
       var _ref10 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee10(phoneNumber) {
         return regeneratorRuntime.wrap(function _callee10$(_context10) {
           while (1) {
@@ -197,7 +203,7 @@ var CallLogCallCtrlPanel = function CallLogCallCtrlPanel(props) {
       return function (_x2) {
         return _ref10.apply(this, arguments);
       };
-    }(),
+    }()),
     answer: /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee11() {
       return regeneratorRuntime.wrap(function _callee11$(_context11) {
         while (1) {
@@ -272,7 +278,10 @@ var CallLogCallCtrlPanel = function CallLogCallCtrlPanel(props) {
     clickForwardTrack: clickForwardTrack,
     warmTransferActiveTelephonySessionId: warmTransferActiveTelephonySessionId,
     enableReply: enableReply,
-    allowPickupCall: allowPickupCall
+    allowPickupCall: allowPickupCall,
+    showConferenceCall: showConferenceCall,
+    isCurrentCall: isCurrentCall,
+    onMergeCall: onMergeCall
   });
 };
 exports.CallLogCallCtrlPanel = CallLogCallCtrlPanel;

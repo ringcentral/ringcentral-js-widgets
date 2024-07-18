@@ -6,12 +6,12 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.VideoSecuritySettingItem = void 0;
-var _react = _interopRequireDefault(require("react"));
 var _juno = require("@ringcentral/juno");
 var _junoIcon = require("@ringcentral/juno-icon");
+var _react = _interopRequireDefault(require("react"));
 var _i18n = _interopRequireDefault(require("./i18n"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 function generateLockIcon(isLock, currentLocale, hasScrollBar) {
   var isMac = navigator.platform.includes('Mac');
   return isLock ? /*#__PURE__*/_react["default"].createElement(_juno.RcTooltip, {

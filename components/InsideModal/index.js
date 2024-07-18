@@ -4,11 +4,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+var _clsx = _interopRequireDefault(require("clsx"));
 var _react = _interopRequireDefault(require("react"));
-var _classnames = _interopRequireDefault(require("classnames"));
 var _Modal = _interopRequireDefault(require("../Modal"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var InsideModal = function InsideModal(_ref) {
   var show = _ref.show,
     onClose = _ref.onClose,
@@ -26,10 +26,10 @@ var InsideModal = function InsideModal(_ref) {
   , {
     title: title,
     headerClassName: _styles["default"].title,
-    className: (0, _classnames["default"])(_styles["default"].container, containerStyles),
-    maskClassName: (0, _classnames["default"])(_styles["default"].mask, maskStyle),
-    modalClassName: (0, _classnames["default"])(_styles["default"].modal, modalStyles),
-    contentClassName: (0, _classnames["default"])(_styles["default"].content, contentStyle),
+    className: (0, _clsx["default"])(_styles["default"].container, containerStyles),
+    maskClassName: (0, _clsx["default"])(_styles["default"].mask, maskStyle),
+    modalClassName: (0, _clsx["default"])(_styles["default"].modal, modalStyles),
+    contentClassName: (0, _clsx["default"])(_styles["default"].content, contentStyle),
     show: show,
     showTitle: showTitle,
     showCloseBtn: showCloseBtn,

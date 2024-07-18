@@ -17,4 +17,4 @@ export default {
     'Settings saved successfully. Please make sure you have {brand} installed in your computer.',
   [callingSettingsMessages.disableEmergencyInJapan]:
     'Emergency service is not available in Japan.',
-};
+} as const;

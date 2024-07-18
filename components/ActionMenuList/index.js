@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 require("core-js/modules/es.function.bind");
 require("core-js/modules/es.object.get-prototype-of");
 require("core-js/modules/es.object.set-prototype-of");
@@ -9,11 +9,11 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = exports.PreviewButton = exports.MarkButton = exports.DeleteButton = exports.ConfirmDeleteModal = exports.ClickToSmsButton = exports.ClickToDialButton = void 0;
 require("regenerator-runtime/runtime");
-var _react = _interopRequireWildcard(require("react"));
-var _classnames = _interopRequireDefault(require("classnames"));
-var _propTypes = _interopRequireDefault(require("prop-types"));
 var _extensionTypes = require("@ringcentral-integration/commons/enums/extensionTypes");
 var _messageTypes = _interopRequireDefault(require("@ringcentral-integration/commons/enums/messageTypes"));
+var _clsx = _interopRequireDefault(require("clsx"));
+var _propTypes = _interopRequireDefault(require("prop-types"));
+var _react = _interopRequireWildcard(require("react"));
 var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
 var _DeleteMessageIcon = _interopRequireDefault(require("../../assets/images/DeleteMessageIcon.svg"));
 var _Download = _interopRequireDefault(require("../../assets/images/Download.svg"));
@@ -27,23 +27,23 @@ var _LogButton = _interopRequireDefault(require("../LogButton"));
 var _Modal = _interopRequireDefault(require("../Modal"));
 var _i18n = _interopRequireDefault(require("./i18n"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
-function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
-function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
+function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) { if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } } return n["default"] = e, t && t.set(e, n), n; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
 var ConfirmDeleteModal = function ConfirmDeleteModal(_ref) {
   var currentLocale = _ref.currentLocale,
     show = _ref.show,
@@ -88,7 +88,7 @@ var ClickToDialButton = function ClickToDialButton(_ref2) {
     phoneNumber = _ref2.phoneNumber,
     title = _ref2.title;
   return /*#__PURE__*/_react["default"].createElement(_Button.Button, {
-    className: (0, _classnames["default"])(_styles["default"].button, _styles["default"].clickToDialButton, className),
+    className: (0, _clsx["default"])(_styles["default"].button, _styles["default"].clickToDialButton, className),
     onClick: onClickToDial,
     dataSign: title,
     disabled: disableCallButton || disableClickToDial || !phoneNumber
@@ -121,7 +121,7 @@ var ClickToSmsButton = function ClickToSmsButton(_ref3) {
     phoneNumber = _ref3.phoneNumber,
     title = _ref3.title;
   return /*#__PURE__*/_react["default"].createElement(_Button.Button, {
-    className: (0, _classnames["default"])(_styles["default"].button, _styles["default"].clickToSmsButton, className),
+    className: (0, _clsx["default"])(_styles["default"].button, _styles["default"].clickToSmsButton, className),
     onClick: onClickToSms,
     dataSign: "clickToSms",
     disabled: disableLinks || !phoneNumber
@@ -151,7 +151,7 @@ var DeleteButton = function DeleteButton(_ref4) {
     openDeleteModal = _ref4.openDeleteModal,
     disabled = _ref4.disabled;
   return /*#__PURE__*/_react["default"].createElement(_Button.Button, {
-    className: (0, _classnames["default"])(_styles["default"].button, _styles["default"].svgBtn, className),
+    className: (0, _clsx["default"])(_styles["default"].button, _styles["default"].svgBtn, className),
     onClick: openDeleteModal,
     disabled: disabled,
     dataSign: title
@@ -160,7 +160,7 @@ var DeleteButton = function DeleteButton(_ref4) {
   }, /*#__PURE__*/_react["default"].createElement(_DeleteMessageIcon["default"], {
     width: 14,
     height: 17,
-    className: (0, _classnames["default"])(_styles["default"].svgFillIcon, disabled ? _styles["default"].disabled : null)
+    className: (0, _clsx["default"])(_styles["default"].svgFillIcon, disabled ? _styles["default"].disabled : null)
   })));
 };
 exports.DeleteButton = DeleteButton;
@@ -184,9 +184,9 @@ var MarkButton = function MarkButton(_ref5) {
     disabled = _ref5.disabled;
   var Icon = marked ? _Unmark["default"] : _Mark["default"];
   var title = marked ? unmarkTitle : markTitle;
-  var classNames = (0, _classnames["default"])(_styles["default"].unmarked, marked ? _styles["default"].svgFillIcon : null, disabled ? _styles["default"].disabled : null);
+  var classNames = (0, _clsx["default"])(_styles["default"].unmarked, marked ? _styles["default"].svgFillIcon : null, disabled ? _styles["default"].disabled : null);
   return /*#__PURE__*/_react["default"].createElement(_Button.Button, {
-    className: (0, _classnames["default"])(_styles["default"].button, _styles["default"].svgBtn, className),
+    className: (0, _clsx["default"])(_styles["default"].button, _styles["default"].svgBtn, className),
     onClick: onClick,
     disabled: disabled,
     dataSign: "mark"
@@ -219,14 +219,14 @@ var PreviewButton = function PreviewButton(_ref6) {
     disabled = _ref6.disabled,
     className = _ref6.className;
   return /*#__PURE__*/_react["default"].createElement(_Button.Button, {
-    className: (0, _classnames["default"])(_styles["default"].button, _styles["default"].svgBtn, className),
+    className: (0, _clsx["default"])(_styles["default"].button, _styles["default"].svgBtn, className),
     onClick: onClick,
     disabled: disabled,
     dataSign: title
   }, /*#__PURE__*/_react["default"].createElement("span", {
     title: title
   }, /*#__PURE__*/_react["default"].createElement(_Preview["default"], {
-    className: (0, _classnames["default"])(_styles["default"].svgFillIcon, disabled ? _styles["default"].disabled : null)
+    className: (0, _clsx["default"])(_styles["default"].svgFillIcon, disabled ? _styles["default"].disabled : null)
   })));
 };
 exports.PreviewButton = PreviewButton;
@@ -328,7 +328,7 @@ var ActionMenuList = /*#__PURE__*/function (_Component) {
         showChooseEntityModal = _this$props2.showChooseEntityModal,
         shouldHideEntityButton = _this$props2.shouldHideEntityButton,
         selectedMatchContactType = _this$props2.selectedMatchContactType;
-      if (shouldHideEntityButton) {
+      if (shouldHideEntityButton === null || shouldHideEntityButton === void 0 ? void 0 : shouldHideEntityButton()) {
         return null;
       }
       if (externalViewEntity) {
@@ -534,7 +534,7 @@ var ActionMenuList = /*#__PURE__*/function (_Component) {
       }) : null;
       var downloadButton = faxAttachment && faxAttachment.uri ? /*#__PURE__*/_react["default"].createElement("div", {
         "data-sign": "download",
-        className: (0, _classnames["default"])(_styles["default"].button, _styles["default"].svgBtn, _styles["default"].svgFillIcon, disableLinks ? _styles["default"].disabled : null)
+        className: (0, _clsx["default"])(_styles["default"].button, _styles["default"].svgBtn, _styles["default"].svgFillIcon, disableLinks ? _styles["default"].disabled : null)
       }, /*#__PURE__*/_react["default"].createElement("a", {
         target: "_blank",
         download: true,
@@ -543,13 +543,14 @@ var ActionMenuList = /*#__PURE__*/function (_Component) {
         onClick: this._onDownloadClick
         // @ts-expect-error TS(2322): Type '{ children: Element; target: "_blank"; downl... Remove this comment to see the full error message
         ,
-        disabled: disableLinks
+        disabled: disableLinks,
+        rel: "noreferrer"
       }, /*#__PURE__*/_react["default"].createElement(_Download["default"], {
         width: 18,
         height: 18
       }))) : null;
       return /*#__PURE__*/_react["default"].createElement("div", {
-        className: (0, _classnames["default"])(_styles["default"].root, className),
+        className: (0, _clsx["default"])(_styles["default"].root, className),
         onClick: this.preventEventPropagating
       }, clickToDialButton, clickToSmsButton, previewButton, downloadButton, entityButton, logButton, markButton, deleteButton, entityModal, confirmDeleteModal, extraButton);
     }
@@ -598,7 +599,7 @@ ActionMenuList.propTypes = {
   onFaxDownload: _propTypes["default"].func,
   selectedMatchContactType: _propTypes["default"].string,
   showChooseEntityModal: _propTypes["default"].bool,
-  shouldHideEntityButton: _propTypes["default"].bool,
+  shouldHideEntityButton: _propTypes["default"].func,
   extraButton: _propTypes["default"].element
 };
 // @ts-expect-error TS(2339): Property 'defaultProps' does not exist on type 'ty... Remove this comment to see the full error message
@@ -641,7 +642,9 @@ ActionMenuList.defaultProps = {
   onFaxDownload: undefined,
   selectedMatchContactType: '',
   showChooseEntityModal: true,
-  shouldHideEntityButton: false,
+  shouldHideEntityButton: function shouldHideEntityButton() {
+    return false;
+  },
   extraButton: undefined
 };
 var _default = ActionMenuList;

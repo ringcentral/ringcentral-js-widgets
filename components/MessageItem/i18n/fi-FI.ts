@@ -4,7 +4,7 @@ export default {
   editLog: "Muokkaa lokia",
   viewDetails: "Näytä tiedot",
   addEntity: "Luo uusi",
-  call: "Puhelu",
+  call: "Soita",
   text: "Tekstiviesti",
   conversation: "Keskustelu",
   groupConversation: "Ryhmäkeskustelu",

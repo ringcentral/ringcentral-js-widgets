@@ -26,7 +26,9 @@ var _default = {
   answerAndHold: 'Answer & Hold',
   answer: 'Answer',
   completeTransfer: 'Complete transfer',
-  reply: 'Reply'
+  reply: 'Reply',
+  add: 'Add',
+  mergeCall: 'Merge with active call'
 };
 exports["default"] = _default;
 //# sourceMappingURL=en-US.js.map

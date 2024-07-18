@@ -1,6 +1,5 @@
-import type { FunctionComponent, MouseEvent, ReactNode } from 'react';
-
 import type { ToNumber as Recipient } from '@ringcentral-integration/commons/modules/ComposeText';
+import type { FunctionComponent, MouseEvent, ReactNode } from 'react';
 
 export interface BaseRecipientsInputProps {
   enableTitle: boolean;

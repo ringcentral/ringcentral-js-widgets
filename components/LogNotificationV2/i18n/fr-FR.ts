@@ -5,7 +5,8 @@ export default {
   save: "Enregistrer et nouveau",
   discard: "Ignorer et nouveau",
   hangup: "Raccrocher",
-  reject: "Vers la messagerie vocale"
+  reject: "Vers la messagerie vocale",
+  saveDraftAndCreateNewLog: "Enregistrer le brouillon et créer un nouveau journal d’appels"
 };
 
 // @key: @#@"Inbound"@#@ @source: @#@"Inbound"@#@
@@ -15,3 +16,4 @@ export default {
 // @key: @#@"discard"@#@ @source: @#@"Discard and new"@#@
 // @key: @#@"hangup"@#@ @source: @#@"Hangup"@#@
 // @key: @#@"reject"@#@ @source: @#@"To Voicemail"@#@
+// @key: @#@"saveDraftAndCreateNewLog"@#@ @source: @#@"Save draft and create new call log"@#@

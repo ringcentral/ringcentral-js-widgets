@@ -1,8 +1,8 @@
+import { callErrors } from '@ringcentral-integration/commons/modules/Call';
 import React from 'react';
 
-import { callErrors } from '@ringcentral-integration/commons/modules/Call';
-
 import FormattedMessage from '../../FormattedMessage';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 
@@ -16,7 +16,7 @@ type CallAlertProps = {
   brand: object;
   currentLocale: string;
 };
-export const CallAlert: React.SFC<CallAlertProps> = ({
+export const CallAlert: React.FC<CallAlertProps> = ({
   message: { id, message, payload },
   brand,
   onAreaCodeLinkClick,
@@ -41,7 +41,6 @@ export const CallAlert: React.SFC<CallAlertProps> = ({
     return (
       <FormattedMessage
         message={i18n.getString(message, currentLocale)}
-        // @ts-expect-error TS(2322): Type 'string | Element' is not assignable to type ... Remove this comment to see the full error message
         values={{ areaCodeLink }}
       />
     );
@@ -71,5 +70,6 @@ CallAlert.handleMessage = ({ message }: any) =>
   message === callErrors.networkError ||
   message === callErrors.noInternational ||
   message === callErrors.noRingoutEnable ||
-  message === callErrors.numberParseError;
+  message === callErrors.numberParseError ||
+  message === callErrors.fromAndToNumberIsSame;
 export default CallAlert;

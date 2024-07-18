@@ -1,12 +1,11 @@
+import type { AlertLevelType } from '@ringcentral-integration/commons/modules/Alert/alertLevels';
+import { emptyArray, emptyFn } from '@ringcentral-integration/utils';
+import clsx from 'clsx';
 import type { FunctionComponent } from 'react';
 import React from 'react';
 
-import classnames from 'classnames';
-
-import type { AlertLevelType } from '@ringcentral-integration/commons/modules/Alert/alertLevels';
-import { emptyArray, emptyFn } from '@ringcentral-integration/utils';
-
 import Message from '../Message';
+
 import styles from './styles.scss';
 
 export type AlertDisplayProps = {
@@ -40,7 +39,7 @@ const AlertDisplay: FunctionComponent<AlertDisplayProps> = ({
   currentLocale,
 }) => {
   return (
-    <div className={classnames(styles.root, className)}>
+    <div className={clsx(styles.root, className)}>
       {messages.map((message) => {
         const Renderer = getRenderer(message);
         if (!Renderer) return null;

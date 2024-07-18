@@ -6,7 +6,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.PresenceSetting = void 0;
 var _react = _interopRequireDefault(require("react"));
 var _PresenceSettingSection = require("../PresenceSettingSection");
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var PresenceSetting = function PresenceSetting(_ref) {
   var showPresenceSettings = _ref.showPresenceSettings,
     dndStatus = _ref.dndStatus,

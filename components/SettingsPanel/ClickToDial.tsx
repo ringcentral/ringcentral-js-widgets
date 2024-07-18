@@ -3,29 +3,30 @@ import React from 'react';
 
 import IconLine from '../IconLine';
 import Switch from '../Switch';
-import i18n from './i18n';
+
 import type { ClickToDialProps } from './SettingsPanel.interface';
+import { t } from './i18n';
 
 export const ClickToDial: FunctionComponent<ClickToDialProps> = ({
   currentLocale,
   showClickToDial,
-  outboundSMS,
-  clickToDialPermissions,
+  outboundSMS: clickToTextPermission,
+  clickToCallPermission,
   clickToDialEnabled,
   onClickToDialChange,
   clickToDialTitle,
 }) => {
-  let clickToDialText;
-  if (outboundSMS && clickToDialPermissions) {
-    clickToDialText = i18n.getString('clickToDialSMS', currentLocale);
-  } else if (!outboundSMS && clickToDialPermissions) {
-    clickToDialText = i18n.getString('clickToDial', currentLocale);
-  } else if (outboundSMS && !clickToDialPermissions) {
-    clickToDialText = i18n.getString('clickToSMS', currentLocale);
+  let displayText;
+  if (clickToTextPermission && clickToCallPermission) {
+    displayText = t('clickToDialSMS', currentLocale);
+  } else if (!clickToTextPermission && clickToCallPermission) {
+    displayText = t('clickToDial', currentLocale);
+  } else if (clickToTextPermission && !clickToCallPermission) {
+    displayText = t('clickToSMS', currentLocale);
   } else {
-    clickToDialText = '';
+    displayText = '';
   }
-  if (showClickToDial && (outboundSMS || clickToDialPermissions)) {
+  if (showClickToDial && (clickToTextPermission || clickToCallPermission)) {
     return (
       <IconLine
         dataSign="clickToDialSMS"
@@ -37,8 +38,11 @@ export const ClickToDial: FunctionComponent<ClickToDialProps> = ({
           />
         }
         title={clickToDialTitle}
+        hintText={
+          clickToDialEnabled ? undefined : t('selectToDialHint', currentLocale)
+        }
       >
-        {clickToDialText}
+        {displayText}
       </IconLine>
     );
   }

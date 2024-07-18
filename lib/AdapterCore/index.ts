@@ -1,11 +1,10 @@
-import classnames from 'classnames';
-
 import { presenceStatus } from '@ringcentral-integration/commons/enums/presenceStatus.enum';
 import debounce from '@ringcentral-integration/commons/lib/debounce';
 import ensureExist from '@ringcentral-integration/commons/lib/ensureExist';
-import { dndStatus } from '@ringcentral-integration/commons/modules/Presence';
 import { formatDuration } from '@ringcentral-integration/commons/lib/formatDuration';
+import { dndStatus } from '@ringcentral-integration/commons/modules/Presence';
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
+import clsx from 'clsx';
 
 import { baseMessageTypes } from './baseMessageTypes';
 
@@ -61,7 +60,6 @@ export default class AdapterCore {
   private _currentCallEl: HTMLElement;
   // @ts-expect-error TS(2564): Property '_viewCallsEl' has no initializer and is ... Remove this comment to see the full error message
   private _viewCallsEl: HTMLElement;
-  // @ts-expect-error TS(2564): Property '_scrollable' has no initializer and is n... Remove this comment to see the full error message
   private _scrollable: boolean;
   private _strings: any;
   private _hoverBar: any;
@@ -72,7 +70,7 @@ export default class AdapterCore {
   _prefix: any;
   _messageTypes: any;
   _container: any;
-  _root: any;
+  _root: HTMLElement;
   _styles: any;
   _defaultDirection: string;
   _padding: number;
@@ -93,8 +91,7 @@ export default class AdapterCore {
   _dndStatus: any;
   _telephonyStatus: any;
   _presenceOption: any;
-  _scrollale: boolean;
-  _headerEl: any;
+  _headerEl?: HTMLElement;
   _logoEl: any;
   _contentFrameContainerEl: any;
   _toggleEl: any;
@@ -160,12 +157,19 @@ export default class AdapterCore {
     this._dndStatus = null;
     this._telephonyStatus = null;
     this._presenceOption = null;
+    this._scrollable = false;
 
     this.currentState = -1;
-    this._scrollale = false;
 
     this._strings = {};
     this._themeVariableString = themeVariableString;
+  }
+
+  setThemeVariables(variableString: string) {
+    this._themeVariableString = variableString;
+    if (this._headerEl) {
+      this._headerEl.style.cssText = this._themeVariableString;
+    }
   }
 
   _onMessage(msg: any) {
@@ -207,7 +211,7 @@ export default class AdapterCore {
     }
   }
 
-  _getContentDOM(sanboxAttributeValue: any, allowAttributeValue: any) {
+  _getContentDOM(sandboxAttributeValue: string, allowAttributeValue: string) {
     return `
       <header class="${this._styles.header}" draggable="false">
         <div class="${this._styles.presence} ${this._styles.noPresence}">
@@ -258,7 +262,7 @@ export default class AdapterCore {
         </div>
       </div>
       <div class="${this._styles.frameContainer}">
-        <iframe class="${this._styles.contentFrame}" sandbox="${sanboxAttributeValue}" allow="${allowAttributeValue}" >
+        <iframe class="${this._styles.contentFrame}" sandbox="${sandboxAttributeValue}" allow="${allowAttributeValue}" >
         </iframe>
       </div>`;
   }
@@ -268,7 +272,7 @@ export default class AdapterCore {
       SANDBOX_ATTRIBUTE_VALUE,
       ALLOW_ATTRIBUTE_VALUE,
     );
-    this._headerEl = this._root.querySelector(`.${this._styles.header}`);
+    this._headerEl = this._root.querySelector(`.${this._styles.header}`)!;
     this._headerEl.style.cssText = this._themeVariableString;
     this._logoEl = this._root.querySelector(`.${this._styles.logo}`);
     this._logoEl.addEventListener('dragstart', () => false);
@@ -515,7 +519,7 @@ export default class AdapterCore {
     this._logoEl.src = logoUrl;
     this._logoEl.setAttribute(
       'class',
-      classnames(
+      clsx(
         this._styles.logo,
         this._logoUrl && this._logoUrl !== '' && this._styles.visible,
       ),
@@ -529,14 +533,14 @@ export default class AdapterCore {
     }
   }
 
-  _onSyncMinimized(minimized: any) {
+  _onSyncMinimized(minimized: boolean) {
     this._minimized = !!minimized;
     this._renderMainClass();
     this.renderAdapterSize();
     this._renderRestrictedPosition();
   }
 
-  setMinimized(minimized: any) {
+  setMinimized(minimized: boolean) {
     this._onSyncMinimized(minimized);
     this._postMessage({
       type: this._messageTypes.syncMinimized,
@@ -552,6 +556,7 @@ export default class AdapterCore {
   }
 
   _calculateMinMaxPosition() {
+    if (!this._headerEl) return;
     const maximumX =
       window.innerWidth -
       (this._minimized ? this._headerEl.clientWidth : this._appWidth) -
@@ -570,12 +575,12 @@ export default class AdapterCore {
     };
   }
 
-  _onSyncClosed(closed: any) {
+  _onSyncClosed(closed: boolean) {
     this._closed = !!closed;
     this._renderMainClass();
   }
 
-  setClosed(closed: any) {
+  setClosed(closed: boolean) {
     this._onSyncClosed(closed);
     this._postMessage({
       type: this._messageTypes.syncClosed,
@@ -587,7 +592,7 @@ export default class AdapterCore {
     this.setClosed(!this.closed);
   }
 
-  _onSyncSize({ width, height }: any) {
+  _onSyncSize({ width, height }: { width: number; height: number }) {
     this._appWidth = width;
     this._appHeight = height;
     this._contentFrameEl.style.width = `${width}px`;
@@ -595,7 +600,7 @@ export default class AdapterCore {
     this.renderAdapterSize();
   }
 
-  setSize(size: any) {
+  setSize(size: { width: number; height: number }) {
     this._onSyncSize(size);
     this._postMessage({
       type: this._messageTypes.syncSize,
@@ -732,8 +737,9 @@ export default class AdapterCore {
   }
 
   _renderRestrictedPosition() {
-    const { minimumX, minimumY, maximumX, maximumY } =
-      this._calculateMinMaxPosition();
+    const positions = this._calculateMinMaxPosition();
+    if (!positions) return;
+    const { minimumX, minimumY, maximumX, maximumY } = positions;
 
     if (this._minimized) {
       const newMinTranslateX = Math.max(
@@ -785,7 +791,7 @@ export default class AdapterCore {
   _renderMainClass() {
     this._container.setAttribute(
       'class',
-      classnames(
+      clsx(
         this._styles.root,
         this._styles[this._defaultDirection],
         this._closed && this._styles.closed,
@@ -795,9 +801,9 @@ export default class AdapterCore {
         this._loading && this._styles.loading,
       ),
     );
-    this._headerEl.setAttribute(
+    this._headerEl?.setAttribute(
       'class',
-      classnames(
+      clsx(
         this._styles.header,
         this._minimized && this._styles.minimized,
         this._ringing && this._styles.ringing,
@@ -808,7 +814,7 @@ export default class AdapterCore {
   renderPresence() {
     this._presenceEl.setAttribute(
       'class',
-      classnames(
+      clsx(
         this._minimized && this._styles.minimized,
         this._styles.presence,
         this._userStatus && this._styles[this._userStatus],
@@ -826,13 +832,10 @@ export default class AdapterCore {
       ) {
         presenceItem.setAttribute(
           'class',
-          classnames(this._styles.presenceItem, this._styles.selected),
+          clsx(this._styles.presenceItem, this._styles.selected),
         );
       } else {
-        presenceItem.setAttribute(
-          'class',
-          classnames(this._styles.presenceItem),
-        );
+        presenceItem.setAttribute('class', clsx(this._styles.presenceItem));
       }
     });
   }
@@ -961,32 +964,23 @@ export default class AdapterCore {
   _renderMinimizedBar() {
     this._logoEl.setAttribute(
       'class',
-      classnames(
+      clsx(
         this._styles.logo,
         this._logoUrl && this._logoUrl !== '' && this._styles.visible,
       ),
     );
-    this._durationEl.setAttribute('class', classnames(this._styles.duration));
-    this._ringingCallsEl.setAttribute(
-      'class',
-      classnames(this._styles.ringingCalls),
-    );
-    this._onHoldCallsEl.setAttribute(
-      'class',
-      classnames(this._styles.onHoldCalls),
-    );
+    this._durationEl.setAttribute('class', clsx(this._styles.duration));
+    this._ringingCallsEl.setAttribute('class', clsx(this._styles.ringingCalls));
+    this._onHoldCallsEl.setAttribute('class', clsx(this._styles.onHoldCalls));
     this._otherDeviceCallsEl?.setAttribute(
       'class',
-      classnames(this._styles.otherDeviceCalls),
+      clsx(this._styles.otherDeviceCalls),
     );
     this._currentCallEl.setAttribute(
       'class',
-      classnames(this._styles.currentCallBtn),
+      clsx(this._styles.currentCallBtn),
     );
-    this._viewCallsEl.setAttribute(
-      'class',
-      classnames(this._styles.viewCallsBtn),
-    );
+    this._viewCallsEl.setAttribute('class', clsx(this._styles.viewCallsBtn));
   }
 
   _renderCallsBar() {
@@ -996,7 +990,7 @@ export default class AdapterCore {
     }
     this._logoEl.setAttribute(
       'class',
-      classnames(
+      clsx(
         this._styles.logo,
         !this._hasActiveCalls &&
           this._logoUrl &&
@@ -1006,7 +1000,7 @@ export default class AdapterCore {
     );
     this._durationEl.setAttribute(
       'class',
-      classnames(
+      clsx(
         this._styles.duration,
         this.showDuration && this._styles.visible,
         this.centerDuration && this._styles.center,
@@ -1016,7 +1010,7 @@ export default class AdapterCore {
     );
     this._ringingCallsEl.setAttribute(
       'class',
-      classnames(
+      clsx(
         this._styles.ringingCalls,
         this.showRingingCalls && this._styles.visible,
         this.centerCallInfo && this._styles.center,
@@ -1026,7 +1020,7 @@ export default class AdapterCore {
     );
     this._onHoldCallsEl.setAttribute(
       'class',
-      classnames(
+      clsx(
         this._styles.onHoldCalls,
         this.showOnHoldCalls && this._styles.visible,
         this.centerCallInfo && this._styles.center,
@@ -1037,7 +1031,7 @@ export default class AdapterCore {
 
     this._otherDeviceCallsEl?.setAttribute(
       'class',
-      classnames(
+      clsx(
         this._styles.otherDeviceCalls,
         this.showOtherDeviceCalls && this._styles.visible,
         this.centerCallInfo && this._styles.center,
@@ -1047,7 +1041,7 @@ export default class AdapterCore {
     );
     this._currentCallEl.setAttribute(
       'class',
-      classnames(
+      clsx(
         this._styles.currentCallBtn,
         this.showCurrentCallBtn && this._styles.visible,
         this.moveOutCurrentCallBtn && this._styles.moveOut,
@@ -1056,7 +1050,7 @@ export default class AdapterCore {
     );
     this._viewCallsEl.setAttribute(
       'class',
-      classnames(
+      clsx(
         this._styles.viewCallsBtn,
         this.showViewCallsBtn && this._styles.visible,
         !this.moveInViewCallsBtn &&

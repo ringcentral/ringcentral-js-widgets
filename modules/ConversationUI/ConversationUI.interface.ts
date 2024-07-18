@@ -1,9 +1,8 @@
-import type GetMessageInfoResponse from 'ringcentral-client/build/definitions/GetMessageInfoResponse';
 import type { Entity } from '@ringcentral-integration/commons/interfaces/Entity.interface';
 import type { Message } from '@ringcentral-integration/commons/interfaces/MessageStore.model';
 import type { Correspondent } from '@ringcentral-integration/commons/lib/messageHelper';
+import type { AccountInfo } from '@ringcentral-integration/commons/modules/AccountInfo';
 import type { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures/AppFeatures';
-import type { ExtensionInfo } from '@ringcentral-integration/commons/modules/ExtensionInfo';
 import type { Brand } from '@ringcentral-integration/commons/modules/Brand';
 import type { ConnectivityMonitor } from '@ringcentral-integration/commons/modules/ConnectivityMonitor';
 import type { ContactMatcher } from '@ringcentral-integration/commons/modules/ContactMatcher';
@@ -16,14 +15,15 @@ import type {
   DateTimeFormat,
   FormatDateTimeOptions,
 } from '@ringcentral-integration/commons/modules/DateTimeFormat';
+import type { ExtensionInfo } from '@ringcentral-integration/commons/modules/ExtensionInfo';
 import type { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import type { Attachment } from '@ringcentral-integration/commons/modules/MessageSender';
 import type { MessageStore } from '@ringcentral-integration/commons/modules/MessageStore';
 import type { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiter';
 import type { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
-import type { AccountInfo } from '@ringcentral-integration/commons/modules/AccountInfo';
-
 import type { ReactNode } from 'react';
+import type GetMessageInfoResponse from 'ringcentral-client/build/definitions/GetMessageInfoResponse';
+
 import type { RouterInteraction } from '../RouterInteraction';
 
 export interface ConversationUIOptions {

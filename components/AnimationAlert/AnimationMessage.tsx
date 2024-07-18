@@ -1,10 +1,10 @@
+import clsx from 'clsx';
 import type { FunctionComponent } from 'react';
 import React from 'react';
 
-import classnames from 'classnames';
-
 import type { MessageProps } from '../Message';
 import Message from '../Message';
+
 import { ANIMATION_DURATION } from './AnimationAlertUtils';
 
 type AnimationMessageProps = {
@@ -21,7 +21,7 @@ export const AnimationMessage: FunctionComponent<AnimationMessageProps> = ({
   const second = duration / 1000;
   return (
     <div
-      className={classnames([animation, 'animated'])}
+      className={clsx([animation, 'animated'])}
       style={{
         animationDuration: `${second}s`,
       }}

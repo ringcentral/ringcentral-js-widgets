@@ -4,9 +4,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.SubjectRender = void 0;
-var _react = _interopRequireDefault(require("react"));
 var _linkifyReact = _interopRequireDefault(require("linkify-react"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+var _react = _interopRequireDefault(require("react"));
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var SubjectRender = function SubjectRender(_ref) {
   var subject = _ref.subject,
     onLinkClick = _ref.onLinkClick;

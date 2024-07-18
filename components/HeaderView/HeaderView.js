@@ -7,16 +7,17 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.HeaderView = void 0;
-var _react = _interopRequireDefault(require("react"));
 var _juno = require("@ringcentral/juno");
+var _react = _interopRequireDefault(require("react"));
 var _commonStyles = require("../../lib/commonStyles");
 var _CallMonitorBar = require("../CallMonitorBar");
 var _PresenceDropdown = require("../PresenceDropdown");
+var _styles = _interopRequireDefault(require("./styles.scss"));
 var _utils = require("./utils");
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
-function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
+function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) { ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } } return n; }, _extends.apply(null, arguments); }
+function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose(e, t); if (Object.getOwnPropertySymbols) { var s = Object.getOwnPropertySymbols(e); for (r = 0; r < s.length; r++) { o = s[r], t.includes(o) || {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } } return i; }
+function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t = {}; for (var n in r) { if ({}.hasOwnProperty.call(r, n)) { if (e.includes(n)) continue; t[n] = r[n]; } } return t; }
 function _templateObject5() {
   var data = _taggedTemplateLiteral(["\n  display: flex;\n  flex-direction: column;\n  position: relative;\n  height: calc(100% - ", "px);\n  z-index: 1;\n"]);
   _templateObject5 = function _templateObject5() {
@@ -52,7 +53,7 @@ function _templateObject() {
   };
   return data;
 }
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+function _taggedTemplateLiteral(e, t) { return t || (t = e.slice(0)), Object.freeze(Object.defineProperties(e, { raw: { value: Object.freeze(t) } })); }
 var ALL_CALL_PATH = '/calls';
 var ACTIVE_CALL_PATH = '/calls/active';
 
@@ -63,8 +64,7 @@ var LogoWrapper = _juno.styled.div(_templateObject3(), _commonStyles.fullSizeSty
 var Wrapper = _juno.styled.div(_templateObject4(), _commonStyles.fullSizeStyle);
 var Main = _juno.styled.main(_templateObject5(), _utils.headerViewHeight);
 var HeaderView = function HeaderView(_ref) {
-  var Logo = _ref.logo,
-    logoUrl = _ref.logoUrl,
+  var logoUrl = _ref.logoUrl,
     userStatus = _ref.userStatus,
     dndStatus = _ref.dndStatus,
     currentLocale = _ref.currentLocale,
@@ -86,9 +86,9 @@ var HeaderView = function HeaderView(_ref) {
     presenceReady = _ref.presenceReady,
     shouldDisplayCurrentCallBtn = _ref.shouldDisplayCurrentCallBtn,
     shouldDisplayViewCallsBtn = _ref.shouldDisplayViewCallsBtn,
-    props = _objectWithoutProperties(_ref, ["logo", "logoUrl", "userStatus", "dndStatus", "currentLocale", "setAvailable", "setBusy", "setDoNotDisturb", "setInvisible", "standAlone", "children", "ringingCalls", "onHoldCalls", "currentCalls", "currentPath", "activeSessionId", "incomingCallPageMinimized", "presenceReady", "shouldDisplayCurrentCallBtn", "shouldDisplayViewCallsBtn"]);
+    props = _objectWithoutProperties(_ref, ["logoUrl", "userStatus", "dndStatus", "currentLocale", "setAvailable", "setBusy", "setDoNotDisturb", "setInvisible", "standAlone", "children", "ringingCalls", "onHoldCalls", "currentCalls", "currentPath", "activeSessionId", "incomingCallPageMinimized", "presenceReady", "shouldDisplayCurrentCallBtn", "shouldDisplayViewCallsBtn"]);
   if (!standAlone) {
-    return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, children);
+    return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, /*#__PURE__*/_react["default"].createElement(GlobalStyle, null), children);
   }
   var shouldDisplayCallMonitorBar = currentCalls.length > 0 || ringingCalls.length > 0 || onHoldCalls.length > 0;
   return /*#__PURE__*/_react["default"].createElement(Wrapper, null, /*#__PURE__*/_react["default"].createElement(GlobalStyle, null), /*#__PURE__*/_react["default"].createElement(Header, null, /*#__PURE__*/_react["default"].createElement(_PresenceDropdown.PresenceDropdown, {
@@ -107,16 +107,11 @@ var HeaderView = function HeaderView(_ref) {
     currentCalls: currentCalls,
     shouldDisplayCurrentCallBtn: shouldDisplayCurrentCallBtn !== null && shouldDisplayCurrentCallBtn !== void 0 ? shouldDisplayCurrentCallBtn : currentPath !== ACTIVE_CALL_PATH && currentPath !== "".concat(ACTIVE_CALL_PATH, "/").concat(activeSessionId),
     shouldDisplayViewCallsBtn: shouldDisplayViewCallsBtn !== null && shouldDisplayViewCallsBtn !== void 0 ? shouldDisplayViewCallsBtn : !incomingCallPageMinimized || currentPath !== ALL_CALL_PATH
-  }, props)) : /*#__PURE__*/_react["default"].createElement(LogoWrapper, null, logoUrl ? /*#__PURE__*/_react["default"].createElement(LogoComp, {
-    logoUrl: logoUrl
-  }) : Logo && /*#__PURE__*/_react["default"].createElement(Logo, null))), /*#__PURE__*/_react["default"].createElement(Main, null, children));
+  }, props)) : /*#__PURE__*/_react["default"].createElement(LogoWrapper, null, logoUrl ? /*#__PURE__*/_react["default"].createElement("img", {
+    src: logoUrl,
+    alt: "",
+    className: _styles["default"].logo
+  }) : null)), /*#__PURE__*/_react["default"].createElement(Main, null, children));
 };
 exports.HeaderView = HeaderView;
-var LogoComp = /*#__PURE__*/_react["default"].memo(function (_ref2) {
-  var logoUrl = _ref2.logoUrl;
-  return /*#__PURE__*/_react["default"].createElement("img", {
-    src: logoUrl,
-    alt: ""
-  });
-});
 //# sourceMappingURL=HeaderView.js.map

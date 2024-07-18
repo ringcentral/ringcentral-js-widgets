@@ -6,14 +6,14 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.CallInfoList = void 0;
-var _react = _interopRequireDefault(require("react"));
-var _classnames = _interopRequireDefault(require("classnames"));
 var _juno = require("@ringcentral/juno");
+var _clsx = _interopRequireDefault(require("clsx"));
+var _react = _interopRequireDefault(require("react"));
 var _CopyButton = _interopRequireDefault(require("../../CopyButton/CopyButton"));
 var _CopyToClipboard = _interopRequireDefault(require("../../CopyToClipboard"));
 var _CallInfo = require("../CallInfo");
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var CallInfoList = function CallInfoList(_ref) {
   var callInfos = _ref.callInfos,
     className = _ref.className,
@@ -30,7 +30,7 @@ var CallInfoList = function CallInfoList(_ref) {
       enableCopy = _ref2.enableCopy;
     return /*#__PURE__*/_react["default"].createElement(_juno.RcListItem, {
       key: i,
-      className: (0, _classnames["default"])(_styles["default"].listItem),
+      className: (0, _clsx["default"])(_styles["default"].listItem),
       button: false
     }, /*#__PURE__*/_react["default"].createElement(_CallInfo.CallInfo, {
       name: name,

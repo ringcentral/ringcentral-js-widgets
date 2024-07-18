@@ -62,3 +62,16 @@ $pageSpacing_classic: 10px;
 .spinner {
   top: $header-height;
 }
+
+.callLogPanelClass {
+  top: 0px !important;
+  height: 100% !important;
+}
+
+.callLogPanelClassLeftNav {
+  top: 0px !important;
+  left: 45px;
+  right: 0;
+  width: auto;
+  height: 100% !important;
+}

@@ -46,7 +46,9 @@ export default {
   [callResults.faxReceipt]: "FAX受信",
   [callResults.disconnected]: "接続解除済み",
   [callResults.notAllowed]: "許可されていません",
-  warmTransferSwitchCall: "通話を切り替える"
+  warmTransferSwitchCall: "通話を切り替える",
+  conferenceCall: "電話会議",
+  participants: "参加者"
 };
 
 // @key: @#@"[callDirections.inbound]"@#@ @source: @#@"Inbound"@#@
@@ -94,3 +96,5 @@ export default {
 // @key: @#@"[callResults.disconnected]"@#@ @source: @#@"Disconnected"@#@
 // @key: @#@"[callResults.notAllowed]"@#@ @source: @#@"Not Allowed"@#@
 // @key: @#@"warmTransferSwitchCall"@#@ @source: @#@"Switch calls"@#@
+// @key: @#@"conferenceCall"@#@ @source: @#@"Conference Call"@#@
+// @key: @#@"participants"@#@ @source: @#@"Participants"@#@

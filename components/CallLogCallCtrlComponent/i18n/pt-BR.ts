@@ -20,7 +20,9 @@ export default {
   answerAndHold: "Atender e colocar em espera",
   answer: "Atender",
   completeTransfer: "Concluir a transferência",
-  reply: "Responder"
+  reply: "Responder",
+  add: "Adicionar",
+  mergeCall: "Mesclar com chamada ativa"
 };
 
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
@@ -45,3 +47,5 @@ export default {
 // @key: @#@"answer"@#@ @source: @#@"Answer"@#@
 // @key: @#@"completeTransfer"@#@ @source: @#@"Complete transfer"@#@
 // @key: @#@"reply"@#@ @source: @#@"Reply"@#@
+// @key: @#@"add"@#@ @source: @#@"Add"@#@
+// @key: @#@"mergeCall"@#@ @source: @#@"Merge with active call"@#@

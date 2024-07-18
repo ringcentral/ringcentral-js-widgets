@@ -20,7 +20,9 @@ export default {
   answerAndHold: "接聽並保留",
   answer: "接聽",
   completeTransfer: "完成轉接",
-  reply: "回覆"
+  reply: "回覆",
+  add: "新增",
+  mergeCall: "與進行中的通話合併"
 };
 
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
@@ -45,3 +47,5 @@ export default {
 // @key: @#@"answer"@#@ @source: @#@"Answer"@#@
 // @key: @#@"completeTransfer"@#@ @source: @#@"Complete transfer"@#@
 // @key: @#@"reply"@#@ @source: @#@"Reply"@#@
+// @key: @#@"add"@#@ @source: @#@"Add"@#@
+// @key: @#@"mergeCall"@#@ @source: @#@"Merge with active call"@#@

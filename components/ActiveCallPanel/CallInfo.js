@@ -8,7 +8,7 @@ var _react = _interopRequireDefault(require("react"));
 var _CallAvatar = _interopRequireDefault(require("../CallAvatar"));
 var _ContactDisplay = _interopRequireDefault(require("../ContactDisplay"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var CallInfo = function CallInfo(props) {
   var avatar;
   if (props.avatarUrl) {
@@ -33,6 +33,7 @@ var CallInfo = function CallInfo(props) {
   }, props.callQueueName, /*#__PURE__*/_react["default"].createElement(_ContactDisplay["default"], {
     formatPhone: props.formatPhone,
     className: _styles["default"].contactDisplay,
+    callerIdName: props.callerIdName,
     selectClassName: _styles["default"].dropdown,
     contactMatches: props.nameMatches,
     phoneNumber: props.phoneNumber,
@@ -58,17 +59,9 @@ var CallInfo = function CallInfo(props) {
   }, props.formatPhone(props.phoneNumber)));
 };
 CallInfo.defaultProps = {
-  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
-  phoneNumber: null,
-  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
-  avatarUrl: null,
   brand: 'RingCentral',
   showContactDisplayPlaceholder: true,
-  sourceIcons: undefined,
-  phoneTypeRenderer: undefined,
-  phoneSourceNameRenderer: undefined,
-  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
-  callQueueName: null
+  callerIdName: undefined
 };
 var _default = CallInfo;
 exports["default"] = _default;

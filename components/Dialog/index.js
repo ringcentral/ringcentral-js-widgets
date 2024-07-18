@@ -4,14 +4,14 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-var _react = _interopRequireDefault(require("react"));
-var _classnames = _interopRequireDefault(require("classnames"));
+var _clsx = _interopRequireDefault(require("clsx"));
 var _propTypes = _interopRequireDefault(require("prop-types"));
+var _react = _interopRequireDefault(require("react"));
 var _CloseIcon = _interopRequireDefault(require("../../assets/images/CloseIcon.svg"));
 var _Button = require("../Button");
 var _i18n = _interopRequireDefault(require("./i18n"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var FlatButton = function FlatButton(_ref) {
   var className = _ref.className,
     disabled = _ref.disabled,
@@ -19,7 +19,7 @@ var FlatButton = function FlatButton(_ref) {
     children = _ref.children,
     dataSign = _ref.dataSign;
   return /*#__PURE__*/_react["default"].createElement("div", {
-    className: (0, _classnames["default"])(className, _styles["default"].flatBtn, _styles["default"].text, disabled && _styles["default"].disabled),
+    className: (0, _clsx["default"])(className, _styles["default"].flatBtn, _styles["default"].text, disabled && _styles["default"].disabled),
     "data-sign": dataSign,
     onClick: !disabled && onClick
   }, children);
@@ -55,21 +55,21 @@ var Dialog = function Dialog(_ref2) {
     contentClassName = _ref2.contentClassName,
     footerClassName = _ref2.footerClassName;
   var footer = !currentLocale || !onCancel && !onConfirm ? null : /*#__PURE__*/_react["default"].createElement("div", {
-    className: (0, _classnames["default"])(_styles["default"].footer, footerClassName)
+    className: (0, _clsx["default"])(_styles["default"].footer, footerClassName)
   }, onCancel ? /*#__PURE__*/_react["default"].createElement(FlatButton, {
-    className: (0, _classnames["default"])(_styles["default"].btn, _styles["default"].cancelBtn, cancelBtnClassName),
+    className: (0, _clsx["default"])(_styles["default"].btn, _styles["default"].cancelBtn, cancelBtnClassName),
     dataSign: "cancel",
     onClick: onCancel
   }, textCancel || _i18n["default"].getString('cancel', currentLocale)) : null, onConfirm ? /*#__PURE__*/_react["default"].createElement(FlatButton, {
-    className: (0, _classnames["default"])(_styles["default"].btn, _styles["default"].confirmBtn, confirmBtnClassName),
+    className: (0, _clsx["default"])(_styles["default"].btn, _styles["default"].confirmBtn, confirmBtnClassName),
     dataSign: "confirm",
     onClick: onConfirm
   }, textConfirm || _i18n["default"].getString('confirm', currentLocale)) : null);
   var headText = "".concat(title) || null;
   return /*#__PURE__*/_react["default"].createElement("div", {
-    className: (0, _classnames["default"])(_styles["default"].dialog, className)
+    className: (0, _clsx["default"])(_styles["default"].dialog, className)
   }, showTitle ? /*#__PURE__*/_react["default"].createElement("div", {
-    className: (0, _classnames["default"])(_styles["default"].header, headerClassName)
+    className: (0, _clsx["default"])(_styles["default"].header, headerClassName)
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].headerText,
     title: headText
@@ -78,7 +78,7 @@ var Dialog = function Dialog(_ref2) {
     className: _styles["default"].closeBtn,
     onClick: onCancel
   }, /*#__PURE__*/_react["default"].createElement(_CloseIcon["default"], null)) : null, /*#__PURE__*/_react["default"].createElement("div", {
-    className: (0, _classnames["default"])(_styles["default"].content, contentClassName)
+    className: (0, _clsx["default"])(_styles["default"].content, contentClassName)
   }, children), footer);
 };
 Dialog.propTypes = {

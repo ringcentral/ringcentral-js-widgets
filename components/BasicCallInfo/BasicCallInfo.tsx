@@ -1,17 +1,16 @@
-import type { FunctionComponent, MutableRefObject } from 'react';
-import React, { useEffect, useState } from 'react';
-
-import classNames from 'classnames';
-
 import { px, RcIconButton } from '@ringcentral/juno';
 import {
   ChevronLeft as chevronLeftSvg,
   ChevronRight as chevronRight,
 } from '@ringcentral/juno-icon';
+import clsx from 'clsx';
+import type { FunctionComponent, MutableRefObject } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { AnimationPanel } from '../AnimationPanel';
 import type { ShinyBarProps } from '../LogBasicInfoV2/ShinyBar';
 import { ShinyBar } from '../LogBasicInfoV2/ShinyBar';
+
 import type { BasicCallInfoMainProps } from './BasicCallInfoMain';
 import { BasicCallInfoMain } from './BasicCallInfoMain';
 import type { CallInfoProps } from './CallInfo';
@@ -98,7 +97,7 @@ export const BasicCallInfo: FunctionComponent<BasicCallInfoProps> = ({
 
       <AnimationPanel
         open={open}
-        className={classNames(styles.panelContainer, panelClass)}
+        className={clsx(styles.panelContainer, panelClass)}
         style={{
           height: panelHeight,
         }}

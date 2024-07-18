@@ -7,4 +7,4 @@ export default {
   AdditionalCompanyNumber: 'Company',
   ForwardedCompanyNumber: 'Forwarded',
   from: 'From',
-};
+} as const;

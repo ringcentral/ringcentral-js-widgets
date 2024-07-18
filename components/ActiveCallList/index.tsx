@@ -1,9 +1,10 @@
+import clsx from 'clsx';
 import React from 'react';
-
-import classnames from 'classnames';
 
 import ActiveCallItem from '../ActiveCallItem';
 import { ActiveCallItem as ActiveCallItemV2 } from '../ActiveCallItemV2';
+import type { Call } from '../ActiveCallItemV2';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 
@@ -34,6 +35,8 @@ type ActiveCallListProps = {
   isLoggedContact?: (...args: any[]) => any;
   onLogCall?: (...args: any[]) => any;
   loggingMap?: object;
+  showMergeCall?: boolean;
+  onMergeCall?: (webphoneSessionId: string, telephonySessionId: string) => any;
   webphoneAnswer?: (...args: any[]) => any;
   webphoneReject?: (...args: any[]) => any;
   webphoneHangup?: (...args: any[]) => any;
@@ -69,16 +72,18 @@ type ActiveCallListProps = {
   showSwitchCall?: boolean;
   showTransferCall?: boolean;
   showHoldOnOtherDevice?: boolean;
+  showCallerIdName?: boolean;
   isOnHold?: (...args: any[]) => any;
   showIgnoreBtn?: boolean;
   showHoldAnswerBtn?: boolean;
   useCallDetailV2?: boolean;
   newCallIcon?: boolean;
   clickSwitchTrack?: (...args: any[]) => any;
+  onSwitchCall?: (call: Call) => any;
   isWide?: boolean;
   allCalls: any[];
 };
-const ActiveCallList: React.SFC<ActiveCallListProps> = ({
+const ActiveCallList: React.FC<ActiveCallListProps> = ({
   calls,
   className,
   currentLocale,
@@ -86,6 +91,7 @@ const ActiveCallList: React.SFC<ActiveCallListProps> = ({
   countryCode,
   brand,
   showContactDisplayPlaceholder,
+  showCallerIdName,
   formatPhone,
   onClickToSms,
   onCreateContact,
@@ -96,6 +102,8 @@ const ActiveCallList: React.SFC<ActiveCallListProps> = ({
   onLogCall,
   autoLog,
   loggingMap,
+  showMergeCall,
+  onMergeCall,
   webphoneAnswer,
   webphoneReject,
   webphoneHangup,
@@ -135,6 +143,7 @@ const ActiveCallList: React.SFC<ActiveCallListProps> = ({
   showHoldAnswerBtn,
   useCallDetailV2,
   newCallIcon,
+  onSwitchCall,
   clickSwitchTrack,
   showMultipleMatch,
   isWide,
@@ -146,7 +155,7 @@ const ActiveCallList: React.SFC<ActiveCallListProps> = ({
   // if you are using call control SDK for webphone operation, then require to use ActiveCallItem v2
   const Component = useV2 ? ActiveCallItemV2 : ActiveCallItem;
   return (
-    <div className={classnames(styles.list, className)} data-sign="callList">
+    <div className={clsx(styles.list, className)} data-sign="callList">
       <div
         className={styles.listTitle}
         style={{
@@ -159,10 +168,12 @@ const ActiveCallList: React.SFC<ActiveCallListProps> = ({
         {title}
       </div>
       {calls.map((call) => {
-        const isOnConferenceCall = call.webphoneSession
-          ? // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
-            isSessionAConferenceCall(call.webphoneSession.id)
-          : isConferenceCall(call); // in case it's an other device call
+        const isOnConferenceCall =
+          call.isConferenceCall ??
+          (call.webphoneSession
+            ? // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
+              isSessionAConferenceCall(call.webphoneSession.id)
+            : isConferenceCall(call)); // in case it's an other device call
 
         const { warmTransferInfo } = call;
         let warmTransferRole;
@@ -186,7 +197,8 @@ const ActiveCallList: React.SFC<ActiveCallListProps> = ({
           <Component
             warmTransferRole={warmTransferRole}
             call={call}
-            key={call.id}
+            showCallerIdName={showCallerIdName}
+            key={call.id ?? call.sessionId ?? call.telephonySessionId}
             isOnConferenceCall={isOnConferenceCall}
             currentLocale={currentLocale}
             areaCode={areaCode}
@@ -202,6 +214,8 @@ const ActiveCallList: React.SFC<ActiveCallListProps> = ({
             onViewContact={onViewContact}
             onCreateContact={onCreateContact}
             loggingMap={loggingMap}
+            showMergeCall={showMergeCall}
+            onMergeCall={onMergeCall}
             // @ts-expect-error TS(2322): Type '((...args: any[]) => any) | undefined' is no... Remove this comment to see the full error message
             webphoneAnswer={webphoneAnswer}
             // @ts-expect-error TS(2322): Type '((...args: any[]) => any) | undefined' is no... Remove this comment to see the full error message
@@ -258,6 +272,7 @@ const ActiveCallList: React.SFC<ActiveCallListProps> = ({
             // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
             newCallIcon={newCallIcon}
             clickSwitchTrack={clickSwitchTrack}
+            onSwitchCall={onSwitchCall}
             isWide={isWide}
           />
         );

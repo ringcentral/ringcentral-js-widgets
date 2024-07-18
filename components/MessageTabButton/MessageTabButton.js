@@ -7,11 +7,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = exports.StyledTab = void 0;
-var _react = _interopRequireDefault(require("react"));
-var _classnames = _interopRequireDefault(require("classnames"));
 var _juno = require("@ringcentral/juno");
+var _clsx = _interopRequireDefault(require("clsx"));
+var _react = _interopRequireDefault(require("react"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 function _templateObject2() {
   var data = _taggedTemplateLiteral(["\n      color: ", ";\n      border-bottom: 1px solid ", ";\n    "]);
   _templateObject2 = function _templateObject2() {
@@ -26,7 +26,7 @@ function _templateObject() {
   };
   return data;
 }
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+function _taggedTemplateLiteral(e, t) { return t || (t = e.slice(0)), Object.freeze(Object.defineProperties(e, { raw: { value: Object.freeze(t) } })); }
 var tabColor = (0, _juno.palette2)('tab', 'selected');
 var StyledTab = _juno.styled.div(_templateObject(), function (_ref) {
   var $active = _ref.$active;
@@ -57,7 +57,7 @@ var NavigationButton = function NavigationButton(_ref2) {
   }
   return /*#__PURE__*/_react["default"].createElement(StyledTab, {
     onClick: onClick,
-    className: (0, _classnames["default"])(_styles["default"].navigationButton, active && _styles["default"].active, fullSizeInk ? null : _styles["default"].linearBorder),
+    className: (0, _clsx["default"])(_styles["default"].navigationButton, active && _styles["default"].active, fullSizeInk ? null : _styles["default"].linearBorder),
     $active: !!active,
     style: {
       width: width

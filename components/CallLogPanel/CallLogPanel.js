@@ -1,7 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-require("core-js/modules/es.array.concat");
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 require("core-js/modules/es.function.bind");
 require("core-js/modules/es.object.get-prototype-of");
 require("core-js/modules/es.object.set-prototype-of");
@@ -9,10 +8,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+var _clsx = _interopRequireDefault(require("clsx"));
 var _react = _interopRequireWildcard(require("react"));
-var _classnames = _interopRequireDefault(require("classnames"));
 var _lib = require("../../lib");
 var _BackHeaderV = _interopRequireDefault(require("../BackHeaderV2"));
+var _ConferenceCallParticipants = require("../ConferenceCallParticipants");
 var _LogBasicInfoV = _interopRequireDefault(require("../LogBasicInfoV2"));
 var _NotificationSection = _interopRequireDefault(require("../NotificationSection"));
 var _NotificationSectionV = _interopRequireDefault(require("../NotificationSectionV2"));
@@ -20,23 +20,23 @@ var _SpinnerOverlay = require("../SpinnerOverlay");
 var _WebRTCNotificationSection = _interopRequireDefault(require("../WebRTCNotificationSection"));
 var _i18n = _interopRequireDefault(require("./i18n"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
-function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
-function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); } /**
-                                                                                                                                                                                                                      * Call log enhancement
-                                                                                                                                                                                                                      */
+function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
+function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) { if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } } return n["default"] = e, t && t.set(e, n), n; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); } /**
+ * Call log enhancement
+ */
 var getWarmTransferSession = function getWarmTransferSession(_ref) {
   var _transferLog$call;
   var mainLog = _ref.mainLog,
@@ -56,13 +56,19 @@ var getWarmTransferSession = function getWarmTransferSession(_ref) {
 var CallLogPanel = /*#__PURE__*/function (_Component) {
   _inherits(CallLogPanel, _Component);
   var _super = _createSuper(CallLogPanel);
-  function CallLogPanel() {
+  function CallLogPanel(props) {
     var _this;
     _classCallCheck(this, CallLogPanel);
-    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
-      args[_key] = arguments[_key];
-    }
-    _this = _super.call.apply(_super, [this].concat(args));
+    _this = _super.call(this, props);
+    _this.toggleConference = function (open) {
+      if (open) {
+        var _this$props$clickPart, _this$props;
+        (_this$props$clickPart = (_this$props = _this.props).clickParticipantsIconTrack) === null || _this$props$clickPart === void 0 ? void 0 : _this$props$clickPart.call(_this$props);
+      }
+      _this.setState({
+        showConferenceCallParticipants: open
+      });
+    };
     _this.editSectionRef = /*#__PURE__*/_react["default"].createRef();
     _this.editSectionScrollBy = function (top) {
       // @ts-expect-error TS(2531): Object is possibly 'null'.
@@ -70,6 +76,9 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
         top: top,
         behavior: 'smooth'
       });
+    };
+    _this.state = {
+      showConferenceCallParticipants: false
     };
     return _this;
   }
@@ -95,11 +104,11 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
   }, {
     key: "renderLogSection",
     value: function renderLogSection() {
-      var _this$props = this.props,
-        currentLog = _this$props.currentLog,
-        renderEditLogSection = _this$props.renderEditLogSection,
-        editSection = _this$props.classes.editSection,
-        renderKeypadPanel = _this$props.renderKeypadPanel;
+      var _this$props2 = this.props,
+        currentLog = _this$props2.currentLog,
+        renderEditLogSection = _this$props2.renderEditLogSection,
+        editSection = _this$props2.classes.editSection,
+        renderKeypadPanel = _this$props2.renderKeypadPanel;
       if (!currentLog) return null;
       var showSpinner = this.props.showSpinner;
       if (currentLog.showSpinner || showSpinner) {
@@ -107,25 +116,25 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
           className: _styles["default"].spinner
         });
       }
-      return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, this.renderLogNotification(), this.renderLogBasicInfo(), /*#__PURE__*/_react["default"].createElement("div", {
+      return /*#__PURE__*/_react["default"].createElement(_react["default"].Fragment, null, this.renderLogNotification(), this.renderLogBasicInfo(), this.renderConferenceCallParticipants(), /*#__PURE__*/_react["default"].createElement("div", {
         ref: this.editSectionRef,
-        className: (0, _classnames["default"])(_styles["default"].editSection, editSection)
+        className: (0, _clsx["default"])(_styles["default"].editSection, editSection)
       }, renderEditLogSection && this.getEditLogSection()), renderKeypadPanel && renderKeypadPanel(), this.getCallControlButtons());
     }
   }, {
     key: "getCallControlButtons",
     value: function getCallControlButtons() {
-      var _this$props2 = this.props,
-        currentLog = _this$props2.currentLog,
-        _this$props2$classes$ = _this$props2.classes.callLogCallControl,
-        callLogCallControl = _this$props2$classes$ === void 0 ? null : _this$props2$classes$,
-        callLogCallControlRef = _this$props2.refs.callLogCallControl,
-        renderCallLogCallControl = _this$props2.renderCallLogCallControl,
-        isWide = _this$props2.isWide,
-        enableReply = _this$props2.enableReply,
-        showSmallCallControl = _this$props2.showSmallCallControl,
-        warmTransferLog = _this$props2.warmTransferLog,
-        warmTransferActiveTelephonySessionId = _this$props2.warmTransferActiveTelephonySessionId;
+      var _this$props3 = this.props,
+        currentLog = _this$props3.currentLog,
+        _this$props3$classes$ = _this$props3.classes.callLogCallControl,
+        callLogCallControl = _this$props3$classes$ === void 0 ? null : _this$props3$classes$,
+        callLogCallControlRef = _this$props3.refs.callLogCallControl,
+        renderCallLogCallControl = _this$props3.renderCallLogCallControl,
+        isWide = _this$props3.isWide,
+        enableReply = _this$props3.enableReply,
+        showSmallCallControl = _this$props3.showSmallCallControl,
+        warmTransferLog = _this$props3.warmTransferLog,
+        warmTransferActiveTelephonySessionId = _this$props3.warmTransferActiveTelephonySessionId;
       var _getWarmTransferSessi = getWarmTransferSession({
           mainLog: currentLog,
           transferLog: warmTransferLog,
@@ -139,7 +148,7 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
       if (showSmallCallControl) {
         return /*#__PURE__*/_react["default"].createElement("div", {
           ref: callLogCallControlRef,
-          className: (0, _classnames["default"])(_styles["default"].callControlRoot, callLogCallControl),
+          className: (0, _clsx["default"])(_styles["default"].callControlRoot, callLogCallControl),
           "data-sign": "smallCallControl"
         }, renderCallLogCallControl && renderCallLogCallControl(telephonySessionId,
         // @ts-expect-error TS(2345): Argument of type 'boolean | undefined' is not assi... Remove this comment to see the full error message
@@ -150,27 +159,29 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
   }, {
     key: "getEditLogSection",
     value: function getEditLogSection() {
-      var _this$props3 = this.props,
-        renderEditLogSection = _this$props3.renderEditLogSection,
-        currentLocale = _this$props3.currentLocale,
-        onSaveCallLog = _this$props3.onSaveCallLog,
-        onUpdateCallLog = _this$props3.onUpdateCallLog,
-        onSelectViewVisible = _this$props3.onSelectViewVisible,
-        currentLog = _this$props3.currentLog,
-        additionalInfo = _this$props3.additionalInfo,
-        subjectDropdownsTracker = _this$props3.subjectDropdownsTracker,
-        contactSearch = _this$props3.contactSearch,
-        showFoundFromServer = _this$props3.showFoundFromServer,
-        appName = _this$props3.appName,
-        isSearching = _this$props3.isSearching,
-        startAdornmentRender = _this$props3.startAdornmentRender,
-        objectTypeIconsMap = _this$props3.objectTypeIconsMap; // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
+      var _this$props4 = this.props,
+        renderEditLogSection = _this$props4.renderEditLogSection,
+        currentLocale = _this$props4.currentLocale,
+        onSaveCallLog = _this$props4.onSaveCallLog,
+        onUpdateCallLog = _this$props4.onUpdateCallLog,
+        onSelectViewVisible = _this$props4.onSelectViewVisible,
+        currentLog = _this$props4.currentLog,
+        currentDelaySavingState = _this$props4.currentDelaySavingState,
+        additionalInfo = _this$props4.additionalInfo,
+        subjectDropdownsTracker = _this$props4.subjectDropdownsTracker,
+        contactSearch = _this$props4.contactSearch,
+        showFoundFromServer = _this$props4.showFoundFromServer,
+        appName = _this$props4.appName,
+        isSearching = _this$props4.isSearching,
+        startAdornmentRender = _this$props4.startAdornmentRender,
+        objectTypeIconsMap = _this$props4.objectTypeIconsMap; // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
       return renderEditLogSection({
         currentLocale: currentLocale,
         onSaveCallLog: onSaveCallLog,
         onUpdateCallLog: onUpdateCallLog,
         onSelectViewVisible: onSelectViewVisible,
         currentLog: currentLog,
+        currentDelaySavingState: currentDelaySavingState,
         additionalInfo: additionalInfo,
         subjectDropdownsTracker: subjectDropdownsTracker,
         contactSearch: contactSearch,
@@ -185,19 +196,19 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
   }, {
     key: "renderLogBasicInfo",
     value: function renderLogBasicInfo() {
-      var _this$props4 = this.props,
-        isWide = _this$props4.isWide,
-        currentLog = _this$props4.currentLog,
-        warmTransferLog = _this$props4.warmTransferLog,
-        currentLocale = _this$props4.currentLocale,
-        formatPhone = _this$props4.formatPhone,
-        dateTimeFormatter = _this$props4.dateTimeFormatter,
-        renderBasicInfo = _this$props4.renderBasicInfo,
-        logBasicInfo = _this$props4.classes.logBasicInfo,
-        showRecordingIndicator = _this$props4.showRecordingIndicator,
-        openEntityDetailLinkTrack = _this$props4.openEntityDetailLinkTrack,
-        warmTransferActiveTelephonySessionId = _this$props4.warmTransferActiveTelephonySessionId,
-        onSwitchWarmTransferSession = _this$props4.onSwitchWarmTransferSession;
+      var _this$props5 = this.props,
+        isWide = _this$props5.isWide,
+        currentLog = _this$props5.currentLog,
+        warmTransferLog = _this$props5.warmTransferLog,
+        currentLocale = _this$props5.currentLocale,
+        formatPhone = _this$props5.formatPhone,
+        dateTimeFormatter = _this$props5.dateTimeFormatter,
+        renderBasicInfo = _this$props5.renderBasicInfo,
+        logBasicInfo = _this$props5.classes.logBasicInfo,
+        showRecordingIndicator = _this$props5.showRecordingIndicator,
+        openEntityDetailLinkTrack = _this$props5.openEntityDetailLinkTrack,
+        warmTransferActiveTelephonySessionId = _this$props5.warmTransferActiveTelephonySessionId,
+        onSwitchWarmTransferSession = _this$props5.onSwitchWarmTransferSession;
       if (renderBasicInfo) {
         return renderBasicInfo({
           formatPhone: formatPhone,
@@ -214,12 +225,10 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
         subLog = _getWarmTransferSessi2.subLog;
       return /*#__PURE__*/_react["default"].createElement(_LogBasicInfoV["default"], {
         dataSign: "leftSectionInfo",
-        isWide: isWide
-        // @ts-expect-error TS(2322): Type 'CallLog' is not assignable to type 'ILogInfo... Remove this comment to see the full error message
-        ,
-        currentLog: activeLog
-        // @ts-expect-error TS(2322): Type 'CallLog | undefined' is not assignable to ty... Remove this comment to see the full error message
-        ,
+        isWide: isWide,
+        currentLog: activeLog,
+        toggleConference: this.toggleConference,
+        conferenceParticipantsIsOpen: this.state.showConferenceCallParticipants,
         subCallLog: subLog,
         currentLocale: currentLocale,
         formatPhone: formatPhone
@@ -235,13 +244,14 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
   }, {
     key: "genSaveLogButtonV2",
     value: function genSaveLogButtonV2() {
-      var _this$props5 = this.props,
-        renderSaveLogButton = _this$props5.renderSaveLogButton,
-        currentLocale = _this$props5.currentLocale,
-        onSaveCallLog = _this$props5.onSaveCallLog,
-        currentLog = _this$props5.currentLog,
-        isWide = _this$props5.isWide,
-        showSpinner = _this$props5.showSpinner;
+      var _this$props6 = this.props,
+        renderSaveLogButton = _this$props6.renderSaveLogButton,
+        currentLocale = _this$props6.currentLocale,
+        onSaveCallLog = _this$props6.onSaveCallLog,
+        currentLog = _this$props6.currentLog,
+        isWide = _this$props6.isWide,
+        showSpinner = _this$props6.showSpinner,
+        currentDelaySavingState = _this$props6.currentDelaySavingState;
       var loading = showSpinner || currentLog && currentLog.showSpinner;
       return renderSaveLogButton({
         currentLocale: currentLocale,
@@ -249,51 +259,53 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
         currentLog: currentLog,
         loading: loading,
         isWide: isWide,
-        disabled: currentLog === null || currentLog === void 0 ? void 0 : currentLog.disableSaveLog
+        disabled: currentLog === null || currentLog === void 0 ? void 0 : currentLog.disableSaveLog,
+        currentDelaySavingState: currentDelaySavingState
       });
     }
   }, {
     key: "renderLogNotification",
     value: function renderLogNotification() {
-      var _this$props6 = this.props,
-        formatPhone = _this$props6.formatPhone,
-        currentLocale = _this$props6.currentLocale,
-        logNotification = _this$props6.logNotification,
-        onCloseNotification = _this$props6.onCloseNotification,
-        onSaveNotification = _this$props6.onSaveNotification,
-        onExpandNotification = _this$props6.onExpandNotification,
-        onDiscardNotification = _this$props6.onDiscardNotification,
-        currentNotificationIdentify = _this$props6.currentNotificationIdentify,
-        currentSession = _this$props6.currentSession,
-        activeSession = _this$props6.activeSession,
-        onReject = _this$props6.onReject,
-        onHangup = _this$props6.onHangup,
-        shrinkNotification = _this$props6.shrinkNotification,
-        disableLinks = _this$props6.disableLinks,
-        useNewNotification = _this$props6.useNewNotification,
-        showNotiLogButton = _this$props6.showNotiLogButton,
-        isWebRTC = _this$props6.isWebRTC,
-        isWide = _this$props6.isWide,
-        onIgnore = _this$props6.onIgnore,
-        onForward = _this$props6.onForward,
-        endAndAnswer = _this$props6.endAndAnswer,
-        holdAndAnswer = _this$props6.holdAndAnswer,
-        toVoicemail = _this$props6.toVoicemail,
-        forwardingNumbers = _this$props6.forwardingNumbers,
-        answer = _this$props6.answer,
-        clickForwardTrack = _this$props6.clickForwardTrack,
-        renderCallNotificationAvatar = _this$props6.renderCallNotificationAvatar,
-        getAvatarUrl = _this$props6.getAvatarUrl,
-        openEntityDetailLinkTrack = _this$props6.openEntityDetailLinkTrack,
-        enableReply = _this$props6.enableReply,
-        reply = _this$props6.reply;
+      var _this$props7 = this.props,
+        formatPhone = _this$props7.formatPhone,
+        currentLocale = _this$props7.currentLocale,
+        logNotification = _this$props7.logNotification,
+        onCloseNotification = _this$props7.onCloseNotification,
+        onSaveNotification = _this$props7.onSaveNotification,
+        onExpandNotification = _this$props7.onExpandNotification,
+        onDiscardNotification = _this$props7.onDiscardNotification,
+        currentNotificationIdentify = _this$props7.currentNotificationIdentify,
+        currentSession = _this$props7.currentSession,
+        activeSession = _this$props7.activeSession,
+        onReject = _this$props7.onReject,
+        onHangup = _this$props7.onHangup,
+        shrinkNotification = _this$props7.shrinkNotification,
+        disableLinks = _this$props7.disableLinks,
+        useNewNotification = _this$props7.useNewNotification,
+        showNotiLogButton = _this$props7.showNotiLogButton,
+        isWebRTC = _this$props7.isWebRTC,
+        isWide = _this$props7.isWide,
+        onIgnore = _this$props7.onIgnore,
+        onForward = _this$props7.onForward,
+        endAndAnswer = _this$props7.endAndAnswer,
+        holdAndAnswer = _this$props7.holdAndAnswer,
+        toVoicemail = _this$props7.toVoicemail,
+        forwardingNumbers = _this$props7.forwardingNumbers,
+        answer = _this$props7.answer,
+        clickForwardTrack = _this$props7.clickForwardTrack,
+        renderCallNotificationAvatar = _this$props7.renderCallNotificationAvatar,
+        getAvatarUrl = _this$props7.getAvatarUrl,
+        openEntityDetailLinkTrack = _this$props7.openEntityDetailLinkTrack,
+        enableReply = _this$props7.enableReply,
+        reply = _this$props7.reply;
       var showNotification = logNotification.showNotification,
         call = logNotification.call,
         logName = logNotification.logName,
         subContactNameDisplay = logNotification.subContactNameDisplay,
         displayEntity = logNotification.displayEntity,
         entityType = logNotification.entityType,
-        entityDetailLink = logNotification.entityDetailLink;
+        entityDetailLink = logNotification.entityDetailLink,
+        showLogOptions = logNotification.showLogOptions;
       if (!showNotification) {
         return null;
       }
@@ -354,7 +366,8 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
           currentSession: currentSession,
           onReject: onReject,
           onHangup: onHangup,
-          shrinkNotification: shrinkNotification
+          shrinkNotification: shrinkNotification,
+          showLogOptions: showLogOptions
         });
       }
       return /*#__PURE__*/_react["default"].createElement(_NotificationSection["default"], {
@@ -375,6 +388,31 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
       });
     }
   }, {
+    key: "renderConferenceCallParticipants",
+    value: function renderConferenceCallParticipants() {
+      var isOpen = this.state.showConferenceCallParticipants;
+      var _this$props8 = this.props,
+        currentLocale = _this$props8.currentLocale,
+        getConferenceCallParticipantName = _this$props8.getConferenceCallParticipantName,
+        currentLog = _this$props8.currentLog,
+        onRemoveParticipant = _this$props8.onRemoveParticipant,
+        renderConferenceParticipantsAvatar = _this$props8.renderConferenceParticipantsAvatar,
+        clickRemoveParticipantTrack = _this$props8.clickRemoveParticipantTrack;
+      var call = currentLog.call;
+      if (!(call === null || call === void 0 ? void 0 : call.isConferenceCall) || !isOpen) return null;
+      return /*#__PURE__*/_react["default"].createElement(_ConferenceCallParticipants.ConferenceCallParticipants, {
+        isOpen: !call.result && isOpen,
+        currentLocale: currentLocale,
+        toggleConference: this.toggleConference,
+        renderAvatar: renderConferenceParticipantsAvatar,
+        getContactNameInfo: getConferenceCallParticipantName,
+        participants: call.conferenceParticipants,
+        currentTelephonySessionId: call.telephonySessionId,
+        onRemoveParticipant: onRemoveParticipant,
+        clickRemoveParticipantTrack: clickRemoveParticipantTrack
+      });
+    }
+  }, {
     key: "goBack",
     value: function goBack() {
       var goBack = this.props.goBack;
@@ -384,24 +422,26 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
     key: "render",
     value: function render() {
       var _this2 = this;
-      var _this$props7 = this.props,
-        currentIdentify = _this$props7.currentIdentify,
-        currentLocale = _this$props7.currentLocale,
-        _this$props7$classes = _this$props7.classes,
-        root = _this$props7$classes.root,
-        backHeader = _this$props7$classes.backHeader,
-        rootRef = _this$props7.refs.root,
-        backIcon = _this$props7.backIcon,
-        header = _this$props7.header,
-        headerTitle = _this$props7.headerTitle,
-        isInTransferPage = _this$props7.isInTransferPage,
-        isWide = _this$props7.isWide,
-        children = _this$props7.children,
-        getRenderLogButton = _this$props7.getRenderLogButton;
+      var _this$props9 = this.props,
+        currentIdentify = _this$props9.currentIdentify,
+        currentLocale = _this$props9.currentLocale,
+        _this$props9$classes = _this$props9.classes,
+        root = _this$props9$classes.root,
+        backHeader = _this$props9$classes.backHeader,
+        rootRef = _this$props9.refs.root,
+        backIcon = _this$props9.backIcon,
+        header = _this$props9.header,
+        headerTitle = _this$props9.headerTitle,
+        isInTransferPage = _this$props9.isInTransferPage,
+        isWide = _this$props9.isWide,
+        children = _this$props9.children,
+        getRenderLogButton = _this$props9.getRenderLogButton,
+        rootLayout = _this$props9.rootLayout;
       if (!currentIdentify || isInTransferPage) return null;
+      var _root = (root !== null && root !== void 0 ? root : typeof rootLayout === 'boolean') ? rootLayout ? _styles["default"].callLogPanelClassLeftNav : _styles["default"].callLogPanelClass : undefined;
       return /*#__PURE__*/_react["default"].createElement("div", {
         ref: rootRef,
-        className: (0, _classnames["default"])(_styles["default"].root, !isWide ? _styles["default"].classic : null, root)
+        className: (0, _clsx["default"])(_styles["default"].root, !isWide ? _styles["default"].classic : null, _root)
       }, header && /*#__PURE__*/_react["default"].createElement(_BackHeaderV["default"], {
         currentLocale: currentLocale,
         backIcon: backIcon,
@@ -410,7 +450,7 @@ var CallLogPanel = /*#__PURE__*/function (_Component) {
         // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
         ,
         title: _i18n["default"].getString(headerTitle, currentLocale),
-        className: (0, _classnames["default"])(_styles["default"].header, backHeader),
+        className: (0, _clsx["default"])(_styles["default"].header, backHeader),
         onBackClick: function onBackClick() {
           return _this2.goBack();
         }

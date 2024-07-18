@@ -8,10 +8,11 @@ var _default = {
   Inbound: "Entrada",
   Outbound: "Saída",
   log: "Log",
-  save: "Salvar e novo",
-  discard: "Descartar e novo",
+  save: "Salvar e abrir nova",
+  discard: "Descartar e abrir nova",
   hangup: "Desligar",
-  reject: "Para caixa postal"
+  reject: "Para caixa postal",
+  saveDraftAndCreateNewLog: "Salvar rascunho e criar novo log de chamadas"
 }; // @key: @#@"Inbound"@#@ @source: @#@"Inbound"@#@
 // @key: @#@"Outbound"@#@ @source: @#@"Outbound"@#@
 // @key: @#@"log"@#@ @source: @#@"Log"@#@
@@ -19,5 +20,6 @@ var _default = {
 // @key: @#@"discard"@#@ @source: @#@"Discard and new"@#@
 // @key: @#@"hangup"@#@ @source: @#@"Hangup"@#@
 // @key: @#@"reject"@#@ @source: @#@"To Voicemail"@#@
+// @key: @#@"saveDraftAndCreateNewLog"@#@ @source: @#@"Save draft and create new call log"@#@
 exports["default"] = _default;
 //# sourceMappingURL=pt-BR.js.map

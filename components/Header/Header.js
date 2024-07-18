@@ -1,20 +1,20 @@
 "use strict";
 
-require("core-js/modules/es.array.index-of");
-require("core-js/modules/es.object.keys");
+require("core-js/modules/es.array.includes");
+require("core-js/modules/es.string.includes");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.Header = void 0;
-var _react = _interopRequireDefault(require("react"));
-var _classnames = _interopRequireDefault(require("classnames"));
+var _clsx = _interopRequireDefault(require("clsx"));
 var _ramda = require("ramda");
+var _react = _interopRequireDefault(require("react"));
 var _Button = require("../Button");
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
-function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
+function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) { ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } } return n; }, _extends.apply(null, arguments); }
+function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose(e, t); if (Object.getOwnPropertySymbols) { var s = Object.getOwnPropertySymbols(e); for (r = 0; r < s.length; r++) { o = s[r], t.includes(o) || {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } } return i; }
+function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t = {}; for (var n in r) { if ({}.hasOwnProperty.call(r, n)) { if (e.includes(n)) continue; t[n] = r[n]; } } return t; }
 var Header = function Header(_ref) {
   var className = _ref.className,
     onClick = _ref.onClick,
@@ -29,7 +29,7 @@ var Header = function Header(_ref) {
       if (!hidden) {
         var button = /*#__PURE__*/_react["default"].createElement(_Button.Button, _extends({
           key: idx,
-          className: (0, _classnames["default"])(_styles["default"].button, disabled && _styles["default"].disabled),
+          className: (0, _clsx["default"])(_styles["default"].button, disabled && _styles["default"].disabled),
           disabled: disabled
         }, props), label);
         if (placement === 'right') {
@@ -46,16 +46,16 @@ var Header = function Header(_ref) {
     leftButtons = _addIndex.leftButtons,
     rightButtons = _addIndex.rightButtons;
   return /*#__PURE__*/_react["default"].createElement("header", {
-    className: (0, _classnames["default"])(_styles["default"].root, className),
+    className: (0, _clsx["default"])(_styles["default"].root, className),
     onClick: onClick,
     "data-sign": "header"
   }, children ? /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].label,
     "data-sign": "headerTitle"
   }, children) : null, leftButtons.length ? /*#__PURE__*/_react["default"].createElement("div", {
-    className: (0, _classnames["default"])(_styles["default"].buttonGroup, _styles["default"].leftButtons)
+    className: (0, _clsx["default"])(_styles["default"].buttonGroup, _styles["default"].leftButtons)
   }, leftButtons) : null, rightButtons.length ? /*#__PURE__*/_react["default"].createElement("div", {
-    className: (0, _classnames["default"])(_styles["default"].buttonGroup, _styles["default"].rightButtons)
+    className: (0, _clsx["default"])(_styles["default"].buttonGroup, _styles["default"].rightButtons)
   }, rightButtons) : null);
 };
 exports.Header = Header;

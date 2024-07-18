@@ -1,0 +1,93 @@
+@import '../../lib/commonStyles/full-size.scss';
+@import '../../lib/commonStyles/layout.scss';
+@import '../../lib/commonStyles/colors.scss';
+
+.root {
+  @include full-size;
+}
+
+.content {
+  @include full-size;
+  overflow-y: auto;
+  height: 94%;
+  max-height: calc(100% - $header-height);
+  box-sizing: border-box;
+  background-color: white;
+  padding: 20px;
+}
+
+/* RcSwitch */
+.switch {
+  margin-top: 0 !important;
+}
+
+/* InputDevice & OutputDevice */
+.select {
+  margin-bottom: 16px;
+
+  > div {
+    margin-top: 28px !important;
+  }
+}
+
+/* AudioSection */
+.section {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 20px;
+}
+
+.sectionTitle {
+  line-height: 24px !important;
+  margin-bottom: 4px;
+}
+
+.sectionContent {
+  padding-bottom: 16px !important;
+}
+
+/* VolumeSlider */
+.sliderContainer {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 16px;
+}
+
+.sliderVolume {
+  display: flex;
+  flex-direction: row;
+}
+
+.sliderVolumeIconContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sliderLabel {
+  margin-bottom: 16px;
+  display: inline-block;
+}
+
+/* VolumeTester */
+
+.testVolumeContainer {
+  margin-bottom: 10px;
+  flex-direction: column;
+  align-items: start;
+  display: flex;
+  gap: 16px;
+}
+
+.testVolumeHint {
+  margin-top: 8px;
+}
+
+.testVolumeButton {
+  button {
+    padding: 0 6px;
+    margin-right: 8px;
+    min-width: 104px;
+    min-width: 112px;
+  }
+}

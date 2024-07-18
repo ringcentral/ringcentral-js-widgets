@@ -4,13 +4,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+var _clsx = _interopRequireDefault(require("clsx"));
 var _react = _interopRequireDefault(require("react"));
-var _classnames = _interopRequireDefault(require("classnames"));
 var _DynamicsFont = _interopRequireDefault(require("../../assets/DynamicsFont/DynamicsFont.scss"));
 var _Button = require("../Button");
 var _Spinner = _interopRequireDefault(require("../Spinner"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var LogButton = function LogButton(_ref) {
   var className = _ref.className,
     onLog = _ref.onLog,
@@ -24,7 +24,7 @@ var LogButton = function LogButton(_ref) {
     className: _styles["default"].spinner
   }) : null;
   return /*#__PURE__*/_react["default"].createElement(_Button.Button, {
-    className: (0, _classnames["default"])(_styles["default"].log, className),
+    className: (0, _clsx["default"])(_styles["default"].log, className),
     onClick: onLog,
     disabled: disableLinks || isLogging
   }, /*#__PURE__*/_react["default"].createElement("span", {

@@ -4,7 +4,7 @@ export default {
   editLog: "Modifica registro",
   select: "Seleziona un record corrispondente",
   OnHold: "In attesa",
-  Ringing: "Chiamata in corso",
+  Ringing: "Chiamata in arrivo",
   CallConnected: "Chiamata connessa",
   unknownUser: "Utente sconosciuto",
   unknownNumber: "Anonimo",
@@ -24,7 +24,7 @@ export default {
   accept: "Rispondi",
   toVoicemail: "Alla segreteria telefonica",
   anonymous: "Anonimo",
-  mergeToConference: "Unisci",
+  mergeToConference: "Unisci a chiamata attiva",
   hold: "Metti in attesa",
   unhold: "Interrompi l'attesa",
   transfer: "Trasferisci",
@@ -63,7 +63,7 @@ export default {
 // @key: @#@"accept"@#@ @source: @#@"Answer"@#@
 // @key: @#@"toVoicemail"@#@ @source: @#@"To Voicemail"@#@
 // @key: @#@"anonymous"@#@ @source: @#@"Anonymous"@#@
-// @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
+// @key: @#@"mergeToConference"@#@ @source: @#@"Merge with active call"@#@
 // @key: @#@"hold"@#@ @source: @#@"Hold"@#@
 // @key: @#@"unhold"@#@ @source: @#@"Unhold"@#@
 // @key: @#@"transfer"@#@ @source: @#@"Transfer"@#@

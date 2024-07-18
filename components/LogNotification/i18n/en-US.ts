@@ -5,4 +5,4 @@ export default {
   save: 'Save & Work on New',
   discard: 'Discard & Work on New',
   stay: 'Stay on Previous Work',
-};
+} as const;

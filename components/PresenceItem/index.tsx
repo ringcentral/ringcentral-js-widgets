@@ -1,7 +1,6 @@
-import React, { forwardRef } from 'react';
-
 import type { RcPresenceProps } from '@ringcentral/juno';
 import { RcListItem, RcPresence, spacing, styled } from '@ringcentral/juno';
+import React, { forwardRef } from 'react';
 
 import { getPresenceStatusName } from '../../lib/getPresenceStatusName';
 

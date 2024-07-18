@@ -4,8 +4,8 @@ require("core-js/modules/es.object.to-string");
 require("core-js/modules/es.promise");
 require("regenerator-runtime/runtime");
 var _ComposeTextUI = require("./ComposeTextUI");
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 // @ts-expect-error TS(2582): Cannot find name 'describe'. Do you need to instal... Remove this comment to see the full error message
 describe('detectPhoneNumbers', function () {
   var phone = {
@@ -42,7 +42,7 @@ describe('detectPhoneNumbers', function () {
             // @ts-expect-error TS(2304): Cannot find name 'expect'.
             expect(result).toBe(false);
             // @ts-expect-error TS(2304): Cannot find name 'expect'.
-            expect(phone.composeText.addToNumber).not.toBeCalled();
+            expect(phone.composeText.addToNumber).not.toHaveBeenCalled();
           case 6:
           case "end":
             return _context.stop();
@@ -69,9 +69,9 @@ describe('detectPhoneNumbers', function () {
             // @ts-expect-error TS(2304): Cannot find name 'expect'.
             expect(result).toBe(true);
             // @ts-expect-error TS(2304): Cannot find name 'expect'.
-            expect(phone.composeText.addToNumber).toBeCalledTimes(1);
+            expect(phone.composeText.addToNumber).toHaveBeenCalledTimes(1);
             // @ts-expect-error TS(2304): Cannot find name 'expect'.
-            expect(phone.composeText.addToNumber).toBeCalledWith({
+            expect(phone.composeText.addToNumber).toHaveBeenCalledWith({
               phoneNumber: '123444'
             });
           case 7:
@@ -100,9 +100,9 @@ describe('detectPhoneNumbers', function () {
             // @ts-expect-error TS(2304): Cannot find name 'expect'.
             expect(result).toBe(true);
             // @ts-expect-error TS(2304): Cannot find name 'expect'.
-            expect(phone.composeText.addToNumber).toBeCalledTimes(1);
+            expect(phone.composeText.addToNumber).toHaveBeenCalledTimes(1);
             // @ts-expect-error TS(2304): Cannot find name 'expect'.
-            expect(phone.composeText.addToNumber).toBeCalledWith({
+            expect(phone.composeText.addToNumber).toHaveBeenCalledWith({
               phoneNumber: '1234'
             });
           case 7:
@@ -131,7 +131,7 @@ describe('detectPhoneNumbers', function () {
             // @ts-expect-error TS(2304): Cannot find name 'expect'.
             expect(result).toBe(true);
             // @ts-expect-error TS(2304): Cannot find name 'expect'.
-            expect(phone.composeText.addToNumber).toBeCalledTimes(2);
+            expect(phone.composeText.addToNumber).toHaveBeenCalledTimes(2);
             // @ts-expect-error TS(2304): Cannot find name 'expect'.
             expect(phone.composeText.addToNumber).toHaveBeenNthCalledWith(1, {
               phoneNumber: '1234'

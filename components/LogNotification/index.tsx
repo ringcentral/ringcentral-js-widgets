@@ -1,15 +1,14 @@
-import React from 'react';
-
-import classnames from 'classnames';
-
 import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 import telephonyStatuses from '@ringcentral-integration/commons/enums/telephonyStatus';
+import clsx from 'clsx';
+import React from 'react';
 
 import EndIcon from '../../assets/images/End.svg';
 import { Button } from '../Button';
 import CircleButton from '../CircleButton';
 import LogBasicInfo from '../LogBasicInfo';
 import callControlI18n from '../SmCallControl/i18n';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 
@@ -29,7 +28,7 @@ type LogNotificationProps = {
   showEndButton?: boolean;
   disableLinks?: boolean;
 };
-const LogNotification: React.SFC<LogNotificationProps> = ({
+const LogNotification: React.FC<LogNotificationProps> = ({
   formatPhone,
   currentLog,
   currentLocale,
@@ -63,7 +62,7 @@ const LogNotification: React.SFC<LogNotificationProps> = ({
             showBorder={false}
             icon={EndIcon}
             onClick={endAction}
-            className={classnames({
+            className={clsx({
               [styles.hangup]: true,
               [styles.endButton]: true,
               [styles.buttonDisabled]: disableLinks,
@@ -79,12 +78,13 @@ const LogNotification: React.SFC<LogNotificationProps> = ({
         <Button
           tooltip={i18n.getString('log', currentLocale)}
           disabled={isExpand}
-          className={classnames(
+          className={clsx(
             styles.expandButtonWithEnd,
             isExpand && styles.expandDisableButton,
           )}
           // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
           onClick={() => onExpand()}
+          dataSign="expandNotification"
         >
           {i18n.getString('log', currentLocale)}
         </Button>
@@ -94,7 +94,7 @@ const LogNotification: React.SFC<LogNotificationProps> = ({
     extraButtons = (
       <Button
         disabled={isExpand}
-        className={classnames(
+        className={clsx(
           styles.expandButton,
           isExpand && styles.expandDisableButton,
         )}
@@ -117,14 +117,18 @@ const LogNotification: React.SFC<LogNotificationProps> = ({
       </div>
       {isExpand ? (
         <div className={styles.confirmationContainer}>
-          <div className={styles.confirmationInfo}>
+          <div
+            className={styles.confirmationInfo}
+            data-sign={'confirmationInfo'}
+          >
             {i18n.getString('confirmationInfo', currentLocale)}
           </div>
           <div className={styles.confirmationButtons}>
             {onSave ? (
               <Button
                 tooltip={i18n.getString('save', currentLocale)}
-                className={classnames(styles.saveButton, styles.selected)}
+                dataSign="saveAndWorkOnNew"
+                className={clsx(styles.saveButton, styles.selected)}
                 onClick={() => onSave()}
               >
                 {i18n.getString('save', currentLocale)}
@@ -134,6 +138,7 @@ const LogNotification: React.SFC<LogNotificationProps> = ({
               <Button
                 tooltip={i18n.getString('discard', currentLocale)}
                 className={styles.discardButton}
+                dataSign="discardAndWorkOnNew"
                 onClick={() => onDiscard()}
               >
                 {i18n.getString('discard', currentLocale)}
@@ -144,6 +149,7 @@ const LogNotification: React.SFC<LogNotificationProps> = ({
                 tooltip={i18n.getString('stay', currentLocale)}
                 className={styles.stayButton}
                 onClick={() => onStay()}
+                dataSign="stayOnPreviousWork"
               >
                 {i18n.getString('stay', currentLocale)}
               </Button>

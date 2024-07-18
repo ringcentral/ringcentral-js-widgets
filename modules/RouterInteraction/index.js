@@ -16,5 +16,5 @@ Object.defineProperty(exports, "default", {
   }
 });
 var _RouterInteraction = _interopRequireDefault(require("./RouterInteraction"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 //# sourceMappingURL=index.js.map

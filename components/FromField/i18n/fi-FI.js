@@ -12,7 +12,7 @@ var _default = {
   Blocked: "Estetty",
   AdditionalCompanyNumber: "Yritys",
   ForwardedCompanyNumber: "Siirretty",
-  from: "Lähettäjä"
+  from: "Läh."
 }; // @key: @#@"DirectNumber"@#@ @source: @#@"Direct"@#@
 // @key: @#@"MainCompanyNumber"@#@ @source: @#@"Main"@#@
 // @key: @#@"CompanyNumber"@#@ @source: @#@"Company"@#@

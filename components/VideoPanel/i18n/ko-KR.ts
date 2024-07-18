@@ -37,8 +37,7 @@ export default {
   today: "오늘",
   scheduleForGuidance: "다른 사람을 대신하여 예약을 하시나요?\n1. 예약할 사람의 Outlook 일정에 포함되어 있는지 확인하세요.\n2. 드롭다운에서 예약할 사람을 선택합니다.\n",
   scheduleForGuidanceMore: "자세히 알아보기",
-  changePmiSettings: "개인 모임 설정 변경",
-  ieSupportAlert: "2022년 2월 16일 이후 {appName} 앱은 Internet Explorer 11과 호환되지 않습니다. Microsoft Edge로 전환하거나 Outlook 2016 이상으로 업데이트하는 것이 좋습니다."
+  changePmiSettings: "개인 모임 설정 변경"
 };
 
 // @key: @#@"topic"@#@ @source: @#@"Meeting title"@#@
@@ -79,4 +78,3 @@ export default {
 // @key: @#@"scheduleForGuidance"@#@ @source: @#@"Scheduling for someone else?\n1. Make sure you're on their Outlook calendar.\n2. From the dropdown, select the person you're scheduling for.\n"@#@
 // @key: @#@"scheduleForGuidanceMore"@#@ @source: @#@"Learn details"@#@
 // @key: @#@"changePmiSettings"@#@ @source: @#@"Change Personal Meeting settings"@#@
-// @key: @#@"ieSupportAlert"@#@ @source: @#@"Please note that {appName} won't work with Internet Explorer 11 after Feb 16, 2022. We recommend switching to Microsoft Edge or updating to Outlook 2016 or above."@#@

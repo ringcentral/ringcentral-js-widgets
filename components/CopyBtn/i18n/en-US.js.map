@@ -1,1 +1,1 @@
-{"version":3,"file":"en-US.js","names":["copy","exports","_default"],"sources":["components/CopyBtn/i18n/en-US.ts"],"sourcesContent":["export default {\n  copy: 'Copy',\n};\n"],"mappings":";;;;;;eAAe;EACbA,IAAI,EAAE;AACR,CAAC;AAAAC,OAAA,cAAAC,QAAA"}
+{"version":3,"file":"en-US.js","names":["copy","exports","_default"],"sources":["components/CopyBtn/i18n/en-US.ts"],"sourcesContent":["export default {\n  copy: 'Copy',\n} as const;\n"],"mappings":";;;;;;eAAe;EACbA,IAAI,EAAE;AACR,CAAC;AAAAC,OAAA,cAAAC,QAAA","ignoreList":[]}

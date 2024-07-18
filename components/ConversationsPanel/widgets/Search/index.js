@@ -4,15 +4,15 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-var _react = _interopRequireDefault(require("react"));
-var _classnames = _interopRequireDefault(require("classnames"));
 var _messageTypes = _interopRequireDefault(require("@ringcentral-integration/commons/enums/messageTypes"));
+var _clsx = _interopRequireDefault(require("clsx"));
+var _react = _interopRequireDefault(require("react"));
 var _NewComposeText = _interopRequireDefault(require("../../../../assets/images/NewComposeText.svg"));
 var _NewComposeTextHover = _interopRequireDefault(require("../../../../assets/images/NewComposeTextHover.svg"));
 var _SearchInput = require("../../../SearchInput");
 var _i18n = _interopRequireDefault(require("../../i18n"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var Search = function Search(_ref) {
   var composeTextPermission = _ref.composeTextPermission,
     typeFilter = _ref.typeFilter,
@@ -27,7 +27,7 @@ var Search = function Search(_ref) {
   }
   var showTextIcon = composeTextPermission && (typeFilter === _messageTypes["default"].all || typeFilter === _messageTypes["default"].text);
   return /*#__PURE__*/_react["default"].createElement("div", {
-    className: (0, _classnames["default"])(_styles["default"].searchContainer, showTextIcon ? null : _styles["default"].withoutTextIcon)
+    className: (0, _clsx["default"])(_styles["default"].searchContainer, showTextIcon ? null : _styles["default"].withoutTextIcon)
   }, /*#__PURE__*/_react["default"].createElement(_SearchInput.SearchInput, {
     dataSign: "conversationSearch",
     className: _styles["default"].searchInput

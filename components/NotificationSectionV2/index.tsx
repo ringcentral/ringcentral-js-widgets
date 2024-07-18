@@ -1,13 +1,12 @@
-import React, { Component } from 'react';
-
-import classnames from 'classnames';
-
 import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 import telephonyStatuses from '@ringcentral-integration/commons/enums/telephonyStatus';
+import clsx from 'clsx';
+import React, { Component } from 'react';
 
 import CloseIcon from '../../assets/images/CloseIcon.svg';
 import { Button } from '../Button';
 import LogNotification from '../LogNotificationV2';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 
@@ -25,6 +24,7 @@ type NotificationSectionProps = {
   onReject: (...args: any[]) => any;
   onHangup: (...args: any[]) => any;
   shrinkNotification?: (...args: any[]) => any;
+  showLogOptions?: boolean;
 };
 class NotificationSection extends Component<NotificationSectionProps, {}> {
   // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
@@ -57,6 +57,7 @@ class NotificationSection extends Component<NotificationSectionProps, {}> {
       onReject,
       onHangup,
       shrinkNotification,
+      showLogOptions,
     } = this.props;
     // @ts-expect-error TS(2339): Property 'call' does not exist on type 'object | u... Remove this comment to see the full error message
     const { call } = logNotification;
@@ -72,8 +73,8 @@ class NotificationSection extends Component<NotificationSectionProps, {}> {
       statusI18n = i18n.getString('callConnected', currentLocale);
     }
     return (
-      <div className={classnames(styles.root)}>
-        <div className={styles.notificationModal}>
+      <div className={clsx(styles.root)}>
+        <div className={styles.notificationModal} data-sign="notificationModal">
           <div className={styles.modalHeader}>
             <div className={styles.modalTitle}>{statusI18n}</div>
             <div className={styles.modalCloseBtn}>
@@ -97,6 +98,7 @@ class NotificationSection extends Component<NotificationSectionProps, {}> {
             onHangup={() => onHangup(currentNotificationIdentify)}
             currentSession={currentSession}
             shrinkNotification={shrinkNotification}
+            showLogOptions={showLogOptions}
           />
         </div>
       </div>

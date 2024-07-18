@@ -1,5 +1,3 @@
-import type { FunctionComponent } from 'react';
-
 import type { RcVMeetingModel } from '@ringcentral-integration/commons/interfaces/Rcv.model';
 import type { BrandConfig } from '@ringcentral-integration/commons/modules/Brand';
 import type {
@@ -16,6 +14,7 @@ import type {
   RcDatePickerSize,
   RcTimePickerSize,
 } from '@ringcentral/juno';
+import type { FunctionComponent } from 'react';
 
 export interface ScheduleButtonProps {
   currentLocale: string;
@@ -107,7 +106,7 @@ export interface MeetingPanelProps extends CommonProps {
   recurringMeetingPosition?: 'middle' | 'bottom';
   enableServiceWebSettings?: boolean;
   delegators?: RcvDelegator[];
-  showIeSupportAlert?: boolean;
+  showMigrationAlert?: boolean;
   appName?: string;
 }
 
@@ -115,16 +114,14 @@ export interface GenericMeetingPanelProps
   extends VideoPanelProps,
     MeetingPanelProps {
   meeting: RcMMeetingModel | Partial<RcVMeetingModel>;
-  useRcmV2: boolean;
   isRCM: boolean;
   isRCV: boolean;
   showSpinnerInConfigPanel: boolean;
-  showCustom?: boolean;
-  CustomPanel?: React.ReactNode;
   brandName: string;
   labelPlacement?: 'end' | 'start' | 'top' | 'bottom';
   showRemoveMeetingWarning: boolean;
   brandConfig: BrandConfig;
+  onCloseMigrationAlert?: () => void;
 }
 
 export interface GenericMeetingPanelState {}

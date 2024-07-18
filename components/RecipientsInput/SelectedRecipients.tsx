@@ -1,7 +1,6 @@
+import clsx from 'clsx';
 import type { FunctionComponent } from 'react';
 import React from 'react';
-
-import classnames from 'classnames';
 
 import { SelectedRecipientItem } from './SelectedRecipientItem';
 import styles from './styles.scss';
@@ -30,7 +29,7 @@ export const SelectedRecipients: FunctionComponent<SelectedRecipientsProps> = ({
     return (
       <ul
         data-sign="recipientsList"
-        className={classnames(className, styles.selectReceivers)}
+        className={clsx(className, styles.selectReceivers)}
       >
         {recipients.map((item) => (
           <SelectedRecipientItem
@@ -46,7 +45,7 @@ export const SelectedRecipients: FunctionComponent<SelectedRecipientsProps> = ({
   }
   if (!multiple && recipient) {
     return (
-      <ul className={classnames(className, styles.selectReceivers)}>
+      <ul className={clsx(className, styles.selectReceivers)}>
         <SelectedRecipientItem
           {...recipient}
           key={recipient.phoneNumber}

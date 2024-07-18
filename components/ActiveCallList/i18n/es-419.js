@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  callerCall: "Persona que llama",
+  callerCall: "Interlocutor",
   transferCall: "Transferir"
 }; // @key: @#@"callerCall"@#@ @source: @#@"Caller"@#@
 // @key: @#@"transferCall"@#@ @source: @#@"Transfer"@#@

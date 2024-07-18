@@ -1,17 +1,19 @@
-import 'rc-tooltip/assets/bootstrap_white.css';
-
-import type { ChangeEvent, FunctionComponent } from 'react';
-import React, { useEffect, useRef, useState } from 'react';
-
-import classnames from 'classnames';
-
 /* eslint-disable react/destructuring-assignment */
 import { callingOptions } from '@ringcentral-integration/commons/modules/CallingSettings';
 import { format } from '@ringcentral-integration/utils';
 import { RcIcon } from '@ringcentral/juno';
 import { InfoBorder as infoSvg } from '@ringcentral/juno-icon';
+import clsx from 'clsx';
+import 'rc-tooltip/assets/bootstrap_white.css';
+import type { ChangeEvent, FunctionComponent } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
-import BackHeader from '../BackHeader';
+import {
+  PageHeader,
+  PageHeaderBack,
+  PageHeaderRemain,
+  PageHeaderTitle,
+} from '../BackHeader/PageHeader';
 import { DropdownSelect } from '../DropdownSelect';
 import IconField from '../IconField';
 import InputField from '../InputField';
@@ -21,6 +23,7 @@ import SaveButton from '../SaveButton';
 import { SpinnerOverlay } from '../SpinnerOverlay';
 import Switch from '../Switch';
 import TextInput from '../TextInput';
+
 import type {
   CallingSettingsPanelProps,
   CallingSettingsProps,
@@ -60,6 +63,16 @@ const CallWithSettings: FunctionComponent<CallWithProps> = ({
 }) => {
   const tooltipContainerRef = useRef(null);
 
+  const valueRenderer = (option: string) => {
+    const optionName = getCallingOptionName({
+      callingOption: option,
+      currentLocale,
+      jupiterAppName,
+      softphoneAppName,
+    });
+    return <span data-sign={`selected_${optionName}`}>{optionName}</span>;
+  };
+
   const optionRenderer = (option: string) => {
     const optionName = getCallingOptionName({
       callingOption: option,
@@ -67,8 +80,9 @@ const CallWithSettings: FunctionComponent<CallWithProps> = ({
       jupiterAppName,
       softphoneAppName,
     });
-    return optionName;
+    return <span data-sign={`option_${optionName}`}>{optionName}</span>;
   };
+
   const keys = [`${callWith}Tooltip`];
   if (
     callWith !== callingOptions.browser &&
@@ -116,7 +130,7 @@ const CallWithSettings: FunctionComponent<CallWithProps> = ({
         options={callWithOptions}
         dropdownAlign="left"
         renderFunction={optionRenderer}
-        renderValue={optionRenderer}
+        renderValue={valueRenderer}
         valueFunction={(option) => option}
         disabled={disabled}
         titleEnabled
@@ -169,7 +183,7 @@ const RingoutSettings: FunctionComponent<RingoutSettingsProps> = ({
         >
           {availableNumbersWithLabel ? (
             <DropdownSelect
-              className={classnames(styles.select, styles.locationSelect)}
+              className={clsx(styles.select, styles.locationSelect)}
               value={myLocation}
               onChange={onMyLocationChange}
               // @ts-expect-error TS(2322): Type '((option: string, text: string) => boolean) ... Remove this comment to see the full error message
@@ -224,15 +238,10 @@ const CallingSettings: FunctionComponent<CallingSettingsProps> = ({
   myLocation,
   onSave,
   ringoutPrompt,
-  showRingToneSettings = false,
   incomingAudio,
   incomingAudioFile,
   outgoingAudio,
   outgoingAudioFile,
-  defaultIncomingAudio,
-  defaultIncomingAudioFile,
-  defaultOutgoingAudio,
-  defaultOutgoingAudioFile,
   jupiterAppName,
   softphoneAppName,
 }) => {
@@ -263,6 +272,16 @@ const CallingSettings: FunctionComponent<CallingSettingsProps> = ({
     outgoingAudio,
     outgoingAudioFile,
   ]);
+  const isSaveButtonDisabled =
+    (callWithState === callWith &&
+      myLocationState === myLocation &&
+      ringoutPromptState === ringoutPrompt &&
+      incomingAudioState === incomingAudio &&
+      incomingAudioFileState === incomingAudioFile &&
+      outgoingAudioState === outgoingAudio &&
+      outgoingAudioFileState === outgoingAudioFile) ||
+    (callWithState === callingOptions.ringout && !myLocationState);
+
   return (
     <>
       <CallWithSettings
@@ -279,6 +298,7 @@ const CallingSettings: FunctionComponent<CallingSettingsProps> = ({
               setMyLocationState(myLocation);
               setRingoutPromptState(ringoutPrompt);
             } else {
+              // * when callWith changed, set myLocation to be the first available number
               setMyLocationState(availableNumbersWithLabel?.[0]?.value || '');
               setRingoutPromptState(defaultRingoutPrompt);
             }
@@ -349,45 +369,37 @@ const CallingSettings: FunctionComponent<CallingSettingsProps> = ({
               outgoingAudioFile: outgoingAudioFileState,
             });
           },
-          disabled:
-            (callWithState === callWith &&
-              myLocationState === myLocation &&
-              ringoutPromptState === ringoutPrompt &&
-              incomingAudioState === incomingAudio &&
-              incomingAudioFileState === incomingAudioFile &&
-              outgoingAudioState === outgoingAudio &&
-              outgoingAudioFileState === outgoingAudioFile) ||
-            (callWithState === callingOptions.ringout && !myLocationState),
+          disabled: isSaveButtonDisabled,
         }}
       />
     </>
   );
 };
 
-export const CallingSettingsPanel: FunctionComponent<CallingSettingsPanelProps> =
-  ({
-    className,
-    onBackButtonClick,
-    currentLocale,
-    showSpinner = false,
-    ...props
-  }) => {
-    const content = showSpinner ? (
-      <SpinnerOverlay />
-    ) : (
-      <>
-        <CallingSettings {...{ ...props, currentLocale }} />
-      </>
-    );
-    return (
-      <div
-        data-sign="callingSettings"
-        className={classnames(styles.root, className)}
-      >
-        <BackHeader onBackClick={onBackButtonClick}>
+export const CallingSettingsPanel: FunctionComponent<
+  CallingSettingsPanelProps
+> = ({
+  className,
+  onBackButtonClick,
+  currentLocale,
+  showSpinner = false,
+  ...props
+}) => {
+  const content = showSpinner ? (
+    <SpinnerOverlay />
+  ) : (
+    <CallingSettings {...{ ...props, currentLocale }} />
+  );
+  return (
+    <div data-sign="callingSettings" className={clsx(styles.root, className)}>
+      <PageHeader>
+        <PageHeaderBack onClick={onBackButtonClick} />
+        <PageHeaderTitle>
           {i18n.getString('title', currentLocale)}
-        </BackHeader>
-        <Panel className={styles.content}>{content}</Panel>
-      </div>
-    );
-  };
+        </PageHeaderTitle>
+        <PageHeaderRemain />
+      </PageHeader>
+      <Panel className={styles.content}>{content}</Panel>
+    </div>
+  );
+};

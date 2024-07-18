@@ -1,3 +1,4 @@
+import { RcText } from '@ringcentral/juno';
 import React from 'react';
 
 import IconField from '../IconField';
@@ -10,8 +11,10 @@ type IconLineProps = {
   onClick?: (...args: any[]) => any;
   noBorder?: boolean;
   title?: string;
+  hintText?: string;
 };
-const IconLine: React.SFC<IconLineProps> = (props) => {
+
+const IconLine: React.FC<IconLineProps> = (props) => {
   return (
     <Line
       className={props.className}
@@ -26,13 +29,26 @@ const IconLine: React.SFC<IconLineProps> = (props) => {
       >
         {props.children}
       </IconField>
+
+      {props.hintText && (
+        <RcText
+          data-sign="hintText"
+          color="neutral.f04"
+          variant="caption1"
+          component="div"
+          noWrap={false}
+          style={{ marginTop: '15px' }}
+        >
+          {props.hintText}
+        </RcText>
+      )}
     </Line>
   );
 };
+
 IconLine.defaultProps = {
-  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
-  dataSign: null,
-  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
-  title: null,
+  dataSign: undefined,
+  title: undefined,
 };
+
 export default IconLine;

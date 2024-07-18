@@ -1,18 +1,18 @@
 "use strict";
 
-require("core-js/modules/es.array.index-of");
-require("core-js/modules/es.object.keys");
+require("core-js/modules/es.array.includes");
+require("core-js/modules/es.string.includes");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.AnimationMessage = void 0;
+var _clsx = _interopRequireDefault(require("clsx"));
 var _react = _interopRequireDefault(require("react"));
-var _classnames = _interopRequireDefault(require("classnames"));
 var _Message = _interopRequireDefault(require("../Message"));
 var _AnimationAlertUtils = require("./AnimationAlertUtils");
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
+function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose(e, t); if (Object.getOwnPropertySymbols) { var s = Object.getOwnPropertySymbols(e); for (r = 0; r < s.length; r++) { o = s[r], t.includes(o) || {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } } return i; }
+function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t = {}; for (var n in r) { if ({}.hasOwnProperty.call(r, n)) { if (e.includes(n)) continue; t[n] = r[n]; } } return t; }
 var AnimationMessage = function AnimationMessage(_ref) {
   var animation = _ref.animation,
     duration = _ref.duration,
@@ -20,7 +20,7 @@ var AnimationMessage = function AnimationMessage(_ref) {
   // @ts-expect-error TS(2532): Object is possibly 'undefined'.
   var second = duration / 1000;
   return /*#__PURE__*/_react["default"].createElement("div", {
-    className: (0, _classnames["default"])([animation, 'animated']),
+    className: (0, _clsx["default"])([animation, 'animated']),
     style: {
       animationDuration: "".concat(second, "s")
     }

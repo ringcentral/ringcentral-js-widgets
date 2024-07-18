@@ -6,9 +6,16 @@ require("core-js/modules/es.object.freeze");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.SubInfoWrapper = exports.SubInfoName = exports.StyledTransferSwitchButton = exports.StyledSubSide = exports.StyledSubRecordingIndicator = exports.StyledSide = exports.StyleSubBox = void 0;
+exports.SubInfoWrapper = exports.SubInfoName = exports.StyledTransferSwitchButton = exports.StyledSubSide = exports.StyledSubRecordingIndicator = exports.StyledSide = exports.StyledParticipantsButton = exports.StyleSubBox = void 0;
 var _juno = require("@ringcentral/juno");
 var _commonStyles = require("../../../lib/commonStyles");
+function _templateObject8() {
+  var data = _taggedTemplateLiteral(["\n  && {\n    font-size: 12px;\n    margin-left: ", ";\n    padding: ", ";\n    min-height: 22px;\n    background-color: #ffffff;\n    :hover {\n      background-color: #ffffff;\n    }\n\n    ", " {\n      margin-right: ", ";\n    }\n  }\n"]);
+  _templateObject8 = function _templateObject8() {
+    return data;
+  };
+  return data;
+}
 function _templateObject7() {
   var data = _taggedTemplateLiteral(["\n  padding-left: ", ";\n"]);
   _templateObject7 = function _templateObject7() {
@@ -31,7 +38,7 @@ function _templateObject5() {
   return data;
 }
 function _templateObject4() {
-  var data = _taggedTemplateLiteral(["\n  display: flex;\n  line-height: 16px;\n  justify-content: flex-end;\n  margin-bottom: 6px;\n"]);
+  var data = _taggedTemplateLiteral(["\n  display: flex;\n  line-height: 16px;\n  justify-content: flex-end;\n  margin-bottom: ", ";\n"]);
   _templateObject4 = function _templateObject4() {
     return data;
   };
@@ -58,7 +65,7 @@ function _templateObject() {
   };
   return data;
 }
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+function _taggedTemplateLiteral(e, t) { return t || (t = e.slice(0)), Object.freeze(Object.defineProperties(e, { raw: { value: Object.freeze(t) } })); }
 var SubInfoWrapper = _juno.styled.div(_templateObject(), _commonStyles.fullSizeStyle);
 exports.SubInfoWrapper = SubInfoWrapper;
 var SubInfoName = (0, _juno.styled)(_juno.RcText)(_templateObject2(), function (_ref) {
@@ -68,7 +75,7 @@ var SubInfoName = (0, _juno.styled)(_juno.RcText)(_templateObject2(), function (
 exports.SubInfoName = SubInfoName;
 var StyledTransferSwitchButton = (0, _juno.styled)(_juno.RcIconButton)(_templateObject3(), (0, _juno.spacing)(5), (0, _juno.spacing)(-4));
 exports.StyledTransferSwitchButton = StyledTransferSwitchButton;
-var StyledSide = _juno.styled.div(_templateObject4());
+var StyledSide = _juno.styled.div(_templateObject4(), (0, _juno.spacing)(2));
 exports.StyledSide = StyledSide;
 var StyleSubBox = _juno.styled.div(_templateObject5());
 exports.StyleSubBox = StyleSubBox;
@@ -76,4 +83,6 @@ var StyledSubSide = _juno.styled.div(_templateObject6(), (0, _juno.palette2)('ne
 exports.StyledSubSide = StyledSubSide;
 var StyledSubRecordingIndicator = _juno.styled.div(_templateObject7(), (0, _juno.spacing)(1));
 exports.StyledSubRecordingIndicator = StyledSubRecordingIndicator;
+var StyledParticipantsButton = (0, _juno.styled)(_juno.RcButton)(_templateObject8(), (0, _juno.spacing)(1), (0, _juno.spacing)(0, 2), _juno.RcIcon, (0, _juno.spacing)(1));
+exports.StyledParticipantsButton = StyledParticipantsButton;
 //# sourceMappingURL=LogBaseInfo.js.map

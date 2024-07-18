@@ -7,13 +7,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
+var _clsx = _interopRequireDefault(require("clsx"));
 var _react = _interopRequireDefault(require("react"));
-var _classnames = _interopRequireDefault(require("classnames"));
 var _ActiveCallItem = _interopRequireDefault(require("../ActiveCallItem"));
 var _ActiveCallItemV = require("../ActiveCallItemV2");
 var _i18n = _interopRequireDefault(require("./i18n"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 function isConferenceCall(normalizedCall) {
   return normalizedCall && normalizedCall.to && Array.isArray(normalizedCall.to.phoneNumber) && normalizedCall.to.phoneNumber.length === 0 && normalizedCall.toName === 'Conference';
 }
@@ -25,6 +25,7 @@ var ActiveCallList = function ActiveCallList(_ref) {
     countryCode = _ref.countryCode,
     brand = _ref.brand,
     showContactDisplayPlaceholder = _ref.showContactDisplayPlaceholder,
+    showCallerIdName = _ref.showCallerIdName,
     formatPhone = _ref.formatPhone,
     onClickToSms = _ref.onClickToSms,
     onCreateContact = _ref.onCreateContact,
@@ -35,6 +36,8 @@ var ActiveCallList = function ActiveCallList(_ref) {
     onLogCall = _ref.onLogCall,
     autoLog = _ref.autoLog,
     loggingMap = _ref.loggingMap,
+    showMergeCall = _ref.showMergeCall,
+    onMergeCall = _ref.onMergeCall,
     webphoneAnswer = _ref.webphoneAnswer,
     webphoneReject = _ref.webphoneReject,
     webphoneHangup = _ref.webphoneHangup,
@@ -74,6 +77,7 @@ var ActiveCallList = function ActiveCallList(_ref) {
     showHoldAnswerBtn = _ref.showHoldAnswerBtn,
     useCallDetailV2 = _ref.useCallDetailV2,
     newCallIcon = _ref.newCallIcon,
+    onSwitchCall = _ref.onSwitchCall,
     clickSwitchTrack = _ref.clickSwitchTrack,
     showMultipleMatch = _ref.showMultipleMatch,
     isWide = _ref.isWide,
@@ -84,7 +88,7 @@ var ActiveCallList = function ActiveCallList(_ref) {
   // if you are using call control SDK for webphone operation, then require to use ActiveCallItem v2
   var Component = useV2 ? _ActiveCallItemV.ActiveCallItem : _ActiveCallItem["default"];
   return /*#__PURE__*/_react["default"].createElement("div", {
-    className: (0, _classnames["default"])(_styles["default"].list, className),
+    className: (0, _clsx["default"])(_styles["default"].list, className),
     "data-sign": "callList"
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].listTitle,
@@ -95,7 +99,8 @@ var ActiveCallList = function ActiveCallList(_ref) {
     title: title,
     "data-sign": "listTitle"
   }, title), calls.map(function (call) {
-    var isOnConferenceCall = call.webphoneSession ?
+    var _call$isConferenceCal, _ref2, _call$id;
+    var isOnConferenceCall = (_call$isConferenceCal = call.isConferenceCall) !== null && _call$isConferenceCal !== void 0 ? _call$isConferenceCal : call.webphoneSession ?
     // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
     isSessionAConferenceCall(call.webphoneSession.id) : isConferenceCall(call); // in case it's an other device call
     var warmTransferInfo = call.warmTransferInfo;
@@ -113,7 +118,8 @@ var ActiveCallList = function ActiveCallList(_ref) {
     return /*#__PURE__*/_react["default"].createElement(Component, {
       warmTransferRole: warmTransferRole,
       call: call,
-      key: call.id,
+      showCallerIdName: showCallerIdName,
+      key: (_ref2 = (_call$id = call.id) !== null && _call$id !== void 0 ? _call$id : call.sessionId) !== null && _ref2 !== void 0 ? _ref2 : call.telephonySessionId,
       isOnConferenceCall: isOnConferenceCall,
       currentLocale: currentLocale,
       areaCode: areaCode,
@@ -128,7 +134,9 @@ var ActiveCallList = function ActiveCallList(_ref) {
       onLogCall: onLogCall,
       onViewContact: onViewContact,
       onCreateContact: onCreateContact,
-      loggingMap: loggingMap
+      loggingMap: loggingMap,
+      showMergeCall: showMergeCall,
+      onMergeCall: onMergeCall
       // @ts-expect-error TS(2322): Type '((...args: any[]) => any) | undefined' is no... Remove this comment to see the full error message
       ,
       webphoneAnswer: webphoneAnswer
@@ -204,6 +212,7 @@ var ActiveCallList = function ActiveCallList(_ref) {
       ,
       newCallIcon: newCallIcon,
       clickSwitchTrack: clickSwitchTrack,
+      onSwitchCall: onSwitchCall,
       isWide: isWide
     });
   }));

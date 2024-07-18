@@ -4,13 +4,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.DoNotCallIndicator = void 0;
-var _react = _interopRequireDefault(require("react"));
 var _juno = require("@ringcentral/juno");
 var _junoIcon = require("@ringcentral/juno-icon");
+var _react = _interopRequireDefault(require("react"));
 var _Tooltip = require("../Rcui/Tooltip");
 var _i18n = _interopRequireDefault(require("./i18n"));
 var _DoNotCallIndicator = require("./styles/DoNotCallIndicator");
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var DoNotCallIndicator = function DoNotCallIndicator(_ref) {
   var currentLocale = _ref.currentLocale;
   return /*#__PURE__*/_react["default"].createElement(_Tooltip.Tooltip, {

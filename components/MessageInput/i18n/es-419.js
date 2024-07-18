@@ -7,8 +7,8 @@ exports["default"] = void 0;
 var _default = {
   from: "Desde",
   to: "Para",
-  enterNameOrNumber: "Ingresar número o nombre...",
-  typeMessage: "Escribir mensaje...",
+  enterNameOrNumber: "Ingresar número o nombre…",
+  typeMessage: "Escribir mensaje…",
   send: "Enviar"
 }; // @key: @#@"from"@#@ @source: @#@"From"@#@
 // @key: @#@"to"@#@ @source: @#@"To"@#@

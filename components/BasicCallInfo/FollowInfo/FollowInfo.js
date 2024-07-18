@@ -10,7 +10,7 @@ var _react = _interopRequireDefault(require("react"));
 var _toolTipDelayTime = require("../../../lib/toolTipDelayTime");
 var _Tooltip = require("../../Rcui/Tooltip");
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var FollowInfo = function FollowInfo(_ref) {
   var infoList = _ref.infoList,
     splitSign = _ref.splitSign;

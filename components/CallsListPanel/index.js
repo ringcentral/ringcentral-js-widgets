@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 require("core-js/modules/es.array.map");
 require("core-js/modules/es.function.bind");
 require("core-js/modules/es.object.get-prototype-of");
@@ -9,10 +9,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-var _react = _interopRequireDefault(require("react"));
-var _classnames = _interopRequireDefault(require("classnames"));
-var _propTypes = _interopRequireDefault(require("prop-types"));
 var _debounce = _interopRequireDefault(require("@ringcentral-integration/commons/lib/debounce"));
+var _clsx = _interopRequireDefault(require("clsx"));
+var _propTypes = _interopRequireDefault(require("prop-types"));
+var _react = _interopRequireDefault(require("react"));
 var _ActiveCallItem = _interopRequireDefault(require("../ActiveCallItem"));
 var _CallList = _interopRequireDefault(require("../CallList"));
 var _CallListV = _interopRequireDefault(require("../CallListV2"));
@@ -23,19 +23,19 @@ var _SearchInput = require("../SearchInput");
 var _SpinnerOverlay = require("../SpinnerOverlay");
 var _i18n = _interopRequireDefault(require("./i18n"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
-function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
 // TODO: it is ActiveCallsPanel's function is the same, and remove ActiveCallsPanel after migration.
 
 var SEARCH_BAR_HEIGHT = 51;
@@ -80,7 +80,7 @@ var ActiveCallList = function ActiveCallList(_ref) {
     return null;
   }
   return /*#__PURE__*/_react["default"].createElement("div", {
-    className: (0, _classnames["default"])(_styles["default"].list, className),
+    className: (0, _clsx["default"])(_styles["default"].list, className),
     "data-sign": "callList"
   }, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].listTitle,
@@ -325,9 +325,7 @@ var CallsListPanel = /*#__PURE__*/function (_React$PureComponent) {
         containerStyles: sectionContainerStyles,
         modalStyles: sectionModalStyles,
         maskStyle: _styles["default"].maskStyle
-      }, /*#__PURE__*/_react["default"].createElement(_LogSection["default"]
-      // @ts-expect-error TS(2322): Type '{ currentLocale: any; currentLog: any; addit... Remove this comment to see the full error message
-      , {
+      }, /*#__PURE__*/_react["default"].createElement(_LogSection["default"], {
         currentLocale: currentLocale,
         currentLog: currentLog,
         additionalInfo: additionalInfo,
@@ -341,7 +339,7 @@ var CallsListPanel = /*#__PURE__*/function (_React$PureComponent) {
       })), logNotification ? /*#__PURE__*/_react["default"].createElement(_InsideModal["default"], {
         show: logNotification.showNotification,
         showTitle: false,
-        containerStyles: (0, _classnames["default"])(_styles["default"].notificationContainer, notificationContainerStyles),
+        containerStyles: (0, _clsx["default"])(_styles["default"].notificationContainer, notificationContainerStyles),
         modalStyles: _styles["default"].notificationModal,
         contentStyle: _styles["default"].notificationContent,
         onClose: onCloseNotification
@@ -427,13 +425,15 @@ var CallsListPanel = /*#__PURE__*/function (_React$PureComponent) {
         sectionModalStyles = _this$props2.sectionModalStyles,
         notificationContainerStyles = _this$props2.notificationContainerStyles,
         externalViewEntity = _this$props2.externalViewEntity,
+        shouldHideEntityButton = _this$props2.shouldHideEntityButton,
         externalHasEntity = _this$props2.externalHasEntity,
         readTextPermission = _this$props2.readTextPermission,
         children = _this$props2.children,
         adaptive = _this$props2.adaptive,
         showChooseEntityModal = _this$props2.showChooseEntityModal,
         enableCDC = _this$props2.enableCDC,
-        maxExtensionLength = _this$props2.maxExtensionLength; // @ts-expect-error TS(2339): Property 'contentWidth' does not exist on type 'Re... Remove this comment to see the full error message
+        maxExtensionLength = _this$props2.maxExtensionLength,
+        callsDelaySavingState = _this$props2.callsDelaySavingState; // @ts-expect-error TS(2339): Property 'contentWidth' does not exist on type 'Re... Remove this comment to see the full error message
       var _this$state = this.state,
         contentWidth = _this$state.contentWidth,
         contentHeight = _this$state.contentHeight;
@@ -443,7 +443,7 @@ var CallsListPanel = /*#__PURE__*/function (_React$PureComponent) {
       var isShowMessageIcon = readTextPermission && !!onClickToSms;
       var CallsListView = useNewList ?
       /*#__PURE__*/
-      // @ts-expect-error TS(2741): Property 'formatPhone' is missing in type '{ width... Remove this comment to see the full error message
+      // @ts-expect-error TS(2339): Property 'contentWidth' does not exist on type 'Re... Remove this comment to see the full error message
       _react["default"].createElement(_CallListV["default"], {
         width: adaptive ? contentWidth : width,
         height: adaptive ? contentHeight : height,
@@ -453,6 +453,7 @@ var CallsListPanel = /*#__PURE__*/function (_React$PureComponent) {
         areaCode: areaCode,
         countryCode: countryCode,
         onViewContact: onViewContact,
+        shouldHideEntityButton: shouldHideEntityButton,
         onCreateContact: onCreateContact,
         createEntityTypes: createEntityTypes,
         onLogCall: onLogCall,
@@ -485,7 +486,8 @@ var CallsListPanel = /*#__PURE__*/function (_React$PureComponent) {
         externalHasEntity: externalHasEntity,
         readTextPermission: isShowMessageIcon,
         showChooseEntityModal: showChooseEntityModal,
-        enableCDC: enableCDC
+        enableCDC: enableCDC,
+        callsDelaySavingState: callsDelaySavingState
       }) : /*#__PURE__*/_react["default"].createElement(_CallList["default"], {
         brand: brand,
         currentLocale: currentLocale,
@@ -493,6 +495,7 @@ var CallsListPanel = /*#__PURE__*/function (_React$PureComponent) {
         areaCode: areaCode,
         countryCode: countryCode,
         onViewContact: onViewContact,
+        shouldHideEntityButton: shouldHideEntityButton,
         onCreateContact: onCreateContact,
         createEntityTypes: createEntityTypes,
         onLogCall: onLogCall,
@@ -506,20 +509,13 @@ var CallsListPanel = /*#__PURE__*/function (_React$PureComponent) {
         dateTimeFormatter: dateTimeFormatter,
         active: active,
         loggingMap: loggingMap,
-        webphoneAnswer: webphoneAnswer,
-        webphoneReject: webphoneReject,
-        webphoneHangup: webphoneHangup,
-        webphoneResume: webphoneResume,
         enableContactFallback: enableContactFallback,
         autoLog: autoLog,
         showContactDisplayPlaceholder: showContactDisplayPlaceholder,
         sourceIcons: sourceIcons,
         phoneTypeRenderer: phoneTypeRenderer,
         phoneSourceNameRenderer: phoneSourceNameRenderer,
-        renderContactName: renderContactName
-        // @ts-expect-error TS(2769): No overload matches this call.
-        ,
-        renderSubContactName: renderSubContactName,
+        renderContactName: renderContactName,
         renderExtraButton: renderExtraButton,
         contactDisplayStyle: contactDisplayStyle,
         externalViewEntity: externalViewEntity,
@@ -528,7 +524,7 @@ var CallsListPanel = /*#__PURE__*/function (_React$PureComponent) {
         enableCDC: enableCDC
       });
       var search = onSearchInputChange ? /*#__PURE__*/_react["default"].createElement("div", {
-        className: (0, _classnames["default"])(_styles["default"].searchContainer)
+        className: (0, _clsx["default"])(_styles["default"].searchContainer)
       }, /*#__PURE__*/_react["default"].createElement(_SearchInput.SearchInput, {
         key: "100",
         className: _styles["default"].searchInput,
@@ -577,7 +573,7 @@ var CallsListPanel = /*#__PURE__*/function (_React$PureComponent) {
         });
       };
       var historyCall = showSpinner ? /*#__PURE__*/_react["default"].createElement(_SpinnerOverlay.SpinnerOverlay, null) : /*#__PURE__*/_react["default"].createElement("div", {
-        className: (0, _classnames["default"])(_styles["default"].list, className)
+        className: (0, _clsx["default"])(_styles["default"].list, className)
       }, !onlyHistory && /*#__PURE__*/_react["default"].createElement("div", {
         className: _styles["default"].listTitle
       }, _i18n["default"].getString('historyCalls', currentLocale)), CallsListView);
@@ -585,10 +581,11 @@ var CallsListPanel = /*#__PURE__*/function (_React$PureComponent) {
         className: _styles["default"].noCalls
       }, _i18n["default"].getString('noCalls', currentLocale));
       return /*#__PURE__*/_react["default"].createElement("div", {
-        className: (0, _classnames["default"])(_styles["default"].container, onSearchInputChange ? _styles["default"].containerWithSearch : null),
+        className: (0, _clsx["default"])(_styles["default"].container, onSearchInputChange ? _styles["default"].containerWithSearch : null),
+        "data-sign": "callsListPanel",
         ref: this._listWrapper
       }, children, search, /*#__PURE__*/_react["default"].createElement("div", {
-        className: (0, _classnames["default"])(_styles["default"].root, currentLog && currentLog.showLog ? _styles["default"].hiddenScroll : '', className),
+        className: (0, _clsx["default"])(_styles["default"].root, currentLog && currentLog.showLog ? _styles["default"].hiddenScroll : '', className),
         ref: this._root
       }, onlyHistory || getCallList(activeRingCalls, _i18n["default"].getString('ringCall', currentLocale)), onlyHistory || getCallList(activeCurrentCalls, _i18n["default"].getString('currentCall', currentLocale)), onlyHistory || getCallList(activeOnHoldCalls, _i18n["default"].getString('onHoldCall', currentLocale)), onlyHistory || getCallList(otherDeviceCalls, _i18n["default"].getString('otherDeviceCall', currentLocale)), calls.length > 0 ? historyCall : noCalls), this.renderLogSection());
     }
@@ -627,6 +624,7 @@ CallsListPanel.propTypes = {
   webphoneToVoicemail: _propTypes["default"].func,
   autoLog: _propTypes["default"].bool,
   onViewContact: _propTypes["default"].func,
+  shouldHideEntityButton: _propTypes["default"].func,
   enableContactFallback: _propTypes["default"].bool,
   loggingMap: _propTypes["default"].object,
   onCallsEmpty: _propTypes["default"].func,
@@ -668,7 +666,8 @@ CallsListPanel.propTypes = {
   onlyHistory: _propTypes["default"].bool,
   adaptive: _propTypes["default"].bool,
   showChooseEntityModal: _propTypes["default"].bool,
-  enableCDC: _propTypes["default"].bool
+  enableCDC: _propTypes["default"].bool,
+  callsDelaySavingState: _propTypes["default"].object
 };
 
 // @ts-expect-error TS(2339): Property 'defaultProps' does not exist on type 'ty... Remove this comment to see the full error message
@@ -690,6 +689,7 @@ CallsListPanel.defaultProps = {
   searchInput: '',
   onLogCall: undefined,
   onViewContact: undefined,
+  shouldHideEntityButton: undefined,
   webphoneAnswer: undefined,
   webphoneReject: undefined,
   webphoneHangup: undefined,
@@ -733,7 +733,8 @@ CallsListPanel.defaultProps = {
   children: null,
   onlyHistory: false,
   showChooseEntityModal: true,
-  enableCDC: false
+  enableCDC: false,
+  callsDelaySavingState: undefined
 };
 var _default = CallsListPanel;
 exports["default"] = _default;

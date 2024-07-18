@@ -1,4 +1,9 @@
-import { callControlError } from '@ringcentral-integration/commons/modules/ActiveCallControl';
+import { callControlAlerts, callControlError } from '@ringcentral-integration/commons/modules/ActiveCallControl';
+const {
+  callsMerged,
+  somethingWentWrong,
+  tooManyParticipants
+} = callControlAlerts;
 const {
   holdConflictError,
   unHoldConflictError,
@@ -10,6 +15,9 @@ const {
   replyCompleted
 } = callControlError;
 export default {
+  [callsMerged]: "Appels fusionnés",
+  [somethingWentWrong]: "Un problème est survenu. Veuillez réessayer.",
+  [tooManyParticipants]: "Le nombre maximum de participants est atteint.",
   [muteConflictError]: "Le son de cet appel a été désactivé sur un autre terminal. Veuillez activer le son de l’appel avant votre action dans l’application.",
   [unHoldConflictError]: "Cet appel a été mis en attente sur un autre terminal. Veuillez reprendre l’appel avant votre action dans l’application.",
   [unMuteConflictError]: "Le son de cet appel a été activé sur un autre terminal. Veuillez désactiver le son de l’appel avant votre action dans l’application.",
@@ -20,6 +28,9 @@ export default {
   [replyCompleted]: "Message vocal envoyé."
 };
 
+// @key: @#@"callsMerged"@#@ @source: @#@"Calls merged"@#@
+// @key: @#@"somethingWentWrong"@#@ @source: @#@"Something went wrong. Please try again."@#@
+// @key: @#@"tooManyParticipants"@#@ @source: @#@"Maximum number of participants is reached."@#@
 // @key: @#@"muteConflictError"@#@ @source: @#@"This call had been muted on other device. Please unmute the call before you control in this App."@#@
 // @key: @#@"unHoldConflictError"@#@ @source: @#@"This call had been held on other device. Please unhold the call before you control in this App."@#@
 // @key: @#@"unMuteConflictError"@#@ @source: @#@"This call had been unmuted on other device. Please mute the call before you control in this App."@#@

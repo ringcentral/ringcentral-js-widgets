@@ -24,14 +24,14 @@ export default {
   accept: "接听",
   toVoicemail: "到语音信箱",
   anonymous: "匿名",
-  mergeToConference: "合并",
+  mergeToConference: "与进行中的通话合并",
   hold: "保持",
   unhold: "解除保持",
   transfer: "转接",
   reject: "拒绝",
   switchCall: "将呼叫切换到此应用",
   callSwitch: "呼叫切换",
-  comfirmContext: "您当前正在与 {displayName} 通话。要在此设备上继续通话吗？",
+  comfirmContext: "您当前正在与 {displayName} 通话。是否要在此设备上继续通话？",
   comfirmCancelButton: "取消",
   comfirmOKButton: "切换",
   ignore: "忽略",
@@ -63,7 +63,7 @@ export default {
 // @key: @#@"accept"@#@ @source: @#@"Answer"@#@
 // @key: @#@"toVoicemail"@#@ @source: @#@"To Voicemail"@#@
 // @key: @#@"anonymous"@#@ @source: @#@"Anonymous"@#@
-// @key: @#@"mergeToConference"@#@ @source: @#@"Merge"@#@
+// @key: @#@"mergeToConference"@#@ @source: @#@"Merge with active call"@#@
 // @key: @#@"hold"@#@ @source: @#@"Hold"@#@
 // @key: @#@"unhold"@#@ @source: @#@"Unhold"@#@
 // @key: @#@"transfer"@#@ @source: @#@"Transfer"@#@

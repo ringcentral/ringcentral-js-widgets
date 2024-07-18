@@ -5,16 +5,16 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.Profile = void 0;
-var _react = _interopRequireDefault(require("react"));
-var _classnames = _interopRequireDefault(require("classnames"));
 var _extensionStatusTypes = require("@ringcentral-integration/commons/enums/extensionStatusTypes");
+var _clsx = _interopRequireDefault(require("clsx"));
+var _react = _interopRequireDefault(require("react"));
 var _getPresenceStatusName = require("../../../lib/getPresenceStatusName");
+var _usePresence = require("../../../react-hooks/usePresence");
 var _PresenceStatusIcon = _interopRequireDefault(require("../../PresenceStatusIcon"));
 var _i18n = _interopRequireDefault(require("../i18n"));
 var _styles = _interopRequireDefault(require("../styles.scss"));
-var _usePresence = require("../../../react-hooks/usePresence");
 var _Avatar = require("./Avatar");
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var Status = function Status(_ref) {
   var presence = _ref.presence,
     inactive = _ref.inactive,
@@ -51,7 +51,7 @@ var Name = function Name(_ref2) {
     inactive = _ref2.inactive,
     name = _ref2.name;
   return /*#__PURE__*/_react["default"].createElement("div", {
-    className: (0, _classnames["default"])(_styles["default"].name, !presence && _styles["default"].withoutPresence, inactive && _styles["default"].inactiveText),
+    className: (0, _clsx["default"])(_styles["default"].name, !presence && _styles["default"].withoutPresence, inactive && _styles["default"].inactiveText),
     title: name,
     "data-sign": "contactName",
     "data-inactive": inactive

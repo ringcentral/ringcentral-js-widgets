@@ -20,4 +20,6 @@ export default {
     'Sorry, there was a problem on our end. Please try again later.',
   areaCode: 'area code',
   telus911: 'Emergency dialing is not supported.',
-};
+  [callErrors.fromAndToNumberIsSame]:
+    "The RingOut number and destination number can't be the same. Please update the number and try again.",
+} as const;

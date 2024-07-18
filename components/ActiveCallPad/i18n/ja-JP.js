@@ -17,7 +17,7 @@ var _default = {
   transfer: "転送",
   flip: "フリップ",
   more: "通話アクション",
-  mergeToConference: "統合",
+  mergeToConference: "マージ",
   end: "終了",
   completeTransfer: "転送を\n完了"
 }; // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@

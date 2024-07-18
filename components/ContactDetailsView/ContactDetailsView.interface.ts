@@ -1,6 +1,6 @@
 import type { ContactModel } from '@ringcentral-integration/commons/interfaces/Contact.model';
-import type { GetPresenceFn } from '../../react-hooks/usePresence';
 
+import type { GetPresenceFn } from '../../react-hooks/usePresence';
 import type {
   clickToDial,
   clickToSMS,

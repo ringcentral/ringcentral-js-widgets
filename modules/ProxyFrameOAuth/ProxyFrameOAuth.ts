@@ -1,12 +1,11 @@
-import url from 'url';
-import * as uuid from 'uuid';
-
 import background from '@ringcentral-integration/commons/lib/background';
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import { proxify } from '@ringcentral-integration/commons/lib/proxy/proxify';
 import { action, state, watch } from '@ringcentral-integration/core';
+import * as uuid from 'uuid';
 
 import { OAuthBase } from '../../lib/OAuthBase';
+
 import type { Deps } from './ProxyFrameOAuth.interface';
 
 const DEFAULT_PROXY_RETRY = 5000;
@@ -134,11 +133,10 @@ export class ProxyFrameOAuth<T extends Deps = Deps> extends OAuthBase<T> {
     // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
     const prefix = encodeURIComponent(this.prefix);
 
-    const proxyUri = url.resolve(
+    const proxyUri = new URL(
+      this._deps.oAuthOptions?.proxyUri!,
       window.location.href,
-      // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
-      this._deps.oAuthOptions?.proxyUri,
-    );
+    ).href;
 
     const hash = encodeURIComponent(btoa(this._uuid));
 

@@ -5,11 +5,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports["default"] = void 0;
-var _react = _interopRequireDefault(require("react"));
 var _permissionsMessages = require("@ringcentral-integration/commons/enums/permissionsMessages");
+var _react = _interopRequireDefault(require("react"));
 var _FormattedMessage = _interopRequireDefault(require("../../FormattedMessage"));
 var _i18n = _interopRequireDefault(require("./i18n"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var CallInfo = function CallInfo(_ref) {
   var message = _ref.message.message,
     currentLocale = _ref.currentLocale,

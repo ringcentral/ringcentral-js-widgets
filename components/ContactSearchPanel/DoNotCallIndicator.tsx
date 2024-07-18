@@ -1,9 +1,9 @@
-import React from 'react';
-
 import { RcIcon } from '@ringcentral/juno';
 import { Blocked } from '@ringcentral/juno-icon';
+import React from 'react';
 
 import { Tooltip } from '../Rcui/Tooltip';
+
 import i18n from './i18n';
 import { DoNotCallWrapper } from './styles/DoNotCallIndicator';
 

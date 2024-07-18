@@ -12,7 +12,7 @@ var _LinkLineItem = require("./LinkLineItem");
 var _Locale = require("./Locale");
 var _PresenceSetting = require("./PresenceSetting");
 var _SwitchLineItem = require("./SwitchLineItem");
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var Empty = function Empty() {
   return null;
 };
@@ -30,32 +30,42 @@ var SettingsPanel = function SettingsPanel(_ref) {
     className = _ref.className,
     _ref$clickToDialEnabl = _ref.clickToDialEnabled,
     clickToDialEnabled = _ref$clickToDialEnabl === void 0 ? false : _ref$clickToDialEnabl,
-    _ref$clickToDialPermi = _ref.clickToDialPermissions,
-    clickToDialPermissions = _ref$clickToDialPermi === void 0 ? false : _ref$clickToDialPermi,
+    _ref$clickToCallPermi = _ref.clickToCallPermission,
+    clickToCallPermission = _ref$clickToCallPermi === void 0 ? false : _ref$clickToCallPermi,
     clickToDialTitle = _ref.clickToDialTitle,
     currentLocale = _ref.currentLocale,
     _ref$disableAutoLogEn = _ref.disableAutoLogEnabled,
     disableAutoLogEnabled = _ref$disableAutoLogEn === void 0 ? false : _ref$disableAutoLogEn,
     _ref$disableAutoLogNo = _ref.disableAutoLogNotesEnabled,
     disableAutoLogNotesEnabled = _ref$disableAutoLogNo === void 0 ? false : _ref$disableAutoLogNo,
+    _ref$disableAutoLogSM = _ref.disableAutoLogSMSEnabled,
+    disableAutoLogSMSEnabled = _ref$disableAutoLogSM === void 0 ? false : _ref$disableAutoLogSM,
     dndStatus = _ref.dndStatus,
     eulaLabel = _ref.eulaLabel,
     eulaLink = _ref.eulaLink,
+    onEulaLinkClick = _ref.onEulaLinkClick,
+    privacyNoticeLabel = _ref.privacyNoticeLabel,
+    privacyNoticeLink = _ref.privacyNoticeLink,
     isCallQueueMember = _ref.isCallQueueMember,
     loginNumber = _ref.loginNumber,
     _ref$logSMSContentEna = _ref.logSMSContentEnabled,
     logSMSContentEnabled = _ref$logSMSContentEna === void 0 ? true : _ref$logSMSContentEna,
+    _ref$logExtCallEnable = _ref.logExtCallEnabled,
+    logExtCallEnabled = _ref$logExtCallEnable === void 0 ? false : _ref$logExtCallEnable,
     logSMSContentTitle = _ref.logSMSContentTitle,
+    logExtCallTitle = _ref.logExtCallTitle,
     onAudioSettingsLinkClick = _ref.onAudioSettingsLinkClick,
     _ref$onAutoLogChange = _ref.onAutoLogChange,
     onAutoLogChange = _ref$onAutoLogChange === void 0 ? Empty : _ref$onAutoLogChange,
     _ref$onAutoLogNotesCh = _ref.onAutoLogNotesChange,
     onAutoLogNotesChange = _ref$onAutoLogNotesCh === void 0 ? Empty : _ref$onAutoLogNotesCh,
     onAutoLogSMSChange = _ref.onAutoLogSMSChange,
+    _ref$onLogExtCallChan = _ref.onLogExtCallChange,
+    onLogExtCallChange = _ref$onLogExtCallChan === void 0 ? Empty : _ref$onLogExtCallChan,
     onCallingSettingsLinkClick = _ref.onCallingSettingsLinkClick,
     onClickToDialChange = _ref.onClickToDialChange,
-    onEulaLinkClick = _ref.onEulaLinkClick,
     onFeedbackSettingsLinkClick = _ref.onFeedbackSettingsLinkClick,
+    onTrackingClick = _ref.onTrackingClick,
     onLogoutButtonClick = _ref.onLogoutButtonClick,
     _ref$onLogSMSContentC = _ref.onLogSMSContentChange,
     onLogSMSContentChange = _ref$onLogSMSContentC === void 0 ? Empty : _ref$onLogSMSContentC,
@@ -85,6 +95,8 @@ var SettingsPanel = function SettingsPanel(_ref) {
     showAudio = _ref$showAudio === void 0 ? false : _ref$showAudio,
     _ref$showAutoLog = _ref.showAutoLog,
     showAutoLog = _ref$showAutoLog === void 0 ? false : _ref$showAutoLog,
+    _ref$showLogExtCall = _ref.showLogExtCall,
+    showLogExtCall = _ref$showLogExtCall === void 0 ? false : _ref$showLogExtCall,
     _ref$showAutoLogNotes = _ref.showAutoLogNotes,
     showAutoLogNotes = _ref$showAutoLogNotes === void 0 ? false : _ref$showAutoLogNotes,
     _ref$showAutoLogSMS = _ref.showAutoLogSMS,
@@ -95,6 +107,8 @@ var SettingsPanel = function SettingsPanel(_ref) {
     showClickToDial = _ref$showClickToDial === void 0 ? false : _ref$showClickToDial,
     _ref$showFeedback = _ref.showFeedback,
     showFeedback = _ref$showFeedback === void 0 ? true : _ref$showFeedback,
+    _ref$showTrackingIssu = _ref.showTrackingIssue,
+    showTrackingIssue = _ref$showTrackingIssu === void 0 ? false : _ref$showTrackingIssu,
     _ref$showHeader = _ref.showHeader,
     showHeader = _ref$showHeader === void 0 ? false : _ref$showHeader,
     _ref$showLogSMSConten = _ref.showLogSMSContent,
@@ -133,6 +147,8 @@ var SettingsPanel = function SettingsPanel(_ref) {
     eulaLabel: eulaLabel,
     eulaLink: eulaLink,
     onEulaLinkClick: onEulaLinkClick,
+    privacyNoticeLabel: privacyNoticeLabel,
+    privacyNoticeLink: privacyNoticeLink,
     loginNumber: loginNumber,
     onLogoutButtonClick: onLogoutButtonClick,
     version: version,
@@ -148,16 +164,17 @@ var SettingsPanel = function SettingsPanel(_ref) {
     onClick: onReportLinkClick
   }), /*#__PURE__*/_react["default"].createElement(_Locale.Locale, {
     supportedLocales: supportedLocales,
-    currentLocale: currentLocale,
     savedLocale: savedLocale,
     saveLocale: saveLocale
   }), /*#__PURE__*/_react["default"].createElement(_LinkLineItem.LinkLineItem, {
     name: "calling",
+    dataSign: "calling",
     show: showCalling,
     currentLocale: currentLocale,
     onClick: onCallingSettingsLinkClick
   }), /*#__PURE__*/_react["default"].createElement(_LinkLineItem.LinkLineItem, {
     name: "region",
+    dataSign: "region",
     show: showRegion,
     currentLocale: currentLocale,
     onClick: onRegionSettingsLinkClick
@@ -201,6 +218,7 @@ var SettingsPanel = function SettingsPanel(_ref) {
     customTitle: autoLogSMSTitle,
     show: showAutoLogSMS,
     currentLocale: currentLocale,
+    disabled: disableAutoLogSMSEnabled,
     checked: autoLogSMSEnabled,
     onChange: onAutoLogSMSChange
   }), /*#__PURE__*/_react["default"].createElement(_SwitchLineItem.SwitchLineItem, {
@@ -211,15 +229,29 @@ var SettingsPanel = function SettingsPanel(_ref) {
     currentLocale: currentLocale,
     checked: logSMSContentEnabled,
     onChange: onLogSMSContentChange
+  }), /*#__PURE__*/_react["default"].createElement(_SwitchLineItem.SwitchLineItem, {
+    name: "logExtensionCall",
+    dataSign: "logExtensionCall",
+    customTitle: logExtCallTitle,
+    show: showLogExtCall,
+    currentLocale: currentLocale,
+    checked: logExtCallEnabled,
+    onChange: onLogExtCallChange
   }), /*#__PURE__*/_react["default"].createElement(_ClickToDial.ClickToDial, {
     currentLocale: currentLocale,
     showClickToDial: showClickToDial,
     outboundSMS: outboundSMS,
-    clickToDialPermissions: clickToDialPermissions,
+    clickToCallPermission: clickToCallPermission,
     clickToDialEnabled: clickToDialEnabled,
     onClickToDialChange: onClickToDialChange,
     clickToDialTitle: clickToDialTitle
   }), additional, /*#__PURE__*/_react["default"].createElement(_LinkLineItem.LinkLineItem, {
+    name: "havingIssues",
+    dataSign: "HavingIssues",
+    show: showTrackingIssue,
+    currentLocale: currentLocale,
+    onClick: onTrackingClick
+  }), /*#__PURE__*/_react["default"].createElement(_LinkLineItem.LinkLineItem, {
     name: "feedback",
     dataSign: "Feedback",
     pendoSignName: isEnablePendo ? 'Feedback' : '',
@@ -228,21 +260,25 @@ var SettingsPanel = function SettingsPanel(_ref) {
     onClick: onFeedbackSettingsLinkClick
   }), /*#__PURE__*/_react["default"].createElement(_LinkLineItem.LinkLineItem, {
     name: "shareIdea",
+    dataSign: "shareIdea",
     show: showShareIdea,
     currentLocale: currentLocale,
     onClick: onShareIdeaClick
   }), /*#__PURE__*/_react["default"].createElement(_LinkLineItem.LinkLineItem, {
     name: "quickAccess",
+    dataSign: "quickAccess",
     show: showQuickAccess,
     currentLocale: currentLocale,
     onClick: onQuickAccessLinkClick
   }), /*#__PURE__*/_react["default"].createElement(_LinkLineItem.LinkLineItem, {
     name: "userGuide",
+    dataSign: "userGuide",
     show: showUserGuide,
     currentLocale: currentLocale,
     onClick: onUserGuideClick
   }), /*#__PURE__*/_react["default"].createElement(_LinkLineItem.LinkLineItem, {
     name: "reportIssue",
+    dataSign: "reportIssue",
     show: showReportIssue,
     currentLocale: currentLocale,
     onClick: onReportIssueClick

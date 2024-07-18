@@ -7,11 +7,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.ThemeContainer = exports.GlobalStyle = void 0;
-var _react = _interopRequireDefault(require("react"));
 var _juno = require("@ringcentral/juno");
+var _react = _interopRequireDefault(require("react"));
 var _phoneContext = require("../../lib/phoneContext");
 var _utils = require("./utils");
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 function _templateObject2() {
   var data = _taggedTemplateLiteral(["\n  :root {\n    ", ";\n  }\n"]);
   _templateObject2 = function _templateObject2() {
@@ -26,7 +26,7 @@ function _templateObject() {
   };
   return data;
 }
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+function _taggedTemplateLiteral(e, t) { return t || (t = e.slice(0)), Object.freeze(Object.defineProperties(e, { raw: { value: Object.freeze(t) } })); }
 var GlobalVariablesStyles = (0, _juno.createGlobalStyle)(_templateObject(), function (_ref) {
   var variable = _ref.variable,
     theme = _ref.theme;

@@ -12,7 +12,7 @@ var _default = {
   onHoldCall: "Llamada en espera",
   historyCalls: "Llamadas anteriores",
   otherDeviceCall: "Llamadas en curso en mis otros dispositivos",
-  searchPlaceholder: "Buscar..."
+  searchPlaceholder: "Buscar…"
 }; // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@
 // @key: @#@"noCalls"@#@ @source: @#@"No results found."@#@
 // @key: @#@"currentCall"@#@ @source: @#@"Current Call"@#@

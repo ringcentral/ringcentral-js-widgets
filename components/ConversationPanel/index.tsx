@@ -1,8 +1,6 @@
-import React, { Component } from 'react';
-
-import PropTypes from 'prop-types';
-
 import { RcAlert } from '@ringcentral/juno';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import { checkShouldHidePhoneNumber } from '../../lib/checkShouldHidePhoneNumber';
@@ -11,6 +9,7 @@ import ConversationMessageList from '../ConversationMessageList';
 import LogButton from '../LogButton';
 import MessageInput from '../MessageInput';
 import { SpinnerOverlay } from '../SpinnerOverlay';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 
@@ -191,7 +190,8 @@ class ConversationPanel extends Component {
         (contact: any) => contact.id === correspondentMatchId,
       );
       if (index > -1) return index;
-    } else if (correspondentMatches.length) {
+      // @ts-ignore
+    } else if (correspondentMatches.length && !this.props.disableAutoSelect) {
       return 0;
     }
     return -1;

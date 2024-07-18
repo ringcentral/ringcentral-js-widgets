@@ -8,6 +8,6 @@
   @include big-submit-button;
 
   &.disabled {
-    @include big-submit-button-disabled
+    @include big-submit-button-disabled;
   }
 }

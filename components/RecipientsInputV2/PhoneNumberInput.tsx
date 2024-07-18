@@ -1,10 +1,10 @@
+import clsx from 'clsx';
 import type { ReactNode } from 'react';
 import React, { forwardRef, useImperativeHandle, useRef } from 'react';
 
-import classnames from 'classnames';
-
 import i18n from '../RecipientsInput/i18n';
 import { RemoveButton } from '../RemoveButton';
+
 import styles from './styles.scss';
 
 export interface PhoneNumberInputHandles {
@@ -60,7 +60,7 @@ export const PhoneNumberInput = forwardRef<
     return (
       <div className={styles.inputWrapper}>
         <div
-          className={classnames(
+          className={clsx(
             styles.inputField,
             isFocused && 'Mui-focused',
             'MuiInput-underline',

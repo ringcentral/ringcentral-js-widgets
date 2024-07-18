@@ -1,21 +1,26 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 require("core-js/modules/es.array.concat");
 require("core-js/modules/es.array.filter");
 require("core-js/modules/es.array.is-array");
+require("core-js/modules/es.array.join");
 require("core-js/modules/es.array.map");
+require("core-js/modules/es.array.reduce");
+require("core-js/modules/es.array.slice");
 require("core-js/modules/es.function.name");
+require("core-js/modules/es.object.keys");
 require("core-js/modules/es.regexp.exec");
 require("core-js/modules/es.string.split");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.ContactSearchPanel = void 0;
-var _react = _interopRequireWildcard(require("react"));
 var _phoneTypes = require("@ringcentral-integration/commons/enums/phoneTypes");
+var _trackEvents = require("@ringcentral-integration/commons/enums/trackEvents");
 var _juno = require("@ringcentral/juno");
 var _junoIcon = require("@ringcentral/juno-icon");
+var _react = _interopRequireWildcard(require("react"));
 var _contexts = require("../../contexts");
 var _ContactSearchHelper = require("../../modules/ContactSearchUI/ContactSearchHelper");
 var _usePresence = require("../../react-hooks/usePresence");
@@ -27,32 +32,33 @@ var _DoNotCallIndicator = require("./DoNotCallIndicator");
 var _HelpTextSection = require("./HelpTextSection");
 var _i18n = _interopRequireDefault(require("./i18n"));
 var _ContactSearchPanel = require("./styles/ContactSearchPanel");
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
-function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
-function _objectWithoutProperties(source, excluded) { if (source == null) return {}; var target = _objectWithoutPropertiesLoose(source, excluded); var key, i; if (Object.getOwnPropertySymbols) { var sourceSymbolKeys = Object.getOwnPropertySymbols(source); for (i = 0; i < sourceSymbolKeys.length; i++) { key = sourceSymbolKeys[i]; if (excluded.indexOf(key) >= 0) continue; if (!Object.prototype.propertyIsEnumerable.call(source, key)) continue; target[key] = source[key]; } } return target; }
-function _objectWithoutPropertiesLoose(source, excluded) { if (source == null) return {}; var target = {}; var sourceKeys = Object.keys(source); var key, i; for (i = 0; i < sourceKeys.length; i++) { key = sourceKeys[i]; if (excluded.indexOf(key) >= 0) continue; target[key] = source[key]; } return target; }
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); enumerableOnly && (symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; })), keys.push.apply(keys, symbols); } return keys; }
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = null != arguments[i] ? arguments[i] : {}; i % 2 ? ownKeys(Object(source), !0).forEach(function (key) { _defineProperty(target, key, source[key]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } return target; }
-function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
+function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
+function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) { if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } } return n["default"] = e, t && t.set(e, n), n; }
+function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) { ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } } return n; }, _extends.apply(null, arguments); }
+function _objectWithoutProperties(e, t) { if (null == e) return {}; var o, r, i = _objectWithoutPropertiesLoose(e, t); if (Object.getOwnPropertySymbols) { var s = Object.getOwnPropertySymbols(e); for (r = 0; r < s.length; r++) { o = s[r], t.includes(o) || {}.propertyIsEnumerable.call(e, o) && (i[o] = e[o]); } } return i; }
+function _objectWithoutPropertiesLoose(r, e) { if (null == r) return {}; var t = {}; for (var n in r) { if ({}.hasOwnProperty.call(r, n)) { if (e.includes(n)) continue; t[n] = r[n]; } } return t; }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _toConsumableArray(r) { return _arrayWithoutHoles(r) || _iterableToArray(r) || _unsupportedIterableToArray(r) || _nonIterableSpread(); }
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter); }
-function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
-function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
-function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _slicedToArray(arr, i) { return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest(); }
+function _iterableToArray(r) { if ("undefined" != typeof Symbol && null != r[Symbol.iterator] || null != r["@@iterator"]) return Array.from(r); }
+function _arrayWithoutHoles(r) { if (Array.isArray(r)) return _arrayLikeToArray(r); }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _slicedToArray(r, e) { return _arrayWithHoles(r) || _iterableToArrayLimit(r, e) || _unsupportedIterableToArray(r, e) || _nonIterableRest(); }
 function _nonIterableRest() { throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
-function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
-function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
-function _iterableToArrayLimit(arr, i) { var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"]; if (null != _i) { var _s, _e, _x, _r, _arr = [], _n = !0, _d = !1; try { if (_x = (_i = _i.call(arr)).next, 0 === i) { if (Object(_i) !== _i) return; _n = !1; } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0) { ; } } catch (err) { _d = !0, _e = err; } finally { try { if (!_n && null != _i["return"] && (_r = _i["return"](), Object(_r) !== _r)) return; } finally { if (_d) throw _e; } } return _arr; } }
-function _arrayWithHoles(arr) { if (Array.isArray(arr)) return arr; }
+function _unsupportedIterableToArray(r, a) { if (r) { if ("string" == typeof r) return _arrayLikeToArray(r, a); var t = {}.toString.call(r).slice(8, -1); return "Object" === t && r.constructor && (t = r.constructor.name), "Map" === t || "Set" === t ? Array.from(r) : "Arguments" === t || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(t) ? _arrayLikeToArray(r, a) : void 0; } }
+function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length); for (var e = 0, n = Array(a); e < a; e++) { n[e] = r[e]; } return n; }
+function _iterableToArrayLimit(r, l) { var t = null == r ? null : "undefined" != typeof Symbol && r[Symbol.iterator] || r["@@iterator"]; if (null != t) { var e, n, i, u, a = [], f = !0, o = !1; try { if (i = (t = t.call(r)).next, 0 === l) { if (Object(t) !== t) return; f = !1; } else for (; !(f = (e = i.call(t)).done) && (a.push(e.value), a.length !== l); f = !0) { ; } } catch (r) { o = !0, n = r; } finally { try { if (!f && null != t["return"] && (u = t["return"](), Object(u) !== u)) return; } finally { if (o) throw n; } } return a; } }
+function _arrayWithHoles(r) { if (Array.isArray(r)) return r; }
 var getCountsRes = function getCountsRes(counts) {
   return counts > 99 ? "99+" : counts;
 };
 var PrimaryAvatar = function PrimaryAvatar(_ref) {
-  var isDirectlyProceed = _ref.isDirectlyProceed,
+  var inOtherTab = _ref.inOtherTab,
+    isDirectlyProceed = _ref.isDirectlyProceed,
     inThirdPartyTab = _ref.inThirdPartyTab,
     ThirdPartyAvatar = _ref.ThirdPartyAvatar,
     profileImageUrl = _ref.profileImageUrl,
@@ -79,6 +85,14 @@ var PrimaryAvatar = function PrimaryAvatar(_ref) {
     symbol: _junoIcon.UserDefault,
     "data-sign": "directlyProceedAvatar"
   });
+  if (inOtherTab) {
+    return /*#__PURE__*/_react["default"].createElement(_ContactSearchPanel.CallQueueIcon, {
+      symbol: _junoIcon.CallQueue,
+      "data-sign": "callQueueAvatar",
+      size: "xxlarge",
+      color: "neutral.f01"
+    });
+  }
   if (inThirdPartyTab && ThirdPartyAvatar) return /*#__PURE__*/_react["default"].createElement(ThirdPartyAvatar, {
     type: type
   });
@@ -101,7 +115,8 @@ var companyPhoneTypeMap = {
   extension: 'extension'
 };
 var ContactSearchPanel = function ContactSearchPanel(_ref4) {
-  var companyContacts = _ref4.companyContacts,
+  var otherContacts = _ref4.otherContacts,
+    companyContacts = _ref4.companyContacts,
     personalContacts = _ref4.personalContacts,
     _ref4$thirdPartyConta = _ref4.thirdPartyContacts,
     thirdPartyContacts = _ref4$thirdPartyConta === void 0 ? [] : _ref4$thirdPartyConta,
@@ -122,11 +137,20 @@ var ContactSearchPanel = function ContactSearchPanel(_ref4) {
     changeTabTrack = _ref4.changeTabTrack,
     getPresence = _ref4.getPresence,
     _ref4$defaultTab = _ref4.defaultTab,
-    defaultTab = _ref4$defaultTab === void 0 ? _ContactSearchPanelEnum.TabsEnum.thirdParty : _ref4$defaultTab;
+    defaultTab = _ref4$defaultTab === void 0 ? _ContactSearchPanelEnum.TabsEnum.thirdParty : _ref4$defaultTab,
+    showOtherContacts = _ref4.showOtherContacts,
+    _ref4$triggerEventTra = _ref4.triggerEventTracking,
+    triggerEventTracking = _ref4$triggerEventTra === void 0 ? function () {} : _ref4$triggerEventTra;
+  var _useState = (0, _react.useState)(defaultTab),
+    _useState2 = _slicedToArray(_useState, 2),
+    activeTab = _useState2[0],
+    setActiveTab = _useState2[1];
   var previousUserInput = (0, _juno.usePrevious)(function () {
     return userInput;
   });
   var isAbleToSearch = userInput.length >= minimumSearchLength;
+  var inThirdPartyTab = activeTab === _ContactSearchPanelEnum.TabsEnum.thirdParty;
+  var isLoading = inThirdPartyTab && isAbleToSearch && isThirdPartySearching;
   var getPrimaryCount = function getPrimaryCount(items) {
     var count = items === null || items === void 0 ? void 0 : items.filter(function (i) {
       return i.isPrimary;
@@ -134,38 +158,56 @@ var ContactSearchPanel = function ContactSearchPanel(_ref4) {
     return getCountsRes(count);
   };
   var _useMemo = (0, _react.useMemo)(function () {
-      var _optionsMap2;
-      var _optionsMap = (_optionsMap2 = {}, _defineProperty(_optionsMap2, _ContactSearchPanelEnum.TabsEnum.thirdParty, !isAbleToSearch ? [] : thirdPartyContacts), _defineProperty(_optionsMap2, _ContactSearchPanelEnum.TabsEnum.company, companyContacts), _defineProperty(_optionsMap2, _ContactSearchPanelEnum.TabsEnum.personal, personalContacts), _optionsMap2);
+      var _ref5, _ref6;
+      var _optionsMap = showOtherContacts ? (_ref5 = {}, _defineProperty(_ref5, _ContactSearchPanelEnum.TabsEnum.thirdParty, !isAbleToSearch ? [] : thirdPartyContacts), _defineProperty(_ref5, _ContactSearchPanelEnum.TabsEnum.company, companyContacts), _defineProperty(_ref5, _ContactSearchPanelEnum.TabsEnum.personal, personalContacts), _defineProperty(_ref5, _ContactSearchPanelEnum.TabsEnum.other, otherContacts), _ref5) : (_ref6 = {}, _defineProperty(_ref6, _ContactSearchPanelEnum.TabsEnum.thirdParty, !isAbleToSearch ? [] : thirdPartyContacts), _defineProperty(_ref6, _ContactSearchPanelEnum.TabsEnum.company, companyContacts), _defineProperty(_ref6, _ContactSearchPanelEnum.TabsEnum.personal, personalContacts), _ref6);
+      var _tabItemsMap = [{
+        label: thirdPartySourceName,
+        value: _ContactSearchPanelEnum.TabsEnum.thirdParty,
+        count: isLoading ? 0 : getPrimaryCount(_optionsMap[_ContactSearchPanelEnum.TabsEnum.thirdParty])
+      }, {
+        label: _i18n["default"].getString('companyTabTitle', currentLocale),
+        value: _ContactSearchPanelEnum.TabsEnum.company,
+        count: getPrimaryCount(_optionsMap[_ContactSearchPanelEnum.TabsEnum.company])
+      }, {
+        label: _i18n["default"].getString('personalTabTitle', currentLocale),
+        value: _ContactSearchPanelEnum.TabsEnum.personal,
+        count: getPrimaryCount(_optionsMap[_ContactSearchPanelEnum.TabsEnum.personal])
+      }, {
+        label: _i18n["default"].getString('other', currentLocale),
+        value: _ContactSearchPanelEnum.TabsEnum.other,
+        count: getPrimaryCount(_optionsMap[_ContactSearchPanelEnum.TabsEnum.other])
+      }];
       return {
         optionsMap: _optionsMap,
-        tabItemsMap: [{
-          label: thirdPartySourceName,
-          value: _ContactSearchPanelEnum.TabsEnum.thirdParty,
-          count: getPrimaryCount(_optionsMap[_ContactSearchPanelEnum.TabsEnum.thirdParty])
-        }, {
-          label: _i18n["default"].getString('companyTabTitle', currentLocale),
-          value: _ContactSearchPanelEnum.TabsEnum.company,
-          count: getPrimaryCount(_optionsMap[_ContactSearchPanelEnum.TabsEnum.company])
-        }, {
-          label: _i18n["default"].getString('personalTabTitle', currentLocale),
-          value: _ContactSearchPanelEnum.TabsEnum.personal,
-          count: getPrimaryCount(_optionsMap[_ContactSearchPanelEnum.TabsEnum.personal])
-        }]
+        tabItemsMap: showOtherContacts ? _tabItemsMap : _tabItemsMap.slice(0, 2)
       };
-    }, [isAbleToSearch, thirdPartyContacts, companyContacts, personalContacts, thirdPartySourceName, currentLocale]),
+    }, [isAbleToSearch, thirdPartyContacts, companyContacts, personalContacts, otherContacts, thirdPartySourceName, currentLocale, isLoading, showOtherContacts]),
     optionsMap = _useMemo.optionsMap,
     tabItemsMap = _useMemo.tabItemsMap;
-  var _useState = (0, _react.useState)(defaultTab),
-    _useState2 = _slicedToArray(_useState, 2),
-    activeTab = _useState2[0],
-    setActiveTab = _useState2[1];
+  var tabLabels = tabItemsMap.reduce(function (acc, tab) {
+    acc[tab.value] = tab.label;
+    return acc;
+  }, {});
+  var debounceTracking = (0, _juno.useDebounce)(function (optionsMap, tabLabels) {
+    var result = Object.keys(optionsMap).filter(function (key) {
+      var map = optionsMap;
+      return map[key].length > 0;
+    }).map(function (key) {
+      return tabLabels[key];
+    });
+    if (result && result.length > 0) {
+      triggerEventTracking(_trackEvents.trackEvents.getContactSearch, result.join(', '));
+    }
+  }, 1000);
+  (0, _react.useEffect)(function () {
+    debounceTracking(optionsMap, tabLabels);
+  }, [optionsMap, tabLabels, debounceTracking]);
   (0, _react.useEffect)(function () {
     if (userInput !== previousUserInput) {
       setFilterString(userInput);
     }
   }, [previousUserInput, userInput, setFilterString]);
-  var inThirdPartyTab = activeTab === _ContactSearchPanelEnum.TabsEnum.thirdParty;
-  var isLoading = inThirdPartyTab && isAbleToSearch && isThirdPartySearching;
+  var inOtherTab = activeTab === _ContactSearchPanelEnum.TabsEnum.other;
   var options = optionsMap[activeTab];
   var showDirectlyItem = (0, _helper.validateValidChars)(userInput);
   var finialOptions = (0, _react.useMemo)(function () {
@@ -187,6 +229,7 @@ var ContactSearchPanel = function ContactSearchPanel(_ref4) {
           item.name = item.phoneNumber;
         }
         optionClickHandler(item);
+        triggerEventTracking(_trackEvents.trackEvents.searchedContactClicked, tabLabels[activeTab]);
       }
     }),
     optionItems = _useSuggestionList.optionItems,
@@ -218,10 +261,10 @@ var ContactSearchPanel = function ContactSearchPanel(_ref4) {
   (0, _react.useImperativeHandle)(inputAriaPropsRef, function () {
     return getInputAriaProps();
   });
-  var getFormattedLabel = (0, _react.useCallback)(function (_ref5) {
-    var type = _ref5.type,
-      phoneType = _ref5.phoneType,
-      phoneNumber = _ref5.phoneNumber;
+  var getFormattedLabel = (0, _react.useCallback)(function (_ref7) {
+    var type = _ref7.type,
+      phoneType = _ref7.phoneType,
+      phoneNumber = _ref7.phoneNumber;
     var formattedPhoneType = phoneType;
     if (type === _ContactSearchPanelEnum.TabsEnum.personal) {
       formattedPhoneType = _i18n["default"].getString(phoneType, currentLocale);
@@ -255,16 +298,31 @@ var ContactSearchPanel = function ContactSearchPanel(_ref4) {
     centered: centered,
     MoreButtonProps: {
       datatype: 'moreMenu',
+      // @ts-ignore
+      'data-sign': 'moreMenu',
+      style: {
+        padding: 0
+      },
+      MoreIcon: function MoreIcon(isMenuOpen) {
+        return isMenuOpen ? /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
+          symbol: _junoIcon.ArrowUp2
+        }) : /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, {
+          symbol: _junoIcon.ArrowDown2
+        });
+      },
       MenuProps: {
         marginThreshold: 6
       }
     }
-  }, tabItemsMap.map(function (_ref6) {
-    var label = _ref6.label,
-      count = _ref6.count,
-      value = _ref6.value;
+  }, tabItemsMap.map(function (_ref8) {
+    var label = _ref8.label,
+      count = _ref8.count,
+      value = _ref8.value;
     var tabName = "".concat(label, " (").concat(count, ")");
     return /*#__PURE__*/_react["default"].createElement(_juno.RcTab, {
+      style: {
+        padding: '6px 8px'
+      },
       key: label,
       "data-sign": "".concat(value, "ContactSearchResult"),
       label: /*#__PURE__*/_react["default"].createElement(_Tooltip.Tooltip, {
@@ -305,7 +363,9 @@ var ContactSearchPanel = function ContactSearchPanel(_ref4) {
         profileImageUrl = _props$profileImageUr === void 0 ? '' : _props$profileImageUr,
         contact = props.contact,
         presenceStatus = props.presenceStatus,
-        restProps = _objectWithoutProperties(props, ["name", "phoneNumber", "phoneType", "isPrimary", "type", "doNotCall", "isDirectlyProceed", "profileImageUrl", "contact", "presenceStatus"]);
+        entityType = props.entityType,
+        resourceType = props.resourceType,
+        restProps = _objectWithoutProperties(props, ["name", "phoneNumber", "phoneType", "isPrimary", "type", "doNotCall", "isDirectlyProceed", "profileImageUrl", "contact", "presenceStatus", "entityType", "resourceType"]);
       var needFetchPresence = !!(activeTab === _ContactSearchPanelEnum.TabsEnum.company && isPrimary && (contact === null || contact === void 0 ? void 0 : contact.id));
       var content = getFormattedLabel({
         phoneType: phoneType,
@@ -323,6 +383,7 @@ var ContactSearchPanel = function ContactSearchPanel(_ref4) {
           type: type,
           ThirdPartyAvatar: ThirdPartyAvatar,
           name: name,
+          inOtherTab: inOtherTab,
           inThirdPartyTab: inThirdPartyTab,
           profileImageUrl: profileImageUrl
         })
@@ -358,11 +419,11 @@ var ContactSearchPanel = function ContactSearchPanel(_ref4) {
     },
     itemsRendered: function itemsRendered(items) {
       if (activeTab !== _ContactSearchPanelEnum.TabsEnum.company) return;
-      var ids = items.filter(function (_ref7) {
-        var data = _ref7.data;
+      var ids = items.filter(function (_ref9) {
+        var data = _ref9.data;
         return data && data.isPrimary && data.id;
-      }).map(function (_ref8) {
-        var data = _ref8.data;
+      }).map(function (_ref10) {
+        var data = _ref10.data;
         return data.id;
       });
       if (ids.length > 0) {

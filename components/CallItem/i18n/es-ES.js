@@ -19,7 +19,7 @@ var _default = {
   addEntity: "Crear elemento nuevo",
   addLog: "Registro",
   text: "Mensaje",
-  call: "Llamada",
+  call: "Llamar",
   missedCall: "Perdida",
   inboundCall: "Entrante",
   outboundCall: "Saliente"

@@ -4,9 +4,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.ConversationIcon = void 0;
-var _react = _interopRequireDefault(require("react"));
 var _messageDirection = _interopRequireDefault(require("@ringcentral-integration/commons/enums/messageDirection"));
 var _messageTypes = _interopRequireDefault(require("@ringcentral-integration/commons/enums/messageTypes"));
+var _react = _interopRequireDefault(require("react"));
 var _ComposeText = _interopRequireDefault(require("../../assets/images/ComposeText.svg"));
 var _FaxInbound = _interopRequireDefault(require("../../assets/images/FaxInbound.svg"));
 var _FaxOutbound = _interopRequireDefault(require("../../assets/images/FaxOutbound.svg"));
@@ -14,7 +14,7 @@ var _GroupConversation = _interopRequireDefault(require("../../assets/images/Gro
 var _VoicemailIcon = _interopRequireDefault(require("../../assets/images/VoicemailIcon.svg"));
 var _i18n = _interopRequireDefault(require("./i18n"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var ConversationIcon = function ConversationIcon(_ref) {
   var group = _ref.group,
     type = _ref.type,

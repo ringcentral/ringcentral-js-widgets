@@ -6,12 +6,12 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.CallHistoryActions = void 0;
+var _clsx = _interopRequireDefault(require("clsx"));
 var _react = _interopRequireDefault(require("react"));
-var _classnames = _interopRequireDefault(require("classnames"));
 var _ActionButton = require("./ActionButton");
 var _MenuButton = require("./MenuButton");
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var CallHistoryActions = function CallHistoryActions(_ref) {
   var _ref$actionMenu = _ref.actionMenu,
     actionMenu = _ref$actionMenu === void 0 ? [] : _ref$actionMenu,
@@ -20,7 +20,7 @@ var CallHistoryActions = function CallHistoryActions(_ref) {
   // only show first 3 buttons
   var displayedButtons = actionMenu.slice(0, 3);
   return /*#__PURE__*/_react["default"].createElement("div", {
-    className: (0, _classnames["default"])([_styles["default"].actions, !isWide && _styles["default"].classic]),
+    className: (0, _clsx["default"])([_styles["default"].actions, !isWide && _styles["default"].classic]),
     "data-sign": "callHistoryActions"
   }, displayedButtons.map(function (_ref2, index) {
     var icon = _ref2.icon,

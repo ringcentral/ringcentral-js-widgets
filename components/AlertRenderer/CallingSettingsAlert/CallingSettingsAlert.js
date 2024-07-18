@@ -4,11 +4,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.CallingSettingsAlert = void 0;
-var _react = _interopRequireDefault(require("react"));
 var _CallingSettings = require("@ringcentral-integration/commons/modules/CallingSettings");
+var _react = _interopRequireDefault(require("react"));
 var _FormattedMessage = _interopRequireDefault(require("../../FormattedMessage"));
 var _i18n = _interopRequireDefault(require("./i18n"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var CallingSettingsAlert = function CallingSettingsAlert(_ref) {
   var message = _ref.message.message,
     currentLocale = _ref.currentLocale,
@@ -47,9 +47,7 @@ var CallingSettingsAlert = function CallingSettingsAlert(_ref) {
           }
         }, _i18n["default"].getString('link', currentLocale)) : _i18n["default"].getString('link', currentLocale);
         return /*#__PURE__*/_react["default"].createElement(_FormattedMessage["default"], {
-          message: _i18n["default"].getString(message, currentLocale)
-          // @ts-expect-error TS(2322): Type 'string | Element' is not assignable to type ... Remove this comment to see the full error message
-          ,
+          message: _i18n["default"].getString(message, currentLocale),
           values: {
             link: link
           }

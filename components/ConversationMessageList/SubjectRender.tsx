@@ -1,6 +1,6 @@
+import Linkify from 'linkify-react';
 import type { FunctionComponent } from 'react';
 import React from 'react';
-import Linkify from 'linkify-react';
 
 interface ISubjectRenderProps {
   subject: string;

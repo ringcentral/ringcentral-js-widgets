@@ -1,12 +1,12 @@
-import React from 'react';
-
 import debounce from '@ringcentral-integration/commons/lib/debounce';
+import React from 'react';
 
 import CallList from '../CallList';
 import CallListV2 from '../CallListV2';
 import { Header } from '../Header';
 import Panel from '../Panel';
 import { SpinnerOverlay } from '../SpinnerOverlay';
+
 import styles from './styles.scss';
 
 const HEADER_HEIGHT = 38;
@@ -41,6 +41,7 @@ type CallsPanelProps = {
   enableContactFallback?: boolean;
   autoLog?: boolean;
   showContactDisplayPlaceholder?: boolean;
+  showCallerIdName?: boolean;
   sourceIcons?: object;
   phoneTypeRenderer?: (...args: any[]) => any;
   phoneSourceNameRenderer?: (...args: any[]) => any;
@@ -130,6 +131,7 @@ class CallsPanel extends React.PureComponent<CallsPanelProps, CallsPanelState> {
       enableContactFallback,
       autoLog,
       showContactDisplayPlaceholder,
+      showCallerIdName,
       sourceIcons,
       phoneTypeRenderer,
       phoneSourceNameRenderer,
@@ -170,6 +172,7 @@ class CallsPanel extends React.PureComponent<CallsPanelProps, CallsPanelState> {
         webphoneHangup={webphoneHangup}
         webphoneResume={webphoneResume}
         enableContactFallback={enableContactFallback}
+        showCallerIdName={showCallerIdName}
         autoLog={autoLog}
         showContactDisplayPlaceholder={showContactDisplayPlaceholder}
         sourceIcons={sourceIcons}
@@ -205,12 +208,9 @@ class CallsPanel extends React.PureComponent<CallsPanelProps, CallsPanelState> {
         dateTimeFormatter={dateTimeFormatter}
         active={active}
         loggingMap={loggingMap}
-        webphoneAnswer={webphoneAnswer}
-        webphoneReject={webphoneReject}
-        webphoneHangup={webphoneHangup}
-        webphoneResume={webphoneResume}
         enableContactFallback={enableContactFallback}
         autoLog={autoLog}
+        showCallerIdName={showCallerIdName}
         showContactDisplayPlaceholder={showContactDisplayPlaceholder}
         sourceIcons={sourceIcons}
         phoneTypeRenderer={phoneTypeRenderer}
@@ -252,6 +252,7 @@ CallsPanel.defaultProps = {
   enableContactFallback: undefined,
   autoLog: false,
   showContactDisplayPlaceholder: true,
+  showCallerIdName: false,
   sourceIcons: undefined,
   phoneTypeRenderer: undefined,
   phoneSourceNameRenderer: undefined,

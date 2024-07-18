@@ -1,5 +1,3 @@
-import url from 'url';
-
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import { proxify } from '@ringcentral-integration/commons/lib/proxy/proxify';
 import required from '@ringcentral-integration/commons/lib/required';
@@ -7,9 +5,10 @@ import { authMessages } from '@ringcentral-integration/commons/modules/Auth';
 import { action, RcModuleV2, state } from '@ringcentral-integration/core';
 
 import parseCallbackUri from '../parseCallbackUri';
+
 import type { Deps } from './OAuthBase.interface';
 
-const DEFAULT_UI_OPTIONS = ['hide_remember_me', 'hide_tos'];
+const DEFAULT_UI_OPTIONS: string[] = [];
 
 type RefreshWithCallbackQueryParams = {
   access_token?: string;
@@ -147,7 +146,7 @@ export class OAuthBase<T extends Deps = Deps> extends RcModuleV2<T> {
   get oAuthUri() {
     return this._deps.auth.getLoginUrl({
       redirectUri: this.redirectUri,
-      brandId: this._deps.brand.id,
+      brandId: this._deps.brand.defaultConfig.id,
       state: this.authState,
       display: 'page',
       localeId: this._deps.locale.currentLocale,
@@ -173,7 +172,6 @@ export class OAuthBase<T extends Deps = Deps> extends RcModuleV2<T> {
   }
 
   get redirectUri() {
-    // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
-    return url.resolve(window.location.href, this._redirectUri);
+    return new URL(this._redirectUri!, global.location.href).href;
   }
 }

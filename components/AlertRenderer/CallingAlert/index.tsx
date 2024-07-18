@@ -1,8 +1,8 @@
+import { permissionsMessages } from '@ringcentral-integration/commons/enums/permissionsMessages';
 import React from 'react';
 
-import { permissionsMessages } from '@ringcentral-integration/commons/enums/permissionsMessages';
-
 import FormattedMessage from '../../FormattedMessage';
+
 import i18n from './i18n';
 
 type CallInfoProps = {
@@ -12,7 +12,7 @@ type CallInfoProps = {
   brand: object;
   currentLocale: string;
 };
-const CallInfo: React.SFC<CallInfoProps> = ({
+const CallInfo: React.FC<CallInfoProps> = ({
   message: { message },
   currentLocale,
   brand,

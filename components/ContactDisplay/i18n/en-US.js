@@ -16,7 +16,8 @@ var _default = {
   unknownNumber: 'Anonymous',
   unavailable: 'Unavailable',
   viewDetails: 'View Details',
-  conferenceCall: 'Conference Call'
+  conferenceCall: 'Conference Call',
+  callerId: 'Caller ID'
 };
 exports["default"] = _default;
 //# sourceMappingURL=en-US.js.map

@@ -16,6 +16,7 @@ export interface CallsOnholdContainerProps extends ActiveCallsContainerProps {
     fromSessionId: string;
     fromNumber: string;
   };
+  showCallerIdName?: boolean;
 }
 
 export interface CallsOnholdPanelProps extends ActiveCallsPanelProps {

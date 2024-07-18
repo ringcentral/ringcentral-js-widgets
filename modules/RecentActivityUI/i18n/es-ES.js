@@ -9,7 +9,7 @@ var _default = {
   text: "Mensaje",
   fax: "Fax",
   voicemail: "Buzón de voz",
-  call: "Llamada"
+  call: "Llamar"
 }; // @key: @#@"recentActivities"@#@ @source: @#@"Recent Activities"@#@
 // @key: @#@"text"@#@ @source: @#@"Text"@#@
 // @key: @#@"fax"@#@ @source: @#@"Fax"@#@

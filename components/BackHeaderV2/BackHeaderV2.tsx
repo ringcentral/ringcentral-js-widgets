@@ -1,11 +1,9 @@
-import type { FunctionComponent } from 'react';
-import React, { useEffect, useRef, useState } from 'react';
-
-import classnames from 'classnames';
-
 import type { RcIconButtonProps } from '@ringcentral/juno';
 import { RcIconButton, RcTypography, styled } from '@ringcentral/juno';
 import { ChevronLeft as chevronLeftSvg } from '@ringcentral/juno-icon';
+import clsx from 'clsx';
+import type { FunctionComponent } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import styles from './styles.scss';
 
@@ -25,6 +23,8 @@ const Title = styled(RcTypography)<{ $maxWidth?: number }>`
   max-width: ${({ $maxWidth }) => $maxWidth}px;
 `;
 
+// TODO: use PageHeader to replace those
+
 const BackHeader: FunctionComponent<BackHeaderProps> = ({
   onBackClick,
   title = '',
@@ -43,19 +43,15 @@ const BackHeader: FunctionComponent<BackHeaderProps> = ({
       setMaxWidth(initWidth - (rightRef.current.clientWidth - 62));
     }
   }, [currentLocale, isClassic]);
-  const rootClass = classnames(
-    styles.root,
-    isClassic && styles.classic,
-    className,
-  );
+  const rootClass = clsx(styles.root, isClassic && styles.classic, className);
   // if right icon is empty then should occupy position to make title actually center align
-  const rightIconClass = classnames(styles.rightIcon, {
+  const rightIconClass = clsx(styles.rightIcon, {
     [styles.emptyRightIcon]: !rightIcon,
   });
   return (
     <div className={rootClass}>
       <RcIconButton
-        className={classnames(styles.back)}
+        className={clsx(styles.back)}
         variant="round"
         size="small"
         symbol={backIcon}

@@ -16,51 +16,50 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.ModalContent = exports.ActiveCallItem = void 0;
-var _react = _interopRequireWildcard(require("react"));
-var _classnames13 = _interopRequireDefault(require("classnames"));
 var _telephonySessionStatus = require("@ringcentral-integration/commons/enums/telephonySessionStatus");
 var _callLogHelpers = require("@ringcentral-integration/commons/lib/callLogHelpers");
 var _ActiveCallControl = require("@ringcentral-integration/commons/modules/ActiveCallControl");
 var _sessionStatus = _interopRequireDefault(require("@ringcentral-integration/commons/modules/Webphone/sessionStatus"));
 var _webphoneHelper = require("@ringcentral-integration/commons/modules/Webphone/webphoneHelper");
-var _utils = require("@ringcentral-integration/utils");
+var _clsx13 = _interopRequireDefault(require("clsx"));
+var _react = _interopRequireWildcard(require("react"));
 var _Answer = _interopRequireDefault(require("../../assets/images/Answer.svg"));
 var _End = _interopRequireDefault(require("../../assets/images/End.svg"));
 var _Hold = _interopRequireDefault(require("../../assets/images/Hold.svg"));
 var _HoldAnswer = _interopRequireDefault(require("../../assets/images/HoldAnswer.svg"));
 var _Ignore = _interopRequireDefault(require("../../assets/images/Ignore.svg"));
-var _img_call_switch = _interopRequireDefault(require("../../assets/images/img_call_switch.svg"));
 var _MergeIntoConferenceIcon = _interopRequireDefault(require("../../assets/images/MergeIntoConferenceIcon.svg"));
 var _Switch = _interopRequireDefault(require("../../assets/images/Switch.svg"));
 var _Transfer = _interopRequireDefault(require("../../assets/images/Transfer.svg"));
 var _Voicemail = _interopRequireDefault(require("../../assets/images/Voicemail.svg"));
-var _i18n = _interopRequireDefault(require("../ActiveCallItem/i18n"));
+var _img_call_switch = _interopRequireDefault(require("../../assets/images/img_call_switch.svg"));
+var _i18n = _interopRequireWildcard(require("../ActiveCallItem/i18n"));
 var _CallIcon = _interopRequireDefault(require("../CallIcon"));
 var _CircleButton = _interopRequireDefault(require("../CircleButton"));
 var _ContactDisplay = _interopRequireDefault(require("../ContactDisplay"));
 var _DurationCounter = _interopRequireDefault(require("../DurationCounter"));
 var _MediaObject = _interopRequireDefault(require("../MediaObject"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
-function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
-function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
+function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
+function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) { if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } } return n["default"] = e, t && t.set(e, n), n; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 var ModalContent = function ModalContent(_ref) {
-  var currentLocale = _ref.currentLocale,
-    contactName = _ref.contactName;
+  var contactName = _ref.contactName,
+    confirmContext = _ref.confirmContext;
   return /*#__PURE__*/_react["default"].createElement("div", null, /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].switchDialogImage
   }, /*#__PURE__*/_react["default"].createElement(_img_call_switch["default"], {
@@ -68,8 +67,7 @@ var ModalContent = function ModalContent(_ref) {
     height: "69"
   })), /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].switchDialogContent
-  }, (0, _utils.format)(_i18n["default"].getString('comfirmContext', currentLocale), {
-    // displayName: activeCall.name,
+  }, confirmContext !== null && confirmContext !== void 0 ? confirmContext : (0, _i18n.t)('comfirmContext', {
     displayName: contactName
   })));
 };
@@ -152,14 +150,14 @@ var WebphoneButtons = function WebphoneButtons(_ref2) {
       disabled: disableLinks
     }));
     if (showIgnoreBtn) {
-      var _classnames;
+      var _clsx;
       var ignoreTitle = _i18n["default"].getString('ignore', currentLocale);
       ignoreBtn = /*#__PURE__*/_react["default"].createElement("span", {
         title: _i18n["default"].getString('ignore', currentLocale),
         className: _styles["default"].webphoneButton,
         "data-sign": "ignore"
       }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
-        className: (0, _classnames13["default"])((_classnames = {}, _defineProperty(_classnames, _styles["default"].mergeButton, true), _defineProperty(_classnames, _styles["default"].disabled, disableLinks), _classnames)),
+        className: (0, _clsx13["default"])((_clsx = {}, _defineProperty(_clsx, _styles["default"].mergeButton, true), _defineProperty(_clsx, _styles["default"].disabled, disableLinks), _clsx)),
         onClick: function onClick(e) {
           e.stopPropagation();
           // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
@@ -199,7 +197,7 @@ var WebphoneButtons = function WebphoneButtons(_ref2) {
         className: _styles["default"].webphoneButton,
         "data-sign": "unhold"
       }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
-        className: (0, _classnames13["default"])(_styles["default"].holdButton, _styles["default"].active, _defineProperty({}, _styles["default"].disabled, disableLinks || isConnecting)),
+        className: (0, _clsx13["default"])(_styles["default"].holdButton, _styles["default"].active, _defineProperty({}, _styles["default"].disabled, disableLinks || isConnecting)),
         onClick: function onClick(e) {
           e.stopPropagation();
           webphoneResume(session.id, telephonySessionId);
@@ -216,7 +214,7 @@ var WebphoneButtons = function WebphoneButtons(_ref2) {
         className: _styles["default"].webphoneButton,
         "data-sign": "hold"
       }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
-        className: (0, _classnames13["default"])(_styles["default"].holdButton, _defineProperty({}, _styles["default"].disabled, disableLinks || isConnecting)),
+        className: (0, _clsx13["default"])(_styles["default"].holdButton, _defineProperty({}, _styles["default"].disabled, disableLinks || isConnecting)),
         onClick: function onClick(e) {
           e.stopPropagation();
           webphoneHold(session.id, telephonySessionId);
@@ -230,16 +228,16 @@ var WebphoneButtons = function WebphoneButtons(_ref2) {
     }
   }
   if (showMergeCall) {
-    var _classnames4;
+    var _clsx4;
     mergeBtn = /*#__PURE__*/_react["default"].createElement("span", {
       title: _i18n["default"].getString('mergeToConference', currentLocale),
-      className: _styles["default"].webphoneButton,
-      "data-sign": "merge"
+      className: _styles["default"].webphoneButton
     }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
-      className: (0, _classnames13["default"])((_classnames4 = {}, _defineProperty(_classnames4, _styles["default"].mergeButton, true), _defineProperty(_classnames4, _styles["default"].disabled, disableMerge), _classnames4)),
+      className: (0, _clsx13["default"])((_clsx4 = {}, _defineProperty(_clsx4, _styles["default"].mergeButton, true), _defineProperty(_clsx4, _styles["default"].disabled, disableMerge || disableLinks), _clsx4)),
+      dataSign: "merge",
       onClick: function onClick(e) {
         e.stopPropagation();
-        onMergeCall(session.id);
+        onMergeCall(session.id, telephonySessionId);
       },
       iconWidth: 260,
       iconX: 120,
@@ -250,7 +248,7 @@ var WebphoneButtons = function WebphoneButtons(_ref2) {
   }
   return /*#__PURE__*/_react["default"].createElement("div", {
     className: _styles["default"].webphoneButtons
-  }, ignoreBtn, mergeBtn, holdBtn, endBtn, answerBtn);
+  }, ignoreBtn, holdBtn, mergeBtn, endBtn, answerBtn);
 };
 var ActiveCallControlButtons = function ActiveCallControlButtons(_ref3) {
   var _ref3$session = _ref3.session,
@@ -282,14 +280,14 @@ var ActiveCallControlButtons = function ActiveCallControlButtons(_ref3) {
   if (!showRingoutCallControl && !showSwitchCall) return null;
   var switchCallButton;
   if (showSwitchCall) {
-    var _classnames5;
+    var _clsx5;
     var disabled = disableLinks || ringing;
     switchCallButton = /*#__PURE__*/_react["default"].createElement("span", {
       title: _i18n["default"].getString('switchCall', currentLocale),
-      className: (0, _classnames13["default"])(_styles["default"].ringoutButton, _styles["default"].cursorPointer),
+      className: (0, _clsx13["default"])(_styles["default"].ringoutButton, _styles["default"].cursorPointer),
       "data-sign": "switchCall"
     }, /*#__PURE__*/_react["default"].createElement(_Switch["default"], {
-      className: (0, _classnames13["default"])((_classnames5 = {}, _defineProperty(_classnames5, _styles["default"].switchButton, true), _defineProperty(_classnames5, _styles["default"].disabled, disabled), _classnames5)),
+      className: (0, _clsx13["default"])((_clsx5 = {}, _defineProperty(_clsx5, _styles["default"].switchButton, true), _defineProperty(_clsx5, _styles["default"].disabled, disabled), _clsx5)),
       onClick: function onClick(e) {
         e.stopPropagation();
         if (!disabled) {
@@ -309,7 +307,7 @@ var ActiveCallControlButtons = function ActiveCallControlButtons(_ref3) {
   var holdBtn;
   var inComingCall = inbound && ringing;
   if (inComingCall) {
-    var _classnames6;
+    var _clsx6;
     var rejectTitle = _i18n["default"].getString('reject', currentLocale);
     endBtn = /*#__PURE__*/_react["default"].createElement("span", {
       title: rejectTitle,
@@ -317,7 +315,7 @@ var ActiveCallControlButtons = function ActiveCallControlButtons(_ref3) {
       "data-sign": "hangup"
     }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
       disabled: disableLinks,
-      className: (0, _classnames13["default"])((_classnames6 = {}, _defineProperty(_classnames6, _styles["default"].endButton, true), _defineProperty(_classnames6, _styles["default"].disabled, disableLinks), _classnames6)),
+      className: (0, _clsx13["default"])((_clsx6 = {}, _defineProperty(_clsx6, _styles["default"].endButton, true), _defineProperty(_clsx6, _styles["default"].disabled, disableLinks), _clsx6)),
       onClick: function onClick(e) {
         e.stopPropagation();
         ringoutReject(telephonySessionId);
@@ -326,14 +324,14 @@ var ActiveCallControlButtons = function ActiveCallControlButtons(_ref3) {
       showBorder: false
     }));
   } else {
-    var _classnames7;
+    var _clsx7;
     endBtn = /*#__PURE__*/_react["default"].createElement("span", {
       title: _i18n["default"].getString('hangup', currentLocale),
       className: _styles["default"].ringoutButton,
       "data-sign": "hangup"
     }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
       disabled: disableLinks,
-      className: (0, _classnames13["default"])((_classnames7 = {}, _defineProperty(_classnames7, _styles["default"].endButton, true), _defineProperty(_classnames7, _styles["default"].disabled, disableLinks), _classnames7)),
+      className: (0, _clsx13["default"])((_clsx7 = {}, _defineProperty(_clsx7, _styles["default"].endButton, true), _defineProperty(_clsx7, _styles["default"].disabled, disableLinks), _clsx7)),
       onClick: function onClick(e) {
         e.stopPropagation();
         ringoutHangup(telephonySessionId);
@@ -350,7 +348,7 @@ var ActiveCallControlButtons = function ActiveCallControlButtons(_ref3) {
           className: _styles["default"].webphoneButton,
           "data-sign": "unhold"
         }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
-          className: (0, _classnames13["default"])(_styles["default"].holdButton, _styles["default"].active, _defineProperty({}, _styles["default"].disabled, _disabled)),
+          className: (0, _clsx13["default"])(_styles["default"].holdButton, _styles["default"].active, _defineProperty({}, _styles["default"].disabled, _disabled)),
           onClick: function onClick(e) {
             e.stopPropagation();
             // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
@@ -365,10 +363,10 @@ var ActiveCallControlButtons = function ActiveCallControlButtons(_ref3) {
       } else {
         holdBtn = /*#__PURE__*/_react["default"].createElement("span", {
           title: _i18n["default"].getString('hold', currentLocale),
-          className: (0, _classnames13["default"])(_styles["default"].webphoneButton),
+          className: (0, _clsx13["default"])(_styles["default"].webphoneButton),
           "data-sign": "hold"
         }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
-          className: (0, _classnames13["default"])(_styles["default"].holdButton, _defineProperty({}, _styles["default"].disabled, _disabled)),
+          className: (0, _clsx13["default"])(_styles["default"].holdButton, _defineProperty({}, _styles["default"].disabled, _disabled)),
           onClick: function onClick(e) {
             e.stopPropagation();
             // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
@@ -385,7 +383,7 @@ var ActiveCallControlButtons = function ActiveCallControlButtons(_ref3) {
   }
   var transferBtn;
   if (ringoutTransfer && !inComingCall) {
-    var _classnames10;
+    var _clsx10;
     var transferTitle = _i18n["default"].getString('transfer', currentLocale);
     transferBtn = /*#__PURE__*/_react["default"].createElement("span", {
       title: transferTitle,
@@ -393,7 +391,7 @@ var ActiveCallControlButtons = function ActiveCallControlButtons(_ref3) {
       "data-sign": "transfer"
     }, /*#__PURE__*/_react["default"].createElement(_CircleButton["default"], {
       disabled: disableLinks,
-      className: (0, _classnames13["default"])((_classnames10 = {}, _defineProperty(_classnames10, _styles["default"].transferButton, true), _defineProperty(_classnames10, _styles["default"].disabled, disableLinks), _classnames10)),
+      className: (0, _clsx13["default"])((_clsx10 = {}, _defineProperty(_clsx10, _styles["default"].transferButton, true), _defineProperty(_clsx10, _styles["default"].disabled, disableLinks), _clsx10)),
       onClick: function onClick(e) {
         e.stopPropagation();
         ringoutTransfer(telephonySessionId);
@@ -480,30 +478,38 @@ var ActiveCallItem = /*#__PURE__*/function (_Component) {
         modalConfirm = _this$props.modalConfirm,
         isWide = _this$props.isWide,
         currentLocale = _this$props.currentLocale,
-        webphoneSwitchCall = _this$props.webphoneSwitchCall;
-      var contactName = typeof renderContactName === 'function' ? renderContactName(call) : undefined;
-      // !refactor
+        webphoneSwitchCall = _this$props.webphoneSwitchCall,
+        onSwitchCall = _this$props.onSwitchCall; // !refactor
       // TODO: Consider refactoring modalConfirm out of UI components!!!!!!!!!!!!!!
-      _this.modalId = modalConfirm({
-        childrenSize: isWide ? 'medium' : 'small',
-        title: _i18n["default"].getString('callSwitch', currentLocale),
-        className: _styles["default"].switchDialog,
-        contentProps: {
-          // @ts-expect-error TS(2339): Property 'title' does not exist on type 'string'.
-          contactName: (contactName === null || contactName === void 0 ? void 0 : contactName.title) || contactName || _this.getPhoneNumber()
-        },
-        confirmButtonText: _i18n["default"].getString('comfirmOKButton', currentLocale),
-        cancelButtonText: _i18n["default"].getString('comfirmCancelButton', currentLocale),
-        onConfirm: function onConfirm() {
-          webphoneSwitchCall(call);
-          // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string'.
-          _this.modalId = null;
-        },
-        onCancel: function onCancel() {
-          // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string'.
-          _this.modalId = null;
-        }
-      });
+      // use modalConfirm for ActiveCallsUI module
+      if (onSwitchCall) {
+        onSwitchCall(call);
+        return;
+      }
+      if (modalConfirm) {
+        var contactName = typeof renderContactName === 'function' ? renderContactName(call) : undefined;
+        _this.modalId = modalConfirm({
+          childrenSize: isWide ? 'medium' : 'small',
+          title: _i18n["default"].getString('callSwitch', currentLocale),
+          className: _styles["default"].switchDialog,
+          contentProps: {
+            contactName:
+            // @ts-expect-error TS(2339): Property 'title' does not exist on type 'string'.
+            (contactName === null || contactName === void 0 ? void 0 : contactName.title) || contactName || _this.getPhoneNumber()
+          },
+          confirmButtonText: _i18n["default"].getString('comfirmOKButton', currentLocale),
+          cancelButtonText: _i18n["default"].getString('comfirmCancelButton', currentLocale),
+          onConfirm: function onConfirm() {
+            webphoneSwitchCall(call);
+            // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string'.
+            _this.modalId = null;
+          },
+          onCancel: function onCancel() {
+            // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string'.
+            _this.modalId = null;
+          }
+        });
+      }
     };
     _this.state = {
       selected: 0,
@@ -635,7 +641,7 @@ var ActiveCallItem = /*#__PURE__*/function (_Component) {
     key: "render",
     // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
     value: function render() {
-      var _telephonySession$oth, _telephonySession$oth2, _classnames11, _classnames12;
+      var _telephonySession$oth, _telephonySession$oth2, _clsx11, _clsx12;
       var _this$props3 = this.props,
         warmTransferRole = _this$props3.warmTransferRole,
         _this$props3$call = _this$props3.call,
@@ -683,6 +689,7 @@ var ActiveCallItem = /*#__PURE__*/function (_Component) {
         webphoneIgnore = _this$props3.webphoneIgnore,
         showHoldAnswerBtn = _this$props3.showHoldAnswerBtn,
         showIgnoreBtn = _this$props3.showIgnoreBtn,
+        showCallerIdName = _this$props3.showCallerIdName,
         clickSwitchTrack = _this$props3.clickSwitchTrack,
         formatPhone = _this$props3.formatPhone;
       var _this$state = this.state,
@@ -703,13 +710,14 @@ var ActiveCallItem = /*#__PURE__*/function (_Component) {
       var cursorPointer = hasCallControl && !!onClick;
       // real outbound call status
       var isConnecting = (telephonySession === null || telephonySession === void 0 ? void 0 : (_telephonySession$oth = telephonySession.otherParties[0]) === null || _telephonySession$oth === void 0 ? void 0 : (_telephonySession$oth2 = _telephonySession$oth.status) === null || _telephonySession$oth2 === void 0 ? void 0 : _telephonySession$oth2.code) === _telephonySessionStatus.telephonySessionStatus.proceeding;
+      var callerIdName = showCallerIdName ? (0, _callLogHelpers.getWebphoneSessionDisplayName)(this.props.call.webphoneSession) : undefined;
       return /*#__PURE__*/_react["default"].createElement("div", {
         "data-sign": "callItem",
         className: _styles["default"].callItemContainer
       }, /*#__PURE__*/_react["default"].createElement(_MediaObject["default"], {
         containerCls: _styles["default"].wrapper,
-        bodyCls: (0, _classnames13["default"])((_classnames11 = {}, _defineProperty(_classnames11, _styles["default"].content, true), _defineProperty(_classnames11, _styles["default"].cursorPointer, cursorPointer), _defineProperty(_classnames11, _styles["default"].cursorUnset, !cursorPointer), _defineProperty(_classnames11, _styles["default"].disabled, hasCallControl && disableLinks), _classnames11)),
-        leftCls: (0, _classnames13["default"])((_classnames12 = {}, _defineProperty(_classnames12, _styles["default"].cursorPointer, cursorPointer), _defineProperty(_classnames12, _styles["default"].cursorUnset, !cursorPointer), _defineProperty(_classnames12, _styles["default"].disabled, hasCallControl && disableLinks), _classnames12)),
+        bodyCls: (0, _clsx13["default"])((_clsx11 = {}, _defineProperty(_clsx11, _styles["default"].content, true), _defineProperty(_clsx11, _styles["default"].cursorPointer, cursorPointer), _defineProperty(_clsx11, _styles["default"].cursorUnset, !cursorPointer), _defineProperty(_clsx11, _styles["default"].disabled, hasCallControl && disableLinks), _clsx11)),
+        leftCls: (0, _clsx13["default"])((_clsx12 = {}, _defineProperty(_clsx12, _styles["default"].cursorPointer, cursorPointer), _defineProperty(_clsx12, _styles["default"].cursorUnset, !cursorPointer), _defineProperty(_clsx12, _styles["default"].disabled, hasCallControl && disableLinks), _clsx12)),
         mediaLeft:
         /*#__PURE__*/
         // @ts-expect-error TS(2322): Type '((...args: any[]) => any) | null' is not ass... Remove this comment to see the full error message
@@ -737,11 +745,12 @@ var ActiveCallItem = /*#__PURE__*/function (_Component) {
           className: _styles["default"].strechVertical
         }, /*#__PURE__*/_react["default"].createElement(_ContactDisplay["default"], {
           warmTransferRole: warmTransferRole,
+          callerIdName: callerIdName,
           formatPhone: formatPhone,
           isOnConferenceCall: isOnConferenceCall,
           contactName: showMultipleMatch ? undefined : contactName,
           subContactName: subContactName,
-          className: (0, _classnames13["default"])(_styles["default"].contactDisplay, contactDisplayStyle),
+          className: (0, _clsx13["default"])(_styles["default"].contactDisplay, contactDisplayStyle),
           contactMatches: contactMatches,
           selected: this.state.selected,
           onSelectContact: this.onSelectContact,
@@ -786,7 +795,8 @@ var ActiveCallItem = /*#__PURE__*/function (_Component) {
           isOnHold: isOnHold,
           webphoneIgnore: webphoneIgnore,
           showIgnoreBtn: showIgnoreBtn,
-          showHoldAnswerBtn: showHoldAnswerBtn
+          showHoldAnswerBtn: showHoldAnswerBtn,
+          disableLinks: disableLinks
         }) : /*#__PURE__*/_react["default"].createElement(ActiveCallControlButtons, {
           session: telephonySession
           // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message

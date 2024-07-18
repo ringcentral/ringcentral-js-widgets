@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  onSearching: "Cargando...",
+  onSearching: "Cargando…",
   noContacts: "No se encontraron registros."
 }; // @key: @#@"onSearching"@#@ @source: @#@"Loading..."@#@
 // @key: @#@"noContacts"@#@ @source: @#@"No records found."@#@

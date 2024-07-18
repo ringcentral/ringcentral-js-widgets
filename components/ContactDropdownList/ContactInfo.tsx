@@ -1,8 +1,9 @@
+import clsx from 'clsx';
 import React from 'react';
 
-import classnames from 'classnames';
 import { phoneSources } from '../../enums/phoneSources';
 import phoneSourceNames from '../../lib/phoneSourceNames';
+
 import { splitter } from './splitter';
 import styles from './styles.scss';
 
@@ -32,7 +33,7 @@ export const ContactInfo: React.FC<ContactInfoProps> = ({
   const nameTitle = `${name} ${splitter} ${phoneSourceName}`;
   return (
     <div
-      className={classnames(styles.nameSection, {
+      className={clsx(styles.nameSection, {
         [styles.dncNameSection]: doNotCall,
       })}
       // @ts-expect-error TS(2322): Type 'string | false | undefined' is not assignabl... Remove this comment to see the full error message

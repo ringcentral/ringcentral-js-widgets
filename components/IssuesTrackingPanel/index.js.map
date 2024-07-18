@@ -1,0 +1,1 @@
+{"version":3,"file":"index.js","names":["_IssuesTrackingPanel","require"],"sources":["components/IssuesTrackingPanel/index.ts"],"sourcesContent":["export { IssuesTrackingPanel as default } from './IssuesTrackingPanel';\n"],"mappings":";;;;;;;;;;;AAAA,IAAAA,oBAAA,GAAAC,OAAA","ignoreList":[]}

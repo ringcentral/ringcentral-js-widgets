@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 require("core-js/modules/es.function.name");
 require("core-js/modules/es.regexp.exec");
 require("core-js/modules/es.string.search");
@@ -14,21 +14,21 @@ var _formatNumber = require("@ringcentral-integration/commons/lib/formatNumber")
 var _core = require("@ringcentral-integration/core");
 var _i18n = _interopRequireDefault(require("./i18n"));
 var _dec, _class;
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
-function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
 /**
  * TODO:
  * * Add type info for getUIProps and getUIFunctions when CallsPanel is refactored into ts.
@@ -70,7 +70,9 @@ var CallHistoryUI = (_dec = (0, _di.Module)({
       var _ref$enableContactFal = _ref.enableContactFallback,
         enableContactFallback = _ref$enableContactFal === void 0 ? false : _ref$enableContactFal,
         _ref$useNewList = _ref.useNewList,
-        useNewList = _ref$useNewList === void 0 ? false : _ref$useNewList;
+        useNewList = _ref$useNewList === void 0 ? false : _ref$useNewList,
+        _ref$showCallerIdName = _ref.showCallerIdName,
+        showCallerIdName = _ref$showCallerIdName === void 0 ? false : _ref$showCallerIdName;
       return {
         enableContactFallback: enableContactFallback,
         brand: this._deps.brand.name,
@@ -91,7 +93,8 @@ var CallHistoryUI = (_dec = (0, _di.Module)({
         autoLog: !!(this._deps.callLogger && this._deps.callLogger.autoLog),
         useNewList: useNewList,
         enableCDC: this._deps.appFeatures.isCDCEnabled,
-        maxExtensionNumberLength: this._deps.accountInfo.maxExtensionNumberLength
+        maxExtensionNumberLength: this._deps.accountInfo.maxExtensionNumberLength,
+        showCallerIdName: showCallerIdName
       };
     }
   }, {
@@ -136,7 +139,7 @@ var CallHistoryUI = (_dec = (0, _di.Module)({
             });
           }
         },
-        onCreateContact: onCreateContact ? /*#__PURE__*/function () {
+        onCreateContact: onCreateContact ? ( /*#__PURE__*/function () {
           var _ref5 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(_ref4) {
             var phoneNumber, name, entityType, hasMatchNumber;
             return regeneratorRuntime.wrap(function _callee$(_context) {
@@ -176,19 +179,20 @@ var CallHistoryUI = (_dec = (0, _di.Module)({
           return function (_x) {
             return _ref5.apply(this, arguments);
           };
-        }() : undefined,
+        }()) : undefined,
         onClickToDial: this._deps.dialerUI && this._deps.appFeatures.isCallingEnabled ? function (recipient) {
           // @ts-expect-error TS(2532): Object is possibly 'undefined'.
           if (_this._deps.call.isIdle) {
             _this._deps.routerInteraction.push(dialerRoute);
             // @ts-expect-error TS(2532): Object is possibly 'undefined'.
             _this._deps.dialerUI.call({
-              recipient: recipient
+              recipient: recipient,
+              trackCallMadeFrom: 'Call history'
             });
             _this._deps.callHistory.onClickToCall();
           }
         } : undefined,
-        onClickToSms: this._deps.composeText ?
+        onClickToSms: this._deps.composeText ? (
         /*#__PURE__*/
         // TODO: find a better way to define contact type
         function () {
@@ -231,9 +235,9 @@ var CallHistoryUI = (_dec = (0, _di.Module)({
           return function (_x2) {
             return _ref6.apply(this, arguments);
           };
-        }() : undefined,
+        }()) : undefined,
         isLoggedContact: isLoggedContact,
-        onLogCall: onLogCall || this._deps.callLogger && /*#__PURE__*/function () {
+        onLogCall: onLogCall || this._deps.callLogger && ( /*#__PURE__*/function () {
           var _ref8 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3(_ref7) {
             var call, contact, _ref7$redirect, redirect;
             return regeneratorRuntime.wrap(function _callee3$(_context3) {
@@ -257,7 +261,7 @@ var CallHistoryUI = (_dec = (0, _di.Module)({
           return function (_x3) {
             return _ref8.apply(this, arguments);
           };
-        }()
+        }())
       };
     }
   }]);

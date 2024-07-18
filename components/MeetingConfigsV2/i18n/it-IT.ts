@@ -24,8 +24,8 @@ export default {
   recurringMeeting: "Riunione ricorrente",
   recurringNote: "Nota: Abilita questa opzione quando scegli \"Ricorrenza\"",
   joinBeforeHost: "Consenti ai partecipanti di accedere prima dell'host",
-  turnOffCamera: "Spegni la videocamera per i partecipanti",
-  turnOffHostCamera: "Spegni la videocamera per l'host durante l'accesso alla riunione",
+  turnOffCamera: "Disattiva la videocamera per i partecipanti",
+  turnOffHostCamera: "Disattiva la videocamera per l'host durante l'accesso alla riunione",
   requirePassword: "Richiedi password",
   enterPassword: "Immetti password",
   setPassword: "Imposta password*",
@@ -38,8 +38,7 @@ export default {
   pmiSettingChangeAlert: "Se modifichi le impostazioni e programmi questa riunione, tutte le riunioni con ID riunione personale utilizzeranno le stesse impostazioni più recenti.",
   lockedTooltip: "L'impostazione è gestita dall'amministratore dell'azienda",
   when: "Data/Ora",
-  recurringDescribe: "Ricorda di verificare che l'invito sia ricorrente o ripetuto sul calendario dei partecipanti.",
-  ieSupportAlert: "Tieni presente che {appName} non funzionerà con Internet Explorer 11 dopo il 16 febbraio 2022. Consigliamo di passare a Microsoft Edge o di aggiornare a Outlook 2016 o versione successiva."
+  recurringDescribe: "Ricorda di verificare che l'invito sia ricorrente o ripetuto sul calendario dei partecipanti."
 };
 
 // @key: @#@"date"@#@ @source: @#@"Date"@#@
@@ -81,4 +80,3 @@ export default {
 // @key: @#@"lockedTooltip"@#@ @source: @#@"This setting is managed by your company admin"@#@
 // @key: @#@"when"@#@ @source: @#@"When"@#@
 // @key: @#@"recurringDescribe"@#@ @source: @#@"Please remember to check recurrence or repeat in your calendar invitation to your attendees."@#@
-// @key: @#@"ieSupportAlert"@#@ @source: @#@"Please note that {appName} won't work with Internet Explorer 11 after Feb 16, 2022. We recommend switching to Microsoft Edge or updating to Outlook 2016 or above."@#@

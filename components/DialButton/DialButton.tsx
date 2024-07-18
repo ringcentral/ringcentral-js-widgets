@@ -1,8 +1,7 @@
+import { RcDialerPadSoundsMPEG } from '@ringcentral/juno';
+import clsx from 'clsx';
 import React, { Component } from 'react';
 
-import classnames from 'classnames';
-
-import { audios } from './audios';
 import styles from './styles.scss';
 
 const ALTERNATIVE_TIMEOUT = 1000;
@@ -64,19 +63,18 @@ export default class DialButton extends Component<
   onMouseDown = (e: any) => {
     e.preventDefault();
 
-    if (
-      player &&
-      player.canPlayType('audio/ogg') !== '' &&
-      audios[this.props.btn?.value]
-    ) {
+    if (player && RcDialerPadSoundsMPEG[this.props.btn?.value as never]) {
       // @ts-expect-error TS(2322): Type 'number | undefined' is not assignable to typ... Remove this comment to see the full error message
       player.volume = this.props.volume;
       // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
       player.muted = this.props.muted;
-      player.src = audios[this.props.btn.value];
+      player.src = RcDialerPadSoundsMPEG[this.props.btn.value as never];
       player.currentTime = 0;
-      player.play();
+      player.play().catch((error: any) => {
+        console.error('playAudio error:', error);
+      });
     }
+
     if (typeof this.props.onPress === 'function') {
       this.props.onPress(this.props.btn.value);
     }
@@ -139,11 +137,11 @@ export default class DialButton extends Component<
     return (
       <div
         data-sign={`dialPadBtn${this.props.btn.value}`}
-        className={classnames(styles.root, this.props.className)}
+        className={clsx(styles.root, this.props.className)}
       >
         <svg className={styles.btnSvg} viewBox="0 0 500 500">
           <g
-            className={classnames(
+            className={clsx(
               styles.btnSvgGroup,
               this.state.pressed && styles.pressed,
             )}
@@ -153,7 +151,7 @@ export default class DialButton extends Component<
           >
             <circle className={styles.circle} cx="250" cy="250" r="191" />
             <text
-              className={classnames(
+              className={clsx(
                 styles.btnValue,
                 isSpecial ? styles.special : null,
               )}

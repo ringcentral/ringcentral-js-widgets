@@ -5,12 +5,12 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.RemoveMeetingWarn = void 0;
-var _react = _interopRequireDefault(require("react"));
 var _juno = require("@ringcentral/juno");
+var _react = _interopRequireDefault(require("react"));
 var _FormattedMessage = _interopRequireDefault(require("../FormattedMessage"));
 var _i18n = _interopRequireDefault(require("./i18n"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var RemoveMeetingWarn = function RemoveMeetingWarn(_ref) {
   var currentLocale = _ref.currentLocale,
     brandConfig = _ref.brandConfig,
@@ -34,7 +34,6 @@ var RemoveMeetingWarn = function RemoveMeetingWarn(_ref) {
   }, /*#__PURE__*/_react["default"].createElement(_FormattedMessage["default"], {
     message: _i18n["default"].getString(hasRemoved ? 'scheduleMeetingTips' : 'removeMeetingWarning', currentLocale),
     values: {
-      // @ts-expect-error TS(2322): Type 'Element' is not assignable to type 'string'.
       app: app
     }
   })));

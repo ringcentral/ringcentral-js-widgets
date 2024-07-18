@@ -16,7 +16,7 @@ var _CallInfo = _interopRequireDefault(require("./CallInfo"));
 var _ConferenceInfo = _interopRequireDefault(require("./ConferenceInfo"));
 var _MergeInfo = _interopRequireDefault(require("./MergeInfo"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var ActiveCallPanel = function ActiveCallPanel(_ref) {
   var showBackButton = _ref.showBackButton,
     backButtonLabel = _ref.backButtonLabel,
@@ -69,6 +69,7 @@ var ActiveCallPanel = function ActiveCallPanel(_ref) {
     getAvatarUrl = _ref.getAvatarUrl,
     actions = _ref.actions,
     controlBusy = _ref.controlBusy,
+    callerIdName = _ref.callerIdName,
     callQueueName = _ref.callQueueName,
     isOnTransfer = _ref.isOnTransfer,
     isOnWaitingTransfer = _ref.isOnWaitingTransfer,
@@ -115,10 +116,7 @@ var ActiveCallPanel = function ActiveCallPanel(_ref) {
         nameMatches: nameMatches,
         fallBackName: fallBackName,
         phoneNumber: phoneNumber,
-        formatPhone: formatPhone
-        // @ts-expect-error TS(2322): Type '{ currentLocale: string; nameMatches: { name... Remove this comment to see the full error message
-        ,
-        startTime: startTime,
+        formatPhone: formatPhone,
         areaCode: areaCode,
         countryCode: countryCode,
         selectedMatcherIndex: selectedMatcherIndex,
@@ -129,7 +127,8 @@ var ActiveCallPanel = function ActiveCallPanel(_ref) {
         sourceIcons: sourceIcons,
         phoneTypeRenderer: phoneTypeRenderer,
         phoneSourceNameRenderer: phoneSourceNameRenderer,
-        callQueueName: callQueueName
+        callQueueName: callQueueName,
+        callerIdName: callerIdName
       });
       break;
   }
@@ -228,6 +227,7 @@ ActiveCallPanel.defaultProps = {
   },
   actions: [],
   controlBusy: false,
+  callerIdName: undefined,
   // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
   callQueueName: null,
   isOnWaitingTransfer: false,

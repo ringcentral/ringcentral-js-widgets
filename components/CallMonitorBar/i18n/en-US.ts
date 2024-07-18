@@ -8,4 +8,4 @@ export default {
   callsOnHold: '{numberOf} Calls On Hold',
   otherDeviceCall: '{numberOf} Call on other devices',
   otherDeviceCalls: '{numberOf} Calls on other devices',
-};
+} as const;

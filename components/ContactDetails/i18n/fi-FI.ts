@@ -1,29 +1,27 @@
 import { phoneTypes } from '@ringcentral-integration/commons/enums/phoneTypes';
 import { presenceStatus } from '@ringcentral-integration/commons/enums/presenceStatus.enum';
 import { dndStatus } from '@ringcentral-integration/commons/modules/Presence';
+
 export default {
-  [phoneTypes.extension]: "Alanro",
-  [phoneTypes.direct]: "Suora",
-  [phoneTypes.mobile]: "Mobiili",
-  [phoneTypes.contact]: "Yhteystiedon puhelin",
-  [phoneTypes.home]: "Etusivu",
-  [phoneTypes.business]: "Työ",
-  [phoneTypes.fax]: "Faksi",
-  // @ts-expect-error TS(2718): Duplicate property 'company'.
-  [phoneTypes.company]: "Yritys",
-  [phoneTypes.other]: "Muu",
-  emailLabel: "Sähköposti",
-  call: "Puhelu",
-  text: "Tekstiviesti",
-  [presenceStatus.available]: "Käytettävissä",
-  [presenceStatus.offline]: "Näkymätön",
-  [presenceStatus.busy]: "Varattu",
-  [dndStatus.doNotAcceptAnyCalls]: "Älä häiritse",
-  notActivated: "Ei aktiivinen",
-  // @ts-expect-error TS(2733): Property 'company' was also declared here.
-  company: "Yritys",
-  jobTitle: "Työnimike",
-  site: "Toimipaikka"
+  [phoneTypes.extension]: 'Alanro',
+  [phoneTypes.direct]: 'Suora',
+  [phoneTypes.mobile]: 'Mobiili',
+  [phoneTypes.contact]: 'Yhteystiedon puhelin',
+  [phoneTypes.home]: 'Etusivu',
+  [phoneTypes.business]: 'Työ',
+  [phoneTypes.fax]: 'Faksi',
+  [phoneTypes.company]: 'Yritys',
+  [phoneTypes.other]: 'Muu',
+  emailLabel: 'Sähköposti',
+  call: 'Soita',
+  text: 'Tekstiviesti',
+  [presenceStatus.available]: 'Käytettävissä',
+  [presenceStatus.offline]: 'Näkymätön',
+  [presenceStatus.busy]: 'Varattu',
+  [dndStatus.doNotAcceptAnyCalls]: 'Älä häiritse',
+  notActivated: 'Ei aktiivinen',
+  jobTitle: 'Työnimike',
+  site: 'Toimipaikka',
 };
 
 // @key: @#@"[phoneTypes.extension]"@#@ @source: @#@"Ext."@#@

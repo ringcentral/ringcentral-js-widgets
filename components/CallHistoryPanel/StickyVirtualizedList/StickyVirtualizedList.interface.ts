@@ -1,6 +1,5 @@
-import type React from 'react';
-
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
+import type React from 'react';
 
 export const scrollReasonsValues = ['observed', 'requested'];
 export const scrollReasons = ObjectMap.fromKeys(scrollReasonsValues);

@@ -1,2 +1,2 @@
-export * from './MeetingAlert';
+export * from './MigrateToPluginAlert';
 export * from './RemoveMeetingWarn';

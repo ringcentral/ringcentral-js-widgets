@@ -5,7 +5,7 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  loading: "Cargando..."
+  loading: "Cargando…"
 }; // @key: @#@"loading"@#@ @source: @#@"Loading ..."@#@
 exports["default"] = _default;
 //# sourceMappingURL=es-419.js.map

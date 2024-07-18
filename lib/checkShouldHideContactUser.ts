@@ -1,6 +1,5 @@
-import { filter } from 'ramda';
-
 import type { Entity } from '@ringcentral-integration/commons/interfaces/Entity.interface';
+import { filter } from 'ramda';
 
 export function checkShouldHideContactUser(contactMatches: Entity[]) {
   if (

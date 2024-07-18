@@ -8,12 +8,12 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.SelectedRecipients = void 0;
+var _clsx = _interopRequireDefault(require("clsx"));
 var _react = _interopRequireDefault(require("react"));
-var _classnames = _interopRequireDefault(require("classnames"));
 var _SelectedRecipientItem = require("./SelectedRecipientItem");
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
+function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) { ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } } return n; }, _extends.apply(null, arguments); }
 var SelectedRecipients = function SelectedRecipients(_ref) {
   var recipient = _ref.recipient,
     recipients = _ref.recipients,
@@ -23,7 +23,7 @@ var SelectedRecipients = function SelectedRecipients(_ref) {
   if (multiple && recipients.length) {
     return /*#__PURE__*/_react["default"].createElement("ul", {
       "data-sign": "recipientsList",
-      className: (0, _classnames["default"])(className, _styles["default"].selectReceivers)
+      className: (0, _clsx["default"])(className, _styles["default"].selectReceivers)
     }, recipients.map(function (item) {
       return /*#__PURE__*/_react["default"].createElement(_SelectedRecipientItem.SelectedRecipientItem, _extends({}, item, {
         key: item.phoneNumber,
@@ -37,7 +37,7 @@ var SelectedRecipients = function SelectedRecipients(_ref) {
   }
   if (!multiple && recipient) {
     return /*#__PURE__*/_react["default"].createElement("ul", {
-      className: (0, _classnames["default"])(className, _styles["default"].selectReceivers)
+      className: (0, _clsx["default"])(className, _styles["default"].selectReceivers)
     }, /*#__PURE__*/_react["default"].createElement(_SelectedRecipientItem.SelectedRecipientItem, _extends({}, recipient, {
       key: recipient.phoneNumber,
       name: recipient.name,

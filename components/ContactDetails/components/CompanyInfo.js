@@ -4,11 +4,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.CompanyInfoItem = exports.CompanyInfo = void 0;
+var _clsx = _interopRequireDefault(require("clsx"));
 var _react = _interopRequireDefault(require("react"));
-var _classnames = _interopRequireDefault(require("classnames"));
 var _i18n = _interopRequireDefault(require("../i18n"));
 var _styles = _interopRequireDefault(require("../styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var CompanyInfoItem = function CompanyInfoItem(_ref) {
   var label = _ref.label,
     value = _ref.value;
@@ -44,7 +44,7 @@ var CompanyInfo = function CompanyInfo(_ref2) {
   }
   if (content.length) {
     return /*#__PURE__*/_react["default"].createElement("div", {
-      className: (0, _classnames["default"])(_styles["default"].section, _styles["default"].companyInfo)
+      className: (0, _clsx["default"])(_styles["default"].section, _styles["default"].companyInfo)
     }, content);
   }
   return null;

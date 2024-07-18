@@ -4,6 +4,7 @@ import type { UIFunctions, UIProps } from '@ringcentral-integration/core';
 import { RcUIModuleV2 } from '@ringcentral-integration/core';
 
 import type { ThemeContainerProps } from '../../containers/ThemeContainer/ThemeContainer.interface';
+
 import type { Deps } from './ThemeUI.interface';
 
 @Module({

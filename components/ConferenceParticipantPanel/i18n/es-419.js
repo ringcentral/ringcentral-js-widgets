@@ -5,8 +5,8 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports["default"] = void 0;
 var _default = {
-  removeParticipant: "Quitar participante",
-  confirmStr1: "¿Está seguro de que desea quitarlo",
+  removeParticipant: "Eliminar participante",
+  confirmStr1: "¿Confirma que desea quitarlo",
   confirmStr2: "de la llamada?",
   remove: "Eliminar",
   cancel: "Cancelar",

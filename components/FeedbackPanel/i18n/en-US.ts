@@ -19,4 +19,4 @@ export default {
   description: 'Full description',
   descriptionPlaceHolder: 'Please include as much information as possible',
   send: 'Send Your Feedback',
-};
+} as const;

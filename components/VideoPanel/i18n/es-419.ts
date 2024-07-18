@@ -17,7 +17,7 @@ export default {
   onlyJoinAfterMe: "Los participantes solo pueden unirse después de mí",
   onlyJoinAfterHost: "Los participantes solo pueden unirse después del anfitrión",
   muteAudio: "Silenciar el audio de los participantes",
-  turnOffCamera: "Desactivar cámara de participantes",
+  turnOffCamera: "Apagar la cámara de los participantes",
   requirePassword: "Solicitar contraseña",
   useE2ee: "Usar cifrado de extremo a extremo",
   e2eeTooltip: "Las reuniones cifradas de extremo a extremo son las más privadas, pero las funciones como unirse por teléfono, los subtítulos (CC) y grabar no están disponibles.",
@@ -30,15 +30,14 @@ export default {
   meetingSettingsSecurity: "Seguridad",
   onlyAuthUserJoin: "Solo los usuarios autenticados pueden unirse",
   signedInUsers: "Usuarios que han iniciado sesión",
-  signedInCoWorkers: "Compañeros que han iniciado sesión",
+  signedInCoWorkers: "Compañeros de trabajo que iniciaron sesión",
   limitScreenSharing: "Solo el host y los moderadores pueden compartir pantalla",
-  lockTooltip: "Esta configuración la gestiona el administrador de su empresa",
+  lockTooltip: "Esta configuración la gestiona el administrador de su empresa ",
   pmiSettingAlert: "Esta configuración se aplicará para todas las reuniones creadas con el PMI",
   today: "Hoy",
   scheduleForGuidance: "¿Está programando para alguien más?\n1. Asegúrese de que está en su calendario de Outlook.\n2. En el menú desplegable, seleccione la persona para la cual está programando.\n",
   scheduleForGuidanceMore: "Más información",
-  changePmiSettings: "Cambiar la configuración de la reunión personal",
-  ieSupportAlert: "Tenga en cuenta que {appName} no funcionará con Internet Explorer 11 después del 16 de febrero de 2022. Recomendamos cambiar a Microsoft Edge o actualizar a Outlook 2016 o superior."
+  changePmiSettings: "Cambiar la configuración de la reunión personal"
 };
 
 // @key: @#@"topic"@#@ @source: @#@"Meeting title"@#@
@@ -79,4 +78,3 @@ export default {
 // @key: @#@"scheduleForGuidance"@#@ @source: @#@"Scheduling for someone else?\n1. Make sure you're on their Outlook calendar.\n2. From the dropdown, select the person you're scheduling for.\n"@#@
 // @key: @#@"scheduleForGuidanceMore"@#@ @source: @#@"Learn details"@#@
 // @key: @#@"changePmiSettings"@#@ @source: @#@"Change Personal Meeting settings"@#@
-// @key: @#@"ieSupportAlert"@#@ @source: @#@"Please note that {appName} won't work with Internet Explorer 11 after Feb 16, 2022. We recommend switching to Microsoft Edge or updating to Outlook 2016 or above."@#@

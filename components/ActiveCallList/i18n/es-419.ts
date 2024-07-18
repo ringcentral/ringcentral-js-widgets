@@ -1,5 +1,5 @@
 export default {
-  callerCall: "Persona que llama",
+  callerCall: "Interlocutor",
   transferCall: "Transferir"
 };
 

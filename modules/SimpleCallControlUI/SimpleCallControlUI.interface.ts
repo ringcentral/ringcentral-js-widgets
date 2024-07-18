@@ -1,8 +1,8 @@
+import type { AccountInfo } from '@ringcentral-integration/commons/modules/AccountInfo';
 import type { ActiveCallControl } from '@ringcentral-integration/commons/modules/ActiveCallControl';
 import type { Brand } from '@ringcentral-integration/commons/modules/Brand';
 import type { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import type { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
-import type { AccountInfo } from '@ringcentral-integration/commons/modules/AccountInfo';
 
 import type { RouterInteraction } from '../RouterInteraction';
 

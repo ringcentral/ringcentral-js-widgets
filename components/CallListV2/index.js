@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 require("core-js/modules/es.function.bind");
 require("core-js/modules/es.object.get-prototype-of");
 require("core-js/modules/es.object.set-prototype-of");
@@ -12,19 +12,19 @@ var _react = _interopRequireDefault(require("react"));
 var _reactVirtualized = require("react-virtualized");
 var _CallItem = _interopRequireDefault(require("../CallItem"));
 var _NoCalls = _interopRequireDefault(require("../NoCalls"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, _toPropertyKey(descriptor.key), descriptor); } }
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); Object.defineProperty(Constructor, "prototype", { writable: false }); return Constructor; }
-function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
-function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
-function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); Object.defineProperty(subClass, "prototype", { writable: false }); if (superClass) _setPrototypeOf(subClass, superClass); }
-function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } else if (call !== void 0) { throw new TypeError("Derived constructors may only return object or undefined"); } return _assertThisInitialized(self); }
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); return true; } catch (e) { return false; } }
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
+function _classCallCheck(a, n) { if (!(a instanceof n)) throw new TypeError("Cannot call a class as a function"); }
+function _defineProperties(e, r) { for (var t = 0; t < r.length; t++) { var o = r[t]; o.enumerable = o.enumerable || !1, o.configurable = !0, "value" in o && (o.writable = !0), Object.defineProperty(e, _toPropertyKey(o.key), o); } }
+function _createClass(e, r, t) { return r && _defineProperties(e.prototype, r), t && _defineProperties(e, t), Object.defineProperty(e, "prototype", { writable: !1 }), e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+function _inherits(t, e) { if ("function" != typeof e && null !== e) throw new TypeError("Super expression must either be null or a function"); t.prototype = Object.create(e && e.prototype, { constructor: { value: t, writable: !0, configurable: !0 } }), Object.defineProperty(t, "prototype", { writable: !1 }), e && _setPrototypeOf(t, e); }
+function _setPrototypeOf(t, e) { return _setPrototypeOf = Object.setPrototypeOf ? Object.setPrototypeOf.bind() : function (t, e) { return t.__proto__ = e, t; }, _setPrototypeOf(t, e); }
+function _createSuper(t) { var r = _isNativeReflectConstruct(); return function () { var e, o = _getPrototypeOf(t); if (r) { var s = _getPrototypeOf(this).constructor; e = Reflect.construct(o, arguments, s); } else e = o.apply(this, arguments); return _possibleConstructorReturn(this, e); }; }
+function _possibleConstructorReturn(t, e) { if (e && ("object" == _typeof(e) || "function" == typeof e)) return e; if (void 0 !== e) throw new TypeError("Derived constructors may only return object or undefined"); return _assertThisInitialized(t); }
+function _assertThisInitialized(e) { if (void 0 === e) throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); return e; }
+function _isNativeReflectConstruct() { try { var t = !Boolean.prototype.valueOf.call(Reflect.construct(Boolean, [], function () {})); } catch (t) {} return (_isNativeReflectConstruct = function _isNativeReflectConstruct() { return !!t; })(); }
+function _getPrototypeOf(t) { return _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf.bind() : function (t) { return t.__proto__ || Object.getPrototypeOf(t); }, _getPrototypeOf(t); }
 var CallListV2 = /*#__PURE__*/function (_React$PureComponent) {
   _inherits(CallListV2, _React$PureComponent);
   var _super = _createSuper(CallListV2);
@@ -33,13 +33,17 @@ var CallListV2 = /*#__PURE__*/function (_React$PureComponent) {
     _classCallCheck(this, CallListV2);
     _this = _super.call(this, props);
     _this._list = void 0;
+    _this._recomputeRowHeight = function () {
+      var index = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 0;
+      if (_this._list && _this._list.current) {
+        _this._list.current.recomputeRowHeights(index);
+      }
+    };
     _this._setExtendedIndex = function (extendedIndex) {
       _this.setState({
         extendedIndex: extendedIndex
       }, function () {
-        if (_this._list && _this._list.current) {
-          _this._list.current.recomputeRowHeights(0);
-        }
+        _this._recomputeRowHeight(0);
       });
     };
     _this._onSizeChanged = function (index) {
@@ -56,12 +60,17 @@ var CallListV2 = /*#__PURE__*/function (_React$PureComponent) {
       // the toggle button will be cut off
       var _this$props = _this.props,
         calls = _this$props.calls,
-        extendedRowHeight = _this$props.extendedRowHeight,
-        rowHeight = _this$props.rowHeight;
+        _this$props$extendedR = _this$props.extendedRowHeight,
+        extendedRowHeight = _this$props$extendedR === void 0 ? 130 : _this$props$extendedR,
+        _this$props$rowHeight = _this$props.rowHeight,
+        rowHeight = _this$props$rowHeight === void 0 ? 65 : _this$props$rowHeight,
+        callsDelaySavingState = _this$props.callsDelaySavingState;
+      var call = calls[index];
+      var isDelaySavingState = callsDelaySavingState && callsDelaySavingState[call.sessionId];
       var extendedIndex = _this.state.extendedIndex;
       var margin = index === calls.length - 1 ? 15 : 0;
-      var height = index === extendedIndex ? extendedRowHeight : rowHeight;
-      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+      var delaySavingStateHeight = isDelaySavingState ? 13 : 0;
+      var height = index === extendedIndex ? extendedRowHeight : rowHeight + delaySavingStateHeight;
       return height + margin;
     };
     _this._rowRender = function (_ref2) {
@@ -97,6 +106,7 @@ var CallListV2 = /*#__PURE__*/function (_React$PureComponent) {
         enableContactFallback = _this$props2.enableContactFallback,
         autoLog = _this$props2.autoLog,
         showContactDisplayPlaceholder = _this$props2.showContactDisplayPlaceholder,
+        showCallerIdName = _this$props2.showCallerIdName,
         sourceIcons = _this$props2.sourceIcons,
         phoneTypeRenderer = _this$props2.phoneTypeRenderer,
         phoneSourceNameRenderer = _this$props2.phoneSourceNameRenderer,
@@ -106,13 +116,15 @@ var CallListV2 = /*#__PURE__*/function (_React$PureComponent) {
         contactDisplayStyle = _this$props2.contactDisplayStyle,
         externalViewEntity = _this$props2.externalViewEntity,
         externalHasEntity = _this$props2.externalHasEntity,
+        shouldHideEntityButton = _this$props2.shouldHideEntityButton,
         readTextPermission = _this$props2.readTextPermission,
         currentSiteCode = _this$props2.currentSiteCode,
         isMultipleSiteEnabled = _this$props2.isMultipleSiteEnabled,
         showChooseEntityModal = _this$props2.showChooseEntityModal,
         enableCDC = _this$props2.enableCDC,
         maxExtensionNumberLength = _this$props2.maxExtensionNumberLength,
-        formatPhone = _this$props2.formatPhone;
+        formatPhone = _this$props2.formatPhone,
+        callsDelaySavingState = _this$props2.callsDelaySavingState;
       var extendedIndex = _this.state.extendedIndex;
       var content;
       if (index >= calls.length) {
@@ -124,14 +136,10 @@ var CallListV2 = /*#__PURE__*/function (_React$PureComponent) {
         }));
       } else {
         var call = calls[index];
-        content = /*#__PURE__*/_react["default"].createElement(_CallItem["default"]
-        // @ts-expect-error TS(2322): Type '{ formatPhone: (phoneNumber: string) => stri... Remove this comment to see the full error message
-        , {
-          formatPhone: formatPhone,
+        content = /*#__PURE__*/_react["default"].createElement(_CallItem["default"], {
           key: call.id,
           renderIndex: index,
           extended: extendedIndex === index,
-          style: style,
           call: call,
           currentLocale: currentLocale,
           currentSiteCode: currentSiteCode,
@@ -141,6 +149,7 @@ var CallListV2 = /*#__PURE__*/function (_React$PureComponent) {
           countryCode: countryCode,
           onViewContact: onViewContact,
           onCreateContact: onCreateContact,
+          shouldHideEntityButton: shouldHideEntityButton,
           createEntityTypes: createEntityTypes,
           onLogCall: onLogCall,
           onClickToDial: onClickToDial,
@@ -151,18 +160,13 @@ var CallListV2 = /*#__PURE__*/function (_React$PureComponent) {
           disableClickToDial: disableClickToDial,
           outboundSmsPermission: outboundSmsPermission,
           internalSmsPermission: internalSmsPermission,
-          active: active,
-          dateTimeFormatter: dateTimeFormatter
-          // @ts-expect-error TS(2532): Object is possibly 'undefined'.
-          ,
+          active: !!active,
+          dateTimeFormatter: dateTimeFormatter,
           isLogging: !!loggingMap[call.sessionId],
-          webphoneAnswer: webphoneAnswer,
-          webphoneReject: webphoneReject,
-          webphoneHangup: webphoneHangup,
-          webphoneResume: webphoneResume,
           enableContactFallback: enableContactFallback,
           autoLog: autoLog,
           showContactDisplayPlaceholder: showContactDisplayPlaceholder,
+          showCallerIdName: showCallerIdName,
           sourceIcons: sourceIcons,
           phoneTypeRenderer: phoneTypeRenderer,
           phoneSourceNameRenderer: phoneSourceNameRenderer,
@@ -173,13 +177,16 @@ var CallListV2 = /*#__PURE__*/function (_React$PureComponent) {
           externalViewEntity: externalViewEntity,
           externalHasEntity: externalHasEntity,
           readTextPermission: readTextPermission,
-          onSizeChanged: _this._onSizeChanged
+          onSizeChanged: _this._onSizeChanged,
+          onItemHeightChanged: _this._recomputeRowHeight
           // disable animation when rendered with react-virtualized
           ,
           withAnimation: false,
           showChooseEntityModal: showChooseEntityModal,
           enableCDC: enableCDC,
-          maxExtensionNumberLength: maxExtensionNumberLength
+          maxExtensionNumberLength: maxExtensionNumberLength,
+          formatPhone: formatPhone,
+          currentDelaySavingState: callsDelaySavingState && callsDelaySavingState[call.sessionId]
         });
       }
       return /*#__PURE__*/_react["default"].createElement("div", {
@@ -208,7 +215,7 @@ var CallListV2 = /*#__PURE__*/function (_React$PureComponent) {
     value: function UNSAFE_componentWillReceiveProps(nextProps) {
       var extendedIndex = this.state.extendedIndex;
       var calls = this.props.calls;
-      if (extendedIndex !== null && calls[extendedIndex] !== nextProps.calls[extendedIndex]) {
+      if (extendedIndex !== null && calls[extendedIndex].sessionId !== nextProps.calls[extendedIndex].sessionId) {
         this._setExtendedIndex(null);
       }
     }
@@ -267,6 +274,7 @@ CallListV2.defaultProps = {
   webphoneResume: undefined,
   enableContactFallback: undefined,
   showContactDisplayPlaceholder: true,
+  showCallerIdName: false,
   autoLog: false,
   sourceIcons: undefined,
   phoneTypeRenderer: undefined,

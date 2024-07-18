@@ -26,7 +26,8 @@ var _default = {
   quickAccess: "Instelling snelle toegang",
   report: "Analyserapport",
   shareIdea: "Een idee delen",
-  reportIssue: "Probleem melden"
+  reportIssue: "Probleem melden",
+  havingIssues: "Hebt u problemen?"
 }; // @key: @#@"region"@#@ @source: @#@"Region"@#@
 // @key: @#@"calling"@#@ @source: @#@"Calling"@#@
 // @key: @#@"logout"@#@ @source: @#@"Logout"@#@
@@ -49,5 +50,6 @@ var _default = {
 // @key: @#@"report"@#@ @source: @#@"Analytics Report"@#@
 // @key: @#@"shareIdea"@#@ @source: @#@"Share idea"@#@
 // @key: @#@"reportIssue"@#@ @source: @#@"Report issue"@#@
+// @key: @#@"havingIssues"@#@ @source: @#@"Having issues?"@#@
 exports["default"] = _default;
 //# sourceMappingURL=nl-NL.js.map

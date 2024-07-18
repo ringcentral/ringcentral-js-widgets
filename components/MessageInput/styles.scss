@@ -34,7 +34,7 @@
     margin: 10px 0 10px 10px;
     resize: none;
     border: none;
-    outline: medium none!important;
+    outline: medium none !important;
     box-sizing: border-box;
 
     &::placeholder {
@@ -62,7 +62,7 @@
   line-height: 18px;
   padding: 7px;
   border-radius: 18px;
-  outline: medium none!important;
+  outline: medium none !important;
   color: #fff;
   background-color: $primary-color;
   border-style: none;
@@ -75,7 +75,7 @@
 
 .sendButton:disabled,
 .sendButton:disabled:hover {
-  background-color: #fff!important;
+  background-color: #fff !important;
   border: #c9c9c9 1px solid;
   color: #a9a9a9;
   cursor: not-allowed;

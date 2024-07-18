@@ -1,25 +1,24 @@
-import type { FunctionComponent } from 'react';
-import React from 'react';
-
-import classnames from 'classnames';
-import { isEmpty } from 'ramda';
-
 import callDirections from '@ringcentral-integration/commons/enums/callDirections';
-import callResults from '@ringcentral-integration/commons/enums/callResults';
+import { callResults } from '@ringcentral-integration/commons/enums/callResults';
 import type { TelephonyStatus } from '@ringcentral-integration/commons/enums/telephonyStatus';
 import telephonyStatuses from '@ringcentral-integration/commons/enums/telephonyStatus';
 import type { Call } from '@ringcentral-integration/commons/interfaces/Call.interface';
 import { isMissed } from '@ringcentral-integration/commons/lib/callLogHelpers';
 import { formatDuration } from '@ringcentral-integration/commons/lib/formatDuration';
-import { RcIcon, RcLink, RcText } from '@ringcentral/juno';
-import { Hold, ResendFax } from '@ringcentral/juno-icon';
+import { RcIcon, RcLink, RcText, RcTooltip } from '@ringcentral/juno';
+import { Hold, ResendFax, Team } from '@ringcentral/juno-icon';
+import clsx from 'clsx';
+import { isEmpty } from 'ramda';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import DurationCounter from '../DurationCounter';
 import { RecordingIndicator } from '../RecordingIndicator';
+
 import { CallIcon } from './CallIcon';
-import i18n from './i18n';
 import { ShinyBar } from './ShinyBar';
+import i18n from './i18n';
 import {
   StyledSide,
   StyledSubRecordingIndicator,
@@ -28,6 +27,7 @@ import {
   StyleSubBox,
   SubInfoName,
   SubInfoWrapper,
+  StyledParticipantsButton,
 } from './styles';
 import styles from './styles.scss';
 
@@ -36,6 +36,7 @@ const callIconMap = {
   [callDirections.inbound]: dynamicsFont.inbound,
   [callDirections.outbound]: dynamicsFont.outbound,
   [telephonyStatuses.ringing]: dynamicsFont.callHover,
+  conferenceCall: dynamicsFont.conference,
 };
 function getInfoStatus(status?: TelephonyStatus) {
   switch (status) {
@@ -70,6 +71,8 @@ type LogBasicInfoProps = {
   openEntityDetailLinkTrack?: (...args: any[]) => any;
   onSwitchWarmTransferSession?: () => any;
   disabledSwitchButton: boolean;
+  toggleConference: (open: boolean) => any;
+  conferenceParticipantsIsOpen: boolean;
 };
 
 type CallInfoProps = Omit<LogBasicInfoProps, 'currentLog'> & {
@@ -108,11 +111,12 @@ const SubCallInfoSection: FunctionComponent<CallInfoProps> = ({
   }
   const durationElement = getDurationElm();
   const infoStatus = getInfoStatus(telephonyStatus);
+  const switchButtonDisabled = disableLinks || disabledSwitchButton;
   return (
     <StyleSubBox>
       <div
         data-sign="subLogSection"
-        className={classnames(
+        className={clsx(
           styles.root,
           !isWide && styles.classic,
           styles[infoStatus],
@@ -165,8 +169,8 @@ const SubCallInfoSection: FunctionComponent<CallInfoProps> = ({
             {showRecordingIndicator && isRecording && (
               <StyledSubRecordingIndicator>
                 <RecordingIndicator
-                  customClass={styles.subRecordingIndicator}
-                  dataSign="subRecordingIndicator"
+                  className={styles.subRecordingIndicator}
+                  data-sign="subRecordingIndicator"
                 />
               </StyledSubRecordingIndicator>
             )}
@@ -179,8 +183,12 @@ const SubCallInfoSection: FunctionComponent<CallInfoProps> = ({
         color="neutral.b01"
         size="small"
         onClick={onSwitchWarmTransferSession}
-        title={i18n.getString('warmTransferSwitchCall', currentLocale)}
-        disabled={disableLinks || disabledSwitchButton}
+        title={
+          switchButtonDisabled
+            ? undefined
+            : i18n.getString('warmTransferSwitchCall', currentLocale)
+        }
+        disabled={switchButtonDisabled}
       >
         <RcIcon color="interactive.b02" size="inherit" symbol={ResendFax} />
       </StyledTransferSwitchButton>
@@ -199,6 +207,8 @@ const ActiveCallInfoSection: FunctionComponent<CallInfoProps> = ({
   className,
   showRecordingIndicator,
   openEntityDetailLinkTrack,
+  toggleConference,
+  conferenceParticipantsIsOpen,
 }) => {
   if (!call) return null;
 
@@ -213,6 +223,8 @@ const ActiveCallInfoSection: FunctionComponent<CallInfoProps> = ({
     result,
     telephonyStatus,
     isRecording,
+    isConferenceCall,
+    conferenceParticipants,
   } = call;
 
   function getDurationElm() {
@@ -231,12 +243,12 @@ const ActiveCallInfoSection: FunctionComponent<CallInfoProps> = ({
     }
     return durationElement;
   }
+
   const number =
     direction === callDirections.outbound
       ? to && (to.phoneNumber || to.extensionNumber)
       : from && (from.phoneNumber || from.extensionNumber);
   const formatNumber = formatPhone?.(number);
-  // @ts-expect-error TS(2345): Argument of type 'Call' is not assignable to param... Remove this comment to see the full error message
   const missed = isMissed(call);
   const durationElement = getDurationElm();
   const status = result || telephonyStatus;
@@ -245,10 +257,11 @@ const ActiveCallInfoSection: FunctionComponent<CallInfoProps> = ({
   const isRinging = status === telephonyStatuses.ringing;
   // @ts-expect-error TS(2345): Argument of type '"NoCall" | "OnHold" | "Ringing" ... Remove this comment to see the full error message
   const infoStatus = getInfoStatus(status);
+
   return (
     <div
       data-sign="logSection"
-      className={classnames(
+      className={clsx(
         styles.root,
         !isWide && styles.classic,
         styles[infoStatus],
@@ -266,13 +279,19 @@ const ActiveCallInfoSection: FunctionComponent<CallInfoProps> = ({
           title={
             missed
               ? i18n.getString(callResults.missed, currentLocale)
-              : // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
-                i18n.getString(direction, currentLocale)
+              : isConferenceCall
+              ? i18n.getString('conferenceCall', currentLocale)
+              : i18n.getString(direction!, currentLocale)
           }
-          iconClassName={classnames(
+          iconClassName={clsx(
             styles.icon,
-            // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
-            callIconMap[missed ? callResults.missed : direction],
+            callIconMap[
+              missed
+                ? callResults.missed
+                : isConferenceCall
+                ? 'conferenceCall'
+                : direction!
+            ],
           )}
         />
         <ul className={styles.callDisplay}>
@@ -311,15 +330,43 @@ const ActiveCallInfoSection: FunctionComponent<CallInfoProps> = ({
               )}
             </RcText>
 
-            <p className={classnames(styles.follow, styles['text-ellipsis'])}>
-              <span title={formatNumber} data-sign="phoneNumber">
-                {formatNumber}
-              </span>
+            <p className={clsx(styles.follow, styles['text-ellipsis'])}>
+              {isConferenceCall ? null : (
+                <span title={formatNumber} data-sign="phoneNumber">
+                  {formatNumber}
+                </span>
+              )}
               <span data-sign="callStatus" title={statusI18n}>
                 {statusI18n}
               </span>
             </p>
           </li>
+          {!call.result && isConferenceCall && (
+            <li>
+              <RcTooltip
+                title={`${i18n.getString('participants', currentLocale)} (${
+                  conferenceParticipants?.length
+                })`}
+              >
+                <StyledParticipantsButton
+                  data-sign="conferenceCallParticipantsIcon"
+                  size="xsmall"
+                  radius="round"
+                  variant="outlined"
+                  color={
+                    conferenceParticipantsIsOpen
+                      ? 'action.primary'
+                      : 'action.grayLight'
+                  }
+                  onClick={() => toggleConference(true)}
+                >
+                  <RcIcon size="xsmall" symbol={Team} />
+                  {conferenceParticipants?.length}
+                </StyledParticipantsButton>
+              </RcTooltip>
+            </li>
+          )}
+
           <li className={styles['flex-fill']} />
           {isWide ? (
             <li className={styles.time}>
@@ -327,12 +374,12 @@ const ActiveCallInfoSection: FunctionComponent<CallInfoProps> = ({
                 {durationElement}
                 {showRecordingIndicator && isRecording && (
                   <RecordingIndicator
-                    customClass={styles.recordingIndicator}
-                    dataSign="recordingIndicator"
+                    className={styles.recordingIndicator}
+                    data-sign="recordingIndicator"
                   />
                 )}
               </StyledSide>
-              <p>
+              <p data-sign="startTime">
                 {dateTimeFormatter({
                   utcTimestamp: startTime,
                   locale: currentLocale,
@@ -340,7 +387,7 @@ const ActiveCallInfoSection: FunctionComponent<CallInfoProps> = ({
               </p>
             </li>
           ) : (
-            <li className={classnames(styles.follow, styles.time)}>
+            <li className={clsx(styles.follow, styles.time)}>
               <p>{durationElement}</p>
               <p>
                 {dateTimeFormatter({
@@ -350,8 +397,8 @@ const ActiveCallInfoSection: FunctionComponent<CallInfoProps> = ({
               </p>
               {showRecordingIndicator && isRecording && (
                 <RecordingIndicator
-                  customClass={styles.recordingIndicator}
-                  dataSign="recordingIndicator"
+                  className={styles.recordingIndicator}
+                  data-sign="recordingIndicator"
                 />
               )}
             </li>
@@ -362,7 +409,7 @@ const ActiveCallInfoSection: FunctionComponent<CallInfoProps> = ({
   );
 };
 
-const LogBasicInfo: React.SFC<LogBasicInfoProps> = React.memo(
+const LogBasicInfo: React.FC<LogBasicInfoProps> = React.memo(
   (props) => {
     const { currentLog, subCallLog, ...rest } = props;
 
@@ -407,4 +454,5 @@ LogBasicInfo.defaultProps = {
   className: undefined,
   showRecordingIndicator: false,
 };
+
 export default LogBasicInfo;
