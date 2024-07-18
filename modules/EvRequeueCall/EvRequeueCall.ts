@@ -10,6 +10,7 @@ import {
 import { requeueEvents } from '../../enums';
 import type { EvCallData } from '../../interfaces/EvData.interface';
 import { EvTypeError } from '../../lib/EvTypeError';
+
 import type { Deps, RequeueCall } from './EvRequeueCall.interface';
 
 type EvRequeueCallStatus = Partial<

@@ -6,13 +6,13 @@ require("core-js/modules/es.function.name");
 require("core-js/modules/es.object.to-string");
 require("core-js/modules/es.promise");
 require("regenerator-runtime/runtime");
-var _react = _interopRequireDefault(require("react"));
-var _enzyme = require("enzyme");
 var _juno = require("@ringcentral/juno");
+var _enzyme = require("enzyme");
+var _react = _interopRequireDefault(require("react"));
 var _PickList = require("./PickList");
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 var wrapper;
 var defaultOptions = [{
   id: '101',
@@ -112,9 +112,8 @@ describe('<PickList />', function () {
     // });
     // const selectIndex = 2;
     // menuItems[selectIndex].click();
-    // expect(onChange).toBeCalledWith(defaultOptions[selectIndex].id);
+    // expect(onChange).toHaveBeenCalledWith(defaultOptions[selectIndex].id);
   });
-
   it('PickList can render correctly without selection, and can be selected to change.', function () {
     var onChange = jest.fn();
     var label = 'pickListTest2';
@@ -136,9 +135,8 @@ describe('<PickList />', function () {
     // expect(menuItems).toHaveLength(defaultOptions.length);
     // const selectIndex = 2;
     // menuItems[selectIndex].click();
-    // expect(onChange).toBeCalledWith(defaultOptions[selectIndex].id);
+    // expect(onChange).toHaveBeenCalledWith(defaultOptions[selectIndex].id);
   });
-
   it('PickList can display by using renderValue', function () {
     var onChange = jest.fn();
     var renderValue = jest.fn(function (key) {
@@ -153,7 +151,7 @@ describe('<PickList />', function () {
       value: value
     });
     expect(wrapper.find('input').prop('value')).toBe(value);
-    expect(renderValue).toBeCalledWith(value);
+    expect(renderValue).toHaveBeenCalledWith(value);
     var baseButton = wrapper.find('[role="button"]');
     expect(baseButton.text()).toBe(renderValue(value));
     // baseButton.simulate('click');
@@ -166,7 +164,6 @@ describe('<PickList />', function () {
     //   expect(el.dataset.value).toBe(defaultOptions[index].id);
     // });
   });
-
   it('PickList can display by using renderItem', function () {
     var onChange = jest.fn();
     var renderItem = jest.fn(function (item) {
@@ -187,14 +184,13 @@ describe('<PickList />', function () {
     // const menuItems = document.body.querySelectorAll<HTMLInputElement>(
     //   '[role="presentation"] li[role="option"]',
     // );
-    // expect(renderItem).toBeCalledTimes(defaultOptions.length);
+    // expect(renderItem).toHaveBeenCalledTimes(defaultOptions.length);
     // expect(menuItems).toHaveLength(defaultOptions.length);
     // menuItems.forEach((el, index) => {
     //   expect(el.textContent).toBe(defaultOptions[index].wholeName);
     //   expect(el.dataset.value).toBe(defaultOptions[index].id);
     // });
   });
-
   it('PickList can using custom value, label to render.', function () {
     var onChange = jest.fn();
     var value = '102';
@@ -222,7 +218,6 @@ describe('<PickList />', function () {
     //   expect(el.dataset.value).toBe(customOptions[index][optionValueKey]);
     // });
   });
-
   it('When PickList use custom value, label, can also use renderValue, renderItem to render correctly', function () {
     var onChange = jest.fn();
     var renderValue = jest.fn(function (n) {
@@ -252,7 +247,7 @@ describe('<PickList />', function () {
     // const menuItems = document.body.querySelectorAll<HTMLInputElement>(
     //   '[role="presentation"] li[role="option"]',
     // );
-    // expect(renderItem).toBeCalledTimes(customOptions.length);
+    // expect(renderItem).toHaveBeenCalledTimes(customOptions.length);
     // expect(menuItems).toHaveLength(customOptions.length);
     // menuItems.forEach((el, index) => {
     //   expect(el.textContent).toBe(customOptions[index].wholeName);

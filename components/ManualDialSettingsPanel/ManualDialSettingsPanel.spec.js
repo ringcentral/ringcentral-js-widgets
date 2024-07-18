@@ -4,14 +4,14 @@ require("core-js/modules/es.array.find");
 require("core-js/modules/es.object.to-string");
 require("core-js/modules/es.promise");
 require("regenerator-runtime/runtime");
-var _react = _interopRequireDefault(require("react"));
-var _enzyme = require("enzyme");
 var _juno = require("@ringcentral/juno");
+var _enzyme = require("enzyme");
+var _react = _interopRequireDefault(require("react"));
 var _i18n = _interopRequireDefault(require("../../modules/EvManualDialSettingsUI/i18n"));
 var _ManualDialSettingsPanel = require("./ManualDialSettingsPanel");
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 var wrapper;
 var currentLocale = 'en-US';
 var pickListItems = [{
@@ -83,7 +83,7 @@ describe('<ManualDialSettingsPanel />', function () {
     });
     expect(wrapper.find('.title').text()).toBe(_i18n["default"].getString('manualDialSettings', currentLocale));
     wrapper.find('[data-sign="backButton"]').at(0).find('button').simulate('click');
-    expect(goBack).toBeCalled();
+    expect(goBack).toHaveBeenCalled();
   });
 
   // Declan: I thinks that is not need, that is too detail about render, just using snapshot is ok
@@ -147,7 +147,7 @@ describe('<ManualDialSettingsPanel />', function () {
   //   const menuItems = document.body.querySelectorAll<HTMLInputElement>(
   //     '[role="presentation"] li[role="option"]',
   //   );
-  //   expect(customSelect.select.renderItem).toBeCalledTimes(
+  //   expect(customSelect.select.renderItem).toHaveBeenCalledTimes(
   //     pickListItems.length,
   //   );
   //   expect(menuItems).toHaveLength(pickListItems.length);
@@ -161,7 +161,7 @@ describe('<ManualDialSettingsPanel />', function () {
   //   });
   //   const selectIndex = 1;
   //   menuItems[selectIndex].click();
-  //   expect(customSelect.onChange).toBeCalledWith(
+  //   expect(customSelect.onChange).toHaveBeenCalledWith(
   //     pickListItems[selectIndex][customSelect.select.optionValueKey],
   //   );
   // });
@@ -195,14 +195,14 @@ describe('<ManualDialSettingsPanel />', function () {
     expect(input.prop('min')).toBe(customInput.input.min);
     expect(input.prop('max')).toBe(customInput.input.max);
     input.simulate('blur');
-    expect(customInput.onBlur).toBeCalled();
+    expect(customInput.onBlur).toHaveBeenCalled();
     var changeValue = 35;
     input.simulate('change', {
       target: {
         value: changeValue
       }
     });
-    expect(customInput.onChange).toBeCalledWith(changeValue);
+    expect(customInput.onChange).toHaveBeenCalledWith(changeValue);
   });
 });
 //# sourceMappingURL=ManualDialSettingsPanel.spec.js.map

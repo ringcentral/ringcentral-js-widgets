@@ -1,14 +1,14 @@
-import type { FunctionComponent } from 'react';
-import React, { useState } from 'react';
-
 import { AnimationPanel } from '@ringcentral-integration/widgets/components/AnimationPanel';
 import { CustomArrowButton } from '@ringcentral-integration/widgets/components/Rcui/CustomArrowButton';
 import { RcSwitch, RcTextField } from '@ringcentral/juno';
+import type { FunctionComponent } from 'react';
+import React, { useState } from 'react';
 
 import type { BasicSessionProps } from '../../interfaces/EvAgentSessionUI.interface';
 import type { InboundQueuesPanelProps } from '../InboundQueuesPanel';
 import { InboundQueuesPanel } from '../InboundQueuesPanel';
 import { PickList } from '../PickList';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 

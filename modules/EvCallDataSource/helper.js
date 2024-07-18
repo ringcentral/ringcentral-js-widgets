@@ -6,9 +6,9 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.getTimeStamp = getTimeStamp;
 var _dayjs = _interopRequireDefault(require("dayjs"));
-var _utc = _interopRequireDefault(require("dayjs/plugin/utc"));
 var _timezone = _interopRequireDefault(require("dayjs/plugin/timezone"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+var _utc = _interopRequireDefault(require("dayjs/plugin/utc"));
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 _dayjs["default"].extend(_utc["default"]);
 _dayjs["default"].extend(_timezone["default"]);
 function getTimeStamp(time) {

@@ -4,14 +4,14 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.HangUpButton = void 0;
-var _react = _interopRequireDefault(require("react"));
-var _classnames = _interopRequireDefault(require("classnames"));
 var _juno = require("@ringcentral/juno");
 var _junoIcon = require("@ringcentral/juno-icon");
+var _clsx = _interopRequireDefault(require("clsx"));
+var _react = _interopRequireDefault(require("react"));
 var _help = require("../help");
 var _i18n = _interopRequireDefault(require("../i18n"));
 var _styles = _interopRequireDefault(require("../styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var HangUpButton = function HangUpButton(_ref) {
   var currentLocale = _ref.currentLocale,
     onReject = _ref.onReject,
@@ -34,7 +34,7 @@ var HangUpButton = function HangUpButton(_ref) {
     onClick: isInComingCall ? onReject : onHangup,
     disabled: disableHangup,
     size: size,
-    className: (0, _classnames["default"])(_styles["default"].hangup, className),
+    className: (0, _clsx["default"])(_styles["default"].hangup, className),
     disableRipple: true,
     "data-sign": dataSign
   });

@@ -2,6 +2,7 @@ import { callErrors } from '@ringcentral-integration/commons/modules/Call';
 import { parse } from '@ringcentral-integration/phone-number';
 
 import { messageTypes } from '../enums';
+
 import { EvTypeError } from './EvTypeError';
 
 export const parseNumber = (input: string) => {

@@ -4,11 +4,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.CheckPauseRecordingTooltip = void 0;
-var _react = _interopRequireDefault(require("react"));
-var _juno = require("@ringcentral/juno");
-var _react2 = require("@testing-library/react");
 var _ = require(".");
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+var _juno = require("@ringcentral/juno");
+var _react = require("@testing-library/react");
+var _react2 = _interopRequireDefault(require("react"));
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 function setup(_ref) {
   var _ref$currentLocale = _ref.currentLocale,
     currentLocale = _ref$currentLocale === void 0 ? 'en-US' : _ref$currentLocale,
@@ -22,7 +22,7 @@ function setup(_ref) {
     disablePauseRecord = _ref$disablePauseReco === void 0 ? true : _ref$disablePauseReco,
     _ref$onPauseRecord = _ref.onPauseRecord,
     onPauseRecord = _ref$onPauseRecord === void 0 ? function () {} : _ref$onPauseRecord;
-  return (0, _react2.render)( /*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_.RecordControlButton, {
+  return (0, _react.render)( /*#__PURE__*/_react2["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react2["default"].createElement(_.RecordControlButton, {
     currentLocale: currentLocale,
     isRecording: isRecording,
     onRecord: onRecord,

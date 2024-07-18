@@ -1,13 +1,13 @@
-import type { FunctionComponent } from 'react';
-import React from 'react';
-
 import type { RcLinkSize, RcTypographyVariant } from '@ringcentral/juno';
 import { RcButton, RcLink, RcText } from '@ringcentral/juno';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import type {
   EvDialerUIFunctions,
   EvDialerUIProps,
 } from '../../interfaces/EvDialerUI.interface';
+
 import { Dialer } from './Dialer';
 import { RcLinkWrapper, RcTextWrapper } from './DialerPanelWrapper';
 import i18n from './i18n';

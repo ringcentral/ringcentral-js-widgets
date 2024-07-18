@@ -13,14 +13,14 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.UTPhoneBookListSearchNoResultCases = exports.UTPhoneBookListSearchCases = exports.UTPhoneBookListSearch = exports.UTPhoneBookContactListDisplayAndHighlight = exports.UTPhoneBookContactCanBeClicked = exports.UTPhoneBookCheckBackButton = exports.UTCheckPhoneBookPanelRender = void 0;
 require("regenerator-runtime/runtime");
-var _react = _interopRequireDefault(require("react"));
-var _enzyme = require("enzyme");
 var _phoneNumber = require("@ringcentral-integration/phone-number");
 var _juno = require("@ringcentral/juno");
+var _enzyme = require("enzyme");
+var _react = _interopRequireDefault(require("react"));
 var _PhoneBookPanel = require("./PhoneBookPanel");
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 var wrapper;
 var currentLocale = 'en-US';
 var defaultTransferCountryOptions = [{
@@ -103,7 +103,7 @@ var UTPhoneBookCheckBackButton = function UTPhoneBookCheckBackButton() {
     goBack: goBack
   });
   wrapper.find('[data-sign="backButton"]').at(0).find('button').simulate('click');
-  expect(goBack).toBeCalled();
+  expect(goBack).toHaveBeenCalled();
 };
 exports.UTPhoneBookCheckBackButton = UTPhoneBookCheckBackButton;
 var UTPhoneBookContactListDisplayAndHighlight = function UTPhoneBookContactListDisplayAndHighlight() {
@@ -123,7 +123,7 @@ var UTPhoneBookContactCanBeClicked = function UTPhoneBookContactCanBeClicked() {
   });
   var selectIndex = 1;
   getPhoneContacts().at(selectIndex).find('[role="button"]').at(0).simulate('click');
-  expect(changeTransferPhoneBookSelected).toBeCalled();
+  expect(changeTransferPhoneBookSelected).toHaveBeenCalled();
 };
 exports.UTPhoneBookContactCanBeClicked = UTPhoneBookContactCanBeClicked;
 var UTPhoneBookListSearchCases = [{

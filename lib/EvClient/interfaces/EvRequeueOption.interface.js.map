@@ -1,1 +1,1 @@
-{"version":3,"file":"EvRequeueOption.interface.js","names":[],"sources":["lib/EvClient/interfaces/EvRequeueOption.interface.ts"],"sourcesContent":["export type EvRequeueOption = {\n  queueId: string;\n  maintain: boolean;\n  skillId?: string;\n};\n"],"mappings":""}
+{"version":3,"file":"EvRequeueOption.interface.js","names":[],"sources":["lib/EvClient/interfaces/EvRequeueOption.interface.ts"],"sourcesContent":["export type EvRequeueOption = {\n  queueId: string;\n  maintain: boolean;\n  skillId?: string;\n};\n"],"mappings":"","ignoreList":[]}

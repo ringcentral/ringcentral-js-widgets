@@ -1,9 +1,7 @@
-import React from 'react';
-
-import { mount } from 'enzyme';
-
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import { RcThemeProvider } from '@ringcentral/juno';
+import { mount } from 'enzyme';
+import React from 'react';
 
 import type { SessionUpdatePanelProps } from './SessionUpdatePanel';
 import { SessionUpdatePanel } from './SessionUpdatePanel';

@@ -16,6 +16,7 @@ import {
 } from '../../enums';
 import type { EvAgentState, EvAvailableAgentState } from '../../lib/EvClient';
 import { EvCallbackTypes } from '../../lib/EvClient/enums/callbackTypes';
+
 import type { Deps, State, WorkingState } from './EvWorkingState.interface';
 
 const PendingDisposition: EvAvailableAgentState = {

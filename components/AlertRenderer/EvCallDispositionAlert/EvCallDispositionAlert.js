@@ -7,7 +7,7 @@ exports["default"] = EvCallDispositionAlert;
 var _ramda = require("ramda");
 var _logTypes = require("../../../enums/logTypes");
 var _i18n = _interopRequireDefault(require("./i18n"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 function EvCallDispositionAlert(_ref) {
   var _ref$message = _ref.message,
     message = _ref$message.message,

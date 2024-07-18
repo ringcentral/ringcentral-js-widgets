@@ -3,11 +3,11 @@
 require("core-js/modules/es.array.find");
 require("core-js/modules/es.array.includes");
 require("core-js/modules/es.string.includes");
-var _react = _interopRequireDefault(require("react"));
-var _enzyme = require("enzyme");
 var _juno = require("@ringcentral/juno");
+var _enzyme = require("enzyme");
+var _react = _interopRequireDefault(require("react"));
 var _RequeueCallGroupPanel = require("./RequeueCallGroupPanel");
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var wrapper;
 var currentLocale = 'en-US';
 var searchGroup = function searchGroup(_ref, text) {
@@ -74,7 +74,7 @@ describe('<RequeueCallGroupPanel />', function () {
       goToRequeueCallPage: goToRequeueCallPage
     });
     wrapper.find('[data-sign="backButton"]').at(0).find('button').simulate('click');
-    expect(goToRequeueCallPage).toBeCalled();
+    expect(goToRequeueCallPage).toHaveBeenCalled();
   });
   it('When click Requeue Group, can redirct to RequeueGroupDetailPage', function () {
     var goToRequeueGroupDetailPage = jest.fn(function () {});
@@ -83,7 +83,7 @@ describe('<RequeueCallGroupPanel />', function () {
     });
     var selectIndex = 1;
     getGroupItems().at(selectIndex).find('[role="button"]').simulate('click');
-    expect(goToRequeueGroupDetailPage).toBeCalledWith({
+    expect(goToRequeueGroupDetailPage).toHaveBeenCalledWith({
       groupId: defaultQueueGroups[selectIndex].gateGroupId
     });
   });

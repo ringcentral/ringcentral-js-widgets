@@ -1,14 +1,13 @@
-import type { FunctionComponent } from 'react';
-import React from 'react';
-
-import classnames from 'classnames';
-
 import { RcIconButton } from '@ringcentral/juno';
 import { HandUp } from '@ringcentral/juno-icon';
+import clsx from 'clsx';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import { getCircleIconButtonTitle } from '../help';
 import i18n from '../i18n';
 import styles from '../styles.scss';
+
 import type { CallButtonsProps } from './CallButtons.interface';
 
 export type HangUpButtonProps = CallButtonsProps & {
@@ -42,7 +41,7 @@ export const HangUpButton: FunctionComponent<HangUpButtonProps> = ({
       onClick={isInComingCall ? onReject : onHangup}
       disabled={disableHangup}
       size={size}
-      className={classnames(styles.hangup, className)}
+      className={clsx(styles.hangup, className)}
       disableRipple
       data-sign={dataSign}
     />

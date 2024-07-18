@@ -4,11 +4,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.createDialerPanel = createDialerPanel;
-var _react = _interopRequireDefault(require("react"));
-var _enzyme = require("enzyme");
 var _juno = require("@ringcentral/juno");
+var _enzyme = require("enzyme");
+var _react = _interopRequireDefault(require("react"));
 var _DialerPanel = require("../DialerPanel");
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var currentLocale = 'en-US';
 var size = 'medium';
 function createDialerPanel() {

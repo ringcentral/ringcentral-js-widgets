@@ -7,11 +7,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.WaitCountDownOver = exports.CheckCountDownTimer = exports.CheckCountDownShows = exports.CheckCountDownButtonTooltip = void 0;
-var _react = _interopRequireDefault(require("react"));
-var _juno = require("@ringcentral/juno");
-var _react2 = require("@testing-library/react");
 var _ = require(".");
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+var _juno = require("@ringcentral/juno");
+var _react = require("@testing-library/react");
+var _react2 = _interopRequireDefault(require("react"));
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 function setup(_ref) {
   var _ref$currentLocale = _ref.currentLocale,
     currentLocale = _ref$currentLocale === void 0 ? 'en-US' : _ref$currentLocale,
@@ -25,7 +25,7 @@ function setup(_ref) {
     timeStamp = _ref$timeStamp === void 0 ? Date.now() : _ref$timeStamp,
     _ref$dataSign = _ref.dataSign,
     dataSign = _ref$dataSign === void 0 ? 'CountDown' : _ref$dataSign;
-  return (0, _react2.render)( /*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_.CountDownButton, {
+  return (0, _react.render)( /*#__PURE__*/_react2["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react2["default"].createElement(_.CountDownButton, {
     currentLocale: currentLocale,
     onRestartTimer: onRestartTimer,
     onResumeRecord: onResumeRecord,
@@ -44,7 +44,7 @@ var CheckCountDownButtonTooltip = function CheckCountDownButtonTooltip() {
 exports.CheckCountDownButtonTooltip = CheckCountDownButtonTooltip;
 var CheckCountDownShows = function CheckCountDownShows(_ref2) {
   var secondsToPause = _ref2.secondsToPause;
-  var _render = (0, _react2.render)( /*#__PURE__*/_react["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react["default"].createElement(_.CountDown, {
+  var _render = (0, _react.render)( /*#__PURE__*/_react2["default"].createElement(_juno.RcThemeProvider, null, /*#__PURE__*/_react2["default"].createElement(_.CountDown, {
       data: secondsToPause
     }))),
     container = _render.container;

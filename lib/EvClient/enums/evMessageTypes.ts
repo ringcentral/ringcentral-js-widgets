@@ -85,4 +85,5 @@ export const EvMessageTypes = {
   UPDATE_DIAL_DESTINATION: 'UPDATE_DIAL_DESTINATION',
 } as const;
 
-export type EvMessageType = typeof EvMessageTypes[keyof typeof EvMessageTypes];
+export type EvMessageType =
+  (typeof EvMessageTypes)[keyof typeof EvMessageTypes];

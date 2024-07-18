@@ -3,10 +3,11 @@ import { Module } from '@ringcentral-integration/commons/lib/di';
 import { computed, RcModuleV2, watch } from '@ringcentral-integration/core';
 
 import { directTransferNotificationTypes } from '../../enums/directTransferNotificationTypes';
-import { makeCallsUniqueIdentifies } from '../../lib/callUniqueIdentifies';
-import { contactMatchIdentifyEncode } from '../../lib/contactMatchIdentify';
 import { EvCallbackTypes } from '../../lib/EvClient/enums/callbackTypes';
 import { formatPhoneNumber } from '../../lib/FormatPhoneNumber';
+import { makeCallsUniqueIdentifies } from '../../lib/callUniqueIdentifies';
+import { contactMatchIdentifyEncode } from '../../lib/contactMatchIdentify';
+
 import type { CallHistory, Deps } from './EvCallHistory.interface';
 
 @Module({

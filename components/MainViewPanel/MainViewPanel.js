@@ -1,30 +1,30 @@
 "use strict";
 
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 require("core-js/modules/es.function.bind");
 require("core-js/modules/es.object.assign");
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.MainViewPanel = void 0;
-var _react = _interopRequireWildcard(require("react"));
-var _classnames = _interopRequireDefault(require("classnames"));
 var _Tooltip = require("@ringcentral-integration/widgets/components/Rcui/Tooltip");
 var _TabNavigationView = _interopRequireDefault(require("@ringcentral-integration/widgets/components/TabNavigationView"));
 var _juno = require("@ringcentral/juno");
 var _junoIcon = require("@ringcentral/juno-icon");
+var _clsx = _interopRequireDefault(require("clsx"));
+var _react = _interopRequireWildcard(require("react"));
 var _iconPvcConnecting = _interopRequireDefault(require("../../assets/icons/icon-pvc-connecting.svg"));
 var _iconPvcDisabled = _interopRequireDefault(require("../../assets/icons/icon-pvc-disabled.svg"));
 var _iconPvcDisconnecting = _interopRequireDefault(require("../../assets/icons/icon-pvc-disconnecting.svg"));
 var _iconPvcOff = _interopRequireDefault(require("../../assets/icons/icon-pvc-off.svg"));
 var _iconPvcOn = _interopRequireDefault(require("../../assets/icons/icon-pvc-on.svg"));
+var _WorkingStateSelect = require("./WorkingStateSelect");
 var _i18n = _interopRequireDefault(require("./i18n"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
-var _WorkingStateSelect = require("./WorkingStateSelect");
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-function _getRequireWildcardCache(nodeInterop) { if (typeof WeakMap !== "function") return null; var cacheBabelInterop = new WeakMap(); var cacheNodeInterop = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(nodeInterop) { return nodeInterop ? cacheNodeInterop : cacheBabelInterop; })(nodeInterop); }
-function _interopRequireWildcard(obj, nodeInterop) { if (!nodeInterop && obj && obj.__esModule) { return obj; } if (obj === null || _typeof(obj) !== "object" && typeof obj !== "function") { return { "default": obj }; } var cache = _getRequireWildcardCache(nodeInterop); if (cache && cache.has(obj)) { return cache.get(obj); } var newObj = {}; var hasPropertyDescriptor = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var key in obj) { if (key !== "default" && Object.prototype.hasOwnProperty.call(obj, key)) { var desc = hasPropertyDescriptor ? Object.getOwnPropertyDescriptor(obj, key) : null; if (desc && (desc.get || desc.set)) { Object.defineProperty(newObj, key, desc); } else { newObj[key] = obj[key]; } } } newObj["default"] = obj; if (cache) { cache.set(obj, newObj); } return newObj; }
-function _extends() { _extends = Object.assign ? Object.assign.bind() : function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+function _getRequireWildcardCache(e) { if ("function" != typeof WeakMap) return null; var r = new WeakMap(), t = new WeakMap(); return (_getRequireWildcardCache = function _getRequireWildcardCache(e) { return e ? t : r; })(e); }
+function _interopRequireWildcard(e, r) { if (!r && e && e.__esModule) return e; if (null === e || "object" != _typeof(e) && "function" != typeof e) return { "default": e }; var t = _getRequireWildcardCache(r); if (t && t.has(e)) return t.get(e); var n = { __proto__: null }, a = Object.defineProperty && Object.getOwnPropertyDescriptor; for (var u in e) { if ("default" !== u && {}.hasOwnProperty.call(e, u)) { var i = a ? Object.getOwnPropertyDescriptor(e, u) : null; i && (i.get || i.set) ? Object.defineProperty(n, u, i) : n[u] = e[u]; } } return n["default"] = e, t && t.set(e, n), n; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
+function _extends() { return _extends = Object.assign ? Object.assign.bind() : function (n) { for (var e = 1; e < arguments.length; e++) { var t = arguments[e]; for (var r in t) { ({}).hasOwnProperty.call(t, r) && (n[r] = t[r]); } } return n; }, _extends.apply(null, arguments); }
 var CustomIcon = function CustomIcon(props) {
   return /*#__PURE__*/_react["default"].createElement(_juno.RcIcon, _extends({
     className: _styles["default"].icon
@@ -163,7 +163,7 @@ var MainViewPanel = function MainViewPanel(_ref) {
     isWide: isWide,
     hideOffHookBtn: hideOffHookBtn
   }), !hideOffHookBtn && /*#__PURE__*/_react["default"].createElement("div", {
-    className: (0, _classnames["default"])([_styles["default"].offHookState, isOffHookDisable ? _styles["default"].disabled : _styles["default"].enabled]),
+    className: (0, _clsx["default"])([_styles["default"].offHookState, isOffHookDisable ? _styles["default"].disabled : _styles["default"].enabled]),
     onClick: isOffHookDisable ? null : offhook
   }, offHookIcon)), children);
 };

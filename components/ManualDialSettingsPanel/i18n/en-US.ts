@@ -3,4 +3,4 @@ export default {
   queueID: 'Queue ID',
   save: 'Save',
   second: 'Seconds',
-};
+} as const;

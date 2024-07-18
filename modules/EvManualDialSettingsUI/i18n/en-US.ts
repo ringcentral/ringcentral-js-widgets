@@ -6,4 +6,4 @@ export default {
   country: 'Country',
   ringTime: 'Ring time (seconds)',
   us: 'United States',
-};
+} as const;

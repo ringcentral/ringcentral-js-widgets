@@ -1,6 +1,3 @@
-import type { FunctionComponent } from 'react';
-import React, { useCallback, useEffect } from 'react';
-
 import { CustomArrowButton } from '@ringcentral-integration/widgets/components/Rcui/CustomArrowButton';
 import {
   RcButton,
@@ -10,6 +7,8 @@ import {
   RcTextField,
 } from '@ringcentral/juno';
 import { Dialer as dialerSvg } from '@ringcentral/juno-icon';
+import type { FunctionComponent } from 'react';
+import React, { useCallback, useEffect } from 'react';
 
 import type {
   EvTransferCallUIFunctions,
@@ -17,6 +16,7 @@ import type {
 } from '../../interfaces';
 import { PickList } from '../PickList';
 import { BackHeader } from '../SelectList';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 

@@ -1,9 +1,9 @@
+import clsx from 'clsx';
 import type { FunctionComponent } from 'react';
 import React from 'react';
 
-import classNames from 'classnames';
-
 import EngageVoiceLogo from '../../assets/icons/engageVoiceLogo.svg';
+
 import styles from './styles.scss';
 
 export interface EvLoginHeaderProps {
@@ -16,7 +16,7 @@ export const EvLoginHeader: FunctionComponent<EvLoginHeaderProps> = ({
   svgStyle,
 }) => {
   return (
-    <div className={classNames(styles.evLogin, wrapperStyle)}>
+    <div className={clsx(styles.evLogin, wrapperStyle)}>
       <EngageVoiceLogo className={svgStyle} />
     </div>
   );

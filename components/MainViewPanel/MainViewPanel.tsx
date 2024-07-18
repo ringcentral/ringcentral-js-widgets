@@ -1,8 +1,3 @@
-import type { FunctionComponent } from 'react';
-import React, { useMemo } from 'react';
-
-import classNames from 'classnames';
-
 import type { TabPropTypes } from '@ringcentral-integration/widgets/components/NavigationBar';
 import { Tooltip } from '@ringcentral-integration/widgets/components/Rcui/Tooltip';
 import TabNavigationView from '@ringcentral-integration/widgets/components/TabNavigationView';
@@ -16,6 +11,9 @@ import {
   Time as TimeSvg,
   TimeBorder as TimeBorderSvg,
 } from '@ringcentral/juno-icon';
+import clsx from 'clsx';
+import type { FunctionComponent } from 'react';
+import React, { useMemo } from 'react';
 
 import offHookSvgConnecting from '../../assets/icons/icon-pvc-connecting.svg';
 import offHookSvgDisabled from '../../assets/icons/icon-pvc-disabled.svg';
@@ -26,9 +24,10 @@ import type {
   EvMainViewUIFunctions,
   EvMainViewUIProps,
 } from '../../interfaces/EvMainViewUI.interface';
+
+import { WorkingStateSelect } from './WorkingStateSelect';
 import i18n from './i18n';
 import styles from './styles.scss';
-import { WorkingStateSelect } from './WorkingStateSelect';
 
 export type MainViewPanelProps = EvMainViewUIProps & EvMainViewUIFunctions;
 
@@ -149,7 +148,7 @@ const MainViewPanel: FunctionComponent<MainViewPanelProps> = ({
         />
         {!hideOffHookBtn && (
           <div
-            className={classNames([
+            className={clsx([
               styles.offHookState,
               isOffHookDisable ? styles.disabled : styles.enabled,
             ])}

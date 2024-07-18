@@ -418,7 +418,6 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
         if (name.indexOf("model.") === 0 && !name.match(brackets)) {
           name = '{{' + name + '}}'; // byString expects braces
         }
-
         var result = Render_objectSvc.byString(scope, name);
         try {
           var parsed = JSON.parse(result);
@@ -1733,7 +1732,6 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
               //TODO: debug for filter times
               //console.log('filtered', start, end, end-start);
             }
-
             function send(event, article) {
               // TODO: interpolate labels?
               event.stopPropagation();
@@ -1884,7 +1882,6 @@ angular.module('scriptingStudio.render').run(['$templateCache', function ($templ
       return false; // TODO: since we don't have translate set up yet, don't show growl
       //return $scope.options.data.action.showMessages;
     }
-
     function _navigate(data) {
       if (data.location === 'next') {
         NavSvc.next();

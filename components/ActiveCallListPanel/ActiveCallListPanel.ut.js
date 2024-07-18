@@ -8,14 +8,14 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.wrapperUnmount = exports.UTUnholdRender = exports.UTUnMuteRender = exports.UTNoCall = exports.UTMuteRender = exports.UTHoldRender = exports.UTHangUpRender = exports.UTGoBackPage = void 0;
 require("regenerator-runtime/runtime");
-var _react = _interopRequireDefault(require("react"));
-var _enzyme = require("enzyme");
 var _juno = require("@ringcentral/juno");
+var _enzyme = require("enzyme");
+var _react = _interopRequireDefault(require("react"));
 var _i18n = _interopRequireDefault(require("../SmallCallControl/i18n"));
 var _ActiveCallListPanel = require("./ActiveCallListPanel");
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 var wrapper;
 var currentLocale = 'en-US';
 var defaultCallList = [{
@@ -102,7 +102,7 @@ var UTGoBackPage = /*#__PURE__*/function () {
               goBack: goBack
             });
             wrapper.find('[data-sign="backButton"]').at(0).find('button').simulate('click');
-            expect(goBack).toBeCalled();
+            expect(goBack).toHaveBeenCalled();
             wrapperUnmount();
           case 5:
           case "end":
@@ -140,8 +140,8 @@ var UTHoldRender = function UTHoldRender() {
   });
   expect(holdButton.title).toBe(_i18n["default"].getString('onHold'));
   holdButton.click();
-  expect(onHold).not.toBeCalled();
-  expect(onUnHold).toBeCalledWith(defaultCallList[itemIndex]);
+  expect(onHold).not.toHaveBeenCalled();
+  expect(onUnHold).toHaveBeenCalledWith(defaultCallList[itemIndex]);
   wrapperUnmount();
 };
 exports.UTHoldRender = UTHoldRender;
@@ -160,8 +160,8 @@ var UTUnholdRender = function UTUnholdRender() {
   });
   expect(holdButton.title).toBe(_i18n["default"].getString('hold'));
   holdButton.click();
-  expect(onHold).toBeCalledWith(defaultCallList[itemIndex]);
-  expect(onUnHold).not.toBeCalled();
+  expect(onHold).toHaveBeenCalledWith(defaultCallList[itemIndex]);
+  expect(onUnHold).not.toHaveBeenCalled();
   wrapperUnmount();
 };
 exports.UTUnholdRender = UTUnholdRender;
@@ -178,7 +178,7 @@ var UTHangUpRender = function UTHangUpRender() {
   });
   expect(HangUpButton.title).toBe(_i18n["default"].getString('hangup'));
   HangUpButton.click();
-  expect(onHangup).toBeCalledWith(defaultCallList[itemIndex]);
+  expect(onHangup).toHaveBeenCalledWith(defaultCallList[itemIndex]);
   wrapperUnmount();
 };
 exports.UTHangUpRender = UTHangUpRender;
@@ -196,7 +196,7 @@ var UTMuteRender = function UTMuteRender() {
   });
   expect(muteButton.title).toBe(_i18n["default"].getString('mute'));
   muteButton.click();
-  expect(onMute).toBeCalledTimes(1);
+  expect(onMute).toHaveBeenCalledTimes(1);
   wrapperUnmount();
 };
 exports.UTMuteRender = UTMuteRender;
@@ -214,7 +214,7 @@ var UTUnMuteRender = function UTUnMuteRender() {
   });
   expect(unMuteButton.title).toBe(_i18n["default"].getString('unmute'));
   unMuteButton.click();
-  expect(onUnmute).toBeCalledTimes(1);
+  expect(onUnmute).toHaveBeenCalledTimes(1);
   wrapperUnmount();
 };
 exports.UTUnMuteRender = UTUnMuteRender;

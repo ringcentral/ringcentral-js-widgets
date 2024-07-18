@@ -1,12 +1,9 @@
-import React from 'react';
-
-import { mount } from 'enzyme';
-
-import type { StepFunction } from '@ringcentral-integration/test-utils';
-import { RcThemeProvider } from '@ringcentral/juno';
-
 import type { SettingsPanelProps } from '.';
 import { SettingsPanel } from '.';
+import type { StepFunction } from '@ringcentral-integration/test-utils';
+import { RcThemeProvider } from '@ringcentral/juno';
+import { mount } from 'enzyme';
+import React from 'react';
 
 let wrapper;
 const defaultSessionInfo = [

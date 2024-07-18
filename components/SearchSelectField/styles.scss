@@ -6,7 +6,6 @@
   top: $working-state-height;
 }
 
-
 // TODO： remove SearchSelectField, just use SelectList component, so need not abstract this style
 .noResult {
   @include pageSpace();

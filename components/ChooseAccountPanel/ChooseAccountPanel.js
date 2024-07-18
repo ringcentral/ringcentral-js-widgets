@@ -8,14 +8,14 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.ChooseAccountPanel = void 0;
-var _react = _interopRequireDefault(require("react"));
 var _CustomArrowButton = require("@ringcentral-integration/widgets/components/Rcui/CustomArrowButton");
 var _juno = require("@ringcentral/juno");
+var _react = _interopRequireDefault(require("react"));
 var _EvLoginHeader = require("../EvLoginHeader");
 var _SelectList = require("../SelectList");
 var _i18n = _interopRequireDefault(require("./i18n"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 function _templateObject2() {
   var data = _taggedTemplateLiteral(["\n  height: 56px;\n  width: 100%;\n  border-bottom: 1px solid ", ";\n  display: flex;\n  align-items: center;\n  justify-content: space-between;\n\n  > div {\n    display: inline-block;\n  }\n"]);
   _templateObject2 = function _templateObject2() {
@@ -30,7 +30,7 @@ function _templateObject() {
   };
   return data;
 }
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+function _taggedTemplateLiteral(e, t) { return t || (t = e.slice(0)), Object.freeze(Object.defineProperties(e, { raw: { value: Object.freeze(t) } })); }
 var StyledTitle = (0, _juno.styled)(_juno.RcTypography)(_templateObject(), (0, _juno.spacing)(2, 0, 8));
 var ContentItem = _juno.styled.div(_templateObject2(), (0, _juno.palette2)('neutral', 'l02'));
 var ChooseAccountPanel = function ChooseAccountPanel(_ref) {

@@ -9,7 +9,7 @@ var _chatPresented = _interopRequireDefault(require("./chatPresented.wav"));
 var _dtmf = _interopRequireDefault(require("./dtmf.wav"));
 var _newchat = _interopRequireDefault(require("./newchat.wav"));
 var _ringtone = _interopRequireDefault(require("./ringtone.wav"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var audios = {
   beep: _beep["default"],
   chatPresented: _chatPresented["default"],

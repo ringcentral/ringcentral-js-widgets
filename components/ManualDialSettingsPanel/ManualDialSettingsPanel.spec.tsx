@@ -1,10 +1,9 @@
+import { RcThemeProvider } from '@ringcentral/juno';
+import { mount } from 'enzyme';
 import React from 'react';
 
-import { mount } from 'enzyme';
-
-import { RcThemeProvider } from '@ringcentral/juno';
-
 import i18n from '../../modules/EvManualDialSettingsUI/i18n';
+
 import type { ManualDialSettingsPanelProps } from './ManualDialSettingsPanel';
 import { ManualDialSettingsPanel } from './ManualDialSettingsPanel';
 
@@ -83,7 +82,7 @@ describe('<ManualDialSettingsPanel />', () => {
       .at(0)
       .find('button')
       .simulate('click');
-    expect(goBack).toBeCalled();
+    expect(goBack).toHaveBeenCalled();
   });
 
   // Declan: I thinks that is not need, that is too detail about render, just using snapshot is ok
@@ -147,7 +146,7 @@ describe('<ManualDialSettingsPanel />', () => {
   //   const menuItems = document.body.querySelectorAll<HTMLInputElement>(
   //     '[role="presentation"] li[role="option"]',
   //   );
-  //   expect(customSelect.select.renderItem).toBeCalledTimes(
+  //   expect(customSelect.select.renderItem).toHaveBeenCalledTimes(
   //     pickListItems.length,
   //   );
   //   expect(menuItems).toHaveLength(pickListItems.length);
@@ -161,7 +160,7 @@ describe('<ManualDialSettingsPanel />', () => {
   //   });
   //   const selectIndex = 1;
   //   menuItems[selectIndex].click();
-  //   expect(customSelect.onChange).toBeCalledWith(
+  //   expect(customSelect.onChange).toHaveBeenCalledWith(
   //     pickListItems[selectIndex][customSelect.select.optionValueKey],
   //   );
   // });
@@ -199,10 +198,10 @@ describe('<ManualDialSettingsPanel />', () => {
     expect(input.prop('max')).toBe(customInput.input.max);
 
     input.simulate('blur');
-    expect(customInput.onBlur).toBeCalled();
+    expect(customInput.onBlur).toHaveBeenCalled();
 
     const changeValue = 35;
     input.simulate('change', { target: { value: changeValue } });
-    expect(customInput.onChange).toBeCalledWith(changeValue);
+    expect(customInput.onChange).toHaveBeenCalledWith(changeValue);
   });
 });

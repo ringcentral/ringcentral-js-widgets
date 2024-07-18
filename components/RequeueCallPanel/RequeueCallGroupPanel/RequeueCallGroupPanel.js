@@ -4,11 +4,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.RequeueCallGroupPanel = void 0;
-var _react = _interopRequireDefault(require("react"));
 var _CustomArrowButton = require("@ringcentral-integration/widgets/components/Rcui/CustomArrowButton");
+var _react = _interopRequireDefault(require("react"));
 var _SelectList = require("../../SelectList");
 var _i18n = _interopRequireDefault(require("./i18n"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var RequeueCallGroupPanel = function RequeueCallGroupPanel(_ref) {
   var currentLocale = _ref.currentLocale,
     goToRequeueCallPage = _ref.goToRequeueCallPage,

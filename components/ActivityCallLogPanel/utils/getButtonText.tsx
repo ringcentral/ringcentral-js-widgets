@@ -1,7 +1,6 @@
-import React from 'react';
-
 import { RcIcon } from '@ringcentral/juno';
 import { Check } from '@ringcentral/juno-icon';
+import React from 'react';
 
 import type { EvActivityCallUIProps } from '../../../interfaces';
 import i18n from '../i18n';

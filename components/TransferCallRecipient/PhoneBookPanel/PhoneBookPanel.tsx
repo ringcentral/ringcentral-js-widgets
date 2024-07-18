@@ -1,10 +1,8 @@
-import type { FunctionComponent } from 'react';
-import React from 'react';
-
-import classNames from 'classnames';
-
 import { Tooltip } from '@ringcentral-integration/widgets/components/Rcui/Tooltip';
 import { TOOLTIP_LONG_DELAY_TIME } from '@ringcentral-integration/widgets/lib/toolTipDelayTime';
+import clsx from 'clsx';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import type {
   EvTransferCallUIFunctions,
@@ -14,6 +12,7 @@ import { formatPhoneNumber } from '../../../lib/FormatPhoneNumber';
 import { ListItem, SelectList } from '../../SelectList';
 import transferCallI18n from '../i18n';
 import transferCallStyles from '../styles.scss';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 
@@ -71,7 +70,7 @@ const PhoneBookPanel: FunctionComponent<PhoneBookPanelProps> = ({
                   </span>
                 </Tooltip>
               </p>
-              <p className={classNames(styles.phoneBookDest, styles.ellipsis)}>
+              <p className={clsx(styles.phoneBookDest, styles.ellipsis)}>
                 {formatPhoneNumber({
                   phoneNumber: destination,
                   currentLocale,

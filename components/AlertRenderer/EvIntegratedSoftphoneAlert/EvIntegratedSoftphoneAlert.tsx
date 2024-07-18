@@ -2,6 +2,7 @@ import { includes } from 'ramda';
 
 import { EvSoftphoneEvents, tabManagerEvents } from '../../../enums';
 import { EvCallbackTypes } from '../../../lib/EvClient/enums';
+
 import i18n from './i18n';
 
 interface EvIntegratedSoftphoneAlertProps {

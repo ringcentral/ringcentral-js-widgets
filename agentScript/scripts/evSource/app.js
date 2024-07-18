@@ -12,7 +12,7 @@ require("core-js/modules/es.regexp.exec");
 require("core-js/modules/es.string.iterator");
 require("core-js/modules/es.string.split");
 require("core-js/modules/web.dom-collections.iterator");
-function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 angular.module('scriptingStudio', ['templates-app', 'templates-common', 'ui.router', 'ui.router.stateHelper', 'ui.bootstrap', 'ui.sortable', 'LocalStorageModule', 'ui.select', 'ui.ace', 'ngAnimate', 'ngSanitize', 'ngMaterial', 'angular-growl', 'angularUUID2', 'pascalprecht.translate', 'formly', 'formlyBootstrap', 'gridstack-angular', 'ngQuill', 'ngMask', 'angular-loading-bar', 'angular.filter', 'prettyXml', 'ngMessages', 'cf.branding', 'PackageConfig' /* loads environment variables provided by grunt */,
 // has formly, htmlElementsFactory and render directive
 'scriptingStudio.render',

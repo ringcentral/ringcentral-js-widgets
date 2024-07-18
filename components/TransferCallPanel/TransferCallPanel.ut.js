@@ -7,13 +7,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.UTWhenCallTransfering = exports.UTUserClickCallRecipientCases = exports.UTUserClickCallRecipient = exports.UTTransferCallButtonDisabled = exports.UTSetStayOnCallCases = exports.UTSetStayOnCall = exports.UTCheckTransferCallRenderCases = exports.UTCheckTransferCallRender = exports.UTCheckBackButton = void 0;
-var _react = _interopRequireDefault(require("react"));
-var _enzyme = require("enzyme");
 var _juno = require("@ringcentral/juno");
+var _enzyme = require("enzyme");
+var _react = _interopRequireDefault(require("react"));
 var _transferTypes = require("../../enums/transferTypes");
-var _i18n = _interopRequireDefault(require("./i18n"));
 var _TransferCallPanel = require("./TransferCallPanel");
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+var _i18n = _interopRequireDefault(require("./i18n"));
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var currentLocale = 'en-US';
 var defaultTransferOptions = [{
   type: _transferTypes.transferTypes.phoneBook,
@@ -146,7 +146,7 @@ var UTCheckBackButton = function UTCheckBackButton() {
     goBack: goBack
   });
   wrapper.find('[data-sign="backButton"]').at(0).find('button').simulate('click');
-  expect(goBack).toBeCalled();
+  expect(goBack).toHaveBeenCalled();
 };
 exports.UTCheckBackButton = UTCheckBackButton;
 var UTUserClickCallRecipientCases = [{
@@ -170,7 +170,7 @@ var UTUserClickCallRecipient = function UTUserClickCallRecipient() {
   });
   var callRecipient = wrapper.find("RcTextField[data-sign=\"callRecipient".concat(selectIndex, "\"]"));
   callRecipient.find('input').at(0).simulate('click');
-  expect(clickCallRecipient).toBeCalledWith(defaultTextFields[selectIndex].router);
+  expect(clickCallRecipient).toHaveBeenCalledWith(defaultTextFields[selectIndex].router);
 };
 exports.UTUserClickCallRecipient = UTUserClickCallRecipient;
 var UTSetStayOnCallCases = [{
@@ -191,7 +191,7 @@ var UTSetStayOnCall = function UTSetStayOnCall(_ref4) {
   var checkbox = wrapper.find('span[data-sign="stayOnCall"]').at(0).find('input[type="checkbox"]').at(0);
   expect(checkbox.prop('checked')).toBe(isStayOnCall);
   checkbox.simulate('click');
-  expect(setStayOnCall).toBeCalledWith(isStayOnCall);
+  expect(setStayOnCall).toHaveBeenCalledWith(isStayOnCall);
   wrapper.unmount();
 };
 exports.UTSetStayOnCall = UTSetStayOnCall;
@@ -204,7 +204,7 @@ var UTTransferCallButtonDisabled = function UTTransferCallButtonDisabled() {
   var transferCallButton = getTransferCallButton(wrapper);
   expect(transferCallButton.prop('disabled')).toBe(true);
   transferCallButton.simulate('click');
-  expect(transferCall).not.toBeCalled();
+  expect(transferCall).not.toHaveBeenCalled();
 };
 exports.UTTransferCallButtonDisabled = UTTransferCallButtonDisabled;
 var UTWhenCallTransfering = function UTWhenCallTransfering() {

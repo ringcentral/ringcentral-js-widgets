@@ -7,10 +7,10 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.CallerIdLabel = void 0;
-var _react = _interopRequireDefault(require("react"));
 var _juno = require("@ringcentral/juno");
+var _react = _interopRequireDefault(require("react"));
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var CallerIdLabel = function CallerIdLabel(_ref) {
   var description = _ref.description,
     number = _ref.number;

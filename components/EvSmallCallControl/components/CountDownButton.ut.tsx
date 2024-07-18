@@ -1,11 +1,9 @@
-import React from 'react';
-
+import type { CountDownButtonProps } from '.';
+import { CountDown, CountDownButton } from '.';
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import { RcThemeProvider } from '@ringcentral/juno';
 import { render } from '@testing-library/react';
-
-import type { CountDownButtonProps } from '.';
-import { CountDown, CountDownButton } from '.';
+import React from 'react';
 
 function setup({
   currentLocale = 'en-US',

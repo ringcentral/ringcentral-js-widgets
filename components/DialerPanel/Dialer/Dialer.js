@@ -4,11 +4,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.Dialer = void 0;
-var _react = _interopRequireDefault(require("react"));
 var _juno = require("@ringcentral/juno");
 var _junoIcon = require("@ringcentral/juno-icon");
+var _react = _interopRequireDefault(require("react"));
 var _styles = require("./styles");
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var Dialer = function Dialer(_ref) {
   var value = _ref.value,
     setValue = _ref.setValue,

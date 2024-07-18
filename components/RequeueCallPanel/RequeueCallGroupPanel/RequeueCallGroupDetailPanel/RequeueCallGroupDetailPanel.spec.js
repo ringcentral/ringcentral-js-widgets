@@ -3,11 +3,11 @@
 require("core-js/modules/es.array.find");
 require("core-js/modules/es.array.includes");
 require("core-js/modules/es.string.includes");
-var _react = _interopRequireDefault(require("react"));
-var _enzyme = require("enzyme");
 var _juno = require("@ringcentral/juno");
+var _enzyme = require("enzyme");
+var _react = _interopRequireDefault(require("react"));
 var _RequeueCallGroupDetailPanel = require("./RequeueCallGroupDetailPanel");
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var wrapper;
 var currentLocale = 'en-US';
 var searchGate = function searchGate(_ref, text) {
@@ -76,7 +76,7 @@ describe('<RequeueCallGroupPanel />', function () {
       goBack: goBack
     });
     wrapper.find('[data-sign="backButton"]').at(0).find('button').simulate('click');
-    expect(goBack).toBeCalled();
+    expect(goBack).toHaveBeenCalled();
   });
   it('When user select a queue, the queue will be highlighted, then user click the select button, submitSelection will be called', function () {
     var selectedGateIndex = 1;
@@ -90,7 +90,7 @@ describe('<RequeueCallGroupPanel />', function () {
     expect(submitButton.prop('disabled')).toBe(false);
     submitButton.simulate('click');
     var selectedGateId = defalutSelectedQueueGroup.gates[selectedGateIndex].gateId;
-    expect(submitSelection).toBeCalledWith(selectedGateId);
+    expect(submitSelection).toHaveBeenCalledWith(selectedGateId);
   });
   it("When user select no queue, the Select Button should be disabled and submitSelection shouldn't be called", function () {
     var selectedGateIndex = -1;
@@ -103,7 +103,7 @@ describe('<RequeueCallGroupPanel />', function () {
     var submitButton = getSubmitButton();
     expect(submitButton.prop('disabled')).toBe(true);
     submitButton.simulate('click');
-    expect(submitSelection).not.toBeCalled();
+    expect(submitSelection).not.toHaveBeenCalled();
   });
   it('Can search Requeue Queue', function () {
     wrapper = setup();

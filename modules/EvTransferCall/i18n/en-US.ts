@@ -13,4 +13,4 @@ export default {
   acceptIncomingTransfer: 'Accept Call',
   ignoreIncomingTransfer: 'Ignore',
   transferModalTitle: 'Call transfer failed',
-};
+} as const;

@@ -1,13 +1,12 @@
-import React from 'react';
-
-import { mount } from 'enzyme';
-
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import type { DeepPartial } from '@ringcentral/juno';
 import { RcThemeProvider } from '@ringcentral/juno';
+import { mount } from 'enzyme';
+import React from 'react';
 
 import type { EvCallData } from '../../interfaces';
 import i18n from '../SmallCallControl/i18n';
+
 import { ActiveCallListPanel } from './ActiveCallListPanel';
 
 let wrapper;
@@ -87,7 +86,7 @@ export const UTGoBackPage: StepFunction = async () => {
     .at(0)
     .find('button')
     .simulate('click');
-  expect(goBack).toBeCalled();
+  expect(goBack).toHaveBeenCalled();
   wrapperUnmount();
 };
 
@@ -115,8 +114,8 @@ export const UTHoldRender: StepFunction = () => {
   });
   expect(holdButton.title).toBe(i18n.getString('onHold'));
   holdButton.click();
-  expect(onHold).not.toBeCalled();
-  expect(onUnHold).toBeCalledWith(defaultCallList[itemIndex]);
+  expect(onHold).not.toHaveBeenCalled();
+  expect(onUnHold).toHaveBeenCalledWith(defaultCallList[itemIndex]);
   wrapperUnmount();
 };
 
@@ -132,8 +131,8 @@ export const UTUnholdRender: StepFunction = () => {
   });
   expect(holdButton.title).toBe(i18n.getString('hold'));
   holdButton.click();
-  expect(onHold).toBeCalledWith(defaultCallList[itemIndex]);
-  expect(onUnHold).not.toBeCalled();
+  expect(onHold).toHaveBeenCalledWith(defaultCallList[itemIndex]);
+  expect(onUnHold).not.toHaveBeenCalled();
   wrapperUnmount();
 };
 
@@ -148,7 +147,7 @@ export const UTHangUpRender: StepFunction = () => {
   });
   expect(HangUpButton.title).toBe(i18n.getString('hangup'));
   HangUpButton.click();
-  expect(onHangup).toBeCalledWith(defaultCallList[itemIndex]);
+  expect(onHangup).toHaveBeenCalledWith(defaultCallList[itemIndex]);
   wrapperUnmount();
 };
 
@@ -162,7 +161,7 @@ export const UTMuteRender: StepFunction = () => {
   });
   expect(muteButton.title).toBe(i18n.getString('mute'));
   muteButton.click();
-  expect(onMute).toBeCalledTimes(1);
+  expect(onMute).toHaveBeenCalledTimes(1);
   wrapperUnmount();
 };
 
@@ -176,6 +175,6 @@ export const UTUnMuteRender: StepFunction = () => {
   });
   expect(unMuteButton.title).toBe(i18n.getString('unmute'));
   unMuteButton.click();
-  expect(onUnmute).toBeCalledTimes(1);
+  expect(onUnmute).toHaveBeenCalledTimes(1);
   wrapperUnmount();
 };

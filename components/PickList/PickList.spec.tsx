@@ -1,8 +1,6 @@
-import React from 'react';
-
-import { mount } from 'enzyme';
-
 import { RcThemeProvider } from '@ringcentral/juno';
+import { mount } from 'enzyme';
+import React from 'react';
 
 import type { PickListProps } from './PickList';
 import { PickList } from './PickList';
@@ -98,7 +96,7 @@ describe('<PickList />', () => {
     // });
     // const selectIndex = 2;
     // menuItems[selectIndex].click();
-    // expect(onChange).toBeCalledWith(defaultOptions[selectIndex].id);
+    // expect(onChange).toHaveBeenCalledWith(defaultOptions[selectIndex].id);
   });
 
   it('PickList can render correctly without selection, and can be selected to change.', () => {
@@ -122,7 +120,7 @@ describe('<PickList />', () => {
     // expect(menuItems).toHaveLength(defaultOptions.length);
     // const selectIndex = 2;
     // menuItems[selectIndex].click();
-    // expect(onChange).toBeCalledWith(defaultOptions[selectIndex].id);
+    // expect(onChange).toHaveBeenCalledWith(defaultOptions[selectIndex].id);
   });
 
   it('PickList can display by using renderValue', () => {
@@ -137,7 +135,7 @@ describe('<PickList />', () => {
       value,
     });
     expect(wrapper.find('input').prop('value')).toBe(value);
-    expect(renderValue).toBeCalledWith(value);
+    expect(renderValue).toHaveBeenCalledWith(value);
     const baseButton = wrapper.find('[role="button"]');
     expect(baseButton.text()).toBe(renderValue(value));
     // baseButton.simulate('click');
@@ -169,7 +167,7 @@ describe('<PickList />', () => {
     // const menuItems = document.body.querySelectorAll<HTMLInputElement>(
     //   '[role="presentation"] li[role="option"]',
     // );
-    // expect(renderItem).toBeCalledTimes(defaultOptions.length);
+    // expect(renderItem).toHaveBeenCalledTimes(defaultOptions.length);
     // expect(menuItems).toHaveLength(defaultOptions.length);
     // menuItems.forEach((el, index) => {
     //   expect(el.textContent).toBe(defaultOptions[index].wholeName);
@@ -232,7 +230,7 @@ describe('<PickList />', () => {
     // const menuItems = document.body.querySelectorAll<HTMLInputElement>(
     //   '[role="presentation"] li[role="option"]',
     // );
-    // expect(renderItem).toBeCalledTimes(customOptions.length);
+    // expect(renderItem).toHaveBeenCalledTimes(customOptions.length);
     // expect(menuItems).toHaveLength(customOptions.length);
     // menuItems.forEach((el, index) => {
     //   expect(el.textContent).toBe(customOptions[index].wholeName);

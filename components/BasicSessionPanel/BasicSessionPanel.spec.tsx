@@ -1,8 +1,6 @@
-import React from 'react';
-
-import { mount } from 'enzyme';
-
 import { RcThemeProvider } from '@ringcentral/juno';
+import { mount } from 'enzyme';
+import React from 'react';
 
 import type { BasicSessionPanelProps } from './BasicSessionPanel';
 import { BasicSessionPanel } from './BasicSessionPanel';
@@ -123,7 +121,7 @@ describe('<BasicSessionPanel />', () => {
 
   //   expect(inboundQueuesField.prop('value')).toEqual(inboundQueuesFieldText);
   //   inboundQueuesField.simulate('click');
-  //   expect(gotoInboundQueuesPage).toBeCalled();
+  //   expect(gotoInboundQueuesPage).toHaveBeenCalled();
   // });
 
   it('Can display extensionNumber correctly, and can be changed.', () => {
@@ -146,7 +144,7 @@ describe('<BasicSessionPanel />', () => {
     extensionNumberField.simulate('change', {
       target: { value: newExtensionNumber },
     });
-    expect(setExtensionNumber).toBeCalledWith(newExtensionNumber);
+    expect(setExtensionNumber).toHaveBeenCalledWith(newExtensionNumber);
 
     wrapper = setup({
       setExtensionNumber,
@@ -172,7 +170,7 @@ describe('<BasicSessionPanel />', () => {
   //       .at(0);
   //     expect(takingCallToggle.prop('checked')).toEqual(takingCall);
   //     takingCallToggle.simulate('change', { target: { value: !takingCall } });
-  //     expect(setTakingCall).toBeCalledWith(!takingCall);
+  //     expect(setTakingCall).toHaveBeenCalledWith(!takingCall);
   //   });
   // });
 
@@ -190,7 +188,7 @@ describe('<BasicSessionPanel />', () => {
   //       .at(0);
   //     expect(autoAnswerToggle.prop('checked')).toEqual(autoAnswer);
   //     autoAnswerToggle.simulate('change', { target: { value: !autoAnswer } });
-  //     expect(setAutoAnswer).toBeCalledWith(!autoAnswer);
+  //     expect(setAutoAnswer).toHaveBeenCalledWith(!autoAnswer);
   //   });
   // });
 
@@ -243,6 +241,6 @@ describe('<BasicSessionPanel />', () => {
     document.body
       .querySelector<HTMLButtonElement>(`li[data-value="${changeLoginType}"]`)
       .click();
-    expect(setLoginType).toBeCalledWith(changeLoginType);
+    expect(setLoginType).toHaveBeenCalledWith(changeLoginType);
   });
 });

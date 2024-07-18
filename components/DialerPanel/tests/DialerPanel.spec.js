@@ -6,8 +6,8 @@ require("core-js/modules/es.promise");
 require("regenerator-runtime/runtime");
 var _juno = require("@ringcentral/juno");
 var _createDialerPanel = require("./createDialerPanel");
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+function asyncGeneratorStep(n, t, e, r, o, a, c) { try { var i = n[a](c), u = i.value; } catch (n) { return void e(n); } i.done ? t(u) : Promise.resolve(u).then(r, o); }
+function _asyncToGenerator(n) { return function () { var t = this, e = arguments; return new Promise(function (r, o) { var a = n.apply(t, e); function _next(n) { asyncGeneratorStep(a, r, o, _next, _throw, "next", n); } function _throw(n) { asyncGeneratorStep(a, r, o, _next, _throw, "throw", n); } _next(void 0); }); }; }
 var mockAudio = function mockAudio() {
   window.HTMLMediaElement.prototype.play = function () {
     return new Promise(function (resolve) {
@@ -56,7 +56,7 @@ describe('<DialerPanel />', function () {
               }
             };
             recipientsInput.find('input').at(0).simulate('change', eventObj);
-            expect(setToNumber).toBeCalledWith('1243');
+            expect(setToNumber).toHaveBeenCalledWith('1243');
           case 7:
           case "end":
             return _context2.stop();
@@ -103,7 +103,7 @@ describe('<DialerPanel />', function () {
             });
             callButton = getCallButton();
             callButton.simulate('click');
-            expect(dialout).not.toBeCalled();
+            expect(dialout).not.toHaveBeenCalled();
           case 7:
           case "end":
             return _context4.stop();
@@ -118,7 +118,7 @@ describe('<DialerPanel />', function () {
     });
     var manualDialSettings = wrapper.find('[data-sign="manualDialSettings"]').at(0);
     manualDialSettings.simulate('click');
-    expect(goToManualDialSettings).toBeCalled();
+    expect(goToManualDialSettings).toHaveBeenCalled();
   });
   it('Check Disabled Allow Manual Calls', function () {
     /* RCI-3899: Check Disabled Allow Manual Calls

@@ -7,6 +7,7 @@ import type {
   EvMainViewUIProps,
 } from '../../interfaces/EvMainViewUI.interface';
 import { getClockByTimestamp } from '../../lib/getClockByTimestamp';
+
 import type { Deps, MainView } from './MainViewUI.interface';
 
 @Module({

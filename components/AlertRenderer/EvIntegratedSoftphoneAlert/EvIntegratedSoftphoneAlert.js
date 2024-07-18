@@ -8,7 +8,7 @@ var _ramda = require("ramda");
 var _enums = require("../../../enums");
 var _enums2 = require("../../../lib/EvClient/enums");
 var _i18n = _interopRequireDefault(require("./i18n"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 function EvIntegratedSoftphoneAlert(_ref) {
   var message = _ref.message.message,
     currentLocale = _ref.currentLocale;

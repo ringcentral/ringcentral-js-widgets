@@ -4,11 +4,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.ActiveCallButton = void 0;
-var _react = _interopRequireDefault(require("react"));
 var _juno = require("@ringcentral/juno");
 var _junoIcon = require("@ringcentral/juno-icon");
+var _react = _interopRequireDefault(require("react"));
 var _i18n = _interopRequireDefault(require("../i18n"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var ActiveCallButton = function ActiveCallButton(_ref) {
   var currentLocale = _ref.currentLocale,
     disableActive = _ref.disableActive,

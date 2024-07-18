@@ -1,7 +1,6 @@
+import { RcTypography } from '@ringcentral/juno';
 import type { FunctionComponent } from 'react';
 import React from 'react';
-
-import { RcTypography } from '@ringcentral/juno';
 
 import styles from './styles.scss';
 

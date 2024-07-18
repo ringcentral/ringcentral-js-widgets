@@ -1,6 +1,3 @@
-import { EventEmitter } from 'events';
-import type { Unsubscribe } from 'redux';
-
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import { sleep } from '@ringcentral-integration/commons/utils';
 import {
@@ -12,6 +9,8 @@ import {
   track,
 } from '@ringcentral-integration/core';
 import format from '@ringcentral-integration/phone-number/lib/format';
+import { EventEmitter } from 'events';
+import type { Unsubscribe } from 'redux';
 
 import { loginStatus, messageTypes, tabManagerEvents } from '../../enums';
 import type { EvAgentConfig, EvAgentData } from '../../lib/EvClient';
@@ -19,6 +18,7 @@ import { EvCallbackTypes } from '../../lib/EvClient/enums';
 import { EvTypeError } from '../../lib/EvTypeError';
 import { sortByName } from '../../lib/sortByName';
 import { trackEvents } from '../../lib/trackEvents';
+
 import type {
   Auth,
   AuthenticateWithTokenType,

@@ -5,11 +5,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.UTRenderUpdateSessionBtns = void 0;
-var _react = _interopRequireDefault(require("react"));
-var _enzyme = require("enzyme");
 var _juno = require("@ringcentral/juno");
+var _enzyme = require("enzyme");
+var _react = _interopRequireDefault(require("react"));
 var _SessionUpdatePanel = require("./SessionUpdatePanel");
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var wrapper;
 var defaultSkillProfileList = [{
   profileId: '1001',

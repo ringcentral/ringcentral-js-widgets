@@ -4,12 +4,12 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.AppView = void 0;
-var _react = _interopRequireDefault(require("react"));
-var _reactRedux = require("react-redux");
 var _EnvironmentPanel = require("@ringcentral-integration/widgets/components/EnvironmentPanel");
 var _withPhone = _interopRequireDefault(require("@ringcentral-integration/widgets/lib/withPhone"));
+var _react = _interopRequireDefault(require("react"));
+var _reactRedux = require("react-redux");
 var _styles = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var AppViewPanel = function AppViewPanel(_ref) {
   var _phone$evAuth, _phone$evAuth$agent, _phone$evAuth$agent$a;
   var children = _ref.children,

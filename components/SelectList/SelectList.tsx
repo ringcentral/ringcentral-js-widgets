@@ -1,8 +1,7 @@
-import type { FunctionComponent } from 'react';
-import React from 'react';
-
 import type { SelectListV2Props } from '@ringcentral-integration/widgets/components/SelectListV2';
 import { SelectListV2 } from '@ringcentral-integration/widgets/components/SelectListV2';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import styles from './styles.scss';
 

@@ -1,6 +1,7 @@
 import { includes } from 'ramda';
 
 import { requeueEvents } from '../../../enums';
+
 import i18n from './i18n';
 
 interface EvRequeueCallAlertProps {

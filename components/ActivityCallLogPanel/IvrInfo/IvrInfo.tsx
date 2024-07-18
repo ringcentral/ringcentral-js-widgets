@@ -1,19 +1,18 @@
-import type { FunctionComponent } from 'react';
-import React, { useEffect, useState } from 'react';
-
-import classNames from 'classnames';
-
 import {
   RcAccordion,
   RcAccordionDetails,
   RcAccordionSummary,
 } from '@ringcentral/juno';
 import { ArrowDown2 } from '@ringcentral/juno-icon';
+import clsx from 'clsx';
+import type { FunctionComponent } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import type {
   EvActivityCallUIFunctions,
   EvActivityCallUIProps,
 } from '../../../interfaces';
+
 import styles from './styles.scss';
 
 export type IvrInfoProps = { isCallEnd: boolean } & Pick<
@@ -41,17 +40,17 @@ export const IvrInfo: FunctionComponent<IvrInfoProps> = ({
           onChange={() => setExpanded(!expanded)}
           expanded={expanded}
           classes={{
-            root: classNames(styles.panelRoot, isCallEnd && styles.endCall),
+            root: clsx(styles.panelRoot, isCallEnd && styles.endCall),
             expanded: styles.expanded,
           }}
         >
           <RcAccordionSummary
             classes={{
-              root: classNames(
+              root: clsx(
                 styles.summaryRoot,
                 agentScriptData && styles.summaryAgentScriptIconPaddingRight,
               ),
-              content: classNames(
+              content: clsx(
                 styles.summaryContent,
                 agentScriptData && styles.summaryAgentScriptIconWidth,
               ),
@@ -62,7 +61,7 @@ export const IvrInfo: FunctionComponent<IvrInfoProps> = ({
             expandIcon={ArrowDown2}
           >
             <span
-              className={classNames(
+              className={clsx(
                 styles.ivrMainSubject,
                 agentScriptData && styles.summaryAgentScriptIconWidth,
               )}

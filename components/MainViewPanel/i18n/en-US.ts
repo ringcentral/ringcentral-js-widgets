@@ -5,4 +5,4 @@ export default {
   dialpadLabel: 'Dial Pad',
   historyLabel: 'Call History',
   settingsLabel: 'Settings',
-};
+} as const;

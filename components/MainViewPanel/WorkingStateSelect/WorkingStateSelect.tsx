@@ -1,14 +1,14 @@
+import clsx from 'clsx';
 import type { FunctionComponent } from 'react';
 import React, { useEffect, useState } from 'react';
-
-import classNames from 'classnames';
 
 import type {
   EvMainViewUIFunctions,
   EvMainViewUIProps,
 } from '../../../interfaces/EvMainViewUI.interface';
-import styles from './styles.scss';
+
 import { WorkingStateButton } from './WorkingStateButton';
+import styles from './styles.scss';
 
 type WorkingStateSelectProps = Pick<
   EvMainViewUIProps & EvMainViewUIFunctions,
@@ -64,7 +64,7 @@ const WorkingStateSelect: FunctionComponent<WorkingStateSelectProps> = ({
         isWide={isWide}
         timerText={getTimerText(intervalTime)}
         classes={{
-          paper: classNames(styles.paper, hideOffHookBtn && styles.wider),
+          paper: clsx(styles.paper, hideOffHookBtn && styles.wider),
         }}
       />
     </div>

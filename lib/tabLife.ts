@@ -1,6 +1,5 @@
-import { EventEmitter } from 'events';
-
 import { sleep, waitUntilTo } from '@ringcentral-integration/commons/utils';
+import { EventEmitter } from 'events';
 
 const TAB_CHANNEL_KEY = 'channel$$';
 

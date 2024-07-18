@@ -4,9 +4,10 @@ import type { Mapping } from '@ringcentral-integration/widgets/typings';
 
 import { callStatus } from '../../enums';
 import type { EvCallData } from '../../interfaces/EvData.interface';
+import type { EvAddSessionNotification } from '../../lib/EvClient/interfaces';
 import { makeCallsUniqueIdentifies } from '../../lib/callUniqueIdentifies';
 import { contactMatchIdentifyEncode } from '../../lib/contactMatchIdentify';
-import type { EvAddSessionNotification } from '../../lib/EvClient/interfaces';
+
 import type { CallMonitor, Deps } from './EvCallMonitor.interface';
 
 @Module({

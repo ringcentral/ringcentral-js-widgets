@@ -1,9 +1,6 @@
-import type { FunctionComponent } from 'react';
-import React, { useState } from 'react';
-
 import {
   RcDialer,
-  RcDialerPadSounds,
+  RcDialerPadSoundsMPEG,
   RcDialPad,
   RcDialTextField,
   RcIconButton,
@@ -11,6 +8,8 @@ import {
   RcTooltip,
 } from '@ringcentral/juno';
 import { Close, Keypad } from '@ringcentral/juno-icon';
+import type { FunctionComponent } from 'react';
+import React, { useState } from 'react';
 
 import i18n from './i18n';
 import {
@@ -119,7 +118,10 @@ export const KeypadCollapse: FunctionComponent<keypadProps> = ({
                 }}
               />
             )}
-            <RcDialPad sounds={RcDialerPadSounds} data-sign="keypadCollapse" />
+            <RcDialPad
+              sounds={RcDialerPadSoundsMPEG}
+              data-sign="keypadCollapse"
+            />
           </RcDialer>
         </RcPaper>
       </StyledCollapse>

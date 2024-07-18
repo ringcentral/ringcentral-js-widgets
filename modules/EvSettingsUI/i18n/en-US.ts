@@ -8,4 +8,4 @@ export default {
   ringCentralPhone: 'RingCentral Phone',
   externalPhone: 'External Phone',
   unknown: 'Unknown',
-};
+} as const;

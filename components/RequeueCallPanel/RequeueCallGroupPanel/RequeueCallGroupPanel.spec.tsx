@@ -1,8 +1,6 @@
-import React from 'react';
-
-import { mount } from 'enzyme';
-
 import { RcThemeProvider } from '@ringcentral/juno';
+import { mount } from 'enzyme';
+import React from 'react';
 
 import { RequeueCallGroupPanel } from './RequeueCallGroupPanel';
 
@@ -85,7 +83,7 @@ describe('<RequeueCallGroupPanel />', () => {
       .at(0)
       .find('button')
       .simulate('click');
-    expect(goToRequeueCallPage).toBeCalled();
+    expect(goToRequeueCallPage).toHaveBeenCalled();
   });
 
   it('When click Requeue Group, can redirct to RequeueGroupDetailPage', () => {
@@ -94,7 +92,7 @@ describe('<RequeueCallGroupPanel />', () => {
     const selectIndex = 1;
     getGroupItems().at(selectIndex).find('[role="button"]').simulate('click');
 
-    expect(goToRequeueGroupDetailPage).toBeCalledWith({
+    expect(goToRequeueGroupDetailPage).toHaveBeenCalledWith({
       groupId: defaultQueueGroups[selectIndex].gateGroupId,
     });
   });

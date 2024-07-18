@@ -4,11 +4,11 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.getButtonText = getButtonText;
-var _react = _interopRequireDefault(require("react"));
 var _juno = require("@ringcentral/juno");
 var _junoIcon = require("@ringcentral/juno-icon");
+var _react = _interopRequireDefault(require("react"));
 var _i18n = _interopRequireDefault(require("../i18n"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 function getButtonText(status, currentLocale) {
   switch (status) {
     case 'saved':

@@ -4,17 +4,17 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.PhoneBookPanel = void 0;
-var _react = _interopRequireDefault(require("react"));
-var _classnames = _interopRequireDefault(require("classnames"));
 var _Tooltip = require("@ringcentral-integration/widgets/components/Rcui/Tooltip");
 var _toolTipDelayTime = require("@ringcentral-integration/widgets/lib/toolTipDelayTime");
+var _clsx = _interopRequireDefault(require("clsx"));
+var _react = _interopRequireDefault(require("react"));
 var _FormatPhoneNumber = require("../../../lib/FormatPhoneNumber");
 var _SelectList = require("../../SelectList");
 var _i18n = _interopRequireDefault(require("../i18n"));
 var _styles = _interopRequireDefault(require("../styles.scss"));
 var _i18n2 = _interopRequireDefault(require("./i18n"));
 var _styles2 = _interopRequireDefault(require("./styles.scss"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 var PhoneBookPanel = function PhoneBookPanel(_ref) {
   var currentLocale = _ref.currentLocale,
     goBack = _ref.goBack,
@@ -53,7 +53,7 @@ var PhoneBookPanel = function PhoneBookPanel(_ref) {
       }, /*#__PURE__*/_react["default"].createElement("span", {
         className: _styles["default"].ellipsis
       }, phoneBookName))), /*#__PURE__*/_react["default"].createElement("p", {
-        className: (0, _classnames["default"])(_styles2["default"].phoneBookDest, _styles2["default"].ellipsis)
+        className: (0, _clsx["default"])(_styles2["default"].phoneBookDest, _styles2["default"].ellipsis)
       }, (0, _FormatPhoneNumber.formatPhoneNumber)({
         phoneNumber: destination,
         currentLocale: currentLocale

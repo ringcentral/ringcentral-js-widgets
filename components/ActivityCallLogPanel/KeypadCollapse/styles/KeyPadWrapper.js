@@ -7,8 +7,8 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.Wrapper = exports.StyledCollapse = exports.KeyPadCloseButton = exports.Footer = exports.Backdrop = void 0;
-var _juno = require("@ringcentral/juno");
 var _BasicCallInfo = require("@ringcentral-integration/widgets/components/BasicCallInfo/BasicCallInfo");
+var _juno = require("@ringcentral/juno");
 var _variables = require("../../../../scss/variables");
 function _templateObject7() {
   var data = _taggedTemplateLiteral(["\n  float: right;\n  padding-top: 8px;\n"]);
@@ -59,7 +59,7 @@ function _templateObject() {
   };
   return data;
 }
-function _taggedTemplateLiteral(strings, raw) { if (!raw) { raw = strings.slice(0); } return Object.freeze(Object.defineProperties(strings, { raw: { value: Object.freeze(raw) } })); }
+function _taggedTemplateLiteral(e, t) { return t || (t = e.slice(0)), Object.freeze(Object.defineProperties(e, { raw: { value: Object.freeze(t) } })); }
 var Wrapper = _juno.styled.div(_templateObject(), function (_ref) {
   var open = _ref.open;
   return open ? '0' : (0, _juno.px)(_BasicCallInfo.KeyPadHeight);

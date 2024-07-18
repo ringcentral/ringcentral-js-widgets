@@ -14,7 +14,7 @@ var _EvRequeueCallAlert = _interopRequireDefault(require("./EvRequeueCallAlert")
 var _EvSessionConfigAlert = _interopRequireDefault(require("./EvSessionConfigAlert"));
 var _EvTransferCallAlert = _interopRequireDefault(require("./EvTransferCallAlert"));
 var _EvWorkingStateAlert = _interopRequireDefault(require("./EvWorkingStateAlert"));
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
+function _interopRequireDefault(e) { return e && e.__esModule ? e : { "default": e }; }
 function getAlertRenderer() {
   return function (message) {
     if (_EvAuthAlert["default"].handleMessage(message)) {
