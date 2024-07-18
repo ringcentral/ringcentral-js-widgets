@@ -1,7 +1,6 @@
+import clsx from 'clsx';
 import type { FunctionComponent, ReactNode } from 'react';
 import React from 'react';
-
-import classnames from 'classnames';
 
 import i18n from '../i18n';
 import styles from '../styles.scss';
@@ -59,9 +58,7 @@ export const CompanyInfo: FunctionComponent<CompanyInfoProps> = ({
   }
   if (content.length) {
     return (
-      <div className={classnames(styles.section, styles.companyInfo)}>
-        {content}
-      </div>
+      <div className={clsx(styles.section, styles.companyInfo)}>{content}</div>
     );
   }
   return null;

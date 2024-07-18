@@ -1,11 +1,12 @@
-import { reduce } from 'ramda';
 import type DeviceResource from '@rc-ex/core/lib/definitions/DeviceResource';
 import type PhoneLinesInfo from '@rc-ex/core/lib/definitions/PhoneLinesInfo';
 import { computed } from '@ringcentral-integration/core';
+import { reduce } from 'ramda';
 
 import { Module } from '../../lib/di';
 import fetchList from '../../lib/fetchList';
 import { DataFetcherV2Consumer, DataSource } from '../DataFetcherV2';
+
 import type { Deps } from './ExtensionDevice.interface';
 
 @Module({

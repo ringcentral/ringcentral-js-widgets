@@ -13,49 +13,51 @@
  * Entry point(/s):
  *
  */
-
+import { formatNumber } from '@ringcentral-integration/commons/lib/formatNumber';
 import type { StepProp } from '@ringcentral-integration/test-utils';
 import {
-  p1,
-  it,
-  autorun,
-  examples,
+  And,
   Given,
   Scenario,
   Step,
   Then,
-  And,
-  title,
   When,
+  autorun,
+  common,
+  examples,
+  it,
+  p1,
+  title,
 } from '@ringcentral-integration/test-utils';
 
-import { CommonLogin } from '../../../../../../../steps/CommonLogin';
-import {
-  CreateMock,
-  MockAddressBookSync,
-  MockExtensionsList,
-  MockCallLogs,
-  MockMessageSync,
-  TriggerActiveCallChanged,
-  mockExtensionsListData,
-  MockGetTelephonyState,
-  MockGetPhoneNumber,
-} from '../../../../../../../steps/Mock';
-import { CreateInstance } from '../../../../../../../steps/CreateInstance';
-import {
-  ClickSaveButton,
-  ExpandDropdown,
-  SelectCallingSetting,
-} from '../../../../../../../steps/Settings';
+import type { Context } from '../../../../../../../interfaces';
 import {
   CallButtonBehavior,
   CheckActiveCallExist,
-  MakeCall,
   CheckCallControlPage,
+  MakeCall,
 } from '../../../../../../../steps/Call';
-import { NavigateTo } from '../../../../../../../steps/Router/action';
+import { CommonLogin } from '../../../../../../../steps/CommonLogin';
+import { CreateInstance } from '../../../../../../../steps/CreateInstance';
+import {
+  CreateMock as CommonCreateMock,
+  MockAddressBookSync,
+  MockCallLogs,
+  MockExtensionsList,
+  MockGetPhoneNumber,
+  MockGetTelephonyState,
+  MockMessageSync,
+  TriggerActiveCallChanged,
+  mockExtensionsListData,
+} from '../../../../../../../steps/Mock';
+import { NavigateTo } from '../../../../../../../steps/Router';
+import {
+  ClickSaveButton,
+  ExpandCallingSettingDropdown,
+  SelectCallingSetting,
+} from '../../../../../../../steps/Settings';
 
-const IMAGE_URL =
+export const FAKE_IMAGE_URL =
   'https://platform.devtest.ringcentral.com/restapi/v1.0/account/129836006/extension/206745006/profile-image';
 
 global.Image = class extends Image {
@@ -67,30 +69,53 @@ global.Image = class extends Image {
   }
 };
 
-@autorun(test.skip)
+jest.mock('@ringcentral-integration/commons/lib/formatNumber', () => {
+  const { formatNumber } = jest.requireActual(
+    '@ringcentral-integration/commons/lib/formatNumber',
+  );
+  return {
+    formatNumber: jest.fn(formatNumber),
+  };
+});
+
+export interface ExampleItem {
+  direction: 'Inbound' | 'Outbound';
+  phoneNumber: string;
+  parsedNumber: string;
+  contactName: string;
+  contactType?: 'company' | 'personal';
+  avatarType: 'custom' | 'blank';
+}
+
+@autorun(test)
 @it
 @p1
 @title(
-  'Inbound/Outbound with  different types contact call info on call control page',
+  'Inbound/Outbound with  different types contact call info on call control page CallInfo',
 )
+@common
 export class CallInformation extends Step {
-  Login: StepProp = (props) => (
-    <CommonLogin {...props} CreateInstance={CreateInstance} />
-  );
-  CreateMock: StepProp = CreateMock;
-  userPhoneNumber = '';
+  CreateMock?: StepProp;
+  Login?: StepProp;
+  durationDataSign?: string;
+
   @examples(`
     | direction  | phoneNumber    | parsedNumber     | contactName | contactType | avatarType |
-    | 'Inbound'  | '+17604215511' | '(760) 421-5511' | 'Contact X' | 'company'  | 'custom'    |
+    | 'Inbound'  | '+17604215511' | '(760) 421-5511' | 'Contact X' | 'company'   | 'custom'   |
     | 'Outbound' | '+17604215522' | '(760) 421-5522' | 'Contact Y' | 'personal'  | 'blank'    |
     | 'Inbound'  | '+17604215544' | '(760) 421-5544' | 'Unknown'   | undefined   | 'blank'    |
   `)
   run() {
-    const { Login, CreateMock } = this;
+    const {
+      Login = <CommonLogin CreateInstance={CreateInstance} />,
+      CreateMock = CommonCreateMock,
+      durationDataSign = 'duration',
+    } = this;
+    let userPhoneNumber: string | undefined;
     return (
       <Scenario
         desc="Inbound/Outbound with  different types contact call info on call control page"
-        action={async ({ contactName, phoneNumber, contactType }: any) => {
+        action={({ contactName, phoneNumber, contactType }: ExampleItem) => {
           const actions = [
             CreateMock,
             <MockGetPhoneNumber />,
@@ -102,14 +127,24 @@ export class CallInformation extends Step {
             actions.push(
               <MockExtensionsList
                 handler={(mockData) => {
-                  const data = mockExtensionsListData({
-                    firstName: contactName.split(' ')[0],
-                    lastName: contactName.split(' ')[1],
-                    phoneNumber,
-                    profileImage: {
-                      uri: IMAGE_URL,
+                  const data = mockExtensionsListData([
+                    {
+                      firstName: contactName.split(' ')[0],
+                      lastName: contactName.split(' ')[1],
+                      phoneNumber,
+                      profileImage: {
+                        uri: FAKE_IMAGE_URL,
+                      },
                     },
-                  });
+                    {
+                      firstName: 'Fake First Name',
+                      lastName: 'Fake Last Name',
+                      phoneNumber, // use the same number for multiple contact match
+                      profileImage: {
+                        uri: FAKE_IMAGE_URL,
+                      },
+                    },
+                  ]);
                   return {
                     ...mockData,
                     ...data,
@@ -121,13 +156,14 @@ export class CallInformation extends Step {
           if (contactType === 'personal') {
             actions.push(
               <MockAddressBookSync
+                page={1}
                 handler={(personalUsers) => {
                   const firstPersonalUser = personalUsers[0];
                   firstPersonalUser.firstName = contactName;
                   firstPersonalUser.middleName = '';
                   firstPersonalUser.lastName = '';
                   firstPersonalUser.homePhone = phoneNumber;
-                  return personalUsers;
+                  return [firstPersonalUser]; // take the first one only for avoid multiple match
                 }}
               />,
             );
@@ -140,26 +176,28 @@ export class CallInformation extends Step {
           desc="Web Phone is enabled and 'Browser'  is selected in Settings > Calling > Make my calls with"
           action={[
             <NavigateTo path="/settings/calling" />,
-            ExpandDropdown,
+            ExpandCallingSettingDropdown,
             <SelectCallingSetting settingName="Browser" />,
             ClickSaveButton,
           ]}
         />
         <When
           desc="Make an inbound/outbound call from/to Mr. X/Y/Z, check active call page"
-          action={async ({ direction, phoneNumber, contactName }: any) => [
+          action={(
+            { direction, phoneNumber, contactName }: ExampleItem,
+            { phone }: Context,
+          ) => [
             <NavigateTo path="/dialer" />,
-            (_: any, { phone }: any) => {
-              this.userPhoneNumber =
-                phone.dialerUI.getUIProps(phone).fromNumber;
+            () => {
+              userPhoneNumber = phone.dialerUI.getUIProps(phone).fromNumber;
               jest
                 .spyOn(phone.accountContacts, 'getProfileImage')
-                .mockResolvedValue(IMAGE_URL);
+                .mockResolvedValue(FAKE_IMAGE_URL);
             },
             <MakeCall
               useUserAgentSession
               phoneNumber={
-                direction === 'Inbound' ? this.userPhoneNumber : phoneNumber
+                direction === 'Inbound' ? userPhoneNumber : phoneNumber
               }
               direction={direction}
               status="connected"
@@ -185,20 +223,37 @@ export class CallInformation extends Step {
                 Note:
                   Outbound will be shown digital clock when click the call button
                   Inbound will be shown digital clock only when click the answer button"
-          action={async ({
+          action={({
             contactName,
+            phoneNumber,
             parsedNumber,
             contactType,
             avatarType,
-          }: any) => [
+          }: ExampleItem) => [
             CheckActiveCallExist,
             <CheckCallControlPage
               showDuration
+              durationDataSign={durationDataSign}
               name={contactName}
               parsedNumber={parsedNumber}
-              type={contactType}
+              contactDisplayType={
+                contactType === 'company' ? 'contact-multiple-match' : 'normal'
+              }
               showCustomAvatar={avatarType === 'custom'}
             />,
+            // Check to ensure the expected "parsedNumber" on UI is formatted from "phoneNumber"
+            () => {
+              expect(formatNumber).toHaveBeenLastCalledWith({
+                areaCode: expect.any(String),
+                countryCode: expect.any(String),
+                siteCode: expect.any(String),
+                isEDPEnabled: expect.any(Boolean),
+                isMultipleSiteEnabled: expect.any(Boolean),
+                maxExtensionLength: expect.any(Number),
+                phoneNumber,
+              });
+              expect(formatNumber).toHaveLastReturnedWith(parsedNumber);
+            },
           ]}
         />
       </Scenario>
@@ -206,23 +261,32 @@ export class CallInformation extends Step {
   }
 }
 
-@autorun(test.skip)
+// Skip this in commons
+// it is designed to be re-used in multiple products
+// @autorun(test.skip)
 @it
 @p1
 @title(
-  'Inbound/Outbound with  different types contact call info on call control page',
+  'Inbound/Outbound with  different types contact call info on call control page, thirty party',
 )
+@common
 export class CallInformationThirdParty extends Step {
-  Login: StepProp = (props) => (
-    <CommonLogin {...props} CreateInstance={CreateInstance} />
-  );
-  CreateMock: StepProp = CreateMock;
+  CreateMock?: StepProp;
+  Login?: StepProp;
+  SpyProfileImage?: StepProp;
+  durationDataSign?: string;
+
   @examples(`
     | direction  | phoneNumber    | parsedNumber     | contactName |
     | 'Outbound' | '+17604215533' | '(760) 421-5533' | 'Contact Z' |
   `)
   run() {
-    const { Login, CreateMock } = this;
+    const {
+      CreateMock, // = CommonCreateMock,
+      Login, // = <CommonLogin CreateInstance={CreateInstance} />,
+      SpyProfileImage,
+      durationDataSign = 'duration',
+    } = this;
     return (
       <Scenario
         desc="Inbound/Outbound with  different types contact call info on call control page"
@@ -237,20 +301,16 @@ export class CallInformationThirdParty extends Step {
         <And
           desc="Web Phone is enabled and 'Browser'  is selected in Settings > Calling > Make my calls with"
           action={[
-            (_: any, { phone }: any) => {
-              jest
-                .spyOn(phone.googleContacts, 'getProfileImage')
-                .mockResolvedValue(IMAGE_URL);
-            },
+            SpyProfileImage,
             <NavigateTo path="/settings/calling" />,
-            ExpandDropdown,
+            ExpandCallingSettingDropdown,
             <SelectCallingSetting settingName="Browser" />,
             ClickSaveButton,
           ]}
         />
         <When
           desc="Make an inbound/outbound call from/to Mr. X/Y/Z, check active call page"
-          action={async ({ direction, phoneNumber, contactName }: any) => [
+          action={({ direction, phoneNumber }: ExampleItem) => [
             // pre call to fetch image source
             <MakeCall
               useUserAgentSession
@@ -277,10 +337,11 @@ export class CallInformationThirdParty extends Step {
                 Note:
                   Outbound will be shown digital clock when click the call button
                   Inbound will be shown digital clock only when click the answer button"
-          action={async ({ contactName, parsedNumber }: any) => [
+          action={({ contactName, parsedNumber }: ExampleItem) => [
             CheckActiveCallExist,
             <CheckCallControlPage
               showDuration
+              durationDataSign={durationDataSign}
               showCustomAvatar
               name={contactName}
               parsedNumber={parsedNumber}

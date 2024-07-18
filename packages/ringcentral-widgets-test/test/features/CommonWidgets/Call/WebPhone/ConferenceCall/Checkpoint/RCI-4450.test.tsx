@@ -14,7 +14,6 @@
 	| > Make an {Call direction}> Click theAnwser&Hold button |Inbound |
 
  */
-
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p2,
@@ -30,6 +29,20 @@ import {
 } from '@ringcentral-integration/test-utils';
 import { waitForRenderReady } from '@ringcentral-integration/test-utils';
 
+import {
+  ClickCallItemByLabel,
+  AnswerAndHoldCall,
+  CheckAllCallsListPage,
+  ClickAddButton,
+  ClickMergeButton,
+  MakeCall,
+  CheckConferenceCallControlPage,
+  CheckConferenceInfoPage,
+  ClickBackButton,
+  CheckAnswerAndHoldBehavior,
+  CheckOutboundAndHoldBehavior,
+  CheckActiveCallExist,
+} from '../../../../../../steps/Call';
 import { CommonLogin } from '../../../../../../steps/CommonLogin';
 import {
   MockConferenceCall,
@@ -43,20 +56,6 @@ import {
   MockMessageSync,
   MockGetPhoneNumber,
 } from '../../../../../../steps/Mock';
-import {
-  ClickCallItemByLabel,
-  CallItemButtonBehavior,
-  CheckAllCallsListPage,
-  ClickAddButton,
-  ClickMergeButton,
-  MakeCall,
-  CheckConferenceCallControlPage,
-  CheckConferenceInfoPage,
-  ClickBackButton,
-  CheckAnswerAndHoldBehavior,
-  CheckOutboundAndHoldBehavior,
-  CheckActiveCallExist,
-} from '../../../../../../steps/Call';
 import { NavigateToDialer } from '../../../../../../steps/Navigate';
 
 @autorun(test.skip)
@@ -123,11 +122,7 @@ export class RCI4450 extends Step {
               useUserAgentSession
             />,
             MockCallPresence,
-            direction === 'Inbound' ? (
-              <CallItemButtonBehavior callButtonBehaviorType="answerAndHold" />
-            ) : (
-              () => ({})
-            ),
+            direction === 'Inbound' ? <AnswerAndHoldCall /> : () => ({}),
             TriggerActiveCallChanged,
             waitForRenderReady,
           ]}

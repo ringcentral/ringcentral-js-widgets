@@ -1,6 +1,3 @@
-import { any, find } from 'ramda';
-import type { UIProps, UIFunctions } from '@ringcentral-integration/core';
-import { RcUIModuleV2, action, state } from '@ringcentral-integration/core';
 import type { RcVMeetingModel } from '@ringcentral-integration/commons/interfaces/Rcv.model';
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import type { RcMMeetingModel } from '@ringcentral-integration/commons/modules/Meeting';
@@ -14,8 +11,12 @@ import {
   JBH_LABEL,
   RCV_WAITING_ROOM_MODE,
 } from '@ringcentral-integration/commons/modules/RcVideo';
+import type { UIProps, UIFunctions } from '@ringcentral-integration/core';
+import { RcUIModuleV2, action, state } from '@ringcentral-integration/core';
+import { any, find } from 'ramda';
 
 import type { GenericMeetingPanelProps } from '../../components/GenericMeetingPanel';
+
 import type {
   Deps,
   GenericMeetingContainerProps,
@@ -172,7 +173,6 @@ export class GenericMeetingUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
     props: GenericMeetingContainerProps,
   ): UIProps<GenericMeetingPanelProps> {
     const {
-      useRcmV2,
       disabled,
       showTopic,
       showWhen,
@@ -206,8 +206,6 @@ export class GenericMeetingUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
     return {
       isRCV,
       isRCM,
-      // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
-      useRcmV2,
       showWhen,
       showTopic,
       showDuration,

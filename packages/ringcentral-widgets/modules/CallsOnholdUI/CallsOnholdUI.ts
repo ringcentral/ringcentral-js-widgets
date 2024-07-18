@@ -1,10 +1,10 @@
-import { filter } from 'ramda';
-
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import type { UIFunctions, UIProps } from '@ringcentral-integration/core';
 import { computed } from '@ringcentral-integration/core';
+import { filter } from 'ramda';
 
 import { ActiveCallsUI } from '../ActiveCallsUI';
+
 import type {
   CallsOnholdContainerProps,
   CallsOnholdPanelProps,
@@ -56,28 +56,31 @@ export class CallsOnholdUI extends ActiveCallsUI<Deps> {
       onMerge: async (sessionId) => {
         // to track user click merge
         this._deps.callMonitor.callsOnHoldClickMergeTrack();
-
-        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+        if (!this._deps.conferenceCall) {
+          console.warn(
+            '[CallsOnholdUI] _deps.conferenceCall is mandatory for merging calls.',
+          );
+          return;
+        }
         const sessions = await this._deps.conferenceCall.parseMergingSessions({
           sessionId,
           sessionIdToMergeWith: options.params.fromSessionId,
         });
-        if (sessions) {
+        if (sessions?.session) {
           const confId =
-            // @ts-expect-error TS(2532): Object is possibly 'undefined'.
             this._deps.conferenceCall.conferences &&
-            // @ts-expect-error TS(2532): Object is possibly 'undefined'.
             Object.keys(this._deps.conferenceCall.conferences)[0];
           if (confId) {
             const confSessionId =
-              // @ts-expect-error TS(2532): Object is possibly 'undefined'.
               this._deps.conferenceCall.conferences[confId].sessionId;
             this._deps.routerInteraction.push(`/calls/active/${confSessionId}`);
           } else {
             this._deps.routerInteraction.goBack();
           }
-          // @ts-expect-error TS(2532): Object is possibly 'undefined'.
-          await this._deps.conferenceCall.mergeSessions(sessions);
+          await this._deps.conferenceCall.mergeSessions({
+            session: sessions.session,
+            sessionToMergeWith: sessions.sessionToMergeWith,
+          });
         }
       },
       onBackButtonClick: () => {

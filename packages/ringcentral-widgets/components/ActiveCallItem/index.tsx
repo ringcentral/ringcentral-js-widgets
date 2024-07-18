@@ -1,8 +1,3 @@
-import React, { Component } from 'react';
-
-import classnames from 'classnames';
-import PropTypes from 'prop-types';
-
 import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 import {
   isInbound,
@@ -10,6 +5,9 @@ import {
 } from '@ringcentral-integration/commons/lib/callLogHelpers';
 import parseNumber from '@ringcentral-integration/commons/lib/parseNumber';
 import sessionStatus from '@ringcentral-integration/commons/modules/Webphone/sessionStatus';
+import clsx from 'clsx';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 
 import AnswerIcon from '../../assets/images/Answer.svg';
 import EndIcon from '../../assets/images/End.svg';
@@ -19,6 +17,7 @@ import CallIcon from '../CallIcon';
 import CircleButton from '../CircleButton';
 import ContactDisplay from '../ContactDisplay';
 import DurationCounter from '../DurationCounter';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 
@@ -497,8 +496,8 @@ class ActiveCallItem extends Component {
               contactName={contactName}
               className={
                 isOnConferenceCall
-                  ? classnames(styles.conferenceContactDisplay)
-                  : classnames(styles.contactDisplay, contactDisplayStyle)
+                  ? clsx(styles.conferenceContactDisplay)
+                  : clsx(styles.contactDisplay, contactDisplayStyle)
               }
               contactMatches={contactMatches}
               // @ts-expect-error TS(2339): Property 'selected' does not exist on type 'Readon... Remove this comment to see the full error message

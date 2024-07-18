@@ -11,7 +11,6 @@
  * > Enter the phone email address or phone number
  * >Press the 'Sign In' button
  */
-
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p2,

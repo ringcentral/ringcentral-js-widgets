@@ -1,6 +1,7 @@
 import React from 'react';
 
 import phoneTypeNames from '../../lib/phoneTypeNames';
+
 import { splitter } from './splitter';
 import styles from './styles.scss';
 

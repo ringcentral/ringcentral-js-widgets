@@ -1,8 +1,7 @@
+import clsx from 'clsx';
+import propTypes from 'prop-types';
 import React, { Component } from 'react';
 import ReactDOM from 'react-dom';
-
-import classnames from 'classnames';
-import propTypes from 'prop-types';
 
 import styles from './styles.scss';
 
@@ -70,23 +69,19 @@ function createModal(Comp: any) {
       return (
         <div
           className={
-            show
-              ? classnames(styles.container, className)
-              : styles.containerHidden
+            show ? clsx(styles.container, className) : styles.containerHidden
           }
         >
           <div
             className={
-              show ? classnames(styles.mask, maskClassName) : styles.maskHidden
+              show ? clsx(styles.mask, maskClassName) : styles.maskHidden
             }
             onClick={onClick}
           />
           <div
             data-sign={show ? 'deleteModal' : undefined}
             className={
-              show
-                ? classnames(styles.modal, modalClassName)
-                : styles.modalHidden
+              show ? clsx(styles.modal, modalClassName) : styles.modalHidden
             }
           >
             <Comp {...props} />

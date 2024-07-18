@@ -5,9 +5,10 @@ import type {
   WebphoneSession,
 } from '../../interfaces/Webphone.interface';
 import { camelize } from '../../lib/di/utils/utils';
+
+import type { WebphoneSessionRequestHeaders } from './Webphone.interface';
 import { recordStatus } from './recordStatus';
 import { sessionStatus } from './sessionStatus';
-import type { WebphoneSessionRequestHeaders } from './Webphone.interface';
 
 let environment: Window & typeof globalThis;
 if (typeof window !== 'undefined') {
@@ -110,21 +111,29 @@ export function extractHeadersData(
 
 export function getCallQueueName({
   direction,
-  toUserName,
-  fromUserName,
+  headers,
 }: {
-  direction: string;
-  toUserName: string;
-  fromUserName: string;
+  direction: 'Inbound' | 'Outbound';
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  headers: any;
 }) {
-  if (direction === callDirections.outbound) {
+  if (
+    direction === callDirections.outbound ||
+    !headers ||
+    !headers['P-Rc-Api-Call-Info'] ||
+    !headers['P-Rc-Api-Call-Info'][0] ||
+    !headers['P-Rc-Api-Call-Info'][0].raw ||
+    !headers['P-Asserted-Identity'] ||
+    !headers['P-Asserted-Identity'][0] ||
+    !headers['P-Asserted-Identity'][0].raw
+  ) {
     return null;
   }
-  let queueName = null;
-  if (toUserName && fromUserName === toUserName && toUserName.endsWith(' - ')) {
-    queueName = toUserName;
+  if (headers['P-Rc-Api-Call-Info'][0].raw.indexOf('queue-call') === -1) {
+    return null;
   }
-  return queueName;
+  const name = headers['P-Asserted-Identity'][0].raw.split('"')[1];
+  return name || null;
 }
 
 export function normalizeSession(
@@ -140,16 +149,16 @@ export function normalizeSession(
     callId: session.__rc_callId,
     direction: session.__rc_direction,
     callStatus: session.__rc_callStatus,
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
     to: session.request?.to?.uri?.user,
     toUserName,
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
     from: session.request?.from?.uri?.user,
     fromNumber: session.__rc_fromNumber,
     fromUserName,
     fromTag: session.fromTag,
     toTag: session.toTag,
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type 'number | undefined' is not assignable to typ... Remove this comment to see the full error message
     startTime: session.startTime && new Date(session.startTime).getTime(),
     creationTime: session.__rc_creationTime,
     isOnHold: !!session.localHold,
@@ -160,21 +169,18 @@ export function normalizeSession(
     isForwarded: !!session.__rc_isForwarded,
     isReplied: !!session.__rc_isReplied,
     recordStatus: session.__rc_recordStatus || recordStatus.idle,
-    // @ts-expect-error
+    // @ts-expect-error TS(2739): Type '{ id: string; }' is missing the following pr... Remove this comment to see the full error message
     contactMatch: session.__rc_contactMatch,
     minimized: !!session.__rc_minimized,
-    // @ts-expect-error
     partyData: session.__rc_partyData || null,
     lastActiveTime: session.__rc_lastActiveTime,
     cached: false,
     removed: false,
-    // @ts-expect-error
     callQueueName: getCallQueueName({
       direction: session.__rc_direction,
-      toUserName,
-      fromUserName,
+      headers: session.request && session.request.headers,
     }),
-    warmTransferSessionId: session.__rc_transferSessionId,
+    warmTransferSessionId: session.__rc_transferSessionId || '',
   };
 }
 
@@ -213,8 +219,8 @@ export function sortByLastActiveTimeDesc(
 /**
  * HACK: this function is not very reliable, only use it before the merging complete.
  */
-export function isConferenceSession(session: NormalizedSession) {
-  return session && session.to && session.to.indexOf('conf_') === 0;
+export function isConferenceSession(session?: NormalizedSession) {
+  return session?.to?.indexOf('conf_') === 0;
 }
 
 export function isRecording(session: NormalizedSession) {

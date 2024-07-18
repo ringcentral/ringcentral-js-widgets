@@ -1,8 +1,8 @@
+import { meetingStatus } from '@ringcentral-integration/commons/modules/Meeting';
 import React from 'react';
 
-import { meetingStatus } from '@ringcentral-integration/commons/modules/Meeting';
-
 import FormattedMessage from '../../FormattedMessage';
+
 import i18n from './i18n';
 
 type MeetingAlertProps = {
@@ -15,7 +15,7 @@ type MeetingAlertProps = {
   };
   application?: string;
 };
-const MeetingAlert: React.SFC<MeetingAlertProps> = ({
+const MeetingAlert: React.FC<MeetingAlertProps> = ({
   message: { message, payload },
   currentLocale,
   application,
@@ -27,7 +27,6 @@ const MeetingAlert: React.SFC<MeetingAlertProps> = ({
         <FormattedMessage
           message={i18n.getString(message, currentLocale)}
           values={{
-            // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
             application,
             // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
             permissionName: payload.permissionName,

@@ -1,9 +1,8 @@
-import { filter, reduce } from 'ramda';
-
 import type {
   Entity,
   EntityPhoneNumberItem,
 } from '@ringcentral-integration/commons/interfaces/Entity.interface';
+import { filter, reduce } from 'ramda';
 
 export function checkShouldHidePhoneNumber(
   phoneNumber: string,

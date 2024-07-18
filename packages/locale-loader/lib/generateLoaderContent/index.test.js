@@ -1,8 +1,9 @@
-import path from 'path';
 import { transform } from '@babel/core';
 import formatLocale from '@ringcentral-integration/i18n/lib/formatLocale';
 import fs from 'fs-extra';
-import generateLoaderContent from '.';
+import path from 'path';
+
+import generateLoaderContent from './';
 
 const files = ['en_us.js', 'FR-FR.JS', 'aa-AAAA-ZZ.JS'];
 
@@ -29,7 +30,7 @@ describe('generateLoaderContent', () => {
         expect(content.indexOf(locale) !== -1).toBe(true);
       });
       test(`should contain case '${lang}': `, () => {
-        expect(content.indexOf(`case '${lang}':`) > -1).toBe(true);
+        expect(content).toMatchSnapshot();
       });
     });
     test('should be valid js file content', () => {

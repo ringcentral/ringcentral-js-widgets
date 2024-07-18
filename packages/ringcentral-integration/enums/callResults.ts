@@ -48,6 +48,6 @@ export const callResults = ObjectMap.fromObject({
 } as const);
 
 export type CallResultsKey = ObjectMapKey<typeof callResults>;
-export type CallResultsValue = typeof callResults[CallResultsKey];
+export type CallResultsValue = (typeof callResults)[CallResultsKey];
 
 export default callResults;

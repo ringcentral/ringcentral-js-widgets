@@ -1,5 +1,7 @@
 import { fireEvent, screen } from '@testing-library/react';
+
 import type { StepFunction } from '../../../lib/step';
+
 import { InputSMS } from './InputSMS';
 import type { MessageProps } from './MessageProps.interface';
 

@@ -1,8 +1,3 @@
-import type { FunctionComponent } from 'react';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-
-import classnames from 'classnames';
-
 import {
   generateRandomPassword,
   isRecurringMeeting,
@@ -40,6 +35,9 @@ import {
   styled,
 } from '@ringcentral/juno';
 import { LockBorder as lockSvg } from '@ringcentral/juno-icon';
+import clsx from 'clsx';
+import type { FunctionComponent } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import { formatMeetingId } from '../../lib/MeetingCalendarHelper';
 import {
@@ -48,12 +46,13 @@ import {
   HOUR_SCALE,
   MINUTE_SCALE,
 } from '../../lib/MeetingHelper';
-import { MeetingAlert, RemoveMeetingWarn } from '../MeetingAlert';
+import { MigrateToPluginAlert, RemoveMeetingWarn } from '../MeetingAlert';
 import { SpinnerOverlay } from '../SpinnerOverlay';
+
 import { ExtendedTooltip as MeetingOptionLocked } from './ExtendedTooltip';
-import i18n, { I18nKey } from './i18n';
-import styles from './styles.scss';
 import { VideoSettingGroup } from './VideoSettingGroup';
+import i18n, { type I18nKey } from './i18n';
+import styles from './styles.scss';
 
 export interface MeetingConfigsProps {
   disabled: boolean;
@@ -79,13 +78,14 @@ export interface MeetingConfigsProps {
   delegators: MeetingDelegator[];
   updateScheduleFor: (userExtensionId: string) => any;
   trackSettingChanges?: (itemName: RcmItemType) => void;
+  onCloseMigrationAlert?: () => void;
   enableServiceWebSettings?: boolean;
   datePickerSize?: RcDatePickerProps['size'];
   timePickerSize?: RcTimePickerProps['size'];
   checkboxSize?: RcCheckboxProps['size'];
   recurringMeetingPosition?: 'middle' | 'bottom';
   defaultTopic: string;
-  showIeSupportAlert?: boolean;
+  showMigrationAlert?: boolean;
   showRemoveMeetingWarning?: boolean;
   brandConfig?: any;
 }
@@ -146,7 +146,7 @@ const MeetingOptionLabel: FunctionComponent<{
     <div className={styles.labelContent}>
       <div
         data-sign={`${dataSign}_label`}
-        className={classnames(
+        className={clsx(
           styles.placementLeft,
           { [styles.optionLabel]: labelPlacement === 'start' },
           className,
@@ -205,11 +205,12 @@ export const MeetingConfigs: FunctionComponent<MeetingConfigsProps> = ({
   delegators,
   updateScheduleFor,
   trackSettingChanges,
+  onCloseMigrationAlert,
   showSpinnerInConfigPanel,
   enableServiceWebSettings,
   recurringMeetingPosition,
   defaultTopic,
-  showIeSupportAlert,
+  showMigrationAlert,
   showRemoveMeetingWarning,
   brandConfig,
 }) => {
@@ -318,10 +319,17 @@ export const MeetingConfigs: FunctionComponent<MeetingConfigsProps> = ({
             currentLocale={currentLocale}
           />
         )}
+        {showMigrationAlert && (
+          <VideoSettingGroup dataSign="migrateToPluginAlert" expandable={false}>
+            <MigrateToPluginAlert
+              currentLocale={currentLocale}
+              substituteName={brandConfig.substituteName}
+              onCloseAlert={onCloseMigrationAlert}
+            />
+          </VideoSettingGroup>
+        )}
         {showTopic ? (
-          <div
-            className={classnames(styles.meetingSection, styles.meetingTitle)}
-          >
+          <div className={clsx(styles.meetingSection, styles.meetingTitle)}>
             {children}
           </div>
         ) : null}
@@ -499,13 +507,11 @@ export const MeetingConfigs: FunctionComponent<MeetingConfigsProps> = ({
               expandable={settingsGroupExpandable}
               summary={i18n.getString('scheduleFor', currentLocale)}
             >
-              <div
-                className={classnames(styles.sideMargin, styles.selectOption)}
-              >
+              <div className={clsx(styles.sideMargin, styles.selectOption)}>
                 <RcSelect
                   variant="box"
                   disabled={disabled}
-                  className={classnames(styles.boxSelect, styles.autoFullWidth)}
+                  className={clsx(styles.boxSelect, styles.autoFullWidth)}
                   data-sign="scheduleFor"
                   onChange={(e) => {
                     updateScheduleFor(e.target.value as string);
@@ -627,13 +633,9 @@ export const MeetingConfigs: FunctionComponent<MeetingConfigsProps> = ({
             />
             {meeting._requireMeetingPassword ? (
               <div
-                className={classnames(
-                  styles.passwordField,
-                  styles.noBottomMargin,
-                  {
-                    [styles.subPrefixPadding]: labelPlacement === 'end',
-                  },
-                )}
+                className={clsx(styles.passwordField, styles.noBottomMargin, {
+                  [styles.subPrefixPadding]: labelPlacement === 'end',
+                })}
               >
                 <RcTextField
                   size="small"
@@ -739,15 +741,13 @@ export const MeetingConfigs: FunctionComponent<MeetingConfigsProps> = ({
             summary={i18n.getString('audio', currentLocale)}
           >
             <div
-              className={classnames(
+              className={clsx(
                 styles.selectOption,
                 styles.labelContent,
                 styles.sideMargin,
               )}
             >
-              <div
-                className={classnames(styles.placementLeft, styles.hackWidth)}
-              >
+              <div className={clsx(styles.placementLeft, styles.hackWidth)}>
                 <RcSelect
                   fullWidth
                   variant="box"
@@ -764,7 +764,7 @@ export const MeetingConfigs: FunctionComponent<MeetingConfigsProps> = ({
                   classes={{
                     root: styles.boxSelectWrapper,
                   }}
-                  className={classnames(styles.boxSelect, styles.autoFullWidth)}
+                  className={clsx(styles.boxSelect, styles.autoFullWidth)}
                   onChange={(e) => {
                     updateAudioOptions(e.target.value as string);
                   }}
@@ -802,12 +802,7 @@ export const MeetingConfigs: FunctionComponent<MeetingConfigsProps> = ({
                 </RcSelect>
               </div>
               {enableServiceWebSettings && meeting.settingLock?.audioOptions ? (
-                <div
-                  className={classnames(
-                    styles.placementRight,
-                    styles.lockedIcon,
-                  )}
-                >
+                <div className={clsx(styles.placementRight, styles.lockedIcon)}>
                   <MeetingOptionLocked
                     data-sign="audioSection_lock"
                     hasScrollBar={hasScrollBar}
@@ -881,7 +876,7 @@ export const MeetingConfigs: FunctionComponent<MeetingConfigsProps> = ({
                 />
                 <RcTypography
                   variant="caption1"
-                  className={classnames(styles.recurringNote, {
+                  className={clsx(styles.recurringNote, {
                     [styles.subPrefixPadding]: labelPlacement === 'end',
                   })}
                 >
@@ -890,19 +885,6 @@ export const MeetingConfigs: FunctionComponent<MeetingConfigsProps> = ({
               </>
             ) : null}
           </VideoSettingGroup>
-          {showIeSupportAlert && (
-            <VideoSettingGroup dataSign="ieAlert" expandable={false}>
-              <MeetingAlert
-                severity="warning"
-                content={format(
-                  i18n.getString('ieSupportAlert', currentLocale),
-                  {
-                    appName: brandConfig.appName,
-                  },
-                )}
-              />
-            </VideoSettingGroup>
-          )}
         </div>
       </div>
     </PanelRoot>

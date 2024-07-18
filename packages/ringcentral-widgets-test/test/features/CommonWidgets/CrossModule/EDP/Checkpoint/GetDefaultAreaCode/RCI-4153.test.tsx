@@ -18,8 +18,6 @@
  * Entry point(/s):
  * Open background.html of CTI > User log in to CTI app
  */
-
-import { waitUntilTo } from '@ringcentral-integration/utils';
 import {
   p2,
   it,
@@ -31,6 +29,8 @@ import {
   title,
   When,
 } from '@ringcentral-integration/test-utils';
+import { waitUntilTo } from '@ringcentral-integration/utils';
+
 import type { StepProp } from '../../../../../../lib/step';
 import { StepFunction } from '../../../../../../lib/step';
 import { CommonLogin } from '../../../../../../steps/CommonLogin';
@@ -111,7 +111,7 @@ export class DefaultAreaCode extends Step {
           <MockExtensionInfo
             handle={(mockData) => {
               mockData.regionalSettings.homeCountry = {
-                uri: 'https://api-rcapps-xmnup.rclabenv.com/restapi/v1.0/dictionary/country/75',
+                uri: 'https://api-rcapps-xmnuplabs_domain/restapi/v1.0/dictionary/country/75',
                 id: '75',
                 name: 'France',
                 isoCode: 'FR',

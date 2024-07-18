@@ -1,14 +1,14 @@
-import * as uuid from 'uuid';
-
 import {
   action,
   globalStorage,
   RcModuleV2,
   state,
 } from '@ringcentral-integration/core';
+import * as uuid from 'uuid';
 
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
+
 import type {
   AlertItem,
   AllowDuplicates,

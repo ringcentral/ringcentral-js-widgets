@@ -1,7 +1,7 @@
+import type { ContactCenterProvider } from './ContactCenterProvider';
 import type { CountryInfo } from './CountryInfo';
 import type { ExtensionInfo } from './ExtensionInfo';
 import type { TemporaryNumberInfo } from './TemporaryNumberInfo';
-import type { ContactCenterProvider } from './ContactCenterProvider';
 
 export interface CompanyPhoneNumberInfo {
   /**

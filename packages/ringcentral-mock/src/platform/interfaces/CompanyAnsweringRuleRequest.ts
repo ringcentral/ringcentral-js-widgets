@@ -1,5 +1,5 @@
-import type { CompanyAnsweringRuleCallersInfoRequest } from './CompanyAnsweringRuleCallersInfoRequest';
 import type { CompanyAnsweringRuleCalledNumberInfo } from './CompanyAnsweringRuleCalledNumberInfo';
+import type { CompanyAnsweringRuleCallersInfoRequest } from './CompanyAnsweringRuleCallersInfoRequest';
 import type { CompanyAnsweringRuleScheduleInfoRequest } from './CompanyAnsweringRuleScheduleInfoRequest';
 import type { GreetingInfo } from './GreetingInfo';
 

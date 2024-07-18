@@ -1,8 +1,8 @@
 import { declare } from '@babel/helper-plugin-utils';
-import transformReactJSX from '@babel/plugin-transform-react-jsx';
 import transformReactDisplayName from '@babel/plugin-transform-react-display-name';
-import transformReactJSXSource from '@babel/plugin-transform-react-jsx-source';
+import transformReactJSX from '@babel/plugin-transform-react-jsx';
 import transformReactJSXSelf from '@babel/plugin-transform-react-jsx-self';
+import transformReactJSXSource from '@babel/plugin-transform-react-jsx-source';
 
 export default declare((api, opts) => {
   api.assertVersion(7);

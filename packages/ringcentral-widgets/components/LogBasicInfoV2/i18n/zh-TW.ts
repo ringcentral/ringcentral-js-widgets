@@ -46,7 +46,9 @@ export default {
   [callResults.faxReceipt]: "傳真接收",
   [callResults.disconnected]: "已中斷連線",
   [callResults.notAllowed]: "不允許",
-  warmTransferSwitchCall: "切換通話"
+  warmTransferSwitchCall: "切換通話",
+  conferenceCall: "電話會議",
+  participants: "參與者"
 };
 
 // @key: @#@"[callDirections.inbound]"@#@ @source: @#@"Inbound"@#@
@@ -94,3 +96,5 @@ export default {
 // @key: @#@"[callResults.disconnected]"@#@ @source: @#@"Disconnected"@#@
 // @key: @#@"[callResults.notAllowed]"@#@ @source: @#@"Not Allowed"@#@
 // @key: @#@"warmTransferSwitchCall"@#@ @source: @#@"Switch calls"@#@
+// @key: @#@"conferenceCall"@#@ @source: @#@"Conference Call"@#@
+// @key: @#@"participants"@#@ @source: @#@"Participants"@#@

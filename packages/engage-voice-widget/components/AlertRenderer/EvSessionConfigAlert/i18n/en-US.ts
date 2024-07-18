@@ -9,4 +9,4 @@ export default {
     'Sorry, no inbound queues selected.',
   [messageTypes.UPDATE_AGENT_ERROR]: 'Session update failed',
   [messageTypes.UPDATE_AGENT_SUCCESS]: 'Session updated',
-};
+} as const;

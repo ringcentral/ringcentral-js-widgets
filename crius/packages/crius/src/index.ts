@@ -1,6 +1,6 @@
-import { Step, StepClass } from './stepClass';
-import { Children, StepType, Props, CriusElement } from './step';
 import { createFlow, CriusNode } from './flow';
+import { Children, StepType, Props, CriusElement } from './step';
+import { Step, StepClass } from './stepClass';
 import { StepFunction } from './stepFunction';
 
 const Crius = {

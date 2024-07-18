@@ -4,4 +4,4 @@ export default {
   fax: 'Fax',
   voicemail: 'Voicemail',
   call: 'Call',
-};
+} as const;

@@ -1,9 +1,10 @@
+import clsx from 'clsx';
 import React, { Component } from 'react';
-
-import classNames from 'classnames';
 
 import { bindDebounce } from '../../lib/bindDebounce';
 import type { Task } from '../CallLogPanel';
+import { CountdownTimer } from '../CountdownTimer';
+
 import type { CallLogFieldsProps } from './CallLogFields.interface';
 import { FieldItem } from './FieldItem';
 import styles from './styles.scss';
@@ -25,6 +26,23 @@ export default class CallLogFields extends Component<CallLogFieldsProps, {}> {
   };
 
   debounce = bindDebounce(this, DEFAULT_INPUT_SAVE_TIMEOUT);
+
+  renderDelaySavingTimer = () => {
+    const { currentLocale, currentDelaySavingState } = this.props;
+    const { delayUpdatingStartTime, delayUpdatingMinutes } =
+      currentDelaySavingState ?? {};
+    return (
+      delayUpdatingStartTime &&
+      delayUpdatingMinutes && (
+        <CountdownTimer
+          variant="info"
+          currentLocale={currentLocale}
+          creationTime={delayUpdatingStartTime}
+          duration={delayUpdatingMinutes}
+        />
+      )
+    );
+  };
 
   renderFields = () => {
     const {
@@ -70,8 +88,12 @@ export default class CallLogFields extends Component<CallLogFieldsProps, {}> {
       return null;
     }
     return (
-      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
-      <div className={classNames(styles.callLogFieldsSection, classes.root)}>
+      <div
+        data-sign="callLogFieldsSection"
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+        className={clsx(styles.callLogFieldsSection, classes.root)}
+      >
+        {this.renderDelaySavingTimer()}
         {this.renderFields()}
       </div>
     );

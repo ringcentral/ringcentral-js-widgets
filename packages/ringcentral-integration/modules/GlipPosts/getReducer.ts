@@ -1,10 +1,11 @@
 import { combineReducers } from 'redux';
 
 import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
+
 import status from './status';
 
-export function getGlipPostsStatusReducer(types) {
-  return (state = status.idle, { type }) => {
+export function getGlipPostsStatusReducer(types: any) {
+  return (state = status.idle, { type }: any) => {
     switch (type) {
       case types.fetch:
         return status.fetching;
@@ -17,8 +18,8 @@ export function getGlipPostsStatusReducer(types) {
   };
 }
 
-export function getGlipPostsCreateStatusReducer(types) {
-  return (state = status.idle, { type }) => {
+export function getGlipPostsCreateStatusReducer(types: any) {
+  return (state = status.idle, { type }: any) => {
     switch (type) {
       case types.create:
         return status.creating;
@@ -31,10 +32,18 @@ export function getGlipPostsCreateStatusReducer(types) {
   };
 }
 
-export function getGlipPostsStoreReducer(types) {
+export function getGlipPostsStoreReducer(types: any) {
   return (
     state = {},
-    { type, groupId, records, record, oldRecordId, isSendByMe, lastPageToken },
+    {
+      type,
+      groupId,
+      records,
+      record,
+      oldRecordId,
+      isSendByMe,
+      lastPageToken,
+    }: any,
   ) => {
     let newState;
     let newPosts;
@@ -45,9 +54,12 @@ export function getGlipPostsStoreReducer(types) {
           ...state,
         };
         if (!lastPageToken) {
+          // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
           newState[groupId] = records;
         } else {
+          // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
           const preRecords = newState[groupId];
+          // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
           newState[groupId] = [].concat(preRecords).concat(records);
         }
         return newState;
@@ -57,30 +69,34 @@ export function getGlipPostsStoreReducer(types) {
         newState = {
           ...state,
         };
+        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         newPosts = (newState[groupId] && [...newState[groupId]]) || [];
         if (oldRecordId) {
-          oldPostIndex = newPosts.findIndex((p) => p.id === oldRecordId);
+          oldPostIndex = newPosts.findIndex((p: any) => p.id === oldRecordId);
         } else {
-          oldPostIndex = newPosts.findIndex((p) => p.id === record.id);
+          oldPostIndex = newPosts.findIndex((p: any) => p.id === record.id);
         }
         if (oldPostIndex > -1) {
           newPosts.splice(oldPostIndex, 1, record);
+          // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
           newState[groupId] = newPosts;
         } else if (isSendByMe) {
           oldPostIndex = newPosts.findIndex(
-            (p) =>
+            (p: any) =>
               p.creatorId === record.creatorId &&
               p.text === record.text &&
               p.sendStatus === status.creating,
           );
           if (oldPostIndex === -1) {
+            // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
             newState[groupId] = [record].concat(
-              newPosts.filter((p) => p.id !== record.id),
+              newPosts.filter((p: any) => p.id !== record.id),
             );
           }
         } else {
+          // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
           newState[groupId] = [record].concat(
-            newPosts.filter((p) => p.id !== record.id),
+            newPosts.filter((p: any) => p.id !== record.id),
           );
         }
         return newState;
@@ -92,14 +108,15 @@ export function getGlipPostsStoreReducer(types) {
   };
 }
 
-export function getGlipPostsInputsReducer(types) {
-  return (state = {}, { type, groupId, textValue, mentions }) => {
+export function getGlipPostsInputsReducer(types: any) {
+  return (state = {}, { type, groupId, textValue, mentions }: any) => {
     let newState;
     switch (type) {
       case types.updatePostInput:
         newState = {
           ...state,
         };
+        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         newState[groupId] = {
           text: textValue,
           mentions,
@@ -111,14 +128,15 @@ export function getGlipPostsInputsReducer(types) {
   };
 }
 
-export function getGlipPostsReadTimeReducer(types) {
-  return (state = {}, { type, groupId, time = Date.now() }) => {
+export function getGlipPostsReadTimeReducer(types: any) {
+  return (state = {}, { type, groupId, time = Date.now() }: any) => {
     let newState;
     switch (type) {
       case types.updateReadTime:
         newState = {
           ...state,
         };
+        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         newState[groupId] = time;
         return newState;
       case types.resetSuccess:
@@ -129,14 +147,15 @@ export function getGlipPostsReadTimeReducer(types) {
   };
 }
 
-export function getGlipPostsPageInfoReducer(types) {
-  return (state = {}, { type, groupId, navigation }) => {
+export function getGlipPostsPageInfoReducer(types: any) {
+  return (state = {}, { type, groupId, navigation }: any) => {
     let newState;
     switch (type) {
       case types.fetchSuccess:
         newState = {
           ...state,
         };
+        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         newState[groupId] = navigation;
         return newState;
       case types.resetSuccess:
@@ -147,14 +166,15 @@ export function getGlipPostsPageInfoReducer(types) {
   };
 }
 
-export function getGlipPostsFetchTimeReducer(types) {
-  return (state = {}, { type, groupId }) => {
+export function getGlipPostsFetchTimeReducer(types: any) {
+  return (state = {}, { type, groupId }: any) => {
     let newState;
     switch (type) {
       case types.fetchSuccess:
         newState = {
           ...state,
         };
+        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         newState[groupId] = Date.now();
         return newState;
       case types.resetSuccess:
@@ -165,7 +185,7 @@ export function getGlipPostsFetchTimeReducer(types) {
   };
 }
 
-export default function getGlipPostsReducer(types, reducers = {}) {
+export default function getGlipPostsReducer(types: any, reducers = {}) {
   return combineReducers({
     ...reducers,
     status: getModuleStatusReducer(types),

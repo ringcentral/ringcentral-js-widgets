@@ -1,7 +1,7 @@
 import moduleStatuses from '../../enums/moduleStatuses';
 
-export default function getModuleStatusReducer(types) {
-  return (state = moduleStatuses.pending, { type }) => {
+export default function getModuleStatusReducer(types: any) {
+  return (state = moduleStatuses.pending, { type }: any) => {
     switch (type) {
       case types.init:
         return moduleStatuses.initializing;

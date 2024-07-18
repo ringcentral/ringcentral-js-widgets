@@ -1,11 +1,11 @@
-import React from 'react';
+import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
+import React from 'react';
 
 import { getPostAbstract } from '../../lib/formatPost';
-
 import GlipGroupAvatar from '../GlipGroupAvatar';
 import GlipGroupName from '../GlipGroupName';
+
 import styles from './styles.scss';
 
 function LatestPost({ latestPost, members }) {
@@ -43,11 +43,7 @@ LatestPost.defaultProps = {
 export default function GlipGroup({ group, className, onSelectGroup, active }) {
   return (
     <div
-      className={classnames(
-        styles.root,
-        active ? styles.active : null,
-        className,
-      )}
+      className={clsx(styles.root, active ? styles.active : null, className)}
       onClick={onSelectGroup}
     >
       <GlipGroupAvatar

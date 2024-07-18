@@ -1,7 +1,6 @@
-import React, { useEffect, useState } from 'react';
+/* eslint-disable jsx-a11y/no-static-element-interactions */
 
-import classnames from 'classnames';
-
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 import { telephonySessionStatus } from '@ringcentral-integration/commons/enums/telephonySessionStatus';
 import telephonyStatuses from '@ringcentral-integration/commons/enums/telephonyStatus';
@@ -13,7 +12,10 @@ import {
   Ignore as IgnoreIcon,
   TransferCall as TransferSmallIcon,
   Voicemail as VoicemailIcon,
+  CallAdd as CallAddIcon,
 } from '@ringcentral/juno-icon';
+import clsx from 'clsx';
+import React, { useEffect, useState } from 'react';
 
 import AnswerIcon from '../../assets/images/Answer.svg';
 import DialpadIcon from '../../assets/images/Dialpad.svg';
@@ -22,17 +24,19 @@ import EndAnswerIcon from '../../assets/images/EndAnswer.svg';
 import ForwardIcon from '../../assets/images/Forward_white.svg';
 import HoldIcon from '../../assets/images/Hold.svg';
 import HoldAnswerIcon from '../../assets/images/HoldAnswer.svg';
+import MergeIntoConferenceIcon from '../../assets/images/MergeIntoConferenceIcon.svg';
 import MoreIcon from '../../assets/images/MoreIcon.svg';
 import MuteIcon from '../../assets/images/Mute.svg';
 import RecordIcon from '../../assets/images/RecordOff.svg';
 import RecordIconActive from '../../assets/images/RecordOn.svg';
 import TransferIcon from '../../assets/images/Transfer.svg';
 import UnmuteIcon from '../../assets/images/Unmute.svg';
-import CircleButton from '../CircleButton';
+import { CircleButtonWithTitle } from '../CircleButton';
+
 import { CallLogDialpad } from './CallLogDialpad';
-import i18n from './i18n';
 import { MoreActionComponent } from './MoreActionComponent';
 import { MoreActionWithIncomingCall } from './MoreActionWithIncomingCall';
+import i18n from './i18n';
 import { CompleteTransferButton } from './style';
 import styles from './styles.scss';
 
@@ -43,6 +47,7 @@ type CallLogCallCtrlComponentProps = {
   onHangup?: (...args: any[]) => any;
   onReject?: (...args: any[]) => any;
   onTransfer?: (...args: any[]) => any;
+  onAddCall?: (...args: any[]) => any;
   onCompleteWarmTransfer?: (...args: any[]) => any;
   isOnMute?: boolean;
   isOnHold?: boolean;
@@ -58,11 +63,7 @@ type CallLogCallCtrlComponentProps = {
   isWide?: boolean;
   isCurrentDeviceCall?: boolean;
   warmTransferActiveTelephonySessionId?: string;
-  transferRef?:
-    | ((...args: any[]) => any)
-    | {
-        current?: any;
-      };
+  transferRef?: any;
   isOnTransfer?: boolean;
   sendDTMF?: (...args: any[]) => any;
   forward?: (...args: any[]) => any;
@@ -78,8 +79,11 @@ type CallLogCallCtrlComponentProps = {
   realOutboundCallStatus?: string;
   enableReply?: boolean;
   allowPickupCall?: boolean;
+  showConferenceCall?: boolean;
+  isCurrentCall?: boolean;
+  onMergeCall: () => Promise<void>;
 };
-const CallLogCallCtrlComponent: React.SFC<CallLogCallCtrlComponentProps> = (
+const CallLogCallCtrlComponent: React.FC<CallLogCallCtrlComponentProps> = (
   props,
 ) => {
   const {
@@ -93,6 +97,7 @@ const CallLogCallCtrlComponent: React.SFC<CallLogCallCtrlComponentProps> = (
     currentLocale,
     callDirection,
     onTransfer,
+    onAddCall,
     onCompleteWarmTransfer,
     isOnTransfer,
     isOnHold,
@@ -119,6 +124,9 @@ const CallLogCallCtrlComponent: React.SFC<CallLogCallCtrlComponentProps> = (
     warmTransferActiveTelephonySessionId,
     enableReply,
     allowPickupCall,
+    showConferenceCall,
+    isCurrentCall,
+    onMergeCall,
   } = props;
 
   // reject conditions: call direction is inbound & call status is ringing
@@ -195,7 +203,7 @@ const CallLogCallCtrlComponent: React.SFC<CallLogCallCtrlComponentProps> = (
         icon: muteIcon,
         key: muteTitle,
         onClick: muteAction,
-        iconClassName: classnames({
+        iconClassName: clsx({
           [styles.moreActionIcon]: true,
           [styles.buttonDisabled]: disableLinks || disabledCtrl,
           [styles.moreActionIconActive]: isOnMute,
@@ -210,7 +218,7 @@ const CallLogCallCtrlComponent: React.SFC<CallLogCallCtrlComponentProps> = (
           handleClose();
           toggleDialpadShow();
         },
-        iconClassName: classnames({
+        iconClassName: clsx({
           [styles.moreActionIcon]: true,
           [styles.buttonDisabled]: isInComingCall || disableLinks,
           [styles.moreActionIconActive]: dialpadShow,
@@ -222,7 +230,7 @@ const CallLogCallCtrlComponent: React.SFC<CallLogCallCtrlComponentProps> = (
         icon: HoldIconInAction,
         key: onHoldText,
         onClick: holdAction,
-        iconClassName: classnames({
+        iconClassName: clsx({
           [styles.moreActionIcon]: true,
           [styles.holdActive]: isOnHold,
         }),
@@ -233,7 +241,7 @@ const CallLogCallCtrlComponent: React.SFC<CallLogCallCtrlComponentProps> = (
         icon: isRecording ? RecordIconActive : RecordIcon,
         key: recordingText,
         onClick: recordAction,
-        iconClassName: classnames({
+        iconClassName: clsx({
           [styles.moreActionIcon]: true,
           [styles.recordingIcon]: true,
           [styles.recordingDisabled]: recordPendingState,
@@ -248,7 +256,7 @@ const CallLogCallCtrlComponent: React.SFC<CallLogCallCtrlComponentProps> = (
           handleClose();
           endAction?.();
         },
-        iconClassName: classnames({
+        iconClassName: clsx({
           [styles.buttonDisabled]: disableLinks,
           [styles.endIcon]: true,
         }),
@@ -256,12 +264,26 @@ const CallLogCallCtrlComponent: React.SFC<CallLogCallCtrlComponentProps> = (
         text: i18n.getString(endTitle, currentLocale),
       },
     ];
+    const conferenceItem = showConferenceCall
+      ? [
+          {
+            icon: CallAddIcon,
+            key: 'add',
+            onClick: onAddCall,
+            iconClassName: clsx({
+              [styles.moreActionIcon]: true,
+            }),
+            text: i18n.getString('add', currentLocale),
+          },
+        ]
+      : [];
     const moreActions = [
+      ...conferenceItem,
       {
         icon: TransferSmallIcon,
         key: 'transfer',
         onClick: onTransfer,
-        iconClassName: classnames({
+        iconClassName: clsx({
           [styles.moreActionIcon]: true,
         }),
         text: i18n.getString('transfer', currentLocale),
@@ -270,7 +292,7 @@ const CallLogCallCtrlComponent: React.SFC<CallLogCallCtrlComponentProps> = (
         icon: HoldIconInAction,
         key: onHoldText,
         onClick: holdAction,
-        iconClassName: classnames({
+        iconClassName: clsx({
           [styles.moreActionIcon]: true,
           [styles.holdActive]: isOnHold,
         }),
@@ -281,7 +303,7 @@ const CallLogCallCtrlComponent: React.SFC<CallLogCallCtrlComponentProps> = (
         icon: isRecording ? RecordIconActive : RecordIcon,
         key: recordingText,
         onClick: recordAction,
-        iconClassName: classnames({
+        iconClassName: clsx({
           [styles.moreActionIcon]: true,
           [styles.recordingIcon]: true,
           [styles.recordingDisabled]: recordPendingState,
@@ -297,7 +319,7 @@ const CallLogCallCtrlComponent: React.SFC<CallLogCallCtrlComponentProps> = (
     };
     const DialPadCom = dialpadShow && (
       <CallLogDialpad
-        className={classnames(styles.smallDialpad, {
+        className={clsx(styles.smallDialpad, {
           [styles.smallDiapadShow]: dialpadShow,
         })}
         onChange={(e) => {
@@ -313,10 +335,10 @@ const CallLogCallCtrlComponent: React.SFC<CallLogCallCtrlComponentProps> = (
         <>
           <RcIconButtonGroup
             data-sign="warmTransferControlButtonsWrap"
-            className={classnames(!isWide ? styles.classic : null, styles.root)}
+            className={clsx(!isWide ? styles.classic : null, styles.root)}
           >
             <CompleteTransferButton
-              isWide={isWide}
+              $isWide={isWide}
               data-sign="completeTransfer"
               disabled={disableLinks || disabledCtrl}
               color="positive"
@@ -350,34 +372,43 @@ const CallLogCallCtrlComponent: React.SFC<CallLogCallCtrlComponentProps> = (
 
     return (
       <>
-        <div
-          className={classnames(!isWide ? styles.classic : null, styles.root)}
-        >
-          <span title={i18n.getString(muteTitle, currentLocale)}>
-            <CircleButton
-              dataSign={muteTitle}
-              icon={muteIcon}
-              onClick={muteAction}
-              className={classnames({
+        <div className={clsx(!isWide ? styles.classic : null, styles.root)}>
+          {showConferenceCall && isWide && !isCurrentCall && (
+            <CircleButtonWithTitle
+              title={i18n.getString('mergeCall', currentLocale)}
+              dataSign="mergeCall"
+              icon={MergeIntoConferenceIcon}
+              onClick={onMergeCall}
+              className={clsx({
                 [styles.button]: true,
                 [styles.buttonDisabled]: disableLinks || disabledCtrl,
               })}
               disabled={disableLinks || disabledCtrl}
             />
-          </span>
-          <span title={i18n.getString(keypadText, currentLocale)}>
-            <CircleButton
-              dataSign={keypadText}
-              icon={DialpadIcon}
-              className={classnames({
-                [styles.button]: true,
-                [styles.buttonDisabled]: isInComingCall || disableLinks,
-                [styles.dialpadIconActive]: dialpadShow,
-              })}
-              disabled={disableLinks || isInComingCall}
-              onClick={toggleDialpadShow}
-            />
-          </span>
+          )}
+          <CircleButtonWithTitle
+            title={i18n.getString(muteTitle, currentLocale)}
+            dataSign={muteTitle}
+            icon={muteIcon}
+            onClick={muteAction}
+            className={clsx({
+              [styles.button]: true,
+              [styles.buttonDisabled]: disableLinks || disabledCtrl,
+            })}
+            disabled={disableLinks || disabledCtrl}
+          />
+          <CircleButtonWithTitle
+            title={i18n.getString(keypadText, currentLocale)}
+            dataSign={keypadText}
+            icon={DialpadIcon}
+            className={clsx({
+              [styles.button]: true,
+              [styles.buttonDisabled]: isInComingCall || disableLinks,
+              [styles.dialpadIconActive]: dialpadShow,
+            })}
+            disabled={disableLinks || isInComingCall}
+            onClick={toggleDialpadShow}
+          />
           <MoreActionComponent
             dataSign="more"
             // @ts-expect-error TS(2322): Type '{ icon: any; junoIcon: React.MemoExoticCompo... Remove this comment to see the full error message
@@ -392,20 +423,19 @@ const CallLogCallCtrlComponent: React.SFC<CallLogCallCtrlComponentProps> = (
             handleClose={handleClose}
             anchorEl={anchorEl}
           />
-          <span title={i18n.getString(endTitle, currentLocale)}>
-            <CircleButton
-              dataSign={endTitle}
-              showBorder={false}
-              icon={EndIcon}
-              onClick={endAction}
-              className={classnames({
-                [styles.hangup]: true,
-                [styles.button]: true,
-                [styles.buttonDisabled]: disableLinks,
-              })}
-              disabled={disableLinks}
-            />
-          </span>
+          <CircleButtonWithTitle
+            title={i18n.getString(endTitle, currentLocale)}
+            dataSign={endTitle}
+            showBorder={false}
+            icon={EndIcon}
+            onClick={endAction}
+            className={clsx({
+              [styles.hangup]: true,
+              [styles.button]: true,
+              [styles.buttonDisabled]: disableLinks,
+            })}
+            disabled={disableLinks}
+          />
         </div>
         {DialPadCom}
       </>
@@ -444,7 +474,7 @@ const CallLogCallCtrlComponent: React.SFC<CallLogCallCtrlComponentProps> = (
       tooltip: forwardTitle,
     };
     return (
-      <div className={classnames(!isWide ? styles.classic : null, styles.root)}>
+      <div className={clsx(!isWide ? styles.classic : null, styles.root)}>
         {enableReply ? (
           <MoreActionWithIncomingCall
             // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
@@ -481,54 +511,51 @@ const CallLogCallCtrlComponent: React.SFC<CallLogCallCtrlComponentProps> = (
             popoverClasses={{ paper: styles.forwardPopover }}
           />
         )}
-        <span title={i18n.getString('ignore', currentLocale)}>
-          <CircleButton
-            dataSign="ignore"
-            icon={IgnoreIcon}
-            iconWidth={250}
-            iconHeight={250}
-            iconX={125}
-            iconY={125}
-            className={classnames({
-              [styles.button]: true,
-              [styles.buttonDisabled]: disableLinks || !isWebRTCCall,
-            })}
-            disabled={disableLinks || !isWebRTCCall}
-            onClick={ignore}
-          />
-        </span>
-        <span title={i18n.getString('voicemail', currentLocale)}>
-          <CircleButton
-            dataSign="toVoiceMail"
-            showBorder={false}
-            icon={VoicemailIcon}
-            iconWidth={250}
-            iconHeight={250}
-            iconX={125}
-            iconY={125}
-            onClick={endAction}
-            className={classnames({
-              [styles.hangup]: true,
-              [styles.button]: true,
-              [styles.buttonDisabled]: disableLinks,
-            })}
-            disabled={disableLinks}
-          />
-        </span>
-        <span title={i18n.getString('answer', currentLocale)}>
-          <CircleButton
-            dataSign="answer"
-            showBorder={false}
-            icon={AnswerIcon}
-            onClick={answer}
-            className={classnames({
-              [styles.button]: true,
-              [styles.answer]: true,
-              [styles.buttonDisabled]: disableLinks,
-            })}
-            disabled={disableLinks}
-          />
-        </span>
+        <CircleButtonWithTitle
+          title={i18n.getString('ignore', currentLocale)}
+          dataSign="ignore"
+          icon={IgnoreIcon}
+          iconWidth={250}
+          iconHeight={250}
+          iconX={125}
+          iconY={125}
+          className={clsx({
+            [styles.button]: true,
+            [styles.buttonDisabled]: disableLinks || !isWebRTCCall,
+          })}
+          disabled={disableLinks || !isWebRTCCall}
+          onClick={ignore}
+        />
+        <CircleButtonWithTitle
+          title={i18n.getString('voicemail', currentLocale)}
+          dataSign="toVoiceMail"
+          showBorder={false}
+          icon={VoicemailIcon}
+          iconWidth={250}
+          iconHeight={250}
+          iconX={125}
+          iconY={125}
+          onClick={endAction}
+          className={clsx({
+            [styles.hangup]: true,
+            [styles.button]: true,
+            [styles.buttonDisabled]: disableLinks,
+          })}
+          disabled={disableLinks}
+        />
+        <CircleButtonWithTitle
+          title={i18n.getString('answer', currentLocale)}
+          dataSign="answer"
+          showBorder={false}
+          icon={AnswerIcon}
+          onClick={answer}
+          className={clsx({
+            [styles.button]: true,
+            [styles.answer]: true,
+            [styles.buttonDisabled]: disableLinks,
+          })}
+          disabled={disableLinks}
+        />
       </div>
     );
   }
@@ -538,7 +565,7 @@ const CallLogCallCtrlComponent: React.SFC<CallLogCallCtrlComponentProps> = (
     onGoingActiveCalls
   ) {
     return (
-      <div className={classnames(!isWide ? styles.classic : null, styles.root)}>
+      <div className={clsx(!isWide ? styles.classic : null, styles.root)}>
         <MoreActionWithIncomingCall
           disableIgnore={!isWebRTCCall}
           // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
@@ -563,24 +590,23 @@ const CallLogCallCtrlComponent: React.SFC<CallLogCallCtrlComponentProps> = (
         >
           <EndAnswerIcon />
         </span>
-        <span title={i18n.getString('voicemail', currentLocale)}>
-          <CircleButton
-            dataSign="voicemail"
-            showBorder={false}
-            icon={VoicemailIcon}
-            iconWidth={250}
-            iconHeight={250}
-            iconX={125}
-            iconY={125}
-            onClick={endAction}
-            className={classnames({
-              [styles.hangup]: true,
-              [styles.button]: true,
-              [styles.buttonDisabled]: disableLinks,
-            })}
-            disabled={disableLinks}
-          />
-        </span>
+        <CircleButtonWithTitle
+          title={i18n.getString('voicemail', currentLocale)}
+          dataSign="voicemail"
+          showBorder={false}
+          icon={VoicemailIcon}
+          iconWidth={250}
+          iconHeight={250}
+          iconX={125}
+          iconY={125}
+          onClick={endAction}
+          className={clsx({
+            [styles.hangup]: true,
+            [styles.button]: true,
+            [styles.buttonDisabled]: disableLinks,
+          })}
+          disabled={disableLinks}
+        />
         <span
           data-sign="holdAndAnswer"
           title={i18n.getString('answerAndHold', currentLocale)}
@@ -593,61 +619,57 @@ const CallLogCallCtrlComponent: React.SFC<CallLogCallCtrlComponentProps> = (
     );
   }
   return (
-    <div className={classnames(!isWide ? styles.classic : null, styles.root)}>
-      <span title={i18n.getString(muteTitle, currentLocale)}>
-        <CircleButton
-          dataSign={muteTitle}
-          icon={muteIcon}
-          onClick={muteAction}
-          className={classnames({
-            [styles.button]: true,
-            [styles.buttonDisabled]: disableLinks || disabledCtrl,
-          })}
-          disabled={disableLinks || disabledCtrl}
-        />
-      </span>
-      {/* @ts-expect-error TS(2322): Type '{ current?: any; } | ((...args: any[]) => an... Remove this comment to see the full error message */}
-      <span ref={transferRef} title={i18n.getString('transfer', currentLocale)}>
-        <CircleButton
-          dataSign="transfer"
-          icon={TransferIcon}
-          onClick={onTransfer}
-          className={classnames({
-            [styles.button]: true,
-            [styles.buttonActive]: isOnTransfer,
-            [styles.buttonDisabled]: disableLinks || isInComingCall,
-          })}
-          disabled={disableLinks || isInComingCall}
-        />
-      </span>
-      <span title={i18n.getString(holdTitle, currentLocale)}>
-        <CircleButton
-          dataSign={holdTitle}
-          icon={HoldIcon}
-          onClick={holdAction}
-          className={classnames({
-            [styles.button]: true,
-            [styles.buttonActive]: isOnHold,
-            [styles.buttonDisabled]:
-              isInComingCall || disableLinks || isOutboundCallConnecting,
-          })}
-          disabled={disableLinks || isInComingCall || isOutboundCallConnecting}
-        />
-      </span>
-      <span title={i18n.getString(endTitle, currentLocale)}>
-        <CircleButton
-          dataSign={endTitle}
-          showBorder={false}
-          icon={EndIcon}
-          onClick={endAction}
-          className={classnames({
-            [styles.hangup]: true,
-            [styles.button]: true,
-            [styles.buttonDisabled]: disableLinks,
-          })}
-          disabled={disableLinks}
-        />
-      </span>
+    <div className={clsx(!isWide ? styles.classic : null, styles.root)}>
+      <CircleButtonWithTitle
+        title={i18n.getString(muteTitle, currentLocale)}
+        dataSign={muteTitle}
+        icon={muteIcon}
+        onClick={muteAction}
+        className={clsx({
+          [styles.button]: true,
+          [styles.buttonDisabled]: disableLinks || disabledCtrl,
+        })}
+        disabled={disableLinks || disabledCtrl}
+      />
+      <CircleButtonWithTitle
+        ref={transferRef}
+        title={i18n.getString('transfer', currentLocale)}
+        dataSign="transfer"
+        icon={TransferIcon}
+        onClick={onTransfer}
+        className={clsx({
+          [styles.button]: true,
+          [styles.buttonActive]: isOnTransfer,
+          [styles.buttonDisabled]: disableLinks || isInComingCall,
+        })}
+        disabled={disableLinks || isInComingCall}
+      />
+      <CircleButtonWithTitle
+        title={i18n.getString(holdTitle, currentLocale)}
+        dataSign={holdTitle}
+        icon={HoldIcon}
+        onClick={holdAction}
+        className={clsx({
+          [styles.button]: true,
+          [styles.buttonActive]: isOnHold,
+          [styles.buttonDisabled]:
+            isInComingCall || disableLinks || isOutboundCallConnecting,
+        })}
+        disabled={disableLinks || isInComingCall || isOutboundCallConnecting}
+      />
+      <CircleButtonWithTitle
+        title={i18n.getString(endTitle, currentLocale)}
+        dataSign={endTitle}
+        showBorder={false}
+        icon={EndIcon}
+        onClick={endAction}
+        className={clsx({
+          [styles.hangup]: true,
+          [styles.button]: true,
+          [styles.buttonDisabled]: disableLinks,
+        })}
+        disabled={disableLinks}
+      />
     </div>
   );
 };
@@ -677,7 +699,7 @@ CallLogCallCtrlComponent.defaultProps = {
   otherActiveCalls: false,
   answerAndEnd() {},
   answerAndHold() {},
-  dialpadToggleTrack(i) {},
+  dialpadToggleTrack() {},
   clickForwardTrack() {},
   realOutboundCallStatus: '',
 };

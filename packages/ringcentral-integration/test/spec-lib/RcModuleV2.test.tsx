@@ -1,5 +1,3 @@
-import { createStore } from 'redux';
-
 import { action, RcModuleV2, state } from '@ringcentral-integration/core';
 import {
   autorun,
@@ -10,10 +8,11 @@ import {
   title,
   When,
 } from '@ringcentral-integration/test-utils';
-
 import { sleep } from '@ringcentral-integration/utils';
-import { Module, ModuleFactory } from '../../lib/di';
+import { createStore } from 'redux';
+
 import RcModule from '../../lib/RcModule';
+import { Module, ModuleFactory } from '../../lib/di';
 import { Locale } from '../../modules/Locale';
 
 @autorun(test)

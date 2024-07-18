@@ -37,7 +37,9 @@ class ConnectivityManager extends RcModuleV2<Deps> {
     );
   }
 
-  @proxify
+  // Cancel @proxify for getting user media permission on client page
+  // May need a better solution when migrate `googlechrome` project to new arch
+  // @proxify
   async checkWebphoneAndConnect() {
     if (
       !this._deps.callingSettings ||
@@ -48,8 +50,7 @@ class ConnectivityManager extends RcModuleV2<Deps> {
       return;
     }
     if (this._deps.audioSettings && this._deps.audioSettings.ready) {
-      this._deps.audioSettings.showAlert();
-      this._deps.audioSettings.getUserMedia();
+      this._deps.audioSettings.checkAudioAvailable();
     }
     if (this._deps.webphone && this._deps.webphone.ready) {
       this._deps.webphone.connect({ force: true, skipConnectDelay: true });

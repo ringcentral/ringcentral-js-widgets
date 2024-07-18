@@ -1,29 +1,27 @@
 import { phoneTypes } from '@ringcentral-integration/commons/enums/phoneTypes';
 import { presenceStatus } from '@ringcentral-integration/commons/enums/presenceStatus.enum';
 import { dndStatus } from '@ringcentral-integration/commons/modules/Presence';
+
 export default {
-  [phoneTypes.extension]: "Ext.",
-  [phoneTypes.direct]: "Direct",
-  [phoneTypes.mobile]: "Mobiel",
-  [phoneTypes.contact]: "Telefoon contactpersoon",
-  [phoneTypes.home]: "Thuis",
-  [phoneTypes.business]: "Zakelijk",
-  [phoneTypes.fax]: "Fax",
-  // @ts-expect-error TS(2718): Duplicate property 'company'.
-  [phoneTypes.company]: "Bedrijf",
-  [phoneTypes.other]: "Overig",
-  emailLabel: "E-mail",
-  call: "Bellen",
-  text: "Tekstbericht",
-  [presenceStatus.available]: "Beschikbaar",
-  [presenceStatus.offline]: "Onzichtbaar",
-  [presenceStatus.busy]: "Bezet",
-  [dndStatus.doNotAcceptAnyCalls]: "Niet storen",
-  notActivated: "Inactief",
-  // @ts-expect-error TS(2733): Property 'company' was also declared here.
-  company: "Bedrijf",
-  jobTitle: "Titel",
-  site: "Locatie"
+  [phoneTypes.extension]: 'Ext.',
+  [phoneTypes.direct]: 'Direct',
+  [phoneTypes.mobile]: 'Mobiel',
+  [phoneTypes.contact]: 'Telefoon contactpersoon',
+  [phoneTypes.home]: 'Thuis',
+  [phoneTypes.business]: 'Zakelijk',
+  [phoneTypes.fax]: 'Fax',
+  [phoneTypes.company]: 'Bedrijf',
+  [phoneTypes.other]: 'Overig',
+  emailLabel: 'E-mail',
+  call: 'Bellen',
+  text: 'Tekstbericht',
+  [presenceStatus.available]: 'Beschikbaar',
+  [presenceStatus.offline]: 'Onzichtbaar',
+  [presenceStatus.busy]: 'Bezet',
+  [dndStatus.doNotAcceptAnyCalls]: 'Niet storen',
+  notActivated: 'Inactief',
+  jobTitle: 'Titel',
+  site: 'Locatie',
 };
 
 // @key: @#@"[phoneTypes.extension]"@#@ @source: @#@"Ext."@#@

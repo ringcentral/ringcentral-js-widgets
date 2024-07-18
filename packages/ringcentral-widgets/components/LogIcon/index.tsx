@@ -1,9 +1,9 @@
+import clsx from 'clsx';
 import React from 'react';
-
-import classnames from 'classnames';
 
 import LoggedIcon from '../../assets/images/LoggedIcon.svg';
 import UnloggedIcon from '../../assets/images/UnloggedIcon.svg';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 
@@ -16,7 +16,7 @@ type LogIconProps = {
   disabled?: boolean;
   isFax?: boolean;
 };
-const LogIcon: React.SFC<LogIconProps> = ({
+const LogIcon: React.FC<LogIconProps> = ({
   sessionId,
   id,
   viewTask,
@@ -46,7 +46,7 @@ const LogIcon: React.SFC<LogIconProps> = ({
       id,
     });
   };
-  const logIconClassName = classnames(
+  const logIconClassName = clsx(
     styles.logIcon,
     isSaving ? styles.isSaving : null,
     disabled ? styles.disabled : null,
@@ -57,6 +57,7 @@ const LogIcon: React.SFC<LogIconProps> = ({
       onClick={onClick}
       title={tooltip}
       data-sign="log"
+      aria-disabled={disabled ? 'true' : 'false'}
     >
       {id ? loggedIcon : unLoggedIcon}
     </div>

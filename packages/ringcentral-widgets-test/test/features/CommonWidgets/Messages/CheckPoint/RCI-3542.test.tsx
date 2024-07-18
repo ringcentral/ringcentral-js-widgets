@@ -1,3 +1,4 @@
+import { mockMessageListData } from '../../../../__mock__';
 import type { StepFunction } from '../../../../lib/step';
 import {
   p2,
@@ -13,12 +14,6 @@ import {
   And,
 } from '../../../../lib/step';
 import {
-  MockMessageList,
-  MockMessageSync,
-  MockMessagePut,
-} from '../../../../steps/Mock';
-import { NavigateToMessagesTab } from '../../../../steps/Navigate';
-import {
   ExpandTheActionMenu,
   ClickActionButton,
   CheckMessageItemHighlight,
@@ -26,7 +21,12 @@ import {
   CheckNavUnreadCount,
   CheckFlagButtonTitle,
 } from '../../../../steps/Messages';
-import { mockMessageListData } from '../../../../__mock__';
+import {
+  MockMessageList,
+  MockMessageSync,
+  MockMessagePut,
+} from '../../../../steps/Mock';
+import { NavigateToMessagesTab } from '../../../../steps/Navigate';
 
 @autorun(test.skip)
 @p2

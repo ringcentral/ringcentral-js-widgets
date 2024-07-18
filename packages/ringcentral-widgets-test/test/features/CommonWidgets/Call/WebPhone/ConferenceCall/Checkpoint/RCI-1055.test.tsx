@@ -10,7 +10,6 @@
  * Entry point(/s):
  *
  */
-
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p1,
@@ -25,23 +24,6 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
-import { CommonLogin } from '../../../../../../steps/CommonLogin';
-import {
-  CreateMock,
-  MockGetPhoneNumber,
-  MockMessageSync,
-  MockPresence,
-  MockConferenceCall,
-  MockTelephonySession,
-  MockBringInToConference,
-} from '../../../../../../steps/Mock';
-import { NavigateTo } from '../../../../../../steps/Router/action';
-import { CreateInstance } from '../../../../../../steps/CreateInstance';
-import {
-  ClickSaveButton,
-  ExpandDropdown,
-  SelectCallingSetting,
-} from '../../../../../../steps/Settings';
 import {
   CheckHoldBehavior,
   CallButtonBehavior,
@@ -54,7 +36,24 @@ import {
   CheckCallCtrlButton,
   CheckCallCtrlButtonEnable,
 } from '../../../../../../steps/Call';
+import { CommonLogin } from '../../../../../../steps/CommonLogin';
+import { CreateInstance } from '../../../../../../steps/CreateInstance';
+import {
+  CreateMock,
+  MockGetPhoneNumber,
+  MockMessageSync,
+  MockPresence,
+  MockConferenceCall,
+  MockTelephonySession,
+  MockBringInToConference,
+} from '../../../../../../steps/Mock';
 import { NavigateToDialer } from '../../../../../../steps/Navigate';
+import { NavigateTo } from '../../../../../../steps/Router';
+import {
+  ClickSaveButton,
+  ExpandCallingSettingDropdown,
+  SelectCallingSetting,
+} from '../../../../../../steps/Settings';
 
 @autorun(test)
 @it
@@ -87,7 +86,7 @@ export class RCI1055 extends Step {
               jest.spyOn(phone.webphone, 'hold');
             },
             <NavigateTo path="/settings/calling" />,
-            ExpandDropdown,
+            ExpandCallingSettingDropdown,
             <SelectCallingSetting settingName="Browser" />,
             ClickSaveButton,
           ]}

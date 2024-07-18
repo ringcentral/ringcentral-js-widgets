@@ -12,7 +12,6 @@ Entry point(/s):
 
 Settings > Calling > Make my calls with
 */
-import { screen, fireEvent } from '@testing-library/react';
 import type { StepFunction } from '../../lib/step';
 import {
   autorun,
@@ -23,8 +22,8 @@ import {
   And,
   Then,
   Step,
-  examples,
 } from '../../lib/step';
+import { CheckDropdown, ExpandDropdown } from '../../steps/Dropdown';
 import { Login } from '../../steps/Login';
 
 // TODO: refactor all steps in `steps` folder with `@testing-library/react` and move these steps to `steps` folder
@@ -55,20 +54,6 @@ const SetLocale: StepFunction<{ locale: string }> = async (props, context) => {
 
 const NavigateTo: StepFunction<{ path: string }> = ({ path }, { phone }) => {
   phone.routerInteraction.push(path);
-};
-
-const ExpandDropdown: StepFunction<{ testId: string }> = ({ testId }) => {
-  const callingSettingElement = screen.getByTestId(testId);
-  const selectRoot = callingSettingElement.querySelector(
-    '[data-sign="selectRoot"]',
-  );
-  fireEvent.click(selectRoot);
-};
-
-const CheckDropdown: StepFunction<{ appName: string }> = async ({
-  appName,
-}) => {
-  expect(screen.getByText(appName)).toBeInTheDocument();
 };
 
 @autorun(test)

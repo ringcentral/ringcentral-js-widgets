@@ -1,10 +1,8 @@
-import React from 'react';
-import { WS } from 'jest-websocket-mock';
-
-import { BehaviorSubject, filter, firstValueFrom } from 'rxjs';
-
 import { RcMock, WebSocketMock } from '@ringcentral-integration/mock';
 import { render } from '@ringcentral-integration/test-utils';
+import { WS } from 'jest-websocket-mock';
+import React from 'react';
+import { BehaviorSubject, filter, firstValueFrom } from 'rxjs';
 
 import { App } from './App';
 

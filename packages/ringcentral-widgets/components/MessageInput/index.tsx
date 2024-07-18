@@ -1,14 +1,12 @@
-import React, { Component } from 'react';
-
-import classnames from 'classnames';
-import PropTypes from 'prop-types';
-
 import { debounce } from '@ringcentral-integration/commons/lib/debounce-throttle/debounce';
 import { RcIconButton } from '@ringcentral/juno';
 import {
   Attachment as attachmentSvg,
   Close as removeSvg,
 } from '@ringcentral/juno-icon';
+import clsx from 'clsx';
+import PropTypes from 'prop-types';
+import React, { Component } from 'react';
 
 import i18n from './i18n';
 import styles from './styles.scss';
@@ -238,7 +236,7 @@ class MessageInput extends Component {
     const inputHeight = height - UIHeightOffset;
     return (
       <div
-        className={classnames(
+        className={clsx(
           styles.root,
           supportAttachment && styles.supportAttachment,
         )}

@@ -5,6 +5,7 @@ import BackButton from '../BackButton';
 import BackHeader from '../BackHeader';
 import type { DialerPanelProps } from '../DialerPanel';
 import { DialerPanel } from '../DialerPanel';
+
 import i18n from './i18n';
 
 type ConferenceDialerPanelProps = {

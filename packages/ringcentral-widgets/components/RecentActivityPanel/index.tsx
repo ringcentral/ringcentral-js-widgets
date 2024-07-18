@@ -1,19 +1,19 @@
-import React from 'react';
-
-import classnames from 'classnames';
+import clsx from 'clsx';
 import PropTypes from 'prop-types';
+import React from 'react';
 
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import { Header } from '../Header';
 import RecentActivityView from '../RecentActivityView';
+
 import expandable from './expandable';
 import styles from './styles.scss';
 
 const ToggleIcon = ({ expanded }: any) => (
   <i
-    className={classnames(
+    className={clsx(
       dynamicsFont.arrow,
-      classnames(styles.arrowIcon, { [styles.foldArrowIcon]: !expanded }),
+      clsx(styles.arrowIcon, { [styles.foldArrowIcon]: !expanded }),
     )}
   />
 );
@@ -35,9 +35,9 @@ const RecentActivityPanel = (props: any) => {
   if (!props.currentContact) {
     return null;
   }
-  const containerClass = classnames(styles.container, props.className);
+  const containerClass = clsx(styles.container, props.className);
   return (
-    <div className={containerClass}>
+    <div className={containerClass} data-sign="recentActivityPanel">
       <Header
         // @ts-expect-error TS(2322): Type '{ label: JSX.Element; onClick: any; placemen... Remove this comment to see the full error message
         buttons={[toggleButton]}

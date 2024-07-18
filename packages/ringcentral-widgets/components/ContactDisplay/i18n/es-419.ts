@@ -1,5 +1,5 @@
 export default {
-  logging: "Iniciando sesión...",
+  logging: "Iniciando sesión…",
   logCall: "Registrar llamada",
   editLog: "Editar registro",
   select: "Selecc. registro",

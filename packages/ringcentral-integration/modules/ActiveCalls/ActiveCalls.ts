@@ -1,8 +1,8 @@
+import type CallLogRecord from '@rc-ex/core/lib/definitions/CallLogRecord';
+import type DetailedExtensionPresenceEvent from '@rc-ex/core/lib/definitions/DetailedExtensionPresenceEvent';
+import { computed, watch } from '@ringcentral-integration/core';
 import { map, sort } from 'ramda';
 import type { Unsubscribe } from 'redux';
-import type DetailedExtensionPresenceEvent from '@rc-ex/core/lib/definitions/DetailedExtensionPresenceEvent';
-import type CallLogRecord from '@rc-ex/core/lib/definitions/CallLogRecord';
-import { computed, watch } from '@ringcentral-integration/core';
 
 import { subscriptionFilters } from '../../enums/subscriptionFilters';
 import { normalizeStartTime, sortByStartTime } from '../../lib/callLogHelpers';
@@ -11,6 +11,7 @@ import { debounce } from '../../lib/debounce-throttle';
 import { Module } from '../../lib/di';
 import fetchList from '../../lib/fetchList';
 import { DataFetcherV2Consumer, DataSource } from '../DataFetcherV2';
+
 import type { Deps } from './ActiveCalls.interface';
 
 const presenceRegExp = /\/presence\?detailedTelephonyState=true/;

@@ -13,7 +13,6 @@
  * 2. Make an inbound/outbound call, and go to 'All Calls' page
  * 3. Make an inbound/outbound call > back to 'All Calls' page > click the left section on the call item
  */
-
 import {
   p2,
   it,
@@ -25,6 +24,7 @@ import {
   title,
   When,
 } from '@ringcentral-integration/test-utils';
+
 import type { StepFunction } from '../../lib/step';
 import {
   AnswerCall,

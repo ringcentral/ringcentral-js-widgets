@@ -22,8 +22,8 @@
  * Entry point(/s):
  * User log in to CTI app > Get {Api-default area}code fromnumber-parser/parse api
  */
-
 import { waitUntilTo } from '@ringcentral-integration/utils';
+
 import type { StepProp } from '../../../../../../lib/step';
 import {
   p2,
@@ -54,9 +54,9 @@ export class SelectedCountryCallingCode extends Step {
   CreateMock: StepProp | null = null;
 
   @examples(`
-      | countryName      | selectedCountryCallingCode | primaryNumber       | primaryNumberAreaCode | mainCompanyNumber   | mainCompanyNumberAreaCode | expectAccountAreaCode |
-      | 'United Kingdom' | '44'                       | '+44(205) 879-3409' | '205'                 | '+44(403) 370-0051' | '403'                     | null                  |
-    `)
+    | countryName      | countryCallingCode | primaryNumber       | primaryNumberAreaCode | mainCompanyNumber   | mainCompanyNumberAreaCode | expectAccountAreaCode |
+    | 'United Kingdom' | '44'               | '+44(205) 879-3409' | '205'                 | '+44(403) 370-0051' | '403'                     | null                  |
+  `)
   run() {
     const { CreateMock, Login } = this;
     return (
@@ -94,17 +94,17 @@ export class SelectedCountryCallingCode extends Step {
           />,
           <MockDialingPlan
             handler={(mockData) => {
-              const selectedCountryCallingCode =
-                this.context.example.selectedCountryCallingCode;
+              const countryCallingCode =
+                this.context.example.countryCallingCode;
               const plan = mockData.find(
-                (plan) => plan.id === selectedCountryCallingCode,
+                (plan) => plan.id === countryCallingCode,
               );
               if (!plan) {
                 mockData.push({
-                  uri: `https://platform.ringcentral.com/restapi/v1.0/dictionary/country/${selectedCountryCallingCode}`,
-                  id: selectedCountryCallingCode,
+                  uri: `https://platform.ringcentral.com/restapi/v1.0/dictionary/country/${countryCallingCode}`,
+                  id: countryCallingCode,
                   name: this.context.example.countryName,
-                  callingCode: selectedCountryCallingCode,
+                  callingCode: countryCallingCode,
                   isoCode: 'MockISOCode',
                 });
               }

@@ -1,5 +1,3 @@
-import url from 'url';
-import type GetExtensionInfoResponse from '@rc-ex/core/lib/definitions/GetExtensionInfoResponse';
 import {
   action,
   RcModuleV2,
@@ -10,16 +8,21 @@ import {
 import type { ApiError } from '@ringcentral/sdk';
 
 import { trackEvents } from '../../enums/trackEvents';
+import { createRefreshTokenHelper } from '../../lib/createRefreshTokenHelper';
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
-import validateIsOffline from '../../lib/validateIsOffline';
+
 import type {
   Deps,
   LoginOptions,
   LoginUrlOptions,
   Token,
   TokenInfo,
+  BeforeLogoutHandler,
+  AfterLoggedInHandler,
+  RefreshErrorHandler,
 } from './Auth.interface';
+import { matchKnownRequestErrors } from './authErrors';
 import { authMessages } from './authMessages';
 import { loginStatus } from './loginStatus';
 
@@ -40,12 +43,16 @@ export const TriggerSyncTokenEvent = 'triggerSyncTokenEvent';
 })
 class Auth extends RcModuleV2<Deps> {
   private _loggedIn = false;
-  _beforeLogoutHandlers: Set<Function> = new Set();
-  _afterLoggedInHandlers: Set<() => any> = new Set();
+  _beforeLogoutHandlers: Set<BeforeLogoutHandler> = new Set();
+  _afterLoggedInHandlers: Set<AfterLoggedInHandler> = new Set();
+  _onRefreshErrorHandlers: Set<RefreshErrorHandler> = new Set();
   _unbindEvents?: () => void;
   _lastEnvironmentCounter = 0;
-  _proxyUri?: string;
-  _redirectUri?: string;
+
+  private refreshTokenHelper = createRefreshTokenHelper(
+    () => this._deps.client.service.platform(),
+    console,
+  );
 
   constructor(deps: Deps) {
     super({
@@ -80,7 +87,7 @@ class Auth extends RcModuleV2<Deps> {
   }
 
   @track(() => (analytics) => {
-    // @ts-expect-error
+    // @ts-expect-error TS(2339): Property 'setUserId' does not exist on type 'IAnal... Remove this comment to see the full error message
     analytics.setUserId();
     return [trackEvents.authentication];
   })
@@ -160,24 +167,28 @@ class Auth extends RcModuleV2<Deps> {
   _bindEvents() {
     if (this._unbindEvents) this._unbindEvents();
     const platform = this._deps.client.service.platform();
-    const client = this._deps.client.service._client;
+    const client = this._deps.client.service.client();
     const onRequestError = async (error: ApiError) => {
-      if (error.response?.status === 403) {
-        const { errors = [] } = (await error.response?.clone().json()) || {};
-        // @ts-expect-error
-        if (errors.some(({ errorCode } = {}) => errorCode === 'OAU-167')) {
-          this.logout();
-          this._deps.alert.warning({
-            message: authMessages.siteAccessForbidden,
-            payload: error,
-            ttl: 0,
-          });
-          return;
-        }
+      const matches = await matchKnownRequestErrors(error);
+      // logout solution
+      const logoutRequired = matches.some(
+        ([_0, _1, solutions]) => solutions?.logout,
+      );
+      if (logoutRequired && this.loginStatus === loginStatus.loggedIn) {
+        await this.logout();
       }
-      if (error instanceof Error && error.message === 'Token revoked') {
-        this.logout();
-      }
+      // alert solution
+      const alerts = matches
+        .map(([_0, _1, solutions]) => solutions?.alert)
+        .filter((x) => !!x) // remove empty
+        .filter((x, index, array) => array.indexOf(x) === index); // remove duplicates
+      alerts.forEach((alert) => {
+        this._deps.alert.warning({
+          message: alert!,
+          payload: error,
+          ttl: 0,
+        });
+      });
     };
 
     const onLoginSuccess = async () => {
@@ -204,36 +215,33 @@ class Auth extends RcModuleV2<Deps> {
     };
     const onRefreshError = async (error: ApiError) => {
       // user is still considered logged in if the refreshToken is still valid
-      const isOffline = validateIsOffline(error.message);
-      const resStatus = Number(error.response?.status);
+      const { refreshTokenValid, resStatus } =
+        await this.refreshTokenHelper.getRefreshTokenState(error);
 
-      const refreshTokenValid = Boolean(
-        (isOffline || resStatus >= 500) &&
-          (await platform.auth().refreshTokenValid()),
+      const handlers = [...this._onRefreshErrorHandlers];
+      const results = await Promise.allSettled(
+        handlers.map(async (handler) => await handler(refreshTokenValid)),
       );
+      results.forEach((x) => {
+        if (x.status === 'rejected') {
+          console.warn('Trigger [RefreshErrorHandler] failed', x.reason);
+        }
+      });
 
       this.setRefreshError(refreshTokenValid);
 
-      const isAARError =
-        resStatus === 403 &&
-        (await error.response?.clone().json())?.error?.some(
-          ({ errorCode = '' } = {}) => errorCode === 'OAU-167',
-        );
-
-      if (
-        !isAARError &&
-        !refreshTokenValid &&
-        (await platform.auth().data()).access_token !== ''
-      ) {
-        this._deps.alert.danger({
-          message: authMessages.sessionExpired,
-          payload: error,
-          ttl: 0,
-        });
-        // clean the cache so the error doesn't show again
-        platform._cache.clean();
-        return;
-      }
+      await this.refreshTokenHelper.processRefreshError({
+        error,
+        refreshTokenValid,
+        resStatus,
+        onSessionExpired: () => {
+          this._deps.alert.danger({
+            message: authMessages.sessionExpired,
+            payload: error,
+            ttl: 0,
+          });
+        },
+      });
     };
     platform.addListener(platform.events.loginSuccess, onLoginSuccess);
     platform.addListener(platform.events.loginError, onLoginError);
@@ -291,8 +299,7 @@ class Auth extends RcModuleV2<Deps> {
   }
 
   override async onInit() {
-    const platform = this._deps.client.service.platform();
-    this._loggedIn = await platform.loggedIn();
+    this._loggedIn = await this.refreshTokenHelper.loggedIn();
     this._bindEvents();
     watch(
       this,
@@ -312,6 +319,9 @@ class Auth extends RcModuleV2<Deps> {
         }
       },
     );
+
+    // must check token from storage before that module ready, put that inside onInit lifeCycle
+    await this.fetchToken();
   }
 
   async fetchToken() {
@@ -323,18 +333,6 @@ class Auth extends RcModuleV2<Deps> {
       loggedIn: this._loggedIn,
       token,
     });
-  }
-
-  override async onInitSuccess() {
-    await this.fetchToken();
-  }
-
-  get redirectUri() {
-    return url.resolve(window.location.href, this._redirectUri!);
-  }
-
-  get proxyUri() {
-    return this._proxyUri;
   }
 
   get ownerId() {
@@ -379,10 +377,7 @@ class Auth extends RcModuleV2<Deps> {
         refresh_token_expires_in: expiresIn,
         scope,
       });
-      const extensionData: GetExtensionInfoResponse = await this._deps.client
-        .account()
-        .extension()
-        .get();
+      const extensionData = await this._deps.client.account().extension().get();
       ownerId = extensionData.id;
     }
     // TODO: support to set redirectUri in js sdk v4 login function
@@ -472,11 +467,12 @@ class Auth extends RcModuleV2<Deps> {
   }
 
   /**
-   * @function
-   * @param {Function} handler
-   * @returns {Function} return that delete handler event, call that will delete that event
+   * Add handler on "before logout" event
+   * - Return anything not empty in the handler to cancel the logout as needed
+   * @param handler event handler function
+   * @returns cancel current handler, call that will delete the handler from that event
    */
-  addBeforeLogoutHandler(handler: Function): Function {
+  addBeforeLogoutHandler(handler: BeforeLogoutHandler) {
     this._beforeLogoutHandlers.add(handler);
     return () => {
       this.removeBeforeLogoutHandler(handler);
@@ -484,18 +480,51 @@ class Auth extends RcModuleV2<Deps> {
   }
 
   /**
-   * @function
-   * @param {Function} handler
+   * Remove handler from "before logout" event
+   * @param handler event handler function
    */
-  removeBeforeLogoutHandler(handler: Function) {
+  removeBeforeLogoutHandler(handler: BeforeLogoutHandler) {
     this._beforeLogoutHandlers.delete(handler);
   }
 
-  addAfterLoggedInHandler(handler: () => any) {
+  /**
+   * Add handler on "after logged in" event
+   * @param handler event handler function
+   * @returns cancel current handler, call that will delete the handler from that event
+   */
+  addAfterLoggedInHandler(handler: AfterLoggedInHandler) {
     this._afterLoggedInHandlers.add(handler);
     return () => {
-      this._afterLoggedInHandlers.delete(handler);
+      this.removeAfterLoggedInHandler(handler);
     };
+  }
+
+  /**
+   * Remove handler from "after logged in" event
+   * @param handler event handler function
+   */
+  removeAfterLoggedInHandler(handler: AfterLoggedInHandler) {
+    this._afterLoggedInHandlers.delete(handler);
+  }
+
+  /**
+   * Add handler on "refresh error" event
+   * @param handler event handler function
+   * @returns cancel current handler, call that will delete the handler from that event
+   */
+  addRefreshErrorHandler(handler: RefreshErrorHandler) {
+    this._onRefreshErrorHandlers.add(handler);
+    return () => {
+      this.removeRefreshErrorHandler(handler);
+    };
+  }
+
+  /**
+   * Remove handler from "refresh error" event
+   * @param handler event handler function
+   */
+  removeRefreshErrorHandler(handler: RefreshErrorHandler) {
+    this._onRefreshErrorHandlers.delete(handler);
   }
 
   @proxify
@@ -511,10 +540,7 @@ class Auth extends RcModuleV2<Deps> {
     endpointId: TokenInfo['endpoint_id'];
   }) {
     try {
-      const extensionData: GetExtensionInfoResponse = await this._deps.client
-        .account()
-        .extension()
-        .get();
+      const extensionData = await this._deps.client.account().extension().get();
       const ownerId = String(extensionData.id);
       if (ownerId !== String(this.ownerId)) {
         return;

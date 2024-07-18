@@ -1,8 +1,8 @@
-import '../../assets/DynamicsFont/DynamicsFont.scss'; // import font face
-
+import clsx from 'clsx';
+// import font face
 import React from 'react';
 
-import classnames from 'classnames';
+import '../../assets/DynamicsFont/DynamicsFont.scss';
 
 import styles from './styles.scss';
 
@@ -16,7 +16,7 @@ type SelectProps = {
   valueFunction?: (...args: any[]) => any;
   renderFunction?: (...args: any[]) => any;
 };
-const Select: React.SFC<SelectProps> = ({
+const Select: React.FC<SelectProps> = ({
   className,
   value,
   onChange,
@@ -27,7 +27,7 @@ const Select: React.SFC<SelectProps> = ({
   paddingLeft,
 }) => {
   return (
-    <div className={classnames(styles.root, className)}>
+    <div className={clsx(styles.root, className)}>
       <select
         className={styles.select}
         disabled={disabled}

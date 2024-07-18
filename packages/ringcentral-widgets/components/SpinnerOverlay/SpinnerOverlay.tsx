@@ -1,16 +1,15 @@
-import type { ComponentType, FunctionComponent } from 'react';
-import React, { memo } from 'react';
-
-import classNames from 'classnames';
-
 import {
   opacity,
   palette2,
   RcCircularProgress,
   styled,
 } from '@ringcentral/juno';
+import clsx from 'clsx';
+import type { ComponentType, FunctionComponent } from 'react';
+import React, { memo } from 'react';
 
 import { fullSizeStyle } from '../../lib/commonStyles';
+
 import styles from './styles.scss';
 
 export interface SpinnerOverlayProps {
@@ -53,7 +52,7 @@ export const SpinnerOverlay: FunctionComponent<SpinnerOverlayProps> =
         <div
           data-sign="spinnerOverlay"
           // @ts-expect-error TS(2532): Object is possibly 'undefined'.
-          className={classNames(styles.root, className, classes.root)}
+          className={clsx(styles.root, className, classes.root)}
         >
           {/* @ts-expect-error TS(2532): Object is possibly 'undefined'. */}
           <Mask className={classes.mask} />

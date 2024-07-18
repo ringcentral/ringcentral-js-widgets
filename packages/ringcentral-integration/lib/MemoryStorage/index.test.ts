@@ -1,6 +1,5 @@
-import { expect } from 'chai';
-
 import { MemoryStorage } from '.';
+import { expect } from 'chai';
 
 describe('MemoryStorage', () => {
   it('should be a constructor function', () => {

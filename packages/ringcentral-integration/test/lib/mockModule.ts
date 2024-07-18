@@ -1,9 +1,10 @@
+// @ts-nocheck
+// TODO: fix type
+import { storeKey } from '@ringcentral-integration/core';
 import { createStore } from 'redux';
 
-import { storeKey } from '@ringcentral-integration/core';
-
-import { ModuleFactory } from '../../lib/di';
 import RcModule from '../../lib/RcModule';
+import { ModuleFactory } from '../../lib/di';
 
 export const mockModuleWithDeps = <T extends new (...args: any) => any>(
   module: { provide: string; useClass: T },

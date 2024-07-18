@@ -1,13 +1,13 @@
-import React from 'react';
-
 import messageDirection from '@ringcentral-integration/commons/enums/messageDirection';
 import messageTypes from '@ringcentral-integration/commons/enums/messageTypes';
+import React from 'react';
 
 import ComposeTextIcon from '../../assets/images/ComposeText.svg';
 import FaxInboundIcon from '../../assets/images/FaxInbound.svg';
 import FaxOutboundIcon from '../../assets/images/FaxOutbound.svg';
 import GroupConversationIcon from '../../assets/images/GroupConversation.svg';
 import VoicemailIcon from '../../assets/images/VoicemailIcon.svg';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 

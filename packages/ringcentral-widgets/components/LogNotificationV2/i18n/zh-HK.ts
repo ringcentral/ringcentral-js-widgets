@@ -5,7 +5,8 @@ export default {
   save: "儲存並建立",
   discard: "捨棄並建立",
   hangup: "掛斷",
-  reject: "至語音信箱"
+  reject: "至語音信箱",
+  saveDraftAndCreateNewLog: "儲存草稿並建立新的通話記錄"
 };
 
 // @key: @#@"Inbound"@#@ @source: @#@"Inbound"@#@
@@ -15,3 +16,4 @@ export default {
 // @key: @#@"discard"@#@ @source: @#@"Discard and new"@#@
 // @key: @#@"hangup"@#@ @source: @#@"Hangup"@#@
 // @key: @#@"reject"@#@ @source: @#@"To Voicemail"@#@
+// @key: @#@"saveDraftAndCreateNewLog"@#@ @source: @#@"Save draft and create new call log"@#@

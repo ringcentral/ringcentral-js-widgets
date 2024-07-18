@@ -1,8 +1,8 @@
 import callDirections from '../../enums/callDirections';
+import type { ActiveCallControlSessionData } from '../../interfaces/ActiveSession.interface';
 import type { Call } from '../../interfaces/Call.interface';
 import type { ActiveCall } from '../../interfaces/Presence.model';
 import type { NormalizedSession } from '../../interfaces/Webphone.interface';
-import type { ActiveCallControlSessionData } from '../../interfaces/ActiveSession.interface';
 
 function getSessionStartTime(session: NormalizedSession) {
   let webphoneStartTime;
@@ -14,7 +14,7 @@ function getSessionStartTime(session: NormalizedSession) {
   return webphoneStartTime;
 }
 
-export function matchWephoneSessionWithAcitveCall(
+export function matchWebphoneSessionWithActiveCall(
   sessions: NormalizedSession[],
   callItem: ActiveCall | Call,
 ) {
@@ -59,22 +59,17 @@ export function matchWephoneSessionWithAcitveCall(
      * the `InviteClientContext`'s id will always begin with callItem's id.
      */
     if (callItem.toName && callItem.toName.toLowerCase() === 'conference') {
-      // @ts-expect-error
+      // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
       return session.id.indexOf(callItem.id) === 0;
     }
 
-    if (
-      // @ts-expect-error
-      !(callItem as ActiveCall).sipData.remoteUri ||
-      // @ts-expect-error
-      (callItem as ActiveCall).sipData.remoteUri === ''
-    ) {
+    if (!(callItem as ActiveCall).sipData?.remoteUri) {
       return false;
     }
 
     if (
       session.direction === callDirections.inbound &&
-      // @ts-expect-error
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       (callItem as ActiveCall).sipData.remoteUri.indexOf(session.from) === -1
     ) {
       return false;
@@ -82,7 +77,7 @@ export function matchWephoneSessionWithAcitveCall(
 
     if (
       session.direction === callDirections.outbound &&
-      // @ts-expect-error
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       (callItem as ActiveCall).sipData.remoteUri.indexOf(session.to) === -1
     ) {
       return false;
@@ -91,7 +86,7 @@ export function matchWephoneSessionWithAcitveCall(
     // 16000 is from experience in test.
     // there is delay bettween active call created and webphone session created
     // for example, the time delay is decided by when webphone get invite info
-    // @ts-expect-error
+    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     if (Math.abs(callItem.startTime - getSessionStartTime(session)) > 16000) {
       return false;
     }
@@ -101,9 +96,9 @@ export function matchWephoneSessionWithAcitveCall(
   if (matches.length > 1) {
     // order by the time gap asc
     matches.sort((x, y) => {
-      // @ts-expect-error
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       const gapX = Math.abs(callItem.startTime - getSessionStartTime(x));
-      // @ts-expect-error
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       const gapY = Math.abs(callItem.startTime - getSessionStartTime(y));
       return gapX === gapY ? 0 : gapX - gapY;
     });
@@ -113,7 +108,7 @@ export function matchWephoneSessionWithAcitveCall(
 }
 
 export function isCurrentDeviceEndCall(sessions: string[], callItem: Call) {
-  // @ts-expect-error
+  // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
   return sessions.indexOf(callItem.telephonySessionId) !== -1;
 }
 

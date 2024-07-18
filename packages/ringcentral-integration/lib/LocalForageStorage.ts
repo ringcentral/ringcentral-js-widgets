@@ -7,6 +7,7 @@ import type {
   AsyncStorage,
   StorageItem,
 } from '../interfaces/GenericStorage.interface';
+
 import { MemoryStorage } from './MemoryStorage';
 
 export class LocalForageStorage extends EventEmitter implements AsyncStorage {

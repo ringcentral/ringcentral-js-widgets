@@ -8,10 +8,11 @@ import {
 
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
+
+import type { Deps } from './CallingSettings.interface';
 import { callingModes } from './callingModes';
 import type { CallingOptionsType } from './callingOptions';
 import { callingOptions } from './callingOptions';
-import type { Deps } from './CallingSettings.interface';
 import { callingSettingsMessages } from './callingSettingsMessages';
 import { deprecatedCallingOptions } from './deprecatedCallingOptions';
 import { mapOptionToMode } from './mapOptionToMode';
@@ -270,7 +271,7 @@ class CallingSettings extends RcModuleV2<Deps> {
     } else if (this._hasPhoneNumberChanged()) {
       this.setDataAction({
         callWith: callingOptions.ringout,
-        // @ts-expect-error
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         myLocation: this._myPhoneNumbers[0],
         timestamp: Date.now(),
       });
@@ -329,23 +330,18 @@ class CallingSettings extends RcModuleV2<Deps> {
   }
 
   _getLocationLabel(phoneNumber: string) {
-    const { devices } = this._deps.extensionDevice!;
+    const { devices } = this._deps.extensionDevice;
     const { flipNumbers } = this._deps.forwardingNumber;
     const { mainCompanyNumber } = this._deps.extensionPhoneNumber;
     const { extensionNumber } = this._deps.extensionInfo;
-    // @ts-expect-error
-    const mainPhoneNumber = `${mainCompanyNumber.phoneNumber}*${extensionNumber}`;
     let name = null;
     if (devices.length) {
       let registeredWithDevice = false;
       devices.forEach((device) => {
         const { phoneLines } = device;
-        // @ts-expect-error
-        if (phoneLines.length) {
-          // @ts-expect-error
+        if (phoneLines?.length) {
           registeredWithDevice = !!phoneLines.find((phoneLine) => {
-            // @ts-expect-error
-            return phoneLine.phoneInfo.phoneNumber === phoneNumber;
+            return phoneLine.phoneInfo?.phoneNumber === phoneNumber;
           });
           if (registeredWithDevice) {
             name = device.name;
@@ -363,6 +359,7 @@ class CallingSettings extends RcModuleV2<Deps> {
       }
     }
 
+    const mainPhoneNumber = `${mainCompanyNumber?.phoneNumber}*${extensionNumber}`;
     if (phoneNumber === mainPhoneNumber) {
       return 'Main';
     }
@@ -413,7 +410,6 @@ class CallingSettings extends RcModuleV2<Deps> {
     },
     withPrompt: boolean,
   ) {
-    // TODO: validate myLocation
     this.setDataAction({
       callWith,
       myLocation,

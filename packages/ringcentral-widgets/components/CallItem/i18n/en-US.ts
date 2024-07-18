@@ -17,4 +17,4 @@ export default {
   missedCall: 'Missed',
   inboundCall: 'Inbound',
   outboundCall: 'Outbound',
-};
+} as const;

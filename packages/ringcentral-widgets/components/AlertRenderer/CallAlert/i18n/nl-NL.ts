@@ -1,17 +1,27 @@
 import { callErrors } from '@ringcentral-integration/commons/modules/Call';
+
 export default {
-  [callErrors.emergencyNumber]: "Noodoproepen zijn niet beschikbaar. Gebruik een andere telefoon om contact op te nemen met de nooddiensten",
-  [callErrors.noToNumber]: "Voer een geldig telefoonnummer in.",
-  [callErrors.noAreaCode]: "Stel {areaCodeLink} in om lokale telefoonnummers met 7 cijfers te gebruiken.",
-  [callErrors.connectFailed]: "Verbinding mislukt. Probeer het later opnieuw.",
-  [callErrors.internalError]: "Kan geen verbinding maken vanwege interne fouten. Probeer het later opnieuw.",
-  [callErrors.notAnExtension]: "Het extensienummer bestaat niet.",
-  [callErrors.networkError]: "Kan geen verbinding maken vanwege netwerkfouten. Probeer het later opnieuw.",
-  [callErrors.noInternational]: "U hebt onvoldoende machtigingen om internationale oproepen te plaatsen. Neem contact op met uw {brand}-accountbeheerder voor een upgrade.",
-  [callErrors.noRingoutEnable]: "Uw extensie mag bellen met de desktop-app.\n    Als u naar andere oproepopties wilt overschakelen,\n    neem dan contact op met uw accountbeheerder voor een upgrade.",
-  [callErrors.numberParseError]: "Er is bij ons een probleem opgetreden. Probeer het later opnieuw.",
-  areaCode: "netnummer",
-  telus911: "Noodoproepen worden niet ondersteund."
+  [callErrors.emergencyNumber]:
+    'Noodoproepen zijn niet beschikbaar. Gebruik een andere telefoon om contact op te nemen met de nooddiensten',
+  [callErrors.noToNumber]: 'Voer een geldig telefoonnummer in.',
+  [callErrors.noAreaCode]:
+    'Stel {areaCodeLink} in om lokale telefoonnummers met 7 cijfers te gebruiken.',
+  [callErrors.connectFailed]: 'Verbinding mislukt. Probeer het later opnieuw.',
+  [callErrors.internalError]:
+    'Kan geen verbinding maken vanwege interne fouten. Probeer het later opnieuw.',
+  [callErrors.notAnExtension]: 'Het extensienummer bestaat niet.',
+  [callErrors.networkError]:
+    'Kan geen verbinding maken vanwege netwerkfouten. Probeer het later opnieuw.',
+  [callErrors.noInternational]:
+    'U hebt onvoldoende machtigingen om internationale oproepen te plaatsen. Neem contact op met uw {brand}-accountbeheerder voor een upgrade.',
+  [callErrors.noRingoutEnable]:
+    'Uw extensie mag bellen met de desktop-app.\n    Als u naar andere oproepopties wilt overschakelen,\n    neem dan contact op met uw accountbeheerder voor een upgrade.',
+  [callErrors.numberParseError]:
+    'Er is bij ons een probleem opgetreden. Probeer het later opnieuw.',
+  areaCode: 'netnummer',
+  telus911: 'Noodoproepen worden niet ondersteund.',
+  [callErrors.fromAndToNumberIsSame]:
+    'Het RingOut-nummer en bestemmingsnummer kunnen niet hetzelfde zijn. Werk het nummer bij en probeer het opnieuw.',
 };
 
 // @key: @#@"[callErrors.emergencyNumber]"@#@ @source: @#@"Emergency calling is not available. Please use another phone to contact emergency services"@#@
@@ -26,3 +36,4 @@ export default {
 // @key: @#@"[callErrors.numberParseError]"@#@ @source: @#@"Sorry, there was a problem on our end. Please try again later."@#@
 // @key: @#@"areaCode"@#@ @source: @#@"area code"@#@
 // @key: @#@"telus911"@#@ @source: @#@"Emergency dialing is not supported."@#@
+// @key: @#@"[callErrors.fromAndToNumberIsSame]"@#@ @source: @#@"The RingOut number and destination number can't be the same. Please update the number and try again."@#@

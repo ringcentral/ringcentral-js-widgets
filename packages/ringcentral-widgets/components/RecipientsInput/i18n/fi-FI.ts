@@ -1,5 +1,5 @@
 export default {
-  to: "Vastaanottaja",
+  to: "Vast.",
   enterNameOrNumber: "Anna nimi tai numero"
 };
 

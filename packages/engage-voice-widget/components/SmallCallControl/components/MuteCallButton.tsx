@@ -1,11 +1,11 @@
+import { RcIconButton } from '@ringcentral/juno';
+import { Mic, MicOff } from '@ringcentral/juno-icon';
 import type { FunctionComponent } from 'react';
 import React from 'react';
 
-import { RcIconButton } from '@ringcentral/juno';
-import { Mic, MicOff } from '@ringcentral/juno-icon';
-
 import { getCircleIconButtonTitle } from '../help';
 import i18n from '../i18n';
+
 import type { CallButtonsProps } from './CallButtons.interface';
 import { getIconColor } from './getIconColor';
 

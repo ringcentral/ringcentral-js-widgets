@@ -12,5 +12,5 @@ export const CheckHoldBehavior: StepFunction<CheckHoldProps> = async (
   const currentCall = phone.webphone.sessions.find(
     (item) => item.id === callId,
   );
-  expect(phone.webphone[type]).toBeCalledWith(currentCall?.id);
+  expect(phone.webphone[type]).toHaveBeenCalledWith(currentCall?.id);
 };

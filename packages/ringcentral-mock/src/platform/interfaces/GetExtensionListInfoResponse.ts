@@ -1,8 +1,8 @@
+import type { AutomaticLocationUpdatesSiteInfo } from './AutomaticLocationUpdatesSiteInfo';
+import type { CallQueueExtensionInfo } from './CallQueueExtensionInfo';
 import type { ContactInfo } from './ContactInfo';
 import type { ExtensionPermissions } from './ExtensionPermissions';
 import type { ProfileImageInfo } from './ProfileImageInfo';
-import type { CallQueueExtensionInfo } from './CallQueueExtensionInfo';
-import type { AutomaticLocationUpdatesSiteInfo } from './AutomaticLocationUpdatesSiteInfo';
 
 export interface GetExtensionListInfoResponse {
   /**

@@ -47,4 +47,4 @@ export default {
   [callResults.faxReceipt]: 'Fax Receipt',
   [callResults.disconnected]: 'Disconnected',
   [callResults.notAllowed]: 'Not Allowed',
-};
+} as const;

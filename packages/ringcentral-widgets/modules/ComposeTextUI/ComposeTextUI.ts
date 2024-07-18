@@ -1,9 +1,10 @@
 import Module from '@ringcentral-integration/commons/lib/di/decorators/module';
 import { formatNumber } from '@ringcentral-integration/commons/lib/formatNumber';
 import type { UIFunctions, UIProps } from '@ringcentral-integration/core';
-import { RcUIModuleV2 } from '@ringcentral-integration/core';
+import { RcUIModuleV2, track } from '@ringcentral-integration/core';
 
 import type { ComposeTextPanelProps } from '../../components/ComposeTextPanel';
+
 import type {
   ComposeTextUIComponentProps,
   Deps,
@@ -38,10 +39,18 @@ export class ComposeTextUI extends RcUIModuleV2<Deps> {
     });
   }
 
+  @track((that: ComposeTextView, eventName: string, contactType: string) => {
+    return [eventName, { contactType, location: 'SMS compose' }];
+  })
+  async triggerEventTracking(eventName: string, contactType: string) {
+    //
+  }
+
   getUIProps({
     inputExpandable,
     supportAttachment,
     useRecipientsInputV2 = false,
+    autoFocusToField,
   }: ComposeTextUIComponentProps): UIProps<ComposeTextPanelProps> {
     const isContentEmpty =
       this._deps.composeText.messageText.length === 0 &&
@@ -76,6 +85,7 @@ export class ComposeTextUI extends RcUIModuleV2<Deps> {
       attachments: this._deps.composeText.attachments,
       supportAttachment,
       useRecipientsInputV2,
+      autoFocus: autoFocusToField,
     };
   }
 
@@ -94,6 +104,8 @@ export class ComposeTextUI extends RcUIModuleV2<Deps> {
     recipientsContactPhoneRenderer,
   }: ComposeTextUIComponentProps): UIFunctions<ComposeTextPanelProps> {
     return {
+      triggerEventTracking: (eventName: string, contactType: string) =>
+        this.triggerEventTracking(eventName, contactType),
       send: async (text, attachments) => {
         try {
           const responses = await this._deps.composeText.send(
@@ -131,12 +143,13 @@ export class ComposeTextUI extends RcUIModuleV2<Deps> {
       },
       formatPhone: formatContactPhone,
       formatContactPhone,
-      detectPhoneNumbers: async (input) => {
-        const promises = input.split(/,\s*/g).map(async (item: any) => {
+      detectPhoneNumbers: async (input: string) => {
+        const promises = input.split(/,\s*/g).map(async (item) => {
+          item = item.trim();
           const isValid = await this._deps.composeText.validatePhoneNumber(
             item,
           );
-          return isValid ? item : undefined;
+          return isValid ? item : '';
         });
         const results = await Promise.all(promises);
         const detectedNumbers = results.filter((item) => !!item);

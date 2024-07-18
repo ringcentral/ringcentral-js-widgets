@@ -1,11 +1,11 @@
+import type { AccountLimits } from './AccountLimits';
+import type { BillingPlanInfo } from './BillingPlanInfo';
 import type { BrandInfo } from './BrandInfo';
 import type { ContractedCountryInfo } from './ContractedCountryInfo';
+import type { PackageInfo } from './PackageInfo';
+import type { ServiceFeatureInfo } from './ServiceFeatureInfo';
 import type { ServicePlanInfo } from './ServicePlanInfo';
 import type { TargetServicePlanInfo } from './TargetServicePlanInfo';
-import type { BillingPlanInfo } from './BillingPlanInfo';
-import type { ServiceFeatureInfo } from './ServiceFeatureInfo';
-import type { AccountLimits } from './AccountLimits';
-import type { PackageInfo } from './PackageInfo';
 
 export interface GetServiceInfoResponse {
   /**

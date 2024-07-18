@@ -1,8 +1,18 @@
 import { expect } from 'chai';
 
-import * as messageHelper from '.';
-
-const { sortByDate } = messageHelper;
+import {
+  filterNumbers,
+  getMyNumberFromMessage,
+  getRecipientNumbersFromMessage,
+  getRecipients,
+  messageIsAcceptable,
+  messageIsDeleted,
+  messageIsFax,
+  messageIsTextMessage,
+  messageIsVoicemail,
+  normalizeInstantEvent,
+  sortByDate,
+} from '.';
 
 describe('filterNumbers', () => {
   it('should return filtered numbers with phoneNumber', () => {
@@ -13,7 +23,7 @@ describe('filterNumbers', () => {
     const filterNumber = {
       phoneNumber: '+1234567890',
     };
-    const result = messageHelper.filterNumbers(numbers, filterNumber);
+    const result = filterNumbers(numbers, filterNumber);
     expect(result).to.deep.equal([{ phoneNumber: '+1234567891' }]);
   });
 
@@ -22,7 +32,7 @@ describe('filterNumbers', () => {
     const filterNumber = {
       extensionNumber: '1234',
     };
-    const result = messageHelper.filterNumbers(numbers, filterNumber);
+    const result = filterNumbers(numbers, filterNumber);
     expect(result).to.deep.equal([{ extensionNumber: '12345' }]);
   });
 });
@@ -30,19 +40,19 @@ describe('filterNumbers', () => {
 describe('messageIsDeleted', () => {
   it('should return true when message is deleted', () => {
     const message = { availability: 'Deleted' };
-    const result = messageHelper.messageIsDeleted(message);
+    const result = messageIsDeleted(message);
     expect(result).to.equal(true);
   });
 
   it('should return false when message is Alive', () => {
     const message = { availability: 'Alive' };
-    const result = messageHelper.messageIsDeleted(message);
+    const result = messageIsDeleted(message);
     expect(result).to.equal(false);
   });
 
   it('should return true when message is Purged', () => {
     const message = { availability: 'Purged' };
-    const result = messageHelper.messageIsDeleted(message);
+    const result = messageIsDeleted(message);
     expect(result).to.equal(true);
   });
 });
@@ -50,25 +60,25 @@ describe('messageIsDeleted', () => {
 describe('messageIsTextMessage', () => {
   it('should return true when message type is SMS', () => {
     const message = { type: 'SMS' };
-    const result = messageHelper.messageIsTextMessage(message);
+    const result = messageIsTextMessage(message);
     expect(result).to.equal(true);
   });
 
   it('should return true when message type is Pager', () => {
     const message = { type: 'Pager' };
-    const result = messageHelper.messageIsTextMessage(message);
+    const result = messageIsTextMessage(message);
     expect(result).to.equal(true);
   });
 
   it('should return false when message type is Fax', () => {
     const message = { type: 'Fax' };
-    const result = messageHelper.messageIsTextMessage(message);
+    const result = messageIsTextMessage(message);
     expect(result).to.equal(false);
   });
 
   it('should return false when message type is VoiceMail', () => {
     const message = { type: 'VoiceMail' };
-    const result = messageHelper.messageIsTextMessage(message);
+    const result = messageIsTextMessage(message);
     expect(result).to.equal(false);
   });
 });
@@ -76,13 +86,13 @@ describe('messageIsTextMessage', () => {
 describe('messageIsFax', () => {
   it('should return true when message type is Fax', () => {
     const message = { type: 'Fax', availability: 'Alive' };
-    const result = messageHelper.messageIsFax(message);
+    const result = messageIsFax(message);
     expect(result).to.equal(true);
   });
 
   it('should return false when message type is SMS', () => {
     const message = { type: 'SMS', availability: 'Alive' };
-    const result = messageHelper.messageIsFax(message);
+    const result = messageIsFax(message);
     expect(result).to.equal(false);
   });
 });
@@ -90,13 +100,13 @@ describe('messageIsFax', () => {
 describe('messageIsVoicemail', () => {
   it('should return true when message type is VoiceMail', () => {
     const message = { type: 'VoiceMail', availability: 'Alive' };
-    const result = messageHelper.messageIsVoicemail(message);
+    const result = messageIsVoicemail(message);
     expect(result).to.equal(true);
   });
 
   it('should return false when message type is SMS', () => {
     const message = { type: 'SMS', availability: 'Alive' };
-    const result = messageHelper.messageIsVoicemail(message);
+    const result = messageIsVoicemail(message);
     expect(result).to.equal(false);
   });
 });
@@ -104,43 +114,43 @@ describe('messageIsVoicemail', () => {
 describe('messageIsAcceptable', () => {
   it('should return true when message type is SMS and Alive', () => {
     const message = { type: 'SMS', availability: 'Alive' };
-    const result = messageHelper.messageIsAcceptable(message);
+    const result = messageIsAcceptable(message);
     expect(result).to.equal(true);
   });
 
   it('should return true when message type is Pager and Alive', () => {
     const message = { type: 'Pager', availability: 'Alive' };
-    const result = messageHelper.messageIsAcceptable(message);
+    const result = messageIsAcceptable(message);
     expect(result).to.equal(true);
   });
 
   it('should return true when message type is Fax and Alive', () => {
     const message = { type: 'Fax', availability: 'Alive' };
-    const result = messageHelper.messageIsAcceptable(message);
+    const result = messageIsAcceptable(message);
     expect(result).to.equal(true);
   });
 
   it('should return true when message type is VoiceMail and Alive', () => {
     const message = { type: 'VoiceMail', availability: 'Alive' };
-    const result = messageHelper.messageIsAcceptable(message);
+    const result = messageIsAcceptable(message);
     expect(result).to.equal(true);
   });
 
   it('should return true when message type is SMS and Deleted', () => {
     const message = { type: 'SMS', availability: 'Deleted' };
-    const result = messageHelper.messageIsAcceptable(message);
+    const result = messageIsAcceptable(message);
     expect(result).to.equal(false);
   });
 
   it('should return true when message type is Pager and Deleted', () => {
     const message = { type: 'Pager', availability: 'Deleted' };
-    const result = messageHelper.messageIsAcceptable(message);
+    const result = messageIsAcceptable(message);
     expect(result).to.equal(false);
   });
 
   it('should return false when message type is Fax and Deleted', () => {
     const message = { type: 'Fax', availability: 'Deleted' };
-    const result = messageHelper.messageIsAcceptable(message);
+    const result = messageIsAcceptable(message);
     expect(result).to.equal(false);
   });
 
@@ -150,7 +160,7 @@ describe('messageIsAcceptable', () => {
       availability: 'Alive',
       direction: 'Inbound',
     };
-    const result = messageHelper.messageIsAcceptable(message);
+    const result = messageIsAcceptable(message);
     expect(result).to.equal(true);
   });
 
@@ -160,7 +170,7 @@ describe('messageIsAcceptable', () => {
       direction: 'Outbound',
       messageStatus: 'Queued',
     };
-    const result = messageHelper.messageIsAcceptable(message);
+    const result = messageIsAcceptable(message);
     expect(result).to.equal(false);
   });
   it('should return false when message type is Fax and sending failed', () => {
@@ -169,12 +179,12 @@ describe('messageIsAcceptable', () => {
       direction: 'Outbound',
       messageStatus: 'SendingFailed',
     };
-    const result = messageHelper.messageIsAcceptable(message);
+    const result = messageIsAcceptable(message);
     expect(result).to.equal(false);
   });
   it('should return false when message type is VoiceMail and Deleted', () => {
     const message = { type: 'VoiceMail', availability: 'Deleted' };
-    const result = messageHelper.messageIsAcceptable(message);
+    const result = messageIsAcceptable(message);
     expect(result).to.equal(false);
   });
 });
@@ -191,7 +201,7 @@ describe('getMyNumberFromMessage', () => {
       ],
       from: { phoneNumber: '+1234567891' },
     };
-    const result = messageHelper.getMyNumberFromMessage({
+    const result = getMyNumberFromMessage({
       message,
       myExtensionNumber: '1234',
     });
@@ -209,7 +219,7 @@ describe('getMyNumberFromMessage', () => {
       ],
       from: { phoneNumber: '+1234567891' },
     };
-    const result = messageHelper.getMyNumberFromMessage({
+    const result = getMyNumberFromMessage({
       message,
       myExtensionNumber: '1234',
     });
@@ -227,7 +237,7 @@ describe('getMyNumberFromMessage', () => {
       ],
       from: { extensionNumber: '1234' },
     };
-    const result = messageHelper.getMyNumberFromMessage({
+    const result = getMyNumberFromMessage({
       message,
       myExtensionNumber: '1234',
     });
@@ -245,7 +255,7 @@ describe('getMyNumberFromMessage', () => {
       ],
       from: { extensionNumber: '12345' },
     };
-    const result = messageHelper.getMyNumberFromMessage({
+    const result = getMyNumberFromMessage({
       message,
       myExtensionNumber: '1234',
     });
@@ -266,7 +276,7 @@ describe('getRecipientNumbersFromMessage', () => {
       from: { phoneNumber: '+1234567891' },
     };
     const myNumber = { phoneNumber: '+1234567891' };
-    const result = messageHelper.getRecipientNumbersFromMessage({
+    const result = getRecipientNumbersFromMessage({
       message,
       myNumber,
     });
@@ -285,7 +295,7 @@ describe('getRecipientNumbersFromMessage', () => {
       from: { phoneNumber: '+1234567891' },
     };
     const myNumber = { phoneNumber: '+1234567890' };
-    const result = messageHelper.getRecipientNumbersFromMessage({
+    const result = getRecipientNumbersFromMessage({
       message,
       myNumber,
     });
@@ -304,7 +314,7 @@ describe('getRecipientNumbersFromMessage', () => {
       from: { extensionNumber: '1234' },
     };
     const myNumber = { extensionNumber: '1234' };
-    const result = messageHelper.getRecipientNumbersFromMessage({
+    const result = getRecipientNumbersFromMessage({
       message,
       myNumber,
     });
@@ -323,7 +333,7 @@ describe('getRecipientNumbersFromMessage', () => {
       from: { extensionNumber: '12345' },
     };
     const myNumber = { extensionNumber: '1234' };
-    const result = messageHelper.getRecipientNumbersFromMessage({
+    const result = getRecipientNumbersFromMessage({
       message,
       myNumber,
     });
@@ -342,7 +352,7 @@ describe('getRecipientNumbersFromMessage', () => {
       from: { extensionNumber: '1234' },
     };
     const myNumber = { extensionNumber: '1234' };
-    const result = messageHelper.getRecipientNumbersFromMessage({
+    const result = getRecipientNumbersFromMessage({
       message,
       myNumber,
     });
@@ -362,7 +372,7 @@ describe('getRecipients', () => {
       ],
       from: { phoneNumber: '+1234567891' },
     };
-    const result = messageHelper.getRecipients({
+    const result = getRecipients({
       message,
       myExtensionNumber: '1234',
     });
@@ -380,7 +390,7 @@ describe('getRecipients', () => {
       ],
       from: { extensionNumber: '1234' },
     };
-    const result = messageHelper.getRecipients({
+    const result = getRecipients({
       message,
       myExtensionNumber: '1234',
     });
@@ -403,5 +413,24 @@ describe('sortByDate', () => {
         expect(item.creationTime > items[idx + 1].creationTime).to.equal(true);
       }
     });
+  });
+});
+
+describe('normalizeInstantEvent', () => {
+  it('should be a function', () => {
+    expect(normalizeInstantEvent).to.be.a('function');
+  });
+  it('should convert the "id" and "conversationId" property to number', () => {
+    const mockObj = {
+      body: {
+        id: '123',
+        conversationId: '456',
+      },
+    };
+    const normalizedObj = normalizeInstantEvent(mockObj);
+    expect(normalizedObj.id).to.be.a('number');
+    expect(normalizedObj.id).to.equal(123);
+    expect(normalizedObj.conversationId).to.be.a('number');
+    expect(normalizedObj.conversationId).to.equal(456);
   });
 });

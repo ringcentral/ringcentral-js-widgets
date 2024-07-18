@@ -10,7 +10,6 @@
  * Entry point(/s):
  * Office Add-in > Edit Calendar Event with PMI meeting > Schedule with RingCentral
  */
-
 import {
   autorun,
   it,

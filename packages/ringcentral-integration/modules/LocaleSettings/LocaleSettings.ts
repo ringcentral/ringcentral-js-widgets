@@ -8,6 +8,7 @@ import { DEFAULT_LOCALE } from '@ringcentral-integration/i18n';
 
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
+
 import type { Deps } from './LocaleSettings.interface';
 
 @Module({
@@ -35,6 +36,7 @@ export class LocaleSettings extends RcModuleV2<Deps> {
 
   @globalStorage
   @state
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string'.
   savedLocale: string = null;
 
   @action

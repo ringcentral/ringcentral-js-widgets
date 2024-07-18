@@ -1,3 +1,5 @@
+import 'reflect-metadata';
+
 import { find } from 'ramda';
 
 const sDefinition = Symbol('definition');

@@ -10,14 +10,6 @@
  * SfB: Login > Meeting
  * Office Add-in: Login
  */
-
-import {
-  CheckPostMeetingParams,
-  ClickScheduleButton,
-  CheckRCVPageDisplay,
-  TurnOnToggle,
-  CheckPatchMeetingParams,
-} from '../../../../../../steps/Meeting';
 import type { StepFunction } from '../../../../../../lib/step';
 import {
   common,
@@ -31,6 +23,13 @@ import {
   p2,
 } from '../../../../../../lib/step';
 import { Login as CommonLogin } from '../../../../../../steps/Login';
+import {
+  CheckPostMeetingParams,
+  ClickScheduleButton,
+  CheckRCVPageDisplay,
+  TurnOnToggle,
+  CheckPatchMeetingParams,
+} from '../../../../../../steps/Meeting';
 import { EnterPassword } from '../../../../../../steps/Meeting/Operate/OperatePasswordField';
 
 @autorun(test.skip)

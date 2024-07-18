@@ -6,11 +6,11 @@
  * Entry point(/s):
  * 1. The microphone setting in Site settings is 'Ask', and the microphone settings in Chrome is 'Ask'
  */
-
 import { mockDevice } from '@ringcentral-integration/commons/integration-test/utils/SimulateWindowObject';
 import { connectionStatus } from '@ringcentral-integration/commons/modules/Webphone';
-import { fireEvent, screen } from '@testing-library/react';
 import { brandConfig } from '@ringcentral-integration/widgets-demo/dev-server/brandConfig';
+import { fireEvent, screen } from '@testing-library/react';
+
 import type { StepFunction } from '../../../../lib/step';
 import {
   p1,
@@ -23,13 +23,16 @@ import {
   When,
   And,
   common,
+  StepProp,
 } from '../../../../lib/step';
+import { MockSipProvision } from '../../../../steps/Call/Webphone';
+import { Login as CommonLogin } from '../../../../steps/Login';
+import { MockMessageSync } from '../../../../steps/Mock';
+import { NavigateTo } from '../../../../steps/Router';
 import {
   CheckCallButtonActive,
   CheckCallButtonDisabled,
 } from '../../../../steps/dialer';
-import { Login as CommonLogin } from '../../../../steps/Login';
-import { NavigateTo } from '../../../../steps/Router/action';
 
 @autorun(test)
 @common
@@ -46,14 +49,23 @@ export class CheckMicrophonePermission extends Step {
     any
   >;
   appName: string;
+  CheckCallBtnDisabled: StepProp;
 
   run() {
-    const { Login = CommonLogin, appName = brandConfig.appName } = this;
+    const {
+      Login = CommonLogin,
+      appName = brandConfig.appName,
+      CheckCallBtnDisabled = CheckCallButtonDisabled,
+    } = this;
     return (
       <Scenario desc="Check microphone permission">
         <When
           desc="login to the CTI"
-          action={<Login isMockUserMedia={false} shouldMockDevices={false} />}
+          action={() => [
+            <Login isMockUserMedia={false} shouldMockDevices={false} />,
+            <MockMessageSync isDefaultInit={false} />,
+            <MockSipProvision repeat={0} />,
+          ]}
         />
         <Then
           desc="Go to Dialer, click the 'Webphone unavailable; Will show 'Please grant <AppName> to access your audio'"
@@ -67,7 +79,7 @@ export class CheckMicrophonePermission extends Step {
         <Then
           desc="1. navigate to dialer page;
                 2. call button should be disabled"
-          action={[<NavigateTo path="/dialer" />, <CheckCallButtonDisabled />]}
+          action={[<NavigateTo path="/dialer" />, CheckCallBtnDisabled]}
         />
         <When
           desc="Go to Settings/Audio page'"

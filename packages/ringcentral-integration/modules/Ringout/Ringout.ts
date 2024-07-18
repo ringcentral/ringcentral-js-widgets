@@ -1,10 +1,11 @@
-import type GetRingOutStatusResponse from '@rc-ex/core/lib/definitions/GetRingOutStatusResponse';
 import type RestException from '@rc-ex/core/lib/RestException';
+import type GetRingOutStatusResponse from '@rc-ex/core/lib/definitions/GetRingOutStatusResponse';
 import { action, RcModuleV2, state } from '@ringcentral-integration/core';
 import { sleep } from '@ringcentral-integration/utils';
 
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
+
 import type { Deps, MakeCallOptions } from './Ringout.interface';
 import { ringoutErrors } from './ringoutErrors';
 import { ringoutStatus } from './ringoutStatus';
@@ -66,10 +67,12 @@ export class Ringout extends RcModuleV2<Deps> {
             playPrompt: prompt,
           });
 
-        if (this._deps.contactMatcher) {
-          await this._deps.contactMatcher.forceMatchBatchNumbers({
+        try {
+          this._deps.contactMatcher?.forceMatchBatchNumbers({
             phoneNumbers: [fromNumber, toNumber],
           });
+        } catch (error) {
+          console.error('makeCall forceMatchBatchNumbers error', error);
         }
 
         const startTime = Date.now();

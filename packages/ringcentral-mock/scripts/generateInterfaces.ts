@@ -1,6 +1,6 @@
+import execa from 'execa';
 import fs from 'fs';
 import path from 'path';
-import execa from 'execa';
 import { uniq, without } from 'ramda';
 import type { Field, Model } from 'ringcentral-open-api-parser/lib/types';
 

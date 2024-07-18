@@ -10,6 +10,7 @@ import {
   Then,
 } from '@ringcentral-integration/test-utils';
 import { PresenceSetting } from '@ringcentral-integration/widgets/test/components/PresenceSettingSection/PresenceSettingSection';
+
 import { Login } from '../../steps/Login';
 
 const NavigateTo: StepFunction<{ path: string }> = ({ path }, { phone }) => {

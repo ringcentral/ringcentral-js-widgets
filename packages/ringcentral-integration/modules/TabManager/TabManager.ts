@@ -1,6 +1,4 @@
 // @ts-nocheck
-import { combineReducers } from 'redux';
-
 import {
   action,
   identifierKey,
@@ -10,10 +8,12 @@ import {
   state,
   usmAction,
 } from '@ringcentral-integration/core';
+import { combineReducers } from 'redux';
 
+import { Tabbie } from '../../lib/Tabbie';
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
-import { Tabbie } from '../../lib/Tabbie';
+
 import type { Deps, TabEvent } from './TabManager.interface';
 
 @Module({

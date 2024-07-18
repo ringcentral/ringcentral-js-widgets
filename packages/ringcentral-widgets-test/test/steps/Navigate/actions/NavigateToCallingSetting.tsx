@@ -1,5 +1,7 @@
 import { fireEvent, screen, waitFor } from '@testing-library/react';
+
 import type { StepFunction } from '../../../lib/step';
+
 import { NavigateToSettings } from './NavigateToSettings';
 
 const GoToCallingSetting: StepFunction = async () => {

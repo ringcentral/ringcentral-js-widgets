@@ -38,8 +38,7 @@ export default {
   pmiSettingChangeAlert: "設定を変更してこの会議をスケジュールする場合は、個人会議IDのある会議すべてで同じ最新の設定が使用されます。",
   lockedTooltip: "この設定は会社の管理者により管理されています",
   when: "日時",
-  recurringDescribe: "出席者に対するカレンダーの招待で、会議が定期的に、または繰り返し設定されていることを確認してください。",
-  ieSupportAlert: "2022年2月16日以降、Internet Explorer 11では{appName}が機能しないことにご注意ください。Microsoft Edgeを代わりに使用するか、Outlook 2016以降に更新することをお勧めします。"
+  recurringDescribe: "出席者に対するカレンダーの招待で、会議が定期的に、または繰り返し設定されていることを確認してください。"
 };
 
 // @key: @#@"date"@#@ @source: @#@"Date"@#@
@@ -81,4 +80,3 @@ export default {
 // @key: @#@"lockedTooltip"@#@ @source: @#@"This setting is managed by your company admin"@#@
 // @key: @#@"when"@#@ @source: @#@"When"@#@
 // @key: @#@"recurringDescribe"@#@ @source: @#@"Please remember to check recurrence or repeat in your calendar invitation to your attendees."@#@
-// @key: @#@"ieSupportAlert"@#@ @source: @#@"Please note that {appName} won't work with Internet Explorer 11 after Feb 16, 2022. We recommend switching to Microsoft Edge or updating to Outlook 2016 or above."@#@

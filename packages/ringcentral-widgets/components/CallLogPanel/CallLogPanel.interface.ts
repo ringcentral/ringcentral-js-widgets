@@ -1,8 +1,7 @@
-import type { MutableRefObject } from 'react';
-
 import type { IContact } from '@ringcentral-integration/commons/interfaces/Contact.model';
 import type { DateTimeFormatter } from '@ringcentral-integration/commons/lib/getIntlDateTimeFormatter';
 import type { RcIconProps } from '@ringcentral/juno';
+import type { MutableRefObject } from 'react';
 
 import type { Call, CallLog, CallLogTitle } from './CallLog.interface';
 
@@ -29,7 +28,9 @@ type CallLogPanelGroup<T> = {
 };
 
 export interface CallLogPanelProps extends CallLogPanelConfig {
+  rootLayout?: boolean;
   currentLog: CallLog;
+  currentDelaySavingState?: any;
   warmTransferLog?: CallLog;
   warmTransferActiveTelephonySessionId: string;
   currentLocale: string;
@@ -76,6 +77,7 @@ export interface CallLogPanelProps extends CallLogPanelConfig {
       | 'startAdornmentRender'
       | 'isWide'
       | 'objectTypeIconsMap'
+      | 'currentDelaySavingState'
     > & {
       editSectionScrollBy?: (top: number) => void;
     },
@@ -101,7 +103,7 @@ export interface CallLogPanelProps extends CallLogPanelConfig {
   onExpandNotification?: (...args: any[]) => any;
   currentNotificationIdentify?: string;
   currentSession?: object;
-  activeSession?: object;
+  activeSession?: boolean | object;
   pushLogPageStatus?: (...args: any[]) => any;
   shrinkNotification?: (...args: any[]) => any;
   contactSearch?: ({
@@ -130,11 +132,29 @@ export interface CallLogPanelProps extends CallLogPanelConfig {
   answer: (telephonySession: string) => any;
   showRecordingIndicator?: boolean;
   clickForwardTrack?: () => any;
+  clickParticipantsIconTrack?: () => void;
+  clickRemoveParticipantTrack?: () => void;
   renderCallNotificationAvatar?: (
     contact: IContact,
     entityType: string,
   ) => JSX.Element;
+  renderConferenceParticipantsAvatar?: (item: {
+    displayEntity?: IContact;
+    entityType?: string;
+    name?: string;
+  }) => JSX.Element;
   getAvatarUrl?: (contact: IContact) => Promise<string>;
+  getConferenceCallParticipantName: (
+    sessionId: string,
+    isHost?: boolean,
+  ) => {
+    logName?: string;
+    entityDetailLink?: string;
+  };
+  onRemoveParticipant: (
+    telephonySessionId: string,
+    removedPartyId: string,
+  ) => Promise<void>;
 }
 
 export interface LogNotification {
@@ -146,4 +166,5 @@ export interface LogNotification {
   displayEntity: any;
   entityType: string;
   entityDetailLink: string;
+  showLogOptions?: boolean;
 }

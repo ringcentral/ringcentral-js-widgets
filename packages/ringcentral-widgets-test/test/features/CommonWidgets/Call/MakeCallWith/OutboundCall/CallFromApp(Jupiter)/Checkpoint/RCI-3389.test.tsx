@@ -7,7 +7,7 @@
  * The user has logged in CTI app
  * User has installed {BrandNameApp}
  * RC: 'RingCentral App'
- * AT&T: 'Office@Hand'
+ * AT&T: 'AT&T Office@Hand'
  * BT:BT Cloud Work App
  * TELUS: TELUS Business Connect App
  * Avaya: Avaya Cloud APP
@@ -15,50 +15,46 @@
  *
   | Brand |Brand Name |Link |
   | RC |'RingCentral App' |'rcapp://r/call?number={phoneNumber}' |
-	| AT&T |'Office@Hand App' |'https://app.officeathand.att.com/r/call?number={phoneNumber}' |
+	| AT&T |'AT&T Office@Hand App' |'https://app.officeathand.att.com/r/call?number={phoneNumber}' |
 	| BT |'BT Cloud Work App' |'https://app.cloudwork.bt.com/r/call?number={phoneNumber}' |
 	| Telus |'Business Connect App' |'https://app.businessconnect.telus.com/r/call?number={phoneNumber}' |
 	| Avaya |'Avaya Cloud Office' |'https://app.cloudoffice.avaya.com/r/call?number={phoneNumber}' |
 
  * Settings > Calling > Make my calls with > {BrandName App }
  */
-
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
-  p0,
-  it,
-  autorun,
-  examples,
+  And,
+  Given,
   Scenario,
   Step,
   Then,
-  title,
   When,
-  And,
-  Given,
+  autorun,
+  examples,
+  it,
+  p0,
+  title,
 } from '@ringcentral-integration/test-utils';
 
 import {
-  MakeOutboundCall,
   CheckCallWithJupiterLink,
+  MakeOutboundCall,
 } from '../../../../../../../steps/Call';
-import { NavigateToDialer } from '../../../../../../../steps/Navigate';
-import { NavigateTo } from '../../../../../../../steps/Router/action';
-import {
-  ClickSaveButton,
-  ExpandDropdown,
-  SelectCallingSetting,
-  SetAreaCode,
-} from '../../../../../../../steps/Settings';
 import { CommonLogin } from '../../../../../../../steps/CommonLogin';
 import { CreateInstance } from '../../../../../../../steps/CreateInstance';
 import {
   CreateMock,
-  MockNumberParserV2,
   MockGetPhoneNumber,
-  MockDialingPlan,
+  MockNumberParserV2,
 } from '../../../../../../../steps/Mock';
-import { generateDialPlanData } from '../../../../../../../__mock__/generateDialPlanData';
+import { NavigateToDialer } from '../../../../../../../steps/Navigate';
+import { NavigateTo } from '../../../../../../../steps/Router';
+import {
+  ClickSaveButton,
+  ExpandCallingSettingDropdown,
+  SelectCallingSetting,
+} from '../../../../../../../steps/Settings';
 
 const brandData = [
   {
@@ -68,7 +64,7 @@ const brandData = [
   },
   {
     brand: 'att',
-    brandName: 'Office@Hand App',
+    brandName: 'AT&T Office@Hand App',
     link: /https:\/\/app\.officeathand\.att\.com\/r\/call\?number=.+/,
   },
   {
@@ -127,9 +123,7 @@ brandData.forEach((item, index) => {
 beforeEach(() => {
   window.open = jest.fn();
 });
-afterEach(() => {
-  jest.resetAllMocks();
-});
+
 @autorun(test)
 @it
 @p0
@@ -177,7 +171,7 @@ export class RCI3389 extends Step {
                 }}
               />,
               <NavigateTo path="/settings/calling" />,
-              ExpandDropdown,
+              ExpandCallingSettingDropdown,
               <SelectCallingSetting settingName={brandName} />,
               ClickSaveButton,
             ];

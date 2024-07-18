@@ -1,5 +1,3 @@
-import { alpha3ToAlpha2 } from 'i18n-iso-countries';
-
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import { callErrors } from '@ringcentral-integration/commons/modules/Call';
 import {
@@ -10,6 +8,7 @@ import {
   storage,
 } from '@ringcentral-integration/core';
 import { format, formatTypes } from '@ringcentral-integration/phone-number';
+import { alpha3ToAlpha2 } from 'i18n-iso-countries';
 
 import type {
   DirectTransferNotificationTypes,
@@ -30,8 +29,6 @@ import {
 } from '../../enums';
 import type { Handler } from '../../interfaces/Common.interface';
 import type { EvTransferViewPhoneBookItem } from '../../interfaces/EvTransferCallUI.interface';
-import { AsyncEventEmitter } from '../../lib/asyncEventEmitter';
-import { checkCountryCode } from '../../lib/checkCountryCode';
 import type {
   EvClientTransferParams,
   EvDirectAgentListItem,
@@ -40,7 +37,10 @@ import type {
 } from '../../lib/EvClient';
 import { EvCallbackTypes } from '../../lib/EvClient/enums/callbackTypes';
 import { EvTypeError } from '../../lib/EvTypeError';
+import { AsyncEventEmitter } from '../../lib/asyncEventEmitter';
+import { checkCountryCode } from '../../lib/checkCountryCode';
 import { parseNumber } from '../../lib/parseNumber';
+
 import type {
   Deps,
   EvTransferFailHandler,

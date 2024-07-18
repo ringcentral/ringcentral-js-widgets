@@ -41,3 +41,25 @@ Good practice:
 @title('demo title desc')
 class Demo extends Step{}
 ```
+
+
+# Extend test case
+
+When you need extend case like below, also make sure add `@common` at be extended class
+
+```ts
+@autorun(test)
+@ut
+@p0
+@title('demo title desc')
+@common
+class Demo extends Step{}
+
+@autorun(test)
+@ut
+@p0
+@title('demo2 title desc')
+class Demo2 extends Demo {}
+```
+
+and for be extended project, you should add `COMMON=true` at `test` script, only have that, `@common` tests will be run.

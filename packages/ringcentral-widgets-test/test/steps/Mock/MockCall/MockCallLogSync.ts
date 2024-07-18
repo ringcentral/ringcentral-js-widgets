@@ -1,5 +1,6 @@
 import type { CallLogSync } from '@ringcentral-integration/mock';
 import callLogBody from '@ringcentral-integration/mock/src/platform/data/callLog.json';
+
 import type { StepFunction } from '../../../lib/step';
 
 interface MockCallLogSyncProps {

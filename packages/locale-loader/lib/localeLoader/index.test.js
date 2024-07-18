@@ -1,11 +1,6 @@
-import path from 'path';
-import fs from 'fs-extra';
-import formatLocale from '@ringcentral-integration/i18n/lib/formatLocale';
-import localeLoader from '.';
+import localeLoader from './';
 
 const testFolder = './testData';
-
-const files = ['en_us.js', 'FR-FR.JS', 'aa-AAAA-ZZ.JS'];
 
 class MockBuilder {
   constructor({ input }) {

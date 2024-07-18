@@ -1,9 +1,9 @@
+import clsx from 'clsx';
 import React, { Component } from 'react';
-
-import classnames from 'classnames';
 
 import type { MessageItemProps } from '../MessageItem';
 import MessageItem from '../MessageItem';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 
@@ -112,7 +112,7 @@ class ConversationList extends Component<ConversationListProps, {}> {
     ) : null;
     return (
       <div
-        className={classnames(styles.root, className)}
+        className={clsx(styles.root, className)}
         data-sign="conversationList"
         onScroll={this.onScroll}
         ref={(list) => {

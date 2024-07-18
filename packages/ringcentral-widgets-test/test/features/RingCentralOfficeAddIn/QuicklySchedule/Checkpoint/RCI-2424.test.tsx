@@ -9,29 +9,30 @@
  * Outlook > Calendar >New Event >Click'RingCentral Scheduler' / 'Schedule with RingCentral'
  * Outlook > Calendar >Click 'New Appointment' or 'New Meeting' in the menu bar > Click {Brand name} for Outlook
  */
-
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
-  p1,
-  it,
-  autorun,
   And,
+  Given,
   Scenario,
   Step,
-  Given,
   Then,
-  title,
   When,
+  autorun,
+  common,
   examples,
+  it,
+  p1,
+  title,
 } from '@ringcentral-integration/test-utils';
 
+import { CheckAlertToBeCallWith } from '../../../../steps/Alert';
 import { Login as CommonLogin } from '../../../../steps/Login';
 import { CheckRCVPageDisplay } from '../../../../steps/Meeting';
-import { CheckAlertToBeCallWith } from '../../../../steps/Alert';
 
 @autorun(test.skip)
 @it
 @p1
+@common
 @title('Meeting information should be injected into Outlook after add meeting')
 export class RCI2424 extends Step {
   Login: StepFunction<any, any> = CommonLogin;
@@ -42,7 +43,7 @@ export class RCI2424 extends Step {
     | 'bt'    | 'BT Cloud Work Video Meeting'          | 'Cloud Work'         |
     | 'telus' | 'TELUS Business Connect Video Meeting' | 'Business Connect'   |
     | 'avaya' | 'Avaya Cloud Office Video Meeting'     | 'Avaya Cloud Office' |
-    | 'att'   | 'Office@Hand Meetings Meeting'    | 'Office@Hand'        |
+    | 'att'   | 'AT&T Office@Hand Meetings Meeting'    | 'AT&T Office@Hand'   |
   `)
   run() {
     const { Login, CheckInjection } = this;

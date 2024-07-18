@@ -10,4 +10,4 @@ export default {
   [messageTypes.voiceMail]: 'Voice',
   [messageTypes.text]: 'Text',
   [messageTypes.fax]: 'Fax',
-};
+} as const;

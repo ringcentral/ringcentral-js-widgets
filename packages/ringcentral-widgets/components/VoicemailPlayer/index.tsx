@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import { RcLink } from '@ringcentral/juno';
-
-import classnames from 'classnames';
-
 import { formatDuration } from '@ringcentral-integration/commons/lib/formatDuration';
+import { RcLink } from '@ringcentral/juno';
+import clsx from 'clsx';
+import React, { Component } from 'react';
+
 import DownloadIcon from '../../assets/images/Download.svg';
 import PauseIcon from '../../assets/images/Pause.svg';
 import PlayIcon from '../../assets/images/Play.svg';
 import { Button } from '../Button';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 
@@ -167,7 +167,7 @@ class VoicemailPlayer extends Component<
     if (this.state.playing) {
       icon = (
         <Button
-          className={classnames(styles.play, disabled ? styles.disabled : null)}
+          className={clsx(styles.play, disabled ? styles.disabled : null)}
           onClick={this._pauseAudio}
           disabled={disabled}
         >
@@ -179,7 +179,7 @@ class VoicemailPlayer extends Component<
     } else {
       icon = (
         <Button
-          className={classnames(styles.play, disabled ? styles.disabled : null)}
+          className={clsx(styles.play, disabled ? styles.disabled : null)}
           onClick={this._playAudio}
           disabled={disabled}
           dataSign="play"
@@ -195,14 +195,11 @@ class VoicemailPlayer extends Component<
       this._audio.currentTime < duration ? this._audio.currentTime : duration;
     const downloadUri = `${uri}&contentDisposition=Attachment`;
     return (
-      <div className={classnames(styles.root, className)}>
+      <div className={clsx(styles.root, className)}>
         {icon}
         <span className={styles.startTime}>{formatDuration(currentTime)}</span>
         <RcLink
-          className={classnames(
-            styles.download,
-            disabled ? styles.disabled : null,
-          )}
+          className={clsx(styles.download, disabled ? styles.disabled : null)}
           target="_blank"
           download
           disabled={disabled}

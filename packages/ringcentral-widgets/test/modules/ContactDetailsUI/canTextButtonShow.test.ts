@@ -2,6 +2,7 @@ import { phoneTypes } from '@ringcentral-integration/commons/enums/phoneTypes';
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
 import { ContactDetailsUI } from '../../../modules/ContactDetailsUI/ContactDetailsUI';
+
 import { defaultPropsParams, phone } from './testSetup';
 
 test("if composeText's dependency is not exist, then should return false", () => {

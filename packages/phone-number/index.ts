@@ -1,32 +1,34 @@
 import type { CountryCode } from 'libphonenumber-js';
 import {
-  parseIncompletePhoneNumber,
-  isValidNumber,
-  getCountryCallingCode,
-  formatNumber,
   AsYouType,
+  formatNumber,
+  getCountryCallingCode,
+  isValidNumber,
+  parseIncompletePhoneNumber,
 } from 'libphonenumber-js';
 
-import format, { formatTypes, isUSOrCAOrPR } from './lib/format';
+import { customFormat } from './lib/customFormat/customFormat';
 import detect from './lib/detect';
-import parse from './lib/parse';
+import format, { formatTypes, isUSOrCAOrPR } from './lib/format';
 import isE164 from './lib/isE164';
 import isSameLocalNumber from './lib/isSameLocalNumber';
+import parse from './lib/parse';
 
 export {
-  format,
-  isUSOrCAOrPR,
-  detect,
-  parse,
-  isE164,
-  formatTypes,
   AsYouType,
+  customFormat,
+  detect,
+  format,
+  formatNumber,
+  formatTypes,
+  getCountryCallingCode,
+  isE164,
   // Legacy
   isSameLocalNumber,
-  parseIncompletePhoneNumber,
+  isUSOrCAOrPR,
   isValidNumber,
-  getCountryCallingCode,
-  formatNumber,
+  parse,
+  parseIncompletePhoneNumber,
 };
 
 export type { CountryCode };

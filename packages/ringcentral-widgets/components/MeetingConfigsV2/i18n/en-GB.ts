@@ -38,8 +38,7 @@ export default {
   pmiSettingChangeAlert: "If you change the settings and schedule this meeting, all meetings with Personal Meeting ID will use the same latest settings.",
   lockedTooltip: "This setting is managed by your company admin",
   when: "When",
-  recurringDescribe: "Please remember to check for recurrences or repeats in your calendar invitation to your attendees.",
-  ieSupportAlert: "Please note that {appName} won’t work with Internet Explorer 11 after 16th Feb 2022. We recommend switching to Microsoft Edge or updating to Outlook 2016 or above."
+  recurringDescribe: "Please remember to check for recurrences or repeats in your calendar invitation to your attendees."
 };
 
 // @key: @#@"date"@#@ @source: @#@"Date"@#@
@@ -81,4 +80,3 @@ export default {
 // @key: @#@"lockedTooltip"@#@ @source: @#@"This setting is managed by your company admin"@#@
 // @key: @#@"when"@#@ @source: @#@"When"@#@
 // @key: @#@"recurringDescribe"@#@ @source: @#@"Please remember to check recurrence or repeat in your calendar invitation to your attendees."@#@
-// @key: @#@"ieSupportAlert"@#@ @source: @#@"Please note that {appName} won't work with Internet Explorer 11 after Feb 16, 2022. We recommend switching to Microsoft Edge or updating to Outlook 2016 or above."@#@

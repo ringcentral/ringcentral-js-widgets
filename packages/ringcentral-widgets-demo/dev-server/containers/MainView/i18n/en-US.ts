@@ -9,4 +9,4 @@ export default {
   meetingLabel: 'Schedule Meeting',
   conferenceLabel: 'Schedule Conference',
   settingsLabel: 'Settings',
-};
+} as const;

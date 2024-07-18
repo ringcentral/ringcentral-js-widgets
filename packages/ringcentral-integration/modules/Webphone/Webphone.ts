@@ -1,6 +1,3 @@
-import { filter, find } from 'ramda';
-import type { InviteOptions } from 'ringcentral-web-phone/lib/userAgent';
-
 import {
   action,
   computed,
@@ -10,9 +7,12 @@ import {
 } from '@ringcentral-integration/core';
 import type { ObjectMapKey } from '@ringcentral-integration/core/lib/ObjectMap';
 import { sleep } from '@ringcentral-integration/utils';
+import { filter, find } from 'ramda';
+import type { InviteOptions } from 'ringcentral-web-phone/lib/userAgent';
 
 import callDirections from '../../enums/callDirections';
 import { extendedControlStatus } from '../../enums/extendedControlStatus';
+import { trackEvents } from '../../enums/trackEvents';
 import type {
   NormalizedSession,
   WebphoneSession,
@@ -20,12 +20,8 @@ import type {
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
 import { validateNumbers } from '../../lib/validateNumbers';
-import { trackEvents } from '../../enums/trackEvents';
 import { callErrors } from '../Call/callErrors';
-import { EVENTS } from './events';
-import { NumberValidError } from './numberValidError';
-import { recordStatus } from './recordStatus';
-import { sessionStatus } from './sessionStatus';
+
 import type {
   BeforeCallEndHandler,
   BeforeCallResumeHandler,
@@ -42,6 +38,10 @@ import type {
   TPickupInboundCall,
 } from './Webphone.interface';
 import { WebphoneBase } from './WebphoneBase';
+import { EVENTS } from './events';
+import { NumberValidError } from './numberValidError';
+import { recordStatus } from './recordStatus';
+import { sessionStatus } from './sessionStatus';
 import { webphoneErrors } from './webphoneErrors';
 import {
   extractHeadersData,
@@ -258,6 +258,10 @@ export class Webphone extends WebphoneBase {
   }
 
   _onAccepted(session: WebphoneSession) {
+    this.initWebphoneSessionEvents(session);
+  }
+
+  initWebphoneSessionEvents(session: WebphoneSession) {
     session.on('accepted', (incomingResponse) => {
       if (session.__rc_callStatus === sessionStatus.finished) {
         return;
@@ -300,7 +304,7 @@ export class Webphone extends WebphoneBase {
       session.__rc_callStatus = sessionStatus.finished;
       this._onCallEnd(session);
     });
-    // @ts-ignore
+    // @ts-expect-error TS(2769): No overload matches this call.
     session.on('replaced', (newSession: WebphoneSession) => {
       console.log('Event: replaced', newSession);
       session.__rc_callStatus = sessionStatus.replaced;
@@ -322,7 +326,7 @@ export class Webphone extends WebphoneBase {
       this._updateSessions();
     });
     session.on('SessionDescriptionHandler-created', () => {
-      // @ts-ignore
+      // @ts-expect-error TS(2339): Property 'on' does not exist on type 'SessionDescr... Remove this comment to see the full error message
       session.sessionDescriptionHandler.on('userMediaFailed', () => {
         this._deps.audioSettings.onGetUserMediaError();
       });
@@ -457,7 +461,7 @@ export class Webphone extends WebphoneBase {
               parsedNumbers[0].parsedNumber;
           }
         } else {
-          // @ts-expect-error
+          // @ts-expect-error TS(2339): Property 'numbers' does not exist on type 'Validat... Remove this comment to see the full error message
           validPhoneNumber = validatedResult.numbers?.[0]?.e164;
         }
       }
@@ -470,7 +474,7 @@ export class Webphone extends WebphoneBase {
     } catch (e: any /** TODO: confirm with instanceof */) {
       console.error(e);
       this._deps.alert.warning({
-        message: webphoneErrors.forwardError,
+        message: webphoneErrors.unknownError,
       });
       this._addTrackAfterForward();
       return false;
@@ -708,7 +712,7 @@ export class Webphone extends WebphoneBase {
             parsedNumbers?.[0].availableExtension ??
             parsedNumbers?.[0].parsedNumber;
         } else {
-          // @ts-expect-error
+          // @ts-expect-error TS(2339): Property 'numbers' does not exist on type 'Validat... Remove this comment to see the full error message
           validPhoneNumber = numberResult.numbers?.[0]?.e164;
         }
       }
@@ -764,7 +768,7 @@ export class Webphone extends WebphoneBase {
         fromNumber,
         homeCountryId: this._deps.regionSettings.homeCountryId,
         // TODO: should check that type issue
-        // @ts-expect-error
+        // @ts-expect-error TS(2322): Type 'string' is not assignable to type 'string[]'... Remove this comment to see the full error message
         extendedControls: '',
         transferSessionId: sessionId,
       });
@@ -785,7 +789,7 @@ export class Webphone extends WebphoneBase {
       return;
     }
     const oldSessionId = newSession.__rc_transferSessionId;
-    const oldSession = this.originalSessions[oldSessionId];
+    const oldSession = this.originalSessions[oldSessionId!];
     if (!oldSession) {
       return;
     }
@@ -1060,18 +1064,14 @@ export class Webphone extends WebphoneBase {
   @proxify
   async clearSessionCaching() {
     this._clearSessionCaching(
-      // @ts-expect-error
+      // @ts-expect-error TS(2345): Argument of type '(NormalizedSession | undefined)[... Remove this comment to see the full error message
       [...Object.values(this.originalSessions)].map(normalizeSession),
     );
   }
 
-  // @ts-expect-error
-  @track((that: Webphone) =>
-    that.isOnTransfer ? [trackEvents.coldTransferCall] : null,
-  )
   _updateSessions() {
     this._updateSessionsState(
-      // @ts-expect-error
+      // @ts-expect-error TS(2345): Argument of type '(NormalizedSession | undefined)[... Remove this comment to see the full error message
       [...Object.values(this.originalSessions)].map(normalizeSession),
     );
   }
@@ -1184,6 +1184,16 @@ export class Webphone extends WebphoneBase {
   }
 
   _onCallEnd(session: WebphoneSession) {
+    // should remove __rc_transferSessionId when the call is warm transfer call
+    const transferSession = this.sessions.find((s) => {
+      return s.warmTransferSessionId === session.id;
+    });
+    if (transferSession) {
+      const originalTransferSession = this.originalSessions[transferSession.id];
+      if (originalTransferSession) {
+        delete originalTransferSession.__rc_transferSessionId;
+      }
+    }
     session.__rc_extendedControlStatus = extendedControlStatus.stopped;
     const normalizedSession = this._getNormalizedSession(session);
     if (!normalizedSession) {

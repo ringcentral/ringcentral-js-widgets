@@ -1,6 +1,7 @@
-import type { Locale } from '@ringcentral-integration/commons/modules/Locale';
-import type { Feedback } from '@ringcentral-integration/commons/modules/Feedback';
 import type { Brand } from '@ringcentral-integration/commons/modules/Brand';
+import type { Feedback } from '@ringcentral-integration/commons/modules/Feedback';
+import type { Locale } from '@ringcentral-integration/commons/modules/Locale';
+
 import type { RouterInteraction } from '../RouterInteraction';
 
 export interface Deps {

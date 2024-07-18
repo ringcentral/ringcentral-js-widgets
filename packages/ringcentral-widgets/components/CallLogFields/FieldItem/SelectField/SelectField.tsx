@@ -1,16 +1,12 @@
+import type { RcSelectProps } from '@ringcentral/juno';
+import { RcMenuItem, RcSelect } from '@ringcentral/juno';
 import type { FunctionComponent } from 'react';
 import React from 'react';
 
-import type { RcSelectProps } from '@ringcentral/juno';
-import { RcMenuItem, RcSelect } from '@ringcentral/juno';
+import { PickListOption } from '../FieldItem.interface';
 
 export type SelectFieldProps = {
-  options: {
-    label: any;
-    value: string;
-    disabled: boolean;
-    title?: string;
-  }[];
+  options: PickListOption[];
   labelClassName?: string;
 } & RcSelectProps;
 

@@ -1,3 +1,4 @@
+import { whenStateOrTimerChange } from '@ringcentral-integration/core/test';
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import { screen } from '@testing-library/react';
 
@@ -21,13 +22,15 @@ export const RcmOptionIsLocked: StepFunction<{
   dataSign: string;
   isLocked: boolean;
 }> = async ({ dataSign, isLocked }) => {
-  const lockIcon = screen.queryByTestId(`${dataSign}_lock`);
+  await whenStateOrTimerChange(() => {
+    const lockIcon = screen.queryByTestId(`${dataSign}_lock`);
 
-  if (isLocked) {
-    expect(lockIcon).toBeInTheDocument();
-  } else {
-    expect(lockIcon).not.toBeInTheDocument();
-  }
+    if (isLocked) {
+      expect(lockIcon).toBeInTheDocument();
+    } else {
+      expect(lockIcon).not.toBeInTheDocument();
+    }
+  });
 };
 
 export const CheckDropDownValue: StepFunction<{

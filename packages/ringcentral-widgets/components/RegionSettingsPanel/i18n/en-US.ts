@@ -9,4 +9,4 @@ export default {
   country: 'Country',
   areaCode: 'Area Code',
   areaCodePlaceholder: 'Enter Area Code',
-};
+} as const;

@@ -12,32 +12,29 @@
  */
 import {
   autorun,
+  common,
   Given,
   p2,
   Scenario,
   Step,
-  StepFunction,
   Then,
   title,
   When,
 } from '@ringcentral-integration/test-utils';
-import { CommonLogin } from '../../../../../steps/CommonLogin';
-import { NavigateToHistory } from '../../../../../steps/Navigate';
-import { CheckCallIcon, CheckTextIcon } from '../../../../../steps/CallHistory';
-import { CheckVoipOnlyBadge } from '../../../../../steps/Badge';
-import { MockPostOauthToken } from '../../../../../steps/Mock/MockPostOauthToken';
-import { CreateMock } from '../../../../../steps/Mock';
-import { CreateInstance } from '../../../../../steps/CreateInstance';
 
-const RefreshToken: StepFunction = async (_, { phone }: any) => {
-  try {
-    await phone.auth.refreshToken();
-  } catch (error) {
-    console.error('refreshToken error', error);
-  }
-};
+import type { Context } from '../../../../../interfaces';
+import type { StepFunction } from '../../../../../lib/step';
+import { CheckVoipOnlyBadge } from '../../../../../steps/Badge';
+import { RefreshToken } from '../../../../../steps/Common';
+import { CommonLogin } from '../../../../../steps/CommonLogin';
+import { CreateInstance } from '../../../../../steps/CreateInstance';
+import { MockGetStatus } from '../../../../../steps/Ha';
+import { CreateMock, MockPostOauthToken } from '../../../../../steps/Mock';
+import { NavigateTo } from '../../../../../steps/Router';
+import { CheckCallButtonActive } from '../../../../../steps/dialer';
 
 @autorun(test)
+@common
 @p2
 @title('Verify the app recover normal mode when Refresh token API returns 200')
 export class VerifyAppRecoverNormalMode extends Step {
@@ -45,8 +42,6 @@ export class VerifyAppRecoverNormalMode extends Step {
     <CommonLogin {...props} CreateInstance={CreateInstance} />
   );
   CreateMock: StepFunction<any, any> = CreateMock;
-  historyTabDataSign = 'History';
-  appName = 'common';
   run() {
     const { Login, CreateMock } = this;
     return (
@@ -55,6 +50,7 @@ export class VerifyAppRecoverNormalMode extends Step {
           desc="App enter Voip mode when Refresh token API returns 503"
           action={[
             CreateMock,
+            MockGetStatus,
             <MockPostOauthToken failure repeat={1} failureCode={503} />,
             Login,
             RefreshToken,
@@ -69,7 +65,7 @@ export class VerifyAppRecoverNormalMode extends Step {
               repeat={1}
               isDefaultInit={false}
             />,
-            RefreshToken,
+            <RefreshToken healthCheck />,
           ]}
         />
         <Then
@@ -77,12 +73,11 @@ export class VerifyAppRecoverNormalMode extends Step {
 										All features work normally"
           action={[
             <CheckVoipOnlyBadge show={false} />,
-            (_: any, { phone }: any) => {
+            (_: unknown, { phone }: Context) => {
               expect(phone.connectivityManager.isVoipOnlyMode).toBeFalsy();
             },
-            <NavigateToHistory testId={this.historyTabDataSign} />,
-            <CheckCallIcon disabled={false} />,
-            <CheckTextIcon disabled={false} />,
+            <NavigateTo path={'/dialer'} />,
+            <CheckCallButtonActive />,
           ]}
         />
       </Scenario>

@@ -1,7 +1,7 @@
-import type { AccountResource } from './AccountResource';
-import type { PhoneNumberResource } from './PhoneNumberResource';
 import type { AccountDirectoryProfileImageResource } from './AccountDirectoryProfileImageResource';
+import type { AccountResource } from './AccountResource';
 import type { BusinessSiteResource } from './BusinessSiteResource';
+import type { PhoneNumberResource } from './PhoneNumberResource';
 import type { UserCustomFieldResource } from './UserCustomFieldResource';
 
 export interface ContactResource {

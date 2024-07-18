@@ -1,4 +1,5 @@
 import { ContactDetailsUI } from '../../../modules/ContactDetailsUI/ContactDetailsUI';
+
 import { defaultPropsParams, phone } from './testSetup';
 
 describe('result is proportional to isMultipleSiteEnabled', () => {

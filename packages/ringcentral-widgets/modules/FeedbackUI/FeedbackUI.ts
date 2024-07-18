@@ -1,6 +1,7 @@
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import type { UIFunctions, UIProps } from '@ringcentral-integration/core';
 import { RcUIModuleV2 } from '@ringcentral-integration/core';
+
 import type {
   Deps,
   FeedbackContainerProps,

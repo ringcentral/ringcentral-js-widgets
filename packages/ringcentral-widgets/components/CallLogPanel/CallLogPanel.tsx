@@ -1,17 +1,18 @@
-import React, { Component } from 'react';
-
 /**
  * Call log enhancement
  */
-import classnames from 'classnames';
+import clsx from 'clsx';
+import React, { Component } from 'react';
 
 import { environment } from '../../lib';
 import BackHeader from '../BackHeaderV2';
+import { ConferenceCallParticipants } from '../ConferenceCallParticipants';
 import LogBasicInfo from '../LogBasicInfoV2';
 import NotificationSection from '../NotificationSection';
 import NotificationSectionV2 from '../NotificationSectionV2';
 import { SpinnerOverlay } from '../SpinnerOverlay';
 import WebRTCNotificationSection from '../WebRTCNotificationSection';
+
 import type { CallLog } from './CallLog.interface';
 import type { CallLogPanelProps } from './CallLogPanel.interface';
 import i18n from './i18n';
@@ -43,7 +44,25 @@ const getWarmTransferSession = ({
   };
 };
 
-export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
+export default class CallLogPanel extends Component<
+  CallLogPanelProps,
+  { showConferenceCallParticipants: boolean }
+> {
+  constructor(props: CallLogPanelProps) {
+    super(props);
+    this.state = {
+      showConferenceCallParticipants: false,
+    };
+  }
+
+  toggleConference = (open: boolean) => {
+    if (open) {
+      this.props.clickParticipantsIconTrack?.();
+    }
+    this.setState({
+      showConferenceCallParticipants: open,
+    });
+  };
   static defaultProps: Partial<CallLogPanelProps> = {
     currentLog: {
       nameEntities: [],
@@ -136,9 +155,10 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
       <>
         {this.renderLogNotification()}
         {this.renderLogBasicInfo()}
+        {this.renderConferenceCallParticipants()}
         <div
           ref={this.editSectionRef}
-          className={classnames(styles.editSection, editSection)}
+          className={clsx(styles.editSection, editSection)}
         >
           {renderEditLogSection && this.getEditLogSection()}
         </div>
@@ -178,7 +198,7 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
       return (
         <div
           ref={callLogCallControlRef}
-          className={classnames(styles.callControlRoot, callLogCallControl)}
+          className={clsx(styles.callControlRoot, callLogCallControl)}
           data-sign="smallCallControl"
         >
           {renderCallLogCallControl &&
@@ -204,6 +224,7 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
       onUpdateCallLog,
       onSelectViewVisible,
       currentLog,
+      currentDelaySavingState,
       additionalInfo,
       subjectDropdownsTracker,
       contactSearch,
@@ -220,6 +241,7 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
       onUpdateCallLog,
       onSelectViewVisible,
       currentLog,
+      currentDelaySavingState,
       additionalInfo,
       subjectDropdownsTracker,
       contactSearch,
@@ -262,9 +284,9 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
       <LogBasicInfo
         dataSign="leftSectionInfo"
         isWide={isWide}
-        // @ts-expect-error TS(2322): Type 'CallLog' is not assignable to type 'ILogInfo... Remove this comment to see the full error message
         currentLog={activeLog}
-        // @ts-expect-error TS(2322): Type 'CallLog | undefined' is not assignable to ty... Remove this comment to see the full error message
+        toggleConference={this.toggleConference}
+        conferenceParticipantsIsOpen={this.state.showConferenceCallParticipants}
         subCallLog={subLog}
         currentLocale={currentLocale}
         formatPhone={formatPhone}
@@ -286,6 +308,7 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
       currentLog,
       isWide,
       showSpinner,
+      currentDelaySavingState,
     } = this.props;
     const loading = showSpinner || (currentLog && currentLog.showSpinner);
     return renderSaveLogButton({
@@ -295,6 +318,7 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
       loading,
       isWide,
       disabled: currentLog?.disableSaveLog,
+      currentDelaySavingState,
     });
   }
 
@@ -347,6 +371,8 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
       entityType,
       // @ts-expect-error TS(2339): Property 'entityDetailLink' does not exist on type... Remove this comment to see the full error message
       entityDetailLink,
+      // @ts-expect-error TS(2339): Property 'showLogOptions' does not exist on type... Remove this comment to see the full error message
+      showLogOptions,
     } = logNotification;
     if (!showNotification) {
       return null;
@@ -411,6 +437,7 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
           onReject={onReject}
           onHangup={onHangup}
           shrinkNotification={shrinkNotification}
+          showLogOptions={showLogOptions}
         />
       );
     }
@@ -430,6 +457,34 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
         onHangup={onHangup}
         disableLinks={disableLinks}
         openEntityDetailLinkTrack={openEntityDetailLinkTrack}
+      />
+    );
+  }
+
+  renderConferenceCallParticipants() {
+    const isOpen = this.state.showConferenceCallParticipants;
+    const {
+      currentLocale,
+      getConferenceCallParticipantName,
+      currentLog,
+      onRemoveParticipant,
+      renderConferenceParticipantsAvatar,
+      clickRemoveParticipantTrack,
+    } = this.props;
+    const call = currentLog.call;
+    if (!call?.isConferenceCall || !isOpen) return null;
+
+    return (
+      <ConferenceCallParticipants
+        isOpen={!call.result && isOpen}
+        currentLocale={currentLocale}
+        toggleConference={this.toggleConference}
+        renderAvatar={renderConferenceParticipantsAvatar}
+        getContactNameInfo={getConferenceCallParticipantName}
+        participants={call.conferenceParticipants}
+        currentTelephonySessionId={call.telephonySessionId}
+        onRemoveParticipant={onRemoveParticipant}
+        clickRemoveParticipantTrack={clickRemoveParticipantTrack}
       />
     );
   }
@@ -455,17 +510,20 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
       isWide,
       children,
       getRenderLogButton,
+      // @ts-ignore
+      rootLayout,
     } = this.props;
     if (!currentIdentify || isInTransferPage) return null;
-
+    const _root =
+      root ?? typeof rootLayout === 'boolean'
+        ? rootLayout
+          ? styles.callLogPanelClassLeftNav
+          : styles.callLogPanelClass
+        : undefined;
     return (
       <div
         ref={rootRef}
-        className={classnames(
-          styles.root,
-          !isWide ? styles.classic : null,
-          root,
-        )}
+        className={clsx(styles.root, !isWide ? styles.classic : null, _root)}
       >
         {header && (
           <BackHeader
@@ -475,7 +533,7 @@ export default class CallLogPanel extends Component<CallLogPanelProps, {}> {
             rightIcon={getRenderLogButton?.() || this.genSaveLogButtonV2()}
             // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
             title={i18n.getString(headerTitle, currentLocale)}
-            className={classnames(styles.header, backHeader)}
+            className={clsx(styles.header, backHeader)}
             onBackClick={() => this.goBack()}
           />
         )}

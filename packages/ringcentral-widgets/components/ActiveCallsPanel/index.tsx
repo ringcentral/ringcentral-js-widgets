@@ -1,12 +1,13 @@
-import React, { Component } from 'react';
+import clsx from 'clsx';
+import React, { useEffect } from 'react';
 
-import classnames from 'classnames';
-
+import type { Call } from '../ActiveCallItemV2';
 import ActiveCallList from '../ActiveCallList';
 import InsideModal from '../InsideModal';
 import LogNotification from '../LogNotification';
 import LogSection from '../LogSection';
 import { SpinnerOverlay } from '../SpinnerOverlay';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 
@@ -28,6 +29,7 @@ type ActiveCallsPanelProps = {
   internalSmsPermission?: boolean;
   isLoggedContact?: (...args: any[]) => any;
   onLogCall?: (...args: any[]) => any;
+  onMergeCall?: (webphoneSessionId: string, telephonySessionId: string) => any;
   webphoneAnswer?: (...args: any[]) => any;
   webphoneReject?: (...args: any[]) => any;
   webphoneHangup?: (...args: any[]) => any;
@@ -55,14 +57,14 @@ type ActiveCallsPanelProps = {
   useV2?: boolean;
   updateSessionMatchedContact?: (...args: any[]) => any;
   isOnHold: (...args: any[]) => any;
-  currentLog?: object;
+  currentLog?: any;
   renderEditLogSection?: (...args: any[]) => any;
   renderSaveLogButton?: (...args: any[]) => any;
   renderExtraButton?: (...args: any[]) => any;
   onSaveCallLog?: (...args: any[]) => any;
   onUpdateCallLog?: (...args: any[]) => any;
   onCloseLogSection?: (...args: any[]) => any;
-  logNotification?: object;
+  logNotification?: any;
   onCloseNotification?: (...args: any[]) => any;
   onDiscardNotification?: (...args: any[]) => any;
   onSaveNotification?: (...args: any[]) => any;
@@ -90,85 +92,136 @@ type ActiveCallsPanelProps = {
   useCallDetailV2?: boolean;
   newCallIcon?: boolean;
   clickSwitchTrack?: (...args: any[]) => any;
+  onSwitchCall?: (call: Call) => any;
   isWide?: boolean;
   allCalls: any[];
+  showMergeCall?: boolean;
+  showCallerIdName?: boolean;
 };
-class ActiveCallsPanel extends Component<ActiveCallsPanelProps, {}> {
-  container: any;
-  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
-  componentDidMount() {
-    if (
-      !this.hasCalls(this.props) &&
-      typeof this.props.onCallsEmpty === 'function'
-    ) {
-      this.props.onCallsEmpty();
+
+export const ActiveCallsPanel: React.FC<ActiveCallsPanelProps> = ({
+  activeRingCalls,
+  activeOnHoldCalls,
+  activeCurrentCalls,
+  otherDeviceCalls,
+  className,
+  currentLocale,
+  areaCode,
+  countryCode,
+  showMergeCall,
+  showCallDetail,
+  showCallerIdName,
+  allCalls,
+  onCreateContact,
+  onClickToSms,
+  isLoggedContact,
+  onLogCall,
+  onViewContact,
+  webphoneAnswer,
+  onMergeCall,
+  webphoneReject,
+  webphoneHangup,
+  webphoneResume,
+  webphoneToVoicemail,
+  webphoneSwitchCall,
+  webphoneIgnore,
+  modalConfirm,
+  modalClose,
+  enableContactFallback,
+  onCallsEmpty,
+  sourceIcons,
+  phoneTypeRenderer,
+  phoneSourceNameRenderer,
+  isWebRTC,
+  getAvatarUrl,
+  currentLog,
+  renderEditLogSection,
+  renderSaveLogButton,
+  renderExtraButton,
+  onSaveCallLog,
+  onUpdateCallLog,
+  onCloseLogSection,
+  logNotification,
+  onCloseNotification,
+  onDiscardNotification,
+  onSaveNotification,
+  onExpandNotification,
+  notificationContainerStyles,
+  renderContactName,
+  renderSubContactName,
+  ringoutHangup,
+  ringoutTransfer,
+  ringoutReject,
+  isOnHold,
+  isWide = true,
+  brand = 'RingCentral',
+  showContactDisplayPlaceholder = true,
+  outboundSmsPermission = true,
+  internalSmsPermission = true,
+  loggingMap = {},
+  autoLog = false,
+  showSpinner = false,
+  isSessionAConferenceCall = () => false,
+  onCallItemClick,
+  conferenceCallParties = [],
+  webphoneHold = (i: any) => i,
+  useV2 = false,
+  updateSessionMatchedContact = (i: any) => i,
+  showNotiLogButton = true,
+  showAvatar = true,
+  showOtherDevice = true,
+  disableLinks = false,
+  showRingoutCallControl = false,
+  showMultipleMatch = true,
+  showSwitchCall = false,
+  showTransferCall = true,
+  showHoldOnOtherDevice = false,
+  onLogBasicInfoClick = () => {
+    //
+  },
+  renderSmallCallContrl = () => {
+    //
+  },
+  showIgnoreBtn = false,
+  showHoldAnswerBtn = false,
+  useCallDetailV2 = false,
+  newCallIcon = false,
+  clickSwitchTrack = () => {
+    //
+  },
+  onSwitchCall,
+  formatPhone,
+}) => {
+  const hasCalls =
+    activeRingCalls.length > 0 ||
+    activeOnHoldCalls.length > 0 ||
+    activeCurrentCalls.length > 0 ||
+    otherDeviceCalls.length > 0;
+
+  useEffect(() => {
+    if (!hasCalls) {
+      onCallsEmpty?.();
     }
-  }
-  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
-  UNSAFE_componentWillReceiveProps(nextProps: any) {
-    if (
-      this.hasCalls(this.props) &&
-      !this.hasCalls(nextProps) &&
-      typeof this.props.onCallsEmpty === 'function'
-    ) {
-      this.props.onCallsEmpty();
-    }
-  }
-  hasCalls(props = this.props) {
-    return (
-      props.activeRingCalls.length > 0 ||
-      props.activeOnHoldCalls.length > 0 ||
-      props.activeCurrentCalls.length > 0 ||
-      props.otherDeviceCalls.length > 0
-    );
-  }
-  renderLogSection() {
-    if (!this.props.currentLog) return null;
-    const {
-      formatPhone,
-      currentLocale,
-      currentLog,
-      // - styles
-      // sectionContainerStyles,
-      // sectionModalStyles,
-      // - aditional
-      // additionalInfo,
-      // showSaveLogBtn,
-      renderEditLogSection,
-      renderSaveLogButton,
-      onSaveCallLog,
-      onUpdateCallLog,
-      onCloseLogSection,
-      // notification
-      logNotification,
-      showNotiLogButton,
-      onCloseNotification,
-      onSaveNotification,
-      onExpandNotification,
-      onDiscardNotification,
-      notificationContainerStyles,
-      onLogBasicInfoClick,
-      renderSmallCallContrl,
-    } = this.props;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [hasCalls]);
+
+  const renderLogSection = () => {
+    if (!currentLog) return null;
+
     return (
       <div>
         <InsideModal
-          // @ts-expect-error TS(2339): Property 'title' does not exist on type 'object'.
           title={currentLog.title}
-          // @ts-expect-error TS(2339): Property 'showLog' does not exist on type 'object'... Remove this comment to see the full error message
           show={currentLog.showLog}
           onClose={onCloseLogSection}
           clickOutToClose={false}
           maskStyle={styles.maskStyle}
         >
           <LogSection
-            // @ts-expect-error TS(2322): Type '{ currentLocale: string; currentLog: object;... Remove this comment to see the full error message
-            currentLocale={currentLocale}
+            currentLocale={currentLocale!}
             currentLog={currentLog}
             formatPhone={formatPhone}
-            // additionalInfo={additionalInfo}
             isInnerMask={
-              // @ts-expect-error TS(2339): Property 'notificationIsExpand' does not exist on ... Remove this comment to see the full error message
               logNotification && logNotification.notificationIsExpand
             }
             // save call log
@@ -184,10 +237,9 @@ class ActiveCallsPanel extends Component<ActiveCallsPanelProps, {}> {
         </InsideModal>
         {logNotification ? (
           <InsideModal
-            // @ts-expect-error TS(2339): Property 'showNotification' does not exist on type... Remove this comment to see the full error message
             show={logNotification.showNotification}
             showTitle={false}
-            containerStyles={classnames(
+            containerStyles={clsx(
               styles.notificationContainer,
               notificationContainerStyles,
             )}
@@ -200,7 +252,6 @@ class ActiveCallsPanel extends Component<ActiveCallsPanelProps, {}> {
               currentLocale={currentLocale}
               formatPhone={formatPhone}
               currentLog={logNotification}
-              // @ts-expect-error TS(2339): Property 'notificationIsExpand' does not exist on ... Remove this comment to see the full error message
               isExpand={logNotification.notificationIsExpand}
               onSave={onSaveNotification}
               onExpand={onExpandNotification}
@@ -211,68 +262,15 @@ class ActiveCallsPanel extends Component<ActiveCallsPanelProps, {}> {
         ) : null}
       </div>
     );
-  }
-  getCallList(calls: any, title: any, showCallDetail = false, allCalls: any) {
-    const {
-      currentLocale,
-      areaCode,
-      countryCode,
-      brand,
-      showContactDisplayPlaceholder,
-      formatPhone,
-      onClickToSms,
-      onCreateContact,
-      onViewContact,
-      outboundSmsPermission,
-      internalSmsPermission,
-      isLoggedContact,
-      onLogCall,
-      autoLog,
-      loggingMap,
-      webphoneAnswer,
-      webphoneReject,
-      webphoneHangup,
-      webphoneResume,
-      enableContactFallback,
-      webphoneToVoicemail,
-      sourceIcons,
-      phoneTypeRenderer,
-      phoneSourceNameRenderer,
-      activeCurrentCalls,
-      isWebRTC,
-      isSessionAConferenceCall,
-      onCallItemClick,
-      showAvatar,
-      getAvatarUrl,
-      conferenceCallParties,
-      webphoneHold,
-      webphoneSwitchCall,
-      modalConfirm,
-      modalClose,
-      useV2,
-      updateSessionMatchedContact,
-      renderExtraButton,
-      renderContactName,
-      renderSubContactName,
-      ringoutHangup,
-      ringoutTransfer,
-      ringoutReject,
-      disableLinks,
-      showRingoutCallControl,
-      showMultipleMatch,
-      showSwitchCall,
-      showTransferCall,
-      showHoldOnOtherDevice,
-      isOnHold,
-      // customization
-      webphoneIgnore,
-      showIgnoreBtn,
-      showHoldAnswerBtn,
-      useCallDetailV2,
-      newCallIcon,
-      clickSwitchTrack,
-      isWide,
-    } = this.props;
+  };
+
+  const getCallList = (
+    calls: any,
+    title: any,
+    showCallDetail = false,
+    allCalls: any,
+    showMergeCallBtn?: boolean,
+  ) => {
     return (
       <ActiveCallList
         title={title}
@@ -280,6 +278,7 @@ class ActiveCallsPanel extends Component<ActiveCallsPanelProps, {}> {
         currentLocale={currentLocale}
         areaCode={areaCode}
         countryCode={countryCode}
+        showCallerIdName={showCallerIdName}
         brand={brand}
         showContactDisplayPlaceholder={showContactDisplayPlaceholder}
         formatPhone={formatPhone}
@@ -292,6 +291,8 @@ class ActiveCallsPanel extends Component<ActiveCallsPanelProps, {}> {
         onLogCall={onLogCall}
         autoLog={autoLog}
         loggingMap={loggingMap}
+        showMergeCall={showMergeCall && showMergeCallBtn}
+        onMergeCall={onMergeCall}
         webphoneAnswer={webphoneAnswer}
         webphoneReject={webphoneReject}
         webphoneHangup={webphoneHangup}
@@ -308,11 +309,9 @@ class ActiveCallsPanel extends Component<ActiveCallsPanelProps, {}> {
         sourceIcons={sourceIcons}
         phoneTypeRenderer={phoneTypeRenderer}
         phoneSourceNameRenderer={phoneSourceNameRenderer}
-        // @ts-expect-error TS(2322): Type '{ title: any; calls: any; currentLocale: str... Remove this comment to see the full error message
-        isWebRTC={isWebRTC}
-        currentCall={activeCurrentCalls[0]}
         isSessionAConferenceCall={isSessionAConferenceCall}
-        useV2={useV2} // TODO: Maybe we should make all the call item consistent
+        useV2={useV2}
+        // TODO: Maybe we should make all the call item consistent
         onCallItemClick={onCallItemClick}
         showAvatar={showAvatar}
         getAvatarUrl={getAvatarUrl}
@@ -335,157 +334,60 @@ class ActiveCallsPanel extends Component<ActiveCallsPanelProps, {}> {
         useCallDetailV2={useCallDetailV2}
         newCallIcon={newCallIcon}
         clickSwitchTrack={clickSwitchTrack}
+        onSwitchCall={onSwitchCall}
         isWide={isWide}
         allCalls={allCalls}
       />
     );
-  }
-  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
-  render() {
-    const {
-      activeRingCalls,
-      activeOnHoldCalls,
-      activeCurrentCalls,
-      otherDeviceCalls,
-      className,
-      currentLocale,
-      showSpinner,
-      showOtherDevice,
-      showCallDetail,
-      allCalls,
-    } = this.props;
-    const logSection = this.renderLogSection();
-    if (!this.hasCalls()) {
-      return (
-        <div
-          data-sign="activeCalls"
-          className={classnames(styles.root, className)}
-        >
-          <p className={styles.noCalls}>
-            {i18n.getString('noActiveCalls', currentLocale)}
-          </p>
-          {logSection}
-          {showSpinner ? <SpinnerOverlay className={styles.spinner} /> : null}
-        </div>
-      );
-    }
-    const otherDevice = showOtherDevice
-      ? this.getCallList(
-          otherDeviceCalls,
-          i18n.getString('otherDeviceCall', currentLocale),
-          true,
-          allCalls,
-        )
-      : null;
+  };
+
+  if (!hasCalls) {
     return (
-      <div data-sign="activeCalls" className={styles.root}>
-        <div
-          className={classnames(styles.root, className)}
-          ref={(target) => {
-            this.container = target;
-          }}
-        >
-          {this.getCallList(
-            activeRingCalls,
-            i18n.getString('ringCall', currentLocale),
-            showCallDetail,
-            allCalls,
-          )}
-          {this.getCallList(
-            activeCurrentCalls,
-            i18n.getString('currentCall', currentLocale),
-            showCallDetail,
-            allCalls,
-          )}
-          {this.getCallList(
-            activeOnHoldCalls,
-            i18n.getString('onHoldCall', currentLocale),
-            showCallDetail,
-            allCalls,
-          )}
-          {otherDevice}
-        </div>
-        {logSection}
+      <div data-sign="activeCalls" className={clsx(styles.root, className)}>
+        <p className={styles.noCalls}>
+          {i18n.getString('noActiveCalls', currentLocale)}
+        </p>
+        {renderLogSection()}
         {showSpinner ? <SpinnerOverlay className={styles.spinner} /> : null}
       </div>
     );
   }
-}
-// @ts-expect-error TS(2339): Property 'defaultProps' does not exist on type 'ty... Remove this comment to see the full error message
-ActiveCallsPanel.defaultProps = {
-  isWide: true,
-  className: undefined,
-  brand: 'RingCentral',
-  showContactDisplayPlaceholder: true,
-  onCreateContact: undefined,
-  onClickToSms: undefined,
-  outboundSmsPermission: true,
-  internalSmsPermission: true,
-  isLoggedContact: undefined,
-  onLogCall: undefined,
-  onViewContact: undefined,
-  webphoneAnswer: undefined,
-  webphoneReject: undefined,
-  webphoneHangup: undefined,
-  webphoneResume: undefined,
-  webphoneToVoicemail: undefined,
-  webphoneSwitchCall: undefined,
-  webphoneIgnore: undefined,
-  modalConfirm: undefined,
-  modalClose: undefined,
-  enableContactFallback: undefined,
-  loggingMap: {},
-  autoLog: false,
-  onCallsEmpty: undefined,
-  sourceIcons: undefined,
-  phoneTypeRenderer: undefined,
-  phoneSourceNameRenderer: undefined,
-  showSpinner: false,
-  isSessionAConferenceCall: () => false,
-  onCallItemClick: false,
-  getAvatarUrl: undefined,
-  conferenceCallParties: [],
-  webphoneHold: (i: any) => i,
-  useV2: false,
-  updateSessionMatchedContact: (i: any) => i,
-  // CallLog related
-  currentLog: undefined,
-  renderEditLogSection: undefined,
-  renderSaveLogButton: undefined,
-  renderExtraButton: undefined,
-  onSaveCallLog: undefined,
-  onUpdateCallLog: undefined,
-  onCloseLogSection: undefined,
-  // Notification
-  logNotification: undefined,
-  onCloseNotification: undefined,
-  onDiscardNotification: undefined,
-  onSaveNotification: undefined,
-  onExpandNotification: undefined,
-  showNotiLogButton: true,
-  notificationContainerStyles: undefined,
-  // Contact
-  showAvatar: true,
-  renderContactName: undefined,
-  renderSubContactName: undefined,
-  showOtherDevice: true,
-  ringoutHangup: undefined,
-  ringoutTransfer: undefined,
-  ringoutReject: undefined,
-  disableLinks: false,
-  showRingoutCallControl: false,
-  showMultipleMatch: true,
-  showSwitchCall: false,
-  showTransferCall: true,
-  showHoldOnOtherDevice: false,
-  onLogBasicInfoClick() {},
-  renderSmallCallContrl() {},
-  // customization
-  showCallDetail: false,
-  showIgnoreBtn: false,
-  showHoldAnswerBtn: false,
-  useCallDetailV2: false,
-  newCallIcon: false,
-  clickSwitchTrack() {},
+
+  return (
+    <div data-sign="activeCalls" className={styles.root}>
+      <div className={clsx(styles.root, className)}>
+        {getCallList(
+          activeRingCalls,
+          i18n.getString('ringCall', currentLocale),
+          showCallDetail,
+          allCalls,
+        )}
+        {getCallList(
+          activeCurrentCalls,
+          i18n.getString('currentCall', currentLocale),
+          showCallDetail,
+          allCalls,
+        )}
+        {getCallList(
+          activeOnHoldCalls,
+          i18n.getString('onHoldCall', currentLocale),
+          showCallDetail,
+          allCalls,
+          true,
+        )}
+        {showOtherDevice
+          ? getCallList(
+              otherDeviceCalls,
+              i18n.getString('otherDeviceCall', currentLocale),
+              true,
+              allCalls,
+            )
+          : null}
+      </div>
+      {renderLogSection()}
+      {showSpinner ? <SpinnerOverlay className={styles.spinner} /> : null}
+    </div>
+  );
 };
+
 export default ActiveCallsPanel;

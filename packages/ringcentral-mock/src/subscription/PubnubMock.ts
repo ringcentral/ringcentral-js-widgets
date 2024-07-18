@@ -1,4 +1,7 @@
+// @ts-nocheck
+// TODO: fix type
 import { sleep, waitUntilTo } from '@ringcentral-integration/commons/utils';
+
 import type { SubscriptionMock } from './interface';
 
 const RealPubnub = jest.requireActual('pubnub');

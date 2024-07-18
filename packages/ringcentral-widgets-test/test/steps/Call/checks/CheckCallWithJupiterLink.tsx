@@ -1,10 +1,11 @@
 import { screen, waitFor } from '@testing-library/react';
+
 import type { StepFunction } from '../../../lib/step';
 
-export const CheckCallWithJupiterLink: StepFunction<{ content: string }> = ({
-  link,
-  phoneNumber,
-}: any) => {
+export const CheckCallWithJupiterLink: StepFunction<{
+  link: RegExp;
+  phoneNumber: string;
+}> = ({ link, phoneNumber }: any) => {
   const callNumber = phoneNumber.replace(/\+|\*/g, (match) => {
     return `\\${match}`;
   });

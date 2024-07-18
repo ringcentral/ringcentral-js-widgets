@@ -1,5 +1,3 @@
-import { reduce } from 'ramda';
-
 import {
   action,
   computed,
@@ -7,21 +5,23 @@ import {
   storage,
   watch,
 } from '@ringcentral-integration/core';
+import { reduce } from 'ramda';
 
 import type { CallLoggerTriggerType } from '../../enums/callLoggerTriggerTypes';
 import { callLoggerTriggerTypes } from '../../enums/callLoggerTriggerTypes';
 import type { Call } from '../../interfaces/Call.interface';
 import type { ActiveCall } from '../../interfaces/Presence.model';
+import { LoggerBase } from '../../lib/LoggerBase';
 import {
   isInbound,
   isRinging,
   removeDuplicateSelfCalls,
 } from '../../lib/callLogHelpers';
 import { Module } from '../../lib/di';
-import { LoggerBase } from '../../lib/LoggerBase';
 import proxify from '../../lib/proxy/proxify';
 import type { HistoryCall } from '../CallHistory';
 import type { CallLogRecord } from '../CallLog';
+
 import type {
   AutoLogCallOptions,
   Deps,
@@ -51,6 +51,7 @@ const DEFAULT_OPACITY = 20;
 export class CallLogger<T extends Deps = Deps> extends LoggerBase<T> {
   protected _customMatcherHooks: Hook[] = [];
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   protected _identityFunction = callIdentityFunction;
 
   _logFunction = this._deps.callLoggerOptions.logFunction;
@@ -101,6 +102,7 @@ export class CallLogger<T extends Deps = Deps> extends LoggerBase<T> {
   }
 
   @proxify
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   async log<T>({ call, ...options }: LogOptions<T>) {
     return super.log({ item: call, ...options });
   }
@@ -122,13 +124,15 @@ export class CallLogger<T extends Deps = Deps> extends LoggerBase<T> {
     const inbound = isInbound(call);
     const fromEntity = (inbound && contact) || null;
     const toEntity = (!inbound && contact) || null;
+    // @ts-expect-error TS(2345): Argument of type 'Omit<LogCallOptions<T>, "call" |... Remove this comment to see the full error message
     await this.log({
       ...options,
       call: {
         ...call,
         duration: Object.prototype.hasOwnProperty.call(call, 'duration')
           ? (call as CallLogRecord).duration
-          : Math.round((Date.now() - call.startTime) / 1000),
+          : // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+            Math.round((Date.now() - call.startTime) / 1000),
         result:
           (call as CallLogRecord).result || (call as Call).telephonyStatus,
       },
@@ -150,9 +154,11 @@ export class CallLogger<T extends Deps = Deps> extends LoggerBase<T> {
     await this.log({
       call: {
         ...call,
+        // @ts-expect-error TS(2322): Type 'number | undefined' is not assignable to typ... Remove this comment to see the full error message
         duration: Object.prototype.hasOwnProperty.call(call, 'duration')
           ? (call as CallLogRecord).duration
-          : Math.round((Date.now() - call.startTime) / 1000),
+          : // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+            Math.round((Date.now() - call.startTime) / 1000),
         result:
           (call as CallLogRecord).result || (call as Call).telephonyStatus,
       },
@@ -164,7 +170,9 @@ export class CallLogger<T extends Deps = Deps> extends LoggerBase<T> {
 
   _activityMatcherCheck(sessionId: string) {
     return (
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       !this._deps.activityMatcher.dataMapping[sessionId] ||
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       !this._deps.activityMatcher.dataMapping[sessionId].length
     );
   }
@@ -184,12 +192,14 @@ export class CallLogger<T extends Deps = Deps> extends LoggerBase<T> {
   async _onNewCall(call: Call, triggerType: CallLoggerTriggerType) {
     if (await this._shouldLogNewCall(call)) {
       // RCINT-3857 check activity in case instance was reloaded when call is still active
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       await this._deps.activityMatcher.triggerMatch();
       if (
         this._activityMatcherCheck(call.sessionId) &&
         this._customMatcherCheck(call.sessionId)
       ) {
         // is completely new, need entity information
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         await this._deps.contactMatcher.triggerMatch();
 
         const toNumberEntity = call.toNumberEntity || '';
@@ -197,12 +207,14 @@ export class CallLogger<T extends Deps = Deps> extends LoggerBase<T> {
         const fromMatches =
           (call.from &&
             call.from.phoneNumber &&
+            // @ts-expect-error TS(2532): Object is possibly 'undefined'.
             this._deps.contactMatcher.dataMapping[call.from.phoneNumber]) ||
           [];
 
         const toMatches =
           (call.to &&
             call.to.phoneNumber &&
+            // @ts-expect-error TS(2532): Object is possibly 'undefined'.
             this._deps.contactMatcher.dataMapping[call.to.phoneNumber]) ||
           [];
 
@@ -219,7 +231,9 @@ export class CallLogger<T extends Deps = Deps> extends LoggerBase<T> {
 
         await this._autoLogCall({
           call,
+          // @ts-expect-error TS(2322): Type 'Entity | null' is not assignable to type 'En... Remove this comment to see the full error message
           fromEntity,
+          // @ts-expect-error TS(2322): Type 'Entity | null | undefined' is not assignable... Remove this comment to see the full error message
           toEntity,
           triggerType,
         });
@@ -236,10 +250,13 @@ export class CallLogger<T extends Deps = Deps> extends LoggerBase<T> {
   @proxify
   async _shouldLogUpdatedCall(call: HistoryCall | ActiveCall) {
     const isActive = await this._ensureActive();
+    // @ts-expect-error TS(2345): Argument of type 'ActiveCall | HistoryCall' is not... Remove this comment to see the full error message
     if (isActive && (this.logOnRinging || !isRinging(call))) {
       if (this.autoLog) return true;
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       await this._deps.activityMatcher.triggerMatch();
       const activityMatches =
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         this._deps.activityMatcher.dataMapping[call.sessionId] || [];
       return activityMatches.length > 0;
     }
@@ -266,11 +283,13 @@ export class CallLogger<T extends Deps = Deps> extends LoggerBase<T> {
       (newCalls, oldCalls) => {
         if (this.ready) {
           oldCalls = oldCalls?.slice() || [];
+          // @ts-expect-error TS(2345): Argument of type 'Call[]' is not assignable to par... Remove this comment to see the full error message
           removeDuplicateSelfCalls(newCalls).forEach((call) => {
             const oldCallIndex = oldCalls.findIndex(
               (item) => item.sessionId === call.sessionId,
             );
             if (oldCallIndex === -1) {
+              // @ts-expect-error TS(2345): Argument of type 'ActiveCall' is not assignable to... Remove this comment to see the full error message
               this._onNewCall(call, callLoggerTriggerTypes.presenceUpdate);
             } else {
               const oldCall = oldCalls[oldCallIndex];
@@ -280,11 +299,14 @@ export class CallLogger<T extends Deps = Deps> extends LoggerBase<T> {
                   {
                     ...call,
                     isTransferredCall:
+                      // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
                       !!this.transferredCallsMap[call.sessionId],
                     transferredMiddleNumber: this.transferredCallsMap[
+                      // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
                       call.sessionId
                     ]
-                      ? this.transferredCallsMap[call.sessionId]
+                      ? // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
+                        this.transferredCallsMap[call.sessionId]
                           .transferredMiddleNumber
                       : null,
                   },
@@ -302,6 +324,7 @@ export class CallLogger<T extends Deps = Deps> extends LoggerBase<T> {
                 (oldCall.from && oldCall.from.phoneNumber)
               ) {
                 this._addTransferredCall(
+                  // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
                   call.sessionId,
                   oldCall.from?.phoneNumber,
                 );
@@ -309,6 +332,7 @@ export class CallLogger<T extends Deps = Deps> extends LoggerBase<T> {
                   {
                     ...call,
                     isTransferredCall: true,
+                    // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
                     transferredMiddleNumber:
                       oldCall.from && oldCall.from.phoneNumber,
                     phoneNumberUpdated: true,
@@ -323,6 +347,7 @@ export class CallLogger<T extends Deps = Deps> extends LoggerBase<T> {
               {
                 ...call,
                 isTransferredCall: !!this.transferredCallsMap[call.sessionId],
+                // @ts-expect-error TS(2322): Type 'string | null' is not assignable to type 'st... Remove this comment to see the full error message
                 transferredMiddleNumber: this.transferredCallsMap[
                   call.sessionId
                 ]
@@ -358,7 +383,9 @@ export class CallLogger<T extends Deps = Deps> extends LoggerBase<T> {
                   {
                     ...callInfo,
                     isTransferredCall:
+                      // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
                       !!this.transferredCallsMap[callInfo.sessionId],
+                    // @ts-expect-error TS(2322): Type 'string | null' is not assignable to type 'st... Remove this comment to see the full error message
                     transferredMiddleNumber: this.transferredCallsMap[
                       call.sessionId
                     ]

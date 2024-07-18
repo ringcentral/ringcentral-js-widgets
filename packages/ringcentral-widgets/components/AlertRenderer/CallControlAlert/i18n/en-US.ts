@@ -1,4 +1,10 @@
-import { callControlError } from '@ringcentral-integration/commons/modules/ActiveCallControl';
+import {
+  callControlAlerts,
+  callControlError,
+} from '@ringcentral-integration/commons/modules/ActiveCallControl';
+
+const { callsMerged, somethingWentWrong, tooManyParticipants } =
+  callControlAlerts;
 
 const {
   holdConflictError,
@@ -12,6 +18,9 @@ const {
 } = callControlError;
 
 export default {
+  [callsMerged]: 'Calls merged',
+  [somethingWentWrong]: 'Something went wrong. Please try again.',
+  [tooManyParticipants]: 'Maximum number of participants is reached.',
   [muteConflictError]:
     'This call had been muted on other device. Please unmute the call before you control in this App.',
   [unHoldConflictError]:
@@ -24,4 +33,4 @@ export default {
   [forwardSuccess]: 'Call forwarded',
   [transferCompleted]: 'Call transferred',
   [replyCompleted]: 'Voice message sent.',
-};
+} as const;

@@ -1,8 +1,9 @@
-import React from 'react';
+import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
-import ReactMarkdown from 'react-markdown';
+import React from 'react';
 import Emojify from 'react-emojione';
+import ReactMarkdown from 'react-markdown';
+
 import emojiones from '../../assets/images/emojione.png';
 
 import styles from './styles.scss';
@@ -89,7 +90,7 @@ function Markdown({ className, text, atRender }) {
     paragraph: TextRender,
   };
   return (
-    <div className={classnames(styles.root, className)}>
+    <div className={clsx(styles.root, className)}>
       <ReactMarkdown
         className={styles['markdown-body']}
         source={text}

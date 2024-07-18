@@ -1,7 +1,6 @@
-import { EventEmitter } from 'events';
-
 import type { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
+import { EventEmitter } from 'events';
 
 const DEFAULT_INTERVAL = 20 * 1000;
 // For chrome 88 timer-throttling https://developer.chrome.com/blog/timer-throttling-in-chrome-88/

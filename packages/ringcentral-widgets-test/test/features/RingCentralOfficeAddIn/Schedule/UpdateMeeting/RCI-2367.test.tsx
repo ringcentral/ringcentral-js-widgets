@@ -8,7 +8,6 @@
  * Entry point(/s):
  * Login to Outlook: Calendar -> New Event > RingCentral Scheduler App
  */
-
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p2,
@@ -22,6 +21,7 @@ import {
   title,
   When,
 } from '@ringcentral-integration/test-utils';
+
 import { Login as CommonLogin } from '../../../../steps/Login';
 import {
   CheckboxIsChecked,

@@ -6,8 +6,9 @@ import {
   isCriusStepClass,
   isCriusStepFunction,
 } from 'crius-is';
-import { runWithLifecycle } from './lifecycle';
+
 import { handleContext } from './context';
+import { runWithLifecycle } from './lifecycle';
 
 async function iterateChildren<C>(
   children: Children,

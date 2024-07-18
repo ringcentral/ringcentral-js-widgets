@@ -1,7 +1,6 @@
+import { RcIconButton } from '@ringcentral/juno';
 import type { FunctionComponent } from 'react';
 import React from 'react';
-
-import { RcIconButton } from '@ringcentral/juno';
 
 import type { CallLogActionButton } from '../CallHistoryPanel.interface';
 

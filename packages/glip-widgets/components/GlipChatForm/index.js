@@ -1,20 +1,20 @@
-import React, { Component } from 'react';
+import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
-import Tooltip from 'rc-tooltip';
-import 'rc-tooltip/assets/bootstrap_white.css';
-import 'rc-editor-mention/assets/index.css';
 import Mention, {
   Nav,
   toString,
   toEditorState,
   getMentions,
 } from 'rc-editor-mention';
-
-import EmojiSelect from '../EmojiSelect';
+import 'rc-editor-mention/assets/index.css';
+import Tooltip from 'rc-tooltip';
+import 'rc-tooltip/assets/bootstrap_white.css';
+import React, { Component } from 'react';
 
 import emojiIcon from '../../assets/images/emoji.png';
 import uploadIcon from '../../assets/images/upload.png';
+import EmojiSelect from '../EmojiSelect';
+
 import styles from './styles.scss';
 
 function isOnMobileDevice() {
@@ -183,7 +183,7 @@ export default class GlipChatForm extends Component {
     const { className, placeholder, height } = this.props;
     const noFoundString = 'No found.'; // TODO: i18n after string confirmed
     return (
-      <div className={classnames(styles.root, className)} style={{ height }}>
+      <div className={clsx(styles.root, className)} style={{ height }}>
         <div className={styles.tools}>
           <Tooltip
             placement="top"

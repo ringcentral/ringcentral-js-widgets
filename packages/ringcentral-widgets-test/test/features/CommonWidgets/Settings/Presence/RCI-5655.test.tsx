@@ -10,7 +10,6 @@
  * Entry point(/s):
  * > Go to Settings
  */
-
 import {
   p2,
   it,
@@ -24,20 +23,21 @@ import {
   When,
   WaitForRenderReady,
 } from '@ringcentral-integration/test-utils';
+
 import type { StepFunction } from '../../../../lib/step';
 import { Login as CommonLogin } from '../../../../steps/Login';
-import { NavigateTo } from '../../../../steps/Router/action';
 import {
   CreateMock as CommonCreateMock,
   MockMessageSync,
   MockPresence,
 } from '../../../../steps/Mock';
+import { NavigateTo } from '../../../../steps/Router';
 import {
   ClickLogoutButton,
   SetPresenceStatus,
   SetAcceptCallQueueCalls,
-} from '../../../../steps/Settings/actions';
-import { CheckAcceptCallQueueCalls } from '../../../../steps/Settings';
+  CheckAcceptCallQueueCalls,
+} from '../../../../steps/Settings';
 
 @autorun(test)
 @it

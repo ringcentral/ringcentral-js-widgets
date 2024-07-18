@@ -1,15 +1,14 @@
-import React from 'react';
-
-import { mount } from 'enzyme';
-
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import { RcThemeProvider } from '@ringcentral/juno';
+import { mount } from 'enzyme';
+import React from 'react';
 
 import { transferTypes } from '../../enums/transferTypes';
 import type { EvTransferOption } from '../../interfaces';
-import i18n from './i18n';
+
 import type { TransferCallPanelProps } from './TransferCallPanel';
 import { TransferCallPanel } from './TransferCallPanel';
+import i18n from './i18n';
 
 const currentLocale = 'en-US';
 const defaultTransferOptions: EvTransferOption[] = [
@@ -172,7 +171,7 @@ export const UTCheckBackButton: StepFunction = () => {
     .at(0)
     .find('button')
     .simulate('click');
-  expect(goBack).toBeCalled();
+  expect(goBack).toHaveBeenCalled();
 };
 
 export const UTUserClickCallRecipientCases = [
@@ -203,7 +202,7 @@ export const UTUserClickCallRecipient: StepFunction<any> = () => {
 
   callRecipient.find('input').at(0).simulate('click');
 
-  expect(clickCallRecipient).toBeCalledWith(
+  expect(clickCallRecipient).toHaveBeenCalledWith(
     defaultTextFields[selectIndex].router,
   );
 };
@@ -234,7 +233,7 @@ export const UTSetStayOnCall: StepFunction<any> = ({ isStayOnCall }) => {
     .at(0);
   expect(checkbox.prop('checked')).toBe(isStayOnCall);
   checkbox.simulate('click');
-  expect(setStayOnCall).toBeCalledWith(isStayOnCall);
+  expect(setStayOnCall).toHaveBeenCalledWith(isStayOnCall);
   wrapper.unmount();
 };
 
@@ -247,7 +246,7 @@ export const UTTransferCallButtonDisabled: StepFunction = () => {
   const transferCallButton = getTransferCallButton(wrapper);
   expect(transferCallButton.prop('disabled')).toBe(true);
   transferCallButton.simulate('click');
-  expect(transferCall).not.toBeCalled();
+  expect(transferCall).not.toHaveBeenCalled();
 };
 
 export const UTWhenCallTransfering: StepFunction = () => {

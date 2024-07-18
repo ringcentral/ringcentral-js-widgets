@@ -6,6 +6,7 @@ import {
   title,
   When,
 } from '@ringcentral-integration/test-utils';
+
 import { sortDialInNumbers } from '../../modules/RcVideo';
 
 @autorun(test)

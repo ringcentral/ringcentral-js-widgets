@@ -9,18 +9,23 @@ import userEvent from '@testing-library/user-event';
 export const CheckTooltip: StepFunction<{
   element?: string;
   tooltip: string;
-  browserTooltip: boolean;
+  browserTooltip?: boolean;
 }> = async ({ element, tooltip, browserTooltip = false }) => {
   if (!browserTooltip) {
-    userEvent.hover(screen.getByTestId(element));
+    userEvent.hover(screen.getByTestId(element!));
     await waitFor(
       () => {
         expect(screen.getByRole('tooltip').textContent).toBe(tooltip);
       },
       { timeout: 2000 },
     );
-    userEvent.unhover(screen.getByTestId(element));
+    userEvent.unhover(screen.getByTestId(element!));
   } else {
-    expect(screen.getByTitle(tooltip)).not.toBeNull();
+    await waitFor(
+      () => {
+        expect(screen.getByTitle(tooltip)).not.toBeNull();
+      },
+      { timeout: 2000 },
+    );
   }
 };

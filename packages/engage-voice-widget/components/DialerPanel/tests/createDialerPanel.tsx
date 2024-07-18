@@ -1,8 +1,6 @@
-import React from 'react';
-
-import { mount } from 'enzyme';
-
 import { RcThemeProvider } from '@ringcentral/juno';
+import { mount } from 'enzyme';
+import React from 'react';
 
 import type { DialoutStatusesType } from '../../../enums/dialoutStatus';
 import { DialerPanel } from '../DialerPanel';

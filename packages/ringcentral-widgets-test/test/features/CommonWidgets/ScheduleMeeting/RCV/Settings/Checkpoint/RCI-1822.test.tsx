@@ -14,12 +14,6 @@
 
  */
 import {
-  CheckPostMeetingParams,
-  ClickScheduleButton,
-  CheckRCVPageDisplay,
-  SwitchToggleTo,
-} from '../../../../../../steps/Meeting';
-import {
   p2,
   it,
   autorun,
@@ -33,6 +27,12 @@ import {
   And,
 } from '../../../../../../lib/step';
 import { Login as CommonLogin } from '../../../../../../steps/Login';
+import {
+  CheckPostMeetingParams,
+  ClickScheduleButton,
+  CheckRCVPageDisplay,
+  SwitchToggleTo,
+} from '../../../../../../steps/Meeting';
 
 @autorun(test.skip)
 @it

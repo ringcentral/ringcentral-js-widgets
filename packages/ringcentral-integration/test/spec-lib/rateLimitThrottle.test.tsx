@@ -8,8 +8,8 @@ import {
   title,
   When,
 } from '@ringcentral-integration/test-utils';
-
 import { sleep } from '@ringcentral-integration/utils';
+
 import { rateLimitThrottle } from '../../lib/rateLimitThrottle';
 
 @autorun(test)

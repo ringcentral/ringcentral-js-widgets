@@ -1,5 +1,5 @@
-import userEvent from '@testing-library/user-event';
 import { fireEvent, screen } from '@testing-library/react';
+
 import type { StepFunction } from '../../../lib/step';
 
 export const FocusOnPasswordField: StepFunction = async () => {
@@ -14,15 +14,15 @@ export const BlurPasswordField: StepFunction = async () => {
 
 export const EnterRandomPassword: StepFunction = async () => {
   const password = Math.floor(Math.random() * 10e6).toString();
-  fireEvent.change(screen.getByPlaceholderText('Enter Password'), {
-    target: { value: password },
-  });
+  return <EnterPassword password={password} />;
 };
 
 export const EnterPassword: StepFunction<{ password: string }> = async ({
   password,
 }) => {
-  fireEvent.change(screen.getByPlaceholderText('Enter Password'), {
+  const element =
+    screen.getByPlaceholderText<HTMLInputElement>('Enter Password');
+  fireEvent.change(element, {
     target: { value: password },
   });
 };

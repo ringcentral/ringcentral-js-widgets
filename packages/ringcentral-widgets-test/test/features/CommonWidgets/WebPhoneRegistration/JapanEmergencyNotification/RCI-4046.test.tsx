@@ -1,5 +1,5 @@
-import { sleep } from '@ringcentral-integration/commons/utils';
 import { callingSettingsMessages } from '@ringcentral-integration/commons/modules/CallingSettings';
+import { sleep } from '@ringcentral-integration/commons/utils';
 import { waitFor } from '@testing-library/react';
 
 import { mockPhoneNumberData } from '../../../../__mock__/data';
@@ -25,12 +25,12 @@ import {
   SpyOnAlertWithMessages,
 } from '../../../../steps/Alert';
 import { Login as CommonLogin } from '../../../../steps/Login';
-import { NavigateTo } from '../../../../steps/Router/action';
+import { NavigateTo } from '../../../../steps/Router';
 import {
   ClickSaveButton,
-  ExpandDropdown,
+  ExpandCallingSettingDropdown,
   SelectCallingSetting,
-} from '../../../../steps/Settings/actions/SetCallSetting';
+} from '../../../../steps/Settings';
 
 // TODO: skip this widget test since webphone mock has some errors, only run in other projects
 // User story:
@@ -178,7 +178,7 @@ export class TestJapanEmergencyServiceNotification extends Step {
                 <>
                   <CloseAlertMessage />
                   <NavigateTo path="/settings/calling" />
-                  <ExpandDropdown />
+                  <ExpandCallingSettingDropdown />
                   <SelectCallingSetting settingName={settingName} />
                   <ClickSaveButton />
                 </>

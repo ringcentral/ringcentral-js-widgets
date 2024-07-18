@@ -3,6 +3,7 @@ import { loginStatus } from '@ringcentral-integration/commons/modules/Auth';
 import { Storage } from '@ringcentral-integration/commons/modules/Storage';
 
 import { loginStatus as evLoginStatus } from '../../enums/loginStatus';
+
 import type { Deps } from './EvStorage.interface';
 
 @Module({

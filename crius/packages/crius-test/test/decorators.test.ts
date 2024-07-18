@@ -44,10 +44,10 @@ test('test @title', () => {
 
 test('test @examples', () => {
   class Bar extends Step {
-    @(examples`
+    @examples`
       | accountTag     | contactType   | smsMessage   |
       | 'us'           | false         | 1            |
-    `)
+    `
     run() {}
   }
 

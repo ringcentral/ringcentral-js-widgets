@@ -1,9 +1,9 @@
-import path from 'path';
 import cp from 'child_process';
-import gulp from 'gulp';
 import fs from 'fs-extra';
+import gulp from 'gulp';
 import babel from 'gulp-babel';
 import sourcemaps from 'gulp-sourcemaps';
+import path from 'path';
 
 const BUILD_PATH = path.resolve(__dirname, '../../build/locale-loader');
 

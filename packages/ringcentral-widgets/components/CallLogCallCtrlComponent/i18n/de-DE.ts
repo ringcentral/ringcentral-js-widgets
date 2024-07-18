@@ -20,7 +20,9 @@ export default {
   answerAndHold: "Beantworten & halten",
   answer: "Antworten",
   completeTransfer: "Weiterleitung abschließen",
-  reply: "Antwort"
+  reply: "Antwort",
+  add: "Hinzufügen",
+  mergeCall: "Mit aktivem Anruf zusammenführen"
 };
 
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
@@ -45,3 +47,5 @@ export default {
 // @key: @#@"answer"@#@ @source: @#@"Answer"@#@
 // @key: @#@"completeTransfer"@#@ @source: @#@"Complete transfer"@#@
 // @key: @#@"reply"@#@ @source: @#@"Reply"@#@
+// @key: @#@"add"@#@ @source: @#@"Add"@#@
+// @key: @#@"mergeCall"@#@ @source: @#@"Merge with active call"@#@

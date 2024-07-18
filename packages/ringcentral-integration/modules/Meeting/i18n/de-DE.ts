@@ -1,5 +1,5 @@
 export default {
-  meetingTitle: "Besprechung von {extensionName}"
+  meetingTitle: 'Besprechung von {extensionName}',
 };
 
 // @key: @#@"meetingTitle"@#@ @source: @#@"{extensionName}'s Meeting"@#@

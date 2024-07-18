@@ -1,9 +1,7 @@
-import React, { Component } from 'react';
-
-import classnames from 'classnames';
-
 import type { RcTextFieldProps } from '@ringcentral/juno';
 import { RcTextField } from '@ringcentral/juno';
+import clsx from 'clsx';
+import React, { Component } from 'react';
 
 import { bindDebounce } from '../../../../lib/bindDebounce';
 import { bindNextPropsUpdate } from '../../../../lib/bindNextPropsUpdate';
@@ -62,7 +60,7 @@ export class LogFieldsInput extends Component<
     const { value } = this.state;
     const styleRequired = required ? styles.isRequired : null;
     return (
-      <div className={classnames(styleRequired, styles.commonStyle)}>
+      <div className={clsx(styleRequired, styles.commonStyle)}>
         <RcTextField
           {...rest}
           inputRef={this.inputRef}

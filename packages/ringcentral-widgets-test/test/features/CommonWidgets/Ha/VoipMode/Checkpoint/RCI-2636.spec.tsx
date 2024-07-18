@@ -11,6 +11,7 @@
  */
 import {
   autorun,
+  common,
   Given,
   p2,
   Scenario,
@@ -20,24 +21,17 @@ import {
   title,
   When,
 } from '@ringcentral-integration/test-utils';
-import { CommonLogin } from '../../../../../steps/CommonLogin';
-import { NavigateToHistory } from '../../../../../steps/Navigate';
+
 import { CheckCallIcon, CheckTextIcon } from '../../../../../steps/CallHistory';
-import { CheckVoipOnlyBadge } from '../../../../../steps/Badge';
-import { MockPostOauthToken } from '../../../../../steps/Mock/MockPostOauthToken';
-import {
-  CreateMock,
-  MockDialingPlan,
-  MockExtensionsList,
-  mockExtensionsListData,
-  MockPostSMS,
-} from '../../../../../steps/Mock';
+import { CommonLogin } from '../../../../../steps/CommonLogin';
 import { CreateInstance } from '../../../../../steps/CreateInstance';
-import { NavigateTo } from '../../../../../steps/Router';
 import { SendSMS } from '../../../../../steps/Messages';
-import { generateDialPlanData } from '../../../../../__mock__/generateDialPlanData';
+import { CreateMock, MockPostSMS } from '../../../../../steps/Mock';
+import { NavigateToHistory } from '../../../../../steps/Navigate';
+import { NavigateTo } from '../../../../../steps/Router';
 
 @autorun(test)
+@common
 @p2
 @title(
   'Verify the app is in the normal mode when any rc API except Refresh token api returns >=502',
@@ -47,7 +41,6 @@ export class VerifyAppInNormalModeWhenOtherAPI500 extends Step {
     <CommonLogin {...props} CreateInstance={CreateInstance} />
   );
   CreateMock: StepFunction<any, any> = CreateMock;
-  historyTabDataSign = 'History';
   appName = 'common';
   run() {
     const { Login, CreateMock } = this;
@@ -67,7 +60,7 @@ export class VerifyAppInNormalModeWhenOtherAPI500 extends Step {
         <Then
           desc="App works normally"
           action={[
-            <NavigateToHistory testId={this.historyTabDataSign} />,
+            <NavigateToHistory />,
             <CheckCallIcon disabled={false} />,
             <CheckTextIcon disabled={false} />,
           ]}

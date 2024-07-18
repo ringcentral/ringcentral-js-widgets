@@ -1,3 +1,4 @@
+import { whenStateOrTimerChange } from '@ringcentral-integration/core/test';
 import { screen } from '@testing-library/react';
 
 import type { StepFunction } from '../../lib/step';
@@ -13,26 +14,28 @@ export const CheckModalValue: StepFunction<{
   confirmButtonText,
   cancelButtonText,
 }) => {
-  const modal = screen.getByRole('dialog');
-  expect(modal).toBeVisible();
+  await whenStateOrTimerChange(() => {
+    const modal = screen.getByRole('dialog');
+    expect(modal).toBeVisible();
 
-  expect(
-    modal.querySelector('[data-test-automation-id="DialogTitle"]'),
-  ).toHaveTextContent(title);
+    expect(
+      modal.querySelector('[data-test-automation-id="DialogTitle"]'),
+    ).toHaveTextContent(title);
 
-  if (confirmButtonText) {
-    expect(
-      modal.querySelector('[data-test-automation-id="DialogOKButton"]'),
-    ).toHaveTextContent(confirmButtonText);
-  }
-  if (cancelButtonText) {
-    expect(
-      modal.querySelector('[data-test-automation-id="DialogCancelButton"]'),
-    ).toHaveTextContent(cancelButtonText);
-  }
-  if (childrenContent) {
-    expect(
-      modal.querySelector('[data-test-automation-id="DialogContent"]'),
-    ).toHaveTextContent(childrenContent);
-  }
+    if (confirmButtonText) {
+      expect(
+        modal.querySelector('[data-test-automation-id="DialogOKButton"]'),
+      ).toHaveTextContent(confirmButtonText);
+    }
+    if (cancelButtonText) {
+      expect(
+        modal.querySelector('[data-test-automation-id="DialogCancelButton"]'),
+      ).toHaveTextContent(cancelButtonText);
+    }
+    if (childrenContent) {
+      expect(
+        modal.querySelector('[data-test-automation-id="DialogContent"]'),
+      ).toHaveTextContent(childrenContent);
+    }
+  });
 };

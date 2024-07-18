@@ -3,4 +3,4 @@ export default {
   yesterday: 'Yesterday',
 
   empty: 'No call records',
-};
+} as const;

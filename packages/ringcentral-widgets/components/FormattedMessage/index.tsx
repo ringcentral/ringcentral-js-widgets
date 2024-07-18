@@ -1,11 +1,10 @@
+import { format } from '@ringcentral-integration/utils';
 import type { ElementType, FunctionComponent } from 'react';
 import React, { isValidElement, useMemo } from 'react';
 
-import { format } from '@ringcentral-integration/utils';
-
 export type FormattedMessageProps = {
   message: string;
-  values?: Record<string, string>;
+  values?: Record<string, string | React.ReactNode>;
   /**
    * render element
    * @default `span`
@@ -18,8 +17,8 @@ const FormattedMessage: FunctionComponent<FormattedMessageProps> = (props) => {
 
   const nodes = useMemo(() => {
     const uid = Math.floor(Math.random() * 0x10000000000).toString(16);
-    const hashedParams: Record<string, string> = {};
-    const elements: Record<string, string> = {};
+    const hashedParams: Record<string, string | React.ReactNode> = {};
+    const elements: Record<string, string | React.ReactNode> = {};
     const tokenDelimiter = `@__${uid}__@`;
 
     Object.keys(values).forEach((key) => {

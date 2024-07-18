@@ -1,6 +1,8 @@
 import { FirebaseOptions } from 'firebase/app';
+
 import { RingCentralClient } from '../../lib/RingCentralClient';
 import { Auth } from '../Auth';
+
 export interface IFirebaseConfig {
   firebaseConfig: FirebaseOptions;
   vapidKey: string;

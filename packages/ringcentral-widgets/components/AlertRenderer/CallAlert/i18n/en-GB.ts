@@ -1,17 +1,27 @@
 import { callErrors } from '@ringcentral-integration/commons/modules/Call';
+
 export default {
-  [callErrors.emergencyNumber]: "Emergency calling is not available. Please use another phone to contact emergency services",
-  [callErrors.noToNumber]: "Please enter a valid phone number.",
-  [callErrors.noAreaCode]: "Please set {areaCodeLink} to use 7-digit local phone numbers.",
-  [callErrors.connectFailed]: "Connection failed. Please try again later.",
-  [callErrors.internalError]: "Cannot connect due to internal errors. Please try again later.",
-  [callErrors.notAnExtension]: "The extension number does not exist.",
-  [callErrors.networkError]: "Cannot connect due to network issues. Please try again later.",
-  [callErrors.noInternational]: "You don't have permissions to make international calls. Please contact your {brand} account administrator for an upgrade.",
-  [callErrors.noRingoutEnable]: "Your extension is allowed to make calls with desktop app.\n    If you wish to switch to other calling options,\n    please contact your account administrator for an upgrade.",
-  [callErrors.numberParseError]: "Sorry, there was a problem on our end. Please try again later.",
-  areaCode: "area code",
-  telus911: "Emergency dialling is not supported."
+  [callErrors.emergencyNumber]:
+    'Emergency calling is not available. Please use another phone to contact emergency services',
+  [callErrors.noToNumber]: 'Please enter a valid phone number.',
+  [callErrors.noAreaCode]:
+    'Please set {areaCodeLink} to use 7-digit local phone numbers.',
+  [callErrors.connectFailed]: 'Connection failed. Please try again later.',
+  [callErrors.internalError]:
+    'Cannot connect due to internal errors. Please try again later.',
+  [callErrors.notAnExtension]: 'The extension number does not exist.',
+  [callErrors.networkError]:
+    'Cannot connect due to network issues. Please try again later.',
+  [callErrors.noInternational]:
+    "You don't have permissions to make international calls. Please contact your {brand} account administrator for an upgrade.",
+  [callErrors.noRingoutEnable]:
+    'Your extension is allowed to make calls with desktop app.\n    If you wish to switch to other calling options,\n    please contact your account administrator for an upgrade.',
+  [callErrors.numberParseError]:
+    'Sorry, there was a problem on our end. Please try again later.',
+  areaCode: 'area code',
+  telus911: 'Emergency dialling is not supported.',
+  [callErrors.fromAndToNumberIsSame]:
+    'The RingOut number and destination number can’t be the same. Please update the number and try again.',
 };
 
 // @key: @#@"[callErrors.emergencyNumber]"@#@ @source: @#@"Emergency calling is not available. Please use another phone to contact emergency services"@#@
@@ -26,3 +36,4 @@ export default {
 // @key: @#@"[callErrors.numberParseError]"@#@ @source: @#@"Sorry, there was a problem on our end. Please try again later."@#@
 // @key: @#@"areaCode"@#@ @source: @#@"area code"@#@
 // @key: @#@"telus911"@#@ @source: @#@"Emergency dialing is not supported."@#@
+// @key: @#@"[callErrors.fromAndToNumberIsSame]"@#@ @source: @#@"The RingOut number and destination number can't be the same. Please update the number and try again."@#@

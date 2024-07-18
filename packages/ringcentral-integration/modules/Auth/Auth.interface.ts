@@ -1,6 +1,7 @@
 import type BaseTokenInfo from '@rc-ex/core/lib/definitions/TokenInfo';
 import type { LoginUrlOptions as SdkLoginUrlOptions } from '@ringcentral/sdk';
 
+import type { RingCentralClient } from '../../lib/RingCentralClient';
 import type { Alert } from '../Alert';
 import type { Environment } from '../Environment';
 import type { Locale } from '../Locale';
@@ -9,6 +10,7 @@ import type { TabManager } from '../TabManager';
 
 export interface TokenInfo extends BaseTokenInfo {
   expire_time?: number;
+  refresh_token_expire_time?: number;
 }
 
 export interface Token {
@@ -19,6 +21,7 @@ export interface Token {
   expireTime?: TokenInfo['expire_time'];
   expiresIn?: TokenInfo['expires_in'];
   scope?: TokenInfo['scope'];
+  refresh_token_expire_time?: TokenInfo['refresh_token_expire_time'];
 }
 
 export interface AuthOptions {
@@ -26,7 +29,7 @@ export interface AuthOptions {
 }
 
 export interface Deps {
-  client: any;
+  client: RingCentralClient;
   alert: Alert;
   locale: Locale;
   tabManager?: TabManager;
@@ -54,4 +57,16 @@ export interface LoginOptions {
 export interface LoginUrlOptions extends SdkLoginUrlOptions {
   redirectUri?: string;
   force?: boolean;
+}
+
+export interface BeforeLogoutHandler {
+  (): Promise<unknown | void> | unknown | void;
+}
+
+export interface AfterLoggedInHandler {
+  (): void;
+}
+
+export interface RefreshErrorHandler {
+  (refreshTokenValid: boolean): Promise<void> | void;
 }

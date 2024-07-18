@@ -2,6 +2,7 @@ import type { FunctionComponent } from 'react';
 import React from 'react';
 
 import CallLogCallCtrlComponent from '../CallLogCallCtrlComponent';
+
 import type { CallLogCallCtrlPanelProps } from './CallLogCallCtrlPanel.interface';
 
 export type CurrentSession = {
@@ -40,6 +41,9 @@ const CallLogCallCtrlPanel: FunctionComponent<CallLogCallCtrlPanelProps> = (
     clickForwardTrack,
     warmTransferActiveTelephonySessionId,
     allowPickupCall,
+    showConferenceCall,
+    isCurrentCall,
+    onMergeCall,
   } = props;
 
   if (!currentSession) {
@@ -53,6 +57,7 @@ const CallLogCallCtrlPanel: FunctionComponent<CallLogCallCtrlPanelProps> = (
       onHangup={async () => props.hangUp(telephonySessionId)}
       onReject={async () => props.reject(telephonySessionId)}
       onTransfer={() => props.onTransfer(telephonySessionId)}
+      onAddCall={() => props.onAddCall()}
       onCompleteWarmTransfer={() =>
         props.onCompleteWarmTransfer(telephonySessionId)
       }
@@ -92,6 +97,9 @@ const CallLogCallCtrlPanel: FunctionComponent<CallLogCallCtrlPanelProps> = (
       }
       enableReply={enableReply}
       allowPickupCall={allowPickupCall}
+      showConferenceCall={showConferenceCall}
+      isCurrentCall={isCurrentCall}
+      onMergeCall={onMergeCall}
     />
   );
 };

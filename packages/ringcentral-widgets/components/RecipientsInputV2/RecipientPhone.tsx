@@ -2,6 +2,7 @@ import type { FunctionComponent } from 'react';
 import React from 'react';
 
 import phoneTypeNames from '../../lib/phoneTypeNames';
+
 import type { RecipientPhoneProps } from './RecipientsInputV2.interface';
 import styles from './styles.scss';
 

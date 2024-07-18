@@ -1,5 +1,5 @@
 export default {
-  toolTip: "Afficher en {crmName}"
+  toolTip: "Afficher dans {crmName}"
 };
 
 // @key: @#@"toolTip"@#@ @source: @#@"View in {crmName}"@#@

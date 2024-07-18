@@ -8,4 +8,4 @@ export default {
   queueTransfer: 'Queue transfer',
   enterANumber: 'Enter a number',
   engageScript: 'Engage script',
-};
+} as const;

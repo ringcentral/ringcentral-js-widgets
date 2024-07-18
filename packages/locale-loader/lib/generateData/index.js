@@ -1,6 +1,6 @@
 import path from 'path';
+import { forEach, reduce } from 'ramda';
 import xml from 'xml-js';
-import { reduce, forEach } from 'ramda';
 
 function generateBaseData(allLocales) {
   return reduce(

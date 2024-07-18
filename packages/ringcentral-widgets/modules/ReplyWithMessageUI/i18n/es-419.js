@@ -1,8 +1,8 @@
 export default {
   inAMeeting: "En una reunión",
   onMyWay: "En camino",
-  callMeBackIn: "Llámeme de nuevo en...",
-  willCallYouBackIn: "Le regresaré la llamada en...",
+  callMeBackIn: "Llámeme de nuevo en…",
+  willCallYouBackIn: "Le regresaré la llamada en…",
   hour: "hora",
   min: "min"
 };

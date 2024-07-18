@@ -1,7 +1,7 @@
-import React from 'react';
-import { mount } from 'enzyme';
-import NotificationSection from '@ringcentral-integration/widgets/components/NotificationSection';
 import { formatNumber } from '@ringcentral-integration/commons/lib/formatNumber';
+import NotificationSection from '@ringcentral-integration/widgets/components/NotificationSection';
+import { mount } from 'enzyme';
+import React from 'react';
 
 const setup = (props) => {
   const { logNotification } = props;
@@ -89,7 +89,7 @@ describe('<NotificationSection />', () => {
   it('Without expand the notificaiton', () => {
     const wrapper = setup({});
     expect(wrapper.find('.ringing').length).toBe(1);
-    expect(wrapper.find('span[data-sign="callStatus"]').text()).toEqual(
+    expect(wrapper.find('span[data-sign="logCallStatus"]').text()).toEqual(
       'Ringing',
     );
     expect(wrapper.find('svg[data-sign="reject"]').length).toBe(1);

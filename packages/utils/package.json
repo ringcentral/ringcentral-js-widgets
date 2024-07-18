@@ -1,6 +1,6 @@
 {
   "name": "@ringcentral-integration/utils",
-  "version": "0.14.0",
+  "version": "0.15.0",
   "description": "Base utils package for RingCentral integration products.",
   "homepage": "https://github.com/ringcentral/ringcentral-js-widgets/tree/master/packages/core#readme",
   "bugs": {
@@ -33,12 +33,15 @@
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "gulp-sourcemaps": "^2.6.5",
-    "jest-html-reporters": "^3.0.8",
-    "webpack": "^5.58.1",
+    "jest-html-reporters": "^3.1.7",
+    "webpack": "^5.89.0",
     "yargs": "^17.1.1"
   },
   "common": true,
   "ci": {
     "@ringcentral-integration/utils": "**"
+  },
+  "nx": {
+    "tags": ["scope:ci-group-1"]
   }
 }

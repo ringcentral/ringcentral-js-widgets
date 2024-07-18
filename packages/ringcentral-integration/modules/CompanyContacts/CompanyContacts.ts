@@ -1,5 +1,3 @@
-import { filter, find, forEach, map, reduce, reject } from 'ramda';
-import type { Unsubscribe } from 'redux';
 import type ContactResource from '@rc-ex/core/lib/definitions/ContactResource';
 import {
   action,
@@ -9,6 +7,8 @@ import {
   watch,
 } from '@ringcentral-integration/core';
 import type { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
+import { filter, find, forEach, map, reduce, reject } from 'ramda';
+import type { Unsubscribe } from 'redux';
 
 import { extensionStatusTypes } from '../../enums/extensionStatusTypes';
 import { extensionTypes } from '../../enums/extensionTypes';
@@ -17,6 +17,7 @@ import { subscriptionFilters } from '../../enums/subscriptionFilters';
 import { Module } from '../../lib/di';
 import fetchList from '../../lib/fetchList';
 import { DataFetcherV2Consumer, DataSource } from '../DataFetcherV2';
+
 import type { Deps } from './CompanyContacts.interface';
 
 /**
@@ -65,7 +66,7 @@ export class CompanyContacts extends DataFetcherV2Consumer<
   Deps,
   ContactResource[]
 > {
-  // @ts-expect-error
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Unsubscribe... Remove this comment to see the full error message
   protected _stopWatching: Unsubscribe = null;
 
   constructor(deps: Deps) {
@@ -112,7 +113,7 @@ export class CompanyContacts extends DataFetcherV2Consumer<
 
   protected async fetchDataCore() {
     const data = await fetchList((params) => this.fetchContacts(params));
-    // @ts-expect-error
+    // @ts-expect-error TS(2345): Argument of type 'unknown[]' is not assignable to ... Remove this comment to see the full error message
     this.setCompanyContactsData(data);
   }
 
@@ -154,7 +155,7 @@ export class CompanyContacts extends DataFetcherV2Consumer<
 
   override onReset() {
     this._stopWatching?.();
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Unsubscribe... Remove this comment to see the full error message
     this._stopWatching = null;
   }
 
@@ -170,12 +171,12 @@ export class CompanyContacts extends DataFetcherV2Consumer<
 
   @storage
   @state
-  // @ts-expect-error
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'boolean'.
   _showDisabled: boolean = null;
 
   @storage
   @state
-  // @ts-expect-error
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'boolean'.
   _showNotActivated: boolean = null;
 
   @storage
@@ -199,7 +200,7 @@ export class CompanyContacts extends DataFetcherV2Consumer<
 
   @storage
   @state
-  // @ts-expect-error
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type '("Announcem... Remove this comment to see the full error message
   _selectedTypes: ObjectMapValue<typeof extensionTypes>[] = null;
 
   @action
@@ -264,7 +265,7 @@ export class CompanyContacts extends DataFetcherV2Consumer<
             item.status === extensionStatusTypes.disabled) ||
           (!this.showNotActivated &&
             item.status === extensionStatusTypes.notActivated) ||
-          // @ts-expect-error
+          // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
           !typeFilter[item.type]
         ),
     );

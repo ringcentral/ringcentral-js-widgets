@@ -1,17 +1,18 @@
-import type { FunctionComponent } from 'react';
-import React from 'react';
-
 import {
   createGlobalStyle,
   flexCenterStyle,
   palette2,
   styled,
 } from '@ringcentral/juno';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import { fullSizeStyle, noSelectStyle } from '../../lib/commonStyles';
 import { CallMonitorBar } from '../CallMonitorBar';
 import { PresenceDropdown } from '../PresenceDropdown';
+
 import type { HeaderViewProps } from './HeaderView.interface';
+import styles from './styles.scss';
 import { headerViewHeight } from './utils';
 
 const ALL_CALL_PATH = '/calls';
@@ -56,7 +57,6 @@ const Main = styled.main`
 `;
 
 export const HeaderView: FunctionComponent<HeaderViewProps> = ({
-  logo: Logo,
   logoUrl,
   userStatus,
   dndStatus,
@@ -79,7 +79,12 @@ export const HeaderView: FunctionComponent<HeaderViewProps> = ({
   ...props
 }) => {
   if (!standAlone) {
-    return <>{children}</>;
+    return (
+      <>
+        <GlobalStyle />
+        {children}
+      </>
+    );
   }
 
   const shouldDisplayCallMonitorBar =
@@ -120,7 +125,9 @@ export const HeaderView: FunctionComponent<HeaderViewProps> = ({
           />
         ) : (
           <LogoWrapper>
-            {logoUrl ? <LogoComp logoUrl={logoUrl} /> : Logo && <Logo />}
+            {logoUrl ? (
+              <img src={logoUrl} alt="" className={styles.logo} />
+            ) : null}
           </LogoWrapper>
         )}
       </Header>
@@ -128,7 +135,3 @@ export const HeaderView: FunctionComponent<HeaderViewProps> = ({
     </Wrapper>
   );
 };
-
-const LogoComp = React.memo(({ logoUrl }: { logoUrl: string }) => (
-  <img src={logoUrl} alt="" />
-));

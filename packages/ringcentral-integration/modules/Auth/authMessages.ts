@@ -1,4 +1,7 @@
-import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
+import {
+  ObjectMap,
+  type ObjectMapValue,
+} from '@ringcentral-integration/core/lib/ObjectMap';
 
 export const authMessages = ObjectMap.prefixKeys(
   [
@@ -13,3 +16,5 @@ export const authMessages = ObjectMap.prefixKeys(
   ],
   'authMessages',
 );
+
+export type AuthMessage = ObjectMapValue<typeof authMessages>;

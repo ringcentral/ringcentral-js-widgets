@@ -1,51 +1,83 @@
 import { waitUntilTo } from '@ringcentral-integration/utils';
 import { screen, waitForElementToBeRemoved } from '@testing-library/react';
+
 import type { StepFunction } from '../../lib/step';
 import type { CreateInstanceProps } from '../CreateInstance';
 
-export interface LoginProps extends CreateInstanceProps {
+export interface LoginProps {
   username?: string;
   password?: string;
   shouldWaitForConnected?: boolean;
+  shouldMockWebphone?: boolean;
   isMockUserMedia?: boolean;
+}
+
+export interface CommonLoginProps extends LoginProps, CreateInstanceProps {
   CreateInstance: StepFunction<CreateInstanceProps>;
 }
 
-export const CommonLogin: StepFunction<LoginProps> = async (
-  { username = 'test', password = 'test', CreateInstance, ...options },
+export const ExecuteAuthLogin: StepFunction<LoginProps> = async (
+  {
+    username = 'test',
+    password = 'test',
+    shouldMockWebphone = true,
+    isMockUserMedia = true,
+  },
+  context,
+) => {
+  const { phone } = context;
+  await waitUntilTo(() => {
+    expect(phone.auth.ready).toBeTruthy();
+  });
+  if (isMockUserMedia) {
+    Object.defineProperties(phone.audioSettings, {
+      userMedia: { value: true },
+    });
+  }
+  expect(phone.auth.loggedIn).toBeFalsy();
+  expect(screen.queryByTestId('loginButton')).toBeInTheDocument();
+  await phone.auth.login({
+    username,
+    password,
+  });
+  await waitForElementToBeRemoved(() => screen.getByTestId('loginButton'), {
+    timeout: 9000,
+  });
+  expect(phone.auth.loggedIn).toBeTruthy();
+  await waitUntilTo(() => {
+    if (phone.activeCallControl) {
+      expect(phone.activeCallControl.ready).toBeTruthy();
+    }
+  });
+  if (shouldMockWebphone) {
+    await waitUntilTo(() => {
+      if (phone.call.ready) {
+        phone.webphone._webphone?.userAgent.trigger?.('registered');
+      }
+    });
+  }
+};
+
+export const CommonLogin: StepFunction<CommonLoginProps> = async (
+  {
+    username = 'test',
+    password = 'test',
+    shouldMockWebphone = true,
+    isMockUserMedia = true,
+    CreateInstance,
+    ...options
+  },
   context,
 ) => {
   return (
     <>
-      <CreateInstance {...options} />
-      {async () => {
-        const { phone } = context;
-        await waitUntilTo(() => {
-          expect(phone.auth.ready).toBeTruthy();
-        });
-        const { isMockUserMedia = true } = options;
-        if (isMockUserMedia) {
-          Object.defineProperties(phone.audioSettings, {
-            userMedia: { value: true },
-          });
-        }
-        expect(phone.auth.loggedIn).toBeFalsy();
-        expect(screen.queryByTestId('loginButton')).toBeInTheDocument();
-        await phone.auth.login({
-          username,
-          password,
-        });
-        await waitForElementToBeRemoved(
-          () => screen.getByTestId('loginButton'),
-          { timeout: 9000 },
-        );
-        expect(phone.auth.loggedIn).toBeTruthy();
-        await waitUntilTo(() => {
-          if (phone.activeCallControl) {
-            expect(phone.activeCallControl.ready).toBeTruthy();
-          }
-        });
-      }}
+      <CreateInstance shouldMockWebphone={shouldMockWebphone} {...options} />
+      <ExecuteAuthLogin
+        username={username}
+        password={password}
+        shouldMockWebphone={shouldMockWebphone}
+        isMockUserMedia={isMockUserMedia}
+      />
     </>
   );
 };

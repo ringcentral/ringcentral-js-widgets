@@ -14,7 +14,6 @@
  * Scheduler:ClickSchedulebutton > And the API failed to return the value ofinvitation Info
  * Outlook Appointment:ClickSchedulebutton > And the APIfailedto return the value ofinvitation Info
  */
-
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   autorun,
@@ -30,12 +29,12 @@ import {
 } from '@ringcentral-integration/test-utils';
 
 import type { StepProp } from '../../../../../../../../lib/step';
+import { CheckAlertToBeCallWith } from '../../../../../../../../steps/Alert';
 import { CommonLogin } from '../../../../../../../../steps/CommonLogin';
 import {
   CheckRCVPageDisplay,
   ClickScheduleButton,
 } from '../../../../../../../../steps/Meeting';
-import { CheckAlertToBeCallWith } from '../../../../../../../../steps/Alert';
 
 @autorun(test.skip)
 @it

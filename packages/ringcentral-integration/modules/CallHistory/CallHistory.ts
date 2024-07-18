@@ -1,5 +1,5 @@
-import { findIndex, forEach } from 'ramda';
-
+import CallLogFromParty from '@rc-ex/core/lib/definitions/CallLogFromParty';
+import CallLogToParty from '@rc-ex/core/lib/definitions/CallLogToParty';
 import {
   action,
   computed,
@@ -9,12 +9,13 @@ import {
   track,
   watch,
 } from '@ringcentral-integration/core';
-import CallLogFromParty from '@rc-ex/core/lib/definitions/CallLogFromParty';
-import CallLogToParty from '@rc-ex/core/lib/definitions/CallLogToParty';
+import { findIndex, forEach } from 'ramda';
 
+import { trackEvents } from '../../enums/trackEvents';
 import type { Call } from '../../interfaces/Call.interface';
 import type { Entity } from '../../interfaces/Entity.interface';
 import type { ActiveCall } from '../../interfaces/Presence.model';
+import type { PartialRequired } from '../../interfaces/utilities';
 import {
   getPhoneNumberMatches,
   sortByStartTime,
@@ -23,8 +24,8 @@ import debounce from '../../lib/debounce';
 import { Module } from '../../lib/di';
 import { normalizeNumber } from '../../lib/normalizeNumber';
 import { proxify } from '../../lib/proxy/proxify';
-import { trackEvents } from '../../enums/trackEvents';
 import { callingModes } from '../CallingSettings';
+
 import type { Deps, HistoryCall } from './CallHistory.interface';
 import {
   addNumbersFromCall,
@@ -69,7 +70,6 @@ export class CallHistory<T extends Deps = Deps> extends RcModuleV2<T> {
       });
     }
     this._deps.activityMatcher?.addQuerySource({
-      // @ts-expect-error
       getQueriesFn: () => this.sessionIds,
       readyCheckFn: () =>
         (!this._deps.callMonitor || this._deps.callMonitor.ready) &&
@@ -103,7 +103,7 @@ export class CallHistory<T extends Deps = Deps> extends RcModuleV2<T> {
     forEach((call) => {
       const callWithDuration = {
         ...call,
-        // @ts-expect-error
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         duration: Math.floor((timestamp - call.startTime) / 1000),
       };
       const idx = findIndex(
@@ -129,7 +129,7 @@ export class CallHistory<T extends Deps = Deps> extends RcModuleV2<T> {
               telephonySessionId === call.telephonySessionId,
           ) ||
           // clean current overdue ended call (default clean time: 1day).
-          // @ts-expect-error
+          // @ts-expect-error TS(2532): Object is possibly 'undefined'.
           Date.now() - call.startTime > DEFAULT_CLEAN_TIME
         ),
     );
@@ -167,10 +167,10 @@ export class CallHistory<T extends Deps = Deps> extends RcModuleV2<T> {
           if (
             this.ready &&
             (!this._deps.tabManager || this._deps.tabManager.active) &&
-            // @ts-expect-error
+            // @ts-expect-error TS(2532): Object is possibly 'undefined'.
             this._deps.contactMatcher.ready
           ) {
-            // @ts-expect-error
+            // @ts-expect-error TS(2532): Object is possibly 'undefined'.
             this._deps.contactMatcher.triggerMatch();
           }
         },
@@ -185,10 +185,10 @@ export class CallHistory<T extends Deps = Deps> extends RcModuleV2<T> {
           if (
             this.ready &&
             (!this._deps.tabManager || this._deps.tabManager.active) &&
-            // @ts-expect-error
+            // @ts-expect-error TS(2532): Object is possibly 'undefined'.
             this._deps.activityMatcher.ready
           ) {
-            // @ts-expect-error
+            // @ts-expect-error TS(2532): Object is possibly 'undefined'.
             this._deps.activityMatcher.triggerMatch();
           }
         },
@@ -232,12 +232,12 @@ export class CallHistory<T extends Deps = Deps> extends RcModuleV2<T> {
       ([currentCalls = [], ready]) => {
         if (!ready) return;
         const ids: Record<string, boolean> = {};
-        // @ts-expect-error
-        currentCalls.forEach((call) => {
+        // @ts-expect-error TS(2339): Property 'forEach' does not exist on type 'boolean... Remove this comment to see the full error message
+        currentCalls.forEach((call: any) => {
           ids[call.telephonySessionId] = true;
         });
         const shouldRemovedCalls = this.endedCalls.filter(
-          // @ts-expect-error
+          // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
           (call) => ids[call.telephonySessionId],
         );
         if (shouldRemovedCalls.length) {
@@ -344,10 +344,10 @@ export class CallHistory<T extends Deps = Deps> extends RcModuleV2<T> {
       : pickPhoneOrExtensionNumber;
 
     const fromNumber =
-      // @ts-expect-error
+      // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
       call.from && pickNumber(call.from.phoneNumber, call.from.extensionNumber);
     const toNumber =
-      // @ts-expect-error
+      // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
       call.to && pickNumber(call.to.phoneNumber, call.to.extensionNumber);
 
     const fromMatches = (fromNumber && contactMapping[fromNumber]) || [];
@@ -371,16 +371,16 @@ export class CallHistory<T extends Deps = Deps> extends RcModuleV2<T> {
     const callMatched = this._deps.callMonitor?.callMatched ?? {};
     const telephonySessionIds: Record<string, boolean> = {};
     const calls = this.normalizedCalls.map((call) => {
-      // @ts-expect-error
+      // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
       telephonySessionIds[call.telephonySessionId] = true;
-      // @ts-expect-error
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       const fromName = call.from.name || call.from.phoneNumber;
       const toName = call.to.name || call.to.phoneNumber;
-      // @ts-expect-error
+      // @ts-expect-error TS(2345): Argument of type 'ActiveCall' is not assignable to... Remove this comment to see the full error message
       const { fromMatches, toMatches } = this.findMatches(contactMapping, call);
-      // @ts-expect-error
+      // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
       const activityMatches = activityMapping[call.sessionId] || [];
-      // @ts-expect-error
+      // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
       const matched = callMatched[call.sessionId];
       return {
         ...call,
@@ -393,7 +393,7 @@ export class CallHistory<T extends Deps = Deps> extends RcModuleV2<T> {
       };
     });
     const filteredEndedCalls = this.endedCalls
-      // @ts-expect-error
+      // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
       .filter((call) => !telephonySessionIds[call.telephonySessionId])
       .map((call) => {
         const activityMatches = activityMapping[call.sessionId] || [];
@@ -428,9 +428,9 @@ export class CallHistory<T extends Deps = Deps> extends RcModuleV2<T> {
     const effectSearchStr = searchInput.toLowerCase().trim();
     const data = calls
       .filter((call) => {
-        // @ts-expect-error
+        // @ts-expect-error TS(2345): Argument of type 'HistoryCall' is not assignable t... Remove this comment to see the full error message
         const { phoneNumber, matches } = getPhoneNumberMatches(call);
-        // @ts-expect-error
+        // @ts-expect-error TS(2533): Object is possibly 'null' or 'undefined'.
         const matchesMatched = matches.some((entities) => {
           if (!entities || !entities.id) return false;
           if (
@@ -465,7 +465,7 @@ export class CallHistory<T extends Deps = Deps> extends RcModuleV2<T> {
       const newCalls = this.filterCalls.map((call) => ({
         ...call,
         activityMatches:
-          // @ts-expect-error
+          // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
           this._deps.activityMatcher?.dataMapping[call.sessionId] || [],
       }));
       return newCalls;
@@ -478,7 +478,7 @@ export class CallHistory<T extends Deps = Deps> extends RcModuleV2<T> {
     const output: string[] = [];
     const numberMap: Record<string, boolean> = {};
     this.normalizedCalls.forEach(
-      // @ts-expect-error
+      // @ts-expect-error TS(2345): Argument of type '(call: Call) => void' is not ass... Remove this comment to see the full error message
       addNumbersFromCall(output, numberMap, this.enableFullPhoneNumberMatch),
     );
     this.endedCalls.forEach(
@@ -490,9 +490,10 @@ export class CallHistory<T extends Deps = Deps> extends RcModuleV2<T> {
   @computed((that: CallHistory) => [that._deps.callLog.calls, that.endedCalls])
   get sessionIds() {
     const sessionIds: Record<string, boolean> = {};
-    return this._deps.callLog.calls
+    return (
+      this._deps.callLog.calls as PartialRequired<ActiveCall, 'sessionId'>[]
+    )
       .map((call) => {
-        // @ts-expect-error
         sessionIds[call.sessionId] = true;
         return call.sessionId;
       })

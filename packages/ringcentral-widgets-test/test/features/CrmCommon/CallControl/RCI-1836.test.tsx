@@ -17,7 +17,8 @@
  * 2. Make an inbound/outbound call and answer
  * 3. Initial warm transfer(Only for Salesforce)
  */
-
+import { callDirection } from '@ringcentral-integration/commons/enums/callDirections';
+import { PartyStatusCode } from '@ringcentral-integration/commons/integration-test/mock/telephonySessionBuilder';
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p2,
@@ -29,8 +30,7 @@ import {
   title,
   When,
 } from '@ringcentral-integration/test-utils';
-import { PartyStatusCode } from '@ringcentral-integration/commons/integration-test/mock/telephonySessionBuilder';
-import callDirection from '@ringcentral-integration/commons/enums/callDirections';
+
 import {
   CheckContainsAlertMessage,
   CloseAlertMessage,
@@ -45,11 +45,11 @@ import {
 import { CheckInCallLogPage } from '../../../steps/CallLog';
 import type { LoginProps } from '../../../steps/CommonLogin';
 import { CommonLogin } from '../../../steps/CommonLogin';
-import { ClickCallButton, InputToField } from '../../../steps/dialer';
-import { NavigateToDialer } from '../../../steps/Navigate';
-import { MockUnHoldCallFail } from '../../../steps/Mock/MockUnHoldCallFail';
 import { MockMuteFail } from '../../../steps/Mock';
+import { MockUnHoldCallFail } from '../../../steps/Mock/MockUnHoldCallFail';
+import { NavigateToDialer } from '../../../steps/Navigate';
 import { NetworkOff } from '../../../steps/Network';
+import { ClickCallButton, InputToField } from '../../../steps/dialer';
 
 @autorun(test.skip)
 @it

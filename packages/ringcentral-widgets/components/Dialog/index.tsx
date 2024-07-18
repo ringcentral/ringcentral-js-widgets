@@ -1,10 +1,10 @@
-import React from 'react';
-
-import classnames from 'classnames';
+import clsx from 'clsx';
 import propTypes from 'prop-types';
+import React from 'react';
 
 import CloseIcon from '../../assets/images/CloseIcon.svg';
 import { Button } from '../Button';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 
@@ -17,7 +17,7 @@ const FlatButton = ({
 }: any) => {
   return (
     <div
-      className={classnames(
+      className={clsx(
         className,
         styles.flatBtn,
         styles.text,
@@ -65,14 +65,10 @@ const Dialog = ({
 }: any) => {
   const footer =
     !currentLocale || (!onCancel && !onConfirm) ? null : (
-      <div className={classnames(styles.footer, footerClassName)}>
+      <div className={clsx(styles.footer, footerClassName)}>
         {onCancel ? (
           <FlatButton
-            className={classnames(
-              styles.btn,
-              styles.cancelBtn,
-              cancelBtnClassName,
-            )}
+            className={clsx(styles.btn, styles.cancelBtn, cancelBtnClassName)}
             dataSign="cancel"
             onClick={onCancel}
           >
@@ -81,11 +77,7 @@ const Dialog = ({
         ) : null}
         {onConfirm ? (
           <FlatButton
-            className={classnames(
-              styles.btn,
-              styles.confirmBtn,
-              confirmBtnClassName,
-            )}
+            className={clsx(styles.btn, styles.confirmBtn, confirmBtnClassName)}
             dataSign="confirm"
             onClick={onConfirm}
           >
@@ -96,9 +88,9 @@ const Dialog = ({
     );
   const headText = `${title}` || null;
   return (
-    <div className={classnames(styles.dialog, className)}>
+    <div className={clsx(styles.dialog, className)}>
       {showTitle ? (
-        <div className={classnames(styles.header, headerClassName)}>
+        <div className={clsx(styles.header, headerClassName)}>
           {/* @ts-expect-error TS(2322): Type 'string | null' is not assignable */}
           <div className={styles.headerText} title={headText}>
             {headText}
@@ -114,9 +106,7 @@ const Dialog = ({
           <CloseIcon />
         </Button>
       ) : null}
-      <div className={classnames(styles.content, contentClassName)}>
-        {children}
-      </div>
+      <div className={clsx(styles.content, contentClassName)}>{children}</div>
       {footer}
     </div>
   );

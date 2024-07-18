@@ -1,5 +1,5 @@
-import { run } from './runner';
 import { Context, Hooks } from './interface';
+import { run } from './runner';
 
 const CriusRunner = {
   run,

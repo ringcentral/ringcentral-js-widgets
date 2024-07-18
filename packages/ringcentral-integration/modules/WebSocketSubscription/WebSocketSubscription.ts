@@ -15,11 +15,12 @@ import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
 import { webSocketReadyStates } from '../RingCentralExtensions/webSocketReadyStates';
 import type { TabEvent } from '../TabManager';
+
+import type { Deps } from './WebSocketSubscription.interface';
 import {
   isTheSameWebSocket,
   normalizeEventFilter,
 } from './normalizeEventFilter';
-import type { Deps } from './WebSocketSubscription.interface';
 
 const DEFAULT_REFRESH_DELAY = process.env.NODE_ENV === 'test' ? 0 : 1000;
 export const SyncMessageTabEventName = 'WebSocketSubscription-syncMessage';
@@ -54,7 +55,7 @@ export class WebSocketSubscription extends RcModuleV2<Deps> {
   }
 
   override async onReset() {
-    await this._debouncedUpdateSubscription.cancel();
+    this._debouncedUpdateSubscription.cancel();
     await this._removeSubscription();
   }
 
@@ -87,7 +88,7 @@ export class WebSocketSubscription extends RcModuleV2<Deps> {
           // when websocket is going to close, revoke subscription beforehand
           await this._revokeSubscription();
         } else {
-          await this._debouncedUpdateSubscription.cancel();
+          this._debouncedUpdateSubscription.cancel();
           await this._removeSubscription();
         }
       },
@@ -237,7 +238,14 @@ export class WebSocketSubscription extends RcModuleV2<Deps> {
   // Remove client side subscription object only
   private async _removeSubscription() {
     if (this._wsSubscription) {
-      this._wsSubscription.remove();
+      try {
+        this._wsSubscription.remove();
+      } catch (ex) {
+        // ignore error of remove request
+        if (process.env.NODE_ENV !== 'test') {
+          console.warn(`[WebSocketSubscription] > _removeSubscription > ${ex}`);
+        }
+      }
       this._wsSubscription = undefined;
     }
   }

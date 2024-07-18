@@ -1,7 +1,6 @@
-import dayjs from 'dayjs';
-
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import { computed, RcUIModuleV2 } from '@ringcentral-integration/core';
+import dayjs from 'dayjs';
 
 import type {
   EvSettingsUIFunctions,
@@ -9,6 +8,7 @@ import type {
   SessionInfo,
 } from '../../interfaces/EvSettingsUI.interface';
 import { formatPhoneNumber } from '../../lib/FormatPhoneNumber';
+
 import type { Deps, SettingsUI } from './EvSettingsUI.interface';
 import i18n from './i18n';
 

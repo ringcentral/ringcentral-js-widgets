@@ -1,11 +1,12 @@
 import { sleep } from '@ringcentral-integration/utils';
 
 import moduleStatuses from '../../enums/moduleStatuses';
+import RcModule from '../../lib/RcModule';
 import { batchGetApi } from '../../lib/batchApiHelper';
 import { Module } from '../../lib/di';
 import ensureExist from '../../lib/ensureExist';
 import proxify from '../../lib/proxy/proxify';
-import RcModule from '../../lib/RcModule';
+
 import { actionTypes } from './actionTypes';
 import getReducer, { getGlipPersonStoreReducer } from './getReducer';
 
@@ -22,7 +23,16 @@ const DEFAULT_BATCH_FETCH_DELAY = 500;
     { dep: 'GlipPersonsOptions', optional: true },
   ],
 })
+// @ts-expect-error TS(2415): Class 'GlipPersons' incorrectly extends base class... Remove this comment to see the full error message
 export default class GlipPersons extends RcModule {
+  _appFeatures: any;
+  _auth: any;
+  _batchFetchDelay: any;
+  _client: any;
+  _dataStorageKey: any;
+  _fetchingIds: any;
+  _storage: any;
+  _tabManager: any;
   constructor({
     client,
     auth,
@@ -31,14 +41,16 @@ export default class GlipPersons extends RcModule {
     appFeatures,
     batchFetchDelay = DEFAULT_BATCH_FETCH_DELAY,
     ...options
-  }) {
+  }: any) {
     super({
       ...options,
       actionTypes,
     });
 
     this._appFeatures = appFeatures;
+    // @ts-expect-error TS(2345): Argument of type 'string' is not assignable to par... Remove this comment to see the full error message
     this._client = ensureExist.call(this, client, 'client');
+    // @ts-expect-error TS(2345): Argument of type 'string' is not assignable to par... Remove this comment to see the full error message
     this._auth = ensureExist.call(this, auth, 'auth');
     this._tabManager = tabManager;
     this._storage = storage;
@@ -60,10 +72,12 @@ export default class GlipPersons extends RcModule {
     }
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   initialize() {
     this.store.subscribe(() => this._onStateChange());
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   async _onStateChange() {
     if (this._shouldInit()) {
       this.store.dispatch({
@@ -86,6 +100,7 @@ export default class GlipPersons extends RcModule {
     }
   }
 
+  // @ts-expect-error TS(4113): This member cannot have an 'override' modifier bec... Remove this comment to see the full error message
   override _shouldInit() {
     return (
       this._auth.loggedIn &&
@@ -96,6 +111,7 @@ export default class GlipPersons extends RcModule {
     );
   }
 
+  // @ts-expect-error TS(4113): This member cannot have an 'override' modifier bec... Remove this comment to see the full error message
   override _shouldReset() {
     return (
       ((this._storage && !this._storage.ready) ||
@@ -112,7 +128,7 @@ export default class GlipPersons extends RcModule {
   }
 
   @proxify
-  async loadPerson(id) {
+  async loadPerson(id: any) {
     try {
       this.store.dispatch({
         type: this.actionTypes.fetch,
@@ -130,7 +146,7 @@ export default class GlipPersons extends RcModule {
   }
 
   @proxify
-  async loadPersons(personIds) {
+  async loadPersons(personIds: any) {
     if (!this._auth.loggedIn) {
       return;
     }
@@ -138,8 +154,8 @@ export default class GlipPersons extends RcModule {
       return;
     }
     const { ownerId } = this._auth;
-    const newPersonIds = [];
-    personIds.forEach((id) => {
+    const newPersonIds: any = [];
+    personIds.forEach((id: any) => {
       if (!this.personsMap[id] && !this._fetchingIds[id]) {
         newPersonIds.push(id);
       }
@@ -148,6 +164,7 @@ export default class GlipPersons extends RcModule {
       return;
     }
     const ids = newPersonIds.slice(0, MaximumBatchGetPersons);
+    // @ts-expect-error TS(7006): Parameter 'id' implicitly has an 'any' type.
     ids.forEach((id) => {
       this._fetchingIds[id] = 1;
     });
@@ -160,6 +177,7 @@ export default class GlipPersons extends RcModule {
         type: this.actionTypes.batchFetchSuccess,
         persons,
       });
+      // @ts-expect-error TS(7006): Parameter 'id' implicitly has an 'any' type.
       ids.forEach((id) => {
         delete this._fetchingIds[id];
       });
@@ -167,6 +185,7 @@ export default class GlipPersons extends RcModule {
       this.store.dispatch({
         type: this.actionTypes.fetchError,
       });
+      // @ts-expect-error TS(7006): Parameter 'id' implicitly has an 'any' type.
       ids.forEach((id) => {
         delete this._fetchingIds[id];
       });
@@ -181,7 +200,7 @@ export default class GlipPersons extends RcModule {
     }
   }
 
-  async _batchGetPersons(personIds) {
+  async _batchGetPersons(personIds: any) {
     if (!personIds || personIds.length === 0) {
       return [];
     }
@@ -195,11 +214,12 @@ export default class GlipPersons extends RcModule {
       url: `/restapi/v1.0/glip/persons/${ids}`,
     });
     const responses = await Promise.all(
-      multipartResponse.filter((r) => r.ok).map((x) => x.json()),
+      multipartResponse.filter((r: any) => r.ok).map((x: any) => x.json()),
     );
     return responses;
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   get _actionTypes() {
     return actionTypes;
   }
@@ -211,10 +231,12 @@ export default class GlipPersons extends RcModule {
     return this.state.glipPersonStore;
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   get status() {
     return this.state.status;
   }
 
+  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   get ready() {
     return this.status === moduleStatuses.ready;
   }

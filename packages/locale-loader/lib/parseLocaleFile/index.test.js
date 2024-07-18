@@ -1,6 +1,8 @@
 import dedent from 'dedent';
+
 import extractAnnotations from '../extractAnnotations';
-import parseLocaleFile from '.';
+
+import parseLocaleFile from './';
 
 describe('parseLocaleFile', () => {
   const source = dedent`
@@ -53,6 +55,29 @@ describe('parseLocaleFile', () => {
     });
     test('should contain annotations', () => {
       expect(parsedData.annotations).toEqual(annotations);
+    });
+    test('should also work with ts', () => {
+      expect(
+        parseLocaleFile(dedent`
+        export default {
+          whisky: 'vault',
+          modern: 'rogue',
+        } as const;
+      `).data,
+      ).toMatchInlineSnapshot(`
+        Map {
+          "whisky" => {
+            "key": "whisky",
+            "source": undefined,
+            "value": "vault",
+          },
+          "modern" => {
+            "key": "modern",
+            "source": undefined,
+            "value": "rogue",
+          },
+        }
+      `);
     });
   });
 });

@@ -1,4 +1,5 @@
 import { clone } from 'ramda';
+
 import featuresBody from '../platform/data/features.json';
 
 type IIds =
@@ -250,7 +251,9 @@ type IIds =
   | 'EditMeetingsProvider'
   | 'EmergencyCallNotification'
   | 'RCMeetingApps'
-  | 'IMS';
+  | 'IMS'
+  | 'RingSense'
+  | 'VoiceCallsRecordingTranscriptions';
 
 export type IGenerateFeaturesDataProps = Partial<Record<IIds, boolean>>;
 

@@ -1,5 +1,3 @@
-import * as uuid from 'uuid';
-
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import {
   action,
@@ -7,6 +5,7 @@ import {
   RcModuleV2,
   state,
 } from '@ringcentral-integration/core';
+import * as uuid from 'uuid';
 
 import type { BlockItem, DepsModules, IBlock } from './Block.interface';
 

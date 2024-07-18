@@ -1,10 +1,10 @@
+import clsx from 'clsx';
 import type { FunctionComponent, MouseEvent } from 'react';
 import React from 'react';
 
-import classnames from 'classnames';
-
 import DeleteCircleIcon from '../../assets/images/DeleteCircle.svg';
 import RemoveIcon from '../../assets/images/RemoveIcon.svg';
+
 import styles from './styles.scss';
 
 export interface RemoveButtonProps {
@@ -23,7 +23,7 @@ export const RemoveButton: FunctionComponent<RemoveButtonProps> = ({
   return (
     <span
       data-sign="removeBtn"
-      className={classnames(
+      className={clsx(
         styles.container,
         className,
         !visibility && styles.hideRemoveButton,

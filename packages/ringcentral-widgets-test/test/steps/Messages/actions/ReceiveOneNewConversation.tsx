@@ -2,6 +2,7 @@ import type {
   GetMessageInfoResponse,
   GetMessageSyncResponse,
 } from '@ringcentral-integration/mock';
+
 import type { StepFunction } from '../../../lib/step';
 
 type ReceiveOneNewSmsProps = {
@@ -52,6 +53,8 @@ export const ReceiveOneNewSms: StepFunction<ReceiveOneNewSmsProps> = async (
               _conversationId?.toString() ||
               firstRecord.conversationId.toString(),
           },
+          // by default, set record to delivered
+          messageStatus: 'Delivered',
         },
       ];
     });

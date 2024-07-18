@@ -1,6 +1,6 @@
-import type { TemplateInfo } from './TemplateInfo';
 import type { ProvisioningNavigationInfo } from './ProvisioningNavigationInfo';
 import type { ProvisioningPagingInfo } from './ProvisioningPagingInfo';
+import type { TemplateInfo } from './TemplateInfo';
 
 export interface UserTemplates {
   /**

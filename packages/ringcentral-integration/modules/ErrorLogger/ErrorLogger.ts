@@ -1,17 +1,20 @@
 import { RcModuleV2, watch } from '@ringcentral-integration/core';
-
 import * as Sentry from '@sentry/browser';
-import type { SeverityLevel, User } from '@sentry/types';
 import { BrowserTracing } from '@sentry/tracing';
+import type { SeverityLevel, User } from '@sentry/types';
 
 import { Module } from '../../lib/di';
+
 import type { Deps, ErrorLoggerOptions } from './ErrorLogger.interface';
+
+const DEFAULT_INTERCEPTED_BRANDS = ['3000.Brightspeed'];
 
 @Module({
   name: 'ErrorLogger',
   deps: [
     'BrandConfig',
     { dep: 'Auth', optional: true },
+    { dep: 'AccountInfo', optional: true },
     { dep: 'ErrorLoggerOptions', optional: true },
   ],
 })
@@ -25,6 +28,21 @@ export class ErrorLogger extends RcModuleV2<Deps> {
 
     if (deps.errorLoggerOptions) {
       this._bootstrap(deps.errorLoggerOptions);
+      Promise.resolve().then(() => {
+        if (this._sentryInitialized && this._deps.accountInfo) {
+          watch(
+            this,
+            () => this._deps.accountInfo?.userBrandId,
+            (userBrandId) => {
+              if (userBrandId && this.interceptedBrands.includes(userBrandId)) {
+                this.toggle({ intercepted: true });
+              } else {
+                this.toggle({ intercepted: false });
+              }
+            },
+          );
+        }
+      });
     }
   }
 
@@ -62,7 +80,19 @@ export class ErrorLogger extends RcModuleV2<Deps> {
         'INVALID_STATE_ERROR: Invalid status: 11',
         'INVALID_STATE_ERROR: Invalid status: 1',
         'rateLimiterErrorMessages-rateLimitReached',
+        // chrome error
+        '[executeScript] Cannot access contents of the page. Extension manifest must request permission to access the respective host.',
+        '[executeScript] The extensions gallery cannot be scripted.',
+        '[executeScript] Cannot access contents of url',
+        '[executeScript] This page cannot be scripted due to an ExtensionsSettings policy.',
+        '[executeScript] Cannot access a chrome',
       ],
+      beforeSend: (event) => {
+        if (this.intercepted) {
+          return null;
+        }
+        return event;
+      },
     });
     this._sentryInitialized = true;
   }
@@ -82,6 +112,19 @@ export class ErrorLogger extends RcModuleV2<Deps> {
         },
       );
     }
+  }
+
+  get interceptedBrands() {
+    return (
+      this._deps.errorLoggerOptions?.interceptedBrands ??
+      DEFAULT_INTERCEPTED_BRANDS
+    );
+  }
+
+  private intercepted?: boolean;
+
+  toggle({ intercepted }: { intercepted: boolean }) {
+    this.intercepted = intercepted;
   }
 
   setUser(user: User | null) {

@@ -8,4 +8,7 @@ declare global {
       ref?: any;
     }
   }
+
+  var externalClearTimeout: typeof clearTimeout;
+  var externalSetTimeout: typeof setTimeout;
 }

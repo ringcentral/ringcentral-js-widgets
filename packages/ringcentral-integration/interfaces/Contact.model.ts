@@ -29,6 +29,7 @@ export interface IContact extends Omit<ContactResource, 'type'> {
   extensionNumber?: string;
   profileImageUrl?: string;
   hidden?: boolean;
+  isCallQueueNumber?: boolean;
   presence?: ContactPresence | null;
 }
 
@@ -41,6 +42,7 @@ export interface TypedPhoneNumber {
   contactId: string;
   profileImageUrl?: string;
   entityType: string;
+  isCallQueueNumber: boolean;
 }
 
 export interface TypedContact extends IContact {

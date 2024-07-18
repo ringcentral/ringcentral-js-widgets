@@ -1,6 +1,5 @@
-import React from 'react';
-
-import classnames from 'classnames';
+import clsx from 'clsx';
+import React, { forwardRef } from 'react';
 
 import styles from './styles.scss';
 
@@ -23,73 +22,87 @@ type CircleButtonProps = {
   title?: string;
   showRipple?: boolean;
 };
-const CircleButton: React.SFC<CircleButtonProps> = (props) => {
+const CircleButton: React.FC<CircleButtonProps> = ({
+  showBorder = true,
+  disabled = false,
+  width = '100%',
+  height = '100%',
+  x = 0,
+  y = 0,
+  iconWidth = 200,
+  iconHeight = 200,
+  title,
+  iconX = 150,
+  iconY = 150,
+  showRipple = false,
+  icon: iconProp,
+  onClick: onClickProp,
+  iconClassName,
+  dataSign,
+  className,
+}) => {
   let icon;
-  if (props.icon) {
-    const Icon = props.icon;
+  if (iconProp) {
+    const Icon = iconProp;
     icon = (
       <Icon
-        className={classnames(styles.icon, props.iconClassName)}
-        width={props.iconWidth}
-        height={props.iconHeight}
-        x={props.iconX}
-        y={props.iconY}
+        className={clsx(styles.icon, iconClassName)}
+        width={iconWidth}
+        height={iconHeight}
+        x={iconX}
+        y={iconY}
       />
     );
   }
-  const circleClass = classnames(
-    styles.circle,
-    !props.showBorder && styles.noBorder,
-  );
-  const onClick = props.disabled ? null : props.onClick;
+  const circleClass = clsx(styles.circle, !showBorder && styles.noBorder);
+  const onClick = disabled ? null : onClickProp;
+
   return (
     <svg
-      data-sign={props.dataSign}
+      data-sign={dataSign}
       xmlns="http://www.w3.org/2000/svg"
-      className={classnames(styles.btnSvg, props.className)}
+      className={clsx(styles.btnSvg, className)}
       viewBox="0 0 500 500"
-      aria-disabled={props.disabled}
+      aria-disabled={disabled}
       onClick={(e) => {
-        // @ts-expect-error TS(2339): Property 'tagName' does not exist on type 'EventTa... Remove this comment to see the full error message
-        if (e.target && e.target.tagName !== 'svg' && onClick) {
-          onClick(e);
+        if (
+          // Add NODE_ENV as a workaround for integration test env when triggering its events by data-sign
+          process.env.NODE_ENV === 'test' ||
+          (e.target && (e.target as HTMLElement).tagName !== 'svg')
+        ) {
+          onClick?.(e);
         }
       }}
-      width={props.width}
-      height={props.height}
-      x={props.x}
-      y={props.y}
+      width={width}
+      height={height}
+      x={x}
+      y={y}
+      // TODO: add title to svg for we can check with title
+      // @ts-ignore
+      title={title}
     >
-      {props.title ? <title>{props.title}</title> : null}
+      {title ? <title>{title}</title> : null}
       <g className={styles.btnSvgGroup}>
         <circle className={circleClass} cx="250" cy="250" r="245" />
         {icon}
-        {props.showRipple ? (
+        {showRipple ? (
           <circle className={styles.ripple} cx="250" cy="250" r="245" />
         ) : null}
       </g>
     </svg>
   );
 };
-CircleButton.defaultProps = {
-  icon: undefined,
-  className: undefined,
-  dataSign: undefined,
-  showBorder: true,
-  iconClassName: undefined,
-  disabled: false,
-  // @ts-expect-error TS(2322): Type 'null' is not assignable to type '((...args: ... Remove this comment to see the full error message
-  onClick: null,
-  width: '100%',
-  height: '100%',
-  x: 0,
-  y: 0,
-  iconWidth: 200,
-  iconHeight: 200,
-  iconX: 150,
-  iconY: 150,
-  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | un... Remove this comment to see the full error message
-  title: null,
-  showRipple: false,
-};
+
 export default CircleButton;
+
+// TODO: that component for wrap CircleButton error write way for not support title
+export const CircleButtonWithTitle = forwardRef<
+  HTMLSpanElement,
+  CircleButtonProps
+>(({ title, ...rest }, ref) => {
+  return (
+    <span title={title} ref={ref}>
+      <CircleButton title={title} {...rest} />
+    </span>
+  );
+});

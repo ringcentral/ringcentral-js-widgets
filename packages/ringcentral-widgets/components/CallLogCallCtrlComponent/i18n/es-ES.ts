@@ -12,7 +12,7 @@ export default {
   showKeypad: "Teclado",
   hideKeypad: "Ocultar teclado de marcación",
   unHold: "Reanudar llamada",
-  forward: "Desviar",
+  forward: "Reenviar",
   ignore: "Ignorar",
   voicemail: "Al buzón de voz",
   custom: "Personalizado",
@@ -20,7 +20,9 @@ export default {
   answerAndHold: "Responder y poner en espera",
   answer: "Responder",
   completeTransfer: "Completar transferencia",
-  reply: "Responder"
+  reply: "Responder",
+  add: "Añadir",
+  mergeCall: "Combinar con la llamada activa"
 };
 
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
@@ -45,3 +47,5 @@ export default {
 // @key: @#@"answer"@#@ @source: @#@"Answer"@#@
 // @key: @#@"completeTransfer"@#@ @source: @#@"Complete transfer"@#@
 // @key: @#@"reply"@#@ @source: @#@"Reply"@#@
+// @key: @#@"add"@#@ @source: @#@"Add"@#@
+// @key: @#@"mergeCall"@#@ @source: @#@"Merge with active call"@#@

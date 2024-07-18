@@ -12,4 +12,4 @@ export default {
   saveEditionModalContent: 'Your changes have not been saved.',
   save: 'Save',
   cancel: 'Cancel',
-};
+} as const;

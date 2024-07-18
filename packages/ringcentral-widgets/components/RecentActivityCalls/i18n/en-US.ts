@@ -3,4 +3,4 @@ export default {
   inBound: 'Inbound',
   outBound: 'Outbound',
   missed: 'Missed Call',
-};
+} as const;

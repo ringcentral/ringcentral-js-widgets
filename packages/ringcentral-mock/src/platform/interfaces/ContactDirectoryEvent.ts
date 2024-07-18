@@ -1,7 +1,7 @@
 import type { CompanyDirectoryAccountInfo } from './CompanyDirectoryAccountInfo';
 import type { CompanyDirectoryPhoneNumberInfo } from './CompanyDirectoryPhoneNumberInfo';
-import type { ContactDirectorySiteInfo } from './ContactDirectorySiteInfo';
 import type { CompanyDirectoryProfileImageInfo } from './CompanyDirectoryProfileImageInfo';
+import type { ContactDirectorySiteInfo } from './ContactDirectorySiteInfo';
 
 export interface ContactDirectoryEvent {
   /**

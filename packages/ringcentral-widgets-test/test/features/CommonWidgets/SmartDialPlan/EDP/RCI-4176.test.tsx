@@ -1,6 +1,7 @@
 import {
   And,
   autorun,
+  common,
   examples,
   Given,
   it,
@@ -12,6 +13,7 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
+import { generateDialPlanData } from '../../../../__mock__/generateDialPlanData';
 import type { StepProp } from '../../../../lib/step';
 import {
   CheckParseApiCalledWithParams,
@@ -19,13 +21,17 @@ import {
 } from '../../../../steps/Call';
 import { CommonLogin } from '../../../../steps/CommonLogin';
 import { SendSMS } from '../../../../steps/Messages/actions';
-import { MockAccountInfo, MockDialingPlan, MockExtensionInfo } from '../../../../steps/Mock';
-import { NavigateTo } from '../../../../steps/Router/action';
+import {
+  MockAccountInfo,
+  MockDialingPlan,
+  MockExtensionInfo,
+} from '../../../../steps/Mock';
+import { NavigateTo } from '../../../../steps/Router';
 import { SetAreaCode } from '../../../../steps/Settings';
-import { generateDialPlanData } from '../../../../__mock__/generateDialPlanData';
 
 @autorun(test.skip)
 @it
+@common
 @p2
 @title('EDP:Send requests to the API when making a call/sms')
 export class RCI4176 extends Step {

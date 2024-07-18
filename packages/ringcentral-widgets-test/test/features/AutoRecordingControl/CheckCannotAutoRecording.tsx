@@ -1,11 +1,11 @@
 /* RCI-3777: Check cannot auto recording
 https://test_it_domain/test-cases/RCI-3777
 */
-
 import type {
   FeaturesData,
   Record,
 } from '@ringcentral-integration/commons/integration-test/mock';
+
 import type { StepFunction } from '../../lib/step';
 import {
   autorun,
@@ -27,6 +27,7 @@ import {
   CheckRecordingIndicator,
   CheckCannotAutoCallRecording,
 } from '../../steps/Call';
+
 import { generateFeaturesData } from './helper';
 
 const mockAutoInboundCallRecording = JSON.stringify({

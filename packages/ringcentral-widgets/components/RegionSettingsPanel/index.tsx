@@ -1,15 +1,20 @@
+import clsx from 'clsx';
 import React, { Component } from 'react';
 
-import classnames from 'classnames';
-
 import countryNames from '../../lib/countryNames';
-import BackHeader from '../BackHeader';
+import {
+  PageHeader,
+  PageHeaderBack,
+  PageHeaderRemain,
+  PageHeaderTitle,
+} from '../BackHeader/PageHeader';
 import Select from '../DropdownSelect';
 import InputField from '../InputField';
 import Panel from '../Panel';
 import SaveButton from '../SaveButton';
 import TextInput from '../TextInput';
-import i18n from './i18n';
+
+import { t } from './i18n';
 import styles from './styles.scss';
 
 type RegionSettingsProps = {
@@ -25,10 +30,16 @@ type RegionSettingsProps = {
   onSave?: (...args: any[]) => any;
   canAreaCodeShow?: (currentCountryCode: string) => boolean;
 };
+
 type RegionSettingsState = {
   areaCodeValue: any;
   countryCodeValue: any;
 };
+
+export function formatCountryDisplay(callingCode: string, countryName: string) {
+  return `(+${callingCode}) ${countryName}`;
+}
+
 class RegionSettings extends Component<
   RegionSettingsProps,
   RegionSettingsState
@@ -98,10 +109,10 @@ class RegionSettings extends Component<
 
   areaCodeInputFilter = (value: any) => value.replace(/[^\d]/g, '');
   renderHandler = (option: any) =>
-    `(+${option.callingCode}) ${countryNames.getString(
-      option.isoCode,
-      this.props.currentLocale,
-    )}`;
+    formatCountryDisplay(
+      option.callingCode,
+      countryNames.getString(option.isoCode, this.props.currentLocale),
+    );
   renderValue = (value: any) => {
     const selectedOption = this.props.availableCountries.find(
       (country) => country.isoCode === value,
@@ -109,17 +120,23 @@ class RegionSettings extends Component<
     if (!selectedOption) {
       return '';
     }
-    return `(+${selectedOption.callingCode}) ${countryNames.getString(
-      // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
-      selectedOption.isoCode,
-      this.props.currentLocale,
-    )}`;
+    return formatCountryDisplay(
+      selectedOption.callingCode!,
+      countryNames.getString(
+        // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
+        selectedOption.isoCode,
+        this.props.currentLocale,
+      ),
+    );
   };
   // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   render() {
     const hasChanges =
       this.state.areaCodeValue !== this.props.areaCode ||
       this.state.countryCodeValue !== this.props.countryCode;
+
+    // An improvement is created to adjust this message
+    // RCINT-38284
     const hasNA =
       !!this.props.availableCountries.find((c) => c.isoCode === 'US') ||
       !!this.props.availableCountries.find((c) => c.isoCode === 'CA');
@@ -133,19 +150,19 @@ class RegionSettings extends Component<
     } else if (hasNA) {
       messageId = 'NAOnlyMessage';
     }
+
     return (
-      <div className={classnames(styles.root, this.props.className)}>
-        <BackHeader buttons={[]} onBackClick={this.onBackClick}>
-          {i18n.getString('title', this.props.currentLocale)}
-        </BackHeader>
+      <div className={clsx(styles.root, this.props.className)}>
+        <PageHeader>
+          <PageHeaderBack onClick={this.onBackClick} />
+          <PageHeaderTitle>{t('title')}</PageHeaderTitle>
+          <PageHeaderRemain />
+        </PageHeader>
         <Panel className={styles.content}>
           <div data-sign="countryCodeHint" className={styles.hint}>
-            {/* @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message */}
-            {i18n.getString(messageId, this.props.currentLocale)}
+            {t(messageId as never)}
           </div>
-          <InputField
-            label={i18n.getString('country', this.props.currentLocale)}
-          >
+          <InputField label={t('country')}>
             <Select
               className={styles.select}
               value={this.state.countryCodeValue}
@@ -159,14 +176,9 @@ class RegionSettings extends Component<
             />
           </InputField>
           {this.canAreaCodeShow() && (
-            <InputField
-              label={i18n.getString('areaCode', this.props.currentLocale)}
-            >
+            <InputField label={t('areaCode')}>
               <TextInput
-                placeholder={i18n.getString(
-                  'areaCodePlaceholder',
-                  this.props.currentLocale,
-                )}
+                placeholder={t('areaCodePlaceholder')}
                 filter={this.areaCodeInputFilter}
                 value={this.state.areaCodeValue}
                 onChange={this.onAreaCodeChange}
@@ -185,12 +197,5 @@ class RegionSettings extends Component<
     );
   }
 }
-// @ts-expect-error TS(2339): Property 'defaultProps' does not exist on type 'ty... Remove this comment to see the full error message
-RegionSettings.defaultProps = {
-  className: undefined,
-  children: undefined,
-  onBackButtonClick: undefined,
-  canAreaCodeShow: undefined,
-  onSave: undefined,
-};
+
 export default RegionSettings;

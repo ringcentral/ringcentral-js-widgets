@@ -1,6 +1,5 @@
+import clsx from 'clsx';
 import React from 'react';
-
-import classNames from 'classnames';
 
 import styles from './styles.scss';
 
@@ -22,7 +21,7 @@ export const getModalText = ({
     return (
       <>
         <p
-          className={classNames(styles.text, styles.incomingText)}
+          className={clsx(styles.text, styles.incomingText)}
           title={incomingText}
         >
           {incomingText}

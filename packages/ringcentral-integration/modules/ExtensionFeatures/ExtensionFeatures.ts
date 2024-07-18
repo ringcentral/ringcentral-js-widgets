@@ -1,9 +1,9 @@
-import { reduce } from 'ramda';
-import type { Unsubscribe } from 'redux';
 import type ExtensionInfoEvent from '@rc-ex/core/lib/definitions/ExtensionInfoEvent';
 import type FeatureInfo from '@rc-ex/core/lib/definitions/FeatureInfo';
 import type FeatureList from '@rc-ex/core/lib/definitions/FeatureList';
 import { computed, watch } from '@ringcentral-integration/core';
+import { reduce } from 'ramda';
+import type { Unsubscribe } from 'redux';
 
 import { permissionsMessages } from '../../enums/permissionsMessages';
 import { subscriptionFilters } from '../../enums/subscriptionFilters';
@@ -11,6 +11,7 @@ import { subscriptionHints } from '../../enums/subscriptionHints';
 import { Module } from '../../lib/di';
 import { loginStatus } from '../Auth';
 import { DataFetcherV2Consumer, DataSource } from '../DataFetcherV2';
+
 import type { Deps } from './ExtensionFeatures.interface';
 
 @Module({
@@ -29,7 +30,7 @@ export class ExtensionFeatures extends DataFetcherV2Consumer<
   Deps,
   FeatureList
 > {
-  // @ts-expect-error
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Unsubscribe... Remove this comment to see the full error message
   protected _stopWatchingSubscription: Unsubscribe = null;
   constructor(deps: Deps) {
     super({
@@ -118,7 +119,7 @@ export class ExtensionFeatures extends DataFetcherV2Consumer<
 
   override onReset() {
     this._stopWatchingSubscription?.();
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Unsubscribe... Remove this comment to see the full error message
     this._stopWatchingSubscription = null;
   }
 

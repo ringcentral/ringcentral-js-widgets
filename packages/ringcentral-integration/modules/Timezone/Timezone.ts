@@ -1,6 +1,5 @@
 import type ITimezone from '@rc-ex/core/lib/definitions/GetTimezoneInfoResponse';
 import type ITimezoneList from '@rc-ex/core/lib/definitions/GetTimezoneListResponse';
-
 import {
   action,
   computed,
@@ -11,6 +10,7 @@ import {
 
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
+
 import type { Deps } from './Timezone.interface';
 
 const CACHE_TTL = 60 * 60e3;

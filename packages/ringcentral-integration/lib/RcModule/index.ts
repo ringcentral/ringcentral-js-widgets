@@ -1,12 +1,11 @@
 // @ts-nocheck
-import type { Store } from 'redux';
-
 import {
   identifierKey,
   RcModuleV2,
   storeKey,
 } from '@ringcentral-integration/core';
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
+import type { Store } from 'redux';
 
 import moduleStatuses from '../../enums/moduleStatuses';
 import proxyStatuses from '../../enums/proxyStatuses';

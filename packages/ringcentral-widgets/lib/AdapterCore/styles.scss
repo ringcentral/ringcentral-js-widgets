@@ -5,7 +5,7 @@
 
 $header-height: 36px;
 
-$header-logo-width: 83px !default;
+$header-logo-width: 86px !default;
 $header-logo-height: 18px !default;
 
 .centerStyle {
@@ -85,8 +85,8 @@ $header-logo-height: 18px !default;
   @include no-select;
   @extend .centerStyle;
   left: 50%;
-  height: 18px;
-  width: 84px;
+  height: $header-logo-height;
+  width: $header-logo-width;
   margin-top: -(math.div($header-logo-height, 2));
   margin-left: -(math.div($header-logo-width, 2));
   display: none;

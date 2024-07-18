@@ -9,6 +9,7 @@ import {
   examples,
 } from '@ringcentral-integration/test-utils';
 import { produceWithPatches, enablePatches } from 'immer';
+
 import { checkPatches } from '../../lib/usm-redux/checkPatches';
 
 enablePatches();

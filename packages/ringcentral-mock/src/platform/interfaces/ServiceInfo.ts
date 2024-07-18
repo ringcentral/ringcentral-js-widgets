@@ -1,8 +1,8 @@
 import type { BillingPlanInfo } from './BillingPlanInfo';
 import type { BrandInfo } from './BrandInfo';
+import type { ContractedCountryInfo } from './ContractedCountryInfo';
 import type { ServicePlanInfo } from './ServicePlanInfo';
 import type { TargetServicePlanInfo } from './TargetServicePlanInfo';
-import type { ContractedCountryInfo } from './ContractedCountryInfo';
 
 // Account service information, including brand, service plan and billing plan
 export interface ServiceInfo {

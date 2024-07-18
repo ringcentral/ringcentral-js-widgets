@@ -6,38 +6,44 @@
  * Entry point(/s):
  *
  */
-
 import {
   p2,
   it,
   autorun,
   examples,
-  Given,
   Scenario,
   Step,
   Then,
   title,
   When,
+  common,
 } from '@ringcentral-integration/test-utils';
+
 import type { StepFunction } from '../../../../../../lib/step';
 import {
-  CheckIncomingCallPageExist,
-  ClickBackButton,
   MakeInboundCall,
+  ClickBackButtonOfIncomingCallPanel,
+  CheckIncomingCallPageExist,
+  CheckIncomingCallPageNotExist,
 } from '../../../../../../steps/Call';
-import { CommonLogin } from '../../../../../../steps/CommonLogin';
+import { CommonLoginEntry } from '../../../../../../steps/CommonLogin';
 import { CheckRoutePathIs, NavigateTo } from '../../../../../../steps/Router';
 
-@autorun(test.skip)
+interface DataExample {
+  currentPage: string;
+}
+
+@autorun(test)
 @it
 @p2
+@common
 @title('Single Incoming Call_ Cover and navigate back')
 export class RCI811 extends Step {
-  Login: StepFunction<any, any> = CommonLogin;
+  Login: StepFunction<any, any> = CommonLoginEntry;
 
   @examples(`
     | currentPage |
-    | 'messages'  |
+    | '/messages'  |
   `)
   run() {
     const { Login } = this;
@@ -45,9 +51,9 @@ export class RCI811 extends Step {
       <Scenario desc="Single Incoming Call_ Cover and navigate back">
         <When
           desc="Make an inbound call"
-          action={({ currentPage }: any) => [
+          action={({ currentPage }: DataExample) => [
             Login,
-            <NavigateTo path={`/${currentPage}`} />,
+            <NavigateTo path={currentPage} />,
             <MakeInboundCall />,
           ]}
         />
@@ -55,12 +61,16 @@ export class RCI811 extends Step {
           desc="The original app view is covered by the single incoming call page and the upper-left corner of this page should contain back button"
           action={CheckIncomingCallPageExist}
         />
-        <When desc="Click the back button" action={ClickBackButton} />
+        <When
+          desc="Click the back button"
+          action={ClickBackButtonOfIncomingCallPanel}
+        />
         <Then
           desc="It should be returned to the original app page user was viewing"
-          action={({ currentPage }: any) => (
-            <CheckRoutePathIs path={`/${currentPage}`} />
-          )}
+          action={({ currentPage }: DataExample) => [
+            <CheckIncomingCallPageNotExist />,
+            <CheckRoutePathIs path={currentPage} />,
+          ]}
         />
       </Scenario>
     );

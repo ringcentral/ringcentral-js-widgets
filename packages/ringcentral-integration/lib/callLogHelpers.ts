@@ -1,12 +1,11 @@
-import dayjs from 'dayjs';
-import { find, isEmpty, reduce } from 'ramda';
-
+import type ActiveCallInfoWithoutSIP from '@rc-ex/core/lib/definitions/ActiveCallInfoWithoutSIP';
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 import {
   isSameLocalNumber,
   isValidNumber,
 } from '@ringcentral-integration/phone-number';
-import type ActiveCallInfoWithoutSIP from '@rc-ex/core/lib/definitions/ActiveCallInfoWithoutSIP';
+import dayjs from 'dayjs';
+import { find, isEmpty, reduce } from 'ramda';
 
 import { callActions } from '../enums/callActions';
 import callDirections from '../enums/callDirections';
@@ -28,18 +27,28 @@ export function isOutbound(call: { direction?: string } = {}) {
   return call.direction === callDirections.outbound;
 }
 
+// get caller id name for webphone session
 export function getWebphoneSessionDisplayName(
   currentSession: Call['webphoneSession'],
 ) {
-  // TODO: just return null temporary, wait check api can be use with platform
-  return null;
-  // if (!currentSession) {
-  //   return null;
-  // }
+  if (!currentSession) {
+    return null;
+  }
 
-  // return currentSession.direction === callDirections.inbound
-  //   ? currentSession.fromUserName
-  //   : currentSession.toUserName;
+  return currentSession.direction === callDirections.inbound
+    ? currentSession.fromUserName
+    : currentSession.toUserName;
+}
+
+// get caller id name for telephone
+export function getTelephoneDisplayName(call: Call) {
+  if (!call) {
+    return null;
+  }
+
+  return call.direction === callDirections.inbound
+    ? call.fromName
+    : call.toName;
 }
 
 /* status helpers */
@@ -74,7 +83,7 @@ const callResultsToMissedMap = ObjectMap.fromObject(
   ),
 );
 
-export function isMissed(call: Partial<ActiveCall> = {}) {
+export function isMissed(call: Pick<Call, 'result'> = {}) {
   return !!callResultsToMissedMap[call.result!];
 }
 
@@ -239,7 +248,7 @@ export function removeInboundRingOutLegs(calls: ActiveCall[]) {
         if (
           inbound.from &&
           // TODO: should confirm that type, not met
-          // @ts-expect-error ts-migrate(2306) FIXME: type not match
+          // @ts-expect-error TS(2769): No overload matches this call.
           isValidNumber(inbound.from?.phoneNumber) &&
           isSameLocalNumber(
             inbound.from.phoneNumber,

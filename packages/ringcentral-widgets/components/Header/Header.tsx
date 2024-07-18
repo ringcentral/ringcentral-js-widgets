@@ -1,11 +1,11 @@
+import clsx from 'clsx';
+import { addIndex, reduce } from 'ramda';
 import type { FunctionComponent, ReactNode } from 'react';
 import React from 'react';
 
-import classnames from 'classnames';
-import { addIndex, reduce } from 'ramda';
-
 import type { ButtonProps } from '../Button';
 import { Button } from '../Button';
+
 import styles from './styles.scss';
 
 export interface ButtonDefinition extends ButtonProps {
@@ -40,7 +40,7 @@ export const Header: FunctionComponent<HeaderProps> = ({
         const button = (
           <Button
             key={idx}
-            className={classnames(styles.button, disabled && styles.disabled)}
+            className={clsx(styles.button, disabled && styles.disabled)}
             disabled={disabled}
             {...props}
           >
@@ -64,7 +64,7 @@ export const Header: FunctionComponent<HeaderProps> = ({
 
   return (
     <header
-      className={classnames(styles.root, className)}
+      className={clsx(styles.root, className)}
       onClick={onClick}
       data-sign="header"
     >
@@ -74,12 +74,12 @@ export const Header: FunctionComponent<HeaderProps> = ({
         </div>
       ) : null}
       {leftButtons.length ? (
-        <div className={classnames(styles.buttonGroup, styles.leftButtons)}>
+        <div className={clsx(styles.buttonGroup, styles.leftButtons)}>
           {leftButtons}
         </div>
       ) : null}
       {rightButtons.length ? (
-        <div className={classnames(styles.buttonGroup, styles.rightButtons)}>
+        <div className={clsx(styles.buttonGroup, styles.rightButtons)}>
           {rightButtons}
         </div>
       ) : null}

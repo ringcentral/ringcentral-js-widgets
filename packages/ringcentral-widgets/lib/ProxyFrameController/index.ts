@@ -1,6 +1,4 @@
-import url from 'url';
-
-import popWindow from '../popWindow';
+import { popWindow } from '../popWindow';
 
 type ProxyFrameControllerParams = {
   prefix?: string;
@@ -8,9 +6,8 @@ type ProxyFrameControllerParams = {
 
 export default class ProxyFrameController {
   constructor({ prefix }: ProxyFrameControllerParams = {}) {
-    const {
-      query: { uuid = '' },
-    } = url.parse(window.location.href, true);
+    const urlParams = new URLSearchParams(window.location.search);
+    const uuid = urlParams.get('uuid') || '';
 
     // TODO: should find where to call that
     window.oAuthCallback = (callbackUri: string) => {
@@ -27,16 +24,14 @@ export default class ProxyFrameController {
         const { oAuthUri } = data;
 
         if (oAuthUri != null) {
-          const { query, ...parsedUri } = url.parse(oAuthUri, true);
-          const uri = url.format({
-            ...parsedUri,
-            query: {
-              ...query,
-              state: `${query.state}-${uuid}`,
-            },
-            search: undefined,
-          });
-          popWindow(uri, `${prefix}-oauth`, 600, 600);
+          const toURL = new URL(oAuthUri);
+
+          toURL.searchParams.set(
+            'state',
+            `${toURL.searchParams.get('state')}-${uuid}`,
+          );
+
+          popWindow(toURL.href, `${prefix}-oauth`, 700, 700);
         }
       }
     });

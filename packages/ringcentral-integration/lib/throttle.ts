@@ -15,6 +15,7 @@ export default function throttle<T extends any[], P>(
     throw new Error('First argument of throttle function should be a function');
   }
 
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Timeout'.
   let timer: NodeJS.Timeout = null;
   let firstTime = true;
 
@@ -34,6 +35,7 @@ export default function throttle<T extends any[], P>(
 
     timer = setTimeout(() => {
       clearTimeout(timer);
+      // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Timeout'.
       timer = null;
       func.apply(context, args);
     }, threshold);

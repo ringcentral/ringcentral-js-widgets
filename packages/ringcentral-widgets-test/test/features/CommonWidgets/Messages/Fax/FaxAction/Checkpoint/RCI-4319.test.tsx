@@ -16,7 +16,6 @@
  * Entry point(/s):
  * > Messages tab > All/Fax >Click expand fax action menu of{Fax}
  */
-
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p2,
@@ -31,6 +30,14 @@ import {
   When,
   And,
 } from '@ringcentral-integration/test-utils';
+
+import { mockMessageListData } from '../../../../../../__mock__';
+import { CheckInContactDetailsPage } from '../../../../../../steps/ContactsView';
+import {
+  CheckFaxActionButton,
+  ClickActionButton,
+  ExpandTheActionMenu,
+} from '../../../../../../steps/Messages';
 import {
   MockExtensionsList,
   mockExtensionsListData,
@@ -40,14 +47,7 @@ import {
   MockPresence,
   MockAddressBookSync,
 } from '../../../../../../steps/Mock';
-import { CheckInContactDetailsPage } from '../../../../../../steps/ContactsView';
-import {
-  CheckFaxActionButton,
-  ClickActionButton,
-  ExpandTheActionMenu,
-} from '../../../../../../steps/Messages';
 import { NavigateToFax } from '../../../../../../steps/Navigate';
-import { mockMessageListData } from '../../../../../../__mock__';
 import { WaitForSpinner } from '../../../../../../steps/WaitForSpinner';
 
 @autorun(test.skip)

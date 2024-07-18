@@ -1,10 +1,3 @@
-import { EventEmitter } from 'events';
-import type PhoneLinesInfo from 'ringcentral-client/build/definitions/PhoneLinesInfo';
-import RingCentralWebphone from 'ringcentral-web-phone';
-import defaultIncomingAudio from 'ringcentral-web-phone/audio/incoming.ogg';
-import defaultOutgoingAudio from 'ringcentral-web-phone/audio/outgoing.ogg';
-import type { WebPhoneUserAgent } from 'ringcentral-web-phone/lib/userAgent';
-
 import type CreateSipRegistrationResponse from '@rc-ex/core/lib/definitions/CreateSipRegistrationResponse';
 import type SipRegistrationDeviceInfo from '@rc-ex/core/lib/definitions/SipRegistrationDeviceInfo';
 import {
@@ -18,15 +11,23 @@ import {
 } from '@ringcentral-integration/core';
 import type { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
 import { sleep } from '@ringcentral-integration/utils';
+import { EventEmitter } from 'events';
+import type PhoneLinesInfo from 'ringcentral-client/build/definitions/PhoneLinesInfo';
+import RingCentralWebphone from 'ringcentral-web-phone';
+import { WebPhoneUserAgent } from 'ringcentral-web-phone/lib/userAgent';
 
 import { trackEvents } from '../../enums/trackEvents';
 import type { WebphoneSession } from '../../interfaces/Webphone.interface';
+import { SipInstanceManager } from '../../lib/SipInstanceManager';
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
-import { SipInstanceManager } from '../../lib/SipInstanceManager';
+
+import { WebphoneAudioHelper } from './AudioHelper';
+import type { Deps } from './Webphone.interface';
+import defaultIncomingAudio from './audio/incoming.mp3';
+import defaultOutgoingAudio from './audio/outgoing.mp3';
 import { connectionStatus } from './connectionStatus';
 import { EVENTS } from './events';
-import type { Deps } from './Webphone.interface';
 import { webphoneErrors } from './webphoneErrors';
 import {
   isBrowserSupport,
@@ -355,7 +356,7 @@ export class WebphoneBase extends RcModuleV2<Deps> {
           });
         }, 4000);
       });
-      window.addEventListener('unload', () => {
+      window.addEventListener('pagehide', () => {
         // mark current instance id as inactive, so app can reuse it after refresh
         if (this._sipInstanceId) {
           this._sipInstanceManager.setInstanceInactive(
@@ -386,9 +387,8 @@ export class WebphoneBase extends RcModuleV2<Deps> {
       () => this.shouldUpdateRingtoneVolume,
       () => {
         if (this.ready && this._webphone && this._webphone.userAgent) {
-          const ringtoneMuted = this._deps.audioSettings.ringtoneMuted;
           this._webphone.userAgent.audioHelper.setVolume(
-            ringtoneMuted ? 0 : this._deps.audioSettings.ringtoneVolume,
+            this._deps.audioSettings.ringtoneVolume,
           );
         }
       },
@@ -418,6 +418,26 @@ export class WebphoneBase extends RcModuleV2<Deps> {
     );
     watch(
       this,
+      () => this.shouldSetRingtoneSinkId,
+      () => {
+        if (
+          this.ready &&
+          this._deps.audioSettings.supportDevices &&
+          this._webphone &&
+          this._webphone.userAgent &&
+          this._webphone.userAgent.audioHelper &&
+          // @ts-expect-error
+          this._webphone.userAgent.audioHelper.setDeviceId
+        ) {
+          // @ts-expect-error
+          this._webphone.userAgent.audioHelper.setDeviceId(
+            this._deps.audioSettings.ringtoneDeviceId,
+          );
+        }
+      },
+    );
+    watch(
+      this,
       () => this.shouldTriggerOnTabActive,
       () => {
         if (
@@ -434,13 +454,21 @@ export class WebphoneBase extends RcModuleV2<Deps> {
   @computed((that: WebphoneBase) => [
     that.ready,
     that._deps.audioSettings.ringtoneVolume,
-    that._deps.audioSettings.ringtoneMuted,
   ])
   get shouldUpdateRingtoneVolume(): any[] {
+    return [this.ready, this._deps.audioSettings.ringtoneVolume];
+  }
+
+  @computed((that: WebphoneBase) => [
+    that.ready,
+    that._deps.audioSettings.supportDevices,
+    that._deps.audioSettings.ringtoneDeviceId,
+  ])
+  get shouldSetRingtoneSinkId(): any[] {
     return [
       this.ready,
-      this._deps.audioSettings.ringtoneVolume,
-      this._deps.audioSettings.ringtoneMuted,
+      this._deps.audioSettings.supportDevices,
+      this._deps.audioSettings.ringtoneDeviceId,
     ];
   }
 
@@ -601,11 +629,13 @@ export class WebphoneBase extends RcModuleV2<Deps> {
       autoStop: false, // handle auto stop by this module, fix memory leak issue https://github.com/ringcentral/ringcentral-web-phone/pull/332
       ...(this._deps.webphoneOptions.webphoneSDKOptions ?? {}),
     });
+    // @ts-expect-error TS(2322): Type 'WebphoneAudioHelper' is not assignable to ty... Remove this comment to see the full error message
+    this._webphone.userAgent.audioHelper = new WebphoneAudioHelper({
+      enabled: true,
+    });
     this.loadAudio();
     this._webphone.userAgent.audioHelper.setVolume(
-      this._deps.audioSettings.ringtoneMuted
-        ? 0
-        : this._deps.audioSettings.ringtoneVolume,
+      this._deps.audioSettings.ringtoneVolume,
     );
     // Webphone userAgent registered event
     this._webphone.userAgent.on('registered', () => {
@@ -656,6 +686,7 @@ export class WebphoneBase extends RcModuleV2<Deps> {
         : null;
       switch (statusCode) {
         // Webphone account over limit
+        case 403:
         case 603: {
           errorCode = webphoneErrors.webphoneCountOverLimit;
           break;
@@ -687,7 +718,7 @@ export class WebphoneBase extends RcModuleV2<Deps> {
     // });
     // sip provision expired
     // TODO: should check that type issue in ringcentral-web-phone
-    // @ts-ignore
+    // @ts-expect-error TS(2769): No overload matches this call.
     this._webphone.userAgent.on('provisionUpdate', () => {
       if (Object.keys(this.originalSessions).length === 0) {
         this._deps.alert.warning({
@@ -800,7 +831,12 @@ export class WebphoneBase extends RcModuleV2<Deps> {
     }
     // do not connect if it is connecting
     // do not reconnect when user disconnected
-    if (this.connecting || this.disconnecting || this.inactiveDisconnecting) {
+    if (
+      this.connecting ||
+      this.disconnecting ||
+      this.inactiveDisconnecting ||
+      this.reconnecting
+    ) {
       return false;
     }
     // do not connect when connected unless force
@@ -1156,6 +1192,10 @@ export class WebphoneBase extends RcModuleV2<Deps> {
         incoming: this.incomingAudio,
         outgoing: this.outgoingAudio,
       });
+      // @ts-expect-error
+      this._webphone.userAgent.audioHelper.setDeviceId(
+        this._deps.audioSettings.ringtoneDeviceId,
+      );
     }
   }
 
@@ -1298,6 +1338,10 @@ export class WebphoneBase extends RcModuleV2<Deps> {
   }
 
   get incomingAudio() {
+    // support turn off ringtone
+    if (this.incomingAudioDataUrl === '') {
+      return '';
+    }
     return this.incomingAudioDataUrl || this.defaultIncomingAudio;
   }
 

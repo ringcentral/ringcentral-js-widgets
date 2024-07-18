@@ -1,6 +1,6 @@
 export default {
   loginButton: "Kirjaudu sisään",
-  signupButton: "Uusi käyttäjä? Rekisteröidy",
+  signupButton: "Oletko uusi käyttäjä? Rekisteröidy",
   version: "Versio"
 };
 

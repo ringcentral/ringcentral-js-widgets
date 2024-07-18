@@ -1,5 +1,3 @@
-import parse from 'url-parse';
-
 (() => {
   const callbackUri = window.location.href;
   try {
@@ -24,8 +22,8 @@ import parse from 'url-parse';
   //   /* ignore error */
   // }
 
-  const parsedUri = parse(callbackUri, true);
-  const state = parsedUri.query.state || '';
+  const urlSearchParams = new URLSearchParams(callbackUri);
+  const state = urlSearchParams.get('state') || '';
   const hash = state.split('-').slice(1).join('-');
   if (hash && hash !== '') {
     const key = `${hash}-callbackUri`;

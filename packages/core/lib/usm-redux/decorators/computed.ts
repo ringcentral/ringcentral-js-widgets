@@ -1,6 +1,6 @@
-import { createSelectorWithArray } from '../utils/index';
 import { storeKey } from '../constant';
 import type { Service } from '../interface';
+import { createSelectorWithArray } from '../utils/index';
 
 export const computed =
   (depsCallback: (instance: any) => any[]) =>

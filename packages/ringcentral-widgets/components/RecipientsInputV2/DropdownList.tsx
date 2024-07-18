@@ -1,6 +1,5 @@
+import clsx from 'clsx';
 import React, { forwardRef, useImperativeHandle, useRef } from 'react';
-
-import classnames from 'classnames';
 
 import { RecipientOption } from './RecipientOption';
 import type {
@@ -64,7 +63,7 @@ export const DropdownList = forwardRef<DropdownListHandles, DropdownListProps>(
     }
     return (
       <ul
-        className={classnames(styles.dropdownList, className)}
+        className={clsx(styles.dropdownList, className)}
         ref={listEl}
         data-sign="dropdownList"
       >

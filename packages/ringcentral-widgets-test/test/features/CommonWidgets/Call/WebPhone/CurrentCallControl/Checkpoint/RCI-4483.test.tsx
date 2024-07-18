@@ -7,7 +7,6 @@
  * Entry point(/s):
  * ntry point(/s): </span></strong></p><p>> Make an<span style='font-weight: bolder;'> </span>inbound call to CTI</p><p style='margin-bottom: 5px;'>> Answer the inbound call</p>
  */
-
 import type { StepProp } from '@ringcentral-integration/test-utils';
 import {
   p2,
@@ -20,7 +19,9 @@ import {
   Then,
   title,
   When,
+  common,
 } from '@ringcentral-integration/test-utils';
+
 import type { Context } from '../../../../../../interfaces';
 import {
   CallButtonBehavior,
@@ -31,6 +32,7 @@ import { CommonLogin } from '../../../../../../steps/CommonLogin';
 
 @autorun(test.skip)
 @it
+@common
 @p2
 @title('Verify the record for the user who no permission to manual record')
 export class RCI4483 extends Step {
@@ -71,7 +73,7 @@ export class RCI4483 extends Step {
 										[L10N]"
           action={[
             (_, { phone }: Context) => {
-              expect(phone.alert.danger).toBeCalledWith({
+              expect(phone.alert.danger).toHaveBeenCalledWith({
                 message: 'webphone-recordDisabled',
               });
             },

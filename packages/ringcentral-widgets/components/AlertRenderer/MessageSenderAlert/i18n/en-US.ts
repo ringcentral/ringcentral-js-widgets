@@ -50,4 +50,4 @@ export default {
     'Message being sent…It may take a couple of minutes to complete.',
   [messageSenderMessages.shortNumbersNotAvailable]:
     'Sending SMS to short numbers is not available.',
-};
+} as const;

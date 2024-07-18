@@ -16,6 +16,7 @@ import type {
 } from '../../interfaces/EvAgentSessionUI.interface';
 import type { AvailableQueue } from '../../interfaces/SelectableQueue.interface';
 import { sortByName } from '../../lib/sortByName';
+
 import type { Deps, SessionConfigUI } from './EvAgentSessionUI.interface';
 import i18n from './i18n';
 

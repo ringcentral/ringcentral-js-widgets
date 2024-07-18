@@ -12,7 +12,6 @@
  * 2.Security settings in SW : SWAdmin Portal > Meetings ->Security settings
  * Settings:
  */
-
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p2,

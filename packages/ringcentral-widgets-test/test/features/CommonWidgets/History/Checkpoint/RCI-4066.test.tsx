@@ -8,7 +8,6 @@
  * Entry point(/s):
  *
  */
-
 import type { StepFunction } from '../../../../lib/step';
 import {
   p2,
@@ -23,8 +22,6 @@ import {
   When,
   common,
 } from '../../../../lib/step';
-import { MockCallPresence } from '../../../../steps/Mock';
-
 import {
   AnswerCall,
   HangupCall,
@@ -36,6 +33,7 @@ import {
   ExpandTheActionMenu,
 } from '../../../../steps/CallHistory';
 import { CommonLogin } from '../../../../steps/CommonLogin';
+import { MockCallPresence } from '../../../../steps/Mock';
 import { NavigateToHistory } from '../../../../steps/Navigate';
 
 @autorun(test.skip)

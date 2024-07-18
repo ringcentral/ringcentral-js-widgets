@@ -1,15 +1,15 @@
-import type { FunctionComponent } from 'react';
-import React, { useEffect, useState } from 'react';
-
 import type { IContact } from '@ringcentral-integration/commons/interfaces/Contact.model';
 import type { ActiveSession } from '@ringcentral-integration/commons/modules/ActiveCallControl';
-import { RcDialerPadSounds, RcText, usePrevious } from '@ringcentral/juno';
+import { RcDialerPadSoundsMPEG, RcText, usePrevious } from '@ringcentral/juno';
 import { Askfirst, TransferCall, Voicemail } from '@ringcentral/juno-icon';
+import type { FunctionComponent } from 'react';
+import React, { useEffect, useState } from 'react';
+import { noop } from 'rxjs';
 
 import BackHeader from '../BackHeaderV2';
 import { CommunicationSetupPanel } from '../CommunicationSetupPanel';
 import { TabsEnum } from '../ContactSearchPanel/ContactSearchPanelEnum';
-import i18n from './i18n';
+
 import {
   CommunicationSetupPanelWrap,
   DefaultIcon,
@@ -20,6 +20,7 @@ import {
   TransferPage,
 } from './StyledTransferPanel';
 import type { recipientProps } from './TransferPanel.interface';
+import i18n from './i18n';
 
 export type TransferPanelProps = {
   setActiveSessionId: (...args: any[]) => any;
@@ -27,13 +28,14 @@ export type TransferPanelProps = {
   onWarmTransfer: (...args: any[]) => any;
   onToVoicemail: (...args: any[]) => any;
   onBack: (...args: any[]) => any;
-  onCallEnd: (...args: any[]) => any;
+  onCallEnd?: (...args: any[]) => any;
   autoFocus?: boolean;
   sessionId: string;
   session?: ActiveSession;
   controlBusy?: boolean;
-  dialButtonVolume?: number;
-  dialButtonMuted?: boolean;
+  // use to set dial button volume(dialButtonVolume)
+  callVolume?: number;
+  outputDeviceId?: string;
   currentLocale: string;
   enableWarmTransfer: boolean;
   companyContacts?: IContact[];
@@ -49,12 +51,15 @@ export type TransferPanelProps = {
     recipients: recipientProps[],
     toNumber: string,
   ) => void;
+  // TODO: fix type
+  contactSearch?: any;
+  triggerEventTracking: (eventName: string, contactType: string) => any;
 };
 
 export const TransferPanel: FunctionComponent<TransferPanelProps> = (props) => {
   const {
     onBack,
-    onCallEnd,
+    onCallEnd = noop,
     onTransfer,
     onToVoicemail,
     session,
@@ -62,8 +67,8 @@ export const TransferPanel: FunctionComponent<TransferPanelProps> = (props) => {
     currentLocale,
     autoFocus,
     children,
-    dialButtonVolume,
-    dialButtonMuted,
+    callVolume,
+    outputDeviceId,
     controlBusy,
     setActiveSessionId,
     onWarmTransfer,
@@ -72,6 +77,8 @@ export const TransferPanel: FunctionComponent<TransferPanelProps> = (props) => {
     onTransferDataTrack,
     onToVoicemailDataTrack,
     onWarmTransferDataTrack,
+    contactSearch,
+    triggerEventTracking,
   } = props;
 
   const previousSession = usePrevious(() => session);
@@ -161,6 +168,7 @@ export const TransferPanel: FunctionComponent<TransferPanelProps> = (props) => {
       <CommunicationSetupPanelWrap>
         {/* @ts-expect-error TS(2741): Property 'inputFullWidth' is missing in type '{ ch... Remove this comment to see the full error message */}
         <CommunicationSetupPanel
+          triggerEventTracking={triggerEventTracking}
           // To field
           recipients={recipients}
           toNumber={toNumber}
@@ -173,6 +181,7 @@ export const TransferPanel: FunctionComponent<TransferPanelProps> = (props) => {
           // Common
           currentLocale={currentLocale}
           directlyProceedType="transfer"
+          ContactSearch={contactSearch}
         >
           <DialerWrapper>
             <StyledRcDialPad
@@ -180,13 +189,13 @@ export const TransferPanel: FunctionComponent<TransferPanelProps> = (props) => {
               onChange={(value) => {
                 onToNumberChange(toNumber + value);
               }}
-              sounds={RcDialerPadSounds}
+              sounds={RcDialerPadSoundsMPEG}
               getDialPadButtonProps={(v) => ({
                 'data-test-id': `${v}`,
                 'data-sign': `dialPadBtn${v}`,
               })}
-              volume={dialButtonVolume}
-              muted={dialButtonMuted}
+              volume={callVolume}
+              sinkId={outputDeviceId}
             />
           </DialerWrapper>
           <DefaultIconGroup>
@@ -242,6 +251,6 @@ export const TransferPanel: FunctionComponent<TransferPanelProps> = (props) => {
 };
 
 TransferPanel.defaultProps = {
-  dialButtonVolume: 1,
-  dialButtonMuted: false,
+  callVolume: 1,
+  outputDeviceId: '',
 };

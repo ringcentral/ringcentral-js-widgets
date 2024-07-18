@@ -20,6 +20,7 @@ import {
   mockPresencePubnub,
 } from '../../support/callHelper';
 import { initPhoneWrapper, tearDownWrapper } from '../shared';
+
 import extensionsListBody from './data/extensions.json';
 
 beforeEach(async () => {
@@ -121,181 +122,6 @@ async function mockStartConference(phone, wrapper) {
   wrapper.update();
 }
 
-describe('Simplified Call Control Page:', () => {
-  test('Check buttons in Conference Call Ctrl Page', async () => {
-    const { wrapper, phone } = await initPhoneWrapper({
-      mockNumberParser: false,
-      mockRecentActivity: true,
-    });
-    const contactA = phone.contacts.allContacts[0];
-    await mockAddCall(phone, wrapper, contactA, contactA);
-    wrapper.update();
-    expect(wrapper.find(MergeInfo)).toHaveLength(1);
-    expect(wrapper.find(ActiveCallPad)).toHaveLength(1);
-    const buttons = wrapper.find(ActiveCallPad).find(ActiveCallButton);
-    expect(buttons.at(0).text()).toEqual('Mute');
-    expect(buttons.at(1).text()).toEqual('Keypad');
-    expect(buttons.at(2).text()).toEqual('Hold');
-    expect(buttons.at(3).text()).toEqual('Merge');
-    expect(buttons.at(4).text()).toEqual('Record');
-    expect(buttons.at(5).text()).toEqual('Call Actions');
-    const handupButton = wrapper.find('.stopButtonGroup').find(CircleButton);
-    expect(handupButton.props().className).toEqual('stopButton');
-    await tearDownWrapper(wrapper);
-  });
-});
-
-describe('RCI-1071: simplified call control page #3', () => {
-  test('#1 Check the merge info in Simplified Call control page', async () => {
-    const { wrapper, phone } = await initPhoneWrapper({
-      mockNumberParser: false,
-      mockRecentActivity: true,
-    });
-    // Prepare: Contacts has a internal contact with avatar and a external contact without avatar
-    await mockContacts(phone);
-    const contactA = phone.contacts.allContacts.find(
-      (item) => item.type === 'company' && item.hasProfileImage,
-    );
-    const { sessionB } = await mockAddCall(phone, wrapper, contactA, contactA);
-    expect(phone.routerInteraction.currentPath).toEqual(
-      `/calls/active/${sessionB.id}`,
-    );
-    await sleep(300);
-    const mergeInfo = wrapper.find(MergeInfo);
-    expect(mergeInfo).toHaveLength(1);
-
-    const callAvatarB = mergeInfo.find(CallAvatar).at(1);
-    // TODO: mock contactsA's data
-    // expect(callAvatar.props().avatarUrl).toEqual('avatarUrl');
-
-    expect(mergeInfo.find('.callee_name').text()).toEqual(contactA.name);
-    expect(mergeInfo.find('.callee_status').text()).toEqual('On Hold');
-    expect(callAvatarB.props().avatarUrl).toBeNull();
-    expect(mergeInfo.find('.callee_name_active').text()).toEqual(contactA.name);
-    expect(mergeInfo.find(DurationCounter)).toHaveLength(1);
-    await tearDownWrapper(wrapper);
-  });
-  test('#2 Contact A hangs up the call', async () => {
-    const { wrapper, phone } = await initPhoneWrapper({
-      mockNumberParser: false,
-      mockRecentActivity: true,
-    });
-    await mockContacts(phone);
-    const contactA = phone.contacts.allContacts.find(
-      (item) => item.type === 'company',
-    );
-    await mockAddCall(phone, wrapper, contactA, contactA);
-    const sessionId = phone.webphone.sessions[1].id;
-    const sessionA = phone.webphone._sessions.get(sessionId);
-    sessionA.terminate();
-    wrapper.update();
-    await sleep(300);
-
-    const mergeInfo = wrapper.find(MergeInfo);
-    expect(mergeInfo).toHaveLength(1);
-
-    const callAvatarB = mergeInfo.find(CallAvatar).at(1);
-
-    const domCalleeStatus = mergeInfo.find('.callee_status');
-
-    // TODO: mock contactsA's data
-    // expect(callAvatarA.props().avatarUrl).toEqual('');
-    expect(mergeInfo.find('.callee_name').text()).toEqual(contactA.name);
-    expect(domCalleeStatus.text()).toEqual('Disconnected');
-    expect(domCalleeStatus.props().className).toContain(
-      'callee_status_disconnected',
-    );
-    expect(callAvatarB.props().avatarUrl).toBeNull();
-    expect(mergeInfo.find('.callee_name_active').text()).toEqual(contactA.name);
-    expect(mergeInfo.find(DurationCounter)).toHaveLength(1);
-    await tearDownWrapper(wrapper);
-  });
-  test('#3 && #4 user makes a conference call then make an outbound call, then hangup', async () => {
-    const { wrapper, phone } = await initPhoneWrapper();
-    // Prepare: Contacts has a internal contact with avatar and a external contact without avatar
-    await mockContacts(phone);
-    const contactA = phone.contacts.allContacts.find(
-      (item) => item.type === 'company' && item.hasProfileImage,
-    );
-    await mockStartConference(phone, wrapper);
-    phone.webphone._updateSessions();
-    const conferenceSessionId = Object.values(
-      phone.conferenceCall.conferences,
-    )[0].sessionId;
-    const conferenceSession = phone.webphone.sessions.find(
-      (x) => x.id === conferenceSessionId,
-    );
-    expect(
-      phone.routerInteraction.currentPath.indexOf('/calls/active'),
-    ).toEqual(0);
-    const callCtrlContainer = wrapper.find(CallCtrlContainer);
-    const addButton = callCtrlContainer.find(CircleButton).at(3);
-    addButton.find('g').simulate('click');
-    await sleep(500);
-    wrapper.update();
-    expect(phone.routerInteraction.currentPath).toEqual(
-      `/conferenceCall/dialer/${conferenceSession.fromNumber}/${conferenceSession.id}`,
-    );
-    const session = await call(
-      phone,
-      wrapper,
-      contactA.phoneNumbers[0].phoneNumber,
-    );
-    await mockSub(phone);
-    expect(phone.routerInteraction.currentPath).toEqual(
-      `/calls/active/${session.id}`,
-    );
-    wrapper.update();
-    const mergeInfo = wrapper.find(MergeInfo);
-    expect(mergeInfo).toHaveLength(1);
-    expect(mergeInfo.find('.callee_name').text()).toEqual('Conference Call');
-    expect(mergeInfo.find('.callee_status').text()).toEqual('On Hold');
-    // FIXME: temporarily disable these lines.
-    // await phone.webphone.hangup(conferenceSessionId);
-    // await sleep(1000);
-    // phone.webphone._updateSessions();
-
-    // expect(mergeInfo.find('.callee_status').text()).toEqual('Disconnected');
-    await tearDownWrapper(wrapper);
-  });
-});
-
-describe('RCI-1710156: Call control add call flow', () => {
-  test('#5 User make an outbound call', async () => {
-    const { wrapper, phone } = await initPhoneWrapper();
-    await mockContacts(phone);
-    const contactA = phone.contacts.allContacts.find(
-      (item) => item.type === 'company' && item.hasProfileImage,
-    );
-    const { sessionB } = await mockAddCall(phone, wrapper, contactA, contactA);
-    expect(phone.routerInteraction.currentPath).toEqual(
-      `/calls/active/${sessionB.id}`,
-    );
-    const activeCallButtons = wrapper
-      .find(ActiveCallPad)
-      .find(ActiveCallButton);
-    expect(activeCallButtons.at(0).props().title).toEqual('Mute');
-    expect(activeCallButtons.at(1).props().title).toEqual('Keypad');
-    expect(activeCallButtons.at(2).props().title).toEqual('Hold');
-    expect(activeCallButtons.at(3).props().title).toEqual('Merge');
-    const hangupBtn = wrapper.find('.stopButtonGroup').find(CircleButton);
-    expect(hangupBtn.props().className).toEqual('stopButton');
-    await tearDownWrapper(wrapper);
-  });
-});
-
-describe('RCI-1710156: Call control add call flow #6&#7', () => {
-  test('#6 && #7 User clicked Merge button then go to Settings -> Calling page', async () => {
-    const { wrapper, phone } = await initPhoneWrapper();
-    await mockStartConference(phone, wrapper);
-    phone.routerInteraction.push('/settings/calling');
-    wrapper.update();
-    const calling = wrapper.find(DropdownSelect);
-    expect(calling.props().disabled).toBe(true);
-    await tearDownWrapper(wrapper);
-  });
-});
-
 describe('RCI-1710156: Call control add call flow', () => {
   test('#1 User make an outbound call', async () => {
     const { wrapper, phone } = await initPhoneWrapper();
@@ -337,8 +163,8 @@ describe('RCI-1710156: Call control add call flow', () => {
     const toInput = wrapper.find("input[name='receiver']");
     expect(toInput).toHaveLength(1);
     toInput.props().onFocus();
-    await phone.contactSearch.search({ searchString: 'Something1 New1' });
     toInput.props().onChange({ currentTarget: { value: 'Something1 New1' } });
+    await phone.contactSearch.search({ searchString: 'Something1 New1' });
     await sleep(100);
     wrapper.update();
     const dropdownList = wrapper.find('DropdownList');

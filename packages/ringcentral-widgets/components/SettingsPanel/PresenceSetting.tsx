@@ -2,6 +2,7 @@ import type { FunctionComponent } from 'react';
 import React from 'react';
 
 import { PresenceSettingSection } from '../PresenceSettingSection';
+
 import type { PresenceSettingProps } from './SettingsPanel.interface';
 
 const PresenceSetting: FunctionComponent<PresenceSettingProps> = ({

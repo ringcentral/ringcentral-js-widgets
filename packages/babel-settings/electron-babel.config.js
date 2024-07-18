@@ -6,7 +6,7 @@ module.exports = function (api) {
       useBuiltIns: false,
       corejs: false,
       targets: {
-        electron: '22.0.0',
+        electron: '27.1.2',
       },
     },
   });

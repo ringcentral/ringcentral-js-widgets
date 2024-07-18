@@ -1,20 +1,19 @@
-import React from 'react';
-
-import classnames from 'classnames';
-import PropTypes from 'prop-types';
-import { includes } from 'ramda';
-
 import callDirections from '@ringcentral-integration/commons/enums/callDirections';
 import callResults from '@ringcentral-integration/commons/enums/callResults';
 import telephonyStatuses from '@ringcentral-integration/commons/enums/telephonyStatus';
 import { isMissed } from '@ringcentral-integration/commons/lib/callLogHelpers';
+import clsx from 'clsx';
+import PropTypes from 'prop-types';
+import { includes } from 'ramda';
+import React from 'react';
 
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 
 const CallIcon = ({ title, iconClassName }: any) => (
-  <div className={styles.callIcon} title={title}>
+  <div className={styles.callIcon} title={title} data-sign="callIcon">
     <span className={iconClassName} />
   </div>
 );
@@ -82,7 +81,7 @@ const LogBasicInfo = (props: any) => {
     ? i18n.getString(callResults.missed, currentLocale)
     : i18n.getString(direction, currentLocale);
   const statusI18n = i18n.getString(status, currentLocale);
-  const iconClassName = classnames(
+  const iconClassName = clsx(
     styles.icon,
     isRinging && styles.ringing,
     isRinging && dynamicsFont.callHover,
@@ -92,7 +91,7 @@ const LogBasicInfo = (props: any) => {
     missed && callIconMap[callResults.missed],
     !isRinging && active && styles.active,
   );
-  const statusClassName = classnames(
+  const statusClassName = clsx(
     styles.status,
     green && styles.green,
     red && styles.red,
@@ -102,23 +101,27 @@ const LogBasicInfo = (props: any) => {
     <div data-sign="logSection" className={styles.root}>
       <div
         data-sign={dataSign}
-        className={classnames(styles.callInfo, clickable && styles.pointer)}
+        className={clsx(styles.callInfo, clickable && styles.pointer)}
         onClick={clickable ? onClick : () => {}}
       >
         <CallIcon title={title} iconClassName={iconClassName} />
         <ul className={styles.callDisplay}>
-          <li className={styles.contact} title={logName}>
+          <li className={styles.contact} title={logName} data-sign="entityName">
             {logName}
           </li>
           <li className={styles.callDetail}>
-            <span className={styles.number} title={formatNumber}>
+            <span
+              className={styles.number}
+              title={formatNumber}
+              data-sign="logPhoneNumber"
+            >
               {formatNumber}
             </span>
             {formatNumber ? (
               <span className={styles.separator}>&nbsp;</span>
             ) : null}
             <span
-              data-sign="callStatus"
+              data-sign="logCallStatus"
               className={statusClassName}
               title={statusI18n}
             >

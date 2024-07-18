@@ -21,9 +21,8 @@
 	| RC-US |8 |7 |3135003 |205 | 3135003 |Extension |Sarah |
 
  */
-
+import { trackEvents } from '@ringcentral-integration/commons/enums/trackEvents';
 import { Category } from '@ringcentral-integration/commons/interfaces/NumberParserResponse.interface';
-import { waitUntilTo } from '@ringcentral-integration/utils';
 import {
   p1,
   it,
@@ -37,9 +36,9 @@ import {
   When,
   common,
 } from '@ringcentral-integration/test-utils';
+import { waitUntilTo } from '@ringcentral-integration/utils';
 import { getNodeText, screen } from '@testing-library/react';
 
-import { trackEvents } from '@ringcentral-integration/commons/enums/trackEvents';
 import type { StepProp } from '../../../../../../lib/step';
 import { CommonLogin } from '../../../../../../steps/CommonLogin';
 import { CreateInstance } from '../../../../../../steps/CreateInstance';

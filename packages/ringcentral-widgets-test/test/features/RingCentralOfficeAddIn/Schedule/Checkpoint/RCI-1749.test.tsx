@@ -8,7 +8,6 @@
  * Outlook > Calendar > New Event >Click 'RingCentral Scheduler'
  * Outlook > Calendar > Click 'New Appointment' or 'New Meeting' in the menu bar
  */
-
 import { trackEvents } from '@ringcentral-integration/commons/enums/trackEvents';
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {

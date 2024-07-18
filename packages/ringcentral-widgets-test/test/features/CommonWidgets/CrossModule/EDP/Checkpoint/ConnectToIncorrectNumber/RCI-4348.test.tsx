@@ -17,7 +17,6 @@
   | RC-CA |8 |7 |3135006 |205 |3135006 |Incorrect extension |
 
  */
-
 import { Category } from '@ringcentral-integration/commons/interfaces/NumberParserResponse.interface';
 import {
   And,

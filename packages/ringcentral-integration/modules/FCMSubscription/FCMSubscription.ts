@@ -1,19 +1,22 @@
-import { initializeApp } from 'firebase/app';
-import { getMessaging, getToken } from 'firebase/messaging';
 import {
   action,
   RcModuleV2,
   state,
   storage,
 } from '@ringcentral-integration/core';
+import { initializeApp } from 'firebase/app';
+import { getMessaging, getToken } from 'firebase/messaging';
+
 import { subscriptionFilters } from '../../enums/subscriptionFilters';
 import { Module } from '../../lib/di';
 import { waitUntilTo } from '../../utils';
+
 import {
   Deps,
   TFCMSubscription,
   TRegistrationToken,
 } from './FCMSubscription.interface';
+
 @Module({
   name: 'FCMSubscription',
   deps: ['Auth', 'Storage', 'Client', { dep: 'FCMSubscriptionOptions' }],

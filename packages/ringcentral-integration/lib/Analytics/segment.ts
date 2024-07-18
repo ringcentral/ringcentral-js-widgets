@@ -55,7 +55,6 @@ export default function init() {
   // stored as the first argument, so we can replay the data.
   analytics.factory = function (method: (...args: any[]) => void) {
     return function () {
-      // @ts-ignore
       // eslint-disable-next-line prefer-rest-params
       const args = Array.prototype.slice.call(arguments);
       args.unshift(method);

@@ -21,4 +21,6 @@ export default {
   answer: 'Answer',
   completeTransfer: 'Complete transfer',
   reply: 'Reply',
-};
+  add: 'Add',
+  mergeCall: 'Merge with active call',
+} as const;

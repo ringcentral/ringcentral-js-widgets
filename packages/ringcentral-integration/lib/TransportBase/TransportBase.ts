@@ -1,6 +1,5 @@
-import { EventEmitter } from 'events';
-
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
+import { EventEmitter } from 'events';
 
 export interface TransportBaseProps {
   name: string;
@@ -13,9 +12,10 @@ export type BaseEventEnum = Record<
   string
 >;
 
-export default class TransportBase extends EventEmitter {
+export class TransportBase extends EventEmitter {
   _timeout: number;
   _events: BaseEventEnum;
+
   constructor({ name, prefix, timeout = 90 * 1000 }: TransportBaseProps) {
     super();
 

@@ -34,7 +34,6 @@
 	| conversation5 |false |
 
  */
-
 import {
   p2,
   it,
@@ -50,7 +49,20 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
+import { mockMessageListData } from '../../../../../../__mock__';
+import {
+  CallButtonBehavior,
+  CheckActiveCallExist,
+  CheckCallControlPage,
+} from '../../../../../../steps/Call';
 import { CommonLogin } from '../../../../../../steps/CommonLogin';
+import { CheckInContactDetailsPage } from '../../../../../../steps/ContactsView';
+import { CreateInstance } from '../../../../../../steps/CreateInstance';
+import {
+  ExpandTheActionMenu,
+  CheckActionMenu,
+  ClickActionButton,
+} from '../../../../../../steps/Messages';
 import {
   CreateMock,
   MockExtensionsList,
@@ -63,21 +75,8 @@ import {
   MockGetTelephonyState,
   MockPresence,
 } from '../../../../../../steps/Mock';
-import { mockMessageListData } from '../../../../../../__mock__';
-import {
-  CallButtonBehavior,
-  CheckActiveCallExist,
-  CheckCallControlPage,
-} from '../../../../../../steps/Call';
-import { CheckInContactDetailsPage } from '../../../../../../steps/ContactsView';
-import { CreateInstance } from '../../../../../../steps/CreateInstance';
-import {
-  ExpandTheActionMenu,
-  CheckActionMenu,
-  ClickActionButton,
-} from '../../../../../../steps/Messages';
+import { NavigateTo } from '../../../../../../steps/Router';
 import { WaitForSpinner } from '../../../../../../steps/WaitForSpinner';
-import { NavigateTo } from '../../../../../../steps/Router/action';
 
 @autorun(test)
 @it
@@ -148,13 +147,14 @@ export class TextActionButtonsForContacts extends Step {
           if (contactType === 'personal') {
             actions.push(
               <MockAddressBookSync
+                page={1}
                 handler={(personalUsers) => {
                   const firstPersonalUser = personalUsers[0];
                   firstPersonalUser.firstName = contactName;
                   firstPersonalUser.middleName = '';
                   firstPersonalUser.lastName = '';
                   firstPersonalUser.homePhone = phoneNumber;
-                  return personalUsers;
+                  return [firstPersonalUser]; // take the first one only for avoid multiple match
                 }}
               />,
             );
@@ -191,12 +191,11 @@ export class TextActionButtonsForContacts extends Step {
         <Then
           desc="User should be navigated to the Dial page
 							  An outbound call should be made to {Number}"
-          action={async ({ contactName, parsedNumber, contactType }: any) => [
+          action={async ({ contactName, parsedNumber }: any) => [
             CheckActiveCallExist,
             <CheckCallControlPage
               name={contactName}
               parsedNumber={parsedNumber}
-              type={contactType}
             />,
           ]}
         />
@@ -318,7 +317,7 @@ export class TextActionButtonsForUnknown extends Step {
 }
 
 // common has no 3rd party contacts, skip this
-@autorun(test.skip)
+// @autorun(test.skip)
 @it
 @p2
 @title(

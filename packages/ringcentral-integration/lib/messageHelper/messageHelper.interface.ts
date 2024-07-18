@@ -15,5 +15,5 @@ export interface FaxAttachment {
 
 export interface SortEntity {
   matchOrder?: number;
-  creationTime: number;
+  creationTime?: number;
 }

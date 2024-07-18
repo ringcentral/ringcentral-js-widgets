@@ -15,7 +15,6 @@
 
  * > User A go to Messages page > All/Voice tab
  */
-
 import type { StepProp } from '@ringcentral-integration/test-utils';
 import {
   p2,
@@ -30,8 +29,14 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
-import { CheckInContactDetailsPage } from '../../../../../../steps/ContactsView';
+import { mockMessageListData } from '../../../../../../__mock__';
 import { CommonLogin } from '../../../../../../steps/CommonLogin';
+import { CheckInContactDetailsPage } from '../../../../../../steps/ContactsView';
+import { CreateInstance } from '../../../../../../steps/CreateInstance';
+import {
+  CheckActionMenu,
+  ClickActionButton,
+} from '../../../../../../steps/Messages';
 import {
   CreateMock,
   MockMessageList,
@@ -41,12 +46,6 @@ import {
   MockCallLogs,
   MockGetTelephonyState,
 } from '../../../../../../steps/Mock';
-import { mockMessageListData } from '../../../../../../__mock__';
-import { CreateInstance } from '../../../../../../steps/CreateInstance';
-import {
-  CheckActionMenu,
-  ClickActionButton,
-} from '../../../../../../steps/Messages';
 import { NavigateToVoiceMail } from '../../../../../../steps/Navigate';
 
 @autorun(test)

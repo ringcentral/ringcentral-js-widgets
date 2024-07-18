@@ -21,7 +21,6 @@
 	| RC-UK |7 |7 |2234567 |Not Match extNot MatchPSTN |20 |2234567 | Incorrect extension |
 
  */
-
 import { Category } from '@ringcentral-integration/commons/interfaces/NumberParserResponse.interface';
 import {
   And,
@@ -37,6 +36,7 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
+import { generateDialPlanData } from '../../../__mock__/generateDialPlanData';
 import type { StepProp } from '../../../lib/step';
 import { CloseAlertMessage } from '../../../steps/Alert';
 import { CommonLogin } from '../../../steps/CommonLogin';
@@ -50,9 +50,8 @@ import {
   MockNumberParserV2,
   MockPermission,
 } from '../../../steps/Mock';
-import { NavigateTo } from '../../../steps/Router/action';
+import { NavigateTo } from '../../../steps/Router';
 import { SetAreaCode } from '../../../steps/Settings';
-import { generateDialPlanData } from '../../../__mock__/generateDialPlanData';
 
 @autorun(test.skip)
 @it

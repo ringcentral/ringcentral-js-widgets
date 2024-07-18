@@ -1,5 +1,5 @@
-import type { PerformanceCallsTimers } from './PerformanceCallsTimers';
 import type { PerformanceCallsCounters } from './PerformanceCallsCounters';
+import type { PerformanceCallsTimers } from './PerformanceCallsTimers';
 
 export interface TimelineDataPoint {
   /**

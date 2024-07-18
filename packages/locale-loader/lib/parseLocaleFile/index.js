@@ -1,19 +1,16 @@
-import { find, forEach } from 'ramda';
-import { parse } from '@babel/parser';
 import generate from '@babel/generator';
+import { parse } from '@babel/parser';
+import { find, forEach } from 'ramda';
+
 import extractAnnotations from '../extractAnnotations';
 
 /* eslint { no-eval: 0 } */
 export default function parseLocaleFile(rawContent) {
   const data = new Map();
   const { content, annotations } = extractAnnotations(rawContent);
-  const ast = parse(content, { sourceType: 'module' });
+  const ast = parse(content, { sourceType: 'module', plugins: ['typescript'] });
 
-  const defaultExport = find(
-    (item) => item.type === 'ExportDefaultDeclaration',
-    ast.program.body,
-  );
-  if (defaultExport && defaultExport.declaration.type === 'ObjectExpression') {
+  function getData(properties) {
     forEach((prop) => {
       // get raw key from source content
       let key = content.substring(prop.key.start, prop.key.end);
@@ -34,7 +31,23 @@ export default function parseLocaleFile(rawContent) {
         value,
         source,
       });
-    }, defaultExport.declaration.properties);
+    }, properties);
+  }
+
+  const defaultExport = find(
+    (item) => item.type === 'ExportDefaultDeclaration',
+    ast.program.body,
+  );
+
+  if (defaultExport) {
+    if (defaultExport.declaration.type === 'ObjectExpression') {
+      getData(defaultExport.declaration.properties);
+    } else if (defaultExport.declaration.type === 'TSAsExpression') {
+      const nest = defaultExport.declaration.expression;
+      if (nest.type === 'ObjectExpression') {
+        getData(nest.properties);
+      }
+    }
   }
 
   return {

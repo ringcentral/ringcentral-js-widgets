@@ -15,7 +15,6 @@
  * Entry point(/s):
  * Open CTI > Navigate todial page
  */
-
 import type { StepProp } from '@ringcentral-integration/test-utils';
 import {
   p2,
@@ -29,6 +28,7 @@ import {
   common,
   examples,
 } from '@ringcentral-integration/test-utils';
+
 import { StepFunction } from '../../../../../lib/step';
 import { CommonLogin } from '../../../../../steps/CommonLogin';
 import { CreateInstance } from '../../../../../steps/CreateInstance';

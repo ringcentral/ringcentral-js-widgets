@@ -7,4 +7,4 @@ export default {
   [logTypes.CALL_LOG_CREATE_FAILURE]: 'Failed to create log. Try again later.',
   [logTypes.CALL_LOG_UPDATE_SUCCESS]: 'Call log updated.',
   [logTypes.CALL_LOG_UPDATE_FAILURE]: 'Failed to update log. Try again later.',
-};
+} as const;

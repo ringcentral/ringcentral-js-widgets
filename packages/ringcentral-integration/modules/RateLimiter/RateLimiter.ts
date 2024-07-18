@@ -9,8 +9,9 @@ import type { ApiError } from '@ringcentral/sdk';
 
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
-import { errorMessages } from './errorMessages';
+
 import type { Deps } from './RateLimiter.interface';
+import { errorMessages } from './errorMessages';
 
 const DEFAULT_THROTTLE_DURATION = 61 * 1000;
 
@@ -25,7 +26,7 @@ const DEFAULT_THROTTLE_DURATION = 61 * 1000;
   ],
 })
 export class RateLimiter extends RcModuleV2<Deps> {
-  // @ts-expect-error
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Timeout'.
   protected _timeoutId: NodeJS.Timeout = null;
   protected _unbindHandlers?: () => void;
   protected _throttleDuration: number = DEFAULT_THROTTLE_DURATION;
@@ -47,12 +48,12 @@ export class RateLimiter extends RcModuleV2<Deps> {
 
   @globalStorage
   @state
-  // @ts-expect-error
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'number'.
   timestamp: number = null;
 
   @globalStorage
   @state
-  // @ts-expect-error
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string'.
   rateLimitAlertId: string = null;
 
   @action
@@ -62,7 +63,7 @@ export class RateLimiter extends RcModuleV2<Deps> {
 
   @action
   stopThrottle() {
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'number'.
     this.timestamp = null;
   }
 
@@ -70,7 +71,7 @@ export class RateLimiter extends RcModuleV2<Deps> {
     if (this._deps.environment) {
       watch(
         this,
-        // @ts-expect-error
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         () => this._deps.environment.changeCounter,
         () => {
           if (this.ready) {
@@ -95,7 +96,7 @@ export class RateLimiter extends RcModuleV2<Deps> {
   };
 
   _checkTimestamp = () => {
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Timeout'.
     this._timeoutId = null;
     if (!this.throttling) {
       this.stopThrottle();
@@ -158,7 +159,7 @@ export class RateLimiter extends RcModuleV2<Deps> {
         client.events.beforeRequest,
         this._beforeRequestHandler,
       );
-      // @ts-expect-error
+      // @ts-expect-error TS(2322): Type 'null' is not assignable to type '(() => void... Remove this comment to see the full error message
       this._unbindHandlers = null;
     };
   }

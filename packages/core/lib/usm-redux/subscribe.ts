@@ -1,3 +1,4 @@
+import { storeKey, subscriptionsKey } from './constant';
 import type {
   Subscribe,
   Watch,
@@ -5,7 +6,6 @@ import type {
   Subscription,
   Service,
 } from './interface';
-import { storeKey, subscriptionsKey } from './constant';
 import { isEqual as defaultIsEqual } from './utils/index';
 
 const subscribe: Subscribe = (module, listener) => {

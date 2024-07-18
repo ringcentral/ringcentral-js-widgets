@@ -1,22 +1,14 @@
-import dedent from 'dedent';
 import formatLocale from '@ringcentral-integration/i18n/lib/formatLocale';
+import dedent from 'dedent';
 
 function getBaseName(f) {
   return f.replace(/\.(js|json|ts)$/i, '');
 }
 
 function returnLoadLocaleCode(chunk, locale, basename) {
-  const padding = chunk ? '    ' : '  ';
-  let code = `
-          ${padding}const data = require('./${basename}');
-          ${padding}return resolve(data.__esModule === true ? data.default : data);`;
+  let code = `require('./${basename}')`;
   if (chunk) {
-    code = `
-          if (typeof require.ensure === 'function') {
-            return require.ensure('./${basename}', (require) => {${code}
-            }, '${locale}');
-          } else {${code}
-          }`;
+    return `import(/* webpackChunkName: "${locale}" */'./${basename}')`;
   }
   return code;
 }
@@ -66,21 +58,14 @@ export default function generateLoaderContent(
     let langDefaultCase = '';
     if (!usedLang[lang]) {
       usedLang[lang] = true;
-      langDefaultCase = `
-        case '${lang}':
-      `;
+      langDefaultCase = `locale==='${lang}'||`;
     }
     return `${langDefaultCase}
-          case '${locale}': {${returnCode}
-          }`;
+    locale==='${locale}'? ${returnCode}:`;
   });
 
-  return dedent`export default function loadLocale(locale) {
-      return new Promise((resolve) => {
-        switch (locale) {${cases.join('')}
-          default:
-            return resolve(null);
-        }
-      });
+  const value = dedent`export default function loadLocale(locale) {
+          return ${cases.join('')}null;
     }\n`;
+  return value;
 }

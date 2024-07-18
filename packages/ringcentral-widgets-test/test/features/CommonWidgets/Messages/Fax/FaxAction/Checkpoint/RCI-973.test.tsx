@@ -21,7 +21,6 @@
 	| Fax2 |[View, Download, Delete] |
 
  */
-
 import {
   p2,
   it,
@@ -34,18 +33,21 @@ import {
   And,
   title,
   When,
+  common,
 } from '@ringcentral-integration/test-utils';
-import { MockMessageList, MockMessageSync } from '../../../../../../steps/Mock';
+
+import { mockMessageListData } from '../../../../../../__mock__';
 import { ExpandTheActionMenu } from '../../../../../../steps/Messages/actions';
 import {
   CheckFaxActionButton,
   CheckFaxActionButtons,
 } from '../../../../../../steps/Messages/checks';
+import { MockMessageList, MockMessageSync } from '../../../../../../steps/Mock';
 import { NavigateToFax } from '../../../../../../steps/Navigate';
-import { mockMessageListData } from '../../../../../../__mock__';
 
 @autorun(test.skip)
 @it
+@common
 @p2
 @title('Action buttons for inbound and outbound fax')
 export class RCI973FaxActionButtons extends Step {

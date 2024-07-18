@@ -1,11 +1,11 @@
+import clsx from 'clsx';
 import React from 'react';
-
-import classnames from 'classnames';
 
 import { MessageTabButton } from '../MessageTabButton';
 import { NavigationBar } from '../NavigationBar';
-import styles from './styles.scss';
+
 import { TabTitle } from './TabTitle';
+import styles from './styles.scss';
 
 type TabContentPanelProps = {
   showTabs?: boolean;
@@ -58,14 +58,14 @@ const TabContentPanel: React.FC<TabContentPanelProps> = ({
     <div className={styles.root}>
       <NavigationBar
         button={MessageTabButton}
-        className={classnames(styles.tabBar, navClassName)}
+        className={clsx(styles.tabBar, navClassName)}
         currentPath=""
         goTo={goTo}
         tabs={formattedTabs}
         fullSizeInk={false}
         tooltipForceHide={tooltipForceHide}
       />
-      <div className={classnames(styles.content, tabContentClassName)}>
+      <div className={clsx(styles.content, tabContentClassName)}>
         {renderChildren()}
       </div>
     </div>

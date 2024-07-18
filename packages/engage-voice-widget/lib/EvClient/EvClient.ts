@@ -1,14 +1,14 @@
-import { EventEmitter } from 'events';
-import { waitUntilTo } from '@ringcentral-integration/commons/utils';
-
-import { Module } from '@ringcentral-integration/commons/lib/di';
-import { action, RcModuleV2, state } from '@ringcentral-integration/core';
 // eslint-disable-next-line import/no-unresolved
 import AgentLibrary from '@SDK';
+import { Module } from '@ringcentral-integration/commons/lib/di';
+import { waitUntilTo } from '@ringcentral-integration/commons/utils';
+import { action, RcModuleV2, state } from '@ringcentral-integration/core';
+import { EventEmitter } from 'events';
 
 import { AGENT_TYPES, messageTypes } from '../../enums';
-import { _encodeSymbol } from '../constant';
 import { EvTypeError } from '../EvTypeError';
+import { _encodeSymbol } from '../constant';
+
 import { evStatus } from './enums';
 import { EvCallbackTypes } from './enums/callbackTypes';
 import type {
@@ -44,7 +44,7 @@ import type {
   RecordResponse,
 } from './interfaces';
 
-type ListenerType = typeof EvCallbackTypes['OPEN_SOCKET' | 'CLOSE_SOCKET'];
+type ListenerType = (typeof EvCallbackTypes)['OPEN_SOCKET' | 'CLOSE_SOCKET'];
 
 type Listener<
   T extends keyof EvClientCallMapping,

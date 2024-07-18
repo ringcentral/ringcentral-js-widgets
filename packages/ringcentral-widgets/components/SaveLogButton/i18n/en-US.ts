@@ -6,4 +6,4 @@ export default {
   saved: 'Saved',
   creatingFailed: 'Creating failed.',
   savingFailed: 'Saving failed.',
-};
+} as const;

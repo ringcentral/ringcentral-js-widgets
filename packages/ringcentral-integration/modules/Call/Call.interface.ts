@@ -18,7 +18,6 @@ export interface ToNumberMatched {
 }
 
 export interface CallOptions {
-  internationalCheck?: boolean;
   useCallControlToMakeCall?: boolean;
 }
 

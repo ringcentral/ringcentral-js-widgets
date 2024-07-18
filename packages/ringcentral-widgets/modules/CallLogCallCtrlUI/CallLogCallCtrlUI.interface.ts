@@ -3,8 +3,8 @@ import type {
   ActiveCallControl,
   ActiveSession,
 } from '@ringcentral-integration/commons/modules/ActiveCallControl';
-import type { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettings';
 import type { CallMonitor } from '@ringcentral-integration/commons/modules/CallMonitor';
+import type { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettings';
 import type { ConnectivityMonitor } from '@ringcentral-integration/commons/modules/ConnectivityMonitor';
 import type { ExtensionFeatures } from '@ringcentral-integration/commons/modules/ExtensionFeatures';
 import type { ForwardingNumber } from '@ringcentral-integration/commons/modules/ForwardingNumber';

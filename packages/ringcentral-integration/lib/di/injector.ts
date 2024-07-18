@@ -1,11 +1,10 @@
 // @ts-nocheck
-import { combineReducers } from 'redux';
-
 import {
   identifierKey,
   RcModuleV2,
   usmAction,
 } from '@ringcentral-integration/core';
+import { combineReducers } from 'redux';
 
 import Container from './container';
 import {

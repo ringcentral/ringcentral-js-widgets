@@ -39,7 +39,7 @@ export const translationLocales: readonly [
   'fi-FI',
 ];
 
-export type SupportedLocales = typeof supportedLocales[number];
+export type SupportedLocales = (typeof supportedLocales)[number];
 export type SupportedLanguages = typeof supportedLocales extends {
   [index: number]: `${infer E}-${string}`;
 }

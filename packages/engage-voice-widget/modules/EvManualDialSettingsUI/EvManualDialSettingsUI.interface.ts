@@ -1,7 +1,6 @@
-import type { FunctionComponent } from 'react';
-
 import type { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import type RouterInteraction from '@ringcentral-integration/widgets/modules/RouterInteraction';
+import type { FunctionComponent } from 'react';
 
 import type { EvAuth } from '../EvAuth';
 import type { EvCall } from '../EvCall';

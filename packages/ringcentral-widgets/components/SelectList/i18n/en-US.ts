@@ -3,4 +3,4 @@ export default {
   other: 'Other',
   associated: 'Associated',
   foundFromServer: 'Found from {appName}',
-};
+} as const;

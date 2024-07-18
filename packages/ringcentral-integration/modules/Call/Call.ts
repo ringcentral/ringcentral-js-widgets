@@ -7,13 +7,14 @@ import {
 } from '@ringcentral-integration/core';
 import extractControls from '@ringcentral-integration/phone-number/lib/extractControls';
 
+import { trackEvents } from '../../enums/trackEvents';
 import { Module } from '../../lib/di';
 import { isBlank } from '../../lib/isBlank';
 import { proxify } from '../../lib/proxy/proxify';
 import { validateNumbers } from '../../lib/validateNumbers';
-import { trackEvents } from '../../enums/trackEvents';
 import { callingModes } from '../CallingSettings';
 import { ringoutErrors } from '../Ringout';
+
 import type { Deps, Recipient, ToNumberMatched } from './Call.interface';
 import { callErrors } from './callErrors';
 import { callStatus } from './callStatus';
@@ -59,8 +60,7 @@ export class Call<
   T extends Deps = Deps,
   K extends Recipient = Recipient,
 > extends RcModuleV2<T> {
-  _internationalCheck: boolean;
-  // @ts-expect-error
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string'.
   _callSettingMode: string = null;
   _useCallControlToMakeCall: boolean;
 
@@ -70,8 +70,6 @@ export class Call<
       enableCache: true,
       storageKey: 'callData',
     });
-    this._internationalCheck =
-      this._deps.callOptions?.internationalCheck ?? true;
     this._useCallControlToMakeCall =
       this._deps.callOptions?.useCallControlToMakeCall ?? false;
   }
@@ -145,9 +143,9 @@ export class Call<
   @action
   connect({
     isConference,
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string'.
     phoneNumber = null,
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'K'.
     recipient = null,
     callSettingMode,
     isValidNumber,
@@ -201,7 +199,7 @@ export class Call<
   }
 
   async _initCallModule() {
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type 'string | null' is not assignable to type 'st... Remove this comment to see the full error message
     this._callSettingMode = this._deps.callingSettings.callingMode;
     if (
       this._callSettingMode === callingModes.webphone &&
@@ -212,7 +210,7 @@ export class Call<
   }
 
   _resetCallModule() {
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type 'string | null' is not assignable to type 'st... Remove this comment to see the full error message
     this._callSettingMode = this._deps.callingSettings.callingMode;
     if (
       this._callSettingMode === callingModes.webphone &&
@@ -228,7 +226,7 @@ export class Call<
       this._deps.callingSettings.callingMode !== oldCallSettingMode &&
       this._deps.webphone
     ) {
-      // @ts-expect-error
+      // @ts-expect-error TS(2322): Type 'string | null' is not assignable to type 'st... Remove this comment to see the full error message
       this._callSettingMode = this._deps.callingSettings.callingMode;
       if (oldCallSettingMode === callingModes.webphone) {
         this._deps.webphone.disconnect();
@@ -269,18 +267,18 @@ export class Call<
           isConference,
           phoneNumber,
           recipient,
-          // @ts-expect-error
+          // @ts-expect-error TS(2339): Property 'type' does not exist on type 'NonNullabl... Remove this comment to see the full error message
           contactResourceType: recipient?.type || null,
           callSettingMode: this._callSettingMode,
-          // @ts-expect-error
+          // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
           isValidNumber,
-          // @ts-expect-error
+          // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
           clickDialerToCall,
         });
         try {
           let validatedNumbers;
           if (fromNumber === 'undefined') {
-            // @ts-expect-error
+            // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string'.
             fromNumber = null;
           }
           if (this._deps.appFeatures?.isEDPEnabled) {
@@ -299,7 +297,7 @@ export class Call<
           if (validatedNumbers) {
             validatedNumbers.toNumber &&
               this.setLastValidatedToNumber(validatedNumbers.toNumber);
-            // @ts-expect-error
+            // @ts-expect-error TS(2345): Argument of type '{ extendedControls: string[]; to... Remove this comment to see the full error message
             session = await this._makeCall({
               ...validatedNumbers,
               extendedControls,
@@ -506,19 +504,6 @@ export class Call<
       parsedToNumber = parsedNumbers[toNumberIndex];
       parsedFromNumber = parsedNumbers[fromNumberIndex];
     }
-    if (this._internationalCheck) {
-      if (
-        parsedToNumber &&
-        parsedToNumber.isInternational &&
-        !this._deps.extensionFeatures.features?.InternationalCalling?.available
-      ) {
-        const error = {
-          phoneNumber: parsedToNumber.originalString,
-          type: 'noInternational',
-        };
-        throw error;
-      }
-    }
 
     const parsedToNumberE164 = parsedToNumber?.parsedNumber;
     let parsedFromNumberE164 = parsedFromNumber?.parsedNumber;
@@ -537,7 +522,7 @@ export class Call<
   async _makeCall({
     toNumber,
     fromNumber,
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type 'string | null' is not assignable to type 'st... Remove this comment to see the full error message
     callingMode = this._deps.callingSettings.callingMode,
     extendedControls = [],
   }: {
@@ -561,8 +546,8 @@ export class Call<
         });
         break;
       case callingModes.webphone: {
-        if (this._deps.activeCallControl && this._useCallControlToMakeCall) {
-          session = await this._deps.activeCallControl.makeCall({
+        if (this.isActiveCallControlApplicable) {
+          session = await this._deps.activeCallControl!.makeCall({
             fromNumber,
             toNumber,
             homeCountryId,
@@ -584,6 +569,10 @@ export class Call<
         break;
     }
     return session;
+  }
+
+  get isActiveCallControlApplicable() {
+    return !!(this._deps.activeCallControl && this._useCallControlToMakeCall);
   }
 
   get isIdle() {

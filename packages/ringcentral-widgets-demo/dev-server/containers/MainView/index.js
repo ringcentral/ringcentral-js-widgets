@@ -1,4 +1,3 @@
-/* eslint-disable react/prop-types */
 import { callingOptions } from '@ringcentral-integration/commons/modules/CallingSettings';
 import HistoryIcon from '@ringcentral-integration/widgets/assets/images/CallHistory.svg';
 import HistoryHoverIcon from '@ringcentral-integration/widgets/assets/images/CallHistoryHover.svg';
@@ -24,6 +23,7 @@ import hasActiveCalls from '@ringcentral-integration/widgets/lib/hasActiveCalls'
 import { withPhone } from '@ringcentral-integration/widgets/lib/phoneContext';
 import React from 'react';
 import { connect } from 'react-redux';
+
 import i18n from './i18n';
 
 function getTabs({
@@ -46,6 +46,7 @@ function getTabs({
       isActive: (currentPath) =>
         currentPath === '/dialer' ||
         (currentPath === '/calls' && conferenceCallEquipped),
+      dataSign: 'dialerTab',
     },
     showCalls && {
       icon: CallsIcon,
@@ -54,12 +55,14 @@ function getTabs({
       path: '/calls',
       isActive: (currentPath) =>
         currentPath === '/calls' || currentPath === '/calls/active',
+      dataSign: 'callsTab',
     },
     showHistory && {
       icon: HistoryIcon,
       activeIcon: HistoryHoverIcon,
       label: i18n.getString('historyLabel', currentLocale),
       path: '/history',
+      dataSign: 'historyTab',
     },
     showMessages && {
       icon: MessageIcon,
@@ -70,6 +73,7 @@ function getTabs({
       isActive: (currentPath) =>
         currentPath === '/messages' ||
         currentPath.indexOf('/conversations/') !== -1,
+      dataSign: 'messagesTab',
     },
     showContact && {
       icon: ContactIcon,
@@ -78,6 +82,7 @@ function getTabs({
       label: i18n.getString('contactsLabel', currentLocale),
       path: '/contacts',
       isActive: (currentPath) => currentPath.substr(0, 9) === '/contacts',
+      dataSign: 'contactsTab',
     },
     showMeeting && {
       icon: MeetingIcon,
@@ -85,6 +90,7 @@ function getTabs({
       moreMenuIcon: MeetingNavIcon,
       label: i18n.getString('meetingLabel', currentLocale),
       path: '/meeting',
+      dataSign: 'meetingTab',
     },
     {
       icon: SettingsIcon,
@@ -93,6 +99,7 @@ function getTabs({
       label: i18n.getString('settingsLabel', currentLocale),
       path: '/settings',
       isActive: (currentPath) => currentPath.substr(0, 9) === '/settings',
+      dataSign: 'settingsTab',
     },
   ].filter((x) => !!x);
   if (tabs.length > 5) {
@@ -130,6 +137,7 @@ function getTabs({
       isActive: (currentPath, currentVirtualPath) =>
         currentVirtualPath === '!moreMenu',
       childTabs,
+      dataSign: 'moreMenu',
     });
   }
   return tabs;
@@ -144,7 +152,6 @@ function mapToProps(
       appFeatures,
       routerInteraction,
       callingSettings,
-      conference,
       conferenceCall,
     },
   },

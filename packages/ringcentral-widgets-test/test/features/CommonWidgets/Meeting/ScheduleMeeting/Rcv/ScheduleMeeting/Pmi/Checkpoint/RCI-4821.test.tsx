@@ -9,7 +9,6 @@
  * Entry point(/s):
  * 'Schedule video meeting' page > Select 'Use Personal Meeting ID XXX-XXX-XXX'
  */
-
 import {
   p2,
   it,
@@ -22,14 +21,15 @@ import {
   When,
   StepProp,
 } from '@ringcentral-integration/test-utils';
+
 import { CommonLogin } from '../../../../../../../../steps/CommonLogin';
 import { CreateInstance } from '../../../../../../../../steps/CreateInstance';
 import {
+  CheckPatchMeetingParams,
   ClickScheduleButton,
   OperateTopic,
   TurnOnToggle,
 } from '../../../../../../../../steps/Meeting';
-import { CheckRcvPatchBridge } from '../../../../../../../../steps/Mock/CheckFetchMockResponse.ts';
 import { NavigateToMeeting } from '../../../../../../../../steps/Navigate';
 
 @autorun(test.skip)
@@ -64,10 +64,8 @@ export class RCI4821 extends Step {
         <When desc="Join the meeting, check the meeting title" />
         <Then
           desc="Meeting title should be default PMI meeting title(eg:FirstName LastName's meeting.)"
-          action={(_, { phone }) => (
-            <CheckRcvPatchBridge
-              meeting={{ name: phone.rcVideo.personalMeeting.name }}
-            />
+          action={() => (
+            <CheckPatchMeetingParams name={`Something1 New1's video meeting`} />
           )}
         />
       </Scenario>

@@ -6,7 +6,6 @@
  * Entry point(/s):
  * Make a call and keep in call control page
  */
-
 import type { StepProp } from '@ringcentral-integration/test-utils';
 import {
   p1,
@@ -18,6 +17,7 @@ import {
   title,
   When,
 } from '@ringcentral-integration/test-utils';
+
 import {
   CallItemButtonBehavior,
   CheckAllCallsListPage,
@@ -71,8 +71,8 @@ export class RCI850 extends Step {
 								The status of the rest calls should be remained"
           action={[
             async (_: any, { phone, payload }) => {
-              expect(phone.webphone.toVoiceMail).toBeCalled();
-              expect(phone.webphone.toVoiceMail).toBeCalledWith(
+              expect(phone.webphone.toVoiceMail).toHaveBeenCalled();
+              expect(phone.webphone.toVoiceMail).toHaveBeenCalledWith(
                 payload.firstSessionId,
               );
             },

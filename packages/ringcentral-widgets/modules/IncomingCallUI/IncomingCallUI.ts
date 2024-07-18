@@ -7,6 +7,7 @@ import type { UIFunctions, UIProps } from '@ringcentral-integration/core';
 import { computed, RcUIModuleV2 } from '@ringcentral-integration/core';
 
 import { checkShouldHidePhoneNumber } from '../../lib/checkShouldHidePhoneNumber';
+
 import type {
   Deps,
   IncomingCallContainerProps,
@@ -87,12 +88,13 @@ class IncomingCallUI extends RcUIModuleV2<Deps> {
     return phoneNumber;
   }
 
-  get name() {
+  get callerIdName() {
     return getWebphoneSessionDisplayName(this.currentSession as any);
   }
 
   getUIProps({
     showContactDisplayPlaceholder = false,
+    showCallerIdName = false,
     showCallQueueName,
     sourceIcons,
   }: IncomingCallContainerProps): UIProps<IncomingCallUIPanelProps> {
@@ -110,7 +112,7 @@ class IncomingCallUI extends RcUIModuleV2<Deps> {
       searchContactList: this._deps.contactSearch.sortedResult,
       showCallQueueName,
       phoneNumber: this.phoneNumber,
-      name: this.name,
+      callerIdName: showCallerIdName ? this.callerIdName : undefined,
     };
   }
 

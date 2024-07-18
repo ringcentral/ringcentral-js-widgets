@@ -1,8 +1,8 @@
-import { filter, find } from 'ramda';
-import type { Unsubscribe } from 'redux';
 import type ExtensionInfoEvent from '@rc-ex/core/lib/definitions/ExtensionInfoEvent';
 import type UserPhoneNumberInfo from '@rc-ex/core/lib/definitions/UserPhoneNumberInfo';
 import { computed, watch } from '@ringcentral-integration/core';
+import { filter, find } from 'ramda';
+import type { Unsubscribe } from 'redux';
 
 import { subscriptionFilters } from '../../enums/subscriptionFilters';
 import { subscriptionHints } from '../../enums/subscriptionHints';
@@ -10,6 +10,7 @@ import { usageTypes } from '../../enums/usageTypes';
 import { Module } from '../../lib/di';
 import fetchList from '../../lib/fetchList';
 import { DataFetcherV2Consumer, DataSource } from '../DataFetcherV2';
+
 import type { Deps } from './ExtensionPhoneNumber.interface';
 
 @Module({
@@ -27,7 +28,7 @@ export class ExtensionPhoneNumber extends DataFetcherV2Consumer<
   Deps,
   UserPhoneNumberInfo[]
 > {
-  // @ts-expect-error
+  // @ts-expect-error TS(2564): Property '_stopWatching' has no initializer and is... Remove this comment to see the full error message
   protected _stopWatching: Unsubscribe;
 
   constructor(deps: Deps) {
@@ -71,7 +72,7 @@ export class ExtensionPhoneNumber extends DataFetcherV2Consumer<
 
   override onReset() {
     this._stopWatching?.();
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Unsubscribe... Remove this comment to see the full error message
     this._stopWatching = null;
   }
 
@@ -107,7 +108,7 @@ export class ExtensionPhoneNumber extends DataFetcherV2Consumer<
   @computed(({ numbers }: ExtensionPhoneNumber) => [numbers])
   get callerIdNumbers() {
     return filter(
-      (phoneNumber) => phoneNumber.features?.indexOf('CallerId') !== -1,
+      (phoneNumber) => !!phoneNumber.features?.includes('CallerId'),
       this.numbers,
     );
   }
@@ -120,7 +121,7 @@ export class ExtensionPhoneNumber extends DataFetcherV2Consumer<
   @computed(({ numbers }: ExtensionPhoneNumber) => [numbers])
   get smsSenderNumbers() {
     return filter(
-      (phoneNumber) => phoneNumber.features?.indexOf('SmsSender') !== -1,
+      (phoneNumber) => !!phoneNumber.features?.includes('SmsSender'),
       this.numbers,
     );
   }

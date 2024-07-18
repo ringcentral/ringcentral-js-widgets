@@ -1,5 +1,5 @@
-import type { TransferInfo } from './TransferInfo';
 import type { FixedOrderAgents } from './FixedOrderAgents';
+import type { TransferInfo } from './TransferInfo';
 import type { UnconditionalForwardingInfo } from './UnconditionalForwardingInfo';
 
 // Queue settings applied for department (call queue) extension type, with the 'AgentQueue' value specified as a call handling action

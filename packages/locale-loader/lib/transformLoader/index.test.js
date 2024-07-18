@@ -1,7 +1,8 @@
-import path from 'path';
-import gulp from 'gulp';
 import fs from 'fs-extra';
-import transformLocaleLoader from '.';
+import gulp from 'gulp';
+import path from 'path';
+
+import transformLocaleLoader from './';
 
 const sourceFolder = './testData-transformLocaleLoader';
 

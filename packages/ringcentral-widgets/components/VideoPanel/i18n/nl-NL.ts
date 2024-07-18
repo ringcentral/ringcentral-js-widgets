@@ -19,8 +19,8 @@ export default {
   muteAudio: "Audio dempen voor deelnemers",
   turnOffCamera: "Camera uitschakelen voor deelnemers",
   requirePassword: "Wachtwoord vereisen",
-  useE2ee: "End-to-end-versleuteling gebruiken",
-  e2eeTooltip: "Meetings die end-to-end versleuteld zijn, zijn het meest privé, maar functies als inbellen, ondertitels en opnemen zijn dan niet beschikbaar.",
+  useE2ee: "End-to-end codering gebruiken",
+  e2eeTooltip: "End-to-end gecodeerde meetings zijn het meest privé, maar functies zoals inbellen, ondertitels en opnemen zijn dan niet beschikbaar.",
   setPassword: "Wachtwoord instellen *",
   setPasswordNotSymbol: "Wachtwoord instellen",
   passwordEmptyError: "Wachtwoord meeting vereist",
@@ -37,8 +37,7 @@ export default {
   today: "Vandaag",
   scheduleForGuidance: "Plannen namens iemand anders?\n1. Zorg dat u toegang hebt tot zijn of haar Outlook Agenda.\n2. Selecteer in de vervolgkeuzelijst de persoon voor wie u plant.\n",
   scheduleForGuidanceMore: "Meer informatie",
-  changePmiSettings: "Instellingen voor persoonlijke meeting wijzigen",
-  ieSupportAlert: "Houd er rekening mee dat na 16 februari 2022 {appName} niet werkt met Internet Explorer 11. We raden aan over te schakelen naar Microsoft Edge of te updaten naar Outlook 2016 of hoger."
+  changePmiSettings: "Instellingen voor persoonlijke meeting wijzigen"
 };
 
 // @key: @#@"topic"@#@ @source: @#@"Meeting title"@#@
@@ -79,4 +78,3 @@ export default {
 // @key: @#@"scheduleForGuidance"@#@ @source: @#@"Scheduling for someone else?\n1. Make sure you're on their Outlook calendar.\n2. From the dropdown, select the person you're scheduling for.\n"@#@
 // @key: @#@"scheduleForGuidanceMore"@#@ @source: @#@"Learn details"@#@
 // @key: @#@"changePmiSettings"@#@ @source: @#@"Change Personal Meeting settings"@#@
-// @key: @#@"ieSupportAlert"@#@ @source: @#@"Please note that {appName} won't work with Internet Explorer 11 after Feb 16, 2022. We recommend switching to Microsoft Edge or updating to Outlook 2016 or above."@#@

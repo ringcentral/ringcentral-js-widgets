@@ -27,7 +27,6 @@
 	| 9 |9911 |911 |
 
  */
-
 import { Category } from '@ringcentral-integration/commons/interfaces/NumberParserResponse.interface';
 import {
   autorun,

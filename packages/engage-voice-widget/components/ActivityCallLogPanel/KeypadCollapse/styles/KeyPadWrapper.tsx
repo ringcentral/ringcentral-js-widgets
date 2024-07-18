@@ -1,3 +1,4 @@
+import { KeyPadHeight } from '@ringcentral-integration/widgets/components/BasicCallInfo/BasicCallInfo';
 import {
   css,
   flexCenterStyle,
@@ -12,7 +13,6 @@ import {
   px,
 } from '@ringcentral/juno';
 
-import { KeyPadHeight } from '@ringcentral-integration/widgets/components/BasicCallInfo/BasicCallInfo';
 import { pageSpace } from '../../../../scss/variables';
 
 export const Wrapper = styled.div<{ open?: boolean }>`

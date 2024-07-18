@@ -1,5 +1,6 @@
 import type { Reducer, ReducersMapObject } from 'redux';
 import { combineReducers } from 'redux';
+
 import type { Action, Service, Store, Subscription } from '../usm-redux';
 import {
   action,

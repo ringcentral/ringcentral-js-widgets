@@ -1,10 +1,10 @@
+import messageTypes from '@ringcentral-integration/commons/enums/messageTypes';
 import React, { useMemo } from 'react';
 
-import messageTypes from '@ringcentral-integration/commons/enums/messageTypes';
-
 import type { TabPropTypes } from '../NavigationBar';
-import i18n from './i18n';
+
 import { TabTitle } from './TabTitle';
+import i18n from './i18n';
 
 type UseConversationTabData = {
   currentLocale: string;

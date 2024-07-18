@@ -1,9 +1,9 @@
-import type { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures';
 import type { AccountInfo } from '@ringcentral-integration/commons/modules/AccountInfo';
+import type { AppFeatures } from '@ringcentral-integration/commons/modules/AppFeatures';
 import type { Brand } from '@ringcentral-integration/commons/modules/Brand';
+import type { Call } from '@ringcentral-integration/commons/modules/Call';
 import type { CallHistory } from '@ringcentral-integration/commons/modules/CallHistory';
 import type { CallLogger } from '@ringcentral-integration/commons/modules/CallLogger';
-import type { Call } from '@ringcentral-integration/commons/modules/Call';
 import type { ComposeText } from '@ringcentral-integration/commons/modules/ComposeText';
 import type { ConnectivityMonitor } from '@ringcentral-integration/commons/modules/ConnectivityMonitor';
 import type { ContactMatcher } from '@ringcentral-integration/commons/modules/ContactMatcher';
@@ -49,6 +49,7 @@ export interface Deps {
 export interface CallHistoryUIComponentProps {
   enableContactFallback?: boolean;
   useNewList?: boolean;
+  showCallerIdName?: boolean;
   onCreateContact?: (options: OnCreateContactOptions) => any;
   dateTimeFormatter?: (
     ...args: Parameters<DateTimeFormat['formatDateTime']>

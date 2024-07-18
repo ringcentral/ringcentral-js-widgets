@@ -1,5 +1,3 @@
-import 'isomorphic-fetch';
-
 import { action, RcModuleV2, state } from '@ringcentral-integration/core';
 import type { ApiError } from '@ringcentral/sdk';
 
@@ -7,6 +5,7 @@ import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
 import { errorMessages } from '../AvailabilityMonitor';
 import { errorMessages as rateLimiterErrorMessage } from '../RateLimiter';
+
 import type { Deps } from './ConnectivityMonitor.interface';
 
 export const DEFAULT_TIME_TO_RETRY = 5 * 1000;
@@ -37,7 +36,7 @@ export class ConnectivityMonitor extends RcModuleV2<Deps> {
     this._deps.connectivityMonitorOptions?.heartBeatInterval ??
     DEFAULT_HEART_BEAT_INTERVAL;
 
-  protected _checkConnectionFunc = async () => {
+  _checkConnectionFunc = async () => {
     try {
       const checkConnectionFunc =
         this._deps.connectivityMonitorOptions?.checkConnectionFunc ??
@@ -53,16 +52,16 @@ export class ConnectivityMonitor extends RcModuleV2<Deps> {
 
   protected _lastEnvironmentCounter = 0;
 
-  private _unbindHandlers?: (() => void) | null = null;
+  _unbindHandlers?: (() => void) | null = null;
 
-  protected _requestSuccessHandler = () => {
+  _requestSuccessHandler = () => {
     if (!this.connectivity) {
       this.setConnectSuccess();
     }
     this._retry();
   };
 
-  protected _requestErrorHandler = (error: ApiError) => {
+  _requestErrorHandler = (error: ApiError) => {
     if (error.message && errorMessageTypes.includes(error.message)) return;
 
     if (!error.response && this.connectivity) {

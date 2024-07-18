@@ -20,6 +20,7 @@ import {
 } from '@ringcentral-integration/core';
 
 import type { RouteParams } from '../ContactDetailsUI';
+
 import type {
   ContactSourceLastStatus,
   Deps,

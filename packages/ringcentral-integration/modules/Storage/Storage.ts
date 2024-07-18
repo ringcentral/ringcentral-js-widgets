@@ -1,8 +1,9 @@
 // @ts-nocheck
-import { Module } from '../../lib/di';
 import type { IStorage } from '../../lib/StorageBase';
 import { StorageBase } from '../../lib/StorageBase';
+import { Module } from '../../lib/di';
 import { loginStatus } from '../Auth';
+
 import type { Deps } from './Storage.interface';
 
 const dataFetcherKey = 'dataFetcherV2-storageData';

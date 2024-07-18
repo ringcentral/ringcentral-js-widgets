@@ -11,7 +11,6 @@
  * Entry point(/s):
  * Open CTI >User login to the CTI app with {Account}
  */
-
 import {
   autorun,
   common,
@@ -95,7 +94,13 @@ export class RCI4461 extends Step {
         />
         <Then
           desc="The default value is {Country for account}"
-          action={<CheckCountryCodeField countryCode="(+33) France" />}
+          action={
+            // (+33) France
+            <CheckCountryCodeField
+              countryCallingCode="33"
+              countryName="France"
+            />
+          }
         />
       </Scenario>
     );

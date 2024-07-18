@@ -241,8 +241,8 @@ describe('Current Call Control Page - Keypad', () => {
     expect(wrapper.find(ActiveCallDialPad)).toHaveLength(1);
     const backButton = wrapper
       .find(ActiveCallDialPad)
-      .find('BackHeader')
-      .find('Button')
+      .find('Styled(_PageHeaderBack)')
+      .find('RcIconButton')
       .first();
     backButton.simulate('click');
     await sleep(100);
@@ -262,8 +262,8 @@ describe('Current Call Control Page - Keypad', () => {
     expect(wrapper.find(ActiveCallDialPad)).toHaveLength(1);
     const backButton = wrapper
       .find(ActiveCallDialPad)
-      .find('BackHeader')
-      .find('Button')
+      .find('Styled(_PageHeaderBack)')
+      .find('RcIconButton')
       .first();
     backButton.simulate('click');
     await sleep(100);
@@ -638,9 +638,13 @@ describe('Current Call Control Page - Transfer', () => {
     wrapper.update();
     const panel = wrapper.find(TransferPanel);
     expect(panel).toHaveLength(1);
-    expect(panel.find('BackHeader')).toHaveLength(1);
-    expect(panel.find('BackHeader').find('Button')).toHaveLength(1);
-    expect(panel.find('BackHeader').text()).toEqual('Transfer to');
+    expect(panel.find('Styled(_PageHeaderBack)')).toHaveLength(1);
+    expect(
+      panel.find('Styled(_PageHeaderBack)').find('RcIconButton'),
+    ).toHaveLength(1);
+    expect(panel.find('Styled(Styled(Component))').text()).toEqual(
+      'Transfer to',
+    );
     expect(panel).toHaveLength(1);
     expect(panel.find('label').text()).toEqual('To:');
     expect(panel.find('input').props().placeholder).toEqual(
@@ -660,8 +664,8 @@ describe('Current Call Control Page - Transfer', () => {
     wrapper.update();
     const backButton = wrapper
       .find(TransferPanel)
-      .find('BackHeader')
-      .find('Button')
+      .find('Styled(_PageHeaderBack)')
+      .find('RcIconButton')
       .first();
     backButton.simulate('click');
     await sleep(100);

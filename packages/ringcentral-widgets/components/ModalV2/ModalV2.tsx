@@ -1,8 +1,3 @@
-import type { FunctionComponent } from 'react';
-import React from 'react';
-
-import { map } from 'ramda';
-
 import type { RcPopupBoxProps } from '@ringcentral/juno';
 import {
   combineProps,
@@ -11,6 +6,9 @@ import {
   RcPopupBox,
   styled,
 } from '@ringcentral/juno';
+import { map } from 'ramda';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import type { ModalV2Props } from './interface';
 

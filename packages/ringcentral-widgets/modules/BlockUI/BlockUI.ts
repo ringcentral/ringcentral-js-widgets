@@ -2,6 +2,7 @@ import { Module } from '@ringcentral-integration/commons/lib/di';
 import { computed, RcUIModuleV2 } from '@ringcentral-integration/core';
 
 import type { BlockItem } from '../Block';
+
 import type { Deps, GetBlockUIProps } from './BlockUI.interface';
 
 @Module({

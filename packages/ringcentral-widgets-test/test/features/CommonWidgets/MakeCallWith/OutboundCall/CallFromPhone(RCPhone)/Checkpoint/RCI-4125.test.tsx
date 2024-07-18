@@ -21,13 +21,12 @@
  *
   | Brand |Brand Name |Link |
   | RC |'RingCentral Phone' |'rcmobile://call?number={phoneNumber}' |
-	| AT&T |'Office@Hand Phone' |'https://app.officeathand.att.com/r/call?number={phoneNumber}' |
+	| AT&T |'AT&T Office@Hand Phone' |'https://app.officeathand.att.com/r/call?number={phoneNumber}' |
 	| BT |'BT Cloud Work Phone' |'rcbtmobile://call?number={phoneNumber}' |
 	| Telus |'Business Connect Phone' |'rctelus://call?number={phoneNumber}' |
 
  * Settings > Calling > Make my calls with > {BrandName Phone }
  */
-
 import {
   autorun,
   examples,
@@ -45,10 +44,10 @@ import type { StepFunction } from '../../../../../../lib/step';
 import { MakeCall } from '../../../../../../steps/Call';
 import { CommonLogin } from '../../../../../../steps/CommonLogin';
 import { NavigateToDialer } from '../../../../../../steps/Navigate';
-import { NavigateTo } from '../../../../../../steps/Router/action';
+import { NavigateTo } from '../../../../../../steps/Router';
 import {
   ClickSaveButton,
-  ExpandDropdown,
+  ExpandCallingSettingDropdown,
   SelectCallingSetting,
 } from '../../../../../../steps/Settings';
 
@@ -60,7 +59,7 @@ const exampleData = [
   },
   {
     brand: 'att',
-    brandName: 'Office@Hand Phone',
+    brandName: 'AT&T Office@Hand Phone',
     link: /attvr20:\/\/call\?number=.+/,
   },
   {
@@ -109,7 +108,7 @@ export class RCI4125 extends Step {
               jest.spyOn(phone.softphone, 'makeCall');
             },
             <NavigateTo path="/settings/calling" />,
-            ExpandDropdown,
+            ExpandCallingSettingDropdown,
             <SelectCallingSetting settingName={brandName} />,
             ClickSaveButton,
           ]}

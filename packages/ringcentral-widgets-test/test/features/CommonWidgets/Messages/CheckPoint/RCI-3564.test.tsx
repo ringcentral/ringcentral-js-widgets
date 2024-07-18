@@ -3,7 +3,9 @@
  * https://test_it_domain/test-cases/RCI-3564
  */
 import { fireEvent, screen } from '@testing-library/react';
-import { Login as CommonLogin } from '../../../../steps/Login';
+
+import { mockMessageListData } from '../../../../__mock__';
+import type { Context } from '../../../../interfaces';
 import type { StepFunction } from '../../../../lib/step';
 import {
   p2,
@@ -17,6 +19,13 @@ import {
   When,
   And,
 } from '../../../../lib/step';
+import { CommonLogin } from '../../../../steps/CommonLogin';
+import { CreateInstance } from '../../../../steps/CreateInstance';
+import {
+  CheckUnreadCounts,
+  ClickMessageItemAndBack,
+  ExpandTheActionMenu,
+} from '../../../../steps/Messages';
 import {
   CreateMock as CommonCreateMock,
   generateMessage,
@@ -28,20 +37,15 @@ import {
   NavigateToMessagesTab,
   NavigateToTypeTabUnderMessage,
 } from '../../../../steps/Navigate';
-import { mockMessageListData } from '../../../../__mock__';
-import {
-  CheckUnreadCounts,
-  ClickMessageItemAndBack,
-  ExpandTheActionMenu,
-} from '../../../../steps/Messages';
-import type { Context } from '../../../../interfaces';
 
-@autorun(test.skip)
+@autorun(test)
 @p2
 @title('SMS unread count ${countAfterAction}')
 export class SMSUnreadCount extends Step {
-  CustomLogin?: StepFunction<any, any>;
-  CustomCreateMock?: StepFunction<any, any>;
+  CustomLogin: StepFunction<any, any> = (props) => (
+    <CommonLogin {...props} CreateInstance={CreateInstance} />
+  );
+  CustomCreateMock: StepFunction<any, any> = CommonCreateMock;
 
   @examples(`
     | unreadCount | countAfterAction |
@@ -51,8 +55,7 @@ export class SMSUnreadCount extends Step {
   run() {
     const { unreadCount, countAfterAction } = this.context.example;
 
-    const { CustomLogin = CommonLogin, CustomCreateMock = CommonCreateMock } =
-      this;
+    const { CustomLogin, CustomCreateMock } = this;
 
     const mockMsgData = mockMessageListData([
       {
@@ -115,12 +118,14 @@ export class SMSUnreadCount extends Step {
   }
 }
 
-@autorun(test.skip)
+@autorun(test)
 @p2
 @title('${type} unread count ${countAfterAction}')
 export class VoicemailOrFaxUnreadCount extends Step {
-  CustomLogin?: StepFunction<any, any>;
-  CustomCreateMock?: StepFunction<any, any>;
+  CustomLogin: StepFunction<any, any> = (props) => (
+    <CommonLogin {...props} CreateInstance={CreateInstance} />
+  );
+  CustomCreateMock: StepFunction<any, any> = CommonCreateMock;
 
   @examples(`
     | type        | unreadCount | action | countAfterAction | messageTypeTabDataSign | mockReadStatus | updateReadStatus |
@@ -142,8 +147,7 @@ export class VoicemailOrFaxUnreadCount extends Step {
       updateReadStatus,
     } = this.context.example;
 
-    const { CustomLogin = CommonLogin, CustomCreateMock = CommonCreateMock } =
-      this;
+    const { CustomLogin, CustomCreateMock } = this;
 
     const mockMsgData = mockMessageListData([
       {
@@ -212,12 +216,14 @@ export class VoicemailOrFaxUnreadCount extends Step {
     );
   }
 }
-@autorun(test.skip)
+@autorun(test)
 @p2
 @title('{type} unread count after delete')
 export class deleteVoicemailOrFaxAfterUnreadCount extends Step {
-  CustomLogin?: StepFunction<any, any>;
-  CustomCreateMock?: StepFunction<any, any>;
+  CustomLogin: StepFunction<any, any> = (props) => (
+    <CommonLogin {...props} CreateInstance={CreateInstance} />
+  );
+  CustomCreateMock: StepFunction<any, any> = CommonCreateMock;
 
   @examples(`
     | type        | unreadCount | action   | countAfterAction | messageTypeTabDataSign |
@@ -233,8 +239,7 @@ export class deleteVoicemailOrFaxAfterUnreadCount extends Step {
       action,
     } = this.context.example;
 
-    const { CustomLogin = CommonLogin, CustomCreateMock = CommonCreateMock } =
-      this;
+    const { CustomLogin, CustomCreateMock } = this;
 
     const mockMsgData = mockMessageListData([
       {
@@ -288,7 +293,11 @@ export class deleteVoicemailOrFaxAfterUnreadCount extends Step {
           desc="User delete a {type} message "
           action={() => {
             fireEvent.click(screen.getAllByTestId(action)[0]);
-            fireEvent.click(screen.getAllByTestId('confirm')[1]);
+            fireEvent.click(
+              screen
+                .getByTestId('deleteModal')
+                .querySelector('[data-sign="confirm"]')!,
+            );
           }}
         />
         <Then

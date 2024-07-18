@@ -16,7 +16,6 @@
 
  * > Office Add-in > Add meeting
  */
-
 import {
   autorun,
   examples,

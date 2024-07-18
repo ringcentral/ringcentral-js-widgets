@@ -1,5 +1,6 @@
-import type companyPagerBody from '@ringcentral-integration/mock/src/platform/data/companyPager.json';
 import type companyPagerInvalidResponse from '@ringcentral-integration/mock/src/platform//data/companyPagerInvalid.json';
+import type companyPagerBody from '@ringcentral-integration/mock/src/platform/data/companyPager.json';
+
 import type { StepFunction } from '../../../lib/step';
 
 interface MockCompanyPagerProps {

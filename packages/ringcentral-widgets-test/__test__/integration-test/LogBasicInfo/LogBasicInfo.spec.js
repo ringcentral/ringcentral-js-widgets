@@ -1,7 +1,6 @@
 import { mount } from 'enzyme';
 import React from 'react';
-import callDirections from '@ringcentral-integration/commons/enums/callDirections';
-import callResults from '@ringcentral-integration/commons/enums/callResults';
+import { callDirection } from '@ringcentral-integration/commons/enums/callDirections';
 import telephonyStatuses from '@ringcentral-integration/commons/enums/telephonyStatus';
 import LogBasicInfo from '@ringcentral-integration/widgets/components/LogBasicInfo';
 
@@ -19,7 +18,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.inbound,
+        direction: callDirection.inbound,
         to: {
           phoneNumber: '+16509807435',
         },
@@ -39,7 +38,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '+16509807435',
         },
@@ -59,7 +58,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.inbound,
+        direction: callDirection.inbound,
         to: {
           phoneNumber: '+16509807435',
         },
@@ -79,7 +78,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '+16509807435',
         },
@@ -99,7 +98,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '+16509807435',
         },
@@ -118,7 +117,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.inbound,
+        direction: callDirection.inbound,
         to: {
           phoneNumber: '+16509807435',
         },
@@ -137,7 +136,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.inbound,
+        direction: callDirection.inbound,
         to: {
           phoneNumber: '+16509807435',
         },
@@ -156,7 +155,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.inbound,
+        direction: callDirection.inbound,
         to: {
           extensionNumber: '111',
         },
@@ -175,7 +174,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '+16509807435',
         },
@@ -194,7 +193,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '111',
         },
@@ -213,7 +212,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '111',
         },
@@ -234,7 +233,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '111',
         },
@@ -253,7 +252,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.inbound,
+        direction: callDirection.inbound,
         to: {
           phoneNumber: '111',
         },
@@ -272,7 +271,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '111',
         },
@@ -291,7 +290,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '111',
         },
@@ -310,7 +309,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '111',
         },
@@ -329,7 +328,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '111',
         },
@@ -348,7 +347,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '111',
         },
@@ -367,7 +366,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '111',
         },
@@ -386,7 +385,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '111',
         },
@@ -405,7 +404,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '111',
         },
@@ -424,7 +423,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '111',
         },
@@ -443,7 +442,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '111',
         },
@@ -462,7 +461,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '111',
         },
@@ -481,7 +480,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '111',
         },
@@ -500,7 +499,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '111',
         },
@@ -519,7 +518,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '111',
         },
@@ -538,7 +537,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '111',
         },
@@ -557,7 +556,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '111',
         },
@@ -576,7 +575,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '111',
         },
@@ -595,7 +594,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.inbound,
+        direction: callDirection.inbound,
         to: {
           phoneNumber: '111',
         },
@@ -614,7 +613,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '111',
         },
@@ -633,7 +632,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '111',
         },
@@ -652,7 +651,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '111',
         },
@@ -671,7 +670,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '111',
         },
@@ -690,7 +689,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.inbound,
+        direction: callDirection.inbound,
         to: {
           phoneNumber: '111',
         },
@@ -709,7 +708,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '111',
         },
@@ -728,7 +727,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '111',
         },
@@ -747,7 +746,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '111',
         },
@@ -766,7 +765,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '111',
         },
@@ -785,7 +784,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '111',
         },
@@ -804,7 +803,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '111',
         },
@@ -823,7 +822,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '111',
         },
@@ -842,7 +841,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '111',
         },
@@ -861,7 +860,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '111',
         },
@@ -880,7 +879,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '111',
         },
@@ -899,7 +898,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '111',
         },
@@ -918,7 +917,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '111',
         },
@@ -937,7 +936,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '111',
         },
@@ -956,7 +955,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '111',
         },
@@ -975,7 +974,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '111',
         },
@@ -994,7 +993,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '111',
         },
@@ -1013,7 +1012,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '111',
         },
@@ -1032,7 +1031,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '111',
         },
@@ -1051,7 +1050,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '111',
         },
@@ -1070,7 +1069,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '111',
         },
@@ -1089,7 +1088,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '111',
         },
@@ -1108,7 +1107,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '111',
         },
@@ -1127,7 +1126,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '111',
         },
@@ -1146,7 +1145,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '111',
         },
@@ -1165,7 +1164,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => value,
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '111',
         },
@@ -1184,7 +1183,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => '(123)4567-890',
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '111',
         },
@@ -1203,7 +1202,7 @@ describe('Call Basic Info:', () => {
     const props = {
       formatPhone: (value) => '+44123456789',
       call: {
-        direction: callDirections.outbound,
+        direction: callDirection.outbound,
         to: {
           phoneNumber: '111',
         },

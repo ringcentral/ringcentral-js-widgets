@@ -1,5 +1,4 @@
 import { action, RcModuleV2, state } from '@ringcentral-integration/core';
-import { sleep } from '@ringcentral-integration/utils';
 import {
   autorun,
   Given,
@@ -9,6 +8,7 @@ import {
   title,
   When,
 } from '@ringcentral-integration/test-utils';
+import { sleep } from '@ringcentral-integration/utils';
 
 import { createApp } from '../../lib/createApp';
 import { Module, ModuleFactory } from '../../lib/di';

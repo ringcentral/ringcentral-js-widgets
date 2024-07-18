@@ -1,5 +1,3 @@
-import { filter, find } from 'ramda';
-
 import {
   action,
   computed,
@@ -10,7 +8,10 @@ import {
 } from '@ringcentral-integration/core';
 import type { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
 import { DEFAULT_LOCALE } from '@ringcentral-integration/i18n';
+import { format } from '@ringcentral-integration/utils';
+import { filter, find } from 'ramda';
 
+import { trackEvents } from '../../enums/trackEvents';
 import { getInitializedStartTime } from '../../helpers/meetingHelper';
 import { renameTurkey, renameTurkeyCountry } from '../../helpers/renameTurkey';
 import type { IMeeting } from '../../interfaces/Meeting.interface';
@@ -30,8 +31,14 @@ import type {
 import background from '../../lib/background';
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
-import { trackEvents } from '../../enums/trackEvents';
 import { MeetingErrors, meetingStatus } from '../Meeting';
+
+import type {
+  Deps,
+  InvitationBridgesResponse,
+  RcvDelegator,
+  RcVideoResponse,
+} from './RcVideo.interface';
 import type { RcvWaitingRoomModeProps } from './constants';
 import {
   ASSISTED_USERS_MYSELF,
@@ -39,12 +46,7 @@ import {
   RCV_E2EE_API_KEYS,
   RCV_WAITING_ROOM_API_KEYS,
 } from './constants';
-import type {
-  Deps,
-  InvitationBridgesResponse,
-  RcvDelegator,
-  RcVideoResponse,
-} from './RcVideo.interface';
+import i18n from './i18n';
 import {
   assignObject,
   comparePreferences,
@@ -130,7 +132,7 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
 
   @storage
   @state
-  // @ts-expect-error
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Partial<RcV... Remove this comment to see the full error message
   personalVideo: Partial<RcVideoAPI> = null;
 
   // when migrate to rcv v2, computed defaultVideoSetting has conflict with storage key 'defaultVideoSetting'
@@ -140,7 +142,7 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
   savedDefaultSetting: Partial<RcVMeetingModel> = {};
 
   @state
-  // @ts-expect-error
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Partial<RcV... Remove this comment to see the full error message
   meeting: Partial<RcVMeetingModel> = null;
 
   @state
@@ -156,7 +158,7 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
   settingLocks: RcVSettingLocksGET = {};
 
   @state
-  // @ts-expect-error
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'RcvDelegato... Remove this comment to see the full error message
   delegator: RcvDelegator = null;
 
   @state
@@ -213,7 +215,7 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
   @track((that: RcVideo, status: string) => {
     if (status !== videoStatus.creating) return;
     return (analytics) => {
-      // @ts-expect-error
+      // @ts-expect-error TS(2339): Property 'getTrackTarget' does not exist on type '... Remove this comment to see the full error message
       const target = analytics.getTrackTarget();
       if (target) {
         return [
@@ -303,7 +305,7 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
     }
 
     const hostId = `${userExtensionId}`;
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type 'RcvDelegator | undefined' is not assignable ... Remove this comment to see the full error message
     const delegator: RcvDelegator = find(
       (user: RcvDelegator) => user.extensionId === hostId,
       this.delegators,
@@ -427,9 +429,9 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
       muteAudio,
       muteVideo,
       isMeetingSecret,
-      // @ts-expect-error
+      // @ts-expect-error TS(2322): Type 'RcvWaitingRoomModeProps | undefined' is not ... Remove this comment to see the full error message
       waitingRoomMode,
-      // @ts-expect-error
+      // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
       e2ee,
     };
     if (notShowAgain) {
@@ -486,8 +488,7 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
 
       // After Create
       const invitationInfo = await this.getMeetingInvitation({
-        // @ts-expect-error
-        hostName: extensionInfo.name,
+        hostName: extensionInfo.name!,
         shortId: newMeeting.shortId,
         id: newMeeting.id,
         e2ee: newMeeting.e2ee,
@@ -496,7 +497,7 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
         meetingPasswordPSTN: newMeeting.meetingPasswordPSTN,
         meetingPasswordMasked: newMeeting.meetingPasswordMasked,
         joinUri: newMeeting.joinUri || '',
-        // @ts-expect-error
+        // @ts-ignore
         dialInNumbers: dialInNumber,
         currentLocale: this.currentLocale,
         brandName: this._deps.brand.name,
@@ -566,7 +567,6 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
     return this.createMeeting(
       {
         ...meeting,
-        // @ts-expect-error
         expiresIn: null,
         type: RcVideoTypes.meeting,
       },
@@ -667,11 +667,11 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
         if (countryDialinNumbers.length > 0) {
           return countryDialinNumbers;
         }
-        // @ts-expect-error
+        // @ts-expect-error TS(2322): Type 'RcVDialInNumberObj | undefined' is not assig... Remove this comment to see the full error message
         return [defaultPhoneNumber];
       }
 
-      // @ts-expect-error
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       return defaultPhoneNumber.phoneNumber;
     }
     return [];
@@ -794,19 +794,23 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
 
       // when meeting is rcv pmi, use pmi default name
       if (meeting?.usePersonalMeetingId) {
-        meetingDetail.name = this.personalMeeting.name || '';
+        meetingDetail.name = format(
+          i18n.getString('rcvPmiMeetingTitle', this.currentLocale),
+          {
+            extensionName: this.extensionName,
+          },
+        );
       }
 
       const [newMeeting, dialInNumber, extensionInfo] = await Promise.all([
-        // @ts-expect-error
+        // @ts-expect-error TS(2345): Argument of type 'string | null | undefined' is no... Remove this comment to see the full error message
         this._patchBridges(meeting.id, meetingDetail),
         this._getDialinNumbers(),
         this.getExtensionInfo(this.currentUser.extensionId),
       ]);
 
       const invitationInfo = await this.getMeetingInvitation({
-        // @ts-expect-error
-        hostName: extensionInfo.name,
+        hostName: extensionInfo.name!,
         shortId: newMeeting.shortId,
         id: newMeeting.id,
         e2ee: newMeeting.e2ee,
@@ -815,7 +819,7 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
         meetingPasswordPSTN: newMeeting.meetingPasswordPSTN,
         meetingPasswordMasked: newMeeting.meetingPasswordMasked,
         joinUri: newMeeting.joinUri || '',
-        // @ts-expect-error
+        // @ts-ignore
         dialInNumbers: dialInNumber,
         currentLocale: this.currentLocale,
         brandName: this._deps.brand.name,
@@ -875,7 +879,7 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
       e2ee: true,
       ...RCV_E2EE_DEFAULT_SECURITY_OPTIONS,
       // if jbh is locked, do not change its value
-      // @ts-expect-error
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       allowJoinBeforeHost: this.meeting.settingLock.allowJoinBeforeHost
         ? this.meeting.allowJoinBeforeHost
         : RCV_E2EE_DEFAULT_SECURITY_OPTIONS.allowJoinBeforeHost,
@@ -902,7 +906,7 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
       {
         ...processedMeeting,
         isMeetingPasswordValid: this.validatePasswordSettings(
-          // @ts-expect-error
+          // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
           processedMeeting.meetingPassword ?? this.meeting?.meetingPassword,
           processedMeeting.isMeetingSecret ?? this.meeting?.isMeetingSecret,
         ),
@@ -956,12 +960,12 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
   }
 
   get personalMeeting(): Partial<RcVideoAPI> {
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type 'Partial<RcVideoAPI> | null' is not assignabl... Remove this comment to see the full error message
     return this._enablePersonalMeeting ? this.personalVideo : null;
   }
 
   get savedDefaultVideoSetting(): Partial<RcVMeetingModel> {
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type 'Partial<RcVMeetingModel> | null' is not assi... Remove this comment to see the full error message
     return this._showSaveAsDefault ? this.savedDefaultSetting : null;
   }
 
@@ -979,12 +983,12 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
   }
 
   get extensionId(): number {
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type 'number | undefined' is not assignable to typ... Remove this comment to see the full error message
     return this._deps.extensionInfo.info.id;
   }
 
   get accountId(): number {
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type 'number | undefined' is not assignable to typ... Remove this comment to see the full error message
     return this._deps.accountInfo.id;
   }
 
@@ -1014,7 +1018,7 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
 
   // will follow dynamic brand config
   get enableE2EE() {
-    // @ts-expect-error
+    // @ts-expect-error TS(2339): Property 'enableE2EE' does not exist on type '{ id... Remove this comment to see the full error message
     return this._deps.brand.brandConfig?.enableE2EE ?? this._enableE2EE;
   }
 
@@ -1115,7 +1119,6 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
       meetingPassword: generateRandomPassword(10),
       startTime: new Date(getInitializedStartTime()),
       isMeetingPasswordValid: true, // generated random password is valid
-      // @ts-expect-error
       id: null,
       usePersonalMeetingId: false,
       settingLock: {
@@ -1145,7 +1148,7 @@ export class RcVideo extends RcModuleV2<Deps> implements IMeeting {
   ])
   get defaultTopic() {
     return getTopic({
-      // @ts-expect-error
+      // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
       extensionName: this.extensionName,
       brandName: this.brandName,
       shortName: this._deps.brand.shortName,

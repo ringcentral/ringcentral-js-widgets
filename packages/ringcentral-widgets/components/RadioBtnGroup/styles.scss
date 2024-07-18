@@ -29,7 +29,7 @@
       border: 1px solid $primary-color;
     }
 
-    &.active:before{
+    &.active:before {
       content: '';
       display: block;
       position: absolute;
@@ -62,4 +62,3 @@
     @include text-ellipsis;
   }
 }
-

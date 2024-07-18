@@ -23,7 +23,7 @@ export const addIfNotExist = (
 // return phone number only.
 const pickPhoneNumber: PhoneNumberPicker = (phoneNumber: string) => phoneNumber;
 
-// @ts-expect-error
+// @ts-expect-error TS(2322): Type '(phoneNumber: string, extension: string) => ... Remove this comment to see the full error message
 export const pickPhoneOrExtensionNumber: PhoneNumberPicker = (
   phoneNumber: string,
   extension: string,
@@ -31,7 +31,7 @@ export const pickPhoneOrExtensionNumber: PhoneNumberPicker = (
 
 const formatExt = (num: string) => `${RC_EXTENSION_DELIMITER}${num}`;
 
-// @ts-expect-error
+// @ts-expect-error TS(2322): Type '(phoneNumber: string, extensionNumber: strin... Remove this comment to see the full error message
 export const pickFullPhoneNumber: PhoneNumberPicker = (
   phoneNumber: string,
   extensionNumber: string,

@@ -1,8 +1,3 @@
-import type { FunctionComponent } from 'react';
-import React, { useEffect, useRef, useState } from 'react';
-
-import classNames from 'classnames';
-
 import { emptyFn, format } from '@ringcentral-integration/utils';
 import {
   RcIcon,
@@ -11,13 +6,17 @@ import {
   useRefState,
 } from '@ringcentral/juno';
 import { Search } from '@ringcentral/juno-icon';
+import clsx from 'clsx';
+import type { FunctionComponent } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 import { TOOLTIP_LONG_DELAY_TIME } from '../../lib/toolTipDelayTime';
 import { AnimationPanel } from '../AnimationPanel';
 import BackHeader from '../BackHeaderV2';
 import { Tooltip } from '../Rcui/Tooltip';
-import selectListI18n from '../SelectList/i18n';
 import type { ListViewProps } from '../SelectList/ListView';
+import selectListI18n from '../SelectList/i18n';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 
@@ -210,13 +209,10 @@ const SelectListBasic: FunctionComponent<SelectListBasicProps> = ({
           />
           <main className={styles.main} data-sign="selectList">
             <Tooltip title={placeholder} enterDelay={TOOLTIP_LONG_DELAY_TIME}>
-              <div className={classNames(styles.search, classes.searchInput)}>
+              <div className={clsx(styles.search, classes.searchInput)}>
                 {!filter && (
                   <span
-                    className={classNames(
-                      styles.placeholder,
-                      classes.placeholder,
-                    )}
+                    className={clsx(styles.placeholder, classes.placeholder)}
                   >
                     {placeholder}
                   </span>
@@ -263,10 +259,7 @@ const SelectListBasic: FunctionComponent<SelectListBasicProps> = ({
               </div>
             </Tooltip>
             <div
-              className={classNames(
-                styles.listContainer,
-                listContainerClassName,
-              )}
+              className={clsx(styles.listContainer, listContainerClassName)}
               // @ts-expect-error TS(2322): Type 'MutableRefObject<undefined>' is not assignab... Remove this comment to see the full error message
               ref={scrollElmRef}
               data-sign="searchResult"
@@ -350,11 +343,7 @@ const SelectListBasic: FunctionComponent<SelectListBasicProps> = ({
                 </>
               ) : (
                 <div
-                  className={classNames(
-                    styles.search,
-                    styles.text,
-                    classes.noResult,
-                  )}
+                  className={clsx(styles.search, styles.text, classes.noResult)}
                 >
                   {`${i18n.getString(
                     'noResultFoundFor',

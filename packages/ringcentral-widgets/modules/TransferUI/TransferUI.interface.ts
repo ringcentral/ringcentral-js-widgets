@@ -1,17 +1,18 @@
 import type { NormalizedSession } from '@ringcentral-integration/commons/interfaces/Webphone.interface';
+import type { AccountInfo } from '@ringcentral-integration/commons/modules/AccountInfo';
 import type {
   ActiveCallControl,
   ActiveSession,
 } from '@ringcentral-integration/commons/modules/ActiveCallControl';
+import type { Alert } from '@ringcentral-integration/commons/modules/Alert';
+import type { AudioSettings } from '@ringcentral-integration/commons/modules/AudioSettings';
+import type { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettings';
+import type { CompanyContacts } from '@ringcentral-integration/commons/modules/CompanyContacts';
 import type { ContactSearch } from '@ringcentral-integration/commons/modules/ContactSearch';
 import type { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import type { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
 import type { Webphone } from '@ringcentral-integration/commons/modules/Webphone';
-import type { AccountInfo } from '@ringcentral-integration/commons/modules/AccountInfo';
 
-import type { Alert } from '@ringcentral-integration/commons/modules/Alert';
-import type { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettings';
-import type { CompanyContacts } from '@ringcentral-integration/commons/modules/CompanyContacts';
 import type { RouterInteraction } from '../RouterInteraction';
 
 export interface TransferUIOptions {}
@@ -22,6 +23,7 @@ export interface Deps {
   routerInteraction: RouterInteraction;
   contactSearch: ContactSearch;
   webphone: Webphone;
+  audioSettings?: AudioSettings;
   activeCallControl: ActiveCallControl;
   TransferUIOptions?: TransferUIOptions;
   accountInfo: AccountInfo;
@@ -32,6 +34,8 @@ export interface Deps {
 
 export interface TransferUIPanelProps {
   sessionId: string;
+  callVolume: number;
+  outputDeviceId: string;
   currentLocale: string;
   searchContactList: {
     id: string;

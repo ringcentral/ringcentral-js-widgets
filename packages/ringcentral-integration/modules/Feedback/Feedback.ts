@@ -7,6 +7,7 @@ import {
 
 import { Module } from '../../lib/di';
 import proxify from '../../lib/proxy/proxify';
+
 import type { Deps } from './Feedback.interface';
 
 @Module({

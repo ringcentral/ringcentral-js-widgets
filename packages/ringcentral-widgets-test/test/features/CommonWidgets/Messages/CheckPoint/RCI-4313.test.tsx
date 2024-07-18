@@ -22,10 +22,11 @@ import {
   title,
   When,
 } from '@ringcentral-integration/test-utils';
-import { CreateMock as CommonCreateMock } from '../../../../steps/Mock';
-import { NavigateToComposeText } from '../../../../steps/Navigate';
+
 import { CommonLogin } from '../../../../steps/CommonLogin';
 import { CheckButton, CheckComposeTextUI } from '../../../../steps/Messages';
+import { CreateMock as CommonCreateMock } from '../../../../steps/Mock';
+import { NavigateToComposeText } from '../../../../steps/Navigate';
 
 @autorun(test.skip)
 @p2

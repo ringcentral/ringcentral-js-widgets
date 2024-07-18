@@ -1,6 +1,8 @@
 import { RcModuleV2 } from '@ringcentral-integration/core';
-import { Module } from '../../lib/di';
+
 import { createTransport } from '../../lib/dataTransport';
+import { Module } from '../../lib/di';
+
 import type {
   CustomKeyNameMap,
   Deps,
@@ -9,6 +11,7 @@ import type {
   TransportMapParams,
   Transports,
 } from './DataTransportManager.interface';
+
 @Module({
   name: 'DataTransportManager',
 })

@@ -2,6 +2,7 @@ import type { NumberData } from '@ringcentral-integration/commons/integration-te
 
 import type { StepFunction } from '../../../lib/step';
 import { AnswerCall } from '../SmallCallControl';
+
 import { MakeInboundCall } from './MakeInboundCall';
 import { MakeOutboundCall } from './MakeOutboundCall';
 

@@ -1,6 +1,5 @@
+import clsx from 'clsx';
 import React from 'react';
-
-import classnames from 'classnames';
 
 import styles from './styles.scss';
 
@@ -11,14 +10,14 @@ type MoreActionItemProps = {
   onClick: (...args: any[]) => any;
   dataSign?: string;
 };
-const MoreActionItem: React.SFC<MoreActionItemProps> = ({
+const MoreActionItem: React.FC<MoreActionItemProps> = ({
   title,
   icon: Icon,
   disabled,
   onClick,
   dataSign,
 }) => {
-  const iconClassName = classnames(
+  const iconClassName = clsx(
     styles.buttonIcon,
     disabled ? styles.buttonDisabled : styles.buttonActive,
   );

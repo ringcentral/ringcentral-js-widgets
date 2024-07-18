@@ -20,7 +20,9 @@ export default {
   answerAndHold: "応答/保留",
   answer: "応答",
   completeTransfer: "転送完了",
-  reply: "返信"
+  reply: "返信",
+  add: "追加",
+  mergeCall: "アクティブな通話とマージ"
 };
 
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
@@ -45,3 +47,5 @@ export default {
 // @key: @#@"answer"@#@ @source: @#@"Answer"@#@
 // @key: @#@"completeTransfer"@#@ @source: @#@"Complete transfer"@#@
 // @key: @#@"reply"@#@ @source: @#@"Reply"@#@
+// @key: @#@"add"@#@ @source: @#@"Add"@#@
+// @key: @#@"mergeCall"@#@ @source: @#@"Merge with active call"@#@

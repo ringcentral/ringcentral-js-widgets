@@ -1,0 +1,10 @@
+{
+  "extends": "../tsconfig.json",
+  "include": ["./**/*.ts", "./**/*.tsx", "./typings/**/*.d.ts"],
+  "exclude": ["./**/*.test.ts"],
+  "compilerOptions": {
+    "outDir": "../../build/i18n",
+    "noEmit": false,
+    "sourceMap": true
+  }
+}

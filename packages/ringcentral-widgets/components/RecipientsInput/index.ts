@@ -1,5 +1,5 @@
-import i18n from './i18n';
 import RecipientsInput from './RecipientsInput';
+import i18n from './i18n';
 
 export { i18n };
 export * from './SelectedRecipientItem';

@@ -1,6 +1,5 @@
-import type { Reducer, ReducersMapObject } from 'redux';
-
 import { usmAction } from '@ringcentral-integration/core';
+import type { Reducer, ReducersMapObject } from 'redux';
 
 import type { ActionTypesBase } from './actionTypesBase';
 

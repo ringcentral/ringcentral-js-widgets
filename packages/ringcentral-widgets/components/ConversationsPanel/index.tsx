@@ -1,9 +1,7 @@
+import messageTypes from '@ringcentral-integration/commons/enums/messageTypes';
+import clsx from 'clsx';
 import type { FC } from 'react';
 import React, { useEffect, useMemo } from 'react';
-
-import classnames from 'classnames';
-
-import messageTypes from '@ringcentral-integration/commons/enums/messageTypes';
 
 import ComposeText from '../../assets/images/ComposeText.svg';
 import type { ConversationListProps } from '../ConversationList';
@@ -13,6 +11,7 @@ import { Header } from '../Header';
 import { MessageTabButton } from '../MessageTabButton';
 import { NavigationBar } from '../NavigationBar';
 import { SpinnerOverlay } from '../SpinnerOverlay';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 import { useConversationTabData } from './useConversationTabData';
@@ -85,10 +84,11 @@ type ConversationsPanelProps = {
   maxExtensionNumberLength: number;
   renderContactName?: (...args: any[]) => any;
   externalHasEntity: (...args: any[]) => boolean;
+  shouldHideEntityButton?: (...args: any[]) => any;
   externalViewEntity: (...args: any[]) => void;
 } & Omit<ConversationListProps, 'conversation'>;
 
-export const ConversationsPanel: FC<ConversationsPanelProps & {}> = (props) => {
+export const ConversationsPanel: FC<ConversationsPanelProps> = (props) => {
   const {
     currentSiteCode = '',
     isMultipleSiteEnabled = false,
@@ -152,6 +152,7 @@ export const ConversationsPanel: FC<ConversationsPanelProps & {}> = (props) => {
     renderContactName,
     externalHasEntity,
     externalViewEntity,
+    shouldHideEntityButton,
     formatPhone,
     renderActionMenuExtraButton,
     onUnmount,
@@ -213,7 +214,7 @@ export const ConversationsPanel: FC<ConversationsPanelProps & {}> = (props) => {
       ) : (
         <div
           data-sign="messageList"
-          className={classnames(
+          className={clsx(
             styles.content,
             showTitle && styles.contentWithHeader,
           )}
@@ -285,6 +286,7 @@ export const ConversationsPanel: FC<ConversationsPanelProps & {}> = (props) => {
               renderContactName={renderContactName}
               externalHasEntity={externalHasEntity}
               externalViewEntity={externalViewEntity}
+              shouldHideEntityButton={shouldHideEntityButton}
               renderActionMenuExtraButton={renderActionMenuExtraButton}
             />
           ) : (

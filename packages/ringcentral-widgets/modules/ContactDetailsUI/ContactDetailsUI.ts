@@ -17,6 +17,7 @@ import type {
   ContactDetailsViewFunctionProps,
   ContactDetailsViewProps,
 } from '../../components/ContactDetailsView/ContactDetailsView.interface';
+
 import type {
   Deps,
   GetUIFunctions,

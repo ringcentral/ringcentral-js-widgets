@@ -26,7 +26,6 @@
   | RC-UK |7 |3 |999 |Match SpecialService |11 |999 |SpecialService |999 |
 
  */
-
 import { Category } from '@ringcentral-integration/commons/interfaces/NumberParserResponse.interface';
 import {
   autorun,

@@ -22,7 +22,6 @@
 
  * > Login CTI > History
  */
-
 import {
   common,
   StepFunction,
@@ -47,7 +46,6 @@ import {
   GenerateDateBeforeMinute,
   GenerateDateBeforeToday,
 } from '../../../../steps/CallHistory';
-import { NavigateToHistory } from '../../../../steps/Navigate';
 import { CommonLogin } from '../../../../steps/CommonLogin';
 import { CreateInstance } from '../../../../steps/CreateInstance';
 import {
@@ -58,6 +56,7 @@ import {
   MockExtensionsList,
   mockExtensionsListData,
 } from '../../../../steps/Mock';
+import { NavigateToHistory } from '../../../../steps/Navigate';
 
 const yesterday = GenerateDateBeforeToday(1);
 const fiveMinsAgo = GenerateDateBeforeMinute(5);
@@ -159,7 +158,6 @@ export class HistoryWithCalls extends Step {
     <CommonLogin {...props} CreateInstance={CreateInstance} />
   );
   CreateMock: StepFunction<any, any> = CreateMock;
-  historyTabDataSign = 'History';
 
   @examples(`
     | callHistoryRecords             | expectedValues                    |
@@ -213,11 +211,7 @@ export class HistoryWithCalls extends Step {
           }}
         />
         <And desc="Login CTI" action={Login} />
-        <When
-          desc="Navigate to history page"
-          action={<NavigateToHistory testId={this.historyTabDataSign} />}
-        />
-
+        <When desc="Navigate to history page" action={<NavigateToHistory />} />
         <Then
           desc="The following information should be shown and displayed by time order"
           action={[

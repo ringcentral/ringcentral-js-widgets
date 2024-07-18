@@ -1,8 +1,8 @@
+import clsx from 'clsx';
 import React from 'react';
 
-import classnames from 'classnames';
-
 import CloseIcon from '../../assets/images/CloseIcon.svg';
+
 import styles from './styles.scss';
 
 type SlideoutBarProps = {
@@ -31,7 +31,7 @@ class SlideoutBar extends React.Component<SlideoutBarProps, {}> {
     const { offset, onClick, slideout, className, closable, children } =
       this.props;
     const slideStyle = slideout ? 'translateX(0)' : `translateX(${offset}px)`;
-    const cls = classnames(styles.container, className);
+    const cls = clsx(styles.container, className);
     const closeButton = closable ? this._renderCloseButton() : null;
     return (
       <div className={cls} style={{ transform: slideStyle }} onClick={onClick}>

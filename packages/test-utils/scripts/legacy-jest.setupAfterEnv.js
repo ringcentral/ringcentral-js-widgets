@@ -1,3 +1,8 @@
 /* eslint-disable no-undef */
-jest.retryTimes(Number(process.env.RETRY ?? '5'));
-jest.setTimeout(120 * 1000);
+
+// RETRY only work in CI
+if (__CI__ && process.env.RETRY) {
+  jest.retryTimes(Number(process.env.RETRY));
+}
+
+jest.setTimeout(30 * 1000);

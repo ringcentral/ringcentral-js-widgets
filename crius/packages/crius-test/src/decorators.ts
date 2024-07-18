@@ -1,6 +1,7 @@
-import { run, Context } from 'crius-runner';
 import { Props, StepType } from 'crius';
 import { isCriusNode } from 'crius-is';
+import { run, Context } from 'crius-runner';
+
 import { Step, BaseContext } from './step';
 import { parserString, compileString } from './utils';
 
@@ -82,7 +83,9 @@ function title(title: string) {
   };
 }
 
-function examples(params: TemplateStringsArray | object[] | string | string[]) {
+function examples<T = TemplateStringsArray | object[] | string | string[]>(
+  params: T,
+) {
   return function (
     target: Object,
     name: string,

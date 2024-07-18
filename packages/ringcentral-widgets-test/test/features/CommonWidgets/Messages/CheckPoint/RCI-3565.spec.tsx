@@ -15,9 +15,9 @@
 	| 0 |0 |2 |2 |
 
  */
-import { getNodeText, screen } from '@testing-library/react';
 import messageSyncBody from '@ringcentral-integration/mock/src/platform/data/messageSync.json';
-import { Login as CommonLogin } from '../../../../steps/Login';
+import { getNodeText, screen } from '@testing-library/react';
+
 import type { StepFunction } from '../../../../lib/step';
 import {
   p2,
@@ -31,6 +31,7 @@ import {
   title,
   When,
 } from '../../../../lib/step';
+import { Login as CommonLogin } from '../../../../steps/Login';
 import {
   CreateMock as CommonCreateMock,
   generateMessage,

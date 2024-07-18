@@ -1,6 +1,6 @@
 import type { CreatorInfo } from './CreatorInfo';
-import type { SpecificInfo } from './SpecificInfo';
 import type { ExportTaskResultInfo } from './ExportTaskResultInfo';
+import type { SpecificInfo } from './SpecificInfo';
 
 export interface DataExportTask {
   /**

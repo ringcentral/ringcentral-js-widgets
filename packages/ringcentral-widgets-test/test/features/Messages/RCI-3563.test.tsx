@@ -11,26 +11,34 @@ import {
   title,
   When,
 } from '@ringcentral-integration/test-utils';
+import { screen, waitFor } from '@testing-library/react';
+
 import { mockMessageListData } from '../../__mock__';
+import { ClickBackButton } from '../../steps/Call';
+import { CommonLogin } from '../../steps/CommonLogin';
+import { CreateInstance } from '../../steps/CreateInstance';
 import {
   ExpandTheActionMenu,
   CheckClickToCallButton,
   CheckClickToSmsButton,
 } from '../../steps/Messages';
-import { MockMessageList, MockMessageSync } from '../../steps/Mock';
+import { CreateMock, MockMessageList, MockMessageSync } from '../../steps/Mock';
 import { NavigateToMessagesTab } from '../../steps/Navigate/actions/NavigateToMessages';
 
 interface IVoicemailProps {
   CustomLogin: StepFunction<any>;
   CustomCreateMock: StepFunction<any>;
 }
-@autorun(test.skip)
+@autorun(test)
 @it
 @p2
 @title('Verify make call and send SMS from voicemail action button')
 export class VoicemailCallAndSmsAction extends Step<IVoicemailProps> {
-  CustomLogin: StepFunction<any, any> | null = null;
-  CustomCreateMock: StepFunction<any, any> | null = null;
+  CustomLogin: StepFunction<any, any> = (props) => (
+    <CommonLogin {...props} CreateInstance={CreateInstance} />
+  );
+  CustomCreateMock: StepFunction<any, any> = CreateMock;
+
   @examples(`
     | user    | number        |
     | 'UserB' | '18662105111' |
@@ -85,7 +93,16 @@ export class VoicemailCallAndSmsAction extends Step<IVoicemailProps> {
           desc="> Go to the Entry point
 								> Check the voicemail from UserB
 								> Expand the voicemail"
-          action={[NavigateToMessagesTab, ExpandTheActionMenu]}
+          action={[
+            async () => {
+              await waitFor(() => {
+                expect(screen.queryByTestId('backButton')).toBeInTheDocument();
+              });
+            },
+            ClickBackButton,
+            NavigateToMessagesTab,
+            ExpandTheActionMenu,
+          ]}
         />
         <Then
           desc="click 'Click to sms' button should:

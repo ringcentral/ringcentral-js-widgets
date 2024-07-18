@@ -1,7 +1,9 @@
 import type { CountryCode, ParsedNumber } from 'libphonenumber-js';
 import { parseNumber, AsYouType } from 'libphonenumber-js';
+
 import cleanNumber from '../cleanNumber';
 import extractControls from '../extractControls';
+
 import type { ParseResult, ParseParam, ProcessParam } from './parse.interface';
 
 const invalidCharsRegExp = /[^\d*+#\-(). ]/;

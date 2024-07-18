@@ -10,7 +10,7 @@
  * Outlook > Calendar > Edit the event1>Click'RingCentral Scheduler' / 'Schedule with RingCentral'
  * Outlook > Calendar >Edit the event1>Click 'New Appointment' or 'New Meeting' in the menu bar > Click {Brand name} for Outlook
  */
-
+import rcvMeetingSettingsBody from '@ringcentral-integration/commons/integration-test/mock/data/rcvMeetingSettings.json';
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p2,
@@ -24,8 +24,8 @@ import {
   title,
   When,
 } from '@ringcentral-integration/test-utils';
-import rcvMeetingSettingsBody from '@ringcentral-integration/commons/integration-test/mock/data/rcvMeetingSettings.json';
 
+import { CheckAlertToBeCallWith } from '../../../../../steps/Alert';
 import { Login as CommonLogin } from '../../../../../steps/Login';
 import {
   CheckRCVPageDisplay,
@@ -33,12 +33,10 @@ import {
   CheckScheduleButton,
   ClickRemoveButton,
 } from '../../../../../steps/Meeting';
-
 import {
   CheckRemoveMeetingModal,
   ClickConfirmInModal,
 } from '../../../../../steps/Modal';
-import { CheckAlertToBeCallWith } from '../../../../../steps/Alert';
 
 @autorun(test.skip)
 @it

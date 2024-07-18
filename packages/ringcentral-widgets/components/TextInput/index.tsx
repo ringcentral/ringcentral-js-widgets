@@ -1,6 +1,5 @@
+import clsx from 'clsx';
 import React, { Component } from 'react';
-
-import classnames from 'classnames';
 
 import styles from './styles.scss';
 
@@ -69,13 +68,7 @@ class TextInput extends Component<TextInputProps, TextInputState> {
     } = this.props;
     const { value } = this.state;
     return (
-      <div
-        className={classnames(
-          styles.root,
-          className,
-          invalid && styles.invalid,
-        )}
-      >
+      <div className={clsx(styles.root, className, invalid && styles.invalid)}>
         <input
           data-sign={this.props.dataSign}
           autoFocus={autoFocus} // eslint-disable-line
@@ -91,7 +84,7 @@ class TextInput extends Component<TextInputProps, TextInputState> {
           name={name}
           value={value || ''}
           defaultValue={defaultValue}
-          className={classnames(styles.input, this.props.inputClassName)}
+          className={clsx(styles.input, this.props.inputClassName)}
           onKeyDown={onKeyDown}
         />
       </div>

@@ -1,4 +1,3 @@
-import { filter, forEach, join, keys, map, reduce } from 'ramda';
 import type PresenceInfoResponse from '@rc-ex/core/lib/definitions/PresenceInfoResponse';
 import type ValidationError from '@rc-ex/core/lib/definitions/ValidationError';
 import {
@@ -7,6 +6,7 @@ import {
   RcModuleV2,
   state,
 } from '@ringcentral-integration/core';
+import { filter, forEach, join, keys, map, reduce } from 'ramda';
 
 import { phoneSources } from '../../enums/phoneSources';
 import { phoneTypes } from '../../enums/phoneTypes';
@@ -30,6 +30,7 @@ import {
   isSupportedPhoneNumber,
 } from '../../lib/phoneTypeHelper';
 import { proxify } from '../../lib/proxy/proxify';
+
 import type {
   Contact,
   Deps,
@@ -482,6 +483,7 @@ export class AccountContacts extends RcModuleV2<Deps> implements ContactSource {
               this.profileImages[id] && this.profileImages[id].imageUrl,
             presence: this.presences[id] && this.presences[id].presence,
             contactStatus: item.status,
+            isCallQueueNumber: item.type === 'Department',
           };
 
           if (item.phoneNumbers && item.phoneNumbers.length > 0) {

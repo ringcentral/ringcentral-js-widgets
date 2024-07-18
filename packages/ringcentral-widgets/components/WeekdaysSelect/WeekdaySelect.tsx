@@ -1,11 +1,10 @@
+import clsx from 'clsx';
 import type { FunctionComponent } from 'react';
 import React from 'react';
 
-import classNames from 'classnames';
-
-import i18n, { I18nKey } from './i18n';
-import styles from './styles.scss';
 import type { WeekdaysSelectProps } from './WeekdaysSelect.interface';
+import i18n, { type I18nKey } from './i18n';
+import styles from './styles.scss';
 
 const WeekdaysSelect: FunctionComponent<WeekdaysSelectProps> = ({
   selected,
@@ -49,7 +48,7 @@ const WeekdaysSelect: FunctionComponent<WeekdaysSelectProps> = ({
       <li
         data-value={weekday}
         key={weekday}
-        className={classNames(styles.weekdayItem, {
+        className={clsx(styles.weekdayItem, {
           [styles.active]: isActive,
         })}
       >

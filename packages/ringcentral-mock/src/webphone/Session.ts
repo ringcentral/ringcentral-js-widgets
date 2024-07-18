@@ -1,6 +1,5 @@
-import { includes } from 'ramda';
-import type { WebPhoneUserAgent } from 'ringcentral-web-phone/lib/userAgent';
-
+// @ts-nocheck
+// TODO: fix type
 import type { TelephonyStatus } from '@ringcentral-integration/commons/enums/telephonyStatus';
 import { telephonyStatus as telephonyStatuses } from '@ringcentral-integration/commons/enums/telephonyStatus';
 import { recordStatus } from '@ringcentral-integration/commons/modules/Webphone/recordStatus';
@@ -9,6 +8,8 @@ import {
   isConferenceSession,
   normalizeSession,
 } from '@ringcentral-integration/commons/modules/Webphone/webphoneHelper';
+import { includes } from 'ramda';
+import type { WebPhoneUserAgent } from 'ringcentral-web-phone/lib/userAgent';
 
 export const CONFERENCE_SESSION_ID =
   'Y3MxNzI2MjI1NTQzODI0MzUzM0AxMC43NC4yLjIxOA';
@@ -42,7 +43,22 @@ export const flipFn = jest.fn();
 export const startRecordFn = jest.fn();
 export const stopRecordFn = jest.fn();
 
+interface PartyData {
+  partyId: string;
+  sessionId: string;
+}
+
 export class FakeSession {
+  static _partyData?: PartyData;
+
+  static setCurrentPartyData(partyData?: PartyData) {
+    this._partyData = partyData;
+  }
+
+  static clearCurrentPartyData() {
+    this.setCurrentPartyData(undefined);
+  }
+
   id: string;
   _ua: WebPhoneUserAgent;
   __rc_callStatus: string;
@@ -66,10 +82,7 @@ export class FakeSession {
   __rc_recordStatus: string;
   __rc_minimized?: boolean;
   __rc_lastActiveTime?: number;
-  __rc_partyData: {
-    partyId: string;
-    sessionId: string;
-  };
+  __rc_partyData: PartyData;
   _events: Record<string, ((...args: any) => void)[]>;
 
   constructor(
@@ -128,7 +141,7 @@ export class FakeSession {
     this.__rc_recordStatus = recordStatus.idle;
     this.__rc_minimized = undefined;
     this.__rc_lastActiveTime = undefined;
-    this.__rc_partyData = {
+    this.__rc_partyData = FakeSession._partyData ?? {
       partyId: `cs17262255528361442${partyId}-1`,
       sessionId: CONFERENCE_SESSION_ID,
     };
@@ -197,13 +210,14 @@ export class FakeSession {
     return unmuteFn(this.id);
   }
 
-  async hold() {
-    await this.trigger('hold');
+  hold() {
+    this.trigger('hold');
     this.__rc_callStatus = sessionStatus.onHold;
     return holdFn(this.id);
   }
 
   unhold() {
+    this.trigger('unhold');
     this.__rc_callStatus = sessionStatus.connected;
     return unholdFn(this.id);
   }
@@ -253,6 +267,14 @@ export class FakeSession {
   }
 
   isConferenceSession() {
-    return isConferenceSession(normalizeSession(this));
+    return isConferenceSession(normalizeSession(this as any)!);
+  }
+
+  addTrack() {
+    return;
+  }
+
+  removeListener() {
+    return;
   }
 }

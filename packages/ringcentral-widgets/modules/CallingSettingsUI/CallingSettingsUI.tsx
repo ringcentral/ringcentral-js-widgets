@@ -4,6 +4,7 @@ import type { UIFunctions, UIProps } from '@ringcentral-integration/core';
 import { RcUIModuleV2 } from '@ringcentral-integration/core';
 
 import type { CallingSettingsPanelProps } from '../../components/CallingSettingsPanel/CallingSettingsPenal.interface';
+
 import type { Deps } from './CallingSettingsUI.interface';
 
 @Module({

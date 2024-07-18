@@ -8,7 +8,6 @@
  * Scheduler:Login to Outlook: Calendar -> New Event > RingCentral Scheduler Appmeeting setting page > Mark on 'Use Personal Meeting ID XXX-XXX-XXX'
  * Outlook appointment:Login to Outlook: > New Meeting/Appointment > RingCentral for outlook> meeting setting page > Mark on 'Use Personal Meeting ID XXX-XXX-XXX'
  */
-
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p2,

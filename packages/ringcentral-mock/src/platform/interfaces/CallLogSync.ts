@@ -1,5 +1,5 @@
-import type { UserCallLogRecord } from './UserCallLogRecord';
 import type { SyncInfoCallLog } from './SyncInfoCallLog';
+import type { UserCallLogRecord } from './UserCallLogRecord';
 
 export interface CallLogSync {
   /**

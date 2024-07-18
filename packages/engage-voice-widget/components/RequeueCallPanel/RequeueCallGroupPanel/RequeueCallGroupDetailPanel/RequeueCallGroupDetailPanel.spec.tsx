@@ -1,8 +1,6 @@
-import React from 'react';
-
-import { mount } from 'enzyme';
-
 import { RcThemeProvider } from '@ringcentral/juno';
+import { mount } from 'enzyme';
+import React from 'react';
 
 import { RequeueCallGroupDetailPanel } from './RequeueCallGroupDetailPanel';
 
@@ -78,7 +76,7 @@ describe('<RequeueCallGroupPanel />', () => {
       .at(0)
       .find('button')
       .simulate('click');
-    expect(goBack).toBeCalled();
+    expect(goBack).toHaveBeenCalled();
   });
 
   it('When user select a queue, the queue will be highlighted, then user click the select button, submitSelection will be called', () => {
@@ -105,7 +103,7 @@ describe('<RequeueCallGroupPanel />', () => {
 
     const selectedGateId =
       defalutSelectedQueueGroup.gates[selectedGateIndex].gateId;
-    expect(submitSelection).toBeCalledWith(selectedGateId);
+    expect(submitSelection).toHaveBeenCalledWith(selectedGateId);
   });
 
   it("When user select no queue, the Select Button should be disabled and submitSelection shouldn't be called", () => {
@@ -124,7 +122,7 @@ describe('<RequeueCallGroupPanel />', () => {
     expect(submitButton.prop('disabled')).toBe(true);
 
     submitButton.simulate('click');
-    expect(submitSelection).not.toBeCalled();
+    expect(submitSelection).not.toHaveBeenCalled();
   });
 
   it('Can search Requeue Queue', () => {

@@ -8,7 +8,6 @@
  * Scheduler:Login to Outlook: Calendar -> New Event > RingCentral Scheduler
  * Outlook appointment: Login to Outlook > CalendarNew Meeting > RingCentral for Outlook
  */
-
 import {
   autorun,
   it,

@@ -1,7 +1,9 @@
+import type { FeatureInfo } from '@ringcentral-integration/mock';
+
 import type { StepFunction } from '../../lib/step';
 
 interface MockPermissionProps {
-  handler?: (permissions: any[]) => any;
+  handler?: (permissions: FeatureInfo[]) => FeatureInfo[] | undefined;
   repeat?: number;
   isDefaultInit?: boolean;
 }

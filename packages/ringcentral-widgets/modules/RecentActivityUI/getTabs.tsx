@@ -1,6 +1,3 @@
-import type { ReactElement } from 'react';
-import React from 'react';
-
 import { trackEvents } from '@ringcentral-integration/commons/enums/trackEvents';
 import type { Entity } from '@ringcentral-integration/commons/interfaces/Entity.interface';
 import type { Message } from '@ringcentral-integration/commons/interfaces/MessageStore.model';
@@ -11,12 +8,15 @@ import type {
   RecentMessage,
   RecentMessages,
 } from '@ringcentral-integration/commons/modules/RecentMessages';
+import type { ReactElement } from 'react';
+import React from 'react';
 
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import FaxIcon from '../../assets/images/Fax.svg';
 import VoicemailIcon from '../../assets/images/VoicemailIcon.svg';
 import RecentActivityCalls from '../../components/RecentActivityCalls';
 import RecentActivityMessages from '../../components/RecentActivityMessages';
+
 import i18n from './i18n';
 
 export interface Tab {

@@ -4,6 +4,7 @@ import MergeIntoConferenceIcon from '../../assets/images/MergeIntoConferenceIcon
 import CallAvatar from '../CallAvatar';
 import CircleButton from '../CircleButton';
 import Modal from '../Modal';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 
@@ -14,7 +15,7 @@ type ConfirmMergeModalProps = {
   onCancel?: (...args: any[]) => any;
   partyProfiles?: object[];
 };
-const ConfirmMergeModal: React.SFC<ConfirmMergeModalProps> = ({
+const ConfirmMergeModal: React.FC<ConfirmMergeModalProps> = ({
   currentLocale,
   show,
   onMerge,

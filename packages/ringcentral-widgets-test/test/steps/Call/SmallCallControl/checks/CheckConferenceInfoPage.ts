@@ -1,6 +1,6 @@
+import type { UserAgent } from '@ringcentral-integration/mock/src/webphone/Webphone';
 import { waitUntilTo } from '@ringcentral-integration/utils';
 import { screen } from '@testing-library/react';
-import type { UserAgent } from '@ringcentral-integration/mock/src/webphone/Webphone';
 
 import type { StepFunction } from '../../../../lib/step';
 

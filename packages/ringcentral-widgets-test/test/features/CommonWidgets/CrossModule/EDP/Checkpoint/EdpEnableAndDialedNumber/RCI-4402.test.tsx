@@ -28,7 +28,6 @@
   | RC-UK |7 |3 |999 |Match Special Service |11 |999 |SpecialService |999 |
 
  */
-
 import { Category } from '@ringcentral-integration/commons/interfaces/NumberParserResponse.interface';
 import {
   p1,
@@ -43,6 +42,7 @@ import {
   When,
   common,
 } from '@ringcentral-integration/test-utils';
+
 import type { StepProp } from '../../../../../../lib/step';
 import { CheckCallControlPage, MakeCall } from '../../../../../../steps/Call';
 import { CheckLogBaseInfoActive } from '../../../../../../steps/CallLog';

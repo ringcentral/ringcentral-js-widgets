@@ -27,4 +27,4 @@ export default {
   // mergeToConference: 'Merge',
   // hold: 'Hold',
   // unhold: 'Unhold',
-};
+} as const;

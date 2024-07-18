@@ -20,7 +20,6 @@
     "release": "yarn gulp release"
   },
   "dependencies": {
-    "classnames": "^2.2.5",
     "immutable": "^3.7.4",
     "prop-types": "^15.7.2",
     "ramda": "^0.28.0",
@@ -34,23 +33,20 @@
     "@ringcentral-integration/core": "*",
     "@ringcentral-integration/locale-loader": "*",
     "@ringcentral-integration/locale-settings": "*",
-    "autoprefixer": "^9.8.4",
     "execa": "^5.0.0",
     "fs-extra": "^10.1.0",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "gulp-istanbul": "^1.1.1",
     "gulp-sourcemaps": "^2.6.5",
-    "identity-obj-proxy": "^3.0.0",
-    "react-svg-loader": "^3.0.3",
     "redux-logger": "^3.0.6",
     "redux-thunk": "^2.2.0",
     "yargs": "^17.1.1"
   },
   "peerDependencies": {
-    "@ringcentral-integration/commons": "^0.14.0",
-    "@ringcentral-integration/core": "^0.14.0",
-    "@ringcentral-integration/widgets": "^0.14.0",
+    "@ringcentral-integration/commons": "^0.15.0",
+    "@ringcentral-integration/core": "^0.15.0",
+    "@ringcentral-integration/widgets": "^0.15.0",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-redux": "^5.1.1",
@@ -59,5 +55,10 @@
   },
   "ci": {
     "ringcentral-widgets-test": "**"
+  },
+  "nx": {
+    "tags": [
+      "scope:ci-group-1"
+    ]
   }
 }

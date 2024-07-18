@@ -16,54 +16,56 @@ interface ICheckLogBaseInfoActiveParams extends ICheckLogBaseInfoSubParams {
   phoneNumber?: string;
 }
 
-export const CheckLogBaseInfoActive: StepFunction<ICheckLogBaseInfoActiveParams> =
-  async ({ name, phoneNumber, status, hasDuration }) => {
-    await waitFor(
-      () => {
-        const section = screen.getByTestId('logSection');
-        if (name) {
-          expect(getByTestId(section, 'logName').textContent).toBe(name);
-        }
+export const CheckLogBaseInfoActive: StepFunction<
+  ICheckLogBaseInfoActiveParams
+> = async ({ name, phoneNumber, status, hasDuration }) => {
+  await waitFor(
+    () => {
+      const section = screen.getByTestId('logSection');
+      if (name) {
+        expect(getByTestId(section, 'logName').textContent).toBe(name);
+      }
 
-        if (phoneNumber) {
-          expect(getByTestId(section, 'phoneNumber').textContent).toBe(
-            phoneNumber,
-          );
-        }
+      if (phoneNumber) {
+        expect(getByTestId(section, 'phoneNumber').textContent).toBe(
+          phoneNumber,
+        );
+      }
 
-        if (status) {
-          expect(getByTestId(section, 'callStatus').textContent).toBe(status);
-        }
+      if (status) {
+        expect(getByTestId(section, 'callStatus').textContent).toBe(status);
+      }
 
-        if (hasDuration) {
-          expect(getByTestId(section, 'subCallDuration')).toBeInTheDocument();
-        }
-      },
-      { timeout: 3000 },
-    );
-  };
+      if (hasDuration) {
+        expect(getByTestId(section, 'subCallDuration')).toBeInTheDocument();
+      }
+    },
+    { timeout: 3000 },
+  );
+};
 
-export const CheckLogBaseInfoSub: StepFunction<ICheckLogBaseInfoSubParams> =
-  async ({ name, hasDuration, hasCallStatusIcon }) => {
-    await waitFor(
-      () => {
-        const section = screen.getByTestId('subLogSection');
+export const CheckLogBaseInfoSub: StepFunction<
+  ICheckLogBaseInfoSubParams
+> = async ({ name, hasDuration, hasCallStatusIcon }) => {
+  await waitFor(
+    () => {
+      const section = screen.getByTestId('subLogSection');
 
-        if (name) {
-          expect(getByTestId(section, 'subLogName').textContent).toBe(name);
-        }
+      if (name) {
+        expect(getByTestId(section, 'subLogName').textContent).toBe(name);
+      }
 
-        if (hasDuration) {
-          expect(getByTestId(section, 'subCallDuration')).toBeInTheDocument();
-        }
+      if (hasDuration) {
+        expect(getByTestId(section, 'subCallDuration')).toBeInTheDocument();
+      }
 
-        if (hasCallStatusIcon) {
-          expect(getByTestId(section, 'subInfoHoldIcon')).toBeInTheDocument();
-        }
-      },
-      { timeout: 3000 },
-    );
-  };
+      if (hasCallStatusIcon) {
+        expect(getByTestId(section, 'subInfoHoldIcon')).toBeInTheDocument();
+      }
+    },
+    { timeout: 3000 },
+  );
+};
 
 export const CheckLogBaseInfoSubSectionNotExist: StepFunction = async () => {
   await waitFor(

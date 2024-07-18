@@ -1,6 +1,5 @@
-import { EventEmitter } from 'events';
-
 import { action, RcModuleV2, state } from '@ringcentral-integration/core';
+import { EventEmitter } from 'events';
 
 import type { RcVideoAPI, RcVMeetingModel } from '../../interfaces/Rcv.model';
 import background from '../../lib/background';
@@ -13,6 +12,7 @@ import type {
 } from '../Meeting';
 import type { RcVideo, RcVideoResponse } from '../RcVideo';
 import { generateRandomPassword } from '../RcVideo';
+
 import type {
   Deps,
   ScheduledCallback,
@@ -122,6 +122,7 @@ export class GenericMeeting<T extends Deps = Deps> extends RcModuleV2<T> {
       scheduleOriginalInfo: ScheduleModel;
     };
     if (this.isRCM) {
+      // @ts-expect-error TS(2322): Type 'ScheduleMeetingResponse' is not assignable t... Remove this comment to see the full error message
       result = await this._deps.meeting.schedule(
         meeting as RcMMeetingModel,
         config,
@@ -129,7 +130,9 @@ export class GenericMeeting<T extends Deps = Deps> extends RcModuleV2<T> {
     } else if (this.isRCV) {
       const rcvMeetingInfo = meeting as RcVMeetingModel;
       if (rcvMeetingInfo.usePersonalMeetingId) {
+        // @ts-expect-error TS(2322): Type 'RcVideoResponse | null' is not assignable to... Remove this comment to see the full error message
         result = await this._deps.rcVideo.updateMeeting(
+          // @ts-expect-error TS(2345): Argument of type 'string | null | undefined' is no... Remove this comment to see the full error message
           this._deps.rcVideo.personalMeeting?.id,
           rcvMeetingInfo,
           config,
@@ -366,6 +369,7 @@ export class GenericMeeting<T extends Deps = Deps> extends RcModuleV2<T> {
   }
 
   get personalMeetingId(): string {
+    // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
     return (this.personalMeeting as Partial<RcVideoAPI>)?.shortId;
   }
 

@@ -1,15 +1,17 @@
-import { filter, find } from 'ramda';
-
 import {
   action,
   computed,
   RcModuleV2,
   state,
   storage,
+  watch,
 } from '@ringcentral-integration/core';
+import { OmitFunctions } from '@ringcentral-integration/utils/src/typeFunctions/OmitFunctions';
+import { filter, find } from 'ramda';
 
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
+
 import type { AudioSettingsData, Deps } from './AudioSettings.interface';
 import { audioSettingsErrors } from './audioSettingsErrors';
 
@@ -17,25 +19,43 @@ function polyfillGetUserMedia() {
   if (navigator.mediaDevices === undefined) {
     Object.assign(navigator, { mediaDevices: {} });
   }
-  // @ts-expect-error
+  // @ts-expect-error TS(2339): Property 'getUserMedia' does not exist on type 'Na... Remove this comment to see the full error message
   navigator.getUserMedia =
-    // @ts-expect-error
+    // @ts-expect-error TS(2339): Property 'getUserMedia' does not exist on type 'Na... Remove this comment to see the full error message
     navigator.getUserMedia ||
     (navigator as any).webkitGetUserMedia ||
     (navigator as any).mozGetUserMedia;
   if (
     navigator.mediaDevices.getUserMedia === undefined &&
-    // @ts-expect-error
+    // @ts-expect-error TS(2339): Property 'getUserMedia' does not exist on type 'Na... Remove this comment to see the full error message
     navigator.getUserMedia
   ) {
     navigator.mediaDevices.getUserMedia = (constraints) =>
       new Promise((resolve, reject) => {
-        // @ts-expect-error
+        // @ts-expect-error TS(2339): Property 'getUserMedia' does not exist on type 'Na... Remove this comment to see the full error message
         navigator.getUserMedia.call(navigator, constraints, resolve, reject);
       });
   }
 }
 polyfillGetUserMedia();
+
+const DEFAULT_VALUE = {
+  // TODO: Remember to discuss migration plans if we change these properties. Changes that cause the volume settings to change can upset users.
+  ringtoneVolume: 0.5,
+  callVolume: 0.5,
+  outputDeviceId: 'default',
+  inputDeviceId: 'default',
+  ringtoneDeviceId: 'default',
+  hasAutoPrompted: false,
+  /**
+   * automatic gain control (AGC)
+   * Automatic gain control is a feature in which a sound source automatically manages
+   * changes in the volume of its source media to maintain a steady overall volume level.
+   * This feature is typically used on microphones, although it can be provided by other
+   * input sources as well.
+   */
+  isAGCEnabled: false,
+};
 
 @Module({
   name: 'AudioSettings',
@@ -49,6 +69,7 @@ polyfillGetUserMedia();
 })
 export class AudioSettings extends RcModuleV2<Deps> {
   protected _getUserMediaPromise: Promise<MediaStream> | null = null;
+  private _showCheckMediaAlert: boolean;
 
   constructor(deps: Deps) {
     super({
@@ -56,23 +77,48 @@ export class AudioSettings extends RcModuleV2<Deps> {
       storageKey: 'AudioSettings',
       enableCache: true,
     });
+
+    this._showCheckMediaAlert =
+      this._deps.audioSettingsOptions?.showCheckMediaAlert ?? false;
+  }
+
+  override onInitOnce(): void | Promise<void> {
+    // We add more properties to the data object
+    // need to check is there any key not exist value
+    // if so assign the data to default value
+    if (
+      Object.keys(DEFAULT_VALUE).some(
+        (key) => this.data[key as keyof typeof DEFAULT_VALUE] === undefined,
+      )
+    ) {
+      this._setData({
+        ringtoneVolume: this.ringtoneVolume ?? DEFAULT_VALUE.ringtoneVolume,
+        callVolume: this.callVolume ?? DEFAULT_VALUE.callVolume,
+        outputDeviceId: this.outputDeviceId ?? DEFAULT_VALUE.outputDeviceId,
+        inputDeviceId: this.inputDeviceId ?? DEFAULT_VALUE.inputDeviceId,
+        isAGCEnabled: this.isAGCEnabled ?? DEFAULT_VALUE.isAGCEnabled,
+        ringtoneDeviceId:
+          this.ringtoneDeviceId ?? DEFAULT_VALUE.ringtoneDeviceId,
+      });
+    }
+    watch(
+      this,
+      () => [this.isAGCEnabled, this.hasUserMedia],
+      () => {
+        if (this.hasUserMedia) {
+          this.setAutoGainControl(this.isAGCEnabled);
+        }
+      },
+      { multiple: true },
+    );
   }
 
   @storage
   @state
-  data: AudioSettingsData = {
-    dialButtonVolume: 1,
-    dialButtonMuted: false,
-    ringtoneVolume: 0.3,
-    ringtoneMuted: false,
-    callVolume: 1,
-    outputDeviceId: 'default',
-    inputDeviceId: 'default',
-    hasAutoPrompted: false,
-  };
+  data: AudioSettingsData = DEFAULT_VALUE;
 
   @state
-  availableDevices: MediaDeviceInfo[] = [];
+  availableDevices: OmitFunctions<MediaDeviceInfo>[] = [];
 
   @state
   hasUserMedia = false;
@@ -88,6 +134,7 @@ export class AudioSettings extends RcModuleV2<Deps> {
     this.availableDevices = [];
     this.data.outputDeviceId = 'default';
     this.data.inputDeviceId = 'default';
+    this.data.ringtoneDeviceId = 'default';
   }
 
   @action
@@ -96,7 +143,7 @@ export class AudioSettings extends RcModuleV2<Deps> {
   }
 
   @action
-  setAvailableDevices(devices: MediaDeviceInfo[]) {
+  setAvailableDevices(devices: OmitFunctions<MediaDeviceInfo>[]) {
     this.availableDevices = devices;
 
     const isOutputDeviceExist = find(
@@ -118,8 +165,10 @@ export class AudioSettings extends RcModuleV2<Deps> {
       );
       if (!hasDefaultDevice && firstDevice) {
         this.data.outputDeviceId = firstDevice.deviceId;
+        this.data.ringtoneDeviceId = firstDevice.deviceId;
       } else {
         this.data.outputDeviceId = 'default';
+        this.data.ringtoneDeviceId = 'default';
       }
     }
 
@@ -150,25 +199,23 @@ export class AudioSettings extends RcModuleV2<Deps> {
 
   @action
   _setData({
-    dialButtonVolume = this.dialButtonVolume,
-    dialButtonMuted = this.dialButtonMuted,
     ringtoneVolume = this.ringtoneVolume,
-    ringtoneMuted = this.ringtoneMuted,
     callVolume = this.callVolume,
     outputDeviceId = this.outputDeviceId,
     inputDeviceId = this.inputDeviceId,
+    ringtoneDeviceId = this.ringtoneDeviceId,
+    isAGCEnabled = this.isAGCEnabled,
   }) {
     this.data.outputDeviceId = outputDeviceId;
     this.data.inputDeviceId = inputDeviceId;
-    this.data.dialButtonVolume = Math.min(1, Math.max(0, dialButtonVolume));
-    this.data.dialButtonMuted = !!dialButtonMuted;
+    this.data.isAGCEnabled = isAGCEnabled;
+    this.data.ringtoneDeviceId = ringtoneDeviceId;
     this.data.ringtoneVolume = Math.min(1, Math.max(0, ringtoneVolume));
-    this.data.ringtoneMuted = !!ringtoneMuted;
-    this.data.callVolume = Math.min(1, Math.max(0.1, callVolume));
+    this.data.callVolume = Math.min(1, Math.max(0, callVolume));
   }
 
   override initializeProxy() {
-    // Check audio permissions everytime app client starts
+    // Check audio permissions every time app client starts
     if (this.supportDevices) {
       this._checkDevices();
     }
@@ -212,11 +259,28 @@ export class AudioSettings extends RcModuleV2<Deps> {
   }
 
   @proxify
+  async setAutoGainControl(isAGCEnabled: boolean) {
+    try {
+      await navigator.mediaDevices.getUserMedia({
+        audio: {
+          autoGainControl: isAGCEnabled,
+        },
+      });
+    } catch (err) {
+      console.warn(`setAutoGainControl error:`, err);
+    }
+  }
+
+  @proxify
   async _checkDevices() {
     const devices = await navigator.mediaDevices.enumerateDevices();
     this.setAvailableDevices(
-      // TODO: formatting for devices info instances and replace JSON APIs.
-      devices.map((d) => JSON.parse(JSON.stringify(d))),
+      devices.map((d) => ({
+        deviceId: d.deviceId,
+        kind: d.kind,
+        label: d.label,
+        groupId: d.groupId,
+      })),
     );
   }
 
@@ -250,7 +314,9 @@ export class AudioSettings extends RcModuleV2<Deps> {
   @proxify
   async _onGetUserMediaSuccess() {
     const userMediaAlert = find(
-      (item) => item.message === audioSettingsErrors.userMediaPermission,
+      (item) =>
+        item.message === audioSettingsErrors.userMediaPermission ||
+        item.message === audioSettingsErrors.checkMediaPermission,
       this._deps.alert.messages,
     );
     if (userMediaAlert) {
@@ -261,43 +327,59 @@ export class AudioSettings extends RcModuleV2<Deps> {
   }
 
   @proxify
-  async onGetUserMediaError() {
-    this.setUserMediaError();
-    this._deps.alert.danger({
-      message: audioSettingsErrors.userMediaPermission,
-      allowDuplicates: false,
-    });
-  }
-
-  @proxify
-  async showAlert() {
-    if (!this.userMedia) {
+  async showPermissionAlert(ttl?: number) {
+    if (this._showCheckMediaAlert) {
+      this._deps.alert.warning({
+        message: audioSettingsErrors.checkMediaPermission,
+        allowDuplicates: false,
+        ttl: 0,
+      });
+    } else {
       this._deps.alert.danger({
         message: audioSettingsErrors.userMediaPermission,
         allowDuplicates: false,
-        ttl: 30 * 1000,
+        ttl,
       });
     }
   }
 
   @proxify
+  async onGetUserMediaError() {
+    this.setUserMediaError();
+    this.showPermissionAlert();
+  }
+
+  @proxify
+  async checkAudioAvailable() {
+    if (!this.userMedia) {
+      this.showPermissionAlert(30 * 1000);
+    }
+    this.getUserMedia();
+  }
+
+  @proxify
+  async showAlert() {
+    if (!this.userMedia) {
+      this.showPermissionAlert(30 * 1000);
+    }
+  }
+
+  @proxify
   async setData({
-    dialButtonVolume = this.dialButtonVolume,
-    dialButtonMuted = this.dialButtonMuted,
     ringtoneVolume = this.ringtoneVolume,
-    ringtoneMuted = this.ringtoneMuted,
     callVolume = this.callVolume,
     outputDeviceId = this.outputDeviceId,
     inputDeviceId = this.inputDeviceId,
-  }) {
+    ringtoneDeviceId = this.ringtoneDeviceId,
+    isAGCEnabled = this.isAGCEnabled,
+  }: AudioSettingsData) {
     this._setData({
-      dialButtonVolume,
-      dialButtonMuted,
       ringtoneVolume,
-      ringtoneMuted,
       callVolume,
       outputDeviceId,
       inputDeviceId,
+      ringtoneDeviceId,
+      isAGCEnabled,
     });
   }
 
@@ -318,12 +400,20 @@ export class AudioSettings extends RcModuleV2<Deps> {
     return this.data.inputDeviceId;
   }
 
+  get isAGCEnabled() {
+    return this.data.isAGCEnabled;
+  }
+
   get inputDevice() {
     return find(
       (device) =>
         device.kind === 'audioinput' && device.deviceId === this.inputDeviceId,
       this.availableDevices,
     );
+  }
+
+  get ringtoneDeviceId() {
+    return this.data.ringtoneDeviceId;
   }
 
   get supportDevices() {
@@ -341,6 +431,23 @@ export class AudioSettings extends RcModuleV2<Deps> {
   }
 
   @computed(({ availableDevices }: AudioSettings) => [availableDevices])
+  get availableRingtoneDevices() {
+    const ringtoneDevices = filter(
+      (device) => device.kind === 'audiooutput',
+      this.availableDevices,
+    );
+
+    return ringtoneDevices.length > 0
+      ? ringtoneDevices.concat({
+          deviceId: 'off',
+          groupId: '',
+          kind: 'audiooutput',
+          label: '',
+        })
+      : [];
+  }
+
+  @computed(({ availableDevices }: AudioSettings) => [availableDevices])
   get availableInputDevices() {
     return filter(
       (device) => device.kind === 'audioinput',
@@ -348,20 +455,8 @@ export class AudioSettings extends RcModuleV2<Deps> {
     );
   }
 
-  get dialButtonVolume() {
-    return this.data.dialButtonVolume;
-  }
-
-  get dialButtonMuted() {
-    return this.data.dialButtonMuted;
-  }
-
   get ringtoneVolume() {
     return this.data.ringtoneVolume;
-  }
-
-  get ringtoneMuted() {
-    return this.data.ringtoneMuted;
   }
 
   get callVolume() {
@@ -382,5 +477,15 @@ export class AudioSettings extends RcModuleV2<Deps> {
     return !!(
       this.availableDevices.length && this.availableDevices[0].label !== ''
     );
+  }
+
+  get isSupportAGC() {
+    try {
+      const constraints = navigator.mediaDevices.getSupportedConstraints();
+      return !!constraints.autoGainControl;
+    } catch (err) {
+      console.error('failed to get autoGainControl support:', err);
+      return false;
+    }
   }
 }

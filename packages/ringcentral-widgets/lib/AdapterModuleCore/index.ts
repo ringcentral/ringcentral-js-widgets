@@ -1,14 +1,12 @@
 // @ts-nocheck
-import type Presence from 'ringcentral-client/build/paths/Presence';
-
 import { presenceStatus } from '@ringcentral-integration/commons/enums/presenceStatus.enum';
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import { proxify } from '@ringcentral-integration/commons/lib/proxy/proxify';
 import { selector } from '@ringcentral-integration/commons/lib/selector';
 import type { ActiveCallControl } from '@ringcentral-integration/commons/modules/ActiveCallControl';
+import type { CallMonitor } from '@ringcentral-integration/commons/modules/CallMonitor';
 import type { CallingSettings } from '@ringcentral-integration/commons/modules/CallingSettings';
 import { callingModes } from '@ringcentral-integration/commons/modules/CallingSettings';
-import type { CallMonitor } from '@ringcentral-integration/commons/modules/CallMonitor';
 import type { GlobalStorage } from '@ringcentral-integration/commons/modules/GlobalStorage';
 import type { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import { dndStatus } from '@ringcentral-integration/commons/modules/Presence';
@@ -16,14 +14,15 @@ import type { QuickAccess } from '@ringcentral-integration/commons/modules/Quick
 import type { UserGuide } from '@ringcentral-integration/commons/modules/UserGuide';
 import type { Webphone } from '@ringcentral-integration/commons/modules/Webphone';
 import { format } from '@ringcentral-integration/utils';
+import type Presence from 'ringcentral-client/build/paths/Presence';
 
 import headerI18n from '../../components/CallMonitorBar/i18n';
 import type { CallLogSection } from '../../modules/CallLogSection';
 import type { RouterInteraction } from '../../modules/RouterInteraction';
 import AdapterModuleCoreBase from '../AdapterModuleCoreBase';
 import { baseActionTypes } from '../AdapterModuleCoreBase/baseActionTypes';
-import presenceItemI18n from '../getPresenceStatusName/i18n';
 import IframeMessageTransport from '../IframeMessageTransport';
+import presenceItemI18n from '../getPresenceStatusName/i18n';
 
 export const ALL_CALL_PATH = '/calls';
 const ACTIVE_CALL_PATH = '/calls/active';

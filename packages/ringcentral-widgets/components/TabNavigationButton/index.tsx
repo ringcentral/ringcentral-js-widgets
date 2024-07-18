@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import type {
   ComponentType,
   DOMAttributes,
@@ -6,9 +7,8 @@ import type {
 } from 'react';
 import React from 'react';
 
-import classnames from 'classnames';
-
 import { Tooltip } from '../Rcui/Tooltip';
+
 import styles from './styles.scss';
 
 type NavigationButtonIconProps = {
@@ -74,7 +74,7 @@ export const NavigationButton: FunctionComponent<NavigationButtonProps> = ({
   return (
     <div
       onClick={onClick}
-      className={classnames(styles.navigationButton, active && styles.active)}
+      className={clsx(styles.navigationButton, active && styles.active)}
       style={{
         width,
         height,
@@ -84,7 +84,7 @@ export const NavigationButton: FunctionComponent<NavigationButtonProps> = ({
       <Tooltip title={label} tooltipForceHide={tooltipForceHide}>
         <div className={styles.iconHolder} data-sign={dataSign ?? label}>
           <div
-            className={classnames(
+            className={clsx(
               styles.icon,
               !keepStyle ? styles.iconStyles : null,
               className,

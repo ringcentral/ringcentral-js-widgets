@@ -1,9 +1,9 @@
+import clsx from 'clsx';
 import React from 'react';
-
-import classnames from 'classnames';
 
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import { Header } from '../Header';
+
 import styles from './styles.scss';
 
 type BackHeaderProps = {
@@ -16,12 +16,12 @@ type BackHeaderProps = {
   }[];
   onBackClick?: (...args: any[]) => any;
 };
-const BackHeader: React.SFC<BackHeaderProps> = (props) => {
+const BackHeader: React.FC<BackHeaderProps> = (props) => {
   const buttons = props.buttons || [];
   const defaultBackButton = (
     <i
       data-sign="backButton"
-      className={classnames(dynamicsFont.arrow, styles.iconRotate)}
+      className={clsx(dynamicsFont.arrow, styles.iconRotate)}
     />
   );
   buttons.push({

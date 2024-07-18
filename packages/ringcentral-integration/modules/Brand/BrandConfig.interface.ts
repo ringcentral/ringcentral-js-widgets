@@ -10,7 +10,7 @@ export type I18nStrings<T = string> = {
   };
 };
 
-export type URL = `https://${string}` | `http://${string}`;
+export type UrlString = `https://${string}` | `http://${string}`;
 
 export type Protocol = `${string}://`;
 
@@ -74,7 +74,7 @@ export interface CallWithJupiterConfig {
   /**
    * Branded Jupiter call  link
    */
-  link: URL;
+  link: UrlString;
   /**
    * Branded Jupiter call protocol
    */
@@ -144,15 +144,23 @@ export interface BrandConfig {
   /**
    * Eula or Terms of Service link
    */
-  eulaLink?: I18nStrings<URL> | URL;
+  eulaLink?: I18nStrings<UrlString> | UrlString;
   /**
    * Eula or Terms of Service link label
    */
   eulaLabel?: I18nStrings | string;
   /**
+   * Privacy Notice link
+   */
+  privacyNotice?: UrlString;
+  /**
+   * Privacy Notice label
+   */
+  privacyNoticeLabel?: I18nStrings | string;
+  /**
    * Teleconference Url (for RCM)
    */
-  teleconference?: URL;
+  teleconference?: UrlString;
   /**
    * Signup Url
    */
@@ -182,7 +190,7 @@ export interface BrandConfig {
    * Rcv E2EE support link
    */
 
-  rcvE2EESupportUrl?: URL;
+  rcvE2EESupportUrl?: UrlString;
   /**
    * RCV default Meeting topic
    */
@@ -232,7 +240,7 @@ export interface BrandConfig {
    * rcv meeting teleconference Url
    * https://docs.google.com/spreadsheets/d/1fizbsFfVt0jur4BjJnYOD1bk1t_oH0XTquRNTfyv4Ws
    */
-  rcvTeleconference: URL;
+  rcvTeleconference: UrlString;
   /**
    * allow region setting
    */
@@ -259,13 +267,17 @@ export interface BrandConfig {
    */
   assets?: Record<string, string | string[]>;
   /**
+   * assets meta data to apply to root element variable and others
+   */
+  styleVariable?: Record<string, string | number>;
+  /**
    *
    */
   conference: {
     /**
      * dialInNumbers link for Conference call
      */
-    dialInNumbersLink: URL;
+    dialInNumbersLink: UrlString;
     /**
      * conference invite text
      */
@@ -279,10 +291,6 @@ export interface BrandConfig {
    * sub brands
    */
   subBrands?: SubBrand[];
-  /**
-   * build mode
-   */
-  mode?: Mode;
   /**
    * disable call with RingCentral phone
    */

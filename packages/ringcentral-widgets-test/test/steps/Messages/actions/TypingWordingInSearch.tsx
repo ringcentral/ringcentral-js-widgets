@@ -1,5 +1,9 @@
-import { fireEvent, screen } from '@testing-library/react';
-import type { StepFunction } from '../../../lib/step';
+import {
+  fireEvent,
+  screen,
+  StepFunction,
+  WaitForRenderReady,
+} from '@ringcentral-integration/test-utils';
 
 interface TypingWordingInSearchProps {
   chars?: string;
@@ -7,19 +11,28 @@ interface TypingWordingInSearchProps {
   dataSign: string;
 }
 
-export const TypingWordingInSearch: StepFunction<TypingWordingInSearchProps> =
-  async ({ chars = '', wait = true, dataSign }) => {
-    const input = screen.getByTestId(dataSign);
-    fireEvent.focus(input);
+export const TypingWordingInSearch: StepFunction<
+  TypingWordingInSearchProps
+> = async ({ chars = '', wait = true, dataSign }, { app }) => {
+  const input = screen.getByTestId(dataSign);
+  fireEvent.focus(input);
 
-    if (wait) {
-      jest.useFakeTimers();
-    }
+  if (wait) {
+    jest.useFakeTimers();
+  }
 
-    fireEvent.change(input, { target: { value: chars } });
+  fireEvent.change(input, { target: { value: chars } });
 
-    if (wait) {
-      jest.advanceTimersByTime(1000);
-      jest.useRealTimers();
-    }
-  };
+  if (wait) {
+    jest.advanceTimersByTime(1000);
+    jest.useRealTimers();
+  }
+
+  //  two wait fro render for async event
+  return (
+    <>
+      <WaitForRenderReady />
+      <WaitForRenderReady />
+    </>
+  );
+};

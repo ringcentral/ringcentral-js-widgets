@@ -1,11 +1,11 @@
+import { formatDuration } from '@ringcentral-integration/commons/lib/formatDuration';
+import clsx from 'clsx';
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
-import classnames from 'classnames';
-import PropTypes from 'prop-types';
-
-import { formatDuration } from '@ringcentral-integration/commons/lib/formatDuration';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import Spinner from '../Spinner';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 
@@ -38,12 +38,10 @@ const CallItem = ({ call, dateTimeFormatter, currentLocale }: any) => {
   duration = formatDuration(duration);
   return (
     <div className={styles.callItem}>
-      <dl
-        className={classnames(styles.dl, isMissedCall ? styles.missedCall : '')}
-      >
+      <dl className={clsx(styles.dl, isMissedCall ? styles.missedCall : '')}>
         <dt className={styles.status} title={status}>
           <span className={styles.iconWrapper}>
-            <i className={classnames(icon, styles.callIcon)} title={status} />
+            <i className={clsx(icon, styles.callIcon)} title={status} />
           </span>
           <span title={status}>{status}</span>
           <small className={styles.duration} title={duration}>

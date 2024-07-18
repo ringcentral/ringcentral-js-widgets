@@ -6,7 +6,6 @@
  * Entry point(/s):
  *
  */
-
 import {
   p0,
   it,
@@ -19,6 +18,7 @@ import {
   title,
   When,
 } from '@ringcentral-integration/test-utils';
+
 import type { StepFunction } from '../../../../../../../lib/step';
 import {
   AnswerCall,
@@ -62,7 +62,7 @@ export class RCI802 extends Step {
 										2.User should be navigated toCall Control Page."
           action={[
             (_: any, { phone }: any) => {
-              expect(phone.webphone.answer).toBeCalled();
+              expect(phone.webphone.answer).toHaveBeenCalled();
             },
           ]}
         />

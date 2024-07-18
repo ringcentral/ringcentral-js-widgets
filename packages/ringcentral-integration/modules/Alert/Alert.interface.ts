@@ -1,6 +1,7 @@
 import type { DOMAttributes } from 'react';
 
 import type { GlobalStorage } from '../GlobalStorage';
+
 import type { AlertLevelType } from './alertLevels';
 
 export interface Deps {

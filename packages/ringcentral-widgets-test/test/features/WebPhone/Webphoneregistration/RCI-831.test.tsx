@@ -10,7 +10,6 @@
  * Note(/s):
  * Calling Settings:Settings -> Calling -> Make my calls with
  */
-
 import { connectionStatus } from '@ringcentral-integration/commons/modules/Webphone';
 
 import type { Context } from '../../../interfaces';
@@ -26,13 +25,13 @@ import {
   title,
   When,
 } from '../../../lib/step';
+import { Login } from '../../../steps/Login';
 import {
   CheckCallButtonActive,
   CheckCallButtonDisabled,
   CheckDialerNotShowSpinner,
   CheckDialerShowSpinner,
 } from '../../../steps/dialer';
-import { Login } from '../../../steps/Login';
 
 @autorun(test)
 @common

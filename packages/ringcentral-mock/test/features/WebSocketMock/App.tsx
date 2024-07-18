@@ -1,15 +1,14 @@
-import React, { useEffect } from 'react';
-
 import RingCentral from '@rc-ex/core';
 import RcSdkExtension from '@rc-ex/rcsdk';
 import WebSocketExtension from '@rc-ex/ws';
 import { RcButton, RcThemeProvider } from '@ringcentral/juno';
 import { SDK } from '@ringcentral/sdk';
+import React, { useEffect } from 'react';
 
 const rcSdk = new SDK({
   clientId: '',
   clientSecret: '',
-  server: 'https://api-xmnup.lab.nordigy.ru',
+  server: 'https://api-xmrupxmn.intlabs_domain',
 });
 
 const main = async () => {

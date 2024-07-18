@@ -1,11 +1,13 @@
-import { EventEmitter } from 'events';
+import { filter, Subject, Subscription, tap } from 'rxjs';
 
 import { StepFunction } from '../lib';
 
-const _eventEmitter = new EventEmitter();
+const event$ = new Subject<[string, unknown]>();
 
 class MyBroadcastChannel {
   name: string;
+
+  subscription?: Subscription;
 
   constructor(name: string) {
     this.name = name;
@@ -16,7 +18,7 @@ class MyBroadcastChannel {
   }
 
   postMessage(data: unknown) {
-    _eventEmitter.emit(this.messageKey, { data });
+    event$.next([this.messageKey, { data }]);
   }
 
   set onmessage(cb: (...args: unknown[]) => void) {
@@ -29,16 +31,26 @@ class MyBroadcastChannel {
 
   addEventListener(type: string, cb: (...args: unknown[]) => void) {
     if (type === 'message') {
-      _eventEmitter.on(this.messageKey, cb);
+      this.subscription = event$
+        .pipe(
+          filter(([key]) => {
+            return key === this.messageKey;
+          }),
+          tap(([key, data]) => {
+            cb(data);
+          }),
+        )
+        .subscribe();
     }
   }
 
   removeEventListener() {
+    this.subscription?.unsubscribe();
     //
   }
 
   close() {
-    _eventEmitter.removeAllListeners();
+    this.subscription?.unsubscribe();
   }
 
   dispatchEvent() {
@@ -47,5 +59,9 @@ class MyBroadcastChannel {
 }
 
 export const MockBroadcastChannel: StepFunction<{}> = () => {
-  (global.BroadcastChannel as any) = MyBroadcastChannel;
+  global.BroadcastChannel = MyBroadcastChannel;
+};
+
+export const mockBroadcastChannel = () => {
+  global.BroadcastChannel = MyBroadcastChannel;
 };

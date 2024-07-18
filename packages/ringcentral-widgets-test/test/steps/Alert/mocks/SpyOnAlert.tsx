@@ -31,22 +31,23 @@ export interface SpyOnAlertWithMessagesProps {
 /**
  * spy on alert method, make alert can inject some other method before or after trigger
  */
-export const SpyOnAlertWithMessages: StepFunction<SpyOnAlertWithMessagesProps> =
-  async ({ messages, onShowMessage }) => {
-    const originalAlert = Alert.prototype.alert;
+export const SpyOnAlertWithMessages: StepFunction<
+  SpyOnAlertWithMessagesProps
+> = async ({ messages, onShowMessage }) => {
+  const originalAlert = Alert.prototype.alert;
 
-    spyOnAlert = jest
-      .spyOn(Alert.prototype, 'alert')
-      // eslint-disable-next-line func-names
-      .mockImplementation(function (this: Alert, option) {
-        const { message } = option;
+  spyOnAlert = jest
+    .spyOn(Alert.prototype, 'alert')
+    // eslint-disable-next-line func-names
+    .mockImplementation(function (this: Alert, option) {
+      const { message } = option;
 
-        const exec = () => originalAlert.call(this, option);
+      const exec = () => originalAlert.call(this, option);
 
-        if (messages.includes(message)) {
-          return onShowMessage(option, exec);
-        }
+      if (messages.includes(message)) {
+        return onShowMessage(option, exec);
+      }
 
-        return exec();
-      });
-  };
+      return exec();
+    });
+};

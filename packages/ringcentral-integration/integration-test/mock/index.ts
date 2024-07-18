@@ -1,10 +1,12 @@
+import { SOCKET_MOCK_URL } from '@ringcentral-integration/test-utils/lib/socketMockUrl';
+import { SDK } from '@ringcentral/sdk';
 import fetchMock from 'fetch-mock';
 import WebSocket from 'isomorphic-ws';
 import JestWebSocketMock from 'jest-websocket-mock';
 
-import { SDK } from '@ringcentral/sdk';
-
 import { RCV_PREFERENCES_IDS } from '../../modules/RcVideo';
+
+import type { MockForLoginOptions } from './MockForLoginOptions.interface';
 import accountBody from './data/accountInfo.json';
 import accountPhoneNumberBody from './data/accountPhoneNumber.json';
 import activeCallsBody from './data/activeCalls.json';
@@ -13,15 +15,15 @@ import apiInfoBody from './data/apiInfo.json';
 import assistedUsersBody from './data/assistedUsers.json';
 import authzProfileBody from './data/authzProfile.json';
 import blockedNumberBody from './data/blockedNumber.json';
-import callerIdBody from './data/callerId.json';
 import callLogBody from './data/callLog.json';
 import callLogList from './data/callLogList.json';
+import callerIdBody from './data/callerId.json';
 import conferenceCallBody from './data/conferenceCall.json';
 import conferenceCallBringInBody from './data/conferenceCallBringIn.json';
 import conferencingBody from './data/conferencing.json';
 import deviceBody from './data/device.json';
-import dialingPlanBody from './data/dialingPlan.json';
 import dialInNumbersBody from './data/dialInNumbers.json';
+import dialingPlanBody from './data/dialingPlan.json';
 import discoveryExternalBody from './data/discoveryExternal.json';
 import discoveryInitialBody from './data/discoveryInitial.json';
 import extensionListBody from './data/extension.json';
@@ -35,11 +37,6 @@ import generateCodeBody from './data/generateCode.json';
 import lockedSettingsBody from './data/lockedSettings.json';
 import meetingBody from './data/meeting.json';
 import meetingInvitationBody from './data/meetingInvitation.json';
-import {
-  RCV_INVITATION_BODY,
-  RCV_INVITATION_START,
-  RCV_INVITATION_END,
-} from './data/rcvInvitation';
 import meetingProviderRcmBody from './data/meetingProviderRcm.json';
 import meetingProviderRcvBody from './data/meetingProviderRcv.json';
 import messageItemBody from './data/messageItem.json';
@@ -51,6 +48,11 @@ import numberParserV2Body from './data/numberParserV2.json';
 import phoneNumberBody from './data/phoneNumber.json';
 import postRcvBridgesBody from './data/postRcvBridges.json';
 import presenceBody from './data/presence.json';
+import {
+  RCV_INVITATION_BODY,
+  RCV_INVITATION_START,
+  RCV_INVITATION_END,
+} from './data/rcvInvitation';
 import rcvMeetingSettingsBody from './data/rcvMeetingSettings.json';
 import ringOutBody from './data/ringOut.json';
 import serviceInfoBody from './data/serviceInfo.json';
@@ -67,11 +69,10 @@ import wsConnectionDetailsBody from './data/ws/connectionDetails.json';
 import wsHeartbeatResponse from './data/ws/heartbeatResponse.json';
 import wsSubscriptionResponse from './data/ws/subscriptionResponse.json';
 import wsTokenBody from './data/ws/wstoken.json';
-import type { MockForLoginOptions } from './MockForLoginOptions.interface';
 
 export * from './types';
 
-export const mockWsServer = 'ws://whatever';
+export const mockWsServer = SOCKET_MOCK_URL;
 export const mockServer = 'http://whatever';
 export function createSDK(options = {}) {
   const opts = {

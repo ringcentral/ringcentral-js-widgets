@@ -1,5 +1,3 @@
-import WebSocket from 'isomorphic-ws';
-
 import CoreExtension from '@rc-ex/core';
 import DebugExtension from '@rc-ex/debug';
 import RcSdkExtension from '@rc-ex/rcsdk';
@@ -13,12 +11,14 @@ import {
   watch,
 } from '@ringcentral-integration/core';
 import type { SDK } from '@ringcentral/sdk';
+import WebSocket from 'isomorphic-ws';
 
 import background from '../../lib/background';
 import { debounce } from '../../lib/debounce-throttle';
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
 import type { TabEvent } from '../TabManager';
+
 import type { Deps } from './RingCentralExtensions.interface';
 import type { WebSocketReadyState } from './webSocketReadyStates';
 import { webSocketReadyStates } from './webSocketReadyStates';
@@ -162,16 +162,21 @@ export class RingCentralExtensions extends RcModuleV2<Deps> {
     }
 
     // register SleepDetector
-    this._deps.sleepDetector?.on('detected', () => {
-      this.recoverWebSocketConnection();
+    this._deps.sleepDetector?.on('detected', async () => {
+      await this.recoverWebSocketConnection();
     });
 
     // hook auth events
-    this._deps.auth.addAfterLoggedInHandler(() => {
-      this.recoverWebSocketConnection();
+    this._deps.auth.addAfterLoggedInHandler(async () => {
+      await this.recoverWebSocketConnection();
     });
-    this._deps.auth.addBeforeLogoutHandler(() => {
-      this.revokeWebSocketConnection();
+    this._deps.auth.addBeforeLogoutHandler(async () => {
+      await this.revokeWebSocketConnection();
+    });
+    this._deps.auth.addRefreshErrorHandler(async (refreshTokenValid) => {
+      if (!refreshTokenValid) {
+        await this.revokeWebSocketConnection();
+      }
     });
 
     // multiple tabs support
@@ -197,7 +202,7 @@ export class RingCentralExtensions extends RcModuleV2<Deps> {
             if (process.env.NODE_ENV !== 'test') {
               console.log('[RingCentralExtensions] > tab > inactive');
             }
-            await this._debouncedOnTabActive.cancel();
+            this._debouncedOnTabActive.cancel();
           }
         },
       );
@@ -233,6 +238,18 @@ export class RingCentralExtensions extends RcModuleV2<Deps> {
     }
   }
 
+  private _setWsAutoRecover(enabled: boolean) {
+    // when auto recover is NOT configured as disabled (it is enabled by default)
+    if (
+      this._webSocketExtension &&
+      this._deps.ringCentralExtensionsOptions?.webSocketOptions?.autoRecover
+        ?.enabled !== false
+    ) {
+      // enable/disable ws auto recover
+      this._webSocketExtension.options.autoRecover!.enabled = enabled;
+    }
+  }
+
   private _debouncedOnTabActive = debounce({
     threshold: RECOVER_DEBOUNCE_THRESHOLD,
     fn: this._onTabActive,
@@ -246,7 +263,7 @@ export class RingCentralExtensions extends RcModuleV2<Deps> {
     // as an active tab, inactive other tabs
     await this._inactiveOtherTabs();
     // recover WebSocket for current tab and other tabs will being disconnected automatically
-    this.recoverWebSocketConnection();
+    await this.recoverWebSocketConnection();
   }
 
   private _tabMessageHandler(event: TabEvent) {
@@ -255,7 +272,7 @@ export class RingCentralExtensions extends RcModuleV2<Deps> {
     }
     if (event.name === InactiveTabEventName) {
       // as an inactive tab, disable auto recover
-      this._webSocketExtension.options.autoRecover!.enabled = false;
+      this._setWsAutoRecover(false);
     } else if (event.name === SyncTokensTabEventName) {
       // as an inactive tab, sync and use with tokens that are received from active tab
       this._setTokens(event.args![0], event.args![1], event.args![2]);
@@ -270,13 +287,7 @@ export class RingCentralExtensions extends RcModuleV2<Deps> {
     // inactive other tabs, for stopping WebSocket auto recover
     await this._deps.tabManager?.send(InactiveTabEventName);
     // when auto recover of active tab is NOT configured as disabled
-    if (
-      this._deps.ringCentralExtensionsOptions?.webSocketOptions?.autoRecover
-        ?.enabled !== false
-    ) {
-      // enable auto recover
-      this._webSocketExtension.options.autoRecover!.enabled = true;
-    }
+    this._setWsAutoRecover(true);
   }
 
   private async _syncTokensToOtherTabs() {
@@ -358,13 +369,14 @@ export class RingCentralExtensions extends RcModuleV2<Deps> {
     } else {
       // recover directly
       await this._webSocketExtension.recover();
+      this._webSocketExtension.enable();
     }
     this._exposeConnectionEvents();
   }
 
   @proxify
   async revokeWebSocketConnection() {
-    if (!this.ready || !this.isWebSocketReady) {
+    if (!this.ready) {
       return;
     }
     if (this.disconnectOnInactive && !this.isTabActive) {

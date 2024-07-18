@@ -12,6 +12,7 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
+import { generateDialPlanData } from '../../../../__mock__/generateDialPlanData';
 import type { StepProp } from '../../../../lib/step';
 import {
   CheckParseApiCalledWithParams,
@@ -25,9 +26,8 @@ import {
   MockExtensionInfo,
   MockPermission,
 } from '../../../../steps/Mock';
-import { NavigateTo } from '../../../../steps/Router/action';
+import { NavigateTo } from '../../../../steps/Router';
 import { SetAreaCode } from '../../../../steps/Settings';
-import { generateDialPlanData } from '../../../../__mock__/generateDialPlanData';
 
 @autorun(test.skip)
 @it

@@ -1,6 +1,7 @@
 // @ts-nocheck
 import { isArray, isFunction, isObject } from '../utils/is_type';
 import { assert, getParentClass } from '../utils/utils';
+
 import ModuleRegistry from './module_registry';
 import ProviderRegistry from './provider_registry';
 

@@ -8,7 +8,6 @@
  * Entry point(/s):
  * Open CTI
  */
-
 import {
   autorun,
   examples,
@@ -38,8 +37,8 @@ export class AreaCodeInRegionPage extends Step {
   CreateMock: StepProp | null = null;
 
   @examples(`
-    | countryName      | selectedCountryCallingCode | isoCode |
-    | 'United Kingdom' | '44'                       | 'GB'    |
+    | countryName      | countryCallingCode | isoCode |
+    | 'United Kingdom' | '44'               | 'GB'    |
   `)
   run() {
     const { CreateMock, Login } = this;
@@ -48,23 +47,19 @@ export class AreaCodeInRegionPage extends Step {
         <When
           desc="> Go to the 'Settings' page > Go to the Region page
 										>Select EU /AU or other countries on the Region setting page"
-          action={({
-            countryName,
-            selectedCountryCallingCode,
-            isoCode,
-          }: any) => [
+          action={({ countryName, countryCallingCode, isoCode }: any) => [
             CreateMock,
             <MockDialingPlan
               handler={(mockData) => {
                 const plan = mockData.find(
-                  (plan) => plan.id === selectedCountryCallingCode,
+                  (plan) => plan.id === countryCallingCode,
                 );
                 if (!plan) {
                   mockData.push({
-                    uri: `https://platform.ringcentral.com/restapi/v1.0/dictionary/country/${selectedCountryCallingCode}`,
-                    id: selectedCountryCallingCode,
+                    uri: `https://platform.ringcentral.com/restapi/v1.0/dictionary/country/${countryCallingCode}`,
+                    id: countryCallingCode,
                     name: countryName,
-                    callingCode: selectedCountryCallingCode,
+                    callingCode: countryCallingCode,
                     isoCode,
                   });
                 }

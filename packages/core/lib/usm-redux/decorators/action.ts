@@ -1,11 +1,17 @@
 /* eslint-disable func-names */
 import type { Patch } from 'immer';
 import { produceWithPatches, produce } from 'immer';
-import type { Service, Action } from '../interface';
+
+import { checkPatches } from '../checkPatches';
 import { storeKey, identifierKey, usm } from '../constant';
 import { getPatchesToggle } from '../createStore';
-import { getStagedState, setStagedState } from '../utils/index';
-import { checkPatches } from '../checkPatches';
+import type { Service, Action } from '../interface';
+import {
+  getStagedModule,
+  getStagedState,
+  setStagedModule,
+  setStagedState,
+} from '../utils/index';
 
 export const action = (
   target: object,
@@ -32,6 +38,9 @@ export const action = (
         let inversePatches: Patch[] = [];
         const recipe = (draftState: Record<string, unknown>) => {
           setStagedState(draftState);
+          if (process.env.NODE_ENV !== 'production') {
+            setStagedModule(this._modulePath);
+          }
           fn.apply(this, args);
         };
         const enablePatches = getPatchesToggle();
@@ -44,6 +53,9 @@ export const action = (
           state = produce(lastState, recipe);
         }
         setStagedState(undefined);
+        if (process.env.NODE_ENV !== 'production') {
+          setStagedModule(undefined);
+        }
         const changed = lastState !== state;
         if (process.env.NODE_ENV === 'development') {
           if (!changed) {
@@ -94,8 +106,21 @@ export const action = (
         }
       } finally {
         setStagedState(undefined);
+        if (process.env.NODE_ENV !== 'production') {
+          setStagedModule(undefined);
+        }
       }
     } else {
+      if (
+        process.env.NODE_ENV !== 'production' &&
+        getStagedModule() !== this._modulePath
+      ) {
+        throw new Error(
+          `The method '${
+            this[identifierKey]
+          }.${key.toString()}' is not allowed to call other @action methods in the same module.`,
+        );
+      }
       // enable staged state mode.
       fn.apply(this, args);
     }

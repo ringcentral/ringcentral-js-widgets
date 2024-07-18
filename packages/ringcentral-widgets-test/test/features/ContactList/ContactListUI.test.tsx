@@ -1,3 +1,5 @@
+import { AllContactSourceName } from '@ringcentral-integration/commons/lib/contactHelper';
+import { mockModuleGenerator } from '@ringcentral-integration/commons/test/lib/mockModule';
 import {
   autorun,
   title,
@@ -8,8 +10,6 @@ import {
   Step,
   examples,
 } from '@ringcentral-integration/test-utils';
-import { AllContactSourceName } from '@ringcentral-integration/commons/lib/contactHelper';
-import { mockModuleGenerator } from '@ringcentral-integration/commons/test/lib/mockModule';
 import { ContactListUI } from '@ringcentral-integration/widgets/modules/ContactListUI';
 
 const getMockModule = () =>

@@ -1,5 +1,5 @@
-import type { CustomGreetingAnsweringRuleInfo } from './CustomGreetingAnsweringRuleInfo';
 import type { CustomCompanyGreetingLanguageInfo } from './CustomCompanyGreetingLanguageInfo';
+import type { CustomGreetingAnsweringRuleInfo } from './CustomGreetingAnsweringRuleInfo';
 
 export interface CustomCompanyGreetingInfo {
   /**

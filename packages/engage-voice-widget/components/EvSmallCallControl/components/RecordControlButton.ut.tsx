@@ -1,11 +1,9 @@
-import React from 'react';
-
+import type { RecordControlButtonProps } from '.';
+import { RecordControlButton } from '.';
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import { RcThemeProvider } from '@ringcentral/juno';
 import { render } from '@testing-library/react';
-
-import type { RecordControlButtonProps } from '.';
-import { RecordControlButton } from '.';
+import React from 'react';
 
 function setup({
   currentLocale = 'en-US',

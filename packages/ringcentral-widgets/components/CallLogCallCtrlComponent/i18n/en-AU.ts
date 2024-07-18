@@ -20,7 +20,9 @@ export default {
   answerAndHold: "Answer & Hold",
   answer: "Answer",
   completeTransfer: "Complete transfer",
-  reply: "Reply"
+  reply: "Reply",
+  add: "Add",
+  mergeCall: "Merge with active call"
 };
 
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
@@ -45,3 +47,5 @@ export default {
 // @key: @#@"answer"@#@ @source: @#@"Answer"@#@
 // @key: @#@"completeTransfer"@#@ @source: @#@"Complete transfer"@#@
 // @key: @#@"reply"@#@ @source: @#@"Reply"@#@
+// @key: @#@"add"@#@ @source: @#@"Add"@#@
+// @key: @#@"mergeCall"@#@ @source: @#@"Merge with active call"@#@

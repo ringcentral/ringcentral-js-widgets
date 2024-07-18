@@ -1,7 +1,6 @@
+import clsx from 'clsx';
 import type { FunctionComponent, ReactNode } from 'react';
 import React from 'react';
-
-import classnames from 'classnames';
 
 import DefaultAvatar from '../../../assets/images/DefaultAvatar.svg';
 import PlaceholderImage from '../../PlaceholderImage';
@@ -20,10 +19,7 @@ export const Avatar: FunctionComponent<AvatarProps> = ({
   inactive,
   source,
 }) => {
-  const imageClassName = classnames(
-    styles.avatarImage,
-    inactive && styles.inactive,
-  );
+  const imageClassName = clsx(styles.avatarImage, inactive && styles.inactive);
   const sourceNode = source ? (
     <div className={styles.sourceWrapper}>{source}</div>
   ) : null;

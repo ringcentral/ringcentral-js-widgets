@@ -16,7 +16,6 @@
  * > Set 'Use end-to-end encryption by default for new meetings' option as <SW_Extension_Status> in SW Extension
  * > Office Add-in > New Event > Schedule with RingCentral
  */
-
 import {
   autorun,
   examples,

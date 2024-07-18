@@ -1,9 +1,3 @@
-import { EventEmitter } from 'events';
-import { find } from 'ramda';
-import type CreatePagerMessageRequest from 'ringcentral-client/build/definitions/CreatePagerMessageRequest';
-import type GetMessageInfoResponse from 'ringcentral-client/build/definitions/GetMessageInfoResponse';
-import * as uuid from 'uuid';
-
 import {
   action,
   RcModuleV2,
@@ -16,12 +10,18 @@ import type {
 } from '@ringcentral-integration/core/lib/ObjectMap';
 import { sleep } from '@ringcentral-integration/utils';
 import type { ApiError } from '@ringcentral/sdk';
+import { EventEmitter } from 'events';
+import { find } from 'ramda';
+import type CreatePagerMessageRequest from 'ringcentral-client/build/definitions/CreatePagerMessageRequest';
+import type GetMessageInfoResponse from 'ringcentral-client/build/definitions/GetMessageInfoResponse';
+import * as uuid from 'uuid';
 
+import { trackEvents } from '../../enums/trackEvents';
 import chunkMessage from '../../lib/chunkMessage';
 import { Module } from '../../lib/di';
 import { isBlank } from '../../lib/isBlank';
 import proxify from '../../lib/proxy/proxify';
-import { trackEvents } from '../../enums/trackEvents';
+
 import type {
   Attachment,
   Deps,
@@ -214,7 +214,7 @@ export class MessageSender extends RcModuleV2<Deps> {
         });
       }
     } else {
-      // @ts-expect-error
+      // @ts-expect-error TS(2339): Property 'numbers' does not exist on type 'Validat... Remove this comment to see the full error message
       for (const number of numberValidateResult.numbers) {
         if (number.subAddress && number.subAddress.length > 0) {
           // remove extension number check when use company contact public api
@@ -304,7 +304,7 @@ export class MessageSender extends RcModuleV2<Deps> {
           const pagerResponse = await this._sendPager({
             toNumbers: extensionNumbers,
             text: chunk,
-            // @ts-expect-error
+            // @ts-expect-error TS(2322): Type 'number | undefined' is not assignable to typ... Remove this comment to see the full error message
             replyOnMessageId,
           });
           responses.push(pagerResponse);
@@ -440,13 +440,13 @@ export class MessageSender extends RcModuleV2<Deps> {
     if (
       errResp &&
       !errResp.ok &&
-      // @ts-expect-error
+      // @ts-expect-error TS(2454): Variable 'errorJson' is used before being assigned... Remove this comment to see the full error message
       errorJson &&
       (errorJson.errorCode === 'InvalidParameter' ||
         errorJson.errorCode === 'InternationalProhibited' ||
         errorJson.errorCode === 'CMN-408')
     ) {
-      // @ts-expect-error
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       errorJson.errors.map((err) => {
         if (
           (err.errorCode === 'CMN-101' ||
@@ -505,7 +505,7 @@ export class MessageSender extends RcModuleV2<Deps> {
   }
 
   get senderNumbersList(): SenderNumber[] {
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type 'UserPhoneNumberInfo[]' is not assignable to ... Remove this comment to see the full error message
     return this._deps.extensionPhoneNumber.smsSenderNumbers;
   }
 

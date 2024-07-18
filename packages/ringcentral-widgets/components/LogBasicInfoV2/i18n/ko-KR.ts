@@ -46,7 +46,9 @@ export default {
   [callResults.faxReceipt]: "팩스 수신",
   [callResults.disconnected]: "연결 끊김",
   [callResults.notAllowed]: "허용되지 않음",
-  warmTransferSwitchCall: "통화 넘기기"
+  warmTransferSwitchCall: "통화 넘기기",
+  conferenceCall: "전화 회의",
+  participants: "참가자"
 };
 
 // @key: @#@"[callDirections.inbound]"@#@ @source: @#@"Inbound"@#@
@@ -94,3 +96,5 @@ export default {
 // @key: @#@"[callResults.disconnected]"@#@ @source: @#@"Disconnected"@#@
 // @key: @#@"[callResults.notAllowed]"@#@ @source: @#@"Not Allowed"@#@
 // @key: @#@"warmTransferSwitchCall"@#@ @source: @#@"Switch calls"@#@
+// @key: @#@"conferenceCall"@#@ @source: @#@"Conference Call"@#@
+// @key: @#@"participants"@#@ @source: @#@"Participants"@#@

@@ -1,9 +1,9 @@
+import clsx from 'clsx';
 import type { FunctionComponent } from 'react';
 import React from 'react';
 
-import classnames from 'classnames';
-
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
+
 import styles from './styles.scss';
 
 export interface MessageProps {
@@ -18,7 +18,7 @@ const Message: FunctionComponent<MessageProps> = ({
 }) => {
   return (
     <div className={styles.alertHolder}>
-      <div data-sign="alert" className={classnames(styles[level])}>
+      <div data-sign="alert" className={clsx(styles[level])}>
         {message}
         <div className={styles.dismiss} onClick={onDismiss} data-sign="dismiss">
           <i className={dynamicsFont.close} />

@@ -37,8 +37,7 @@ export default {
   today: "Hoy",
   scheduleForGuidance: "¿La está programando en nombre de otra persona?\n1. Asegúrese de que está en su calendario de Outlook.\n2. En el menú desplegable, seleccione la persona en cuyo nombre desea programar.\n",
   scheduleForGuidanceMore: "Más información",
-  changePmiSettings: "Cambiar ajustes de la reunión personal",
-  ieSupportAlert: "Tenga en cuenta que {appName} no funcionará con Internet Explorer 11 después del 16 de febrero de 2022. Le recomendamos que cambie a Microsoft Edge o actualice a Outlook 2016 o posterior."
+  changePmiSettings: "Cambiar ajustes de la reunión personal"
 };
 
 // @key: @#@"topic"@#@ @source: @#@"Meeting title"@#@
@@ -79,4 +78,3 @@ export default {
 // @key: @#@"scheduleForGuidance"@#@ @source: @#@"Scheduling for someone else?\n1. Make sure you're on their Outlook calendar.\n2. From the dropdown, select the person you're scheduling for.\n"@#@
 // @key: @#@"scheduleForGuidanceMore"@#@ @source: @#@"Learn details"@#@
 // @key: @#@"changePmiSettings"@#@ @source: @#@"Change Personal Meeting settings"@#@
-// @key: @#@"ieSupportAlert"@#@ @source: @#@"Please note that {appName} won't work with Internet Explorer 11 after Feb 16, 2022. We recommend switching to Microsoft Edge or updating to Outlook 2016 or above."@#@

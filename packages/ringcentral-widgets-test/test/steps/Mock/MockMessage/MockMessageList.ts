@@ -1,4 +1,5 @@
 import messageListBody from '@ringcentral-integration/mock/src/platform/data/messageList.json';
+
 import type { StepFunction } from '../../../lib/step';
 
 interface MockMessageListProps {

@@ -1,6 +1,5 @@
+import clsx from 'clsx';
 import React from 'react';
-
-import classnames from 'classnames';
 
 import styles from './styles.scss';
 
@@ -25,7 +24,7 @@ type MediaObjectProps = {
   rightAlignment?: 'top' | 'middle' | 'bottom';
   flexible?: boolean;
 };
-const MediaObject: React.SFC<MediaObjectProps> = ({
+const MediaObject: React.FC<MediaObjectProps> = ({
   containerCls,
   mediaLeft,
   mediaBody,
@@ -45,7 +44,7 @@ const MediaObject: React.SFC<MediaObjectProps> = ({
   const bodyAlignmentClassName = getMeidaCls(bodyAlignment);
   return (
     <div
-      className={classnames({
+      className={clsx({
         [styles.media]: true,
         [styles.flex]: !!flexible,
         // @ts-expect-error TS(2464): A computed property name must be of type 'string',... Remove this comment to see the full error message
@@ -54,24 +53,14 @@ const MediaObject: React.SFC<MediaObjectProps> = ({
     >
       {mediaLeft ? (
         <div
-          className={classnames(
-            styles.mediaLeft,
-            leftAlignmentClassName,
-            leftCls,
-          )}
+          className={clsx(styles.mediaLeft, leftAlignmentClassName, leftCls)}
         >
           <div className={styles.mediaObject}>{mediaLeft}</div>
         </div>
       ) : null}
-      <div
-        className={classnames(
-          styles.mediaBody,
-          bodyAlignmentClassName,
-          bodyCls,
-        )}
-      >
+      <div className={clsx(styles.mediaBody, bodyAlignmentClassName, bodyCls)}>
         {mediaHeading ? (
-          <h4 className={classnames(styles.mediaHeading, headingCls)}>
+          <h4 className={clsx(styles.mediaHeading, headingCls)}>
             {mediaHeading}
           </h4>
         ) : null}
@@ -79,11 +68,7 @@ const MediaObject: React.SFC<MediaObjectProps> = ({
       </div>
       {mediaRight ? (
         <div
-          className={classnames(
-            styles.mediaRight,
-            rightAlignmentClassName,
-            rightCls,
-          )}
+          className={clsx(styles.mediaRight, rightAlignmentClassName, rightCls)}
         >
           <div className={styles.mediaObject}>{mediaRight}</div>
         </div>

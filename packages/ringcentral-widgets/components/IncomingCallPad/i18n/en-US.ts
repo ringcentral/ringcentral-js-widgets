@@ -6,4 +6,4 @@ export default {
   answer: 'Answer',
   answerAndEnd: 'Answer & End',
   answerAndHold: 'Answer & Hold',
-};
+} as const;

@@ -1,6 +1,5 @@
-import React from 'react';
-
 import { palette2, RcListItem, styled } from '@ringcentral/juno';
+import React from 'react';
 
 import { ContactInfo } from './ContactInfo';
 import { ContactPhone } from './ContactPhone';

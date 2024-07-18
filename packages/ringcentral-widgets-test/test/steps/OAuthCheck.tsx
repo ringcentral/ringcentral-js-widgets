@@ -1,4 +1,3 @@
-import { URL } from 'url';
 import type { StepFunction } from '../lib/step';
 
 interface OAuthCheckProps {
@@ -38,8 +37,6 @@ const OAuthCheck: StepFunction<OAuthCheckProps> = async (
     ['brand_id', brandId],
     ['display', 'page'],
     ['prompt', ''],
-    ['ui_options', 'hide_remember_me'],
-    ['ui_options', 'hide_tos'],
     ['ui_locales', ''],
     ['localeId', localeId],
     ...(useDiscovery ? [['discovery', 'true']] : []),

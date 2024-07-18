@@ -20,9 +20,7 @@
 	| RC-UK |> Make a inbound call >Navigate to incoming call page > Click 'Forward' button |8 |8 |3135 0033 |Not Match extbut valid PSTN |12 |(12) 3135 0033 |PSTN |(12) 3135 0033 |
 
  */
-
 import { Category } from '@ringcentral-integration/commons/interfaces/NumberParserResponse.interface';
-import { waitUntilTo } from '@ringcentral-integration/utils';
 import { forwardFn, transferFn } from '@ringcentral-integration/mock';
 import {
   And,
@@ -38,7 +36,9 @@ import {
   title,
   When,
 } from '@ringcentral-integration/test-utils';
+import { waitUntilTo } from '@ringcentral-integration/utils';
 
+import { generateDialPlanData } from '../../../../../__mock__/generateDialPlanData';
 import type { StepProp } from '../../../../../lib/step';
 import {
   CheckConferenceCallControlPage,
@@ -61,7 +61,6 @@ import {
 } from '../../../../../steps/Mock';
 import { NavigateTo } from '../../../../../steps/Router';
 import { SetAreaCode } from '../../../../../steps/Settings';
-import { generateDialPlanData } from '../../../../../__mock__/generateDialPlanData';
 
 @autorun(test.skip)
 @it

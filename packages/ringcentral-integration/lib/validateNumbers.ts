@@ -31,10 +31,10 @@ function numberFormat({
   allowRegionSettings: boolean;
 }) {
   const errors: { phoneNumber: string; type: string }[] = [];
-  phoneNumbers.map((phoneNumber) => {
+  phoneNumbers.forEach((phoneNumber) => {
     if (!isValidNumber({ input: phoneNumber, countryCode })) {
       errors.push({ phoneNumber, type: 'noToNumber' });
-      return null;
+      return;
     }
     if (
       allowRegionSettings &&
@@ -46,7 +46,6 @@ function numberFormat({
     ) {
       errors.push({ phoneNumber, type: 'noAreaCode' });
     }
-    return null;
   });
   return {
     result: errors.length === 0,

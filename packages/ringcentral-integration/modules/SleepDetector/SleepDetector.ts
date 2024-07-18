@@ -1,7 +1,8 @@
 import { RcModuleV2 } from '@ringcentral-integration/core';
 
-import { Module } from '../../lib/di';
 import { SleepDetection } from '../../lib/SleepDetection';
+import { Module } from '../../lib/di';
+
 import type { Deps } from './SleepDetector.interface';
 
 @Module({

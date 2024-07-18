@@ -1,8 +1,6 @@
-import React from 'react';
-
-import { includes } from 'ramda';
-
 import { conferenceCallErrors } from '@ringcentral-integration/commons/modules/ConferenceCall';
+import { includes } from 'ramda';
+import React from 'react';
 
 import i18n from './i18n';
 
@@ -12,7 +10,7 @@ type ConferenceCallAlertProps = {
     message: string;
   };
 };
-const ConferenceCallAlert: React.SFC<ConferenceCallAlertProps> = (props) => {
+const ConferenceCallAlert: React.FC<ConferenceCallAlertProps> = (props) => {
   const msg = i18n.getString(props.message.message, props.currentLocale);
   return <span>{msg}</span>;
 };

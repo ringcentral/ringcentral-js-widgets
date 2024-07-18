@@ -9,4 +9,4 @@ export default {
   sessionInfo: 'Session info',
   editSession: 'Edit Session',
   edit: 'Edit',
-};
+} as const;

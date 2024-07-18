@@ -1,63 +1,59 @@
-import { waitUntilTo } from '@ringcentral-integration/utils';
-import { screen, waitFor } from '@testing-library/react';
+import { whenStateOrTimerChange } from '@ringcentral-integration/core/test';
+import { screen, within } from '@testing-library/react';
 
 import type { StepFunction } from '../../../lib/step';
 
-interface OperationProps {
+interface CheckCallControlPageProps {
   parsedNumber: string;
   name?: string;
-  type?: 'company' | 'personal';
+  // According to <ContactDisplay />
+  // There are multiple ways to display components
+  contactDisplayType?: 'contact-multiple-match' | 'normal';
   showDuration?: boolean;
   showCustomAvatar?: boolean;
+  durationDataSign?: string;
 }
 
-export const CheckCallControlPage: StepFunction<OperationProps> = async ({
+export const CheckCallControlPage: StepFunction<
+  CheckCallControlPageProps
+> = async ({
   parsedNumber,
   name = 'Unknown',
-  type = 'company',
+  contactDisplayType = 'normal',
   showDuration = false,
   showCustomAvatar = false,
+  durationDataSign = 'callDuration',
 }) => {
-  await waitUntilTo(() => {
+  await whenStateOrTimerChange(() => {
     expect(screen.getByTestId('activeCallPanel')).toBeInTheDocument();
-  });
-  expect(screen.getByTestId('userPhoneNumber')).toHaveTextContent(
-    new RegExp(parsedNumber.replace(/\(|\)|\+/g, (match) => `\\${match}`)),
-  );
-
-  if (showDuration) {
-    await waitFor(
-      () => {
-        expect(screen.getByTestId('callDuration')).toBeInTheDocument();
-      },
-      { timeout: 3000 },
+    expect(screen.getByTestId('userPhoneNumber')).toHaveTextContent(
+      new RegExp(parsedNumber.replace(/\(|\)|\+/g, (match) => `\\${match}`)),
     );
-  }
 
-  expect(screen.getByTestId('avatar')).toBeInTheDocument();
-  if (showCustomAvatar) {
-    expect(
-      screen
-        .getByTestId('avatar')
-        ?.querySelector('svg')
-        ?.querySelector('image'),
-    ).toBeInTheDocument();
-  } else {
-    expect(
-      screen
-        .getByTestId('avatar')
-        ?.querySelector('svg')
-        ?.querySelector('image'),
-    ).not.toBeInTheDocument();
-  }
-  await waitUntilTo(() => {
-    if (type === 'personal') {
+    if (showDuration) {
+      expect(screen.getByTestId(durationDataSign)).toBeInTheDocument();
+    }
+
+    const avatarElement = screen.getByTestId('avatar');
+    expect(avatarElement).toBeInTheDocument();
+
+    const avatarImage = avatarElement
+      .querySelector('svg')
+      ?.querySelector('image');
+    if (showCustomAvatar) {
+      expect(avatarImage).toBeInTheDocument();
+    } else {
+      expect(avatarImage).not.toBeInTheDocument();
+    }
+
+    const matchesMenuButton = screen.queryByTestId('menuButton');
+    if (contactDisplayType === 'contact-multiple-match') {
+      expect(matchesMenuButton).toBeInTheDocument();
       expect(
-        screen
-          .getByTestId('menuButton')
-          .querySelector('[data-sign="currentName"]'),
+        within(matchesMenuButton!).getByTestId('currentName'),
       ).toHaveTextContent(name);
     } else {
+      expect(matchesMenuButton).not.toBeInTheDocument();
       expect(screen.getByTestId('currentName')).toHaveTextContent(name);
     }
   });

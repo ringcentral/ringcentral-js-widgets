@@ -1,12 +1,12 @@
 import type { RingCentralClient } from '../../lib/RingCentralClient';
 import type { AccountInfo } from '../AccountInfo';
 import type { Alert } from '../Alert';
+import type { AppFeatures } from '../AppFeatures';
 import type { AvailabilityMonitor } from '../AvailabilityMonitor';
+import type { CompanyContacts } from '../CompanyContacts';
 import type { ExtensionInfo } from '../ExtensionInfo';
 import type { ExtensionPhoneNumber } from '../ExtensionPhoneNumber';
 import type { NumberValidate } from '../NumberValidate';
-import type { AppFeatures } from '../AppFeatures';
-import type { CompanyContacts } from '../CompanyContacts';
 
 export interface Deps {
   alert: Alert;

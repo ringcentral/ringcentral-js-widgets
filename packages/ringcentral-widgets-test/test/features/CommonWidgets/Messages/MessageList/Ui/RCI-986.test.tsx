@@ -6,7 +6,6 @@
  * Entry point(/s):
  *
  */
-
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p2,
@@ -19,17 +18,18 @@ import {
   title,
   When,
 } from '@ringcentral-integration/test-utils';
+
+import {
+  generateMessageRecords,
+  generatePhoneNumberList,
+  mockMessageListData,
+} from '../../../../../__mock__/mockMessageListData';
 import { CheckMessageItemHighlight } from '../../../../../steps/Messages/checks/CheckMessageItemHighlight';
 import { CheckTab } from '../../../../../steps/Messages/checks/CheckTab';
 import { CheckUnreadCounts } from '../../../../../steps/Messages/checks/CheckUnreadCounts';
 import { CreateMock } from '../../../../../steps/Mock/CreateMock';
 import { MockMessageSync } from '../../../../../steps/Mock/MockMessage/MockMessageSync';
 import { NavigateToMessagesTab } from '../../../../../steps/Navigate/actions/NavigateToMessages';
-import {
-  generateMessageRecords,
-  generatePhoneNumberList,
-  mockMessageListData,
-} from '../../../../../__mock__/mockMessageListData';
 
 @autorun(test.skip)
 @it

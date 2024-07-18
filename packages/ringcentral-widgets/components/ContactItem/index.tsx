@@ -1,14 +1,14 @@
+import { formatSameSiteExtension } from '@ringcentral-integration/phone-number/lib/format';
+import { useSleep } from '@ringcentral/juno';
 import type { FunctionComponent } from 'react';
 import React, { useEffect, useState } from 'react';
 
-import { formatSameSiteExtension } from '@ringcentral-integration/phone-number/lib/format';
-import { useSleep } from '@ringcentral/juno';
-
 import DefaultAvatar from '../../assets/images/DefaultAvatar.svg';
-import PlaceholderImage from '../PlaceholderImage';
-import PresenceStatusIcon from '../PresenceStatusIcon';
 import type { GetPresenceFn } from '../../react-hooks/usePresence';
 import { usePresence } from '../../react-hooks/usePresence';
+import PlaceholderImage from '../PlaceholderImage';
+import PresenceStatusIcon from '../PresenceStatusIcon';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 

@@ -20,7 +20,8 @@ export default {
   quickAccess: "Paramètre d’accès rapide",
   report: "Rapport d’analyses",
   shareIdea: "Partager une idée",
-  reportIssue: "Signaler un problème"
+  reportIssue: "Signaler un problème",
+  havingIssues: "Vous rencontrez des problèmes ?"
 };
 
 // @key: @#@"region"@#@ @source: @#@"Region"@#@
@@ -45,3 +46,4 @@ export default {
 // @key: @#@"report"@#@ @source: @#@"Analytics Report"@#@
 // @key: @#@"shareIdea"@#@ @source: @#@"Share idea"@#@
 // @key: @#@"reportIssue"@#@ @source: @#@"Report issue"@#@
+// @key: @#@"havingIssues"@#@ @source: @#@"Having issues?"@#@

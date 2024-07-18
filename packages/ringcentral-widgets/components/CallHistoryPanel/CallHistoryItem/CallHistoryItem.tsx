@@ -1,8 +1,3 @@
-import type { FunctionComponent } from 'react';
-import React from 'react';
-
-import classnames from 'classnames';
-
 import { callDirection } from '@ringcentral-integration/commons/enums/callDirections';
 import {
   palette2,
@@ -11,10 +6,14 @@ import {
   spacing,
   styled,
 } from '@ringcentral/juno';
+import clsx from 'clsx';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import { CallHistoryActions } from '../CallHistoryActions';
 import type { CallLog, CallLogMenu } from '../CallHistoryPanel.interface';
 import { CallIcon } from '../CallIcon';
+
 import styles from './styles.scss';
 
 export type CallHistoryItemProps = {
@@ -43,9 +42,9 @@ export const CallHistoryItem: FunctionComponent<CallHistoryItemProps> = ({
 
   return (
     <Item isWide={isWide} data-sign="callHistoryItem">
-      <div className={classnames([styles.left, !isWide && styles.classic])}>
+      <div className={clsx([styles.left, !isWide && styles.classic])}>
         <CallIcon {...call} />
-        <div className={classnames([styles.info, !isWide && styles.classic])}>
+        <div className={clsx([styles.info, !isWide && styles.classic])}>
           <RcText
             variant="body1"
             noWrap

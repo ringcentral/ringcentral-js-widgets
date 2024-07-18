@@ -1,7 +1,8 @@
 import { waitUntilTo } from '@ringcentral-integration/commons/utils';
 import { screen } from '@testing-library/react';
-import { WaitForSpinner } from '../../WaitForSpinner';
+
 import type { StepFunction } from '../../../lib/step';
+import { WaitForSpinner } from '../../WaitForSpinner';
 
 export const CheckRCMPageDisplay: StepFunction<{ timeout?: number }> = async (
   props,

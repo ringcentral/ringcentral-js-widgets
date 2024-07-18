@@ -8,6 +8,7 @@ import type {
   Store as ReduxStore,
 } from 'redux';
 import { createStore as createStoreWithRedux, combineReducers } from 'redux';
+
 import {
   stateKey,
   storeKey,
@@ -16,7 +17,6 @@ import {
   subscriptionsKey,
   usm,
 } from './constant';
-import { getStagedState } from './utils/index';
 import type {
   Action,
   StoreOptions,
@@ -25,6 +25,7 @@ import type {
   Config,
   Service,
 } from './interface';
+import { getStagedState } from './utils/index';
 
 let enablePatches: boolean;
 

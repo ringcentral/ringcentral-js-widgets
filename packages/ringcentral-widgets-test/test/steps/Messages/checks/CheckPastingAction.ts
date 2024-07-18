@@ -1,4 +1,4 @@
-import { fireEvent, screen, waitFor } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import type { StepFunction } from '../../../lib/step';
 
 interface CheckPastingActionProps {
@@ -8,33 +8,30 @@ interface CheckPastingActionProps {
   searchSuccessful: boolean;
 }
 
-export const CheckPastingAction: StepFunction<CheckPastingActionProps> =
-  async ({ pasteData, dataShowAsCard, showAtInputBox, searchSuccessful }) => {
-    fireEvent.paste(screen.getByTestId('recipientsInput'), {
-      clipboardData: { getData: () => pasteData },
-    });
+export const CheckPastingAction: StepFunction<
+  CheckPastingActionProps
+> = async ({ pasteData, dataShowAsCard, showAtInputBox, searchSuccessful }) => {
+  await waitFor(() => {
+    const input = screen.getByTestId('recipientsInput');
 
+    expect(input).toBeInTheDocument();
+
+    showAtInputBox
+      ? expect(input).toHaveValue(showAtInputBox)
+      : expect(input).not.toHaveValue(pasteData);
+
+    dataShowAsCard && dataShowAsCard.length
+      ? dataShowAsCard.every((data) =>
+          expect(screen.getByTitle(data)).toBeVisible(),
+        )
+      : expect(screen.queryByTitle(pasteData)).toBeNull();
+  });
+
+  if (searchSuccessful) {
     await waitFor(() => {
-      const input = screen.getByTestId('recipientsInput');
-
-      expect(input).toBeInTheDocument();
-
-      showAtInputBox
-        ? expect(input).toHaveValue(showAtInputBox)
-        : expect(input).not.toHaveValue(pasteData);
-
-      dataShowAsCard && dataShowAsCard.length
-        ? dataShowAsCard.every((data) =>
-            expect(screen.getByTitle(data)).toBeVisible(),
-          )
-        : expect(screen.queryByTitle(pasteData)).toBeNull();
+      expect(screen.getByTestId('contactDropdownList')).toBeVisible();
     });
-
-    if (searchSuccessful) {
-      await waitFor(() => {
-        expect(screen.getByTestId('contactDropdownList')).toBeVisible();
-      });
-    } else {
-      expect(screen.queryByTestId('contactDropdownList')).toBeNull();
-    }
-  };
+  } else {
+    expect(screen.queryByTestId('contactDropdownList')).toBeNull();
+  }
+};

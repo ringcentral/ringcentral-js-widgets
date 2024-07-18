@@ -5,6 +5,7 @@ import {
 } from '@ringcentral-integration/phone-number';
 
 import { ContactDetailsUI } from '../../../modules/ContactDetailsUI/ContactDetailsUI';
+
 import { defaultPropsParams, phone } from './testSetup';
 
 jest.mock('@ringcentral-integration/phone-number', () => ({
@@ -50,7 +51,7 @@ test.skip("if phoneNumber isn't an E164 nor an extension, it should keep the num
   const phoneNumber = '324645356773456456';
   mockIsE164.mockReturnValueOnce(false);
   const instance = new ContactDetailsUI(defaultProps);
-  expect(mockFormatNumber).not.toBeCalled();
+  expect(mockFormatNumber).not.toHaveBeenCalled();
   const result = instance
     .getUIFunctions(defaultPropsParams)
     .formatNumber(phoneNumber);
@@ -64,8 +65,8 @@ test.skip('if phoneNumber is an extension, it should keep the number intact', ()
   const result = instance
     .getUIFunctions(defaultPropsParams)
     .formatNumber(phoneNumber);
-  expect(mockFormatNumber).not.toBeCalled();
-  expect(mockParseIncompletePhoneNumber).toBeCalledWith(phoneNumber);
+  expect(mockFormatNumber).not.toHaveBeenCalled();
+  expect(mockParseIncompletePhoneNumber).toHaveBeenCalledWith(phoneNumber);
   expect(result).toBe(phoneNumber);
 });
 
@@ -83,8 +84,8 @@ describe.skip('multiple site feature(just for extension)', () => {
     const result = instance
       .getUIFunctions(defaultPropsParams)
       .formatNumber(phoneNumber);
-    expect(mockFormatNumber).not.toBeCalled();
-    expect(mockParseIncompletePhoneNumber).toBeCalledWith(phoneNumber);
+    expect(mockFormatNumber).not.toHaveBeenCalled();
+    expect(mockParseIncompletePhoneNumber).toHaveBeenCalledWith(phoneNumber);
     expect(result).toBe(phoneNumber);
   });
 
@@ -100,8 +101,8 @@ describe.skip('multiple site feature(just for extension)', () => {
     const result = instance
       .getUIFunctions(defaultPropsParams)
       .formatNumber(phoneNumber);
-    expect(mockFormatNumber).not.toBeCalled();
-    expect(mockParseIncompletePhoneNumber).toBeCalledWith(phoneNumber);
+    expect(mockFormatNumber).not.toHaveBeenCalled();
+    expect(mockParseIncompletePhoneNumber).toHaveBeenCalledWith(phoneNumber);
     expect(result).toBe(phoneNumber);
   });
 

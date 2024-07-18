@@ -1,16 +1,14 @@
-import React, { useRef } from 'react';
-
 import type { RcVMeetingModel } from '@ringcentral-integration/commons/interfaces/Rcv.model';
 import type { RcMMeetingModel } from '@ringcentral-integration/commons/modules/Meeting';
-import { sleep } from '@ringcentral-integration/commons/utils';
 import { isSafari } from '@ringcentral-integration/utils';
+import React, { useRef } from 'react';
 
 import type { TopicRef } from '../InnerTopic';
 import { Topic } from '../InnerTopic';
-import MeetingConfigs from '../MeetingConfigs';
 import { MeetingConfigs as MeetingConfigsV2 } from '../MeetingConfigsV2';
 import { SpinnerOverlay } from '../SpinnerOverlay';
 import { VideoConfig } from '../VideoPanel/VideoConfig';
+
 import type { GenericMeetingPanelProps } from './interface';
 import styles from './styles.scss';
 
@@ -19,13 +17,7 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
 ) => {
   const topicRef = useRef<TopicRef>(null);
 
-  const { showCustom, CustomPanel } = props;
-  if (showCustom) {
-    return CustomPanel as JSX.Element;
-  }
-
   const {
-    useRcmV2,
     meeting,
     disabled,
     configDisabled,
@@ -38,13 +30,13 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
     showRecurringMeeting,
     openNewWindow,
     meetingOptionToggle,
-    passwordPlaceholderEnable,
     audioOptionToggle,
     onOK,
     init,
     showSaveAsDefault,
     disableSaveAsDefault,
     updateMeetingSettings,
+    onCloseMigrationAlert,
     isRCM,
     isRCV,
     datePickerSize,
@@ -95,7 +87,7 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
     recurringMeetingPosition,
     defaultTopic,
     isPersonalMeetingDisabled,
-    showIeSupportAlert,
+    showMigrationAlert,
     showRemoveMeetingWarning,
     brandConfig,
   } = props;
@@ -105,30 +97,7 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
   }
   return (
     <div className={styles.wrapper}>
-      {isRCM && !useRcmV2 && (
-        <MeetingConfigs
-          useTimePicker
-          update={updateMeetingSettings}
-          init={init}
-          meeting={meeting as RcMMeetingModel}
-          // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
-          disabled={configDisabled}
-          currentLocale={currentLocale}
-          recipientsSection={recipientsSection}
-          showWhen={showWhen}
-          showTopic={showTopic}
-          showDuration={showDuration}
-          showRecurringMeeting={showRecurringMeeting}
-          meetingOptionToggle={meetingOptionToggle}
-          passwordPlaceholderEnable={passwordPlaceholderEnable}
-          audioOptionToggle={audioOptionToggle}
-          // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
-          enablePersonalMeeting={enablePersonalMeeting}
-          personalMeetingId={personalMeetingId}
-          switchUsePersonalMeetingId={switchUsePersonalMeetingId}
-        />
-      )}
-      {isRCM && useRcmV2 && (
+      {isRCM && (
         <MeetingConfigsV2
           // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
           disabled={configDisabled}
@@ -137,6 +106,7 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
           updateMeetingSettings={updateMeetingSettings}
           personalMeetingId={personalMeetingId}
           switchUsePersonalMeetingId={switchUsePersonalMeetingId}
+          onCloseMigrationAlert={onCloseMigrationAlert}
           init={init}
           labelPlacement={labelPlacement}
           meeting={meeting as RcMMeetingModel}
@@ -158,7 +128,7 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
           datePickerSize={datePickerSize}
           timePickerSize={timePickerSize}
           checkboxSize={checkboxSize}
-          showIeSupportAlert={showIeSupportAlert}
+          showMigrationAlert={showMigrationAlert}
           showRemoveMeetingWarning={showRemoveMeetingWarning}
           brandConfig={brandConfig}
         >
@@ -186,6 +156,7 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
           e2eeInteractFunc={e2eeInteractFunc}
           updateScheduleFor={updateScheduleFor}
           updateMeetingSettings={updateMeetingSettings}
+          onCloseMigrationAlert={onCloseMigrationAlert}
           recipientsSection={recipientsSection}
           showWhen={showWhen}
           showDuration={showDuration}
@@ -224,7 +195,7 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
           isAuthenticatedCanJoinDisabled={isAuthenticatedCanJoinDisabled}
           isWaitingRoomDisabled={isWaitingRoomDisabled}
           isRequirePasswordDisabled={isRequirePasswordDisabled}
-          showIeSupportAlert={showIeSupportAlert}
+          showMigrationAlert={showMigrationAlert}
           showRemoveMeetingWarning={showRemoveMeetingWarning}
           brandConfig={brandConfig}
         >
@@ -250,20 +221,18 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
           onOK={onOK}
           onClick={async () => {
             if (!disabled) {
-              await sleep(100);
               const opener = openNewWindow && isSafari() ? window.open() : null;
               const meetingSetting = isRCM
                 ? {
                     ...meeting,
-                    // @ts-expect-error TS(2339): Property 'topic' does not exist on type 'RcMMeetin... Remove this comment to see the full error message
-                    topic: useRcmV2 ? topicRef.current?.value : meeting.topic,
+                    topic: topicRef.current?.value,
                   }
                 : {
                     ...meeting,
                     name: topicRef.current?.value,
                   };
-              // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
-              await schedule(meetingSetting, opener);
+
+              await schedule?.(meetingSetting, opener);
             }
           }}
           update={updateMeetingSettings}
@@ -283,7 +252,9 @@ const GenericMeetingPanel: React.ComponentType<GenericMeetingPanelProps> = (
 };
 
 GenericMeetingPanel.defaultProps = {
-  launchMeeting() {},
+  launchMeeting() {
+    //
+  },
   disabled: false,
   showWhen: true,
   showTopic: true,
@@ -291,7 +262,6 @@ GenericMeetingPanel.defaultProps = {
   showRecurringMeeting: true,
   openNewWindow: true,
   meetingOptionToggle: false,
-  passwordPlaceholderEnable: false,
   audioOptionToggle: false,
   onOK: undefined,
   scheduleButton: undefined,
@@ -311,13 +281,11 @@ GenericMeetingPanel.defaultProps = {
   isPmiChangeConfirmed: false,
   showSaveAsDefault: true,
   disableSaveAsDefault: false,
-  showCustom: false,
   showLaunchMeetingBtn: false,
   appCode: '',
   scheduleButtonLabel: '',
   personalMeetingId: undefined,
   showSpinner: false,
-  useRcmV2: false,
   labelPlacement: 'start',
   enableServiceWebSettings: false,
   recurringMeetingPosition: 'middle',

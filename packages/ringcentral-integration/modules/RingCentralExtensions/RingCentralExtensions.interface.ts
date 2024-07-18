@@ -3,9 +3,9 @@ import type { WebSocketOptions } from '@rc-ex/ws/lib/types';
 
 import type { RingCentralClient } from '../../lib/RingCentralClient';
 import type { Auth } from '../Auth';
+import type { AvailabilityMonitor } from '../AvailabilityMonitor';
 import type { SleepDetector } from '../SleepDetector';
 import type { TabManager } from '../TabManager';
-import type { AvailabilityMonitor } from '../AvailabilityMonitor';
 
 export interface RingCentralExtensionsOptions {
   debugMode?: boolean;

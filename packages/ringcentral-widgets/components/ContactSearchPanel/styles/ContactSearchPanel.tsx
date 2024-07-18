@@ -23,6 +23,7 @@ export const ContactName = styled.span`
 
 export const StyledTabsWrapper = styled.div`
   border-bottom: 1px solid ${palette2('neutral', 'l02')};
+  padding: 0 ${spacing(2)};
 `;
 
 export const StyledContactSearchPanel = styled.div`
@@ -40,6 +41,9 @@ export const StyledContactSearchPanel = styled.div`
   }
 
   [sf-classic] & {
+    ${StyledTabsWrapper} {
+      padding: 0;
+    }
     ${RcTab} {
       padding: ${spacing(1)};
     }
@@ -62,6 +66,11 @@ export const FullSizeWrapper = styled.div`
 
 export const DefaultIcon = styled(RcIcon)`
   background: ${palette2('avatar', 'global')};
+  border-radius: ${radius('circle')};
+`;
+
+export const CallQueueIcon = styled(RcIcon)`
+  background: ${palette2('primary', 'main')};
   border-radius: ${radius('circle')};
 `;
 

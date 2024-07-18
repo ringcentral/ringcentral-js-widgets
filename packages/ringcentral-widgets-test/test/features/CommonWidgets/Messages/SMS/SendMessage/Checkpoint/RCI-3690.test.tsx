@@ -25,7 +25,6 @@
 	| 2 |Click the conversation with {Contacts} |
 
  */
-
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   autorun,

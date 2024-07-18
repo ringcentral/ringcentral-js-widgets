@@ -1,8 +1,3 @@
-import type { FunctionComponent, MouseEventHandler } from 'react';
-import React, { useState } from 'react';
-
-import classNames from 'classnames';
-
 import { Tooltip } from '@ringcentral-integration/widgets/components/Rcui/Tooltip';
 import { TOOLTIP_LONG_DELAY_TIME } from '@ringcentral-integration/widgets/lib/toolTipDelayTime';
 import { RcButtonBase, RcIcon, RcMenu, RcMenuItem } from '@ringcentral/juno';
@@ -10,8 +5,12 @@ import {
   ArrowDown as arrowDownSvg,
   ArrowUp as arrowUpSvg,
 } from '@ringcentral/juno-icon';
+import clsx from 'clsx';
+import type { FunctionComponent, MouseEventHandler } from 'react';
+import React, { useState } from 'react';
 
 import type { EvCustomAvailableAgentState } from '../../../../interfaces/EvMainViewUI.interface';
+
 import styles from './styles.scss';
 
 export interface WorkingStateButtonProps {
@@ -57,7 +56,7 @@ export const WorkingStateButton: FunctionComponent<WorkingStateButtonProps> = ({
       <div
         tabIndex={0}
         role="button"
-        className={classNames(styles.state, styles[color])}
+        className={clsx(styles.state, styles[color])}
         onClick={handleClick}
       >
         <RcButtonBase
@@ -101,10 +100,7 @@ export const WorkingStateButton: FunctionComponent<WorkingStateButtonProps> = ({
               selected={selected}
             >
               <div
-                className={classNames(
-                  styles.stateListItemDot,
-                  styles[state.color],
-                )}
+                className={clsx(styles.stateListItemDot, styles[state.color])}
               />
               <div className={styles.stateItemName}>{state.agentAuxState}</div>
             </RcMenuItem>

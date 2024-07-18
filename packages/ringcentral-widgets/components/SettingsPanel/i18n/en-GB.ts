@@ -20,7 +20,8 @@ export default {
   quickAccess: "Quick access setting",
   report: "Analytics report",
   shareIdea: "Share idea",
-  reportIssue: "Report issue"
+  reportIssue: "Report issue",
+  havingIssues: "Having issues?"
 };
 
 // @key: @#@"region"@#@ @source: @#@"Region"@#@
@@ -45,3 +46,4 @@ export default {
 // @key: @#@"report"@#@ @source: @#@"Analytics Report"@#@
 // @key: @#@"shareIdea"@#@ @source: @#@"Share idea"@#@
 // @key: @#@"reportIssue"@#@ @source: @#@"Report issue"@#@
+// @key: @#@"havingIssues"@#@ @source: @#@"Having issues?"@#@

@@ -3,7 +3,9 @@ import { waitUntilTo } from '../../utils';
 type BroadcastChannelMessage = (ev: MessageEvent) => any;
 
 export class SingleTabBroadcastChannel {
+  // @ts-expect-error TS(2564): Property '_req' has no initializer and is not defi... Remove this comment to see the full error message
   private _req: BroadcastChannel;
+  // @ts-expect-error TS(2564): Property '_res' has no initializer and is not defi... Remove this comment to see the full error message
   private _res: BroadcastChannel;
 
   get tabId() {
@@ -67,6 +69,7 @@ export class SingleTabBroadcastChannel {
     } catch (error: any /** TODO: confirm with instanceof */) {
       return null;
     } finally {
+      // @ts-expect-error TS(2454): Variable '_resolve' is used before being assigned.
       _resolve();
       this._res.removeEventListener('message', listener);
     }

@@ -1,6 +1,3 @@
-import type { FunctionComponent, ReactElement } from 'react';
-import React from 'react';
-
 import {
   RcAccordion,
   RcAccordionDetails,
@@ -8,6 +5,8 @@ import {
   RcFormGroup,
 } from '@ringcentral/juno';
 import { ArrowDown2 } from '@ringcentral/juno-icon';
+import type { FunctionComponent, ReactElement } from 'react';
+import React from 'react';
 
 import styles from './styles.scss';
 

@@ -3,6 +3,7 @@ import React from 'react';
 
 import { SpinnerOverlay } from '../SpinnerOverlay';
 import TabContentPanel from '../TabContentPanel';
+
 import styles from './styles.scss';
 
 export interface Tab {

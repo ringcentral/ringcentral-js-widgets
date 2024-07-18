@@ -1,32 +1,36 @@
+import clsx from 'clsx';
+import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
-import classNames from 'classnames/bind';
-import PropTypes from 'prop-types';
-
 import Spinner from '../Spinner';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 
-const cx = classNames.bind(styles);
 const MessageItem = ({ message, navigateTo, dateTimeFormatter }: any) => {
   const { subject, creationTime, readStatus, conversationId } = message;
   const isUnread = readStatus !== 'Read';
   const time = dateTimeFormatter({ utcTimestamp: creationTime });
   return (
     <div
-      className={cx('messageItem', { localMessageItem: !message.fromRemote })}
+      className={clsx(styles.messageItem, {
+        [styles.localMessageItem]: !message.fromRemote,
+      })}
       onClick={() =>
         !message.fromRemote && navigateTo(`/conversations/${conversationId}`)
       }
     >
       <dl className={styles.dl} data-sign="RecentMessage">
         <dt
-          className={cx('messageSubject', { unread: isUnread })}
+          className={clsx(styles.messageSubject, { [styles.unread]: isUnread })}
           title={subject}
         >
           {subject}
         </dt>
-        <dd className={cx('messageTime', { unread: isUnread })} title={time}>
+        <dd
+          className={clsx(styles.messageTime, { [styles.unread]: isUnread })}
+          title={time}
+        >
           {time}
         </dd>
       </dl>

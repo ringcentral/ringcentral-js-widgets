@@ -2,6 +2,7 @@ import type { ComponentType } from 'react';
 import type React from 'react';
 
 import type { NavigationButtonProps } from '../TabNavigationButton';
+
 import type { NavigationBarMoreMenuProps } from './NavigationBarMoreMenu';
 
 export interface TabPropTypes extends Partial<NavigationButtonProps> {

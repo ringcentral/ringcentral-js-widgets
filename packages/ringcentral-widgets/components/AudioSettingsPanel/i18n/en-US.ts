@@ -17,4 +17,4 @@ export default {
     "Sorry, your current browser permissions aren't set to allow us to access your audio input devices.",
   clickHere: 'Click here',
   defaultOutputDevice: 'Default output device',
-};
+} as const;

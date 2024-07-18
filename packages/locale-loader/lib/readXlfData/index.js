@@ -1,7 +1,7 @@
-import path from 'path';
-import xml from 'xml-js';
 import fs from 'fs-extra';
+import path from 'path';
 import { reduce } from 'ramda';
+import xml from 'xml-js';
 
 function extractKey(str) {
   return str.substring(1, str.length - 1);

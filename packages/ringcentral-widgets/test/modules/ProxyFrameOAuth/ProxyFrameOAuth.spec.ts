@@ -1,4 +1,5 @@
 import { mockModuleGenerator } from '@ringcentral-integration/commons/test/lib/mockModule';
+
 import { ProxyFrameOAuth } from '../../../modules/ProxyFrameOAuth';
 
 const mockFunc = jest.fn();
@@ -31,7 +32,7 @@ describe.skip('ProxyFrameOAuth', () => {
       _clearImplicitRefreshIframe: () => {},
     });
     ProxyFrameOAuth.prototype.openOAuthPage.call(mockModule);
-    expect(mockFunc).toBeCalled();
+    expect(mockFunc).toHaveBeenCalled();
     ProxyFrameOAuth.prototype._createImplicitRefreshIframe.call(mockModule);
     expect(mockModule._implicitRefreshFrame).not.toEqual(null);
     ProxyFrameOAuth.prototype._clearImplicitRefreshIframe.call(mockModule);

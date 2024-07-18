@@ -1,5 +1,5 @@
 export default {
-  dialer: "Teclado telefónico",
+  dialer: "Teclado de marcado",
   allCalls: "Todas las llamadas"
 };
 

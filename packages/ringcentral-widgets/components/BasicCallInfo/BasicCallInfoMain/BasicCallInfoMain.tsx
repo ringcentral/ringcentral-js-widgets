@@ -1,7 +1,6 @@
+import clsx from 'clsx';
 import type { DOMAttributes, FunctionComponent } from 'react';
 import React from 'react';
-
-import classNames from 'classnames';
 
 import { CallIcon } from '../CallIcon';
 import { CallSubject } from '../CallSubject';
@@ -24,7 +23,7 @@ export const BasicCallInfoMain: FunctionComponent<BasicCallInfoMainProps> = ({
   className,
 }) => {
   return (
-    <div onClick={onClick} className={classNames(styles.root, className)}>
+    <div onClick={onClick} className={clsx(styles.root, className)}>
       <CallIcon isInbound={isInbound} />
       <div className={styles.mainInfo}>
         <CallSubject subject={subject} />

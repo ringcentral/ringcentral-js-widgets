@@ -1,8 +1,12 @@
 import type { CallResultsValue } from '../enums/callResults';
+
+import type {
+  IWarmTransferInfo,
+  ActiveCallControlSessionData,
+} from './ActiveSession.interface';
 import type { Entity } from './Entity.interface';
 import type { ActiveCall } from './Presence.model';
 import type { NormalizedSession } from './Webphone.interface';
-import type { IWarmTransferInfo } from './ActiveSession.interface';
 
 export interface CallerInfo {
   phoneNumber?: string;
@@ -32,6 +36,8 @@ export interface NormalizedCall {
   duration?: number;
   warmTransferInfo?: IWarmTransferInfo;
   isRecording?: boolean;
+  isConferenceCall?: boolean;
+  conferenceParticipants?: ActiveCallControlSessionData['conferenceParticipants'];
 }
 
 export type NormalizedCalls = NormalizedCall[];

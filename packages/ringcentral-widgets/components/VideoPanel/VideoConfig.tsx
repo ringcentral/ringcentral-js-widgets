@@ -1,8 +1,3 @@
-import type { FunctionComponent } from 'react';
-import React, { useEffect, useMemo, useRef, useState } from 'react';
-
-import classnames from 'classnames';
-
 import {
   updateFullTime,
   updateFullYear,
@@ -40,6 +35,9 @@ import {
   styled,
 } from '@ringcentral/juno';
 import { InfoBorder } from '@ringcentral/juno-icon';
+import clsx from 'clsx';
+import type { FunctionComponent } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 
 import { formatMeetingId } from '../../lib/MeetingCalendarHelper';
 import {
@@ -48,14 +46,15 @@ import {
   HOUR_SCALE,
   MINUTE_SCALE,
 } from '../../lib/MeetingHelper';
-import { MeetingAlert, RemoveMeetingWarn } from '../MeetingAlert';
+import { MigrateToPluginAlert, RemoveMeetingWarn } from '../MeetingAlert';
 import { ExtendedTooltip } from '../MeetingConfigsV2/ExtendedTooltip';
 import { SpinnerOverlay } from '../SpinnerOverlay';
-import { RCV_SCHEDULE_ON_BEHALF_GUIDANCE_LINK } from './constants';
-import i18n, { I18nKey } from './i18n';
+
 import { SettingGroup } from './SettingGroup';
-import styles from './styles.scss';
 import { VideoSecuritySettingItem } from './VideoSecuritySettingItem';
+import { RCV_SCHEDULE_ON_BEHALF_GUIDANCE_LINK } from './constants';
+import i18n, { type I18nKey } from './i18n';
+import styles from './styles.scss';
 
 function getHelperTextForPasswordField(
   meeting: RcVMeetingModel,
@@ -84,6 +83,7 @@ interface VideoConfigProps {
   meeting: RcVMeetingModel;
 
   updateMeetingSettings: (meeting: Partial<RcVMeetingModel>) => void;
+  onCloseMigrationAlert?: () => void;
 
   recipientsSection?: React.ReactNode;
   showWhen?: boolean;
@@ -98,7 +98,7 @@ interface VideoConfigProps {
   isPmiChangeConfirmed?: boolean;
   isPersonalMeetingDisabled: boolean;
   personalMeetingId: string;
-  showIeSupportAlert?: boolean;
+  showMigrationAlert?: boolean;
   switchUsePersonalMeetingId: (usePersonalMeetingId: boolean) => any;
   trackSettingChanges?: (itemName: RcvItemType) => void;
   updateScheduleFor: (userExtensionId: string) => any;
@@ -160,6 +160,7 @@ export const VideoConfig: FunctionComponent<VideoConfigProps> = (props) => {
     trackSettingChanges,
     e2eeInteractFunc,
     onPmiChangeClick,
+    onCloseMigrationAlert,
     datePickerSize,
     timePickerSize,
     checkboxSize,
@@ -186,7 +187,7 @@ export const VideoConfig: FunctionComponent<VideoConfigProps> = (props) => {
     isWaitingRoomAllDisabled,
     showRemoveMeetingWarning,
     brandConfig,
-    showIeSupportAlert,
+    showMigrationAlert,
   } = props;
 
   const settingsGroupExpandable = false;
@@ -241,7 +242,14 @@ export const VideoConfig: FunctionComponent<VideoConfigProps> = (props) => {
             />
           </SettingGroup>
         )}
-        <div className={classnames(styles.meetingSection, styles.gutterTop)}>
+        {showMigrationAlert && (
+          <MigrateToPluginAlert
+            currentLocale={currentLocale}
+            substituteName={brandConfig.substituteName}
+            onCloseAlert={onCloseMigrationAlert}
+          />
+        )}
+        <div className={clsx(styles.meetingSection, styles.gutterTop)}>
           {children}
         </div>
         {recipientsSection ? (
@@ -617,7 +625,7 @@ export const VideoConfig: FunctionComponent<VideoConfigProps> = (props) => {
           </VideoSecuritySettingItem>
           {meeting.isMeetingSecret ? (
             <div
-              className={classnames(styles.passwordInput, {
+              className={clsx(styles.passwordInput, {
                 [styles.subPrefixPadding]: labelPlacement === 'end',
               })}
             >
@@ -721,7 +729,7 @@ export const VideoConfig: FunctionComponent<VideoConfigProps> = (props) => {
               </VideoSecuritySettingItem>
               {meeting.waitingRoomMode ? (
                 <div
-                  className={classnames(styles.boxSelectWrapper, {
+                  className={clsx(styles.boxSelectWrapper, {
                     [styles.subPrefixPadding]: labelPlacement === 'end',
                   })}
                 >
@@ -806,7 +814,7 @@ export const VideoConfig: FunctionComponent<VideoConfigProps> = (props) => {
           </VideoSecuritySettingItem>
           {meeting.isOnlyAuthUserJoin ? (
             <div
-              className={classnames(styles.boxSelectWrapper, {
+              className={clsx(styles.boxSelectWrapper, {
                 [styles.subPrefixPadding]: labelPlacement === 'end',
               })}
             >
@@ -870,16 +878,6 @@ export const VideoConfig: FunctionComponent<VideoConfigProps> = (props) => {
             />
           </VideoSecuritySettingItem>
         </SettingGroup>
-        {showIeSupportAlert && (
-          <SettingGroup dataSign="iePanel" expandable={false}>
-            <MeetingAlert
-              severity="warning"
-              content={format(i18n.getString('ieSupportAlert', currentLocale), {
-                appName: brandConfig.appName,
-              })}
-            />
-          </SettingGroup>
-        )}
       </div>
     </PanelRoot>
   );

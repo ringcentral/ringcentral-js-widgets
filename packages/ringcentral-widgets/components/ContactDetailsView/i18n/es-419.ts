@@ -1,6 +1,6 @@
 export default {
   contactDetails: "Detalles de contacto",
-  loadingContact: "Cargando contacto...",
+  loadingContact: "Cargando contacto…",
   contactNotFound: "No se pudo encontrar el contacto."
 };
 

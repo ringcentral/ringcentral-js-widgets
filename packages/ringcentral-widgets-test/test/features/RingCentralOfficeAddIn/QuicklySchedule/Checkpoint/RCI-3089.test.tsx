@@ -8,7 +8,6 @@
  * ntry point(/s): </span></strong></p>
 <p><span style='background-color: transparent;'>Outlook > Calendar > Edit the event1</span>> <span style='background-color: transparent;'>Click </span><span style='background-color: transparent;'>'RingCentral Scheduler' / 'Schedule with RingCentral'</span></p><p>Outlook > Calendar > <span style='background-color: transparent;'>Edit the event1></span><span style='background-color: transparent;'> </span><span style='background-color: transparent;'>Click 'New Appointment' or 'New Meeting' in the menu bar > Click {Brand name} for Outlook</span></p>
  */
-
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p1,

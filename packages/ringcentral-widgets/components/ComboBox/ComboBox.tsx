@@ -1,8 +1,8 @@
+import clsx from 'clsx';
 import React, { Component, createRef } from 'react';
 
-import classnames from 'classnames';
-
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
+
 import styles from './styles.scss';
 
 type ComboBoxProps = {
@@ -217,7 +217,7 @@ class ComboBox extends Component<ComboBoxProps, ComboBoxState> {
     }
     return (
       <ul
-        className={classnames(
+        className={clsx(
           styles.dropdown,
           dropdownClassName,
           placeholder && styles.placeholder,
@@ -228,7 +228,7 @@ class ComboBox extends Component<ComboBoxProps, ComboBoxState> {
       >
         {currentOptions.map((option, idx) => {
           const currentValue = this.valueFunction(option, idx);
-          const className = classnames(
+          const className = clsx(
             styles.dropdownItem,
             value === currentValue ? styles.selected : null,
           );
@@ -237,7 +237,7 @@ class ComboBox extends Component<ComboBoxProps, ComboBoxState> {
             <li
               data-sign="selectMenuItem"
               key={currentValue || idx}
-              className={classnames(
+              className={clsx(
                 className,
                 // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
                 styles[dropdownAlign],
@@ -276,19 +276,19 @@ class ComboBox extends Component<ComboBoxProps, ComboBoxState> {
       icon,
     } = this.props;
     const currentLabel = label ? <span>{label}</span> : null;
-    const currentIconClassName = classnames(
+    const currentIconClassName = clsx(
       styles.icon,
       this.state.open ? styles.iconUp : null,
       iconClassName,
     );
-    const containerClassName = classnames(
+    const containerClassName = clsx(
       styles.root,
       className,
       disabled ? styles.disabled : null,
       this.state.open ? styles.open : null,
       noPadding ? styles.noPadding : null,
     );
-    const buttonClassName = classnames(
+    const buttonClassName = clsx(
       styles.button,
       disabled ? styles.disabled : null,
     );
@@ -297,7 +297,7 @@ class ComboBox extends Component<ComboBoxProps, ComboBoxState> {
     return (
       <div
         data-sign={dataSign}
-        className={classnames(containerClassName, wrapperStyle)}
+        className={clsx(containerClassName, wrapperStyle)}
         ref={(ref) => {
           if (reference) reference(ref);
           this.wrapper = ref;
@@ -306,7 +306,7 @@ class ComboBox extends Component<ComboBoxProps, ComboBoxState> {
         <div
           // @ts-expect-error TS(2322): Type '{ children: (Element | null)[]; type: string... Remove this comment to see the full error message
           type="button"
-          className={classnames(buttonClassName, buttonStyle)}
+          className={clsx(buttonClassName, buttonStyle)}
           onClick={this._toggleShowDropdown}
           // @ts-expect-error TS(2538): Type 'object' cannot be used as an index type.
           title={this.renderTitle(options[value], renderValue)}
@@ -316,7 +316,7 @@ class ComboBox extends Component<ComboBoxProps, ComboBoxState> {
             // @ts-expect-error TS(2322): Type 'RefObject<unknown>' is not assignable to typ... Remove this comment to see the full error message
             ref={this.inputRef}
             data-sign="selectedItem"
-            className={classnames(
+            className={clsx(
               styles.selectedValue,
               ellipsis && styles.ellipsis,
               selectedClassName,

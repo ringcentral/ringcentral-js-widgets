@@ -6,6 +6,7 @@ import type {
   EvActiveCallListUIProps,
 } from '../../interfaces/EvActiveCallListUI.interface';
 import type { EvCallData } from '../../interfaces/EvData.interface';
+
 import type { ActiveCallListUI, Deps } from './EvActiveCallListUI.interface';
 
 @Module({

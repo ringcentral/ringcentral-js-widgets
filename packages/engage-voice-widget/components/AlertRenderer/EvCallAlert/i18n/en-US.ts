@@ -18,4 +18,4 @@ export default {
   [messageTypes.RECORD_RESUME]: 'Call recording resumed.',
   [messageTypes.INTERCEPT]:
     'The dial result for your manual outbound call was INTERCEPT.',
-};
+} as const;

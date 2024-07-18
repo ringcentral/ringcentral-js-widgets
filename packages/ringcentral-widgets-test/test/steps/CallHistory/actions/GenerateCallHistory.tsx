@@ -1,4 +1,4 @@
-import callLogBody from '@ringcentral-integration/commons/integration-test/mock/data/callLog.json';
+import OriginalCallLogData from '@ringcentral-integration/commons/integration-test/mock/data/callLog.json';
 import type { CallLogRecord as BaseCallLogRecord } from '@ringcentral-integration/commons/modules/CallLog';
 import { getISODateFrom } from '@ringcentral-integration/commons/modules/CallLog';
 
@@ -16,8 +16,9 @@ export const GenerateCallHistory = ({
 }: {
   length?: number;
   expiredCall?: number;
-  mockRecords?: CallLogRecord[];
+  mockRecords?: Partial<CallLogRecord>[];
 }) => {
+  const callLogBody = JSON.parse(JSON.stringify(OriginalCallLogData));
   const { records } = callLogBody;
   const calls: CallLogRecords = [];
   const before8Days = getISODateFrom(DEFAULT_DAY_SPAN + 1);

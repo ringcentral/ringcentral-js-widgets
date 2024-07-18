@@ -1,24 +1,31 @@
-import { forEach, reduce } from 'ramda';
+import { proxyChrome } from '../ObjectProxy';
+import { TransportBase, type TransportBaseProps } from '../TransportBase';
 
-import TransportBase from '../TransportBase';
+import { CONNECT_PORT_NAME, TRANSPORT_NAME } from './constants';
 
 /* global chrome */
 
+export interface ServerTransportProps
+  extends Omit<TransportBaseProps, 'name'> {}
+
 export class ServerTransport extends TransportBase {
-  constructor(options) {
+  _activeTabIds = new Set<number>();
+  _ports = new Set<chrome.runtime.Port>();
+  _requests = new Map<string, chrome.runtime.Port>();
+
+  constructor(options: ServerTransportProps = {}) {
     super({
       ...options,
-      name: 'ChromeTransport',
+      name: TRANSPORT_NAME,
     });
-    this._ports = new Set();
-    this._requests = new Map();
 
-    // Keep active tabs up to date
-    this._activeTabIds = null;
+    // Get current tabs
     this._getActiveTabIds();
-    chrome.tabs.onActivated.addListener(() => this._getActiveTabIds());
+    // Keep active tabs up to date
+    proxyChrome.tabs.onActivated.addListener(() => this._getActiveTabIds());
+
     chrome.runtime.onConnect.addListener((port) => {
-      if (port.name === 'transport') {
+      if (port.name === CONNECT_PORT_NAME) {
         this._ports.add(port);
         port.onMessage.addListener(({ type, requestId, payload }) => {
           if (type === this._events.request && requestId && payload) {
@@ -36,7 +43,15 @@ export class ServerTransport extends TransportBase {
     });
   }
 
-  response({ requestId, result, error }) {
+  response({
+    requestId,
+    result,
+    error,
+  }: {
+    requestId: string;
+    result?: unknown;
+    error?: Error | string;
+  }) {
     const port = this._requests.get(requestId);
     if (port) {
       this._requests.delete(requestId);
@@ -52,46 +67,35 @@ export class ServerTransport extends TransportBase {
     }
   }
 
-  push({ payload }) {
+  push({ payload }: { payload: unknown }) {
     const message = { type: this._events.push, payload };
     // Since postMessage is really expensive,
     // we only send messages to those ports on active tabs.
-    forEach((port) => {
+    this._ports.forEach((port) => {
       if (
-        port.sender &&
-        port.sender.tab &&
+        port.sender?.tab?.id &&
         // send to all instances if app failed to query active tabs
-        (!this._activeTabIds || this._activeTabIds[port.sender.tab.id])
+        (!this._activeTabIds.size || this._activeTabIds.has(port.sender.tab.id))
       ) {
         port.postMessage(message);
       }
-    }, this._ports);
+    });
   }
 
   _getActiveTabIds() {
-    return new Promise((resolve) => {
-      try {
-        chrome.tabs.query({ active: true }, (tabs) => {
-          this._activeTabIds = Array.isArray(tabs)
-            ? // convert tabs array into tabs id truth mapping
-              reduce(
-                (acc, tab) => {
-                  if (tab.id) {
-                    acc[tab.id] = true;
-                  }
-                  return acc;
-                },
-                {},
-                tabs,
-              )
-            : null;
-          resolve(!!this._activeTabIds);
-        });
-      } catch (error: any /** TODO: confirm with instanceof */) {
-        this._activeTabIds = null;
-        console.log(error);
-        resolve(false);
-      }
-    });
+    try {
+      proxyChrome.tabs.query({ active: true }, (tabs) => {
+        this._activeTabIds.clear();
+        if (Array.isArray(tabs)) {
+          tabs.forEach((tab) => {
+            if (tab.id) {
+              this._activeTabIds.add(tab.id);
+            }
+          });
+        }
+      });
+    } catch (error) {
+      console.log('[ServerTransport]', error);
+    }
   }
 }

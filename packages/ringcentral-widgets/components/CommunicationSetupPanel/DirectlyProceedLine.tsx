@@ -1,6 +1,3 @@
-import type { FunctionComponent } from 'react';
-import React, { memo } from 'react';
-
 import {
   RcAvatar,
   RcIcon,
@@ -10,6 +7,8 @@ import {
   RcListItemText,
 } from '@ringcentral/juno';
 import { DefaultAvatar, Dial } from '@ringcentral/juno-icon';
+import type { FunctionComponent } from 'react';
+import React, { memo } from 'react';
 
 import i18n from './i18n';
 

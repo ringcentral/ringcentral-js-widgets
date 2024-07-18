@@ -1,7 +1,7 @@
 export default {
   confirmation: "確認",
   confirmMergeToConference: "電話会議に追加しますか?",
-  mergeToConference: "統合",
+  mergeToConference: "マージ",
   conferenceCall: "電話会議"
 };
 

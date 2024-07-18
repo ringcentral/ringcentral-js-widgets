@@ -1,10 +1,11 @@
-import { EventEmitter } from 'events';
-import type { ApiError } from '@ringcentral/sdk';
 import type GetMessageInfoResponse from '@rc-ex/core/lib/definitions/GetMessageInfoResponse';
 import { computed, track, watch } from '@ringcentral-integration/core';
 import { sleep } from '@ringcentral-integration/utils';
+import type { ApiError } from '@ringcentral/sdk';
+import { EventEmitter } from 'events';
 
 import { subscriptionFilters } from '../../enums/subscriptionFilters';
+import { trackEvents } from '../../enums/trackEvents';
 import type {
   Message,
   Messages,
@@ -16,9 +17,9 @@ import { debounce } from '../../lib/debounce-throttle';
 import { Module } from '../../lib/di';
 import * as messageHelper from '../../lib/messageHelper';
 import { proxify } from '../../lib/proxy/proxify';
-import { trackEvents } from '../../enums/trackEvents';
 import { callingModes } from '../CallingSettings';
 import { DataFetcherV2Consumer, DataSource } from '../DataFetcherV2';
+
 import type {
   Deps,
   DispatchedMessageIds,
@@ -86,7 +87,7 @@ export class MessageStore<T extends Deps = Deps> extends DataFetcherV2Consumer<
 
   protected _dispatchedMessageIds: DispatchedMessageIds = [];
 
-  // @ts-expect-error
+  // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'GetMessageI... Remove this comment to see the full error message
   protected _handledRecord: GetMessageInfoResponse[] = null;
 
   constructor(deps: T) {
@@ -101,7 +102,7 @@ export class MessageStore<T extends Deps = Deps> extends DataFetcherV2Consumer<
       pollingInterval = DEFAULT_POLLING_INTERVAL,
       ttl = DEFAULT_TTL,
     } = this._deps.messageStoreOptions ?? {};
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type 'DataSource<{ conversationList: ConversationI... Remove this comment to see the full error message
     this._source = new DataSource({
       ...this._deps.messageStoreOptions,
       key: 'messageStore',
@@ -120,7 +121,10 @@ export class MessageStore<T extends Deps = Deps> extends DataFetcherV2Consumer<
 
   override onInit() {
     if (this._hasPermission) {
-      this._deps.subscription.subscribe([subscriptionFilters.messageStore]);
+      this._deps.subscription.subscribe([
+        subscriptionFilters.messageStore,
+        subscriptionFilters.instantMessage,
+      ]);
     }
   }
 
@@ -139,21 +143,26 @@ export class MessageStore<T extends Deps = Deps> extends DataFetcherV2Consumer<
     watch(
       this,
       () => this._deps.subscription.message,
-      (newValue) => {
+      async (newValue) => {
         if (
           !this.ready ||
           (this._deps.tabManager && !this._deps.tabManager.active)
         ) {
           return;
         }
-        const accountExtensionEndPoint = /\/message-store$/;
+        const messageStoreEvent = /\/message-store$/;
+        const instantMessageEvent = /\/message-store\/instant\?type=SMS$/;
         if (
-          newValue &&
-          // @ts-expect-error
-          accountExtensionEndPoint.test(newValue.event) &&
+          messageStoreEvent.test(newValue?.event!) &&
           newValue.body?.changes
         ) {
-          this.fetchData({ passive: true });
+          try {
+            await this.fetchData({ passive: true });
+          } catch (ex) {
+            console.error('[MessageStore] > subscription > fetchData', ex);
+          }
+        } else if (instantMessageEvent.test(newValue?.event!)) {
+          this.pushMessage(messageHelper.normalizeInstantEvent(newValue));
         }
       },
     );
@@ -188,18 +197,18 @@ export class MessageStore<T extends Deps = Deps> extends DataFetcherV2Consumer<
       const id = message.conversationId;
       const newCreationTime = message.creationTime;
       const isDeleted = messageHelper.messageIsDeleted(message);
-      // @ts-expect-error
+      // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
       if (stateMap[id]) {
-        // @ts-expect-error
+        // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
         const oldConversation = newState[stateMap[id].index];
         const creationTime = oldConversation.creationTime;
-        // @ts-expect-error
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         if (creationTime < newCreationTime && !isDeleted) {
-          // @ts-expect-error
+          // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
           newState[stateMap[id].index] = {
-            // @ts-expect-error
+            // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
             id,
-            // @ts-expect-error
+            // @ts-expect-error TS(2322): Type 'number | undefined' is not assignable to typ... Remove this comment to see the full error message
             creationTime: newCreationTime,
             type: message.type,
             messageId: message.id,
@@ -207,16 +216,15 @@ export class MessageStore<T extends Deps = Deps> extends DataFetcherV2Consumer<
         }
         // when user deleted a coversation message
         if (isDeleted && message.id === oldConversation.messageId) {
-          // @ts-expect-error
+          // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
           const oldMessageList = conversationStore[id] || [];
           const exsitedMessageList = oldMessageList.filter(
-            // @ts-expect-error
-            (m) => m.id !== message.id,
+            (m: any) => m.id !== message.id,
           );
           if (exsitedMessageList.length > 0) {
-            // @ts-expect-error
+            // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
             newState[stateMap[id].index] = {
-              // @ts-expect-error
+              // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
               id,
               creationTime: exsitedMessageList[0].creationTime,
               type: exsitedMessageList[0].type,
@@ -225,9 +233,9 @@ export class MessageStore<T extends Deps = Deps> extends DataFetcherV2Consumer<
             return;
           }
           // when user delete conversation
-          // @ts-expect-error
+          // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Conversatio... Remove this comment to see the full error message
           newState[stateMap[id].index] = null;
-          // @ts-expect-error
+          // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
           delete stateMap[id];
         }
         return;
@@ -236,14 +244,14 @@ export class MessageStore<T extends Deps = Deps> extends DataFetcherV2Consumer<
         return;
       }
       newState.push({
-        // @ts-expect-error
+        // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
         id,
-        // @ts-expect-error
+        // @ts-expect-error TS(2322): Type 'number | undefined' is not assignable to typ... Remove this comment to see the full error message
         creationTime: newCreationTime,
         type: message.type,
         messageId: message.id,
       });
-      // @ts-expect-error
+      // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
       stateMap[id] = {
         index: newState.length - 1,
       };
@@ -271,37 +279,37 @@ export class MessageStore<T extends Deps = Deps> extends DataFetcherV2Consumer<
     records.forEach((record) => {
       const message = messageHelper.normalizeRecord(record);
       const id = message.conversationId;
-      // @ts-expect-error
+      // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
       const newMessages = newState[id] ? [].concat(newState[id]) : [];
-      // @ts-expect-error
+      // @ts-expect-error TS(2339): Property 'id' does not exist on type 'never'.
       const oldMessageIndex = newMessages.findIndex((r) => r.id === record.id);
       if (messageHelper.messageIsDeleted(message)) {
-        // @ts-expect-error
+        // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
         newState[id] = newMessages.filter((m) => m.id !== message.id);
-        // @ts-expect-error
+        // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
         if (newState[id].length === 0) {
-          // @ts-expect-error
+          // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
           delete newState[id];
         }
         return;
       }
       if (oldMessageIndex > -1) {
         if (
-          // @ts-expect-error
+          // @ts-expect-error TS(2339): Property 'lastModifiedTime' does not exist on type... Remove this comment to see the full error message
           newMessages[oldMessageIndex].lastModifiedTime <
-          // @ts-expect-error
+          // @ts-expect-error TS(2532): Object is possibly 'undefined'.
           message.lastModifiedTime
         ) {
-          // @ts-expect-error
+          // @ts-expect-error TS(2322): Type 'Message' is not assignable to type 'never'.
           newMessages[oldMessageIndex] = message;
         }
       } else if (messageHelper.messageIsAcceptable(message)) {
-        // @ts-expect-error
+        // @ts-expect-error TS(2345): Argument of type 'Message' is not assignable to pa... Remove this comment to see the full error message
         newMessages.push(message);
       }
-      // @ts-expect-error
+      // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
       updatedConversations[id] = 1;
-      // @ts-expect-error
+      // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
       newState[id] = newMessages;
     });
     Object.keys(updatedConversations).forEach((id) => {
@@ -332,12 +340,12 @@ export class MessageStore<T extends Deps = Deps> extends DataFetcherV2Consumer<
       .messageSync()
       .list(params);
     receivedRecordsLength += records.length;
-    // @ts-expect-error
+    // @ts-expect-error TS(2532): Object is possibly 'undefined'.
     if (!syncInfo.olderRecordsExist || receivedRecordsLength >= recordCount) {
       return { records, syncInfo };
     }
     await sleep(500);
-    // @ts-expect-error
+    // @ts-expect-error TS(2769): No overload matches this call.
     const olderDateTo = new Date(records[records.length - 1].creationTime);
     const olderRecordResult = await this._syncFunction({
       conversationLoadLength,
@@ -350,7 +358,7 @@ export class MessageStore<T extends Deps = Deps> extends DataFetcherV2Consumer<
     };
   }
 
-  // @ts-expect-error
+  // @ts-expect-error TS(2352): Conversion of type 'null' to type 'Date' may be a ... Remove this comment to see the full error message
   async _syncData({ dateTo = null as Date, passive = false } = {}) {
     const conversationsLoadLength = this._conversationsLoadLength;
     const conversationLoadLength = this._conversationLoadLength;
@@ -358,42 +366,39 @@ export class MessageStore<T extends Deps = Deps> extends DataFetcherV2Consumer<
     try {
       const dateFrom = new Date();
       dateFrom.setDate(dateFrom.getDate() - this._daySpan);
-      let syncToken = dateTo ? null : this.syncInfo?.syncToken;
+      let syncToken = dateTo ? undefined : this.syncInfo?.syncToken;
       const recordCount = conversationsLoadLength * conversationLoadLength;
-      let data;
+      let data: MessageSyncList;
       try {
         data = await this._syncFunction({
           recordCount,
           conversationLoadLength,
           dateFrom,
-          // @ts-expect-error
           syncToken,
           dateTo,
         });
       } catch (e: unknown) {
         const error = e as ApiError;
+        const responseResult = await error.response?.clone().json();
         if (
-          error.response?.status === 400 &&
-          (await error.response?.clone().json())?.error?.some(
-            ({ errorCode = '' } = {}) =>
-              INVALID_TOKEN_ERROR_CODES.includes(errorCode),
+          responseResult?.errors?.some(({ errorCode = '' } = {}) =>
+            INVALID_TOKEN_ERROR_CODES.includes(errorCode),
           )
         ) {
           data = await this._syncFunction({
             recordCount,
             conversationLoadLength,
             dateFrom,
-            // @ts-expect-error
-            syncToken: null,
+            syncToken: undefined,
             dateTo,
           });
-          syncToken = null;
+          syncToken = undefined;
         } else {
           throw error;
         }
       }
       if (this._deps.auth.ownerId === ownerId) {
-        const records = this._messagesFilter(data.records);
+        const records = this._messagesFilter(data!.records);
         const isFSyncSuccess = !syncToken;
         // this is only executed in passive sync mode (aka. invoked by subscription)
         if (passive) {
@@ -409,12 +414,12 @@ export class MessageStore<T extends Deps = Deps> extends DataFetcherV2Consumer<
             records,
             isFSyncSuccess,
           }),
-          syncInfo: data.syncInfo,
+          syncInfo: data!.syncInfo,
         };
       }
     } catch (error: any /** TODO: confirm with instanceof */) {
       if (this._deps.auth.ownerId === ownerId) {
-        console.error(error);
+        console.error('[MessageStore] > _syncData', error);
         throw error;
       }
     }
@@ -426,7 +431,7 @@ export class MessageStore<T extends Deps = Deps> extends DataFetcherV2Consumer<
     this._updateData(data);
     if (passive && this._handledRecord) {
       this._dispatchMessageHandlers(this._handledRecord);
-      // @ts-expect-error
+      // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'GetMessageI... Remove this comment to see the full error message
       this._handledRecord = null;
     }
   }
@@ -450,9 +455,9 @@ export class MessageStore<T extends Deps = Deps> extends DataFetcherV2Consumer<
     // Sort all records by creation time
     records = records.slice().sort(
       (a, b) =>
-        // @ts-expect-error
+        // @ts-expect-error TS(2769): No overload matches this call.
         new Date(a.creationTime).getTime() -
-        // @ts-expect-error
+        // @ts-expect-error TS(2769): No overload matches this call.
         new Date(b.creationTime).getTime(),
     );
     for (const record of records) {
@@ -470,7 +475,7 @@ export class MessageStore<T extends Deps = Deps> extends DataFetcherV2Consumer<
       if (!this._messageDispatched(record)) {
         // Mark last 10 messages that dispatched
         // To present dispatching same record twice
-        // @ts-expect-error
+        // @ts-expect-error TS(2322): Type '{ id: number | undefined; lastModifiedTime: ... Remove this comment to see the full error message
         this._dispatchedMessageIds = [{ id, lastModifiedTime }]
           .concat(this._dispatchedMessageIds)
           .slice(0, 20);
@@ -481,9 +486,9 @@ export class MessageStore<T extends Deps = Deps> extends DataFetcherV2Consumer<
           readStatus === 'Unread' &&
           messageStatus === 'Received' &&
           availability === 'Alive' &&
-          // @ts-expect-error
+          // @ts-expect-error TS(2769): No overload matches this call.
           new Date(creationTime).getTime() >
-            // @ts-expect-error
+            // @ts-expect-error TS(2769): No overload matches this call.
             new Date(lastModifiedTime).getTime() - 600 * 1000
         ) {
           this._eventEmitter.emit('newInboundMessageNotification', record);
@@ -513,7 +518,7 @@ export class MessageStore<T extends Deps = Deps> extends DataFetcherV2Consumer<
           records,
         }),
       },
-      // @ts-expect-error
+      // @ts-expect-error TS(2345): Argument of type 'number | null' is not assignable... Remove this comment to see the full error message
       this.timestamp,
     );
   }
@@ -576,7 +581,7 @@ export class MessageStore<T extends Deps = Deps> extends DataFetcherV2Consumer<
         conversationList,
         conversationStore,
       },
-      // @ts-expect-error
+      // @ts-expect-error TS(2345): Argument of type 'number | null' is not assignable... Remove this comment to see the full error message
       this.timestamp,
     );
   }
@@ -634,7 +639,7 @@ export class MessageStore<T extends Deps = Deps> extends DataFetcherV2Consumer<
 
       // If there's only one message, use another api to update its status
       if (nextLength === 1) {
-        // @ts-expect-error
+        // @ts-expect-error TS(2345): Argument of type 'number | undefined' is not assig... Remove this comment to see the full error message
         const result = await this._updateMessageApi(messageIds[0], status);
         return [result];
       }
@@ -647,7 +652,7 @@ export class MessageStore<T extends Deps = Deps> extends DataFetcherV2Consumer<
       const body = leftIds.map(() => ({ body: { readStatus: status } }));
       const responses = await this._batchUpdateMessagesApi(leftIds, body);
       await Promise.all(
-        // @ts-expect-error
+        // @ts-expect-error TS(2532): Object is possibly 'undefined'.
         responses.map(async (res) => {
           if (res.status === 200) {
             const result = await res.json();
@@ -686,15 +691,14 @@ export class MessageStore<T extends Deps = Deps> extends DataFetcherV2Consumer<
   });
 
   async _setConversationAsRead(conversationId: Message['conversationId']) {
-    // @ts-expect-error
+    // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
     const messageList = this.conversationStore[conversationId];
     if (!messageList || messageList.length === 0) {
       return;
     }
     const unreadMessageIds = messageList
       .filter(messageHelper.messageIsUnread)
-      // @ts-expect-error
-      .map((m) => m.id);
+      .map((m: any) => m.id);
     if (unreadMessageIds.length === 0) {
       return;
     }
@@ -750,7 +754,7 @@ export class MessageStore<T extends Deps = Deps> extends DataFetcherV2Consumer<
   }
 
   @track((that: MessageStore, conversationId: Message['conversationId']) => {
-    // @ts-expect-error
+    // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
     const [conversation] = that.conversationStore[conversationId] ?? [];
     if (!conversation) return;
     if (conversation.type === 'VoiceMail') {
@@ -766,12 +770,12 @@ export class MessageStore<T extends Deps = Deps> extends DataFetcherV2Consumer<
   }
 
   _deleteConversationStore(conversationId: Message['conversationId']) {
-    // @ts-expect-error
+    // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
     if (!this.conversationStore[conversationId]) {
       return this.conversationStore;
     }
     const newState = { ...this.conversationStore };
-    // @ts-expect-error
+    // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
     delete newState[conversationId];
     return newState;
   }
@@ -789,7 +793,7 @@ export class MessageStore<T extends Deps = Deps> extends DataFetcherV2Consumer<
         conversationList,
         conversationStore,
       },
-      // @ts-expect-error
+      // @ts-expect-error TS(2345): Argument of type 'number | null' is not assignable... Remove this comment to see the full error message
       this.timestamp,
     );
   }

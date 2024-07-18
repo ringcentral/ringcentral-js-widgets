@@ -1,5 +1,5 @@
-import path from 'path';
 import { getBaseWebpackConfig } from '@ringcentral-integration/widgets/lib/getBaseWebpackConfig';
+import path from 'path';
 
 export const devServerConfig = {
   ...getBaseWebpackConfig({ mode: 'development', themeFolder: __dirname }),

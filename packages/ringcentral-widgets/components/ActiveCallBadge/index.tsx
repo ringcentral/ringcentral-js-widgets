@@ -3,6 +3,7 @@ import React from 'react';
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import Badge from '../Badge';
 import Draggable from '../Draggable';
+
 import styles from './styles.scss';
 
 type ActiveCallBadgeProps = {
@@ -12,7 +13,7 @@ type ActiveCallBadgeProps = {
   updatePositionOffset: (...args: any[]) => any;
   title?: string;
 };
-const ActiveCallBadge: React.SFC<ActiveCallBadgeProps> = (props) => {
+const ActiveCallBadge: React.FC<ActiveCallBadgeProps> = (props) => {
   return (
     <Draggable
       className={styles.root}

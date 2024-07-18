@@ -17,7 +17,7 @@ export interface RcvGSuiteMeetingModel {
   name: string;
   type: 0 | 1;
   allowJoinBeforeHost: boolean;
-  expiresIn: number;
+  expiresIn: number | null;
   isMeetingSecret?: boolean;
   meetingPassword?: string;
 }
@@ -38,14 +38,14 @@ export interface RcVDialInNumberGET {
 }
 
 export interface RcVideoAPI {
-  id?: string;
+  id?: string | null;
   shortId?: string;
   extensionId?: string;
   accountId?: string;
   name: string;
   type: 0 | 1;
   startTime: Date;
-  expiresIn: number;
+  expiresIn: number | null;
   duration: number;
   allowJoinBeforeHost: boolean;
   muteAudio: boolean;

@@ -1,5 +1,3 @@
-import { pathOr } from 'ramda';
-
 import {
   action,
   computed,
@@ -8,10 +6,12 @@ import {
   watch,
 } from '@ringcentral-integration/core';
 import type { ApiError } from '@ringcentral/sdk';
+import { pathOr } from 'ramda';
 
 import { promisedThrottle } from '../../lib/debounce-throttle';
 import { Module } from '../../lib/di';
 import validateIsOffline from '../../lib/validateIsOffline';
+
 import type {
   Deps,
   ErrorMessages,
@@ -52,9 +52,9 @@ export class AvailabilityMonitor extends RcModuleV2<Deps> {
 
   protected _promise: Promise<Response> | null = null;
 
-  protected _healthRetryTime = HEALTH_CHECK_INTERVAL;
+  _healthRetryTime = HEALTH_CHECK_INTERVAL;
 
-  protected _unbindHandlers: (() => void) | null = null;
+  _unbindHandlers: (() => void) | null = null;
 
   constructor(deps: Deps) {
     super({
@@ -226,13 +226,8 @@ export class AvailabilityMonitor extends RcModuleV2<Deps> {
    *
    */
   _requestErrorHandler = async (error: ApiError) => {
-    if (
-      error.response &&
-      !(error.response as ApiError['response'] & ErrorMessages)._json
-    ) {
-      (error.response as ApiError['response'] & ErrorMessages)._json =
-        await error.response.clone().json();
-    }
+    await this.attachErrorResponse(error);
+
     const requestUrl = pathOr<Request['url']>('', ['request', 'url'], error);
     const extractedUrl = extractUrl({
       url: requestUrl,
@@ -341,7 +336,7 @@ export class AvailabilityMonitor extends RcModuleV2<Deps> {
     // Client app can even continue use expired access token with this API - backend will pass such requests through.
     // The result of the API call is unpredictable when it is called without access token!
     //
-    // Reference: https://wiki.ringcentral.com/display/PLAT/High+Availability+Guidelines+for+API+Clients
+    // Reference: https://wiki_domain/display/PLAT/High+Availability+Guidelines+for+API+Clients
 
     const res: Response = await this._deps.client.service
       .platform()
@@ -390,7 +385,7 @@ export class AvailabilityMonitor extends RcModuleV2<Deps> {
     // The idea is that if the server is down temporarily,
     // it is not overwhelmed with requests hitting at the same time when it comes back up.
     //
-    // Reference: https://wiki.ringcentral.com/display/PLAT/Error+Handling+Guidelines+for+API+Clients
+    // Reference: https://wiki_domain/display/PLAT/Error+Handling+Guidelines+for+API+Clients
 
     this._randomTime = this._randomTime || generateRandomNumber(); // Generate random seconds (1 ~ 121)
     this._normalTimeout = setTimeout(() => {
@@ -414,11 +409,21 @@ export class AvailabilityMonitor extends RcModuleV2<Deps> {
    */
   async checkIfHAError(error: ApiError) {
     const errMessage = pathOr<string | null>(null, ['message'], error);
-    if (error.response) {
-      (error.response as ApiError['response'] & ErrorMessages)._json =
-        await error.response.clone().json();
-    }
+    await this.attachErrorResponse(error);
+
     return isHAError(error) || errMessage === errorMessages.serviceLimited;
+  }
+
+  private async attachErrorResponse(error: ApiError) {
+    const response = error.response as ApiError['response'] & ErrorMessages;
+    if (response && !response._json) {
+      try {
+        response._json = await response.clone().json();
+      } catch (err) {
+        // ignore response json error
+        console.error('error from response.json()', { error, err });
+      }
+    }
   }
 
   /**
@@ -472,7 +477,7 @@ export class AvailabilityMonitor extends RcModuleV2<Deps> {
         this._retrieveSharedStates();
       }
     });
-    window.addEventListener('unload', () => {
+    window.addEventListener('pagehide', () => {
       isUnloading = true;
       this._unloadSharedStates();
     });

@@ -1,4 +1,9 @@
-import { callControlError } from '@ringcentral-integration/commons/modules/ActiveCallControl';
+import { callControlAlerts, callControlError } from '@ringcentral-integration/commons/modules/ActiveCallControl';
+const {
+  callsMerged,
+  somethingWentWrong,
+  tooManyParticipants
+} = callControlAlerts;
 const {
   holdConflictError,
   unHoldConflictError,
@@ -10,6 +15,9 @@ const {
   replyCompleted
 } = callControlError;
 export default {
+  [callsMerged]: "Puhelut yhdistetty",
+  [somethingWentWrong]: "Jokin meni vikaan. Yritä uudelleen.",
+  [tooManyParticipants]: "Osallistujien enimmäismäärä on täynnä.",
   [muteConflictError]: "Tämä puhelu on mykistetty toisella laitteella. Poista mykistys ennen kuin hallinnoit puhelua tässä sovelluksessa.",
   [unHoldConflictError]: "Tämä puhelu on pidossa toisella laitteella. Poista puhelu pidosta ennen kuin hallinnoit sitä tässä sovelluksessa.",
   [unMuteConflictError]: "Tämän puhelun mykistys on poistettu toisella laitteella. Mykistä puhelu ennen kuin hallinnoit sitä tässä sovelluksessa.",
@@ -20,6 +28,9 @@ export default {
   [replyCompleted]: "Ääniviesti lähetettiin."
 };
 
+// @key: @#@"callsMerged"@#@ @source: @#@"Calls merged"@#@
+// @key: @#@"somethingWentWrong"@#@ @source: @#@"Something went wrong. Please try again."@#@
+// @key: @#@"tooManyParticipants"@#@ @source: @#@"Maximum number of participants is reached."@#@
 // @key: @#@"muteConflictError"@#@ @source: @#@"This call had been muted on other device. Please unmute the call before you control in this App."@#@
 // @key: @#@"unHoldConflictError"@#@ @source: @#@"This call had been held on other device. Please unhold the call before you control in this App."@#@
 // @key: @#@"unMuteConflictError"@#@ @source: @#@"This call had been unmuted on other device. Please mute the call before you control in this App."@#@

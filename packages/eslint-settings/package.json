@@ -11,9 +11,8 @@
     "update-eslint": "ncu '/eslint/' -u"
   },
   "dependencies": {
-    "@nrwl/eslint-plugin-nx": "15.3.3",
-    "@typescript-eslint/eslint-plugin": "5.36.1",
-    "@typescript-eslint/parser": "5.36.1",
+    "@typescript-eslint/eslint-plugin": "^6.18.1",
+    "@typescript-eslint/parser": "^6.18.1",
     "eslint": "8.23.0",
     "eslint-config-prettier": "8.5.0",
     "eslint-plugin-import": "2.26.0",
@@ -22,8 +21,7 @@
     "eslint-plugin-lodash": "^7.4.0",
     "eslint-plugin-prettier": "4.2.1",
     "eslint-plugin-react": "7.31.1",
-    "eslint-plugin-react-hooks": "4.6.0",
-    "eslint-plugin-storybook": "0.6.4"
+    "eslint-plugin-react-hooks": "4.6.0"
   },
   "engines": {
     "node": ">=14"

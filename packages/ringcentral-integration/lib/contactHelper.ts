@@ -1,6 +1,5 @@
-import { reduce } from 'ramda';
-
 import { formatSameSiteExtension } from '@ringcentral-integration/phone-number/lib/format';
+import { reduce } from 'ramda';
 
 import { phoneTypes } from '../enums/phoneTypes';
 import type {
@@ -10,6 +9,7 @@ import type {
   TypedContact,
   TypedPhoneNumber,
 } from '../interfaces/Contact.model';
+
 import { isBlank } from './isBlank';
 
 export const AllContactSourceName = 'all';
@@ -203,6 +203,7 @@ export function getSearchForPhoneNumbers({
           name: contact.name || `${contact.firstName} ${contact.lastName}`,
           type: contact.type,
           phoneNumber: phoneNumber!,
+          isCallQueueNumber: !!contact.isCallQueueNumber,
           phoneType: phoneType!.replace('Phone', ''),
           profileImageUrl: contact.profileImage?.uri,
           entityType,

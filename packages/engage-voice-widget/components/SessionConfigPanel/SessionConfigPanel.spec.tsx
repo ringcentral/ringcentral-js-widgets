@@ -1,10 +1,9 @@
+import { RcThemeProvider } from '@ringcentral/juno';
+import { mount } from 'enzyme';
 import React from 'react';
 
-import { mount } from 'enzyme';
-
-import { RcThemeProvider } from '@ringcentral/juno';
-
 import type { EvAgent } from '../../lib/EvClient';
+
 import type { SessionConfigPanelProps } from './SessionConfigPanel';
 import { SessionConfigPanel } from './SessionConfigPanel';
 
@@ -155,7 +154,7 @@ describe('<SessionConfigPanel />', () => {
     });
     const configureButton = getConfigureButton();
     configureButton.simulate('click');
-    expect(setConfigure).toBeCalled();
+    expect(setConfigure).toHaveBeenCalled();
   });
 
   it('When loading, setConfigure Button is in loading state, and setConfigure cannot be fired', () => {
@@ -169,6 +168,6 @@ describe('<SessionConfigPanel />', () => {
     expect(configureButton.find('RcCircularProgress')).toHaveLength(1);
     expect(configureButton.prop('disabled')).toBe(isLoading);
     configureButton.simulate('click');
-    expect(setConfigure).not.toBeCalled();
+    expect(setConfigure).not.toHaveBeenCalled();
   });
 });

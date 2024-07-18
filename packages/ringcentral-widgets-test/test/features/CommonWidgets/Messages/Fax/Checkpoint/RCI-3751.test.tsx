@@ -12,7 +12,6 @@
  * Entry point(/s):
  * Message->All/Fax
  */
-
 import {
   p3,
   it,
@@ -25,12 +24,13 @@ import {
   When,
   Given,
 } from '@ringcentral-integration/test-utils';
+
+import { mockMessageListData } from '../../../../../__mock__';
 import type { StepFunction } from '../../../../../lib/step';
-import { MockMessageList, MockMessageSync } from '../../../../../steps/Mock';
 import { CheckFaxPageCount } from '../../../../../steps/Conversation/CheckConversations';
+import { MockMessageList, MockMessageSync } from '../../../../../steps/Mock';
 import { NavigateToMessageHistory } from '../../../../../steps/Navigate/actions/NavigateToMessageHistory';
 import { NavigateToMessagesTab } from '../../../../../steps/Navigate/actions/NavigateToMessages';
-import { mockMessageListData } from '../../../../../__mock__';
 
 interface CheckFaxPageNumberProps {
   Login: StepFunction<any, any>;

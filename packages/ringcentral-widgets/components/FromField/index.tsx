@@ -1,9 +1,9 @@
+import clsx from 'clsx';
+import PropTypes from 'prop-types';
 import React, { memo } from 'react';
 
-import classnames from 'classnames';
-import PropTypes from 'prop-types';
-
 import DropdownSelect from '../DropdownSelect';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 
@@ -74,7 +74,7 @@ const FromField = memo(function FromField({
   }
   return (
     <DropdownSelect
-      className={classnames(styles.root, className)}
+      className={clsx(styles.root, className)}
       iconClassName={styles.selectIcon}
       value={fromNumber}
       label={`${i18n.getString('from', currentLocale)}:`}

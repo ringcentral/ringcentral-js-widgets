@@ -11,22 +11,22 @@
  * Entry point(/s):
  *
  */
-import { screen } from '@testing-library/react';
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
-  autorun,
+  And,
   Given,
-  p2,
   Scenario,
   Step,
   Then,
-  title,
   When,
-  And,
+  autorun,
+  common,
+  p2,
+  title,
 } from '@ringcentral-integration/test-utils';
-import callLogBody from '@ringcentral-integration/commons/integration-test/mock/data/callLog.json';
+import { screen } from '@testing-library/react';
+
 import { GenerateCallHistory } from '../../../../steps/CallHistory';
-import { NavigateToHistory } from '../../../../steps/Navigate';
 import { CommonLogin } from '../../../../steps/CommonLogin';
 import { CreateInstance } from '../../../../steps/CreateInstance';
 import {
@@ -34,8 +34,10 @@ import {
   MockCallLogSync,
   MockCallLogs,
 } from '../../../../steps/Mock';
+import { NavigateToHistory } from '../../../../steps/Navigate';
 
 @autorun(test)
+@common
 @p2
 @title('Check call history section without calls')
 export class CheckCallHistorySectionWithoutCalls extends Step {
@@ -43,7 +45,6 @@ export class CheckCallHistorySectionWithoutCalls extends Step {
     <CommonLogin {...props} CreateInstance={CreateInstance} />
   );
   CreateMock: StepFunction<any, any> = CreateMock;
-  historyTabDataSign = 'History';
   appName = 'common';
   run() {
     const { Login = CommonLogin, appName, CreateMock } = this;
@@ -70,7 +71,7 @@ export class CheckCallHistorySectionWithoutCalls extends Step {
         <And desc="Login CTI" action={Login} />
         <When
           desc="Click calls icon, check the page"
-          action={<NavigateToHistory testId={this.historyTabDataSign} />}
+          action={<NavigateToHistory />}
         />
 
         <Then

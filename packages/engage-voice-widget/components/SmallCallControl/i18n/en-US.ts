@@ -6,4 +6,4 @@ export default {
   hold: 'Hold',
   onHold: 'Unhold',
   transfer: 'Transfer',
-};
+} as const;

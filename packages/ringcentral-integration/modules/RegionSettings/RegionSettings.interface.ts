@@ -25,7 +25,7 @@ export interface Deps {
   storage: Storage;
   tabManager?: TabManager;
   regionSettingsOptions?: RegionSettingsOptions;
-  extensionNumberAreaCode?: ExtensionNumberAreaCode;
+  extensionNumberAreaCode: ExtensionNumberAreaCode;
   extensionPhoneNumber: ExtensionPhoneNumber;
   appFeatures: AppFeatures;
 }

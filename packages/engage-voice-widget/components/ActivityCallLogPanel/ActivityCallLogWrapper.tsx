@@ -1,6 +1,6 @@
+import { SubmitButtonHeight } from '@ringcentral-integration/widgets/components/BasicCallInfo/BasicCallInfo';
 import { styled, px, RcIconButton } from '@ringcentral/juno';
 
-import { SubmitButtonHeight } from '@ringcentral-integration/widgets/components/BasicCallInfo/BasicCallInfo';
 import { pageSpace } from '../../scss/variables';
 
 export const StyledAgentScriptIcon = styled(RcIconButton)`

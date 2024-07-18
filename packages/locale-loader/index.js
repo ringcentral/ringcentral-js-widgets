@@ -1,8 +1,7 @@
-import localeLoader from './lib/localeLoader';
-
+import consolidateLocale from './lib/consolidateLocale';
 import exportLocale from './lib/exportLocale';
 import importLocale from './lib/importLocale';
-import consolidateLocale from './lib/consolidateLocale';
+import localeLoader from './lib/localeLoader';
 import transformLoader from './lib/transformLoader';
 
 export {

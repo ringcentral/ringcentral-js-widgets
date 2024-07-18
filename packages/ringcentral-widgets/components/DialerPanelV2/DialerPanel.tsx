@@ -1,17 +1,18 @@
-import type { FunctionComponent } from 'react';
-import React, { useCallback } from 'react';
-
+import type UserPhoneNumberInfo from '@rc-ex/core/lib/definitions/UserPhoneNumberInfo';
 import type { ToNumber as Recipient } from '@ringcentral-integration/commons/modules/ComposeText';
+import type { ContactSearchEntity } from '@ringcentral-integration/micro-contacts/src/app/services';
 import {
   flexCenterStyle,
   palette2,
-  RcDialerPadSounds,
+  RcDialerPadSoundsMPEG,
   RcDialPad,
   RcIconButton,
   spacing,
   styled,
 } from '@ringcentral/juno';
 import { Phone } from '@ringcentral/juno-icon';
+import type { FunctionComponent } from 'react';
+import React, { useCallback } from 'react';
 
 import { fullSizeStyle } from '../../lib/commonStyles';
 import { CommunicationSetupPanel } from '../CommunicationSetupPanel';
@@ -27,25 +28,19 @@ export type DialerPanelProps = {
   toNumber?: string;
   onToNumberChange?: (...args: any[]) => any;
   fromNumber?: string;
-  fromNumbers?: {
-    phoneNumber: string;
-    usageType?: string;
-  }[];
+  fromNumbers?: UserPhoneNumberInfo[];
   changeFromNumber?: (...args: any[]) => any;
   formatPhone?: (...args: any[]) => any;
   showSpinner?: boolean;
-  dialButtonVolume?: number;
-  dialButtonMuted?: boolean;
+  // use to set dial button volume(dialButtonVolume)
+  callVolume?: number;
+  outputDeviceId?: string;
   searchContact: (...args: any[]) => any;
-  searchContactList: {
-    name: string;
-    entityType: string;
-    phoneType: string;
-    phoneNumber: string;
-  }[];
-  recipient?: Recipient;
+  searchContactList: ContactSearchEntity[];
+  recipient?: Recipient | null;
   recipients: Recipient[];
   clearToNumber: (...args: any[]) => any;
+  triggerEventTracking: (eventName: string, contactType: string) => any;
   setRecipient: (...args: any[]) => any;
   clearRecipient: (...args: any[]) => any;
   phoneTypeRenderer?: (...args: any[]) => any;
@@ -60,6 +55,7 @@ export type DialerPanelProps = {
   isLastInputFromDialpad?: boolean;
   useV2?: boolean;
   showAnonymous?: boolean;
+  ContactSearch?: FunctionComponent<any>;
 };
 
 const DialerPanelContainer = styled.div`
@@ -112,11 +108,13 @@ export const DialerPanel: FunctionComponent<DialerPanelProps> = (props) => {
     disableFromField = false,
     children,
     showAnonymous,
-    dialButtonMuted,
-    dialButtonVolume,
+    callVolume,
+    outputDeviceId,
     onCallButtonClick,
     callButtonDisabled,
     withTabs,
+    ContactSearch,
+    triggerEventTracking,
   } = props;
 
   // TODO: when have tag should check if need disable dial button
@@ -132,6 +130,8 @@ export const DialerPanel: FunctionComponent<DialerPanelProps> = (props) => {
   return (
     <DialerPanelContainer>
       <CommunicationSetupPanel
+        ContactSearch={ContactSearch}
+        triggerEventTracking={triggerEventTracking}
         // To field
         recipients={recipients}
         // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
@@ -160,13 +160,13 @@ export const DialerPanel: FunctionComponent<DialerPanelProps> = (props) => {
               // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
               onToNumberChange(toNumber + value, true);
             }}
-            sounds={RcDialerPadSounds}
+            sounds={RcDialerPadSoundsMPEG}
             getDialPadButtonProps={(v) => ({
               'data-test-id': `${v}`,
               'data-sign': `dialPadBtn${v}`,
             })}
-            volume={dialButtonVolume}
-            muted={dialButtonMuted}
+            volume={callVolume}
+            sinkId={outputDeviceId}
           />
         </DialerWrapper>
         <BodyBottom>
@@ -185,7 +185,6 @@ export const DialerPanel: FunctionComponent<DialerPanelProps> = (props) => {
         {showSpinner ? <SpinnerOverlay /> : null}
         {children}
       </CommunicationSetupPanel>
-      intreact/default-props-match-prop-types
     </DialerPanelContainer>
   );
 };
@@ -201,8 +200,8 @@ DialerPanel.defaultProps = {
   onToNumberChange: Empty,
   formatPhone: (phoneNumber) => phoneNumber,
   showSpinner: false,
-  dialButtonVolume: 1,
-  dialButtonMuted: false,
+  callVolume: 1,
+  outputDeviceId: '',
   recipients: [],
   autoFocus: false,
   showFromField: true,

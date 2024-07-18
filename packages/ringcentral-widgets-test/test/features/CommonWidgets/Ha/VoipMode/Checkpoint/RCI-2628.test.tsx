@@ -16,7 +16,6 @@
  * Entry point(/s):
  * > Login app with RC account
  */
-
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p1,
@@ -29,40 +28,39 @@ import {
   title,
   When,
 } from '@ringcentral-integration/test-utils';
-import { CommonLogin } from '../../../../../steps/CommonLogin';
+
 import { CheckAlertMessage } from '../../../../../steps/Alert';
-import { NavigateToHistory } from '../../../../../steps/Navigate';
-import { CheckCallIcon, CheckTextIcon } from '../../../../../steps/CallHistory';
+import { CheckVoipOnlyBadge } from '../../../../../steps/Badge';
 import {
   CallButtonBehavior,
   CheckActiveCallExist,
   MakeCall,
   AnswerCall,
 } from '../../../../../steps/Call';
-import { CheckVoipOnlyBadge } from '../../../../../steps/Badge';
-import { MockPostOauthToken } from '../../../../../steps/Mock/MockPostOauthToken';
-import { CreateMock, MockPostSMS } from '../../../../../steps/Mock';
+import { CheckCallIcon, CheckTextIcon } from '../../../../../steps/CallHistory';
 import { CheckLogBaseInfoActive } from '../../../../../steps/CallLog/checks/CheckCallLogBaseInfo';
+import { RefreshToken } from '../../../../../steps/Common';
+import { CommonLogin } from '../../../../../steps/CommonLogin';
+import { CreateInstance } from '../../../../../steps/CreateInstance';
 import { CheckIsCRM } from '../../../../../steps/IDB/checks/CheckIsCRM';
-
-export const RefreshToken: StepFunction = async (_, { phone }: any) => {
-  try {
-    await phone.auth.refreshToken();
-  } catch (error) {
-    console.error('refreshToken error', error);
-  }
-};
+import {
+  CreateMock,
+  MockPostSMS,
+  MockPostOauthToken,
+} from '../../../../../steps/Mock';
+import { NavigateToHistory } from '../../../../../steps/Navigate';
 
 @autorun(test.skip)
 @it
 @p1
 @title('Verify the app enter Voip mode when Refresh token API returns >=500')
 export class VoipOnlyRefreshToken extends Step {
-  Login: StepFunction<any, any> = CommonLogin;
+  Login?: StepFunction<any, any> = (props) => (
+    <CommonLogin {...props} CreateInstance={CreateInstance} />
+  );
   CreateMock: StepFunction<any, any> = CreateMock;
   callIconDisabled = false;
   smsIconDisabled = true;
-  historyTabDataSign = 'History';
   appName = 'common';
   run() {
     const { Login, CreateMock } = this;
@@ -118,7 +116,7 @@ export class VoipOnlyRefreshToken extends Step {
         <And
           desc="All other features can not work"
           action={[
-            <NavigateToHistory testId={this.historyTabDataSign} />,
+            <NavigateToHistory />,
             <CheckCallIcon disabled={this.callIconDisabled} />,
             <CheckTextIcon disabled={this.smsIconDisabled} />,
             (_: any, { phone }: any) => {

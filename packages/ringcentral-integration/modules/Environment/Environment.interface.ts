@@ -1,9 +1,10 @@
-import type { SDKConfig } from '../../lib/createSdkConfig';
 import type { RingCentralClient } from '../../lib/RingCentralClient';
+import type { SDKConfig } from '../../lib/createSdkConfig';
 import type { GlobalStorage } from '../GlobalStorage';
 
 export interface EnvironmentOptions {
   defaultRecordingHost?: string;
+  useDataTrackingSetting?: boolean;
 }
 
 export interface Deps {
@@ -18,4 +19,5 @@ export interface SetDataOptions {
   recordingHost: string;
   enabled: boolean;
   environmentChanged?: boolean;
+  allowDataTracking?: boolean;
 }

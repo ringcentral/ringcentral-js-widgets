@@ -1,8 +1,7 @@
-import type { FunctionComponent } from 'react';
-import React from 'react';
-
 import { CustomArrowButton } from '@ringcentral-integration/widgets/components/Rcui/CustomArrowButton';
 import { palette2, RcTypography, spacing, styled } from '@ringcentral/juno';
+import type { FunctionComponent } from 'react';
+import React from 'react';
 
 import type {
   EvChooseAccountUIFunctions,
@@ -10,6 +9,7 @@ import type {
 } from '../../interfaces/EvChooseAccountUI.interface';
 import { EvLoginHeader } from '../EvLoginHeader';
 import { ListItem } from '../SelectList';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 

@@ -294,7 +294,7 @@ class StorageUnexpectedUsageCheck extends Step {
         <Then
           desc="It should throw check error"
           action={() => {
-            expect(createModule).toThrowError();
+            expect(createModule).toThrow();
           }}
         />
         <When
@@ -311,7 +311,7 @@ class StorageUnexpectedUsageCheck extends Step {
         <Then
           desc="It should throw check error"
           action={() => {
-            expect(createModule).toThrowError();
+            expect(createModule).toThrow();
           }}
         />
       </Scenario>

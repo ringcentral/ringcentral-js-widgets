@@ -1,8 +1,7 @@
 // https://test_it_domain/test-cases/RCI-4591
-
+import { render } from '@testing-library/react';
 import React from 'react';
 
-import { render } from '@testing-library/react';
 import { SubjectRender } from '../../../components/ConversationMessageList/SubjectRender';
 
 describe('test conversation page message item will show url and email content as links', () => {

@@ -1,12 +1,12 @@
+import type { AutomaticLocationUpdatesSiteInfo } from './AutomaticLocationUpdatesSiteInfo';
 import type { ContactInfo } from './ContactInfo';
 import type { CustomFieldInfo } from './CustomFieldInfo';
 import type { ExtensionPermissions } from './ExtensionPermissions';
+import type { ExtensionServiceFeatureInfo } from './ExtensionServiceFeatureInfo';
+import type { ExtensionStatusInfo } from './ExtensionStatusInfo';
 import type { ProfileImageInfo } from './ProfileImageInfo';
 import type { ReferenceInfo } from './ReferenceInfo';
 import type { RegionalSettings } from './RegionalSettings';
-import type { ExtensionServiceFeatureInfo } from './ExtensionServiceFeatureInfo';
-import type { AutomaticLocationUpdatesSiteInfo } from './AutomaticLocationUpdatesSiteInfo';
-import type { ExtensionStatusInfo } from './ExtensionStatusInfo';
 
 export interface ExtensionCreationResponse {
   /**

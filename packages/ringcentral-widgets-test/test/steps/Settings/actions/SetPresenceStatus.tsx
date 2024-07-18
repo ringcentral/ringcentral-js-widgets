@@ -1,14 +1,16 @@
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { MockPutPresence } from '../../Mock';
+
 import type { StepFunction } from '../../../lib/step';
+import { MockPutPresence } from '../../Mock';
 
 interface SetPresenceStatusOptions {
   presence: 'available' | 'busy' | 'DND' | 'offline';
+  shouldMockPutPresence?: boolean;
 }
 
 export const SetPresenceStatus: StepFunction<SetPresenceStatusOptions> = (
-  { presence },
+  { presence, shouldMockPutPresence = true },
   context,
 ) => {
   const element = screen.queryByTestId<HTMLDivElement>('statusToggleShow');
@@ -23,7 +25,9 @@ export const SetPresenceStatus: StepFunction<SetPresenceStatusOptions> = (
     const statusIcon = container.querySelector(`[type="${presence}"]`);
     expect(statusIcon).toBeInTheDocument();
     if (statusIcon) {
-      MockPutPresence({}, context);
+      if (shouldMockPutPresence) {
+        MockPutPresence({}, context);
+      }
       userEvent.click(statusIcon.parentElement!);
     }
   }

@@ -4,3 +4,4 @@ export * from './CheckJapanAlertMessage';
 export * from './CheckAlertAutoDismiss';
 export * from './CheckAlertNoAutoDismiss';
 export * from './CheckAlertToBeCallWith';
+export * from './CheckToastMessage';

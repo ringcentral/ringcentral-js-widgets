@@ -1,16 +1,16 @@
-import { fireEvent, screen } from '@testing-library/react';
-import type { StepFunction } from '../../../lib/step';
+import {
+  fireEvent,
+  screen,
+  StepFunction,
+} from '@ringcentral-integration/test-utils';
 
-export const NavigateToDialer: StepFunction = () => {
-  if (screen.queryByTestId('Dial Pad')) {
-    fireEvent.click(screen.getByTestId('Dial Pad'));
-    return;
-  }
+export const NavigateToDialer: StepFunction = async () => {
   if (screen.queryByTestId('dialerTab')) {
     fireEvent.click(screen.getByTestId('dialerTab'));
   }
-};
-
-export const NavigateToDialerPage: StepFunction = () => {
-  fireEvent.click(screen.getByTestId('Phone'));
+  // When there is calls ongoing, the second level tab "dial pad" will be shown
+  const dialPad = screen.queryByTestId('Dial Pad');
+  if (dialPad) {
+    fireEvent.click(dialPad);
+  }
 };

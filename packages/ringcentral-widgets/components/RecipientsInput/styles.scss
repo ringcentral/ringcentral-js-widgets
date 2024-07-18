@@ -83,7 +83,7 @@
   display: flex;
   flex-wrap: wrap;
 
-  .warningRecipient{
+  .warningRecipient {
     color: #f54c3d;
     background: #f9ebe9;
     border-radius: 100px;
@@ -102,10 +102,6 @@
     @include text-ellipsis;
     padding: 5px 23px 5px 10px;
     margin-right: 5px;
-
-    span {
-      font-weight: 200;
-    }
   }
 
   .phoneNumber {

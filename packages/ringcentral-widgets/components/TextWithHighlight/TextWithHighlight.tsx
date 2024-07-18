@@ -1,7 +1,6 @@
+import { palette2, styled } from '@ringcentral/juno';
 import type { FunctionComponent } from 'react';
 import React, { Fragment, useMemo } from 'react';
-
-import { palette2, styled } from '@ringcentral/juno';
 
 const HighlightText = styled.span`
   background: ${palette2('highlight', 'b02')};

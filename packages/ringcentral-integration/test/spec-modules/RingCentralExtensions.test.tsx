@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
-
-import { EventEmitter } from 'events';
+import { Events } from '@rc-ex/ws';
 import {
   autorun,
   Given,
@@ -8,11 +7,12 @@ import {
   Step,
   Then,
   title,
+  ut,
   When,
 } from '@ringcentral-integration/test-utils';
-
+import { EventEmitter } from 'events';
 import WebSocket from 'isomorphic-ws';
-import { Events } from '@rc-ex/ws';
+
 import {
   webSocketReadyStates,
   RingCentralExtensions,
@@ -22,8 +22,9 @@ import {
 import { mockModuleGenerator } from '../lib/mockModule';
 
 @autorun(test)
-@title('RingCentralExtensions')
-export class DefaultState extends Step {
+@ut
+@title('RingCentralExtensions Test')
+export class RingCentralExtensionsTest extends Step {
   run() {
     return (
       <Scenario desc="RingCentralExtensions">
@@ -58,8 +59,8 @@ export class DefaultState extends Step {
         <Then
           desc="Check value should be expected"
           action={(_: unknown, context: any) => {
-            expect(context._setupInfraSpy).toBeCalledTimes(1);
-            expect(context._bindEventsSpy).toBeCalledTimes(1);
+            expect(context._setupInfraSpy).toHaveBeenCalledTimes(1);
+            expect(context._bindEventsSpy).toHaveBeenCalledTimes(1);
           }}
         />
         <When
@@ -84,7 +85,9 @@ export class DefaultState extends Step {
         <Then
           desc="Check value should be expected"
           action={(_: unknown, context: any) => {
-            expect(context.recoverWebSocketConnectionSpy).toBeCalledTimes(2);
+            expect(context.recoverWebSocketConnectionSpy).toHaveBeenCalledTimes(
+              2,
+            );
           }}
         />
         <When
@@ -134,7 +137,7 @@ export class DefaultState extends Step {
 
             // on install
             expect(context._useTokensSpy).toHaveBeenCalledTimes(1);
-            expect(context._exposeConnectionEventsSpy).toBeCalledTimes(0);
+            expect(context._exposeConnectionEventsSpy).toHaveBeenCalledTimes(0);
             context._exposeConnectionEventsSpy.mockReset();
 
             // on newWebSocketObject
@@ -142,7 +145,7 @@ export class DefaultState extends Step {
               Events.newWebSocketObject,
               {}, // fake ws obj
             );
-            expect(context._exposeConnectionEventsSpy).toBeCalledTimes(1);
+            expect(context._exposeConnectionEventsSpy).toHaveBeenCalledTimes(1);
             context._exposeConnectionEventsSpy.mockReset();
 
             // on connectionReady
@@ -151,15 +154,17 @@ export class DefaultState extends Step {
               {}, // fake ws obj
             );
             expect(context.mockModule._wsConnectionReady).toEqual(true);
-            expect(context._syncWsReadyStateSpy).toBeCalledTimes(1);
+            expect(context._syncWsReadyStateSpy).toHaveBeenCalledTimes(1);
             context._syncWsReadyStateSpy.mockReset();
 
             // installWebSocketExtension
-            expect(context._installWebSocketExtensionSpy).toBeCalledTimes(1);
+            expect(context._installWebSocketExtensionSpy).toHaveBeenCalledTimes(
+              1,
+            );
             context.mockModule._webSocketExtension.eventEmitter.emit(
               Events.newWsc,
             );
-            expect(context._saveTokensSpy).toBeCalledTimes(1);
+            expect(context._saveTokensSpy).toHaveBeenCalledTimes(1);
           }}
         />
         <When
@@ -182,6 +187,9 @@ export class DefaultState extends Step {
                   },
                   addBeforeLogoutHandler(handler: () => void) {
                     context.authBeforeLogoutHandler = handler;
+                  },
+                  addRefreshErrorHandler(handler: () => void) {
+                    context.authRefreshErrorHandler = handler;
                   },
                 },
                 tabManager: {},
@@ -226,36 +234,44 @@ export class DefaultState extends Step {
         <Then
           desc="Check value should be expected"
           action={async (_: unknown, context: any) => {
-            expect(context._setSharedStateSpy).toBeCalledTimes(1);
-            expect(context._inactiveOtherTabsSpy).toBeCalledTimes(1);
+            expect(context._setSharedStateSpy).toHaveBeenCalledTimes(1);
+            expect(context._inactiveOtherTabsSpy).toHaveBeenCalledTimes(1);
 
             // on autoRecoverSuccess
             context.mockModule._webSocketExtension.eventEmitter.emit(
               Events.autoRecoverSuccess,
             );
-            expect(context._exposeConnectionEventsSpy).toBeCalledTimes(1);
+            expect(context._exposeConnectionEventsSpy).toHaveBeenCalledTimes(1);
             context._exposeConnectionEventsSpy.mockReset();
 
             // on autoRecoverFailed
             context.mockModule._webSocketExtension.eventEmitter.emit(
               Events.autoRecoverFailed,
             );
-            expect(context._exposeConnectionEventsSpy).toBeCalledTimes(1);
+            expect(context._exposeConnectionEventsSpy).toHaveBeenCalledTimes(1);
             context._exposeConnectionEventsSpy.mockReset();
 
             // sleepDetector handler
             expect(context.sleepDetectorEvent).toEqual('detected');
             expect(context.sleepDetectorHandler).toBeTruthy();
             context.sleepDetectorHandler();
-            expect(context.recoverWebSocketConnectionSpy).toBeCalledTimes(1);
+            expect(context.recoverWebSocketConnectionSpy).toHaveBeenCalledTimes(
+              1,
+            );
 
             // auth handlers
             expect(context.authAfterLoggedInHandler).toBeTruthy();
             expect(context.authBeforeLogoutHandler).toBeTruthy();
+            expect(context.authRefreshErrorHandler).toBeTruthy();
             context.authAfterLoggedInHandler();
             context.authBeforeLogoutHandler();
-            expect(context.recoverWebSocketConnectionSpy).toBeCalledTimes(2);
-            expect(context.revokeWebSocketConnectionSpy).toBeCalledTimes(1);
+            context.authRefreshErrorHandler(false);
+            expect(context.recoverWebSocketConnectionSpy).toHaveBeenCalledTimes(
+              2,
+            );
+            expect(context.revokeWebSocketConnectionSpy).toHaveBeenCalledTimes(
+              2,
+            );
           }}
         />
         <When
@@ -283,7 +299,7 @@ export class DefaultState extends Step {
         <Then
           desc="Check value should be expected"
           action={async (_: unknown, context: any) => {
-            expect(context.setSharedStateSpy).toBeCalledWith(
+            expect(context.setSharedStateSpy).toHaveBeenCalledWith(
               `ws-${context.currentTabId}`,
               { webSocketReady: true },
             );
@@ -324,7 +340,7 @@ export class DefaultState extends Step {
         <Then
           desc="Check value should be expected"
           action={(_: unknown, context: any) => {
-            expect(context.installExtensionSpy).toBeCalledTimes(2);
+            expect(context.installExtensionSpy).toHaveBeenCalledTimes(2);
           }}
         />
         <When
@@ -356,14 +372,17 @@ export class DefaultState extends Step {
         <Then
           desc="Check value should be expected"
           action={(_: unknown, context: any) => {
-            expect(context._inactiveOtherTabsSpy).toBeCalledTimes(1);
-            expect(context.recoverWebSocketConnectionSpy).toBeCalledTimes(1);
+            expect(context._inactiveOtherTabsSpy).toHaveBeenCalledTimes(1);
+            expect(context.recoverWebSocketConnectionSpy).toHaveBeenCalledTimes(
+              1,
+            );
           }}
         />
         <When
           desc="Call RingCentralExtensions '_tabMessageHandler' action"
           action={async (_: unknown, context: any) => {
             context.mockModule = mockModuleGenerator({
+              _deps: {},
               ready: true,
               _webSocketExtension: {
                 options: {
@@ -372,6 +391,8 @@ export class DefaultState extends Step {
                   },
                 },
               },
+              _setWsAutoRecover:
+                RingCentralExtensions.prototype._setWsAutoRecover,
               _setTokens() {},
               _useTokens() {},
             });
@@ -400,14 +421,16 @@ export class DefaultState extends Step {
               context.mockModule._webSocketExtension.options.autoRecover
                 .enabled,
             ).toEqual(false);
-            expect(context._setTokensSpy).toBeCalledTimes(1);
-            expect(context._useTokensSpy).toBeCalledTimes(1);
+            expect(context._setTokensSpy).toHaveBeenCalledTimes(1);
+            expect(context._useTokensSpy).toHaveBeenCalledTimes(1);
           }}
         />
         <When
           desc="Call RingCentralExtensions '_inactiveOtherTabs' and '_syncTokensToOtherTabs' actions"
           action={async (_: unknown, context: any) => {
             context.mockModule = mockModuleGenerator({
+              _setWsAutoRecover:
+                RingCentralExtensions.prototype._setWsAutoRecover,
               _deps: {
                 tabManager: {
                   send() {},
@@ -438,7 +461,7 @@ export class DefaultState extends Step {
         <Then
           desc="Check value should be expected"
           action={(_: unknown, context: any) => {
-            expect(context.sendSpy).toBeCalledTimes(2);
+            expect(context.sendSpy).toHaveBeenCalledTimes(2);
             expect(context.sendSpy.mock.calls[0][0]).toEqual(
               InactiveTabEventName,
             );
@@ -475,8 +498,8 @@ export class DefaultState extends Step {
         <Then
           desc="Check value should be expected"
           action={(_: unknown, context: any) => {
-            expect(context._setTokensSpy).toBeCalledTimes(2);
-            expect(context._syncTokensToOtherTabsSpy).toBeCalledTimes(2);
+            expect(context._setTokensSpy).toHaveBeenCalledTimes(2);
+            expect(context._syncTokensToOtherTabsSpy).toHaveBeenCalledTimes(2);
           }}
         />
         <When
@@ -490,6 +513,7 @@ export class DefaultState extends Step {
               _webSocketExtension: {
                 rc: null,
                 recover() {},
+                enable() {},
               },
               _deps: {
                 auth: { loggedIn: true },
@@ -548,9 +572,11 @@ export class DefaultState extends Step {
         <Then
           desc="Check value should be expected"
           action={(_: unknown, context: any) => {
-            expect(context.recoverSpy).toBeCalledTimes(1);
-            expect(context._installWebSocketExtensionSpy).toBeCalledTimes(1);
-            expect(context._exposeConnectionEventsSpy).toBeCalledTimes(2);
+            expect(context.recoverSpy).toHaveBeenCalledTimes(1);
+            expect(context._installWebSocketExtensionSpy).toHaveBeenCalledTimes(
+              1,
+            );
+            expect(context._exposeConnectionEventsSpy).toHaveBeenCalledTimes(2);
           }}
         />
         <When
@@ -558,7 +584,6 @@ export class DefaultState extends Step {
           action={async (_: unknown, context: any) => {
             context.mockModule = mockModuleGenerator({
               ready: true,
-              isWebSocketReady: true,
               disconnectOnInactive: true,
               isTabActive: true,
               _webSocketExtension: {
@@ -600,9 +625,9 @@ export class DefaultState extends Step {
         <Then
           desc="Check value should be expected"
           action={(_: unknown, context: any) => {
-            expect(context.revokeSpy).toBeCalledTimes(1);
-            expect(context._clearTokensSpy).toBeCalledTimes(1);
-            expect(context._exposeConnectionEventsSpy).toBeCalledTimes(1);
+            expect(context.revokeSpy).toHaveBeenCalledTimes(1);
+            expect(context._clearTokensSpy).toHaveBeenCalledTimes(1);
+            expect(context._exposeConnectionEventsSpy).toHaveBeenCalledTimes(1);
           }}
         />
         <When
@@ -634,7 +659,7 @@ export class DefaultState extends Step {
           desc="Check value should be expected"
           action={(_: unknown, context: any) => {
             expect(context.mockModule._removeWsListener).toBeTruthy();
-            expect(context._syncWsReadyStateSpy).toBeCalledTimes(2);
+            expect(context._syncWsReadyStateSpy).toHaveBeenCalledTimes(2);
           }}
         />
         <When

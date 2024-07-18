@@ -1,5 +1,5 @@
-import type { MeetingExternalUserInfoResource } from './MeetingExternalUserInfoResource';
 import type { DialInNumberResource } from './DialInNumberResource';
+import type { MeetingExternalUserInfoResource } from './MeetingExternalUserInfoResource';
 
 export interface MeetingServiceInfoResource {
   /**

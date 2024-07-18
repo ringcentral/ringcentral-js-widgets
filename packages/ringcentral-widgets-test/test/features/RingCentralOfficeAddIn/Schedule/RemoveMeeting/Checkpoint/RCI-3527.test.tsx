@@ -10,7 +10,6 @@
  * Outlook > Calendar > Edit the event1>Click'RingCentral Scheduler' / 'Schedule with RingCentral'
  * Outlook > Calendar >Edit the event1>Click 'New Appointment' or 'New Meeting' in the menu bar > Click {Brand name} for Outlook
  */
-
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p2,

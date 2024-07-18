@@ -1,13 +1,13 @@
+import clsx from 'clsx';
 import type { FunctionComponent, ReactNode } from 'react';
 import React from 'react';
-
-import classnames from 'classnames';
 
 import DropdownNavigationView from '../DropdownNavigationView';
 import type { NavigationBarProps } from '../NavigationBar';
 import { NavigationBar } from '../NavigationBar';
 import { SpinnerOverlay } from '../SpinnerOverlay';
 import TabNavigationButton from '../TabNavigationButton';
+
 import styles from './styles.scss';
 
 export interface TabNavigationViewProps {
@@ -72,7 +72,7 @@ const TabNavigationView: FunctionComponent<TabNavigationViewProps> = ({
 
   return (
     <div
-      className={classnames(
+      className={clsx(
         styles.root,
         className,
         navigationPosition === 'left' && styles.vertical,
@@ -88,7 +88,7 @@ const TabNavigationView: FunctionComponent<TabNavigationViewProps> = ({
       </div>
       <div
         data-sign="tabNavigationView"
-        className={classnames(
+        className={clsx(
           styles.main,
           tabNavigationViewClassName,
           !isVertical && styles.hasMaxHeight,

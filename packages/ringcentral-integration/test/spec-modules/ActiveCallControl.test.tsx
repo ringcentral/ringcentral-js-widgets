@@ -1,5 +1,3 @@
-import type { SessionData } from 'ringcentral-call-control/lib/Session';
-
 import {
   autorun,
   Given,
@@ -9,6 +7,7 @@ import {
   title,
   When,
 } from '@ringcentral-integration/test-utils';
+import type { SessionData } from 'ringcentral-call-control/lib/Session';
 
 import { ActiveCallControl } from '../../modules/ActiveCallControl';
 import { mockModuleGenerator as baseMockModuleGenerator } from '../lib/mockModule';
@@ -268,7 +267,7 @@ export class ActiveCallControlTransferCall extends Step {
           action={(_: any, context: any) => {
             expect(
               context.mock._deps.numberValidate.validateNumbers,
-            ).not.toBeCalled();
+            ).not.toHaveBeenCalled();
           }}
         />
         <When
@@ -320,7 +319,7 @@ export class ActiveCallControlTransferCall extends Step {
           action={(_: any, context: any) => {
             expect(
               context.mock._deps.numberValidate.validateNumbers,
-            ).toBeCalledWith(['101']);
+            ).toHaveBeenCalledWith(['101']);
           }}
         />
         <When
@@ -368,8 +367,8 @@ export class ActiveCallControlTransferCall extends Step {
           action={(_: any, context: any) => {
             expect(
               context.mock._deps.numberValidate.validateNumbers,
-            ).toBeCalledWith(['101']);
-            expect(context.mock._deps.alert.warning).toBeCalledWith({
+            ).toHaveBeenCalledWith(['101']);
+            expect(context.mock._deps.alert.warning).toHaveBeenCalledWith({
               message: undefined,
               payload: { phoneNumber: '101' },
             });
@@ -409,7 +408,9 @@ export class ActiveCallControlHoldSession extends Step {
         <Then
           desc="The sessions should be hold"
           action={(_: any, context: any) => {
-            expect(context.mockModule._rcCall.sessions[0].hold).toBeCalled();
+            expect(
+              context.mockModule._rcCall.sessions[0].hold,
+            ).toHaveBeenCalled();
           }}
         />
       </Scenario>
@@ -473,7 +474,7 @@ export class ActiveCallControlForwardSession extends Step {
           action={(_: any, context: any) => {
             expect(
               context.mockModule._deps.numberValidate.validateNumbers,
-            ).not.toBeCalled();
+            ).not.toHaveBeenCalled();
           }}
         />
         <When
@@ -526,7 +527,7 @@ export class ActiveCallControlForwardSession extends Step {
           action={(_: any, context: any) => {
             expect(
               context.mockModule._deps.numberValidate.validateNumbers,
-            ).toBeCalledWith(['101']);
+            ).toHaveBeenCalledWith(['101']);
           }}
         />
       </Scenario>
@@ -581,7 +582,7 @@ export class ActiveCallControlHoldOtherCallsSession extends Step {
             const otherCall = context.mockModule._rcCall.sessions.find((s) => {
               return s.telephonySessionId === 'testHoldId';
             });
-            expect(otherCall.webphoneSession.hold).toBeCalled();
+            expect(otherCall.webphoneSession.hold).toHaveBeenCalled();
           }}
         />
       </Scenario>
@@ -632,7 +633,7 @@ export class ActiveCallControlAnswerAndEndSession extends Step {
             const otherCall = context.mockModule._rcCall.sessions.find((s) => {
               return s.id === 'testOtherId';
             });
-            expect(otherCall.hangup).toBeCalled();
+            expect(otherCall.hangup).toHaveBeenCalled();
           }}
         />
       </Scenario>

@@ -1,4 +1,5 @@
 import type { GetExtensionPhoneNumbersResponse } from '@ringcentral-integration/mock/src/platform/interfaces';
+
 import type { StepFunction } from '../../lib/step';
 
 interface MockPhoneNumberProps {

@@ -4,4 +4,4 @@ export const AGENT_TYPES = {
 } as const;
 
 export type OriginAgentTypesType = keyof typeof AGENT_TYPES;
-export type AgentTypesType = typeof AGENT_TYPES[OriginAgentTypesType];
+export type AgentTypesType = (typeof AGENT_TYPES)[OriginAgentTypesType];

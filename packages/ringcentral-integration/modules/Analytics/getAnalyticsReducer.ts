@@ -2,8 +2,8 @@ import { combineReducers } from 'redux';
 
 import getModuleStatusReducer from '../../lib/getModuleStatusReducer';
 
-export function getLastActions(types) {
-  return (state = [], action) => {
+export function getLastActions(types: any) {
+  return (state = [], action: any) => {
     if (action.type === types.clear) {
       return [];
     }
@@ -14,7 +14,7 @@ export function getLastActions(types) {
   };
 }
 
-export default function getAnalyticsReducer(types) {
+export default function getAnalyticsReducer(types: any) {
   return combineReducers({
     status: getModuleStatusReducer(types),
     lastActions: getLastActions(types),

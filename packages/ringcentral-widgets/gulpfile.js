@@ -50,6 +50,7 @@ function copy() {
       '!./test{/**,}',
       '!./coverage{/**,}',
       '!./node_modules{/**,}',
+      '!./html-report{/**,}',
       '!package-lock.json',
     ])
     .pipe(gulp.dest(BUILD_PATH));
@@ -65,6 +66,7 @@ function preBuild() {
       '!./test{/**,}',
       '!./coverage{/**,}',
       '!./node_modules{/**,}',
+      '!./html-report{/**,}',
       '!gulpfile.babel.js',
     ])
     .pipe(

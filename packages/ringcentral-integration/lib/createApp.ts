@@ -1,7 +1,6 @@
-import type { StoreEnhancer } from 'redux';
-
 import type { RcModuleV2 } from '@ringcentral-integration/core';
 import { createApp as createAppWithRcModuleV2 } from '@ringcentral-integration/core';
+import type { StoreEnhancer } from 'redux';
 
 import { Injector } from './di';
 

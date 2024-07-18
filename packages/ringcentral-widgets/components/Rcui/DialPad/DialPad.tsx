@@ -1,10 +1,8 @@
+import type { RcDialPadProps } from '@ringcentral/juno';
+import { RcDialerPadSoundsMPEG, RcDialPad } from '@ringcentral/juno';
+import clsx from 'clsx';
 import type { FunctionComponent } from 'react';
 import React from 'react';
-
-import classnames from 'classnames';
-
-import type { RcDialPadProps } from '@ringcentral/juno';
-import { RcDialerPadSounds, RcDialPad } from '@ringcentral/juno';
 
 import styles from './styles.scss';
 
@@ -27,9 +25,9 @@ export const DialPad: FunctionComponent<DialPadProps> = ({
   return (
     <RcDialPad
       data-sign={`${dataSign || ''}DialPad`}
-      className={classnames(styles.root, className)}
+      className={clsx(styles.root, className)}
       onChange={handleChange}
-      sounds={RcDialerPadSounds}
+      sounds={RcDialerPadSoundsMPEG}
       {...rest}
     />
   );

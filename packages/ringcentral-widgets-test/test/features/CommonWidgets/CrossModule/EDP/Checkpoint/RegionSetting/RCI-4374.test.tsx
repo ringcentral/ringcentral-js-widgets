@@ -8,7 +8,6 @@
  * Entry point(/s):
  * Open CTI> Go to the 'Settings' page> Go to the 'Settings' page
  */
-
 import {
   autorun,
   examples,
@@ -52,7 +51,7 @@ export class RegionPage extends Step {
           <MockExtensionInfo
             handle={(mockData) => {
               mockData.regionalSettings.homeCountry = {
-                uri: 'https://api-rcapps-xmnup.rclabenv.com/restapi/v1.0/dictionary/country/75',
+                uri: 'https://api-rcapps-xmnuplabs_domain/restapi/v1.0/dictionary/country/75',
                 id: '75',
                 name: 'France',
                 isoCode: 'FR',

@@ -6,6 +6,7 @@ import {
 } from '@ringcentral-integration/core';
 
 import { proxify } from '../proxy/proxify';
+
 import type { Deps, LogOptions, Options } from './LoggerBase.interface';
 import { convertListToMap, defaultIdentityFunction } from './loggerBaseHelper';
 

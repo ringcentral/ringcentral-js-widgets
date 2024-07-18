@@ -1,6 +1,6 @@
 import type { UnifiedPresenceGlip } from './UnifiedPresenceGlip';
-import type { UnifiedPresenceTelephony } from './UnifiedPresenceTelephony';
 import type { UnifiedPresenceMeeting } from './UnifiedPresenceMeeting';
+import type { UnifiedPresenceTelephony } from './UnifiedPresenceTelephony';
 
 export interface UnifiedPresence {
   /**

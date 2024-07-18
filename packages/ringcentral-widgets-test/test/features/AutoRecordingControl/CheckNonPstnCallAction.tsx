@@ -1,11 +1,11 @@
 /* RCI-3778: Check non-pstn call control action
 https://test_it_domain/test-cases/RCI-3778
 */
-
 import type {
   FeaturesData,
   Record,
 } from '@ringcentral-integration/commons/integration-test/mock';
+
 import type { Context } from '../../interfaces';
 import type { StepFunction } from '../../lib/step';
 import {
@@ -30,6 +30,7 @@ import {
   CheckCannotControlMute,
   CheckStopRecordButtonExist,
 } from '../../steps/Call';
+
 import { generateFeaturesData } from './helper';
 
 const mockAutoInboundCallRecording = JSON.stringify({

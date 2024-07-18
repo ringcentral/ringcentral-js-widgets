@@ -1,5 +1,6 @@
 import { fireEvent, screen, waitFor } from '@testing-library/react';
 
+import type { Context } from '../../../../interfaces';
 import type { StepProp } from '../../../../lib/step';
 import {
   And,
@@ -11,7 +12,6 @@ import {
   title,
   When,
 } from '../../../../lib/step';
-import type { Context } from '../../../../interfaces';
 import { CommonLogin } from '../../../../steps/CommonLogin';
 import { CreateInstance } from '../../../../steps/CreateInstance';
 import { CreateMock } from '../../../../steps/Mock';

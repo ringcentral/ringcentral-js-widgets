@@ -1,5 +1,5 @@
-const webpack = require('webpack');
 const path = require('path');
+const webpack = require('webpack');
 const autoprefixer = require('autoprefixer');
 const dotenv = require('dotenv');
 const packageConfig = require('./package');
@@ -40,29 +40,10 @@ const config = {
     // more doc: https://webpack.js.org/configuration/resolve/#resolvefallback
     //
     fallback: {
+      vm: require.resolve('vm-browserify'),
       crypto: require.resolve('crypto-browserify'),
       stream: require.resolve('stream-browserify'),
-      vm: require.resolve('vm-browserify'),
-      timers: require.resolve('timers-browserify'),
-      process: require.resolve('process/browser'),
-      assert: require.resolve('assert'),
-      buffer: require.resolve('buffer'),
-      console: require.resolve('console-browserify'),
-      constants: require.resolve('constants-browserify'),
-      domain: require.resolve('domain-browser'),
       events: require.resolve('events'),
-      http: require.resolve('stream-http'),
-      https: require.resolve('https-browserify'),
-      os: require.resolve('os-browserify/browser'),
-      path: require.resolve('path-browserify'),
-      punycode: require.resolve('punycode'),
-      querystring: require.resolve('querystring-es3'),
-      string_decoder: require.resolve('string_decoder'),
-      sys: require.resolve('util'),
-      tty: require.resolve('tty-browserify'),
-      url: require.resolve('url'),
-      util: require.resolve('util'),
-      zlib: require.resolve('browserify-zlib'),
     },
     extensions: ['.js', '.jsx', '.ts', '.tsx'],
   },

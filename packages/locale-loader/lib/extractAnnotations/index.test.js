@@ -1,6 +1,6 @@
 import dedent from 'dedent';
-import { transformSync } from '@babel/core';
-import extractAnnotations from '.';
+
+import extractAnnotations from './';
 
 describe('extractAnnotations', () => {
   const sampleContent = dedent`

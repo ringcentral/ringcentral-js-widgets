@@ -8,7 +8,6 @@
  * Entry point(/s):
  *
  */
-
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p2,
@@ -22,6 +21,7 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 import { screen } from '@testing-library/react';
+
 import { MockPermission } from '../../../../../steps/Mock';
 import { NavigateToMessagesTab } from '../../../../../steps/Navigate/actions/NavigateToMessages';
 

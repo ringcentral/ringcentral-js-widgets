@@ -26,7 +26,6 @@
  * Note(/s):
  * RCV web:https://v.ringcentral.com/welcome/join/
  */
-
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p2,

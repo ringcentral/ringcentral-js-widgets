@@ -24,7 +24,7 @@ export default {
   accept: 'Answer',
   toVoicemail: 'To Voicemail',
   anonymous: 'Anonymous',
-  mergeToConference: 'Merge',
+  mergeToConference: 'Merge with active call',
   hold: 'Hold',
   unhold: 'Unhold',
   transfer: 'Transfer',
@@ -37,4 +37,4 @@ export default {
   comfirmOKButton: 'Switch',
   ignore: 'Ignore',
   holdAndAnswer: 'Hold & Answer',
-};
+} as const;

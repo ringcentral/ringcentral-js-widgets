@@ -27,7 +27,6 @@
 	| RC-UK |8 |8 |3135 0033 |Not Match extbut valid PSTN |12 |(12) 3135 0033 |PSTN |(12) 3135 0033 |
 
  */
-
 import { Category } from '@ringcentral-integration/commons/interfaces/NumberParserResponse.interface';
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
@@ -46,9 +45,15 @@ import {
 } from '@ringcentral-integration/test-utils';
 import { screen } from '@testing-library/react';
 
+import { generateDialPlanData } from '../../../../../../__mock__/generateDialPlanData';
 import type { StepProp } from '../../../../../../lib/step';
-
+import {
+  CallButtonBehavior,
+  CheckCallControlPage as BaseCheckCallControlPage,
+  MakeCall,
+} from '../../../../../../steps/Call';
 import { CommonLogin } from '../../../../../../steps/CommonLogin';
+import { CreateInstance } from '../../../../../../steps/CreateInstance';
 import {
   CreateMock,
   generateCallLogData,
@@ -60,13 +65,6 @@ import {
   MockNumberParserV2,
   MockPermission,
 } from '../../../../../../steps/Mock';
-import {
-  CallButtonBehavior,
-  CheckCallControlPage as BaseCheckCallControlPage,
-  MakeCall,
-} from '../../../../../../steps/Call';
-import { CreateInstance } from '../../../../../../steps/CreateInstance';
-import { generateDialPlanData } from '../../../../../../__mock__/generateDialPlanData';
 import { NavigateToHistory as BaseNavigateToHistory } from '../../../../../../steps/Navigate';
 
 @autorun(test)
@@ -79,7 +77,6 @@ export class DialPSTNSDPEnabled extends Step {
     <CommonLogin {...props} CreateInstance={CreateInstance} />
   );
   CreateMock: StepProp | null = CreateMock;
-  historyTestId = 'History';
   CheckNumberInHistoryPage: StepFunction<any, any> = ({
     e164ParsedNumber,
   }: any) => {
@@ -97,7 +94,6 @@ export class DialPSTNSDPEnabled extends Step {
     const {
       Login,
       CreateMock,
-      historyTestId,
       NavigateToHistory,
       CheckCallControlPage,
       CheckNumberInHistoryPage,
@@ -196,10 +192,7 @@ export class DialPSTNSDPEnabled extends Step {
           desc="hang up current call"
           action={<CallButtonBehavior callButtonBehaviorType="hangup" />}
         />
-        <When
-          desc="go to call history page"
-          action={<NavigateToHistory testId={historyTestId} />}
-        />
+        <When desc="go to call history page" action={<NavigateToHistory />} />
         <Then
           desc="check number format in call history page"
           action={CheckNumberInHistoryPage}

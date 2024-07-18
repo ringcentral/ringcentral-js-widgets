@@ -1,7 +1,6 @@
-import React from 'react';
+import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
-
+import React from 'react';
 import Emojify from 'react-emojione';
 
 import emojiones from '../../assets/images/emojione.png';
@@ -11,7 +10,7 @@ import styles from './styles.scss';
 
 export default function EmojiSelect({ onSelect, className }) {
   return (
-    <div className={classnames(styles.root, className)}>
+    <div className={clsx(styles.root, className)}>
       {emojis.map((emoji) => {
         const emojsStr = `:${emoji}:`;
         return (

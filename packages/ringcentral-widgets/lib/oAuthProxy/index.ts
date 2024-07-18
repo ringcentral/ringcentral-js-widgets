@@ -1,13 +1,11 @@
-import parse from 'url-parse';
-
-import popWindow from '../popWindow';
+import { popWindow } from '../popWindow';
 import simpleHash from '../simpleHash';
 
 let loginWindow: any = null;
 
-const {
-  query: { prefix = 'rc', hash = simpleHash() },
-} = parse(window.location.href, true);
+const urlSearchParams = new URLSearchParams(window.location.search);
+const prefix = urlSearchParams.get('prefix') || 'rc';
+const hash = urlSearchParams.get('hash') || simpleHash();
 
 /**
  * @function
@@ -27,11 +25,11 @@ window.oAuthCallback = (callbackUri: string) => {
 window.addEventListener('message', ({ data = {} }) => {
   const { oAuthUri } = data;
   if (oAuthUri && oAuthUri.trim() !== '') {
-    const parsedUri = parse(oAuthUri, true);
-    const { query } = parsedUri;
-    query.state = `${query.state}-${prefix}-${hash}`;
-    parsedUri.set('query', query);
-    loginWindow = popWindow(parsedUri.toString(), `${prefix}-oauth`, 600, 600);
+    const parsedUri = new URL(oAuthUri);
+    const searchParams = new URLSearchParams(parsedUri.search);
+    searchParams.set('state', `${searchParams.get('state')}-${prefix}-${hash}`);
+    parsedUri.search = searchParams.toString();
+    loginWindow = popWindow(parsedUri.toString(), `${prefix}-oauth`, 700, 700);
   }
 });
 

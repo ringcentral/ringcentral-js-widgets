@@ -1,8 +1,7 @@
+import clsx from 'clsx';
+import { addIndex, map } from 'ramda';
 import type { FunctionComponent, ReactNode } from 'react';
 import React from 'react';
-
-import classnames from 'classnames';
-import { addIndex, map } from 'ramda';
 
 import type { onClickMailTo } from '../ContactDetails.interface';
 import i18n from '../i18n';
@@ -38,7 +37,7 @@ export const Emails: FunctionComponent<EmailsProps> = ({
     );
     return (
       <section
-        className={classnames(styles.section, styles.email)}
+        className={clsx(styles.section, styles.email)}
         aria-label="email"
       >
         <div className={styles.label}>

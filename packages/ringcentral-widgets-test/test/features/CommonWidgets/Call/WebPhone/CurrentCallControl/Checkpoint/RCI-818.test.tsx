@@ -7,7 +7,6 @@
  * 1. Answer an inbound call and keep in active call page
  * 2. Make an outbound calland keep in active call page
  */
-
 import type { StepProp } from '@ringcentral-integration/test-utils';
 import {
   p1,
@@ -19,7 +18,9 @@ import {
   Then,
   title,
   When,
+  common,
 } from '@ringcentral-integration/test-utils';
+
 import {
   MakeCall,
   CallButtonBehavior,
@@ -34,6 +35,7 @@ import { CommonLoginEntry } from '../../../../../../steps/CommonLogin';
 @it
 @p1
 @title('Current call control_hold/unhold - ${direction}')
+@common
 export class RCI818 extends Step {
   Login: StepProp = CommonLoginEntry;
 

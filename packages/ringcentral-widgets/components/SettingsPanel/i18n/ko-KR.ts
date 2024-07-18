@@ -20,7 +20,8 @@ export default {
   quickAccess: "빠른 액세스 설정",
   report: "분석 보고서",
   shareIdea: "아이디어 공유",
-  reportIssue: "문제 신고"
+  reportIssue: "문제 신고",
+  havingIssues: "문제가 있나요?"
 };
 
 // @key: @#@"region"@#@ @source: @#@"Region"@#@
@@ -45,3 +46,4 @@ export default {
 // @key: @#@"report"@#@ @source: @#@"Analytics Report"@#@
 // @key: @#@"shareIdea"@#@ @source: @#@"Share idea"@#@
 // @key: @#@"reportIssue"@#@ @source: @#@"Report issue"@#@
+// @key: @#@"havingIssues"@#@ @source: @#@"Having issues?"@#@

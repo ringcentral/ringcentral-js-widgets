@@ -6,37 +6,38 @@
  * Entry point(/s):
  *
  */
+import type dialingPlanBody from '@ringcentral-integration/commons/integration-test/mock/data/dialingPlan.json';
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
-  autorun,
+  Given,
   Scenario,
   Step,
-  title,
-  When,
-  Given,
   Then,
-  examples,
+  When,
+  autorun,
+  common,
   p3,
+  title,
 } from '@ringcentral-integration/test-utils';
-import { screen, getNodeText, fireEvent, act } from '@testing-library/react';
-import type dialingPlanBody from '@ringcentral-integration/commons/integration-test/mock/data/dialingPlan.json';
+
+import { ClickBackButton } from '../../../../../steps/Common';
+import { CommonLogin } from '../../../../../steps/CommonLogin';
 import {
   CheckRouterNavigation,
   NavigateToSettings,
 } from '../../../../../steps/Navigate';
 import { NavigateToRegionSettings } from '../../../../../steps/Navigate/actions/NavigateToRegionSettings';
-import { CommonLogin } from '../../../../../steps/CommonLogin';
-import { SelectCountryCode } from '../../../../../steps/Settings/actions/SelectCountryCode';
 import {
   CheckAreaCodeField,
   CheckCountryCodeField,
+  SetAreaCode,
+  SetCountryCode,
 } from '../../../../../steps/Settings';
-import { ClickBackButton } from '../../../../../steps/Common';
 
 const dialingPlansData = {
   records: [
     {
-      uri: 'https://api-rcapps-xmnup.rclabenv.com/restapi/v1.0/dictionary/country/75',
+      uri: 'https://api-rcapps-xmnuplabs_domain/restapi/v1.0/dictionary/country/75',
       id: '75',
       name: 'France',
       isoCode: 'FR',
@@ -53,15 +54,15 @@ const dialingPlansData = {
 };
 
 @autorun(test.skip)
+@common
 @p3
 @title('Region - back button')
 export class RegionBackButton extends Step {
   Login?: StepFunction<
-    {
-      mockParams: { dialingPlansData?: Partial<typeof dialingPlanBody> };
-    },
+    { mockParams: { dialingPlansData?: Partial<typeof dialingPlanBody> } },
     any
   >;
+
   run() {
     const { Login = CommonLogin } = this;
     return (
@@ -83,19 +84,17 @@ export class RegionBackButton extends Step {
           action={[
             NavigateToSettings,
             NavigateToRegionSettings,
-            <CheckCountryCodeField countryCode="(+33) France" />,
-            <SelectCountryCode countryCode="(+44) United Kingdom" />,
-            () => {
-              act(() => {
-                fireEvent.change(screen.getByTestId('areaCodeInputField'), {
-                  target: { value: '666' },
-                });
-              });
-
-              expect(screen.getByTestId('areaCodeInputField')).toHaveValue(
-                '666',
-              );
-            },
+            // (+33) France
+            <CheckCountryCodeField
+              countryCallingCode="33"
+              countryName="France"
+            />,
+            <SetCountryCode
+              countryCallingCode="44"
+              countryName="United Kingdom"
+              clickSave={false}
+            />,
+            <SetAreaCode areaCode="666" clickSave={false} />,
           ]}
         />
         <Then desc="There are back and save button on the page" />
@@ -111,7 +110,11 @@ export class RegionBackButton extends Step {
         <Then
           desc="Country and area code revert to previous values"
           action={[
-            <CheckCountryCodeField countryCode="(+33) France" />,
+            // (+33) France
+            <CheckCountryCodeField
+              countryCallingCode="33"
+              countryName="France"
+            />,
             <CheckAreaCodeField value="" />,
           ]}
         />

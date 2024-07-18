@@ -1,12 +1,11 @@
-import type { FunctionComponent } from 'react';
-import React from 'react';
-
-import { connect } from 'react-redux';
-
 import { EnvironmentPanel } from '@ringcentral-integration/widgets/components/EnvironmentPanel';
 import withPhone from '@ringcentral-integration/widgets/lib/withPhone';
+import type { FunctionComponent } from 'react';
+import React from 'react';
+import { connect } from 'react-redux';
 
 import type { EvPhone } from '../../interfaces';
+
 import styles from './styles.scss';
 
 interface AppViewProps {

@@ -1,4 +1,5 @@
 import { screen } from '@testing-library/react';
+
 import type { StepFunction } from '../../../lib/step';
 
 interface MessageListProps {
@@ -17,18 +18,19 @@ interface MessageItemCreateTimeProps {
   }[];
 }
 
-export const CheckMessageListDisplayInTimeOrder: StepFunction<MessageListProps> =
-  ({ expectList }) => {
-    const messageItem = screen
-      .getByTestId('conversationList')
-      .querySelectorAll('[data-sign$="MessageItem"]');
-    expect(messageItem.length).toBe(expectList.length);
+export const CheckMessageListDisplayInTimeOrder: StepFunction<
+  MessageListProps
+> = ({ expectList }) => {
+  const messageItem = screen
+    .getByTestId('conversationList')
+    .querySelectorAll('[data-sign$="MessageItem"]');
+  expect(messageItem.length).toBe(expectList.length);
 
-    const messageList = Array.from(messageItem).map((item) =>
-      item.getAttribute('data-sign'),
-    );
-    expect(messageList).toEqual(expectList);
-  };
+  const messageList = Array.from(messageItem).map((item) =>
+    item.getAttribute('data-sign'),
+  );
+  expect(messageList).toEqual(expectList);
+};
 
 export const CheckSMSMessageItemDisplay: StepFunction<MessageItemProps> = ({
   contactName,
@@ -56,13 +58,14 @@ export const CheckSMSMessageItemDisplay: StepFunction<MessageItemProps> = ({
   ).toBeInTheDocument();
 };
 
-export const CheckMessageCreateTimeDisplay: StepFunction<MessageItemCreateTimeProps> =
-  ({ expectResult }) => {
-    expectResult.forEach((item) => {
-      expect(
-        screen
-          .getByTestId(item.testId)
-          .querySelector('[data-sign="msgCreateTime"]')?.innerHTML,
-      ).toBe(item.createTime);
-    });
-  };
+export const CheckMessageCreateTimeDisplay: StepFunction<
+  MessageItemCreateTimeProps
+> = ({ expectResult }) => {
+  expectResult.forEach((item) => {
+    expect(
+      screen
+        .getByTestId(item.testId)
+        .querySelector('[data-sign="msgCreateTime"]')?.innerHTML,
+    ).toBe(item.createTime);
+  });
+};

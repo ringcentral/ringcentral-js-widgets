@@ -23,4 +23,4 @@ export default {
   download: 'Download',
   imageAttachment: 'Attachment: {count} image',
   fileAttachment: 'Attachment: {count} file',
-};
+} as const;

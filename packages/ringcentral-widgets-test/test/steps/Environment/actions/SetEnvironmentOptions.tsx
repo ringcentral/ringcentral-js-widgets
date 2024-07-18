@@ -1,7 +1,6 @@
+import type { SDKConfig } from '@ringcentral-integration/commons/lib/createSdkConfig';
 import { screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-
-import type { SDKConfig } from '@ringcentral-integration/commons/lib/createSdkConfig';
 
 import type { Context } from '../../../interfaces';
 import type { StepFunction } from '../../../lib/step';

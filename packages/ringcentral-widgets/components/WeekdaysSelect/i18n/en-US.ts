@@ -6,4 +6,4 @@ export default {
   friday: 'F',
   saturday: 'S',
   sunday: 'S',
-};
+} as const;

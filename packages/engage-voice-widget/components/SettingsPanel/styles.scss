@@ -28,7 +28,7 @@ $font-wight: 700;
   }
 
   .name,
-  .version{
+  .version {
     @include pageSpace('padding');
   }
 
@@ -71,7 +71,7 @@ $font-wight: 700;
       font-size: 14px;
       color: rgb(108, 108, 108);
       @include pageSpace('padding');
-      span{
+      span {
         vertical-align: -webkit-baseline-middle;
         display: inline-block;
       }

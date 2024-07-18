@@ -10,7 +10,6 @@
 	| RCCA |Send a message |RCUS |2507654321 |The message should be sent |
 
  */
-
 import { Category } from '@ringcentral-integration/commons/interfaces/NumberParserResponse.interface';
 import {
   p1,
@@ -26,10 +25,13 @@ import {
   common,
   And,
 } from '@ringcentral-integration/test-utils';
+
+import { generateDialPlanData } from '../../../../../__mock__/generateDialPlanData';
 import type { StepProp } from '../../../../../lib/step';
 import { CheckCallControlPage, MakeCall } from '../../../../../steps/Call';
 import { CommonLogin } from '../../../../../steps/CommonLogin';
 import { CreateInstance } from '../../../../../steps/CreateInstance';
+import { SendSMS, CheckConversationPage } from '../../../../../steps/Messages';
 import {
   CreateMock,
   MockExtensionInfo,
@@ -45,8 +47,6 @@ import {
 } from '../../../../../steps/Mock';
 import { NavigateTo } from '../../../../../steps/Router';
 import { CheckCountryCodeField } from '../../../../../steps/Settings';
-import { SendSMS, CheckConversationPage } from '../../../../../steps/Messages';
-import { generateDialPlanData } from '../../../../../__mock__/generateDialPlanData';
 
 @autorun(test)
 @it
@@ -61,11 +61,11 @@ export class RCI4493 extends Step {
   );
   CreateMock: StepProp = CreateMock;
   @examples(`
-    | regionCode | regionName           | phoneNumber  | e164ParsedNumber | parsedNumber     | parsedCountry | textMessage    |
-    | 'US'       | '(+1) United States' | '6501234567' | '+16501234567'   | '(650) 123-4567' | 'CA'          | 'test message' |
-    | 'CA'       | '(+1) Canada'        | '2507654321' | '+12507654321'   | '(250) 765-4321' | 'US'          | 'test message' |
-    | 'PR'       | '(+1) Puerto Rico'   | '2507654321' | '+12507654321'   | '(250) 765-4321' | 'US'          | 'test message' |
-    | 'CA'       | '(+1) Canada'        | '4801234567' | '+14801234567'   | '(480) 123-4567' | 'PR'          | 'test message' |
+    | regionCode | countryCallingCode | countryName     | phoneNumber  | e164ParsedNumber | parsedNumber     | parsedCountry | textMessage    |
+    | 'US'       | '1'                | 'United States' | '6501234567' | '+16501234567'   | '(650) 123-4567' | 'CA'          | 'test message' |
+    | 'CA'       | '1'                | 'Canada'        | '2507654321' | '+12507654321'   | '(250) 765-4321' | 'US'          | 'test message' |
+    | 'PR'       | '1'                | 'Puerto Rico'   | '2507654321' | '+12507654321'   | '(250) 765-4321' | 'US'          | 'test message' |
+    | 'CA'       | '1'                | 'Canada'        | '4801234567' | '+14801234567'   | '(480) 123-4567' | 'PR'          | 'test message' |
   `)
   run() {
     const { Login, CreateMock } = this;
@@ -137,8 +137,11 @@ export class RCI4493 extends Step {
         />
         <Then
           desc="Check region country"
-          action={async ({ regionName }: any) => (
-            <CheckCountryCodeField countryCode={regionName} />
+          action={async ({ countryCallingCode, countryName }: any) => (
+            <CheckCountryCodeField
+              countryCallingCode={countryCallingCode}
+              countryName={countryName}
+            />
           )}
         />
         <When

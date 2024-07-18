@@ -1,7 +1,6 @@
-import * as uuid from 'uuid';
-
 import Client from '@ringcentral/sdk/lib/http/Client';
 import type Platform from '@ringcentral/sdk/lib/platform/Platform';
+import * as uuid from 'uuid';
 
 interface Options {
   headers: Record<string, string>;

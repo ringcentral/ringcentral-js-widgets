@@ -1,4 +1,5 @@
 import path from 'path';
+
 import { generate } from './generate';
 
 generate(

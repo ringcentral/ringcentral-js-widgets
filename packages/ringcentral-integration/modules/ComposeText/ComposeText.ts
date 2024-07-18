@@ -15,6 +15,7 @@ import {
   ATTACHMENT_SIZE_LIMITATION,
   messageSenderMessages,
 } from '../MessageSender';
+
 import type { Deps, ToNumber } from './ComposeText.interface';
 
 /**
@@ -79,7 +80,7 @@ export class ComposeText<T extends Deps = Deps> extends RcModuleV2<T> {
 
   @action
   _setTypingToNumber(number?: string) {
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
     this.typingToNumber = number;
   }
 
@@ -217,14 +218,14 @@ export class ComposeText<T extends Deps = Deps> extends RcModuleV2<T> {
   _handleRecipient() {
     const dummy = this.toNumbers.find((toNumber) => !toNumber.entityType);
     if (dummy) {
-      // @ts-expect-error
+      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
       const recipient = this._deps.contactSearch.searchResult.find(
         (item: any) => item.id === dummy.id,
       );
       if (recipient) {
         this.addToNumber(recipient);
         this._lastContactSearchResult =
-          // @ts-expect-error
+          // @ts-expect-error TS(2532): Object is possibly 'undefined'.
           this._deps.contactSearch.searchResult.slice();
       }
     }
@@ -272,6 +273,10 @@ export class ComposeText<T extends Deps = Deps> extends RcModuleV2<T> {
   }
 
   async _validateIsOnlyPager(phoneNumber: string) {
+    const validate = this._deps.numberValidate.validate([phoneNumber]);
+    if (!validate.result) {
+      return false;
+    }
     const [{ isAnExtension }] = (await this._deps.numberValidate.parseNumbers([
       phoneNumber,
     ])) || [{}];
@@ -318,7 +323,7 @@ export class ComposeText<T extends Deps = Deps> extends RcModuleV2<T> {
       if (this._deps.routerInteraction?.currentPath === '/composeText') {
         this.alertMessageSending();
       }
-      // @ts-expect-error
+      // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Timeout'.
       timeoutID = null;
     }, 10000);
 
@@ -332,7 +337,7 @@ export class ComposeText<T extends Deps = Deps> extends RcModuleV2<T> {
 
       if (timeoutID) {
         clearTimeout(timeoutID);
-        // @ts-expect-error
+        // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Timeout'.
         timeoutID = null;
       }
       this.dismissMessageSending();
@@ -340,7 +345,7 @@ export class ComposeText<T extends Deps = Deps> extends RcModuleV2<T> {
     } catch (err) {
       if (timeoutID) {
         clearTimeout(timeoutID);
-        // @ts-expect-error
+        // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Timeout'.
         timeoutID = null;
       }
       throw err;

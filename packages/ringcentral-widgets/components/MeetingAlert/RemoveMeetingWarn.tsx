@@ -1,9 +1,9 @@
-import React from 'react';
-
 import type { RcAlertProps } from '@ringcentral/juno';
 import { RcAlert, RcLink } from '@ringcentral/juno';
+import React from 'react';
 
 import FormattedMessage from '../FormattedMessage';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 
@@ -41,7 +41,6 @@ export const RemoveMeetingWarn = ({
             currentLocale,
           )}
           values={{
-            // @ts-expect-error TS(2322): Type 'Element' is not assignable to type 'string'.
             app,
           }}
         />

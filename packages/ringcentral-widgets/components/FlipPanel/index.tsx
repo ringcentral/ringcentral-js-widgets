@@ -1,6 +1,5 @@
+import clsx from 'clsx';
 import React, { Component } from 'react';
-
-import classnames from 'classnames';
 
 import EndIcon from '../../assets/images/End.svg';
 import FlipIcon from '../../assets/images/Flip.svg';
@@ -8,6 +7,7 @@ import BackButton from '../BackButton';
 import BackHeader from '../BackHeader';
 import CircleButton from '../CircleButton';
 import RadioButtonGroup from '../RadioBtnGroup';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 
@@ -95,7 +95,7 @@ class FlipPanel extends Component<FlipPanelProps, FlipPanelState> {
             >
               <CircleButton
                 disabled={!flipEnabled}
-                className={classnames(
+                className={clsx(
                   styles.flipButton,
                   flipEnabled ? '' : styles.disabled,
                 )}
@@ -112,7 +112,7 @@ class FlipPanel extends Component<FlipPanelProps, FlipPanelState> {
             >
               <CircleButton
                 disabled={!isOnFlip}
-                className={classnames(
+                className={clsx(
                   styles.completeButton,
                   isOnFlip ? '' : styles.disabled,
                 )}

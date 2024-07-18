@@ -12,7 +12,6 @@
  * > Login CTI with{Account}
  * > send a message to{Phone number}
  */
-
 import {
   p2,
   it,
@@ -27,7 +26,10 @@ import {
 } from '@ringcentral-integration/test-utils';
 
 import type { StepProp } from '../../../../../../lib/step';
-
+import { CheckContainsAlertMessage } from '../../../../../../steps/Alert';
+import { CommonLogin } from '../../../../../../steps/CommonLogin';
+import { CreateInstance } from '../../../../../../steps/CreateInstance';
+import { SendSMS } from '../../../../../../steps/Messages';
 import {
   CreateMock,
   MockNumberParserV2,
@@ -36,16 +38,13 @@ import {
   MockPostSMS,
   MockGetPhoneNumber,
 } from '../../../../../../steps/Mock';
-import { CommonLogin } from '../../../../../../steps/CommonLogin';
-import { CreateInstance } from '../../../../../../steps/CreateInstance';
 import { NavigateTo } from '../../../../../../steps/Router';
-import { SendSMS } from '../../../../../../steps/Messages';
-import { CheckContainsAlertMessage } from '../../../../../../steps/Alert';
 
-import extMock from './mocks/extResponseMock.json';
-import specialMock from './mocks/specialServiceResponseMock.json';
 import specialErrorMock from './mocks/errorResponseMock.json';
 import extErrorMock from './mocks/extErrorMock.json';
+import extMock from './mocks/extResponseMock.json';
+import specialMock from './mocks/specialServiceResponseMock.json';
+
 @autorun(test)
 @it
 @p2

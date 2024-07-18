@@ -1,7 +1,7 @@
 export default {
   unknown: "Sconosciuto",
   multipleMatches: "Corrispondenze multiple",
-  anonymous: "Anonimo",
+  anonymous: "Numero anonimo",
   none: "Nessuno"
 };
 

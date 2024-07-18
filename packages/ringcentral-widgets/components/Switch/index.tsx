@@ -1,6 +1,5 @@
+import clsx from 'clsx';
 import React from 'react';
-
-import classnames from 'classnames';
 
 import styles from './styles.scss';
 
@@ -12,7 +11,7 @@ type SwitchProps = {
   dataSign?: string;
   className?: string;
 };
-const Switch: React.SFC<SwitchProps> = (props) => {
+const Switch: React.FC<SwitchProps> = (props) => {
   const onChange = props.onChange
     ? // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
       (e: any) => !props.disable && props.onChange(e.currentTarget.checked)
@@ -21,7 +20,7 @@ const Switch: React.SFC<SwitchProps> = (props) => {
     <label
       title={props.title}
       data-sign={props.dataSign}
-      className={classnames(
+      className={clsx(
         styles.switch,
         props.className,
         props.disable && styles.disable,

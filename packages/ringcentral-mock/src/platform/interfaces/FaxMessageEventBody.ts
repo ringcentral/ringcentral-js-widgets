@@ -1,6 +1,6 @@
+import type { FaxMessageAttachment } from './FaxMessageAttachment';
 import type { NotificationRecipientInfo } from './NotificationRecipientInfo';
 import type { SenderInfo } from './SenderInfo';
-import type { FaxMessageAttachment } from './FaxMessageAttachment';
 
 // Notification payload body
 export interface FaxMessageEventBody {

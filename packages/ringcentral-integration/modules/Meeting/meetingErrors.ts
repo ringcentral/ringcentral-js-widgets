@@ -1,13 +1,11 @@
 export class MeetingErrors {
   private _errors;
-  // @ts-expect-error
-  constructor(type?) {
+  constructor(type?: any) {
     this._errors = [];
     if (type) this._errors.push({ message: type });
   }
 
-  // @ts-expect-error
-  push(type) {
+  push(type: any) {
     if (type) this._errors.push({ message: type });
   }
 

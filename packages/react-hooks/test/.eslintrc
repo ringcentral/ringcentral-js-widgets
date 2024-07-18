@@ -1,0 +1,3 @@
+{
+  "extends": "../../../ringcentral-js-widgets/eslint-settings/crius/.eslintrc"
+}

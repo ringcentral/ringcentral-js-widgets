@@ -11,7 +11,6 @@
  * > Login CTI with{Account}
  * > Send a message to{Phone number}
  */
-
 import {
   p2,
   it,
@@ -28,7 +27,9 @@ import { waitUntilTo } from '@ringcentral-integration/utils';
 import { getNodeText, screen } from '@testing-library/react';
 
 import type { StepProp } from '../../../../../../lib/step';
-
+import { CommonLogin } from '../../../../../../steps/CommonLogin';
+import { CreateInstance } from '../../../../../../steps/CreateInstance';
+import { SendSMS } from '../../../../../../steps/Messages';
 import {
   CreateMock,
   MockNumberParserV2,
@@ -37,14 +38,11 @@ import {
   MockPostSMS,
   MockGetPhoneNumber,
 } from '../../../../../../steps/Mock';
-import { CommonLogin } from '../../../../../../steps/CommonLogin';
-import { CreateInstance } from '../../../../../../steps/CreateInstance';
 import { NavigateTo } from '../../../../../../steps/Router';
-import { SendSMS } from '../../../../../../steps/Messages';
 
+import errorMock from './mocks/errorResponseMock.json';
 import extMock from './mocks/extResponseMock.json';
 import specialMock from './mocks/specialServiceResponseMock.json';
-import errorMock from './mocks/errorResponseMock.json';
 
 @autorun(test)
 @it

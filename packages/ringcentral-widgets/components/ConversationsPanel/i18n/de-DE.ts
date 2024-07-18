@@ -7,7 +7,7 @@ export default {
   noSearchResults: "Kein übereinstimmender Datensatz gefunden",
   [messageTypes.all]: "Alle",
   [messageTypes.voiceMail]: "Sprachn.",
-  [messageTypes.text]: "Text",
+  [messageTypes.text]: "Textnachricht",
   [messageTypes.fax]: "Fax"
 };
 

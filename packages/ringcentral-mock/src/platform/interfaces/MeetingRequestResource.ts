@@ -1,5 +1,5 @@
-import type { MeetingScheduleResource } from './MeetingScheduleResource';
 import type { HostInfoRequest } from './HostInfoRequest';
+import type { MeetingScheduleResource } from './MeetingScheduleResource';
 import type { RecurrenceInfo } from './RecurrenceInfo';
 
 export interface MeetingRequestResource {

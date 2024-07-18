@@ -17,7 +17,6 @@
  * Entry point(/s):
  * User log in to CTI app > Getdefault area code from api as{Area code by API} > Make a call/Send a message to {originalStrings}
  */
-
 import {
   And,
   autorun,
@@ -32,6 +31,7 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
+import { generateDialPlanData } from '../../../../__mock__/generateDialPlanData';
 import type { StepProp } from '../../../../lib/step';
 import { CheckPassAreaCode, MakeCall } from '../../../../steps/Call';
 import { CommonLogin } from '../../../../steps/CommonLogin';
@@ -41,9 +41,8 @@ import {
   MockNumberParserV2,
   MockPermission,
 } from '../../../../steps/Mock';
-import { NavigateTo } from '../../../../steps/Router/action';
+import { NavigateTo } from '../../../../steps/Router';
 import { SetAreaCode } from '../../../../steps/Settings';
-import { generateDialPlanData } from '../../../../__mock__/generateDialPlanData';
 
 @autorun(test.skip)
 @it

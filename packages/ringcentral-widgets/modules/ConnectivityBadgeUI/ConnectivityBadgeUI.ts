@@ -1,7 +1,9 @@
 import Module from '@ringcentral-integration/commons/lib/di/decorators/module';
 import type { UIProps, UIFunctions } from '@ringcentral-integration/core';
 import { RcUIModuleV2 } from '@ringcentral-integration/core';
+
 import type { ConnectivityBadgeProps } from '../../components/ConnectivityBadge';
+
 import type { Deps } from './ConnectivityBadgeUI.interface';
 
 @Module({

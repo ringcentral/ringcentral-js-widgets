@@ -1,11 +1,10 @@
-import { screen, waitFor } from '@testing-library/react';
+import { whenStateOrTimerChange } from '@ringcentral-integration/core/test';
+import { screen } from '@testing-library/react';
+
 import type { StepFunction } from '../../../lib/step';
 
 export const CheckActiveCallExist: StepFunction = async () => {
-  await waitFor(
-    () => {
-      expect(screen.getByTestId('activeCallPanel')).toBeInTheDocument();
-    },
-    { timeout: 3000 },
-  );
+  await whenStateOrTimerChange(() => {
+    expect(screen.getByTestId('activeCallPanel')).toBeInTheDocument();
+  });
 };

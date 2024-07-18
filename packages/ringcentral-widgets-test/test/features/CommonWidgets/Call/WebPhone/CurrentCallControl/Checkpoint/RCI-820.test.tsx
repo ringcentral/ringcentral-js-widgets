@@ -7,7 +7,6 @@
  * 1. Answer an inbound call and keep in active call page
  * 2. Make an outbound calland keep in active call page
  */
-
 import type { StepProp } from '@ringcentral-integration/test-utils';
 import {
   p1,
@@ -20,6 +19,7 @@ import {
   When,
   examples,
 } from '@ringcentral-integration/test-utils';
+
 import {
   MakeCall,
   CheckMuteButton,

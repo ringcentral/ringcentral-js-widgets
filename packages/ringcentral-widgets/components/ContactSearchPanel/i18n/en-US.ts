@@ -27,4 +27,4 @@ export default {
   ContactNumber: 'Contact Number',
   DirectNumber: 'Direct Number',
   doNotCall: 'Do Not Call',
-};
+} as const;

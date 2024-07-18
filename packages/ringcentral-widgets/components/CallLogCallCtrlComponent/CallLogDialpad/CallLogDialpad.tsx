@@ -1,11 +1,11 @@
+import { RcDialerPadSoundsMPEG } from '@ringcentral/juno';
+import clsx from 'clsx';
 import type { FunctionComponent } from 'react';
 import React from 'react';
 
-import classnames from 'classnames';
-
 import CloseDialpadIcon from '../../../assets/images/CloseDialpad.svg';
-import { audios } from '../../DialButton/audios';
 import DialPad from '../../DialPad';
+
 import type {
   CallLogDialpadProps,
   DtmfValue,
@@ -40,17 +40,15 @@ const CallLogDialpad: FunctionComponent<CallLogDialpadProps> = ({
   }, []);
 
   const playAudio = (value: DtmfValue) => {
-    if (
-      audioRef.current &&
-      audioRef.current.canPlayType('audio/ogg') !== '' &&
-      audios[value]
-    ) {
+    if (audioRef.current && RcDialerPadSoundsMPEG[value]) {
       if (!audioRef.current.paused) {
         audioRef.current.pause();
       }
-      audioRef.current.src = audios[value];
+      audioRef.current.src = RcDialerPadSoundsMPEG[value];
       audioRef.current.currentTime = 0;
-      audioRef.current.play();
+      audioRef.current.play().catch((error: any) => {
+        console.error('playAudio error:', error);
+      });
     }
   };
 
@@ -100,16 +98,14 @@ const CallLogDialpad: FunctionComponent<CallLogDialpadProps> = ({
   return (
     <div
       data-sign="callLogDialPad"
-      className={classnames(styles.root, className, {
+      className={clsx(styles.root, className, {
         [styles.classic]: !isWide,
       })}
     >
-      <div className={styles.closeBtn} onClick={onClose}>
+      <div className={styles.closeBtn} onClick={onClose} data-sign="closeBtn">
         <CloseDialpadIcon />
       </div>
-      <div
-        className={classnames(styles.dialInput, { [styles.classic]: !isWide })}
-      >
+      <div className={clsx(styles.dialInput, { [styles.classic]: !isWide })}>
         <input
           data-sign="input"
           className={styles.input}
@@ -121,7 +117,7 @@ const CallLogDialpad: FunctionComponent<CallLogDialpadProps> = ({
         />
       </div>
       <div
-        className={classnames(styles.keypadContainer, {
+        className={clsx(styles.keypadContainer, {
           [styles.classic]: !isWide,
         })}
       >

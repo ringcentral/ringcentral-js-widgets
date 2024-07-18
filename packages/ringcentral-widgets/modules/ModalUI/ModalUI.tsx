@@ -9,11 +9,13 @@ import {
 } from '@ringcentral-integration/core';
 import { filter, find, findIndex, map } from 'ramda';
 import { v4 } from 'uuid';
+
 import type {
   ModalProps,
   ModalV2UIFunctions,
   ModalV2UIProps,
 } from '../../components/ModalV2/interface';
+
 import type {
   AlertModalOptions,
   ConfirmModalOptions,

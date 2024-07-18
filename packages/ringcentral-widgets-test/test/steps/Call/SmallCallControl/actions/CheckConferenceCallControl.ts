@@ -1,4 +1,5 @@
 import { screen } from '@testing-library/react';
+
 import type { StepFunction } from '../../../../lib/step';
 
 interface OperationProps {
@@ -14,16 +15,17 @@ function getPhoneNumberRegExp(parsedNumber: string) {
   );
 }
 
-export const CheckConferenceCallControlPage: StepFunction<OperationProps> =
-  async ({ parsedNumber, name }) => {
-    expect(screen.getByTestId('activeCallPanel')).toBeInTheDocument();
-    if (parsedNumber) {
-      const numberRegEx = getPhoneNumberRegExp(parsedNumber);
-      expect(screen.getByTestId('activeCalleeName')).toHaveTextContent(
-        numberRegEx,
-      );
-    }
-    if (name) {
-      expect(screen.getByTestId('activeCalleeName')).toHaveTextContent(name);
-    }
-  };
+export const CheckConferenceCallControlPage: StepFunction<
+  OperationProps
+> = async ({ parsedNumber, name }) => {
+  expect(screen.getByTestId('activeCallPanel')).toBeInTheDocument();
+  if (parsedNumber) {
+    const numberRegEx = getPhoneNumberRegExp(parsedNumber);
+    expect(screen.getByTestId('activeCalleeName')).toHaveTextContent(
+      numberRegEx,
+    );
+  }
+  if (name) {
+    expect(screen.getByTestId('activeCalleeName')).toHaveTextContent(name);
+  }
+};

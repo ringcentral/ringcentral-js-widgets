@@ -6,7 +6,6 @@
  * Entry point(/s):
  * Make a call and keep in call control page
  */
-
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p1,
@@ -21,6 +20,13 @@ import {
   When,
 } from '@ringcentral-integration/test-utils';
 
+import {
+  CallItemButtonBehavior,
+  CheckAllCallsListPage,
+  MakeInboundCall,
+  CheckIncomingCallPageExist,
+  AnswerCall,
+} from '../../../../../steps/Call';
 import { CommonLogin } from '../../../../../steps/CommonLogin';
 import {
   TriggerActiveCallChanged,
@@ -29,13 +35,6 @@ import {
   MockMessageSync,
   MockPresence,
 } from '../../../../../steps/Mock';
-import {
-  CallItemButtonBehavior,
-  CheckAllCallsListPage,
-  MakeInboundCall,
-  CheckIncomingCallPageExist,
-  AnswerCall,
-} from '../../../../../steps/Call';
 
 @autorun(test.skip)
 @it
@@ -102,7 +101,9 @@ export class RCI849 extends Step {
           action={[
             (_: any, { phone }: any) => {
               // The current call is ended
-              expect(phone.webphone.hangup).toBeCalledWith(this.currentCallId);
+              expect(phone.webphone.hangup).toHaveBeenCalledWith(
+                this.currentCallId,
+              );
             },
             <CheckAllCallsListPage length={2} />,
           ]}

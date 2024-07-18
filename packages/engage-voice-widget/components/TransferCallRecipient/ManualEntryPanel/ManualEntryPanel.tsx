@@ -1,7 +1,6 @@
+import { RcButton } from '@ringcentral/juno';
 import type { FunctionComponent } from 'react';
 import React, { useState } from 'react';
-
-import { RcButton } from '@ringcentral/juno';
 
 import type {
   EvTransferCallUIFunctions,
@@ -9,6 +8,7 @@ import type {
 } from '../../../interfaces';
 import { Dialer } from '../../DialerPanel';
 import { BackHeader } from '../../SelectList';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 

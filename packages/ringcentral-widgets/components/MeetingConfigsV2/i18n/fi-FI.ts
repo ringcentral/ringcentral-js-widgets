@@ -38,8 +38,7 @@ export default {
   pmiSettingChangeAlert: "Jos muutat asetuksia ja ajoitat tämän tapaamisen, kaikki henkilökohtaista tapaamistunnustasi käyttävät tapaamiset käyttävät samoja uusimpia asetuksia.",
   lockedTooltip: "Tämä asetus on yrityksen järjestelmänvalvojan hallinnassa",
   when: "Kun",
-  recurringDescribe: "Muista tarkistaa osallistujille lähetettävän kalenterikutsun toistuvuus.",
-  ieSupportAlert: "Huomaa, että {appName} ei toimi Internet Explorer 11:llä 16. helmikuuta 2022 jälkeen. Suosittelemme vaihtamaan Microsoft Edgeen tai päivittämään Outlook 2016:een tai uudempaan."
+  recurringDescribe: "Muista tarkistaa osallistujille lähetettävän kalenterikutsun toistuvuus."
 };
 
 // @key: @#@"date"@#@ @source: @#@"Date"@#@
@@ -81,4 +80,3 @@ export default {
 // @key: @#@"lockedTooltip"@#@ @source: @#@"This setting is managed by your company admin"@#@
 // @key: @#@"when"@#@ @source: @#@"When"@#@
 // @key: @#@"recurringDescribe"@#@ @source: @#@"Please remember to check recurrence or repeat in your calendar invitation to your attendees."@#@
-// @key: @#@"ieSupportAlert"@#@ @source: @#@"Please note that {appName} won't work with Internet Explorer 11 after Feb 16, 2022. We recommend switching to Microsoft Edge or updating to Outlook 2016 or above."@#@

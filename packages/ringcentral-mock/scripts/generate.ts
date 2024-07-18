@@ -1,8 +1,8 @@
-import fs from 'fs';
-import path from 'path';
 import execa from 'execa';
+import fs from 'fs';
 import yaml from 'js-yaml';
 import type { OpenAPIV3 } from 'openapi-types';
+import path from 'path';
 import { parse } from 'ringcentral-open-api-parser';
 
 import { generateApis } from './generateApis';

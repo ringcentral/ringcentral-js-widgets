@@ -9,7 +9,7 @@
   | Brand |Brand name |
   |  Avaya | Avaya Cloud Office |
 	| Telus |TELUS Business Connect |
-	| AT&T |Office@Hand |
+	| AT&T |AT&T Office@Hand |
 
  * Entry point(/s):
  *
@@ -22,7 +22,6 @@
  * BT/Telus/AT&T
  * User tries to log in {Partner brandBrand} for {Project}
  */
-
 import type { StepProp } from '@ringcentral-integration/test-utils';
 import {
   p1,
@@ -38,7 +37,6 @@ import {
   waitForRenderReady,
 } from '@ringcentral-integration/test-utils';
 
-import { CheckRouterNavigation } from '../../../../steps/Navigate';
 import { CommonLogin } from '../../../../steps/CommonLogin';
 import { CreateInstance } from '../../../../steps/CreateInstance';
 import {
@@ -46,6 +44,7 @@ import {
   ClickConfirmInModal,
   CheckModalExist,
 } from '../../../../steps/Modal';
+import { CheckRouterNavigation } from '../../../../steps/Navigate';
 
 // common server mock as rc brand so it doesn't has this scenario
 @autorun(test.skip)

@@ -40,4 +40,4 @@ export default {
   schedule: 'Schedule',
   // @ts-expect-error TS(1117): An object literal cannot have multiple properties ... Remove this comment to see the full error message
   settingsBtn: 'Settings',
-};
+} as const;

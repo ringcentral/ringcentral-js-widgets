@@ -2,6 +2,7 @@ import type { FunctionComponent } from 'react';
 import React from 'react';
 
 import { RemoveMeetingWarn } from '../MeetingAlert';
+
 import { BasePanel } from './BasePanel';
 import { ClickToDial } from './ClickToDial';
 import { LinkLineItem } from './LinkLineItem';
@@ -22,26 +23,33 @@ export const SettingsPanel: FunctionComponent<SettingsPanelProps> = ({
   children,
   className,
   clickToDialEnabled = false,
-  clickToDialPermissions = false,
+  clickToCallPermission = false,
   clickToDialTitle,
   currentLocale,
   disableAutoLogEnabled = false,
   disableAutoLogNotesEnabled = false,
+  disableAutoLogSMSEnabled = false,
   dndStatus,
   eulaLabel,
   eulaLink,
+  onEulaLinkClick,
+  privacyNoticeLabel,
+  privacyNoticeLink,
   isCallQueueMember,
   loginNumber,
   logSMSContentEnabled = true,
+  logExtCallEnabled = false,
   logSMSContentTitle,
+  logExtCallTitle,
   onAudioSettingsLinkClick,
   onAutoLogChange = Empty,
   onAutoLogNotesChange = Empty,
   onAutoLogSMSChange,
+  onLogExtCallChange = Empty,
   onCallingSettingsLinkClick,
   onClickToDialChange,
-  onEulaLinkClick,
   onFeedbackSettingsLinkClick,
+  onTrackingClick,
   onLogoutButtonClick,
   onLogSMSContentChange = Empty,
   onQuickAccessLinkClick = Empty,
@@ -60,11 +68,13 @@ export const SettingsPanel: FunctionComponent<SettingsPanelProps> = ({
   setInvisible = Empty,
   showAudio = false,
   showAutoLog = false,
+  showLogExtCall = false,
   showAutoLogNotes = false,
   showAutoLogSMS = false,
   showCalling = false,
   showClickToDial = false,
   showFeedback = true,
+  showTrackingIssue = false,
   showHeader = false,
   showLogSMSContent = false,
   showPresenceSettings = true,
@@ -95,6 +105,8 @@ export const SettingsPanel: FunctionComponent<SettingsPanelProps> = ({
         eulaLabel,
         eulaLink,
         onEulaLinkClick,
+        privacyNoticeLabel,
+        privacyNoticeLink,
         loginNumber,
         onLogoutButtonClick,
         version,
@@ -116,18 +128,19 @@ export const SettingsPanel: FunctionComponent<SettingsPanelProps> = ({
       />
       <Locale
         supportedLocales={supportedLocales}
-        currentLocale={currentLocale}
         savedLocale={savedLocale}
         saveLocale={saveLocale}
       />
       <LinkLineItem
         name="calling"
+        dataSign="calling"
         show={showCalling}
         currentLocale={currentLocale}
         onClick={onCallingSettingsLinkClick}
       />
       <LinkLineItem
         name="region"
+        dataSign="region"
         show={showRegion}
         currentLocale={currentLocale}
         onClick={onRegionSettingsLinkClick}
@@ -177,6 +190,7 @@ export const SettingsPanel: FunctionComponent<SettingsPanelProps> = ({
         customTitle={autoLogSMSTitle}
         show={showAutoLogSMS}
         currentLocale={currentLocale}
+        disabled={disableAutoLogSMSEnabled}
         checked={autoLogSMSEnabled}
         onChange={onAutoLogSMSChange}
       />
@@ -189,16 +203,32 @@ export const SettingsPanel: FunctionComponent<SettingsPanelProps> = ({
         checked={logSMSContentEnabled}
         onChange={onLogSMSContentChange}
       />
+      <SwitchLineItem
+        name="logExtensionCall"
+        dataSign="logExtensionCall"
+        customTitle={logExtCallTitle}
+        show={showLogExtCall}
+        currentLocale={currentLocale}
+        checked={logExtCallEnabled}
+        onChange={onLogExtCallChange}
+      />
       <ClickToDial
         currentLocale={currentLocale}
         showClickToDial={showClickToDial}
         outboundSMS={outboundSMS}
-        clickToDialPermissions={clickToDialPermissions}
+        clickToCallPermission={clickToCallPermission}
         clickToDialEnabled={clickToDialEnabled}
         onClickToDialChange={onClickToDialChange}
         clickToDialTitle={clickToDialTitle}
       />
       {additional}
+      <LinkLineItem
+        name="havingIssues"
+        dataSign="HavingIssues"
+        show={showTrackingIssue}
+        currentLocale={currentLocale}
+        onClick={onTrackingClick}
+      />
       <LinkLineItem
         name="feedback"
         dataSign="Feedback"
@@ -209,24 +239,28 @@ export const SettingsPanel: FunctionComponent<SettingsPanelProps> = ({
       />
       <LinkLineItem
         name="shareIdea"
+        dataSign="shareIdea"
         show={showShareIdea}
         currentLocale={currentLocale}
         onClick={onShareIdeaClick}
       />
       <LinkLineItem
         name="quickAccess"
+        dataSign="quickAccess"
         show={showQuickAccess}
         currentLocale={currentLocale}
         onClick={onQuickAccessLinkClick}
       />
       <LinkLineItem
         name="userGuide"
+        dataSign="userGuide"
         show={showUserGuide}
         currentLocale={currentLocale}
         onClick={onUserGuideClick}
       />
       <LinkLineItem
         name="reportIssue"
+        dataSign="reportIssue"
         show={showReportIssue}
         currentLocale={currentLocale}
         onClick={onReportIssueClick}

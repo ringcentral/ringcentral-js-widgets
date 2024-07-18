@@ -1,4 +1,4 @@
-const sliceExecute = async ({ array, threshold, handler }) => {
+const sliceExecute = async ({ array, threshold, handler }: any) => {
   let index = 0;
   const loop = async () => {
     const items = array.slice(index, index + threshold);

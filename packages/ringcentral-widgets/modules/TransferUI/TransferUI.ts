@@ -1,9 +1,10 @@
+import { trackEvents } from '@ringcentral-integration/commons/enums/trackEvents';
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import { formatNumber } from '@ringcentral-integration/commons/lib/formatNumber';
-import webphoneErrors from '@ringcentral-integration/commons/modules/Webphone/webphoneErrors';
 import { callingOptions } from '@ringcentral-integration/commons/modules/CallingSettings';
+import webphoneErrors from '@ringcentral-integration/commons/modules/Webphone/webphoneErrors';
 import type { UIFunctions, UIProps } from '@ringcentral-integration/core';
-import { computed, RcUIModuleV2 } from '@ringcentral-integration/core';
+import { computed, RcUIModuleV2, track } from '@ringcentral-integration/core';
 
 import type {
   Deps,
@@ -20,6 +21,7 @@ import type {
     'AccountInfo',
     'Alert',
     'CallingSettings',
+    { dep: 'AudioSettings', optional: true },
     { dep: 'ContactSearch', optional: true },
     { dep: 'Webphone', optional: true },
     { dep: 'ActiveCallControl', optional: true },
@@ -57,6 +59,18 @@ export class TransferUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
     return null;
   }
 
+  @track((that: TransferUI, eventName: string, contactType: string) => {
+    return [eventName, { contactType, location: 'Transfer' }];
+  })
+  async triggerEventTracking(eventName: string, contactType: string) {
+    //
+  }
+
+  @track(trackEvents.coldTransferCall)
+  async trackTransfer() {
+    //
+  }
+
   getUIProps({
     params = {},
     enableWarmTransfer = false,
@@ -64,6 +78,8 @@ export class TransferUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
     this._params = params;
     const { sessionId } = params;
     return {
+      callVolume: this._deps.audioSettings?.callVolume ?? 1,
+      outputDeviceId: this._deps.audioSettings?.outputDeviceId ?? '',
       companyContacts: this._deps.companyContacts?.data,
       // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
       sessionId,
@@ -82,12 +98,16 @@ export class TransferUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
     params: { type = 'active' },
   }): UIFunctions<TransferUIPanelProps> {
     return {
+      triggerEventTracking: (eventName: string, contactType: string) =>
+        this.triggerEventTracking(eventName, contactType),
       setActiveSessionId: (sessionId) => {
         if (type === 'active') {
           this._deps.activeCallControl?.setActiveSessionId(sessionId);
         }
       },
       onTransfer: (transferNumber, sessionId) => {
+        this.trackTransfer();
+
         if (type === 'active') {
           this._deps.activeCallControl?.transfer(transferNumber, sessionId);
           return;

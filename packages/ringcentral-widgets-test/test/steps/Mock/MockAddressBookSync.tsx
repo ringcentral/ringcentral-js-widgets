@@ -1,8 +1,11 @@
+import type { PersonalContactResource } from '@ringcentral-integration/mock';
 import type { ArraySchemaObject } from '@ringcentral-integration/mock/src/interface';
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 
 interface MockAddressBookSyncProps {
-  handler?: (personalUsers: any) => any;
+  handler?: (
+    personalUsers: PersonalContactResource[],
+  ) => PersonalContactResource[];
   page?: number;
 }
 

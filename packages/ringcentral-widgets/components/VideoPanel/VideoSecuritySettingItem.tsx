@@ -1,8 +1,7 @@
-import type { FunctionComponent, ReactNode } from 'react';
-import React from 'react';
-
 import { RcFormControlLabel, RcIcon, RcTooltip } from '@ringcentral/juno';
 import { LockBorder } from '@ringcentral/juno-icon';
+import type { FunctionComponent, ReactNode } from 'react';
+import React from 'react';
 
 import i18n from './i18n';
 import styles from './styles.scss';
@@ -45,49 +44,50 @@ interface VideoSecuritySettingItemProps {
   labelPlacement?: 'end' | 'start' | 'top' | 'bottom';
 }
 
-export const VideoSecuritySettingItem: FunctionComponent<VideoSecuritySettingItemProps> =
-  ({
-    dataSign,
-    label,
-    isLock = false,
-    isDisabled = false,
-    currentLocale,
-    children,
-    hasScrollBar = false,
-    labelPlacement,
-  }) => {
-    return (
-      <RcFormControlLabel
-        data-sign={dataSign}
-        disabled={isLock || isDisabled}
-        control={
-          <span
-            className={
-              labelPlacement === 'start'
-                ? styles.iconCombine
-                : styles.checkboxSeparate
-            }
-          >
-            {labelPlacement === 'start' &&
-              generateLockIcon(isLock, currentLocale, hasScrollBar)}
-            {children}
-          </span>
-        }
-        label={
-          <>
-            {label}
-            {labelPlacement !== 'start' &&
-              generateLockIcon(isLock, currentLocale, hasScrollBar)}
-          </>
-        }
-        labelPlacement={labelPlacement}
-        classes={{
-          root:
+export const VideoSecuritySettingItem: FunctionComponent<
+  VideoSecuritySettingItemProps
+> = ({
+  dataSign,
+  label,
+  isLock = false,
+  isDisabled = false,
+  currentLocale,
+  children,
+  hasScrollBar = false,
+  labelPlacement,
+}) => {
+  return (
+    <RcFormControlLabel
+      data-sign={dataSign}
+      disabled={isLock || isDisabled}
+      control={
+        <span
+          className={
             labelPlacement === 'start'
-              ? styles.labelPlacementStartRoot
-              : styles.labelPlacementEndRoot,
-          label: styles.labelText,
-        }}
-      />
-    );
-  };
+              ? styles.iconCombine
+              : styles.checkboxSeparate
+          }
+        >
+          {labelPlacement === 'start' &&
+            generateLockIcon(isLock, currentLocale, hasScrollBar)}
+          {children}
+        </span>
+      }
+      label={
+        <>
+          {label}
+          {labelPlacement !== 'start' &&
+            generateLockIcon(isLock, currentLocale, hasScrollBar)}
+        </>
+      }
+      labelPlacement={labelPlacement}
+      classes={{
+        root:
+          labelPlacement === 'start'
+            ? styles.labelPlacementStartRoot
+            : styles.labelPlacementEndRoot,
+        label: styles.labelText,
+      }}
+    />
+  );
+};

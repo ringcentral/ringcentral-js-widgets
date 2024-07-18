@@ -102,7 +102,7 @@ describe.each`
         allowScreenSharing,
         waitingRoomMode,
       });
-      expect(mockSaveSinglePreference).toBeCalledTimes(expected);
+      expect(mockSaveSinglePreference).toHaveBeenCalledTimes(expected);
     });
   },
 );
@@ -128,7 +128,7 @@ describe.each`
     const turnOnE2ee = RcVideo.prototype.turnOnE2ee.bind(context);
 
     await turnOnE2ee();
-    expect(context.updateMeetingSettings).toBeCalledWith({
+    expect(context.updateMeetingSettings).toHaveBeenCalledWith({
       ...RCV_E2EE_DEFAULT_SECURITY_OPTIONS,
       e2ee: true,
       allowJoinBeforeHost: jbhNewVal,

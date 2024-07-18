@@ -7,7 +7,7 @@ type NoCallsProps = {
   currentLocale: string;
   active: boolean;
 };
-const NoCalls: React.SFC<NoCallsProps> = ({ currentLocale, active }) => {
+const NoCalls: React.FC<NoCallsProps> = ({ currentLocale, active }) => {
   return (
     <p className={styles.noCalls}>
       {i18n.getString(active ? 'noActiveCalls' : 'noRecords', currentLocale)}

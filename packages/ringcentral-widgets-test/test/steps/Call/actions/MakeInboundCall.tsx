@@ -1,15 +1,12 @@
-import type callDirections from '@ringcentral-integration/commons/enums/callDirections';
+import type { CallDirection } from '@ringcentral-integration/commons/enums/callDirections';
 import type { NumberData } from '@ringcentral-integration/commons/integration-test/mock/telephonySessionBuilder';
 
 import type { StepFunction } from '../../../lib/step';
 
-type CallDirectionsKeys = keyof typeof callDirections;
-type CallDirections = typeof callDirections[CallDirectionsKeys];
-
 export interface InitACallProps {
   phoneNumber?: string;
   isWebRTC?: boolean;
-  direction?: CallDirections;
+  direction?: CallDirection;
   telephonySessionId?: string;
   sessionId?: string;
   fromNumberData?: NumberData;
@@ -22,14 +19,29 @@ export interface InitACallProps {
 }
 
 export const MakeInboundCall: StepFunction<InitACallProps> = async (
-  { phoneNumber = '+18882556247', fromNumberData, startTime, ...props },
-  { rcMock },
+  {
+    phoneNumber = '+18882556247',
+    fromNumberData,
+    startTime,
+    isWebRTC = true,
+    ...props
+  },
+  { rcMock, phone },
 ) => {
+  // No inbound call when webphone register failed
+  if (isWebRTC) {
+    const isWebphoneRegisterFailed = !!phone.webphone.errorCode;
+    if (isWebphoneRegisterFailed) {
+      return;
+    }
+  }
+
   await rcMock.makeCall({
     phoneNumber,
     fromNumberData,
     direction: 'Inbound',
     startTime,
+    isWebRTC,
     ...props,
   });
 };

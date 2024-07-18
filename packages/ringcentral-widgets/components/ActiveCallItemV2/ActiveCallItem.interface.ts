@@ -6,8 +6,8 @@ import type {
 import type { ConfirmModalOptions } from '../../modules/ModalUI/ModalUI.interface';
 
 export interface ModalContentProps {
-  currentLocale: string;
   contactName: string;
+  confirmContext?: string;
 }
 
 export interface WebphoneButtonsProps {
@@ -29,7 +29,7 @@ export interface WebphoneButtonsProps {
   showMergeCall?: boolean;
   showHold?: boolean;
   disableMerge?: boolean;
-  onMergeCall?: (webphoneSessionId: string) => any;
+  onMergeCall?: (webphoneSessionId: string, telephonySessionId: string) => any;
   webphoneAnswer: (
     webphoneSessionId: string,
     telephonySessionId: string,
@@ -70,7 +70,7 @@ export interface ActiveCallControlButtonsProps {
   isWide?: boolean;
 }
 
-interface Call {
+export interface Call {
   direction: 'Inbound' | 'Outbound';
   telephonyStatus?: string;
   startTime: number;
@@ -135,7 +135,7 @@ export interface ActiveCallItemProps {
   showMergeCall?: boolean;
   showHold?: boolean;
   disableMerge?: boolean;
-  onMergeCall?: (webphoneSessionId: string) => any;
+  onMergeCall?: (webphoneSessionId: string, telephonySessionId: string) => any;
   showCallDetail?: boolean;
   updateSessionMatchedContact?: (...args: any[]) => any;
   webphoneAnswer: (
@@ -146,6 +146,7 @@ export interface ActiveCallItemProps {
   ringoutHangup: (telephonySessionId: string) => any;
   ringoutTransfer: (telephonySessionId: string) => any;
   showRingoutCallControl?: boolean;
+  showCallerIdName?: boolean;
   ringoutReject: (telephonySessionId: string) => any;
   showMultipleMatch?: boolean;
   showSwitchCall?: boolean;
@@ -165,6 +166,7 @@ export interface ActiveCallItemProps {
   isWide?: boolean;
   formatPhone?: (phoneNumber: string) => string;
   warmTransferRole?: string;
+  onSwitchCall?: (call: Call) => void;
 }
 
 export interface ActiveCallItemState {

@@ -22,7 +22,7 @@ export default {
   rcMeetingSettings: "Video 모임 설정",
   audioOptions: "오디오 옵션",
   recurringMeeting: "되풀이 모임",
-  recurringNote: "참고: \"되풀이\"를 선택하는 경우 이를 사용하도록 설정하세요.",
+  recurringNote: "참고: '되풀이'를 선택하는 경우 이를 사용하도록 설정하세요.",
   joinBeforeHost: "참가자가 호스트보다 먼저 참가하도록 허용",
   turnOffCamera: "참가자 카메라 끄기",
   turnOffHostCamera: "모임에 참가할 때 호스트용 카메라 끄기",
@@ -38,8 +38,7 @@ export default {
   pmiSettingChangeAlert: "설정을 변경하고 이 모임을 예약하면 개인 모임 ID가 있는 모든 모임이 동일한 최신 설정을 사용합니다.",
   lockedTooltip: "이 설정은 회사 관리자가 관리합니다.",
   when: "시점",
-  recurringDescribe: "참석자에게 보낸 일정 초대장에서 되풀이 또는 반복 일정을 확인하세요.",
-  ieSupportAlert: "2022년 2월 16일 이후 {appName} 앱은 Internet Explorer 11과 호환되지 않습니다. Microsoft Edge로 전환하거나 Outlook 2016 이상으로 업데이트하는 것이 좋습니다."
+  recurringDescribe: "참석자에게 보낸 일정 초대장에서 되풀이 또는 반복 일정을 확인하세요."
 };
 
 // @key: @#@"date"@#@ @source: @#@"Date"@#@
@@ -81,4 +80,3 @@ export default {
 // @key: @#@"lockedTooltip"@#@ @source: @#@"This setting is managed by your company admin"@#@
 // @key: @#@"when"@#@ @source: @#@"When"@#@
 // @key: @#@"recurringDescribe"@#@ @source: @#@"Please remember to check recurrence or repeat in your calendar invitation to your attendees."@#@
-// @key: @#@"ieSupportAlert"@#@ @source: @#@"Please note that {appName} won't work with Internet Explorer 11 after Feb 16, 2022. We recommend switching to Microsoft Edge or updating to Outlook 2016 or above."@#@

@@ -21,7 +21,6 @@
 	| RC-UK |7 |7 |2334567 |Not Match extNot MatchPSTN |20 |2234567 | Incorrect extension |2234567 |
 
  */
-
 import { Category } from '@ringcentral-integration/commons/interfaces/NumberParserResponse.interface';
 import {
   And,
@@ -50,7 +49,7 @@ import {
   MockNumberParserV2,
   MockPermission,
 } from '../../../steps/Mock';
-import { NavigateTo } from '../../../steps/Router/action';
+import { NavigateTo } from '../../../steps/Router';
 import { SetAreaCode } from '../../../steps/Settings';
 
 // country code should in RegionSettings.availableCountries,

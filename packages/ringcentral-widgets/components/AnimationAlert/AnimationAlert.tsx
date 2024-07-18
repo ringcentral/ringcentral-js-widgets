@@ -1,13 +1,11 @@
-import 'animate.css/animate.min.css';
-
-import React, { Component } from 'react';
-
-import { includes } from 'ramda';
-
 import { sleep } from '@ringcentral-integration/commons/utils';
+import 'animate.css/animate.min.css';
+import { includes } from 'ramda';
+import React, { Component } from 'react';
 
 import type { AlertDisplayProps } from '../AlertDisplay';
 import AlertDisplay from '../AlertDisplay';
+
 import { ANIMATION_DURATION } from './AnimationAlertUtils';
 import { AnimationMessage } from './AnimationMessage';
 
@@ -73,10 +71,9 @@ class AnimationAlert extends Component<
 
       const allMessages = {};
 
-      messages.concat(nextProps.messages).map((message) => {
+      messages.concat(nextProps.messages).forEach((message) => {
         // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
         allMessages[message.id] = message;
-        return message;
       });
 
       const nextMessages = allMessagesIDs.map((id) => {

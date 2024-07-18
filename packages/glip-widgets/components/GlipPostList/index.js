@@ -1,7 +1,9 @@
-import React, { PureComponent } from 'react';
+import clsx from 'clsx';
 import PropTypes from 'prop-types';
-import classnames from 'classnames';
+import React, { PureComponent } from 'react';
+
 import GlipPostItem from '../GlipPostItem';
+
 import styles from './styles.scss';
 
 export default class GlipPostList extends PureComponent {
@@ -102,7 +104,7 @@ export default class GlipPostList extends PureComponent {
     let lastDate;
     return (
       <div
-        className={classnames(styles.root, className)}
+        className={clsx(styles.root, className)}
         ref={(list) => {
           this._listRef = list;
         }}

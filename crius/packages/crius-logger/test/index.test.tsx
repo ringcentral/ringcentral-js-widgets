@@ -9,6 +9,7 @@ import {
   Then,
   plugins,
 } from 'crius-test';
+
 import logger from '../';
 
 @plugins([logger({ path: 'packages/crius-logger' })])
@@ -175,10 +176,10 @@ class Test extends Step<{}, { __logger: object[] }> {
     ]);
   }
 
-  @(examples`
+  @examples`
     | accountTag     | contactType   | smsMessage   |
     | 'us'           | 'personal'    | 'aaa'        |
-  `)
+  `
   run() {
     return (
       <Scenario desc="user enter entrypoint" action={EntryPoint}>

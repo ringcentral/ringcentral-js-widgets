@@ -1,8 +1,3 @@
-import type { FunctionComponent } from 'react';
-import React, { useState } from 'react';
-
-import classnames from 'classnames';
-
 import type { DNDStatusValueType } from '@ringcentral-integration/commons/modules/Presence';
 import { dndStatus } from '@ringcentral-integration/commons/modules/Presence';
 import {
@@ -15,12 +10,16 @@ import {
   spacing,
   styled,
 } from '@ringcentral/juno';
+import clsx from 'clsx';
+import type { FunctionComponent } from 'react';
+import React, { useState } from 'react';
 
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import { getPresenceStatusName } from '../../lib/getPresenceStatusName';
 import IconLine from '../IconLine';
 import { usePresenceItems } from '../PresenceDropdown/usePresenceItems';
 import Switch from '../Switch';
+
 import i18n from './i18n';
 import styles from './styles.scss';
 
@@ -79,7 +78,7 @@ export const PresenceSettingSection: FunctionComponent<
     toggleAcceptCallQueueCalls();
   };
 
-  const sectionClass = classnames(
+  const sectionClass = clsx(
     styles.section,
     showSelects ? styles.showDropdown : null,
   );

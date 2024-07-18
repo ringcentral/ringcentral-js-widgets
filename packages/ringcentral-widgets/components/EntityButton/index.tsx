@@ -1,10 +1,10 @@
+import clsx from 'clsx';
 import React from 'react';
-
-import classnames from 'classnames';
 
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
 import { Button } from '../Button';
 import Spinner from '../Spinner';
+
 import styles from './styles.scss';
 
 type EntityButtonProps = {
@@ -17,7 +17,7 @@ type EntityButtonProps = {
   viewEntityTitle?: string;
   createEntityTitle?: string;
 };
-const EntityButton: React.SFC<EntityButtonProps> = ({
+const EntityButton: React.FC<EntityButtonProps> = ({
   className,
   onViewEntity,
   onCreateEntity,
@@ -38,7 +38,7 @@ const EntityButton: React.SFC<EntityButtonProps> = ({
   const title = hasEntity ? viewEntityTitle : createEntityTitle;
   return (
     <Button
-      className={classnames(styles.entity, className)}
+      className={clsx(styles.entity, className)}
       onClick={onClick}
       disabled={disableLinks}
       dataSign={title}

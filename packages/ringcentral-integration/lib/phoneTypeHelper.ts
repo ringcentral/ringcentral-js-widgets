@@ -1,6 +1,6 @@
-import { addIndex, filter, reduce, sort } from 'ramda';
 import type PhoneNumberResource from '@rc-ex/core/lib/definitions/PhoneNumberResource';
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
+import { addIndex, filter, reduce, sort } from 'ramda';
 
 import { phoneTypes } from '../enums/phoneTypes';
 import type { PhoneNumberModel } from '../interfaces/PhoneNumber.model';

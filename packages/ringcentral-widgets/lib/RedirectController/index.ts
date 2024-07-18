@@ -1,5 +1,3 @@
-import url from 'url';
-
 type RedirectControllerParams = {
   prefix?: string;
   appOrigin?: string;
@@ -35,10 +33,12 @@ export default class RedirectController {
 
       // fall back to use localStorage as a vessel to avoid opener is null bug
 
-      const {
-        query: { state },
-      } = url.parse(callbackUri, true);
-      // @ts-expect-error TS(2532): Object is possibly 'undefined'.
+      const searchParams = new URLSearchParams(callbackUri);
+      const state = searchParams.get('state');
+
+      if (!state) {
+        return;
+      }
       const uuid = state.split('-').slice(1).join('-');
       const key = `${prefix}-${uuid}-callbackUri`;
       localStorage.removeItem(key);

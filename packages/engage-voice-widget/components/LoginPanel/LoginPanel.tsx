@@ -1,10 +1,8 @@
-import type { FunctionComponent } from 'react';
-import React, { useEffect } from 'react';
-
-import classNames from 'classnames';
-
 import type { RcButtonSize } from '@ringcentral/juno';
 import { RcButton } from '@ringcentral/juno';
+import clsx from 'clsx';
+import type { FunctionComponent } from 'react';
+import React, { useEffect } from 'react';
 
 import i18n from './i18n';
 import styles from './styles.scss';
@@ -70,11 +68,11 @@ export const LoginPanel: FunctionComponent<LoginPanelProps> = ({
   ) : null;
 
   return (
-    <div className={classNames(styles.root, className)}>
+    <div className={clsx(styles.root, className)}>
       <RcButton
         variant="contained"
         data-sign="loginButton"
-        className={classNames(styles.loginButton, customStyles)}
+        className={clsx(styles.loginButton, customStyles)}
         onClick={onLoginButtonClick}
         disabled={disabled}
         size={size}

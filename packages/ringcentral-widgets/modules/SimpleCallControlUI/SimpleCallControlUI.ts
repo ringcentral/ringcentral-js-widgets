@@ -7,6 +7,7 @@ import { RcUIModuleV2 } from '@ringcentral-integration/core';
 import type { SimpleCallControlPanelProps } from '../../components/SimpleCallControlPanel';
 import i18n from '../../components/SimpleCallControlPanel/i18n';
 import { pickFallBackInfo } from '../../components/SimpleCallControlPanel/utils';
+
 import type {
   Deps,
   SimpleCallControlContainerProps,

@@ -1,5 +1,3 @@
-import { EventEmitter } from 'events';
-
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import { sleep, waitUntilTo } from '@ringcentral-integration/commons/utils';
 import {
@@ -10,6 +8,7 @@ import {
 } from '@ringcentral-integration/core';
 import { format } from '@ringcentral-integration/utils';
 import type { CustomRenderer } from '@ringcentral-integration/widgets/modules/ModalUI/ModalUI.interface';
+import { EventEmitter } from 'events';
 
 import {
   dialoutStatuses,
@@ -18,14 +17,15 @@ import {
 } from '../../enums';
 import type { EvSipRingingData } from '../../lib/EvClient';
 import { EvCallbackTypes } from '../../lib/EvClient/enums';
-import { audios } from './audios';
+
 import type {
   Deps,
   IntegratedSoftphone,
   ShowRingingModalProps,
 } from './EvIntegratedSoftphone.interface';
-import i18n from './i18n';
 import { getModalText } from './IncomingModalText';
+import { audios } from './audios';
+import i18n from './i18n';
 import { runInActivityWebRTCTab } from './runInActivityWebRTCTab.decorator';
 
 const SECOND = 1000;

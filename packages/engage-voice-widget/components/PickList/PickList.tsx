@@ -1,8 +1,7 @@
-import type { FunctionComponent, ReactNode } from 'react';
-import React from 'react';
-
 import type { RcSelectProps } from '@ringcentral/juno';
 import { RcMenuItem, RcSelect } from '@ringcentral/juno';
+import type { FunctionComponent, ReactNode } from 'react';
+import React from 'react';
 
 import styles from './styles.scss';
 

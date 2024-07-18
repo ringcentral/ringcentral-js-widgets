@@ -5,10 +5,7 @@ import type { Locale } from '../Locale';
 import type { Storage } from '../Storage';
 import type { Webphone } from '../Webphone';
 
-export interface UserGuideOptions {
-  // TODO: fix type with `@types/webpack-env` - `RequireContext`
-  context: any;
-}
+export interface UserGuideOptions {}
 
 export interface Deps {
   auth: Auth;

@@ -1,12 +1,11 @@
+import { format } from '@ringcentral-integration/utils';
+import { RcText } from '@ringcentral/juno';
 import type { FunctionComponent } from 'react';
 import React, { memo } from 'react';
 
-import { format } from '@ringcentral-integration/utils';
-import { RcText } from '@ringcentral/juno';
-
 import type { TabsEnumType } from './ContactSearchPanelEnum';
 import { HintsType, TabsEnum } from './ContactSearchPanelEnum';
-import i18n, { I18nKey } from './i18n';
+import i18n, { type I18nKey } from './i18n';
 import {
   HelpTextSectionWrapper,
   HintsWrapper,

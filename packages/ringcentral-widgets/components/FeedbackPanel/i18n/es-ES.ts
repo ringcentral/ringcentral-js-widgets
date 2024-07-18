@@ -2,7 +2,7 @@ export default {
   feedbackHeader: "Enviar comentarios",
   back: "Atrás",
   revert: "Volver",
-  instruction: "Sus comentarios tienen mucho valor para nosotros. Si tiene problemas al utilizar la aplicación, quiere solicitar una función o informar de un problema, estaremos encantados de ayudarle.",
+  instruction: "Sus comentarios tienen mucho valor para nosotros. Si tiene problemas al utilizar la app, quiere solicitar una función o informar de un problema, estaremos encantados de ayudarle.",
   fillForm: "Rellene el siguiente formulario y haga clic ",
   useMailBox: " o utilice directamente su buzón de correo y envíe su solicitud a ",
   email: "Su dirección de correo electrónico",

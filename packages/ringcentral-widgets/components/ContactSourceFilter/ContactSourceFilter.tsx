@@ -1,12 +1,11 @@
-import React, { Component } from 'react';
-
-import classnames from 'classnames';
-
 import { RcListItem, RcMenuList, spacing, styled } from '@ringcentral/juno';
+import clsx from 'clsx';
+import React, { Component } from 'react';
 
 import ContactFilterIcon from '../../assets/images/ContactFilter.svg';
 import ContactFilterSolidIcon from '../../assets/images/ContactFilterSolid.svg';
-import i18n, { I18nKey } from './i18n';
+
+import i18n, { type I18nKey } from './i18n';
 import styles from './styles.scss';
 
 const StyledListItem = styled(RcListItem)`
@@ -104,7 +103,7 @@ export class ContactSourceFilter extends Component<
     const isAllSource = selectedSourceName === contactSourceNames[0];
     return (
       <div
-        className={classnames(styles.contactSourceFilter, className)}
+        className={clsx(styles.contactSourceFilter, className)}
         data-sign="contactSourceFilterButton"
         onClick={this.togglePanel}
       >
@@ -116,7 +115,7 @@ export class ContactSourceFilter extends Component<
         >
           {isAllSource ? (
             <ContactFilterIcon
-              className={classnames(styles.filterIconNode, styles.iconNoneFill)}
+              className={clsx(styles.filterIconNode, styles.iconNoneFill)}
             />
           ) : (
             <ContactFilterSolidIcon className={styles.filterIconNode} />

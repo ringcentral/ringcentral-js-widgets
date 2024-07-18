@@ -1,13 +1,13 @@
-import * as uuid from 'uuid';
-
 import background from '@ringcentral-integration/commons/lib/background';
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import { proxify } from '@ringcentral-integration/commons/lib/proxy/proxify';
 import { watch } from '@ringcentral-integration/core';
-
 import { isElectron } from '@ringcentral-integration/utils';
+import * as uuid from 'uuid';
+
 import { OAuthBase } from '../../lib/OAuthBase';
 import { popWindow } from '../../lib/popWindow';
+
 import type { Deps } from './OAuth.interface';
 
 @Module({
@@ -173,7 +173,7 @@ export class OAuth<T extends Deps = Deps> extends OAuthBase<T> {
     if (this._deps.client.service.platform().discovery()) {
       await this._deps.client.service.platform().loginUrlWithDiscovery();
     }
-    this._loginWindow = popWindow(this.oAuthUri, 'rc-oauth', 600, 600);
+    this._loginWindow = popWindow(this.oAuthUri, 'rc-oauth', 700, 700);
 
     if (this.isRedirectUriSameOrigin) {
       this._setupRedirectCheckTimeout();

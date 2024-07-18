@@ -1,11 +1,9 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import classnames from 'classnames';
-
 import DownloadIcon from '@ringcentral-integration/widgets/assets/images/Download.svg';
+import clsx from 'clsx';
+import PropTypes from 'prop-types';
+import React from 'react';
 
 import isPicture from '../../lib/isPicture';
-
 import Markdown from '../GlipMarkdown';
 
 import styles from './styles.scss';
@@ -50,9 +48,7 @@ Attachments.propTypes = {
 function PostContent({ post, className, atRender }) {
   if (!post.text && (!post.attachments || post.attachments.length === 0)) {
     return (
-      <div className={classnames(styles.root, className)}>
-        Unsupported message
-      </div>
+      <div className={clsx(styles.root, className)}>Unsupported message</div>
     );
   }
   let text = post.text;
@@ -66,7 +62,7 @@ function PostContent({ post, className, atRender }) {
     <Attachments attachments={post.attachments} />
   ) : null;
   return (
-    <div className={classnames(styles.root, className)}>
+    <div className={clsx(styles.root, className)}>
       <div className={styles.content}>
         {textContent}
         {attachments}

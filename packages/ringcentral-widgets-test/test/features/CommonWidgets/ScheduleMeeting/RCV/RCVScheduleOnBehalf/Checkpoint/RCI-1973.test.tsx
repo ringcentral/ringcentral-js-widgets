@@ -8,7 +8,6 @@
  * Scheduler:Login to Outlook: Calendar -> New Event > RingCentral Scheduler>Select other values from the 'Schedule on behalf of' dropdown
  * Outlook appointment: Login to Outlook > CalendarNew Meeting > RingCentral for Outlook>Select other values from the 'Schedule on behalf of' dropdown
  */
-
 import {
   autorun,
   it,
@@ -53,7 +52,7 @@ export class RCI1973 extends Step {
           desc="'Sorry, something went wrong on our end. Try again' is shown on the top of the screen
 										[L10N]"
           action={() => {
-            expect(this.context.phone.alert.danger).toBeCalledWith({
+            expect(this.context.phone.alert.danger).toHaveBeenCalledWith({
               message: 'meetingStatus-internalError',
             });
           }}

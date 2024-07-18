@@ -1,5 +1,3 @@
-import type { SleepPromise } from '@ringcentral-integration/utils';
-import * as sleepModule from '@ringcentral-integration/utils/src/utils/sleep';
 import {
   autorun,
   examples,
@@ -9,6 +7,8 @@ import {
   title,
   When,
 } from '@ringcentral-integration/test-utils';
+import type { SleepPromise } from '@ringcentral-integration/utils';
+import * as sleepModule from '@ringcentral-integration/utils/src/utils/sleep';
 
 import type { ConcurrentExecuteOptions } from '../../lib/concurrentExecute';
 import concurrentExecute from '../../lib/concurrentExecute';
@@ -79,13 +79,13 @@ export class ConcurrentExecute extends Step {
             context: any,
           ) => {
             expect(context.result).toEqual(values);
-            expect(promiseSpyOn).toBeCalledTimes(calledTimes);
+            expect(promiseSpyOn).toHaveBeenCalledTimes(calledTimes);
 
             if (delay === undefined) {
-              expect(sleepSpyOn).toBeCalledTimes(0);
+              expect(sleepSpyOn).toHaveBeenCalledTimes(0);
             } else {
               // -1 for first thunk not have delay
-              expect(sleepSpyOn).toBeCalledTimes(calledTimes - 1);
+              expect(sleepSpyOn).toHaveBeenCalledTimes(calledTimes - 1);
               expect(delayCount).toBe((calledTimes - 1) * delay);
             }
           }}

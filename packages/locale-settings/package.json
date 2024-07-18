@@ -7,5 +7,10 @@
   "main": "index.js",
   "ci": {
     "ringcentral-widgets-test": "**"
+  },
+  "nx": {
+    "tags": [
+      "scope:ci-group-1"
+    ]
   }
 }

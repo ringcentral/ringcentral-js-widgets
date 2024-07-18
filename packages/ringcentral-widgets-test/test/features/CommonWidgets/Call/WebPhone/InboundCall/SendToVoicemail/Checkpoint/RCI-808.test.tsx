@@ -7,7 +7,6 @@
  * 1. Make an inbound call
  * 2. Make a call and keep in call control page, then make an inbound call
  */
-
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   p1,
@@ -29,9 +28,9 @@ import {
   CheckIncomingCallPageExist,
   MakeCall,
 } from '../../../../../../../steps/Call';
-import { CheckRouterNavigation } from '../../../../../../../steps/Navigate';
 import { CommonLoginEntry } from '../../../../../../../steps/CommonLogin';
 import { TriggerActiveCallChanged } from '../../../../../../../steps/Mock';
+import { CheckRouterNavigation } from '../../../../../../../steps/Navigate';
 
 @autorun(test)
 @it
@@ -96,8 +95,8 @@ export class RCI808 extends Step {
                 User goes back to last page he/she is viewing."
           action={async ({ actionType }: any) => [
             async (_: any, { phone, payload }: any) => {
-              expect(phone.webphone.toVoiceMail).toBeCalled();
-              expect(phone.webphone.toVoiceMail).toBeCalledWith(
+              expect(phone.webphone.toVoiceMail).toHaveBeenCalled();
+              expect(phone.webphone.toVoiceMail).toHaveBeenCalledWith(
                 payload.toVoiceMailCallId,
               );
             },

@@ -1,5 +1,5 @@
-import type { PeerInfo } from './PeerInfo';
 import type { MobilePickupData } from './MobilePickupData';
+import type { PeerInfo } from './PeerInfo';
 
 export interface CallSessionStatusInfo {
   /**

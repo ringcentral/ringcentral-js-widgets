@@ -1,8 +1,6 @@
-import React, { Component } from 'react';
-
-import classnames from 'classnames';
-
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
+import clsx from 'clsx';
+import React, { Component } from 'react';
 
 import styles from './styles.scss';
 
@@ -72,7 +70,6 @@ const getRelativeOffset = (el: any) => {
   }
   return res;
 };
-const TRANSITION_END_EVT_NAME = transitionEnd();
 type TooltipProps = {
   triggerElm?: object;
   fixed?: boolean;
@@ -95,10 +92,13 @@ type TooltipState = ((preState: any) => any) &
 class Tooltip extends Component<TooltipProps, TooltipState> {
   dom: any;
   onResize: any;
+  TRANSITION_END_EVT_NAME: any;
   constructor(props: any) {
     super(props);
     this.onResize = this.checkPosition.bind(this);
     this.onTransitionEnd = this.onTransitionEnd.bind(this);
+    this.TRANSITION_END_EVT_NAME = transitionEnd();
+
     // @ts-ignore
     this.state = {
       // @ts-ignore
@@ -218,9 +218,9 @@ class Tooltip extends Component<TooltipProps, TooltipState> {
     this.checkPosition();
     this.setVisibility();
     window.addEventListener('resize', this.onResize);
-    if (TRANSITION_END_EVT_NAME) {
+    if (this.TRANSITION_END_EVT_NAME) {
       this.dom.current.addEventListener(
-        TRANSITION_END_EVT_NAME,
+        this.TRANSITION_END_EVT_NAME,
         this.onTransitionEnd,
       );
     }
@@ -261,9 +261,9 @@ class Tooltip extends Component<TooltipProps, TooltipState> {
   // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
   componentWillUnmount() {
     window.removeEventListener('resize', this.onResize);
-    if (TRANSITION_END_EVT_NAME) {
+    if (this.TRANSITION_END_EVT_NAME) {
       this.dom.current.removeEventListener(
-        TRANSITION_END_EVT_NAME,
+        this.TRANSITION_END_EVT_NAME,
         this.onTransitionEnd,
       );
     }
@@ -275,7 +275,7 @@ class Tooltip extends Component<TooltipProps, TooltipState> {
     return (
       <div
         ref={this.dom}
-        className={classnames(
+        className={clsx(
           styles.dropdownContainer,
           open ? styles.opened : null,
           // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.

@@ -2,12 +2,19 @@
 const path = require('path');
 const fs = require('fs-extra');
 const execa = require('execa');
+const { writeTscFailToReport } = require('./writeTscFailToReport');
 
-const __CI__ = process.argv.includes('--ci');
+const args = process.argv.slice(2);
+const __CI__ = args.includes('--ci');
+const onlyFailures = args.includes('--only-failures');
 const currentDir = process.cwd();
-const debugMode = process.env.DEBUG;
 const rootDir = path.resolve(__dirname, '../../../');
-const { testPaths = ['.'], testMaxWorkers } = fs.readJsonSync('package.json');
+const {
+  testPaths = ['.'],
+  testMaxWorkers,
+  scripts,
+  name,
+} = fs.readJsonSync('package.json');
 const projectPaths = testPaths
   .map((testPath) => path.relative(rootDir, path.resolve(currentDir, testPath)))
   .join(' ');
@@ -20,12 +27,13 @@ const outputResult = __CI__
   ? `--json --outputFile=${currentDir}/jest-result.json`
   : '';
 
-const argv = process.argv
-  .slice(2)
-  .concat(['--projects', projectPaths, outputResult])
+const argv = (
+  args.includes('--projects') ? args : args.concat(['--projects', projectPaths])
+)
+  .concat([outputResult])
   .join(' ');
 
-if (debugMode === 'preview') {
+if (process.env.DEBUG?.split(',').includes('preview')) {
   execa
     .command(`yarn jest-preview`, {
       stdio: 'inherit',
@@ -37,14 +45,42 @@ if (debugMode === 'preview') {
 const workerArgv = __CI__
   ? testMaxWorkers
     ? ` --maxWorkers=${testMaxWorkers}`
-    : ' --maxWorkers=1'
+    : ' --maxWorkers=4'
   : '';
 const command = `yarn jest ${workerArgv} ${argv}`;
 
 // in ci use sync run for get error
 if (__CI__) {
+  // in CI will also check tsc if there have tsc-check script
+  // also when --only-failures, not run tsc-check anymore
+  if (!onlyFailures && scripts?.['tsc-check']) {
+    try {
+      // eslint-disable-next-line no-console
+      console.log('🧪 tsc-check starting...');
+      execa.commandSync('yarn tsc-check', {
+        cwd: currentDir,
+      });
+    } catch (error) {
+      // write error to html-report jest-report.html for we can view error at CI
+
+      writeTscFailToReport({
+        name,
+        currentDir,
+        error,
+      });
+
+      throw error;
+    }
+  }
+
   execa.commandSync(command, {
     stdio: 'inherit',
+    env: {
+      ...process.env,
+      // when be ci, also use debug mode to should debug log
+      DEBUG: 'log',
+      DEBUG_HIDE_DATE: 'true',
+    },
   });
 } else {
   execa

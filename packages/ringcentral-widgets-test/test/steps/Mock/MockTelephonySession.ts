@@ -9,7 +9,8 @@ interface MockTelephonySessionProps {
   repeat?: number;
 }
 
-export const MockTelephonySession: StepFunction<MockTelephonySessionProps> =
-  async ({ handler, repeat }, { rcMock }) => {
-    rcMock.getTelephonySession(handler, repeat);
-  };
+export const MockTelephonySession: StepFunction<
+  MockTelephonySessionProps
+> = async ({ handler, repeat }, { rcMock }) => {
+  rcMock.getTelephonySession(handler, repeat);
+};

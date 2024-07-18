@@ -1,9 +1,7 @@
+import { palette2, styled, typography } from '@ringcentral/juno';
+import dayjs from 'dayjs';
 import type { FunctionComponent } from 'react';
 import React, { useCallback, useEffect, useMemo, useRef } from 'react';
-
-import dayjs from 'dayjs';
-
-import { palette2, styled, typography } from '@ringcentral/juno';
 
 import { CallHistoryItem } from './CallHistoryItem';
 import type {
@@ -11,9 +9,9 @@ import type {
   CallLogMenu,
   CallsTree,
 } from './CallHistoryPanel.interface';
-import i18n, { I18nKey } from './i18n';
 import { StickyVirtualizedList } from './StickyVirtualizedList';
 import type { RowRendererProps } from './StickyVirtualizedList/StickyVirtualizedList.interface';
+import i18n, { type I18nKey } from './i18n';
 import styles from './styles.scss';
 
 export type CallHistoryPanelProps = {

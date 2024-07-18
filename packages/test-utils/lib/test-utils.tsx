@@ -1,11 +1,12 @@
 /* eslint-disable import/export */
+
 /**
  * https://testing-library.com/docs/react-testing-library/setup
  */
-import React from 'react';
 import { RcThemeProvider } from '@ringcentral/juno';
 import { render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import React from 'react';
 
 const AllTheProviders = ({ children }: any) => {
   return <RcThemeProvider>{children}</RcThemeProvider>;

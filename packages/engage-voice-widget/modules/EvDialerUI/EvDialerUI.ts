@@ -13,6 +13,7 @@ import type {
   EvDialerUIFunctions,
   EvDialerUIProps,
 } from '../../interfaces/EvDialerUI.interface';
+
 import type { Deps, DialerUI } from './EvDialerUI.interface';
 
 @Module({

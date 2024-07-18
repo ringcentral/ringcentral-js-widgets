@@ -1,10 +1,11 @@
 import type ForwardingNumberInfo from '@rc-ex/core/lib/definitions/ForwardingNumberInfo';
 import type { NormalizedSession } from '@ringcentral-integration/commons/interfaces/Webphone.interface';
+import type { AccountInfo } from '@ringcentral-integration/commons/modules/AccountInfo';
 import type { ForwardingNumber } from '@ringcentral-integration/commons/modules/ForwardingNumber';
 import type { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import type { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
 import type { Webphone } from '@ringcentral-integration/commons/modules/Webphone';
-import type { AccountInfo } from '@ringcentral-integration/commons/modules/AccountInfo';
+
 import type { RouterInteraction } from '../RouterInteraction';
 
 export interface FlipUIOptions {}

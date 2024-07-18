@@ -1,21 +1,21 @@
+import clsx from 'clsx';
 import React from 'react';
 
-import classnames from 'classnames';
-
 import dynamicsFont from '../../assets/DynamicsFont/DynamicsFont.scss';
+
 import styles from './styles.scss';
 
 type BackButtonProps = {
   label?: string;
   showIcon?: boolean;
 };
-const BackButton: React.SFC<BackButtonProps> = ({ label, showIcon }) => {
+const BackButton: React.FC<BackButtonProps> = ({ label, showIcon }) => {
   return (
     <span className={styles.backButton}>
       {showIcon ? (
         <i
           data-sign="backButton"
-          className={classnames(dynamicsFont.arrow, styles.backIcon)}
+          className={clsx(dynamicsFont.arrow, styles.backIcon)}
         />
       ) : null}
       {label ? (

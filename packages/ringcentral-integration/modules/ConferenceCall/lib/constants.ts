@@ -22,4 +22,5 @@ export const partyStatusCode = ObjectMap.fromKeys(
     'VoiceMailScreening',
   ].map((i) => i.toLowerCase()),
 );
+
 export const mergeEvents = ObjectMap.fromKeys(['mergeSucceeded']);

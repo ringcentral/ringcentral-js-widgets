@@ -1,12 +1,12 @@
-import { EventEmitter } from 'events';
-
 import { Module } from '@ringcentral-integration/commons/lib/di';
 import { RcModuleV2 } from '@ringcentral-integration/core';
+import { EventEmitter } from 'events';
 
 import type {
   EvClientCallBackValueType,
   EvClientCallMapping,
 } from '../../lib/EvClient/interfaces';
+
 import type { Deps, Subscription } from './EvSubscription.interface';
 
 @Module({

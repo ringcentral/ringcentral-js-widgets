@@ -1,5 +1,5 @@
-import type { GetPresenceExtensionInfo } from './GetPresenceExtensionInfo';
 import type { ActiveCallInfo } from './ActiveCallInfo';
+import type { GetPresenceExtensionInfo } from './GetPresenceExtensionInfo';
 
 export interface GetPresenceInfo {
   /**

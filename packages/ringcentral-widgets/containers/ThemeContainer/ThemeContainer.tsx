@@ -1,9 +1,9 @@
+import { createGlobalStyle, RcThemeProvider } from '@ringcentral/juno';
 import type { FunctionComponent } from 'react';
 import React from 'react';
 
-import { createGlobalStyle, RcThemeProvider } from '@ringcentral/juno';
-
 import { connectModule } from '../../lib/phoneContext';
+
 import type { ThemeContainerProps } from './ThemeContainer.interface';
 import { getThemeVariableString } from './utils';
 

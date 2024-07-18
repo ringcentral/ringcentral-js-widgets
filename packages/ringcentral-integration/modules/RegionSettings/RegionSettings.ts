@@ -1,8 +1,4 @@
 import type CountryInfoShortModel from '@rc-ex/core/lib/definitions/CountryInfoShortModel';
-import type { CountryCode } from 'libphonenumber-js';
-import { getCountryCallingCode, parsePhoneNumber } from 'libphonenumber-js';
-import { find, includes } from 'ramda';
-
 import {
   action,
   computed,
@@ -11,10 +7,14 @@ import {
   storage,
   watch,
 } from '@ringcentral-integration/core';
+import type { CountryCode } from 'libphonenumber-js';
+import { getCountryCallingCode, parsePhoneNumber } from 'libphonenumber-js';
+import { find, includes } from 'ramda';
 
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
 import validateAreaCode from '../../lib/validateAreaCode';
+
 import type { Deps, RegionSettingsData } from './RegionSettings.interface';
 import { regionSettingsMessages } from './regionSettingsMessages';
 
@@ -28,7 +28,7 @@ import { regionSettingsMessages } from './regionSettingsMessages';
     'Storage',
     'ExtensionPhoneNumber',
     'AppFeatures',
-    { dep: 'ExtensionNumberAreaCode', optional: true },
+    'ExtensionNumberAreaCode',
     { dep: 'TabManager', optional: true },
     { dep: 'RegionSettingsOptions', optional: true },
   ],
@@ -212,7 +212,7 @@ export class RegionSettings extends RcModuleV2<Deps> {
     that.areaCode,
     that.countryCode,
     that._deps.appFeatures.isEDPEnabled,
-    that._deps.extensionNumberAreaCode?.defaultAreaCode,
+    that._deps.extensionNumberAreaCode.defaultAreaCode,
   ])
   get defaultAreaCode() {
     const isEDPEnabled = this._deps.appFeatures.isEDPEnabled;
@@ -239,7 +239,7 @@ export class RegionSettings extends RcModuleV2<Deps> {
       primaryNumberCallingCode === callingCode ||
       mainNumberCallingCode === callingCode;
     if (canUseExtensionAreaCode) {
-      return this._deps.extensionNumberAreaCode?.defaultAreaCode;
+      return this._deps.extensionNumberAreaCode.defaultAreaCode;
     }
   }
 }

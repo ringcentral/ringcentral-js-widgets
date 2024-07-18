@@ -7,7 +7,6 @@
  * 1. Answer an inbound call, and make another incoming call
  * 2. Make a outbound call, and make another incoming call
  */
-
 import {
   p1,
   it,
@@ -19,6 +18,7 @@ import {
   title,
   When,
 } from '@ringcentral-integration/test-utils';
+
 import type { StepFunction } from '../../../../../../../lib/step';
 import {
   AnswerCall,
@@ -69,7 +69,7 @@ export class RCI865 extends Step {
         <Then
           desc="User should stay on current call and the incoming call is ignored"
           action={async (_: any, { phone }: any) => {
-            expect(phone.webphone.reject).toBeCalled();
+            expect(phone.webphone.reject).toHaveBeenCalled();
           }}
         />
       </Scenario>

@@ -5,6 +5,7 @@ import type {
   EvChooseAccountUIFunctions,
   EvChooseAccountUIProps,
 } from '../../interfaces/EvChooseAccountUI.interface';
+
 import type { ChooseAccountUI, Deps } from './EvChooseAccountUI.interface';
 
 @Module({

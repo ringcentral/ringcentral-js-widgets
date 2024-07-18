@@ -1,5 +1,7 @@
 import { getByTestId, screen } from '@testing-library/react';
+
 import type { StepFunction } from '../../../../lib/step';
+
 type ButtonKey =
   | 'hold'
   | 'onHold'

@@ -11,7 +11,6 @@
  * Entry point(/s):
  * Office Add-in > New Event > Schedule with RingCentral
  */
-
 import {
   autorun,
   examples,

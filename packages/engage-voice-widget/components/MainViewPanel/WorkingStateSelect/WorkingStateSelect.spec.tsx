@@ -1,11 +1,10 @@
-import React from 'react';
-
+import { RcThemeProvider } from '@ringcentral/juno';
 import { mount } from 'enzyme';
+import React from 'react';
 import { act } from 'react-dom/test-utils';
 
-import { RcThemeProvider } from '@ringcentral/juno';
-
 import type { EvCustomAvailableAgentState } from '../../../interfaces/EvMainViewUI.interface';
+
 import { WorkingStateSelect } from './WorkingStateSelect';
 
 let wrapper;
@@ -155,7 +154,7 @@ describe('<WorkingStateSelect />', () => {
     getAgentStateList().at(currentStateIndex).simulate('click');
 
     const currentState = agentStates[currentStateIndex];
-    expect(changeWorkingState).toBeCalledWith(currentState);
+    expect(changeWorkingState).toHaveBeenCalledWith(currentState);
   });
 
   it('Time label will update itself in every minute', async () => {

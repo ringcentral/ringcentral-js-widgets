@@ -1,6 +1,5 @@
-import { filter, map, omit, pick, pipe, toPairs } from 'ramda';
-
 import { format } from '@ringcentral-integration/utils';
+import { filter, map, omit, pick, pipe, toPairs } from 'ramda';
 
 import type {
   MeetingProviderTypesProps,
@@ -17,6 +16,8 @@ import type {
   RcVSettingLocks,
   RcVSettingLocksGET,
 } from '../../interfaces/Rcv.model';
+
+import type { RcvInvitationRequestV2, TopicProps } from './RcVideo.interface';
 import {
   RCV_E2EE_API_KEYS,
   RCV_PASSWORD_REGEX,
@@ -25,7 +26,6 @@ import {
   RCV_WAITING_ROOM_MODE_REVERSE,
 } from './constants';
 import i18n from './i18n';
-import type { RcvInvitationRequestV2, TopicProps } from './RcVideo.interface';
 
 /* TODO: this meetingProviderTypes is only used for calender-addon
  * if you want to use meetingProviderTypes
@@ -194,7 +194,7 @@ function getDefaultVideoSettings({
     isOnlyCoworkersJoin: false,
     allowScreenSharing: true,
     waitingRoomMode: RCV_WAITING_ROOM_MODE.off,
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type '{ allowJoinBeforeHost: false; isMeetingSecre... Remove this comment to see the full error message
     settingLock: {
       allowJoinBeforeHost: false,
       // muteVideo: false,
@@ -254,23 +254,23 @@ function transformPreferences(
   isInstantMeeting = false,
 ): RcVPreferences {
   return {
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
     allowJoinBeforeHost: preferences.join_before_host,
     // muteVideo: preferences.join_video_off,
     // muteAudio: preferences.join_audio_mute,
     e2ee: preferences.e2ee,
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
     isMeetingSecret: isInstantMeeting
       ? preferences.password_instant
       : preferences.password_scheduled,
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
     isOnlyAuthUserJoin: preferences.guest_join,
     isOnlyCoworkersJoin: preferences.guest_join
       ? preferences.join_authenticated_from_account_only === 'only_co_workers'
       : false,
     allowScreenSharing: preferences.screen_sharing_host_only === 'all',
     waitingRoomMode: preferences.waiting_room
-      ? // @ts-expect-error
+      ? // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
         RCV_WAITING_ROOM_MODE[preferences.waiting_room_guests_only]
       : RCV_WAITING_ROOM_MODE.off,
   };
@@ -281,22 +281,22 @@ function transformSettingLocks(
   isInstantMeeting = false,
 ): RcVSettingLocks {
   return {
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
     allowJoinBeforeHost: settingLocks.join_before_host,
     // muteVideo: settingLocks.join_video_off,
     // muteAudio: settingLocks.join_audio_mute,
     e2ee: settingLocks.e2ee,
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
     isMeetingSecret: isInstantMeeting
       ? settingLocks.password_instant
       : settingLocks.password_scheduled,
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
     isOnlyAuthUserJoin: settingLocks.guest_join,
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
     isOnlyCoworkersJoin: settingLocks.join_authenticated_from_account_only,
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
     allowScreenSharing: settingLocks.screen_sharing_host_only,
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
     waitingRoomMode: settingLocks.waiting_room,
   };
 }
@@ -316,7 +316,7 @@ function reversePreferences(
     screen_sharing_host_only: preferences.allowScreenSharing ? 'all' : 'host',
     waiting_room: !!preferences.waitingRoomMode,
     waiting_room_guests_only:
-      // @ts-expect-error
+      // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
       RCV_WAITING_ROOM_MODE_REVERSE[preferences.waitingRoomMode],
     e2ee: preferences.e2ee,
   };
@@ -400,7 +400,7 @@ function patchWaitingRoomRelated(
     // for pmi setting, waitingRoom, joinAfterMe option maybe not avaliable
     if (
       !getAvaliableWaitingRoomOpions(settings.isOnlyCoworkersJoin).includes(
-        // @ts-expect-error
+        // @ts-expect-error TS(2345): Argument of type 'number | undefined' is not assig... Remove this comment to see the full error message
         settings.waitingRoomMode,
       )
     ) {
@@ -428,7 +428,7 @@ function formatMainPhoneNumber(
   }
 
   if (!dialInNumber || dialInNumber.length === 0) {
-    // @ts-expect-error
+    // @ts-expect-error TS(2322): Type 'undefined' is not assignable to type 'string... Remove this comment to see the full error message
     return undefined;
   }
 

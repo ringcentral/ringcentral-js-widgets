@@ -1,9 +1,10 @@
-import { find } from 'ramda';
 import type ExtensionCallerIdInfo from '@rc-ex/core/lib/definitions/ExtensionCallerIdInfo';
 import { computed } from '@ringcentral-integration/core';
+import { find } from 'ramda';
 
 import { Module } from '../../lib/di';
 import { DataFetcherV2Consumer, DataSource } from '../DataFetcherV2';
+
 import type { Deps } from './CallerId.interface';
 
 @Module({

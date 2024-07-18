@@ -1,12 +1,11 @@
-import React from 'react';
-
-import { mount } from 'enzyme';
-
 import { format } from '@ringcentral-integration/phone-number';
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import { RcThemeProvider } from '@ringcentral/juno';
+import { mount } from 'enzyme';
+import React from 'react';
 
 import type { EvTransferPhoneBookItem } from '../../../lib/EvClient';
+
 import type { PhoneBookPanelProps } from './PhoneBookPanel';
 import { PhoneBookPanel } from './PhoneBookPanel';
 
@@ -75,7 +74,7 @@ export const UTPhoneBookCheckBackButton: StepFunction = () => {
     .at(0)
     .find('button')
     .simulate('click');
-  expect(goBack).toBeCalled();
+  expect(goBack).toHaveBeenCalled();
 };
 
 export const UTPhoneBookContactListDisplayAndHighlight: StepFunction = () => {
@@ -99,7 +98,7 @@ export const UTPhoneBookContactCanBeClicked: StepFunction = () => {
     .find('[role="button"]')
     .at(0)
     .simulate('click');
-  expect(changeTransferPhoneBookSelected).toBeCalled();
+  expect(changeTransferPhoneBookSelected).toHaveBeenCalled();
 };
 
 export const UTPhoneBookListSearchCases = [
@@ -185,52 +184,54 @@ interface UTPhoneBookListSearchProps {
   matchedResult: string[] | string;
 }
 
-export const UTPhoneBookListSearch: StepFunction<UTPhoneBookListSearchProps> =
-  ({ phoneBookList, searchText, matchedResult }) => {
-    const searchPhoneBook = jest.fn(defaultSearchPhoneBook);
-    wrapper = setup({
-      searchPhoneBook,
-      transferPhoneBook: phoneBookList.map(({ name, number }) => ({
-        name,
-        destination: number,
-        countryId: 'USA',
-      })),
-    });
-    const eventObj = { target: { value: searchText } };
-    getSearchInput().simulate('change', eventObj);
-    const phoneContacts = getPhoneContacts();
-    if (Array.isArray(matchedResult)) {
-      expect(phoneContacts).toHaveLength(matchedResult.length);
-      const resultItems = phoneContacts.map((el) =>
-        el.find('.phoneBookDest').text(),
-      );
-      expect(resultItems).toStrictEqual(
-        matchedResult.map((i) =>
-          format({
-            phoneNumber: phoneBookList[i].number,
-            countryCode: 'US',
-          }),
-        ),
-      );
-    } else {
-      expect(phoneContacts).toHaveLength(0);
-      expect(wrapper.find('[data-sign="searchResult"]').text()).toBe(
-        `No result found for "${searchText}"`,
-      );
-    }
-  };
+export const UTPhoneBookListSearch: StepFunction<
+  UTPhoneBookListSearchProps
+> = ({ phoneBookList, searchText, matchedResult }) => {
+  const searchPhoneBook = jest.fn(defaultSearchPhoneBook);
+  wrapper = setup({
+    searchPhoneBook,
+    transferPhoneBook: phoneBookList.map(({ name, number }) => ({
+      name,
+      destination: number,
+      countryId: 'USA',
+    })),
+  });
+  const eventObj = { target: { value: searchText } };
+  getSearchInput().simulate('change', eventObj);
+  const phoneContacts = getPhoneContacts();
+  if (Array.isArray(matchedResult)) {
+    expect(phoneContacts).toHaveLength(matchedResult.length);
+    const resultItems = phoneContacts.map((el) =>
+      el.find('.phoneBookDest').text(),
+    );
+    expect(resultItems).toStrictEqual(
+      matchedResult.map((i) =>
+        format({
+          phoneNumber: phoneBookList[i].number,
+          countryCode: 'US',
+        }),
+      ),
+    );
+  } else {
+    expect(phoneContacts).toHaveLength(0);
+    expect(wrapper.find('[data-sign="searchResult"]').text()).toBe(
+      `No result found for "${searchText}"`,
+    );
+  }
+};
 
 interface UTCheckInternalPanelRenderProps {
   internalOptions: string;
 }
-export const UTCheckPhoneBookPanelRender: StepFunction<UTCheckInternalPanelRenderProps> =
-  async ({ internalOptions }) => {
-    const wrapper = setup({});
-    const dataSign = {
-      'Search bar': 'searchBar',
-      'Phone Book recipient list with numbers': 'searchResult',
-    };
-    expect(
-      wrapper.find(`[data-sign="${dataSign[internalOptions]}"]`),
-    ).not.toBeUndefined();
+export const UTCheckPhoneBookPanelRender: StepFunction<
+  UTCheckInternalPanelRenderProps
+> = async ({ internalOptions }) => {
+  const wrapper = setup({});
+  const dataSign = {
+    'Search bar': 'searchBar',
+    'Phone Book recipient list with numbers': 'searchResult',
   };
+  expect(
+    wrapper.find(`[data-sign="${dataSign[internalOptions]}"]`),
+  ).not.toBeUndefined();
+};

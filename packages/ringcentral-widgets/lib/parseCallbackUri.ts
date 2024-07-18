@@ -1,30 +1,26 @@
-import url from 'url';
-import qs from 'qs';
-
 /**
- * @function
- * @param {String} callbackUri
- * @return {Object}
+ * Parses the callback URI and extracts the query parameters and hash parameters.
+ * If the callback URI contains an 'error' parameter, it throws an error with the error message and additional parameters.
+ *
+ * @param callbackUri - The callback URI to parse.
+ * @returns An object containing the query parameters and hash parameters.
+ * @throws An error if the callback URI contains an 'error' parameter.
  */
-export default function parseCallbackUri(callbackUri: any) {
-  const { query, hash } = url.parse(callbackUri, true);
-  const hashObject = hash ? qs.parse(hash.replace(/^#/, '')) : {};
-  if (query.error || hashObject.error) {
-    // @ts-expect-error TS(2345): Argument of type 'string | ParsedQs | string[] | P... Remove this comment to see the full error message
-    const error = new Error(query.error || hashObject.error);
-    // eslint-disable-next-line guard-for-in
-    for (const key in query) {
-      if (Object.prototype.hasOwnProperty.call(query, key)) {
-        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
-        error[key] = query[key];
-      }
-      if (Object.prototype.hasOwnProperty.call(hashObject, key)) {
-        // @ts-expect-error TS(7053): Element implicitly has an 'any' type because expre... Remove this comment to see the full error message
-        error[key] = query[key];
-      }
-    }
+export default function parseCallbackUri(callbackUri: string) {
+  const urlObj = new URL(callbackUri);
+  const searchParams = new URLSearchParams(urlObj.search);
+  const hashParams = new URLSearchParams(urlObj.hash.replace(/^#/, ''));
+
+  if (searchParams.get('error')) {
+    const error = new Error(searchParams.get('error')!);
+    searchParams.forEach((value, key) => {
+      (error as any)[key] = value;
+    });
     throw error;
   }
+
+  const query = Object.fromEntries(searchParams.entries());
+  const hashObject = Object.fromEntries(hashParams.entries());
 
   return {
     ...query,

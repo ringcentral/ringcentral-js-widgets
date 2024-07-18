@@ -1,4 +1,5 @@
 import Library from './decorators/library';
+
 /**
  * Module Dependency Injection
  */

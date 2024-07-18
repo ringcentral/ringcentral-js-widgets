@@ -1,5 +1,3 @@
-import { all, filter, forEach } from 'ramda';
-
 import {
   action,
   computed,
@@ -7,9 +5,11 @@ import {
   state,
   storage,
 } from '@ringcentral-integration/core';
+import { all, filter, forEach } from 'ramda';
 
 import { Library } from '../di';
 import proxify from '../proxy/proxify';
+
 import type {
   DataMatcherOptions,
   Deps,
@@ -264,7 +264,7 @@ abstract class DataMatcher<T, D extends Deps = Deps> extends RcModuleV2<D> {
 
     let matching: MatchPromises<T> | MatchQueue;
     if (!ignoreQueue && this._matchPromises.has(name)) {
-      // @ts-ignore
+      // @ts-expect-error TS(2322): Type 'MatchPromises<T> | undefined' is not assigna... Remove this comment to see the full error message
       matching = this._matchPromises.get(name);
       promises.push(matching.promise);
       matching.queries.forEach((item) => {
@@ -274,7 +274,7 @@ abstract class DataMatcher<T, D extends Deps = Deps> extends RcModuleV2<D> {
 
     let queue: MatchQueue;
     if (!ignoreQueue && this._matchQueues.has(name)) {
-      // @ts-ignore
+      // @ts-expect-error TS(2322): Type 'MatchQueue | undefined' is not assignable to... Remove this comment to see the full error message
       queue = this._matchQueues.get(name);
       promises.push(queue.promise);
       queue.queries.forEach((item) => {
@@ -301,7 +301,7 @@ abstract class DataMatcher<T, D extends Deps = Deps> extends RcModuleV2<D> {
             queries: newQueries,
           }),
         );
-        // @ts-ignore
+        // @ts-expect-error TS(2454): Variable 'matching' is used before being assigned.
       } else if (!matching) {
         matching = {
           promise: this._fetchMatchResult({
@@ -311,13 +311,13 @@ abstract class DataMatcher<T, D extends Deps = Deps> extends RcModuleV2<D> {
           queries: newQueries,
         };
         promises.push(matching.promise);
-        // @ts-ignore
+        // @ts-expect-error TS(2454): Variable 'queue' is used before being assigned.
       } else if (!queue) {
         const promise = (async () => {
           await matching.promise;
           const promise = this._fetchMatchResult({
             name,
-            // @ts-ignore
+            // @ts-expect-error TS(2454): Variable 'queue' is used before being assigned.
             queries: queue.queries,
           });
           this._matchQueues.delete(name);
@@ -327,7 +327,6 @@ abstract class DataMatcher<T, D extends Deps = Deps> extends RcModuleV2<D> {
           queries: newQueries,
           promise,
         };
-        queue;
         this._matchQueues.set(name, queue);
         promises.push(queue.promise);
       } else {

@@ -3,7 +3,7 @@ import extensionsListBody from '@ringcentral-integration/commons/integration-tes
 const companyContactItem = extensionsListBody.records[0];
 
 type PhoneNumberProps = Partial<
-  typeof companyContactItem['phoneNumbers'] & { hidden?: boolean }
+  (typeof companyContactItem)['phoneNumbers'] & { hidden?: boolean }
 >;
 
 type CompanyContactItem = typeof companyContactItem & {

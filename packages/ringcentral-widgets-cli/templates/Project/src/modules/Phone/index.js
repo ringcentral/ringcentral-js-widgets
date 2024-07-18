@@ -65,7 +65,7 @@ import { SettingsUI } from '@ringcentral-integration/widgets/modules/SettingsUI'
       },
     },
     { provide: 'RateLimiter', useClass: RateLimiter },
-    { provide: 'TabManager', useClass: TabManager},
+    { provide: 'TabManager', useClass: TabManager },
     { provide: 'RingCentralExtensions', useClass: RingCentralExtensions },
     {
       provide: 'RingCentralExtensionsOptions',

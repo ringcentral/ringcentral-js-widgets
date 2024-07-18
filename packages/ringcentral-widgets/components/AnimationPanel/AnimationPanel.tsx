@@ -1,7 +1,6 @@
+import clsx from 'clsx';
 import type { FunctionComponent, HTMLAttributes } from 'react';
 import React from 'react';
-
-import classNames from 'classnames';
 
 import styles from './styles.scss';
 
@@ -17,11 +16,7 @@ export const AnimationPanel: FunctionComponent<AnimationPanelProps> = ({
 }) => {
   return (
     <div
-      className={classNames(
-        styles.root,
-        open ? styles.active : null,
-        className,
-      )}
+      className={clsx(styles.root, open ? styles.active : null, className)}
       style={style}
     >
       {children}

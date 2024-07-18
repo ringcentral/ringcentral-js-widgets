@@ -1,9 +1,7 @@
+import { format } from '@ringcentral-integration/utils';
+import clsx from 'clsx';
 import type { FunctionComponent } from 'react';
 import React from 'react';
-
-import classNames from 'classnames';
-
-import { format } from '@ringcentral-integration/utils';
 
 import Loglink from './assets/loglink.svg';
 import i18n from './i18n';
@@ -32,7 +30,7 @@ const LogLinkButton: FunctionComponent<LogLinkButtonProps> = ({
   });
   return (
     <div
-      className={classNames(styles.logLink, disabled ? styles.disabled : null)}
+      className={clsx(styles.logLink, disabled ? styles.disabled : null)}
       onClick={onClickFunc}
       title={toolTip}
       data-sign="ViewLogBtn"

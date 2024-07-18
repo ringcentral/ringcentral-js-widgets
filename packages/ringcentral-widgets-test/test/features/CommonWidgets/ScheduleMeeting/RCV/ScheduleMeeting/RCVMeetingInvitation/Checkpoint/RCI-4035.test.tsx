@@ -36,10 +36,6 @@
 	| Extension_LanguageLocaleCode |en-US |
 
  */
-import {
-  CheckInvitation,
-  CheckRCVPageDisplay,
-} from '../../../../../../../steps/Meeting';
 import type { StepFunction } from '../../../../../../../lib/step';
 import {
   p1,
@@ -53,6 +49,10 @@ import {
   And,
 } from '../../../../../../../lib/step';
 import { Login as CommonLogin } from '../../../../../../../steps/Login';
+import {
+  CheckInvitation,
+  CheckRCVPageDisplay,
+} from '../../../../../../../steps/Meeting';
 
 @autorun(test.skip)
 @it

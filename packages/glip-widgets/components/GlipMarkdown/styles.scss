@@ -61,7 +61,7 @@
   line-height: normal;
 }
 
-.markdown-body input[type="checkbox"] {
+.markdown-body input[type='checkbox'] {
   box-sizing: border-box;
   padding: 0;
 }
@@ -81,7 +81,8 @@
 }
 
 .markdown-body input {
-  font: 13px/1.4 Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, "Segoe UI Emoji", "Segoe UI Symbol";
+  font: 13px/1.4 Helvetica, arial, nimbussansl, liberationsans, freesans, clean,
+    sans-serif, 'Segoe UI Emoji', 'Segoe UI Symbol';
 }
 
 .markdown-body a {
@@ -105,13 +106,13 @@
 
 .markdown-body hr:before {
   display: table;
-  content: "";
+  content: '';
 }
 
 .markdown-body hr:after {
   display: table;
   clear: both;
-  content: "";
+  content: '';
 }
 
 .markdown-body h1,
@@ -153,14 +154,14 @@
 }
 
 .markdown-body code {
-  font-family: Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font-family: Consolas, 'Liberation Mono', Menlo, Courier, monospace;
   font-size: 12px;
 }
 
 .markdown-body pre {
   margin-top: 0;
   margin-bottom: 0;
-  font: 12px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font: 12px Consolas, 'Liberation Mono', Menlo, Courier, monospace;
 }
 
 .markdown-body .select::-ms-expand {
@@ -184,11 +185,11 @@
   content: '\f05c';
 }
 
-.markdown-body>*:first-child {
+.markdown-body > *:first-child {
   margin-top: 0 !important;
 }
 
-.markdown-body>*:last-child {
+.markdown-body > *:last-child {
   margin-bottom: 0 !important;
 }
 
@@ -340,7 +341,7 @@
   margin-bottom: 0;
 }
 
-.markdown-body li>p {
+.markdown-body li > p {
   margin-top: 16px;
 }
 
@@ -367,11 +368,11 @@
   border-left: 4px solid #ddd;
 }
 
-.markdown-body blockquote>:first-child {
+.markdown-body blockquote > :first-child {
   margin-top: 0;
 }
 
-.markdown-body blockquote>:last-child {
+.markdown-body blockquote > :last-child {
   margin-bottom: 0;
 }
 
@@ -414,17 +415,17 @@
   padding-bottom: 0.2em;
   margin: 0;
   font-size: 85%;
-  background-color: rgba(0,0,0,0.04);
+  background-color: rgba(0, 0, 0, 0.04);
   border-radius: 3px;
 }
 
 .markdown-body code:before,
 .markdown-body code:after {
   letter-spacing: -0.2em;
-  content: "\00a0";
+  content: '\00a0';
 }
 
-.markdown-body pre>code {
+.markdown-body pre > code {
   padding: 0;
   margin: 0;
   font-size: 100%;
@@ -590,7 +591,7 @@
 .markdown-body kbd {
   display: inline-block;
   padding: 3px 5px;
-  font: 11px Consolas, "Liberation Mono", Menlo, Courier, monospace;
+  font: 11px Consolas, 'Liberation Mono', Menlo, Courier, monospace;
   line-height: 10px;
   color: #555;
   vertical-align: middle;
@@ -603,11 +604,11 @@
 
 .markdown-body:before {
   display: table;
-  content: "";
+  content: '';
 }
 
 .markdown-body:after {
   display: table;
   clear: both;
-  content: "";
+  content: '';
 }

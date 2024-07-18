@@ -14,6 +14,7 @@ import { callResults } from '../../enums/callResults';
 import { subscriptionFilters } from '../../enums/subscriptionFilters';
 import type { SyncType } from '../../enums/syncTypes';
 import { syncTypes } from '../../enums/syncTypes';
+import { ActiveCall } from '../../interfaces/Presence.model';
 import {
   hasEndedCalls,
   isOutbound,
@@ -25,6 +26,7 @@ import { Module } from '../../lib/di';
 import fetchList from '../../lib/fetchList';
 import getDateFrom from '../../lib/getDateFrom';
 import { proxify } from '../../lib/proxy/proxify';
+
 import type {
   CallLogData,
   CallLogRecords,
@@ -39,7 +41,6 @@ import {
   processData,
   processRecords,
 } from './helper';
-import { ActiveCall } from '../../interfaces/Presence.model';
 
 const DEFAULT_TTL = 5 * 60 * 1000;
 // Lock fetching on app refresh if lst fetch happened less than this time span
@@ -148,20 +149,20 @@ export class CallLog extends RcModuleV2<Deps> {
     });
     processRecords(records, supplementRecords).forEach((call) => {
       if (call.startTime > cutOffTime) {
-        // @ts-expect-error
+        // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
         if (!this.data.map[call.id]) {
-          // @ts-expect-error
+          // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
           newState.push(call.id);
         }
-        // @ts-expect-error
+        // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
         this.data.map[call.id] = call;
         if (this._enableDeleted && call.deleted) {
-          // @ts-expect-error
+          // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
           const index = newState.indexOf(call.id);
           if (index > -1) {
             newState.splice(index, 1);
           }
-          // @ts-expect-error
+          // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
           delete this.data.map[call.id];
         }
       }
@@ -261,7 +262,7 @@ export class CallLog extends RcModuleV2<Deps> {
         if (
           this.ready &&
           this._deps.subscription.ready &&
-          // @ts-expect-error
+          // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
           presenceRegExp.test(message.event) &&
           message.body &&
           message.body.activeCalls &&
@@ -313,7 +314,7 @@ export class CallLog extends RcModuleV2<Deps> {
     const calls = removeInboundRingOutLegs(
       removeDuplicateIntermediateCalls(
         // https://developers.ringcentral.com/api-reference/Call-Log/readUserCallLog
-        // @ts-expect-error
+        // @ts-expect-error TS(2345): Argument of type 'CallLogRecord[]' is not assignab... Remove this comment to see the full error message
         this.list.filter(
           (call) =>
             // [RCINT-3472] calls with result === 'stopped' seems to be useless
@@ -325,7 +326,7 @@ export class CallLog extends RcModuleV2<Deps> {
             call.result !== callResults.unknown &&
             // Outgoing fax sending has failed
             // TODO: Types of Legacy, remove for checking type?
-            // @ts-ignore
+            // @ts-expect-error TS(2367): This condition will always return 'true' since the... Remove this comment to see the full error message
             call.result !== callResults.faxSendError &&
             // Incoming fax has failed to be received
             call.result !== callResults.faxReceiptError &&
@@ -333,7 +334,7 @@ export class CallLog extends RcModuleV2<Deps> {
             call.result !== callResults.callFailed &&
             // Error Internal error occurred when receiving fax
             // TODO: Types of Legacy, remove for checking type?
-            // @ts-ignore
+            // @ts-expect-error TS(2367): This condition will always return 'true' since the... Remove this comment to see the full error message
             call.result !== callResults.faxReceipt,
         ),
       ) as ActiveCall[],
@@ -446,7 +447,7 @@ export class CallLog extends RcModuleV2<Deps> {
           showDeleted: this._enableDeleted,
         });
       if (ownerId !== this._deps.auth.ownerId) throw Error('request aborted');
-      // @ts-expect-error
+      // @ts-expect-error TS(2345): Argument of type '{ daySpan: number; records: Call... Remove this comment to see the full error message
       this.syncSuccess({
         ...processData(data),
         daySpan: this._daySpan,
@@ -481,7 +482,7 @@ export class CallLog extends RcModuleV2<Deps> {
         // reach the max record count
         supplementRecords = await this._fetch({
           dateFrom,
-          // @ts-expect-error
+          // @ts-expect-error TS(2322): Type 'string | 0 | undefined' is not assignable to... Remove this comment to see the full error message
           dateTo: getISODateTo(records),
         });
       }
@@ -491,10 +492,10 @@ export class CallLog extends RcModuleV2<Deps> {
       }
       this.syncSuccess({
         records,
-        // @ts-expect-error
+        // @ts-expect-error TS(2454): Variable 'supplementRecords' is used before being ... Remove this comment to see the full error message
         supplementRecords,
         timestamp,
-        // @ts-expect-error
+        // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
         syncToken,
         daySpan: this._daySpan,
       });

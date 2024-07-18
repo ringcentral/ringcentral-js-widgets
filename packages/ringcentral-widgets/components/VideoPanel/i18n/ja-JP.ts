@@ -15,7 +15,7 @@ export default {
   waitingRoomAll: "全員",
   enterPassword: "パスワードを入力",
   onlyJoinAfterMe: "自分が入る前に参加者の入室を許可しない",
-  onlyJoinAfterHost: "ホストの後にのみ参加者が参加可能にする",
+  onlyJoinAfterHost: "参加者はホストの後にのみ参加可能",
   muteAudio: "参加者のオーディオをミュートにする",
   turnOffCamera: "参加者のカメラをオフにする",
   requirePassword: "パスワードが必要です",
@@ -28,7 +28,7 @@ export default {
   passwordHintText: "パスワードは1～10文字で英数字を使用できます。記号は使用できません",
   usePersonalMeetingId: "個人会議IDを使用",
   meetingSettingsSecurity: "セキュリティ",
-  onlyAuthUserJoin: "認証されているユーザーしか参加できません",
+  onlyAuthUserJoin: "認証済みユーザーのみ参加可能",
   signedInUsers: "サインイン済みユーザー",
   signedInCoWorkers: "サインイン済みの同僚",
   limitScreenSharing: "ホストとモデレータのみが画面を共有可能にする",
@@ -37,8 +37,7 @@ export default {
   today: "今日",
   scheduleForGuidance: "別の人のためにスケジュールしますか？\n1. Outlook予定表を開きます。\n2. ドロップダウンからスケジュールするメンバーを選択します。\n",
   scheduleForGuidanceMore: "詳細を確認",
-  changePmiSettings: "個人会議の設定を変更",
-  ieSupportAlert: "2022年2月16日以降、Internet Explorer 11では{appName}が機能しないことにご注意ください。Microsoft Edgeを代わりに使用するか、Outlook 2016以降に更新することをお勧めします。"
+  changePmiSettings: "個人会議の設定を変更"
 };
 
 // @key: @#@"topic"@#@ @source: @#@"Meeting title"@#@
@@ -79,4 +78,3 @@ export default {
 // @key: @#@"scheduleForGuidance"@#@ @source: @#@"Scheduling for someone else?\n1. Make sure you're on their Outlook calendar.\n2. From the dropdown, select the person you're scheduling for.\n"@#@
 // @key: @#@"scheduleForGuidanceMore"@#@ @source: @#@"Learn details"@#@
 // @key: @#@"changePmiSettings"@#@ @source: @#@"Change Personal Meeting settings"@#@
-// @key: @#@"ieSupportAlert"@#@ @source: @#@"Please note that {appName} won't work with Internet Explorer 11 after Feb 16, 2022. We recommend switching to Microsoft Edge or updating to Outlook 2016 or above."@#@

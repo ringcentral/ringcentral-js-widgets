@@ -1,9 +1,8 @@
-import React from 'react';
-
 import type { PhoneType } from '@ringcentral-integration/commons/enums/phoneTypes';
 import { phoneTypes } from '@ringcentral-integration/commons/enums/phoneTypes';
 import type { ContactModel } from '@ringcentral-integration/commons/interfaces/Contact.model';
-import { fireEvent, render } from '@testing-library/react';
+import { render, userEvent } from '@ringcentral-integration/test-utils';
+import React from 'react';
 
 import { ContactDetailsView } from '../../../components/ContactDetailsView';
 import type {
@@ -226,7 +225,7 @@ describe('Phone Section - Given at least one extension number', () => {
         const callButton = getByRole('button', {
           name: `Call ${btnToolTipNumber}`,
         });
-        fireEvent.click(callButton);
+        userEvent.click(callButton);
         expect(onClickToDial).toHaveBeenCalledWith(expectedContact, useNumber);
       });
       test(`When click text button, should compose text to correct number`, () => {
@@ -243,7 +242,7 @@ describe('Phone Section - Given at least one extension number', () => {
         const textButton = getByRole('button', {
           name: `Text ${btnToolTipNumber}`,
         });
-        fireEvent.click(textButton);
+        userEvent.click(textButton);
         expect(onClickToSMS).toHaveBeenCalledWith(expectedContact, useNumber);
       });
     },

@@ -1,8 +1,8 @@
 import type { ExtensionCountryInfoRequest } from './ExtensionCountryInfoRequest';
-import type { ExtensionTimezoneInfoRequest } from './ExtensionTimezoneInfoRequest';
-import type { ExtensionLanguageInfoRequest } from './ExtensionLanguageInfoRequest';
-import type { ExtensionGreetingLanguageInfoRequest } from './ExtensionGreetingLanguageInfoRequest';
 import type { ExtensionFormattingLocaleInfoRequest } from './ExtensionFormattingLocaleInfoRequest';
+import type { ExtensionGreetingLanguageInfoRequest } from './ExtensionGreetingLanguageInfoRequest';
+import type { ExtensionLanguageInfoRequest } from './ExtensionLanguageInfoRequest';
+import type { ExtensionTimezoneInfoRequest } from './ExtensionTimezoneInfoRequest';
 
 export interface ExtensionRegionalSettingRequest {
   /**

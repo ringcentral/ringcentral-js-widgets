@@ -20,7 +20,6 @@
   | RC-UK |8 |7 |3135003 |205 | 3135003 |Extension |Sarah |
 
  */
-
 import { Category } from '@ringcentral-integration/commons/interfaces/NumberParserResponse.interface';
 import {
   autorun,
@@ -34,6 +33,7 @@ import {
   title,
   When,
 } from '@ringcentral-integration/test-utils';
+
 import type { StepProp } from '../../../../../../lib/step';
 import { CommonLogin } from '../../../../../../steps/CommonLogin';
 import { CreateInstance } from '../../../../../../steps/CreateInstance';
