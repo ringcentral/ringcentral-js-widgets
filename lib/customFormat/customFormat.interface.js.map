@@ -1,0 +1,1 @@
+{"version":3,"file":"customFormat.interface.js","names":[],"sources":["lib/customFormat/customFormat.interface.ts"],"sourcesContent":["export interface CustomFormatOptions {\n  localPhoneNumber: string;\n  template: string;\n  templateChar?: string;\n  strict?: boolean;\n}\n"],"mappings":"","ignoreList":[]}

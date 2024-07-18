@@ -22,5 +22,10 @@
   "common": true,
   "ci": {
     "@ringcentral-integration/phone-number": "**"
+  },
+  "nx": {
+    "tags": [
+      "scope:ci-group-1"
+    ]
   }
 }
