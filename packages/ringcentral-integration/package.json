@@ -28,7 +28,7 @@
     "unit-test": "mocha --compilers js:@ringcentral-integration/babel-settings/lib/register"
   },
   "dependencies": {
-    "@sentry/browser": "^7.99.0",
+    "@sentry/browser": "^7.119.1",
     "@sentry/tracing": "^7.99.0",
     "bowser": "^2.5.3",
     "camelcase": "^6.0.0",
