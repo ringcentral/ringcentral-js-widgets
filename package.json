@@ -19,7 +19,7 @@
     "bowser": "^2.5.3",
     "camelcase": "^6.0.0",
     "data-transport": "^4.3.5",
-    "firebase": "^9.9.3",
+    "firebase": "^10.9.0",
     "json-mask": "^0.3.8",
     "libphonenumber-js": "^1.9.48",
     "localforage": "^1.10.0",
