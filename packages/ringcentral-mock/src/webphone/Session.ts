@@ -38,6 +38,7 @@ export const unmuteFn = jest.fn();
 export const acceptFn = jest.fn();
 export const terminateFn = jest.fn();
 export const rejectFn = jest.fn();
+export const dropFn = jest.fn();
 export const transferFn = jest.fn();
 export const flipFn = jest.fn();
 export const startRecordFn = jest.fn();
@@ -46,6 +47,13 @@ export const stopRecordFn = jest.fn();
 interface PartyData {
   partyId: string;
   sessionId: string;
+}
+
+export interface WebphoneHeaders {
+  'P-Rc-Api-Ids'?: Array<{ raw: string }>;
+  'Call-ID'?: Array<{ raw: string }>;
+  'P-Rc-Api-Call-Info'?: Array<{ raw: string }>;
+  'P-Asserted-Identity'?: Array<{ raw: string }>;
 }
 
 export class FakeSession {
@@ -69,6 +77,7 @@ export class FakeSession {
   request: {
     from: { uri: { user?: string } };
     to: { uri: { user: string }; displayName: string };
+    headers?: WebphoneHeaders;
   };
   __rc_isOnFlip?: boolean;
   __rc_callId: string;
@@ -181,6 +190,13 @@ export class FakeSession {
     this.trigger('rejected');
     this.__rc_callStatus = sessionStatus.finished;
     return rejectFn(this.id);
+  }
+
+  drop() {
+    delete this._ua.sessions[this.id];
+    this.trigger('rejected');
+    this.__rc_callStatus = sessionStatus.finished;
+    return dropFn(this.id);
   }
 
   toVoicemail() {

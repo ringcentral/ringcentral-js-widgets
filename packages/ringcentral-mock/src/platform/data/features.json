@@ -1608,6 +1608,14 @@
         "code": "ServicePlanLimitation",
         "message": "The feature is unavailable for the current service plan"
       }
+    },
+    {
+      "id": "CallQueuePickup",
+      "available": true
+    },
+    {
+      "id": "CallQueueSmsRecipient",
+      "available": true
     }
   ]
 }

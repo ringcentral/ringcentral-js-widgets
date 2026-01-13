@@ -1,9 +1,4 @@
-import type { CallDirection } from '@ringcentral-integration/commons/enums/callDirections';
-import type {
-  NumberData,
-  PartyStatusCode,
-  Party,
-} from '@ringcentral-integration/commons/integration-test/mock/telephonySessionBuilder';
+import type { TelephonySessionBuilderParams } from '@ringcentral-integration/commons/integration-test/mock/telephonySessionBuilder';
 import type { OpenAPIV3 } from 'openapi-types';
 
 import type { GetMessageInfoResponse } from './platform/interfaces';
@@ -41,23 +36,21 @@ interface NonArraySchemaObject extends BaseSchemaObject {
 
 export type SchemaObject = ArraySchemaObject | NonArraySchemaObject;
 
-export interface MakeCallProps {
-  phoneNumber?: string;
+export type MakeCallProps = {
   isWebRTC?: boolean;
   useUserAgentSession?: boolean;
-  direction?: CallDirection;
-  telephonySessionId?: string;
   sessionId?: string;
-  fromNumberData?: NumberData;
-  toNumberData?: NumberData;
-  startTime?: string;
-  isRecording?: boolean;
-  status?: PartyStatusCode;
-  queueCall?: boolean;
-  originType?: string;
-  peerId?: Party['status']['peerId'];
-  reason?: string;
-}
+  mockUserAgentSessionPartyData?: boolean;
+  triggerWebphoneOnCallInit?: boolean;
+  /**
+   * when you want to make a call to a queue, you can set this to the queue name
+   */
+  callQueueName?: string;
+  // mock webSession fromUserName
+  fromUserName?: string;
+  // mock webSession toUserName
+  toUserName?: string;
+} & TelephonySessionBuilderParams;
 
 export interface MessageProps {
   message?: string;

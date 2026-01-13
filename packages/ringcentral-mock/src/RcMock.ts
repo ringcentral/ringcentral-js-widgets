@@ -4,7 +4,6 @@ import {
   createTelephonySession,
   makeTelephonySessionId,
   makeWebphoneSessionId,
-  PartyStatusCode,
   telephonySessionBuildersCache,
   clearTelephonySessionBuilders,
 } from '@ringcentral-integration/commons/integration-test/mock/telephonySessionBuilder';
@@ -13,8 +12,9 @@ import type { RcvDelegator } from '@ringcentral-integration/commons/modules/RcVi
 import { isConferenceSession } from '@ringcentral-integration/commons/modules/Webphone/webphoneHelper';
 import type { MockRequest } from 'fetch-mock';
 import { includes } from 'ramda';
+import { PartyStatusCode } from 'ringcentral-call-control/lib/Session';
 
-import type { PlatformMockOptions } from './PlatformMock';
+import type { PlatformMockOptions, ResponseData } from './PlatformMock';
 import { PlatformMock } from './PlatformMock';
 import type {
   ArraySchemaObject,
@@ -26,6 +26,7 @@ import { generateTelephonyState } from './lib/generateTelephonyState';
 import accountBody from './platform/data/accountInfo.json';
 import blockedNumberBody from './platform/data/blockedNumber.json';
 import bringInToConferenceResponse from './platform/data/bringInToConferenceRes.json';
+import callQueueBody from './platform/data/callQueue.json';
 import clientInfoResponseBody from './platform/data/clientInfo.json';
 import companyPagerResponse from './platform/data/companyPager.json';
 import companyPagerInvalidResponse from './platform/data/companyPagerInvalid.json';
@@ -38,12 +39,25 @@ import discoveryExternalBody from './platform/data/discoveryExternal.json';
 import discoveryInitialBody from './platform/data/discoveryInitial.json';
 import extensionInfoBody from './platform/data/extensionInfo.json';
 import extensionsListBody from './platform/data/extensions.json';
+import faxResponse from './platform/data/fax.json';
 import featuresBody from './platform/data/features.json';
 import forwardAllCallsBody from './platform/data/forwardAllCallsInfo.json';
+import forwardParty from './platform/data/forwardParty.json';
 import generateCodeBody from './platform/data/generateCode.json';
+import grantBody from './platform/data/grant.json';
 import invitationBridgesResponse from './platform/data/invitationBridges.json';
 import postMeetingBody from './platform/data/meeting.json';
 import meetingInvitation from './platform/data/meetingInvitation.json';
+import messageThreadMessages2Body from './platform/data/message-thread-messages-2.json';
+import messageThreadMessagesBody from './platform/data/message-thread-messages.json';
+import messageThreads2Body from './platform/data/message-threads-2.json';
+import messageThreads3Body from './platform/data/message-threads-3.json';
+import messageThreadsEntriesFsyncBody from './platform/data/message-threads-entries-fsync.json';
+import messageThreadsEntriesIsyncBody from './platform/data/message-threads-entries-isync.json';
+import messageThreadsFsyncBody from './platform/data/message-threads-fsync.json';
+import messageThreadsIsyncBody from './platform/data/message-threads-isync.json';
+import messageThreadsBody from './platform/data/message-threads.json';
+import mmsResponse from './platform/data/mms.json';
 import parerPhoneNumbersResponse from './platform/data/numberParser.json';
 import numberParserAPIResponse from './platform/data/numberParserV2.json';
 import partySuperviseResponse from './platform/data/partySupervise.json';
@@ -55,11 +69,15 @@ import {
   RCV_INVITATION_END,
 } from './platform/data/rcvInvitation';
 import rcvMeetingSettingsBody from './platform/data/rcvMeetingSettings.json';
+import rcvMeetingSettingsV2Body from './platform/data/rcvMeetingSettingsV2.json';
 import ringOutBody from './platform/data/ringOut.json';
 import sipProvisionBody from './platform/data/sipProvision.json';
 import smsResponse from './platform/data/sms.json';
+import smsRecipientsBody from './platform/data/smsRecipients.json';
 import telephonySessionResponse from './platform/data/telephonySession.json';
+import timezoneResponse from './platform/data/timezone.json';
 import videoPersonalSettingsBody from './platform/data/videoPersonalSettings.json';
+import videoPersonalSettingsBodyV2 from './platform/data/videoPersonalSettingsV2.json';
 import videoPreferenceBody from './platform/data/videoPreference.json';
 import wsTokenBody from './platform/data/ws/wstoken.json';
 import type {
@@ -83,6 +101,8 @@ import type {
   CallParty,
   CallSessionObject,
   GetSMSMessageInfoResponse,
+  GetMMSMessageInfoResponse,
+  FaxResponse,
   GetExtensionDevicesResponse,
   GetMessageSyncResponse,
   GetMessageInfoResponse,
@@ -108,6 +128,11 @@ export interface RcMockOptions extends PlatformMockOptions {
    * False by default, which only enable /message-sync for all of them.
    * */
   enableSeparateMessageSyncMock?: boolean;
+  /**
+   * Skip hold and ring calls.
+   * False by default.
+   */
+  skipHoldRingCalls?: boolean;
 }
 
 export interface PostOauthTokenProps {
@@ -145,17 +170,36 @@ export type EventData<T> = {
 export class RcMock extends PlatformMock {
   subscription: PubnubMock | WebSocketMock;
 
+  /**
+   * Skip hold and ring calls.
+   * False by default.
+   */
+  skipHoldRingCalls: boolean;
+
+  private _messageStoreTemplates!: {
+    id: string;
+    displayName: string;
+    body: {
+      text: string;
+    };
+    scope: string;
+  }[];
+
   constructor({
     subscription,
     enableSeparateMessageSyncMock,
+    skipHoldRingCalls = false,
     ...options
   }: RcMockOptions) {
     super(options);
     this.subscription = subscription;
+    this.skipHoldRingCalls = skipHoldRingCalls;
+    this.initMessageStoreTemplates();
     this.defaultInitMocks
-      .add(this.getCheckPubsub)
+      .add(this.getCheckPing)
       .add(this.postAuthentication)
       .add(this.postOauthToken)
+      .add(this.putCallerId)
       .add(this.getCallerId)
       .add(this.getCallQueue)
       .add(this.getExtension)
@@ -191,15 +235,18 @@ export class RcMock extends PlatformMock {
       .add(this.postRcvInvitation)
       .add(this.getDialInNumbers)
       .add(this.getPreferences)
+      .add(this.patchPreferences)
       .add(this.getMeetingsConfigurationAssisted)
       .add(this.getMeetingServiceInfo)
       .add(this.getMeetingUserSettings)
       .add(this.getMeetingLockedSettings)
       .add(this.postMeeting)
       .add(this.getInvitation)
-      .add(this.getRcvMeetingInfo)
+      .add(this.getRcvMeetingInfoV2)
       .add(this.deleteMeeting)
       .add(this.getMeeting)
+      .add(this.getRcvMeetingInfo)
+      .add(this.getVideoPersonalSettingsV2)
       .add(this.putMeeting)
       .add(this.getInteropGenerateCode)
       .add(this.postWsToken)
@@ -208,11 +255,28 @@ export class RcMock extends PlatformMock {
       .add(this.deleteCallLog)
       .add(this.deleteAllCallLog)
       .add(this.postSms)
+      .add(this.postMms)
+      .add(this.postFax)
       .add(this.getProfileImage)
       .add(this.getInvitationBridges)
       .add(this.postCompanyPager)
       .add(this.postNumberParserV2)
-      .add(this.ringOut);
+      .add(this.ringOut)
+      .add(this.getMessageStoreTemplates)
+      .add(this.postMessageStoreTemplates)
+      .add(this.putMessageStoreTemplates)
+      .add(this.deleteMessageStoreTemplates)
+      .add(this.postPartyForward)
+      .add(this.getExtensionGrants)
+      .add(this.getCallQueues)
+      .add(this.postMessageThreadAssign)
+      .add(this.postMessageThreadResolve)
+      .add(this.getMessageThreads)
+      .add(this.getMessageThreadSync)
+      .add(this.getMessageThreadEntriesSync)
+      .add(this.getMessageThreadMessages)
+      .add(this.getMessageThread)
+      .add(this.getCallQueuesSmsRecipients);
 
     if (enableSeparateMessageSyncMock) {
       this.defaultInitMocks
@@ -244,18 +308,20 @@ export class RcMock extends PlatformMock {
     this.subscription.remove();
     this.removeWebphone?.();
     clearTelephonySessionBuilders();
+    this.initMessageStoreTemplates();
     return super.reset();
   }
 
-  getCheckPubsub() {
-    this.get('/time/0' as any, 200, {
-      response: () => {
-        return { body: '' };
-      },
+  getCheckPing() {
+    this.mock('/integration/ping', 0, {
+      method: 'HEAD',
     });
   }
 
-  postAuthentication(handler?: (mockData: TokenInfo) => TokenInfo) {
+  postAuthentication(
+    handler?: (mockData: TokenInfo) => TokenInfo,
+    repeat?: number,
+  ) {
     this.post('/restapi/oauth/token', 200, {
       response: ({ mockData }) => {
         const data = {
@@ -265,17 +331,20 @@ export class RcMock extends PlatformMock {
           expires_in: 3600,
           refresh_token_expires_in: 60480,
           expireTime: Date.now() + 3600 * 1000,
-          scope: 'SMS RCM Foo Boo CallControl TelephonySessions',
+          scope:
+            'EditAccounts ReadMessages Faxes ReadPresence EditCallLog Meetings VoipCalling ReadClientInfo Interoperability VideoInternal WebSocket SubscriptionPubNub SubscriptionWebSocket Contacts SubscriptionGCM EditExtensions TelephonySessions ProblemReportsManagement RingOut SMS InternalMessages EditMessages EditPresence SendUsageInfo',
         };
+        const result = handler?.(data) ?? data;
         return {
-          body: handler?.(data) ?? data,
+          body: result,
         };
       },
+      repeat,
     });
   }
 
-  postAuthRevoke() {
-    this.post('/restapi/oauth/revoke');
+  postAuthRevoke({ repeat }: { repeat?: number } = {}) {
+    this.post('/restapi/oauth/revoke', 200, { repeat });
   }
 
   getCallerId(
@@ -291,6 +360,71 @@ export class RcMock extends PlatformMock {
             body: handler?.(mockData as any) ?? mockData,
           };
         },
+      },
+    );
+  }
+
+  getExtensionGrants(repeat = 0) {
+    this.get('/restapi/v1.0/account/~/extension/~/grant' as any, 200, {
+      repeat,
+      response: () => {
+        return {
+          body: grantBody,
+        };
+      },
+    });
+  }
+
+  getCallQueues(repeat = 0) {
+    this.get('/restapi/v1.0/account/~/call-queues' as any, 200, {
+      repeat,
+      response: () => {
+        return {
+          body: callQueueBody,
+        };
+      },
+    });
+  }
+
+  /**
+   * Mock GET /restapi/v1.0/account/~/call-queues/:queueId/sms-recipients
+   * Get SMS recipients for a call queue
+   */
+  getCallQueuesSmsRecipients() {
+    this.get(
+      '/restapi/v1.0/account/~/call-queues/:queueId/sms-recipients' as any,
+      200,
+      {
+        repeat: 0,
+        response: (res) => {
+          const mockData = smsRecipientsBody;
+          res.mockData = mockData;
+          const processedData =
+            this.processors[
+              '/restapi/v1.0/account/~/call-queues/:queueId/sms-recipients'
+            ](res);
+          return {
+            body: processedData.mockData,
+          };
+        },
+      },
+    );
+  }
+
+  putCallerId(repeat = 0, success = true) {
+    this.put(
+      '/restapi/v1.0/account/:accountId/extension/:extensionId/caller-id',
+      success ? 200 : undefined,
+      {
+        repeat,
+        response: (({ mockData }) => {
+          if (!success) {
+            throw new Error('unknown error');
+          }
+          return {
+            body: mockData,
+          };
+        }) as any,
       },
     );
   }
@@ -355,12 +489,13 @@ export class RcMock extends PlatformMock {
     );
   }
 
-  getExtension() {
+  getExtension({ repeat }: { repeat?: number } = {}) {
     // TODO: refactor with mockData
     this.get('/restapi/v1.0/account/:accountId/extension/:extensionId', 200, {
       response: {
         body: extensionInfoBody as GetExtensionInfoResponse,
       },
+      repeat,
     });
   }
 
@@ -415,6 +550,21 @@ export class RcMock extends PlatformMock {
           mockData.syncInfo.syncType = params.syncType;
           mockData.nextPageId = 0;
           return { body: mockData };
+        },
+      },
+    );
+  }
+
+  postPartyForward(handler?: (data: any) => any, repeat = 0) {
+    this.post(
+      '/restapi/v1.0/account/:accountId/telephony/sessions/:telephonySessionId/parties/:partyId/forward',
+      200,
+      {
+        repeat,
+        response: () => {
+          return {
+            body: handler?.(forwardParty) ?? forwardParty,
+          };
         },
       },
     );
@@ -481,6 +631,7 @@ export class RcMock extends PlatformMock {
       mockData: GetExtensionPhoneNumbersResponse,
     ) => GetExtensionPhoneNumbersResponse,
     schema?: (schema: { mockData: SchemaObject }) => { mockData: SchemaObject },
+    repeat?: number,
   ) {
     this.get(
       '/restapi/v1.0/account/:accountId/extension/:extensionId/phone-number',
@@ -497,6 +648,7 @@ export class RcMock extends PlatformMock {
             body: handler?.(mockData) ?? mockData,
           };
         },
+        repeat,
       },
     );
   }
@@ -505,11 +657,13 @@ export class RcMock extends PlatformMock {
     handler?: (
       mockData: GetExtensionForwardingNumberListResponse,
     ) => GetExtensionForwardingNumberListResponse,
+    repeat?: number,
   ) {
     this.get(
       '/restapi/v1.0/account/:accountId/extension/:extensionId/forwarding-number',
       200,
       {
+        repeat: repeat ?? 0,
         response: ({ mockData }) => {
           // always give first number have all features
           mockData.records[0].features = ['CallFlip', 'CallForwarding'];
@@ -526,12 +680,14 @@ export class RcMock extends PlatformMock {
     handler?: (
       contactData: typeof extensionsListBody,
     ) => typeof extensionsListBody,
+    repeat?: number,
   ) {
     // TODO: update schema
     this.get(
       '/restapi/v1.0/account/:accountId/directory/contacts' as any,
       200,
       {
+        repeat,
         response: {
           body: handler?.(extensionsListBody) ?? extensionsListBody,
         },
@@ -570,7 +726,7 @@ export class RcMock extends PlatformMock {
     this.get('/restapi/v1.0/account/:accountId', 200, {
       repeat: repeat ?? 1,
       response: () => {
-        accountBody.serviceInfo.brand.id = brandId ?? '1210';
+        accountBody.serviceInfo.brand.id = brandId ?? this.brandId;
         return {
           body: (handler?.(accountBody) ??
             accountBody) as GetAccountInfoResponse,
@@ -662,7 +818,7 @@ export class RcMock extends PlatformMock {
           }
           return schema;
         },
-        response: ({ params, mockData }) => {
+        response: async ({ params, mockData }) => {
           mockData.syncInfo.syncTime = new Date().toISOString();
           mockData.syncInfo.olderRecordsExist = false;
           if (typeof params.syncType === 'undefined') {
@@ -681,12 +837,32 @@ export class RcMock extends PlatformMock {
               record.to[0].target = true;
             }
           }
+
           return {
             body: handler?.(mockData) ?? mockData,
           };
         },
         repeat,
       },
+    );
+  }
+
+  getAdminConfiguration(
+    props: MessageProps = { syncType: 'FSync' },
+    handler?: (mockData: GetMessageSyncResponse) => GetMessageSyncResponse,
+  ) {
+    return this.getMessageSync(
+      {
+        ...props,
+        query:
+          props.syncType === 'ISync'
+            ? {}
+            : {
+                ...props.query,
+                messageType: 'Fax',
+              },
+      },
+      handler,
     );
   }
 
@@ -952,7 +1128,10 @@ export class RcMock extends PlatformMock {
   }
 
   putMessageStore(
-    handler?: (mockData: GetMessageInfoResponse) => GetMessageInfoResponse,
+    handler?: (
+      mockData: GetMessageInfoResponse,
+      request?: MockRequest,
+    ) => GetMessageInfoResponse,
     repeat = 1,
   ) {
     this.put(
@@ -960,9 +1139,9 @@ export class RcMock extends PlatformMock {
       200,
       {
         repeat,
-        response: ({ mockData }) => {
+        response: ({ mockData, request }) => {
           return {
-            body: handler?.(mockData) ?? mockData,
+            body: handler?.(mockData, request) ?? mockData,
           };
         },
       },
@@ -997,8 +1176,13 @@ export class RcMock extends PlatformMock {
     });
   }
 
-  getTimezone() {
-    this.get('/restapi/v1.0/dictionary/timezone');
+  getTimezone(handler?: () => any, repeat = 0, status = 200) {
+    this.get('/restapi/v1.0/dictionary/timezone' as any, status, {
+      repeat: repeat ?? 0,
+      response: {
+        body: handler?.() ?? timezoneResponse,
+      },
+    });
   }
 
   getDelegators(handler?: () => RcvDelegator[], repeat?: number) {
@@ -1153,11 +1337,83 @@ export class RcMock extends PlatformMock {
       {
         repeat,
         response: ({ mockData }) => {
+          const defaultSender =
+            global.app?.modules?.MessageSender?.senderNumbersList?.[0];
+
+          const defaultData = {
+            ...smsResponse,
+            from: defaultSender
+              ? {
+                  phoneNumber: defaultSender.phoneNumber,
+                  name: defaultSender.label,
+                  location: defaultSender.location,
+                }
+              : smsResponse.from,
+          };
           return {
             body: {
               ...mockData,
-              ...(handler?.(smsResponse as any) ?? smsResponse),
+              ...(handler?.(defaultData as any) ?? defaultData),
             } as GetSMSMessageInfoResponse,
+          };
+        },
+      },
+    );
+  }
+
+  postMms(
+    handler?: (
+      mockData: GetMMSMessageInfoResponse,
+    ) => GetMMSMessageInfoResponse,
+    repeat = 0,
+    status: 200 | 401 = 200,
+  ) {
+    this.post(
+      '/restapi/v1.0/account/:accountId/extension/:extensionId/mms',
+      status as any,
+      {
+        repeat,
+        response: ({ mockData }) => {
+          const defaultSender =
+            global.app?.modules?.MessageSender?.senderNumbersList?.[0];
+
+          const defaultData = {
+            ...mmsResponse,
+            from: defaultSender
+              ? {
+                  phoneNumber: defaultSender.phoneNumber,
+                  name: defaultSender.label,
+                  location: defaultSender.location,
+                }
+              : mmsResponse.from,
+          };
+          return {
+            body: {
+              ...mockData,
+              ...(handler?.(defaultData as any) ?? defaultData),
+            } as GetMMSMessageInfoResponse,
+          };
+        },
+      },
+    );
+  }
+
+  postFax(
+    handler?: (mockData: FaxResponse) => FaxResponse,
+    repeat = 0,
+    status: 200 | 500 = 200,
+  ) {
+    this.post(
+      '/restapi/v1.0/account/:accountId/extension/:extensionId/fax',
+      status as any,
+      {
+        repeat,
+        response: ({ mockData }) => {
+          return {
+            body: {
+              ...mockData,
+              ...(handler?.(faxResponse as any) ?? faxResponse),
+            } as FaxResponse,
           };
         },
       },
@@ -1214,15 +1470,26 @@ export class RcMock extends PlatformMock {
     handler?: (
       mockData: typeof videoPreferenceBody,
     ) => typeof videoPreferenceBody,
+    status = 200,
   ) {
     this.get(
       '/rcvideo/v1/account/:accountId/extension/:extensionId/preferences' as any,
-      200,
+      status,
       {
         repeat: 0,
         response: {
           body: handler?.(videoPreferenceBody) ?? videoPreferenceBody,
         },
+      },
+    );
+  }
+
+  patchPreferences(status = 200, repeat = 0) {
+    this.patch(
+      '/rcvideo/v1/account/:accountId/extension/:extensionId/preferences/:preferenceId' as any,
+      status,
+      {
+        repeat,
       },
     );
   }
@@ -1562,12 +1829,56 @@ export class RcMock extends PlatformMock {
   }
 
   removePartyFromConference(repeat?: number, status: HttpStatusCode = 201) {
-    this.post(
+    this.delete(
       '/restapi/v1.0/account/:accountId/telephony/sessions/:telephonySessionId/parties/:partyId' as any,
       status,
       {
-        response: {
-          body: {},
+        response: async ({ params }) => {
+          // currently only latest spring-ui project support correct mock of participant leaving
+          if (process.env.THEME_SYSTEM === 'spring-ui') {
+            const conferenceTelephonySessionId = params.telephonySessionId;
+
+            const telephonySessionInstance = telephonySessionBuildersCache.find(
+              (i) => i.getPeerId()?.partyId === params.partyId,
+            );
+
+            if (telephonySessionInstance) {
+              const telephonySessionId =
+                telephonySessionInstance.getTelephonySessionId();
+              await this.hangUp(telephonySessionId);
+
+              // remove the session
+              telephonySessionBuildersCache.splice(
+                telephonySessionBuildersCache.indexOf(telephonySessionInstance),
+                1,
+              );
+            }
+
+            const conferenceParticipants = telephonySessionBuildersCache.filter(
+              (i) =>
+                i.getStatus() !== PartyStatusCode.disconnected &&
+                i.getPeerId()?.telephonySessionId ===
+                  conferenceTelephonySessionId,
+            );
+
+            if (conferenceParticipants.length === 1) {
+              // simulate the production will got after several render, so we need to wait for several render and not await
+              Promise.resolve().then(async () => {
+                const [hostTelephonySessionBuilder] = conferenceParticipants;
+                hostTelephonySessionBuilder.setConnected();
+                const event2 = hostTelephonySessionBuilder.done();
+                await this.subscription.trigger(event2);
+
+                hostTelephonySessionBuilder.setDisconnected();
+                const event3 = hostTelephonySessionBuilder.done();
+                hostTelephonySessionBuilder.relatedWebphoneSession.terminate();
+                await this.subscription.trigger(event3);
+              });
+            }
+          }
+          return {
+            body: {},
+          };
         },
         repeat,
       },
@@ -1668,6 +1979,11 @@ export class RcMock extends PlatformMock {
     fromNumberData,
     toNumberData,
     startTime,
+    mockUserAgentSessionPartyData = false,
+    triggerWebphoneOnCallInit = false,
+    callQueueName,
+    fromUserName,
+    toUserName,
     ...props
   }: MakeCallProps) {
     // TODO: refactor
@@ -1690,15 +2006,32 @@ export class RcMock extends PlatformMock {
         telephonySessionBuilder.getTelephonySessionId(),
         telephonySessionBuilder.getPartyId(),
         telephonySessionBuilder.getSessionId(),
+        callQueueName,
+        fromUserName,
+        toUserName,
+        this,
       );
       const callEvent = 'invite';
       const webphone = webSession.webphone!;
       telephonySessionBuilder.setRelatedWebphoneSession(webSession);
 
       if (useUserAgentSession && direction === callDirection.inbound) {
-        webphone.userAgent.invite(phoneNumber || '', {
-          fromNumber: fromNumberData?.phoneNumber,
-        });
+        const session = webphone.userAgent.invite(
+          phoneNumber || '',
+          {
+            fromNumber: fromNumberData?.phoneNumber,
+          },
+          // this mock is to make sure _findWebphoneSession get correct data
+          mockUserAgentSessionPartyData
+            ? {
+                partyId: telephonySessionBuilder.getPartyId(),
+                sessionId: telephonySessionBuilder.getTelephonySessionId(),
+              }
+            : undefined,
+        );
+        if (triggerWebphoneOnCallInit) {
+          await global.app.modules.Webphone._onCallInit(session);
+        }
       }
       // webphone.userAgent.sessions is an object, so latest call will not be the first one when multiple calls
       const sessionId =
@@ -1739,7 +2072,8 @@ export class RcMock extends PlatformMock {
     if (telephonySessionInstance) {
       telephonySessionInstance.setDisconnected();
       const event = telephonySessionInstance.done();
-      telephonySessionInstance?.relatedWebphoneSession?.terminate();
+      telephonySessionInstance.setGone();
+      telephonySessionInstance.relatedWebphoneSession?.terminate();
       await this.subscription.trigger(event);
     }
   }
@@ -1755,15 +2089,17 @@ export class RcMock extends PlatformMock {
     }
   }
 
-  async goneCall(telephonySessionId: string) {
+  async goneCall(telephonySessionId: string, shouldSetGone = true) {
     const telephonySessionInstance = telephonySessionBuildersCache.find(
       (s) => s.getTelephonySessionId() === telephonySessionId,
     );
 
     if (telephonySessionInstance) {
-      telephonySessionInstance?.setGone();
-      const event = telephonySessionInstance?.done();
-      telephonySessionInstance?.relatedWebphoneSession?.terminate();
+      if (shouldSetGone) {
+        telephonySessionInstance?.setGone();
+      }
+      const event = telephonySessionInstance.done();
+      telephonySessionInstance.relatedWebphoneSession?.terminate();
       await this.subscription.trigger(event);
     }
   }
@@ -1783,9 +2119,13 @@ export class RcMock extends PlatformMock {
 
   async holdOtherCalls(currentTelephonySessionId: string) {
     for (const builder of telephonySessionBuildersCache) {
+      const isAllowedHold = this.skipHoldRingCalls
+        ? builder.getStatus() !== PartyStatusCode.gone &&
+          builder.getStatus() !== PartyStatusCode.proceeding
+        : builder.getStatus() !== PartyStatusCode.gone;
       if (
         builder.getTelephonySessionId() !== currentTelephonySessionId &&
-        builder.getStatus() !== PartyStatusCode.gone
+        isAllowedHold
       ) {
         builder.setHoldCall();
         const event = builder.done();
@@ -1828,12 +2168,34 @@ export class RcMock extends PlatformMock {
     }
   }
 
+  async unmuteCall(telephonySessionId: string) {
+    const telephonySessionBuilder = telephonySessionBuildersCache.find(
+      (s) => s.getTelephonySessionId() === telephonySessionId,
+    );
+    if (telephonySessionBuilder) {
+      telephonySessionBuilder.setUnmuteCall();
+      const event = telephonySessionBuilder.done();
+      await this.subscription.trigger(event);
+    }
+  }
+
   async startRecord(telephonySessionId: string) {
     const telephonySessionBuilder = telephonySessionBuildersCache.find(
       (s) => s.getTelephonySessionId() === telephonySessionId,
     );
     if (telephonySessionBuilder) {
       telephonySessionBuilder.startRecord();
+      const event = telephonySessionBuilder.done();
+      await this.subscription.trigger(event);
+    }
+  }
+
+  async stopRecord(telephonySessionId: string) {
+    const telephonySessionBuilder = telephonySessionBuildersCache.find(
+      (s) => s.getTelephonySessionId() === telephonySessionId,
+    );
+    if (telephonySessionBuilder) {
+      telephonySessionBuilder.stopRecord();
       const event = telephonySessionBuilder.done();
       await this.subscription.trigger(event);
     }
@@ -1901,7 +2263,7 @@ export class RcMock extends PlatformMock {
     );
   }
 
-  coldTransfer(status: 200 | 409 = 200) {
+  coldTransfer(status: 200 | 409 = 200, repeat = 0) {
     let body = {};
     switch (status) {
       case 200:
@@ -1924,7 +2286,7 @@ export class RcMock extends PlatformMock {
         response: {
           body,
         },
-        repeat: 0,
+        repeat,
       },
     );
   }
@@ -1935,10 +2297,11 @@ export class RcMock extends PlatformMock {
       request?: MockRequest,
     ) => typeof presenceBody,
     repeat?: number,
+    status: 200 | 503 = 200,
   ) {
     this.put(
       '/restapi/v1.0/account/:accountId/extension/:extensionId/presence',
-      200,
+      status,
       {
         repeat,
         response: ({ request }) => {
@@ -1985,16 +2348,54 @@ export class RcMock extends PlatformMock {
     );
   }
 
-  stopRecord(status: HttpStatusCode = 200) {
+  stopRecording(status: HttpStatusCode = 200) {
     let body = {};
     switch (status) {
       case 200:
-        // body =
+        body = {
+          active: false,
+          id: extensionInfoBody.id,
+        };
         break;
       case 403:
         body = {
           errorCode: 'TAS-115',
           message: 'ACR mute is not supported for this call',
+        };
+        break;
+
+      default:
+        break;
+    }
+    this.patch(
+      '/restapi/v1.0/account/:accountId/telephony/sessions/:telephonySessionId/parties/:partyId/recordings/:recordingId',
+      status as any,
+      {
+        response: {
+          body,
+        },
+        repeat: 0,
+      },
+    );
+  }
+
+  startRecording(status: HttpStatusCode = 200, errorCode?: string) {
+    let body = {};
+    switch (status) {
+      case 200:
+        body = {
+          active: true,
+          id: extensionInfoBody.id,
+        };
+        break;
+      case 403:
+        body = {
+          errors: [
+            {
+              errorCode: errorCode || 'TAS-101',
+              message: 'Incorrect State [WrongState]',
+            },
+          ],
         };
         break;
 
@@ -2075,26 +2476,32 @@ export class RcMock extends PlatformMock {
     }, mockOtherDevice);
   }
 
-  mute(status: HttpStatusCode = 200) {
+  mute(status: HttpStatusCode = 200, repeat = 0) {
     this.patch(
       '/restapi/v1.0/account/:accountId/telephony/sessions/:telephonySessionId/parties/:partyId',
       status as any,
       {
-        body: {
-          muted: true,
+        response: {
+          body: {
+            muted: true,
+          },
         },
+        repeat,
       },
     );
   }
 
-  unmute(status: HttpStatusCode = 200) {
+  unmute(status: HttpStatusCode = 200, repeat = 0) {
     this.patch(
       '/restapi/v1.0/account/:accountId/telephony/sessions/:telephonySessionId/parties/:partyId',
       status as any,
       {
-        body: {
-          muted: false,
+        response: {
+          body: {
+            muted: false,
+          },
         },
+        repeat,
       },
     );
   }
@@ -2105,6 +2512,32 @@ export class RcMock extends PlatformMock {
       {
         repeat: 0,
         body: new Blob(),
+      },
+    );
+  }
+
+  getConnectedCalendars(mockData: any = [], status = 200, repeat = 1) {
+    this.get(
+      '/restapi/v1.0/account/:accountId/extension/:extensionId/cloud-integrations/:providerId' as any,
+      status,
+      {
+        repeat,
+        response: () => ({
+          body: mockData,
+        }),
+      },
+    );
+  }
+
+  getAvailableCalendars(mockData: any = {}, status = 200, repeat = 1) {
+    this.get(
+      '/restapi/v1.0/account/:accountId/extension/:extensionId/cloud-calendars/:profileId/:provider/:subscriptionId' as any,
+      status,
+      {
+        repeat,
+        response: () => ({
+          body: mockData,
+        }),
       },
     );
   }
@@ -2207,6 +2640,468 @@ export class RcMock extends PlatformMock {
       response: ({ mockData }) => ({
         body: (handler?.(mockData) ?? mockData) as GetCallRecordingResponse,
       }),
+    });
+  }
+
+  getVideoPersonalSettingsV2(
+    handler?: (
+      mockData: typeof videoPersonalSettingsBodyV2,
+    ) => typeof videoPersonalSettingsBodyV2,
+    status = 200,
+    repeat = 0,
+  ) {
+    this.get(
+      '/rcvideo/v2/account/:accountId/extension/:extensionId/bridges/default' as any,
+      status,
+      {
+        repeat,
+        response: () => {
+          const body =
+            handler?.(videoPersonalSettingsBodyV2) ??
+            videoPersonalSettingsBodyV2;
+          return {
+            body,
+          };
+        },
+      },
+    );
+  }
+
+  getRcvMeetingInfoV2(
+    shortId: string,
+    handler?: (
+      mockData: typeof rcvMeetingSettingsV2Body,
+    ) => typeof rcvMeetingSettingsV2Body,
+    repeat?: number,
+  ) {
+    this.get('/rcvideo/v2/bridges/pin/web/:shortId' as any, 200, {
+      repeat: repeat ?? 0,
+      response: () => {
+        const mockData = {
+          ...rcvMeetingSettingsV2Body,
+          pins: {
+            pstn: {
+              host: '330601514',
+              participant: shortId,
+            },
+            web: shortId,
+          },
+        };
+        return {
+          body: handler?.(mockData) ?? mockData,
+        };
+      },
+    });
+  }
+
+  postBridgesV2(
+    repeat = 0,
+    handler?: (
+      mockData: typeof rcvMeetingSettingsV2Body,
+    ) => typeof rcvMeetingSettingsV2Body,
+  ) {
+    this.post(
+      '/rcvideo/v2/account/:accountId/extension/:extensionId/bridges' as any,
+      200,
+      {
+        repeat,
+        response: ({ body, params }) => {
+          const { security, ...rest } = body;
+          const responseData = {
+            ...rcvMeetingSettingsV2Body,
+            ...rest,
+            security: {
+              passwordProtected: security.passwordProtected,
+              password: {
+                plainText: security.password,
+                pstn: '7739742613',
+                joinQuery: '952f84acc6f4cc9886cb4338eb17e308',
+              },
+              noGuests: body.noGuests,
+              sameAccount: body.sameAccount,
+              e2ee: body.e2ee,
+            },
+            host: {
+              accountId: `${params.accountId}`,
+              extensionId: `${params.extensionId}`,
+            },
+          };
+          return {
+            body: handler?.(responseData) ?? responseData,
+          };
+        },
+      },
+    );
+  }
+
+  initMessageStoreTemplates() {
+    this._messageStoreTemplates = [];
+  }
+
+  updateMessageStoreTemplates(data) {
+    this._messageStoreTemplates = data;
+  }
+
+  getMessageStoreTemplates(handler?: (mockData: any) => any, repeat = 0) {
+    this.get(
+      '/restapi/v1.0/account/:accountId/extension/:extensionId/message-store-templates' as any,
+      200,
+      {
+        repeat,
+        response: () => {
+          const data = {
+            records: this._messageStoreTemplates,
+          };
+          return {
+            body: handler?.(data) ?? data,
+          };
+        },
+      },
+    );
+  }
+
+  postMessageStoreTemplates(
+    handler?: (mockData: any) => any,
+    repeat = 0,
+    status: 200 | 400 = 200,
+    responseBody?: any,
+  ) {
+    this.post(
+      '/restapi/v1.0/account/:accountId/extension/:extensionId/message-store-templates' as any,
+      status as any,
+      {
+        repeat,
+        response: ({ body }) => {
+          const requestBody = body as any;
+          if (status !== 200) {
+            return {
+              body: responseBody ?? { message: 'Invalid request' },
+            };
+          }
+          const newTemplate = {
+            id: String(Math.round(Math.random() * 10 ** 10)),
+            displayName: requestBody?.displayName,
+            body: requestBody?.body,
+            scope: 'Personal',
+          };
+          this._messageStoreTemplates.push(newTemplate);
+          return {
+            body: handler?.(newTemplate) ?? newTemplate,
+          };
+        },
+      },
+    );
+  }
+
+  putMessageStoreTemplates(
+    handler?: (mockData: any) => any,
+    repeat = 0,
+    status: 200 | 400 = 200,
+  ) {
+    this.put(
+      '/restapi/v1.0/account/:accountId/extension/:extensionId/message-store-templates/:id' as any,
+      status as any,
+      {
+        repeat,
+        response: ({ body, params }) => {
+          if (status !== 200) {
+            return {
+              body: { message: 'Invalid request' },
+            };
+          }
+          const requestBody = body as any;
+          const { id } = params as { id: string };
+          const template = this._messageStoreTemplates.find(
+            (t) => t.id === String(id),
+          );
+          if (!template) {
+            throw new Error(`template id ${id} not found.`);
+          }
+          Object.assign(template, {
+            displayName: requestBody.displayName,
+            body: requestBody.body,
+            id: template.id,
+            scope: template.scope,
+          });
+          return {
+            body: handler?.(template) ?? template,
+          };
+        },
+      },
+    );
+  }
+
+  deleteMessageStoreTemplates(repeat = 0, status: 200 | 400 = 200) {
+    this.delete(
+      '/restapi/v1.0/account/:accountId/extension/:extensionId/message-store-templates/:id' as any,
+      status as any,
+      {
+        repeat,
+        response: ({ params }) => {
+          if (status !== 200) {
+            return {
+              body: { message: 'Invalid request' },
+            };
+          }
+          const { id } = params as { id: string };
+          const templateIndex = this._messageStoreTemplates.findIndex(
+            (t) => t.id === String(id),
+          );
+          if (templateIndex > -1) {
+            this._messageStoreTemplates.splice(templateIndex, 1);
+          }
+          return {
+            body: {},
+          };
+        },
+      },
+    );
+  }
+
+  get telephonySessionBuildersCache() {
+    return telephonySessionBuildersCache;
+  }
+
+  processors = {
+    '/restapi/v1.0/account/~/message-threads/sync': (
+      data: ResponseData<any, any, any>,
+    ) => data,
+    '/restapi/v1.0/account/~/call-queues/:queueId/sms-recipients': (
+      data: ResponseData<any, any, any>,
+    ) => data,
+    '/restapi/v1.0/account/~/message-threads/entries/sync': (
+      data: ResponseData<any, any, any>,
+    ) => data,
+    '/restapi/v1.0/account/~/message-threads/messages': (
+      data: ResponseData<any, any, any>,
+    ) => data,
+    '/restapi/v1.0/account/~/message-threads/:threadId/assign': (
+      data: ResponseData<any, any, any>,
+    ) => data,
+    '/restapi/v1.0/account/~/message-threads/:threadId/resolve': (
+      data: ResponseData<any, any, any>,
+    ) => data,
+    '/restapi/v1.0/account/~/message-threads': (
+      data: ResponseData<any, any, any>,
+    ) => data,
+    '/restapi/v1.0/account/~/message-threads/:threadId': (
+      data: ResponseData<any, any, any>,
+    ) => data,
+  };
+
+  /**
+   * Mock POST /restapi/v1.0/account/~/message-threads/:threadId/assign
+   * Assign or unassign a message thread
+   */
+  postMessageThreadAssign() {
+    this.post(
+      '/restapi/v1.0/account/~/message-threads/:threadId/assign' as any,
+      200,
+      {
+        repeat: 0,
+        response: (res) => {
+          const { params, body } = res;
+          const threadId = (params as any).threadId;
+          const requestBody = body as any;
+          const mockData = {
+            id: threadId,
+            assignee: requestBody.assignee
+              ? {
+                  extensionId: requestBody.assignee.extensionId,
+                  name: 'User',
+                  extensionType: 'User',
+                }
+              : null,
+            status: 'Open',
+            lastModifiedTime: new Date().toISOString(),
+          };
+          res.mockData = mockData;
+          const processedData =
+            this.processors[
+              '/restapi/v1.0/account/~/message-threads/:threadId/assign'
+            ](res);
+          return {
+            body: processedData.mockData,
+          };
+        },
+      },
+    );
+  }
+
+  /**
+   * Mock POST /restapi/v1.0/account/~/message-threads/:threadId/resolve
+   * Resolve a message thread
+   */
+  postMessageThreadResolve() {
+    this.post(
+      '/restapi/v1.0/account/~/message-threads/:threadId/resolve' as any,
+      200,
+      {
+        repeat: 0,
+        response: (res) => {
+          const { params } = res;
+          const threadId = (params as any).threadId;
+          const mockData = {
+            id: threadId,
+            status: 'Resolved',
+            lastModifiedTime: new Date().toISOString(),
+          };
+          res.mockData = mockData;
+          const processedData =
+            this.processors[
+              '/restapi/v1.0/account/~/message-threads/:threadId/resolve'
+            ](res);
+          return {
+            body: processedData.mockData,
+          };
+        },
+      },
+    );
+  }
+
+  /**
+   * Mock GET /restapi/v1.0/account/~/message-threads
+   * List message threads
+   */
+  getMessageThreads() {
+    this.get('/restapi/v1.0/account/~/message-threads' as any, 200, {
+      repeat: 0,
+      response: (res) => {
+        const { url } = res;
+        const urlObj = new URL(url, 'http://example.com');
+        const page = urlObj.searchParams.get('page')
+          ? Number(urlObj.searchParams.get('page'))
+          : 1;
+        let mockData;
+        if (page === 1) {
+          mockData = { ...messageThreadsBody };
+        } else if (page === 2) {
+          mockData = { ...messageThreads2Body };
+        } else if (page === 3) {
+          mockData = { ...messageThreads3Body };
+        } else {
+          mockData = { ...messageThreadsBody };
+        }
+        res.mockData = mockData;
+        const processedData =
+          this.processors['/restapi/v1.0/account/~/message-threads'](res);
+        return {
+          body: processedData.mockData,
+        };
+      },
+    });
+  }
+
+  /**
+   * Mock GET /restapi/v1.0/account/~/message-threads/:threadId
+   * Get a single message thread
+   */
+  getMessageThread() {
+    this.get('/restapi/v1.0/account/~/message-threads/:threadId' as any, 200, {
+      repeat: 0,
+      response: (res) => {
+        const { params } = res;
+        const threadId = (params as any).threadId;
+        const mockData = {
+          id: threadId,
+          status: 'Open',
+          creationTime: new Date().toISOString(),
+          lastModifiedTime: new Date().toISOString(),
+        };
+        res.mockData = mockData;
+        const processedData =
+          this.processors['/restapi/v1.0/account/~/message-threads/:threadId'](
+            res,
+          );
+        return {
+          body: processedData.mockData,
+        };
+      },
+    });
+  }
+
+  /**
+   * Mock GET /restapi/v1.0/account/~/message-threads/sync
+   * Sync message threads
+   */
+  getMessageThreadSync() {
+    this.get('/restapi/v1.0/account/~/message-threads/sync' as any, 200, {
+      repeat: 0,
+      response: (res) => {
+        const { params } = res;
+        const syncType = params.syncType || 'FSync';
+        const mockData =
+          syncType === 'FSync'
+            ? { ...messageThreadsFsyncBody }
+            : { ...messageThreadsIsyncBody };
+        mockData.syncInfo.syncTime = new Date().toISOString();
+        res.mockData = mockData;
+        const processedData =
+          this.processors['/restapi/v1.0/account/~/message-threads/sync'](res);
+        return {
+          body: processedData.mockData,
+        };
+      },
+    });
+  }
+
+  /**
+   * Mock GET /restapi/v1.0/account/~/message-threads/entries/sync
+   * Sync message thread entries
+   */
+  getMessageThreadEntriesSync() {
+    this.get(
+      '/restapi/v1.0/account/~/message-threads/entries/sync' as any,
+      200,
+      {
+        repeat: 0,
+        response: (res) => {
+          const { params } = res;
+          const syncType = params.syncType || 'FSync';
+          const mockData =
+            syncType === 'FSync'
+              ? { ...messageThreadsEntriesFsyncBody }
+              : { ...messageThreadsEntriesIsyncBody };
+          mockData.syncInfo.syncTime = new Date().toISOString();
+          res.mockData = mockData;
+          const processedData =
+            this.processors[
+              '/restapi/v1.0/account/~/message-threads/entries/sync'
+            ](res);
+          return {
+            body: processedData.mockData,
+          };
+        },
+      },
+    );
+  }
+
+  /**
+   * Mock GET /restapi/v1.0/account/~/message-threads/messages
+   * Get message thread messages
+   */
+  getMessageThreadMessages() {
+    this.get('/restapi/v1.0/account/~/message-threads/messages' as any, 200, {
+      repeat: 0,
+      response: (res) => {
+        const { url } = res;
+        const urlObj = new URL(url, 'http://example.com');
+        const page = urlObj.searchParams.get('page')
+          ? Number(urlObj.searchParams.get('page'))
+          : 1;
+        const mockData =
+          page === 1
+            ? { ...messageThreadMessagesBody }
+            : { ...messageThreadMessages2Body };
+        res.mockData = mockData;
+        const processedData =
+          this.processors['/restapi/v1.0/account/~/message-threads/messages'](
+            res,
+          );
+        return {
+          body: processedData.mockData,
+        };
+      },
     });
   }
 }

@@ -1,0 +1,412 @@
+{
+  "records": [
+    {
+      "id": "fb941cf4-be80-4ad3-9a08-3ac50a770e7b",
+      "status": "Open",
+      "availability": "Alive",
+      "ownerParty": {
+        "phoneNumber": "+16506660337"
+      },
+      "guestParty": {
+        "phoneNumber": "+17314102762"
+      },
+      "owner": {
+        "extensionId": "11570443004",
+        "name": "SMS queue",
+        "extensionType": "Department"
+      },
+      "label": "test",
+      "statusReason": "ThreadExpired",
+      "creationTime": "2025-11-18T10:01:25.882Z",
+      "lastModifiedTime": "2025-11-18T11:08:20.184Z"
+    },
+    {
+      "id": "8419f0a7-da0b-4ba9-8cdf-0877360c284a",
+      "status": "Open",
+      "availability": "Alive",
+      "ownerParty": {
+        "phoneNumber": "+13107390143"
+      },
+      "guestParty": {
+        "phoneNumber": "+12093170386"
+      },
+      "owner": {
+        "extensionId": "11890570004",
+        "name": "Klay queue",
+        "extensionType": "Department"
+      },
+      "label": "test",
+      "statusReason": "ThreadExpired",
+      "creationTime": "2025-11-18T10:06:18.625Z",
+      "lastModifiedTime": "2025-11-18T11:08:16.534Z"
+    },
+    {
+      "id": "65fbcdbc-a8de-442d-b261-0694ffe66c49",
+      "status": "Open",
+      "availability": "Alive",
+      "ownerParty": {
+        "phoneNumber": "+13107390136"
+      },
+      "guestParty": {
+        "phoneNumber": "+12093170386"
+      },
+      "owner": {
+        "extensionId": "11890570004",
+        "name": "Klay queue",
+        "extensionType": "Department"
+      },
+      "label": "You will no longer receive texts from this number. To opt back in, reply START.",
+      "statusReason": "ThreadExpired",
+      "creationTime": "2025-11-19T01:29:04.939Z",
+      "lastModifiedTime": "2025-11-19T03:08:10.647Z"
+    },
+    {
+      "id": "6dca540d-2f46-4431-b2f4-722456390552",
+      "status": "Open",
+      "availability": "Alive",
+      "ownerParty": {
+        "phoneNumber": "+16506660337"
+      },
+      "guestParty": {
+        "phoneNumber": "+12093170386"
+      },
+      "owner": {
+        "extensionId": "11570443004",
+        "name": "SMS queue",
+        "extensionType": "Department"
+      },
+      "label": "You will no longer receive texts from this number. To opt back in, reply START.",
+      "statusReason": "ThreadExpired",
+      "creationTime": "2025-11-19T02:07:32.167Z",
+      "lastModifiedTime": "2025-11-19T04:08:10.647Z"
+    },
+    {
+      "id": "a70fb5b1-4d10-48d2-bee8-ec120d5486d1",
+      "status": "Open",
+      "availability": "Alive",
+      "ownerParty": {
+        "phoneNumber": "+16572245559"
+      },
+      "guestParty": {
+        "phoneNumber": "+12093170386"
+      },
+      "owner": {
+        "extensionId": "11890538004",
+        "name": "Declan queue",
+        "extensionType": "Department"
+      },
+      "label": "3",
+      "statusReason": "ThreadExpired",
+      "creationTime": "2025-11-19T02:07:41.007Z",
+      "lastModifiedTime": "2025-11-19T03:08:10.647Z"
+    },
+    {
+      "id": "b2d3b23b-391b-43fa-8923-0effd28656e3",
+      "status": "Open",
+      "availability": "Alive",
+      "ownerParty": {
+        "phoneNumber": "+16572955555"
+      },
+      "guestParty": {
+        "phoneNumber": "+12093170386"
+      },
+      "owner": {
+        "extensionId": "11890538004",
+        "name": "Declan queue",
+        "extensionType": "Department"
+      },
+      "label": "4",
+      "statusReason": "ThreadExpired",
+      "creationTime": "2025-11-19T02:07:44.626Z",
+      "lastModifiedTime": "2025-11-19T04:08:10.647Z"
+    },
+    {
+      "id": "1c11ec42-e91b-412b-a1c3-f9d04be428c5",
+      "status": "Open",
+      "availability": "Alive",
+      "ownerParty": {
+        "phoneNumber": "+16506660329"
+      },
+      "guestParty": {
+        "phoneNumber": "+12093170386"
+      },
+      "owner": {
+        "extensionId": "11570443004",
+        "name": "SMS queue",
+        "extensionType": "Department"
+      },
+      "label": "You will no longer receive texts from this number. To opt back in, reply START.",
+      "statusReason": "ThreadExpired",
+      "creationTime": "2025-11-19T02:07:48.054Z",
+      "lastModifiedTime": "2025-11-19T04:08:10.647Z"
+    },
+    {
+      "id": "9b5715e8-2e80-40d6-b3ce-b30ec4d17f25",
+      "status": "Open",
+      "availability": "Alive",
+      "ownerParty": {
+        "phoneNumber": "+13107390143"
+      },
+      "guestParty": {
+        "phoneNumber": "+12093170386"
+      },
+      "owner": {
+        "extensionId": "11890570004",
+        "name": "Klay queue",
+        "extensionType": "Department"
+      },
+      "label": "You will no longer receive texts from this number. To opt back in, reply START.",
+      "statusReason": "ThreadExpired",
+      "creationTime": "2025-11-19T02:08:00.111Z",
+      "lastModifiedTime": "2025-11-19T04:08:10.647Z"
+    },
+    {
+      "id": "9a0d971b-9bac-4922-9a1a-f3c8ae8fdc14",
+      "status": "Open",
+      "availability": "Alive",
+      "ownerParty": {
+        "phoneNumber": "+16572955555"
+      },
+      "guestParty": {
+        "phoneNumber": "+12093170386"
+      },
+      "owner": {
+        "extensionId": "11890538004",
+        "name": "Declan queue",
+        "extensionType": "Department"
+      },
+      "label": "asdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdasdas",
+      "statusReason": "ThreadExpired",
+      "creationTime": "2025-11-19T08:07:57.105Z",
+      "lastModifiedTime": "2025-11-19T09:08:10.647Z"
+    },
+    {
+      "id": "7735496b-a7dd-40c3-999e-344a01a1b9d1",
+      "status": "Open",
+      "availability": "Alive",
+      "ownerParty": {
+        "phoneNumber": "+16572955555"
+      },
+      "guestParty": {
+        "phoneNumber": "+12093170386"
+      },
+      "owner": {
+        "extensionId": "11890538004",
+        "name": "Declan queue",
+        "extensionType": "Department"
+      },
+      "label": "asdasd\n\n\nASDASDAS\n\nDSASDAS\r\n\r\nReply STOP to opt out",
+      "statusReason": "ThreadExpired",
+      "creationTime": "2025-11-19T09:29:43.480Z",
+      "lastModifiedTime": "2025-11-19T11:08:10.647Z"
+    },
+    {
+      "id": "c038032e-0909-48c0-9ee5-6b777ce3000f",
+      "status": "Open",
+      "availability": "Alive",
+      "ownerParty": {
+        "phoneNumber": "+13107390136"
+      },
+      "guestParty": {
+        "phoneNumber": "+12093170386"
+      },
+      "owner": {
+        "extensionId": "11890570004",
+        "name": "Klay queue",
+        "extensionType": "Department"
+      },
+      "label": "hi\n\n\nwhat!!\r\n\r\nReply STOP to opt out",
+      "statusReason": "ThreadExpired",
+      "creationTime": "2025-11-19T09:52:02.396Z",
+      "lastModifiedTime": "2025-11-19T11:08:10.647Z"
+    },
+    {
+      "id": "cc9f9eb4-698b-4486-865a-d870366036f2",
+      "status": "Open",
+      "availability": "Alive",
+      "ownerParty": {
+        "phoneNumber": "+13107390143"
+      },
+      "guestParty": {
+        "phoneNumber": "+12093170386"
+      },
+      "owner": {
+        "extensionId": "11890570004",
+        "name": "Klay queue",
+        "extensionType": "Department"
+      },
+      "label": "11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111",
+      "statusReason": "ThreadExpired",
+      "creationTime": "2025-11-19T09:54:47.812Z",
+      "lastModifiedTime": "2025-11-19T11:08:10.647Z"
+    },
+    {
+      "id": "1cc70940-817d-4939-9215-6e8bc1e2d02f",
+      "status": "Open",
+      "availability": "Alive",
+      "ownerParty": {
+        "phoneNumber": "+16572245559"
+      },
+      "guestParty": {
+        "phoneNumber": "+12093170386"
+      },
+      "owner": {
+        "extensionId": "11890538004",
+        "name": "Declan queue",
+        "extensionType": "Department"
+      },
+      "label": "STOP",
+      "statusReason": "ThreadExpired",
+      "creationTime": "2025-11-20T01:18:52.729Z",
+      "lastModifiedTime": "2025-11-20T03:08:10.647Z"
+    },
+    {
+      "id": "a83314a2-1e96-40cb-a709-e04b50119546",
+      "status": "Open",
+      "availability": "Alive",
+      "ownerParty": {
+        "phoneNumber": "+16506660337"
+      },
+      "guestParty": {
+        "phoneNumber": "+14156190118"
+      },
+      "owner": {
+        "extensionId": "11570443004",
+        "name": "SMS queue",
+        "extensionType": "Department"
+      },
+      "label": "You have successfully subscribed to receive texts from this number. To opt out at any time, simply reply with STOP.\nYou have successfully subscribed to receive texts from this number. To opt out at an",
+      "statusReason": "ThreadExpired",
+      "creationTime": "2025-11-20T01:48:15.387Z",
+      "lastModifiedTime": "2025-11-20T03:08:10.647Z"
+    },
+    {
+      "id": "1f3f4549-96e7-4a1a-900f-0326573ff7ac",
+      "status": "Open",
+      "availability": "Alive",
+      "ownerParty": {
+        "phoneNumber": "+13107390143"
+      },
+      "guestParty": {
+        "phoneNumber": "+12093170386"
+      },
+      "owner": {
+        "extensionId": "11890570004",
+        "name": "Klay queue",
+        "extensionType": "Department"
+      },
+      "label": "111111111111111111111111111111111111111111 1111111111111111111111\n11111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111111",
+      "statusReason": "ThreadExpired",
+      "creationTime": "2025-11-20T02:03:29.423Z",
+      "lastModifiedTime": "2025-11-20T03:08:10.647Z"
+    },
+    {
+      "id": "4fd452d9-80a3-423c-923e-6cb913c8e81c",
+      "status": "Open",
+      "availability": "Alive",
+      "ownerParty": {
+        "phoneNumber": "+13107390136"
+      },
+      "guestParty": {
+        "phoneNumber": "+13076224445"
+      },
+      "owner": {
+        "extensionId": "11890570004",
+        "name": "Klay queue",
+        "extensionType": "Department"
+      },
+      "label": "START",
+      "statusReason": "ThreadExpired",
+      "creationTime": "2025-11-20T03:05:21.675Z",
+      "lastModifiedTime": "2025-11-20T04:08:10.647Z"
+    },
+    {
+      "id": "78f9d03b-d3c5-46ef-827d-d543c99fd563",
+      "status": "Open",
+      "availability": "Alive",
+      "ownerParty": {
+        "phoneNumber": "+16506660337"
+      },
+      "guestParty": {
+        "phoneNumber": "+14156190118"
+      },
+      "owner": {
+        "extensionId": "11570443004",
+        "name": "SMS queue",
+        "extensionType": "Department"
+      },
+      "label": "user",
+      "statusReason": "Manual",
+      "creationTime": "2025-11-20T03:36:48.695Z",
+      "lastModifiedTime": "2025-11-20T04:16:30.259Z"
+    },
+    {
+      "id": "ed23decf-8a47-4eb2-a35d-0fb23357e01a",
+      "status": "Open",
+      "availability": "Alive",
+      "ownerParty": {
+        "phoneNumber": "+16572245559"
+      },
+      "guestParty": {
+        "phoneNumber": "+12093170386"
+      },
+      "owner": {
+        "extensionId": "11890538004",
+        "name": "Declan queue",
+        "extensionType": "Department"
+      },
+      "label": "START",
+      "statusReason": "ThreadExpired",
+      "creationTime": "2025-11-20T04:03:46.693Z",
+      "lastModifiedTime": "2025-11-20T05:08:10.647Z"
+    },
+    {
+      "id": "7cf26144-3ef4-4784-86f1-ff2c7ec84a4d",
+      "status": "Open",
+      "availability": "Alive",
+      "ownerParty": {
+        "phoneNumber": "+16506660337"
+      },
+      "guestParty": {
+        "phoneNumber": "+14156190118"
+      },
+      "owner": {
+        "extensionId": "11570443004",
+        "name": "SMS queue",
+        "extensionType": "Department"
+      },
+      "label": "hi",
+      "statusReason": "Manual",
+      "creationTime": "2025-11-20T04:16:58.512Z",
+      "lastModifiedTime": "2025-11-20T04:18:44.196Z"
+    },
+    {
+      "id": "e2550b72-99f7-4e15-893b-2e37e37612c3",
+      "status": "Open",
+      "availability": "Alive",
+      "ownerParty": {
+        "phoneNumber": "+16506660337"
+      },
+      "guestParty": {
+        "phoneNumber": "+14156190118"
+      },
+      "owner": {
+        "extensionId": "11570443004",
+        "name": "SMS queue",
+        "extensionType": "Department"
+      },
+      "label": "s",
+      "statusReason": "Manual",
+      "creationTime": "2025-11-20T04:19:26.843Z",
+      "lastModifiedTime": "2025-11-20T04:21:42.753Z"
+    }
+  ],
+  "paging": {
+    "perPage": 20,
+    "page": 9,
+    "pageStart": 160,
+    "pageEnd": 179,
+    "totalPages": 10,
+    "totalElements": 187
+  }
+}

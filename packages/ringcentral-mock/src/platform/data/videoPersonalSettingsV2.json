@@ -1,0 +1,56 @@
+{
+  "id": "djI6MjkzOTc2MDA0LDI5Mzk3NjAwNCxyY3YsZVrDpcKHw7NUwosMw77Dp8Oswp4",
+  "name": "RCV New's video meeting",
+  "type": "PMI",
+  "host": {
+    "accountId": "208594004",
+    "extensionId": "208594004"
+  },
+  "pins": {
+    "pstn": {
+      "host": "678439124",
+      "participant": "509800692"
+    },
+    "web": "509800692"
+  },
+  "security": {
+    "passwordProtected": false,
+    "password": {
+      "plainText": "hello123"
+    },
+    "noGuests": false,
+    "sameAccount": false,
+    "e2ee": false
+  },
+  "preferences": {
+    "join": {
+      "audioMuted": false,
+      "videoMuted": false,
+      "waitingRoomRequired": "Nobody",
+      "pstn": {
+        "promptAnnouncement": true,
+        "promptParticipants": true
+      }
+    },
+    "playTones": "Off",
+    "musicOnHold": true,
+    "joinBeforeHost": true,
+    "screenSharing": true,
+    "recordingsMode": "User",
+    "transcriptionsMode": "User",
+    "recordings": {
+      "everyoneCanControl": {
+        "enabled": false,
+        "locked": false
+      },
+      "autoShared": {
+        "enabled": false,
+        "locked": false
+      }
+    },
+    "allowEveryoneTranscribeMeetings": true
+  },
+  "discovery": {
+    "web": "https://xmrupxmn-rxe-1-v.intlabs_domain/join/509800692"
+  }
+}

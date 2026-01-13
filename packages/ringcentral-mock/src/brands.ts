@@ -1,14 +1,12 @@
 // TODO: refactor for internal rc mock
 export const brands = {
   2020: 'atos',
-  3420: 'att',
-  3460: 'attub',
+  3460: 'att',
   6010: 'avaya',
   7710: 'bt',
   4610: 'eastlink',
   4210: 'ecotel',
   4810: 'mcm',
-  2110: 'rainbow',
   1210: 'rc',
   5010: 'rcau',
   3610: 'rcca',

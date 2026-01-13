@@ -1,0 +1,724 @@
+{
+  "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone?page=1&perPage=100",
+  "records": [
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/1",
+      "id": "1",
+      "name": "GMT",
+      "description": "Casablanca, Monrovia, Reykjavik",
+      "bias": "0"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/2",
+      "id": "2",
+      "name": "Europe/Lisbon",
+      "description": "Dublin, Edinburgh, Lisbon, London",
+      "bias": "0"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/3",
+      "id": "3",
+      "name": "Europe/Paris",
+      "description": "Brussels, Copenhagen, Madrid, Paris",
+      "bias": "60"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/4",
+      "id": "4",
+      "name": "Europe/Warsaw",
+      "description": "Sarajevo, Skopje, Warsaw, Zagreb",
+      "bias": "60"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/5",
+      "id": "5",
+      "name": "Europe/Belgrade",
+      "description": "Belgrade, Bratislava, Budapest, Ljubljana, Prague",
+      "bias": "60"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/6",
+      "id": "6",
+      "name": "Europe/Berlin",
+      "description": "Amsterdam, Berlin, Bern, Rome, Stockholm, Vienna",
+      "bias": "60"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/7",
+      "id": "7",
+      "name": "Europe/Athens",
+      "description": "Athens, Bucharest, Istanbul",
+      "bias": "120"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/9",
+      "id": "9",
+      "name": "Africa/Cairo",
+      "description": "Cairo",
+      "bias": "120"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/10",
+      "id": "10",
+      "name": "Africa/Tripoli",
+      "description": "Harare, Pretoria",
+      "bias": "120"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/11",
+      "id": "11",
+      "name": "Europe/Sofia",
+      "description": "Helsinki, Kyiv, Riga, Sofia, Tallinn, Vilnius",
+      "bias": "120"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/12",
+      "id": "12",
+      "name": "Asia/Jerusalem",
+      "description": "Jerusalem",
+      "bias": "120"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/13",
+      "id": "13",
+      "name": "Asia/Kuwait",
+      "description": "Kuwait, Riyadh",
+      "bias": "180"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/14",
+      "id": "14",
+      "name": "Europe/Moscow",
+      "description": "Moscow, St. Petersburg, Volgograd",
+      "bias": "180"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/15",
+      "id": "15",
+      "name": "Africa/Nairobi",
+      "description": "Nairobi",
+      "bias": "180"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/16",
+      "id": "16",
+      "name": "Asia/Tehran",
+      "description": "Tehran",
+      "bias": "210"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/17",
+      "id": "17",
+      "name": "Asia/Dubai",
+      "description": "Abu Dhabi, Muscat",
+      "bias": "240"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/18",
+      "id": "18",
+      "name": "Asia/Yerevan",
+      "description": "Yerevan",
+      "bias": "240"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/19",
+      "id": "19",
+      "name": "Asia/Kabul",
+      "description": "Kabul",
+      "bias": "270"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/20",
+      "id": "20",
+      "name": "Asia/Yekaterinburg",
+      "description": "Ekaterinburg",
+      "bias": "300"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/21",
+      "id": "21",
+      "name": "Asia/Tashkent",
+      "description": "Islamabad, Karachi, Tashkent",
+      "bias": "300"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/23",
+      "id": "23",
+      "name": "Asia/Bishkek",
+      "description": "Bishkek, Almaty, Astana, Dhaka",
+      "bias": "360"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/24",
+      "id": "24",
+      "name": "Asia/Colombo",
+      "description": "Sri Jayawardenepura",
+      "bias": "330"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/25",
+      "id": "25",
+      "name": "Asia/Bangkok",
+      "description": "Bangkok, Hanoi, Jakarta",
+      "bias": "420"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/26",
+      "id": "26",
+      "name": "Asia/Shanghai",
+      "description": "Beijing, Chongqing, Hong Kong, Urumqi",
+      "bias": "480"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/27",
+      "id": "27",
+      "name": "Australia/Perth",
+      "description": "Perth",
+      "bias": "480"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/28",
+      "id": "28",
+      "name": "Asia/Singapore",
+      "description": "Kuala Lumpur, Singapore",
+      "bias": "480"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/29",
+      "id": "29",
+      "name": "Asia/Taipei",
+      "description": "Taipei",
+      "bias": "480"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/30",
+      "id": "30",
+      "name": "Asia/Tokyo",
+      "description": "Osaka, Sapporo, Tokyo",
+      "bias": "540"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/31",
+      "id": "31",
+      "name": "Asia/Seoul",
+      "description": "Seoul",
+      "bias": "540"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/32",
+      "id": "32",
+      "name": "Asia/Yakutsk",
+      "description": "Yakutsk",
+      "bias": "540"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/33",
+      "id": "33",
+      "name": "Australia/Adelaide",
+      "description": "Adelaide",
+      "bias": "570"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/34",
+      "id": "34",
+      "name": "Australia/Darwin",
+      "description": "Darwin",
+      "bias": "570"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/35",
+      "id": "35",
+      "name": "Australia/Brisbane",
+      "description": "Brisbane",
+      "bias": "600"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/36",
+      "id": "36",
+      "name": "Australia/Sydney",
+      "description": "Canberra, Melbourne, Sydney",
+      "bias": "600"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/37",
+      "id": "37",
+      "name": "Pacific/Guam",
+      "description": "Guam, Port Moresby",
+      "bias": "600"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/38",
+      "id": "38",
+      "name": "Australia/Hobart",
+      "description": "Hobart",
+      "bias": "600"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/39",
+      "id": "39",
+      "name": "Asia/Vladivostok",
+      "description": "Vladivostok",
+      "bias": "600"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/40",
+      "id": "40",
+      "name": "Pacific/Noumea",
+      "description": "Solomon Is., New Caledonia",
+      "bias": "660"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/41",
+      "id": "41",
+      "name": "Pacific/Auckland",
+      "description": "Auckland, Wellington",
+      "bias": "720"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/42",
+      "id": "42",
+      "name": "Pacific/Fiji",
+      "description": "Fiji, Marshall Is.",
+      "bias": "720"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/43",
+      "id": "43",
+      "name": "Atlantic/Azores",
+      "description": "Azores",
+      "bias": "-60"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/44",
+      "id": "44",
+      "name": "America/Noronha",
+      "description": "Fernando de Noronha",
+      "bias": "-120"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/45",
+      "id": "45",
+      "name": "America/Sao_Paulo",
+      "description": "Brasilia",
+      "bias": "-180"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/46",
+      "id": "46",
+      "name": "America/Fortaleza",
+      "description": "Georgetown",
+      "bias": "-180"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/47",
+      "id": "47",
+      "name": "America/St_Johns",
+      "description": "Newfoundland",
+      "bias": "-210"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/49",
+      "id": "49",
+      "name": "America/La_Paz",
+      "description": "La Paz",
+      "bias": "-240"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/50",
+      "id": "50",
+      "name": "America/Bogota",
+      "description": "Bogota, Lima, Quito, Rio Branco",
+      "bias": "-300"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/54",
+      "id": "54",
+      "name": "America/Mexico_City",
+      "description": "Guadalajara, Mexico City, Monterrey",
+      "bias": "-360"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/56",
+      "id": "56",
+      "name": "America/Phoenix",
+      "description": "Arizona",
+      "bias": "-420"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/59",
+      "id": "59",
+      "name": "America/Anchorage",
+      "description": "Alaska",
+      "bias": "-540"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/60",
+      "id": "60",
+      "name": "Pacific/Honolulu",
+      "description": "Hawaii",
+      "bias": "-600"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/61",
+      "id": "61",
+      "name": "Pacific/Pago_Pago",
+      "description": "Midway Island, Samoa",
+      "bias": "-660"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/62",
+      "id": "62",
+      "name": "Etc/GMT+12",
+      "description": "International Date Line West",
+      "bias": "-720"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/63",
+      "id": "63",
+      "name": "America/Tijuana",
+      "description": "Tijuana, Baja California",
+      "bias": "-420"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/64",
+      "id": "64",
+      "name": "America/Chihuahua",
+      "description": "Chihuahua, La Paz, Mazatlan",
+      "bias": "-420"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/66",
+      "id": "66",
+      "name": "America/Caracas",
+      "description": "Caracas",
+      "bias": "-240"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/67",
+      "id": "67",
+      "name": "America/Cuiaba",
+      "description": "Cuiaba",
+      "bias": "-240"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/68",
+      "id": "68",
+      "name": "America/Santiago",
+      "description": "Santiago",
+      "bias": "-240"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/69",
+      "id": "69",
+      "name": "America/Argentina/Buenos_Aires",
+      "description": "Buenos Aires",
+      "bias": "-180"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/70",
+      "id": "70",
+      "name": "America/Godthab",
+      "description": "Greenland",
+      "bias": "-180"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/71",
+      "id": "71",
+      "name": "America/Montevideo",
+      "description": "Montevideo",
+      "bias": "-180"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/72",
+      "id": "72",
+      "name": "Atlantic/Cape_Verde",
+      "description": "Cape Verde Is.",
+      "bias": "-60"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/73",
+      "id": "73",
+      "name": "Africa/Algiers",
+      "description": "West Central Africa",
+      "bias": "60"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/74",
+      "id": "74",
+      "name": "Asia/Amman",
+      "description": "Amman",
+      "bias": "180"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/75",
+      "id": "75",
+      "name": "Asia/Beirut",
+      "description": "Beirut",
+      "bias": "120"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/76",
+      "id": "76",
+      "name": "Asia/Magadan",
+      "description": "Magadan",
+      "bias": "660"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/77",
+      "id": "77",
+      "name": "Asia/Kamchatka",
+      "description": "Kamchatka",
+      "bias": "720"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/78",
+      "id": "78",
+      "name": "Africa/Windhoek",
+      "description": "Windhoek",
+      "bias": "120"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/79",
+      "id": "79",
+      "name": "Asia/Baghdad",
+      "description": "Baghdad",
+      "bias": "180"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/80",
+      "id": "80",
+      "name": "Asia/Tbilisi",
+      "description": "Tbilisi",
+      "bias": "240"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/81",
+      "id": "81",
+      "name": "Asia/Baku",
+      "description": "Baku",
+      "bias": "240"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/82",
+      "id": "82",
+      "name": "Asia/Kathmandu",
+      "description": "Kathmandu",
+      "bias": "345"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/83",
+      "id": "83",
+      "name": "Asia/Omsk",
+      "description": "Omsk",
+      "bias": "360"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/85",
+      "id": "85",
+      "name": "Asia/Krasnoyarsk",
+      "description": "Krasnoyarsk, Novosibirsk",
+      "bias": "420"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/86",
+      "id": "86",
+      "name": "Asia/Irkutsk",
+      "description": "Irkutsk",
+      "bias": "480"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/87",
+      "id": "87",
+      "name": "Pacific/Tongatapu",
+      "description": "Nuku'alofa",
+      "bias": "780"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/88",
+      "id": "88",
+      "name": "Asia/Damascus",
+      "description": "Damascus",
+      "bias": "120"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/89",
+      "id": "89",
+      "name": "Asia/Gaza",
+      "description": "Gaza",
+      "bias": "120"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/90",
+      "id": "90",
+      "name": "Asia/Ulaanbaatar",
+      "description": "Ulaan Bataar",
+      "bias": "480"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/92",
+      "id": "92",
+      "name": "Europe/Minsk",
+      "description": "Minsk",
+      "bias": "180"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/93",
+      "id": "93",
+      "name": "Asia/Pyongyang",
+      "description": "Pyongyang",
+      "bias": "540"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/94",
+      "id": "94",
+      "name": "Asia/Kolkata",
+      "description": "Chennai, Kolkata, Mumbai, New Delhi",
+      "bias": "330"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/95",
+      "id": "95",
+      "name": "America/Halifax",
+      "description": "Atlantic - NS (most areas); PE",
+      "bias": "-240"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/96",
+      "id": "96",
+      "name": "America/New_York",
+      "description": "Eastern Time (America/New_York)",
+      "bias": "-300"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/97",
+      "id": "97",
+      "name": "America/Indiana/Indianapolis",
+      "description": "Eastern - IN (most areas)",
+      "bias": "-300"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/98",
+      "id": "98",
+      "name": "America/Chicago",
+      "description": "Central Time (America/Chicago)",
+      "bias": "-360"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/99",
+      "id": "99",
+      "name": "America/Regina",
+      "description": "Central Standard Time (America/Regina)",
+      "bias": "-360"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/100",
+      "id": "100",
+      "name": "America/Denver",
+      "description": "Mountain Time (America/Denver)",
+      "bias": "-420"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/101",
+      "id": "101",
+      "name": "America/Los_Angeles",
+      "description": "Pacific Time (America/Los_Angeles)",
+      "bias": "-480"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/103",
+      "id": "103",
+      "name": "Asia/Yangon",
+      "description": "Yangon (Rangoon)",
+      "bias": "390"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/104",
+      "id": "104",
+      "name": "America/Adak",
+      "description": "Adak",
+      "bias": "-540"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/105",
+      "id": "105",
+      "name": "America/Atikokan",
+      "description": "Atikokan",
+      "bias": "-300"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/106",
+      "id": "106",
+      "name": "America/Bahia",
+      "description": "Bahia",
+      "bias": "-180"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/107",
+      "id": "107",
+      "name": "America/Bahia_Banderas",
+      "description": "Bahia Banderas",
+      "bias": "-360"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/108",
+      "id": "108",
+      "name": "America/Barbados",
+      "description": "Barbados",
+      "bias": "-240"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/109",
+      "id": "109",
+      "name": "America/Belize",
+      "description": "Belize",
+      "bias": "-360"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/110",
+      "id": "110",
+      "name": "America/Blanc-Sablon",
+      "description": "Blanc-Sablon",
+      "bias": "-240"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/111",
+      "id": "111",
+      "name": "America/Boise",
+      "description": "Boise",
+      "bias": "-420"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/112",
+      "id": "112",
+      "name": "America/Cambridge_Bay",
+      "description": "Cambridge Bay",
+      "bias": "-420"
+    },
+    {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone/113",
+      "id": "113",
+      "name": "America/Cancun",
+      "description": "Cancun",
+      "bias": "-300"
+    }
+  ],
+  "paging": {
+    "page": 1,
+    "totalPages": 2,
+    "perPage": 100,
+    "totalElements": 196,
+    "pageStart": 0,
+    "pageEnd": 99
+  },
+  "navigation": {
+    "nextPage": {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone?page=2&perPage=100"
+    },
+    "firstPage": {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone?page=1&perPage=100"
+    },
+    "lastPage": {
+      "uri": "https://api-rcapps-labs_domain/restapi/v1.0/dictionary/timezone?page=2&perPage=100"
+    }
+  }
+}

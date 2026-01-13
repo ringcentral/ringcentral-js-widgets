@@ -3,6 +3,7 @@ import Ajv from 'ajv';
 import type { MockOptions, MockRequest } from 'fetch-mock';
 import fetchMock from 'fetch-mock-jest';
 import type { JSONSchemaFakerOptions } from 'json-schema-faker';
+import { connect } from 'mock-mcp';
 import type { OpenAPIV3 } from 'openapi-types';
 import { match } from 'path-to-regexp';
 
@@ -21,7 +22,7 @@ interface ResponseBody<T> {
   body: T;
 }
 
-type IResponseFunction<P, R, T> = (options: {
+export type ResponseData<P, R, T> = {
   /**
    * request URL
    */
@@ -42,7 +43,11 @@ type IResponseFunction<P, R, T> = (options: {
    * generated mock data with faker
    */
   mockData: T;
-}) => ResponseBody<T> | Promise<ResponseBody<T>>;
+};
+
+type IResponseFunction<P, R, T> = (
+  options: ResponseData<P, R, T>,
+) => ResponseBody<T> | Promise<ResponseBody<T>>;
 
 interface IResponseObject<T> {
   /**
@@ -141,6 +146,15 @@ export interface PlatformMockOptions {
  * ```
  */
 export class PlatformMock {
+  private _brandId?: string;
+
+  /**
+   * the current login user brand id
+   */
+  protected get brandId() {
+    return this._brandId ?? '1210';
+  }
+
   protected schemas: typeof schemas;
   protected generate: Generate;
   protected validator?: Ajv;
@@ -200,7 +214,14 @@ export class PlatformMock {
   /**
    * set initial fetch mock
    */
-  init() {
+  init(
+    /**
+     * the current login user brand id, default be 1210
+     */
+    brandId?: string,
+  ) {
+    this._brandId = brandId;
+
     this.initialized = true;
     for (const mock of this.defaultInitMocks) {
       mock.call(this);
@@ -278,15 +299,28 @@ export class PlatformMock {
             components: Record<string, SchemaObject>;
           };
           this.parsedComponents = this.parsedComponents ?? components;
-
-          const generatedData = this.generate({
-            type: 'object',
-            properties:
-              options?.schema?.(JSON.parse(JSON.stringify(properties))) ??
-              properties,
-            // TODO: fix type
-          } as any) as { mockData: any };
-          mockData = generatedData.mockData;
+          const _properties =
+            options?.schema?.(JSON.parse(JSON.stringify(properties))) ??
+            properties;
+          if (Object.keys(_properties).length > 0 && process.env.MOCK_MCP) {
+            const mockMcpClient: Awaited<ReturnType<typeof connect>> =
+              global.mockMcpClient;
+            const response = await mockMcpClient!.requestMock(url, method, {
+              body: request.body,
+              metadata: {
+                type: 'object',
+                properties: _properties,
+              },
+            });
+            mockData = response;
+          } else {
+            const generatedData = this.generate({
+              type: 'object',
+              properties: _properties,
+              // TODO: fix type
+            } as any) as { mockData: any };
+            mockData = generatedData.mockData;
+          }
         }
 
         const { searchParams, pathname } = new URL(url);

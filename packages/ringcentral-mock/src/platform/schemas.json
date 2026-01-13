@@ -5240,7 +5240,7 @@
           "scope": {
             "type": "string",
             "description": "List of permissions allowed with this access token, white-space separated",
-            "examples": ["AccountInfo CallLog ExtensionInfo Messages SMS"]
+            "examples": ["EditAccounts ReadMessages Faxes ReadPresence EditCallLog Meetings VoipCalling ReadClientInfo Interoperability VideoInternal WebSocket SubscriptionPubNub SubscriptionWebSocket Contacts SubscriptionGCM EditExtensions TelephonySessions ProblemReportsManagement RingOut SMS InternalMessages EditMessages EditPresence SendUsageInfo"]
           },
           "token_type": {
             "type": "string",

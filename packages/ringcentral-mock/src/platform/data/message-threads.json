@@ -1,0 +1,31 @@
+{
+  "records": [
+    {
+      "id": "769add45-796c-4b2d-8054-929c605d230a",
+      "status": "Open",
+      "availability": "Alive",
+      "ownerParty": {
+        "phoneNumber": "+16506660337"
+      },
+      "guestParty": {
+        "phoneNumber": "+17314102228"
+      },
+      "owner": {
+        "extensionId": "11570443004",
+        "name": "SMS queue",
+        "extensionType": "Department"
+      },
+      "label": "teeee",
+      "creationTime": "2025-10-28T08:38:58.570Z",
+      "lastModifiedTime": "2025-10-28T08:50:40.146Z"
+    }
+  ],
+  "paging": {
+    "perPage": 1,
+    "page": 1,
+    "pageStart": 0,
+    "pageEnd": 0,
+    "totalPages": 187,
+    "totalElements": 187
+  }
+}

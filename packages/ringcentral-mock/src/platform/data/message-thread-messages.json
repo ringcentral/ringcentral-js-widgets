@@ -1,0 +1,22 @@
+{
+  "records": [
+    {
+      "id": "2954447",
+      "threadId": "769add45-796c-4b2d-8054-929c605d230a",
+      "availability": "Alive",
+      "creationTime": "2025-10-28T08:38:59.222Z",
+      "lastModifiedTime": "2025-10-28T08:38:59.222Z",
+      "direction": "Inbound",
+      "messageStatus": "Received",
+      "text": "TEEE"
+    }
+  ],
+  "paging": {
+    "perPage": 1,
+    "page": 1,
+    "pageStart": 0,
+    "pageEnd": 0,
+    "totalPages": 462,
+    "totalElements": 462
+  }
+}
