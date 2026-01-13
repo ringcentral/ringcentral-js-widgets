@@ -6,6 +6,17 @@ import generateLoaderContent from '../generateLoaderContent';
 import isLoaderFile, { noChunks } from '../isLoaderFile';
 import isLocaleFile from '../isLocaleFile';
 
+interface TransformLoaderOptions {
+  supportedLocales?: string[];
+  chunk?: boolean | ((locale: string) => boolean);
+}
+
+interface FileObject {
+  isNull: () => boolean;
+  contents: Buffer;
+  path: string;
+}
+
 /**
  * - `supportedLocales` to support locales
  * * `chunk`
@@ -19,14 +30,18 @@ import isLocaleFile from '../isLocaleFile';
  * }
  * ```
  */
-export default function transformLoader(options = {}) {
-  return through.obj(async function transform(file, enc, done) {
+export default function transformLoader(options: TransformLoaderOptions = {}) {
+  return through.obj(async function transform(
+    file: FileObject,
+    enc: string,
+    done: () => void,
+  ) {
     if (file.isNull()) {
       done();
       return;
     }
 
-    const content = file.contents.toString(enc);
+    const content = file.contents.toString(enc as any);
     const supportedLocales = options.supportedLocales || [];
     const chunk = !noChunks(content) && (options.chunk ?? true);
 

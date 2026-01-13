@@ -4,13 +4,28 @@ import { find, forEach } from 'ramda';
 
 import extractAnnotations from '../extractAnnotations';
 
+interface ParsedLocaleData {
+  key: string;
+  value: any;
+  source: any;
+}
+
+interface ParseLocaleFileResult {
+  content: string;
+  annotations: Map<string, any>;
+  ast: any;
+  data: Map<string, ParsedLocaleData>;
+}
+
 /* eslint { no-eval: 0 } */
-export default function parseLocaleFile(rawContent) {
-  const data = new Map();
+export default function parseLocaleFile(
+  rawContent: string,
+): ParseLocaleFileResult {
+  const data = new Map<string, ParsedLocaleData>();
   const { content, annotations } = extractAnnotations(rawContent);
   const ast = parse(content, { sourceType: 'module', plugins: ['typescript'] });
 
-  function getData(properties) {
+  function getData(properties: any[]): void {
     forEach((prop) => {
       // get raw key from source content
       let key = content.substring(prop.key.start, prop.key.end);
@@ -37,7 +52,7 @@ export default function parseLocaleFile(rawContent) {
   const defaultExport = find(
     (item) => item.type === 'ExportDefaultDeclaration',
     ast.program.body,
-  );
+  ) as any;
 
   if (defaultExport) {
     if (defaultExport.declaration.type === 'ObjectExpression') {

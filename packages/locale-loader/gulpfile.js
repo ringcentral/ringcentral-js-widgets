@@ -1,8 +1,6 @@
 import cp from 'child_process';
 import fs from 'fs-extra';
 import gulp from 'gulp';
-import babel from 'gulp-babel';
-import sourcemaps from 'gulp-sourcemaps';
 import path from 'path';
 
 const BUILD_PATH = path.resolve(__dirname, '../../build/locale-loader');
@@ -10,30 +8,9 @@ const BUILD_PATH = path.resolve(__dirname, '../../build/locale-loader');
 export function clean() {
   return fs.remove(BUILD_PATH);
 }
-
 export function compile() {
-  return gulp
-    .src(
-      [
-        './lib/**/*.js',
-        './lib/**/*.ts',
-        '!./lib/**/*.test.js',
-        '!./lib/**/*.test.ts',
-        './*.js',
-        './*.ts',
-        '!./gulpfile*.js',
-      ],
-      {
-        base: './',
-      },
-    )
-    .pipe(sourcemaps.init())
-    .pipe(babel())
-    .pipe(sourcemaps.write('.'))
-    .pipe(gulp.dest(BUILD_PATH));
+  return exec('yarn build');
 }
-
-export const build = gulp.series(clean, compile);
 
 async function exec(command) {
   return new Promise((resolve, reject) => {
@@ -46,6 +23,8 @@ async function exec(command) {
     });
   });
 }
+
+export const build = gulp.series(clean, compile);
 
 async function getVersionFromTag() {
   try {
@@ -89,6 +68,9 @@ export async function generatePackage() {
   delete packageInfo.scripts;
   delete packageInfo.devDependencies;
   delete packageInfo.jest;
+  delete packageInfo.ci;
+  delete packageInfo.nx;
+  packageInfo.main = 'index.js';
   const version = await getVersionFromTag();
   if (version) {
     packageInfo.version = version;

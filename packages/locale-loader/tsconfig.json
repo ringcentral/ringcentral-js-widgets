@@ -1,0 +1,10 @@
+{
+  "extends": "../tsconfig.json",
+  "include": ["./index.ts", "./lib/**/*.ts"],
+  "exclude": ["./**/*.test.ts", "./**/*.test.js"],
+  "compilerOptions": {
+    "outDir": "../../build/locale-loader",
+    "noEmit": false,
+    "sourceMap": true
+  }
+}

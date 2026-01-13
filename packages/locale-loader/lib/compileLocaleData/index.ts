@@ -7,11 +7,40 @@ import findLoaderFiles from '../findLoaderFiles';
 import isLocaleFile from '../isLocaleFile';
 import parseLocaleFile from '../parseLocaleFile';
 
-export function findLocaleFiles(folderPath) {
+interface CompileDataParams {
+  folderPath: string;
+  sourceLocale: string;
+  translationLocales: readonly string[];
+}
+
+interface LocaleFileData {
+  file: string;
+  locale: string;
+  rawContent: string;
+  data: Map<string, any>;
+  [key: string]: any;
+}
+
+interface CompiledData {
+  path: string;
+  files: Record<string, LocaleFileData>;
+}
+
+interface CompileLocaleDataParams {
+  sourceFolder: string;
+  sourceLocale: string;
+  translationLocales: readonly string[];
+}
+
+export function findLocaleFiles(folderPath: string): string[] {
   return filter(isLocaleFile, fs.readdirSync(folderPath));
 }
 
-export function compileData({ folderPath, sourceLocale, translationLocales }) {
+export function compileData({
+  folderPath,
+  sourceLocale,
+  translationLocales,
+}: CompileDataParams): CompiledData {
   return reduce(
     (data, file) => {
       const locale = formatLocale(file.replace(/\.(js|ts|json)$/i, ''));
@@ -32,7 +61,7 @@ export function compileData({ folderPath, sourceLocale, translationLocales }) {
     {
       path: folderPath,
       files: {},
-    },
+    } as CompiledData,
     findLocaleFiles(folderPath),
   );
 }
@@ -41,7 +70,7 @@ export default function compileLocaleData({
   sourceFolder,
   sourceLocale,
   translationLocales,
-}) {
+}: CompileLocaleDataParams): Record<string, CompiledData> {
   return reduce(
     (data, file) => {
       const folderPath = path.resolve(path.dirname(file));
@@ -52,7 +81,7 @@ export default function compileLocaleData({
       });
       return data;
     },
-    {},
+    {} as Record<string, CompiledData>,
     findLoaderFiles(sourceFolder),
   );
 }

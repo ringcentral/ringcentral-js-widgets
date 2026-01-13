@@ -6,6 +6,7 @@ import chalk from 'chalk';
 import fs from 'fs-extra';
 import inquirer from 'inquirer';
 import path from 'path';
+// @ts-ignore
 import prettier from 'prettier';
 import { forEach, reduce } from 'ramda';
 
@@ -18,7 +19,63 @@ import readXlfData from '../readXlfData';
 
 const prompt = inquirer.createPromptModule();
 
-const getAnnotations = (source) => {
+interface AnnotationData {
+  source: any;
+  value: any;
+}
+
+interface TargetData {
+  ast: any;
+  annotations: Map<string, any>;
+  data: Map<string, AnnotationData>;
+  file: string;
+}
+
+interface LocaleData {
+  [folderPath: string]: {
+    files: {
+      [locale: string]: TargetData;
+    };
+  };
+}
+
+interface WriteFilesParams {
+  localeData: LocaleData;
+  sourceFolder: string;
+  sourceLocale: string;
+  disableEslint?: boolean;
+}
+
+interface FormatReasonParams {
+  reason: string;
+  key: string;
+  fileName: string;
+  type: string;
+}
+
+interface MergeTranslationDataParams {
+  localeData: LocaleData;
+  translations?: Record<string, any>;
+  sourceFolder: string;
+  sourceLocale: string;
+  interactive?: boolean;
+  silent?: boolean;
+}
+
+interface ImportLocaleParams {
+  sourceFolder?: string;
+  localizationFolder?: string;
+  sourceLocale?: string;
+  supportedLocales?: readonly string[];
+  translationLocales?: readonly string[];
+  interactive?: boolean;
+  silent?: boolean;
+  json?: boolean;
+  disableEslint?: boolean;
+  rawData?: any;
+}
+
+const getAnnotations = (source: [string, any][]): string => {
   const annotations = reduce(
     (result, [key, value]) => {
       result.push(
@@ -28,7 +85,7 @@ const getAnnotations = (source) => {
       );
       return result;
     },
-    [],
+    [] as string[],
     source,
   ).join('\n');
 
@@ -40,7 +97,7 @@ function writeFiles({
   sourceFolder,
   sourceLocale,
   disableEslint = true,
-}) {
+}: WriteFilesParams): void {
   const eslint = disableEslint ? '/* eslint-disable */\n' : '';
   forEach((folderPath) => {
     forEach((locale) => {
@@ -48,7 +105,9 @@ function writeFiles({
         // write file
         const targetData = localeData[folderPath].files[locale];
         const { code } = generate(targetData.ast);
-        const annotations = getAnnotations(targetData.annotations);
+        const annotations = getAnnotations(
+          Array.from(targetData.annotations.entries()),
+        );
 
         const output = prettier.format(`${eslint}${code}\n\n${annotations}\n`, {
           parser: 'typescript',
@@ -70,7 +129,12 @@ function writeFiles({
   }, Object.keys(localeData));
 }
 
-function formatReason({ reason, key, fileName, type }) {
+function formatReason({
+  reason,
+  key,
+  fileName,
+  type,
+}: FormatReasonParams): string {
   return `[locale] ${chalk.red(
     `{${type}}`,
   )} Key: '${key}', File: '${fileName}', Reason: ${reason}.`;
@@ -83,7 +147,7 @@ async function mergeTranslationData({
   sourceLocale,
   interactive = true,
   silent = false,
-}) {
+}: MergeTranslationDataParams): Promise<LocaleData> {
   // clean up original Data
   await asyncForEach(async (folderPath) => {
     await asyncForEach(async (locale) => {
@@ -100,7 +164,7 @@ async function mergeTranslationData({
             let shouldDelete = false;
             let message;
             if (sourceData.data.has(key)) {
-              if (sourceData.data.get(key).value !== value.source) {
+              if (sourceData.data.get(key)!.value !== value.source) {
                 message = formatReason({
                   type,
                   reason: 'Source value changed',
@@ -148,7 +212,7 @@ async function mergeTranslationData({
 
             return newData;
           },
-          new Map(),
+          new Map<string, AnnotationData>(),
           targetData.data,
         );
       }
@@ -169,7 +233,7 @@ async function mergeTranslationData({
         const ext = path.extname(sourceLocaleFile.file) || '.ts';
 
         if (!localeData[folderPath].files[locale]) {
-          localeData[folderPath].files[locale] = {
+          (localeData as any)[folderPath].files[locale] = {
             file: `${formatLocale(locale)}${ext}`,
           };
         }
@@ -200,7 +264,9 @@ async function mergeTranslationData({
             } else {
               shouldSkip = true;
             }
-          } else if (sourceData.get(key).value !== translatedData[key].source) {
+          } else if (
+            (sourceData.get(key) as any).value !== translatedData[key].source
+          ) {
             message = formatReason({
               type,
               reason: 'Source value changed',
@@ -241,14 +307,14 @@ async function mergeTranslationData({
       if (locale !== sourceLocale) {
         const targetData = localeData[folderPath].files[locale];
         const sourceData = localeData[folderPath].files[sourceLocale];
-        targetData.ast = parse(sourceData.content, {
+        targetData.ast = parse((sourceData as any).content, {
           sourceType: 'module',
           plugins: ['typescript'],
         });
         targetData.annotations = new Map();
 
-        function getData(source) {
-          const properties = source.properties.filter((prop) => {
+        function getData(source: any): void {
+          const properties = source.properties.filter((prop: any) => {
             const wrapInBracket =
               prop.key.type === 'MemberExpression' ||
               prop.key.type === 'TemplateLiteral';
@@ -266,7 +332,7 @@ async function mergeTranslationData({
                   rawValue: entry.value,
                 },
               };
-              targetData.annotations.set(key, sourceData.data.get(key).value);
+              targetData.annotations.set(key, sourceData.data.get(key)!.value);
               return true;
             }
             return false;
@@ -275,7 +341,7 @@ async function mergeTranslationData({
         }
 
         const defaultExport = targetData.ast.program.body.find(
-          (item) => item.type === 'ExportDefaultDeclaration',
+          (item: any) => item.type === 'ExportDefaultDeclaration',
         );
 
         if (defaultExport) {
@@ -305,15 +371,15 @@ export default async function importLocale({
   json = false,
   disableEslint = true,
   rawData = undefined,
-} = {}) {
-  if (!supportedLocales) {
+}: ImportLocaleParams = {}): Promise<void> {
+  if (!supportedLocales || !translationLocales) {
     throw new Error('options.supportedLocales is missing');
   }
   const localeData = compileLocaleData({
     sourceFolder,
     sourceLocale,
     translationLocales,
-  });
+  }) as any;
   const translations = json
     ? readJsonData({
         localizationFolder,

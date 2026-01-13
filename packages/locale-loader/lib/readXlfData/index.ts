@@ -3,18 +3,36 @@ import path from 'path';
 import { reduce } from 'ramda';
 import xml from 'xml-js';
 
-function extractKey(str) {
+interface ExtractXlfDataParams {
+  locale: string;
+  content: string;
+}
+
+interface TranslationUnit {
+  value: string;
+  source: string;
+}
+
+interface ReadXlfDataParams {
+  localizationFolder: string;
+  translationLocales: readonly string[];
+}
+
+function extractKey(str: string): string {
   return str.substring(1, str.length - 1);
 }
 
-function extractXlfData({ locale, content }) {
-  const data = xml.xml2js(content, { compact: true });
+function extractXlfData({
+  locale,
+  content,
+}: ExtractXlfDataParams): Record<string, Record<string, TranslationUnit>> {
+  const data = xml.xml2js(content, { compact: true }) as any;
   if (data.xliff && data.xliff.file) {
     const files = Array.isArray(data.xliff.file)
       ? data.xliff.file
       : [data.xliff.file];
     return reduce(
-      (output, fileData) => {
+      (output, fileData: any) => {
         if (
           fileData._attributes &&
           fileData._attributes['target-language'] === locale &&
@@ -27,7 +45,7 @@ function extractXlfData({ locale, content }) {
             ? fileData.body['trans-unit']
             : [fileData.body['trans-unit']];
           output[fileName] = reduce(
-            (fileOutput, unit) => {
+            (fileOutput, unit: any) => {
               if (
                 unit._attributes &&
                 unit._attributes.id &&
@@ -41,13 +59,13 @@ function extractXlfData({ locale, content }) {
               }
               return fileOutput;
             },
-            {},
+            {} as Record<string, TranslationUnit>,
             units,
           );
         }
         return output;
       },
-      {},
+      {} as Record<string, Record<string, TranslationUnit>>,
       files,
     );
   }
@@ -57,7 +75,10 @@ function extractXlfData({ locale, content }) {
 export default function readXlfData({
   localizationFolder,
   translationLocales,
-}) {
+}: ReadXlfDataParams): Record<
+  string,
+  Record<string, Record<string, TranslationUnit>>
+> {
   return reduce(
     (data, locale) => {
       const fileName = `${locale}.xlf`;
@@ -68,7 +89,7 @@ export default function readXlfData({
       }
       return data;
     },
-    {},
+    {} as Record<string, Record<string, Record<string, TranslationUnit>>>,
     translationLocales,
   );
 }

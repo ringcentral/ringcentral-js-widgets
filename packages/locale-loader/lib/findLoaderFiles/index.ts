@@ -10,7 +10,7 @@ import isLoaderFile from '../isLoaderFile';
  * @param {String} folder
  * @returns {Promise<String[]>}
  */
-export default function findLoaderFiles(folder) {
+export default function findLoaderFiles(folder: string): string[] {
   return filter(
     (file) =>
       fs.statSync(file).isFile() && isLoaderFile(fs.readFileSync(file, 'utf8')),
