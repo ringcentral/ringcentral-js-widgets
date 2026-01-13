@@ -1,14 +1,14 @@
-import path from 'path';
 import fs from 'fs-extra';
+import path from 'path';
 import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
 import yargs from 'yargs';
-import { devServerConfig, port } from './dev-server/webpack.config';
 
 import {
   getWebpackConfig as getWebpackExtConfig,
   port as extPort,
 } from './browser-extension/webpack.config';
+import { devServerConfig, port } from './dev-server/webpack.config';
 
 const {
   argv: { file },
@@ -72,7 +72,6 @@ export async function devExtensionServer() {
 
   const server = new WebpackDevServer(
     {
-      https: false,
       hot: false,
       client: false,
       host: 'localhost',

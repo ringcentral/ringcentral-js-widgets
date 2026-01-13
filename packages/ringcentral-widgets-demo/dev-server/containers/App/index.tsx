@@ -23,6 +23,7 @@ import { FeedbackPage } from '@ringcentral-integration/widgets/containers/Feedba
 import FlipPage from '@ringcentral-integration/widgets/containers/FlipPage';
 import GenericMeetingPage from '@ringcentral-integration/widgets/containers/GenericMeetingPage';
 import { IncomingCallContainer } from '@ringcentral-integration/widgets/containers/IncomingCallContainer';
+import IssuesTrackingPage from '@ringcentral-integration/widgets/containers/IssuesTrackingPage';
 import { LoginPage } from '@ringcentral-integration/widgets/containers/LoginPage';
 import { ModalContainer } from '@ringcentral-integration/widgets/containers/ModalContainer';
 import { RecentActivityContainer } from '@ringcentral-integration/widgets/containers/RecentActivityContainer';
@@ -133,6 +134,7 @@ const App = ({ phone, icon }) => {
                   <SettingsPage
                     params={routerProps.location.query}
                     showQuickAccess
+                    showTrackingIssue
                   />
                 )}
               />
@@ -140,6 +142,10 @@ const App = ({ phone, icon }) => {
               <Route path="/settings/calling" component={CallingSettingsPage} />
               <Route path="/settings/audio" component={AudioSettingsPage} />
               <Route path="/settings/feedback" component={FeedbackPage} />
+              <Route
+                path="/settings/issuesTracking"
+                component={IssuesTrackingPage}
+              />
               <Route
                 path="/calls"
                 component={() => (
