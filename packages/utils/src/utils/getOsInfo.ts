@@ -14,7 +14,7 @@ export enum DeviceType {
   Unknown = 'Unknown',
 }
 
-type OsInfo = { Device: DeviceType; OS: OsType };
+export type OsInfo = { Device: DeviceType; OS: OsType };
 
 export function isIPad() {
   const platform =
@@ -53,7 +53,7 @@ export function getOsInfo(): OsInfo {
       Device = DeviceType.PC;
     } else if (/Android/.test(userAgent)) {
       OS = OsType.Android;
-    } else if (!OS && /Linux/.test(platform)) {
+    } else if (/Linux/.test(platform)) {
       OS = OsType.Linux;
     }
 

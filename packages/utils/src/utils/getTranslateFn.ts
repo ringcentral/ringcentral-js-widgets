@@ -122,8 +122,10 @@ export const getTranslateFn = <
   return (key: any, ...options: any[]) => {
     let i18nString = key as string;
 
+    const currentLocale = RUNTIME.getTranslateLocale?.();
+
     i18nInstances.some((i18nInstance) => {
-      const result = i18nInstance.getString(key as any);
+      const result = i18nInstance.getString(key as any, currentLocale);
       if (result !== key) {
         i18nString = result;
 

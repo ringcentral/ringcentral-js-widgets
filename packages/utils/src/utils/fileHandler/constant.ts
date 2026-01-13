@@ -25,6 +25,18 @@ export const CONTENT_TYPE_TO_EXTENSION = {
   'video/msvideo': 'msvideo',
   'video/x-flv': 'flv',
   'video/quicktime': 'mov',
+  'application/pdf': 'pdf',
+  'audio/wav': 'wav',
+  'audio/x-wav': 'wav',
+  'image/webp': 'webp',
+  'video/3gpp': '3gp',
+  'video/webm': 'webm',
+  'video/x-ms-wmv': 'wmv',
+  'video/ogg': 'ogg',
+  'audio/ogg': 'oga',
+  'application/ogg': 'ogg',
+  'text/csv': 'csv',
+  'text/calendar': 'ics',
 } as Record<string, string>;
 
 export const EXTENSION_TO_CONTENT_TYPE = invertObj(CONTENT_TYPE_TO_EXTENSION);

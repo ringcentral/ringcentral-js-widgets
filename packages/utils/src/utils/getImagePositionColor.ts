@@ -1,3 +1,5 @@
+import memoize from 'lodash/memoize';
+
 import { loadImage } from './loadImage';
 import { rgbToHex } from './rgbToHex';
 
@@ -26,7 +28,7 @@ export const getImagePositionColor = async (
 
     const p = ctx.getImageData(
       position?.x ?? 0,
-      position?.y ?? canvas.height / 2,
+      position?.y ?? 150, // canvas.height / 2,
       1,
       1,
     ).data;
@@ -38,4 +40,22 @@ export const getImagePositionColor = async (
   } catch (error) {
     return '#FFF';
   }
+};
+
+/**
+ * same as `getImagePositionColor` but with cache based on url and position in one day
+ */
+export const getImagePositionColorWithCache = memoize(
+  getImagePositionColor,
+  (url, position) =>
+    `${url}_${position?.x ?? 0}_${position?.y ?? 150}_${
+      new Date().toISOString().split('T')[0]
+    }`,
+);
+
+/**
+ * clear cache of `getImagePositionColorWithCache`
+ */
+export const clearImagePositionColorCache = () => {
+  getImagePositionColorWithCache.cache.clear?.();
 };

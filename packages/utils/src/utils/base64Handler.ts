@@ -58,5 +58,5 @@ export function base64ToBlob(base64Image: string) {
 export function base64ToFile(base64Image: string, filename: string) {
   const blob = base64ToBlob(base64Image);
 
-  return new File([blob], filename);
+  return new File([blob], filename, { type: blob.type });
 }

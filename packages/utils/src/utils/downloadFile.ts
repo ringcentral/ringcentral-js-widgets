@@ -1,5 +1,6 @@
+import { getHostPath } from './getHostPath';
 import { isSafari } from './isSafari';
-import { sleep, SleepPromise } from './sleep';
+import { sleep } from './sleep';
 
 type DownloadLinkOptions = {
   href: string;
@@ -92,18 +93,66 @@ export const downloadFileWithIframe = (
   //   return;
   // }
   // iframe.id = id;
+  const sleepPromise = sleep(serverResponseTime);
 
-  let sleepPromise!: SleepPromise;
-
-  try {
-    sleepPromise = sleep(serverResponseTime);
-
-    sleepPromise.finally(() => {
+  sleepPromise
+    .catch(() => {
+      // ignore cancel error
+    })
+    .finally(() => {
       iframe.remove();
     });
-  } catch (error) {
-    //
+  return sleepPromise;
+};
+
+/**
+ * same function with downloadFileWithIframe, but use postMessage method to avoid the same origin policy
+ *
+ * ! must enable that `includeHiddenDownloadPage` in your project.config.json
+ *
+ * avoid the error:
+ * Uncaught SecurityError: Failed to read a named property 'document' from 'Window': Blocked a frame with origin "
+ */
+export const downloadFileWithIframeCors = (
+  url: string,
+  filename: string,
+  /**
+   * server response time must in side this value
+   *
+   * if that server not start download stream in 20s, that event will be cancelled.
+   *
+   * @default 20000ms => 20s
+   */
+  serverResponseTime = 20 * 1000,
+) => {
+  if (isSafari()) {
+    return global.window.open(url, '_self');
   }
 
+  const iframe = document.createElement('iframe');
+  iframe.style.display = 'none';
+
+  document.body.appendChild(iframe);
+
+  iframe.addEventListener('load', () => {
+    iframe.contentWindow?.postMessage({
+      key: 'ɵɵ.rc-download',
+      url,
+      filename,
+    });
+  });
+  const hostUrl = getHostPath();
+
+  iframe.src = hostUrl + 'hidden-download.html';
+
+  const sleepPromise = sleep(serverResponseTime);
+
+  sleepPromise
+    .catch(() => {
+      // ignore cancel error
+    })
+    .finally(() => {
+      iframe.remove();
+    });
   return sleepPromise;
 };

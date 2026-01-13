@@ -23,7 +23,9 @@
     "test": "yarn run-test"
   },
   "dependencies": {
-    "string-template": "^1.0.0"
+    "string-template": "^1.0.0",
+    "tailwind-merge": "^2.5.4",
+    "utif": "^3.1.0"
   },
   "devDependencies": {
     "@ringcentral-integration/babel-settings": "*",
@@ -31,17 +33,20 @@
     "@types/string-template": "^1.0.2",
     "fs-extra": "^10.1.0",
     "gulp": "^4.0.2",
-    "gulp-babel": "^8.0.0",
-    "gulp-sourcemaps": "^2.6.5",
-    "jest-html-reporters": "^3.1.7",
-    "webpack": "^5.94.0",
+    "webpack": "^5.89.0",
     "yargs": "^17.1.1"
+  },
+  "peerDependencies": {
+    "@ringcentral-integration/i18n": "^2.3.1"
   },
   "common": true,
   "ci": {
     "@ringcentral-integration/utils": "**"
   },
   "nx": {
-    "tags": ["scope:ci-group-1"]
+    "tags": [
+      "scope:ci-group-1",
+      "scope:ci-test"
+    ]
   }
 }
