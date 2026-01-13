@@ -35,6 +35,7 @@ import {
   Step,
   Then,
   title,
+  common,
 } from '../../../../../../lib/step';
 import { CommonLogin } from '../../../../../../steps/CommonLogin';
 import {
@@ -44,6 +45,7 @@ import {
 } from '../../../../../../steps/Mock';
 
 @autorun(test.skip)
+@common
 @it
 @p2
 @title(

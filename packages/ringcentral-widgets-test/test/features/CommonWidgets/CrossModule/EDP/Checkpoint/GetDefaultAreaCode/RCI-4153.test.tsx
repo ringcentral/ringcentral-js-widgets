@@ -28,6 +28,7 @@ import {
   Then,
   title,
   When,
+  common,
 } from '@ringcentral-integration/test-utils';
 import { waitUntilTo } from '@ringcentral-integration/utils';
 
@@ -41,6 +42,7 @@ import {
 } from '../../../../../../steps/Mock';
 
 @autorun(test.skip)
+@common
 @it
 @p2
 @title('How to get default area code from api')

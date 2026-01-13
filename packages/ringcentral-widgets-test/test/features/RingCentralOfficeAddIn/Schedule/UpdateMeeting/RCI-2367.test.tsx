@@ -20,6 +20,7 @@ import {
   Then,
   title,
   When,
+  common,
 } from '@ringcentral-integration/test-utils';
 
 import { Login as CommonLogin } from '../../../../steps/Login';
@@ -37,11 +38,15 @@ import {
 } from '../../../../steps/Meeting';
 
 @autorun(test.skip)
+@common
 @it
 @p2
 @title('Update meeting -  Mark ON RCV PMI')
 export class RCI2367 extends Step {
   Login: StepFunction<any, any> = CommonLogin;
+  CheckScheduleButton = (
+    <CheckScheduleButton buttonText="Update" isDisabled={false} />
+  );
   run() {
     const { Login } = this;
     return (
@@ -56,7 +61,7 @@ export class RCI2367 extends Step {
           ]}
         />
         <Then
-          desc="Show PMImeeting settings page"
+          desc="Show PMI meeting settings page"
           action={() => (
             <CheckRcvMeetingSettingsValues
               meeting={this.context.phone.rcVideo.personalVideo}
@@ -65,9 +70,7 @@ export class RCI2367 extends Step {
         />
         <Then
           desc="Show 'Update' button[L10N]"
-          action={
-            <CheckScheduleButton buttonText="Update" isDisabled={false} />
-          }
+          action={this.CheckScheduleButton}
         />
       </Scenario>
     );

@@ -9,6 +9,7 @@ import {
   Then,
   Step,
   examples,
+  common,
 } from '@ringcentral-integration/test-utils';
 import { ContactListUI } from '@ringcentral-integration/widgets/modules/ContactListUI';
 
@@ -19,6 +20,7 @@ const getMockModule = () =>
   });
 
 @autorun(test)
+@common
 @title('ContactListUI Module "_updateFilters" action')
 export class UpdateFilter extends Step {
   @examples(`

@@ -20,6 +20,7 @@
 import {
   And,
   autorun,
+  common,
   examples,
   Given,
   it,
@@ -45,6 +46,7 @@ import { NavigateTo } from '../../../../steps/Router';
 import { SetAreaCode } from '../../../../steps/Settings';
 
 @autorun(test.skip)
+@common
 @it
 @p2
 @title('The priority of the default area code')

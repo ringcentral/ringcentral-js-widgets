@@ -1,11 +1,11 @@
 import * as mock from '@ringcentral-integration/commons/integration-test/mock';
-import { SettingsPanel } from '@ringcentral-integration/widgets/components/SettingsPanel';
-import LinkLine from '@ringcentral-integration/widgets/components/LinkLine';
-import IconLine from '@ringcentral-integration/widgets/components/IconLine';
-import { PresenceSettingSection } from '@ringcentral-integration/widgets/components/PresenceSettingSection';
-import { PresenceItem } from '@ringcentral-integration/widgets/components/PresenceItem';
 import { Eula } from '@ringcentral-integration/widgets/components/Eula';
+import IconLine from '@ringcentral-integration/widgets/components/IconLine';
+import LinkLine from '@ringcentral-integration/widgets/components/LinkLine';
 import NavigationBar from '@ringcentral-integration/widgets/components/NavigationBar';
+import { PresenceItem } from '@ringcentral-integration/widgets/components/PresenceItem';
+import { PresenceSettingSection } from '@ringcentral-integration/widgets/components/PresenceSettingSection';
+import { SettingsPanel } from '@ringcentral-integration/widgets/components/SettingsPanel';
 
 import { getWrapper } from '../shared';
 
@@ -23,7 +23,7 @@ describe('settings panel', () => {
     const wrapper = await setupWrapper();
     const panel = wrapper.find(SettingsPanel).first();
     const linkLines = panel.find(LinkLine);
-    expect(linkLines.length).toBe(6);
+    expect(linkLines.length).toBe(7);
     expect(linkLines.at(0).props().children).toEqual('Calling');
     expect(linkLines.at(1).props().children).toEqual('Region');
 

@@ -10,6 +10,7 @@ import {
   Then,
   title,
   When,
+  common,
 } from '@ringcentral-integration/test-utils';
 
 import { Login as CommonLogin } from '../../steps/Login';
@@ -19,6 +20,7 @@ import {
 } from '../../steps/Mock';
 
 @autorun(test)
+@common
 @it
 @p2
 @title('Check message syncToken invalid')

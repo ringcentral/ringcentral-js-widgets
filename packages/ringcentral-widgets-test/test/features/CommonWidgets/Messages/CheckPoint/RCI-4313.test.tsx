@@ -21,6 +21,7 @@ import {
   Then,
   title,
   When,
+  common,
 } from '@ringcentral-integration/test-utils';
 
 import { CommonLogin } from '../../../../steps/CommonLogin';
@@ -29,6 +30,7 @@ import { CreateMock as CommonCreateMock } from '../../../../steps/Mock';
 import { NavigateToComposeText } from '../../../../steps/Navigate';
 
 @autorun(test.skip)
+@common
 @p2
 @title('The UI check of Compose text page layout')
 export class ComposeTextUI extends Step {

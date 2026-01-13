@@ -22,6 +22,7 @@ import {
   Then,
   title,
   When,
+  common,
 } from '@ringcentral-integration/test-utils';
 
 import {
@@ -56,6 +57,7 @@ import {
 } from '../../../../../../steps/Settings';
 
 @autorun(test)
+@common
 @it
 @p1
 @title('Current conference call control_Hold/unhold')

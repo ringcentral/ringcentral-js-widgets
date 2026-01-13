@@ -18,6 +18,7 @@ import {
   title,
   When,
   And,
+  common,
 } from '../../../../lib/step';
 import { CommonLogin } from '../../../../steps/CommonLogin';
 import { CreateInstance } from '../../../../steps/CreateInstance';
@@ -39,6 +40,7 @@ import {
 } from '../../../../steps/Navigate';
 
 @autorun(test)
+@common
 @p2
 @title('SMS unread count ${countAfterAction}')
 export class SMSUnreadCount extends Step {
@@ -119,6 +121,7 @@ export class SMSUnreadCount extends Step {
 }
 
 @autorun(test)
+@common
 @p2
 @title('${type} unread count ${countAfterAction}')
 export class VoicemailOrFaxUnreadCount extends Step {
@@ -217,6 +220,7 @@ export class VoicemailOrFaxUnreadCount extends Step {
   }
 }
 @autorun(test)
+@common
 @p2
 @title('{type} unread count after delete')
 export class deleteVoicemailOrFaxAfterUnreadCount extends Step {

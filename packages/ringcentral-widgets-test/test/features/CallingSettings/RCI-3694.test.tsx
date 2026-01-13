@@ -22,6 +22,7 @@ import {
   And,
   Then,
   Step,
+  common,
 } from '../../lib/step';
 import { CheckDropdown, ExpandDropdown } from '../../steps/Dropdown';
 import { Login } from '../../steps/Login';
@@ -57,6 +58,7 @@ const NavigateTo: StepFunction<{ path: string }> = ({ path }, { phone }) => {
 };
 
 @autorun(test)
+@common
 @title('Jupiter App Name I18n Support')
 export class CallingSettingJupiterI18nSupport extends Step {
   run() {

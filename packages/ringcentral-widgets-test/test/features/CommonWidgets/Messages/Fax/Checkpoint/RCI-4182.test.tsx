@@ -19,6 +19,7 @@ import {
   Then,
   title,
   When,
+  common,
 } from '@ringcentral-integration/test-utils';
 import { screen } from '@testing-library/react';
 
@@ -30,6 +31,7 @@ interface IFaxProps {
   CustomCreateMock: StepFunction<any>;
 }
 @autorun(test.skip)
+@common
 @it
 @p2
 @title('Fax tab should hide when the login user without fax permission')

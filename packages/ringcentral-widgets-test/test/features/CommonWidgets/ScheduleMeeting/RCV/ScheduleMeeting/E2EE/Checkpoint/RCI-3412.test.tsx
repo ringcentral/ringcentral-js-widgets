@@ -18,6 +18,7 @@
  */
 import {
   autorun,
+  common,
   examples,
   it,
   p2,
@@ -38,6 +39,7 @@ import {
 } from '../../../../../../../steps/Meeting';
 
 @autorun(test.skip)
+@common
 @it
 @p2
 @title('Update button should be enabled when the security settings changed')

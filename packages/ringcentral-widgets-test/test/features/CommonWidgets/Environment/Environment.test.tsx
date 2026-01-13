@@ -1,5 +1,6 @@
 import {
   AdvanceTimersByTime,
+  common,
   UseFakeTimers,
   UseRealTimers,
 } from '@ringcentral-integration/test-utils';
@@ -27,10 +28,16 @@ const defaultServerUrl = SDK.server.sandbox;
 const fakeServerUrl = 'https://www.new-server';
 
 @autorun(test)
+@common
 @it
 @title('Check Environment Settings')
 export class EnvironmentSettings extends Step {
   run() {
+    process.env = {
+      ...process.env,
+      BUILD_ENVIRONMENT: 'dev',
+    };
+
     return (
       <Scenario desc="Create phone instance and login">
         <Given desc="Create phone instance and login" action={Login} />

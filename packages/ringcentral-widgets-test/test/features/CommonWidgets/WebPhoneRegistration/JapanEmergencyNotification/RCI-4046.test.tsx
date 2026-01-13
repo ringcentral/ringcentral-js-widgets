@@ -161,7 +161,7 @@ export class TestJapanEmergencyServiceNotification extends Step {
           records: [...mockPhoneNumberData()],
         },
       },
-      settingName: 'RingCentral App',
+      settingName: 'RingCentral app',
       show: false,
     },
   ])
@@ -173,7 +173,7 @@ export class TestJapanEmergencyServiceNotification extends Step {
         <And
           desc="User switch calling settings to Softphone"
           action={({ settingName }: any) => {
-            if (settingName === 'RingCentral App')
+            if (settingName === 'RingCentral app')
               return (
                 <>
                   <CloseAlertMessage />

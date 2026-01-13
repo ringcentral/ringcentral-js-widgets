@@ -62,6 +62,7 @@ import {
   Then,
   title,
   When,
+  common,
 } from '@ringcentral-integration/test-utils';
 
 import { mockMessageListData } from '../../../../../../__mock__';
@@ -86,6 +87,7 @@ const oldComposeText = 'old message';
 const newComposeText = 'new message';
 
 @autorun(test)
+@common
 @it
 @p2
 @title('The send message update to conversation')
@@ -178,6 +180,7 @@ export class UpdateSMSForCDC extends Step {
 }
 
 @autorun(test)
+@common
 @it
 @p2
 @title('The send message added to conversation')

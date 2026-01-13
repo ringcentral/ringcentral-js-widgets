@@ -87,7 +87,7 @@ export class RCI2627 extends Step {
             <SelectCallingSetting settingName="Browser" />,
             <ClickSaveButton />,
             <CheckCallWithOption exists optionText={'Browser'} />,
-            // Spy on request GET https://pubsub.pubnub.com/time/0
+            // Spy on request GET https://apps.ringcentral.com/integration/ping
             (_: unknown, context: Context) => {
               const connectivityMonitor: ConnectivityMonitor =
                 context.phone.connectivityMonitor;
@@ -158,7 +158,7 @@ export class RCI2627 extends Step {
         <Then
           desc="The badge 'Offline' disappear
 										All buttons are enabled
-										Charles can not capture the request'https://pubsub.pubnub.com/time/0'
+										Charles can not capture the request'https://apps.ringcentral.com/integration/ping'
 										User can make the call"
           action={() => [
             // Badge 'Offline' disappear

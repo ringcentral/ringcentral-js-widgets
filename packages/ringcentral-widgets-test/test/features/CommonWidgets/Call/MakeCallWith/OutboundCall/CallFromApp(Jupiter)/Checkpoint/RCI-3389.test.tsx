@@ -9,7 +9,7 @@
  * RC: 'RingCentral App'
  * AT&T: 'AT&T Office@Hand'
  * BT:BT Cloud Work App
- * TELUS: TELUS Business Connect App
+ * TELUS: TELUS Business Connect™ App
  * Avaya: Avaya Cloud APP
  * Entry point(/s):
  *
@@ -31,6 +31,7 @@ import {
   Then,
   When,
   autorun,
+  common,
   examples,
   it,
   p0,
@@ -59,27 +60,27 @@ import {
 const brandData = [
   {
     brand: 'rc',
-    brandName: 'RingCentral App',
+    brandName: 'RingCentral app',
     link: /rcapp:\/\/r\/call\?number=.+/,
   },
   {
     brand: 'att',
-    brandName: 'AT&T Office@Hand App',
+    brandName: 'AT&T Office@Hand app',
     link: /https:\/\/app\.officeathand\.att\.com\/r\/call\?number=.+/,
   },
   {
     brand: 'bt',
-    brandName: 'BT Cloud Work App',
+    brandName: 'BT Cloud Work app',
     link: /https:\/\/app\.cloudwork\.bt\.com\/r\/call\?number=.+/,
   },
   {
     brand: 'telus',
-    brandName: 'TELUS Business Connect App',
+    brandName: 'TELUS Business Connect™ app',
     link: /https:\/\/app\.businessconnect\.telus\.com\/r\/call\?number=.+/,
   },
   {
     brand: 'avaya',
-    brandName: 'Avaya Cloud App',
+    brandName: 'Avaya Cloud Office app',
     link: /https:\/\/app\.cloudoffice\.avaya\.com\/r\/call\?number=.+/,
   },
 ];
@@ -122,17 +123,25 @@ brandData.forEach((item, index) => {
 
 beforeEach(() => {
   window.open = jest.fn();
+  if (window.navigator.userAgent) {
+    // keep the same as the original user agent in different environments
+    Object.defineProperty(window.navigator, 'userAgent', {
+      value: 'unknown',
+      configurable: true,
+    });
+  }
 });
 
 @autorun(test)
+@common
 @it
 @p0
-@title('Outbound call - from ${brandName} App(Jupiter)')
+@title('Outbound call - from ${brandName} (Jupiter)')
 export class RCI3389 extends Step {
   Login: StepFunction<any, any> | StepFunction<any, any>[] = (props) => {
     this.context.example = {
       ...this.context.example,
-      brandName: 'RingCentral App',
+      brandName: 'RingCentral app',
       link: /https:\/\/app\.ringcentral\.com\/r\/call\?number=.+/,
     };
     return <CommonLogin CreateInstance={CreateInstance} />;

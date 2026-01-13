@@ -26,6 +26,7 @@ import {
   When,
   StepProp,
   WaitForRenderReady,
+  common,
 } from '@ringcentral-integration/test-utils';
 
 import {
@@ -46,6 +47,7 @@ import {
 import { CheckNotContactsMatched } from '../../../../../steps/SearchField';
 
 @autorun(test)
+@common
 @it
 @p2
 @title('To field contact search no matches')

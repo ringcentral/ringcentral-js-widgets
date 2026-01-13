@@ -27,6 +27,7 @@ import {
   Then,
   title,
   When,
+  common,
 } from '@ringcentral-integration/test-utils';
 
 import { mockMessageListData } from '../../../../../../__mock__';
@@ -49,6 +50,7 @@ import {
 import { NavigateToVoiceMail } from '../../../../../../steps/Navigate';
 
 @autorun(test)
+@common
 @it
 @p2
 @title('View details of the voice message')

@@ -14,6 +14,7 @@ import {
   Then,
   title,
   When,
+  common,
 } from '@ringcentral-integration/test-utils';
 
 import { CheckToVoiceMailForInboundQueueCall } from '../../../../steps/Call';
@@ -23,6 +24,7 @@ import { CreateMock as CommonCreateMock } from '../../../../steps/Mock';
 import { NavigateToHistory } from '../../../../steps/Navigate';
 
 @autorun(test.skip)
+@common
 @it
 @p2
 @title('Check "To Voicemail" button for inbound Queue calls')
@@ -50,6 +52,7 @@ export class ToVoiceMailForInboundQueue extends Step {
 }
 
 @autorun(test.skip)
+@common
 @it
 @p2
 @title('Check "To Voicemail" button on notification for inbound Queue calls')
@@ -81,6 +84,7 @@ export class ToVoiceMailOnNotificationForInboundQueue extends Step {
 }
 
 @autorun(test.skip)
+@common
 @it
 @p2
 @title('Check "To Voicemail" button on all calls page for inbound Queue calls')

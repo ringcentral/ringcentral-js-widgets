@@ -28,6 +28,7 @@
 import type { StepFunction } from '@ringcentral-integration/test-utils';
 import {
   autorun,
+  common,
   examples,
   Given,
   it,
@@ -62,6 +63,7 @@ import {
 } from '../../../../../../steps/Navigate';
 
 @autorun(test.skip)
+@common
 @it
 @p2
 @title('The send button status')

@@ -27,6 +27,7 @@ import {
   Then,
   title,
   When,
+  common,
 } from '@ringcentral-integration/test-utils';
 
 import { CheckAlertMessage } from '../../../../../steps/Alert';
@@ -51,6 +52,7 @@ import {
 import { NavigateToHistory } from '../../../../../steps/Navigate';
 
 @autorun(test.skip)
+@common
 @it
 @p1
 @title('Verify the app enter Voip mode when Refresh token API returns >=500')

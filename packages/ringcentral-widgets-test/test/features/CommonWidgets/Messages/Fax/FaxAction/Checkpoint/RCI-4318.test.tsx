@@ -22,6 +22,7 @@ import {
   Then,
   title,
   When,
+  common,
 } from '@ringcentral-integration/test-utils';
 
 import { mockMessageListData } from '../../../../../../__mock__';
@@ -40,6 +41,7 @@ import {
 import { NavigateToFax } from '../../../../../../steps/Navigate';
 
 @autorun(test.skip)
+@common
 @it
 @p2
 @title('Download fax')

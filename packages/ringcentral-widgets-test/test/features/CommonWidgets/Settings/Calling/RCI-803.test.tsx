@@ -7,7 +7,7 @@
  * RC: RingCentral Phone
  * AT&T: Office@Hand Phone
  * BT: -BT Cloud Work
- * TELUS: TELUS Business Connect Phone
+ * TELUS: TELUS Business Connect™ Phone
  * Entry point(/s):
  *
  */
@@ -55,7 +55,7 @@ export class CheckCallingSettingsTooltip extends Step {
     | 'att'   | 'AT&T Office@Hand App'       | 'AT&T Office@Hand Phone'       |
     | 'bt'    | 'BT Cloud Work App'          | 'BT Cloud Work Phone'          |
     | 'rc'    | 'RingCentral App'            | 'RingCentral Phone'            |
-    | 'telus' | 'TELUS Business Connect App' | 'TELUS Business Connect Phone' |
+    | 'telus' | 'TELUS Business Connect™ App' | 'TELUS Business Connect™ Phone' |
   `)
   run() {
     const { Login = CommonLogin } = this;

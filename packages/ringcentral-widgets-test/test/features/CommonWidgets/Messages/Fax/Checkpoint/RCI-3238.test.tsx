@@ -9,6 +9,7 @@ import {
   Then,
   title,
   When,
+  common,
 } from '@ringcentral-integration/test-utils';
 
 import {
@@ -58,6 +59,7 @@ const faxList = [
 ];
 
 @autorun(test.skip)
+@common
 @it
 @p2
 @title('Fax_list')

@@ -8,6 +8,7 @@ import {
   Given,
   examples,
   Then,
+  common,
 } from '@ringcentral-integration/test-utils';
 import { PresenceSetting } from '@ringcentral-integration/widgets/test/components/PresenceSettingSection/PresenceSettingSection';
 
@@ -49,6 +50,7 @@ type PresenceDropdownCheckProps = {
 };
 
 @autorun(test)
+@common
 @title('Check presence setting section')
 export class CheckInitialData extends Step {
   @examples(`

@@ -7,6 +7,7 @@ import {
   When,
   StepFunction,
   And,
+  common,
 } from '@ringcentral-integration/test-utils';
 
 import { CommonLogin } from '../../steps/CommonLogin';
@@ -14,6 +15,7 @@ import { CreateInstance } from '../../steps/CreateInstance';
 import { CreateMock } from '../../steps/Mock';
 
 @autorun(test)
+@common
 @title('check Auth module')
 export class CheckAuthModule extends Step {
   run() {

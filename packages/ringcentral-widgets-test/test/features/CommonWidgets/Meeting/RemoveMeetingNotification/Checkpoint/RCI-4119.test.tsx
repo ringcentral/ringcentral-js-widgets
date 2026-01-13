@@ -11,11 +11,10 @@
   | Brand |Text |Link |
   | RC |RingCentral Google Workspace Add-on |https://www.ringcentral.com/apps/download?app=gsuite&brandId=1210 |
 	| BT |BT Cloud Work Google Workspace Add-on |https://www.ringcentral.com/apps/download?app=gsuite&brandId=7710 |
-	| TELUS | TELUS Business Connect for Google Workspace |https://www.ringcentral.com/apps/download?app=gsuite&brandId=7310 |
-	| AT&T |AT&T Office@Hand for Google Workspace |https://www.ringcentral.com/apps/download?app=gsuite&brandId=3420 |
+	| TELUS | TELUS Business Connect™ for Google Workspace |https://www.ringcentral.com/apps/download?app=gsuite&brandId=7310 |
+	| AT&T |AT&T Office@Hand for Google Workspace |https://www.ringcentral.com/apps/download?app=gsuite&brandId=3460 |
 	| Avaya |Avaya Cloud Office Google Workspace Add-on |https://www.ringcentral.com/apps/download?app=gsuite&brandId=6010 |
 	| Unify Office(Atos) |Unify Office Google Workspace Add-on |https://www.ringcentral.com/apps/download?app=gsuite&brandId=2020 |
-	| Rainbow Office |Rainbow Office Google Workspace Add-on |https://www.ringcentral.com/apps/download?app=gsuite&brandId=2110 |
 	| Verizon |RingCentral with Verizon Google Workspace Add-on |https://www.ringcentral.com/apps/download?app=gsuite&brandId=2210 |
 	| Vodafone |Vodafone Business Google Workspace Add-on |https://www.ringcentral.com/apps/download?app=gsuite&brandId=7010 |
 	| Ecotel |RingCentral Google Workspace Add-on |https://www.ringcentral.com/apps/download?app=gsuite&brandId=4210 |
@@ -32,9 +31,9 @@
 
  * https://www.ringcentral.com/apps/download?app=gsuite&brandId=1210
  * https://www.ringcentral.com/apps/download?app=gsuite&brandId=7710
- * TELUS Business Connect for Google Workspace
+ * TELUS Business Connect™ for Google Workspace
  * https://www.ringcentral.com/apps/download?app=gsuite&brandId=7310
- * https://www.ringcentral.com/apps/download?app=gsuite&brandId=3420
+ * https://www.ringcentral.com/apps/download?app=gsuite&brandId=3460
  * https://www.ringcentral.com/apps/download?app=gsuite&brandId=6010
  * Unify Office(Atos)
  * Unify Office Google Workspace Add-on
@@ -69,6 +68,7 @@ import {
   title,
   When,
   StepProp,
+  common,
 } from '@ringcentral-integration/test-utils';
 
 import { CommonLogin } from '../../../../../steps/CommonLogin';
@@ -79,6 +79,7 @@ import { NavigateToMeeting } from '../../../../../steps/Navigate';
 // not enable this feature in common
 // TODO now the copy is different with RCINT-24629 need to update after confirmation
 @autorun(test.skip)
+@common
 @it
 @p2
 @title('Display remove meeting notification in meeting page')
@@ -111,7 +112,7 @@ export class RemoveMeetingNotification extends Step {
           ]}
         />
         <Then
-          desc="Notification display at the top of the page:'Please switch to the{Text}to continue using the meeting feature.'
+          desc="Notification display at the top of the page'
                 {Text}should be a hyperlink
                 [L10N]"
           action={CheckRemoveMeetingNotification}

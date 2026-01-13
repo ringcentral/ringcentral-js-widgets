@@ -70,7 +70,7 @@ export class RCI2603 extends Step {
           action={(_: unknown, context: Context) => [
             () => {
               const { connectivityMonitor } = context.phone;
-              // spy on request GET https://pubsub.pubnub.com/time/0
+              // spy on request GET https://apps.ringcentral.com/integration/ping
               checkConnectionFuncSpy = jest
                 .spyOn(connectivityMonitor, '_checkConnectionFunc')
                 .mockImplementation(jest.fn());
@@ -82,7 +82,7 @@ export class RCI2603 extends Step {
         <Then
           desc="The badge'Offline' disappear
 										All buttons are enabled
-										Charles can not capture the request'https://pubsub.pubnub.com/time/0'
+										Charles can not capture the request'https://apps.ringcentral.com/integration/ping'
 										User can make the call"
           action={() => [
             <CheckConnectivityBadge exists={false} />,

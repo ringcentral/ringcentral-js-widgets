@@ -37,6 +37,7 @@ import { MockCallPresence } from '../../../../steps/Mock';
 import { NavigateToHistory } from '../../../../steps/Navigate';
 
 @autorun(test.skip)
+@common
 @it
 @p2
 @title('Action icons of anonymous call in History should be disabled')

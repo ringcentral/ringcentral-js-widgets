@@ -114,7 +114,7 @@ export const checkNonPstnCallAction = ({
                 return <MakeOutboundCall />;
               },
               (_: any, { rcMock }: Context) => {
-                rcMock.stopRecord(403);
+                rcMock.stopRecording(403);
               },
             ]}
           />

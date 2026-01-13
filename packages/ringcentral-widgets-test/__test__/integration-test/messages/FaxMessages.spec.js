@@ -16,6 +16,7 @@ import MessageItem from '@ringcentral-integration/widgets/components/MessageItem
 import NavigationBar from '@ringcentral-integration/widgets/components/NavigationBar';
 
 import { getWrapper, tearDownWrapper } from '../shared';
+
 import {
   mockGenerateMessageApi,
   mockPubnub,
@@ -791,10 +792,9 @@ describe('fax messages', () => {
         readStatus: 'read',
         direction: 'Outbound',
       });
-      await phone.subscription.subscribe(
-        ['/restapi/v1.0/account/~/extension/~/message-sync'],
-        10,
-      );
+      await phone.subscription.subscribe([
+        '/restapi/v1.0/account/~/extension/~/message-sync',
+      ]);
       await sleep(100);
       await mockPubnub();
 
@@ -819,10 +819,9 @@ describe('fax messages', () => {
         readStatus: 'read',
         direction: 'Outbound',
       });
-      await phone.subscription.subscribe(
-        ['/restapi/v1.0/account/~/extension/~/message-sync'],
-        10,
-      );
+      await phone.subscription.subscribe([
+        '/restapi/v1.0/account/~/extension/~/message-sync',
+      ]);
       await sleep(100);
       await mockPubnub();
       wrapper.update();
@@ -840,10 +839,9 @@ describe('fax messages', () => {
         readStatus: 'Read',
         direction: 'Inbound',
       });
-      await phone.subscription.subscribe(
-        ['/restapi/v1.0/account/~/extension/~/message-sync'],
-        10,
-      );
+      await phone.subscription.subscribe([
+        '/restapi/v1.0/account/~/extension/~/message-sync',
+      ]);
       await sleep(100);
       await mockPubnub();
 
@@ -863,10 +861,9 @@ describe('fax messages', () => {
         readStatus: 'Unread',
         direction: 'Inbound',
       });
-      await phone.subscription.subscribe(
-        ['/restapi/v1.0/account/~/extension/~/message-sync'],
-        10,
-      );
+      await phone.subscription.subscribe([
+        '/restapi/v1.0/account/~/extension/~/message-sync',
+      ]);
       await sleep(100);
       await mockPubnub();
 
@@ -886,10 +883,9 @@ describe('fax messages', () => {
         readStatus: 'read',
         direction: 'Outbound',
       });
-      await phone.subscription.subscribe(
-        ['/restapi/v1.0/account/~/extension/~/message-sync'],
-        10,
-      );
+      await phone.subscription.subscribe([
+        '/restapi/v1.0/account/~/extension/~/message-sync',
+      ]);
       await sleep(100);
       await mockPubnub();
 
@@ -908,10 +904,9 @@ describe('fax messages', () => {
         readStatus: 'read',
         direction: 'Outbound',
       });
-      await phone.subscription.subscribe(
-        ['/restapi/v1.0/account/~/extension/~/message-sync'],
-        10,
-      );
+      await phone.subscription.subscribe([
+        '/restapi/v1.0/account/~/extension/~/message-sync',
+      ]);
       await sleep(100);
       await mockPubnub();
       wrapper.update();

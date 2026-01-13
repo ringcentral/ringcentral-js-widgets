@@ -18,6 +18,7 @@ import {
   Then,
   title,
   When,
+  common,
 } from '@ringcentral-integration/test-utils';
 
 import {
@@ -33,6 +34,7 @@ import { TriggerActiveCallChanged } from '../../../../../../../steps/Mock';
 import { CheckRouterNavigation } from '../../../../../../../steps/Navigate';
 
 @autorun(test)
+@common
 @it
 @p1
 @title('Single/second incoming Call_ Send to voicemail - ${actionType}')

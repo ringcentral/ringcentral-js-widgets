@@ -12,6 +12,7 @@
  */
 import {
   autorun,
+  common,
   it,
   p2,
   Scenario,
@@ -33,6 +34,7 @@ import {
 } from '../../../../../../../steps/Meeting';
 
 @autorun(test.skip)
+@common
 @it
 @p2
 @title('Update PMI meeting - E2EE is on and locked')

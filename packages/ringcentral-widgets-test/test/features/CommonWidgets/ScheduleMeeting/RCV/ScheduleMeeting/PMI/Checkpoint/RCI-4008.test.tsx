@@ -21,6 +21,7 @@ import {
   title,
   When,
   And,
+  common,
 } from '@ringcentral-integration/test-utils';
 
 import { Login as CommonLogin } from '../../../../../../../steps/Login';
@@ -34,6 +35,7 @@ import {
 } from '../../../../../../../steps/Meeting';
 
 @autorun(test.skip)
+@common
 @it
 @p2
 @title('RCV - Schedule PMI meeting - check the meeting title')

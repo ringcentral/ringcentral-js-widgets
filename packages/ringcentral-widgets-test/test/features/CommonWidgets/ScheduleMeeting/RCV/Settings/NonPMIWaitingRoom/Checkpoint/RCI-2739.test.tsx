@@ -28,6 +28,7 @@ import {
   Then,
   title,
   When,
+  common,
 } from '@ringcentral-integration/test-utils';
 
 import { Login as CommonLogin } from '../../../../../../../steps/Login';
@@ -39,6 +40,7 @@ import {
 } from '../../../../../../../steps/Meeting';
 
 @autorun(test.skip)
+@common
 @it
 @p2
 @title('Waiting room values with respect to SW settings')
@@ -64,7 +66,7 @@ export class RCI2739 extends Step {
 								The option selected should be {waitingRoomOpt}"
           action={({ waitingRoomOpt }: any) => [
             <CheckboxIsChecked isChecked dataSign="enableWaitingRoom" />,
-            <CheckboxIsLocked isLocked dataSign="isWaitingRoomWrapper" />,
+            <CheckboxIsLocked isLocked dataSign="waitingRoomField" />,
             <CheckDropDownStatus
               dataSign="waitingRoom"
               isDisabled

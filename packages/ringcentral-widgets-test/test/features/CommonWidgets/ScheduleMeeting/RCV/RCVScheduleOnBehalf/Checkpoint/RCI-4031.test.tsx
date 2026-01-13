@@ -17,6 +17,7 @@
  */
 import {
   autorun,
+  common,
   it,
   p2,
   Scenario,
@@ -35,6 +36,7 @@ import {
 } from '../../../../../../steps/Meeting';
 
 @autorun(test.skip)
+@common
 @it
 @p2
 @title('Check instructions for Schedule on Behalf')

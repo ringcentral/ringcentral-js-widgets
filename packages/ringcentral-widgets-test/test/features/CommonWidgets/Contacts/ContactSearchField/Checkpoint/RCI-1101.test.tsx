@@ -22,6 +22,7 @@ import {
   When,
   Given,
   examples,
+  common,
 } from '@ringcentral-integration/test-utils';
 import { screen } from '@testing-library/react';
 
@@ -53,6 +54,7 @@ import {
 } from '../../../../../steps/SearchField';
 
 @autorun(test.skip)
+@common
 @it
 @p2
 @title('Search inactive user')

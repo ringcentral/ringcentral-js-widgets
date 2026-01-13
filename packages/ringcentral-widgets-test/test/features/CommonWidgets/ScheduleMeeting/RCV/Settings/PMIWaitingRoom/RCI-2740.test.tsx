@@ -31,16 +31,18 @@ import {
   And,
   title,
   When,
+  common,
 } from '@ringcentral-integration/test-utils';
 
 import { Login as CommonLogin } from '../../../../../../steps/Login';
 import {
-  TurnOnToggle,
   CheckRCVPageDisplay,
-  CheckDropDownStatus,
+  CheckWaitingRoomDropdown,
+  MarkOnPMIAndEdit,
 } from '../../../../../../steps/Meeting';
 
 @autorun(test.skip)
+@common
 @it
 @p2
 @title(
@@ -65,18 +67,16 @@ export class RCI2740 extends Step {
         />
         <And
           desc="Mark on 'Use Personal Meeting ID'"
-          action={<TurnOnToggle dataSign="usePersonalMeetingId" />}
+          action={<MarkOnPMIAndEdit />}
         />
         <Then
           desc="The Enable waiting room for the dropdown menu is disabled and view only
 								The option selected should be {waitingRoomOpt}"
-          action={({ waitingRoomOpt }: any) => [
-            <CheckDropDownStatus
-              dataSign="waitingRoom"
-              isDisabled
-              defaultValue={waitingRoomOpt}
-            />,
-          ]}
+          action={
+            <CheckWaitingRoomDropdown
+              defaultValue={this.example.waitingRoomOpt}
+            />
+          }
         />
       </Scenario>
     );

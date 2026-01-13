@@ -13,7 +13,7 @@
  * Entry point(/s):
  * The user opens the app-> Use Charles to catch this request and abort the response to simulate that platform is not accessible
  * Note(/s):
- * Request:'https://pubsub.pubnub.com/time/0'
+ * Request:'https://apps.ringcentral.com/integration/ping'
  */
 import {
   p2,
@@ -67,7 +67,7 @@ export class RCI2618 extends Step {
         <When
           desc="Use Charles to catch this request and execute the response to simulate that platform is accessible
 										Note(/s):
-										Request:'https://pubsub.pubnub.com/time/0'
+										Request:'https://apps.ringcentral.com/integration/ping'
 										Catch this request instead of RC API request because this is the logic in the current code now, maybe need to discuss later"
           action={() => [
             <UseFakeTimers />,
@@ -82,7 +82,7 @@ export class RCI2618 extends Step {
         <Then
           desc="The badge'Offline' disappear
 										All buttons are enabled
-										Charles can not capture the request'https://pubsub.pubnub.com/time/0'
+										Charles can not capture the request'https://apps.ringcentral.com/integration/ping'
 										User can make the call"
           action={() => [
             <CheckConnectivityBadge exists={false} />,

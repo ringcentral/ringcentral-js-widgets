@@ -26,6 +26,7 @@ import {
   Then,
   title,
   When,
+  common,
 } from '@ringcentral-integration/test-utils';
 
 import { generateDialPlanData } from '../../../../../__mock__/generateDialPlanData';
@@ -52,6 +53,7 @@ import {
 } from '../../../../../steps/Settings';
 
 @autorun(test)
+@common
 @it
 @p2
 @title('Region setting for multiple dialing plans (None US/CA)')

@@ -1,7 +1,7 @@
+import { SelectListBasic } from '@ringcentral-integration/widgets/components/SelectListBasic';
 import { RcThemeProvider } from '@ringcentral/juno';
 import { mount } from 'enzyme';
 import React from 'react';
-import { SelectListBasic } from '@ringcentral-integration/widgets/components/SelectListBasic';
 
 function renderFunction(option) {
   return option.value;

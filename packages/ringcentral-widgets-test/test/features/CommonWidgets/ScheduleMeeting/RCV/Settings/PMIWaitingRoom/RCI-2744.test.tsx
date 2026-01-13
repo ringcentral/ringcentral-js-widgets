@@ -38,6 +38,7 @@ import {
   Then,
   title,
   When,
+  common,
 } from '@ringcentral-integration/test-utils';
 
 import { Login as CommonLogin } from '../../../../../../steps/Login';
@@ -45,32 +46,34 @@ import {
   CheckboxIsChecked,
   CheckboxIsLocked,
   CheckRCVPageDisplay,
-  CheckDropDownStatus,
-  TurnOnToggle,
+  MarkOnPMIAndEdit,
+  CheckWaitingRoomDropdown,
 } from '../../../../../../steps/Meeting';
 
 @autorun(test.skip)
+@common
 @it
 @p2
 @title(
   'PMI waiting room options when AuthCanJoin is locked and the waiting room is unlocked',
 )
 export class RCI2744 extends Step {
-  Login: StepFunction<any, any>;
+  Login: StepFunction<any, any> = CommonLogin;
+
   @examples(`
     | authCanJoinInSW        | waitingRoomInSW             | waitingRoomInSWVal | waitingRoomInPMIVal | waitingRoomInPMI            | waitingRoomOpt              |
-    | 'Signed in users'      | 'Everyone'                  | 'all'              | 1                   | 'Everyone'                  | 'Everyone'                  |
-    | 'Signed in users'      | 'Anyone outside my company' | 'notcoworker'      | 1                   | 'Everyone'                  | 'Everyone'                  |
-    | 'Signed in co-workers' | 'Everyone'                  | 'all'              | 1                   | 'Everyone'                  | 'Everyone'                  |
-    | 'Signed in users'      | 'Everyone'                  | 'all'              | 3                   | 'Anyone outside my company' | 'Anyone outside my company' |
-    | 'Signed in users'      | 'Anyone outside my company' | 'notcoworker'      | 3                   | 'Anyone outside my company' | 'Anyone outside my company' |
-    | 'Signed in co-workers' | 'Everyone'                  | 'all'              | 3                   | 'Anyone outside my company' | 'Everyone'                  |
-    | 'Signed in users'      | 'Everyone'                  | 'all'              | 2                   | 'Anyone not signed in'      | 'Everyone'                  |
-    | 'Signed in users'      | 'Anyone outside my company' | 'notcoworker'      | 2                   | 'Anyone not signed in'      | 'Anyone outside my company' |
-    | 'Signed in co-workers' | 'Everyone'                  | 'all'              | 2                   | 'Anyone not signed in'      | 'Everyone'                  |
+    | 'Signed in users'      | 'Everyone'                  | 'all'              | 'Everybody'         | 'Everyone'                  | 'Everyone'                  |
+    | 'Signed in users'      | 'Anyone outside my company' | 'notcoworker'      | 'Everybody'         | 'Everyone'                  | 'Everyone'                  |
+    | 'Signed in co-workers' | 'Everyone'                  | 'all'              | 'Everybody'         | 'Everyone'                  | 'Everyone'                  |
+    | 'Signed in users'      | 'Everyone'                  | 'all'              | 'OtherAccount'      | 'Anyone outside my company' | 'Anyone outside my company' |
+    | 'Signed in users'      | 'Anyone outside my company' | 'notcoworker'      | 'OtherAccount'      | 'Anyone outside my company' | 'Anyone outside my company' |
+    | 'Signed in co-workers' | 'Everyone'                  | 'all'              | 'OtherAccount'      | 'Anyone outside my company' | 'Everyone'                  |
+    | 'Signed in users'      | 'Everyone'                  | 'all'              | 'GuestsOnly'        | 'Anyone not signed in'      | 'Everyone'                  |
+    | 'Signed in users'      | 'Anyone outside my company' | 'notcoworker'      | 'GuestsOnly'        | 'Anyone not signed in'      | 'Anyone outside my company' |
+    | 'Signed in co-workers' | 'Everyone'                  | 'all'              | 'GuestsOnly'        | 'Anyone not signed in'      | 'Everyone'                  |
   `)
   run() {
-    const { Login = CommonLogin } = this;
+    const { Login } = this;
     return (
       <Scenario desc="PMI waiting room options when AuthCanJoin is locked and the waiting room is unlocked">
         <When desc="Go to Entry point" action={Login} />
@@ -80,19 +83,14 @@ export class RCI2744 extends Step {
         />
         <And
           desc="Mark on 'Use Personal Meeting ID'"
-          action={<TurnOnToggle dataSign="usePersonalMeetingId" />}
+          action={MarkOnPMIAndEdit}
         />
         <Then
           desc="Check the Enable waiting room for status and option, which should be {waitingRoomOpt}"
-          action={({ waitingRoomOpt }: any) => [
+          action={({ waitingRoomOpt }: { waitingRoomOpt: string }) => [
             <CheckboxIsChecked isChecked dataSign="enableWaitingRoom" />,
-            <CheckboxIsLocked
-              isLocked={false}
-              dataSign="isWaitingRoomWrapper"
-            />,
-            <CheckDropDownStatus
-              // all pmi status is default as disabled
-              isDisabled
+            <CheckboxIsLocked isLocked={false} dataSign="waitingRoomField" />,
+            <CheckWaitingRoomDropdown
               dataSign="waitingRoom"
               defaultValue={waitingRoomOpt}
             />,

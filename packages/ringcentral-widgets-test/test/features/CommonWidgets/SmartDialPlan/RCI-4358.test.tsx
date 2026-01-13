@@ -25,6 +25,7 @@ import { Category } from '@ringcentral-integration/commons/interfaces/NumberPars
 import {
   And,
   autorun,
+  common,
   examples,
   Given,
   it,
@@ -56,6 +57,7 @@ import { SetAreaCode } from '../../../steps/Settings';
 // come from dialingPlan ringcentral-js-widgets/ringcentral-mock/src/platform/data/dialingPlan.json
 
 @autorun(test.skip)
+@common
 @it
 @p2
 @title('SDP enable and dialed invalid pstn number when EDP be enabled')

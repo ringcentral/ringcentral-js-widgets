@@ -10,6 +10,7 @@ import {
   title,
   When,
   And,
+  common,
 } from '../../../../../lib/step';
 import {
   CheckMessageItemHighlight,
@@ -23,6 +24,7 @@ import { MockMessageList, MockMessageSync } from '../../../../../steps/Mock';
 import { NavigateToMessagesTab } from '../../../../../steps/Navigate';
 
 @autorun(test.skip)
+@common
 @p2
 @title('To Verify the layout of Messages')
 export class MessageLayout extends Step {

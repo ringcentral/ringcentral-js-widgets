@@ -19,6 +19,7 @@ import {
 } from '../../support/callHelper';
 import { mockConferenceCallEnv } from '../CallCtrlPage/helper';
 import { initPhoneWrapper, tearDownWrapper } from '../shared';
+
 import deviceBody from './data/device.json';
 
 beforeEach(async () => {
@@ -33,10 +34,9 @@ async function enterToNumber(domInput, number) {
 async function updateCallMonitorCalls(phone) {
   const activeCallsBody = mockActiveCalls(phone.webphone.sessions, []);
   mock.activeCalls(activeCallsBody);
-  await phone.subscription.subscribe(
-    ['/restapi/v1.0/account/~/extension/~/presence'],
-    10,
-  );
+  await phone.subscription.subscribe([
+    '/restapi/v1.0/account/~/extension/~/presence',
+  ]);
   await sleep(100);
   await mockPresencePubnub(activeCallsBody);
 }

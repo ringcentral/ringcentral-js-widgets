@@ -19,6 +19,7 @@ import { Category } from '@ringcentral-integration/commons/interfaces/NumberPars
 import {
   And,
   autorun,
+  common,
   examples,
   Given,
   it,
@@ -50,6 +51,7 @@ import { NavigateTo } from '../../../steps/Router';
 import { SetAreaCode } from '../../../steps/Settings';
 
 @autorun(test.skip)
+@common
 @it
 @p2
 @title('Call to external when the Ext changes')

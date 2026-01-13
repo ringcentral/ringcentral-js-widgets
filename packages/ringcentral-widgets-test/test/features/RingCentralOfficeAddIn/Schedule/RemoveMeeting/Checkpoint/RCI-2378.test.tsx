@@ -23,6 +23,7 @@ import {
   Then,
   title,
   When,
+  common,
 } from '@ringcentral-integration/test-utils';
 
 import { CheckAlertToBeCallWith } from '../../../../../steps/Alert';
@@ -39,6 +40,7 @@ import {
 } from '../../../../../steps/Modal';
 
 @autorun(test.skip)
+@common
 @it
 @p2
 @title('RCV:Check the remove meeting button')
@@ -66,8 +68,8 @@ export class RCI2378 extends Step {
         <When desc="User click the Remove button" action={ClickRemoveButton} />
         <Then
           desc="Should show popup confirmation message:
-										Title: Remove meeting?
-										Content: Would you like to remove the meeting?
+										Title: Remove RingCentral meeting?
+										Content: The RingCentral meeting will be removed from this event.
 										Cancel button
 										Remove button(default select)
 										[L10N][Update OfficeAdd-in_21.1.1]"

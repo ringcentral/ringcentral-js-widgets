@@ -33,7 +33,6 @@ import {
   MockGetPhoneNumber,
   MockMessageSync,
   MockNumberParserV2,
-  MockPostOauthToken,
 } from '../../../../steps/Mock';
 import { CheckRoutePathIs, NavigateTo } from '../../../../steps/Router';
 
@@ -45,7 +44,11 @@ import { CheckRoutePathIs, NavigateTo } from '../../../../steps/Router';
 export class RCI1322 extends Step {
   CreateMock: StepFunction<any, any> = CommonCreateMock;
   Login: StepFunction<any, any> = (props) => (
-    <CommonLogin {...props} CreateInstance={CreateInstance} />
+    <CommonLogin
+      skipActiveCallControlReadyCheck
+      {...props}
+      CreateInstance={CreateInstance}
+    />
   );
 
   run() {

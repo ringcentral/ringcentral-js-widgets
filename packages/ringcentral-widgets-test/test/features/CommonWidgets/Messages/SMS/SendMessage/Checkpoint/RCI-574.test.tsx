@@ -14,6 +14,7 @@ import {
   Then,
   title,
   When,
+  common,
 } from '../../../../../../lib/step';
 import { CommonLogin } from '../../../../../../steps/CommonLogin';
 import { CreateInstance } from '../../../../../../steps/CreateInstance';
@@ -32,6 +33,7 @@ import {
 } from '../../../../../../steps/Navigate';
 
 @autorun(test)
+@common
 @p2
 @title('Compose text page')
 export class ComposeTextPage extends Step {

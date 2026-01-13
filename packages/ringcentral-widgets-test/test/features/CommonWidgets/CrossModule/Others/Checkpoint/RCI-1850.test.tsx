@@ -27,6 +27,7 @@ import {
   Then,
   title,
   When,
+  common,
 } from '@ringcentral-integration/test-utils';
 
 import type { StepProp } from '../../../../../lib/step';
@@ -41,6 +42,7 @@ import {
 import { NavigateToContacts } from '../../../../../steps/Navigate';
 
 @autorun(test)
+@common
 @it
 @p2
 @title('Check call/sms to short ext begin with 0')

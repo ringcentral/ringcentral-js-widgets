@@ -29,6 +29,7 @@
  */
 import {
   autorun,
+  common,
   examples,
   Given,
   it,
@@ -69,7 +70,7 @@ const exampleData = [
   },
   {
     brand: 'telus',
-    brandName: 'TELUS Business Connect Phone',
+    brandName: 'TELUS Business Connect™ Phone',
     link: /rctelus:\/\/call\?number=.+/,
   },
 ];
@@ -83,6 +84,7 @@ afterEach(() => {
 });
 
 @autorun(test.skip)
+@common
 @it
 @p2
 @title('Outbound call - from ${brandName} Phone(RC phone)')

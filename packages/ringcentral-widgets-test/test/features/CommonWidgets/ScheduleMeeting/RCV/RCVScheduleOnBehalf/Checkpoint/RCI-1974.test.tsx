@@ -10,6 +10,7 @@
  */
 import {
   autorun,
+  common,
   it,
   p2,
   Scenario,
@@ -31,6 +32,7 @@ import {
 } from '../../../../../../steps/Meeting';
 
 @autorun(test.skip)
+@common
 @it
 @p2
 @title('RCV - Schedule on behalf - Add PMI meeting')

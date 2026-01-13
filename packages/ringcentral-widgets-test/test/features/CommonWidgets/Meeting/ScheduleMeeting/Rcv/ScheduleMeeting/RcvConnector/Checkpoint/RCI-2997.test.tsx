@@ -73,6 +73,8 @@ export class RCVConnector extends Step {
   CreateMock: StepProp = CreateMock;
   CheckRCVPage: StepProp = CheckRCVPageDisplay;
   CheckEmptyInjection: StepProp = () => {};
+  useV1 = true;
+
   @examples(`
     | isMeetingSecret | meetingPassword |
     | true            | 'pwd123'        |
@@ -117,12 +119,12 @@ export class RCVConnector extends Step {
               return [
                 <TurnOnToggle dataSign="requirePassword" />,
                 <EnterPassword password={meetingPassword} />,
-                ClickScheduleButton,
+                <ClickScheduleButton useV1={this.useV1} />,
               ];
             }
             return [
               <TurnOffToggle dataSign="requirePassword" />,
-              ClickScheduleButton,
+              <ClickScheduleButton useV1={this.useV1} />,
             ];
           }}
         />

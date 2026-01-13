@@ -21,6 +21,7 @@ import { Category } from '@ringcentral-integration/commons/interfaces/NumberPars
 import {
   And,
   autorun,
+  common,
   examples,
   Given,
   it,
@@ -47,6 +48,7 @@ import {
 import { NavigateTo } from '../../../../../../steps/Router';
 
 @autorun(test.skip)
+@common
 @it
 @p1
 @title('EDP enable and send to message incorrect number')

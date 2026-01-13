@@ -55,11 +55,11 @@ describe('RCI-1038#4 All Calls Page', () => {
     if (ringCallPanel.find(ActiveCallItemV2).length > 0) {
       buttons = ringCallPanel
         .find(ActiveCallItemV2)
-        .find('.webphoneButtons > span');
+        .find('span');
     } else if (ringCallPanel.find(ActiveCallItem).length > 0) {
       buttons = ringCallPanel
         .find(ActiveCallItem)
-        .find('.webphoneButtons > span');
+        .find('span');
     }
     expect(buttons.at(0).props().title).toEqual('To Voicemail');
     expect(buttons.at(1).props().title).toEqual('Answer');
@@ -80,13 +80,13 @@ describe('RCI-1038#4 All Calls Page', () => {
     if (panel.props().useV2) {
       const buttons = currentCallPanel
         .find(ActiveCallItemV2)
-        .find('.webphoneButtons > span');
+        .find('span');
       expect(buttons.at(0).props().title).toEqual('Hold');
       expect(buttons.at(1).props().title).toEqual('Hang up');
     } else {
       const buttons = currentCallPanel
         .find(ActiveCallItem)
-        .find('.webphoneButtons > span');
+        .find('span');
       expect(buttons.at(0).props().title).toEqual('Hang up');
       expect(buttons.at(1).props().title).toEqual('Accept');
     }
@@ -107,13 +107,13 @@ describe('RCI-1038#4 All Calls Page', () => {
     if (panel.props().useV2) {
       const buttons = onHoldCallPanel
         .find(ActiveCallItemV2)
-        .find('.webphoneButtons > span');
+        .find('span');
       expect(buttons.at(0).props().title).toEqual('Unhold');
       expect(buttons.at(1).props().title).toEqual('Hang up');
     } else {
       const buttons = onHoldCallPanel
         .find(ActiveCallItem)
-        .find('.webphoneButtons > span');
+        .find('span');
       expect(buttons.at(0).props().title).toEqual('Hang up');
       expect(buttons.at(1).props().title).toEqual('Accept');
     }

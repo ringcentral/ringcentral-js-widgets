@@ -21,12 +21,14 @@ import {
   Then,
   title,
   When,
+  common,
 } from '@ringcentral-integration/test-utils';
 
 import { Login as CommonLogin } from '../../../../steps/Login';
 import { CheckRCVPageDisplay } from '../../../../steps/Meeting';
 
 @autorun(test.skip)
+@common
 @it
 @p2
 @title('Check CTI remains login status for a certain period of time')

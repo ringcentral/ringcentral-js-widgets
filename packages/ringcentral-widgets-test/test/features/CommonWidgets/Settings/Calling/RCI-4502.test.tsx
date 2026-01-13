@@ -29,12 +29,11 @@ export class CheckCallWithSoftphoneOption extends Step {
   @examples(`
     | brandId | subBrandId         | brandName   | spartanName                    | showSoftphoneOption |
     | '1210'  | undefined          | 'rc'        | 'RingCentral Phone'            | true                |
-    | '3420'  | undefined          | 'att'       | 'AT&T Office@Hand Phone'       | true                |
+    | '3460'  | undefined          | 'att'       | 'AT&T Office@Hand Phone'       | true                |
     | '7710'  | undefined          | 'bt'        | 'BT Cloud Work Phone'          | true                |
-    | '7310'  | undefined          | 'telus'     | 'TELUS Business Connect Phone' | true                |
+    | '7310'  | undefined          | 'telus'     | 'TELUS Business Connect™ Phone' | true                |
     | '6010'  | undefined          | 'avaya'     | 'Avaya Cloud Office Phone'     | true                |
     | '2020'  | undefined          | 'atos'      | 'Unify Office Phone'           | true                |
-    | '2110'  | undefined          | 'rainbow'   | 'Rainbow Office Phone'         | true                |
     | '2210'  | undefined          | 'verizon'   | 'RingCentral Phone'            | true                |
     | '7010'  | undefined          | 'vodafone'  | 'RingCentral Phone'            | true                |
     | '4210'  | undefined          | 'ecotel'    | 'N.A.'                         | false               |

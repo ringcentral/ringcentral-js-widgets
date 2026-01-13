@@ -30,20 +30,20 @@ import { Login as CommonLogin } from '../../../../steps/Login';
 import { CheckRCVPageDisplay } from '../../../../steps/Meeting';
 
 @autorun(test.skip)
+@common
 @it
 @p1
-@common
 @title('Meeting information should be injected into Outlook after add meeting')
 export class RCI2424 extends Step {
   Login: StepFunction<any, any> = CommonLogin;
   CheckInjection: StepFunction<any, any> = () => {};
   @examples(`
-    | brand   | topic                                  | brandName            |
-    | 'rc'    | 'RingCentral Video Meeting'            | 'RingCentral'        |
-    | 'bt'    | 'BT Cloud Work Video Meeting'          | 'Cloud Work'         |
+    | brand   | topic                                   | shortBrandName       |
+    | 'rc'    | 'RingCentral Video Meeting'             | 'RingCentral'        |
+    | 'bt'    | 'BT Cloud Work Video Meeting'           | 'Cloud Work'         |
     | 'telus' | 'TELUS Business Connect Video Meeting' | 'Business Connect'   |
-    | 'avaya' | 'Avaya Cloud Office Video Meeting'     | 'Avaya Cloud Office' |
-    | 'att'   | 'AT&T Office@Hand Meetings Meeting'    | 'AT&T Office@Hand'   |
+    | 'avaya' | 'Avaya Cloud Office Video Meeting'      | 'Avaya Cloud Office' |
+    | 'att'   | 'AT&T Office@Hand Meetings Meeting'     | 'Office@Hand'        |
   `)
   run() {
     const { Login, CheckInjection } = this;

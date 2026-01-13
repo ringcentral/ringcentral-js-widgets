@@ -13,6 +13,7 @@
  */
 import {
   autorun,
+  common,
   examples,
   it,
   p2,
@@ -35,6 +36,7 @@ import {
 } from '../../../../../../../steps/Meeting';
 
 @autorun(test.skip)
+@common
 @it
 @p2
 @title('Interaction with other security options when E2EE is on')
@@ -125,11 +127,11 @@ export class RCI3286 extends Step {
               dataSign="waitingRoom"
               options={[
                 {
-                  value: 'Anyone outside my company',
-                  isSelected: true,
+                  value: 'Everyone',
                 },
                 {
-                  value: 'Everyone',
+                  value: 'Anyone outside my company',
+                  isSelected: true,
                 },
                 {
                   value: 'Anyone not signed in',

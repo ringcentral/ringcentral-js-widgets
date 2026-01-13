@@ -24,6 +24,7 @@ import {
   title,
   And,
   When,
+  common,
 } from '@ringcentral-integration/test-utils';
 
 import { SelectOptionFromDropDown } from '../../../../steps/Common';
@@ -31,14 +32,15 @@ import { Login as CommonLogin } from '../../../../steps/Login';
 import {
   CheckRCVPageDisplay,
   ClickScheduleButton,
-  CheckPostMeetingParams,
   CheckDropDownStatus,
   CheckScheduleButton,
   CheckRemoveButton,
+  CheckPostMeetingUrlParams,
 } from '../../../../steps/Meeting';
 
 // could not mock relogin in single case, will separate into 2 cases.
 @autorun(test.skip)
+@common
 @it
 @p2
 @title('Update meeting - for different delegators: Schedule for userB')
@@ -79,7 +81,7 @@ export class RCI2368_ScheduleForUserB extends Step {
         <Then
           desc="Schedule the meeting successfully"
           action={async ({ userBId }: any) => [
-            <CheckPostMeetingParams extensionId={userBId} />,
+            <CheckPostMeetingUrlParams extensionId={userBId} />,
             CheckInvitationInjection,
           ]}
         />
@@ -89,18 +91,23 @@ export class RCI2368_ScheduleForUserB extends Step {
 }
 
 @autorun(test.skip)
+@common
 @it
 @p2
 @title('Update meeting - for different delegators: display for delegator userB')
 export class RCI2368_DisplayForUserB extends Step {
   Login: StepFunction<any, any> = CommonLogin;
+  CheckRemoveButton = CheckRemoveButton;
   CheckInjectionNotHaveBeenCalled: StepFunction<any, any> = () => {};
+  CheckScheduleButton = (
+    <CheckScheduleButton buttonText="Update" isDisabled />
+  );
   @examples(`
     | userB          | userC          | userBId    | userCId    | accountId   |
     | 'TestAccountB' | 'TestAccountC' | '11111111' | '22222222' | '208594004' |
   `)
   run() {
-    const { Login, CheckInjectionNotHaveBeenCalled } = this;
+    const { Login, CheckInjectionNotHaveBeenCalled, CheckRemoveButton } = this;
     return (
       <Scenario desc="Update meeting - for different delegators">
         <Given
@@ -125,7 +132,7 @@ export class RCI2368_DisplayForUserB extends Step {
               isDisabled={false}
             />,
             CheckRemoveButton,
-            <CheckScheduleButton buttonText="Update" isDisabled />,
+            this.CheckScheduleButton,
           ]}
         />
       </Scenario>

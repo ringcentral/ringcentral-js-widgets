@@ -18,6 +18,7 @@ import {
   title,
   When,
   And,
+  common,
 } from '../../../../../lib/step';
 import { CommonLogin } from '../../../../../steps/CommonLogin';
 import { CreateInstance } from '../../../../../steps/CreateInstance';
@@ -38,6 +39,7 @@ import {
 } from '../../../../../steps/Navigate';
 
 @autorun(test)
+@common
 @p2
 @title('Search phone number on the Messages list')
 export class SearchMessagesListNumber extends Step {
@@ -118,6 +120,7 @@ export class SearchMessagesListNumber extends Step {
 }
 
 @autorun(test)
+@common
 @p2
 @title('Search name on the Messages list')
 export class SearchMessagesListName extends Step {
@@ -233,6 +236,7 @@ export class SearchMessagesListName extends Step {
 }
 
 @autorun(test)
+@common
 @p2
 @title('Search content on the Messages list')
 export class SearchMessagesListContent extends Step {

@@ -28,6 +28,7 @@ import {
   Then,
   title,
   When,
+  common,
 } from '@ringcentral-integration/test-utils';
 import { waitFor } from '@testing-library/react';
 
@@ -52,6 +53,7 @@ import {
 } from '../../../../../steps/Navigate';
 
 @autorun(test.skip)
+@common
 @it
 @p2
 @title('Check the contact search result')

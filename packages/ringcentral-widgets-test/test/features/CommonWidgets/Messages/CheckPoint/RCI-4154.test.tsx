@@ -15,6 +15,7 @@ import {
   title,
   When,
   And,
+  common,
 } from '../../../../lib/step';
 import { CommonLogin } from '../../../../steps/CommonLogin';
 import { CreateInstance } from '../../../../steps/CreateInstance';
@@ -34,6 +35,7 @@ import {
 } from '../../../../steps/Navigate';
 
 @autorun(test)
+@common
 @p2
 @title('Check action buttons in ${type} when offline')
 export class MessageActionButtonWhenOffline extends Step {
@@ -106,6 +108,12 @@ export class MessageActionButtonWhenOffline extends Step {
             <NavigateToTypeTabUnderMessage type={type} />,
             ExpandTheActionMenu,
             async (_: any, { phone }: any) => {
+              const client =
+                phone.connectivityMonitor._deps.client.service.client();
+              client.off(
+                client.events.requestSuccess,
+                phone.connectivityMonitor._requestSuccessHandler,
+              );
               phone.connectivityMonitor._networkErrorHandler();
             },
           ]}

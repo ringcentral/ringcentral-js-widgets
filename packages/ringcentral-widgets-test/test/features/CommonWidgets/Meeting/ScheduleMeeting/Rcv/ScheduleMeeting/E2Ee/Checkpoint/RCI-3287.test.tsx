@@ -26,6 +26,7 @@ import {
   title,
   When,
   And,
+  common,
 } from '@ringcentral-integration/test-utils';
 
 import type { StepProp } from '../../../../../../../../lib/step';
@@ -37,6 +38,7 @@ import {
 } from '../../../../../../../../steps/Meeting';
 
 @autorun(test.skip)
+@common
 @it
 @p1
 @title(

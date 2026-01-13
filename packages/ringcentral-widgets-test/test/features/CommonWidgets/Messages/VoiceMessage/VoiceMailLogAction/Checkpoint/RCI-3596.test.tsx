@@ -48,6 +48,7 @@
 import type { StepProp } from '@ringcentral-integration/test-utils';
 import {
   autorun,
+  common,
   examples,
   Given,
   it,
@@ -76,6 +77,7 @@ import { NavigateToVoiceMail } from '../../../../../../steps/Navigate';
 import { CheckConversationTabTooltip } from '../../../../../../steps/Navigate/checks/CheckConversationTabsTooltip';
 
 @autorun(test.skip)
+@common
 @it
 @p2
 @title('Tooltip verification in Messages_Voice')

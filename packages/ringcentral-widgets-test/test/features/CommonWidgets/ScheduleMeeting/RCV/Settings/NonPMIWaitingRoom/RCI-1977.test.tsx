@@ -22,6 +22,7 @@ import {
   Then,
   title,
   When,
+  common,
 } from '@ringcentral-integration/test-utils';
 
 import { SelectOptionFromDropDown } from '../../../../../../steps/Common';
@@ -37,6 +38,7 @@ import {
 } from '../../../../../../steps/Meeting';
 
 @autorun(test.skip)
+@common
 @it
 @p2
 @title(
@@ -63,7 +65,7 @@ export class RCI1977Part1 extends Step {
           action={[
             <CheckItemLabel
               label="Enable waiting room"
-              dataSign="isWaitingRoomWrapper"
+              dataSign="waitingRoomField"
             />,
             <TurnOnToggle dataSign="enableWaitingRoom" />,
           ]}
@@ -74,7 +76,7 @@ export class RCI1977Part1 extends Step {
           action={[
             <CheckItemLabel
               label="Enable waiting room for"
-              dataSign="isWaitingRoomWrapper"
+              dataSign="waitingRoomField"
             />,
             <CheckboxIsChecked
               isChecked={false}
@@ -124,6 +126,7 @@ export class RCI1977Part1 extends Step {
 }
 
 @autorun(test.skip)
+@common
 @it
 @p2
 @title(
