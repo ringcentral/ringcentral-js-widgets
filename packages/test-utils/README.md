@@ -111,3 +111,11 @@ and call `log()` on the code that needs to be debugged.
     you can call `debugPreview()` inside debug mode to re-render page directly.
 
 View more detail refer to [jest-preview](https://www.jest-preview.com/docs/getting-started/usage)
+
+## Next Jest Config
+
+### `teardown`
+
+- `global.instance.autoLogout` - default `true`, will auto logout after each test case.
+- `global.instance.autoFlush` - default `true`, will auto flush all promises after each test case.
+- `global.instance.autoPurge` - default `true`, will auto purge all mocks after each test case.

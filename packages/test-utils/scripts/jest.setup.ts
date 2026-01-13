@@ -2,15 +2,32 @@
 import debug from 'debug';
 import preview from 'jest-preview';
 import { TextDecoder, TextEncoder } from 'util';
+import { v4 as uuidv4 } from 'uuid';
 
+// use roarr logger and disable roarr mock logger
+// doc: https://github.com/gajus/roarr?tab=readme-ov-file#nodejs
+// @ts-ignore
+process.env.ROARR_LOG = true;
 window.HTMLMediaElement.prototype.pause = () => {};
 window.HTMLMediaElement.prototype.play = async () => {};
 window.HTMLMediaElement.prototype.load = async () => {};
+window.matchMedia = () =>
+  ({
+    matches: false,
+    addListener: () => {},
+    removeListener: () => {},
+    addEventListener: () => {},
+    removeEventListener: () => {},
+  } as any);
+// @ts-ignore
+
 window.setImmediate = (cb) => setTimeout(cb, 0);
+// @ts-ignore
 window.authData = null;
 
 Element.prototype.scrollIntoView = () => {};
 
+// @ts-ignore
 if (__CI__ || process.env.DEBUG) {
   const log = debug('log');
 
@@ -20,6 +37,7 @@ if (__CI__ || process.env.DEBUG) {
     if (global.__CI__) {
       global.consoleMessages.push([new Date().toJSON(), ...args]);
     } else {
+      // @ts-ignore
       log(...args);
     }
   };
@@ -51,8 +69,10 @@ global.ResizeObserver = jest.fn().mockImplementation(() => ({
   disconnect: jest.fn(),
 }));
 
+// @ts-ignore
 global.CSSAnimation = class CSSAnimation {
   constructor() {
+    // @ts-ignore
     this.currentTime = Math.random();
   }
 };
@@ -61,8 +81,39 @@ Element.prototype.getAnimations = jest.fn(function () {
   // eslint-disable-next-line no-undef
   const ani = new CSSAnimation();
   ani.currentTime = Math.random();
+  // @ts-ignore
   ani.animationName = this.style.animation.split(' ')[0];
   return [ani];
 });
 
 Object.assign(global, { TextDecoder, TextEncoder });
+
+// Mock DOMRect if not available in test environment
+if (!global.DOMRect) {
+  class DOMRect {
+    get left() {
+      return this.x;
+    }
+    get top() {
+      return this.y;
+    }
+    get right() {
+      return this.x + this.width;
+    }
+    get bottom() {
+      return this.y + this.height;
+    }
+    constructor(
+      public x: number = 0,
+      public y: number = 0,
+      public width: number = 0,
+      public height: number = 0,
+    ) {}
+  }
+  global.DOMRect = DOMRect as any;
+}
+
+if (typeof global.crypto?.randomUUID !== 'function') {
+  global.crypto = global.crypto || ({} as Crypto);
+  global.crypto.randomUUID = jest.fn().mockImplementation(uuidv4);
+}

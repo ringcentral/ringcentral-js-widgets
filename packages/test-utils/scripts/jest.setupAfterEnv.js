@@ -10,6 +10,23 @@ if (__CI__) {
   jest.setTimeout(30 * 1000);
 }
 
+jest.mock('mixpanel-browser', () => {
+  let identify = null;
+  return {
+    identify: jest.fn((id) => {
+      identify = id;
+    }),
+    reset: jest.fn(() => {
+      identify = null;
+    }),
+    init: jest.fn(),
+    set_config: jest.fn(),
+    get_config: jest.fn(),
+    get_distinct_id: jest.fn(() => identify),
+    track: jest.fn(),
+  };
+});
+
 beforeEach(() => {
   if (global.log) {
     const testName = expect.getState().currentTestName;
