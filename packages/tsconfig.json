@@ -64,7 +64,7 @@
     "forceConsistentCasingInFileNames": true,
     "resolveJsonModule": true,
     // for all test files
-    "types": ["@testing-library/jest-dom"]
+    "types": ["@testing-library/jest-dom", "@types/chrome"]
   },
   "exclude": ["node_modules"]
 }
