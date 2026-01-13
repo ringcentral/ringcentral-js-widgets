@@ -39,7 +39,8 @@
   },
   "nx": {
     "tags": [
-      "scope:ci-group-1"
+      "scope:ci-group-1",
+      "scope:ci-test"
     ]
   }
 }
