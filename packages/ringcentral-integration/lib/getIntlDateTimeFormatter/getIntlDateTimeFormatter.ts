@@ -28,7 +28,10 @@ export const DEFAULT_DATE_TIME_OPTIONS: Intl.DateTimeFormatOptions = {
   day: 'numeric',
   hour: 'numeric',
   minute: 'numeric',
-  hour12: false,
+  // ! not use hour12, because it will cause the time format to be different in different locales and browsers
+  // https://stackoverflow.com/questions/68646411/date-tolocalestringen-us-hour12-false-is-providing-midnight-as-24
+  // https://github.com/microsoft/vscode/issues/117970
+  hourCycle: 'h23',
 };
 
 export const DEFAULT_DATE_OPTIONS: Intl.DateTimeFormatOptions = {
@@ -40,7 +43,10 @@ export const DEFAULT_DATE_OPTIONS: Intl.DateTimeFormatOptions = {
 export const DEFAULT_TIME_OPTIONS: Intl.DateTimeFormatOptions = {
   hour: 'numeric',
   minute: 'numeric',
-  hour12: false,
+  // ! not use hour12, because it will cause the time format to be different in different locales and browsers
+  // https://stackoverflow.com/questions/68646411/date-tolocalestringen-us-hour12-false-is-providing-midnight-as-24
+  // https://github.com/microsoft/vscode/issues/117970
+  hourCycle: 'h23',
 };
 
 export default function getIntlDateTimeFormatter({

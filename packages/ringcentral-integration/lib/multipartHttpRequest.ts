@@ -19,6 +19,10 @@ type MultipartHttpRequestOptions = {
   skipDiscoveryCheck?: boolean;
   handleRateLimit?: boolean | number;
   retry?: boolean;
+  /**
+   * when `batch` is `true`, the response will be a list of response
+   */
+  batch?: boolean;
 } & MultiPartUTF8FormDataOptions;
 
 /**
@@ -80,6 +84,7 @@ export function multipartHttpRequest(platform: Platform) {
       files,
       query,
       headers = {},
+      batch,
       ...rest
     }: MultipartHttpRequestOptions,
   ) => {
@@ -136,6 +141,15 @@ export function multipartHttpRequest(platform: Platform) {
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const multipartResult = await (platform as any)._client.toMultipart(result);
+
+    if (batch) {
+      const result = await Promise.all(
+        multipartResult.map((res: Response) => res.json()),
+      );
+
+      return result;
+    }
+
     const responseData = await multipartResult?.[0]?.json();
 
     return responseData;

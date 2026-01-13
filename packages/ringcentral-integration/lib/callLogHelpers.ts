@@ -1,4 +1,5 @@
 import type ActiveCallInfoWithoutSIP from '@rc-ex/core/lib/definitions/ActiveCallInfoWithoutSIP';
+import type CallLogRecord from '@rc-ex/core/lib/definitions/CallLogRecord';
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 import {
   isSameLocalNumber,
@@ -13,7 +14,7 @@ import type { CallResultsKey } from '../enums/callResults';
 import { callResults } from '../enums/callResults';
 import telephonyStatuses from '../enums/telephonyStatus';
 import { terminationTypes } from '../enums/terminationTypes';
-import type { Call } from '../interfaces/Call.interface';
+import type { Call, CallerInfo } from '../interfaces/Call.interface';
 import type { ActiveCall } from '../interfaces/Presence.model';
 
 // import i18n from './i18n';
@@ -25,6 +26,80 @@ export function isInbound(call: { direction?: string } = {}) {
 
 export function isOutbound(call: { direction?: string } = {}) {
   return call.direction === callDirections.outbound;
+}
+
+export function isExtensionCall(
+  callItem: Call,
+  mainCompanyNumbers: (string | undefined)[],
+): boolean {
+  const isCompanyNumber = (phoneInfo: CallerInfo | undefined): boolean => {
+    if (
+      phoneInfo?.phoneNumber &&
+      mainCompanyNumbers?.includes(phoneInfo.phoneNumber)
+    ) {
+      return true;
+    }
+    return false;
+  };
+
+  const isInbound = (call: Call): boolean => call.direction === 'Inbound';
+  const isOutbound = (call: Call): boolean => call.direction === 'Outbound';
+
+  const recipientCallInfo = isInbound(callItem) ? callItem.from : callItem.to;
+
+  if (isCompanyNumber(recipientCallInfo)) {
+    return true;
+  }
+
+  const toMatches = callItem.toMatches ?? [];
+  const fromMatches = callItem.fromMatches ?? [];
+  const to = callItem.to;
+  const from = callItem.from;
+
+  if (isOutbound(callItem) && toMatches?.length) {
+    return !!toMatches.find((match: any) => {
+      if (match.type !== 'company') {
+        return false;
+      }
+
+      const hasExtensionMatch =
+        match.extensionNumber &&
+        (match.extensionNumber === to?.phoneNumber ||
+          match.extensionNumber === to?.extensionNumber);
+
+      if (hasExtensionMatch) {
+        return true;
+      }
+
+      const phoneMatch = !!match.phoneNumbers?.some(
+        (phone: { phoneNumber: string }) =>
+          phone.phoneNumber === to?.phoneNumber,
+      );
+      return phoneMatch;
+    });
+  } else if (isInbound(callItem) && fromMatches?.length) {
+    return !!fromMatches.find((match: any) => {
+      if (match.type !== 'company') {
+        return false;
+      }
+
+      const hasExtensionMatch =
+        match.extensionNumber &&
+        (match.extensionNumber === from?.phoneNumber ||
+          match.extensionNumber === from?.extensionNumber);
+
+      if (hasExtensionMatch) {
+        return true;
+      }
+
+      const phoneMatch = !!match.phoneNumbers?.some(
+        (phone: { phoneNumber: string }) =>
+          phone.phoneNumber === from?.phoneNumber,
+      );
+      return phoneMatch;
+    });
+  }
+  return false;
 }
 
 // get caller id name for webphone session
@@ -83,7 +158,9 @@ const callResultsToMissedMap = ObjectMap.fromObject(
   ),
 );
 
-export function isMissed(call: Pick<Call, 'result'> = {}) {
+export function isMissed(
+  call: Pick<Call, 'result'> | Pick<CallLogRecord, 'result'> = {},
+) {
   return !!callResultsToMissedMap[call.result!];
 }
 
@@ -356,8 +433,8 @@ export function getPhoneNumberMatches(call: Partial<Call> = {}) {
   }
   const isOutboundCall = isOutbound(call);
   const isInboundCall = isInbound(call);
-  let phoneNumber = null;
-  let matches = null;
+  let phoneNumber = undefined;
+  let matches = undefined;
   if (isOutboundCall) {
     phoneNumber = to.phoneNumber || to.extensionNumber;
     matches = toMatches;

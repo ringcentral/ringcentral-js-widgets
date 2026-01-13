@@ -368,6 +368,19 @@ export function messageIsUnread(message: Message) {
   );
 }
 
+export function messageReadStatusMatched(
+  readStatus: 'All' | 'Unread' | 'Read',
+  message: Message,
+) {
+  if (readStatus === 'All') {
+    return true;
+  } else if (readStatus === 'Unread') {
+    return messageIsUnread(message);
+  } else {
+    return message.readStatus === readStatus;
+  }
+}
+
 export function directionlessMessageIsUnread(
   message: Message & { preUpdateReadStatus?: Pick<Message, 'readStatus'> },
 ) {

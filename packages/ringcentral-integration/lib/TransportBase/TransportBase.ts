@@ -8,7 +8,7 @@ export interface TransportBaseProps {
 }
 
 export type BaseEventEnum = Record<
-  'request' | 'response' | 'push' | 'timeout',
+  'request' | 'response' | 'push' | 'timeout' | 'send',
   string
 >;
 
@@ -23,7 +23,7 @@ export class TransportBase extends EventEmitter {
 
     this._events = {
       ...ObjectMap.prefixKeys(
-        ['request', 'response', 'push', 'timeout'],
+        ['request', 'response', 'push', 'timeout', 'send'],
         `${prefix ? `${prefix}-` : ''}${name}`,
       ),
     };

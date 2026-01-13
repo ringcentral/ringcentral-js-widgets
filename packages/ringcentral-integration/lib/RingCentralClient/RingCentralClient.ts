@@ -8,6 +8,8 @@ import Glip from 'ringcentral-client/build/paths/Glip';
 import NumberParser from 'ringcentral-client/build/paths/NumberParser';
 import Subscription from 'ringcentral-client/build/paths/Subscription';
 
+import { multipartHttpRequest } from '../multipartHttpRequest';
+
 // TODO: make 'ringcentral-client' support JS SDK v4 or replace it
 class RestPrefix extends PathSegment {
   constructor(service: SDK) {
@@ -16,6 +18,9 @@ class RestPrefix extends PathSegment {
 }
 
 class RingCentralClient extends Client {
+
+  multipart = multipartHttpRequest(this.service.platform());
+
   restPrefix() {
     return new RestPrefix(this.service.platform());
   }

@@ -1,6 +1,15 @@
 import type { CountryCode } from '@ringcentral-integration/phone-number';
 import { parse } from '@ringcentral-integration/phone-number';
 
+/**
+ * @deprecated
+ *
+ * almost same as parse function in phone-number module, only the input type is different
+ *
+ * should use parse function in phone-number module instead
+ *
+ * `import { parse } from '@ringcentral-integration/phone-number';`
+ */
 function parseNumber({
   phoneNumber,
   countryCode,

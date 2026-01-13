@@ -1,4 +1,4 @@
-import * as uuid from 'uuid';
+import { v4 } from 'uuid';
 
 import { TransportBase, type TransportBaseProps } from '../TransportBase';
 import type { TransportResponseData } from '../TransportInteractionBase';
@@ -55,11 +55,11 @@ export default class MessageTransport extends TransportBase {
   private _addReceiver: Transporter['addReceiver'];
   private _createEmitter: Transporter['createEmitter'];
   private _targetWindow: Window;
-  private _origin?: string;
   private _myRequests: Map<any, any>;
   private _othersRequests: Map<any, any>;
-  private _postMessage: any;
   private _transporter: Transporter;
+  _origin?: string;
+  _postMessage: (args: any) => void;
 
   constructor({
     transporterType = TRANSPORTER_TYPES.POST_MESSAGE,
@@ -160,7 +160,7 @@ export default class MessageTransport extends TransportBase {
   async request<T = any, K = any>({
     payload,
   }: MessageTransportRequestData<T>): Promise<K> {
-    const requestId = uuid.v4();
+    const requestId = v4();
 
     const promise = new Promise<K>((resolve, reject) => {
       this._myRequests.set(requestId, {
@@ -174,15 +174,17 @@ export default class MessageTransport extends TransportBase {
       });
     });
 
-    let timeout = setTimeout(() => {
-      // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'Timeout'.
-      timeout = null;
-      this._myRequests
-        .get(requestId)
-        .reject(
-          new Error(`${this._events.timeout}: ${JSON.stringify(payload)}`),
-        );
-    }, this._timeout);
+    let timeout: NodeJS.Timeout | undefined;
+    if (typeof this._timeout === 'number' && this._timeout > -1) {
+      timeout = setTimeout(() => {
+        timeout = undefined;
+        this._myRequests
+          .get(requestId)
+          .reject(
+            new Error(`${this._events.timeout}: ${JSON.stringify(payload)}`),
+          );
+      }, this._timeout);
+    }
 
     return promise
       .then((result) => {

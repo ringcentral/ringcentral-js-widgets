@@ -1,6 +1,6 @@
 // @ts-nocheck
 import { EventEmitter } from 'events';
-import * as uuid from 'uuid';
+import { v4 } from 'uuid';
 
 import type {
   GenericStorage,
@@ -27,7 +27,7 @@ export class SynchronizedStorage
       throw Error('SynchronizedStorage must be created with a storage key');
     }
     this._storageKey = storageKey;
-    this._id = uuid.v4();
+    this._id = v4();
     if (typeof localStorage !== 'undefined' && typeof window !== 'undefined') {
       this._storageHandler = (event) => {
         if (

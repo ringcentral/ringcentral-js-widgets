@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { combineReducers, createStore } from 'redux';
-import * as uuid from 'uuid';
+import { v4 } from 'uuid';
 
 import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
 
@@ -65,7 +65,7 @@ describe('RcModule', () => {
           expect(module.actionTypes).to.be.null;
         });
         it('should should be prefixed if prefix is set', () => {
-          const prefix = uuid.v4();
+          const prefix = v4();
           const actionTypes = ObjectMap.fromKeys(['action1', 'action2']);
           const module = new RcModule({
             prefix,
@@ -156,7 +156,7 @@ describe('RcModule', () => {
           expect(module.prefix).to.be.undefined;
         });
         it('should return prefix string if defined in options', () => {
-          const prefix = uuid.v4();
+          const prefix = v4();
           const module = new RcModule({
             prefix,
           });

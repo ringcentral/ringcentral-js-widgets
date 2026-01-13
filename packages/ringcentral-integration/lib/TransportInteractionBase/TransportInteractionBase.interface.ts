@@ -15,7 +15,11 @@ export interface TransportEvent<T = any> {
    */
   func: (
     data: TransportData<T>,
-  ) => Promise<TransportResponseData> | TransportResponseData;
+  ) =>
+    | Promise<TransportResponseData>
+    | Promise<void>
+    | TransportResponseData
+    | void;
 }
 
 export interface TransportPushEvent<T = any> {

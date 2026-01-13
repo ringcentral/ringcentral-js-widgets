@@ -6,10 +6,10 @@ import type {
   TransportResponseData,
 } from './TransportInteractionBase.interface';
 
-export default class TransportInteractionBase {
+export class TransportInteractionBase {
   _transportEvents: transportEvents = {};
-  // @ts-expect-error TS(2564): Property '_transport' has no initializer and is no... Remove this comment to see the full error message
-  _transport: Transport;
+
+  constructor(public _transport: Transport) {}
 
   registerTransportEvent({ key, func }: TransportEvent) {
     if (this._transportEvents[key]) {
@@ -35,14 +35,13 @@ export default class TransportInteractionBase {
     const emitData: TransportResponseData = {
       requestId,
       result: null,
-      // @ts-expect-error TS(2322): Type 'null' is not assignable to type 'string | Er... Remove this comment to see the full error message
-      error: null,
+      // error: undefined,
     };
 
     try {
       emitData.result = await fetchFunc();
     } catch (error: any /** TODO: confirm with instanceof */) {
-      console.log(error);
+      console.log('FetchAndResponse|error', error);
       emitData.error = error;
     }
 
