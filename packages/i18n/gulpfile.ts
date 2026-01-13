@@ -77,6 +77,9 @@ export async function generatePackage() {
   );
   delete packageInfo.scripts;
   delete packageInfo.devDependencies;
+  delete packageInfo.ci;
+  delete packageInfo.nx;
+  packageInfo.main = 'index.js';
   const version = await getVersionFromTag();
   if (version) {
     packageInfo.version = version;

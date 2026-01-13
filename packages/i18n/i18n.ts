@@ -1,6 +1,6 @@
 import { DEFAULT_LOCALE, PSEUDO_LOCALE } from './constants';
 import { getLanguageFromLocale } from './lib/getLanguageFromLocale';
-import toPseudoString from './lib/toPseudoString';
+import { toPseudoStringWithPadding } from './lib/toPseudoString';
 
 type LanguageInstance = Record<
   /**
@@ -17,6 +17,10 @@ export const RUNTIME = {
   padRatio: 0.3,
   fallbackLocale: DEFAULT_LOCALE as string,
   languageDefaults: null as LanguageInstance,
+  /**
+   * get the locale when use `t` from `getTranslateFn`
+   */
+  getTranslateLocale: null as (() => string) | null,
 };
 
 /**
@@ -112,10 +116,12 @@ export default class I18n<T = Record<string, string>> {
     await this._load(checkDefaults(RUNTIME.defaultLocale));
     await this._load(checkDefaults(RUNTIME.locale));
   }
+
   _getString(key: string, locale: string) {
     const currI18n = this._cache[locale];
     if (currI18n && Object.prototype.hasOwnProperty.call(currI18n, key)) {
-      return currI18n[key];
+      const value = currI18n[key];
+      return value === null ? key : value;
     }
 
     const lang = getLanguageFromLocale(locale);
@@ -124,12 +130,14 @@ export default class I18n<T = Record<string, string>> {
       currParsedLocal &&
       Object.prototype.hasOwnProperty.call(currParsedLocal, key)
     ) {
-      return currParsedLocal[key];
+      const value = currParsedLocal[key];
+      return value === null ? key : value;
     }
 
     const defaultI18n = this._cache[RUNTIME.defaultLocale];
     if (defaultI18n && Object.prototype.hasOwnProperty.call(defaultI18n, key)) {
-      return defaultI18n[key];
+      const value = defaultI18n[key];
+      return value === null ? key : value;
     }
 
     const fallbackI18n = this._cache[RUNTIME.fallbackLocale];
@@ -137,20 +145,60 @@ export default class I18n<T = Record<string, string>> {
       fallbackI18n &&
       Object.prototype.hasOwnProperty.call(fallbackI18n, key)
     ) {
-      return fallbackI18n[key];
+      const value = fallbackI18n[key];
+      return value === null ? key : value;
     }
 
     return key;
   }
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   getString<K extends keyof T = any>(key: K, locale = RUNTIME.locale) {
     if (locale === PSEUDO_LOCALE) {
-      return toPseudoString({
+      return toPseudoStringWithPadding({
         str: this._getString(key as never, RUNTIME.fallbackLocale),
         padRatio: RUNTIME.padRatio,
       });
     }
     return this._getString(key as never, checkDefaults(locale));
+  }
+
+  formatNumber(value: number, options?: Intl.NumberFormatOptions) {
+    const locale =
+      this.currentLocale === PSEUDO_LOCALE
+        ? RUNTIME.fallbackLocale
+        : RUNTIME.locale;
+    const customOptions = {
+      ...options,
+    };
+    try {
+      /**
+       * es-419, es-ES
+       * These languages use space as thousand separator
+       * Ref: https://wiki_domain/pages/viewpage.action?pageId=182683659
+       */
+      if (locale.startsWith('es-419')) {
+        return new Intl.NumberFormat(locale, {
+          ...customOptions,
+          useGrouping: true,
+        })
+          .format(value)
+          .replace(/,/g, ' ');
+      }
+      if (locale.startsWith('es-ES')) {
+        return new Intl.NumberFormat(locale, {
+          ...customOptions,
+          numberingSystem: 'latn',
+          useGrouping: true,
+        })
+          .format(value)
+          .replace(/\./g, ' ');
+      }
+      return new Intl.NumberFormat(locale, customOptions).format(value);
+    } catch (error) {
+      console.error('I18n | failed to format number', error);
+      return value;
+    }
   }
 
   static checkDefaults(locale: string) {
@@ -205,5 +253,14 @@ export default class I18n<T = Record<string, string>> {
 
   async setLanguageDefaults(defaults: LanguageInstance) {
     return setLanguageDefaults(defaults);
+  }
+
+  /**
+   * set the method to get the locale when use `t` from `getTranslateFn`
+   */
+  static setGetTranslateLocale(
+    getTranslateLocale: typeof RUNTIME.getTranslateLocale,
+  ) {
+    RUNTIME.getTranslateLocale = getTranslateLocale;
   }
 }
