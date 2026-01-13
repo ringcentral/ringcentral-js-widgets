@@ -41,6 +41,9 @@
     "@ringcentral-integration/phone-number": "**"
   },
   "nx": {
-    "tags": ["scope:ci-group-1"]
+    "tags": [
+      "scope:ci-group-1",
+      "scope:ci-test"
+    ]
   }
 }

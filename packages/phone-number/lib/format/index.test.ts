@@ -1,4 +1,4 @@
-import format, { formatTypes } from './index';
+import format, { formatSameSiteExtension, formatTypes } from './index';
 
 describe('format', () => {
   test('should return a string', () => {
@@ -20,7 +20,7 @@ describe('format', () => {
 
   test('should format a number', () => {
     const phoneNumber = '16503618700';
-    expect(format({ phoneNumber }).length).not.toBe(phoneNumber.length);
+    expect(format({ phoneNumber })?.length).not.toBe(phoneNumber.length);
   });
 
   test('should default to local format', () => {
@@ -57,7 +57,7 @@ describe('format', () => {
     ).toBe(format({ phoneNumber: `${phoneNumber}*${extension}` }));
   });
 
-  test('should add areaCode if phoneNumber is 7 digits and countryCode is CA', () => {
+  test('should add areaCode if phoneNumber is 7 digits and countryCode is CA 2', () => {
     const phoneNumber = '1234567';
     const areaCode = '890';
     expect(
@@ -143,7 +143,7 @@ describe('format', () => {
       format({
         phoneNumber,
         countryCode: 'US',
-      })[0] === '+',
+      })?.[0] === '+',
     ).toBe(false);
   });
   test('should format to localFormat if phoneNumber matchs countryCode', () => {
@@ -151,25 +151,25 @@ describe('format', () => {
       format({
         phoneNumber: '+1-202-555-0139',
         countryCode: 'US',
-      })[0] !== '+',
+      })?.[0] !== '+',
     ).toBe(true);
     expect(
       format({
         phoneNumber: '202-555-0139',
         countryCode: 'US',
-      })[0] !== '+',
+      })?.[0] !== '+',
     ).toBe(true);
     expect(
       format({
         phoneNumber: '+44 20 7930 9114',
         countryCode: 'GB',
-      })[0] !== '+',
+      })?.[0] !== '+',
     ).toBe(true);
     expect(
       format({
         phoneNumber: '20 7930 9114',
         countryCode: 'GB',
-      })[0] !== '+',
+      })?.[0] !== '+',
     ).toBe(true);
     expect(
       format({
@@ -325,7 +325,7 @@ describe('format', () => {
       }),
     );
   });
-  test('should only remove extension number if params.removeExtension is true', () => {
+  test('should only remove extension number if params.removeExtension is true 3', () => {
     const phoneNumber = '16503618700';
     const extension = '123';
     expect(
@@ -380,5 +380,23 @@ describe('format', () => {
         isMultipleSiteEnabled: true,
       }),
     ).toBe(longExtension);
+  });
+});
+
+describe('formatSameSiteExtension', () => {
+  test('should return the extension as is when currentSiteCode is empty', () => {
+    const result = formatSameSiteExtension({
+      currentSiteCode: '',
+      extension: '1234',
+    });
+    expect(result).toBe('1234');
+  });
+
+  test('should return the extension as is when extension does not start with currentSiteCode', () => {
+    const result = formatSameSiteExtension({
+      currentSiteCode: '567',
+      extension: '56701234',
+    });
+    expect(result).toBe('1234');
   });
 });
