@@ -47,6 +47,8 @@ export interface RcVideoResponse {
 }
 
 export interface Deps {
+  enableCache: boolean;
+  storageKey: string;
   alert: Alert;
   client: Client;
   brand: Brand;

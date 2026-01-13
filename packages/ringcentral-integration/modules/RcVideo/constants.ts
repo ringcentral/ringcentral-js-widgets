@@ -7,6 +7,12 @@ const AUTH_USER_TYPE = {
   SIGNED_IN_USERS: 'signedInUsers',
 } as const;
 
+const ALLOW_MEETING_ACCESS = {
+  SIGNED_IN_CO_WORKERS: 'signedInCoWorkers',
+  SIGNED_IN_USERS: 'signedInUsers',
+  ANYONE_WITH_LINK: 'anyoneWithLink',
+} as const;
+
 const JBH_LABEL = {
   JOIN_AFTER_HOST: 'onlyJoinAfterHost',
   JOIN_AFTER_ME: 'onlyJoinAfterMe',
@@ -51,6 +57,8 @@ const RCV_ITEM_NAME = {
   muteVideo: 'muteVideo',
   muteAudio: 'muteAudio',
   allowScreenSharing: 'allowScreenSharing',
+  allowAnyoneRecord: 'allowAnyoneRecord',
+  allowAnyoneTranscribe: 'allowAnyoneTranscribe',
 } as const;
 
 type RcvItemType = (typeof RCV_ITEM_NAME)[keyof typeof RCV_ITEM_NAME];
@@ -70,6 +78,7 @@ type RcvWaitingRoomModeReverse = {
 
 export {
   ASSISTED_USERS_MYSELF,
+  ALLOW_MEETING_ACCESS,
   AUTH_USER,
   AUTH_USER_TYPE,
   DISABLE_E2EE_WHEN_RELATED_OPTION_MATCH,

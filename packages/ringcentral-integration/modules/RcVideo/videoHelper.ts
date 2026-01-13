@@ -59,6 +59,8 @@ const RCV_CREATE_API_KEYS: Array<keyof RcVideoAPI> = [
   'allowScreenSharing',
   RCV_WAITING_ROOM_API_KEYS,
   RCV_E2EE_API_KEYS,
+  'allowAnyoneRecord',
+  'allowAnyoneTranscribe',
 ];
 
 const RCV_PREFERENCES_IDS: Array<RcVSettingId> = [
@@ -73,6 +75,8 @@ const RCV_PREFERENCES_IDS: Array<RcVSettingId> = [
   'screen_sharing_host_only',
   'waiting_room_guests_only',
   'waiting_room',
+  'allow_anyone_record_meetings',
+  'allow_anyone_transcribe_meetings',
 ];
 
 const RCV_PREFERENCES_KEYS: Array<RcVSettingKey> = [
@@ -269,6 +273,8 @@ function transformPreferences(
       ? preferences.join_authenticated_from_account_only === 'only_co_workers'
       : false,
     allowScreenSharing: preferences.screen_sharing_host_only === 'all',
+    allowAnyoneRecord: !!preferences.allow_anyone_record_meetings,
+    allowAnyoneTranscribe: !!preferences.allow_anyone_transcribe_meetings,
     waitingRoomMode: preferences.waiting_room
       ? // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
         RCV_WAITING_ROOM_MODE[preferences.waiting_room_guests_only]
@@ -298,6 +304,10 @@ function transformSettingLocks(
     allowScreenSharing: settingLocks.screen_sharing_host_only,
     // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
     waitingRoomMode: settingLocks.waiting_room,
+    // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
+    allowAnyoneRecord: settingLocks.allow_anyone_record_meetings,
+    // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
+    allowAnyoneTranscribe: settingLocks.allow_anyone_transcribe_meetings,
   };
 }
 
@@ -463,6 +473,7 @@ const formatRcvRequestData = (params: RcvInvitationRequest, numbers: any) => {
     numbers,
     meetingName: `---`,
     hostName: params.hostName,
+    personalMeetingName: params.personalMeetingName,
     meetingId: params.shortId,
     isSIPAvailable: params.isSIPAvailable,
     participantCode: params.shortId,
