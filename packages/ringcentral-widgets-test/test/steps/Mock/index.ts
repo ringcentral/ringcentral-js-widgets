@@ -24,3 +24,4 @@ export * from './MockFeaturePermission';
 export * from './MockPostOauthToken';
 export * from './MockGetStatus';
 export * from './MockLimitedPutPresence';
+export * from './MockRcvGetMeetingInfo';

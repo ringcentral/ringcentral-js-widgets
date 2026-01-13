@@ -10,6 +10,7 @@ export interface LoginProps {
   shouldWaitForConnected?: boolean;
   shouldMockWebphone?: boolean;
   isMockUserMedia?: boolean;
+  skipActiveCallControlReadyCheck?: boolean;
 }
 
 export interface CommonLoginProps extends LoginProps, CreateInstanceProps {
@@ -22,6 +23,7 @@ export const ExecuteAuthLogin: StepFunction<LoginProps> = async (
     password = 'test',
     shouldMockWebphone = true,
     isMockUserMedia = true,
+    skipActiveCallControlReadyCheck = false,
   },
   context,
 ) => {
@@ -44,11 +46,13 @@ export const ExecuteAuthLogin: StepFunction<LoginProps> = async (
     timeout: 9000,
   });
   expect(phone.auth.loggedIn).toBeTruthy();
-  await waitUntilTo(() => {
-    if (phone.activeCallControl) {
-      expect(phone.activeCallControl.ready).toBeTruthy();
-    }
-  });
+  if (skipActiveCallControlReadyCheck) {
+    await waitUntilTo(() => {
+      if (phone.activeCallControl) {
+        expect(phone.activeCallControl.ready).toBeTruthy();
+      }
+    });
+  }
   if (shouldMockWebphone) {
     await waitUntilTo(() => {
       if (phone.call.ready) {
@@ -65,6 +69,7 @@ export const CommonLogin: StepFunction<CommonLoginProps> = async (
     shouldMockWebphone = true,
     isMockUserMedia = true,
     CreateInstance,
+    skipActiveCallControlReadyCheck = false,
     ...options
   },
   context,
@@ -77,6 +82,7 @@ export const CommonLogin: StepFunction<CommonLoginProps> = async (
         password={password}
         shouldMockWebphone={shouldMockWebphone}
         isMockUserMedia={isMockUserMedia}
+        skipActiveCallControlReadyCheck={skipActiveCallControlReadyCheck}
       />
     </>
   );

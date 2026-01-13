@@ -1,12 +1,17 @@
+import { GetExtensionDevicesResponse } from '@ringcentral-integration/mock';
+
 import type { StepFunction } from '../../../lib/step';
 
 interface MockExtensionDeviceListProps {
-  DLs: 'default' | 'no';
+  DLs?: 'default' | 'no';
+  getDevicesData?: (
+    mockData: GetExtensionDevicesResponse,
+  ) => GetExtensionDevicesResponse;
 }
 
 export const MockExtensionDeviceList: StepFunction<
   MockExtensionDeviceListProps
-> = async ({ DLs }, { rcMock }) => {
+> = async ({ DLs, getDevicesData }, { rcMock }) => {
   const mock = () => {
     rcMock.getDevice((mockData) => {
       if (DLs === 'no') {
@@ -15,7 +20,7 @@ export const MockExtensionDeviceList: StepFunction<
           records: [],
         };
       }
-      return mockData;
+      return getDevicesData?.(mockData) ?? mockData;
     });
   };
 

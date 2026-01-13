@@ -10,3 +10,4 @@ export * from './CheckInvitation';
 export * from './CheckMeetingTitle';
 export * from './CheckRCMPageDisplay';
 export * from './CheckRcvMeetingSettingsValues';
+export * from './CheckWaitingRoomDropdown';

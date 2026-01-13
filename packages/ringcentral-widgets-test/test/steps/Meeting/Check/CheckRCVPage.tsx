@@ -3,7 +3,6 @@ import { screen } from '@testing-library/react';
 
 import type { StepFunction } from '../../../lib/step';
 import { WaitForSpinner } from '../../WaitForSpinner';
-import type { RcvCheckboxDataSign } from '../Meeting.interface';
 
 export const CheckChangePmiConfirmButton: StepFunction<{
   isShown: boolean;
@@ -82,16 +81,16 @@ export const CheckboxIsDisabled: StepFunction<{
 
 export const CheckDropDownStatus: StepFunction<{
   dataSign: string;
-  isDisabled: boolean;
+  isDisabled?: boolean;
   defaultValue?: string;
 }> = async ({ dataSign, isDisabled, defaultValue }) => {
   const dropdown = screen
     .getByTestId(dataSign)
     .querySelector('[role = button]');
 
-  if (isDisabled) {
+  if (isDisabled === true) {
     expect(dropdown).toHaveClass('Mui-disabled');
-  } else {
+  } else if (isDisabled === false) {
     expect(dropdown).not.toHaveClass('Mui-disabled');
   }
 
@@ -109,6 +108,25 @@ export const CheckboxIsLocked: StepFunction<{
     .getElementsByClassName('lock_border').length;
 
   expect(hasLockedIcon).toBe(isLocked);
+};
+
+export const DropdownIsLocked: StepFunction<{
+  dataSign: string;
+  isLocked: boolean;
+  isDisabled: boolean;
+}> = async ({ dataSign, isLocked, isDisabled }) => {
+  const hasLockedIcon = !!screen
+    .getByTestId(dataSign)
+    .getElementsByClassName('lock_border').length;
+  const dropdown = screen
+    .getByTestId(dataSign)
+    .querySelector('[role="button"]');
+  expect(hasLockedIcon).toBe(isLocked);
+  if (isDisabled) {
+    expect(dropdown).toHaveAttribute('aria-disabled', 'true');
+  } else {
+    expect(dropdown).not.toHaveAttribute('aria-disabled', 'true');
+  }
 };
 
 export const CheckScheduleForGuidanceTooltip: StepFunction = async () => {
