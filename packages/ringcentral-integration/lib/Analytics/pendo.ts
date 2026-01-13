@@ -2,9 +2,10 @@ class Pendo {
   static init(
     pendoApiKey: string,
     useLocalPendoJS: boolean,
-    onLoadSuccess: (pendo: Pendo) => void,
+    onLoadSuccess: (pendo: pendo.Pendo) => void,
   ) {
-    if (!pendoApiKey) return;
+    if (!pendoApiKey || process.env.BLOCK_PENDO_SOURCE_CODE) return;
+
     const pendoLibSource = useLocalPendoJS
       ? './pendo.xhr.js'
       : `https://cdn.pendo.io/agent/static/${pendoApiKey}/pendo.js`;

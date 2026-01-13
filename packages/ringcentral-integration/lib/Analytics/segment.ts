@@ -76,6 +76,8 @@ export default function init() {
     options: any,
     useLocalAnalyticsJS?: boolean,
   ) {
+    if (process.env.BLOCK_SEGMENT_SOURCE_CODE) return;
+
     // Create an async script element based on your key.
     const script = document.createElement('script');
     script.type = 'text/javascript';
