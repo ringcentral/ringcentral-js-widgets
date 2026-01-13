@@ -34,6 +34,7 @@
     "animate.css": "^3.5.2",
     "copy-to-clipboard": "^3.3.3",
     "dedent": "^0.7.0",
+    "emoji-mart": "^5.2.2",
     "linkify-react": "^3.0.4",
     "linkifyjs": "^3.0.5",
     "normalize.css": "^8.0.1",
