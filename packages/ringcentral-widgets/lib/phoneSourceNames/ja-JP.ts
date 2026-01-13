@@ -1,11 +1,12 @@
+/* eslint-disable */
 import { phoneSources } from '@ringcentral-integration/commons/enums/phoneSources';
 export default {
-  [phoneSources.account]: "アカウント",
-  [phoneSources.contact]: "連絡先",
-  [phoneSources.rcContact]: "{brand}",
-  [phoneSources.lead]: "リード",
-  [phoneSources.opportunity]: "オポチュニティ",
-  [phoneSources.systemUser]: "システムユーザー"
+  [phoneSources.account]: 'アカウント',
+  [phoneSources.contact]: '連絡先',
+  [phoneSources.rcContact]: '{brand}',
+  [phoneSources.lead]: 'リード',
+  [phoneSources.opportunity]: 'オポチュニティ',
+  [phoneSources.systemUser]: 'システムユーザー',
 };
 
 // @key: @#@"[phoneSources.account]"@#@ @source: @#@"Account"@#@

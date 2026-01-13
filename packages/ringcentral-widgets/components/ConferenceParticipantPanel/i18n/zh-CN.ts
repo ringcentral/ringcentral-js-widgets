@@ -1,14 +1,15 @@
+/* eslint-disable */
 export default {
-  removeParticipant: "移除参与者",
-  confirmStr1: "您确定要将",
-  confirmStr2: "从此通话移除吗？",
-  remove: "移除",
-  cancel: "取消",
-  participants: "参与者",
-  participant: "参与者",
-  conferenceCall: "电话会议",
-  unknownNumber: "匿名"
-};
+  removeParticipant: '移除参与者',
+  confirmStr1: '您确定要将',
+  confirmStr2: '从此通话移除吗？',
+  remove: '移除',
+  cancel: '取消',
+  participants: '参与者',
+  participant: '参与者',
+  conferenceCall: '电话会议',
+  unknownNumber: '匿名',
+} as const;
 
 // @key: @#@"removeParticipant"@#@ @source: @#@"Remove Participant"@#@
 // @key: @#@"confirmStr1"@#@ @source: @#@"Are you sure you want to remove"@#@

@@ -1,8 +1,9 @@
+/* eslint-disable */
 export default {
-  Home: "自宅",
-  Mobile: "モバイル",
-  Work: "職場"
-};
+  Home: '自宅',
+  Mobile: 'モバイル',
+  Work: '職場',
+} as const;
 
 // @key: @#@"Home"@#@ @source: @#@"Home"@#@
 // @key: @#@"Mobile"@#@ @source: @#@"Mobile"@#@

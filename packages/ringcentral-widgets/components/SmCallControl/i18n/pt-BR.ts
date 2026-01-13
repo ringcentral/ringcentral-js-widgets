@@ -1,9 +1,10 @@
+/* eslint-disable */
 export default {
-  mute: "Ativar mudo",
-  unmute: "Desativar mudo",
-  hangup: "Desligar",
-  reject: "Rejeitar"
-};
+  mute: 'Ativar mudo',
+  unmute: 'Desativar mudo',
+  hangup: 'Desligar',
+  reject: 'Rejeitar',
+} as const;
 
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@

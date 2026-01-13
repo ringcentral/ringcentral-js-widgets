@@ -1,14 +1,15 @@
+/* eslint-disable */
 export default {
-  currentCall: "Appel en cours",
-  viewCalls: "Afficher les appels",
-  view: "Afficher",
-  incomingCall: "{numberOf} appel entrant",
-  incomingCalls: "{numberOf} appels entrants",
-  callOnHold: "{numberOf} appel en attente",
-  callsOnHold: "{numberOf} appels en attente",
-  otherDeviceCall: "{numberOf} appel sur d’autres appareils",
-  otherDeviceCalls: "{numberOf} appels sur d’autres appareils"
-};
+  currentCall: 'Appel en cours',
+  viewCalls: 'Afficher les appels',
+  view: 'Afficher',
+  incomingCall: '{numberOf} appel entrant',
+  incomingCalls: '{numberOf} appels entrants',
+  callOnHold: '{numberOf} appel en attente',
+  callsOnHold: '{numberOf} appels en attente',
+  otherDeviceCall: '{numberOf} appel sur d’autres appareils',
+  otherDeviceCalls: '{numberOf} appels sur d’autres appareils',
+} as const;
 
 // @key: @#@"currentCall"@#@ @source: @#@"Current Call"@#@
 // @key: @#@"viewCalls"@#@ @source: @#@"View Calls"@#@

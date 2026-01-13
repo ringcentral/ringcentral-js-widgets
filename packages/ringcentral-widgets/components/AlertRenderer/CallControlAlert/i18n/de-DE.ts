@@ -1,9 +1,10 @@
-import { callControlAlerts, callControlError } from '@ringcentral-integration/commons/modules/ActiveCallControl';
-const {
-  callsMerged,
-  somethingWentWrong,
-  tooManyParticipants
-} = callControlAlerts;
+/* eslint-disable */
+import {
+  callControlAlerts,
+  callControlError,
+} from '@ringcentral-integration/commons/modules/ActiveCallControl';
+const { callsMerged, somethingWentWrong, tooManyParticipants } =
+  callControlAlerts;
 const {
   holdConflictError,
   unHoldConflictError,
@@ -12,21 +13,26 @@ const {
   generalError,
   forwardSuccess,
   transferCompleted,
-  replyCompleted
+  replyCompleted,
 } = callControlError;
 export default {
-  [callsMerged]: "Anrufe zusammengeführt",
-  [somethingWentWrong]: "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.",
-  [tooManyParticipants]: "Maximale Teilnehmerzahl ist erreicht.",
-  [muteConflictError]: "Dieser Anruf wurde auf einem anderen Gerät stummgeschaltet. Heben Sie die Stummschaltung vor der Inbetriebnahme in dieser App auf.",
-  [unHoldConflictError]: "Dieser Anruf wurde auf einem anderen Gerät gehalten. Heben Sie den Haltestatus vor der Inbetriebnahme in dieser App auf.",
-  [unMuteConflictError]: "Die Stummschaltung dieses Anrufs wurde auf einem anderen Gerät aufgehoben. Schalten Sie ihn vor der Inbetriebnahme in dieser App stumm.",
-  [holdConflictError]: "Der Haltestatus dieses Anrufs wurde auf einem anderen Gerät aufgehoben. Halten Sie ihn vor der Inbetriebnahme in dieser App.",
-  [generalError]: "Unerwarteter Serverfehler. Versuchen Sie es später noch einmal.",
-  [forwardSuccess]: "Anruf weitergeleitet",
-  [transferCompleted]: "Anruf weitergeleitet",
-  [replyCompleted]: "Sprachnachricht gesendet."
-};
+  [callsMerged]: 'Anrufe zusammengeführt',
+  [somethingWentWrong]: 'Ein Fehler ist aufgetreten. Versuchen Sie es erneut.',
+  [tooManyParticipants]: 'Maximale Teilnehmerzahl ist erreicht.',
+  [muteConflictError]:
+    'Dieser Anruf wurde auf einem anderen Gerät stummgeschaltet. Heben Sie die Stummschaltung vor der Inbetriebnahme in dieser App auf.',
+  [unHoldConflictError]:
+    'Dieser Anruf wurde auf einem anderen Gerät gehalten. Heben Sie den Haltestatus vor der Inbetriebnahme in dieser App auf.',
+  [unMuteConflictError]:
+    'Die Stummschaltung dieses Anrufs wurde auf einem anderen Gerät aufgehoben. Schalten Sie ihn vor der Inbetriebnahme in dieser App stumm.',
+  [holdConflictError]:
+    'Der Haltestatus dieses Anrufs wurde auf einem anderen Gerät aufgehoben. Halten Sie ihn vor der Inbetriebnahme in dieser App.',
+  [generalError]:
+    'Unerwarteter Serverfehler. Versuchen Sie es später noch einmal.',
+  [forwardSuccess]: 'Anruf weitergeleitet',
+  [transferCompleted]: 'Anruf weitergeleitet',
+  [replyCompleted]: 'Sprachnachricht gesendet.',
+} as const;
 
 // @key: @#@"callsMerged"@#@ @source: @#@"Calls merged"@#@
 // @key: @#@"somethingWentWrong"@#@ @source: @#@"Something went wrong. Please try again."@#@

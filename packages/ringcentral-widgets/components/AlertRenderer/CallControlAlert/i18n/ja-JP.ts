@@ -1,9 +1,10 @@
-import { callControlAlerts, callControlError } from '@ringcentral-integration/commons/modules/ActiveCallControl';
-const {
-  callsMerged,
-  somethingWentWrong,
-  tooManyParticipants
-} = callControlAlerts;
+/* eslint-disable */
+import {
+  callControlAlerts,
+  callControlError,
+} from '@ringcentral-integration/commons/modules/ActiveCallControl';
+const { callsMerged, somethingWentWrong, tooManyParticipants } =
+  callControlAlerts;
 const {
   holdConflictError,
   unHoldConflictError,
@@ -12,21 +13,26 @@ const {
   generalError,
   forwardSuccess,
   transferCompleted,
-  replyCompleted
+  replyCompleted,
 } = callControlError;
 export default {
-  [callsMerged]: "通話がマージされました",
-  [somethingWentWrong]: "問題が発生しました。もう一度やり直してください。",
-  [tooManyParticipants]: "参加者の最大数に達しています。",
-  [muteConflictError]: "この通話は他のデバイスでミュートされていました。通話のミュートを解除してから、このアプリで操作してください。",
-  [unHoldConflictError]: "この通話は他のデバイスで保留に設定されていました。通話の保留を解除してから、このアプリで操作してください。",
-  [unMuteConflictError]: "この通話は他のデバイスでミュートが解除されていました。通話をミュートしてから、このアプリで操作してください。",
-  [holdConflictError]: "この通話は他のデバイスで保留解除されています。通話を保留に設定してから、このアプリで操作してください。",
-  [generalError]: "予期しないサーバエラーが発生しました。後でもう一度やり直してください。",
-  [forwardSuccess]: "通話が転送されました",
-  [transferCompleted]: "通話が転送されました",
-  [replyCompleted]: "ボイスメッセージを送信しました。"
-};
+  [callsMerged]: '通話がマージされました',
+  [somethingWentWrong]: '問題が発生しました。もう一度やり直してください。',
+  [tooManyParticipants]: '参加者数の上限に達しています。',
+  [muteConflictError]:
+    'この通話は他のデバイスでミュートされていました。通話をミュート解除してから、このアプリで操作してください。',
+  [unHoldConflictError]:
+    'この通話は他のデバイスで保留に設定されていました。通話の保留を解除してから、このアプリで操作してください。',
+  [unMuteConflictError]:
+    'この通話は他のデバイスでミュートが解除されていました。通話をミュートしてから、このアプリで操作してください。',
+  [holdConflictError]:
+    'この通話は他のデバイスで保留が解除されています。通話を保留に設定してから、このアプリで操作してください。',
+  [generalError]:
+    '予期しないサーバエラーが発生しました。後でもう一度やり直してください。',
+  [forwardSuccess]: '通話が転送されました',
+  [transferCompleted]: '通話が転送されました',
+  [replyCompleted]: 'ボイスメッセージが送信されました。',
+} as const;
 
 // @key: @#@"callsMerged"@#@ @source: @#@"Calls merged"@#@
 // @key: @#@"somethingWentWrong"@#@ @source: @#@"Something went wrong. Please try again."@#@

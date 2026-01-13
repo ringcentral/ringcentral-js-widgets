@@ -1,23 +1,25 @@
+/* eslint-disable */
 export default {
-  logging: "Iniciando sesión...",
-  logCall: "Registrar llamada",
-  editLog: "Editar registro",
-  select: "Seleccionar una grabación que coincida",
-  OnHold: "En espera",
-  Ringing: "Llamando",
-  CallConnected: "Llamada conectada",
-  unknownUser: "Usuario desconocido",
-  unknownNumber: "Anónimo",
-  unavailable: "No disponible",
-  viewDetails: "Ver detalles",
-  addEntity: "Crear elemento nuevo",
-  addLog: "Registro",
-  text: "Mensaje",
-  call: "Llamar",
-  missedCall: "Perdida",
-  inboundCall: "Entrante",
-  outboundCall: "Saliente"
-};
+  logging: 'Iniciando sesión...',
+  logCall: 'Registrar llamada',
+  editLog: 'Editar registro',
+  select: 'Seleccionar una grabación que coincida',
+  OnHold: 'En espera',
+  Ringing: 'Llamando',
+  CallConnected: 'Llamada conectada',
+  unknownUser: 'Usuario desconocido',
+  unknownNumber: 'Anónimo',
+  unavailable: 'No disponible',
+  viewDetails: 'Ver detalles',
+  addEntity: 'Crear elemento nuevo',
+  addLog: 'Registro',
+  text: 'Mensaje',
+  call: 'Llamar',
+  missedCall: 'Perdida',
+  inboundCall: 'Entrante',
+  outboundCall: 'Saliente',
+  answeredBy: 'Atendida por',
+} as const;
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
 // @key: @#@"logCall"@#@ @source: @#@"Log Call"@#@
@@ -37,3 +39,4 @@ export default {
 // @key: @#@"missedCall"@#@ @source: @#@"Missed"@#@
 // @key: @#@"inboundCall"@#@ @source: @#@"Inbound"@#@
 // @key: @#@"outboundCall"@#@ @source: @#@"Outbound"@#@
+// @key: @#@"answeredBy"@#@ @source: @#@"Answered by"@#@

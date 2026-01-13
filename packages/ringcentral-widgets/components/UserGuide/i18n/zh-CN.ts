@@ -1,9 +1,10 @@
+/* eslint-disable */
 export default {
-  start: "快速导览",
-  skip: "跳过",
-  next: "下一个",
-  finish: "完成"
-};
+  start: '快速导览',
+  skip: '跳过',
+  next: '下一个',
+  finish: '完成',
+} as const;
 
 // @key: @#@"start"@#@ @source: @#@"Take a quick tour"@#@
 // @key: @#@"skip"@#@ @source: @#@"Skip"@#@

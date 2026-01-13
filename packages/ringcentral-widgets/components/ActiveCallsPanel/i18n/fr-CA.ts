@@ -1,14 +1,15 @@
+/* eslint-disable */
 export default {
-  noActiveCalls: "Aucun appel actif",
-  currentCall: "Appel en cours",
-  ringCall: "Appel entrant",
-  onHoldCall: "Appel en attente",
-  otherDeviceCall: "Appels en cours sur mes autres appareils",
-  confirmation: "Confirmation",
-  confirmMergeToConference: "Ajouter à la téléconférence?",
-  mergeToConference: "Fusionner",
-  conferenceCall: "Téléconférence"
-};
+  noActiveCalls: 'Aucun appel actif',
+  currentCall: 'Appel en cours',
+  ringCall: 'Appel entrant',
+  onHoldCall: 'Appel en attente',
+  otherDeviceCall: 'Appels en cours sur mes autres appareils',
+  confirmation: 'Confirmation',
+  confirmMergeToConference: 'Ajouter à la téléconférence?',
+  mergeToConference: 'Fusionner',
+  conferenceCall: 'Téléconférence',
+} as const;
 
 // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@
 // @key: @#@"currentCall"@#@ @source: @#@"Current Call"@#@

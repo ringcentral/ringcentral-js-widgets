@@ -21,6 +21,6 @@ export default {
   page: 'page',
   preview: 'View',
   download: 'Download',
-  imageAttachment: 'Attachment: {count} image',
-  fileAttachment: 'Attachment: {count} file',
+  mmsWithOneAttachment: 'MMS with 1 attachment',
+  mmsWithAttachments: 'MMS with {count} attachments',
 } as const;

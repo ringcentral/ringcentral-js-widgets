@@ -1,9 +1,10 @@
+/* eslint-disable */
 export default {
-  unknown: "Desconocido",
-  multipleMatches: "Varias coincidencias",
-  anonymous: "Anónimo",
-  none: "Ninguno"
-};
+  unknown: 'Desconocido',
+  multipleMatches: 'Varias coincidencias',
+  anonymous: 'Anónimo',
+  none: 'Ninguno',
+} as const;
 
 // @key: @#@"unknown"@#@ @source: @#@"Unknown"@#@
 // @key: @#@"multipleMatches"@#@ @source: @#@"Multiple matches"@#@

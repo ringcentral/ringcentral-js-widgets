@@ -1,28 +1,29 @@
+/* eslint-disable */
 import messageTypes from '@ringcentral-integration/commons/enums/messageTypes';
 export default {
-  addLog: "Log",
-  editLog: "Edit Log",
-  viewDetails: "View Details",
-  addEntity: "Create New",
-  call: "Call",
-  text: "Text",
-  conversation: "Conversation",
-  groupConversation: "Group conversation",
-  voiceMessage: "Voice message",
-  [messageTypes.voiceMail]: "Voicemail",
-  [messageTypes.fax]: "Fax",
-  mark: "Mark as unread",
-  unmark: "Mark as read",
-  delete: "Delete",
-  faxSent: "Fax sent",
-  faxReceived: "Fax received",
-  pages: "pages",
-  page: "page",
-  preview: "View",
-  download: "Download",
-  imageAttachment: "Attachment: {count} image",
-  fileAttachment: "Attachment: {count} file"
-};
+  addLog: 'Log',
+  editLog: 'Edit Log',
+  viewDetails: 'View Details',
+  addEntity: 'Create New',
+  call: 'Call',
+  text: 'Text',
+  conversation: 'Conversation',
+  groupConversation: 'Group conversation',
+  voiceMessage: 'Voice message',
+  [messageTypes.voiceMail]: 'Voicemail',
+  [messageTypes.fax]: 'Fax',
+  mark: 'Mark as unread',
+  unmark: 'Mark as read',
+  delete: 'Delete',
+  faxSent: 'Fax sent',
+  faxReceived: 'Fax received',
+  pages: 'pages',
+  page: 'page',
+  preview: 'View',
+  download: 'Download',
+  mmsWithOneAttachment: 'MMS with 1 attachment',
+  mmsWithAttachments: 'MMS with {count} attachments',
+} as const;
 
 // @key: @#@"addLog"@#@ @source: @#@"Log"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
@@ -44,5 +45,5 @@ export default {
 // @key: @#@"page"@#@ @source: @#@"page"@#@
 // @key: @#@"preview"@#@ @source: @#@"View"@#@
 // @key: @#@"download"@#@ @source: @#@"Download"@#@
-// @key: @#@"imageAttachment"@#@ @source: @#@"Attachment: {count} image"@#@
-// @key: @#@"fileAttachment"@#@ @source: @#@"Attachment: {count} file"@#@
+// @key: @#@"mmsWithOneAttachment"@#@ @source: @#@"MMS with 1 attachment"@#@
+// @key: @#@"mmsWithAttachments"@#@ @source: @#@"MMS with {count} attachments"@#@

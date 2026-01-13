@@ -1,28 +1,49 @@
+/* eslint-disable */
 import webphoneErrors from '@ringcentral-integration/commons/modules/Webphone/webphoneErrors';
 import webphoneMessages from '@ringcentral-integration/commons/modules/Webphone/webphoneMessages';
 export default {
-  [webphoneErrors.connectFailed]: "Le funzioni telefoniche non sono attualmente disponibili. Riprova più tardi. ",
-  [webphoneErrors.connected]: "Telefono web registrato.",
-  [webphoneErrors.browserNotSupported]: "Le chiamate mediante questo browser non sono supportate.",
-  [webphoneErrors.webphoneCountOverLimit]: "È possibile registrare fino a 5 telefoni web.",
-  [webphoneErrors.checkDLError]: "Impossibile effettuare una chiamata in uscita. Se l'errore persiste, contatta {brandName} per assistenza.",
-  [webphoneErrors.noOutboundCallWithoutDL]: "Con questo interno non è attualmente consentito effettuare chiamate in uscita con il browser. Contatta il rappresentante dell'account per un upgrade.",
-  [webphoneErrors.provisionUpdate]: "Si è verificato un problema nei nostri sistemi. Tenteremo la riconnessione automatica a breve.",
-  [webphoneErrors.serverConnecting]: "Si è verificato un problema durante la connessione al server telefonico.",
-  [webphoneErrors.toVoiceMailError]: "Errore interno: impossibile inviare la chiamata alla segreteria telefonica",
-  [webphoneErrors.muteError]: "Impossibile disattivare l'audio della chiamata in questo momento.",
-  [webphoneErrors.holdError]: "Impossibile mettere in attesa la chiamata in questo momento.",
-  [webphoneErrors.flipError]: "Impossibile commutare la chiamata. Riprova più tardi.",
-  [webphoneErrors.recordError]: "Non è possibile registrare la chiamata in questo momento. Codice errore: {errorCode}",
-  [webphoneErrors.pauseRecordError]: "Non è stato possibile interrompere la registrazione della chiamata. Riprova più tardi.",
-  [webphoneErrors.recordDisabled]: "La funzione di registrazione chiamata non è disponibile nel tuo account. Contatta l'amministratore del tuo account.",
-  [webphoneErrors.transferError]: "Impossibile trasferire la chiamata. Riprova più tardi.",
-  [webphoneMessages.parked]: "La tua chiamata è parcheggiata nella posizione: {parkedNumber}",
-  failWithStatusCode: "Abbiamo riscontrato un errore: {errorCode}. Se il problema persiste, segnala l'errore all'assistenza {brandName}.",
-  registeringWithStatusCode: "Si è verificato un problema. Tentativo di riconnessione. Se il problema persiste, segnala l'errore all'assistenza {brandName}. Codice errore: {errorCode}.",
-  failWithoutStatusCode: "Si è verificato un problema nei nostri sistemi. Se l'errore persiste, segnala il problema all'assistenza {brandName}.",
-  registeringWithoutStatusCode: "Si è verificato un problema. Tentativo di riconnessione. Se il problema persiste, segnala l'errore all'assistenza {brandName}."
-};
+  [webphoneErrors.connectFailed]:
+    'Le funzioni telefoniche non sono attualmente disponibili. Riprova più tardi. ',
+  [webphoneErrors.connected]: 'Telefono web registrato.',
+  [webphoneErrors.browserNotSupported]:
+    'Le chiamate mediante questo browser non sono supportate.',
+  [webphoneErrors.webphoneCountOverLimit]:
+    'È possibile registrare fino a 5 telefoni web.',
+  [webphoneErrors.checkDLError]:
+    "Impossibile effettuare una chiamata in uscita. Se l'errore persiste, contatta {brandName} per assistenza.",
+  [webphoneErrors.noOutboundCallWithoutDL]:
+    "Con questo interno non è attualmente consentito effettuare chiamate in uscita con il browser. Contatta il rappresentante dell'account per un upgrade.",
+  [webphoneErrors.provisionUpdate]:
+    'Si è verificato un problema nei nostri sistemi. Tenteremo la riconnessione automatica a breve.',
+  [webphoneErrors.serverConnecting]:
+    'Si è verificato un problema durante la connessione al server telefonico.',
+  [webphoneErrors.toVoiceMailError]:
+    'Errore interno: impossibile inviare la chiamata alla segreteria telefonica',
+  [webphoneErrors.muteError]:
+    "Impossibile disattivare l'audio della chiamata in questo momento.",
+  [webphoneErrors.holdError]:
+    'Impossibile mettere in attesa la chiamata in questo momento.',
+  [webphoneErrors.flipError]:
+    'Impossibile commutare la chiamata. Riprova più tardi.',
+  [webphoneErrors.recordError]:
+    'Non è possibile registrare la chiamata in questo momento. Codice errore: {errorCode}',
+  [webphoneErrors.pauseRecordError]:
+    'Non è stato possibile interrompere la registrazione della chiamata. Riprova più tardi.',
+  [webphoneErrors.recordDisabled]:
+    "La funzione di registrazione chiamata non è disponibile nel tuo account. Contatta l'amministratore del tuo account.",
+  [webphoneErrors.transferError]:
+    'Impossibile trasferire la chiamata. Riprova più tardi.',
+  [webphoneMessages.parked]:
+    'La tua chiamata è parcheggiata nella posizione: {parkedNumber}',
+  failWithStatusCode:
+    "Abbiamo riscontrato un errore: {errorCode}. Se il problema persiste, segnala l'errore all'assistenza {brandName}.",
+  registeringWithStatusCode:
+    "Si è verificato un problema. Tentativo di riconnessione. Se il problema persiste, segnala l'errore all'assistenza {brandName}. Codice errore: {errorCode}.",
+  failWithoutStatusCode:
+    "Si è verificato un problema nei nostri sistemi. Se l'errore persiste, segnala il problema all'assistenza {brandName}.",
+  registeringWithoutStatusCode:
+    "Si è verificato un problema. Tentativo di riconnessione. Se il problema persiste, segnala l'errore all'assistenza {brandName}.",
+} as const;
 
 // @key: @#@"[webphoneErrors.connectFailed]"@#@ @source: @#@"Sorry, phone features are currently unavailable. Please retry later. "@#@
 // @key: @#@"[webphoneErrors.connected]"@#@ @source: @#@"Web phone registered."@#@

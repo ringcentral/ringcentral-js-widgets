@@ -1,8 +1,9 @@
+/* eslint-disable */
 export default {
-  unknown: "Onbekend",
-  anonymous: "Anoniem",
-  activeCalls: "Alle oproepen"
-};
+  unknown: 'Onbekend',
+  anonymous: 'Anoniem',
+  activeCalls: 'Alle oproepen',
+} as const;
 
 // @key: @#@"unknown"@#@ @source: @#@"Unknown"@#@
 // @key: @#@"anonymous"@#@ @source: @#@"Anonymous"@#@

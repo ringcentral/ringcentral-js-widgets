@@ -1,23 +1,25 @@
+/* eslint-disable */
 export default {
-  logging: "Logging...",
-  logCall: "Log Call",
-  editLog: "Edit Log",
-  select: "Select a matching record",
-  OnHold: "On Hold",
-  Ringing: "Ringing",
-  CallConnected: "Call Connected",
-  unknownUser: "Unknown user",
-  unknownNumber: "Anonymous",
-  unavailable: "Unavailable",
-  viewDetails: "View Details",
-  addEntity: "Create New",
-  addLog: "Log",
-  text: "Text",
-  call: "Call",
-  missedCall: "Missed",
-  inboundCall: "Inbound",
-  outboundCall: "Outbound"
-};
+  logging: 'Logging...',
+  logCall: 'Log Call',
+  editLog: 'Edit Log',
+  select: 'Select a matching record',
+  OnHold: 'On Hold',
+  Ringing: 'Ringing',
+  CallConnected: 'Call Connected',
+  unknownUser: 'Unknown user',
+  unknownNumber: 'Anonymous',
+  unavailable: 'Unavailable',
+  viewDetails: 'View Details',
+  addEntity: 'Create New',
+  addLog: 'Log',
+  text: 'Text',
+  call: 'Call',
+  missedCall: 'Missed',
+  inboundCall: 'Inbound',
+  outboundCall: 'Outbound',
+  answeredBy: 'Answered by',
+} as const;
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
 // @key: @#@"logCall"@#@ @source: @#@"Log Call"@#@
@@ -37,3 +39,4 @@ export default {
 // @key: @#@"missedCall"@#@ @source: @#@"Missed"@#@
 // @key: @#@"inboundCall"@#@ @source: @#@"Inbound"@#@
 // @key: @#@"outboundCall"@#@ @source: @#@"Outbound"@#@
+// @key: @#@"answeredBy"@#@ @source: @#@"Answered by"@#@

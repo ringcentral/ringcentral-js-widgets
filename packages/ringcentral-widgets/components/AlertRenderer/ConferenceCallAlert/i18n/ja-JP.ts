@@ -1,11 +1,17 @@
+/* eslint-disable */
 import { conferenceCallErrors } from '@ringcentral-integration/commons/modules/ConferenceCall';
 export default {
-  [conferenceCallErrors.bringInFailed]: "予期しないエラーにより、通話をマージできませんでした。後でもう一度やり直してください。",
-  [conferenceCallErrors.makeConferenceFailed]: "予期しないエラーにより、通話をマージできませんでした。後でもう一度やり直してください。",
-  [conferenceCallErrors.terminateConferenceFailed]: "予期しないエラーにより、会議を終了できませんでした。後でもう一度やり直してください。",
-  [conferenceCallErrors.removeFromConferenceFailed]: "予期しないエラーにより、参加者を削除できませんでした。後でもう一度やり直してください。",
-  [conferenceCallErrors.callIsRecording]: "通話を録音中です。録音を停止し、もう一度やり直してください。"
-};
+  [conferenceCallErrors.bringInFailed]:
+    '予期しないエラーにより、通話をマージできませんでした。後でもう一度やり直してください。',
+  [conferenceCallErrors.makeConferenceFailed]:
+    '予期しないエラーにより、通話をマージできませんでした。後でもう一度やり直してください。',
+  [conferenceCallErrors.terminateConferenceFailed]:
+    '予期しないエラーにより、会議を終了できませんでした。後でもう一度やり直してください。',
+  [conferenceCallErrors.removeFromConferenceFailed]:
+    '予期しないエラーにより、参加者を削除できませんでした。後でもう一度やり直してください。',
+  [conferenceCallErrors.callIsRecording]:
+    '通話を録音中です。録音を停止し、もう一度やり直してください。',
+} as const;
 
 // @key: @#@"[conferenceCallErrors.bringInFailed]"@#@ @source: @#@"Failed to merge the calls due to unexpected errors. Please try again later."@#@
 // @key: @#@"[conferenceCallErrors.makeConferenceFailed]"@#@ @source: @#@"Failed to merge the calls due to unexpected errors. Please try again later."@#@

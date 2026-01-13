@@ -1,13 +1,14 @@
+/* eslint-disable */
 export default {
-  noActiveCalls: "Geen actieve oproepen",
-  noCalls: "Geen resultaten gevonden.",
-  currentCall: "Huidige oproep",
-  ringCall: "Overgaande oproep",
-  onHoldCall: "Oproep staat in de wacht",
-  historyCalls: "Eerdere oproepen",
-  otherDeviceCall: "Actieve oproepen op mijn andere apparaten",
-  searchPlaceholder: "Zoeken..."
-};
+  noActiveCalls: 'Geen actieve oproepen',
+  noCalls: 'Geen resultaten gevonden.',
+  currentCall: 'Huidige oproep',
+  ringCall: 'Overgaande oproep',
+  onHoldCall: 'Oproep staat in de wacht',
+  historyCalls: 'Eerdere oproepen',
+  otherDeviceCall: 'Actieve oproepen op mijn andere apparaten',
+  searchPlaceholder: 'Zoeken...',
+} as const;
 
 // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@
 // @key: @#@"noCalls"@#@ @source: @#@"No results found."@#@

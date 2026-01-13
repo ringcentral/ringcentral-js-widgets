@@ -1,29 +1,33 @@
+/* eslint-disable */
 export default {
-  mute: "靜音",
-  unmute: "取消靜音",
-  hangup: "掛斷",
-  reject: "拒絕",
-  hold: "保留",
-  onHold: "保留",
-  transfer: "轉接",
-  more: "更多",
-  stopRecord: "停止錄製",
-  record: "錄製",
-  showKeypad: "撥號盤",
-  hideKeypad: "隱藏撥號盤",
-  unHold: "取消保留",
-  forward: "轉接",
-  ignore: "忽略",
-  voicemail: "至語音信箱",
-  custom: "自訂",
-  answerAndEnd: "接聽並結束",
-  answerAndHold: "接聽並保留",
-  answer: "接聽",
-  completeTransfer: "完成轉接",
-  reply: "回覆",
-  add: "新增",
-  mergeCall: "與進行中的通話合併"
-};
+  mute: '靜音',
+  unmute: '取消靜音',
+  hangup: '掛斷',
+  reject: '拒絕',
+  hold: '保留',
+  onHold: '保留',
+  transfer: '轉接',
+  more: '更多',
+  stopRecord: '停止錄製',
+  record: '錄製',
+  showKeypad: '撥號盤',
+  hideKeypad: '隱藏撥號盤',
+  unHold: '取消保留',
+  forward: '轉接',
+  ignore: '忽略',
+  voicemail: '至語音信箱',
+  custom: '自訂',
+  answerAndEnd: '接聽並結束',
+  answerAndHold: '接聽並保留',
+  answer: '接聽',
+  completeTransfer: '完成轉接',
+  reply: '回覆',
+  add: '新增',
+  mergeCall: '與進行中的通話合併',
+  endCallForEveryone: '為所有人結束通話',
+  leaveCall: '離開通話',
+  leaveOrEndCall: '離開亦或結束通話？',
+} as const;
 
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
@@ -49,3 +53,6 @@ export default {
 // @key: @#@"reply"@#@ @source: @#@"Reply"@#@
 // @key: @#@"add"@#@ @source: @#@"Add"@#@
 // @key: @#@"mergeCall"@#@ @source: @#@"Merge with active call"@#@
+// @key: @#@"endCallForEveryone"@#@ @source: @#@"End call for everyone"@#@
+// @key: @#@"leaveCall"@#@ @source: @#@"Leave call"@#@
+// @key: @#@"leaveOrEndCall"@#@ @source: @#@"Leave or end call?"@#@

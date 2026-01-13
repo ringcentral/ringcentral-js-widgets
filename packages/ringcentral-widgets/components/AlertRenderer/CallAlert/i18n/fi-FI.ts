@@ -1,5 +1,5 @@
+/* eslint-disable */
 import { callErrors } from '@ringcentral-integration/commons/modules/Call';
-
 export default {
   [callErrors.emergencyNumber]:
     'Hätänumeroon soittaminen ei ole käytettävissä. Soita hätäkeskukseen toisella puhelimella',
@@ -22,7 +22,7 @@ export default {
   telus911: 'Hätäpuheluita ei tueta.',
   [callErrors.fromAndToNumberIsSame]:
     'RingOut-numero ja kohdenumero eivät voi olla sama numero. Päivitä numero ja yritä uudelleen.',
-};
+} as const;
 
 // @key: @#@"[callErrors.emergencyNumber]"@#@ @source: @#@"Emergency calling is not available. Please use another phone to contact emergency services"@#@
 // @key: @#@"[callErrors.noToNumber]"@#@ @source: @#@"Please enter a valid phone number."@#@

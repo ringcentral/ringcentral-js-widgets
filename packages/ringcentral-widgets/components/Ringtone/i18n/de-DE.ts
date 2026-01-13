@@ -1,13 +1,14 @@
+/* eslint-disable */
 export default {
-  ringtones: "Klingeltöne",
-  incomingRingtone: "Klingelton für eingehende Anrufe",
-  outgoingRingtone: "Klingelton für ausgehende Anrufe",
-  play: "Abspielen",
-  stop: "Anhalten",
-  upload: "Hochladen",
-  reset: "Zurücksetzen",
-  save: "Speichern"
-};
+  ringtones: 'Ruftöne',
+  incomingRingtone: 'Klingelton für eingehende Anrufe',
+  outgoingRingtone: 'Klingelton für ausgehende Anrufe',
+  play: 'Abspielen',
+  stop: 'Anhalten',
+  upload: 'Hochladen',
+  reset: 'Zurücksetzen',
+  save: 'Speichern',
+} as const;
 
 // @key: @#@"ringtones"@#@ @source: @#@"Ringtones"@#@
 // @key: @#@"incomingRingtone"@#@ @source: @#@"Incoming Ringtone"@#@

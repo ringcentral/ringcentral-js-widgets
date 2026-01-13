@@ -1,14 +1,15 @@
+/* eslint-disable */
 export default {
-  cancel: "Peruuta",
-  reply: "Vastaa",
-  onMyWay: "Olen tulossa",
-  customMessage: "Mukautettu viesti",
-  callMeBackIn: "Soita takaisin, kun on kulunut",
-  willCallYouBackIn: "Soitan takaisin, kun on kulunut",
-  min: "min",
-  hours: "tuntia",
-  days: "päivää"
-};
+  cancel: 'Peruuta',
+  reply: 'Vastaa',
+  onMyWay: 'Olen tulossa',
+  customMessage: 'Mukautettu viesti',
+  callMeBackIn: 'Soita takaisin, kun on kulunut',
+  willCallYouBackIn: 'Soitan takaisin, kun on kulunut',
+  min: 'min',
+  hours: 'tuntia',
+  days: 'päivää',
+} as const;
 
 // @key: @#@"cancel"@#@ @source: @#@"Cancel"@#@
 // @key: @#@"reply"@#@ @source: @#@"Reply"@#@

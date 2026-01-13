@@ -1,20 +1,21 @@
+/* eslint-disable */
 export default {
-  unmute: "Ativar som",
-  mute: "Desativar som",
-  keypad: "Teclado",
-  hold: "Em espera",
-  onHold: "Em espera",
-  park: "Parquear",
-  stopRecord: "Parar",
-  record: "Gravar",
-  add: "Adicionar",
-  transfer: "Transferir",
-  flip: "Transferência",
-  more: "Ações chamada",
-  mergeToConference: "Unir",
-  end: "Terminar",
-  completeTransfer: "Concluir\ntransferência"
-};
+  unmute: 'Ativar som',
+  mute: 'Desativar som',
+  keypad: 'Teclado',
+  hold: 'Em espera',
+  onHold: 'Em espera',
+  park: 'Parquear',
+  stopRecord: 'Parar',
+  record: 'Gravar',
+  add: 'Adicionar',
+  transfer: 'Transferir',
+  flip: 'Transferência',
+  more: 'Ações chamada',
+  mergeToConference: 'Unir',
+  end: 'Terminar',
+  completeTransfer: 'Concluir\ntransferência',
+} as const;
 
 // @key: @#@"unmute"@#@ @source: @#@"Unmute"@#@
 // @key: @#@"mute"@#@ @source: @#@"Mute"@#@

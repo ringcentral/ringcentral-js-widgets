@@ -1,30 +1,33 @@
+/* eslint-disable */
 import { HintsType } from '../ContactSearchPanelEnum';
 export default {
-  [HintsType.thirdPartyNoRecordsContent]: "Anna vähintään {minimumLength} merkkiä tai numeroa kaikkien lähteen {sourceName} tietueiden hakemiseksi.",
-  [HintsType.noFilterOrSearchRecordsTitle]: "Tuloksia ei löytynyt",
-  [HintsType.noFilterOrSearchRecordsContent]: "Tarkista tulokset toisista lähteistä tai vaihda avainsanaasi.",
-  [HintsType.searching]: "Haetaan…",
-  companyTabTitle: "Yritys",
-  personalTabTitle: "Henkilökohtainen",
-  direct: "Suora",
-  extension: "Alanro",
-  contact: "Yhteystieto",
-  mobile: "Mobiili",
-  company: "Yritys",
-  home: "Etusivu",
-  home2: "Etusivu",
-  other: "Muu",
-  business: "Työ",
-  business2: "Työ",
-  car: "Auto",
-  fax: "Faksi",
-  assistant: "Avustaja",
-  callback: "Takaisinsoitto",
-  MobileNumber: "Matkapuhelinnumero",
-  ContactNumber: "Yhteysnumero",
-  DirectNumber: "Suora numero",
-  doNotCall: "Älä soita"
-};
+  [HintsType.thirdPartyNoRecordsContent]:
+    'Anna vähintään {minimumLength} merkkiä tai numeroa kaikkien lähteen {sourceName} tietueiden hakemiseksi.',
+  [HintsType.noFilterOrSearchRecordsTitle]: 'Tuloksia ei löytynyt',
+  [HintsType.noFilterOrSearchRecordsContent]:
+    'Tarkista tulokset toisista lähteistä tai vaihda avainsanaasi.',
+  [HintsType.searching]: 'Haetaan…',
+  companyTabTitle: 'Yritys',
+  personalTabTitle: 'Henkilökohtainen',
+  direct: 'Suora',
+  extension: 'Alanro',
+  contact: 'Yhteystieto',
+  mobile: 'Mobiili',
+  company: 'Yritys',
+  home: 'Etusivu',
+  home2: 'Etusivu',
+  other: 'Muu',
+  business: 'Työ',
+  business2: 'Työ',
+  car: 'Auto',
+  fax: 'Faksi',
+  assistant: 'Avustaja',
+  callback: 'Takaisinsoitto',
+  MobileNumber: 'Matkapuhelinnumero',
+  ContactNumber: 'Yhteysnumero',
+  DirectNumber: 'Suora numero',
+  doNotCall: 'Älä soita',
+} as const;
 
 // @key: @#@"[HintsType.thirdPartyNoRecordsContent]"@#@ @source: @#@"Enter at least {minimumLength} characters or digits to search all {sourceName} records."@#@
 // @key: @#@"[HintsType.noFilterOrSearchRecordsTitle]"@#@ @source: @#@"No results found"@#@

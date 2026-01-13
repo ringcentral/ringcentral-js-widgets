@@ -1,5 +1,6 @@
+/* eslint-disable */
 export default {
-  copy: "コピー"
-};
+  copy: 'コピー',
+} as const;
 
 // @key: @#@"copy"@#@ @source: @#@"Copy"@#@

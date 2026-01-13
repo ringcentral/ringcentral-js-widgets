@@ -1,8 +1,9 @@
+/* eslint-disable */
 export default {
-  dial: "Marcar",
-  message: "Enviar mensagem",
-  transfer: "Transferir"
-};
+  dial: 'Marcar',
+  message: 'Enviar mensagem',
+  transfer: 'Transferir',
+} as const;
 
 // @key: @#@"dial"@#@ @source: @#@"Dial"@#@
 // @key: @#@"message"@#@ @source: @#@"Message"@#@

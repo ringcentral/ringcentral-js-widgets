@@ -1,21 +1,25 @@
+/* eslint-disable */
 export default {
-  title: "Son",
-  dialButtonVolume: "Volume du bouton de numérotation",
-  ringtoneVolume: "Volume de la sonnerie",
-  callVolume: "Volume de l’appel",
-  muteCalls: "Désactiver le son des appels",
-  outputDevice: "Périphérique de sortie",
-  inputDevice: "Périphérique d’entrée",
-  micPermission: "Autorisation de l’usage du microphone",
-  noDevice: "Aucun appareil",
-  checkMicPermission: "Vérifiez votre autorisation",
-  micNoPermissionMessage: "L’application n’a pas l’autorisation d’utiliser le microphone",
-  noLabel: "Périphérique inconnu",
-  notSetSinkIdTip: "Désolés, les autorisations actuelles dans votre navigateur ne sont pas définies de manière à nous autoriser l’accès à vos périphériques de sortie audio. {clickHereLink} pour voir comment régler les paramètres.",
-  noLabelTip: "Désolés, les autorisations actuelles dans votre navigateur ne sont pas définies de manière à nous autoriser l’accès à vos périphériques d’entrée audio.",
-  clickHere: "Cliquez ici",
-  defaultOutputDevice: "Périphérique de sortie par défaut"
-};
+  title: 'Son',
+  dialButtonVolume: 'Volume du bouton de numérotation',
+  ringtoneVolume: 'Volume de la sonnerie',
+  callVolume: 'Volume de l’appel',
+  muteCalls: 'Désactiver le son des appels',
+  outputDevice: 'Périphérique de sortie',
+  inputDevice: 'Périphérique d’entrée',
+  micPermission: 'Autorisation de l’usage du microphone',
+  noDevice: 'Aucun appareil',
+  checkMicPermission: 'Vérifiez votre autorisation',
+  micNoPermissionMessage:
+    'L’application n’a pas l’autorisation d’utiliser le microphone',
+  noLabel: 'Périphérique inconnu',
+  notSetSinkIdTip:
+    'Désolés, les autorisations actuelles dans votre navigateur ne sont pas définies de manière à nous autoriser l’accès à vos périphériques de sortie audio. {clickHereLink} pour voir comment régler les paramètres.',
+  noLabelTip:
+    'Désolés, les autorisations actuelles dans votre navigateur ne sont pas définies de manière à nous autoriser l’accès à vos périphériques d’entrée audio.',
+  clickHere: 'Cliquez ici',
+  defaultOutputDevice: 'Périphérique de sortie par défaut',
+} as const;
 
 // @key: @#@"title"@#@ @source: @#@"Audio"@#@
 // @key: @#@"dialButtonVolume"@#@ @source: @#@"Dial Button Volume"@#@

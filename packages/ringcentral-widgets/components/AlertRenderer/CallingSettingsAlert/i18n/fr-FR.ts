@@ -1,15 +1,23 @@
+/* eslint-disable */
 import { callingSettingsMessages } from '@ringcentral-integration/commons/modules/CallingSettings';
 export default {
-  [callingSettingsMessages.saveSuccess]: "Les paramètres ont été sauvegardés.",
-  [callingSettingsMessages.saveSuccessWithSoftphone]: "Les paramètres ont été sauvegardés. Veuillez vous assurer que {brand} est installé sur votre machine.",
-  [callingSettingsMessages.permissionChanged]: "Vos autorisations ont été modifiées récemment. Veuillez vous rendre dans {link} pour vérifier vos options d’appel.",
-  [callingSettingsMessages.phoneNumberChanged]: "Les informations de votre téléphone mobile ont été modifiées récemment. Veuillez vous rendre dans {link} pour vérifier vos options d’appel.",
-  link: "Paramètres > Appel",
-  [callingSettingsMessages.webphonePermissionRemoved]: "Vos permissions ont été modifiées et vous ne pouvez pas passer d’appel avec un navigateur. Pour plus de détails, veuillez contacter votre administrateur de compte.",
-  [callingSettingsMessages.emergencyCallingNotAvailable]: "Numéro d’urgence ou service spécial non pris en charge. En cas d’urgence, veuillez utiliser un téléphone fixe ou mobile traditionnel pour contacter les services compétents.",
-  [callingSettingsMessages.saveSuccessWithJupiter]: "Les paramètres ont été sauvegardés. Veuillez vous assurer que {brand} est installé sur votre machine.",
-  [callingSettingsMessages.disableEmergencyInJapan]: "Le service d’urgence n’est pas disponible au Japon."
-};
+  [callingSettingsMessages.saveSuccess]: 'Les paramètres ont été sauvegardés.',
+  [callingSettingsMessages.saveSuccessWithSoftphone]:
+    'Les paramètres ont été sauvegardés. Veuillez vous assurer que {brand} est installé sur votre machine.',
+  [callingSettingsMessages.permissionChanged]:
+    'Vos autorisations ont été modifiées récemment. Veuillez vous rendre dans {link} pour vérifier vos options d’appel.',
+  [callingSettingsMessages.phoneNumberChanged]:
+    'Les informations de votre téléphone mobile ont été modifiées récemment. Veuillez vous rendre dans {link} pour vérifier vos options d’appel.',
+  link: 'Paramètres > Appel',
+  [callingSettingsMessages.webphonePermissionRemoved]:
+    'Vos permissions ont été modifiées et vous ne pouvez pas passer d’appel avec un navigateur. Pour plus de détails, veuillez contacter votre administrateur de compte.',
+  [callingSettingsMessages.emergencyCallingNotAvailable]:
+    'Numéro d’urgence ou service spécial non pris en charge. En cas d’urgence, veuillez utiliser un téléphone fixe ou mobile traditionnel pour contacter les services compétents.',
+  [callingSettingsMessages.saveSuccessWithJupiter]:
+    'Les paramètres ont été sauvegardés. Veuillez vous assurer que {brand} est installé sur votre machine.',
+  [callingSettingsMessages.disableEmergencyInJapan]:
+    'Le service d’urgence n’est pas disponible au Japon.',
+} as const;
 
 // @key: @#@"[callingSettingsMessages.saveSuccess]"@#@ @source: @#@"Settings saved successfully."@#@
 // @key: @#@"[callingSettingsMessages.saveSuccessWithSoftphone]"@#@ @source: @#@"Settings saved successfully. Please make sure you have {brand} installed in your computer."@#@

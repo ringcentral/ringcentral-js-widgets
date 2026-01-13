@@ -61,15 +61,22 @@ export const IssuesTrackingCloseConfirmPanel: FunctionComponent<
           component="h2"
           weight="bold"
           flexFull
+          data-sign="DialogTitle"
         >
           {t('header')}
         </RcText>
         <div>
-          <RcIconButton symbol={Close} onClick={() => onClose()} />
+          <RcIconButton
+            data-sign="DialogCloseButton"
+            symbol={Close}
+            onClick={() => onClose()}
+          />
         </div>
       </header>
       <main>
-        <RcTypography color="action.grayDark">{t('content')}</RcTypography>
+        <RcTypography color="action.grayDark" data-sign="DialogContent">
+          {t('content')}
+        </RcTypography>
       </main>
       <footer>
         <RcButton
@@ -77,6 +84,7 @@ export const IssuesTrackingCloseConfirmPanel: FunctionComponent<
           variant="outlined"
           fullWidth
           onClick={(e) => onCancel()}
+          data-sign="DialogCancelButton"
         >
           {t('cancel')}
         </RcButton>
@@ -85,6 +93,7 @@ export const IssuesTrackingCloseConfirmPanel: FunctionComponent<
           onClick={(e) => onConfirm()}
           variant="contained"
           fullWidth
+          data-sign="DialogOKButton"
         >
           {t('confirm')}
         </RcButton>

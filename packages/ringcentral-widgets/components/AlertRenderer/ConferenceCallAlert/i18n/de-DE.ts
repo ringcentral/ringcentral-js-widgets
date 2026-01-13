@@ -1,11 +1,17 @@
+/* eslint-disable */
 import { conferenceCallErrors } from '@ringcentral-integration/commons/modules/ConferenceCall';
 export default {
-  [conferenceCallErrors.bringInFailed]: "Das Zusammenführen von Anrufen ist wegen unerwarteter Fehler fehlgeschlagen. Versuchen Sie es später noch einmal.",
-  [conferenceCallErrors.makeConferenceFailed]: "Das Zusammenführen von Anrufen ist wegen unerwarteter Fehler fehlgeschlagen. Versuchen Sie es später noch einmal.",
-  [conferenceCallErrors.terminateConferenceFailed]: "Das Beenden der Konferenz ist aufgrund unerwarteter Fehler fehlgeschlagen. Versuchen Sie es später noch einmal.",
-  [conferenceCallErrors.removeFromConferenceFailed]: "Das Entfernen des Teilnehmers ist aufgrund unerwarteter Fehler fehlgeschlagen. Versuchen Sie es später noch einmal.",
-  [conferenceCallErrors.callIsRecording]: "Anrufaufzeichnung in Verarbeitung. Bitte stoppen Sie die Aufzeichnung und versuchen Sie es erneut."
-};
+  [conferenceCallErrors.bringInFailed]:
+    'Das Zusammenführen von Anrufen ist wegen unerwarteter Fehler fehlgeschlagen. Versuchen Sie es später noch einmal.',
+  [conferenceCallErrors.makeConferenceFailed]:
+    'Das Zusammenführen von Anrufen ist wegen unerwarteter Fehler fehlgeschlagen. Versuchen Sie es später noch einmal.',
+  [conferenceCallErrors.terminateConferenceFailed]:
+    'Das Beenden der Konferenz ist aufgrund unerwarteter Fehler fehlgeschlagen. Versuchen Sie es später noch einmal.',
+  [conferenceCallErrors.removeFromConferenceFailed]:
+    'Das Entfernen des Teilnehmers ist aufgrund unerwarteter Fehler fehlgeschlagen. Versuchen Sie es später noch einmal.',
+  [conferenceCallErrors.callIsRecording]:
+    'Anrufaufzeichnung in Verarbeitung. Bitte stoppen Sie die Aufzeichnung und versuchen Sie es erneut.',
+} as const;
 
 // @key: @#@"[conferenceCallErrors.bringInFailed]"@#@ @source: @#@"Failed to merge the calls due to unexpected errors. Please try again later."@#@
 // @key: @#@"[conferenceCallErrors.makeConferenceFailed]"@#@ @source: @#@"Failed to merge the calls due to unexpected errors. Please try again later."@#@

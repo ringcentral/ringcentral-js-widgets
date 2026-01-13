@@ -1,8 +1,9 @@
+/* eslint-disable */
 export default {
-  flipHeader: "Oproep omkeren naar...",
-  flip: "Omkeren",
-  complete: "Omkeren voltooien"
-};
+  flipHeader: 'Oproep omkeren naar...',
+  flip: 'Omkeren',
+  complete: 'Omkeren voltooien',
+} as const;
 
 // @key: @#@"flipHeader"@#@ @source: @#@"Flip Call to..."@#@
 // @key: @#@"flip"@#@ @source: @#@"Flip"@#@

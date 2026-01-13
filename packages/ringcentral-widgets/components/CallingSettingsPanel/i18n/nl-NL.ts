@@ -1,19 +1,26 @@
+/* eslint-disable */
 import { callingOptions } from '@ringcentral-integration/commons/modules/CallingSettings';
 export default {
-  title: "Bellen",
-  [callingOptions.softphone]: "{brand} voor desktop",
-  [callingOptions.browser]: "Browser",
-  [callingOptions.jupiter]: "{brand}",
-  makeCallsWith: "Plaats mijn oproepen met",
-  ringoutHint: "Bel me eerst op mijn locatie en verbind dan de gebelde partij",
-  myLocationLabel: "Mijn locatie",
-  press1ToStartCallLabel: "Vraag me om op 1 te drukken voordat ik de oproep tot stand breng",
-  [`${callingOptions.browser}Tooltip`]: "Gebruik deze optie om te bellen en gebeld te worden met de microfoon en luidspreker van uw computer.",
-  [`${callingOptions.softphone}Tooltip`]: "Gebruik deze optie om te bellen en gebeld te worden met {brand}.",
-  [`${callingOptions.ringout}Tooltip`]: "Gebruik deze optie om te bellen met het door u geselecteerde of ingevoerde telefoonnummer.",
-  [`${callingOptions.ringout}Tooltip1`]: "Voor deze oproep gaat deze telefoon eerst over en vervolgens de partij die u hebt gebeld.",
-  [`${callingOptions.jupiter}Tooltip`]: "Gebruik deze optie om te bellen en gebeld te worden met {brand}."
-};
+  title: 'Bellen',
+  [callingOptions.softphone]: '{brand} voor desktop',
+  [callingOptions.browser]: 'Browser',
+  [callingOptions.jupiter]: '{brand}',
+  makeCallsWith: 'Plaats mijn oproepen met',
+  ringoutHint: 'Bel me eerst op mijn locatie en verbind dan de gebelde partij',
+  myLocationLabel: 'Mijn locatie',
+  press1ToStartCallLabel:
+    'Vraag me om op 1 te drukken voordat ik de oproep tot stand breng',
+  [`${callingOptions.browser}Tooltip`]:
+    'Gebruik deze optie om te bellen en gebeld te worden met de microfoon en luidspreker van uw computer.',
+  [`${callingOptions.softphone}Tooltip`]:
+    'Gebruik deze optie om te bellen en gebeld te worden met {brand}.',
+  [`${callingOptions.ringout}Tooltip`]:
+    'Gebruik deze optie om te bellen met het door u geselecteerde of ingevoerde telefoonnummer.',
+  [`${callingOptions.ringout}Tooltip1`]:
+    'Voor deze oproep gaat deze telefoon eerst over en vervolgens de partij die u hebt gebeld.',
+  [`${callingOptions.jupiter}Tooltip`]:
+    'Gebruik deze optie om te bellen en gebeld te worden met {brand}.',
+} as const;
 
 // @key: @#@"title"@#@ @source: @#@"Calling"@#@
 // @key: @#@"[callingOptions.softphone]"@#@ @source: @#@"{brand} for Desktop"@#@

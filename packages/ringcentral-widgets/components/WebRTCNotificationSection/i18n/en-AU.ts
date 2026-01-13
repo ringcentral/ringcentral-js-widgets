@@ -1,13 +1,14 @@
+/* eslint-disable */
 export default {
-  forward: "Forward",
-  ignore: "Ignore",
-  toVoicemail: "To voicemail",
-  answer: "Answer",
-  endAndAnswer: "End & Answer",
-  holdAndAnswer: "Hold & Answer",
-  custom: "Custom",
-  more: "More"
-};
+  forward: 'Forward',
+  ignore: 'Ignore',
+  toVoicemail: 'To voicemail',
+  answer: 'Answer',
+  endAndAnswer: 'End & Answer',
+  holdAndAnswer: 'Hold & Answer',
+  custom: 'Custom',
+  more: 'More',
+} as const;
 
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@
 // @key: @#@"ignore"@#@ @source: @#@"Ignore"@#@

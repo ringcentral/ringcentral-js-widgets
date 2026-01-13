@@ -1,11 +1,14 @@
+/* eslint-disable */
 import { regionSettingsMessages } from '@ringcentral-integration/commons/modules/RegionSettings/regionSettingsMessages';
 export default {
-  region: "Région",
-  [regionSettingsMessages.saveSuccess]: "Les paramètres ont été enregistrés.",
-  [regionSettingsMessages.dialingPlansChanged]: "La région précédente n’est plus prise en charge pour votre compte.\n    Veuillez vérifier vos nouveaux {regionSettingsLink}.",
-  regionSettings: "paramètres régionaux",
-  [regionSettingsMessages.areaCodeInvalid]: "Veuillez entrer un indicatif régional valide."
-};
+  region: 'Région',
+  [regionSettingsMessages.saveSuccess]: 'Les paramètres ont été enregistrés.',
+  [regionSettingsMessages.dialingPlansChanged]:
+    'La région précédente n’est plus prise en charge pour votre compte.\n    Veuillez vérifier vos nouveaux {regionSettingsLink}.',
+  regionSettings: 'paramètres régionaux',
+  [regionSettingsMessages.areaCodeInvalid]:
+    'Veuillez entrer un indicatif régional valide.',
+} as const;
 
 // @key: @#@"region"@#@ @source: @#@"Region"@#@
 // @key: @#@"[regionSettingsMessages.saveSuccess]"@#@ @source: @#@"Settings saved successfully."@#@

@@ -1,8 +1,9 @@
+/* eslint-disable */
 export default {
-  allCalls: "Todas as chamadas",
-  Unknown: "Desconhecido",
-  Multiple: "Vários"
-};
+  allCalls: 'Todas as chamadas',
+  Unknown: 'Desconhecido',
+  Multiple: 'Vários',
+} as const;
 
 // @key: @#@"allCalls"@#@ @source: @#@"All calls"@#@
 // @key: @#@"Unknown"@#@ @source: @#@"Unknown"@#@

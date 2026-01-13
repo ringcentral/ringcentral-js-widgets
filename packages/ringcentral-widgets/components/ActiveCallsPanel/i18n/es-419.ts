@@ -1,14 +1,15 @@
+/* eslint-disable */
 export default {
-  noActiveCalls: "No hay llamadas activas",
-  currentCall: "Llamada actual",
-  ringCall: "Llamada sonando",
-  onHoldCall: "Llamada en espera",
-  otherDeviceCall: "Llamadas en curso en mis otros dispositivos",
-  confirmation: "Confirmación",
-  confirmMergeToConference: "¿Agregar a la conferencia telefónica?",
-  mergeToConference: "Combinar",
-  conferenceCall: "Conferencia telefónica"
-};
+  noActiveCalls: 'No hay llamadas activas',
+  currentCall: 'Llamada actual',
+  ringCall: 'Llamada sonando',
+  onHoldCall: 'Llamada en espera',
+  otherDeviceCall: 'Llamadas en curso en mis otros dispositivos',
+  confirmation: 'Confirmación',
+  confirmMergeToConference: '¿Agregar a la conferencia telefónica?',
+  mergeToConference: 'Combinar',
+  conferenceCall: 'Conferencia telefónica',
+} as const;
 
 // @key: @#@"noActiveCalls"@#@ @source: @#@"No active calls"@#@
 // @key: @#@"currentCall"@#@ @source: @#@"Current Call"@#@

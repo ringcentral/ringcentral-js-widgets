@@ -1,8 +1,9 @@
+/* eslint-disable */
 export default {
-  schedule: "Programar reunión",
-  prompt: "Autorice a RingCentral a acceder a la información de cuenta.",
-  saveAsDefault: "Guardar como predeterminado"
-};
+  schedule: 'Programar reunión',
+  prompt: 'Autorice a RingCentral a acceder a la información de cuenta.',
+  saveAsDefault: 'Guardar como predeterminado',
+} as const;
 
 // @key: @#@"schedule"@#@ @source: @#@"Schedule Meeting"@#@
 // @key: @#@"prompt"@#@ @source: @#@"Please authorize RingCentral to access your account information."@#@

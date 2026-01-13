@@ -1,5 +1,6 @@
+/* eslint-disable */
 export default {
-  forward: "Doorverbinden"
-};
+  forward: 'Doorverbinden',
+} as const;
 
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@

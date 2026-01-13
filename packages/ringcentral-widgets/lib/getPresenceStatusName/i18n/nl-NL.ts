@@ -1,11 +1,12 @@
+/* eslint-disable */
 import { presenceStatus } from '@ringcentral-integration/commons/enums/presenceStatus.enum';
 import { dndStatus } from '@ringcentral-integration/commons/modules/Presence';
 export default {
-  [presenceStatus.available]: "Beschikbaar",
-  [presenceStatus.offline]: "Onzichtbaar",
-  [presenceStatus.busy]: "Bezet",
-  [dndStatus.doNotAcceptAnyCalls]: "Niet storen"
-};
+  [presenceStatus.available]: 'Beschikbaar',
+  [presenceStatus.offline]: 'Onzichtbaar',
+  [presenceStatus.busy]: 'Bezet',
+  [dndStatus.doNotAcceptAnyCalls]: 'Niet storen',
+} as const;
 
 // @key: @#@"[presenceStatus.available]"@#@ @source: @#@"Available"@#@
 // @key: @#@"[presenceStatus.offline]"@#@ @source: @#@"Invisible"@#@

@@ -1,8 +1,9 @@
+/* eslint-disable */
 export default {
-  today: "Tänään",
-  yesterday: "Eilen",
-  empty: "Ei puhelutallenteita"
-};
+  today: 'Tänään',
+  yesterday: 'Eilen',
+  empty: 'Ei puhelutallenteita',
+} as const;
 
 // @key: @#@"today"@#@ @source: @#@"Today"@#@
 // @key: @#@"yesterday"@#@ @source: @#@"Yesterday"@#@

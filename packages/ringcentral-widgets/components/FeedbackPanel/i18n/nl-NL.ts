@@ -1,24 +1,26 @@
+/* eslint-disable */
 export default {
-  feedbackHeader: "Feedback verzenden",
-  back: "Terug",
-  revert: "Terugdraaien",
-  instruction: "Uw feedback is waardevol voor ons. Als u problemen hebt met het gebruik van de app, een functie wilt aanvragen of een bug wilt melden, helpen we u graag verder.",
-  fillForm: "Vul het onderstaande formulier in en klik op ",
-  useMailBox: " of gebruik uw mailbox en stuur uw verzoek naar ",
-  email: "Uw e-mailadres",
-  reply: "(zodat we u kunnen beantwoorden)",
-  emailPlaceHolder: "ronald.app@ringcentral.com",
-  feedbackTopic: "Onderwerp feedback",
-  topicPlaceHolder: "Selecteer een optie",
-  bugReport: "Melding bug",
-  featureRequest: "Aanvragen functie",
-  others: "Overige",
-  subject: "Onderwerp",
-  subjectPlaceHolder: "Laat ons weten hoe we u kunnen helpen",
-  description: "Volledige omschrijving",
-  descriptionPlaceHolder: "Geef zo veel mogelijk informatie op",
-  send: "Uw feedback verzenden"
-};
+  feedbackHeader: 'Feedback verzenden',
+  back: 'Terug',
+  revert: 'Terugdraaien',
+  instruction:
+    'Uw feedback is waardevol voor ons. Als u problemen hebt met het gebruik van de app, een functie wilt aanvragen of een bug wilt melden, helpen we u graag verder.',
+  fillForm: 'Vul het onderstaande formulier in en klik op ',
+  useMailBox: ' of gebruik uw mailbox en stuur uw verzoek naar ',
+  email: 'Uw e-mailadres',
+  reply: '(zodat we u kunnen beantwoorden)',
+  emailPlaceHolder: 'ronald.app@ringcentral.com',
+  feedbackTopic: 'Onderwerp feedback',
+  topicPlaceHolder: 'Selecteer een optie',
+  bugReport: 'Melding bug',
+  featureRequest: 'Aanvragen functie',
+  others: 'Overige',
+  subject: 'Onderwerp',
+  subjectPlaceHolder: 'Laat ons weten hoe we u kunnen helpen',
+  description: 'Volledige omschrijving',
+  descriptionPlaceHolder: 'Geef zo veel mogelijk informatie op',
+  send: 'Uw feedback verzenden',
+} as const;
 
 // @key: @#@"feedbackHeader"@#@ @source: @#@"Submit Feedback"@#@
 // @key: @#@"back"@#@ @source: @#@"Back"@#@

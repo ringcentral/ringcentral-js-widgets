@@ -1,28 +1,29 @@
+/* eslint-disable */
 import messageTypes from '@ringcentral-integration/commons/enums/messageTypes';
 export default {
-  addLog: "记录",
-  editLog: "编辑记录",
-  viewDetails: "查看详细信息",
-  addEntity: "新建",
-  call: "电话",
-  text: "短信",
-  conversation: "对话",
-  groupConversation: "群组对话",
-  voiceMessage: "语音消息",
-  [messageTypes.voiceMail]: "语音邮件",
-  [messageTypes.fax]: "传真",
-  mark: "标记为未读",
-  unmark: "标记为已读",
-  delete: "删除",
-  faxSent: "传真已发送",
-  faxReceived: "传真已接收",
-  pages: "页",
-  page: "页",
-  preview: "查看",
-  download: "下载",
-  imageAttachment: "附件：{count} 张图片",
-  fileAttachment: "附件：{count} 文件"
-};
+  addLog: '记录',
+  editLog: '编辑记录',
+  viewDetails: '查看详细信息',
+  addEntity: '新建',
+  call: '电话',
+  text: '短信',
+  conversation: '对话',
+  groupConversation: '群组对话',
+  voiceMessage: '语音消息',
+  [messageTypes.voiceMail]: '语音邮件',
+  [messageTypes.fax]: '传真',
+  mark: '标记为未读',
+  unmark: '标记为已读',
+  delete: '删除',
+  faxSent: '传真已发送',
+  faxReceived: '传真已接收',
+  pages: '页',
+  page: '页',
+  preview: '查看',
+  download: '下载',
+  mmsWithOneAttachment: '带 1 个附件的彩信',
+  mmsWithAttachments: '带 {count} 个附件的彩信',
+} as const;
 
 // @key: @#@"addLog"@#@ @source: @#@"Log"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
@@ -44,5 +45,5 @@ export default {
 // @key: @#@"page"@#@ @source: @#@"page"@#@
 // @key: @#@"preview"@#@ @source: @#@"View"@#@
 // @key: @#@"download"@#@ @source: @#@"Download"@#@
-// @key: @#@"imageAttachment"@#@ @source: @#@"Attachment: {count} image"@#@
-// @key: @#@"fileAttachment"@#@ @source: @#@"Attachment: {count} file"@#@
+// @key: @#@"mmsWithOneAttachment"@#@ @source: @#@"MMS with 1 attachment"@#@
+// @key: @#@"mmsWithAttachments"@#@ @source: @#@"MMS with {count} attachments"@#@

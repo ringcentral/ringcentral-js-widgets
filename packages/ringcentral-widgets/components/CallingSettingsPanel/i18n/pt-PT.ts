@@ -1,19 +1,26 @@
+/* eslint-disable */
 import { callingOptions } from '@ringcentral-integration/commons/modules/CallingSettings';
 export default {
-  title: "A chamar",
-  [callingOptions.softphone]: "{brand} para Desktop",
-  [callingOptions.browser]: "Browser",
-  [callingOptions.jupiter]: "{brand}",
-  makeCallsWith: "Efetuar as minhas chamadas com",
-  ringoutHint: "Ligar primeiro para mim na minha localização e, em seguida, ligar para o número marcado",
-  myLocationLabel: "A minha localização",
-  press1ToStartCallLabel: "Pedir para marcar 1 antes de efetuar a chamada",
-  [`${callingOptions.browser}Tooltip`]: "Utilize esta opção para efetuar e receber chamadas através do microfone e do altifalante do computador.",
-  [`${callingOptions.softphone}Tooltip`]: "Utilize esta opção para efetuar e receber chamadas através do {brand}.",
-  [`${callingOptions.ringout}Tooltip`]: "Utilize esta opção para efetuar chamadas através do número de telefone selecionado ou introduzido.",
-  [`${callingOptions.ringout}Tooltip1`]: "Para a chamada que efetuar, este telefone irá tocar primeiro e, em seguida, o do número marcado.",
-  [`${callingOptions.jupiter}Tooltip`]: "Utilize esta opção para efetuar e receber chamadas através do {brand}."
-};
+  title: 'Chamadas',
+  [callingOptions.softphone]: '{brand} para Desktop',
+  [callingOptions.browser]: 'Browser',
+  [callingOptions.jupiter]: '{brand}',
+  makeCallsWith: 'Efetuar as minhas chamadas com',
+  ringoutHint:
+    'Ligar primeiro para mim na minha localização e, em seguida, ligar para o número marcado',
+  myLocationLabel: 'A minha localização',
+  press1ToStartCallLabel: 'Pedir para marcar 1 antes de efetuar a chamada',
+  [`${callingOptions.browser}Tooltip`]:
+    'Utilize esta opção para efetuar e receber chamadas através do microfone e do altifalante do computador.',
+  [`${callingOptions.softphone}Tooltip`]:
+    'Utilize esta opção para efetuar e receber chamadas através do(a) {brand}.',
+  [`${callingOptions.ringout}Tooltip`]:
+    'Utilize esta opção para efetuar chamadas através do número de telefone selecionado ou introduzido.',
+  [`${callingOptions.ringout}Tooltip1`]:
+    'Para a chamada que efetuar, este telefone irá tocar primeiro e, em seguida, o do número marcado.',
+  [`${callingOptions.jupiter}Tooltip`]:
+    'Utilize esta opção para efetuar e receber chamadas através do(a) {brand}.',
+} as const;
 
 // @key: @#@"title"@#@ @source: @#@"Calling"@#@
 // @key: @#@"[callingOptions.softphone]"@#@ @source: @#@"{brand} for Desktop"@#@

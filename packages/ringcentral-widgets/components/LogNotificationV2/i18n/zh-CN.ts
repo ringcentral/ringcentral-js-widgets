@@ -1,13 +1,14 @@
+/* eslint-disable */
 export default {
-  Inbound: "拨入",
-  Outbound: "拨出",
-  log: "记录",
-  save: "保存并新建",
-  discard: "丢弃和新建",
-  hangup: "挂断",
-  reject: "到语音信箱",
-  saveDraftAndCreateNewLog: "保存草稿并创建新的通话记录"
-};
+  Inbound: '拨入',
+  Outbound: '拨出',
+  log: '记录',
+  save: '保存并新建',
+  discard: '丢弃和新建',
+  hangup: '挂断',
+  reject: '到语音信箱',
+  saveDraftAndCreateNewLog: '保存草稿并创建新的通话记录',
+} as const;
 
 // @key: @#@"Inbound"@#@ @source: @#@"Inbound"@#@
 // @key: @#@"Outbound"@#@ @source: @#@"Outbound"@#@

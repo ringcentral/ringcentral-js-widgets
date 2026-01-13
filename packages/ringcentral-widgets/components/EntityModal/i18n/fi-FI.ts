@@ -1,12 +1,13 @@
+/* eslint-disable */
 export default {
-  account: "Tili",
-  contact: "Yhteystieto",
-  lead: "Liidi",
-  opportunity: "Mahdollisuus",
-  case: "Tapaus",
-  chooseEntity: "Anna entiteetin tyyppi",
-  create: "Luo"
-};
+  account: 'Tili',
+  contact: 'Yhteystieto',
+  lead: 'Liidi',
+  opportunity: 'Mahdollisuus',
+  case: 'Tapaus',
+  chooseEntity: 'Anna entiteetin tyyppi',
+  create: 'Luo',
+} as const;
 
 // @key: @#@"account"@#@ @source: @#@"Account"@#@
 // @key: @#@"contact"@#@ @source: @#@"Contact"@#@

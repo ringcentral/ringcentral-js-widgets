@@ -1,15 +1,22 @@
+/* eslint-disable */
 import { callingSettingsMessages } from '@ringcentral-integration/commons/modules/CallingSettings';
 export default {
-  [callingSettingsMessages.saveSuccess]: "设置已成功保存。",
-  [callingSettingsMessages.saveSuccessWithSoftphone]: "设置已成功保存。请确保您的计算机上已安装 {brand}。",
-  [callingSettingsMessages.permissionChanged]: "您的权限最近已被更改。请前往 {link} 检查您的呼叫选项。",
-  [callingSettingsMessages.phoneNumberChanged]: "您的电话号码信息最近已被更改。请前往 {link} 检查您的呼叫选项。",
-  link: "设置 > 呼叫",
-  [callingSettingsMessages.webphonePermissionRemoved]: "您的权限已被更改，您无法通过浏览器拨打电话。有关详细信息，请联系您的帐户管理员。",
-  [callingSettingsMessages.emergencyCallingNotAvailable]: "不支持紧急或特殊服务号码拨号。在紧急情况下，请使用传统有线或无线电话拨打紧急号码。",
-  [callingSettingsMessages.saveSuccessWithJupiter]: "设置已成功保存。请确保您的计算机上已安装 {brand}。",
-  [callingSettingsMessages.disableEmergencyInJapan]: "紧急服务在日本不可用。"
-};
+  [callingSettingsMessages.saveSuccess]: '设置已成功保存。',
+  [callingSettingsMessages.saveSuccessWithSoftphone]:
+    '设置已成功保存。请确保您的计算机上已安装 {brand}。',
+  [callingSettingsMessages.permissionChanged]:
+    '您的权限最近已被更改。请前往 {link} 检查您的呼叫选项。',
+  [callingSettingsMessages.phoneNumberChanged]:
+    '您的电话号码信息最近已被更改。请前往 {link} 检查您的呼叫选项。',
+  link: '设置 > 呼叫',
+  [callingSettingsMessages.webphonePermissionRemoved]:
+    '您的权限已被更改，您无法通过浏览器拨打电话。有关详情，请联系帐户管理员。',
+  [callingSettingsMessages.emergencyCallingNotAvailable]:
+    '不支持紧急或特殊服务号码拨号。在紧急情况下，请使用传统有线或无线电话拨打紧急号码。',
+  [callingSettingsMessages.saveSuccessWithJupiter]:
+    '设置已成功保存。请确保您的计算机上已安装 {brand}。',
+  [callingSettingsMessages.disableEmergencyInJapan]: '紧急服务在日本不可用。',
+} as const;
 
 // @key: @#@"[callingSettingsMessages.saveSuccess]"@#@ @source: @#@"Settings saved successfully."@#@
 // @key: @#@"[callingSettingsMessages.saveSuccessWithSoftphone]"@#@ @source: @#@"Settings saved successfully. Please make sure you have {brand} installed in your computer."@#@

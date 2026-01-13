@@ -1,8 +1,9 @@
+/* eslint-disable */
 export default {
-  logged: "已記錄",
-  unlogged: "未使用",
-  faxNotSupported: "不支援記錄傳真。"
-};
+  logged: '已記錄',
+  unlogged: '未使用',
+  faxNotSupported: '不支援記錄傳真。',
+} as const;
 
 // @key: @#@"logged"@#@ @source: @#@"Logged"@#@
 // @key: @#@"unlogged"@#@ @source: @#@"Unworked"@#@

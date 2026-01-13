@@ -1,28 +1,29 @@
+/* eslint-disable */
 import messageTypes from '@ringcentral-integration/commons/enums/messageTypes';
 export default {
-  addLog: "ログ",
-  editLog: "ログを編集",
-  viewDetails: "詳細を表示",
-  addEntity: "新規作成",
-  call: "通話",
-  text: "テキスト",
-  conversation: "会話",
-  groupConversation: "グループ会話",
-  voiceMessage: "ボイスメッセージ",
-  [messageTypes.voiceMail]: "ボイスメール",
-  [messageTypes.fax]: "FAX",
-  mark: "未読にする",
-  unmark: "既読にする",
-  delete: "削除",
-  faxSent: "FAX送信済み",
-  faxReceived: "FAX受信済み",
-  pages: "ページ",
-  page: "ページ",
-  preview: "表示",
-  download: "ダウンロード",
-  imageAttachment: "添付ファイル：{count}件のイメージ",
-  fileAttachment: "添付ファイル：{count}ファイル"
-};
+  addLog: 'ログ',
+  editLog: 'ログを編集',
+  viewDetails: '詳細を表示',
+  addEntity: '新規作成',
+  call: '通話',
+  text: 'テキスト',
+  conversation: '会話',
+  groupConversation: 'グループ会話',
+  voiceMessage: 'ボイスメッセージ',
+  [messageTypes.voiceMail]: 'ボイスメール',
+  [messageTypes.fax]: 'FAX',
+  mark: '未読にする',
+  unmark: '既読にする',
+  delete: '削除',
+  faxSent: 'FAX送信済み',
+  faxReceived: 'FAX受信済み',
+  pages: 'ページ',
+  page: 'ページ',
+  preview: '表示',
+  download: 'ダウンロード',
+  mmsWithOneAttachment: 'MMSと添付ファイル1個',
+  mmsWithAttachments: 'MMSと添付ファイル{count}個',
+} as const;
 
 // @key: @#@"addLog"@#@ @source: @#@"Log"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
@@ -44,5 +45,5 @@ export default {
 // @key: @#@"page"@#@ @source: @#@"page"@#@
 // @key: @#@"preview"@#@ @source: @#@"View"@#@
 // @key: @#@"download"@#@ @source: @#@"Download"@#@
-// @key: @#@"imageAttachment"@#@ @source: @#@"Attachment: {count} image"@#@
-// @key: @#@"fileAttachment"@#@ @source: @#@"Attachment: {count} file"@#@
+// @key: @#@"mmsWithOneAttachment"@#@ @source: @#@"MMS with 1 attachment"@#@
+// @key: @#@"mmsWithAttachments"@#@ @source: @#@"MMS with {count} attachments"@#@

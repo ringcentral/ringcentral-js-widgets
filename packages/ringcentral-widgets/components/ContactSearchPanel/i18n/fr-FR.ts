@@ -1,30 +1,33 @@
+/* eslint-disable */
 import { HintsType } from '../ContactSearchPanelEnum';
 export default {
-  [HintsType.thirdPartyNoRecordsContent]: "Saisissez au moins {minimumLength} caractères ou chiffres pour chercher les enregistrements {sourceName}.",
-  [HintsType.noFilterOrSearchRecordsTitle]: "Aucun résultat",
-  [HintsType.noFilterOrSearchRecordsContent]: "Vérifiez les résultats d’autres sources ou modifiez votre mot clé.",
-  [HintsType.searching]: "Recherche…",
-  companyTabTitle: "Entreprise",
-  personalTabTitle: "Personnel",
-  direct: "Direct",
-  extension: "Ext.",
-  contact: "Contact",
-  mobile: "Mobile",
-  company: "Entreprise",
-  home: "Domicile",
-  home2: "Domicile",
-  other: "Autre",
-  business: "Professionnel",
-  business2: "Professionnel",
-  car: "Véhicule",
-  fax: "Fax",
-  assistant: "Assistant",
-  callback: "Rappel",
-  MobileNumber: "Numéro de mobile",
-  ContactNumber: "Numéro de téléphone",
-  DirectNumber: "Numéro direct",
-  doNotCall: "Ne pas appeler"
-};
+  [HintsType.thirdPartyNoRecordsContent]:
+    'Saisissez au moins {minimumLength} caractères ou chiffres pour chercher les enregistrements {sourceName}.',
+  [HintsType.noFilterOrSearchRecordsTitle]: 'Aucun résultat',
+  [HintsType.noFilterOrSearchRecordsContent]:
+    'Vérifiez les résultats d’autres sources ou modifiez votre mot clé.',
+  [HintsType.searching]: 'Recherche…',
+  companyTabTitle: 'Entreprise',
+  personalTabTitle: 'Personnel',
+  direct: 'Direct',
+  extension: 'Ext.',
+  contact: 'Contact',
+  mobile: 'Mobile',
+  company: 'Entreprise',
+  home: 'Domicile',
+  home2: 'Domicile',
+  other: 'Autre',
+  business: 'Professionnel',
+  business2: 'Professionnel',
+  car: 'Véhicule',
+  fax: 'Fax',
+  assistant: 'Assistant',
+  callback: 'Rappel',
+  MobileNumber: 'Numéro de mobile',
+  ContactNumber: 'Numéro de téléphone',
+  DirectNumber: 'Numéro direct',
+  doNotCall: 'Ne pas appeler',
+} as const;
 
 // @key: @#@"[HintsType.thirdPartyNoRecordsContent]"@#@ @source: @#@"Enter at least {minimumLength} characters or digits to search all {sourceName} records."@#@
 // @key: @#@"[HintsType.noFilterOrSearchRecordsTitle]"@#@ @source: @#@"No results found"@#@

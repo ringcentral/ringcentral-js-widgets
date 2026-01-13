@@ -1,13 +1,14 @@
+/* eslint-disable */
 export default {
-  Inbound: "Entrada",
-  Outbound: "Saída",
-  log: "Log",
-  save: "Salvar e abrir nova",
-  discard: "Descartar e abrir nova",
-  hangup: "Desligar",
-  reject: "Para caixa postal",
-  saveDraftAndCreateNewLog: "Salvar rascunho e criar novo log de chamadas"
-};
+  Inbound: 'Entrada',
+  Outbound: 'Saída',
+  log: 'Log',
+  save: 'Salvar e abrir nova',
+  discard: 'Descartar e abrir nova',
+  hangup: 'Desligar',
+  reject: 'Para caixa postal',
+  saveDraftAndCreateNewLog: 'Salvar rascunho e criar novo log de chamadas',
+} as const;
 
 // @key: @#@"Inbound"@#@ @source: @#@"Inbound"@#@
 // @key: @#@"Outbound"@#@ @source: @#@"Outbound"@#@

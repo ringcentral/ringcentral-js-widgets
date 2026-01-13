@@ -1,8 +1,9 @@
+/* eslint-disable */
 export default {
-  add: "Hinzufügen",
-  noCalls: "Keine verfügbaren Anrufe",
-  activeCall: "Aktiver Anruf"
-};
+  add: 'Hinzufügen',
+  noCalls: 'Keine verfügbaren Anrufe',
+  activeCall: 'Aktiver Anruf',
+} as const;
 
 // @key: @#@"add"@#@ @source: @#@"Add"@#@
 // @key: @#@"noCalls"@#@ @source: @#@"No available calls"@#@

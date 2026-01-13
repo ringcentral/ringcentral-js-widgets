@@ -1,12 +1,16 @@
+/* eslint-disable */
 export default {
-  title: "Región",
-  NAOnlyMessage: "Defina su código de área. Se utilizará para la marcación local.",
-  MultiWithNAMessage: "Defina el país y código de área para su región. Esto se utilizará para la marcación local y el formato de número de teléfono.",
-  MultiWithoutNAMessage: "Seleccioné el país en el cual se encuentra. Esto se utilizará para la marcación local y el formato de número de teléfono.",
-  country: "País",
-  areaCode: "Código de área",
-  areaCodePlaceholder: "Ingresar código de área"
-};
+  title: 'Región',
+  NAOnlyMessage:
+    'Defina su código de área. Se utilizará para la marcación local.',
+  MultiWithNAMessage:
+    'Defina el país y código de área para su región. Esto se utilizará para la marcación local y el formato de número de teléfono.',
+  MultiWithoutNAMessage:
+    'Seleccioné el país en el cual se encuentra. Esto se utilizará para la marcación local y el formato de número de teléfono.',
+  country: 'País',
+  areaCode: 'Código de área',
+  areaCodePlaceholder: 'Ingresar código de área',
+} as const;
 
 // @key: @#@"title"@#@ @source: @#@"Region"@#@
 // @key: @#@"NAOnlyMessage"@#@ @source: @#@"Please set your area code. This will be used for local dialing."@#@

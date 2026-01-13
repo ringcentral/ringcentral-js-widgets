@@ -1,23 +1,25 @@
+/* eslint-disable */
 export default {
-  logging: "Kirjataan lokiin...",
-  logCall: "Kirjaa puhelu lokiin",
-  editLog: "Muokkaa lokia",
-  select: "Valitse vastaava tallenne",
-  OnHold: "Pidossa",
-  Ringing: "Soitetaan",
-  CallConnected: "Puhelu yhdistetty",
-  unknownUser: "Tuntematon käyttäjä",
-  unknownNumber: "Nimetön",
-  unavailable: "Ei käytettävissä",
-  viewDetails: "Näytä tiedot",
-  addEntity: "Luo uusi",
-  addLog: "Loki",
-  text: "Tekstiviesti",
-  call: "Soita",
-  missedCall: "Vastaamaton",
-  inboundCall: "Saapuva",
-  outboundCall: "Lähtevät"
-};
+  logging: 'Kirjataan lokiin...',
+  logCall: 'Kirjaa puhelu lokiin',
+  editLog: 'Muokkaa lokia',
+  select: 'Valitse vastaava tallenne',
+  OnHold: 'Pidossa',
+  Ringing: 'Soitetaan',
+  CallConnected: 'Puhelu yhdistetty',
+  unknownUser: 'Tuntematon käyttäjä',
+  unknownNumber: 'Nimetön',
+  unavailable: 'Ei käytettävissä',
+  viewDetails: 'Näytä tiedot',
+  addEntity: 'Luo uusi',
+  addLog: 'Loki',
+  text: 'Tekstiviesti',
+  call: 'Soita',
+  missedCall: 'Vastaamaton',
+  inboundCall: 'Saapuva',
+  outboundCall: 'Lähtevät',
+  answeredBy: 'Vastannut',
+} as const;
 
 // @key: @#@"logging"@#@ @source: @#@"Logging..."@#@
 // @key: @#@"logCall"@#@ @source: @#@"Log Call"@#@
@@ -37,3 +39,4 @@ export default {
 // @key: @#@"missedCall"@#@ @source: @#@"Missed"@#@
 // @key: @#@"inboundCall"@#@ @source: @#@"Inbound"@#@
 // @key: @#@"outboundCall"@#@ @source: @#@"Outbound"@#@
+// @key: @#@"answeredBy"@#@ @source: @#@"Answered by"@#@

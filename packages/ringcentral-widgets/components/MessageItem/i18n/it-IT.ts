@@ -1,28 +1,29 @@
+/* eslint-disable */
 import messageTypes from '@ringcentral-integration/commons/enums/messageTypes';
 export default {
-  addLog: "Registro",
-  editLog: "Modifica registro",
-  viewDetails: "Visualizza dettagli",
-  addEntity: "Crea nuovo",
-  call: "Chiamata",
-  text: "SMS",
-  conversation: "Conversazione",
-  groupConversation: "Conversazione di gruppo",
-  voiceMessage: "Messaggio vocale",
-  [messageTypes.voiceMail]: "Segreteria telefonica",
-  [messageTypes.fax]: "Fax",
-  mark: "Contrassegna come non letto",
-  unmark: "Contrassegna come letto",
-  delete: "Elimina",
-  faxSent: "Fax inviato",
-  faxReceived: "Fax ricevuto",
-  pages: " pagine",
-  page: "pagina",
-  preview: "Visualizza",
-  download: "Download",
-  imageAttachment: "Allegato: {count} immagine",
-  fileAttachment: "Allegato: {count} file"
-};
+  addLog: 'Registro',
+  editLog: 'Modifica registro',
+  viewDetails: 'Visualizza dettagli',
+  addEntity: 'Crea nuovo',
+  call: 'Chiamata',
+  text: 'SMS',
+  conversation: 'Conversazione',
+  groupConversation: 'Conversazione di gruppo',
+  voiceMessage: 'Messaggio vocale',
+  [messageTypes.voiceMail]: 'Segreteria telefonica',
+  [messageTypes.fax]: 'Fax',
+  mark: 'Segna come non letto',
+  unmark: 'Contrassegna come letto',
+  delete: 'Elimina',
+  faxSent: 'Fax inviato',
+  faxReceived: 'Fax ricevuto',
+  pages: ' pagine',
+  page: 'pagina',
+  preview: 'Visualizza',
+  download: 'Scarica',
+  mmsWithOneAttachment: 'MMS con 1 allegato',
+  mmsWithAttachments: 'MMS con {count} allegati',
+} as const;
 
 // @key: @#@"addLog"@#@ @source: @#@"Log"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
@@ -44,5 +45,5 @@ export default {
 // @key: @#@"page"@#@ @source: @#@"page"@#@
 // @key: @#@"preview"@#@ @source: @#@"View"@#@
 // @key: @#@"download"@#@ @source: @#@"Download"@#@
-// @key: @#@"imageAttachment"@#@ @source: @#@"Attachment: {count} image"@#@
-// @key: @#@"fileAttachment"@#@ @source: @#@"Attachment: {count} file"@#@
+// @key: @#@"mmsWithOneAttachment"@#@ @source: @#@"MMS with 1 attachment"@#@
+// @key: @#@"mmsWithAttachments"@#@ @source: @#@"MMS with {count} attachments"@#@

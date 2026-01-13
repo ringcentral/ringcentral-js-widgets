@@ -1,16 +1,17 @@
+/* eslint-disable */
 import { phoneTypes } from '@ringcentral-integration/commons/enums/phoneTypes';
 export default {
-  [phoneTypes.business]: "Työpuhelin",
-  [phoneTypes.extension]: "Alanumero",
-  [phoneTypes.home]: "Kotinumero",
-  [phoneTypes.mobile]: "Matkapuhelin",
-  [phoneTypes.phone]: "Puhelin",
-  [phoneTypes.unknown]: "Tuntematon puhelintyyppi",
-  [phoneTypes.company]: "Yrityksen numero",
-  [phoneTypes.direct]: "Suora numero",
-  [phoneTypes.contact]: "Yhteystiedon puhelin",
-  [phoneTypes.fax]: "Faksi",
-  [phoneTypes.other]: "Muu"
+  [phoneTypes.business]: 'Työpuhelin',
+  [phoneTypes.extension]: 'Alanumero',
+  [phoneTypes.home]: 'Kotinumero',
+  [phoneTypes.mobile]: 'Matkapuhelin',
+  [phoneTypes.phone]: 'Puhelin',
+  [phoneTypes.unknown]: 'Tuntematon puhelintyyppi',
+  [phoneTypes.company]: 'Yrityksen numero',
+  [phoneTypes.direct]: 'Suora numero',
+  [phoneTypes.contact]: 'Yhteystiedon puhelin',
+  [phoneTypes.fax]: 'Faksi',
+  [phoneTypes.other]: 'Muu',
 };
 
 // @key: @#@"[phoneTypes.business]"@#@ @source: @#@"Business Phone"@#@

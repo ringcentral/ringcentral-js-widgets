@@ -82,6 +82,7 @@ export class IssuesTrackingUI extends RcUIModuleV2<Deps> {
       });
       this._deps.browserLogger.disable();
     } catch (error) {
+      console.log('downloadLog error:', error);
       this._deps.alert.danger({
         message: issueTrackingMessages.downloadFail,
       });

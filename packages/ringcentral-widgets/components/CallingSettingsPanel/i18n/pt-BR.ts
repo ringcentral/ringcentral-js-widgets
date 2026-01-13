@@ -1,19 +1,26 @@
+/* eslint-disable */
 import { callingOptions } from '@ringcentral-integration/commons/modules/CallingSettings';
 export default {
-  title: "Chamadas",
-  [callingOptions.softphone]: "{brand} para Desktop",
-  [callingOptions.browser]: "Navegador",
-  [callingOptions.jupiter]: "{brand}",
-  makeCallsWith: "Fazer minhas chamadas com",
-  ringoutHint: "Ligar para meu local primeiro e, em seguida, conectar ao destinatário da chamada",
-  myLocationLabel: "Meu local",
-  press1ToStartCallLabel: "Solicitar discar 1 antes de conectar a chamada",
-  [`${callingOptions.browser}Tooltip`]: "Use esta opção para fazer e receber chamadas usando o microfone e o alto-falante do computador.",
-  [`${callingOptions.softphone}Tooltip`]: "Use esta opção para fazer e receber chamadas usando o {brand}.",
-  [`${callingOptions.ringout}Tooltip`]: "Use esta opção para fazer chamadas usando o número de telefone selecionado ou inserido.",
-  [`${callingOptions.ringout}Tooltip1`]: "Quando você fizer a chamada, primeiro este telefone tocará e só depois o da pessoa para a qual você ligou.",
-  [`${callingOptions.jupiter}Tooltip`]: "Use esta opção para fazer e receber chamadas usando o {brand}."
-};
+  title: 'Chamadas',
+  [callingOptions.softphone]: '{brand} para Desktop',
+  [callingOptions.browser]: 'Navegador',
+  [callingOptions.jupiter]: '{brand}',
+  makeCallsWith: 'Fazer minhas chamadas com',
+  ringoutHint:
+    'Ligar para meu local primeiro e, em seguida, conectar ao destinatário da chamada',
+  myLocationLabel: 'Meu local',
+  press1ToStartCallLabel: 'Solicitar discar 1 antes de conectar a chamada',
+  [`${callingOptions.browser}Tooltip`]:
+    'Use esta opção para fazer e receber chamadas usando o microfone e o alto-falante do computador.',
+  [`${callingOptions.softphone}Tooltip`]:
+    'Use esta opção para fazer e receber chamadas usando o {brand}.',
+  [`${callingOptions.ringout}Tooltip`]:
+    'Use esta opção para fazer chamadas usando o número de telefone selecionado ou inserido.',
+  [`${callingOptions.ringout}Tooltip1`]:
+    'Quando você fizer a chamada, esse telefone tocará primeiro e depois o da pessoa para quem você ligou.',
+  [`${callingOptions.jupiter}Tooltip`]:
+    'Use esta opção para fazer e receber chamadas usando o {brand}.',
+} as const;
 
 // @key: @#@"title"@#@ @source: @#@"Calling"@#@
 // @key: @#@"[callingOptions.softphone]"@#@ @source: @#@"{brand} for Desktop"@#@

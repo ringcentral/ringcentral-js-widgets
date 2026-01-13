@@ -1,11 +1,13 @@
+/* eslint-disable */
 import { regionSettingsMessages } from '@ringcentral-integration/commons/modules/RegionSettings/regionSettingsMessages';
 export default {
-  region: "地区",
-  [regionSettingsMessages.saveSuccess]: "设置已成功保存。",
-  [regionSettingsMessages.dialingPlansChanged]: "您的帐户不再支持以前的地区。\n    请验证您的新{regionSettingsLink}。",
-  regionSettings: "地区设置",
-  [regionSettingsMessages.areaCodeInvalid]: "请输入有效的区号。"
-};
+  region: '地区',
+  [regionSettingsMessages.saveSuccess]: '设置已成功保存。',
+  [regionSettingsMessages.dialingPlansChanged]:
+    '您的帐户不再支持以前的地区。\n    请验证您的新{regionSettingsLink}。',
+  regionSettings: '地区设置',
+  [regionSettingsMessages.areaCodeInvalid]: '请输入有效的区号。',
+} as const;
 
 // @key: @#@"region"@#@ @source: @#@"Region"@#@
 // @key: @#@"[regionSettingsMessages.saveSuccess]"@#@ @source: @#@"Settings saved successfully."@#@

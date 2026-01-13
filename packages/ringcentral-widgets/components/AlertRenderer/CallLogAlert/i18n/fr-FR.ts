@@ -1,10 +1,13 @@
+/* eslint-disable */
 import callLogMessages from '@ringcentral-integration/commons/enums/callLogMessages';
 export default {
-  [callLogMessages.logCallLogFailed]: "Échec du chargement du formulaire du journal des appels en raison d’une erreur inattendue. Veuillez actualiser la page et réessayer.",
+  [callLogMessages.logCallLogFailed]:
+    'Échec du chargement du formulaire du journal des appels en raison d’une erreur inattendue. Veuillez actualiser la page et réessayer.',
   // New version of log failed message
-  [callLogMessages.logFailed]: "L’enregistrement de votre appel a échoué. Veuillez réessayer ultérieurement.",
-  [callLogMessages.fieldRequired]: "Remplissez les champs obligatoires."
-};
+  [callLogMessages.logFailed]:
+    'L’enregistrement de votre appel a échoué. Veuillez réessayer ultérieurement.',
+  [callLogMessages.fieldRequired]: 'Remplissez les champs obligatoires.',
+} as const;
 
 // @key: @#@"[callLogMessages.logCallLogFailed]"@#@ @source: @#@"Failed to load call log form due to unexpected error. Please refresh the page and try again."@#@
 // @key: @#@"[callLogMessages.logFailed]"@#@ @source: @#@"Sorry, we've failed to log your call. Please try again later."@#@

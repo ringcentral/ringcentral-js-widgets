@@ -1,7 +1,7 @@
+/* eslint-disable */
 import { phoneTypes } from '@ringcentral-integration/commons/enums/phoneTypes';
 import { presenceStatus } from '@ringcentral-integration/commons/enums/presenceStatus.enum';
 import { dndStatus } from '@ringcentral-integration/commons/modules/Presence';
-
 export default {
   [phoneTypes.extension]: 'Poste',
   [phoneTypes.direct]: 'Direct',
@@ -9,7 +9,7 @@ export default {
   [phoneTypes.contact]: 'Numéro de téléphone',
   [phoneTypes.home]: 'Domicile',
   [phoneTypes.business]: 'Travail',
-  [phoneTypes.fax]: 'Fax',
+  [phoneTypes.fax]: 'Télécopieur',
   [phoneTypes.company]: 'Entreprise',
   [phoneTypes.other]: 'Autre',
   emailLabel: 'Adresse courriel',
@@ -22,7 +22,7 @@ export default {
   notActivated: 'Inactif',
   jobTitle: 'Titre',
   site: 'Site',
-};
+} as const;
 
 // @key: @#@"[phoneTypes.extension]"@#@ @source: @#@"Ext."@#@
 // @key: @#@"[phoneTypes.direct]"@#@ @source: @#@"Direct"@#@
@@ -41,6 +41,5 @@ export default {
 // @key: @#@"[presenceStatus.busy]"@#@ @source: @#@"Busy"@#@
 // @key: @#@"[dndStatus.doNotAcceptAnyCalls]"@#@ @source: @#@"Do not Disturb"@#@
 // @key: @#@"notActivated"@#@ @source: @#@"Inactive"@#@
-// @key: @#@"company"@#@ @source: @#@"Company"@#@
 // @key: @#@"jobTitle"@#@ @source: @#@"Title"@#@
 // @key: @#@"site"@#@ @source: @#@"Site"@#@

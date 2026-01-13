@@ -1,12 +1,13 @@
+/* eslint-disable */
 export default {
-  monday: "S",
-  tuesday: "T",
-  wednesday: "Q",
-  thursday: "Q",
-  friday: "S",
-  saturday: "S",
-  sunday: "D"
-};
+  monday: 'S',
+  tuesday: 'T',
+  wednesday: 'W',
+  thursday: 'Q',
+  friday: 'S',
+  saturday: 'S',
+  sunday: 'D',
+} as const;
 
 // @key: @#@"monday"@#@ @source: @#@"M"@#@
 // @key: @#@"tuesday"@#@ @source: @#@"T"@#@

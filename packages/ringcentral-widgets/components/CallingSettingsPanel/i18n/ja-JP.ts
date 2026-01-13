@@ -1,19 +1,26 @@
+/* eslint-disable */
 import { callingOptions } from '@ringcentral-integration/commons/modules/CallingSettings';
 export default {
-  title: "通話",
-  [callingOptions.softphone]: "{brand} for Desktop",
-  [callingOptions.browser]: "ブラウザー",
-  [callingOptions.jupiter]: "{brand}",
-  makeCallsWith: "通話発信に使用する",
-  ringoutHint: "最初に自分の場所で自身を呼び出した後、通話相手に接続する",
-  myLocationLabel: "自分の場所",
-  press1ToStartCallLabel: "通話接続前に「1」をダイヤルするように指示するメッセージを受け取る",
-  [`${callingOptions.browser}Tooltip`]: "通話の発着信にコンピューターのマイクロフォンとスピーカーを使用するには、このオプションを使用します。",
-  [`${callingOptions.softphone}Tooltip`]: "通話の発着信に{brand}を使用するには、このオプションを使用します。",
-  [`${callingOptions.ringout}Tooltip`]: "このオプションを使用して、選択または入力した電話番号で発信します。",
-  [`${callingOptions.ringout}Tooltip1`]: "発信した場合、最初にこの電話が鳴り、次に発信先の電話が鳴ります。",
-  [`${callingOptions.jupiter}Tooltip`]: "通話の発着信に{brand}を使用するには、このオプションを使用します。"
-};
+  title: '発信中',
+  [callingOptions.softphone]: '{brand} for Desktop',
+  [callingOptions.browser]: 'ブラウザー',
+  [callingOptions.jupiter]: '{brand}',
+  makeCallsWith: '通話発信に使用する',
+  ringoutHint: '最初に自分の場所で自身を呼び出した後、通話相手に接続する',
+  myLocationLabel: '自分の場所',
+  press1ToStartCallLabel:
+    '通話接続前に「1」をダイヤルするように指示するメッセージを受け取る',
+  [`${callingOptions.browser}Tooltip`]:
+    '通話の発着信にコンピューターのマイクロフォンとスピーカーを使用するには、このオプションを使用します。',
+  [`${callingOptions.softphone}Tooltip`]:
+    '通話の発着信に{brand}を使用するには、このオプションを使用します。',
+  [`${callingOptions.ringout}Tooltip`]:
+    'このオプションを使用して、選択または入力した電話番号で発信します。',
+  [`${callingOptions.ringout}Tooltip1`]:
+    '発信した場合、最初にこの電話が鳴り、次に発信先の電話が鳴ります。',
+  [`${callingOptions.jupiter}Tooltip`]:
+    '通話の発着信に{brand}を使用するには、このオプションを使用します。',
+} as const;
 
 // @key: @#@"title"@#@ @source: @#@"Calling"@#@
 // @key: @#@"[callingOptions.softphone]"@#@ @source: @#@"{brand} for Desktop"@#@

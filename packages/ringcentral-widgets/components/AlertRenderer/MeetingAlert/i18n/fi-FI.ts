@@ -1,14 +1,18 @@
+/* eslint-disable */
 import { meetingStatus } from '@ringcentral-integration/commons/modules/Meeting';
 export default {
-  [meetingStatus.emptyTopic]: "Anna tapaamisen otsikko.",
-  [meetingStatus.noPassword]: "Anna tapaamisen salasana.",
-  [meetingStatus.insufficientPermissions]: "Seuraavilla sovelluksilla ei ole käyttölupaa {permissionName}: {application}.",
-  [meetingStatus.scheduledSuccess]: "Tapaaminen lisätty",
-  [meetingStatus.updatedSuccess]: "Tapaaminen päivitetty",
-  [meetingStatus.meetingIsDeleted]: "Tapaaminen on poistettu",
-  [meetingStatus.internalError]: "Jokin meni vikaan palvelimellamme. Yritä uudelleen.",
-  [meetingStatus.renderInviteError]: "Meidän ongelmamme vuoksi tapaamiskutsua ei voitu lisätä. Yritä myöhemmin uudelleen."
-};
+  [meetingStatus.emptyTopic]: 'Anna tapaamisen otsikko.',
+  [meetingStatus.noPassword]: 'Anna tapaamisen salasana.',
+  [meetingStatus.insufficientPermissions]:
+    'Seuraavilla sovelluksilla ei ole käyttölupaa {permissionName}: {application}.',
+  [meetingStatus.scheduledSuccess]: 'Tapaaminen lisätty',
+  [meetingStatus.updatedSuccess]: 'Tapaaminen päivitetty',
+  [meetingStatus.meetingIsDeleted]: 'Tapaaminen on poistettu',
+  [meetingStatus.internalError]:
+    'Jokin meni vikaan palvelimellamme. Yritä uudelleen.',
+  [meetingStatus.renderInviteError]:
+    'Meidän ongelmamme vuoksi tapaamiskutsua ei voitu lisätä. Yritä myöhemmin uudelleen.',
+} as const;
 
 // @key: @#@"[meetingStatus.emptyTopic]"@#@ @source: @#@"Please enter meeting topic."@#@
 // @key: @#@"[meetingStatus.noPassword]"@#@ @source: @#@"Please provide meeting password."@#@

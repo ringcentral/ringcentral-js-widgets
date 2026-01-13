@@ -1,10 +1,11 @@
+/* eslint-disable */
 export default {
-  to: "Para:",
-  transferTo: "Transferir a",
-  blindTransfer: "Transferir",
-  warmTransfer: "Preguntar primero",
-  enterNameOrNumber: "Introducir número"
-};
+  to: 'Para:',
+  transferTo: 'Transferir a',
+  blindTransfer: 'Transferir',
+  warmTransfer: 'Preguntar primero',
+  enterNameOrNumber: 'Introducir número',
+} as const;
 
 // @key: @#@"to"@#@ @source: @#@"To:"@#@
 // @key: @#@"transferTo"@#@ @source: @#@"Transfer to"@#@

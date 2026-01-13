@@ -1,9 +1,10 @@
-import { callControlAlerts, callControlError } from '@ringcentral-integration/commons/modules/ActiveCallControl';
-const {
-  callsMerged,
-  somethingWentWrong,
-  tooManyParticipants
-} = callControlAlerts;
+/* eslint-disable */
+import {
+  callControlAlerts,
+  callControlError,
+} from '@ringcentral-integration/commons/modules/ActiveCallControl';
+const { callsMerged, somethingWentWrong, tooManyParticipants } =
+  callControlAlerts;
 const {
   holdConflictError,
   unHoldConflictError,
@@ -12,21 +13,26 @@ const {
   generalError,
   forwardSuccess,
   transferCompleted,
-  replyCompleted
+  replyCompleted,
 } = callControlError;
 export default {
-  [callsMerged]: "Appels fusionnés",
-  [somethingWentWrong]: "Un problème est survenu. Veuillez réessayer.",
-  [tooManyParticipants]: "Le nombre maximum de participants est atteint.",
-  [muteConflictError]: "Le son de cet appel a été désactivé sur un autre terminal. Veuillez activer le son de l’appel avant votre action dans l’application.",
-  [unHoldConflictError]: "Cet appel a été mis en attente sur un autre terminal. Veuillez reprendre l’appel avant votre action dans l’application.",
-  [unMuteConflictError]: "Le son de cet appel a été activé sur un autre terminal. Veuillez désactiver le son de l’appel avant votre action dans l’application.",
-  [holdConflictError]: "Cet appel a été repris sur un autre terminal. Veuillez mettre en attente l’appel avant toute action au sein de l’application.",
-  [generalError]: "Erreur de serveur inconnue. Veuillez réessayer ultérieurement.",
-  [forwardSuccess]: "Appel renvoyé",
-  [transferCompleted]: "Appel transféré",
-  [replyCompleted]: "Message vocal envoyé."
-};
+  [callsMerged]: 'Appels fusionnés',
+  [somethingWentWrong]: 'Un problème est survenu. Merci de réessayer.',
+  [tooManyParticipants]: 'Le nombre maximum de participants est atteint.',
+  [muteConflictError]:
+    'Le son de cet appel a été désactivé sur un autre terminal. Veuillez activer le son de l’appel avant votre action dans l’application.',
+  [unHoldConflictError]:
+    'Cet appel a été mis en attente sur un autre terminal. Veuillez reprendre l’appel avant votre action dans l’application.',
+  [unMuteConflictError]:
+    'Le son de cet appel a été activé sur un autre terminal. Veuillez désactiver le son de l’appel avant votre action dans l’application.',
+  [holdConflictError]:
+    'Cet appel a été repris sur un autre terminal. Veuillez mettre en attente l’appel avant toute action au sein de l’application.',
+  [generalError]:
+    'Erreur de serveur inconnue. Veuillez réessayer ultérieurement.',
+  [forwardSuccess]: 'Appel renvoyé',
+  [transferCompleted]: 'Appel transféré',
+  [replyCompleted]: 'Message vocal envoyé.',
+} as const;
 
 // @key: @#@"callsMerged"@#@ @source: @#@"Calls merged"@#@
 // @key: @#@"somethingWentWrong"@#@ @source: @#@"Something went wrong. Please try again."@#@

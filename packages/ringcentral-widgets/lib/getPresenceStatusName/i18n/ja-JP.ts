@@ -1,11 +1,12 @@
+/* eslint-disable */
 import { presenceStatus } from '@ringcentral-integration/commons/enums/presenceStatus.enum';
 import { dndStatus } from '@ringcentral-integration/commons/modules/Presence';
 export default {
-  [presenceStatus.available]: "連絡可能",
-  [presenceStatus.offline]: "非表示",
-  [presenceStatus.busy]: "取り込み中",
-  [dndStatus.doNotAcceptAnyCalls]: "応答不可"
-};
+  [presenceStatus.available]: '連絡可能',
+  [presenceStatus.offline]: '非表示',
+  [presenceStatus.busy]: '取り込み中',
+  [dndStatus.doNotAcceptAnyCalls]: '応答不可',
+} as const;
 
 // @key: @#@"[presenceStatus.available]"@#@ @source: @#@"Available"@#@
 // @key: @#@"[presenceStatus.offline]"@#@ @source: @#@"Invisible"@#@

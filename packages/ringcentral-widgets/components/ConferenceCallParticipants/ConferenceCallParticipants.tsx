@@ -55,6 +55,7 @@ export const ConferenceCallParticipants: FunctionComponent<
   renderAvatar,
   onRemoveParticipant,
   clickRemoveParticipantTrack,
+  openEntityDetailLink,
 }) => {
   const [removeData, setRemoveData] = useState<{
     removedPartyId: string;
@@ -112,7 +113,6 @@ export const ConferenceCallParticipants: FunctionComponent<
           </RcDialogActions>
         </InnerContainer>
       </RcDrawer>
-
       <RcDrawer
         data-sign="participantsListModal"
         radius="xl"
@@ -138,6 +138,7 @@ export const ConferenceCallParticipants: FunctionComponent<
                   entityDetailLink,
                   displayEntity,
                   entityType,
+                  entityDetailLinkId,
                 } = getContactNameInfo(sessionId, isHost);
                 const ConferenceAvatarIcon = renderAvatar ? (
                   renderAvatar({ displayEntity, entityType, name: logName })
@@ -166,11 +167,13 @@ export const ConferenceCallParticipants: FunctionComponent<
                       isEllipsis
                       title={displayName}
                       primary={
-                        entityDetailLink ? (
+                        entityDetailLinkId ? (
                           <RcLink
                             variant="inherit"
                             onClick={() => {
-                              window.open(entityDetailLink, '_blank');
+                              return openEntityDetailLink
+                                ? openEntityDetailLink(entityDetailLinkId)
+                                : window.open(entityDetailLink, '_blank');
                             }}
                           >
                             {displayName}

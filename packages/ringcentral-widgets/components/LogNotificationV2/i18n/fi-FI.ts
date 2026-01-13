@@ -1,13 +1,14 @@
+/* eslint-disable */
 export default {
-  Inbound: "Saapuvat",
-  Outbound: "Lähtevät",
-  log: "Loki",
-  save: "Tallenna ja uusi",
-  discard: "Hylkää ja uusi",
-  hangup: "Lopeta puhelu",
-  reject: "Vastaajaan",
-  saveDraftAndCreateNewLog: "Tallenna luonnos ja luo uusi puheluloki"
-};
+  Inbound: 'Saapuvat',
+  Outbound: 'Lähtevät',
+  log: 'Loki',
+  save: 'Tallenna ja uusi',
+  discard: 'Hylkää ja uusi',
+  hangup: 'Lopeta puhelu',
+  reject: 'Vastaajaan',
+  saveDraftAndCreateNewLog: 'Tallenna luonnos ja luo uusi puheluloki',
+} as const;
 
 // @key: @#@"Inbound"@#@ @source: @#@"Inbound"@#@
 // @key: @#@"Outbound"@#@ @source: @#@"Outbound"@#@

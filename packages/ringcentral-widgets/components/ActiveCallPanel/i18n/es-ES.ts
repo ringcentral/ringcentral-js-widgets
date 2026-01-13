@@ -1,12 +1,13 @@
+/* eslint-disable */
 export default {
-  conferenceCall: "Llamada de conferencia",
-  onHold: "En espera",
-  ongoing: "En curso",
-  unknown: "Desconocido",
-  disconnected: "Desconectado",
-  loading: "Cargando...",
-  loadingTimeout: "Tiempo de carga expirado."
-};
+  conferenceCall: 'Llamada de conferencia',
+  onHold: 'En espera',
+  ongoing: 'En curso',
+  unknown: 'Desconocido',
+  disconnected: 'Desconectado',
+  loading: 'Cargando...',
+  loadingTimeout: 'Tiempo de carga expirado.',
+} as const;
 
 // @key: @#@"conferenceCall"@#@ @source: @#@"Conference Call"@#@
 // @key: @#@"onHold"@#@ @source: @#@"On Hold"@#@

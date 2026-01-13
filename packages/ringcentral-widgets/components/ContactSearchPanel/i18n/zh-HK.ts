@@ -1,30 +1,33 @@
+/* eslint-disable */
 import { HintsType } from '../ContactSearchPanelEnum';
 export default {
-  [HintsType.thirdPartyNoRecordsContent]: "輸入至少 {minimumLength} 個字元或數字以搜尋所有 {sourceName} 記錄。",
-  [HintsType.noFilterOrSearchRecordsTitle]: "找不到結果",
-  [HintsType.noFilterOrSearchRecordsContent]: "檢查其他來源的結果或變更關鍵字。",
-  [HintsType.searching]: "搜尋中…",
-  companyTabTitle: "公司",
-  personalTabTitle: "個人",
-  direct: "直撥",
-  extension: "分機",
-  contact: "連絡人",
-  mobile: "行動電話",
-  company: "公司",
-  home: "住家",
-  home2: "住家",
-  other: "其他",
-  business: "商務",
-  business2: "商務",
-  car: "汽車",
-  fax: "傳真",
-  assistant: "助理",
-  callback: "回撥",
-  MobileNumber: "行動電話號碼",
-  ContactNumber: "連絡人號碼",
-  DirectNumber: "直撥號碼",
-  doNotCall: "請勿來電"
-};
+  [HintsType.thirdPartyNoRecordsContent]:
+    '輸入至少 {minimumLength} 個字元或數字以搜尋所有 {sourceName} 記錄。',
+  [HintsType.noFilterOrSearchRecordsTitle]: '找不到結果',
+  [HintsType.noFilterOrSearchRecordsContent]:
+    '檢查其他來源的結果或變更關鍵字。',
+  [HintsType.searching]: '搜尋中…',
+  companyTabTitle: '公司',
+  personalTabTitle: '個人',
+  direct: '直撥',
+  extension: '分機',
+  contact: '連絡人',
+  mobile: '行動電話',
+  company: '公司',
+  home: '住家',
+  home2: '住家',
+  other: '其他',
+  business: '商務',
+  business2: '商務',
+  car: '汽車',
+  fax: '傳真',
+  assistant: '助理',
+  callback: '回撥',
+  MobileNumber: '行動電話號碼',
+  ContactNumber: '連絡人號碼',
+  DirectNumber: '直撥號碼',
+  doNotCall: '請勿來電',
+} as const;
 
 // @key: @#@"[HintsType.thirdPartyNoRecordsContent]"@#@ @source: @#@"Enter at least {minimumLength} characters or digits to search all {sourceName} records."@#@
 // @key: @#@"[HintsType.noFilterOrSearchRecordsTitle]"@#@ @source: @#@"No results found"@#@

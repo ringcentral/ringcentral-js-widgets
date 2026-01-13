@@ -1,8 +1,9 @@
+/* eslint-disable */
 export default {
-  all: "全部",
-  company: "公司",
-  personal: "個人"
-};
+  all: '全部',
+  company: '公司',
+  personal: '個人',
+} as const;
 
 // @key: @#@"all"@#@ @source: @#@"All"@#@
 // @key: @#@"company"@#@ @source: @#@"Company"@#@

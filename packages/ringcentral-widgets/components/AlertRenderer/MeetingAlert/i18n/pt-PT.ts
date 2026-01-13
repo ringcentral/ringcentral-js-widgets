@@ -1,14 +1,18 @@
+/* eslint-disable */
 import { meetingStatus } from '@ringcentral-integration/commons/modules/Meeting';
 export default {
-  [meetingStatus.emptyTopic]: "Introduza o tópico da reunião.",
-  [meetingStatus.noPassword]: "Introduza a palavra-passe da reunião.",
-  [meetingStatus.insufficientPermissions]: "{application} não tem permissão {permissionName}.",
-  [meetingStatus.scheduledSuccess]: "Reunião adicionada",
-  [meetingStatus.updatedSuccess]: "Reunião atualizada",
-  [meetingStatus.meetingIsDeleted]: "A reunião foi eliminada",
-  [meetingStatus.internalError]: "Lamentamos, mas ocorreu um erro do nosso lado. Tente novamente.",
-  [meetingStatus.renderInviteError]: "Lamentamos, mas ocorreu um erro da nossa parte e não conseguimos adicionar o convite para a reunião. Tente novamente mais tarde."
-};
+  [meetingStatus.emptyTopic]: 'Introduza o tópico da reunião.',
+  [meetingStatus.noPassword]: 'Introduza a palavra-passe da reunião.',
+  [meetingStatus.insufficientPermissions]:
+    '{application} não tem permissão {permissionName}.',
+  [meetingStatus.scheduledSuccess]: 'Reunião adicionada',
+  [meetingStatus.updatedSuccess]: 'Reunião atualizada',
+  [meetingStatus.meetingIsDeleted]: 'A reunião foi eliminada',
+  [meetingStatus.internalError]:
+    'Lamentamos, mas ocorreu um erro do nosso lado. Tente novamente.',
+  [meetingStatus.renderInviteError]:
+    'Lamentamos, mas ocorreu um erro da nossa parte e não conseguimos adicionar o convite para a reunião. Tente novamente mais tarde.',
+} as const;
 
 // @key: @#@"[meetingStatus.emptyTopic]"@#@ @source: @#@"Please enter meeting topic."@#@
 // @key: @#@"[meetingStatus.noPassword]"@#@ @source: @#@"Please provide meeting password."@#@

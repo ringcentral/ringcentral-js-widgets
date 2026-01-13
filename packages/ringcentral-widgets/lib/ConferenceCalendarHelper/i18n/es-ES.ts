@@ -1,38 +1,49 @@
+/* eslint-disable */
 export default {
-  inviteMeetingContent: "{accountName} Le está invitando a una reunión de {brandName}.\n\nÚnase desde PC, Mac, iOS o Android: {joinUri}{passwordTpl}\n\n O desde iPhone con tan solo pulsar una vez:\n\t    {mobileDialingNumberTpl}\n\n    O desde un teléfono:\n\t     Marque:\n\t    {phoneDialingNumberTpl}\n\t     ID de la reunión: {meetingId}\n\t     Números internacionales disponibles: {teleconference} ",
-  conferenceLocationField: "Conferencia, número de marcación: {dialInNumber}",
-  scheduleError: "Se produjo un error; inténtelo de nuevo.",
-  noMeetingPermission: "No tiene permiso para {brandName} Meetings. Póngase en contacto con el administrador de la empresa para continuar.",
-  noConferencePermission: "No tiene permiso para el servicio de conferencias {brandName}. Póngase en contacto con el administrador de la empresa para continuar.",
-  conferenceTitle: "Reunión de conferencia de {displayName}",
-  internationalNumber: "Números de marcación internacionales:",
-  inviteText_att: "Únase a la conferencia de {brandName}.\n\nNúmero de marcación: {formattedDialInNumber} \n{additionalNumbersSection} \nAcceso de participante: {participantCode} \n\n¿Necesita un número de marcación internacional? Visite {dialInNumbersLink} \n\nEsta llamada de conferencia es posible gracias al servicio de conferencias de {brandName}.",
-  inviteText_bt: "Únase a la conferencia de {brandName}.\n\nNúmero de marcación:  {formattedDialInNumber} \n{additionalNumbersSection} \nAcceso de participante: {participantCode} \n\nNúmeros de marcación adicionales {dialInNumbersLink} ",
-  inviteText_rc: "Únase a la conferencia de {brandName}.\n\nNúmero de marcación: {formattedDialInNumber} \n{additionalNumbersSection} \nAcceso de participante: {participantCode} \n\n¿Necesita un número de marcación internacional? Visite {dialInNumbersLink} \n\nEsta llamada de conferencia es posible gracias al servicio de conferencias de {brandName}.",
-  inviteText_telus: "Únase a la conferencia de {brandName}.\n\nNúmero de marcación:  {formattedDialInNumber} \n{additionalNumbersSection} \nAcceso de participante: {participantCode} \n\nNúmeros de marcación adicionales {dialInNumbersLink} ",
-  conferenceCall: "{brandName} Llamada de conferencia",
-  videoCall: "Videollamada de {brandName}",
-  addConferencingDetails: "Añadiendo los detalles de la conferencia",
-  updateConferencingDetails: "Actualizando los detalles de la conferencia",
+  inviteMeetingContent:
+    '{accountName}Le está invitando a una reunión de{brandName}.\n\nÚnase desde PC, Mac, iOS o Android:{joinUri}{passwordTpl}\n\n O desde iPhone con tan solo pulsar una vez:\n\t    {mobileDialingNumberTpl}\n\n    O desde un teléfono:\n\t     Marque:\n\t    {phoneDialingNumberTpl}\n\t     ID de la reunión:{meetingId}\n\t     Números internacionales disponibles:{teleconference} ',
+  conferenceLocationField: 'Conferencia, número de marcación:{dialInNumber}',
+  scheduleError: 'Se produjo un error; inténtelo de nuevo.',
+  noMeetingPermission:
+    'No tiene permiso para{brandName}Meetings. Póngase en contacto con el administrador de la empresa para continuar.',
+  noConferencePermission:
+    'No tiene permiso para el servicio de conferencias{brandName}. Póngase en contacto con el administrador de la empresa para continuar.',
+  conferenceTitle: 'Reunión de conferencia de{displayName}',
+  internationalNumber: 'Números de marcación internacionales:',
+  inviteText_att:
+    'Únase a la conferencia de{brandName}.\n\nNúmero de marcación:{formattedDialInNumber} \n{additionalNumbersSection} \nAcceso de participante:{participantCode} \n\n¿Necesita un número de marcación internacional? Visite{dialInNumbersLink} \n\nEsta llamada de conferencia es posible gracias al servicio de conferencias de{brandName}.',
+  inviteText_bt:
+    'Únase a la conferencia de{brandName}.\n\nNúmero de marcación:{formattedDialInNumber} \n{additionalNumbersSection} \nAcceso de participante:{participantCode} \n\nNúmeros de marcación adicionales{dialInNumbersLink} ',
+  inviteText_rc:
+    'Únase a la conferencia de{brandName}.\n\nNúmero de marcación:{formattedDialInNumber} \n{additionalNumbersSection} \nAcceso de participante:{participantCode} \n\n¿Necesita un número de marcación internacional? Visite{dialInNumbersLink} \n\nEsta llamada de conferencia es posible gracias al servicio de conferencias de{brandName}.',
+  inviteText_telus:
+    'Únase a la conferencia de{brandName}.\n\nNúmero de marcación:{formattedDialInNumber} \n{additionalNumbersSection} \nAcceso de participante:{participantCode} \n\nNúmeros de marcación adicionales{dialInNumbersLink} ',
+  conferenceCall: '{brandName}Llamada de conferencia',
+  videoCall: 'Videollamada de{brandName}',
+  addConferencingDetails: 'Añadiendo los detalles de la conferencia',
+  updateConferencingDetails: 'Actualizando los detalles de la conferencia',
   // @ts-expect-error TS(1117): An object literal cannot have multiple properties ... Remove this comment to see the full error message
-  scheduleError: "Se produjo un error; inténtelo de nuevo.",
-  deleteBtn: "Eliminar",
-  settingsBtn: "Configuración",
-  saveAsDefaultAndNotShowAgain: "Guardar como predeterminado y no mostrar de nuevo",
-  saveAsDefault: "Guardar como predeterminado",
-  done: "Listo",
-  update: "Actualizar",
-  conferenceSettingsTitle: "Configuración del servicio de conferencias de {brand}",
-  videoSettingsTitle: "Configuración de {brand} Meetings",
-  password: "Contraseña",
-  failedToRetrieveMeeting: "Se ha perdido la conexión de la red. Elimine esta reunión e inténtelo de nuevo más tarde.",
-  meetingSettingsTitle: "{brand} Meetings - Configuración",
-  recurringMeeting: "Reunión periódica",
-  meetingOptions: "Opciones de reunión",
-  schedule: "Programar",
+  scheduleError: 'Se produjo un error; inténtelo de nuevo.',
+  deleteBtn: 'Eliminar',
+  settingsBtn: 'Configuración',
+  saveAsDefaultAndNotShowAgain:
+    'Guardar como predeterminado y no mostrar de nuevo',
+  saveAsDefault: 'Guardar como predeterminado',
+  done: 'Listo',
+  update: 'Actualizar',
+  conferenceSettingsTitle:
+    'Configuración del servicio de conferencias de{brand}',
+  videoSettingsTitle: 'Configuración de{brand}Meetings',
+  password: 'Contraseña',
+  failedToRetrieveMeeting:
+    'Se ha perdido la conexión de la red. Elimine esta reunión e inténtelo de nuevo más tarde.',
+  meetingSettingsTitle: '{brand}Meetings - Configuración',
+  recurringMeeting: 'Reunión periódica',
+  meetingOptions: 'Opciones de reunión',
+  schedule: 'Programar',
   // @ts-expect-error TS(1117): An object literal cannot have multiple properties ... Remove this comment to see the full error message
-  settingsBtn: "Configuración"
-};
+  settingsBtn: 'Configuración',
+} as const;
 
 // @key: @#@"inviteMeetingContent"@#@ @source: @#@"{accountName} is inviting you to a {brandName} meeting.\n\nJoin from PC, Mac, iOS or Android: {joinUri}{passwordTpl}\n\n Or iPhone one-tap:\n\t    {mobileDialingNumberTpl}\n\n    Or Telephone:\n\t     Dial:\n\t    {phoneDialingNumberTpl}\n\t     Meeting ID: {meetingId}\n\t     International numbers available: {teleconference} "@#@
 // @key: @#@"conferenceLocationField"@#@ @source: @#@"Conference Meeting, Dial-in Number: {dialInNumber}"@#@

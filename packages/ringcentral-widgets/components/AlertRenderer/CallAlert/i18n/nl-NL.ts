@@ -1,5 +1,5 @@
+/* eslint-disable */
 import { callErrors } from '@ringcentral-integration/commons/modules/Call';
-
 export default {
   [callErrors.emergencyNumber]:
     'Noodoproepen zijn niet beschikbaar. Gebruik een andere telefoon om contact op te nemen met de nooddiensten',
@@ -22,7 +22,7 @@ export default {
   telus911: 'Noodoproepen worden niet ondersteund.',
   [callErrors.fromAndToNumberIsSame]:
     'Het RingOut-nummer en bestemmingsnummer kunnen niet hetzelfde zijn. Werk het nummer bij en probeer het opnieuw.',
-};
+} as const;
 
 // @key: @#@"[callErrors.emergencyNumber]"@#@ @source: @#@"Emergency calling is not available. Please use another phone to contact emergency services"@#@
 // @key: @#@"[callErrors.noToNumber]"@#@ @source: @#@"Please enter a valid phone number."@#@

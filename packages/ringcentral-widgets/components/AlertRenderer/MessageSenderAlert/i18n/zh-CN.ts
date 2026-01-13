@@ -1,34 +1,45 @@
+/* eslint-disable */
 import { messageSenderMessages } from '@ringcentral-integration/commons/modules/MessageSender';
+
 export default {
-  [messageSenderMessages.sendSuccess]: "发送成功。",
-  [messageSenderMessages.sendError]: "发送消息时出错。",
-  [messageSenderMessages.numberValidateError]: "电话号码验证错误。",
-  [messageSenderMessages.textEmpty]: "请输入要发送的文本。",
-  [messageSenderMessages.noPermission]: "您没有发送消息的权限。",
-  [messageSenderMessages.senderEmpty]: "您必须从电话号码中选择号码进行发送",
-  [messageSenderMessages.noToNumber]: "请输入有效的电话号码。",
-  [messageSenderMessages.recipientsEmpty]: "请输入有效的接收方电话号码。",
-  [messageSenderMessages.textTooLong]: "文本过长，上限为 1000 个字符",
-  [messageSenderMessages.multipartTextTooLong]: "文本过长，上限为 5000 个字符",
-  [messageSenderMessages.recipientNumberInvalids]: "请输入有效的电话号码。",
-  [messageSenderMessages.noAreaCode]: "请设置{areaCodeLink}以使用 7 位本地电话号码。",
-  [messageSenderMessages.specialNumber]: "不支持向紧急/特殊服务号码发送短信。",
-  [messageSenderMessages.connectFailed]: "连接失败。请稍后再试。",
-  [messageSenderMessages.internalError]: "由于内部错误，无法连接。请稍后重试。",
-  [messageSenderMessages.notAnExtension]: "分机号码不存在。",
-  [messageSenderMessages.networkError]: "由于网络问题，无法连接。请稍后重试。",
-  [messageSenderMessages.senderNumberInvalid]: "必须使用有效的电话号码，才能向您公司之外的收件人发送短信。请联系您的管理员，以向您的帐户添加直拨号码。",
-  [messageSenderMessages.notSmsToExtension]: "无法通过主电话号码发送至分机号。如果您要发送至分机号，请仅输入分机号。",
-  [messageSenderMessages.internationalSMSNotSupported]: "不支持向国际电话号码发送短信。",
-  [messageSenderMessages.noInternalSMSPermission]: "您没有发送消息的权限。请联系您的 {brand}帐户管理员进行升级。",
-  [messageSenderMessages.noSMSPermission]: "您没有向组织以外的收件人发送消息的权限。",
-  [messageSenderMessages.attachmentCountLimitation]: "最多包含 10 个附件。",
-  [messageSenderMessages.attachmentSizeLimitation]: "附件最大不能超过 1.5M。",
-  [messageSenderMessages.noAttachmentToExtension]: "不支持向分机发送彩信。",
-  areaCode: "区号",
-  [messageSenderMessages.sending]: "正在发送消息…这可能需要几分钟时间才能完成。",
-  [messageSenderMessages.shortNumbersNotAvailable]: "不支持向短号码发送短信。"
-};
+  [messageSenderMessages.sendSuccess]: '发送成功。',
+  [messageSenderMessages.sendError]: '发送消息时出错。',
+  [messageSenderMessages.numberValidateError]: '电话号码验证错误。',
+  [messageSenderMessages.textEmpty]: '请输入要发送的文本。',
+  [messageSenderMessages.noPermission]: '您没有发送消息的权限。',
+  [messageSenderMessages.senderEmpty]: '您必须从电话号码中选择号码进行发送',
+  [messageSenderMessages.noToNumber]: '请输入有效的电话号码。',
+  [messageSenderMessages.recipientsEmpty]: '请输入有效的接收方电话号码。',
+  [messageSenderMessages.textTooLong]: '文本过长，上限为 1000',
+  [messageSenderMessages.multipartTextTooLong]: '文本过长，上限为 5000 个字符',
+  [messageSenderMessages.recipientNumberInvalids]: '请输入有效的电话号码。',
+  [messageSenderMessages.noAreaCode]:
+    '请设置{areaCodeLink}以使用 7 位本地电话号码。',
+  [messageSenderMessages.specialNumber]: '不支持向紧急/特殊服务号码发送短信。',
+  [messageSenderMessages.connectFailed]: '连接失败。请稍后再试。',
+  [messageSenderMessages.internalError]: '由于内部错误，无法连接。请稍后重试。',
+  [messageSenderMessages.notAnExtension]: '分机号码不存在。',
+  [messageSenderMessages.networkError]: '由于网络问题，无法连接。请稍后重试。',
+  [messageSenderMessages.senderNumberInvalid]:
+    '必须输入有效的电话号码，才能向您公司之外的收件人发送短信。请联系管理员为您的帐户添加直拨号码。',
+  [messageSenderMessages.notSmsToExtension]:
+    '无法通过主电话号码发送至分机号。如果您要发送至分机号，请仅输入分机号。',
+  [messageSenderMessages.internationalSMSNotSupported]:
+    '不支持向国际电话号码发送短信。',
+  [messageSenderMessages.noInternalSMSPermission]:
+    '您没有发送消息的权限。请联系 {brand} 帐户管理员进行升级。',
+  [messageSenderMessages.noSMSPermission]:
+    '您没有向组织以外的收件人发送消息的权限。',
+  [messageSenderMessages.attachmentCountLimitation]:
+    '每条消息不能超过 10 个附件',
+  [messageSenderMessages.attachmentSizeLimitation]:
+    '每条消息的所有附件大小总计不得超过 1.5 MB。',
+  [messageSenderMessages.noAttachmentToExtension]: '不支持向分机发送彩信。',
+  areaCode: '区号',
+  [messageSenderMessages.sending]:
+    '正在发送消息…这可能需要几分钟时间才能完成。',
+  [messageSenderMessages.shortNumbersNotAvailable]: '不支持向短号码发送短信。',
+} as const;
 
 // @key: @#@"[messageSenderMessages.sendSuccess]"@#@ @source: @#@"Send Success."@#@
 // @key: @#@"[messageSenderMessages.sendError]"@#@ @source: @#@"Something wrong happened when send message."@#@
@@ -38,8 +49,8 @@ export default {
 // @key: @#@"[messageSenderMessages.senderEmpty]"@#@ @source: @#@"You must select a number from your phone numbers to send"@#@
 // @key: @#@"[messageSenderMessages.noToNumber]"@#@ @source: @#@"Please enter a valid phone number."@#@
 // @key: @#@"[messageSenderMessages.recipientsEmpty]"@#@ @source: @#@"Please enter a valid receiver number."@#@
-// @key: @#@"[messageSenderMessages.textTooLong]"@#@ @source: @#@"Text is too long, 1000 Limited"@#@
-// @key: @#@"[messageSenderMessages.multipartTextTooLong]"@#@ @source: @#@"Text is too long, 5000 Limited"@#@
+// @key: @#@"[messageSenderMessages.textTooLong]"@#@ @source: @#@"You can enter up to 1,000 characters."@#@
+// @key: @#@"[messageSenderMessages.multipartTextTooLong]"@#@ @source: @#@"You can enter up to 5,000 characters."@#@
 // @key: @#@"[messageSenderMessages.recipientNumberInvalids]"@#@ @source: @#@"Please enter a valid phone number."@#@
 // @key: @#@"[messageSenderMessages.noAreaCode]"@#@ @source: @#@"Please set {areaCodeLink} to use 7-digit local phone numbers."@#@
 // @key: @#@"[messageSenderMessages.specialNumber]"@#@ @source: @#@"Sending text to emergency/special service numbers is not supported."@#@
@@ -52,8 +63,8 @@ export default {
 // @key: @#@"[messageSenderMessages.internationalSMSNotSupported]"@#@ @source: @#@"Sending SMS to international phone number is not supported."@#@
 // @key: @#@"[messageSenderMessages.noInternalSMSPermission]"@#@ @source: @#@"You don't have permission to send messages. Please contact your {brand} account administrator for upgrade."@#@
 // @key: @#@"[messageSenderMessages.noSMSPermission]"@#@ @source: @#@"You don't have permission to send messages to recipients outside of your organization."@#@
-// @key: @#@"[messageSenderMessages.attachmentCountLimitation]"@#@ @source: @#@"Maximum 10 attachments."@#@
-// @key: @#@"[messageSenderMessages.attachmentSizeLimitation]"@#@ @source: @#@"Attachments size is limited to 1.5M bytes."@#@
+// @key: @#@"[messageSenderMessages.attachmentCountLimitation]"@#@ @source: @#@"Can't be more than 10 attachments per message"@#@
+// @key: @#@"[messageSenderMessages.attachmentSizeLimitation]"@#@ @source: @#@"The over all attachment size can't be larger than 1.5 MB per message."@#@
 // @key: @#@"[messageSenderMessages.noAttachmentToExtension]"@#@ @source: @#@"It isn't supported to send MMS to an extension."@#@
 // @key: @#@"areaCode"@#@ @source: @#@"area code"@#@
 // @key: @#@"[messageSenderMessages.sending]"@#@ @source: @#@"Message being sent…It may take a couple of minutes to complete."@#@

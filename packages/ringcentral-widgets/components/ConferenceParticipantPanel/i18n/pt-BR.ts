@@ -1,14 +1,15 @@
+/* eslint-disable */
 export default {
-  removeParticipant: "Remover participante",
-  confirmStr1: "Tem certeza de que deseja remover",
-  confirmStr2: "desta chamada?",
-  remove: "Remover",
-  cancel: "Cancelar",
-  participants: "Participantes",
-  participant: "Participante",
-  conferenceCall: "Chamada em conferência",
-  unknownNumber: "Anônimo"
-};
+  removeParticipant: 'Remover participante',
+  confirmStr1: 'Tem certeza de que deseja remover',
+  confirmStr2: 'desta chamada?',
+  remove: 'Remover',
+  cancel: 'Cancelar',
+  participants: 'Participantes',
+  participant: 'Participante',
+  conferenceCall: 'Chamada em conferência',
+  unknownNumber: 'Anônimo',
+} as const;
 
 // @key: @#@"removeParticipant"@#@ @source: @#@"Remove Participant"@#@
 // @key: @#@"confirmStr1"@#@ @source: @#@"Are you sure you want to remove"@#@

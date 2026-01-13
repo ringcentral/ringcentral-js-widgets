@@ -1,14 +1,18 @@
+/* eslint-disable */
 import { meetingStatus } from '@ringcentral-integration/commons/modules/Meeting';
 export default {
-  [meetingStatus.emptyTopic]: "Voer het onderwerp voor de meeting in.",
-  [meetingStatus.noPassword]: "Geef het wachtwoord voor de meeting op.",
-  [meetingStatus.insufficientPermissions]: "{application} heeft geen {permissionName}-machtiging.",
-  [meetingStatus.scheduledSuccess]: "Meeting toegevoegd",
-  [meetingStatus.updatedSuccess]: "Meeting bijgewerkt",
-  [meetingStatus.meetingIsDeleted]: "Meeting is verwijderd",
-  [meetingStatus.internalError]: "Er is bij ons iets fout gegaan. Probeer het opnieuw.",
-  [meetingStatus.renderInviteError]: "Er is helaas een probleem opgetreden bij ons, waardoor de uitnodiging voor de meeting niet kan worden toegevoegd. Probeer het later opnieuw."
-};
+  [meetingStatus.emptyTopic]: 'Voer het onderwerp voor de meeting in.',
+  [meetingStatus.noPassword]: 'Geef het wachtwoord voor de meeting op.',
+  [meetingStatus.insufficientPermissions]:
+    '{application} heeft geen {permissionName}-machtiging.',
+  [meetingStatus.scheduledSuccess]: 'Meeting toegevoegd',
+  [meetingStatus.updatedSuccess]: 'Meeting bijgewerkt',
+  [meetingStatus.meetingIsDeleted]: 'Meeting is verwijderd',
+  [meetingStatus.internalError]:
+    'Er is bij ons iets fout gegaan. Probeer het opnieuw.',
+  [meetingStatus.renderInviteError]:
+    'Er is helaas een probleem opgetreden bij ons, waardoor de uitnodiging voor de meeting niet kan worden toegevoegd. Probeer het later opnieuw.',
+} as const;
 
 // @key: @#@"[meetingStatus.emptyTopic]"@#@ @source: @#@"Please enter meeting topic."@#@
 // @key: @#@"[meetingStatus.noPassword]"@#@ @source: @#@"Please provide meeting password."@#@

@@ -1,8 +1,9 @@
+/* eslint-disable */
 export default {
-  forward: "Reenviar",
-  cancel: "Cancelar",
-  customNumber: "Número personalizado"
-};
+  forward: 'Desviar',
+  cancel: 'Cancelar',
+  customNumber: 'Número personalizado',
+} as const;
 
 // @key: @#@"forward"@#@ @source: @#@"Forward"@#@
 // @key: @#@"cancel"@#@ @source: @#@"Cancel"@#@

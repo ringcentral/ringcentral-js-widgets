@@ -1,6 +1,8 @@
+/* eslint-disable */
 import { messageStoreErrors } from '@ringcentral-integration/commons/modules/MessageStore';
 export default {
-  [messageStoreErrors.deleteFailed]: "Não é possível excluir a caixa postal devido a um erro interno de servidor."
-};
+  [messageStoreErrors.deleteFailed]:
+    'Não é possível excluir a caixa postal devido a um erro interno de servidor.',
+} as const;
 
 // @key: @#@"[messageStoreErrors.deleteFailed]"@#@ @source: @#@"Cannot delete the voicemail due to internal server error."@#@

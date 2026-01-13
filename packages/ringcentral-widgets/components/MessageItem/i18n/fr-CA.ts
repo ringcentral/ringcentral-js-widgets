@@ -1,28 +1,29 @@
+/* eslint-disable */
 import messageTypes from '@ringcentral-integration/commons/enums/messageTypes';
 export default {
-  addLog: "Journal",
-  editLog: "Modifier le journal",
-  viewDetails: "Afficher les renseignements",
-  addEntity: "Créer",
-  call: "Appeler",
-  text: "Texto",
-  conversation: "Discussion",
-  groupConversation: "Discussion de groupe",
-  voiceMessage: "Message vocal",
-  [messageTypes.voiceMail]: "Message vocal",
-  [messageTypes.fax]: "Fax",
-  mark: "Marquer comme non lu",
-  unmark: "Marquer comme lu",
-  delete: "Supprimer",
-  faxSent: "Fax envoyé",
-  faxReceived: "Fax reçu",
-  pages: "pages",
-  page: "Téléavertir",
-  preview: "Afficher",
-  download: "Télécharger",
-  imageAttachment: "Pièce jointe : Image {count}",
-  fileAttachment: "Pièce jointe : {count} fichier"
-};
+  addLog: 'Journal',
+  editLog: 'Modifier le journal',
+  viewDetails: 'Afficher les renseignements',
+  addEntity: 'Créer',
+  call: 'Appeler',
+  text: 'Texto',
+  conversation: 'Discussion',
+  groupConversation: 'Discussion de groupe',
+  voiceMessage: 'Message vocal',
+  [messageTypes.voiceMail]: 'Message vocal',
+  [messageTypes.fax]: 'Télécopieur',
+  mark: 'Marquer comme non lu',
+  unmark: 'Marquer comme lu',
+  delete: 'Supprimer',
+  faxSent: 'Fax envoyé',
+  faxReceived: 'Fax reçu',
+  pages: 'pages',
+  page: 'Téléavertir',
+  preview: 'Afficher',
+  download: 'Télécharger',
+  mmsWithOneAttachment: 'MMS avec 1 pièce jointe',
+  mmsWithAttachments: 'MMS avec {count} pièces jointes',
+} as const;
 
 // @key: @#@"addLog"@#@ @source: @#@"Log"@#@
 // @key: @#@"editLog"@#@ @source: @#@"Edit Log"@#@
@@ -44,5 +45,5 @@ export default {
 // @key: @#@"page"@#@ @source: @#@"page"@#@
 // @key: @#@"preview"@#@ @source: @#@"View"@#@
 // @key: @#@"download"@#@ @source: @#@"Download"@#@
-// @key: @#@"imageAttachment"@#@ @source: @#@"Attachment: {count} image"@#@
-// @key: @#@"fileAttachment"@#@ @source: @#@"Attachment: {count} file"@#@
+// @key: @#@"mmsWithOneAttachment"@#@ @source: @#@"MMS with 1 attachment"@#@
+// @key: @#@"mmsWithAttachments"@#@ @source: @#@"MMS with {count} attachments"@#@

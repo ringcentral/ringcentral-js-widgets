@@ -1,19 +1,27 @@
+/* eslint-disable */
 import { callingOptions } from '@ringcentral-integration/commons/modules/CallingSettings';
 export default {
-  title: "Anrufen",
-  [callingOptions.softphone]: "{brand} für Desktop",
-  [callingOptions.browser]: "Browser",
-  [callingOptions.jupiter]: "{brand}",
-  makeCallsWith: "Anrufe ausführen mit",
-  ringoutHint: "Zunächst am Standort anklingeln, dann Verbindung zum Anrufempfänger herstellen",
-  myLocationLabel: "Mein Standort",
-  press1ToStartCallLabel: "Vor dem Verbinden des Anrufs zum Wählen von \"1\" auffordern",
-  [`${callingOptions.browser}Tooltip`]: "Verwenden Sie diese Option, um Anrufe über das Mikrofon und die Lautsprecher Ihres Computers zu tätigen und entgegenzunehmen.",
-  [`${callingOptions.softphone}Tooltip`]: "Verwenden Sie diese Option, um Anrufe über die {brand} zu tätigen und entgegenzunehmen.",
-  [`${callingOptions.ringout}Tooltip`]: "Verwenden Sie diese Option, um Anrufe mit Ihrer gewählten oder eingegebenen Nummer zu tätigen.",
-  [`${callingOptions.ringout}Tooltip1`]: "Bei einem Anruf, den Sie tätigen, klingelt zunächst dieses Telefon und dann das Telefon der angerufenen Person.",
-  [`${callingOptions.jupiter}Tooltip`]: "Verwenden Sie diese Option, um Anrufe über die {brand} zu tätigen und entgegenzunehmen."
-};
+  title: 'Anrufen',
+  [callingOptions.softphone]: '{brand} für Desktop',
+  [callingOptions.browser]: 'Browser',
+  [callingOptions.jupiter]: '{brand}',
+  makeCallsWith: 'Anrufe ausführen mit',
+  ringoutHint:
+    'Zunächst am Standort anklingeln, dann Verbindung zum Anrufempfänger herstellen',
+  myLocationLabel: 'Mein Standort',
+  press1ToStartCallLabel:
+    'Vor dem Verbinden des Anrufs zum Wählen von "1" auffordern',
+  [`${callingOptions.browser}Tooltip`]:
+    'Verwenden Sie diese Option, um Anrufe über das Mikrofon und die Lautsprecher Ihres Computers zu tätigen und entgegenzunehmen.',
+  [`${callingOptions.softphone}Tooltip`]:
+    'Verwenden Sie diese Option, um Anrufe über die {brand} zu tätigen und entgegenzunehmen.',
+  [`${callingOptions.ringout}Tooltip`]:
+    'Verwenden Sie diese Option, um Anrufe mit Ihrer gewählten oder eingegebenen Nummer zu tätigen.',
+  [`${callingOptions.ringout}Tooltip1`]:
+    'Bei einem Anruf, den Sie tätigen, klingelt zunächst dieses Telefon und dann das Telefon der angerufenen Person.',
+  [`${callingOptions.jupiter}Tooltip`]:
+    'Verwenden Sie diese Option, um Anrufe über die {brand} zu tätigen und entgegenzunehmen.',
+} as const;
 
 // @key: @#@"title"@#@ @source: @#@"Calling"@#@
 // @key: @#@"[callingOptions.softphone]"@#@ @source: @#@"{brand} for Desktop"@#@

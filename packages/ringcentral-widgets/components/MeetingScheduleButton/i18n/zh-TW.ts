@@ -1,9 +1,10 @@
+/* eslint-disable */
 export default {
-  schedule: "排程會議",
-  prompt: "請授權 RingCentral 存取您的帳戶資訊。",
-  saveAsDefault: "儲存為預設值",
-  launchMeeting: "啟動會議"
-};
+  schedule: '排程會議',
+  prompt: '請授權 RingCentral 存取您的帳戶資訊。',
+  saveAsDefault: '儲存為預設值',
+  launchMeeting: '啟動會議',
+} as const;
 
 // @key: @#@"schedule"@#@ @source: @#@"Schedule Meeting"@#@
 // @key: @#@"prompt"@#@ @source: @#@"Please authorize RingCentral to access your account information."@#@

@@ -1,7 +1,6 @@
+/* eslint-disable */
 export default {
-  loading: "Ladataan...",
-  download: "Lataa"
-};
+  loading: 'Ladataan...',
+} as const;
 
 // @key: @#@"loading"@#@ @source: @#@"Loading ..."@#@
-// @key: @#@"download"@#@ @source: @#@"Download"@#@
