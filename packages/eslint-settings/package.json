@@ -21,9 +21,7 @@
     "eslint-plugin-lodash": "^7.4.0",
     "eslint-plugin-prettier": "4.2.1",
     "eslint-plugin-react": "7.31.1",
-    "eslint-plugin-react-hooks": "4.6.0"
-  },
-  "engines": {
-    "node": ">=14"
+    "eslint-plugin-react-hooks": "4.6.0",
+    "eslint-plugin-crius": "*"
   }
 }
