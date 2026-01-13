@@ -28,6 +28,7 @@ const getMockModule = () =>
       connect: jest.fn(),
       registerListener: jest.fn(),
     },
+    setType: jest.fn(),
     completeTest: jest.fn(),
     setTestState: jest.fn(),
   });

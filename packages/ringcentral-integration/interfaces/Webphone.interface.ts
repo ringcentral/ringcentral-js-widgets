@@ -8,7 +8,6 @@ import type { Entity } from './Entity.interface';
 
 export interface PartyData {
   partyId: string;
-  telephonySessionId: string;
   sessionId: string;
 }
 
@@ -61,12 +60,22 @@ export interface NormalizedSession {
   isToVoicemail: boolean;
   isForwarded: boolean;
   isReplied: boolean;
+  /**
+   * in spring-ui project, the recordStatus should use from active call control activeSession
+   * @deprecated
+   */
   recordStatus: string;
   contactMatch: Entity;
   minimized: boolean;
   partyData: PartyData | null;
   lastActiveTime: number;
+  /**
+   * @deprecated only old project have that, that use in old ConferenceCall service
+   */
   cached: boolean;
+  /**
+   * @deprecated only old project have that, that use in old ConferenceCall service
+   */
   removed: boolean;
   callQueueName: string;
   warmTransferSessionId: string;

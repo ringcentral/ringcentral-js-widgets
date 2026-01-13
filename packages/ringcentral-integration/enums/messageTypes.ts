@@ -1,12 +1,12 @@
-import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
-
-export const messageTypes = ObjectMap.fromObject({
+export const messageTypes = {
   all: 'All',
   fax: 'Fax',
   sms: 'SMS',
   voiceMail: 'VoiceMail',
   pager: 'Pager',
   text: 'Text',
-} as const);
+} as const;
 
 export default messageTypes;
+
+export type MessageTypes = (typeof messageTypes)[keyof typeof messageTypes];

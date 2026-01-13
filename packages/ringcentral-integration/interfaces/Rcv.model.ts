@@ -37,6 +37,104 @@ export interface RcVDialInNumberGET {
   phoneNumbers: Array<RcVDialInNumberObj>;
 }
 
+export interface RcVideoV2Api {
+  id: string;
+  name: string;
+  type: 'Instant' | 'Scheduled' | 'PMI';
+  host: {
+    accountId: string;
+    extensionId: string;
+  };
+  discovery: {
+    web: string;
+  };
+  pins: {
+    pstn: {
+      host: string;
+      participant: string;
+    };
+    web: string;
+    aliases: [string];
+  };
+  security: {
+    passwordProtected: boolean;
+    password?: {
+      plainText: string;
+      joinQuery: string;
+      pstn: string;
+    };
+    // If true, only authenticated users can join to a meeting.
+    noGuests: boolean;
+    // If true, only users have the same account can join to a meeting.
+    sameAccount: boolean;
+    // If true, end to end encryption will be enabled for a meeting
+    e2ee: boolean;
+  };
+  preferences: {
+    join: {
+      audioMuted: boolean;
+      videoMuted: boolean;
+      waitingRoomRequired:
+        | 'Nobody'
+        | 'Everybody'
+        | 'GuestsOnly'
+        | 'OtherAccount';
+      pstn: {
+        promptAnnouncement: boolean;
+        promptParticipants: boolean;
+      };
+    };
+    joinBeforeHost: boolean;
+    screenSharing: boolean;
+    // Controls whether participants can start and pause transcription
+    allowEveryoneTranscribeMeetings: boolean;
+    recordings: {
+      // Controls whether participants can start and pause recording
+      everyoneCanControl: {
+        enabled: boolean;
+        locked: boolean;
+      };
+    };
+  };
+}
+
+export interface RcVideoV2PostData {
+  id?: string;
+  name: string;
+  type: 'Instant' | 'Scheduled' | 'PMI';
+  security: {
+    passwordProtected: boolean;
+    password?: string;
+    // If true, only authenticated users can join to a meeting.
+    noGuests: boolean;
+    // If true, only users have the same account can join to a meeting.
+    sameAccount: boolean;
+    // If true, end to end encryption will be enabled for a meeting
+    e2ee?: boolean;
+  };
+  preferences: {
+    join: {
+      audioMuted: boolean;
+      videoMuted: boolean;
+      waitingRoomRequired?:
+        | 'Nobody'
+        | 'Everybody'
+        | 'GuestsOnly'
+        | 'OtherAccount';
+    };
+    joinBeforeHost: boolean;
+    screenSharing: boolean;
+    // Controls whether participants can start and pause transcription
+    allowEveryoneTranscribeMeetings: boolean;
+    recordings: {
+      // Controls whether participants can start and pause recording
+      everyoneCanControl: {
+        enabled: boolean;
+      };
+    };
+  };
+}
+
 export interface RcVideoAPI {
   id?: string | null;
   shortId?: string;
@@ -44,24 +142,29 @@ export interface RcVideoAPI {
   accountId?: string;
   name: string;
   type: 0 | 1;
-  startTime: Date;
-  expiresIn: number | null;
-  duration: number;
+  startTime?: Date;
+  expiresIn?: number | null;
+  duration?: number;
   allowJoinBeforeHost: boolean;
   muteAudio: boolean;
   muteVideo: boolean;
   isMeetingSecret: boolean;
   meetingPassword?: string;
+  meetingPasswordMasked?: string;
+  meetingPasswordPSTN?: string;
   isOnlyAuthUserJoin: boolean;
   isOnlyCoworkersJoin: boolean;
   allowScreenSharing: boolean;
   e2ee?: boolean;
   waitingRoomMode?: RcvWaitingRoomModeProps;
+  allowAnyoneRecord?: boolean;
+  allowAnyoneTranscribe?: boolean;
 }
 
 export interface RcVideoAPIResponse extends RcVideoAPI {
   uri: string;
   id: string;
+  personalMeetingName?: string;
   participantCode: string;
   hostCode: string;
   shortId: string;
@@ -108,7 +211,6 @@ type RcVSettingValue =
   | RcvWaitingRoomType;
 
 export type RcVSettingId =
-  | 'e2ee'
   | 'join_before_host'
   // | 'join_video_off'
   // | 'join_audio_mute'
@@ -119,7 +221,9 @@ export type RcVSettingId =
   | 'screen_sharing_host_only'
   | 'waiting_room'
   | 'waiting_room_guests_only'
-  | 'e2ee';
+  | 'e2ee'
+  | 'allow_anyone_record_meetings'
+  | 'allow_anyone_transcribe_meetings';
 
 export interface RcVPreferenceDataItem {
   id: RcVSettingId;
@@ -129,6 +233,8 @@ export interface RcVPreferenceDataItem {
 }
 
 export interface RcVPreferencesGET {
+  allow_anyone_record_meetings?: boolean;
+  allow_anyone_transcribe_meetings?: boolean;
   join_before_host?: boolean;
   // join_video_off?: boolean;
   // join_audio_mute?: boolean;
@@ -160,13 +266,17 @@ export type RcVSettingKey =
   | 'isOnlyAuthUserJoin'
   | 'isOnlyCoworkersJoin'
   | 'allowScreenSharing'
-  | 'waitingRoomMode';
+  | 'waitingRoomMode'
+  | 'allowAnyoneRecord'
+  | 'allowAnyoneTranscribe';
 export type RcVPreferences = Pick<RcVideoAPI, RcVSettingKey>;
 export type RcVSettingLocks = Omit<
   Pick<RcVideoAPI, RcVSettingKey>,
   'waitingRoomMode'
 > & {
   waitingRoomMode: boolean;
+  allowAnyoneRecord: boolean;
+  allowAnyoneTranscribe: boolean;
 };
 
 export interface RcvInvitationRequest {
@@ -174,6 +284,7 @@ export interface RcvInvitationRequest {
   e2ee?: boolean;
   shortId: string;
   id: string;
+  personalMeetingName?: string;
   joinUri: string;
   isMeetingSecret: boolean;
   meetingPassword: string;

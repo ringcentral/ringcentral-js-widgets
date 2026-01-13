@@ -140,3 +140,177 @@ export class NoPlaySoundAtNoUrl extends Step {
     );
   }
 }
+
+@autorun(test)
+@title('AudioHelper::NoDeviceId')
+export class NoPlaySoundAtNoDeviceId extends Step {
+  run() {
+    const mockAudio: any = {
+      src: '',
+      loop: false,
+      volume: 0,
+      setSinkId: jest.fn().mockResolvedValue(null),
+      play: jest.fn().mockResolvedValue(null),
+      playPromise: Promise.resolve(),
+    };
+    global.Audio = jest.fn(() => mockAudio);
+    return (
+      <Scenario desc="should not play sound at no device id">
+        <When
+          desc="AudioHelp setup with no device id"
+          action={(_: any, context: any) => {
+            context.audioHelper = new AudioHelper({
+              enabled: true,
+              outgoing: 'http://outgoing_uri',
+            });
+            context.audioHelper.setDeviceId('off');
+          }}
+        />
+        <Then
+          desc="should not play audio if deviceId is empty"
+          action={(_: any, { audioHelper }: any) => {
+            audioHelper._playSound('test-url', true, 1);
+            expect(global.Audio).not.toHaveBeenCalled();
+          }}
+        />
+      </Scenario>
+    );
+  }
+}
+
+@autorun(test)
+@title('AudioHelper::setSinkId error')
+export class HandelSetSinkIdError extends Step {
+  run() {
+    const consoleErrorSpy = jest
+      .spyOn(console, 'error')
+      .mockImplementation(() => {});
+    const mockAudio: any = {
+      src: '',
+      loop: false,
+      volume: 0,
+      setSinkId: jest.fn().mockResolvedValue(null),
+      play: jest.fn().mockResolvedValue(null),
+      playPromise: Promise.resolve(),
+    };
+    global.Audio = jest.fn(() => mockAudio);
+    return (
+      <Scenario desc="should not play sound at no device id">
+        <When
+          desc="AudioHelp setup with no device id"
+          action={(_: any, context: any) => {
+            context.audioHelper = new AudioHelper({
+              enabled: true,
+              outgoing: 'http://outgoing_uri',
+            });
+          }}
+        />
+        <Then
+          desc="should not play audio if deviceId is empty"
+          action={async (_: any, { audioHelper }: any) => {
+            mockAudio.setSinkId.mockRejectedValue('setSinkId error');
+            await audioHelper._playSound('test-url', true, 1);
+            expect(consoleErrorSpy).toHaveBeenCalledWith(
+              'setSinkId error:',
+              'setSinkId error',
+            );
+            consoleErrorSpy.mockRestore();
+          }}
+        />
+      </Scenario>
+    );
+  }
+}
+
+@autorun(test)
+@title('AudioHelper::playAudio error')
+export class HandelPlayAudioError extends Step {
+  run() {
+    const consoleErrorSpy = jest
+      .spyOn(console, 'error')
+      .mockImplementation(() => {});
+    const mockAudio: any = {
+      src: '',
+      loop: false,
+      volume: 0,
+      setSinkId: jest.fn().mockResolvedValue(null),
+      play: jest.fn().mockResolvedValue(null),
+      playPromise: Promise.resolve(),
+    };
+    global.Audio = jest.fn(() => mockAudio);
+    return (
+      <Scenario desc="should not play sound at no device id">
+        <When
+          desc="AudioHelp setup with no device id"
+          action={(_: any, context: any) => {
+            context.audioHelper = new AudioHelper({
+              enabled: true,
+              outgoing: 'http://outgoing_uri',
+            });
+          }}
+        />
+        <Then
+          desc="should not play audio if deviceId is empty"
+          action={async (_: any, { audioHelper }: any) => {
+            mockAudio.play.mockRejectedValue('playAudio error');
+            await audioHelper._playSound('test-url', true, 1);
+            expect(consoleErrorSpy).toHaveBeenCalledWith(
+              'playAudio error:',
+              'playAudio error',
+            );
+            consoleErrorSpy.mockRestore();
+          }}
+        />
+      </Scenario>
+    );
+  }
+}
+
+@autorun(test)
+@title('AudioHelper::setDeviceId')
+export class CheckSetDeviceId extends Step {
+  run() {
+    return (
+      <Scenario desc="check audio helper's setDeviceId">
+        <When
+          desc="AudioHelp setup"
+          action={(_: any, context: any) => {
+            context.webphoneAudioHelper = new AudioHelper();
+          }}
+        />
+        <Then
+          desc="should set the device ID correctly"
+          action={(_: any, { webphoneAudioHelper }: any) => {
+            const deviceId = 'test-device-id';
+            webphoneAudioHelper.setDeviceId(deviceId);
+            expect(webphoneAudioHelper._deviceId).toBe(deviceId);
+          }}
+        />
+        <Then
+          desc="should handle empty device ID"
+          action={(_: any, { webphoneAudioHelper }: any) => {
+            const deviceId = '';
+            webphoneAudioHelper.setDeviceId(deviceId);
+            expect(webphoneAudioHelper._deviceId).toBe(deviceId);
+          }}
+        />
+        <Then
+          desc="should handle null device ID"
+          action={(_: any, { webphoneAudioHelper }: any) => {
+            const deviceId = null;
+            webphoneAudioHelper.setDeviceId(deviceId);
+            expect(webphoneAudioHelper._deviceId).toBe(deviceId);
+          }}
+        />
+        <Then
+          desc="should handle undefined device ID"
+          action={(_: any, { webphoneAudioHelper }: any) => {
+            const deviceId = undefined;
+            webphoneAudioHelper.setDeviceId(deviceId);
+            expect(webphoneAudioHelper._deviceId).toBe('default');
+          }}
+        />
+      </Scenario>
+    );
+  }
+}

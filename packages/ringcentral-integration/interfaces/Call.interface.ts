@@ -6,7 +6,7 @@ import type {
 } from './ActiveSession.interface';
 import type { Entity } from './Entity.interface';
 import type { ActiveCall } from './Presence.model';
-import type { NormalizedSession } from './Webphone.interface';
+import type { NormalizedSession, Session } from './Webphone.interface';
 
 export interface CallerInfo {
   phoneNumber?: string;
@@ -19,11 +19,7 @@ export interface NormalizedCall {
   id?: string;
   partyId?: string;
   direction?: ActiveCall['direction'];
-  telephonySession?: {
-    status: string;
-    id: string;
-    direction: string;
-  };
+  telephonySession?: Session;
   telephonySessionId?: string;
   toName?: string;
   fromName?: string;
@@ -38,6 +34,14 @@ export interface NormalizedCall {
   isRecording?: boolean;
   isConferenceCall?: boolean;
   conferenceParticipants?: ActiveCallControlSessionData['conferenceParticipants'];
+  conferenceParticipantsMatchesList?: Entity[][];
+  callQueueName?: string;
+  offset?: number;
+  /**
+   * in queue call, when answered by other agent, the answered agent's id
+   */
+  delegate?: { id: string; name: string };
+  delegationType?: string;
 }
 
 export type NormalizedCalls = NormalizedCall[];
@@ -48,4 +52,14 @@ export interface Call extends NormalizedCall {
   activityMatches?: string[];
   toNumberEntity?: string;
   result?: CallResultsValue;
+  isLogged?: boolean;
+  hasSmartNote?: boolean;
+  callSelectionInfo?: {
+    displayedSelection?: Entity;
+    selections?: Entity[];
+  };
+  /**
+   * mark the call is ended from preinsert
+   */
+  __preinsert?: boolean;
 }

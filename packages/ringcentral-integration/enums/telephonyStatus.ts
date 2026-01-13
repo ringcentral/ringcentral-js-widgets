@@ -1,12 +1,10 @@
-import { ObjectMap } from '@ringcentral-integration/core/lib/ObjectMap';
-
-export const telephonyStatus = ObjectMap.fromObject({
+export const telephonyStatus = {
   noCall: 'NoCall',
   onHold: 'OnHold',
   ringing: 'Ringing',
   callConnected: 'CallConnected',
   parkedCall: 'ParkedCall',
-} as const);
+} as const;
 
 export type TelephonyStatus =
   (typeof telephonyStatus)[keyof typeof telephonyStatus];

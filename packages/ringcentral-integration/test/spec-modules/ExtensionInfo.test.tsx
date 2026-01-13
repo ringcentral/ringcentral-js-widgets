@@ -25,7 +25,9 @@ export class DefaultPolling extends Step {
             context.instance = new ExtensionInfo({
               auth: {} as any,
               client: {} as any,
-              subscription: {} as any,
+              subscription: {
+                register() {},
+              } as any,
               dataFetcherV2: {
                 register() {},
               } as any,
@@ -61,7 +63,9 @@ export class PollingOptions extends Step {
             context.instance = new ExtensionInfo({
               auth: {} as any,
               client: {} as any,
-              subscription: {} as any,
+              subscription: {
+                register() {},
+              } as any,
               dataFetcherV2: {
                 register() {},
               } as any,
@@ -102,7 +106,9 @@ export class CleanOnReset extends Step {
             context.instance = new ExtensionInfo({
               auth: {} as any,
               client: {} as any,
-              subscription: {} as any,
+              subscription: {
+                register() {},
+              } as any,
               dataFetcherV2: {
                 register() {},
               } as any,
@@ -167,7 +173,9 @@ export class InsufficientPermissionOnRequest extends Step {
             context.instance = new ExtensionInfo({
               auth: new MockAuth() as any,
               client: new MockClient() as any,
-              subscription: {} as any,
+              subscription: {
+                register() {},
+              } as any,
               alert: new MockAlert() as any,
               dataFetcherV2: {
                 register() {},
@@ -215,7 +223,9 @@ export class InfoFallBack extends Step {
               extensionFeatures: {} as any,
               auth: {} as any,
               client: {} as any,
-              subscription: {} as any,
+              subscription: {
+                register() {},
+              } as any,
               alert: {} as any,
               dataFetcherV2: {
                 register() {},

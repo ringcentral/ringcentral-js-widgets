@@ -28,12 +28,12 @@
     "unit-test": "mocha --compilers js:@ringcentral-integration/babel-settings/lib/register"
   },
   "dependencies": {
-    "@sentry/browser": "^7.119.1",
+    "@sentry/browser": "^7.99.0",
     "@sentry/tracing": "^7.99.0",
     "bowser": "^2.5.3",
     "camelcase": "^6.0.0",
-    "data-transport": "^4.3.5",
-    "firebase": "^10.9.0",
+    "data-transport": "^5.0.3",
+    "firebase": "^9.9.3",
     "json-mask": "^0.3.8",
     "libphonenumber-js": "^1.9.48",
     "localforage": "^1.10.0",
@@ -44,7 +44,7 @@
     "redux": "^4.2.0",
     "reselect": "^2.5.4",
     "ringcentral-call": "^0.2.21",
-    "ringcentral-call-control": "^0.2.9",
+    "ringcentral-call-control": "^0.2.10",
     "ringcentral-web-phone": "^0.8.14",
     "uuid": "^9.0.1",
     "yards": "^0.1.4"
@@ -63,12 +63,12 @@
     "@ringcentral-integration/test-utils": "*",
     "@ringcentral-integration/utils": "*",
     "@ringcentral/juno": "^2.42.0",
-    "@ringcentral/juno-icon": "^1.76.0",
-    "@ringcentral/sdk": "^4.7.2",
+    "@ringcentral/juno-icon": "^1.80.0",
+    "@ringcentral/sdk": "^5.0.6",
     "@ringcentral/subscriptions": "^4.6.0",
-    "@types/chrome": "^0.0.260",
+    "@types/chrome": "^0.0.268",
     "@types/mixpanel-browser": "^2.49.0",
-    "@types/pendo-io-browser": "^2.17.1",
+    "@types/pendo-io-browser": "^2.19.1",
     "@types/ramda": "^0.27.46",
     "assert": "^2.0.0",
     "babel-istanbul": "^0.12.1",
@@ -111,19 +111,19 @@
     "url": "^0.11.0",
     "util": "^0.12.4",
     "vm-browserify": "1.1.2",
-    "webpack": "^5.94.0",
-    "webpack-dev-server": "^5.2.1",
+    "webpack": "^5.89.0",
+    "webpack-dev-server": "^4.15.1",
     "yargs": "^17.1.1"
   },
   "peerDependencies": {
     "@ringcentral-integration/core": "^0.15.0",
-    "@ringcentral-integration/i18n": "^2.1.1",
+    "@ringcentral-integration/i18n": "^2.3.1",
     "@ringcentral-integration/i18n-dayjs": "^0.15.0",
     "@ringcentral-integration/phone-number": "^1.0.4",
     "@ringcentral-integration/utils": "^0.15.0",
     "@ringcentral/juno": "^2.42.0",
-    "@ringcentral/juno-icon": "^1.76.0",
-    "@ringcentral/sdk": "^4.7.2",
+    "@ringcentral/juno-icon": "^1.80.0",
+    "@ringcentral/sdk": "^5.0.6",
     "@ringcentral/subscriptions": "^4.6.0",
     "isomorphic-ws": "^4.0.1",
     "ringcentral-client": "^1.0.0-beta.2"
@@ -131,5 +131,10 @@
   "common": true,
   "ci": {
     "@ringcentral-integration/commons": "**"
+  },
+  "nx": {
+    "tags": [
+      "scope:ci-test"
+    ]
   }
 }
