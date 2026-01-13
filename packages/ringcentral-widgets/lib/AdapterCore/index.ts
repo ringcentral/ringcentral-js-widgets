@@ -27,7 +27,7 @@ const ALLOW_ATTRIBUTE_VALUE = [
 
 const urlRegex =
   /(https:\/\/)?(?:www\.)?outlook\.office(?:365)?\.com\/(mail)\/(deeplink)/;
-const clickEvent = urlRegex.test(window.location.href) ? 'mousedown' : 'click';
+const clickEvent = urlRegex.test(location.href) ? 'mousedown' : 'click';
 const ON_HOLD_CALLS = 0;
 const RINGING_CALLS = 1;
 const CURRENT_CALL = 2;
@@ -61,7 +61,7 @@ export default class AdapterCore {
   // @ts-expect-error TS(2564): Property '_viewCallsEl' has no initializer and is ... Remove this comment to see the full error message
   private _viewCallsEl: HTMLElement;
   private _scrollable: boolean;
-  private _strings: any;
+  protected _strings: any;
   private _hoverBar: any;
   // @ts-expect-error TS(2564): Property 'lastState' has no initializer and is not... Remove this comment to see the full error message
   lastState: number;
@@ -331,19 +331,19 @@ export default class AdapterCore {
 
     this._contentFrameEl = this._root.querySelector(
       `.${this._styles.contentFrame}`,
-    );
+    )!;
 
-    this._durationEl = this._root.querySelector(`.${this._styles.duration}`);
+    this._durationEl = this._root.querySelector(`.${this._styles.duration}`)!;
     this._durationEl.addEventListener(clickEvent, (evt) => {
       evt.stopPropagation();
       this._postMessage({
         type: this._messageTypes.navigateToCurrentCall,
       });
-    });
+    })!;
 
     this._currentCallEl = this._root.querySelector(
       `.${this._styles.currentCallBtn}`,
-    );
+    )!;
     this._currentCallEl.addEventListener(clickEvent, (evt) => {
       evt.stopPropagation();
       this._postMessage({
@@ -353,7 +353,7 @@ export default class AdapterCore {
 
     this._viewCallsEl = this._root.querySelector(
       `.${this._styles.viewCallsBtn}`,
-    );
+    )!;
     this._viewCallsEl.addEventListener(clickEvent, (evt) => {
       evt.stopPropagation();
       this._postMessage({
@@ -363,15 +363,15 @@ export default class AdapterCore {
 
     this._ringingCallsEl = this._root.querySelector(
       `.${this._styles.ringingCalls}`,
-    );
+    )!;
 
     this._onHoldCallsEl = this._root.querySelector(
       `.${this._styles.onHoldCalls}`,
-    );
+    )!;
 
     this._otherDeviceCallsEl = this._root.querySelector(
       `.${this._styles.otherDeviceCalls}`,
-    );
+    )!;
 
     this._headerEl.addEventListener('mousedown', (evt: any) => {
       this._dragging = true;
@@ -450,6 +450,9 @@ export default class AdapterCore {
   _onHeaderClicked() {
     if (this._minimized) {
       this.toggleMinimized();
+
+      // focus on frame let user can use tab easily or page autoFocus event
+      this.contentFrameEl?.focus();
     }
   }
 

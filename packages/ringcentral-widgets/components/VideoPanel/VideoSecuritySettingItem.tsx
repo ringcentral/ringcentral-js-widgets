@@ -42,6 +42,8 @@ interface VideoSecuritySettingItemProps {
   children: ReactNode;
   hasScrollBar: boolean;
   labelPlacement?: 'end' | 'start' | 'top' | 'bottom';
+  controlStyle?: string;
+  useSimpleRcv?: boolean;
 }
 
 export const VideoSecuritySettingItem: FunctionComponent<
@@ -55,19 +57,32 @@ export const VideoSecuritySettingItem: FunctionComponent<
   children,
   hasScrollBar = false,
   labelPlacement,
+  controlStyle: defaultControlStyle,
 }) => {
+  let controlStyle = '';
+  let rootStyle = '';
+
+  switch (labelPlacement) {
+    case 'start':
+      controlStyle = styles.iconCombine;
+      rootStyle = styles.labelPlacementStartRoot;
+      break;
+    case 'top':
+      controlStyle = '';
+      rootStyle = styles.labelPlacementTopRoot;
+      break;
+    default:
+      controlStyle = styles.checkboxSeparate;
+      rootStyle = styles.labelPlacementEndRoot;
+      break;
+  }
+
   return (
     <RcFormControlLabel
       data-sign={dataSign}
       disabled={isLock || isDisabled}
       control={
-        <span
-          className={
-            labelPlacement === 'start'
-              ? styles.iconCombine
-              : styles.checkboxSeparate
-          }
-        >
+        <span className={defaultControlStyle ?? controlStyle}>
           {labelPlacement === 'start' &&
             generateLockIcon(isLock, currentLocale, hasScrollBar)}
           {children}
@@ -82,10 +97,7 @@ export const VideoSecuritySettingItem: FunctionComponent<
       }
       labelPlacement={labelPlacement}
       classes={{
-        root:
-          labelPlacement === 'start'
-            ? styles.labelPlacementStartRoot
-            : styles.labelPlacementEndRoot,
+        root: rootStyle,
         label: styles.labelText,
       }}
     />

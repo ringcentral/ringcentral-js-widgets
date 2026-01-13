@@ -12,6 +12,7 @@ export interface WebRTCNotificationProps {
   onForward: (phoneNumber: string, telephonySession: string) => any;
   endAndAnswer: (telephonySession: string) => any;
   holdAndAnswer: (telephonySession: string) => any;
+  showToVoicemail?: boolean;
   toVoicemail: (telephonySession: string) => any;
   forwardingNumbers: any[];
   hasActiveSession: boolean;
@@ -25,8 +26,9 @@ export interface WebRTCNotificationProps {
   displayEntity: any;
   entityType: string;
   getAvatarUrl: (contact: IContact) => Promise<string>;
-  entityDetailLink: string;
+  entityDetailLinkId: string;
   openEntityDetailLinkTrack?: () => any;
+  openEntityDetailLink: (entityDetailLinkId: string) => any;
   reply?: (telephonySession: string) => any;
   enableReply?: boolean;
   disableLinks?: boolean;

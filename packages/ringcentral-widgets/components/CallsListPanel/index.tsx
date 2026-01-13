@@ -479,6 +479,8 @@ class CallsListPanel extends React.PureComponent {
       renderSubContactName,
       // @ts-expect-error TS(2339): Property 'renderExtraButton' does not exist on typ... Remove this comment to see the full error message
       renderExtraButton,
+      // @ts-expect-error TS(2339): Property 'isSyncingActivityMatcher' does not exist on typ... Remove this comment to see the full error message
+      isSyncingActivityMatcher,
       // @ts-expect-error TS(2339): Property 'contactDisplayStyle' does not exist on t... Remove this comment to see the full error message
       contactDisplayStyle,
       // @ts-expect-error TS(2339): Property 'activeContactDisplayStyle' does not exis... Remove this comment to see the full error message
@@ -546,7 +548,6 @@ class CallsListPanel extends React.PureComponent {
     }
     const isShowMessageIcon = readTextPermission && !!onClickToSms;
     const CallsListView = useNewList ? (
-      // @ts-expect-error TS(2339): Property 'contentWidth' does not exist on type 'Re... Remove this comment to see the full error message
       <CallListV2
         width={adaptive ? contentWidth : width}
         height={adaptive ? contentHeight : height}
@@ -584,6 +585,7 @@ class CallsListPanel extends React.PureComponent {
         renderContactName={renderContactName}
         renderSubContactName={renderSubContactName}
         renderExtraButton={renderExtraButton}
+        isSyncingActivityMatcher={isSyncingActivityMatcher}
         contactDisplayStyle={contactDisplayStyle}
         externalViewEntity={externalViewEntity}
         externalHasEntity={externalHasEntity}
@@ -622,6 +624,7 @@ class CallsListPanel extends React.PureComponent {
         phoneSourceNameRenderer={phoneSourceNameRenderer}
         renderContactName={renderContactName}
         renderExtraButton={renderExtraButton}
+        isSyncingActivityMatcher={isSyncingActivityMatcher}
         contactDisplayStyle={contactDisplayStyle}
         externalViewEntity={externalViewEntity}
         externalHasEntity={externalHasEntity}
@@ -798,6 +801,7 @@ CallsListPanel.propTypes = {
   renderContactName: PropTypes.func,
   renderSubContactName: PropTypes.func,
   renderExtraButton: PropTypes.func,
+  isSyncingActivityMatcher: PropTypes.bool,
   contactDisplayStyle: PropTypes.string,
   activeContactDisplayStyle: PropTypes.string,
   currentLog: PropTypes.object,
@@ -893,6 +897,7 @@ CallsListPanel.defaultProps = {
   showChooseEntityModal: true,
   enableCDC: false,
   callsDelaySavingState: undefined,
+  isSyncingActivityMatcher: false,
 };
 
 export default CallsListPanel;

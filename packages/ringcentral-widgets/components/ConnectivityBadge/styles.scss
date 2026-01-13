@@ -17,11 +17,12 @@
   line-height: 30px;
   border-radius: 20px;
   padding: 0 12px;
-
+  display: inline-flex;
+  align-items: center;
+  
   svg {
     margin-left: 6px;
     position: relative;
-    top: 2px;
   }
 }
 

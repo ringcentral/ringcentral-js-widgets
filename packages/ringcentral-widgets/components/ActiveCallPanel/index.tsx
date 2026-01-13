@@ -5,7 +5,7 @@ import callCtrlLayouts from '../../enums/callCtrlLayouts';
 import ActiveCallPad from '../ActiveCallPad';
 import BackButton from '../BackButton';
 import BackHeader from '../BackHeader';
-import DurationCounter from '../DurationCounter';
+import { DurationCounter } from '../DurationCounter';
 import Panel from '../Panel';
 
 import CallInfo from './CallInfo';
@@ -67,6 +67,7 @@ type ActiveCallPanelProps = {
   isOnWaitingTransfer?: boolean;
   onCompleteTransfer?: (...args: any[]) => any;
   isOnTransfer?: boolean;
+  showCallerIdName?: boolean;
   callerIdName?: string;
 };
 const ActiveCallPanel: React.FC<ActiveCallPanelProps> = ({
@@ -122,6 +123,7 @@ const ActiveCallPanel: React.FC<ActiveCallPanelProps> = ({
   getAvatarUrl,
   actions,
   controlBusy,
+  showCallerIdName,
   callerIdName,
   callQueueName,
   isOnTransfer,
@@ -152,6 +154,7 @@ const ActiveCallPanel: React.FC<ActiveCallPanelProps> = ({
     case callCtrlLayouts.mergeCtrl:
       callInfo = (
         <MergeInfo
+          showCallerIdName={showCallerIdName}
           currentLocale={currentLocale}
           timeCounter={timeCounter}
           lastCallInfo={lastCallInfo}

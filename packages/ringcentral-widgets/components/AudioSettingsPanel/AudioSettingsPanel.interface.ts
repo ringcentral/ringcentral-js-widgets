@@ -6,7 +6,7 @@ export interface AudioSettingsPanelProps {
   availableRingtoneDevices: OmitFunctions<MediaDeviceInfo>[];
   callVolume: number;
   checkUserMedia: () => Promise<void>;
-  showAlert: () => void;
+  checkAudioAvailable: () => void;
   className?: string | null;
   // TODO: use useLocale when available
   currentLocale: string;

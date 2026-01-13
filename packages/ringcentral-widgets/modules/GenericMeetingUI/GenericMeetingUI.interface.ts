@@ -35,4 +35,6 @@ export interface GenericMeetingContainerProps {
   showRcvAdminLock?: boolean;
   configDisabled?: boolean;
   showPmiConfirm?: boolean;
+  showAllowAnyoneRecord?: boolean;
+  showAllowAnyoneTranscribe?: boolean;
 }

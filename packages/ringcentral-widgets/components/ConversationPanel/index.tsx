@@ -1,3 +1,6 @@
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+
+/* eslint-disable jsx-a11y/click-events-have-key-events */
 import { RcAlert } from '@ringcentral/juno';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
@@ -7,7 +10,7 @@ import { checkShouldHidePhoneNumber } from '../../lib/checkShouldHidePhoneNumber
 import ContactDisplay from '../ContactDisplay';
 import ConversationMessageList from '../ConversationMessageList';
 import LogButton from '../LogButton';
-import MessageInput from '../MessageInput';
+import MessageInput, { MAX_PREVIEW_ATTACHMENT_SIZE } from '../MessageInput';
 import { SpinnerOverlay } from '../SpinnerOverlay';
 
 import i18n from './i18n';
@@ -22,7 +25,7 @@ class ConversationPanel extends Component {
     this.state = {
       selected: this.getInitialContactIndex(),
       isLogging: false,
-      inputHeight: 63,
+      inputHeight: 41,
       loaded: false,
       alertHeight: 46,
     };
@@ -131,22 +134,49 @@ class ConversationPanel extends Component {
   };
 
   getMessageListHeight() {
-    // @ts-expect-error TS(2339): Property 'restrictSendMessage' does not exist on t... Remove this comment to see the full error message
-    const { restrictSendMessage, renderLogInfoSection, isWide } = this.props;
+    const {
+      // @ts-expect-error TS(2339): Property 'restrictSendMessage' does not exist on t... Remove this comment to see the full error message
+      restrictSendMessage,
+      // @ts-expect-error TS(2339): Property 'renderLogInfoSection' does not exist on t... Remove this comment to see the full error message
+      renderLogInfoSection,
+      // @ts-expect-error TS(2339): Property 'isWide' does not exist on t... Remove this comment to see the full error message
+      isWide,
+      // @ts-expect-error TS(2339): Property 'supportAttachment' does not exist on t... Remove this comment to see the full error message
+      supportAttachment,
+      // @ts-expect-error TS(2339): Property 'supportEmoji' does not exist on t... Remove this comment to see the full error message
+      supportEmoji,
+      // @ts-expect-error TS(2339): Property 'attachments' does not exist on t... Remove this comment to see the full error message
+      attachments,
+    } = this.props;
 
     // @ts-expect-error TS(2339): Property 'alertHeight' does not exist on type 'Rea... Remove this comment to see the full error message
     const { alertHeight, inputHeight } = this.state;
     const headerHeight = 41;
     const alertMargin = 12;
     const logInfoHeight = isWide ? 60 : 100;
+    const inputToolBarHeight = 40;
+    const attachmentItemHeight = 50;
     let extraHeight = 0;
     if (restrictSendMessage?.(this.getSelectedContact())) {
       extraHeight = alertHeight + alertMargin + headerHeight;
     } else {
-      extraHeight = inputHeight + headerHeight;
+      // padding 2px and border 1px
+      extraHeight = inputHeight + headerHeight + 3;
     }
     if (typeof renderLogInfoSection === 'function') {
       extraHeight += logInfoHeight;
+    }
+    if (supportAttachment || supportEmoji) {
+      extraHeight += inputToolBarHeight;
+    } else {
+      // default UI top offset for input
+      extraHeight += 10;
+    }
+    if (supportAttachment && attachments?.length) {
+      extraHeight +=
+        (attachments.length > MAX_PREVIEW_ATTACHMENT_SIZE
+          ? MAX_PREVIEW_ATTACHMENT_SIZE
+          : attachments.length) * attachmentItemHeight;
     }
     return `calc(100% - ${extraHeight}px)`;
   }
@@ -455,8 +485,10 @@ class ConversationPanel extends Component {
             attachments={this.props.attachments}
             // @ts-expect-error TS(2339): Property 'supportAttachment' does not exist on typ... Remove this comment to see the full error message
             supportAttachment={this.props.supportAttachment}
-            // @ts-expect-error TS(2339): Property 'addAttachment' does not exist on type 'R... Remove this comment to see the full error message
-            addAttachment={this.props.addAttachment}
+            // @ts-expect-error TS(2339): Property 'supportEmoji' does not exist on typ... Remove this comment to see the full error message
+            supportEmoji={this.props.supportEmoji}
+            // @ts-expect-error TS(2339): Property 'addAttachments' does not exist on type 'R... Remove this comment to see the full error message
+            addAttachments={this.props.addAttachments}
             // @ts-expect-error TS(2339): Property 'removeAttachment' does not exist on type... Remove this comment to see the full error message
             removeAttachment={this.props.removeAttachment}
           />
@@ -518,7 +550,8 @@ ConversationPanel.propTypes = {
     }),
   ),
   supportAttachment: PropTypes.bool,
-  addAttachment: PropTypes.func,
+  supportEmoji: PropTypes.bool,
+  addAttachments: PropTypes.func,
   removeAttachment: PropTypes.func,
   onAttachmentDownload: PropTypes.func,
   restrictSendMessage: PropTypes.func,
@@ -556,7 +589,8 @@ ConversationPanel.defaultProps = {
   inputExpandable: undefined,
   attachments: [],
   supportAttachment: false,
-  addAttachment: () => null,
+  supportEmoji: false,
+  addAttachments: () => null,
   removeAttachment: () => null,
   onAttachmentDownload: undefined,
   restrictSendMessage: undefined,

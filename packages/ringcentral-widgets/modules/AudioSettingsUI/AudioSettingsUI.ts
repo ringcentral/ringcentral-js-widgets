@@ -8,6 +8,7 @@ import {
 import { TEST_STATE } from '@ringcentral-integration/commons/modules/VolumeInspector';
 import type { UIFunctions, UIProps } from '@ringcentral-integration/core';
 import { RcUIModuleV2 } from '@ringcentral-integration/core';
+import { OmitFunctions } from '@ringcentral-integration/utils/src/typeFunctions/OmitFunctions';
 import { v4 as uuid } from 'uuid';
 
 import { AudioSettingsPanelProps } from '../../components/AudioSettingsPanel';
@@ -25,7 +26,6 @@ import type { Deps } from './AudioSettingsUI.interface';
     'CallMonitor',
     { dep: 'RingtoneConfiguration', optional: true },
     { dep: 'VolumeInspector', optional: true },
-    { dep: 'Alert', optional: true },
     { dep: 'Webphone', optional: true },
     { dep: 'AudioSettingsUIOptions', optional: true },
   ],
@@ -35,6 +35,14 @@ class AudioSettingsUI extends RcUIModuleV2<Deps> {
     super({
       deps,
     });
+  }
+
+  checkAllDevicesAreEmpty(devices: OmitFunctions<MediaDeviceInfo>[]) {
+    return devices.every(
+      (item) =>
+        (item.label === '' && item.deviceId === '') ||
+        (item.label === '' && item.deviceId === 'off'),
+    );
   }
 
   getUIProps():
@@ -66,30 +74,26 @@ class AudioSettingsUI extends RcUIModuleV2<Deps> {
       userMedia: this._deps.audioSettings.userMedia,
       isWebRTC: this._deps.callingSettings.callWith === callingOptions.browser,
       outputDeviceDisabled:
-        !this._deps.audioSettings.availableOutputDevices.length,
+        !this._deps.audioSettings.availableOutputDevices.length ||
+        this.checkAllDevicesAreEmpty(
+          this._deps.audioSettings.availableOutputDevices,
+        ),
       inputDeviceDisabled: !!(
-        !this._deps.audioSettings.availableInputDevices.length || isHavingCall
+        !this._deps.audioSettings.availableInputDevices.length ||
+        isHavingCall ||
+        this.checkAllDevicesAreEmpty(
+          this._deps.audioSettings.availableInputDevices,
+        )
       ),
       ringtoneSelectDisabled: isHavingCall,
       showCallVolume: this._deps.audioSettingsUIOptions?.showCallVolume,
       showRingToneVolume: this._deps.audioSettingsUIOptions?.showRingToneVolume,
-      volumeTestData: this._deps.volumeInspector
-        ? {
-            volume: this._deps.volumeInspector.volume,
-            countDown: this._deps.volumeInspector.countDown,
-            testState: this._deps.volumeInspector.testState,
-            isRecording:
-              this._deps.volumeInspector.testState === TEST_STATE.RECORDS_AUDIO,
-            type: this._deps.volumeInspector.type,
-          }
-        : undefined,
+      volumeTestData: this._deps.volumeInspector?.data,
       selectedRingtoneId: this._deps.ringtoneConfiguration?.selectedRingtoneId,
       fullRingtoneList:
         this._deps.ringtoneConfiguration?.fullRingtoneList || [],
       isUploadRingtoneDisabled:
-        this._deps.ringtoneConfiguration?.customRingtoneList &&
-        this._deps.ringtoneConfiguration?.customRingtoneList?.length >=
-          MAX_CUSTOM_RINGTONE_COUNT,
+        this._deps.ringtoneConfiguration?.isUploadRingtoneDisabled,
       enableCustomRingtone:
         this._deps.ringtoneConfiguration?.enableCustomRingtone,
     };
@@ -102,51 +106,21 @@ class AudioSettingsUI extends RcUIModuleV2<Deps> {
       onBackButtonClick: () => this._deps.routerInteraction.goBack(),
       onSave: (data) => this._deps.audioSettings.setData(data),
       checkUserMedia: () => this._deps.audioSettings.getUserMedia(),
-      showAlert: () => this._deps.audioSettings.showAlert(),
+      checkAudioAvailable: () =>
+        this._deps.audioSettings.checkAudioAvailable({
+          checkIfNoDevices: false,
+        }),
       handleTestMicroClick: (testState: TEST_STATE) => {
-        switch (testState) {
-          case TEST_STATE.IDLE:
-            this._deps.volumeInspector?.startRecording();
-            break;
-          case TEST_STATE.RECORDS_AUDIO:
-            this._deps.volumeInspector?.stopRecording();
-            break;
-          case TEST_STATE.PLAYS_AUDIO:
-            this._deps.volumeInspector?.completeTest();
-            break;
-        }
+        this._deps.volumeInspector?.handleTestMicroClick(testState);
       },
       handleTestSpeakerClick: (testState: TEST_STATE) => {
-        switch (testState) {
-          case TEST_STATE.IDLE:
-            this._deps.volumeInspector?.startPlaySampleAudio();
-            break;
-          case TEST_STATE.PLAYS_AUDIO:
-            this._deps.volumeInspector?.completeTest();
-            break;
-        }
+        this._deps.volumeInspector?.handleTestSpeakerClick(testState);
       },
       updateCurrentRingtone: (id) => {
-        this._deps.ringtoneConfiguration?.setSelectedRingtoneId(id);
-        this._deps.ringtoneConfiguration?.updateIncomingRingtone();
+        this.selectToRingtone(id);
       },
       removeCustomRingtone: (id) => {
-        const hasCustomRingtone =
-          this._deps.ringtoneConfiguration?.customRingtoneList.find(
-            (ringtone) => ringtone.id === id,
-          );
-        if (!id || !hasCustomRingtone) {
-          this._deps.alert?.danger({
-            message: audioSettingsErrors.deleteRingtoneFailed,
-          });
-        }
         this._deps.ringtoneConfiguration?.removeCustomRingtone(id);
-        // if the remove one the selected ringtone, set the first default ringtone as selected
-        if (id === this._deps.ringtoneConfiguration?.selectedRingtoneId) {
-          this.selectToRingtone(
-            this._deps.ringtoneConfiguration?.defaultRingtoneList[0].id,
-          );
-        }
       },
       uploadCustomRingtone: (audioInfo: AudioInfo) => {
         const id = `custom-${uuid()}`;
@@ -158,19 +132,16 @@ class AudioSettingsUI extends RcUIModuleV2<Deps> {
         });
         this.selectToRingtone(id);
       },
-      showDangerAlert: (message: string) => {
-        if (message) {
-          this._deps.alert?.danger({
-            message,
-          });
-        }
+      showDangerAlert: (message) => {
+        this._deps.ringtoneConfiguration?.showDangerAlert(message);
       },
     };
   }
 
   selectToRingtone(id: string) {
-    this._deps.ringtoneConfiguration?.setSelectedRingtoneId(id);
-    this._deps.ringtoneConfiguration?.updateIncomingRingtone();
+    if (!this._deps.ringtoneConfiguration) return;
+    this._deps.ringtoneConfiguration.setSelectedRingtoneId(id);
+    this._deps.ringtoneConfiguration.updateIncomingRingtone();
   }
 }
 

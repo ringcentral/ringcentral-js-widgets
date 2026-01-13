@@ -25,8 +25,10 @@ export type SelectListBasicProps = {
   options?: ListViewProps['options'];
   otherOptions?: object[];
   associatedOptions?: object[];
+  showMatched?: boolean;
   showOtherSection?: boolean;
   showAssociatedSection?: boolean;
+  showRecentlySection?: boolean;
   placeholder?: string;
   searchOption: (option: any, text: string) => any;
   rightIcon?: JSX.Element;
@@ -34,12 +36,13 @@ export type SelectListBasicProps = {
   matchedTitle?: string;
   otherTitle?: string;
   associatedTitle?: string;
+  recentlyTitle?: string;
   renderListView?: (
     data: any,
-    type: string,
+    type: 'matched' | 'other' | 'associated' | 'custom' | 'recently',
     filter: string,
     // TODO: need type check
-    scrollCheck: Function,
+    scrollCheck: any,
   ) => React.ReactNode;
   open?: boolean;
   setOpen?: (...args: any[]) => any;
@@ -61,11 +64,13 @@ export type SelectListBasicProps = {
   contactSearch?: (arg: {
     searchString: string;
     fromField: SelectListBasicProps['field'];
-  }) => any;
+  }) => Promise<void>;
   field?: string;
   foundFromServerTitle?: string;
   showFoundFromServer?: boolean;
   foundFromServerEntities?: any[];
+  recentlyEntities?: any[];
+  serverEntitiesClientFilter?: 'none';
   appName?: string;
   isSearching?: boolean;
   setShowSearchFromServerHint?: (state: boolean) => any;
@@ -77,12 +82,13 @@ const defaultRenderListView = () => {
   return null;
 };
 
-const SelectListBasic: FunctionComponent<SelectListBasicProps> = ({
+export const SelectListBasic: FunctionComponent<SelectListBasicProps> = ({
   options = [],
   otherOptions = [],
   associatedOptions = [],
   showOtherSection = true,
   showAssociatedSection = false,
+  showRecentlySection = false,
   placeholder = '',
   rightIcon = null,
   setOpen = emptyFn,
@@ -97,17 +103,22 @@ const SelectListBasic: FunctionComponent<SelectListBasicProps> = ({
   matchedTitle = null,
   otherTitle = null,
   associatedTitle = null,
+  recentlyTitle = null,
   contactSearch = null,
   field = null,
   foundFromServerTitle = null,
   showFoundFromServer = false,
   foundFromServerEntities = [],
+  recentlyEntities,
+  serverEntitiesClientFilter,
   appName = null,
   isSearching = false,
   disabled = false,
   title,
   searchOption,
   currentLocale,
+  showMatched = true,
+  ...rest
 }) => {
   const [filterRef, setFilter] = useRefState<string>('');
   const [showSearchFromServerHint, setShowSearchFromServerHint] =
@@ -144,15 +155,26 @@ const SelectListBasic: FunctionComponent<SelectListBasicProps> = ({
   const matchAssociatedOptions = hasSearch
     ? associatedOptions.filter((option) => searchOption(option, filter))
     : associatedOptions;
-  const filteredFoundFromServerOptions = hasSearch
-    ? foundFromServerEntities.filter((option) => searchOption(option, filter))
-    : foundFromServerEntities;
+  const filteredFoundFromServerOptions =
+    hasSearch && serverEntitiesClientFilter !== 'none'
+      ? foundFromServerEntities.filter((option) => searchOption(option, filter))
+      : foundFromServerEntities;
+
+  const matchRecentlyOptions =
+    hasSearch && recentlyEntities
+      ? recentlyEntities.filter((option) => searchOption(option, filter))
+      : recentlyEntities;
   const hasResult =
     matchOptions.length +
       matchOtherOptions.length +
-      matchAssociatedOptions.length >
+      matchAssociatedOptions.length +
+      (matchRecentlyOptions?.length || 0) >
       0 ||
-    options.length + otherOptions.length + associatedOptions.length === 0;
+    options.length +
+      otherOptions.length +
+      associatedOptions.length +
+      (recentlyEntities?.length || 0) ===
+      0;
   const backHeaderOnclick = () => {
     setOpen(false);
     if (onBackClick) {
@@ -194,9 +216,12 @@ const SelectListBasic: FunctionComponent<SelectListBasicProps> = ({
   associatedTitle =
     associatedTitle || selectListI18n.getString('associated', currentLocale);
 
+  recentlyTitle =
+    recentlyTitle || selectListI18n.getString('recently', currentLocale);
+
   return (
     // @ts-expect-error TS(2322): Type 'string | null' is not assignable to type 'st... Remove this comment to see the full error message
-    <AnimationPanel open={open} className={selectListBasicClassName}>
+    <AnimationPanel open={open} className={selectListBasicClassName} {...rest}>
       {open ? (
         <>
           <BackHeader
@@ -239,11 +264,10 @@ const SelectListBasic: FunctionComponent<SelectListBasicProps> = ({
                       setFilter(value);
                     }
                   }}
-                  onKeyDown={(key) => {
+                  onKeyDown={(event) => {
                     // Press enter to search contacts from server
-                    if ((key && key.keyCode !== 13) || !showFoundFromServer)
-                      return;
-                    if (contactSearch && typeof contactSearch === 'function') {
+                    if (event.key !== 'Enter' || !showFoundFromServer) return;
+                    if (typeof contactSearch === 'function') {
                       const searchString = filter ? filter.trim() : '';
                       if (searchString.length) {
                         contactSearch({
@@ -266,26 +290,46 @@ const SelectListBasic: FunctionComponent<SelectListBasicProps> = ({
             >
               {hasResult || showFoundFromServer ? (
                 <>
-                  <div
-                    // @ts-expect-error TS(2322): Type 'MutableRefObject<undefined>' is not assignab... Remove this comment to see the full error message
-                    ref={matchElmRef}
-                    className={styles.text}
-                    data-sign={matchedTitle}
-                  >
-                    {matchedTitle && (
-                      <div className={styles.title}>
-                        {matchedTitle} ({matchOptions.length})
-                      </div>
-                    )}
-                    {matchOptions.length > 0 &&
-                      renderListView(
-                        matchOptions,
-                        'matched',
-                        filter,
-                        (elm: any, type: any) =>
-                          scrollCheck(scrollElmRef, matchElmRef, elm, type),
+                  {showRecentlySection && (
+                    <div className={styles.text} data-sign="recently">
+                      {recentlyTitle && (
+                        <div className={styles.title}>
+                          {recentlyTitle} ({matchRecentlyOptions?.length || 0})
+                        </div>
                       )}
-                  </div>
+                      {matchRecentlyOptions &&
+                        matchRecentlyOptions.length > 0 &&
+                        renderListView(
+                          matchRecentlyOptions,
+                          'recently',
+                          filter,
+                          (elm: any, type: any) =>
+                            scrollCheck(scrollElmRef, matchElmRef, elm, type),
+                        )}
+                    </div>
+                  )}
+                  {showMatched && (
+                    <div
+                      // @ts-expect-error TS(2322): Type 'MutableRefObject<undefined>' is not assignab... Remove this comment to see the full error message
+                      ref={matchElmRef}
+                      className={styles.text}
+                      data-sign={matchedTitle}
+                    >
+                      {matchedTitle && (
+                        <div className={styles.title}>
+                          {matchedTitle} ({matchOptions.length})
+                        </div>
+                      )}
+                      {matchOptions.length > 0 &&
+                        renderListView(
+                          matchOptions,
+                          'matched',
+                          filter,
+                          (elm: any, type: any) =>
+                            scrollCheck(scrollElmRef, matchElmRef, elm, type),
+                        )}
+                    </div>
+                  )}
                   {showOtherSection && (
                     <div className={styles.text} data-sign={otherTitle}>
                       {otherTitle && (
@@ -304,7 +348,7 @@ const SelectListBasic: FunctionComponent<SelectListBasicProps> = ({
                     </div>
                   )}
                   {showAssociatedSection && (
-                    <div className={styles.text}>
+                    <div className={styles.text} data-sign="Associated">
                       {associatedTitle && (
                         <div className={styles.title}>
                           {associatedTitle} ({matchAssociatedOptions.length})
@@ -358,5 +402,3 @@ const SelectListBasic: FunctionComponent<SelectListBasicProps> = ({
     </AnimationPanel>
   );
 };
-
-export { SelectListBasic };

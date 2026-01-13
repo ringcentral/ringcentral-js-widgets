@@ -1,3 +1,5 @@
+@import '~@ringcentral-integration/widgets/lib/commonStyles/full-size';
+
 .wrapper {
   display: flex;
   flex-direction: column;
@@ -5,4 +7,16 @@
   label[class*='Switch'] {
     flex-shrink: 0;
   }
+}
+
+.mask {
+  @include full-size;
+  position: fixed;
+  top: 0;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.35);
+  height: 100%;
+  z-index: 1000;
 }

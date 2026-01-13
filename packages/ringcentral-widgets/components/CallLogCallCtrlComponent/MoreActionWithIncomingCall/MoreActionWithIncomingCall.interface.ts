@@ -9,4 +9,5 @@ export interface MoreActionWithIncomingCallProps {
   reply?: () => Promise<void>;
   clickForwardTrack: () => any;
   disableIgnore?: boolean;
+  enabledForward?: boolean;
 }

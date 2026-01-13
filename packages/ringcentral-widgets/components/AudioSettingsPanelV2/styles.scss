@@ -22,11 +22,18 @@
 }
 
 /* InputDevice & OutputDevice */
-.select {
+.selectContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
   margin-bottom: 16px;
-
-  > div {
-    margin-top: 28px !important;
+  & div[class*='RcBoxSelectInput-input'] {
+    span[class*='play_circle_border'] {
+      display: none;
+    }
+    span[class*='delete'] {
+      display: none;
+    }
   }
 }
 
@@ -72,7 +79,7 @@
 /* VolumeTester */
 
 .testVolumeContainer {
-  margin-bottom: 10px;
+  margin-bottom: 16px;
   flex-direction: column;
   align-items: start;
   display: flex;

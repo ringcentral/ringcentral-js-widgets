@@ -53,7 +53,7 @@ export const RingtoneUploadButton: FunctionComponent<
         disabled={isButtonDisabled}
       >
         <RcIcon symbol={ZoomIn} size="small" />
-        <RcText titleWhenOverflow flexFull>
+        <RcText title={t('add')} flexFull>
           {t('add')}
         </RcText>
         <input

@@ -386,7 +386,6 @@ export const ContactDisplay: React.FC<ContactDisplayProps> = ({
 
               handleClose();
             }}
-            aria-label="choice a presence state"
           >
             {items.map((entity, i) => {
               const title = entity

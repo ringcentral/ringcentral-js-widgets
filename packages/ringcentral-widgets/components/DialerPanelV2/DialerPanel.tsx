@@ -1,6 +1,5 @@
 import type UserPhoneNumberInfo from '@rc-ex/core/lib/definitions/UserPhoneNumberInfo';
 import type { ToNumber as Recipient } from '@ringcentral-integration/commons/modules/ComposeText';
-import type { ContactSearchEntity } from '@ringcentral-integration/micro-contacts/src/app/services';
 import {
   flexCenterStyle,
   palette2,
@@ -17,6 +16,15 @@ import React, { useCallback } from 'react';
 import { fullSizeStyle } from '../../lib/commonStyles';
 import { CommunicationSetupPanel } from '../CommunicationSetupPanel';
 import { SpinnerOverlay } from '../SpinnerOverlay';
+
+// copy from import type { ContactSearchEntity } from '@ringcentral-integration/micro-contacts/src/app/services'; widget should not import from next arch
+export type ContactSearchEntity = {
+  id: string;
+  name: string;
+  phoneNumber: string;
+  entityType?: string;
+  phoneType?: string;
+};
 
 export type DialerPanelProps = {
   currentLocale: string;
@@ -73,6 +81,12 @@ const StyledRcDialPad = styled(RcDialPad)`
   [sf-classic] & {
     height: 90%;
   }
+`;
+
+const FlexWrapper = styled.div`
+  ${fullSizeStyle};
+  display: flex;
+  flex-direction: column;
 `;
 
 // TODO: check withTabs
@@ -152,38 +166,40 @@ export const DialerPanel: FunctionComponent<DialerPanelProps> = (props) => {
         // Common
         currentLocale={currentLocale}
       >
-        {/* @ts-expect-error TS(2322): Type 'boolean | undefined' is not */}
-        <DialerWrapper withTabs={withTabs}>
-          <StyledRcDialPad
-            data-sign="dialPad"
-            onChange={(value) => {
-              // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
-              onToNumberChange(toNumber + value, true);
-            }}
-            sounds={RcDialerPadSoundsMPEG}
-            getDialPadButtonProps={(v) => ({
-              'data-test-id': `${v}`,
-              'data-sign': `dialPadBtn${v}`,
-            })}
-            volume={callVolume}
-            sinkId={outputDeviceId}
-          />
-        </DialerWrapper>
-        <BodyBottom>
-          <RcIconButton
-            data-sign="callButton"
-            color="success.b03"
-            symbol={Phone}
-            size={withTabs ? 'medium' : 'large'}
-            variant="contained"
-            elevation="0"
-            activeElevation="0"
-            onClick={() => onCallButtonClick({ clickDialerToCall: true })}
-            disabled={callButtonDisabled}
-          />
-        </BodyBottom>
-        {showSpinner ? <SpinnerOverlay /> : null}
-        {children}
+        <FlexWrapper>
+          {/* @ts-expect-error TS(2322): Type 'boolean | undefined' is not */}
+          <DialerWrapper withTabs={withTabs}>
+            <StyledRcDialPad
+              data-sign="dialPad"
+              onChange={(value) => {
+                // @ts-expect-error TS(2722): Cannot invoke an object which is possibly 'undefin... Remove this comment to see the full error message
+                onToNumberChange(toNumber + value, true);
+              }}
+              sounds={RcDialerPadSoundsMPEG}
+              getDialPadButtonProps={(v) => ({
+                'data-test-id': `${v}`,
+                'data-sign': `dialPadBtn${v}`,
+              })}
+              volume={callVolume}
+              sinkId={outputDeviceId}
+            />
+          </DialerWrapper>
+          <BodyBottom>
+            <RcIconButton
+              data-sign="callButton"
+              color="success.b03"
+              symbol={Phone}
+              size={withTabs ? 'medium' : 'large'}
+              variant="contained"
+              elevation="0"
+              activeElevation="0"
+              onClick={() => onCallButtonClick({ clickDialerToCall: true })}
+              disabled={callButtonDisabled}
+            />
+          </BodyBottom>
+          {showSpinner ? <SpinnerOverlay /> : null}
+          {children}
+        </FlexWrapper>
       </CommunicationSetupPanel>
     </DialerPanelContainer>
   );

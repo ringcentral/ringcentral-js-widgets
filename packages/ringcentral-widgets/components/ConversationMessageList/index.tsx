@@ -1,21 +1,13 @@
 import { isBlank } from '@ringcentral-integration/commons/lib/isBlank';
-import { RcIcon } from '@ringcentral/juno';
-import {
-  DefaultFile as fileSvg,
-  Download as downloadSvg,
-} from '@ringcentral/juno-icon';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import React, { Component } from 'react';
 
+import { FileAttachmentRender } from './FileAttachmentRender';
+import { ImageAttachmentRender } from './ImageAttachmentRender';
 import { SubjectRender as DefaultRender } from './SubjectRender';
 import i18n from './i18n';
 import styles from './styles.scss';
-
-function getExtFromContentType(contentType: any) {
-  const ext = contentType.split('/');
-  return ext[1].split('+')[0];
-}
 
 export const Message = ({
   subject,
@@ -27,6 +19,7 @@ export const Message = ({
   currentLocale,
   onAttachmentDownload,
   onLinkClick,
+  handleImageLoad,
 }: any) => {
   let subjectNode;
   if (subject && !isBlank(subject)) {
@@ -37,38 +30,30 @@ export const Message = ({
     .filter((m: any) => m.contentType.indexOf('image') > -1)
     .map((attachment: any) => {
       return (
-        <img
+        <ImageAttachmentRender
           key={attachment.id}
-          src={attachment.uri}
-          alt={`attachment${attachment.id}`}
-          className={styles.picture}
+          attachment={attachment}
+          handleImageLoad={handleImageLoad}
         />
       );
     });
   const otherAttachments = mmsAttachments
     .filter((m: any) => m.contentType.indexOf('image') === -1)
     .map((attachment: any) => {
-      const fileName =
-        attachment.fileName ||
-        `${attachment.id}.${getExtFromContentType(attachment.contentType)}`;
       return (
-        <div key={attachment.id} title={fileName} className={styles.file}>
-          <RcIcon size="small" symbol={fileSvg} />
-          <span className={styles.fileName}>{fileName}</span>
-          <a
-            target="_blank"
-            className={styles.download}
-            download={fileName}
-            onClick={(e) => {
-              if (typeof onAttachmentDownload === 'function') {
-                onAttachmentDownload(attachment.uri, e);
-              }
-            }}
-            title={i18n.getString('download', currentLocale)}
-            href={`${attachment.uri}&contentDisposition=Attachment`}
-          >
-            <RcIcon size="small" symbol={downloadSvg} />
-          </a>
+        <div
+          key={attachment.id}
+          data-sign={`${direction}Attachment`}
+          className={clsx(
+            styles.messageBody,
+            direction === 'Outbound' ? styles.outbound : styles.inbound,
+          )}
+        >
+          <FileAttachmentRender
+            attachment={attachment}
+            currentLocale={currentLocale}
+            onLinkClick={onAttachmentDownload}
+          />
         </div>
       );
     });
@@ -82,18 +67,30 @@ export const Message = ({
       {sender && direction === 'Inbound' ? (
         <div className={styles.sender}>{sender}</div>
       ) : null}
-      <div
-        data-sign={`${direction}Text`}
-        className={clsx(
-          styles.messageBody,
-          direction === 'Outbound' ? styles.outbound : styles.inbound,
-          subject && subject.length > 500 && styles.big,
-        )}
-      >
-        {subjectNode}
-        {imageAttachments}
-        {otherAttachments}
-      </div>
+      {!isBlank(subject) && (
+        <div
+          data-sign={`${direction}Text`}
+          className={clsx(
+            styles.messageBody,
+            direction === 'Outbound' ? styles.outbound : styles.inbound,
+            subject && subject.length > 500 && styles.big,
+          )}
+        >
+          {subjectNode}
+        </div>
+      )}
+      {imageAttachments.length > 0 && (
+        <div
+          data-sign={`${direction}Image`}
+          className={clsx(
+            styles.imageBody,
+            direction === 'Outbound' ? styles.outbound : styles.inbound,
+          )}
+        >
+          {imageAttachments}
+        </div>
+      )}
+      {otherAttachments.length > 0 && <>{otherAttachments}</>}
       <div className={styles.clear} />
     </div>
   );
@@ -109,6 +106,7 @@ Message.propTypes = {
   currentLocale: PropTypes.string.isRequired,
   onAttachmentDownload: PropTypes.func,
   onLinkClick: PropTypes.func,
+  handleImageLoad: PropTypes.func,
 };
 
 Message.defaultProps = {
@@ -118,6 +116,7 @@ Message.defaultProps = {
   subjectRenderer: undefined,
   mmsAttachments: [],
   onAttachmentDownload: undefined,
+  handleImageLoad: undefined,
 };
 
 class ConversationMessageList extends Component {
@@ -232,6 +231,11 @@ class ConversationMessageList extends Component {
           currentLocale={currentLocale}
           onAttachmentDownload={onAttachmentDownload}
           onLinkClick={onLinkClick}
+          handleImageLoad={() => {
+            if (!this._scrollUp) {
+              this.scrollToLastMessage();
+            }
+          }}
         />
       );
     });

@@ -12,7 +12,12 @@ export const Locale: FunctionComponent<LocaleProps> = ({
   savedLocale,
   saveLocale,
 }) => {
-  if (supportedLocales && supportedLocales.length > 1) {
+  if (
+    savedLocale &&
+    saveLocale &&
+    supportedLocales &&
+    supportedLocales.length > 1
+  ) {
     return (
       <InputLine label={t('language')}>
         <LocalePicker

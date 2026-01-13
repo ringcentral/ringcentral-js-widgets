@@ -407,6 +407,7 @@ export class DialerUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
 
   getUIProps({
     autoFocusToField,
+    showCustomPhoneLabel = false,
   }: DialerUIContainerProps = {}): UIProps<DialerUIPanelProps> {
     return {
       currentLocale: this._deps.locale.currentLocale,
@@ -431,6 +432,7 @@ export class DialerUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
       // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
       showAnonymous: this.isShowAnonymous,
       autoFocus: autoFocusToField,
+      showCustomPhoneLabel,
     };
   }
 

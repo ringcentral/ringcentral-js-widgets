@@ -8,6 +8,7 @@ type IconLineProps = {
   dataSign?: string;
   icon?: React.ReactNode;
   className?: string;
+  iconClassName?: string;
   onClick?: (...args: any[]) => any;
   noBorder?: boolean;
   title?: string;
@@ -24,6 +25,7 @@ const IconLine: React.FC<IconLineProps> = (props) => {
     >
       <IconField
         className={props.className}
+        iconClassName={props.iconClassName}
         icon={props.icon}
         title={props.title}
       >

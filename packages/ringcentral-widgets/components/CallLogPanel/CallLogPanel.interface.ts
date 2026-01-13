@@ -48,8 +48,8 @@ export interface CallLogPanelProps extends CallLogPanelConfig {
   onUpdateCallLog?: (data: { task: any }, id: string) => any;
   onSaveCallLog?: (...args: any[]) => any;
   openEntityDetailLinkTrack?: (...args: any[]) => any;
+  openEntityDetailLink: (entityDetailLinkId: string) => any;
   onSelectViewVisible?: (visible: boolean, fieldName: string) => any;
-
   dateTimeFormatter?: DateTimeFormatter;
   renderBasicInfo?: ({
     formatPhone,
@@ -108,9 +108,11 @@ export interface CallLogPanelProps extends CallLogPanelConfig {
   shrinkNotification?: (...args: any[]) => any;
   contactSearch?: ({
     searchString,
+    fromField,
   }: {
     searchString: string;
-  }) => Promise<Array<any>> | Promise<void>;
+    fromField?: string;
+  }) => Promise<void>;
   showFoundFromServer: boolean;
   appName?: string;
   isSearching?: boolean;

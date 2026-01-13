@@ -7,6 +7,8 @@
 }
 
 .expandWrapper {
+  // The alert should show over the mask in Meeting page
+  z-index: 1001;
   div[class*='RcAlert-message'] {
     font-size: 12px !important;
     line-height: 1.3;

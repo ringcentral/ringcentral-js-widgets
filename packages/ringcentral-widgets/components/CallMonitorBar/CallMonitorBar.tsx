@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 
 import { Button } from '../Button';
 import CarrouselBar from '../CarrouselBar';
-import DurationCounter from '../DurationCounter';
+import { DurationCounter } from '../DurationCounter';
 
 import { CallInfoBar } from './CallInfoBar';
 import i18n from './i18n';

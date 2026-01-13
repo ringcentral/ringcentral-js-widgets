@@ -11,9 +11,8 @@
 }
 
 .message {
-  display: block;
   width: 100%;
-  font-size: 12px;
+  font-size: 14px;
   color: #333333;
 
   &:first-child {
@@ -39,16 +38,14 @@
   margin-bottom: 1px;
 }
 
+.imageBody,
 .messageBody {
   position: relative;
   display: inline-block;
   margin-bottom: 10px;
-  min-width: 50%;
-  max-width: 60%;
+  max-width: 90%;
   text-align: left;
   hyphens: auto;
-  padding: 10px 15px;
-  background: $sms-bubble-background-color;
   border-radius: 16px;
   min-height: 13px;
   box-sizing: content-box;
@@ -59,7 +56,13 @@
   word-wrap: break-word;
 }
 
-.messageBody.inbound {
+.messageBody {
+  background: $sms-bubble-background-color;
+  padding: 10px 15px;
+}
+
+.messageBody.inbound,
+.imageBody.inbound {
   border-bottom-left-radius: 10px;
   background: #efefef;
 
@@ -90,7 +93,8 @@
   }
 }
 
-.messageBody.outbound {
+.messageBody.outbound,
+.imageBody.outbound {
   float: right;
   clear: both;
   border-bottom-right-radius: 10px;
@@ -144,30 +148,18 @@
 .picture {
   width: 100%;
 }
-
-.file {
-  padding: 10px;
-  min-width: 80px;
-  max-width: 200px;
-  border-radius: 4px;
-  background: $snow;
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  justify-content: flex-start;
-  margin-bottom: 5px;
+.ext {
+  white-space: nowrap;
 }
 
-.fileName {
-  margin: 0 5px;
-  flex: 1;
-}
-
-.download {
-  color: $ash;
-  cursor: pointer;
-
-  &:focus {
-    outline: 0;
+.previewMedia {
+  &:hover,
+  &.focus-visible,
+  &[data-focus-visible-added] {
+    .hoverAction {
+      left: 0;
+      bottom: 0;
+      transform: translateY(0);
+    }
   }
 }

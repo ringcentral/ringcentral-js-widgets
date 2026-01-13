@@ -1,4 +1,4 @@
-import type messageTypes from '@ringcentral-integration/commons/enums/messageTypes';
+import { type MessageTypes } from '@ringcentral-integration/commons/enums/messageTypes';
 import type { Entity } from '@ringcentral-integration/commons/interfaces/Entity.interface';
 import type { Message } from '@ringcentral-integration/commons/interfaces/MessageStore.model';
 import type { AccountInfo } from '@ringcentral-integration/commons/modules/AccountInfo';
@@ -24,7 +24,6 @@ import type { Locale } from '@ringcentral-integration/commons/modules/Locale';
 import type { MessageStore } from '@ringcentral-integration/commons/modules/MessageStore';
 import type { RateLimiter } from '@ringcentral-integration/commons/modules/RateLimiter';
 import type { RegionSettings } from '@ringcentral-integration/commons/modules/RegionSettings';
-import type { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
 import type { ReactNode } from 'react';
 
 import type { ContactDetailsUI } from '../ContactDetailsUI';
@@ -149,7 +148,7 @@ export interface ConversationsPanelProps {
   showSpinner: boolean;
   searchInput: string;
   autoLog: boolean;
-  typeFilter: ObjectMapValue<typeof messageTypes>;
+  typeFilter: MessageTypes;
   textUnreadCounts: number;
   voiceUnreadCounts: number;
   faxUnreadCounts: number;
@@ -175,9 +174,7 @@ export interface ConversationsPanelProps {
   markMessage: (conversationId: string) => void;
   unmarkMessage: (conversationId: string) => void;
   goToComposeText: () => Promise<void> | void;
-  updateTypeFilter: (
-    type: ObjectMapValue<typeof messageTypes>,
-  ) => Promise<void>;
+  updateTypeFilter: (type: MessageTypes) => Promise<void>;
   deleteMessage: (conversationId: string) => void;
   previewFaxMessages: (uri: string, conversationId: string) => void;
   loadNextPage(): Promise<void> | void;

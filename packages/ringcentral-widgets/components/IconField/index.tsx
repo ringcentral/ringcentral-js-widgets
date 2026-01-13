@@ -6,6 +6,7 @@ import styles from './styles.scss';
 type IconFieldProps = {
   icon?: React.ReactNode;
   className?: string;
+  iconClassName?: string;
   title?: string;
 };
 const IconField: React.FC<IconFieldProps> = (props) => {
@@ -15,7 +16,9 @@ const IconField: React.FC<IconFieldProps> = (props) => {
         {props.children}
       </div>
       <div className={styles.iconHolder}>
-        <div className={styles.icon}>{props.icon}</div>
+        <div className={clsx(styles.icon, props.iconClassName)}>
+          {props.icon}
+        </div>
       </div>
     </div>
   );

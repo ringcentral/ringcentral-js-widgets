@@ -48,6 +48,10 @@ export interface BaseWebpackConfigOptions {
    * enable style transform for shared worker mode
    */
   useStyleTransform?: boolean;
+  /**
+   * build environment, used for define process.env.BUILD_ENVIRONMENT
+   */
+  env?: string;
 }
 
 export const getBaseWebpackConfig = ({
@@ -67,11 +71,15 @@ export const getBaseWebpackConfig = ({
   babelLoaderExcludes = /node_modules/,
   chunkLocale = true,
   useStyleTransform = false,
+  env,
 }: BaseWebpackConfigOptions): Configuration => {
   const devtool = useDevtool ? preferredDevtool : false;
   const threadLoader: RuleSetUseItem[] = [];
   // set process.env.NODE_ENV to mode to make sure the same as webpack mode
   process.env.NODE_ENV = mode;
+
+  const enablePseudo =
+    process.argv.includes('--pseudo') || mode === 'production';
 
   if (useThreadLoader) {
     warmup(threadLoaderOptions, [
@@ -99,6 +107,7 @@ export const getBaseWebpackConfig = ({
     }),
     new DefinePlugin({
       'process.env.NODE_ENV': JSON.stringify(mode),
+      'process.env.BUILD_ENVIRONMENT': JSON.stringify(env),
     }),
   ];
 
@@ -131,6 +140,17 @@ export const getBaseWebpackConfig = ({
           search: "import PopperJS from 'popper.js';",
           replace:
             'import PopperJS from "../../../../popper.js/dist/esm/popper";',
+        },
+      },
+    },
+    {
+      test: /node_modules\/file-saver\/dist\/FileSaver\.min\.js$/,
+      use: {
+        loader: 'string-replace-loader',
+        options: {
+          search: '"download"in HTMLAnchorElement.prototype',
+          replace:
+            'globalThis.HTMLAnchorElement&&"download"in globalThis.HTMLAnchorElement.prototype',
         },
       },
     },
@@ -211,10 +231,8 @@ export const getBaseWebpackConfig = ({
   }
   // babel-loader
   rules.push({
-    test: /\.(js|jsx|ts|tsx)$/,
+    test: /\.(cjs|mjs|js|jsx|ts|tsx)$/,
     use: [
-      // TODO: locale-loader not able to use thread-loader
-      // ...threadLoader,
       {
         loader: 'babel-loader',
         options: {
@@ -227,6 +245,7 @@ export const getBaseWebpackConfig = ({
         options: {
           supportedLocales,
           chunk: chunkLocale,
+          pseudo: enablePseudo,
         },
       },
       // TODO: we put at last for still be use thread-loader with babel-loader, but it's not work, we should make can support locale-loader
@@ -247,7 +266,6 @@ export const getBaseWebpackConfig = ({
       }
     : {};
 
-  const globalTest = /(\.global)\.(sass|scss)/;
   // css
   rules.push({
     test: /\.css$/i,
@@ -264,7 +282,7 @@ export const getBaseWebpackConfig = ({
   // sass & scss
   rules.push({
     test: /\.sass|\.scss/,
-    exclude: globalTest,
+    exclude: /(\.global|\.inline)\.(sass|scss)/,
     use: [
       ...threadLoader,
       {
@@ -306,7 +324,7 @@ export const getBaseWebpackConfig = ({
   // use global should not have any css module with localIdentName
   // global sass & scss
   rules.push({
-    test: globalTest,
+    test: /(\.global)\.(sass|scss)/,
     use: [
       ...threadLoader,
       {
@@ -316,6 +334,34 @@ export const getBaseWebpackConfig = ({
       {
         loader: 'css-loader',
       },
+      {
+        loader: 'postcss-loader',
+        options: {
+          postcssOptions: {
+            plugins: () => [autoprefixer],
+          },
+        },
+      },
+      {
+        loader: 'sass-loader',
+        options: {
+          sassOptions: {
+            includePaths: [
+              themeFolder,
+              path.resolve(process.cwd(), 'node_modules'),
+              path.resolve(process.cwd(), '../../node_modules'),
+            ],
+            outputStyle: 'expanded',
+          },
+        },
+      },
+    ],
+  });
+
+  // inline scss only transform to css string
+  rules.push({
+    test: /(\.inline)\.(sass|scss)/,
+    use: [
       {
         loader: 'postcss-loader',
         options: {
@@ -414,7 +460,7 @@ export const getBaseWebpackConfig = ({
   rules.push(
     // https://webpack.js.org/guides/asset-modules/#replacing-inline-loader-syntax
     {
-      resourceQuery: /raw/,
+      resourceQuery: /raw|inline/,
       type: 'asset/source',
     },
     {

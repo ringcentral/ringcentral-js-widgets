@@ -44,4 +44,6 @@ export interface CallLogCallCtrlPanelProps {
   allowPickupCall: boolean;
   showConferenceCall?: boolean;
   onMergeCall: () => Promise<void>;
+  isCallQueueCall?: boolean;
+
 }

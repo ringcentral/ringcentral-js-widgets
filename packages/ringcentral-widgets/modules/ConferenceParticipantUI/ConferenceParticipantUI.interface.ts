@@ -35,4 +35,5 @@ export interface ConferenceParticipantPanelProps {
   // user action track functions
   afterOnRemoveBtnClick: () => void;
   afterOnCancel: () => void;
+  showCallerIdName?: boolean;
 }

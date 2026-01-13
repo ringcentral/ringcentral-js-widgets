@@ -27,7 +27,9 @@ class ConferenceParticipantUI extends RcUIModuleV2<Deps> {
     });
   }
 
-  getUIProps(): UIProps<ConferenceParticipantPanelProps> {
+  getUIProps({
+    showCallerIdName = false,
+  }): UIProps<ConferenceParticipantPanelProps> {
     const participants = this._deps.conferenceCall.partyProfiles;
     const sessionCount =
       (this._deps.webphone.sessions && this._deps.webphone.sessions.length) ||
@@ -36,6 +38,7 @@ class ConferenceParticipantUI extends RcUIModuleV2<Deps> {
       currentLocale: this._deps.locale.currentLocale,
       participants,
       sessionCount,
+      showCallerIdName,
     };
   }
 

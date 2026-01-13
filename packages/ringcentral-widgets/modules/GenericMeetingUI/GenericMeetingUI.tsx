@@ -9,19 +9,32 @@ import {
   AUTH_USER_TYPE,
   DISABLE_E2EE_WHEN_RELATED_OPTION_MATCH,
   JBH_LABEL,
+  RCV_ITEM_NAME,
   RCV_WAITING_ROOM_MODE,
 } from '@ringcentral-integration/commons/modules/RcVideo';
 import type { UIProps, UIFunctions } from '@ringcentral-integration/core';
-import { RcUIModuleV2, action, state } from '@ringcentral-integration/core';
+import {
+  RcUIModuleV2,
+  action,
+  state,
+  computed,
+} from '@ringcentral-integration/core';
 import { any, find } from 'ramda';
+import React from 'react';
 
 import type { GenericMeetingPanelProps } from '../../components/GenericMeetingPanel';
+import {
+  ChangePasswordPopup,
+  ChangePasswordPopupProps,
+} from '../../components/SchedulerMeetingPanel/ChangePasswordPopup';
 
 import type {
   Deps,
   GenericMeetingContainerProps,
 } from './GenericMeetingUI.interface';
 import i18n from './i18n';
+
+const PasswordChangeRendererID = 'GenericMeetingUI.PasswordChangeRenderer';
 
 @Module({
   name: 'GenericMeetingUI',
@@ -36,10 +49,16 @@ import i18n from './i18n';
   ],
 })
 export class GenericMeetingUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
+  private _changePasswordPopupId: string | null = null;
+
   constructor(deps: T & Deps) {
     super({
       deps,
     });
+    this._deps.modalUI.registerRenderer(
+      PasswordChangeRendererID,
+      (props: ChangePasswordPopupProps) => <ChangePasswordPopup {...props} />,
+    );
   }
 
   @state
@@ -50,29 +69,98 @@ export class GenericMeetingUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
     this.isPmiChangeConfirmed = status;
   }
 
-  getRcvConfig({
-    disabled = false,
-    showRcvAdminLock = false,
-    configDisabled = false,
-    showPmiConfirm = false,
+  showPasswordChangeModal() {
+    if (this._changePasswordPopupId) {
+      return;
+    }
+
+    const currentLocale = this._deps.locale.currentLocale;
+
+    this._changePasswordPopupId = this._deps.modalUI.info({
+      fullWidth: true,
+      title: i18n.getString('updatePassword', currentLocale),
+      content: PasswordChangeRendererID,
+      childrenSize: this.isSmallScreen ? 'small' : 'medium',
+      contentProps: {
+        currentLocale,
+        meetingPassword: this.meeting.usePersonalMeetingId
+          ? (this.personalMeetingSettings as Partial<RcVMeetingModel>).meetingPassword
+          : (this.meeting as Partial<RcVMeetingModel>).meetingPassword,
+        handleCancel: () => {
+          this.closePasswordChangeModal();
+        },
+        handleUpdate: (meetingPassword: string) => {
+          if (this.meeting.usePersonalMeetingId) {
+            this.updatePersonalMeetingSettings({
+              ...this.personalMeetingSettings,
+              meetingPassword,
+            } as RcVMeetingModel);
+          } else {
+            this.updateMeetingSettings({
+              ...this.meeting,
+              meetingPassword,
+            } as RcVMeetingModel);
+          }
+
+          this.actionAfterUpdateMeetingPassword();
+
+          // @ts-expect-error TS(2322): Type '{ id: string; code: string; name: string; sh... Remove this comment to see the full error message
+          if (this._deps.genericMeeting.trackSettingChanges) {
+            // @ts-expect-error
+            this._deps.genericMeeting.trackSettingChanges(
+              RCV_ITEM_NAME.meetingPassword,
+            );
+          }
+          this.closePasswordChangeModal();
+        },
+      },
+    });
+
+    this._deps.modalUI.getPromise(this._changePasswordPopupId).finally(() => {
+      this._changePasswordPopupId = null;
+    });
+  }
+
+  closePasswordChangeModal() {
+    if (this._changePasswordPopupId) {
+      this._deps.modalUI.close(this._changePasswordPopupId!);
+      this._changePasswordPopupId = null;
+    }
+  }
+
+  updateMeetingSettings(value: RcMMeetingModel | RcVMeetingModel) {
+    this._deps.genericMeeting.updateHasSettingsChanged(true);
+    this._deps.genericMeeting.updateMeetingSettings(value);
+  }
+
+  updatePersonalMeetingSettings(value: RcMMeetingModel | RcVMeetingModel) {
+    this._deps.genericMeeting.updateHasSettingsChanged(true);
+    this._deps.genericMeeting.updatePersonalMeetingSettings(value);
+  }
+
+  getRcvOptionsDisabledStatus({
+    disabled,
+    showRcvAdminLock,
+    configDisabled,
+    showPmiConfirm,
+  }: {
+    disabled: boolean;
+    showRcvAdminLock: boolean;
+    configDisabled: boolean;
+    showPmiConfirm: boolean;
   }) {
-    let isDelegator = false;
-    const meeting = this.meeting as RcVMeetingModel;
-    const delegators = this.delegators as RcvDelegator[];
-    const user = find(
-      (item) => item.extensionId === meeting.extensionId,
-      delegators,
-    );
-    // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
-    isDelegator = user && !user.isLoginUser;
+    const meeting = this.meeting.usePersonalMeetingId
+      ? (this.personalMeetingSettings as RcVMeetingModel)
+      : (this.meeting as RcVMeetingModel);
+
+    const { settingLock = {}, e2ee } = this.meeting as Partial<RcVMeetingModel>;
+
+    const showE2EE =
+      this._deps.genericMeeting.ready && this._deps.genericMeeting.enableE2EE;
 
     const enableWaitingRoom =
       this._deps.genericMeeting.ready &&
       this._deps.genericMeeting.enableWaitingRoom;
-
-    const showE2EE =
-      this._deps.genericMeeting.ready && this._deps.genericMeeting.enableE2EE;
-    const { settingLock = {}, e2ee, isOnlyCoworkersJoin } = meeting;
 
     const isPmiConfigDisabled =
       configDisabled ||
@@ -99,22 +187,9 @@ export class GenericMeetingUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
           ) as DisableE2eeWhenRelatedOptionMatch[],
         ));
 
-    const authUserTypeValue = isOnlyCoworkersJoin
-      ? AUTH_USER_TYPE.SIGNED_IN_CO_WORKERS
-      : AUTH_USER_TYPE.SIGNED_IN_USERS;
-
     return {
-      meeting,
-      showE2EE,
-      delegators,
       isE2EEDisabled,
-      authUserTypeValue,
       isE2eeRelatedOptionsDisabled,
-      showWaitingRoom: enableWaitingRoom,
-      isPersonalMeetingDisabled: showE2EE && meeting.e2ee,
-      joinBeforeHostLabel: isDelegator
-        ? JBH_LABEL.JOIN_AFTER_HOST
-        : JBH_LABEL.JOIN_AFTER_ME,
       isRequirePasswordDisabled:
         isE2eeRelatedOptionsDisabled ||
         isPmiConfigDisabled ||
@@ -126,6 +201,13 @@ export class GenericMeetingUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
         (showRcvAdminLock && meeting.settingLock?.allowJoinBeforeHost) ||
         (enableWaitingRoom &&
           meeting.waitingRoomMode === RCV_WAITING_ROOM_MODE.all),
+      isPasswordFieldDisabled: isPmiConfigDisabled,
+      isAllowToRecordDisabled:
+        isPmiConfigDisabled ||
+        (showRcvAdminLock && meeting.settingLock?.allowAnyoneRecord),
+      isAllowAnyoneTranscribeDisabled:
+        isPmiConfigDisabled ||
+        (showRcvAdminLock && meeting.settingLock?.allowAnyoneTranscribe),
       isMuteAudioDisabled: configDisabled || isPmiConfigDisabled,
       isTurnOffCameraDisabled: configDisabled || isPmiConfigDisabled,
       isAllowScreenSharingDisabled:
@@ -145,7 +227,6 @@ export class GenericMeetingUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
       isWaitingRoomNotCoworkerDisabled: meeting.isOnlyCoworkersJoin,
       isWaitingRoomGuestDisabled:
         meeting.isOnlyAuthUserJoin || (showE2EE && meeting.e2ee),
-      isWaitingRoomAllDisabled: false,
       isAuthenticatedCanJoinDisabled:
         isE2eeRelatedOptionsDisabled ||
         configDisabled ||
@@ -156,8 +237,54 @@ export class GenericMeetingUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
         configDisabled ||
         isPmiConfigDisabled ||
         (showRcvAdminLock && meeting.settingLock?.isOnlyCoworkersJoin),
-      isSignedInUsersDisabled: false,
-      isSignedInCoWorkersDisabled: false,
+    };
+  }
+
+  getRcvConfig({
+    disabled = false,
+    showRcvAdminLock = false,
+    configDisabled = false,
+    showPmiConfirm = false,
+  }) {
+    let isDelegator = false;
+    const meeting = this.meeting as RcVMeetingModel;
+    const delegators = this.delegators as RcvDelegator[];
+    const user = find(
+      (item) => item.extensionId === meeting.extensionId,
+      delegators,
+    );
+    // @ts-expect-error TS(2322): Type 'boolean | undefined' is not assignable to ty... Remove this comment to see the full error message
+    isDelegator = user && !user.isLoginUser;
+
+    const enableWaitingRoom =
+      this._deps.genericMeeting.ready &&
+      this._deps.genericMeeting.enableWaitingRoom;
+
+    const showE2EE =
+      this._deps.genericMeeting.ready && this._deps.genericMeeting.enableE2EE;
+
+    const { isOnlyCoworkersJoin } = meeting;
+
+    const authUserTypeValue = isOnlyCoworkersJoin
+      ? AUTH_USER_TYPE.SIGNED_IN_CO_WORKERS
+      : AUTH_USER_TYPE.SIGNED_IN_USERS;
+
+    return {
+      meeting,
+      showE2EE,
+      delegators,
+      authUserTypeValue,
+      showWaitingRoom: enableWaitingRoom,
+      isPersonalMeetingDisabled: showE2EE && meeting.e2ee,
+      joinBeforeHostLabel: isDelegator
+        ? JBH_LABEL.JOIN_AFTER_HOST
+        : JBH_LABEL.JOIN_AFTER_ME,
+      ...this.getRcvOptionsDisabledStatus({
+        disabled,
+        showRcvAdminLock,
+        configDisabled,
+        showPmiConfirm,
+      }),
     };
   }
 
@@ -188,24 +315,21 @@ export class GenericMeetingUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
       configDisabled = false,
       showRemoveMeetingWarning = false,
     } = props;
-    const isRCM = this._deps.genericMeeting.isRCM;
-    const isRCV = this._deps.genericMeeting.isRCV;
+
     const isAllOptionDisabled = !!(
       disabled ||
       !this.meeting?.isMeetingPasswordValid ||
-      (this._deps.genericMeeting.ready &&
-        this._deps.genericMeeting.isScheduling) ||
-      (this._deps.connectivityMonitor &&
-        !this._deps.connectivityMonitor.connectivity) ||
-      (this._deps.rateLimiter && this._deps.rateLimiter.throttling)
+      this.isUnavailable
     );
 
-    // @ts-expect-error TS(2345): Argument of type 'GenericMeetingContainerProps' is... Remove this comment to see the full error message
-    const config = isRCM ? this.getRcmConfig(props) : this.getRcvConfig(props);
+    const config = this.isRCM
+      ? // @ts-expect-error TS(2345): Argument of type 'GenericMeetingContainerProps' is... Remove this comment to see the full error message
+        this.getRcmConfig(props)
+      : this.getRcvConfig(props);
 
     return {
-      isRCV,
-      isRCM,
+      isRCV: this.isRCV,
+      isRCM: this.isRCM,
       showWhen,
       showTopic,
       showDuration,
@@ -240,14 +364,14 @@ export class GenericMeetingUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
       enablePersonalMeeting:
         this._deps.genericMeeting.ready &&
         this._deps.genericMeeting.enablePersonalMeeting,
-      // @ts-expect-error TS(2322): Type 'string | false' is not assignable to type 's... Remove this comment to see the full error message
-      personalMeetingId:
-        this._deps.genericMeeting.ready &&
-        this._deps.genericMeeting.personalMeetingId,
+      personalMeeting: this.personalMeetingSettings,
+      personalMeetingId: this._deps.genericMeeting?.personalMeetingId ?? '',
+      personalMeetingName: this._deps.genericMeeting?.personalMeetingName ?? '',
+      personalMeetingLink: this._deps.genericMeeting?.personalMeetingLink ?? '',
       showSpinner: !!(
         !this._deps.locale.ready ||
         !this._deps.genericMeeting.ready ||
-        (!isRCM && !isRCV) ||
+        (!this.isRCM && !this.isRCV) ||
         !this._deps.genericMeeting.meeting ||
         (this._deps.connectivityMonitor &&
           !this._deps.connectivityMonitor.ready) ||
@@ -280,8 +404,7 @@ export class GenericMeetingUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
         this._deps.genericMeeting.updateScheduleFor(userExtensionId),
       // TODO: any is reserved for RcM
       updateMeetingSettings: (value: RcMMeetingModel | RcVMeetingModel) => {
-        this._deps.genericMeeting.updateHasSettingsChanged(true);
-        this._deps.genericMeeting.updateMeetingSettings(value);
+        this.updateMeetingSettings(value);
       },
       validatePasswordSettings: (
         password: string,
@@ -332,8 +455,11 @@ export class GenericMeetingUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
             'pmiChangeConfirmed',
             currentLocale,
           ),
-          cancelButtonText: i18n.getString('pmiChangeCancel', currentLocale),
+          cancelButtonText: i18n.getString('cancel', currentLocale),
         });
+      },
+      onPasswordChangeClick: async () => {
+        this.showPasswordChangeModal();
       },
     };
   }
@@ -341,6 +467,14 @@ export class GenericMeetingUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
   get meeting() {
     return (
       (this._deps.genericMeeting.ready && this._deps.genericMeeting.meeting) ||
+      {}
+    );
+  }
+
+  get personalMeetingSettings() {
+    return (
+      (this._deps.genericMeeting.ready &&
+        this._deps.genericMeeting.personalMeetingSettings) ||
       {}
     );
   }
@@ -355,5 +489,41 @@ export class GenericMeetingUI<T extends Deps = Deps> extends RcUIModuleV2<T> {
 
   get isSmallScreen() {
     return document.body.clientWidth < 290;
+  }
+
+  @computed((that: GenericMeetingUI) => [that._deps.genericMeeting.isRCM])
+  get isRCM() {
+    return this._deps.genericMeeting.isRCM;
+  }
+
+  @computed((that: GenericMeetingUI) => [that._deps.genericMeeting.isRCV])
+  get isRCV() {
+    return this._deps.genericMeeting.isRCV;
+  }
+
+  @computed(
+    ({
+      _deps: { genericMeeting, rateLimiter, connectivityMonitor },
+    }: GenericMeetingUI) => [
+      genericMeeting.ready,
+      genericMeeting.isScheduling,
+      connectivityMonitor.ready,
+      connectivityMonitor.connectivity,
+      rateLimiter.ready,
+      rateLimiter.throttling,
+    ],
+  )
+  get isUnavailable() {
+    return (
+      (this._deps.genericMeeting.ready &&
+        this._deps.genericMeeting.isScheduling) ||
+      (this._deps.connectivityMonitor.ready &&
+        !this._deps.connectivityMonitor.connectivity) ||
+      (this._deps.rateLimiter.ready && this._deps.rateLimiter.throttling)
+    );
+  }
+
+  actionAfterUpdateMeetingPassword() {
+    // TODO: add action after update meeting password
   }
 }

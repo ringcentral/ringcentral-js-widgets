@@ -15,7 +15,7 @@ describe('IssuesTrackingPanel', () => {
       ConfirmPanelProps: {},
     };
     render(<IssuesTrackingPanel {...mockProps} />);
-    expect(screen.getByText('Having issues?')).toBeInTheDocument();
+    expect(screen.getByText('Contact support')).toBeInTheDocument();
     expect(screen.getByTestId('backButton')).toBeInTheDocument();
   });
 

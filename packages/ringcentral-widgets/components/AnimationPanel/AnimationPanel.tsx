@@ -13,11 +13,13 @@ export const AnimationPanel: FunctionComponent<AnimationPanelProps> = ({
   className,
   open,
   style,
+  ...rest
 }) => {
   return (
     <div
       className={clsx(styles.root, open ? styles.active : null, className)}
       style={style}
+      data-sign={(rest as any)['data-sign']}
     >
       {children}
     </div>
