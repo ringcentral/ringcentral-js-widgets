@@ -8,13 +8,13 @@ import type {
   ObjectMapKey,
   ObjectMapValue,
 } from '@ringcentral-integration/core/lib/ObjectMap';
-import { sleep } from '@ringcentral-integration/utils';
+import { base64ToFile, sleep } from '@ringcentral-integration/utils';
 import type { ApiError } from '@ringcentral/sdk';
 import { EventEmitter } from 'events';
 import { find } from 'ramda';
 import type CreatePagerMessageRequest from 'ringcentral-client/build/definitions/CreatePagerMessageRequest';
 import type GetMessageInfoResponse from 'ringcentral-client/build/definitions/GetMessageInfoResponse';
-import * as uuid from 'uuid';
+import { v4 } from 'uuid';
 
 import { trackEvents } from '../../enums/trackEvents';
 import chunkMessage from '../../lib/chunkMessage';
@@ -38,7 +38,7 @@ export const MULTIPART_MESSAGE_MAX_LENGTH = MESSAGE_MAX_LENGTH * 5;
 
 const SENDING_THRESHOLD = 30;
 
-export const ATTACHMENT_SIZE_LIMITATION = 1500000;
+export const ATTACHMENT_SIZE_LIMITATION = 1.5 * 1024 * 1024;
 
 /**
  * @class
@@ -259,7 +259,7 @@ export class MessageSender extends RcModuleV2<Deps> {
     multipart?: boolean;
     attachments?: Attachment[];
   }) {
-    const eventId = uuid.v4();
+    const eventId = v4();
     if (!this._validateContent(text, attachments, multipart)) {
       return null;
     }
@@ -272,6 +272,7 @@ export class MessageSender extends RcModuleV2<Deps> {
       const phoneNumbers = validateToNumberResult.noExtNumbers;
       if (extensionNumbers.length > 0 && attachments.length > 0) {
         this._alertWarning(messageSenderMessages.noAttachmentToExtension);
+        this._smsSentError();
         return null;
       }
 
@@ -383,24 +384,30 @@ export class MessageSender extends RcModuleV2<Deps> {
     text: string;
     attachments?: Attachment[];
   }): Promise<GetMessageInfoResponse> {
-    const formData = new FormData();
     const body = {
       from: { phoneNumber: fromNumber },
       to: [{ phoneNumber: toNumber }],
       text,
     };
-    formData.append(
-      'json',
-      new Blob([JSON.stringify(body, null, 2)], { type: 'application/json' }),
+    // in some device, the file instance is broken, so we use base64 first
+    const attachment = attachments.map((attachment) =>
+      attachment.base64Url
+        ? base64ToFile(attachment.base64Url, attachment.name)
+        : attachment.file,
     );
-    attachments.forEach((attachment) => {
-      formData.append('attachment', attachment.file);
-    });
+    const responseData = await this._deps.client.multipart.post(
+      '/restapi/v1.0/account/~/extension/~/mms',
+      {
+        fields: {
+          json: body,
+        },
+        files: {
+          attachment,
+        },
+      },
+    );
 
-    const response = await this._deps.client.service
-      .platform()
-      .post('/restapi/v1.0/account/~/extension/~/sms', formData);
-    return response.json();
+    return responseData;
   }
 
   @proxify
@@ -477,6 +484,11 @@ export class MessageSender extends RcModuleV2<Deps> {
         if (err.errorCode === 'CMN-408') {
           // MSG-240 : "In order to call this API endpoint, user needs to have [InternalSMS] permission for requested resource."
           this._alertWarning(messageSenderMessages.noInternalSMSPermission);
+        }
+        if (err.errorCode === 'MSG-383') {
+          // MSG-240: International MMS feature is not available
+          // use common error temporarily
+          this._alertWarning(messageSenderMessages.sendError);
         }
         return null;
       });

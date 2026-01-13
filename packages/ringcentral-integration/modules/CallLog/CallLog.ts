@@ -1,3 +1,4 @@
+import type DetailedExtensionPresenceEvent from '@rc-ex/core/lib/definitions/DetailedExtensionPresenceEvent';
 import type ReadUserCallLogParameters from '@rc-ex/core/lib/definitions/ReadUserCallLogParameters';
 import {
   action,
@@ -83,6 +84,10 @@ export class CallLog extends RcModuleV2<Deps> {
       deps,
       storageKey: 'CallLog',
       enableCache: !(deps.callLogOptions?.disableCache ?? false),
+    });
+
+    this._deps.subscription.register(this, {
+      filters: [subscriptionFilters.detailedPresence],
     });
   }
 
@@ -257,16 +262,18 @@ export class CallLog extends RcModuleV2<Deps> {
   override onInitOnce() {
     watch(
       this,
-      () => this._deps.subscription.message,
+      () =>
+        this._deps.subscription.message as
+          | DetailedExtensionPresenceEvent
+          | undefined,
       async (message) => {
         if (
           this.ready &&
-          this._deps.subscription.ready &&
-          // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
+          this._deps.appFeatures.hasReadExtensionCallLog &&
+          message?.event &&
           presenceRegExp.test(message.event) &&
-          message.body &&
-          message.body.activeCalls &&
-          hasEndedCalls(message.body.activeCalls)
+          message.body?.activeCalls &&
+          hasEndedCalls(message.body.activeCalls as ActiveCall[])
         ) {
           const { ownerId } = this._deps.auth;
           await sleep(SYNC_DELAY);
@@ -284,7 +291,6 @@ export class CallLog extends RcModuleV2<Deps> {
   }
 
   async _init() {
-    this.subscribe();
     if (
       (!this._deps.tabManager || this._deps.tabManager.active) &&
       (!this.timestamp || Date.now() - this.timestamp > this.refreshLock)
@@ -296,15 +302,6 @@ export class CallLog extends RcModuleV2<Deps> {
       }
     } else if (this._polling) {
       this._startPolling();
-    }
-  }
-
-  /**
-   * For a temporal solution for sub module to do subscribe message manually
-   */
-  protected subscribe() {
-    if (this._deps.subscription) {
-      this._deps.subscription.subscribe([subscriptionFilters.detailedPresence]);
     }
   }
 

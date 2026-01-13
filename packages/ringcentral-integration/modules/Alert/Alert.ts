@@ -4,7 +4,7 @@ import {
   RcModuleV2,
   state,
 } from '@ringcentral-integration/core';
-import * as uuid from 'uuid';
+import { v4 } from 'uuid';
 
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
@@ -92,7 +92,7 @@ export class Alert extends RcModuleV2<Deps> {
     onBackdropClick,
     action = this._deps.alertOptions?.action,
   }: Options) {
-    const id = uuid.v4();
+    const id = v4();
     this._alert({
       message,
       payload,

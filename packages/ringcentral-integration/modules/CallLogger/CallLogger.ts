@@ -51,8 +51,7 @@ const DEFAULT_OPACITY = 20;
 export class CallLogger<T extends Deps = Deps> extends LoggerBase<T> {
   protected _customMatcherHooks: Hook[] = [];
 
-  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
-  protected _identityFunction = callIdentityFunction;
+  protected override _identityFunction = callIdentityFunction;
 
   _logFunction = this._deps.callLoggerOptions.logFunction;
 

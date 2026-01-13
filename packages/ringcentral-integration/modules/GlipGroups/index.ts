@@ -1,18 +1,19 @@
 import { sleep } from '@ringcentral-integration/utils';
 
 import moduleStatuses from '../../enums/moduleStatuses';
+import { subscriptionFilters } from '../../enums/subscriptionFilters';
 import Pollable from '../../lib/Pollable';
 import { Module } from '../../lib/di';
 import ensureExist from '../../lib/ensureExist';
 import { isBlank } from '../../lib/isBlank';
-import proxify from '../../lib/proxy/proxify';
+import { proxify } from '../../lib/proxy/proxify';
 import { selector } from '../../lib/selector';
+import type { WebSocketSubscription as Subscription } from '../WebSocketSubscription';
 
 import { actionTypes } from './actionTypes';
 import getReducer, { getDataReducer, getTimestampReducer } from './getReducer';
 
 const glipGroupRegExp = /glip\/groups$/;
-const subscriptionFilter = '/restapi/v1.0/glip/groups';
 
 const DEFAULT_PER_PAGE = 20;
 const DEFAULT_TTL = 30 * 60 * 1000;
@@ -121,7 +122,6 @@ export default class GlipGroups extends Pollable {
   _dataStorageKey: any;
   _glipPersons: any;
   _glipPosts: any;
-  _lastMessage: any;
   _perPage: any;
   _polling: any;
   _preloadPosts: any;
@@ -131,8 +131,7 @@ export default class GlipGroups extends Pollable {
   _readyCheckFn: any;
   _recordCountPerReq: any;
   _storage: any;
-  _subscription: any;
-  _subscriptionFilters: any;
+  _subscription: Subscription;
   _timeToRetry: any;
   _timestampStorageKey: any;
   _ttl: any;
@@ -182,9 +181,7 @@ export default class GlipGroups extends Pollable {
     this._preloadPostsDelayTtl = preloadPostsDelayTtl;
 
     this._promise = null;
-    this._lastMessage = null;
 
-    this._subscriptionFilters = [subscriptionFilter];
     if (!disableCache) {
       this._storage = storage;
     }
@@ -215,9 +212,13 @@ export default class GlipGroups extends Pollable {
     }
   }
 
-  // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
-  initialize() {
+  override initialize() {
     this.store.subscribe(() => this._onStateChange());
+
+    this._subscription.register(this, {
+      filters: [subscriptionFilters.glipGroups],
+      handler: (message) => this._handleSubscription(message),
+    });
   }
 
   // @ts-expect-error TS(4114): This member must have an 'override' modifier becau... Remove this comment to see the full error message
@@ -238,8 +239,6 @@ export default class GlipGroups extends Pollable {
       this.store.dispatch({
         type: this.actionTypes.resetSuccess,
       });
-    } else if (this._shouldHandleSubscriptionMessage()) {
-      this._processSubscription();
     } else if (
       this.ready &&
       this._connectivityMonitor &&
@@ -290,16 +289,6 @@ export default class GlipGroups extends Pollable {
     );
   }
 
-  _shouldHandleSubscriptionMessage() {
-    return !!(
-      this.ready &&
-      this._subscription &&
-      this._subscription.ready &&
-      this._subscription.message &&
-      this._subscription.message !== this._lastMessage
-    );
-  }
-
   _onDataReady() {
     if (this._glipPersons) {
       this._glipPersons.loadPersons(this.groupMemberIds);
@@ -311,7 +300,7 @@ export default class GlipGroups extends Pollable {
     }
   }
 
-  async _subscriptionHandleFn(message: any) {
+  async _handleSubscription(message: any) {
     if (
       message &&
       glipGroupRegExp.test(message.event) &&
@@ -366,17 +355,9 @@ export default class GlipGroups extends Pollable {
     } else {
       this._retry();
     }
-    if (this._subscription && this._subscriptionFilters) {
-      this._subscription.subscribe(this._subscriptionFilters);
-    }
     if (this._connectivityMonitor) {
       this._connectivity = this._connectivityMonitor.connectivity;
     }
-  }
-
-  _processSubscription() {
-    this._lastMessage = this._subscription.message;
-    this._subscriptionHandleFn(this._lastMessage);
   }
 
   async _preloadGroupPosts(force: any) {

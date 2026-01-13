@@ -24,8 +24,8 @@ import type { NumberValidate } from '../NumberValidate';
 import type { Presence } from '../Presence';
 import type { RegionSettings } from '../RegionSettings';
 import type { Storage } from '../Storage';
-import type { Subscription } from '../Subscription';
 import type { TabManager } from '../TabManager';
+import type { WebSocketSubscription as Subscription } from '../WebSocketSubscription';
 import type { Webphone } from '../Webphone';
 
 export interface ActiveCallControlOptions {

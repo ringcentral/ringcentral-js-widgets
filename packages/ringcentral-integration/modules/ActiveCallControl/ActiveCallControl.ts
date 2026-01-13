@@ -36,10 +36,7 @@ import { callErrors } from '../Call/callErrors';
 import type { MessageBase } from '../Subscription';
 import { sessionStatus } from '../Webphone/sessionStatus';
 import { webphoneErrors } from '../Webphone/webphoneErrors';
-import {
-  extractHeadersData,
-  normalizeSession as normalizeWebphoneSession,
-} from '../Webphone/webphoneHelper';
+import { normalizeSession as normalizeWebphoneSession } from '../Webphone/webphoneHelper';
 
 import type {
   ActiveCallControlSessionData,
@@ -128,6 +125,10 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
       deps,
       enableCache: deps.activeCallControlOptions?.enableCache ?? true,
       storageKey: 'activeCallControl',
+    });
+
+    this._deps.subscription.register(this, {
+      filters: [subscribeEvent],
     });
   }
 
@@ -314,7 +315,6 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
   override async onInit() {
     if (!this.hasPermission) return;
 
-    await this._deps.subscription.subscribe([subscribeEvent]);
     this._rcCall = this._initRcCall();
 
     if (this._shouldFetch()) {
@@ -432,7 +432,7 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
   }
 
   _subscriptionHandler() {
-    let { message } = this._deps.subscription;
+    let message = this._deps.subscription.message as MessageBase | undefined;
     if (
       message &&
       // FIXME: is that object compare is fine, should confirm that?
@@ -1042,22 +1042,10 @@ export class ActiveCallControl extends RcModuleV2<Deps> {
   }
 
   @track((_, params: ReplyWithTextParams) => {
-    let messageType = 'End-User Custom Message';
-    if (params.replyWithPattern) {
-      const pattern = params.replyWithPattern?.pattern;
-      if (
-        pattern === ReplyWithPattern.inAMeeting ||
-        pattern === ReplyWithPattern.onMyWay
-      ) {
-        messageType = 'Default Static Message';
-      } else {
-        messageType = 'Default Dynamic Message';
-      }
-    }
     return [
       trackEvents.executionReplyWithMessage,
       {
-        'Message Type': messageType,
+        'message type': params.replyWithPattern ? 'Pattern' : 'Custom',
       },
     ];
   })

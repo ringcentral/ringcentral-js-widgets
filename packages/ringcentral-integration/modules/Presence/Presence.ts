@@ -125,6 +125,10 @@ export class Presence extends DataFetcherV2Consumer<Deps, PresenceInfoModel> {
       threshold: this._fetchDelay,
       maxThreshold: this._maxFetchDelay,
     });
+
+    this._deps.subscription.register(this, {
+      filters: [this._endPoint],
+    });
   }
 
   @storage
@@ -199,12 +203,12 @@ export class Presence extends DataFetcherV2Consumer<Deps, PresenceInfoModel> {
     }, removeIntermediateCall([], activeCalls));
   }
 
-  protected _handleSubscription(message: DetailedExtensionPresenceEvent) {
+  protected _handleSubscription(message?: DetailedExtensionPresenceEvent) {
     const regExp = this._detailed ? detailedPresenceRegExp : presenceRegExp;
     if (
       this.ready &&
       (this._source.disableCache || (this._deps.tabManager?.active ?? true)) &&
-      // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
+      message?.event &&
       regExp.test(message.event) &&
       message.body
     ) {
@@ -253,7 +257,6 @@ export class Presence extends DataFetcherV2Consumer<Deps, PresenceInfoModel> {
   }
 
   override onInit() {
-    this._deps.subscription.subscribe([this._endPoint]);
     this._stopWatchingConnectivity = watch(
       this,
       () => this._deps.connectivityMonitor.connectivity,
@@ -261,7 +264,10 @@ export class Presence extends DataFetcherV2Consumer<Deps, PresenceInfoModel> {
     );
     this._stopWatchingSubscription = watch(
       this,
-      () => this._deps.subscription.message,
+      () =>
+        this._deps.subscription.message as
+          | DetailedExtensionPresenceEvent
+          | undefined,
       (message) => this._handleSubscription(message),
     );
   }
@@ -462,7 +468,8 @@ export class Presence extends DataFetcherV2Consumer<Deps, PresenceInfoModel> {
   }
 
   get userStatus() {
-    return this.data?.userStatus;
+    // for displaying the presence, we should use presenceStatus instead
+    return this.data?.presenceStatus;
   }
 
   get presenceStatus() {

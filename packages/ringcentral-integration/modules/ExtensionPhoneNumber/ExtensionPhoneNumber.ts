@@ -49,9 +49,13 @@ export class ExtensionPhoneNumber extends DataFetcherV2Consumer<
           ?.available ?? false,
     });
     this._deps.dataFetcherV2.register(this._source);
+
+    this._deps.subscription.register(this, {
+      filters: [subscriptionFilters.extensionInfo],
+    });
   }
 
-  protected _handleSubscription(message: ExtensionInfoEvent) {
+  protected _handleSubscription(message?: ExtensionInfoEvent) {
     if (
       this.ready &&
       (this._source.disableCache || (this._deps.tabManager?.active ?? true)) &&
@@ -62,10 +66,9 @@ export class ExtensionPhoneNumber extends DataFetcherV2Consumer<
   }
 
   override onInit() {
-    this._deps.subscription.subscribe([subscriptionFilters.extensionInfo]);
     this._stopWatching = watch(
       this,
-      () => this._deps.subscription.message,
+      () => this._deps.subscription.message as ExtensionInfoEvent | undefined,
       (newMessage) => this._handleSubscription(newMessage),
     );
   }

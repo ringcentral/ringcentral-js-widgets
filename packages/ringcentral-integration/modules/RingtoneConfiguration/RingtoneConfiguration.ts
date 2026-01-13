@@ -10,18 +10,23 @@ import {
 import { trackEvents } from '../../enums/trackEvents';
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
+import { audioSettingsErrors } from '../AudioSettings';
 
 import type {
   AudioInfo,
   Deps,
   RingtoneItem,
 } from './RingtoneConfiguration.interface';
-import { DEFAULT_RINGTONE_LIST, RINGS_TYPE } from './const';
+import {
+  DEFAULT_RINGTONE_LIST,
+  MAX_CUSTOM_RINGTONE_COUNT,
+  RINGS_TYPE,
+} from './const';
 import { getFileNameWithoutExt } from './helper';
 
 @Module({
   name: 'RingtoneConfiguration',
-  deps: ['Storage', 'AudioSettings', 'Webphone'],
+  deps: ['Storage', 'Webphone', 'Alert'],
 })
 export class RingtoneConfiguration extends RcModuleV2<Deps> {
   constructor(deps: Deps) {
@@ -75,24 +80,40 @@ export class RingtoneConfiguration extends RcModuleV2<Deps> {
   @track(trackEvents.deleteRingtone)
   @proxify
   async removeCustomRingtone(id: string) {
+    const hasCustomRingtone = this.customRingtoneList.find(
+      (ringtone) => ringtone.id === id,
+    );
+    if (!id || !hasCustomRingtone) {
+      this.showDangerAlert(audioSettingsErrors.deleteRingtoneFailed);
+    }
     this._removeCustomRingtone(id);
+    // if the remove one the selected ringtone, set the first default ringtone as selected
+    if (id === this.selectedRingtoneId) {
+      this.setSelectedRingtoneId(this.defaultRingtoneList[0].id);
+      this.updateIncomingRingtone();
+    }
+  }
+
+  @proxify
+  async showDangerAlert(message: string) {
+    this._deps.alert.danger({
+      message,
+      allowDuplicates: false,
+    });
   }
 
   @proxify
   async updateIncomingRingtone() {
+    const selectedRingtoneAudio = this.getSelectedRingtoneAudio();
     if (
-      this.selectedRingtoneAudio &&
-      this.selectedRingtoneAudio.dataUrl !== this._deps.webphone.incomingAudio
+      selectedRingtoneAudio &&
+      selectedRingtoneAudio.dataUrl !== this._deps.webphone.incomingAudio
     ) {
-      this._deps.webphone.setIncomingAudio(this.selectedRingtoneAudio);
+      this._deps.webphone.setIncomingAudio(selectedRingtoneAudio);
     }
   }
 
-  @computed((that: RingtoneConfiguration) => [
-    that.fullRingtoneList,
-    that.selectedRingtoneId,
-  ])
-  get selectedRingtoneAudio(): AudioInfo | null {
+  getSelectedRingtoneAudio(): AudioInfo | null {
     const ringtone = this.fullRingtoneList.find(
       (ringtone) => ringtone.id === this.selectedRingtoneId,
     );
@@ -140,6 +161,17 @@ export class RingtoneConfiguration extends RcModuleV2<Deps> {
   get enableCustomRingtone() {
     return (
       this._deps.ringtoneConfigurationOptions?.enableCustomRingtone ?? true
+    );
+  }
+
+  @computed((that: RingtoneConfiguration) => [
+    that.enableCustomRingtone,
+    that.customRingtoneList,
+  ])
+  get isUploadRingtoneDisabled() {
+    return (
+      this.enableCustomRingtone &&
+      this.customRingtoneList.length >= MAX_CUSTOM_RINGTONE_COUNT
     );
   }
 }

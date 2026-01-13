@@ -1,4 +1,5 @@
 import type GetMessageInfoResponse from '@rc-ex/core/lib/definitions/GetMessageInfoResponse';
+import type MessageEvent from '@rc-ex/core/lib/definitions/MessageEvent';
 import { computed, track, watch } from '@ringcentral-integration/core';
 import { sleep } from '@ringcentral-integration/utils';
 import type { ApiError } from '@ringcentral/sdk';
@@ -117,15 +118,13 @@ export class MessageStore<T extends Deps = Deps> extends DataFetcherV2Consumer<
       fetchFunction: async () => this._syncData(),
     });
     this._deps.dataFetcherV2.register(this._source);
-  }
 
-  override onInit() {
-    if (this._hasPermission) {
-      this._deps.subscription.subscribe([
+    this._deps.subscription.register(this, {
+      filters: [
         subscriptionFilters.messageStore,
         subscriptionFilters.instantMessage,
-      ]);
-    }
+      ],
+    });
   }
 
   override onInitOnce() {
@@ -142,26 +141,25 @@ export class MessageStore<T extends Deps = Deps> extends DataFetcherV2Consumer<
     }
     watch(
       this,
-      () => this._deps.subscription.message,
+      () => this._deps.subscription.message as MessageEvent | undefined,
       async (newValue) => {
         if (
+          !newValue ||
           !this.ready ||
+          !this._hasPermission ||
           (this._deps.tabManager && !this._deps.tabManager.active)
         ) {
           return;
         }
         const messageStoreEvent = /\/message-store$/;
         const instantMessageEvent = /\/message-store\/instant\?type=SMS$/;
-        if (
-          messageStoreEvent.test(newValue?.event!) &&
-          newValue.body?.changes
-        ) {
+        if (messageStoreEvent.test(newValue.event!) && newValue.body?.changes) {
           try {
             await this.fetchData({ passive: true });
           } catch (ex) {
             console.error('[MessageStore] > subscription > fetchData', ex);
           }
-        } else if (instantMessageEvent.test(newValue?.event!)) {
+        } else if (instantMessageEvent.test(newValue.event!)) {
           this.pushMessage(messageHelper.normalizeInstantEvent(newValue));
         }
       },
@@ -218,17 +216,17 @@ export class MessageStore<T extends Deps = Deps> extends DataFetcherV2Consumer<
         if (isDeleted && message.id === oldConversation.messageId) {
           // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
           const oldMessageList = conversationStore[id] || [];
-          const exsitedMessageList = oldMessageList.filter(
+          const existedMessageList = oldMessageList.filter(
             (m: any) => m.id !== message.id,
           );
-          if (exsitedMessageList.length > 0) {
+          if (existedMessageList.length > 0) {
             // @ts-expect-error TS(2538): Type 'undefined' cannot be used as an index type.
             newState[stateMap[id].index] = {
               // @ts-expect-error TS(2322): Type 'string | undefined' is not assignable to typ... Remove this comment to see the full error message
               id,
-              creationTime: exsitedMessageList[0].creationTime,
-              type: exsitedMessageList[0].type,
-              messageId: exsitedMessageList[0].id,
+              creationTime: existedMessageList[0].creationTime,
+              type: existedMessageList[0].type,
+              messageId: existedMessageList[0].id,
             };
             return;
           }
@@ -546,44 +544,6 @@ export class MessageStore<T extends Deps = Deps> extends DataFetcherV2Consumer<
       .messageStore(messageId)
       .delete();
     return response;
-  }
-
-  sliceConversations() {
-    const conversationIds = Object.keys(this.conversationStore);
-    const messages = conversationIds.reduce(
-      (acc, id) => acc.concat(this.conversationStore[id]),
-      [] as Messages,
-    );
-    const messageIds = this._messagesFilter(messages).map(
-      (item: Message) => item.id,
-    );
-    const conversationList = (this.data?.conversationList ?? []).filter(
-      ({ messageId }) => messageIds.indexOf(messageId) > -1,
-    );
-    const conversationStore = Object.keys(this.conversationStore).reduce(
-      (acc, key) => {
-        const messages = this.conversationStore[key];
-        const persist = messages.filter(
-          ({ id }) => messageIds.indexOf(id) > -1,
-        );
-        if (!persist.length) {
-          return acc;
-        }
-        acc[key] = persist;
-        return acc;
-      },
-      {} as Record<string, Messages>,
-    );
-    this._deps.dataFetcherV2.updateData(
-      this._source,
-      {
-        ...this.data,
-        conversationList,
-        conversationStore,
-      },
-      // @ts-expect-error TS(2345): Argument of type 'number | null' is not assignable... Remove this comment to see the full error message
-      this.timestamp,
-    );
   }
 
   /**

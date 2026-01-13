@@ -261,10 +261,19 @@ export class AudioSettings extends RcModuleV2<Deps> {
   @proxify
   async setAutoGainControl(isAGCEnabled: boolean) {
     try {
+      const constraints = isAGCEnabled
+        ? { autoGainControl: true }
+        : {
+            autoGainControl: false,
+            /**
+             * https://stackoverflow.com/questions/44307432/how-to-disable-system-audio-enhancements-using-webrtc
+             * disable system audio enhancements using webRTC
+             */
+            googAutoGainControl: false,
+            googAutoGainControl2: false,
+          };
       await navigator.mediaDevices.getUserMedia({
-        audio: {
-          autoGainControl: isAGCEnabled,
-        },
+        audio: constraints,
       });
     } catch (err) {
       console.warn(`setAutoGainControl error:`, err);
@@ -350,18 +359,14 @@ export class AudioSettings extends RcModuleV2<Deps> {
   }
 
   @proxify
-  async checkAudioAvailable() {
+  async checkAudioAvailable(options: { checkIfNoDevices: boolean }) {
     if (!this.userMedia) {
       this.showPermissionAlert(30 * 1000);
+      if (!options.checkIfNoDevices) {
+        return;
+      }
     }
     this.getUserMedia();
-  }
-
-  @proxify
-  async showAlert() {
-    if (!this.userMedia) {
-      this.showPermissionAlert(30 * 1000);
-    }
   }
 
   @proxify

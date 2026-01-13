@@ -1,4 +1,9 @@
-import { action, RcModuleV2, state } from '@ringcentral-integration/core';
+import {
+  action,
+  RcModuleV2,
+  state,
+  computed,
+} from '@ringcentral-integration/core';
 import { getBlobURL } from '@ringcentral-integration/utils';
 
 import { Module } from '../../lib/di';
@@ -101,6 +106,7 @@ export class VolumeInspector extends RcModuleV2<Deps> {
     }
   }
 
+  @proxify
   private async setupAudioDetector() {
     if (!this.audioEl) {
       console.warn('Can not setup AudioDetector - no audio element.');
@@ -119,8 +125,36 @@ export class VolumeInspector extends RcModuleV2<Deps> {
       .start();
   }
 
+  @proxify
+  async handleTestMicroClick(testState: TEST_STATE) {
+    switch (testState) {
+      case TEST_STATE.IDLE:
+        this.startRecording();
+        break;
+      case TEST_STATE.RECORDS_AUDIO:
+        this.stopRecording();
+        break;
+      case TEST_STATE.PLAYS_AUDIO:
+        this.completeTest();
+        break;
+    }
+  }
+
+  @proxify
+  async handleTestSpeakerClick(testState: TEST_STATE) {
+    switch (testState) {
+      case TEST_STATE.IDLE:
+        this.startPlaySampleAudio();
+        break;
+      case TEST_STATE.PLAYS_AUDIO:
+        this.completeTest();
+        break;
+    }
+  }
+
+  @proxify
   // only for test speaker
-  public startPlaySampleAudio() {
+  async startPlaySampleAudio() {
     this.setType(TEST_TYPE.speaker);
     this.startPlayback(
       this._sampleAudioBlobUrl,
@@ -128,7 +162,8 @@ export class VolumeInspector extends RcModuleV2<Deps> {
     );
   }
 
-  protected startPlayback = async (src: string, volume?: number) => {
+  @proxify
+  async startPlayback(src: string, volume?: number) {
     this.setTestState(TEST_STATE.PLAYS_AUDIO);
     try {
       this.audioEl.src = src;
@@ -150,13 +185,14 @@ export class VolumeInspector extends RcModuleV2<Deps> {
       console.warn('Recording play failed', e);
       this.completeTest();
     }
-  };
+  }
 
   protected setVolumeCb = (volume: number) => {
     this.setVolume(volume);
   };
 
-  protected stopPlayback = () => {
+  @proxify
+  async stopPlayback() {
     if (this.audioEl) {
       this.audioEl.pause();
     }
@@ -169,14 +205,16 @@ export class VolumeInspector extends RcModuleV2<Deps> {
     }
     this.detectorListenDisposer?.();
     this.detectorListenDisposer = null;
-  };
+  }
 
-  private readonly onRecordingComplete = (src: string) => {
+  @proxify
+  async onRecordingComplete(src: string) {
     this.micLevel.clear();
     this.startPlayback(src);
-  };
+  }
 
-  startRecording = async () => {
+  @proxify
+  async startRecording() {
     this.setType(TEST_TYPE.microphone);
     this.setTestState(TEST_STATE.RECORDS_AUDIO);
     let stream;
@@ -194,10 +232,13 @@ export class VolumeInspector extends RcModuleV2<Deps> {
       this.mediaRecorderHelper.startRecording(stream);
     } catch (e) {
       console.warn('can not start startRecording', e);
+      this.micLevel!.clear();
+      this.completeTest();
     }
-  };
+  }
 
-  stopRecording = () => {
+  @proxify
+  async stopRecording() {
     try {
       this.mediaRecorderHelper.stopRecording();
     } catch (e) {
@@ -205,19 +246,37 @@ export class VolumeInspector extends RcModuleV2<Deps> {
       this.completeTest();
     }
     this.micLevel.clear();
-  };
+  }
 
-  completeTest = () => {
+  @proxify
+  async completeTest() {
     this.doCompleteTest();
-  };
+  }
 
   protected onEnded() {
     this.doCompleteTest();
   }
 
-  private doCompleteTest() {
+  @proxify
+  private async doCompleteTest() {
     this.setType(null);
     this.setTestState(TEST_STATE.IDLE);
     this.stopPlayback();
+  }
+
+  @computed((that: VolumeInspector) => [
+    that.volume,
+    that.countDown,
+    that.testState,
+    that.type,
+  ])
+  get data() {
+    return {
+      volume: this.volume,
+      countDown: this.countDown,
+      testState: this.testState,
+      isRecording: this.testState === TEST_STATE.RECORDS_AUDIO,
+      type: this.type,
+    };
   }
 }

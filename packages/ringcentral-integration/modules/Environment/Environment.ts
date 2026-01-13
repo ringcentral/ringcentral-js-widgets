@@ -2,6 +2,7 @@ import {
   action,
   globalStorage,
   RcModuleV2,
+  removeSDKNonISO8859Chars,
   state,
 } from '@ringcentral-integration/core';
 import { SDK } from '@ringcentral/sdk';
@@ -91,7 +92,7 @@ export class Environment extends RcModuleV2<Deps> {
         await discovery.removeInitialData?.();
       }
     }
-    this._deps.client.service = new SDK(sdkConfig);
+    this._deps.client.service = new SDK(removeSDKNonISO8859Chars(sdkConfig));
     if (sdkConfig.enableDiscovery && sdkConfig.discoveryAutoInit === false) {
       // make sure to init discovery API if discoveryAutoInit is deliberately set to false
       this._deps.client.service.platform().initDiscovery();
@@ -158,8 +159,20 @@ export class Environment extends RcModuleV2<Deps> {
     return isWithinTwoHours;
   }
 
+  /**
+   * when that be true, the data tracking will not auto be tracked, will base on `allowDataTracking` setting to decide whether to track data
+   */
   get useDataTrackingSetting() {
-    return this._deps.environmentOptions?.useDataTrackingSetting;
+    return Boolean(
+      // in production mode, use data tracking setting to avoid data tracking in those test environment
+      ((process.env.NODE_ENV === 'production' ||
+        // also in test mode same as production to able to test that
+        process.env.NODE_ENV === 'test') &&
+        process.env.BUILD_ENVIRONMENT &&
+        ['dev', 'local', 'reg'].includes(process.env.BUILD_ENVIRONMENT)) ||
+        // in development mode always use data tracking setting, to avoid data tracking in dev mode
+        process.env.NODE_ENV === 'development',
+    );
   }
 
   protected get _defaultRecordingHost() {

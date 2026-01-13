@@ -1,5 +1,6 @@
 import type { LocaleCode } from '@ringcentral-integration/locale-settings';
 import type { PaletteReturnType, RcThemeInput } from '@ringcentral/juno';
+import type { Theme } from '@ringcentral/spring-theme';
 
 export const I18nFlag = '__i18n__';
 
@@ -152,7 +153,11 @@ export interface BrandConfig {
   /**
    * Privacy Notice link
    */
-  privacyNotice?: UrlString;
+  privacyNotice?: I18nStrings<UrlString> | UrlString;
+  /**
+   * Support link
+   */
+  supportLink?: I18nStrings<UrlString> | UrlString;
   /**
    * Privacy Notice label
    */
@@ -261,6 +266,19 @@ export interface BrandConfig {
      * * make sure you need update that, all token should always get from Juno theme, prevent to use that
      */
     variable?: CssModuleVariable;
+    /**
+     * force to use the IDB theme, even if there are enable BSS data enable
+     *
+     * only use for spring-ui theme
+     * @default false
+     */
+    force?: boolean;
+    /**
+     * spring-ui theme map, use for some project which not support BSS generator
+     */
+    suiThemeMap?: {
+      light: Theme;
+    };
   };
   /**
    * assets path array
@@ -307,6 +325,14 @@ export interface BrandConfig {
    * Extension V3 upgrade knowledge base article link
    */
   extV3KBLink?: string;
+  /**
+   * for firefox and google extension
+   */
+  substituteName?: any;
+  /**
+   * integration console endpoint
+   */
+  integrationConsoleEndpoint?: string;
 }
 
 export type SubBrandOverride = Partial<

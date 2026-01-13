@@ -59,6 +59,10 @@ export class ActiveCalls extends DataFetcherV2Consumer<Deps, CallLogRecord[]> {
       // throttle the request rate to once every this._fetchDelay ms
       maxThreshold: this._fetchDelay,
     });
+
+    this._deps.subscription.register(this, {
+      filters: [subscriptionFilters.detailedPresence],
+    });
   }
 
   protected get _fetchDelay() {
@@ -68,22 +72,24 @@ export class ActiveCalls extends DataFetcherV2Consumer<Deps, CallLogRecord[]> {
     );
   }
 
-  protected _handleSubscription(message: DetailedExtensionPresenceEvent) {
-    if (presenceRegExp.test(message?.event!)) {
-      if (
-        this.ready &&
-        (this._source.disableCache || (this._deps.tabManager?.active ?? true))
-      ) {
-        this._debouncedFetchData();
-      }
+  protected _handleSubscription(message?: DetailedExtensionPresenceEvent) {
+    if (
+      this.ready &&
+      (this._source.disableCache || (this._deps.tabManager?.active ?? true)) &&
+      message?.event &&
+      presenceRegExp.test(message.event)
+    ) {
+      this._debouncedFetchData();
     }
   }
 
   override onInit() {
-    this._deps.subscription.subscribe([subscriptionFilters.detailedPresence]);
     this._stopWatching = watch(
       this,
-      () => this._deps.subscription.message,
+      () =>
+        this._deps.subscription.message as
+          | DetailedExtensionPresenceEvent
+          | undefined,
       (message) => this._handleSubscription(message),
     );
   }

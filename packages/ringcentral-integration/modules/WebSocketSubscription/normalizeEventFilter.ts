@@ -26,3 +26,16 @@ export function isTheSameWebSocket(firstUrl: string, secondUrl: string) {
       second.searchParams.get('access_token');
   return isEqual;
 }
+
+export function isTheSameEventFilters(filters1: string[], filters2: string[]) {
+  return (
+    filters1
+      .map((x) => normalizeEventFilter(x))
+      .sort()
+      .join(',') ===
+    filters2
+      .map((x) => normalizeEventFilter(x))
+      .sort()
+      .join(',')
+  );
+}

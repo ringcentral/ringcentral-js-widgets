@@ -10,7 +10,7 @@ import Subscriptions from '@ringcentral/subscriptions';
 import type { SubscriptionData } from '@ringcentral/subscriptions/src/subscription/Subscription';
 import { concat, equals, map, uniq } from 'ramda';
 
-import type { subscriptionFilters } from '../../enums/subscriptionFilters';
+import type { SubscriptionFilter } from '../../enums/subscriptionFilters';
 import type {
   DebouncedFunction,
   PromisedDebounceFunction,
@@ -19,7 +19,11 @@ import { debounce, promisedDebounce } from '../../lib/debounce-throttle';
 import { Module } from '../../lib/di';
 import { proxify } from '../../lib/proxy/proxify';
 
-import type { Deps, MessageBase } from './Subscription.interface';
+import type {
+  Deps,
+  MessageBase,
+  SubscriptionMetadata,
+} from './Subscription.interface';
 import { normalizeEventFilter } from './normalizeEventFilter';
 import { subscriptionStatus } from './subscriptionStatus';
 
@@ -53,6 +57,8 @@ export class Subscription extends RcModuleV2<Deps> {
     Subscription['_createSubscriptionWithLock']
   >;
 
+  protected _subscriberMap = new Map<any, SubscriptionMetadata>();
+
   __debugNotification__ = false;
 
   constructor(deps: Deps) {
@@ -78,7 +84,7 @@ export class Subscription extends RcModuleV2<Deps> {
   message: MessageBase = null;
 
   @state
-  filters: ObjectMapValue<typeof subscriptionFilters>[] = [];
+  filters: SubscriptionFilter[] = [];
 
   protected _addFilters(filters: Subscription['filters']) {
     this._setStates({ filters: uniq(concat(filters, this.filters)) });
@@ -153,6 +159,12 @@ export class Subscription extends RcModuleV2<Deps> {
       this._handleSleep,
     );
     this._deps.auth.addBeforeLogoutHandler(this._onBeforeLogout);
+  }
+
+  override async onInitSuccess() {
+    if (this._subscriberMap.size > 0) {
+      this._createSubscriptionWithLock();
+    }
   }
 
   override async onReset() {
@@ -305,22 +317,23 @@ export class Subscription extends RcModuleV2<Deps> {
     }
   }
 
-  protected _shouldUpdateSubscription() {
+  protected _shouldUpdateSubscription(eventFilters: SubscriptionFilter[]) {
     return !!(
       this._subscription &&
       !equals(
         map(normalizeEventFilter, this._subscription.eventFilters()).sort(),
-        map(normalizeEventFilter, this.filters).sort(),
+        map(normalizeEventFilter, eventFilters).sort(),
       )
     );
   }
 
   protected async _register() {
-    if (this._shouldUpdateSubscription()) {
+    const eventFilters = this.getFilters();
+    if (this._shouldUpdateSubscription(eventFilters)) {
       this._setStates({
         status: subscriptionStatus.subscribing,
       });
-      this._subscription.setEventFilters([...this.filters]);
+      this._subscription.setEventFilters([...eventFilters]);
       await this._subscription.register();
     }
   }
@@ -358,5 +371,22 @@ export class Subscription extends RcModuleV2<Deps> {
         await this._createSubscriptionWithLock();
       }
     }
+  }
+
+  register(module: any, metadata: any) {
+    this._subscriberMap.set(module, metadata);
+  }
+
+  getFilters() {
+    // Registered filters
+    let filters = Array.from(this._subscriberMap.values()).reduce<
+      SubscriptionFilter[]
+    >((acc, metadata) => acc.concat(metadata.filters), []);
+
+    filters = filters
+      .concat(this.filters) // Concat subscribed filters
+      .filter((x, index, array) => array.indexOf(x) === index); // remove duplicates
+
+    return filters;
   }
 }

@@ -34,4 +34,5 @@ export interface CallingSettingsOptions {
   showCallWithJupiter?: boolean;
   onFirstLogin?: () => {};
   defaultRingoutPrompt?: boolean;
+  showCustomPhoneLabel?: boolean;
 }

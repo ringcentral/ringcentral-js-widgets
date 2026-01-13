@@ -52,8 +52,12 @@ export const getRcmUriRegExp = (regExpText: string) =>
     'i',
   );
 
+// Regular expression for RingCentral Video meeting URLs, support pmn
+// Examples:
+// - https://v.ringcentral.com/join/123456789
+// - https://v.ringcentral.com/join/asd.f-_g?pw=1234
 export const getRcvUriRegExp = (regExpText: string) =>
   new RegExp(
-    `(https?):\\/\\/${regExpText}(\\/{1,2}\\w+)*(\\/{1,2}(\\d+))(\\?pw=\\w{32})?`,
+    `(https?):\\/\\/${regExpText}(\\/{1,2}\\w+)*(\\/{1,2}(\\w|\\.)+)(\\?pw=\\w+)?`,
     'i',
   );

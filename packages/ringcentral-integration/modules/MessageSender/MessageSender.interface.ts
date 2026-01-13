@@ -41,6 +41,7 @@ export interface Attachment {
   name: string;
   size: number;
   file: File;
+  base64Url?: string;
 }
 
 export interface EventParameter {

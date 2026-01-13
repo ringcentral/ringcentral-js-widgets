@@ -158,6 +158,13 @@ export abstract class AppFeaturesBase<
     );
   }
 
+  get hasSendMMSPermission() {
+    return !!(
+      this._deps.extensionFeatures.features?.MMSSending?.available &&
+      this.config.SMS
+    );
+  }
+
   get hasOutboundSMSPermission() {
     return this.hasSendSMSPermission;
   }

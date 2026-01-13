@@ -1,3 +1,4 @@
+import type { SubscriptionFilter } from '../../enums/subscriptionFilters';
 import type { Auth } from '../Auth';
 import type { SleepDetector } from '../SleepDetector';
 import type { Storage } from '../Storage';
@@ -45,4 +46,9 @@ export interface Deps {
   storage: Storage;
   sleepDetector: SleepDetector;
   subscriptionOptions?: SubscriptionOptions;
+}
+
+export interface SubscriptionMetadata {
+  filters: SubscriptionFilter[];
+  handler?: (message: any) => void;
 }

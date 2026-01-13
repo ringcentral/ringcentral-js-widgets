@@ -4,7 +4,6 @@ import type { GlobalStorage } from '../GlobalStorage';
 
 export interface EnvironmentOptions {
   defaultRecordingHost?: string;
-  useDataTrackingSetting?: boolean;
 }
 
 export interface Deps {

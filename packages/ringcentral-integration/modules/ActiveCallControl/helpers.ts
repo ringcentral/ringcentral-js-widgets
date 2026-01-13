@@ -136,7 +136,9 @@ export function isRinging(
   );
 }
 
-export function isHolding(telephonySession: ActiveCallControlSessionData) {
+export function isHolding(
+  telephonySession: ActiveCallControlSessionData | Session,
+) {
   return telephonySession.status === PartyStatusCode.hold;
 }
 

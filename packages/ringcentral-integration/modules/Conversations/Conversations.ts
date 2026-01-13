@@ -12,7 +12,7 @@ import {
 import type { ObjectMapValue } from '@ringcentral-integration/core/lib/ObjectMap';
 
 import { messageDirection } from '../../enums/messageDirection';
-import { messageTypes } from '../../enums/messageTypes';
+import { messageTypes, type MessageTypes } from '../../enums/messageTypes';
 import type { Message } from '../../interfaces/MessageStore.model';
 import cleanNumber from '../../lib/cleanNumber';
 import { Module } from '../../lib/di';
@@ -178,7 +178,7 @@ export class Conversations extends RcModuleV2<Deps> {
   searchInput = '';
 
   @state
-  typeFilter: ObjectMapValue<typeof messageTypes> = messageTypes.all;
+  typeFilter: MessageTypes = messageTypes.all;
 
   @state
   oldConversations: Message[] = [];
@@ -220,7 +220,7 @@ export class Conversations extends RcModuleV2<Deps> {
   }
 
   @action
-  _updateTypeFilter(typeFilter: ObjectMapValue<typeof messageTypes>) {
+  _updateTypeFilter(typeFilter: MessageTypes) {
     this.typeFilter = typeFilter;
     this.currentPage = 1;
     this.oldConversations = [];
@@ -483,7 +483,7 @@ export class Conversations extends RcModuleV2<Deps> {
   }
 
   @proxify
-  async updateTypeFilter(type: ObjectMapValue<typeof messageTypes>) {
+  async updateTypeFilter(type: MessageTypes) {
     if (this.typeFilter === type) {
       return;
     }
@@ -651,6 +651,14 @@ export class Conversations extends RcModuleV2<Deps> {
     return false;
   }
 
+  _alertDanger(message: string) {
+    this._deps.alert.danger({
+      message,
+      allowDuplicates: false,
+      ttl: 5000,
+    });
+  }
+
   @proxify
   async updateMessageText(text: string) {
     if (text.length > 1000) {
@@ -660,22 +668,37 @@ export class Conversations extends RcModuleV2<Deps> {
     this._updateMessageText(this.currentConversationId, text);
   }
 
-  @proxify
-  async addAttachment(attachment: Attachment) {
-    const attachments = this.attachments;
+  checkAttachmentOverLimit(attachments: Attachment[]) {
+    const oldAttachments = this.attachments;
     // @ts-expect-error TS(2532): Object is possibly 'undefined'.
-    if (attachments.length >= 10) {
-      this._alertWarning(messageSenderMessages.attachmentCountLimitation);
-      return;
+    if (oldAttachments.length + attachments.length > 10) {
+      this._alertDanger(messageSenderMessages.attachmentCountLimitation);
+      return false;
     }
     // @ts-expect-error TS(2532): Object is possibly 'undefined'.
-    const size = attachments.reduce((prev, curr) => {
+    const size = [...oldAttachments, ...attachments].reduce((prev, curr) => {
       return prev + curr.size;
     }, 0);
-    if (size + attachment.size > ATTACHMENT_SIZE_LIMITATION) {
-      this._alertWarning(messageSenderMessages.attachmentSizeLimitation);
+    if (size > ATTACHMENT_SIZE_LIMITATION) {
+      this._alertDanger(messageSenderMessages.attachmentSizeLimitation);
+      return false;
+    }
+    return true;
+  }
+
+  @proxify
+  async addAttachments(attachments: Attachment[]) {
+    const isValid = this.checkAttachmentOverLimit(attachments);
+    if (!isValid) {
       return;
     }
+    for (const attachment of attachments) {
+      this.addAttachment(attachment);
+    }
+  }
+
+  @proxify
+  async addAttachment(attachment: Attachment) {
     // @ts-expect-error TS(2345): Argument of type 'string | undefined' is not assig... Remove this comment to see the full error message
     this._addAttachment(this.currentConversationId, attachment);
   }

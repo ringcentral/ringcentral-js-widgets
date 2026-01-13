@@ -9,6 +9,7 @@ import {
 } from '@ringcentral-integration/core';
 
 import type { SubscriptionFilter } from '../../enums/subscriptionFilters';
+import type RcModule from '../../lib/RcModule';
 import background from '../../lib/background';
 import { promisedDebounce } from '../../lib/debounce-throttle';
 import { Module } from '../../lib/di';
@@ -16,14 +17,19 @@ import { proxify } from '../../lib/proxy/proxify';
 import { webSocketReadyStates } from '../RingCentralExtensions/webSocketReadyStates';
 import type { TabEvent } from '../TabManager';
 
-import type { Deps } from './WebSocketSubscription.interface';
+import type {
+  Deps,
+  SubscriberInfo,
+  SubscriptionMetadata,
+} from './WebSocketSubscription.interface';
 import {
+  isTheSameEventFilters,
   isTheSameWebSocket,
-  normalizeEventFilter,
 } from './normalizeEventFilter';
 
 const DEFAULT_REFRESH_DELAY = process.env.NODE_ENV === 'test' ? 0 : 1000;
 export const SyncMessageTabEventName = 'WebSocketSubscription-syncMessage';
+const DEFAULT_RECOVERY_BUFFER_SIZE = 100;
 
 @Module({
   name: 'WebSocketSubscription',
@@ -37,6 +43,8 @@ export const SyncMessageTabEventName = 'WebSocketSubscription-syncMessage';
 })
 export class WebSocketSubscription extends RcModuleV2<Deps> {
   private _wsSubscription?: Subscription;
+  private _subscriberMap = new Map<RcModuleV2 | RcModule, SubscriberInfo>();
+  private _subscribersAreReady = false;
 
   constructor(deps: Deps) {
     super({
@@ -59,16 +67,6 @@ export class WebSocketSubscription extends RcModuleV2<Deps> {
     await this._removeSubscription();
   }
 
-  private async _debouncedUpdateSubscriptionCatchCancel() {
-    try {
-      await this._debouncedUpdateSubscription();
-    } catch (error: any /** TODO: confirm with instanceof */) {
-      if (error.message !== 'cancelled') {
-        throw error;
-      }
-    }
-  }
-
   get onlyOneTabConnected(): boolean {
     return this._deps.ringCentralExtensions.disconnectOnInactive;
   }
@@ -82,13 +80,13 @@ export class WebSocketSubscription extends RcModuleV2<Deps> {
         if (!this.ready || !wsState) {
           return;
         }
+        this._debouncedUpdateSubscription.cancel();
         if (wsState === webSocketReadyStates.ready) {
           await this._updateSubscription();
         } else if (wsState === webSocketReadyStates.closing) {
           // when websocket is going to close, revoke subscription beforehand
           await this._revokeSubscription();
         } else {
-          this._debouncedUpdateSubscription.cancel();
           await this._removeSubscription();
         }
       },
@@ -109,7 +107,7 @@ export class WebSocketSubscription extends RcModuleV2<Deps> {
       return;
     }
     if (event.name === SyncMessageTabEventName) {
-      this._notifyMessage(event.args![0]);
+      this._notifyMessage(event.args![0], false);
     }
   }
 
@@ -146,7 +144,7 @@ export class WebSocketSubscription extends RcModuleV2<Deps> {
     this._setTokens(null, null);
   }
 
-  private async _obtainSubscription() {
+  private async _obtainSubscription(eventFilters: SubscriptionFilter[]) {
     const isNewChannel =
       !this.subscriptionChannel ||
       !isTheSameWebSocket(
@@ -173,12 +171,10 @@ export class WebSocketSubscription extends RcModuleV2<Deps> {
     // Create or recover subscription
     const subscription =
       await this._deps.ringCentralExtensions.webSocketExtension.subscribe(
-        this.filters,
+        eventFilters,
         (message) => {
           this._notifyMessage(message);
-          if (this.onlyOneTabConnected) {
-            this._syncMessageToOtherTabs(message);
-          }
+          this._dispatchMessage(message);
         },
         isNewChannel ? null : this.subscriptionInfo,
       );
@@ -204,9 +200,9 @@ export class WebSocketSubscription extends RcModuleV2<Deps> {
     this._saveTokens();
   }
 
-  private async _refreshSubscription() {
+  private async _refreshSubscription(eventFilters: SubscriptionFilter[]) {
     if (this._wsSubscription) {
-      this._wsSubscription.eventFilters = this.filters;
+      this._wsSubscription.eventFilters = eventFilters;
       await this._wsSubscription.refresh();
       this._saveTokens();
     }
@@ -256,23 +252,26 @@ export class WebSocketSubscription extends RcModuleV2<Deps> {
     if (!this._deps.ringCentralExtensions.isWebSocketReady) {
       return;
     }
-    if (this.filters.length === 0) {
+
+    const eventFilters = this.getFilters();
+    if (!eventFilters.length) {
       await this._revokeSubscription();
       return;
     }
+
     if (!this._wsSubscription) {
-      await this._obtainSubscription();
-    } else if (
-      this.filters
-        .map((x) => normalizeEventFilter(x))
-        .sort()
-        .join(',') !==
-      (this._wsSubscription.subscriptionInfo?.eventFilters ?? [])
-        .map((x: string) => normalizeEventFilter(x))
-        .sort()
-        .join(',')
+      await this._obtainSubscription(eventFilters);
+      return;
+    }
+
+    if (
+      !isTheSameEventFilters(
+        eventFilters,
+        this._wsSubscription.subscriptionInfo?.eventFilters ?? [],
+      )
     ) {
-      await this._refreshSubscription();
+      await this._refreshSubscription(eventFilters);
+      return;
     }
   }
 
@@ -281,45 +280,163 @@ export class WebSocketSubscription extends RcModuleV2<Deps> {
     threshold: DEFAULT_REFRESH_DELAY,
   });
 
+  private async _debouncedUpdateSubscriptionCatchCancel() {
+    try {
+      await this._debouncedUpdateSubscription();
+    } catch (error: any /** TODO: confirm with instanceof */) {
+      if (error.message !== 'cancelled') {
+        throw error;
+      }
+    }
+  }
+
+  register(module: any, metadata: SubscriptionMetadata) {
+    // Register subscriber
+    const subscriber: SubscriberInfo = { metadata };
+    this._subscriberMap.set(module, subscriber);
+    // Monitor subscriber ready state
+    this._updateSubscriberReady(module);
+    subscriber.unwatch = watch(
+      module,
+      () => module.ready,
+      () => {
+        this._updateSubscriberReady(module);
+      },
+    );
+  }
+
+  unregister(module: any) {
+    const subscriber = this._subscriberMap.get(module);
+    if (subscriber?.unwatch) {
+      subscriber.unwatch();
+      subscriber.unwatch = undefined;
+      this._subscriberMap.delete(module);
+    }
+  }
+
+  getFilters() {
+    // Registered filters
+    const filters = Array.from(this._subscriberMap.values()).reduce<
+      SubscriptionFilter[]
+    >((acc, { metadata }) => acc.concat(metadata.filters), []);
+
+    // Merge with subscribed filters
+    const filterSet = new Set([...filters, ...this.filters]);
+
+    return [...filterSet];
+  }
+
+  _updateSubscriberReady(module: RcModuleV2 | RcModule) {
+    // Send buffered messages to the current ready subscriber
+    if (module.ready) {
+      this.messageBuffer.forEach((message) => {
+        this._dispatchModuleMessage(module, message);
+      });
+      if (process.env.NODE_ENV !== 'test') {
+        console.log(
+          `[WebSocketSubscription] > ${module.constructor.name} ready with ${this.messageBuffer.length} buffered messages`,
+        );
+      }
+    }
+
+    // Check if all subscribers are ready
+    this._subscribersAreReady = Array.from(this._subscriberMap.keys()).every(
+      (x) => x.ready,
+    );
+
+    // Clear message buffer when all subscribers are ready
+    if (this._subscribersAreReady) {
+      this._clearMessageBuffer();
+    }
+  }
+
+  _dispatchMessage(message: unknown) {
+    if (!this._subscribersAreReady) {
+      this._pushMessageBuffer(message);
+    }
+    this._subscriberMap.forEach((_, module) => {
+      if (!module.ready) return;
+      this._dispatchModuleMessage(module, message);
+    });
+  }
+
+  _dispatchModuleMessage(module: RcModuleV2 | RcModule, message: unknown) {
+    const subscriber = this._subscriberMap.get(module);
+    if (!subscriber?.metadata.handler) return;
+    try {
+      subscriber.metadata.handler.apply(module, [message]);
+    } catch (ex) {
+      console.error('[WebSocketSubscription] > _dispatchMessage error', ex);
+    }
+  }
+
+  @action
+  _pushMessageBuffer(message: unknown) {
+    const bufferSize =
+      this._deps.ringCentralExtensions.webSocketExtension?.connectionDetails
+        ?.recoveryBufferSize ?? DEFAULT_RECOVERY_BUFFER_SIZE;
+
+    if (this.messageBuffer.length > bufferSize) {
+      this.messageBuffer.shift();
+    }
+
+    this.messageBuffer.push(message);
+  }
+
+  @action
+  _clearMessageBuffer() {
+    this.messageBuffer = [];
+  }
+
+  @state
+  messageBuffer: unknown[] = [];
+
+  /**
+   * @deprecated
+   * Use "register" instead
+   */
   @proxify
-  async subscribe(eventsFilters: SubscriptionFilter[] = []) {
+  async subscribe(eventFilters: SubscriptionFilter[] = []) {
     if (!this.ready) {
       return;
     }
     const oldLength = this.filters.length;
-    this._addFilters(eventsFilters);
+    this._addFilters(eventFilters);
     if (oldLength !== this.filters.length) {
       await this._debouncedUpdateSubscriptionCatchCancel();
     }
   }
 
   @proxify
-  async unsubscribe(eventsFilters: SubscriptionFilter[] = []) {
+  async unsubscribe(eventFilters: SubscriptionFilter[] = []) {
     if (!this.ready) {
       return;
     }
     const oldLength = this.filters.length;
-    this._removeFilters(eventsFilters);
+    this._removeFilters(eventFilters);
     if (oldLength !== this.filters.length) {
       await this._debouncedUpdateSubscriptionCatchCancel();
     }
   }
 
   @action
-  private _addFilters(eventsFilters: SubscriptionFilter[]) {
+  private _addFilters(eventFilters: SubscriptionFilter[]) {
     this.filters = this.filters
-      .concat(eventsFilters)
+      .concat(eventFilters)
       .filter((x, index, array) => array.indexOf(x) === index); // remove duplicates
   }
 
   @action
-  private _removeFilters(eventsFilters: SubscriptionFilter[]) {
-    this.filters = this.filters.filter((x) => !eventsFilters.includes(x));
+  private _removeFilters(eventFilters: SubscriptionFilter[]) {
+    this.filters = this.filters.filter((x) => !eventFilters.includes(x));
   }
 
   @action
-  private _notifyMessage(message: unknown) {
+  private _notifyMessage(message: unknown, allowSync = true) {
     this.message = message ?? null;
+    if (allowSync && this.onlyOneTabConnected) {
+      this._syncMessageToOtherTabs(message);
+    }
   }
 
   @state
